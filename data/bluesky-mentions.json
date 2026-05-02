@@ -1,31 +1,270 @@
 {
-  "fetchedAt": "2026-05-02T08:45:04.951Z",
+  "fetchedAt": "2026-05-02T10:11:29.129Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
-    "Lum1104/Understand-Anything": {
-      "count7d": 1,
+    "ggml-org/llama.cpp": {
+      "count7d": 3,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mkuakwpbr32v",
-        "cid": "bafyreihz45ltzw7lidu7gu3lox4tq5zshwhe3dyfeikhr26sxq7nm46p6i",
-        "bskyUrl": "https://bsky.app/profile/topickapp.bsky.social/post/3mkuakwpbr32v",
-        "text": "https://github.com/Lum1104/Understand-Anything コードベース全体を対話型知識グラフ化し、探索・検索・質問が可能になります。 新しいプロジェクトでも、コードの全体像を把握し、学習を効率化できます。 様々なAIコーディングプラットフォームと連携し、開発を支援します。",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkufinyk7m2i",
+        "cid": "bafyreig5ulz3z2istgutbrjmjeegy4lt2vdsymjumel3n4ogxlzv5hunwi",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkufinyk7m2i",
+        "text": "🟠 llama.cpp b9006 adds Adreno MoE MxFP4 acceleration llama.cpp shipped b9006 with a new OpenCL kernel path for Mixture-of-Experts models using MxFP4 on Qualcomm Adreno GPUs. https://github.com/ggml-org/llama.cpp/releases/tag/b9006 #AI #AgentWyre",
         "author": {
-          "handle": "topickapp.bsky.social",
-          "displayName": "topickapp (IT技術系ニュースサイト)"
+          "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-02T08:39:12.993757+00:00",
+        "createdAt": "2026-05-02T10:07:24.834257+00:00",
         "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkufinyk7m2i",
+          "cid": "bafyreig5ulz3z2istgutbrjmjeegy4lt2vdsymjumel3n4ogxlzv5hunwi",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkufinyk7m2i",
+          "text": "🟠 llama.cpp b9006 adds Adreno MoE MxFP4 acceleration llama.cpp shipped b9006 with a new OpenCL kernel path for Mixture-of-Experts models using MxFP4 on Qualcomm Adreno GPUs. https://github.com/ggml-org/llama.cpp/releases/tag/b9006 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T10:07:24.834257+00:00",
+          "createdUtc": 1777716444,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkucbodm5s2q",
+          "cid": "bafyreidj2wihqdboerixprr3cm7f5vg22muemkvmocghafqbdll354qbja",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkucbodm5s2q",
+          "text": "🟠 llama.cpp b9006 adds Adreno MoE MxFP4 optimization llama.cpp b9006 ships an OpenCL optimization path for Mixture-of-Experts inference on Adreno GPUs, including a new MxFP4 kernel and GPU-side router reordering. https://github.com/ggml-org/llama.cpp/releases/tag/b9006 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T09:09:48.291917+00:00",
+          "createdUtc": 1777712988,
+          "ageHours": 1.03,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mktyqiu3sq2h",
+          "cid": "bafyreieftzaopgrnaue2gbgmpjdkkg3nxqjy76w6vpbj6ovzullo5j7gvm",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mktyqiu3sq2h",
+          "text": "🟠 llama.cpp b9000 lands Hexagon HMX flash-attention acceleration for prefill ggml-org/llama.cpp shipped release b9000 with HMX-accelerated flash attention for the Hexagon backend, including prefill-path dispatch,... https://github.com/ggml-org/llama.cpp/releases/tag/b9000 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T06:19:09.252379+00:00",
+          "createdUtc": 1777702749,
+          "ageHours": 3.87,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Teaonly/SKILL.make": {
+      "count7d": 3,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:6clcp32vg7hejrq4v7hff3gs/app.bsky.feed.post/3mkufcagnsb2i",
+        "cid": "bafyreid2jnrcy2kt26r6zd3thchc5axygfzbfzdch6x6sr6pldqnhyskta",
+        "bskyUrl": "https://bsky.app/profile/hackernewstop5.bsky.social/post/3mkufcagnsb2i",
+        "text": "SKILL.make: Makefile Styled Skill File #HackerNews https://github.com/Teaonly/SKILL.make",
+        "author": {
+          "handle": "hackernewstop5.bsky.social",
+          "displayName": "HackerNewsTop5"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T10:03:49.974Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:6clcp32vg7hejrq4v7hff3gs/app.bsky.feed.post/3mkufcagnsb2i",
+          "cid": "bafyreid2jnrcy2kt26r6zd3thchc5axygfzbfzdch6x6sr6pldqnhyskta",
+          "bskyUrl": "https://bsky.app/profile/hackernewstop5.bsky.social/post/3mkufcagnsb2i",
+          "text": "SKILL.make: Makefile Styled Skill File #HackerNews https://github.com/Teaonly/SKILL.make",
+          "author": {
+            "handle": "hackernewstop5.bsky.social",
+            "displayName": "HackerNewsTop5"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T10:03:49.974Z",
+          "createdUtc": 1777716229,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Teaonly/SKILL.make",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkudhl2gdk25",
+          "cid": "bafyreibwz3dgxglbpnbmaxapqj67r22nvqdro3ddjeengkddxocl6oceza",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkudhl2gdk25",
+          "text": "SKILL.make: Makefile Styled Skill File https://github.com/Teaonly/SKILL.make",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T09:31:01.401Z",
+          "createdUtc": 1777714261,
+          "ageHours": 0.67,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Teaonly/SKILL.make",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jmuhjrotgvcquoaqtpcuxjii/app.bsky.feed.post/3mkud4xxb3q2q",
+          "cid": "bafyreia443wtpkgx4fxaowy7joi2nli3vkc5rig3mbdenlwg26i4qxhzye",
+          "bskyUrl": "https://bsky.app/profile/hnws.bsky.social/post/3mkud4xxb3q2q",
+          "text": "SKILL.make: Makefile Styled Skill File L: https://github.com/Teaonly/SKILL.make C: https://news.ycombinator.com/item?id=47984486 posted on 2026.05.02 at 04:18:15 (c=1, p=6)",
+          "author": {
+            "handle": "hnws.bsky.social",
+            "displayName": "HN"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T09:25:05.717598+00:00",
+          "createdUtc": 1777713905,
+          "ageHours": 0.77,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Teaonly/SKILL.make",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Lum1104/Understand-Anything": {
+      "count7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mkud44quzg2b",
+        "cid": "bafyreicrbhyiaa3dmxubp7n2qm5wyupat3iwhqicjp6t7qthoyvdgxvqki",
+        "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mkud44quzg2b",
+        "text": "📰 Understand Anything 🔗 https://github.com/Lum1104/Understand-Anything 💬 Discuss on HN",
+        "author": {
+          "handle": "hot.hn",
+          "displayName": "Hacker News Hot 100"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T09:24:36.981Z",
+        "hoursSincePosted": 0.78
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mkud44quzg2b",
+          "cid": "bafyreicrbhyiaa3dmxubp7n2qm5wyupat3iwhqicjp6t7qthoyvdgxvqki",
+          "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mkud44quzg2b",
+          "text": "📰 Understand Anything 🔗 https://github.com/Lum1104/Understand-Anything 💬 Discuss on HN",
+          "author": {
+            "handle": "hot.hn",
+            "displayName": "Hacker News Hot 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T09:24:36.981Z",
+          "createdUtc": 1777713876,
+          "ageHours": 0.78,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mkuakwpbr32v",
           "cid": "bafyreihz45ltzw7lidu7gu3lox4tq5zshwhe3dyfeikhr26sxq7nm46p6i",
@@ -40,7 +279,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T08:39:12.993757+00:00",
           "createdUtc": 1777711152,
-          "ageHours": 0.5,
+          "ageHours": 1.54,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -49,6 +288,305 @@
           "linkedRepos": [
             {
               "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "casey/just": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:rtxrlpnwbgzgo5pvzwicn6wb/app.bsky.feed.post/3mkucssu5mk2h",
+        "cid": "bafyreigulujtztaiiyqvj2d26y5ljjkwjnmisfzp4xarbuq3b42ewdljle",
+        "bskyUrl": "https://bsky.app/profile/andresgutgon.bsky.social/post/3mkucssu5mk2h",
+        "text": "I'm in love with github.com/casey/just. It's like Makefile but way better, can be organized in subgroups easily, and load of .env files out of the box.",
+        "author": {
+          "handle": "andresgutgon.bsky.social",
+          "displayName": "Andrés"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T09:19:24.944Z",
+        "hoursSincePosted": 0.87
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:rtxrlpnwbgzgo5pvzwicn6wb/app.bsky.feed.post/3mkucssu5mk2h",
+          "cid": "bafyreigulujtztaiiyqvj2d26y5ljjkwjnmisfzp4xarbuq3b42ewdljle",
+          "bskyUrl": "https://bsky.app/profile/andresgutgon.bsky.social/post/3mkucssu5mk2h",
+          "text": "I'm in love with github.com/casey/just. It's like Makefile but way better, can be organized in subgroups easily, and load of .env files out of the box.",
+          "author": {
+            "handle": "andresgutgon.bsky.social",
+            "displayName": "Andrés"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T09:19:24.944Z",
+          "createdUtc": 1777713564,
+          "ageHours": 0.87,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "casey/just",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "adolfousier/opencrabs": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkubj74mn62y",
+        "cid": "bafyreigmlvczssalqxkkl4yac4zfmw5odcmx53wkmizlin76vxi6arexku",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkubj74mn62y",
+        "text": "https://github.com/adolfousier/opencrabs",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T08:56:08Z",
+        "hoursSincePosted": 1.26
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkubj74mn62y",
+          "cid": "bafyreigmlvczssalqxkkl4yac4zfmw5odcmx53wkmizlin76vxi6arexku",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkubj74mn62y",
+          "text": "https://github.com/adolfousier/opencrabs",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T08:56:08Z",
+          "createdUtc": 1777712168,
+          "ageHours": 1.26,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "adolfousier/opencrabs",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Exocija/ZetaLib": {
+      "count7d": 6,
+      "likesSum7d": 4,
+      "repostsSum7d": 1,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:ttoj7gby6ekhhit3n6ossnba/app.bsky.feed.post/3mku26cvss22i",
+        "cid": "bafyreiakkorlsmtz6rmpiicshha5jvjj4kli6qsuyco7drzqiajcazdgoi",
+        "bskyUrl": "https://bsky.app/profile/drmario.tech/post/3mku26cvss22i",
+        "text": "Acho 🤦‍♀️ github.com/Exocija/Zeta...",
+        "author": {
+          "handle": "drmario.tech",
+          "displayName": "Dr. Mario"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-02T06:44:47.201Z",
+        "hoursSincePosted": 3.45
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ttoj7gby6ekhhit3n6ossnba/app.bsky.feed.post/3mku26cvss22i",
+          "cid": "bafyreiakkorlsmtz6rmpiicshha5jvjj4kli6qsuyco7drzqiajcazdgoi",
+          "bskyUrl": "https://bsky.app/profile/drmario.tech/post/3mku26cvss22i",
+          "text": "Acho 🤦‍♀️ github.com/Exocija/Zeta...",
+          "author": {
+            "handle": "drmario.tech",
+            "displayName": "Dr. Mario"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-02T06:44:47.201Z",
+          "createdUtc": 1777704287,
+          "ageHours": 3.45,
+          "trendingScore": 3.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "Exocija/ZetaLib",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:gbvytj44fa43qafbzckqw4o5/app.bsky.feed.post/3mku2wikkmc23",
+          "cid": "bafyreihokogjradwf32szlqhn3wrr4pu2lj2c7gglzpdtoahmxgwio5k6e",
+          "bskyUrl": "https://bsky.app/profile/mikeelgan.bsky.social/post/3mku2wikkmc23",
+          "text": "Phrase of the moment: \"gay jailbreak\" github.com/Exocija/Zeta...",
+          "author": {
+            "handle": "mikeelgan.bsky.social",
+            "displayName": "Mike Elgan"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T06:58:18.429Z",
+          "createdUtc": 1777705098,
+          "ageHours": 3.22,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "Exocija/ZetaLib",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mkttinn4zr2p",
+          "cid": "bafyreif2rgggfsufrawfaor3i3jpfj7khjc7k4moet4jdpqrwyunkt4poy",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mkttinn4zr2p",
+          "text": "The gay jailbreak technique (2025) https://github.com/Exocija/ZetaLib/blob/main/The%20Gay%20Jailbreak/The%20Gay%20Jailbreak.md https://news.ycombinator.com/item?id=47977134",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T04:45:17.715659+00:00",
+          "createdUtc": 1777697117,
+          "ageHours": 5.44,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "Exocija/ZetaLib",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:srzuazebez52n6odhfuplmpq/app.bsky.feed.post/3mkubaw7up62e",
+          "cid": "bafyreibleswczbewci6ig5draymoaxwcivyvxned5grn52vfg6ikokbnn4",
+          "bskyUrl": "https://bsky.app/profile/kdmsnr.com/post/3mkubaw7up62e",
+          "text": "🌐ゲイの脱獄テクニック（2025年） https://github.com/Exocija/ZetaLib/blob/main/The%20Gay%20Jailbreak/The%20Gay%20Jailbreak.md via #HackerNews",
+          "author": {
+            "handle": "kdmsnr.com",
+            "displayName": "角 征典／Masanori Kado"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T08:51:30.337+00:00",
+          "createdUtc": 1777711890,
+          "ageHours": 1.33,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "Exocija/ZetaLib",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:i2r6s32rjrsp23miav26ogbl/app.bsky.feed.post/3mku6koycjq2y",
+          "cid": "bafyreigrlbxw44ojynuh5nfcemgcdnrwnzu5v3mm235kdalu633wv5wzza",
+          "bskyUrl": "https://bsky.app/profile/newsyc500.bsky.social/post/3mku6koycjq2y",
+          "text": "The gay jailbreak technique (2025) https://github.com/Exocija/ZetaLib/blob/main/The%20Gay%20Jailbreak/The%20Gay%20Jailbreak.md (http://news.ycombinator.com/item?id=47977134)",
+          "author": {
+            "handle": "newsyc500.bsky.social",
+            "displayName": "Hacker News 500 Points"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T11:03:17+03:00",
+          "createdUtc": 1777708997,
+          "ageHours": 2.14,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "Exocija/ZetaLib",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mku57oyqkp23",
+          "cid": "bafyreidmweyumzcfs3br36ldhamyula2behu4oqe3jdgv4ioztwqb3dffi",
+          "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mku57oyqkp23",
+          "text": "📰 The gay jailbreak technique (2025) 🔗 https://github.com/Exocija/ZetaLib/blob/main/The%20Gay%20Jailbreak/The%20Gay%20Jailbreak.md 💬 Discuss on HN",
+          "author": {
+            "handle": "hot.hn",
+            "displayName": "Hacker News Hot 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T07:39:14.593Z",
+          "createdUtc": 1777707554,
+          "ageHours": 2.54,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "Exocija/ZetaLib",
               "matchType": "url",
               "confidence": 1
             }
@@ -74,7 +612,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-02T08:20:01.061Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.86
       },
       "posts": [
         {
@@ -91,7 +629,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-02T08:20:01.061Z",
           "createdUtc": 1777710001,
-          "ageHours": 0.5,
+          "ageHours": 1.86,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -100,136 +638,6 @@
           "linkedRepos": [
             {
               "fullName": "gszhangwei/open-spdd",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "darrylmorley/whatcable": {
-      "count7d": 2,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mku7cnducj2h",
-        "cid": "bafyreig7jzhpjhylwohnm377kpumotcrd7rabdqdyx45wj3ttyfljarojm",
-        "bskyUrl": "https://bsky.app/profile/topickapp.bsky.social/post/3mku7cnducj2h",
-        "text": "https://github.com/darrylmorley/whatcable Macに接続したUSB-Cケーブルの能力を分かりやすく表示します。 充電速度のボトルネックやケーブルの規格情報を確認できます。 macOS用アプリで、ケーブルの性能を正確に把握できます。",
-        "author": {
-          "handle": "topickapp.bsky.social",
-          "displayName": "topickapp (IT技術系ニュースサイト)"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-02T08:16:40.999962+00:00",
-        "hoursSincePosted": 0.5
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mku7cnducj2h",
-          "cid": "bafyreig7jzhpjhylwohnm377kpumotcrd7rabdqdyx45wj3ttyfljarojm",
-          "bskyUrl": "https://bsky.app/profile/topickapp.bsky.social/post/3mku7cnducj2h",
-          "text": "https://github.com/darrylmorley/whatcable Macに接続したUSB-Cケーブルの能力を分かりやすく表示します。 充電速度のボトルネックやケーブルの規格情報を確認できます。 macOS用アプリで、ケーブルの性能を正確に把握できます。",
-          "author": {
-            "handle": "topickapp.bsky.social",
-            "displayName": "topickapp (IT技術系ニュースサイト)"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T08:16:40.999962+00:00",
-          "createdUtc": 1777709800,
-          "ageHours": 0.5,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:72cj2c2f5dnwkge2vydrh6hd/app.bsky.feed.post/3mku33vtvao2d",
-          "cid": "bafyreigubtimvvmeslnznawpf4nxae7kda65dtuawsu64l56awbxsmqx5i",
-          "bskyUrl": "https://bsky.app/profile/electalabs.bsky.social/post/3mku33vtvao2d",
-          "text": "The App That Reads Your USB-C Cables USB-C's hidden chaos finally has a fix — one tiny app exposes what your cables can actually do. https://github.com/darrylmorley/whatcable",
-          "author": {
-            "handle": "electalabs.bsky.social",
-            "displayName": "electalabs"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T07:01:19.905Z",
-          "createdUtc": 1777705279,
-          "ageHours": 1.73,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "awalol/DS5Dongle": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:h5p5dde3qzohctz7i4lr7um4/app.bsky.feed.post/3mku5iwqdokfk",
-        "cid": "bafyreiehuuwpefpn6pvlzvmjisa6ksqyo33leqiow5xxorwgqvfrlen44u",
-        "bskyUrl": "https://bsky.app/profile/oneofnoone.bsky.social/post/3mku5iwqdokfk",
-        "text": "해외의 어떤 용자가 라즈베리파이 피코 2W용 듀얼센스 무선 리시버 펌웨어를 만들어서 무선 햅틱 피드백의 시대가 열림. https://github.com/awalol/DS5Dongle/",
-        "author": {
-          "handle": "oneofnoone.bsky.social",
-          "displayName": "oneofnoone"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-02T07:44:24.763Z",
-        "hoursSincePosted": 1.01
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:h5p5dde3qzohctz7i4lr7um4/app.bsky.feed.post/3mku5iwqdokfk",
-          "cid": "bafyreiehuuwpefpn6pvlzvmjisa6ksqyo33leqiow5xxorwgqvfrlen44u",
-          "bskyUrl": "https://bsky.app/profile/oneofnoone.bsky.social/post/3mku5iwqdokfk",
-          "text": "해외의 어떤 용자가 라즈베리파이 피코 2W용 듀얼센스 무선 리시버 펌웨어를 만들어서 무선 햅틱 피드백의 시대가 열림. https://github.com/awalol/DS5Dongle/",
-          "author": {
-            "handle": "oneofnoone.bsky.social",
-            "displayName": "oneofnoone"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-02T07:44:24.763Z",
-          "createdUtc": 1777707864,
-          "ageHours": 1.01,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "awalol/DS5Dongle",
               "matchType": "url",
               "confidence": 1
             }
@@ -255,7 +663,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T07:06:19.388Z",
-        "hoursSincePosted": 1.65
+        "hoursSincePosted": 3.09
       },
       "posts": [
         {
@@ -272,7 +680,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T07:06:19.388Z",
           "createdUtc": 1777705579,
-          "ageHours": 1.65,
+          "ageHours": 3.09,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -291,7 +699,7 @@
     },
     "open-metadata/OpenMetadata": {
       "count7d": 1,
-      "likesSum7d": 3,
+      "likesSum7d": 4,
       "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
@@ -303,11 +711,11 @@
           "handle": "camilleroux.com",
           "displayName": "Camille Roux"
         },
-        "likeCount": 3,
+        "likeCount": 4,
         "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-02T09:00:03+02:00",
-        "hoursSincePosted": 1.75
+        "hoursSincePosted": 3.19
       },
       "posts": [
         {
@@ -319,13 +727,13 @@
             "handle": "camilleroux.com",
             "displayName": "Camille Roux"
           },
-          "likeCount": 3,
+          "likeCount": 4,
           "repostCount": 1,
           "replyCount": 0,
           "createdAt": "2026-05-02T09:00:03+02:00",
           "createdUtc": 1777705203,
-          "ageHours": 1.75,
-          "trendingScore": 5,
+          "ageHours": 3.19,
+          "trendingScore": 6,
           "content_tags": [
             "has-github-repo"
           ],
@@ -358,7 +766,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T06:25:26.146Z",
-        "hoursSincePosted": 2.33
+        "hoursSincePosted": 3.77
       },
       "posts": [
         {
@@ -375,7 +783,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T06:25:26.146Z",
           "createdUtc": 1777703126,
-          "ageHours": 2.33,
+          "ageHours": 3.77,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -391,57 +799,8 @@
         }
       ]
     },
-    "ggml-org/llama.cpp": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mktyqiu3sq2h",
-        "cid": "bafyreieftzaopgrnaue2gbgmpjdkkg3nxqjy76w6vpbj6ovzullo5j7gvm",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mktyqiu3sq2h",
-        "text": "🟠 llama.cpp b9000 lands Hexagon HMX flash-attention acceleration for prefill ggml-org/llama.cpp shipped release b9000 with HMX-accelerated flash attention for the Hexagon backend, including prefill-path dispatch,... https://github.com/ggml-org/llama.cpp/releases/tag/b9000 #AI #AgentWyre",
-        "author": {
-          "handle": "agentwyre.ai"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-02T06:19:09.252379+00:00",
-        "hoursSincePosted": 2.43
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mktyqiu3sq2h",
-          "cid": "bafyreieftzaopgrnaue2gbgmpjdkkg3nxqjy76w6vpbj6ovzullo5j7gvm",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mktyqiu3sq2h",
-          "text": "🟠 llama.cpp b9000 lands Hexagon HMX flash-attention acceleration for prefill ggml-org/llama.cpp shipped release b9000 with HMX-accelerated flash attention for the Hexagon backend, including prefill-path dispatch,... https://github.com/ggml-org/llama.cpp/releases/tag/b9000 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T06:19:09.252379+00:00",
-          "createdUtc": 1777702749,
-          "ageHours": 2.43,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "rtk-ai/rtk": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -458,7 +817,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T05:52:21.285623+00:00",
-        "hoursSincePosted": 2.88
+        "hoursSincePosted": 4.32
       },
       "posts": [
         {
@@ -475,35 +834,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T05:52:21.285623+00:00",
           "createdUtc": 1777701141,
-          "ageHours": 2.88,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "rtk-ai/rtk",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:tg32e4stp4tzh5ca74vi5hh4/app.bsky.feed.post/3mktod7bmt4i2",
-          "cid": "bafyreihlq2uyziiabirjqkkuyiidg5du64oawfhtvugumk75elyeyovgfu",
-          "bskyUrl": "https://bsky.app/profile/fohte.social.fohte.net.ap.brid.gy/post/3mktod7bmt4i2",
-          "text": "かしこい https://github.com/rtk-ai/rtk",
-          "author": {
-            "handle": "fohte.social.fohte.net.ap.brid.gy",
-            "displayName": "Fohte (ふぉーて)"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T03:12:38.000Z",
-          "createdUtc": 1777691558,
-          "ageHours": 5.54,
+          "ageHours": 4.32,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -520,7 +851,7 @@
       ]
     },
     "0xhimanshu/governor": {
-      "count7d": 3,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -537,7 +868,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T05:03:04.187Z",
-        "hoursSincePosted": 3.7
+        "hoursSincePosted": 5.14
       },
       "posts": [
         {
@@ -554,7 +885,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T05:03:04.187Z",
           "createdUtc": 1777698184,
-          "ageHours": 3.7,
+          "ageHours": 5.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -563,113 +894,6 @@
           "linkedRepos": [
             {
               "fullName": "0xhimanshu/governor",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:jmuhjrotgvcquoaqtpcuxjii/app.bsky.feed.post/3mktszuhdkc2g",
-          "cid": "bafyreidcwppqusindbruqynmwbkxpymzpk6klaqnhmauhfxp5ho7jj6twa",
-          "bskyUrl": "https://bsky.app/profile/hnws.bsky.social/post/3mktszuhdkc2g",
-          "text": "Governor – a Claude Code plugin to reduce token/context waste L: https://github.com/0xhimanshu/governor C: https://news.ycombinator.com/item?id=47982718 posted on 2026.05.01 at 22:19:58 (c=2, p=6)",
-          "author": {
-            "handle": "hnws.bsky.social",
-            "displayName": "HN"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T04:37:01.314381+00:00",
-          "createdUtc": 1777696621,
-          "ageHours": 4.13,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "0xhimanshu/governor",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mktsp5rgc225",
-          "cid": "bafyreic6wh4o6vgj2t5qwvs46gfhgyrjrocr74duqb5bsa63xmbb77zd5y",
-          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mktsp5rgc225",
-          "text": "Governor – a Claude Code plugin to reduce token/context waste https://github.com/0xhimanshu/governor",
-          "author": {
-            "handle": "hnbot.gsuscs.xyz",
-            "displayName": "HackerNews Compilator"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T04:31:02.299Z",
-          "createdUtc": 1777696262,
-          "ageHours": 4.23,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "0xhimanshu/governor",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "niri-wm/niri": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 2,
-      "topPost": {
-        "uri": "at://did:plc:4filgs73k7oxroktdu5g2lk6/app.bsky.feed.post/3mktrbwsd3222",
-        "cid": "bafyreihioa2b5dr2lp5l4anxdt7yyzo6oryflg56lmmobg7ripfbjnw35q",
-        "bskyUrl": "https://bsky.app/profile/nickgerace.dev/post/3mktrbwsd3222",
-        "text": "I’ve been a real “I just use GNOME” guy in recent years but I’m tempted to try Niri github.com/niri-wm/niri",
-        "author": {
-          "handle": "nickgerace.dev",
-          "displayName": "Nick Gerace"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 2,
-        "createdAt": "2026-05-02T04:05:45.045Z",
-        "hoursSincePosted": 4.66
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:4filgs73k7oxroktdu5g2lk6/app.bsky.feed.post/3mktrbwsd3222",
-          "cid": "bafyreihioa2b5dr2lp5l4anxdt7yyzo6oryflg56lmmobg7ripfbjnw35q",
-          "bskyUrl": "https://bsky.app/profile/nickgerace.dev/post/3mktrbwsd3222",
-          "text": "I’ve been a real “I just use GNOME” guy in recent years but I’m tempted to try Niri github.com/niri-wm/niri",
-          "author": {
-            "handle": "nickgerace.dev",
-            "displayName": "Nick Gerace"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 2,
-          "createdAt": "2026-05-02T04:05:45.045Z",
-          "createdUtc": 1777694745,
-          "ageHours": 4.66,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "niri-wm/niri",
               "matchType": "url",
               "confidence": 1
             }
@@ -679,27 +903,266 @@
     }
   },
   "mentionsByRepoId": {
-    "lum1104--understand-anything": {
-      "count7d": 1,
+    "ggml-org--llama-cpp": {
+      "count7d": 3,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mkuakwpbr32v",
-        "cid": "bafyreihz45ltzw7lidu7gu3lox4tq5zshwhe3dyfeikhr26sxq7nm46p6i",
-        "bskyUrl": "https://bsky.app/profile/topickapp.bsky.social/post/3mkuakwpbr32v",
-        "text": "https://github.com/Lum1104/Understand-Anything コードベース全体を対話型知識グラフ化し、探索・検索・質問が可能になります。 新しいプロジェクトでも、コードの全体像を把握し、学習を効率化できます。 様々なAIコーディングプラットフォームと連携し、開発を支援します。",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkufinyk7m2i",
+        "cid": "bafyreig5ulz3z2istgutbrjmjeegy4lt2vdsymjumel3n4ogxlzv5hunwi",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkufinyk7m2i",
+        "text": "🟠 llama.cpp b9006 adds Adreno MoE MxFP4 acceleration llama.cpp shipped b9006 with a new OpenCL kernel path for Mixture-of-Experts models using MxFP4 on Qualcomm Adreno GPUs. https://github.com/ggml-org/llama.cpp/releases/tag/b9006 #AI #AgentWyre",
         "author": {
-          "handle": "topickapp.bsky.social",
-          "displayName": "topickapp (IT技術系ニュースサイト)"
+          "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-02T08:39:12.993757+00:00",
+        "createdAt": "2026-05-02T10:07:24.834257+00:00",
         "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkufinyk7m2i",
+          "cid": "bafyreig5ulz3z2istgutbrjmjeegy4lt2vdsymjumel3n4ogxlzv5hunwi",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkufinyk7m2i",
+          "text": "🟠 llama.cpp b9006 adds Adreno MoE MxFP4 acceleration llama.cpp shipped b9006 with a new OpenCL kernel path for Mixture-of-Experts models using MxFP4 on Qualcomm Adreno GPUs. https://github.com/ggml-org/llama.cpp/releases/tag/b9006 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T10:07:24.834257+00:00",
+          "createdUtc": 1777716444,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkucbodm5s2q",
+          "cid": "bafyreidj2wihqdboerixprr3cm7f5vg22muemkvmocghafqbdll354qbja",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkucbodm5s2q",
+          "text": "🟠 llama.cpp b9006 adds Adreno MoE MxFP4 optimization llama.cpp b9006 ships an OpenCL optimization path for Mixture-of-Experts inference on Adreno GPUs, including a new MxFP4 kernel and GPU-side router reordering. https://github.com/ggml-org/llama.cpp/releases/tag/b9006 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T09:09:48.291917+00:00",
+          "createdUtc": 1777712988,
+          "ageHours": 1.03,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mktyqiu3sq2h",
+          "cid": "bafyreieftzaopgrnaue2gbgmpjdkkg3nxqjy76w6vpbj6ovzullo5j7gvm",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mktyqiu3sq2h",
+          "text": "🟠 llama.cpp b9000 lands Hexagon HMX flash-attention acceleration for prefill ggml-org/llama.cpp shipped release b9000 with HMX-accelerated flash attention for the Hexagon backend, including prefill-path dispatch,... https://github.com/ggml-org/llama.cpp/releases/tag/b9000 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T06:19:09.252379+00:00",
+          "createdUtc": 1777702749,
+          "ageHours": 3.87,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "teaonly--skill-make": {
+      "count7d": 3,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:6clcp32vg7hejrq4v7hff3gs/app.bsky.feed.post/3mkufcagnsb2i",
+        "cid": "bafyreid2jnrcy2kt26r6zd3thchc5axygfzbfzdch6x6sr6pldqnhyskta",
+        "bskyUrl": "https://bsky.app/profile/hackernewstop5.bsky.social/post/3mkufcagnsb2i",
+        "text": "SKILL.make: Makefile Styled Skill File #HackerNews https://github.com/Teaonly/SKILL.make",
+        "author": {
+          "handle": "hackernewstop5.bsky.social",
+          "displayName": "HackerNewsTop5"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T10:03:49.974Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:6clcp32vg7hejrq4v7hff3gs/app.bsky.feed.post/3mkufcagnsb2i",
+          "cid": "bafyreid2jnrcy2kt26r6zd3thchc5axygfzbfzdch6x6sr6pldqnhyskta",
+          "bskyUrl": "https://bsky.app/profile/hackernewstop5.bsky.social/post/3mkufcagnsb2i",
+          "text": "SKILL.make: Makefile Styled Skill File #HackerNews https://github.com/Teaonly/SKILL.make",
+          "author": {
+            "handle": "hackernewstop5.bsky.social",
+            "displayName": "HackerNewsTop5"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T10:03:49.974Z",
+          "createdUtc": 1777716229,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Teaonly/SKILL.make",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkudhl2gdk25",
+          "cid": "bafyreibwz3dgxglbpnbmaxapqj67r22nvqdro3ddjeengkddxocl6oceza",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkudhl2gdk25",
+          "text": "SKILL.make: Makefile Styled Skill File https://github.com/Teaonly/SKILL.make",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T09:31:01.401Z",
+          "createdUtc": 1777714261,
+          "ageHours": 0.67,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Teaonly/SKILL.make",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jmuhjrotgvcquoaqtpcuxjii/app.bsky.feed.post/3mkud4xxb3q2q",
+          "cid": "bafyreia443wtpkgx4fxaowy7joi2nli3vkc5rig3mbdenlwg26i4qxhzye",
+          "bskyUrl": "https://bsky.app/profile/hnws.bsky.social/post/3mkud4xxb3q2q",
+          "text": "SKILL.make: Makefile Styled Skill File L: https://github.com/Teaonly/SKILL.make C: https://news.ycombinator.com/item?id=47984486 posted on 2026.05.02 at 04:18:15 (c=1, p=6)",
+          "author": {
+            "handle": "hnws.bsky.social",
+            "displayName": "HN"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T09:25:05.717598+00:00",
+          "createdUtc": 1777713905,
+          "ageHours": 0.77,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Teaonly/SKILL.make",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "lum1104--understand-anything": {
+      "count7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mkud44quzg2b",
+        "cid": "bafyreicrbhyiaa3dmxubp7n2qm5wyupat3iwhqicjp6t7qthoyvdgxvqki",
+        "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mkud44quzg2b",
+        "text": "📰 Understand Anything 🔗 https://github.com/Lum1104/Understand-Anything 💬 Discuss on HN",
+        "author": {
+          "handle": "hot.hn",
+          "displayName": "Hacker News Hot 100"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T09:24:36.981Z",
+        "hoursSincePosted": 0.78
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mkud44quzg2b",
+          "cid": "bafyreicrbhyiaa3dmxubp7n2qm5wyupat3iwhqicjp6t7qthoyvdgxvqki",
+          "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mkud44quzg2b",
+          "text": "📰 Understand Anything 🔗 https://github.com/Lum1104/Understand-Anything 💬 Discuss on HN",
+          "author": {
+            "handle": "hot.hn",
+            "displayName": "Hacker News Hot 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T09:24:36.981Z",
+          "createdUtc": 1777713876,
+          "ageHours": 0.78,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mkuakwpbr32v",
           "cid": "bafyreihz45ltzw7lidu7gu3lox4tq5zshwhe3dyfeikhr26sxq7nm46p6i",
@@ -714,7 +1177,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T08:39:12.993757+00:00",
           "createdUtc": 1777711152,
-          "ageHours": 0.5,
+          "ageHours": 1.54,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -723,6 +1186,305 @@
           "linkedRepos": [
             {
               "fullName": "Lum1104/Understand-Anything",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "casey--just": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:rtxrlpnwbgzgo5pvzwicn6wb/app.bsky.feed.post/3mkucssu5mk2h",
+        "cid": "bafyreigulujtztaiiyqvj2d26y5ljjkwjnmisfzp4xarbuq3b42ewdljle",
+        "bskyUrl": "https://bsky.app/profile/andresgutgon.bsky.social/post/3mkucssu5mk2h",
+        "text": "I'm in love with github.com/casey/just. It's like Makefile but way better, can be organized in subgroups easily, and load of .env files out of the box.",
+        "author": {
+          "handle": "andresgutgon.bsky.social",
+          "displayName": "Andrés"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T09:19:24.944Z",
+        "hoursSincePosted": 0.87
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:rtxrlpnwbgzgo5pvzwicn6wb/app.bsky.feed.post/3mkucssu5mk2h",
+          "cid": "bafyreigulujtztaiiyqvj2d26y5ljjkwjnmisfzp4xarbuq3b42ewdljle",
+          "bskyUrl": "https://bsky.app/profile/andresgutgon.bsky.social/post/3mkucssu5mk2h",
+          "text": "I'm in love with github.com/casey/just. It's like Makefile but way better, can be organized in subgroups easily, and load of .env files out of the box.",
+          "author": {
+            "handle": "andresgutgon.bsky.social",
+            "displayName": "Andrés"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T09:19:24.944Z",
+          "createdUtc": 1777713564,
+          "ageHours": 0.87,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "casey/just",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "adolfousier--opencrabs": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkubj74mn62y",
+        "cid": "bafyreigmlvczssalqxkkl4yac4zfmw5odcmx53wkmizlin76vxi6arexku",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkubj74mn62y",
+        "text": "https://github.com/adolfousier/opencrabs",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-02T08:56:08Z",
+        "hoursSincePosted": 1.26
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkubj74mn62y",
+          "cid": "bafyreigmlvczssalqxkkl4yac4zfmw5odcmx53wkmizlin76vxi6arexku",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkubj74mn62y",
+          "text": "https://github.com/adolfousier/opencrabs",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T08:56:08Z",
+          "createdUtc": 1777712168,
+          "ageHours": 1.26,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "adolfousier/opencrabs",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "exocija--zetalib": {
+      "count7d": 6,
+      "likesSum7d": 4,
+      "repostsSum7d": 1,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:ttoj7gby6ekhhit3n6ossnba/app.bsky.feed.post/3mku26cvss22i",
+        "cid": "bafyreiakkorlsmtz6rmpiicshha5jvjj4kli6qsuyco7drzqiajcazdgoi",
+        "bskyUrl": "https://bsky.app/profile/drmario.tech/post/3mku26cvss22i",
+        "text": "Acho 🤦‍♀️ github.com/Exocija/Zeta...",
+        "author": {
+          "handle": "drmario.tech",
+          "displayName": "Dr. Mario"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-02T06:44:47.201Z",
+        "hoursSincePosted": 3.45
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ttoj7gby6ekhhit3n6ossnba/app.bsky.feed.post/3mku26cvss22i",
+          "cid": "bafyreiakkorlsmtz6rmpiicshha5jvjj4kli6qsuyco7drzqiajcazdgoi",
+          "bskyUrl": "https://bsky.app/profile/drmario.tech/post/3mku26cvss22i",
+          "text": "Acho 🤦‍♀️ github.com/Exocija/Zeta...",
+          "author": {
+            "handle": "drmario.tech",
+            "displayName": "Dr. Mario"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-02T06:44:47.201Z",
+          "createdUtc": 1777704287,
+          "ageHours": 3.45,
+          "trendingScore": 3.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "Exocija/ZetaLib",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:gbvytj44fa43qafbzckqw4o5/app.bsky.feed.post/3mku2wikkmc23",
+          "cid": "bafyreihokogjradwf32szlqhn3wrr4pu2lj2c7gglzpdtoahmxgwio5k6e",
+          "bskyUrl": "https://bsky.app/profile/mikeelgan.bsky.social/post/3mku2wikkmc23",
+          "text": "Phrase of the moment: \"gay jailbreak\" github.com/Exocija/Zeta...",
+          "author": {
+            "handle": "mikeelgan.bsky.social",
+            "displayName": "Mike Elgan"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T06:58:18.429Z",
+          "createdUtc": 1777705098,
+          "ageHours": 3.22,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "Exocija/ZetaLib",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mkttinn4zr2p",
+          "cid": "bafyreif2rgggfsufrawfaor3i3jpfj7khjc7k4moet4jdpqrwyunkt4poy",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mkttinn4zr2p",
+          "text": "The gay jailbreak technique (2025) https://github.com/Exocija/ZetaLib/blob/main/The%20Gay%20Jailbreak/The%20Gay%20Jailbreak.md https://news.ycombinator.com/item?id=47977134",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T04:45:17.715659+00:00",
+          "createdUtc": 1777697117,
+          "ageHours": 5.44,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "Exocija/ZetaLib",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:srzuazebez52n6odhfuplmpq/app.bsky.feed.post/3mkubaw7up62e",
+          "cid": "bafyreibleswczbewci6ig5draymoaxwcivyvxned5grn52vfg6ikokbnn4",
+          "bskyUrl": "https://bsky.app/profile/kdmsnr.com/post/3mkubaw7up62e",
+          "text": "🌐ゲイの脱獄テクニック（2025年） https://github.com/Exocija/ZetaLib/blob/main/The%20Gay%20Jailbreak/The%20Gay%20Jailbreak.md via #HackerNews",
+          "author": {
+            "handle": "kdmsnr.com",
+            "displayName": "角 征典／Masanori Kado"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T08:51:30.337+00:00",
+          "createdUtc": 1777711890,
+          "ageHours": 1.33,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "Exocija/ZetaLib",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:i2r6s32rjrsp23miav26ogbl/app.bsky.feed.post/3mku6koycjq2y",
+          "cid": "bafyreigrlbxw44ojynuh5nfcemgcdnrwnzu5v3mm235kdalu633wv5wzza",
+          "bskyUrl": "https://bsky.app/profile/newsyc500.bsky.social/post/3mku6koycjq2y",
+          "text": "The gay jailbreak technique (2025) https://github.com/Exocija/ZetaLib/blob/main/The%20Gay%20Jailbreak/The%20Gay%20Jailbreak.md (http://news.ycombinator.com/item?id=47977134)",
+          "author": {
+            "handle": "newsyc500.bsky.social",
+            "displayName": "Hacker News 500 Points"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T11:03:17+03:00",
+          "createdUtc": 1777708997,
+          "ageHours": 2.14,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "Exocija/ZetaLib",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:d76ifp32sz6xqg7tvk5msqwn/app.bsky.feed.post/3mku57oyqkp23",
+          "cid": "bafyreidmweyumzcfs3br36ldhamyula2behu4oqe3jdgv4ioztwqb3dffi",
+          "bskyUrl": "https://bsky.app/profile/hot.hn/post/3mku57oyqkp23",
+          "text": "📰 The gay jailbreak technique (2025) 🔗 https://github.com/Exocija/ZetaLib/blob/main/The%20Gay%20Jailbreak/The%20Gay%20Jailbreak.md 💬 Discuss on HN",
+          "author": {
+            "handle": "hot.hn",
+            "displayName": "Hacker News Hot 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-02T07:39:14.593Z",
+          "createdUtc": 1777707554,
+          "ageHours": 2.54,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "Exocija/ZetaLib",
               "matchType": "url",
               "confidence": 1
             }
@@ -748,7 +1510,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-02T08:20:01.061Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.86
       },
       "posts": [
         {
@@ -765,7 +1527,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-02T08:20:01.061Z",
           "createdUtc": 1777710001,
-          "ageHours": 0.5,
+          "ageHours": 1.86,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -774,136 +1536,6 @@
           "linkedRepos": [
             {
               "fullName": "gszhangwei/open-spdd",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "darrylmorley--whatcable": {
-      "count7d": 2,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mku7cnducj2h",
-        "cid": "bafyreig7jzhpjhylwohnm377kpumotcrd7rabdqdyx45wj3ttyfljarojm",
-        "bskyUrl": "https://bsky.app/profile/topickapp.bsky.social/post/3mku7cnducj2h",
-        "text": "https://github.com/darrylmorley/whatcable Macに接続したUSB-Cケーブルの能力を分かりやすく表示します。 充電速度のボトルネックやケーブルの規格情報を確認できます。 macOS用アプリで、ケーブルの性能を正確に把握できます。",
-        "author": {
-          "handle": "topickapp.bsky.social",
-          "displayName": "topickapp (IT技術系ニュースサイト)"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-02T08:16:40.999962+00:00",
-        "hoursSincePosted": 0.5
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:3fe25qalw4rfzrty3xyutj7c/app.bsky.feed.post/3mku7cnducj2h",
-          "cid": "bafyreig7jzhpjhylwohnm377kpumotcrd7rabdqdyx45wj3ttyfljarojm",
-          "bskyUrl": "https://bsky.app/profile/topickapp.bsky.social/post/3mku7cnducj2h",
-          "text": "https://github.com/darrylmorley/whatcable Macに接続したUSB-Cケーブルの能力を分かりやすく表示します。 充電速度のボトルネックやケーブルの規格情報を確認できます。 macOS用アプリで、ケーブルの性能を正確に把握できます。",
-          "author": {
-            "handle": "topickapp.bsky.social",
-            "displayName": "topickapp (IT技術系ニュースサイト)"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T08:16:40.999962+00:00",
-          "createdUtc": 1777709800,
-          "ageHours": 0.5,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:72cj2c2f5dnwkge2vydrh6hd/app.bsky.feed.post/3mku33vtvao2d",
-          "cid": "bafyreigubtimvvmeslnznawpf4nxae7kda65dtuawsu64l56awbxsmqx5i",
-          "bskyUrl": "https://bsky.app/profile/electalabs.bsky.social/post/3mku33vtvao2d",
-          "text": "The App That Reads Your USB-C Cables USB-C's hidden chaos finally has a fix — one tiny app exposes what your cables can actually do. https://github.com/darrylmorley/whatcable",
-          "author": {
-            "handle": "electalabs.bsky.social",
-            "displayName": "electalabs"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T07:01:19.905Z",
-          "createdUtc": 1777705279,
-          "ageHours": 1.73,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "darrylmorley/whatcable",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "awalol--ds5dongle": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:h5p5dde3qzohctz7i4lr7um4/app.bsky.feed.post/3mku5iwqdokfk",
-        "cid": "bafyreiehuuwpefpn6pvlzvmjisa6ksqyo33leqiow5xxorwgqvfrlen44u",
-        "bskyUrl": "https://bsky.app/profile/oneofnoone.bsky.social/post/3mku5iwqdokfk",
-        "text": "해외의 어떤 용자가 라즈베리파이 피코 2W용 듀얼센스 무선 리시버 펌웨어를 만들어서 무선 햅틱 피드백의 시대가 열림. https://github.com/awalol/DS5Dongle/",
-        "author": {
-          "handle": "oneofnoone.bsky.social",
-          "displayName": "oneofnoone"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-02T07:44:24.763Z",
-        "hoursSincePosted": 1.01
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:h5p5dde3qzohctz7i4lr7um4/app.bsky.feed.post/3mku5iwqdokfk",
-          "cid": "bafyreiehuuwpefpn6pvlzvmjisa6ksqyo33leqiow5xxorwgqvfrlen44u",
-          "bskyUrl": "https://bsky.app/profile/oneofnoone.bsky.social/post/3mku5iwqdokfk",
-          "text": "해외의 어떤 용자가 라즈베리파이 피코 2W용 듀얼센스 무선 리시버 펌웨어를 만들어서 무선 햅틱 피드백의 시대가 열림. https://github.com/awalol/DS5Dongle/",
-          "author": {
-            "handle": "oneofnoone.bsky.social",
-            "displayName": "oneofnoone"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-02T07:44:24.763Z",
-          "createdUtc": 1777707864,
-          "ageHours": 1.01,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "awalol/DS5Dongle",
               "matchType": "url",
               "confidence": 1
             }
@@ -929,7 +1561,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T07:06:19.388Z",
-        "hoursSincePosted": 1.65
+        "hoursSincePosted": 3.09
       },
       "posts": [
         {
@@ -946,7 +1578,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T07:06:19.388Z",
           "createdUtc": 1777705579,
-          "ageHours": 1.65,
+          "ageHours": 3.09,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -965,7 +1597,7 @@
     },
     "open-metadata--openmetadata": {
       "count7d": 1,
-      "likesSum7d": 3,
+      "likesSum7d": 4,
       "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
@@ -977,11 +1609,11 @@
           "handle": "camilleroux.com",
           "displayName": "Camille Roux"
         },
-        "likeCount": 3,
+        "likeCount": 4,
         "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-02T09:00:03+02:00",
-        "hoursSincePosted": 1.75
+        "hoursSincePosted": 3.19
       },
       "posts": [
         {
@@ -993,13 +1625,13 @@
             "handle": "camilleroux.com",
             "displayName": "Camille Roux"
           },
-          "likeCount": 3,
+          "likeCount": 4,
           "repostCount": 1,
           "replyCount": 0,
           "createdAt": "2026-05-02T09:00:03+02:00",
           "createdUtc": 1777705203,
-          "ageHours": 1.75,
-          "trendingScore": 5,
+          "ageHours": 3.19,
+          "trendingScore": 6,
           "content_tags": [
             "has-github-repo"
           ],
@@ -1032,7 +1664,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T06:25:26.146Z",
-        "hoursSincePosted": 2.33
+        "hoursSincePosted": 3.77
       },
       "posts": [
         {
@@ -1049,7 +1681,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T06:25:26.146Z",
           "createdUtc": 1777703126,
-          "ageHours": 2.33,
+          "ageHours": 3.77,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -1065,57 +1697,8 @@
         }
       ]
     },
-    "ggml-org--llama-cpp": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mktyqiu3sq2h",
-        "cid": "bafyreieftzaopgrnaue2gbgmpjdkkg3nxqjy76w6vpbj6ovzullo5j7gvm",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mktyqiu3sq2h",
-        "text": "🟠 llama.cpp b9000 lands Hexagon HMX flash-attention acceleration for prefill ggml-org/llama.cpp shipped release b9000 with HMX-accelerated flash attention for the Hexagon backend, including prefill-path dispatch,... https://github.com/ggml-org/llama.cpp/releases/tag/b9000 #AI #AgentWyre",
-        "author": {
-          "handle": "agentwyre.ai"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-02T06:19:09.252379+00:00",
-        "hoursSincePosted": 2.43
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mktyqiu3sq2h",
-          "cid": "bafyreieftzaopgrnaue2gbgmpjdkkg3nxqjy76w6vpbj6ovzullo5j7gvm",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mktyqiu3sq2h",
-          "text": "🟠 llama.cpp b9000 lands Hexagon HMX flash-attention acceleration for prefill ggml-org/llama.cpp shipped release b9000 with HMX-accelerated flash attention for the Hexagon backend, including prefill-path dispatch,... https://github.com/ggml-org/llama.cpp/releases/tag/b9000 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T06:19:09.252379+00:00",
-          "createdUtc": 1777702749,
-          "ageHours": 2.43,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ggml-org/llama.cpp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "rtk-ai--rtk": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -1132,7 +1715,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T05:52:21.285623+00:00",
-        "hoursSincePosted": 2.88
+        "hoursSincePosted": 4.32
       },
       "posts": [
         {
@@ -1149,35 +1732,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T05:52:21.285623+00:00",
           "createdUtc": 1777701141,
-          "ageHours": 2.88,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "rtk-ai/rtk",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:tg32e4stp4tzh5ca74vi5hh4/app.bsky.feed.post/3mktod7bmt4i2",
-          "cid": "bafyreihlq2uyziiabirjqkkuyiidg5du64oawfhtvugumk75elyeyovgfu",
-          "bskyUrl": "https://bsky.app/profile/fohte.social.fohte.net.ap.brid.gy/post/3mktod7bmt4i2",
-          "text": "かしこい https://github.com/rtk-ai/rtk",
-          "author": {
-            "handle": "fohte.social.fohte.net.ap.brid.gy",
-            "displayName": "Fohte (ふぉーて)"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T03:12:38.000Z",
-          "createdUtc": 1777691558,
-          "ageHours": 5.54,
+          "ageHours": 4.32,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1194,7 +1749,7 @@
       ]
     },
     "0xhimanshu--governor": {
-      "count7d": 3,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -1211,7 +1766,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-02T05:03:04.187Z",
-        "hoursSincePosted": 3.7
+        "hoursSincePosted": 5.14
       },
       "posts": [
         {
@@ -1228,7 +1783,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-02T05:03:04.187Z",
           "createdUtc": 1777698184,
-          "ageHours": 3.7,
+          "ageHours": 5.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1237,113 +1792,6 @@
           "linkedRepos": [
             {
               "fullName": "0xhimanshu/governor",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:jmuhjrotgvcquoaqtpcuxjii/app.bsky.feed.post/3mktszuhdkc2g",
-          "cid": "bafyreidcwppqusindbruqynmwbkxpymzpk6klaqnhmauhfxp5ho7jj6twa",
-          "bskyUrl": "https://bsky.app/profile/hnws.bsky.social/post/3mktszuhdkc2g",
-          "text": "Governor – a Claude Code plugin to reduce token/context waste L: https://github.com/0xhimanshu/governor C: https://news.ycombinator.com/item?id=47982718 posted on 2026.05.01 at 22:19:58 (c=2, p=6)",
-          "author": {
-            "handle": "hnws.bsky.social",
-            "displayName": "HN"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T04:37:01.314381+00:00",
-          "createdUtc": 1777696621,
-          "ageHours": 4.13,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "0xhimanshu/governor",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mktsp5rgc225",
-          "cid": "bafyreic6wh4o6vgj2t5qwvs46gfhgyrjrocr74duqb5bsa63xmbb77zd5y",
-          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mktsp5rgc225",
-          "text": "Governor – a Claude Code plugin to reduce token/context waste https://github.com/0xhimanshu/governor",
-          "author": {
-            "handle": "hnbot.gsuscs.xyz",
-            "displayName": "HackerNews Compilator"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-02T04:31:02.299Z",
-          "createdUtc": 1777696262,
-          "ageHours": 4.23,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "0xhimanshu/governor",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "niri-wm--niri": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 2,
-      "topPost": {
-        "uri": "at://did:plc:4filgs73k7oxroktdu5g2lk6/app.bsky.feed.post/3mktrbwsd3222",
-        "cid": "bafyreihioa2b5dr2lp5l4anxdt7yyzo6oryflg56lmmobg7ripfbjnw35q",
-        "bskyUrl": "https://bsky.app/profile/nickgerace.dev/post/3mktrbwsd3222",
-        "text": "I’ve been a real “I just use GNOME” guy in recent years but I’m tempted to try Niri github.com/niri-wm/niri",
-        "author": {
-          "handle": "nickgerace.dev",
-          "displayName": "Nick Gerace"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 2,
-        "createdAt": "2026-05-02T04:05:45.045Z",
-        "hoursSincePosted": 4.66
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:4filgs73k7oxroktdu5g2lk6/app.bsky.feed.post/3mktrbwsd3222",
-          "cid": "bafyreihioa2b5dr2lp5l4anxdt7yyzo6oryflg56lmmobg7ripfbjnw35q",
-          "bskyUrl": "https://bsky.app/profile/nickgerace.dev/post/3mktrbwsd3222",
-          "text": "I’ve been a real “I just use GNOME” guy in recent years but I’m tempted to try Niri github.com/niri-wm/niri",
-          "author": {
-            "handle": "nickgerace.dev",
-            "displayName": "Nick Gerace"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 2,
-          "createdAt": "2026-05-02T04:05:45.045Z",
-          "createdUtc": 1777694745,
-          "ageHours": 4.66,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "niri-wm/niri",
               "matchType": "url",
               "confidence": 1
             }
@@ -1354,9 +1802,14 @@
   },
   "leaderboard": [
     {
+      "fullName": "Exocija/ZetaLib",
+      "count7d": 6,
+      "likesSum7d": 4
+    },
+    {
       "fullName": "open-metadata/OpenMetadata",
       "count7d": 1,
-      "likesSum7d": 3
+      "likesSum7d": 4
     },
     {
       "fullName": "JuliusBrussee/caveman",
@@ -1364,27 +1817,32 @@
       "likesSum7d": 1
     },
     {
-      "fullName": "0xhimanshu/governor",
+      "fullName": "ggml-org/llama.cpp",
       "count7d": 3,
       "likesSum7d": 0
     },
     {
-      "fullName": "darrylmorley/whatcable",
+      "fullName": "Teaonly/SKILL.make",
+      "count7d": 3,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "Lum1104/Understand-Anything",
       "count7d": 2,
       "likesSum7d": 0
     },
     {
-      "fullName": "rtk-ai/rtk",
-      "count7d": 2,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "awalol/DS5Dongle",
+      "fullName": "0xhimanshu/governor",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "ggml-org/llama.cpp",
+      "fullName": "adolfousier/opencrabs",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "casey/just",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -1394,12 +1852,7 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "Lum1104/Understand-Anything",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "niri-wm/niri",
+      "fullName": "rtk-ai/rtk",
       "count7d": 1,
       "likesSum7d": 0
     },

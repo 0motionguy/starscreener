@@ -36,6 +36,7 @@ See individual phase prompts.
 
 ## Notes for next session
 - 2026-05-03 Phase 1.1 done: wired GitHub pool cold-start hydration (`hydrate: true`) into the singleton, exposed hydration status on `/admin/pool`, and added regression tests for hydrate off/on behavior.
+- 2026-05-03 Phase 1.1 worker bypass migration done: `skill-derivatives` and `recent-repos` now use the worker GitHub token pool instead of direct `GITHUB_TOKEN` / `GH_PAT` reads; targeted worker regression test passed.
 - Build verification found missing Sentry Next 15 hooks; patched only the required `onRouterTransitionStart` and `onRequestError` exports so `next build` can compile. Phase 1.5 Sentry delivery verification is still open.
 - Verification: `npm run freshness:check` passed with 18 green / 0 yellow / 0 red / 0 dead; `npx tsx --test src/lib/__tests__/github-token-pool.test.ts` passed 23/23; `npm run typecheck` passed; `npm run lint:guards` passed; `$env:NODE_PATH=(Join-Path (Get-Location) 'node_modules'); cmd /c npm run build` passed. Plain `cmd /c npm run build` still fails in this local checkout because `.next` is a junction to `%TEMP%\trendingrepo-next-dev`, causing `_document.js` to miss repo `node_modules` during page-data collection.
 - 2026-05-03 preflight correction: the prior freshness pass only covered the

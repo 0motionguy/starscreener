@@ -11,8 +11,13 @@ import { Card } from "@/components/ui/Card";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
 import { FooterBar } from "@/components/ui/FooterBar";
 import { SectionHead } from "@/components/ui/SectionHead";
-import { LiveTopTable } from "@/components/home/LiveTopTable";
+import {
+  LiveTopTable,
+  type CategoryFacet,
+  type LiveRow,
+} from "@/components/home/LiveTopTable";
 import { CATEGORIES } from "@/lib/constants";
+import type { Repo } from "@/lib/types";
 
 export const revalidate = 60;
 
@@ -25,12 +30,65 @@ function formatCompact(value: number): string {
   return compactNumber.format(Math.max(0, Math.round(value))).toLowerCase();
 }
 
+const CATEGORY_LABELS = new Map(CATEGORIES.map((c) => [c.id, c.shortName]));
+
+function categoryLabel(repo: Repo): string {
+  return CATEGORY_LABELS.get(repo.categoryId) ?? repo.language ?? "Repo";
+}
+
 export default async function GithubRepoPage() {
   const repos = getDerivedRepos();
 
   const liveRows = [...repos]
     .sort((a, b) => b.momentumScore - a.momentumScore)
     .slice(0, 50);
+  const liveTableRows: LiveRow[] = liveRows.map((repo) => {
+    const ps = repo.mentions?.perSource;
+    return {
+      id: repo.id,
+      fullName: repo.fullName,
+      owner: repo.owner,
+      name: repo.name,
+      href: `/repo/${repo.owner}/${repo.name}`,
+      categoryId: repo.categoryId,
+      categoryLabel: categoryLabel(repo),
+      language: repo.language ?? null,
+      stars: repo.stars,
+      starsDelta24h: repo.starsDelta24h,
+      starsDelta7d: repo.starsDelta7d,
+      starsDelta30d: repo.starsDelta30d,
+      forks: repo.forks,
+      sparklineData: repo.sparklineData,
+      momentumScore: repo.momentumScore,
+      mentionCount24h: repo.mentionCount24h ?? 0,
+      sources: {
+        gh: 1,
+        hn: ps?.hackernews.count24h ?? 0,
+        r: ps?.reddit.count24h ?? 0,
+        b: ps?.bluesky.count24h ?? 0,
+        d: ps?.devto.count24h ?? 0,
+        lobsters: ps?.lobsters.count24h ?? 0,
+        x: ps?.twitter.count24h ?? 0,
+        npm: ps?.npm.count24h ?? 0,
+        hf: ps?.huggingface.count24h ?? 0,
+        arxiv: ps?.arxiv.count24h ?? 0,
+      },
+    };
+  });
+  const liveCategories: CategoryFacet[] = (() => {
+    const counts = new Map<string, number>();
+    for (const row of liveTableRows) {
+      counts.set(row.categoryId, (counts.get(row.categoryId) ?? 0) + 1);
+    }
+    return CATEGORIES.map((category) => ({
+      id: category.id,
+      label: category.shortName,
+      count: counts.get(category.id) ?? 0,
+    }))
+      .filter((category) => category.count > 0)
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 6);
+  })();
 
   const refreshed = new Date(lastFetchedAt);
   const refreshedTime = refreshed.toISOString().slice(11, 19);
@@ -124,7 +182,7 @@ export default async function GithubRepoPage() {
           }
         />
         <Card>
-          <LiveTopTable repos={liveRows} skills={[]} mcps={[]} limit={50} />
+          <LiveTopTable rows={liveTableRows} categories={liveCategories} />
         </Card>
       </div>
 

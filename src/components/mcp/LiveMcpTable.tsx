@@ -18,6 +18,7 @@ import { useMemo, useState } from "react";
 import { ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";
 
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { RankStarMark } from "@/components/brand/RankStarMark";
 
 type SortKey = "rank" | "use" | "released";
 type SortDir = "asc" | "desc";
@@ -274,7 +275,7 @@ export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
                   <td className={`rk-cell ${rankCls}`}>
                     {index < 3 ? (
                       <span className="crown" aria-hidden>
-                        ★
+                        <RankStarMark />
                       </span>
                     ) : null}
                     <span className="rk-n">

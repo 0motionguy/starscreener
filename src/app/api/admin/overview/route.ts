@@ -23,6 +23,7 @@ import {
 } from "@/lib/repo-metadata";
 import {
   getScannerSourceHealth,
+  refreshScannerSourceHealthFromStore,
   type ScannerSourceHealth,
 } from "@/lib/source-health";
 import { pipeline, repoStore, snapshotStore } from "@/lib/pipeline/pipeline";
@@ -116,6 +117,7 @@ export async function GET(
 
   try {
     await pipeline.ensureReady();
+    await refreshScannerSourceHealthFromStore();
 
     const sources = getScannerSourceHealth();
 

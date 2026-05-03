@@ -16,18 +16,19 @@
 import Link from "next/link";
 import type { SourceKey } from "@/lib/signals/types";
 import { allTopics, type TopicKey } from "@/lib/signals/topics";
+import { SourceMark } from "./SourceMark";
 
 export { parseTopic } from "@/lib/signals/topics";
 
-const SOURCES: Array<{ key: SourceKey; label: string; color: string }> = [
-  { key: "hn", label: "HN", color: "var(--source-hackernews)" },
-  { key: "github", label: "GH", color: "var(--source-github)" },
-  { key: "x", label: "X", color: "var(--source-x)" },
-  { key: "reddit", label: "RDT", color: "var(--source-reddit)" },
-  { key: "bluesky", label: "BSKY", color: "var(--source-bluesky)" },
-  { key: "devto", label: "DEV", color: "var(--source-dev)" },
-  { key: "claude", label: "CLAUDE", color: "var(--source-claude)" },
-  { key: "openai", label: "OAI", color: "var(--source-openai)" },
+const SOURCES: Array<{ key: SourceKey; label: string }> = [
+  { key: "hn", label: "HN" },
+  { key: "github", label: "GH" },
+  { key: "x", label: "X" },
+  { key: "reddit", label: "RDT" },
+  { key: "bluesky", label: "BSKY" },
+  { key: "devto", label: "DEV" },
+  { key: "claude", label: "CLAUDE" },
+  { key: "openai", label: "OAI" },
 ];
 
 const ALL_KEYS: ReadonlySet<SourceKey> = new Set(SOURCES.map((s) => s.key));
@@ -235,15 +236,14 @@ export function SourceFilterBar({
             key={s.key}
             href={buildSourceHref(active, timeWindow, topic, s.key)}
             prefetch={false}
-            className={`signals-chip${on ? " signals-chip-on" : ""}`}
+            className={`signals-chip signals-chip-brand${on ? " signals-chip-on" : ""}`}
             aria-pressed={on}
+            aria-label={s.label}
           >
-            <span
-              aria-hidden
-              className="signals-chip-dot"
-              style={{ background: s.color }}
-            />
-            {s.label}
+            {/* monochrome always — icon adopts chip text color so it reads
+                cleanly on every chip state (off=muted dark, on=inverted). */}
+            <SourceMark source={s.key} size={13} monochrome />
+            <span className="signals-chip-text">{s.label}</span>
           </Link>
         );
       })}

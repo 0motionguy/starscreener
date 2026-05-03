@@ -87,6 +87,25 @@ function formatClock(iso: string | undefined): string {
   return new Date(iso).toISOString().slice(11, 19);
 }
 
+// npm registry descriptions are scraped from the package's README and often
+// arrive as raw HTML/markdown — `<p align="center">`, `<code>`, badge image
+// links, etc. Strip the noise so the Package cell renders as a clean one-line
+// blurb instead of `<p><code>npm i -g X</code>...`. Length clamp matches the
+// truncate width so the trailing ellipsis lines up with the column edge.
+function cleanDescription(raw: string | null): string {
+  if (!raw) return "repo-linked npm package";
+  const stripped = raw
+    .replace(/<[^>]+>/g, " ")
+    .replace(/!?\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/[`*_>#]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!stripped) return "repo-linked npm package";
+  return stripped.length > 140
+    ? `${stripped.slice(0, 137).trimEnd()}…`
+    : stripped;
+}
+
 export default async function NpmPage({ searchParams }: NpmPageProps) {
   const { range } = await searchParams;
   // Refresh npm-packages cache from the data-store before reading sync getters.
@@ -113,15 +132,14 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
     );
   }
 
-  // KpiBand snapshot — tracked packages, top 24h downloader, linked-repo
-  // count, active window. Window cell echoes the active tab so the snapshot
-  // stays stable when users flip ranges.
-  const topByDownloads = packages.reduce<NpmPackageRow | null>((best, pkg) => {
-    if (!best) return pkg;
-    return pkg.downloads24h > best.downloads24h ? pkg : best;
-  }, null);
-  const topDownloadValue = topByDownloads?.downloads24h ?? 0;
-  const topDownloadName = topByDownloads?.name ?? "—";
+  // KpiBand snapshot — tracked packages, top mover for the active window,
+  // linked-repo count, active window. Top mover is `packages[0]` because
+  // getTopNpmPackages already sorts by trendScore for the active window —
+  // ranking a stale legacy library by absolute downloads (the prior
+  // behaviour) hid every actual breakout from the snapshot.
+  const topMover = packages[0] ?? null;
+  const topMoverDelta = topMover ? deltaForNpmWindow(topMover, activeWindow) : 0;
+  const topMoverPct = topMover ? deltaPctForNpmWindow(topMover, activeWindow) ?? 0 : 0;
   const linkedRepoCount = file.counts?.linkedRepos ?? packages.length;
 
   return (
@@ -132,8 +150,8 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
             <b>NPM</b> · TERMINAL · /NPM
           </>
         }
-        title="npm · top packages"
-        lede="Top npm package movement over 24h, 7d, and 30d windows. Discovery sweep keeps only packages whose registry metadata links back to a GitHub repo, then ranks by download velocity."
+        title="npm · hidden gems"
+        lede="Fastest-growing npm packages by 24h / 7d / 30d download velocity. Ranked by percentage growth so small packages doubling beat the steady mainstream giants — every row links back to a GitHub repo."
         clock={
           <>
             <span className="big">{formatClock(file.fetchedAt)}</span>
@@ -152,9 +170,11 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
                 pip: NPM_RED,
               },
               {
-                label: "TOP 24H INSTALLS",
-                value: formatCompact(topDownloadValue),
-                sub: topDownloadName,
+                label: `TOP ${activeWindow.toUpperCase()} MOVER`,
+                value: topMover ? formatSignedCompact(topMoverDelta) : "—",
+                sub: topMover
+                  ? `${topMover.name} · ${formatDeltaPct(topMoverPct)}`
+                  : "warming",
                 tone: "acc",
                 pip: "var(--v4-acc)",
               },
@@ -174,7 +194,7 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
             ]}
           />
         }
-        listEyebrow={`Package feed · top ${packages.length} by ${activeWindow} install velocity (trending)`}
+        listEyebrow={`Hidden gems · top ${packages.length} by ${activeWindow} growth %`}
         list={
           <>
             <TabNav active={activeWindow} />
@@ -223,12 +243,7 @@ function PackageFeed({
   packages: NpmPackageRow[];
   activeWindow: NpmWindow;
 }) {
-  // P0 INCIDENT 2026-05-02 (user report: "NPM not showing Installs!!!!!
-  // no trending!!!!!"): the column header read "24H Move" which obscured
-  // that the value IS the install count. Renamed to "24H Installs" so the
-  // primary npm signal users come here for is named explicitly.
-  const moveLabel = (window: NpmWindow) =>
-    `${window.toUpperCase()} Installs`;
+  const moveLabel = (window: NpmWindow) => `${window.toUpperCase()} Move`;
 
   const columns: FeedColumn<NpmPackageRow>[] = [
     {
@@ -247,11 +262,16 @@ function PackageFeed({
     {
       id: "package",
       header: "Package",
+      // Under fixedLayout: no explicit width here means this cell takes a
+      // share of the leftover after the fixed-width metric/version columns,
+      // instead of auto-sizing to the description's nowrap intrinsic width
+      // and pushing the move/version cells off the viewport.
       render: (pkg) => <PackageIdentity pkg={pkg} />,
     },
     {
       id: "repo",
       header: "Repo",
+      width: "220px",
       hideBelow: "md",
       render: (pkg) => <RepoLink pkg={pkg} />,
     },
@@ -302,7 +322,7 @@ function PackageFeed({
     },
     {
       id: "active-mobile",
-      header: `${activeWindow.toUpperCase()} Installs`,
+      header: `${activeWindow.toUpperCase()} Move`,
       width: "100px",
       align: "right",
       hideAbove: "md",
@@ -331,6 +351,7 @@ function PackageFeed({
       rowKey={(pkg) => pkg.name}
       accent={NPM_RED}
       caption="Top npm packages by download movement, repo-linked only"
+      fixedLayout
     />
   );
 }
@@ -360,7 +381,7 @@ function PackageIdentity({ pkg }: { pkg: NpmPackageRow }) {
           className="truncate text-[11px]"
           style={{ color: "var(--v4-ink-400)" }}
         >
-          {pkg.description ?? "repo-linked npm package"}
+          {cleanDescription(pkg.description)}
         </div>
       </div>
     </div>
@@ -423,10 +444,7 @@ function Metric({
     <div className="text-right text-xs tabular-nums">
       {/* Total installs — primary, large, ink-100. NPM's whole point is
           "how many installs?" so this beats the delta in visual weight.
-          Active window goes brighter (ink-000 + 600 weight).
-          P0 2026-05-02: relabeled inline suffix "dl" → "installs" so the
-          row reads as "13.4M installs" instead of the cryptic "13.4M dl"
-          users were missing. */}
+          Active window goes brighter (ink-000 + 600 weight). */}
       <div
         className="font-mono text-[13px]"
         style={{
@@ -439,7 +457,7 @@ function Metric({
           className="ml-0.5 text-[10px]"
           style={{ color: "var(--v4-ink-400)" }}
         >
-          {" "}installs
+          {" "}dl
         </span>
       </div>
       {/* Signed delta — secondary, color-coded green/red. */}

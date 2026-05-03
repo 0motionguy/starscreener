@@ -246,31 +246,31 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
     lookbackHours,
   });
 
-  // Consensus: strong signals (3+ sources) come first. When the panel would
-  // be sparse (< 5 strong stories), top up with the next-best near-consensus
-  // items so the slot doesn't read as half-empty. The KPI strip's
-  // "Consensus stories" count tracks the strong-only number.
-  // When the user filters down to <3 sources, consensus drops minSources
+  // Consensus: strong signals (3+ sources) come first, capped at 5. When
+  // there aren't 5 strong stories we top up with near-consensus (1+ source)
+  // — but only enough to fill 5 rows total, never more. KPI strip's
+  // "Consensus stories" count tracks the strong-only number; the radar
+  // header shows "+ N near" when padding is in play.
+  // When the user filters down to <3 sources, minSources drops
   // proportionally so the radar still has something to show.
+  const RADAR_LIMIT = 5;
   const minStrongSources = Math.min(3, activeSourceFilter.size);
   const strongConsensus = buildConsensus(filteredItems, {
     nowMs,
     minSources: minStrongSources,
-    limit: 8,
+    limit: RADAR_LIMIT,
     lookbackHours,
   });
   const consensusCount = strongConsensus.length;
   let consensus = strongConsensus;
-  if (consensus.length < 5) {
+  if (consensus.length < RADAR_LIMIT) {
     const nearConsensus = buildConsensus(filteredItems, {
       nowMs,
       minSources: 1,
-      limit: 12,
+      limit: RADAR_LIMIT * 2,
       lookbackHours,
-    }).filter(
-      (s) => !strongConsensus.some((c) => c.key === s.key),
-    );
-    consensus = [...strongConsensus, ...nearConsensus].slice(0, 8);
+    }).filter((s) => !strongConsensus.some((c) => c.key === s.key));
+    consensus = [...strongConsensus, ...nearConsensus].slice(0, RADAR_LIMIT);
   }
 
   // ── KPI calculations -------------------------------------------------------

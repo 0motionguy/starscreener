@@ -10,4 +10,11 @@
 - VPS migration (Sprint 6, optional)
 
 ## Discovered during current work
-Add as you go.
+- 2026-05-03 wire/UI inspection:
+  - Update `docs/SITE-WIREMAP.md` after the current sidebar drift is resolved: local `SidebarContent.tsx` points Trending Repos at `/githubrepo`, while production and the wiremap still use `/`; local also removes sidebar `Top 100` while production still links `/top`.
+  - Deploy or revert `/githubrepo` wiring before release. Current local route exists, but production `https://trendingrepo.com/githubrepo` returns 404.
+  - Fix mobile topbar horizontal overflow at 390px. Production screenshots show the `Drop repo` action clipping past the right edge on `/`, `/skills`, `/mcp`, `/signals`, `/compare`, and `/top10`.
+  - Fix mobile `/twitter` table overflow. The `TwitterLeaderboardTable` uses a `min-w-[920px]` grid that expands the page past the viewport.
+  - Decide expected unauthenticated behavior for `/watchlist`: production currently logs 503 responses from `/api/auth/session`, `/api/pipeline/alerts`, and `/api/pipeline/alerts/rules`.
+  - Replace brittle external icon/avatar fetches or add fallbacks: production logs favicon/avatar failures from gstatic favicon, unavatar X avatars, and Clearbit logos.
+  - Apply the documented Windows OneDrive `.next` junction workaround before relying on local UI crawls; current `.next` manifest/type races caused local dev 500s and `npm run typecheck` TS6053 missing generated type files.

@@ -18,8 +18,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { getSkillsSignalData } from "@/lib/ecosystem-leaderboards";
+import { getDerivedRepos } from "@/lib/derived-repos";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { formatNumber } from "@/lib/utils";
+import type { Repo } from "@/lib/types";
 
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
@@ -27,6 +29,10 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { RankRow } from "@/components/ui/RankRow";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import {
+  SkillsTopTable,
+  type SkillRow,
+} from "@/components/skills/SkillsTopTable";
 
 import { encodeSkillSlug } from "./_slug";
 
@@ -50,7 +56,7 @@ const WINDOW_LABEL: Record<SortWindow, string> = {
 
 function parseSortWindow(value: string | string[] | undefined): SortWindow {
   const v = Array.isArray(value) ? value[0] : value;
-  return SORT_WINDOWS.includes(v as SortWindow) ? (v as SortWindow) : "7d";
+  return SORT_WINDOWS.includes(v as SortWindow) ? (v as SortWindow) : "24h";
 }
 
 /**
@@ -69,6 +75,20 @@ function pickInstallsDelta(
   if (win === "24h") return item.installsDelta1d;
   if (win === "30d") return item.installsDelta30d;
   return item.installsDelta7d;
+}
+
+function pickRepoDelta(repo: Repo | null, win: SortWindow): number | undefined {
+  if (!repo) return undefined;
+  if (win === "24h") return repo.starsDelta24h;
+  if (win === "30d") return repo.starsDelta30d;
+  return repo.starsDelta7d;
+}
+
+function fullNameFromUrl(url: string | null | undefined): string | null {
+  if (typeof url !== "string") return null;
+  const m = url.match(/github\.com\/([^/?#]+)\/([^/?#]+)/i);
+  if (!m) return null;
+  return `${m[1]}/${m[2].replace(/\.git$/i, "")}`.toLowerCase();
 }
 
 export const metadata: Metadata = {
@@ -94,16 +114,29 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
   const items = data.combined.items;
   const now = Date.now();
 
-  // W5-SKILLS24H — pre-compute the active-window install delta per row so
-  // the leaderboard sort + the delta column on each RankRow share the same
-  // value. Empty during cold-start; in that case we fall through to the
-  // original signal-score ordering.
+  // Build a lookup of tracked GitHub repos so we can plumb real
+  // starsDelta24h/7d/30d onto skill rows when the registry's own
+  // installsDelta snapshot is empty (cold start).
+  const repos = getDerivedRepos();
+  const repoByFullName = new Map<string, Repo>();
+  for (const r of repos) {
+    repoByFullName.set(r.fullName.toLowerCase(), r);
+  }
+
+  // Active-window delta per row. Prefer the linked GitHub repo's real
+  // star delta over the registry's installsDelta (which is mostly empty
+  // until a 7d-old snapshot exists). Fall back to installsDelta when
+  // the linked repo isn't in our tracked set.
   const deltaByItem = new Map<string, number>();
   for (const it of items) {
-    const d = pickInstallsDelta(it, sortWindow);
+    const key = (it.linkedRepo ?? fullNameFromUrl(it.url))?.toLowerCase() ?? null;
+    const linked = key ? (repoByFullName.get(key) ?? null) : null;
+    const fromRepo = pickRepoDelta(linked, sortWindow);
+    const fromRegistry = pickInstallsDelta(it, sortWindow);
+    const d = fromRepo ?? fromRegistry;
     if (d !== undefined && Number.isFinite(d)) deltaByItem.set(it.id, d);
   }
-  const haveWindowedData = deltaByItem.size > 0;
+  const haveWindowedData = Array.from(deltaByItem.values()).some((v) => v !== 0);
 
   // Top — primary leaderboard. When the active window's snapshot is
   // populated, sort by the window delta (descending). Otherwise fall back
@@ -264,188 +297,51 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
         title="Top skills"
         meta={
           <>
-            <b>{topByScore.length}</b> · ranked by{" "}
-            {haveWindowedData ? (
-              <>installs Δ <b>{WINDOW_LABEL[sortWindow]}</b></>
-            ) : (
-              <>signal score</>
-            )}
+            <b>{items.length}</b> · sortable · stars Δ + installs Δ
           </>
         }
       />
 
-      {/* W5-SKILLS24H — tracking-window tab strip. Server-rendered links so
-          the URL is canonical + shareable; default 7d (no query param).
-
-          P0 INCIDENT 2026-05-02: when the install-snapshot worker hasn't
-          populated `installsDelta1d/7d/30d` yet, every window tab returned
-          identical results — page reads as "dead, not even data". Inline
-          banner now explicitly tells the user the install-velocity layer
-          is warming up so they don't conclude the leaderboard is broken.
-          Items still render via signalScore fallback (the `topByScore`
-          slice below) — only the per-window re-ranking is degraded. */}
-      <nav
-        aria-label="Re-rank skills by tracking window"
-        style={{
-          display: "flex",
-          gap: 6,
-          padding: "6px 0 12px",
-          fontFamily: "var(--font-geist-mono), monospace",
-          fontSize: 11,
-          textTransform: "uppercase",
-          letterSpacing: "0.08em",
-        }}
-      >
-        <span style={{ color: "var(--v4-ink-400)", paddingRight: 6 }}>
-          WINDOW ·
-        </span>
-        {SORT_WINDOWS.map((w) => {
-          const active = w === sortWindow;
-          const href = w === "7d" ? "/skills" : `/skills?window=${w}`;
+      {(() => {
+        const skillRows: SkillRow[] = items.map((item) => {
+          const key =
+            (item.linkedRepo ?? fullNameFromUrl(item.url))?.toLowerCase() ?? null;
+          const linked = key ? (repoByFullName.get(key) ?? null) : null;
+          return {
+            id: item.id,
+            title: item.title,
+            author: item.author ?? null,
+            href: `/skills/${encodeSkillSlug(item.id)}`,
+            logoUrl: item.logoUrl ?? null,
+            stars: linked?.stars ?? (typeof item.popularity === "number" ? item.popularity : 0),
+            starsDelta24h: linked?.starsDelta24h ?? null,
+            starsDelta7d: linked?.starsDelta7d ?? null,
+            starsDelta30d: linked?.starsDelta30d ?? null,
+            installsDelta24h: item.installsDelta1d ?? null,
+            installsDelta7d: item.installsDelta7d ?? null,
+            installsDelta30d: item.installsDelta30d ?? null,
+            cited: item.derivativeRepoCount ?? 0,
+            sparklineData: linked?.sparklineData ?? [1, 1, 1],
+            trackingId: linked?.id ?? `skill:${item.id}`,
+          };
+        });
+        if (skillRows.length === 0) {
           return (
-            <Link
-              key={w}
-              href={href}
-              aria-current={active ? "page" : undefined}
+            <p
               style={{
-                padding: "2px 8px",
-                borderRadius: 2,
-                border: `1px solid ${active ? "var(--v4-acc)" : "var(--v4-line-200)"}`,
-                color: active ? "var(--v4-ink-000)" : "var(--v4-ink-300)",
-                background: active
-                  ? "color-mix(in oklab, var(--v4-acc) 14%, transparent)"
-                  : "transparent",
-                textDecoration: "none",
+                fontFamily: "var(--font-geist-mono), monospace",
+                fontSize: 12,
+                color: "var(--v4-ink-300)",
+                padding: "24px 0",
               }}
             >
-              {WINDOW_LABEL[w]}
-            </Link>
+              No skills leaderboard rows have landed yet. Waiting for upstream
+              fetchers to populate Redis.
+            </p>
           );
-        })}
-        {!haveWindowedData ? (
-          <span
-            style={{
-              marginLeft: "auto",
-              color: "var(--v4-ink-400)",
-              fontStyle: "italic",
-            }}
-          >
-            install-velocity layer warming · ranked by signal score
-          </span>
-        ) : null}
-      </nav>
-      {!haveWindowedData ? (
-        <p
-          role="status"
-          style={{
-            margin: "0 0 16px",
-            padding: "8px 12px",
-            background: "color-mix(in oklab, var(--v4-amber) 8%, transparent)",
-            border: "1px solid color-mix(in oklab, var(--v4-amber) 30%, transparent)",
-            borderRadius: 3,
-            fontFamily: "var(--font-geist-mono), monospace",
-            fontSize: 11,
-            color: "var(--v4-ink-200)",
-          }}
-        >
-          <b style={{ color: "var(--v4-amber)" }}>NOTE</b> · per-window install
-          deltas (24h / 7d / 30d) are still warming up — the snapshot fetcher
-          backfills daily. The leaderboard below is currently ordered by the
-          combined signal score across {data.skillsSh.items.length}+
-          {data.github.items.length} sources. Rows are real; ranking will
-          re-sort by install velocity once the snapshot lands.
-        </p>
-      ) : null}
-      {topByScore.length > 0 ? (
-        <section
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            border: "1px solid var(--v4-line-200)",
-            borderRadius: 4,
-            background: "var(--v4-bg-050)",
-            marginBottom: 24,
-          }}
-        >
-          {topByScore.map((item, idx) => {
-            // W5-SKILLS24H — when the active window has data for this row,
-            // surface the install delta as the primary delta chip.
-            // Otherwise keep the original derivative-or-popularity chip.
-            const windowDelta = deltaByItem.get(item.id);
-            const windowDeltaChip =
-              windowDelta !== undefined && windowDelta > 0
-                ? {
-                    value: `+${formatNumber(windowDelta)} ${WINDOW_LABEL[sortWindow]}`,
-                    direction: "up" as const,
-                  }
-                : windowDelta !== undefined && windowDelta < 0
-                  ? {
-                      value: `${formatNumber(windowDelta)} ${WINDOW_LABEL[sortWindow]}`,
-                      direction: "down" as const,
-                    }
-                  : undefined;
-            const fallbackChip =
-              item.derivativeRepoCount && item.derivativeRepoCount > 0
-                ? {
-                    value: `${formatNumber(item.derivativeRepoCount)} cited`,
-                    direction: "up" as const,
-                  }
-                : item.popularity
-                  ? {
-                      value: `${formatNumber(item.popularity)} ${item.popularityLabel}`,
-                      direction: "flat" as const,
-                    }
-                  : undefined;
-            return (
-              <RankRow
-                key={item.id}
-                rank={idx + 1}
-                first={idx === 0}
-                avatar={
-                  <SkillAvatar
-                    logoUrl={item.logoUrl}
-                    fallback={item.title}
-                  />
-                }
-                title={
-                  <>
-                    {item.author ? (
-                      <>
-                        <span style={{ color: "var(--v4-ink-300)" }}>
-                          {item.author}
-                        </span>
-                        <span style={{ color: "var(--v4-ink-400)" }}> / </span>
-                      </>
-                    ) : null}
-                    <span style={{ color: "var(--v4-ink-100)" }}>
-                      {item.title}
-                    </span>
-                  </>
-                }
-                desc={item.description ?? item.sourceLabel}
-                metric={{
-                  value: item.signalScore.toFixed(0),
-                  label: "/ 100",
-                }}
-                delta={windowDeltaChip ?? fallbackChip}
-                href={`/skills/${encodeSkillSlug(item.id)}`}
-              />
-            );
-          })}
-        </section>
-      ) : (
-        <p
-          style={{
-            fontFamily: "var(--font-geist-mono), monospace",
-            fontSize: 12,
-            color: "var(--v4-ink-300)",
-            padding: "24px 0",
-          }}
-        >
-          No skills leaderboard rows have landed yet. Waiting for upstream
-          fetchers to populate Redis.
-        </p>
-      )}
+        }
+        return <SkillsTopTable rows={skillRows} defaultSortKey="s24" />;
+      })()}
 
       <SectionHead
         num="// 02"

@@ -196,10 +196,13 @@ export default async function AgentReposPage() {
                     {repo.name}
                   </>
                 }
-                desc={
-                  repo.description?.trim() ||
-                  (repo.language ? repo.language : "—")
-                }
+                desc={(() => {
+                  const base =
+                    repo.description?.trim() ||
+                    (repo.language ? repo.language : "—");
+                  const m24 = repo.mentions?.total24h ?? 0;
+                  return m24 > 0 ? `${base} · ${m24} mentions 24h` : base;
+                })()}
                 metric={{
                   value: formatNumber(repo.stars),
                   label: "STARS",

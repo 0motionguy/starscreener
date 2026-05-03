@@ -19,7 +19,7 @@ import {
   type FeedColumn,
 } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { huggingFaceLogoUrl } from "@/lib/logos";
+import { huggingFaceLogoUrl, huggingFaceAuthorLogoUrl } from "@/lib/logos";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -191,7 +191,7 @@ function HfModelFeed({ models }: { models: HfModelTrending[] }) {
       render: (m) => (
         <div className="flex min-w-0 items-center gap-2">
           <EntityLogo
-            src={huggingFaceLogoUrl()}
+            src={huggingFaceAuthorLogoUrl(m.author)}
             name={m.author ?? m.id}
             size={20}
             shape="square"

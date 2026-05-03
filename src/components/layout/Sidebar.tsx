@@ -228,6 +228,25 @@ export function useWatchlistPreview(
 // Sidebar root
 // ---------------------------------------------------------------------------
 
+/**
+ * Derive the top-50 repos by momentum from the repo map. Used as the
+ * Trending Repos sidebar submenu — mirrors the home page ranking.
+ */
+function useTopRepos(reposById: Record<string, SidebarDataRepo> | undefined) {
+  return useMemo(() => {
+    if (!reposById) return [];
+    return Object.values(reposById)
+      .sort((a, b) => b.momentumScore - a.momentumScore)
+      .slice(0, 50)
+      .map((r) => ({
+        id: r.id,
+        fullName: r.fullName,
+        owner: r.owner,
+        name: r.name,
+      }));
+  }, [reposById]);
+}
+
 export function Sidebar({
   initialData,
 }: {
@@ -235,6 +254,7 @@ export function Sidebar({
 } = {}) {
   const data = useSidebarData(initialData);
   const watchlistPreview = useWatchlistPreview(data?.reposById);
+  const topRepos = useTopRepos(data?.reposById);
 
   // Width is driven by the parent `.app-shell` grid column (280px full /
   // 56px focused). We render the same chrome at both widths and let the
@@ -254,6 +274,7 @@ export function Sidebar({
           unreadAlerts={data.unreadAlerts}
           sourceCounts={data.sourceCounts}
           trendingReposCount={data.trendingReposCount}
+          topRepos={topRepos}
         />
       ) : (
         <SidebarSkeleton />
@@ -261,3 +282,5 @@ export function Sidebar({
     </aside>
   );
 }
+
+export { useTopRepos };

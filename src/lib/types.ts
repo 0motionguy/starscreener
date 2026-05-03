@@ -31,6 +31,23 @@ export type SocialPlatform =
   | "huggingface"
   | "arxiv";
 
+/** Per-source 24h/7d mention counts attached to every Repo. */
+export interface RepoMentionsPerSource {
+  count24h: number;
+  count7d: number;
+}
+
+/**
+ * Unified mention rollup. `total24h` / `total7d` are simple sums across
+ * `perSource` so both stay in sync. `perSource` is keyed by every
+ * `SocialPlatform` value so consumers can iterate without missing-key checks.
+ */
+export interface RepoMentionsRollup {
+  total24h: number;
+  total7d: number;
+  perSource: Record<SocialPlatform, RepoMentionsPerSource>;
+}
+
 export type Sentiment = "positive" | "neutral" | "negative";
 
 export interface Repo {
@@ -80,6 +97,15 @@ export interface Repo {
   sparklineData: number[]; // 30 data points (daily star counts)
   socialBuzzScore: number; // 0-100
   mentionCount24h: number;
+
+  /**
+   * Unified mention rollup across all 9 supported sources (twitter, reddit,
+   * hackernews, bluesky, devto, lobsters, npm, huggingface, arxiv). Populated
+   * by `decorateWithMentionsRollup` on the derived-repos cold path. Keeps
+   * `mentionCount24h` in sync as `mentions.total24h` for back-compat with
+   * scoring + UI consumers that haven't migrated.
+   */
+  mentions?: RepoMentionsRollup | null;
 
   /**
    * Twitter/X rollup attached from the persisted Twitter signal store.

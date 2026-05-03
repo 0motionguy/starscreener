@@ -37,6 +37,7 @@ import {
   PRODUCTHUNT_STALE_THRESHOLD_MS,
   getDegradedScannerSources,
   getScannerSourceHealth,
+  refreshScannerSourceHealthFromStore,
   type ScannerSourceHealth,
 } from "@/lib/source-health";
 import { sourceHealthTracker } from "@/lib/source-health-tracker";
@@ -189,6 +190,7 @@ export async function GET(
       refreshRecentReposFromStore(),
       refreshRepoMetadataFromStore(),
       refreshCollectionRankingsFromStore(),
+      refreshScannerSourceHealthFromStore(),
     ]);
 
     const lastFetchedAt = getLastFetchedAt();

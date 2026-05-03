@@ -79,9 +79,11 @@ interface ConsensusBoardProps {
   items: ConsensusItem[];
   /** Per-band cap. Default 20. */
   perBand?: number;
+  /** All-source 24h mention counts keyed by lowercase fullName. */
+  mentions24h?: Map<string, number>;
 }
 
-export function ConsensusBoard({ items, perBand = 20 }: ConsensusBoardProps) {
+export function ConsensusBoard({ items, perBand = 20, mentions24h }: ConsensusBoardProps) {
   const grouped = new Map<ConsensusVerdictBand, ConsensusItem[]>();
   for (const band of BAND_ORDER) grouped.set(band, []);
   for (const item of items) {
@@ -120,6 +122,7 @@ export function ConsensusBoard({ items, perBand = 20 }: ConsensusBoardProps) {
                 item={item}
                 isFirst={band === "strong_consensus" && idx === 0}
                 badgeMeta={meta}
+                mentions24h={mentions24h?.get(item.fullName.toLowerCase()) ?? 0}
               />
             ))}
           </div>
@@ -133,10 +136,12 @@ function BoardRow({
   item,
   isFirst,
   badgeMeta,
+  mentions24h,
 }: {
   item: ConsensusItem;
   isFirst: boolean;
   badgeMeta: typeof BAND_META[ConsensusVerdictBand];
+  mentions24h: number;
 }) {
   return (
     <Link href={consensusHref(item.fullName)} className={`lb-row ${isFirst ? "first" : ""}`}>
@@ -150,6 +155,7 @@ function BoardRow({
           <span className="nm">{item.fullName}</span>
           <span className="desc">
             {item.sourceCount}/8 sources · gap {item.maxRankGap}
+            {mentions24h > 0 ? ` · ${mentions24h} mentions 24h` : ""}
           </span>
         </span>
       </div>

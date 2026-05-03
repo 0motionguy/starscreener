@@ -35,6 +35,7 @@ import {
   Brain,
   Calculator,
   CalendarDays,
+  ChevronDown,
   Cpu,
   DollarSign,
   Eye,
@@ -98,6 +99,13 @@ const LobstersSidebarIcon: SidebarIconComponent = (p) => (
   <LobstersIcon {...p} monochrome />
 );
 
+export interface SidebarTopRepo {
+  id: string;
+  fullName: string;
+  owner: string;
+  name: string;
+}
+
 export interface SidebarContentProps {
   categoryStats: CategoryStats[];
   metaCounts: MetaCounts;
@@ -108,6 +116,8 @@ export interface SidebarContentProps {
   sourceCounts?: SidebarSourceCounts;
   /** Total trending repos count (the big "Trending Repos" badge). */
   trendingReposCount?: number;
+  /** Top-N repos by momentum, mirrors home page ranking. */
+  topRepos?: SidebarTopRepo[];
   onClose?: () => void;
 }
 
@@ -271,11 +281,113 @@ function V2Chip({
   );
 }
 
+function TrendingReposRow({
+  active,
+  count,
+  expanded,
+  onToggle,
+  onNavigate,
+}: {
+  active: boolean;
+  count: number;
+  expanded: boolean;
+  onToggle: () => void;
+  onNavigate: () => void;
+}) {
+  return (
+    <div
+      className={cn("nav relative w-full", active && "active")}
+      style={{ color: active ? "var(--ink-000)" : "var(--ink-200)" }}
+    >
+      <button
+        type="button"
+        onClick={onNavigate}
+        className="flex flex-1 min-w-0 items-center gap-2 text-left"
+      >
+        <span
+          className="ic"
+          style={{ color: active ? "var(--acc)" : "var(--ink-300)" }}
+        >
+          <TrendingUp size={14} />
+        </span>
+        <span className="flex-1 truncate tracking-[0.16em]">Trending Repos</span>
+      </button>
+      {count > 0 ? <V2Chip value={compactCount(count)} tone="default" /> : null}
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-label={expanded ? "Collapse top 50" : "Expand top 50"}
+        aria-expanded={expanded}
+        className="ml-1 inline-flex h-5 w-5 shrink-0 items-center justify-center"
+        style={{ color: "var(--ink-300)" }}
+      >
+        <ChevronDown
+          size={12}
+          style={{
+            transform: expanded ? "rotate(0deg)" : "rotate(-90deg)",
+            transition: "transform 120ms ease",
+          }}
+        />
+      </button>
+    </div>
+  );
+}
+
+function TrendingReposSubmenu({
+  repos,
+  pathname,
+  onClose,
+}: {
+  repos: SidebarTopRepo[];
+  pathname: string;
+  onClose?: () => void;
+}) {
+  return (
+    <div
+      className="overflow-y-auto scrollbar-hide"
+      style={{
+        maxHeight: 280,
+        borderLeft: "1px solid var(--v4-line-200)",
+        marginLeft: 14,
+        paddingLeft: 6,
+      }}
+    >
+      {repos.map((r, i) => {
+        const href = `/repo/${r.owner}/${r.name}`;
+        const active = pathname === href;
+        return (
+          <Link
+            key={r.id}
+            href={href}
+            onClick={onClose}
+            className={cn("nav relative w-full", active && "active")}
+            style={{
+              color: active ? "var(--ink-000)" : "var(--ink-300)",
+              fontSize: 10,
+              padding: "2px 8px",
+              minHeight: 22,
+            }}
+          >
+            <span
+              className="font-mono tabular-nums shrink-0 text-right"
+              style={{ width: 22, color: "var(--ink-500)" }}
+            >
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span className="flex-1 truncate">{r.fullName}</span>
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
 export function SidebarContent({
   metaCounts,
   watchlistPreview,
   sourceCounts,
   trendingReposCount,
+  topRepos,
   onClose,
 }: SidebarContentProps) {
   const router = useRouter();
@@ -289,6 +401,9 @@ export function SidebarContent({
 
   const watchCount = useWatchlistStore((s) => s.repos.length);
   const compareCount = useCompareStore((s) => s.repos.length);
+
+  const [reposExpanded, setReposExpanded] = useState(false);
+  const top50 = (topRepos ?? []).slice(0, 50);
 
   function goToReposTerminal(filter: "breakouts" | "new" | null) {
     setActiveTag(null);
@@ -362,26 +477,19 @@ export function SidebarContent({
       <CursorRail className="flex-1 overflow-y-auto scrollbar-hide">
         {/* TREND TERMINAL */}
         <V2Section label="TREND TERMINAL">
-          <V2NavRow
-            onClick={() => goToReposTerminal(null)}
-            icon={TrendingUp}
-            label="Trending Repos"
-            badge={
-              trendingReposCount && trendingReposCount > 0
-                ? compactCount(trendingReposCount)
-                : undefined
-            }
-            badgeTone="default"
-            active={pathname === "/" && activeMetaFilter === null}
+          <TrendingReposRow
+            active={pathname === "/githubrepo"}
+            count={trendingReposCount ?? 0}
+            expanded={reposExpanded}
+            onToggle={() => setReposExpanded((v) => !v)}
+            onNavigate={() => {
+              if (pathname !== "/githubrepo") router.push("/githubrepo");
+              onClose?.();
+            }}
           />
-          <V2NavRow
-            href="/consensus"
-            icon={Radar}
-            label="Consensus"
-            badge="3X"
-            badgeTone="accent"
-            active={pathname === "/consensus"}
-          />
+          {reposExpanded && top50.length > 0 ? (
+            <TrendingReposSubmenu repos={top50} pathname={pathname} onClose={onClose} />
+          ) : null}
           <V2NavRow
             href="/skills"
             icon={GraduationCap}
@@ -409,12 +517,12 @@ export function SidebarContent({
             active={pathname === "/breakouts"}
           />
           <V2NavRow
-            href="/top"
-            icon={Trophy}
-            label="Top 100"
-            badge="100"
-            badgeTone="default"
-            active={pathname === "/top"}
+            href="/consensus"
+            icon={Radar}
+            label="Consensus"
+            badge="3X"
+            badgeTone="accent"
+            active={pathname === "/consensus"}
           />
         </V2Section>
 

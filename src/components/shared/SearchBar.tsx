@@ -93,14 +93,24 @@ export function SearchBar({
     };
   }, []);
 
-  // Click-outside closes the preview dropdown.
+  // Click-outside closes the preview dropdown. The dropdown is rendered
+  // through a Portal to document.body so it lives OUTSIDE containerRef —
+  // clicks on it must NOT close the preview, otherwise React unmounts the
+  // listbox between mousedown and click and the row's onClick never fires
+  // (the bug that made search results un-clickable).
   useEffect(() => {
     if (!previewOpen) return;
     const onDown = (e: MouseEvent) => {
-      if (!containerRef.current) return;
-      if (!containerRef.current.contains(e.target as Node)) {
-        setPreviewOpen(false);
+      const target = e.target as Node | null;
+      if (!target) return;
+      if (containerRef.current?.contains(target)) return;
+      if (
+        target instanceof Element &&
+        target.closest("#search-preview")
+      ) {
+        return;
       }
+      setPreviewOpen(false);
     };
     document.addEventListener("mousedown", onDown);
     return () => document.removeEventListener("mousedown", onDown);

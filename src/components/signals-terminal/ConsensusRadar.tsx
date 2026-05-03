@@ -4,30 +4,8 @@
 
 import Link from "next/link";
 import type { ConsensusStory } from "@/lib/signals/consensus";
-import type { SourceKey } from "@/lib/signals/types";
 import { Card, CardHeader } from "@/components/ui/Card";
-
-const SOURCE_LABEL: Record<SourceKey, string> = {
-  hn: "HN",
-  github: "GH",
-  x: "X",
-  reddit: "R",
-  bluesky: "BS",
-  devto: "D",
-  claude: "C",
-  openai: "O",
-};
-
-const SOURCE_COLOR: Record<SourceKey, string> = {
-  hn: "var(--source-hackernews)",
-  github: "var(--source-github)",
-  x: "var(--source-x)",
-  reddit: "var(--source-reddit)",
-  bluesky: "var(--source-bluesky)",
-  devto: "var(--source-dev)",
-  claude: "var(--source-claude)",
-  openai: "var(--source-openai)",
-};
+import { SourceMark, SOURCE_BRAND_COLOR } from "./SourceMark";
 
 function buildSparkPath(
   spark: number[],
@@ -231,11 +209,19 @@ export function ConsensusRadar({ stories, totalActive }: ConsensusRadarProps) {
                     {visibleSources.map((s) => (
                       <span
                         key={s}
-                        className="sd"
-                        style={{ background: SOURCE_COLOR[s] }}
+                        className="sd cons-srcmark"
                         title={s}
+                        aria-label={s}
+                        style={{
+                          // Soft brand-tint background so the colored mark
+                          // reads against the dark page bg without a hard
+                          // colored badge.
+                          background: `color-mix(in srgb, ${SOURCE_BRAND_COLOR[s]} 22%, transparent)`,
+                          borderColor: `color-mix(in srgb, ${SOURCE_BRAND_COLOR[s]} 55%, transparent)`,
+                          color: SOURCE_BRAND_COLOR[s],
+                        }}
                       >
-                        {SOURCE_LABEL[s]}
+                        <SourceMark source={s} size={11} monochrome />
                       </span>
                     ))}
                     {moreCount > 0 ? (

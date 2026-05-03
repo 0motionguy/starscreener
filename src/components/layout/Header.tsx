@@ -5,7 +5,6 @@ import { Send } from "lucide-react";
 import { ROUTES } from "@/lib/constants";
 import { SearchBar } from "@/components/shared/SearchBar";
 import { HamburgerButton } from "@/components/layout/HamburgerButton";
-import { FreshBadge } from "@/components/layout/FreshBadge";
 import { SystemMark } from "@/components/v3";
 
 export function Header() {
@@ -45,7 +44,6 @@ export function Header() {
         </div>
 
         <div className="topbar-actions">
-          <FreshBadge />
           <Link
             href={ROUTES.SUBMIT}
             className="pill cta focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded"

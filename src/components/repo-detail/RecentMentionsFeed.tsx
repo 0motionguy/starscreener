@@ -75,6 +75,10 @@ export function RecentMentionsFeed({
       devto: 0,
       ph: 0,
       twitter: 0,
+      lobsters: 0,
+      npm: 0,
+      huggingface: 0,
+      arxiv: 0,
     };
     for (const m of mentions) c[m.source] += 1;
     return c;

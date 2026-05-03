@@ -121,6 +121,116 @@
   border-radius: 1px;
   flex: none;
 }
+/* Brand-mark chip: real source SVG sits inside the chip in currentColor.
+ * Shape carries identity; chip background carries on/off state. */
+.signals-chip-brand {
+  padding-left: 7px;
+  padding-right: 10px;
+  gap: 5px;
+}
+.signals-chip-brand svg {
+  display: block;
+  flex: none;
+  color: inherit;
+}
+.signals-chip-text {
+  letter-spacing: 0.10em;
+}
+
+/* Consensus-row source mark: brand SVG inside a brand-tinted square so the
+ * colored mark reads against the dark page bg. Replaces the legacy letter
+ * chip ("R", "GH"...) used until 2026-05-03. */
+.cons-srcmark {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  border: 1px solid;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 0;
+  flex: none;
+}
+.cons-srcmark svg {
+  display: block;
+  color: inherit;
+}
+
+/* Per-source rail under the volume chart. One row per source so no source
+ * gets visually crushed by a dominant one in the stacked area above. */
+.vol-rail {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--color-border-subtle);
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: color-mix(in srgb, var(--color-bg-canvas) 35%, transparent);
+}
+.vol-rail-row {
+  display: grid;
+  grid-template-columns: 22px 70px 50px 50px 52px 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 5px 14px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border-subtle) 50%, transparent);
+}
+.vol-rail-row:last-child {
+  border-bottom: none;
+}
+.vol-rail-mark {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.vol-rail-mark svg {
+  display: block;
+  color: inherit;
+}
+.vol-rail-label {
+  color: var(--color-text-default);
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.10em;
+}
+.vol-rail-count {
+  color: var(--color-text-default);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.vol-rail-share {
+  color: var(--color-text-subtle);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-size: 10px;
+}
+.vol-rail-mom {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-size: 10px;
+}
+.vol-rail-spark {
+  width: 100%;
+  height: 18px;
+  display: block;
+}
+
+@media (max-width: 1023px) {
+  /* Tablet: drop the share column to keep the row readable inside a
+   * narrower panel after the grid collapses. */
+  .vol-rail-row {
+    grid-template-columns: 22px 60px 50px 52px 1fr;
+  }
+  .vol-rail-share {
+    display: none;
+  }
+}
 /* Time-window chips: tighter letter-spacing, accent fill when on (vs the
  * white fill source chips use). Visual cue that they control a different
  * axis — time, not source. */

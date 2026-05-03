@@ -37,7 +37,7 @@ export function Header() {
                 <span>
                   TRENDING<span style={{ color: "var(--v4-acc)" }}>REPO</span>
                 </span>
-                <span className="brand-beta">BETA BATCH</span>
+                <span className="brand-beta">BETA</span>
               </span>
               <span
                 aria-hidden="true"

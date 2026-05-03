@@ -6,6 +6,7 @@
 // JSON-LD — just the list. Same data wiring as `/` so cards stay consistent.
 
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { lastFetchedAt } from "@/lib/trending";
@@ -17,6 +18,8 @@ import { LiveTopTable } from "@/components/home/LiveTopTable";
 import { CATEGORIES } from "@/lib/constants";
 
 export const revalidate = 60;
+
+const PAGE_SIZE = 50;
 
 export const metadata: Metadata = {
   // Layout template appends ` — TrendingRepo`; bare title here.
@@ -42,15 +45,37 @@ function formatCompact(value: number): string {
   return compactNumber.format(Math.max(0, Math.round(value))).toLowerCase();
 }
 
-export default async function GithubRepoPage() {
+export default async function GithubRepoPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
   const repos = getDerivedRepos();
 
-  // Show ALL tracked repos (not the previous slice(0, 50)) so the
-  // "isolated trending feed" actually reflects the full tracked set.
-  // User feedback: "/githubrepo was random 50 — should be all".
-  const liveRows = [...repos].sort(
-    (a, b) => b.momentumScore - a.momentumScore,
-  );
+  // Cross-signal-first ranking: rank A by channelsFiring × crossSignalScore
+  // (the actual "trending across multiple platforms" signal), tiebreak with
+  // momentumScore. Pure-stars-only repos drop below multi-channel breakouts.
+  // User feedback: "we have a fucking trending engine — not the score".
+  const sorted = [...repos].sort((a, b) => {
+    const aChannels = a.channelsFiring ?? 0;
+    const bChannels = b.channelsFiring ?? 0;
+    const aCross = a.crossSignalScore ?? 0;
+    const bCross = b.crossSignalScore ?? 0;
+    const aBlend = aChannels * 2 + aCross + (a.momentumScore ?? 0) / 50;
+    const bBlend = bChannels * 2 + bCross + (b.momentumScore ?? 0) / 50;
+    if (bBlend !== aBlend) return bBlend - aBlend;
+    return (b.momentumScore ?? 0) - (a.momentumScore ?? 0);
+  });
+  const params = await searchParams;
+  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
+  const requestedPage = Number.parseInt(params.page ?? "1", 10);
+  const page =
+    Number.isFinite(requestedPage) && requestedPage >= 1
+      ? Math.min(requestedPage, totalPages)
+      : 1;
+  const startIdx = (page - 1) * PAGE_SIZE;
+  const endIdx = startIdx + PAGE_SIZE;
+  const liveRows = sorted.slice(startIdx, endIdx);
 
   const refreshed = new Date(lastFetchedAt);
   const refreshedTime = refreshed.toISOString().slice(11, 19);
@@ -85,10 +110,10 @@ export default async function GithubRepoPage() {
             </div>
             <h1>All trending GitHub repos — right now.</h1>
             <p className="lede">
-              The full momentum-ranked feed of {repos.length.toLocaleString()}{" "}
-              tracked repos. Same data as the front page, isolated with stats
-              and category tabs. No consensus / breakouts / featured / charts
-              — just the table.
+              Page {page} of {totalPages} · {repos.length.toLocaleString()}{" "}
+              tracked repos total · {PAGE_SIZE} per page. Full momentum-
+              ranked feed. Same data as the front page, isolated with stats
+              and category tabs.
             </p>
           </div>
           <div
@@ -137,10 +162,15 @@ export default async function GithubRepoPage() {
 
         <SectionHead
           num="// 01"
-          title={`Live / all ${liveRows.length.toLocaleString()}`}
+          title={`Live / page ${page} of ${totalPages}`}
           meta={
             <>
-              <b>{refreshedTime}</b> / refreshed
+              <b>
+                {(startIdx + 1).toLocaleString()}–
+                {Math.min(endIdx, sorted.length).toLocaleString()}
+              </b>{" "}
+              / {sorted.length.toLocaleString()} · refreshed{" "}
+              <b>{refreshedTime}</b>
             </>
           }
         />
@@ -152,10 +182,125 @@ export default async function GithubRepoPage() {
             limit={liveRows.length}
           />
         </Card>
+
+        {/* Pagination — server-rendered <a> links so Googlebot crawls
+            every page (page 2..N URLs feed the long-tail of repos into
+            the crawler's frontier). */}
+        <nav
+          aria-label="Pagination"
+          style={{
+            display: "flex",
+            gap: 8,
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "24px 0",
+            flexWrap: "wrap",
+            fontFamily: "var(--v4-mono)",
+            fontSize: 12,
+          }}
+        >
+          {page > 1 ? (
+            <Link
+              href={page === 2 ? "/githubrepo" : `/githubrepo?page=${page - 1}`}
+              style={{
+                padding: "6px 12px",
+                border: "1px solid var(--v4-line-200)",
+                background: "var(--v4-bg-100)",
+                color: "var(--v4-ink-100)",
+                textDecoration: "none",
+              }}
+            >
+              ← Prev
+            </Link>
+          ) : (
+            <span
+              style={{
+                padding: "6px 12px",
+                border: "1px solid var(--v4-line-200)",
+                color: "var(--v4-ink-400)",
+                opacity: 0.5,
+              }}
+            >
+              ← Prev
+            </span>
+          )}
+
+          {/* Page-number list. Compact: first, current ± 2, last. */}
+          {Array.from({ length: totalPages }, (_, i) => i + 1)
+            .filter(
+              (n) =>
+                n === 1 ||
+                n === totalPages ||
+                (n >= page - 2 && n <= page + 2),
+            )
+            .map((n, i, arr) => {
+              const prev = arr[i - 1];
+              const showGap = prev !== undefined && n - prev > 1;
+              return (
+                <span key={n} style={{ display: "inline-flex", gap: 8 }}>
+                  {showGap && (
+                    <span style={{ color: "var(--v4-ink-400)" }}>…</span>
+                  )}
+                  {n === page ? (
+                    <span
+                      aria-current="page"
+                      style={{
+                        padding: "6px 12px",
+                        background: "var(--v4-acc)",
+                        color: "var(--v4-bg-000)",
+                        fontWeight: 700,
+                      }}
+                    >
+                      {n}
+                    </span>
+                  ) : (
+                    <Link
+                      href={n === 1 ? "/githubrepo" : `/githubrepo?page=${n}`}
+                      style={{
+                        padding: "6px 12px",
+                        border: "1px solid var(--v4-line-200)",
+                        background: "var(--v4-bg-100)",
+                        color: "var(--v4-ink-100)",
+                        textDecoration: "none",
+                      }}
+                    >
+                      {n}
+                    </Link>
+                  )}
+                </span>
+              );
+            })}
+
+          {page < totalPages ? (
+            <Link
+              href={`/githubrepo?page=${page + 1}`}
+              style={{
+                padding: "6px 12px",
+                border: "1px solid var(--v4-line-200)",
+                background: "var(--v4-bg-100)",
+                color: "var(--v4-ink-100)",
+                textDecoration: "none",
+              }}
+            >
+              Next →
+            </Link>
+          ) : (
+            <span
+              style={{
+                padding: "6px 12px",
+                border: "1px solid var(--v4-line-200)",
+                color: "var(--v4-ink-400)",
+                opacity: 0.5,
+              }}
+            >
+              Next →
+            </span>
+          )}
+        </nav>
       </div>
 
       <FooterBar
-        meta={`// TRENDINGREPO / githubrepo / serial ${repos.length}`}
+        meta={`// TRENDINGREPO / githubrepo / page ${page}/${totalPages}`}
         actions={`DATA / ${refreshedTime} UTC`}
       />
     </>

@@ -10,9 +10,10 @@
 // boundary at the file level.
 
 import type { JSX } from "react";
-import { Star, GitFork, Users } from "lucide-react";
+import { GitFork, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
+import { BrandStar } from "@/components/shared/BrandStar";
 import type { Repo } from "@/lib/types";
 import { cn, formatNumber } from "@/lib/utils";
 import { Sparkline } from "@/components/shared/Sparkline";
@@ -23,7 +24,7 @@ interface RepoDetailStatsStripProps {
 
 interface MiniCardData {
   label: string;
-  icon: LucideIcon;
+  icon: LucideIcon | "brand-star";
   value: number;
   delta: number;
   deltaWindow: string;
@@ -67,7 +68,7 @@ export function RepoDetailStatsStrip({
   const cards: MiniCardData[] = [
     {
       label: "Stars",
-      icon: Star,
+      icon: "brand-star",
       value: repo.stars,
       delta: repo.starsDelta7d,
       deltaWindow: "7d",
@@ -108,7 +109,7 @@ export function RepoDetailStatsStrip({
 
 function MiniCard({
   label,
-  icon: Icon,
+  icon,
   value,
   delta,
   deltaWindow,
@@ -132,7 +133,14 @@ function MiniCard({
           className="v2-mono inline-flex items-center gap-1.5"
           style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
         >
-          <Icon className="shrink-0" size={11} aria-hidden />
+          {icon === "brand-star"
+            ? (
+              <BrandStar size={11} className="text-[var(--v4-acc)]" />
+            )
+            : (() => {
+              const Lucide = icon;
+              return <Lucide className="shrink-0" size={11} aria-hidden />;
+            })()}
           <span>{`// ${label.toUpperCase()}`}</span>
         </span>
         <span

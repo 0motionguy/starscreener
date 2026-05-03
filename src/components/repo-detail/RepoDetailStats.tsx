@@ -17,6 +17,7 @@ import {
   Package,
 } from "lucide-react";
 import type { Repo } from "@/lib/types";
+import { BrandStar } from "@/components/shared/BrandStar";
 import { StatIcon } from "@/components/compare/StatIcon";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 
@@ -138,9 +139,10 @@ function DeltaChip({ label, value }: { label: string; value: number }) {
       <span className="tabular-nums" style={{ color }}>
         {formatDelta(value)}
       </span>
-      <span style={{ color: "var(--v2-ink-400)" }}>★</span>
+      <BrandStar size={11} className="text-[var(--v2-ink-400)]" />
     </span>
   );
 }
 
 export default RepoDetailStats;
+

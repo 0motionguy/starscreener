@@ -3,11 +3,12 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
-import { Search, Star, X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { ROUTES } from "@/lib/constants";
 import type { Repo } from "@/lib/types";
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { BrandStar } from "@/components/shared/BrandStar";
 import { Input } from "@/components/ui/Input";
 import { repoDisplayLogoUrl } from "@/lib/logos";
 
@@ -312,12 +313,7 @@ export function SearchBar({
                         </span>
                       )}
                       <span className="inline-flex items-center gap-1 text-[11px] font-mono text-text-tertiary tabular-nums whitespace-nowrap">
-                        <Star
-                          size={10}
-                          className="text-[var(--v4-amber)]"
-                          fill="currentColor"
-                          aria-hidden
-                        />
+                        <BrandStar size={10} className="text-[var(--v4-amber)]" />
                         {formatNumber(repo.stars)}
                       </span>
                     </button>

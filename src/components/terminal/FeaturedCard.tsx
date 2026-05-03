@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { GitFork, Users } from "lucide-react";
 import { Sparkline } from "@/components/shared/Sparkline";
+import { BrandStar } from "@/components/shared/BrandStar";
 import { cn, formatNumber } from "@/lib/utils";
 import type { FeaturedCard as FeaturedCardType } from "@/lib/types";
 import { EntityLogo } from "@/components/ui/EntityLogo";
@@ -103,7 +104,7 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
           className="v2-stat shrink-0 tabular-nums"
           style={{ color: "var(--v2-ink-300)" }}
         >
-          {formatNumber(repo.stars)} ★
+          <span className="inline-flex items-center gap-1">{formatNumber(repo.stars)}<BrandStar size={11} /></span>
         </span>
       </div>
 
@@ -149,7 +150,7 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
               style={{ color: deltaColor }}
             >
               {gainSign}
-              {formatNumber(gain)} ★
+              <span className="inline-flex items-center gap-1">{formatNumber(gain)}<BrandStar size={11} /></span>
             </span>
             <span
               className="v2-stat tabular-nums text-[11px] leading-none opacity-90"
@@ -214,3 +215,4 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
     </Link>
   );
 }
+

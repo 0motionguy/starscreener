@@ -3774,10 +3774,9 @@ body::before {
   justify-content: center;
   width: 24px;
   height: 24px;
-  border: 1px solid var(--v4-acc);
-  color: var(--v4-acc);
-  font-size: 13px;
-  font-weight: var(--font-weight-bold);
+  border: 1px solid color-mix(in srgb, var(--v4-acc) 35%, transparent);
+  background: color-mix(in srgb, var(--v4-acc) 12%, transparent);
+  border-radius: 6px;
   box-shadow: none;
 }
 
@@ -3793,6 +3792,21 @@ body::before {
   font-size: var(--font-size-sm);
   letter-spacing: var(--tracking-ui);
   line-height: 1.2;
+}
+
+.brand-beta {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--v4-acc) 45%, transparent);
+  background: color-mix(in srgb, var(--v4-acc) 14%, transparent);
+  color: var(--v4-acc);
+  font-family: var(--v4-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1;
 }
 
 .topbar-actions {

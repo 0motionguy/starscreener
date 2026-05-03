@@ -849,7 +849,7 @@ export default async function HomePage() {
             url: SITE_URL,
             logo: {
               "@type": "ImageObject",
-              url: absoluteUrl("/icon.svg"),
+              url: absoluteUrl("/icon-512.png"),
             },
             description: SITE_DESCRIPTION,
           }),

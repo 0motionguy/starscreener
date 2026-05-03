@@ -22,12 +22,17 @@ export function recordRun(at: Date = new Date()): void {
 
 async function refreshHealth(): Promise<HealthState> {
   const log = getLogger();
+  const env = loadEnv();
   let dbOk = false;
   let redisOk = false;
-  try {
-    dbOk = await pingDb(getDb());
-  } catch (err) {
-    log.warn(`healthcheck db: ${(err as Error).message}`);
+  if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE) {
+    dbOk = true;
+  } else {
+    try {
+      dbOk = await pingDb(getDb());
+    } catch (err) {
+      log.warn(`healthcheck db: ${(err as Error).message}`);
+    }
   }
   try {
     const handle = await getRedis();

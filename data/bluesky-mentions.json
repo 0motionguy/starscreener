@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-03T12:54:01.363Z",
+  "fetchedAt": "2026-05-03T13:50:54.879Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -23,7 +23,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T12:38:55Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.2
       },
       "posts": [
         {
@@ -40,7 +40,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T12:38:55Z",
           "createdUtc": 1777811935,
-          "ageHours": 0.5,
+          "ageHours": 1.2,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -58,7 +58,7 @@
     },
     "vercel-labs/portless": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -70,11 +70,11 @@
           "handle": "kalvn.net",
           "displayName": "kalvn"
         },
-        "likeCount": 2,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T13:43:40+02:00",
-        "hoursSincePosted": 1.17
+        "hoursSincePosted": 2.12
       },
       "posts": [
         {
@@ -86,13 +86,13 @@
             "handle": "kalvn.net",
             "displayName": "kalvn"
           },
-          "likeCount": 2,
+          "likeCount": 3,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-03T13:43:40+02:00",
           "createdUtc": 1777808620,
-          "ageHours": 1.17,
-          "trendingScore": 2,
+          "ageHours": 2.12,
+          "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
           ],
@@ -125,7 +125,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T11:31:00.830Z",
-        "hoursSincePosted": 1.38
+        "hoursSincePosted": 2.33
       },
       "posts": [
         {
@@ -142,7 +142,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T11:31:00.830Z",
           "createdUtc": 1777807860,
-          "ageHours": 1.38,
+          "ageHours": 2.33,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -151,187 +151,6 @@
           "linkedRepos": [
             {
               "fullName": "siddsachar/Thoth",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "rtk-ai/rtk": {
-      "count7d": 2,
-      "likesSum7d": 4,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:c22jdrqhoajyj5ca7e56a3ke/app.bsky.feed.post/3mkwtwhxjv226",
-        "cid": "bafyreifvmfno7mfcger3xqe3p53zrepwsfbpuu5azjpulb3m4ht5fro7za",
-        "bskyUrl": "https://bsky.app/profile/anon5r.com/post/3mkwtwhxjv226",
-        "text": "コーディングエージェントのトークン消費量を劇的に抑える（80-90%)とか。 出力結果をフィルターして不要な内容を減らしてからエージェントに渡すようにするっぽい RTKが使用するテレメトリの収集オプションもある（セットアップ時に聞かれる）けどデフォルトで無効。 github.com/rtk-ai/rtk",
-        "author": {
-          "handle": "anon5r.com",
-          "displayName": "anon"
-        },
-        "likeCount": 4,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T09:31:00.828Z",
-        "hoursSincePosted": 3.38
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:c22jdrqhoajyj5ca7e56a3ke/app.bsky.feed.post/3mkwtwhxjv226",
-          "cid": "bafyreifvmfno7mfcger3xqe3p53zrepwsfbpuu5azjpulb3m4ht5fro7za",
-          "bskyUrl": "https://bsky.app/profile/anon5r.com/post/3mkwtwhxjv226",
-          "text": "コーディングエージェントのトークン消費量を劇的に抑える（80-90%)とか。 出力結果をフィルターして不要な内容を減らしてからエージェントに渡すようにするっぽい RTKが使用するテレメトリの収集オプションもある（セットアップ時に聞かれる）けどデフォルトで無効。 github.com/rtk-ai/rtk",
-          "author": {
-            "handle": "anon5r.com",
-            "displayName": "anon"
-          },
-          "likeCount": 4,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T09:31:00.828Z",
-          "createdUtc": 1777800660,
-          "ageHours": 3.38,
-          "trendingScore": 4,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "rtk-ai/rtk",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:ynnrd5bphkquexxb3a2qvljj/app.bsky.feed.post/3mkwsitaen22q",
-          "cid": "bafyreiaby2phb5mww6i5zty5ao5daibq35c36ynbwr3ivtakuy4dto35qm",
-          "bskyUrl": "https://bsky.app/profile/kytiken.bsky.social/post/3mkwsitaen22q",
-          "text": "ちょっと気になる AIにシェルコマンドの出力を渡すときにフィルタリング・圧縮することでトークン削減となるとのこと github.com/rtk-ai/rtk",
-          "author": {
-            "handle": "kytiken.bsky.social",
-            "displayName": "kytiken"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T09:05:29.149Z",
-          "createdUtc": 1777799129,
-          "ageHours": 3.81,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "rtk-ai/rtk",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "masterking32/MasterDnsVPN": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwp4syyrf22",
-        "cid": "bafyreigfq3prq7dlbtsvrsg5rm2njhuz56nyfvjnjttlsdxrrad2fbvoni",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwp4syyrf22",
-        "text": "https://github.com/masterking32/MasterDnsVPN",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T08:05:04Z",
-        "hoursSincePosted": 4.82
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwp4syyrf22",
-          "cid": "bafyreigfq3prq7dlbtsvrsg5rm2njhuz56nyfvjnjttlsdxrrad2fbvoni",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwp4syyrf22",
-          "text": "https://github.com/masterking32/MasterDnsVPN",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T08:05:04Z",
-          "createdUtc": 1777795504,
-          "ageHours": 4.82,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "masterking32/MasterDnsVPN",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "B-M-Capital-Research/honeclaw": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mkwogfz7eu2v",
-        "cid": "bafyreibslltcpy2k5tlo2zrpqcdlbc4c3w6y4hpb4mzfthy63d7664inve",
-        "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mkwogfz7eu2v",
-        "text": "🚀 GitHub Intelligence Drop honeypot-blocklist (Python • 🟢) ⭐ 194 → https://github.com/yuexuan521/honeypot-blocklist honeclaw (Rust • 🟢) ⭐ 442 → https://github.com/B-M-Capital-Research/honeclaw ⚡ Only signal. Zero noise.",
-        "author": {
-          "handle": "githubfeed.bsky.social",
-          "displayName": "VritraSec • GitHub Feed"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T07:52:33.145686+00:00",
-        "hoursSincePosted": 5.02
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mkwogfz7eu2v",
-          "cid": "bafyreibslltcpy2k5tlo2zrpqcdlbc4c3w6y4hpb4mzfthy63d7664inve",
-          "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mkwogfz7eu2v",
-          "text": "🚀 GitHub Intelligence Drop honeypot-blocklist (Python • 🟢) ⭐ 194 → https://github.com/yuexuan521/honeypot-blocklist honeclaw (Rust • 🟢) ⭐ 442 → https://github.com/B-M-Capital-Research/honeclaw ⚡ Only signal. Zero noise.",
-          "author": {
-            "handle": "githubfeed.bsky.social",
-            "displayName": "VritraSec • GitHub Feed"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T07:52:33.145686+00:00",
-          "createdUtc": 1777794753,
-          "ageHours": 5.02,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "B-M-Capital-Research/honeclaw",
               "matchType": "url",
               "confidence": 1
             }
@@ -359,7 +178,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T12:38:55Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.2
       },
       "posts": [
         {
@@ -376,7 +195,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T12:38:55Z",
           "createdUtc": 1777811935,
-          "ageHours": 0.5,
+          "ageHours": 1.2,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -394,7 +213,7 @@
     },
     "vercel-labs--portless": {
       "count7d": 1,
-      "likesSum7d": 2,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -406,11 +225,11 @@
           "handle": "kalvn.net",
           "displayName": "kalvn"
         },
-        "likeCount": 2,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T13:43:40+02:00",
-        "hoursSincePosted": 1.17
+        "hoursSincePosted": 2.12
       },
       "posts": [
         {
@@ -422,13 +241,13 @@
             "handle": "kalvn.net",
             "displayName": "kalvn"
           },
-          "likeCount": 2,
+          "likeCount": 3,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-03T13:43:40+02:00",
           "createdUtc": 1777808620,
-          "ageHours": 1.17,
-          "trendingScore": 2,
+          "ageHours": 2.12,
+          "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
           ],
@@ -461,7 +280,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T11:31:00.830Z",
-        "hoursSincePosted": 1.38
+        "hoursSincePosted": 2.33
       },
       "posts": [
         {
@@ -478,7 +297,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T11:31:00.830Z",
           "createdUtc": 1777807860,
-          "ageHours": 1.38,
+          "ageHours": 2.33,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -493,209 +312,13 @@
           ]
         }
       ]
-    },
-    "rtk-ai--rtk": {
-      "count7d": 2,
-      "likesSum7d": 4,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:c22jdrqhoajyj5ca7e56a3ke/app.bsky.feed.post/3mkwtwhxjv226",
-        "cid": "bafyreifvmfno7mfcger3xqe3p53zrepwsfbpuu5azjpulb3m4ht5fro7za",
-        "bskyUrl": "https://bsky.app/profile/anon5r.com/post/3mkwtwhxjv226",
-        "text": "コーディングエージェントのトークン消費量を劇的に抑える（80-90%)とか。 出力結果をフィルターして不要な内容を減らしてからエージェントに渡すようにするっぽい RTKが使用するテレメトリの収集オプションもある（セットアップ時に聞かれる）けどデフォルトで無効。 github.com/rtk-ai/rtk",
-        "author": {
-          "handle": "anon5r.com",
-          "displayName": "anon"
-        },
-        "likeCount": 4,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T09:31:00.828Z",
-        "hoursSincePosted": 3.38
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:c22jdrqhoajyj5ca7e56a3ke/app.bsky.feed.post/3mkwtwhxjv226",
-          "cid": "bafyreifvmfno7mfcger3xqe3p53zrepwsfbpuu5azjpulb3m4ht5fro7za",
-          "bskyUrl": "https://bsky.app/profile/anon5r.com/post/3mkwtwhxjv226",
-          "text": "コーディングエージェントのトークン消費量を劇的に抑える（80-90%)とか。 出力結果をフィルターして不要な内容を減らしてからエージェントに渡すようにするっぽい RTKが使用するテレメトリの収集オプションもある（セットアップ時に聞かれる）けどデフォルトで無効。 github.com/rtk-ai/rtk",
-          "author": {
-            "handle": "anon5r.com",
-            "displayName": "anon"
-          },
-          "likeCount": 4,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T09:31:00.828Z",
-          "createdUtc": 1777800660,
-          "ageHours": 3.38,
-          "trendingScore": 4,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "rtk-ai/rtk",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:ynnrd5bphkquexxb3a2qvljj/app.bsky.feed.post/3mkwsitaen22q",
-          "cid": "bafyreiaby2phb5mww6i5zty5ao5daibq35c36ynbwr3ivtakuy4dto35qm",
-          "bskyUrl": "https://bsky.app/profile/kytiken.bsky.social/post/3mkwsitaen22q",
-          "text": "ちょっと気になる AIにシェルコマンドの出力を渡すときにフィルタリング・圧縮することでトークン削減となるとのこと github.com/rtk-ai/rtk",
-          "author": {
-            "handle": "kytiken.bsky.social",
-            "displayName": "kytiken"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T09:05:29.149Z",
-          "createdUtc": 1777799129,
-          "ageHours": 3.81,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "rtk-ai/rtk",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "masterking32--masterdnsvpn": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwp4syyrf22",
-        "cid": "bafyreigfq3prq7dlbtsvrsg5rm2njhuz56nyfvjnjttlsdxrrad2fbvoni",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwp4syyrf22",
-        "text": "https://github.com/masterking32/MasterDnsVPN",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T08:05:04Z",
-        "hoursSincePosted": 4.82
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwp4syyrf22",
-          "cid": "bafyreigfq3prq7dlbtsvrsg5rm2njhuz56nyfvjnjttlsdxrrad2fbvoni",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwp4syyrf22",
-          "text": "https://github.com/masterking32/MasterDnsVPN",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T08:05:04Z",
-          "createdUtc": 1777795504,
-          "ageHours": 4.82,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "masterking32/MasterDnsVPN",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "b-m-capital-research--honeclaw": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mkwogfz7eu2v",
-        "cid": "bafyreibslltcpy2k5tlo2zrpqcdlbc4c3w6y4hpb4mzfthy63d7664inve",
-        "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mkwogfz7eu2v",
-        "text": "🚀 GitHub Intelligence Drop honeypot-blocklist (Python • 🟢) ⭐ 194 → https://github.com/yuexuan521/honeypot-blocklist honeclaw (Rust • 🟢) ⭐ 442 → https://github.com/B-M-Capital-Research/honeclaw ⚡ Only signal. Zero noise.",
-        "author": {
-          "handle": "githubfeed.bsky.social",
-          "displayName": "VritraSec • GitHub Feed"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T07:52:33.145686+00:00",
-        "hoursSincePosted": 5.02
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mkwogfz7eu2v",
-          "cid": "bafyreibslltcpy2k5tlo2zrpqcdlbc4c3w6y4hpb4mzfthy63d7664inve",
-          "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mkwogfz7eu2v",
-          "text": "🚀 GitHub Intelligence Drop honeypot-blocklist (Python • 🟢) ⭐ 194 → https://github.com/yuexuan521/honeypot-blocklist honeclaw (Rust • 🟢) ⭐ 442 → https://github.com/B-M-Capital-Research/honeclaw ⚡ Only signal. Zero noise.",
-          "author": {
-            "handle": "githubfeed.bsky.social",
-            "displayName": "VritraSec • GitHub Feed"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T07:52:33.145686+00:00",
-          "createdUtc": 1777794753,
-          "ageHours": 5.02,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "B-M-Capital-Research/honeclaw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "rtk-ai/rtk",
-      "count7d": 2,
-      "likesSum7d": 4
-    },
-    {
       "fullName": "vercel-labs/portless",
       "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "B-M-Capital-Research/honeclaw",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "masterking32/MasterDnsVPN",
-      "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 3
     },
     {
       "fullName": "rohitg00/ai-engineering-from-scratch",

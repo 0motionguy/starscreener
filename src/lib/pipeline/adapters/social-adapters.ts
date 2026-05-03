@@ -17,6 +17,10 @@ import {
   getGitHubTokenPool,
   parseRateLimitHeaders,
 } from "@/lib/github-token-pool";
+import {
+  githubKeyFingerprint,
+  recordGithubCall,
+} from "@/lib/pool/github-telemetry";
 // Phase 2C: per-source circuit breaker. Each adapter checks isOpen()
 // at the top of fetch and records success/failure on every response so
 // 5 consecutive failures auto-disable the source until the cooldown.
@@ -537,13 +541,24 @@ export class GitHubActivityAdapter implements SocialAdapter {
     if (token) headers.Authorization = `Bearer ${token}`;
 
     const { signal, clear } = timeoutSignal(FETCH_TIMEOUT_MS);
+    const startedAt = Date.now();
+    const operation = "github_activity_mentions";
     try {
       const res = await fetch(url, { signal, headers });
+      const rl = parseRateLimitHeaders(res.headers);
+      await recordGithubCall({
+        keyFingerprint: githubKeyFingerprint(token),
+        statusCode: res.status,
+        rateLimitRemaining: rl?.remaining ?? null,
+        rateLimitReset: rl?.resetUnixSec ?? null,
+        responseTimeMs: Date.now() - startedAt,
+        operation,
+        success: res.ok,
+      });
       // Update pool quota from headers REGARDLESS of status — GitHub still
       // returns x-ratelimit-* on 403s, and not recording exhaustion would
       // leave the pool picking the dead token again.
       if (token) {
-        const rl = parseRateLimitHeaders(res.headers);
         if (rl) pool.recordRateLimit(token, rl.remaining, rl.resetUnixSec);
       }
       if (!res.ok) {
@@ -584,6 +599,15 @@ export class GitHubActivityAdapter implements SocialAdapter {
       sourceHealthTracker.recordSuccess("github-search");
       return out;
     } catch (err) {
+      await recordGithubCall({
+        keyFingerprint: githubKeyFingerprint(token),
+        statusCode: 0,
+        rateLimitRemaining: null,
+        rateLimitReset: null,
+        responseTimeMs: Date.now() - startedAt,
+        operation,
+        success: false,
+      });
       console.error(
         `[social:github] fetchMentionsForRepo ${fullName} failed`,
         err,

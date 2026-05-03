@@ -76,11 +76,32 @@ async function loadWatchlistSources(): Promise<{
   trending: UnknownPayload | null;
   repoMetadata: UnknownPayload | null;
 }> {
-  const [engagement, trending, repoMetadata] = await Promise.all([
+  // AUDIT-2026-05-04: allSettled so a single Redis flake degrades to
+  // null instead of crashing the whole fetcher. Same fix as f39cd09d.
+  const reads = await Promise.allSettled([
     readDataStore<UnknownPayload>('engagement-composite'),
     readDataStore<UnknownPayload>('trending'),
     readDataStore<UnknownPayload>('repo-metadata'),
   ]);
+  const engagement = reads[0].status === 'fulfilled' ? reads[0].value : null;
+  const trending = reads[1].status === 'fulfilled' ? reads[1].value : null;
+  const repoMetadata = reads[2].status === 'fulfilled' ? reads[2].value : null;
+  if (reads.some((r) => r.status === 'rejected')) {
+    const reasonOf = (r: PromiseSettledResult<unknown> | undefined) =>
+      r && r.status === 'rejected'
+        ? r.reason instanceof Error
+          ? r.reason.message
+          : String(r.reason)
+        : null;
+    console.warn(
+      '[github-events] watchlist-source read failed; degrading to null',
+      JSON.stringify({
+        engagement: reasonOf(reads[0]),
+        trending: reasonOf(reads[1]),
+        repoMetadata: reasonOf(reads[2]),
+      }),
+    );
+  }
   return { engagement, trending, repoMetadata };
 }
 

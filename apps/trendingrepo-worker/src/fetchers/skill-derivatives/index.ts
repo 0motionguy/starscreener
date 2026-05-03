@@ -209,10 +209,7 @@ async function fetchDerivativeCount(skillName: string): Promise<number | null> {
   const q = `path:**/SKILL.md "name: ${skillName}"`;
   const url = `https://api.github.com/search/code?q=${encodeURIComponent(q)}&per_page=1`;
 
-  // Scripts surface guard: SCRIPTS allowed to read process.env.GITHUB_TOKEN
-  // directly. Fetchers run inside the worker — the canonical pickGithubToken
-  // helper does the same lookup with round-robin support, so we use that.
-  const token = pickGithubToken() ?? process.env.GITHUB_TOKEN?.trim();
+  const token = pickGithubToken();
   const headers: Record<string, string> = {
     'User-Agent': USER_AGENT,
     accept: 'application/vnd.github+json',

@@ -23,14 +23,14 @@ import {
   OG_COLORS,
 } from "@/lib/seo";
 import { ShareBar } from "@/components/share/ShareBar";
+import { MindShareCanvas } from "@/components/mindshare/MindShareCanvas";
 import {
-  MindShareCanvas,
   CHANNELS,
   CHANNEL_COLORS,
   CHANNEL_LABELS,
   type BubbleRow,
   type Channel,
-} from "@/components/mindshare/MindShareCanvas";
+} from "@/components/mindshare/channels";
 import type { Repo } from "@/lib/types";
 
 // 30-min ISR — same cadence as homepage; underlying derived-repos changes

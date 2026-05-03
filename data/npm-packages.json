@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-03T10:18:52.848Z",
+  "fetchedAt": "2026-05-03T10:20:02.695Z",
   "source": "npm",
   "sourceUrl": "https://api.npmjs.org/downloads/",
   "registrySearchUrl": "https://registry.npmjs.org/-/v1/search",
@@ -38,8 +38,8 @@
     "candidatesFound": 115,
     "failures": [
       {
-        "package": "@firebase/ai",
-        "error": "HTTP 429 Too Many Requests - https://api.npmjs.org/downloads/range/2026-03-03:2026-05-01/%40firebase%2Fai - <!doctype html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 8]>    <html class=\"no-js ie8 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if gt IE 8]><!-->\n<html class=\"no-js\" lang=\"en-US\">\n  "
+        "package": "react-smooth",
+        "error": "HTTP 429 Too Many Requests - https://api.npmjs.org/downloads/range/2026-03-03:2026-05-01/react-smooth - <!doctype html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 8]>    <html class=\"no-js ie8 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if gt IE 8]><!-->\n<html class=\"no-js\" lang=\"en-US\">\n  "
       }
     ]
   },
@@ -71,7 +71,7 @@
       "@ai-sdk/gateway",
       "ai",
       "react",
-      "react-smooth",
+      "@firebase/ai",
       "@ai-sdk/react",
       "@types/react",
       "eslint-plugin-react-hooks",
@@ -134,7 +134,7 @@
       "@aws-sdk/util-user-agent-browser",
       "@aws-sdk/util-user-agent-node",
       "@aws-sdk/middleware-user-agent",
-      "react-smooth",
+      "@firebase/ai",
       "@angular-devkit/schematics-cli",
       "@ai-sdk/react",
       "react-router",
@@ -156,7 +156,6 @@
     "30d": [
       "@cloudflare/vite-plugin",
       "@openai/codex",
-      "react-smooth",
       "@anthropic-ai/sdk",
       "vite-tsconfig-paths",
       "vite",
@@ -168,6 +167,7 @@
       "@ai-sdk/gateway",
       "@ai-sdk/google",
       "react-is",
+      "@firebase/ai",
       "@npmcli/agent",
       "@types/react",
       "@ai-sdk/openai",
@@ -5580,287 +5580,282 @@
       "error": null
     },
     {
-      "name": "react-smooth",
-      "npmUrl": "https://www.npmjs.com/package/react-smooth",
-      "description": "react animation library",
-      "latestVersion": "4.0.4",
-      "publishedAt": "2024-12-16T19:07:53.945Z",
-      "repositoryUrl": "https://github.com/recharts/react-smooth",
-      "linkedRepo": "recharts/react-smooth",
-      "homepage": "https://github.com/recharts/react-smooth#readme",
-      "keywords": [
-        "react",
-        "reactjs",
-        "animation",
-        "react-component"
-      ],
+      "name": "@firebase/ai",
+      "npmUrl": "https://www.npmjs.com/package/@firebase/ai",
+      "description": "The Firebase AI SDK",
+      "latestVersion": "2.11.1",
+      "publishedAt": "2026-04-20T22:37:45.729Z",
+      "repositoryUrl": "https://github.com/firebase/firebase-js-sdk",
+      "linkedRepo": "firebase/firebase-js-sdk",
+      "homepage": "https://github.com/firebase/firebase-js-sdk#readme",
+      "keywords": [],
       "discovery": {
         "queries": [
-          "react"
+          "ai"
         ],
-        "searchScore": 242.74466,
-        "finalScore": 242.74466,
-        "weeklyDownloads": 34767817,
-        "monthlyDownloads": 127803273
+        "searchScore": 304.73984,
+        "finalScore": 304.73984,
+        "weeklyDownloads": 4602652,
+        "monthlyDownloads": 18880956
       },
       "status": "ok",
       "downloads": [
         {
           "day": "2026-03-03",
-          "downloads": 1569288
+          "downloads": 536889
         },
         {
           "day": "2026-03-04",
-          "downloads": 1609901
+          "downloads": 553720
         },
         {
           "day": "2026-03-05",
-          "downloads": 1605439
+          "downloads": 560252
         },
         {
           "day": "2026-03-06",
-          "downloads": 1527296
+          "downloads": 519469
         },
         {
           "day": "2026-03-07",
-          "downloads": 971691
+          "downloads": 300236
         },
         {
           "day": "2026-03-08",
-          "downloads": 1000906
+          "downloads": 295800
         },
         {
           "day": "2026-03-09",
-          "downloads": 1675148
+          "downloads": 565811
         },
         {
           "day": "2026-03-10",
-          "downloads": 1811543
+          "downloads": 630230
         },
         {
           "day": "2026-03-11",
-          "downloads": 1751303
+          "downloads": 608794
         },
         {
           "day": "2026-03-12",
-          "downloads": 1687157
+          "downloads": 600168
         },
         {
           "day": "2026-03-13",
-          "downloads": 1579514
+          "downloads": 572330
         },
         {
           "day": "2026-03-14",
-          "downloads": 877105
+          "downloads": 316564
         },
         {
           "day": "2026-03-15",
-          "downloads": 916829
+          "downloads": 332967
         },
         {
           "day": "2026-03-16",
-          "downloads": 1717918
+          "downloads": 651951
         },
         {
           "day": "2026-03-17",
-          "downloads": 1760002
+          "downloads": 675848
         },
         {
           "day": "2026-03-18",
-          "downloads": 1760066
+          "downloads": 647086
         },
         {
           "day": "2026-03-19",
-          "downloads": 1728960
+          "downloads": 619239
         },
         {
           "day": "2026-03-20",
-          "downloads": 1588725
+          "downloads": 566042
         },
         {
           "day": "2026-03-21",
-          "downloads": 821877
+          "downloads": 304809
         },
         {
           "day": "2026-03-22",
-          "downloads": 838921
+          "downloads": 312789
         },
         {
           "day": "2026-03-23",
-          "downloads": 1738704
+          "downloads": 657258
         },
         {
           "day": "2026-03-24",
-          "downloads": 2624954
+          "downloads": 699630
         },
         {
           "day": "2026-03-25",
-          "downloads": 4123492
+          "downloads": 688525
         },
         {
           "day": "2026-03-26",
-          "downloads": 4915066
+          "downloads": 696842
         },
         {
           "day": "2026-03-27",
-          "downloads": 4477460
+          "downloads": 632792
         },
         {
           "day": "2026-03-28",
-          "downloads": 2229298
+          "downloads": 333565
         },
         {
           "day": "2026-03-29",
-          "downloads": 2394528
+          "downloads": 334439
         },
         {
           "day": "2026-03-30",
-          "downloads": 4730781
+          "downloads": 694196
         },
         {
           "day": "2026-03-31",
-          "downloads": 5026537
+          "downloads": 710601
         },
         {
           "day": "2026-04-01",
-          "downloads": 4890882
+          "downloads": 704820
         },
         {
           "day": "2026-04-02",
-          "downloads": 2572816
+          "downloads": 676926
         },
         {
           "day": "2026-04-03",
-          "downloads": 2270586
+          "downloads": 525074
         },
         {
           "day": "2026-04-04",
-          "downloads": 1643922
+          "downloads": 338533
         },
         {
           "day": "2026-04-05",
-          "downloads": 1574443
+          "downloads": 324537
         },
         {
           "day": "2026-04-06",
-          "downloads": 2519313
+          "downloads": 618928
         },
         {
           "day": "2026-04-07",
-          "downloads": 2975904
+          "downloads": 722600
         },
         {
           "day": "2026-04-08",
-          "downloads": 3010739
+          "downloads": 743262
         },
         {
           "day": "2026-04-09",
-          "downloads": 3839126
+          "downloads": 767857
         },
         {
           "day": "2026-04-10",
-          "downloads": 4109400
+          "downloads": 697206
         },
         {
           "day": "2026-04-11",
-          "downloads": 2787126
+          "downloads": 362569
         },
         {
           "day": "2026-04-12",
-          "downloads": 2780886
+          "downloads": 361637
         },
         {
           "day": "2026-04-13",
-          "downloads": 5040498
+          "downloads": 739786
         },
         {
           "day": "2026-04-14",
-          "downloads": 5664710
+          "downloads": 771361
         },
         {
           "day": "2026-04-15",
-          "downloads": 5595893
+          "downloads": 770122
         },
         {
           "day": "2026-04-16",
-          "downloads": 5420324
+          "downloads": 790625
         },
         {
           "day": "2026-04-17",
-          "downloads": 5145694
+          "downloads": 735955
         },
         {
           "day": "2026-04-18",
-          "downloads": 3542373
+          "downloads": 384722
         },
         {
           "day": "2026-04-19",
-          "downloads": 3615863
+          "downloads": 366370
         },
         {
           "day": "2026-04-20",
-          "downloads": 5482200
+          "downloads": 766089
         },
         {
           "day": "2026-04-21",
-          "downloads": 5705068
+          "downloads": 796474
         },
         {
           "day": "2026-04-22",
-          "downloads": 5818350
+          "downloads": 815033
         },
         {
           "day": "2026-04-23",
-          "downloads": 5655638
+          "downloads": 775728
         },
         {
           "day": "2026-04-24",
-          "downloads": 5291313
+          "downloads": 724007
         },
         {
           "day": "2026-04-25",
-          "downloads": 3546087
+          "downloads": 379829
         },
         {
           "day": "2026-04-26",
-          "downloads": 3639895
+          "downloads": 387580
         },
         {
           "day": "2026-04-27",
-          "downloads": 5736285
+          "downloads": 825508
         },
         {
           "day": "2026-04-28",
-          "downloads": 5922593
+          "downloads": 821357
         },
         {
           "day": "2026-04-29",
-          "downloads": 5943370
+          "downloads": 792753
         },
         {
           "day": "2026-04-30",
-          "downloads": 5563605
+          "downloads": 763957
         },
         {
           "day": "2026-05-01",
-          "downloads": 4462345
+          "downloads": 611625
         }
       ],
-      "downloads24h": 4462345,
-      "previous24h": 5563605,
-      "delta24h": -1101260,
-      "deltaPct24h": -19.8,
-      "downloads7d": 34814180,
-      "previous7d": 35110805,
-      "delta7d": -296625,
-      "deltaPct7d": -0.8,
-      "downloads30d": 126876365,
-      "previous30d": 65951291,
-      "delta30d": 60925074,
-      "deltaPct30d": 92.4,
+      "downloads24h": 611625,
+      "previous24h": 763957,
+      "delta24h": -152332,
+      "deltaPct24h": -19.9,
+      "downloads7d": 4582609,
+      "previous7d": 4628423,
+      "delta7d": -45814,
+      "deltaPct7d": -1,
+      "downloads30d": 19158010,
+      "previous30d": 16323662,
+      "delta30d": 2834348,
+      "deltaPct30d": 17.4,
       "trendScore24h": 0,
       "trendScore7d": 0,
-      "trendScore30d": 943,
+      "trendScore30d": 288,
       "error": null
     },
     {

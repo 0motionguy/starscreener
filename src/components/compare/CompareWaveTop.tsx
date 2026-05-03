@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import { CompareChart } from "./CompareChart";
@@ -7,8 +8,12 @@ import { CompareSelector } from "./CompareSelector";
 import { CompareStatStrip } from "./CompareStatStrip";
 import { CompareSharePanel } from "./CompareSharePanel";
 import { StarterPackRow } from "./StarterPackRow";
+import { buildCuratedStub } from "@/lib/collections";
 import { useCompareStore } from "@/lib/store";
-import { resolveCompareFullNames } from "@/lib/compare-selection";
+import {
+  compareIdToFallbackFullName,
+  resolveCompareFullNames,
+} from "@/lib/compare-selection";
 import type { Repo } from "@/lib/types";
 import type {
   StarActivityMetric,
@@ -133,10 +138,34 @@ export function CompareWaveTop() {
   const repoIds = useCompareStore((s) => s.repos);
   const setRepos = useCompareStore((s) => s.setRepos);
   const { repos } = useCompareRepos(repoIds);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Star History parity: render the chart for ANY selected repos, even ones
+  // not in our local trending feed. If `/api/repos?ids=` didn't return a
+  // hit (e.g. `facebook/react` isn't tracked), synthesize a curated stub
+  // so the chart line still renders from `payloads` (when present) or the
+  // sparkline placeholder. Without this the chart silently disappears for
+  // any URL like `?repos=facebook/react,vercel/next.js`.
+  const reposByIdLower = useMemo(() => {
+    const m = new Map<string, Repo>();
+    for (const r of repos) m.set(r.id.toLowerCase(), r);
+    return m;
+  }, [repos]);
+
+  const displayRepos = useMemo<Repo[]>(
+    () =>
+      repoIds.map(
+        (id) =>
+          reposByIdLower.get(id.toLowerCase()) ??
+          buildCuratedStub(compareIdToFallbackFullName(id)),
+      ),
+    [repoIds, reposByIdLower],
+  );
 
   const fullNames = useMemo(
-    () => resolveCompareFullNames(repoIds, repos),
-    [repoIds, repos],
+    () => resolveCompareFullNames(repoIds, displayRepos),
+    [repoIds, displayRepos],
   );
   const payloads = useStarActivityPayloads(fullNames);
   const mindsharePctByFullName = useMemo(
@@ -159,9 +188,29 @@ export function CompareWaveTop() {
     theme,
   };
 
+  // Star History parity: keep `?repos=owner/name,owner/name` in sync with
+  // the picker so a copy-pasted URL reproduces the selection. Uses
+  // router.replace so the back button doesn't accumulate history entries
+  // for every pill add/remove. Only writes once we've resolved fullNames
+  // (the stub fallback ensures that's the same instant the store changes).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!pathname) return;
+    const params = new URLSearchParams(window.location.search);
+    const next = fullNames.join(",");
+    const current = params.get("repos") ?? "";
+    if (next === current) return;
+    if (next) params.set("repos", next);
+    else params.delete("repos");
+    const qs = params.toString();
+    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+  }, [fullNames, pathname, router]);
+
   function handleStarterPick(fullNamesPicked: string[]) {
     setRepos(fullNamesPicked.map(fullNameToCompareId));
   }
+
+  const hasSelection = repoIds.length > 0;
 
   return (
     <section aria-label="Star history chart" className="tool-workbench compare-wave">
@@ -180,10 +229,10 @@ export function CompareWaveTop() {
 
       <div className="compare-work-grid">
         <div className="compare-chart-stack">
-          {repos.length > 0 ? (
+          {hasSelection ? (
             <>
               <CompareChart
-                repos={repos}
+                repos={displayRepos}
                 payloads={payloads}
                 metric={metric}
                 window={chartWindow}
@@ -197,7 +246,7 @@ export function CompareWaveTop() {
                 onThemeChange={setTheme}
               />
               <CompareStatStrip
-                repos={repos}
+                repos={displayRepos}
                 mindsharePctByFullName={mindsharePctByFullName}
               />
             </>

@@ -214,8 +214,8 @@ function latestIso(candidates: Array<string | null>): string | null {
 function classify(ageMs: number | null, budgetMs: number): SourceStatus {
   if (ageMs === null) return "DEAD";
   if (ageMs > budgetMs + DAY_MS) return "DEAD";
-  if (ageMs > budgetMs) return "RED";
-  if (ageMs >= budgetMs * 0.8) return "YELLOW";
+  if (ageMs > budgetMs * 2) return "RED";
+  if (ageMs > budgetMs) return "YELLOW";
   return "GREEN";
 }
 

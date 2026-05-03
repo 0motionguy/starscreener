@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-03T13:23:26.480Z",
+  "fetchedAt": "2026-05-03T19:07:54.699Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1307,
+  "scannedArticles": 1313,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 3,
+    "global-rising": 4,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -193,7 +193,7 @@
     "tag-llms-top-7d": 6,
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
-    "tag-promptengineering-top-7d": 40,
+    "tag-promptengineering-top-7d": 42,
     "tag-workflow-top-7d": 20,
     "tag-workflows-top-7d": 4,
     "tag-automation-top-7d": 100,
@@ -216,7 +216,7 @@
         "author": "shricodev",
         "reactions": 18,
         "comments": 5,
-        "hoursSincePosted": 118.9,
+        "hoursSincePosted": 124.6,
         "readingTime": 6
       },
       "articles": [
@@ -240,7 +240,7 @@
             "productivity",
             "programming"
           ],
-          "trendingScore": 0.29,
+          "trendingScore": 0.27,
           "linkedRepos": [
             {
               "fullName": "charmbracelet/bubbletea",
@@ -261,7 +261,7 @@
         "author": "evanlin",
         "reactions": 8,
         "comments": 0,
-        "hoursSincePosted": 25.4,
+        "hoursSincePosted": 31.1,
         "readingTime": 3
       },
       "articles": [
@@ -285,7 +285,7 @@
             "googlecloud",
             "tutorial"
           ],
-          "trendingScore": 0.28,
+          "trendingScore": 0.23,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -347,18 +347,63 @@
         }
       ]
     },
+    "microsoft/typescript-go": {
+      "count7d": 1,
+      "reactionsSum7d": 8,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3604313,
+        "title": "AI Deleted My Tests and Said 'All Tests Pass' — A Horror Story from Porting 'typia' from TypeScript to Go",
+        "url": "https://dev.to/samchon/ai-deleted-my-tests-and-said-all-tests-pass-a-horror-story-from-porting-typia-from-typescript-2bmf",
+        "author": "samchon",
+        "reactions": 8,
+        "comments": 1,
+        "hoursSincePosted": 4.8,
+        "readingTime": 10
+      },
+      "articles": [
+        {
+          "id": 3604313,
+          "title": "AI Deleted My Tests and Said 'All Tests Pass' — A Horror Story from Porting 'typia' from TypeScript to Go",
+          "description": "TL;DR   The job. Take typia's existing TS files, translate the contents line by line into...",
+          "url": "https://dev.to/samchon/ai-deleted-my-tests-and-said-all-tests-pass-a-horror-story-from-porting-typia-from-typescript-2bmf",
+          "author": {
+            "username": "samchon",
+            "name": "Jeongho Nam",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F901175%2Fd1a551cd-f5ae-4d4f-8dea-e5edec30b8d1.jpeg"
+          },
+          "reactionsCount": 8,
+          "commentsCount": 1,
+          "readingTime": 10,
+          "publishedAt": "2026-05-03T14:22:03Z",
+          "tags": [
+            "ai",
+            "vibecoding",
+            "typescript",
+            "go"
+          ],
+          "trendingScore": 1.67,
+          "linkedRepos": [
+            {
+              "fullName": "microsoft/typescript-go",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "anthropics/skills": {
-      "count7d": 2,
-      "reactionsSum7d": 15,
+      "count7d": 3,
+      "reactionsSum7d": 21,
       "commentsSum7d": 2,
       "topArticle": {
         "id": 3595159,
         "title": "Skills Without Evals Are Just Markdown and Hope",
         "url": "https://dev.to/danielsogl/skills-without-evals-are-just-markdown-and-hope-3a71",
         "author": "danielsogl",
-        "reactions": 9,
+        "reactions": 10,
         "comments": 1,
-        "hoursSincePosted": 50.8,
+        "hoursSincePosted": 56.5,
         "readingTime": 13
       },
       "articles": [
@@ -372,7 +417,7 @@
             "name": "Daniel Sogl",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1395106%2Fa783e28e-502c-4e12-a14d-694baaede8cf.jpeg"
           },
-          "reactionsCount": 9,
+          "reactionsCount": 10,
           "commentsCount": 1,
           "readingTime": 13,
           "publishedAt": "2026-05-01T10:38:09Z",
@@ -429,6 +474,34 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3557258,
+          "title": "Your Documentation Has Two Audiences Now (And One Is an AI)",
+          "description": "Technical documentation’s audience has changed. It’s no longer just engineers reading pages —...",
+          "url": "https://dev.to/seekdb/your-documentation-has-two-audiences-now-and-one-is-an-ai-3ce8",
+          "author": {
+            "username": "_4f268336f6580845cdc475",
+            "name": "Charles Wu",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805236%2Fc2ca81a3-8882-48ac-9ce7-046a056995ab.jpg"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-27T11:59:40Z",
+          "tags": [
+            "techwriting",
+            "ai",
+            "documentation",
+            "llm"
+          ],
+          "trendingScore": 0.02,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/skills",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
@@ -443,7 +516,7 @@
         "author": "nevermiss",
         "reactions": 8,
         "comments": 1,
-        "hoursSincePosted": 37.2,
+        "hoursSincePosted": 42.9,
         "readingTime": 11
       },
       "articles": [
@@ -467,7 +540,7 @@
             "ai",
             "automation"
           ],
-          "trendingScore": 0.21,
+          "trendingScore": 0.19,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -551,7 +624,7 @@
             "openclaw",
             "agents"
           ],
-          "trendingScore": 0.03,
+          "trendingScore": 0.02,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -559,6 +632,51 @@
             },
             {
               "fullName": "obra/superpowers",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "sickn33/antigravity-awesome-skills": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 6,
+      "topArticle": {
+        "id": 3583755,
+        "title": "94% of Published SKILL.md Files Skip the Spec's Two Most Basic Patterns",
+        "url": "https://dev.to/moonrunnerkc/94-of-published-skillmd-files-skip-the-specs-two-most-basic-patterns-oo0",
+        "author": "moonrunnerkc",
+        "reactions": 1,
+        "comments": 6,
+        "hoursSincePosted": 112.6,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3583755,
+          "title": "94% of Published SKILL.md Files Skip the Spec's Two Most Basic Patterns",
+          "description": "I ran skillcheck v1.2.0 against 500 random skills from a 1,436-skill corpus. Here's what the SKILL.md ecosystem actually looks like in production.",
+          "url": "https://dev.to/moonrunnerkc/94-of-published-skillmd-files-skip-the-specs-two-most-basic-patterns-oo0",
+          "author": {
+            "username": "moonrunnerkc",
+            "name": "Brad Kinnard",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3727405%2Fdace59d9-5970-49b1-9ee7-0836891c5a65.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 6,
+          "readingTime": 7,
+          "publishedAt": "2026-04-29T02:30:37Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "claude",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "sickn33/antigravity-awesome-skills",
               "location": "body"
             }
           ]
@@ -576,7 +694,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 107.1,
+        "hoursSincePosted": 112.9,
         "readingTime": 6
       },
       "articles": [
@@ -633,7 +751,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 107.1,
+        "hoursSincePosted": 112.9,
         "readingTime": 6
       },
       "articles": [
@@ -697,7 +815,7 @@
             "openclaw",
             "agents"
           ],
-          "trendingScore": 0.03,
+          "trendingScore": 0.02,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -990,7 +1108,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 107.1,
+        "hoursSincePosted": 112.9,
         "readingTime": 6
       },
       "articles": [
@@ -1036,51 +1154,6 @@
         }
       ]
     },
-    "sickn33/antigravity-awesome-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 6,
-      "topArticle": {
-        "id": 3583755,
-        "title": "94% of Published SKILL.md Files Skip the Spec's Two Most Basic Patterns",
-        "url": "https://dev.to/moonrunnerkc/94-of-published-skillmd-files-skip-the-specs-two-most-basic-patterns-oo0",
-        "author": "moonrunnerkc",
-        "reactions": 1,
-        "comments": 6,
-        "hoursSincePosted": 106.9,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3583755,
-          "title": "94% of Published SKILL.md Files Skip the Spec's Two Most Basic Patterns",
-          "description": "I ran skillcheck v1.2.0 against 500 random skills from a 1,436-skill corpus. Here's what the SKILL.md ecosystem actually looks like in production.",
-          "url": "https://dev.to/moonrunnerkc/94-of-published-skillmd-files-skip-the-specs-two-most-basic-patterns-oo0",
-          "author": {
-            "username": "moonrunnerkc",
-            "name": "Brad Kinnard",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3727405%2Fdace59d9-5970-49b1-9ee7-0836891c5a65.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 6,
-          "readingTime": 7,
-          "publishedAt": "2026-04-29T02:30:37Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "claude",
-            "devops"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "sickn33/antigravity-awesome-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "getagentseal/codeburn": {
       "count7d": 1,
       "reactionsSum7d": 3,
@@ -1092,7 +1165,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 149.2,
+        "hoursSincePosted": 155,
         "readingTime": 3
       },
       "articles": [
@@ -1141,7 +1214,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 149.2,
+        "hoursSincePosted": 155,
         "readingTime": 3
       },
       "articles": [
@@ -1206,6 +1279,34 @@
           ]
         },
         {
+          "id": 3557548,
+          "title": "Why I’m Cautious About AI Gateways After My Bifrost Collaboration",
+          "description": "My personal experience testing Maxim AI’s Bifrost gateway left me uneasy. Here’s what...",
+          "url": "https://dev.to/bradleymatera/why-im-cautious-about-ai-gateways-after-my-bifrost-collaboration-18pj",
+          "author": {
+            "username": "bradleymatera",
+            "name": "Bradley Matera",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-04-29T22:41:14Z",
+          "tags": [
+            "ai",
+            "security",
+            "mcp",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3557448,
           "title": "Warning: Bifrost from Maxim AI Is a Real API Key Harvesting Service Targeting American Web Devs (My Exact Experience)",
           "description": "I’ve been deep in AI coding tools for months. Recently I started getting DMs from new “AI gateway”...",
@@ -1233,34 +1334,6 @@
             },
             {
               "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3557548,
-          "title": "Why I’m Cautious About AI Gateways After My Bifrost Collaboration",
-          "description": "My personal experience testing Maxim AI’s Bifrost gateway left me uneasy. Here’s what...",
-          "url": "https://dev.to/bradleymatera/why-im-cautious-about-ai-gateways-after-my-bifrost-collaboration-18pj",
-          "author": {
-            "username": "bradleymatera",
-            "name": "Bradley Matera",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-29T22:41:14Z",
-          "tags": [
-            "ai",
-            "security",
-            "mcp",
-            "programming"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
               "location": "body"
             }
           ]
@@ -1364,7 +1437,7 @@
       ]
     },
     "anthropics/claude-code": {
-      "count7d": 7,
+      "count7d": 9,
       "reactionsSum7d": 4,
       "commentsSum7d": 0,
       "topArticle": {
@@ -1374,7 +1447,7 @@
         "author": "manveer_chawla_64a7283d5a",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 44.5,
+        "hoursSincePosted": 50.3,
         "readingTime": 21
       },
       "articles": [
@@ -1556,6 +1629,62 @@
           ]
         },
         {
+          "id": 3557078,
+          "title": "Claude Code's Prompt Cache TTL Dropped From 1h to 5m",
+          "description": "A TTL change on Claude Code's prompt cache rewrote billing for affected sessions. The instrumentation that catches it before payday.",
+          "url": "https://dev.to/gabrielanhaia/claude-codes-prompt-cache-ttl-dropped-from-1h-to-5m-35g",
+          "author": {
+            "username": "gabrielanhaia",
+            "name": "Gabriel Anhaia",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2F531a245a-bc24-453e-bb2b-eb7077a3da8b.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-04-27T11:14:43Z",
+          "tags": [
+            "ai",
+            "llm",
+            "observability",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3584385,
+          "title": "Claude Code with Local LLMs and ANTHROPIC_BASE_URL: Ollama, LM Studio, llama.cpp, vLLM",
+          "description": "Run Claude Code on a local LLM via ANTHROPIC_BASE_URL. Native Anthropic endpoints for Ollama, LM Studio, llama.cpp, vLLM. 32K context floor.",
+          "url": "https://dev.to/reneza/claude-code-with-local-llms-and-anthropicbaseurl-ollama-lm-studio-llamacpp-vllm-1g6j",
+          "author": {
+            "username": "reneza",
+            "name": "René Zander",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1138713%2Fa7d8635c-22db-4dec-b156-1fb07de64a8d.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-29T05:53:48Z",
+          "tags": [
+            "ai",
+            "llm",
+            "programming",
+            "tutorial"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3557094,
           "title": "The Flat-Rate AI Coding Subscription Era Is Ending",
           "description": "Six weeks of pricing changes from Copilot, Claude Code, and Cursor read together. The 3 signals that pricing tightens further. A bill estimator.",
@@ -1596,7 +1725,7 @@
         "author": "alanwest",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 97,
+        "hoursSincePosted": 102.7,
         "readingTime": 4
       },
       "articles": [
@@ -1641,7 +1770,7 @@
         "author": "mukeshswamy",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 147,
+        "hoursSincePosted": 152.7,
         "readingTime": 9
       },
       "articles": [
@@ -1738,7 +1867,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 127.3,
+        "hoursSincePosted": 133,
         "readingTime": 9
       },
       "articles": [
@@ -1988,120 +2117,6 @@
         }
       ]
     },
-    "forrestchang/andrej-karpathy-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3594085,
-        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-        "author": "jun0-ds",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 58.2,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3594085,
-          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
-          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-          "author": {
-            "username": "jun0-ds",
-            "name": "Jun0",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T03:13:10Z",
-          "tags": [
-            "ai",
-            "claudecode",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "gsd-build/gsd-2",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "gsd-build/gsd-2": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3594085,
-        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-        "author": "jun0-ds",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 58.2,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3594085,
-          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
-          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-          "author": {
-            "username": "jun0-ds",
-            "name": "Jun0",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T03:13:10Z",
-          "tags": [
-            "ai",
-            "claudecode",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "gsd-build/gsd-2",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "openai/codex": {
       "count7d": 3,
       "reactionsSum7d": 3,
@@ -2113,7 +2128,7 @@
         "author": "guilherme44",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 58.1,
+        "hoursSincePosted": 63.8,
         "readingTime": 5
       },
       "articles": [
@@ -2214,7 +2229,7 @@
         "author": "toniantunovic",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 116.3,
+        "hoursSincePosted": 122.1,
         "readingTime": 6
       },
       "articles": [
@@ -2248,6 +2263,120 @@
         }
       ]
     },
+    "forrestchang/andrej-karpathy-skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3594085,
+        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
+        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+        "author": "jun0-ds",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 63.9,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3594085,
+          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
+          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
+          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+          "author": {
+            "username": "jun0-ds",
+            "name": "Jun0",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-01T03:13:10Z",
+          "tags": [
+            "ai",
+            "claudecode",
+            "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            },
+            {
+              "fullName": "forrestchang/andrej-karpathy-skills",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "gsd-build/gsd-2",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "gsd-build/gsd-2": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3594085,
+        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
+        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+        "author": "jun0-ds",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 63.9,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3594085,
+          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
+          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
+          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+          "author": {
+            "username": "jun0-ds",
+            "name": "Jun0",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-01T03:13:10Z",
+          "tags": [
+            "ai",
+            "claudecode",
+            "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            },
+            {
+              "fullName": "forrestchang/andrej-karpathy-skills",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "gsd-build/gsd-2",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "pbakaus/impeccable": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2259,7 +2388,7 @@
         "author": "stevengonsalvez",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 161.6,
+        "hoursSincePosted": 167.3,
         "readingTime": 12
       },
       "articles": [
@@ -2304,7 +2433,7 @@
         "author": "lizhaopengcn",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 124.3,
+        "hoursSincePosted": 130.1,
         "readingTime": 8
       },
       "articles": [
@@ -2348,7 +2477,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 73.6,
         "readingTime": 7
       },
       "articles": [
@@ -2445,7 +2574,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 151.2,
+        "hoursSincePosted": 157,
         "readingTime": 8
       },
       "articles": [
@@ -2479,104 +2608,6 @@
         }
       ]
     },
-    "github/spec-kit": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592010,
-        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-        "author": "sundr_dev",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 72,
-        "readingTime": 14
-      },
-      "articles": [
-        {
-          "id": 3592010,
-          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
-          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-          "author": {
-            "username": "sundr_dev",
-            "name": "Aleksandr Sakov",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-04-30T13:24:40Z",
-          "tags": [
-            "ai",
-            "claude",
-            "specdrivendevelopment",
-            "programming"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/spec-kit",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-plugins-official",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "anthropics/claude-plugins-official": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592010,
-        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-        "author": "sundr_dev",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 72,
-        "readingTime": 14
-      },
-      "articles": [
-        {
-          "id": 3592010,
-          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
-          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-          "author": {
-            "username": "sundr_dev",
-            "name": "Aleksandr Sakov",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-04-30T13:24:40Z",
-          "tags": [
-            "ai",
-            "claude",
-            "specdrivendevelopment",
-            "programming"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/spec-kit",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-plugins-official",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "gastownhall/beads": {
       "count7d": 2,
       "reactionsSum7d": 1,
@@ -2588,7 +2619,7 @@
         "author": "frr149",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 70,
+        "hoursSincePosted": 75.7,
         "readingTime": 5
       },
       "articles": [
@@ -2674,6 +2705,149 @@
         }
       ]
     },
+    "github/spec-kit": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3592010,
+        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+        "author": "sundr_dev",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 77.7,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3592010,
+          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
+          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+          "author": {
+            "username": "sundr_dev",
+            "name": "Aleksandr Sakov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-30T13:24:40Z",
+          "tags": [
+            "ai",
+            "claude",
+            "specdrivendevelopment",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics/claude-plugins-official": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3592010,
+        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+        "author": "sundr_dev",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 77.7,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3592010,
+          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
+          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+          "author": {
+            "username": "sundr_dev",
+            "name": "Aleksandr Sakov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-30T13:24:40Z",
+          "tags": [
+            "ai",
+            "claude",
+            "specdrivendevelopment",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "abhigyanpatwari/GitNexus": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3604924,
+        "title": "How I stopped Claude Code from hallucinating function names on a 4,000-file repo (with a local MCP server)",
+        "url": "https://dev.to/nike-17/how-i-stopped-claude-code-from-hallucinating-function-names-on-a-4000-file-repo-with-a-local-mcp-jl5",
+        "author": "nike-17",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 1.6,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3604924,
+          "title": "How I stopped Claude Code from hallucinating function names on a 4,000-file repo (with a local MCP server)",
+          "description": "TL;DR: My Claude Code agent kept inventing function names that looked plausible but didn't exist...",
+          "url": "https://dev.to/nike-17/how-i-stopped-claude-code-from-hallucinating-function-names-on-a-4000-file-repo-with-a-local-mcp-jl5",
+          "author": {
+            "username": "nike-17",
+            "name": "Nikita Groshin",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3903349%2Fbe1fac32-c30f-4575-b225-239f86e6fea8.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-03T17:34:20Z",
+          "tags": [
+            "claude",
+            "ai",
+            "productivity",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "abhigyanpatwari/GitNexus",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "nextlevelbuilder/ui-ux-pro-max-skill": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2685,7 +2859,7 @@
         "author": "sumon4skf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 125.1,
+        "hoursSincePosted": 130.9,
         "readingTime": 2
       },
       "articles": [
@@ -2742,7 +2916,7 @@
         "author": "sumon4skf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 125.1,
+        "hoursSincePosted": 130.9,
         "readingTime": 2
       },
       "articles": [
@@ -2799,7 +2973,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 73.6,
         "readingTime": 7
       },
       "articles": [
@@ -2908,7 +3082,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 33.9,
+        "hoursSincePosted": 39.6,
         "readingTime": 3
       },
       "articles": [
@@ -3085,7 +3259,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.7,
+        "hoursSincePosted": 135.5,
         "readingTime": 9
       },
       "articles": [
@@ -3202,7 +3376,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.7,
+        "hoursSincePosted": 135.5,
         "readingTime": 9
       },
       "articles": [
@@ -3367,7 +3541,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.7,
+        "hoursSincePosted": 135.5,
         "readingTime": 9
       },
       "articles": [
@@ -3436,7 +3610,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.7,
+        "hoursSincePosted": 135.5,
         "readingTime": 9
       },
       "articles": [
@@ -3537,7 +3711,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 56.1,
+        "hoursSincePosted": 61.9,
         "readingTime": 10
       },
       "articles": [
@@ -3640,7 +3814,7 @@
       ]
     },
     "HKUDS/nanobot": {
-      "count7d": 2,
+      "count7d": 1,
       "reactionsSum7d": 7,
       "commentsSum7d": 0,
       "topArticle": {
@@ -3650,7 +3824,7 @@
         "author": "truongpx396",
         "reactions": 7,
         "comments": 0,
-        "hoursSincePosted": 125.8,
+        "hoursSincePosted": 131.5,
         "readingTime": 18
       },
       "articles": [
@@ -3674,35 +3848,7 @@
             "webdev",
             "tutorial"
           ],
-          "trendingScore": 0.05,
-          "linkedRepos": [
-            {
-              "fullName": "HKUDS/nanobot",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3592721,
-          "title": "RustyClaw: I'm rewriting an AI agent in Rust (because the meme demands it)",
-          "description": "\"You know what’s great about Rust? It doesn’t let you compile crappy code. You know what sucks?...",
-          "url": "https://dev.to/frr149/rustyclaw-im-rewriting-an-ai-agent-in-rust-because-the-meme-demands-it-280i",
-          "author": {
-            "username": "frr149",
-            "name": "Fernando Rodriguez",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3906301%2F4e64d5c4-6405-4465-9411-41b6e57e3818.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T16:19:50Z",
-          "tags": [
-            "rust",
-            "python",
-            "ai",
-            "llm"
-          ],
-          "trendingScore": 0,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "HKUDS/nanobot",
@@ -3723,7 +3869,7 @@
         "author": "truongpx396",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 126.8,
+        "hoursSincePosted": 132.5,
         "readingTime": 31
       },
       "articles": [
@@ -3796,7 +3942,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 123.9,
+        "hoursSincePosted": 129.6,
         "readingTime": 23
       },
       "articles": [
@@ -3841,7 +3987,7 @@
         "author": "truongpx396",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 124.5,
+        "hoursSincePosted": 130.2,
         "readingTime": 22
       },
       "articles": [
@@ -3886,7 +4032,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 73.6,
         "readingTime": 7
       },
       "articles": [
@@ -3955,7 +4101,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 73.6,
         "readingTime": 7
       },
       "articles": [
@@ -4024,7 +4170,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 73.6,
         "readingTime": 7
       },
       "articles": [
@@ -4093,7 +4239,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 73.6,
         "readingTime": 7
       },
       "articles": [
@@ -4151,85 +4297,40 @@
         }
       ]
     },
-    "defilantech/LLMKube": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3555588,
-        "title": "62.2% on Aider Polyglot from a MacBook Pro. Then the other model we tried scored 4%. Here's what actually happened, with a working cost loop attached.",
-        "url": "https://dev.to/defilan/628-on-aider-polyglot-from-a-macbook-pro-then-the-other-model-we-tried-scored-4-heres-what-17ed",
-        "author": "defilan",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 151,
-        "readingTime": 16
-      },
-      "articles": [
-        {
-          "id": 3555588,
-          "title": "62.2% on Aider Polyglot from a MacBook Pro. Then the other model we tried scored 4%. Here's what actually happened, with a working cost loop attached.",
-          "description": "Qwen3.6-35B-A3B Q8 on a MacBook Pro M5 Max scored 62.2% on Aider Polyglot, beating Claude Sonnet 4 with 32k thinking. Then Devstral 2 scored 4% on the same harness but 81.7% on HumanEval+. Plus the InferCost Apple Silicon collector that landed today, validating live cost-per-toke",
-          "url": "https://dev.to/defilan/628-on-aider-polyglot-from-a-macbook-pro-then-the-other-model-we-tried-scored-4-heres-what-17ed",
-          "author": {
-            "username": "defilan",
-            "name": "Christopher Maher",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3828578%2Fd03de6fc-1dcb-419b-b336-0d9c7d86f7cc.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 16,
-          "publishedAt": "2026-04-27T06:24:59Z",
-          "tags": [
-            "kubernetes",
-            "ai",
-            "llm",
-            "opensource"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "defilantech/LLMKube",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "ggml-org/llama.cpp": {
       "count7d": 1,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3596790,
-        "title": "Your AI, Your Rules: Running a Local LLM with GPU Acceleration on Proxmox",
-        "url": "https://dev.to/clintjosy/your-ai-your-rules-running-a-local-llm-with-gpu-acceleration-on-proxmox-1plh",
-        "author": "clintjosy",
+        "id": 3557067,
+        "title": "Google's TurboQuant: 6x KV Cache Compression Without Retraining",
+        "url": "https://dev.to/gabrielanhaia/googles-turboquant-6x-kv-cache-compression-without-retraining-1f3g",
+        "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 44.9,
-        "readingTime": 10
+        "hoursSincePosted": 151.9,
+        "readingTime": 8
       },
       "articles": [
         {
-          "id": 3596790,
-          "title": "Your AI, Your Rules: Running a Local LLM with GPU Acceleration on Proxmox",
-          "description": "From 3 tok/s frustration to 21 tok/s GPU-hybrid inference - a real engineer's guide to self-hosted...",
-          "url": "https://dev.to/clintjosy/your-ai-your-rules-running-a-local-llm-with-gpu-acceleration-on-proxmox-1plh",
+          "id": 3557067,
+          "title": "Google's TurboQuant: 6x KV Cache Compression Without Retraining",
+          "description": "TurboQuant pairs PolarQuant with a QJL residual to shrink KV cache 6x at near-zero quality loss. What it changes for long-context self-hosting.",
+          "url": "https://dev.to/gabrielanhaia/googles-turboquant-6x-kv-cache-compression-without-retraining-1f3g",
           "author": {
-            "username": "clintjosy",
-            "name": "Clint",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3890922%2F410a06d1-1613-46c5-a78b-23600e882992.png"
+            "username": "gabrielanhaia",
+            "name": "Gabriel Anhaia",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2F531a245a-bc24-453e-bb2b-eb7077a3da8b.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-01T16:26:51Z",
+          "readingTime": 8,
+          "publishedAt": "2026-04-27T11:12:24Z",
           "tags": [
+            "ai",
             "llm",
-            "selfhosted",
-            "proxmox",
-            "nvidia"
+            "architecture",
+            "observability"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -4252,7 +4353,7 @@
         "author": "bradleymatera",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 86.7,
+        "hoursSincePosted": 92.5,
         "readingTime": 3
       },
       "articles": [
@@ -4425,7 +4526,7 @@
         "author": "dharshan_a_23835c7dc05682",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 126.9,
+        "hoursSincePosted": 132.6,
         "readingTime": 4
       },
       "articles": [
@@ -4470,7 +4571,7 @@
         "author": "programmersd21",
         "reactions": 5,
         "comments": 1,
-        "hoursSincePosted": 107.3,
+        "hoursSincePosted": 113,
         "readingTime": 4
       },
       "articles": [
@@ -4494,7 +4595,7 @@
             "go",
             "mcp"
           ],
-          "trendingScore": 0.04,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "programmersd21/kairo",
@@ -4515,7 +4616,7 @@
         "author": "mindmnml",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 145.4,
+        "hoursSincePosted": 151.1,
         "readingTime": 5
       },
       "articles": [
@@ -4560,7 +4661,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 160.8,
+        "hoursSincePosted": 166.5,
         "readingTime": 8
       },
       "articles": [
@@ -4622,51 +4723,6 @@
         }
       ]
     },
-    "onyx-dot-app/onyx": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3589531,
-        "title": "Why Chat-with-Docs Breaks in Real Companies: An Engineering Look at Onyx",
-        "url": "https://dev.to/dengkui_yang_fcb5dbe2da32/why-chat-with-docs-breaks-in-real-companies-an-engineering-look-at-onyx-2861",
-        "author": "dengkui_yang_fcb5dbe2da32",
-        "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 81,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3589531,
-          "title": "Why Chat-with-Docs Breaks in Real Companies: An Engineering Look at Onyx",
-          "description": "Based on the onyx.guru page and the Onyx open-source repository reviewed on April 29, 2026.  Most...",
-          "url": "https://dev.to/dengkui_yang_fcb5dbe2da32/why-chat-with-docs-breaks-in-real-companies-an-engineering-look-at-onyx-2861",
-          "author": {
-            "username": "dengkui_yang_fcb5dbe2da32",
-            "name": "dengkui yang",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3891878%2F09738b27-6499-46ca-a364-4d3336583d7d.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T04:21:38Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "rag",
-            "softwareengineering"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "onyx-dot-app/onyx",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "tobi/qmd": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -4678,7 +4734,7 @@
         "author": "yohann_streibel_7e1f7b4b8",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 72.9,
+        "hoursSincePosted": 78.6,
         "readingTime": 15
       },
       "articles": [
@@ -4712,6 +4768,51 @@
         }
       ]
     },
+    "onyx-dot-app/onyx": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3589531,
+        "title": "Why Chat-with-Docs Breaks in Real Companies: An Engineering Look at Onyx",
+        "url": "https://dev.to/dengkui_yang_fcb5dbe2da32/why-chat-with-docs-breaks-in-real-companies-an-engineering-look-at-onyx-2861",
+        "author": "dengkui_yang_fcb5dbe2da32",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 86.8,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3589531,
+          "title": "Why Chat-with-Docs Breaks in Real Companies: An Engineering Look at Onyx",
+          "description": "Based on the onyx.guru page and the Onyx open-source repository reviewed on April 29, 2026.  Most...",
+          "url": "https://dev.to/dengkui_yang_fcb5dbe2da32/why-chat-with-docs-breaks-in-real-companies-an-engineering-look-at-onyx-2861",
+          "author": {
+            "username": "dengkui_yang_fcb5dbe2da32",
+            "name": "dengkui yang",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3891878%2F09738b27-6499-46ca-a364-4d3336583d7d.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 7,
+          "publishedAt": "2026-04-30T04:21:38Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "rag",
+            "softwareengineering"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "onyx-dot-app/onyx",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "langchain-ai/langgraph": {
       "count7d": 3,
       "reactionsSum7d": 0,
@@ -4723,7 +4824,7 @@
         "author": "johalputt",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 68.3,
+        "hoursSincePosted": 74.1,
         "readingTime": 15
       },
       "articles": [
@@ -4824,7 +4925,7 @@
         "author": "dengkui_yang_fcb5dbe2da32",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 101,
+        "hoursSincePosted": 106.8,
         "readingTime": 10
       },
       "articles": [
@@ -4869,7 +4970,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 56.3,
+        "hoursSincePosted": 62,
         "readingTime": 12
       },
       "articles": [
@@ -4934,7 +5035,7 @@
         "author": "sebakubisz",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 27.7,
+        "hoursSincePosted": 33.4,
         "readingTime": 14
       },
       "articles": [
@@ -4983,7 +5084,7 @@
         "author": "sebakubisz",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 27.7,
+        "hoursSincePosted": 33.4,
         "readingTime": 14
       },
       "articles": [
@@ -5034,7 +5135,7 @@
         "author": "shricodev",
         "reactions": 18,
         "comments": 5,
-        "hoursSincePosted": 118.9,
+        "hoursSincePosted": 124.6,
         "readingTime": 6
       },
       "articles": [
@@ -5058,7 +5159,7 @@
             "productivity",
             "programming"
           ],
-          "trendingScore": 0.29,
+          "trendingScore": 0.27,
           "linkedRepos": [
             {
               "fullName": "charmbracelet/bubbletea",
@@ -5079,7 +5180,7 @@
         "author": "evanlin",
         "reactions": 8,
         "comments": 0,
-        "hoursSincePosted": 25.4,
+        "hoursSincePosted": 31.1,
         "readingTime": 3
       },
       "articles": [
@@ -5103,7 +5204,7 @@
             "googlecloud",
             "tutorial"
           ],
-          "trendingScore": 0.28,
+          "trendingScore": 0.23,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -5165,18 +5266,63 @@
         }
       ]
     },
+    "microsoft--typescript-go": {
+      "count7d": 1,
+      "reactionsSum7d": 8,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3604313,
+        "title": "AI Deleted My Tests and Said 'All Tests Pass' — A Horror Story from Porting 'typia' from TypeScript to Go",
+        "url": "https://dev.to/samchon/ai-deleted-my-tests-and-said-all-tests-pass-a-horror-story-from-porting-typia-from-typescript-2bmf",
+        "author": "samchon",
+        "reactions": 8,
+        "comments": 1,
+        "hoursSincePosted": 4.8,
+        "readingTime": 10
+      },
+      "articles": [
+        {
+          "id": 3604313,
+          "title": "AI Deleted My Tests and Said 'All Tests Pass' — A Horror Story from Porting 'typia' from TypeScript to Go",
+          "description": "TL;DR   The job. Take typia's existing TS files, translate the contents line by line into...",
+          "url": "https://dev.to/samchon/ai-deleted-my-tests-and-said-all-tests-pass-a-horror-story-from-porting-typia-from-typescript-2bmf",
+          "author": {
+            "username": "samchon",
+            "name": "Jeongho Nam",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F901175%2Fd1a551cd-f5ae-4d4f-8dea-e5edec30b8d1.jpeg"
+          },
+          "reactionsCount": 8,
+          "commentsCount": 1,
+          "readingTime": 10,
+          "publishedAt": "2026-05-03T14:22:03Z",
+          "tags": [
+            "ai",
+            "vibecoding",
+            "typescript",
+            "go"
+          ],
+          "trendingScore": 1.67,
+          "linkedRepos": [
+            {
+              "fullName": "microsoft/typescript-go",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "anthropics--skills": {
-      "count7d": 2,
-      "reactionsSum7d": 15,
+      "count7d": 3,
+      "reactionsSum7d": 21,
       "commentsSum7d": 2,
       "topArticle": {
         "id": 3595159,
         "title": "Skills Without Evals Are Just Markdown and Hope",
         "url": "https://dev.to/danielsogl/skills-without-evals-are-just-markdown-and-hope-3a71",
         "author": "danielsogl",
-        "reactions": 9,
+        "reactions": 10,
         "comments": 1,
-        "hoursSincePosted": 50.8,
+        "hoursSincePosted": 56.5,
         "readingTime": 13
       },
       "articles": [
@@ -5190,7 +5336,7 @@
             "name": "Daniel Sogl",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1395106%2Fa783e28e-502c-4e12-a14d-694baaede8cf.jpeg"
           },
-          "reactionsCount": 9,
+          "reactionsCount": 10,
           "commentsCount": 1,
           "readingTime": 13,
           "publishedAt": "2026-05-01T10:38:09Z",
@@ -5247,6 +5393,34 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3557258,
+          "title": "Your Documentation Has Two Audiences Now (And One Is an AI)",
+          "description": "Technical documentation’s audience has changed. It’s no longer just engineers reading pages —...",
+          "url": "https://dev.to/seekdb/your-documentation-has-two-audiences-now-and-one-is-an-ai-3ce8",
+          "author": {
+            "username": "_4f268336f6580845cdc475",
+            "name": "Charles Wu",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805236%2Fc2ca81a3-8882-48ac-9ce7-046a056995ab.jpg"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-27T11:59:40Z",
+          "tags": [
+            "techwriting",
+            "ai",
+            "documentation",
+            "llm"
+          ],
+          "trendingScore": 0.02,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/skills",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
@@ -5261,7 +5435,7 @@
         "author": "nevermiss",
         "reactions": 8,
         "comments": 1,
-        "hoursSincePosted": 37.2,
+        "hoursSincePosted": 42.9,
         "readingTime": 11
       },
       "articles": [
@@ -5285,7 +5459,7 @@
             "ai",
             "automation"
           ],
-          "trendingScore": 0.21,
+          "trendingScore": 0.19,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -5369,7 +5543,7 @@
             "openclaw",
             "agents"
           ],
-          "trendingScore": 0.03,
+          "trendingScore": 0.02,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -5377,6 +5551,51 @@
             },
             {
               "fullName": "obra/superpowers",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "sickn33--antigravity-awesome-skills": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 6,
+      "topArticle": {
+        "id": 3583755,
+        "title": "94% of Published SKILL.md Files Skip the Spec's Two Most Basic Patterns",
+        "url": "https://dev.to/moonrunnerkc/94-of-published-skillmd-files-skip-the-specs-two-most-basic-patterns-oo0",
+        "author": "moonrunnerkc",
+        "reactions": 1,
+        "comments": 6,
+        "hoursSincePosted": 112.6,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3583755,
+          "title": "94% of Published SKILL.md Files Skip the Spec's Two Most Basic Patterns",
+          "description": "I ran skillcheck v1.2.0 against 500 random skills from a 1,436-skill corpus. Here's what the SKILL.md ecosystem actually looks like in production.",
+          "url": "https://dev.to/moonrunnerkc/94-of-published-skillmd-files-skip-the-specs-two-most-basic-patterns-oo0",
+          "author": {
+            "username": "moonrunnerkc",
+            "name": "Brad Kinnard",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3727405%2Fdace59d9-5970-49b1-9ee7-0836891c5a65.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 6,
+          "readingTime": 7,
+          "publishedAt": "2026-04-29T02:30:37Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "claude",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "sickn33/antigravity-awesome-skills",
               "location": "body"
             }
           ]
@@ -5394,7 +5613,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 107.1,
+        "hoursSincePosted": 112.9,
         "readingTime": 6
       },
       "articles": [
@@ -5451,7 +5670,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 107.1,
+        "hoursSincePosted": 112.9,
         "readingTime": 6
       },
       "articles": [
@@ -5515,7 +5734,7 @@
             "openclaw",
             "agents"
           ],
-          "trendingScore": 0.03,
+          "trendingScore": 0.02,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -5808,7 +6027,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 107.1,
+        "hoursSincePosted": 112.9,
         "readingTime": 6
       },
       "articles": [
@@ -5854,51 +6073,6 @@
         }
       ]
     },
-    "sickn33--antigravity-awesome-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 6,
-      "topArticle": {
-        "id": 3583755,
-        "title": "94% of Published SKILL.md Files Skip the Spec's Two Most Basic Patterns",
-        "url": "https://dev.to/moonrunnerkc/94-of-published-skillmd-files-skip-the-specs-two-most-basic-patterns-oo0",
-        "author": "moonrunnerkc",
-        "reactions": 1,
-        "comments": 6,
-        "hoursSincePosted": 106.9,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3583755,
-          "title": "94% of Published SKILL.md Files Skip the Spec's Two Most Basic Patterns",
-          "description": "I ran skillcheck v1.2.0 against 500 random skills from a 1,436-skill corpus. Here's what the SKILL.md ecosystem actually looks like in production.",
-          "url": "https://dev.to/moonrunnerkc/94-of-published-skillmd-files-skip-the-specs-two-most-basic-patterns-oo0",
-          "author": {
-            "username": "moonrunnerkc",
-            "name": "Brad Kinnard",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3727405%2Fdace59d9-5970-49b1-9ee7-0836891c5a65.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 6,
-          "readingTime": 7,
-          "publishedAt": "2026-04-29T02:30:37Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "claude",
-            "devops"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "sickn33/antigravity-awesome-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "getagentseal--codeburn": {
       "count7d": 1,
       "reactionsSum7d": 3,
@@ -5910,7 +6084,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 149.2,
+        "hoursSincePosted": 155,
         "readingTime": 3
       },
       "articles": [
@@ -5959,7 +6133,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 149.2,
+        "hoursSincePosted": 155,
         "readingTime": 3
       },
       "articles": [
@@ -6024,6 +6198,34 @@
           ]
         },
         {
+          "id": 3557548,
+          "title": "Why I’m Cautious About AI Gateways After My Bifrost Collaboration",
+          "description": "My personal experience testing Maxim AI’s Bifrost gateway left me uneasy. Here’s what...",
+          "url": "https://dev.to/bradleymatera/why-im-cautious-about-ai-gateways-after-my-bifrost-collaboration-18pj",
+          "author": {
+            "username": "bradleymatera",
+            "name": "Bradley Matera",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-04-29T22:41:14Z",
+          "tags": [
+            "ai",
+            "security",
+            "mcp",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3557448,
           "title": "Warning: Bifrost from Maxim AI Is a Real API Key Harvesting Service Targeting American Web Devs (My Exact Experience)",
           "description": "I’ve been deep in AI coding tools for months. Recently I started getting DMs from new “AI gateway”...",
@@ -6051,34 +6253,6 @@
             },
             {
               "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3557548,
-          "title": "Why I’m Cautious About AI Gateways After My Bifrost Collaboration",
-          "description": "My personal experience testing Maxim AI’s Bifrost gateway left me uneasy. Here’s what...",
-          "url": "https://dev.to/bradleymatera/why-im-cautious-about-ai-gateways-after-my-bifrost-collaboration-18pj",
-          "author": {
-            "username": "bradleymatera",
-            "name": "Bradley Matera",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-29T22:41:14Z",
-          "tags": [
-            "ai",
-            "security",
-            "mcp",
-            "programming"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
               "location": "body"
             }
           ]
@@ -6182,7 +6356,7 @@
       ]
     },
     "anthropics--claude-code": {
-      "count7d": 7,
+      "count7d": 9,
       "reactionsSum7d": 4,
       "commentsSum7d": 0,
       "topArticle": {
@@ -6192,7 +6366,7 @@
         "author": "manveer_chawla_64a7283d5a",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 44.5,
+        "hoursSincePosted": 50.3,
         "readingTime": 21
       },
       "articles": [
@@ -6374,6 +6548,62 @@
           ]
         },
         {
+          "id": 3557078,
+          "title": "Claude Code's Prompt Cache TTL Dropped From 1h to 5m",
+          "description": "A TTL change on Claude Code's prompt cache rewrote billing for affected sessions. The instrumentation that catches it before payday.",
+          "url": "https://dev.to/gabrielanhaia/claude-codes-prompt-cache-ttl-dropped-from-1h-to-5m-35g",
+          "author": {
+            "username": "gabrielanhaia",
+            "name": "Gabriel Anhaia",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2F531a245a-bc24-453e-bb2b-eb7077a3da8b.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-04-27T11:14:43Z",
+          "tags": [
+            "ai",
+            "llm",
+            "observability",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3584385,
+          "title": "Claude Code with Local LLMs and ANTHROPIC_BASE_URL: Ollama, LM Studio, llama.cpp, vLLM",
+          "description": "Run Claude Code on a local LLM via ANTHROPIC_BASE_URL. Native Anthropic endpoints for Ollama, LM Studio, llama.cpp, vLLM. 32K context floor.",
+          "url": "https://dev.to/reneza/claude-code-with-local-llms-and-anthropicbaseurl-ollama-lm-studio-llamacpp-vllm-1g6j",
+          "author": {
+            "username": "reneza",
+            "name": "René Zander",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1138713%2Fa7d8635c-22db-4dec-b156-1fb07de64a8d.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-29T05:53:48Z",
+          "tags": [
+            "ai",
+            "llm",
+            "programming",
+            "tutorial"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3557094,
           "title": "The Flat-Rate AI Coding Subscription Era Is Ending",
           "description": "Six weeks of pricing changes from Copilot, Claude Code, and Cursor read together. The 3 signals that pricing tightens further. A bill estimator.",
@@ -6414,7 +6644,7 @@
         "author": "alanwest",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 97,
+        "hoursSincePosted": 102.7,
         "readingTime": 4
       },
       "articles": [
@@ -6459,7 +6689,7 @@
         "author": "mukeshswamy",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 147,
+        "hoursSincePosted": 152.7,
         "readingTime": 9
       },
       "articles": [
@@ -6556,7 +6786,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 127.3,
+        "hoursSincePosted": 133,
         "readingTime": 9
       },
       "articles": [
@@ -6806,120 +7036,6 @@
         }
       ]
     },
-    "forrestchang--andrej-karpathy-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3594085,
-        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-        "author": "jun0-ds",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 58.2,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3594085,
-          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
-          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-          "author": {
-            "username": "jun0-ds",
-            "name": "Jun0",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T03:13:10Z",
-          "tags": [
-            "ai",
-            "claudecode",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "gsd-build/gsd-2",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "gsd-build--gsd-2": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3594085,
-        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-        "author": "jun0-ds",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 58.2,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3594085,
-          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
-          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-          "author": {
-            "username": "jun0-ds",
-            "name": "Jun0",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T03:13:10Z",
-          "tags": [
-            "ai",
-            "claudecode",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "gsd-build/gsd-2",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "openai--codex": {
       "count7d": 3,
       "reactionsSum7d": 3,
@@ -6931,7 +7047,7 @@
         "author": "guilherme44",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 58.1,
+        "hoursSincePosted": 63.8,
         "readingTime": 5
       },
       "articles": [
@@ -7032,7 +7148,7 @@
         "author": "toniantunovic",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 116.3,
+        "hoursSincePosted": 122.1,
         "readingTime": 6
       },
       "articles": [
@@ -7066,6 +7182,120 @@
         }
       ]
     },
+    "forrestchang--andrej-karpathy-skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3594085,
+        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
+        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+        "author": "jun0-ds",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 63.9,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3594085,
+          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
+          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
+          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+          "author": {
+            "username": "jun0-ds",
+            "name": "Jun0",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-01T03:13:10Z",
+          "tags": [
+            "ai",
+            "claudecode",
+            "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            },
+            {
+              "fullName": "forrestchang/andrej-karpathy-skills",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "gsd-build/gsd-2",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "gsd-build--gsd-2": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3594085,
+        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
+        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+        "author": "jun0-ds",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 63.9,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3594085,
+          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
+          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
+          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+          "author": {
+            "username": "jun0-ds",
+            "name": "Jun0",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-01T03:13:10Z",
+          "tags": [
+            "ai",
+            "claudecode",
+            "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            },
+            {
+              "fullName": "forrestchang/andrej-karpathy-skills",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "gsd-build/gsd-2",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "pbakaus--impeccable": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -7077,7 +7307,7 @@
         "author": "stevengonsalvez",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 161.6,
+        "hoursSincePosted": 167.3,
         "readingTime": 12
       },
       "articles": [
@@ -7122,7 +7352,7 @@
         "author": "lizhaopengcn",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 124.3,
+        "hoursSincePosted": 130.1,
         "readingTime": 8
       },
       "articles": [
@@ -7166,7 +7396,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 73.6,
         "readingTime": 7
       },
       "articles": [
@@ -7263,7 +7493,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 151.2,
+        "hoursSincePosted": 157,
         "readingTime": 8
       },
       "articles": [
@@ -7297,104 +7527,6 @@
         }
       ]
     },
-    "github--spec-kit": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592010,
-        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-        "author": "sundr_dev",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 72,
-        "readingTime": 14
-      },
-      "articles": [
-        {
-          "id": 3592010,
-          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
-          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-          "author": {
-            "username": "sundr_dev",
-            "name": "Aleksandr Sakov",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-04-30T13:24:40Z",
-          "tags": [
-            "ai",
-            "claude",
-            "specdrivendevelopment",
-            "programming"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/spec-kit",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-plugins-official",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "anthropics--claude-plugins-official": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592010,
-        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-        "author": "sundr_dev",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 72,
-        "readingTime": 14
-      },
-      "articles": [
-        {
-          "id": 3592010,
-          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
-          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-          "author": {
-            "username": "sundr_dev",
-            "name": "Aleksandr Sakov",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-04-30T13:24:40Z",
-          "tags": [
-            "ai",
-            "claude",
-            "specdrivendevelopment",
-            "programming"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/spec-kit",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-plugins-official",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "gastownhall--beads": {
       "count7d": 2,
       "reactionsSum7d": 1,
@@ -7406,7 +7538,7 @@
         "author": "frr149",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 70,
+        "hoursSincePosted": 75.7,
         "readingTime": 5
       },
       "articles": [
@@ -7492,6 +7624,149 @@
         }
       ]
     },
+    "github--spec-kit": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3592010,
+        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+        "author": "sundr_dev",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 77.7,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3592010,
+          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
+          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+          "author": {
+            "username": "sundr_dev",
+            "name": "Aleksandr Sakov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-30T13:24:40Z",
+          "tags": [
+            "ai",
+            "claude",
+            "specdrivendevelopment",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics--claude-plugins-official": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3592010,
+        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+        "author": "sundr_dev",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 77.7,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3592010,
+          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
+          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+          "author": {
+            "username": "sundr_dev",
+            "name": "Aleksandr Sakov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-30T13:24:40Z",
+          "tags": [
+            "ai",
+            "claude",
+            "specdrivendevelopment",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "abhigyanpatwari--gitnexus": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3604924,
+        "title": "How I stopped Claude Code from hallucinating function names on a 4,000-file repo (with a local MCP server)",
+        "url": "https://dev.to/nike-17/how-i-stopped-claude-code-from-hallucinating-function-names-on-a-4000-file-repo-with-a-local-mcp-jl5",
+        "author": "nike-17",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 1.6,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3604924,
+          "title": "How I stopped Claude Code from hallucinating function names on a 4,000-file repo (with a local MCP server)",
+          "description": "TL;DR: My Claude Code agent kept inventing function names that looked plausible but didn't exist...",
+          "url": "https://dev.to/nike-17/how-i-stopped-claude-code-from-hallucinating-function-names-on-a-4000-file-repo-with-a-local-mcp-jl5",
+          "author": {
+            "username": "nike-17",
+            "name": "Nikita Groshin",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3903349%2Fbe1fac32-c30f-4575-b225-239f86e6fea8.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-03T17:34:20Z",
+          "tags": [
+            "claude",
+            "ai",
+            "productivity",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "abhigyanpatwari/GitNexus",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "nextlevelbuilder--ui-ux-pro-max-skill": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -7503,7 +7778,7 @@
         "author": "sumon4skf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 125.1,
+        "hoursSincePosted": 130.9,
         "readingTime": 2
       },
       "articles": [
@@ -7560,7 +7835,7 @@
         "author": "sumon4skf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 125.1,
+        "hoursSincePosted": 130.9,
         "readingTime": 2
       },
       "articles": [
@@ -7617,7 +7892,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 73.6,
         "readingTime": 7
       },
       "articles": [
@@ -7726,7 +8001,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 33.9,
+        "hoursSincePosted": 39.6,
         "readingTime": 3
       },
       "articles": [
@@ -7903,7 +8178,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.7,
+        "hoursSincePosted": 135.5,
         "readingTime": 9
       },
       "articles": [
@@ -8020,7 +8295,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.7,
+        "hoursSincePosted": 135.5,
         "readingTime": 9
       },
       "articles": [
@@ -8185,7 +8460,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.7,
+        "hoursSincePosted": 135.5,
         "readingTime": 9
       },
       "articles": [
@@ -8254,7 +8529,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.7,
+        "hoursSincePosted": 135.5,
         "readingTime": 9
       },
       "articles": [
@@ -8355,7 +8630,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 56.1,
+        "hoursSincePosted": 61.9,
         "readingTime": 10
       },
       "articles": [
@@ -8458,7 +8733,7 @@
       ]
     },
     "hkuds--nanobot": {
-      "count7d": 2,
+      "count7d": 1,
       "reactionsSum7d": 7,
       "commentsSum7d": 0,
       "topArticle": {
@@ -8468,7 +8743,7 @@
         "author": "truongpx396",
         "reactions": 7,
         "comments": 0,
-        "hoursSincePosted": 125.8,
+        "hoursSincePosted": 131.5,
         "readingTime": 18
       },
       "articles": [
@@ -8492,35 +8767,7 @@
             "webdev",
             "tutorial"
           ],
-          "trendingScore": 0.05,
-          "linkedRepos": [
-            {
-              "fullName": "HKUDS/nanobot",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3592721,
-          "title": "RustyClaw: I'm rewriting an AI agent in Rust (because the meme demands it)",
-          "description": "\"You know what’s great about Rust? It doesn’t let you compile crappy code. You know what sucks?...",
-          "url": "https://dev.to/frr149/rustyclaw-im-rewriting-an-ai-agent-in-rust-because-the-meme-demands-it-280i",
-          "author": {
-            "username": "frr149",
-            "name": "Fernando Rodriguez",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3906301%2F4e64d5c4-6405-4465-9411-41b6e57e3818.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T16:19:50Z",
-          "tags": [
-            "rust",
-            "python",
-            "ai",
-            "llm"
-          ],
-          "trendingScore": 0,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "HKUDS/nanobot",
@@ -8541,7 +8788,7 @@
         "author": "truongpx396",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 126.8,
+        "hoursSincePosted": 132.5,
         "readingTime": 31
       },
       "articles": [
@@ -8614,7 +8861,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 123.9,
+        "hoursSincePosted": 129.6,
         "readingTime": 23
       },
       "articles": [
@@ -8659,7 +8906,7 @@
         "author": "truongpx396",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 124.5,
+        "hoursSincePosted": 130.2,
         "readingTime": 22
       },
       "articles": [
@@ -8704,7 +8951,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 73.6,
         "readingTime": 7
       },
       "articles": [
@@ -8773,7 +9020,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 73.6,
         "readingTime": 7
       },
       "articles": [
@@ -8842,7 +9089,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 73.6,
         "readingTime": 7
       },
       "articles": [
@@ -8911,7 +9158,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 73.6,
         "readingTime": 7
       },
       "articles": [
@@ -8969,85 +9216,40 @@
         }
       ]
     },
-    "defilantech--llmkube": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3555588,
-        "title": "62.2% on Aider Polyglot from a MacBook Pro. Then the other model we tried scored 4%. Here's what actually happened, with a working cost loop attached.",
-        "url": "https://dev.to/defilan/628-on-aider-polyglot-from-a-macbook-pro-then-the-other-model-we-tried-scored-4-heres-what-17ed",
-        "author": "defilan",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 151,
-        "readingTime": 16
-      },
-      "articles": [
-        {
-          "id": 3555588,
-          "title": "62.2% on Aider Polyglot from a MacBook Pro. Then the other model we tried scored 4%. Here's what actually happened, with a working cost loop attached.",
-          "description": "Qwen3.6-35B-A3B Q8 on a MacBook Pro M5 Max scored 62.2% on Aider Polyglot, beating Claude Sonnet 4 with 32k thinking. Then Devstral 2 scored 4% on the same harness but 81.7% on HumanEval+. Plus the InferCost Apple Silicon collector that landed today, validating live cost-per-toke",
-          "url": "https://dev.to/defilan/628-on-aider-polyglot-from-a-macbook-pro-then-the-other-model-we-tried-scored-4-heres-what-17ed",
-          "author": {
-            "username": "defilan",
-            "name": "Christopher Maher",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3828578%2Fd03de6fc-1dcb-419b-b336-0d9c7d86f7cc.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 16,
-          "publishedAt": "2026-04-27T06:24:59Z",
-          "tags": [
-            "kubernetes",
-            "ai",
-            "llm",
-            "opensource"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "defilantech/LLMKube",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "ggml-org--llama-cpp": {
       "count7d": 1,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3596790,
-        "title": "Your AI, Your Rules: Running a Local LLM with GPU Acceleration on Proxmox",
-        "url": "https://dev.to/clintjosy/your-ai-your-rules-running-a-local-llm-with-gpu-acceleration-on-proxmox-1plh",
-        "author": "clintjosy",
+        "id": 3557067,
+        "title": "Google's TurboQuant: 6x KV Cache Compression Without Retraining",
+        "url": "https://dev.to/gabrielanhaia/googles-turboquant-6x-kv-cache-compression-without-retraining-1f3g",
+        "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 44.9,
-        "readingTime": 10
+        "hoursSincePosted": 151.9,
+        "readingTime": 8
       },
       "articles": [
         {
-          "id": 3596790,
-          "title": "Your AI, Your Rules: Running a Local LLM with GPU Acceleration on Proxmox",
-          "description": "From 3 tok/s frustration to 21 tok/s GPU-hybrid inference - a real engineer's guide to self-hosted...",
-          "url": "https://dev.to/clintjosy/your-ai-your-rules-running-a-local-llm-with-gpu-acceleration-on-proxmox-1plh",
+          "id": 3557067,
+          "title": "Google's TurboQuant: 6x KV Cache Compression Without Retraining",
+          "description": "TurboQuant pairs PolarQuant with a QJL residual to shrink KV cache 6x at near-zero quality loss. What it changes for long-context self-hosting.",
+          "url": "https://dev.to/gabrielanhaia/googles-turboquant-6x-kv-cache-compression-without-retraining-1f3g",
           "author": {
-            "username": "clintjosy",
-            "name": "Clint",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3890922%2F410a06d1-1613-46c5-a78b-23600e882992.png"
+            "username": "gabrielanhaia",
+            "name": "Gabriel Anhaia",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2F531a245a-bc24-453e-bb2b-eb7077a3da8b.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-01T16:26:51Z",
+          "readingTime": 8,
+          "publishedAt": "2026-04-27T11:12:24Z",
           "tags": [
+            "ai",
             "llm",
-            "selfhosted",
-            "proxmox",
-            "nvidia"
+            "architecture",
+            "observability"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -9070,7 +9272,7 @@
         "author": "bradleymatera",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 86.7,
+        "hoursSincePosted": 92.5,
         "readingTime": 3
       },
       "articles": [
@@ -9243,7 +9445,7 @@
         "author": "dharshan_a_23835c7dc05682",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 126.9,
+        "hoursSincePosted": 132.6,
         "readingTime": 4
       },
       "articles": [
@@ -9288,7 +9490,7 @@
         "author": "programmersd21",
         "reactions": 5,
         "comments": 1,
-        "hoursSincePosted": 107.3,
+        "hoursSincePosted": 113,
         "readingTime": 4
       },
       "articles": [
@@ -9312,7 +9514,7 @@
             "go",
             "mcp"
           ],
-          "trendingScore": 0.04,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "programmersd21/kairo",
@@ -9333,7 +9535,7 @@
         "author": "mindmnml",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 145.4,
+        "hoursSincePosted": 151.1,
         "readingTime": 5
       },
       "articles": [
@@ -9378,7 +9580,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 160.8,
+        "hoursSincePosted": 166.5,
         "readingTime": 8
       },
       "articles": [
@@ -9440,51 +9642,6 @@
         }
       ]
     },
-    "onyx-dot-app--onyx": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3589531,
-        "title": "Why Chat-with-Docs Breaks in Real Companies: An Engineering Look at Onyx",
-        "url": "https://dev.to/dengkui_yang_fcb5dbe2da32/why-chat-with-docs-breaks-in-real-companies-an-engineering-look-at-onyx-2861",
-        "author": "dengkui_yang_fcb5dbe2da32",
-        "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 81,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3589531,
-          "title": "Why Chat-with-Docs Breaks in Real Companies: An Engineering Look at Onyx",
-          "description": "Based on the onyx.guru page and the Onyx open-source repository reviewed on April 29, 2026.  Most...",
-          "url": "https://dev.to/dengkui_yang_fcb5dbe2da32/why-chat-with-docs-breaks-in-real-companies-an-engineering-look-at-onyx-2861",
-          "author": {
-            "username": "dengkui_yang_fcb5dbe2da32",
-            "name": "dengkui yang",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3891878%2F09738b27-6499-46ca-a364-4d3336583d7d.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T04:21:38Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "rag",
-            "softwareengineering"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "onyx-dot-app/onyx",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "tobi--qmd": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -9496,7 +9653,7 @@
         "author": "yohann_streibel_7e1f7b4b8",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 72.9,
+        "hoursSincePosted": 78.6,
         "readingTime": 15
       },
       "articles": [
@@ -9530,6 +9687,51 @@
         }
       ]
     },
+    "onyx-dot-app--onyx": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3589531,
+        "title": "Why Chat-with-Docs Breaks in Real Companies: An Engineering Look at Onyx",
+        "url": "https://dev.to/dengkui_yang_fcb5dbe2da32/why-chat-with-docs-breaks-in-real-companies-an-engineering-look-at-onyx-2861",
+        "author": "dengkui_yang_fcb5dbe2da32",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 86.8,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3589531,
+          "title": "Why Chat-with-Docs Breaks in Real Companies: An Engineering Look at Onyx",
+          "description": "Based on the onyx.guru page and the Onyx open-source repository reviewed on April 29, 2026.  Most...",
+          "url": "https://dev.to/dengkui_yang_fcb5dbe2da32/why-chat-with-docs-breaks-in-real-companies-an-engineering-look-at-onyx-2861",
+          "author": {
+            "username": "dengkui_yang_fcb5dbe2da32",
+            "name": "dengkui yang",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3891878%2F09738b27-6499-46ca-a364-4d3336583d7d.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 7,
+          "publishedAt": "2026-04-30T04:21:38Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "rag",
+            "softwareengineering"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "onyx-dot-app/onyx",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "langchain-ai--langgraph": {
       "count7d": 3,
       "reactionsSum7d": 0,
@@ -9541,7 +9743,7 @@
         "author": "johalputt",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 68.3,
+        "hoursSincePosted": 74.1,
         "readingTime": 15
       },
       "articles": [
@@ -9642,7 +9844,7 @@
         "author": "dengkui_yang_fcb5dbe2da32",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 101,
+        "hoursSincePosted": 106.8,
         "readingTime": 10
       },
       "articles": [
@@ -9687,7 +9889,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 56.3,
+        "hoursSincePosted": 62,
         "readingTime": 12
       },
       "articles": [
@@ -9752,7 +9954,7 @@
         "author": "sebakubisz",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 27.7,
+        "hoursSincePosted": 33.4,
         "readingTime": 14
       },
       "articles": [
@@ -9801,7 +10003,7 @@
         "author": "sebakubisz",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 27.7,
+        "hoursSincePosted": 33.4,
         "readingTime": 14
       },
       "articles": [
@@ -9847,14 +10049,14 @@
       "reactionsSum7d": 24
     },
     {
+      "fullName": "anthropics/skills",
+      "count7d": 3,
+      "reactionsSum7d": 21
+    },
+    {
       "fullName": "charmbracelet/bubbletea",
       "count7d": 1,
       "reactionsSum7d": 18
-    },
-    {
-      "fullName": "anthropics/skills",
-      "count7d": 2,
-      "reactionsSum7d": 15
     },
     {
       "fullName": "JuliusBrussee/caveman",
@@ -9877,8 +10079,13 @@
       "reactionsSum7d": 9
     },
     {
+      "fullName": "microsoft/typescript-go",
+      "count7d": 1,
+      "reactionsSum7d": 8
+    },
+    {
       "fullName": "HKUDS/nanobot",
-      "count7d": 2,
+      "count7d": 1,
       "reactionsSum7d": 7
     },
     {
@@ -9908,7 +10115,7 @@
     },
     {
       "fullName": "anthropics/claude-code",
-      "count7d": 7,
+      "count7d": 9,
       "reactionsSum7d": 4
     },
     {
@@ -10037,17 +10244,17 @@
       "reactionsSum7d": 0
     },
     {
+      "fullName": "abhigyanpatwari/GitNexus",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
       "fullName": "Alishahryar1/free-claude-code",
       "count7d": 1,
       "reactionsSum7d": 0
     },
     {
       "fullName": "anthropics/claude-plugins-official",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "defilantech/LLMKube",
       "count7d": 1,
       "reactionsSum7d": 0
     },

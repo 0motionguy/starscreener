@@ -31,6 +31,17 @@ export type SocialPlatform =
   | "huggingface"
   | "arxiv";
 
+export interface RepoMentionsPerSource {
+  count24h: number;
+  count7d: number;
+}
+
+export interface RepoMentionsRollup {
+  total24h: number;
+  total7d: number;
+  perSource: Record<SocialPlatform, RepoMentionsPerSource>;
+}
+
 export type Sentiment = "positive" | "neutral" | "negative";
 
 export interface Repo {
@@ -80,6 +91,7 @@ export interface Repo {
   sparklineData: number[]; // 30 data points (daily star counts)
   socialBuzzScore: number; // 0-100
   mentionCount24h: number;
+  mentions?: RepoMentionsRollup;
 
   /**
    * Twitter/X rollup attached from the persisted Twitter signal store.

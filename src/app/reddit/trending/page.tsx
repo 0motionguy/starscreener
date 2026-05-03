@@ -1,5 +1,8 @@
 // /reddit/trending — V4 SourceFeedTemplate consumer.
 
+import { readFileSync } from "fs";
+import { resolve } from "path";
+
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -11,6 +14,7 @@ import {
   refreshRedditAllPostsFromStore,
 } from "@/lib/reddit-all-data";
 import { AllTrendingTabs } from "@/components/reddit-trending/AllTrendingTabs";
+import type { RedditAllPost, RedditAllPostsFile } from "@/lib/reddit-all";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -18,6 +22,36 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 
 export const revalidate = 300;
+
+// SSR safety net — when the in-memory cache is empty (Redis returned `missing`
+// AND the per-Lambda module cache hasn't been seeded yet) the page used to
+// render the cold empty-state even though the bundled JSON snapshot ships
+// with every Vercel build. Read it directly so users always see the most
+// recent committed scan as a floor. Cached at module scope: bundled data is
+// immutable for the deploy lifetime so re-reading per render is wasted work.
+let bundledFallback: { posts: RedditAllPost[]; lastFetchedAt: string } | null =
+  null;
+function loadBundledFallback(): {
+  posts: RedditAllPost[];
+  lastFetchedAt: string;
+} {
+  if (bundledFallback) return bundledFallback;
+  try {
+    const raw = readFileSync(
+      resolve(process.cwd(), "data", "reddit-all-posts.json"),
+      "utf8",
+    );
+    const parsed = JSON.parse(raw) as Partial<RedditAllPostsFile>;
+    bundledFallback = {
+      posts: Array.isArray(parsed.posts) ? (parsed.posts as RedditAllPost[]) : [],
+      lastFetchedAt:
+        typeof parsed.lastFetchedAt === "string" ? parsed.lastFetchedAt : "",
+    };
+  } catch {
+    bundledFallback = { posts: [], lastFetchedAt: "" };
+  }
+  return bundledFallback;
+}
 
 export const metadata: Metadata = {
   title: "Trending on Reddit",
@@ -44,10 +78,33 @@ function formatClock(iso: string | undefined): string {
 
 export default async function RedditTrendingPage() {
   await refreshRedditAllPostsFromStore();
-  const allPostsFetchedAt = getAllPostsFetchedAt();
-  const allPostsCold = isAllPostsCold();
-  const posts = getAllScoredPosts();
-  const stats = getAllPostsStats();
+  let allPostsFetchedAt = getAllPostsFetchedAt();
+  let allPostsCold = isAllPostsCold();
+  let posts = getAllScoredPosts();
+  let stats = getAllPostsStats();
+
+  // SSR fallback: if Redis returned cold/empty (typical on a fresh Lambda
+  // before the first refresh tick lands), splice in the bundled JSON
+  // snapshot so visitors never see the cold empty-state. Bundled data ages
+  // out per deploy but it's strictly better than "no data yet" for a
+  // page hit by 2k+ users/day. The Redis refresh hook overlays fresher
+  // data on the next render once the in-flight read resolves.
+  if (allPostsCold || posts.length === 0) {
+    const fallback = loadBundledFallback();
+    if (fallback.posts.length > 0) {
+      posts = fallback.posts;
+      stats = {
+        totalPosts: fallback.posts.length,
+        breakouts24h: 0,
+        topicsSurfaced: 0,
+        postsWithLinkedRepos: fallback.posts.filter(
+          (p) => Array.isArray(p.linkedRepos) && p.linkedRepos.length > 0,
+        ).length,
+      };
+      allPostsFetchedAt = fallback.lastFetchedAt || allPostsFetchedAt;
+      allPostsCold = false;
+    }
+  }
 
   if (allPostsCold) {
     return (

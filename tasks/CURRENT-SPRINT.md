@@ -80,3 +80,7 @@ See individual phase prompts.
   `https://trendingrepo.com/signals` now contains `signals-chip-count` and
   `--chip-color` markers, and `https://trendingrepo.com/` renders 8
   `cons-row` entries.
+- 2026-05-03 Phase 1.2 hardening pass: added `config/reddit-user-agents.json`,
+  new Redis telemetry/quarantine primitives in `src/lib/pool/reddit-*.ts`,
+  extended `EngineError` with Reddit classes, and wired app + shared Reddit
+  fetch paths to use pool selection with quarantine signaling on 429/403/5xx.

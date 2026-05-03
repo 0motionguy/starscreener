@@ -46,10 +46,10 @@ test("reddit shared: defaults to public-json without oauth creds", async () => {
     async () => {
       assert.equal(hasRedditOAuthCreds(), false);
       assert.equal(getRedditAuthMode(), "public-json");
-      // Default UA is now a Mozilla/Chrome profile (anti-bot workaround for
-      // GH Actions egress IPs); the StarScreener/0.1 UA is only used when
-      // REDDIT_USER_AGENT is set explicitly.
-      assert.match(getRedditUserAgent(), /Mozilla\/5\.0/);
+      assert.equal(
+        getRedditUserAgent(),
+        "trendingrepo-scanner/1.0 (+https://trendingrepo.com)",
+      );
       assert.equal(
         resolveRedditApiUrl("https://www.reddit.com/r/OpenAI/new.json?limit=3"),
         "https://www.reddit.com/r/OpenAI/new.json?limit=3",
@@ -143,7 +143,10 @@ test("reddit shared: fetchRedditJson uses public endpoint without oauth creds", 
         "https://www.reddit.com/r/OpenAI/new/.rss?limit=3",
       );
       assert.equal(calls[0].init.headers.Authorization, undefined);
-      assert.match(calls[0].init.headers["User-Agent"], /Mozilla\/5\.0/);
+      assert.equal(
+        calls[0].init.headers["User-Agent"],
+        "trendingrepo-scanner/1.0 (+https://trendingrepo.com)",
+      );
     },
   );
 });

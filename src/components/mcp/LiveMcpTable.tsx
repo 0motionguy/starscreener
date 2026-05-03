@@ -13,13 +13,19 @@
 //   - Sort defaults to `d24` desc — sortable column headers replace the
 //     old window-tab strip.
 //   - Cold-start banner when no row has 24h Δ yet (snapshots accrue daily).
+//   - 24h/7d/30d delta columns: prefer MCP installs deltas from the
+//     registries; when they're cold (a snapshot hasn't accrued yet) we
+//     fall back to linked GitHub-repo star deltas in the page mapper so
+//     these columns stay non-zero. Sparkline column draws from linked
+//     repo `sparklineData` (same fallback chain) — empty draw when neither
+//     source has values.
 
 import { useMemo, useState } from "react";
 import { ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";
 
 import { EntityLogo } from "@/components/ui/EntityLogo";
 
-type SortKey = "rank" | "use" | "released";
+type SortKey = "rank" | "use" | "released" | "d24" | "d7" | "d30";
 type SortDir = "asc" | "desc";
 
 export interface McpRow {
@@ -34,6 +40,26 @@ export interface McpRow {
   verified: boolean;
   sources: { s: boolean; g: boolean; p: boolean; o: boolean };
   crossSourceCount: number;
+  /**
+   * Delta windows. MCP installs deltas first (from
+   * `mcp.installs24h/7d/30d`); fall back to linked GitHub-repo star
+   * deltas when the registry side-channel hasn't accrued a snapshot yet.
+   * Zero rendered as "—" so cold-start rows don't look fake-positive.
+   */
+  delta24h: number;
+  delta7d: number;
+  delta30d: number;
+  /**
+   * Unit shown next to the delta — "installs" when the MCP registry
+   * provided the number, "stars" when we fell back to the linked repo.
+   * Drives the tooltip; the delta itself is rendered the same way.
+   */
+  deltaUnit: "installs" | "stars" | null;
+  /**
+   * 30 daily values from the linked repo's star sparkline (when MCP has a
+   * trackable repo) or empty array.
+   */
+  sparklineData: number[];
 }
 
 function formatAge(iso: string | null): string {
@@ -122,7 +148,10 @@ function sparkEnd(
   return { x, y };
 }
 
-const __mcpSparkGrad = 0;
+// Stable per-instance id avoids gradient cross-talk when many spark SVGs
+// are mounted in the same DOM. Incremented for each render — same pattern
+// as `__ltSparkGrad` in src/components/home/LiveTopTable.tsx.
+let __mcpSparkGradId = 0;
 
 function compareNumeric(a: number, b: number, dir: SortDir): number {
   return dir === "asc" ? a - b : b - a;
@@ -132,6 +161,12 @@ function getSortValue(row: McpRow, key: SortKey): number {
   switch (key) {
     case "use":
       return row.use;
+    case "d24":
+      return row.delta24h;
+    case "d7":
+      return row.delta7d;
+    case "d30":
+      return row.delta30d;
     case "released":
       return row.releasedAt ? Date.parse(row.releasedAt) || 0 : 0;
     case "rank":
@@ -251,6 +286,28 @@ export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
                 onClick={handleSort}
               />
               <SortHeader
+                label="24h"
+                sortKey="d24"
+                active={sortKey === "d24"}
+                dir={sortDir}
+                onClick={handleSort}
+              />
+              <SortHeader
+                label="7d"
+                sortKey="d7"
+                active={sortKey === "d7"}
+                dir={sortDir}
+                onClick={handleSort}
+              />
+              <SortHeader
+                label="30d"
+                sortKey="d30"
+                active={sortKey === "d30"}
+                dir={sortDir}
+                onClick={handleSort}
+              />
+              <th className="ch">Chart</th>
+              <SortHeader
                 label="Released"
                 sortKey="released"
                 active={sortKey === "released"}
@@ -269,6 +326,12 @@ export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
                     : index === 2
                       ? "rk-3"
                       : "";
+              const unitTitle =
+                row.deltaUnit === "stars"
+                  ? "Linked-repo star delta (registry installs cold-start)"
+                  : row.deltaUnit === "installs"
+                    ? "Registry installs delta"
+                    : "No delta data yet";
               return (
                 <tr key={row.id} className="live-row">
                   <td className={`rk-cell ${rankCls}`}>
@@ -350,13 +413,108 @@ export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
                   <td className="num">
                     {row.use > 0 ? formatCompact(row.use) : "—"}
                   </td>
+                  <td
+                    className={`num metric-num ${
+                      row.delta24h < 0 ? "dn" : row.delta24h > 0 ? "up" : ""
+                    }`}
+                    title={unitTitle}
+                  >
+                    {row.delta24h !== 0 ? formatDelta(row.delta24h) : "—"}
+                  </td>
+                  <td
+                    className={`num metric-num ${
+                      row.delta7d < 0 ? "dn" : row.delta7d > 0 ? "up" : ""
+                    }`}
+                    title={unitTitle}
+                  >
+                    {row.delta7d !== 0 ? formatDelta(row.delta7d) : "—"}
+                  </td>
+                  <td
+                    className={`num metric-num ${
+                      row.delta30d < 0 ? "dn" : row.delta30d > 0 ? "up" : ""
+                    }`}
+                    title={unitTitle}
+                  >
+                    {row.delta30d !== 0 ? formatDelta(row.delta30d) : "—"}
+                  </td>
+                  <td className="ch">
+                    {row.sparklineData.length > 1
+                      ? (() => {
+                          const stroke =
+                            row.delta24h < 0
+                              ? "var(--sig-red)"
+                              : "var(--sig-green)";
+                          const d = sparkPath(row.sparklineData, 72, 24);
+                          const end = sparkEnd(row.sparklineData, 72, 24);
+                          const areaPath = `${d} L71,23 L1,23 Z`;
+                          const gid = `mcps-${(__mcpSparkGradId =
+                            (__mcpSparkGradId + 1) % 1_000_000)}`;
+                          return (
+                            <svg
+                              className="spark-row"
+                              viewBox="0 0 72 24"
+                              preserveAspectRatio="none"
+                            >
+                              <defs>
+                                <linearGradient
+                                  id={gid}
+                                  x1="0"
+                                  x2="0"
+                                  y1="0"
+                                  y2="1"
+                                >
+                                  <stop
+                                    offset="0%"
+                                    stopColor={stroke}
+                                    stopOpacity="0.42"
+                                  />
+                                  <stop
+                                    offset="60%"
+                                    stopColor={stroke}
+                                    stopOpacity="0.12"
+                                  />
+                                  <stop
+                                    offset="100%"
+                                    stopColor={stroke}
+                                    stopOpacity="0"
+                                  />
+                                </linearGradient>
+                              </defs>
+                              <path d={areaPath} fill={`url(#${gid})`} />
+                              <path
+                                d={d}
+                                fill="none"
+                                stroke={stroke}
+                                strokeWidth="1.6"
+                                strokeLinejoin="round"
+                                strokeLinecap="round"
+                                vectorEffect="non-scaling-stroke"
+                              />
+                              <circle
+                                cx={end.x}
+                                cy={end.y}
+                                r="3"
+                                fill={stroke}
+                                opacity="0.22"
+                              />
+                              <circle
+                                cx={end.x}
+                                cy={end.y}
+                                r="1.6"
+                                fill={stroke}
+                              />
+                            </svg>
+                          );
+                        })()
+                      : null}
+                  </td>
                   <td className="num">{formatAge(row.releasedAt)}</td>
                 </tr>
               );
             })}
             {visible.length === 0 ? (
               <tr>
-                <td colSpan={5} className="live-empty">
+                <td colSpan={9} className="live-empty">
                   No MCP servers match this filter.
                 </td>
               </tr>

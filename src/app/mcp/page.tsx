@@ -26,6 +26,9 @@ import {
 } from "@/lib/ecosystem-leaderboards";
 import { mcpEntityLogoUrl } from "@/lib/logos";
 import { absoluteUrl } from "@/lib/seo";
+import { getDerivedRepos } from "@/lib/derived-repos";
+import { refreshTrendingFromStore } from "@/lib/trending";
+import type { Repo } from "@/lib/types";
 
 export const revalidate = 60;
 
@@ -117,9 +120,33 @@ function resolveMcpLogo(item: EcosystemLeaderboardItem): string | null {
 
 // ---- Page -------------------------------------------------------------------
 
+function lookupKeyForMcp(item: EcosystemLeaderboardItem): string | null {
+  // Prefer the explicit `linkedRepo`; otherwise extract owner/name from a
+  // github.com URL. Same fallback chain the home page uses for skill / mcp
+  // rows (src/app/page.tsx ecosystemEntity), so MCP rows surface real
+  // velocity even when the upstream merger left `linkedRepo` null.
+  if (item.linkedRepo) return item.linkedRepo.toLowerCase();
+  if (typeof item.url !== "string") return null;
+  const m = item.url.match(/github\.com\/([^/?#]+)\/([^/?#]+)/i);
+  if (!m) return null;
+  return `${m[1]}/${m[2].replace(/\.git$/i, "")}`.toLowerCase();
+}
+
 export default async function McpPage() {
-  const data = await getMcpSignalData();
+  // Pull MCP board AND fresh trending data so the linked-repo fallback can
+  // surface real GitHub star deltas / sparklines on rows where the registry
+  // installs snapshot is still cold. Same hydration pattern /githubrepo
+  // uses (src/app/githubrepo/page.tsx).
+  const [data] = await Promise.all([
+    getMcpSignalData(),
+    refreshTrendingFromStore(),
+  ]);
   const items = data.board.items;
+  const repos = getDerivedRepos();
+  const repoByFullName = new Map<string, Repo>();
+  for (const r of repos) {
+    repoByFullName.set(r.fullName.toLowerCase(), r);
+  }
 
   const total = items.length;
   const newCount = items.filter(isNewWithin7d).length;
@@ -131,17 +158,53 @@ export default async function McpPage() {
   )[0];
 
   // Build the table rows — only fields with real upstream data. Filter to
-  // rows that carry at least a real `use_count` OR a release date, so we
-  // don't render hundreds of empty placeholder rows.
+  // rows that carry at least a real `use_count` OR a release date OR a
+  // verified-vendor stamp OR a matching trending-board entry (so MCPs whose
+  // host repo is itself trending surface even when the registry hasn't
+  // tagged them yet). The trending-board match is what unlocks the spark
+  // sparkline + 24h/7d/30d star delta on this row.
   const mcpRows: McpRow[] = items
-    .filter(
-      (item) =>
-        (item.popularity ?? 0) > 0 ||
-        Boolean(item.mcp?.lastReleaseAt) ||
-        item.verified,
-    )
+    .filter((item) => {
+      if ((item.popularity ?? 0) > 0) return true;
+      if (Boolean(item.mcp?.lastReleaseAt)) return true;
+      if (item.verified) return true;
+      const lookup = lookupKeyForMcp(item);
+      if (lookup && repoByFullName.has(lookup)) return true;
+      return false;
+    })
     .map((item) => {
       const sources = item.mcp?.sources ?? [];
+      const lookup = lookupKeyForMcp(item);
+      const linkedRepo = lookup ? repoByFullName.get(lookup) : undefined;
+
+      // Prefer the registry's installs delta when the side-channel snapshot
+      // has accrued AND the value is real (non-zero); otherwise fall back to
+      // the linked repo's star delta so the column isn't always +0 during MCP
+      // cold-start. As of 2026-05-04 the upstream snapshot has installs24h=0
+      // on every row (no daily snapshot has accrued yet), so the linked-repo
+      // fallback is the path that actually surfaces velocity today.
+      const installs24h = item.mcp?.installs24h;
+      const installs7d = item.mcp?.installs7d;
+      const installs30d = item.mcp?.installs30d;
+      const hasNonZeroRegistryDelta =
+        (typeof installs24h === "number" && installs24h !== 0) ||
+        (typeof installs7d === "number" && installs7d !== 0) ||
+        (typeof installs30d === "number" && installs30d !== 0);
+      const delta24h = hasNonZeroRegistryDelta
+        ? (installs24h ?? 0)
+        : (linkedRepo?.starsDelta24h ?? 0);
+      const delta7d = hasNonZeroRegistryDelta
+        ? (installs7d ?? 0)
+        : (linkedRepo?.starsDelta7d ?? 0);
+      const delta30d = hasNonZeroRegistryDelta
+        ? (installs30d ?? 0)
+        : (linkedRepo?.starsDelta30d ?? 0);
+      const deltaUnit: McpRow["deltaUnit"] = hasNonZeroRegistryDelta
+        ? "installs"
+        : linkedRepo
+          ? "stars"
+          : null;
+
       return {
         id: item.id,
         title: item.title,
@@ -162,6 +225,11 @@ export default async function McpPage() {
           o: sources.includes("official"),
         },
         crossSourceCount: item.crossSourceCount ?? 1,
+        delta24h,
+        delta7d,
+        delta30d,
+        deltaUnit,
+        sparklineData: linkedRepo?.sparklineData ?? [],
       };
     });
 

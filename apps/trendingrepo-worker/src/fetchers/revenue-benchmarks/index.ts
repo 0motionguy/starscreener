@@ -104,12 +104,41 @@ const fetcher: Fetcher = {
       return done(startedAt, 0, false);
     }
 
-    const [catalog, overlays, metadata, ph] = await Promise.all([
+    // AUDIT-2026-05-04: per-source allSettled so a single Redis flake
+    // doesn't crash the whole fetcher. Same fix as f39cd09d.
+    const READ_KEYS = [
+      'trustmrr-startups',
+      'revenue-overlays',
+      'repo-metadata',
+      'producthunt-launches',
+    ] as const;
+    const reads = await Promise.allSettled([
       readDataStore<CatalogPayload>('trustmrr-startups'),
       readDataStore<OverlaysPayload>('revenue-overlays'),
       readDataStore<RepoMetadataPayload>('repo-metadata'),
       readDataStore<PhLaunchesPayload>('producthunt-launches'),
     ]);
+    const readFailures: Array<{ key: string; err: string }> = [];
+    const values = reads.map((r, i) => {
+      if (r.status === 'fulfilled') return r.value;
+      readFailures.push({
+        key: READ_KEYS[i] ?? `index-${i}`,
+        err: r.reason instanceof Error ? r.reason.message : String(r.reason),
+      });
+      return null;
+    });
+    if (readFailures.length > 0) {
+      ctx.log.warn(
+        { failures: readFailures },
+        'revenue-benchmarks: some reads failed; degrading those sources to null',
+      );
+    }
+    const [catalog, overlays, metadata, ph] = values as [
+      CatalogPayload | null,
+      OverlaysPayload | null,
+      RepoMetadataPayload | null,
+      PhLaunchesPayload | null,
+    ];
 
     if (!catalog || !Array.isArray(catalog.startups) || catalog.startups.length === 0) {
       const msg = 'no trustmrr-startups in Redis - run trustmrr fetcher first';

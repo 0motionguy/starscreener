@@ -358,10 +358,18 @@
     flex-direction: column;
     align-items: flex-start;
     gap: var(--v4-space-5);
+    padding: var(--v4-space-2) 0 var(--v4-space-5);
+  }
+  .v4-page-head__h1 {
+    font-size: 22px;
+  }
+  .v4-page-head__lede {
+    font-size: 12px;
   }
   .v4-page-head__clock {
     margin-left: 0;
     text-align: left;
+    font-size: 9.5px;
   }
 }
 
@@ -703,8 +711,21 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .v4-kpi-cell {
+    padding: 10px 12px;
     border-right: none;
     border-bottom: var(--v4-stroke-1) solid var(--v4-line-100);
+  }
+  .v4-kpi-cell__value {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .v4-kpi-cell__value {
+    font-size: 15px;
+  }
+  .v4-kpi-cell__label {
+    font-size: 8.5px;
   }
 }
 

@@ -4281,36 +4281,65 @@ body::before {
   align-items: center;
   width: 100%;
   height: var(--v4-topbar-height);
-  gap: 14px;
-  padding: 0 14px;
+  gap: 8px;
+  padding: 0 10px;
   border-bottom: 1px solid var(--v4-line-200);
   background: var(--v4-bg-025);
+}
+
+@media (min-width: 768px) {
+  .topbar {
+    gap: 14px;
+    padding: 0 14px;
+  }
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  min-width: var(--v4-sidebar-width);
+  gap: 6px;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .brand {
+    gap: 10px;
+    min-width: var(--v4-sidebar-width);
+  }
 }
 
 .brand-mark {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
   border: 1px solid color-mix(in srgb, var(--v4-acc) 35%, transparent);
   background: color-mix(in srgb, var(--v4-acc) 12%, transparent);
   border-radius: 6px;
   box-shadow: none;
 }
 
+@media (min-width: 768px) {
+  .brand-mark {
+    width: 24px;
+    height: 24px;
+  }
+}
+
 .brand-name {
   color: var(--v4-ink-100);
-  font-size: var(--font-size-4xl);
+  font-size: 11px;
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--tracking-wide);
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .brand-name {
+    font-size: var(--font-size-4xl);
+  }
 }
 
 .brand-sub {
@@ -4340,6 +4369,15 @@ body::before {
   align-items: center;
   gap: 8px;
   margin-left: auto;
+}
+
+@media (max-width: 767px) {
+  .topbar-actions .pill {
+    height: 32px;
+    padding: 0 8px;
+    gap: 4px;
+    font-size: 10px;
+  }
 }
 
 .sidebar {

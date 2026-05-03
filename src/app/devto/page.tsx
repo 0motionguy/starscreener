@@ -152,7 +152,10 @@ export default async function DevtoPage() {
         list={
           <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-6">
             <section>
-              <WindowedArticlesFeed allArticles={trendingFile.articles} />
+              <WindowedArticlesFeed
+                allArticles={trendingFile.articles}
+                fetchedAt={trendingFile.fetchedAt}
+              />
             </section>
             <aside className="hidden md:block">
               <Leaderboard
@@ -170,7 +173,18 @@ export default async function DevtoPage() {
 // AUDIT-2026-05-04 follow-up: 24h/7d/30d window switcher on /devto.
 // Articles carry `publishedAt` ISO; filter into windows server-side and
 // let the client toggle which pre-rendered table to mount.
-function WindowedArticlesFeed({ allArticles }: { allArticles: DevtoArticle[] }) {
+//
+// P0 INCIDENT 2026-05-02: when the most-recent scrape is >24h old, the
+// 24h tab renders 0 articles and the page LOOKS broken. The empty-state
+// subtitle now explains scrape lag + nudges the user to a populated
+// window so they don't conclude "DEV.TO COMPLETE BROKEN FUCKED UP".
+function WindowedArticlesFeed({
+  allArticles,
+  fetchedAt,
+}: {
+  allArticles: DevtoArticle[];
+  fetchedAt: string | undefined;
+}) {
   const HOUR_MS = 3_600_000;
   const nowMs = Date.now();
   const sortByScore = (list: DevtoArticle[]) =>
@@ -188,14 +202,46 @@ function WindowedArticlesFeed({ allArticles }: { allArticles: DevtoArticle[] }) 
   const w24h = inWindow(24 * HOUR_MS);
   const w7d = inWindow(7 * 24 * HOUR_MS);
   const w30d = inWindow(30 * 24 * HOUR_MS);
+
+  // Compute scrape-lag context so the 24h-empty case isn't a silent
+  // dead-end. Pick the freshest window with rows so the hint is actionable.
+  const scrapeAgeH =
+    fetchedAt && Number.isFinite(Date.parse(fetchedAt))
+      ? Math.max(0, (nowMs - Date.parse(fetchedAt)) / HOUR_MS)
+      : null;
+  const scrapeAgeLabel =
+    scrapeAgeH === null
+      ? "data refreshing"
+      : scrapeAgeH < 1
+        ? "<1h ago"
+        : scrapeAgeH < 24
+          ? `${Math.round(scrapeAgeH)}h ago`
+          : `${Math.round(scrapeAgeH / 24)}d ago`;
+  const fallbackWin: "7d" | "30d" | null =
+    w7d.length > 0 ? "7d" : w30d.length > 0 ? "30d" : null;
+  const emptyHint = (win: "24h" | "7d" | "30d") => {
+    const parts = [`Last scrape ${scrapeAgeLabel}.`];
+    if (fallbackWin && fallbackWin !== win) {
+      parts.push(`Try the ${fallbackWin} window — currently rendering data.`);
+    } else {
+      parts.push("Cron refreshes every 3h — fresh articles land soon.");
+    }
+    return parts.join(" ");
+  };
   return (
     <WindowedFeedTable
       count24h={w24h.length}
       count7d={w7d.length}
       count30d={w30d.length}
-      table24h={<ArticlesFeed articles={w24h} />}
-      table7d={<ArticlesFeed articles={w7d} />}
-      table30d={<ArticlesFeed articles={w30d} />}
+      table24h={
+        <ArticlesFeed articles={w24h} emptySubtitle={emptyHint("24h")} />
+      }
+      table7d={
+        <ArticlesFeed articles={w7d} emptySubtitle={emptyHint("7d")} />
+      }
+      table30d={
+        <ArticlesFeed articles={w30d} emptySubtitle={emptyHint("30d")} />
+      }
       defaultWindow="7d"
     />
   );
@@ -203,7 +249,13 @@ function WindowedArticlesFeed({ allArticles }: { allArticles: DevtoArticle[] }) 
 
 type DevtoArticle = ReturnType<typeof getDevtoTopArticles>[number];
 
-function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
+function ArticlesFeed({
+  articles,
+  emptySubtitle,
+}: {
+  articles: DevtoArticle[];
+  emptySubtitle?: string;
+}) {
   const columns: FeedColumn<DevtoArticle>[] = [
     {
       id: "rank",
@@ -350,6 +402,8 @@ function ArticlesFeed({ articles }: { articles: DevtoArticle[] }) {
       rowKey={(a) => String(a.id)}
       accent={DEVTO_BLUE}
       caption="Top dev.to articles ranked by velocity score"
+      emptyTitle="// no articles in this window yet"
+      emptySubtitle={emptySubtitle}
     />
   );
 }

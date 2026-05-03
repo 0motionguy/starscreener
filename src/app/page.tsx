@@ -24,6 +24,7 @@ import {
   type LiveSkill,
   type LiveMcp,
 } from "@/components/home/LiveTopTable";
+import { Tr100IndexChart, type Tr100Point } from "@/components/home/Tr100IndexChart";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { ChartStat, ChartStats } from "@/components/ui/ChartShell";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
@@ -467,6 +468,41 @@ export default async function HomePage() {
     .sort((a, b) => b.starsDelta24h - a.starsDelta24h)
     .slice(0, 20);
 
+  // TR-100 Index (// 06): aggregate the top-100 repos' daily sparklines
+  // into one 30-day cumulative-stars index. The previous inline SVG
+  // jammed `flatMap(spark.slice(-2))` from 30 unrelated repos into a
+  // single line, producing the cliff-edge zigzag the user complained
+  // about. Sum-by-day gives a smooth, monotonic line.
+  const tr100Top = [...repos]
+    .sort((a, b) => b.momentumScore - a.momentumScore)
+    .slice(0, 100);
+  const SERIES_DAYS = 30;
+  const dayMs = 86_400_000;
+  const fetchedTs = Date.parse(lastFetchedAt);
+  const todayStart = Number.isFinite(fetchedTs)
+    ? Math.floor(fetchedTs / dayMs) * dayMs
+    : Math.floor(Date.now() / dayMs) * dayMs;
+  const dailySum = new Array<number>(SERIES_DAYS).fill(0);
+  for (const repo of tr100Top) {
+    const spark = Array.isArray(repo.sparklineData) ? repo.sparklineData : [];
+    if (spark.length === 0) continue;
+    // Right-align the per-repo sparkline in our 30-day window so the
+    // most recent datapoint lines up with `today`. Repos with shorter
+    // history pad-left with their first known star count (preserves
+    // monotonicity instead of dropping to zero).
+    const offset = SERIES_DAYS - spark.length;
+    const seed = spark[0] ?? 0;
+    for (let i = 0; i < SERIES_DAYS; i++) {
+      const idx = i - offset;
+      const value = idx < 0 ? seed : (spark[idx] ?? spark[spark.length - 1] ?? 0);
+      if (Number.isFinite(value)) dailySum[i] += value;
+    }
+  }
+  const tr100Series: Tr100Point[] = dailySum.map((value, i) => ({
+    ts: todayStart - (SERIES_DAYS - 1 - i) * dayMs,
+    value,
+  }));
+
   const skillsBoard = skillsItems
     ? skillsItems.slice(0, 7).map((item) => ecosystemEntity(item, "skill"))
     : topCategoryFallback(repos, ["ai-agents", "ai-ml", "devtools"], 7);
@@ -663,19 +699,7 @@ export default async function HomePage() {
             <span className="right">30d / <b>{formatCompact(total30d)}</b></span>
           </div>
           <div className="chart-wrap">
-            <svg viewBox="0 0 1100 280" preserveAspectRatio="none" aria-label="TrendingRepo index trend">
-              <path
-                d={sparkPath(
-                  itemListTop.flatMap((repo) => repo.sparklineData.slice(-2)).slice(-30),
-                  1100,
-                  280,
-                )}
-                fill="none"
-                stroke="var(--acc)"
-                strokeWidth="2"
-                vectorEffect="non-scaling-stroke"
-              />
-            </svg>
+            <Tr100IndexChart points={tr100Series} />
           </div>
           <ChartStats>
             <ChartStat label="today / stars" value={formatCompact(total24h)} sub="+24h aggregate" />

@@ -49,6 +49,11 @@ interface SourceMeta {
   writtenAt?: string;
 }
 
+interface TimestampProbe {
+  timestamp: string | null;
+  status: SourceStatus;
+}
+
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
 
@@ -166,49 +171,58 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
   },
 ];
 
-function isSuccessfulMeta(meta: SourceMeta): boolean {
-  return meta.reason !== "network_error";
-}
-
 function parseIso(candidate: string | null | undefined): string | null {
   if (!candidate) return null;
   const ms = Date.parse(candidate);
   return Number.isFinite(ms) ? new Date(ms).toISOString() : null;
 }
 
-async function readMetaTimestamp(source: string): Promise<string | null> {
+function metaStatus(meta: SourceMeta): SourceStatus {
+  if (meta.reason === "ok" || meta.reason === "empty_results") return "GREEN";
+  if (meta.reason === "partial") return "YELLOW";
+  return "RED";
+}
+
+async function readMetaProbe(source: string): Promise<TimestampProbe> {
   try {
     const raw = await readFile(
       resolve(process.cwd(), "data", "_meta", `${source}.json`),
       "utf8",
     );
     const meta = JSON.parse(raw) as SourceMeta;
-    if (!isSuccessfulMeta(meta)) return null;
-    return parseIso(meta.ts ?? meta.writtenAt);
+    const timestamp = parseIso(meta.ts ?? meta.writtenAt);
+    return {
+      timestamp,
+      status: timestamp ? metaStatus(meta) : "DEAD",
+    };
   } catch {
-    return null;
+    return { timestamp: null, status: "DEAD" };
   }
 }
 
-async function readStoreTimestamp(slug: string): Promise<string | null> {
+async function readStoreProbe(slug: string): Promise<TimestampProbe> {
   try {
-    return parseIso(await getDataStore().writtenAt(slug));
+    const timestamp = parseIso(await getDataStore().writtenAt(slug));
+    return {
+      timestamp,
+      status: timestamp ? "GREEN" : "DEAD",
+    };
   } catch {
-    return null;
+    return { timestamp: null, status: "DEAD" };
   }
 }
 
-function latestIso(candidates: Array<string | null>): string | null {
-  let latest: string | null = null;
-  let latestMs = -Infinity;
+function oldestIso(candidates: Array<string | null>): string | null {
+  let oldest: string | null = null;
+  let oldestMs = Infinity;
   for (const candidate of candidates) {
     const ms = candidate ? Date.parse(candidate) : NaN;
-    if (Number.isFinite(ms) && ms > latestMs) {
-      latest = new Date(ms).toISOString();
-      latestMs = ms;
+    if (Number.isFinite(ms) && ms < oldestMs) {
+      oldest = new Date(ms).toISOString();
+      oldestMs = ms;
     }
   }
-  return latest;
+  return oldest;
 }
 
 function classify(ageMs: number | null, budgetMs: number): SourceStatus {
@@ -219,22 +233,42 @@ function classify(ageMs: number | null, budgetMs: number): SourceStatus {
   return "GREEN";
 }
 
+function maxStatus(...statuses: SourceStatus[]): SourceStatus {
+  const rank: Record<SourceStatus, number> = {
+    GREEN: 0,
+    YELLOW: 1,
+    RED: 2,
+    DEAD: 3,
+  };
+  return statuses.reduce((worst, status) =>
+    rank[status] > rank[worst] ? status : worst,
+  );
+}
+
 async function inspectSource(spec: SourceSpec, nowMs: number): Promise<SourceState> {
-  const candidates = await Promise.all([
-    spec.metaSource ? readMetaTimestamp(spec.metaSource) : Promise.resolve(null),
-    ...spec.redisSlugs.map((slug) => readStoreTimestamp(slug)),
+  const probes = await Promise.all([
+    spec.metaSource
+      ? readMetaProbe(spec.metaSource)
+      : Promise.resolve<TimestampProbe>({ timestamp: null, status: "GREEN" }),
+    ...spec.redisSlugs.map((slug) => readStoreProbe(slug)),
   ]);
-  const lastUpdate = latestIso(candidates);
+  // Use the oldest required timestamp so a fresh sibling artifact cannot mask
+  // a stale or missing payload under the same source group.
+  const lastUpdate = oldestIso(probes.map((probe) => probe.timestamp));
   const ageMs = lastUpdate
     ? Math.max(0, nowMs - Date.parse(lastUpdate))
     : null;
+  const status = maxStatus(
+    classify(ageMs, spec.budgetMs),
+    ...probes.map((probe) => probe.status),
+  );
 
   return {
     name: spec.name,
     lastUpdate,
     freshnessBudget: spec.budgetLabel,
     ageMs,
-    status: classify(ageMs, spec.budgetMs),
+    status,
   };
 }
 

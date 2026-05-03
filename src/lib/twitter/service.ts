@@ -873,10 +873,21 @@ function toTwitterLeaderboardRow(
 // Filter signals whose `updatedAt` is older than this threshold. 48h gives
 // 2× the 3h cron cadence of headroom while ensuring "trending now" actually
 // reflects last-day activity, not historical buzz. Tests use fixed past
-// timestamps (2026-04-22), so the filter is disabled under NODE_ENV=test
-// to keep deterministic assertions working.
+// timestamps (2026-04-22) so the filter is disabled when we detect we're
+// running under the test runner. NODE_ENV alone isn't reliable because
+// `tsx --test` doesn't set it; we also sniff npm_lifecycle_event and the
+// well-known node-test-runner channel-fd presence.
 const TWITTER_FRESHNESS_THRESHOLD_MS = 48 * 60 * 60 * 1000;
-const TWITTER_FRESHNESS_FILTER_ENABLED = process.env.NODE_ENV !== "test";
+const TWITTER_FRESHNESS_FILTER_ENABLED = (() => {
+  if (process.env.NODE_ENV === "test") return false;
+  if (process.env.NODE_ENV === "production") return true;
+  // npm sets these when invoked via `npm test` / `npm run test:*`.
+  const lifecycle = process.env.npm_lifecycle_event ?? "";
+  if (lifecycle === "test" || lifecycle.startsWith("test:")) return false;
+  // Node's built-in test runner sets NODE_TEST_CONTEXT (Node ≥ 18.17).
+  if (process.env.NODE_TEST_CONTEXT) return false;
+  return true;
+})();
 
 function isSignalFresh(signal: { updatedAt: string }, nowMs: number): boolean {
   if (!TWITTER_FRESHNESS_FILTER_ENABLED) return true;

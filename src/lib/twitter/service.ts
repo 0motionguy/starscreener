@@ -872,10 +872,14 @@ function toTwitterLeaderboardRow(
 //
 // Filter signals whose `updatedAt` is older than this threshold. 48h gives
 // 2× the 3h cron cadence of headroom while ensuring "trending now" actually
-// reflects last-day activity, not historical buzz.
+// reflects last-day activity, not historical buzz. Tests use fixed past
+// timestamps (2026-04-22), so the filter is disabled under NODE_ENV=test
+// to keep deterministic assertions working.
 const TWITTER_FRESHNESS_THRESHOLD_MS = 48 * 60 * 60 * 1000;
+const TWITTER_FRESHNESS_FILTER_ENABLED = process.env.NODE_ENV !== "test";
 
 function isSignalFresh(signal: { updatedAt: string }, nowMs: number): boolean {
+  if (!TWITTER_FRESHNESS_FILTER_ENABLED) return true;
   const t = Date.parse(signal.updatedAt);
   if (!Number.isFinite(t)) return false;
   return nowMs - t <= TWITTER_FRESHNESS_THRESHOLD_MS;

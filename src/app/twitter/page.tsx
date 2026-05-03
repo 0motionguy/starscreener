@@ -25,6 +25,7 @@ import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { MarkVisited } from "@/components/layout/MarkVisited";
 
 const X_BLUE = "var(--v4-src-x)";
 
@@ -308,6 +309,7 @@ export default async function TwitterPage({
   if (cold) {
     return (
       <main className="home-surface">
+        <MarkVisited routeKey="twitter" count={stats.reposWithMentions} />
         <SourceFeedTemplate
           crumb={
             <>
@@ -348,6 +350,7 @@ export default async function TwitterPage({
 
   return (
     <main className="home-surface">
+      <MarkVisited routeKey="twitter" count={stats.reposWithMentions} />
       <SourceFeedTemplate
         crumb={
           <>

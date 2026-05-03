@@ -38,6 +38,7 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { RankRow } from "@/components/ui/RankRow";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { MarkVisited } from "@/components/layout/MarkVisited";
 import {
   SkillsTopTable,
   type SkillRow,
@@ -240,6 +241,7 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
 
   return (
     <main className="home-surface">
+      <MarkVisited routeKey="skills" count={items.length} />
       <PageHead
         crumb={
           <>

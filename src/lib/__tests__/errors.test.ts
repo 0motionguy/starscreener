@@ -2,14 +2,19 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import {
+  ApifyQuotaError,
+  ApifyTokenInvalidError,
   GithubInvalidTokenError,
   GithubPoolExhaustedError,
   GithubRateLimitError,
   GithubRecoverableError,
+  NitterAllInstancesDownError,
+  NitterInstanceDownError,
   RedditBlockedError,
   RedditPoolExhaustedError,
   RedditRateLimitError,
   RedditRecoverableError,
+  TwitterAllSourcesFailedError,
 } from "../errors";
 
 test("GitHub engine errors expose category, source, and metadata", () => {
@@ -64,6 +69,48 @@ test("Reddit engine errors expose category, source, and metadata", () => {
   for (const { err, category } of cases) {
     assert.equal(err.category, category);
     assert.equal(err.source, "reddit");
+    assert.equal(err.name, err.constructor.name);
+    assert.ok(err instanceof Error);
+    assert.equal(typeof err.metadata, "object");
+  }
+});
+
+test("Twitter engine errors expose category, source, and metadata", () => {
+  const cases = [
+    {
+      err: new ApifyQuotaError("apify quota exceeded", { status: 429 }),
+      category: "quarantine",
+      source: "twitter-apify",
+    },
+    {
+      err: new ApifyTokenInvalidError("apify token invalid", { status: 401 }),
+      category: "quarantine",
+      source: "twitter-apify",
+    },
+    {
+      err: new NitterInstanceDownError("nitter instance down", { status: 503 }),
+      category: "quarantine",
+      source: "twitter-nitter",
+    },
+    {
+      err: new NitterAllInstancesDownError("all nitter instances down", {
+        checked: 5,
+      }),
+      category: "fatal",
+      source: "twitter-nitter",
+    },
+    {
+      err: new TwitterAllSourcesFailedError("all twitter sources failed", {
+        repoFullName: "owner/repo",
+      }),
+      category: "fatal",
+      source: "twitter",
+    },
+  ] as const;
+
+  for (const { err, category, source } of cases) {
+    assert.equal(err.category, category);
+    assert.equal(err.source, source);
     assert.equal(err.name, err.constructor.name);
     assert.ok(err instanceof Error);
     assert.equal(typeof err.metadata, "object");

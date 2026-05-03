@@ -47,6 +47,13 @@ const ACTOR_ID = 'apidojo~tweet-scraper';
 const ACTOR_RUN_TIMEOUT_MS = 5 * 60 * 1000; // 5 min Apify-side cap.
 const HTTP_TIMEOUT_MS = 6 * 60 * 1000; // 6 min — leave headroom past actor cap.
 const MAX_TWEETS_PER_QUERY = 100;
+const NITTER_INSTANCES = [
+  'https://nitter.net',
+  'https://nitter.privacydev.net',
+  'https://nitter.poast.org',
+  'https://nitter.cz',
+  'https://nitter.unixfox.eu',
+];
 
 interface FundingSignal {
   id: string;
@@ -227,6 +234,97 @@ export async function runTweetScraper(
   return json as TweetLike[];
 }
 
+export async function scrapeTwitterFor(
+  query: string,
+  token: string,
+): Promise<TweetLike[]> {
+  try {
+    return await runTweetScraper(token, {
+      searchTerms: [query],
+      maxItems: MAX_TWEETS_PER_QUERY,
+      sort: 'Latest',
+      tweetLanguage: 'en',
+    });
+  } catch (apifyError) {
+    const nitterErrors: string[] = [];
+    for (const baseUrl of NITTER_INSTANCES) {
+      try {
+        const rssUrl = `${baseUrl}/search/rss?q=${encodeURIComponent(query)}`;
+        const response = await fetchWithTimeout(rssUrl, {
+          timeoutMs: 20_000,
+          headers: {
+            Accept: 'application/rss+xml, application/xml, text/xml',
+            'User-Agent': 'trendingrepo-x-funding-fallback/1.0 (+https://trendingrepo.com)',
+          },
+        });
+        if (!response.ok) {
+          nitterErrors.push(`${baseUrl}: HTTP ${response.status}`);
+          continue;
+        }
+        const xml = await response.text();
+        return parseNitterRssToTweets(xml);
+      } catch (error) {
+        nitterErrors.push(
+          `${baseUrl}: ${error instanceof Error ? error.message : String(error)}`,
+        );
+      }
+    }
+
+    const apifyMessage =
+      apifyError instanceof Error ? apifyError.message : String(apifyError);
+    throw new Error(
+      `twitter-all-sources-failed apify=${apifyMessage} nitter=${nitterErrors.join(' | ')}`,
+    );
+  }
+}
+
+function parseNitterRssToTweets(xml: string): TweetLike[] {
+  const out: TweetLike[] = [];
+  const items = xml.match(/<item\b[\s\S]*?<\/item>/gi) ?? [];
+  for (const item of items) {
+    const title = decodeRssText(extractTag(item, 'title'));
+    const link = decodeRssText(extractTag(item, 'link'));
+    const pubDate = decodeRssText(extractTag(item, 'pubDate'));
+    const creator = decodeRssText(extractTag(item, 'dc:creator') ?? extractTag(item, 'creator'));
+    if (!title || !link || !pubDate) continue;
+    const publishedMs = Date.parse(pubDate);
+    if (!Number.isFinite(publishedMs)) continue;
+    out.push({
+      text: stripHtml(title),
+      url: link,
+      createdAt: new Date(publishedMs).toISOString(),
+      username: creator?.replace(/^@/, '').trim() || undefined,
+    });
+  }
+  return out;
+}
+
+function extractTag(block: string, tag: string): string | null {
+  const escaped = tag.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(`<${escaped}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${escaped}>`, 'i');
+  const match = block.match(re);
+  return match ? unwrapCdata(match[1] ?? '').trim() : null;
+}
+
+function unwrapCdata(value: string): string {
+  const match = value.match(/^\s*<!\[CDATA\[([\s\S]*?)\]\]>\s*$/);
+  return match ? (match[1] ?? value) : value;
+}
+
+function decodeRssText(value: string | null): string | null {
+  if (value === null) return null;
+  return value
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'");
+}
+
+function stripHtml(value: string): string {
+  return value.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
 // ---------------------------------------------------------------------------
 // Fetcher
 // ---------------------------------------------------------------------------
@@ -278,12 +376,7 @@ const fetcher: Fetcher = {
       ctx.log.info({ query }, 'x-funding apify run');
       let tweets: TweetLike[] = [];
       try {
-        tweets = await runTweetScraper(token, {
-          searchTerms: [query],
-          maxItems: MAX_TWEETS_PER_QUERY,
-          sort: 'Latest',
-          tweetLanguage: 'en',
-        });
+        tweets = await scrapeTwitterFor(query, token);
       } catch (err) {
         failedQueries.push(query);
         ctx.log.warn(

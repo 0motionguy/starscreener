@@ -24,7 +24,6 @@ import {
   TwitterWebProvider,
   type TwitterWebPost,
 } from "./_twitter-web-provider";
-import { ApifyTwitterProvider } from "./_apify-twitter-provider";
 import { extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeSourceMeta } from "./_data-meta.mjs";
@@ -42,6 +41,7 @@ import {
 import { ensureTwitterReady, flushTwitterPersist } from "../src/lib/twitter/storage";
 import { getRepoMetadata, listRepoMetadata, type RepoMetadata } from "../src/lib/repo-metadata";
 import { slugToId } from "../src/lib/utils";
+import { scrapeTwitterFor } from "../src/lib/pool/twitter-fallback";
 import type {
   TwitterIngestRequest,
   TwitterQuery,
@@ -664,7 +664,6 @@ async function collectFromWeb(
 }
 
 async function collectFromApify(
-  provider: ApifyTwitterProvider,
   query: TwitterQuery,
   options: CliOptions,
 ): Promise<CollectorRawPost[]> {
@@ -674,10 +673,11 @@ async function collectFromApify(
   const limit = options.postsPerQuery > 0 ? Math.min(options.postsPerQuery, 100) : 25;
 
   try {
-    const posts = await provider.search({
+    const posts = await scrapeTwitterFor(searchQuery, {
       query: searchQuery,
       sinceISO,
       limit,
+      timeoutMs: options.timeoutMs,
     });
     const mapped = posts.map(webPostToRawPost);
     return capQueryPosts(mapped, options);
@@ -797,14 +797,6 @@ async function main(): Promise<void> {
     log(`web-provider initialized with ${accounts.length} account(s)`);
   }
 
-  let apifyProvider: ApifyTwitterProvider | null = null;
-  if (options.provider === "apify") {
-    apifyProvider = new ApifyTwitterProvider({
-      timeoutMs: options.timeoutMs,
-    });
-    log(`apify-provider initialized (actor=${apifyProvider.getActor()})`);
-  }
-
   const payloads: TwitterIngestRequest[] = [];
 
   log(
@@ -848,12 +840,12 @@ async function main(): Promise<void> {
                 posts = [];
               }
             }
-          } else if (options.provider === "apify" && apifyProvider) {
+          } else if (options.provider === "apify") {
             if (repoWebExhausted) {
               posts = [];
             } else {
               try {
-                posts = await collectFromApify(apifyProvider, query, options);
+                posts = await collectFromApify(query, options);
               } catch (error) {
                 const message = error instanceof Error ? error.message : String(error);
                 log(
@@ -921,12 +913,6 @@ async function main(): Promise<void> {
     const stats = webProvider.getStats();
     log(
       `web-provider stats requests=${stats.requests} errors=${stats.errors} healthy=${stats.accountsHealthy} rateLimited=${stats.accountsRateLimited}`,
-    );
-  }
-  if (apifyProvider) {
-    const stats = apifyProvider.getStats();
-    log(
-      `apify-provider stats requests=${stats.requests} errors=${stats.errors} lastError=${stats.lastError ?? "none"}`,
     );
   }
   log(`done payloads=${payloads.length} posts=${postCount}`);

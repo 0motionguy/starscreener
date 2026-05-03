@@ -50,3 +50,28 @@ export class RedditRecoverableError extends EngineError {
   readonly category = "recoverable" as const;
   readonly source = "reddit";
 }
+
+export class ApifyQuotaError extends EngineError {
+  readonly category = "quarantine" as const;
+  readonly source = "twitter-apify";
+}
+
+export class ApifyTokenInvalidError extends EngineError {
+  readonly category = "quarantine" as const;
+  readonly source = "twitter-apify";
+}
+
+export class NitterInstanceDownError extends EngineError {
+  readonly category = "quarantine" as const;
+  readonly source = "twitter-nitter";
+}
+
+export class NitterAllInstancesDownError extends EngineError {
+  readonly category = "fatal" as const;
+  readonly source = "twitter-nitter";
+}
+
+export class TwitterAllSourcesFailedError extends EngineError {
+  readonly category = "fatal" as const;
+  readonly source = "twitter";
+}

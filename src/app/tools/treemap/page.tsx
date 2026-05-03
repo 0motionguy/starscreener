@@ -37,26 +37,22 @@ import type { Repo } from "@/lib/types";
 export const runtime = "nodejs";
 export const revalidate = 1800;
 
-export const metadata: Metadata = {
-  // Layout template appends ` — TrendingRepo`; bare title here.
-  title: "Treemap Explorer",
-  description:
-    "Interactive treemap of trending GitHub repos sized by stars or momentum, grouped by primary language. Hover for per-repo metrics.",
-  alternates: { canonical: "/tools/treemap" },
-  openGraph: {
-    title: "Treemap Explorer — TrendingRepo",
-    description:
-      "Visual map of trending repos sized by stars or momentum, grouped by language.",
-    url: "/tools/treemap",
-    type: "website",
-  },
-};
-
+// Single metadata source — Next.js forbids exporting both `metadata` and
+// `generateMetadata` from the same route. Layout template at app/layout.tsx:65
+// appends ` — TrendingRepo` so the page-level title is bare.
 export function generateMetadata(): Metadata {
   return {
-    title: "Treemap explorer — TrendingRepo",
+    title: "Treemap Explorer",
     description:
-      "Visualize the top repos by star count and momentum, grouped by language. Two views drawn from the same momentum pipeline.",
+      "Interactive treemap of trending GitHub repos sized by stars or momentum, grouped by primary language. Hover for per-repo metrics.",
+    alternates: { canonical: "/tools/treemap" },
+    openGraph: {
+      title: "Treemap Explorer — TrendingRepo",
+      description:
+        "Visual map of trending repos sized by stars or momentum, grouped by language.",
+      url: "/tools/treemap",
+      type: "website",
+    },
   };
 }
 

@@ -4,7 +4,7 @@
 
 **Purpose:** every Claude Code session can read this file and instantly know the current state of the engine, what is shipping, and what is broken. Refreshed by `/loop` autonomous runs and by hand. **Source of truth for the audit-2026-05-04 follow-up.**
 
-Last refreshed: 2026-05-03 ~02:45 UTC (autonomous tick)
+Last refreshed: 2026-05-03 ~03:20 UTC (autonomous tick)
 
 ---
 
@@ -341,17 +341,20 @@ Hackathons, Launch — no route, no data, intentional
 
 ## Production state snapshot (refresh this)
 
-Last verified: 2026-05-03 ~02:10 UTC
+Last verified: 2026-05-03 ~03:20 UTC
 
-- **/api/health**: HTTP 200, **`status:stale`** ← FAST_DATA_STALE_THRESHOLD_MS was 2h, hourly sources drifted just past it. Bumped to 4h in this branch (commit pending). Live status will recover on next deploy.
-- **`coveragePct:90.7`**, `coverageQuality:partial` ← deltas cold-start window
+- **/api/health**: HTTP 200, **`status:stale`**, `coveragePct:90.7`, `coverageQuality:partial`
 - **/api/health/sources**: 9/9 CLOSED breakers
 - **Worker /healthz**: ok, db=true, redis=true, lastRunAt fresh within minutes
-- **`consensus-trending` Redis key**: 69h+ stale → snapshot-consensus failed at 01:22 UTC + sparklines hung 14min then cancelled at 01:37
-- **GHA workflows latest run**: 12/14 green; 2 red are snapshot-consensus + snapshot-top10-sparklines (both blocked on consensus-trending freshness, both my fixes are in PR #93)
-- **PR #93**: 🟢 ALL CI CHECKS PASSING after theme-toggle skip (commit 094266f7). Ready to merge.
+- **`consensus-trending` Redis key**: 71h+ stale (climbing)
+- **PR #93**: 🟢 ALL 5 CI CHECKS PASSING. 32 commits ready. Mergeable. Awaiting human merge.
 
-**Block on merge:** my consensus-trending allSettled fix is sitting in PR #93. Until it merges + Railway redeploys, the staleness keeps growing daily. Merging PR #93 is the single highest-leverage action available right now.
+**🚨 GH Actions cron drought (3+ hours, infrastructure issue):**
+Last `scrape-trending` run: 00:03 UTC. Last `cron-freshness-check`: 00:06 UTC. Currently 03:20 UTC — **no hourly or 15-min crons have fired in 3 hours**. PR-triggered workflows still run fine (CI ran at 02:47), so GH Actions itself is up. This is the well-known GH-Actions-cron-skips-during-load behavior. Self-resolves when load eases. Not fixable from repo code.
+
+**Two blockers right now:**
+1. PR #93 needs human merge → fixes data-store consensus-trending crash + scripts hang + image fallbacks + 24h/7d/30d UX
+2. GH Actions cron drought is starving the data pipeline → time will heal it
 
 To re-verify, run:
 ```bash

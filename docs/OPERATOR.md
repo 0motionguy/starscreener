@@ -4,7 +4,7 @@
 
 **Purpose:** every Claude Code session can read this file and instantly know the current state of the engine, what is shipping, and what is broken. Refreshed by `/loop` autonomous runs and by hand. **Source of truth for the audit-2026-05-04 follow-up.**
 
-Last refreshed: 2026-05-03 (zombie cleanup tick)
+Last refreshed: 2026-05-03 (zombies + Supabase freshness diag tick)
 
 ---
 

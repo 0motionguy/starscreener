@@ -4,7 +4,7 @@
 // per-source sidecars in data/_meta plus data-store last-write timestamps
 // (Redis primary, bundled file fallback) and returns one stable JSON envelope.
 
-import { readFile } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
 import { resolve } from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -202,12 +202,32 @@ async function readMetaProbe(source: string): Promise<TimestampProbe> {
 async function readStoreProbe(slug: string): Promise<TimestampProbe> {
   try {
     const timestamp = parseIso(await getDataStore().writtenAt(slug));
+    if (!timestamp) {
+      const fallbackTimestamp = await readPayloadFileTimestamp(slug);
+      return {
+        timestamp: fallbackTimestamp,
+        status: fallbackTimestamp ? "GREEN" : "DEAD",
+      };
+    }
     return {
       timestamp,
-      status: timestamp ? "GREEN" : "DEAD",
+      status: "GREEN",
     };
   } catch {
-    return { timestamp: null, status: "DEAD" };
+    const fallbackTimestamp = await readPayloadFileTimestamp(slug);
+    return {
+      timestamp: fallbackTimestamp,
+      status: fallbackTimestamp ? "GREEN" : "DEAD",
+    };
+  }
+}
+
+async function readPayloadFileTimestamp(slug: string): Promise<string | null> {
+  try {
+    const snapshot = await stat(resolve(process.cwd(), "data", `${slug}.json`));
+    return new Date(snapshot.mtimeMs).toISOString();
+  } catch {
+    return null;
   }
 }
 

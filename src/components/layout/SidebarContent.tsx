@@ -27,6 +27,7 @@
 import { type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useFreshCount } from "@/lib/use-fresh-count";
 import {
   Activity,
   BadgeCheck,
@@ -240,6 +241,36 @@ function V2NavRow({
   );
 }
 
+/**
+ * FreshCountNavRow — wraps V2NavRow with the `useFreshCount` hook so the
+ * badge automatically swaps between cumulative total ("840") and
+ * fresh-since-last-visit delta ("+521") depending on whether the user
+ * has visited this route before. First-visit users see the cumulative
+ * total; on subsequent visits, the badge shows new items added in
+ * between (or stays empty when there are none).
+ *
+ * `routeKey` must match the key passed to <MarkVisited routeKey=... />
+ * on the corresponding route page so the snapshot diff is computed
+ * against the right localStorage entry.
+ */
+function FreshCountNavRow({
+  routeKey,
+  currentCount,
+  ...rest
+}: Omit<V2NavRowProps, "badge" | "badgeTone"> & {
+  routeKey: string;
+  currentCount: number;
+}) {
+  const fresh = useFreshCount(routeKey, currentCount);
+  const badge = fresh.hasFresh
+    ? `+${compactCount(fresh.delta)}`
+    : fresh.total > 0
+      ? compactCount(fresh.total)
+      : undefined;
+  const badgeTone: BadgeTone = fresh.hasFresh ? "delta" : "default";
+  return <V2NavRow {...rest} badge={badge} badgeTone={badgeTone} />;
+}
+
 function V2Chip({
   value,
   tone = "default",
@@ -345,30 +376,33 @@ export function SidebarContent({
       <CursorRail className="flex-1 overflow-y-auto scrollbar-hide">
         {/* TREND TERMINAL */}
         <V2Section label="TREND TERMINAL">
-          <V2NavRow
+          <FreshCountNavRow
+            routeKey="trendingRepos"
+            currentCount={trendingReposCount ?? 0}
             href="/githubrepo"
             icon={TrendingUp}
             label="Trending Repos"
-            badge={
-              trendingReposCount && trendingReposCount > 0
-                ? compactCount(trendingReposCount)
-                : undefined
-            }
             active={pathname === "/githubrepo"}
           />
-          <V2NavRow
+          <FreshCountNavRow
+            routeKey="skills"
+            currentCount={sourceCounts?.skillsItems ?? 0}
             href="/skills"
             icon={GraduationCap}
             label="Trending Skills"
             active={pathname === "/skills" || pathname.startsWith("/skills/")}
           />
-          <V2NavRow
+          <FreshCountNavRow
+            routeKey="mcp"
+            currentCount={sourceCounts?.mcpItems ?? 0}
             href="/mcp"
             icon={Plug}
             label="Trending MCP"
             active={pathname === "/mcp" || pathname.startsWith("/mcp/")}
           />
-          <V2NavRow
+          <FreshCountNavRow
+            routeKey="agentRepos"
+            currentCount={sourceCounts?.agentRepos ?? 0}
             onClick={goToAgentRepos}
             icon={Cpu}
             label="Trending AGNT"
@@ -451,7 +485,9 @@ export function SidebarContent({
             badgeTone="delta"
             active={pathname === "/reddit" || pathname.startsWith("/reddit/")}
           />
-          <V2NavRow
+          <FreshCountNavRow
+            routeKey="twitter"
+            currentCount={sourceCounts?.twitterRepos ?? 0}
             href="/twitter"
             icon={XSidebarIcon}
             label="X / Twitter"
@@ -486,24 +522,28 @@ export function SidebarContent({
             badgeTone="default"
             active={pathname === "/npm" || pathname.startsWith("/npm/")}
           />
-          <V2NavRow
+          <FreshCountNavRow
+            routeKey="hfModels"
+            currentCount={sourceCounts?.hfModels ?? 0}
             href="/huggingface/trending"
             icon={Brain}
             label="HF Models"
-            badge="Live"
-            badgeTone="delta"
             active={
               pathname === "/huggingface" ||
               pathname === "/huggingface/trending"
             }
           />
-          <V2NavRow
+          <FreshCountNavRow
+            routeKey="hfDatasets"
+            currentCount={sourceCounts?.hfDatasets ?? 0}
             href="/huggingface/datasets"
             icon={FileText}
             label="HF Datasets"
             active={pathname === "/huggingface/datasets"}
           />
-          <V2NavRow
+          <FreshCountNavRow
+            routeKey="hfSpaces"
+            currentCount={sourceCounts?.hfSpaces ?? 0}
             href="/huggingface/spaces"
             icon={Rocket}
             label="HF Spaces"
@@ -568,7 +608,9 @@ export function SidebarContent({
 
         {/* RESEARCH TERMINAL */}
         <V2Section label="RESEARCH TERMINAL">
-          <V2NavRow
+          <FreshCountNavRow
+            routeKey="arxivPapers"
+            currentCount={sourceCounts?.arxivPapers ?? 0}
             href="/arxiv/trending"
             icon={FileText}
             label="arXiv Papers"
@@ -580,7 +622,9 @@ export function SidebarContent({
               pathname.startsWith("/arxiv/")
             }
           />
-          <V2NavRow
+          <FreshCountNavRow
+            routeKey="citedRepos"
+            currentCount={sourceCounts?.citedRepos ?? 0}
             href="/research"
             icon={Bot}
             label="Cited Repos"

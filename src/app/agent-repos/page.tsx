@@ -29,6 +29,7 @@ import { FooterBar } from "@/components/ui/FooterBar";
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { MarkVisited } from "@/components/layout/MarkVisited";
 import {
   LiveTopTable,
   type CategoryFacet,
@@ -156,6 +157,7 @@ export default async function AgentReposPage() {
   return (
     <>
       <main className="home-surface agent-repos-page">
+        <MarkVisited routeKey="agentRepos" count={repos.length} />
         <PageHead
           crumb={
             <>

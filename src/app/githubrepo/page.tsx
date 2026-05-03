@@ -19,6 +19,7 @@ import { Card } from "@/components/ui/Card";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
 import { FooterBar } from "@/components/ui/FooterBar";
 import { SectionHead } from "@/components/ui/SectionHead";
+import { MarkVisited } from "@/components/layout/MarkVisited";
 import {
   LiveTopTable,
   type CategoryFacet,
@@ -142,6 +143,7 @@ export default async function GithubRepoPage() {
 
   return (
     <>
+      <MarkVisited routeKey="trendingRepos" count={repos.length} />
       <div className="home-surface">
         <section className="page-head">
           <div>

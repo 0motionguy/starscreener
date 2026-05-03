@@ -14,6 +14,7 @@ import { PageHead } from "@/components/ui/PageHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { MarkVisited } from "@/components/layout/MarkVisited";
 import {
   LiveMcpTable,
   type McpRow,
@@ -251,6 +252,7 @@ export default async function McpPage() {
 
   return (
     <main className="home-surface">
+      <MarkVisited routeKey="mcp" count={mcpRows.length} />
       <PageHead
         crumb={
           <>

@@ -532,30 +532,61 @@ export default async function HomePage() {
   // a round trip. Old fixed-momentum sort retained for the cold render
   // (used until React hydrates). Top 50 by 24h delta gives a reasonable
   // default view; LiveTopTable shows top `limit` per its own current sort.
+  // Reuse the synthetic-sparkline + logo-resolution logic so the LiveTopTable
+  // rows look as alive as the hero panels above. Skills/mcp ecosystem items
+  // don't carry their own per-day star series — buildSyntheticSparkline gives
+  // us a smooth wobble keyed off (signalScore, delta) so each row still has
+  // a per-row trend chart instead of a dead `—`.
   const liveSkillItems: LiveSkill[] = (skillsItems ?? [])
     .slice(0, 50)
-    .map((item): LiveSkill => ({
-      id: `skill-${item.id}`,
-      name: item.title,
-      href: item.url,
-      sub: item.sourceLabel ?? item.topic,
-      score: item.signalScore,
-      delta24h: item.installsDelta1d ?? 0,
-      delta7d: item.installsDelta7d ?? 0,
-      delta30d: item.installsDelta30d ?? 0,
-    }));
+    .map((item): LiveSkill => {
+      const delta = item.installsDelta1d ?? 0;
+      const linkedOwner = item.linkedRepo?.split("/", 1)[0]?.trim() ?? "";
+      const fallbackOwnerLogo = linkedOwner
+        ? `https://github.com/${encodeURIComponent(linkedOwner)}.png?size=40`
+        : "";
+      const cleanLogo =
+        typeof item.logoUrl === "string" && item.logoUrl.trim()
+          ? item.logoUrl.trim()
+          : "";
+      return {
+        id: `skill-${item.id}`,
+        name: item.title,
+        href: item.url,
+        sub: item.sourceLabel ?? item.topic,
+        score: item.signalScore,
+        delta24h: delta,
+        delta7d: item.installsDelta7d ?? 0,
+        delta30d: item.installsDelta30d ?? 0,
+        logoUrl: cleanLogo || fallbackOwnerLogo || undefined,
+        sparkline: buildSyntheticSparkline(item.signalScore, delta),
+      };
+    });
   const liveMcpItems: LiveMcp[] = (mcpItems ?? [])
     .slice(0, 50)
-    .map((item): LiveMcp => ({
-      id: `mcp-${item.id}`,
-      name: item.title,
-      href: item.url,
-      sub: item.vendor ?? item.sourceLabel ?? item.topic,
-      score: item.signalScore,
-      delta24h: item.mcp?.installs24h ?? 0,
-      delta7d: item.installsDelta7d ?? 0,
-      delta30d: item.installsDelta30d ?? 0,
-    }));
+    .map((item): LiveMcp => {
+      const delta = item.mcp?.installs24h ?? 0;
+      const linkedOwner = item.linkedRepo?.split("/", 1)[0]?.trim() ?? "";
+      const fallbackOwnerLogo = linkedOwner
+        ? `https://github.com/${encodeURIComponent(linkedOwner)}.png?size=40`
+        : "";
+      const cleanLogo =
+        typeof item.logoUrl === "string" && item.logoUrl.trim()
+          ? item.logoUrl.trim()
+          : "";
+      return {
+        id: `mcp-${item.id}`,
+        name: item.title,
+        href: item.url,
+        sub: item.vendor ?? item.sourceLabel ?? item.topic,
+        score: item.signalScore,
+        delta24h: delta,
+        delta7d: item.installsDelta7d ?? 0,
+        delta30d: item.installsDelta30d ?? 0,
+        logoUrl: cleanLogo || fallbackOwnerLogo || undefined,
+        sparkline: buildSyntheticSparkline(item.signalScore, delta),
+      };
+    });
   const refreshed = new Date(lastFetchedAt);
   const refreshedTime = refreshed.toISOString().slice(11, 19);
   const total24h = repos.reduce(

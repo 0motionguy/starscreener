@@ -1,10 +1,393 @@
 {
-  "fetchedAt": "2026-05-03T18:05:43.493Z",
+  "fetchedAt": "2026-05-03T19:20:39.593Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
+    "safishamsi/graphify": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:xehdekbomkmyfjat6p5qaixa/app.bsky.feed.post/3mkxuq3cfgk2a",
+        "cid": "bafyreihcl2y6zv66qiwz6jghs4ectiwzspt5vioyp4u2zxp3vjhe6a6xci",
+        "bskyUrl": "https://bsky.app/profile/julien.hommet.net/post/3mkxuq3cfgk2a",
+        "text": "Pour optimiser mes coûts en token dans mes différentes app, j’ai utilisé graphify. github.com/safishamsi/g... Pour l’app PVMSS, qui a plus de 500 fichiers, ca m’a coûté plus de 12 euros de supplément… en plus de me heurter à la limite horaire… sans pouvoir finir le travail. ☹️",
+        "author": {
+          "handle": "julien.hommet.net",
+          "displayName": "Julien HOMMET"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-03T19:17:59.707Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:xehdekbomkmyfjat6p5qaixa/app.bsky.feed.post/3mkxuq3cfgk2a",
+          "cid": "bafyreihcl2y6zv66qiwz6jghs4ectiwzspt5vioyp4u2zxp3vjhe6a6xci",
+          "bskyUrl": "https://bsky.app/profile/julien.hommet.net/post/3mkxuq3cfgk2a",
+          "text": "Pour optimiser mes coûts en token dans mes différentes app, j’ai utilisé graphify. github.com/safishamsi/g... Pour l’app PVMSS, qui a plus de 500 fichiers, ca m’a coûté plus de 12 euros de supplément… en plus de me heurter à la limite horaire… sans pouvoir finir le travail. ☹️",
+          "author": {
+            "handle": "julien.hommet.net",
+            "displayName": "Julien HOMMET"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-03T19:17:59.707Z",
+          "createdUtc": 1777835879,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "safishamsi/graphify",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ruvnet/RuView": {
+      "count7d": 2,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 2,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkxtljxpyf22",
+        "cid": "bafyreihta376wyqxno3ekvcthdomycdhkyyhi3kvqqyf4cavvbqxrmtaym",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkxtljxpyf22",
+        "text": "ruvnet / RuView: π RuView: WiFi DensePose turns commodity WiFi signals into real-time human pose estimation, vital sign monitoring, and presence detection — all without a single pixel of video. ★51482 https://github.com/ruvnet/RuView",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T18:57:33.457881Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkxtljxpyf22",
+          "cid": "bafyreihta376wyqxno3ekvcthdomycdhkyyhi3kvqqyf4cavvbqxrmtaym",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkxtljxpyf22",
+          "text": "ruvnet / RuView: π RuView: WiFi DensePose turns commodity WiFi signals into real-time human pose estimation, vital sign monitoring, and presence detection — all without a single pixel of video. ★51482 https://github.com/ruvnet/RuView",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T18:57:33.457881Z",
+          "createdUtc": 1777834653,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ljahlf6fqho6rs2yd2yxkyeo/app.bsky.feed.post/3mkxoiz53ms2d",
+          "cid": "bafyreierhtykoehv36pyt6l6rjldqru3qcdgcrzoknxb37jiqqxnjvbprq",
+          "bskyUrl": "https://bsky.app/profile/madinflation.bsky.social/post/3mkxoiz53ms2d",
+          "text": "I found an open-source program on GitHub that allows you to monitor people through walls using Wi-Fi. It is powered by AI and turns ordinary Wi-Fi signals into a full-fledged tracking system. No cameras or sensors are needed. Check it out: github.com/ruvnet/RuView",
+          "author": {
+            "handle": "madinflation.bsky.social",
+            "displayName": "Perpetual Traveler"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 2,
+          "createdAt": "2026-05-03T17:26:40.103Z",
+          "createdUtc": 1777829200,
+          "ageHours": 1.9,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "kitlangton/ghui": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:tmgqysd3tkdl6piaktdvjim5/app.bsky.feed.post/3mkxt3fxbjs2k",
+        "cid": "bafyreiaioahqlszi7j42r2kdpuhvfxhti6ffkpy34vkm3nt4llmgtj3g4m",
+        "bskyUrl": "https://bsky.app/profile/kitlangton.bsky.social/post/3mkxt3fxbjs2k",
+        "text": "I've been working on a lil' GitHub TUI. github.com/kitlangton/g...",
+        "author": {
+          "handle": "kitlangton.bsky.social",
+          "displayName": "Kit Langton"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T18:48:32.488Z",
+        "hoursSincePosted": 0.54
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:tmgqysd3tkdl6piaktdvjim5/app.bsky.feed.post/3mkxt3fxbjs2k",
+          "cid": "bafyreiaioahqlszi7j42r2kdpuhvfxhti6ffkpy34vkm3nt4llmgtj3g4m",
+          "bskyUrl": "https://bsky.app/profile/kitlangton.bsky.social/post/3mkxt3fxbjs2k",
+          "text": "I've been working on a lil' GitHub TUI. github.com/kitlangton/g...",
+          "author": {
+            "handle": "kitlangton.bsky.social",
+            "displayName": "Kit Langton"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T18:48:32.488Z",
+          "createdUtc": 1777834112,
+          "ageHours": 0.54,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kitlangton/ghui",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "jamiepine/voicebox": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:trk7vy3xo5lkpbmija2spnp3/app.bsky.feed.post/3mkxswjvyes23",
+        "cid": "bafyreihwxjucvjqrqfxp66blhavpdh272xgkubhcpaxzr7l7zdeafndome",
+        "bskyUrl": "https://bsky.app/profile/milkywaygm.bsky.social/post/3mkxswjvyes23",
+        "text": "github.com/jamiepine/vo...",
+        "author": {
+          "handle": "milkywaygm.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T18:45:48.872Z",
+        "hoursSincePosted": 0.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:trk7vy3xo5lkpbmija2spnp3/app.bsky.feed.post/3mkxswjvyes23",
+          "cid": "bafyreihwxjucvjqrqfxp66blhavpdh272xgkubhcpaxzr7l7zdeafndome",
+          "bskyUrl": "https://bsky.app/profile/milkywaygm.bsky.social/post/3mkxswjvyes23",
+          "text": "github.com/jamiepine/vo...",
+          "author": {
+            "handle": "milkywaygm.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T18:45:48.872Z",
+          "createdUtc": 1777833948,
+          "ageHours": 0.58,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "jamiepine/voicebox",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "getcompanion-ai/feynman": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkxssaq5tx22",
+        "cid": "bafyreicsox2ueiy4oh2ljm4rwqtcjgwf3gwi4da64teu7i2dutozqa5knq",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkxssaq5tx22",
+        "text": "https://github.com/getcompanion-ai/feynman",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T18:43:24Z",
+        "hoursSincePosted": 0.62
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkxssaq5tx22",
+          "cid": "bafyreicsox2ueiy4oh2ljm4rwqtcjgwf3gwi4da64teu7i2dutozqa5knq",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkxssaq5tx22",
+          "text": "https://github.com/getcompanion-ai/feynman",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T18:43:24Z",
+          "createdUtc": 1777833804,
+          "ageHours": 0.62,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "getcompanion-ai/feynman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "refactoringhq/tolaria": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:oz4kje2m72iq76acl676o5za/app.bsky.feed.post/3mkxr5e3m5c2o",
+        "cid": "bafyreigl6rc7fv26gsq2nwjt4f7dhxwj5lfrfz455623idouin5xbn6niy",
+        "bskyUrl": "https://bsky.app/profile/remvze.bsky.social/post/3mkxr5e3m5c2o",
+        "text": "OSS Spotlight: «Tolaria» Desktop app to manage markdown knowledge bases. → github.com/refactoringhq/tolaria #opensource",
+        "author": {
+          "handle": "remvze.bsky.social",
+          "displayName": "MAZE"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T18:13:50.159Z",
+        "hoursSincePosted": 1.11
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:oz4kje2m72iq76acl676o5za/app.bsky.feed.post/3mkxr5e3m5c2o",
+          "cid": "bafyreigl6rc7fv26gsq2nwjt4f7dhxwj5lfrfz455623idouin5xbn6niy",
+          "bskyUrl": "https://bsky.app/profile/remvze.bsky.social/post/3mkxr5e3m5c2o",
+          "text": "OSS Spotlight: «Tolaria» Desktop app to manage markdown knowledge bases. → github.com/refactoringhq/tolaria #opensource",
+          "author": {
+            "handle": "remvze.bsky.social",
+            "displayName": "MAZE"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T18:13:50.159Z",
+          "createdUtc": 1777832030,
+          "ageHours": 1.11,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "refactoringhq/tolaria",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "calesthio/OpenMontage": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkxr47w7dm2t",
+        "cid": "bafyreiezgvncw3ym2lptzqldpkboa5dvbedq7xxovqjsoumn7o5mbyvjhy",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkxr47w7dm2t",
+        "text": "https://github.com/calesthio/OpenMontage",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T18:13:11Z",
+        "hoursSincePosted": 1.12
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkxr47w7dm2t",
+          "cid": "bafyreiezgvncw3ym2lptzqldpkboa5dvbedq7xxovqjsoumn7o5mbyvjhy",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkxr47w7dm2t",
+          "text": "https://github.com/calesthio/OpenMontage",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T18:13:11Z",
+          "createdUtc": 1777831991,
+          "ageHours": 1.12,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "calesthio/OpenMontage",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "riddleling/iOS-OCR-Server": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -23,7 +406,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T17:58:04Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.38
       },
       "posts": [
         {
@@ -40,7 +423,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T17:58:04Z",
           "createdUtc": 1777831084,
-          "ageHours": 0.5,
+          "ageHours": 1.38,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -58,7 +441,7 @@
     },
     "niri-wm/niri": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -70,11 +453,11 @@
           "handle": "philpax.me",
           "displayName": "philpax"
         },
-        "likeCount": 0,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T17:53:41.139Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.45
       },
       "posts": [
         {
@@ -86,13 +469,13 @@
             "handle": "philpax.me",
             "displayName": "philpax"
           },
-          "likeCount": 0,
+          "likeCount": 3,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-03T17:53:41.139Z",
           "createdUtc": 1777830821,
-          "ageHours": 0.5,
-          "trendingScore": 0,
+          "ageHours": 1.45,
+          "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
           ],
@@ -106,28 +489,109 @@
           ]
         }
       ]
-    },
-    "ruvnet/RuView": {
+    }
+  },
+  "mentionsByRepoId": {
+    "safishamsi--graphify": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 2,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:ljahlf6fqho6rs2yd2yxkyeo/app.bsky.feed.post/3mkxoiz53ms2d",
-        "cid": "bafyreierhtykoehv36pyt6l6rjldqru3qcdgcrzoknxb37jiqqxnjvbprq",
-        "bskyUrl": "https://bsky.app/profile/madinflation.bsky.social/post/3mkxoiz53ms2d",
-        "text": "I found an open-source program on GitHub that allows you to monitor people through walls using Wi-Fi. It is powered by AI and turns ordinary Wi-Fi signals into a full-fledged tracking system. No cameras or sensors are needed. Check it out: github.com/ruvnet/RuView",
+        "uri": "at://did:plc:xehdekbomkmyfjat6p5qaixa/app.bsky.feed.post/3mkxuq3cfgk2a",
+        "cid": "bafyreihcl2y6zv66qiwz6jghs4ectiwzspt5vioyp4u2zxp3vjhe6a6xci",
+        "bskyUrl": "https://bsky.app/profile/julien.hommet.net/post/3mkxuq3cfgk2a",
+        "text": "Pour optimiser mes coûts en token dans mes différentes app, j’ai utilisé graphify. github.com/safishamsi/g... Pour l’app PVMSS, qui a plus de 500 fichiers, ca m’a coûté plus de 12 euros de supplément… en plus de me heurter à la limite horaire… sans pouvoir finir le travail. ☹️",
         "author": {
-          "handle": "madinflation.bsky.social",
-          "displayName": "Perpetual Traveler"
+          "handle": "julien.hommet.net",
+          "displayName": "Julien HOMMET"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 2,
-        "createdAt": "2026-05-03T17:26:40.103Z",
-        "hoursSincePosted": 0.65
+        "replyCount": 1,
+        "createdAt": "2026-05-03T19:17:59.707Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:xehdekbomkmyfjat6p5qaixa/app.bsky.feed.post/3mkxuq3cfgk2a",
+          "cid": "bafyreihcl2y6zv66qiwz6jghs4ectiwzspt5vioyp4u2zxp3vjhe6a6xci",
+          "bskyUrl": "https://bsky.app/profile/julien.hommet.net/post/3mkxuq3cfgk2a",
+          "text": "Pour optimiser mes coûts en token dans mes différentes app, j’ai utilisé graphify. github.com/safishamsi/g... Pour l’app PVMSS, qui a plus de 500 fichiers, ca m’a coûté plus de 12 euros de supplément… en plus de me heurter à la limite horaire… sans pouvoir finir le travail. ☹️",
+          "author": {
+            "handle": "julien.hommet.net",
+            "displayName": "Julien HOMMET"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-03T19:17:59.707Z",
+          "createdUtc": 1777835879,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "safishamsi/graphify",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ruvnet--ruview": {
+      "count7d": 2,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 2,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkxtljxpyf22",
+        "cid": "bafyreihta376wyqxno3ekvcthdomycdhkyyhi3kvqqyf4cavvbqxrmtaym",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkxtljxpyf22",
+        "text": "ruvnet / RuView: π RuView: WiFi DensePose turns commodity WiFi signals into real-time human pose estimation, vital sign monitoring, and presence detection — all without a single pixel of video. ★51482 https://github.com/ruvnet/RuView",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T18:57:33.457881Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkxtljxpyf22",
+          "cid": "bafyreihta376wyqxno3ekvcthdomycdhkyyhi3kvqqyf4cavvbqxrmtaym",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkxtljxpyf22",
+          "text": "ruvnet / RuView: π RuView: WiFi DensePose turns commodity WiFi signals into real-time human pose estimation, vital sign monitoring, and presence detection — all without a single pixel of video. ★51482 https://github.com/ruvnet/RuView",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T18:57:33.457881Z",
+          "createdUtc": 1777834653,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/RuView",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:ljahlf6fqho6rs2yd2yxkyeo/app.bsky.feed.post/3mkxoiz53ms2d",
           "cid": "bafyreierhtykoehv36pyt6l6rjldqru3qcdgcrzoknxb37jiqqxnjvbprq",
@@ -142,7 +606,7 @@
           "replyCount": 2,
           "createdAt": "2026-05-03T17:26:40.103Z",
           "createdUtc": 1777829200,
-          "ageHours": 0.65,
+          "ageHours": 1.9,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -158,101 +622,50 @@
         }
       ]
     },
-    "nautechsystems/nautilus_trader": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkxjj7mh4c2g",
-        "cid": "bafyreifycccvn5dkopr2prcyyxne57ubm36y7eaq4eqjmfah7eapxzfjwy",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkxjj7mh4c2g",
-        "text": "nautechsystems / nautilus_trader: Production-grade Rust-native trading engine with deterministic event-driven architecture ★22414 https://github.com/nautechsystems/nautilus_trader",
-        "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T15:57:18.062018Z",
-        "hoursSincePosted": 2.14
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkxjj7mh4c2g",
-          "cid": "bafyreifycccvn5dkopr2prcyyxne57ubm36y7eaq4eqjmfah7eapxzfjwy",
-          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkxjj7mh4c2g",
-          "text": "nautechsystems / nautilus_trader: Production-grade Rust-native trading engine with deterministic event-driven architecture ★22414 https://github.com/nautechsystems/nautilus_trader",
-          "author": {
-            "handle": "rusttrending.bsky.social",
-            "displayName": "RustTrending"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T15:57:18.062018Z",
-          "createdUtc": 1777823838,
-          "ageHours": 2.14,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "nautechsystems/nautilus_trader",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "Optimus1200/Ace_Combat_Infinity_Campaign_Patch_and_Local_Server": {
+    "kitlangton--ghui": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:j4nrqo62vrn6fvm2hjwoz7q2/app.bsky.feed.post/3mkxhbr4gjs2l",
-        "cid": "bafyreihcu5npzezgnf5e2vu3fresevjsoy55hwac6clsto3xkygijeg3le",
-        "bskyUrl": "https://bsky.app/profile/hace.bsky.social/post/3mkxhbr4gjs2l",
-        "text": "Ace Combat Infinity local server project dropped holy shiiiit github.com/Optimus1200/...",
+        "uri": "at://did:plc:tmgqysd3tkdl6piaktdvjim5/app.bsky.feed.post/3mkxt3fxbjs2k",
+        "cid": "bafyreiaioahqlszi7j42r2kdpuhvfxhti6ffkpy34vkm3nt4llmgtj3g4m",
+        "bskyUrl": "https://bsky.app/profile/kitlangton.bsky.social/post/3mkxt3fxbjs2k",
+        "text": "I've been working on a lil' GitHub TUI. github.com/kitlangton/g...",
         "author": {
-          "handle": "hace.bsky.social",
-          "displayName": "Hace"
+          "handle": "kitlangton.bsky.social",
+          "displayName": "Kit Langton"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-03T15:17:20.619Z",
-        "hoursSincePosted": 2.81
+        "replyCount": 0,
+        "createdAt": "2026-05-03T18:48:32.488Z",
+        "hoursSincePosted": 0.54
       },
       "posts": [
         {
-          "uri": "at://did:plc:j4nrqo62vrn6fvm2hjwoz7q2/app.bsky.feed.post/3mkxhbr4gjs2l",
-          "cid": "bafyreihcu5npzezgnf5e2vu3fresevjsoy55hwac6clsto3xkygijeg3le",
-          "bskyUrl": "https://bsky.app/profile/hace.bsky.social/post/3mkxhbr4gjs2l",
-          "text": "Ace Combat Infinity local server project dropped holy shiiiit github.com/Optimus1200/...",
+          "uri": "at://did:plc:tmgqysd3tkdl6piaktdvjim5/app.bsky.feed.post/3mkxt3fxbjs2k",
+          "cid": "bafyreiaioahqlszi7j42r2kdpuhvfxhti6ffkpy34vkm3nt4llmgtj3g4m",
+          "bskyUrl": "https://bsky.app/profile/kitlangton.bsky.social/post/3mkxt3fxbjs2k",
+          "text": "I've been working on a lil' GitHub TUI. github.com/kitlangton/g...",
           "author": {
-            "handle": "hace.bsky.social",
-            "displayName": "Hace"
+            "handle": "kitlangton.bsky.social",
+            "displayName": "Kit Langton"
           },
           "likeCount": 0,
           "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-03T15:17:20.619Z",
-          "createdUtc": 1777821440,
-          "ageHours": 2.81,
-          "trendingScore": 0.5,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T18:48:32.488Z",
+          "createdUtc": 1777834112,
+          "ageHours": 0.54,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "Optimus1200/Ace_Combat_Infinity_Campaign_Patch_and_Local_Server",
+              "fullName": "kitlangton/ghui",
               "matchType": "url",
               "confidence": 1
             }
@@ -260,59 +673,208 @@
         }
       ]
     },
-    "MrMilenko/Theseus": {
+    "jamiepine--voicebox": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:u5kn7755ccir6b4mxlwn4fir/app.bsky.feed.post/3mkxh7e463k2u",
-        "cid": "bafyreiholjhof77bblugsu45swwhpnsgsoosjrcfud2vgo2m73sb7cx3ca",
-        "bskyUrl": "https://bsky.app/profile/thunderowl.one/post/3mkxh7e463k2u",
-        "text": "github.com/MrMilenko/Th...",
+        "uri": "at://did:plc:trk7vy3xo5lkpbmija2spnp3/app.bsky.feed.post/3mkxswjvyes23",
+        "cid": "bafyreihwxjucvjqrqfxp66blhavpdh272xgkubhcpaxzr7l7zdeafndome",
+        "bskyUrl": "https://bsky.app/profile/milkywaygm.bsky.social/post/3mkxswjvyes23",
+        "text": "github.com/jamiepine/vo...",
         "author": {
-          "handle": "thunderowl.one",
-          "displayName": "ThunderOwl"
+          "handle": "milkywaygm.bsky.social"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-03T15:15:59.871Z",
-        "hoursSincePosted": 2.83
+        "createdAt": "2026-05-03T18:45:48.872Z",
+        "hoursSincePosted": 0.58
       },
       "posts": [
         {
-          "uri": "at://did:plc:u5kn7755ccir6b4mxlwn4fir/app.bsky.feed.post/3mkxh7e463k2u",
-          "cid": "bafyreiholjhof77bblugsu45swwhpnsgsoosjrcfud2vgo2m73sb7cx3ca",
-          "bskyUrl": "https://bsky.app/profile/thunderowl.one/post/3mkxh7e463k2u",
-          "text": "github.com/MrMilenko/Th...",
+          "uri": "at://did:plc:trk7vy3xo5lkpbmija2spnp3/app.bsky.feed.post/3mkxswjvyes23",
+          "cid": "bafyreihwxjucvjqrqfxp66blhavpdh272xgkubhcpaxzr7l7zdeafndome",
+          "bskyUrl": "https://bsky.app/profile/milkywaygm.bsky.social/post/3mkxswjvyes23",
+          "text": "github.com/jamiepine/vo...",
           "author": {
-            "handle": "thunderowl.one",
-            "displayName": "ThunderOwl"
+            "handle": "milkywaygm.bsky.social"
           },
-          "likeCount": 1,
+          "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-03T15:15:59.871Z",
-          "createdUtc": 1777821359,
-          "ageHours": 2.83,
-          "trendingScore": 1,
+          "createdAt": "2026-05-03T18:45:48.872Z",
+          "createdUtc": 1777833948,
+          "ageHours": 0.58,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "MrMilenko/Theseus",
+              "fullName": "jamiepine/voicebox",
               "matchType": "url",
               "confidence": 1
             }
           ]
         }
       ]
-    }
-  },
-  "mentionsByRepoId": {
+    },
+    "getcompanion-ai--feynman": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkxssaq5tx22",
+        "cid": "bafyreicsox2ueiy4oh2ljm4rwqtcjgwf3gwi4da64teu7i2dutozqa5knq",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkxssaq5tx22",
+        "text": "https://github.com/getcompanion-ai/feynman",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T18:43:24Z",
+        "hoursSincePosted": 0.62
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkxssaq5tx22",
+          "cid": "bafyreicsox2ueiy4oh2ljm4rwqtcjgwf3gwi4da64teu7i2dutozqa5knq",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkxssaq5tx22",
+          "text": "https://github.com/getcompanion-ai/feynman",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T18:43:24Z",
+          "createdUtc": 1777833804,
+          "ageHours": 0.62,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "getcompanion-ai/feynman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "refactoringhq--tolaria": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:oz4kje2m72iq76acl676o5za/app.bsky.feed.post/3mkxr5e3m5c2o",
+        "cid": "bafyreigl6rc7fv26gsq2nwjt4f7dhxwj5lfrfz455623idouin5xbn6niy",
+        "bskyUrl": "https://bsky.app/profile/remvze.bsky.social/post/3mkxr5e3m5c2o",
+        "text": "OSS Spotlight: «Tolaria» Desktop app to manage markdown knowledge bases. → github.com/refactoringhq/tolaria #opensource",
+        "author": {
+          "handle": "remvze.bsky.social",
+          "displayName": "MAZE"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T18:13:50.159Z",
+        "hoursSincePosted": 1.11
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:oz4kje2m72iq76acl676o5za/app.bsky.feed.post/3mkxr5e3m5c2o",
+          "cid": "bafyreigl6rc7fv26gsq2nwjt4f7dhxwj5lfrfz455623idouin5xbn6niy",
+          "bskyUrl": "https://bsky.app/profile/remvze.bsky.social/post/3mkxr5e3m5c2o",
+          "text": "OSS Spotlight: «Tolaria» Desktop app to manage markdown knowledge bases. → github.com/refactoringhq/tolaria #opensource",
+          "author": {
+            "handle": "remvze.bsky.social",
+            "displayName": "MAZE"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T18:13:50.159Z",
+          "createdUtc": 1777832030,
+          "ageHours": 1.11,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "refactoringhq/tolaria",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "calesthio--openmontage": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkxr47w7dm2t",
+        "cid": "bafyreiezgvncw3ym2lptzqldpkboa5dvbedq7xxovqjsoumn7o5mbyvjhy",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkxr47w7dm2t",
+        "text": "https://github.com/calesthio/OpenMontage",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T18:13:11Z",
+        "hoursSincePosted": 1.12
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkxr47w7dm2t",
+          "cid": "bafyreiezgvncw3ym2lptzqldpkboa5dvbedq7xxovqjsoumn7o5mbyvjhy",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkxr47w7dm2t",
+          "text": "https://github.com/calesthio/OpenMontage",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T18:13:11Z",
+          "createdUtc": 1777831991,
+          "ageHours": 1.12,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "calesthio/OpenMontage",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "riddleling--ios-ocr-server": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -331,7 +893,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T17:58:04Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.38
       },
       "posts": [
         {
@@ -348,7 +910,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T17:58:04Z",
           "createdUtc": 1777831084,
-          "ageHours": 0.5,
+          "ageHours": 1.38,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -366,7 +928,7 @@
     },
     "niri-wm--niri": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -378,11 +940,11 @@
           "handle": "philpax.me",
           "displayName": "philpax"
         },
-        "likeCount": 0,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T17:53:41.139Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.45
       },
       "posts": [
         {
@@ -394,13 +956,13 @@
             "handle": "philpax.me",
             "displayName": "philpax"
           },
-          "likeCount": 0,
+          "likeCount": 3,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-03T17:53:41.139Z",
           "createdUtc": 1777830821,
-          "ageHours": 0.5,
-          "trendingScore": 0,
+          "ageHours": 1.45,
+          "trendingScore": 3,
           "content_tags": [
             "has-github-repo"
           ],
@@ -414,230 +976,41 @@
           ]
         }
       ]
-    },
-    "ruvnet--ruview": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 2,
-      "topPost": {
-        "uri": "at://did:plc:ljahlf6fqho6rs2yd2yxkyeo/app.bsky.feed.post/3mkxoiz53ms2d",
-        "cid": "bafyreierhtykoehv36pyt6l6rjldqru3qcdgcrzoknxb37jiqqxnjvbprq",
-        "bskyUrl": "https://bsky.app/profile/madinflation.bsky.social/post/3mkxoiz53ms2d",
-        "text": "I found an open-source program on GitHub that allows you to monitor people through walls using Wi-Fi. It is powered by AI and turns ordinary Wi-Fi signals into a full-fledged tracking system. No cameras or sensors are needed. Check it out: github.com/ruvnet/RuView",
-        "author": {
-          "handle": "madinflation.bsky.social",
-          "displayName": "Perpetual Traveler"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 2,
-        "createdAt": "2026-05-03T17:26:40.103Z",
-        "hoursSincePosted": 0.65
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:ljahlf6fqho6rs2yd2yxkyeo/app.bsky.feed.post/3mkxoiz53ms2d",
-          "cid": "bafyreierhtykoehv36pyt6l6rjldqru3qcdgcrzoknxb37jiqqxnjvbprq",
-          "bskyUrl": "https://bsky.app/profile/madinflation.bsky.social/post/3mkxoiz53ms2d",
-          "text": "I found an open-source program on GitHub that allows you to monitor people through walls using Wi-Fi. It is powered by AI and turns ordinary Wi-Fi signals into a full-fledged tracking system. No cameras or sensors are needed. Check it out: github.com/ruvnet/RuView",
-          "author": {
-            "handle": "madinflation.bsky.social",
-            "displayName": "Perpetual Traveler"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 2,
-          "createdAt": "2026-05-03T17:26:40.103Z",
-          "createdUtc": 1777829200,
-          "ageHours": 0.65,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ruvnet/RuView",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "nautechsystems--nautilustrader": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkxjj7mh4c2g",
-        "cid": "bafyreifycccvn5dkopr2prcyyxne57ubm36y7eaq4eqjmfah7eapxzfjwy",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkxjj7mh4c2g",
-        "text": "nautechsystems / nautilus_trader: Production-grade Rust-native trading engine with deterministic event-driven architecture ★22414 https://github.com/nautechsystems/nautilus_trader",
-        "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T15:57:18.062018Z",
-        "hoursSincePosted": 2.14
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mkxjj7mh4c2g",
-          "cid": "bafyreifycccvn5dkopr2prcyyxne57ubm36y7eaq4eqjmfah7eapxzfjwy",
-          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mkxjj7mh4c2g",
-          "text": "nautechsystems / nautilus_trader: Production-grade Rust-native trading engine with deterministic event-driven architecture ★22414 https://github.com/nautechsystems/nautilus_trader",
-          "author": {
-            "handle": "rusttrending.bsky.social",
-            "displayName": "RustTrending"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T15:57:18.062018Z",
-          "createdUtc": 1777823838,
-          "ageHours": 2.14,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "nautechsystems/nautilus_trader",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "optimus1200--acecombatinfinitycampaignpatchandlocalserver": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:j4nrqo62vrn6fvm2hjwoz7q2/app.bsky.feed.post/3mkxhbr4gjs2l",
-        "cid": "bafyreihcu5npzezgnf5e2vu3fresevjsoy55hwac6clsto3xkygijeg3le",
-        "bskyUrl": "https://bsky.app/profile/hace.bsky.social/post/3mkxhbr4gjs2l",
-        "text": "Ace Combat Infinity local server project dropped holy shiiiit github.com/Optimus1200/...",
-        "author": {
-          "handle": "hace.bsky.social",
-          "displayName": "Hace"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-03T15:17:20.619Z",
-        "hoursSincePosted": 2.81
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:j4nrqo62vrn6fvm2hjwoz7q2/app.bsky.feed.post/3mkxhbr4gjs2l",
-          "cid": "bafyreihcu5npzezgnf5e2vu3fresevjsoy55hwac6clsto3xkygijeg3le",
-          "bskyUrl": "https://bsky.app/profile/hace.bsky.social/post/3mkxhbr4gjs2l",
-          "text": "Ace Combat Infinity local server project dropped holy shiiiit github.com/Optimus1200/...",
-          "author": {
-            "handle": "hace.bsky.social",
-            "displayName": "Hace"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-03T15:17:20.619Z",
-          "createdUtc": 1777821440,
-          "ageHours": 2.81,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Optimus1200/Ace_Combat_Infinity_Campaign_Patch_and_Local_Server",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "mrmilenko--theseus": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:u5kn7755ccir6b4mxlwn4fir/app.bsky.feed.post/3mkxh7e463k2u",
-        "cid": "bafyreiholjhof77bblugsu45swwhpnsgsoosjrcfud2vgo2m73sb7cx3ca",
-        "bskyUrl": "https://bsky.app/profile/thunderowl.one/post/3mkxh7e463k2u",
-        "text": "github.com/MrMilenko/Th...",
-        "author": {
-          "handle": "thunderowl.one",
-          "displayName": "ThunderOwl"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T15:15:59.871Z",
-        "hoursSincePosted": 2.83
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:u5kn7755ccir6b4mxlwn4fir/app.bsky.feed.post/3mkxh7e463k2u",
-          "cid": "bafyreiholjhof77bblugsu45swwhpnsgsoosjrcfud2vgo2m73sb7cx3ca",
-          "bskyUrl": "https://bsky.app/profile/thunderowl.one/post/3mkxh7e463k2u",
-          "text": "github.com/MrMilenko/Th...",
-          "author": {
-            "handle": "thunderowl.one",
-            "displayName": "ThunderOwl"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T15:15:59.871Z",
-          "createdUtc": 1777821359,
-          "ageHours": 2.83,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "MrMilenko/Theseus",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "MrMilenko/Theseus",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "nautechsystems/nautilus_trader",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
       "fullName": "niri-wm/niri",
+      "count7d": 1,
+      "likesSum7d": 3
+    },
+    {
+      "fullName": "refactoringhq/tolaria",
+      "count7d": 1,
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "ruvnet/RuView",
+      "count7d": 2,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "calesthio/OpenMontage",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "Optimus1200/Ace_Combat_Infinity_Campaign_Patch_and_Local_Server",
+      "fullName": "getcompanion-ai/feynman",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "jamiepine/voicebox",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "kitlangton/ghui",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -647,7 +1020,7 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "ruvnet/RuView",
+      "fullName": "safishamsi/graphify",
       "count7d": 1,
       "likesSum7d": 0
     }

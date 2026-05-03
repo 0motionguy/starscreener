@@ -22,6 +22,7 @@ import {
   LobstersIcon,
   XIcon,
 } from "@/components/brand/BrandIcons";
+import { RankStarMark } from "@/components/brand/RankStarMark";
 import { useCompareStore, useWatchlistStore } from "@/lib/store";
 import {
   toastCompareAdded,
@@ -415,7 +416,7 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
                   <td className={`rk-cell ${rankCls}`}>
                     {index < 3 ? (
                       <span className="crown" aria-hidden>
-                        ★
+                        <RankStarMark />
                       </span>
                     ) : null}
                     <span className="rk-n">

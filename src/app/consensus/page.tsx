@@ -16,6 +16,7 @@ import { AgreementMatrix } from "@/components/consensus/AgreementMatrix";
 import { ConsensusBoard } from "@/components/consensus/ConsensusBoard";
 import { DailyVerdictPanel } from "@/components/consensus/DailyVerdictPanel";
 import { SourceStrip } from "@/components/consensus/SourceStrip";
+import { RankStarMark } from "@/components/brand/RankStarMark";
 
 // V4 (CORPUS) primitives — page chrome + verdict + KPI band.
 import { PageHead } from "@/components/ui/PageHead";
@@ -90,7 +91,7 @@ function EarlyCallList({
         return (
           <Link href={consensusHref(item.fullName)} className="sp-row" key={item.fullName}>
             <div className="rk">
-              {i === 0 ? <span className="star">★</span> : null}
+              {i === 0 ? <span className="star"><RankStarMark size={10} /></span> : null}
               {String(i + 1).padStart(2, "0")}
             </div>
             <div className="nm">

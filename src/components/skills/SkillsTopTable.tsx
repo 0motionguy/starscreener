@@ -23,6 +23,7 @@ import {
   toastWatchRemoved,
 } from "@/lib/toast";
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { RankStarMark } from "@/components/brand/RankStarMark";
 
 type SortKey =
   | "rank"
@@ -439,7 +440,7 @@ export function SkillsTopTable({
                   <td className={`rk-cell ${rankCls}`}>
                     {idx < 3 ? (
                       <span className="crown" aria-hidden>
-                        ★
+                        <RankStarMark />
                       </span>
                     ) : null}
                     <span className="rk-n">

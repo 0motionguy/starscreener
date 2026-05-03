@@ -6,6 +6,7 @@ import type {
   ConsensusExternalSource,
 } from "@/lib/consensus-trending";
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { RankStarMark } from "@/components/brand/RankStarMark";
 import { repoLogoUrl } from "@/lib/logos";
 
 const BAND_ORDER: ConsensusVerdictBand[] = [
@@ -146,7 +147,7 @@ function BoardRow({
   return (
     <Link href={consensusHref(item.fullName)} className={`lb-row ${isFirst ? "first" : ""}`}>
       <div className="rk">
-        {isFirst ? <span className="star">★</span> : null}
+        {isFirst ? <span className="star"><RankStarMark size={10} /></span> : null}
         <span className="n">{String(item.rank).padStart(2, "0")}</span>
       </div>
       <div className="repo">

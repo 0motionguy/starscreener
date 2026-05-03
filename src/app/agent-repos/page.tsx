@@ -1,11 +1,9 @@
-// /agent-repos — V4 leaderboard surface.
+// /agent-repos — mirrors the /githubrepo layout, filtered to the curated
+// agent-repo set from `AGENT_REPO_FULL_NAMES`.
 //
-// Migrated off the legacy TerminalLayout chrome to V4 primitives composed
-// directly (Leaderboard pattern à la /breakouts). Surfaces the curated set
-// of agent runtimes / frameworks / orchestrators / OpenClaw-likes from
-// `AGENT_REPO_FULL_NAMES`, ranked by total stars.
-//
-// Mockup reference: home.html top10 panel + signals.html § KPI strip.
+// Same data wiring as /githubrepo (9 store hydrations, MetricGrid +
+// LiveTopTable + category tabs) so cards stay consistent across surfaces.
+// Only the underlying repo subset differs.
 
 import type { Metadata } from "next";
 
@@ -14,18 +12,30 @@ import {
   selectAgentRepos,
 } from "@/lib/agent-repos";
 import { getDerivedRepos } from "@/lib/derived-repos";
-import { lastFetchedAt } from "@/lib/trending";
-import { formatNumber, slugToId } from "@/lib/utils";
+import { lastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
+import { refreshRedditMentionsFromStore } from "@/lib/reddit-data";
+import { refreshHackernewsMentionsFromStore } from "@/lib/hackernews";
+import { refreshBlueskyMentionsFromStore } from "@/lib/bluesky";
+import { refreshDevtoMentionsFromStore } from "@/lib/devto";
+import { refreshLobstersMentionsFromStore } from "@/lib/lobsters";
+import { refreshNpmFromStore } from "@/lib/npm";
+import { refreshHfModelsFromStore } from "@/lib/huggingface";
+import { refreshArxivFromStore } from "@/lib/arxiv";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
+import { Card } from "@/components/ui/Card";
+import { Metric, MetricGrid } from "@/components/ui/Metric";
+import { FooterBar } from "@/components/ui/FooterBar";
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
-import { KpiBand } from "@/components/ui/KpiBand";
-import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
-import { RankRow } from "@/components/ui/RankRow";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
-import { LetterAvatar } from "@/components/shared/LetterAvatar";
-import { Sparkline } from "@/components/shared/Sparkline";
+import {
+  LiveTopTable,
+  type CategoryFacet,
+  type LiveRow,
+} from "@/components/home/LiveTopTable";
+import { CATEGORIES } from "@/lib/constants";
+import type { Repo } from "@/lib/types";
 
 export const revalidate = 60;
 
@@ -36,198 +46,189 @@ export const metadata: Metadata = {
   alternates: { canonical: absoluteUrl("/agent-repos") },
 };
 
+const compactNumber = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  maximumFractionDigits: 1,
+});
+
+function formatCompact(value: number): string {
+  return compactNumber.format(Math.max(0, Math.round(value))).toLowerCase();
+}
+
+const CATEGORY_LABELS = new Map(CATEGORIES.map((c) => [c.id, c.shortName]));
+
+function categoryLabel(repo: Repo): string {
+  return CATEGORY_LABELS.get(repo.categoryId) ?? repo.language ?? "Repo";
+}
+
 export default async function AgentReposPage() {
+  // Hydrate the same 9 stores /githubrepo uses so LiveTopTable mention
+  // badges reflect the latest data-store payloads, not stale bundled snapshots.
+  await Promise.all([
+    refreshTrendingFromStore(),
+    refreshRedditMentionsFromStore(),
+    refreshHackernewsMentionsFromStore(),
+    refreshBlueskyMentionsFromStore(),
+    refreshDevtoMentionsFromStore(),
+    refreshLobstersMentionsFromStore(),
+    refreshNpmFromStore(),
+    refreshHfModelsFromStore(),
+    refreshArxivFromStore(),
+  ]);
+
+  // Same shape as /githubrepo, but filtered to the curated agent-repo set.
   const repos = selectAgentRepos(getDerivedRepos());
 
-  const totalStars = repos.reduce((sum, repo) => sum + repo.stars, 0);
-  const topByStars = repos[0];
-  const newRepos7d = repos.filter((repo) => {
-    if (!repo.createdAt) return false;
-    const createdMs = Date.parse(repo.createdAt);
-    if (Number.isNaN(createdMs)) return false;
-    return Date.now() - createdMs <= 7 * 24 * 3600 * 1000;
-  }).length;
-  const mostDeployed = [...repos].sort((a, b) => b.forks - a.forks)[0];
+  const liveRows = [...repos]
+    .sort((a, b) => b.momentumScore - a.momentumScore)
+    .slice(0, 50);
+  const liveTableRows: LiveRow[] = liveRows.map((repo) => {
+    const ps = repo.mentions?.perSource;
+    return {
+      id: repo.id,
+      fullName: repo.fullName,
+      owner: repo.owner,
+      name: repo.name,
+      href: `/repo/${repo.owner}/${repo.name}`,
+      categoryId: repo.categoryId,
+      categoryLabel: categoryLabel(repo),
+      language: repo.language ?? null,
+      stars: repo.stars,
+      starsDelta24h: repo.starsDelta24h,
+      starsDelta7d: repo.starsDelta7d,
+      starsDelta30d: repo.starsDelta30d,
+      forks: repo.forks,
+      sparklineData: repo.sparklineData,
+      momentumScore: repo.momentumScore,
+      mentionCount24h: repo.mentionCount24h ?? 0,
+      sources: {
+        gh: 1,
+        hn: ps?.hackernews.count24h ?? 0,
+        r: ps?.reddit.count24h ?? 0,
+        b: ps?.bluesky.count24h ?? 0,
+        d: ps?.devto.count24h ?? 0,
+        lobsters: ps?.lobsters.count24h ?? 0,
+        x: ps?.twitter.count24h ?? 0,
+        npm: ps?.npm.count24h ?? 0,
+        hf: ps?.huggingface.count24h ?? 0,
+        arxiv: ps?.arxiv.count24h ?? 0,
+      },
+    };
+  });
+  const liveCategories: CategoryFacet[] = (() => {
+    const counts = new Map<string, number>();
+    for (const row of liveTableRows) {
+      counts.set(row.categoryId, (counts.get(row.categoryId) ?? 0) + 1);
+    }
+    return CATEGORIES.map((category) => ({
+      id: category.id,
+      label: category.shortName,
+      count: counts.get(category.id) ?? 0,
+    }))
+      .filter((category) => category.count > 0)
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 6);
+  })();
+
+  const refreshed = new Date(lastFetchedAt);
+  const refreshedTime = refreshed.toISOString().slice(11, 19);
+  const total24h = repos.reduce(
+    (sum, repo) => sum + Math.max(0, repo.starsDelta24h),
+    0,
+  );
+  const total7d = repos.reduce(
+    (sum, repo) => sum + Math.max(0, repo.starsDelta7d),
+    0,
+  );
+  const breakoutCount = repos.filter(
+    (r) => r.movementStatus === "rising" || r.movementStatus === "hot",
+  ).length;
+  const consensusCount = repos.filter(
+    (r) => (r.crossSignalScore ?? 0) >= 2,
+  ).length;
+  const topCategory = CATEGORIES.map((category) => ({
+    label: category.shortName,
+    delta: repos
+      .filter((repo) => repo.categoryId === category.id)
+      .reduce((sum, repo) => sum + Math.max(0, repo.starsDelta24h), 0),
+  })).sort((a, b) => b.delta - a.delta)[0];
 
   return (
-    <main className="home-surface agent-repos-page">
-      <PageHead
-        crumb={
-          <>
-            <b>AGENTS</b> · TERMINAL · /AGENT-REPOS
-          </>
-        }
-        h1="Top agent runtimes and frameworks by total GitHub stars."
-        lede="Curated from GitHub agent searches and the OpenClaw ecosystem. Runtimes, frameworks, orchestrators, and OpenClaw-like systems such as OpenClaw, Hermes, NanoClaw, and NemoClaw. Plugins, skills, tutorials, and awesome lists stay in the general repo views."
-        clock={
-          <>
-            <span className="big">{repos.length}</span>
-            <span className="muted">
-              REPOS · OF {AGENT_REPO_TARGET_COUNT}
-            </span>
-            <FreshnessBadge source="mcp" lastUpdatedAt={lastFetchedAt} />
-          </>
-        }
-      />
+    <>
+      <main className="home-surface agent-repos-page">
+        <PageHead
+          crumb={
+            <>
+              <b>AGENTS</b> · TERMINAL · /AGENT-REPOS
+            </>
+          }
+          h1="Agent Repos"
+          lede="Top agent runtimes, frameworks, orchestrators, and OpenClaw-like systems — same momentum-ranked layout as /githubrepo, filtered to the curated agent-repo set."
+          clock={
+            <>
+              <span className="big">{repos.length}</span>
+              <span className="muted">
+                REPOS · OF {AGENT_REPO_TARGET_COUNT}
+              </span>
+              <FreshnessBadge source="mcp" lastUpdatedAt={lastFetchedAt} />
+            </>
+          }
+        />
 
-      <VerdictRibbon
-        tone="acc"
-        stamp={{
-          eyebrow: "// AGENT BOARD",
-          headline: `${repos.length} / ${AGENT_REPO_TARGET_COUNT} TRACKED`,
-          sub: `${formatNumber(totalStars)} combined stars · refreshed live`,
-        }}
-        text={
-          <>
-            <b>{repos.length} agent repos</b> with live data, led by{" "}
-            <span style={{ color: "var(--v4-acc)" }}>
-              {topByStars ? topByStars.fullName : "—"}
-            </span>{" "}
-            at{" "}
-            <span style={{ color: "var(--v4-money)" }}>
-              {topByStars ? formatNumber(topByStars.stars) : "—"} stars
-            </span>
-            .
-          </>
-        }
-        actionHref="/feeds/agent-repos.xml"
-        actionLabel="RSS →"
-      />
+        <MetricGrid columns={6}>
+          <Metric
+            label="tracked repos"
+            value={formatCompact(repos.length)}
+            sub={`of ${AGENT_REPO_TARGET_COUNT} curated`}
+          />
+          <Metric
+            label="24h stars"
+            value={formatCompact(total24h)}
+            delta="+ live"
+            tone="positive"
+          />
+          <Metric
+            label="7d stars"
+            value={formatCompact(total7d)}
+            sub="rolling window"
+          />
+          <Metric
+            label="consensus"
+            value={consensusCount}
+            sub="multi-source"
+            tone="consensus"
+          />
+          <Metric
+            label="breakouts"
+            value={breakoutCount}
+            sub="velocity spike"
+            tone="accent"
+          />
+          <Metric
+            label="top category"
+            value={topCategory?.label ?? "n/a"}
+            sub="momentum leader"
+          />
+        </MetricGrid>
 
-      <KpiBand
-        cells={[
-          {
-            label: "Total agent repos",
-            value: formatNumber(repos.length),
-            sub: `of ${AGENT_REPO_TARGET_COUNT} curated`,
-          },
-          {
-            label: "Top by stars",
-            value: topByStars
-              ? formatNumber(topByStars.stars)
-              : "—",
-            sub: topByStars ? topByStars.fullName : "no data",
-            tone: "money",
-          },
-          {
-            label: "New · 7d",
-            value: formatNumber(newRepos7d),
-            sub: newRepos7d > 0 ? "fresh repos" : "no new repos",
-            tone: newRepos7d > 0 ? "acc" : "default",
-          },
-          {
-            label: "Most-deployed",
-            value: mostDeployed
-              ? formatNumber(mostDeployed.forks)
-              : "—",
-            sub: mostDeployed
-              ? `${mostDeployed.fullName} · forks`
-              : "no data",
-          },
-        ]}
-      />
+        <SectionHead
+          num="// 01"
+          title="Live / top agent repos"
+          meta={
+            <>
+              <b>{refreshedTime}</b> / refreshed
+            </>
+          }
+        />
+        <Card>
+          <LiveTopTable rows={liveTableRows} categories={liveCategories} />
+        </Card>
+      </main>
 
-      <SectionHead
-        num="// 01"
-        title="Top agent repos"
-        meta={
-          <>
-            <b>{repos.length}</b> · BY STARS
-          </>
-        }
+      <FooterBar
+        meta={`// TRENDINGREPO / agent-repos / serial ${repos.length}`}
+        actions={`DATA / ${refreshedTime} UTC`}
       />
-      {repos.length === 0 ? (
-        <div
-          style={{
-            fontFamily: "var(--font-geist-mono), monospace",
-            fontSize: 12,
-            color: "var(--v4-ink-300)",
-            padding: "16px 0",
-          }}
-        >
-          No agent repos with live data right now.
-        </div>
-      ) : (
-        <div className="v4-leaderboard-template__leaderboard">
-          {repos.map((repo, index) => {
-            const slug = slugToId(repo.fullName);
-            const delta24 = repo.starsDelta24h ?? 0;
-            const direction =
-              delta24 > 0 ? "up" : delta24 < 0 ? "down" : "flat";
-            const deltaLabel =
-              delta24 > 0
-                ? `+${formatNumber(delta24)}`
-                : delta24 < 0
-                  ? formatNumber(delta24)
-                  : "0";
-            return (
-              <RankRow
-                key={repo.id}
-                rank={index + 1}
-                avatar={
-                  repo.ownerAvatarUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={repo.ownerAvatarUrl}
-                      alt=""
-                      width={28}
-                      height={28}
-                      style={{
-                        width: 28,
-                        height: 28,
-                        borderRadius: "50%",
-                        objectFit: "cover",
-                        flexShrink: 0,
-                      }}
-                      loading="lazy"
-                      referrerPolicy="no-referrer"
-                    />
-                  ) : (
-                    <LetterAvatar
-                      seed={repo.owner ?? repo.name ?? repo.id}
-                      size={28}
-                    />
-                  )
-                }
-                title={
-                  <>
-                    {repo.owner}{" "}
-                    <span style={{ color: "var(--v4-ink-400)" }}>/</span>{" "}
-                    {repo.name}
-                  </>
-                }
-                desc={(() => {
-                  const base =
-                    repo.description?.trim() ||
-                    (repo.language ? repo.language : "—");
-                  const m24 = repo.mentions?.total24h ?? 0;
-                  return m24 > 0 ? `${base} · ${m24} mentions 24h` : base;
-                })()}
-                metric={{
-                  value: formatNumber(repo.stars),
-                  label: "STARS",
-                }}
-                delta={{
-                  value: deltaLabel,
-                  direction,
-                  label: "24H",
-                  sparkline:
-                    repo.sparklineData && repo.sparklineData.length >= 2 ? (
-                      <Sparkline
-                        data={repo.sparklineData}
-                        width={72}
-                        height={20}
-                        positive={direction !== "down"}
-                      />
-                    ) : undefined,
-                }}
-                href={`/agent-repos/${slug}`}
-                first={index === 0}
-              />
-            );
-          })}
-        </div>
-      )}
-    </main>
+    </>
   );
 }

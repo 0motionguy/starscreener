@@ -1,10 +1,89 @@
 {
-  "fetchedAt": "2026-05-03T08:58:44.127Z",
+  "fetchedAt": "2026-05-03T10:17:04.709Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "rtk-ai/rtk": {
+      "count7d": 2,
+      "likesSum7d": 4,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:c22jdrqhoajyj5ca7e56a3ke/app.bsky.feed.post/3mkwtwhxjv226",
+        "cid": "bafyreifvmfno7mfcger3xqe3p53zrepwsfbpuu5azjpulb3m4ht5fro7za",
+        "bskyUrl": "https://bsky.app/profile/anon5r.com/post/3mkwtwhxjv226",
+        "text": "コーディングエージェントのトークン消費量を劇的に抑える（80-90%)とか。 出力結果をフィルターして不要な内容を減らしてからエージェントに渡すようにするっぽい RTKが使用するテレメトリの収集オプションもある（セットアップ時に聞かれる）けどデフォルトで無効。 github.com/rtk-ai/rtk",
+        "author": {
+          "handle": "anon5r.com",
+          "displayName": "anon"
+        },
+        "likeCount": 4,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T09:31:00.828Z",
+        "hoursSincePosted": 0.77
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:c22jdrqhoajyj5ca7e56a3ke/app.bsky.feed.post/3mkwtwhxjv226",
+          "cid": "bafyreifvmfno7mfcger3xqe3p53zrepwsfbpuu5azjpulb3m4ht5fro7za",
+          "bskyUrl": "https://bsky.app/profile/anon5r.com/post/3mkwtwhxjv226",
+          "text": "コーディングエージェントのトークン消費量を劇的に抑える（80-90%)とか。 出力結果をフィルターして不要な内容を減らしてからエージェントに渡すようにするっぽい RTKが使用するテレメトリの収集オプションもある（セットアップ時に聞かれる）けどデフォルトで無効。 github.com/rtk-ai/rtk",
+          "author": {
+            "handle": "anon5r.com",
+            "displayName": "anon"
+          },
+          "likeCount": 4,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T09:31:00.828Z",
+          "createdUtc": 1777800660,
+          "ageHours": 0.77,
+          "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rtk-ai/rtk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ynnrd5bphkquexxb3a2qvljj/app.bsky.feed.post/3mkwsitaen22q",
+          "cid": "bafyreiaby2phb5mww6i5zty5ao5daibq35c36ynbwr3ivtakuy4dto35qm",
+          "bskyUrl": "https://bsky.app/profile/kytiken.bsky.social/post/3mkwsitaen22q",
+          "text": "ちょっと気になる AIにシェルコマンドの出力を渡すときにフィルタリング・圧縮することでトークン削減となるとのこと github.com/rtk-ai/rtk",
+          "author": {
+            "handle": "kytiken.bsky.social",
+            "displayName": "kytiken"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T09:05:29.149Z",
+          "createdUtc": 1777799129,
+          "ageHours": 1.19,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rtk-ai/rtk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "masterking32/MasterDnsVPN": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -23,7 +102,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T08:05:04Z",
-        "hoursSincePosted": 0.89
+        "hoursSincePosted": 2.2
       },
       "posts": [
         {
@@ -40,7 +119,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T08:05:04Z",
           "createdUtc": 1777795504,
-          "ageHours": 0.89,
+          "ageHours": 2.2,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -74,7 +153,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T07:52:33.145686+00:00",
-        "hoursSincePosted": 1.1
+        "hoursSincePosted": 2.41
       },
       "posts": [
         {
@@ -91,7 +170,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T07:52:33.145686+00:00",
           "createdUtc": 1777794753,
-          "ageHours": 1.1,
+          "ageHours": 2.41,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -100,58 +179,6 @@
           "linkedRepos": [
             {
               "fullName": "B-M-Capital-Research/honeclaw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "Exocija/ZetaLib": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkwndvw2as2t",
-        "cid": "bafyreiapf3kuwpalazrvcja7aqhddebtepsqes6vvkwj6lpjljrre3b46q",
-        "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkwndvw2as2t",
-        "text": "The gay jailbreak technique (2025) https://github.com/Exocija/ZetaLib/blob/main/The%20Gay%20Jailbreak/The%20Gay%20Jailbreak.md",
-        "author": {
-          "handle": "mm-hacker-news.bsky.social",
-          "displayName": "Hacker News"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T07:33:15.116Z",
-        "hoursSincePosted": 1.42
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkwndvw2as2t",
-          "cid": "bafyreiapf3kuwpalazrvcja7aqhddebtepsqes6vvkwj6lpjljrre3b46q",
-          "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkwndvw2as2t",
-          "text": "The gay jailbreak technique (2025) https://github.com/Exocija/ZetaLib/blob/main/The%20Gay%20Jailbreak/The%20Gay%20Jailbreak.md",
-          "author": {
-            "handle": "mm-hacker-news.bsky.social",
-            "displayName": "Hacker News"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T07:33:15.116Z",
-          "createdUtc": 1777793595,
-          "ageHours": 1.42,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "has-md-file"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "Exocija/ZetaLib",
               "matchType": "url",
               "confidence": 1
             }
@@ -177,7 +204,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T06:55:19.303Z",
-        "hoursSincePosted": 2.06
+        "hoursSincePosted": 3.36
       },
       "posts": [
         {
@@ -194,7 +221,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T06:55:19.303Z",
           "createdUtc": 1777791319,
-          "ageHours": 2.06,
+          "ageHours": 3.36,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
@@ -229,7 +256,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T06:49:16Z",
-        "hoursSincePosted": 2.16
+        "hoursSincePosted": 3.46
       },
       "posts": [
         {
@@ -246,7 +273,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T06:49:16Z",
           "createdUtc": 1777790956,
-          "ageHours": 2.16,
+          "ageHours": 3.46,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -264,9 +291,9 @@
     },
     "RicardoDominguez/talkie-coder": {
       "count7d": 1,
-      "likesSum7d": 7,
+      "likesSum7d": 8,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:ayoll3ww3v3zgh6m6damfaaf/app.bsky.feed.post/3mkwjoubuq22l",
         "cid": "bafyreibvx5b3gwlopjdtm4bxaklmdqeim2ywvr5pya2jqjlk2f4wowufhq",
@@ -276,11 +303,11 @@
           "handle": "arnicas.bsky.social",
           "displayName": "Lynn Cherny"
         },
-        "likeCount": 7,
+        "likeCount": 8,
         "repostCount": 0,
-        "replyCount": 0,
+        "replyCount": 1,
         "createdAt": "2026-05-03T06:27:47.897Z",
-        "hoursSincePosted": 2.52
+        "hoursSincePosted": 3.82
       },
       "posts": [
         {
@@ -292,13 +319,13 @@
             "handle": "arnicas.bsky.social",
             "displayName": "Lynn Cherny"
           },
-          "likeCount": 7,
+          "likeCount": 8,
           "repostCount": 0,
-          "replyCount": 0,
+          "replyCount": 1,
           "createdAt": "2026-05-03T06:27:47.897Z",
           "createdUtc": 1777789667,
-          "ageHours": 2.52,
-          "trendingScore": 7,
+          "ageHours": 3.82,
+          "trendingScore": 8.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -331,7 +358,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T05:26:09.414Z",
-        "hoursSincePosted": 3.54
+        "hoursSincePosted": 4.85
       },
       "posts": [
         {
@@ -348,7 +375,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T05:26:09.414Z",
           "createdUtc": 1777785969,
-          "ageHours": 3.54,
+          "ageHours": 4.85,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -382,7 +409,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T05:15:29.128811+00:00",
-        "hoursSincePosted": 3.72
+        "hoursSincePosted": 5.03
       },
       "posts": [
         {
@@ -399,7 +426,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T05:15:29.128811+00:00",
           "createdUtc": 1777785329,
-          "ageHours": 3.72,
+          "ageHours": 5.03,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
@@ -416,10 +443,61 @@
         }
       ]
     },
+    "ECNU-SII/MIA": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwewzuwov22",
+        "cid": "bafyreia777m3vuq3wpk6szrimx6ek4fh5jkquo42mftmnue4khcm5vxata",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwewzuwov22",
+        "text": "https://github.com/ECNU-SII/MIA",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T05:02:53Z",
+        "hoursSincePosted": 5.24
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwewzuwov22",
+          "cid": "bafyreia777m3vuq3wpk6szrimx6ek4fh5jkquo42mftmnue4khcm5vxata",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwewzuwov22",
+          "text": "https://github.com/ECNU-SII/MIA",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T05:02:53Z",
+          "createdUtc": 1777784573,
+          "ageHours": 5.24,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ECNU-SII/MIA",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "Optimus1200/LocalServer": {
       "count7d": 1,
-      "likesSum7d": 27,
-      "repostsSum7d": 13,
+      "likesSum7d": 28,
+      "repostsSum7d": 14,
       "repliesSum7d": 0,
       "topPost": {
         "uri": "at://did:plc:i2dx2kcxza3pvjc6ciomofqc/app.bsky.feed.post/3mkwdewkn4c2l",
@@ -430,11 +508,11 @@
           "handle": "acecombat.wiki",
           "displayName": "Ace Combat Wiki"
         },
-        "likeCount": 27,
-        "repostCount": 13,
+        "likeCount": 28,
+        "repostCount": 14,
         "replyCount": 0,
         "createdAt": "2026-05-03T04:34:52.285Z",
-        "hoursSincePosted": 4.4
+        "hoursSincePosted": 5.7
       },
       "posts": [
         {
@@ -446,13 +524,13 @@
             "handle": "acecombat.wiki",
             "displayName": "Ace Combat Wiki"
           },
-          "likeCount": 27,
-          "repostCount": 13,
+          "likeCount": 28,
+          "repostCount": 14,
           "replyCount": 0,
           "createdAt": "2026-05-03T04:34:52.285Z",
           "createdUtc": 1777782892,
-          "ageHours": 4.4,
-          "trendingScore": 53,
+          "ageHours": 5.7,
+          "trendingScore": 56,
           "content_tags": [
             "has-github-repo"
           ],
@@ -466,9 +544,139 @@
           ]
         }
       ]
+    },
+    "codejunkie99/agentic-stack": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwbkbelsi2s",
+        "cid": "bafyreigefs3lwk7jfqm7ij7hmzn7uknxvjjet7h6vu2kb6nif3mttbwn74",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwbkbelsi2s",
+        "text": "https://github.com/codejunkie99/agentic-stack",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T04:02:03Z",
+        "hoursSincePosted": 6.25
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwbkbelsi2s",
+          "cid": "bafyreigefs3lwk7jfqm7ij7hmzn7uknxvjjet7h6vu2kb6nif3mttbwn74",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwbkbelsi2s",
+          "text": "https://github.com/codejunkie99/agentic-stack",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T04:02:03Z",
+          "createdUtc": 1777780923,
+          "ageHours": 6.25,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "codejunkie99/agentic-stack",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "mentionsByRepoId": {
+    "rtk-ai--rtk": {
+      "count7d": 2,
+      "likesSum7d": 4,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:c22jdrqhoajyj5ca7e56a3ke/app.bsky.feed.post/3mkwtwhxjv226",
+        "cid": "bafyreifvmfno7mfcger3xqe3p53zrepwsfbpuu5azjpulb3m4ht5fro7za",
+        "bskyUrl": "https://bsky.app/profile/anon5r.com/post/3mkwtwhxjv226",
+        "text": "コーディングエージェントのトークン消費量を劇的に抑える（80-90%)とか。 出力結果をフィルターして不要な内容を減らしてからエージェントに渡すようにするっぽい RTKが使用するテレメトリの収集オプションもある（セットアップ時に聞かれる）けどデフォルトで無効。 github.com/rtk-ai/rtk",
+        "author": {
+          "handle": "anon5r.com",
+          "displayName": "anon"
+        },
+        "likeCount": 4,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T09:31:00.828Z",
+        "hoursSincePosted": 0.77
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:c22jdrqhoajyj5ca7e56a3ke/app.bsky.feed.post/3mkwtwhxjv226",
+          "cid": "bafyreifvmfno7mfcger3xqe3p53zrepwsfbpuu5azjpulb3m4ht5fro7za",
+          "bskyUrl": "https://bsky.app/profile/anon5r.com/post/3mkwtwhxjv226",
+          "text": "コーディングエージェントのトークン消費量を劇的に抑える（80-90%)とか。 出力結果をフィルターして不要な内容を減らしてからエージェントに渡すようにするっぽい RTKが使用するテレメトリの収集オプションもある（セットアップ時に聞かれる）けどデフォルトで無効。 github.com/rtk-ai/rtk",
+          "author": {
+            "handle": "anon5r.com",
+            "displayName": "anon"
+          },
+          "likeCount": 4,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T09:31:00.828Z",
+          "createdUtc": 1777800660,
+          "ageHours": 0.77,
+          "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rtk-ai/rtk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ynnrd5bphkquexxb3a2qvljj/app.bsky.feed.post/3mkwsitaen22q",
+          "cid": "bafyreiaby2phb5mww6i5zty5ao5daibq35c36ynbwr3ivtakuy4dto35qm",
+          "bskyUrl": "https://bsky.app/profile/kytiken.bsky.social/post/3mkwsitaen22q",
+          "text": "ちょっと気になる AIにシェルコマンドの出力を渡すときにフィルタリング・圧縮することでトークン削減となるとのこと github.com/rtk-ai/rtk",
+          "author": {
+            "handle": "kytiken.bsky.social",
+            "displayName": "kytiken"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T09:05:29.149Z",
+          "createdUtc": 1777799129,
+          "ageHours": 1.19,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rtk-ai/rtk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "masterking32--masterdnsvpn": {
       "count7d": 1,
       "likesSum7d": 0,
@@ -487,7 +695,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T08:05:04Z",
-        "hoursSincePosted": 0.89
+        "hoursSincePosted": 2.2
       },
       "posts": [
         {
@@ -504,7 +712,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T08:05:04Z",
           "createdUtc": 1777795504,
-          "ageHours": 0.89,
+          "ageHours": 2.2,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -538,7 +746,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T07:52:33.145686+00:00",
-        "hoursSincePosted": 1.1
+        "hoursSincePosted": 2.41
       },
       "posts": [
         {
@@ -555,7 +763,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T07:52:33.145686+00:00",
           "createdUtc": 1777794753,
-          "ageHours": 1.1,
+          "ageHours": 2.41,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -564,58 +772,6 @@
           "linkedRepos": [
             {
               "fullName": "B-M-Capital-Research/honeclaw",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "exocija--zetalib": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkwndvw2as2t",
-        "cid": "bafyreiapf3kuwpalazrvcja7aqhddebtepsqes6vvkwj6lpjljrre3b46q",
-        "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkwndvw2as2t",
-        "text": "The gay jailbreak technique (2025) https://github.com/Exocija/ZetaLib/blob/main/The%20Gay%20Jailbreak/The%20Gay%20Jailbreak.md",
-        "author": {
-          "handle": "mm-hacker-news.bsky.social",
-          "displayName": "Hacker News"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T07:33:15.116Z",
-        "hoursSincePosted": 1.42
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkwndvw2as2t",
-          "cid": "bafyreiapf3kuwpalazrvcja7aqhddebtepsqes6vvkwj6lpjljrre3b46q",
-          "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkwndvw2as2t",
-          "text": "The gay jailbreak technique (2025) https://github.com/Exocija/ZetaLib/blob/main/The%20Gay%20Jailbreak/The%20Gay%20Jailbreak.md",
-          "author": {
-            "handle": "mm-hacker-news.bsky.social",
-            "displayName": "Hacker News"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T07:33:15.116Z",
-          "createdUtc": 1777793595,
-          "ageHours": 1.42,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "has-md-file"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "Exocija/ZetaLib",
               "matchType": "url",
               "confidence": 1
             }
@@ -641,7 +797,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T06:55:19.303Z",
-        "hoursSincePosted": 2.06
+        "hoursSincePosted": 3.36
       },
       "posts": [
         {
@@ -658,7 +814,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T06:55:19.303Z",
           "createdUtc": 1777791319,
-          "ageHours": 2.06,
+          "ageHours": 3.36,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
@@ -693,7 +849,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T06:49:16Z",
-        "hoursSincePosted": 2.16
+        "hoursSincePosted": 3.46
       },
       "posts": [
         {
@@ -710,7 +866,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T06:49:16Z",
           "createdUtc": 1777790956,
-          "ageHours": 2.16,
+          "ageHours": 3.46,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -728,9 +884,9 @@
     },
     "ricardodominguez--talkie-coder": {
       "count7d": 1,
-      "likesSum7d": 7,
+      "likesSum7d": 8,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:ayoll3ww3v3zgh6m6damfaaf/app.bsky.feed.post/3mkwjoubuq22l",
         "cid": "bafyreibvx5b3gwlopjdtm4bxaklmdqeim2ywvr5pya2jqjlk2f4wowufhq",
@@ -740,11 +896,11 @@
           "handle": "arnicas.bsky.social",
           "displayName": "Lynn Cherny"
         },
-        "likeCount": 7,
+        "likeCount": 8,
         "repostCount": 0,
-        "replyCount": 0,
+        "replyCount": 1,
         "createdAt": "2026-05-03T06:27:47.897Z",
-        "hoursSincePosted": 2.52
+        "hoursSincePosted": 3.82
       },
       "posts": [
         {
@@ -756,13 +912,13 @@
             "handle": "arnicas.bsky.social",
             "displayName": "Lynn Cherny"
           },
-          "likeCount": 7,
+          "likeCount": 8,
           "repostCount": 0,
-          "replyCount": 0,
+          "replyCount": 1,
           "createdAt": "2026-05-03T06:27:47.897Z",
           "createdUtc": 1777789667,
-          "ageHours": 2.52,
-          "trendingScore": 7,
+          "ageHours": 3.82,
+          "trendingScore": 8.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -795,7 +951,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T05:26:09.414Z",
-        "hoursSincePosted": 3.54
+        "hoursSincePosted": 4.85
       },
       "posts": [
         {
@@ -812,7 +968,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T05:26:09.414Z",
           "createdUtc": 1777785969,
-          "ageHours": 3.54,
+          "ageHours": 4.85,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -846,7 +1002,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T05:15:29.128811+00:00",
-        "hoursSincePosted": 3.72
+        "hoursSincePosted": 5.03
       },
       "posts": [
         {
@@ -863,7 +1019,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T05:15:29.128811+00:00",
           "createdUtc": 1777785329,
-          "ageHours": 3.72,
+          "ageHours": 5.03,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
@@ -880,10 +1036,61 @@
         }
       ]
     },
+    "ecnu-sii--mia": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwewzuwov22",
+        "cid": "bafyreia777m3vuq3wpk6szrimx6ek4fh5jkquo42mftmnue4khcm5vxata",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwewzuwov22",
+        "text": "https://github.com/ECNU-SII/MIA",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T05:02:53Z",
+        "hoursSincePosted": 5.24
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwewzuwov22",
+          "cid": "bafyreia777m3vuq3wpk6szrimx6ek4fh5jkquo42mftmnue4khcm5vxata",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwewzuwov22",
+          "text": "https://github.com/ECNU-SII/MIA",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T05:02:53Z",
+          "createdUtc": 1777784573,
+          "ageHours": 5.24,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ECNU-SII/MIA",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "optimus1200--localserver": {
       "count7d": 1,
-      "likesSum7d": 27,
-      "repostsSum7d": 13,
+      "likesSum7d": 28,
+      "repostsSum7d": 14,
       "repliesSum7d": 0,
       "topPost": {
         "uri": "at://did:plc:i2dx2kcxza3pvjc6ciomofqc/app.bsky.feed.post/3mkwdewkn4c2l",
@@ -894,11 +1101,11 @@
           "handle": "acecombat.wiki",
           "displayName": "Ace Combat Wiki"
         },
-        "likeCount": 27,
-        "repostCount": 13,
+        "likeCount": 28,
+        "repostCount": 14,
         "replyCount": 0,
         "createdAt": "2026-05-03T04:34:52.285Z",
-        "hoursSincePosted": 4.4
+        "hoursSincePosted": 5.7
       },
       "posts": [
         {
@@ -910,13 +1117,13 @@
             "handle": "acecombat.wiki",
             "displayName": "Ace Combat Wiki"
           },
-          "likeCount": 27,
-          "repostCount": 13,
+          "likeCount": 28,
+          "repostCount": 14,
           "replyCount": 0,
           "createdAt": "2026-05-03T04:34:52.285Z",
           "createdUtc": 1777782892,
-          "ageHours": 4.4,
-          "trendingScore": 53,
+          "ageHours": 5.7,
+          "trendingScore": 56,
           "content_tags": [
             "has-github-repo"
           ],
@@ -930,18 +1137,74 @@
           ]
         }
       ]
+    },
+    "codejunkie99--agentic-stack": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwbkbelsi2s",
+        "cid": "bafyreigefs3lwk7jfqm7ij7hmzn7uknxvjjet7h6vu2kb6nif3mttbwn74",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwbkbelsi2s",
+        "text": "https://github.com/codejunkie99/agentic-stack",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T04:02:03Z",
+        "hoursSincePosted": 6.25
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwbkbelsi2s",
+          "cid": "bafyreigefs3lwk7jfqm7ij7hmzn7uknxvjjet7h6vu2kb6nif3mttbwn74",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwbkbelsi2s",
+          "text": "https://github.com/codejunkie99/agentic-stack",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T04:02:03Z",
+          "createdUtc": 1777780923,
+          "ageHours": 6.25,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "codejunkie99/agentic-stack",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "Optimus1200/LocalServer",
       "count7d": 1,
-      "likesSum7d": 27
+      "likesSum7d": 28
     },
     {
       "fullName": "RicardoDominguez/talkie-coder",
       "count7d": 1,
-      "likesSum7d": 7
+      "likesSum7d": 8
+    },
+    {
+      "fullName": "rtk-ai/rtk",
+      "count7d": 2,
+      "likesSum7d": 4
     },
     {
       "fullName": "rohitg00/ai-engineering-from-scratch",
@@ -964,7 +1227,12 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "Exocija/ZetaLib",
+      "fullName": "codejunkie99/agentic-stack",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "ECNU-SII/MIA",
       "count7d": 1,
       "likesSum7d": 0
     },

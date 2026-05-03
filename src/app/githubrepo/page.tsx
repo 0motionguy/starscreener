@@ -52,19 +52,21 @@ export default async function GithubRepoPage({
 }) {
   const repos = getDerivedRepos();
 
-  // Cross-signal-first ranking: rank A by channelsFiring × crossSignalScore
-  // (the actual "trending across multiple platforms" signal), tiebreak with
-  // momentumScore. Pure-stars-only repos drop below multi-channel breakouts.
-  // User feedback: "we have a fucking trending engine — not the score".
+  // Pure cross-signal ranking — momentumScore dropped per user direction
+  // ("DROP MOMENTUM SCORE ITS SHIT"). Trending = the actual cross-channel
+  // signal (channelsFiring × crossSignalScore), tiebroken by 24h star
+  // velocity (a real movement signal, not a slow-decay score).
   const sorted = [...repos].sort((a, b) => {
     const aChannels = a.channelsFiring ?? 0;
     const bChannels = b.channelsFiring ?? 0;
     const aCross = a.crossSignalScore ?? 0;
     const bCross = b.crossSignalScore ?? 0;
-    const aBlend = aChannels * 2 + aCross + (a.momentumScore ?? 0) / 50;
-    const bBlend = bChannels * 2 + bCross + (b.momentumScore ?? 0) / 50;
-    if (bBlend !== aBlend) return bBlend - aBlend;
-    return (b.momentumScore ?? 0) - (a.momentumScore ?? 0);
+    // Primary: channels firing × cross-signal score
+    const aRank = aChannels * 2 + aCross;
+    const bRank = bChannels * 2 + bCross;
+    if (bRank !== aRank) return bRank - aRank;
+    // Tiebreak: 24h star velocity (real movement, not a smoothed score)
+    return (b.starsDelta24h ?? 0) - (a.starsDelta24h ?? 0);
   });
   const params = await searchParams;
   const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));

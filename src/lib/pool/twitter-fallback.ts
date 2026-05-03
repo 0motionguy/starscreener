@@ -17,7 +17,7 @@ import { recordDegradation, recordTwitterCall } from "./twitter-telemetry";
 
 const RETRY_DELAYS_MS = [1_000, 2_000, 4_000] as const;
 
-export interface TwitterFallbackOptions extends ApifyScrapeOptions {}
+export type TwitterFallbackOptions = ApifyScrapeOptions;
 
 export async function scrapeTwitterFor(
   repoFullName: string,

@@ -44,7 +44,6 @@ import {
   Layers,
   Library,
   Lightbulb,
-  LineChart,
   Network,
   Package,
   Plug,
@@ -570,12 +569,10 @@ export function SidebarContent({
             badgeTone="default"
             active={pathname === "/revenue" || pathname.startsWith("/revenue/")}
           />
-          <V2NavRow
-            href="/submit/revenue"
-            icon={Zap}
-            label="Drop Revenue"
-            active={pathname === "/submit/revenue"}
-          />
+          {/* "Drop Revenue" sidebar entry hidden 2026-05-03 — page kept on
+              disk so direct links still work, but the audit flagged it as
+              having no shared data source and no production traffic. Re-enable
+              once the submission pipeline is wired into the data-store. */}
           <V2NavRow
             icon={Trophy}
             label="Hackathons"
@@ -626,14 +623,11 @@ export function SidebarContent({
             label="Ideas"
             active={pathname === "/ideas" || pathname.startsWith("/ideas/")}
           />
-          <V2NavRow
-            href="/predict"
-            icon={LineChart}
-            label="Predict"
-            badge="V1"
-            badgeTone="default"
-            active={pathname === "/predict"}
-          />
+          {/* "Predict" sidebar entry hidden 2026-05-03 — page kept on disk
+              (direct links still work) but the audit flagged the underlying
+              data shape (.data/predictions.jsonl) as un-routed through the
+              data-store, so freshness can't be tracked. Re-enable once
+              predictions land in Redis like the other surfaces. */}
           <V2NavRow
             href="/categories"
             icon={Tags}

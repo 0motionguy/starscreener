@@ -21,6 +21,8 @@ import {
   type FeedColumn,
 } from "@/components/feed/TerminalFeedTable";
 import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoLogoUrl } from "@/lib/logos";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -238,8 +240,20 @@ function ArxivPaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
       header: "Paper",
       render: (p) => {
         const linkedRepo = p.linkedRepos?.[0]?.fullName ?? null;
+        // AUDIT-2026-05-04: arxiv rows had no logo column; closes the
+        // "non-repo entities have no first-class images" gap. Show linked
+        // repo owner's avatar when present, otherwise EntityLogo's
+        // monogram fallback (deterministic hue derived from the title).
         return (
-          <div className="flex min-w-0 flex-col gap-0.5">
+          <div className="flex min-w-0 items-start gap-2">
+            <EntityLogo
+              src={linkedRepo ? repoLogoUrl(linkedRepo) : null}
+              name={linkedRepo ?? p.title}
+              size={20}
+              shape="square"
+              alt=""
+            />
+            <div className="flex min-w-0 flex-col gap-0.5">
             <a
               href={p.absUrl}
               target="_blank"
@@ -271,6 +285,7 @@ function ArxivPaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
                 </span>
               ) : null}
             </span>
+            </div>
           </div>
         );
       },

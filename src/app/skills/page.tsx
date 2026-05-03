@@ -19,6 +19,15 @@ import Link from "next/link";
 
 import { getSkillsSignalData } from "@/lib/ecosystem-leaderboards";
 import { getDerivedRepos } from "@/lib/derived-repos";
+import { refreshTrendingFromStore } from "@/lib/trending";
+import { refreshRedditMentionsFromStore } from "@/lib/reddit-data";
+import { refreshHackernewsMentionsFromStore } from "@/lib/hackernews";
+import { refreshBlueskyMentionsFromStore } from "@/lib/bluesky";
+import { refreshDevtoMentionsFromStore } from "@/lib/devto";
+import { refreshLobstersMentionsFromStore } from "@/lib/lobsters";
+import { refreshNpmFromStore } from "@/lib/npm";
+import { refreshHfModelsFromStore } from "@/lib/huggingface";
+import { refreshArxivFromStore } from "@/lib/arxiv";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { formatNumber } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
@@ -109,6 +118,24 @@ interface SkillsPageProps {
 export default async function SkillsPage({ searchParams }: SkillsPageProps) {
   const params = (await searchParams) ?? {};
   const sortWindow = parseSortWindow(params.window);
+
+  // BUG-FIX 2026-05-03: rehydrate the in-memory caches `getDerivedRepos()`
+  // depends on. Without these refreshes, `linked` repo lookups returned
+  // stale (often empty) Repo objects and every star delta column rendered
+  // as "—". Mirrors the pattern used by /githubrepo and /home — each
+  // refresh is internally rate-limited (30s) + dedupes in-flight callers
+  // so calling them here on every render is cheap.
+  await Promise.all([
+    refreshTrendingFromStore(),
+    refreshRedditMentionsFromStore(),
+    refreshHackernewsMentionsFromStore(),
+    refreshBlueskyMentionsFromStore(),
+    refreshDevtoMentionsFromStore(),
+    refreshLobstersMentionsFromStore(),
+    refreshNpmFromStore(),
+    refreshHfModelsFromStore(),
+    refreshArxivFromStore(),
+  ]);
 
   const data = await getSkillsSignalData();
   const items = data.combined.items;
@@ -305,10 +332,54 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
         title="Top skills"
         meta={
           <>
-            <b>{items.length}</b> · sortable · stars Δ + installs Δ
+            <b>{items.length}</b> · sortable · stars Δ + installs Δ · sort{" "}
+            <b>{WINDOW_LABEL[sortWindow]}</b>
           </>
         }
       />
+
+      {/* W5-SKILLS24H — sort-by-window control. Server-rendered links so
+          the URL is canonical + shareable; default 24h matches the page
+          intent ("instant velocity"). Mirrors /categories pattern. */}
+      <nav
+        aria-label="Sort skills by time window"
+        style={{
+          display: "flex",
+          gap: 6,
+          padding: "6px 0 12px",
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 11,
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+        }}
+      >
+        <span style={{ color: "var(--v4-ink-400)", paddingRight: 6 }}>
+          SORT BY ·
+        </span>
+        {SORT_WINDOWS.map((w) => {
+          const active = w === sortWindow;
+          const href = w === "24h" ? "/skills" : `/skills?window=${w}`;
+          return (
+            <Link
+              key={w}
+              href={href}
+              aria-current={active ? "page" : undefined}
+              style={{
+                padding: "2px 8px",
+                borderRadius: 2,
+                border: `1px solid ${active ? "var(--v4-acc)" : "var(--v4-line-200)"}`,
+                color: active ? "var(--v4-ink-000)" : "var(--v4-ink-300)",
+                background: active
+                  ? "color-mix(in oklab, var(--v4-acc) 14%, transparent)"
+                  : "transparent",
+                textDecoration: "none",
+              }}
+            >
+              {WINDOW_LABEL[w]}
+            </Link>
+          );
+        })}
+      </nav>
 
       {(() => {
         const skillRows: SkillRow[] = items.map((item) => {
@@ -353,7 +424,9 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
             </p>
           );
         }
-        return <SkillsTopTable rows={skillRows} defaultSortKey="s24" />;
+        const sortKey =
+          sortWindow === "24h" ? "s24" : sortWindow === "30d" ? "s30" : "s7";
+        return <SkillsTopTable rows={skillRows} defaultSortKey={sortKey} />;
       })()}
 
       <SectionHead

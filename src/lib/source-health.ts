@@ -7,7 +7,14 @@ import { getPhFile, producthuntCold, producthuntFetchedAt } from "./producthunt"
 import { getAllPostsFile } from "./reddit-all-data";
 import { getRedditFetchedAt, getRedditFile, isRedditCold } from "./reddit-data";
 
-export const FAST_DATA_STALE_THRESHOLD_MS = 2 * 60 * 60 * 1000;
+// Bumped from 2h → 4h on 2026-05-03. Hourly sources (reddit/HN/bluesky/
+// lobsters/repo-metadata/collection-rankings) regularly drift past 2h
+// when GHA queues build up or a single cron tick is skipped, which
+// flipped /api/health to status:stale even though all collectors were
+// healthy. 4h = 2× the cron cadence + 2× headroom — matches the
+// audit-freshness 6h budget for these same sources without firing
+// false alarms.
+export const FAST_DATA_STALE_THRESHOLD_MS = 4 * 60 * 60 * 1000;
 export const PRODUCTHUNT_STALE_THRESHOLD_MS = 16 * 60 * 60 * 1000;
 export const DEVTO_STALE_THRESHOLD_MS = 26 * 60 * 60 * 1000;
 export const NPM_STALE_THRESHOLD_MS = 50 * 60 * 60 * 1000;

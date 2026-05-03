@@ -4,7 +4,7 @@
 
 **Purpose:** every Claude Code session can read this file and instantly know the current state of the engine, what is shipping, and what is broken. Refreshed by `/loop` autonomous runs and by hand. **Source of truth for the audit-2026-05-04 follow-up.**
 
-Last refreshed: 2026-05-03 ~02:10 UTC (autonomous tick)
+Last refreshed: 2026-05-03 ~02:45 UTC (autonomous tick)
 
 ---
 
@@ -343,7 +343,8 @@ Hackathons, Launch — no route, no data, intentional
 
 Last verified: 2026-05-03 ~02:10 UTC
 
-- **/api/health**: HTTP 200, **`status:stale`**, `sourceStatus:degraded`, `coveragePct:97.4`, `coverageQuality:partial` ← stale climbing
+- **/api/health**: HTTP 200, **`status:stale`** ← FAST_DATA_STALE_THRESHOLD_MS was 2h, hourly sources drifted just past it. Bumped to 4h in this branch (commit pending). Live status will recover on next deploy.
+- **`coveragePct:90.7`**, `coverageQuality:partial` ← deltas cold-start window
 - **/api/health/sources**: 9/9 CLOSED breakers
 - **Worker /healthz**: ok, db=true, redis=true, lastRunAt fresh within minutes
 - **`consensus-trending` Redis key**: 69h+ stale → snapshot-consensus failed at 01:22 UTC + sparklines hung 14min then cancelled at 01:37

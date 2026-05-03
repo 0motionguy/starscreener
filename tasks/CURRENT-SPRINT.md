@@ -1,6 +1,6 @@
 # CURRENT SPRINT — Sprint 1: Pool Verification + Source Activation
 
-Status: BLOCKED BY 5 PREFLIGHT ADVISORY ROWS
+Status: IN PROGRESS - Phase 1.2 Reddit User-Agent pool
 Started: 2026-05-03
 Target completion: 2026-05-10
 
@@ -30,9 +30,13 @@ See individual phase prompts.
   hotness-snapshots (trending-skill snapshot published 0 items),
   mcp-dependents (LIBRARIES_IO_API_KEY missing), mcp-smithery-rank
   (SMITHERY_API_KEY missing), model-usage (cron succeeds but no events touched),
-  skill-install-snapshots (no install data found). Treat as advisory/defer
-  decision; do not start phase 1.2 until Mirko explicitly defers these five or
-  the expanded route marks them non-blocking.
+  skill-install-snapshots (no install data found). Superseded by the advisory
+  deferral below.
+- 2026-05-03 Mirko deferred the five advisory rows. Expanded freshness now
+  reports advisory rows with `blocking=false`; local
+  `npm run freshness:check -- --timeout-ms 30000` returned green=50, yellow=0,
+  red=0, dead=0, blocking_non_green=0, advisory_non_green=0. Phase 1.2 may
+  proceed.
 
 ## Notes for next session
 - 2026-05-03 Phase 1.1 done: wired GitHub pool cold-start hydration (`hydrate: true`) into the singleton, exposed hydration status on `/admin/pool`, and added regression tests for hydrate off/on behavior.
@@ -40,5 +44,8 @@ See individual phase prompts.
 - Build verification found missing Sentry Next 15 hooks; patched only the required `onRouterTransitionStart` and `onRequestError` exports so `next build` can compile. Phase 1.5 Sentry delivery verification is still open.
 - Verification: `npm run freshness:check` passed with 18 green / 0 yellow / 0 red / 0 dead; `npx tsx --test src/lib/__tests__/github-token-pool.test.ts` passed 23/23; `npm run typecheck` passed; `npm run lint:guards` passed; `$env:NODE_PATH=(Join-Path (Get-Location) 'node_modules'); cmd /c npm run build` passed. Plain `cmd /c npm run build` still fails in this local checkout because `.next` is a junction to `%TEMP%\trendingrepo-next-dev`, causing `_document.js` to miss repo `node_modules` during page-data collection.
 - 2026-05-03 preflight correction: the prior freshness pass only covered the
-  old 18-row inventory. Do not start phase 1.2 until the expanded freshness
-  rows above are repaired or explicitly deferred by Mirko.
+  old 18-row inventory; the expanded rows have now been repaired or explicitly
+  deferred.
+- 2026-05-03 advisory preflight deferral done: `hotness-snapshots`,
+  `mcp-dependents`, `mcp-smithery-rank`, `model-usage`, and
+  `skill-install-snapshots` no longer block `freshness:check`.

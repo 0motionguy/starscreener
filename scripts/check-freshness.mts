@@ -10,6 +10,7 @@ interface FreshnessSource {
   freshnessBudget: string;
   ageMs: number | null;
   status: Status;
+  blocking?: boolean;
 }
 
 interface FreshnessState {
@@ -205,6 +206,9 @@ function validateFreshnessState(value: FreshnessState): void {
     if (!["GREEN", "YELLOW", "RED", "DEAD"].includes(source.status)) {
       throw new Error(`${source.name} has invalid status`);
     }
+    if (source.blocking !== undefined && typeof source.blocking !== "boolean") {
+      throw new Error(`${source.name} has invalid blocking flag`);
+    }
   }
 }
 
@@ -235,6 +239,7 @@ function exitCodeFor(state: FreshnessState): number {
   let anyNonGreen = false;
   let anyPastHardLimit = false;
   for (const source of state.sources) {
+    if (source.blocking === false) continue;
     if (source.status !== "GREEN") anyNonGreen = true;
     if (source.status === "DEAD") anyPastHardLimit = true;
     const budgetMs = parseBudgetMs(source.freshnessBudget);
@@ -256,16 +261,22 @@ function printReport(opts: Options, health: HealthState, state: FreshnessState):
     `freshness-check target=${opts.baseUrl} health=${health.status ?? "unknown"} sourceStatus=${health.sourceStatus ?? "unknown"} checkedAt=${state.checkedAt}`,
   );
   console.log("");
-  console.log("| source | status | last_update | age | budget |");
-  console.log("|---|---:|---|---:|---:|");
+  console.log("| source | blocking | status | last_update | age | budget |");
+  console.log("|---|---:|---:|---|---:|---:|");
   for (const source of state.sources) {
     console.log(
-      `| ${source.name} | ${source.status} | ${source.lastUpdate ?? "-"} | ${formatDuration(source.ageMs)} | ${source.freshnessBudget} |`,
+      `| ${source.name} | ${source.blocking === false ? "no" : "yes"} | ${source.status} | ${source.lastUpdate ?? "-"} | ${formatDuration(source.ageMs)} | ${source.freshnessBudget} |`,
     );
   }
   console.log("");
+  const advisoryNonGreen = state.sources.filter(
+    (source) => source.blocking === false && source.status !== "GREEN",
+  ).length;
+  const blockingNonGreen = state.sources.filter(
+    (source) => source.blocking !== false && source.status !== "GREEN",
+  ).length;
   console.log(
-    `summary: green=${state.summary.green} yellow=${state.summary.yellow} red=${state.summary.red} dead=${state.summary.dead}`,
+    `summary: green=${state.summary.green} yellow=${state.summary.yellow} red=${state.summary.red} dead=${state.summary.dead} blocking_non_green=${blockingNonGreen} advisory_non_green=${advisoryNonGreen}`,
   );
 }
 
@@ -287,7 +298,14 @@ async function main(): Promise<void> {
   } else {
     printReport(opts, health, state);
     if (code === 0) {
-      console.log("PASS freshness all green");
+      const advisoryNonGreen = state.sources.filter(
+        (source) => source.blocking === false && source.status !== "GREEN",
+      ).length;
+      if (advisoryNonGreen > 0) {
+        console.log(`PASS freshness blocking sources green; advisory non-green=${advisoryNonGreen}`);
+      } else {
+        console.log("PASS freshness all green");
+      }
     } else if (code === 2) {
       console.log("FAIL freshness source past budget by more than 24h");
     } else {

@@ -19,7 +19,12 @@ type SourceStatus = "GREEN" | "YELLOW" | "RED" | "DEAD";
 interface SourceSpec {
   name: string;
   metaSource?: string;
-  redisSlugs: string[];
+  redisSlugs?: string[];
+  redisSlugGroups?: Array<{
+    label: string;
+    slugs: (nowMs: number) => string[];
+  }>;
+  blocking?: boolean;
   budgetMs: number;
   budgetLabel: string;
 }
@@ -30,6 +35,7 @@ interface SourceState {
   freshnessBudget: string;
   ageMs: number | null;
   status: SourceStatus;
+  blocking: boolean;
 }
 
 interface FreshnessStateResponse {
@@ -61,11 +67,58 @@ function hours(n: number): { budgetMs: number; budgetLabel: string } {
   return { budgetMs: n * HOUR_MS, budgetLabel: `${n}h` };
 }
 
+function days(n: number): { budgetMs: number; budgetLabel: string } {
+  return { budgetMs: n * DAY_MS, budgetLabel: `${n}d` };
+}
+
+function utcDateDaysAgo(nowMs: number, daysAgo: number): string {
+  return new Date(nowMs - daysAgo * DAY_MS).toISOString().slice(0, 10);
+}
+
+function todayOrYesterdaySlug(prefix: string): (nowMs: number) => string[] {
+  return (nowMs) => [
+    `${prefix}:${utcDateDaysAgo(nowMs, 0)}`,
+    `${prefix}:${utcDateDaysAgo(nowMs, 1)}`,
+  ];
+}
+
+function hotnessSnapshotSlugs(domain: string): (nowMs: number) => string[] {
+  return (nowMs) => [
+    `hotness-snapshot:${domain}:${utcDateDaysAgo(nowMs, 0)}`,
+    `hotness-snapshot:${domain}:${utcDateDaysAgo(nowMs, 1)}`,
+  ];
+}
+
 const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
   {
     name: "trending-repos",
     metaSource: "trending",
-    redisSlugs: ["trending"],
+    redisSlugs: ["trending", "trending-lite"],
+    ...hours(6),
+  },
+  {
+    name: "deltas",
+    redisSlugs: ["deltas"],
+    ...hours(6),
+  },
+  {
+    name: "hot-collections",
+    redisSlugs: ["hot-collections"],
+    ...hours(6),
+  },
+  {
+    name: "recent-repos",
+    redisSlugs: ["recent-repos"],
+    ...hours(6),
+  },
+  {
+    name: "repo-metadata",
+    redisSlugs: ["repo-metadata"],
+    ...hours(6),
+  },
+  {
+    name: "repo-profiles",
+    redisSlugs: ["repo-profiles"],
     ...hours(6),
   },
   {
@@ -79,6 +132,11 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     metaSource: "reddit",
     redisSlugs: ["reddit-mentions", "reddit-all-posts"],
     ...hours(6),
+  },
+  {
+    name: "reddit-baselines",
+    redisSlugs: ["reddit-baselines"],
+    ...days(8),
   },
   {
     name: "bluesky",
@@ -146,9 +204,192 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
     ...hours(24),
   },
   {
+    name: "funding-x",
+    redisSlugs: ["funding-news-x"],
+    ...hours(24),
+  },
+  {
+    name: "funding-crunchbase",
+    redisSlugs: ["funding-news-crunchbase"],
+    ...hours(24),
+  },
+  {
+    name: "revenue",
+    redisSlugs: ["trustmrr-startups", "revenue-overlays"],
+    ...hours(36),
+  },
+  {
+    name: "revenue-benchmarks",
+    redisSlugs: ["revenue-benchmarks"],
+    ...hours(24),
+  },
+  {
+    name: "revenue-manual-matches",
+    redisSlugs: ["revenue-manual-matches"],
+    ...days(7),
+  },
+  {
     name: "collection-rankings",
     redisSlugs: ["collection-rankings"],
     ...hours(12),
+  },
+  {
+    name: "trending-mcp",
+    redisSlugs: ["trending-mcp"],
+    ...hours(24),
+  },
+  {
+    name: "mcp-liveness",
+    redisSlugs: ["mcp-liveness"],
+    ...hours(12),
+  },
+  {
+    name: "mcp-downloads",
+    redisSlugs: ["mcp-downloads", "mcp-downloads-pypi"],
+    ...hours(12),
+  },
+  {
+    name: "mcp-dependents",
+    redisSlugs: ["mcp-dependents"],
+    blocking: false,
+    ...hours(12),
+  },
+  {
+    name: "mcp-smithery-rank",
+    redisSlugs: ["mcp-smithery-rank"],
+    blocking: false,
+    ...hours(12),
+  },
+  {
+    name: "mcp-usage-snapshot",
+    redisSlugGroups: [
+      {
+        label: "mcp-usage-snapshot",
+        slugs: todayOrYesterdaySlug("mcp-usage-snapshot"),
+      },
+    ],
+    ...hours(36),
+  },
+  {
+    name: "trending-skills",
+    redisSlugs: [
+      "trending-skill",
+      "trending-skill-sh",
+      "trending-skill-skillsmp",
+      "trending-skill-smithery",
+      "trending-skill-lobehub",
+    ],
+    ...hours(36),
+  },
+  {
+    name: "skill-sidechannels",
+    redisSlugs: ["awesome-skills", "skill-derivative-count"],
+    ...hours(36),
+  },
+  {
+    name: "skill-install-snapshots",
+    redisSlugs: [
+      "skill-install-snapshot:prev:1d",
+      "skill-install-snapshot:prev:7d",
+      "skill-install-snapshot:prev:30d",
+    ],
+    blocking: false,
+    ...hours(36),
+  },
+  {
+    name: "hotness-snapshots",
+    redisSlugGroups: [
+      {
+        label: "hotness-snapshot:trending-skill",
+        slugs: hotnessSnapshotSlugs("trending-skill"),
+      },
+      {
+        label: "hotness-snapshot:trending-skill-sh",
+        slugs: hotnessSnapshotSlugs("trending-skill-sh"),
+      },
+      {
+        label: "hotness-snapshot:trending-mcp",
+        slugs: hotnessSnapshotSlugs("trending-mcp"),
+      },
+    ],
+    blocking: false,
+    ...hours(36),
+  },
+  {
+    name: "star-snapshots",
+    redisSlugs: [
+      "star-snapshot:24h",
+      "star-snapshot:7d",
+      "star-snapshot:30d",
+      "star-snapshot:hourly-history",
+    ],
+    ...hours(6),
+  },
+  {
+    name: "category-metrics",
+    redisSlugs: [
+      "category-metrics-snapshot:24h",
+      "category-metrics-snapshot:7d",
+      "category-metrics-snapshot:30d",
+      "category-metrics-snapshot:hourly-history",
+    ],
+    ...hours(6),
+  },
+  {
+    name: "top10-snapshot",
+    redisSlugGroups: [
+      {
+        label: "top10",
+        slugs: todayOrYesterdaySlug("top10"),
+      },
+    ],
+    ...hours(36),
+  },
+  {
+    name: "consensus",
+    redisSlugs: ["consensus-trending", "consensus-verdicts"],
+    ...hours(36),
+  },
+  {
+    name: "model-usage",
+    redisSlugs: [
+      "llm-daily-summary",
+      "llm-daily-by-model",
+      "llm-daily-by-feature",
+      "llm-model-metadata",
+    ],
+    blocking: false,
+    ...hours(36),
+  },
+  {
+    name: "agent-commerce",
+    redisSlugs: ["agent-commerce"],
+    ...hours(36),
+  },
+  {
+    name: "engagement-composite",
+    redisSlugs: ["engagement-composite"],
+    ...hours(24),
+  },
+  {
+    name: "trendshift-daily",
+    redisSlugs: ["trendshift-daily"],
+    ...hours(36),
+  },
+  {
+    name: "scoring-shadow",
+    redisSlugs: ["scoring-shadow-report"],
+    ...hours(36),
+  },
+  {
+    name: "staleness-report",
+    redisSlugs: ["staleness-report"],
+    ...hours(36),
+  },
+  {
+    name: "unknown-mentions",
+    redisSlugs: ["unknown-mentions-promoted"],
+    ...hours(36),
   },
   {
     name: "claude-rss",
@@ -222,6 +463,20 @@ async function readStoreProbe(slug: string): Promise<TimestampProbe> {
   }
 }
 
+async function readBestStoreProbe(slugs: string[]): Promise<TimestampProbe> {
+  const probes = await Promise.all(slugs.map((slug) => readStoreProbe(slug)));
+  let best: TimestampProbe | null = null;
+  let bestMs = -Infinity;
+  for (const probe of probes) {
+    const ms = probe.timestamp ? Date.parse(probe.timestamp) : NaN;
+    if (Number.isFinite(ms) && ms > bestMs) {
+      best = probe;
+      bestMs = ms;
+    }
+  }
+  return best ?? { timestamp: null, status: "DEAD" };
+}
+
 async function readPayloadFileTimestamp(slug: string): Promise<string | null> {
   try {
     const snapshot = await stat(resolve(process.cwd(), "data", `${slug}.json`));
@@ -269,7 +524,10 @@ async function inspectSource(spec: SourceSpec, nowMs: number): Promise<SourceSta
     spec.metaSource
       ? readMetaProbe(spec.metaSource)
       : Promise.resolve<TimestampProbe>({ timestamp: null, status: "GREEN" }),
-    ...spec.redisSlugs.map((slug) => readStoreProbe(slug)),
+    ...(spec.redisSlugs ?? []).map((slug) => readStoreProbe(slug)),
+    ...(spec.redisSlugGroups ?? []).map((group) =>
+      readBestStoreProbe(group.slugs(nowMs)),
+    ),
   ]);
   // Use the oldest required timestamp so a fresh sibling artifact cannot mask
   // a stale or missing payload under the same source group.
@@ -288,6 +546,7 @@ async function inspectSource(spec: SourceSpec, nowMs: number): Promise<SourceSta
     freshnessBudget: spec.budgetLabel,
     ageMs,
     status,
+    blocking: spec.blocking !== false,
   };
 }
 

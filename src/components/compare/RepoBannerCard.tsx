@@ -1,6 +1,5 @@
 import type { JSX } from "react";
 import {
-  Star,
   GitFork,
   Eye,
   CircleDot,
@@ -10,6 +9,7 @@ import {
 import type { CompareRepoBundle } from "@/lib/github-compare";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { StatIcon } from "./StatIcon";
+import { BrandStar } from "@/components/shared/BrandStar";
 import { HnBadge } from "@/components/hackernews/HnBadge";
 import { getHnMentions } from "@/lib/hackernews";
 import { BskyBadge } from "@/components/bluesky/BskyBadge";
@@ -132,7 +132,11 @@ export function RepoBannerCard({
 
       {/* 6-up stats grid */}
       <div className="grid grid-cols-3 gap-y-3 gap-x-2">
-        <StatIcon icon={Star} label="Stars" value={formatNumber(bundle.stars)} />
+        <StatIcon
+          label="Stars"
+          value={formatNumber(bundle.stars)}
+          iconNode={<BrandStar size={14} className="text-[var(--v4-amber)]" />}
+        />
         <StatIcon
           icon={GitFork}
           label="Forks"

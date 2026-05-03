@@ -1,16 +1,6 @@
-// V4 — RelatedRepoCard
-//
-// Card for repo-detail.html § 04 "Related repos" 3-up grid. Each card:
-//
-//   ┌──────────────────────────────────────┐
-//   │ [G]  abhigyanpatwari/GitNexus         │
-//   │ The Zero-Server Code Intelligence...  │
-//   │                                       │
-//   │ [TYPESCRIPT]  ★ 22.2K  SIM 0.86       │
-//   └──────────────────────────────────────┘
-
 import type { ReactNode } from "react";
 
+import { BrandStar } from "@/components/shared/BrandStar";
 import { cn } from "@/lib/utils";
 
 export interface RelatedRepoCardProps {
@@ -18,7 +8,7 @@ export interface RelatedRepoCardProps {
   fullName: string;
   /** 1-2 line description. Truncated with line-clamp 2 in CSS. */
   description?: ReactNode;
-  /** Avatar — usually a LetterAvatar. Caller supplies. */
+  /** Avatar - usually a LetterAvatar. Caller supplies. */
   avatar?: ReactNode;
   /** Language chip text (e.g. "TYPESCRIPT"). Mockup uses caps. */
   language?: ReactNode;
@@ -26,7 +16,7 @@ export interface RelatedRepoCardProps {
   stars?: ReactNode;
   /** Similarity score (e.g. "SIM 0.86") rendered right-aligned in caps. */
   similarity?: ReactNode;
-  /** Optional href — renders as <a>. */
+  /** Optional href - renders as <a>. */
   href?: string;
   className?: string;
 }
@@ -63,7 +53,10 @@ export function RelatedRepoCard({
           <span className="v4-related-card__lang">{language}</span>
         ) : null}
         {stars ? (
-          <span className="v4-related-card__stars">★ {stars}</span>
+          <span className="v4-related-card__stars inline-flex items-center gap-1">
+            <BrandStar size={11} className="text-[var(--v4-acc)]" />
+            {stars}
+          </span>
         ) : null}
         {similarity ? (
           <span className="v4-related-card__why">{similarity}</span>

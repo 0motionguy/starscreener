@@ -15,7 +15,6 @@ import {
   GitFork,
   MessageCircle,
   Package,
-  Star,
   Users,
 } from "lucide-react";
 
@@ -41,6 +40,7 @@ import { RankBadge } from "@/components/shared/RankBadge";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { RepoMentionBadges } from "@/components/repo-signals/RepoMentionBadges";
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { BrandStar } from "@/components/shared/BrandStar";
 import { repoDisplayLogoUrl } from "@/lib/logos";
 
 interface TerminalMobileCardProps {
@@ -141,7 +141,7 @@ export function TerminalMobileCard({
       {/* Row 3: stars + 7d delta + sparkline + actions + expand */}
       <div className="mt-2 flex items-center gap-2.5">
         <span className="inline-flex items-center gap-1 font-mono text-[11px] tabular-nums text-text-secondary">
-          <Star size={11} className="text-[var(--v4-amber)]" />
+          <BrandStar size={11} className="text-[var(--v4-amber)]" />
           {formatNumber(repo.stars)}
         </span>
         <DeltaBadge value={delta7dPct} size="sm" window="7d" />

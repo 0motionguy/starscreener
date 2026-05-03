@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Send } from "lucide-react";
 import { ROUTES } from "@/lib/constants";
 import { SearchBar } from "@/components/shared/SearchBar";
 import { HamburgerButton } from "@/components/layout/HamburgerButton";
-import { SystemMark } from "@/components/v3";
 
 export function Header() {
   return (
@@ -22,12 +22,22 @@ export function Header() {
               aria-hidden
               className="brand-mark"
             >
-              <SystemMark size={20} />
+              <Image
+                src="/brand/trendingrepo-mark.svg"
+                alt=""
+                width={18}
+                height={18}
+                className="block size-[18px] shrink-0"
+                priority
+              />
             </span>
 
             <span className="flex flex-col leading-none">
-              <span className="brand-name inline-flex items-center leading-none">
-                TRENDING<span style={{ color: "var(--v4-acc)" }}>REPO</span>
+              <span className="brand-name inline-flex items-center gap-2 leading-none">
+                <span>
+                  TRENDING<span style={{ color: "var(--v4-acc)" }}>REPO</span>
+                </span>
+                <span className="brand-beta">BETA BATCH</span>
               </span>
               <span
                 aria-hidden="true"

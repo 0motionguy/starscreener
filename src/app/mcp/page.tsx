@@ -156,6 +156,13 @@ export default async function McpPage() {
   const movers24h = moversByWindow("1d");
   const movers7d = moversByWindow("7d");
   const movers30d = moversByWindow("30d");
+  const moversEmpty =
+    movers24h.length === 0 && movers7d.length === 0 && movers30d.length === 0;
+  // True outage signal: Redis returned no items for the leaderboard at all.
+  // Used to upgrade empty-state copy from "no data yet" (cold-start) to
+  // "data warming up" (something's actually wrong upstream — e.g. a stale
+  // trending-mcp key or a worker fetch that hasn't recovered).
+  const itemsEmpty = items.length === 0;
 
   return (
     <main className="home-surface">
@@ -239,7 +246,9 @@ export default async function McpPage() {
       <section className="board">
         {topByStarsList.length === 0 ? (
           <div className="p-8 text-sm text-text-secondary">
-            No MCP servers tracked yet.
+            {itemsEmpty
+              ? "MCP data warming up — the trending-mcp feed hasn't published yet. Check back in a few minutes."
+              : "No MCP servers tracked yet."}
           </div>
         ) : (
           topByStarsList.map((item, index) => {
@@ -294,7 +303,9 @@ export default async function McpPage() {
       <section className="board">
         {breakouts.length === 0 ? (
           <div className="p-8 text-sm text-text-secondary">
-            No fresh MCP releases yet.
+            {itemsEmpty
+              ? "Release feed warming up — waiting on the next collector cycle."
+              : "No fresh MCP releases yet."}
           </div>
         ) : (
           breakouts.map((item, index) => {
@@ -345,12 +356,28 @@ export default async function McpPage() {
           </>
         }
       />
-      <WindowedRanking
-        rows24h={movers24h}
-        rows7d={movers7d}
-        rows30d={movers30d}
-        defaultWindow="7d"
-      />
+      {moversEmpty ? (
+        // Install velocity comes from the npm-downloads + smithery-rank +
+        // mcp-usage-snapshot worker fetchers. When none of the three windows
+        // have non-zero deltas (cold start, missing daily snapshots, or all
+        // tracked MCPs are sub-npm packages), don't show three empty tabs —
+        // render one clear placeholder so the section reads as "warming up"
+        // instead of broken.
+        <section className="board">
+          <div className="p-8 text-sm text-text-secondary">
+            Install velocity warming up — waiting on the next snapshot from the
+            mcp-usage worker. New MCPs need at least one prior daily snapshot
+            before deltas appear here.
+          </div>
+        </section>
+      ) : (
+        <WindowedRanking
+          rows24h={movers24h}
+          rows7d={movers7d}
+          rows30d={movers30d}
+          defaultWindow="7d"
+        />
+      )}
 
       <p className="text-[11px] text-text-tertiary mt-4">
         Want the full table? <Link href="/api/mcp/trending">api/mcp/trending</Link> ships

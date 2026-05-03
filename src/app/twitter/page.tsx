@@ -4,7 +4,6 @@
 // Apify-backed signal pipeline. Two tabs: trending pipeline overlap vs. the
 // global X score.
 
-import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Globe } from "lucide-react";

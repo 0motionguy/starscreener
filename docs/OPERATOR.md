@@ -4,7 +4,7 @@
 
 **Purpose:** every Claude Code session can read this file and instantly know the current state of the engine, what is shipping, and what is broken. Refreshed by `/loop` autonomous runs and by hand. **Source of truth for the audit-2026-05-04 follow-up.**
 
-Last refreshed: 2026-05-03 ~03:20 UTC (autonomous tick)
+Last refreshed: 2026-05-03 ~04:20 UTC (autonomous tick)
 
 ---
 
@@ -349,8 +349,7 @@ Last verified: 2026-05-03 ~03:20 UTC
 - **`consensus-trending` Redis key**: 71h+ stale (climbing)
 - **PR #93**: 🟢 ALL 5 CI CHECKS PASSING. 32 commits ready. Mergeable. Awaiting human merge.
 
-**🚨 GH Actions cron drought (3+ hours, infrastructure issue):**
-Last `scrape-trending` run: 00:03 UTC. Last `cron-freshness-check`: 00:06 UTC. Currently 03:20 UTC — **no hourly or 15-min crons have fired in 3 hours**. PR-triggered workflows still run fine (CI ran at 02:47), so GH Actions itself is up. This is the well-known GH-Actions-cron-skips-during-load behavior. Self-resolves when load eases. Not fixable from repo code.
+**✅ GH Actions cron drought resolved.** 13 cron-triggered runs in last 60 min (04:09-04:14 UTC). 12 green, 1 red (cron-freshness-check — correctly alarming on the not-yet-propagated stale state). Production data is currently catching up.
 
 **Two blockers right now:**
 1. PR #93 needs human merge → fixes data-store consensus-trending crash + scripts hang + image fallbacks + 24h/7d/30d UX

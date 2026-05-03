@@ -11,6 +11,9 @@ import {
   HttpStatusError,
   parseRetryAfterMs,
 } from "./_fetch-json.mjs";
+import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 // Real-browser UA — Reddit's anti-bot started 403'ing the previous
 // "TrendingRepo/0.2 …" identifier (formerly "StarScreener/0.1 …") from
@@ -28,13 +31,17 @@ const TOKEN_URL = `${PUBLIC_REDDIT_ORIGIN}/api/v1/access_token`;
 // anti-bot rules. Used only on the public-json path — OAuth requests still
 // go to oauth.reddit.com via resolveRedditApiUrl().
 const OLD_REDDIT_ORIGIN = "https://old.reddit.com";
+const REDDIT_UA_POOL_CONFIG_PATH = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  "../config/reddit-user-agents.json",
+);
 
 function rewriteToOldReddit(url) {
   try {
     const u = new URL(url);
     if (u.origin === PUBLIC_REDDIT_ORIGIN) {
       u.protocol = "https:";
-      u.host = "old.reddit.com";
+      u.host = new URL(OLD_REDDIT_ORIGIN).host;
       return u.toString();
     }
     return url;
@@ -46,6 +53,21 @@ function rewriteToOldReddit(url) {
 let oauthTokenCache = null;
 let fetchRuntime = createFetchRuntime();
 let userAgentPoolIndex = 0;
+const quarantinedUserAgents = new Map();
+
+function readDefaultUserAgentsFromConfig() {
+  try {
+    const raw = readFileSync(REDDIT_UA_POOL_CONFIG_PATH, "utf8");
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [DEFAULT_USER_AGENT];
+    const normalized = parsed
+      .map((value) => (typeof value === "string" ? value.trim() : ""))
+      .filter(Boolean);
+    return normalized.length > 0 ? normalized : [DEFAULT_USER_AGENT];
+  } catch {
+    return [DEFAULT_USER_AGENT];
+  }
+}
 
 function createFetchRuntime() {
   return {
@@ -76,12 +98,42 @@ export function getRedditUserAgent() {
 
 function readRedditUserAgentPool() {
   const raw = readEnv("REDDIT_USER_AGENTS");
-  if (!raw) return [DEFAULT_USER_AGENT];
+  if (!raw) return readDefaultUserAgentsFromConfig();
   const pool = raw
     .split(/[,\n]+/)
     .map((value) => value.trim())
     .filter(Boolean);
-  return pool.length > 0 ? pool : [DEFAULT_USER_AGENT];
+  return pool.length > 0 ? pool : readDefaultUserAgentsFromConfig();
+}
+
+function isUserAgentQuarantined(userAgent) {
+  const untilMs = quarantinedUserAgents.get(userAgent);
+  if (!untilMs) return false;
+  if (untilMs <= Date.now()) {
+    quarantinedUserAgents.delete(userAgent);
+    return false;
+  }
+  return true;
+}
+
+function quarantineUserAgentLocal(userAgent, durationMs) {
+  const untilMs = Date.now() + Math.max(1000, durationMs);
+  quarantinedUserAgents.set(userAgent, untilMs);
+}
+
+export async function selectUserAgent() {
+  const exact = readEnv("REDDIT_USER_AGENT");
+  if (exact) return exact;
+  const pool = readRedditUserAgentPool();
+  for (let attempt = 0; attempt < pool.length; attempt += 1) {
+    const idx = (userAgentPoolIndex + attempt) % pool.length;
+    const userAgent = pool[idx] ?? DEFAULT_USER_AGENT;
+    if (!isUserAgentQuarantined(userAgent)) {
+      userAgentPoolIndex = (idx + 1) % pool.length;
+      return userAgent;
+    }
+  }
+  throw new Error("All Reddit User-Agents quarantined");
 }
 
 export function hasRedditOAuthCreds() {
@@ -136,7 +188,7 @@ async function getRedditAccessToken(fetchImpl = fetch) {
       Authorization: `Basic ${basicAuth}`,
       "Content-Type": "application/x-www-form-urlencoded",
       Accept: "application/json",
-      "User-Agent": getRedditUserAgent(),
+      "User-Agent": await selectUserAgent(),
     },
     body: tokenBody,
     attempts: 2,
@@ -165,6 +217,7 @@ export function resetRedditAuthCacheForTests() {
   oauthTokenCache = null;
   fetchRuntime = createFetchRuntime();
   userAgentPoolIndex = 0;
+  quarantinedUserAgents.clear();
 }
 
 export function getRedditFetchRuntime() {
@@ -442,7 +495,7 @@ async function fetchTextWithRetry(
 }
 
 export async function fetchRedditJson(url, { fetchImpl = fetch } = {}) {
-  const userAgent = getRedditUserAgent();
+  const userAgent = await selectUserAgent();
   // Full browser-shaped header set. Reddit's anti-bot looks at the UA + the
   // accompanying headers as a coherent profile; bare UA without sec-fetch-*
   // or accept-language is a tell. This won't bypass IP-level blocks (GH
@@ -470,37 +523,48 @@ export async function fetchRedditJson(url, { fetchImpl = fetch } = {}) {
   if (!hasRedditOAuthCreds()) {
     fetchRuntime.activeMode = "public-json";
     fetchRuntime.publicRequests += 1;
+    try {
+      // Listing URLs (/r/X/new.json) hit Reddit's edge IP block from GH
+      // Actions. The RSS variant of the same listing returns 200 and
+      // unauthenticated content. Detect listing URLs and route them through
+      // the Atom-feed parser; everything else (e.g. /r/X/about.json) keeps
+      // the original JSON path so callers that need fields RSS doesn't expose
+      // still degrade gracefully when they 403.
+      const rssUrl = rewriteToRss(url);
+      if (rssUrl !== url) {
+        const subMatch = url.match(SUBREDDIT_FROM_PATH_RE);
+        const fallbackSub = subMatch?.[1] ?? "";
+        const rssText = await fetchTextWithRetry(rssUrl, {
+          headers: {
+            ...publicHeaders,
+            Accept: "application/atom+xml,application/xml;q=0.9,*/*;q=0.8",
+          },
+          attempts: 2,
+          retryDelayMs: 1000,
+          timeoutMs: 15_000,
+          fetchImpl,
+        });
+        return parseRedditAtomFeed(rssText, fallbackSub);
+      }
 
-    // Listing URLs (/r/X/new.json) hit Reddit's edge IP block from GH
-    // Actions. The RSS variant of the same listing returns 200 and
-    // unauthenticated content. Detect listing URLs and route them through
-    // the Atom-feed parser; everything else (e.g. /r/X/about.json) keeps
-    // the original JSON path so callers that need fields RSS doesn't expose
-    // still degrade gracefully when they 403.
-    const rssUrl = rewriteToRss(url);
-    if (rssUrl !== url) {
-      const subMatch = url.match(SUBREDDIT_FROM_PATH_RE);
-      const fallbackSub = subMatch?.[1] ?? "";
-      const rssText = await fetchTextWithRetry(rssUrl, {
-        headers: {
-          ...publicHeaders,
-          Accept: "application/atom+xml,application/xml;q=0.9,*/*;q=0.8",
-        },
+      return fetchJsonWithRetry(rewriteToOldReddit(url), {
+        headers: publicHeaders,
         attempts: 2,
         retryDelayMs: 1000,
         timeoutMs: 15_000,
         fetchImpl,
       });
-      return parseRedditAtomFeed(rssText, fallbackSub);
+    } catch (err) {
+      const status = typeof err?.status === "number" ? err.status : null;
+      if (status === 429) {
+        quarantineUserAgentLocal(userAgent, 10 * 60 * 1000);
+      } else if (status === 403) {
+        quarantineUserAgentLocal(userAgent, 60 * 60 * 1000);
+      } else if (status !== null && status >= 500 && status <= 599) {
+        quarantineUserAgentLocal(userAgent, 60 * 1000);
+      }
+      throw err;
     }
-
-    return fetchJsonWithRetry(rewriteToOldReddit(url), {
-      headers: publicHeaders,
-      attempts: 2,
-      retryDelayMs: 1000,
-      timeoutMs: 15_000,
-      fetchImpl,
-    });
   }
 
   try {
@@ -519,6 +583,13 @@ export async function fetchRedditJson(url, { fetchImpl = fetch } = {}) {
     });
   } catch (err) {
     const status = typeof err?.status === "number" ? err.status : null;
+    if (status === 429) {
+      quarantineUserAgentLocal(userAgent, 10 * 60 * 1000);
+    } else if (status === 403) {
+      quarantineUserAgentLocal(userAgent, 60 * 60 * 1000);
+    } else if (status !== null && status >= 500 && status <= 599) {
+      quarantineUserAgentLocal(userAgent, 60 * 1000);
+    }
     const fallbackAllowed =
       status === null ||
       status === 401 ||

@@ -10,7 +10,14 @@
 // fallback — incomplete data is preferable to fabricated data.
 
 import type { Sentiment, SocialPlatform } from "@/lib/types";
+import * as Sentry from "@sentry/nextjs";
 import { slugToId } from "@/lib/utils";
+import {
+  RedditBlockedError,
+  RedditPoolExhaustedError,
+  RedditRateLimitError,
+  RedditRecoverableError,
+} from "@/lib/errors";
 import {
   GitHubTokenPoolEmptyError,
   GitHubTokenPoolExhaustedError,
@@ -21,6 +28,14 @@ import {
   githubKeyFingerprint,
   recordGithubCall,
 } from "@/lib/pool/github-telemetry";
+import {
+  quarantineUserAgent,
+  recordRedditCall,
+} from "@/lib/pool/reddit-telemetry";
+import {
+  redditUserAgentFingerprint,
+  selectUserAgent,
+} from "@/lib/pool/reddit-ua-pool";
 // Phase 2C: per-source circuit breaker. Each adapter checks isOpen()
 // at the top of fetch and records success/failure on every response so
 // 5 consecutive failures auto-disable the source until the cooldown.
@@ -32,7 +47,6 @@ import type { RepoMention, SocialAdapter } from "../types";
 // ---------------------------------------------------------------------------
 
 const USER_AGENT = "TrendingRepo/1.0 (+https://trendingrepo.com)";
-const REDDIT_USER_AGENT = "TrendingRepo/1.0 (by /u/trendingrepo)";
 const FETCH_TIMEOUT_MS = 5000;
 
 /**
@@ -148,6 +162,17 @@ function truncate(text: string, max: number): string {
   const slice = text.slice(0, max);
   const lastSpace = slice.lastIndexOf(" ");
   return (lastSpace > max - 30 ? slice.slice(0, lastSpace) : slice).trimEnd();
+}
+
+function parseRetryAfterMs(headerValue: string | null): number | null {
+  if (!headerValue) return null;
+  const seconds = Number.parseFloat(headerValue);
+  if (Number.isFinite(seconds) && seconds >= 0) {
+    return Math.ceil(seconds * 1000);
+  }
+  const dateMs = Date.parse(headerValue);
+  if (!Number.isFinite(dateMs)) return null;
+  return Math.max(0, dateMs - Date.now());
 }
 
 // ---------------------------------------------------------------------------
@@ -342,6 +367,24 @@ export class RedditAdapter implements SocialAdapter {
       `https://www.reddit.com/search.json?q=${q}` +
       `&sort=relevance&t=week&limit=25`;
 
+    let userAgent: string;
+    try {
+      userAgent = await selectUserAgent();
+    } catch (err) {
+      const wrapped =
+        err instanceof RedditPoolExhaustedError
+          ? err
+          : new RedditPoolExhaustedError("All Reddit User-Agents quarantined", {
+              originalError: err instanceof Error ? err.message : String(err),
+            });
+      Sentry.captureException(wrapped, {
+        tags: { pool: "reddit", alert: "reddit-ua-pool-exhausted" },
+      });
+      sourceHealthTracker.recordFailure("reddit", wrapped.message);
+      return [];
+    }
+    const userAgentFingerprint = redditUserAgentFingerprint(userAgent);
+    const startedAt = Date.now();
     const { signal, clear } = timeoutSignal(FETCH_TIMEOUT_MS);
     try {
       const res = await fetch(url, {
@@ -349,12 +392,67 @@ export class RedditAdapter implements SocialAdapter {
         headers: {
           Accept: "application/json",
           // Reddit blocks default UAs — this one is required.
-          "User-Agent": REDDIT_USER_AGENT,
+          "User-Agent": userAgent,
         },
       });
+      await recordRedditCall({
+        userAgentFingerprint,
+        statusCode: res.status,
+        responseTimeMs: Date.now() - startedAt,
+        operation: "reddit_search_mentions",
+        success: res.ok,
+      });
       if (!res.ok) {
-        console.error(`[social:reddit] HTTP ${res.status} for ${fullName}`);
-        sourceHealthTracker.recordFailure("reddit", `HTTP ${res.status}`);
+        if (res.status === 429) {
+          const retryAfterMs = parseRetryAfterMs(res.headers.get("retry-after"));
+          const quarantineMs = Math.max(retryAfterMs ?? 0, 10 * 60 * 1000);
+          await quarantineUserAgent({
+            userAgentFingerprint,
+            reason: "rate_limit",
+            untilTimestamp: Math.floor((Date.now() + quarantineMs) / 1000),
+          });
+          Sentry.captureException(
+            new RedditRateLimitError("Reddit rate limit (429)", {
+              statusCode: 429,
+              retryAfterMs,
+              userAgentFingerprint,
+            }),
+            { tags: { pool: "reddit", alert: "reddit-ua-rate-limit" } },
+          );
+        } else if (res.status === 403) {
+          await quarantineUserAgent({
+            userAgentFingerprint,
+            reason: "blocked",
+            untilTimestamp: Math.floor((Date.now() + 60 * 60 * 1000) / 1000),
+          });
+          Sentry.captureException(
+            new RedditBlockedError("Reddit blocked request (403)", {
+              statusCode: 403,
+              userAgentFingerprint,
+            }),
+            { tags: { pool: "reddit", alert: "reddit-ua-blocked" } },
+          );
+        } else if (res.status >= 500 && res.status <= 599) {
+          await quarantineUserAgent({
+            userAgentFingerprint,
+            reason: "5xx",
+            untilTimestamp: Math.floor((Date.now() + 60) / 1000),
+          });
+          Sentry.captureException(
+            new RedditRecoverableError("Reddit upstream 5xx", {
+              statusCode: res.status,
+              userAgentFingerprint,
+            }),
+            { tags: { pool: "reddit", alert: "reddit-ua-5xx" } },
+          );
+        }
+        console.error(
+          `[social:reddit] HTTP ${res.status} for ${fullName} ua=${userAgentFingerprint}`,
+        );
+        sourceHealthTracker.recordFailure(
+          "reddit",
+          `HTTP ${res.status} (${userAgentFingerprint})`,
+        );
         return [];
       }
       const body: unknown = await res.json();
@@ -389,6 +487,20 @@ export class RedditAdapter implements SocialAdapter {
       sourceHealthTracker.recordSuccess("reddit");
       return out;
     } catch (err) {
+      await recordRedditCall({
+        userAgentFingerprint,
+        statusCode: 0,
+        responseTimeMs: Date.now() - startedAt,
+        operation: "reddit_search_mentions",
+        success: false,
+      });
+      Sentry.captureException(
+        new RedditRecoverableError("Reddit network failure", {
+          userAgentFingerprint,
+          message: err instanceof Error ? err.message : String(err),
+        }),
+        { tags: { pool: "reddit", alert: "reddit-ua-network" } },
+      );
       console.error(
         `[social:reddit] fetchMentionsForRepo ${fullName} failed`,
         err,

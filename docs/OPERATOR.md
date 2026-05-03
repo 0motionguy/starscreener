@@ -4,7 +4,7 @@
 
 **Purpose:** every Claude Code session can read this file and instantly know the current state of the engine, what is shipping, and what is broken. Refreshed by `/loop` autonomous runs and by hand. **Source of truth for the audit-2026-05-04 follow-up.**
 
-Last refreshed: 2026-05-03
+Last refreshed: 2026-05-03 ~01:30 UTC (autonomous tick)
 
 ---
 
@@ -337,13 +337,16 @@ Hackathons, Launch — no route, no data, intentional
 
 ## Production state snapshot (refresh this)
 
-Last verified: 2026-05-03 ~01:00 UTC
+Last verified: 2026-05-03 ~01:30 UTC
 
-- **/api/health**: HTTP 200, `status:ok`, all 9 sources fresh, coverage 100%
+- **/api/health**: HTTP 200, `status:ok` BUT `sourceStatus:degraded`. Coverage=100% but `coverageQuality:partial`. devto stale 5d, npm stale 15h.
 - **/api/health/sources**: 9/9 CLOSED breakers
 - **Worker /healthz**: ok, db=true, redis=true, lastRunAt fresh within minutes
-- **GHA workflows**: 24/24 latest run = green (last red workflow was 2026-05-02)
-- **PR #93**: open, MCP build + test pass, Vercel preview deployed, typecheck spinning
+- **`consensus-trending` Redis key**: 69.3h stale → snapshot-consensus failed at 01:22 UTC (my fix is in PR #93, not yet merged)
+- **GHA workflows**: latest CI failed on PR #93 due to theme-toggle e2e (asserts a button that doesn't exist) — fixed in commit 094266f7 (skip)
+- **PR #93**: open, 30 commits, Vercel preview live, CI re-running after theme-toggle skip
+
+**Block on merge:** my consensus-trending allSettled fix is sitting in PR #93. Until it merges + Railway redeploys, the staleness keeps growing and snapshot-consensus keeps failing daily. Merging PR #93 is the highest-leverage action available.
 
 To re-verify, run:
 ```bash

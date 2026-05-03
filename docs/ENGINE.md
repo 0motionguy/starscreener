@@ -41,7 +41,7 @@ STARSCREENER ingests from ~15 external data sources, normalizes them through a s
 - **Per-PAT quota**: 5,000/hr authenticated. Reset is rolling (X-RateLimit-Reset header).
 - **Cron-script bypasses** (intentional, separate quota lane): 11 scripts under `scripts/` use `process.env.GITHUB_TOKEN` directly — they run in CI with their own PAT.
 - **Worker**: reads `process.env.GITHUB_TOKEN` (single) — does NOT use the runtime pool. **Flag**: if Railway's `GITHUB_TOKEN` is the same PAT that Vercel slot-0 uses, calls double-bill that PAT.
-- **Observability today**: `/admin/pool` page (cookie-auth). Shows per-process snapshot. **Gaps**: no cross-lambda aggregate, no historical, no Sentry alerts on exhaustion, no cold-start hydration.
+- **Observability today**: `/admin/pool` page (cookie-auth) shows the per-process snapshot; `/admin/pool-aggregate` reads Redis-published redacted token state for the fleet view. Pool exhaustion and low-quota states emit Sentry events, and singleton pools hydrate from Redis on first token pick after cold start. **Gaps**: no historical per-lambda timeline; aggregate is last-write-wins per token.
 
 ### 3b. Apify (Twitter, optional Reddit proxy)
 - **Hosts**: `api.apify.com/v2/acts/<actor-id>/run-sync`, `api.apify.com/v2/key-value-stores`

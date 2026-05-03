@@ -10,4 +10,4 @@
 - VPS migration (Sprint 6, optional)
 
 ## Discovered during current work
-Add as you go.
+- Document or script the Windows OneDrive `.next` dev-server workaround. On 2026-05-03 the local `.next` directory was converted to a junction at `%TEMP%\trendingrepo-next-dev`; `next dev` also needed `NODE_PATH=C:\Users\mirko\OneDrive\Desktop\STARSCREENER\node_modules` so Turbopack SSR chunks emitted under `%TEMP%` could resolve externals like `react/jsx-runtime` and Next's app-route runtime.

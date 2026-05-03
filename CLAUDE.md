@@ -5,7 +5,7 @@ not optional:
 
 1. Read this entire CLAUDE.md
 2. Read docs/ENGINE.md and docs/SITE-WIREMAP.md
-3. Read docs/AUDIT-2026-05-04.md and docs/forensic-2026-05-03/00-INDEX.md
+3. Read docs/AUDIT-2026-05-04.md and docs/forensic/00-INDEX.md
 4. Read tasks/CURRENT-SPRINT.md to know in-flight work
 5. Read tasks/BACKLOG.md for deferred items
 6. Run: `npm run freshness:check`

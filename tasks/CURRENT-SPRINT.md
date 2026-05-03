@@ -1,13 +1,13 @@
 # CURRENT SPRINT — Sprint 1: Pool Verification + Source Activation
 
-Status: IN PROGRESS - Phase 1.2 Reddit User-Agent pool
+Status: IN PROGRESS - Phase 1.3 Twitter Apify + Nitter fallback
 Started: 2026-05-03
 Target completion: 2026-05-10
 
 ## Phase tracking
 - [x] 1.1 GitHub pool runtime telemetry
 - [x] 1.2 Reddit User-Agent pool
-- [ ] 1.3 Twitter Apify + Nitter fallback
+- [x] 1.3 Twitter Apify + Nitter fallback
 - [ ] 1.4 /admin/keys dashboard
 - [ ] 1.5 Sentry verification + error class hierarchy
 
@@ -84,3 +84,8 @@ See individual phase prompts.
   new Redis telemetry/quarantine primitives in `src/lib/pool/reddit-*.ts`,
   extended `EngineError` with Reddit classes, and wired app + shared Reddit
   fetch paths to use pool selection with quarantine signaling on 429/403/5xx.
+- 2026-05-03 Phase 1.3 done: added Nitter instance pool config
+  (`config/nitter-instances.json`), Twitter fallback telemetry and runtime
+  adapters (`src/lib/pool/twitter-*.ts`), nightly Nitter health workflow
+  (`.github/workflows/check-nitter.yml`), and migrated the main Twitter
+  collector to route Apify calls through the new Apify->Nitter fallback path.

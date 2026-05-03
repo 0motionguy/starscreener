@@ -25,7 +25,15 @@
 //   - Returns null on persistent network errors so callers can branch on
 //     success without try/catch noise.
 
+import * as Sentry from "@sentry/nextjs";
+
 import { posthogCapture } from "./analytics/posthog";
+import {
+  GithubInvalidTokenError,
+  GithubPoolExhaustedError,
+  GithubRateLimitError,
+  GithubRecoverableError,
+} from "./errors";
 import {
   GitHubTokenPoolEmptyError,
   GitHubTokenPoolExhaustedError,
@@ -34,10 +42,16 @@ import {
   redactToken,
   type GitHubTokenPool,
 } from "./github-token-pool";
+import {
+  githubKeyFingerprint,
+  quarantineKey,
+  recordGithubCall,
+} from "./pool/github-telemetry";
 
 const GITHUB_API = "https://api.github.com";
 const DEFAULT_TIMEOUT_MS = 15_000;
-const MAX_ATTEMPTS = 2;
+const RETRY_DELAYS_MS = [1_000, 2_000, 4_000] as const;
+const MAX_ATTEMPTS = RETRY_DELAYS_MS.length + 1;
 
 export interface GithubFetchOptions {
   /** HTTP method. Defaults to GET. */
@@ -56,6 +70,8 @@ export interface GithubFetchOptions {
   cache?: RequestCache;
   /** AbortSignal from the caller (composed with the internal timeout). */
   signal?: AbortSignal;
+  /** Logical operation name for Redis pool telemetry. */
+  operation?: string;
 }
 
 export interface GithubFetchResult {
@@ -81,6 +97,7 @@ export async function githubFetch(
   const pool = options.pool ?? getGitHubTokenPool();
   const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   const method = options.method ?? "GET";
+  const operation = options.operation ?? operationFromPath(pathOrUrl, method);
 
   for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
     let token: string | null = null;
@@ -91,6 +108,15 @@ export async function githubFetch(
         // Dev path: no PATs configured — fall through to unauthenticated.
         token = null;
       } else if (err instanceof GitHubTokenPoolExhaustedError) {
+        const wrapped = new GithubPoolExhaustedError(err.message, {
+          allQuarantined: err.allQuarantined,
+          resetsAtUnixSec: err.resetsAtUnixSec,
+          operation,
+        });
+        Sentry.captureException(wrapped, {
+          tags: { pool: "github", alert: "github-pool-exhausted" },
+        });
+        void alertOps("github-pool-exhausted", wrapped.metadata);
         console.warn(
           `[github-fetch] pool exhausted on ${method} ${pathOrUrl}: ${err.message}`,
         );
@@ -112,6 +138,7 @@ export async function githubFetch(
 
     const ac = new AbortController();
     const timer = setTimeout(() => ac.abort(), timeoutMs);
+    const startedAt = Date.now();
     if (options.signal) {
       if (options.signal.aborted) ac.abort();
       else options.signal.addEventListener("abort", () => ac.abort(), { once: true });
@@ -129,10 +156,27 @@ export async function githubFetch(
       });
     } catch (err) {
       clearTimeout(timer);
+      await recordGithubCall({
+        keyFingerprint: githubKeyFingerprint(token),
+        statusCode: 0,
+        rateLimitRemaining: null,
+        rateLimitReset: null,
+        responseTimeMs: Date.now() - startedAt,
+        operation,
+        success: false,
+      });
       if (attempt < MAX_ATTEMPTS - 1) {
-        await new Promise((r) => setTimeout(r, 500 * (attempt + 1)));
+        await sleep(RETRY_DELAYS_MS[attempt] ?? RETRY_DELAYS_MS.at(-1)!);
         continue;
       }
+      const wrapped = new GithubRecoverableError("GitHub network error", {
+        operation,
+        path: pathOrUrl,
+        message: err instanceof Error ? err.message : String(err),
+      });
+      Sentry.captureException(wrapped, {
+        tags: { pool: "github", alert: "github-pool-network" },
+      });
       console.warn(
         `[github-fetch] network error on ${method} ${pathOrUrl}: ${
           err instanceof Error ? err.message : String(err)
@@ -146,10 +190,31 @@ export async function githubFetch(
     if (token && headerLimits) {
       pool.recordRateLimit(token, headerLimits.remaining, headerLimits.resetUnixSec);
     }
+    await recordGithubCall({
+      keyFingerprint: githubKeyFingerprint(token),
+      statusCode: res.status,
+      rateLimitRemaining: headerLimits?.remaining ?? null,
+      rateLimitReset: headerLimits?.resetUnixSec ?? null,
+      responseTimeMs: Date.now() - startedAt,
+      operation,
+      success: res.ok,
+    });
 
     // 401 → token is invalid; quarantine and retry with a different PAT.
     if (res.status === 401 && token) {
       pool.quarantine(token);
+      await quarantineKey({
+        keyFingerprint: githubKeyFingerprint(token),
+        reason: "invalid_token",
+        untilTimestamp: Math.floor((Date.now() + 24 * 60 * 60 * 1000) / 1000),
+      });
+      Sentry.captureException(
+        new GithubInvalidTokenError("GitHub token rejected with 401", {
+          operation,
+          statusCode: res.status,
+        }),
+        { tags: { pool: "github", alert: "github-pool-key-invalid" } },
+      );
       console.warn(
         `[github-fetch] 401 on ${method} ${pathOrUrl} tok=${redactToken(token)} — quarantined`,
       );
@@ -160,6 +225,38 @@ export async function githubFetch(
 
     // 403/429 with rate-limit reset header → pool already updated above;
     // retry once with a fresh token.
+    const isRateLimited =
+      (res.status === 403 || res.status === 429) &&
+      headerLimits !== null &&
+      headerLimits.remaining <= 0;
+    if (isRateLimited && token) {
+      await quarantineKey({
+        keyFingerprint: githubKeyFingerprint(token),
+        reason: "rate_limit",
+        untilTimestamp: headerLimits.resetUnixSec,
+      });
+      Sentry.captureException(
+        new GithubRateLimitError("GitHub token hit rate limit", {
+          operation,
+          statusCode: res.status,
+          resetUnixSec: headerLimits.resetUnixSec,
+        }),
+        { tags: { pool: "github", alert: "github-pool-rate-limit" } },
+      );
+    } else if (res.status === 403 && token) {
+      await quarantineKey({
+        keyFingerprint: githubKeyFingerprint(token),
+        reason: "forbidden",
+        untilTimestamp: Math.floor((Date.now() + 24 * 60 * 60 * 1000) / 1000),
+      });
+      Sentry.captureException(
+        new GithubInvalidTokenError("GitHub token rejected with 403", {
+          operation,
+          statusCode: res.status,
+        }),
+        { tags: { pool: "github", alert: "github-pool-key-invalid" } },
+      );
+    }
     if ((res.status === 403 || res.status === 429) && attempt < MAX_ATTEMPTS - 1) {
       console.warn(
         `[github-fetch] ${res.status} on ${method} ${pathOrUrl} tok=${
@@ -167,6 +264,24 @@ export async function githubFetch(
         } — retrying with fresh token`,
       );
       continue;
+    }
+    if (res.status >= 500 && res.status < 600 && attempt < MAX_ATTEMPTS - 1) {
+      await quarantineKey({
+        keyFingerprint: githubKeyFingerprint(token),
+        reason: "5xx",
+        untilTimestamp: Math.floor((Date.now() + 60) / 1000),
+      });
+      await sleep(RETRY_DELAYS_MS[attempt] ?? RETRY_DELAYS_MS.at(-1)!);
+      continue;
+    }
+    if (res.status >= 500 && res.status < 600) {
+      const wrapped = new GithubRecoverableError("GitHub server error", {
+        operation,
+        statusCode: res.status,
+      });
+      Sentry.captureException(wrapped, {
+        tags: { pool: "github", alert: "github-pool-5xx" },
+      });
     }
 
     void posthogCapture("github_api_call", {
@@ -188,4 +303,41 @@ export async function githubFetch(
   }
 
   return null;
+}
+
+function operationFromPath(pathOrUrl: string, method: string): string {
+  const pathname = pathOrUrl.startsWith("http")
+    ? new URL(pathOrUrl).pathname
+    : pathOrUrl.split("?")[0] || "/";
+  const slug = pathname
+    .replace(/[^A-Za-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .slice(0, 80);
+  return `${method.toLowerCase()}_${slug || "github"}`;
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function alertOps(
+  event: string,
+  metadata: Record<string, unknown>,
+): Promise<void> {
+  const url = process.env.OPS_ALERT_WEBHOOK?.trim();
+  if (!url) return;
+  try {
+    await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        event,
+        source: "github",
+        metadata,
+        at: new Date().toISOString(),
+      }),
+    });
+  } catch {
+    // Alert failures must not break the caller handling the original outage.
+  }
 }

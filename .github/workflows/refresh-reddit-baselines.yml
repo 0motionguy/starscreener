@@ -35,6 +35,7 @@ jobs:
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+          REDDIT_USER_AGENTS: ${{ secrets.REDDIT_USER_AGENTS }}
         run: node scripts/compute-reddit-baselines.mjs
 
       - name: Refresh Reddit mentions with fresh baselines
@@ -42,6 +43,7 @@ jobs:
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+          REDDIT_USER_AGENTS: ${{ secrets.REDDIT_USER_AGENTS }}
         run: node scripts/scrape-reddit.mjs
 
       - name: Compute commit timestamp

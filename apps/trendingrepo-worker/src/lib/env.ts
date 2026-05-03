@@ -33,6 +33,7 @@ const envSchema = z
     REDDIT_CLIENT_ID: z.string().optional(),
     REDDIT_CLIENT_SECRET: z.string().optional(),
     REDDIT_USER_AGENT: z.string().optional(),
+    REDDIT_USER_AGENTS: z.string().optional(),
 
     // Worker tunables (numeric values are validated in the consuming fetcher,
     // not here — keeping this layer string-typed avoids zod coercion surprises

@@ -25,6 +25,7 @@ interface OAuthCacheEntry {
 
 let oauthTokenCache: OAuthCacheEntry | null = null;
 let fetchRuntime = createFetchRuntime();
+let userAgentPoolIndex = 0;
 
 export interface FetchRuntime {
   preferredMode: 'oauth' | 'public-json' | null;
@@ -56,7 +57,23 @@ function readEnv(name: string): string {
 }
 
 export function getRedditUserAgent(): string {
-  return readEnv('REDDIT_USER_AGENT') || DEFAULT_USER_AGENT;
+  const exact = readEnv('REDDIT_USER_AGENT');
+  if (exact) return exact;
+
+  const pool = readRedditUserAgentPool();
+  const userAgent = pool[userAgentPoolIndex % pool.length] ?? DEFAULT_USER_AGENT;
+  userAgentPoolIndex = (userAgentPoolIndex + 1) % pool.length;
+  return userAgent;
+}
+
+function readRedditUserAgentPool(): string[] {
+  const raw = readEnv('REDDIT_USER_AGENTS');
+  if (!raw) return [DEFAULT_USER_AGENT];
+  const pool = raw
+    .split(/[,\n]+/)
+    .map((value) => value.trim())
+    .filter(Boolean);
+  return pool.length > 0 ? pool : [DEFAULT_USER_AGENT];
 }
 
 export function hasRedditOAuthCreds(): boolean {
@@ -74,6 +91,7 @@ export function getRedditFetchRuntime(): FetchRuntime {
 export function resetRedditFetchRuntime(): void {
   fetchRuntime = createFetchRuntime();
   oauthTokenCache = null;
+  userAgentPoolIndex = 0;
 }
 
 function resolveOauthApiUrl(url: string): string {

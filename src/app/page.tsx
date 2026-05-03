@@ -714,15 +714,15 @@ export default async function HomePage() {
 
         <SectionHead
           num="// 05"
-          title="Live / top 50"
+          title="Live / top 200"
           meta={<><b>{refreshedTime}</b> / refreshed</>}
         />
         <Card>
           <LiveTopTable
-            repos={repos.slice(0, 50)}
+            repos={repos}
             skills={liveSkillItems}
             mcps={liveMcpItems}
-            limit={15}
+            limit={200}
           />
         </Card>
 

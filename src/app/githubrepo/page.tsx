@@ -45,9 +45,12 @@ function formatCompact(value: number): string {
 export default async function GithubRepoPage() {
   const repos = getDerivedRepos();
 
-  const liveRows = [...repos]
-    .sort((a, b) => b.momentumScore - a.momentumScore)
-    .slice(0, 50);
+  // Show ALL tracked repos (not the previous slice(0, 50)) so the
+  // "isolated trending feed" actually reflects the full tracked set.
+  // User feedback: "/githubrepo was random 50 — should be all".
+  const liveRows = [...repos].sort(
+    (a, b) => b.momentumScore - a.momentumScore,
+  );
 
   const refreshed = new Date(lastFetchedAt);
   const refreshedTime = refreshed.toISOString().slice(11, 19);
@@ -80,11 +83,12 @@ export default async function GithubRepoPage() {
             <div className="crumb">
               <b>TREND</b> / TERMINAL / GITHUB REPOS
             </div>
-            <h1>Top 50 trending GitHub repos — right now.</h1>
+            <h1>All trending GitHub repos — right now.</h1>
             <p className="lede">
-              The same momentum-ranked list you see on the front page, isolated
-              with stats and category tabs. No consensus / breakouts / featured
-              / charts — just the table.
+              The full momentum-ranked feed of {repos.length.toLocaleString()}{" "}
+              tracked repos. Same data as the front page, isolated with stats
+              and category tabs. No consensus / breakouts / featured / charts
+              — just the table.
             </p>
           </div>
           <div
@@ -133,7 +137,7 @@ export default async function GithubRepoPage() {
 
         <SectionHead
           num="// 01"
-          title="Live / top 50"
+          title={`Live / all ${liveRows.length.toLocaleString()}`}
           meta={
             <>
               <b>{refreshedTime}</b> / refreshed
@@ -141,7 +145,12 @@ export default async function GithubRepoPage() {
           }
         />
         <Card>
-          <LiveTopTable repos={liveRows} skills={[]} mcps={[]} limit={50} />
+          <LiveTopTable
+            repos={liveRows}
+            skills={[]}
+            mcps={[]}
+            limit={liveRows.length}
+          />
         </Card>
       </div>
 

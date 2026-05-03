@@ -130,6 +130,20 @@ function endpoint(baseUrl: string, path: string): string {
   return `${baseUrl}${path}`;
 }
 
+function assertSafeAuthDestination(rawUrl: string): void {
+  if (!process.env.CRON_SECRET) return;
+  const url = new URL(rawUrl);
+  const hostname = url.hostname.toLowerCase();
+  const localHosts = new Set(["localhost", "127.0.0.1", "::1"]);
+  const productionHosts = new Set(["trendingrepo.com", "www.trendingrepo.com"]);
+  const local = localHosts.has(hostname);
+  const production = url.protocol === "https:" && productionHosts.has(hostname);
+  if (local || production) return;
+  throw new Error(
+    `refusing to send CRON_SECRET to non-allowlisted origin ${url.origin}`,
+  );
+}
+
 async function fetchJson<T>(url: string, timeoutMs: number, auth: boolean): Promise<T> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -137,6 +151,7 @@ async function fetchJson<T>(url: string, timeoutMs: number, auth: boolean): Prom
     Accept: "application/json",
   };
   if (auth && process.env.CRON_SECRET) {
+    assertSafeAuthDestination(url);
     headers.Authorization = `Bearer ${process.env.CRON_SECRET}`;
   }
 

@@ -64,3 +64,7 @@ See individual phase prompts.
   54/54; `npx vitest run tests/reddit-source.test.ts` passed 2/2;
   root `npm run typecheck` passed; worker `npm run typecheck` passed;
   `npm run lint:guards` passed.
+- 2026-05-03 Phase 1.2 hardening pass: added `config/reddit-user-agents.json`,
+  new Redis telemetry/quarantine primitives in `src/lib/pool/reddit-*.ts`,
+  extended `EngineError` with Reddit classes, and wired app + shared Reddit
+  fetch paths to use pool selection with quarantine signaling on 429/403/5xx.

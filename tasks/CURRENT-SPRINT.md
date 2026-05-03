@@ -49,6 +49,11 @@ See individual phase prompts.
 - 2026-05-03 advisory preflight deferral done: `hotness-snapshots`,
   `mcp-dependents`, `mcp-smithery-rank`, `model-usage`, and
   `skill-install-snapshots` no longer block `freshness:check`.
+- 2026-05-03 advisory side-channel repair done: empty/disabled worker payloads
+  now refresh `hotness-snapshots`, `mcp-dependents`, `mcp-smithery-rank`, and
+  `skill-install-snapshots`; the LLM aggregate cron now writes
+  `llm-aggregate-heartbeat` so `model-usage` reflects cron liveness even when
+  no events are processed.
 - 2026-05-03 Phase 1.2 done: root Reddit scrapers and the Railway worker now
   support comma/newline-separated `REDDIT_USER_AGENTS` round-robin rotation
   when `REDDIT_USER_AGENT` is absent; the single-UA override remains stable.

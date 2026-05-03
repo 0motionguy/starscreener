@@ -126,6 +126,7 @@ export interface DailySummaryPayload {
 export const LLM_EVENTS_STREAM = 'ss:llm:events:v1';
 export const LLM_GEN_META_STREAM = 'ss:llm:gen-meta:v1';
 export const LLM_AGG_CURSOR_KEY = 'ss:llm:agg:cursor';
+export const LLM_AGG_HEARTBEAT_KEY = 'llm-aggregate-heartbeat';
 export const LLM_EVENTS_MAXLEN = 100_000;
 
 // Public anonymization threshold — below this many events in 24h, a model's

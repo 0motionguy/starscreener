@@ -352,12 +352,7 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
   },
   {
     name: "model-usage",
-    redisSlugs: [
-      "llm-daily-summary",
-      "llm-daily-by-model",
-      "llm-daily-by-feature",
-      "llm-model-metadata",
-    ],
+    redisSlugs: ["llm-aggregate-heartbeat", "llm-model-metadata"],
     blocking: false,
     ...hours(36),
   },

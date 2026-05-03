@@ -287,16 +287,9 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       ? (volume.perSource[volume.dominantSource] / volume.totalItems) * 100
       : 0;
 
-  // "Alpha score" = average of top-5 consensus story scores, capped 0..100.
-  const topConsensus = consensus.slice(0, 5);
-  const alphaScore =
-    topConsensus.length === 0
-      ? 0
-      : Math.min(
-          100,
-          topConsensus.reduce((sum, s) => sum + s.score, 0) / (topConsensus.length * 4),
-        );
-  const alphaDelta = consensus.reduce((d, s) => d + s.delta, 0);
+  // Alpha-score / heat-index calculation removed (2026-05-03) — the
+  // "alpha score" framing read as market data on a code-trends newsroom.
+  // Story-level intensity is already surfaced by the Consensus radar.
 
   const freshnessIso =
     [
@@ -490,8 +483,6 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
           topTagDelta={tagMomentum.topTag?.delta ?? null}
           topTagCount={tagMomentum.topTag?.count ?? null}
           consensusCount={consensusCount}
-          alphaScore={alphaScore}
-          alphaDelta={alphaDelta}
           freshnessLabel={freshnessLabel}
           windowLabel={activeWindowLabel}
         />

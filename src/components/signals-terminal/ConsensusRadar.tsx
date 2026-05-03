@@ -111,6 +111,13 @@ export function ConsensusRadar({ stories, totalActive }: ConsensusRadarProps) {
             const logoSrc = story.linkedRepo
               ? repoLogoUrl(story.linkedRepo, 64)
               : null;
+            // When the story has no linked repo (e.g. news / RSS / X post
+            // not tied to a tracked repo), the EntityLogo would render a
+            // grey monogram — making the row feel logo-less. Fall back to
+            // the lead source's brand mark so every row carries a visible,
+            // identifying glyph.
+            const showSourceMarkFallback = !logoSrc;
+            const fallbackSource = story.lead.source;
 
             const visibleSources = story.sources.slice(0, 5);
             const moreCount = story.sources.length - visibleSources.length;
@@ -167,12 +174,34 @@ export function ConsensusRadar({ stories, totalActive }: ConsensusRadarProps) {
                       {story.delta >= 0 ? `+${story.delta}` : story.delta}
                     </span>
                   </div>
-                  <EntityLogo
-                    src={logoSrc}
-                    name={story.linkedRepo ?? story.title}
-                    size={24}
-                    className="cons-av"
-                  />
+                  {showSourceMarkFallback ? (
+                    <span
+                      className="cons-av"
+                      title={fallbackSource}
+                      aria-label={fallbackSource}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: 24,
+                        height: 24,
+                        flexShrink: 0,
+                        borderRadius: 2,
+                        background: `color-mix(in srgb, ${SOURCE_BRAND_COLOR[fallbackSource]} 22%, transparent)`,
+                        border: `1px solid color-mix(in srgb, ${SOURCE_BRAND_COLOR[fallbackSource]} 55%, transparent)`,
+                        color: SOURCE_BRAND_COLOR[fallbackSource],
+                      }}
+                    >
+                      <SourceMark source={fallbackSource} size={14} monochrome />
+                    </span>
+                  ) : (
+                    <EntityLogo
+                      src={logoSrc}
+                      name={story.linkedRepo ?? story.title}
+                      size={24}
+                      className="cons-av"
+                    />
+                  )}
                   <div className="nm">
                     <div
                       className="h"

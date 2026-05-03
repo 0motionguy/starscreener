@@ -1,13 +1,64 @@
 {
-  "fetchedAt": "2026-05-03T11:59:24.148Z",
+  "fetchedAt": "2026-05-03T12:54:01.363Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "rohitg00/ai-engineering-from-scratch": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkx6gj2skj2s",
+        "cid": "bafyreicygpc5q3yyxx7jap3vyv6owll6j3gav7xsirxjg7p4x4wos2vzwq",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkx6gj2skj2s",
+        "text": "https://github.com/rohitg00/ai-engineering-from-scratch",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T12:38:55Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkx6gj2skj2s",
+          "cid": "bafyreicygpc5q3yyxx7jap3vyv6owll6j3gav7xsirxjg7p4x4wos2vzwq",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkx6gj2skj2s",
+          "text": "https://github.com/rohitg00/ai-engineering-from-scratch",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T12:38:55Z",
+          "createdUtc": 1777811935,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "rohitg00/ai-engineering-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "vercel-labs/portless": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -19,11 +70,11 @@
           "handle": "kalvn.net",
           "displayName": "kalvn"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T13:43:40+02:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.17
       },
       "posts": [
         {
@@ -35,13 +86,13 @@
             "handle": "kalvn.net",
             "displayName": "kalvn"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-03T13:43:40+02:00",
           "createdUtc": 1777808620,
-          "ageHours": 0.5,
-          "trendingScore": 1,
+          "ageHours": 1.17,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
           ],
@@ -74,7 +125,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T11:31:00.830Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.38
       },
       "posts": [
         {
@@ -91,7 +142,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T11:31:00.830Z",
           "createdUtc": 1777807860,
-          "ageHours": 0.5,
+          "ageHours": 1.38,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -125,7 +176,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T09:31:00.828Z",
-        "hoursSincePosted": 2.47
+        "hoursSincePosted": 3.38
       },
       "posts": [
         {
@@ -142,7 +193,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T09:31:00.828Z",
           "createdUtc": 1777800660,
-          "ageHours": 2.47,
+          "ageHours": 3.38,
           "trendingScore": 4,
           "content_tags": [
             "has-github-repo"
@@ -170,7 +221,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T09:05:29.149Z",
           "createdUtc": 1777799129,
-          "ageHours": 2.9,
+          "ageHours": 3.81,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -204,7 +255,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T08:05:04Z",
-        "hoursSincePosted": 3.91
+        "hoursSincePosted": 4.82
       },
       "posts": [
         {
@@ -221,7 +272,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T08:05:04Z",
           "createdUtc": 1777795504,
-          "ageHours": 3.91,
+          "ageHours": 4.82,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -255,7 +306,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T07:52:33.145686+00:00",
-        "hoursSincePosted": 4.11
+        "hoursSincePosted": 5.02
       },
       "posts": [
         {
@@ -272,7 +323,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T07:52:33.145686+00:00",
           "createdUtc": 1777794753,
-          "ageHours": 4.11,
+          "ageHours": 5.02,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -287,69 +338,19 @@
           ]
         }
       ]
-    },
-    "vercel-labs/skills": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:ljbk5vjh5ju4ym2yfwk5dw4v/app.bsky.feed.post/3mkwla36rvk2g",
-        "cid": "bafyreihaolcfqmqmttzofahpwahbrkeun6a4gubccye6wws63zyet4dhpa",
-        "bskyUrl": "https://bsky.app/profile/liorpozin.bsky.social/post/3mkwla36rvk2g",
-        "text": "github.com/vercel-labs/...",
-        "author": {
-          "handle": "liorpozin.bsky.social",
-          "displayName": "Lior Pozin"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T06:55:19.303Z",
-        "hoursSincePosted": 5.07
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:ljbk5vjh5ju4ym2yfwk5dw4v/app.bsky.feed.post/3mkwla36rvk2g",
-          "cid": "bafyreihaolcfqmqmttzofahpwahbrkeun6a4gubccye6wws63zyet4dhpa",
-          "bskyUrl": "https://bsky.app/profile/liorpozin.bsky.social/post/3mkwla36rvk2g",
-          "text": "github.com/vercel-labs/...",
-          "author": {
-            "handle": "liorpozin.bsky.social",
-            "displayName": "Lior Pozin"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T06:55:19.303Z",
-          "createdUtc": 1777791319,
-          "ageHours": 5.07,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo",
-            "has-md-file"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "vercel-labs/skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "Imbad0202/academic-research-skills": {
+    }
+  },
+  "mentionsByRepoId": {
+    "rohitg00--ai-engineering-from-scratch": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwkvbdwgd2g",
-        "cid": "bafyreievofrdii7ffzzpejexoqku2ybosc5gqp2pr74lqqfejauvdl3cvy",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwkvbdwgd2g",
-        "text": "https://github.com/Imbad0202/academic-research-skills",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkx6gj2skj2s",
+        "cid": "bafyreicygpc5q3yyxx7jap3vyv6owll6j3gav7xsirxjg7p4x4wos2vzwq",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkx6gj2skj2s",
+        "text": "https://github.com/rohitg00/ai-engineering-from-scratch",
         "author": {
           "handle": "tom-doerr.bsky.social",
           "displayName": "Tom Dörr "
@@ -357,15 +358,15 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-03T06:49:16Z",
-        "hoursSincePosted": 5.17
+        "createdAt": "2026-05-03T12:38:55Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwkvbdwgd2g",
-          "cid": "bafyreievofrdii7ffzzpejexoqku2ybosc5gqp2pr74lqqfejauvdl3cvy",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwkvbdwgd2g",
-          "text": "https://github.com/Imbad0202/academic-research-skills",
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkx6gj2skj2s",
+          "cid": "bafyreicygpc5q3yyxx7jap3vyv6owll6j3gav7xsirxjg7p4x4wos2vzwq",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkx6gj2skj2s",
+          "text": "https://github.com/rohitg00/ai-engineering-from-scratch",
           "author": {
             "handle": "tom-doerr.bsky.social",
             "displayName": "Tom Dörr "
@@ -373,9 +374,9 @@
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-03T06:49:16Z",
-          "createdUtc": 1777790956,
-          "ageHours": 5.17,
+          "createdAt": "2026-05-03T12:38:55Z",
+          "createdUtc": 1777811935,
+          "ageHours": 0.5,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -383,7 +384,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "Imbad0202/academic-research-skills",
+              "fullName": "rohitg00/ai-engineering-from-scratch",
               "matchType": "url",
               "confidence": 1
             }
@@ -391,62 +392,9 @@
         }
       ]
     },
-    "RicardoDominguez/talkie-coder": {
-      "count7d": 1,
-      "likesSum7d": 8,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:ayoll3ww3v3zgh6m6damfaaf/app.bsky.feed.post/3mkwjoubuq22l",
-        "cid": "bafyreibvx5b3gwlopjdtm4bxaklmdqeim2ywvr5pya2jqjlk2f4wowufhq",
-        "bskyUrl": "https://bsky.app/profile/arnicas.bsky.social/post/3mkwjoubuq22l",
-        "text": "1930 Coder - after only 250 examples, Talkie can make a big fix. Evidently the web data doesn’t matter much. github.com/RicardoDomin...",
-        "author": {
-          "handle": "arnicas.bsky.social",
-          "displayName": "Lynn Cherny"
-        },
-        "likeCount": 8,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-03T06:27:47.897Z",
-        "hoursSincePosted": 5.53
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:ayoll3ww3v3zgh6m6damfaaf/app.bsky.feed.post/3mkwjoubuq22l",
-          "cid": "bafyreibvx5b3gwlopjdtm4bxaklmdqeim2ywvr5pya2jqjlk2f4wowufhq",
-          "bskyUrl": "https://bsky.app/profile/arnicas.bsky.social/post/3mkwjoubuq22l",
-          "text": "1930 Coder - after only 250 examples, Talkie can make a big fix. Evidently the web data doesn’t matter much. github.com/RicardoDomin...",
-          "author": {
-            "handle": "arnicas.bsky.social",
-            "displayName": "Lynn Cherny"
-          },
-          "likeCount": 8,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-03T06:27:47.897Z",
-          "createdUtc": 1777789667,
-          "ageHours": 5.53,
-          "trendingScore": 8.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "RicardoDominguez/talkie-coder",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    }
-  },
-  "mentionsByRepoId": {
     "vercel-labs--portless": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -458,11 +406,11 @@
           "handle": "kalvn.net",
           "displayName": "kalvn"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T13:43:40+02:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.17
       },
       "posts": [
         {
@@ -474,13 +422,13 @@
             "handle": "kalvn.net",
             "displayName": "kalvn"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-03T13:43:40+02:00",
           "createdUtc": 1777808620,
-          "ageHours": 0.5,
-          "trendingScore": 1,
+          "ageHours": 1.17,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
           ],
@@ -513,7 +461,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T11:31:00.830Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.38
       },
       "posts": [
         {
@@ -530,7 +478,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T11:31:00.830Z",
           "createdUtc": 1777807860,
-          "ageHours": 0.5,
+          "ageHours": 1.38,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -564,7 +512,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T09:31:00.828Z",
-        "hoursSincePosted": 2.47
+        "hoursSincePosted": 3.38
       },
       "posts": [
         {
@@ -581,7 +529,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T09:31:00.828Z",
           "createdUtc": 1777800660,
-          "ageHours": 2.47,
+          "ageHours": 3.38,
           "trendingScore": 4,
           "content_tags": [
             "has-github-repo"
@@ -609,7 +557,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T09:05:29.149Z",
           "createdUtc": 1777799129,
-          "ageHours": 2.9,
+          "ageHours": 3.81,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -643,7 +591,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T08:05:04Z",
-        "hoursSincePosted": 3.91
+        "hoursSincePosted": 4.82
       },
       "posts": [
         {
@@ -660,7 +608,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T08:05:04Z",
           "createdUtc": 1777795504,
-          "ageHours": 3.91,
+          "ageHours": 4.82,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -694,7 +642,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T07:52:33.145686+00:00",
-        "hoursSincePosted": 4.11
+        "hoursSincePosted": 5.02
       },
       "posts": [
         {
@@ -711,7 +659,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T07:52:33.145686+00:00",
           "createdUtc": 1777794753,
-          "ageHours": 4.11,
+          "ageHours": 5.02,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -726,168 +674,9 @@
           ]
         }
       ]
-    },
-    "vercel-labs--skills": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:ljbk5vjh5ju4ym2yfwk5dw4v/app.bsky.feed.post/3mkwla36rvk2g",
-        "cid": "bafyreihaolcfqmqmttzofahpwahbrkeun6a4gubccye6wws63zyet4dhpa",
-        "bskyUrl": "https://bsky.app/profile/liorpozin.bsky.social/post/3mkwla36rvk2g",
-        "text": "github.com/vercel-labs/...",
-        "author": {
-          "handle": "liorpozin.bsky.social",
-          "displayName": "Lior Pozin"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T06:55:19.303Z",
-        "hoursSincePosted": 5.07
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:ljbk5vjh5ju4ym2yfwk5dw4v/app.bsky.feed.post/3mkwla36rvk2g",
-          "cid": "bafyreihaolcfqmqmttzofahpwahbrkeun6a4gubccye6wws63zyet4dhpa",
-          "bskyUrl": "https://bsky.app/profile/liorpozin.bsky.social/post/3mkwla36rvk2g",
-          "text": "github.com/vercel-labs/...",
-          "author": {
-            "handle": "liorpozin.bsky.social",
-            "displayName": "Lior Pozin"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T06:55:19.303Z",
-          "createdUtc": 1777791319,
-          "ageHours": 5.07,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo",
-            "has-md-file"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "vercel-labs/skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "imbad0202--academic-research-skills": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwkvbdwgd2g",
-        "cid": "bafyreievofrdii7ffzzpejexoqku2ybosc5gqp2pr74lqqfejauvdl3cvy",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwkvbdwgd2g",
-        "text": "https://github.com/Imbad0202/academic-research-skills",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T06:49:16Z",
-        "hoursSincePosted": 5.17
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwkvbdwgd2g",
-          "cid": "bafyreievofrdii7ffzzpejexoqku2ybosc5gqp2pr74lqqfejauvdl3cvy",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwkvbdwgd2g",
-          "text": "https://github.com/Imbad0202/academic-research-skills",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T06:49:16Z",
-          "createdUtc": 1777790956,
-          "ageHours": 5.17,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Imbad0202/academic-research-skills",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "ricardodominguez--talkie-coder": {
-      "count7d": 1,
-      "likesSum7d": 8,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:ayoll3ww3v3zgh6m6damfaaf/app.bsky.feed.post/3mkwjoubuq22l",
-        "cid": "bafyreibvx5b3gwlopjdtm4bxaklmdqeim2ywvr5pya2jqjlk2f4wowufhq",
-        "bskyUrl": "https://bsky.app/profile/arnicas.bsky.social/post/3mkwjoubuq22l",
-        "text": "1930 Coder - after only 250 examples, Talkie can make a big fix. Evidently the web data doesn’t matter much. github.com/RicardoDomin...",
-        "author": {
-          "handle": "arnicas.bsky.social",
-          "displayName": "Lynn Cherny"
-        },
-        "likeCount": 8,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-03T06:27:47.897Z",
-        "hoursSincePosted": 5.53
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:ayoll3ww3v3zgh6m6damfaaf/app.bsky.feed.post/3mkwjoubuq22l",
-          "cid": "bafyreibvx5b3gwlopjdtm4bxaklmdqeim2ywvr5pya2jqjlk2f4wowufhq",
-          "bskyUrl": "https://bsky.app/profile/arnicas.bsky.social/post/3mkwjoubuq22l",
-          "text": "1930 Coder - after only 250 examples, Talkie can make a big fix. Evidently the web data doesn’t matter much. github.com/RicardoDomin...",
-          "author": {
-            "handle": "arnicas.bsky.social",
-            "displayName": "Lynn Cherny"
-          },
-          "likeCount": 8,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-03T06:27:47.897Z",
-          "createdUtc": 1777789667,
-          "ageHours": 5.53,
-          "trendingScore": 8.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "RicardoDominguez/talkie-coder",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
-    {
-      "fullName": "RicardoDominguez/talkie-coder",
-      "count7d": 1,
-      "likesSum7d": 8
-    },
     {
       "fullName": "rtk-ai/rtk",
       "count7d": 2,
@@ -896,12 +685,7 @@
     {
       "fullName": "vercel-labs/portless",
       "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "vercel-labs/skills",
-      "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 2
     },
     {
       "fullName": "B-M-Capital-Research/honeclaw",
@@ -909,12 +693,12 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "Imbad0202/academic-research-skills",
+      "fullName": "masterking32/MasterDnsVPN",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "masterking32/MasterDnsVPN",
+      "fullName": "rohitg00/ai-engineering-from-scratch",
       "count7d": 1,
       "likesSum7d": 0
     },

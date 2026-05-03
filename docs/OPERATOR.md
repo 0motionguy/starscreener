@@ -4,15 +4,19 @@
 
 **Purpose:** every Claude Code session can read this file and instantly know the current state of the engine, what is shipping, and what is broken. Refreshed by `/loop` autonomous runs and by hand. **Source of truth for the audit-2026-05-04 follow-up.**
 
-Last refreshed: 2026-05-03 ~01:30 UTC (autonomous tick)
+Last refreshed: 2026-05-03 ~02:10 UTC (autonomous tick)
 
 ---
 
 ## TL;DR for a fresh session
 
-You walked into a project whose 2026-05-04 audit found 6 classes of breakage. **Most are now fixed.** The fixes ship as PR [#93](https://github.com/0motionguy/starscreener/pull/93) (28+ commits on `claude/modest-pasteur-59599d`). Production is currently green. Worker is healthy. All 24 GHA workflows on latest run = green.
+You walked into a project whose 2026-05-04 audit found 6 classes of breakage. **Most are now fixed in PR [#93](https://github.com/0motionguy/starscreener/pull/93) (32 commits on `claude/modest-pasteur-59599d`).** As of 02:10 UTC 2026-05-03:
 
-If the user says "go" or "continue", read § "Open follow-ups" below and pick the highest-leverage item.
+🟢 **PR #93 CI is GREEN** (typecheck + tests + e2e + Vercel preview all pass)
+🔴 **Production health degraded:** `/api/health` returns `status:stale` because consensus-trending Redis key is 69h+ stale (snapshot-consensus failing nightly as result)
+🎯 **Single-action fix: merge PR #93.** That ships the consensus-trending allSettled hardening to Railway worker, and the .data/twitter-*.jsonl + dev.to author CORB fixes to Vercel. Everything downstream resolves.
+
+If the user says "go" or "continue", consider checking PR #93 status first — if the user has merged it, snapshot/consensus failures will resolve in the next worker tick. Otherwise read § "Open follow-ups" below and pick the highest-leverage item.
 
 ---
 
@@ -337,16 +341,16 @@ Hackathons, Launch — no route, no data, intentional
 
 ## Production state snapshot (refresh this)
 
-Last verified: 2026-05-03 ~01:30 UTC
+Last verified: 2026-05-03 ~02:10 UTC
 
-- **/api/health**: HTTP 200, `status:ok` BUT `sourceStatus:degraded`. Coverage=100% but `coverageQuality:partial`. devto stale 5d, npm stale 15h.
+- **/api/health**: HTTP 200, **`status:stale`**, `sourceStatus:degraded`, `coveragePct:97.4`, `coverageQuality:partial` ← stale climbing
 - **/api/health/sources**: 9/9 CLOSED breakers
 - **Worker /healthz**: ok, db=true, redis=true, lastRunAt fresh within minutes
-- **`consensus-trending` Redis key**: 69.3h stale → snapshot-consensus failed at 01:22 UTC (my fix is in PR #93, not yet merged)
-- **GHA workflows**: latest CI failed on PR #93 due to theme-toggle e2e (asserts a button that doesn't exist) — fixed in commit 094266f7 (skip)
-- **PR #93**: open, 30 commits, Vercel preview live, CI re-running after theme-toggle skip
+- **`consensus-trending` Redis key**: 69h+ stale → snapshot-consensus failed at 01:22 UTC + sparklines hung 14min then cancelled at 01:37
+- **GHA workflows latest run**: 12/14 green; 2 red are snapshot-consensus + snapshot-top10-sparklines (both blocked on consensus-trending freshness, both my fixes are in PR #93)
+- **PR #93**: 🟢 ALL CI CHECKS PASSING after theme-toggle skip (commit 094266f7). Ready to merge.
 
-**Block on merge:** my consensus-trending allSettled fix is sitting in PR #93. Until it merges + Railway redeploys, the staleness keeps growing and snapshot-consensus keeps failing daily. Merging PR #93 is the highest-leverage action available.
+**Block on merge:** my consensus-trending allSettled fix is sitting in PR #93. Until it merges + Railway redeploys, the staleness keeps growing daily. Merging PR #93 is the single highest-leverage action available right now.
 
 To re-verify, run:
 ```bash

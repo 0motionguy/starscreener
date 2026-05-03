@@ -83,17 +83,22 @@ export default async function GithubRepoPage() {
       sparklineData: repo.sparklineData,
       momentumScore: repo.momentumScore,
       mentionCount24h: repo.mentionCount24h ?? 0,
+      // Chip on/off uses the wider 7d window so slow-cadence sources
+      // (lobsters / npm / hf / arxiv / devto) actually fire on the row.
+      // 24h is too narrow for most non-twitter signals — the result was
+      // "8 chip slots, only github + twitter colored." Falls back to the
+      // 24h count when 7d is missing.
       sources: {
         gh: 1,
-        hn: ps?.hackernews.count24h ?? 0,
-        r: ps?.reddit.count24h ?? 0,
-        b: ps?.bluesky.count24h ?? 0,
-        d: ps?.devto.count24h ?? 0,
-        lobsters: ps?.lobsters.count24h ?? 0,
-        x: ps?.twitter.count24h ?? 0,
-        npm: ps?.npm.count24h ?? 0,
-        hf: ps?.huggingface.count24h ?? 0,
-        arxiv: ps?.arxiv.count24h ?? 0,
+        hn: ps?.hackernews.count7d ?? ps?.hackernews.count24h ?? 0,
+        r: ps?.reddit.count7d ?? ps?.reddit.count24h ?? 0,
+        b: ps?.bluesky.count7d ?? ps?.bluesky.count24h ?? 0,
+        d: ps?.devto.count7d ?? ps?.devto.count24h ?? 0,
+        lobsters: ps?.lobsters.count7d ?? ps?.lobsters.count24h ?? 0,
+        x: ps?.twitter.count7d ?? ps?.twitter.count24h ?? 0,
+        npm: ps?.npm.count7d ?? ps?.npm.count24h ?? 0,
+        hf: ps?.huggingface.count7d ?? ps?.huggingface.count24h ?? 0,
+        arxiv: ps?.arxiv.count7d ?? ps?.arxiv.count24h ?? 0,
       },
     };
   });

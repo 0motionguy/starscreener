@@ -442,8 +442,11 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
                       {ROW_SOURCE_ICONS.map(({ key, label, Icon }) => {
                         const count = row.sources[key] ?? 0;
                         const fired = count > 0;
+                        // Tooltip window matches the page-side mapping
+                        // (count7d for non-github sources). Keeps tooltip
+                        // honest now that chips fire on weekly signal.
                         const tooltip = fired
-                          ? `${label}: ${count} mention${count === 1 ? "" : "s"} (24h)`
+                          ? `${label}: ${count} mention${count === 1 ? "" : "s"} (7d)`
                           : `${label}: no mentions`;
                         return (
                           <span

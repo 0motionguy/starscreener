@@ -4,7 +4,25 @@
 
 **Purpose:** every Claude Code session can read this file and instantly know the current state of the engine, what is shipping, and what is broken. Refreshed by `/loop` autonomous runs and by hand. **Source of truth for the audit-2026-05-04 follow-up.**
 
-Last refreshed: 2026-05-03 (zombies + Supabase freshness diag tick)
+Last refreshed: 2026-05-03 ~05:00 UTC (P0 RESCUE — 4 parallel agents + 10 fixes shipped)
+
+## 🚨 P0 RESCUE THIS SESSION — 10 FIXES, 46 commits on PR #93
+
+User reported live product broken: empty avatars, dead skills/mcp/devto, reddit 0 24h, twitter 10-day stale, npm no installs, charts shitty.
+
+Root causes shipped:
+- **Twitter (10-day data loss)** `eafd2433`: collector never hydrated memory store before ingest → each run truncated `.data/twitter-*.jsonl` to ~15 lines. Now calls `ensureTwitterReady()` first.
+- **Home avatars** `adf58879`: SSR-render real GitHub `<img>` tags (was empty `.av` boxes — `EntityLogo` is client-only and never reached SSR HTML)
+- **Live/top-50 table** `7a0a9f87`: avatars + sparklines + channels-firing pills + momentum bars
+- **TR-100 sparkline** `1f3b51fd`: rebuilt as Recharts AreaChart with gradient
+- **Reddit /reddit/trending** `31b561f9`: chip-filter auto-degrade + chronological fallback when score=0 + SSR snapshot fallback. Root cause is upstream Reddit RSS-fallback returning score=0 on all posts (auth ops issue).
+- **MCP /mcp** `e64b514b`: warming-up placeholder when leaderboard empty
+- **Skills /skills** `607d1949`: warming-up banner when install-velocity layer is cold
+- **dev.to /devto** `1f3b51fd`: empty-window hint pointing to populated tab
+- **NPM /npm** `e64b514b`: column relabel "DL"→"INSTALLS"
+- **Worker MCP fetcher** `a0fe44d3`: surface zero-items + per-item upsert errors
+
+**STILL BLOCKED on human merge.** PR #93 (46 commits, all CI green) + PR #92 both open and mergeable. Production stays broken until merged.
 
 ---
 

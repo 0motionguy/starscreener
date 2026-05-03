@@ -1,10 +1,112 @@
 {
-  "fetchedAt": "2026-05-03T11:10:10.573Z",
+  "fetchedAt": "2026-05-03T11:59:24.148Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
+    "vercel-labs/portless": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:5cp56c7cdvcxirova4pqaz2o/app.bsky.feed.post/3mkx3dqhtdc2k",
+        "cid": "bafyreibasaoqkycdvgorpl67i42xqj5cakwrerfjt2pb3f4lv6skut3zgy",
+        "bskyUrl": "https://bsky.app/profile/kalvn.net/post/3mkx3dqhtdc2k",
+        "text": "Un outil pour exposer une app locale en HTTPS avec un nom de domaine (local également). 🔗 https://github.com/vercel-labs/portless #https #localhost #dev #proxy",
+        "author": {
+          "handle": "kalvn.net",
+          "displayName": "kalvn"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T13:43:40+02:00",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:5cp56c7cdvcxirova4pqaz2o/app.bsky.feed.post/3mkx3dqhtdc2k",
+          "cid": "bafyreibasaoqkycdvgorpl67i42xqj5cakwrerfjt2pb3f4lv6skut3zgy",
+          "bskyUrl": "https://bsky.app/profile/kalvn.net/post/3mkx3dqhtdc2k",
+          "text": "Un outil pour exposer une app locale en HTTPS avec un nom de domaine (local également). 🔗 https://github.com/vercel-labs/portless #https #localhost #dev #proxy",
+          "author": {
+            "handle": "kalvn.net",
+            "displayName": "kalvn"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T13:43:40+02:00",
+          "createdUtc": 1777808620,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "vercel-labs/portless",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "siddsachar/Thoth": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkx2n2gdp225",
+        "cid": "bafyreibgylvjjlojgz7odchvme6fjlbqd2hcqwqey6sbccrh5x732ps7va",
+        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkx2n2gdp225",
+        "text": "Thoth – open-source Local-first AI Assistant https://github.com/siddsachar/Thoth",
+        "author": {
+          "handle": "hnbot.gsuscs.xyz",
+          "displayName": "HackerNews Compilator"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T11:31:00.830Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkx2n2gdp225",
+          "cid": "bafyreibgylvjjlojgz7odchvme6fjlbqd2hcqwqey6sbccrh5x732ps7va",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkx2n2gdp225",
+          "text": "Thoth – open-source Local-first AI Assistant https://github.com/siddsachar/Thoth",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T11:31:00.830Z",
+          "createdUtc": 1777807860,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "siddsachar/Thoth",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "rtk-ai/rtk": {
       "count7d": 2,
       "likesSum7d": 4,
@@ -23,7 +125,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T09:31:00.828Z",
-        "hoursSincePosted": 1.65
+        "hoursSincePosted": 2.47
       },
       "posts": [
         {
@@ -40,7 +142,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T09:31:00.828Z",
           "createdUtc": 1777800660,
-          "ageHours": 1.65,
+          "ageHours": 2.47,
           "trendingScore": 4,
           "content_tags": [
             "has-github-repo"
@@ -68,7 +170,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T09:05:29.149Z",
           "createdUtc": 1777799129,
-          "ageHours": 2.08,
+          "ageHours": 2.9,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -102,7 +204,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T08:05:04Z",
-        "hoursSincePosted": 3.09
+        "hoursSincePosted": 3.91
       },
       "posts": [
         {
@@ -119,7 +221,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T08:05:04Z",
           "createdUtc": 1777795504,
-          "ageHours": 3.09,
+          "ageHours": 3.91,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -153,7 +255,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T07:52:33.145686+00:00",
-        "hoursSincePosted": 3.29
+        "hoursSincePosted": 4.11
       },
       "posts": [
         {
@@ -170,7 +272,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T07:52:33.145686+00:00",
           "createdUtc": 1777794753,
-          "ageHours": 3.29,
+          "ageHours": 4.11,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -204,7 +306,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T06:55:19.303Z",
-        "hoursSincePosted": 4.25
+        "hoursSincePosted": 5.07
       },
       "posts": [
         {
@@ -221,7 +323,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T06:55:19.303Z",
           "createdUtc": 1777791319,
-          "ageHours": 4.25,
+          "ageHours": 5.07,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
@@ -256,7 +358,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T06:49:16Z",
-        "hoursSincePosted": 4.35
+        "hoursSincePosted": 5.17
       },
       "posts": [
         {
@@ -273,7 +375,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T06:49:16Z",
           "createdUtc": 1777790956,
-          "ageHours": 4.35,
+          "ageHours": 5.17,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -307,7 +409,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-03T06:27:47.897Z",
-        "hoursSincePosted": 4.71
+        "hoursSincePosted": 5.53
       },
       "posts": [
         {
@@ -324,7 +426,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-03T06:27:47.897Z",
           "createdUtc": 1777789667,
-          "ageHours": 4.71,
+          "ageHours": 5.53,
           "trendingScore": 8.5,
           "content_tags": [
             "has-github-repo"
@@ -339,43 +441,45 @@
           ]
         }
       ]
-    },
-    "techomies/ai-layoff-and-exploitative-companies": {
+    }
+  },
+  "mentionsByRepoId": {
+    "vercel-labs--portless": {
       "count7d": 1,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mkwgaopunc27",
-        "cid": "bafyreibjw6z7qh5rj5f6ksn7m4xfhmeaozgmzuyfs24hxxmzrtzvxtnpya",
-        "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mkwgaopunc27",
-        "text": "When open-source AI tracks labor abuses, it’s a sign: devs are coding for collective protection, not just productivity. https://github.com/techomies/ai-layoff-and-exploitative-companies https://www.projectnothing.ai/experiments/signal-from-the-void",
+        "uri": "at://did:plc:5cp56c7cdvcxirova4pqaz2o/app.bsky.feed.post/3mkx3dqhtdc2k",
+        "cid": "bafyreibasaoqkycdvgorpl67i42xqj5cakwrerfjt2pb3f4lv6skut3zgy",
+        "bskyUrl": "https://bsky.app/profile/kalvn.net/post/3mkx3dqhtdc2k",
+        "text": "Un outil pour exposer une app locale en HTTPS avec un nom de domaine (local également). 🔗 https://github.com/vercel-labs/portless #https #localhost #dev #proxy",
         "author": {
-          "handle": "projectnothing.bsky.social",
-          "displayName": "Project Nothing"
+          "handle": "kalvn.net",
+          "displayName": "kalvn"
         },
         "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-03T05:26:09.414Z",
-        "hoursSincePosted": 5.73
+        "createdAt": "2026-05-03T13:43:40+02:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mkwgaopunc27",
-          "cid": "bafyreibjw6z7qh5rj5f6ksn7m4xfhmeaozgmzuyfs24hxxmzrtzvxtnpya",
-          "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mkwgaopunc27",
-          "text": "When open-source AI tracks labor abuses, it’s a sign: devs are coding for collective protection, not just productivity. https://github.com/techomies/ai-layoff-and-exploitative-companies https://www.projectnothing.ai/experiments/signal-from-the-void",
+          "uri": "at://did:plc:5cp56c7cdvcxirova4pqaz2o/app.bsky.feed.post/3mkx3dqhtdc2k",
+          "cid": "bafyreibasaoqkycdvgorpl67i42xqj5cakwrerfjt2pb3f4lv6skut3zgy",
+          "bskyUrl": "https://bsky.app/profile/kalvn.net/post/3mkx3dqhtdc2k",
+          "text": "Un outil pour exposer une app locale en HTTPS avec un nom de domaine (local également). 🔗 https://github.com/vercel-labs/portless #https #localhost #dev #proxy",
           "author": {
-            "handle": "projectnothing.bsky.social",
-            "displayName": "Project Nothing"
+            "handle": "kalvn.net",
+            "displayName": "kalvn"
           },
           "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-03T05:26:09.414Z",
-          "createdUtc": 1777785969,
-          "ageHours": 5.73,
+          "createdAt": "2026-05-03T13:43:40+02:00",
+          "createdUtc": 1777808620,
+          "ageHours": 0.5,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -383,7 +487,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "techomies/ai-layoff-and-exploitative-companies",
+              "fullName": "vercel-labs/portless",
               "matchType": "url",
               "confidence": 1
             }
@@ -391,94 +495,42 @@
         }
       ]
     },
-    "rohitg00/ai-engineering-from-scratch": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mkwfnklstk2j",
-        "cid": "bafyreidophzr5ri2s6nazwot5bh5iqvheepuke6mvuvicifjhlofmiwg5y",
-        "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mkwfnklstk2j",
-        "text": "ai-engineering-from-scratch From linear algebra to autonomous agent swarms. learn AI with AI, then ship the tools. https://github.com/rohitg00/ai-engineering-from-scratch",
-        "author": {
-          "handle": "pythonhub.dev",
-          "displayName": "Python Hub"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T05:15:29.128811+00:00",
-        "hoursSincePosted": 5.91
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mkwfnklstk2j",
-          "cid": "bafyreidophzr5ri2s6nazwot5bh5iqvheepuke6mvuvicifjhlofmiwg5y",
-          "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mkwfnklstk2j",
-          "text": "ai-engineering-from-scratch From linear algebra to autonomous agent swarms. learn AI with AI, then ship the tools. https://github.com/rohitg00/ai-engineering-from-scratch",
-          "author": {
-            "handle": "pythonhub.dev",
-            "displayName": "Python Hub"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T05:15:29.128811+00:00",
-          "createdUtc": 1777785329,
-          "ageHours": 5.91,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo",
-            "has-agent"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "rohitg00/ai-engineering-from-scratch",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "ECNU-SII/MIA": {
+    "siddsachar--thoth": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwewzuwov22",
-        "cid": "bafyreia777m3vuq3wpk6szrimx6ek4fh5jkquo42mftmnue4khcm5vxata",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwewzuwov22",
-        "text": "https://github.com/ECNU-SII/MIA",
+        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkx2n2gdp225",
+        "cid": "bafyreibgylvjjlojgz7odchvme6fjlbqd2hcqwqey6sbccrh5x732ps7va",
+        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkx2n2gdp225",
+        "text": "Thoth – open-source Local-first AI Assistant https://github.com/siddsachar/Thoth",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "hnbot.gsuscs.xyz",
+          "displayName": "HackerNews Compilator"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-03T05:02:53Z",
-        "hoursSincePosted": 6.12
+        "createdAt": "2026-05-03T11:31:00.830Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwewzuwov22",
-          "cid": "bafyreia777m3vuq3wpk6szrimx6ek4fh5jkquo42mftmnue4khcm5vxata",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwewzuwov22",
-          "text": "https://github.com/ECNU-SII/MIA",
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkx2n2gdp225",
+          "cid": "bafyreibgylvjjlojgz7odchvme6fjlbqd2hcqwqey6sbccrh5x732ps7va",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkx2n2gdp225",
+          "text": "Thoth – open-source Local-first AI Assistant https://github.com/siddsachar/Thoth",
           "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-03T05:02:53Z",
-          "createdUtc": 1777784573,
-          "ageHours": 6.12,
+          "createdAt": "2026-05-03T11:31:00.830Z",
+          "createdUtc": 1777807860,
+          "ageHours": 0.5,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -486,7 +538,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "ECNU-SII/MIA",
+              "fullName": "siddsachar/Thoth",
               "matchType": "url",
               "confidence": 1
             }
@@ -494,59 +546,6 @@
         }
       ]
     },
-    "Optimus1200/LocalServer": {
-      "count7d": 1,
-      "likesSum7d": 29,
-      "repostsSum7d": 14,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:i2dx2kcxza3pvjc6ciomofqc/app.bsky.feed.post/3mkwdewkn4c2l",
-        "cid": "bafyreicnwcptrvjc7vu4yy44gj6v5crl5emoxcs3enjwicqueyjzdsp2dy",
-        "bskyUrl": "https://bsky.app/profile/acecombat.wiki/post/3mkwdewkn4c2l",
-        "text": "Thanks to developer Optimus1200, the eight campaign missions in Ace Combat Infinity are once again playable!!! github.com/Optimus1200/... #AceCombat #ACEINF",
-        "author": {
-          "handle": "acecombat.wiki",
-          "displayName": "Ace Combat Wiki"
-        },
-        "likeCount": 29,
-        "repostCount": 14,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T04:34:52.285Z",
-        "hoursSincePosted": 6.59
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:i2dx2kcxza3pvjc6ciomofqc/app.bsky.feed.post/3mkwdewkn4c2l",
-          "cid": "bafyreicnwcptrvjc7vu4yy44gj6v5crl5emoxcs3enjwicqueyjzdsp2dy",
-          "bskyUrl": "https://bsky.app/profile/acecombat.wiki/post/3mkwdewkn4c2l",
-          "text": "Thanks to developer Optimus1200, the eight campaign missions in Ace Combat Infinity are once again playable!!! github.com/Optimus1200/... #AceCombat #ACEINF",
-          "author": {
-            "handle": "acecombat.wiki",
-            "displayName": "Ace Combat Wiki"
-          },
-          "likeCount": 29,
-          "repostCount": 14,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T04:34:52.285Z",
-          "createdUtc": 1777782892,
-          "ageHours": 6.59,
-          "trendingScore": 57,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Optimus1200/LocalServer",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    }
-  },
-  "mentionsByRepoId": {
     "rtk-ai--rtk": {
       "count7d": 2,
       "likesSum7d": 4,
@@ -565,7 +564,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T09:31:00.828Z",
-        "hoursSincePosted": 1.65
+        "hoursSincePosted": 2.47
       },
       "posts": [
         {
@@ -582,7 +581,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T09:31:00.828Z",
           "createdUtc": 1777800660,
-          "ageHours": 1.65,
+          "ageHours": 2.47,
           "trendingScore": 4,
           "content_tags": [
             "has-github-repo"
@@ -610,7 +609,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T09:05:29.149Z",
           "createdUtc": 1777799129,
-          "ageHours": 2.08,
+          "ageHours": 2.9,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -644,7 +643,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T08:05:04Z",
-        "hoursSincePosted": 3.09
+        "hoursSincePosted": 3.91
       },
       "posts": [
         {
@@ -661,7 +660,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T08:05:04Z",
           "createdUtc": 1777795504,
-          "ageHours": 3.09,
+          "ageHours": 3.91,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -695,7 +694,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T07:52:33.145686+00:00",
-        "hoursSincePosted": 3.29
+        "hoursSincePosted": 4.11
       },
       "posts": [
         {
@@ -712,7 +711,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T07:52:33.145686+00:00",
           "createdUtc": 1777794753,
-          "ageHours": 3.29,
+          "ageHours": 4.11,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -746,7 +745,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T06:55:19.303Z",
-        "hoursSincePosted": 4.25
+        "hoursSincePosted": 5.07
       },
       "posts": [
         {
@@ -763,7 +762,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T06:55:19.303Z",
           "createdUtc": 1777791319,
-          "ageHours": 4.25,
+          "ageHours": 5.07,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo",
@@ -798,7 +797,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T06:49:16Z",
-        "hoursSincePosted": 4.35
+        "hoursSincePosted": 5.17
       },
       "posts": [
         {
@@ -815,7 +814,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T06:49:16Z",
           "createdUtc": 1777790956,
-          "ageHours": 4.35,
+          "ageHours": 5.17,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -849,7 +848,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-03T06:27:47.897Z",
-        "hoursSincePosted": 4.71
+        "hoursSincePosted": 5.53
       },
       "posts": [
         {
@@ -866,7 +865,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-03T06:27:47.897Z",
           "createdUtc": 1777789667,
-          "ageHours": 4.71,
+          "ageHours": 5.53,
           "trendingScore": 8.5,
           "content_tags": [
             "has-github-repo"
@@ -881,219 +880,9 @@
           ]
         }
       ]
-    },
-    "techomies--ai-layoff-and-exploitative-companies": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mkwgaopunc27",
-        "cid": "bafyreibjw6z7qh5rj5f6ksn7m4xfhmeaozgmzuyfs24hxxmzrtzvxtnpya",
-        "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mkwgaopunc27",
-        "text": "When open-source AI tracks labor abuses, it’s a sign: devs are coding for collective protection, not just productivity. https://github.com/techomies/ai-layoff-and-exploitative-companies https://www.projectnothing.ai/experiments/signal-from-the-void",
-        "author": {
-          "handle": "projectnothing.bsky.social",
-          "displayName": "Project Nothing"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T05:26:09.414Z",
-        "hoursSincePosted": 5.73
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mkwgaopunc27",
-          "cid": "bafyreibjw6z7qh5rj5f6ksn7m4xfhmeaozgmzuyfs24hxxmzrtzvxtnpya",
-          "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mkwgaopunc27",
-          "text": "When open-source AI tracks labor abuses, it’s a sign: devs are coding for collective protection, not just productivity. https://github.com/techomies/ai-layoff-and-exploitative-companies https://www.projectnothing.ai/experiments/signal-from-the-void",
-          "author": {
-            "handle": "projectnothing.bsky.social",
-            "displayName": "Project Nothing"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T05:26:09.414Z",
-          "createdUtc": 1777785969,
-          "ageHours": 5.73,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "techomies/ai-layoff-and-exploitative-companies",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "rohitg00--ai-engineering-from-scratch": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mkwfnklstk2j",
-        "cid": "bafyreidophzr5ri2s6nazwot5bh5iqvheepuke6mvuvicifjhlofmiwg5y",
-        "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mkwfnklstk2j",
-        "text": "ai-engineering-from-scratch From linear algebra to autonomous agent swarms. learn AI with AI, then ship the tools. https://github.com/rohitg00/ai-engineering-from-scratch",
-        "author": {
-          "handle": "pythonhub.dev",
-          "displayName": "Python Hub"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T05:15:29.128811+00:00",
-        "hoursSincePosted": 5.91
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mkwfnklstk2j",
-          "cid": "bafyreidophzr5ri2s6nazwot5bh5iqvheepuke6mvuvicifjhlofmiwg5y",
-          "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mkwfnklstk2j",
-          "text": "ai-engineering-from-scratch From linear algebra to autonomous agent swarms. learn AI with AI, then ship the tools. https://github.com/rohitg00/ai-engineering-from-scratch",
-          "author": {
-            "handle": "pythonhub.dev",
-            "displayName": "Python Hub"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T05:15:29.128811+00:00",
-          "createdUtc": 1777785329,
-          "ageHours": 5.91,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo",
-            "has-agent"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "rohitg00/ai-engineering-from-scratch",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "ecnu-sii--mia": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwewzuwov22",
-        "cid": "bafyreia777m3vuq3wpk6szrimx6ek4fh5jkquo42mftmnue4khcm5vxata",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwewzuwov22",
-        "text": "https://github.com/ECNU-SII/MIA",
-        "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T05:02:53Z",
-        "hoursSincePosted": 6.12
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mkwewzuwov22",
-          "cid": "bafyreia777m3vuq3wpk6szrimx6ek4fh5jkquo42mftmnue4khcm5vxata",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mkwewzuwov22",
-          "text": "https://github.com/ECNU-SII/MIA",
-          "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T05:02:53Z",
-          "createdUtc": 1777784573,
-          "ageHours": 6.12,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ECNU-SII/MIA",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "optimus1200--localserver": {
-      "count7d": 1,
-      "likesSum7d": 29,
-      "repostsSum7d": 14,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:i2dx2kcxza3pvjc6ciomofqc/app.bsky.feed.post/3mkwdewkn4c2l",
-        "cid": "bafyreicnwcptrvjc7vu4yy44gj6v5crl5emoxcs3enjwicqueyjzdsp2dy",
-        "bskyUrl": "https://bsky.app/profile/acecombat.wiki/post/3mkwdewkn4c2l",
-        "text": "Thanks to developer Optimus1200, the eight campaign missions in Ace Combat Infinity are once again playable!!! github.com/Optimus1200/... #AceCombat #ACEINF",
-        "author": {
-          "handle": "acecombat.wiki",
-          "displayName": "Ace Combat Wiki"
-        },
-        "likeCount": 29,
-        "repostCount": 14,
-        "replyCount": 0,
-        "createdAt": "2026-05-03T04:34:52.285Z",
-        "hoursSincePosted": 6.59
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:i2dx2kcxza3pvjc6ciomofqc/app.bsky.feed.post/3mkwdewkn4c2l",
-          "cid": "bafyreicnwcptrvjc7vu4yy44gj6v5crl5emoxcs3enjwicqueyjzdsp2dy",
-          "bskyUrl": "https://bsky.app/profile/acecombat.wiki/post/3mkwdewkn4c2l",
-          "text": "Thanks to developer Optimus1200, the eight campaign missions in Ace Combat Infinity are once again playable!!! github.com/Optimus1200/... #AceCombat #ACEINF",
-          "author": {
-            "handle": "acecombat.wiki",
-            "displayName": "Ace Combat Wiki"
-          },
-          "likeCount": 29,
-          "repostCount": 14,
-          "replyCount": 0,
-          "createdAt": "2026-05-03T04:34:52.285Z",
-          "createdUtc": 1777782892,
-          "ageHours": 6.59,
-          "trendingScore": 57,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Optimus1200/LocalServer",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
-    {
-      "fullName": "Optimus1200/LocalServer",
-      "count7d": 1,
-      "likesSum7d": 29
-    },
     {
       "fullName": "RicardoDominguez/talkie-coder",
       "count7d": 1,
@@ -1105,12 +894,7 @@
       "likesSum7d": 4
     },
     {
-      "fullName": "rohitg00/ai-engineering-from-scratch",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "techomies/ai-layoff-and-exploitative-companies",
+      "fullName": "vercel-labs/portless",
       "count7d": 1,
       "likesSum7d": 1
     },
@@ -1125,17 +909,17 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "ECNU-SII/MIA",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
       "fullName": "Imbad0202/academic-research-skills",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
       "fullName": "masterking32/MasterDnsVPN",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "siddsachar/Thoth",
       "count7d": 1,
       "likesSum7d": 0
     }

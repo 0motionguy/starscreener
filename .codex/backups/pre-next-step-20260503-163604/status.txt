@@ -1,0 +1,65 @@
+﻿## codex/stabilize-audit-2026-05-03
+ M apps/trendingrepo-worker/src/fetchers/mcp-usage-snapshot/index.ts
+ M apps/trendingrepo-worker/src/lib/publish.ts
+ M data/_meta/bluesky.json
+ M data/_meta/hackernews.json
+ M data/_meta/reddit.json
+ M data/bluesky-mentions.json
+ M data/bluesky-trending.json
+ M data/hackernews-repo-mentions.json
+ M data/hackernews-trending.json
+ M data/reddit-all-posts.json
+ M data/reddit-mentions.json
+ M data/unknown-mentions.jsonl
+ M package.json
+ M src/app/agent-repos/page.tsx
+ M src/app/api/admin/overview/route.ts
+ M src/app/api/health/route.ts
+ M src/app/api/pipeline/freshness/route.ts
+ M src/app/api/pipeline/status/route.ts
+ M src/app/api/repos/[owner]/[name]/freshness/route.ts
+ M src/app/consensus/page.tsx
+ M src/app/globals.css
+ M src/app/huggingface/datasets/page.tsx
+ M src/app/huggingface/spaces/page.tsx
+ M src/app/huggingface/trending/page.tsx
+ M src/app/mcp/page.tsx
+ M src/app/npm/page.tsx
+ M src/app/page.tsx
+ M src/app/signals/page.tsx
+ M src/app/signals/signals.css
+ M src/app/skills/page.tsx
+ M src/app/twitter/page.tsx
+ M src/components/consensus/ConsensusBoard.tsx
+ M src/components/feed/TerminalFeedTable.tsx
+ M src/components/home/LiveTopTable.tsx
+ M src/components/layout/Header.tsx
+ M src/components/layout/MobileDrawer.tsx
+ M src/components/layout/Sidebar.tsx
+ M src/components/layout/SidebarContent.tsx
+ M src/components/repo-detail/MentionMeta.ts
+ M src/components/repo-detail/RecentMentionsFeed.tsx
+ M src/components/shared/SearchBar.tsx
+ M src/components/signals-terminal/ConsensusRadar.tsx
+ M src/components/signals-terminal/SourceFeedPanel.tsx
+ M src/components/signals-terminal/SourceFilterBar.tsx
+ M src/components/signals-terminal/VolumeAreaChart.tsx
+ M src/lib/derived-repos.ts
+ M src/lib/derived-repos/decorators/twitter.ts
+ M src/lib/ecosystem-leaderboards.ts
+ M src/lib/logos.ts
+ M src/lib/npm.ts
+ M src/lib/source-health.ts
+ M src/lib/types.ts
+ M tasks/BACKLOG.md
+?? .agents/
+?? .codex/
+?? AGENTS.md
+?? data/consensus-trending.json
+?? data/twitter-trending.json
+?? scripts/compute-consensus.ts
+?? src/app/githubrepo/
+?? src/components/mcp/
+?? src/components/signals-terminal/SourceMark.tsx
+?? src/components/skills/SkillsTopTable.tsx
+?? src/lib/derived-repos/decorators/mentions-rollup.ts

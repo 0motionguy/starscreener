@@ -39,7 +39,7 @@ import {
   getTwitterScanCandidates,
   ingestTwitterAgentFindings,
 } from "../src/lib/twitter/service";
-import { flushTwitterPersist } from "../src/lib/twitter/storage";
+import { ensureTwitterReady, flushTwitterPersist } from "../src/lib/twitter/storage";
 import { getRepoMetadata, listRepoMetadata, type RepoMetadata } from "../src/lib/repo-metadata";
 import { slugToId } from "../src/lib/utils";
 import type {
@@ -770,6 +770,17 @@ async function main(): Promise<void> {
   const startedMs = Date.now();
   const options = parseArgs(process.argv.slice(2));
   process.env.TWITTER_COLLECTOR_RUN_ID = options.runId;
+
+  // CRITICAL FIX 2026-05-03: hydrate the in-memory store from the existing
+  // .data/twitter-*.jsonl files BEFORE any ingest. Without this, each GH
+  // Actions run starts with an empty memory store, ingests N new findings,
+  // then `persist()` overwrites the JSONL files with only those N records.
+  // The bug had been silently truncating .data/twitter-*.jsonl every cron
+  // tick — file went from 490+ lines on 2026-04-23 to 15 lines/run since.
+  // git diff saw the same N lines repeating each run and skipped commit,
+  // so the workflow looked green but data was 10 days frozen.
+  await ensureTwitterReady();
+
   const candidates = await loadCandidates(options);
   const fixturePosts =
     options.provider === "fixture" && options.fixtureFile

@@ -50,7 +50,8 @@ const CATEGORIES_DESCRIPTION =
   "Browse every tracked GitHub repo sector: AI and ML, web frameworks, devtools, infra, databases, security, mobile, data, crypto, and Rust.";
 
 export const metadata: Metadata = {
-  title: `Categories - ${SITE_NAME}`,
+  // Layout template appends ` — TrendingRepo`. Bare title here.
+  title: "Categories",
   description: CATEGORIES_DESCRIPTION,
   keywords: [
     "GitHub categories",

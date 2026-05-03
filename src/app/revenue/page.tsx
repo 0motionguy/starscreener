@@ -28,7 +28,8 @@ import { LiveDot } from "@/components/ui/LiveDot";
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: "TrendingRepo — Revenue Terminal",
+  // Layout template appends ` — TrendingRepo`; bare title here.
+  title: "Revenue Terminal",
   description:
     "Verified MRR for trending repos and the broader dev/AI-adjacent verified-revenue leaderboard. Revenue is verified through direct read-only sync with each product's payment provider.",
   alternates: { canonical: "/revenue" },

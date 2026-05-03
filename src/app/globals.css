@@ -2423,7 +2423,7 @@ body::before {
 
 .tabs .ct {
   margin-left: 6px;
-  color: var(--ink-500);
+  color: var(--ink-300);
   font-size: var(--font-size-md);
 }
 
@@ -5578,6 +5578,8 @@ body::before {
   position: relative;
   aspect-ratio: 1 / 1;
   width: 100%;
+  min-width: 24px;
+  min-height: 24px;
   cursor: pointer;
   border: 1px solid var(--v3-line-200);
   border-radius: 1px;

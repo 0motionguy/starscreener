@@ -113,7 +113,7 @@ function SidebarStatusHeader() {
       </span>
       <span
         className="font-mono tabular-nums"
-        style={{ color: "var(--v4-ink-500)", fontSize: 9 }}
+        style={{ color: "var(--v4-ink-300)", fontSize: 11 }}
       >
         v{APP_VERSION}
       </span>

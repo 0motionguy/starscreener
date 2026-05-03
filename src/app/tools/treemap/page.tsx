@@ -37,6 +37,21 @@ import type { Repo } from "@/lib/types";
 export const runtime = "nodejs";
 export const revalidate = 1800;
 
+export const metadata: Metadata = {
+  // Layout template appends ` — TrendingRepo`; bare title here.
+  title: "Treemap Explorer",
+  description:
+    "Interactive treemap of trending GitHub repos sized by stars or momentum, grouped by primary language. Hover for per-repo metrics.",
+  alternates: { canonical: "/tools/treemap" },
+  openGraph: {
+    title: "Treemap Explorer — TrendingRepo",
+    description:
+      "Visual map of trending repos sized by stars or momentum, grouped by language.",
+    url: "/tools/treemap",
+    type: "website",
+  },
+};
+
 export function generateMetadata(): Metadata {
   return {
     title: "Treemap explorer — TrendingRepo",

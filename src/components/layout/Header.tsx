@@ -17,7 +17,6 @@ export function Header() {
           <Link
             href={ROUTES.HOME}
             className="group flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded"
-            aria-label="TrendingRepo home"
           >
             <span
               aria-hidden

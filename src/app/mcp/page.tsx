@@ -30,7 +30,8 @@ import { absoluteUrl } from "@/lib/seo";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Trending MCP - TrendingRepo",
+  // Layout template appends ` — TrendingRepo`; bare title here.
+  title: "Trending MCP",
   description:
     "Top Model Context Protocol servers ranked by stars, downloads, and cross-registry presence.",
   alternates: { canonical: absoluteUrl("/mcp") },

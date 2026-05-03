@@ -14,7 +14,8 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 
 export const metadata: Metadata = {
-  title: "Revenue Estimator — TrendingRepo",
+  // Layout template appends ` — TrendingRepo`; bare title here.
+  title: "Revenue Estimator",
   description:
     "Ballpark MRR estimate for a repo by category, star count, and ProductHunt-launched status. Illustrative benchmarks from verified-revenue startups.",
   alternates: { canonical: "/tools/revenue-estimate" },

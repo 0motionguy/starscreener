@@ -18,7 +18,8 @@ import { getDerivedRepos } from "@/lib/derived-repos";
 import { lastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
 import { refreshRecentReposFromStore } from "@/lib/recent-repos";
 
-import { SITE_NAME, absoluteUrl } from "@/lib/seo";
+import { SITE_NAME, SITE_URL, absoluteUrl, safeJsonLd } from "@/lib/seo";
+import { buildItemListSchema } from "@/lib/seo-repo-schemas";
 import {
   buildRepoTop10,
   emptyBundle,
@@ -154,8 +155,24 @@ export default async function Top10RootPage() {
   const computedAgo = getRelativeTime(computedAt);
   const computedClock = computedAt.slice(11, 19);
 
+  const top10ItemList = buildItemListSchema({
+    listId: `${SITE_URL.replace(/\/+$/, "")}/top10#list`,
+    name: "Top 10 Trending Repos (7-day cross-signal)",
+    description:
+      "The ten repos with the strongest 7-day cross-signal score across GitHub, Reddit, HN, ProductHunt, Bluesky, dev.to, Lobsters.",
+    items: topItems.map((item) => ({
+      url: absoluteUrl(item.href ?? `/repo/${item.owner}/${item.slug}`),
+      name: item.title,
+      description: item.description ?? undefined,
+    })),
+  });
+
   return (
     <main className="home-surface">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(top10ItemList) }}
+      />
       <PageHead
         crumb={
           <>

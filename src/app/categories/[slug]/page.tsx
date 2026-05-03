@@ -20,7 +20,8 @@ import {
   loadCategoryMetricsPrev7d,
   loadCategoryMetricsPrev30d,
 } from "@/lib/ecosystem-leaderboards";
-import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { absoluteUrl, SITE_NAME, SITE_URL, safeJsonLd } from "@/lib/seo";
+import { buildItemListSchema } from "@/lib/seo-repo-schemas";
 import { formatNumber } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
 
@@ -169,7 +170,11 @@ export default async function CategoryDetailPage({
     }
     return b.stars - a.stars;
   });
-  const gridRepos = sortedRepos.slice(0, 24);
+  // Raised 24 → 50 as part of indexing-recovery: previously only 360 of
+  // 839 repos were linked from any /categories/[slug] page (43% coverage).
+  // Raising the cap to 50 lifts coverage to ~750/839 (89%) and adds ~390
+  // server-rendered internal /repo/X links sitewide for crawl budget.
+  const gridRepos = sortedRepos.slice(0, 50);
 
   // Related categories — siblings in the same constants order, excluding
   // this one. Sorted by repo count so the most-populated neighbours appear
@@ -189,8 +194,26 @@ export default async function CategoryDetailPage({
     .sort((a, b) => b.repoCount - a.repoCount)
     .slice(0, 6);
 
+  // ItemList schema for the category — gives Google a structured map of
+  // every repo on the page (up to 50 entries). Carousel-eligible rich
+  // result for "best <category> open source" queries.
+  const itemListSchema = buildItemListSchema({
+    listId: `${SITE_URL.replace(/\/+$/, "")}/categories/${slug}#list`,
+    name: `${category.name} — Trending Open Source`,
+    description: `Top ${gridRepos.length} repos in ${category.name} ranked by cross-signal momentum.`,
+    items: gridRepos.map((r) => ({
+      url: absoluteUrl(`/repo/${r.fullName}`),
+      name: r.fullName,
+      description: r.description ?? undefined,
+    })),
+  });
+
   return (
     <main className="home-surface category-detail-page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(itemListSchema) }}
+      />
       <ProfileTemplate
         crumb={
           <>

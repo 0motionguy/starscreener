@@ -54,7 +54,10 @@ import type {
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: "TrendingRepo · Agent Commerce",
+  // Layout template at app/layout.tsx:65 appends ` — TrendingRepo`. Drop
+  // manual brand suffix to avoid double-brand title (Google quality signal
+  // failure — GSC was rejecting pages with this pattern).
+  title: "Agent Commerce",
   description:
     "x402 services, agent wallets, MCP servers, agent-callable APIs and marketplaces. The DefiLlama for the M2M economy.",
   alternates: { canonical: "/agent-commerce" },

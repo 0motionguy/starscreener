@@ -13,9 +13,18 @@ import type { Metadata } from "next";
 import PortalDocsClient, { type PortalDocsTool } from "./PortalDocsClient";
 
 export const metadata: Metadata = {
-  title: "MCP Portal - TrendingRepo",
+  // Layout template appends ` — TrendingRepo`; bare title here.
+  title: "MCP Portal",
   description:
     "Plug TrendingRepo's AI-repo trending index into any agent - Claude MCP, REST/JSON-RPC, no auth required.",
+  alternates: { canonical: "/portal/docs" },
+  openGraph: {
+    title: "TrendingRepo MCP Portal — agent-ready manifest",
+    description:
+      "14 tools for GitHub trending discovery exposed over Model Context Protocol. Drop into Claude Desktop or any MCP-compatible agent.",
+    url: "/portal/docs",
+    type: "website",
+  },
 };
 
 // Hard-coded tool metadata so the client bundle doesn't transitively

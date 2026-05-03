@@ -77,9 +77,18 @@ export const metadata: Metadata = {
     "Bluesky",
     "dev.to",
     "MCP",
+    "Model Context Protocol",
     "CLI",
     "AI repos",
+    "AI agents",
+    "Claude skills",
     "developer tools",
+    "open source momentum",
+    "github trending alternatives",
+    "trendshift alternative",
+    "ossinsight alternative",
+    "github stars tracker",
+    "repo discovery",
   ],
   manifest: "/manifest.json",
   icons: {
@@ -111,6 +120,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@trendingrepo",
+    creator: "@0motionguy",
     title: `${SITE_NAME} — ${SITE_TAGLINE}`,
     description: SITE_DESCRIPTION,
     images: ["/og-card.png"],
@@ -121,6 +132,9 @@ export const metadata: Metadata = {
       "application/rss+xml": [
         { url: "/feeds/breakouts.xml", title: `${SITE_NAME} — Cross-signal breakout repos` },
         { url: "/feeds/funding.xml", title: `${SITE_NAME} — Open-source funding signals` },
+      ],
+      "application/json+oembed": [
+        { url: "/api/oembed", title: `${SITE_NAME} oEmbed` },
       ],
     },
   },
@@ -199,6 +213,46 @@ export default async function RootLayout({
             __html: `(function(){try{var k="trendingrepo-v3-accent",t=localStorage.getItem(k)||"lava",m={lava:["#ff6b35","#ff8458","#c44a1f","rgba(255,107,53,.14)","rgba(255,107,53,.45)"],indigo:["#9297f6","#a8acf8","#555bd8","rgba(146,151,246,.14)","rgba(146,151,246,.45)"],lime:["#def135","#e8fb55","#a9b827","rgba(222,241,53,.14)","rgba(222,241,53,.45)"],cyan:["#3ad6c5","#63e1d3","#26a597","rgba(58,214,197,.14)","rgba(58,214,197,.45)"],magenta:["#e879f9","#f0a2ff","#a855f7","rgba(232,121,249,.14)","rgba(232,121,249,.45)"]}[t]||["#ff6b35","#ff8458","#c44a1f","rgba(255,107,53,.14)","rgba(255,107,53,.45)"],r=document.documentElement;r.dataset.v3Accent=t;r.style.setProperty("--v3-acc",m[0]);r.style.setProperty("--v3-acc-hover",m[1]);r.style.setProperty("--v3-acc-dim",m[2]);r.style.setProperty("--v3-acc-soft",m[3]);r.style.setProperty("--v3-acc-glow",m[4]);r.style.setProperty("--color-accent",m[0]);r.style.setProperty("--color-accent-hover",m[1]);r.style.setProperty("--color-accent-dim",m[2]);r.style.setProperty("--color-accent-soft",m[3]);r.style.setProperty("--color-accent-glow",m[4]);r.style.setProperty("--v2-acc",m[0]);r.style.setProperty("--v2-acc-hover",m[1]);r.style.setProperty("--v2-acc-soft",m[3]);r.style.setProperty("--v2-acc-glow",m[4]);r.style.setProperty("--v2-acc-dim",m[2]);r.style.setProperty("--color-brand",m[0]);r.style.setProperty("--color-brand-hover",m[1]);r.style.setProperty("--color-brand-active",m[2]);r.style.setProperty("--color-border-focus",m[0]);var b=localStorage.getItem("trendingrepo-v3-bg")||"black";r.dataset.bgTheme=b;}catch(e){}})();`,
           }}
         />
+        {/* rel=me self-references — verifiable identity links so AI engines and
+            Mastodon-class verifiers can confirm the same entity owns these
+            profiles. Pairs with Org LD sameAs but lives in <head> per IndieWeb
+            convention. Replace handles when real ones are claimed. */}
+        <link rel="me" href="https://github.com/0motionguy" />
+        <link rel="me" href="https://x.com/0motionguy" />
+        <link rel="me" href="https://www.linkedin.com/company/trendingrepo" />
+        {/* AI content provenance — declares the page surface as
+            primarily-aggregated (signals are scraped from public sources;
+            scoring is deterministic; no LLM-generated body copy). Helps AI
+            engines weight the page as a primary aggregator rather than a
+            content-farm regenerator. */}
+        <meta name="ai-content-declaration" content="aggregated" />
+        <meta name="content-source" content="primary-aggregator" />
+        <meta name="generator" content="TrendingRepo Pipeline / Next.js" />
+        {/* Geographic + topical hints — improve entity disambiguation when
+            multiple sites share keywords like "trending repos". */}
+        <meta name="topic" content="open source software trending discovery" />
+        <meta name="audience" content="developers,engineers,maintainers,researchers,investors" />
+        <meta name="coverage" content="worldwide" />
+        <meta name="distribution" content="global" />
+        {/* iOS PWA + crawler hygiene */}
+        <meta name="apple-mobile-web-app-title" content="TrendingRepo" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="format-detection" content="telephone=no, email=no, address=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        {/* Crawl + indexing hints. `googlebot` overrides include
+            `max-image-preview:large` so OG cards render full-size in SERP. */}
+        <meta
+          name="googlebot"
+          content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+        />
+        <meta
+          name="bingbot"
+          content="index, follow, max-image-preview:large, max-snippet:-1"
+        />
+        {/* Color scheme hints — pairs with the existing themeColor in viewport
+            so iOS Safari picks the right system chrome before paint. */}
+        <meta name="color-scheme" content="dark light" />
       </head>
       <body>
         {/* A11Y: Skip-to-content link for keyboard users */}

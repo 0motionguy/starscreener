@@ -8,6 +8,8 @@ import { lastFetchedAt } from "@/lib/trending";
 import { getChannelStatus } from "@/lib/pipeline/cross-signal";
 import { formatNumber } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
+import { SITE_URL, SITE_NAME, absoluteUrl, safeJsonLd } from "@/lib/seo";
+import { buildItemListSchema } from "@/lib/seo-repo-schemas";
 
 // V4 (CORPUS) primitives.
 import { PageHead } from "@/components/ui/PageHead";
@@ -36,6 +38,14 @@ export const metadata: Metadata = {
     description:
       "Repos firing across multiple signal channels at once. The earliest cross-source breakout view.",
   },
+  keywords: [
+    "cross-signal breakouts",
+    "github trending",
+    "reddit hacker news bluesky",
+    "early-stage open source signals",
+    "developer momentum",
+    "cross-platform repo virality",
+  ],
 };
 
 type FilterKey = "all" | "multi" | "three";
@@ -94,8 +104,52 @@ export default async function BreakoutsPage({
     .sort((a, b) => (b.crossSignalScore ?? 0) - (a.crossSignalScore ?? 0))
     .slice(0, 50);
 
+  const breakoutsLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${SITE_URL.replace(/\/+$/, "")}/breakouts#article`,
+    headline: "Cross-signal breakouts: where independent channels fire together",
+    description:
+      "Cross-signal breakout repos surfaced via simultaneous activity on GitHub stars, Reddit, and Hacker News. Ranked by cross-signal score; filterable by visible firing count.",
+    author: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
+    publisher: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
+    datePublished: "2025-12-01T00:00:00Z",
+    dateModified: lastFetchedAt,
+    mainEntityOfPage: { "@type": "WebPage", "@id": absoluteUrl("/breakouts") },
+    inLanguage: "en-US",
+    image: absoluteUrl("/og-card.png"),
+    articleSection: "Cross-Signal Breakouts",
+    keywords: [
+      "cross-signal breakouts",
+      "github + reddit + hn",
+      "open source virality",
+      "early-stage repo signals",
+    ],
+    isPartOf: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#website` },
+  };
+
+  const breakoutsItemList = buildItemListSchema({
+    listId: `${SITE_URL.replace(/\/+$/, "")}/breakouts#list`,
+    name: "Cross-Signal Breakout Repos",
+    description:
+      "Open-source repos firing across multiple social signals — GitHub, Reddit, Hacker News, Bluesky, dev.to.",
+    items: view.slice(0, 50).map((repo) => ({
+      url: absoluteUrl(`/repo/${repo.fullName}`),
+      name: repo.fullName,
+      description: repo.description ?? undefined,
+    })),
+  });
+
   return (
     <main className="home-surface breakouts-page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(breakoutsLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(breakoutsItemList) }}
+      />
       <PageHead
         crumb={
           <>

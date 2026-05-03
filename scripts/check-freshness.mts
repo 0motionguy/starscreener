@@ -85,17 +85,8 @@ function parseArgs(argv: string[]): Options {
   }
 
   if (prod && baseUrl) failUsage("use either --prod or --base-url, not both");
-  const envBase =
-    process.env.BASE_URL ??
-    process.env.TRENDINGREPO_URL ??
-    process.env.STARSCREENER_URL ??
-    process.env.TRENDINGREPO_API_URL ??
-    process.env.STARSCREENER_API_URL ??
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    process.env.NEXT_PUBLIC_APP_URL ??
-    null;
   return {
-    baseUrl: normalizeBaseUrl(baseUrl ?? (prod ? PROD_BASE_URL : envBase ?? DEFAULT_BASE_URL)),
+    baseUrl: normalizeBaseUrl(baseUrl ?? (prod ? PROD_BASE_URL : DEFAULT_BASE_URL)),
     json,
     timeoutMs,
   };

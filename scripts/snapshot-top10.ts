@@ -52,6 +52,7 @@ import {
 } from "@/lib/top10/builders";
 import { writeTop10Snapshot, todayUtcDate } from "@/lib/top10/snapshots";
 import type { Top10Payload } from "@/lib/top10/types";
+import { closeDataStore } from "@/lib/data-store";
 
 async function main(): Promise<void> {
   const date = todayUtcDate();
@@ -115,8 +116,12 @@ async function main(): Promise<void> {
 }
 
 main()
-  .then(() => process.exit(0))
-  .catch((err) => {
+  .then(async () => {
+    await closeDataStore();
+    process.exit(0);
+  })
+  .catch(async (err) => {
     console.error("[snapshot-top10] FAILED", err);
+    await closeDataStore();
     process.exit(1);
   });

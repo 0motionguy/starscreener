@@ -39,6 +39,7 @@ import {
 } from "@/lib/funding-news";
 import { appendSparklinePoint } from "@/lib/top10/sparkline-store";
 import { buildNewsTop10 } from "@/lib/top10/builders";
+import { closeDataStore } from "@/lib/data-store";
 
 async function main(): Promise<void> {
   console.log("[snapshot-sparklines] start");
@@ -113,8 +114,12 @@ async function main(): Promise<void> {
 }
 
 main()
-  .then(() => process.exit(0))
-  .catch((err) => {
+  .then(async () => {
+    await closeDataStore();
+    process.exit(0);
+  })
+  .catch(async (err) => {
     console.error("[snapshot-sparklines] FAILED", err);
+    await closeDataStore();
     process.exit(1);
   });

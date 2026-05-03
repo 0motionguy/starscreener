@@ -121,6 +121,46 @@ function signalTitle(signal: FundingSignal): string {
   return signal.extracted?.companyName || signal.headline;
 }
 
+// Drop signals where the extractor pulled a non-company word as the
+// company name (typically from listicle / "Exclusive: ..." headlines).
+// These pollute the Top rounds chart — e.g. headline "Software: 10
+// companies that raised the most in 2025" was extracting "Software"
+// at $8.1B and rendering as the #1 row, making the page look broken.
+//
+// Conservative — we only drop entries whose companyName matches an
+// English filler word OR whose headline matches a known roundup
+// pattern. Real companies (Cursor, Anthropic, Mistral, ...) pass.
+const JUNK_COMPANY_NAMES = new Set([
+  "software",
+  "exclusive",
+  "how",
+  "why",
+  "what",
+  "when",
+  "the",
+  "tech",
+  "startup",
+  "startups",
+  "india",
+  "china",
+  "europe",
+  "us",
+  "uk",
+  "eu",
+]);
+const ROUNDUP_HEADLINE_RE =
+  /\b(companies that raised|startups that raised|raised the most|biggest fundraisers|fundraising roundup|weekly roundup|leftover fish skins)\b/i;
+const LEADING_LABEL_RE = /^(exclusive|software|tech|crypto|ai|fintech|breaking)\s*[:\-]\s/i;
+
+function isLikelyRoundup(signal: FundingSignal): boolean {
+  const name = (signal.extracted?.companyName ?? "").toLowerCase().trim();
+  if (!name) return true;
+  if (JUNK_COMPANY_NAMES.has(name)) return true;
+  if (ROUNDUP_HEADLINE_RE.test(signal.headline)) return true;
+  if (LEADING_LABEL_RE.test(signal.headline)) return true;
+  return false;
+}
+
 function confidenceCount(signals: FundingSignal[], confidence: "high" | "medium" | "low") {
   return signals.filter((signal) => signal.extracted?.confidence === confidence).length;
 }
@@ -157,6 +197,7 @@ export default async function FundingPage() {
   const mediumConfidence = confidenceCount(signals, "medium");
   const rounds = signals
     .filter((signal) => signal.extracted)
+    .filter((signal) => !isLikelyRoundup(signal))
     .sort((a, b) => amountValue(b) - amountValue(a));
   const topRounds = rounds.slice(0, 10);
 
@@ -199,7 +240,7 @@ export default async function FundingPage() {
   const rounds7d = renderRoundList(7 * 24 * HOUR_MS);
   const rounds30d = renderRoundList(30 * 24 * HOUR_MS);
   const recent = signals
-    .slice()
+    .filter((signal) => !isLikelyRoundup(signal))
     .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt))
     .slice(0, 8);
   const sources = sourceRows(signals).slice(0, 8);

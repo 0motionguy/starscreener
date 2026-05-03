@@ -5,36 +5,30 @@
 // with category tabs. No consensus / breakout / featured / bubble map / FAQ /
 // JSON-LD — just the list. Same data wiring as `/` so cards stay consistent.
 
-import type { Metadata } from "next";
-import Link from "next/link";
-
 import { getDerivedRepos } from "@/lib/derived-repos";
-import { lastFetchedAt } from "@/lib/trending";
+import { lastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
+import { refreshRedditMentionsFromStore } from "@/lib/reddit-data";
+import { refreshHackernewsMentionsFromStore } from "@/lib/hackernews";
+import { refreshBlueskyMentionsFromStore } from "@/lib/bluesky";
+import { refreshDevtoMentionsFromStore } from "@/lib/devto";
+import { refreshLobstersMentionsFromStore } from "@/lib/lobsters";
+import { refreshNpmFromStore } from "@/lib/npm";
+import { refreshHfModelsFromStore } from "@/lib/huggingface";
+import { refreshArxivFromStore } from "@/lib/arxiv";
 import { Card } from "@/components/ui/Card";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
 import { FooterBar } from "@/components/ui/FooterBar";
 import { SectionHead } from "@/components/ui/SectionHead";
-import { LiveTopTable } from "@/components/home/LiveTopTable";
+import { MarkVisited } from "@/components/layout/MarkVisited";
+import {
+  LiveTopTable,
+  type CategoryFacet,
+  type LiveRow,
+} from "@/components/home/LiveTopTable";
 import { CATEGORIES } from "@/lib/constants";
+import type { Repo } from "@/lib/types";
 
 export const revalidate = 60;
-
-const PAGE_SIZE = 50;
-
-export const metadata: Metadata = {
-  // Layout template appends ` — TrendingRepo`; bare title here.
-  title: "GitHub Trending Repos",
-  description:
-    "Stripped-down trending GitHub repo feed. The same data as the homepage, without the bubble map, breakouts, or FAQ — just the live ranked list.",
-  alternates: { canonical: "/githubrepo" },
-  openGraph: {
-    title: "GitHub Trending Repos — TrendingRepo",
-    description:
-      "Live ranked list of trending GitHub repos with category tabs. The terminal feed without the homepage chrome.",
-    url: "/githubrepo",
-    type: "website",
-  },
-};
 
 const compactNumber = new Intl.NumberFormat("en-US", {
   notation: "compact",
@@ -45,39 +39,84 @@ function formatCompact(value: number): string {
   return compactNumber.format(Math.max(0, Math.round(value))).toLowerCase();
 }
 
-export default async function GithubRepoPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ page?: string }>;
-}) {
+const CATEGORY_LABELS = new Map(CATEGORIES.map((c) => [c.id, c.shortName]));
+
+function categoryLabel(repo: Repo): string {
+  return CATEGORY_LABELS.get(repo.categoryId) ?? repo.language ?? "Repo";
+}
+
+export default async function GithubRepoPage() {
+  // Keep the LiveTopTable mention badges tied to the latest data-store
+  // payloads instead of stale bundled snapshots.
+  await Promise.all([
+    refreshTrendingFromStore(),
+    refreshRedditMentionsFromStore(),
+    refreshHackernewsMentionsFromStore(),
+    refreshBlueskyMentionsFromStore(),
+    refreshDevtoMentionsFromStore(),
+    refreshLobstersMentionsFromStore(),
+    refreshNpmFromStore(),
+    refreshHfModelsFromStore(),
+    refreshArxivFromStore(),
+  ]);
+
   const repos = getDerivedRepos();
 
-  // Pure cross-signal ranking — momentumScore dropped per user direction
-  // ("DROP MOMENTUM SCORE ITS SHIT"). Trending = the actual cross-channel
-  // signal (channelsFiring × crossSignalScore), tiebroken by 24h star
-  // velocity (a real movement signal, not a slow-decay score).
-  const sorted = [...repos].sort((a, b) => {
-    const aChannels = a.channelsFiring ?? 0;
-    const bChannels = b.channelsFiring ?? 0;
-    const aCross = a.crossSignalScore ?? 0;
-    const bCross = b.crossSignalScore ?? 0;
-    // Primary: channels firing × cross-signal score
-    const aRank = aChannels * 2 + aCross;
-    const bRank = bChannels * 2 + bCross;
-    if (bRank !== aRank) return bRank - aRank;
-    // Tiebreak: 24h star velocity (real movement, not a smoothed score)
-    return (b.starsDelta24h ?? 0) - (a.starsDelta24h ?? 0);
+  const liveRows = [...repos]
+    .sort((a, b) => b.momentumScore - a.momentumScore)
+    .slice(0, 50);
+  const liveTableRows: LiveRow[] = liveRows.map((repo) => {
+    const ps = repo.mentions?.perSource;
+    return {
+      id: repo.id,
+      fullName: repo.fullName,
+      owner: repo.owner,
+      name: repo.name,
+      href: `/repo/${repo.owner}/${repo.name}`,
+      categoryId: repo.categoryId,
+      categoryLabel: categoryLabel(repo),
+      language: repo.language ?? null,
+      stars: repo.stars,
+      starsDelta24h: repo.starsDelta24h,
+      starsDelta7d: repo.starsDelta7d,
+      starsDelta30d: repo.starsDelta30d,
+      forks: repo.forks,
+      sparklineData: repo.sparklineData,
+      momentumScore: repo.momentumScore,
+      mentionCount24h: repo.mentionCount24h ?? 0,
+      // Chip on/off uses the wider 7d window so slow-cadence sources
+      // (lobsters / npm / hf / arxiv / devto) actually fire on the row.
+      // 24h is too narrow for most non-twitter signals — the result was
+      // "8 chip slots, only github + twitter colored." Falls back to the
+      // 24h count when 7d is missing.
+      sources: {
+        gh: 1,
+        hn: ps?.hackernews.count7d ?? ps?.hackernews.count24h ?? 0,
+        r: ps?.reddit.count7d ?? ps?.reddit.count24h ?? 0,
+        b: ps?.bluesky.count7d ?? ps?.bluesky.count24h ?? 0,
+        d: ps?.devto.count7d ?? ps?.devto.count24h ?? 0,
+        lobsters: ps?.lobsters.count7d ?? ps?.lobsters.count24h ?? 0,
+        x: ps?.twitter.count7d ?? ps?.twitter.count24h ?? 0,
+        npm: ps?.npm.count7d ?? ps?.npm.count24h ?? 0,
+        hf: ps?.huggingface.count7d ?? ps?.huggingface.count24h ?? 0,
+        arxiv: ps?.arxiv.count7d ?? ps?.arxiv.count24h ?? 0,
+      },
+    };
   });
-  const params = await searchParams;
-  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
-  const requestedPage = Number.parseInt(params.page ?? "1", 10);
-  const page =
-    Number.isFinite(requestedPage) && requestedPage >= 1
-      ? Math.min(requestedPage, totalPages)
-      : 1;
-  const startIdx = (page - 1) * PAGE_SIZE;
-  const endIdx = startIdx + PAGE_SIZE;
-  const liveRows = sorted.slice(startIdx, endIdx);
+  const liveCategories: CategoryFacet[] = (() => {
+    const counts = new Map<string, number>();
+    for (const row of liveTableRows) {
+      counts.set(row.categoryId, (counts.get(row.categoryId) ?? 0) + 1);
+    }
+    return CATEGORIES.map((category) => ({
+      id: category.id,
+      label: category.shortName,
+      count: counts.get(category.id) ?? 0,
+    }))
+      .filter((category) => category.count > 0)
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 6);
+  })();
 
   const refreshed = new Date(lastFetchedAt);
   const refreshedTime = refreshed.toISOString().slice(11, 19);
@@ -104,18 +143,18 @@ export default async function GithubRepoPage({
 
   return (
     <>
+      <MarkVisited routeKey="trendingRepos" count={repos.length} />
       <div className="home-surface">
         <section className="page-head">
           <div>
             <div className="crumb">
               <b>TREND</b> / TERMINAL / GITHUB REPOS
             </div>
-            <h1>All trending GitHub repos — right now.</h1>
+            <h1>Top 50 trending GitHub repos — right now.</h1>
             <p className="lede">
-              Page {page} of {totalPages} · {repos.length.toLocaleString()}{" "}
-              tracked repos total · {PAGE_SIZE} per page. Full momentum-
-              ranked feed. Same data as the front page, isolated with stats
-              and category tabs.
+              The same momentum-ranked list you see on the front page, isolated
+              with stats and category tabs. No consensus / breakouts / featured
+              / charts — just the table.
             </p>
           </div>
           <div
@@ -164,145 +203,20 @@ export default async function GithubRepoPage({
 
         <SectionHead
           num="// 01"
-          title={`Live / page ${page} of ${totalPages}`}
+          title="Live / top 50"
           meta={
             <>
-              <b>
-                {(startIdx + 1).toLocaleString()}–
-                {Math.min(endIdx, sorted.length).toLocaleString()}
-              </b>{" "}
-              / {sorted.length.toLocaleString()} · refreshed{" "}
-              <b>{refreshedTime}</b>
+              <b>{refreshedTime}</b> / refreshed
             </>
           }
         />
         <Card>
-          <LiveTopTable
-            repos={liveRows}
-            skills={[]}
-            mcps={[]}
-            limit={liveRows.length}
-          />
+          <LiveTopTable rows={liveTableRows} categories={liveCategories} />
         </Card>
-
-        {/* Pagination — server-rendered <a> links so Googlebot crawls
-            every page (page 2..N URLs feed the long-tail of repos into
-            the crawler's frontier). */}
-        <nav
-          aria-label="Pagination"
-          style={{
-            display: "flex",
-            gap: 8,
-            alignItems: "center",
-            justifyContent: "center",
-            margin: "24px 0",
-            flexWrap: "wrap",
-            fontFamily: "var(--v4-mono)",
-            fontSize: 12,
-          }}
-        >
-          {page > 1 ? (
-            <Link
-              href={page === 2 ? "/githubrepo" : `/githubrepo?page=${page - 1}`}
-              style={{
-                padding: "6px 12px",
-                border: "1px solid var(--v4-line-200)",
-                background: "var(--v4-bg-100)",
-                color: "var(--v4-ink-100)",
-                textDecoration: "none",
-              }}
-            >
-              ← Prev
-            </Link>
-          ) : (
-            <span
-              style={{
-                padding: "6px 12px",
-                border: "1px solid var(--v4-line-200)",
-                color: "var(--v4-ink-400)",
-                opacity: 0.5,
-              }}
-            >
-              ← Prev
-            </span>
-          )}
-
-          {/* Page-number list. Compact: first, current ± 2, last. */}
-          {Array.from({ length: totalPages }, (_, i) => i + 1)
-            .filter(
-              (n) =>
-                n === 1 ||
-                n === totalPages ||
-                (n >= page - 2 && n <= page + 2),
-            )
-            .map((n, i, arr) => {
-              const prev = arr[i - 1];
-              const showGap = prev !== undefined && n - prev > 1;
-              return (
-                <span key={n} style={{ display: "inline-flex", gap: 8 }}>
-                  {showGap && (
-                    <span style={{ color: "var(--v4-ink-400)" }}>…</span>
-                  )}
-                  {n === page ? (
-                    <span
-                      aria-current="page"
-                      style={{
-                        padding: "6px 12px",
-                        background: "var(--v4-acc)",
-                        color: "var(--v4-bg-000)",
-                        fontWeight: 700,
-                      }}
-                    >
-                      {n}
-                    </span>
-                  ) : (
-                    <Link
-                      href={n === 1 ? "/githubrepo" : `/githubrepo?page=${n}`}
-                      style={{
-                        padding: "6px 12px",
-                        border: "1px solid var(--v4-line-200)",
-                        background: "var(--v4-bg-100)",
-                        color: "var(--v4-ink-100)",
-                        textDecoration: "none",
-                      }}
-                    >
-                      {n}
-                    </Link>
-                  )}
-                </span>
-              );
-            })}
-
-          {page < totalPages ? (
-            <Link
-              href={`/githubrepo?page=${page + 1}`}
-              style={{
-                padding: "6px 12px",
-                border: "1px solid var(--v4-line-200)",
-                background: "var(--v4-bg-100)",
-                color: "var(--v4-ink-100)",
-                textDecoration: "none",
-              }}
-            >
-              Next →
-            </Link>
-          ) : (
-            <span
-              style={{
-                padding: "6px 12px",
-                border: "1px solid var(--v4-line-200)",
-                color: "var(--v4-ink-400)",
-                opacity: 0.5,
-              }}
-            >
-              Next →
-            </span>
-          )}
-        </nav>
       </div>
 
       <FooterBar
-        meta={`// TRENDINGREPO / githubrepo / page ${page}/${totalPages}`}
+        meta={`// TRENDINGREPO / githubrepo / serial ${repos.length}`}
         actions={`DATA / ${refreshedTime} UTC`}
       />
     </>

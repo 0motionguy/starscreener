@@ -29,7 +29,12 @@ import { buildItemListSchema } from "@/lib/seo-repo-schemas";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 
-export const dynamic = "force-static";
+// ISR (5min) so the page picks up hourly Redis refreshes from
+// scrape-trending.yml. `force-static` was baking whatever data was
+// bundled at deploy time and never re-running the refresh hook below,
+// causing the 24h-window count to drift to single digits between
+// deploys (HN reports 100s of stories/day; the cron runs hourly).
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Trending on Hacker News",

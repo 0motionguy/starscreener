@@ -145,6 +145,15 @@ const EMPTY_SOURCE_COUNTS: SidebarDataResponse["sourceCounts"] = {
   fundingSignals: 0,
   revenueOverlays: 0,
   npmPackages: 0,
+  skillsItems: 0,
+  mcpItems: 0,
+  agentRepos: 0,
+  twitterRepos: 0,
+  hfModels: 0,
+  hfDatasets: 0,
+  hfSpaces: 0,
+  arxivPapers: 0,
+  citedRepos: 0,
 };
 
 /**

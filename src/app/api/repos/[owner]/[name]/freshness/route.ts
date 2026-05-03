@@ -11,7 +11,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { errorEnvelope } from "@/lib/api/error-response";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
-import { getFreshnessSnapshot } from "@/lib/source-health";
+import {
+  getFreshnessSnapshot,
+  refreshScannerSourceHealthFromStore,
+} from "@/lib/source-health";
 
 export const runtime = "nodejs";
 
@@ -36,6 +39,7 @@ export async function GET(
     return NextResponse.json(errorEnvelope("Repo not found"), { status: 404 });
   }
 
+  await refreshScannerSourceHealthFromStore();
   const snapshot = getFreshnessSnapshot();
 
   return NextResponse.json(

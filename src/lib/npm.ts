@@ -150,7 +150,9 @@ export function getTopNpmPackages(
   window: NpmWindow = "24h",
   limit?: number,
 ): NpmPackageRow[] {
-  const sorted = getNpmPackages().slice().sort((a, b) => {
+  const rows = getNpmPackages();
+
+  rows.sort((a, b) => {
     const byMetric = metricForNpmWindow(b, window) - metricForNpmWindow(a, window);
     if (byMetric !== 0) return byMetric;
     const byPct =
@@ -159,11 +161,13 @@ export function getTopNpmPackages(
     if (byPct !== 0) return byPct;
     const byDelta = deltaForNpmWindow(b, window) - deltaForNpmWindow(a, window);
     if (byDelta !== 0) return byDelta;
-    const byDownloads = b.downloads30d - a.downloads30d;
+    const byDownloads =
+      downloadsForNpmWindow(b, window) - downloadsForNpmWindow(a, window);
     if (byDownloads !== 0) return byDownloads;
     return a.name.localeCompare(b.name);
   });
-  return typeof limit === "number" ? sorted.slice(0, limit) : sorted;
+
+  return typeof limit === "number" ? rows.slice(0, limit) : rows;
 }
 
 export function getNpmPackageByName(name: string): NpmPackageRow | null {

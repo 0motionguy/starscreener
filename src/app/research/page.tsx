@@ -21,6 +21,7 @@ import {
   refreshResearchSignalsFromStore,
 } from "@/lib/research-signals";
 import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
+import { MarkVisited } from "@/components/layout/MarkVisited";
 
 export const revalidate = 600;
 
@@ -65,6 +66,7 @@ export default async function ResearchPage() {
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
+      <MarkVisited routeKey="citedRepos" count={linkedPapers} />
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
         <div className="v2-frame overflow-hidden mb-4">
           <TerminalBar

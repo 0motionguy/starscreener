@@ -80,10 +80,21 @@ const CATEGORY_IDS = [
 // a sector-level momentum proxy.
 function resolveCategoryId(row) {
   const topics = Array.isArray(row?.topics) ? row.topics : [];
-  const lang = typeof row?.language === "string" ? row.language.toLowerCase() : "";
   const lc = (s) => (typeof s === "string" ? s.toLowerCase() : "");
+  const lang = lc(row?.language ?? row?.primary_language);
   const tset = new Set(topics.map(lc));
-  const has = (t) => tset.has(t);
+  const text = [
+    row?.repo_name,
+    row?.description,
+    row?.collection_names,
+    row?.primary_language,
+    row?.language,
+    ...topics,
+  ]
+    .map(lc)
+    .filter(Boolean)
+    .join(" ");
+  const has = (t) => tset.has(t) || text.includes(t);
 
   if (
     has("ai") || has("ml") || has("llm") || has("llms") ||
@@ -160,9 +171,18 @@ function buildItemsFromTrending(trendingJson) {
         const stars = typeof raw === "number" ? raw : Number.parseInt(raw, 10);
         if (!Number.isFinite(stars)) continue;
         seen.set(name, {
+          repo_name: name,
           stars,
+          description: typeof row?.description === "string" ? row.description : "",
+          collection_names:
+            typeof row?.collection_names === "string" ? row.collection_names : "",
           topics: Array.isArray(row?.topics) ? row.topics : [],
-          language: typeof row?.language === "string" ? row.language : "",
+          language:
+            typeof row?.language === "string"
+              ? row.language
+              : typeof row?.primary_language === "string"
+                ? row.primary_language
+                : "",
         });
       }
     }

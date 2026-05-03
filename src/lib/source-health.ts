@@ -1,11 +1,46 @@
-import { blueskyCold, blueskyFetchedAt, getBlueskyFile } from "./bluesky";
-import { devtoCold, devtoFetchedAt, getDevtoFile } from "./devto";
-import { getHnFile, hnCold, hnFetchedAt } from "./hackernews";
-import { getLobstersFile, lobstersCold, lobstersFetchedAt } from "./lobsters";
-import { getNpmPackagesFile, npmCold, npmFetchedAt } from "./npm";
-import { getPhFile, producthuntCold, producthuntFetchedAt } from "./producthunt";
-import { getAllPostsFile } from "./reddit-all-data";
-import { getRedditFetchedAt, getRedditFile, isRedditCold } from "./reddit-data";
+import {
+  getBlueskyFetchedAt,
+  getBlueskyFile,
+  isBlueskyCold,
+  refreshBlueskyMentionsFromStore,
+} from "./bluesky";
+import {
+  getDevtoFetchedAt,
+  getDevtoFile,
+  isDevtoCold,
+  refreshDevtoMentionsFromStore,
+} from "./devto";
+import {
+  getHnFetchedAt,
+  getHnFile,
+  isHnCold,
+  refreshHackernewsMentionsFromStore,
+} from "./hackernews";
+import {
+  getLobstersFetchedAt,
+  getLobstersFile,
+  isLobstersCold,
+  refreshLobstersMentionsFromStore,
+} from "./lobsters";
+import {
+  getNpmCold,
+  getNpmFetchedAt,
+  getNpmPackagesFile,
+  refreshNpmFromStore,
+} from "./npm";
+import {
+  getPhFile,
+  getProducthuntFetchedAt,
+  isProducthuntCold,
+  refreshProducthuntLaunchesFromStore,
+} from "./producthunt";
+import { getAllPostsFile, refreshRedditAllPostsFromStore } from "./reddit-all-data";
+import {
+  getRedditFetchedAt,
+  getRedditFile,
+  isRedditCold,
+  refreshRedditMentionsFromStore,
+} from "./reddit-data";
 
 // Bumped from 2h → 4h on 2026-05-03. Hourly sources (reddit/HN/bluesky/
 // lobsters/repo-metadata/collection-rankings) regularly drift past 2h
@@ -52,6 +87,19 @@ export interface ScannerSourceHealth {
   metrics: Record<string, boolean | number | string | null>;
   notes: string[];
   degradedAfterSeconds: number;
+}
+
+export async function refreshScannerSourceHealthFromStore(): Promise<void> {
+  await Promise.all([
+    refreshRedditMentionsFromStore(),
+    refreshRedditAllPostsFromStore(),
+    refreshHackernewsMentionsFromStore(),
+    refreshBlueskyMentionsFromStore(),
+    refreshLobstersMentionsFromStore(),
+    refreshDevtoMentionsFromStore(),
+    refreshProducthuntLaunchesFromStore(),
+    refreshNpmFromStore(),
+  ]);
 }
 
 export function evaluateSourceFreshness(args: {
@@ -190,6 +238,7 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
   }
 
   const hnFile = getHnFile();
+  const hnCold = isHnCold();
   const hnLowVolume =
     !hnCold && (hnFile.scannedFirebaseItems < 100 || hnFile.scannedAlgoliaHits < 50);
   const hnNotes: string[] = [];
@@ -201,6 +250,7 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
   }
 
   const blueskyFile = getBlueskyFile();
+  const blueskyCold = isBlueskyCold();
   const blueskyAuthMissing =
     !process.env.BLUESKY_HANDLE || !process.env.BLUESKY_APP_PASSWORD;
   const blueskyLowVolume =
@@ -220,6 +270,7 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
   }
 
   const phFile = getPhFile();
+  const producthuntCold = isProducthuntCold();
   const phAuthMissing = !process.env.PRODUCTHUNT_TOKEN;
   const phEmpty = !producthuntCold && (phFile.launches?.length ?? 0) === 0;
   const phNotes: string[] = [];
@@ -233,6 +284,7 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
   }
 
   const devtoFile = getDevtoFile();
+  const devtoCold = isDevtoCold();
   const devtoLowVolume =
     !devtoCold && (devtoFile.scannedArticles < 20 || devtoFile.bodyFetchMode === "description-only");
   const devtoNotes: string[] = [];
@@ -244,6 +296,7 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
   }
 
   const lobstersFile = getLobstersFile();
+  const lobstersCold = isLobstersCold();
   const lobstersLowVolume = !lobstersCold && lobstersFile.scannedStories < 10;
   const lobstersNotes: string[] = [];
   if (lobstersLowVolume) {
@@ -251,6 +304,7 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
   }
 
   const npmFile = getNpmPackagesFile();
+  const npmCold = getNpmCold();
   const npmDegraded =
     !npmCold &&
     ((npmFile.counts?.ok ?? 0) === 0 ||
@@ -294,7 +348,7 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
       label: "Hacker News",
       provider: "HN Firebase + Algolia",
       cadence: "20m",
-      fetchedAt: hnCold ? null : hnFetchedAt,
+      fetchedAt: hnCold ? null : getHnFetchedAt(),
       staleAfterMs: FAST_DATA_STALE_THRESHOLD_MS,
       degradedAfterMs: FAST_20M_DEGRADED_THRESHOLD_MS,
       cold: hnCold,
@@ -312,7 +366,7 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
       label: "Bluesky",
       provider: "Bluesky AppView search",
       cadence: "1h",
-      fetchedAt: blueskyCold ? null : blueskyFetchedAt,
+      fetchedAt: blueskyCold ? null : getBlueskyFetchedAt(),
       staleAfterMs: FAST_DATA_STALE_THRESHOLD_MS,
       degradedAfterMs: FAST_HOURLY_DEGRADED_THRESHOLD_MS,
       cold: blueskyCold,
@@ -331,7 +385,7 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
       label: "Product Hunt",
       provider: "Product Hunt GraphQL",
       cadence: "4h",
-      fetchedAt: producthuntCold ? null : producthuntFetchedAt,
+      fetchedAt: producthuntCold ? null : getProducthuntFetchedAt(),
       staleAfterMs: PRODUCTHUNT_STALE_THRESHOLD_MS,
       degradedAfterMs: PRODUCTHUNT_DEGRADED_THRESHOLD_MS,
       cold: producthuntCold,
@@ -348,7 +402,7 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
       label: "dev.to",
       provider: "dev.to public API",
       cadence: "24h",
-      fetchedAt: devtoCold ? null : devtoFetchedAt,
+      fetchedAt: devtoCold ? null : getDevtoFetchedAt(),
       staleAfterMs: DEVTO_STALE_THRESHOLD_MS,
       degradedAfterMs: DEVTO_DEGRADED_THRESHOLD_MS,
       cold: devtoCold,
@@ -366,7 +420,7 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
       label: "Lobsters",
       provider: "Best-effort HTML scrape",
       cadence: "1h",
-      fetchedAt: lobstersCold ? null : lobstersFetchedAt,
+      fetchedAt: lobstersCold ? null : getLobstersFetchedAt(),
       staleAfterMs: FAST_DATA_STALE_THRESHOLD_MS,
       degradedAfterMs: FAST_HOURLY_DEGRADED_THRESHOLD_MS,
       cold: lobstersCold,
@@ -383,7 +437,7 @@ export function getScannerSourceHealth(): ScannerSourceHealth[] {
       label: "npm",
       provider: "npm registry + downloads",
       cadence: "24h",
-      fetchedAt: npmCold ? null : npmFetchedAt,
+      fetchedAt: npmCold ? null : getNpmFetchedAt(),
       staleAfterMs: NPM_STALE_THRESHOLD_MS,
       degradedAfterMs: NPM_DEGRADED_THRESHOLD_MS,
       cold: npmCold,

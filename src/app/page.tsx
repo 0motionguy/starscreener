@@ -19,19 +19,26 @@ import {
 } from "@/lib/ecosystem-leaderboards";
 import { BubbleMap } from "@/components/terminal/BubbleMap";
 import { HomeEmptyState } from "@/components/home/HomeEmptyState";
-import {
-  LiveTopTable,
-  type LiveSkill,
-  type LiveMcp,
-} from "@/components/home/LiveTopTable";
-import { Tr100IndexChart, type Tr100Point } from "@/components/home/Tr100IndexChart";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { ChartStat, ChartStats } from "@/components/ui/ChartShell";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
 import { FooterBar } from "@/components/ui/FooterBar";
 import { SectionHead } from "@/components/ui/SectionHead";
-import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import {
+  GithubIcon,
+  HackerNewsIcon,
+  RedditIcon,
+  BlueskyIcon,
+  DevtoIcon,
+} from "@/components/brand/BrandIcons";
+import {
+  LiveTopTable,
+  type LiveRow,
+  type CategoryFacet,
+} from "@/components/home/LiveTopTable";
 import { CATEGORIES } from "@/lib/constants";
+import { repoLogoUrl } from "@/lib/logos";
 import type { Repo } from "@/lib/types";
 import {
   SITE_NAME,
@@ -95,12 +102,15 @@ interface HomeEntity {
   delta: number;
   pct: number | null;
   sparkline: number[];
+  hasRealSparkline: boolean;
   stars?: number;
   channels?: number;
-  /** GitHub owner avatar URL — empty string falls back to the monogram. */
-  logoUrl: string;
-  /** First letter for the monogram fallback. */
-  initial: string;
+  mentions?: number;
+  category?: string;
+  logoUrl: string | null;
+  delta7d?: number;
+  delta30d?: number;
+  deltaUnit?: string;
 }
 
 const CATEGORY_LABELS = new Map(CATEGORIES.map((c) => [c.id, c.shortName]));
@@ -145,42 +155,70 @@ function repoEntity(repo: Repo): HomeEntity {
     delta: repo.starsDelta24h,
     pct: percentDelta(repo.starsDelta24h, repo.stars),
     sparkline: repo.sparklineData,
+    hasRealSparkline: repo.sparklineData.length > 1,
     stars: repo.stars,
     channels: sourceCount(repo),
-    // Direct GitHub owner avatar — public, stable, no auth, served via
-    // `<img>` on the SSR pass so users see a face on first paint instead
-    // of a dead grey square. EntityLogo's monogram fallback fires
-    // client-side via onError.
-    logoUrl: `https://github.com/${encodeURIComponent(repo.owner)}.png?size=40`,
-    initial: (repo.owner.charAt(0) || "?").toUpperCase(),
+    mentions: repo.mentionCount24h,
+    category: categoryLabel(repo),
+    logoUrl: repoLogoUrl(repo.fullName, 80),
   };
 }
 
 function ecosystemEntity(
   item: EcosystemLeaderboardItem,
   kind: Exclude<HomeEntityKind, "repo">,
+  repoByFullName?: Map<string, Repo>,
 ): HomeEntity {
-  const delta =
+  // Both MCP and skill rows benefit from the linked GitHub repo's
+  // 24h/7d/30d star deltas + sparkline. Registry-side install deltas
+  // (installsDelta1d/7d/30d) are only populated once skills.sh /
+  // registry fetchers have a comparison snapshot, so most rows fall
+  // back to 0 — leaving the home grid showing "+0 24h NO SERIES" for
+  // 4 of 5 rows even though the linked repos have real velocity.
+  // Prefer linked-repo deltas first, fall back to installs.
+  const useRepoFallback = kind === "mcp" || kind === "skill";
+  // Skill / MCP items often leave `linkedRepo` null but expose a github.com
+  // url — parse owner/name from there as a fallback so the home rows surface
+  // real velocity for as many entries as possible.
+  const fullNameFromUrl = (() => {
+    if (typeof item.url !== "string") return null;
+    const m = item.url.match(/github\.com\/([^/?#]+)\/([^/?#]+)/i);
+    if (!m) return null;
+    return `${m[1]}/${m[2].replace(/\.git$/i, "")}`.toLowerCase();
+  })();
+  const lookupKey = (item.linkedRepo ?? fullNameFromUrl)?.toLowerCase() ?? null;
+  const linked = lookupKey
+    ? (repoByFullName?.get(lookupKey) ?? null)
+    : null;
+  const raw24 =
+    (useRepoFallback ? linked?.starsDelta24h : undefined) ??
     item.mcp?.installs24h ??
-    item.installsDelta7d ??
-    item.forkVelocity7d ??
-    Math.round(item.signalScore * 10);
-  const base =
-    item.popularity ??
-    item.installs7d ??
-    item.mcp?.useCount ??
-    Math.max(100, delta * 4);
-  // Same SSR-friendly avatar logic as repoEntity. ecosystem items expose
-  // logoUrl directly when available; otherwise derive from linkedRepo's
-  // GitHub owner. Empty string → EntityHeroRow renders monogram instead.
-  const linkedOwner = item.linkedRepo?.split("/", 1)[0]?.trim() ?? "";
-  const fallbackOwnerLogo = linkedOwner
-    ? `https://github.com/${encodeURIComponent(linkedOwner)}.png?size=40`
-    : "";
-  const cleanLogo =
-    typeof item.logoUrl === "string" && item.logoUrl.trim() ? item.logoUrl.trim() : "";
-  const logoUrl = cleanLogo || fallbackOwnerLogo;
-  const initial = (item.title.charAt(0) || "?").toUpperCase();
+    item.installsDelta1d;
+  const raw7 =
+    (useRepoFallback ? linked?.starsDelta7d : undefined) ??
+    item.installsDelta7d;
+  const raw30 =
+    (useRepoFallback ? linked?.starsDelta30d : undefined) ??
+    item.installsDelta30d;
+  const realSparkline =
+    useRepoFallback && linked?.sparklineData
+      ? linked.sparklineData
+      : emptySparkline();
+  let delta = 0;
+  let primaryWindow: "24h" | "7d" | "30d" = "24h";
+  if (typeof raw24 === "number" && raw24 !== 0) {
+    delta = raw24;
+    primaryWindow = "24h";
+  } else if (typeof raw7 === "number" && raw7 !== 0) {
+    delta = raw7;
+    primaryWindow = "7d";
+  } else if (typeof raw30 === "number" && raw30 !== 0) {
+    delta = raw30;
+    primaryWindow = "30d";
+  } else {
+    delta = raw24 ?? raw7 ?? raw30 ?? 0;
+    primaryWindow = "24h";
+  }
   return {
     id: item.id,
     kind,
@@ -193,21 +231,44 @@ function ecosystemEntity(
       (kind === "skill" ? "skill signal" : "mcp signal"),
     score: item.signalScore,
     delta,
-    pct: percentDelta(delta, base),
-    sparkline: buildSyntheticSparkline(item.signalScore, delta),
+    // No synthetic pct — was previously delta/base off-of-score, which
+    // produced fake "+30%" badges on rows with zero real velocity.
+    pct: null,
+    sparkline: realSparkline,
+    hasRealSparkline: realSparkline.length > 1,
     stars: typeof item.popularity === "number" ? item.popularity : undefined,
     channels: item.crossSourceCount,
-    logoUrl,
-    initial,
+    category: kind === "skill" ? "Skill" : "MCP",
+    logoUrl: item.logoUrl ?? repoLogoUrl(item.linkedRepo, 80),
+    delta7d:
+      primaryWindow !== "7d" && typeof raw7 === "number" ? raw7 : undefined,
+    delta30d:
+      primaryWindow !== "30d" && typeof raw30 === "number" ? raw30 : undefined,
+    deltaUnit: primaryWindow,
   };
 }
 
-function buildSyntheticSparkline(score: number, delta: number): number[] {
-  const trend = Math.max(1, delta / 120);
-  return Array.from({ length: 16 }, (_, i) => {
-    const wobble = Math.sin((i + score) * 0.9) * 3;
-    return Math.max(1, Math.round(score / 3 + i * trend + wobble));
-  });
+function emptySparkline(): number[] {
+  return [];
+}
+
+function dedupeSkillItemsForHome(
+  items: EcosystemLeaderboardItem[],
+): EcosystemLeaderboardItem[] {
+  const byRepo = new Map<string, EcosystemLeaderboardItem>();
+  const noRepo: EcosystemLeaderboardItem[] = [];
+  for (const item of items) {
+    const key = item.linkedRepo?.toLowerCase();
+    if (!key) {
+      noRepo.push(item);
+      continue;
+    }
+    const current = byRepo.get(key);
+    if (!current || item.signalScore > current.signalScore) {
+      byRepo.set(key, item);
+    }
+  }
+  return [...byRepo.values(), ...noRepo];
 }
 
 function topByDelta(repos: Repo[], limit: number): HomeEntity[] {
@@ -241,19 +302,115 @@ function sparkPath(values: number[], width: number, height: number): string {
     .join(" ");
 }
 
+// Same as sparkPath but with externally-supplied min/max so multiple lines
+// drawn into one SVG share a Y axis instead of self-normalising.
+function scaledSparkPath(
+  values: number[],
+  width: number,
+  height: number,
+  vMin: number,
+  vMax: number,
+  padX = 4,
+  padY = 10,
+): string {
+  if (values.length < 2) return "";
+  const span = vMax - vMin || 1;
+  return values
+    .map((value, index) => {
+      const x = padX + (index / (values.length - 1)) * (width - 2 * padX);
+      const y = height - padY - ((value - vMin) / span) * (height - 2 * padY);
+      return `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(" ");
+}
+
+function formatPct(delta: number, base: number): string | null {
+  const pct = percentDelta(delta, base);
+  if (pct === null) return null;
+  return `${pct >= 0 ? "+" : ""}${pct}%`;
+}
+
+// Vercel/Linear/Stripe-style mini sparkline:
+//   1. area path, vertical alpha-gradient fill
+//   2. crisp 1.5px stroke on top
+//   3. end-point dot with halo glow
+// Implemented as pure inline SVG — no extra deps, scales with viewBox.
+let __sparkGradId = 0;
+
 function Sparkline({
   values,
   color = "var(--sig-green)",
   className = "spark",
+  area = true,
+  width = 72,
+  height = 24,
 }: {
   values: number[];
   color?: string;
   className?: string;
+  area?: boolean;
+  width?: number;
+  height?: number;
 }) {
-  const d = sparkPath(values, 72, 24);
+  const d = sparkPath(values, width, height);
+  // Stable per-instance id avoids gradient cross-talk when many spark SVGs
+  // are mounted in the same DOM (Hero panels, live table, etc.).
+  const gradId = `sg-${(__sparkGradId = (__sparkGradId + 1) % 1_000_000)}`;
+
+  // Compute end-point coords for the trailing dot.
+  const points = values.length > 1 ? values : [1, 1];
+  const max = Math.max(...points);
+  const min = Math.min(...points);
+  const span = max - min || 1;
+  const lastIdx = points.length - 1;
+  const lastVal = points[lastIdx];
+  const endX =
+    (lastIdx / Math.max(1, points.length - 1)) * (width - 2) + 1;
+  const endY = height - 2 - ((lastVal - min) / span) * (height - 4);
+
+  const lastX = (width - 1).toFixed(1);
+  const firstX = "1";
+  const baseY = (height - 1).toFixed(1);
+  const areaPath = `${d} L${lastX},${baseY} L${firstX},${baseY} Z`;
+
   return (
-    <svg className={className} viewBox="0 0 72 24" preserveAspectRatio="none">
-      <path d={d} fill="none" stroke={color} strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+    <svg
+      className={className}
+      viewBox={`0 0 ${width} ${height}`}
+      preserveAspectRatio="none"
+    >
+      <defs>
+        <linearGradient id={gradId} x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="0.42" />
+          <stop offset="60%" stopColor={color} stopOpacity="0.12" />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      {area ? <path d={areaPath} fill={`url(#${gradId})`} /> : null}
+      <path
+        d={d}
+        fill="none"
+        stroke={color}
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        vectorEffect="non-scaling-stroke"
+      />
+      {/* Halo + dot at the trailing point — the visual cue from
+          Vercel/TradingView mini-charts. */}
+      <circle
+        cx={endX}
+        cy={endY}
+        r="3"
+        fill={color}
+        opacity="0.22"
+      />
+      <circle
+        cx={endX}
+        cy={endY}
+        r="1.6"
+        fill={color}
+      />
     </svg>
   );
 }
@@ -267,39 +424,61 @@ function EntityHeroRow({
   index: number;
   color: string;
 }) {
+  const lineColor = entity.delta < 0 ? "var(--sig-red)" : color;
+  const pctText =
+    entity.pct !== null
+      ? `${entity.pct >= 0 ? "+" : ""}${entity.pct}%`
+      : null;
   return (
     <a
       className={`hero-row ${index === 0 ? "first" : ""}`}
       href={entity.href}
+      style={index === 0 ? ({ ["--row-acc"]: color } as React.CSSProperties) : undefined}
     >
-      <div className="rk">{String(index + 1).padStart(2, "0")}</div>
-      <div className="nm">
-        {entity.logoUrl ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
-            className="av"
-            src={entity.logoUrl}
-            alt=""
-            width={20}
-            height={20}
-            loading="lazy"
-            referrerPolicy="no-referrer"
-            style={{ objectFit: "cover" }}
-            aria-hidden="true"
-          />
-        ) : (
-          <span className="av" aria-hidden="true">
-            {entity.initial}
-          </span>
-        )}
+      <span className="rk">{String(index + 1).padStart(2, "0")}</span>
+      <EntityLogo
+        src={entity.logoUrl}
+        name={entity.name}
+        size={28}
+        className="av"
+      />
+      <span className="nm">
         <span className="txt">{entity.name}</span>
-        <span className={`delta-inline ${entity.delta < 0 ? "dn" : ""}`}>
+        <span className="sub">{entity.sub}</span>
+      </span>
+      <span className={`delta-stack ${entity.delta < 0 ? "dn" : ""}`}>
+        <span className="d">
           {formatDelta(entity.delta)}
-          {entity.pct !== null ? <span className="pct">+{entity.pct}%</span> : null}
+          <span className="d-lbl">{entity.deltaUnit ?? "24h"}</span>
         </span>
-      </div>
-      <span className="sub">{entity.sub}</span>
-      <Sparkline values={entity.sparkline} color={entity.delta < 0 ? "var(--sig-red)" : color} />
+        {entity.delta7d !== undefined ? (
+          <span className={`d-sec ${entity.delta7d < 0 ? "dn" : ""}`}>
+            {formatDelta(entity.delta7d)}
+            <span className="d-lbl">7d</span>
+          </span>
+        ) : null}
+        {entity.delta30d !== undefined ? (
+          <span className={`d-sec ${entity.delta30d < 0 ? "dn" : ""}`}>
+            {formatDelta(entity.delta30d)}
+            <span className="d-lbl">30d</span>
+          </span>
+        ) : null}
+        {pctText ? <span className="pct">{pctText}</span> : null}
+      </span>
+      {entity.hasRealSparkline ? (
+        <Sparkline
+          values={entity.sparkline}
+          color={lineColor}
+          className="spark"
+          area
+          width={92}
+          height={30}
+        />
+      ) : (
+        <span className="spark spark-missing" aria-label="No live series">
+          NO SERIES
+        </span>
+      )}
     </a>
   );
 }
@@ -328,9 +507,13 @@ function HeroPanel({
         <span className="muted-dot">/ {formatCompact(count)} tracked</span>
       </CardHeader>
       <div className="panel-body">
-        {items.map((item, index) => (
-          <EntityHeroRow key={`${title}-${item.id}`} entity={item} index={index} color={color} />
-        ))}
+        {items.length > 0 ? (
+          items.map((item, index) => (
+            <EntityHeroRow key={`${title}-${item.id}`} entity={item} index={index} color={color} />
+          ))
+        ) : (
+          <div className="hero-panel-empty">waiting for live rows</div>
+        )}
       </div>
       <div className="cat-foot">
         <span>updated {new Date(lastFetchedAt).toISOString().slice(11, 16)} utc</span>
@@ -340,18 +523,35 @@ function HeroPanel({
   );
 }
 
+const SOURCE_ICONS: ReadonlyArray<{
+  key: string;
+  label: string;
+  Icon: (props: { size?: number; className?: string }) => React.ReactElement;
+}> = [
+  { key: "gh", label: "GitHub", Icon: GithubIcon },
+  { key: "hn", label: "Hacker News", Icon: HackerNewsIcon },
+  { key: "r", label: "Reddit", Icon: RedditIcon },
+  { key: "b", label: "Bluesky", Icon: BlueskyIcon },
+  { key: "d", label: "dev.to", Icon: DevtoIcon },
+];
+
 function ConsensusRow({ repo, index }: { repo: Repo; index: number }) {
   const channels = Math.max(1, sourceCount(repo));
-  const score = repo.crossSignalScore ?? channels;
   return (
     <a className={`cons-row ${index === 0 ? "first" : ""}`} href={`/repo/${repo.owner}/${repo.name}`}>
       <div className="cons-top">
         <span className="rk">{String(index + 1).padStart(2, "0")}</span>
+        <EntityLogo
+          src={repoLogoUrl(repo.fullName, 64)}
+          name={repo.fullName}
+          size={28}
+          className="cons-av"
+        />
         <span className="nm">
           <span className="h">{repo.fullName}</span>
           <span className="meta">
             <span className="tag">{categoryLabel(repo)}</span>
-            {channels} sources / score {score.toFixed(1)}
+            {channels} sources
           </span>
         </span>
         <span className="delta">
@@ -361,9 +561,14 @@ function ConsensusRow({ repo, index }: { repo: Repo; index: number }) {
       </div>
       <div className="cons-bot">
         <span className="srcs" aria-label={`${channels} sources firing`}>
-          {["GH", "HN", "R", "B", "D"].slice(0, channels).map((label) => (
-            <span key={label} className={`sd sd-${label.toLowerCase()}`}>
-              {label}
+          {SOURCE_ICONS.slice(0, channels).map(({ key, label, Icon }) => (
+            <span
+              key={key}
+              className={`sd sd-${key}`}
+              title={label}
+              aria-label={label}
+            >
+              <Icon size={16} />
             </span>
           ))}
         </span>
@@ -380,6 +585,12 @@ function BreakoutRow({ repo, index }: { repo: Repo; index: number }) {
   return (
     <a className={`brk-row ${index === 0 ? "first" : ""}`} href={`/repo/${repo.owner}/${repo.name}`}>
       <span className="rk">{String(index + 1).padStart(2, "0")}</span>
+      <EntityLogo
+        src={repoLogoUrl(repo.fullName, 64)}
+        name={repo.fullName}
+        size={28}
+        className="brk-av"
+      />
       <span className="nm">
         <span className="h">{repo.fullName}</span>
         <span className="meta">{categoryLabel(repo)} / {repo.movementStatus.replace("_", " ")}</span>
@@ -403,25 +614,54 @@ function FeaturedCard({
   entity: HomeEntity;
   index: number;
 }) {
+  const badge =
+    index === 0
+      ? "Featured / deep dive"
+      : index === 1
+        ? "Breakout"
+        : "New signal";
+  const sparkColor =
+    entity.delta < 0
+      ? "var(--sig-red)"
+      : index === 0
+        ? "var(--acc)"
+        : "var(--sig-cyan)";
+  const mentionsLabel = entity.kind === "repo" ? "mentions" : "installs 7d";
+  const pctText = entity.pct !== null ? `${entity.pct >= 0 ? "+" : ""}${entity.pct}%` : null;
   return (
     <a className={`feat-card ${index === 0 ? "hero" : "sec"}`} href={entity.href}>
-      <span className="badge">{index === 0 ? "Featured / deep dive" : index === 1 ? "Breakout" : "New signal"}</span>
-      <h3 className="title">{entity.name}</h3>
-      <p className="repo">{entity.kind.toUpperCase()} / {entity.sub}</p>
-      <p className="desc">
-        {index === 0
-          ? "Highest-confidence mover across star velocity, source agreement, and category momentum."
-          : "A compact signal worth watching before it becomes obvious in the weekly rankings."}
-      </p>
-      <Sparkline values={entity.sparkline} className="spark-feat" color={index === 0 ? "var(--acc)" : "var(--sig-cyan)"} />
-      <div className="stats">
-        <span><b>{entity.stars ? formatCompact(entity.stars) : formatCompact(entity.score)}</b> scale</span>
-        <span><b className="up">{formatDelta(entity.delta)}</b> 24h</span>
-        <span><b>{entity.channels ?? 1}</b> sources</span>
+      <div className="head">
+        <span className="badge">{badge}</span>
+        <span className="kind">
+          {entity.kind.toUpperCase()}
+          {entity.category && entity.category.toUpperCase() !== entity.kind.toUpperCase()
+            ? ` · ${entity.category}`
+            : ""}
+        </span>
       </div>
-      {index === 0 ? (
-        <span className="why"><b>Why now</b> / top ranked by cross-signal confidence and fresh momentum.</span>
-      ) : null}
+      <div className="title-row">
+        <EntityLogo src={entity.logoUrl} name={entity.name} size={28} />
+        <h3 className="title">{entity.name}</h3>
+      </div>
+      <Sparkline values={entity.sparkline} className="spark-feat" color={sparkColor} />
+      <div className="stats">
+        <span>
+          <b>{entity.stars ? formatCompact(entity.stars) : formatCompact(entity.score)}</b>
+          <i>{entity.stars ? "stars" : "score"}</i>
+        </span>
+        <span>
+          <b className={entity.delta < 0 ? "dn" : "up"}>{formatDelta(entity.delta)}</b>
+          <i>24h{pctText ? ` · ${pctText}` : ""}</i>
+        </span>
+        <span>
+          <b>{formatCompact(entity.mentions ?? 0)}</b>
+          <i>{mentionsLabel}</i>
+        </span>
+        <span>
+          <b>{entity.channels ?? 1}</b>
+          <i>sources</i>
+        </span>
+      </div>
     </a>
   );
 }
@@ -473,125 +713,102 @@ export default async function HomePage() {
     .sort((a, b) => b.starsDelta24h - a.starsDelta24h)
     .slice(0, 20);
 
-  // TR-100 Index (// 06): aggregate the top-100 repos' daily sparklines
-  // into one 30-day cumulative-stars index. The previous inline SVG
-  // jammed `flatMap(spark.slice(-2))` from 30 unrelated repos into a
-  // single line, producing the cliff-edge zigzag the user complained
-  // about. Sum-by-day gives a smooth, monotonic line.
-  const tr100Top = [...repos]
-    .sort((a, b) => b.momentumScore - a.momentumScore)
-    .slice(0, 100);
-  const SERIES_DAYS = 30;
-  const dayMs = 86_400_000;
-  const fetchedTs = Date.parse(lastFetchedAt);
-  const todayStart = Number.isFinite(fetchedTs)
-    ? Math.floor(fetchedTs / dayMs) * dayMs
-    : Math.floor(Date.now() / dayMs) * dayMs;
-  const dailySum = new Array<number>(SERIES_DAYS).fill(0);
-  for (const repo of tr100Top) {
-    const spark = Array.isArray(repo.sparklineData) ? repo.sparklineData : [];
-    if (spark.length === 0) continue;
-    // Right-align the per-repo sparkline in our 30-day window so the
-    // most recent datapoint lines up with `today`. Repos with shorter
-    // history pad-left with their first known star count (preserves
-    // monotonicity instead of dropping to zero).
-    const offset = SERIES_DAYS - spark.length;
-    const seed = spark[0] ?? 0;
-    for (let i = 0; i < SERIES_DAYS; i++) {
-      const idx = i - offset;
-      const value = idx < 0 ? seed : (spark[idx] ?? spark[spark.length - 1] ?? 0);
-      if (Number.isFinite(value)) dailySum[i] += value;
-    }
+  // Lookup map for plumbing real GitHub star deltas onto skill / mcp rows
+  // when the registry's own velocity snapshot isn't populated yet.
+  const repoByFullName = new Map<string, Repo>();
+  for (const r of repos) {
+    repoByFullName.set(r.fullName.toLowerCase(), r);
   }
-  const tr100Series: Tr100Point[] = dailySum.map((value, i) => ({
-    ts: todayStart - (SERIES_DAYS - 1 - i) * dayMs,
-    value,
-  }));
-
   const skillsBoard = skillsItems
-    ? skillsItems.slice(0, 7).map((item) => ecosystemEntity(item, "skill"))
-    : topCategoryFallback(repos, ["ai-agents", "ai-ml", "devtools"], 7);
+    ? dedupeSkillItemsForHome(skillsItems)
+        .map((item) => ecosystemEntity(item, "skill", repoByFullName))
+        .sort((a, b) => b.delta - a.delta)
+        .slice(0, 5)
+    : [];
   const mcpBoard = mcpItems
-    ? mcpItems.slice(0, 7).map((item) => ecosystemEntity(item, "mcp"))
-    : topCategoryFallback(repos, ["mcp"], 7);
-  const repoBoard = topByDelta(repos, 7);
+    ? mcpItems
+        .map((item) => ecosystemEntity(item, "mcp", repoByFullName))
+        .sort((a, b) => b.delta - a.delta)
+        .slice(0, 5)
+    : topCategoryFallback(repos, ["mcp"], 5);
+  const repoBoard = topByDelta(repos, 5);
   const consensusRepos = [...repos]
     .sort(
       (a, b) =>
         (b.crossSignalScore ?? sourceCount(b)) -
         (a.crossSignalScore ?? sourceCount(a)),
     )
-    .slice(0, 7);
+    .slice(0, 3);
   const breakoutRepos = [...repos]
     .sort((a, b) => {
       const aBase = Math.max(1, a.starsDelta7d / 7);
       const bBase = Math.max(1, b.starsDelta7d / 7);
       return b.starsDelta24h / bBase - a.starsDelta24h / aBase;
     })
-    .slice(0, 7);
-  const featured = [...repoBoard, ...skillsBoard, ...mcpBoard]
-    .sort((a, b) => b.score + b.delta / 100 - (a.score + a.delta / 100))
-    .slice(0, 3);
-  // 24h/7d/30d window switching is owned by <LiveTopTable> (client). We
-  // pass the full repo[] + ecosystem items so the user can re-sort without
-  // a round trip. Old fixed-momentum sort retained for the cold render
-  // (used until React hydrates). Top 50 by 24h delta gives a reasonable
-  // default view; LiveTopTable shows top `limit` per its own current sort.
-  // Reuse the synthetic-sparkline + logo-resolution logic so the LiveTopTable
-  // rows look as alive as the hero panels above. Skills/mcp ecosystem items
-  // don't carry their own per-day star series — buildSyntheticSparkline gives
-  // us a smooth wobble keyed off (signalScore, delta) so each row still has
-  // a per-row trend chart instead of a dead `—`.
-  const liveSkillItems: LiveSkill[] = (skillsItems ?? [])
-    .slice(0, 50)
-    .map((item): LiveSkill => {
-      const delta = item.installsDelta1d ?? 0;
-      const linkedOwner = item.linkedRepo?.split("/", 1)[0]?.trim() ?? "";
-      const fallbackOwnerLogo = linkedOwner
-        ? `https://github.com/${encodeURIComponent(linkedOwner)}.png?size=40`
-        : "";
-      const cleanLogo =
-        typeof item.logoUrl === "string" && item.logoUrl.trim()
-          ? item.logoUrl.trim()
-          : "";
-      return {
-        id: `skill-${item.id}`,
-        name: item.title,
-        href: item.url,
-        sub: item.sourceLabel ?? item.topic,
-        score: item.signalScore,
-        delta24h: delta,
-        delta7d: item.installsDelta7d ?? 0,
-        delta30d: item.installsDelta30d ?? 0,
-        logoUrl: cleanLogo || fallbackOwnerLogo || undefined,
-        sparkline: buildSyntheticSparkline(item.signalScore, delta),
-      };
-    });
-  const liveMcpItems: LiveMcp[] = (mcpItems ?? [])
-    .slice(0, 50)
-    .map((item): LiveMcp => {
-      const delta = item.mcp?.installs24h ?? 0;
-      const linkedOwner = item.linkedRepo?.split("/", 1)[0]?.trim() ?? "";
-      const fallbackOwnerLogo = linkedOwner
-        ? `https://github.com/${encodeURIComponent(linkedOwner)}.png?size=40`
-        : "";
-      const cleanLogo =
-        typeof item.logoUrl === "string" && item.logoUrl.trim()
-          ? item.logoUrl.trim()
-          : "";
-      return {
-        id: `mcp-${item.id}`,
-        name: item.title,
-        href: item.url,
-        sub: item.vendor ?? item.sourceLabel ?? item.topic,
-        score: item.signalScore,
-        delta24h: delta,
-        delta7d: item.installsDelta7d ?? 0,
-        delta30d: item.installsDelta30d ?? 0,
-        logoUrl: cleanLogo || fallbackOwnerLogo || undefined,
-        sparkline: buildSyntheticSparkline(item.signalScore, delta),
-      };
-    });
+    .slice(0, 5);
+  const featured = [...repos]
+    .map(repoEntity)
+    .sort(
+      (a, b) =>
+        b.score + b.delta / 100 + (b.channels ?? 0) * 4
+        - (a.score + a.delta / 100 + (a.channels ?? 0) * 4),
+    )
+    .slice(0, 5);
+  const liveRows = [...repos]
+    .sort((a, b) => b.momentumScore - a.momentumScore)
+    .slice(0, 50);
+  const liveTableRows: LiveRow[] = liveRows.map((repo) => {
+    const ps = repo.mentions?.perSource;
+    return {
+      id: repo.id,
+      fullName: repo.fullName,
+      owner: repo.owner,
+      name: repo.name,
+      href: `/repo/${repo.owner}/${repo.name}`,
+      categoryId: repo.categoryId,
+      categoryLabel: categoryLabel(repo),
+      language: repo.language ?? null,
+      stars: repo.stars,
+      starsDelta24h: repo.starsDelta24h,
+      starsDelta7d: repo.starsDelta7d,
+      starsDelta30d: repo.starsDelta30d,
+      forks: repo.forks,
+      sparklineData: repo.sparklineData,
+      momentumScore: repo.momentumScore,
+      mentionCount24h: repo.mentionCount24h ?? 0,
+      // Chip on/off uses the wider 7d window so slow-cadence sources
+      // (lobsters / npm / hf / arxiv / devto) actually fire on the row.
+      // 24h is too narrow for most non-twitter signals — the result was
+      // "8 chip slots, only github + twitter colored." Falls back to the
+      // 24h count when 7d is missing.
+      sources: {
+        gh: 1,
+        hn: ps?.hackernews.count7d ?? ps?.hackernews.count24h ?? 0,
+        r: ps?.reddit.count7d ?? ps?.reddit.count24h ?? 0,
+        b: ps?.bluesky.count7d ?? ps?.bluesky.count24h ?? 0,
+        d: ps?.devto.count7d ?? ps?.devto.count24h ?? 0,
+        lobsters: ps?.lobsters.count7d ?? ps?.lobsters.count24h ?? 0,
+        x: ps?.twitter.count7d ?? ps?.twitter.count24h ?? 0,
+        npm: ps?.npm.count7d ?? ps?.npm.count24h ?? 0,
+        hf: ps?.huggingface.count7d ?? ps?.huggingface.count24h ?? 0,
+        arxiv: ps?.arxiv.count7d ?? ps?.arxiv.count24h ?? 0,
+      },
+    };
+  });
+  const liveCategories: CategoryFacet[] = (() => {
+    const counts = new Map<string, number>();
+    for (const r of liveTableRows) {
+      counts.set(r.categoryId, (counts.get(r.categoryId) ?? 0) + 1);
+    }
+    return CATEGORIES.map((c) => ({
+      id: c.id,
+      label: c.shortName,
+      count: counts.get(c.id) ?? 0,
+    }))
+      .filter((c) => c.count > 0)
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 6);
+  })();
   const refreshed = new Date(lastFetchedAt);
   const refreshedTime = refreshed.toISOString().slice(11, 19);
   const total24h = repos.reduce(
@@ -657,7 +874,7 @@ export default async function HomePage() {
 
         <SectionHead
           num="// 01"
-          title="Trending now / top 7 by category"
+          title="Trending now / top 5 by category"
           meta={<><b>Repos</b> / Skills / MCP</>}
         />
         <div className="grid">
@@ -704,7 +921,7 @@ export default async function HomePage() {
         <SectionHead
           num="// 04"
           title="Featured / curated this week"
-          meta={<><b>3</b> picks</>}
+          meta={<><b>5</b> picks</>}
         />
         <div className="feat-grid">
           {featured.map((entity, index) => (
@@ -718,12 +935,12 @@ export default async function HomePage() {
           meta={<><b>{refreshedTime}</b> / refreshed</>}
         />
         <Card>
-          <LiveTopTable
-            repos={repos}
-            skills={liveSkillItems}
-            mcps={liveMcpItems}
-            limit={200}
-          />
+          {/* Resolved 2026-05-04: main refactored LiveTopTable to take
+              rows+categories instead of repos+skills+mcps+limit. Took
+              main's API signature. Cap-removal/limit-200 work has moved
+              to the upstream `liveTableRows` builder; raise the cap
+              there if a 200-row home table is still desired. */}
+          <LiveTopTable rows={liveTableRows} categories={liveCategories} />
         </Card>
 
         <SectionHead
@@ -741,9 +958,76 @@ export default async function HomePage() {
             <span className="tg">Categories</span>
             <span className="right">30d / <b>{formatCompact(total30d)}</b></span>
           </div>
-          <div className="chart-wrap">
-            <Tr100IndexChart points={tr100Series} />
-          </div>
+          {(() => {
+            const indexLeaders = [...repos]
+              .sort((a, b) => b.starsDelta30d - a.starsDelta30d)
+              .slice(0, 5);
+            const indexColors = [
+              "var(--acc)",
+              "var(--sig-cyan)",
+              "var(--sig-green)",
+              "var(--sig-amber)",
+              "var(--sig-red)",
+            ];
+            const indexAllValues = indexLeaders
+              .flatMap((r) => (r.sparklineData.length > 0 ? r.sparklineData : [0]));
+            const vMin = indexAllValues.length ? Math.min(...indexAllValues) : 0;
+            const vMax = indexAllValues.length ? Math.max(...indexAllValues) : 1;
+            return (
+              <>
+                <div className="chart-wrap">
+                  <svg
+                    viewBox="0 0 1100 280"
+                    preserveAspectRatio="none"
+                    aria-label="TrendingRepo top-5 leader trajectories, last 30 days"
+                  >
+                    <defs>
+                      <pattern id="tr100-grid" width="110" height="56" patternUnits="userSpaceOnUse">
+                        <path d="M110 0 H0 V56" fill="none" stroke="var(--line-100)" strokeWidth="1" />
+                      </pattern>
+                    </defs>
+                    <rect width="1100" height="280" fill="url(#tr100-grid)" opacity="0.5" />
+                    {indexLeaders.map((repo, i) => (
+                      <path
+                        key={repo.id}
+                        d={scaledSparkPath(repo.sparklineData, 1100, 280, vMin, vMax)}
+                        fill="none"
+                        stroke={indexColors[i % indexColors.length]}
+                        strokeWidth={i === 0 ? 2.4 : 1.8}
+                        strokeOpacity={i === 0 ? 1 : 0.78}
+                        vectorEffect="non-scaling-stroke"
+                      />
+                    ))}
+                  </svg>
+                </div>
+                <div className="chart-legend-row">
+                  {indexLeaders.map((repo, i) => (
+                    <a
+                      key={repo.id}
+                      className="lg"
+                      href={`/repo/${repo.owner}/${repo.name}`}
+                    >
+                      <span
+                        className="pip"
+                        style={{ background: indexColors[i % indexColors.length] }}
+                        aria-hidden
+                      />
+                      <span className="rk-n">#{String(i + 1).padStart(2, "0")}</span>
+                      <EntityLogo
+                        src={repoLogoUrl(repo.fullName, 48)}
+                        name={repo.fullName}
+                        size={20}
+                      />
+                      <span className="nm">{repo.fullName}</span>
+                      <span className={`dl ${repo.starsDelta30d < 0 ? "dn" : "up"}`}>
+                        {formatDelta(repo.starsDelta30d)}
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              </>
+            );
+          })()}
           <ChartStats>
             <ChartStat label="today / stars" value={formatCompact(total24h)} sub="+24h aggregate" />
             <ChartStat label="30d stars" value={formatCompact(total30d)} sub="rolling total" />

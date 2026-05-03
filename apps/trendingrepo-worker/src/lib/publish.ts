@@ -50,10 +50,19 @@ export interface LeaderboardItem {
   package_registry: 'npm' | 'pypi' | null;
   // For MCPs: official-vendor verification, surfaced on the /mcp pill.
   is_official_vendor: boolean;
+  // Smithery quality score (0..1) scaled to 0..100. Real per-server data
+  // from the upstream listing endpoint — used as the QUALITY column on /mcp.
+  quality_score: number | null;
+  // Glama security grade (A / B / C / F) when present.
+  security_grade: 'A' | 'B' | 'C' | 'F' | null;
+  // ISO timestamp of the most recent release / creation across sources.
+  last_release_at: string | null;
   // For MCPs: the array of registries this item appears in. Drives the
   // per-registry source pills on the /mcp page (anthropic / smithery /
-  // glama / pulsemcp / awesome-mcp).
-  raw: { sources: string[] };
+  // glama / pulsemcp / awesome-mcp). `homepage` (when present) is the
+  // upstream project URL — useful for a real favicon when `url` is a
+  // registry placeholder like `smithery.invalid/<uuid>`.
+  raw: { sources: string[]; homepage?: string };
 }
 
 export interface LeaderboardPayload {
@@ -102,6 +111,10 @@ export async function publishLeaderboard(
 function projectRow(r: TrendingItemRow, rank: number): LeaderboardItem {
   const sources = pickSources(r);
   const pkg = pickPackage(r);
+  const usage = pickMcpUsage(r);
+  const stars = pickMcpStars(r);
+  const iconUrl = pickIconUrl(r);
+  const homepage = pickHomepage(r);
   return {
     rank,
     id: r.id,
@@ -109,21 +122,132 @@ function projectRow(r: TrendingItemRow, rank: number): LeaderboardItem {
     title: r.title,
     url: r.url,
     trending_score: r.trending_score,
-    metrics: { ...pickMetrics(r), ...pickMcpUsage(r) },
+    metrics: {
+      ...pickMetrics(r),
+      ...usage,
+      ...(stars !== null ? { stars_total: stars } : {}),
+    },
     description: r.description,
     vendor: r.vendor,
     author: r.author,
     language: r.language,
     license: r.license,
-    thumbnail_url: r.thumbnail_url,
+    // Prefer a per-server icon when any source supplied one (Smithery's
+    // `iconUrl` is the big win — covers a large fraction of its catalog).
+    // Falls back to the merger's `thumbnail_url` (Simple Icons brand mark
+    // for vendor-detected rows). Consumer can still favicon by URL host.
+    thumbnail_url: iconUrl ?? r.thumbnail_url,
     tags: Array.isArray(r.tags) ? r.tags : [],
     agents: Array.isArray(r.agents) ? r.agents : [],
     cross_source_count: r.cross_source_count,
     package_name: pkg.name,
     package_registry: pkg.registry,
     is_official_vendor: pickBoolean(r.raw?.is_official_vendor) ?? false,
-    raw: { sources },
+    quality_score: pickQualityScore(r),
+    security_grade: pickSecurityGrade(r),
+    last_release_at: pickLastReleaseAt(r),
+    // Surface the upstream homepage so a Smithery item whose `r.url` is
+    // `https://smithery.invalid/<uuid>` can still render a real favicon
+    // from its actual project URL.
+    raw: { sources, ...(homepage ? { homepage } : {}) },
   };
+}
+
+// Smithery's `score` is a 0..1 quality signal on the listing endpoint.
+// Scale to 0..100 for the UI. Real per-server data; no synthesis.
+function pickQualityScore(r: TrendingItemRow): number | null {
+  if (r.type !== 'mcp') return null;
+  const smithery = r.raw?.smithery;
+  if (smithery && typeof smithery === 'object') {
+    const s = pickNumber((smithery as Record<string, unknown>).score);
+    if (s !== null && s >= 0 && s <= 1) return Math.round(s * 100);
+  }
+  return null;
+}
+
+// Glama exposes A / B / C / F security grades on its listing endpoint.
+function pickSecurityGrade(r: TrendingItemRow): 'A' | 'B' | 'C' | 'F' | null {
+  if (r.type !== 'mcp') return null;
+  // The merger writes a top-level normalized `security_grade` on raw; older
+  // rows just carry per-source `raw.glama.security_grade`/`grade`.
+  const candidates: unknown[] = [
+    r.raw?.security_grade,
+    (r.raw?.glama as Record<string, unknown> | undefined)?.security_grade,
+    (r.raw?.glama as Record<string, unknown> | undefined)?.grade,
+  ];
+  for (const v of candidates) {
+    const s = pickString(v)?.toUpperCase();
+    if (s === 'A' || s === 'B' || s === 'C' || s === 'F') return s;
+  }
+  return null;
+}
+
+// Most-recent release / creation timestamp across the four MCP sources.
+// Smithery's `createdAt` is the catalog-listing date — used as a release
+// proxy when no package metadata exists.
+function pickLastReleaseAt(r: TrendingItemRow): string | null {
+  if (r.type !== 'mcp') return null;
+  for (const src of MCP_USAGE_SOURCES) {
+    const nested = r.raw?.[src];
+    if (!nested || typeof nested !== 'object') continue;
+    const obj = nested as Record<string, unknown>;
+    const candidate =
+      pickString(obj.lastReleaseAt) ??
+      pickString(obj.createdAt) ??
+      pickString(obj.updatedAt) ??
+      pickString(obj.last_modified_at);
+    if (candidate) return candidate;
+  }
+  return null;
+}
+
+// Walk per-source raw blobs for a real GitHub `stars` count (Glama is the
+// only one that exposes it in the listing endpoint as of 2026-04-29).
+function pickMcpStars(r: TrendingItemRow): number | null {
+  if (r.type !== 'mcp') return null;
+  for (const src of MCP_USAGE_SOURCES) {
+    const nested = r.raw?.[src];
+    if (!nested || typeof nested !== 'object') continue;
+    const obj = nested as Record<string, unknown>;
+    const v = pickNumber(obj.github_stars) ?? pickNumber(obj.stars);
+    if (v !== null) return v;
+  }
+  return null;
+}
+
+// First per-server icon URL we can find across the four MCP sources. Smithery
+// emits `iconUrl` on most servers; Glama / PulseMCP / Official rarely expose
+// per-server icons. Returns null when nothing supplied — callers fall back
+// to thumbnail_url / GitHub owner avatar / registry favicon.
+function pickIconUrl(r: TrendingItemRow): string | null {
+  if (r.type !== 'mcp') return null;
+  for (const src of MCP_USAGE_SOURCES) {
+    const nested = r.raw?.[src];
+    if (!nested || typeof nested !== 'object') continue;
+    const obj = nested as Record<string, unknown>;
+    const v = pickString(obj.iconUrl) ?? pickString(obj.icon_url);
+    if (v) return v;
+  }
+  return null;
+}
+
+// Project homepage / repository URL from per-source raw so the consumer has
+// a real URL to favicon when `r.url` is a registry placeholder.
+function pickHomepage(r: TrendingItemRow): string | null {
+  if (r.type !== 'mcp') return null;
+  for (const src of MCP_USAGE_SOURCES) {
+    const nested = r.raw?.[src];
+    if (!nested || typeof nested !== 'object') continue;
+    const obj = nested as Record<string, unknown>;
+    const direct = pickString(obj.homepage) ?? pickString(obj.github_url);
+    if (direct) return direct;
+    const repo = obj.repository;
+    if (repo && typeof repo === 'object') {
+      const repoUrl = pickString((repo as Record<string, unknown>).url);
+      if (repoUrl) return repoUrl;
+    }
+  }
+  return null;
 }
 
 function pickMetrics(row: TrendingItemRow): LeaderboardItem['metrics'] {
@@ -220,18 +344,41 @@ function pickMcpUsage(r: TrendingItemRow): McpUsageBlock {
     visitors_4w: null,
     use_count: null,
   };
+  const updateMax = (key: keyof McpUsageBlock, v: number) => {
+    const cur = acc[key];
+    if (cur === null || v > cur) acc[key] = v;
+  };
   for (const src of MCP_USAGE_SOURCES) {
     const nested = r.raw?.[src];
     if (!nested || typeof nested !== 'object') continue;
-    const metrics = (nested as Record<string, unknown>).metrics;
-    if (!metrics || typeof metrics !== 'object') continue;
-    for (const [srcKey, unifiedKey] of Object.entries(SOURCE_TO_UNIFIED)) {
-      const v = (metrics as Record<string, unknown>)[srcKey];
-      const n = pickNumber(v);
-      if (n === null) continue;
-      const cur = acc[unifiedKey];
-      if (cur === null || n > cur) acc[unifiedKey] = n;
+    const obj = nested as Record<string, unknown>;
+    // Modern path: per-source `metrics` subobject (set by buildMetrics in
+    // each source's client). Newer Railway worker writes this; old rows may
+    // not.
+    const metrics = obj.metrics;
+    if (metrics && typeof metrics === 'object') {
+      for (const [srcKey, unifiedKey] of Object.entries(SOURCE_TO_UNIFIED)) {
+        const n = pickNumber((metrics as Record<string, unknown>)[srcKey]);
+        if (n !== null) updateMax(unifiedKey, n);
+      }
     }
+    // Legacy path: flat upstream fields on the per-source raw blob.
+    // Smithery rows pre-metrics-subobject have `useCount` directly. Glama
+    // exposes `useCount`/`installs`/`downloads` flat. PulseMCP exposes
+    // visitors via `_meta` keys we can't easily walk here, so the modern
+    // path is what fills those.
+    const flatUseCount =
+      pickNumber(obj.useCount) ??
+      pickNumber(obj.use_count) ??
+      pickNumber(obj.installs) ??
+      pickNumber(obj.install_count) ??
+      pickNumber(obj.downloads);
+    if (flatUseCount !== null) updateMax('use_count', flatUseCount);
+    const flatVisitors =
+      pickNumber(obj.visitors_4w) ??
+      pickNumber(obj.visitorsLastFourWeeks) ??
+      pickNumber(obj.visitors);
+    if (flatVisitors !== null) updateMax('visitors_4w', flatVisitors);
   }
   // Strip null entries so the payload only carries what's known.
   const out: McpUsageBlock = {};

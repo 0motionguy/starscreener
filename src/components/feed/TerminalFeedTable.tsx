@@ -37,6 +37,14 @@ interface TerminalFeedTableProps<T> {
   /** Empty-state copy. */
   emptyTitle?: string;
   emptySubtitle?: string;
+  /**
+   * Force `table-layout: fixed`. Default off (auto layout) keeps the
+   * /lobsters etc. story-title cells flexible. Set true on pages where one
+   * cell can hold huge unbreakable strings (npm registry descriptions) and
+   * blow the column past the viewport — pair with explicit `width` on every
+   * column for predictable distribution.
+   */
+  fixedLayout?: boolean;
 }
 
 const HIDE_BELOW_CLASS: Record<NonNullable<FeedColumn<unknown>["hideBelow"]>, string> = {
@@ -65,6 +73,7 @@ export function TerminalFeedTable<T>({
   caption,
   emptyTitle = "No items in this window.",
   emptySubtitle,
+  fixedLayout = false,
 }: TerminalFeedTableProps<T>) {
   if (rows.length === 0) {
     return (
@@ -102,7 +111,13 @@ export function TerminalFeedTable<T>({
         borderRadius: 2,
       }}
     >
-      <table className="w-full text-[12px]" style={{ borderCollapse: "collapse" }}>
+      <table
+        className="w-full text-[12px]"
+        style={{
+          borderCollapse: "collapse",
+          tableLayout: fixedLayout ? "fixed" : "auto",
+        }}
+      >
         {caption ? <caption className="sr-only">{caption}</caption> : null}
         <thead>
           <tr

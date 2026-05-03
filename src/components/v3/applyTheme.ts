@@ -3,7 +3,17 @@ import type { V3AccentTheme } from "./themes";
 export function applyV3AccentTheme(theme: V3AccentTheme) {
   const root = document.documentElement;
 
+  // Drives the [data-theme] CSS scopes in globals.css. This is what
+  // makes the recolour site-wide rather than scoped to elements that
+  // happen to read --v3-acc.
+  root.dataset.theme = theme.id;
   root.dataset.v3Accent = theme.id;
+
+  // Also prime the cascade variables so legacy callers that read
+  // --v3-acc / --color-accent / --v2-acc / --color-brand directly keep
+  // working. The CSS scopes still win because they apply later in the
+  // cascade, but this keeps SSR / first-paint colour stable when the
+  // pre-paint script has already run.
   root.style.setProperty("--v3-acc", theme.acc);
   root.style.setProperty("--v3-acc-hover", theme.accHover);
   root.style.setProperty("--v3-acc-dim", theme.accDim);

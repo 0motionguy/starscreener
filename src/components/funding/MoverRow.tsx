@@ -105,21 +105,23 @@ export function MoverRow({
 }
 
 function stageToClass(stage: string): string {
-  // Series E/F/G + Growth/IPO are "mega" — orange treatment.
-  const upper = stage.toUpperCase();
-  if (
-    upper.includes("F") ||
-    upper.includes("E") ||
-    upper === "GROWTH" ||
-    upper === "IPO" ||
-    upper === "M&A"
-  ) {
+  // Match the trailing tier letter explicitly. Earlier substring checks
+  // (e.g. `upper.includes("E")`) matched "SERIES" itself and bucketed every
+  // round into the orange "mega" class, making /funding look broken (every
+  // pill the same colour). Use a regex anchored to the end of the string so
+  // "SERIES A" → A, "SERIES E" → mega, "SEED" → seed.
+  const upper = stage.toUpperCase().trim();
+  if (upper === "GROWTH" || upper === "IPO" || upper === "M&A") {
     return "v4-mover-row__stage--mega";
   }
-  if (upper.includes("D")) return "v4-mover-row__stage--d";
-  if (upper.includes("C")) return "v4-mover-row__stage--c";
-  if (upper.includes("B")) return "v4-mover-row__stage--b";
-  if (upper.includes("A")) return "v4-mover-row__stage--a";
-  if (upper.includes("SEED")) return "v4-mover-row__stage--seed";
+  if (upper.startsWith("SEED") || upper === "PRE-SEED") {
+    return "v4-mover-row__stage--seed";
+  }
+  // Series E/F/G+ → mega (late-stage / growth equivalents)
+  if (/SERIES\s+[EFG]\+?$/.test(upper)) return "v4-mover-row__stage--mega";
+  if (/SERIES\s+D\+?$/.test(upper)) return "v4-mover-row__stage--d";
+  if (/SERIES\s+C\+?$/.test(upper)) return "v4-mover-row__stage--c";
+  if (/SERIES\s+B\+?$/.test(upper)) return "v4-mover-row__stage--b";
+  if (/SERIES\s+A\+?$/.test(upper)) return "v4-mover-row__stage--a";
   return "v4-mover-row__stage--default";
 }

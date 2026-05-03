@@ -4,30 +4,10 @@
 
 import Link from "next/link";
 import type { ConsensusStory } from "@/lib/signals/consensus";
-import type { SourceKey } from "@/lib/signals/types";
 import { Card, CardHeader } from "@/components/ui/Card";
-
-const SOURCE_LABEL: Record<SourceKey, string> = {
-  hn: "HN",
-  github: "GH",
-  x: "X",
-  reddit: "R",
-  bluesky: "BS",
-  devto: "D",
-  claude: "C",
-  openai: "O",
-};
-
-const SOURCE_COLOR: Record<SourceKey, string> = {
-  hn: "var(--source-hackernews)",
-  github: "var(--source-github)",
-  x: "var(--source-x)",
-  reddit: "var(--source-reddit)",
-  bluesky: "var(--source-bluesky)",
-  devto: "var(--source-dev)",
-  claude: "var(--source-claude)",
-  openai: "var(--source-openai)",
-};
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoLogoUrl } from "@/lib/logos";
+import { SourceMark, SOURCE_BRAND_COLOR } from "./SourceMark";
 
 function buildSparkPath(
   spark: number[],
@@ -128,6 +108,16 @@ export function ConsensusRadar({ stories, totalActive }: ConsensusRadarProps) {
               ? `/repo/${story.linkedRepo}`
               : story.lead.url ?? "#";
             const isInternal = !!story.linkedRepo;
+            const logoSrc = story.linkedRepo
+              ? repoLogoUrl(story.linkedRepo, 64)
+              : null;
+            // When the story has no linked repo (e.g. news / RSS / X post
+            // not tied to a tracked repo), the EntityLogo would render a
+            // grey monogram — making the row feel logo-less. Fall back to
+            // the lead source's brand mark so every row carries a visible,
+            // identifying glyph.
+            const showSourceMarkFallback = !logoSrc;
+            const fallbackSource = story.lead.source;
 
             const visibleSources = story.sources.slice(0, 5);
             const moreCount = story.sources.length - visibleSources.length;
@@ -184,6 +174,34 @@ export function ConsensusRadar({ stories, totalActive }: ConsensusRadarProps) {
                       {story.delta >= 0 ? `+${story.delta}` : story.delta}
                     </span>
                   </div>
+                  {showSourceMarkFallback ? (
+                    <span
+                      className="cons-av"
+                      title={fallbackSource}
+                      aria-label={fallbackSource}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: 24,
+                        height: 24,
+                        flexShrink: 0,
+                        borderRadius: 2,
+                        background: `color-mix(in srgb, ${SOURCE_BRAND_COLOR[fallbackSource]} 22%, transparent)`,
+                        border: `1px solid color-mix(in srgb, ${SOURCE_BRAND_COLOR[fallbackSource]} 55%, transparent)`,
+                        color: SOURCE_BRAND_COLOR[fallbackSource],
+                      }}
+                    >
+                      <SourceMark source={fallbackSource} size={14} monochrome />
+                    </span>
+                  ) : (
+                    <EntityLogo
+                      src={logoSrc}
+                      name={story.linkedRepo ?? story.title}
+                      size={24}
+                      className="cons-av"
+                    />
+                  )}
                   <div className="nm">
                     <div
                       className="h"
@@ -231,11 +249,19 @@ export function ConsensusRadar({ stories, totalActive }: ConsensusRadarProps) {
                     {visibleSources.map((s) => (
                       <span
                         key={s}
-                        className="sd"
-                        style={{ background: SOURCE_COLOR[s] }}
+                        className="sd cons-srcmark"
                         title={s}
+                        aria-label={s}
+                        style={{
+                          // Soft brand-tint background so the colored mark
+                          // reads against the dark page bg without a hard
+                          // colored badge.
+                          background: `color-mix(in srgb, ${SOURCE_BRAND_COLOR[s]} 22%, transparent)`,
+                          borderColor: `color-mix(in srgb, ${SOURCE_BRAND_COLOR[s]} 55%, transparent)`,
+                          color: SOURCE_BRAND_COLOR[s],
+                        }}
                       >
-                        {SOURCE_LABEL[s]}
+                        <SourceMark source={s} size={11} monochrome />
                       </span>
                     ))}
                     {moreCount > 0 ? (

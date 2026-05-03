@@ -12,7 +12,7 @@
 // Run: npx tsx scripts/snapshot-consensus.ts
 // Cron: 23:55 UTC daily via .github/workflows/snapshot-consensus.yml
 
-import { getDataStore } from "@/lib/data-store";
+import { closeDataStore, getDataStore } from "@/lib/data-store";
 import { todayUtcDate } from "@/lib/top10/snapshots";
 
 const TTL_SECONDS = 90 * 24 * 60 * 60; // 90-day retention
@@ -39,10 +39,9 @@ async function assertConsensusTrendingFresh(): Promise<void> {
       ? DEFAULT_MAX_AGE_HOURS
       : Number(rawMax);
   if (!Number.isFinite(maxAgeHours) || maxAgeHours < 0) {
-    console.error(
+    throw new Error(
       `[snapshot-consensus] ABORT: SNAPSHOT_MAX_AGE_HOURS=${rawMax} is not a valid non-negative number`,
     );
-    process.exit(1);
   }
 
   const store = getDataStore();
@@ -116,8 +115,12 @@ async function main(): Promise<void> {
 }
 
 main()
-  .then(() => process.exit(0))
-  .catch((err) => {
+  .then(async () => {
+    await closeDataStore();
+    process.exit(0);
+  })
+  .catch(async (err) => {
     console.error("[snapshot-consensus] FAILED", err);
+    await closeDataStore();
     process.exit(1);
   });

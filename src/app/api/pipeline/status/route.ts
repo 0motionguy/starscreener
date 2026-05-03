@@ -40,6 +40,7 @@ import {
   FAST_DATA_STALE_THRESHOLD_MS,
   getDegradedScannerSources,
   getScannerSourceHealth,
+  refreshScannerSourceHealthFromStore,
   type ScannerSourceHealth,
 } from "@/lib/source-health";
 import { getDerivedRepoCount, getDerivedRepos } from "@/lib/derived-repos";
@@ -111,6 +112,7 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
       refreshRecentReposFromStore(),
       refreshRepoMetadataFromStore(),
       refreshCollectionRankingsFromStore(),
+      refreshScannerSourceHealthFromStore(),
     ]);
 
     const lastFetchedAt = getLastFetchedAt();

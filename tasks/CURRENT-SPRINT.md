@@ -1,13 +1,13 @@
 # CURRENT SPRINT — Sprint 1: Pool Verification + Source Activation
 
-Status: IN PROGRESS - Phase 1.2 Reddit User-Agent pool
+Status: IN PROGRESS - Phase 1.3 Twitter Apify + Nitter fallback
 Started: 2026-05-03
 Target completion: 2026-05-10
 
 ## Phase tracking
 - [x] 1.1 GitHub pool runtime telemetry
 - [x] 1.2 Reddit User-Agent pool
-- [ ] 1.3 Twitter Apify + Nitter fallback
+- [x] 1.3 Twitter Apify + Nitter fallback
 - [ ] 1.4 /admin/keys dashboard
 - [ ] 1.5 Sentry verification + error class hierarchy
 
@@ -64,7 +64,28 @@ See individual phase prompts.
   54/54; `npx vitest run tests/reddit-source.test.ts` passed 2/2;
   root `npm run typecheck` passed; worker `npm run typecheck` passed;
   `npm run lint:guards` passed.
+- 2026-05-03 landing/signals production wiring repair shipped (no file removals):
+  landing skills board now shows only live skill rows (no repo fallback),
+  landing consensus list expanded to 8 rows, live table stars now render
+  strong white starred values, and `/signals` source chips now show
+  per-source counts with brand-tinted dark active states instead of white
+  pills. Consensus radar rows now render project logos (`EntityLogo`) plus
+  source marks. Verification: `npx vitest run
+  src/lib/__vitest__/home-page-honesty.test.ts
+  src/components/home/__tests__/LiveTopTable.test.tsx
+  src/components/signals-terminal/__tests__/SourceFilterBar.test.tsx` passed
+  5/5; `npm run typecheck` passed; `npm run build` passed; production deploy
+  completed at
+  `https://starscreener-r8xdgyr4r-kermits-projects-6330acd4.vercel.app`;
+  `https://trendingrepo.com/signals` now contains `signals-chip-count` and
+  `--chip-color` markers, and `https://trendingrepo.com/` renders 8
+  `cons-row` entries.
 - 2026-05-03 Phase 1.2 hardening pass: added `config/reddit-user-agents.json`,
   new Redis telemetry/quarantine primitives in `src/lib/pool/reddit-*.ts`,
   extended `EngineError` with Reddit classes, and wired app + shared Reddit
   fetch paths to use pool selection with quarantine signaling on 429/403/5xx.
+- 2026-05-03 Phase 1.3 done: added Nitter instance pool config
+  (`config/nitter-instances.json`), Twitter fallback telemetry and runtime
+  adapters (`src/lib/pool/twitter-*.ts`), nightly Nitter health workflow
+  (`.github/workflows/check-nitter.yml`), and migrated the main Twitter
+  collector to route Apify calls through the new Apify->Nitter fallback path.

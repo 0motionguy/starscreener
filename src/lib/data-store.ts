@@ -101,6 +101,8 @@ export interface DataStore {
    * disabled — callers must handle the no-Redis fallback themselves.
    */
   redisClient(): RedisClientLike | null;
+  /** Close underlying network clients so one-shot scripts can exit cleanly. */
+  close?(): Promise<void>;
 }
 
 // ---------------------------------------------------------------------------
@@ -183,6 +185,7 @@ export interface RedisClientLike {
     opts?: { ex?: number; nx?: boolean },
   ): Promise<unknown>;
   del(...keys: string[]): Promise<number>;
+  close?(): Promise<void> | void;
 }
 
 // Backwards-compat alias for tests + external callers that still import
@@ -404,6 +407,10 @@ class DefaultDataStore implements DataStore {
 
   redisClient(): RedisClientLike | null {
     return this.redis;
+  }
+
+  async close(): Promise<void> {
+    await this.redis?.close?.();
   }
 }
 
@@ -635,6 +642,13 @@ function defaultRedisFactory(url: string, token?: string): RedisClientLike {
       return c.set(key, value);
     },
     del: (...keys) => client.del(...keys),
+    close: async () => {
+      try {
+        await client.quit();
+      } catch {
+        client.disconnect();
+      }
+    },
   };
 }
 
@@ -649,6 +663,14 @@ export function getDataStore(): DataStore {
     singleton = createDataStore();
   }
   return singleton;
+}
+
+export async function closeDataStore(): Promise<void> {
+  const store = singleton;
+  singleton = null;
+  if (store) {
+    await store.close?.();
+  }
 }
 
 /** Test-only — clear the singleton so each test gets a fresh client. */

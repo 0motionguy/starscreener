@@ -9,8 +9,6 @@ export interface KpiStripProps {
   topTagDelta: number | null;
   topTagCount: number | null;
   consensusCount: number;
-  alphaScore: number;
-  alphaDelta: number;
   freshnessLabel: string;
   /** "1H" / "24H" / "7D" / "30D" — drives volume + change-vs-prior copy. */
   windowLabel: string;
@@ -37,18 +35,20 @@ export function KpiStrip({
   topTagDelta,
   topTagCount,
   consensusCount,
-  alphaScore,
-  alphaDelta,
   freshnessLabel,
   windowLabel,
 }: KpiStripProps) {
   const changeTone = changePct !== null && changePct < 0 ? "negative" : "positive";
   const tagTone =
     topTagDelta !== null && topTagDelta < 0 ? "negative" : "positive";
-  const alphaTone = alphaDelta < 0 ? "negative" : "accent";
+
+  // Alpha-score / heat-index KPI removed (2026-05-03) — the "alpha score" /
+  // "heat index" framing read as market-data on a code-trends newsroom.
+  // Code-trend KPIs (volume, sources live, top tag, consensus, freshness)
+  // stay; the consensus radar already surfaces story-level intensity.
 
   return (
-    <MetricGrid columns={6}>
+    <MetricGrid columns={5}>
       <Metric
         label={`Signal volume · ${windowLabel}`}
         value={totalSignals.toLocaleString("en-US")}
@@ -102,16 +102,6 @@ export function KpiStrip({
         label="Consensus stories"
         value={consensusCount.toLocaleString("en-US")}
         sub="in 3+ sources"
-      />
-      <Metric
-        label="Alpha score"
-        value={
-          <span style={{ color: "var(--color-accent)" }}>
-            {alphaScore.toFixed(1)}
-          </span>
-        }
-        sub={`heat index · ${formatDelta(alphaDelta)}`}
-        tone={alphaTone}
       />
       <Metric
         label="Data freshness"

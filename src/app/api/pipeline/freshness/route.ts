@@ -2,7 +2,11 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 import { verifyAdminAuth, verifyCronAuth } from "@/lib/api/auth";
-import { getDegradedScannerSources, getScannerSourceHealth } from "@/lib/source-health";
+import {
+  getDegradedScannerSources,
+  getScannerSourceHealth,
+  refreshScannerSourceHealthFromStore,
+} from "@/lib/source-health";
 
 export const runtime = "nodejs";
 
@@ -17,6 +21,7 @@ function canViewDetail(request: NextRequest): boolean {
 }
 
 export async function GET(request: NextRequest) {
+  await refreshScannerSourceHealthFromStore();
   const sources = getScannerSourceHealth();
   const degradedSources = getDegradedScannerSources();
   const status = sources.some((source) => source.stale)

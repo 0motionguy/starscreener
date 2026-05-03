@@ -1,67 +1,109 @@
 "use client";
 
-// AUDIT-2026-05-04 follow-up: the home page's "Live / top 50" card had
-// dead static tabs (All / Repos / Skills / MCP) and no window switcher.
-// User asked for a working 24h / 7d / 30d toggle and tab switching under
-// the ALL section. This client component owns that interactivity.
-//
-// 2026-05-02 P0 follow-up: user said the table "is FUCKED" and should
-// "display the INFORMATION from the OG chart". Original LiveTopTable was
-// just `# / Name / Stars / 24h / Score` — no sparkline, no channels, no
-// avatars. The OG terminal table has all of those. This rebuild adds:
-//   - GitHub owner avatar (per-row image) so the table reads as alive
-//   - Per-row sparkline (mini SVG) so each row carries its own trend
-//   - Channels-firing pill (HN/R/B/D/X — count of true entries in
-//     channelStatus) so cross-source momentum is visible at a glance
-//   - Momentum-driven score bar (fills 0-100% of column based on
-//     repo.momentumScore) so the "Score" column reads as a chart, not
-//     an opaque number
-//
-// Server passes the pre-derived repos + ecosystem boards (skills, mcp).
-// We sort client-side because the dataset is small (top ~50) and the
-// toggle is a tight feedback loop.
-
 import { useMemo, useState } from "react";
+import {
+  Eye,
+  GitCompareArrows,
+  ArrowUp,
+  ArrowDown,
+  ArrowUpDown,
+  Star,
+  Brain,
+  FileText,
+  Package,
+} from "lucide-react";
+
+import {
+  GithubIcon,
+  HackerNewsIcon,
+  RedditIcon,
+  BlueskyIcon,
+  DevtoIcon,
+  LobstersIcon,
+  XIcon,
+} from "@/components/brand/BrandIcons";
+import { RankStarMark } from "@/components/brand/RankStarMark";
+import { useCompareStore, useWatchlistStore } from "@/lib/store";
+import {
+  toastCompareAdded,
+  toastCompareFull,
+  toastCompareRemoved,
+  toastWatchAdded,
+  toastWatchRemoved,
+} from "@/lib/toast";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoLogoUrl } from "@/lib/logos";
 import type { Repo } from "@/lib/types";
 
-export type LiveWindow = "24h" | "7d" | "30d";
-export type LiveTab = "all" | "repos" | "skills" | "mcp";
+type SortKey = "rank" | "stars" | "d24" | "d7" | "d30" | "forks" | "mentions";
+type SortDir = "asc" | "desc";
 
-export interface LiveSkill {
+interface CategoryFacet {
   id: string;
-  name: string;
-  href: string;
-  sub: string;
-  score: number;
-  delta24h: number;
-  delta7d: number;
-  delta30d: number;
-  /** Optional avatar / logo URL — falls back to monogram pip when absent. */
-  logoUrl?: string;
-  /** Optional 16-pt sparkline series. */
-  sparkline?: number[];
+  label: string;
+  count: number;
 }
 
-export interface LiveMcp {
+type LiveSourceKey =
+  | "gh"
+  | "hn"
+  | "r"
+  | "b"
+  | "d"
+  | "lobsters"
+  | "x"
+  | "npm"
+  | "hf"
+  | "arxiv";
+
+interface LiveRow {
   id: string;
+  fullName: string;
+  owner: string;
   name: string;
   href: string;
-  sub: string;
-  score: number;
-  delta24h: number;
-  delta7d: number;
-  delta30d: number;
-  /** Optional avatar / logo URL — falls back to monogram pip when absent. */
-  logoUrl?: string;
-  /** Optional 16-pt sparkline series. */
-  sparkline?: number[];
+  categoryId: string;
+  categoryLabel: string;
+  language: string | null;
+  stars: number;
+  starsDelta24h: number;
+  starsDelta7d: number;
+  starsDelta30d: number;
+  forks: number;
+  sparklineData: number[];
+  momentumScore: number;
+  mentionCount24h: number;
+  /** Per-source 24h count for tooltip + on/off state. Missing key = no signal. */
+  sources: Partial<Record<LiveSourceKey, number>>;
 }
 
-interface Props {
-  repos: Repo[];
-  skills: LiveSkill[];
-  mcps: LiveMcp[];
-  limit?: number;
+// Wrap brand icons to swallow extra lucide props (className, strokeWidth) the
+// shared icon-component shape passes through.
+type IconCmp = (props: { size?: number; className?: string }) => React.ReactElement;
+const NpmIcon: IconCmp = (p) => <Package {...p} />;
+const HfIcon: IconCmp = (p) => <Brain {...p} />;
+const ArxivIcon: IconCmp = (p) => <FileText {...p} />;
+
+const ROW_SOURCE_ICONS = [
+  { key: "gh", label: "GitHub", Icon: GithubIcon as IconCmp },
+  { key: "x", label: "X / Twitter", Icon: XIcon as IconCmp },
+  { key: "r", label: "Reddit", Icon: RedditIcon as IconCmp },
+  { key: "hn", label: "Hacker News", Icon: HackerNewsIcon as IconCmp },
+  { key: "b", label: "Bluesky", Icon: BlueskyIcon as IconCmp },
+  { key: "d", label: "dev.to", Icon: DevtoIcon as IconCmp },
+  { key: "lobsters", label: "Lobsters", Icon: LobstersIcon as IconCmp },
+  { key: "npm", label: "npm", Icon: NpmIcon },
+  { key: "hf", label: "HuggingFace", Icon: HfIcon },
+  { key: "arxiv", label: "arXiv", Icon: ArxivIcon },
+] as const satisfies ReadonlyArray<{
+  key: LiveSourceKey;
+  label: string;
+  Icon: IconCmp;
+}>;
+
+interface LiveTopTableProps {
+  rows: LiveRow[];
+  categories: CategoryFacet[];
 }
 
 const compactNumber = new Intl.NumberFormat("en-US", {
@@ -78,16 +120,10 @@ function formatDelta(value: number): string {
   return `${value >= 0 ? "+" : "-"}${abs}`;
 }
 
-function deltaForWindow(repo: Repo, w: LiveWindow): number {
-  if (w === "24h") return repo.starsDelta24h;
-  if (w === "7d") return repo.starsDelta7d;
-  return repo.starsDelta30d;
-}
-
-function skillDeltaForWindow(item: LiveSkill | LiveMcp, w: LiveWindow): number {
-  if (w === "24h") return item.delta24h;
-  if (w === "7d") return item.delta7d;
-  return item.delta30d;
+function formatPct(delta: number, base: number): string | null {
+  if (base <= 0 || delta === 0) return null;
+  const pct = Math.round((delta / Math.max(1, base - delta)) * 100);
+  return `${pct >= 0 ? "+" : ""}${pct}%`;
 }
 
 function sparkPath(values: number[], width: number, height: number): string {
@@ -104,443 +140,438 @@ function sparkPath(values: number[], width: number, height: number): string {
     .join(" ");
 }
 
-function MiniSpark({
-  values,
-  positive,
+// End-point coords used for the trailing dot in the area-fill spark.
+function sparkEnd(
+  values: number[],
+  width: number,
+  height: number,
+): { x: number; y: number } {
+  const points = values.length > 1 ? values : [1, 1];
+  const max = Math.max(...points);
+  const min = Math.min(...points);
+  const span = max - min || 1;
+  const lastIdx = points.length - 1;
+  const lastVal = points[lastIdx];
+  const x = (lastIdx / Math.max(1, points.length - 1)) * (width - 2) + 1;
+  const y = height - 2 - ((lastVal - min) / span) * (height - 4);
+  return { x, y };
+}
+
+let __ltSparkGrad = 0;
+
+function compareNumeric(a: number, b: number, dir: SortDir): number {
+  return dir === "asc" ? a - b : b - a;
+}
+
+function getSortValue(row: LiveRow, key: SortKey): number {
+  switch (key) {
+    case "stars":
+      return row.stars;
+    case "d24":
+      return row.starsDelta24h;
+    case "d7":
+      return row.starsDelta7d;
+    case "d30":
+      return row.starsDelta30d;
+    case "forks":
+      return row.forks;
+    case "mentions":
+      return row.mentionCount24h;
+    case "rank":
+    default:
+      return row.momentumScore;
+  }
+}
+
+function SortHeader({
+  label,
+  sortKey,
+  active,
+  dir,
+  onClick,
+  className = "num",
 }: {
-  values: readonly number[];
-  positive: boolean;
+  label: string;
+  sortKey: SortKey;
+  active: boolean;
+  dir: SortDir;
+  onClick: (key: SortKey) => void;
+  className?: string;
 }) {
-  const arr = Array.isArray(values) ? values.slice(-16) : [];
-  if (arr.length < 2) {
-    // Render a flat dim placeholder rather than collapsing to 0px so the
-    // column width stays stable across rows.
-    return (
-      <svg
-        width="64"
-        height="18"
-        viewBox="0 0 64 18"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-        style={{ display: "block" }}
-      >
-        <line
-          x1="1"
-          y1="9"
-          x2="63"
-          y2="9"
-          stroke="var(--ink-400, #8a8a8a)"
-          strokeOpacity={0.35}
-          strokeDasharray="2 2"
-        />
-      </svg>
-    );
-  }
-  const stroke = positive ? "var(--sig-green, #22c55e)" : "var(--sig-red, #ef4444)";
   return (
-    <svg
-      width="64"
-      height="18"
-      viewBox="0 0 64 18"
-      preserveAspectRatio="none"
-      aria-hidden="true"
-      style={{ display: "block" }}
-    >
-      <path
-        d={sparkPath([...arr], 64, 18)}
-        fill="none"
-        stroke={stroke}
-        strokeWidth="1.4"
-        vectorEffect="non-scaling-stroke"
-      />
-    </svg>
+    <th className={`${className} sortable ${active ? "active" : ""}`}>
+      <button type="button" onClick={() => onClick(sortKey)}>
+        <span>{label}</span>
+        {active ? (
+          dir === "desc" ? (
+            <ArrowDown size={11} strokeWidth={2} />
+          ) : (
+            <ArrowUp size={11} strokeWidth={2} />
+          )
+        ) : (
+          <ArrowUpDown size={11} strokeWidth={1.5} className="dim" />
+        )}
+      </button>
+    </th>
   );
 }
 
-function MomentumBar({ score }: { score: number }) {
-  const clamped = Math.max(0, Math.min(100, score));
-  const tone =
-    clamped >= 70
-      ? "var(--sig-green, #22c55e)"
-      : clamped >= 40
-        ? "var(--acc, #ff6a00)"
-        : "var(--ink-400, #8a8a8a)";
-  return (
-    <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 6,
-        fontVariantNumeric: "tabular-nums",
-      }}
-    >
-      <span
-        aria-hidden="true"
-        style={{
-          width: 36,
-          height: 4,
-          background: "var(--bg-050, #161616)",
-          border: "1px solid var(--line-200, #1f1f1f)",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <span
-          style={{
-            display: "block",
-            width: `${clamped}%`,
-            height: "100%",
-            background: tone,
-          }}
-        />
-      </span>
-      <span style={{ minWidth: 28, textAlign: "right" }}>{clamped.toFixed(0)}</span>
-    </span>
-  );
-}
-
-const CHANNEL_LABELS: Record<string, string> = {
-  github: "GH",
-  reddit: "R",
-  hn: "HN",
-  bluesky: "B",
-  devto: "D",
-  twitter: "X",
-};
-
-function ChannelsFiring({
-  status,
-  count,
+function ActionCell({
+  repoId,
+  repoName,
+  stars,
 }: {
-  status?: Repo["channelStatus"];
-  count?: number;
+  repoId: string;
+  repoName: string;
+  stars: number;
 }) {
-  // Prefer the per-channel pill view when we know which channels fired;
-  // otherwise show a numeric badge so the column carries data either way.
-  const pills = status
-    ? Object.entries(status)
-        .filter(([, on]) => on)
-        .map(([k]) => CHANNEL_LABELS[k] ?? k.slice(0, 1).toUpperCase())
-    : [];
-  if (pills.length === 0 && (!count || count <= 0)) {
-    return (
-      <span
-        style={{
-          color: "var(--ink-400, #8a8a8a)",
-          fontFamily: "var(--font-mono), monospace",
-          fontSize: 10,
-        }}
-      >
-        —
-      </span>
-    );
-  }
-  if (pills.length === 0) {
-    return (
-      <span
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          padding: "1px 6px",
-          fontFamily: "var(--font-mono), monospace",
-          fontSize: 10,
-          letterSpacing: "0.06em",
-          color: "var(--ink-200, #d6d6d6)",
-          background: "var(--bg-050, #161616)",
-          border: "1px solid var(--line-200, #1f1f1f)",
-          borderRadius: 2,
-          fontVariantNumeric: "tabular-nums",
-        }}
-      >
-        {count} src
-      </span>
-    );
-  }
+  const isWatched = useWatchlistStore((s) =>
+    s.repos.some((r) => r.repoId === repoId),
+  );
+  const toggleWatch = useWatchlistStore((s) => s.toggleWatch);
+
+  const isComparing = useCompareStore((s) => s.repos.includes(repoId));
+  const compareCount = useCompareStore((s) => s.repos.length);
+  const addCompare = useCompareStore((s) => s.addRepo);
+  const removeCompare = useCompareStore((s) => s.removeRepo);
+  const compareDisabled = !isComparing && compareCount >= 4;
+
+  const onToggleWatch = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const wasWatched = isWatched;
+    toggleWatch(repoId, stars);
+    if (wasWatched) toastWatchRemoved(repoName);
+    else toastWatchAdded(repoName);
+  };
+
+  const onToggleCompare = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (isComparing) {
+      removeCompare(repoId);
+      toastCompareRemoved(useCompareStore.getState().repos.length);
+      return;
+    }
+    if (useCompareStore.getState().isFull()) {
+      toastCompareFull();
+      return;
+    }
+    addCompare(repoId);
+    toastCompareAdded(useCompareStore.getState().repos.length);
+  };
+
   return (
-    <span
-      style={{
-        display: "inline-flex",
-        gap: 3,
-        fontFamily: "var(--font-mono), monospace",
-        fontSize: 9,
-        letterSpacing: "0.04em",
-      }}
-    >
-      {pills.map((label) => (
-        <span
-          key={label}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            minWidth: 16,
-            padding: "1px 3px",
-            color: "var(--acc, #ff6a00)",
-            background: "rgba(255, 106, 0, 0.08)",
-            border: "1px solid rgba(255, 106, 0, 0.4)",
-            borderRadius: 2,
-          }}
-        >
-          {label}
-        </span>
-      ))}
-    </span>
+    <td className="actions">
+      <button
+        type="button"
+        className={`act-btn ${isWatched ? "on" : ""}`}
+        onClick={onToggleWatch}
+        aria-pressed={isWatched}
+        aria-label={isWatched ? "Remove from watchlist" : "Add to watchlist"}
+        title={isWatched ? "Remove from watchlist (W)" : "Add to watchlist (W)"}
+      >
+        <Eye size={14} strokeWidth={1.7} />
+      </button>
+      <button
+        type="button"
+        className={`act-btn ${isComparing ? "on" : ""}`}
+        onClick={onToggleCompare}
+        aria-pressed={isComparing}
+        aria-disabled={compareDisabled}
+        aria-label={
+          isComparing
+            ? "Remove from compare"
+            : compareDisabled
+              ? "Compare is full"
+              : "Add to compare"
+        }
+        title={
+          compareDisabled
+            ? "Compare is full — remove one first"
+            : isComparing
+              ? "Remove from compare (C)"
+              : "Add to compare (C)"
+        }
+        disabled={compareDisabled}
+      >
+        <GitCompareArrows size={14} strokeWidth={1.7} />
+      </button>
+    </td>
   );
 }
 
-function RowAvatar({ src, name }: { src?: string; name: string }) {
-  const initial = (name.trim().charAt(0) || "?").toUpperCase();
-  if (!src) {
-    return (
-      <span
-        aria-hidden="true"
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: 18,
-          height: 18,
-          borderRadius: 2,
-          background: "var(--bg-050, #161616)",
-          border: "1px solid var(--line-200, #1f1f1f)",
-          color: "var(--ink-300, #b6b6b6)",
-          fontFamily: "var(--font-mono), monospace",
-          fontSize: 9,
-          fontWeight: 600,
-        }}
-      >
-        {initial}
-      </span>
+export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
+  const [sortKey, setSortKey] = useState<SortKey>("rank");
+  const [sortDir, setSortDir] = useState<SortDir>("desc");
+  const [activeCat, setActiveCat] = useState<string | null>(null);
+
+  const handleSort = (key: SortKey) => {
+    if (key === sortKey) {
+      setSortDir((d) => (d === "desc" ? "asc" : "desc"));
+    } else {
+      setSortKey(key);
+      setSortDir("desc");
+    }
+  };
+
+  const visible = useMemo(() => {
+    const filtered = activeCat
+      ? rows.filter((r) => r.categoryId === activeCat)
+      : rows;
+    const sorted = [...filtered].sort((a, b) =>
+      compareNumeric(getSortValue(a, sortKey), getSortValue(b, sortKey), sortDir),
     );
-  }
-  return (
-    /* eslint-disable-next-line @next/next/no-img-element */
-    <img
-      src={src}
-      alt=""
-      width={18}
-      height={18}
-      loading="lazy"
-      referrerPolicy="no-referrer"
-      style={{
-        width: 18,
-        height: 18,
-        borderRadius: 2,
-        objectFit: "cover",
-        flexShrink: 0,
-        background: "var(--bg-050, #161616)",
-      }}
-      aria-hidden="true"
-    />
-  );
-}
-
-export function LiveTopTable({ repos, skills, mcps, limit = 15 }: Props) {
-  const [tab, setTab] = useState<LiveTab>("all");
-  const [win, setWin] = useState<LiveWindow>("24h");
-
-  const sortedRepos = useMemo(
-    () => [...repos].sort((a, b) => deltaForWindow(b, win) - deltaForWindow(a, win)),
-    [repos, win],
-  );
-  const sortedSkills = useMemo(
-    () =>
-      [...skills].sort(
-        (a, b) => skillDeltaForWindow(b, win) - skillDeltaForWindow(a, win),
-      ),
-    [skills, win],
-  );
-  const sortedMcps = useMemo(
-    () =>
-      [...mcps].sort(
-        (a, b) => skillDeltaForWindow(b, win) - skillDeltaForWindow(a, win),
-      ),
-    [mcps, win],
-  );
+    return sorted;
+  }, [rows, sortKey, sortDir, activeCat]);
 
   return (
-    <>
-      <div className="tabs">
+    <div className="live-top">
+      <div className="live-top-filters" role="toolbar" aria-label="Filter live top by category">
         <button
           type="button"
-          className={`tab${tab === "all" ? " on" : ""}`}
-          onClick={() => setTab("all")}
+          className={`fchip ${activeCat === null ? "on" : ""}`}
+          onClick={() => setActiveCat(null)}
         >
-          All<span className="ct">{repos.length + skills.length + mcps.length}</span>
+          All <span className="ct">{rows.length}</span>
         </button>
-        <button
-          type="button"
-          className={`tab${tab === "repos" ? " on" : ""}`}
-          onClick={() => setTab("repos")}
-        >
-          Repos<span className="ct">{repos.length}</span>
-        </button>
-        <button
-          type="button"
-          className={`tab${tab === "skills" ? " on" : ""}`}
-          onClick={() => setTab("skills")}
-        >
-          Skills<span className="ct">{skills.length}</span>
-        </button>
-        <button
-          type="button"
-          className={`tab${tab === "mcp" ? " on" : ""}`}
-          onClick={() => setTab("mcp")}
-        >
-          MCP<span className="ct">{mcps.length}</span>
-        </button>
-        <span className="right">
-          <span className="win-group" role="group" aria-label="Window">
-            {(["24h", "7d", "30d"] as const).map((w) => (
-              <button
-                key={w}
-                type="button"
-                className={`tab win-tab${win === w ? " on" : ""}`}
-                onClick={() => setWin(w)}
-              >
-                {w}
-              </button>
-            ))}
-          </span>
-          <span className="live">live</span>
+        {categories.map((c) => (
+          <button
+            key={c.id}
+            type="button"
+            className={`fchip ${activeCat === c.id ? "on" : ""}`}
+            onClick={() => setActiveCat(activeCat === c.id ? null : c.id)}
+          >
+            {c.label} <span className="ct">{c.count}</span>
+          </button>
+        ))}
+        <span className="live-top-spacer" />
+        <span className="live-top-meta">
+          showing <b>{visible.length}</b> / {rows.length}
+          <span className="live-pip">live</span>
         </span>
       </div>
+
       <div className="table-scroll">
-        <table className="tbl">
+        <table className="tbl tbl-rich tbl-live">
           <thead>
             <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th className="num">Stars</th>
-              <th className="num">{win === "24h" ? "24h" : win === "7d" ? "7d" : "30d"}</th>
-              <th>Trend</th>
-              <th>Channels</th>
-              <th className="num">Momentum</th>
+              <th className="rk-h">#</th>
+              <th>Repo</th>
+              <th className="mentions-h">Mentions</th>
+              <SortHeader
+                label="Stars"
+                sortKey="stars"
+                active={sortKey === "stars"}
+                dir={sortDir}
+                onClick={handleSort}
+              />
+              <SortHeader
+                label="24h"
+                sortKey="d24"
+                active={sortKey === "d24"}
+                dir={sortDir}
+                onClick={handleSort}
+              />
+              <SortHeader
+                label="7d"
+                sortKey="d7"
+                active={sortKey === "d7"}
+                dir={sortDir}
+                onClick={handleSort}
+              />
+              <SortHeader
+                label="30d"
+                sortKey="d30"
+                active={sortKey === "d30"}
+                dir={sortDir}
+                onClick={handleSort}
+              />
+              <th className="ch">Chart</th>
+              <SortHeader
+                label="Forks"
+                sortKey="forks"
+                active={sortKey === "forks"}
+                dir={sortDir}
+                onClick={handleSort}
+              />
+              <th className="actions-h" aria-label="Actions" />
             </tr>
           </thead>
           <tbody>
-            {(tab === "all" || tab === "repos") &&
-              sortedRepos.slice(0, limit).map((repo, index) => {
-                const delta = deltaForWindow(repo, win);
-                const avatar =
-                  repo.ownerAvatarUrl ||
-                  `https://github.com/${encodeURIComponent(repo.owner)}.png?size=40`;
-                const channelCount =
-                  repo.channelsFiring ??
-                  (repo.channelStatus
-                    ? Object.values(repo.channelStatus).filter(Boolean).length
-                    : undefined);
-                return (
-                  <tr key={`r-${repo.id}`}>
-                    <td>{String(index + 1).padStart(2, "0")}</td>
-                    <td>
-                      <a
-                        href={`/repo/${repo.owner}/${repo.name}`}
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          gap: 8,
-                          minHeight: 32,
-                        }}
-                      >
-                        <RowAvatar src={avatar} name={repo.owner} />
-                        <span style={{ display: "flex", flexDirection: "column", minWidth: 0, gap: 2 }}>
-                          <span>{repo.fullName}</span>
-                          <small>repo / {repo.language ?? "mixed"}</small>
-                        </span>
-                      </a>
-                    </td>
-                    <td className="num">{formatCompact(repo.stars)}</td>
-                    <td className={`num ${delta >= 0 ? "up" : "dn"}`}>{formatDelta(delta)}</td>
-                    <td>
-                      <MiniSpark values={repo.sparklineData ?? []} positive={delta >= 0} />
-                    </td>
-                    <td>
-                      <ChannelsFiring status={repo.channelStatus} count={channelCount} />
-                    </td>
-                    <td className="num">
-                      <MomentumBar score={repo.momentumScore} />
-                    </td>
-                  </tr>
-                );
-              })}
-            {(tab === "all" || tab === "skills") &&
-              sortedSkills.slice(0, limit).map((item, index) => {
-                const delta = skillDeltaForWindow(item, win);
-                return (
-                  <tr key={`s-${item.id}`}>
-                    <td>{String(index + 1).padStart(2, "0")}</td>
-                    <td>
-                      <a
-                        href={item.href}
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          gap: 8,
-                          minHeight: 32,
-                        }}
-                      >
-                        <RowAvatar src={item.logoUrl} name={item.name} />
-                        <span style={{ display: "flex", flexDirection: "column", minWidth: 0, gap: 2 }}>
-                          <span>{item.name}</span>
-                          <small>skill / {item.sub}</small>
-                        </span>
-                      </a>
-                    </td>
-                    <td className="num">—</td>
-                    <td className={`num ${delta >= 0 ? "up" : "dn"}`}>{formatDelta(delta)}</td>
-                    <td>
-                      <MiniSpark values={item.sparkline ?? []} positive={delta >= 0} />
-                    </td>
-                    <td>
-                      <ChannelsFiring />
-                    </td>
-                    <td className="num">
-                      <MomentumBar score={item.score} />
-                    </td>
-                  </tr>
-                );
-              })}
-            {(tab === "all" || tab === "mcp") &&
-              sortedMcps.slice(0, limit).map((item, index) => {
-                const delta = skillDeltaForWindow(item, win);
-                return (
-                  <tr key={`m-${item.id}`}>
-                    <td>{String(index + 1).padStart(2, "0")}</td>
-                    <td>
-                      <a
-                        href={item.href}
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          gap: 8,
-                          minHeight: 32,
-                        }}
-                      >
-                        <RowAvatar src={item.logoUrl} name={item.name} />
-                        <span style={{ display: "flex", flexDirection: "column", minWidth: 0, gap: 2 }}>
-                          <span>{item.name}</span>
-                          <small>mcp / {item.sub}</small>
-                        </span>
-                      </a>
-                    </td>
-                    <td className="num">—</td>
-                    <td className={`num ${delta >= 0 ? "up" : "dn"}`}>{formatDelta(delta)}</td>
-                    <td>
-                      <MiniSpark values={item.sparkline ?? []} positive={delta >= 0} />
-                    </td>
-                    <td>
-                      <ChannelsFiring />
-                    </td>
-                    <td className="num">
-                      <MomentumBar score={item.score} />
-                    </td>
-                  </tr>
-                );
-              })}
+            {visible.map((row, index) => {
+              const pct24 = formatPct(row.starsDelta24h, row.stars);
+              const pct7 = formatPct(row.starsDelta7d, row.stars);
+              const pct30 = formatPct(row.starsDelta30d, row.stars);
+              const rankCls =
+                index === 0
+                  ? "rk-1"
+                  : index === 1
+                    ? "rk-2"
+                    : index === 2
+                      ? "rk-3"
+                      : "";
+              return (
+                <tr key={row.id} className="live-row">
+                  <td className={`rk-cell ${rankCls}`}>
+                    {index < 3 ? (
+                      <span className="crown" aria-hidden>
+                        <RankStarMark />
+                      </span>
+                    ) : null}
+                    <span className="rk-n">
+                      #{String(index + 1).padStart(2, "0")}
+                    </span>
+                  </td>
+                  <td>
+                    <a className="repo-cell" href={row.href}>
+                      <EntityLogo
+                        src={repoLogoUrl(row.fullName, 64)}
+                        name={row.fullName}
+                        size={28}
+                      />
+                      <span className="repo-txt">
+                        <span>{row.fullName}</span>
+                        <small>
+                          {row.categoryLabel} / {row.language ?? "mixed"}
+                        </small>
+                      </span>
+                    </a>
+                  </td>
+                  <td className="mentions-cell">
+                    <span className="mentions-pills" aria-label="Source mentions">
+                      {ROW_SOURCE_ICONS.map(({ key, label, Icon }) => {
+                        const count = row.sources[key] ?? 0;
+                        const fired = count > 0;
+                        // Tooltip window matches the page-side mapping
+                        // (count7d for non-github sources). Keeps tooltip
+                        // honest now that chips fire on weekly signal.
+                        const tooltip = fired
+                          ? `${label}: ${count} mention${count === 1 ? "" : "s"} (7d)`
+                          : `${label}: no mentions`;
+                        return (
+                          <span
+                            key={key}
+                            className={`sd sd-${key} ${fired ? "on" : "off"}`}
+                            title={tooltip}
+                            aria-label={tooltip}
+                          >
+                            <Icon size={14} />
+                          </span>
+                        );
+                      })}
+                    </span>
+                    <span className="mentions-count">
+                      {formatCompact(row.mentionCount24h)}
+                    </span>
+                  </td>
+                  <td className="num metric-num stars-num">
+                    <span className="stars-main">
+                      <Star size={12} strokeWidth={2.1} fill="currentColor" />
+                      {formatCompact(row.stars)}
+                    </span>
+                  </td>
+                  <td className={`num metric-num ${row.starsDelta24h < 0 ? "dn" : "up"}`}>
+                    {formatDelta(row.starsDelta24h)}
+                    {pct24 ? <small className="pct">{pct24}</small> : null}
+                  </td>
+                  <td className={`num metric-num ${row.starsDelta7d < 0 ? "dn" : "up"}`}>
+                    {formatDelta(row.starsDelta7d)}
+                    {pct7 ? <small className="pct">{pct7}</small> : null}
+                  </td>
+                  <td className={`num metric-num ${row.starsDelta30d < 0 ? "dn" : "up"}`}>
+                    {formatDelta(row.starsDelta30d)}
+                    {pct30 ? <small className="pct">{pct30}</small> : null}
+                  </td>
+                  <td className="ch">
+                    {(() => {
+                      const stroke =
+                        row.starsDelta24h < 0
+                          ? "var(--sig-red)"
+                          : "var(--sig-green)";
+                      const d = sparkPath(row.sparklineData, 72, 24);
+                      const end = sparkEnd(row.sparklineData, 72, 24);
+                      const areaPath = `${d} L71,23 L1,23 Z`;
+                      const gid = `lts-${(__ltSparkGrad = (__ltSparkGrad + 1) % 1_000_000)}`;
+                      return (
+                        <svg
+                          className="spark-row"
+                          viewBox="0 0 72 24"
+                          preserveAspectRatio="none"
+                        >
+                          <defs>
+                            <linearGradient
+                              id={gid}
+                              x1="0"
+                              x2="0"
+                              y1="0"
+                              y2="1"
+                            >
+                              <stop
+                                offset="0%"
+                                stopColor={stroke}
+                                stopOpacity="0.42"
+                              />
+                              <stop
+                                offset="60%"
+                                stopColor={stroke}
+                                stopOpacity="0.12"
+                              />
+                              <stop
+                                offset="100%"
+                                stopColor={stroke}
+                                stopOpacity="0"
+                              />
+                            </linearGradient>
+                          </defs>
+                          <path d={areaPath} fill={`url(#${gid})`} />
+                          <path
+                            d={d}
+                            fill="none"
+                            stroke={stroke}
+                            strokeWidth="1.6"
+                            strokeLinejoin="round"
+                            strokeLinecap="round"
+                            vectorEffect="non-scaling-stroke"
+                          />
+                          <circle
+                            cx={end.x}
+                            cy={end.y}
+                            r="3"
+                            fill={stroke}
+                            opacity="0.22"
+                          />
+                          <circle
+                            cx={end.x}
+                            cy={end.y}
+                            r="1.6"
+                            fill={stroke}
+                          />
+                        </svg>
+                      );
+                    })()}
+                  </td>
+                  <td className="num metric-num">{formatCompact(row.forks)}</td>
+                  <ActionCell
+                    repoId={row.id}
+                    repoName={row.fullName}
+                    stars={row.stars}
+                  />
+                </tr>
+              );
+            })}
+            {visible.length === 0 ? (
+              <tr>
+                <td colSpan={10} className="live-empty">
+                  No repos match this filter.
+                </td>
+              </tr>
+            ) : null}
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 }
+
+export type { LiveRow, CategoryFacet };

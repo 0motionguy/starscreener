@@ -71,6 +71,129 @@ export function huggingFaceLogoUrl(): string {
   return HUGGING_FACE_MARK;
 }
 
+// HuggingFace org/user → real homepage domain. Lets the model/dataset/space
+// rows show the actual project's logo (NVIDIA, Google, Meta, DeepSeek, ...)
+// instead of the generic HF mark. Lowercase keys after normalizeHfAuthor()
+// (lowercased + underscores/spaces → hyphens). Unmapped authors get the
+// EntityLogo monogram tile — a colored initial — instead of a generic
+// Google-favicon globe, which looked broken for "cyankiwi" / "Jackrong" /
+// other random user accounts.
+const HF_AUTHOR_DOMAIN_MAP: ReadonlyMap<string, string> = new Map([
+  // Big tech
+  ["nvidia", "nvidia.com"],
+  ["nvidialabs", "nvidia.com"],
+  ["google", "google.com"],
+  ["google-research", "google.com"],
+  ["googleai", "google.com"],
+  ["deepmind", "deepmind.com"],
+  ["meta-llama", "meta.com"],
+  ["facebook", "meta.com"],
+  ["facebookresearch", "meta.com"],
+  ["microsoft", "microsoft.com"],
+  ["apple", "apple.com"],
+  ["mlx-community", "apple.com"],
+  ["amazon", "aws.amazon.com"],
+  ["aws", "aws.amazon.com"],
+  ["intel", "intel.com"],
+  ["ibm", "ibm.com"],
+  ["ibm-granite", "ibm.com"],
+  ["xiaomi", "xiaomi.com"],
+  ["xiaomimimo", "xiaomi.com"],
+  ["baidu", "baidu.com"],
+
+  // AI labs
+  ["mistralai", "mistral.ai"],
+  ["mistral-ai", "mistral.ai"],
+  ["mistral", "mistral.ai"],
+  ["anthropic", "anthropic.com"],
+  ["openai", "openai.com"],
+  ["deepseek-ai", "deepseek.com"],
+  ["deepseek", "deepseek.com"],
+  ["qwen", "qwenlm.ai"],
+  ["tongyi-mai", "qwenlm.ai"],
+  ["alibaba-nlp", "alibaba.com"],
+  ["alibaba", "alibaba.com"],
+  ["stabilityai", "stability.ai"],
+  ["stability-ai", "stability.ai"],
+  ["tencent", "tencent.com"],
+  ["tencentarc", "tencent.com"],
+  ["bytedance", "bytedance.com"],
+  ["bytedance-research", "bytedance.com"],
+  ["bigcode", "bigcode-project.org"],
+  ["bigscience", "bigscience.huggingface.co"],
+  ["xai-org", "x.ai"],
+  ["x-ai", "x.ai"],
+  ["nousresearch", "nousresearch.com"],
+  ["allenai", "allenai.org"],
+  ["snowflake", "snowflake.com"],
+  ["databricks", "databricks.com"],
+  ["cohere", "cohere.com"],
+  ["cohereforai", "cohere.com"],
+  ["upstage", "upstage.ai"],
+  ["jinaai", "jina.ai"],
+  ["jina-ai", "jina.ai"],
+  ["sentence-transformers", "sbert.net"],
+  ["unsloth", "unsloth.ai"],
+  ["bartowski", "bartowski.dev"],
+  ["thudm", "thudm.org"],
+  ["zhipu", "zhipuai.cn"],
+  ["zhipuai", "zhipuai.cn"],
+  ["zai-org", "z.ai"],
+  ["z-lab", "z.ai"],
+  ["01-ai", "01.ai"],
+  ["yi-1-5", "01.ai"],
+  ["lmsys", "lmsys.org"],
+  ["fireworks-ai", "fireworks.ai"],
+  ["nomic-ai", "nomic.ai"],
+  ["llamaindex", "llamaindex.ai"],
+  ["modal-labs", "modal.com"],
+  ["replicate", "replicate.com"],
+  ["runwayml", "runwayml.com"],
+  ["black-forest-labs", "blackforestlabs.ai"],
+  ["minimaxai", "minimaxi.com"],
+  ["minimax-ai", "minimaxi.com"],
+  ["moonshotai", "moonshot.cn"],
+  ["sensenova", "sensetime.com"],
+  ["sensetime", "sensetime.com"],
+  ["openbmb", "openbmb.cn"],
+  ["lightricks", "lightricks.com"],
+  ["kai-os", "kaiostech.com"],
+  ["poolside", "poolside.ai"],
+  ["inclusionai", "inclusionai.com"],
+  ["k2-fsa", "k2-fsa.org"],
+  ["sbintuitions", "sbintuitions.sakura.ne.jp"],
+  ["openmed", "openmed.ai"],
+  ["llamafactory", "llamafactory.io"],
+]);
+
+function normalizeHfAuthor(author: string | null | undefined): string {
+  return typeof author === "string"
+    ? author.trim().toLowerCase().replace(/[_\s]+/g, "-")
+    : "";
+}
+
+/**
+ * Project-specific logo for a HuggingFace org/user. Returns the favicon URL
+ * for a mapped domain (NVIDIA, Google, Meta, DeepSeek, etc.) or null when
+ * the author isn't recognised — null lets EntityLogo render its monogram
+ * tile (colored initial), which looks intentional and consistent. We
+ * deliberately do NOT slug-guess random author names into `{slug}.com`
+ * favicons because Google's service serves a generic globe for unknown
+ * domains, not a 404 — so misses look like "broken globe icons" rather
+ * than letting the monogram fallback kick in.
+ */
+export function huggingFaceAuthorLogoUrl(
+  author: string | null | undefined,
+  size: number = 64,
+): string | null {
+  const slug = normalizeHfAuthor(author);
+  if (!slug) return null;
+  const mapped = HF_AUTHOR_DOMAIN_MAP.get(slug);
+  if (!mapped) return null;
+  const sz = Math.max(16, Math.min(256, Math.round(size)));
+  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(mapped)}&sz=${sz}`;
+}
+
 export interface McpLogoInput {
   logoUrl?: string | null;
   linkedRepo?: string | null;

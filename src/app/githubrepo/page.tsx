@@ -6,7 +6,15 @@
 // JSON-LD — just the list. Same data wiring as `/` so cards stay consistent.
 
 import { getDerivedRepos } from "@/lib/derived-repos";
-import { lastFetchedAt } from "@/lib/trending";
+import { lastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
+import { refreshRedditMentionsFromStore } from "@/lib/reddit-data";
+import { refreshHackernewsMentionsFromStore } from "@/lib/hackernews";
+import { refreshBlueskyMentionsFromStore } from "@/lib/bluesky";
+import { refreshDevtoMentionsFromStore } from "@/lib/devto";
+import { refreshLobstersMentionsFromStore } from "@/lib/lobsters";
+import { refreshNpmFromStore } from "@/lib/npm";
+import { refreshHfModelsFromStore } from "@/lib/huggingface";
+import { refreshArxivFromStore } from "@/lib/arxiv";
 import { Card } from "@/components/ui/Card";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
 import { FooterBar } from "@/components/ui/FooterBar";
@@ -37,6 +45,20 @@ function categoryLabel(repo: Repo): string {
 }
 
 export default async function GithubRepoPage() {
+  // Keep the LiveTopTable mention badges tied to the latest data-store
+  // payloads instead of stale bundled snapshots.
+  await Promise.all([
+    refreshTrendingFromStore(),
+    refreshRedditMentionsFromStore(),
+    refreshHackernewsMentionsFromStore(),
+    refreshBlueskyMentionsFromStore(),
+    refreshDevtoMentionsFromStore(),
+    refreshLobstersMentionsFromStore(),
+    refreshNpmFromStore(),
+    refreshHfModelsFromStore(),
+    refreshArxivFromStore(),
+  ]);
+
   const repos = getDerivedRepos();
 
   const liveRows = [...repos]

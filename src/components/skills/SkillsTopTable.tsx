@@ -421,6 +421,7 @@ export function SkillsTopTable({
                 (row.starsDelta24h ?? 0) < 0
                   ? "var(--sig-red)"
                   : "var(--sig-green)";
+              const hasSparkline = row.sparklineData.length > 1;
               const d = sparkPath(row.sparklineData, 72, 24);
               const end = sparkEnd(row.sparklineData, 72, 24);
               const areaPath = `${d} L71,23 L1,23 Z`;
@@ -480,55 +481,59 @@ export function SkillsTopTable({
                     {formatDelta(row.installsDelta30d)}
                   </td>
                   <td className="ch">
-                    <svg
-                      className="spark-row"
-                      viewBox="0 0 72 24"
-                      preserveAspectRatio="none"
-                    >
-                      <defs>
-                        <linearGradient
-                          id={gid}
-                          x1="0"
-                          x2="0"
-                          y1="0"
-                          y2="1"
-                        >
-                          <stop
-                            offset="0%"
-                            stopColor={stroke}
-                            stopOpacity="0.42"
-                          />
-                          <stop
-                            offset="60%"
-                            stopColor={stroke}
-                            stopOpacity="0.12"
-                          />
-                          <stop
-                            offset="100%"
-                            stopColor={stroke}
-                            stopOpacity="0"
-                          />
-                        </linearGradient>
-                      </defs>
-                      <path d={areaPath} fill={`url(#${gid})`} />
-                      <path
-                        d={d}
-                        fill="none"
-                        stroke={stroke}
-                        strokeWidth="1.6"
-                        strokeLinejoin="round"
-                        strokeLinecap="round"
-                        vectorEffect="non-scaling-stroke"
-                      />
-                      <circle
-                        cx={end.x}
-                        cy={end.y}
-                        r="3"
-                        fill={stroke}
-                        opacity="0.22"
-                      />
-                      <circle cx={end.x} cy={end.y} r="1.6" fill={stroke} />
-                    </svg>
+                    {hasSparkline ? (
+                      <svg
+                        className="spark-row"
+                        viewBox="0 0 72 24"
+                        preserveAspectRatio="none"
+                      >
+                        <defs>
+                          <linearGradient
+                            id={gid}
+                            x1="0"
+                            x2="0"
+                            y1="0"
+                            y2="1"
+                          >
+                            <stop
+                              offset="0%"
+                              stopColor={stroke}
+                              stopOpacity="0.42"
+                            />
+                            <stop
+                              offset="60%"
+                              stopColor={stroke}
+                              stopOpacity="0.12"
+                            />
+                            <stop
+                              offset="100%"
+                              stopColor={stroke}
+                              stopOpacity="0"
+                            />
+                          </linearGradient>
+                        </defs>
+                        <path d={areaPath} fill={`url(#${gid})`} />
+                        <path
+                          d={d}
+                          fill="none"
+                          stroke={stroke}
+                          strokeWidth="1.6"
+                          strokeLinejoin="round"
+                          strokeLinecap="round"
+                          vectorEffect="non-scaling-stroke"
+                        />
+                        <circle
+                          cx={end.x}
+                          cy={end.y}
+                          r="3"
+                          fill={stroke}
+                          opacity="0.22"
+                        />
+                        <circle cx={end.x} cy={end.y} r="1.6" fill={stroke} />
+                      </svg>
+                    ) : (
+                      <span className="muted">NO SERIES</span>
+                    )}
                   </td>
                   <td className="num">
                     {row.cited > 0 ? formatCompact(row.cited) : "—"}

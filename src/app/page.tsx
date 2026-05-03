@@ -164,6 +164,7 @@ function ecosystemEntity(
   kind: Exclude<HomeEntityKind, "repo">,
   repoByFullName?: Map<string, Repo>,
 ): HomeEntity {
+  const useRepoFallback = kind === "mcp";
   // Real trending: prefer the linked GitHub repo's 24h/7d/30d star deltas
   // (computed by the trending pipeline, always populated for tracked repos)
   // over the side-channel installsDelta fields, which are only filled once
@@ -182,12 +183,19 @@ function ecosystemEntity(
     ? (repoByFullName?.get(lookupKey) ?? null)
     : null;
   const raw24 =
-    linked?.starsDelta24h ??
+    (useRepoFallback ? linked?.starsDelta24h : undefined) ??
     item.mcp?.installs24h ??
     item.installsDelta1d;
-  const raw7 = linked?.starsDelta7d ?? item.installsDelta7d;
-  const raw30 = linked?.starsDelta30d ?? item.installsDelta30d;
-  const realSparkline = linked?.sparklineData ?? emptySparkline();
+  const raw7 =
+    (useRepoFallback ? linked?.starsDelta7d : undefined) ??
+    item.installsDelta7d;
+  const raw30 =
+    (useRepoFallback ? linked?.starsDelta30d : undefined) ??
+    item.installsDelta30d;
+  const realSparkline =
+    useRepoFallback && linked?.sparklineData
+      ? linked.sparklineData
+      : emptySparkline();
   let delta = 0;
   let primaryWindow: "24h" | "7d" | "30d" = "24h";
   if (typeof raw24 === "number" && raw24 !== 0) {
@@ -234,6 +242,25 @@ function ecosystemEntity(
 
 function emptySparkline(): number[] {
   return [];
+}
+
+function dedupeSkillItemsForHome(
+  items: EcosystemLeaderboardItem[],
+): EcosystemLeaderboardItem[] {
+  const byRepo = new Map<string, EcosystemLeaderboardItem>();
+  const noRepo: EcosystemLeaderboardItem[] = [];
+  for (const item of items) {
+    const key = item.linkedRepo?.toLowerCase();
+    if (!key) {
+      noRepo.push(item);
+      continue;
+    }
+    const current = byRepo.get(key);
+    if (!current || item.signalScore > current.signalScore) {
+      byRepo.set(key, item);
+    }
+  }
+  return [...byRepo.values(), ...noRepo];
 }
 
 function topByDelta(repos: Repo[], limit: number): HomeEntity[] {
@@ -685,7 +712,7 @@ export default async function HomePage() {
     repoByFullName.set(r.fullName.toLowerCase(), r);
   }
   const skillsBoard = skillsItems
-    ? skillsItems
+    ? dedupeSkillItemsForHome(skillsItems)
         .map((item) => ecosystemEntity(item, "skill", repoByFullName))
         .sort((a, b) => b.delta - a.delta)
         .slice(0, 5)

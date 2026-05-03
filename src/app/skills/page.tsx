@@ -122,6 +122,12 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
   for (const r of repos) {
     repoByFullName.set(r.fullName.toLowerCase(), r);
   }
+  const linkedRepoCounts = new Map<string, number>();
+  for (const it of items) {
+    const key = (it.linkedRepo ?? fullNameFromUrl(it.url))?.toLowerCase();
+    if (!key) continue;
+    linkedRepoCounts.set(key, (linkedRepoCounts.get(key) ?? 0) + 1);
+  }
 
   // Active-window delta per row. Prefer the linked GitHub repo's real
   // star delta over the registry's installsDelta (which is mostly empty
@@ -130,7 +136,9 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
   const deltaByItem = new Map<string, number>();
   for (const it of items) {
     const key = (it.linkedRepo ?? fullNameFromUrl(it.url))?.toLowerCase() ?? null;
-    const linked = key ? (repoByFullName.get(key) ?? null) : null;
+    const uniqueRepo =
+      key !== null && (linkedRepoCounts.get(key) ?? 0) === 1;
+    const linked = uniqueRepo && key ? (repoByFullName.get(key) ?? null) : null;
     const fromRepo = pickRepoDelta(linked, sortWindow);
     const fromRegistry = pickInstallsDelta(it, sortWindow);
     const d = fromRepo ?? fromRegistry;
@@ -306,14 +314,19 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
         const skillRows: SkillRow[] = items.map((item) => {
           const key =
             (item.linkedRepo ?? fullNameFromUrl(item.url))?.toLowerCase() ?? null;
-          const linked = key ? (repoByFullName.get(key) ?? null) : null;
+          const uniqueRepo =
+            key !== null && (linkedRepoCounts.get(key) ?? 0) === 1;
+          const linked = uniqueRepo && key ? (repoByFullName.get(key) ?? null) : null;
           return {
             id: item.id,
             title: item.title,
             author: item.author ?? null,
             href: `/skills/${encodeSkillSlug(item.id)}`,
             logoUrl: item.logoUrl ?? null,
-            stars: linked?.stars ?? (typeof item.popularity === "number" ? item.popularity : 0),
+            stars:
+              typeof item.popularity === "number"
+                ? item.popularity
+                : (linked?.stars ?? 0),
             starsDelta24h: linked?.starsDelta24h ?? null,
             starsDelta7d: linked?.starsDelta7d ?? null,
             starsDelta30d: linked?.starsDelta30d ?? null,
@@ -321,7 +334,7 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
             installsDelta7d: item.installsDelta7d ?? null,
             installsDelta30d: item.installsDelta30d ?? null,
             cited: item.derivativeRepoCount ?? 0,
-            sparklineData: linked?.sparklineData ?? [1, 1, 1],
+            sparklineData: linked?.sparklineData ?? [],
             trackingId: linked?.id ?? `skill:${item.id}`,
           };
         });

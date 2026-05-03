@@ -91,6 +91,10 @@ interface HomeEntity {
   sparkline: number[];
   stars?: number;
   channels?: number;
+  /** GitHub owner avatar URL — empty string falls back to the monogram. */
+  logoUrl: string;
+  /** First letter for the monogram fallback. */
+  initial: string;
 }
 
 const CATEGORY_LABELS = new Map(CATEGORIES.map((c) => [c.id, c.shortName]));
@@ -137,6 +141,12 @@ function repoEntity(repo: Repo): HomeEntity {
     sparkline: repo.sparklineData,
     stars: repo.stars,
     channels: sourceCount(repo),
+    // Direct GitHub owner avatar — public, stable, no auth, served via
+    // `<img>` on the SSR pass so users see a face on first paint instead
+    // of a dead grey square. EntityLogo's monogram fallback fires
+    // client-side via onError.
+    logoUrl: `https://github.com/${encodeURIComponent(repo.owner)}.png?size=40`,
+    initial: (repo.owner.charAt(0) || "?").toUpperCase(),
   };
 }
 
@@ -154,6 +164,17 @@ function ecosystemEntity(
     item.installs7d ??
     item.mcp?.useCount ??
     Math.max(100, delta * 4);
+  // Same SSR-friendly avatar logic as repoEntity. ecosystem items expose
+  // logoUrl directly when available; otherwise derive from linkedRepo's
+  // GitHub owner. Empty string → EntityHeroRow renders monogram instead.
+  const linkedOwner = item.linkedRepo?.split("/", 1)[0]?.trim() ?? "";
+  const fallbackOwnerLogo = linkedOwner
+    ? `https://github.com/${encodeURIComponent(linkedOwner)}.png?size=40`
+    : "";
+  const cleanLogo =
+    typeof item.logoUrl === "string" && item.logoUrl.trim() ? item.logoUrl.trim() : "";
+  const logoUrl = cleanLogo || fallbackOwnerLogo;
+  const initial = (item.title.charAt(0) || "?").toUpperCase();
   return {
     id: item.id,
     kind,
@@ -170,6 +191,8 @@ function ecosystemEntity(
     sparkline: buildSyntheticSparkline(item.signalScore, delta),
     stars: typeof item.popularity === "number" ? item.popularity : undefined,
     channels: item.crossSourceCount,
+    logoUrl,
+    initial,
   };
 }
 
@@ -245,7 +268,24 @@ function EntityHeroRow({
     >
       <div className="rk">{String(index + 1).padStart(2, "0")}</div>
       <div className="nm">
-        <span className="av" aria-hidden="true" />
+        {entity.logoUrl ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            className="av"
+            src={entity.logoUrl}
+            alt=""
+            width={20}
+            height={20}
+            loading="lazy"
+            referrerPolicy="no-referrer"
+            style={{ objectFit: "cover" }}
+            aria-hidden="true"
+          />
+        ) : (
+          <span className="av" aria-hidden="true">
+            {entity.initial}
+          </span>
+        )}
         <span className="txt">{entity.name}</span>
         <span className={`delta-inline ${entity.delta < 0 ? "dn" : ""}`}>
           {formatDelta(entity.delta)}

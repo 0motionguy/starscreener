@@ -155,6 +155,44 @@ function DivergenceList({
   );
 }
 
+// Display-only relaxed threshold for the "strong consensus" band.
+//
+// The worker's classifier requires ≥5 of 8 external sources before an item
+// is tagged `strong_consensus` (apps/trendingrepo-worker/.../scoring.ts).
+// In practice most discovery feeds only surface ~3-4 sources per repo, so
+// the strict gate produces a permanent "0 strong consensus picks" header
+// even when the leaderboard has dozens of high-conviction multi-source
+// items. We re-classify on the consumer side so the page surfaces actual
+// agreement instead of an empty band. The underlying score and per-source
+// rank data are NEVER mutated — only the display verdict is relaxed.
+const DISPLAY_STRONG_MIN_SOURCES = 3;
+const DISPLAY_STRONG_MAX_GAP = 60;
+
+function relaxStrongConsensus(item: ConsensusItem): ConsensusItem {
+  if (item.verdict === "strong_consensus") return item;
+  if (
+    item.sourceCount >= DISPLAY_STRONG_MIN_SOURCES &&
+    item.maxRankGap <= DISPLAY_STRONG_MAX_GAP
+  ) {
+    return { ...item, verdict: "strong_consensus" };
+  }
+  return item;
+}
+
+function recountBands(
+  items: ConsensusItem[],
+): Record<ConsensusItem["verdict"], number> {
+  const counts = {
+    strong_consensus: 0,
+    early_call: 0,
+    divergence: 0,
+    external_only: 0,
+    single_source: 0,
+  };
+  for (const item of items) counts[item.verdict] += 1;
+  return counts;
+}
+
 export default async function ConsensusPage() {
   // Refresh both data layers in parallel — both have 30s dedup, safe per-render.
   await Promise.all([
@@ -163,7 +201,9 @@ export default async function ConsensusPage() {
   ]);
 
   const meta = getConsensusTrendingMeta();
-  const items = getConsensusTrendingItems(200);
+  const rawItems = getConsensusTrendingItems(200);
+  const items = rawItems.map(relaxStrongConsensus);
+  const displayBandCounts = recountBands(items);
   const verdicts = getConsensusVerdictsPayload();
 
   const earlyItems = items.filter((i) => i.verdict === "early_call").slice(0, 15);
@@ -203,8 +243,8 @@ export default async function ConsensusPage() {
   // today's data, not yesterday's analyst run.
   const verdictText =
     (verdictsFresh && verdicts.ribbon.headline) ||
-    `${meta.bandCounts.strong_consensus} strong consensus picks today across 8 sources · ` +
-      `${meta.bandCounts.early_call} early calls · ${meta.bandCounts.divergence} divergences to watch.`;
+    `${displayBandCounts.strong_consensus} strong consensus picks today across 8 sources · ` +
+      `${displayBandCounts.early_call} early calls · ${displayBandCounts.divergence} divergences to watch.`;
 
   return (
     <main className="home-surface">
@@ -256,28 +296,28 @@ export default async function ConsensusPage() {
           },
           {
             label: "STRONG CONSENSUS",
-            value: meta.bandCounts.strong_consensus,
-            sub: "≥ 5 / 8 sources agree",
+            value: displayBandCounts.strong_consensus,
+            sub: "≥ 3 / 8 sources agree",
             tone: "money",
             pip: "var(--v4-money)",
           },
           {
             label: "EARLY CALLS",
-            value: meta.bandCounts.early_call,
+            value: displayBandCounts.early_call,
             sub: "we ranked first",
             tone: "acc",
             pip: "var(--v4-violet)",
           },
           {
             label: "DIVERGENCE",
-            value: meta.bandCounts.divergence,
+            value: displayBandCounts.divergence,
             sub: "feeds disagree · gap > 30",
             tone: "amber",
             pip: "var(--v4-amber)",
           },
           {
             label: "EXTERNAL-ONLY",
-            value: meta.bandCounts.external_only,
+            value: displayBandCounts.external_only,
             sub: "not yet on our radar",
             pip: "var(--v4-blue)",
           },

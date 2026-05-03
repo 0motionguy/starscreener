@@ -5,19 +5,79 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
-import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
+import { getRepoMetadata, refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
 import {
   getStarActivity,
   refreshStarActivityFromStore,
 } from "@/lib/star-activity";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { buildAbsoluteShareImageUrl } from "@/lib/star-activity-url";
+import type { Repo } from "@/lib/types";
+import { slugToId } from "@/lib/utils";
 
 import { StarActivityClient } from "./StarActivityClient";
 
 export const dynamic = "force-dynamic";
 
 const SLUG_PART = /^[A-Za-z0-9._-]+$/;
+
+/**
+ * Fallback Repo shape built from repo-metadata.json (or the URL params as a
+ * last-resort skeleton) when the requested repo isn't in the derived-repos
+ * cache. Lets the star-activity surface render for popular repos that the
+ * trending pipeline doesn't currently track (e.g. vercel/next.js,
+ * facebook/react). When star-activity payload data is also missing, the
+ * chart layer falls back to per-repo sparkline (empty here) and the rest of
+ * the page still serves a real 200 instead of a 404. Mirrors the shape of
+ * `buildBaseRepoFromRecent` in src/lib/recent-repos.ts.
+ */
+function buildBaseRepoFromMetadata(fullName: string): Repo {
+  const meta = getRepoMetadata(fullName);
+  const [owner, name] = fullName.split("/");
+  return {
+    id: slugToId(fullName),
+    fullName,
+    name: meta?.name ?? name ?? fullName,
+    owner: meta?.owner ?? owner ?? fullName,
+    ownerAvatarUrl: meta?.ownerAvatarUrl ?? "",
+    description: meta?.description ?? "",
+    url: meta?.url ?? `https://github.com/${fullName}`,
+    language: meta?.language ?? null,
+    topics: meta?.topics ?? [],
+    categoryId: "other",
+    stars: meta?.stars ?? 0,
+    forks: meta?.forks ?? 0,
+    contributors: 0,
+    openIssues: meta?.openIssues ?? 0,
+    lastCommitAt:
+      meta?.pushedAt ?? meta?.updatedAt ?? meta?.createdAt ?? "",
+    lastReleaseAt: null,
+    lastReleaseTag: null,
+    createdAt: meta?.createdAt ?? "",
+    starsDelta24h: 0,
+    starsDelta7d: 0,
+    starsDelta30d: 0,
+    hasMovementData: false,
+    starsDelta24hMissing: true,
+    starsDelta7dMissing: true,
+    starsDelta30dMissing: true,
+    forksDelta7dMissing: true,
+    contributorsDelta30dMissing: true,
+    trendScore24h: 0,
+    trendScore7d: 0,
+    trendScore30d: 0,
+    forksDelta7d: 0,
+    contributorsDelta30d: 0,
+    momentumScore: 0,
+    movementStatus: "stable",
+    rank: 0,
+    categoryRank: 0,
+    sparklineData: [],
+    socialBuzzScore: 0,
+    mentionCount24h: 0,
+    tags: [],
+  };
+}
 
 interface PageProps {
   params: Promise<{ owner: string; name: string }>;
@@ -79,10 +139,14 @@ export default async function StarActivityPage({ params }: PageProps) {
     refreshStarActivityFromStore(fullName),
   ]);
 
-  const repo = getDerivedRepoByFullName(fullName);
-  if (!repo) {
-    notFound();
-  }
+  // Try the trending-pipeline cache first; for popular repos that aren't
+  // currently in the trending feeds (e.g. vercel/next.js, facebook/react),
+  // fall back to the GitHub metadata bundle, and finally to a URL-only
+  // skeleton so the surface always serves a 200 once the slug regex passes.
+  // The chart layer renders an empty state when the star-activity payload
+  // is also absent.
+  const repo =
+    getDerivedRepoByFullName(fullName) ?? buildBaseRepoFromMetadata(fullName);
   const payload = getStarActivity(fullName);
   const firstPoint = payload?.points[0] ?? null;
   const lastPoint = payload?.points[payload.points.length - 1] ?? null;

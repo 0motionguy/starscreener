@@ -39,16 +39,14 @@ jobs:
           REDIS_URL: ${{ secrets.REDIS_URL }}
         run: node scripts/ping-mcp-liveness.mjs
 
+      - name: Compute commit timestamp
+        id: ts
+        run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
       - name: Commit if changed
-        run: |
-          git config user.name  "trendingrepo-bot"
-          git config user.email "bot@trendingrepo.com"
-          git add data/mcp-liveness.json
-          if git diff --quiet --staged; then
-            echo "no changes - skipping commit"
-            exit 0
-          fi
-          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          git commit -m "chore(data): refresh mcp liveness ${TS}"
-          git pull --rebase origin main
-          git push
+        uses: ./.github/actions/git-commit-data
+        with:
+          actor-email: "bot@trendingrepo.com"
+          message: "chore(data): refresh mcp liveness ${{ steps.ts.outputs.value }}"
+          paths: |
+            data/mcp-liveness.json

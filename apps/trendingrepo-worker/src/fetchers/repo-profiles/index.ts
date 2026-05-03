@@ -144,12 +144,41 @@ const fetcher: Fetcher = {
       return done(startedAt, 0, false);
     }
 
-    const [trending, repoMetadata, npmPackages, phLaunches] = await Promise.all([
+    // AUDIT-2026-05-04: allSettled so a single Redis flake degrades to
+    // null instead of crashing the whole fetcher. Same fix as f39cd09d.
+    const READ_KEYS = [
+      'trending',
+      'repo-metadata',
+      'npm-packages',
+      'producthunt-launches',
+    ] as const;
+    const reads = await Promise.allSettled([
       readDataStore<TrendingPayload>('trending'),
       readDataStore<RepoMetadataPayload>('repo-metadata'),
       readDataStore<NpmPackagesPayload>('npm-packages'),
       readDataStore<PhLaunchesPayload>('producthunt-launches'),
     ]);
+    const readFailures: Array<{ key: string; err: string }> = [];
+    const values = reads.map((r, i) => {
+      if (r.status === 'fulfilled') return r.value;
+      readFailures.push({
+        key: READ_KEYS[i] ?? `index-${i}`,
+        err: r.reason instanceof Error ? r.reason.message : String(r.reason),
+      });
+      return null;
+    });
+    if (readFailures.length > 0) {
+      ctx.log.warn(
+        { failures: readFailures },
+        'repo-profiles: some reads failed; degrading those sources to null',
+      );
+    }
+    const [trending, repoMetadata, npmPackages, phLaunches] = values as [
+      TrendingPayload | null,
+      RepoMetadataPayload | null,
+      NpmPackagesPayload | null,
+      PhLaunchesPayload | null,
+    ];
 
     const metadataByRepo = new Map<string, RepoMetadataItem>();
     for (const item of repoMetadata?.items ?? []) {

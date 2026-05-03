@@ -79,20 +79,21 @@ jobs:
           TWITTER_COLLECTOR_RUN_ID: "gh-actions-${{ github.run_id }}-${{ github.run_attempt }}"
         run: npm run collect:twitter
 
+      - name: Compute commit timestamp
+        if: github.event.inputs.dry_run != 'true'
+        id: ts
+        run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
       - name: Commit updated twitter signals
         if: github.event.inputs.dry_run != 'true'
-        run: |
-          git config user.name  "trendingrepo-bot"
-          git config user.email "bot@trendingrepo.local"
-          git add .data/twitter-repo-signals.jsonl .data/twitter-scans.jsonl .data/twitter-ingestion-audit.jsonl data/unknown-mentions.jsonl
-          if git diff --quiet --staged; then
-            echo "no changes to twitter data — skipping commit"
-            exit 0
-          fi
-          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          git commit -m "chore(data): refresh twitter signals ${TS}"
-          git pull --rebase origin main
-          git push
+        uses: ./.github/actions/git-commit-data
+        with:
+          message: "chore(data): refresh twitter signals ${{ steps.ts.outputs.value }}"
+          paths: |
+            .data/twitter-repo-signals.jsonl
+            .data/twitter-scans.jsonl
+            .data/twitter-ingestion-audit.jsonl
+            data/unknown-mentions.jsonl
 
       - name: Upload collector output
         if: failure()

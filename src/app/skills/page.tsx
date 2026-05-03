@@ -275,7 +275,15 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
       />
 
       {/* W5-SKILLS24H — tracking-window tab strip. Server-rendered links so
-          the URL is canonical + shareable; default 7d (no query param). */}
+          the URL is canonical + shareable; default 7d (no query param).
+
+          P0 INCIDENT 2026-05-02: when the install-snapshot worker hasn't
+          populated `installsDelta1d/7d/30d` yet, every window tab returned
+          identical results — page reads as "dead, not even data". Inline
+          banner now explicitly tells the user the install-velocity layer
+          is warming up so they don't conclude the leaderboard is broken.
+          Items still render via signalScore fallback (the `topByScore`
+          slice below) — only the per-window re-ranking is degraded. */}
       <nav
         aria-label="Re-rank skills by tracking window"
         style={{
@@ -322,10 +330,32 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
               fontStyle: "italic",
             }}
           >
-            cold start — falling back to signal score
+            install-velocity layer warming · ranked by signal score
           </span>
         ) : null}
       </nav>
+      {!haveWindowedData ? (
+        <p
+          role="status"
+          style={{
+            margin: "0 0 16px",
+            padding: "8px 12px",
+            background: "color-mix(in oklab, var(--v4-amber) 8%, transparent)",
+            border: "1px solid color-mix(in oklab, var(--v4-amber) 30%, transparent)",
+            borderRadius: 3,
+            fontFamily: "var(--font-geist-mono), monospace",
+            fontSize: 11,
+            color: "var(--v4-ink-200)",
+          }}
+        >
+          <b style={{ color: "var(--v4-amber)" }}>NOTE</b> · per-window install
+          deltas (24h / 7d / 30d) are still warming up — the snapshot fetcher
+          backfills daily. The leaderboard below is currently ordered by the
+          combined signal score across {data.skillsSh.items.length}+
+          {data.github.items.length} sources. Rows are real; ranking will
+          re-sort by install velocity once the snapshot lands.
+        </p>
+      ) : null}
       {topByScore.length > 0 ? (
         <section
           style={{

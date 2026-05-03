@@ -39,16 +39,15 @@ jobs:
           REDIS_URL: ${{ secrets.REDIS_URL }}
         run: node scripts/scrape-huggingface-datasets.mjs
 
+      - name: Compute commit timestamp
+        id: ts
+        run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
       - name: Commit if changed
-        run: |
-          git config user.name  "trendingrepo-bot"
-          git config user.email "bot@trendingrepo.com"
-          git add data/huggingface-datasets.json data/_meta/huggingface-datasets.json
-          if git diff --quiet --staged; then
-            echo "no changes - skipping commit"
-            exit 0
-          fi
-          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          git commit -m "chore(data): refresh huggingface dataset signals ${TS}"
-          git pull --rebase origin main
-          git push
+        uses: ./.github/actions/git-commit-data
+        with:
+          actor-email: "bot@trendingrepo.com"
+          message: "chore(data): refresh huggingface dataset signals ${{ steps.ts.outputs.value }}"
+          paths: |
+            data/huggingface-datasets.json
+            data/_meta/huggingface-datasets.json

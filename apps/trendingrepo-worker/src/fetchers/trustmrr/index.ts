@@ -67,10 +67,37 @@ function selectMode(hourUtc: number): 'full' | 'incremental' {
 }
 
 async function collectRepoHomepages(): Promise<RepoHomepage[]> {
-  const [metadata, profiles] = await Promise.all([
+  // AUDIT-2026-05-04: allSettled so a flake on one read doesn't crash
+  // the whole fetcher. trustmrr is daily-cadence, so re-running on the
+  // next slot would be slow recovery. Same fix as f39cd09d.
+  const reads = await Promise.allSettled([
     readDataStore<RepoMetadataPayload>('repo-metadata'),
     readDataStore<RepoProfilesPayload>('repo-profiles'),
   ]);
+  const metadata = reads[0].status === 'fulfilled' ? reads[0].value : null;
+  const profiles = reads[1].status === 'fulfilled' ? reads[1].value : null;
+  if (reads[0].status === 'rejected' || reads[1].status === 'rejected') {
+    // No ctx in this free-function helper; console.warn is enough — pino
+    // routes stderr into the same Sentry breadcrumb stream when the worker
+    // boots with sentry instrumentation.
+    console.warn(
+      '[trustmrr] side-input read failed; degrading to null',
+      JSON.stringify({
+        repoMetadata:
+          reads[0].status === 'rejected'
+            ? reads[0].reason instanceof Error
+              ? reads[0].reason.message
+              : String(reads[0].reason)
+            : null,
+        repoProfiles:
+          reads[1].status === 'rejected'
+            ? reads[1].reason instanceof Error
+              ? reads[1].reason.message
+              : String(reads[1].reason)
+            : null,
+      }),
+    );
+  }
   const map = new Map<string, string>();
   for (const item of metadata?.items ?? []) {
     if (!item || typeof item.fullName !== 'string') continue;

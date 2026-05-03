@@ -177,7 +177,9 @@ async function main() {
   console.log(`[x402] data-store: ${ds.source} @ ${ds.writtenAt}`);
 }
 
-main().catch((err) => {
-  console.error("[x402] fatal:", err);
-  process.exit(1);
-});
+main()
+  .then(() => process.exit(0))
+  .catch((err) => {
+    console.error("[x402] fatal:", err);
+    process.exit(1);
+  });

@@ -175,11 +175,18 @@ function stampTrackedRepos(value, ts, depth = 0) {
  * shape OR id+stars shape) gets a `lastRefreshedAt` field set to writtenAt.
  * Other records (posts, articles, launches) pass through unmodified.
  *
+ * Provenance: when GITHUB_WORKFLOW / GITHUB_RUN_ID / GITHUB_SHA are present
+ * (i.e. a GitHub Actions runner) the meta key is written as a JSON object
+ * with writer/runId/commit so audits can attribute last-write-wins. Outside
+ * GitHub Actions the meta key keeps the legacy bare-ISO-string shape, which
+ * `parseWrittenAt` in src/lib/data-store.ts accepts back-compat.
+ *
  * @param {string} key       Slug, e.g. "trending" → ss:data:v1:trending
  * @param {unknown} value    Any JSON-serializable value
- * @param {{ ttlSeconds?: number; stampPerRecord?: boolean }} [opts]
+ * @param {{ ttlSeconds?: number; stampPerRecord?: boolean; writer?: string; runId?: string; commit?: string }} [opts]
  *   stampPerRecord defaults to true; pass false to opt out for sources that
- *   manage their own per-record timestamps.
+ *   manage their own per-record timestamps. Caller-supplied writer/runId/
+ *   commit override the GitHub-Actions auto-detection.
  * @returns {Promise<{ source: "redis" | "skipped"; writtenAt: string }>}
  */
 export async function writeDataStore(key, value, opts = {}) {
@@ -200,6 +207,28 @@ export async function writeDataStore(key, value, opts = {}) {
       ? { ex: opts.ttlSeconds }
       : undefined;
 
+  // Build the meta value. JSON-object shape only when at least one
+  // provenance field is present; otherwise keep the bare-ISO-string back-
+  // compat shape that older readers still understand.
+  const writer =
+    opts.writer ??
+    (process.env.GITHUB_WORKFLOW
+      ? `github-actions:${process.env.GITHUB_WORKFLOW}`
+      : undefined);
+  const runId = opts.runId ?? process.env.GITHUB_RUN_ID;
+  const commitFull = opts.commit ?? process.env.GITHUB_SHA;
+  const commit = commitFull ? commitFull.slice(0, 7) : undefined;
+  const hasProvenance =
+    writer !== undefined || runId !== undefined || commit !== undefined;
+  const metaValue = hasProvenance
+    ? JSON.stringify({
+        writtenAt,
+        ...(writer !== undefined ? { writer } : {}),
+        ...(runId !== undefined ? { runId } : {}),
+        ...(commit !== undefined ? { commit } : {}),
+      })
+    : writtenAt;
+
   // Two SETs in parallel. ioredis supports MULTI/EXEC for true atomicity but
   // for our use case (collector scripts that run serially per source) a
   // brief inconsistency window between payload+meta is acceptable — the
@@ -207,7 +236,7 @@ export async function writeDataStore(key, value, opts = {}) {
   // read after meta lands sees both.
   await Promise.all([
     client.set(`${NAMESPACE}:${key}`, payload, setOpts),
-    client.set(`${META_NAMESPACE}:${key}`, writtenAt, setOpts),
+    client.set(`${META_NAMESPACE}:${key}`, metaValue, setOpts),
   ]);
 
   return { source: "redis", writtenAt };

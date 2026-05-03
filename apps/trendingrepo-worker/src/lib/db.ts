@@ -19,7 +19,15 @@ export function getDb(): SupabaseClient {
 
 export async function pingDb(db: SupabaseClient = getDb()): Promise<boolean> {
   const { error } = await db.from('trending_items').select('id', { count: 'exact', head: true });
-  return !error;
+  if (error) {
+    // AUDIT-2026-05-04: pingDb was returning false silently when auth
+    // expired / schema drifted, leaving /healthz to flip db:false with
+    // no clue what went wrong. Log to stderr so the Railway health line
+    // surfaces it on the next /healthz hit.
+    console.error('[db] pingDb failed:', error.message);
+    return false;
+  }
+  return true;
 }
 
 export interface UpsertItemInput {

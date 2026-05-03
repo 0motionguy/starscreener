@@ -4,11 +4,11 @@
 // Apify-backed signal pipeline. Two tabs: trending pipeline overlap vs. the
 // global X score.
 
-import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Globe } from "lucide-react";
 import { GithubIcon, XIcon } from "@/components/brand/BrandIcons";
+import { EntityLogo } from "@/components/ui/EntityLogo";
 import { formatNumber } from "@/lib/utils";
 import type {
   TwitterLeaderboardRow,
@@ -188,14 +188,20 @@ function MentionAuthorBubbles({
             aria-label={`Open top X mention from @${author.authorHandle}`}
             title={`@${author.authorHandle} - ${formatNumber(author.engagement)} engagement`}
           >
+            {/* AUDIT-2026-05-04: raw next/image showed a broken icon when
+                Twitter avatar URLs (pbs.twimg.com / unavatar.io) were
+                blocked. Plain <img> with referrerPolicy="no-referrer"
+                + onError-to-initial avoids that — falls back to the
+                getAuthorInitial letter the parent already computed. */}
             {avatarUrl ? (
-              <Image
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
                 src={avatarUrl}
                 alt=""
                 width={20}
                 height={20}
-                unoptimized
                 loading="lazy"
+                referrerPolicy="no-referrer"
                 className="h-full w-full object-cover"
               />
             ) : (
@@ -330,6 +336,27 @@ export default async function TwitterPage({
     }
   }
 
+  // P0 INCIDENT 2026-05-03: user reported "TWITTER not updated since 10 days
+  // the SAME repo on top no trending logic". Root cause was the collector
+  // truncating .data/twitter-*.jsonl every run (fixed in eafd2433). Until
+  // that fix ships and a fresh cron tick lands real new data, surface
+  // staleness explicitly so the page doesn't lie to users.
+  const lastScannedMs = stats.lastScannedAt
+    ? Date.parse(stats.lastScannedAt)
+    : null;
+  const scrapeAgeHours =
+    lastScannedMs !== null && Number.isFinite(lastScannedMs)
+      ? Math.max(0, (Date.now() - lastScannedMs) / 3_600_000)
+      : null;
+  // 48h is generous: collector runs every 3h, so 48h = 16 missed ticks.
+  const showStaleBanner = scrapeAgeHours !== null && scrapeAgeHours > 48;
+  const staleAgeLabel =
+    scrapeAgeHours === null
+      ? "unknown"
+      : scrapeAgeHours < 24
+        ? `${Math.round(scrapeAgeHours)}h ago`
+        : `${Math.round(scrapeAgeHours / 24)}d ago`;
+
   return (
     <main className="home-surface">
       <SourceFeedTemplate
@@ -344,7 +371,28 @@ export default async function TwitterPage({
           <>
             <span className="big">{formatClock(stats.lastScannedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="FRESH · 3H" />
+            {showStaleBanner ? (
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  padding: "2px 8px",
+                  fontSize: 11,
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  background: "rgba(251, 191, 36, 0.16)",
+                  border: "1px solid rgba(251, 191, 36, 0.36)",
+                  color: "#f5d778",
+                  borderRadius: 2,
+                  letterSpacing: "0.04em",
+                }}
+                title={`Last scrape ${staleAgeLabel}. Apify collector backfill in progress.`}
+              >
+                ⚠ STALE · {staleAgeLabel}
+              </span>
+            ) : (
+              <LiveDot label="FRESH · 3H" />
+            )}
           </>
         }
         snapshot={
@@ -489,17 +537,16 @@ function TwitterLeaderboardTable({
                 <div className="min-w-0">
                   <div className="flex min-w-0 items-center justify-between gap-2">
                     <div className="flex min-w-0 items-center gap-2">
-                      <Image
+                      {/* AUDIT-2026-05-04: switched from next/image to
+                          EntityLogo so a blocked / 404 avatar URL renders a
+                          monogram instead of a dead grey square. Same fix
+                          as MaintainerCard / ProductHunt thumbs. */}
+                      <EntityLogo
                         src={getRepoAvatarUrl(row)}
+                        name={row.githubFullName}
+                        size={20}
+                        shape="circle"
                         alt=""
-                        width={18}
-                        height={18}
-                        unoptimized
-                        className="h-[18px] w-[18px] shrink-0 rounded-full"
-                        style={{
-                          border: "1px solid var(--v4-line-200)",
-                          background: "var(--v4-bg-100)",
-                        }}
                       />
                       <Link
                         href={`/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`}

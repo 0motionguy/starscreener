@@ -21,6 +21,7 @@
 //   />
 
 import { cn } from "@/lib/utils";
+import { EntityLogo } from "@/components/ui/EntityLogo";
 
 export type FundingStage =
   | "Seed"
@@ -46,6 +47,13 @@ export interface MoverRowProps {
   /** Optional href — renders as <a>. */
   href?: string;
   className?: string;
+  /** Company logo URL. AUDIT-2026-05-04: closes the funding-page no-images
+      gap. Pass extracted.companyLogoUrl from FundingSignal; falls back to
+      a deterministic monogram tile via EntityLogo when null/blocked. */
+  logoUrl?: string | null;
+  /** Used by EntityLogo for the monogram fallback when logoUrl is null
+      or fails to load. Defaults to the row name. */
+  logoName?: string;
 }
 
 export function MoverRow({
@@ -57,6 +65,8 @@ export function MoverRow({
   first = false,
   href,
   className,
+  logoUrl,
+  logoName,
 }: MoverRowProps) {
   const Tag = href ? "a" : "div";
   const stageCls = stageToClass(stage);
@@ -71,6 +81,15 @@ export function MoverRow({
     >
       <span className="v4-mover-row__rank">
         {String(rank).padStart(2, "0")}
+      </span>
+      <span style={{ display: "inline-flex", alignItems: "center", marginRight: 8 }}>
+        <EntityLogo
+          src={logoUrl ?? null}
+          name={logoName ?? name}
+          size={24}
+          shape="square"
+          alt=""
+        />
       </span>
       <div className="v4-mover-row__body">
         <div className="v4-mover-row__name">{name}</div>

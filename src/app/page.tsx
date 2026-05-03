@@ -19,6 +19,12 @@ import {
 } from "@/lib/ecosystem-leaderboards";
 import { BubbleMap } from "@/components/terminal/BubbleMap";
 import { HomeEmptyState } from "@/components/home/HomeEmptyState";
+import {
+  LiveTopTable,
+  type LiveSkill,
+  type LiveMcp,
+} from "@/components/home/LiveTopTable";
+import { Tr100IndexChart, type Tr100Point } from "@/components/home/Tr100IndexChart";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { ChartStat, ChartStats } from "@/components/ui/ChartShell";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
@@ -86,6 +92,10 @@ interface HomeEntity {
   sparkline: number[];
   stars?: number;
   channels?: number;
+  /** GitHub owner avatar URL — empty string falls back to the monogram. */
+  logoUrl: string;
+  /** First letter for the monogram fallback. */
+  initial: string;
 }
 
 const CATEGORY_LABELS = new Map(CATEGORIES.map((c) => [c.id, c.shortName]));
@@ -132,6 +142,12 @@ function repoEntity(repo: Repo): HomeEntity {
     sparkline: repo.sparklineData,
     stars: repo.stars,
     channels: sourceCount(repo),
+    // Direct GitHub owner avatar — public, stable, no auth, served via
+    // `<img>` on the SSR pass so users see a face on first paint instead
+    // of a dead grey square. EntityLogo's monogram fallback fires
+    // client-side via onError.
+    logoUrl: `https://github.com/${encodeURIComponent(repo.owner)}.png?size=40`,
+    initial: (repo.owner.charAt(0) || "?").toUpperCase(),
   };
 }
 
@@ -149,6 +165,17 @@ function ecosystemEntity(
     item.installs7d ??
     item.mcp?.useCount ??
     Math.max(100, delta * 4);
+  // Same SSR-friendly avatar logic as repoEntity. ecosystem items expose
+  // logoUrl directly when available; otherwise derive from linkedRepo's
+  // GitHub owner. Empty string → EntityHeroRow renders monogram instead.
+  const linkedOwner = item.linkedRepo?.split("/", 1)[0]?.trim() ?? "";
+  const fallbackOwnerLogo = linkedOwner
+    ? `https://github.com/${encodeURIComponent(linkedOwner)}.png?size=40`
+    : "";
+  const cleanLogo =
+    typeof item.logoUrl === "string" && item.logoUrl.trim() ? item.logoUrl.trim() : "";
+  const logoUrl = cleanLogo || fallbackOwnerLogo;
+  const initial = (item.title.charAt(0) || "?").toUpperCase();
   return {
     id: item.id,
     kind,
@@ -165,6 +192,8 @@ function ecosystemEntity(
     sparkline: buildSyntheticSparkline(item.signalScore, delta),
     stars: typeof item.popularity === "number" ? item.popularity : undefined,
     channels: item.crossSourceCount,
+    logoUrl,
+    initial,
   };
 }
 
@@ -240,7 +269,24 @@ function EntityHeroRow({
     >
       <div className="rk">{String(index + 1).padStart(2, "0")}</div>
       <div className="nm">
-        <span className="av" aria-hidden="true" />
+        {entity.logoUrl ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            className="av"
+            src={entity.logoUrl}
+            alt=""
+            width={20}
+            height={20}
+            loading="lazy"
+            referrerPolicy="no-referrer"
+            style={{ objectFit: "cover" }}
+            aria-hidden="true"
+          />
+        ) : (
+          <span className="av" aria-hidden="true">
+            {entity.initial}
+          </span>
+        )}
         <span className="txt">{entity.name}</span>
         <span className={`delta-inline ${entity.delta < 0 ? "dn" : ""}`}>
           {formatDelta(entity.delta)}
@@ -422,6 +468,41 @@ export default async function HomePage() {
     .sort((a, b) => b.starsDelta24h - a.starsDelta24h)
     .slice(0, 20);
 
+  // TR-100 Index (// 06): aggregate the top-100 repos' daily sparklines
+  // into one 30-day cumulative-stars index. The previous inline SVG
+  // jammed `flatMap(spark.slice(-2))` from 30 unrelated repos into a
+  // single line, producing the cliff-edge zigzag the user complained
+  // about. Sum-by-day gives a smooth, monotonic line.
+  const tr100Top = [...repos]
+    .sort((a, b) => b.momentumScore - a.momentumScore)
+    .slice(0, 100);
+  const SERIES_DAYS = 30;
+  const dayMs = 86_400_000;
+  const fetchedTs = Date.parse(lastFetchedAt);
+  const todayStart = Number.isFinite(fetchedTs)
+    ? Math.floor(fetchedTs / dayMs) * dayMs
+    : Math.floor(Date.now() / dayMs) * dayMs;
+  const dailySum = new Array<number>(SERIES_DAYS).fill(0);
+  for (const repo of tr100Top) {
+    const spark = Array.isArray(repo.sparklineData) ? repo.sparklineData : [];
+    if (spark.length === 0) continue;
+    // Right-align the per-repo sparkline in our 30-day window so the
+    // most recent datapoint lines up with `today`. Repos with shorter
+    // history pad-left with their first known star count (preserves
+    // monotonicity instead of dropping to zero).
+    const offset = SERIES_DAYS - spark.length;
+    const seed = spark[0] ?? 0;
+    for (let i = 0; i < SERIES_DAYS; i++) {
+      const idx = i - offset;
+      const value = idx < 0 ? seed : (spark[idx] ?? spark[spark.length - 1] ?? 0);
+      if (Number.isFinite(value)) dailySum[i] += value;
+    }
+  }
+  const tr100Series: Tr100Point[] = dailySum.map((value, i) => ({
+    ts: todayStart - (SERIES_DAYS - 1 - i) * dayMs,
+    value,
+  }));
+
   const skillsBoard = skillsItems
     ? skillsItems.slice(0, 7).map((item) => ecosystemEntity(item, "skill"))
     : topCategoryFallback(repos, ["ai-agents", "ai-ml", "devtools"], 7);
@@ -446,9 +527,66 @@ export default async function HomePage() {
   const featured = [...repoBoard, ...skillsBoard, ...mcpBoard]
     .sort((a, b) => b.score + b.delta / 100 - (a.score + a.delta / 100))
     .slice(0, 3);
-  const liveRows = [...repos]
-    .sort((a, b) => b.momentumScore - a.momentumScore)
-    .slice(0, 15);
+  // 24h/7d/30d window switching is owned by <LiveTopTable> (client). We
+  // pass the full repo[] + ecosystem items so the user can re-sort without
+  // a round trip. Old fixed-momentum sort retained for the cold render
+  // (used until React hydrates). Top 50 by 24h delta gives a reasonable
+  // default view; LiveTopTable shows top `limit` per its own current sort.
+  // Reuse the synthetic-sparkline + logo-resolution logic so the LiveTopTable
+  // rows look as alive as the hero panels above. Skills/mcp ecosystem items
+  // don't carry their own per-day star series — buildSyntheticSparkline gives
+  // us a smooth wobble keyed off (signalScore, delta) so each row still has
+  // a per-row trend chart instead of a dead `—`.
+  const liveSkillItems: LiveSkill[] = (skillsItems ?? [])
+    .slice(0, 50)
+    .map((item): LiveSkill => {
+      const delta = item.installsDelta1d ?? 0;
+      const linkedOwner = item.linkedRepo?.split("/", 1)[0]?.trim() ?? "";
+      const fallbackOwnerLogo = linkedOwner
+        ? `https://github.com/${encodeURIComponent(linkedOwner)}.png?size=40`
+        : "";
+      const cleanLogo =
+        typeof item.logoUrl === "string" && item.logoUrl.trim()
+          ? item.logoUrl.trim()
+          : "";
+      return {
+        id: `skill-${item.id}`,
+        name: item.title,
+        href: item.url,
+        sub: item.sourceLabel ?? item.topic,
+        score: item.signalScore,
+        delta24h: delta,
+        delta7d: item.installsDelta7d ?? 0,
+        delta30d: item.installsDelta30d ?? 0,
+        logoUrl: cleanLogo || fallbackOwnerLogo || undefined,
+        sparkline: buildSyntheticSparkline(item.signalScore, delta),
+      };
+    });
+  const liveMcpItems: LiveMcp[] = (mcpItems ?? [])
+    .slice(0, 50)
+    .map((item): LiveMcp => {
+      const delta = item.mcp?.installs24h ?? 0;
+      const linkedOwner = item.linkedRepo?.split("/", 1)[0]?.trim() ?? "";
+      const fallbackOwnerLogo = linkedOwner
+        ? `https://github.com/${encodeURIComponent(linkedOwner)}.png?size=40`
+        : "";
+      const cleanLogo =
+        typeof item.logoUrl === "string" && item.logoUrl.trim()
+          ? item.logoUrl.trim()
+          : "";
+      return {
+        id: `mcp-${item.id}`,
+        name: item.title,
+        href: item.url,
+        sub: item.vendor ?? item.sourceLabel ?? item.topic,
+        score: item.signalScore,
+        delta24h: delta,
+        delta7d: item.installsDelta7d ?? 0,
+        delta30d: item.installsDelta30d ?? 0,
+        logoUrl: cleanLogo || fallbackOwnerLogo || undefined,
+        sparkline: buildSyntheticSparkline(item.signalScore, delta),
+      };
+    });
   const refreshed = new Date(lastFetchedAt);
   const refreshedTime = refreshed.toISOString().slice(11, 19);
   const total24h = repos.reduce(
@@ -568,44 +706,12 @@ export default async function HomePage() {
           meta={<><b>{refreshedTime}</b> / refreshed</>}
         />
         <Card>
-          <div className="tabs">
-            <span className="tab on">All<span className="ct">{repos.length}</span></span>
-            <span className="tab">Repos<span className="ct">{repos.length}</span></span>
-            <span className="tab">Skills<span className="ct">{skillsBoard.length}</span></span>
-            <span className="tab">MCP<span className="ct">{mcpBoard.length}</span></span>
-            <span className="right"><span>Sort / momentum</span><span className="live">live</span></span>
-          </div>
-          <div className="table-scroll">
-            <table className="tbl">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Name</th>
-                  <th className="num">Stars</th>
-                  <th className="num">24h</th>
-                  <th className="num">7d</th>
-                  <th className="num">Score</th>
-                </tr>
-              </thead>
-              <tbody>
-                {liveRows.map((repo, index) => (
-                  <tr key={repo.id}>
-                    <td>{String(index + 1).padStart(2, "0")}</td>
-                    <td>
-                      <a href={`/repo/${repo.owner}/${repo.name}`}>
-                        <span>{repo.fullName}</span>
-                        <small>{categoryLabel(repo)} / {repo.language ?? "mixed"}</small>
-                      </a>
-                    </td>
-                    <td className="num">{formatCompact(repo.stars)}</td>
-                    <td className="num up">{formatDelta(repo.starsDelta24h)}</td>
-                    <td className="num">{formatDelta(repo.starsDelta7d)}</td>
-                    <td className="num">{repo.momentumScore.toFixed(1)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <LiveTopTable
+            repos={repos.slice(0, 50)}
+            skills={liveSkillItems}
+            mcps={liveMcpItems}
+            limit={15}
+          />
         </Card>
 
         <SectionHead
@@ -624,19 +730,7 @@ export default async function HomePage() {
             <span className="right">30d / <b>{formatCompact(total30d)}</b></span>
           </div>
           <div className="chart-wrap">
-            <svg viewBox="0 0 1100 280" preserveAspectRatio="none" aria-label="TrendingRepo index trend">
-              <path
-                d={sparkPath(
-                  itemListTop.flatMap((repo) => repo.sparklineData.slice(-2)).slice(-30),
-                  1100,
-                  280,
-                )}
-                fill="none"
-                stroke="var(--acc)"
-                strokeWidth="2"
-                vectorEffect="non-scaling-stroke"
-              />
-            </svg>
+            <Tr100IndexChart points={tr100Series} />
           </div>
           <ChartStats>
             <ChartStat label="today / stars" value={formatCompact(total24h)} sub="+24h aggregate" />

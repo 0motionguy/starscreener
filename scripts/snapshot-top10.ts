@@ -114,7 +114,9 @@ async function main(): Promise<void> {
   console.log(`[snapshot-top10] wrote key=top10:${date} ok`);
 }
 
-main().catch((err) => {
-  console.error("[snapshot-top10] FAILED", err);
-  process.exit(1);
-});
+main()
+  .then(() => process.exit(0))
+  .catch((err) => {
+    console.error("[snapshot-top10] FAILED", err);
+    process.exit(1);
+  });

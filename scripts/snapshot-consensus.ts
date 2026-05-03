@@ -115,7 +115,9 @@ async function main(): Promise<void> {
   console.log("[snapshot-consensus] done");
 }
 
-main().catch((err) => {
-  console.error("[snapshot-consensus] FAILED", err);
-  process.exit(1);
-});
+main()
+  .then(() => process.exit(0))
+  .catch((err) => {
+    console.error("[snapshot-consensus] FAILED", err);
+    process.exit(1);
+  });

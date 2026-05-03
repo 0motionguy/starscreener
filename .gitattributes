@@ -11,3 +11,9 @@ data/unknown-mentions.jsonl merge=union
 .data/ideas.jsonl merge=union
 .data/reactions.jsonl merge=union
 .data/predictions.jsonl merge=union
+
+# GitHub Actions composite actions — bash heredocs and indentation
+# trimming break on CRLF. Force LF on the runner regardless of the
+# author's checkout autocrlf setting.
+.github/actions/**/action.yml text eol=lf
+.github/workflows/*.yml text eol=lf

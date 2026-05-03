@@ -18,6 +18,7 @@ import {
   type HnStory,
 } from "@/lib/hackernews";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
+import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoLogoUrl, resolveLogoUrl } from "@/lib/logos";
 
@@ -142,10 +143,41 @@ export default async function HackerNewsTrendingPage() {
             ]}
           />
         }
-        listEyebrow="Story feed · top 50 by score"
-        list={<HnStoryFeed stories={stories} />}
+        listEyebrow="Story feed · 24h / 7d / 30d window"
+        list={<WindowedHnFeed allStories={allStories} />}
       />
     </main>
+  );
+}
+
+// AUDIT-2026-05-04 follow-up: 24h / 7d / 30d toggle on the HN feed.
+// HN stories carry `ageHours`; filter into windows server-side, render
+// three pre-built tables, let the client toggle.
+function WindowedHnFeed({ allStories }: { allStories: HnStory[] }) {
+  const sortByScore = (list: HnStory[]) =>
+    list
+      .slice()
+      .sort((a, b) => (b.trendingScore ?? 0) - (a.trendingScore ?? 0))
+      .slice(0, 50);
+  const inWindow = (max: number) =>
+    sortByScore(
+      allStories.filter(
+        (s) => s.ageHours !== undefined && s.ageHours <= max,
+      ),
+    );
+  const w24h = inWindow(24);
+  const w7d = inWindow(7 * 24);
+  const w30d = inWindow(30 * 24);
+  return (
+    <WindowedFeedTable
+      count24h={w24h.length}
+      count7d={w7d.length}
+      count30d={w30d.length}
+      table24h={<HnStoryFeed stories={w24h} />}
+      table7d={<HnStoryFeed stories={w7d} />}
+      table30d={<HnStoryFeed stories={w30d} />}
+      defaultWindow="7d"
+    />
   );
 }
 

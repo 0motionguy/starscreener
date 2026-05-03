@@ -7,7 +7,7 @@
 // render inside the list slot unchanged.
 
 import type { Metadata } from "next";
-import Image from "next/image";
+import { EntityLogo } from "@/components/ui/EntityLogo";
 import Link from "next/link";
 import { MessageSquare, ChevronUp } from "lucide-react";
 import { LaunchLinkIcons } from "@/components/producthunt/LaunchLinkIcons";
@@ -302,33 +302,27 @@ function LaunchFeed({ launches }: { launches: Launch[] }) {
 }
 
 function ThumbLink({ launch }: { launch: Launch }) {
-  if (launch.thumbnail) {
-    return (
-      <a
-        href={launch.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="shrink-0 block"
-        aria-label={`${launch.name} on ProductHunt`}
-      >
-        <Image
-          src={launch.thumbnail}
-          alt=""
-          width={40}
-          height={40}
-          className="size-10 rounded-md border border-border-primary bg-bg-tertiary object-cover"
-        />
-      </a>
-    );
-  }
+  // AUDIT-2026-05-04: switched from next/image to EntityLogo so blocked
+  // (CORB / ERR_BLOCKED_BY_ORB) thumbnail URLs fall back to a monogram
+  // tile instead of leaving a dead grey square. PH thumbnails normally
+  // come from ph-files.imgix.net (allowlisted in next.config.ts), but
+  // production logs showed sporadic ERR_BLOCKED_BY_ORB on this surface.
   return (
-    <div
-      aria-hidden
-      className="size-10 shrink-0 rounded-md border border-border-primary bg-bg-tertiary flex items-center justify-center font-mono text-[16px]"
-      style={{ color: PH_RED }}
+    <a
+      href={launch.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="shrink-0 block"
+      aria-label={`${launch.name} on ProductHunt`}
     >
-      ▲
-    </div>
+      <EntityLogo
+        src={launch.thumbnail ?? null}
+        name={launch.name}
+        size={40}
+        shape="square"
+        alt=""
+      />
+    </a>
   );
 }
 

@@ -90,6 +90,7 @@
     "purge:twitter:synthetic": "tsx scripts/purge-twitter-synthetic-data.ts",
     "audit:freshness": "node scripts/audit-freshness.mjs",
     "audit:freshness:report": "tsx scripts/audit-source-freshness.ts",
+    "freshness:check": "tsx scripts/check-freshness.mts",
     "snapshot:top10": "tsx scripts/snapshot-top10.ts",
     "snapshot:top10-sparklines": "tsx scripts/snapshot-top10-sparklines.ts",
     "snapshot:consensus": "tsx scripts/snapshot-consensus.ts",

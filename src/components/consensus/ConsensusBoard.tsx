@@ -23,7 +23,7 @@ const BAND_META: Record<
   strong_consensus: {
     cssClass: "cons",
     title: "STRONG CONSENSUS",
-    sub: "≥ 5 of 8 sources agree, gap ≤ 30",
+    sub: "≥ 3 of 8 sources agree, gap ≤ 60",
     badgeClass: "cons",
     badgeLabel: "CONSENSUS",
   },

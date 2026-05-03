@@ -251,17 +251,22 @@ function BubbleSvg({
         stroke={borderColor}
         strokeWidth={1}
       />
-      {/* Proportional arcs — bright/thick when firing, dim/thin when not */}
+      {/* Proportional arcs — bright/thick when firing, dim/thin when not.
+          Dim arcs use the CHANNEL color at low opacity (not borderColor)
+          so the ring reads as the canonical 5-channel mindshare visual
+          even when nothing is currently firing — borderColor on bg-secondary
+          renders as near-invisible dark-on-dark and was the root cause of
+          the "still no mindshare map" complaint on prod (2026-05-03). */}
       {arcs.map((arc) =>
         arc.visible ? (
           <path
             key={arc.channel}
             d={arc.d}
             fill="none"
-            stroke={firing[arc.channel] ? CHANNEL_COLORS[arc.channel] : borderColor}
-            strokeWidth={firing[arc.channel] ? 5 : 2}
+            stroke={CHANNEL_COLORS[arc.channel]}
+            strokeWidth={firing[arc.channel] ? 5 : 2.5}
             strokeLinecap="round"
-            opacity={firing[arc.channel] ? 1 : 0.5}
+            opacity={firing[arc.channel] ? 1 : 0.35}
           />
         ) : null,
       )}

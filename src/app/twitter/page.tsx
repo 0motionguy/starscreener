@@ -9,6 +9,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Globe } from "lucide-react";
 import { GithubIcon, XIcon } from "@/components/brand/BrandIcons";
+import { EntityLogo } from "@/components/ui/EntityLogo";
 import { formatNumber } from "@/lib/utils";
 import type {
   TwitterLeaderboardRow,
@@ -188,14 +189,20 @@ function MentionAuthorBubbles({
             aria-label={`Open top X mention from @${author.authorHandle}`}
             title={`@${author.authorHandle} - ${formatNumber(author.engagement)} engagement`}
           >
+            {/* AUDIT-2026-05-04: raw next/image showed a broken icon when
+                Twitter avatar URLs (pbs.twimg.com / unavatar.io) were
+                blocked. Plain <img> with referrerPolicy="no-referrer"
+                + onError-to-initial avoids that — falls back to the
+                getAuthorInitial letter the parent already computed. */}
             {avatarUrl ? (
-              <Image
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
                 src={avatarUrl}
                 alt=""
                 width={20}
                 height={20}
-                unoptimized
                 loading="lazy"
+                referrerPolicy="no-referrer"
                 className="h-full w-full object-cover"
               />
             ) : (
@@ -489,17 +496,16 @@ function TwitterLeaderboardTable({
                 <div className="min-w-0">
                   <div className="flex min-w-0 items-center justify-between gap-2">
                     <div className="flex min-w-0 items-center gap-2">
-                      <Image
+                      {/* AUDIT-2026-05-04: switched from next/image to
+                          EntityLogo so a blocked / 404 avatar URL renders a
+                          monogram instead of a dead grey square. Same fix
+                          as MaintainerCard / ProductHunt thumbs. */}
+                      <EntityLogo
                         src={getRepoAvatarUrl(row)}
+                        name={row.githubFullName}
+                        size={20}
+                        shape="circle"
                         alt=""
-                        width={18}
-                        height={18}
-                        unoptimized
-                        className="h-[18px] w-[18px] shrink-0 rounded-full"
-                        style={{
-                          border: "1px solid var(--v4-line-200)",
-                          background: "var(--v4-bg-100)",
-                        }}
                       />
                       <Link
                         href={`/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`}

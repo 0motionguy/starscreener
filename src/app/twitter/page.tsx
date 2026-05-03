@@ -180,6 +180,7 @@ function MentionAuthorBubbles({
       {authors.slice(0, 5).map((author, index) => {
         const tone = getAuthorBubbleTone(author.authorHandle);
         const avatarUrl = author.avatarUrl ?? null;
+        const initial = getAuthorInitial(author.authorHandle);
 
         return (
           <Link
@@ -189,11 +190,18 @@ function MentionAuthorBubbles({
             rel="noopener noreferrer"
             className={`${
               index === 0 ? "" : "-ml-1.5"
-            } inline-flex h-5 w-5 items-center justify-center overflow-hidden rounded-full border text-[9px] font-semibold uppercase ring-1 ring-bg-secondary transition-transform hover:z-10 hover:-translate-y-0.5`}
+            } relative inline-flex h-5 w-5 items-center justify-center overflow-hidden rounded-full border text-[9px] font-semibold uppercase ring-1 ring-bg-secondary transition-transform hover:z-10 hover:-translate-y-0.5`}
             style={tone}
             aria-label={`Open top X mention from @${author.authorHandle}`}
             title={`@${author.authorHandle} - ${formatNumber(author.engagement)} engagement`}
           >
+            {/* Initial sits behind the image so it shows through when unavatar.io
+                rate-limits us (429) or the avatar URL otherwise fails to load.
+                Without this, broken-image placeholders rendered as empty
+                colored circles in production. */}
+            <span aria-hidden className="absolute inset-0 flex items-center justify-center">
+              {initial}
+            </span>
             {avatarUrl ? (
               <Image
                 src={avatarUrl}
@@ -202,11 +210,9 @@ function MentionAuthorBubbles({
                 height={20}
                 unoptimized
                 loading="lazy"
-                className="h-full w-full object-cover"
+                className="relative h-full w-full object-cover"
               />
-            ) : (
-              getAuthorInitial(author.authorHandle)
-            )}
+            ) : null}
           </Link>
         );
       })}
@@ -516,7 +522,7 @@ function TwitterLeaderboardTable({
                     />
                     <Link
                       href={`/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`}
-                      className="min-w-0 break-all text-sm font-medium leading-tight transition-colors hover:text-[color:var(--v4-acc)]"
+                      className="block min-w-0 flex-1 truncate text-sm font-medium leading-tight transition-colors hover:text-[color:var(--v4-acc)]"
                       style={{ color: "var(--v4-ink-100)" }}
                       title={row.githubFullName}
                     >

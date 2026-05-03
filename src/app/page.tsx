@@ -97,6 +97,7 @@ interface HomeEntity {
   delta: number;
   pct: number | null;
   sparkline: number[];
+  hasRealSparkline: boolean;
   stars?: number;
   channels?: number;
   mentions?: number;
@@ -149,6 +150,7 @@ function repoEntity(repo: Repo): HomeEntity {
     delta: repo.starsDelta24h,
     pct: percentDelta(repo.starsDelta24h, repo.stars),
     sparkline: repo.sparklineData,
+    hasRealSparkline: repo.sparklineData.length > 1,
     stars: repo.stars,
     channels: sourceCount(repo),
     mentions: repo.mentionCount24h,
@@ -185,6 +187,7 @@ function ecosystemEntity(
     item.installsDelta1d;
   const raw7 = linked?.starsDelta7d ?? item.installsDelta7d;
   const raw30 = linked?.starsDelta30d ?? item.installsDelta30d;
+  const realSparkline = linked?.sparklineData ?? emptySparkline();
   let delta = 0;
   let primaryWindow: "24h" | "7d" | "30d" = "24h";
   if (typeof raw24 === "number" && raw24 !== 0) {
@@ -215,7 +218,8 @@ function ecosystemEntity(
     // No synthetic pct — was previously delta/base off-of-score, which
     // produced fake "+30%" badges on rows with zero real velocity.
     pct: null,
-    sparkline: buildSyntheticSparkline(item.signalScore, delta),
+    sparkline: realSparkline,
+    hasRealSparkline: realSparkline.length > 1,
     stars: typeof item.popularity === "number" ? item.popularity : undefined,
     channels: item.crossSourceCount,
     category: kind === "skill" ? "Skill" : "MCP",
@@ -228,12 +232,8 @@ function ecosystemEntity(
   };
 }
 
-function buildSyntheticSparkline(score: number, delta: number): number[] {
-  const trend = Math.max(1, delta / 120);
-  return Array.from({ length: 16 }, (_, i) => {
-    const wobble = Math.sin((i + score) * 0.9) * 3;
-    return Math.max(1, Math.round(score / 3 + i * trend + wobble));
-  });
+function emptySparkline(): number[] {
+  return [];
 }
 
 function topByDelta(repos: Repo[], limit: number): HomeEntity[] {
@@ -430,14 +430,20 @@ function EntityHeroRow({
         ) : null}
         {pctText ? <span className="pct">{pctText}</span> : null}
       </span>
-      <Sparkline
-        values={entity.sparkline}
-        color={lineColor}
-        className="spark"
-        area
-        width={92}
-        height={30}
-      />
+      {entity.hasRealSparkline ? (
+        <Sparkline
+          values={entity.sparkline}
+          color={lineColor}
+          className="spark"
+          area
+          width={92}
+          height={30}
+        />
+      ) : (
+        <span className="spark spark-missing" aria-label="No live series">
+          NO SERIES
+        </span>
+      )}
     </a>
   );
 }
@@ -466,9 +472,13 @@ function HeroPanel({
         <span className="muted-dot">/ {formatCompact(count)} tracked</span>
       </CardHeader>
       <div className="panel-body">
-        {items.map((item, index) => (
-          <EntityHeroRow key={`${title}-${item.id}`} entity={item} index={index} color={color} />
-        ))}
+        {items.length > 0 ? (
+          items.map((item, index) => (
+            <EntityHeroRow key={`${title}-${item.id}`} entity={item} index={index} color={color} />
+          ))
+        ) : (
+          <div className="hero-panel-empty">waiting for live rows</div>
+        )}
       </div>
       <div className="cat-foot">
         <span>updated {new Date(lastFetchedAt).toISOString().slice(11, 16)} utc</span>
@@ -679,7 +689,7 @@ export default async function HomePage() {
         .map((item) => ecosystemEntity(item, "skill", repoByFullName))
         .sort((a, b) => b.delta - a.delta)
         .slice(0, 5)
-    : topCategoryFallback(repos, ["ai-agents", "ai-ml", "devtools"], 5);
+    : [];
   const mcpBoard = mcpItems
     ? mcpItems
         .map((item) => ecosystemEntity(item, "mcp", repoByFullName))
@@ -693,7 +703,7 @@ export default async function HomePage() {
         (b.crossSignalScore ?? sourceCount(b)) -
         (a.crossSignalScore ?? sourceCount(a)),
     )
-    .slice(0, 5);
+    .slice(0, 8);
   const breakoutRepos = [...repos]
     .sort((a, b) => {
       const aBase = Math.max(1, a.starsDelta7d / 7);

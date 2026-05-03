@@ -90,7 +90,7 @@
   height: 24px;
   padding: 0 9px;
   border: 1px solid var(--color-border-strong);
-  background: var(--color-bg-raised);
+  background: color-mix(in srgb, var(--color-bg-raised) 78%, transparent);
   color: var(--color-text-muted);
   font-family: var(--font-mono);
   font-size: 10px;
@@ -107,13 +107,13 @@
   border-color: var(--color-border-hover);
 }
 .signals-chip-on {
-  background: var(--color-text-default);
-  color: var(--color-bg-canvas);
-  border-color: var(--color-text-default);
+  background: color-mix(in srgb, var(--color-bg-raised) 54%, var(--color-text-default));
+  color: var(--color-text-default);
+  border-color: var(--color-border-hover);
 }
 .signals-chip-on:hover {
-  background: var(--color-text-default);
-  color: var(--color-bg-canvas);
+  background: color-mix(in srgb, var(--color-bg-raised) 46%, var(--color-text-default));
+  color: var(--color-text-default);
 }
 .signals-chip-dot {
   width: 6px;
@@ -124,9 +124,27 @@
 /* Brand-mark chip: real source SVG sits inside the chip in currentColor.
  * Shape carries identity; chip background carries on/off state. */
 .signals-chip-brand {
+  --chip-color: var(--color-text-default);
   padding-left: 7px;
   padding-right: 10px;
   gap: 5px;
+  color: color-mix(in srgb, var(--chip-color) 56%, var(--color-text-muted));
+  border-color: color-mix(in srgb, var(--chip-color) 28%, var(--color-border-strong));
+  background: color-mix(in srgb, var(--chip-color) 7%, var(--color-bg-raised));
+}
+.signals-chip-brand:hover {
+  color: color-mix(in srgb, var(--chip-color) 72%, var(--color-text-default));
+  border-color: color-mix(in srgb, var(--chip-color) 46%, var(--color-border-hover));
+}
+.signals-chip-brand.signals-chip-on {
+  color: color-mix(in srgb, var(--chip-color) 88%, white);
+  border-color: color-mix(in srgb, var(--chip-color) 64%, var(--color-border-hover));
+  background: color-mix(in srgb, var(--chip-color) 16%, var(--color-bg-raised));
+}
+.signals-chip-brand.signals-chip-on:hover {
+  color: color-mix(in srgb, var(--chip-color) 94%, white);
+  border-color: color-mix(in srgb, var(--chip-color) 76%, var(--color-border-hover));
+  background: color-mix(in srgb, var(--chip-color) 20%, var(--color-bg-raised));
 }
 .signals-chip-brand svg {
   display: block;
@@ -135,6 +153,23 @@
 }
 .signals-chip-text {
   letter-spacing: 0.10em;
+}
+.signals-chip-count {
+  min-width: 18px;
+  padding: 1px 4px 0;
+  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+  border-radius: 2px;
+  font-size: 9px;
+  line-height: 1.1;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+.signals-chip-brand .signals-chip-count {
+  background: color-mix(in srgb, var(--chip-color) 8%, transparent);
+}
+.signals-chip-brand.signals-chip-on .signals-chip-count {
+  background: color-mix(in srgb, var(--chip-color) 22%, var(--color-bg-shell));
 }
 
 /* Consensus-row source mark: brand SVG inside a brand-tinted square so the

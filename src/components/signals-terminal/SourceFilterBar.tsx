@@ -14,9 +14,10 @@
 // refresh hooks are 30s-rate-limited.
 
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import type { SourceKey } from "@/lib/signals/types";
 import { allTopics, type TopicKey } from "@/lib/signals/topics";
-import { SourceMark } from "./SourceMark";
+import { SourceMark, SOURCE_BRAND_COLOR } from "./SourceMark";
 
 export { parseTopic } from "@/lib/signals/topics";
 
@@ -180,14 +181,24 @@ export interface SourceFilterBarProps {
   timeWindow: TimeWindow;
   /** null = all topics. */
   topic: TopicKey | null;
+  /** Per-source counts in the active time/topic window (before src filtering). */
+  sourceCounts: Record<SourceKey, number>;
   /** Total signals across the active sources/window/topic, shown on the right. */
   totalSignals: number;
+}
+
+function formatChipCount(value: number): string {
+  if (value < 1000) return String(value);
+  if (value < 10_000) return `${(value / 1000).toFixed(1)}k`;
+  if (value < 1_000_000) return `${Math.round(value / 1000)}k`;
+  return `${(value / 1_000_000).toFixed(1)}m`;
 }
 
 export function SourceFilterBar({
   active,
   timeWindow,
   topic,
+  sourceCounts,
   totalSignals,
 }: SourceFilterBarProps) {
   const isAllOn = active.size === ALL_KEYS.size;
@@ -231,6 +242,7 @@ export function SourceFilterBar({
 
       {SOURCES.map((s) => {
         const on = active.has(s.key);
+        const count = sourceCounts[s.key] ?? 0;
         return (
           <Link
             key={s.key}
@@ -239,11 +251,17 @@ export function SourceFilterBar({
             className={`signals-chip signals-chip-brand${on ? " signals-chip-on" : ""}`}
             aria-pressed={on}
             aria-label={s.label}
+            style={
+              {
+                "--chip-color": SOURCE_BRAND_COLOR[s.key],
+              } as CSSProperties
+            }
           >
             {/* monochrome always — icon adopts chip text color so it reads
                 cleanly on every chip state (off=muted dark, on=inverted). */}
             <SourceMark source={s.key} size={13} monochrome />
             <span className="signals-chip-text">{s.label}</span>
+            <span className="signals-chip-count">{formatChipCount(count)}</span>
           </Link>
         );
       })}

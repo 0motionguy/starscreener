@@ -5,6 +5,8 @@
 import Link from "next/link";
 import type { ConsensusStory } from "@/lib/signals/consensus";
 import { Card, CardHeader } from "@/components/ui/Card";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoLogoUrl } from "@/lib/logos";
 import { SourceMark, SOURCE_BRAND_COLOR } from "./SourceMark";
 
 function buildSparkPath(
@@ -106,6 +108,9 @@ export function ConsensusRadar({ stories, totalActive }: ConsensusRadarProps) {
               ? `/repo/${story.linkedRepo}`
               : story.lead.url ?? "#";
             const isInternal = !!story.linkedRepo;
+            const logoSrc = story.linkedRepo
+              ? repoLogoUrl(story.linkedRepo, 64)
+              : null;
 
             const visibleSources = story.sources.slice(0, 5);
             const moreCount = story.sources.length - visibleSources.length;
@@ -162,6 +167,12 @@ export function ConsensusRadar({ stories, totalActive }: ConsensusRadarProps) {
                       {story.delta >= 0 ? `+${story.delta}` : story.delta}
                     </span>
                   </div>
+                  <EntityLogo
+                    src={logoSrc}
+                    name={story.linkedRepo ?? story.title}
+                    size={24}
+                    className="cons-av"
+                  />
                   <div className="nm">
                     <div
                       className="h"

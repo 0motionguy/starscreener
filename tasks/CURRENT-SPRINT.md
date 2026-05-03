@@ -64,3 +64,19 @@ See individual phase prompts.
   54/54; `npx vitest run tests/reddit-source.test.ts` passed 2/2;
   root `npm run typecheck` passed; worker `npm run typecheck` passed;
   `npm run lint:guards` passed.
+- 2026-05-03 landing/signals production wiring repair shipped (no file removals):
+  landing skills board now shows only live skill rows (no repo fallback),
+  landing consensus list expanded to 8 rows, live table stars now render
+  strong white starred values, and `/signals` source chips now show
+  per-source counts with brand-tinted dark active states instead of white
+  pills. Consensus radar rows now render project logos (`EntityLogo`) plus
+  source marks. Verification: `npx vitest run
+  src/lib/__vitest__/home-page-honesty.test.ts
+  src/components/home/__tests__/LiveTopTable.test.tsx
+  src/components/signals-terminal/__tests__/SourceFilterBar.test.tsx` passed
+  5/5; `npm run typecheck` passed; `npm run build` passed; production deploy
+  completed at
+  `https://starscreener-r8xdgyr4r-kermits-projects-6330acd4.vercel.app`;
+  `https://trendingrepo.com/signals` now contains `signals-chip-count` and
+  `--chip-color` markers, and `https://trendingrepo.com/` renders 8
+  `cons-row` entries.

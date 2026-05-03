@@ -2124,6 +2124,26 @@ body::before {
   width: 92px;
   height: 30px;
 }
+.hero-row .spark.spark-missing {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--line-300);
+  color: var(--ink-400);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--tracking-control);
+  text-transform: uppercase;
+}
+
+.hero-panel-empty {
+  padding: 18px 14px;
+  color: var(--ink-400);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  letter-spacing: var(--tracking-ui);
+  text-transform: uppercase;
+}
 
 .cat-foot {
   display: flex;
@@ -2607,6 +2627,28 @@ body::before {
 .tbl-rich td {
   vertical-align: middle;
   padding: 10px 10px;
+}
+
+.tbl-rich td.metric-num {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.tbl-rich td.stars-num {
+  color: var(--ink-000);
+}
+
+.tbl-rich .stars-main {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  color: inherit;
+}
+
+.tbl-rich .stars-main svg {
+  color: currentColor;
 }
 
 .tbl-rich .rk-cell {

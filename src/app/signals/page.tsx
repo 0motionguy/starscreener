@@ -227,9 +227,8 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
   // own native data regardless of the URL filter.
   const nowMs = Date.now();
   const cutoffMs = nowMs - lookbackHours * 3_600_000;
-  const filteredItems = items.filter(
+  const windowTopicItems = items.filter(
     (it) =>
-      activeSourceFilter.has(it.source) &&
       // Items missing a usable timestamp (some GitHub trending rows) are
       // kept so they don't disappear on shorter windows. They cluster at
       // the dataset's fetchedAt which lives inside any reasonable window.
@@ -239,6 +238,12 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       (activeTopic === null || matchesTopic(it, activeTopic)),
   );
 
+  const filteredItems = windowTopicItems.filter(
+    (it) =>
+      activeSourceFilter.has(it.source),
+  );
+
+  const sourceWindowVolume = buildVolume(windowTopicItems, { nowMs, lookbackHours });
   const volume = buildVolume(filteredItems, { nowMs, lookbackHours });
   const tagMomentum = buildTagMomentum(filteredItems, {
     nowMs,
@@ -471,6 +476,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
         active={activeSourceFilter}
         timeWindow={activeWindow}
         topic={activeTopic}
+        sourceCounts={sourceWindowVolume.perSource}
         totalSignals={volume.totalItems}
       />
 

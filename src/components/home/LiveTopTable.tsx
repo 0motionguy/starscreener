@@ -7,6 +7,7 @@ import {
   ArrowUp,
   ArrowDown,
   ArrowUpDown,
+  Star,
   Brain,
   FileText,
   Package,
@@ -460,16 +461,21 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
                       {formatCompact(row.mentionCount24h)}
                     </span>
                   </td>
-                  <td className="num">{formatCompact(row.stars)}</td>
-                  <td className={`num ${row.starsDelta24h < 0 ? "dn" : "up"}`}>
+                  <td className="num metric-num stars-num">
+                    <span className="stars-main">
+                      <Star size={12} strokeWidth={2.1} fill="currentColor" />
+                      {formatCompact(row.stars)}
+                    </span>
+                  </td>
+                  <td className={`num metric-num ${row.starsDelta24h < 0 ? "dn" : "up"}`}>
                     {formatDelta(row.starsDelta24h)}
                     {pct24 ? <small className="pct">{pct24}</small> : null}
                   </td>
-                  <td className={`num ${row.starsDelta7d < 0 ? "dn" : "up"}`}>
+                  <td className={`num metric-num ${row.starsDelta7d < 0 ? "dn" : "up"}`}>
                     {formatDelta(row.starsDelta7d)}
                     {pct7 ? <small className="pct">{pct7}</small> : null}
                   </td>
-                  <td className={`num ${row.starsDelta30d < 0 ? "dn" : "up"}`}>
+                  <td className={`num metric-num ${row.starsDelta30d < 0 ? "dn" : "up"}`}>
                     {formatDelta(row.starsDelta30d)}
                     {pct30 ? <small className="pct">{pct30}</small> : null}
                   </td>
@@ -541,7 +547,7 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
                       );
                     })()}
                   </td>
-                  <td className="num">{formatCompact(row.forks)}</td>
+                  <td className="num metric-num">{formatCompact(row.forks)}</td>
                   <ActionCell
                     repoId={row.id}
                     repoName={row.fullName}

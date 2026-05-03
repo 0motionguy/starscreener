@@ -32,7 +32,7 @@ import { X } from "lucide-react";
 import { useSidebarStore } from "@/lib/store";
 import { SidebarContent } from "./SidebarContent";
 import { SidebarSkeleton } from "./SidebarSkeleton";
-import { useSidebarData, useTopRepos, useWatchlistPreview } from "./Sidebar";
+import { useSidebarData, useWatchlistPreview } from "./Sidebar";
 
 export function MobileDrawer() {
   const open = useSidebarStore((s) => s.mobileOpen);
@@ -42,7 +42,6 @@ export function MobileDrawer() {
 
   const data = useSidebarData();
   const watchlistPreview = useWatchlistPreview(data?.reposById);
-  const topRepos = useTopRepos(data?.reposById);
 
   // Escape-to-close + body scroll lock. Effect only runs while the drawer
   // is open so we don't hold the document listener unnecessarily.
@@ -179,7 +178,6 @@ export function MobileDrawer() {
                   unreadAlerts={data.unreadAlerts}
                   sourceCounts={data.sourceCounts}
                   trendingReposCount={data.trendingReposCount}
-                  topRepos={topRepos}
                   onClose={close}
                 />
               ) : (

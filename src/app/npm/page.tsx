@@ -140,7 +140,7 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
   const topMover = packages[0] ?? null;
   const topMoverDelta = topMover ? deltaForNpmWindow(topMover, activeWindow) : 0;
   const topMoverPct = topMover ? deltaPctForNpmWindow(topMover, activeWindow) ?? 0 : 0;
-  const linkedRepoCount = file.counts?.linkedRepos ?? packages.length;
+  const linkedRepoCount = packages.filter((pkg) => pkg.linkedRepo).length;
 
   return (
     <main className="home-surface">
@@ -150,8 +150,8 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
             <b>NPM</b> · TERMINAL · /NPM
           </>
         }
-        title="npm · hidden gems"
-        lede="Fastest-growing npm packages by 24h / 7d / 30d download velocity. Ranked by percentage growth so small packages doubling beat the steady mainstream giants — every row links back to a GitHub repo."
+        title="npm · package velocity"
+        lede="Repo-linked npm packages ranked by 24h / 7d / 30d download movement. Every row comes from the fresh npm corpus and links back to its GitHub repo."
         clock={
           <>
             <span className="big">{formatClock(file.fetchedAt)}</span>
@@ -165,7 +165,7 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
             cells={[
               {
                 label: "TRACKED",
-                value: packages.length.toLocaleString("en-US"),
+                value: linkedRepoCount.toLocaleString("en-US"),
                 sub: "repo-linked pkgs",
                 pip: NPM_RED,
               },
@@ -194,7 +194,7 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
             ]}
           />
         }
-        listEyebrow={`Hidden gems · top ${packages.length} by ${activeWindow} growth %`}
+        listEyebrow={`Repo-linked packages · top ${packages.length} by ${activeWindow} movement`}
         list={
           <>
             <TabNav active={activeWindow} />

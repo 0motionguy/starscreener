@@ -16,7 +16,7 @@
  *   3. LLM / PACK TERMINAL — NPM / Hugging Face / Datasets / Spaces
  *   4. LAUNCH TERMINAL   — Funding / Revenue / Hackathons / Launch
  *   5. RESEARCH TERMINAL — arXiv Papers / Cited Repos
- *   6. TOOLS             — Watchlist / Compare / Tier List / Signal Radar
+ *   6. TOOLS             — Watchlist / Compare / Tier List / MindShare / Top 10
  *   7. WATCHING          — top 5 watchlist preview cards
  *
  * Three badge tones:
@@ -24,7 +24,7 @@
  *   - `default` — neutral total for cumulative inventories.
  *   - `accent`  — purple pill for the user's own counts.
  */
-import { useEffect, useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -33,16 +33,13 @@ import {
   BarChart3,
   Bot,
   Brain,
-  Calculator,
   CalendarDays,
-  ChevronDown,
   Cpu,
   DollarSign,
   Eye,
   FileText,
   GitCompareArrows,
   GraduationCap,
-  Layers,
   Library,
   Lightbulb,
   Network,
@@ -50,7 +47,6 @@ import {
   Plug,
   Radar,
   Rocket,
-  Tags,
   TrendingUp,
   Trophy,
   X,
@@ -99,13 +95,6 @@ const LobstersSidebarIcon: SidebarIconComponent = (p) => (
   <LobstersIcon {...p} monochrome />
 );
 
-export interface SidebarTopRepo {
-  id: string;
-  fullName: string;
-  owner: string;
-  name: string;
-}
-
 export interface SidebarContentProps {
   categoryStats: CategoryStats[];
   metaCounts: MetaCounts;
@@ -116,8 +105,6 @@ export interface SidebarContentProps {
   sourceCounts?: SidebarSourceCounts;
   /** Total trending repos count (the big "Trending Repos" badge). */
   trendingReposCount?: number;
-  /** Top-N repos by momentum, mirrors home page ranking. */
-  topRepos?: SidebarTopRepo[];
   onClose?: () => void;
 }
 
@@ -281,118 +268,15 @@ function V2Chip({
   );
 }
 
-function TrendingReposRow({
-  active,
-  count,
-  expanded,
-  onToggle,
-  onNavigate,
-}: {
-  active: boolean;
-  count: number;
-  expanded: boolean;
-  onToggle: () => void;
-  onNavigate: () => void;
-}) {
-  return (
-    <div
-      className={cn("nav relative w-full", active && "active")}
-      style={{ color: active ? "var(--ink-000)" : "var(--ink-200)" }}
-    >
-      <button
-        type="button"
-        onClick={onNavigate}
-        className="flex flex-1 min-w-0 items-center gap-2 text-left"
-      >
-        <span
-          className="ic"
-          style={{ color: active ? "var(--acc)" : "var(--ink-300)" }}
-        >
-          <TrendingUp size={14} />
-        </span>
-        <span className="flex-1 truncate tracking-[0.16em]">Trending Repos</span>
-      </button>
-      {count > 0 ? <V2Chip value={compactCount(count)} tone="default" /> : null}
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-label={expanded ? "Collapse top 50" : "Expand top 50"}
-        aria-expanded={expanded}
-        className="ml-1 inline-flex h-5 w-5 shrink-0 items-center justify-center"
-        style={{ color: "var(--ink-300)" }}
-      >
-        <ChevronDown
-          size={12}
-          style={{
-            transform: expanded ? "rotate(0deg)" : "rotate(-90deg)",
-            transition: "transform 120ms ease",
-          }}
-        />
-      </button>
-    </div>
-  );
-}
-
-function TrendingReposSubmenu({
-  repos,
-  pathname,
-  onClose,
-}: {
-  repos: SidebarTopRepo[];
-  pathname: string;
-  onClose?: () => void;
-}) {
-  return (
-    <div
-      className="overflow-y-auto scrollbar-hide"
-      style={{
-        maxHeight: 280,
-        borderLeft: "1px solid var(--v4-line-200)",
-        marginLeft: 14,
-        paddingLeft: 6,
-      }}
-    >
-      {repos.map((r, i) => {
-        const href = `/repo/${r.owner}/${r.name}`;
-        const active = pathname === href;
-        return (
-          <Link
-            key={r.id}
-            href={href}
-            onClick={onClose}
-            className={cn("nav relative w-full", active && "active")}
-            style={{
-              color: active ? "var(--ink-000)" : "var(--ink-300)",
-              fontSize: 10,
-              padding: "2px 8px",
-              minHeight: 22,
-            }}
-          >
-            <span
-              className="font-mono tabular-nums shrink-0 text-right"
-              style={{ width: 22, color: "var(--ink-500)" }}
-            >
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <span className="flex-1 truncate">{r.fullName}</span>
-          </Link>
-        );
-      })}
-    </div>
-  );
-}
-
 export function SidebarContent({
   metaCounts,
   watchlistPreview,
   sourceCounts,
   trendingReposCount,
-  topRepos,
   onClose,
 }: SidebarContentProps) {
   const router = useRouter();
   const pathname = usePathname() ?? "/";
-  const activeMetaFilter = useFilterStore((s) => s.activeMetaFilter);
   const setActiveMetaFilter = useFilterStore((s) => s.setActiveMetaFilter);
   const setActiveTag = useFilterStore((s) => s.setActiveTag);
   const setActiveTab = useFilterStore((s) => s.setActiveTab);
@@ -401,23 +285,6 @@ export function SidebarContent({
 
   const watchCount = useWatchlistStore((s) => s.repos.length);
   const compareCount = useCompareStore((s) => s.repos.length);
-
-  const [reposExpanded, setReposExpanded] = useState(false);
-  const top50 = (topRepos ?? []).slice(0, 50);
-
-  function goToReposTerminal(filter: "breakouts" | "new" | null) {
-    setActiveTag(null);
-    if (filter) {
-      setActiveMetaFilter(filter);
-    } else {
-      setActiveMetaFilter(null);
-      setActiveTab("trending");
-    }
-    if (pathname !== "/") {
-      router.push("/");
-    }
-    onClose?.();
-  }
 
   function goToAgentRepos() {
     setActiveTag(null);
@@ -477,19 +344,17 @@ export function SidebarContent({
       <CursorRail className="flex-1 overflow-y-auto scrollbar-hide">
         {/* TREND TERMINAL */}
         <V2Section label="TREND TERMINAL">
-          <TrendingReposRow
+          <V2NavRow
+            href="/githubrepo"
+            icon={TrendingUp}
+            label="Trending Repos"
+            badge={
+              trendingReposCount && trendingReposCount > 0
+                ? compactCount(trendingReposCount)
+                : undefined
+            }
             active={pathname === "/githubrepo"}
-            count={trendingReposCount ?? 0}
-            expanded={reposExpanded}
-            onToggle={() => setReposExpanded((v) => !v)}
-            onNavigate={() => {
-              if (pathname !== "/githubrepo") router.push("/githubrepo");
-              onClose?.();
-            }}
           />
-          {reposExpanded && top50.length > 0 ? (
-            <TrendingReposSubmenu repos={top50} pathname={pathname} onClose={onClose} />
-          ) : null}
           <V2NavRow
             href="/skills"
             icon={GraduationCap}
@@ -643,12 +508,6 @@ export function SidebarContent({
             label="HF Spaces"
             active={pathname === "/huggingface/spaces"}
           />
-          <V2NavRow
-            icon={BarChart3}
-            label="LLM Charts"
-            badge="Soon"
-            disabled
-          />
         </V2Section>
 
         {/* LAUNCH TERMINAL */}
@@ -737,15 +596,6 @@ export function SidebarContent({
               data-store, so freshness can't be tracked. Re-enable once
               predictions land in Redis like the other surfaces. */}
           <V2NavRow
-            href="/categories"
-            icon={Tags}
-            label="Categories"
-            active={
-              pathname === "/categories" ||
-              pathname.startsWith("/categories/")
-            }
-          />
-          <V2NavRow
             href="/collections"
             icon={Library}
             label="Collections"
@@ -753,18 +603,6 @@ export function SidebarContent({
               pathname === "/collections" ||
               pathname.startsWith("/collections/")
             }
-          />
-          <V2NavRow
-            href="/pricing"
-            icon={Layers}
-            label="Plans"
-            active={pathname === "/pricing"}
-          />
-          <V2NavRow
-            href="/tools/revenue-estimate"
-            icon={Calculator}
-            label="Revenue Tool"
-            active={pathname === "/tools/revenue-estimate"}
           />
         </V2Section>
 
@@ -809,14 +647,6 @@ export function SidebarContent({
             badge="New"
             badgeTone="accent"
             active={pathname === "/top10" || pathname.startsWith("/top10/")}
-          />
-          <V2NavRow
-            href="/signals"
-            icon={Radar}
-            label="Signal Radar"
-            active={
-              pathname === "/signals" || pathname.startsWith("/signals/")
-            }
           />
         </V2Section>
 

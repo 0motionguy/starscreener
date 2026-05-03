@@ -146,51 +146,28 @@ export function deltaForNpmWindow(pkg: NpmPackageRow, window: NpmWindow): number
   return pkg.delta30d ?? 0;
 }
 
-// Minimum percentage growth to qualify as a "hidden gem" for that window.
-// Below this, a positive delta is just maintenance traffic / drift (e.g.
-// @anthropic-ai/sdk +2.1% is not "trending", it's a steady mainstream
-// package). Tuned per window because 7d/30d naturally have larger swings.
-const HIDDEN_GEM_PCT_FLOOR: Record<NpmWindow, number> = {
-  "24h": 5,
-  "7d": 5,
-  "30d": 5,
-};
-
 export function getTopNpmPackages(
   window: NpmWindow = "24h",
   limit?: number,
 ): NpmPackageRow[] {
-  // "Hidden gems" ranking: only show packages with meaningful growth in the
-  // active window. Steady mainstream traffic (+2% drift on a 50M/day
-  // package) is excluded entirely — the feed exists to surface what's
-  // accelerating, not to enumerate the npm registry. Sorted by deltaPct
-  // desc so a small package doubling outranks a big one creeping.
-  //
-  // Tiebreaker chain inside the qualifying set:
-  //   1) deltaPct desc — % growth is the gem signal
-  //   2) delta desc    — among similar growth %, bigger absolute movement
-  //   3) trendScore    — scrape-time composite (still useful as backstop)
-  //   4) name          — stable order
-  const floor = HIDDEN_GEM_PCT_FLOOR[window];
-  const gems = getNpmPackages().filter((pkg) => {
-    if (deltaForNpmWindow(pkg, window) <= 0) return false;
-    const pct = deltaPctForNpmWindow(pkg, window);
-    return typeof pct === "number" && pct >= floor;
-  });
+  const rows = getNpmPackages();
 
-  gems.sort((a, b) => {
+  rows.sort((a, b) => {
+    const byMetric = metricForNpmWindow(b, window) - metricForNpmWindow(a, window);
+    if (byMetric !== 0) return byMetric;
     const byPct =
       (deltaPctForNpmWindow(b, window) ?? 0) -
       (deltaPctForNpmWindow(a, window) ?? 0);
     if (byPct !== 0) return byPct;
     const byDelta = deltaForNpmWindow(b, window) - deltaForNpmWindow(a, window);
     if (byDelta !== 0) return byDelta;
-    const byMetric = metricForNpmWindow(b, window) - metricForNpmWindow(a, window);
-    if (byMetric !== 0) return byMetric;
+    const byDownloads =
+      downloadsForNpmWindow(b, window) - downloadsForNpmWindow(a, window);
+    if (byDownloads !== 0) return byDownloads;
     return a.name.localeCompare(b.name);
   });
 
-  return typeof limit === "number" ? gems.slice(0, limit) : gems;
+  return typeof limit === "number" ? rows.slice(0, limit) : rows;
 }
 
 export function getNpmPackageByName(name: string): NpmPackageRow | null {

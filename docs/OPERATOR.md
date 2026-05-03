@@ -4,7 +4,7 @@
 
 **Purpose:** every Claude Code session can read this file and instantly know the current state of the engine, what is shipping, and what is broken. Refreshed by `/loop` autonomous runs and by hand. **Source of truth for the audit-2026-05-04 follow-up.**
 
-Last refreshed: 2026-05-03 ~04:20 UTC (autonomous tick)
+Last refreshed: 2026-05-03 (zombie cleanup tick)
 
 ---
 
@@ -288,7 +288,7 @@ If the user says "go" or "continue", consider checking PR #93 status first — i
 **Code-fixable (next session can grab)**
 - HF rolling-delta collector — required for /huggingface/* window switcher (currently API gives only absolute counts)
 - `/twitter` and `/ideas` should route through data-store for freshness tracking
-- 15 zombie scripts identified by audit (delete after owner confirmation)
+- ~~15 zombie scripts identified by audit~~ ✅ 14 deleted on 2026-05-03 (kept `_github-token-pool-mini.mjs` for the _* convention)
 - audit-freshness budget tightening for hourly sources (currently 6× cadence; comment says target is 2×)
 
 **External / blocked**

@@ -34,6 +34,7 @@ import {
   Bot,
   Brain,
   CalendarDays,
+  Coins,
   Cpu,
   DollarSign,
   Eye,
@@ -535,6 +536,17 @@ export function SidebarContent({
             }
             badgeTone="default"
             active={pathname === "/revenue" || pathname.startsWith("/revenue/")}
+          />
+          <V2NavRow
+            href="/agent-commerce"
+            icon={Coins}
+            label="Agent Commerce"
+            badge="x402"
+            badgeTone="accent"
+            active={
+              pathname === "/agent-commerce" ||
+              pathname.startsWith("/agent-commerce/")
+            }
           />
           {/* "Drop Revenue" sidebar entry hidden 2026-05-03 — page kept on
               disk so direct links still work, but the audit flagged it as

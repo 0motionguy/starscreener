@@ -3,7 +3,6 @@ import * as Sentry from "@sentry/nextjs";
 import {
   ApifyQuotaError,
   ApifyTokenInvalidError,
-  NitterAllInstancesDownError,
   TwitterAllSourcesFailedError,
 } from "@/lib/errors";
 
@@ -16,6 +15,8 @@ import { tryNitterScrape } from "./nitter-twitter";
 import { recordDegradation, recordTwitterCall } from "./twitter-telemetry";
 
 const RETRY_DELAYS_MS = [1_000, 2_000, 4_000] as const;
+let sentryCaptureMessage = Sentry.captureMessage;
+let sentryCaptureException = Sentry.captureException;
 
 export type TwitterFallbackOptions = ApifyScrapeOptions;
 
@@ -45,7 +46,7 @@ export async function scrapeTwitterFor(
       responseTimeMs: Date.now() - startedApify,
     });
     await recordDegradation({ from: "apify", error: message });
-    Sentry.captureMessage("twitter source degraded: apify -> nitter fallback", {
+    sentryCaptureMessage("twitter source degraded: apify -> nitter fallback", {
       level: "warning",
       tags: { pool: "twitter", alert: "twitter-degraded", source: "apify" },
       extra: { repoFullName, error: message },
@@ -55,9 +56,7 @@ export async function scrapeTwitterFor(
     try {
       const nitterSignals = await runWithRetry(
         () => tryNitterScrape(repoFullName, options),
-        (nitterError) =>
-          nitterError instanceof NitterAllInstancesDownError ||
-          isRecoverableTransportError(nitterError),
+        (nitterError) => isRecoverableTransportError(nitterError),
       );
       await recordTwitterCall({
         source: "nitter",
@@ -80,7 +79,7 @@ export async function scrapeTwitterFor(
         `Apify failed: ${message}; Nitter failed: ${nitterMessage}`,
         { repoFullName },
       );
-      Sentry.captureException(fatal, {
+      sentryCaptureException(fatal, {
         level: "fatal",
         tags: { pool: "twitter", alert: "twitter-all-sources-failed" },
       });
@@ -159,4 +158,17 @@ async function alertOps(
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolveSleep) => setTimeout(resolveSleep, ms));
+}
+
+export function _setTwitterFallbackSentryForTests(deps: {
+  captureMessage: typeof Sentry.captureMessage;
+  captureException: typeof Sentry.captureException;
+}): void {
+  sentryCaptureMessage = deps.captureMessage;
+  sentryCaptureException = deps.captureException;
+}
+
+export function _resetTwitterFallbackSentryForTests(): void {
+  sentryCaptureMessage = Sentry.captureMessage;
+  sentryCaptureException = Sentry.captureException;
 }

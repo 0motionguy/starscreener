@@ -9,13 +9,13 @@ import {
 } from "./BgThemes";
 
 /**
- * Background-theme picker — five swatches (3 dark + 2 light).
- * Writes the chosen id to localStorage and applies it by setting
- * `html[data-bg-theme]`, which globals.css uses to override the V3
- * surface tokens for that theme. Mirrors AccentPicker's API.
+ * Surface-scale picker — three buttons (Aa sm / md / lg) that the user
+ * clicks to scale the site's typography + spacing. Writes the chosen id
+ * to localStorage and applies it by setting `html[data-surface]`, which
+ * globals.css uses to scope the type / spacing tokens.
  */
 export function BgThemePicker({ compact = false }: { compact?: boolean }) {
-  const [activeId, setActiveId] = useState(V3_DEFAULT_BG_ID);
+  const [activeId, setActiveId] = useState<string>(V3_DEFAULT_BG_ID);
   const active = getV3BgTheme(activeId);
 
   // Mount: read the saved id, sync state + apply.
@@ -24,19 +24,19 @@ export function BgThemePicker({ compact = false }: { compact?: boolean }) {
       const saved = localStorage.getItem(V3_BG_THEME_STORAGE_KEY);
       const theme = getV3BgTheme(saved);
       setActiveId(theme.id);
-      document.documentElement.dataset.bgTheme = theme.id;
+      document.documentElement.dataset.surface = theme.id;
     } catch {
-      document.documentElement.dataset.bgTheme = V3_DEFAULT_BG_ID;
+      document.documentElement.dataset.surface = V3_DEFAULT_BG_ID;
     }
   }, []);
 
   function pick(id: string) {
     setActiveId(id);
-    document.documentElement.dataset.bgTheme = id;
+    document.documentElement.dataset.surface = id;
     try {
       localStorage.setItem(V3_BG_THEME_STORAGE_KEY, id);
     } catch {
-      // Theme still applies for this session.
+      // Surface still applies for this session.
     }
   }
 
@@ -50,26 +50,23 @@ export function BgThemePicker({ compact = false }: { compact?: boolean }) {
           </span>
         ) : null}
       </div>
-      <div className="grid grid-cols-5 gap-1.5">
+      <div className="grid grid-cols-3 gap-1.5">
         {V3_BG_THEMES.map((theme) => {
           const isActive = theme.id === activeId;
           return (
             <button
               key={theme.id}
               type="button"
-              aria-label={`Set background to ${theme.label}`}
+              aria-label={`Set surface scale to ${theme.label}`}
               aria-pressed={isActive}
               onClick={() => pick(theme.id)}
               title={theme.label}
               className="v3-swatch relative"
               style={
                 {
-                  // Reuse the swatch chrome from globals.css but show
-                  // a surface-coloured fill + a tiny "Aa" so the user
-                  // can preview ink contrast at a glance.
-                  "--swatch": theme.bg,
+                  "--swatch": "var(--v4-bg-050)",
                   "--swatch-glow": "transparent",
-                  border: `1px solid ${theme.bgEdge}`,
+                  border: `1px solid var(--v4-line-200)`,
                 } as React.CSSProperties
               }
             >
@@ -78,10 +75,10 @@ export function BgThemePicker({ compact = false }: { compact?: boolean }) {
                 className="absolute inset-0 flex items-center justify-center"
                 style={{
                   fontFamily: "var(--font-geist), Inter, sans-serif",
-                  fontSize: 9,
+                  fontSize: theme.previewSize,
                   fontWeight: 600,
                   letterSpacing: "-0.01em",
-                  color: theme.ink,
+                  color: "var(--v4-ink-100)",
                   opacity: isActive ? 1 : 0.7,
                 }}
               >

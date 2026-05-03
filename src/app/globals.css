@@ -607,6 +607,161 @@
 }
 
 /* ---------------------------------------------------------------------------
+   Surface scale — three sizes wired by SidebarFooter's "Aa" picker.
+   `html[data-surface="md"]` is the default (matches today's rendering),
+   so we don't redeclare its values here — only the sm / lg deltas. We
+   lean on `font-size` set on `html` to rescale every `rem`-based type
+   token globally; pixel-fixed `--space-*` tokens stay alone so layout
+   doesn't shear. The sm / lg scopes also nudge `--text-base` so non-rem
+   readers (the 13px copy in cards, monospace lockups) follow along.
+   --------------------------------------------------------------------------- */
+
+html[data-surface="sm"] {
+  font-size: 14px;          /* 87.5% of the 16px root → tightens rem text */
+  --text-base: 0.75rem;     /* 12px @ 16px root, scales further via root */
+  --layout-content-padding: 12px;
+  --layout-panel-padding-x: 10px;
+  --layout-panel-padding-y: 6px;
+}
+
+html[data-surface="lg"] {
+  font-size: 18px;          /* 112.5% of root → loosens rem text */
+  --text-base: 0.875rem;    /* 14px @ 16px root, scales further via root */
+  --layout-content-padding: 16px;
+  --layout-panel-padding-x: 14px;
+  --layout-panel-padding-y: 10px;
+}
+
+/* ---------------------------------------------------------------------------
+   Accent themes — five named swatches (orange / blue / yellow / green /
+   purple) wired by SidebarFooter's accent picker. Sets the v4 / v3 / v2
+   accent + brand cascade variables so every component that reads
+   `--v4-acc`, `--color-accent`, `--color-brand`, etc. recolours with
+   one click. Default (`html[data-theme="orange"]`) matches the existing
+   first-paint colour, so the no-attribute fallback case stays orange.
+   --------------------------------------------------------------------------- */
+
+html[data-theme="orange"] {
+  --v4-acc: #fb923c;
+  --v4-acc-hover: #fdba74;
+  --v4-acc-dim: #c2410c;
+  --v4-acc-soft: rgba(251, 146, 60, 0.14);
+  --v4-acc-glow: rgba(251, 146, 60, 0.45);
+  --v3-acc: #fb923c;
+  --v3-acc-hover: #fdba74;
+  --v3-acc-dim: #c2410c;
+  --v3-acc-soft: rgba(251, 146, 60, 0.14);
+  --v3-acc-glow: rgba(251, 146, 60, 0.45);
+  --color-accent: #fb923c;
+  --color-accent-hover: #fdba74;
+  --color-accent-dim: #c2410c;
+  --color-accent-soft: rgba(251, 146, 60, 0.14);
+  --color-accent-glow: rgba(251, 146, 60, 0.45);
+  --color-brand: #fb923c;
+  --color-brand-hover: #fdba74;
+  --color-brand-active: #c2410c;
+  --color-brand-glow: rgba(251, 146, 60, 0.14);
+  --color-brand-glow-strong: rgba(251, 146, 60, 0.45);
+  --color-border-focus: #fb923c;
+}
+
+html[data-theme="blue"] {
+  --v4-acc: #60a5fa;
+  --v4-acc-hover: #93c5fd;
+  --v4-acc-dim: #1d4ed8;
+  --v4-acc-soft: rgba(96, 165, 250, 0.14);
+  --v4-acc-glow: rgba(96, 165, 250, 0.45);
+  --v3-acc: #60a5fa;
+  --v3-acc-hover: #93c5fd;
+  --v3-acc-dim: #1d4ed8;
+  --v3-acc-soft: rgba(96, 165, 250, 0.14);
+  --v3-acc-glow: rgba(96, 165, 250, 0.45);
+  --color-accent: #60a5fa;
+  --color-accent-hover: #93c5fd;
+  --color-accent-dim: #1d4ed8;
+  --color-accent-soft: rgba(96, 165, 250, 0.14);
+  --color-accent-glow: rgba(96, 165, 250, 0.45);
+  --color-brand: #60a5fa;
+  --color-brand-hover: #93c5fd;
+  --color-brand-active: #1d4ed8;
+  --color-brand-glow: rgba(96, 165, 250, 0.14);
+  --color-brand-glow-strong: rgba(96, 165, 250, 0.45);
+  --color-border-focus: #60a5fa;
+}
+
+html[data-theme="yellow"] {
+  --v4-acc: #facc15;
+  --v4-acc-hover: #fde047;
+  --v4-acc-dim: #a16207;
+  --v4-acc-soft: rgba(250, 204, 21, 0.14);
+  --v4-acc-glow: rgba(250, 204, 21, 0.45);
+  --v3-acc: #facc15;
+  --v3-acc-hover: #fde047;
+  --v3-acc-dim: #a16207;
+  --v3-acc-soft: rgba(250, 204, 21, 0.14);
+  --v3-acc-glow: rgba(250, 204, 21, 0.45);
+  --color-accent: #facc15;
+  --color-accent-hover: #fde047;
+  --color-accent-dim: #a16207;
+  --color-accent-soft: rgba(250, 204, 21, 0.14);
+  --color-accent-glow: rgba(250, 204, 21, 0.45);
+  --color-brand: #facc15;
+  --color-brand-hover: #fde047;
+  --color-brand-active: #a16207;
+  --color-brand-glow: rgba(250, 204, 21, 0.14);
+  --color-brand-glow-strong: rgba(250, 204, 21, 0.45);
+  --color-border-focus: #facc15;
+}
+
+html[data-theme="green"] {
+  --v4-acc: #4ade80;
+  --v4-acc-hover: #86efac;
+  --v4-acc-dim: #15803d;
+  --v4-acc-soft: rgba(74, 222, 128, 0.14);
+  --v4-acc-glow: rgba(74, 222, 128, 0.45);
+  --v3-acc: #4ade80;
+  --v3-acc-hover: #86efac;
+  --v3-acc-dim: #15803d;
+  --v3-acc-soft: rgba(74, 222, 128, 0.14);
+  --v3-acc-glow: rgba(74, 222, 128, 0.45);
+  --color-accent: #4ade80;
+  --color-accent-hover: #86efac;
+  --color-accent-dim: #15803d;
+  --color-accent-soft: rgba(74, 222, 128, 0.14);
+  --color-accent-glow: rgba(74, 222, 128, 0.45);
+  --color-brand: #4ade80;
+  --color-brand-hover: #86efac;
+  --color-brand-active: #15803d;
+  --color-brand-glow: rgba(74, 222, 128, 0.14);
+  --color-brand-glow-strong: rgba(74, 222, 128, 0.45);
+  --color-border-focus: #4ade80;
+}
+
+html[data-theme="purple"] {
+  --v4-acc: #c084fc;
+  --v4-acc-hover: #d8b4fe;
+  --v4-acc-dim: #7e22ce;
+  --v4-acc-soft: rgba(192, 132, 252, 0.14);
+  --v4-acc-glow: rgba(192, 132, 252, 0.45);
+  --v3-acc: #c084fc;
+  --v3-acc-hover: #d8b4fe;
+  --v3-acc-dim: #7e22ce;
+  --v3-acc-soft: rgba(192, 132, 252, 0.14);
+  --v3-acc-glow: rgba(192, 132, 252, 0.45);
+  --color-accent: #c084fc;
+  --color-accent-hover: #d8b4fe;
+  --color-accent-dim: #7e22ce;
+  --color-accent-soft: rgba(192, 132, 252, 0.14);
+  --color-accent-glow: rgba(192, 132, 252, 0.45);
+  --color-brand: #c084fc;
+  --color-brand-hover: #d8b4fe;
+  --color-brand-active: #7e22ce;
+  --color-brand-glow: rgba(192, 132, 252, 0.14);
+  --color-brand-glow-strong: rgba(192, 132, 252, 0.45);
+  --color-border-focus: #c084fc;
+}
+
+/* ---------------------------------------------------------------------------
    Background themes — 5 swatches:
      black     (default) — Void dark, current trendingrepo.com look
      graphite  — Cool blue-leaning dark
@@ -616,6 +771,9 @@
    The first four keep dark surfaces; only linen flips to a true light
    canvas. Creme + linen both collapse the surface ramp so chrome reads
    as one tone — internal structure comes from hairlines + typography.
+   Note: the `data-bg-theme` attribute is no longer set by the picker
+   chain — these scopes are retained for downstream callers that may
+   set the attribute manually. Safe to retire once verified unused.
    --------------------------------------------------------------------------- */
 
 html[data-bg-theme="graphite"] {

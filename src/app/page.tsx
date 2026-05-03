@@ -164,11 +164,14 @@ function ecosystemEntity(
   kind: Exclude<HomeEntityKind, "repo">,
   repoByFullName?: Map<string, Repo>,
 ): HomeEntity {
-  const useRepoFallback = kind === "mcp";
-  // Real trending: prefer the linked GitHub repo's 24h/7d/30d star deltas
-  // (computed by the trending pipeline, always populated for tracked repos)
-  // over the side-channel installsDelta fields, which are only filled once
-  // skills.sh / registry fetchers have a 7d-old comparison snapshot.
+  // Both MCP and skill rows benefit from the linked GitHub repo's
+  // 24h/7d/30d star deltas + sparkline. Registry-side install deltas
+  // (installsDelta1d/7d/30d) are only populated once skills.sh /
+  // registry fetchers have a comparison snapshot, so most rows fall
+  // back to 0 — leaving the home grid showing "+0 24h NO SERIES" for
+  // 4 of 5 rows even though the linked repos have real velocity.
+  // Prefer linked-repo deltas first, fall back to installs.
+  const useRepoFallback = kind === "mcp" || kind === "skill";
   // Skill / MCP items often leave `linkedRepo` null but expose a github.com
   // url — parse owner/name from there as a fallback so the home rows surface
   // real velocity for as many entries as possible.

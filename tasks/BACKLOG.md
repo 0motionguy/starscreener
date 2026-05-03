@@ -10,4 +10,5 @@
 - VPS migration (Sprint 6, optional)
 
 ## Discovered during current work
-- Document or script the Windows OneDrive `.next` dev-server workaround. On 2026-05-03 the local `.next` directory was converted to a junction at `%TEMP%\trendingrepo-next-dev`; `next dev` also needed `NODE_PATH=C:\Users\mirko\OneDrive\Desktop\STARSCREENER\node_modules` so Turbopack SSR chunks emitted under `%TEMP%` could resolve externals like `react/jsx-runtime` and Next's app-route runtime.
+- Document or script the Windows OneDrive `.next` dev/build workaround. On 2026-05-03 the local `.next` directory was a junction at `%TEMP%\trendingrepo-next-dev`; `next dev` and `next build` both need `NODE_PATH=C:\Users\mirko\OneDrive\Desktop\STARSCREENER\node_modules` so chunks emitted under `%TEMP%` can resolve externals like `react/jsx-runtime` and Next's app-route runtime.
+- Decide expanded freshness semantics for advisory side channels: `mcp-dependents` needs `LIBRARIES_IO_API_KEY`, `mcp-smithery-rank` needs `SMITHERY_API_KEY`, `skill-install-snapshots` currently has no install data, `model-usage` can have successful zero-event cron runs, and `hotness-snapshots` can publish only populated domains. Either provision the missing keys/data or mark these rows non-blocking in `/api/cron/freshness/state`.

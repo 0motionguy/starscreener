@@ -30,3 +30,23 @@ export class GithubRecoverableError extends EngineError {
   readonly category = "recoverable" as const;
   readonly source = "github";
 }
+
+export class RedditRateLimitError extends EngineError {
+  readonly category = "quarantine" as const;
+  readonly source = "reddit";
+}
+
+export class RedditBlockedError extends EngineError {
+  readonly category = "quarantine" as const;
+  readonly source = "reddit";
+}
+
+export class RedditPoolExhaustedError extends EngineError {
+  readonly category = "fatal" as const;
+  readonly source = "reddit";
+}
+
+export class RedditRecoverableError extends EngineError {
+  readonly category = "recoverable" as const;
+  readonly source = "reddit";
+}

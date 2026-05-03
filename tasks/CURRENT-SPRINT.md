@@ -6,7 +6,7 @@ Target completion: 2026-05-10
 
 ## Phase tracking
 - [x] 1.1 GitHub pool runtime telemetry
-- [ ] 1.2 Reddit User-Agent pool
+- [x] 1.2 Reddit User-Agent pool
 - [ ] 1.3 Twitter Apify + Nitter fallback
 - [ ] 1.4 /admin/keys dashboard
 - [ ] 1.5 Sentry verification + error class hierarchy
@@ -49,3 +49,13 @@ See individual phase prompts.
 - 2026-05-03 advisory preflight deferral done: `hotness-snapshots`,
   `mcp-dependents`, `mcp-smithery-rank`, `model-usage`, and
   `skill-install-snapshots` no longer block `freshness:check`.
+- 2026-05-03 Phase 1.2 done: root Reddit scrapers and the Railway worker now
+  support comma/newline-separated `REDDIT_USER_AGENTS` round-robin rotation
+  when `REDDIT_USER_AGENT` is absent; the single-UA override remains stable.
+  GitHub Actions pass the new secret through on Reddit jobs, admin scan child
+  env allow-list includes it, and deploy docs describe it. Verification:
+  `node --test scripts/__tests__/reddit-shared.test.mjs` passed 8/8;
+  `npm run test:scraper-shared` passed 46/46; `npm run test:reddit` passed
+  54/54; `npx vitest run tests/reddit-source.test.ts` passed 2/2;
+  root `npm run typecheck` passed; worker `npm run typecheck` passed;
+  `npm run lint:guards` passed.

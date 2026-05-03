@@ -45,6 +45,7 @@ function rewriteToOldReddit(url) {
 
 let oauthTokenCache = null;
 let fetchRuntime = createFetchRuntime();
+let userAgentPoolIndex = 0;
 
 function createFetchRuntime() {
   return {
@@ -64,7 +65,23 @@ function readEnv(name) {
 }
 
 export function getRedditUserAgent() {
-  return readEnv("REDDIT_USER_AGENT") || DEFAULT_USER_AGENT;
+  const exact = readEnv("REDDIT_USER_AGENT");
+  if (exact) return exact;
+
+  const pool = readRedditUserAgentPool();
+  const userAgent = pool[userAgentPoolIndex % pool.length] ?? DEFAULT_USER_AGENT;
+  userAgentPoolIndex = (userAgentPoolIndex + 1) % pool.length;
+  return userAgent;
+}
+
+function readRedditUserAgentPool() {
+  const raw = readEnv("REDDIT_USER_AGENTS");
+  if (!raw) return [DEFAULT_USER_AGENT];
+  const pool = raw
+    .split(/[,\n]+/)
+    .map((value) => value.trim())
+    .filter(Boolean);
+  return pool.length > 0 ? pool : [DEFAULT_USER_AGENT];
 }
 
 export function hasRedditOAuthCreds() {
@@ -147,6 +164,7 @@ async function getRedditAccessToken(fetchImpl = fetch) {
 export function resetRedditAuthCacheForTests() {
   oauthTokenCache = null;
   fetchRuntime = createFetchRuntime();
+  userAgentPoolIndex = 0;
 }
 
 export function getRedditFetchRuntime() {

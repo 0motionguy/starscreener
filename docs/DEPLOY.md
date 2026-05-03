@@ -50,8 +50,10 @@ Bluesky ingestion is GitHub Actions-only too. Add `BLUESKY_HANDLE` and
 
 Reddit can run anonymously, but production is more reliable with OAuth.
 Add `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, and optionally
-`REDDIT_USER_AGENT` as repository secrets so the Reddit scrapers can use
-`oauth.reddit.com` in GitHub Actions instead of the public JSON endpoints.
+`REDDIT_USER_AGENT` or comma/newline-separated `REDDIT_USER_AGENTS` as
+repository secrets so the Reddit scrapers can use `oauth.reddit.com` in
+GitHub Actions instead of the public JSON endpoints, while rotating public
+fallback user agents when no single-UA override is set.
 
 ---
 
@@ -154,13 +156,13 @@ Secrets are NEVER committed. Paste these once in each dashboard:
 - `GITHUB_TOKEN` — GitHub PAT
 - `CRON_SECRET` — already set via CLI. Rotate via dashboard if leaked.
 - `BLUESKY_HANDLE` / `BLUESKY_APP_PASSWORD` — only if you want runtime/local parity for Bluesky scraping outside GitHub Actions
-- `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET` / `REDDIT_USER_AGENT` — only if you run Reddit scrapers outside GitHub Actions
+- `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET` / `REDDIT_USER_AGENT` / `REDDIT_USER_AGENTS` — only if you run Reddit scrapers outside GitHub Actions
 
 ### Railway (project → starscreener service → Variables)
 - `GITHUB_TOKEN` — same GitHub PAT
 - `CRON_SECRET` — already set
 - `BLUESKY_HANDLE` / `BLUESKY_APP_PASSWORD` — only if you run Bluesky scraping there
-- `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET` / `REDDIT_USER_AGENT` — only if you run Reddit scraping there
+- `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET` / `REDDIT_USER_AGENT` / `REDDIT_USER_AGENTS` — only if you run Reddit scraping there
 
 Both deploys must share the same `CRON_SECRET` so authenticated admin
 requests work against either host.

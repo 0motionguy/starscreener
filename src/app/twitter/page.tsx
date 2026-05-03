@@ -435,7 +435,7 @@ function TwitterLeaderboardTable({
         borderRadius: 2,
       }}
     >
-      <div className="min-w-[920px]">
+      <div className="sm:min-w-[920px]">
         <div
           className="v2-mono grid h-9 grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 text-[10px] uppercase tracking-[0.18em]"
           style={{

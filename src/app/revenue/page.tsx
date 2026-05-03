@@ -202,7 +202,8 @@ export default async function RevenuePage({ searchParams }: PageProps) {
             className="revenue-card-grid"
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+              gridTemplateColumns:
+                "repeat(auto-fill, minmax(min(280px, 100%), 1fr))",
               gap: "1rem",
             }}
           >
@@ -264,7 +265,8 @@ export default async function RevenuePage({ searchParams }: PageProps) {
             className="revenue-card-grid"
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+              gridTemplateColumns:
+                "repeat(auto-fill, minmax(min(280px, 100%), 1fr))",
               gap: "1rem",
             }}
           >

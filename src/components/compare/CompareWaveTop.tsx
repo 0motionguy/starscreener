@@ -8,7 +8,50 @@ import { CompareSelector } from "./CompareSelector";
 import { CompareStatStrip } from "./CompareStatStrip";
 import { CompareSharePanel } from "./CompareSharePanel";
 import { StarterPackRow } from "./StarterPackRow";
-import { buildCuratedStub } from "@/lib/collections";
+// Inline minimal Repo stub so we don't drag node:fs/node:path from
+// @/lib/collections into this client component. Mirrors buildCuratedStub
+// shape for the no-data case the chart already handles.
+function buildLightStub(fullName: string): Repo {
+  const [owner, name] = fullName.split("/");
+  return {
+    id: fullName.toLowerCase().replace("/", "--"),
+    fullName,
+    name: name ?? fullName,
+    owner: owner ?? "",
+    ownerAvatarUrl: "",
+    description: "",
+    url: `https://github.com/${fullName}`,
+    language: null,
+    topics: [],
+    categoryId: "",
+    stars: 0,
+    forks: 0,
+    contributors: 0,
+    openIssues: 0,
+    lastCommitAt: "",
+    lastReleaseAt: null,
+    lastReleaseTag: null,
+    createdAt: "",
+    starsDelta24h: 0,
+    starsDelta7d: 0,
+    starsDelta30d: 0,
+    forksDelta7d: 0,
+    contributorsDelta30d: 0,
+    hasMovementData: false,
+    starsDelta24hMissing: true,
+    starsDelta7dMissing: true,
+    starsDelta30dMissing: true,
+    forksDelta7dMissing: true,
+    contributorsDelta30dMissing: true,
+    momentumScore: 0,
+    movementStatus: "stable",
+    rank: 0,
+    categoryRank: 0,
+    sparklineData: [],
+    socialBuzzScore: 0,
+    mentionCount24h: 0,
+  };
+}
 import { useCompareStore } from "@/lib/store";
 import {
   compareIdToFallbackFullName,
@@ -158,7 +201,7 @@ export function CompareWaveTop() {
       repoIds.map(
         (id) =>
           reposByIdLower.get(id.toLowerCase()) ??
-          buildCuratedStub(compareIdToFallbackFullName(id)),
+          buildLightStub(compareIdToFallbackFullName(id)),
       ),
     [repoIds, reposByIdLower],
   );

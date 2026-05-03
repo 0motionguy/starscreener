@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-03T21:04:59.685Z",
+  "fetchedAt": "2026-05-03T22:02:54.652Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 199,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 2,
   "mentions": {
     "rivet-dev/agent-os": {
       "count7d": 1,
@@ -23,7 +23,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T20:57:41.668037Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.09
       },
       "posts": [
         {
@@ -40,7 +40,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T20:57:41.668037Z",
           "createdUtc": 1777841861,
-          "ageHours": 0.5,
+          "ageHours": 1.09,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -74,7 +74,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T20:40:31.686Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.37
       },
       "posts": [
         {
@@ -91,7 +91,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T20:40:31.686Z",
           "createdUtc": 1777840831,
-          "ageHours": 0.5,
+          "ageHours": 1.37,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -100,6 +100,85 @@
           "linkedRepos": [
             {
               "fullName": "tobi/qmd",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "bschoepke/ableton-live-mcp": {
+      "count7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkxyxiqzow2l",
+        "cid": "bafyreigrpakv77xg6ahor4yk52y6zj7hnlt3nvbeducijpi6p6hhc2hql4",
+        "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkxyxiqzow2l",
+        "text": "Show HN: Ableton Live MCP https://github.com/bschoepke/ableton-live-mcp (https://news.ycombinator.com/item?id=47999656)",
+        "author": {
+          "handle": "betterhn20.e-work.xyz",
+          "displayName": "Hacker News 20"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T20:33:42.856Z",
+        "hoursSincePosted": 1.49
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkxyxiqzow2l",
+          "cid": "bafyreigrpakv77xg6ahor4yk52y6zj7hnlt3nvbeducijpi6p6hhc2hql4",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkxyxiqzow2l",
+          "text": "Show HN: Ableton Live MCP https://github.com/bschoepke/ableton-live-mcp (https://news.ycombinator.com/item?id=47999656)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T20:33:42.856Z",
+          "createdUtc": 1777840422,
+          "ageHours": 1.49,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "bschoepke/ableton-live-mcp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mkxxaoe75x2p",
+          "cid": "bafyreiachghju5x3vqmgkmhezdwzr4wkjnnt4grrei57rrvol2mqmxbcgu",
+          "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mkxxaoe75x2p",
+          "text": "Show HN: Ableton Live MCP https://github.com/bschoepke/ableton-live-mcp [comments] [14 points]",
+          "author": {
+            "handle": "hnfeed.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T20:03:03.965Z",
+          "createdUtc": 1777838583,
+          "ageHours": 2,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "bschoepke/ableton-live-mcp",
               "matchType": "url",
               "confidence": 1
             }
@@ -125,7 +204,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T19:57:37.738818Z",
-        "hoursSincePosted": 1.12
+        "hoursSincePosted": 2.09
       },
       "posts": [
         {
@@ -142,7 +221,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T19:57:37.738818Z",
           "createdUtc": 1777838257,
-          "ageHours": 1.12,
+          "ageHours": 2.09,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -176,7 +255,7 @@
         "repostCount": 1,
         "replyCount": 1,
         "createdAt": "2026-05-03T19:56:30.773Z",
-        "hoursSincePosted": 1.14
+        "hoursSincePosted": 2.11
       },
       "posts": [
         {
@@ -193,7 +272,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-03T19:56:30.773Z",
           "createdUtc": 1777838190,
-          "ageHours": 1.14,
+          "ageHours": 2.11,
           "trendingScore": 4.5,
           "content_tags": [
             "has-github-repo"
@@ -227,7 +306,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-03T19:17:59.707Z",
-        "hoursSincePosted": 1.78
+        "hoursSincePosted": 2.75
       },
       "posts": [
         {
@@ -244,7 +323,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-03T19:17:59.707Z",
           "createdUtc": 1777835879,
-          "ageHours": 1.78,
+          "ageHours": 2.75,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -280,7 +359,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T20:57:41.668037Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.09
       },
       "posts": [
         {
@@ -297,7 +376,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T20:57:41.668037Z",
           "createdUtc": 1777841861,
-          "ageHours": 0.5,
+          "ageHours": 1.09,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -331,7 +410,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T20:40:31.686Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.37
       },
       "posts": [
         {
@@ -348,7 +427,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T20:40:31.686Z",
           "createdUtc": 1777840831,
-          "ageHours": 0.5,
+          "ageHours": 1.37,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -357,6 +436,85 @@
           "linkedRepos": [
             {
               "fullName": "tobi/qmd",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "bschoepke--ableton-live-mcp": {
+      "count7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkxyxiqzow2l",
+        "cid": "bafyreigrpakv77xg6ahor4yk52y6zj7hnlt3nvbeducijpi6p6hhc2hql4",
+        "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkxyxiqzow2l",
+        "text": "Show HN: Ableton Live MCP https://github.com/bschoepke/ableton-live-mcp (https://news.ycombinator.com/item?id=47999656)",
+        "author": {
+          "handle": "betterhn20.e-work.xyz",
+          "displayName": "Hacker News 20"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-03T20:33:42.856Z",
+        "hoursSincePosted": 1.49
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mkxyxiqzow2l",
+          "cid": "bafyreigrpakv77xg6ahor4yk52y6zj7hnlt3nvbeducijpi6p6hhc2hql4",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mkxyxiqzow2l",
+          "text": "Show HN: Ableton Live MCP https://github.com/bschoepke/ableton-live-mcp (https://news.ycombinator.com/item?id=47999656)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T20:33:42.856Z",
+          "createdUtc": 1777840422,
+          "ageHours": 1.49,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "bschoepke/ableton-live-mcp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mkxxaoe75x2p",
+          "cid": "bafyreiachghju5x3vqmgkmhezdwzr4wkjnnt4grrei57rrvol2mqmxbcgu",
+          "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mkxxaoe75x2p",
+          "text": "Show HN: Ableton Live MCP https://github.com/bschoepke/ableton-live-mcp [comments] [14 points]",
+          "author": {
+            "handle": "hnfeed.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-03T20:03:03.965Z",
+          "createdUtc": 1777838583,
+          "ageHours": 2,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "bschoepke/ableton-live-mcp",
               "matchType": "url",
               "confidence": 1
             }
@@ -382,7 +540,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-03T19:57:37.738818Z",
-        "hoursSincePosted": 1.12
+        "hoursSincePosted": 2.09
       },
       "posts": [
         {
@@ -399,7 +557,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-03T19:57:37.738818Z",
           "createdUtc": 1777838257,
-          "ageHours": 1.12,
+          "ageHours": 2.09,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -433,7 +591,7 @@
         "repostCount": 1,
         "replyCount": 1,
         "createdAt": "2026-05-03T19:56:30.773Z",
-        "hoursSincePosted": 1.14
+        "hoursSincePosted": 2.11
       },
       "posts": [
         {
@@ -450,7 +608,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-03T19:56:30.773Z",
           "createdUtc": 1777838190,
-          "ageHours": 1.14,
+          "ageHours": 2.11,
           "trendingScore": 4.5,
           "content_tags": [
             "has-github-repo"
@@ -484,7 +642,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-03T19:17:59.707Z",
-        "hoursSincePosted": 1.78
+        "hoursSincePosted": 2.75
       },
       "posts": [
         {
@@ -501,7 +659,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-03T19:17:59.707Z",
           "createdUtc": 1777835879,
-          "ageHours": 1.78,
+          "ageHours": 2.75,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -533,6 +691,11 @@
       "fullName": "tobi/qmd",
       "count7d": 1,
       "likesSum7d": 1
+    },
+    {
+      "fullName": "bschoepke/ableton-live-mcp",
+      "count7d": 2,
+      "likesSum7d": 0
     },
     {
       "fullName": "safishamsi/graphify",

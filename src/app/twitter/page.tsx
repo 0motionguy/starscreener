@@ -336,6 +336,27 @@ export default async function TwitterPage({
     }
   }
 
+  // P0 INCIDENT 2026-05-03: user reported "TWITTER not updated since 10 days
+  // the SAME repo on top no trending logic". Root cause was the collector
+  // truncating .data/twitter-*.jsonl every run (fixed in eafd2433). Until
+  // that fix ships and a fresh cron tick lands real new data, surface
+  // staleness explicitly so the page doesn't lie to users.
+  const lastScannedMs = stats.lastScannedAt
+    ? Date.parse(stats.lastScannedAt)
+    : null;
+  const scrapeAgeHours =
+    lastScannedMs !== null && Number.isFinite(lastScannedMs)
+      ? Math.max(0, (Date.now() - lastScannedMs) / 3_600_000)
+      : null;
+  // 48h is generous: collector runs every 3h, so 48h = 16 missed ticks.
+  const showStaleBanner = scrapeAgeHours !== null && scrapeAgeHours > 48;
+  const staleAgeLabel =
+    scrapeAgeHours === null
+      ? "unknown"
+      : scrapeAgeHours < 24
+        ? `${Math.round(scrapeAgeHours)}h ago`
+        : `${Math.round(scrapeAgeHours / 24)}d ago`;
+
   return (
     <main className="home-surface">
       <SourceFeedTemplate
@@ -350,7 +371,28 @@ export default async function TwitterPage({
           <>
             <span className="big">{formatClock(stats.lastScannedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="FRESH · 3H" />
+            {showStaleBanner ? (
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  padding: "2px 8px",
+                  fontSize: 11,
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  background: "rgba(251, 191, 36, 0.16)",
+                  border: "1px solid rgba(251, 191, 36, 0.36)",
+                  color: "#f5d778",
+                  borderRadius: 2,
+                  letterSpacing: "0.04em",
+                }}
+                title={`Last scrape ${staleAgeLabel}. Apify collector backfill in progress.`}
+              >
+                ⚠ STALE · {staleAgeLabel}
+              </span>
+            ) : (
+              <LiveDot label="FRESH · 3H" />
+            )}
           </>
         }
         snapshot={

@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-02T19:09:18.564Z",
+  "fetchedAt": "2026-05-03T03:46:41.142Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1313,
+  "scannedArticles": 1316,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 8,
+    "global-rising": 6,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -193,7 +193,7 @@
     "tag-llms-top-7d": 7,
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
-    "tag-promptengineering-top-7d": 45,
+    "tag-promptengineering-top-7d": 40,
     "tag-workflow-top-7d": 20,
     "tag-workflows-top-7d": 4,
     "tag-automation-top-7d": 100,
@@ -216,7 +216,7 @@
         "author": "alanwest",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 125.5,
+        "hoursSincePosted": 134.1,
         "readingTime": 5
       },
       "articles": [
@@ -250,45 +250,122 @@
         }
       ]
     },
-    "kOlapsis/maintenant": {
+    "charmbracelet/bubbletea": {
       "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
+      "reactionsSum7d": 18,
+      "commentsSum7d": 5,
       "topArticle": {
-        "id": 3600007,
-        "title": "Your Docker Stack Is Running. But Is Anyone Actually Watching It?",
-        "url": "https://dev.to/benjy33000/your-docker-stack-is-running-but-is-anyone-actually-watching-it-51j5",
-        "author": "benjy33000",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 6.8,
-        "readingTime": 8
+        "id": 3553240,
+        "title": "My speaker broke, so I built a LAN speaker",
+        "url": "https://dev.to/shricodev/my-speaker-broke-so-i-built-a-lan-speaker-19nc",
+        "author": "shricodev",
+        "reactions": 18,
+        "comments": 5,
+        "hoursSincePosted": 109.3,
+        "readingTime": 6
       },
       "articles": [
         {
-          "id": 3600007,
-          "title": "Your Docker Stack Is Running. But Is Anyone Actually Watching It?",
-          "description": "You deployed your app. It runs. The containers are green. Job done, right?  Except here's what's...",
-          "url": "https://dev.to/benjy33000/your-docker-stack-is-running-but-is-anyone-actually-watching-it-51j5",
+          "id": 3553240,
+          "title": "My speaker broke, so I built a LAN speaker",
+          "description": "What's happening?   This was around a year back when I started the project, after a small...",
+          "url": "https://dev.to/shricodev/my-speaker-broke-so-i-built-a-lan-speaker-19nc",
           "author": {
-            "username": "benjy33000",
-            "name": "Benjamin Touchard",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1740181%2F3f1038da-05fb-410f-832b-0bd4c2f84fc9.png"
+            "username": "shricodev",
+            "name": "Shrijal Acharya",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1127015%2F1c5e48a2-f602-4e7d-8312-3c0322d155c6.jpg"
           },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-02T12:23:20Z",
+          "reactionsCount": 18,
+          "commentsCount": 5,
+          "readingTime": 6,
+          "publishedAt": "2026-04-28T14:29:00Z",
           "tags": [
-            "docker",
-            "kubernetes",
-            "security",
-            "devops"
+            "go",
+            "opensource",
+            "productivity",
+            "programming"
+          ],
+          "trendingScore": 0.31,
+          "linkedRepos": [
+            {
+              "fullName": "charmbracelet/bubbletea",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "github/spec-kit": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3601601,
+        "title": "AGENTS.md, SKILL.md, DESIGN.md: How AI Instructions Split into Three Layers",
+        "url": "https://dev.to/aws-builders/agentsmd-skillmd-designmd-how-ai-instructions-split-into-three-layers-d0g",
+        "author": "ikenyal",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 6.2,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3601601,
+          "title": "AGENTS.md, SKILL.md, DESIGN.md: How AI Instructions Split into Three Layers",
+          "description": "In April 2026, Google Labs released a spec called DESIGN.md. It's a design system specification...",
+          "url": "https://dev.to/aws-builders/agentsmd-skillmd-designmd-how-ai-instructions-split-into-three-layers-d0g",
+          "author": {
+            "username": "ikenyal",
+            "name": "Kento IKEDA",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F634239%2Fefa867e9-b872-436c-a450-2c5115bd4394.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-02T21:35:11Z",
+          "tags": [
+            "ai",
+            "claude",
+            "agents",
+            "designsystem"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "kOlapsis/maintenant",
+              "fullName": "github/spec-kit",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3592010,
+          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
+          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+          "author": {
+            "username": "sundr_dev",
+            "name": "Aleksandr Sakov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-30T13:24:40Z",
+          "tags": [
+            "ai",
+            "claude",
+            "specdrivendevelopment",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
               "location": "body"
             }
           ]
@@ -297,16 +374,16 @@
     },
     "NousResearch/hermes-agent": {
       "count7d": 2,
-      "reactionsSum7d": 7,
+      "reactionsSum7d": 8,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3599794,
         "title": "GCP in Action: Building a Persistent AI Assistant with GCE, Hermes Agent, and Telegram",
         "url": "https://dev.to/gde/gcp-in-action-building-a-persistent-ai-assistant-with-gce-hermes-agent-and-telegram-1mlg",
         "author": "evanlin",
-        "reactions": 6,
+        "reactions": 7,
         "comments": 0,
-        "hoursSincePosted": 7.1,
+        "hoursSincePosted": 15.7,
         "readingTime": 3
       },
       "articles": [
@@ -320,7 +397,7 @@
             "name": "Evan Lin",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F409957%2Fc150d4a7-cb20-469d-a230-bac27232c577.jpeg"
           },
-          "reactionsCount": 6,
+          "reactionsCount": 7,
           "commentsCount": 0,
           "readingTime": 3,
           "publishedAt": "2026-05-02T12:01:42Z",
@@ -330,7 +407,7 @@
             "googlecloud",
             "tutorial"
           ],
-          "trendingScore": 0.66,
+          "trendingScore": 0.38,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -403,7 +480,7 @@
         "author": "danielsogl",
         "reactions": 9,
         "comments": 1,
-        "hoursSincePosted": 32.5,
+        "hoursSincePosted": 41.1,
         "readingTime": 13
       },
       "articles": [
@@ -427,7 +504,7 @@
             "angular",
             "ngrx"
           ],
-          "trendingScore": 0.29,
+          "trendingScore": 0.23,
           "linkedRepos": [
             {
               "fullName": "anthropics/skills",
@@ -455,7 +532,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.05,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -520,7 +597,7 @@
         "author": "nevermiss",
         "reactions": 8,
         "comments": 1,
-        "hoursSincePosted": 19,
+        "hoursSincePosted": 27.6,
         "readingTime": 11
       },
       "articles": [
@@ -544,7 +621,7 @@
             "ai",
             "automation"
           ],
-          "trendingScore": 0.42,
+          "trendingScore": 0.29,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -628,7 +705,7 @@
             "openclaw",
             "agents"
           ],
-          "trendingScore": 0.04,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -653,7 +730,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 88.9,
+        "hoursSincePosted": 97.5,
         "readingTime": 6
       },
       "articles": [
@@ -677,7 +754,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.05,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -714,7 +791,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 88.9,
+        "hoursSincePosted": 97.5,
         "readingTime": 6
       },
       "articles": [
@@ -738,7 +815,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.05,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -782,40 +859,12 @@
             "openclaw",
             "agents"
           ],
-          "trendingScore": 0.04,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
               "location": "tag"
             },
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3590822,
-          "title": "Three Wounds That Prose Skills Cannot Fix — The Full Analysis",
-          "description": "Silent scope decay. Judgment theater. Trigger collision. Three Wounds that prose skills cannot fix —...",
-          "url": "https://dev.to/gemsquared/three-wounds-that-prose-skills-cannot-fix-the-full-analysis-peo",
-          "author": {
-            "username": "gemsquared",
-            "name": "GEM² Inc.",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3847788%2F875e1f46-2e5a-4b42-b2e3-ca729d4fe1f8.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-04-30T09:30:27Z",
-          "tags": [
-            "cloudskills",
-            "claudecode",
-            "devtools",
-            "opensource"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
             {
               "fullName": "obra/superpowers",
               "location": "body"
@@ -858,6 +907,34 @@
             },
             {
               "fullName": "gsd-build/gsd-2",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3590822,
+          "title": "Three Wounds That Prose Skills Cannot Fix — The Full Analysis",
+          "description": "Silent scope decay. Judgment theater. Trigger collision. Three Wounds that prose skills cannot fix —...",
+          "url": "https://dev.to/gemsquared/three-wounds-that-prose-skills-cannot-fix-the-full-analysis-peo",
+          "author": {
+            "username": "gemsquared",
+            "name": "GEM² Inc.",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3847788%2F875e1f46-2e5a-4b42-b2e3-ca729d4fe1f8.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-30T09:30:27Z",
+          "tags": [
+            "cloudskills",
+            "claudecode",
+            "devtools",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
               "location": "body"
             }
           ]
@@ -1039,7 +1116,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 88.9,
+        "hoursSincePosted": 97.5,
         "readingTime": 6
       },
       "articles": [
@@ -1063,7 +1140,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.05,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -1100,7 +1177,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 88.9,
+        "hoursSincePosted": 97.5,
         "readingTime": 6
       },
       "articles": [
@@ -1124,7 +1201,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.05,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -1161,7 +1238,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 131,
+        "hoursSincePosted": 139.6,
         "readingTime": 3
       },
       "articles": [
@@ -1210,7 +1287,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 131,
+        "hoursSincePosted": 139.6,
         "readingTime": 3
       },
       "articles": [
@@ -1335,38 +1412,6 @@
           ]
         },
         {
-          "id": 3557556,
-          "title": "Research: Bifrost (Maxim AI / H3 Labs Inc.) – Why Its “Governance” Architecture Is a Single Point of Failure for Solo American Web Devs",
-          "description": "After my direct experience with Maxim AI’s paid-collaboration bait-and-switch, I dug deeper into...",
-          "url": "https://dev.to/bradleymatera/research-bifrost-maxim-ai-h3-labs-inc-why-its-governance-architecture-is-a-single-point-2j43",
-          "author": {
-            "username": "bradleymatera",
-            "name": "Bradley Matera",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-29T22:41:00Z",
-          "tags": [
-            "ai",
-            "security",
-            "apigateway",
-            "mcp"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
-              "location": "body"
-            },
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3557496,
           "title": "Research: Why Bifrost (Maxim AI / H3 Labs Inc.) Fits the Exact Pattern of API Key Harvesting Services Targeting American Indie Devs",
           "description": "After my experience with Maxim AI, I decided to dig deeper. I wanted to see if this was just one...",
@@ -1385,6 +1430,38 @@
             "mcp",
             "opensource",
             "devtools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "location": "body"
+            },
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3557556,
+          "title": "Research: Bifrost (Maxim AI / H3 Labs Inc.) – Why Its “Governance” Architecture Is a Single Point of Failure for Solo American Web Devs",
+          "description": "After my direct experience with Maxim AI’s paid-collaboration bait-and-switch, I dug deeper into...",
+          "url": "https://dev.to/bradleymatera/research-bifrost-maxim-ai-h3-labs-inc-why-its-governance-architecture-is-a-single-point-2j43",
+          "author": {
+            "username": "bradleymatera",
+            "name": "Bradley Matera",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-29T22:41:00Z",
+          "tags": [
+            "ai",
+            "security",
+            "apigateway",
+            "mcp"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -1473,7 +1550,7 @@
       ]
     },
     "anthropics/claude-code": {
-      "count7d": 11,
+      "count7d": 8,
       "reactionsSum7d": 4,
       "commentsSum7d": 0,
       "topArticle": {
@@ -1483,7 +1560,7 @@
         "author": "manveer_chawla_64a7283d5a",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 26.3,
+        "hoursSincePosted": 34.9,
         "readingTime": 21
       },
       "articles": [
@@ -1507,91 +1584,7 @@
             "claude",
             "devops"
           ],
-          "trendingScore": 0.09,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3551380,
-          "title": "12 More Days Scanned: Claude Code Sub-Agent Cache TTL Has Been 100% 5m for 17 Straight Days — This Isn''t a Regression, It''s the New Default",
-          "description": "On 4/14 I reported 5 days of sub-agent 100% 5m and left it at \"monitoring.\" Today 4/26 it''s 17 straight days, 15,727 API calls, 0 1h writes. Anthropic closed the main issue without resolution. The community is on fire.",
-          "url": "https://dev.to/recca0120/12-more-days-scanned-claude-code-sub-agent-cache-ttl-has-been-100-5m-for-17-straight-days-this-7ff",
-          "author": {
-            "username": "recca0120",
-            "name": "Recca Tsai",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F50274%2F427ea12d-13dd-4a0e-8955-dddfbf0a39ea.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-25T23:16:26Z",
-          "tags": [
-            "claudecode",
-            "promptcaching",
-            "agents",
-            "python"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3551468,
-          "title": "I Audited 3 Months of Claude Code Billing — Most Community Cost-Saving Tips Don''t Work",
-          "description": "$127K equivalent cost, 127K turns, four models, three months. After turning myself into a dataset, \"long sessions are the culprit\" and \"too many skills\" were debunked by data. Only two levers actually worked.",
-          "url": "https://dev.to/recca0120/i-audited-3-months-of-claude-code-billing-every-cost-saving-tip-i-believed-was-wrong-2ghj",
-          "author": {
-            "username": "recca0120",
-            "name": "Recca Tsai",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F50274%2F427ea12d-13dd-4a0e-8955-dddfbf0a39ea.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-26T00:26:04Z",
-          "tags": [
-            "claudecode",
-            "promptcaching",
-            "agents",
-            "costoptimization"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3592291,
-          "title": "Anatomy of Claude Code's Remote Control: The Hidden API You Can't Use Yet",
-          "description": "On February 25, 2026, Anthropic announced Remote Control for Claude Code. The idea: fire up Claude...",
-          "url": "https://dev.to/frr149/anatomy-of-claude-codes-remote-control-the-hidden-api-you-cant-use-yet-236l",
-          "author": {
-            "username": "frr149",
-            "name": "Fernando Rodriguez",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3906301%2F4e64d5c4-6405-4465-9411-41b6e57e3818.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-04-30T14:47:11Z",
-          "tags": [
-            "claudecode",
-            "anthropic",
-            "api",
-            "websocket"
-          ],
-          "trendingScore": 0,
+          "trendingScore": 0.07,
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
@@ -1640,6 +1633,34 @@
           ]
         },
         {
+          "id": 3592291,
+          "title": "Anatomy of Claude Code's Remote Control: The Hidden API You Can't Use Yet",
+          "description": "On February 25, 2026, Anthropic announced Remote Control for Claude Code. The idea: fire up Claude...",
+          "url": "https://dev.to/frr149/anatomy-of-claude-codes-remote-control-the-hidden-api-you-cant-use-yet-236l",
+          "author": {
+            "username": "frr149",
+            "name": "Fernando Rodriguez",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3906301%2F4e64d5c4-6405-4465-9411-41b6e57e3818.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-04-30T14:47:11Z",
+          "tags": [
+            "claudecode",
+            "anthropic",
+            "api",
+            "websocket"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3554106,
           "title": "How to Add Old Models to Claude Code /model Picker: 3 Methods Tested",
           "description": "After Opus 4.7 auto-upgrade, the old version vanished from /model. Tested availableModels, modelOverrides, and ANTHROPIC_CUSTOM_MODEL_OPTION — with pitfalls and GitHub community discussion.",
@@ -1656,34 +1677,6 @@
           "tags": [
             "claudecode",
             "costoptimization"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3586970,
-          "title": "I Spent 25 Years Avoiding Malware. Claude Code Stored 600 of My Secrets Anyway.",
-          "description": "I have not caught a single piece of malware in 25 years on a keyboard. Not one. I spot a .scr...",
-          "url": "https://dev.to/rentierdigital/i-spent-25-years-avoiding-malware-claude-code-stored-600-of-my-secrets-anyway-3e2j",
-          "author": {
-            "username": "rentierdigital",
-            "name": "Phil Rentier Digital",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3440667%2F4dff0ac3-f0f2-42bf-b066-14c2ba847691.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-04-29T13:41:10Z",
-          "tags": [
-            "ai",
-            "cybersecurity",
-            "claudecode",
-            "developertools"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -1818,51 +1811,6 @@
         }
       ]
     },
-    "alash3al/stash": {
-      "count7d": 1,
-      "reactionsSum7d": 3,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3586615,
-        "title": "Stash Gives Your AI Agents a Memory That Actually Persists",
-        "url": "https://dev.to/alanwest/stash-gives-your-ai-agents-a-memory-that-actually-persists-jal",
-        "author": "alanwest",
-        "reactions": 3,
-        "comments": 0,
-        "hoursSincePosted": 78.8,
-        "readingTime": 4
-      },
-      "articles": [
-        {
-          "id": 3586615,
-          "title": "Stash Gives Your AI Agents a Memory That Actually Persists",
-          "description": "Stash is a self-hosted persistent memory layer for AI agents, storing episodes, facts, and working context in Postgres with MCP support.",
-          "url": "https://dev.to/alanwest/stash-gives-your-ai-agents-a-memory-that-actually-persists-jal",
-          "author": {
-            "username": "alanwest",
-            "name": "Alan West",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3834047%2F6413d0cf-9d90-4ccc-80a9-123656fd78ba.png"
-          },
-          "reactionsCount": 3,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-04-29T12:23:36Z",
-          "tags": [
-            "ai",
-            "postgres",
-            "mcp",
-            "agents"
-          ],
-          "trendingScore": 0.02,
-          "linkedRepos": [
-            {
-              "fullName": "alash3al/stash",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "badlogic/pi-mono": {
       "count7d": 2,
       "reactionsSum7d": 3,
@@ -1874,7 +1822,7 @@
         "author": "mukeshswamy",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 128.8,
+        "hoursSincePosted": 137.4,
         "readingTime": 9
       },
       "articles": [
@@ -1960,6 +1908,51 @@
         }
       ]
     },
+    "alash3al/stash": {
+      "count7d": 1,
+      "reactionsSum7d": 3,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3586615,
+        "title": "Stash Gives Your AI Agents a Memory That Actually Persists",
+        "url": "https://dev.to/alanwest/stash-gives-your-ai-agents-a-memory-that-actually-persists-jal",
+        "author": "alanwest",
+        "reactions": 3,
+        "comments": 0,
+        "hoursSincePosted": 87.4,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3586615,
+          "title": "Stash Gives Your AI Agents a Memory That Actually Persists",
+          "description": "Stash is a self-hosted persistent memory layer for AI agents, storing episodes, facts, and working context in Postgres with MCP support.",
+          "url": "https://dev.to/alanwest/stash-gives-your-ai-agents-a-memory-that-actually-persists-jal",
+          "author": {
+            "username": "alanwest",
+            "name": "Alan West",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3834047%2F6413d0cf-9d90-4ccc-80a9-123656fd78ba.png"
+          },
+          "reactionsCount": 3,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-29T12:23:36Z",
+          "tags": [
+            "ai",
+            "postgres",
+            "mcp",
+            "agents"
+          ],
+          "trendingScore": 0.02,
+          "linkedRepos": [
+            {
+              "fullName": "alash3al/stash",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "mattpocock/skills": {
       "count7d": 5,
       "reactionsSum7d": 0,
@@ -1971,7 +1964,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 109,
+        "hoursSincePosted": 117.7,
         "readingTime": 9
       },
       "articles": [
@@ -2185,6 +2178,120 @@
         }
       ]
     },
+    "forrestchang/andrej-karpathy-skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3594085,
+        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
+        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+        "author": "jun0-ds",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 48.6,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3594085,
+          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
+          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
+          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+          "author": {
+            "username": "jun0-ds",
+            "name": "Jun0",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-01T03:13:10Z",
+          "tags": [
+            "ai",
+            "claudecode",
+            "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            },
+            {
+              "fullName": "forrestchang/andrej-karpathy-skills",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "gsd-build/gsd-2",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "gsd-build/gsd-2": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3594085,
+        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
+        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+        "author": "jun0-ds",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 48.6,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3594085,
+          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
+          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
+          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+          "author": {
+            "username": "jun0-ds",
+            "name": "Jun0",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-01T03:13:10Z",
+          "tags": [
+            "ai",
+            "claudecode",
+            "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            },
+            {
+              "fullName": "forrestchang/andrej-karpathy-skills",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "gsd-build/gsd-2",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "openai/codex": {
       "count7d": 3,
       "reactionsSum7d": 3,
@@ -2196,7 +2303,7 @@
         "author": "guilherme44",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 39.8,
+        "hoursSincePosted": 48.5,
         "readingTime": 5
       },
       "articles": [
@@ -2220,7 +2327,7 @@
             "productivity",
             "tooling"
           ],
-          "trendingScore": 0.02,
+          "trendingScore": 0.01,
           "linkedRepos": [
             {
               "fullName": "openai/codex",
@@ -2297,7 +2404,7 @@
         "author": "toniantunovic",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 98.1,
+        "hoursSincePosted": 106.7,
         "readingTime": 6
       },
       "articles": [
@@ -2331,45 +2438,45 @@
         }
       ]
     },
-    "jarrodwatts/claude-hud": {
+    "pbakaus/impeccable": {
       "count7d": 1,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3595258,
-        "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
-        "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
-        "author": "lizhaopengcn",
+        "id": 3554361,
+        "title": "Your Coding Agent's Best Feature Isn't the Code",
+        "url": "https://dev.to/stevengonsalvez/your-coding-agents-best-feature-isnt-the-code-pgd",
+        "author": "stevengonsalvez",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 33.4,
-        "readingTime": 3
+        "hoursSincePosted": 152,
+        "readingTime": 12
       },
       "articles": [
         {
-          "id": 3595258,
-          "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
-          "description": "给 Claude Code 做了一套四行树形状态栏，一份给 bare claude 走 OpenRouter，一份给 ccr code 走本地代理。记录颜色、图标、进度条的打磨过程，以及两条链路数据源差异带来的坑。",
-          "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
+          "id": 3554361,
+          "title": "Your Coding Agent's Best Feature Isn't the Code",
+          "description": "Why Claude Code beats Codex, Copilot, and every other coding agent in 2026. The developer experience of terminal AI coding agents matters more than the model. Statusline, /insights, hooks, and the features that make the 8th hour feel like the 1st.",
+          "url": "https://dev.to/stevengonsalvez/your-coding-agents-best-feature-isnt-the-code-pgd",
           "author": {
-            "username": "lizhaopengcn",
-            "name": "lizhaopeng-cn",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3895162%2F3d029651-5359-4fda-92b7-87a7171460f8.jpeg"
+            "username": "stevengonsalvez",
+            "name": "Steven Gonsalvez",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F613704%2F6fa5896f-e719-469e-812f-d2f8f9971b0e.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T09:46:29Z",
+          "readingTime": 12,
+          "publishedAt": "2026-04-26T19:49:36Z",
           "tags": [
-            "claude",
             "claudecode",
-            "ccr",
-            "devtools"
+            "aicodingagent",
+            "devrel",
+            "codex"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "jarrodwatts/claude-hud",
+              "fullName": "pbakaus/impeccable",
               "location": "body"
             }
           ]
@@ -2387,7 +2494,7 @@
         "author": "lizhaopengcn",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 106.1,
+        "hoursSincePosted": 114.7,
         "readingTime": 8
       },
       "articles": [
@@ -2448,159 +2555,45 @@
         }
       ]
     },
-    "pbakaus/impeccable": {
+    "jarrodwatts/claude-hud": {
       "count7d": 1,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3554361,
-        "title": "Your Coding Agent's Best Feature Isn't the Code",
-        "url": "https://dev.to/stevengonsalvez/your-coding-agents-best-feature-isnt-the-code-pgd",
-        "author": "stevengonsalvez",
+        "id": 3595258,
+        "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
+        "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
+        "author": "lizhaopengcn",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 143.3,
-        "readingTime": 12
-      },
-      "articles": [
-        {
-          "id": 3554361,
-          "title": "Your Coding Agent's Best Feature Isn't the Code",
-          "description": "Why Claude Code beats Codex, Copilot, and every other coding agent in 2026. The developer experience of terminal AI coding agents matters more than the model. Statusline, /insights, hooks, and the features that make the 8th hour feel like the 1st.",
-          "url": "https://dev.to/stevengonsalvez/your-coding-agents-best-feature-isnt-the-code-pgd",
-          "author": {
-            "username": "stevengonsalvez",
-            "name": "Steven Gonsalvez",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F613704%2F6fa5896f-e719-469e-812f-d2f8f9971b0e.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 12,
-          "publishedAt": "2026-04-26T19:49:36Z",
-          "tags": [
-            "claudecode",
-            "aicodingagent",
-            "devrel",
-            "codex"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "pbakaus/impeccable",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "forrestchang/andrej-karpathy-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3594085,
-        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-        "author": "jun0-ds",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 39.9,
+        "hoursSincePosted": 42,
         "readingTime": 3
       },
       "articles": [
         {
-          "id": 3594085,
-          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
-          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+          "id": 3595258,
+          "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
+          "description": "给 Claude Code 做了一套四行树形状态栏，一份给 bare claude 走 OpenRouter，一份给 ccr code 走本地代理。记录颜色、图标、进度条的打磨过程，以及两条链路数据源差异带来的坑。",
+          "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
           "author": {
-            "username": "jun0-ds",
-            "name": "Jun0",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
+            "username": "lizhaopengcn",
+            "name": "lizhaopeng-cn",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3895162%2F3d029651-5359-4fda-92b7-87a7171460f8.jpeg"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
           "readingTime": 3,
-          "publishedAt": "2026-05-01T03:13:10Z",
+          "publishedAt": "2026-05-01T09:46:29Z",
           "tags": [
-            "ai",
+            "claude",
             "claudecode",
-            "agents",
-            "productivity"
+            "ccr",
+            "devtools"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "gsd-build/gsd-2",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "gsd-build/gsd-2": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3594085,
-        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-        "author": "jun0-ds",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 39.9,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3594085,
-          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
-          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-          "author": {
-            "username": "jun0-ds",
-            "name": "Jun0",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T03:13:10Z",
-          "tags": [
-            "ai",
-            "claudecode",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "gsd-build/gsd-2",
+              "fullName": "jarrodwatts/claude-hud",
               "location": "body"
             }
           ]
@@ -2618,7 +2611,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 49.7,
+        "hoursSincePosted": 58.3,
         "readingTime": 7
       },
       "articles": [
@@ -2715,7 +2708,7 @@
         "author": "moonrunnerkc",
         "reactions": 1,
         "comments": 6,
-        "hoursSincePosted": 88.6,
+        "hoursSincePosted": 97.3,
         "readingTime": 7
       },
       "articles": [
@@ -2749,55 +2742,6 @@
         }
       ]
     },
-    "github/spec-kit": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592010,
-        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-        "author": "sundr_dev",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 53.7,
-        "readingTime": 14
-      },
-      "articles": [
-        {
-          "id": 3592010,
-          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
-          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-          "author": {
-            "username": "sundr_dev",
-            "name": "Aleksandr Sakov",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-04-30T13:24:40Z",
-          "tags": [
-            "ai",
-            "claude",
-            "specdrivendevelopment",
-            "programming"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/spec-kit",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-plugins-official",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "anthropics/claude-plugins-official": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -2809,7 +2753,7 @@
         "author": "sundr_dev",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 53.7,
+        "hoursSincePosted": 62.4,
         "readingTime": 14
       },
       "articles": [
@@ -2898,7 +2842,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 133,
+        "hoursSincePosted": 141.6,
         "readingTime": 8
       },
       "articles": [
@@ -2943,7 +2887,7 @@
         "author": "frr149",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 51.7,
+        "hoursSincePosted": 60.4,
         "readingTime": 5
       },
       "articles": [
@@ -3040,7 +2984,7 @@
         "author": "sumon4skf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 106.9,
+        "hoursSincePosted": 115.5,
         "readingTime": 2
       },
       "articles": [
@@ -3097,7 +3041,7 @@
         "author": "sumon4skf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 106.9,
+        "hoursSincePosted": 115.5,
         "readingTime": 2
       },
       "articles": [
@@ -3154,7 +3098,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 49.7,
+        "hoursSincePosted": 58.3,
         "readingTime": 7
       },
       "articles": [
@@ -3303,7 +3247,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 111.5,
+        "hoursSincePosted": 120.1,
         "readingTime": 9
       },
       "articles": [
@@ -3420,7 +3364,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 111.5,
+        "hoursSincePosted": 120.1,
         "readingTime": 9
       },
       "articles": [
@@ -3585,7 +3529,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 111.5,
+        "hoursSincePosted": 120.1,
         "readingTime": 9
       },
       "articles": [
@@ -3654,7 +3598,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 111.5,
+        "hoursSincePosted": 120.1,
         "readingTime": 9
       },
       "articles": [
@@ -3755,7 +3699,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 37.9,
+        "hoursSincePosted": 46.5,
         "readingTime": 10
       },
       "articles": [
@@ -3896,7 +3840,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 37.9,
+        "hoursSincePosted": 46.5,
         "readingTime": 10
       },
       "articles": [
@@ -4009,7 +3953,7 @@
         "author": "truongpx396",
         "reactions": 7,
         "comments": 0,
-        "hoursSincePosted": 107.5,
+        "hoursSincePosted": 116.1,
         "readingTime": 18
       },
       "articles": [
@@ -4033,7 +3977,7 @@
             "webdev",
             "tutorial"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.05,
           "linkedRepos": [
             {
               "fullName": "HKUDS/nanobot",
@@ -4082,7 +4026,7 @@
         "author": "truongpx396",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 108.5,
+        "hoursSincePosted": 117.2,
         "readingTime": 31
       },
       "articles": [
@@ -4155,7 +4099,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 105.7,
+        "hoursSincePosted": 114.3,
         "readingTime": 23
       },
       "articles": [
@@ -4200,7 +4144,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 128.5,
+        "hoursSincePosted": 137.1,
         "readingTime": 31
       },
       "articles": [
@@ -4245,7 +4189,7 @@
         "author": "truongpx396",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 106.2,
+        "hoursSincePosted": 114.9,
         "readingTime": 22
       },
       "articles": [
@@ -4290,7 +4234,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 49.7,
+        "hoursSincePosted": 58.3,
         "readingTime": 7
       },
       "articles": [
@@ -4359,7 +4303,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 49.7,
+        "hoursSincePosted": 58.3,
         "readingTime": 7
       },
       "articles": [
@@ -4428,7 +4372,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 49.7,
+        "hoursSincePosted": 58.3,
         "readingTime": 7
       },
       "articles": [
@@ -4497,7 +4441,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 49.7,
+        "hoursSincePosted": 58.3,
         "readingTime": 7
       },
       "articles": [
@@ -4566,7 +4510,7 @@
         "author": "clintjosy",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 26.7,
+        "hoursSincePosted": 35.3,
         "readingTime": 10
       },
       "articles": [
@@ -4639,7 +4583,7 @@
         "author": "aigal",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 122.5,
+        "hoursSincePosted": 131.1,
         "readingTime": 4
       },
       "articles": [
@@ -4683,7 +4627,7 @@
         "author": "bradleymatera",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 68.5,
+        "hoursSincePosted": 77.1,
         "readingTime": 3
       },
       "articles": [
@@ -4748,38 +4692,6 @@
           ]
         },
         {
-          "id": 3557556,
-          "title": "Research: Bifrost (Maxim AI / H3 Labs Inc.) – Why Its “Governance” Architecture Is a Single Point of Failure for Solo American Web Devs",
-          "description": "After my direct experience with Maxim AI’s paid-collaboration bait-and-switch, I dug deeper into...",
-          "url": "https://dev.to/bradleymatera/research-bifrost-maxim-ai-h3-labs-inc-why-its-governance-architecture-is-a-single-point-2j43",
-          "author": {
-            "username": "bradleymatera",
-            "name": "Bradley Matera",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-29T22:41:00Z",
-          "tags": [
-            "ai",
-            "security",
-            "apigateway",
-            "mcp"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
-              "location": "body"
-            },
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3557496,
           "title": "Research: Why Bifrost (Maxim AI / H3 Labs Inc.) Fits the Exact Pattern of API Key Harvesting Services Targeting American Indie Devs",
           "description": "After my experience with Maxim AI, I decided to dig deeper. I wanted to see if this was just one...",
@@ -4798,6 +4710,38 @@
             "mcp",
             "opensource",
             "devtools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "location": "body"
+            },
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3557556,
+          "title": "Research: Bifrost (Maxim AI / H3 Labs Inc.) – Why Its “Governance” Architecture Is a Single Point of Failure for Solo American Web Devs",
+          "description": "After my direct experience with Maxim AI’s paid-collaboration bait-and-switch, I dug deeper into...",
+          "url": "https://dev.to/bradleymatera/research-bifrost-maxim-ai-h3-labs-inc-why-its-governance-architecture-is-a-single-point-2j43",
+          "author": {
+            "username": "bradleymatera",
+            "name": "Bradley Matera",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-29T22:41:00Z",
+          "tags": [
+            "ai",
+            "security",
+            "apigateway",
+            "mcp"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -4856,7 +4800,7 @@
         "author": "dharshan_a_23835c7dc05682",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 108.6,
+        "hoursSincePosted": 117.2,
         "readingTime": 4
       },
       "articles": [
@@ -4901,7 +4845,7 @@
         "author": "programmersd21",
         "reactions": 5,
         "comments": 1,
-        "hoursSincePosted": 89,
+        "hoursSincePosted": 97.6,
         "readingTime": 4
       },
       "articles": [
@@ -4946,7 +4890,7 @@
         "author": "gursharansingh",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 109.7,
+        "hoursSincePosted": 118.3,
         "readingTime": 13
       },
       "articles": [
@@ -4991,7 +4935,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 142.5,
+        "hoursSincePosted": 151.2,
         "readingTime": 8
       },
       "articles": [
@@ -5036,7 +4980,7 @@
         "author": "mindmnml",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 127.1,
+        "hoursSincePosted": 135.8,
         "readingTime": 5
       },
       "articles": [
@@ -5081,7 +5025,7 @@
         "author": "dengkui_yang_fcb5dbe2da32",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 62.8,
+        "hoursSincePosted": 71.4,
         "readingTime": 7
       },
       "articles": [
@@ -5126,7 +5070,7 @@
         "author": "yohann_streibel_7e1f7b4b8",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 54.7,
+        "hoursSincePosted": 63.3,
         "readingTime": 15
       },
       "articles": [
@@ -5175,7 +5119,7 @@
         "author": "yohann_streibel_7e1f7b4b8",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 54.7,
+        "hoursSincePosted": 63.3,
         "readingTime": 15
       },
       "articles": [
@@ -5224,7 +5168,7 @@
         "author": "johalputt",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 50.1,
+        "hoursSincePosted": 58.7,
         "readingTime": 15
       },
       "articles": [
@@ -5325,7 +5269,7 @@
         "author": "kinggyusuh",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 0.9,
+        "hoursSincePosted": 9.5,
         "readingTime": 2
       },
       "articles": [
@@ -5370,7 +5314,7 @@
         "author": "dengkui_yang_fcb5dbe2da32",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 82.8,
+        "hoursSincePosted": 91.4,
         "readingTime": 10
       },
       "articles": [
@@ -5415,7 +5359,7 @@
         "author": "passandscore",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 113.7,
+        "hoursSincePosted": 122.3,
         "readingTime": 3
       },
       "articles": [
@@ -5460,7 +5404,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 38,
+        "hoursSincePosted": 46.6,
         "readingTime": 12
       },
       "articles": [
@@ -5514,63 +5458,18 @@
         }
       ]
     },
-    "charmbracelet/bubbletea": {
-      "count7d": 1,
-      "reactionsSum7d": 18,
-      "commentsSum7d": 5,
-      "topArticle": {
-        "id": 3553240,
-        "title": "My speaker broke, so I built a LAN speaker",
-        "url": "https://dev.to/shricodev/my-speaker-broke-so-i-built-a-lan-speaker-19nc",
-        "author": "shricodev",
-        "reactions": 18,
-        "comments": 5,
-        "hoursSincePosted": 100.7,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3553240,
-          "title": "My speaker broke, so I built a LAN speaker",
-          "description": "What's happening?   This was around a year back when I started the project, after a small...",
-          "url": "https://dev.to/shricodev/my-speaker-broke-so-i-built-a-lan-speaker-19nc",
-          "author": {
-            "username": "shricodev",
-            "name": "Shrijal Acharya",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1127015%2F1c5e48a2-f602-4e7d-8312-3c0322d155c6.jpg"
-          },
-          "reactionsCount": 18,
-          "commentsCount": 5,
-          "readingTime": 6,
-          "publishedAt": "2026-04-28T14:29:00Z",
-          "tags": [
-            "go",
-            "opensource",
-            "productivity",
-            "programming"
-          ],
-          "trendingScore": 0.34,
-          "linkedRepos": [
-            {
-              "fullName": "charmbracelet/bubbletea",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "versity/versitygw": {
       "count7d": 1,
-      "reactionsSum7d": 1,
+      "reactionsSum7d": 2,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3599405,
         "title": "Self-hosted S3 after MinIO: lightweight alternatives for 2026",
         "url": "https://dev.to/productimpossible/self-hosted-s3-after-minio-lightweight-alternatives-for-2026-2jl0",
         "author": "sebakubisz",
-        "reactions": 1,
+        "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 9.4,
+        "hoursSincePosted": 18,
         "readingTime": 14
       },
       "articles": [
@@ -5584,7 +5483,7 @@
             "name": "Seba Kubisz",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3884888%2Fbef87aed-911a-4915-87e2-38329e054385.png"
           },
-          "reactionsCount": 1,
+          "reactionsCount": 2,
           "commentsCount": 0,
           "readingTime": 14,
           "publishedAt": "2026-05-02T09:44:25Z",
@@ -5594,7 +5493,7 @@
             "devops",
             "docker"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "versity/versitygw",
@@ -5614,16 +5513,16 @@
     },
     "rustfs/rustfs": {
       "count7d": 1,
-      "reactionsSum7d": 1,
+      "reactionsSum7d": 2,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3599405,
         "title": "Self-hosted S3 after MinIO: lightweight alternatives for 2026",
         "url": "https://dev.to/productimpossible/self-hosted-s3-after-minio-lightweight-alternatives-for-2026-2jl0",
         "author": "sebakubisz",
-        "reactions": 1,
+        "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 9.4,
+        "hoursSincePosted": 18,
         "readingTime": 14
       },
       "articles": [
@@ -5637,7 +5536,7 @@
             "name": "Seba Kubisz",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3884888%2Fbef87aed-911a-4915-87e2-38329e054385.png"
           },
-          "reactionsCount": 1,
+          "reactionsCount": 2,
           "commentsCount": 0,
           "readingTime": 14,
           "publishedAt": "2026-05-02T09:44:25Z",
@@ -5647,7 +5546,7 @@
             "devops",
             "docker"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "versity/versitygw",
@@ -5667,16 +5566,16 @@
     },
     "seaweedfs/seaweedfs": {
       "count7d": 1,
-      "reactionsSum7d": 1,
+      "reactionsSum7d": 2,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3599405,
         "title": "Self-hosted S3 after MinIO: lightweight alternatives for 2026",
         "url": "https://dev.to/productimpossible/self-hosted-s3-after-minio-lightweight-alternatives-for-2026-2jl0",
         "author": "sebakubisz",
-        "reactions": 1,
+        "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 9.4,
+        "hoursSincePosted": 18,
         "readingTime": 14
       },
       "articles": [
@@ -5690,7 +5589,7 @@
             "name": "Seba Kubisz",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3884888%2Fbef87aed-911a-4915-87e2-38329e054385.png"
           },
-          "reactionsCount": 1,
+          "reactionsCount": 2,
           "commentsCount": 0,
           "readingTime": 14,
           "publishedAt": "2026-05-02T09:44:25Z",
@@ -5700,7 +5599,7 @@
             "devops",
             "docker"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "versity/versitygw",
@@ -5731,7 +5630,7 @@
         "author": "alanwest",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 125.5,
+        "hoursSincePosted": 134.1,
         "readingTime": 5
       },
       "articles": [
@@ -5765,45 +5664,122 @@
         }
       ]
     },
-    "kolapsis--maintenant": {
+    "charmbracelet--bubbletea": {
       "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
+      "reactionsSum7d": 18,
+      "commentsSum7d": 5,
       "topArticle": {
-        "id": 3600007,
-        "title": "Your Docker Stack Is Running. But Is Anyone Actually Watching It?",
-        "url": "https://dev.to/benjy33000/your-docker-stack-is-running-but-is-anyone-actually-watching-it-51j5",
-        "author": "benjy33000",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 6.8,
-        "readingTime": 8
+        "id": 3553240,
+        "title": "My speaker broke, so I built a LAN speaker",
+        "url": "https://dev.to/shricodev/my-speaker-broke-so-i-built-a-lan-speaker-19nc",
+        "author": "shricodev",
+        "reactions": 18,
+        "comments": 5,
+        "hoursSincePosted": 109.3,
+        "readingTime": 6
       },
       "articles": [
         {
-          "id": 3600007,
-          "title": "Your Docker Stack Is Running. But Is Anyone Actually Watching It?",
-          "description": "You deployed your app. It runs. The containers are green. Job done, right?  Except here's what's...",
-          "url": "https://dev.to/benjy33000/your-docker-stack-is-running-but-is-anyone-actually-watching-it-51j5",
+          "id": 3553240,
+          "title": "My speaker broke, so I built a LAN speaker",
+          "description": "What's happening?   This was around a year back when I started the project, after a small...",
+          "url": "https://dev.to/shricodev/my-speaker-broke-so-i-built-a-lan-speaker-19nc",
           "author": {
-            "username": "benjy33000",
-            "name": "Benjamin Touchard",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1740181%2F3f1038da-05fb-410f-832b-0bd4c2f84fc9.png"
+            "username": "shricodev",
+            "name": "Shrijal Acharya",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1127015%2F1c5e48a2-f602-4e7d-8312-3c0322d155c6.jpg"
           },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-02T12:23:20Z",
+          "reactionsCount": 18,
+          "commentsCount": 5,
+          "readingTime": 6,
+          "publishedAt": "2026-04-28T14:29:00Z",
           "tags": [
-            "docker",
-            "kubernetes",
-            "security",
-            "devops"
+            "go",
+            "opensource",
+            "productivity",
+            "programming"
+          ],
+          "trendingScore": 0.31,
+          "linkedRepos": [
+            {
+              "fullName": "charmbracelet/bubbletea",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "github--spec-kit": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3601601,
+        "title": "AGENTS.md, SKILL.md, DESIGN.md: How AI Instructions Split into Three Layers",
+        "url": "https://dev.to/aws-builders/agentsmd-skillmd-designmd-how-ai-instructions-split-into-three-layers-d0g",
+        "author": "ikenyal",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 6.2,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3601601,
+          "title": "AGENTS.md, SKILL.md, DESIGN.md: How AI Instructions Split into Three Layers",
+          "description": "In April 2026, Google Labs released a spec called DESIGN.md. It's a design system specification...",
+          "url": "https://dev.to/aws-builders/agentsmd-skillmd-designmd-how-ai-instructions-split-into-three-layers-d0g",
+          "author": {
+            "username": "ikenyal",
+            "name": "Kento IKEDA",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F634239%2Fefa867e9-b872-436c-a450-2c5115bd4394.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-02T21:35:11Z",
+          "tags": [
+            "ai",
+            "claude",
+            "agents",
+            "designsystem"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "kOlapsis/maintenant",
+              "fullName": "github/spec-kit",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3592010,
+          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
+          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+          "author": {
+            "username": "sundr_dev",
+            "name": "Aleksandr Sakov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-30T13:24:40Z",
+          "tags": [
+            "ai",
+            "claude",
+            "specdrivendevelopment",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
               "location": "body"
             }
           ]
@@ -5812,16 +5788,16 @@
     },
     "nousresearch--hermes-agent": {
       "count7d": 2,
-      "reactionsSum7d": 7,
+      "reactionsSum7d": 8,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3599794,
         "title": "GCP in Action: Building a Persistent AI Assistant with GCE, Hermes Agent, and Telegram",
         "url": "https://dev.to/gde/gcp-in-action-building-a-persistent-ai-assistant-with-gce-hermes-agent-and-telegram-1mlg",
         "author": "evanlin",
-        "reactions": 6,
+        "reactions": 7,
         "comments": 0,
-        "hoursSincePosted": 7.1,
+        "hoursSincePosted": 15.7,
         "readingTime": 3
       },
       "articles": [
@@ -5835,7 +5811,7 @@
             "name": "Evan Lin",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F409957%2Fc150d4a7-cb20-469d-a230-bac27232c577.jpeg"
           },
-          "reactionsCount": 6,
+          "reactionsCount": 7,
           "commentsCount": 0,
           "readingTime": 3,
           "publishedAt": "2026-05-02T12:01:42Z",
@@ -5845,7 +5821,7 @@
             "googlecloud",
             "tutorial"
           ],
-          "trendingScore": 0.66,
+          "trendingScore": 0.38,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -5918,7 +5894,7 @@
         "author": "danielsogl",
         "reactions": 9,
         "comments": 1,
-        "hoursSincePosted": 32.5,
+        "hoursSincePosted": 41.1,
         "readingTime": 13
       },
       "articles": [
@@ -5942,7 +5918,7 @@
             "angular",
             "ngrx"
           ],
-          "trendingScore": 0.29,
+          "trendingScore": 0.23,
           "linkedRepos": [
             {
               "fullName": "anthropics/skills",
@@ -5970,7 +5946,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.05,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -6035,7 +6011,7 @@
         "author": "nevermiss",
         "reactions": 8,
         "comments": 1,
-        "hoursSincePosted": 19,
+        "hoursSincePosted": 27.6,
         "readingTime": 11
       },
       "articles": [
@@ -6059,7 +6035,7 @@
             "ai",
             "automation"
           ],
-          "trendingScore": 0.42,
+          "trendingScore": 0.29,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -6143,7 +6119,7 @@
             "openclaw",
             "agents"
           ],
-          "trendingScore": 0.04,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -6168,7 +6144,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 88.9,
+        "hoursSincePosted": 97.5,
         "readingTime": 6
       },
       "articles": [
@@ -6192,7 +6168,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.05,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -6229,7 +6205,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 88.9,
+        "hoursSincePosted": 97.5,
         "readingTime": 6
       },
       "articles": [
@@ -6253,7 +6229,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.05,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -6297,40 +6273,12 @@
             "openclaw",
             "agents"
           ],
-          "trendingScore": 0.04,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
               "location": "tag"
             },
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3590822,
-          "title": "Three Wounds That Prose Skills Cannot Fix — The Full Analysis",
-          "description": "Silent scope decay. Judgment theater. Trigger collision. Three Wounds that prose skills cannot fix —...",
-          "url": "https://dev.to/gemsquared/three-wounds-that-prose-skills-cannot-fix-the-full-analysis-peo",
-          "author": {
-            "username": "gemsquared",
-            "name": "GEM² Inc.",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3847788%2F875e1f46-2e5a-4b42-b2e3-ca729d4fe1f8.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-04-30T09:30:27Z",
-          "tags": [
-            "cloudskills",
-            "claudecode",
-            "devtools",
-            "opensource"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
             {
               "fullName": "obra/superpowers",
               "location": "body"
@@ -6373,6 +6321,34 @@
             },
             {
               "fullName": "gsd-build/gsd-2",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3590822,
+          "title": "Three Wounds That Prose Skills Cannot Fix — The Full Analysis",
+          "description": "Silent scope decay. Judgment theater. Trigger collision. Three Wounds that prose skills cannot fix —...",
+          "url": "https://dev.to/gemsquared/three-wounds-that-prose-skills-cannot-fix-the-full-analysis-peo",
+          "author": {
+            "username": "gemsquared",
+            "name": "GEM² Inc.",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3847788%2F875e1f46-2e5a-4b42-b2e3-ca729d4fe1f8.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-30T09:30:27Z",
+          "tags": [
+            "cloudskills",
+            "claudecode",
+            "devtools",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
               "location": "body"
             }
           ]
@@ -6554,7 +6530,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 88.9,
+        "hoursSincePosted": 97.5,
         "readingTime": 6
       },
       "articles": [
@@ -6578,7 +6554,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.05,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -6615,7 +6591,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 88.9,
+        "hoursSincePosted": 97.5,
         "readingTime": 6
       },
       "articles": [
@@ -6639,7 +6615,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.05,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -6676,7 +6652,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 131,
+        "hoursSincePosted": 139.6,
         "readingTime": 3
       },
       "articles": [
@@ -6725,7 +6701,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 131,
+        "hoursSincePosted": 139.6,
         "readingTime": 3
       },
       "articles": [
@@ -6850,38 +6826,6 @@
           ]
         },
         {
-          "id": 3557556,
-          "title": "Research: Bifrost (Maxim AI / H3 Labs Inc.) – Why Its “Governance” Architecture Is a Single Point of Failure for Solo American Web Devs",
-          "description": "After my direct experience with Maxim AI’s paid-collaboration bait-and-switch, I dug deeper into...",
-          "url": "https://dev.to/bradleymatera/research-bifrost-maxim-ai-h3-labs-inc-why-its-governance-architecture-is-a-single-point-2j43",
-          "author": {
-            "username": "bradleymatera",
-            "name": "Bradley Matera",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-29T22:41:00Z",
-          "tags": [
-            "ai",
-            "security",
-            "apigateway",
-            "mcp"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
-              "location": "body"
-            },
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3557496,
           "title": "Research: Why Bifrost (Maxim AI / H3 Labs Inc.) Fits the Exact Pattern of API Key Harvesting Services Targeting American Indie Devs",
           "description": "After my experience with Maxim AI, I decided to dig deeper. I wanted to see if this was just one...",
@@ -6900,6 +6844,38 @@
             "mcp",
             "opensource",
             "devtools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "location": "body"
+            },
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3557556,
+          "title": "Research: Bifrost (Maxim AI / H3 Labs Inc.) – Why Its “Governance” Architecture Is a Single Point of Failure for Solo American Web Devs",
+          "description": "After my direct experience with Maxim AI’s paid-collaboration bait-and-switch, I dug deeper into...",
+          "url": "https://dev.to/bradleymatera/research-bifrost-maxim-ai-h3-labs-inc-why-its-governance-architecture-is-a-single-point-2j43",
+          "author": {
+            "username": "bradleymatera",
+            "name": "Bradley Matera",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-29T22:41:00Z",
+          "tags": [
+            "ai",
+            "security",
+            "apigateway",
+            "mcp"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -6988,7 +6964,7 @@
       ]
     },
     "anthropics--claude-code": {
-      "count7d": 11,
+      "count7d": 8,
       "reactionsSum7d": 4,
       "commentsSum7d": 0,
       "topArticle": {
@@ -6998,7 +6974,7 @@
         "author": "manveer_chawla_64a7283d5a",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 26.3,
+        "hoursSincePosted": 34.9,
         "readingTime": 21
       },
       "articles": [
@@ -7022,91 +6998,7 @@
             "claude",
             "devops"
           ],
-          "trendingScore": 0.09,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3551380,
-          "title": "12 More Days Scanned: Claude Code Sub-Agent Cache TTL Has Been 100% 5m for 17 Straight Days — This Isn''t a Regression, It''s the New Default",
-          "description": "On 4/14 I reported 5 days of sub-agent 100% 5m and left it at \"monitoring.\" Today 4/26 it''s 17 straight days, 15,727 API calls, 0 1h writes. Anthropic closed the main issue without resolution. The community is on fire.",
-          "url": "https://dev.to/recca0120/12-more-days-scanned-claude-code-sub-agent-cache-ttl-has-been-100-5m-for-17-straight-days-this-7ff",
-          "author": {
-            "username": "recca0120",
-            "name": "Recca Tsai",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F50274%2F427ea12d-13dd-4a0e-8955-dddfbf0a39ea.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-25T23:16:26Z",
-          "tags": [
-            "claudecode",
-            "promptcaching",
-            "agents",
-            "python"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3551468,
-          "title": "I Audited 3 Months of Claude Code Billing — Most Community Cost-Saving Tips Don''t Work",
-          "description": "$127K equivalent cost, 127K turns, four models, three months. After turning myself into a dataset, \"long sessions are the culprit\" and \"too many skills\" were debunked by data. Only two levers actually worked.",
-          "url": "https://dev.to/recca0120/i-audited-3-months-of-claude-code-billing-every-cost-saving-tip-i-believed-was-wrong-2ghj",
-          "author": {
-            "username": "recca0120",
-            "name": "Recca Tsai",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F50274%2F427ea12d-13dd-4a0e-8955-dddfbf0a39ea.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-26T00:26:04Z",
-          "tags": [
-            "claudecode",
-            "promptcaching",
-            "agents",
-            "costoptimization"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3592291,
-          "title": "Anatomy of Claude Code's Remote Control: The Hidden API You Can't Use Yet",
-          "description": "On February 25, 2026, Anthropic announced Remote Control for Claude Code. The idea: fire up Claude...",
-          "url": "https://dev.to/frr149/anatomy-of-claude-codes-remote-control-the-hidden-api-you-cant-use-yet-236l",
-          "author": {
-            "username": "frr149",
-            "name": "Fernando Rodriguez",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3906301%2F4e64d5c4-6405-4465-9411-41b6e57e3818.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-04-30T14:47:11Z",
-          "tags": [
-            "claudecode",
-            "anthropic",
-            "api",
-            "websocket"
-          ],
-          "trendingScore": 0,
+          "trendingScore": 0.07,
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
@@ -7155,6 +7047,34 @@
           ]
         },
         {
+          "id": 3592291,
+          "title": "Anatomy of Claude Code's Remote Control: The Hidden API You Can't Use Yet",
+          "description": "On February 25, 2026, Anthropic announced Remote Control for Claude Code. The idea: fire up Claude...",
+          "url": "https://dev.to/frr149/anatomy-of-claude-codes-remote-control-the-hidden-api-you-cant-use-yet-236l",
+          "author": {
+            "username": "frr149",
+            "name": "Fernando Rodriguez",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3906301%2F4e64d5c4-6405-4465-9411-41b6e57e3818.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-04-30T14:47:11Z",
+          "tags": [
+            "claudecode",
+            "anthropic",
+            "api",
+            "websocket"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3554106,
           "title": "How to Add Old Models to Claude Code /model Picker: 3 Methods Tested",
           "description": "After Opus 4.7 auto-upgrade, the old version vanished from /model. Tested availableModels, modelOverrides, and ANTHROPIC_CUSTOM_MODEL_OPTION — with pitfalls and GitHub community discussion.",
@@ -7171,34 +7091,6 @@
           "tags": [
             "claudecode",
             "costoptimization"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3586970,
-          "title": "I Spent 25 Years Avoiding Malware. Claude Code Stored 600 of My Secrets Anyway.",
-          "description": "I have not caught a single piece of malware in 25 years on a keyboard. Not one. I spot a .scr...",
-          "url": "https://dev.to/rentierdigital/i-spent-25-years-avoiding-malware-claude-code-stored-600-of-my-secrets-anyway-3e2j",
-          "author": {
-            "username": "rentierdigital",
-            "name": "Phil Rentier Digital",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3440667%2F4dff0ac3-f0f2-42bf-b066-14c2ba847691.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-04-29T13:41:10Z",
-          "tags": [
-            "ai",
-            "cybersecurity",
-            "claudecode",
-            "developertools"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -7333,51 +7225,6 @@
         }
       ]
     },
-    "alash3al--stash": {
-      "count7d": 1,
-      "reactionsSum7d": 3,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3586615,
-        "title": "Stash Gives Your AI Agents a Memory That Actually Persists",
-        "url": "https://dev.to/alanwest/stash-gives-your-ai-agents-a-memory-that-actually-persists-jal",
-        "author": "alanwest",
-        "reactions": 3,
-        "comments": 0,
-        "hoursSincePosted": 78.8,
-        "readingTime": 4
-      },
-      "articles": [
-        {
-          "id": 3586615,
-          "title": "Stash Gives Your AI Agents a Memory That Actually Persists",
-          "description": "Stash is a self-hosted persistent memory layer for AI agents, storing episodes, facts, and working context in Postgres with MCP support.",
-          "url": "https://dev.to/alanwest/stash-gives-your-ai-agents-a-memory-that-actually-persists-jal",
-          "author": {
-            "username": "alanwest",
-            "name": "Alan West",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3834047%2F6413d0cf-9d90-4ccc-80a9-123656fd78ba.png"
-          },
-          "reactionsCount": 3,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-04-29T12:23:36Z",
-          "tags": [
-            "ai",
-            "postgres",
-            "mcp",
-            "agents"
-          ],
-          "trendingScore": 0.02,
-          "linkedRepos": [
-            {
-              "fullName": "alash3al/stash",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "badlogic--pi-mono": {
       "count7d": 2,
       "reactionsSum7d": 3,
@@ -7389,7 +7236,7 @@
         "author": "mukeshswamy",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 128.8,
+        "hoursSincePosted": 137.4,
         "readingTime": 9
       },
       "articles": [
@@ -7475,6 +7322,51 @@
         }
       ]
     },
+    "alash3al--stash": {
+      "count7d": 1,
+      "reactionsSum7d": 3,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3586615,
+        "title": "Stash Gives Your AI Agents a Memory That Actually Persists",
+        "url": "https://dev.to/alanwest/stash-gives-your-ai-agents-a-memory-that-actually-persists-jal",
+        "author": "alanwest",
+        "reactions": 3,
+        "comments": 0,
+        "hoursSincePosted": 87.4,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3586615,
+          "title": "Stash Gives Your AI Agents a Memory That Actually Persists",
+          "description": "Stash is a self-hosted persistent memory layer for AI agents, storing episodes, facts, and working context in Postgres with MCP support.",
+          "url": "https://dev.to/alanwest/stash-gives-your-ai-agents-a-memory-that-actually-persists-jal",
+          "author": {
+            "username": "alanwest",
+            "name": "Alan West",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3834047%2F6413d0cf-9d90-4ccc-80a9-123656fd78ba.png"
+          },
+          "reactionsCount": 3,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-29T12:23:36Z",
+          "tags": [
+            "ai",
+            "postgres",
+            "mcp",
+            "agents"
+          ],
+          "trendingScore": 0.02,
+          "linkedRepos": [
+            {
+              "fullName": "alash3al/stash",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "mattpocock--skills": {
       "count7d": 5,
       "reactionsSum7d": 0,
@@ -7486,7 +7378,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 109,
+        "hoursSincePosted": 117.7,
         "readingTime": 9
       },
       "articles": [
@@ -7700,6 +7592,120 @@
         }
       ]
     },
+    "forrestchang--andrej-karpathy-skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3594085,
+        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
+        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+        "author": "jun0-ds",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 48.6,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3594085,
+          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
+          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
+          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+          "author": {
+            "username": "jun0-ds",
+            "name": "Jun0",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-01T03:13:10Z",
+          "tags": [
+            "ai",
+            "claudecode",
+            "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            },
+            {
+              "fullName": "forrestchang/andrej-karpathy-skills",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "gsd-build/gsd-2",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "gsd-build--gsd-2": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3594085,
+        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
+        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+        "author": "jun0-ds",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 48.6,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3594085,
+          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
+          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
+          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+          "author": {
+            "username": "jun0-ds",
+            "name": "Jun0",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-01T03:13:10Z",
+          "tags": [
+            "ai",
+            "claudecode",
+            "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            },
+            {
+              "fullName": "forrestchang/andrej-karpathy-skills",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "gsd-build/gsd-2",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "openai--codex": {
       "count7d": 3,
       "reactionsSum7d": 3,
@@ -7711,7 +7717,7 @@
         "author": "guilherme44",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 39.8,
+        "hoursSincePosted": 48.5,
         "readingTime": 5
       },
       "articles": [
@@ -7735,7 +7741,7 @@
             "productivity",
             "tooling"
           ],
-          "trendingScore": 0.02,
+          "trendingScore": 0.01,
           "linkedRepos": [
             {
               "fullName": "openai/codex",
@@ -7812,7 +7818,7 @@
         "author": "toniantunovic",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 98.1,
+        "hoursSincePosted": 106.7,
         "readingTime": 6
       },
       "articles": [
@@ -7846,45 +7852,45 @@
         }
       ]
     },
-    "jarrodwatts--claude-hud": {
+    "pbakaus--impeccable": {
       "count7d": 1,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3595258,
-        "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
-        "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
-        "author": "lizhaopengcn",
+        "id": 3554361,
+        "title": "Your Coding Agent's Best Feature Isn't the Code",
+        "url": "https://dev.to/stevengonsalvez/your-coding-agents-best-feature-isnt-the-code-pgd",
+        "author": "stevengonsalvez",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 33.4,
-        "readingTime": 3
+        "hoursSincePosted": 152,
+        "readingTime": 12
       },
       "articles": [
         {
-          "id": 3595258,
-          "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
-          "description": "给 Claude Code 做了一套四行树形状态栏，一份给 bare claude 走 OpenRouter，一份给 ccr code 走本地代理。记录颜色、图标、进度条的打磨过程，以及两条链路数据源差异带来的坑。",
-          "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
+          "id": 3554361,
+          "title": "Your Coding Agent's Best Feature Isn't the Code",
+          "description": "Why Claude Code beats Codex, Copilot, and every other coding agent in 2026. The developer experience of terminal AI coding agents matters more than the model. Statusline, /insights, hooks, and the features that make the 8th hour feel like the 1st.",
+          "url": "https://dev.to/stevengonsalvez/your-coding-agents-best-feature-isnt-the-code-pgd",
           "author": {
-            "username": "lizhaopengcn",
-            "name": "lizhaopeng-cn",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3895162%2F3d029651-5359-4fda-92b7-87a7171460f8.jpeg"
+            "username": "stevengonsalvez",
+            "name": "Steven Gonsalvez",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F613704%2F6fa5896f-e719-469e-812f-d2f8f9971b0e.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T09:46:29Z",
+          "readingTime": 12,
+          "publishedAt": "2026-04-26T19:49:36Z",
           "tags": [
-            "claude",
             "claudecode",
-            "ccr",
-            "devtools"
+            "aicodingagent",
+            "devrel",
+            "codex"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "jarrodwatts/claude-hud",
+              "fullName": "pbakaus/impeccable",
               "location": "body"
             }
           ]
@@ -7902,7 +7908,7 @@
         "author": "lizhaopengcn",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 106.1,
+        "hoursSincePosted": 114.7,
         "readingTime": 8
       },
       "articles": [
@@ -7963,159 +7969,45 @@
         }
       ]
     },
-    "pbakaus--impeccable": {
+    "jarrodwatts--claude-hud": {
       "count7d": 1,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3554361,
-        "title": "Your Coding Agent's Best Feature Isn't the Code",
-        "url": "https://dev.to/stevengonsalvez/your-coding-agents-best-feature-isnt-the-code-pgd",
-        "author": "stevengonsalvez",
+        "id": 3595258,
+        "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
+        "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
+        "author": "lizhaopengcn",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 143.3,
-        "readingTime": 12
-      },
-      "articles": [
-        {
-          "id": 3554361,
-          "title": "Your Coding Agent's Best Feature Isn't the Code",
-          "description": "Why Claude Code beats Codex, Copilot, and every other coding agent in 2026. The developer experience of terminal AI coding agents matters more than the model. Statusline, /insights, hooks, and the features that make the 8th hour feel like the 1st.",
-          "url": "https://dev.to/stevengonsalvez/your-coding-agents-best-feature-isnt-the-code-pgd",
-          "author": {
-            "username": "stevengonsalvez",
-            "name": "Steven Gonsalvez",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F613704%2F6fa5896f-e719-469e-812f-d2f8f9971b0e.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 12,
-          "publishedAt": "2026-04-26T19:49:36Z",
-          "tags": [
-            "claudecode",
-            "aicodingagent",
-            "devrel",
-            "codex"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "pbakaus/impeccable",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "forrestchang--andrej-karpathy-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3594085,
-        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-        "author": "jun0-ds",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 39.9,
+        "hoursSincePosted": 42,
         "readingTime": 3
       },
       "articles": [
         {
-          "id": 3594085,
-          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
-          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
+          "id": 3595258,
+          "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
+          "description": "给 Claude Code 做了一套四行树形状态栏，一份给 bare claude 走 OpenRouter，一份给 ccr code 走本地代理。记录颜色、图标、进度条的打磨过程，以及两条链路数据源差异带来的坑。",
+          "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
           "author": {
-            "username": "jun0-ds",
-            "name": "Jun0",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
+            "username": "lizhaopengcn",
+            "name": "lizhaopeng-cn",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3895162%2F3d029651-5359-4fda-92b7-87a7171460f8.jpeg"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
           "readingTime": 3,
-          "publishedAt": "2026-05-01T03:13:10Z",
+          "publishedAt": "2026-05-01T09:46:29Z",
           "tags": [
-            "ai",
+            "claude",
             "claudecode",
-            "agents",
-            "productivity"
+            "ccr",
+            "devtools"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "gsd-build/gsd-2",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "gsd-build--gsd-2": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3594085,
-        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-        "author": "jun0-ds",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 39.9,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3594085,
-          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
-          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-          "author": {
-            "username": "jun0-ds",
-            "name": "Jun0",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T03:13:10Z",
-          "tags": [
-            "ai",
-            "claudecode",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "gsd-build/gsd-2",
+              "fullName": "jarrodwatts/claude-hud",
               "location": "body"
             }
           ]
@@ -8133,7 +8025,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 49.7,
+        "hoursSincePosted": 58.3,
         "readingTime": 7
       },
       "articles": [
@@ -8230,7 +8122,7 @@
         "author": "moonrunnerkc",
         "reactions": 1,
         "comments": 6,
-        "hoursSincePosted": 88.6,
+        "hoursSincePosted": 97.3,
         "readingTime": 7
       },
       "articles": [
@@ -8264,55 +8156,6 @@
         }
       ]
     },
-    "github--spec-kit": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592010,
-        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-        "author": "sundr_dev",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 53.7,
-        "readingTime": 14
-      },
-      "articles": [
-        {
-          "id": 3592010,
-          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
-          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-          "author": {
-            "username": "sundr_dev",
-            "name": "Aleksandr Sakov",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-04-30T13:24:40Z",
-          "tags": [
-            "ai",
-            "claude",
-            "specdrivendevelopment",
-            "programming"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/spec-kit",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-plugins-official",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "anthropics--claude-plugins-official": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -8324,7 +8167,7 @@
         "author": "sundr_dev",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 53.7,
+        "hoursSincePosted": 62.4,
         "readingTime": 14
       },
       "articles": [
@@ -8413,7 +8256,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 133,
+        "hoursSincePosted": 141.6,
         "readingTime": 8
       },
       "articles": [
@@ -8458,7 +8301,7 @@
         "author": "frr149",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 51.7,
+        "hoursSincePosted": 60.4,
         "readingTime": 5
       },
       "articles": [
@@ -8555,7 +8398,7 @@
         "author": "sumon4skf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 106.9,
+        "hoursSincePosted": 115.5,
         "readingTime": 2
       },
       "articles": [
@@ -8612,7 +8455,7 @@
         "author": "sumon4skf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 106.9,
+        "hoursSincePosted": 115.5,
         "readingTime": 2
       },
       "articles": [
@@ -8669,7 +8512,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 49.7,
+        "hoursSincePosted": 58.3,
         "readingTime": 7
       },
       "articles": [
@@ -8818,7 +8661,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 111.5,
+        "hoursSincePosted": 120.1,
         "readingTime": 9
       },
       "articles": [
@@ -8935,7 +8778,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 111.5,
+        "hoursSincePosted": 120.1,
         "readingTime": 9
       },
       "articles": [
@@ -9100,7 +8943,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 111.5,
+        "hoursSincePosted": 120.1,
         "readingTime": 9
       },
       "articles": [
@@ -9169,7 +9012,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 111.5,
+        "hoursSincePosted": 120.1,
         "readingTime": 9
       },
       "articles": [
@@ -9270,7 +9113,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 37.9,
+        "hoursSincePosted": 46.5,
         "readingTime": 10
       },
       "articles": [
@@ -9411,7 +9254,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 37.9,
+        "hoursSincePosted": 46.5,
         "readingTime": 10
       },
       "articles": [
@@ -9524,7 +9367,7 @@
         "author": "truongpx396",
         "reactions": 7,
         "comments": 0,
-        "hoursSincePosted": 107.5,
+        "hoursSincePosted": 116.1,
         "readingTime": 18
       },
       "articles": [
@@ -9548,7 +9391,7 @@
             "webdev",
             "tutorial"
           ],
-          "trendingScore": 0.06,
+          "trendingScore": 0.05,
           "linkedRepos": [
             {
               "fullName": "HKUDS/nanobot",
@@ -9597,7 +9440,7 @@
         "author": "truongpx396",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 108.5,
+        "hoursSincePosted": 117.2,
         "readingTime": 31
       },
       "articles": [
@@ -9670,7 +9513,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 105.7,
+        "hoursSincePosted": 114.3,
         "readingTime": 23
       },
       "articles": [
@@ -9715,7 +9558,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 128.5,
+        "hoursSincePosted": 137.1,
         "readingTime": 31
       },
       "articles": [
@@ -9760,7 +9603,7 @@
         "author": "truongpx396",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 106.2,
+        "hoursSincePosted": 114.9,
         "readingTime": 22
       },
       "articles": [
@@ -9805,7 +9648,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 49.7,
+        "hoursSincePosted": 58.3,
         "readingTime": 7
       },
       "articles": [
@@ -9874,7 +9717,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 49.7,
+        "hoursSincePosted": 58.3,
         "readingTime": 7
       },
       "articles": [
@@ -9943,7 +9786,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 49.7,
+        "hoursSincePosted": 58.3,
         "readingTime": 7
       },
       "articles": [
@@ -10012,7 +9855,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 49.7,
+        "hoursSincePosted": 58.3,
         "readingTime": 7
       },
       "articles": [
@@ -10081,7 +9924,7 @@
         "author": "clintjosy",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 26.7,
+        "hoursSincePosted": 35.3,
         "readingTime": 10
       },
       "articles": [
@@ -10154,7 +9997,7 @@
         "author": "aigal",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 122.5,
+        "hoursSincePosted": 131.1,
         "readingTime": 4
       },
       "articles": [
@@ -10198,7 +10041,7 @@
         "author": "bradleymatera",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 68.5,
+        "hoursSincePosted": 77.1,
         "readingTime": 3
       },
       "articles": [
@@ -10263,38 +10106,6 @@
           ]
         },
         {
-          "id": 3557556,
-          "title": "Research: Bifrost (Maxim AI / H3 Labs Inc.) – Why Its “Governance” Architecture Is a Single Point of Failure for Solo American Web Devs",
-          "description": "After my direct experience with Maxim AI’s paid-collaboration bait-and-switch, I dug deeper into...",
-          "url": "https://dev.to/bradleymatera/research-bifrost-maxim-ai-h3-labs-inc-why-its-governance-architecture-is-a-single-point-2j43",
-          "author": {
-            "username": "bradleymatera",
-            "name": "Bradley Matera",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-29T22:41:00Z",
-          "tags": [
-            "ai",
-            "security",
-            "apigateway",
-            "mcp"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
-              "location": "body"
-            },
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3557496,
           "title": "Research: Why Bifrost (Maxim AI / H3 Labs Inc.) Fits the Exact Pattern of API Key Harvesting Services Targeting American Indie Devs",
           "description": "After my experience with Maxim AI, I decided to dig deeper. I wanted to see if this was just one...",
@@ -10313,6 +10124,38 @@
             "mcp",
             "opensource",
             "devtools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "location": "body"
+            },
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3557556,
+          "title": "Research: Bifrost (Maxim AI / H3 Labs Inc.) – Why Its “Governance” Architecture Is a Single Point of Failure for Solo American Web Devs",
+          "description": "After my direct experience with Maxim AI’s paid-collaboration bait-and-switch, I dug deeper into...",
+          "url": "https://dev.to/bradleymatera/research-bifrost-maxim-ai-h3-labs-inc-why-its-governance-architecture-is-a-single-point-2j43",
+          "author": {
+            "username": "bradleymatera",
+            "name": "Bradley Matera",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-29T22:41:00Z",
+          "tags": [
+            "ai",
+            "security",
+            "apigateway",
+            "mcp"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -10371,7 +10214,7 @@
         "author": "dharshan_a_23835c7dc05682",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 108.6,
+        "hoursSincePosted": 117.2,
         "readingTime": 4
       },
       "articles": [
@@ -10416,7 +10259,7 @@
         "author": "programmersd21",
         "reactions": 5,
         "comments": 1,
-        "hoursSincePosted": 89,
+        "hoursSincePosted": 97.6,
         "readingTime": 4
       },
       "articles": [
@@ -10461,7 +10304,7 @@
         "author": "gursharansingh",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 109.7,
+        "hoursSincePosted": 118.3,
         "readingTime": 13
       },
       "articles": [
@@ -10506,7 +10349,7 @@
         "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 142.5,
+        "hoursSincePosted": 151.2,
         "readingTime": 8
       },
       "articles": [
@@ -10551,7 +10394,7 @@
         "author": "mindmnml",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 127.1,
+        "hoursSincePosted": 135.8,
         "readingTime": 5
       },
       "articles": [
@@ -10596,7 +10439,7 @@
         "author": "dengkui_yang_fcb5dbe2da32",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 62.8,
+        "hoursSincePosted": 71.4,
         "readingTime": 7
       },
       "articles": [
@@ -10641,7 +10484,7 @@
         "author": "yohann_streibel_7e1f7b4b8",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 54.7,
+        "hoursSincePosted": 63.3,
         "readingTime": 15
       },
       "articles": [
@@ -10690,7 +10533,7 @@
         "author": "yohann_streibel_7e1f7b4b8",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 54.7,
+        "hoursSincePosted": 63.3,
         "readingTime": 15
       },
       "articles": [
@@ -10739,7 +10582,7 @@
         "author": "johalputt",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 50.1,
+        "hoursSincePosted": 58.7,
         "readingTime": 15
       },
       "articles": [
@@ -10840,7 +10683,7 @@
         "author": "kinggyusuh",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 0.9,
+        "hoursSincePosted": 9.5,
         "readingTime": 2
       },
       "articles": [
@@ -10885,7 +10728,7 @@
         "author": "dengkui_yang_fcb5dbe2da32",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 82.8,
+        "hoursSincePosted": 91.4,
         "readingTime": 10
       },
       "articles": [
@@ -10930,7 +10773,7 @@
         "author": "passandscore",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 113.7,
+        "hoursSincePosted": 122.3,
         "readingTime": 3
       },
       "articles": [
@@ -10975,7 +10818,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 38,
+        "hoursSincePosted": 46.6,
         "readingTime": 12
       },
       "articles": [
@@ -11029,63 +10872,18 @@
         }
       ]
     },
-    "charmbracelet--bubbletea": {
-      "count7d": 1,
-      "reactionsSum7d": 18,
-      "commentsSum7d": 5,
-      "topArticle": {
-        "id": 3553240,
-        "title": "My speaker broke, so I built a LAN speaker",
-        "url": "https://dev.to/shricodev/my-speaker-broke-so-i-built-a-lan-speaker-19nc",
-        "author": "shricodev",
-        "reactions": 18,
-        "comments": 5,
-        "hoursSincePosted": 100.7,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3553240,
-          "title": "My speaker broke, so I built a LAN speaker",
-          "description": "What's happening?   This was around a year back when I started the project, after a small...",
-          "url": "https://dev.to/shricodev/my-speaker-broke-so-i-built-a-lan-speaker-19nc",
-          "author": {
-            "username": "shricodev",
-            "name": "Shrijal Acharya",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1127015%2F1c5e48a2-f602-4e7d-8312-3c0322d155c6.jpg"
-          },
-          "reactionsCount": 18,
-          "commentsCount": 5,
-          "readingTime": 6,
-          "publishedAt": "2026-04-28T14:29:00Z",
-          "tags": [
-            "go",
-            "opensource",
-            "productivity",
-            "programming"
-          ],
-          "trendingScore": 0.34,
-          "linkedRepos": [
-            {
-              "fullName": "charmbracelet/bubbletea",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "versity--versitygw": {
       "count7d": 1,
-      "reactionsSum7d": 1,
+      "reactionsSum7d": 2,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3599405,
         "title": "Self-hosted S3 after MinIO: lightweight alternatives for 2026",
         "url": "https://dev.to/productimpossible/self-hosted-s3-after-minio-lightweight-alternatives-for-2026-2jl0",
         "author": "sebakubisz",
-        "reactions": 1,
+        "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 9.4,
+        "hoursSincePosted": 18,
         "readingTime": 14
       },
       "articles": [
@@ -11099,7 +10897,7 @@
             "name": "Seba Kubisz",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3884888%2Fbef87aed-911a-4915-87e2-38329e054385.png"
           },
-          "reactionsCount": 1,
+          "reactionsCount": 2,
           "commentsCount": 0,
           "readingTime": 14,
           "publishedAt": "2026-05-02T09:44:25Z",
@@ -11109,7 +10907,7 @@
             "devops",
             "docker"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "versity/versitygw",
@@ -11129,16 +10927,16 @@
     },
     "rustfs--rustfs": {
       "count7d": 1,
-      "reactionsSum7d": 1,
+      "reactionsSum7d": 2,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3599405,
         "title": "Self-hosted S3 after MinIO: lightweight alternatives for 2026",
         "url": "https://dev.to/productimpossible/self-hosted-s3-after-minio-lightweight-alternatives-for-2026-2jl0",
         "author": "sebakubisz",
-        "reactions": 1,
+        "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 9.4,
+        "hoursSincePosted": 18,
         "readingTime": 14
       },
       "articles": [
@@ -11152,7 +10950,7 @@
             "name": "Seba Kubisz",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3884888%2Fbef87aed-911a-4915-87e2-38329e054385.png"
           },
-          "reactionsCount": 1,
+          "reactionsCount": 2,
           "commentsCount": 0,
           "readingTime": 14,
           "publishedAt": "2026-05-02T09:44:25Z",
@@ -11162,7 +10960,7 @@
             "devops",
             "docker"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "versity/versitygw",
@@ -11182,16 +10980,16 @@
     },
     "seaweedfs--seaweedfs": {
       "count7d": 1,
-      "reactionsSum7d": 1,
+      "reactionsSum7d": 2,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3599405,
         "title": "Self-hosted S3 after MinIO: lightweight alternatives for 2026",
         "url": "https://dev.to/productimpossible/self-hosted-s3-after-minio-lightweight-alternatives-for-2026-2jl0",
         "author": "sebakubisz",
-        "reactions": 1,
+        "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 9.4,
+        "hoursSincePosted": 18,
         "readingTime": 14
       },
       "articles": [
@@ -11205,7 +11003,7 @@
             "name": "Seba Kubisz",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3884888%2Fbef87aed-911a-4915-87e2-38329e054385.png"
           },
-          "reactionsCount": 1,
+          "reactionsCount": 2,
           "commentsCount": 0,
           "readingTime": 14,
           "publishedAt": "2026-05-02T09:44:25Z",
@@ -11215,7 +11013,7 @@
             "devops",
             "docker"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "versity/versitygw",
@@ -11266,12 +11064,12 @@
       "reactionsSum7d": 9
     },
     {
-      "fullName": "HKUDS/nanobot",
+      "fullName": "NousResearch/hermes-agent",
       "count7d": 2,
-      "reactionsSum7d": 7
+      "reactionsSum7d": 8
     },
     {
-      "fullName": "NousResearch/hermes-agent",
+      "fullName": "HKUDS/nanobot",
       "count7d": 2,
       "reactionsSum7d": 7
     },
@@ -11317,7 +11115,7 @@
     },
     {
       "fullName": "anthropics/claude-code",
-      "count7d": 11,
+      "count7d": 8,
       "reactionsSum7d": 4
     },
     {
@@ -11346,6 +11144,21 @@
       "reactionsSum7d": 3
     },
     {
+      "fullName": "rustfs/rustfs",
+      "count7d": 1,
+      "reactionsSum7d": 2
+    },
+    {
+      "fullName": "seaweedfs/seaweedfs",
+      "count7d": 1,
+      "reactionsSum7d": 2
+    },
+    {
+      "fullName": "versity/versitygw",
+      "count7d": 1,
+      "reactionsSum7d": 2
+    },
+    {
       "fullName": "thedotmack/claude-mem",
       "count7d": 3,
       "reactionsSum7d": 1
@@ -11371,11 +11184,6 @@
       "reactionsSum7d": 1
     },
     {
-      "fullName": "kOlapsis/maintenant",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
       "fullName": "MemPalace/mempalace",
       "count7d": 1,
       "reactionsSum7d": 1
@@ -11391,17 +11199,7 @@
       "reactionsSum7d": 1
     },
     {
-      "fullName": "rustfs/rustfs",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
       "fullName": "safishamsi/graphify",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
-      "fullName": "seaweedfs/seaweedfs",
       "count7d": 1,
       "reactionsSum7d": 1
     },
@@ -11417,11 +11215,6 @@
     },
     {
       "fullName": "VectifyAI/PageIndex",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
-      "fullName": "versity/versitygw",
       "count7d": 1,
       "reactionsSum7d": 1
     },
@@ -11476,6 +11269,11 @@
       "reactionsSum7d": 0
     },
     {
+      "fullName": "github/spec-kit",
+      "count7d": 2,
+      "reactionsSum7d": 0
+    },
+    {
       "fullName": "musistudio/claude-code-router",
       "count7d": 2,
       "reactionsSum7d": 0
@@ -11497,11 +11295,6 @@
     },
     {
       "fullName": "garrytan/gbrain",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "github/spec-kit",
       "count7d": 1,
       "reactionsSum7d": 0
     },

@@ -81,33 +81,158 @@ export default async function AgentReposPage() {
   // Same shape as /githubrepo, but filtered to the curated agent-repo set.
   const repos = selectAgentRepos(getDerivedRepos());
 
-  const heading = (
-    <section className="page-head">
-      <div>
-        <div className="crumb">
-          <b>Trend terminal</b> / agent repos
-        </div>
-        <h1>Top agent runtimes and frameworks by stars.</h1>
-        <p className="lede">
-          Curated from GitHub agent searches and the OpenClaw ecosystem:
-          runtimes, frameworks, orchestrators, and OpenClaw-like systems.
-        </p>
-      </div>
-      <div className="clock">
-        <span className="big">{repos.length}</span>
-        <span className="live">of {AGENT_REPO_TARGET_COUNT} tracked</span>
-      </div>
-    </section>
-  );
+  const totalStars = repos.reduce((sum, repo) => sum + repo.stars, 0);
+  const topByStars = repos[0];
+  const newRepos7d = repos.filter((repo) => {
+    if (!repo.createdAt) return false;
+    const createdMs = Date.parse(repo.createdAt);
+    if (Number.isNaN(createdMs)) return false;
+    return Date.now() - createdMs <= 7 * 24 * 3600 * 1000;
+  }).length;
+  const mostDeployed = [...repos].sort((a, b) => b.forks - a.forks)[0];
 
   return (
-    <TerminalLayout
-      repos={repos}
-      className="home-surface terminal-page agent-repos-page"
-      filterBarVariant="minimal"
-      showFeatured={false}
-      heading={heading}
-      sortOverride={{ column: "stars", direction: "desc" }}
-    />
+    <main className="home-surface agent-repos-page">
+      <PageHead
+        crumb={
+          <>
+            <b>AGENTS</b> · TERMINAL · /AGENT-REPOS
+          </>
+        }
+        h1="Top agent runtimes and frameworks by total GitHub stars."
+        lede="Curated from GitHub agent searches and the OpenClaw ecosystem. Runtimes, frameworks, orchestrators, and OpenClaw-like systems such as OpenClaw, Hermes, NanoClaw, and NemoClaw. Plugins, skills, tutorials, and awesome lists stay in the general repo views."
+        clock={
+          <>
+            <span className="big">{repos.length}</span>
+            <span className="muted">
+              REPOS · OF {AGENT_REPO_TARGET_COUNT}
+            </span>
+            <LiveDot label="LIVE" />
+          </>
+        }
+      />
+
+      <VerdictRibbon
+        tone="acc"
+        stamp={{
+          eyebrow: "// AGENT BOARD",
+          headline: `${repos.length} / ${AGENT_REPO_TARGET_COUNT} TRACKED`,
+          sub: `${formatNumber(totalStars)} combined stars · refreshed live`,
+        }}
+        text={
+          <>
+            <b>{repos.length} agent repos</b> with live data, led by{" "}
+            <span style={{ color: "var(--v4-acc)" }}>
+              {topByStars ? topByStars.fullName : "—"}
+            </span>{" "}
+            at{" "}
+            <span style={{ color: "var(--v4-money)" }}>
+              {topByStars ? formatNumber(topByStars.stars) : "—"} stars
+            </span>
+            .
+          </>
+        }
+        actionHref="/feeds/agent-repos.xml"
+        actionLabel="RSS →"
+      />
+
+      <KpiBand
+        cells={[
+          {
+            label: "Total agent repos",
+            value: formatNumber(repos.length),
+            sub: `of ${AGENT_REPO_TARGET_COUNT} curated`,
+          },
+          {
+            label: "Top by stars",
+            value: topByStars
+              ? formatNumber(topByStars.stars)
+              : "—",
+            sub: topByStars ? topByStars.fullName : "no data",
+            tone: "money",
+          },
+          {
+            label: "New · 7d",
+            value: formatNumber(newRepos7d),
+            sub: newRepos7d > 0 ? "fresh repos" : "no new repos",
+            tone: newRepos7d > 0 ? "acc" : "default",
+          },
+          {
+            label: "Most-deployed",
+            value: mostDeployed
+              ? formatNumber(mostDeployed.forks)
+              : "—",
+            sub: mostDeployed
+              ? `${mostDeployed.fullName} · forks`
+              : "no data",
+          },
+        ]}
+      />
+
+      <SectionHead
+        num="// 01"
+        title="Top agent repos"
+        meta={
+          <>
+            <b>{repos.length}</b> · BY STARS
+          </>
+        }
+      />
+      {repos.length === 0 ? (
+        <div
+          style={{
+            fontFamily: "var(--font-geist-mono), monospace",
+            fontSize: 12,
+            color: "var(--v4-ink-300)",
+            padding: "16px 0",
+          }}
+        >
+          No agent repos with live data right now.
+        </div>
+      ) : (
+        <div className="v4-leaderboard-template__leaderboard">
+          {repos.map((repo, index) => {
+            const slug = slugToId(repo.fullName);
+            const delta24 = repo.starsDelta24h ?? 0;
+            const direction =
+              delta24 > 0 ? "up" : delta24 < 0 ? "down" : "flat";
+            const deltaLabel =
+              delta24 > 0
+                ? `+${formatNumber(delta24)}`
+                : delta24 < 0
+                  ? formatNumber(delta24)
+                  : "0";
+            return (
+              <RankRow
+                key={repo.id}
+                rank={index + 1}
+                title={
+                  <>
+                    {repo.owner}{" "}
+                    <span style={{ color: "var(--v4-ink-400)" }}>/</span>{" "}
+                    {repo.name}
+                  </>
+                }
+                desc={
+                  repo.description?.trim() ||
+                  (repo.language ? repo.language : "—")
+                }
+                metric={{
+                  value: formatNumber(repo.stars),
+                  label: "STARS",
+                }}
+                delta={{
+                  value: deltaLabel,
+                  direction,
+                  label: "24H",
+                }}
+                href={`/agent-repos/${slug}`}
+                first={index === 0}
+              />
+            );
+          })}
+        </div>
+      )}
+    </main>
   );
 }

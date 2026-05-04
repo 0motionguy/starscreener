@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
-import { Metric, MetricGrid } from "@/components/ui/Metric";
 import { RevenueEstimateTool } from "@/components/tools/RevenueEstimateTool";
 import {
   readRevenueBenchmarksFile,
@@ -15,7 +14,7 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 
 export const metadata: Metadata = {
-  title: "Revenue Estimator - TrendingRepo",
+  title: "Revenue Estimator — TrendingRepo",
   description:
     "Ballpark MRR estimate for a repo by category, star count, and ProductHunt-launched status. Illustrative benchmarks from verified-revenue startups.",
   alternates: { canonical: "/tools/revenue-estimate" },
@@ -46,22 +45,22 @@ export default async function RevenueEstimatePage() {
 
   return (
     <main className="home-surface tools-page">
-      <section className="page-head">
-        <div>
-          <div className="crumb">
-            <b>Tools</b> / creator suite / revenue estimate
-          </div>
-          <h1>Estimate repo revenue bands.</h1>
-          <p className="lede">
-            A compact calculator for mapping category, stars, and launch signal
-            to verified-revenue benchmark buckets.
-          </p>
-        </div>
-        <div className="clock">
-          <span className="big">{formatClock(file.generatedAt)}</span>
-          <span className="live">benchmarks</span>
-        </div>
-      </section>
+      <PageHead
+        crumb={
+          <>
+            <b>TOOLS</b> · TERMINAL · /TOOLS/REVENUE-ESTIMATE
+          </>
+        }
+        h1="Estimate repo revenue bands."
+        lede="A compact calculator for mapping category, stars, and launch signal to verified-revenue benchmark buckets."
+        clock={
+          <>
+            <span className="big">{formatClock(file.generatedAt)}</span>
+            <span className="muted">UTC · BENCHMARKS</span>
+            <LiveDot label={hasData ? "READY" : "WARMING"} tone={hasData ? "money" : "amber"} />
+          </>
+        }
+      />
 
       <div className="tool-grid">
         <Link className="tool active" href="/tools/revenue-estimate">
@@ -90,13 +89,44 @@ export default async function RevenueEstimatePage() {
         </Link>
       </div>
 
-      <MetricGrid columns={5} className="kpi-band">
-        <Metric label="Buckets" value={file.totalBuckets} sub="benchmark cells" tone="accent" pip />
-        <Metric label="Startups" value={file.totalStartups} sub="verified corpus" tone="positive" pip />
-        <Metric label="Categories" value={categories.length} sub="segments" pip />
-        <Metric label="Star bands" value={file.starBands.length} sub="github ranges" tone="external" pip />
-        <Metric label="PH buckets" value={phBuckets} sub={`max n ${largestBucket}`} tone="warning" pip />
-      </MetricGrid>
+      <KpiBand
+        className="kpi-band"
+        cells={[
+          {
+            label: "BUCKETS",
+            value: file.totalBuckets,
+            sub: "benchmark cells",
+            tone: "acc",
+            pip: "var(--v4-acc)",
+          },
+          {
+            label: "STARTUPS",
+            value: file.totalStartups,
+            sub: "verified corpus",
+            tone: "money",
+            pip: "var(--v4-money)",
+          },
+          {
+            label: "CATEGORIES",
+            value: categories.length,
+            sub: "segments",
+            pip: "var(--v4-ink-300)",
+          },
+          {
+            label: "STAR BANDS",
+            value: file.starBands.length,
+            sub: "github ranges",
+            pip: "var(--v4-blue)",
+          },
+          {
+            label: "PH BUCKETS",
+            value: phBuckets,
+            sub: `max n ${largestBucket}`,
+            tone: "amber",
+            pip: "var(--v4-amber)",
+          },
+        ]}
+      />
 
       <div className="grid">
         <Card className="col-8">

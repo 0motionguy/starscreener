@@ -3,6 +3,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import type { Metadata } from "next";
+
 import { CompareProfileGrid } from "@/components/compare/CompareProfileGrid";
 import { CompareClient } from "@/components/compare/CompareClient";
 import { CompareWaveTop } from "@/components/compare/CompareWaveTop";
@@ -20,6 +22,14 @@ interface ComparePageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
+/**
+ * Per-request OG metadata so X auto-unfurls with the actual repos chosen
+ * via ?repos=. Without this, the layout-level static og:image fires for
+ * every URL regardless of which repos are being compared.
+ *
+ * Falls through to layout defaults when no repos are specified — the
+ * static `/compare/opengraph-image.tsx` route handler still wins.
+ */
 export async function generateMetadata({
   searchParams,
 }: ComparePageProps): Promise<Metadata> {
@@ -63,72 +73,17 @@ export default async function ComparePage({ searchParams }: ComparePageProps) {
   const shareState = decodeStarActivityUrl(sp);
 
   return (
-    <main className="home-surface tools-page compare-page">
-      <section className="page-head">
-        <div>
-          <div className="crumb">
-            <b>Tools</b> / compare
-          </div>
-          <h1>The creator suite - visualize. compare. share.</h1>
-          <p className="lede">
-            Plot star history against multiple repos, inspect canonical
-            signals, and export branded share cards from one dense workbench.
-          </p>
-        </div>
-        <div className="clock">
-          <span className="big">{shareState.repos.length || 0}</span>
-          <span className="live">series selected</span>
-        </div>
-      </section>
-
-      <section className="tool-grid compare-tool-grid" aria-label="Creator tools">
-        <Link className="tool active" href="/compare">
-          <span className="t-num">01 / active</span>
-          <span className="t-h">Star History</span>
-          <span className="t-d">
-            Compare momentum curves across repos and export the chart.
-          </span>
-          <span className="t-foot">
-            <span className="live">live</span>
-            <span className="ar">-&gt;</span>
-          </span>
-        </Link>
-        <Link className="tool" href="/mindshare">
-          <span className="t-num">02 / analog</span>
-          <span className="t-h">Mindshare</span>
-          <span className="t-d">
-            Map cross-source attention and category gravity.
-          </span>
-          <span className="t-foot">
-            map
-            <span className="ar">-&gt;</span>
-          </span>
-        </Link>
-        <Link className="tool" href="/top10">
-          <span className="t-num">03 / share</span>
-          <span className="t-h">Top 10 Card</span>
-          <span className="t-d">
-            Turn ranked movers into a social-ready terminal card.
-          </span>
-          <span className="t-foot">
-            export
-            <span className="ar">-&gt;</span>
-          </span>
-        </Link>
-        <Link className="tool" href="/tierlist">
-          <span className="t-num">04 / board</span>
-          <span className="t-h">Tier List</span>
-          <span className="t-d">
-            Rank stacks with drag-and-drop rows and share links.
-          </span>
-          <span className="t-foot">
-            rank
-            <span className="ar">-&gt;</span>
-          </span>
-        </Link>
-      </section>
-
+    <>
+      {/* W3 — Star History Chart wave: redesigned headline section.
+          Owns the new 5-series chart, metric/window/mode/scale/theme
+          toggles, starter-pack chips, bottom stat-card strip, and the
+          right-rail multi-format SHARE panel. */}
       <CompareWaveTop />
+
+      {/* Existing canonical-profile grid: deeper-dive per-repo signals
+          (momentum, why-trending, cross-signal, npm, mentions). Kept
+          as-is below the new wave so existing inbound links still
+          resolve to a useful surface. */}
       <CompareProfileGrid />
 
       <section
@@ -143,7 +98,11 @@ export default async function ComparePage({ searchParams }: ComparePageProps) {
         </div>
         <div className="panel-body">
           <CompareClient embedded />
-          {shareState.repos.length >= 2 && <ShareBar state={shareState} />}
+          {shareState.repos.length >= 2 && (
+            <div className="mt-4">
+              <ShareBar state={shareState} />
+            </div>
+          )}
         </div>
       </section>
     </main>

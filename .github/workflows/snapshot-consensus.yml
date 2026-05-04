@@ -19,6 +19,9 @@ concurrency:
 jobs:
   snapshot:
     runs-on: ubuntu-latest
+    # Hard cap so a hung Redis read can't burn the GH Actions 6h budget.
+    # Belt; suspenders is the ioredis commandTimeout in src/lib/data-store.ts.
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4

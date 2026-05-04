@@ -81,9 +81,9 @@ function LaunchpadStrip() {
               "text-[10px] transition-colors duration-150",
             )}
             style={{
-              background: active ? "var(--acc-soft)" : "var(--bg-050)",
-              border: `1px solid ${active ? "var(--acc)" : "var(--line-200)"}`,
-              color: active ? "var(--acc)" : "var(--ink-200)",
+              background: active ? "var(--v4-acc-soft)" : "var(--v4-bg-050)",
+              border: `1px solid ${active ? "var(--v4-acc)" : "var(--v4-line-200)"}`,
+              color: active ? "var(--v4-acc)" : "var(--v4-ink-200)",
             }}
           >
             <Icon className="w-3.5 h-3.5" strokeWidth={2} aria-hidden />
@@ -106,14 +106,14 @@ function SidebarStatusHeader() {
     >
       <span
         className="group-label inline-flex items-center gap-2"
-        style={{ color: "var(--ink-300)", fontSize: 10 }}
+        style={{ color: "var(--v4-ink-300)", fontSize: 10 }}
       >
         <SystemMark size={12} />
         {"// TRENDINGREPO"}
       </span>
       <span
         className="font-mono tabular-nums"
-        style={{ color: "var(--ink-500)", fontSize: 9 }}
+        style={{ color: "var(--v4-ink-500)", fontSize: 9 }}
       >
         v{APP_VERSION}
       </span>

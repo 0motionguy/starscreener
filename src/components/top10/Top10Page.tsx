@@ -17,13 +17,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { Sparkline } from "@/components/shared/Sparkline";
 import {
-  ShareExportPanel,
-  ShareFormatButton,
-  ShareFormatGrid,
-  ShareMetaBlock,
-  ShareMetaRow,
-} from "@/components/ui/ShareExport";
-import {
   buildAgentTop10FromSlice,
   buildMoversTop10FromSlice,
   buildRepoTop10FromSlice,
@@ -237,7 +230,7 @@ function Main({
 }: MainProps) {
   const totalCount = bundle.items.length;
   return (
-    <main className="home-surface top10-page">
+    <main className="px-3 sm:px-6 py-4 sm:py-6 mx-auto" style={{ maxWidth: 1640 }}>
       <PageHead />
 
       <CategoryTabs
@@ -277,6 +270,23 @@ function Main({
         onPick={onCategory}
       />
 
+      {/* Mobile responsive: stack share below ranking on <md, side-by-side
+          above. Inline so the rule travels with the surface; the rest of
+          the app's grid utilities are Tailwind-driven and we don't need a
+          new top-10-specific class set in globals.css. */}
+      <style>{`
+        .top10-layout {
+          display: grid;
+          gap: 12px;
+          grid-template-columns: 1fr;
+          align-items: flex-start;
+        }
+        @media (min-width: 1024px) {
+          .top10-layout {
+            grid-template-columns: minmax(0, 1fr) 380px;
+          }
+        }
+      `}</style>
     </main>
   );
 }
@@ -287,40 +297,53 @@ function Main({
 
 function PageHead() {
   return (
-    <header className="page-head">
-      <div>
-        <div className="crumb">
-          <b>Tool · 05</b> / top 10 · shareable rankings
+    <header
+      className="flex items-end gap-4 pb-3 mb-3"
+      style={{ borderBottom: "1px solid var(--v3-line-200, #29323b)" }}
+    >
+      <div className="flex-1 min-w-0">
+        <div
+          className="v2-mono"
+          style={{
+            fontSize: 10,
+            letterSpacing: "0.20em",
+            color: "var(--v3-ink-400, #909caa)",
+            textTransform: "uppercase",
+          }}
+        >
+          <b style={{ color: "var(--v2-acc, #f56e0f)" }}>TOOL · 05</b>{" "}
+          {"// TOP 10 · SHAREABLE RANKINGS"}
         </div>
-        <h1>Top 10 — every category, ready to ship.</h1>
-        <p className="lede">
+        <h1
+          className="font-display"
+          style={{
+            margin: "6px 0 0",
+            fontWeight: 500,
+            fontSize: 30,
+            letterSpacing: "-0.024em",
+            color: "var(--v3-ink-000, #fff)",
+            lineHeight: 1.05,
+          }}
+        >
+          Top 10 — every category, ready to ship.
+        </h1>
+        <p
+          className="font-display"
+          style={{
+            margin: "6px 0 0",
+            color: "var(--v3-ink-300, #84909b)",
+            fontSize: 13,
+            maxWidth: 760,
+            lineHeight: 1.5,
+          }}
+        >
           Pick a category, snapshot a chart, and post it. Every ranking renders
           to four social formats in your brand. Updated every 6 hours from the
           corpus.
         </p>
       </div>
-      <SnapshotsLink />
       <RefreshClock />
     </header>
-  );
-}
-
-function SnapshotsLink() {
-  // Yesterday's UTC date — matches the snapshot cron's key format. We render
-  // the link unconditionally because the frozen route 404s gracefully when no
-  // snapshot exists (cold-start), so a dead link is the worst case during the
-  // first 24h post-deploy. After that it's a real archive door.
-  const yesterday = useMemo(() => {
-    const d = new Date(Date.now() - 24 * 60 * 60 * 1000);
-    return d.toISOString().slice(0, 10);
-  }, []);
-  return (
-    <Link
-      href={`/top10/${yesterday}`}
-      className="pill"
-    >
-      ⟲ YESTERDAY · {yesterday}
-    </Link>
   );
 }
 
@@ -352,9 +375,23 @@ function RefreshClock() {
   }, []);
   return (
     <div
-      className="clock tabular-nums"
+      className="v2-mono tabular-nums"
+      style={{
+        textAlign: "right",
+        fontSize: 10.5,
+        color: "var(--v3-ink-300, #84909b)",
+        letterSpacing: "0.14em",
+        textTransform: "uppercase",
+      }}
     >
-      <span className="big">
+      <span
+        style={{
+          display: "block",
+          color: "var(--v3-ink-100, #eef0f2)",
+          fontSize: 14,
+          letterSpacing: "0.10em",
+        }}
+      >
         {text}
       </span>
       UNTIL NEXT REFRESH
@@ -1192,7 +1229,12 @@ function ShareStack({
       className="flex flex-col gap-3 share-stack"
       style={{ position: "sticky", top: 14 }}
     >
-      <ShareExportPanel>
+      <section
+        style={{
+          border: "1px solid var(--v3-line-200, #29323b)",
+          background: "var(--v3-bg-025, #0b0d0f)",
+        }}
+      >
         <div
           className="v2-mono flex items-center gap-2 px-3 py-2"
           style={{
@@ -1244,7 +1286,7 @@ function ShareStack({
           permalink={utmPageUrl}
           embedSrc={`<iframe src="${absImageUrl}" width="100%" height="${aspect === "v" ? 600 : 400}" style="border:0"></iframe>`}
         />
-      </ShareExportPanel>
+      </section>
       {/* On <md the share stack stops being sticky so the page can scroll
           past the rankings and land on the share controls without losing
           the chart context. */}
@@ -1342,21 +1384,57 @@ function FormatPicker({
   onAspect: (a: ShareAspect) => void;
 }) {
   return (
-    <ShareFormatGrid>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(4, 1fr)",
+        gap: 4,
+        padding: 10,
+      }}
+    >
       {(["h", "sq", "v", "yt"] as ShareAspect[]).map((a) => {
         const t = ASPECT_LABEL[a];
         const on = a === aspect;
         return (
-          <ShareFormatButton
+          <button
             key={a}
+            type="button"
             onClick={() => onAspect(a)}
-            active={on}
-            label={t.label}
-            size={t.px}
-          />
+            className="v2-mono"
+            style={{
+              height: 46,
+              border: on
+                ? "1px solid var(--v2-acc, #f56e0f)"
+                : "1px solid var(--v3-line-300, #3a444f)",
+              background: on
+                ? "var(--v2-acc, #f56e0f)"
+                : "var(--v3-bg-050, #101418)",
+              color: on ? "#1a0a04" : "var(--v3-ink-300, #84909b)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 2,
+              fontSize: 9.5,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              cursor: "pointer",
+              fontWeight: on ? 700 : 400,
+            }}
+          >
+            {t.label}
+            <span
+              style={{
+                fontSize: 8.5,
+                opacity: on ? 0.75 : 0.65,
+              }}
+            >
+              {t.px}
+            </span>
+          </button>
         );
       })}
-    </ShareFormatGrid>
+    </div>
   );
 }
 
@@ -1382,7 +1460,14 @@ function CardPreview({
   const frameBg =
     theme === "light" ? "#fafaf7" : theme === "mono" ? "#000" : "#0a0b0d";
   return (
-    <div className="card-preview">
+    <div
+      style={{
+        padding: 14,
+        borderTop: "1px solid var(--v3-line-200, #29323b)",
+        background:
+          "repeating-linear-gradient(45deg, transparent 0 6px, rgba(255,255,255,0.015) 6px 12px)",
+      }}
+    >
       <div
         style={{
           width: "100%",
@@ -1513,7 +1598,17 @@ function ShareMeta({
   embedSrc: string;
 }) {
   return (
-    <ShareMetaBlock>
+    <div
+      style={{
+        padding: "10px 12px",
+        borderTop: "1px solid var(--v3-line-200, #29323b)",
+        display: "flex",
+        flexDirection: "column",
+        gap: 6,
+        fontSize: 10,
+        color: "var(--v3-ink-300, #84909b)",
+      }}
+    >
       <MetaRow label="PERMALINK" value={permalink} />
       <MetaRow label="EMBED" value={embedSrc} />
       <MetaRow
@@ -1521,7 +1616,7 @@ function ShareMeta({
         value="?utm_source=top10&utm_medium=share"
         readOnly
       />
-    </ShareMetaBlock>
+    </div>
   );
 }
 
@@ -1535,7 +1630,18 @@ function MetaRow({
   readOnly?: boolean;
 }) {
   return (
-    <ShareMetaRow label={label}>
+    <div className="v2-mono flex items-center gap-2">
+      <span
+        style={{
+          color: "var(--v3-ink-400, #909caa)",
+          fontSize: 9.5,
+          letterSpacing: "0.16em",
+          textTransform: "uppercase",
+          minWidth: 60,
+        }}
+      >
+        {label}
+      </span>
       {readOnly ? (
         <span style={{ color: "var(--v3-ink-200, #b8c0c8)" }}>{value}</span>
       ) : (
@@ -1553,7 +1659,7 @@ function MetaRow({
           }}
         />
       )}
-    </ShareMetaRow>
+    </div>
   );
 }
 
@@ -1576,7 +1682,14 @@ function MoreGrid({
   // we have 7 visible). Keep stable order from TOP10_CATEGORIES.
   const cats = TOP10_CATEGORIES.filter((c) => c !== active).slice(0, 6);
   return (
-    <div className="more-grid">
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(3, 1fr)",
+        gap: 10,
+        marginTop: 14,
+      }}
+    >
       {cats.map((c) => (
         <Mini
           key={c}
@@ -1606,14 +1719,36 @@ function Mini({
     <button
       type="button"
       onClick={onOpen}
-      className="mini text-left"
+      className="text-left"
+      style={{
+        border: "1px solid var(--v3-line-200, #29323b)",
+        background: "var(--v3-bg-025, #0b0d0f)",
+        padding: "11px 14px",
+        cursor: "pointer",
+      }}
     >
-      <div className="h">
-        <span className="em">{meta.emoji}</span>
-        <span className="nm">
+      <div className="flex items-center gap-2 mb-1.5">
+        <span style={{ fontSize: 14 }}>{meta.emoji}</span>
+        <span
+          className="v2-mono"
+          style={{
+            fontSize: 10.5,
+            letterSpacing: "0.16em",
+            color: "var(--v3-ink-200, #b8c0c8)",
+            textTransform: "uppercase",
+          }}
+        >
           TOP 10 · {meta.label}
         </span>
-        <span className="ct">
+        <span
+          className="v2-mono"
+          style={{
+            marginLeft: "auto",
+            fontSize: 9,
+            color: "var(--v3-ink-400, #909caa)",
+            letterSpacing: "0.14em",
+          }}
+        >
           {windowLabel(bundle.window).toUpperCase()}
         </span>
       </div>

@@ -1,13 +1,16 @@
-.categories-page {
+.categories-page,
+.collections-page {
   gap: 10px;
   padding-bottom: 34px;
 }
 
-.categories-grid {
+.categories-grid,
+.collections-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.category-card {
+.category-card,
+.collection-card {
   border-top-width: 2px;
 }
 
@@ -29,14 +32,95 @@
   white-space: nowrap;
 }
 
+.category-detail-head h1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.category-news-rollup {
+  padding: 0;
+}
+
+.category-news-rollup .panel-head {
+  border-bottom-color: var(--line-soft);
+}
+
+.category-news-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 14px;
+}
+
+.category-news-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 34px;
+  border: 1px solid var(--line-200);
+  background: var(--bg-050);
+  padding: 0 11px;
+  color: var(--ink-300);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-micro);
+  letter-spacing: var(--tracking-label);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.category-news-chip:hover {
+  border-color: var(--acc);
+  color: var(--ink-000);
+}
+
+.category-news-chip b {
+  color: var(--sig-green);
+  font-weight: var(--font-weight-semibold);
+}
+
+.collection-card {
+  min-height: 178px;
+}
+
+.collection-freshness {
+  padding: 0;
+}
+
+.collection-freshness .panel-head {
+  border-bottom: 0;
+}
+
+.collection-foot {
+  margin-top: 16px;
+  border-top: 1px solid var(--line-soft);
+  padding-top: 18px;
+  color: var(--ink-500);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-micro);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.collection-foot a {
+  color: var(--accent-cyan);
+  text-decoration: none;
+}
+
+.collection-foot a:hover {
+  color: var(--ink-000);
+}
+
 @media (max-width: 1100px) {
-  .categories-grid {
+  .categories-grid,
+  .collections-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 640px) {
-  .categories-grid {
+  .categories-grid,
+  .collections-grid {
     grid-template-columns: 1fr;
   }
 }

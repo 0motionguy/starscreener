@@ -67,13 +67,8 @@ export async function readTop10Snapshot(
   date: string,
 ): Promise<Top10Payload | null> {
   if (!isValidDate(date)) return null;
-  // try/catch wraps getDataStore() too — on cold deploys the env-driven
-  // factory can throw (missing Upstash + Railway creds, both required for
-  // the Redis tier). The frozen route must 404 cleanly in that case, not
-  // 500. Pre-2026-04-30 we caught only store.read() throws, which surfaced
-  // as 500s on the Vercel preview when env was misconfigured.
+  const store = getDataStore();
   try {
-    const store = getDataStore();
     const result = await store.read<Top10Payload>(snapshotKey(date));
     if (!result.data) return null;
     // Soft-validate: we trust our own writes, but a hand-corrupted Redis key

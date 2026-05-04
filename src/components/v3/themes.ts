@@ -16,17 +16,17 @@ export interface V3AccentTheme {
 }
 
 export const V3_THEME_STORAGE_KEY = "trendingrepo-v3-accent";
-export const V3_DEFAULT_THEME_ID = "lava";
+export const V3_DEFAULT_THEME_ID = "orange";
 
 export const V3_ACCENT_THEMES: V3AccentTheme[] = [
   {
-    id: "lava",
-    label: "Lava",
-    acc: "#ff6b35",
-    accHover: "#ff8458",
-    accDim: "#c44a1f",
-    accSoft: "rgba(255, 107, 53, 0.14)",
-    accGlow: "rgba(255, 107, 53, 0.45)",
+    id: "orange",
+    label: "Orange",
+    acc: "#fb923c",
+    accHover: "#fdba74",
+    accDim: "#c2410c",
+    accSoft: "rgba(251, 146, 60, 0.14)",
+    accGlow: "rgba(251, 146, 60, 0.45)",
   },
   {
     id: "blue",

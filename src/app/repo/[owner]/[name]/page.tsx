@@ -19,6 +19,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { unstable_cache } from "next/cache";
 
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { CATEGORIES } from "@/lib/constants";
@@ -288,6 +289,15 @@ export default async function RepoDetailPage({ params }: PageProps) {
       ))}
 
       <main className="home-surface repo-detail-page">
+        {/* Server-rendered breadcrumb — visible Home › Category › Repo
+            navigation matches the BreadcrumbList JSON-LD and adds 2-3
+            internal links per page (1,700+ sitewide across 839 repos)
+            for crawl-budget recovery. */}
+        <RepoBreadcrumb
+          owner={repo.owner}
+          name={repo.name}
+          categoryId={repo.categoryId}
+        />
         <section className="id-strip">
           <div className="id-avatar">{repo.name.slice(0, 1).toLowerCase()}</div>
           <div className="id-meta">
@@ -336,6 +346,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
                 <span className="lbl">●</span>
                 refreshed {lastRefresh}
               </span>
+              <FreshnessBadge source="mcp" lastUpdatedAt={profile.fetchedAt} />
             </div>
           </div>
           <div className="id-actions">

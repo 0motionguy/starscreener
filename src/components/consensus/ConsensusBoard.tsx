@@ -6,6 +6,7 @@ import type {
   ConsensusExternalSource,
 } from "@/lib/consensus-trending";
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { RankStarMark } from "@/components/brand/RankStarMark";
 import { repoLogoUrl } from "@/lib/logos";
 
 const BAND_ORDER: ConsensusVerdictBand[] = [
@@ -23,7 +24,7 @@ const BAND_META: Record<
   strong_consensus: {
     cssClass: "cons",
     title: "STRONG CONSENSUS",
-    sub: "≥ 5 of 8 sources agree, gap ≤ 30",
+    sub: "≥ 3 of 8 sources agree, gap ≤ 60",
     badgeClass: "cons",
     badgeLabel: "CONSENSUS",
   },
@@ -79,9 +80,11 @@ interface ConsensusBoardProps {
   items: ConsensusItem[];
   /** Per-band cap. Default 20. */
   perBand?: number;
+  /** All-source 24h mention counts keyed by lowercase fullName. */
+  mentions24h?: Map<string, number>;
 }
 
-export function ConsensusBoard({ items, perBand = 20 }: ConsensusBoardProps) {
+export function ConsensusBoard({ items, perBand = 20, mentions24h }: ConsensusBoardProps) {
   const grouped = new Map<ConsensusVerdictBand, ConsensusItem[]>();
   for (const band of BAND_ORDER) grouped.set(band, []);
   for (const item of items) {
@@ -120,6 +123,7 @@ export function ConsensusBoard({ items, perBand = 20 }: ConsensusBoardProps) {
                 item={item}
                 isFirst={band === "strong_consensus" && idx === 0}
                 badgeMeta={meta}
+                mentions24h={mentions24h?.get(item.fullName.toLowerCase()) ?? 0}
               />
             ))}
           </div>
@@ -133,15 +137,17 @@ function BoardRow({
   item,
   isFirst,
   badgeMeta,
+  mentions24h,
 }: {
   item: ConsensusItem;
   isFirst: boolean;
   badgeMeta: typeof BAND_META[ConsensusVerdictBand];
+  mentions24h: number;
 }) {
   return (
     <Link href={consensusHref(item.fullName)} className={`lb-row ${isFirst ? "first" : ""}`}>
       <div className="rk">
-        {isFirst ? <span className="star">★</span> : null}
+        {isFirst ? <span className="star"><RankStarMark size={10} /></span> : null}
         <span className="n">{String(item.rank).padStart(2, "0")}</span>
       </div>
       <div className="repo">
@@ -150,6 +156,7 @@ function BoardRow({
           <span className="nm">{item.fullName}</span>
           <span className="desc">
             {item.sourceCount}/8 sources · gap {item.maxRankGap}
+            {mentions24h > 0 ? ` · ${mentions24h} mentions 24h` : ""}
           </span>
         </span>
       </div>

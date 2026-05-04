@@ -2,26 +2,17 @@
 
 // Stacked area chart for the cross-source signal volume panel.
 // Receives 24 hourly buckets from src/lib/signals/volume.ts and renders
-// each source as its own coloured area. Recharts handles the stacking.
-
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  ReferenceLine,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+// each source as its own coloured area without a charting runtime.
 
 import { Card, CardHeader } from "@/components/ui/Card";
 import { ChartStat, ChartStats, ChartWrap } from "@/components/ui/ChartShell";
 import type { HourBucket } from "@/lib/signals/volume";
 import type { SourceKey } from "@/lib/signals/types";
 
+type VolumeSourceKey = Exclude<keyof HourBucket, "hour" | "total">;
+
 const SOURCES: Array<{
-  key: keyof HourBucket;
+  key: VolumeSourceKey;
   src: SourceKey;
   label: string;
   color: string;
@@ -51,6 +42,43 @@ function formatHour(h: number): string {
   return `${String(h).padStart(2, "0")}:00`;
 }
 
+const CHART_W = 720;
+const CHART_H = 240;
+const PAD = { top: 12, right: 14, bottom: 28, left: 38 };
+const PLOT_W = CHART_W - PAD.left - PAD.right;
+const PLOT_H = CHART_H - PAD.top - PAD.bottom;
+
+function xFor(index: number, count: number): number {
+  if (count <= 1) return PAD.left;
+  return PAD.left + (index / (count - 1)) * PLOT_W;
+}
+
+function yFor(value: number, max: number): number {
+  if (max <= 0) return PAD.top + PLOT_H;
+  return PAD.top + PLOT_H - (value / max) * PLOT_H;
+}
+
+function buildAreaPath(
+  buckets: HourBucket[],
+  key: VolumeSourceKey,
+  lowerTotals: number[],
+  maxTotal: number,
+): string {
+  const top: string[] = [];
+  const bottom: string[] = [];
+
+  buckets.forEach((bucket, index) => {
+    const x = xFor(index, buckets.length);
+    const lower = lowerTotals[index] ?? 0;
+    const upper = lower + bucket[key];
+    lowerTotals[index] = upper;
+    top.push(`${x.toFixed(1)},${yFor(upper, maxTotal).toFixed(1)}`);
+    bottom.push(`${x.toFixed(1)},${yFor(lower, maxTotal).toFixed(1)}`);
+  });
+
+  return `M ${top.join(" L ")} L ${bottom.reverse().join(" L ")} Z`;
+}
+
 export interface VolumeAreaChartProps {
   buckets: HourBucket[];
   totalItems: number;
@@ -74,18 +102,15 @@ export function VolumeAreaChart({
   dominantSource,
   dominantPct,
 }: VolumeAreaChartProps) {
-  const data = buckets.map((b) => ({
-    hourLabel: formatHour(b.hour),
-    hour: b.hour,
-    hn: b.hn,
-    github: b.github,
-    x: b.x,
-    reddit: b.reddit,
-    bluesky: b.bluesky,
-    devto: b.devto,
-    claude: b.claude,
-    openai: b.openai,
-  }));
+  const lowerTotals = buckets.map(() => 0);
+  const maxTotal = Math.max(1, peakTotal, ...buckets.map((b) => b.total));
+  const peakIndex = Math.max(
+    0,
+    buckets.findIndex((bucket) => bucket.hour === peakHour),
+  );
+  const peakX = xFor(peakIndex, buckets.length);
+  const yTicks = [0, 0.25, 0.5, 0.75, 1];
+  const xTicks = buckets.filter((_, index) => index % 4 === 0);
 
   const deltaText =
     changePct === null ? "Δ N/A" : `Δ ${changePct >= 0 ? "+" : ""}${changePct.toFixed(1)}%`;
@@ -108,94 +133,112 @@ export function VolumeAreaChart({
       </CardHeader>
 
       <ChartWrap variant="chart" style={{ minHeight: 240 }}>
-        <ResponsiveContainer width="100%" height={240}>
-          <AreaChart
-            data={data}
-            margin={{ top: 8, right: 12, bottom: 0, left: 0 }}
-          >
-            <defs>
-              {SOURCES.map((s) => (
-                <linearGradient
-                  key={s.key}
-                  id={`vol-grad-${s.key}`}
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
-                  <stop offset="0%" stopColor={s.color} stopOpacity={0.85} />
-                  <stop offset="100%" stopColor={s.color} stopOpacity={0.55} />
-                </linearGradient>
-              ))}
-            </defs>
-            <CartesianGrid stroke="rgba(255,255,255,0.05)" vertical={false} />
-            <XAxis
-              dataKey="hourLabel"
-              interval={3}
-              tick={{
-                fill: "var(--color-text-subtle)",
-                fontSize: 10,
-                fontFamily: "var(--font-mono)",
-              }}
-              tickLine={false}
-              axisLine={{ stroke: "var(--color-border-subtle)" }}
-            />
-            <YAxis
-              tick={{
-                fill: "var(--color-text-subtle)",
-                fontSize: 10,
-                fontFamily: "var(--font-mono)",
-              }}
-              tickLine={false}
-              axisLine={{ stroke: "var(--color-border-subtle)" }}
-              width={36}
-            />
-            <Tooltip
-              cursor={{ stroke: "var(--color-accent)", strokeOpacity: 0.4 }}
-              contentStyle={{
-                background: "var(--color-bg-shell)",
-                border: "1px solid var(--color-border-default)",
-                borderRadius: 6,
-                padding: "8px 10px",
-                fontFamily: "var(--font-mono)",
-                fontSize: 11,
-              }}
-              labelStyle={{
-                color: "var(--color-text-subtle)",
-                letterSpacing: "0.10em",
-              }}
-            />
+        <svg
+          role="img"
+          aria-label="24 hour signal volume stacked by source"
+          viewBox={`0 0 ${CHART_W} ${CHART_H}`}
+          preserveAspectRatio="none"
+          style={{ display: "block", width: "100%", height: 240 }}
+        >
+          <defs>
             {SOURCES.map((s) => (
-              <Area
+              <linearGradient
                 key={s.key}
-                type="monotone"
-                dataKey={s.key}
-                stackId="1"
-                stroke={s.color}
-                strokeWidth={1}
-                fill={`url(#vol-grad-${s.key})`}
-                name={s.label}
-                isAnimationActive={false}
-              />
+                id={`vol-grad-${s.key}`}
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
+                <stop offset="0%" stopColor={s.color} stopOpacity={0.85} />
+                <stop offset="100%" stopColor={s.color} stopOpacity={0.35} />
+              </linearGradient>
             ))}
-            {peakTotal > 0 ? (
-              <ReferenceLine
-                x={formatHour(peakHour)}
+          </defs>
+
+          {yTicks.map((tick) => {
+            const y = yFor(maxTotal * tick, maxTotal);
+            return (
+              <g key={tick}>
+                <line
+                  x1={PAD.left}
+                  x2={CHART_W - PAD.right}
+                  y1={y}
+                  y2={y}
+                  stroke="rgba(255,255,255,0.06)"
+                />
+                <text
+                  x={PAD.left - 8}
+                  y={y + 3}
+                  textAnchor="end"
+                  fill="var(--color-text-subtle)"
+                  fontFamily="var(--font-mono)"
+                  fontSize="10"
+                >
+                  {Math.round(maxTotal * tick)}
+                </text>
+              </g>
+            );
+          })}
+
+          <line
+            x1={PAD.left}
+            x2={CHART_W - PAD.right}
+            y1={PAD.top + PLOT_H}
+            y2={PAD.top + PLOT_H}
+            stroke="var(--color-border-subtle)"
+          />
+
+          {SOURCES.map((s) => (
+            <path
+              key={s.key}
+              d={buildAreaPath(buckets, s.key, lowerTotals, maxTotal)}
+              fill={`url(#vol-grad-${s.key})`}
+              stroke={s.color}
+              strokeWidth="1"
+              vectorEffect="non-scaling-stroke"
+            />
+          ))}
+
+          {peakTotal > 0 ? (
+            <g>
+              <line
+                x1={peakX}
+                x2={peakX}
+                y1={PAD.top}
+                y2={PAD.top + PLOT_H}
                 stroke="var(--color-accent)"
-                strokeOpacity={0.7}
-                strokeDasharray="2 3"
-                label={{
-                  value: `PEAK · ${peakTotal}`,
-                  position: "insideTopRight",
-                  fill: "var(--color-accent)",
-                  fontSize: 9.5,
-                  fontFamily: "var(--font-mono)",
-                  letterSpacing: "0.10em",
-                }}
+                strokeOpacity="0.75"
+                strokeDasharray="3 4"
+                vectorEffect="non-scaling-stroke"
               />
-            ) : null}
-          </AreaChart>
-        </ResponsiveContainer>
+              <text
+                x={Math.min(CHART_W - PAD.right - 4, peakX + 8)}
+                y={PAD.top + 14}
+                fill="var(--color-accent)"
+                fontFamily="var(--font-mono)"
+                fontSize="10"
+                letterSpacing="1.2"
+              >
+                PEAK {peakTotal}
+              </text>
+            </g>
+          ) : null}
+
+          {xTicks.map((bucket, index) => (
+            <text
+              key={bucket.hour}
+              x={xFor(index * 4, buckets.length)}
+              y={CHART_H - 9}
+              textAnchor="middle"
+              fill="var(--color-text-subtle)"
+              fontFamily="var(--font-mono)"
+              fontSize="10"
+            >
+              {formatHour(bucket.hour)}
+            </text>
+          ))}
+        </svg>
       </ChartWrap>
 
       {/* Legend strip */}

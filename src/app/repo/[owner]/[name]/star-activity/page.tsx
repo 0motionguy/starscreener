@@ -1,4 +1,12 @@
-// TrendingRepo - single-repo Star Activity sub-route.
+// TrendingRepo — single-repo Star Activity sub-route.
+//
+// Sub-route under /repo/[owner]/[name]/ that renders the full-history star
+// chart with the operator-terminal toggles + the ShareBar. Designed as the
+// "deep view" for a single repo's star history; the parent /repo/.../page
+// links here from the compact preview card.
+//
+// og:image / twitter:image are wired here so pasting the URL into X
+// auto-unfurls with our actual /api/og/star-activity card for this repo.
 
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -37,7 +45,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     legend: "tr",
     aspect: "h",
   });
-  const title = `${fullName} - Star Activity - ${SITE_NAME}`;
+  const title = `${fullName} — Star Activity — ${SITE_NAME}`;
   const description = `Full-history star activity for ${fullName}. Compare against up to 3 other repos and share the chart.`;
   return {
     title,
@@ -74,6 +82,9 @@ export default async function StarActivityPage({ params }: PageProps) {
   }
   const fullName = `${owner}/${name}`;
 
+  // Refresh both caches in parallel — repo-metadata for the title/stars/desc,
+  // star-activity for the chart series. Each refresh has its own dedupe so
+  // calling them on every render is cheap.
   await Promise.all([
     refreshRepoMetadataFromStore(),
     refreshStarActivityFromStore(fullName),
@@ -84,70 +95,33 @@ export default async function StarActivityPage({ params }: PageProps) {
     notFound();
   }
   const payload = getStarActivity(fullName);
-  const firstPoint = payload?.points[0] ?? null;
-  const lastPoint = payload?.points[payload.points.length - 1] ?? null;
-  const startStars = firstPoint?.s ?? 0;
-  const currentStars = lastPoint?.s ?? repo.stars;
-  const gainedStars = Math.max(0, currentStars - startStars);
-  const peakDelta =
-    payload?.points.reduce((max, point) => Math.max(max, point.delta), 0) ?? 0;
 
   return (
-    <main className="home-surface repo-detail-page star-activity-page">
-      <section className="id-strip">
-        <div className="id-avatar">{repo.name.slice(0, 1).toLowerCase()}</div>
-        <div className="id-meta">
-          <div className="crumb">
-            <Link href={`/repo/${owner}/${name}`}>{fullName}</Link>
-            <span className="sep">/</span>
-            <span className="firing">star activity</span>
-          </div>
-          <h1>
-            <span className="owner">{repo.owner} /</span> {repo.name}
-          </h1>
-          {repo.description ? <p className="desc">{repo.description}</p> : null}
-          <div className="row">
-            {repo.language ? <span className="lang">{repo.language}</span> : null}
-            <span className="stat">
-              <span className="lbl">stars</span>
-              {repo.stars.toLocaleString("en-US")}
-            </span>
-            <span className="stat">
-              <span className="lbl">gained</span>
-              +{gainedStars.toLocaleString("en-US")}
-            </span>
-          </div>
-        </div>
-        <div className="id-actions">
-          <Link href={`/repo/${owner}/${name}`} className="btn">
-            Repo detail
-          </Link>
-          <a href={repo.url} target="_blank" rel="noreferrer" className="btn gh">
-            GitHub
-          </a>
-        </div>
-      </section>
+    <main className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+      <nav
+        aria-label="Breadcrumb"
+        className="text-[11px] font-mono uppercase tracking-[0.14em] text-text-tertiary mb-4 flex items-center gap-2"
+      >
+        <Link
+          href={`/repo/${owner}/${name}`}
+          className="hover:text-text-secondary"
+        >
+          {fullName}
+        </Link>
+        <span aria-hidden>/</span>
+        <span className="text-text-secondary">star activity</span>
+      </nav>
 
-      <section className="repo-verdict">
-        <div className="v-rank">
-          <span className="lbl">Window</span>
-          <span className="num">{payload?.points.length ?? 0}</span>
-          <span className="sub">daily points</span>
-        </div>
-        <div className="v-score">
-          <span className="lbl">Peak day</span>
-          <span>
-            <span className="big">+{peakDelta.toLocaleString("en-US")}</span>
-          </span>
-          <span className="meta">stars in one day</span>
-        </div>
-        <p className="v-text">
-          <b>{fullName}</b> has added{" "}
-          <span className="hl-money">+{gainedStars.toLocaleString("en-US")}</span>{" "}
-          stars since {firstPoint?.d ?? "the first tracked point"}, with current
-          momentum at <span className="hl">{repo.momentumScore.toFixed(2)}</span>.
-        </p>
-      </section>
+      <header className="mb-6">
+        <h1 className="text-[10px] font-mono uppercase tracking-[0.18em] text-text-tertiary">
+          {`// STAR ACTIVITY · ${fullName}`}
+        </h1>
+        {repo.description && (
+          <p className="mt-2 text-sm text-text-secondary max-w-3xl">
+            {repo.description}
+          </p>
+        )}
+      </header>
 
       <StarActivityClient repo={repo} payload={payload} />
     </main>

@@ -46,6 +46,7 @@ import {
   Library,
   Lightbulb,
   LineChart,
+  Newspaper,
   Network,
   Package,
   Plug,
@@ -255,10 +256,10 @@ function V2Chip({
     tone === "accent"
       ? { bg: "var(--acc-soft)", color: "var(--acc)" }
       : tone === "danger"
-        ? { bg: "rgba(255, 77, 77, 0.14)", color: "var(--sig-red)" }
+        ? { bg: "rgba(239, 68, 68, 0.14)", color: "#ef4444" }
         : tone === "delta"
-          ? { bg: "var(--money-soft)", color: "var(--sig-green)" }
-          : { bg: "var(--bg-100)", color: "var(--ink-300)" };
+          ? { bg: "var(--color-up-bg)", color: "var(--color-up)" }
+          : { bg: "var(--v2-bg-200)", color: "var(--v2-ink-300)" };
 
   return (
     <span
@@ -371,14 +372,6 @@ export function SidebarContent({
             icon={TrendingUp}
             label="Trending Repos"
             active={pathname === "/"}
-          />
-          <V2NavRow
-            href="/consensus"
-            icon={Radar}
-            label="Consensus"
-            badge="3X"
-            badgeTone="accent"
-            active={pathname === "/consensus"}
           />
           <V2NavRow
             href="/consensus"
@@ -543,18 +536,6 @@ export function SidebarContent({
             label="HF Spaces"
             active={pathname === "/huggingface/spaces"}
           />
-          <V2NavRow
-            href="/huggingface/datasets"
-            icon={FileText}
-            label="HF Datasets"
-            active={pathname === "/huggingface/datasets"}
-          />
-          <V2NavRow
-            href="/huggingface/spaces"
-            icon={Rocket}
-            label="HF Spaces"
-            active={pathname === "/huggingface/spaces"}
-          />
           <FreshCountNavRow
             routeKey="hfDatasets"
             currentCount={sourceCounts?.hfDatasets ?? 0}
@@ -619,12 +600,6 @@ export function SidebarContent({
             active={pathname === "/submit/revenue"}
           />
           <V2NavRow
-            href="/submit/revenue"
-            icon={Zap}
-            label="Drop Revenue"
-            active={pathname === "/submit/revenue"}
-          />
-          <V2NavRow
             icon={Trophy}
             label="Hackathons"
             badge="Soon"
@@ -662,6 +637,12 @@ export function SidebarContent({
 
         {/* EXPLORE */}
         <V2Section label="EXPLORE">
+          <V2NavRow
+            href="/news"
+            icon={Newspaper}
+            label="News Desk"
+            active={pathname === "/news"}
+          />
           <V2NavRow
             href="/digest"
             icon={CalendarDays}

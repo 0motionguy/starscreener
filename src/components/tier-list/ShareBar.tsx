@@ -1,6 +1,17 @@
 "use client";
 
-// Tier list share/export controls.
+// TrendingRepo — Tier List ShareBar.
+//
+// Visual language matches the Star Activity ShareBar at
+// `src/components/share/ShareBar.tsx` (same Tailwind tokens, lucide icons,
+// BUTTON_BASE pattern, sonner toasts) so the two read as one component
+// family. The actions diverge — tier list owns a primary "Save & Share"
+// (POST /api/tier-lists), three card-aspect downloads, and a tier-list
+// embed snippet set instead of CSV / SVG.
+//
+// A future generalization wave can extract the shared chrome (button base,
+// EmbedPanel) into `src/components/share/primitives.tsx` and have both
+// surfaces consume it; in the meantime the markup is a deliberate parallel.
 
 import { useState } from "react";
 import {
@@ -15,6 +26,7 @@ import { useTierListEditor } from "@/lib/tier-list/client-store";
 import { toast } from "@/lib/toast";
 import { stateHash } from "@/lib/tier-list/url";
 import { buildShareToXUrl } from "@/lib/twitter/outbound/share";
+import { cn } from "@/lib/utils";
 import type { TierListDraft } from "@/lib/types/tier-list";
 
 interface CreateResponse {
@@ -25,10 +37,13 @@ interface CreateResponse {
   error?: string;
 }
 
+const BUTTON_BASE =
+  "inline-flex items-center gap-1.5 rounded-[3px] border border-border-primary bg-bg-secondary text-text-secondary hover:bg-bg-tertiary hover:text-text-primary font-mono uppercase tracking-[0.14em] transition-colors px-2.5 py-1.5 text-[11px]";
+
 const ASPECTS = [
-  { key: "h", label: "PNG / X", detail: "1200 x 675" },
-  { key: "v", label: "PNG / Instagram", detail: "1080 x 1350" },
-  { key: "yt", label: "PNG / YouTube", detail: "1280 x 720" },
+  { key: "h", label: "PNG · X (1200×675)" },
+  { key: "v", label: "PNG · IG (1080×1350)" },
+  { key: "yt", label: "PNG · YouTube (1280×720)" },
 ] as const;
 
 export function ShareBar() {
@@ -88,7 +103,7 @@ export function ShareBar() {
       await navigator.clipboard.writeText(text);
       toast.success(label);
     } catch {
-      toast.error("Could not copy - clipboard blocked");
+      toast.error("Could not copy — clipboard blocked");
     }
   }
 
@@ -104,7 +119,7 @@ export function ShareBar() {
       ? `${window.location.origin}/tierlist/${savedShortId}`
       : window.location.href;
     const intent = buildShareToXUrl({
-      text: `${title} - built on @TrendingRepo`,
+      text: `${title} — built on @TrendingRepo`,
       url,
       via: ["TrendingRepo"],
     });
@@ -112,38 +127,37 @@ export function ShareBar() {
   }
 
   return (
-    <section className="panel tier-share-panel">
-      <div className="panel-head">
-        <span className="corner"><i /><i /><i /></span>
-        <span className="key">{"// Share"}</span>
-        <span className="right">PNG / link / embed</span>
+    <div className="flex flex-col gap-2 rounded-[3px] border border-border-primary bg-bg-secondary p-3">
+      <div className="font-mono uppercase tracking-[0.14em] text-[11px] text-text-tertiary">
+        {"// share"}
       </div>
-      <div className="share-list">
-        <button
-          type="button"
-          onClick={handleSave}
-          disabled={saveState.kind === "saving"}
-          className="share-row share-row-primary"
-        >
-          <span className="ic"><Share2 size={13} aria-hidden /></span>
-          <span className="body">
-            <span className="h">
-              {saveState.kind === "saving"
-                ? "Saving..."
-                : saveState.kind === "saved"
-                  ? `Saved / ${saveState.shortId}`
-                  : "Save and share"}
-            </span>
-            <span className="d">publish short link</span>
-          </span>
-          <span className="ar">-&gt;</span>
-        </button>
-        {saveState.kind === "error" && (
-          <div role="alert" className="tier-share-error">
-            {saveState.message}
-          </div>
-        )}
 
+      <button
+        type="button"
+        onClick={handleSave}
+        disabled={saveState.kind === "saving"}
+        className={cn(
+          "inline-flex items-center justify-center gap-1.5 rounded-[3px] border border-transparent bg-brand text-bg-primary font-mono uppercase tracking-[0.14em] text-[12px] font-bold px-3 py-2 hover:bg-brand-hover transition-colors",
+          saveState.kind === "saving" && "cursor-wait opacity-70",
+        )}
+      >
+        <Share2 size={12} aria-hidden />
+        {saveState.kind === "saving"
+          ? "Saving…"
+          : saveState.kind === "saved"
+            ? `Saved · ${saveState.shortId}`
+            : "Save & Share"}
+      </button>
+      {saveState.kind === "error" && (
+        <div
+          role="alert"
+          className="font-mono text-[11px] text-down"
+        >
+          {saveState.message}
+        </div>
+      )}
+
+      <div className="flex flex-col gap-1">
         {ASPECTS.map((a) => (
           <a
             key={a.key}
@@ -151,48 +165,43 @@ export function ShareBar() {
             target="_blank"
             rel="noopener noreferrer"
             download={`tierlist-${savedShortId ?? "draft"}-${a.key}.png`}
-            className="share-row"
+            className={BUTTON_BASE}
           >
-            <span className="ic"><Download size={13} aria-hidden /></span>
-            <span className="body">
-              <span className="h">{a.label}</span>
-              <span className="d">{a.detail}</span>
-            </span>
-            <span className="ar">download</span>
+            <Download size={12} aria-hidden />
+            <span>{a.label}</span>
           </a>
         ))}
+      </div>
 
-        <button type="button" onClick={copyLink} className="share-row">
-          <span className="ic"><LinkIcon size={13} aria-hidden /></span>
-          <span className="body">
-            <span className="h">Shareable link</span>
-            <span className="d">copy current page url</span>
-          </span>
-          <span className="ar">copy</span>
-        </button>
-        <button type="button" onClick={shareOnX} className="share-row">
-          <span className="ic"><Share2 size={13} aria-hidden /></span>
-          <span className="body">
-            <span className="h">Share on X</span>
-            <span className="d">open outbound composer</span>
-          </span>
-          <span className="ar">open</span>
+      <div className="flex gap-1">
+        <button
+          type="button"
+          onClick={copyLink}
+          className={cn(BUTTON_BASE, "flex-1 justify-center")}
+        >
+          <LinkIcon size={12} aria-hidden />
+          <span>Link</span>
         </button>
         <button
           type="button"
-          onClick={() => setEmbedOpen((o) => !o)}
-          aria-expanded={embedOpen}
-          aria-controls="tierlist-embed-panel"
-          className="share-row"
+          onClick={shareOnX}
+          className={cn(BUTTON_BASE, "flex-1 justify-center")}
         >
-          <span className="ic"><Code size={13} aria-hidden /></span>
-          <span className="body">
-            <span className="h">Embed</span>
-            <span className="d">markdown / image / iframe</span>
-          </span>
-          <span className="ar">{embedOpen ? "close" : "open"}</span>
+          <Share2 size={12} aria-hidden />
+          <span>Share on X</span>
         </button>
       </div>
+
+      <button
+        type="button"
+        onClick={() => setEmbedOpen((o) => !o)}
+        aria-expanded={embedOpen}
+        aria-controls="tierlist-embed-panel"
+        className={cn(BUTTON_BASE, "justify-center")}
+      >
+        <Code size={12} aria-hidden />
+        <span>Embed{embedOpen ? " ▴" : " ▾"}</span>
+      </button>
       {embedOpen && (
         <EmbedPanel
           id="tierlist-embed-panel"
@@ -202,9 +211,14 @@ export function ShareBar() {
           onCopy={copyToClipboard}
         />
       )}
-    </section>
+    </div>
   );
 }
+
+// ---------------------------------------------------------------------------
+// EmbedPanel — three snippet variants (markdown / html <img> / iframe).
+// Layout mirrors src/components/share/ShareBar.tsx EmbedPanel/EmbedRow.
+// ---------------------------------------------------------------------------
 
 interface EmbedPanelProps {
   id: string;
@@ -237,7 +251,10 @@ function EmbedPanel({
   const iframe = `<iframe src="${origin}${pagePath}${sep}embed=1" width="100%" height="600" style="border:0" loading="lazy" title="${safeTitle}"></iframe>`;
 
   return (
-    <div id={id} className="tier-embed-panel">
+    <div
+      id={id}
+      className="rounded-[3px] border border-border-primary bg-bg-secondary p-3 text-[11px] font-mono"
+    >
       <EmbedRow label="MD" value={markdown} onCopy={onCopy} />
       <EmbedRow label="IMG" value={htmlImg} onCopy={onCopy} />
       <EmbedRow label="IFRAME" value={iframe} onCopy={onCopy} />
@@ -253,12 +270,15 @@ interface EmbedRowProps {
 
 function EmbedRow({ label, value, onCopy }: EmbedRowProps) {
   return (
-    <div className="tier-embed-row">
-      <span>{label}</span>
-      <code>{value}</code>
+    <div className="flex items-start gap-2 py-1.5 first:pt-0 last:pb-0">
+      <span className="w-16 shrink-0 uppercase tracking-[0.14em] text-text-tertiary">
+        {label}
+      </span>
+      <code className="flex-1 break-all text-text-secondary">{value}</code>
       <button
         type="button"
         onClick={() => void onCopy(value, `${label} snippet copied`)}
+        className="shrink-0 inline-flex items-center justify-center rounded-[3px] border border-border-primary bg-bg-tertiary p-1 text-text-tertiary hover:text-text-primary"
         aria-label={`Copy ${label} snippet`}
       >
         <Copy size={11} aria-hidden />
@@ -267,7 +287,14 @@ function EmbedRow({ label, value, onCopy }: EmbedRowProps) {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
 function encodeUnsavedState(draft: TierListDraft): string {
+  // The OG endpoint accepts `state=<base64>` for unsaved drafts (see
+  // src/app/api/og/tier-list/route.tsx). Send a payload-shape so the
+  // server-side schema accepts it without forcing a save first.
   const stateLike = {
     shortId: "DRAFT0AA",
     title: draft.title,

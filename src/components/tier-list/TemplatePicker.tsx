@@ -1,6 +1,7 @@
 "use client";
 
-// TemplatePicker - preset repo packs for the tier list pool.
+// TemplatePicker — shows the available preset templates as a row of cards.
+// Clicking a template loads its repo list into the unranked pool.
 
 import { useState } from "react";
 
@@ -25,7 +26,9 @@ export function TemplatePicker() {
     setErrorSlug(null);
     setLoadingSlug(template.slug);
     try {
-      const res = await fetch(`/api/tier-lists/templates/${template.slug}`);
+      const res = await fetch(
+        `/api/tier-lists/templates/${template.slug}`,
+      );
       const data = (await res.json()) as LoadResponse;
       if (!res.ok || !data.ok || !Array.isArray(data.items)) {
         setErrorSlug(template.slug);
@@ -42,7 +45,10 @@ export function TemplatePicker() {
   }
 
   return (
-    <div className="tier-templates">
+    <div className="flex flex-wrap items-center gap-2">
+      <span className="font-mono uppercase tracking-[0.14em] text-[11px] text-text-tertiary shrink-0">
+        TEMPLATES
+      </span>
       {TIER_LIST_TEMPLATES.map((template) => {
         const isLoading = loadingSlug === template.slug;
         const failed = errorSlug === template.slug;
@@ -52,11 +58,15 @@ export function TemplatePicker() {
             type="button"
             onClick={() => loadTemplate(template)}
             disabled={isLoading}
-            title={`${template.description} / ${template.repos.length} repos`}
-            className={`sp-pill${failed ? " is-error" : ""}`}
+            title={`${template.description} · ${template.repos.length} repos`}
+            className={`inline-flex items-center gap-1.5 rounded-[3px] border bg-bg-secondary px-2.5 py-1 font-mono uppercase tracking-[0.14em] text-[11px] text-text-secondary transition-colors hover:bg-bg-tertiary hover:text-text-primary ${
+              failed ? "border-down" : "border-border-primary"
+            } ${isLoading ? "cursor-wait opacity-60" : "cursor-pointer"}`}
           >
-            <span>{isLoading ? "Loading..." : shortLabel(template.slug)}</span>
-            <span className="ct">{template.repos.length}</span>
+            <span>{isLoading ? "LOADING…" : shortLabel(template.slug)}</span>
+            <span className="text-text-tertiary text-[10px]">
+              {template.repos.length}
+            </span>
           </button>
         );
       })}
@@ -64,11 +74,12 @@ export function TemplatePicker() {
   );
 }
 
+// Compact uppercase chip label per the meme-format reference.
 const SHORT_LABELS: Record<string, string> = {
-  "ai-agent-frameworks": "AI agents",
-  "code-editor-agents": "Code editors",
-  "rag-stacks": "RAG stacks",
-  "local-inference": "Local infer",
+  "ai-agent-frameworks": "AI AGENTS",
+  "code-editor-agents": "CODE EDITORS",
+  "rag-stacks": "RAG STACKS",
+  "local-inference": "LOCAL INFER",
 };
 
 function shortLabel(slug: string): string {

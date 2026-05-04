@@ -246,7 +246,6 @@ function pickNumber(v: unknown): number | null {
   return v;
 }
 
-
 function pickString(v: unknown): string | null {
   if (typeof v !== 'string') return null;
   const trimmed = v.trim();

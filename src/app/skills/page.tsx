@@ -83,19 +83,14 @@ export default async function SkillsPage() {
   // (forkVelocity7d, createdAt, derivativeRepoCount) are still on the
   // EcosystemLeaderboardItem and consumed by other surfaces.
 
-  // V3 3-card top header — replaces the legacy 6-tile mini-strip with the
-  // same chrome the news pages use (snapshot + per-source bars + topics).
-  const { cards, topStories } = buildEcosystemHeader({
-    items: data.combined.items,
-    snapshotEyebrow: "// SNAPSHOT · NOW",
-    snapshotLabel: "SKILLS TRACKED",
-    snapshotRight: `${data.combined.items.length.toLocaleString("en-US")} ITEMS`,
-    volumeEyebrow: "// VOLUME · PER SOURCE",
-    topicsEyebrow: "// TOPICS · MENTIONED MOST",
-    sourceLabelMap: {
-      "skills.sh": "SKLSH",
-      "github": "GH",
-      "GitHub": "GH",
+  const topItem = data.combined.items[0];
+
+  const metrics: SignalMetricCardProps[] = [
+    {
+      label: "All Skills",
+      value: data.combined.items.length,
+      helper: `${data.skillsSh.items.length} skills.sh / ${data.github.items.length} github`,
+      sparkTone: "brand",
     },
     {
       label: "Top Signal",

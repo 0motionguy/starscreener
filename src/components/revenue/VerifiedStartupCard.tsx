@@ -131,7 +131,7 @@ export function VerifiedStartupCard({
   const logoUrl = logoFromDomain(host, 128);
 
   return (
-    <article className="revenue-card group">
+    <article className="group relative flex flex-col gap-3 v2-card p-4 transition hover:border-brand/40 hover:bg-bg-card-hover">
       {/* Header: logo + name + tracked badge */}
       <header className="flex items-start gap-3">
         <LogoBlock logoUrl={logoUrl} name={startup.name} />
@@ -154,7 +154,7 @@ export function VerifiedStartupCard({
               </span>
             )}
             {startup.matchedRepoFullName ? (
-              <span className="tracked-chip">
+              <span className="rounded-full border border-brand/50 bg-brand/10 px-2 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-wider text-brand">
                 tracked · trendingrepo
               </span>
             ) : null}
@@ -270,13 +270,13 @@ function LogoBlock({
   const initial = name.charAt(0).toUpperCase();
   if (!logoUrl) {
     return (
-      <div className="flex size-10 shrink-0 items-center justify-center rounded-[2px] border border-border-primary bg-bg-muted font-mono text-sm font-bold text-text-secondary">
+      <div className="flex size-10 shrink-0 items-center justify-center rounded-md border border-border-primary bg-bg-muted font-mono text-sm font-bold text-text-secondary">
         {initial}
       </div>
     );
   }
   return (
-    <div className="size-10 shrink-0 overflow-hidden rounded-[2px] border border-border-primary bg-bg-muted">
+    <div className="size-10 shrink-0 overflow-hidden rounded-md border border-border-primary bg-bg-muted">
       <Image
         src={logoUrl}
         alt=""

@@ -326,3 +326,101 @@ test("redactToken masks the secret in the middle", () => {
 test("redactToken fully masks short tokens", () => {
   assert.equal(redactToken("short"), "***");
 });
+
+// ---------------------------------------------------------------------------
+// Quarantine (added when 401 handling shipped)
+// ---------------------------------------------------------------------------
+
+test("quarantined token is skipped by getNextToken", () => {
+  const pool = createGitHubTokenPool({
+    env: {
+      GITHUB_TOKEN: "tok-a-aaaaaaaaaaaaaaaaaaaa",
+      GITHUB_TOKEN_POOL: "tok-b-bbbbbbbbbbbbbbbbbbbb",
+    },
+    now: () => FIXED_NOW_MS,
+  });
+
+  pool.quarantine("tok-a-aaaaaaaaaaaaaaaaaaaa");
+
+  for (let i = 0; i < 5; i++) {
+    assert.equal(pool.getNextToken(), "tok-b-bbbbbbbbbbbbbbbbbbbb");
+  }
+});
+
+test("quarantine auto-expires after TTL elapses", async () => {
+  const clock = freezeNow(FIXED_NOW_MS);
+  const pool = createGitHubTokenPool({
+    env: { GITHUB_TOKEN: "tok-a-aaaaaaaaaaaaaaaaaaaa" },
+    now: clock.now,
+  });
+
+  pool.quarantine("tok-a-aaaaaaaaaaaaaaaaaaaa");
+
+  // Single-token pool with that token quarantined → exhausted with
+  // allQuarantined=true.
+  let caught: unknown = null;
+  try {
+    pool.getNextToken();
+  } catch (err) {
+    caught = err;
+  }
+  assert.ok(
+    caught instanceof GitHubTokenPoolExhaustedError,
+    "expected exhausted error",
+  );
+  assert.equal(
+    (caught as GitHubTokenPoolExhaustedError).allQuarantined,
+    true,
+    "expected allQuarantined flag",
+  );
+
+  // Advance the clock past the 24h TTL.
+  clock.advance(25 * 60 * 60 * 1000);
+
+  // Quarantine has expired — token is reusable again.
+  assert.equal(pool.getNextToken(), "tok-a-aaaaaaaaaaaaaaaaaaaa");
+});
+
+test("quarantine on a foreign token is silently ignored", () => {
+  const pool = createGitHubTokenPool({
+    env: { GITHUB_TOKEN: "tok-a-aaaaaaaaaaaaaaaaaaaa" },
+    now: () => FIXED_NOW_MS,
+  });
+
+  pool.quarantine("tok-not-in-pool");
+
+  // Pool's only token is unaffected — getNextToken returns it.
+  assert.equal(pool.getNextToken(), "tok-a-aaaaaaaaaaaaaaaaaaaa");
+});
+
+test("quarantine + exhausted distinguish in the error message", () => {
+  const clock = freezeNow(FIXED_NOW_MS);
+  const pool = createGitHubTokenPool({
+    env: {
+      GITHUB_TOKEN: "tok-a-aaaaaaaaaaaaaaaaaaaa",
+      GITHUB_TOKEN_POOL: "tok-b-bbbbbbbbbbbbbbbbbbbb",
+    },
+    now: clock.now,
+  });
+
+  // Mix: A quarantined, B rate-limited.
+  pool.quarantine("tok-a-aaaaaaaaaaaaaaaaaaaa");
+  pool.recordRateLimit("tok-b-bbbbbbbbbbbbbbbbbbbb", 0, FIXED_NOW_SEC + 600);
+
+  let caught: unknown = null;
+  try {
+    pool.getNextToken();
+  } catch (err) {
+    caught = err;
+  }
+  assert.ok(
+    caught instanceof GitHubTokenPoolExhaustedError,
+    "expected exhausted error",
+  );
+  // allQuarantined is false because B is rate-limited (not quarantined),
+  // so the operator-facing message points at quota, not at PAT rotation.
+  assert.equal(
+    (caught as GitHubTokenPoolExhaustedError).allQuarantined,
+    false,
+  );
+});

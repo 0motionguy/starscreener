@@ -53,8 +53,6 @@ interface SnapshotPayload {
   fetchedAt: string;
   scores: Record<string, number>; // id (lowercased) -> hotness
   counts: { total: number };
-  status?: 'ok' | 'empty';
-  reason?: string;
 }
 
 const fetcher: Fetcher = {
@@ -133,7 +131,7 @@ async function snapshotDomain(
 ): Promise<{ count: number; published: boolean }> {
   const roster = await readDataStore<{ items?: RosterItem[] }>(domain);
   if (!roster?.items || roster.items.length === 0) {
-    return writeSnapshot(domain, date, {}, 'empty', 'empty_roster');
+    return { count: 0, published: false };
   }
 
   const scores: Record<string, number> = {};
@@ -141,27 +139,14 @@ async function snapshotDomain(
 
   const count = Object.keys(scores).length;
   if (count === 0) {
-    return writeSnapshot(domain, date, {}, 'empty', 'no_scoreable_items');
+    return { count: 0, published: false };
   }
 
-  return writeSnapshot(domain, date, scores, 'ok');
-}
-
-async function writeSnapshot(
-  domain: Domain,
-  date: string,
-  scores: Record<string, number>,
-  status: NonNullable<SnapshotPayload['status']>,
-  reason?: string,
-): Promise<{ count: number; published: boolean }> {
-  const count = Object.keys(scores).length;
   const payload: SnapshotPayload = {
     date,
     fetchedAt: new Date().toISOString(),
     scores,
     counts: { total: count },
-    status,
-    ...(reason ? { reason } : {}),
   };
   const writeResult = await writeDataStore(`hotness-snapshot:${domain}:${date}`, payload, {
     ttlSeconds: SNAPSHOT_TTL_SECONDS,

@@ -41,6 +41,11 @@
  *  "remaining" assumption for tokens we haven't called yet. */
 export const DEFAULT_GITHUB_QUOTA = 5_000;
 
+/** How long (ms) a 401-quarantined token stays out of rotation before the
+ *  pool optimistically reuses it. 24h gives an operator time to rotate the
+ *  PAT without forcing a process restart for recovery. */
+export const QUARANTINE_TTL_MS = 24 * 60 * 60 * 1000;
+
 export interface TokenState {
   /** The token string. Never logged in full — see `redact()`. */
   readonly token: string;
@@ -57,6 +62,13 @@ export interface TokenState {
   resetUnixSec: number | null;
   /** Last response observation timestamp (ms). For debugging only. */
   lastObservedMs: number | null;
+  /**
+   * Wall-clock ms (from the pool's `now()` source) until which this token
+   * is quarantined and will be skipped by `getNextToken()`. Set when a 401
+   * is observed (token revoked / invalid). Auto-clears after a fixed TTL
+   * so a re-issued token recovers without a process restart.
+   */
+  quarantinedUntilMs: number | null;
 }
 
 export interface GitHubTokenPool {
@@ -73,6 +85,14 @@ export interface GitHubTokenPool {
    * the pool) are ignored — the pool only tracks tokens it owns.
    */
   recordRateLimit(token: string, remaining: number, resetUnixSec: number): void;
+  /**
+   * Mark a token as quarantined for `QUARANTINE_TTL_MS` (default 24h).
+   * Use when a 401 is observed — the PAT is invalid / revoked and shouldn't
+   * be picked again until the operator rotates it. Auto-clears after the
+   * TTL elapses so a re-issued token in the same env slot recovers.
+   * Pool-foreign tokens are silently ignored (same shape as `recordRateLimit`).
+   */
+  quarantine(token: string): void;
   /** Return current state for observability / tests. */
   snapshot(): readonly TokenState[];
   /** Number of tokens currently in the pool. */
@@ -104,17 +124,25 @@ export interface CreateGitHubTokenPoolOptions {
 /** Thrown by `getNextToken()` when no token has remaining quota. */
 export class GitHubTokenPoolExhaustedError extends Error {
   public readonly resetsAtUnixSec: number | null;
-  constructor(resetsAtUnixSec: number | null) {
+  public readonly allQuarantined: boolean;
+  constructor(
+    resetsAtUnixSec: number | null,
+    opts: { allQuarantined?: boolean } = {},
+  ) {
+    const allQuarantined = opts.allQuarantined === true;
     const when =
       resetsAtUnixSec !== null
         ? `; soonest reset at ${new Date(resetsAtUnixSec * 1000).toISOString()}`
         : "";
-    super(
-      `[github-token-pool] All tokens exhausted${when}. ` +
-        `Add more PATs to GITHUB_TOKEN_POOL or wait for the reset window.`,
-    );
+    const message = allQuarantined
+      ? `[github-token-pool] All tokens quarantined (401 invalid/revoked). ` +
+        `Rotate the PATs in GITHUB_TOKEN / GH_TOKEN_POOL.`
+      : `[github-token-pool] All tokens exhausted${when}. ` +
+        `Add more PATs to GITHUB_TOKEN_POOL or wait for the reset window.`;
+    super(message);
     this.name = "GitHubTokenPoolExhaustedError";
     this.resetsAtUnixSec = resetsAtUnixSec;
+    this.allQuarantined = allQuarantined;
   }
 }
 
@@ -147,6 +175,7 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
       remaining: null,
       resetUnixSec: null,
       lastObservedMs: null,
+      quarantinedUntilMs: null,
     }));
     for (const state of this.states) {
       this.index.set(state.token, state);
@@ -167,18 +196,36 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
       throw new GitHubTokenPoolEmptyError();
     }
 
-    const nowSec = Math.floor(this.now() / 1000);
+    const nowMs = this.now();
+    const nowSec = Math.floor(nowMs / 1000);
 
-    // Build the candidate list: tokens that are NOT currently exhausted.
-    // A token is exhausted iff remaining<=0 AND its reset is still in the
-    // future. Once reset passes, the token is healthy again (we optimistically
-    // assume the full quota until the next response proves otherwise).
+    // Build the candidate list: tokens that are NOT currently exhausted
+    // and NOT currently quarantined. A token is exhausted iff remaining<=0
+    // AND its reset is still in the future. Once reset passes, the token
+    // is healthy again (we optimistically assume the full quota until the
+    // next response proves otherwise). A token is quarantined iff
+    // `quarantinedUntilMs` is set and still in the future.
     type Candidate = { state: TokenState; effectiveRemaining: number; idx: number };
     const candidates: Candidate[] = [];
     let soonestReset: number | null = null;
+    let quarantinedCount = 0;
 
     for (let i = 0; i < this.states.length; i++) {
       const state = this.states[i];
+
+      // Auto-clear expired quarantines so a re-issued PAT recovers without
+      // any operator action beyond updating the env var.
+      if (
+        state.quarantinedUntilMs !== null &&
+        state.quarantinedUntilMs <= nowMs
+      ) {
+        state.quarantinedUntilMs = null;
+      }
+      if (state.quarantinedUntilMs !== null) {
+        quarantinedCount++;
+        continue;
+      }
+
       const isExhausted =
         state.remaining !== null &&
         state.remaining <= 0 &&
@@ -203,7 +250,10 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
     }
 
     if (candidates.length === 0) {
-      throw new GitHubTokenPoolExhaustedError(soonestReset);
+      throw new GitHubTokenPoolExhaustedError(soonestReset, {
+        allQuarantined:
+          quarantinedCount > 0 && quarantinedCount === this.states.length,
+      });
     }
 
     // Pick the highest effective remaining. On ties, advance the round-robin
@@ -238,6 +288,13 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
     if (Number.isFinite(resetUnixSec) && resetUnixSec > 0) {
       state.resetUnixSec = Math.floor(resetUnixSec);
     }
+    state.lastObservedMs = this.now();
+  }
+
+  quarantine(token: string): void {
+    const state = this.index.get(token);
+    if (!state) return;
+    state.quarantinedUntilMs = this.now() + QUARANTINE_TTL_MS;
     state.lastObservedMs = this.now();
   }
 }

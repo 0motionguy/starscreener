@@ -22,8 +22,6 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { fetchJsonWithRetry, HttpStatusError, sleep } from "./_fetch-json.mjs";
-import { extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
-import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -625,6 +623,9 @@ if (isDirectRun) {
       } catch (metaErr) {
         console.error("[meta] npm.json error-write failed:", metaErr);
       }
-      process.exit(1);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await closeDataStore();
     });
 }

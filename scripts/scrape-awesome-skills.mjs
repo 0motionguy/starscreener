@@ -27,10 +27,8 @@
 import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { extractGithubRepoFullNames, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
-import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
+import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
-import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -174,34 +172,9 @@ const isDirectRun = invokedPath
   : false;
 
 if (isDirectRun) {
-  const startedAt = Date.now();
   main()
-    .then(async () => {
-      try {
-        await writeSourceMetaFromOutcome({
-          source: "awesome-skills",
-          count: 1,
-          durationMs: Date.now() - startedAt,
-        });
-      } catch (metaErr) {
-        console.error("[meta] awesome-skills.json write failed:", metaErr);
-      }
-    })
-    .catch(async (err) => {
+    .catch((err) => {
       console.error("scrape-awesome-skills failed:", err.message ?? err);
-      try {
-        await writeSourceMetaFromOutcome({
-          source: "awesome-skills",
-          count: 0,
-          durationMs: Date.now() - startedAt,
-          error: err,
-        });
-      } catch (metaErr) {
-        console.error(
-          "[meta] awesome-skills.json error-write failed:",
-          metaErr,
-        );
-      }
       process.exitCode = 1;
     })
     .finally(async () => {

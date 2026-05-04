@@ -34,11 +34,7 @@ export interface SkillItem extends DomainItem {
 
 const COMPONENT_LABELS: Record<string, string> = {
   installsDelta7d: "installs Δ7d",
-  installsDelta1d: "installs Δ24h",
-  installsDelta30d: "installs Δ30d",
-  installsAbs: "installs abs",
   forkVelocity7d: "forks Δ7d",
-  forksAbs: "forks abs",
   forkRatio: "fork ratio",
   derivativeRepoCount: "derivatives",
   awesomeListInclusion: "awesome lists",
@@ -60,11 +56,7 @@ const COMPONENT_LABELS: Record<string, string> = {
 // fallbacks. Keeping installsDelta7d as the dominant momentum signal.
 const DEFAULT_WEIGHTS: Readonly<Record<string, number>> = Object.freeze({
   installsDelta7d: 0.30,
-  installsDelta1d: 0.10,
-  installsDelta30d: 0.10,
-  installsAbs: 0.20,
   forkVelocity7d: 0.10,
-  forksAbs: 0.12,
   forkRatio: 0.10,
   derivativeRepoCount: 0.10,
   awesomeListInclusion: 0.15,
@@ -89,34 +81,12 @@ function computeOne(item: SkillItem): ScoredItem<SkillItem> {
     activeWeights.installsAbs = DEFAULT_WEIGHTS.installsAbs;
   }
 
-  // W5-SKILLS24H: installsDelta1d (0.10) — instant velocity. Smaller scale
-  // than 7d (1/7th the time → 1/7th the expected delta magnitude). Drops if
-  // either field missing.
-  if (item.installs7d !== undefined && item.installsPrev1d !== undefined) {
-    const delta = item.installs7d - item.installsPrev1d;
-    components.installsDelta1d = logNorm(delta, 150);
-    activeWeights.installsDelta1d = DEFAULT_WEIGHTS.installsDelta1d;
-  }
-
-  // W5-SKILLS24H: installsDelta30d (0.10) — sustained adoption. Larger scale
-  // (4x of 7d). Drops if either field missing.
-  if (item.installs7d !== undefined && item.installsPrev30d !== undefined) {
-    const delta = item.installs7d - item.installsPrev30d;
-    components.installsDelta30d = logNorm(delta, 4000);
-    activeWeights.installsDelta30d = DEFAULT_WEIGHTS.installsDelta30d;
-  }
-
   // forkVelocity7d (0.10): drop if either field missing. Negative deltas
   // (forks deleted) → 0 via logNorm's value<=0 short-circuit.
   if (item.forks !== undefined && item.forks7dAgo !== undefined) {
     const delta = item.forks - item.forks7dAgo;
     components.forkVelocity7d = logNorm(delta, 100);
     activeWeights.forkVelocity7d = DEFAULT_WEIGHTS.forkVelocity7d;
-  } else if (item.forks !== undefined && item.forks > 0) {
-    // forksAbs (0.12): mutually exclusive with forkVelocity7d. Cold-start
-    // fallback so a skill with 12K forks gets meaningful Hotness on day-1.
-    components.forksAbs = logNorm(item.forks, 5_000);
-    activeWeights.forksAbs = DEFAULT_WEIGHTS.forksAbs;
   }
 
   // forkRatio (0.10): requires both forks and stars

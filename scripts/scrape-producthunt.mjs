@@ -527,6 +527,9 @@ if (isDirectRun) {
       } catch (metaErr) {
         console.error("[meta] producthunt.json error-write failed:", metaErr);
       }
-      process.exit(1);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await closeDataStore();
     });
 }

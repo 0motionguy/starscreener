@@ -8,7 +8,6 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
-import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 
 const PERIODS = ["past_24_hours", "past_week", "past_month"];
 const LANGUAGES = ["All", "Python", "TypeScript", "Rust", "Go"];
@@ -275,31 +274,9 @@ async function main() {
   }
 }
 
-const startedAt = Date.now();
 main()
-  .then(async () => {
-    try {
-      await writeSourceMetaFromOutcome({
-        source: "trending",
-        count: 1,
-        durationMs: Date.now() - startedAt,
-      });
-    } catch (metaErr) {
-      console.error("[meta] trending.json write failed:", metaErr);
-    }
-  })
-  .catch(async (err) => {
+  .catch((err) => {
     console.error("scrape-trending failed:", err.message ?? err);
-    try {
-      await writeSourceMetaFromOutcome({
-        source: "trending",
-        count: 0,
-        durationMs: Date.now() - startedAt,
-        error: err,
-      });
-    } catch (metaErr) {
-      console.error("[meta] trending.json error-write failed:", metaErr);
-    }
     process.exitCode = 1;
   })
   .finally(async () => {

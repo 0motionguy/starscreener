@@ -16,10 +16,15 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import {
-  refreshTrendingFromStore,
-  getTrending,
-  getLastFetchedAt,
-} from "@/lib/trending";
+  SignalSourcePage,
+  type SignalTabSpec,
+} from "@/components/signal/SignalSourcePage";
+import type { SignalRow } from "@/components/signal/SignalTable";
+import type { SignalMetricCardProps } from "@/components/signal/SignalMetricCard";
+import { classifyFreshness, findOldestRecordAt } from "@/lib/news/freshness";
+import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
+import Link from "next/link";
+
 import {
   refreshHackernewsTrendingFromStore,
   getHnTopStories,
@@ -38,59 +43,41 @@ import { devtoFetchedAt } from "@/lib/devto";
 import {
   getAllRedditPosts,
   getRedditFetchedAt,
+  getRedditFile,
 } from "@/lib/reddit-data";
 import {
-  refreshClaudeRssFromStore,
-  refreshOpenaiRssFromStore,
-  getClaudeRssTop,
-  getOpenaiRssTop,
-  claudeFetchedAt,
-  openaiFetchedAt,
-} from "@/lib/rss-feeds";
+  getAllHnMentions,
+  getHnFile,
+  hnFetchedAt,
+  hnItemHref,
+  type HnStory,
+} from "@/lib/hackernews";
+import { getHnTopStories } from "@/lib/hackernews-trending";
 import {
-  getTopTwitterBuzz,
-  getTopTwitterPosts,
-  getTwitterLatestUpdatedAt,
-} from "@/lib/twitter";
-
+  getAllBlueskyMentions,
+  blueskyFetchedAt,
+  bskyPostHref,
+  getBlueskyFile,
+  type BskyPost,
+} from "@/lib/bluesky";
+import { getBlueskyTopPosts } from "@/lib/bluesky-trending";
 import {
-  hnToSignalItems,
-  redditToSignalItems,
-  bskyToSignalItems,
-  devtoToSignalItems,
-  githubToSignalItems,
-  twitterToSignalItems,
-  rssToSignalItems,
-} from "@/lib/signals/build-items";
-import { buildConsensus } from "@/lib/signals/consensus";
-import { buildVolume } from "@/lib/signals/volume";
-import { buildTagMomentum } from "@/lib/signals/tag-momentum";
-import type { SignalItem, SourceKey } from "@/lib/signals/types";
-
-import { LiveClock } from "@/components/signals-terminal/LiveClock";
+  getAllDevtoMentions,
+  devtoFetchedAt,
+  getDevtoFile,
+  type DevtoArticle,
+} from "@/lib/devto";
+import { getDevtoTopArticles } from "@/lib/devto-trending";
 import {
-  LiveTicker,
-  type TickerItem,
-} from "@/components/signals-terminal/LiveTicker";
-import { KpiStrip } from "@/components/signals-terminal/KpiStrip";
-import { VolumeAreaChart } from "@/components/signals-terminal/VolumeAreaChart";
-import { ConsensusRadar } from "@/components/signals-terminal/ConsensusRadar";
-import {
-  SourceFeedPanel,
-  type ListItem,
-  type TweetItem,
-  type RssArticleItem,
-} from "@/components/signals-terminal/SourceFeedPanel";
-import { TagMomentumHeatmap } from "@/components/signals-terminal/TagMomentumHeatmap";
-import {
-  SourceFilterBar,
-  parseActiveSources,
-  parseTimeWindow,
-  parseTopic,
-  windowHours,
-  windowLabel,
-} from "@/components/signals-terminal/SourceFilterBar";
-import { matchesTopic } from "@/lib/signals/topics";
+  getAllLobstersMentions,
+  getLobstersFile,
+  lobstersFetchedAt,
+  lobstersStoryHref,
+  type LobstersStory,
+} from "@/lib/lobsters";
+import { getLobstersTopStories } from "@/lib/lobsters-trending";
+import { getDerivedRepos } from "@/lib/derived-repos";
+import { CATEGORIES } from "@/lib/constants";
 
 import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 
@@ -190,35 +177,23 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
     refreshOpenaiRssFromStore(),
   ]);
 
-  // ── Pull source records ----------------------------------------------------
-  const ghRows = getTrending("past_24_hours", "All").slice(0, 50);
-  const ghFetchedAt = getLastFetchedAt();
-  const hnTop = getHnTopStories(60);
-  const redditAll = getAllRedditPosts();
-  const bskyTop = getBlueskyTopPosts(60);
-  const devtoTop = getDevtoTopArticles(40);
-  const claudeTop = getClaudeRssTop(20);
-  const openaiTop = getOpenaiRssTop(20);
-  const twBuzz = getTopTwitterBuzz(20);
-  const twPosts = getTopTwitterPosts(20);
-  const twLatestAt = getTwitterLatestUpdatedAt();
+  // Per-record freshness floor (B4). Reading from the in-memory cache that
+  // refreshXxxFromStore() populates from Redis — records there carry
+  // `lastRefreshedAt` (stamped by scripts/_data-store-write.mjs). When the
+  // cache is still seeded from bundled JSON these will be null and the
+  // classifier falls back to fetchedAt-only behavior.
+  const redditOldest = findOldestRecordAt(getRedditFile().mentions);
+  const hnOldest = findOldestRecordAt(getHnFile().mentions);
+  const bskyOldest = findOldestRecordAt(getBlueskyFile().mentions);
+  const devtoOldest = findOldestRecordAt(getDevtoFile().mentions);
+  const lobstersOldest = findOldestRecordAt(getLobstersFile().mentions);
 
-  // ── Auto-rescrape stale sources (best-effort) -----------------------------
-  safeTrigger("hackernews", hnFetchedAt || null);
-  safeTrigger("reddit", getRedditFetchedAt());
-  safeTrigger("bluesky", blueskyFetchedAt);
-  safeTrigger("devto", devtoFetchedAt || null);
-
-  // ── Build SignalItem[] across all 8 sources -------------------------------
-  const items: SignalItem[] = [
-    ...hnToSignalItems(hnTop),
-    ...redditToSignalItems(redditAll),
-    ...bskyToSignalItems(bskyTop),
-    ...devtoToSignalItems(devtoTop),
-    ...githubToSignalItems(ghRows, ghFetchedAt),
-    ...twitterToSignalItems(twPosts),
-    ...rssToSignalItems(claudeTop, "claude"),
-    ...rssToSignalItems(openaiTop, "openai"),
+  const sourceVerdicts: Array<{ source: Parameters<typeof triggerScanIfStale>[0]; at: string | null; status: "live" | "warn" | "cold" }> = [
+    { source: "reddit", at: redditAt, status: classifyFreshness("reddit", redditAt, undefined, redditOldest).status },
+    { source: "hackernews", at: hnAt, status: classifyFreshness("hackernews", hnAt, undefined, hnOldest).status },
+    { source: "bluesky", at: bskyAt, status: classifyFreshness("bluesky", bskyAt, undefined, bskyOldest).status },
+    { source: "devto", at: devtoAt, status: classifyFreshness("devto", devtoAt, undefined, devtoOldest).status },
+    { source: "lobsters", at: lobstersAt, status: classifyFreshness("lobsters", lobstersAt, undefined, lobstersOldest).status },
   ];
 
   // ── Cross-source synthesis -------------------------------------------------

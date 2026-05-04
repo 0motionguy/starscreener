@@ -1,14 +1,22 @@
-// /mcp/[slug] — V4 per-MCP detail page (ProfileTemplate consumer).
+// /mcp/[slug] — per-MCP detail page (H3.1-H3.5).
 //
 // Server component. Resolves the MCP from the same publish payload the
 // /mcp leaderboard uses, via `getMcpDetailBySlug`. 404 when the slug
 // doesn't match any item in the current roster.
 //
-// Layout (ProfileTemplate slots):
-//   identity   — MCP name + author + tags + install command
-//   kpiBand    — Stars · Forks (or Tools) · Tools count · Mentions
-//   mainPanels — README/description + tools list + mentions
-//   rightRail  — install instructions + related signals
+// Sections (top → bottom):
+//   1. Header                  — name, vendor, package, source links
+//   2. Liveness pill           — reuses LivenessPill (4-state classifier)
+//   3. Stats strip             — weekly DLs (npm/pypi split), tools, last
+//                                release, smithery rank, registries
+//   4. Weekly download chart   — sparkline when history exists, else
+//                                "Building 7-day chart…" placeholder
+//   5. Recent releases         — single most recent release until the
+//                                fetcher is extended (TODO inline)
+//   6. Manifest preview        — tools list when populated, else placeholder
+//   7. Recent mentions panel   — placeholder ("Coming soon") — corpus is
+//                                not MCP-specific yet and live scraping in
+//                                a server component would be too costly.
 
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -16,18 +24,19 @@ import type { Metadata } from "next";
 
 import {
   getMcpDetailBySlug,
+  readMcpDownloadsHistory,
   readMcpManifestTools,
 } from "@/lib/mcp-detail";
 import type { EcosystemLeaderboardItem } from "@/lib/ecosystem-leaderboards";
+import { LivenessPill, classifyLiveness } from "@/components/signal/LivenessPill";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { TerminalBar } from "@/components/v2";
+import { McpDownloadsSparklineLazy } from "./_components/McpDownloadsSparklineLazy";
 
-import { ProfileTemplate } from "@/components/templates/ProfileTemplate";
-import { SectionHead } from "@/components/ui/SectionHead";
-import { KpiBand } from "@/components/ui/KpiBand";
-import { LiveDot } from "@/components/ui/LiveDot";
-
-// ISR mirrors the /mcp index page's revalidate cadence.
-export const revalidate = 1800;
+// force-dynamic mirrors the /mcp index page's posture: data is read at
+// request time from the publish payload, which is small (~few KB) and
+// cheap to refresh.
+export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -81,21 +90,419 @@ export async function generateMetadata({
 }
 
 // ---------------------------------------------------------------------------
-// Helpers
+// Page
 // ---------------------------------------------------------------------------
 
-function compactNumber(value: number | null | undefined): string {
-  if (value === null || value === undefined || !Number.isFinite(value)) {
-    return "—";
-  }
-  if (value === 0) return "0";
-  return new Intl.NumberFormat("en-US", {
-    notation: "compact",
-    maximumFractionDigits: 1,
-  }).format(value);
+export default async function McpDetailPage({ params }: PageProps) {
+  const { slug } = await params;
+  const item = await getMcpDetailBySlug(slug);
+  if (!item) notFound();
+
+  const mcp = item.mcp;
+  const livenessClass = classifyLiveness(item.liveness);
+
+  // Manifest tool list. Today the pinger writes only a count, so the read
+  // returns [] for every server. The page renders a placeholder when empty.
+  const tools = await readMcpManifestTools(item.id);
+
+  // Downloads history. Reader returns null when the rolling-buffer key
+  // isn't populated (which is the case today — npm-downloads writes a
+  // single point-in-time, not history).
+  const history = mcp?.packageName
+    ? await readMcpDownloadsHistory(mcp.packageName)
+    : null;
+  const hasHistory = Array.isArray(history) && history.length >= 2;
+
+  // Source links. We surface the canonical url (registry / vendor page),
+  // the linked GitHub repo when known, the npm/pypi package page when the
+  // package name is known, and the Smithery page when crossSourceCount
+  // implies it's listed there.
+  const sourceLinks = buildSourceLinks(item);
+
+  // Last release: our cached side-channel only carries the most recent
+  // ISO timestamp. TODO: extend `apps/trendingrepo-worker/src/fetchers/npm-downloads/`
+  // to capture the last 5 releases so we can render a real list here.
+  const lastReleaseAt = mcp?.lastReleaseAt ?? null;
+  const isNewThisWeek =
+    lastReleaseAt &&
+    Date.now() - Date.parse(lastReleaseAt) < SEVEN_DAYS_MS;
+
+  return (
+    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
+      <div className="mx-auto max-w-[1100px] space-y-6 px-4 py-6 sm:px-6 sm:py-8">
+        {/* Breadcrumb */}
+        <nav
+          aria-label="Breadcrumb"
+          className="flex items-center gap-1.5 text-[11px] text-text-tertiary"
+        >
+          <Link href="/" className="hover:text-text-primary">
+            Home
+          </Link>
+          <span aria-hidden>/</span>
+          <Link href="/mcp" className="hover:text-text-primary">
+            MCP
+          </Link>
+          <span aria-hidden>/</span>
+          <span className="truncate text-text-primary">{item.title}</span>
+        </nav>
+
+        {/* V2 terminal-bar header */}
+        <div className="v2-frame overflow-hidden">
+          <TerminalBar
+            label={`// MCP · ${item.title.toUpperCase()}`}
+            status={
+              <span className="inline-flex items-center gap-2">
+                <LivenessPill liveness={item.liveness} />
+                <span>{livenessClass.uptime7d !== null
+                  ? `${(livenessClass.uptime7d * 100).toFixed(1)}% UPTIME`
+                  : "STATUS"}</span>
+              </span>
+            }
+            live={livenessClass.state === "live"}
+          />
+        </div>
+
+        {/* 1. Header */}
+        <Header item={item} sourceLinks={sourceLinks} />
+
+        {/* 3. Stats strip */}
+        <StatsStrip item={item} />
+
+        {/* 4. Weekly download sparkline */}
+        <Section title="Weekly Downloads · 7d">
+          {hasHistory ? (
+            <McpDownloadsSparklineLazy points={history!} />
+          ) : (
+            <Placeholder>Building 7-day chart…</Placeholder>
+          )}
+        </Section>
+
+        {/* 5. Recent releases */}
+        <Section title="Recent Releases">
+          {lastReleaseAt ? (
+            <ul className="space-y-1.5 text-[12px]">
+              <li className="flex items-center justify-between border-b border-border-primary/60 py-1.5">
+                <span className="text-text-secondary">
+                  {mcp?.packageName ? mcp.packageName : item.title}
+                </span>
+                <div className="flex items-center gap-2 text-[11px] tabular-nums text-text-tertiary">
+                  <time dateTime={lastReleaseAt} title={lastReleaseAt}>
+                    {fmtRelativeAge(lastReleaseAt)}
+                  </time>
+                  {isNewThisWeek ? (
+                    <span
+                      className="v2-mono inline-flex items-center px-1.5 py-px text-[9px] uppercase tracking-[0.14em]"
+                      style={{
+                        border: "1px solid var(--v3-acc)66",
+                        background: "var(--v3-acc)1A",
+                        color: "var(--v3-acc)",
+                        borderRadius: 2,
+                      }}
+                    >
+                      new
+                    </span>
+                  ) : null}
+                </div>
+              </li>
+              {/* TODO: extend apps/trendingrepo-worker/src/fetchers/npm-downloads
+                  to capture the last 5 releases so this list can render real
+                  history. Today the side-channel carries only `lastReleaseAt`. */}
+            </ul>
+          ) : (
+            <Placeholder>No release information yet.</Placeholder>
+          )}
+        </Section>
+
+        {/* 6. Manifest preview */}
+        <Section title={`Manifest Preview${tools.length > 0 ? ` · ${tools.length} tools` : ""}`}>
+          {tools.length > 0 ? (
+            <ul className="divide-y divide-border-primary/60 text-[12px]">
+              {tools.map((tool) => (
+                <li key={tool.name} className="flex flex-col gap-0.5 py-1.5">
+                  <span
+                    className="font-mono"
+                    style={{ color: "var(--v3-ink-100)" }}
+                  >
+                    {tool.name}
+                  </span>
+                  {tool.description ? (
+                    <span className="text-[11px] text-text-tertiary">
+                      {tool.description}
+                    </span>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <Placeholder>
+              Tool list pending — manifest hasn&apos;t been pinged yet.
+            </Placeholder>
+          )}
+        </Section>
+
+        {/* 7. Recent mentions */}
+        <Section title="Recent Mentions">
+          <Placeholder>
+            Coming soon — cross-platform MCP mention tracking is on the
+            roadmap. Today&apos;s mentions corpus indexes repos, not MCPs.
+          </Placeholder>
+        </Section>
+      </div>
+    </main>
+  );
 }
 
-function formatAge(iso: string | null | undefined): string {
+// ---------------------------------------------------------------------------
+// Local components
+// ---------------------------------------------------------------------------
+
+interface SourceLinks {
+  canonical: { href: string; label: string };
+  github?: { href: string; label: string };
+  npm?: { href: string; label: string };
+  pypi?: { href: string; label: string };
+  smithery?: { href: string; label: string };
+}
+
+function buildSourceLinks(item: EcosystemLeaderboardItem): SourceLinks {
+  const links: SourceLinks = {
+    canonical: { href: item.url, label: hostnameOf(item.url) ?? "open" },
+  };
+  if (item.linkedRepo) {
+    links.github = {
+      href: `https://github.com/${item.linkedRepo}`,
+      label: "github",
+    };
+  }
+  const pkg = item.mcp?.packageName;
+  const reg = item.mcp?.packageRegistry;
+  if (pkg && reg === "npm") {
+    links.npm = {
+      href: `https://www.npmjs.com/package/${encodeURIComponent(pkg)}`,
+      label: "npm",
+    };
+  } else if (pkg && reg === "pypi") {
+    links.pypi = {
+      href: `https://pypi.org/project/${encodeURIComponent(pkg)}/`,
+      label: "pypi",
+    };
+  }
+  // Smithery presence is implied by crossSourceCount >= 2 OR by the slug
+  // shape (vendor/package). Surface the directory page when applicable.
+  if (item.crossSourceCount >= 2 && item.id.includes("/")) {
+    links.smithery = {
+      href: `https://smithery.ai/server/${encodeURIComponent(item.id)}`,
+      label: "smithery",
+    };
+  }
+  return links;
+}
+
+function hostnameOf(url: string): string | null {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return null;
+  }
+}
+
+function Header({
+  item,
+  sourceLinks,
+}: {
+  item: EcosystemLeaderboardItem;
+  sourceLinks: SourceLinks;
+}) {
+  return (
+    <header className="rounded-card border border-border-primary bg-bg-card p-4 sm:p-5">
+      <div className="flex flex-col gap-3">
+        <div className="flex items-center gap-3">
+          {item.logoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={item.logoUrl}
+              alt=""
+              width={40}
+              height={40}
+              loading="lazy"
+              className="h-10 w-10 flex-none rounded-sm border border-border-primary object-contain"
+            />
+          ) : (
+            <span className="h-10 w-10 flex-none rounded-sm border border-border-primary bg-bg-muted" />
+          )}
+          <div className="min-w-0 flex-1">
+            <h1
+              className="truncate text-[18px] font-semibold sm:text-[20px]"
+              style={{ color: "var(--v3-ink-000)" }}
+            >
+              {item.title}
+            </h1>
+            <p className="truncate text-[12px] text-text-tertiary">
+              {item.vendor ?? item.linkedRepo ?? "MCP server"}
+              {item.mcp?.packageName ? (
+                <>
+                  <span aria-hidden> · </span>
+                  <span className="font-mono">{item.mcp.packageName}</span>
+                </>
+              ) : null}
+            </p>
+          </div>
+          <LivenessPill liveness={item.liveness} />
+        </div>
+
+        {item.description ? (
+          <p
+            className="text-[13px] leading-relaxed"
+            style={{ color: "var(--v3-ink-200)" }}
+          >
+            {item.description}
+          </p>
+        ) : null}
+
+        <div className="flex flex-wrap items-center gap-2 text-[11px]">
+          {Object.values(sourceLinks)
+            .filter((l): l is { href: string; label: string } => Boolean(l))
+            .map((link) => (
+              <a
+                key={`${link.label}-${link.href}`}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="v2-mono inline-flex items-center px-2 py-px uppercase tracking-[0.14em] hover:underline"
+                style={{
+                  border: "1px solid var(--v3-line-200)",
+                  background: "var(--v3-bg-100)",
+                  color: "var(--v3-ink-200)",
+                  borderRadius: 2,
+                  fontSize: 10,
+                }}
+              >
+                {link.label}
+              </a>
+            ))}
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function StatsStrip({ item }: { item: EcosystemLeaderboardItem }) {
+  const mcp = item.mcp;
+  const stats: Array<{ label: string; value: string; title?: string }> = [];
+
+  if (mcp?.downloadsCombined7d !== null && mcp?.downloadsCombined7d !== undefined) {
+    const npm = mcp.npmDownloads7d ?? 0;
+    const pypi = mcp.pypiDownloads7d ?? 0;
+    const split =
+      npm > 0 && pypi > 0
+        ? `npm ${fmtCompact(npm)} · pypi ${fmtCompact(pypi)}`
+        : undefined;
+    stats.push({
+      label: "Weekly DL",
+      value: fmtCompact(mcp.downloadsCombined7d),
+      title: split,
+    });
+  }
+  if (mcp?.toolCount !== null && mcp?.toolCount !== undefined) {
+    stats.push({ label: "Tools", value: String(mcp.toolCount) });
+  }
+  if (mcp?.lastReleaseAt) {
+    stats.push({
+      label: "Last Release",
+      value: fmtRelativeAge(mcp.lastReleaseAt),
+      title: mcp.lastReleaseAt,
+    });
+  }
+  if (
+    mcp?.smitheryRank !== null &&
+    mcp?.smitheryRank !== undefined &&
+    mcp?.smitheryTotal !== null &&
+    mcp?.smitheryTotal !== undefined
+  ) {
+    stats.push({
+      label: "Smithery",
+      value: `#${mcp.smitheryRank} / ${mcp.smitheryTotal}`,
+    });
+  }
+  stats.push({
+    label: "Registries",
+    value: `${item.crossSourceCount}`,
+  });
+  if (mcp?.npmDependents !== null && mcp?.npmDependents !== undefined) {
+    stats.push({
+      label: "Dependents",
+      value: fmtCompact(mcp.npmDependents),
+    });
+  }
+  if (typeof item.signalScore === "number") {
+    stats.push({ label: "Hotness", value: String(Math.round(item.signalScore)) });
+  }
+
+  if (stats.length === 0) return null;
+
+  return (
+    <section className="grid grid-cols-2 gap-px overflow-hidden rounded-card border border-border-primary bg-border-primary text-[12px] sm:grid-cols-3 lg:grid-cols-4">
+      {stats.map((s) => (
+        <div
+          key={s.label}
+          className="flex flex-col gap-0.5 bg-bg-card px-3 py-2"
+          title={s.title}
+        >
+          <span className="text-[10px] uppercase tracking-[0.16em] text-text-tertiary">
+            {s.label}
+          </span>
+          <span
+            className="font-mono tabular-nums"
+            style={{ color: "var(--v3-ink-000)" }}
+          >
+            {s.value}
+          </span>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function Section({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="rounded-card border border-border-primary bg-bg-card">
+      <header className="flex items-center justify-between border-b border-border-primary px-3 py-2">
+        <h2 className="text-[10px] font-mono uppercase tracking-[0.18em] text-text-tertiary">
+          {title}
+        </h2>
+      </header>
+      <div className="p-3 sm:p-4">{children}</div>
+    </section>
+  );
+}
+
+function Placeholder({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="text-[12px] italic text-text-tertiary">{children}</p>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Formatters (duplicated from McpCells to keep that file untouched — small
+// and stable enough that DRY isn't worth the cross-import).
+// ---------------------------------------------------------------------------
+
+function fmtCompact(n: number | null | undefined): string {
+  if (n === null || n === undefined || !Number.isFinite(n)) return "—";
+  if (n === 0) return "0";
+  return Intl.NumberFormat("en-US", {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(n);
+}
+
+function fmtRelativeAge(iso: string | null | undefined): string {
   if (!iso) return "—";
   const t = Date.parse(iso);
   if (!Number.isFinite(t)) return "—";
@@ -109,412 +516,4 @@ function formatAge(iso: string | null | undefined): string {
   const months = days / 30;
   if (months < 12) return `${Math.round(months)}mo ago`;
   return `${Math.round(months / 12)}y ago`;
-}
-
-function buildInstallCommand(item: EcosystemLeaderboardItem): string | null {
-  const pkg = item.mcp?.packageName;
-  if (!pkg) return null;
-  if (item.mcp?.packageRegistry === "npm") {
-    return `npx -y ${pkg}`;
-  }
-  if (item.mcp?.packageRegistry === "pypi") {
-    return `uvx ${pkg}`;
-  }
-  return null;
-}
-
-interface SourceLink {
-  href: string;
-  label: string;
-}
-
-function buildSourceLinks(item: EcosystemLeaderboardItem): SourceLink[] {
-  const links: SourceLink[] = [];
-  links.push({ href: item.url, label: hostnameOf(item.url) ?? "open" });
-  if (item.linkedRepo) {
-    links.push({
-      href: `https://github.com/${item.linkedRepo}`,
-      label: "github",
-    });
-  }
-  const pkg = item.mcp?.packageName;
-  const reg = item.mcp?.packageRegistry;
-  if (pkg && reg === "npm") {
-    links.push({
-      href: `https://www.npmjs.com/package/${encodeURIComponent(pkg)}`,
-      label: "npm",
-    });
-  } else if (pkg && reg === "pypi") {
-    links.push({
-      href: `https://pypi.org/project/${encodeURIComponent(pkg)}/`,
-      label: "pypi",
-    });
-  }
-  if (item.crossSourceCount >= 2 && item.id.includes("/")) {
-    links.push({
-      href: `https://smithery.ai/server/${encodeURIComponent(item.id)}`,
-      label: "smithery",
-    });
-  }
-  return links;
-}
-
-function hostnameOf(url: string): string | null {
-  try {
-    return new URL(url).hostname.replace(/^www\./, "");
-  } catch {
-    return null;
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Page
-// ---------------------------------------------------------------------------
-
-export default async function McpDetailPage({ params }: PageProps) {
-  const { slug } = await params;
-  const item = await getMcpDetailBySlug(slug);
-  if (!item) notFound();
-
-  const mcp = item.mcp;
-
-  // Manifest tool list. Today the pinger writes only a count, so the read
-  // returns [] for every server. The page renders a placeholder when empty.
-  const tools = await readMcpManifestTools(item.id);
-
-  const installCommand = buildInstallCommand(item);
-  const sourceLinks = buildSourceLinks(item);
-  const lastReleaseAt = mcp?.lastReleaseAt ?? null;
-  const isNewThisWeek =
-    lastReleaseAt && Date.now() - Date.parse(lastReleaseAt) < SEVEN_DAYS_MS;
-
-  // KPI cells — Stars · Downloads · Tools · Registries.
-  // Forks aren't tracked on MCP items (linked-repo data lives elsewhere),
-  // so we surface 7d downloads there as "Mentions" proxy until cross-platform
-  // MCP mention tracking lands.
-  const stars =
-    item.popularityLabel === "Stars" && typeof item.popularity === "number"
-      ? item.popularity
-      : (mcp?.starsTotal ?? null);
-  const toolCount = mcp?.toolCount ?? tools.length;
-  const downloads7d = mcp?.downloadsCombined7d ?? null;
-  const author = item.vendor ?? item.author ?? item.linkedRepo ?? "MCP server";
-
-  const identity = (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-      <h1 className="v4-page-head__h1">{item.title}</h1>
-      <p className="v4-page-head__lede">
-        {author}
-        {mcp?.packageName ? (
-          <>
-            {" · "}
-            <span style={{ color: "var(--v4-acc)" }}>{mcp.packageName}</span>
-          </>
-        ) : null}
-      </p>
-      {item.description ? (
-        <p className="v4-page-head__lede">{item.description}</p>
-      ) : null}
-      {(item.tags ?? []).length > 0 ? (
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 4 }}>
-          {item.tags.slice(0, 8).map((tag) => (
-            <span
-              key={tag}
-              style={{
-                fontSize: 10,
-                padding: "2px 6px",
-                border: "1px solid var(--v4-line-200)",
-                color: "var(--v4-ink-300)",
-                textTransform: "uppercase",
-                letterSpacing: "0.14em",
-              }}
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      ) : null}
-      {installCommand ? (
-        <pre
-          style={{
-            marginTop: 8,
-            padding: "8px 10px",
-            background: "var(--v4-bg-100)",
-            border: "1px solid var(--v4-line-200)",
-            color: "var(--v4-ink-100)",
-            fontSize: 12,
-            overflowX: "auto",
-          }}
-        >
-          <code>{installCommand}</code>
-        </pre>
-      ) : null}
-    </div>
-  );
-
-  const kpiBand = (
-    <KpiBand
-      cells={[
-        {
-          label: "STARS",
-          value: compactNumber(stars),
-          sub: stars && stars > 0 ? "github" : "—",
-          tone: "acc",
-          pip: "var(--v4-acc)",
-        },
-        {
-          label: "DOWNLOADS · 7D",
-          value: compactNumber(downloads7d),
-          sub: downloads7d ? "npm + pypi" : "no data",
-          tone: "money",
-          pip: "var(--v4-money)",
-        },
-        {
-          label: "TOOLS",
-          value:
-            typeof toolCount === "number" && toolCount > 0
-              ? String(toolCount)
-              : "—",
-          sub: tools.length > 0 ? "manifest" : "pending",
-          pip: "var(--v4-blue)",
-        },
-        {
-          label: "REGISTRIES",
-          value: String(item.crossSourceCount ?? 0),
-          sub: "cross-source",
-          pip: "var(--v4-violet)",
-        },
-      ]}
-    />
-  );
-
-  const mainPanels = (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-      <section
-        style={{
-          padding: 16,
-          border: "1px solid var(--v4-line-200)",
-          background: "var(--v4-bg-025)",
-        }}
-      >
-        <SectionHead num="// 01" title="Overview" />
-        {item.description ? (
-          <p style={{ color: "var(--v4-ink-200)", lineHeight: 1.6 }}>
-            {item.description}
-          </p>
-        ) : (
-          <p style={{ color: "var(--v4-ink-400)", fontStyle: "italic" }}>
-            No description published yet.
-          </p>
-        )}
-        {lastReleaseAt ? (
-          <p
-            style={{
-              marginTop: 12,
-              color: "var(--v4-ink-300)",
-              fontSize: 12,
-            }}
-          >
-            Last release {formatAge(lastReleaseAt)}
-            {isNewThisWeek ? (
-              <span
-                style={{
-                  marginLeft: 8,
-                  padding: "1px 6px",
-                  border: "1px solid var(--v4-acc)",
-                  color: "var(--v4-acc)",
-                  fontSize: 10,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.14em",
-                }}
-              >
-                new
-              </span>
-            ) : null}
-          </p>
-        ) : null}
-      </section>
-
-      <section
-        style={{
-          padding: 16,
-          border: "1px solid var(--v4-line-200)",
-          background: "var(--v4-bg-025)",
-        }}
-      >
-        <SectionHead
-          num="// 02"
-          title={`Tools${tools.length > 0 ? ` · ${tools.length}` : ""}`}
-        />
-        {tools.length > 0 ? (
-          <ul style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {tools.map((tool) => (
-              <li
-                key={tool.name}
-                style={{
-                  paddingBottom: 8,
-                  borderBottom: "1px solid var(--v4-line-200)",
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: "var(--v4-mono)",
-                    color: "var(--v4-ink-100)",
-                    fontSize: 13,
-                  }}
-                >
-                  {tool.name}
-                </span>
-                {tool.description ? (
-                  <p
-                    style={{
-                      marginTop: 2,
-                      color: "var(--v4-ink-300)",
-                      fontSize: 12,
-                    }}
-                  >
-                    {tool.description}
-                  </p>
-                ) : null}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p style={{ color: "var(--v4-ink-400)", fontStyle: "italic" }}>
-            Tool list pending — manifest hasn&apos;t been pinged yet.
-          </p>
-        )}
-      </section>
-
-      <section
-        style={{
-          padding: 16,
-          border: "1px solid var(--v4-line-200)",
-          background: "var(--v4-bg-025)",
-        }}
-      >
-        <SectionHead num="// 03" title="Recent mentions" />
-        <p style={{ color: "var(--v4-ink-400)", fontStyle: "italic" }}>
-          Coming soon — cross-platform MCP mention tracking is on the
-          roadmap. Today&apos;s mentions corpus indexes repos, not MCPs.
-        </p>
-      </section>
-    </div>
-  );
-
-  const rightRail = (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-      <section
-        style={{
-          padding: 16,
-          border: "1px solid var(--v4-line-200)",
-          background: "var(--v4-bg-025)",
-        }}
-      >
-        <SectionHead num="// IN" title="Install" as="h3" />
-        {installCommand ? (
-          <>
-            <p
-              style={{
-                color: "var(--v4-ink-300)",
-                fontSize: 12,
-                marginBottom: 8,
-              }}
-            >
-              Run via {mcp?.packageRegistry === "npm" ? "npx" : "uvx"}:
-            </p>
-            <pre
-              style={{
-                padding: "8px 10px",
-                background: "var(--v4-bg-100)",
-                border: "1px solid var(--v4-line-200)",
-                color: "var(--v4-ink-100)",
-                fontSize: 12,
-                overflowX: "auto",
-              }}
-            >
-              <code>{installCommand}</code>
-            </pre>
-          </>
-        ) : (
-          <p style={{ color: "var(--v4-ink-400)", fontStyle: "italic" }}>
-            No package registered.
-          </p>
-        )}
-      </section>
-
-      <section
-        style={{
-          padding: 16,
-          border: "1px solid var(--v4-line-200)",
-          background: "var(--v4-bg-025)",
-        }}
-      >
-        <SectionHead num="// SO" title="Sources" as="h3" />
-        <ul style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          {sourceLinks.map((link) => (
-            <li key={`${link.label}-${link.href}`}>
-              <a
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  color: "var(--v4-acc)",
-                  fontSize: 12,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.14em",
-                }}
-              >
-                {link.label} →
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section
-        style={{
-          padding: 16,
-          border: "1px solid var(--v4-line-200)",
-          background: "var(--v4-bg-025)",
-        }}
-      >
-        <SectionHead num="// RE" title="Related" as="h3" />
-        <Link
-          href="/mcp"
-          style={{
-            color: "var(--v4-acc)",
-            fontSize: 12,
-            textTransform: "uppercase",
-            letterSpacing: "0.14em",
-          }}
-        >
-          ← All MCP servers
-        </Link>
-      </section>
-    </div>
-  );
-
-  return (
-    <main className="home-surface">
-      <ProfileTemplate
-        crumb={
-          <>
-            <Link href="/mcp">MCP</Link> · DETAIL · /{item.title}
-          </>
-        }
-        identity={identity}
-        clock={
-          <>
-            <span className="big">{compactNumber(stars)}</span>
-            <span className="muted">STARS</span>
-            <LiveDot label="LIVE" />
-          </>
-        }
-        kpiBand={kpiBand}
-        mainPanels={mainPanels}
-        rightRail={rightRail}
-      />
-    </main>
-  );
 }

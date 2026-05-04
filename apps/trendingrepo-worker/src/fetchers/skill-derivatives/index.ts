@@ -16,11 +16,7 @@
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore, readDataStore } from '../../lib/redis.js';
 import { fetchJsonWithRetry, HttpStatusError, sleep } from '../../lib/util/http-helpers.js';
-import {
-  parseRateLimitHeaders,
-  pickGithubToken,
-  recordRateLimit,
-} from '../../lib/util/github-token-pool.js';
+import { pickGithubToken } from '../../lib/util/github-token-pool.js';
 
 const USER_AGENT = 'TrendingRepo-Skill-Derivatives/1.0 (+https://trendingrepo.com)';
 const REQ_INTERVAL_MS = 2200; // ~27/min, under the 30/min authenticated cap
@@ -70,33 +66,10 @@ const fetcher: Fetcher = {
     const errors: RunResult['errors'] = [];
 
     // Discover skills from BOTH skill rosters.
-    // AUDIT-2026-05-04: allSettled so a single Redis flake degrades to
-    // null instead of crashing the whole fetcher. Same fix as f39cd09d.
-    const reads = await Promise.allSettled([
+    const [github, skillsSh] = await Promise.all([
       readDataStore<{ items?: RosterSkillItem[] }>('trending-skill'),
       readDataStore<{ items?: RosterSkillItem[] }>('trending-skill-sh'),
     ]);
-    const github = reads[0].status === 'fulfilled' ? reads[0].value : null;
-    const skillsSh = reads[1].status === 'fulfilled' ? reads[1].value : null;
-    if (reads[0].status === 'rejected' || reads[1].status === 'rejected') {
-      ctx.log.warn(
-        {
-          trendingSkill:
-            reads[0].status === 'rejected'
-              ? reads[0].reason instanceof Error
-                ? reads[0].reason.message
-                : String(reads[0].reason)
-              : null,
-          trendingSkillSh:
-            reads[1].status === 'rejected'
-              ? reads[1].reason instanceof Error
-                ? reads[1].reason.message
-                : String(reads[1].reason)
-              : null,
-        },
-        'skill-derivatives: roster read failed; degrading to null',
-      );
-    }
 
     const targets = new Map<string, { slug: string; queryName: string; sources: string[] }>();
     for (const it of github?.items ?? []) {
@@ -213,7 +186,10 @@ async function fetchDerivativeCount(skillName: string): Promise<number | null> {
   const q = `path:**/SKILL.md "name: ${skillName}"`;
   const url = `https://api.github.com/search/code?q=${encodeURIComponent(q)}&per_page=1`;
 
-  const token = pickGithubToken();
+  // Scripts surface guard: SCRIPTS allowed to read process.env.GITHUB_TOKEN
+  // directly. Fetchers run inside the worker — the canonical pickGithubToken
+  // helper does the same lookup with round-robin support, so we use that.
+  const token = pickGithubToken() ?? process.env.GITHUB_TOKEN?.trim();
   const headers: Record<string, string> = {
     'User-Agent': USER_AGENT,
     accept: 'application/vnd.github+json',
@@ -227,11 +203,6 @@ async function fetchDerivativeCount(skillName: string): Promise<number | null> {
       retryDelayMs: 3000,
       timeoutMs: 20_000,
       headers,
-      onResponse: (res) => {
-        if (!token) return;
-        const rl = parseRateLimitHeaders(res.headers);
-        if (rl) recordRateLimit(token, rl.remaining, rl.resetUnixSec);
-      },
     });
     return typeof data.total_count === 'number' ? data.total_count : 0;
   } catch (err) {

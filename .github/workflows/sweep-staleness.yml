@@ -38,18 +38,18 @@ jobs:
       # workflow lean keeps the daily run cheap.
 
       - name: Run sweeper
-        env:
-          REDIS_URL: ${{ secrets.REDIS_URL }}
         run: node scripts/sweep-staleness.mjs
 
-      - name: Compute commit timestamp
-        id: ts
-        run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
-
       - name: Commit if changed
-        uses: ./.github/actions/git-commit-data
-        with:
-          actor-email: "bot@trendingrepo.com"
-          message: "chore(data): refresh staleness report ${{ steps.ts.outputs.value }}"
-          paths: |
-            data/staleness-report.json
+        run: |
+          git config user.name  "trendingrepo-bot"
+          git config user.email "bot@trendingrepo.com"
+          git add data/staleness-report.json
+          if git diff --quiet --staged; then
+            echo "no changes"
+            exit 0
+          fi
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "chore(data): refresh staleness report ${TS}"
+          git pull --rebase origin main
+          git push

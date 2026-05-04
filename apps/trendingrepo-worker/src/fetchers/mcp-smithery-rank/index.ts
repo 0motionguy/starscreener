@@ -52,8 +52,6 @@ interface SmitheryRankEntry {
 interface SmitheryRankPayload {
   fetchedAt: string;
   total: number;
-  status?: 'ok' | 'disabled';
-  reason?: string;
   // Keyed by qualifiedName.toLowerCase() (the merge key buildMcpItem uses).
   // The same entry is also written under any alternate slugs we see for the
   // server (id, namespace/slug) so the app-side join has multiple fallbacks.
@@ -73,8 +71,7 @@ const fetcher: Fetcher = {
     const env = loadEnv();
     if (!env.SMITHERY_API_KEY) {
       ctx.log.warn('mcp-smithery-rank skipped: SMITHERY_API_KEY not set');
-      const redisPublished = await publishDisabledAggregate();
-      return done(startedAt, 0, redisPublished, []);
+      return done(startedAt, 0, false, []);
     }
 
     const errors: RunResult['errors'] = [];
@@ -120,7 +117,6 @@ const fetcher: Fetcher = {
       fetchedAt: new Date().toISOString(),
       total,
       summary,
-      status: 'ok',
     };
     const result = await writeDataStore('mcp-smithery-rank', payload);
     ctx.log.info(
@@ -142,18 +138,6 @@ const fetcher: Fetcher = {
 };
 
 export default fetcher;
-
-async function publishDisabledAggregate(): Promise<boolean> {
-  const payload: SmitheryRankPayload = {
-    fetchedAt: new Date().toISOString(),
-    total: 0,
-    summary: {},
-    status: 'disabled',
-    reason: 'missing_smithery_api_key',
-  };
-  const result = await writeDataStore('mcp-smithery-rank', payload);
-  return result.source === 'redis';
-}
 
 function done(
   startedAt: string,

@@ -38,7 +38,6 @@ import { extractGithubRepoFullNames, extractUnknownRepoCandidates } from "./_git
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
-import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -288,31 +287,9 @@ const isDirectRun = invokedPath
   : false;
 
 if (isDirectRun) {
-  const startedAt = Date.now();
   main()
-    .then(async () => {
-      try {
-        await writeSourceMetaFromOutcome({
-          source: "arxiv",
-          count: 1,
-          durationMs: Date.now() - startedAt,
-        });
-      } catch (metaErr) {
-        console.error("[meta] arxiv.json write failed:", metaErr);
-      }
-    })
-    .catch(async (err) => {
+    .catch((err) => {
       console.error("scrape-arxiv failed:", err.message ?? err);
-      try {
-        await writeSourceMetaFromOutcome({
-          source: "arxiv",
-          count: 0,
-          durationMs: Date.now() - startedAt,
-          error: err,
-        });
-      } catch (metaErr) {
-        console.error("[meta] arxiv.json error-write failed:", metaErr);
-      }
       process.exitCode = 1;
     })
     .finally(async () => {

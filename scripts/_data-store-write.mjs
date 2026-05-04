@@ -175,29 +175,15 @@ function stampTrackedRepos(value, ts, depth = 0) {
  * shape OR id+stars shape) gets a `lastRefreshedAt` field set to writtenAt.
  * Other records (posts, articles, launches) pass through unmodified.
  *
- * Provenance: when GITHUB_WORKFLOW / GITHUB_RUN_ID / GITHUB_SHA are present
- * (i.e. a GitHub Actions runner) the meta key is written as a JSON object
- * with writer/runId/commit so audits can attribute last-write-wins. Outside
- * GitHub Actions the meta key keeps the legacy bare-ISO-string shape, which
- * `parseWrittenAt` in src/lib/data-store.ts accepts back-compat.
- *
  * @param {string} key       Slug, e.g. "trending" → ss:data:v1:trending
  * @param {unknown} value    Any JSON-serializable value
- * @param {{ ttlSeconds?: number; stampPerRecord?: boolean; writer?: string; runId?: string; commit?: string }} [opts]
+ * @param {{ ttlSeconds?: number; stampPerRecord?: boolean }} [opts]
  *   stampPerRecord defaults to true; pass false to opt out for sources that
- *   manage their own per-record timestamps. Caller-supplied writer/runId/
- *   commit override the GitHub-Actions auto-detection.
+ *   manage their own per-record timestamps.
  * @returns {Promise<{ source: "redis" | "skipped"; writtenAt: string }>}
  */
 export async function writeDataStore(key, value, opts = {}) {
-  // AUDIT-2026-05-04 §B2 — meta carries WriterMeta envelope:
-  //   { ts, writerId, sourceWorkflow, commitSha }
-  // so /admin/staleness can show "GHA scrape-trending wrote this last"
-  // vs "worker oss-trending wrote this last". The reader in
-  // src/lib/data-store.ts (parseWriterMeta) accepts both this envelope
-  // and legacy bare-ISO meta values for back-compat.
-  const writerMeta = buildScriptWriterMeta(opts);
-  const writtenAt = writerMeta.ts;
+  const writtenAt = new Date().toISOString();
 
   if (opts.stampPerRecord !== false && value && typeof value === "object") {
     stampTrackedRepos(value, writtenAt);

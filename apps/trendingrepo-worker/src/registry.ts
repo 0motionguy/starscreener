@@ -43,7 +43,6 @@ import redditBaselines from './fetchers/reddit-baselines/index.js';
 import engagementComposite from './fetchers/engagement-composite/index.js';
 import trendshiftDaily from './fetchers/trendshift-daily/index.js';
 import consensusTrending from './fetchers/consensus-trending/index.js';
-import consensusAnalyst from './fetchers/consensus-analyst/index.js';
 // Phase B Group 2 (social) - lobsters is the only NEW name; bluesky/devto/
 // hackernews/producthunt/reddit replaced their stub bodies in place and so
 // their existing imports above pick up the real implementations transparently.
@@ -68,12 +67,6 @@ import skillDerivatives from './fetchers/skill-derivatives/index.js';
 import skillInstallSnapshot from './fetchers/skill-install-snapshot/index.js';
 import skillForksSnapshot from './fetchers/skill-forks-snapshot/index.js';
 import hotnessSnapshot from './fetchers/hotness-snapshot/index.js';
-import mcpUsageSnapshot from './fetchers/mcp-usage-snapshot/index.js';
-// Funding side-channel fetchers — write `funding-news-crunchbase` and
-// `funding-news-x` keys that consumers may already read but stayed
-// forever stale before registration. AUDIT-2026-05-04 §A4 fix.
-import crunchbase from './fetchers/crunchbase/index.js';
-import xFunding from './fetchers/x-funding/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -95,7 +88,6 @@ export const FETCHERS: Fetcher[] = [
   trendshiftDaily,
   engagementComposite,
   consensusTrending,
-  consensusAnalyst,
   lobsters,
   bluesky,
   mcpRegistryOfficial,
@@ -119,7 +111,6 @@ export const FETCHERS: Fetcher[] = [
   skillInstallSnapshot,
   skillForksSnapshot,
   hotnessSnapshot,
-  mcpUsageSnapshot,
 ];
 
 export function getFetcher(name: string): Fetcher | undefined {

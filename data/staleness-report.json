@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-04T05:38:09.638Z",
+  "generatedAt": "2026-04-29T03:40:18.441Z",
   "sources": [
     {
       "slug": "trending",
@@ -13,43 +13,39 @@
     },
     {
       "slug": "repo-profiles",
-      "total": 1065,
+      "total": 540,
       "stale": 0,
       "thresholdHours": 4,
       "examples": [],
       "notes": [
-        "1065/1065 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
+        "540/540 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
       ]
     },
     {
       "slug": "huggingface-trending",
-      "total": 1000,
+      "total": 100,
       "stale": 0,
       "thresholdHours": 4,
       "examples": [],
       "notes": [
-        "1000/1000 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
+        "100/100 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
       ]
     },
     {
       "slug": "huggingface-datasets",
-      "total": 1000,
+      "total": 0,
       "stale": 0,
       "thresholdHours": 4,
       "examples": [],
-      "notes": [
-        "1000/1000 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
-      ]
+      "notes": []
     },
     {
       "slug": "huggingface-spaces",
-      "total": 1000,
+      "total": 0,
       "stale": 0,
       "thresholdHours": 4,
       "examples": [],
-      "notes": [
-        "1000/1000 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
-      ]
+      "notes": []
     },
     {
       "slug": "npm-packages",
@@ -63,22 +59,22 @@
     },
     {
       "slug": "producthunt-launches",
-      "total": 64,
+      "total": 69,
       "stale": 0,
       "thresholdHours": 32,
       "examples": [],
       "notes": [
-        "64/64 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
+        "69/69 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
       ]
     },
     {
       "slug": "devto-trending",
-      "total": 100,
+      "total": 102,
       "stale": 0,
       "thresholdHours": 52,
       "examples": [],
       "notes": [
-        "100/100 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
+        "102/102 records have no lastRefreshedAt — pre-B2 data, recount on next cron"
       ]
     }
   ]

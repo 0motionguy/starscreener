@@ -215,6 +215,28 @@ export async function writeDataStore(key, value, opts = {}) {
       ? { ex: opts.ttlSeconds }
       : undefined;
 
+  // Build the meta value. JSON-object shape only when at least one
+  // provenance field is present; otherwise keep the bare-ISO-string back-
+  // compat shape that older readers still understand.
+  const writer =
+    opts.writer ??
+    (process.env.GITHUB_WORKFLOW
+      ? `github-actions:${process.env.GITHUB_WORKFLOW}`
+      : undefined);
+  const runId = opts.runId ?? process.env.GITHUB_RUN_ID;
+  const commitFull = opts.commit ?? process.env.GITHUB_SHA;
+  const commit = commitFull ? commitFull.slice(0, 7) : undefined;
+  const hasProvenance =
+    writer !== undefined || runId !== undefined || commit !== undefined;
+  const metaValue = hasProvenance
+    ? JSON.stringify({
+        writtenAt,
+        ...(writer !== undefined ? { writer } : {}),
+        ...(runId !== undefined ? { runId } : {}),
+        ...(commit !== undefined ? { commit } : {}),
+      })
+    : writtenAt;
+
   // Two SETs in parallel. ioredis supports MULTI/EXEC for true atomicity but
   // for our use case (collector scripts that run serially per source) a
   // brief inconsistency window between payload+meta is acceptable — the
@@ -222,7 +244,7 @@ export async function writeDataStore(key, value, opts = {}) {
   // read after meta lands sees both.
   await Promise.all([
     client.set(`${NAMESPACE}:${key}`, payload, setOpts),
-    client.set(`${META_NAMESPACE}:${key}`, metaPayload, setOpts),
+    client.set(`${META_NAMESPACE}:${key}`, metaValue, setOpts),
   ]);
 
   return { source: "redis", writtenAt };

@@ -148,8 +148,8 @@ export default async function HackerNewsTrendingPage() {
             ]}
           />
         }
-        listEyebrow="Story feed · top 50 by score"
-        list={<HnStoryFeed stories={stories} />}
+        listEyebrow="Story feed · 24h / 7d / 30d window"
+        list={<WindowedHnFeed allStories={allStories} />}
       />
     </main>
   );

@@ -20,6 +20,9 @@ import {
   TerminalFeedTable,
   type FeedColumn,
 } from "@/components/feed/TerminalFeedTable";
+import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoLogoUrl } from "@/lib/logos";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -151,11 +154,11 @@ export default async function ArxivTrendingPage() {
             ]}
           />
         }
-        listEyebrow="Paper feed · top 100 by domain momentum"
+        listEyebrow="Paper feed · 24h / 7d / 30d window · domain momentum"
         list={
           <>
             <EnrichmentBanner />
-            <ArxivPaperFeed papers={papers} />
+            <WindowedArxivFeed papers={papers} />
           </>
         }
       />

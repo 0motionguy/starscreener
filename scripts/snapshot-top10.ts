@@ -116,12 +116,8 @@ async function main(): Promise<void> {
 }
 
 main()
-  .then(async () => {
-    await closeDataStore();
-    process.exit(0);
-  })
-  .catch(async (err) => {
+  .then(() => process.exit(0))
+  .catch((err) => {
     console.error("[snapshot-top10] FAILED", err);
-    await closeDataStore();
     process.exit(1);
   });

@@ -106,9 +106,9 @@ export interface DataWriteOptions {
    * Added 2026-05-04 after audit found dual-writer keys with no way to
    * attribute last-write-wins between collector scripts and the worker.
    *
-   * These override or enrich the WriterMeta envelope written beside the
-   * payload. Older `{ writtenAt, writer?, runId?, commit? }` envelopes are
-   * still accepted on read for back-compat.
+   * Shape (when at least one provenance field is set):
+   *   { writtenAt, writer?, runId?, commit? }
+   * Otherwise the meta key remains a bare ISO string for back-compat.
    */
   writer?: string;
   runId?: string;
@@ -361,7 +361,21 @@ class DefaultDataStore implements DataStore {
     const writerMeta = buildWriterMeta(opts);
     const writtenAt = writerMeta.ts;
     const payload = JSON.stringify(value);
-    const metaPayload = JSON.stringify(writerMeta);
+    // Provenance: serialise as JSON object only when at least one field
+    // beyond `writtenAt` is present, to keep the back-compat path with
+    // older readers that expect a bare ISO string.
+    const hasProvenance =
+      opts.writer !== undefined ||
+      opts.runId !== undefined ||
+      opts.commit !== undefined;
+    const metaValue = hasProvenance
+      ? JSON.stringify({
+          writtenAt,
+          ...(opts.writer !== undefined ? { writer: opts.writer } : {}),
+          ...(opts.runId !== undefined ? { runId: opts.runId } : {}),
+          ...(opts.commit !== undefined ? { commit: opts.commit } : {}),
+        })
+      : writtenAt;
 
     // Always update the memory cache so subsequent reads in the same process
     // can hit it even if Redis is unreachable mid-write.
@@ -378,7 +392,7 @@ class DefaultDataStore implements DataStore {
             : undefined;
         await Promise.all([
           this.redis.set(payloadKey(key), payload, setOpts),
-          this.redis.set(metaKey(key), metaPayload, setOpts),
+          this.redis.set(metaKey(key), metaValue, setOpts),
         ]);
       } catch (err) {
         this.onError(err, "write");
@@ -487,11 +501,36 @@ function parsePayload<T>(raw: unknown): T | null {
  * already-parsed objects and raw strings transparently.
  */
 function parseWrittenAt(raw: unknown): string | null {
-  const meta = parseWriterMeta(raw);
-  if (meta?.ts) return meta.ts;
+  if (raw === null || raw === undefined) return null;
   if (typeof raw === "string" && raw.length > 0) {
-    // Legacy: bare ISO string with no envelope.
+    // Two valid string shapes:
+    //   1. Bare ISO timestamp written by older collectors / readers that
+    //      predate writer-provenance (2026-05-04 audit).
+    //   2. JSON-encoded `{ writtenAt, writer?, runId?, commit? }` from the
+    //      same release: Upstash clients hand us the string back unparsed
+    //      because we wrote a JSON.stringify result.
+    if (raw[0] === "{") {
+      try {
+        const parsed = JSON.parse(raw) as { writtenAt?: unknown };
+        if (typeof parsed.writtenAt === "string" && parsed.writtenAt.length > 0) {
+          return parsed.writtenAt;
+        }
+      } catch {
+        // Not valid JSON despite the leading brace; treat as opaque string
+        // and fall through.
+      }
+    }
     return raw;
+  }
+  if (typeof raw === "object") {
+    // Some Upstash clients auto-parse JSON-looking strings into objects.
+    // Accept the new provenance shape transparently; older shape was
+    // string-only so this branch is the new-format path.
+    const parsed = raw as { writtenAt?: unknown };
+    if (typeof parsed.writtenAt === "string" && parsed.writtenAt.length > 0) {
+      return parsed.writtenAt;
+    }
+    return null;
   }
   return null;
 }

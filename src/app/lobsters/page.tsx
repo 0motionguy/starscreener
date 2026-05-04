@@ -139,7 +139,7 @@ export default async function LobstersPage() {
             ]}
           />
         }
-        listEyebrow="Story feed · top 50 by score · repo leaderboard"
+        listEyebrow="Story feed · 24h / 7d / 30d window · repo leaderboard"
         list={
           <div
             className={
@@ -148,7 +148,7 @@ export default async function LobstersPage() {
                 : ""
             }
           >
-            <StoryFeed stories={stories} />
+            <WindowedStoryFeed allStories={allStories} />
             {leaderboard.length > 0 ? (
               <Leaderboard entries={leaderboard.slice(0, 15)} />
             ) : null}

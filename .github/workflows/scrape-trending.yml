@@ -107,33 +107,20 @@ jobs:
         run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
 
       - name: Commit if changed
-        # AUDIT-2026-05-04 fix (Phase A1): the rebase used to die on
-        # `data/unknown-mentions.jsonl` conflicts because 12 workflows
-        # append to that lake file in parallel. We now retry with
-        # `--strategy-option=ours` on conflict, which prefers the
-        # already-committed (HEAD) version of conflicting hunks for our
-        # commit and lets the rebase finish. The lake file is append-only
-        # and consumed daily by `promote-unknown-mentions`, so losing the
-        # interleaved tail-bytes from one run is acceptable; the freshness
-        # of `data/trending.json` + the heartbeat _meta sidecars matters
-        # incomparably more.
-        run: |
-          set -e
-          git config user.name  "trendingrepo-bot"
-          git config user.email "bot@trendingrepo.local"
-          git add data/trending.json data/deltas.json data/hot-collections.json data/recent-repos.json data/repo-metadata.json data/reddit-mentions.json data/reddit-all-posts.json data/hackernews-trending.json data/hackernews-repo-mentions.json data/_meta/reddit.json data/_meta/hackernews.json data/unknown-mentions.jsonl
-          if git diff --quiet --staged; then
-            echo "no changes - skipping commit"
-            exit 0
-          fi
-          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          git commit -m "chore(data): refresh fast discovery snapshots ${TS}"
-          # First try a clean rebase. If it fails (typically on the
-          # append-only lake JSONL), retry with -X ours to keep our HEAD
-          # version of conflicting hunks and unblock the push.
-          if ! git pull --rebase origin main; then
-            echo "::warning::rebase conflict — retrying with -X ours"
-            git rebase --abort || true
-            git pull --rebase -X ours origin main
-          fi
-          git push
+        uses: ./.github/actions/git-commit-data
+        with:
+          message: "chore(data): refresh fast discovery snapshots ${{ steps.ts.outputs.value }}"
+          paths: |
+            data/trending.json
+            data/deltas.json
+            data/hot-collections.json
+            data/recent-repos.json
+            data/repo-metadata.json
+            data/reddit-mentions.json
+            data/reddit-all-posts.json
+            data/hackernews-trending.json
+            data/hackernews-repo-mentions.json
+            data/_meta/reddit.json
+            data/_meta/hackernews.json
+            data/_meta/trending.json
+            data/unknown-mentions.jsonl

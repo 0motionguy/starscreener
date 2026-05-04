@@ -21,6 +21,9 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { MoverRow, type FundingStage } from "@/components/funding/MoverRow";
+import { WindowedFundingBoard } from "@/components/funding/WindowedFundingBoard";
+import { companyLogoUrl } from "@/lib/logos";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 export const revalidate = 600;
 
@@ -172,13 +175,11 @@ export default async function FundingPage() {
       .slice(0, 10)
       .map((signal, index) => {
         // AUDIT-2026-05-04: closes the funding-page no-images gap.
-        // Route extractor logo inputs through the shared sanitizer so legacy
-        // Clearbit URLs do not leak direct third-party image failures into UI.
-        const explicit =
-          signal.extracted?.companyLogoUrl ??
-          signal.extracted?.companyWebsite ??
-          null;
-        const logoUrl = companyLogoUrl(explicit);
+        // Prefer the extractor's pre-resolved logoUrl when populated,
+        // otherwise derive a Google Favicons URL from companyWebsite.
+        const explicit = signal.extracted?.companyLogoUrl ?? null;
+        const logoUrl =
+          explicit ?? companyLogoUrl(signal.extracted?.companyWebsite ?? null);
         return (
           <MoverRow
             key={signal.id}
@@ -412,24 +413,16 @@ export default async function FundingPage() {
             title="Top rounds"
             meta={
               <>
-                <b>{topRounds.length}</b> · extracted
+                <b>biggest</b> · 24h / 7d / 30d
               </>
             }
           />
-          <section className="board funding-board">
-            {topRounds.map((signal, index) => (
-              <MoverRow
-                key={signal.id}
-                rank={index + 1}
-                first={index === 0}
-                name={signalTitle(signal)}
-                meta={`${sourceName(signal.sourcePlatform)} · ${formatAge(signal.publishedAt)}`}
-                amount={signal.extracted?.amountDisplay ?? "Undisclosed"}
-                stage={roundName(signal)}
-                href={signal.sourceUrl}
-              />
-            ))}
-          </section>
+          <WindowedFundingBoard
+            rows24h={rounds24h}
+            rows7d={rounds7d}
+            rows30d={rounds30d}
+            defaultWindow="7d"
+          />
 
           <SectionHead
             num="// 03"

@@ -40,6 +40,10 @@ import {
   FileText,
   GitCompareArrows,
   GraduationCap,
+  Layers,
+  Library,
+  Lightbulb,
+  Network,
   Package,
   Plug,
   Radar,
@@ -622,17 +626,6 @@ export function SidebarContent({
             badgeTone="default"
             active={pathname === "/revenue" || pathname.startsWith("/revenue/")}
           />
-          <V2NavRow
-            href="/agent-commerce"
-            icon={Coins}
-            label="Agent Commerce"
-            badge="x402"
-            badgeTone="accent"
-            active={
-              pathname === "/agent-commerce" ||
-              pathname.startsWith("/agent-commerce/")
-            }
-          />
           {/* "Drop Revenue" sidebar entry hidden 2026-05-03 — page kept on
               disk so direct links still work, but the audit flagged it as
               having no shared data source and no production traffic. Re-enable
@@ -664,6 +657,57 @@ export function SidebarContent({
             icon={Bot}
             label="Cited Repos"
             active={pathname === "/research" || pathname.startsWith("/research/")}
+          />
+        </V2Section>
+
+        {/* EXPLORE */}
+        <V2Section label="EXPLORE">
+          <V2NavRow
+            href="/digest"
+            icon={CalendarDays}
+            label="Digest"
+            active={pathname === "/digest" || pathname.startsWith("/digest/")}
+          />
+          <V2NavRow
+            href="/ideas"
+            icon={Lightbulb}
+            label="Ideas"
+            active={pathname === "/ideas" || pathname.startsWith("/ideas/")}
+          />
+          {/* "Predict" sidebar entry hidden 2026-05-03 — page kept on disk
+              (direct links still work) but the audit flagged the underlying
+              data shape (.data/predictions.jsonl) as un-routed through the
+              data-store, so freshness can't be tracked. Re-enable once
+              predictions land in Redis like the other surfaces. */}
+          <V2NavRow
+            href="/categories"
+            icon={Tags}
+            label="Categories"
+            active={
+              pathname === "/categories" ||
+              pathname.startsWith("/categories/")
+            }
+          />
+          <V2NavRow
+            href="/collections"
+            icon={Library}
+            label="Collections"
+            active={
+              pathname === "/collections" ||
+              pathname.startsWith("/collections/")
+            }
+          />
+          <V2NavRow
+            href="/pricing"
+            icon={Layers}
+            label="Plans"
+            active={pathname === "/pricing"}
+          />
+          <V2NavRow
+            href="/tools/revenue-estimate"
+            icon={Calculator}
+            label="Revenue Tool"
+            active={pathname === "/tools/revenue-estimate"}
           />
         </V2Section>
 

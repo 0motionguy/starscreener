@@ -150,8 +150,8 @@ export default async function BlueskyTrendingPage() {
             ]}
           />
         }
-        listEyebrow="Post feed · top 50 by engagement"
-        list={<BskyPostFeed posts={posts} />}
+        listEyebrow="Post feed · 24h / 7d / 30d window"
+        list={<WindowedBskyFeed allPosts={allPosts} />}
       />
     </main>
   );

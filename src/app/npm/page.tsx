@@ -159,7 +159,7 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
                 pip: NPM_RED,
               },
               {
-                label: "TOP 24H DL",
+                label: "TOP 24H INSTALLS",
                 value: formatCompact(topDownloadValue),
                 sub: topDownloadName,
                 tone: "acc",
@@ -181,7 +181,7 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
             ]}
           />
         }
-        listEyebrow={`Package feed · top ${packages.length} by ${activeWindow} velocity`}
+        listEyebrow={`Package feed · top ${packages.length} by ${activeWindow} install velocity (trending)`}
         list={
           <>
             <TabNav active={activeWindow} />
@@ -230,7 +230,12 @@ function PackageFeed({
   packages: NpmPackageRow[];
   activeWindow: NpmWindow;
 }) {
-  const moveLabel = (window: NpmWindow) => `${window.toUpperCase()} Move`;
+  // P0 INCIDENT 2026-05-02 (user report: "NPM not showing Installs!!!!!
+  // no trending!!!!!"): the column header read "24H Move" which obscured
+  // that the value IS the install count. Renamed to "24H Installs" so the
+  // primary npm signal users come here for is named explicitly.
+  const moveLabel = (window: NpmWindow) =>
+    `${window.toUpperCase()} Installs`;
 
   const columns: FeedColumn<NpmPackageRow>[] = [
     {
@@ -309,7 +314,7 @@ function PackageFeed({
     },
     {
       id: "active-mobile",
-      header: `${activeWindow.toUpperCase()} Move`,
+      header: `${activeWindow.toUpperCase()} Installs`,
       width: "100px",
       align: "right",
       hideAbove: "md",
@@ -431,7 +436,10 @@ function Metric({
     <div className="text-right text-xs tabular-nums">
       {/* Total installs — primary, large, ink-100. NPM's whole point is
           "how many installs?" so this beats the delta in visual weight.
-          Active window goes brighter (ink-000 + 600 weight). */}
+          Active window goes brighter (ink-000 + 600 weight).
+          P0 2026-05-02: relabeled inline suffix "dl" → "installs" so the
+          row reads as "13.4M installs" instead of the cryptic "13.4M dl"
+          users were missing. */}
       <div
         className="font-mono text-[13px]"
         style={{
@@ -444,7 +452,7 @@ function Metric({
           className="ml-0.5 text-[10px]"
           style={{ color: "var(--v4-ink-400)" }}
         >
-          {" "}dl
+          {" "}installs
         </span>
       </div>
       {/* Signed delta — secondary, color-coded green/red. */}

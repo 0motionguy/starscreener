@@ -149,9 +149,26 @@ export async function writeDataStore(
   const metaPayload = JSON.stringify(writerMeta);
   const setOpts = opts.ttlSeconds && opts.ttlSeconds > 0 ? { ex: opts.ttlSeconds } : undefined;
 
+  // Resolve writer: caller wins; otherwise pull from the run.ts-set
+  // current-fetcher slot (also handles the `worker:` prefix). JSON-object
+  // meta only when at least one provenance field is present; otherwise stay
+  // on the bare-ISO-string back-compat shape.
+  const writer =
+    opts.writer ?? (currentFetcherName ? `worker:${currentFetcherName}` : undefined);
+  const hasProvenance =
+    writer !== undefined || opts.runId !== undefined || opts.commit !== undefined;
+  const metaValue = hasProvenance
+    ? JSON.stringify({
+        writtenAt,
+        ...(writer !== undefined ? { writer } : {}),
+        ...(opts.runId !== undefined ? { runId: opts.runId } : {}),
+        ...(opts.commit !== undefined ? { commit: opts.commit } : {}),
+      })
+    : writtenAt;
+
   await Promise.all([
     handle.set(`${NAMESPACE}:${key}`, payload, setOpts),
-    handle.set(`${META_NAMESPACE}:${key}`, metaPayload, setOpts),
+    handle.set(`${META_NAMESPACE}:${key}`, metaValue, setOpts),
   ]);
   return { source: 'redis', writtenAt };
 }

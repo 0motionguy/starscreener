@@ -1,7 +1,7 @@
 import type { SignalRow } from "@/components/signal/SignalTable";
 import { getDataStore, type DataReadResult, type DataSource } from "./data-store";
 import { resolveLogoUrl } from "./logo-url";
-import { mcpEntityLogoUrl, repoLogoUrl } from "./logos";
+import { repoLogoUrl } from "./logos";
 import { skillScorer, type SkillItem } from "./pipeline/scoring/domain/skill";
 import { mcpScorer, type McpItem } from "./pipeline/scoring/domain/mcp";
 import { computeCrossDomainMomentum } from "./pipeline/scoring/cross-domain";

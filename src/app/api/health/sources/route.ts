@@ -16,7 +16,9 @@
 //     differentiate "server up but degraded" from "server down".
 
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
+import { verifyAdminAuth, verifyCronAuth } from "@/lib/api/auth";
 import {
   KNOWN_SOURCES,
   sourceHealthTracker,
@@ -24,6 +26,18 @@ import {
 } from "@/lib/source-health-tracker";
 
 export const runtime = "nodejs";
+
+// Recon-surface gating — circuit-breaker state + last-failure strings leak
+// pipeline topology to anyone who curls. Public callers see the summary
+// only; per-source detail (state, error rates, openedAt, lastFailure) needs
+// CRON_SECRET or admin bearer. Mirrors the pattern in /api/health.
+function canViewDetail(request: NextRequest): boolean {
+  const cronSecret = process.env.CRON_SECRET?.trim();
+  return (
+    (cronSecret ? verifyCronAuth(request).kind === "ok" : false) ||
+    verifyAdminAuth(request).kind === "ok"
+  );
+}
 
 interface SourceBreakerView {
   state: SourceHealthSnapshot["state"];
@@ -75,7 +89,12 @@ function toView(snapshot: SourceHealthSnapshot): SourceBreakerView {
   };
 }
 
-export async function GET(): Promise<NextResponse<HealthSourcesBody>> {
+export async function GET(
+  request: NextRequest,
+): Promise<NextResponse<HealthSourcesBody | Pick<HealthSourcesBody, "fetchedAt" | "summary">>> {
+  const wantsDetail = request.nextUrl.searchParams.get("detail") === "1";
+  const includeDetail = wantsDetail && canViewDetail(request);
+
   // Make sure the canonical list is always represented even before any
   // traffic flows (cold-start scenario on a fresh process).
   for (const id of KNOWN_SOURCES) {
@@ -128,5 +147,15 @@ export async function GET(): Promise<NextResponse<HealthSourcesBody>> {
   // 207 Multi-Status when degraded so monitors can split "down" from
   // "degraded but serving".
   const status = open + halfOpen > 0 ? 207 : 200;
+
+  // Strip recon-surface fields for unauthorized callers — keeps uptime
+  // monitors working (status + summary stay public) but hides per-source
+  // failure messages, openedAt, error rates from drive-by curls.
+  if (!includeDetail) {
+    return NextResponse.json(
+      { fetchedAt: body.fetchedAt, summary: body.summary },
+      { status },
+    );
+  }
   return NextResponse.json(body, { status });
 }

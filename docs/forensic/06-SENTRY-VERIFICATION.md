@@ -1,6 +1,6 @@
 # Sentry Verification - Sprint 1 Phase 1.5
 
-Verification timestamp: `2026-05-04T14:13:10.9460284+08:00`
+Verification timestamp: `2026-05-04T14:24:03.0378696+08:00`
 
 ## Status
 
@@ -8,7 +8,7 @@ Sentry delivery is not fully verified yet.
 
 | Surface | Result | Evidence |
 |---|---|---|
-| Vercel production | MISSING | `vercel env list production` for project `starscreener` returned no `SENTRY_DSN`, `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, or `SENTRY_PROJECT` rows. |
+| Vercel production | MISSING | `vercel env ls production` for project `starscreener` returned no `SENTRY_DSN`, `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, or `SENTRY_PROJECT` rows. |
 | Railway production worker | CONFIGURED | `railway variables --json --environment production --service trendingrepo-worker` confirmed `SENTRY_DSN` is present. |
 | Local shell | MISSING | `SENTRY_AUTH_TOKEN`, `SENTRY_DSN`, `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_ORG`, and `SENTRY_PROJECT` are not present in the local process environment. |
 | Canary event | BLOCKED | The Next.js production runtime has no Vercel Sentry DSN, so `/api/_internal/sentry-canary` cannot produce a real production Sentry event yet. |

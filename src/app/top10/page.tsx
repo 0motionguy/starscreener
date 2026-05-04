@@ -15,11 +15,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 import { getDerivedRepos } from "@/lib/derived-repos";
-import { lastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
-import { refreshRecentReposFromStore } from "@/lib/recent-repos";
 
-import { SITE_NAME, SITE_URL, absoluteUrl, safeJsonLd } from "@/lib/seo";
-import { buildItemListSchema } from "@/lib/seo-repo-schemas";
+import { SITE_NAME, absoluteUrl } from "@/lib/seo";
 import {
   buildRepoTop10,
   emptyBundle,
@@ -32,20 +29,14 @@ import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
+import { LiveDot } from "@/components/ui/LiveDot";
 import { RankRow } from "@/components/ui/RankRow";
-import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
-import { LetterAvatar } from "@/components/shared/LetterAvatar";
-import { Sparkline } from "@/components/shared/Sparkline";
-import { repoLogoUrl } from "@/lib/logos";
 
 // ISR — 10-minute cadence matches the V4 leaderboard surfaces. Underlying
 // readers refresh every 6 hours via cron; tighter cache wastes work
 // without buying freshness, looser one drifts from the consensus board
 // users land on next.
-// 60s ISR: page re-renders against fresh Redis at most every minute.
-// Refresh hooks at the top of the route handler dedupe within a 30s
-// window, so a true cold-render only happens after the cache expires.
-export const revalidate = 60;
+export const revalidate = 600;
 
 const TITLE = `Top 10 — ${SITE_NAME}`;
 const DESCRIPTION =
@@ -105,14 +96,10 @@ const PANEL_HEAD_STYLE = {
 };
 
 export default async function Top10RootPage() {
-  // Hydrate the in-memory cache from Redis before reading it. Without
-  // this the cold-start lambda would render whatever bundled JSON was
-  // baked into the deploy (often stale or empty). Per CLAUDE.md
-  // "Critical Conventions" rule.
-  await Promise.all([
-    refreshTrendingFromStore(),
-    refreshRecentReposFromStore(),
-  ]);
+  // Repo set is the only signal this page renders. getDerivedRepos pulls
+  // from the same in-memory cache the homepage primes; the bundled JSON
+  // seed handles cold-start. No per-render refresh hook needed —
+  // cross-signal score on a 7d window is steady across 10-minute ticks.
   const repos = getDerivedRepos();
 
   // Reuse the canonical top-10 repo bundle so /top10 and the per-category
@@ -156,24 +143,8 @@ export default async function Top10RootPage() {
   const computedAgo = getRelativeTime(computedAt);
   const computedClock = computedAt.slice(11, 19);
 
-  const top10ItemList = buildItemListSchema({
-    listId: `${SITE_URL.replace(/\/+$/, "")}/top10#list`,
-    name: "Top 10 Trending Repos (7-day cross-signal)",
-    description:
-      "The ten repos with the strongest 7-day cross-signal score across GitHub, Reddit, HN, ProductHunt, Bluesky, dev.to, Lobsters.",
-    items: topItems.map((item) => ({
-      url: absoluteUrl(item.href ?? `/repo/${item.owner}/${item.slug}`),
-      name: item.title,
-      description: item.description ?? undefined,
-    })),
-  });
-
   return (
     <main className="home-surface">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: safeJsonLd(top10ItemList) }}
-      />
       <PageHead
         crumb={
           <>
@@ -186,7 +157,7 @@ export default async function Top10RootPage() {
           <>
             <span className="big">{computedClock}</span>
             <span className="muted">UTC · COMPUTED</span>
-            <FreshnessBadge source="mcp" lastUpdatedAt={lastFetchedAt} />
+            <LiveDot label="FEED LIVE" />
           </>
         }
       />
@@ -257,6 +228,9 @@ export default async function Top10RootPage() {
         <div style={PANEL_HEAD_STYLE}>
           <span style={{ color: "var(--v4-acc)" }}>{"// LEADERBOARD"}</span>
           <span>· CROSS-SIGNAL · 7D</span>
+          <span style={{ marginLeft: "auto" }}>
+            <LiveDot label="LIVE" />
+          </span>
         </div>
         {topItems.length === 0 ? (
           <div
@@ -270,41 +244,10 @@ export default async function Top10RootPage() {
             fetchers refresh.
           </div>
         ) : (
-          topItems.map((item, i) => {
-            const sourceRepo = repoByFullName.get(item.slug);
-            return (
+          topItems.map((item, i) => (
             <RankRow
               key={item.slug}
               rank={item.rank}
-              avatar={
-                // 3-tier avatar fallback per AUDIT-2026-05-04 logo-coverage
-                // criterion: enriched sourceRepo.ownerAvatarUrl → derived
-                // GitHub avatar URL (stable public endpoint, redirects to
-                // monogram on 404) → deterministic LetterAvatar tile.
-                sourceRepo?.ownerAvatarUrl || repoLogoUrl(item.slug, 28) ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={sourceRepo?.ownerAvatarUrl ?? repoLogoUrl(item.slug, 28) ?? undefined}
-                    alt=""
-                    width={28}
-                    height={28}
-                    style={{
-                      width: 28,
-                      height: 28,
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                      flexShrink: 0,
-                    }}
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                  />
-                ) : (
-                  <LetterAvatar
-                    seed={item.owner ?? item.title ?? item.slug}
-                    size={28}
-                  />
-                )
-              }
               title={
                 item.owner ? (
                   <>
@@ -317,10 +260,7 @@ export default async function Top10RootPage() {
                 )
               }
               desc={item.description}
-              metric={{
-                value: formatNumber(sourceRepo?.stars ?? 0),
-                label: "STARS",
-              }}
+              metric={{ value: item.score.toFixed(2), label: "/ 5.0" }}
               delta={
                 item.deltaPct !== undefined
                   ? {
@@ -331,23 +271,13 @@ export default async function Top10RootPage() {
                           : item.deltaPct < 0
                             ? "down"
                             : "flat",
-                      sparkline:
-                        item.sparkline && item.sparkline.length >= 2 ? (
-                          <Sparkline
-                            data={item.sparkline}
-                            width={72}
-                            height={20}
-                            positive={(item.deltaPct ?? 0) >= 0}
-                          />
-                        ) : undefined,
                     }
                   : undefined
               }
               href={item.href}
               first={i === 0}
             />
-            );
-          })
+          ))
         )}
       </section>
 

@@ -17,6 +17,8 @@ import {
   serverError,
 } from "../error-response";
 import { AdminFatalError } from "@/lib/errors";
+=======
+import { errorEnvelope } from "../error-response";
 
 test("errorEnvelope returns {ok:false, error} with no code key when code omitted", () => {
   const env = errorEnvelope("bad thing");
@@ -65,3 +67,4 @@ test("serverError forwards EngineError source/category tags to Sentry", async ()
     __resetErrorResponseSentryCaptureForTests();
   }
 });
+=======

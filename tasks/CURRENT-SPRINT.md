@@ -96,7 +96,8 @@ See individual phase prompts.
   `npm run typecheck`, `npm run lint`, `npm run test`, and `npm run build`
   passed. Local auth probe returned API/page HTTP 200 with pool rows populated.
 - 2026-05-04 Phase 1.5 partial: `EngineError` hierarchy expanded to the
-  38-class target, `src/instrumentation.ts` logs `SENTRY_DSN` startup status,
+  38-class target, active root `instrumentation.ts` plus
+  `src/instrumentation.ts` log `SENTRY_DSN` startup status,
   `/api/_internal/sentry-canary` exists behind `CRON_SECRET` and
   `SENTRY_CANARY_ENABLED=1`, and `scripts/check-freshness.mts` reports a
   Sentry readiness row. Verification is blocked because Vercel production is

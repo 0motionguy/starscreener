@@ -11,6 +11,7 @@ Sentry delivery is not fully verified yet.
 | Vercel production | MISSING | `vercel env ls production` for project `starscreener` returned no `SENTRY_DSN`, `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, or `SENTRY_PROJECT` rows. |
 | Railway production worker | CONFIGURED | `railway variables --json --environment production --service trendingrepo-worker` confirmed `SENTRY_DSN` is present. |
 | Local shell | MISSING | `SENTRY_AUTH_TOKEN`, `SENTRY_DSN`, `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_ORG`, and `SENTRY_PROJECT` are not present in the local process environment. |
+| Local Next startup | VERIFIED | `next dev -p 3024` logged `[STARTUP] SENTRY_DSN not configured - runtime errors will not be reported`. Next compiled the active root `instrumentation.ts`; `src/instrumentation.ts` carries the same startup check for the sprint contract. |
 | Canary event | BLOCKED | The Next.js production runtime has no Vercel Sentry DSN, so `/api/_internal/sentry-canary` cannot produce a real production Sentry event yet. |
 
 Required operator action: add `SENTRY_DSN` to Vercel production for `starscreener`. Add `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and `SENTRY_PROJECT` only if source-map upload and API verification should run from CI/operator shells. Do not paste values in chat.

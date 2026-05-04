@@ -831,7 +831,7 @@ export function CompareChart({
           </ResponsiveContainer>
         </div>
       )}
-    </ChartShell>
+    </div>
   );
 }
 

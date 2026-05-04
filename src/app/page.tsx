@@ -452,7 +452,7 @@ function EntityHeroRow({
         )}
         <span className="txt">{entity.name}</span>
         <span className="sub">{entity.sub}</span>
-      </span>
+      </div>
       <span className={`delta-stack ${entity.delta < 0 ? "dn" : ""}`}>
         <span className="d">
           {formatDelta(entity.delta)}

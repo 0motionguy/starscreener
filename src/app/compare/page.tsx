@@ -105,6 +105,6 @@ export default async function ComparePage({ searchParams }: ComparePageProps) {
           )}
         </div>
       </section>
-    </main>
+    </>
   );
 }

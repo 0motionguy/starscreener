@@ -15,8 +15,6 @@ import {
 } from "@/lib/api/error-response";
 import { getDataStore } from "@/lib/data-store";
 import { OpsAlertFatalError } from "@/lib/errors";
-=======
-=======
 import { deriveHealth, type FreshnessHealth } from "@/lib/freshness-health";
 
 export const runtime = "nodejs";
@@ -656,11 +654,6 @@ async function inspectSource(spec: SourceSpec, nowMs: number): Promise<SourceSta
 // rejects non-route exports from this file). resolveInspectSource is called
 // at handler-time so test overrides registered after module import still apply.
 import { resolveInspectSource } from "./_test-hooks";
-=======
-let inspectSourceForRoute: (
-  spec: SourceSpec,
-  nowMs: number,
-) => Promise<SourceState> = inspectSource;
 
 function summarize(sources: SourceState[]): FreshnessStateResponse["summary"] {
   return {
@@ -686,8 +679,6 @@ export async function GET(
     const nowMs = Date.now();
     const sources = await Promise.all(
       SOURCE_SPECS.map((spec) => resolveInspectSource(inspectSource)(spec, nowMs)),
-=======
-      SOURCE_SPECS.map((spec) => inspectSourceForRoute(spec, nowMs)),
     );
     sources.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -712,16 +703,5 @@ export async function GET(
       status: 500,
     });
   }
-=======
-}
-
-export function __setInspectSourceForTests(
-  fn: typeof inspectSourceForRoute,
-): void {
-  inspectSourceForRoute = fn;
-}
-
-export function __resetInspectSourceForTests(): void {
-  inspectSourceForRoute = inspectSource;
 }
 

@@ -1,0 +1,26 @@
+name: Auto-merge bot PRs
+
+# When a PR is labeled `auto-merge`, enable GitHub's native auto-merge.
+# GitHub will then merge the PR automatically once required-status-checks pass.
+# Direct push to main remains blocked by branch protection.
+
+on:
+  pull_request_target:
+    types: [labeled, opened, synchronize, reopened]
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  auto-merge:
+    if: contains(github.event.pull_request.labels.*.name, 'auto-merge')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enable auto-merge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          echo "Enabling auto-merge on PR #${PR_NUMBER}"
+          gh pr merge "${PR_NUMBER}" --auto --squash --repo "${GITHUB_REPOSITORY}"

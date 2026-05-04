@@ -3,6 +3,7 @@
 import "./_load-env.mjs";
 
 type Status = "GREEN" | "YELLOW" | "RED" | "DEAD";
+type SentryStatus = "CONFIGURED" | "MISSING" | "TEST_FIRED";
 
 interface FreshnessSource {
   name: string;
@@ -31,10 +32,25 @@ interface HealthState {
   computedAt?: string | null;
 }
 
+interface SentryState {
+  status: SentryStatus;
+  detail: string;
+  eventId?: string;
+}
+
+interface SentryCanaryResponse {
+  ok?: false;
+  error?: string;
+  reason?: string;
+  code?: string;
+  eventId?: string;
+}
+
 interface Options {
   baseUrl: string;
   json: boolean;
   timeoutMs: number;
+  sentryCanary: boolean;
 }
 
 const DEFAULT_BASE_URL = "http://localhost:3023";
@@ -44,9 +60,10 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 
 function usage(): string {
   return [
-    "usage: npm run freshness:check -- [--prod] [--base-url <url>] [--json]",
+    "usage: npm run freshness:check -- [--prod] [--base-url <url>] [--json] [--sentry-canary]",
     "",
     "Checks /api/health and /api/cron/freshness/state.",
+    "--sentry-canary additionally calls /api/_internal/sentry-canary.",
     "Default target is http://localhost:3023. --prod targets https://trendingrepo.com.",
   ].join("\n");
 }
@@ -56,6 +73,7 @@ function parseArgs(argv: string[]): Options {
   let baseUrl: string | null = null;
   let json = false;
   let timeoutMs = DEFAULT_TIMEOUT_MS;
+  let sentryCanary = false;
 
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
@@ -63,6 +81,8 @@ function parseArgs(argv: string[]): Options {
       prod = true;
     } else if (arg === "--json") {
       json = true;
+    } else if (arg === "--sentry-canary") {
+      sentryCanary = true;
     } else if (arg === "--help" || arg === "-h") {
       console.log(usage());
       process.exit(0);
@@ -90,6 +110,7 @@ function parseArgs(argv: string[]): Options {
     baseUrl: normalizeBaseUrl(baseUrl ?? (prod ? PROD_BASE_URL : DEFAULT_BASE_URL)),
     json,
     timeoutMs,
+    sentryCanary,
   };
 }
 
@@ -178,6 +199,78 @@ async function fetchJson<T>(url: string, timeoutMs: number, auth: boolean): Prom
   }
 }
 
+async function fetchSentryCanary(opts: Options): Promise<SentryState | null> {
+  if (!opts.sentryCanary) return null;
+
+  const url = endpoint(opts.baseUrl, "/api/_internal/sentry-canary");
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), opts.timeoutMs);
+  const headers: Record<string, string> = {
+    Accept: "application/json",
+  };
+
+  if (process.env.CRON_SECRET) {
+    assertSafeAuthDestination(url);
+    headers.Authorization = `Bearer ${process.env.CRON_SECRET}`;
+  }
+
+  try {
+    const response = await fetch(url, { headers, signal: controller.signal });
+    const text = await response.text();
+    let body: SentryCanaryResponse | null = null;
+    try {
+      body = text ? JSON.parse(text) as SentryCanaryResponse : null;
+    } catch {
+      body = null;
+    }
+
+    if (response.status >= 500) {
+      return {
+        status: "TEST_FIRED",
+        detail: `canary endpoint returned HTTP ${response.status}`,
+        ...(body.eventId ? { eventId: body.eventId } : {}),
+      };
+    }
+
+    return {
+      status: sentryDsnConfigured() ? "CONFIGURED" : "MISSING",
+      detail: `canary probe returned HTTP ${response.status}`,
+    };
+  } catch (error) {
+    const message =
+      error instanceof Error && error.name === "AbortError"
+        ? `canary probe timed out after ${opts.timeoutMs}ms`
+        : `canary probe failed: ${error instanceof Error ? error.message : String(error)}`;
+    return {
+      status: sentryDsnConfigured() ? "CONFIGURED" : "MISSING",
+      detail: redactSecret(message),
+    };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function sentryDsnConfigured(): boolean {
+  return Boolean((process.env.SENTRY_DSN ?? "").trim());
+}
+
+async function checkSentryStatus(opts: Options): Promise<SentryState> {
+  const canary = await fetchSentryCanary(opts);
+  if (canary) return canary;
+
+  if (sentryDsnConfigured()) {
+    return {
+      status: "CONFIGURED",
+      detail: "SENTRY_DSN present in this runtime",
+    };
+  }
+
+  return {
+    status: "MISSING",
+    detail: "SENTRY_DSN missing in this runtime",
+  };
+}
+
 function sanitizeUrl(raw: string): string {
   const url = new URL(raw);
   url.username = "";
@@ -256,7 +349,12 @@ function exitCodeFor(state: FreshnessState): number {
   return 0;
 }
 
-function printReport(opts: Options, health: HealthState, state: FreshnessState): void {
+function printReport(
+  opts: Options,
+  health: HealthState,
+  state: FreshnessState,
+  sentry: SentryState,
+): void {
   console.log(
     `freshness-check target=${opts.baseUrl} health=${health.status ?? "unknown"} sourceStatus=${health.sourceStatus ?? "unknown"} checkedAt=${state.checkedAt}`,
   );
@@ -278,6 +376,9 @@ function printReport(opts: Options, health: HealthState, state: FreshnessState):
   console.log(
     `summary: green=${state.summary.green} yellow=${state.summary.yellow} red=${state.summary.red} dead=${state.summary.dead} blocking_non_green=${blockingNonGreen} advisory_non_green=${advisoryNonGreen}`,
   );
+  console.log(
+    `Sentry: ${sentry.status}${sentry.eventId ? ` eventId=${sentry.eventId}` : ""}`,
+  );
 }
 
 async function main(): Promise<void> {
@@ -285,18 +386,19 @@ async function main(): Promise<void> {
   const healthUrl = endpoint(opts.baseUrl, "/api/health?soft=1");
   const stateUrl = endpoint(opts.baseUrl, "/api/cron/freshness/state");
 
-  const [health, state] = await Promise.all([
+  const [health, state, sentry] = await Promise.all([
     fetchJson<HealthState>(healthUrl, opts.timeoutMs, false),
     fetchJson<FreshnessState>(stateUrl, opts.timeoutMs, true),
+    checkSentryStatus(opts),
   ]);
 
   validateFreshnessState(state);
   const code = exitCodeFor(state);
 
   if (opts.json) {
-    console.log(JSON.stringify({ target: opts.baseUrl, health, freshness: state, exitCode: code }, null, 2));
+    console.log(JSON.stringify({ target: opts.baseUrl, health, freshness: state, sentry, exitCode: code }, null, 2));
   } else {
-    printReport(opts, health, state);
+    printReport(opts, health, state, sentry);
     if (code === 0) {
       const advisoryNonGreen = state.sources.filter(
         (source) => source.blocking === false && source.status !== "GREEN",

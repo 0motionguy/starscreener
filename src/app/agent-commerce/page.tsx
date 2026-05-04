@@ -13,12 +13,28 @@ import { AgentCommerceCard } from "@/components/agent-commerce/AgentCommerceCard
 import { AgentCommerceFilterBar } from "@/components/agent-commerce/AgentCommerceFilterBar";
 import { AgentCommerceTabs } from "@/components/agent-commerce/AgentCommerceTabs";
 import {
+  AgentCommerceTicker,
+  type AgentCommerceTickerItem,
+} from "@/components/agent-commerce/AgentCommerceTicker";
+import {
   getAgentCommerceFile,
   getAgentCommerceItems,
   getAgentCommerceStats,
   isAgentCommerceCold,
   refreshAgentCommerceFromStore,
 } from "@/lib/agent-commerce";
+import {
+  getBaseX402Onchain,
+  refreshBaseX402OnchainFromStore,
+} from "@/lib/base-x402-onchain";
+import {
+  getSolanaX402Onchain,
+  refreshSolanaX402OnchainFromStore,
+} from "@/lib/solana-x402-onchain";
+import {
+  getDuneX402Volume,
+  refreshDuneX402VolumeFromStore,
+} from "@/lib/dune-x402-volume";
 import {
   applyFilter,
   parseCategory,
@@ -280,7 +296,12 @@ const synthSparkline = (() => {
 })();
 
 export default async function AgentCommercePage({ searchParams }: PageProps) {
-  await refreshAgentCommerceFromStore();
+  await Promise.all([
+    refreshAgentCommerceFromStore(),
+    refreshBaseX402OnchainFromStore(),
+    refreshSolanaX402OnchainFromStore(),
+    refreshDuneX402VolumeFromStore(),
+  ]);
   const sp = (await searchParams) ?? {};
   const baseQuery = buildBaseQuery(sp);
 
@@ -473,6 +494,97 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
   const topMcp = topMcpServers();
   const topX402List = topX402();
 
+  // Token-economy boards (CoinGecko). Filter to entities with a tokenSymbol.
+  const tokenItems = all.filter((i) => i.live?.tokenSymbol);
+  const topTokensByMcap = tokenItems
+    .slice()
+    .sort(
+      (a, b) =>
+        (b.live?.marketCapUsd ?? 0) - (a.live?.marketCapUsd ?? 0),
+    )
+    .slice(0, 8);
+  const topTokenGainers = tokenItems
+    .filter((i) => Number.isFinite(i.live?.priceChange24hPct))
+    .slice()
+    .sort(
+      (a, b) =>
+        (b.live?.priceChange24hPct ?? 0) -
+        (a.live?.priceChange24hPct ?? 0),
+    )
+    .slice(0, 8);
+  const tokenMcapTotal = tokenItems.reduce(
+    (a, b) => a + (b.live?.marketCapUsd ?? 0),
+    0,
+  );
+
+  // Live ticker items: top token movers ± freshly-pushed GitHub repos +
+  // newest verified entities. Capped at 24 total (12 unique × 2 looped).
+  const tickerItems: AgentCommerceTickerItem[] = [];
+  for (const item of topTokenGainers.slice(0, 5)) {
+    const change = item.live?.priceChange24hPct ?? 0;
+    tickerItems.push({
+      kind: change >= 0 ? "token-up" : "token-down",
+      href: `/agent-commerce/${item.slug}`,
+      label: `$${item.live?.tokenSymbol ?? ""}`,
+      text: item.name,
+      value: `${change >= 0 ? "+" : ""}${change.toFixed(1)}%`,
+      down: change < 0,
+    });
+  }
+  const tokenLosers = tokenItems
+    .filter((i) => Number.isFinite(i.live?.priceChange24hPct))
+    .slice()
+    .sort(
+      (a, b) =>
+        (a.live?.priceChange24hPct ?? 0) -
+        (b.live?.priceChange24hPct ?? 0),
+    )
+    .slice(0, 3);
+  for (const item of tokenLosers) {
+    const change = item.live?.priceChange24hPct ?? 0;
+    tickerItems.push({
+      kind: "token-down",
+      href: `/agent-commerce/${item.slug}`,
+      label: `$${item.live?.tokenSymbol ?? ""}`,
+      text: item.name,
+      value: `${change.toFixed(1)}%`,
+      down: true,
+    });
+  }
+  const freshGithub = all
+    .filter(
+      (i): i is AgentCommerceItem & {
+        live: { pushedAt: string; stars: number };
+      } =>
+        Boolean(
+          i.live?.pushedAt &&
+            typeof i.live.stars === "number" &&
+            i.live.stars > 50,
+        ),
+    )
+    .slice()
+    .sort(
+      (a, b) =>
+        new Date(b.live.pushedAt).getTime() -
+        new Date(a.live.pushedAt).getTime(),
+    )
+    .slice(0, 4);
+  for (const item of freshGithub) {
+    const days = Math.max(
+      0,
+      Math.floor(
+        (Date.now() - new Date(item.live.pushedAt).getTime()) / 86_400_000,
+      ),
+    );
+    tickerItems.push({
+      kind: "github-push",
+      href: `/agent-commerce/${item.slug}`,
+      label: item.name,
+      text: `★${item.live.stars.toLocaleString("en-US")}`,
+      value: days === 0 ? "today" : `${days}d ago`,
+    });
+  }
+
   return (
     <main className="home-surface agent-commerce-page">
       <section className="page-head">
@@ -521,6 +633,8 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
         <Metric label="MCP" value={stats.mcpServerCount} sub="servers" tone="consensus" pip />
         <Metric label="AISO ≥80" value={stats.highAisoCount} sub="visible" tone="warning" pip />
       </MetricGrid>
+
+      <AgentCommerceTicker items={tickerItems} />
 
       <AgentCommerceTabs active={filter.tab} counts={tabCounts} baseQuery={baseQuery} />
 
@@ -824,6 +938,56 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
                           dev·{item.live?.devtoMentions?.count ?? 0}
                         </span>
                       ) : null}
+                      {typeof item.scores.aisoScore === "number" ? (
+                        <span
+                          style={{
+                            marginLeft: 6,
+                            color:
+                              item.scores.aisoScore >= 80
+                                ? "var(--color-gold)"
+                                : item.scores.aisoScore >= 60
+                                  ? "var(--color-warning)"
+                                  : "var(--color-text-faint)",
+                            fontWeight: 700,
+                          }}
+                          title={`AISO score ${item.scores.aisoScore}`}
+                        >
+                          aiso·{item.scores.aisoScore}
+                        </span>
+                      ) : null}
+                      {item.live?.tokenSymbol ? (
+                        <span
+                          style={{
+                            marginLeft: 6,
+                            color: "#a78bfa",
+                            fontWeight: 700,
+                          }}
+                          title={
+                            item.live.marketCapUsd
+                              ? `Market cap $${(item.live.marketCapUsd / 1e6).toFixed(0)}M`
+                              : undefined
+                          }
+                        >
+                          ${item.live.tokenSymbol}
+                          {Number.isFinite(item.live.priceChange24hPct) ? (
+                            <em
+                              style={{
+                                fontStyle: "normal",
+                                marginLeft: 3,
+                                color:
+                                  (item.live.priceChange24hPct ?? 0) >= 0
+                                    ? "#34d399"
+                                    : "#f87171",
+                              }}
+                            >
+                              {(item.live.priceChange24hPct ?? 0) >= 0
+                                ? "+"
+                                : ""}
+                              {(item.live.priceChange24hPct ?? 0).toFixed(1)}%
+                            </em>
+                          ) : null}
+                        </span>
+                      ) : null}
                     </span>
                   </span>
                   <span style={{ color: tone, alignSelf: "center" }}>
@@ -1075,6 +1239,844 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
               </CardBody>
             </Card>
           </div>
+
+          {/* ========== 04b — TOKEN ECONOMY (CoinGecko) ========== */}
+          {tokenItems.length > 0 ? (
+            <>
+              <div className="sec-head">
+                <span className="sec-num">{"// 04b"}</span>
+                <h2 className="sec-title">Agent token economy</h2>
+                <span className="sec-meta">
+                  <b>{tokenItems.length}</b> tokens · combined mcap{" "}
+                  <b>${(tokenMcapTotal / 1e9).toFixed(2)}B</b>
+                </span>
+              </div>
+              <div className="grid">
+                <Card className="col-6">
+                  <CardHeader showCorner right={<span>by mcap</span>}>
+                    Top agent tokens
+                  </CardHeader>
+                  <CardBody>
+                    {topTokensByMcap.map((item, idx) => {
+                      const mcap = item.live?.marketCapUsd ?? 0;
+                      const change = item.live?.priceChange24hPct ?? 0;
+                      const positive = change >= 0;
+                      return (
+                        <Link
+                          key={item.id}
+                          href={`/agent-commerce/${item.slug}`}
+                          style={{
+                            display: "grid",
+                            gridTemplateColumns:
+                              "20px 70px minmax(0, 1fr) 80px 64px",
+                            alignItems: "center",
+                            gap: 10,
+                            padding: "8px 12px",
+                            borderBottom:
+                              "1px solid var(--color-border-subtle)",
+                            textDecoration: "none",
+                            color: "inherit",
+                            fontFamily: "var(--font-mono, ui-monospace)",
+                            fontSize: 12,
+                          }}
+                        >
+                          <span style={{ color: "var(--color-text-faint)" }}>
+                            {String(idx + 1).padStart(2, "0")}
+                          </span>
+                          <span style={{ color: "#a78bfa", fontWeight: 700 }}>
+                            ${item.live?.tokenSymbol}
+                          </span>
+                          <span
+                            style={{
+                              color: "var(--color-text-default)",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {item.name}
+                          </span>
+                          <span style={{ textAlign: "right", color: "#fbbf24" }}>
+                            {mcap >= 1e9
+                              ? `$${(mcap / 1e9).toFixed(2)}B`
+                              : `$${(mcap / 1e6).toFixed(0)}M`}
+                          </span>
+                          <span
+                            style={{
+                              textAlign: "right",
+                              color: positive ? "#34d399" : "#f87171",
+                              fontWeight: 700,
+                            }}
+                          >
+                            {positive ? "+" : ""}
+                            {change.toFixed(1)}%
+                          </span>
+                        </Link>
+                      );
+                    })}
+                  </CardBody>
+                </Card>
+                <Card className="col-6">
+                  <CardHeader showCorner right={<span>24h gainers</span>}>
+                    Top movers
+                  </CardHeader>
+                  <CardBody>
+                    {topTokenGainers.map((item, idx) => {
+                      const change = item.live?.priceChange24hPct ?? 0;
+                      const positive = change >= 0;
+                      return (
+                        <Link
+                          key={item.id}
+                          href={`/agent-commerce/${item.slug}`}
+                          style={{
+                            display: "grid",
+                            gridTemplateColumns:
+                              "20px 70px minmax(0, 1fr) 64px",
+                            alignItems: "center",
+                            gap: 10,
+                            padding: "8px 12px",
+                            borderBottom:
+                              "1px solid var(--color-border-subtle)",
+                            textDecoration: "none",
+                            color: "inherit",
+                            fontFamily: "var(--font-mono, ui-monospace)",
+                            fontSize: 12,
+                          }}
+                        >
+                          <span style={{ color: "var(--color-text-faint)" }}>
+                            {String(idx + 1).padStart(2, "0")}
+                          </span>
+                          <span style={{ color: "#a78bfa", fontWeight: 700 }}>
+                            ${item.live?.tokenSymbol}
+                          </span>
+                          <span
+                            style={{
+                              color: "var(--color-text-default)",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {item.name}
+                          </span>
+                          <span
+                            style={{
+                              textAlign: "right",
+                              color: positive ? "#34d399" : "#f87171",
+                              fontWeight: 700,
+                            }}
+                          >
+                            {positive ? "+" : ""}
+                            {change.toFixed(1)}%
+                          </span>
+                        </Link>
+                      );
+                    })}
+                  </CardBody>
+                </Card>
+              </div>
+            </>
+          ) : null}
+
+          {/* ========== 04bx — CROSS-CHAIN COMBINED TOTALS ========== */}
+          {(() => {
+            const base = getBaseX402Onchain();
+            const sol = getSolanaX402Onchain();
+            const baseTotal = base?.totalSettlements ?? 0;
+            const solTotal = sol?.totalSettlements ?? 0;
+            const total = baseTotal + solTotal;
+            if (total <= 0) return null;
+            const baseFacs = Object.keys(base?.byFacilitator ?? {}).length;
+            const solFacs = Object.keys(sol?.byFacilitator ?? {}).length;
+            const facs = baseFacs + solFacs;
+            const basePct = (baseTotal / total) * 100;
+            const solPct = 100 - basePct;
+            const have: string[] = [];
+            if (baseTotal > 0) have.push("Base");
+            if (solTotal > 0) have.push("Solana");
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  padding: "10px 14px",
+                  margin: "0 0 12px",
+                  border: "1px solid var(--color-border-subtle)",
+                  borderLeft: "2px solid var(--color-accent)",
+                  background: "var(--color-bg-canvas)",
+                  fontFamily: "var(--font-mono, ui-monospace)",
+                  fontSize: 12,
+                  flexWrap: "wrap",
+                }}
+              >
+                <span style={{ color: "var(--color-text-faint)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+                  cross-chain x402 ·
+                </span>
+                <span style={{ color: "var(--color-text-default)" }}>
+                  <b>{total.toLocaleString("en-US")}</b> settlements
+                </span>
+                <span style={{ color: "var(--color-text-faint)" }}>·</span>
+                <span style={{ color: "var(--color-text-default)" }}>
+                  <b>{facs}</b> facilitators
+                </span>
+                <span style={{ color: "var(--color-text-faint)" }}>·</span>
+                <span style={{ color: "var(--color-text-faint)" }}>
+                  {have.join(" + ")}
+                </span>
+                {baseTotal > 0 && solTotal > 0 ? (
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      marginLeft: "auto",
+                      minWidth: 220,
+                    }}
+                  >
+                    <span style={{ color: "#3b82f6" }}>Base {basePct.toFixed(0)}%</span>
+                    <span
+                      style={{
+                        position: "relative",
+                        flex: 1,
+                        height: 6,
+                        background: "var(--color-border-subtle)",
+                        borderRadius: 3,
+                        overflow: "hidden",
+                        minWidth: 80,
+                      }}
+                    >
+                      <span style={{ position: "absolute", inset: 0, width: `${basePct}%`, background: "#3b82f6" }} />
+                      <span style={{ position: "absolute", top: 0, bottom: 0, left: `${basePct}%`, width: `${solPct}%`, background: "#a78bfa" }} />
+                    </span>
+                    <span style={{ color: "#a78bfa" }}>Sol {solPct.toFixed(0)}%</span>
+                  </span>
+                ) : null}
+              </div>
+            );
+          })()}
+
+          {/* ========== 04c — ON-CHAIN x402 SETTLEMENTS (Base) ========== */}
+          {(() => {
+            // Source: scripts/fetch-base-x402-onchain.mjs → .data/base-x402-onchain.json
+            // (free Blockscout v2 + Merit-Systems/x402scan address book)
+            // Read via data-store (Redis-first, .data/ file fallback) — refresh
+            // hook is awaited at the top of the page component.
+            const onchain = getBaseX402Onchain();
+            if (!onchain || !onchain.totalSettlements) return null;
+            const total = onchain.totalSettlements;
+            const facs = Object.entries(onchain.byFacilitator ?? {})
+              .map(([name, v]) => ({
+                name,
+                count: v.x402Settlements,
+                share: total > 0 ? (v.x402Settlements / total) * 100 : 0,
+              }))
+              .sort((a, b) => b.count - a.count);
+          const days = Object.entries(onchain.byDay ?? {})
+            .sort(([a], [b]) => (a < b ? -1 : 1))
+            .slice(-21);
+            const maxDay = Math.max(...days.map(([, v]) => v.txs), 1);
+            const facColor: Record<string, string> = {
+              Coinbase: "#3b82f6",
+              Heurist: "var(--color-violet)",
+              CodeNut: "#f59e0b",
+              Thirdweb: "#34d399",
+            };
+            return (
+              <>
+                <div className="sec-head">
+                  <span className="sec-num">{"// 04c"}</span>
+                  <h2 className="sec-title">On-chain x402 settlements</h2>
+                  <span className="sec-meta">
+                    Base · <b>{total.toLocaleString("en-US")}</b> settlements ·{" "}
+                    <b>{Object.keys(onchain.byFacilitator ?? {}).length}</b>{" "}
+                    facilitators · free via Blockscout
+                  </span>
+                </div>
+                <div className="grid">
+                  <Card className="col-6">
+                    <CardHeader showCorner right={<span>by facilitator</span>}>
+                      Facilitator share
+                    </CardHeader>
+                    <CardBody>
+                      {facs.map((f) => {
+                        const tone = facColor[f.name] ?? "#cbd5e1";
+                        return (
+                          <div
+                            key={f.name}
+                            style={{
+                              display: "grid",
+                              gridTemplateColumns:
+                                "90px minmax(0, 1fr) 60px 50px",
+                              alignItems: "center",
+                              gap: 10,
+                              padding: "8px 12px",
+                              borderBottom:
+                                "1px solid var(--color-border-subtle)",
+                              fontFamily: "var(--font-mono, ui-monospace)",
+                              fontSize: 12,
+                            }}
+                          >
+                            <span style={{ color: tone, fontWeight: 700 }}>
+                              {f.name}
+                            </span>
+                            <span
+                              style={{
+                                position: "relative",
+                                height: 6,
+                                background: "var(--color-bg-canvas)",
+                                borderRadius: 3,
+                                overflow: "hidden",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  inset: 0,
+                                  width: `${f.share}%`,
+                                  background: tone,
+                                }}
+                              />
+                            </span>
+                            <span
+                              style={{
+                                textAlign: "right",
+                                color: "var(--color-text-default)",
+                                fontWeight: 700,
+                              }}
+                            >
+                              {f.count}
+                            </span>
+                            <span
+                              style={{
+                                textAlign: "right",
+                                color: "var(--color-text-faint)",
+                              }}
+                            >
+                              {f.share.toFixed(1)}%
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </CardBody>
+                  </Card>
+                  <Card className="col-6">
+                    <CardHeader
+                      showCorner
+                      right={<span>{days.length}d window</span>}
+                    >
+                      Daily settlements
+                    </CardHeader>
+                    <CardBody>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "flex-end",
+                          gap: 3,
+                          padding: "16px 14px 8px",
+                          height: 110,
+                        }}
+                      >
+                        {days.map(([day, v]) => {
+                          const h = Math.max(
+                            2,
+                            Math.round((v.txs / maxDay) * 90),
+                          );
+                          return (
+                            <span
+                              key={day}
+                              title={`${day} · ${v.txs} settlements`}
+                              style={{
+                                flex: 1,
+                                height: `${h}px`,
+                                background: "var(--color-accent)",
+                                opacity: 0.85,
+                                borderTop: "1px solid var(--color-accent)",
+                              }}
+                            />
+                          );
+                        })}
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          padding: "0 14px 10px",
+                          fontSize: 10,
+                          color: "var(--color-text-faint)",
+                          fontFamily: "var(--font-mono, ui-monospace)",
+                          letterSpacing: "0.06em",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        <span>{days[0]?.[0]}</span>
+                        <span>{days[days.length - 1]?.[0]}</span>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </div>
+                {(onchain.samples ?? []).length > 0 ? (
+                  <Card>
+                    <CardHeader
+                      showCorner
+                      right={<span>most recent on-chain settlements</span>}
+                    >
+                      Sample tx hashes
+                    </CardHeader>
+                    <CardBody>
+                      {(onchain.samples ?? []).slice(0, 6).map((s) => (
+                        <a
+                          key={s.txHash}
+                          href={`https://basescan.org/tx/${s.txHash}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{
+                            display: "grid",
+                            gridTemplateColumns: "90px minmax(0, 1fr) 100px",
+                            alignItems: "center",
+                            gap: 12,
+                            padding: "6px 14px",
+                            borderBottom:
+                              "1px solid var(--color-border-subtle)",
+                            color: "inherit",
+                            textDecoration: "none",
+                            fontFamily: "var(--font-mono, ui-monospace)",
+                            fontSize: 11,
+                          }}
+                        >
+                          <span
+                            style={{
+                              color: facColor[s.facilitator] ?? "#cbd5e1",
+                              fontWeight: 700,
+                            }}
+                          >
+                            {s.facilitator}
+                          </span>
+                          <span
+                            style={{
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                              color: "var(--color-text-default)",
+                            }}
+                          >
+                            {s.txHash}
+                          </span>
+                          <span
+                            style={{
+                              textAlign: "right",
+                              color: "var(--color-text-faint)",
+                            }}
+                          >
+                            {new Date(s.timestamp).toISOString().slice(0, 10)}
+                          </span>
+                        </a>
+                      ))}
+                    </CardBody>
+                  </Card>
+                ) : null}
+              </>
+            );
+          })()}
+
+          {/* ========== 04c-sol — ON-CHAIN x402 SETTLEMENTS (Solana) ========== */}
+          {(() => {
+            // Source: scripts/fetch-solana-x402-onchain.mjs → .data/solana-x402-onchain.json
+            // (free Solana RPC + Merit-Systems/x402scan address book)
+            // Read via data-store (Redis-first, .data/ file fallback) — refresh
+            // hook is awaited at the top of the page component.
+            const onchain = getSolanaX402Onchain();
+            if (!onchain || !onchain.totalSettlements) return null;
+            const total = onchain.totalSettlements;
+            const facs = Object.entries(onchain.byFacilitator ?? {})
+              .map(([name, v]) => ({
+                name,
+                count: v.x402Settlements,
+                share: total > 0 ? (v.x402Settlements / total) * 100 : 0,
+              }))
+              .sort((a, b) => b.count - a.count);
+            const days = Object.entries(onchain.byDay ?? {})
+              .sort(([a], [b]) => (a < b ? -1 : 1))
+              .slice(-21);
+            const maxDay = Math.max(...days.map(([, v]) => v.txs), 1);
+            const facColor: Record<string, string> = {
+              CodeNut: "#f59e0b",
+              PayAI: "#22d3ee",
+              Dexter: "var(--color-violet)",
+              Bitrefill: "#fbbf24",
+              RelAI: "#34d399",
+              UltravioletaDAO: "#c084fc",
+              AnySpend: "var(--color-blue)",
+              AurraCloud: "var(--color-pink)",
+              Cascade: "#38bdf8",
+              Corbits: "#fb7185",
+              Daydreams: "#a3e635",
+              OpenFacilitator: "#94a3b8",
+              OpenX402: "#f87171",
+              x402jobs: "#fde047",
+            };
+            return (
+              <>
+                <div className="sec-head">
+                  <span className="sec-num">{"// 04c-sol"}</span>
+                  <h2 className="sec-title">On-chain x402 settlements</h2>
+                  <span className="sec-meta">
+                    Solana · <b>{total.toLocaleString("en-US")}</b> settlements ·{" "}
+                    <b>{Object.keys(onchain.byFacilitator ?? {}).length}</b>{" "}
+                    facilitators · free via mainnet-beta RPC
+                  </span>
+                </div>
+                <div className="grid">
+                  <Card className="col-6">
+                    <CardHeader showCorner right={<span>by facilitator</span>}>
+                      Facilitator share
+                    </CardHeader>
+                    <CardBody>
+                      {facs.map((f) => {
+                        const tone = facColor[f.name] ?? "#cbd5e1";
+                        return (
+                          <div
+                            key={f.name}
+                            style={{
+                              display: "grid",
+                              gridTemplateColumns:
+                                "120px minmax(0, 1fr) 60px 50px",
+                              alignItems: "center",
+                              gap: 10,
+                              padding: "8px 12px",
+                              borderBottom:
+                                "1px solid var(--color-border-subtle)",
+                              fontFamily: "var(--font-mono, ui-monospace)",
+                              fontSize: 12,
+                            }}
+                          >
+                            <span style={{ color: tone, fontWeight: 700 }}>
+                              {f.name}
+                            </span>
+                            <span
+                              style={{
+                                position: "relative",
+                                height: 6,
+                                background: "var(--color-bg-canvas)",
+                                borderRadius: 3,
+                                overflow: "hidden",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  inset: 0,
+                                  width: `${f.share}%`,
+                                  background: tone,
+                                }}
+                              />
+                            </span>
+                            <span
+                              style={{
+                                textAlign: "right",
+                                color: "var(--color-text-default)",
+                                fontWeight: 700,
+                              }}
+                            >
+                              {f.count}
+                            </span>
+                            <span
+                              style={{
+                                textAlign: "right",
+                                color: "var(--color-text-faint)",
+                              }}
+                            >
+                              {f.share.toFixed(1)}%
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </CardBody>
+                  </Card>
+                  <Card className="col-6">
+                    <CardHeader
+                      showCorner
+                      right={<span>{days.length}d window</span>}
+                    >
+                      Daily settlements
+                    </CardHeader>
+                    <CardBody>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "flex-end",
+                          gap: 3,
+                          padding: "16px 14px 8px",
+                          height: 110,
+                        }}
+                      >
+                        {days.map(([day, v]) => {
+                          const h = Math.max(
+                            2,
+                            Math.round((v.txs / maxDay) * 90),
+                          );
+                          return (
+                            <span
+                              key={day}
+                              title={`${day} · ${v.txs} settlements`}
+                              style={{
+                                flex: 1,
+                                height: `${h}px`,
+                                background: "var(--color-accent)",
+                                opacity: 0.85,
+                                borderTop: "1px solid var(--color-accent)",
+                              }}
+                            />
+                          );
+                        })}
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          padding: "0 14px 10px",
+                          fontSize: 10,
+                          color: "var(--color-text-faint)",
+                          fontFamily: "var(--font-mono, ui-monospace)",
+                          letterSpacing: "0.06em",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        <span>{days[0]?.[0]}</span>
+                        <span>{days[days.length - 1]?.[0]}</span>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </div>
+                {(onchain.samples ?? []).length > 0 ? (
+                  <Card>
+                    <CardHeader
+                      showCorner
+                      right={<span>most recent on-chain settlements</span>}
+                    >
+                      Sample tx signatures
+                    </CardHeader>
+                    <CardBody>
+                      {(onchain.samples ?? []).slice(0, 6).map((s) => (
+                        <a
+                          key={s.txSig}
+                          href={`https://solscan.io/tx/${s.txSig}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{
+                            display: "grid",
+                            gridTemplateColumns: "120px minmax(0, 1fr) 100px",
+                            alignItems: "center",
+                            gap: 12,
+                            padding: "6px 14px",
+                            borderBottom:
+                              "1px solid var(--color-border-subtle)",
+                            color: "inherit",
+                            textDecoration: "none",
+                            fontFamily: "var(--font-mono, ui-monospace)",
+                            fontSize: 11,
+                          }}
+                        >
+                          <span
+                            style={{
+                              color: facColor[s.facilitator] ?? "#cbd5e1",
+                              fontWeight: 700,
+                            }}
+                          >
+                            {s.facilitator}
+                          </span>
+                          <span
+                            style={{
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                              color: "var(--color-text-default)",
+                            }}
+                          >
+                            {s.txSig}
+                          </span>
+                          <span
+                            style={{
+                              textAlign: "right",
+                              color: "var(--color-text-faint)",
+                            }}
+                          >
+                            {s.blockTime
+                              ? new Date(s.blockTime).toISOString().slice(0, 10)
+                              : "—"}
+                          </span>
+                        </a>
+                      ))}
+                    </CardBody>
+                  </Card>
+                ) : null}
+              </>
+            );
+          })()}
+
+          {/* ========== 04d — HISTORICAL VOLUME (Dune) ========== */}
+          {(() => {
+            // Source: scripts/fetch-dune-x402.mjs → .data/dune-x402-volume.json
+            // Rendered only when the JSON exists. Run the fetcher once a saved
+            // Dune query id is available (paste .dune/x402-volume.sql first).
+            // Read via data-store (Redis-first, .data/ file fallback) — refresh
+            // hook is awaited at the top of the page component.
+            const dune = getDuneX402Volume();
+            if (!dune?.rows?.length) return null;
+            const byDay = new Map<string, number>();
+            const byFac = new Map<string, number>();
+            for (const r of dune.rows) {
+              const v = parseFloat(r.volumeUsdc) || 0;
+              byDay.set(r.day, (byDay.get(r.day) ?? 0) + v);
+              byFac.set(r.facilitator, (byFac.get(r.facilitator) ?? 0) + v);
+            }
+            const dayEntries = [...byDay.entries()].sort(([a], [b]) =>
+              a < b ? -1 : 1,
+            );
+            const maxDayVol = Math.max(...dayEntries.map(([, v]) => v), 1);
+            const facEntries = [...byFac.entries()].sort(
+              (a, b) => b[1] - a[1],
+            );
+            const totalVol = facEntries.reduce((acc, [, v]) => acc + v, 0);
+            const facColor: Record<string, string> = {
+              Coinbase: "#3b82f6",
+              Heurist: "var(--color-violet)",
+              CodeNut: "#f59e0b",
+              Thirdweb: "#34d399",
+            };
+            const fmtUsd = (n: number) =>
+              n >= 1_000_000
+                ? `$${(n / 1_000_000).toFixed(1)}M`
+                : n >= 1_000
+                  ? `$${(n / 1_000).toFixed(1)}k`
+                  : `$${n.toFixed(0)}`;
+            return (
+              <>
+                <div className="sec-head">
+                  <span className="sec-num">{"// 04d"}</span>
+                  <h2 className="sec-title">x402 historical volume</h2>
+                  <span className="sec-meta">
+                    Base · <b>{fmtUsd(totalVol)}</b> over{" "}
+                    <b>{dayEntries.length}</b> days · via Dune
+                  </span>
+                </div>
+                <div className="grid">
+                  <Card className="col-8">
+                    <CardHeader
+                      showCorner
+                      right={<span>last day · {dune.lastDay}</span>}
+                    >
+                      Daily USDC volume
+                    </CardHeader>
+                    <CardBody>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "flex-end",
+                          gap: 1,
+                          padding: "16px 14px 8px",
+                          height: 140,
+                        }}
+                      >
+                        {dayEntries.map(([day, v]) => {
+                          const h = Math.max(
+                            2,
+                            Math.round((v / maxDayVol) * 120),
+                          );
+                          return (
+                            <span
+                              key={day}
+                              title={`${day} · ${fmtUsd(v)}`}
+                              style={{
+                                flex: 1,
+                                height: `${h}px`,
+                                background: "var(--color-accent)",
+                                opacity: 0.85,
+                              }}
+                            />
+                          );
+                        })}
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          padding: "0 14px 10px",
+                          fontSize: 10,
+                          color: "var(--color-text-faint)",
+                          fontFamily: "var(--font-mono, ui-monospace)",
+                          letterSpacing: "0.06em",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        <span>{dayEntries[0]?.[0]}</span>
+                        <span>{dayEntries[dayEntries.length - 1]?.[0]}</span>
+                      </div>
+                    </CardBody>
+                  </Card>
+                  <Card className="col-4">
+                    <CardHeader showCorner right={<span>USDC total</span>}>
+                      Volume by facilitator
+                    </CardHeader>
+                    <CardBody>
+                      {facEntries.map(([name, v]) => {
+                        const tone = facColor[name] ?? "#cbd5e1";
+                        const share = totalVol > 0 ? (v / totalVol) * 100 : 0;
+                        return (
+                          <div
+                            key={name}
+                            style={{
+                              display: "grid",
+                              gridTemplateColumns:
+                                "90px minmax(0, 1fr) 70px",
+                              alignItems: "center",
+                              gap: 10,
+                              padding: "8px 12px",
+                              borderBottom:
+                                "1px solid var(--color-border-subtle)",
+                              fontFamily: "var(--font-mono, ui-monospace)",
+                              fontSize: 12,
+                            }}
+                          >
+                            <span style={{ color: tone, fontWeight: 700 }}>
+                              {name}
+                            </span>
+                            <span
+                              style={{
+                                position: "relative",
+                                height: 6,
+                                background: "var(--color-bg-canvas)",
+                                borderRadius: 3,
+                                overflow: "hidden",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  inset: 0,
+                                  width: `${share}%`,
+                                  background: tone,
+                                }}
+                              />
+                            </span>
+                            <span
+                              style={{
+                                textAlign: "right",
+                                color: "var(--color-text-default)",
+                                fontWeight: 700,
+                              }}
+                            >
+                              {fmtUsd(v)}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </CardBody>
+                  </Card>
+                </div>
+              </>
+            );
+          })()}
 
           {/* ========== 05 — CAPABILITY CLOUD ========== */}
           {topCapabilities.length > 0 ? (

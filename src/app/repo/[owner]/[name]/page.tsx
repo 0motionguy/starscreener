@@ -402,49 +402,21 @@ export default async function RepoDetailPage({ params }: PageProps) {
                 </>
               ) : null}
 
-          <div className="repo-detail-two-col">
-            <RepoDetailStatsStrip repo={repo} />
-            <RepoDetailStats repo={repo} />
-          </div>
+              {profile.funding.length > 0 ? (
+                <>
+                  <SectionHead
+                    num="// 05"
+                    title="Funding"
+                    meta={`${profile.funding.length} EVENTS`}
+                  />
+                  <FundingPanel events={profile.funding} />
+                </>
+              ) : null}
 
-          <NpmAdoptionPanel
-            packages={profile.npm.packages}
-            dailyDownloads={profile.npm.dailyDownloads}
-            dependentsByPackage={profile.npm.dependents}
-          />
-
-          <div className="repo-detail-split">
-            <ProjectSurfaceMap
-              repo={repo}
-              npmPackages={profile.npm.packages}
-              productHuntLaunch={profile.productHunt}
-            />
-            <CrossSignalBreakdown repo={repo} />
-          </div>
-
-          <RecentMentionsFeed
-            mentions={mentions}
-            freshness={profile.freshness}
-            repoFullName={repo.fullName}
-            initialCursor={profile.mentions.nextCursor}
-          />
-          <RelatedReposPanel items={profile.related} />
-          <RelatedIdeasPanel items={profile.ideas} />
-          <ErrorBoundary>
-            <RepoDetailChartLazy repo={repo} markers={markers} />
-          </ErrorBoundary>
-          <Link
-            href={`/repo/${repo.owner}/${repo.name}/star-activity`}
-            className="block rounded-card border border-border-primary bg-bg-secondary px-4 py-3 hover:bg-bg-tertiary transition-colors"
-          >
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <div className="text-[10px] font-mono uppercase tracking-[0.14em] text-text-tertiary">
-                  {"// STAR ACTIVITY · FULL HISTORY"}
-                </div>
-                <div className="text-sm text-text-secondary mt-1">
-                  Open the dedicated chart with toggles + share card.
-                </div>
+              <SectionHead num="// 06" title="Stats" />
+              <div className="repo-detail-two-col">
+                <RepoDetailStatsStrip repo={repo} />
+                <RepoDetailStats repo={repo} />
               </div>
 
               {profile.npm.packages.length > 0 ? (

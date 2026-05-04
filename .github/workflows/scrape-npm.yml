@@ -44,7 +44,7 @@ jobs:
         run: |
           git config user.name  "trendingrepo-bot"
           git config user.email "bot@trendingrepo.local"
-          git add data/npm-packages.json data/_meta/npm.json
+          git add data/npm-packages.json data/_meta/npm.json data/unknown-mentions.jsonl
           if git diff --quiet --staged; then
             echo "no changes - skipping commit"
             exit 0

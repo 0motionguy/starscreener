@@ -6,6 +6,7 @@ import {
   extractFirstGithubRepoLink,
   extractGithubRepoFullNames,
   extractTrackedBareRefs,
+  extractUnknownRepoCandidates,
   githubFullNameToUrl,
   normalizeGithubFullName,
   normalizeGithubRepoUrl,
@@ -116,4 +117,53 @@ test("extractTrackedBareRefs: handles adjacent matches separated by punctuation"
   const tracked = new Set(["foo/bar", "baz/qux"]);
   const hits = extractTrackedBareRefs("compare foo/bar,baz/qux quickly", tracked);
   assert.deepEqual([...hits].sort(), ["baz/qux", "foo/bar"]);
+});
+
+test("extractAllRepoMentions: unions URL form + bare form when tracked supplied", () => {
+  const tracked = new Set(["openai/whisper", "vercel/next.js"]);
+  const hits = extractAllRepoMentions(
+    "github.com/vercel/next.js plus a bare openai/whisper today",
+    tracked,
+  );
+  assert.deepEqual([...hits].sort(), ["openai/whisper", "vercel/next.js"]);
+});
+
+test("extractAllRepoMentions: with null tracked returns only URL form (bare needs tracked)", () => {
+  const hits = extractAllRepoMentions(
+    "github.com/openai/gym and a bare some/repo nobody tracks",
+    null,
+  );
+  assert.deepEqual([...hits], ["openai/gym"]);
+});
+
+test("extractUnknownRepoCandidates: returns github URLs not in tracked set", () => {
+  const tracked = new Set(["openai/whisper"]);
+  const hits = extractUnknownRepoCandidates(
+    "github.com/openai/whisper and github.com/random/uncovered",
+    tracked,
+  );
+  assert.deepEqual([...hits], ["random/uncovered"]);
+});
+
+test("extractUnknownRepoCandidates: with null tracked returns ALL github URLs", () => {
+  const hits = extractUnknownRepoCandidates(
+    "github.com/anthropics/claude-code and github.com/openai/gym",
+    null,
+  );
+  assert.deepEqual([...hits].sort(), ["anthropics/claude-code", "openai/gym"]);
+});
+
+test("extractUnknownRepoCandidates: skips reserved github paths", () => {
+  const hits = extractUnknownRepoCandidates(
+    "https://github.com/orgs/foo and https://github.com/settings/profile",
+    null,
+  );
+  assert.equal(hits.size, 0);
+});
+
+test("extractUnknownRepoCandidates: URL form only — does NOT match bare owner/repo tokens", () => {
+  // Bare-form has too many false positives without a tracked-set anchor;
+  // the unknown lake is for github.com URLs only by design.
+  const hits = extractUnknownRepoCandidates("excited about openai/whisper today", null);
+  assert.equal(hits.size, 0);
 });

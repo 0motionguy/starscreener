@@ -650,10 +650,10 @@ async function inspectSource(spec: SourceSpec, nowMs: number): Promise<SourceSta
   };
 }
 
-let inspectSourceForRoute: (
-  spec: SourceSpec,
-  nowMs: number,
-) => Promise<SourceState> = inspectSource;
+// Test seam moved to ./_test-hooks.ts (Next.js app-router type validator
+// rejects non-route exports from this file). resolveInspectSource is called
+// at handler-time so test overrides registered after module import still apply.
+import { resolveInspectSource } from "./_test-hooks";
 
 function summarize(sources: SourceState[]): FreshnessStateResponse["summary"] {
   return {
@@ -678,7 +678,7 @@ export async function GET(
   try {
     const nowMs = Date.now();
     const sources = await Promise.all(
-      SOURCE_SPECS.map((spec) => inspectSourceForRoute(spec, nowMs)),
+      SOURCE_SPECS.map((spec) => resolveInspectSource(inspectSource)(spec, nowMs)),
     );
     sources.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -705,12 +705,3 @@ export async function GET(
   }
 }
 
-export function __setInspectSourceForTests(
-  fn: typeof inspectSourceForRoute,
-): void {
-  inspectSourceForRoute = fn;
-}
-
-export function __resetInspectSourceForTests(): void {
-  inspectSourceForRoute = inspectSource;
-}

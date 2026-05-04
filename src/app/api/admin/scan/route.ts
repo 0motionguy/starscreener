@@ -21,6 +21,7 @@ import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 
 export const runtime = "nodejs";
 
@@ -168,6 +169,27 @@ export async function POST(
 ): Promise<NextResponse<Ok | Err>> {
   const deny = adminAuthFailureResponse(verifyAdminAuth(request));
   if (deny) return deny as NextResponse<Err>;
+
+  // Rate-limit the spawn entrypoint — closes audit finding N-SEC-001
+  // (skills/security.md). 10 spawns / minute / IP is plenty for an operator
+  // escape-hatch and prevents a leaked admin cookie from chain-spawning until
+  // the lambda dies. Async path holds across Vercel cold-starts via Upstash.
+  const rl = await checkRateLimitAsync(request, {
+    windowMs: 60_000,
+    maxRequests: 10,
+  });
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { ok: false, error: "rate-limited: 10 spawns/min/IP" },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil((rl.resetAt - Date.now()) / 1000)),
+          "X-RateLimit-Remaining": String(rl.remaining),
+        },
+      },
+    ) as NextResponse<Err>;
+  }
 
   let body: { source?: unknown } = {};
   try {

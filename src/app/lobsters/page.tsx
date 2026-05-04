@@ -31,9 +31,18 @@ import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
-  title: "TrendingRepo — Lobsters Trending",
+  // Layout template appends ` — TrendingRepo`; bare title here.
+  title: "Lobsters Trending",
   description:
     "Lobsters stories ranked by recent score velocity and cross-linked to tracked GitHub repositories.",
+  alternates: { canonical: "/lobsters" },
+  openGraph: {
+    title: "Lobsters Trending — TrendingRepo",
+    description:
+      "Lobsters stories scored by velocity, cross-linked to tracked GitHub repos.",
+    url: "/lobsters",
+    type: "website",
+  },
 };
 
 const LOBSTERS_RED = "#ac130d";

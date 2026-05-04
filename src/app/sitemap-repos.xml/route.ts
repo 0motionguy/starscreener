@@ -53,29 +53,61 @@ import {
 export const revalidate = 3600;
 export const dynamic = "force-static";
 
-const MAX_URLS = 45000;
+// 3-tier sitemap to recover from the 1,256 "Discovered, not indexed" GSC
+// state. Previously: all 839 repos shipped at flat changefreq=daily, which
+// flooded Google's crawl budget. Google capped the budget and rejected
+// most. Now we tell Google exactly which URLs deserve daily attention,
+// which are weekly, and EXCLUDE the long-tail entirely (Google can still
+// discover them via internal links if they matter; the sitemap shouldn't
+// promise more than the site's domain authority can deliver).
+//
+// Tier A: top 100-200 repos by cross-signal score. priority 0.9, daily.
+// Tier B: rank ≤400 OR crossSignalScore ≥1.0. priority 0.5, weekly.
+// Tier C: everything else. EXCLUDED from sitemap.
+//
+// Hard cap MAX_URLS=600 keeps the file under Google's preferred budget
+// and frees the rest of the 50k protocol limit for future locale variants.
+const MAX_URLS = 600;
+
+type Tier = "A" | "B" | "C";
+
+function classifyTier(r: ReturnType<typeof getDerivedRepos>[number]): Tier {
+  const cross = r.crossSignalScore ?? 0;
+  const rank = r.rank ?? Number.POSITIVE_INFINITY;
+  if (cross >= 2.5 || rank <= 100) return "A";
+  if (cross >= 1.0 || rank <= 400) return "B";
+  return "C";
+}
+
+const TIER_PRIORITY: Record<Tier, number> = { A: 0.9, B: 0.5, C: 0.1 };
+const TIER_FREQ: Record<Tier, "daily" | "weekly" | "monthly"> = {
+  A: "daily",
+  B: "weekly",
+  C: "monthly",
+};
 
 export async function GET(): Promise<Response> {
   await pipeline.ensureReady();
 
   const all = getDerivedRepos().filter(isSitemapEligible);
 
-  // Sort: priority desc, momentum desc as tiebreaker.
-  const sorted = all.slice().sort((a, b) => {
-    const pa = priorityFromRepo(a);
-    const pb = priorityFromRepo(b);
-    if (pb !== pa) return pb - pa;
-    const ma = a.momentumScore ?? 0;
-    const mb = b.momentumScore ?? 0;
+  // Classify, then drop Tier C entirely.
+  const tiered = all
+    .map((r) => ({ repo: r, tier: classifyTier(r) }))
+    .filter((t) => t.tier !== "C");
+
+  // Sort: Tier A before B; within tier, momentum desc.
+  tiered.sort((a, b) => {
+    if (a.tier !== b.tier) return a.tier === "A" ? -1 : 1;
+    const ma = a.repo.momentumScore ?? 0;
+    const mb = b.repo.momentumScore ?? 0;
     return mb - ma;
   });
 
-  // Dedupe by full URL. getDerivedRepos already dedupes by id, but
-  // defense in depth — a duplicate <loc> in a sitemap is a hard
-  // validator error in Search Console.
+  // Dedupe by full URL.
   const seen = new Set<string>();
   const entries: UrlEntry[] = [];
-  for (const r of sorted) {
+  for (const { repo: r, tier } of tiered) {
     if (entries.length >= MAX_URLS) break;
     const loc = repoUrl(r);
     if (seen.has(loc)) continue;
@@ -86,8 +118,8 @@ export async function GET(): Promise<Response> {
     entries.push({
       loc,
       lastmod: r.lastCommitAt ?? r.lastReleaseAt ?? r.createdAt ?? new Date(),
-      changefreq: "daily",
-      priority: priorityFromRepo(r),
+      changefreq: TIER_FREQ[tier],
+      priority: TIER_PRIORITY[tier],
       images: [
         {
           loc: repoOgImageUrl(r),

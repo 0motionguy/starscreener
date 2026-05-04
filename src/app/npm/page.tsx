@@ -44,9 +44,18 @@ const DEFAULT_WINDOW: NpmWindow = "24h";
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: "TrendingRepo - NPM Trending Packages",
+  // Layout template appends ` — TrendingRepo`; bare title here.
+  title: "NPM Trending Packages",
   description:
     "Top npm package movement over 24h, 7d, and 30d windows, filtered to packages with GitHub repositories attached.",
+  alternates: { canonical: "/npm" },
+  openGraph: {
+    title: "NPM Trending — TrendingRepo",
+    description:
+      "Top npm package movement across 24h / 7d / 30d windows. Filter to packages with attached GitHub repos and live momentum.",
+    url: "/npm",
+    type: "website",
+  },
 };
 
 interface NpmPageProps {

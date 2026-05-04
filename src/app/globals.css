@@ -2702,7 +2702,7 @@ body::before {
 
 .tabs .ct {
   margin-left: 6px;
-  color: var(--ink-500);
+  color: var(--ink-300);
   font-size: var(--font-size-md);
 }
 
@@ -4470,8 +4470,8 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
   border: 1px solid color-mix(in srgb, var(--v4-acc) 35%, transparent);
   background: color-mix(in srgb, var(--v4-acc) 12%, transparent);
@@ -6300,6 +6300,8 @@ body::before {
   position: relative;
   aspect-ratio: 1 / 1;
   width: 100%;
+  min-width: 24px;
+  min-height: 24px;
   cursor: pointer;
   border: 1px solid var(--v3-line-200);
   border-radius: 1px;

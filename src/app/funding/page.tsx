@@ -12,6 +12,7 @@ import {
   refreshFundingNewsFromStore,
 } from "@/lib/funding-news";
 import type { FundingSignal } from "@/lib/funding/types";
+import { SITE_URL, SITE_NAME, absoluteUrl, safeJsonLd } from "@/lib/seo";
 
 // V4 (CORPUS) primitives.
 import { PageHead } from "@/components/ui/PageHead";
@@ -26,10 +27,27 @@ import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "TrendingRepo — Funding Radar",
+  // Layout template appends ` — TrendingRepo`; bare title here.
+  title: "Funding Radar",
   description:
     "AI and tech startup funding rounds aggregated from TechCrunch, VentureBeat, and more. Structured extraction with confidence scoring.",
   alternates: { canonical: "/funding" },
+  openGraph: {
+    title: "Funding Radar — TrendingRepo",
+    description:
+      "AI and tech startup funding rounds, aggregated from TechCrunch + VentureBeat + more, with structured extraction and per-claim confidence scoring.",
+    url: "/funding",
+    type: "website",
+  },
+  keywords: [
+    "ai startup funding",
+    "tech funding rounds",
+    "techcrunch venturebeat aggregator",
+    "seed series-a series-b",
+    "open source funding signals",
+    "developer-tools funding",
+    "yc funding rounds",
+  ],
 };
 
 const SOURCE_LABELS: Record<string, string> = {
@@ -229,8 +247,37 @@ export default async function FundingPage() {
   const megaRounds = rounds.filter((signal) => amountValue(signal) >= 100_000_000).length;
   const totalAmount = stats.totalAmountUsd ?? 0;
 
+  const fundingLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${SITE_URL.replace(/\/+$/, "")}/funding#article`,
+    headline: "Funding radar: AI and tech startup rounds aggregated live",
+    description:
+      "AI and tech startup funding rounds aggregated from TechCrunch, VentureBeat, Sifted, and X/Twitter. Structured extraction with per-claim confidence scoring.",
+    author: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
+    publisher: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
+    datePublished: "2025-12-01T00:00:00Z",
+    dateModified: file?.fetchedAt ?? new Date().toISOString(),
+    mainEntityOfPage: { "@type": "WebPage", "@id": absoluteUrl("/funding") },
+    inLanguage: "en-US",
+    image: absoluteUrl("/og-card.png"),
+    articleSection: "Funding Radar",
+    keywords: [
+      "ai startup funding",
+      "tech funding rounds",
+      "techcrunch venturebeat aggregator",
+      "open source funding signals",
+      "developer-tools funding",
+    ],
+    isPartOf: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#website` },
+  };
+
   return (
     <main className="home-surface funding-page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(fundingLd) }}
+      />
       <PageHead
         crumb={
           <>

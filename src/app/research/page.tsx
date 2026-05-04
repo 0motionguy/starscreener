@@ -26,7 +26,8 @@ import { MarkVisited } from "@/components/layout/MarkVisited";
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: "Research - TrendingRepo",
+  // Layout template appends ` — TrendingRepo`; bare title here.
+  title: "Research",
   description:
     "HuggingFace trending models + arXiv cs.AI / cs.CL / cs.LG recent papers, with cross-links to tracked GitHub repos.",
   alternates: { canonical: "/research" },

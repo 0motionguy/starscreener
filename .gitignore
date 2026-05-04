@@ -51,6 +51,16 @@ next-env.d.ts
 # local Claude Code workspace (agent prompts, skills, settings)
 /.claude/
 
+# operator-local agent + audit + codex tooling (not for commit)
+/.agents/
+/.audit/
+/.codex/
+/.claude-flow/
+/.swarm/
+/.mcp.json
+/AGENTS.md
+/ruvector.db
+
 # mcp workspace build artifacts + installed deps
 /mcp/node_modules/
 /mcp/dist/

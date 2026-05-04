@@ -16,7 +16,6 @@ export function Header() {
           <Link
             href={ROUTES.HOME}
             className="group flex min-w-0 flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded"
-            aria-label="TrendingRepo home"
           >
             <span className="flex min-w-0 items-center gap-1.5 sm:gap-2.5">
               <span

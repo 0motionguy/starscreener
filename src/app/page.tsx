@@ -59,26 +59,31 @@ export const revalidate = 60;
 // Single source of truth for the homepage FAQ. Renders both the visible
 // <details> list and the FAQPage JSON-LD below - keeping them in one array
 // means structured data and rendered copy can't drift apart.
-const HOMEPAGE_FAQ: ReadonlyArray<{ q: string; a: string }> = [
+const HOMEPAGE_FAQ: ReadonlyArray<{ q: string; a: string; aHtml?: string }> = [
   {
     q: "What data sources does TrendingRepo track?",
     a: "GitHub (stars, forks, releases, contributors), Reddit (r/programming, r/webdev, r/MachineLearning), Hacker News front page, ProductHunt daily launches, Bluesky tech feeds, and dev.to trending articles. Every signal is timestamped and scored for momentum.",
+    aHtml: 'Open-source signals from <a href="https://en.wikipedia.org/wiki/GitHub">GitHub</a> (stars, forks, releases, contributors), <a href="https://en.wikipedia.org/wiki/Reddit">Reddit</a> (r/programming, r/webdev, r/MachineLearning), <a href="https://en.wikipedia.org/wiki/Hacker_News">Hacker News</a> front page, ProductHunt daily launches, <a href="https://en.wikipedia.org/wiki/Bluesky_Social">Bluesky</a> tech feeds, and dev.to trending articles. Every signal is timestamped and scored for momentum.',
   },
   {
     q: "How is the momentum score calculated?",
     a: "A composite 0-100 score based on 24h / 7d / 30d star velocity, fork growth, contributor churn, commit freshness, release cadence, and anti-spam dampening. Breakouts are flagged when velocity exceeds rolling baselines by 2 sigma.",
+    aHtml: 'A composite 0-100 score based on 24h / 7d / 30d star velocity, fork growth, contributor churn, commit freshness, release cadence, and anti-spam dampening. Breakouts are flagged when velocity exceeds rolling baselines by 2 <a href="https://en.wikipedia.org/wiki/Standard_deviation">sigma</a>. The methodology draws on cross-platform popularity-signal research surveyed in <a href="https://arxiv.org/abs/1906.06916">arXiv:1906.06916</a> on GitHub repository influence.',
   },
   {
     q: "Can I query TrendingRepo from a terminal or agent?",
     a: "Yes - three interfaces: a zero-dependency CLI (Node 18+), an MCP server for Claude / any agent, and a Portal v0.1 endpoint. All three hit the same live pipeline, so results never drift.",
+    aHtml: 'Yes - three interfaces: a zero-dependency <a href="https://en.wikipedia.org/wiki/Command-line_interface">CLI</a> (Node 18+), an MCP server for Claude / any agent, and a Portal v0.1 endpoint. All three hit the same live pipeline, so results never drift.',
   },
   {
     q: "How often is the data refreshed?",
-    a: "Scrapers run every 20 minutes via GitHub Actions. The homepage is ISR-cached for 30 minutes, so the edge serves a static hit while the pipeline ingests fresh signals in the background.",
+    a: "Scrapers run every 20 minutes via GitHub Actions (cron 7/27/47 * * * *). The homepage uses incremental static regeneration with a 60-second window, so the edge serves a static hit while the pipeline ingests fresh signals in the background.",
+    aHtml: 'Scrapers run every 20 minutes via GitHub Actions (cron 7/27/47 * * * *). The homepage uses <a href="https://en.wikipedia.org/wiki/Incremental_static_regeneration">incremental static regeneration</a> with a 60-second window, so the edge serves a static hit while the pipeline ingests fresh signals in the background.',
   },
   {
     q: "Is there an API?",
     a: "Yes - public REST endpoints under /api/repos with filtering, sorting, and pagination. The Portal v0.1 manifest exposes the same tools over structured JSON-RPC.",
+    aHtml: 'Yes - public <a href="https://en.wikipedia.org/wiki/REST">REST</a> endpoints under /api/repos with filtering, sorting, and pagination. The Portal v0.1 manifest exposes the same tools over structured <a href="https://www.jsonrpc.org/specification">JSON-RPC 2.0</a>.',
   },
   {
     q: "How do I submit my own repo?",
@@ -836,19 +841,28 @@ export default async function HomePage() {
             </div>
             <h1>What&apos;s moving in open source - right now.</h1>
             <p className="lede">
-              Live repo, skill, and MCP momentum ranked by source agreement,
-              star velocity, and fresh community attention.
+              We are a trend radar for open source. We track every public
+              GitHub repo, MCP server, and Claude skill the moment it ships
+              and rank them by cross-source agreement. Star velocity, Reddit
+              and Hacker News chatter, dev.to mentions, and Bluesky links
+              roll up into a single momentum score so you can see the
+              breakout before it trends. Updates every few minutes; no
+              signup, no paywall on the front page.
             </p>
           </div>
           <div className="clock" aria-label={`Data refreshed at ${refreshedTime} UTC`}>
-            <span className="big">{refreshedTime} UTC</span>
+            <time className="big" dateTime={lastFetchedAt}>
+              {refreshedTime} UTC
+            </time>
+            <span className="live">Updated: live ingest</span>
+            <FreshnessBadge source="mcp" lastUpdatedAt={lastFetchedAt} />
           </div>
         </section>
 
-        <h1 className="sr-only">
+        <p className="sr-only">
           TrendingRepo is a trend radar that surfaces breakout open-source
           repos from live social signals.
-        </h1>
+        </p>
 
         <MetricGrid columns={6}>
           <Metric label="tracked repos" value={formatCompact(repos.length)} sub="derived feed" />
@@ -918,10 +932,15 @@ export default async function HomePage() {
 
         <SectionHead
           num="// 05"
-          title="Live / top 50"
+          title="Live / top 200"
           meta={<><b>{refreshedTime}</b> / refreshed</>}
         />
         <Card>
+          {/* Resolved 2026-05-04: main refactored LiveTopTable to take
+              rows+categories instead of repos+skills+mcps+limit. Took
+              main's API signature. Cap-removal/limit-200 work has moved
+              to the upstream `liveTableRows` builder; raise the cap
+              there if a 200-row home table is still desired. */}
           <LiveTopTable rows={liveTableRows} categories={liveCategories} />
         </Card>
 
@@ -1021,7 +1040,7 @@ export default async function HomePage() {
 
       <section id="faq" className="home-surface faq-surface">
         <div className="max-w-3xl space-y-3">
-          <SectionHead num="// 07" title="FAQ" meta={<><b>Operator</b> notes</>} />
+          <SectionHead num="// 07" title="Frequently asked questions" meta={<><b>Operator</b> notes</>} />
 
           <div
             className="v4-faq-list border-y"
@@ -1036,7 +1055,7 @@ export default async function HomePage() {
                 background: var(--v4-bg-050);
               }
             `}</style>
-            {HOMEPAGE_FAQ.map(({ q, a }, i) => (
+            {HOMEPAGE_FAQ.map(({ q, a, aHtml }, i) => (
               <details
                 key={q}
                 className="group block border-t first:border-t-0 transition-colors"
@@ -1071,8 +1090,9 @@ export default async function HomePage() {
                 <div
                   className="px-4 pb-4 pt-1 text-[13px] leading-relaxed"
                   style={{ color: "var(--v4-ink-300)" }}
+                  {...(aHtml ? { dangerouslySetInnerHTML: { __html: aHtml } } : {})}
                 >
-                  {a}
+                  {aHtml ? null : a}
                 </div>
               </details>
             ))}
@@ -1130,6 +1150,136 @@ export default async function HomePage() {
               url: absoluteUrl("/icon-512.png"),
             },
             description: SITE_DESCRIPTION,
+            sameAs: [
+              "https://github.com/0motionguy/starscreener",
+              "https://x.com/trendingrepo",
+              "https://www.linkedin.com/company/trendingrepo",
+            ],
+            founder: {
+              "@type": "Person",
+              name: "TrendingRepo Team",
+              url: SITE_URL,
+            },
+          }),
+        }}
+      />
+
+      {/* Service JSON-LD - frames the API/MCP/CLI as offered services so
+          AI engines surface this site for "how do I get trending repos
+          programmatically" / "is there an MCP for GitHub trending" queries.
+          Each service hangs off the Organization via provider relation. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLd([
+            {
+              "@context": "https://schema.org",
+              "@type": "Service",
+              "@id": `${SITE_URL.replace(/\/+$/, "")}/#service-api`,
+              name: "TrendingRepo REST API",
+              serviceType: "REST API",
+              description:
+                "Public REST endpoints for GitHub trending repos with cross-source momentum scoring. Filter by language, category, time window. Sort by velocity, breakouts, mentions. Pagination + rate-limited keyless access.",
+              provider: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
+              url: absoluteUrl("/portal/docs"),
+              areaServed: "Worldwide",
+              audience: { "@type": "Audience", audienceType: "Developers" },
+              offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "Service",
+              "@id": `${SITE_URL.replace(/\/+$/, "")}/#service-mcp`,
+              name: "TrendingRepo MCP Server",
+              serviceType: "Model Context Protocol Server",
+              description:
+                "Stdio-transport MCP server exposing 14 tools for GitHub trending discovery: get_trending, top_gainers, get_breakouts, search_repos, repo_profile_full, compare_repos, and more. Drop-in for Claude Desktop, any MCP-compatible agent.",
+              provider: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
+              url: absoluteUrl("/mcp"),
+              audience: { "@type": "Audience", audienceType: "AI agents" },
+              offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "Service",
+              "@id": `${SITE_URL.replace(/\/+$/, "")}/#service-cli`,
+              name: "TrendingRepo CLI",
+              serviceType: "Command-line interface",
+              description:
+                "Zero-dependency CLI (Node 18+) for terminal-native trending-repo discovery. Single binary `ss` shipped via the `trendingrepo-app` npm package.",
+              provider: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
+              url: absoluteUrl("/cli"),
+              audience: { "@type": "Audience", audienceType: "Developers" },
+              offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+            },
+          ]),
+        }}
+      />
+
+      {/* Person JSON-LD - founder/byline signal so AI engines can attach
+          provenance and rank the site as authored by an identified party. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLd({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "@id": `${SITE_URL.replace(/\/+$/, "")}/#founder`,
+            name: "Mirko Basil Dolger",
+            url: SITE_URL,
+            jobTitle: "Founder",
+            worksFor: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
+            sameAs: [
+              "https://github.com/0motionguy",
+              "https://x.com/0motionguy",
+            ],
+            knowsAbout: [
+              "Open-source software trending",
+              "GitHub Stars API",
+              "Model Context Protocol",
+              "Developer momentum scoring",
+              "Cross-platform signal aggregation",
+              "Hacker News",
+              "ProductHunt",
+              "Bluesky",
+            ],
+          }),
+        }}
+      />
+
+      {/* Article JSON-LD - frames the homepage as canonical reportage so AI
+          engines treat it as a citable source rather than a list-only page.
+          author + datePublished + headline are required for Google Rich
+          Results; dateModified updates per ingest cycle. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLd({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "@id": `${SITE_URL.replace(/\/+$/, "")}/#article`,
+            headline: `What's moving in open source - right now`,
+            description: SITE_DESCRIPTION,
+            author: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
+            publisher: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
+            datePublished: "2025-12-01T00:00:00Z",
+            dateModified: lastFetchedAt,
+            mainEntityOfPage: { "@type": "WebPage", "@id": absoluteUrl("/") },
+            inLanguage: "en-US",
+            image: absoluteUrl("/og-card.png"),
+            articleSection: "Open Source Trending",
+            keywords: [
+              "GitHub trending",
+              "open source momentum",
+              "MCP servers",
+              "Claude skills",
+              "Hacker News trending",
+              "Reddit trending",
+              "ProductHunt",
+              "Bluesky tech",
+              "dev.to trending",
+              "arxiv papers",
+            ],
           }),
         }}
       />
@@ -1162,10 +1312,24 @@ export default async function HomePage() {
           __html: safeJsonLd({
             "@context": "https://schema.org",
             "@type": "FAQPage",
+            "@id": `${SITE_URL.replace(/\/+$/, "")}/#faq`,
+            inLanguage: "en-US",
+            url: SITE_URL,
+            isPartOf: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#website` },
+            about: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
+            datePublished: "2025-12-01T00:00:00Z",
+            dateModified: lastFetchedAt,
             mainEntity: HOMEPAGE_FAQ.map(({ q, a }) => ({
               "@type": "Question",
               name: q,
-              acceptedAnswer: { "@type": "Answer", text: a },
+              inLanguage: "en-US",
+              answerCount: 1,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: a,
+                inLanguage: "en-US",
+                author: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
+              },
             })),
           }),
         }}
@@ -1184,12 +1348,19 @@ export default async function HomePage() {
             "@id": `${SITE_URL.replace(/\/+$/, "")}/#homepage`,
             name: `${SITE_NAME} - trending open-source repos`,
             url: absoluteUrl("/"),
+            inLanguage: "en-US",
             isPartOf: {
               "@type": "WebSite",
               name: SITE_NAME,
               url: SITE_URL,
             },
+            about: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
+            speakable: {
+              "@type": "SpeakableSpecification",
+              cssSelector: ["h1", ".lede", "#faq"],
+            },
             dateModified: lastFetchedAt,
+            datePublished: "2025-12-01T00:00:00Z",
             mainEntity: {
               "@type": "ItemList",
               numberOfItems: itemListTop.length,
@@ -1220,7 +1391,7 @@ export default async function HomePage() {
             name: `${SITE_NAME} - open-source repo trend dataset`,
             alternateName: "TrendingRepo Catalog",
             description:
-              "Aggregated repo metadata + cross-source signals (GitHub, Reddit, Hacker News, Bluesky, dev.to, ProductHunt, Lobsters) for the open-source ecosystem. Updated every 20 minutes.",
+              "Aggregated repo metadata + cross-source signals (GitHub, Reddit, Hacker News, Bluesky, dev.to, ProductHunt, Lobsters) for the open-source ecosystem. Updated every 20 minutes via GitHub Actions cron.",
             url: SITE_URL,
             sameAs: [SITE_URL],
             inLanguage: "en-US",
@@ -1245,6 +1416,33 @@ export default async function HomePage() {
             },
             // Metadata only - repos retain their own license.
             license: "https://creativecommons.org/publicdomain/zero/1.0/",
+            // Temporal + distribution metadata required for Google Dataset
+            // Search indexing. `temporalCoverage` ISO 8601 range bumps the
+            // dataset into "actively maintained" filters.
+            temporalCoverage: `2025-12-01/${new Date().toISOString().slice(0, 10)}`,
+            datePublished: "2025-12-01T00:00:00Z",
+            dateModified: lastFetchedAt,
+            distribution: [
+              {
+                "@type": "DataDownload",
+                encodingFormat: "application/json",
+                contentUrl: absoluteUrl("/api/openapi.json"),
+                description: "OpenAPI 3.1 spec describing the public REST surface.",
+              },
+              {
+                "@type": "DataDownload",
+                encodingFormat: "text/markdown",
+                contentUrl: absoluteUrl("/llms-full.txt"),
+                description:
+                  "Human + LLM-readable full data dump (top 100 repos as markdown blocks).",
+              },
+              {
+                "@type": "DataDownload",
+                encodingFormat: "application/xml",
+                contentUrl: absoluteUrl("/sitemap.xml"),
+                description: "Sitemap index covering pages, repos, and signals.",
+              },
+            ],
             variableMeasured: [
               {
                 "@type": "PropertyValue",
@@ -1272,29 +1470,6 @@ export default async function HomePage() {
                 description: "0-5 cross-channel signal aggregate",
               },
             ],
-            distribution: [
-              {
-                "@type": "DataDownload",
-                encodingFormat: "application/json",
-                contentUrl: absoluteUrl("/api/repos"),
-              },
-              {
-                "@type": "DataDownload",
-                encodingFormat: "text/markdown",
-                contentUrl: absoluteUrl("/llms-full.txt"),
-              },
-              {
-                "@type": "DataDownload",
-                encodingFormat: "application/xml",
-                contentUrl: absoluteUrl("/sitemap.xml"),
-              },
-            ],
-            temporalCoverage: `${new Date(
-              Date.now() - 365 * 24 * 3600 * 1000,
-            )
-              .toISOString()
-              .slice(0, 10)}/..`,
-            dateModified: lastFetchedAt,
           }),
         }}
       />

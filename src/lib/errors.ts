@@ -26,7 +26,8 @@ export type EngineErrorSource =
   | "producthunt"
   | "huggingface"
   | "npm"
-  | "arxiv";
+  | "arxiv"
+  | "sentry-canary";
 
 export class GithubRateLimitError extends EngineError {
   readonly category = "quarantine" as const;

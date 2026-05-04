@@ -1,9 +1,11 @@
-// /funding — V4 W4 Funding Radar.
+// /funding - Funding Radar (Signal Radar Phase 1)
 
 import type { Metadata } from "next";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
+import { Metric, MetricGrid } from "@/components/ui/Metric";
 import {
   getFundingFile,
   getFundingSignals,
@@ -12,23 +14,11 @@ import {
   refreshFundingNewsFromStore,
 } from "@/lib/funding-news";
 import type { FundingSignal } from "@/lib/funding/types";
-import { SITE_URL, SITE_NAME, absoluteUrl, safeJsonLd } from "@/lib/seo";
-
-// V4 (CORPUS) primitives.
-import { PageHead } from "@/components/ui/PageHead";
-import { SectionHead } from "@/components/ui/SectionHead";
-import { KpiBand } from "@/components/ui/KpiBand";
-import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
-import { LiveDot } from "@/components/ui/LiveDot";
-import { MoverRow, type FundingStage } from "@/components/funding/MoverRow";
-import { WindowedFundingBoard } from "@/components/funding/WindowedFundingBoard";
-import { companyLogoUrl } from "@/lib/logos";
-import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: "TrendingRepo — Funding Radar",
+  title: "TrendingRepo - Funding Radar",
   description:
     "AI and tech startup funding rounds aggregated from TechCrunch, VentureBeat, and more. Structured extraction with confidence scoring.",
   alternates: { canonical: "/funding" },
@@ -62,17 +52,17 @@ const SOURCE_LABELS: Record<string, string> = {
   newsapi: "NewsAPI",
 };
 
-const ROUND_LABELS: Record<string, FundingStage | string> = {
-  "pre-seed": "Seed",
+const ROUND_LABELS: Record<string, string> = {
+  "pre-seed": "Pre-seed",
   seed: "Seed",
   "series-a": "Series A",
   "series-b": "Series B",
   "series-c": "Series C",
-  "series-d-plus": "Series D",
+  "series-d-plus": "Series D+",
   growth: "Growth",
   ipo: "IPO",
   acquisition: "M&A",
-  undisclosed: "Series A",
+  undisclosed: "Undisclosed",
 };
 
 function compactNumber(value: number | null | undefined): string {
@@ -110,7 +100,7 @@ function sourceName(source: string): string {
 
 function roundName(signal: FundingSignal): string {
   const round = signal.extracted?.roundType ?? "undisclosed";
-  return String(ROUND_LABELS[round] ?? round);
+  return ROUND_LABELS[round] ?? round;
 }
 
 function amountValue(signal: FundingSignal): number {
@@ -135,9 +125,27 @@ function sourceRows(signals: FundingSignal[]) {
     .sort((a, b) => b.count - a.count);
 }
 
+function SectionHead({
+  num,
+  title,
+  meta,
+}: {
+  num: string;
+  title: string;
+  meta: ReactNode;
+}) {
+  return (
+    <div className="sec-head">
+      <span className="sec-num">{`// ${num}`}</span>
+      <h2 className="sec-title">{title}</h2>
+      <span className="sec-meta">{meta}</span>
+    </div>
+  );
+}
+
 function EmptyState({ cold }: { cold: boolean }) {
   return (
-    <Card className="p-8 text-sm" style={{ color: "var(--v4-ink-300)" }}>
+    <Card className="p-8 text-sm text-text-secondary">
       {cold
         ? "Funding data has not landed yet. Run the scraper to populate the radar."
         : "The scraper ran but found no funding-related headlines in the current window."}
@@ -159,45 +167,6 @@ export default async function FundingPage() {
     .filter((signal) => signal.extracted)
     .sort((a, b) => amountValue(b) - amountValue(a));
   const topRounds = rounds.slice(0, 10);
-
-  // Windowed Top rounds — filter rounds by publishedAt age, then pre-render
-  // MoverRow trees server-side. Client switcher just swaps which list to
-  // render. AUDIT-2026-05-04 follow-up: user asked for 24h/7d/30d on every
-  // source page; funding had only a fixed all-time top.
-  const nowMs = Date.now();
-  const HOUR_MS = 3_600_000;
-  const renderRoundList = (windowMs: number) =>
-    rounds
-      .filter((signal) => {
-        const t = Date.parse(signal.publishedAt);
-        return Number.isFinite(t) && nowMs - t <= windowMs;
-      })
-      .slice(0, 10)
-      .map((signal, index) => {
-        // AUDIT-2026-05-04: closes the funding-page no-images gap.
-        // Prefer the extractor's pre-resolved logoUrl when populated,
-        // otherwise derive a Google Favicons URL from companyWebsite.
-        const explicit = signal.extracted?.companyLogoUrl ?? null;
-        const logoUrl =
-          explicit ?? companyLogoUrl(signal.extracted?.companyWebsite ?? null);
-        return (
-          <MoverRow
-            key={signal.id}
-            rank={index + 1}
-            first={index === 0}
-            name={signalTitle(signal)}
-            meta={`${sourceName(signal.sourcePlatform)} · ${formatAge(signal.publishedAt)}`}
-            amount={signal.extracted?.amountDisplay ?? "Undisclosed"}
-            stage={roundName(signal)}
-            href={signal.sourceUrl}
-            logoUrl={logoUrl}
-            logoName={signal.extracted?.companyName ?? signalTitle(signal)}
-          />
-        );
-      });
-  const rounds24h = renderRoundList(24 * HOUR_MS);
-  const rounds7d = renderRoundList(7 * 24 * HOUR_MS);
-  const rounds30d = renderRoundList(30 * 24 * HOUR_MS);
   const recent = signals
     .slice()
     .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt))
@@ -206,119 +175,52 @@ export default async function FundingPage() {
   const megaRounds = rounds.filter((signal) => amountValue(signal) >= 100_000_000).length;
   const totalAmount = stats.totalAmountUsd ?? 0;
 
-  const fundingLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "@id": `${SITE_URL.replace(/\/+$/, "")}/funding#article`,
-    headline: "Funding radar: AI and tech startup rounds aggregated live",
-    description:
-      "AI and tech startup funding rounds aggregated from TechCrunch, VentureBeat, Sifted, and X/Twitter. Structured extraction with per-claim confidence scoring.",
-    author: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
-    publisher: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
-    datePublished: "2025-12-01T00:00:00Z",
-    dateModified: file?.fetchedAt ?? new Date().toISOString(),
-    mainEntityOfPage: { "@type": "WebPage", "@id": absoluteUrl("/funding") },
-    inLanguage: "en-US",
-    image: absoluteUrl("/og-card.png"),
-    articleSection: "Funding Radar",
-    keywords: [
-      "ai startup funding",
-      "tech funding rounds",
-      "techcrunch venturebeat aggregator",
-      "open source funding signals",
-      "developer-tools funding",
-    ],
-    isPartOf: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#website` },
-  };
-
   return (
     <main className="home-surface funding-page">
-      <PageHead
-        crumb={
-          <>
-            <b>FUNDING</b> · TERMINAL · /FUNDING
-          </>
-        }
-        h1="Who just raised money."
-        lede="Funding signals from startup and venture feeds, normalized into amount, stage, source, and confidence. Structured extraction with confidence scoring."
-        clock={
-          <>
-            <span className="big">{computed}</span>
-            <span className="muted">UTC · UPDATED</span>
-            <LiveDot label={`LIVE · ${file.windowDays}D`} />
-          </>
-        }
-      />
+      <section className="page-head">
+        <div>
+          <div className="crumb">
+            <b>Funding</b> / launch terminal / 7d radar
+          </div>
+          <h1>Who just raised money.</h1>
+          <p className="lede">
+            Funding signals from startup and venture feeds, normalized into
+            amount, stage, source, and confidence.
+          </p>
+        </div>
+        <div className="clock">
+          <span className="big">{computed}</span>
+          <span className="live">updated</span>
+        </div>
+      </section>
 
-      <VerdictRibbon
-        tone="money"
-        stamp={{
-          eyebrow: "// CAPITAL RADAR",
-          headline: money(totalAmount),
-          sub: `${file.windowDays}d window · computed ${computed} UTC`,
-        }}
-        text={
-          <>
-            <b>{signals.length} funding signals</b> are in the current window.{" "}
-            <span style={{ color: "var(--v4-violet)" }}>{extracted} extracted rounds</span>{" "}
-            include{" "}
-            <span style={{ color: "var(--v4-amber)" }}>{megaRounds} mega rounds</span> and{" "}
-            <span style={{ color: "var(--v4-money)" }}>
-              {highConfidence} high-confidence
-            </span>{" "}
-            company matches.
-          </>
-        }
-        actionHref="/feeds/funding.xml"
-        actionLabel="RSS →"
-      />
+      <section className="verdict">
+        <div className="v-stamp">
+          <span>capital radar</span>
+          <span className="ts">{money(totalAmount)}</span>
+          <span className="ago">{file.windowDays}d window</span>
+        </div>
+        <p className="v-text">
+          <b>{signals.length} funding signals</b> are in the current window.{" "}
+          <span className="hl-early">{extracted} extracted rounds</span> include{" "}
+          <span className="hl-div">{megaRounds} mega rounds</span> and{" "}
+          <span className="hl-early">{highConfidence} high-confidence</span>{" "}
+          company matches.
+        </p>
+        <div className="v-actions">
+          <Link href="/revenue">Revenue</Link>
+          <Link href="/feeds/funding.xml">RSS</Link>
+        </div>
+      </section>
 
-      <KpiBand
-        className="kpi-band"
-        cells={[
-          {
-            label: "SIGNALS",
-            value: signals.length,
-            sub: "tracked",
-            pip: "var(--v4-ink-300)",
-          },
-          {
-            label: "EXTRACTED",
-            value: extracted,
-            sub: "structured",
-            tone: "money",
-            pip: "var(--v4-money)",
-          },
-          {
-            label: "CAPITAL",
-            value: money(totalAmount),
-            sub: "parsed total",
-            tone: "money",
-            pip: "var(--v4-money)",
-          },
-          {
-            label: "THIS WEEK",
-            value: stats.thisWeekCount,
-            sub: "fresh items",
-            tone: "acc",
-            pip: "var(--v4-blue)",
-          },
-          {
-            label: "MEGA",
-            value: megaRounds,
-            sub: "$100M+",
-            tone: "acc",
-            pip: "var(--v4-acc)",
-          },
-          {
-            label: "CONFIDENCE",
-            value: highConfidence,
-            sub: `${mediumConfidence} medium`,
-            tone: "amber",
-            pip: "var(--v4-amber)",
-          },
-        ]}
-      />
+      <MetricGrid columns={6} className="kpi-band">
+        <Metric label="Signals" value={signals.length} sub="tracked" pip />
+        <Metric label="Extracted" value={extracted} sub="structured" tone="positive" pip />
+        <Metric label="Capital" value={money(totalAmount)} sub="parsed total" tone="positive" pip />
+        <Metric label="This week" value={stats.thisWeekCount} sub="fresh items" tone="external" pip />
+        <Metric label="Mega" value={megaRounds} sub="$100M+" tone="accent" pip />
+        <Metric label="Confidence" value={highConfidence} sub={`${mediumConfidence} medium`} tone="warning" pip />
+      </MetricGrid>
 
       <div className="src-strip funding-sources">
         {sources.length > 0 ? (
@@ -357,13 +259,9 @@ export default async function FundingPage() {
       ) : (
         <>
           <SectionHead
-            num="// 01"
+            num="01"
             title="Capital movement"
-            meta={
-              <>
-                <b>{topRounds.length}</b> · largest rounds
-              </>
-            }
+            meta={<><b>{topRounds.length}</b> / largest rounds</>}
           />
           <div className="grid">
             <Card className="col-8 funding-chart">
@@ -409,29 +307,40 @@ export default async function FundingPage() {
           </div>
 
           <SectionHead
-            num="// 02"
+            num="02"
             title="Top rounds"
-            meta={
-              <>
-                <b>biggest</b> · 24h / 7d / 30d
-              </>
-            }
+            meta={<><b>{topRounds.length}</b> / extracted</>}
           />
-          <WindowedFundingBoard
-            rows24h={rounds24h}
-            rows7d={rounds7d}
-            rows30d={rounds30d}
-            defaultWindow="7d"
-          />
+          <section className="board funding-board">
+            {topRounds.map((signal, index) => (
+              <Link
+                key={signal.id}
+                href={signal.sourceUrl}
+                className={`mover-row ${index === 0 ? "first" : ""}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span className="rk">{String(index + 1).padStart(2, "0")}</span>
+                <span className="nm">
+                  <span className="h">{signalTitle(signal)}</span>
+                  <span className="meta">
+                    <span className="tag">{sourceName(signal.sourcePlatform)}</span>
+                    {formatAge(signal.publishedAt)}
+                  </span>
+                </span>
+                <span className="amt">
+                  {signal.extracted?.amountDisplay ?? "Undisclosed"}
+                  <span className="lbl">raised</span>
+                </span>
+                <span className="stage">{roundName(signal)}</span>
+              </Link>
+            ))}
+          </section>
 
           <SectionHead
-            num="// 03"
+            num="03"
             title="Recent signals"
-            meta={
-              <>
-                <b>{recent.length}</b> · latest
-              </>
-            }
+            meta={<><b>{recent.length}</b> / latest</>}
           />
           <div className="grid">
             <Card className="col-6">

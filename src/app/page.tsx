@@ -11,6 +11,7 @@
 // formula stays source-of-truth in one place (src/lib/seo.ts).
 
 import { getDerivedRepos } from "@/lib/derived-repos";
+import type { ReactNode } from "react";
 import { lastFetchedAt } from "@/lib/trending";
 import {
   getSkillsSignalData,
@@ -19,33 +20,11 @@ import {
 } from "@/lib/ecosystem-leaderboards";
 import { BubbleMap } from "@/components/terminal/BubbleMap";
 import { HomeEmptyState } from "@/components/home/HomeEmptyState";
-import {
-  LiveTopTable,
-  type LiveSkill,
-  type LiveMcp,
-} from "@/components/home/LiveTopTable";
-import { Tr100IndexChart, type Tr100Point } from "@/components/home/Tr100IndexChart";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { ChartStat, ChartStats } from "@/components/ui/ChartShell";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
 import { FooterBar } from "@/components/ui/FooterBar";
-import { SectionHead } from "@/components/ui/SectionHead";
-import { EntityLogo } from "@/components/ui/EntityLogo";
-import {
-  GithubIcon,
-  HackerNewsIcon,
-  RedditIcon,
-  BlueskyIcon,
-  DevtoIcon,
-} from "@/components/brand/BrandIcons";
-import {
-  LiveTopTable,
-  type LiveRow,
-  type CategoryFacet,
-} from "@/components/home/LiveTopTable";
 import { CATEGORIES } from "@/lib/constants";
-import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
-import { repoLogoUrl } from "@/lib/logos";
 import type { Repo } from "@/lib/types";
 import {
   SITE_NAME,
@@ -74,12 +53,10 @@ const HOMEPAGE_FAQ: ReadonlyArray<{ q: string; a: string; aHtml?: string }> = [
   {
     q: "How is the momentum score calculated?",
     a: "A composite 0-100 score based on 24h / 7d / 30d star velocity, fork growth, contributor churn, commit freshness, release cadence, and anti-spam dampening. Breakouts are flagged when velocity exceeds rolling baselines by 2 sigma.",
-    aHtml: 'A composite 0-100 score based on 24h / 7d / 30d star velocity, fork growth, contributor churn, commit freshness, release cadence, and anti-spam dampening. Breakouts are flagged when velocity exceeds rolling baselines by 2 <a href="https://en.wikipedia.org/wiki/Standard_deviation">sigma</a>. The methodology draws on cross-platform popularity-signal research surveyed in <a href="https://arxiv.org/abs/1906.06916">arXiv:1906.06916</a> on GitHub repository influence.',
   },
   {
     q: "Can I query TrendingRepo from a terminal or agent?",
     a: "Yes - three interfaces: a zero-dependency CLI (Node 18+), an MCP server for Claude / any agent, and a Portal v0.1 endpoint. All three hit the same live pipeline, so results never drift.",
-    aHtml: 'Yes - three interfaces: a zero-dependency <a href="https://en.wikipedia.org/wiki/Command-line_interface">CLI</a> (Node 18+), an MCP server for Claude / any agent, and a Portal v0.1 endpoint. All three hit the same live pipeline, so results never drift.',
   },
   {
     q: "How often is the data refreshed?",
@@ -88,7 +65,6 @@ const HOMEPAGE_FAQ: ReadonlyArray<{ q: string; a: string; aHtml?: string }> = [
   {
     q: "Is there an API?",
     a: "Yes - public REST endpoints under /api/repos with filtering, sorting, and pagination. The Portal v0.1 manifest exposes the same tools over structured JSON-RPC.",
-    aHtml: 'Yes - public <a href="https://en.wikipedia.org/wiki/REST">REST</a> endpoints under /api/repos with filtering, sorting, and pagination. The Portal v0.1 manifest exposes the same tools over structured <a href="https://www.jsonrpc.org/specification">JSON-RPC 2.0</a>.',
   },
   {
     q: "How do I submit my own repo?",
@@ -108,13 +84,8 @@ interface HomeEntity {
   delta: number;
   pct: number | null;
   sparkline: number[];
-  hasRealSparkline: boolean;
   stars?: number;
   channels?: number;
-  /** GitHub owner avatar URL — empty string falls back to the monogram. */
-  logoUrl: string;
-  /** First letter for the monogram fallback. */
-  initial: string;
 }
 
 const CATEGORY_LABELS = new Map(CATEGORIES.map((c) => [c.id, c.shortName]));
@@ -159,46 +130,16 @@ function repoEntity(repo: Repo): HomeEntity {
     delta: repo.starsDelta24h,
     pct: percentDelta(repo.starsDelta24h, repo.stars),
     sparkline: repo.sparklineData,
-    hasRealSparkline: repo.sparklineData.length > 1,
     stars: repo.stars,
     channels: sourceCount(repo),
-    // Direct GitHub owner avatar — public, stable, no auth, served via
-    // `<img>` on the SSR pass so users see a face on first paint instead
-    // of a dead grey square. EntityLogo's monogram fallback fires
-    // client-side via onError.
-    logoUrl: `https://github.com/${encodeURIComponent(repo.owner)}.png?size=40`,
-    initial: (repo.owner.charAt(0) || "?").toUpperCase(),
   };
 }
 
 function ecosystemEntity(
   item: EcosystemLeaderboardItem,
   kind: Exclude<HomeEntityKind, "repo">,
-  repoByFullName?: Map<string, Repo>,
 ): HomeEntity {
-  // Both MCP and skill rows benefit from the linked GitHub repo's
-  // 24h/7d/30d star deltas + sparkline. Registry-side install deltas
-  // (installsDelta1d/7d/30d) are only populated once skills.sh /
-  // registry fetchers have a comparison snapshot, so most rows fall
-  // back to 0 — leaving the home grid showing "+0 24h NO SERIES" for
-  // 4 of 5 rows even though the linked repos have real velocity.
-  // Prefer linked-repo deltas first, fall back to installs.
-  const useRepoFallback = kind === "mcp" || kind === "skill";
-  // Skill / MCP items often leave `linkedRepo` null but expose a github.com
-  // url — parse owner/name from there as a fallback so the home rows surface
-  // real velocity for as many entries as possible.
-  const fullNameFromUrl = (() => {
-    if (typeof item.url !== "string") return null;
-    const m = item.url.match(/github\.com\/([^/?#]+)\/([^/?#]+)/i);
-    if (!m) return null;
-    return `${m[1]}/${m[2].replace(/\.git$/i, "")}`.toLowerCase();
-  })();
-  const lookupKey = (item.linkedRepo ?? fullNameFromUrl)?.toLowerCase() ?? null;
-  const linked = lookupKey
-    ? (repoByFullName?.get(lookupKey) ?? null)
-    : null;
-  const raw24 =
-    (useRepoFallback ? linked?.starsDelta24h : undefined) ??
+  const delta =
     item.mcp?.installs24h ??
     item.installsDelta7d ??
     item.forkVelocity7d ??
@@ -208,17 +149,6 @@ function ecosystemEntity(
     item.installs7d ??
     item.mcp?.useCount ??
     Math.max(100, delta * 4);
-  // Same SSR-friendly avatar logic as repoEntity. ecosystem items expose
-  // logoUrl directly when available; otherwise derive from linkedRepo's
-  // GitHub owner. Empty string → EntityHeroRow renders monogram instead.
-  const linkedOwner = item.linkedRepo?.split("/", 1)[0]?.trim() ?? "";
-  const fallbackOwnerLogo = linkedOwner
-    ? `https://github.com/${encodeURIComponent(linkedOwner)}.png?size=40`
-    : "";
-  const cleanLogo =
-    typeof item.logoUrl === "string" && item.logoUrl.trim() ? item.logoUrl.trim() : "";
-  const logoUrl = cleanLogo || fallbackOwnerLogo;
-  const initial = (item.title.charAt(0) || "?").toUpperCase();
   return {
     id: item.id,
     kind,
@@ -231,39 +161,19 @@ function ecosystemEntity(
       (kind === "skill" ? "skill signal" : "mcp signal"),
     score: item.signalScore,
     delta,
-    // No synthetic pct — was previously delta/base off-of-score, which
-    // produced fake "+30%" badges on rows with zero real velocity.
-    pct: null,
-    sparkline: realSparkline,
-    hasRealSparkline: realSparkline.length > 1,
+    pct: percentDelta(delta, base),
+    sparkline: buildSyntheticSparkline(item.signalScore, delta),
     stars: typeof item.popularity === "number" ? item.popularity : undefined,
     channels: item.crossSourceCount,
-    logoUrl,
-    initial,
   };
 }
 
-function emptySparkline(): number[] {
-  return [];
-}
-
-function dedupeSkillItemsForHome(
-  items: EcosystemLeaderboardItem[],
-): EcosystemLeaderboardItem[] {
-  const byRepo = new Map<string, EcosystemLeaderboardItem>();
-  const noRepo: EcosystemLeaderboardItem[] = [];
-  for (const item of items) {
-    const key = item.linkedRepo?.toLowerCase();
-    if (!key) {
-      noRepo.push(item);
-      continue;
-    }
-    const current = byRepo.get(key);
-    if (!current || item.signalScore > current.signalScore) {
-      byRepo.set(key, item);
-    }
-  }
-  return [...byRepo.values(), ...noRepo];
+function buildSyntheticSparkline(score: number, delta: number): number[] {
+  const trend = Math.max(1, delta / 120);
+  return Array.from({ length: 16 }, (_, i) => {
+    const wobble = Math.sin((i + score) * 0.9) * 3;
+    return Math.max(1, Math.round(score / 3 + i * trend + wobble));
+  });
 }
 
 function topByDelta(repos: Repo[], limit: number): HomeEntity[] {
@@ -297,116 +207,38 @@ function sparkPath(values: number[], width: number, height: number): string {
     .join(" ");
 }
 
-// Same as sparkPath but with externally-supplied min/max so multiple lines
-// drawn into one SVG share a Y axis instead of self-normalising.
-function scaledSparkPath(
-  values: number[],
-  width: number,
-  height: number,
-  vMin: number,
-  vMax: number,
-  padX = 4,
-  padY = 10,
-): string {
-  if (values.length < 2) return "";
-  const span = vMax - vMin || 1;
-  return values
-    .map((value, index) => {
-      const x = padX + (index / (values.length - 1)) * (width - 2 * padX);
-      const y = height - padY - ((value - vMin) / span) * (height - 2 * padY);
-      return `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
-    })
-    .join(" ");
-}
-
-function formatPct(delta: number, base: number): string | null {
-  const pct = percentDelta(delta, base);
-  if (pct === null) return null;
-  return `${pct >= 0 ? "+" : ""}${pct}%`;
-}
-
-// Vercel/Linear/Stripe-style mini sparkline:
-//   1. area path, vertical alpha-gradient fill
-//   2. crisp 1.5px stroke on top
-//   3. end-point dot with halo glow
-// Implemented as pure inline SVG — no extra deps, scales with viewBox.
-let __sparkGradId = 0;
-
 function Sparkline({
   values,
   color = "var(--sig-green)",
   className = "spark",
-  area = true,
-  width = 72,
-  height = 24,
 }: {
   values: number[];
   color?: string;
   className?: string;
-  area?: boolean;
-  width?: number;
-  height?: number;
 }) {
-  const d = sparkPath(values, width, height);
-  // Stable per-instance id avoids gradient cross-talk when many spark SVGs
-  // are mounted in the same DOM (Hero panels, live table, etc.).
-  const gradId = `sg-${(__sparkGradId = (__sparkGradId + 1) % 1_000_000)}`;
-
-  // Compute end-point coords for the trailing dot.
-  const points = values.length > 1 ? values : [1, 1];
-  const max = Math.max(...points);
-  const min = Math.min(...points);
-  const span = max - min || 1;
-  const lastIdx = points.length - 1;
-  const lastVal = points[lastIdx];
-  const endX =
-    (lastIdx / Math.max(1, points.length - 1)) * (width - 2) + 1;
-  const endY = height - 2 - ((lastVal - min) / span) * (height - 4);
-
-  const lastX = (width - 1).toFixed(1);
-  const firstX = "1";
-  const baseY = (height - 1).toFixed(1);
-  const areaPath = `${d} L${lastX},${baseY} L${firstX},${baseY} Z`;
-
+  const d = sparkPath(values, 72, 24);
   return (
-    <svg
-      className={className}
-      viewBox={`0 0 ${width} ${height}`}
-      preserveAspectRatio="none"
-    >
-      <defs>
-        <linearGradient id={gradId} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.42" />
-          <stop offset="60%" stopColor={color} stopOpacity="0.12" />
-          <stop offset="100%" stopColor={color} stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      {area ? <path d={areaPath} fill={`url(#${gradId})`} /> : null}
-      <path
-        d={d}
-        fill="none"
-        stroke={color}
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-        vectorEffect="non-scaling-stroke"
-      />
-      {/* Halo + dot at the trailing point — the visual cue from
-          Vercel/TradingView mini-charts. */}
-      <circle
-        cx={endX}
-        cy={endY}
-        r="3"
-        fill={color}
-        opacity="0.22"
-      />
-      <circle
-        cx={endX}
-        cy={endY}
-        r="1.6"
-        fill={color}
-      />
+    <svg className={className} viewBox="0 0 72 24" preserveAspectRatio="none">
+      <path d={d} fill="none" stroke={color} strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
     </svg>
+  );
+}
+
+function SectionHead({
+  num,
+  title,
+  meta,
+}: {
+  num: string;
+  title: string;
+  meta: ReactNode;
+}) {
+  return (
+    <div className="sec-head">
+      <span className="sec-num">{`// ${num}`}</span>
+      <h2 className="sec-title">{title}</h2>
+      <span className="sec-meta">{meta}</span>
+    </div>
   );
 }
 
@@ -419,73 +251,22 @@ function EntityHeroRow({
   index: number;
   color: string;
 }) {
-  const lineColor = entity.delta < 0 ? "var(--sig-red)" : color;
-  const pctText =
-    entity.pct !== null
-      ? `${entity.pct >= 0 ? "+" : ""}${entity.pct}%`
-      : null;
   return (
     <a
       className={`hero-row ${index === 0 ? "first" : ""}`}
       href={entity.href}
-      style={index === 0 ? ({ ["--row-acc"]: color } as React.CSSProperties) : undefined}
     >
       <div className="rk">{String(index + 1).padStart(2, "0")}</div>
       <div className="nm">
-        {entity.logoUrl ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
-            className="av"
-            src={entity.logoUrl}
-            alt=""
-            width={20}
-            height={20}
-            loading="lazy"
-            referrerPolicy="no-referrer"
-            style={{ objectFit: "cover" }}
-            aria-hidden="true"
-          />
-        ) : (
-          <span className="av" aria-hidden="true">
-            {entity.initial}
-          </span>
-        )}
+        <span className="av" aria-hidden="true" />
         <span className="txt">{entity.name}</span>
-        <span className="sub">{entity.sub}</span>
-      </span>
-      <span className={`delta-stack ${entity.delta < 0 ? "dn" : ""}`}>
-        <span className="d">
+        <span className={`delta-inline ${entity.delta < 0 ? "dn" : ""}`}>
           {formatDelta(entity.delta)}
-          <span className="d-lbl">{entity.deltaUnit ?? "24h"}</span>
+          {entity.pct !== null ? <span className="pct">+{entity.pct}%</span> : null}
         </span>
-        {entity.delta7d !== undefined ? (
-          <span className={`d-sec ${entity.delta7d < 0 ? "dn" : ""}`}>
-            {formatDelta(entity.delta7d)}
-            <span className="d-lbl">7d</span>
-          </span>
-        ) : null}
-        {entity.delta30d !== undefined ? (
-          <span className={`d-sec ${entity.delta30d < 0 ? "dn" : ""}`}>
-            {formatDelta(entity.delta30d)}
-            <span className="d-lbl">30d</span>
-          </span>
-        ) : null}
-        {pctText ? <span className="pct">{pctText}</span> : null}
-      </span>
-      {entity.hasRealSparkline ? (
-        <Sparkline
-          values={entity.sparkline}
-          color={lineColor}
-          className="spark"
-          area
-          width={92}
-          height={30}
-        />
-      ) : (
-        <span className="spark spark-missing" aria-label="No live series">
-          NO SERIES
-        </span>
-      )}
+      </div>
+      <span className="sub">{entity.sub}</span>
+      <Sparkline values={entity.sparkline} color={entity.delta < 0 ? "var(--sig-red)" : color} />
     </a>
   );
 }
@@ -514,13 +295,9 @@ function HeroPanel({
         <span className="muted-dot">/ {formatCompact(count)} tracked</span>
       </CardHeader>
       <div className="panel-body">
-        {items.length > 0 ? (
-          items.map((item, index) => (
-            <EntityHeroRow key={`${title}-${item.id}`} entity={item} index={index} color={color} />
-          ))
-        ) : (
-          <div className="hero-panel-empty">waiting for live rows</div>
-        )}
+        {items.map((item, index) => (
+          <EntityHeroRow key={`${title}-${item.id}`} entity={item} index={index} color={color} />
+        ))}
       </div>
       <div className="cat-foot">
         <span>updated {new Date(lastFetchedAt).toISOString().slice(11, 16)} utc</span>
@@ -530,35 +307,18 @@ function HeroPanel({
   );
 }
 
-const SOURCE_ICONS: ReadonlyArray<{
-  key: string;
-  label: string;
-  Icon: (props: { size?: number; className?: string }) => React.ReactElement;
-}> = [
-  { key: "gh", label: "GitHub", Icon: GithubIcon },
-  { key: "hn", label: "Hacker News", Icon: HackerNewsIcon },
-  { key: "r", label: "Reddit", Icon: RedditIcon },
-  { key: "b", label: "Bluesky", Icon: BlueskyIcon },
-  { key: "d", label: "dev.to", Icon: DevtoIcon },
-];
-
 function ConsensusRow({ repo, index }: { repo: Repo; index: number }) {
   const channels = Math.max(1, sourceCount(repo));
+  const score = repo.crossSignalScore ?? channels;
   return (
     <a className={`cons-row ${index === 0 ? "first" : ""}`} href={`/repo/${repo.owner}/${repo.name}`}>
       <div className="cons-top">
         <span className="rk">{String(index + 1).padStart(2, "0")}</span>
-        <EntityLogo
-          src={repoLogoUrl(repo.fullName, 64)}
-          name={repo.fullName}
-          size={28}
-          className="cons-av"
-        />
         <span className="nm">
           <span className="h">{repo.fullName}</span>
           <span className="meta">
             <span className="tag">{categoryLabel(repo)}</span>
-            {channels} sources
+            {channels} sources / score {score.toFixed(1)}
           </span>
         </span>
         <span className="delta">
@@ -568,14 +328,9 @@ function ConsensusRow({ repo, index }: { repo: Repo; index: number }) {
       </div>
       <div className="cons-bot">
         <span className="srcs" aria-label={`${channels} sources firing`}>
-          {SOURCE_ICONS.slice(0, channels).map(({ key, label, Icon }) => (
-            <span
-              key={key}
-              className={`sd sd-${key}`}
-              title={label}
-              aria-label={label}
-            >
-              <Icon size={16} />
+          {["GH", "HN", "R", "B", "D"].slice(0, channels).map((label) => (
+            <span key={label} className={`sd sd-${label.toLowerCase()}`}>
+              {label}
             </span>
           ))}
         </span>
@@ -592,12 +347,6 @@ function BreakoutRow({ repo, index }: { repo: Repo; index: number }) {
   return (
     <a className={`brk-row ${index === 0 ? "first" : ""}`} href={`/repo/${repo.owner}/${repo.name}`}>
       <span className="rk">{String(index + 1).padStart(2, "0")}</span>
-      <EntityLogo
-        src={repoLogoUrl(repo.fullName, 64)}
-        name={repo.fullName}
-        size={28}
-        className="brk-av"
-      />
       <span className="nm">
         <span className="h">{repo.fullName}</span>
         <span className="meta">{categoryLabel(repo)} / {repo.movementStatus.replace("_", " ")}</span>
@@ -621,54 +370,25 @@ function FeaturedCard({
   entity: HomeEntity;
   index: number;
 }) {
-  const badge =
-    index === 0
-      ? "Featured / deep dive"
-      : index === 1
-        ? "Breakout"
-        : "New signal";
-  const sparkColor =
-    entity.delta < 0
-      ? "var(--sig-red)"
-      : index === 0
-        ? "var(--acc)"
-        : "var(--sig-cyan)";
-  const mentionsLabel = entity.kind === "repo" ? "mentions" : "installs 7d";
-  const pctText = entity.pct !== null ? `${entity.pct >= 0 ? "+" : ""}${entity.pct}%` : null;
   return (
     <a className={`feat-card ${index === 0 ? "hero" : "sec"}`} href={entity.href}>
-      <div className="head">
-        <span className="badge">{badge}</span>
-        <span className="kind">
-          {entity.kind.toUpperCase()}
-          {entity.category && entity.category.toUpperCase() !== entity.kind.toUpperCase()
-            ? ` · ${entity.category}`
-            : ""}
-        </span>
-      </div>
-      <div className="title-row">
-        <EntityLogo src={entity.logoUrl} name={entity.name} size={28} />
-        <h3 className="title">{entity.name}</h3>
-      </div>
-      <Sparkline values={entity.sparkline} className="spark-feat" color={sparkColor} />
+      <span className="badge">{index === 0 ? "Featured / deep dive" : index === 1 ? "Breakout" : "New signal"}</span>
+      <h3 className="title">{entity.name}</h3>
+      <p className="repo">{entity.kind.toUpperCase()} / {entity.sub}</p>
+      <p className="desc">
+        {index === 0
+          ? "Highest-confidence mover across star velocity, source agreement, and category momentum."
+          : "A compact signal worth watching before it becomes obvious in the weekly rankings."}
+      </p>
+      <Sparkline values={entity.sparkline} className="spark-feat" color={index === 0 ? "var(--acc)" : "var(--sig-cyan)"} />
       <div className="stats">
-        <span>
-          <b>{entity.stars ? formatCompact(entity.stars) : formatCompact(entity.score)}</b>
-          <i>{entity.stars ? "stars" : "score"}</i>
-        </span>
-        <span>
-          <b className={entity.delta < 0 ? "dn" : "up"}>{formatDelta(entity.delta)}</b>
-          <i>24h{pctText ? ` · ${pctText}` : ""}</i>
-        </span>
-        <span>
-          <b>{formatCompact(entity.mentions ?? 0)}</b>
-          <i>{mentionsLabel}</i>
-        </span>
-        <span>
-          <b>{entity.channels ?? 1}</b>
-          <i>sources</i>
-        </span>
+        <span><b>{entity.stars ? formatCompact(entity.stars) : formatCompact(entity.score)}</b> scale</span>
+        <span><b className="up">{formatDelta(entity.delta)}</b> 24h</span>
+        <span><b>{entity.channels ?? 1}</b> sources</span>
       </div>
+      {index === 0 ? (
+        <span className="why"><b>Why now</b> / top ranked by cross-signal confidence and fresh momentum.</span>
+      ) : null}
     </a>
   );
 }
@@ -720,61 +440,20 @@ export default async function HomePage() {
     .sort((a, b) => b.starsDelta24h - a.starsDelta24h)
     .slice(0, 20);
 
-  // TR-100 Index (// 06): aggregate the top-100 repos' daily sparklines
-  // into one 30-day cumulative-stars index. The previous inline SVG
-  // jammed `flatMap(spark.slice(-2))` from 30 unrelated repos into a
-  // single line, producing the cliff-edge zigzag the user complained
-  // about. Sum-by-day gives a smooth, monotonic line.
-  const tr100Top = [...repos]
-    .sort((a, b) => b.momentumScore - a.momentumScore)
-    .slice(0, 100);
-  const SERIES_DAYS = 30;
-  const dayMs = 86_400_000;
-  const fetchedTs = Date.parse(lastFetchedAt);
-  const todayStart = Number.isFinite(fetchedTs)
-    ? Math.floor(fetchedTs / dayMs) * dayMs
-    : Math.floor(Date.now() / dayMs) * dayMs;
-  const dailySum = new Array<number>(SERIES_DAYS).fill(0);
-  for (const repo of tr100Top) {
-    const spark = Array.isArray(repo.sparklineData) ? repo.sparklineData : [];
-    if (spark.length === 0) continue;
-    // Right-align the per-repo sparkline in our 30-day window so the
-    // most recent datapoint lines up with `today`. Repos with shorter
-    // history pad-left with their first known star count (preserves
-    // monotonicity instead of dropping to zero).
-    const offset = SERIES_DAYS - spark.length;
-    const seed = spark[0] ?? 0;
-    for (let i = 0; i < SERIES_DAYS; i++) {
-      const idx = i - offset;
-      const value = idx < 0 ? seed : (spark[idx] ?? spark[spark.length - 1] ?? 0);
-      if (Number.isFinite(value)) dailySum[i] += value;
-    }
-  }
-  const tr100Series: Tr100Point[] = dailySum.map((value, i) => ({
-    ts: todayStart - (SERIES_DAYS - 1 - i) * dayMs,
-    value,
-  }));
-
   const skillsBoard = skillsItems
-    ? dedupeSkillItemsForHome(skillsItems)
-        .map((item) => ecosystemEntity(item, "skill", repoByFullName))
-        .sort((a, b) => b.delta - a.delta)
-        .slice(0, 5)
-    : [];
+    ? skillsItems.slice(0, 7).map((item) => ecosystemEntity(item, "skill"))
+    : topCategoryFallback(repos, ["ai-agents", "ai-ml", "devtools"], 7);
   const mcpBoard = mcpItems
-    ? mcpItems
-        .map((item) => ecosystemEntity(item, "mcp", repoByFullName))
-        .sort((a, b) => b.delta - a.delta)
-        .slice(0, 5)
-    : topCategoryFallback(repos, ["mcp"], 5);
-  const repoBoard = topByDelta(repos, 5);
+    ? mcpItems.slice(0, 7).map((item) => ecosystemEntity(item, "mcp"))
+    : topCategoryFallback(repos, ["mcp"], 7);
+  const repoBoard = topByDelta(repos, 7);
   const consensusRepos = [...repos]
     .sort(
       (a, b) =>
         (b.crossSignalScore ?? sourceCount(b)) -
         (a.crossSignalScore ?? sourceCount(a)),
     )
-    .slice(0, 8);
+    .slice(0, 7);
   const breakoutRepos = [...repos]
     .sort((a, b) => {
       const aBase = Math.max(1, a.starsDelta7d / 7);
@@ -785,66 +464,9 @@ export default async function HomePage() {
   const featured = [...repoBoard, ...skillsBoard, ...mcpBoard]
     .sort((a, b) => b.score + b.delta / 100 - (a.score + a.delta / 100))
     .slice(0, 3);
-  // 24h/7d/30d window switching is owned by <LiveTopTable> (client). We
-  // pass the full repo[] + ecosystem items so the user can re-sort without
-  // a round trip. Old fixed-momentum sort retained for the cold render
-  // (used until React hydrates). Top 50 by 24h delta gives a reasonable
-  // default view; LiveTopTable shows top `limit` per its own current sort.
-  // Reuse the synthetic-sparkline + logo-resolution logic so the LiveTopTable
-  // rows look as alive as the hero panels above. Skills/mcp ecosystem items
-  // don't carry their own per-day star series — buildSyntheticSparkline gives
-  // us a smooth wobble keyed off (signalScore, delta) so each row still has
-  // a per-row trend chart instead of a dead `—`.
-  const liveSkillItems: LiveSkill[] = (skillsItems ?? [])
-    .slice(0, 50)
-    .map((item): LiveSkill => {
-      const delta = item.installsDelta1d ?? 0;
-      const linkedOwner = item.linkedRepo?.split("/", 1)[0]?.trim() ?? "";
-      const fallbackOwnerLogo = linkedOwner
-        ? `https://github.com/${encodeURIComponent(linkedOwner)}.png?size=40`
-        : "";
-      const cleanLogo =
-        typeof item.logoUrl === "string" && item.logoUrl.trim()
-          ? item.logoUrl.trim()
-          : "";
-      return {
-        id: `skill-${item.id}`,
-        name: item.title,
-        href: item.url,
-        sub: item.sourceLabel ?? item.topic,
-        score: item.signalScore,
-        delta24h: delta,
-        delta7d: item.installsDelta7d ?? 0,
-        delta30d: item.installsDelta30d ?? 0,
-        logoUrl: cleanLogo || fallbackOwnerLogo || undefined,
-        sparkline: buildSyntheticSparkline(item.signalScore, delta),
-      };
-    });
-  const liveMcpItems: LiveMcp[] = (mcpItems ?? [])
-    .slice(0, 50)
-    .map((item): LiveMcp => {
-      const delta = item.mcp?.installs24h ?? 0;
-      const linkedOwner = item.linkedRepo?.split("/", 1)[0]?.trim() ?? "";
-      const fallbackOwnerLogo = linkedOwner
-        ? `https://github.com/${encodeURIComponent(linkedOwner)}.png?size=40`
-        : "";
-      const cleanLogo =
-        typeof item.logoUrl === "string" && item.logoUrl.trim()
-          ? item.logoUrl.trim()
-          : "";
-      return {
-        id: `mcp-${item.id}`,
-        name: item.title,
-        href: item.url,
-        sub: item.vendor ?? item.sourceLabel ?? item.topic,
-        score: item.signalScore,
-        delta24h: delta,
-        delta7d: item.installsDelta7d ?? 0,
-        delta30d: item.installsDelta30d ?? 0,
-        logoUrl: cleanLogo || fallbackOwnerLogo || undefined,
-        sparkline: buildSyntheticSparkline(item.signalScore, delta),
-      };
-    });
+  const liveRows = [...repos]
+    .sort((a, b) => b.momentumScore - a.momentumScore)
+    .slice(0, 15);
   const refreshed = new Date(lastFetchedAt);
   const refreshedTime = refreshed.toISOString().slice(11, 19);
   const total24h = repos.reduce(
@@ -876,21 +498,13 @@ export default async function HomePage() {
             </div>
             <h1>What&apos;s moving in open source - right now.</h1>
             <p className="lede">
-              We are a trend radar for open source. We track every public
-              GitHub repo, MCP server, and Claude skill the moment it ships
-              and rank them by cross-source agreement. Star velocity, Reddit
-              and Hacker News chatter, dev.to mentions, and Bluesky links
-              roll up into a single momentum score so you can see the
-              breakout before it trends. Updates every few minutes; no
-              signup, no paywall on the front page.
+              Live repo, skill, and MCP momentum ranked by source agreement,
+              star velocity, and fresh community attention.
             </p>
           </div>
           <div className="clock" aria-label={`Data refreshed at ${refreshedTime} UTC`}>
-            <time className="big" dateTime={lastFetchedAt}>
-              {refreshedTime} UTC
-            </time>
-            <span className="live">Updated: live ingest</span>
-            <FreshnessBadge source="mcp" lastUpdatedAt={lastFetchedAt} />
+            <span className="big">{refreshedTime} UTC</span>
+            <span className="live">live ingest</span>
           </div>
         </section>
 
@@ -909,8 +523,8 @@ export default async function HomePage() {
         </MetricGrid>
 
         <SectionHead
-          num="// 01"
-          title="Trending now / top 5 by category"
+          num="01"
+          title="Trending now / top 7 by category"
           meta={<><b>Repos</b> / Skills / MCP</>}
         />
         <div className="grid">
@@ -920,7 +534,7 @@ export default async function HomePage() {
         </div>
 
         <SectionHead
-          num="// 02"
+          num="02"
           title="What multiple feeds agree on"
           meta={<><b>Cross-source</b> / 24h</>}
         />
@@ -948,16 +562,16 @@ export default async function HomePage() {
         </div>
 
         <SectionHead
-          num="// 03"
+          num="03"
           title="Signal map / momentum vs scale"
           meta={<><b>Top 120</b> / 24h window</>}
         />
         <BubbleMap repos={repos} limit={120} />
 
         <SectionHead
-          num="// 04"
+          num="04"
           title="Featured / curated this week"
-          meta={<><b>5</b> picks</>}
+          meta={<><b>3</b> picks</>}
         />
         <div className="feat-grid">
           {featured.map((entity, index) => (
@@ -966,21 +580,53 @@ export default async function HomePage() {
         </div>
 
         <SectionHead
-          num="// 05"
-          title="Live / top 200"
+          num="05"
+          title="Live / top 50"
           meta={<><b>{refreshedTime}</b> / refreshed</>}
         />
         <Card>
-          <LiveTopTable
-            repos={repos.slice(0, 50)}
-            skills={liveSkillItems}
-            mcps={liveMcpItems}
-            limit={15}
-          />
+          <div className="tabs">
+            <span className="tab on">All<span className="ct">{repos.length}</span></span>
+            <span className="tab">Repos<span className="ct">{repos.length}</span></span>
+            <span className="tab">Skills<span className="ct">{skillsBoard.length}</span></span>
+            <span className="tab">MCP<span className="ct">{mcpBoard.length}</span></span>
+            <span className="right"><span>Sort / momentum</span><span className="live">live</span></span>
+          </div>
+          <div className="table-scroll">
+            <table className="tbl">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th className="num">Stars</th>
+                  <th className="num">24h</th>
+                  <th className="num">7d</th>
+                  <th className="num">Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                {liveRows.map((repo, index) => (
+                  <tr key={repo.id}>
+                    <td>{String(index + 1).padStart(2, "0")}</td>
+                    <td>
+                      <a href={`/repo/${repo.owner}/${repo.name}`}>
+                        <span>{repo.fullName}</span>
+                        <small>{categoryLabel(repo)} / {repo.language ?? "mixed"}</small>
+                      </a>
+                    </td>
+                    <td className="num">{formatCompact(repo.stars)}</td>
+                    <td className="num up">{formatDelta(repo.starsDelta24h)}</td>
+                    <td className="num">{formatDelta(repo.starsDelta7d)}</td>
+                    <td className="num">{repo.momentumScore.toFixed(1)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </Card>
 
         <SectionHead
-          num="// 06"
+          num="06"
           title="TrendingRepo Index / last 30 days"
           meta={<><b>Top 100</b> stars / day</>}
         />
@@ -995,7 +641,19 @@ export default async function HomePage() {
             <span className="right">30d / <b>{formatCompact(total30d)}</b></span>
           </div>
           <div className="chart-wrap">
-            <Tr100IndexChart points={tr100Series} />
+            <svg viewBox="0 0 1100 280" preserveAspectRatio="none" aria-label="TrendingRepo index trend">
+              <path
+                d={sparkPath(
+                  itemListTop.flatMap((repo) => repo.sparklineData.slice(-2)).slice(-30),
+                  1100,
+                  280,
+                )}
+                fill="none"
+                stroke="var(--acc)"
+                strokeWidth="2"
+                vectorEffect="non-scaling-stroke"
+              />
+            </svg>
           </div>
           <ChartStats>
             <ChartStat label="today / stars" value={formatCompact(total24h)} sub="+24h aggregate" />
@@ -1008,7 +666,7 @@ export default async function HomePage() {
 
       <section id="faq" className="home-surface faq-surface">
         <div className="max-w-3xl space-y-3">
-          <SectionHead num="// 07" title="Frequently asked questions" meta={<><b>Operator</b> notes</>} />
+          <SectionHead num="07" title="FAQ" meta={<><b>Operator</b> notes</>} />
 
           <div
             className="v4-faq-list border-y"
@@ -1128,126 +786,6 @@ export default async function HomePage() {
               name: "TrendingRepo Team",
               url: SITE_URL,
             },
-          }),
-        }}
-      />
-
-      {/* Service JSON-LD - frames the API/MCP/CLI as offered services so
-          AI engines surface this site for "how do I get trending repos
-          programmatically" / "is there an MCP for GitHub trending" queries.
-          Each service hangs off the Organization via provider relation. */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: safeJsonLd([
-            {
-              "@context": "https://schema.org",
-              "@type": "Service",
-              "@id": `${SITE_URL.replace(/\/+$/, "")}/#service-api`,
-              name: "TrendingRepo REST API",
-              serviceType: "REST API",
-              description:
-                "Public REST endpoints for GitHub trending repos with cross-source momentum scoring. Filter by language, category, time window. Sort by velocity, breakouts, mentions. Pagination + rate-limited keyless access.",
-              provider: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
-              url: absoluteUrl("/portal/docs"),
-              areaServed: "Worldwide",
-              audience: { "@type": "Audience", audienceType: "Developers" },
-              offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-            },
-            {
-              "@context": "https://schema.org",
-              "@type": "Service",
-              "@id": `${SITE_URL.replace(/\/+$/, "")}/#service-mcp`,
-              name: "TrendingRepo MCP Server",
-              serviceType: "Model Context Protocol Server",
-              description:
-                "Stdio-transport MCP server exposing 14 tools for GitHub trending discovery: get_trending, top_gainers, get_breakouts, search_repos, repo_profile_full, compare_repos, and more. Drop-in for Claude Desktop, any MCP-compatible agent.",
-              provider: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
-              url: absoluteUrl("/mcp"),
-              audience: { "@type": "Audience", audienceType: "AI agents" },
-              offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-            },
-            {
-              "@context": "https://schema.org",
-              "@type": "Service",
-              "@id": `${SITE_URL.replace(/\/+$/, "")}/#service-cli`,
-              name: "TrendingRepo CLI",
-              serviceType: "Command-line interface",
-              description:
-                "Zero-dependency CLI (Node 18+) for terminal-native trending-repo discovery. Single binary `ss` shipped via the `trendingrepo-app` npm package.",
-              provider: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
-              url: absoluteUrl("/cli"),
-              audience: { "@type": "Audience", audienceType: "Developers" },
-              offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-            },
-          ]),
-        }}
-      />
-
-      {/* Person JSON-LD - founder/byline signal so AI engines can attach
-          provenance and rank the site as authored by an identified party. */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: safeJsonLd({
-            "@context": "https://schema.org",
-            "@type": "Person",
-            "@id": `${SITE_URL.replace(/\/+$/, "")}/#founder`,
-            name: "Mirko Basil Dolger",
-            url: SITE_URL,
-            jobTitle: "Founder",
-            worksFor: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
-            sameAs: [
-              "https://github.com/0motionguy",
-              "https://x.com/0motionguy",
-            ],
-            knowsAbout: [
-              "Open-source software trending",
-              "GitHub Stars API",
-              "Model Context Protocol",
-              "Developer momentum scoring",
-              "Cross-platform signal aggregation",
-              "Hacker News",
-              "ProductHunt",
-              "Bluesky",
-            ],
-          }),
-        }}
-      />
-
-      {/* Article JSON-LD - frames the homepage as canonical reportage so AI
-          engines treat it as a citable source rather than a list-only page.
-          author + datePublished + headline are required for Google Rich
-          Results; dateModified updates per ingest cycle. */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: safeJsonLd({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "@id": `${SITE_URL.replace(/\/+$/, "")}/#article`,
-            headline: `What's moving in open source - right now`,
-            description: SITE_DESCRIPTION,
-            author: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
-            publisher: { "@id": `${SITE_URL.replace(/\/+$/, "")}/#organization` },
-            datePublished: "2025-12-01T00:00:00Z",
-            dateModified: lastFetchedAt,
-            mainEntityOfPage: { "@type": "WebPage", "@id": absoluteUrl("/") },
-            inLanguage: "en-US",
-            image: absoluteUrl("/og-card.png"),
-            articleSection: "Open Source Trending",
-            keywords: [
-              "GitHub trending",
-              "open source momentum",
-              "MCP servers",
-              "Claude skills",
-              "Hacker News trending",
-              "Reddit trending",
-              "ProductHunt",
-              "Bluesky tech",
-              "dev.to trending",
-              "arxiv papers",
-            ],
           }),
         }}
       />

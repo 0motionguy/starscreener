@@ -304,6 +304,7 @@ export function buildAgentTop10(
   repos: Repo[],
   window: Top10Window = "7d",
   metric: Top10Metric = "cross-signal",
+  extras?: BuildExtras,
 ): Top10Bundle {
   const sorted = selectAgentRepos(repos)
     .sort(
@@ -312,7 +313,10 @@ export function buildAgentTop10(
         b.momentumScore - a.momentumScore,
     )
     .slice(0, 10);
-  const items = sorted.map((r, i) => repoToItem(r, i + 1, window));
+  const items = decorateItems(
+    sorted.map((r, i) => repoToItem(r, i + 1, window)),
+    extras,
+  );
   return {
     items,
     meta: buildMeta(items, windowLabel(window)),
@@ -328,6 +332,7 @@ export function buildAgentTop10(
 export function buildMoversTop10(
   repos: Repo[],
   window: Top10Window = "24h",
+  extras?: BuildExtras,
 ): Top10Bundle {
   const candidates = repos
     .filter((r) => !r.archived && !r.deleted && (r.stars ?? 0) > 100)
@@ -335,15 +340,13 @@ export function buildMoversTop10(
     .filter((x): x is { repo: Repo; pct: number } => typeof x.pct === "number")
     .sort((a, b) => b.pct - a.pct)
     .slice(0, 10);
-  const items = candidates.map((x, i) => {
-    const base = repoToItem(x.repo, i + 1, window);
-    // For movers we override the description to a velocity-flavoured one so
-    // the row reads as a movement card, not a repo blurb.
-    return {
-      ...base,
+  const items = decorateItems(
+    candidates.map((x, i) => ({
+      ...repoToItem(x.repo, i + 1, window),
       deltaPct: x.pct,
-    };
-  });
+    })),
+    extras,
+  );
   return {
     items,
     meta: buildMeta(items, windowLabel(window)),
@@ -368,28 +371,32 @@ function llmDescription(m: HfModelTrending): string {
 export function buildLlmTop10(
   models: HfModelTrending[],
   window: Top10Window = "7d",
+  extras?: BuildExtras,
 ): Top10Bundle {
   const top = models.slice(0, 10);
-  const items: Top10Item[] = top.map((m, i) => {
-    const score = Math.max(0, Math.min(5, m.momentum / 20));
-    const shortName = m.id.includes("/") ? m.id.split("/").slice(1).join("/") : m.id;
-    return {
-      rank: i + 1,
-      slug: m.id,
-      title: shortName,
-      owner: m.author,
-      description: llmDescription(m),
-      avatarLetter: avatarLetter(shortName),
-      avatarGradient: gradientFor(m.id),
-      score,
-      // HF is snapshot-only — no honest deltaPct yet. Leave undefined so the
-      // chip + sparkline cell render as neutral.
-      deltaPct: undefined,
-      sparkline: undefined,
-      badges: [],
-      href: `/huggingface/${encodeURIComponent(m.id)}`,
-    };
-  });
+  const items: Top10Item[] = decorateItems(
+    top.map((m, i) => {
+      const score = Math.max(0, Math.min(5, m.momentum / 20));
+      const shortName = m.id.includes("/") ? m.id.split("/").slice(1).join("/") : m.id;
+      return {
+        rank: i + 1,
+        slug: m.id,
+        title: shortName,
+        owner: m.author,
+        description: llmDescription(m),
+        avatarLetter: avatarLetter(shortName),
+        avatarGradient: gradientFor(m.id),
+        score,
+        // HF is snapshot-only — no honest deltaPct yet. Leave undefined so the
+        // chip + sparkline cell render as neutral.
+        deltaPct: undefined,
+        sparkline: undefined,
+        badges: [],
+        href: `/huggingface/${encodeURIComponent(m.id)}`,
+      };
+    }),
+    extras,
+  );
   return {
     items,
     meta: buildMeta(items, "snapshot"),
@@ -433,9 +440,13 @@ function ecosystemToItem(
 export function buildMcpTop10(
   board: EcosystemBoard | null,
   window: Top10Window = "7d",
+  extras?: BuildExtras,
 ): Top10Bundle {
   const top = (board?.items ?? []).slice(0, 10);
-  const items = top.map((it, i) => ecosystemToItem(it, i + 1, "/mcp/"));
+  const items = decorateItems(
+    top.map((it, i) => ecosystemToItem(it, i + 1, "/mcp/")),
+    extras,
+  );
   return {
     items,
     meta: buildMeta(items, "7d"),
@@ -451,9 +462,13 @@ export function buildMcpTop10(
 export function buildSkillsTop10(
   board: EcosystemBoard | null,
   window: Top10Window = "7d",
+  extras?: BuildExtras,
 ): Top10Bundle {
   const top = (board?.items ?? []).slice(0, 10);
-  const items = top.map((it, i) => ecosystemToItem(it, i + 1, "/skills/"));
+  const items = decorateItems(
+    top.map((it, i) => ecosystemToItem(it, i + 1, "/skills/")),
+    extras,
+  );
   return {
     items,
     meta: buildMeta(items, "7d"),
@@ -484,13 +499,16 @@ function normalizeBy<T>(arr: T[], pick: (x: T) => number): number[] {
   return arr.map((x) => Math.max(0, pick(x)) / max);
 }
 
-export function buildNewsTop10(input: {
-  hn: HnStory[];
-  bluesky: BskyPost[];
-  devto: DevtoArticle[];
-  lobsters: LobstersStory[];
-  producthunt: Launch[];
-}): Top10Bundle {
+export function buildNewsTop10(
+  input: {
+    hn: HnStory[];
+    bluesky: BskyPost[];
+    devto: DevtoArticle[];
+    lobsters: LobstersStory[];
+    producthunt: Launch[];
+  },
+  extras?: BuildExtras,
+): Top10Bundle {
   const hnNorm = normalizeBy(input.hn, (s) => s.trendingScore ?? s.score);
   const bskyNorm = normalizeBy(input.bluesky, (p) => p.trendingScore ?? p.likeCount + 2 * p.repostCount);
   const devNorm = normalizeBy(input.devto, (a) => a.trendingScore ?? a.reactionsCount);
@@ -571,20 +589,23 @@ export function buildNewsTop10(input: {
     ph: "Product Hunt",
   };
 
-  const items: Top10Item[] = top.map((n, i) => ({
-    rank: i + 1,
-    slug: n.id,
-    title: n.title || "(untitled)",
-    owner: sourceLabel[n.source],
-    description: `${sourceLabel[n.source]} · ${n.author} · score ${Math.round(n.raw)}`,
-    avatarLetter: sourceLabel[n.source].charAt(0),
-    avatarGradient: gradientFor(n.id),
-    score: Math.max(0, Math.min(5, n.norm * 5)),
-    deltaPct: undefined,
-    sparkline: undefined,
-    badges: i === 0 ? (["HOT"] as Top10Badge[]) : [],
-    href: n.url,
-  }));
+  const items: Top10Item[] = decorateItems(
+    top.map((n, i) => ({
+      rank: i + 1,
+      slug: n.id,
+      title: n.title || "(untitled)",
+      owner: sourceLabel[n.source],
+      description: `${sourceLabel[n.source]} · ${n.author} · score ${Math.round(n.raw)}`,
+      avatarLetter: sourceLabel[n.source].charAt(0),
+      avatarGradient: gradientFor(n.id),
+      score: Math.max(0, Math.min(5, n.norm * 5)),
+      deltaPct: undefined,
+      sparkline: undefined,
+      badges: i === 0 ? (["HOT"] as Top10Badge[]) : [],
+      href: n.url,
+    })),
+    extras,
+  );
 
   return {
     items,
@@ -610,7 +631,10 @@ function canonicalUrl(url: string): string {
 // fallback when amount is missing).
 // ---------------------------------------------------------------------------
 
-export function buildFundingTop10(signals: FundingSignal[]): Top10Bundle {
+export function buildFundingTop10(
+  signals: FundingSignal[],
+  extras?: BuildExtras,
+): Top10Bundle {
   const sorted = [...signals]
     .sort((a, b) => {
       const aAmt = a.extracted?.amount ?? 0;
@@ -626,27 +650,31 @@ export function buildFundingTop10(signals: FundingSignal[]): Top10Bundle {
     0,
   );
 
-  const items: Top10Item[] = sorted.map((s, i) => {
-    const company = s.extracted?.companyName ?? s.headline.split("—")[0]?.trim() ?? s.headline;
-    const round = s.extracted?.roundType ?? "round";
-    const amt = s.extracted?.amount ?? 0;
-    const amountLabel = s.extracted?.amountDisplay ?? "—";
-    const score = maxAmt > 0 ? Math.max(0, Math.min(5, (amt / maxAmt) * 5)) : 0;
-    return {
-      rank: i + 1,
-      slug: s.id,
-      title: company,
-      owner: round,
-      description: `${amountLabel} · ${round} · ${s.sourcePlatform}`,
-      avatarLetter: avatarLetter(company),
-      avatarGradient: gradientFor(s.id),
-      score,
-      deltaPct: undefined,
-      sparkline: undefined,
-      badges: i === 0 ? (["HOT"] as Top10Badge[]) : [],
-      href: s.sourceUrl,
-    };
-  });
+  const items: Top10Item[] = decorateItems(
+    sorted.map((s, i) => {
+      const company =
+        s.extracted?.companyName ?? s.headline.split("—")[0]?.trim() ?? s.headline;
+      const round = s.extracted?.roundType ?? "round";
+      const amt = s.extracted?.amount ?? 0;
+      const amountLabel = s.extracted?.amountDisplay ?? "—";
+      const score = maxAmt > 0 ? Math.max(0, Math.min(5, (amt / maxAmt) * 5)) : 0;
+      return {
+        rank: i + 1,
+        slug: s.id,
+        title: company,
+        owner: round,
+        description: `${amountLabel} · ${round} · ${s.sourcePlatform}`,
+        avatarLetter: avatarLetter(company),
+        avatarGradient: gradientFor(s.id),
+        score,
+        deltaPct: undefined,
+        sparkline: undefined,
+        badges: i === 0 ? (["HOT"] as Top10Badge[]) : [],
+        href: s.sourceUrl,
+      };
+    }),
+    extras,
+  );
 
   return {
     items,

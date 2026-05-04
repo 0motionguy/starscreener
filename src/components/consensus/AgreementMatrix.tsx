@@ -1,17 +1,11 @@
 import type { ConsensusItem, ConsensusVerdictBand } from "@/lib/consensus-trending";
 
-// V4 token mapping — exact hex matches in design/v4/tokens.css:
-//   strong_consensus → --v4-money   (#22c55e, "firing/live-good")
-//   early_call       → --v4-violet  (#a78bfa, decorative)
-//   divergence       → --v4-amber   (#ffb547, "warn")
-//   external_only    → --v4-blue    (#60a5fa, decorative)
-//   single_source    → --v4-ink-300 (#84909b, muted)
 const BAND_COLOR: Record<ConsensusVerdictBand, string> = {
-  strong_consensus: "var(--v4-money)",
-  early_call: "var(--v4-violet)",
-  divergence: "var(--v4-amber)",
-  external_only: "var(--v4-blue)",
-  single_source: "var(--v4-ink-300)",
+  strong_consensus: "#22c55e",
+  early_call: "#a78bfa",
+  divergence: "#ffb547",
+  external_only: "#60a5fa",
+  single_source: "#84909b",
 };
 
 const W = 880;
@@ -81,10 +75,10 @@ export function AgreementMatrix({ items, labelCount = 14 }: AgreementMatrixProps
           <g key={`tick-${t}`}>
             <line x1={x(t)} y1={PAD_T} x2={x(t)} y2={PAD_T + innerH} stroke="rgba(255,255,255,0.05)" />
             <line x1={PAD_L} y1={y(t)} x2={W - PAD_R} y2={y(t)} stroke="rgba(255,255,255,0.05)" />
-            <text x={x(t)} y={H - 12} textAnchor="middle" fontFamily="JetBrains Mono, ui-monospace" fontSize={9.5} fill="var(--v4-ink-300)">
+            <text x={x(t)} y={H - 12} textAnchor="middle" fontFamily="JetBrains Mono, ui-monospace" fontSize={9.5} fill="#84909b">
               #{t}
             </text>
-            <text x={PAD_L - 8} y={y(t) + 3} textAnchor="end" fontFamily="JetBrains Mono, ui-monospace" fontSize={9.5} fill="var(--v4-ink-300)">
+            <text x={PAD_L - 8} y={y(t) + 3} textAnchor="end" fontFamily="JetBrains Mono, ui-monospace" fontSize={9.5} fill="#84909b">
               #{t}
             </text>
           </g>
@@ -113,14 +107,14 @@ export function AgreementMatrix({ items, labelCount = 14 }: AgreementMatrixProps
           textAnchor="end"
           fontFamily="JetBrains Mono, ui-monospace"
           fontSize={9}
-          fill="var(--v4-money)"
+          fill="#22c55e"
           letterSpacing="0.18em"
         >
           PERFECT AGREEMENT →
         </text>
 
         {/* Axis labels */}
-        <text x={PAD_L} y={H - 2} fontFamily="JetBrains Mono, ui-monospace" fontSize={9} fill="var(--v4-ink-300)" letterSpacing="0.18em">
+        <text x={PAD_L} y={H - 2} fontFamily="JetBrains Mono, ui-monospace" fontSize={9} fill="#84909b" letterSpacing="0.18em">
           OURS RANK · 1 → 100 →
         </text>
         <text
@@ -128,14 +122,14 @@ export function AgreementMatrix({ items, labelCount = 14 }: AgreementMatrixProps
           y={PAD_T + 10}
           fontFamily="JetBrains Mono, ui-monospace"
           fontSize={9}
-          fill="var(--v4-ink-300)"
+          fill="#84909b"
           letterSpacing="0.18em"
         >
           ↑ EXTERNAL
         </text>
 
         {/* Quadrant legends */}
-        <text x={PAD_L + 8} y={PAD_T + 14} fontFamily="JetBrains Mono, ui-monospace" fontSize={9} fill="var(--v4-violet)" letterSpacing="0.18em">
+        <text x={PAD_L + 8} y={PAD_T + 14} fontFamily="JetBrains Mono, ui-monospace" fontSize={9} fill="#a78bfa" letterSpacing="0.18em">
           ▲ EARLY CALLS
         </text>
         <text
@@ -144,7 +138,7 @@ export function AgreementMatrix({ items, labelCount = 14 }: AgreementMatrixProps
           textAnchor="end"
           fontFamily="JetBrains Mono, ui-monospace"
           fontSize={9}
-          fill="var(--v4-blue)"
+          fill="#60a5fa"
           letterSpacing="0.18em"
         >
           EXTERNAL-ONLY ▲
@@ -155,7 +149,7 @@ export function AgreementMatrix({ items, labelCount = 14 }: AgreementMatrixProps
           textAnchor="end"
           fontFamily="JetBrains Mono, ui-monospace"
           fontSize={9}
-          fill="var(--v4-ink-300)"
+          fill="#84909b"
           letterSpacing="0.18em"
         >
           SINGLE / LATE
@@ -172,7 +166,7 @@ export function AgreementMatrix({ items, labelCount = 14 }: AgreementMatrixProps
               r={(d.size * 0.7).toFixed(1)}
               fill={d.color}
               opacity={0.45}
-              stroke="var(--v4-bg-000)"
+              stroke="#08090a"
               strokeWidth={0.7}
             />
           ))}
@@ -187,7 +181,7 @@ export function AgreementMatrix({ items, labelCount = 14 }: AgreementMatrixProps
           const labelText = d.fullName.length > 28 ? d.fullName.slice(0, 26) + "…" : d.fullName;
           return (
             <g key={d.fullName}>
-              <circle cx={cx.toFixed(1)} cy={cy.toFixed(1)} r={r} fill={d.color} stroke="var(--v4-bg-000)" strokeWidth={1.5} />
+              <circle cx={cx.toFixed(1)} cy={cy.toFixed(1)} r={r} fill={d.color} stroke="#08090a" strokeWidth={1.5} />
               {isTop ? (
                 <circle
                   cx={cx.toFixed(1)}
@@ -205,7 +199,7 @@ export function AgreementMatrix({ items, labelCount = 14 }: AgreementMatrixProps
                 textAnchor="middle"
                 fontFamily="JetBrains Mono, ui-monospace"
                 fontSize={9.5}
-                fill="var(--v4-ink-100)"
+                fill="#eef0f2"
                 letterSpacing="0.04em"
               >
                 {labelText}

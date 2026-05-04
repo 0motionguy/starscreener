@@ -6,6 +6,7 @@
 // rollout) the route also 404s — the live `/top10` is the only fallback.
 
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { SITE_NAME, absoluteUrl } from "@/lib/seo";
@@ -87,12 +88,12 @@ export default async function FrozenTop10Page({
         </span>
         <span style={{ color: "var(--v3-ink-100, #eef0f2)" }}>{date}</span>
         <span style={{ marginLeft: "auto" }}>
-          <a
+          <Link
             href="/top10"
             style={{ color: "var(--v3-ink-200, #b8c0c8)", textDecoration: "none" }}
           >
             ← BACK TO LIVE
-          </a>
+          </Link>
         </span>
       </div>
       {/* repoSlice empty so the client wrapper falls back to the SSR-baked

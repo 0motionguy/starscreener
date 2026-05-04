@@ -1,8 +1,10 @@
-// /revenue — V4 W4 Revenue Terminal.
+// /revenue - Revenue Terminal
 //
 // Two sections:
-//  1. Tracked repos with verified revenue
-//  2. Verified revenue leaderboard (broader dev-adjacent catalog)
+//  1. Tracked repos with verified revenue - cards whose product matched one
+//     of our trending repos. Anchored to /repo/[owner]/[name].
+//  2. Verified revenue leaderboard - broader catalog of verified-revenue
+//     startups in dev/AI-adjacent categories.
 
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -18,18 +20,12 @@ import {
   refreshRevenueOverlaysFromStore,
 } from "@/lib/revenue-overlays";
 import { VerifiedStartupCard } from "@/components/revenue/VerifiedStartupCard";
+import { Metric, MetricGrid } from "@/components/ui/Metric";
 
-// V4 (CORPUS) primitives.
-import { PageHead } from "@/components/ui/PageHead";
-import { SectionHead } from "@/components/ui/SectionHead";
-import { KpiBand } from "@/components/ui/KpiBand";
-import { LiveDot } from "@/components/ui/LiveDot";
-
-export const revalidate = 600;
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  // Layout template appends ` — TrendingRepo`; bare title here.
-  title: "Revenue Terminal",
+  title: "TrendingRepo - Revenue Terminal",
   description:
     "Verified MRR for trending repos and the broader dev/AI-adjacent verified-revenue leaderboard. Revenue is verified through direct read-only sync with each product's payment provider.",
   alternates: { canonical: "/revenue" },
@@ -83,7 +79,6 @@ export default async function RevenuePage({ searchParams }: PageProps) {
       : null;
 
   const trackedMeta = getRevenueOverlaysMeta();
-
   const leaderboard = getLeaderboard({
     category,
     limit: LEADERBOARD_LIMIT,
@@ -96,197 +91,199 @@ export default async function RevenuePage({ searchParams }: PageProps) {
     Boolean(r.matchedRepoFullName),
   );
 
+  const topStartup = leaderboard.rows
+    .slice()
+    .sort((a, b) => b.mrrCents - a.mrrCents)[0];
+  const positiveGrowth = leaderboard.rows.filter(
+    (startup) =>
+      typeof startup.growthMrr30d === "number" && startup.growthMrr30d > 0,
+  ).length;
+  const updatedLabel = trackedMeta.catalogGeneratedAt
+    ? formatRelative(trackedMeta.catalogGeneratedAt)
+    : "not synced";
+
   return (
-    <main className="home-surface">
-      <PageHead
-        crumb={
-          <>
-            <b>REVENUE</b> · TERMINAL · /REVENUE
-          </>
-        }
-        h1="Verified MRR for trending repos."
-        lede="Revenue verified via direct read-only sync with each product's payment provider — Stripe, Lemon Squeezy, Paddle. Tracked OSS matches up top, broader dev-adjacent catalog below."
-        clock={
-          <>
-            <span className="big">{formatClock(trackedMeta.catalogGeneratedAt ?? undefined)}</span>
-            <span className="muted">UTC · CATALOG SYNC</span>
-            <LiveDot label="LIVE · TRUSTMRR" />
-          </>
-        }
-      />
+    <main className="home-surface funding-page revenue-page">
+      <section className="page-head">
+        <div>
+          <div className="crumb">
+            <b>Revenue</b> / trustmrr / verified mrr
+          </div>
+          <h1>Verified revenue for developer startups.</h1>
+          <p className="lede">
+            MRR-backed startup signals matched against trending repositories,
+            founder profiles, and developer-adjacent categories.
+          </p>
+        </div>
+        <div className="clock">
+          <span className="big">{updatedLabel}</span>
+          <span className="live">verified</span>
+        </div>
+      </section>
 
-      <KpiBand
-        className="kpi-band"
-        cells={[
-          {
-            label: "STARTUPS",
-            value: leaderboard.totalInFilter.toLocaleString("en-US"),
-            sub: "in current filter",
-            pip: "var(--v4-money)",
-          },
-          {
-            label: "TRACKED",
-            value: tracked.length.toLocaleString("en-US"),
-            sub: "matched OSS",
-            tone: "money",
-            pip: "var(--v4-money)",
-          },
-          {
-            label: "COMBINED MRR",
-            value: formatUsd(leaderboard.totalMrrCents),
-            sub: "in filter",
-            tone: "acc",
-            pip: "var(--v4-acc)",
-          },
-          {
-            label: "TOP MRR",
-            value: formatUsd(leaderboard.topMrrCents),
-            sub: "leader's MRR",
-            tone: "acc",
-            pip: "var(--v4-blue)",
-          },
-        ]}
-      />
+      <section className="verdict">
+        <div className="v-stamp">
+          revenue
+          <span className="ts">{formatUsd(leaderboard.totalMrrCents)}</span>
+          <span className="ago">combined mrr</span>
+        </div>
+        <p className="v-text">
+          <b>{leaderboard.totalInFilter.toLocaleString("en-US")}</b> verified
+          startups are in this view, led by{" "}
+          <span className="hl-early">
+            {topStartup ? topStartup.name : "no active startup"}
+          </span>{" "}
+          with <span className="hl-div">{tracked.length}</span> tracked repo
+          matches.
+        </p>
+        <div className="v-actions">
+          <Link href="/submit/revenue">Claim MRR</Link>
+        </div>
+      </section>
 
-      {/* Founders CTA — compact, beside the header */}
-      <div
-        className="mb-6 flex flex-wrap items-center gap-3 px-4 py-3 text-xs"
-        style={{
-          background: "var(--v4-money-soft)",
-          border: "1px solid var(--v4-money)",
-          borderRadius: 2,
-        }}
-      >
-        <span
-          className="v2-mono text-[10px] font-semibold uppercase tracking-[0.18em]"
-          style={{ color: "var(--v4-money)" }}
-        >
-          <BadgeCheck className="mr-1 inline size-3" aria-hidden />
+      <MetricGrid columns={6} className="kpi-band">
+        <Metric
+          label="startups"
+          value={leaderboard.totalInFilter.toLocaleString("en-US")}
+          sub="verified"
+          tone="positive"
+          pip
+        />
+        <Metric
+          label="top mrr"
+          value={formatUsd(leaderboard.topMrrCents)}
+          sub={topStartup?.name ?? "leader"}
+          tone="accent"
+          pip
+        />
+        <Metric
+          label="aggregate"
+          value={formatUsd(leaderboard.totalMrrCents)}
+          sub="combined mrr"
+          tone="positive"
+          pip
+        />
+        <Metric
+          label="repo matches"
+          value={tracked.length.toLocaleString("en-US")}
+          sub="tracked"
+          tone="warning"
+          pip
+        />
+        <Metric
+          label="categories"
+          value={leaderboard.availableCategories.length.toLocaleString("en-US")}
+          sub={category ?? "default"}
+        />
+        <Metric
+          label="growth"
+          value={positiveGrowth.toLocaleString("en-US")}
+          sub="positive 30d"
+          tone="positive"
+        />
+      </MetricGrid>
+
+      <CategoryFilter active={category} available={leaderboard.availableCategories} />
+
+      <section className="founder-callout">
+        <span className="founder-kicker">
+          <BadgeCheck className="size-3" aria-hidden />
           Founders
         </span>
-        <span style={{ color: "var(--v4-ink-300)" }}>
+        <span>
           Don&apos;t see your project? Link a verified-revenue profile or
           self-report your MRR.
         </span>
-        <Link
-          href="/submit/revenue"
-          className="ml-auto inline-flex items-center gap-1 font-mono text-xs font-semibold hover:underline"
-          style={{ color: "var(--v4-ink-100)" }}
-        >
-          Claim or submit revenue →
-        </Link>
-      </div>
+        <Link href="/submit/revenue">Claim or submit revenue -&gt;</Link>
+      </section>
 
-      <SectionHead
-        num="// 01"
-        title="Tracked repos with verified revenue"
-        meta={
-          <>
-            <b>{tracked.length.toLocaleString("en-US")}</b>{" "}
-            match{tracked.length === 1 ? "" : "es"} ·{" "}
-            {trackedMeta.catalogGeneratedAt
-              ? `updated ${formatRelative(trackedMeta.catalogGeneratedAt)}`
-              : "never synced"}
-          </>
-        }
-      />
-      <section className="mb-12">
+      <section aria-labelledby="tracked-heading">
+        <SectionHead
+          id="tracked-heading"
+          num="01"
+          title="Tracked repos with verified revenue"
+          meta={`${tracked.length.toLocaleString("en-US")} match${
+            tracked.length === 1 ? "" : "es"
+          } / updated ${updatedLabel}`}
+        />
         {tracked.length === 0 ? (
           <TrackedColdState />
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {tracked.map((startup, i) => {
-              const stagger = Math.min(i, 6) * 50;
-              return (
-                <div
-                  key={startup.slug}
-                  style={{
-                    animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
-                    animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
-                  }}
-                >
-                  <VerifiedStartupCard startup={startup} rank={i + 1} />
-                </div>
-              );
-            })}
+          <div className="revenue-grid">
+            {tracked.map((startup, i) => (
+              <div
+                key={startup.slug}
+                style={{
+                  animation:
+                    "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
+                  animationDelay: i > 0 ? `${Math.min(i, 6) * 50}ms` : undefined,
+                }}
+              >
+                <VerifiedStartupCard startup={startup} rank={i + 1} />
+              </div>
+            ))}
           </div>
         )}
       </section>
 
-      <SectionHead
-        num="// 02"
-        title="Verified revenue leaderboard"
-        meta={
-          <>
-            <b>{Math.min(LEADERBOARD_LIMIT, leaderboard.rows.length)}</b> of{" "}
-            {leaderboard.totalInFilter.toLocaleString("en-US")} ·{" "}
-            {category === "__all__"
-              ? "every category"
-              : category ?? "dev-adjacent"}
-            {" · "}
-            {formatUsd(leaderboard.totalMrrCents)} combined
-          </>
-        }
-      />
-      <section>
-        <CategoryFilter
-          active={category}
-          available={leaderboard.availableCategories}
+      <section aria-labelledby="leaderboard-heading">
+        <SectionHead
+          id="leaderboard-heading"
+          num="02"
+          title="Verified revenue leaderboard"
+          meta={`top ${Math.min(
+            LEADERBOARD_LIMIT,
+            leaderboard.rows.length,
+          )} / ${formatUsd(leaderboard.totalMrrCents)}`}
         />
-
+        <CategoryFilter active={category} available={leaderboard.availableCategories} />
         {leaderboard.rows.length === 0 ? (
-          <div
-            className="px-4 py-6 text-sm"
-            style={{
-              background: "var(--v4-bg-025)",
-              border: "1px dashed var(--v4-line-100)",
-              borderRadius: 2,
-              color: "var(--v4-ink-400)",
-            }}
-          >
-            No startups in this filter.
-          </div>
+          <div className="empty-panel">No startups in this filter.</div>
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {leaderboard.rows.map((startup, i) => {
-              const stagger = Math.min(i, 6) * 50;
-              return (
-                <div
-                  key={startup.slug}
-                  style={{
-                    animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
-                    animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
-                  }}
-                >
-                  <VerifiedStartupCard startup={startup} rank={i + 1} />
-                </div>
-              );
-            })}
+          <div className="revenue-grid">
+            {leaderboard.rows.map((startup, i) => (
+              <div
+                key={startup.slug}
+                style={{
+                  animation:
+                    "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
+                  animationDelay: i > 0 ? `${Math.min(i, 6) * 50}ms` : undefined,
+                }}
+              >
+                <VerifiedStartupCard startup={startup} rank={i + 1} />
+              </div>
+            ))}
           </div>
         )}
 
-        <footer
-          className="mt-8 flex flex-wrap items-center gap-3 text-xs"
-          style={{ color: "var(--v4-ink-400)" }}
-        >
-          <Link
-            href="/tools/revenue-estimate"
-            className="transition-colors hover:text-[color:var(--v4-ink-100)]"
-            style={{ color: "var(--v4-ink-300)" }}
-          >
-            Try the MRR estimator →
-          </Link>
-          <span aria-hidden style={{ color: "var(--v4-line-300)" }}>·</span>
-          <Link
-            href="/submit/revenue"
-            className="transition-colors hover:text-[color:var(--v4-ink-100)]"
-            style={{ color: "var(--v4-ink-300)" }}
-          >
-            Claim or submit revenue →
-          </Link>
+        <footer className="link-row">
+          <Link href="/tools/revenue-estimate">Try the MRR estimator -&gt;</Link>
+          <Link href="/submit/revenue">Claim or submit revenue -&gt;</Link>
         </footer>
       </section>
     </main>
+  );
+}
+
+function SectionHead({
+  id,
+  num,
+  title,
+  meta,
+}: {
+  id: string;
+  num: string;
+  title: string;
+  meta: string;
+}) {
+  return (
+    <div className="sec-head">
+      <span className="sec-num">{`// ${num}`}</span>
+      <h2 id={id} className="sec-title">
+        {title}
+      </h2>
+      <span className="sec-meta">{meta}</span>
+    </div>
   );
 }
 
@@ -299,7 +296,7 @@ function CategoryFilter({
 }) {
   const chips: Array<{ label: string; href: string; active: boolean }> = [
     {
-      label: "Dev-adjacent (default)",
+      label: "Dev-adjacent",
       href: "/revenue",
       active: active === null,
     },
@@ -317,22 +314,13 @@ function CategoryFilter({
     });
   }
   return (
-    <div className="mb-4 flex flex-wrap gap-2">
+    <div className="filter-bar revenue-filter">
+      <span className="lbl">Category</span>
       {chips.map((chip) => (
         <Link
           key={chip.href}
           href={chip.href}
-          className="v2-mono px-2.5 py-1 text-[11px] uppercase tracking-[0.16em] transition"
-          style={{
-            border: chip.active
-              ? "1px solid var(--v4-money)"
-              : "1px solid var(--v4-line-200)",
-            background: chip.active
-              ? "var(--v4-money-soft)"
-              : "var(--v4-bg-100)",
-            color: chip.active ? "var(--v4-ink-000)" : "var(--v4-ink-300)",
-            borderRadius: 2,
-          }}
+          className={`chip ${chip.active ? "on" : ""}`}
         >
           {chip.label}
         </Link>
@@ -343,17 +331,9 @@ function CategoryFilter({
 
 function TrackedColdState() {
   return (
-    <div
-      className="px-4 py-6 text-sm"
-      style={{
-        background: "var(--v4-bg-025)",
-        border: "1px dashed var(--v4-line-100)",
-        borderRadius: 2,
-        color: "var(--v4-ink-400)",
-      }}
-    >
+    <div className="empty-panel">
       No tracked repos currently match a verified-revenue startup. Most
-      trending OSS isn&apos;t monetized as SaaS — Postiz-style dual-licensed
+      trending OSS isn&apos;t monetized as SaaS - Postiz-style dual-licensed
       products are rare. The leaderboard below surfaces the broader catalog.
     </div>
   );

@@ -44,18 +44,9 @@ function parseTab(raw: string | string[] | undefined): PhTab {
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  // Layout template appends ` — TrendingRepo`; bare title here.
-  title: "ProductHunt Launches",
+  title: "TrendingRepo — ProductHunt Launches",
   description:
     "Daily ProductHunt launches scored by votes/comments, cross-linked to GitHub repos when the maker mentions one.",
-  alternates: { canonical: "/producthunt" },
-  openGraph: {
-    title: "ProductHunt Launches — TrendingRepo",
-    description:
-      "Top ProductHunt launches scored by votes + comments, with GitHub repo cross-links.",
-    url: "/producthunt",
-    type: "website",
-  },
 };
 
 // ---------------------------------------------------------------------------
@@ -157,7 +148,7 @@ export default async function ProductHuntPage({
           <>
             <span className="big">{formatClock(fetchedAt)}</span>
             <span className="muted">UTC · LATEST POST</span>
-            <LiveDot label="LIVE · 7D" />
+            <LiveDot label="FRESH · 4H" />
           </>
         }
         snapshot={

@@ -23,17 +23,29 @@ const active = new Set<SourceKey>([
 ]);
 
 describe("SourceFilterBar", () => {
-  it("renders the ALL chip and a chip per source", () => {
-    const { container } = render(
+  it("shows per-source counts on dark brand-tinted source chips", () => {
+    const { getByLabelText } = render(
       <SourceFilterBar
         active={active}
         timeWindow={DEFAULT_WINDOW}
         topic={null}
         totalSignals={1466}
+        sourceCounts={{
+          hn: 24,
+          github: 50,
+          x: 0,
+          reddit: 1387,
+          bluesky: 1,
+          devto: 4,
+          claude: 0,
+          openai: 0,
+        }}
       />,
     );
 
-    const chips = container.querySelectorAll(".signals-chip");
-    expect(chips.length).toBeGreaterThan(0);
+    const gh = getByLabelText("GH");
+
+    expect(gh.textContent).toContain("50");
+    expect((gh as HTMLElement).style.getPropertyValue("--chip-color")).not.toBe("");
   });
 });

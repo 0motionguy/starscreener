@@ -23,6 +23,8 @@ import {
   type SourceHealthSnapshot,
 } from "@/lib/source-health-tracker";
 
+export const runtime = "nodejs";
+
 interface SourceBreakerView {
   state: SourceHealthSnapshot["state"];
   successCount: number;

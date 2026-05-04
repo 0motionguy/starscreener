@@ -12,6 +12,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import type { SourceKey } from "@/lib/signals/types";
 import { Card, CardHeader } from "@/components/ui/Card";
+import { SourceMark, SOURCE_BRAND_COLOR } from "./SourceMark";
 
 type Variant = "list" | "tweet" | "rss";
 
@@ -55,17 +56,6 @@ type FeedItems =
   | { variant: "tweet"; items: TweetItem[] }
   | { variant: "rss"; items: RssArticleItem[] };
 
-const SOURCE_COLOR: Record<SourceKey, string> = {
-  hn: "var(--source-hackernews)",
-  github: "var(--source-github)",
-  x: "var(--source-x)",
-  reddit: "var(--source-reddit)",
-  bluesky: "var(--source-bluesky)",
-  devto: "var(--source-dev)",
-  claude: "var(--source-claude)",
-  openai: "var(--source-openai)",
-};
-
 export interface SourceFeedPanelProps {
   source: SourceKey;
   title: string;
@@ -95,24 +85,37 @@ export function SourceFeedPanel({
           </>
         }
       >
+        {/* Real brand mark in a brand-tinted square — replaces the legacy
+            7×7 colored block. Source identity reads at a glance. */}
         <span
           aria-hidden
           style={{
-            display: "inline-block",
-            width: 7,
-            height: 7,
-            background: SOURCE_COLOR[source],
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 18,
+            height: 18,
+            borderRadius: 3,
             marginRight: 8,
             verticalAlign: "middle",
+            background: `color-mix(in srgb, ${SOURCE_BRAND_COLOR[source]} 22%, transparent)`,
+            border: `1px solid color-mix(in srgb, ${SOURCE_BRAND_COLOR[source]} 50%, transparent)`,
+            color: SOURCE_BRAND_COLOR[source],
           }}
-        />
+        >
+          <SourceMark source={source} size={11} monochrome />
+        </span>
         {title}
       </CardHeader>
 
       <div className="ds-card-body" style={{ padding: 0 }}>
         {feed.variant === "list" ? <ListFeed items={feed.items} /> : null}
-        {feed.variant === "tweet" ? <TweetFeed items={feed.items} /> : null}
-        {feed.variant === "rss" ? <RssFeed items={feed.items} /> : null}
+        {feed.variant === "tweet" ? (
+          <TweetFeed items={feed.items} source={source} />
+        ) : null}
+        {feed.variant === "rss" ? (
+          <RssFeed items={feed.items} source={source} />
+        ) : null}
       </div>
 
       <div
@@ -280,7 +283,7 @@ function ListFeed({ items }: { items: ListItem[] }) {
   );
 }
 
-function TweetFeed({ items }: { items: TweetItem[] }) {
+function TweetFeed({ items, source }: { items: TweetItem[]; source: SourceKey }) {
   if (items.length === 0) return <EmptyMessage />;
   return (
     <>
@@ -292,23 +295,48 @@ function TweetFeed({ items }: { items: TweetItem[] }) {
           className="tweet-row"
         >
           <div style={{ padding: "10px 12px", display: "flex", gap: 9 }}>
+            {/* Author initials inside a brand-tinted circle. We don't have
+                profile-pic URLs in the source data; the source brand color
+                tints the avatar so X rows feel like X and Bluesky like Bluesky. */}
             <div
               className="av"
               style={{
-                width: 22,
-                height: 22,
+                width: 26,
+                height: 26,
                 flex: "none",
                 borderRadius: 99,
-                background: "var(--color-bg-strong)",
+                position: "relative",
+                background: `color-mix(in srgb, ${SOURCE_BRAND_COLOR[source]} 22%, var(--color-bg-strong))`,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: 9.5,
+                fontSize: 10,
                 color: "var(--color-text-default)",
                 fontWeight: 600,
               }}
             >
               {t.avatar}
+              {/* Source brand mark badge in the corner — anchors the row
+                  to its origin even when the eye lands mid-tweet. */}
+              <span
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  bottom: -2,
+                  right: -3,
+                  width: 13,
+                  height: 13,
+                  borderRadius: 99,
+                  background: SOURCE_BRAND_COLOR[source],
+                  color: "var(--color-bg-canvas)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  border: "1.5px solid var(--color-bg-shell)",
+                }}
+              >
+                <SourceMark source={source} size={8} monochrome />
+              </span>
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div
@@ -381,7 +409,7 @@ function TweetFeed({ items }: { items: TweetItem[] }) {
   );
 }
 
-function RssFeed({ items }: { items: RssArticleItem[] }) {
+function RssFeed({ items, source }: { items: RssArticleItem[]; source: SourceKey }) {
   if (items.length === 0) return <EmptyMessage />;
   return (
     <>
@@ -403,20 +431,23 @@ function RssFeed({ items }: { items: RssArticleItem[] }) {
                 color: "var(--color-text-subtle)",
                 textTransform: "uppercase",
                 display: "flex",
-                gap: 8,
+                gap: 7,
                 alignItems: "center",
                 fontFamily: "var(--font-mono)",
               }}
             >
+              {/* Source brand mark replaces the legacy 5×5 colored block. */}
               <span
                 aria-hidden
                 style={{
-                  width: 5,
-                  height: 5,
-                  background: a.catColor,
-                  display: "inline-block",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: SOURCE_BRAND_COLOR[source],
                 }}
-              />
+              >
+                <SourceMark source={source} size={11} monochrome />
+              </span>
               {a.category}
             </div>
             <div

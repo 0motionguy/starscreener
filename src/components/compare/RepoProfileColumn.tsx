@@ -139,6 +139,7 @@ export function RepoProfileColumn({
     </article>
   );
 }
+
 function Divider() {
   return (
     <div
@@ -169,3 +170,4 @@ function ColumnSkeleton({ accent }: { accent: string }) {
     </div>
   );
 }
+

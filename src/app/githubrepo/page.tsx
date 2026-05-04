@@ -20,7 +20,11 @@ import { Metric, MetricGrid } from "@/components/ui/Metric";
 import { FooterBar } from "@/components/ui/FooterBar";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { MarkVisited } from "@/components/layout/MarkVisited";
-import { LiveTopTable } from "@/components/home/LiveTopTable";
+import {
+  LiveTopTable,
+  type CategoryFacet,
+  type LiveRow,
+} from "@/components/home/LiveTopTable";
 import { CATEGORIES } from "@/lib/constants";
 import type { Repo } from "@/lib/types";
 
@@ -58,9 +62,61 @@ export default async function GithubRepoPage() {
 
   const repos = getDerivedRepos();
 
-  const liveRepos = [...repos]
+  const liveRows = [...repos]
     .sort((a, b) => b.momentumScore - a.momentumScore)
     .slice(0, 50);
+  const liveTableRows: LiveRow[] = liveRows.map((repo) => {
+    const ps = repo.mentions?.perSource;
+    return {
+      id: repo.id,
+      fullName: repo.fullName,
+      owner: repo.owner,
+      name: repo.name,
+      href: `/repo/${repo.owner}/${repo.name}`,
+      categoryId: repo.categoryId,
+      categoryLabel: categoryLabel(repo),
+      language: repo.language ?? null,
+      stars: repo.stars,
+      starsDelta24h: repo.starsDelta24h,
+      starsDelta7d: repo.starsDelta7d,
+      starsDelta30d: repo.starsDelta30d,
+      forks: repo.forks,
+      sparklineData: repo.sparklineData,
+      momentumScore: repo.momentumScore,
+      mentionCount24h: repo.mentionCount24h ?? 0,
+      // Chip on/off uses the wider 7d window so slow-cadence sources
+      // (lobsters / npm / hf / arxiv / devto) actually fire on the row.
+      // 24h is too narrow for most non-twitter signals — the result was
+      // "8 chip slots, only github + twitter colored." Falls back to the
+      // 24h count when 7d is missing.
+      sources: {
+        gh: 1,
+        hn: ps?.hackernews.count7d ?? ps?.hackernews.count24h ?? 0,
+        r: ps?.reddit.count7d ?? ps?.reddit.count24h ?? 0,
+        b: ps?.bluesky.count7d ?? ps?.bluesky.count24h ?? 0,
+        d: ps?.devto.count7d ?? ps?.devto.count24h ?? 0,
+        lobsters: ps?.lobsters.count7d ?? ps?.lobsters.count24h ?? 0,
+        x: ps?.twitter.count7d ?? ps?.twitter.count24h ?? 0,
+        npm: ps?.npm.count7d ?? ps?.npm.count24h ?? 0,
+        hf: ps?.huggingface.count7d ?? ps?.huggingface.count24h ?? 0,
+        arxiv: ps?.arxiv.count7d ?? ps?.arxiv.count24h ?? 0,
+      },
+    };
+  });
+  const liveCategories: CategoryFacet[] = (() => {
+    const counts = new Map<string, number>();
+    for (const row of liveTableRows) {
+      counts.set(row.categoryId, (counts.get(row.categoryId) ?? 0) + 1);
+    }
+    return CATEGORIES.map((category) => ({
+      id: category.id,
+      label: category.shortName,
+      count: counts.get(category.id) ?? 0,
+    }))
+      .filter((category) => category.count > 0)
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 6);
+  })();
 
   const refreshed = new Date(lastFetchedAt);
   const refreshedTime = refreshed.toISOString().slice(11, 19);
@@ -155,7 +211,7 @@ export default async function GithubRepoPage() {
           }
         />
         <Card>
-          <LiveTopTable repos={liveRepos} skills={[]} mcps={[]} limit={50} />
+          <LiveTopTable rows={liveTableRows} categories={liveCategories} />
         </Card>
       </div>
 

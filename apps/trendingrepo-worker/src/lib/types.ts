@@ -102,32 +102,11 @@ export interface NormalizedMetric {
   raw?: Record<string, unknown>;
 }
 
-export interface RedisStreamEntry {
-  id: string;
-  fields: Record<string, string>;
-}
-
 export interface RedisHandle {
   get(key: string): Promise<string | null>;
   set(key: string, value: string, opts?: { ex?: number }): Promise<void>;
   del(key: string): Promise<void>;
   quit(): Promise<void>;
-  // Stream operations — used by the LLM usage telemetry layer.
-  // `xadd` returns the assigned entry id ('<ms>-<seq>'). When
-  // `maxlenApprox` is set we trim to ~that many entries (`MAXLEN ~ N`).
-  xadd(
-    key: string,
-    fields: Record<string, string>,
-    opts?: { maxlenApprox?: number },
-  ): Promise<string>;
-  xrange(
-    key: string,
-    start: string,
-    end: string,
-    count?: number,
-  ): Promise<RedisStreamEntry[]>;
-  xtrim(key: string, opts: { minIdApprox: string }): Promise<number>;
-  xlen(key: string): Promise<number>;
 }
 
 export interface HttpOptions {

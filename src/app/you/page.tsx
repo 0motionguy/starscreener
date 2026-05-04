@@ -13,8 +13,7 @@ import type { Metadata } from "next";
 import YouClient from "./YouClient";
 
 export const metadata: Metadata = {
-  // Layout template appends ` — TrendingRepo`; bare title here.
-  title: "Your signal",
+  title: "Your signal — TrendingRepo",
   description:
     "Personal watchlist, compare shortlist, and saved filter summary. No account required — TrendingRepo keeps your signal local.",
 };

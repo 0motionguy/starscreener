@@ -31,10 +31,6 @@ import {
   SOURCE_DISCOVERY_VERSION,
 } from '../../lib/util/source-watchers.js';
 
-function slugIdFromFullName(fullName: string): string {
-  return String(fullName).toLowerCase().replace(/\//g, "--").replace(/\./g, "-").replace(/[^a-z0-9-]/g, "");
-}
-
 const MENTIONS_WINDOW_DAYS = 7;
 const MENTIONS_WINDOW_SECONDS = MENTIONS_WINDOW_DAYS * 24 * 60 * 60;
 const REPO_QUERY = 'github.com';
@@ -328,9 +324,6 @@ const fetcher: Fetcher = {
       searchQuery: REPO_QUERY,
       pagesFetched: mentionsPagesFetched,
       mentions,
-      mentionsByRepoId: Object.fromEntries(
-        Object.entries(mentions).map(([fullName, value]) => [slugIdFromFullName(fullName), value]),
-      ),
       leaderboard,
     };
     const trendingPayload = {

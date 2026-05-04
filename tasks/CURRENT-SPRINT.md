@@ -1,6 +1,6 @@
 # CURRENT SPRINT — Sprint 1: Pool Verification + Source Activation
 
-Status: IN PROGRESS - Phase 1.4 /admin/keys dashboard ready for review
+Status: IN PROGRESS - Phase 1.5 blocked on Vercel Sentry DSN
 Started: 2026-05-03
 Target completion: 2026-05-10
 

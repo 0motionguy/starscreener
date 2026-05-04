@@ -19,14 +19,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
-import { LiveDot } from "@/components/ui/LiveDot";
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { CHART_THEME_OPTIONS } from "@/components/compare/themes";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { buildAbsoluteShareImageUrl } from "@/lib/star-activity-url";
-import { refreshTrendingFromStore } from "@/lib/trending";
+import { lastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
 import type { Repo } from "@/lib/types";
 
 import { StarHistoryToolClient } from "./StarHistoryToolClient";
@@ -69,15 +69,40 @@ export async function generateMetadata(): Promise<Metadata> {
  * history" placeholder), then sorts by momentum and trims to the top 3.
  */
 function pickDemoRepos(repos: Repo[], limit = 3): Repo[] {
-  const usable = repos.filter((r) => {
+  // Demo seed prefers RECOGNIZABLE repos so the chart shows meaningful
+  // baseline lines (vercel/next.js, facebook/react, etc.) rather than
+  // obscure top-momentum micro-repos. Sort by stars first (≥5k threshold
+  // catches the well-known repos), with momentum as the tiebreak.
+  // Three-tier fallback so the chart never renders empty:
+  //   1) Famous: dense sparkline (≥7 non-zero) AND ≥5k stars, by stars desc
+  //   2) Any meaningful sparkline, by stars desc
+  //   3) Top stars regardless of sparkline (chart placeholder is fine)
+  const byStarsDesc = (a: Repo, b: Repo) => {
+    if (b.stars !== a.stars) return b.stars - a.stars;
+    return b.momentumScore - a.momentumScore;
+  };
+  const hasDenseSparkline = (r: Repo): boolean => {
     const series = r.sparklineData ?? [];
     if (series.length < 7) return false;
     const nonZero = series.filter((n) => Number.isFinite(n) && n !== 0).length;
     return nonZero >= 7;
-  });
-  return [...usable]
-    .sort((a, b) => b.momentumScore - a.momentumScore)
-    .slice(0, limit);
+  };
+  const hasAnyHistory = (r: Repo): boolean =>
+    (r.sparklineData ?? []).some((n) => Number.isFinite(n) && n !== 0);
+
+  const famous = repos.filter((r) => hasDenseSparkline(r) && r.stars >= 5000);
+  if (famous.length >= limit) {
+    return [...famous].sort(byStarsDesc).slice(0, limit);
+  }
+  const dense = repos.filter(hasDenseSparkline);
+  if (dense.length >= limit) {
+    return [...dense].sort(byStarsDesc).slice(0, limit);
+  }
+  const anyHistory = repos.filter(hasAnyHistory);
+  if (anyHistory.length >= limit) {
+    return [...anyHistory].sort(byStarsDesc).slice(0, limit);
+  }
+  return [...repos].sort(byStarsDesc).slice(0, limit);
 }
 
 export default async function StarHistoryToolPage() {
@@ -135,7 +160,7 @@ export default async function StarHistoryToolPage() {
           <>
             <span className="big">{seed.length} / 3</span>
             <span className="muted">SEEDED REPOS</span>
-            <LiveDot label="LIVE" />
+            <FreshnessBadge source="mcp" lastUpdatedAt={lastFetchedAt} />
           </>
         }
       />

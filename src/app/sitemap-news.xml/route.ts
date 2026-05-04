@@ -81,56 +81,26 @@ function readJsonSafe<T>(relPath: string): T | null {
 }
 
 function buildHnEntries(now: number): UrlEntry[] {
-  // Google News rejects fragment-only URLs (#story-N). The trending hub is
-  // the only crawlable HN surface this app exposes — emit it once with the
-  // freshest story title as the news headline so Google News still gets a
-  // signal without 378 invalid entries.
   const file = readJsonSafe<HnFile>("data/hackernews-trending.json");
-  if (!file || !Array.isArray(file.stories) || file.stories.length === 0) {
-    return [
-      {
-        loc: absoluteUrl("/hackernews/trending"),
-        lastmod: new Date(now),
-        news: {
-          publicationName: PUBLICATION_NAME,
-          publicationLanguage: PUBLICATION_LANG,
-          publicationDate: new Date(now),
-          title: "Hacker News Trending",
-        },
-      },
-    ];
-  }
-  const freshest = file.stories
-    .filter((s) => s && s.id !== undefined && s.title)
-    .map((s) => ({ s, createdMs: Number(s.createdUtc) * 1000 }))
-    .filter(({ createdMs }) => Number.isFinite(createdMs) && createdMs > 0 && now - createdMs <= FRESHNESS_MS)
-    .sort((a, b) => b.createdMs - a.createdMs)[0];
-  if (!freshest) {
-    return [
-      {
-        loc: absoluteUrl("/hackernews/trending"),
-        lastmod: new Date(now),
-        news: {
-          publicationName: PUBLICATION_NAME,
-          publicationLanguage: PUBLICATION_LANG,
-          publicationDate: new Date(now),
-          title: "Hacker News Trending",
-        },
-      },
-    ];
-  }
-  return [
-    {
-      loc: absoluteUrl("/hackernews/trending"),
-      lastmod: new Date(freshest.createdMs),
+  if (!file || !Array.isArray(file.stories)) return [];
+  const entries: UrlEntry[] = [];
+  for (const s of file.stories) {
+    if (!s || s.id === undefined || !s.title) continue;
+    const createdMs = Number(s.createdUtc) * 1000;
+    if (!Number.isFinite(createdMs) || createdMs <= 0) continue;
+    if (now - createdMs > FRESHNESS_MS) continue;
+    entries.push({
+      loc: absoluteUrl(`/hackernews/trending#story-${s.id}`),
+      lastmod: new Date(createdMs),
       news: {
         publicationName: PUBLICATION_NAME,
         publicationLanguage: PUBLICATION_LANG,
-        publicationDate: new Date(freshest.createdMs),
-        title: `Hacker News Trending — ${freshest.s.title}`,
+        publicationDate: new Date(createdMs),
+        title: s.title,
       },
-    },
-  ];
+    });
+  }
+  return entries;
 }
 
 function buildPhEntries(now: number): UrlEntry[] {

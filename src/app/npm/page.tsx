@@ -28,6 +28,7 @@ import { npmLogoUrl } from "@/lib/logos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 // npm brand red — no --v4-src-npm token exists in v4.css yet, so we hardcode
 // it once on the KpiBand pip and reuse the same hex for the active-tab
@@ -43,18 +44,9 @@ const DEFAULT_WINDOW: NpmWindow = "24h";
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  // Layout template appends ` — TrendingRepo`; bare title here.
-  title: "NPM Trending Packages",
+  title: "TrendingRepo - NPM Trending Packages",
   description:
     "Top npm package movement over 24h, 7d, and 30d windows, filtered to packages with GitHub repositories attached.",
-  alternates: { canonical: "/npm" },
-  openGraph: {
-    title: "NPM Trending — TrendingRepo",
-    description:
-      "Top npm package movement across 24h / 7d / 30d windows. Filter to packages with attached GitHub repos and live momentum.",
-    url: "/npm",
-    type: "website",
-  },
 };
 
 interface NpmPageProps {
@@ -95,6 +87,25 @@ function formatClock(iso: string | undefined): string {
   return new Date(iso).toISOString().slice(11, 19);
 }
 
+// npm registry descriptions are scraped from the package's README and often
+// arrive as raw HTML/markdown — `<p align="center">`, `<code>`, badge image
+// links, etc. Strip the noise so the Package cell renders as a clean one-line
+// blurb instead of `<p><code>npm i -g X</code>...`. Length clamp matches the
+// truncate width so the trailing ellipsis lines up with the column edge.
+function cleanDescription(raw: string | null): string {
+  if (!raw) return "repo-linked npm package";
+  const stripped = raw
+    .replace(/<[^>]+>/g, " ")
+    .replace(/!?\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/[`*_>#]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!stripped) return "repo-linked npm package";
+  return stripped.length > 140
+    ? `${stripped.slice(0, 137).trimEnd()}…`
+    : stripped;
+}
+
 export default async function NpmPage({ searchParams }: NpmPageProps) {
   const { range } = await searchParams;
   // Refresh npm-packages cache from the data-store before reading sync getters.
@@ -121,16 +132,15 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
     );
   }
 
-  // KpiBand snapshot — tracked packages, top 24h downloader, linked-repo
-  // count, active window. Window cell echoes the active tab so the snapshot
-  // stays stable when users flip ranges.
-  const topByDownloads = packages.reduce<NpmPackageRow | null>((best, pkg) => {
-    if (!best) return pkg;
-    return pkg.downloads24h > best.downloads24h ? pkg : best;
-  }, null);
-  const topDownloadValue = topByDownloads?.downloads24h ?? 0;
-  const topDownloadName = topByDownloads?.name ?? "—";
-  const linkedRepoCount = file.counts?.linkedRepos ?? packages.length;
+  // KpiBand snapshot — tracked packages, top mover for the active window,
+  // linked-repo count, active window. Top mover is `packages[0]` because
+  // getTopNpmPackages already sorts by trendScore for the active window —
+  // ranking a stale legacy library by absolute downloads (the prior
+  // behaviour) hid every actual breakout from the snapshot.
+  const topMover = packages[0] ?? null;
+  const topMoverDelta = topMover ? deltaForNpmWindow(topMover, activeWindow) : 0;
+  const topMoverPct = topMover ? deltaPctForNpmWindow(topMover, activeWindow) ?? 0 : 0;
+  const linkedRepoCount = packages.filter((pkg) => pkg.linkedRepo).length;
 
   return (
     <main className="home-surface">
@@ -140,13 +150,14 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
             <b>NPM</b> · TERMINAL · /NPM
           </>
         }
-        title="npm · top packages"
-        lede="Top npm package movement over 24h, 7d, and 30d windows. Discovery sweep keeps only packages whose registry metadata links back to a GitHub repo, then ranks by download velocity."
+        title="npm · package velocity"
+        lede="Repo-linked npm packages ranked by 24h / 7d / 30d download movement. Every row comes from the fresh npm corpus and links back to its GitHub repo."
         clock={
           <>
             <span className="big">{formatClock(file.fetchedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
             <LiveDot label={`LIVE · ${activeWindow.toUpperCase()}`} />
+            <FreshnessBadge source="npm" lastUpdatedAt={file.fetchedAt} />
           </>
         }
         snapshot={
@@ -154,14 +165,16 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
             cells={[
               {
                 label: "TRACKED",
-                value: packages.length.toLocaleString("en-US"),
+                value: linkedRepoCount.toLocaleString("en-US"),
                 sub: "repo-linked pkgs",
                 pip: NPM_RED,
               },
               {
-                label: "TOP 24H INSTALLS",
-                value: formatCompact(topDownloadValue),
-                sub: topDownloadName,
+                label: `TOP ${activeWindow.toUpperCase()} MOVER`,
+                value: topMover ? formatSignedCompact(topMoverDelta) : "—",
+                sub: topMover
+                  ? `${topMover.name} · ${formatDeltaPct(topMoverPct)}`
+                  : "warming",
                 tone: "acc",
                 pip: "var(--v4-acc)",
               },
@@ -181,7 +194,7 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
             ]}
           />
         }
-        listEyebrow={`Package feed · top ${packages.length} by ${activeWindow} install velocity (trending)`}
+        listEyebrow={`Repo-linked packages · top ${packages.length} by ${activeWindow} movement`}
         list={
           <>
             <TabNav active={activeWindow} />
@@ -230,12 +243,7 @@ function PackageFeed({
   packages: NpmPackageRow[];
   activeWindow: NpmWindow;
 }) {
-  // P0 INCIDENT 2026-05-02 (user report: "NPM not showing Installs!!!!!
-  // no trending!!!!!"): the column header read "24H Move" which obscured
-  // that the value IS the install count. Renamed to "24H Installs" so the
-  // primary npm signal users come here for is named explicitly.
-  const moveLabel = (window: NpmWindow) =>
-    `${window.toUpperCase()} Installs`;
+  const moveLabel = (window: NpmWindow) => `${window.toUpperCase()} Move`;
 
   const columns: FeedColumn<NpmPackageRow>[] = [
     {
@@ -314,7 +322,7 @@ function PackageFeed({
     },
     {
       id: "active-mobile",
-      header: `${activeWindow.toUpperCase()} Installs`,
+      header: `${activeWindow.toUpperCase()} Move`,
       width: "100px",
       align: "right",
       hideAbove: "md",
@@ -346,23 +354,6 @@ function PackageFeed({
       fixedLayout
     />
   );
-}
-
-// Strip markdown / HTML residue from npm package READMEs so the row meta line
-// renders as plain text. Caps length at 140 chars with a trailing ellipsis to
-// match the column truncate width.
-function cleanDescription(raw: string | null): string {
-  if (!raw) return "repo-linked npm package";
-  const stripped = raw
-    .replace(/<[^>]+>/g, " ")
-    .replace(/!?\[[^\]]*\]\([^)]*\)/g, " ")
-    .replace(/[`*_>#]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-  if (!stripped) return "repo-linked npm package";
-  return stripped.length > 140
-    ? `${stripped.slice(0, 137).trimEnd()}…`
-    : stripped;
 }
 
 function PackageIdentity({ pkg }: { pkg: NpmPackageRow }) {
@@ -453,10 +444,7 @@ function Metric({
     <div className="text-right text-xs tabular-nums">
       {/* Total installs — primary, large, ink-100. NPM's whole point is
           "how many installs?" so this beats the delta in visual weight.
-          Active window goes brighter (ink-000 + 600 weight).
-          P0 2026-05-02: relabeled inline suffix "dl" → "installs" so the
-          row reads as "13.4M installs" instead of the cryptic "13.4M dl"
-          users were missing. */}
+          Active window goes brighter (ink-000 + 600 weight). */}
       <div
         className="font-mono text-[13px]"
         style={{
@@ -469,7 +457,7 @@ function Metric({
           className="ml-0.5 text-[10px]"
           style={{ color: "var(--v4-ink-400)" }}
         >
-          {" "}installs
+          {" "}dl
         </span>
       </div>
       {/* Signed delta — secondary, color-coded green/red. */}

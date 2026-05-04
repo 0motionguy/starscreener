@@ -12,106 +12,41 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { errorEnvelope } from "@/lib/api/error-response";
-import { pipeline } from "@/lib/pipeline/pipeline";
-import {
-  getDerivedAvailableLanguages,
-  getDerivedCategoryStats,
-  getDerivedMetaCounts,
-} from "@/lib/derived-insights";
-import { getDerivedRepos } from "@/lib/derived-repos";
-import {
-  getSidebarSourceCounts,
-  emptySidebarSourceCounts,
-  type SidebarSourceCounts,
-} from "@/lib/sidebar-source-counts";
-import type { MetaCounts, MovementStatus } from "@/lib/types";
-import type { CategoryStats } from "@/lib/pipeline/queries/aggregate";
+import { buildSidebarData } from "@/lib/sidebar-data";
+
+// Re-export the wire types so existing import paths keep working.
+export type {
+  SidebarDataRepo,
+  SidebarDataResponse,
+} from "@/lib/sidebar-data";
 
 export const runtime = "nodejs";
 
-export interface SidebarDataRepo {
-  id: string;
-  fullName: string;
-  owner: string;
-  name: string;
-  ownerAvatarUrl: string;
-  momentumScore: number;
-  movementStatus: MovementStatus;
-  sparklineData: number[];
-  stars: number;
-  starsDelta24h: number;
-  starsDelta24hMissing?: boolean;
-}
-
-export interface SidebarDataResponse {
-  categoryStats: CategoryStats[];
-  metaCounts: MetaCounts;
-  availableLanguages: string[];
-  reposById: Record<string, SidebarDataRepo>;
-  unreadAlerts: number;
-  sourceCounts: SidebarSourceCounts;
-  trendingReposCount: number;
-  generatedAt: string;
-}
-
-export async function GET(
-  request: NextRequest,
-): Promise<NextResponse<SidebarDataResponse | { error: string }>> {
+export async function GET(request: NextRequest) {
+  const trace = process.env.PERF_TRACE_ROUTES === "1";
+  const startedAt = performance.now();
   try {
+    const spans: Array<{ name: string; ms: number }> = [];
     const userId = request.nextUrl.searchParams.get("userId") ?? undefined;
-    const repos = getDerivedRepos();
-    const categoryStats = getDerivedCategoryStats(repos);
-    const metaCounts = getDerivedMetaCounts(repos);
-    const availableLanguages = getDerivedAvailableLanguages(repos);
-
-    const reposById: Record<string, SidebarDataRepo> = {};
-    for (const r of repos) {
-      reposById[r.id] = {
-        id: r.id,
-        fullName: r.fullName,
-        owner: r.owner,
-        name: r.name,
-        ownerAvatarUrl: r.ownerAvatarUrl,
-        momentumScore: r.momentumScore,
-        movementStatus: r.movementStatus,
-        sparklineData: r.sparklineData,
-        stars: r.stars,
-        starsDelta24h: r.starsDelta24h,
-        starsDelta24hMissing: r.starsDelta24hMissing,
-      };
-    }
-
-    let unreadAlerts = 0;
-    try {
-      await pipeline.ensureReady();
-      const events = pipeline.getAlerts(userId);
-      unreadAlerts = events.filter((e) => e.readAt === null).length;
-    } catch {
-      unreadAlerts = 0;
-    }
-
-    // Per-source counts for the sidebar count badges. Degrade to zeros
-    // on cold data-store / read error so the sidebar still renders.
-    let sourceCounts: SidebarSourceCounts;
-    try {
-      sourceCounts = await getSidebarSourceCounts();
-    } catch {
-      sourceCounts = emptySidebarSourceCounts();
-    }
-
-    return NextResponse.json(
-      {
-        categoryStats,
-        metaCounts,
-        availableLanguages,
-        reposById,
-        unreadAlerts,
-        sourceCounts,
-        trendingReposCount: repos.length,
-        generatedAt: new Date().toISOString(),
+    const includeAllRepos = request.nextUrl.searchParams.get("full") === "1";
+    // Cap by default to keep payload latency under control for mobile drawer
+    // fetches. Clients that need the full map can opt in with `?full=1`.
+    const data = await buildSidebarData({
+      userId,
+      reposByIdTopN: includeAllRepos ? undefined : 300,
+      onTiming: (name, durationMs) => {
+        if (trace) spans.push({ name, ms: durationMs });
       },
-      { headers: { "Content-Type": "application/json; charset=utf-8" } },
-    );
+    });
+    if (trace) {
+      const totalMs = performance.now() - startedAt;
+      console.info(
+        `[perf][route:/api/pipeline/sidebar-data] totalMs=${totalMs.toFixed(1)} includeAllRepos=${includeAllRepos ? "1" : "0"} repos=${data.trendingReposCount} spans=${JSON.stringify(spans)}`,
+      );
+    }
+    return NextResponse.json(data, {
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+    });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json(errorEnvelope(message), { status: 500 });

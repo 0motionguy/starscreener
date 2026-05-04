@@ -24,9 +24,6 @@ test("touchDailyAggregates refreshes all LLM daily aggregate payloads", async ()
     async writtenAt() {
       return null;
     },
-    async writerMeta() {
-      return null;
-    },
     async reset() {
       // no-op
     },

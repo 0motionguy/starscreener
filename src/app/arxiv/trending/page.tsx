@@ -28,6 +28,7 @@ import { repoLogoUrl } from "@/lib/logos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { MarkVisited } from "@/components/layout/MarkVisited";
 
 // arXiv brand: Cornell crimson. No `--v4-src-arxiv` token exists yet, so
 // hardcode the brand color rather than fall back to the generic `--v4-red`
@@ -83,6 +84,7 @@ export default async function ArxivTrendingPage() {
   if (cold) {
     return (
       <main className="home-surface">
+        <MarkVisited routeKey="arxivPapers" count={allPapers.length} />
         <SourceFeedTemplate
           crumb={
             <>
@@ -107,6 +109,7 @@ export default async function ArxivTrendingPage() {
 
   return (
     <main className="home-surface">
+      <MarkVisited routeKey="arxivPapers" count={allPapers.length} />
       <SourceFeedTemplate
         crumb={
           <>
@@ -119,7 +122,7 @@ export default async function ArxivTrendingPage() {
           <>
             <span className="big">{formatClock(file.fetchedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="LIVE · 30M" />
+            <LiveDot label="FRESH · 3H" />
           </>
         }
         snapshot={

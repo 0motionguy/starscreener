@@ -1,214 +1,431 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { GitFork, Radar, Sparkles, Star, TriangleAlert } from "lucide-react";
+
 import {
   getConsensusTrendingItems,
   getConsensusTrendingMeta,
   refreshConsensusTrendingFromStore,
-  type ConsensusBadge,
   type ConsensusItem,
-  type ConsensusSource,
-  type ConsensusSourceComponent,
 } from "@/lib/consensus-trending";
-import { EntityLogo } from "@/components/ui/EntityLogo";
-import { repoLogoUrl } from "@/lib/logos";
+import {
+  getConsensusVerdictsPayload,
+  refreshConsensusVerdictsFromStore,
+} from "@/lib/consensus-verdicts";
+import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { AgreementMatrix } from "@/components/consensus/AgreementMatrix";
+import { ConsensusBoard } from "@/components/consensus/ConsensusBoard";
+import { DailyVerdictPanel } from "@/components/consensus/DailyVerdictPanel";
+import { SourceStrip } from "@/components/consensus/SourceStrip";
+import { RankStarMark } from "@/components/brand/RankStarMark";
+
+// V4 (CORPUS) primitives — page chrome + verdict + KPI band.
+import { PageHead } from "@/components/ui/PageHead";
+import { SectionHead } from "@/components/ui/SectionHead";
+import { KpiBand } from "@/components/ui/KpiBand";
+import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
+import { LiveDot } from "@/components/ui/LiveDot";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+// ISR: page rebuilds every 10 minutes (consensus fetcher publishes hourly,
+// analyst follows ~10 min later — 600s gives one cache miss per fetcher tick).
+export const revalidate = 60;
 
-const BADGE_LABELS: Record<ConsensusBadge, string> = {
-  consensus_pick: "Consensus",
-  our_early_signal: "Early",
-  external_breakout: "External",
-  divergence: "Divergence",
+export const metadata: Metadata = {
+  title: "Trending Consensus",
+  description:
+    "Cross-ranking agreement across 8 weighted external sources (GitHub, Hugging Face, Hacker News, X, Reddit, Product Hunt, Dev.to, Bluesky) plus K2.6 analyst verdicts on top picks.",
+  alternates: { canonical: "/consensus" },
+  openGraph: {
+    title: "Trending Consensus — TrendingRepo",
+    description:
+      "8-source agreement engine with AI analyst verdicts on the top breakouts.",
+    url: "/consensus",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trending Consensus — TrendingRepo",
+    description:
+      "8-source agreement engine with AI analyst verdicts on the top breakouts.",
+  },
 };
 
-const BADGE_STYLES: Record<ConsensusBadge, string> = {
-  consensus_pick: "border-emerald-400/60 text-emerald-200 bg-emerald-500/10",
-  our_early_signal: "border-cyan-400/60 text-cyan-200 bg-cyan-500/10",
-  external_breakout: "border-amber-400/60 text-amber-200 bg-amber-500/10",
-  divergence: "border-rose-400/60 text-rose-200 bg-rose-500/10",
-};
-
-function fmtScore(value: number): string {
-  return Number.isFinite(value) ? value.toFixed(1) : "0.0";
+function fmtClock(iso: string): string {
+  if (!iso) return "—";
+  return new Date(iso).toISOString().slice(11, 19);
 }
 
-function sourceMark(
-  item: ConsensusItem,
-  source: ConsensusSource | "oss" | "trendshift",
-) {
-  const s = (item.sources as Record<string, ConsensusSourceComponent | undefined>)[
-    source
-  ];
-  if (!s || !s.present) return <span className="text-text-tertiary">-</span>;
-  return (
-    <span className="tabular-nums text-text-primary">
-      #{s.rank}
-    </span>
-  );
-}
-
-function repoHref(fullName: string): string {
+function consensusHref(fullName: string): string {
   const [owner, name] = fullName.split("/");
   if (!owner || !name) return "#";
-  return `/repo/${owner}/${name}`;
+  return `/consensus/${owner}/${name}`;
 }
 
-function Stat({
-  label,
-  value,
-  icon,
+function EarlyCallList({
+  items,
+  mentions24h,
 }: {
-  label: string;
-  value: string;
-  icon: React.ReactNode;
+  items: ConsensusItem[];
+  mentions24h: Map<string, number>;
 }) {
+  if (items.length === 0) {
+    return (
+      <div className="sp-row">
+        <div className="rk">—</div>
+        <div className="nm">
+          <div className="h">No early calls today</div>
+          <div className="meta">Waiting for OURS to lead an external feed by ≥20 ranks.</div>
+        </div>
+      </div>
+    );
+  }
   return (
-    <div className="border border-border-primary bg-bg-secondary px-4 py-3">
-      <div className="flex items-center justify-between gap-3 text-text-tertiary">
-        <span className="text-[10px] uppercase tracking-wider">{label}</span>
-        {icon}
-      </div>
-      <div className="mt-2 font-mono text-2xl text-text-primary tabular-nums">
-        {value}
-      </div>
-    </div>
+    <>
+      {items.map((item, i) => {
+        const lead =
+          item.externalRank != null && item.oursRank != null
+            ? Math.max(0, item.externalRank - item.oursRank)
+            : 0;
+        const mentions = mentions24h.get(item.fullName.toLowerCase()) ?? 0;
+        return (
+          <Link href={consensusHref(item.fullName)} className="sp-row" key={item.fullName}>
+            <div className="rk">
+              {i === 0 ? <span className="star"><RankStarMark size={10} /></span> : null}
+              {String(i + 1).padStart(2, "0")}
+            </div>
+            <div className="nm">
+              <div className="h">{item.fullName}</div>
+              <div className="meta">
+                OURS #{item.oursRank ?? "—"} · external #{item.externalRank ?? "—"} ·{" "}
+                {item.sourceCount}/8 sources
+                {mentions > 0 ? ` · ${mentions} mentions 24h` : ""}
+              </div>
+            </div>
+            <div className="delta up">
+              +{lead}
+              <span className="lbl">RANKS LEAD</span>
+            </div>
+          </Link>
+        );
+      })}
+    </>
   );
 }
 
-function Badge({ badge }: { badge: ConsensusBadge }) {
+function DivergenceList({
+  items,
+  mentions24h,
+}: {
+  items: ConsensusItem[];
+  mentions24h: Map<string, number>;
+}) {
+  if (items.length === 0) {
+    return (
+      <div className="sp-row">
+        <div className="rk">—</div>
+        <div className="nm">
+          <div className="h">All sources align</div>
+          <div className="meta">No divergences &gt; 30 rank gap right now.</div>
+        </div>
+      </div>
+    );
+  }
   return (
-    <span
-      className={`inline-flex h-6 items-center border px-2 text-[10px] uppercase tracking-wider ${BADGE_STYLES[badge]}`}
-    >
-      {BADGE_LABELS[badge]}
-    </span>
+    <>
+      {items.map((item, i) => {
+        const mentions = mentions24h.get(item.fullName.toLowerCase()) ?? 0;
+        return (
+          <Link href={consensusHref(item.fullName)} className="sp-row" key={item.fullName}>
+            <div className="rk">{String(i + 1).padStart(2, "0")}</div>
+            <div className="nm">
+              <div className="h">{item.fullName}</div>
+              <div className="meta">
+                {item.sourceCount}/8 sources · ranks span {item.maxRankGap}
+                {mentions > 0 ? ` · ${mentions} mentions 24h` : ""}
+              </div>
+            </div>
+            <div className="delta dn">
+              ≥ {item.maxRankGap}
+              <span className="lbl">GAP</span>
+            </div>
+          </Link>
+        );
+      })}
+    </>
   );
 }
 
-function EmptyState() {
-  return (
-    <section className="border border-border-primary bg-bg-secondary p-8 text-sm text-text-secondary">
-      Consensus data is warming. The worker publishes after Trendshift, OSS
-      Insight, and STARSCREENER engagement inputs have refreshed.
-    </section>
-  );
+// Display-only relaxed threshold for the "strong consensus" band.
+//
+// The worker's classifier requires ≥5 of 8 external sources before an item
+// is tagged `strong_consensus` (apps/trendingrepo-worker/.../scoring.ts).
+// In practice most discovery feeds only surface ~3-4 sources per repo, so
+// the strict gate produces a permanent "0 strong consensus picks" header
+// even when the leaderboard has dozens of high-conviction multi-source
+// items. We re-classify on the consumer side so the page surfaces actual
+// agreement instead of an empty band. The underlying score and per-source
+// rank data are NEVER mutated — only the display verdict is relaxed.
+const DISPLAY_STRONG_MIN_SOURCES = 3;
+const DISPLAY_STRONG_MAX_GAP = 60;
+
+function relaxStrongConsensus(item: ConsensusItem): ConsensusItem {
+  if (item.verdict === "strong_consensus") return item;
+  if (
+    item.sourceCount >= DISPLAY_STRONG_MIN_SOURCES &&
+    item.maxRankGap <= DISPLAY_STRONG_MAX_GAP
+  ) {
+    return { ...item, verdict: "strong_consensus" };
+  }
+  return item;
+}
+
+function recountBands(
+  items: ConsensusItem[],
+): Record<ConsensusItem["verdict"], number> {
+  const counts = {
+    strong_consensus: 0,
+    early_call: 0,
+    divergence: 0,
+    external_only: 0,
+    single_source: 0,
+  };
+  for (const item of items) counts[item.verdict] += 1;
+  return counts;
 }
 
 export default async function ConsensusPage() {
-  await refreshConsensusTrendingFromStore();
+  // Refresh both data layers in parallel — both have 30s dedup, safe per-render.
+  await Promise.all([
+    refreshConsensusTrendingFromStore(),
+    refreshConsensusVerdictsFromStore(),
+  ]);
+
   const meta = getConsensusTrendingMeta();
-  const items = getConsensusTrendingItems(100);
-  const consensusPicks = items.filter((i) => i.badges.includes("consensus_pick")).length;
-  const early = items.filter((i) => i.badges.includes("our_early_signal")).length;
-  const external = items.filter((i) => i.badges.includes("external_breakout")).length;
+  const rawItems = getConsensusTrendingItems(200);
+  const items = rawItems.map(relaxStrongConsensus);
+  const displayBandCounts = recountBands(items);
+  const verdicts = getConsensusVerdictsPayload();
+
+  const earlyItems = items.filter((i) => i.verdict === "early_call").slice(0, 15);
+  const divItems = items.filter((i) => i.verdict === "divergence").slice(0, 15);
+
+  // Build a fullName→24h-mentions map by joining each ConsensusItem's
+  // fullName against the derived-repos pool. Missing entries (consensus
+  // items that aren't yet in our derived pool) fall back to 0.
+  const mentions24h = new Map<string, number>();
+  for (const item of items) {
+    const repo = getDerivedRepoByFullName(item.fullName);
+    if (repo?.mentions) {
+      mentions24h.set(item.fullName.toLowerCase(), repo.mentions.total24h);
+    }
+  }
+
+  // The data layer is consensus-trending (refreshed hourly by the worker).
+  // The analyst (verdicts) layer rides on top and can lag by hours; if it's
+  // significantly older than the underlying data, treat its content as
+  // stale and fall back to the deterministic summary so the page chrome
+  // never advertises a 3-day-old verdict on top of fresh signals.
+  const dataAtMs = meta.computedAt ? Date.parse(meta.computedAt) : 0;
+  const verdictAtMs = verdicts.computedAt ? Date.parse(verdicts.computedAt) : 0;
+  const verdictsFresh =
+    verdictAtMs > 0 && dataAtMs > 0
+      ? verdictAtMs >= dataAtMs - 60 * 60 * 1000
+      : Boolean(verdicts.computedAt);
+
+  const computedAt = meta.computedAt || verdicts.computedAt;
+  const computedClock = computedAt ? fmtClock(computedAt) : "warming";
+  const computedAgo = computedAt
+    ? `${Math.max(0, Math.floor((Date.now() - new Date(computedAt).getTime()) / 60000))}m ago`
+    : "";
+
+  // Prefer the analyst headline only when fresh; otherwise derive a
+  // deterministic summary from band counts so the ribbon always tracks
+  // today's data, not yesterday's analyst run.
+  const verdictText =
+    (verdictsFresh && verdicts.ribbon.headline) ||
+    `${displayBandCounts.strong_consensus} strong consensus picks today across 8 sources · ` +
+      `${displayBandCounts.early_call} early calls · ${displayBandCounts.divergence} divergences to watch.`;
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
-      <div className="mx-auto max-w-[1400px] px-4 py-6 md:px-6 md:py-8">
-        <header className="border-b border-border-primary pb-6">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-text-tertiary">
-                <Radar size={14} />
-                Ours + OSS Insight + Trendshift
-              </div>
-              <h1 className="mt-2 text-2xl font-bold uppercase tracking-wider md:text-3xl">
-                Consensus Trending
-              </h1>
-            </div>
-            <Link
-              href="/api/scoring/consensus?limit=100"
-              className="inline-flex min-h-10 items-center border border-border-primary px-3 text-[11px] uppercase tracking-wider text-text-secondary transition-colors hover:border-text-secondary hover:text-text-primary"
-            >
-              JSON
+    <main className="home-surface">
+      <PageHead
+        crumb={
+          <>
+            <b>CONSENSUS</b> · TERMINAL · /CONSENSUS
+          </>
+        }
+        h1="What 8 signal feeds agree on — right now."
+        lede="An AI-curated leaderboard. Every repo, model, skill, and MCP is cross-validated against eight independent discovery feeds. Composite score = weighted agreement."
+        clock={
+          <>
+            <span className="big">{computedClock}</span>
+            <span className="muted">UTC · COMPUTED</span>
+            <LiveDot label="FEED LIVE" />
+            <FreshnessBadge source="mcp" lastUpdatedAt={computedAt || null} />
+            <Link href="/api/scoring/consensus?limit=100" className="json-link">
+              JSON →
             </Link>
-          </div>
-          <p className="mt-3 max-w-3xl text-sm text-text-secondary">
-            A rank-fused leaderboard that validates STARSCREENER momentum
-            against two independent GitHub discovery engines.
-          </p>
-          <div className="mt-3 text-[11px] uppercase tracking-wider text-text-tertiary">
-            {meta.computedAt ? `Computed ${meta.computedAt}` : "Waiting for first publish"}
-          </div>
-        </header>
+          </>
+        }
+      />
 
-        <section className="my-6 grid grid-cols-2 gap-3 md:grid-cols-4">
-          <Stat label="Repos" value={String(items.length)} icon={<Star size={14} />} />
-          <Stat label="Consensus" value={String(consensusPicks)} icon={<Sparkles size={14} />} />
-          <Stat label="Our early" value={String(early)} icon={<Radar size={14} />} />
-          <Stat label="External" value={String(external)} icon={<GitFork size={14} />} />
+      <VerdictRibbon
+        tone="acc"
+        stamp={{
+          eyebrow: "// TODAY'S VERDICT",
+          headline: computedAt
+            ? new Date(computedAt).toISOString().replace("T", " · ").slice(0, 16) + " UTC"
+            : "warming",
+          sub: computedAt
+            ? `computed ${computedAgo} · ${meta.itemCount} candidates`
+            : "awaiting first analyst run",
+        }}
+        text={verdictText}
+        actionHref="#consensus-leaderboard"
+        actionLabel="JUMP TO BOARD →"
+      />
+
+      <KpiBand
+        className="kpi-band"
+        cells={[
+          {
+            label: "POOL",
+            value: meta.itemCount,
+            sub: "candidates · 24h",
+            pip: "var(--v4-ink-300)",
+          },
+          {
+            label: "STRONG CONSENSUS",
+            value: displayBandCounts.strong_consensus,
+            sub: "≥ 3 / 8 sources agree",
+            tone: "money",
+            pip: "var(--v4-money)",
+          },
+          {
+            label: "EARLY CALLS",
+            value: displayBandCounts.early_call,
+            sub: "we ranked first",
+            tone: "acc",
+            pip: "var(--v4-violet)",
+          },
+          {
+            label: "DIVERGENCE",
+            value: displayBandCounts.divergence,
+            sub: "feeds disagree · gap > 30",
+            tone: "amber",
+            pip: "var(--v4-amber)",
+          },
+          {
+            label: "EXTERNAL-ONLY",
+            value: displayBandCounts.external_only,
+            sub: "not yet on our radar",
+            pip: "var(--v4-blue)",
+          },
+        ]}
+      />
+
+      <SourceStrip stats={meta.sourceStats} />
+
+      <SectionHead
+        num="// 01"
+        title="Agreement matrix · OURS rank × external composite"
+        meta={
+          <>
+            <b>{items.length}</b> candidates · diagonal = agreement
+          </>
+        }
+      />
+      <div className="grid">
+        <section className="panel col-8">
+          <div className="panel-head">
+            <span className="key">{"// MATRIX · X · OURS RANK → · Y · EXTERNAL RANK ↓"}</span>
+            <span style={{ color: "var(--v4-ink-400)" }}>· COLOR · VERDICT BAND</span>
+            <span className="right">
+              <LiveDot label="LIVE" />
+            </span>
+          </div>
+          <div className="matrix-legend">
+            <span>
+              <i className="pip" style={{ background: "var(--v4-money)" }} /> Strong consensus
+            </span>
+            <span>
+              <i className="pip" style={{ background: "var(--v4-violet)" }} /> Early call
+            </span>
+            <span>
+              <i className="pip" style={{ background: "var(--v4-amber)" }} /> Divergence
+            </span>
+            <span>
+              <i className="pip" style={{ background: "var(--v4-blue)" }} /> External-only
+            </span>
+            <span>
+              <i className="pip" style={{ background: "var(--v4-ink-300)" }} /> Single source
+            </span>
+            <span className="right">click any band row · open detail</span>
+          </div>
+          <AgreementMatrix items={items} />
         </section>
 
+        <div className="col-4">
+          <DailyVerdictPanel
+            ribbon={verdicts.ribbon}
+            generator={verdicts.generator}
+            computedAt={verdicts.computedAt}
+          />
+        </div>
+      </div>
+
+      <SectionHead
+        num="// 02"
+        title="Receipts · early calls and divergences"
+        meta={
+          <>
+            cross-checked · <b>14d</b> window
+          </>
+        }
+      />
+      <div className="grid">
+        <section className="panel col-6">
+          <div className="panel-head">
+            <span className="key">{"// EARLY-CALL HALL OF FAME"}</span>
+            <span style={{ color: "var(--v4-ink-400)" }}>· OURS BEFORE EXTERNAL</span>
+            <span className="right">
+              <span style={{ color: "var(--v4-violet)" }}>↑ {earlyItems.length} ACTIVE</span>
+            </span>
+          </div>
+          <EarlyCallList items={earlyItems} mentions24h={mentions24h} />
+        </section>
+
+        <section className="panel col-6">
+          <div className="panel-head">
+            <span className="key">{"// DIVERGENCE WATCH"}</span>
+            <span style={{ color: "var(--v4-ink-400)" }}>· FEEDS DISAGREE &gt; 30 RANKS</span>
+            <span className="right">
+              <span style={{ color: "var(--v4-amber)" }}>⚠ {divItems.length} ACTIVE</span>
+            </span>
+          </div>
+          <DivergenceList items={divItems} mentions24h={mentions24h} />
+        </section>
+      </div>
+
+      <SectionHead
+        num="// 03"
+        title="Consensus leaderboard · 100 candidates"
+        meta={
+          <>
+            grouped by verdict · <b>updated every 60s</b>
+          </>
+        }
+      />
+
+      <div id="consensus-leaderboard">
         {items.length === 0 ? (
-          <EmptyState />
+          <div className="panel" style={{ padding: 24, color: "var(--v4-ink-300)" }}>
+            Consensus pool is warming. The worker publishes after engagement-composite + 8 source
+            fetchers refresh.
+          </div>
         ) : (
-          <section className="overflow-hidden border border-border-primary bg-bg-secondary">
-            <div className="hidden grid-cols-[48px_1fr_96px_90px_90px_100px_220px] gap-3 border-b border-border-primary px-4 py-2 text-[10px] uppercase tracking-wider text-text-tertiary md:grid">
-              <span>#</span>
-              <span>Repository</span>
-              <span className="text-right">Score</span>
-              <span className="text-right">Ours</span>
-              <span className="text-right">OSS</span>
-              <span className="text-right">Trendshift</span>
-              <span>Badges</span>
-            </div>
-            <ol className="divide-y divide-border-primary/50">
-              {items.map((item) => (
-                <li key={item.fullName}>
-                  <Link
-                    href={repoHref(item.fullName)}
-                    className="grid min-h-[64px] grid-cols-[34px_1fr_64px] gap-3 px-4 py-3 transition-colors hover:bg-bg-card-hover md:grid-cols-[48px_1fr_96px_90px_90px_100px_220px] md:items-center md:py-0"
-                  >
-                    <span className="text-[11px] text-text-tertiary tabular-nums">
-                      {item.rank}
-                    </span>
-                    <span className="flex min-w-0 items-center gap-2">
-                      <EntityLogo
-                        src={repoLogoUrl(item.fullName, 24)}
-                        name={item.fullName}
-                        size={24}
-                        shape="square"
-                        alt=""
-                      />
-                      <span className="min-w-0">
-                        <span className="block truncate text-sm font-semibold text-text-primary">
-                          {item.fullName}
-                        </span>
-                      <span className="mt-1 flex gap-2 text-[10px] uppercase tracking-wider text-text-tertiary md:hidden">
-                        <span>O {sourceMark(item, "ours")}</span>
-                        <span>OSS {sourceMark(item, "oss")}</span>
-                        <span>TS {sourceMark(item, "trendshift")}</span>
-                      </span>
-                      </span>
-                    </span>
-                    <span className="text-right text-sm font-bold tabular-nums text-text-primary">
-                      {fmtScore(item.consensusScore)}
-                    </span>
-                    <span className="hidden text-right text-[11px] md:block">
-                      {sourceMark(item, "ours")}
-                    </span>
-                    <span className="hidden text-right text-[11px] md:block">
-                      {sourceMark(item, "oss")}
-                    </span>
-                    <span className="hidden text-right text-[11px] md:block">
-                      {sourceMark(item, "trendshift")}
-                    </span>
-                    <span className="col-span-3 flex flex-wrap gap-1 md:col-span-1">
-                      {item.badges.length > 0 ? (
-                        item.badges.map((badge) => <Badge key={badge} badge={badge} />)
-                      ) : (
-                        <span className="inline-flex h-6 items-center gap-1 border border-border-primary px-2 text-[10px] uppercase tracking-wider text-text-tertiary">
-                          <TriangleAlert size={11} />
-                          Single
-                        </span>
-                      )}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ol>
-          </section>
+          <ConsensusBoard items={items} perBand={40} mentions24h={mentions24h} />
         )}
       </div>
     </main>

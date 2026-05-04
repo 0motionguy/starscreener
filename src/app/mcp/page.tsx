@@ -1,97 +1,61 @@
-// /mcp — MCP-server leaderboard with operator-terminal aesthetics.
+// /mcp — Trending MCP servers, multi-column leaderboard.
 //
-// Rebuild brief F1-F6 (2026-04-29):
-//   - 10 columns (rank / title / package / weekly-downloads / tool-count /
-//     transports / liveness / last-release / registries / hotness)
-//   - 4 sub-leaderboard tabs (most-downloaded / hottest / liveness-champs /
-//     new-this-week)
-//   - 4-state liveness classifier (live / degraded / offline / unknown)
-//     surfaced via the shared LivenessPill — offline rows STAY listed.
-//   - Right rail keeps the existing top-10 with the new pill.
-//   - Per-MCP detail page deferred (no [slug] route exists yet); data
-//     shape on EcosystemLeaderboardItem.mcp is ready for one to be added.
+// Adopted the homepage's `Live / top 50` layout (LiveTopTable) — sortable
+// columns for Use / 24h / 7d / 30d, per-row sparkline, source-presence
+// pills, registry-filter chips. Sortable columns replace the previous
+// window-tab strip (24h trending = sort by the 24H column).
 //
-// The page reuses SignalSourcePage's chrome + tab strip, but each tab
-// renders a TerminalFeedTable directly (instead of the generic SignalTable)
-// so we can lay down the new MCP-specific columns cleanly.
+// ISR cadence (revalidate = 60).
 
 import Link from "next/link";
 import type { Metadata } from "next";
 
 import { PageHead } from "@/components/ui/PageHead";
-import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
-import { RankRow } from "@/components/ui/RankRow";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { MarkVisited } from "@/components/layout/MarkVisited";
 import {
-  WindowedRanking,
-  type WindowedRow,
-} from "@/components/leaderboards/WindowedRanking";
+  LiveMcpTable,
+  type McpRow,
+  type CategoryFacet,
+} from "@/components/mcp/LiveMcpTable";
 
-import {
-  SignalSourcePage,
-  type SignalTabSpec,
-} from "@/components/signal/SignalSourcePage";
-import type { SignalMetricCardProps } from "@/components/signal/SignalMetricCard";
 import {
   getMcpSignalData,
-  type EcosystemBoard,
   type EcosystemLeaderboardItem,
 } from "@/lib/ecosystem-leaderboards";
-import {
-  LivenessPill,
-  classifyLiveness,
-} from "@/components/signal/LivenessPill";
-import { EntityLogo } from "@/components/ui/EntityLogo";
-import { classifyFreshness } from "@/lib/news/freshness";
 import { mcpEntityLogoUrl } from "@/lib/logos";
 import { absoluteUrl } from "@/lib/seo";
-import { NewsTopHeaderV3 } from "@/components/news/NewsTopHeaderV3";
-import { buildEcosystemHeader } from "@/components/signal/ecosystemTopHeader";
-import {
-  TerminalFeedTable,
-  type FeedColumn,
-} from "@/components/feed/TerminalFeedTable";
-import {
-  TerminalCellHotness,
-  TerminalCellInstalls24h,
-  TerminalCellInstalls30d,
-  TerminalCellInstalls7d,
-  TerminalCellLastRelease,
-  TerminalCellLiveness,
-  TerminalCellPackage,
-  TerminalCellRank,
-  TerminalCellRegistries,
-  TerminalCellTitle,
-  TerminalCellToolCount,
-  TerminalCellTransports,
-  TerminalCellWeeklyDownloads,
-  slugForMcp,
-} from "./_components/McpCells";
-import { compactNumber } from "@/components/news/newsTopMetrics";
+import { getDerivedRepos } from "@/lib/derived-repos";
+import { refreshTrendingFromStore } from "@/lib/trending";
+import type { Repo } from "@/lib/types";
 
-const MCP_ACCENT = "rgba(58, 214, 197, 0.85)";
+export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: "Trending MCP - TrendingRepo",
+  description:
+    "Top Model Context Protocol servers ranked by stars, downloads, and cross-registry presence.",
+  alternates: { canonical: absoluteUrl("/mcp") },
+  openGraph: {
+    title: "Trending MCP - TrendingRepo",
+    description:
+      "A live leaderboard for Model Context Protocol servers across MCP registries.",
+    url: absoluteUrl("/mcp"),
+  },
+};
+
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
-// ---------------------------------------------------------------------------
-// File-local helpers (restored after squash-merge dropped the inline V4 set).
-// ---------------------------------------------------------------------------
-
-function starsOf(item: EcosystemLeaderboardItem): number {
-  // Prefer absolute stars from the publish payload; fall back to popularity
-  // when the label says "Stars". Items without star data return 0 so they
-  // sort to the bottom of the stars-leaderboard.
-  if (item.popularityLabel === "Stars" && typeof item.popularity === "number") {
-    return item.popularity;
+function compactNumber(value: number | null | undefined): string {
+  if (value === null || value === undefined || !Number.isFinite(value)) {
+    return "0";
   }
-  return 0;
-}
-
-function citationsOf(item: EcosystemLeaderboardItem): number {
-  // Cross-registry presence — counts how many registries this MCP appears
-  // on. Best proxy for "most-cited" we have today.
-  return item.crossSourceCount ?? 0;
+  return new Intl.NumberFormat("en-US", {
+    notation: "compact",
+    maximumFractionDigits: value >= 1000 ? 1 : 0,
+  }).format(value);
 }
 
 function isNewWithin7d(item: EcosystemLeaderboardItem): boolean {
@@ -102,428 +66,193 @@ function isNewWithin7d(item: EcosystemLeaderboardItem): boolean {
   return Date.now() - t < SEVEN_DAYS_MS;
 }
 
-function formatAge(iso: string): string {
-  const t = Date.parse(iso);
-  if (!Number.isFinite(t)) return "—";
-  const sec = Math.max(0, Math.floor((Date.now() - t) / 1000));
-  if (sec < 60) return `${sec}s`;
-  const min = Math.floor(sec / 60);
-  if (min < 60) return `${min}m`;
-  const hr = Math.floor(min / 60);
-  if (hr < 24) return `${hr}h`;
-  const d = Math.floor(hr / 24);
-  if (d < 30) return `${d}d`;
-  const mo = Math.floor(d / 30);
-  if (mo < 12) return `${mo}mo`;
-  return `${Math.floor(mo / 12)}y`;
+function slugForMcp(item: EcosystemLeaderboardItem): string {
+  return encodeURIComponent((item.id ?? "").toLowerCase());
 }
 
-export const dynamic = "force-dynamic";
+// ---- Logo resolution (extracted from the prior McpAvatar) -------------------
+// Same priority chain we already shipped, but returns the URL directly so the
+// table component can hand it to <EntityLogo>. EntityLogo's own monogram
+// fallback handles 404s, so a never-null answer isn't required here.
 
-export const metadata: Metadata = {
-  title: "Trending MCP - TrendingRepo",
-  description:
-    "Top Model Context Protocol servers ranked by weekly downloads, liveness, and cross-registry presence.",
-  alternates: { canonical: absoluteUrl("/mcp") },
-  openGraph: {
-    title: "Trending MCP - TrendingRepo",
-    description:
-      "A live leaderboard for Model Context Protocol servers across MCP registries.",
-    url: absoluteUrl("/mcp"),
-  },
+const MCP_REGISTRY_HOMEPAGE: Record<string, string> = {
+  smithery: "https://smithery.ai",
+  glama: "https://glama.ai",
+  pulsemcp: "https://pulsemcp.com",
+  official: "https://modelcontextprotocol.io",
+  "awesome-mcp": "https://github.com/punkpeye/awesome-mcp-servers",
 };
 
-// ---------------------------------------------------------------------------
-// Column definition (shared across tabs — same layout, different sort/filter)
-// ---------------------------------------------------------------------------
-
-const MCP_COLUMNS: FeedColumn<EcosystemLeaderboardItem>[] = [
-  {
-    id: "rank",
-    header: "#",
-    width: "44px",
-    render: (_row, idx) => <TerminalCellRank index={idx} />,
-  },
-  {
-    id: "title",
-    header: "MCP",
-    render: (row) => <TerminalCellTitle item={row} />,
-  },
-  {
-    id: "package",
-    header: "Package",
-    width: "180px",
-    hideBelow: "md",
-    render: (row) => <TerminalCellPackage mcp={row.mcp} />,
-  },
-  // MCP install windows. Surfaced ahead of "Weekly DL" so the table reads
-  // 24h | 7d | 30d | Weekly DL — operator can scan the velocity columns
-  // first and use Weekly DL as the absolute-volume tiebreak. 24h + 30d
-  // hide on small screens so the mobile/tablet views don't overflow; 7d
-  // is the canonical "is this hot right now" window and stays visible.
-  {
-    id: "installs-24h",
-    header: "24h",
-    width: "70px",
-    align: "right",
-    hideBelow: "lg",
-    render: (row) => <TerminalCellInstalls24h mcp={row.mcp} />,
-  },
-  {
-    id: "installs-7d",
-    header: "7d",
-    width: "70px",
-    align: "right",
-    render: (row) => <TerminalCellInstalls7d mcp={row.mcp} />,
-  },
-  {
-    id: "installs-30d",
-    header: "30d",
-    width: "70px",
-    align: "right",
-    hideBelow: "lg",
-    render: (row) => <TerminalCellInstalls30d mcp={row.mcp} />,
-  },
-  {
-    id: "weekly-downloads",
-    header: "Weekly DL",
-    width: "110px",
-    align: "right",
-    render: (row) => <TerminalCellWeeklyDownloads mcp={row.mcp} />,
-  },
-  {
-    id: "tool-count",
-    header: "Tools",
-    width: "70px",
-    align: "right",
-    hideBelow: "md",
-    render: (row) => <TerminalCellToolCount mcp={row.mcp} />,
-  },
-  {
-    id: "transports",
-    header: "Transport",
-    width: "110px",
-    hideBelow: "lg",
-    render: (row) => <TerminalCellTransports mcp={row.mcp} />,
-  },
-  {
-    id: "liveness",
-    header: "Liveness",
-    width: "100px",
-    render: (row) => <TerminalCellLiveness item={row} />,
-  },
-  {
-    id: "last-release",
-    header: "Last Release",
-    width: "110px",
-    hideBelow: "lg",
-    render: (row) => <TerminalCellLastRelease mcp={row.mcp} />,
-  },
-  {
-    id: "registries",
-    header: "Registries",
-    width: "150px",
-    hideBelow: "md",
-    render: (row) => <TerminalCellRegistries item={row} />,
-  },
-  {
-    id: "hotness",
-    header: "Hot",
-    width: "60px",
-    align: "right",
-    render: (row) => <TerminalCellHotness item={row} />,
-  },
-];
-
-// ---------------------------------------------------------------------------
-// Tab sort/filter rules
-// ---------------------------------------------------------------------------
-
-function sortByDownloads(items: EcosystemLeaderboardItem[]): EcosystemLeaderboardItem[] {
-  // Primary: combined npm + pypi 7-day downloads. Cold-start: the
-  // mcp-downloads / mcp-downloads-pypi fetchers haven't shipped data yet,
-  // so most rows have downloadsCombined7d === null. Fall through to the
-  // publish payload's absolutes (popularity = installs_total ?? downloads_7d
-  // ?? stars_total — populated by coerceMcpItem), then signalScore as a
-  // final tiebreak. Without this chain the tab renders in arbitrary
-  // insertion order, which is what the screenshot showed.
-  return [...items].sort((a, b) => {
-    const aDl = a.mcp?.downloadsCombined7d;
-    const bDl = b.mcp?.downloadsCombined7d;
-    if (aDl !== null && aDl !== undefined && bDl !== null && bDl !== undefined && aDl !== bDl) {
-      return bDl - aDl;
-    }
-    if ((aDl ?? null) !== null && (bDl ?? null) === null) return -1;
-    if ((aDl ?? null) === null && (bDl ?? null) !== null) return 1;
-    const aPop = a.popularity ?? 0;
-    const bPop = b.popularity ?? 0;
-    if (aPop !== bPop) return bPop - aPop;
-    return (b.signalScore ?? 0) - (a.signalScore ?? 0);
-  });
+function registryFavicon(item: EcosystemLeaderboardItem): string | null {
+  const reg = item.mcp?.sources?.[0];
+  const home = reg ? MCP_REGISTRY_HOMEPAGE[reg] : null;
+  if (!home) return null;
+  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(
+    new URL(home).host,
+  )}&sz=64`;
 }
 
-function sortByHotness(items: EcosystemLeaderboardItem[]): EcosystemLeaderboardItem[] {
-  // Hottest by velocity: rank by Δhotness (current - 7d-prior) when EITHER
-  // side has a 7d-ago snapshot. Cold-start (first 7d of the rolling window):
-  // no row has a snapshot, so the delta branch is skipped entirely and we
-  // drop straight to absolute `hotness` desc, then `signalScore`, then
-  // last-release as final tiebreak so the day-1 list still ranks usefully.
-  return [...items].sort((a, b) => {
-    const aHasPrev = a.hotnessPrev7d !== undefined;
-    const bHasPrev = b.hotnessPrev7d !== undefined;
-    if (aHasPrev || bHasPrev) {
-      const aDelta = (a.hotness ?? 0) - (a.hotnessPrev7d ?? a.hotness ?? 0);
-      const bDelta = (b.hotness ?? 0) - (b.hotnessPrev7d ?? b.hotness ?? 0);
-      if (aDelta !== bDelta) return bDelta - aDelta;
-    }
-    const aH = a.hotness ?? a.signalScore ?? 0;
-    const bH = b.hotness ?? b.signalScore ?? 0;
-    if (aH !== bH) return bH - aH;
-    return (
-      (Date.parse(b.mcp?.lastReleaseAt ?? "") || 0) -
-      (Date.parse(a.mcp?.lastReleaseAt ?? "") || 0)
-    );
-  });
+function repoOwnerAvatar(linkedRepo: string | null | undefined): string | null {
+  if (!linkedRepo) return null;
+  const owner = linkedRepo.split("/", 1)[0];
+  return owner
+    ? `https://github.com/${encodeURIComponent(owner)}.png?size=80`
+    : null;
 }
 
-function filterLivenessChampions(items: EcosystemLeaderboardItem[]): EcosystemLeaderboardItem[] {
-  // uptime >= 0.99 AND non-stdio. Sort by toolCount desc.
-  const champs = items.filter((item) => {
-    const c = classifyLiveness(item.liveness);
-    if (c.isStdio) return false;
-    if (c.uptime7d === null) return false;
-    return c.uptime7d >= 0.99;
-  });
-  return champs.sort(
-    (a, b) => (b.mcp?.toolCount ?? -1) - (a.mcp?.toolCount ?? -1),
+function authorAvatar(author: string | null | undefined): string | null {
+  if (!author) return null;
+  const trimmed = author.trim();
+  if (!trimmed || /[^a-zA-Z0-9-]/.test(trimmed)) return null;
+  return `https://github.com/${encodeURIComponent(trimmed)}.png?size=80`;
+}
+
+function resolveMcpLogo(item: EcosystemLeaderboardItem): string | null {
+  return (
+    (item.logoUrl && !item.logoUrl.includes(".invalid")
+      ? item.logoUrl
+      : null) ??
+    repoOwnerAvatar(item.linkedRepo) ??
+    authorAvatar(item.author) ??
+    registryFavicon(item) ??
+    mcpEntityLogoUrl(item, 40)
   );
 }
 
-function filterNewThisWeek(items: EcosystemLeaderboardItem[]): EcosystemLeaderboardItem[] {
-  const cutoff = Date.now() - SEVEN_DAYS_MS;
-  const recent = items.filter((item) => {
-    const iso = item.mcp?.lastReleaseAt;
-    if (!iso) return false;
-    const t = Date.parse(iso);
-    return Number.isFinite(t) && t >= cutoff;
-  });
-  return recent.sort((a, b) => {
-    const ta = Date.parse(a.mcp?.lastReleaseAt ?? "");
-    const tb = Date.parse(b.mcp?.lastReleaseAt ?? "");
-    return (Number.isFinite(tb) ? tb : 0) - (Number.isFinite(ta) ? ta : 0);
-  });
-}
+// ---- Page -------------------------------------------------------------------
 
-// ---------------------------------------------------------------------------
-// Page
-// ---------------------------------------------------------------------------
+function lookupKeyForMcp(item: EcosystemLeaderboardItem): string | null {
+  // Prefer the explicit `linkedRepo`; otherwise extract owner/name from a
+  // github.com URL. Same fallback chain the home page uses for skill / mcp
+  // rows (src/app/page.tsx ecosystemEntity), so MCP rows surface real
+  // velocity even when the upstream merger left `linkedRepo` null.
+  if (item.linkedRepo) return item.linkedRepo.toLowerCase();
+  if (typeof item.url !== "string") return null;
+  const m = item.url.match(/github\.com\/([^/?#]+)\/([^/?#]+)/i);
+  if (!m) return null;
+  return `${m[1]}/${m[2].replace(/\.git$/i, "")}`.toLowerCase();
+}
 
 export default async function McpPage() {
-  const data = await getMcpSignalData();
-  const freshness = classifyFreshness("mcp", data.fetchedAt);
+  // Pull MCP board AND fresh trending data so the linked-repo fallback can
+  // surface real GitHub star deltas / sparklines on rows where the registry
+  // installs snapshot is still cold. Same hydration pattern /githubrepo
+  // uses (src/app/githubrepo/page.tsx).
+  const [data] = await Promise.all([
+    getMcpSignalData(),
+    refreshTrendingFromStore(),
+  ]);
   const items = data.board.items;
+  const repos = getDerivedRepos();
+  const repoByFullName = new Map<string, Repo>();
+  for (const r of repos) {
+    repoByFullName.set(r.fullName.toLowerCase(), r);
+  }
 
-  // ---- KPI band metrics + section lists (restored from V4 baseline) -------
   const total = items.length;
-  const topByStars = [...items].sort((a, b) => starsOf(b) - starsOf(a))[0];
   const newCount = items.filter(isNewWithin7d).length;
-  const mostCited = [...items].sort(
-    (a, b) => citationsOf(b) - citationsOf(a),
+  const topByPopularity = [...items].sort(
+    (a, b) => (b.popularity ?? 0) - (a.popularity ?? 0),
   )[0];
-  const topByStarsList = [...items]
-    .sort((a, b) => starsOf(b) - starsOf(a))
-    .slice(0, 10);
-  // Sort by lastRelease desc, capped at 10. Falls back to signalScore when
-  // no release timestamp is available so the section still populates on
-  // cold-start.
-  const breakouts = [...items]
-    .sort((a, b) => {
-      const at = Date.parse(a.mcp?.lastReleaseAt ?? a.postedAt ?? "") || 0;
-      const bt = Date.parse(b.mcp?.lastReleaseAt ?? b.postedAt ?? "") || 0;
-      if (bt !== at) return bt - at;
-      return (b.signalScore ?? 0) - (a.signalScore ?? 0);
+  const mostCited = [...items].sort(
+    (a, b) => (b.crossSourceCount ?? 0) - (a.crossSourceCount ?? 0),
+  )[0];
+
+  // Build the table rows — only fields with real upstream data. Filter to
+  // rows that carry at least a real `use_count` OR a release date OR a
+  // verified-vendor stamp OR a matching trending-board entry (so MCPs whose
+  // host repo is itself trending surface even when the registry hasn't
+  // tagged them yet). The trending-board match is what unlocks the spark
+  // sparkline + 24h/7d/30d star delta on this row.
+  const mcpRows: McpRow[] = items
+    .filter((item) => {
+      if ((item.popularity ?? 0) > 0) return true;
+      if (Boolean(item.mcp?.lastReleaseAt)) return true;
+      if (item.verified) return true;
+      const lookup = lookupKeyForMcp(item);
+      if (lookup && repoByFullName.has(lookup)) return true;
+      return false;
     })
-    .slice(0, 10);
+    .map((item) => {
+      const sources = item.mcp?.sources ?? [];
+      const lookup = lookupKeyForMcp(item);
+      const linkedRepo = lookup ? repoByFullName.get(lookup) : undefined;
 
-  const { cards, topStories } = buildEcosystemHeader({
-    items,
-    snapshotEyebrow: "// SNAPSHOT · NOW",
-    snapshotLabel: "MCP SERVERS",
-    snapshotRight: `${items.length.toLocaleString("en-US")} ITEMS`,
-    volumeEyebrow: "// VOLUME · PER REGISTRY",
-    topicsEyebrow: "// TOPICS · MENTIONED MOST",
-    sourceLabelMap: {
-      official: "OFCL",
-      Official: "OFCL",
-      glama: "GLAMA",
-      Glama: "GLAMA",
-      pulsemcp: "PULSE",
-      PulseMCP: "PULSE",
-      smithery: "SMTHY",
-      Smithery: "SMTHY",
-    },
-  });
+      // Prefer the registry's installs delta when the side-channel snapshot
+      // has accrued AND the value is real (non-zero); otherwise fall back to
+      // the linked repo's star delta so the column isn't always +0 during MCP
+      // cold-start. As of 2026-05-04 the upstream snapshot has installs24h=0
+      // on every row (no daily snapshot has accrued yet), so the linked-repo
+      // fallback is the path that actually surfaces velocity today.
+      const installs24h = item.mcp?.installs24h;
+      const installs7d = item.mcp?.installs7d;
+      const installs30d = item.mcp?.installs30d;
+      const hasNonZeroRegistryDelta =
+        (typeof installs24h === "number" && installs24h !== 0) ||
+        (typeof installs7d === "number" && installs7d !== 0) ||
+        (typeof installs30d === "number" && installs30d !== 0);
+      const delta24h = hasNonZeroRegistryDelta
+        ? (installs24h ?? 0)
+        : (linkedRepo?.starsDelta24h ?? 0);
+      const delta7d = hasNonZeroRegistryDelta
+        ? (installs7d ?? 0)
+        : (linkedRepo?.starsDelta7d ?? 0);
+      const delta30d = hasNonZeroRegistryDelta
+        ? (installs30d ?? 0)
+        : (linkedRepo?.starsDelta30d ?? 0);
+      const deltaUnit: McpRow["deltaUnit"] = hasNonZeroRegistryDelta
+        ? "installs"
+        : linkedRepo
+          ? "stars"
+          : null;
 
-  const topHeader = (
-    <NewsTopHeaderV3
-      routeTitle="MCP · TRENDING"
-      liveLabel="LIVE · 30M"
-      eyebrow={`// MCP · ${data.source.toUpperCase()} · ${freshness.ageLabel.toUpperCase()}`}
-      meta={[
-        {
-          label: "TRACKED",
-          value: items.length.toLocaleString("en-US"),
+      return {
+        id: item.id,
+        title: item.title,
+        href: `/mcp/${slugForMcp(item)}`,
+        logo: resolveMcpLogo(item),
+        author: item.vendor ?? item.author ?? null,
+        sourceLabel:
+          item.popularityLabel && item.popularity != null
+            ? item.popularityLabel.toLowerCase()
+            : (sources[0] ?? "mcp"),
+        use: item.popularity ?? 0,
+        releasedAt: item.mcp?.lastReleaseAt ?? null,
+        verified: Boolean(item.verified),
+        sources: {
+          s: sources.includes("smithery"),
+          g: sources.includes("glama"),
+          p: sources.includes("pulsemcp"),
+          o: sources.includes("official"),
         },
-        { label: "REGISTRIES", value: "5" },
-      ]}
-      cards={cards}
-      topStories={topStories}
-      accent={MCP_ACCENT}
-      caption={[
-        "// LAYOUT compact-v1",
-        "· 3-COL · 320 / 1FR / 1FR",
-        "· DATA UNCHANGED",
-      ]}
-    />
-  );
+        crossSourceCount: item.crossSourceCount ?? 1,
+        delta24h,
+        delta7d,
+        delta30d,
+        deltaUnit,
+        sparklineData: linkedRepo?.sparklineData ?? [],
+      };
+    });
 
-  // Pre-rendered tab content. Each is a TerminalFeedTable bound to the
-  // matching sort/filter slice. Capped at TOP_N because /mcp now ships
-  // 500 items per the worker's enriched publish payload, and rendering
-  // all 500 across 4 tabs (= 2000 row renders) made SSR take 47s + 17MB.
-  // Top-N keeps the tabs feeling like a leaderboard, not a database dump.
-  const TOP_N = 50;
-  const mostDownloaded = sortByDownloads(items).slice(0, TOP_N);
-  const hottest = sortByHotness(items).slice(0, TOP_N);
-  const livenessChamps = filterLivenessChampions(items).slice(0, TOP_N);
-  const newThisWeek = filterNewThisWeek(items).slice(0, TOP_N);
-
-  const tabs: SignalTabSpec[] = [
-    {
-      id: "most-downloaded",
-      label: "Most Downloaded · 7d",
-      rows: [],
-      content: (
-        <TerminalFeedTable
-          rows={mostDownloaded}
-          columns={MCP_COLUMNS}
-          rowKey={(row) => row.id}
-          accent={MCP_ACCENT}
-          caption="MCP servers ranked by combined npm + pypi 7-day downloads"
-          emptyTitle="No MCP rows yet."
-          emptySubtitle="Waiting for trending-mcp + npm/pypi download fetchers."
-        />
-      ),
-    },
-    {
-      id: "hottest",
-      label: "Hottest by Velocity",
-      rows: [],
-      content: (
-        <TerminalFeedTable
-          rows={hottest}
-          columns={MCP_COLUMNS}
-          rowKey={(row) => row.id}
-          accent={MCP_ACCENT}
-          caption="MCP servers ranked by hotness (raw scorer output)"
-          emptyTitle="No MCP rows yet."
-        />
-      ),
-    },
-    {
-      id: "liveness-champs",
-      label: "Liveness Champions",
-      rows: [],
-      content: (
-        <TerminalFeedTable
-          rows={livenessChamps}
-          columns={MCP_COLUMNS}
-          rowKey={(row) => row.id}
-          accent={MCP_ACCENT}
-          caption="HTTP MCP servers with 99%+ 7-day uptime, ranked by tool count"
-          emptyTitle="No MCP server has crossed the 99% uptime line yet."
-          emptySubtitle="Liveness pings run every 6h - the rolling window fills as they accrue."
-        />
-      ),
-    },
-    {
-      id: "new-this-week",
-      label: "New This Week",
-      rows: [],
-      content: (
-        <TerminalFeedTable
-          rows={newThisWeek}
-          columns={MCP_COLUMNS}
-          rowKey={(row) => row.id}
-          accent={MCP_ACCENT}
-          caption="MCP servers with an npm/pypi release in the last 7 days"
-          emptyTitle="No MCP packages have published in the last 7 days."
-          emptySubtitle="lastReleaseAt is sourced from npm/pypi - cold-starts as side-channels backfill."
-        />
-      ),
-    },
-  ];
-
-  // ---- Top movers (// 03) — 24h / 7d / 30d windowed install velocity. ----
-  // installsDelta1d/7d/30d come from the worker's npm-downloads + smithery-
-  // rank fetchers. Many MCPs don't yet have install telemetry (the npm-
-  // dependents path lights up only for packages that publish to npm), so
-  // we drop rows with no movement to avoid a wall of zeroes.
-  const buildMcpRow = (
-    item: EcosystemLeaderboardItem,
-    delta: number,
-  ): WindowedRow => {
-    const author = item.vendor ?? item.author ?? item.linkedRepo ?? "";
-    return {
-      id: `mcp-${item.id}`,
-      href: `/mcp/${slugForMcp(item)}`,
-      avatarText: item.title.slice(0, 2).toUpperCase(),
-      avatarSrc: item.logoUrl,
-      title: author ? `${author} / ${item.title}` : item.title,
-      desc: item.description ?? `${item.crossSourceCount} registries`,
-      metric: {
-        value: compactNumber(Math.abs(delta)),
-        label: "INSTALLS",
-      },
-      delta: {
-        value: `${delta >= 0 ? "+" : "-"}${compactNumber(Math.abs(delta))}`,
-        direction: delta > 0 ? "up" : delta < 0 ? "down" : "flat",
-      },
-    };
-  };
-  const moversByWindow = (key: "1d" | "7d" | "30d"): WindowedRow[] => {
-    // Only `installsDelta7d` exists as a signed delta on the leaderboard
-    // item type; for the 1d / 30d windows we fall back to the absolute
-    // `mcp.installs24h` / `mcp.installs30d` window-installs published by
-    // the worker. These are non-negative, so the buildMcpRow direction
-    // collapses to "up" / "flat" — matching what the UI shows during
-    // cold-start when no prior snapshot exists.
-    const get = (it: EcosystemLeaderboardItem) =>
-      key === "1d"
-        ? it.mcp?.installs24h ?? 0
-        : key === "7d"
-          ? it.installsDelta7d ?? 0
-          : it.mcp?.installs30d ?? 0;
-    return [...items]
-      .map((it) => ({ it, d: get(it) }))
-      .filter(({ d }) => d !== 0)
-      .sort((a, b) => b.d - a.d)
-      .slice(0, 10)
-      .map(({ it, d }) => buildMcpRow(it, d));
-  };
-  const movers24h = moversByWindow("1d");
-  const movers7d = moversByWindow("7d");
-  const movers30d = moversByWindow("30d");
-  const moversEmpty =
-    movers24h.length === 0 && movers7d.length === 0 && movers30d.length === 0;
-  // True outage signal: Redis returned no items for the leaderboard at all.
-  // Used to upgrade empty-state copy from "no data yet" (cold-start) to
-  // "data warming up" (something's actually wrong upstream — e.g. a stale
-  // trending-mcp key or a worker fetch that hasn't recovered).
-  const itemsEmpty = items.length === 0;
+  // Source-facet category counts for the filter chips. Drop empty buckets.
+  const categories: CategoryFacet[] = (
+    [
+      { id: "smithery", label: "SMITHERY", key: "s" as const },
+      { id: "glama", label: "GLAMA", key: "g" as const },
+      { id: "pulsemcp", label: "PULSEMCP", key: "p" as const },
+      { id: "official", label: "OFFICIAL", key: "o" as const },
+    ] as const
+  )
+    .map((c) => ({
+      id: c.id,
+      label: c.label,
+      count: mcpRows.filter((r) => r.sources[c.key]).length,
+    }))
+    .filter((c) => c.count > 0);
 
   return (
     <main className="home-surface">
+      <MarkVisited routeKey="mcp" count={mcpRows.length} />
       <PageHead
         crumb={
           <>
@@ -531,7 +260,7 @@ export default async function McpPage() {
           </>
         }
         h1="Model Context Protocol leaderboard."
-        lede="Trending MCP servers ranked by stars, downloads, and cross-registry presence. Track install velocity, tool counts, and breakout candidates as registries publish."
+        lede="Trending MCP servers across four registries — Smithery, Glama, PulseMCP, Anthropic Official. Sort by 24h / 7d / 30d delta to see what's actually moving."
         clock={
           <>
             <span className="big">{total.toLocaleString("en-US")}</span>
@@ -569,9 +298,11 @@ export default async function McpPage() {
             pip: "var(--v4-ink-300)",
           },
           {
-            label: "TOP · STARS",
-            value: topByStars ? compactNumber(starsOf(topByStars)) : "0",
-            sub: topByStars?.title ?? "—",
+            label: "TOP · CONNECTIONS",
+            value: topByPopularity?.popularity
+              ? compactNumber(topByPopularity.popularity)
+              : "—",
+            sub: topByPopularity?.title ?? "—",
             tone: "acc",
             pip: "var(--v4-acc)",
           },
@@ -584,7 +315,7 @@ export default async function McpPage() {
           },
           {
             label: "MOST · CITED",
-            value: mostCited ? citationsOf(mostCited) : 0,
+            value: mostCited?.crossSourceCount ?? 0,
             sub: mostCited?.title ?? "—",
             tone: "default",
             pip: "var(--v4-blue)",
@@ -592,213 +323,13 @@ export default async function McpPage() {
         ]}
       />
 
-      <SectionHead
-        num="// 01"
-        title="Top MCP servers"
-        meta={
-          <>
-            <b>{topByStarsList.length}</b> · by stars
-          </>
-        }
-      />
-      <section className="board">
-        {topByStarsList.length === 0 ? (
-          <div className="p-8 text-sm text-text-secondary">
-            {itemsEmpty
-              ? "MCP data warming up — the trending-mcp feed hasn't published yet. Check back in a few minutes."
-              : "No MCP servers tracked yet."}
-          </div>
-        ) : (
-          topByStarsList.map((item, index) => {
-            const stars = starsOf(item);
-            const author = item.vendor ?? item.author ?? item.linkedRepo ?? "";
-            return (
-              <RankRow
-                key={item.id}
-                rank={index + 1}
-                href={`/mcp/${slugForMcp(item)}`}
-                first={index === 0}
-                avatar={
-                  <span className="av">
-                    {item.title.slice(0, 2).toUpperCase()}
-                  </span>
-                }
-                title={
-                  author ? (
-                    <>
-                      {author} <span className="o">/</span> {item.title}
-                    </>
-                  ) : (
-                    item.title
-                  )
-                }
-                desc={
-                  item.description ?? `${item.crossSourceCount} registries`
-                }
-                metric={{
-                  value: compactNumber(stars),
-                  label: "STARS",
-                }}
-                delta={{
-                  value: `${item.crossSourceCount}× reg`,
-                  direction: item.crossSourceCount >= 2 ? "up" : "flat",
-                }}
-              />
-            );
-          })
-        )}
-      </section>
-
-      <SectionHead
-        num="// 02"
-        title="New / breakout"
-        meta={
-          <>
-            <b>{breakouts.length}</b> · last 7d
-          </>
-        }
-      />
-      <section className="board">
-        {breakouts.length === 0 ? (
-          <div className="p-8 text-sm text-text-secondary">
-            {itemsEmpty
-              ? "Release feed warming up — waiting on the next collector cycle."
-              : "No fresh MCP releases yet."}
-          </div>
-        ) : (
-          breakouts.map((item, index) => {
-            const releasedAt =
-              item.mcp?.lastReleaseAt ?? item.postedAt ?? null;
-            const author = item.vendor ?? item.author ?? item.linkedRepo ?? "";
-            return (
-              <RankRow
-                key={item.id}
-                rank={index + 1}
-                href={`/mcp/${slugForMcp(item)}`}
-                first={index === 0}
-                avatar={
-                  <span className="av">
-                    {item.title.slice(0, 2).toUpperCase()}
-                  </span>
-                }
-                title={
-                  author ? (
-                    <>
-                      {author} <span className="o">/</span> {item.title}
-                    </>
-                  ) : (
-                    item.title
-                  )
-                }
-                desc={item.description ?? "MCP server"}
-                metric={{
-                  value: releasedAt ? formatAge(releasedAt) : "—",
-                  label: "RELEASED",
-                }}
-                delta={{
-                  value: isNewWithin7d(item) ? "NEW" : "—",
-                  direction: isNewWithin7d(item) ? "up" : "flat",
-                }}
-              />
-            );
-          })
-        )}
-      </section>
-
-      <SectionHead
-        num="// 03"
-        title="Top movers"
-        meta={
-          <>
-            <b>installs</b> · 24h / 7d / 30d
-          </>
-        }
-      />
-      {moversEmpty ? (
-        // Install velocity comes from the npm-downloads + smithery-rank +
-        // mcp-usage-snapshot worker fetchers. When none of the three windows
-        // have non-zero deltas (cold start, missing daily snapshots, or all
-        // tracked MCPs are sub-npm packages), don't show three empty tabs —
-        // render one clear placeholder so the section reads as "warming up"
-        // instead of broken.
-        <section className="board">
-          <div className="p-8 text-sm text-text-secondary">
-            Install velocity warming up — waiting on the next snapshot from the
-            mcp-usage worker. New MCPs need at least one prior daily snapshot
-            before deltas appear here.
-          </div>
-        </section>
-      ) : (
-        <WindowedRanking
-          rows24h={movers24h}
-          rows7d={movers7d}
-          rows30d={movers30d}
-          defaultWindow="7d"
-        />
-      )}
+      <LiveMcpTable rows={mcpRows} categories={categories} />
 
       <p className="text-[11px] text-text-tertiary mt-4">
-        Want the full table? <Link href="/api/mcp/trending">api/mcp/trending</Link> ships
-        the raw payload.
+        Want the full table?{" "}
+        <Link href="/api/mcp/trending">api/mcp/trending</Link> ships the raw
+        payload.
       </p>
     </main>
-  );
-}
-
-function McpRightRail({ board }: { board: EcosystemBoard }) {
-  return (
-    <aside className="flex flex-col gap-4">
-      <div className="rounded-card border border-border-primary bg-bg-card p-3">
-        <h3 className="font-mono text-[10px] uppercase tracking-[0.16em] text-text-tertiary">
-          Top MCP Servers
-        </h3>
-        {board.items.length === 0 ? (
-          <p className="mt-2 text-[11px] text-text-tertiary">No rows yet.</p>
-        ) : (
-          <ul className="mt-2 space-y-1.5">
-            {board.items.slice(0, 10).map((item) => (
-              <li key={item.id} className="flex items-center gap-2 text-[11px]">
-                <EntityLogo
-                  src={mcpEntityLogoUrl(item, 16)}
-                  name={item.title}
-                  size={16}
-                  shape="square"
-                  alt=""
-                />
-                <a
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 truncate font-mono text-functional hover:underline"
-                  title={item.vendor ? `${item.title} - ${item.vendor}` : item.title}
-                >
-                  {item.title}
-                </a>
-                <LivenessPill liveness={item.liveness} />
-                <span className="font-mono tabular-nums text-text-secondary">
-                  {item.signalScore}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-
-      <div className="rounded-card border border-border-primary bg-bg-card p-3">
-        <h3 className="font-mono text-[10px] uppercase tracking-[0.16em] text-text-tertiary">
-          Worker Key
-        </h3>
-        <p className="mt-2 text-[11px] text-text-secondary">
-          The top-level page reads the Supabase-published leaderboard at
-          <span className="font-mono text-text-primary"> trending-mcp</span>.
-        </p>
-        <Link
-          href="/api/mcp/trending"
-          className="mt-3 inline-flex font-mono text-[11px] text-functional hover:underline"
-        >
-          api preview
-        </Link>
-      </div>
-    </aside>
   );
 }

@@ -55,8 +55,13 @@ jobs:
         #   message: short human description for the alert payload
         run: |
           set +e
+          # ?soft=1 — /api/health returns 503 when ANY source is stale by
+          # default, which trips this workflow on normal hourly drift. Soft
+          # mode returns 200 with status="stale" in the body; the parser
+          # below already inspects body.status, so we still alert correctly
+          # without false-positive page failures.
           code=$(curl -sS -o /tmp/out -w "%{http_code}" \
-            "$BASE_URL/api/health")
+            "$BASE_URL/api/health?soft=1")
           curl_rc=$?
           set -e
           echo "HTTP $code (curl_rc=$curl_rc)"
@@ -130,33 +135,25 @@ jobs:
             -d "{\"content\": $esc}" \
             "$OPS_ALERT_WEBHOOK" || echo "::warning::webhook POST failed (non-fatal)"
 
-      - name: Persist status
+      - name: Write status file
         if: ${{ steps.previous.outputs.prev != steps.probe.outputs.status }}
         env:
           NEXT: ${{ steps.probe.outputs.status }}
-        # Commit the flip-file so the *next* run sees the new state.
-        # Skipped when state didn't change — avoids an empty-commit per cycle.
         run: |
           mkdir -p "$(dirname "$STATUS_FILE")"
           printf '%s' "$NEXT" > "$STATUS_FILE"
-          git config user.name  "trendingrepo-bot"
-          git config user.email "bot@trendingrepo.com"
-          git add "$STATUS_FILE"
-          if git diff --quiet --staged; then
-            echo "no-op (file already at target state)"
-            exit 0
-          fi
-          git commit -m "chore(ops): cron health $NEXT"
-          # Retry-rebase loop: another concurrent commit on main is rare but
-          # not impossible during a 15-min cron tick.
-          for i in 1 2 3; do
-            if git pull --rebase origin main && git push; then
-              exit 0
-            fi
-            echo "push attempt $i failed; retrying"
-            sleep 2
-          done
-          echo "::warning::failed to persist status file after 3 retries"
+
+      - name: Persist status
+        if: ${{ steps.previous.outputs.prev != steps.probe.outputs.status }}
+        # Commit the flip-file so the *next* run sees the new state.
+        # Skipped (by the if: above) when state didn't change — avoids an
+        # empty-commit per cycle.
+        uses: ./.github/actions/git-commit-data
+        with:
+          actor-email: "bot@trendingrepo.com"
+          message: "chore(ops): cron health ${{ steps.probe.outputs.status }}"
+          paths: |
+            data/.cron-health-status
 
       - name: Fail loud on stale/error
         # Keep the existing red-X behavior so anyone watching the workflow

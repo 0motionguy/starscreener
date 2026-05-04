@@ -845,3 +845,4 @@ export const COLUMNS_BY_ID: Record<ColumnId, Column> = COLUMNS.reduce(
   },
   {} as Record<ColumnId, Column>,
 );
+

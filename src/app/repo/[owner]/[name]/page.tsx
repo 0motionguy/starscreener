@@ -19,10 +19,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { unstable_cache } from "next/cache";
 
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
-import { CATEGORIES } from "@/lib/constants";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME, safeJsonLd } from "@/lib/seo";
 import { buildRepoPageSchemas } from "@/lib/seo-repo-schemas";
@@ -75,8 +73,6 @@ import {
 import { TwitterSignalPanel } from "@/components/twitter/TwitterSignalPanel";
 import { RepoRevenuePanel } from "@/components/repo-detail/RepoRevenuePanel";
 import { WhyTrending } from "@/components/repo-detail/WhyTrending";
-import { WhyTrendingNarrative } from "@/components/repo-detail/WhyTrendingNarrative";
-import { RepoBreadcrumb } from "@/components/repo-detail/RepoBreadcrumb";
 import { FundingPanel } from "@/components/repo-detail/FundingPanel";
 import { RelatedReposPanel } from "@/components/repo-detail/RelatedReposPanel";
 import { PredictionSnapshot } from "@/components/repo-detail/PredictionSnapshot";
@@ -91,35 +87,6 @@ import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 // stale-while-revalidate handles long-tail repos cheaply.
 export const revalidate = 300;
 
-// All 14 refresh hooks share the data-store's 30s in-process dedupe, so
-// the actual Redis traffic per call is tiny — but Next.js was still
-// classifying the page as dynamic because of them. Wrapping the whole
-// chain in unstable_cache promotes it into Next's managed cache so the
-// edge cache can serve repeat hits with public, s-maxage headers.
-const cachedRepoRefreshChain = unstable_cache(
-  async () => {
-    await Promise.all([
-      refreshRepoMetadataFromStore(),
-      refreshNpmFromStore(),
-      refreshRedditMentionsFromStore(),
-      refreshRedditAllPostsFromStore(),
-      refreshRedditBaselinesFromStore(),
-      refreshHackernewsMentionsFromStore(),
-      refreshHackernewsTrendingFromStore(),
-      refreshBlueskyMentionsFromStore(),
-      refreshBlueskyTrendingFromStore(),
-      refreshDevtoMentionsFromStore(),
-      refreshDevtoTrendingFromStore(),
-      refreshLobstersMentionsFromStore(),
-      refreshLobstersTrendingFromStore(),
-      refreshProducthuntLaunchesFromStore(),
-    ]);
-    return { ok: true };
-  },
-  ["repo-detail-refresh-chain"],
-  { revalidate: 1800, tags: ["repo-data"] },
-);
-
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
 
 interface PageProps {
@@ -133,11 +100,7 @@ export async function generateMetadata({
 
   if (!SLUG_PART_PATTERN.test(owner) || !SLUG_PART_PATTERN.test(name)) {
     return {
-      // Layout template appends `— ${SITE_NAME}` automatically — never
-      // duplicate it at the page level. (GSC flagged "rtk-ai/rtk —
-      // TrendingRepo — TrendingRepo" before this fix; double brand suffix
-      // hurts quality signals + indexing.)
-      title: "Invalid repo URL",
+      title: `Invalid repo URL — ${SITE_NAME}`,
       description: "Invalid repo URL.",
       robots: { index: false, follow: false },
     };
@@ -148,7 +111,7 @@ export async function generateMetadata({
 
   if (!repo) {
     return {
-      title: "Repo Not Found",
+      title: `Repo Not Found — ${SITE_NAME}`,
       description: `We don't have ${owner}/${name} in the momentum terminal yet.`,
       alternates: { canonical },
       robots: { index: false, follow: true },
@@ -156,8 +119,7 @@ export async function generateMetadata({
   }
 
   const deltaSign = repo.starsDelta24h >= 0 ? "+" : "";
-  // Bare repo name — layout template adds the brand suffix.
-  const title = repo.fullName;
+  const title = `${repo.fullName} — ${SITE_NAME}`;
   const description =
     repo.description?.trim() ||
     `${repo.fullName}: ${deltaSign}${repo.starsDelta24h.toLocaleString(
@@ -211,15 +173,23 @@ export default async function RepoDetailPage({ params }: PageProps) {
   }
 
   // Refresh every data-store-backed cache the canonical profile + render
-  // surfaces will read. Wrapped in unstable_cache so Next.js can serve repo
-  // pages from Vercel's edge cache instead of force-dynamic on every hit.
-  // Live PSI showed this page returning Cache-Control: private,no-cache
-  // and TTFB 3.5s despite revalidate=300 — the 14 parallel Redis reads
-  // were the dynamic-mode trigger. unstable_cache promotes the whole
-  // refresh chain into Next.js's managed cache, with a 30-min TTL keyed on
-  // the cache key (shared across repos because each refresh has its own
-  // internal in-process dedupe + store-level rate limit).
-  await cachedRepoRefreshChain();
+  // surfaces will read. All in parallel; each is cheap on warm Lambdas.
+  await Promise.all([
+    refreshRepoMetadataFromStore(),
+    refreshNpmFromStore(),
+    refreshRedditMentionsFromStore(),
+    refreshRedditAllPostsFromStore(),
+    refreshRedditBaselinesFromStore(),
+    refreshHackernewsMentionsFromStore(),
+    refreshHackernewsTrendingFromStore(),
+    refreshBlueskyMentionsFromStore(),
+    refreshBlueskyTrendingFromStore(),
+    refreshDevtoMentionsFromStore(),
+    refreshDevtoTrendingFromStore(),
+    refreshLobstersMentionsFromStore(),
+    refreshLobstersTrendingFromStore(),
+    refreshProducthuntLaunchesFromStore(),
+  ]);
 
   // Single canonical call replaces the fifteen-loader stitch that used to
   // live here. Every surface consumes a slice of `profile`, so any future
@@ -256,11 +226,6 @@ export default async function RepoDetailPage({ params }: PageProps) {
   //   and (when momentum + stars are present) AggregateRating.
   // All schemas are anchored to the global Organization (#organization) and
   // Website (#website) entities defined on the homepage.
-  // Look up category for breadcrumb schema. Falls back gracefully when
-  // categoryId is unrecognised (no breadcrumb middle tier emitted).
-  const categoryEntry = repo.categoryId
-    ? CATEGORIES.find((c) => c.id === repo.categoryId)
-    : null;
   const jsonLdSchemas = buildRepoPageSchemas({
     owner: repo.owner,
     name: repo.name,
@@ -272,8 +237,6 @@ export default async function RepoDetailPage({ params }: PageProps) {
     lastCommitAt: repo.lastCommitAt,
     createdAt: repo.createdAt,
     momentumScore: repo.momentumScore,
-    categoryId: categoryEntry?.id,
-    categoryName: categoryEntry?.name,
   });
 
   return (
@@ -289,15 +252,6 @@ export default async function RepoDetailPage({ params }: PageProps) {
       ))}
 
       <main className="home-surface repo-detail-page">
-        {/* Server-rendered breadcrumb — visible Home › Category › Repo
-            navigation matches the BreadcrumbList JSON-LD and adds 2-3
-            internal links per page (1,700+ sitewide across 839 repos)
-            for crawl-budget recovery. */}
-        <RepoBreadcrumb
-          owner={repo.owner}
-          name={repo.name}
-          categoryId={repo.categoryId}
-        />
         <section className="id-strip">
           <div className="id-avatar">{repo.name.slice(0, 1).toLowerCase()}</div>
           <div className="id-meta">
@@ -425,11 +379,6 @@ export default async function RepoDetailPage({ params }: PageProps) {
             question (why should I care?) above the quantitative snapshot.
             Renders null when no reasons are available for this repo.
           */}
-          {/* Server-rendered narrative — gives Googlebot 50-90 unique
-              words of prose before the chart components hydrate.
-              Addresses the "Discovered, not indexed" / thin-content
-              quality signal that was capping crawl budget on /repo/X. */}
-          <WhyTrendingNarrative repo={repo} profile={profile} />
           <WhyTrending reasons={profile.reasons} />
           <PredictionSnapshot
             prediction={profile.prediction}

@@ -46,12 +46,10 @@ test("reddit shared: defaults to public-json without oauth creds", async () => {
     async () => {
       assert.equal(hasRedditOAuthCreds(), false);
       assert.equal(getRedditAuthMode(), "public-json");
-      // T4.2 / 2026-04-23 anti-bot fix: default UA was changed from
-      // "StarScreener/0.1 …" to a real-browser Chrome UA after Reddit
-      // started 403'ing the original from GitHub Actions IPs. The test
-      // assertion now matches the Chrome UA family; setting
-      // REDDIT_USER_AGENT explicitly still overrides per the OAuth tests.
-      assert.match(getRedditUserAgent(), /Mozilla\/5\.0.+Chrome/);
+      assert.equal(
+        getRedditUserAgent(),
+        "trendingrepo-scanner/1.0 (+https://trendingrepo.com)",
+      );
       assert.equal(
         resolveRedditApiUrl("https://www.reddit.com/r/OpenAI/new.json?limit=3"),
         "https://www.reddit.com/r/OpenAI/new.json?limit=3",
@@ -122,14 +120,9 @@ test("reddit shared: fetchRedditJson uses public endpoint without oauth creds", 
       REDDIT_USER_AGENT: null,
     },
     async () => {
-      // T4.2: use a non-listing URL (`/about.json`) so we exercise the
-      // direct old.reddit.com JSON fallback rather than the RSS branch
-      // that listing URLs (`/new.json`) now route through. The intent of
-      // this test is "no oauth creds → no Authorization header"; the RSS
-      // path exercises the same auth invariant + is covered separately.
       const calls = [];
       const body = await fetchRedditJson(
-        "https://www.reddit.com/r/OpenAI/about.json",
+        "https://www.reddit.com/r/OpenAI/new.json?limit=3",
         {
           fetchImpl: async (url, init) => {
             calls.push({ url, init });
@@ -145,14 +138,45 @@ test("reddit shared: fetchRedditJson uses public endpoint without oauth creds", 
       // tolerant of non-Atom input and returns the empty-children shape.
       assert.deepEqual(body, { data: { children: [], after: null, before: null } });
       assert.equal(calls.length, 1);
-      // 2026-04-23 anti-bot fix: public-JSON path now hits old.reddit.com
-      // (markedly more permissive than www.reddit.com from cron IPs).
       assert.equal(
         calls[0].url,
-        "https://old.reddit.com/r/OpenAI/about.json",
+        "https://www.reddit.com/r/OpenAI/new/.rss?limit=3",
       );
       assert.equal(calls[0].init.headers.Authorization, undefined);
-      assert.match(calls[0].init.headers["User-Agent"], /Mozilla\/5\.0.+Chrome/);
+      assert.equal(
+        calls[0].init.headers["User-Agent"],
+        "trendingrepo-scanner/1.0 (+https://trendingrepo.com)",
+      );
+    },
+  );
+});
+
+test("reddit shared: public RSS requests rotate pooled user agents per request", async () => {
+  await withEnv(
+    {
+      REDDIT_CLIENT_ID: null,
+      REDDIT_CLIENT_SECRET: null,
+      REDDIT_USER_AGENT: null,
+      REDDIT_USER_AGENTS: "PoolUA/1,PoolUA/2",
+    },
+    async () => {
+      const calls = [];
+      const fetchImpl = async (url, init) => {
+        calls.push({ url, init });
+        return new Response("<feed></feed>", {
+          headers: { "Content-Type": "application/atom+xml" },
+        });
+      };
+
+      await fetchRedditJson("https://www.reddit.com/r/OpenAI/new.json?limit=3", {
+        fetchImpl,
+      });
+      await fetchRedditJson("https://www.reddit.com/r/ClaudeAI/new.json?limit=3", {
+        fetchImpl,
+      });
+
+      assert.equal(calls[0].init.headers["User-Agent"], "PoolUA/1");
+      assert.equal(calls[1].init.headers["User-Agent"], "PoolUA/2");
     },
   );
 });
@@ -249,7 +273,6 @@ test("reddit shared: falls back to public JSON when oauth path fails", async () 
                 statusText: "Forbidden",
               });
             }
-            // T4.2: public-JSON fallback rewrites to old.reddit.com.
             assert.equal(
               url,
               "https://old.reddit.com/r/OpenAI/new.json?limit=3",
@@ -266,8 +289,6 @@ test("reddit shared: falls back to public JSON when oauth path fails", async () 
         calls[1].url,
         "https://oauth.reddit.com/r/OpenAI/new.json?limit=3",
       );
-      // T4.2: public-JSON fallback now rewrites to old.reddit.com (more
-      // permissive than www. for cron IPs — see _reddit-shared.mjs L29).
       assert.equal(
         calls[2].url,
         "https://old.reddit.com/r/OpenAI/new.json?limit=3",

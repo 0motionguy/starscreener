@@ -9,6 +9,7 @@
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 
 import { getDerivedRepos } from "@/lib/derived-repos";
 import {
@@ -95,6 +96,7 @@ function packForRepos(
       hn: false,
       bluesky: false,
       devto: false,
+      twitter: false,
     };
     rows.push({
       id: r.fullName,
@@ -413,6 +415,8 @@ function MindShareCard({
 // ---------------------------------------------------------------------------
 
 export async function GET(request: NextRequest) {
+  Sentry.setTag("route", "api/og/mindshare");
+
   const { searchParams } = new URL(request.url);
   const aspect: "h" | "v" =
     searchParams.get("aspect") === "v" ? "v" : "h";
@@ -420,43 +424,53 @@ export async function GET(request: NextRequest) {
     searchParams.get("format") === "svg" ? "svg" : "png";
   const dim = ASPECT_DIMENSIONS[aspect];
 
+  Sentry.setTag("og.aspect", aspect);
+  Sentry.setTag("og.format", format);
+
   // Reserve room for header + legend + footer when packing — same logic as
   // the on-page render, just with this card's specific chrome height.
   const isVertical = aspect === "v";
   const chartW = dim.width - (isVertical ? 128 : 144);
   const chartH = isVertical ? 880 : 460;
 
-  const repos = getDerivedRepos();
-  const selected = selectMindShareRepos(repos);
-  const rows = packForRepos(selected, chartW, chartH);
+  try {
+    const repos = getDerivedRepos();
+    const selected = selectMindShareRepos(repos);
+    const rows = packForRepos(selected, chartW, chartH);
 
-  if (format === "svg") {
-    const body = buildSvgDocument(rows, chartW, chartH);
-    return new NextResponse(body, {
-      headers: {
-        "Content-Type": "image/svg+xml; charset=utf-8",
-        "Cache-Control": CACHE_HEADER,
-        ...(searchParams.get("download") === "1"
-          ? {
-              "Content-Disposition": `attachment; filename="mindshare-${todayStamp()}.svg"`,
-            }
-          : {}),
+    if (format === "svg") {
+      const body = buildSvgDocument(rows, chartW, chartH);
+      return new NextResponse(body, {
+        headers: {
+          "Content-Type": "image/svg+xml; charset=utf-8",
+          "Cache-Control": CACHE_HEADER,
+          ...(searchParams.get("download") === "1"
+            ? {
+                "Content-Disposition": `attachment; filename="mindshare-${todayStamp()}.svg"`,
+              }
+            : {}),
+        },
+      });
+    }
+
+    return new ImageResponse(
+      (
+        <MindShareCard
+          rows={rows}
+          width={dim.width}
+          height={dim.height}
+          isVertical={isVertical}
+        />
+      ),
+      {
+        ...dim,
+        headers: { "Cache-Control": CACHE_HEADER },
       },
+    );
+  } catch (err) {
+    Sentry.captureException(err, {
+      tags: { route: "api/og/mindshare", aspect, format },
     });
+    throw err;
   }
-
-  return new ImageResponse(
-    (
-      <MindShareCard
-        rows={rows}
-        width={dim.width}
-        height={dim.height}
-        isVertical={isVertical}
-      />
-    ),
-    {
-      ...dim,
-      headers: { "Cache-Control": CACHE_HEADER },
-    },
-  );
 }

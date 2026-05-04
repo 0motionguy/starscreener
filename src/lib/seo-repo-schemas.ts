@@ -18,50 +18,6 @@ export type JsonLd = Record<string, unknown>;
 
 const ORG_ID = `${SITE_URL}#organization`;
 
-/**
- * Build a schema.org ItemList for any list-page route (breakouts, top10,
- * categories, hackernews/trending, funding, mcp, cli). Each item gets a
- * position, name, and absolute URL. Optionally describe each item.
- *
- * Use this from the server component AFTER you've resolved the data —
- * cap the array yourself if your list is huge (Google rich-results
- * tolerates up to ~100 items).
- */
-export interface ItemListInput {
-  /** @id anchor for this list (e.g. `${SITE_URL}/breakouts#list`). */
-  listId: string;
-  /** Display name for the list (e.g. "Cross-Signal Breakouts"). */
-  name: string;
-  /** Short description shown in rich results. */
-  description: string;
-  items: Array<{
-    /** Absolute URL of the item (use absoluteUrl()). */
-    url: string;
-    /** Display name (repo full name, category name, story title, etc.). */
-    name: string;
-    /** Optional supplementary description. */
-    description?: string;
-  }>;
-}
-
-export function buildItemListSchema(input: ItemListInput): JsonLd {
-  return {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    "@id": input.listId,
-    name: input.name,
-    description: input.description,
-    numberOfItems: input.items.length,
-    itemListElement: input.items.map((item, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      name: item.name,
-      url: item.url,
-      ...(item.description ? { description: item.description } : {}),
-    })),
-  };
-}
-
 export interface RepoSchemaInput {
   owner: string;
   name: string;
@@ -82,12 +38,6 @@ export interface RepoSchemaInput {
   momentumScore?: number | null;
   /** e.g. "AI Agents" - drives applicationCategory hint. */
   category?: string | null;
-  /** Category slug (e.g. "ai-agents") — used to build BreadcrumbList
-      Home › {Category} › {Repo} that matches the visible breadcrumb. */
-  categoryId?: string | null;
-  /** Category display name (e.g. "AI Agents") — paired with categoryId
-      for the breadcrumb middle tier. */
-  categoryName?: string | null;
 }
 
 /**
@@ -140,51 +90,21 @@ export function buildRepoPageSchemas(input: RepoSchemaInput): JsonLd[] {
       : {}),
   };
 
-  // 3. BreadcrumbList - matches the visible <RepoBreadcrumb> DOM:
-  //    Home > {Category} > {repo} when categoryId+name available,
-  //    Home > {repo} otherwise. Mismatched DOM/schema breadcrumbs are a
-  //    Google quality signal failure; keeping them aligned protects
-  //    indexing reputation.
+  // 3. BreadcrumbList - Home > {Owner} > {Name}.
   const breadcrumb: JsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "@id": `${trUrl}#breadcrumb`,
-    itemListElement:
-      input.categoryId && input.categoryName
-        ? [
-            {
-              "@type": "ListItem",
-              position: 1,
-              name: SITE_NAME,
-              item: SITE_URL,
-            },
-            {
-              "@type": "ListItem",
-              position: 2,
-              name: input.categoryName,
-              item: `${SITE_URL}/categories/${input.categoryId}`,
-            },
-            {
-              "@type": "ListItem",
-              position: 3,
-              name: `${input.owner}/${input.name}`,
-              item: trUrl,
-            },
-          ]
-        : [
-            {
-              "@type": "ListItem",
-              position: 1,
-              name: SITE_NAME,
-              item: SITE_URL,
-            },
-            {
-              "@type": "ListItem",
-              position: 2,
-              name: `${input.owner}/${input.name}`,
-              item: trUrl,
-            },
-          ],
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: SITE_NAME, item: SITE_URL },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: input.owner,
+        item: `${SITE_URL}/owner/${input.owner}`,
+      },
+      { "@type": "ListItem", position: 3, name: input.name, item: trUrl },
+    ],
   };
 
   const schemas: JsonLd[] = [sourceCode, app, breadcrumb];

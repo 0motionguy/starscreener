@@ -176,11 +176,18 @@ function stampTrackedRepos(value, ts, depth = 0) {
  * shape OR id+stars shape) gets a `lastRefreshedAt` field set to writtenAt.
  * Other records (posts, articles, launches) pass through unmodified.
  *
+ * Provenance: when GITHUB_WORKFLOW / GITHUB_RUN_ID / GITHUB_SHA are present
+ * (i.e. a GitHub Actions runner) the meta key is written as a JSON object
+ * with writer/runId/commit so audits can attribute last-write-wins. Outside
+ * GitHub Actions the meta key keeps the legacy bare-ISO-string shape, which
+ * `parseWrittenAt` in src/lib/data-store.ts accepts back-compat.
+ *
  * @param {string} key       Slug, e.g. "trending" → ss:data:v1:trending
  * @param {unknown} value    Any JSON-serializable value
- * @param {{ ttlSeconds?: number; stampPerRecord?: boolean }} [opts]
+ * @param {{ ttlSeconds?: number; stampPerRecord?: boolean; writer?: string; runId?: string; commit?: string }} [opts]
  *   stampPerRecord defaults to true; pass false to opt out for sources that
- *   manage their own per-record timestamps.
+ *   manage their own per-record timestamps. Caller-supplied writer/runId/
+ *   commit override the GitHub-Actions auto-detection.
  * @returns {Promise<{ source: "redis" | "skipped"; writtenAt: string }>}
  */
 export async function writeDataStore(key, value, opts = {}) {
@@ -208,7 +215,6 @@ export async function writeDataStore(key, value, opts = {}) {
   }
 
   const payload = JSON.stringify(value);
-  const metaPayload = JSON.stringify(writerMeta);
   const setOpts =
     opts.ttlSeconds && opts.ttlSeconds > 0
       ? { ex: opts.ttlSeconds }

@@ -43,6 +43,7 @@ import redditBaselines from './fetchers/reddit-baselines/index.js';
 import engagementComposite from './fetchers/engagement-composite/index.js';
 import trendshiftDaily from './fetchers/trendshift-daily/index.js';
 import consensusTrending from './fetchers/consensus-trending/index.js';
+import consensusAnalyst from './fetchers/consensus-analyst/index.js';
 // Phase B Group 2 (social) - lobsters is the only NEW name; bluesky/devto/
 // hackernews/producthunt/reddit replaced their stub bodies in place and so
 // their existing imports above pick up the real implementations transparently.
@@ -89,6 +90,7 @@ export const FETCHERS: Fetcher[] = [
   trendshiftDaily,
   engagementComposite,
   consensusTrending,
+  consensusAnalyst,
   lobsters,
   bluesky,
   mcpRegistryOfficial,

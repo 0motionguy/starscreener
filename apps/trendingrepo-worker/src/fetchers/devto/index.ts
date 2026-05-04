@@ -29,14 +29,6 @@ import {
   SOURCE_DISCOVERY_VERSION,
 } from '../../lib/util/source-watchers.js';
 
-function slugIdFromFullName(fullName: string): string {
-  return String(fullName)
-    .toLowerCase()
-    .replace(/\//g, '--')
-    .replace(/\./g, '-')
-    .replace(/[^a-z0-9-]/g, '');
-}
-
 const WINDOW_DAYS = 7;
 const PER_PAGE = 100;
 const TRENDING_KEEP = 100;
@@ -158,12 +150,7 @@ function normalizeArticle(
 
 const fetcher: Fetcher = {
   name: 'devto',
-  // AUDIT-2026-05-04 fix (Phase B1): tightened from once-daily 08:30 to
-  // every 6h to match the GHA cadence and the 6h freshness budget per
-  // PLAN-FRESHNESS §0. The GHA workflow scrape-devto.yml has been failing
-  // (3.6-day stale data); the worker will now keep devto-mentions /
-  // devto-trending fresh independent of GHA recovery.
-  schedule: '30 */6 * * *',
+  schedule: '30 8 * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
     if (ctx.dryRun) {
@@ -314,9 +301,6 @@ const fetcher: Fetcher = {
       discoverySlices: DEVTO_DISCOVERY_SLICES,
       sliceCounts,
       mentions,
-      mentionsByRepoId: Object.fromEntries(
-        Object.entries(mentions).map(([fullName, value]) => [slugIdFromFullName(fullName), value]),
-      ),
       leaderboard,
     };
     const trendingPayload = {

@@ -152,6 +152,14 @@ export interface EcosystemLeaderboardItem {
   installs7d?: number;
   installsPrev7d?: number;
   installsDelta7d?: number;
+  /** W5-SKILLS24H: 24h-old install count (skill-install-snapshot:prev:1d). */
+  installsPrev1d?: number;
+  /** W5-SKILLS24H: 24h installs delta — drives the "24h" tab ranking. */
+  installsDelta1d?: number;
+  /** W5-SKILLS24H: 30d-old install count. */
+  installsPrev30d?: number;
+  /** W5-SKILLS24H: 30d installs delta — drives the "30d" tab ranking. */
+  installsDelta30d?: number;
   derivativeRepoCount?: number;
   derivativeSampledAt?: string | null;
   derivativeSources?: string[];
@@ -298,6 +306,10 @@ interface SkillSideChannels {
   derivatives: Record<string, number>;
   derivativesMeta: Record<string, SkillDerivativeMeta>;
   installsPrev7d: Record<string, number>;
+  /** W5-SKILLS24H: 24h-old install snapshot for instant velocity. */
+  installsPrev1d: Record<string, number>;
+  /** W5-SKILLS24H: 30d-old install snapshot for sustained adoption. */
+  installsPrev30d: Record<string, number>;
   forksPrev7d: Record<string, number>;
   /**
    * Merged 7-day-old hotness snapshot keyed by lowercased item id, sourced
@@ -445,16 +457,52 @@ async function loadSkillDerivatives(): Promise<{
 }
 
 async function loadSkillInstallsPrev7d(): Promise<Record<string, number>> {
+  return loadSkillInstallsPrevWindow(7);
+}
+
+/**
+ * W5-SKILLS24H — 24h-old install snapshot. Mirrors loadSkillInstallsPrev7d
+ * but reads the 1-day-old slot. Powers the "instant velocity" component on
+ * the skill scorer + the 24h tab on /skills.
+ */
+async function loadSkillInstallsPrev1d(): Promise<Record<string, number>> {
+  return loadSkillInstallsPrevWindow(1);
+}
+
+/**
+ * W5-SKILLS24H — 30-day-old install snapshot. Powers the "sustained adoption"
+ * component on the skill scorer + the 30d tab on /skills.
+ */
+async function loadSkillInstallsPrev30d(): Promise<Record<string, number>> {
+  return loadSkillInstallsPrevWindow(30);
+}
+
+/**
+ * Read a windowed skill-install-snapshot. Tries the fixed slot key written
+ * by the worker fetcher (`skill-install-snapshot:prev:<Nd>`) first; falls
+ * back to the dated key (`skill-install-snapshot:<YYYY-MM-DD>`) for back-
+ * compat with the original prev7d-only deployment. When neither key is
+ * present yet (cold start), returns an empty map and the scorer drops the
+ * dependent component via weight renormalization.
+ */
+async function loadSkillInstallsPrevWindow(days: 1 | 7 | 30): Promise<Record<string, number>> {
   if (legacyScoringEnabled()) return {};
-  // 7-day-old snapshot. When the snapshot key isn't present yet (first 7
-  // days of the rolling window) we return an empty map and the scorer drops
-  // installsDelta7d via existing renormalization.
-  const d = new Date();
-  d.setUTCDate(d.getUTCDate() - 7);
-  const dateKey = d.toISOString().slice(0, 10);
   const store = getDataStore();
-  const result = await store.read<unknown>(`${SKILL_INSTALL_SNAPSHOT_PREFIX}:${dateKey}`);
-  const installs = asRecord(asRecord(result.data)?.installs);
+  // Slot-key path (preferred — single read, no date math).
+  const slot = await store.read<unknown>(
+    `${SKILL_INSTALL_SNAPSHOT_PREFIX}:prev:${days}d`,
+  );
+  let installs = asRecord(asRecord(slot.data)?.installs);
+  if (!installs || Object.keys(installs).length === 0) {
+    // Fallback to dated key.
+    const d = new Date();
+    d.setUTCDate(d.getUTCDate() - days);
+    const dateKey = d.toISOString().slice(0, 10);
+    const result = await store.read<unknown>(
+      `${SKILL_INSTALL_SNAPSHOT_PREFIX}:${dateKey}`,
+    );
+    installs = asRecord(asRecord(result.data)?.installs);
+  }
   if (!installs) return {};
   const out: Record<string, number> = {};
   for (const [slug, raw] of Object.entries(installs)) {
@@ -663,6 +711,8 @@ export async function getSkillsSignalData(): Promise<SkillsSignalData> {
     awesomeIndex,
     derivativeBundle,
     installsPrev7d,
+    installsPrev1d,
+    installsPrev30d,
     forksPrev7d,
     hotnessPrevSkill,
     hotnessPrevSkillsSh,
@@ -675,6 +725,8 @@ export async function getSkillsSignalData(): Promise<SkillsSignalData> {
     loadAwesomeSkillsIndex(),
     loadSkillDerivatives(),
     loadSkillInstallsPrev7d(),
+    loadSkillInstallsPrev1d(),
+    loadSkillInstallsPrev30d(),
     loadSkillForksPrev7d(),
     loadHotnessPrev7d("trending-skill"),
     loadHotnessPrev7d("trending-skill-sh"),
@@ -691,6 +743,8 @@ export async function getSkillsSignalData(): Promise<SkillsSignalData> {
     derivatives: derivativeBundle.counts,
     derivativesMeta: derivativeBundle.meta,
     installsPrev7d,
+    installsPrev1d,
+    installsPrev30d,
     forksPrev7d,
     hotnessPrev7d,
   };
@@ -838,7 +892,7 @@ export function ecosystemBoardToRows(board: EcosystemBoard): SignalRow[] {
       postedAt: item.postedAt,
       signalScore: item.signalScore,
       badges: badges.length > 0 ? badges : undefined,
-      logoUrl: item.logoUrl,
+      logoUrl: resolvedLogo,
       brandColor: item.brandColor,
     };
   });
@@ -1061,24 +1115,57 @@ function coerceMcpItem(
   if (!id || !title || !url) return null;
 
   const metrics = asRecord(item.metrics);
-  const popularity =
-    asNumber(metrics?.installs_total) ??
-    asNumber(metrics?.downloads_7d) ??
-    asNumber(metrics?.stars_total) ??
-    null;
-  const popularityLabel =
-    asNumber(metrics?.installs_total) !== null
-      ? "Installs"
-      : asNumber(metrics?.downloads_7d) !== null
-        ? "Downloads"
-        : "Stars";
+  // Real per-source signals (set by publish.ts pickMcpUsage). Each source
+  // ranks its own catalog by one of these — Smithery: lifetime connections
+  // (`use_count`); PulseMCP / Glama: 4-week visitors (`visitors_4w`);
+  // Glama: GitHub stars (`stars_total`). The `installs_total` field is the
+  // merger's normalized 0..1 signal — last-resort, never preferred when a
+  // real number is available. Drops the misleading "Installs" label
+  // entirely when it's just the 0..1 normalized score.
+  const useCount = asNumber(metrics?.use_count);
+  const visitors4w = asNumber(metrics?.visitors_4w);
+  const starsTotal = asNumber(metrics?.stars_total);
+  const downloads7d = asNumber(metrics?.downloads_7d);
+  const installsTotalNormalized = asNumber(metrics?.installs_total);
+  let popularity: number | null;
+  let popularityLabel: string;
+  if (useCount !== null) {
+    popularity = useCount;
+    popularityLabel = "Connections";
+  } else if (visitors4w !== null) {
+    popularity = visitors4w;
+    popularityLabel = "Visitors · 4w";
+  } else if (starsTotal !== null) {
+    popularity = starsTotal;
+    popularityLabel = "Stars";
+  } else if (downloads7d !== null) {
+    popularity = downloads7d;
+    popularityLabel = "Downloads · 7d";
+  } else if (installsTotalNormalized !== null && installsTotalNormalized > 1) {
+    // Real install count (>1 means non-normalized). Treat as Installs.
+    popularity = installsTotalNormalized;
+    popularityLabel = "Installs";
+  } else {
+    popularity = null;
+    popularityLabel = "";
+  }
   const slug = asString(item.slug);
-  const linkedRepo = url.includes("github.com/")
-    ? url.replace(/^https?:\/\/github\.com\//, "").replace(/\/$/, "")
+  // url may be a registry placeholder like `smithery.invalid/<uuid>`. The
+  // worker now also surfaces the upstream homepage at `raw.homepage` for
+  // those rows so consumers can favicon it. linkedRepo prefers a real
+  // github.com URL from either field.
+  const homepage = asString(asRecord(item.raw)?.homepage);
+  const repoUrl = url.includes("github.com/") ? url : homepage?.includes("github.com/") ? homepage : null;
+  const linkedRepo = repoUrl
+    ? repoUrl.replace(/^https?:\/\/github\.com\//, "").replace(/\/$/, "").split("#")[0] ?? null
     : null;
 
   const vendor = asString(item.vendor);
-  const logoUrl = asString(item.logo_url);
+  // Per-server icon — `thumbnail_url` is now the worker's first-found
+  // iconUrl across the four MCP sources (Smithery's iconUrl is the big
+  // win), falling back to the merger's Simple Icons brand mark. Either
+  // way the value here is per-server, not per-registry.
+  const logoUrl = asString(item.thumbnail_url) ?? asString(item.logo_url);
   const brandColor = asString(item.brand_color);
   const verified = asBoolean(item.is_official_vendor);
   const crossSourceCount = asNumber(item.cross_source_count) ?? 1;
@@ -1165,7 +1252,12 @@ function coerceMcpItem(
       id,
       title,
       url,
-      author: vendor,
+      // Vendor wins (when official-detected by the merger), else fall through
+      // to whatever upstream `author` field was projected (Smithery's
+      // namespace, Glama's owner, …). Was hard-set to `vendor` only — that
+      // discarded real per-server author data and broke per-author avatar
+      // resolution.
+      author: vendor ?? asString(item.author),
       rank: asNumber(item.rank) ?? fallbackRank,
       description: asString(item.description),
       topic: vendor ?? (slug?.includes("/") ? slug.split("/")[0] ?? "MCP" : "MCP"),
@@ -1306,7 +1398,10 @@ function buildMcpDisplayFields(args: {
     toolCount: livenessEntry?.toolCount ?? null,
     p50LatencyMs: livenessEntry?.p50LatencyMs ?? null,
     uptime7d: livenessEntry?.uptime7d ?? null,
-    lastReleaseAt: downloadsEntry?.lastReleaseAt ?? null,
+    lastReleaseAt:
+      downloadsEntry?.lastReleaseAt ??
+      asString((args.raw as Record<string, unknown> | undefined)?.last_release_at) ??
+      null,
     smitheryRank: smitheryRankEntry?.rank ?? null,
     smitheryTotal: smitheryRankEntry?.total ?? null,
     npmDependents: dependentsCount ?? null,
@@ -1358,6 +1453,19 @@ function applySkillMomentum(
       installs7d !== undefined && installsPrev7d !== undefined
         ? installs7d - installsPrev7d
         : undefined;
+    // W5-SKILLS24H — installsDelta1d / installsDelta30d surfaced on the row
+    // so the /skills page can re-rank by the active tab's window without
+    // recomputing.
+    const installsPrev1d = skillItem?.installsPrev1d;
+    const installsDelta1d =
+      installs7d !== undefined && installsPrev1d !== undefined
+        ? installs7d - installsPrev1d
+        : undefined;
+    const installsPrev30d = skillItem?.installsPrev30d;
+    const installsDelta30d =
+      installs7d !== undefined && installsPrev30d !== undefined
+        ? installs7d - installsPrev30d
+        : undefined;
     const linkedRepoLower = p.item.linkedRepo?.toLowerCase() ?? null;
     const slugCandidates = [
       asString(p.raw.slug),
@@ -1383,6 +1491,10 @@ function applySkillMomentum(
       installs7d,
       installsPrev7d,
       installsDelta7d,
+      installsPrev1d,
+      installsDelta1d,
+      installsPrev30d,
+      installsDelta30d,
       derivativeRepoCount: skillItem?.derivativeRepoCount,
       derivativeSampledAt: derivativeMeta?.sampledAt ?? null,
       derivativeSources: derivativeMeta?.sources,
@@ -1486,6 +1598,9 @@ function buildSkillItem(
     .filter((s): s is string => Boolean(s))
     .map((s) => s.toLowerCase());
   const installsPrev = pickByKeys(sideChannels.installsPrev7d, slugCandidates);
+  // W5-SKILLS24H — 24h + 30d snapshots for instant velocity / sustained adoption.
+  const installsPrev1d = pickByKeys(sideChannels.installsPrev1d, slugCandidates);
+  const installsPrev30d = pickByKeys(sideChannels.installsPrev30d, slugCandidates);
   const forksPrev = pickByKeys(sideChannels.forksPrev7d, slugCandidates);
   const derivativeRepoCount = pickByKeys(sideChannels.derivatives, slugCandidates);
   // commitVelocity30d returns to its real meaning now that derivativeRepoCount
@@ -1501,6 +1616,8 @@ function buildSkillItem(
     joinKeys: { repoFullName: item.linkedRepo ?? undefined },
     installs7d: installsCurrent !== null ? installsCurrent : undefined,
     installsPrev7d: installsPrev,
+    installsPrev1d,
+    installsPrev30d,
     stars: stars !== null ? stars : undefined,
     forks: forks !== null ? forks : undefined,
     forks7dAgo: forksPrev,
@@ -1716,6 +1833,8 @@ function emptySkillSideChannels(): SkillSideChannels {
     derivatives: {},
     derivativesMeta: {},
     installsPrev7d: {},
+    installsPrev1d: {},
+    installsPrev30d: {},
     forksPrev7d: {},
     hotnessPrev7d: {},
   };
@@ -1744,4 +1863,117 @@ function bestSource(sources: DataSource[]): DataSource {
 function minFinite(values: number[]): number {
   const finite = values.filter(Number.isFinite);
   return finite.length > 0 ? Math.min(...finite) : 0;
+}
+
+// ---------------------------------------------------------------------------
+// W5-CATWINDOW — Category-metrics window readers.
+//
+// Producer: scripts/snapshot-category-metrics.mjs writes per-category
+// total-stars snapshots into Redis under
+//   `category-metrics-snapshot:24h | 7d | 30d`
+// with shape `{ items: { "<category-id>": metric_value, ... }, ts, basis }`.
+//
+// These readers expose Maps keyed by category-id so /categories surfaces
+// can compute deltas (current_total_stars - prev_total_stars) for any of
+// the three rolling windows.
+//
+// Cold-start: returns empty Map. UI falls back to lifetime totals.
+// All reads are best-effort; never throws — Redis miss returns empty Map.
+// Follows the refresh-hook convention from src/lib/trending.ts:
+// 30s rate-limit + in-flight dedupe.
+// ---------------------------------------------------------------------------
+
+const CATEGORY_METRICS_SNAPSHOT_PREFIX = "category-metrics-snapshot";
+const CATEGORY_METRICS_MIN_REFRESH_INTERVAL_MS = 30_000;
+
+type CategoryMetricsWindowKey = "24h" | "7d" | "30d";
+
+interface CategoryMetricsCacheEntry {
+  data: Map<string, number>;
+  fetchedAt: number;
+}
+
+const categoryMetricsCache: Record<
+  CategoryMetricsWindowKey,
+  CategoryMetricsCacheEntry | null
+> = {
+  "24h": null,
+  "7d": null,
+  "30d": null,
+};
+
+const categoryMetricsInflight: Record<
+  CategoryMetricsWindowKey,
+  Promise<Map<string, number>> | null
+> = {
+  "24h": null,
+  "7d": null,
+  "30d": null,
+};
+
+async function loadCategoryMetricsWindow(
+  windowKey: CategoryMetricsWindowKey,
+): Promise<Map<string, number>> {
+  const pending = categoryMetricsInflight[windowKey];
+  if (pending) return pending;
+  const cached = categoryMetricsCache[windowKey];
+  if (
+    cached &&
+    Date.now() - cached.fetchedAt < CATEGORY_METRICS_MIN_REFRESH_INTERVAL_MS
+  ) {
+    return cached.data;
+  }
+
+  const promise = (async (): Promise<Map<string, number>> => {
+    const store = getDataStore();
+    const result = await store.read<unknown>(
+      `${CATEGORY_METRICS_SNAPSHOT_PREFIX}:${windowKey}`,
+    );
+    const root = asRecord(result.data);
+    const items = asRecord(root?.items);
+    const map = new Map<string, number>();
+    if (items) {
+      for (const [categoryId, raw] of Object.entries(items)) {
+        const n = asNumber(raw);
+        if (n !== null) map.set(categoryId, n);
+      }
+    }
+    // Only swap into cache when we got real data; otherwise preserve
+    // last-known-good. Always populate on first read so subsequent calls
+    // skip the rate-limit window.
+    if (map.size > 0 || !categoryMetricsCache[windowKey]) {
+      categoryMetricsCache[windowKey] = { data: map, fetchedAt: Date.now() };
+    }
+    return categoryMetricsCache[windowKey]?.data ?? map;
+  })().finally(() => {
+    categoryMetricsInflight[windowKey] = null;
+  });
+
+  categoryMetricsInflight[windowKey] = promise;
+  return promise;
+}
+
+/**
+ * Map of `<category-id> -> total_stars_24h_ago`. Empty during cold-start
+ * (before the snapshot producer's first run, or when Redis is unavailable).
+ * Reader for the /categories 24h-window UI surface.
+ */
+export async function loadCategoryMetricsPrev1d(): Promise<Map<string, number>> {
+  return loadCategoryMetricsWindow("24h");
+}
+
+/**
+ * Map of `<category-id> -> total_stars_7d_ago`. Empty during cold-start.
+ * Reader for the /categories 7d-window (default) UI surface.
+ */
+export async function loadCategoryMetricsPrev7d(): Promise<Map<string, number>> {
+  return loadCategoryMetricsWindow("7d");
+}
+
+/**
+ * Map of `<category-id> -> total_stars_30d_ago`. Empty during cold-start.
+ * Reader for the /categories 30d-window UI surface.
+ */
+export async function loadCategoryMetricsPrev30d(): Promise<Map<string, number>> {
+  return loadCategoryMetricsWindow("30d");
 }

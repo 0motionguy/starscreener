@@ -16,6 +16,36 @@
 /* ---------------------------------------------------------------------------
  * 01. CornerDots — three 4×4px squares for panel-head decoration
  * --------------------------------------------------------------------------- */
+.v4-root {
+  min-height: 100vh;
+  background:
+    radial-gradient(1100px 520px at 8% -12%, var(--v4-acc-soft), transparent 58%),
+    radial-gradient(850px 440px at 100% 112%, rgba(34, 197, 94, 0.055), transparent 60%),
+    var(--v4-bg-000);
+  color: var(--v4-ink-100);
+  --color-bg-primary: var(--v4-bg-000);
+  --color-bg-secondary: var(--v4-bg-100);
+  --color-bg-tertiary: var(--v4-bg-200);
+  --color-bg-card: var(--v4-bg-050);
+  --color-bg-card-hover: var(--v4-bg-100);
+  --color-bg-row-hover: var(--v4-bg-100);
+  --color-bg-elevated: var(--v4-bg-200);
+  --color-bg-inset: var(--v4-bg-000);
+  --color-text-primary: var(--v4-ink-000);
+  --color-text-secondary: var(--v4-ink-200);
+  --color-text-tertiary: var(--v4-ink-300);
+  --color-text-muted: var(--v4-ink-400);
+  --color-border-primary: var(--v4-line-200);
+  --color-border-secondary: var(--v4-line-100);
+  --color-border-strong: var(--v4-line-300);
+  --color-border-focus: var(--v4-acc);
+  --color-brand: var(--v4-acc);
+  --color-brand-hover: var(--v4-acc-hover);
+  --color-brand-active: var(--v4-acc-dim);
+  --color-brand-glow: var(--v4-acc-soft);
+  --color-brand-glow-strong: var(--v4-acc-glow);
+}
+
 .v4-corner-dots {
   display: inline-flex;
   gap: 3px;
@@ -111,6 +141,66 @@
 /* ---------------------------------------------------------------------------
  * 03. PanelHead — every panel's top strip
  * --------------------------------------------------------------------------- */
+.v4-panel {
+  background: var(--v4-bg-025);
+  border: var(--v4-stroke-1) solid var(--v4-line-200);
+  border-radius: var(--v4-radius-2);
+}
+
+.v4-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--v4-space-3);
+  min-height: 28px;
+  padding: 0 var(--v4-space-6);
+  border: var(--v4-stroke-1) solid var(--v4-line-300);
+  border-radius: var(--v4-radius-2);
+  background: var(--v4-bg-050);
+  color: var(--v4-ink-200);
+  font-family: var(--v4-mono);
+  font-size: var(--v4-text-11);
+  font-weight: 600;
+  letter-spacing: var(--v4-track-14);
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    background-color var(--v4-duration-fast) var(--v4-ease),
+    border-color var(--v4-duration-fast) var(--v4-ease),
+    color var(--v4-duration-fast) var(--v4-ease),
+    box-shadow var(--v4-duration-fast) var(--v4-ease);
+}
+
+.v4-button:hover {
+  background: var(--v4-bg-100);
+  border-color: var(--v4-line-400);
+  color: var(--v4-ink-100);
+}
+
+.v4-button:focus-visible {
+  outline: 2px solid var(--v4-acc);
+  outline-offset: 2px;
+}
+
+.v4-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.v4-button-primary {
+  background: var(--v4-acc);
+  border-color: var(--v4-acc);
+  color: #1a0a04;
+  font-weight: 700;
+}
+
+.v4-button-primary:hover {
+  background: var(--v4-acc-hover);
+  border-color: var(--v4-acc-hover);
+  color: #1a0a04;
+}
+
 .v4-panel-head {
   display: flex;
   align-items: center;
@@ -268,10 +358,18 @@
     flex-direction: column;
     align-items: flex-start;
     gap: var(--v4-space-5);
+    padding: var(--v4-space-2) 0 var(--v4-space-5);
+  }
+  .v4-page-head__h1 {
+    font-size: 22px;
+  }
+  .v4-page-head__lede {
+    font-size: 12px;
   }
   .v4-page-head__clock {
     margin-left: 0;
     text-align: left;
+    font-size: 9.5px;
   }
 }
 
@@ -613,8 +711,21 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .v4-kpi-cell {
+    padding: 10px 12px;
     border-right: none;
     border-bottom: var(--v4-stroke-1) solid var(--v4-line-100);
+  }
+  .v4-kpi-cell__value {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .v4-kpi-cell__value {
+    font-size: 15px;
+  }
+  .v4-kpi-cell__label {
+    font-size: 8.5px;
   }
 }
 
@@ -2246,32 +2357,57 @@
 
 /* ---------------------------------------------------------------------------
  * 31. SourceFeedTemplate — W7 source-feed pages
+ *
+ * Consumed by 16 source-feed routes (HN, Reddit, Bluesky, Dev.to, Lobsters,
+ * ProductHunt, Twitter, NPM, arXiv, Papers, HuggingFace×3, Breakouts).
+ * Mockup reference: sub-pages.html § "/hackernews".
+ *
+ * Slots: head → kpi → filters → tabs → body{ main + optional rail } → footer.
+ * Mirrors the .v4-profile-template idiom; the --with-rail modifier flips the
+ * body to a 2-column grid (1fr · 320px).
  * --------------------------------------------------------------------------- */
 .v4-source-feed-template {
   display: flex;
   flex-direction: column;
 }
-.v4-source-feed-template__strip {
+.v4-source-feed-template__head {
+  /* PageHead carries its own border + spacing; this wrapper exists purely
+     so callers can target it with the classNames.head escape hatch. */
+}
+.v4-source-feed-template__kpi {
+  margin-bottom: var(--v4-space-5);
+}
+.v4-source-feed-template__filters {
+  margin-bottom: var(--v4-space-5);
+}
+.v4-source-feed-template__tabs {
+  margin-bottom: var(--v4-space-5);
+}
+.v4-source-feed-template__body {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: var(--v4-grid-gap);
-  margin-bottom: var(--v4-space-7);
 }
-.v4-source-feed-template__featured {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.v4-source-feed-template__body--with-rail {
+  grid-template-columns: minmax(0, 1fr) 320px;
+}
+.v4-source-feed-template__main {
+  display: flex;
+  flex-direction: column;
   gap: var(--v4-grid-gap);
-  margin-bottom: var(--v4-space-7);
+  min-width: 0;
 }
-.v4-source-feed-template__list {
-  margin-bottom: var(--v4-space-7);
+.v4-source-feed-template__rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--v4-grid-gap);
+  min-width: 0;
 }
-.v4-source-feed-template__foot {
+.v4-source-feed-template__footer {
   margin-top: var(--v4-space-7);
 }
 @media (max-width: 1023px) {
-  .v4-source-feed-template__strip,
-  .v4-source-feed-template__featured {
+  .v4-source-feed-template__body--with-rail {
     grid-template-columns: 1fr;
   }
 }
@@ -2286,7 +2422,11 @@
 .v4-leaderboard-template__kpi {
   margin-bottom: var(--v4-space-5);
 }
+.v4-leaderboard-template__filters,
 .v4-leaderboard-template__filter {
+  margin-bottom: var(--v4-space-5);
+}
+.v4-leaderboard-template__featured {
   margin-bottom: var(--v4-space-5);
 }
 .v4-leaderboard-template__body {
@@ -2296,6 +2436,25 @@
 }
 .v4-leaderboard-template__body--with-rail {
   grid-template-columns: minmax(0, 1fr) 320px;
+}
+.v4-leaderboard-template__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--v4-grid-gap);
+  min-width: 0;
+}
+.v4-leaderboard-template__rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--v4-grid-gap);
+  min-width: 0;
+}
+.v4-leaderboard-template__leaderboard {
+  display: flex;
+  flex-direction: column;
+}
+.v4-leaderboard-template__footer {
+  margin-top: var(--v4-space-7);
 }
 @media (max-width: 1023px) {
   .v4-leaderboard-template__body--with-rail {
@@ -2426,4 +2585,125 @@
   .v4-profile-template__related {
     grid-template-columns: 1fr;
   }
+}
+
+/* ---- /collections/[slug] V4 surfaces ----------------------------- */
+.v4-collection-activity {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--v4-line-200);
+  border-radius: 4px;
+  background: var(--v4-bg-050);
+}
+.v4-collection-activity__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--v4-line-100);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+}
+.v4-collection-activity__row:last-child {
+  border-bottom: 0;
+}
+.v4-collection-activity__name {
+  color: var(--v4-ink-100);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.v4-collection-activity__name a {
+  color: inherit;
+  text-decoration: none;
+}
+.v4-collection-activity__name a:hover {
+  color: var(--v4-acc);
+}
+.v4-collection-activity__delta {
+  color: var(--v4-money);
+}
+.v4-collection-activity__status {
+  color: var(--v4-ink-300);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 10px;
+}
+
+.v4-collection-rail-card {
+  border: 1px solid var(--v4-line-200);
+  border-radius: 4px;
+  background: var(--v4-bg-050);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+}
+.v4-collection-rail-card__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+}
+.v4-collection-rail-card__label {
+  color: var(--v4-ink-400);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 10px;
+}
+.v4-collection-rail-card__value {
+  color: var(--v4-ink-100);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+a.v4-collection-rail-card__value {
+  color: var(--v4-acc);
+  text-decoration: none;
+}
+
+.v4-collection-rail-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--v4-line-200);
+  border-radius: 4px;
+  background: var(--v4-bg-050);
+}
+.v4-collection-rail-list__item {
+  border-bottom: 1px solid var(--v4-line-100);
+}
+.v4-collection-rail-list__item:last-child {
+  border-bottom: 0;
+}
+.v4-collection-rail-list__link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  color: var(--v4-ink-200);
+  text-decoration: none;
+}
+.v4-collection-rail-list__link:hover {
+  color: var(--v4-acc);
+  background: var(--v4-bg-100);
+}
+.v4-collection-rail-list__count {
+  color: var(--v4-ink-400);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }

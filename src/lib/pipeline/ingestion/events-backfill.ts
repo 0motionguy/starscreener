@@ -179,6 +179,16 @@ export async function backfillFromEvents(
         pool.recordRateLimit(activeToken, parsedRl.remaining, parsedRl.resetUnixSec);
       }
     }
+    const parsedRl = parseRateLimitHeaders(res.headers);
+    await recordGithubCall({
+      keyFingerprint: githubKeyFingerprint(activeToken),
+      statusCode: res.status,
+      rateLimitRemaining: parsedRl?.remaining ?? null,
+      rateLimitReset: parsedRl?.resetUnixSec ?? null,
+      responseTimeMs: Date.now() - startedAt,
+      operation: "github_events_backfill",
+      success: res.ok,
+    });
     const rlHeader = res.headers.get("x-ratelimit-remaining");
     if (rlHeader) rateLimitRemaining = parseInt(rlHeader, 10);
 

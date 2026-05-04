@@ -19,14 +19,16 @@ import {
   type FeedColumn,
 } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { huggingFaceLogoUrl } from "@/lib/logos";
-import { applyCompactV1 } from "@/components/news/newsTopMetrics";
+import { huggingFaceLogoUrl, huggingFaceAuthorLogoUrl } from "@/lib/logos";
+
+// V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { MarkVisited } from "@/components/layout/MarkVisited";
 
-const HF_ACCENT = "rgba(255, 159, 28, 0.85)"; // HF "yellow" (warm orange)
-const HF_ACCENT_BAR = "#FF9F1C";
+// HF "yellow" — no `--v4-src-hf` token exists; hardcoded once on the pip,
+// rest of the page stays tokenized via var(--v4-*).
 const HF_YELLOW = "#FFD21E";
 
 export const dynamic = "force-static";
@@ -84,6 +86,7 @@ export default async function HuggingFaceTrendingPage() {
   if (cold) {
     return (
       <main className="home-surface">
+        <MarkVisited routeKey="hfModels" count={allModels.length} />
         <SourceFeedTemplate
           crumb={
             <>
@@ -113,6 +116,7 @@ export default async function HuggingFaceTrendingPage() {
 
   return (
     <main className="home-surface">
+      <MarkVisited routeKey="hfModels" count={allModels.length} />
       <SourceFeedTemplate
         crumb={
           <>
@@ -125,7 +129,7 @@ export default async function HuggingFaceTrendingPage() {
           <>
             <span className="big">{formatClock(file.fetchedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="LIVE · 30M" />
+            <LiveDot label="FRESH · 3H" />
           </>
         }
         snapshot={
@@ -167,109 +171,6 @@ export default async function HuggingFaceTrendingPage() {
   );
 }
 
-// ---------------------------------------------------------------------------
-// Header builder — local (mirrors patterns in components/news/newsTopMetrics)
-// ---------------------------------------------------------------------------
-
-function buildHuggingFaceHeader(
-  raws: { downloads: number; likes: number; pipelineTag: string | null }[],
-  scored: HfModelTrending[],
-) {
-  const totalDownloads = raws.reduce((s, m) => s + (m.downloads ?? 0), 0);
-  const totalLikes = raws.reduce((s, m) => s + (m.likes ?? 0), 0);
-  const topDownloads = raws.reduce((m, r) => Math.max(m, r.downloads ?? 0), 0);
-
-  // Pipeline-tag distribution (top 6) — substitutes for "topics" panel.
-  const tagCounts = new Map<string, number>();
-  for (const r of raws) {
-    const tag = r.pipelineTag ?? "untagged";
-    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
-  }
-  const tagBars = Array.from(tagCounts.entries())
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 6)
-    .map(([tag, count], i) => ({
-      label: tag.toUpperCase(),
-      value: count,
-      valueLabel: count.toLocaleString("en-US"),
-      color: ["#FF9F1C", "#F472B6", "#3AD6C5", "#A78BFA", "#34D399", "#FBBF24"][i % 6],
-    }));
-
-  // Top-momentum bars (top 6 model authors by appearance count).
-  const authorCounts = new Map<string, number>();
-  for (const r of raws) {
-    const a = (r as { author?: string }).author ?? "unknown";
-    authorCounts.set(a, (authorCounts.get(a) ?? 0) + 1);
-  }
-  const authorBars = Array.from(authorCounts.entries())
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 6)
-    .map(([author, count]) => ({
-      label: author.toUpperCase(),
-      value: count,
-      valueLabel: count.toLocaleString("en-US"),
-      color: HF_ACCENT_BAR,
-      logoUrl: huggingFaceLogoUrl(),
-      logoName: author,
-    }));
-
-  const cards = applyCompactV1(
-    [
-      {
-        variant: "snapshot",
-        title: "// SNAPSHOT · NOW",
-        rightLabel: `${raws.length} MODELS`,
-        label: "MODELS TRACKED",
-        value: compactNumber(raws.length),
-        hint: `${tagCounts.size} PIPELINE TAGS`,
-        rows: [
-          { label: "TOTAL DOWNLOADS", value: compactNumber(totalDownloads) },
-          { label: "TOP DOWNLOADS", value: compactNumber(topDownloads), tone: "accent" },
-          { label: "TOTAL LIKES", value: compactNumber(totalLikes) },
-        ],
-      },
-      {
-        variant: "bars",
-        title: "// AUTHORS · TOP 6",
-        rightLabel: `${authorBars.length}`,
-        bars: authorBars,
-        labelWidth: 96,
-        emptyText: "NO AUTHORS YET",
-      },
-      {
-        variant: "bars",
-        title: "// PIPELINE · TAG MIX",
-        rightLabel: `TOP ${tagBars.length}`,
-        bars: tagBars,
-        labelWidth: 96,
-        emptyText: "NO TAGS YET",
-      },
-    ],
-    { totalItems: raws.length },
-  );
-
-  // Hero stories — top 3 models by momentum.
-  const topStories = scored.slice(0, 3).map((m) => ({
-    title: m.id,
-    href: m.url,
-    external: true,
-    sourceCode: "HF",
-    byline: m.pipelineTag ?? m.libraryName ?? undefined,
-    scoreLabel: `${compactNumber(m.downloads ?? 0)} dl · ${compactNumber(m.likes ?? 0)} ♥`,
-    ageHours: m.lastModified
-      ? Math.max(0, (Date.now() - Date.parse(m.lastModified)) / 3_600_000)
-      : null,
-    logoUrl: huggingFaceLogoUrl(),
-    logoName: m.author ?? m.id,
-  }));
-
-  return { cards, topStories };
-}
-
-// ---------------------------------------------------------------------------
-// Feed table
-// ---------------------------------------------------------------------------
-
 function HfModelFeed({ models }: { models: HfModelTrending[] }) {
   const nowMs = Date.now();
 
@@ -293,7 +194,7 @@ function HfModelFeed({ models }: { models: HfModelTrending[] }) {
       render: (m) => (
         <div className="flex min-w-0 items-center gap-2">
           <EntityLogo
-            src={huggingFaceLogoUrl()}
+            src={huggingFaceAuthorLogoUrl(m.author)}
             name={m.author ?? m.id}
             size={20}
             shape="square"

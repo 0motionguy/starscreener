@@ -16,6 +16,7 @@ export function Header() {
           <Link
             href={ROUTES.HOME}
             className="group flex min-w-0 flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded"
+            aria-label="TrendingRepo home"
           >
             <span className="flex min-w-0 items-center gap-1.5 sm:gap-2.5">
               <span
@@ -40,16 +41,12 @@ export function Header() {
               </span>
             </span>
 
-            <span className="flex flex-col leading-none">
-              <span className="brand-name inline-flex items-center leading-none">
-                TRENDING<span style={{ color: "var(--v4-acc)" }}>REPO</span>
-              </span>
-              <span
-                aria-hidden="true"
-                className="brand-sub mt-0.5 hidden leading-none sm:inline"
-              >
-                {"// TRENDINGREPO / TREND MAP FOR OPEN SOURCE"}
-              </span>
+            <span
+              aria-hidden="true"
+              className="brand-sub mt-0.5 hidden leading-none sm:inline"
+              style={{ paddingLeft: "calc(24px + 0.625rem)" }}
+            >
+              {"// TRENDINGREPO / TREND MAP FOR OPEN SOURCE"}
             </span>
           </Link>
         </div>

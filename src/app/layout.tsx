@@ -1,9 +1,12 @@
 import type { Metadata, Viewport } from "next";
-// Trimmed from 4 fonts to 3: Instrument Serif (--font-editorial) was
-// defined but not referenced anywhere in src/components or src/app.
-// Dropping it saves ~30 KB of font payload + one <link rel="preload">.
-import { Geist, Geist_Mono, Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
-import { Toaster } from "sonner";
+// Trimmed to 3 actively-rendered fonts (Geist sans, Geist Mono, Space
+// Grotesk display). Inter and JetBrains Mono lived only as CSS-fallback
+// strings in globals.css after `var(--font-geist*)` and never painted
+// when geist loaded successfully — dropping the next/font loads saves
+// ~60 KB of font payload + 2 <link rel="preload"> head entries. The
+// named "Inter" / "JetBrains Mono" strings remain in the font-family
+// chains so locally-installed copies still work as system fallbacks.
+import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 // Validate environment variables at server boot. Must stay first so misconfig
 // crashes the app before any routes load.
 import "@/lib/bootstrap";
@@ -33,7 +36,6 @@ import "@/components/compare/compare.css";
 import "@/components/predict/predict.css";
 import "@/components/terminal/terminal-pages.css";
 import "@/components/categories/categories.css";
-import "@/components/agent-commerce/agent-commerce.css";
 
 const geist = Geist({
   variable: "--font-geist",
@@ -75,18 +77,9 @@ export const metadata: Metadata = {
     "Bluesky",
     "dev.to",
     "MCP",
-    "Model Context Protocol",
     "CLI",
     "AI repos",
-    "AI agents",
-    "Claude skills",
     "developer tools",
-    "open source momentum",
-    "github trending alternatives",
-    "trendshift alternative",
-    "ossinsight alternative",
-    "github stars tracker",
-    "repo discovery",
   ],
   manifest: "/manifest.json",
   icons: {
@@ -118,8 +111,6 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@trendingrepo",
-    creator: "@0motionguy",
     title: `${SITE_NAME} — ${SITE_TAGLINE}`,
     description: SITE_DESCRIPTION,
     images: ["/og-card.png"],
@@ -130,9 +121,6 @@ export const metadata: Metadata = {
       "application/rss+xml": [
         { url: "/feeds/breakouts.xml", title: `${SITE_NAME} — Cross-signal breakout repos` },
         { url: "/feeds/funding.xml", title: `${SITE_NAME} — Open-source funding signals` },
-      ],
-      "application/json+oembed": [
-        { url: "/api/oembed", title: `${SITE_NAME} oEmbed` },
       ],
     },
   },
@@ -215,46 +203,6 @@ export default async function RootLayout({
             __html: `(function(){try{var ACC_KEY="trendingrepo-v3-accent",SURF_KEY="trendingrepo-v3-surface";var t=localStorage.getItem(ACC_KEY);var palette={orange:["#fb923c","#fdba74","#c2410c","rgba(251,146,60,.14)","rgba(251,146,60,.45)"],blue:["#60a5fa","#93c5fd","#1d4ed8","rgba(96,165,250,.14)","rgba(96,165,250,.45)"],yellow:["#facc15","#fde047","#a16207","rgba(250,204,21,.14)","rgba(250,204,21,.45)"],green:["#4ade80","#86efac","#15803d","rgba(74,222,128,.14)","rgba(74,222,128,.45)"],purple:["#c084fc","#d8b4fe","#7e22ce","rgba(192,132,252,.14)","rgba(192,132,252,.45)"]};if(!t||!palette[t])t="orange";var m=palette[t];var r=document.documentElement;r.dataset.theme=t;r.dataset.v3Accent=t;r.style.setProperty("--v3-acc",m[0]);r.style.setProperty("--v3-acc-hover",m[1]);r.style.setProperty("--v3-acc-dim",m[2]);r.style.setProperty("--v3-acc-soft",m[3]);r.style.setProperty("--v3-acc-glow",m[4]);r.style.setProperty("--color-accent",m[0]);r.style.setProperty("--color-accent-hover",m[1]);r.style.setProperty("--color-accent-dim",m[2]);r.style.setProperty("--color-accent-soft",m[3]);r.style.setProperty("--color-accent-glow",m[4]);r.style.setProperty("--v2-acc",m[0]);r.style.setProperty("--v2-acc-hover",m[1]);r.style.setProperty("--v2-acc-soft",m[3]);r.style.setProperty("--v2-acc-glow",m[4]);r.style.setProperty("--v2-acc-dim",m[2]);r.style.setProperty("--color-brand",m[0]);r.style.setProperty("--color-brand-hover",m[1]);r.style.setProperty("--color-brand-active",m[2]);r.style.setProperty("--color-border-focus",m[0]);var s=localStorage.getItem(SURF_KEY);if(s!=="sm"&&s!=="md"&&s!=="lg")s="md";r.dataset.surface=s;}catch(e){}})();`,
           }}
         />
-        {/* rel=me self-references — verifiable identity links so AI engines and
-            Mastodon-class verifiers can confirm the same entity owns these
-            profiles. Pairs with Org LD sameAs but lives in <head> per IndieWeb
-            convention. Replace handles when real ones are claimed. */}
-        <link rel="me" href="https://github.com/0motionguy" />
-        <link rel="me" href="https://x.com/0motionguy" />
-        <link rel="me" href="https://www.linkedin.com/company/trendingrepo" />
-        {/* AI content provenance — declares the page surface as
-            primarily-aggregated (signals are scraped from public sources;
-            scoring is deterministic; no LLM-generated body copy). Helps AI
-            engines weight the page as a primary aggregator rather than a
-            content-farm regenerator. */}
-        <meta name="ai-content-declaration" content="aggregated" />
-        <meta name="content-source" content="primary-aggregator" />
-        <meta name="generator" content="TrendingRepo Pipeline / Next.js" />
-        {/* Geographic + topical hints — improve entity disambiguation when
-            multiple sites share keywords like "trending repos". */}
-        <meta name="topic" content="open source software trending discovery" />
-        <meta name="audience" content="developers,engineers,maintainers,researchers,investors" />
-        <meta name="coverage" content="worldwide" />
-        <meta name="distribution" content="global" />
-        {/* iOS PWA + crawler hygiene */}
-        <meta name="apple-mobile-web-app-title" content="TrendingRepo" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="format-detection" content="telephone=no, email=no, address=no" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        {/* Crawl + indexing hints. `googlebot` overrides include
-            `max-image-preview:large` so OG cards render full-size in SERP. */}
-        <meta
-          name="googlebot"
-          content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
-        />
-        <meta
-          name="bingbot"
-          content="index, follow, max-image-preview:large, max-snippet:-1"
-        />
-        {/* Color scheme hints — pairs with the existing themeColor in viewport
-            so iOS Safari picks the right system chrome before paint. */}
-        <meta name="color-scheme" content="dark light" />
       </head>
       <body>
         {/* A11Y: Skip-to-content link for keyboard users */}
@@ -281,29 +229,7 @@ export default async function RootLayout({
               </AppShell>
               <MobileNav />
               <BrowserAlertBridge />
-              <Toaster
-                theme="dark"
-                position="bottom-right"
-                richColors={false}
-                closeButton={false}
-                toastOptions={{
-                  classNames: {
-                    toast:
-                      "!bg-[var(--v3-bg-050)] !border !border-[var(--v3-line-200)] !text-[var(--v3-ink-100)] !rounded-[2px] !shadow-[var(--shadow-popover)] !font-sans !text-[13px]",
-                    title:
-                      "!text-[var(--v3-ink-000)] !font-medium !tracking-[-0.005em]",
-                    description: "!text-[var(--v3-ink-300)] !text-[12px]",
-                    success:
-                      "!border-l-[3px] !border-l-[var(--v3-sig-green)]",
-                    error:
-                      "!border-l-[3px] !border-l-[var(--v3-sig-red)]",
-                    info:
-                      "!border-l-[3px] !border-l-[var(--v3-acc)]",
-                    warning:
-                      "!border-l-[3px] !border-l-[var(--v3-sig-amber)]",
-                  },
-                }}
-              />
+              <ToasterLazy />
               </DesignSystemProvider>
             </StoreProvider>
           </PostHogProvider>

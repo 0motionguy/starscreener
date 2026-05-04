@@ -11,18 +11,9 @@ import type { Metadata } from "next";
 import NewAlertClient from "./NewAlertClient";
 
 export const metadata: Metadata = {
-  // Layout template appends ` — TrendingRepo`; bare title here.
-  title: "New alert",
+  title: "New alert — TrendingRepo",
   description:
     "Create a movement alert for a tracked repository. Choose a trigger, set a threshold, and TrendingRepo fires a browser notification when the condition is met.",
-  alternates: { canonical: "/alerts/new" },
-  openGraph: {
-    title: "Create a new alert — TrendingRepo",
-    description:
-      "Set a trigger + threshold; get notified when a tracked repo crosses the line.",
-    url: "/alerts/new",
-    type: "website",
-  },
 };
 
 export default function NewAlertPage() {

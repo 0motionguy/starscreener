@@ -45,7 +45,24 @@ import {
   extractUnknownRepoCandidates,
   normalizeGithubFullName,
 } from "./_github-repo-links.mjs";
+import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+
+// F3 unknown-mentions accumulator — per-run Set populated inside the
+// extractRepoMentions path. Flushed at end of main() so the lake gets
+// every github.com URL we couldn't attribute to a tracked repo.
+const unknownsAccumulator = new Set();
+
+// F2 dual-key transition: stable repoId derived from fullName.
+// MUST match src/lib/utils.ts:slugToId so consumers can index by repoId
+// without needing the original fullName.
+function slugIdFromFullName(fullName) {
+  return String(fullName)
+    .toLowerCase()
+    .replace(/\//g, "--")
+    .replace(/\./g, "-")
+    .replace(/[^a-z0-9-]/g, "");
+}
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");

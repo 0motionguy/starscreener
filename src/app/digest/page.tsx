@@ -121,12 +121,12 @@ export default async function DigestIndexPage() {
                 alignItems: "center",
                 padding: "8px 16px",
                 background: "var(--v4-acc)",
-                color: "var(--v4-bg-000)",
+                color: "var(--v4-ink-000)",
                 fontFamily: "var(--v4-mono)",
-                fontSize: 12,
+                fontSize: 11,
                 letterSpacing: "0.18em",
                 textTransform: "uppercase",
-                fontWeight: 700,
+                fontWeight: 600,
               }}
             >
               View today&apos;s digest →

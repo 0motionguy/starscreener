@@ -14,6 +14,7 @@ import {
   ComposedChart,
 } from "recharts";
 import type { Repo } from "@/lib/types";
+import { ChartShell } from "@/components/ui/ChartShell";
 import {
   computeMindshareSeries,
   computeVelocitySeries,
@@ -516,8 +517,10 @@ export function CompareChart({
   const title = anyFromPayload ? "Star Activity" : "Star Activity (30 days)";
 
   return (
-    <div
-      className="rounded-card p-4 animate-fade-in relative"
+    <ChartShell
+      as="div"
+      variant="chart"
+      className="p-4 animate-fade-in relative"
       style={{
         backgroundColor: themeConfig.cardBg,
         border: `1px solid ${themeConfig.cardBorder}`,
@@ -598,7 +601,7 @@ export function CompareChart({
       {allSparse && <CompareChartPlaceholder />}
 
       {!allSparse && (
-        <div className="hidden sm:block h-[300px] relative">
+        <div className="chart-wrap hidden sm:block h-[300px] relative">
           {themeConfig.overlayPattern && (
             <div
               aria-hidden
@@ -716,7 +719,7 @@ export function CompareChart({
       )}
 
       {!allSparse && (
-        <div className="block sm:hidden h-[200px] relative">
+        <div className="chart-wrap block sm:hidden h-[200px] relative">
           {themeConfig.overlayPattern && (
             <div
               aria-hidden
@@ -831,7 +834,7 @@ export function CompareChart({
           </ResponsiveContainer>
         </div>
       )}
-    </div>
+    </ChartShell>
   );
 }
 

@@ -14,7 +14,11 @@ import {
   refreshRedditAllPostsFromStore,
 } from "@/lib/reddit-all-data";
 import { AllTrendingTabs } from "@/components/reddit-trending/AllTrendingTabs";
-import type { RedditAllPost, RedditAllPostsFile } from "@/lib/reddit-all";
+import {
+  buildAllPostsStats,
+  type RedditAllPost,
+  type RedditAllPostsFile,
+} from "@/lib/reddit-all";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -93,14 +97,11 @@ export default async function RedditTrendingPage() {
     const fallback = loadBundledFallback();
     if (fallback.posts.length > 0) {
       posts = fallback.posts;
-      stats = {
-        totalPosts: fallback.posts.length,
-        breakouts24h: 0,
-        topicsSurfaced: 0,
-        postsWithLinkedRepos: fallback.posts.filter(
-          (p) => Array.isArray(p.linkedRepos) && p.linkedRepos.length > 0,
-        ).length,
-      };
+      // Derive the full stats payload from the bundled posts so the KPI band
+      // shows the same numbers users would see when Redis is healthy.
+      // Previously this short-circuited breakouts24h/topicsSurfaced to 0,
+      // which read as "0 freshness" alongside the recovered post list.
+      stats = buildAllPostsStats(fallback.posts);
       allPostsFetchedAt = fallback.lastFetchedAt || allPostsFetchedAt;
       allPostsCold = false;
     }
@@ -140,7 +141,7 @@ export default async function RedditTrendingPage() {
           <>
             <span className="big">{formatClock(allPostsFetchedAt ?? undefined)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="LIVE · 7D" />
+            <LiveDot label="FRESH · 1H" />
           </>
         }
         snapshot={

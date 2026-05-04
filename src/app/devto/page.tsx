@@ -31,6 +31,24 @@ const DEVTO_BLUE = "#6699ff";
 
 export const dynamic = "force-static";
 
+export const metadata: Metadata = {
+  title: "Trending on Dev.to",
+  description:
+    "Top developer-written articles by velocity score, plus the repo leaderboard mentioned across them. Long-form developer signal, scored.",
+  alternates: { canonical: "/devto" },
+  openGraph: {
+    title: "Trending on Dev.to — TrendingRepo",
+    description: "Top developer-written articles by velocity, plus mentioned repos.",
+    url: "/devto",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trending on Dev.to — TrendingRepo",
+    description: "Top developer-written articles by velocity, plus mentioned repos.",
+  },
+};
+
 function formatAgeFromIso(iso: string): string {
   const t = new Date(iso).getTime();
   if (!Number.isFinite(t)) return "—";

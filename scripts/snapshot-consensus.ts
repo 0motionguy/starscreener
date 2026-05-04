@@ -115,8 +115,12 @@ async function main(): Promise<void> {
 }
 
 main()
-  .then(() => process.exit(0))
-  .catch((err) => {
+  .then(async () => {
+    await closeDataStore();
+    process.exit(0);
+  })
+  .catch(async (err) => {
     console.error("[snapshot-consensus] FAILED", err);
+    await closeDataStore();
     process.exit(1);
   });

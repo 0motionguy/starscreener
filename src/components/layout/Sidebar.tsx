@@ -145,23 +145,38 @@ const EMPTY_SOURCE_COUNTS: SidebarDataResponse["sourceCounts"] = {
   fundingSignals: 0,
   revenueOverlays: 0,
   npmPackages: 0,
+  skillsItems: 0,
+  mcpItems: 0,
+  agentRepos: 0,
+  twitterRepos: 0,
+  hfModels: 0,
+  hfDatasets: 0,
+  hfSpaces: 0,
+  arxivPapers: 0,
+  citedRepos: 0,
 };
 
+/**
+ * Sidebar data hook. When called with `initialData` (the desktop path,
+ * fed by the root layout's server-side build), returns it directly and
+ * never fires a network request. When called bare (the MobileDrawer
+ * path), fetches `/api/pipeline/sidebar-data` once on mount.
+ */
 export function useSidebarData(
   initialData?: SidebarDataResponse | null,
 ): SidebarData | null {
-  const [data, setData] = useState<SidebarData | null>(() => {
-    if (!initialData) return null;
-    return {
-      categoryStats: initialData.categoryStats,
-      metaCounts: initialData.metaCounts,
-      availableLanguages: initialData.availableLanguages,
-      reposById: initialData.reposById,
-      unreadAlerts: initialData.unreadAlerts ?? 0,
-      sourceCounts: initialData.sourceCounts ?? EMPTY_SOURCE_COUNTS,
-      trendingReposCount: initialData.trendingReposCount ?? 0,
-    };
-  });
+  const seed: SidebarData | null = initialData
+    ? {
+        categoryStats: initialData.categoryStats,
+        metaCounts: initialData.metaCounts,
+        availableLanguages: initialData.availableLanguages,
+        reposById: initialData.reposById,
+        unreadAlerts: initialData.unreadAlerts ?? 0,
+        sourceCounts: initialData.sourceCounts ?? EMPTY_SOURCE_COUNTS,
+        trendingReposCount: initialData.trendingReposCount ?? 0,
+      }
+    : null;
+  const [data, setData] = useState<SidebarData | null>(seed);
 
   useEffect(() => {
     if (initialData) return; // Already seeded server-side; skip the round-trip.

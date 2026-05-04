@@ -26,6 +26,7 @@ import { repoLogoUrl } from "@/lib/logos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 export const dynamic = "force-static";
 
@@ -33,14 +34,6 @@ export const metadata: Metadata = {
   title: "TrendingRepo — Lobsters Trending",
   description:
     "Lobsters stories ranked by recent score velocity and cross-linked to tracked GitHub repositories.",
-  alternates: { canonical: "/lobsters" },
-  openGraph: {
-    title: "Lobsters Trending — TrendingRepo",
-    description:
-      "Lobsters stories scored by velocity, cross-linked to tracked GitHub repos.",
-    url: "/lobsters",
-    type: "website",
-  },
 };
 
 const LOBSTERS_RED = "#ac130d";
@@ -105,6 +98,7 @@ export default async function LobstersPage() {
             <span className="big">{formatClock(file.fetchedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
             <LiveDot label={`LIVE · ${file.windowHours}H`} />
+            <FreshnessBadge source="lobsters" lastUpdatedAt={file.fetchedAt} />
           </>
         }
         snapshot={

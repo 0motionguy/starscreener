@@ -393,19 +393,19 @@
       "topStory": {
         "id": 47952722,
         "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-        "score": 1133,
+        "score": 1248,
         "url": "https://github.com/anthropics/claude-code/issues/53262",
         "hoursSincePosted": 112.18
       },
-      "everHitFrontPage": true,
+      "everHitFrontPage": false,
       "stories": [
         {
           "id": 47952722,
           "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
           "url": "https://github.com/anthropics/claude-code/issues/53262",
           "by": "homebrewer",
-          "score": 1133,
-          "descendants": 481,
+          "score": 1248,
+          "descendants": 532,
           "createdUtc": 1777488871,
           "ageHours": 112.18,
           "velocity": 11.13,
@@ -429,8 +429,8 @@
           "title": "Regression: malware reminder on every read still causes subagent refusals",
           "url": "https://github.com/anthropics/claude-code/issues/49363",
           "by": "thomashobohm",
-          "score": 249,
-          "descendants": 144,
+          "score": 252,
+          "descendants": 147,
           "createdUtc": 1777420797,
           "ageHours": 131.09,
           "velocity": 1.92,
@@ -451,11 +451,11 @@
           ]
         },
         {
-          "id": 47903621,
-          "title": "Hermes.md in Git commit messages causes requests to route to extra usage billing",
-          "url": "https://github.com/anthropics/claude-code/issues/53262",
-          "by": "adunk",
-          "score": 10,
+          "id": 47980416,
+          "title": "Claude Code still doesn't support AGENTS.md",
+          "url": "https://github.com/anthropics/claude-code/issues/6235",
+          "by": "ggoo",
+          "score": 7,
           "descendants": 0,
           "createdUtc": 1777669988,
           "ageHours": 61.87,
@@ -1271,347 +1271,6 @@
           "ageHours": 139.9,
           "velocity": 0.02,
           "trendingScore": 0.01,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "paperless-ngx/paperless-ngx",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "microsoft/VibeVoice": {
-      "count7d": 1,
-      "scoreSum7d": 385,
-      "topStory": {
-        "id": 47933236,
-        "title": "VibeVoice: Open-source frontier voice AI",
-        "score": 385,
-        "url": "https://github.com/microsoft/VibeVoice",
-        "hoursSincePosted": 46.24
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47933236,
-          "title": "VibeVoice: Open-source frontier voice AI",
-          "url": "https://github.com/microsoft/VibeVoice",
-          "by": "tosh",
-          "score": 385,
-          "descendants": 179,
-          "createdUtc": 1777377364,
-          "ageHours": 46.24,
-          "velocity": 8.33,
-          "trendingScore": 407.05,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/VibeVoice",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "dirac-run/dirac": {
-      "count7d": 1,
-      "scoreSum7d": 389,
-      "topStory": {
-        "id": 47920787,
-        "title": "Show HN: OSS Agent I built topped the TerminalBench on Gemini-3-flash-preview",
-        "score": 389,
-        "url": "https://github.com/dirac-run/dirac",
-        "hoursSincePosted": 69.57
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47920787,
-          "title": "Show HN: OSS Agent I built topped the TerminalBench on Gemini-3-flash-preview",
-          "url": "https://github.com/dirac-run/dirac",
-          "by": "GodelNumbering",
-          "score": 389,
-          "descendants": 145,
-          "createdUtc": 1777293355,
-          "ageHours": 69.57,
-          "velocity": 5.59,
-          "trendingScore": 224.41,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "Scored 65.2% vs google's official 47.8%, and the existing top closed source model Junie CLI's 64.3%. Since there are a lot of reports of deliberate cheating on TerminalBench 2.0 lately ( https://debugml.github.io/cheating-agents/ ), I would like to also clarify a few things 1. Absolutely no {agents/skills}.md files were inserted at any point. No cheating mechanisms whatsoever 2. The cli agent was run in leaderboard compliant way (no modification of resources or timeouts) 3. The full terminal ben",
-          "linkedRepos": [
-            {
-              "fullName": "dirac-run/dirac",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "trycua/cua": {
-      "count7d": 2,
-      "scoreSum7d": 183,
-      "topStory": {
-        "id": 47936312,
-        "title": "Show HN: Drive any macOS app in the background without stealing the cursor",
-        "score": 180,
-        "url": "https://github.com/trycua/cua",
-        "hoursSincePosted": 42.11
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47936312,
-          "title": "Show HN: Drive any macOS app in the background without stealing the cursor",
-          "url": "https://github.com/trycua/cua",
-          "by": "frabonacci",
-          "score": 180,
-          "descendants": 40,
-          "createdUtc": 1777392214,
-          "ageHours": 42.11,
-          "velocity": 4.27,
-          "trendingScore": 48.15,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "Hi HN, Francesco from Cua here. I hacked this project together last weekend, inspired by the Codex Computer-Use release and lessons learned from deploying GUI-operating agents for our customers. The main problem: when a UI automation process controls a desktop app today, it usually takes over the human’s session. Your cursor moves, keyboard focus gets stolen, windows jump to the front, and you have to stop working until the agent is done. That is why we have historically avoided encouraging user",
-          "linkedRepos": [
-            {
-              "fullName": "trycua/cua",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "id": 47878715,
-          "title": "macOS window internals: SkyLight enables multi-cursor background agents",
-          "url": "https://github.com/trycua/cua/blob/main/blog/inside-macos-window-internals.md",
-          "by": "frabonacci",
-          "score": 3,
-          "descendants": 0,
-          "createdUtc": 1776965681,
-          "ageHours": 160.59,
-          "velocity": 0.02,
-          "trendingScore": 0.01,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "has-md-file"
-          ],
-          "value_score": 2,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "trycua/cua",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "hpennington/agentswift": {
-      "count7d": 1,
-      "scoreSum7d": 63,
-      "topStory": {
-        "id": 47929375,
-        "title": "Show HN: AgentSwift – Open-source iOS builder agent",
-        "score": 63,
-        "url": "https://github.com/hpennington/agentswift",
-        "hoursSincePosted": 56.93
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47929375,
-          "title": "Show HN: AgentSwift – Open-source iOS builder agent",
-          "url": "https://github.com/hpennington/agentswift",
-          "by": "hpen",
-          "score": 63,
-          "descendants": 10,
-          "createdUtc": 1777338871,
-          "ageHours": 56.93,
-          "velocity": 1.11,
-          "trendingScore": 3.99,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "I'm working on a coding agent for building iOS apps. It's built on openspec and xcodebuildmcp. It's free and open source.",
-          "linkedRepos": [
-            {
-              "fullName": "hpennington/agentswift",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "endevco/aube": {
-      "count7d": 1,
-      "scoreSum7d": 27,
-      "topStory": {
-        "id": 47948568,
-        "title": "Aube: A fast Node.js package manager",
-        "score": 27,
-        "url": "https://github.com/endevco/aube",
-        "hoursSincePosted": 20.2
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47948568,
-          "title": "Aube: A fast Node.js package manager",
-          "url": "https://github.com/endevco/aube",
-          "by": "jdxcode",
-          "score": 27,
-          "descendants": 5,
-          "createdUtc": 1777471106,
-          "ageHours": 20.2,
-          "velocity": 1.34,
-          "trendingScore": 2.88,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "endevco/aube",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "calfonso/rusternetes": {
-      "count7d": 1,
-      "scoreSum7d": 12,
-      "topStory": {
-        "id": 47945492,
-        "title": "Rusternetes : A ground-up reimplementation of Kubernetes in Rust",
-        "score": 12,
-        "url": "https://github.com/calfonso/rusternetes",
-        "hoursSincePosted": 25.93
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47945492,
-          "title": "Rusternetes : A ground-up reimplementation of Kubernetes in Rust",
-          "url": "https://github.com/calfonso/rusternetes",
-          "by": "mariuz",
-          "score": 12,
-          "descendants": 2,
-          "createdUtc": 1777450455,
-          "ageHours": 25.93,
-          "velocity": 0.46,
-          "trendingScore": 0.6,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "calfonso/rusternetes",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "chekusu/wanman": {
-      "count7d": 1,
-      "scoreSum7d": 4,
-      "topStory": {
-        "id": 47957153,
-        "title": "Wanman: Open-source agent matrix network with JSON-RPC communications",
-        "score": 4,
-        "url": "https://github.com/chekusu/wanman/",
-        "hoursSincePosted": 8.27
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47957153,
-          "title": "Wanman: Open-source agent matrix network with JSON-RPC communications",
-          "url": "https://github.com/chekusu/wanman/",
-          "by": "imWildCat",
-          "score": 4,
-          "descendants": 0,
-          "createdUtc": 1777514038,
-          "ageHours": 8.27,
-          "velocity": 0.48,
-          "trendingScore": 0.29,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "chekusu/wanman",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "paperless-ngx/paperless-ngx": {
-      "count7d": 1,
-      "scoreSum7d": 3,
-      "topStory": {
-        "id": 47935734,
-        "title": "Paperless-ngx: a document management system",
-        "score": 3,
-        "url": "https://github.com/paperless-ngx/paperless-ngx",
-        "hoursSincePosted": 42.98
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 47935734,
-          "title": "Paperless-ngx: a document management system",
-          "url": "https://github.com/paperless-ngx/paperless-ngx",
-          "by": "ahamez",
-          "score": 3,
-          "descendants": 0,
-          "createdUtc": 1777389075,
-          "ageHours": 42.98,
-          "velocity": 0.07,
-          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -2589,12 +2248,12 @@
         }
       ]
     },
-    "tw93--pake": {
+    "woct0rdho--mathstudio-apk-modernized": {
       "count7d": 1,
       "scoreSum7d": 1,
       "topStory": {
-        "id": 48004671,
-        "title": "Pake: Webpage to desktop app in one command using rust",
+        "id": 47993845,
+        "title": "MathStudio Android APK modernized for Android >= 7",
         "score": 1,
         "url": "https://github.com/woct0rdho/mathstudio-apk-modernized",
         "hoursSincePosted": 29.05
@@ -2602,10 +2261,10 @@
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 48004671,
-          "title": "Pake: Webpage to desktop app in one command using rust",
-          "url": "https://github.com/tw93/Pake",
-          "by": "AbuAssar",
+          "id": 47993845,
+          "title": "MathStudio Android APK modernized for Android >= 7",
+          "url": "https://github.com/woct0rdho/mathstudio-apk-modernized",
+          "by": "woctordho",
           "score": 1,
           "descendants": 1,
           "createdUtc": 1777788134,
@@ -2620,7 +2279,7 @@
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "tw93/Pake",
+              "fullName": "woct0rdho/mathstudio-apk-modernized",
               "matchType": "url",
               "confidence": 1
             }
@@ -2987,7 +2646,7 @@
     },
     "calfonso--rusternetes": {
       "count7d": 2,
-      "scoreSum7d": 114,
+      "scoreSum7d": 13,
       "topStory": {
         "id": 47945492,
         "title": "Rusternetes : A ground-up reimplementation of Kubernetes in Rust",
@@ -2995,7 +2654,7 @@
         "url": "https://github.com/calfonso/rusternetes",
         "hoursSincePosted": 122.85
       },
-      "everHitFrontPage": true,
+      "everHitFrontPage": false,
       "stories": [
         {
           "id": 47945492,
@@ -3177,38 +2836,14 @@
           "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
-            "has-github-repo"
+            "has-github-repo",
+            "is-show-hn"
           ],
-          "value_score": 1,
+          "value_score": 3,
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "earthtojake/text-to-cad",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "id": 47945938,
-          "title": "Text-to-CAD: Generate 3D models with coding agents (open source)",
-          "url": "https://github.com/earthtojake/text-to-cad",
-          "by": "steveharing1",
-          "score": 2,
-          "descendants": 0,
-          "createdUtc": 1777058603,
-          "ageHours": 134.78,
-          "velocity": 0.01,
-          "trendingScore": 0,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "earthtojake/text-to-cad",
+              "fullName": "1jehuang/jcode",
               "matchType": "url",
               "confidence": 1
             }
@@ -3216,9 +2851,9 @@
         }
       ]
     },
-    "ROCm/spur": {
+    "paperless-ngx--paperless-ngx": {
       "count7d": 1,
-      "scoreSum7d": 2,
+      "scoreSum7d": 3,
       "topStory": {
         "id": 47935734,
         "title": "Paperless-ngx: a document management system",
@@ -3229,11 +2864,11 @@
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 47927837,
-          "title": "AMD used AI to reimplement slurm in Rust",
-          "url": "https://github.com/ROCm/spur",
-          "by": "latchkey",
-          "score": 2,
+          "id": 47935734,
+          "title": "Paperless-ngx: a document management system",
+          "url": "https://github.com/paperless-ngx/paperless-ngx",
+          "by": "ahamez",
+          "score": 3,
           "descendants": 0,
           "createdUtc": 1777389075,
           "ageHours": 139.9,
@@ -3247,7 +2882,7 @@
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "ROCm/spur",
+              "fullName": "paperless-ngx/paperless-ngx",
               "matchType": "url",
               "confidence": 1
             }
@@ -3299,8 +2934,8 @@
       "count7d": 1,
       "scoreSum7d": 2,
       "topStory": {
-        "id": 47923874,
-        "title": "Tile Kernels: An optimized GPU kernels library written in TileLang",
+        "id": 47964736,
+        "title": "How to run CubeSandbox on a cloud server?",
         "score": 2,
         "url": "https://github.com/TencentCloud/CubeSandbox/blob/master/README.md",
         "hoursSincePosted": 90.77
@@ -3308,10 +2943,10 @@
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 47923874,
-          "title": "Tile Kernels: An optimized GPU kernels library written in TileLang",
-          "url": "https://github.com/deepseek-ai/TileKernels",
-          "by": "matt_d",
+          "id": 47964736,
+          "title": "How to run CubeSandbox on a cloud server?",
+          "url": "https://github.com/TencentCloud/CubeSandbox/blob/master/README.md",
+          "by": "Quentin_0101",
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777565951,
@@ -3320,13 +2955,15 @@
           "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
-            "has-github-repo"
+            "has-github-repo",
+            "has-md-file",
+            "is-question"
           ],
-          "value_score": 1,
+          "value_score": 2,
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "deepseek-ai/TileKernels",
+              "fullName": "TencentCloud/CubeSandbox",
               "matchType": "url",
               "confidence": 1
             }
@@ -3334,7 +2971,7 @@
         }
       ]
     },
-    "ruvnet/ruflo": {
+    "ruvnet--ruflo": {
       "count7d": 1,
       "scoreSum7d": 1,
       "topStory": {
@@ -3374,7 +3011,7 @@
         }
       ]
     },
-    "openai/codex": {
+    "openai--codex": {
       "count7d": 1,
       "scoreSum7d": 1,
       "topStory": {
@@ -3413,7 +3050,7 @@
         }
       ]
     },
-    "TauricResearch/TradingAgents": {
+    "tauricresearch--tradingagents": {
       "count7d": 1,
       "scoreSum7d": 1,
       "topStory": {
@@ -3453,9 +3090,9 @@
         }
       ]
     },
-    "vinhnx/VTCode": {
-      "count7d": 2,
-      "scoreSum7d": 19,
+    "agno-agi--scout": {
+      "count7d": 1,
+      "scoreSum7d": 1,
       "topStory": {
         "id": 47953523,
         "title": "Show HN: Scout – open-source Company Brain",
@@ -3466,38 +3103,10 @@
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 47898308,
-          "title": "Show HN: VT Code – Rust TUI coding agent with multi-provider support",
-          "url": "https://github.com/vinhnx/VTCode",
-          "by": "vinhnx",
-          "score": 18,
-          "descendants": 2,
-          "createdUtc": 1777087039,
-          "ageHours": 126.88,
-          "velocity": 0.14,
-          "trendingScore": 0.21,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "has-mcp",
-            "has-skill",
-            "is-show-hn"
-          ],
-          "value_score": 5,
-          "storyText": "Hi HN, I built VT Code, a semantic coding agent. Supports all SOTA and open sources model. Anthropic, OpenAI, Gemini, Codex. Agent Skills, Model Context Protocol and Agent Client Protocol (ACP) ready. All open source models are support. Local inference via LM Studio and Ollama (experiment). Semantic context understanding is supported by ast-grep for structured code search and ripgrep for powered grep. I built VT Code in Rust on Ratatui. Architecture and agent loop documented in the README and De",
-          "linkedRepos": [
-            {
-              "fullName": "vinhnx/VTCode",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "id": 47950515,
-          "title": "Show HN: VT Code – Rust coding agent with AST-level code intelligence",
-          "url": "https://github.com/vinhnx/VTCode",
-          "by": "vinhnx",
+          "id": 47953523,
+          "title": "Show HN: Scout – open-source Company Brain",
+          "url": "https://github.com/agno-agi/scout",
+          "by": "ashpreet-bedi",
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777492110,
@@ -3513,7 +3122,7 @@
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "vinhnx/VTCode",
+              "fullName": "agno-agi/scout",
               "matchType": "url",
               "confidence": 1
             }
@@ -3521,7 +3130,7 @@
         }
       ]
     },
-    "masterking32/MasterHttpRelayVPN": {
+    "masterking32--masterhttprelayvpn": {
       "count7d": 1,
       "scoreSum7d": 1,
       "topStory": {
@@ -3614,7 +3223,7 @@
     {
       "fullName": "dirac-run/dirac",
       "count7d": 1,
-      "scoreSum7d": 389
+      "scoreSum7d": 392
     },
     {
       "fullName": "microsoft/VibeVoice",
@@ -3635,56 +3244,6 @@
       "fullName": "garritfra/cell",
       "count7d": 1,
       "scoreSum7d": 126
-    },
-    {
-      "fullName": "niri-wm/niri",
-      "count7d": 1,
-      "scoreSum7d": 250
-    },
-    {
-      "fullName": "trycua/cua",
-      "count7d": 2,
-      "scoreSum7d": 183
-    },
-    {
-      "fullName": "browser-use/browser-harness",
-      "count7d": 1,
-      "scoreSum7d": 132
-    },
-    {
-      "fullName": "hpennington/agentswift",
-      "count7d": 1,
-      "scoreSum7d": 63
-    },
-    {
-      "fullName": "endevco/aube",
-      "count7d": 1,
-      "scoreSum7d": 27
-    },
-    {
-      "fullName": "vinhnx/VTCode",
-      "count7d": 2,
-      "scoreSum7d": 19
-    },
-    {
-      "fullName": "calfonso/rusternetes",
-      "count7d": 1,
-      "scoreSum7d": 12
-    },
-    {
-      "fullName": "decisionbox-io/decisionbox-platform",
-      "count7d": 1,
-      "scoreSum7d": 6
-    },
-    {
-      "fullName": "TencentCloud/CubeSandbox",
-      "count7d": 1,
-      "scoreSum7d": 5
-    },
-    {
-      "fullName": "alexzhang13/rlm",
-      "count7d": 2,
-      "scoreSum7d": 114
     },
     {
       "fullName": "lahfir/agent-desktop",
@@ -3767,12 +3326,7 @@
       "scoreSum7d": 3
     },
     {
-      "fullName": "paperless-ngx/paperless-ngx",
-      "count7d": 1,
-      "scoreSum7d": 3
-    },
-    {
-      "fullName": "0x0funky/agent-sprite-forge",
+      "fullName": "kOlapsis/maintenant",
       "count7d": 1,
       "scoreSum7d": 2
     },
@@ -3782,27 +3336,22 @@
       "scoreSum7d": 2
     },
     {
-      "fullName": "deepseek-ai/TileKernels",
+      "fullName": "withastro/flue",
       "count7d": 1,
       "scoreSum7d": 2
     },
     {
-      "fullName": "ROCm/spur",
-      "count7d": 1,
-      "scoreSum7d": 2
-    },
-    {
-      "fullName": "tinyhumansai/openhuman",
-      "count7d": 1,
-      "scoreSum7d": 2
-    },
-    {
-      "fullName": "cli/cli",
+      "fullName": "001TMF/ProteinView",
       "count7d": 1,
       "scoreSum7d": 1
     },
     {
-      "fullName": "markoglasgow/gemma_crackme_tutorial",
+      "fullName": "agno-agi/scout",
+      "count7d": 1,
+      "scoreSum7d": 1
+    },
+    {
+      "fullName": "heygen-com/hyperframes",
       "count7d": 1,
       "scoreSum7d": 1
     },

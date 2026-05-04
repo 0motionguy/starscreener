@@ -3,7 +3,7 @@
 // the worker package is self-contained. Namespace must stay in lockstep.
 
 import type { Redis as IORedisType } from 'ioredis';
-import type { RedisHandle, RedisStreamEntry } from './types.js';
+import type { RedisHandle } from './types.js';
 import { loadEnv } from './env.js';
 
 const NAMESPACE = 'ss:data:v1';
@@ -87,77 +87,13 @@ function ioredisAdapter(client: IORedisType): RedisHandle {
         /* ignore */
       }
     },
-    async xadd(key, fields, opts) {
-      const fieldArgs: string[] = [];
-      for (const [k, v] of Object.entries(fields)) {
-        fieldArgs.push(k, v);
-      }
-      // ioredis xadd: xadd(key [, MAXLEN, ~, n], '*', field, value, ...)
-      // Variadic typing in ioredis is loose; cast through unknown.
-      const c = client as unknown as {
-        xadd: (...args: (string | number)[]) => Promise<string | null>;
-      };
-      const id = opts?.maxlenApprox && opts.maxlenApprox > 0
-        ? await c.xadd(key, 'MAXLEN', '~', opts.maxlenApprox, '*', ...fieldArgs)
-        : await c.xadd(key, '*', ...fieldArgs);
-      return id ?? '';
-    },
-    async xrange(key, start, end, count) {
-      const c = client as unknown as {
-        xrange: (...args: (string | number)[]) => Promise<Array<[string, string[]]>>;
-      };
-      const raw = count && count > 0
-        ? await c.xrange(key, start, end, 'COUNT', count)
-        : await c.xrange(key, start, end);
-      return raw.map(([id, flat]) => ({ id, fields: pairsToObject(flat) }));
-    },
-    async xtrim(key, opts) {
-      const c = client as unknown as {
-        xtrim: (...args: (string | number)[]) => Promise<number>;
-      };
-      return c.xtrim(key, 'MINID', '~', opts.minIdApprox);
-    },
-    async xlen(key) {
-      const c = client as unknown as { xlen: (k: string) => Promise<number> };
-      return c.xlen(key);
-    },
   };
-}
-
-function pairsToObject(flat: string[]): Record<string, string> {
-  const out: Record<string, string> = {};
-  for (let i = 0; i + 1 < flat.length; i += 2) {
-    const k = flat[i];
-    const v = flat[i + 1];
-    if (k !== undefined && v !== undefined) out[k] = v;
-  }
-  return out;
 }
 
 interface UpstashLike {
   get(key: string): Promise<string | null>;
   set(key: string, value: string, opts?: { ex?: number }): Promise<unknown>;
   del(...keys: string[]): Promise<unknown>;
-  xadd(
-    key: string,
-    id: '*' | string,
-    entries: Record<string, unknown>,
-    opts?: {
-      nomkStream?: boolean;
-      trim?: { type: 'MAXLEN'; threshold: number; comparison: '~' | '=' };
-    },
-  ): Promise<string>;
-  xrange(
-    key: string,
-    start: string,
-    end: string,
-    count?: number,
-  ): Promise<Record<string, Record<string, unknown>>>;
-  xtrim(
-    key: string,
-    options: { strategy: 'MAXLEN' | 'MINID'; exactness?: '~' | '='; threshold: number | string },
-  ): Promise<number>;
-  xlen(key: string): Promise<number>;
 }
 
 function upstashAdapter(client: UpstashLike): RedisHandle {
@@ -178,49 +114,21 @@ function upstashAdapter(client: UpstashLike): RedisHandle {
     async quit() {
       // No-op for Upstash REST.
     },
-    async xadd(key, fields, opts) {
-      // Stringify all field values — XADD only accepts string/numeric pairs
-      // semantically, and we want the wire format to be deterministic.
-      const entries: Record<string, string> = {};
-      for (const [k, v] of Object.entries(fields)) entries[k] = String(v);
-      const trim =
-        opts?.maxlenApprox && opts.maxlenApprox > 0
-          ? { type: 'MAXLEN' as const, threshold: opts.maxlenApprox, comparison: '~' as const }
-          : undefined;
-      return client.xadd(key, '*', entries, trim ? { trim } : undefined);
-    },
-    async xrange(key, start, end, count) {
-      const raw = await client.xrange(key, start, end, count);
-      const entries: RedisStreamEntry[] = [];
-      for (const [id, fieldRec] of Object.entries(raw)) {
-        const fields: Record<string, string> = {};
-        for (const [k, v] of Object.entries(fieldRec ?? {})) fields[k] = String(v);
-        entries.push({ id, fields });
-      }
-      // Upstash returns id→fields object; preserve numeric stream-id ordering.
-      entries.sort((a, b) => compareStreamIds(a.id, b.id));
-      return entries;
-    },
-    async xtrim(key, opts) {
-      return client.xtrim(key, {
-        strategy: 'MINID',
-        exactness: '~',
-        threshold: opts.minIdApprox,
-      });
-    },
-    async xlen(key) {
-      return client.xlen(key);
-    },
   };
 }
 
-// Stream IDs sort lexicographically only if you split on '-' and compare the
-// two integer parts. The lex order is wrong on, e.g. '10-0' vs '9-0'.
-function compareStreamIds(a: string, b: string): number {
-  const [aMs, aSeq] = a.split('-').map((s) => Number.parseInt(s, 10));
-  const [bMs, bSeq] = b.split('-').map((s) => Number.parseInt(s, 10));
-  if ((aMs ?? 0) !== (bMs ?? 0)) return (aMs ?? 0) - (bMs ?? 0);
-  return (aSeq ?? 0) - (bSeq ?? 0);
+export interface DataStoreWriteOptions {
+  ttlSeconds?: number;
+  /**
+   * Writer provenance — included in the meta key as a JSON object so audits
+   * can attribute last-write-wins between worker fetchers and collector
+   * scripts. Pass the fetcher name; the worker will prefix it `worker:`.
+   * Older readers tolerate both shapes (parseWrittenAt in
+   * src/lib/data-store.ts).
+   */
+  writer?: string;
+  runId?: string;
+  commit?: string;
 }
 
 export async function writeDataStore(
@@ -241,7 +149,6 @@ export async function writeDataStore(
     return { source: 'skipped', writtenAt };
   }
   const payload = JSON.stringify(value);
-  const metaPayload = JSON.stringify(writerMeta);
   const setOpts = opts.ttlSeconds && opts.ttlSeconds > 0 ? { ex: opts.ttlSeconds } : undefined;
 
   // Resolve writer: caller wins; otherwise pull from the run.ts-set
@@ -266,39 +173,6 @@ export async function writeDataStore(
     handle.set(`${META_NAMESPACE}:${normalizedKey}`, metaValue, setOpts),
   ]);
   return { source: 'redis', writtenAt };
-}
-
-/**
- * WriterMeta envelope — mirrors src/lib/data-store.ts WriterMeta. Worker
- * writerId defaults to "worker:<service>:<fetcher>" using FETCHER_NAME (set
- * by run.ts before invoking each fetcher) or RAILWAY_SERVICE_NAME.
- */
-interface WorkerWriterMeta {
-  ts: string;
-  writerId?: string;
-  sourceWorkflow?: string;
-  commitSha?: string;
-  runId?: string;
-}
-
-function buildWorkerWriterMeta(opts: DataStoreWriteOptions = {}): WorkerWriterMeta {
-  const meta: WorkerWriterMeta = { ts: new Date().toISOString() };
-  const explicit = opts.writer?.trim() ?? process.env.WRITER_ID?.trim();
-  if (explicit) {
-    meta.writerId = explicit;
-  } else {
-    const service = process.env.RAILWAY_SERVICE_NAME?.trim() ?? 'trendingrepo-worker';
-    const fetcher = currentFetcherName?.trim() ?? process.env.FETCHER_NAME?.trim();
-    meta.writerId = fetcher ? `worker:${service}:${fetcher}` : `worker:${service}`;
-  }
-  const sha =
-    opts.commit?.trim() ??
-    process.env.RAILWAY_GIT_COMMIT_SHA?.trim() ??
-    process.env.GITHUB_SHA?.trim();
-  if (sha) meta.commitSha = sha;
-  const runId = opts.runId?.trim() ?? process.env.GITHUB_RUN_ID?.trim();
-  if (runId) meta.runId = runId;
-  return meta;
 }
 
 /**

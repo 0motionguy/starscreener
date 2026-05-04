@@ -28,8 +28,22 @@ import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
+import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
+import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
+import {
+  loadHuggingfaceTokens,
+  pickToken,
+  authHeader,
+} from "./_huggingface-shared.mjs";
+
+// Token pool — HF_TOKENS (CSV) + HF_TOKEN (single fallback). Empty pool
+// = unauth requests, matching legacy behaviour. Cursor advances per
+// OUTER iteration (main listing + each card fetch) so the load spreads
+// evenly without thrashing tokens within a single page-of-results call.
+const HF_TOKENS = loadHuggingfaceTokens();
+let hfCursor = 0;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");

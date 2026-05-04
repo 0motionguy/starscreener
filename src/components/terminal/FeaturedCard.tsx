@@ -213,3 +213,4 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
     </Link>
   );
 }
+

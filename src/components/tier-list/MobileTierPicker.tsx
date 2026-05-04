@@ -227,7 +227,7 @@ function Footer({
       <button
         type="button"
         onClick={onRemove}
-        className="rounded-[3px] border border-border-primary bg-bg-tertiary px-3 py-2 font-mono uppercase tracking-[0.14em] text-[11px] text-down hover:bg-down/10"
+        className="rounded-[3px] border border-border-primary bg-bg-tertiary px-3 py-2 font-mono uppercase tracking-[0.14em] text-[11px] text-[var(--v4-red)] hover:bg-down/10"
       >
         × remove
       </button>

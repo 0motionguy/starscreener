@@ -44,7 +44,7 @@ export function GET(): Response {
 - [Breakouts](${base}/breakouts) - cross-signal breakout repos
 - [Funding](${base}/funding) - funding signals from TechCrunch / VentureBeat
 - [Twitter](${base}/twitter) - repos trending on X
-- [Signals](${base}/signals) - unified terminal across HN, Bluesky, dev.to, ProductHunt, Lobsters, Reddit
+- [News](${base}/news) - unified terminal across HN, Bluesky, dev.to, ProductHunt, Lobsters, Reddit
 - [Categories](${base}/categories) - 15 curated buckets (AI Agents, MCP, DevTools, Local LLM, Security, etc.)
 - [Collections](${base}/collections) - 28 curated OSS Insight collections
 
@@ -59,9 +59,9 @@ export function GET(): Response {
 
 ## Programmatic access
 
-- [Public REST API](${base}/docs) - interactive Swagger UI mounted against /api/openapi.json with filtering, sorting, pagination on /api/repos
-- [MCP server](${base}/portal/docs) - for Claude / agentic clients (14 tools over Model Context Protocol)
-- [CLI](${base}/cli) - zero-dependency Node 18+ binary \`ss\`
+- [Public REST API](${base}/docs) - under /api/repos with filtering, sorting, pagination
+- [MCP server](${base}/docs) - for Claude / agentic clients
+- [CLI](${base}/docs) - zero-dependency Node 18+
 - [Sitemap](${base}/sitemap.xml) - full URL index
 - [llms-full.txt](${base}/llms-full.txt) - top 100 repos as markdown blocks
 

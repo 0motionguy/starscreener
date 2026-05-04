@@ -3,8 +3,11 @@ name: Refresh skill install snapshot
 # Daily at 03:00 UTC. Reads `trending-skill` and `trending-skill-sh`,
 # extracts the `installs7d` (or `installs`) field per skill, writes to
 # `skill-install-snapshot:<YYYY-MM-DD>` so the app's buildSkillItem can
-# join against the 7d-old snapshot to populate `installsPrev7d`.
-# 7-day rolling window — snapshots older than 8d are auto-expired by TTL.
+# join against N-d-ago snapshots to populate installsPrev{1d,7d,30d}.
+# W5-SKILLS24H: 31-day rolling window — snapshots older than 31d are
+# auto-expired by TTL + an explicit purge step. Daily fetcher ALSO mirrors
+# the 1d/7d/30d-ago snapshots into fixed slot keys (skill-install-snapshot:
+# prev:1d / :7d / :30d) so the reader does a single Redis read per window.
 on:
   schedule:
     - cron: "0 3 * * *"
@@ -20,6 +23,7 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     defaults:
       run:
         working-directory: apps/trendingrepo-worker
@@ -38,6 +42,12 @@ jobs:
         run: npm ci
 
       - name: Run skill-install-snapshot fetcher
+        # W5-SKILLS24H: continue-on-error so a producer failure (Redis
+        # brownout, transient network) never red-blocks the cron — the
+        # reader gracefully falls through to whatever snapshot is still
+        # cached and the scorer drops the dependent component via weight
+        # renormalization.
+        continue-on-error: true
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}

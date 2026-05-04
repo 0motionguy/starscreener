@@ -1,32 +1,46 @@
 // V4 — SourceFeedTemplate
 //
-// Layout primitive consumed by W7 (source-feeds-v4): one template, 13
-// pages (HN trending, Reddit, Bluesky, Dev.to, Lobsters, ProductHunt,
-// Twitter, NPM, arXiv, Papers, HuggingFace ×3, Breakouts).
+// W7 unblocker — layout primitive consumed by 16 source-feed routes:
 //
-// Mockup reference: design/screenshots/* + sub-pages.html § /hackernews.
+//   /hackernews/trending  /reddit/trending  /bluesky/trending
+//   /devto                /lobsters         /producthunt
+//   /twitter              /npm              /arxiv/trending
+//   /papers               /huggingface/trending
+//   /huggingface/datasets /huggingface/spaces
+//   /breakouts            (+ huggingface landing, +1 reserved)
 //
-// The template handles:
-//   - PageHead with crumb / title / lede / clock
-//   - Snapshot + Volume + Topics 3-column strip
-//   - Featured 3-card row with #1 lead treatment
-//   - Main list (table OR card grid)
+// Mockup reference: sub-pages.html § "/hackernews" — the canonical "source
+// feed" shape: PageHead, optional KpiBand, filter strip (sources × window),
+// optional tab strip (Trending / All / Top), main feed with optional right
+// rail, optional pagination footer.
 //
-// All content slots are nodes — caller composes with V4 primitives
-// (PanelHead, KpiBand, RankRow, FeaturedCard, etc.). Template is purely
-// structural; no data fetching, no business logic.
+// The template is a pure server component — no `'use client'`, no data
+// fetching, no business logic. All slots are nodes; caller composes with
+// V4 primitives (PanelHead, KpiBand, Chip, ChipGroup, FilterBar, TabBar,
+// SectionHead, …).
+//
+// Layout:
+//   PageHead
+//   ├─ KpiBand (slot)
+//   ├─ FilterBar (slot — Chip/ChipGroup/FilterBar)
+//   ├─ TabBar (slot — optional Trending/All/Top tabs)
+//   ├─ Body (1 col, or 2 col when rightRail set)
+//   │   ├─ mainPanels — the feed
+//   │   └─ rightRail  — optional sidebar (freshness, related, etc.)
+//   └─ Footer (slot — pagination / "load more")
 //
 // Usage:
 //   <SourceFeedTemplate
 //     crumb={<><b>HN</b> · TERMINAL · /HACKERNEWS</>}
 //     title="Hacker News · trending"
-//     lede="Stories from the past 72 hours, scored by velocity..."
+//     lede="Stories from the past 72 hours, scored by velocity…"
 //     clock={<LiveClock />}
-//     snapshot={<SnapshotPanel ... />}
-//     volume={<VolumePanel ... />}
-//     topics={<TopicsPanel ... />}
-//     featured={[<FeaturedCard ... />, ...]}
-//     list={<table>...</table>}
+//     kpiBand={<KpiBand cells={[…]} />}
+//     filterBar={<FilterBar><ChipGroup label="WINDOW">…</ChipGroup></FilterBar>}
+//     tabBar={<TabBar items={…} active="trending" hrefFor={(id) => `?tab=${id}`} />}
+//     mainPanels={<HnFeedTable rows={rows} />}
+//     rightRail={<SourceRunFreshnessPanel … />}
+//     footer={<Pagination page={1} total={42} />}
 //   />
 
 import type { ReactNode } from "react";
@@ -34,31 +48,66 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 import { PageHead } from "@/components/ui/PageHead";
-import { SectionHead } from "@/components/ui/SectionHead";
 
 export interface SourceFeedTemplateProps {
-  // PageHead slots
+  // PageHead slots — caller can pass either (title + lede) for the standard
+  // case, or override the entire head via `head` for fully custom heros
+  // (e.g. /huggingface landing with a model picker).
+  /** Top crumb. Example: <><b>HN</b> · TERMINAL · /HACKERNEWS</> */
   crumb?: ReactNode;
+  /** H1 — sans 30px, ink-000. */
   title?: ReactNode;
+  /** Lede paragraph below H1. */
   lede?: ReactNode;
+  /** Right-aligned clock / actions slot inside PageHead. */
   clock?: ReactNode;
+  /**
+   * Escape hatch — when set, replaces the default <PageHead> entirely.
+   * Use only when the standard head shape isn't enough (e.g. /huggingface
+   * landing with a model-family picker).
+   */
+  head?: ReactNode;
 
-  // Top strip — 3 panels: Snapshot · Volume · Topics
+  /** KPI band slot — typically <KpiBand cells={…} />. */
+  kpiBand?: ReactNode;
+  /** Filter strip slot — typically <FilterBar><ChipGroup …/>…</FilterBar>. */
+  filterBar?: ReactNode;
+  /** Tab bar slot — typically <TabBar items={…} active=… />. */
+  tabBar?: ReactNode;
+
+  /** Main body — the feed list / table / cards. */
+  mainPanels?: ReactNode;
+  /**
+   * Snapshot strip — small status/freshness slot rendered above the feed body
+   * (between PageHead and the KPI band). Used by source feeds that surface a
+   * "last refreshed / N rows / online" line outside the main feed.
+   */
   snapshot?: ReactNode;
-  volume?: ReactNode;
-  topics?: ReactNode;
-
-  // Featured cards (3 expected; #1 emphasized via FeaturedCard's `lead` prop)
-  featured?: ReactNode[];
-  featuredEyebrow?: ReactNode;
-
-  // Main list — typically a <table> or list of <RankRow>s
+  /** Small label rendered above the main feed content (e.g. "// LIVE FEED"). */
   listEyebrow?: ReactNode;
+  /** Alias for mainPanels — the feed list/table. Takes priority when both set. */
   list?: ReactNode;
+  /** Optional right rail — freshness, related sources, share/embed. */
+  rightRail?: ReactNode;
 
-  /** Optional ticker/foot strip (e.g. live wire). */
-  foot?: ReactNode;
+  /** Optional bottom slot — pagination / "load more" / live wire. */
+  footer?: ReactNode;
+
   className?: string;
+  /**
+   * Optional class overrides per slot — useful when a single page needs
+   * tweak (e.g. wider rail). Each value is appended via cn().
+   */
+  classNames?: {
+    head?: string;
+    kpi?: string;
+    filters?: string;
+    tabs?: string;
+    body?: string;
+    main?: string;
+    rail?: string;
+    footer?: string;
+  };
 }
 
 export function SourceFeedTemplate({
@@ -66,49 +115,85 @@ export function SourceFeedTemplate({
   title,
   lede,
   clock,
+  head,
+  kpiBand,
+  filterBar,
+  tabBar,
+  mainPanels,
   snapshot,
-  volume,
-  topics,
-  featured,
-  featuredEyebrow = "FEATURED · TODAY",
-  listEyebrow = "LIST · TOP 50",
+  listEyebrow,
   list,
-  foot,
+  rightRail,
+  footer,
   className,
+  classNames,
 }: SourceFeedTemplateProps) {
-  const hasTopStrip = snapshot || volume || topics;
-  const hasFeatured = featured && featured.length > 0;
   return (
     <div className={cn("v4-source-feed-template", className)}>
-      <PageHead crumb={crumb} h1={title} lede={lede} clock={clock} />
+      <div className={cn("v4-source-feed-template__head", classNames?.head)}>
+        {head ?? (
+          <PageHead crumb={crumb} h1={title} lede={lede} clock={clock} />
+        )}
+      </div>
 
-      {hasTopStrip ? (
-        <section className="v4-source-feed-template__strip">
-          {snapshot ? <div>{snapshot}</div> : null}
-          {volume ? <div>{volume}</div> : null}
-          {topics ? <div>{topics}</div> : null}
-        </section>
+      {snapshot ? (
+        <div className="v4-source-feed-template__snapshot">{snapshot}</div>
       ) : null}
 
-      {hasFeatured ? (
-        <>
-          <SectionHead num="// 02" title={featuredEyebrow} />
-          <div className="v4-source-feed-template__featured">
-            {featured.map((card, i) => (
-              <div key={i}>{card}</div>
-            ))}
-          </div>
-        </>
+      {kpiBand ? (
+        <div className={cn("v4-source-feed-template__kpi", classNames?.kpi)}>
+          {kpiBand}
+        </div>
       ) : null}
 
-      {list ? (
-        <>
-          <SectionHead num="// 03" title={listEyebrow} />
-          <div className="v4-source-feed-template__list">{list}</div>
-        </>
+      {filterBar ? (
+        <div
+          className={cn(
+            "v4-source-feed-template__filters",
+            classNames?.filters,
+          )}
+        >
+          {filterBar}
+        </div>
       ) : null}
 
-      {foot ? <div className="v4-source-feed-template__foot">{foot}</div> : null}
+      {tabBar ? (
+        <div className={cn("v4-source-feed-template__tabs", classNames?.tabs)}>
+          {tabBar}
+        </div>
+      ) : null}
+
+      <div
+        className={cn(
+          "v4-source-feed-template__body",
+          Boolean(rightRail) && "v4-source-feed-template__body--with-rail",
+          classNames?.body,
+        )}
+      >
+        <div className={cn("v4-source-feed-template__main", classNames?.main)}>
+          {listEyebrow ? (
+            <div className="v4-source-feed-template__list-eyebrow">
+              {listEyebrow}
+            </div>
+          ) : null}
+          {list ?? mainPanels}
+        </div>
+        {rightRail ? (
+          <aside
+            className={cn("v4-source-feed-template__rail", classNames?.rail)}
+          >
+            {rightRail}
+          </aside>
+        ) : null}
+      </div>
+
+      {footer ? (
+        <div
+          className={cn("v4-source-feed-template__footer", classNames?.footer)}
+        >
+          {footer}
+        </div>
+      ) : null}
     </div>
   );
 }

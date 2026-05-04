@@ -59,34 +59,6 @@ repository secrets so the Reddit scrapers can use `oauth.reddit.com` in
 GitHub Actions instead of the public JSON endpoints, while rotating public
 fallback user agents when no single-UA override is set.
 
-### LLM model-usage telemetry (v1)
-
-The model-usage layer instruments every LLM call from the worker and surfaces
-the result on the admin-only `/model-usage` dashboard. New env vars:
-
-| Var                   | Required when                          | Set on               |
-|-----------------------|----------------------------------------|----------------------|
-| `LLM_PROVIDER`        | always (defaults to `kimi`)            | Railway worker       |
-| `OPENROUTER_API_KEY`  | `LLM_PROVIDER=openrouter`              | Railway worker       |
-| `OPENROUTER_REFERER`  | optional (HTTP-Referer for attribution)| Railway worker       |
-| `LLM_USER_HASH_SALT`  | optional (32+ char salt for user_id_hash) | Railway worker    |
-
-Stream + cron contract:
-
-- **Worker** XADDs to `ss:llm:events:v1` (Redis Streams, MAXLEN ~ 100k).
-- **Main app cron** `/api/cron/llm/aggregate` (hourly, GH Actions
-  [`cron-llm.yml`](../.github/workflows/cron-llm.yml)) drains the stream,
-  joins gen-meta, writes daily blobs.
-- **Main app cron** `/api/cron/llm/sync-models` (daily 02:15 UTC) refreshes
-  OpenRouter's `/models` catalogue at data-store key `llm-model-metadata`.
-- Both cron routes are bearer-auth via `CRON_SECRET`; the dashboard at
-  `/model-usage` requires `verifyAdminAuth` (cookie or `ADMIN_TOKEN` bearer).
-- Privacy: prompts/responses are NEVER written; events carry only
-  `model`, `provider`, `feature`, `task_type`, token counts, latency, status,
-  generation_id, and a 16-char salted hash of `user_id` (or null when
-  system-driven). Models with fewer than 20 events in 24h collapse into
-  an `other` bucket on the public surface (admin views bypass this).
-
 ---
 
 ## Vercel deploy

@@ -21,7 +21,8 @@ import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
-import { checkRateLimitAsync } from "@/lib/api/rate-limit";
+import { serverError } from "@/lib/api/error-response";
+import { AdminRecoverableError } from "@/lib/errors";
 
 export const runtime = "nodejs";
 
@@ -170,27 +171,6 @@ export async function POST(
   const deny = adminAuthFailureResponse(verifyAdminAuth(request));
   if (deny) return deny as NextResponse<Err>;
 
-  // Rate-limit the spawn entrypoint — closes audit finding N-SEC-001
-  // (skills/security.md). 10 spawns / minute / IP is plenty for an operator
-  // escape-hatch and prevents a leaked admin cookie from chain-spawning until
-  // the lambda dies. Async path holds across Vercel cold-starts via Upstash.
-  const rl = await checkRateLimitAsync(request, {
-    windowMs: 60_000,
-    maxRequests: 10,
-  });
-  if (!rl.allowed) {
-    return NextResponse.json(
-      { ok: false, error: "rate-limited: 10 spawns/min/IP" },
-      {
-        status: 429,
-        headers: {
-          "Retry-After": String(Math.ceil((rl.resetAt - Date.now()) / 1000)),
-          "X-RateLimit-Remaining": String(rl.remaining),
-        },
-      },
-    ) as NextResponse<Err>;
-  }
-
   let body: { source?: unknown } = {};
   try {
     body = (await request.json()) as { source?: unknown };
@@ -276,12 +256,21 @@ export async function POST(
     });
   } catch (err) {
     await logFd.close().catch(() => void 0);
-    const message = err instanceof Error ? err.message : String(err);
-    console.error("[api:admin:scan] spawn failed", err);
-    return NextResponse.json(
-      { ok: false, error: `spawn failed: ${message}` },
-      { status: 500 },
+    const wrapped = new AdminRecoverableError(
+      "admin scan spawn failed",
+      {
+        scope: "api/admin/scan",
+        source,
+        script: scriptRel,
+        message: err instanceof Error ? err.message : String(err),
+      },
     );
+    return serverError<Err>(wrapped, {
+      scope: "[api/admin/scan:POST]",
+      publicMessage: "scan spawn failed",
+      code: "SCAN_SPAWN_FAILED",
+      status: 500,
+    });
   }
 }
 

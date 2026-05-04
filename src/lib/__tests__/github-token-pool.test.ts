@@ -225,6 +225,49 @@ test("unknown-remaining tokens are treated as healthy at the optimistic max", ()
 });
 
 // ---------------------------------------------------------------------------
+// Cold-start hydration
+// ---------------------------------------------------------------------------
+
+test("hydration is disabled by default for directly-created pools", () => {
+  const pool = createGitHubTokenPool({
+    env: { GITHUB_TOKEN: "tok-a-aaaaaaaaaaaaaaaaaaaa" },
+    now: () => FIXED_NOW_MS,
+  });
+
+  assert.deepEqual(pool.hydrationStatus(), {
+    enabled: false,
+    started: false,
+    completed: false,
+  });
+
+  assert.equal(pool.getNextToken(), "tok-a-aaaaaaaaaaaaaaaaaaaa");
+  assert.deepEqual(pool.hydrationStatus(), {
+    enabled: false,
+    started: false,
+    completed: false,
+  });
+});
+
+test("hydrate option starts Redis hydration on first token pick", () => {
+  const pool = createGitHubTokenPool({
+    env: { GITHUB_TOKEN: "tok-a-aaaaaaaaaaaaaaaaaaaa" },
+    now: () => FIXED_NOW_MS,
+    hydrate: true,
+  });
+
+  assert.deepEqual(pool.hydrationStatus(), {
+    enabled: true,
+    started: false,
+    completed: false,
+  });
+
+  assert.equal(pool.getNextToken(), "tok-a-aaaaaaaaaaaaaaaaaaaa");
+  const status = pool.hydrationStatus();
+  assert.equal(status.enabled, true);
+  assert.equal(status.started, true);
+});
+
+// ---------------------------------------------------------------------------
 // Env parsing
 // ---------------------------------------------------------------------------
 

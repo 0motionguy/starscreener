@@ -1,3 +1,7 @@
+import * as Sentry from "@sentry/nextjs";
+
+import { getDataStore, type RedisClientLike } from "./data-store";
+
 // StarScreener — GitHub PAT pool with per-token rate-limit accounting.
 //
 // PROBLEM
@@ -20,10 +24,9 @@
 //   1. `getNextToken()` THROWS when every token is exhausted. Silent
 //      degradation is forbidden — the operator needs to know they're out
 //      of quota so they can rotate / add tokens.
-//   2. State is per-process. We do NOT replicate to Redis; the worst case
-//      across processes is each process burning slightly faster than a
-//      shared view would (still bounded by the per-token GitHub limit
-//      itself).
+//   2. Selection state is process-local for the hot path, but every observed
+//      token state is published to Redis for fleet telemetry and cold-start
+//      hydration. Redis failures never block a GitHub call.
 //   3. Tokens with no recorded quota are assumed healthy (they get the
 //      benefit of the doubt on first use; the response will record the
 //      real number).
@@ -69,6 +72,15 @@ export interface TokenState {
    * so a re-issued token recovers without a process restart.
    */
   quarantinedUntilMs: number | null;
+  /**
+   * Hysteresis flag for the low-quota Sentry warning. Set to `true` when a
+   * `recordRateLimit` observation drops `remaining` below 500, preventing
+   * subsequent calls from re-firing the warning. Reset to `false` when
+   * `remaining` climbs back above 1000 (typical post-reset recovery), so
+   * the next dip pages operators again. Without hysteresis, a single
+   * exhaustion would flood Sentry with one warning per request.
+   */
+  lowQuotaWarned: boolean;
 }
 
 export interface GitHubTokenPool {
@@ -95,6 +107,12 @@ export interface GitHubTokenPool {
   quarantine(token: string): void;
   /** Return current state for observability / tests. */
   snapshot(): readonly TokenState[];
+  /** Cold-start hydration state for admin telemetry / tests. */
+  hydrationStatus(): {
+    enabled: boolean;
+    started: boolean;
+    completed: boolean;
+  };
   /** Number of tokens currently in the pool. */
   size(): number;
 }
@@ -115,6 +133,14 @@ export interface CreateGitHubTokenPoolOptions {
    * the operator sees the missing-config in logs.
    */
   onEmpty?: () => void;
+  /**
+   * COLD-START-HYDRATE — when `true`, the first `getNextToken()` call
+   * fire-and-forget kicks off `hydrateFromRedis()` so subsequent picks
+   * see last-known per-token state published by sibling lambdas. Default
+   * `false` so the test factory stays synchronous and offline. The
+   * singleton path opts in.
+   */
+  hydrate?: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -167,15 +193,28 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
   private readonly now: () => number;
   /** Round-robin cursor used to break ties between equally-healthy tokens. */
   private cursor = 0;
+  /**
+   * COLD-START-HYDRATE state. `hydrationEnabled` opts the pool into reading
+   * Redis on first use (singleton path = true; test factory = false).
+   * `hydrationPromise` is the in-flight fire-and-forget promise; presence of
+   * a non-null value means hydration has started (we never block on it).
+   * `hasHydrated` flips true after a successful Redis read so callers can
+   * tell if the pool is operating on warm vs cold state.
+   */
+  private readonly hydrationEnabled: boolean;
+  private hydrationPromise: Promise<void> | null = null;
+  private hasHydrated = false;
 
-  constructor(tokens: string[], now: () => number) {
+  constructor(tokens: string[], now: () => number, hydrationEnabled = false) {
     this.now = now;
+    this.hydrationEnabled = hydrationEnabled;
     this.states = tokens.map((token) => ({
       token,
       remaining: null,
       resetUnixSec: null,
       lastObservedMs: null,
       quarantinedUntilMs: null,
+      lowQuotaWarned: false,
     }));
     for (const state of this.states) {
       this.index.set(state.token, state);
@@ -191,9 +230,31 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
     return this.states.map((s) => ({ ...s }));
   }
 
+  hydrationStatus(): {
+    enabled: boolean;
+    started: boolean;
+    completed: boolean;
+  } {
+    return {
+      enabled: this.hydrationEnabled,
+      started: this.hydrationPromise !== null,
+      completed: this.hasHydrated,
+    };
+  }
+
   getNextToken(): string {
     if (this.states.length === 0) {
       throw new GitHubTokenPoolEmptyError();
+    }
+
+    // COLD-START-HYDRATE — kick off Redis read on first call. Fire-and-forget
+    // so we never add latency to the first pick; subsequent picks (and any
+    // recordRateLimit between them) benefit from the warm state. Errors are
+    // swallowed: a Redis brownout must NEVER break a GitHub call.
+    if (this.hydrationEnabled && this.hydrationPromise === null) {
+      this.hydrationPromise = this.hydrateFromRedis()
+        .then(() => undefined)
+        .catch(() => undefined);
     }
 
     const nowMs = this.now();
@@ -250,10 +311,25 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
     }
 
     if (candidates.length === 0) {
-      throw new GitHubTokenPoolExhaustedError(soonestReset, {
-        allQuarantined:
-          quarantinedCount > 0 && quarantinedCount === this.states.length,
+      const allQuarantined =
+        quarantinedCount > 0 && quarantinedCount === this.states.length;
+      const exhaustedError = new GitHubTokenPoolExhaustedError(soonestReset, {
+        allQuarantined,
       });
+      // Sentry alert: pool exhaustion is the canonical "page operators NOW"
+      // event. Captured at the throw site so callers don't need to repeat
+      // this — they re-throw / bubble whatever they want for app-level UX.
+      Sentry.captureException(exhaustedError, {
+        tags: {
+          pool: "github",
+          all_quarantined: String(allQuarantined),
+          soonest_reset_iso:
+            soonestReset !== null
+              ? new Date(soonestReset * 1000).toISOString()
+              : "none",
+        },
+      });
+      throw exhaustedError;
     }
 
     // Pick the highest effective remaining. On ties, advance the round-robin
@@ -289,6 +365,39 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
       state.resetUnixSec = Math.floor(resetUnixSec);
     }
     state.lastObservedMs = this.now();
+    this._emitLowQuotaWarning(state);
+    // Fire-and-forget publish so sibling Vercel lambdas can build a
+    // fleet-wide aggregate at /admin/pool-aggregate. Never blocks the
+    // request and never throws if Redis is missing.
+    void publishTokenStateToRedis(state);
+  }
+
+  /**
+   * Fire a Sentry warning the FIRST time a token's `remaining` drops below
+   * 500 in a given low-quota episode. Hysteresis: the flag stays set until
+   * `remaining` recovers above 1000 (typical post-reset jump back to the
+   * full 5000 quota). Without this, every subsequent `recordRateLimit`
+   * call below 500 would page Sentry — noisy and useless.
+   */
+  private _emitLowQuotaWarning(state: TokenState): void {
+    if (state.remaining === null) return;
+    if (state.remaining < 500 && !state.lowQuotaWarned) {
+      state.lowQuotaWarned = true;
+      Sentry.captureMessage(
+        `[github-token-pool] Low quota: ${redactToken(state.token)} has ${state.remaining} remaining`,
+        {
+          level: "warning",
+          tags: {
+            pool: "github",
+            token: redactToken(state.token),
+            remaining: String(state.remaining),
+          },
+        },
+      );
+    } else if (state.remaining > 1000 && state.lowQuotaWarned) {
+      // Recovery: clear the flag so the next dip below 500 fires again.
+      state.lowQuotaWarned = false;
+    }
   }
 
   quarantine(token: string): void {
@@ -296,7 +405,114 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
     if (!state) return;
     state.quarantinedUntilMs = this.now() + QUARANTINE_TTL_MS;
     state.lastObservedMs = this.now();
+    // Sentry alert: a quarantine means GitHub returned 401 for this PAT —
+    // the operator must rotate it. Distinct from rate-limit exhaustion
+    // (which self-heals at reset) so we tag `reason: "401"` so the alert
+    // routing can differentiate.
+    Sentry.captureMessage(
+      `[github-token-pool] PAT quarantined (401 invalid/revoked): ${redactToken(token)}`,
+      {
+        level: "error",
+        tags: {
+          pool: "github",
+          token: redactToken(token),
+          reason: "401",
+        },
+      },
+    );
+    // Fire-and-forget publish — same rationale as recordRateLimit.
+    void publishTokenStateToRedis(state);
   }
+
+  /**
+   * COLD-START-HYDRATE — read each pool token's last-known state from Redis
+   * (published by POOL-REDIS via `recordRateLimit` / `quarantine` from any
+   * lambda) and seed the in-memory state. Idempotent: safe to call multiple
+   * times. Returns `{ hydrated, total }` for observability.
+   *
+   * Tokens with no Redis entry are left at their constructor default (null
+   * remaining/reset, treated as healthy at DEFAULT_GITHUB_QUOTA), matching
+   * the existing "benefit of the doubt" semantics.
+   *
+   * Never throws — Redis brownouts return `{ hydrated: 0, total }` so the
+   * caller's fire-and-forget pattern stays safe.
+   */
+  async hydrateFromRedis(): Promise<{ hydrated: number; total: number }> {
+    const total = this.states.length;
+    if (total === 0) return { hydrated: 0, total: 0 };
+
+    let client: RedisClientLike | null;
+    try {
+      client = getDataStore().redisClient();
+    } catch {
+      return { hydrated: 0, total };
+    }
+    if (!client) return { hydrated: 0, total };
+
+    let hydrated = 0;
+    for (const state of this.states) {
+      const tokenLabel = redactToken(state.token);
+      let raw: unknown;
+      try {
+        raw = await client.get(poolRedisKeyFor(tokenLabel));
+      } catch {
+        continue;
+      }
+      if (raw === null || raw === undefined) continue;
+      const parsed = parsePublishedTokenState(raw);
+      if (!parsed) continue;
+      // Match by label — `tokenLabel` is the canonical Redis key, but we
+      // also defend against a payload that drifted from its key.
+      if (parsed.tokenLabel !== tokenLabel) continue;
+
+      if (parsed.remaining !== null) state.remaining = parsed.remaining;
+      if (parsed.resetUnixSec !== null) state.resetUnixSec = parsed.resetUnixSec;
+      if (parsed.lastObservedMs !== null) state.lastObservedMs = parsed.lastObservedMs;
+      // Only seed the quarantine if it's still in the future per OUR clock —
+      // a stale entry from before a quarantine TTL elapsed shouldn't lock
+      // out a freshly-rotated PAT.
+      if (
+        parsed.quarantinedUntilMs !== null &&
+        parsed.quarantinedUntilMs > this.now()
+      ) {
+        state.quarantinedUntilMs = parsed.quarantinedUntilMs;
+      }
+      hydrated++;
+    }
+    this.hasHydrated = true;
+    return { hydrated, total };
+  }
+}
+
+/**
+ * Parse a `PublishedTokenState` blob as written by `publishTokenStateToRedis`.
+ * Accepts either a raw JSON string (Upstash REST returns strings) or an
+ * already-decoded object (some clients pre-parse). Returns `null` on any
+ * shape mismatch so a malformed entry never crashes hydration.
+ */
+function parsePublishedTokenState(raw: unknown): PublishedTokenState | null {
+  let obj: unknown = raw;
+  if (typeof raw === "string") {
+    try {
+      obj = JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  }
+  if (!obj || typeof obj !== "object") return null;
+  const r = obj as Record<string, unknown>;
+  if (typeof r.tokenLabel !== "string") return null;
+  const numOrNull = (v: unknown): number | null =>
+    typeof v === "number" && Number.isFinite(v) ? v : v === null ? null : null;
+  return {
+    tokenLabel: r.tokenLabel,
+    remaining: numOrNull(r.remaining),
+    resetUnixSec: numOrNull(r.resetUnixSec),
+    lastObservedMs: numOrNull(r.lastObservedMs),
+    quarantinedUntilMs: numOrNull(r.quarantinedUntilMs),
+    lambdaId: typeof r.lambdaId === "string" ? r.lambdaId : "",
+    writtenAt: typeof r.writtenAt === "string" ? r.writtenAt : "",
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -361,7 +577,7 @@ export function createGitHubTokenPool(
     options.onEmpty();
   }
 
-  return new DefaultGitHubTokenPool(tokens, now);
+  return new DefaultGitHubTokenPool(tokens, now, options.hydrate === true);
 }
 
 let singleton: GitHubTokenPool | null = null;
@@ -376,6 +592,7 @@ let warnedAboutEmptyPool = false;
 export function getGitHubTokenPool(): GitHubTokenPool {
   if (!singleton) {
     singleton = createGitHubTokenPool({
+      hydrate: true,
       onEmpty: () => {
         if (warnedAboutEmptyPool) return;
         warnedAboutEmptyPool = true;
@@ -435,13 +652,16 @@ export function parseRateLimitHeaders(
 }
 
 // ---------------------------------------------------------------------------
-// Fleet-wide pool aggregation (Redis key shape)
+// Fleet-wide pool aggregation (Redis publish)
 //
-// The per-token Redis publishing logic is currently disabled (see -X theirs
-// merge). The constants + wire type below stay exported so the read-side
-// aggregator at /admin/pool-aggregate (src/lib/github-token-pool-aggregate.ts)
-// keeps its API stable and renders an empty-but-valid view until publish is
-// re-enabled.
+// Each lambda's pool is process-local. To answer "is the FLEET healthy?"
+// recordRateLimit / quarantine ALSO publish the token's state to Redis under
+// `pool:github:tokens:<redactedLabel>`. Sibling lambdas read these keys at
+// /admin/pool-aggregate.
+//
+// The full PAT is NEVER written. Only the redactToken() form is used both
+// as the key suffix and as the in-payload `tokenLabel`. TTL is 30 days so
+// dead lambdas don't pollute the keyspace forever.
 // ---------------------------------------------------------------------------
 
 /** Key prefix for per-token fleet-aggregate state. Read by the aggregator. */
@@ -468,4 +688,54 @@ export interface PublishedTokenState {
 /** Build the Redis key that holds the latest state for one token label. */
 export function poolRedisKeyFor(tokenLabel: string): string {
   return `${POOL_REDIS_KEY_PREFIX}:${tokenLabel}`;
+}
+
+function currentLambdaId(): string {
+  const region =
+    typeof process !== "undefined" && process.env
+      ? (process.env.VERCEL_REGION ?? process.env.AWS_REGION ?? "local")
+      : "local";
+  const pid =
+    typeof process !== "undefined" && typeof process.pid === "number"
+      ? process.pid
+      : 0;
+  return `${region}:${pid}`;
+}
+
+/**
+ * Fire-and-forget publish of one token's state to Redis. NEVER awaits, NEVER
+ * throws — any Redis failure is swallowed so a brownout cannot break the
+ * GitHub call that triggered it. No-op when the data-store has no Redis
+ * client (env-missing fallback).
+ */
+function publishTokenStateToRedis(state: TokenState): void {
+  try {
+    const store = getDataStore();
+    const client = store.redisClient();
+    if (!client) return;
+    const tokenLabel = redactToken(state.token);
+    const payload: PublishedTokenState = {
+      tokenLabel,
+      remaining: state.remaining,
+      resetUnixSec: state.resetUnixSec,
+      lastObservedMs: state.lastObservedMs,
+      quarantinedUntilMs: state.quarantinedUntilMs,
+      lambdaId: currentLambdaId(),
+      writtenAt: new Date().toISOString(),
+    };
+    // Pool keys live in their own `pool:github:tokens:*` namespace, distinct
+    // from the data-store's `ss:data:v1:*` payload namespace, so we go
+    // through the raw Redis client rather than store.write().
+    const json = JSON.stringify(payload);
+    void Promise.resolve(
+      client.set(poolRedisKeyFor(tokenLabel), json, {
+        ex: POOL_REDIS_TTL_SECONDS,
+      }),
+    ).catch(() => {
+      // Swallow — fire-and-forget. A failure here MUST NOT affect the
+      // GitHub call that triggered it.
+    });
+  } catch {
+    // getDataStore / redisClient threw synchronously; swallow.
+  }
 }

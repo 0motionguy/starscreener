@@ -51,16 +51,6 @@ next-env.d.ts
 # local Claude Code workspace (agent prompts, skills, settings)
 /.claude/
 
-# operator-local agent + audit + codex tooling (not for commit)
-/.agents/
-/.audit/
-/.codex/
-/.claude-flow/
-/.swarm/
-/.mcp.json
-/AGENTS.md
-/ruvector.db
-
 # mcp workspace build artifacts + installed deps
 /mcp/node_modules/
 /mcp/dist/
@@ -93,12 +83,10 @@ dev_server*.log
 
 # scratch probe directories from local debug sessions
 tmp_probe/
+.tmp/
+
+# personal operator rules (per CLAUDE.md — not for commit)
+CLAUDE.local.md
 
 # embedded clones (not submodules)
 awesome-codex-skills/
-
-# agent scratch directories — never commit, even by accident
-.audit/
-.claude-flow/
-.hive-mind/
-.tmp-*.log

@@ -20,20 +20,9 @@ import { formatTrendingSession } from "@/lib/cli-table-format.mjs";
 export const revalidate = 1800;
 
 export const metadata: Metadata = {
-  // Layout template at app/layout.tsx:65 appends ` — TrendingRepo`. Drop
-  // the manual suffix to avoid double-brand "CLI — TrendingRepo —
-  // TrendingRepo" (Google quality signal failure).
-  title: "CLI",
+  title: "CLI — TrendingRepo",
   description:
     "Zero-dependency terminal client for TrendingRepo. Tail trending, tail the live stream, pipe JSON through jq — AI-repo trending without opening a browser.",
-  alternates: { canonical: "/cli" },
-  openGraph: {
-    title: "TrendingRepo CLI — terminal client for AI-repo trending",
-    description:
-      "Zero-dependency CLI (Node 18+). `npx trendingrepo` to tail trending, breakouts, and live signals from your terminal.",
-    url: "/cli",
-    type: "website",
-  },
 };
 
 interface CliCommand {

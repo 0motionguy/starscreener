@@ -88,29 +88,6 @@ const nextConfig: NextConfig = {
   },
   poweredByHeader: false,
   compress: true,
-  // Security headers — applied to every response. Closes the audit's deploy-skill
-  // P0 finding (5 of 6 production headers were missing). HSTS preload requires
-  // domain submission to https://hstspreload.org after deploy.
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: [
-          {
-            key: "Strict-Transport-Security",
-            value: "max-age=63072000; includeSubDomains; preload",
-          },
-          { key: "X-Frame-Options", value: "DENY" },
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          {
-            key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
-          },
-        ],
-      },
-    ];
-  },
   // src/lib/data-store.ts lazily loads either `@upstash/redis` (REST) or
   // `ioredis` (TCP — Railway native Redis) for the Redis tier, plus Node
   // `fs` for the file-fallback tier. Several reader libs are transitively

@@ -31,6 +31,17 @@ import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
+import {
+  loadHuggingfaceTokens,
+  pickToken,
+  authHeader,
+} from "./_huggingface-shared.mjs";
+
+// Token pool — HF_TOKENS (CSV) + HF_TOKEN (single fallback). Same
+// rotation strategy as scrape-huggingface.mjs: cursor advances per
+// outer call so token use spreads evenly across the workflow.
+const HF_TOKENS = loadHuggingfaceTokens();
+let hfCursor = 0;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");

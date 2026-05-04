@@ -20,19 +20,15 @@ import {
   type FeedColumn,
 } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { huggingFaceLogoUrl } from "@/lib/logos";
-import {
-  applyCompactV1,
-  compactNumber,
-} from "@/components/news/newsTopMetrics";
+import { huggingFaceLogoUrl, huggingFaceAuthorLogoUrl } from "@/lib/logos";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { MarkVisited } from "@/components/layout/MarkVisited";
 
 const HF_YELLOW = "#FFD21E";
-const HF_ACCENT_BAR = "#FFD21E"; // HF brand yellow
 
 export const dynamic = "force-static";
 export const revalidate = 1800; // 30 min
@@ -80,6 +76,7 @@ export default async function HuggingFaceSpacesPage() {
   if (cold) {
     return (
       <main className="home-surface">
+        <MarkVisited routeKey="hfSpaces" count={allSpaces.length} />
         <SourceFeedTemplate
           crumb={
             <>
@@ -108,6 +105,7 @@ export default async function HuggingFaceSpacesPage() {
 
   return (
     <main className="home-surface">
+      <MarkVisited routeKey="hfSpaces" count={allSpaces.length} />
       <SourceFeedTemplate
         crumb={
           <>
@@ -120,7 +118,7 @@ export default async function HuggingFaceSpacesPage() {
           <>
             <span className="big">{formatClock(file.fetchedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="LIVE · 30M" />
+            <LiveDot label="FRESH · 3H" />
           </>
         }
         snapshot={
@@ -163,117 +161,6 @@ export default async function HuggingFaceSpacesPage() {
 }
 
 // ---------------------------------------------------------------------------
-// Header builder
-// ---------------------------------------------------------------------------
-
-function buildHuggingFaceSpacesHeader(
-  raws: {
-    likes: number;
-    sdk: string | null;
-    author: string;
-    models: string[];
-  }[],
-  scored: HfSpaceTrending[],
-) {
-  const totalLikes = raws.reduce((s, x) => s + (x.likes ?? 0), 0);
-  const topLikes = raws.reduce((m, r) => Math.max(m, r.likes ?? 0), 0);
-  const totalModels = raws.reduce(
-    (s, r) => s + (Array.isArray(r.models) ? r.models.length : 0),
-    0,
-  );
-
-  // SDK distribution (top 6) — substitutes for "topics" panel.
-  const sdkCounts = new Map<string, number>();
-  for (const r of raws) {
-    const sdk = r.sdk ?? "untagged";
-    sdkCounts.set(sdk, (sdkCounts.get(sdk) ?? 0) + 1);
-  }
-  const sdkBars = Array.from(sdkCounts.entries())
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 6)
-    .map(([sdk, count], i) => ({
-      label: sdk.toUpperCase(),
-      value: count,
-      valueLabel: count.toLocaleString("en-US"),
-      color: ["#FF9F1C", "#F472B6", "#3AD6C5", "#A78BFA", "#34D399", "#FBBF24"][i % 6],
-    }));
-
-  // Top authors (top 6 by appearance count).
-  const authorCounts = new Map<string, number>();
-  for (const r of raws) {
-    const a = r.author ?? "unknown";
-    authorCounts.set(a, (authorCounts.get(a) ?? 0) + 1);
-  }
-  const authorBars = Array.from(authorCounts.entries())
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 6)
-    .map(([author, count]) => ({
-      label: author.toUpperCase(),
-      value: count,
-      valueLabel: count.toLocaleString("en-US"),
-      color: HF_ACCENT_BAR,
-      logoUrl: huggingFaceLogoUrl(),
-      logoName: author,
-    }));
-
-  const cards = applyCompactV1(
-    [
-      {
-        variant: "snapshot",
-        title: "// SNAPSHOT · NOW",
-        rightLabel: `${raws.length} SPACES`,
-        label: "SPACES TRACKED",
-        value: compactNumber(raws.length),
-        hint: `${sdkCounts.size} SDKS`,
-        rows: [
-          { label: "TOTAL LIKES", value: compactNumber(totalLikes) },
-          {
-            label: "TOP LIKES",
-            value: compactNumber(topLikes),
-            tone: "accent",
-          },
-          { label: "MODELS USED", value: compactNumber(totalModels) },
-        ],
-      },
-      {
-        variant: "bars",
-        title: "// AUTHORS · TOP 6",
-        rightLabel: `${authorBars.length}`,
-        bars: authorBars,
-        labelWidth: 96,
-        emptyText: "NO AUTHORS YET",
-      },
-      {
-        variant: "bars",
-        title: "// SDK · MIX",
-        rightLabel: `TOP ${sdkBars.length}`,
-        bars: sdkBars,
-        labelWidth: 96,
-        emptyText: "NO SDKS YET",
-      },
-    ],
-    { totalItems: raws.length },
-  );
-
-  // Hero stories — top 3 spaces by momentum.
-  const topStories = scored.slice(0, 3).map((s) => ({
-    title: s.id,
-    href: s.url,
-    external: true,
-    sourceCode: "HF",
-    byline: s.sdk ?? undefined,
-    scoreLabel: `${compactNumber(s.likes ?? 0)} ♥ · ${s.models.length} models`,
-    ageHours: s.lastModified
-      ? Math.max(0, (Date.now() - Date.parse(s.lastModified)) / 3_600_000)
-      : null,
-    logoUrl: huggingFaceLogoUrl(),
-    logoName: s.author ?? s.id,
-  }));
-
-  return { cards, topStories };
-}
-
-// ---------------------------------------------------------------------------
 // Feed table
 // ---------------------------------------------------------------------------
 
@@ -300,7 +187,7 @@ function HfSpaceFeed({ spaces }: { spaces: HfSpaceTrending[] }) {
       render: (s) => (
         <div className="flex min-w-0 items-center gap-2">
           <EntityLogo
-            src={huggingFaceLogoUrl()}
+            src={huggingFaceAuthorLogoUrl(s.author)}
             name={s.author ?? s.id}
             size={20}
             shape="square"

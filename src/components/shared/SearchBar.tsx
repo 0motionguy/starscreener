@@ -8,8 +8,8 @@ import { cn, formatNumber } from "@/lib/utils";
 import { ROUTES } from "@/lib/constants";
 import type { Repo } from "@/lib/types";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { Input } from "@/components/ui/Input";
 import { BrandStar } from "@/components/shared/BrandStar";
+import { Input } from "@/components/ui/Input";
 import { repoDisplayLogoUrl } from "@/lib/logos";
 
 interface SearchBarProps {

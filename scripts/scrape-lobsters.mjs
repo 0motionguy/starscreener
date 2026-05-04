@@ -35,9 +35,10 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
-import { extractGithubRepoFullNames, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
+import { extractAllRepoMentions, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -271,18 +272,8 @@ async function main() {
     windowDays: MENTIONS_WINDOW_DAYS,
     scannedStories: stories.length,
     mentions,
-    mentionsByRepoId: Object.fromEntries(
-      Object.entries(mentions).map(([fullName, value]) => [slugIdFromFullName(fullName), value]),
-    ),
     leaderboard,
   };
-
-  if (unknownsAccumulator.size > 0) {
-    await appendUnknownMentions(
-      Array.from(unknownsAccumulator, (fullName) => ({ source: "lobsters", fullName })),
-    );
-    log(`unknown candidates: ${unknownsAccumulator.size}`);
-  }
 
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(TRENDING_OUT, JSON.stringify(trendingPayload, null, 2) + "\n", "utf8");

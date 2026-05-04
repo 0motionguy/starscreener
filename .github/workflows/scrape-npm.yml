@@ -41,10 +41,23 @@ jobs:
         run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
 
       - name: Commit if changed
-        uses: ./.github/actions/git-commit-data
-        with:
-          message: "chore(data): refresh npm package telemetry ${{ steps.ts.outputs.value }}"
-          paths: |
-            data/npm-packages.json
-            data/_meta/npm.json
-            data/unknown-mentions.jsonl
+        run: |
+          git config user.name  "trendingrepo-bot"
+          git config user.email "bot@trendingrepo.local"
+          git add data/npm-packages.json data/_meta/npm.json data/unknown-mentions.jsonl
+          if git diff --quiet --staged; then
+            echo "no changes - skipping commit"
+            exit 0
+          fi
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "chore(data): refresh npm package telemetry ${TS}"
+          # AUDIT-2026-05-04 fix (Phase A1): retry rebase with -X ours when
+          # `data/unknown-mentions.jsonl` lake-file conflicts with parallel
+          # workflows. The lake is append-only and consumed daily by
+          # promote-unknown-mentions; losing one run's tail bytes is fine.
+          if ! git pull --rebase origin main; then
+            echo "::warning::rebase conflict — retrying with -X ours"
+            git rebase --abort || true
+            git pull --rebase -X ours origin main
+          fi
+          git push

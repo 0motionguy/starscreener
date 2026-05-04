@@ -43,8 +43,24 @@ jobs:
         run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
 
       - name: Commit if changed
-        uses: ./.github/actions/git-commit-data
-        with:
-          message: "chore(data): refresh collection rankings ${{ steps.ts.outputs.value }}"
-          paths: |
-            data/collection-rankings.json
+        run: |
+          git config user.name  "trendingrepo-bot"
+          git config user.email "bot@trendingrepo.local"
+          git add data/collection-rankings.json
+          if git diff --quiet --staged; then
+            echo "no changes - skipping commit"
+            exit 0
+          fi
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "chore(data): refresh collection rankings ${TS}"
+          # AUDIT-2026-05-04 fix (Phase A1): retry rebase with -X ours on
+          # any data-file conflict. This workflow shares the data-refresh
+          # concurrency group with scrape-trending so runs are serialized,
+          # but a parallel commit can still land between this rebase and
+          # the push.
+          if ! git pull --rebase origin main; then
+            echo "::warning::rebase conflict — retrying with -X ours"
+            git rebase --abort || true
+            git pull --rebase -X ours origin main
+          fi
+          git push

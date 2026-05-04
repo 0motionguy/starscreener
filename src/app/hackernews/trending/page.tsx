@@ -20,7 +20,7 @@ import {
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { repoLogoUrl, resolveLogoUrl } from "@/lib/logos";
+import { repoLogoUrl } from "@/lib/logos";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -223,11 +223,10 @@ function HnStoryFeed({ stories }: { stories: HnStory[] }) {
       header: "Title",
       render: (s) => {
         const linkedRepo = s.linkedRepos?.[0]?.fullName;
-        const fallbackLogo = resolveLogoUrl(s.url ?? null, s.title, 64);
         return (
           <div className="flex min-w-0 items-center gap-2">
             <EntityLogo
-              src={repoLogoUrl(linkedRepo) ?? fallbackLogo}
+              src={repoLogoUrl(linkedRepo)}
               name={linkedRepo ?? s.by ?? s.title}
               size={20}
               shape="square"

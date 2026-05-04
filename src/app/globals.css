@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@source not "../../.audit";
+@source not "../../.claude-flow";
+@source not "../../.hive-mind";
+@source not "../../.tmp";
+@source not "../../dogfood-output";
+@source not "../../test-results";
+
 /* V4 (CORPUS) primitives — loaded after Tailwind so utility classes keep
    precedence but V4 component selectors take over inside their blocks. */
 @import "../components/ui/v4.css";

@@ -6,6 +6,7 @@ import {
   mcpEntityLogoUrl,
   profileLogoUrl,
   repoDisplayLogoUrl,
+  repoLogoUrl,
 } from "../logos";
 
 test("repoDisplayLogoUrl prefers a captured repo avatar", () => {
@@ -60,6 +61,40 @@ test("mcpEntityLogoUrl falls back to registry favicons for MCP rows", () => {
     ),
     "https://www.google.com/s2/favicons?domain=mcp.so&sz=64",
   );
+});
+
+test("repoLogoUrl composes the GitHub owner avatar URL with the requested size", () => {
+  assert.equal(
+    repoLogoUrl("vercel/next.js", 64),
+    "https://github.com/vercel.png?size=64",
+  );
+});
+
+test("repoLogoUrl defaults to size=40 when no size is provided", () => {
+  assert.equal(repoLogoUrl("vercel/next.js"), "https://github.com/vercel.png?size=40");
+});
+
+test("repoLogoUrl encodes owner segments to keep the URL well-formed", () => {
+  assert.equal(
+    repoLogoUrl("my org/repo", 40),
+    "https://github.com/my%20org.png?size=40",
+  );
+});
+
+test("repoLogoUrl returns null for empty, whitespace, or nullish input", () => {
+  assert.equal(repoLogoUrl(""), null);
+  assert.equal(repoLogoUrl(null), null);
+  assert.equal(repoLogoUrl(undefined), null);
+  assert.equal(repoLogoUrl("   "), null);
+});
+
+test("repoLogoUrl gracefully falls back when the owner half is missing", () => {
+  // Malformed: leading slash means the split owner is empty → null, not a broken URL.
+  assert.equal(repoLogoUrl("/orphan-repo"), null);
+});
+
+test("repoLogoUrl tolerates a bare owner with no `/name` half", () => {
+  assert.equal(repoLogoUrl("vercel", 40), "https://github.com/vercel.png?size=40");
 });
 
 test("mcpEntityLogoUrl ignores invalid registry logo URLs", () => {

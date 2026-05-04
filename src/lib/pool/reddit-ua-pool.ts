@@ -4,6 +4,7 @@ import {
   type RedditQuarantineParams,
 } from "@/lib/pool/reddit-telemetry";
 import configuredUserAgents from "@/../config/reddit-user-agents.json";
+import { createHash } from "node:crypto";
 
 const DEFAULT_USER_AGENTS = [
   "trendingrepo-scanner/1.0 (+https://trendingrepo.com)",
@@ -24,7 +25,8 @@ export function redditUserAgentFingerprint(userAgent: string): string {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
   if (!cleaned) return "reddit-ua-unknown";
-  return cleaned.slice(-24);
+  const hash = createHash("sha256").update(userAgent).digest("hex").slice(0, 8);
+  return `${cleaned.slice(0, 24)}-${hash}`;
 }
 
 export async function selectUserAgent(): Promise<string> {

@@ -291,26 +291,16 @@ export function CompareProfileGrid({
 
 function PageHeader() {
   return (
-    <>
-      <nav
-        aria-label="Breadcrumb"
-        className="flex items-center gap-1.5 text-xs text-text-tertiary"
-      >
-        <Link href="/" className="hover:text-text-primary transition-colors">
-          Home
-        </Link>
-        <span aria-hidden="true">/</span>
-        <span className="text-text-primary">Compare</span>
-      </nav>
-      <div>
-        <h1 className="font-display text-2xl font-bold text-text-primary">
-          Compare Repos · Canonical Signals
-        </h1>
-        <p className="text-text-secondary mt-1 text-sm">
-          Side-by-side: momentum, reasons, revenue, funding, mentions.
-        </p>
-      </div>
-    </>
+    <nav
+      aria-label="Breadcrumb"
+      className="flex items-center gap-1.5 text-xs text-text-tertiary"
+    >
+      <Link href="/" className="hover:text-text-primary transition-colors">
+        Home
+      </Link>
+      <span aria-hidden="true">/</span>
+      <span className="text-text-primary">Compare</span>
+    </nav>
   );
 }
 

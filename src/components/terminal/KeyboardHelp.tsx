@@ -51,12 +51,22 @@ export function KeyboardHelp({ onClose }: KeyboardHelpProps) {
   useEffect(() => {
     // Focus the close button so keyboard users can dismiss immediately.
     closeBtnRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+      }
+    };
     const onDown = (e: MouseEvent) => {
       if (!ref.current) return;
       if (!ref.current.contains(e.target as Node)) onClose();
     };
+    window.addEventListener("keydown", onKey);
     window.addEventListener("mousedown", onDown);
-    return () => window.removeEventListener("mousedown", onDown);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("mousedown", onDown);
+    };
   }, [onClose]);
 
   return (

@@ -41,6 +41,8 @@ import { getTwitterRepoPanel } from "@/lib/twitter";
 import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
 import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
 import { refreshNpmFromStore } from "@/lib/npm";
+import { refreshTrendingFromStore } from "@/lib/trending";
+import { refreshRecentReposFromStore } from "@/lib/recent-repos";
 
 export const runtime = "nodejs";
 
@@ -115,9 +117,11 @@ export async function GET(
 
 async function handleV2(owner: string, name: string) {
   try {
-    // Refresh data-store-backed caches consumed by the canonical assembler
-    // (repo-metadata + npm-packages slices).
+    // Refresh data-store-backed caches consumed by derived + canonical
+    // assemblers.
     await Promise.all([
+      refreshTrendingFromStore(),
+      refreshRecentReposFromStore(),
       refreshRepoMetadataFromStore(),
       refreshNpmFromStore(),
     ]);
@@ -143,6 +147,12 @@ async function handleV2(owner: string, name: string) {
 // ---------------------------------------------------------------------------
 
 async function handleV1(owner: string, name: string) {
+  await Promise.all([
+    refreshTrendingFromStore(),
+    refreshRecentReposFromStore(),
+    refreshRepoMetadataFromStore(),
+  ]);
+
   const repo = getDerivedRepoByFullName(`${owner}/${name}`);
   if (!repo) {
     // Legacy v=1 contract is intentionally byte-compatible with the

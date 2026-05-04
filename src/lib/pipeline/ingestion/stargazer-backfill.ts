@@ -24,6 +24,11 @@ import {
   parseRateLimitHeaders,
   type GitHubTokenPool,
 } from "@/lib/github-token-pool";
+import {
+  githubKeyFingerprint,
+  recordGithubCall,
+} from "@/lib/pool/github-telemetry";
+import { GithubPoolExhaustedError, GithubRecoverableError } from "@/lib/errors";
 
 const GITHUB_API = "https://api.github.com";
 const ONE_DAY_MS = 86_400_000;
@@ -105,8 +110,9 @@ export async function backfillStargazerHistory(
     const probeUrl = `${GITHUB_API}/repos/${fullName}/stargazers?per_page=100&page=1`;
     const probe = await issueRequest(probeUrl);
     if (!probe) {
-      throw new Error(
+      throw new GithubRecoverableError(
         `stargazer probe ${fullName} failed: token pool empty and no fallback`,
+        { fullName, phase: "probe", reason: "token_pool_empty" },
       );
     }
     const link = probe.headers.get("link");
@@ -150,8 +156,14 @@ export async function backfillStargazerHistory(
       console.error(
         `[stargazer-backfill] ${fullName} probe failed: ${probe.status}`,
       );
-      throw new Error(
+      throw new GithubRecoverableError(
         `stargazer probe ${fullName} failed: ${probe.status} ${probe.statusText}`,
+        {
+          fullName,
+          phase: "probe",
+          status: probe.status,
+          statusText: probe.statusText,
+        },
       );
     }
   }
@@ -160,8 +172,9 @@ export async function backfillStargazerHistory(
     const url = `${GITHUB_API}/repos/${fullName}/stargazers?per_page=100&page=${page}`;
     const res = await issueRequest(url);
     if (!res) {
-      throw new Error(
+      throw new GithubPoolExhaustedError(
         `stargazer fetch ${fullName} page ${page} failed: token pool exhausted`,
+        { fullName, page, reason: "token_pool_exhausted" },
       );
     }
 
@@ -180,8 +193,14 @@ export async function backfillStargazerHistory(
         `[stargazer-backfill] ${fullName} page ${page} failed: ${res.status} ${res.statusText}`,
       );
       // No silent fallback — surface the failure to the caller.
-      throw new Error(
+      throw new GithubRecoverableError(
         `stargazer fetch ${fullName} page ${page} failed: ${res.status} ${res.statusText}`,
+        {
+          fullName,
+          page,
+          status: res.status,
+          statusText: res.statusText,
+        },
       );
     }
 

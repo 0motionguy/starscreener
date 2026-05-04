@@ -11,7 +11,7 @@
  * accent-soft pill chips for live counts.
  *
  * Sections:
- *   1. TREND TERMINAL    — Repos, Skills, MCP, AGNT, Breakouts, Top 100
+ *   1. TREND TERMINAL    — Repos, Skills, MCP, AGNT, Breakouts, Consensus
  *   2. SIGNAL TERMINAL   — HN / Lobsters / Dev.to / Bluesky / Reddit / X / PH
  *   3. LLM / PACK TERMINAL — NPM / Hugging Face / Datasets / Spaces
  *   4. LAUNCH TERMINAL   — Funding / Revenue / Hackathons / Launch

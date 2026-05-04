@@ -1,0 +1,44 @@
+   ▲ Next.js 15.5.15
+   - Local:        http://localhost:3024
+   - Network:      http://100.112.71.27:3024
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+ ✓ Starting...
+ ✓ Ready in 4.6s
+ ○ Compiling /revenue ...
+ ⚠ ../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+Critical dependency: the request of a dependency is an expression
+
+Import trace for requested module:
+../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@prisma/instrumentation/dist/index.js
+../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@sentry/node/build/cjs/index.js
+../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@sentry/nextjs/build/cjs/index.server.js
+./src/app/global-error.tsx
+
+../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+Critical dependency: the request of a dependency is an expression
+
+Import trace for requested module:
+../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@prisma/instrumentation/dist/index.js
+../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@sentry/node/build/cjs/index.js
+../../Users/mirko/OneDrive/Desktop/STARSCREENER/node_modules/@sentry/nextjs/build/cjs/index.server.js
+./src/lib/github-token-pool.ts
+./src/lib/pipeline/ingestion/ingest.ts
+./src/lib/pipeline/pipeline.ts
+./src/lib/sidebar-data.ts
+./src/app/layout.tsx
+[env] STARSCREENER_DATA_DIR is deprecated, please rename to TRENDINGREPO_DATA_DIR. The old name will be removed in a future release.
+[env] STARSCREENER_PERSIST is deprecated, please rename to TRENDINGREPO_PERSIST. The old name will be removed in a future release.
+[?25h

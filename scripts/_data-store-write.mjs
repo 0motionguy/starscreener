@@ -33,6 +33,7 @@
 
 const NAMESPACE = "ss:data:v1";
 const META_NAMESPACE = "ss:meta:v1";
+const INVALID_KEY_LITERALS = new Set(["null", "undefined"]);
 
 let cachedClient = null;
 let warnedAboutMissingEnv = false;
@@ -183,6 +184,18 @@ function stampTrackedRepos(value, ts, depth = 0) {
  * @returns {Promise<{ source: "redis" | "skipped"; writtenAt: string }>}
  */
 export async function writeDataStore(key, value, opts = {}) {
+  if (typeof key !== "string") {
+    throw new Error(
+      `[data-store-write] invalid key type: expected string, received ${typeof key}`,
+    );
+  }
+  const normalizedKey = key.trim();
+  if (!normalizedKey || INVALID_KEY_LITERALS.has(normalizedKey)) {
+    throw new Error(
+      `[data-store-write] invalid key "${key}" - expected non-empty slug and not null/undefined`,
+    );
+  }
+
   const writtenAt = new Date().toISOString();
 
   if (opts.stampPerRecord !== false && value && typeof value === "object") {
@@ -229,8 +242,8 @@ export async function writeDataStore(key, value, opts = {}) {
   // reader treats meta-missing as "use file mtime fallback" and the next
   // read after meta lands sees both.
   await Promise.all([
-    client.set(`${NAMESPACE}:${key}`, payload, setOpts),
-    client.set(`${META_NAMESPACE}:${key}`, metaValue, setOpts),
+    client.set(`${NAMESPACE}:${normalizedKey}`, payload, setOpts),
+    client.set(`${META_NAMESPACE}:${normalizedKey}`, metaValue, setOpts),
   ]);
 
   return { source: "redis", writtenAt };
@@ -246,9 +259,12 @@ export async function writeDataStore(key, value, opts = {}) {
  * @returns {Promise<unknown | null>}
  */
 export async function readDataStore(key) {
+  if (typeof key !== "string") return null;
+  const normalizedKey = key.trim();
+  if (!normalizedKey || INVALID_KEY_LITERALS.has(normalizedKey)) return null;
   const client = await getClient();
   if (!client) return null;
-  const raw = await client.get(`${NAMESPACE}:${key}`);
+  const raw = await client.get(`${NAMESPACE}:${normalizedKey}`);
   if (raw === null || raw === undefined) return null;
   if (typeof raw === "string") {
     try {

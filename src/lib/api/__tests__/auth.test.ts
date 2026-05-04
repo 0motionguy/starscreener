@@ -15,8 +15,13 @@ import assert from "node:assert/strict";
 import { NextRequest } from "next/server";
 
 import {
+  adminAuthFailureResponse,
+  internalAgentAuthFailureResponse,
+  userAuthFailureResponse,
   verifyAdminAuth,
   verifyCronAuth,
+  __resetAuthSentryCaptureForTests,
+  __setAuthSentryCaptureForTests,
   __resetAuthWarningsForTests,
 } from "../auth";
 import { signAdminSession } from "../admin-session";
@@ -44,6 +49,7 @@ beforeEach(() => {
 
 afterEach(() => {
   process.env = { ...ORIGINAL_ENV };
+  __resetAuthSentryCaptureForTests();
   __resetAuthWarningsForTests();
 });
 
@@ -173,4 +179,112 @@ test("verifyAdminAuth: tampered cookie with no bearer → unauthorized", () => {
     makeRequest({ cookie: "ss_admin=garbage.value" }),
   );
   assert.equal(verdict.kind, "unauthorized");
+});
+
+test("adminAuthFailureResponse: unauthorized emits quarantine-tagged Sentry event", async () => {
+  const sentryCalls: Array<{ error: unknown; context: unknown }> = [];
+  __setAuthSentryCaptureForTests(((
+    error: unknown,
+    context?: unknown,
+  ) => {
+    sentryCalls.push({ error, context: context ?? null });
+    return "evt-unauth";
+  }) as Parameters<typeof __setAuthSentryCaptureForTests>[0]);
+
+  const response = adminAuthFailureResponse({ kind: "unauthorized" });
+  assert.ok(response);
+  assert.equal(response!.status, 401);
+  assert.equal(sentryCalls.length, 1);
+  const tags = (sentryCalls[0].context as { tags?: Record<string, string> } | null)?.tags;
+  assert.equal(tags?.source, "admin");
+  assert.equal(tags?.category, "quarantine");
+  assert.equal(tags?.auth_surface, "admin");
+});
+
+test("adminAuthFailureResponse: not_configured emits fatal-tagged Sentry event", async () => {
+  const sentryCalls: Array<{ error: unknown; context: unknown }> = [];
+  __setAuthSentryCaptureForTests(((
+    error: unknown,
+    context?: unknown,
+  ) => {
+    sentryCalls.push({ error, context: context ?? null });
+    return "evt-missing-admin-token";
+  }) as Parameters<typeof __setAuthSentryCaptureForTests>[0]);
+
+  const response = adminAuthFailureResponse({ kind: "not_configured" });
+  assert.ok(response);
+  assert.equal(response!.status, 503);
+  assert.equal(sentryCalls.length, 1);
+  const tags = (sentryCalls[0].context as { tags?: Record<string, string> } | null)?.tags;
+  assert.equal(tags?.source, "admin");
+  assert.equal(tags?.category, "fatal");
+  assert.equal(tags?.auth_surface, "admin");
+});
+
+test("userAuthFailureResponse: unauthorized emits quarantine-tagged Sentry event", () => {
+  const sentryCalls: Array<{ error: unknown; context: unknown }> = [];
+  __setAuthSentryCaptureForTests(((error: unknown, context?: unknown) => {
+    sentryCalls.push({ error, context: context ?? null });
+    return "evt-user-unauth";
+  }) as Parameters<typeof __setAuthSentryCaptureForTests>[0]);
+
+  const response = userAuthFailureResponse({ kind: "unauthorized" });
+  assert.ok(response);
+  assert.equal(response!.status, 401);
+  assert.equal(sentryCalls.length, 1);
+  const tags = (sentryCalls[0].context as { tags?: Record<string, string> } | null)?.tags;
+  assert.equal(tags?.source, "auth");
+  assert.equal(tags?.category, "quarantine");
+  assert.equal(tags?.auth_surface, "user");
+});
+
+test("userAuthFailureResponse: not_configured emits fatal-tagged Sentry event", () => {
+  const sentryCalls: Array<{ error: unknown; context: unknown }> = [];
+  __setAuthSentryCaptureForTests(((error: unknown, context?: unknown) => {
+    sentryCalls.push({ error, context: context ?? null });
+    return "evt-user-config";
+  }) as Parameters<typeof __setAuthSentryCaptureForTests>[0]);
+
+  const response = userAuthFailureResponse({ kind: "not_configured" });
+  assert.ok(response);
+  assert.equal(response!.status, 503);
+  assert.equal(sentryCalls.length, 1);
+  const tags = (sentryCalls[0].context as { tags?: Record<string, string> } | null)?.tags;
+  assert.equal(tags?.source, "auth");
+  assert.equal(tags?.category, "fatal");
+  assert.equal(tags?.auth_surface, "user");
+});
+
+test("internalAgentAuthFailureResponse: unauthorized emits quarantine-tagged Sentry event", () => {
+  const sentryCalls: Array<{ error: unknown; context: unknown }> = [];
+  __setAuthSentryCaptureForTests(((error: unknown, context?: unknown) => {
+    sentryCalls.push({ error, context: context ?? null });
+    return "evt-agent-unauth";
+  }) as Parameters<typeof __setAuthSentryCaptureForTests>[0]);
+
+  const response = internalAgentAuthFailureResponse({ kind: "unauthorized" });
+  assert.ok(response);
+  assert.equal(response!.status, 401);
+  assert.equal(sentryCalls.length, 1);
+  const tags = (sentryCalls[0].context as { tags?: Record<string, string> } | null)?.tags;
+  assert.equal(tags?.source, "auth");
+  assert.equal(tags?.category, "quarantine");
+  assert.equal(tags?.auth_surface, "internal-agent");
+});
+
+test("internalAgentAuthFailureResponse: not_configured emits fatal-tagged Sentry event", () => {
+  const sentryCalls: Array<{ error: unknown; context: unknown }> = [];
+  __setAuthSentryCaptureForTests(((error: unknown, context?: unknown) => {
+    sentryCalls.push({ error, context: context ?? null });
+    return "evt-agent-config";
+  }) as Parameters<typeof __setAuthSentryCaptureForTests>[0]);
+
+  const response = internalAgentAuthFailureResponse({ kind: "not_configured" });
+  assert.ok(response);
+  assert.equal(response!.status, 503);
+  assert.equal(sentryCalls.length, 1);
+  const tags = (sentryCalls[0].context as { tags?: Record<string, string> } | null)?.tags;
+  assert.equal(tags?.source, "auth");
+  assert.equal(tags?.category, "fatal");
+  assert.equal(tags?.auth_surface, "internal-agent");
 });

@@ -77,12 +77,7 @@ export default async function ComparePage({ searchParams }: ComparePageProps) {
           toggles, starter-pack chips, bottom stat-card strip, and the
           right-rail multi-format SHARE panel. */}
       <CompareWaveTop />
-
-      {/* Existing canonical-profile grid: deeper-dive per-repo signals
-          (momentum, why-trending, cross-signal, npm, mentions). Kept
-          as-is below the new wave so existing inbound links still
-          resolve to a useful surface. */}
-      <CompareProfileGrid />
+      <CompareProfileGrid initialFullNames={shareState.repos} />
 
       <section
         aria-label="Code activity side-by-side"
@@ -95,12 +90,8 @@ export default async function ComparePage({ searchParams }: ComparePageProps) {
           </span>
         </div>
         <div className="panel-body">
-          <CompareClient embedded />
-          {shareState.repos.length >= 2 && (
-            <div className="mt-4">
-              <ShareBar state={shareState} />
-            </div>
-          )}
+          <CompareClient embedded initialFullNames={shareState.repos} />
+          {shareState.repos.length >= 2 && <ShareBar state={shareState} />}
         </div>
       </section>
     </>

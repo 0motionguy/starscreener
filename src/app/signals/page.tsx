@@ -50,7 +50,8 @@ import {
   getTopTwitterBuzz,
   getTopTwitterPosts,
   getTwitterLatestUpdatedAt,
-} from "@/lib/twitter/trending-tweets";
+  refreshTwitterSignalsFromStore,
+} from "@/lib/twitter";
 
 import {
   hnToSignalItems,
@@ -169,6 +170,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
     refreshDevtoTrendingFromStore(),
     refreshClaudeRssFromStore(),
     refreshOpenaiRssFromStore(),
+    refreshTwitterSignalsFromStore(),
   ]);
 
   // ── Pull source records ----------------------------------------------------

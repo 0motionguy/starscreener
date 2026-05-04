@@ -15,7 +15,13 @@ export function compareIdToFallbackFullName(id: string): string {
 export function resolveCompareFullNames(
   repoIds: string[],
   repos: Pick<Repo, "id" | "fullName">[],
+  overridesById?: Record<string, string>,
 ): string[] {
   const byId = new Map(repos.map((repo) => [repo.id, repo.fullName]));
-  return repoIds.map((id) => byId.get(id) ?? compareIdToFallbackFullName(id));
+  return repoIds.map(
+    (id) =>
+      byId.get(id) ??
+      overridesById?.[id] ??
+      compareIdToFallbackFullName(id),
+  );
 }

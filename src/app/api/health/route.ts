@@ -54,6 +54,15 @@ export const runtime = "nodejs";
 
 const RANKINGS_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
 const COVERAGE_WARN_PCT = 50;
+const SOFT_HEALTH_CACHE_TTL_MS = 15_000;
+
+let cachedSoftHealth:
+  | {
+      body: HealthBody | PublicHealthBody;
+      status: number;
+      expiresAt: number;
+    }
+  | null = null;
 
 type HealthStatus = "ok" | "stale" | "error";
 
@@ -172,26 +181,57 @@ function ageMs(iso: string | null): number | null {
   return Date.now() - ts;
 }
 
+async function settleWithin<T>(
+  promise: Promise<T>,
+  timeoutMs: number,
+): Promise<PromiseSettledResult<T>> {
+  try {
+    const value = await Promise.race([
+      promise,
+      new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error("refresh timeout")), timeoutMs);
+      }),
+    ]);
+    return { status: "fulfilled", value };
+  } catch (reason) {
+    return { status: "rejected", reason };
+  }
+}
+
 export async function GET(
   request: NextRequest,
 ): Promise<NextResponse<HealthBody | PublicHealthBody>> {
   const wantsDetail = request.nextUrl.searchParams.get("detail") === "1";
   const includeDetail = wantsDetail && canViewDetail(request);
+  const soft = request.nextUrl.searchParams.get("soft") === "1";
+  const canUseSoftCache = soft && !includeDetail;
+  if (canUseSoftCache && cachedSoftHealth && cachedSoftHealth.expiresAt > Date.now()) {
+    return NextResponse.json(cachedSoftHealth.body, { status: cachedSoftHealth.status });
+  }
 
   try {
-    const soft = request.nextUrl.searchParams.get("soft") === "1";
-
     // Refresh in-memory caches from the data-store so per-source freshness
     // reflects the live Redis payload, not the bundled JSON snapshot. Each
     // refresh call internally rate-limits to 1 read per source per 30s.
-    await Promise.all([
+    // Mixed return types (some refresh helpers return RefreshResult, others
+    // void). Coerce to Promise<unknown> so settleWithin's generic T resolves
+    // uniformly; we only consume `status` from the settled result.
+    const refreshTasks: Promise<unknown>[] = [
       refreshTrendingFromStore(),
       refreshHotCollectionsFromStore(),
       refreshRecentReposFromStore(),
       refreshRepoMetadataFromStore(),
       refreshCollectionRankingsFromStore(),
       refreshScannerSourceHealthFromStore(),
-    ]);
+    ];
+    const refreshResults = soft
+      ? await Promise.all(
+          refreshTasks.map((task) => settleWithin(task, 150)),
+        )
+      : await Promise.allSettled(refreshTasks);
+    const refreshFailureCount = refreshResults.filter(
+      (result) => result.status === "rejected",
+    ).length;
 
     const lastFetchedAt = getLastFetchedAt();
     const deltasComputedAt = getDeltasComputedAt();
@@ -348,6 +388,12 @@ export async function GET(
       body.warning =
         `delta coverage ${body.coveragePct}% < ${COVERAGE_WARN_PCT}% - expected during 30-day cold-start window`;
     }
+    if (refreshFailureCount > 0) {
+      const refreshWarning = `refresh degraded: ${refreshFailureCount}/${refreshResults.length} dependency refreshes failed; serving cached health snapshot`;
+      body.warning = body.warning
+        ? `${body.warning}; ${refreshWarning}`
+        : refreshWarning;
+    }
 
     // APP-12: strip recon-surface fields for unauthorized callers. Status,
     // overall coverage, and computedAt timestamps stay public so uptime
@@ -365,19 +411,36 @@ export async function GET(
       delete minimal.repoMetadata;
     }
 
-    return NextResponse.json(body, { status: anyStale && !soft ? 503 : 200 });
+    const status = anyStale && !soft ? 503 : 200;
+    if (canUseSoftCache) {
+      cachedSoftHealth = {
+        body,
+        status,
+        expiresAt: Date.now() + SOFT_HEALTH_CACHE_TTL_MS,
+      };
+    }
+
+    return NextResponse.json(body, { status });
   } catch (err) {
     console.error("[api:health] failed", err);
     const message = err instanceof Error ? err.message : String(err);
     if (!includeDetail) {
+      const fallbackBody: PublicHealthBody = {
+        status: "error",
+        sourceStatus: "degraded",
+        lastFetchedAt: getLastFetchedAt() ?? null,
+        computedAt: getDeltasComputedAt() ?? null,
+        error: "health check failed",
+      };
+      if (canUseSoftCache) {
+        cachedSoftHealth = {
+          body: fallbackBody,
+          status: 503,
+          expiresAt: Date.now() + SOFT_HEALTH_CACHE_TTL_MS,
+        };
+      }
       return NextResponse.json(
-        {
-          status: "error",
-          sourceStatus: "degraded",
-          lastFetchedAt: getLastFetchedAt() ?? null,
-          computedAt: getDeltasComputedAt() ?? null,
-          error: "health check failed",
-        },
+        fallbackBody,
         { status: 503 },
       );
     }

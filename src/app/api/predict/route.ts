@@ -14,6 +14,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { refreshTrendingFromStore } from "@/lib/trending";
+import { refreshRecentReposFromStore } from "@/lib/recent-repos";
+import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
 import {
   PREDICTION_HORIZONS,
   PREDICTION_MODEL_VERSION,
@@ -66,6 +69,12 @@ function parseHorizons(searchParams: URLSearchParams): PredictionHorizonDays[] {
 export async function GET(
   request: NextRequest,
 ): Promise<NextResponse<PredictResponse | ErrorResponse>> {
+  await Promise.all([
+    refreshTrendingFromStore(),
+    refreshRecentReposFromStore(),
+    refreshRepoMetadataFromStore(),
+  ]);
+
   const { searchParams } = request.nextUrl;
   const repoParam = (searchParams.get("repo") ?? "").trim();
   if (!repoParam) {

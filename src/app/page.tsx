@@ -51,10 +51,9 @@ import {
   safeJsonLd,
 } from "@/lib/seo";
 
-// ISR: data/*.json only changes when the GHA scrape commits new trending
-// data, so serving the homepage from a 30-minute edge cache is safe. Drops
-// per-request getDerivedRepos() re-runs (15 passes x ~2.4k rows + full
-// scoreBatch) from ~300 ms to a lookup. `force-dynamic` is no longer needed.
+// ISR: homepage payload is recomputed from cached store-backed snapshots.
+// A short revalidate window keeps visible freshness markers closer to current
+// collector state while avoiding fully dynamic rendering.
 export const revalidate = 60;
 
 // Single source of truth for the homepage FAQ. Renders both the visible
@@ -78,7 +77,7 @@ const HOMEPAGE_FAQ: ReadonlyArray<{ q: string; a: string; aHtml?: string }> = [
   },
   {
     q: "How often is the data refreshed?",
-    a: "Scrapers run every 20 minutes via GitHub Actions. The homepage is ISR-cached for 30 minutes, so the edge serves a static hit while the pipeline ingests fresh signals in the background.",
+    a: "Sources refresh on mixed cadences (hourly, 3-hour, 6-hour, and daily) depending on upstream velocity. The homepage revalidates every 60 seconds and shows the latest available snapshot timestamp.",
   },
   {
     q: "Is there an API?",
@@ -1392,7 +1391,7 @@ export default async function HomePage() {
             name: `${SITE_NAME} - open-source repo trend dataset`,
             alternateName: "TrendingRepo Catalog",
             description:
-              "Aggregated repo metadata + cross-source signals (GitHub, Reddit, Hacker News, Bluesky, dev.to, ProductHunt, Lobsters) for the open-source ecosystem. Updated every 20 minutes.",
+              "Aggregated repo metadata + cross-source signals (GitHub, Reddit, Hacker News, Bluesky, dev.to, ProductHunt, Lobsters) for the open-source ecosystem. Source updates run on mixed cadences by feed.",
             url: SITE_URL,
             sameAs: [SITE_URL],
             inLanguage: "en-US",

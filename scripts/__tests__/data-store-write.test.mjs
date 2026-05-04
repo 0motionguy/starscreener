@@ -145,6 +145,24 @@ test("writeDataStore: stampPerRecord:false opt-out preserves payload", async () 
   });
 });
 
+test("writeDataStore: rejects invalid keys (blank/null/undefined literals)", async () => {
+  await withClearedEnv(async () => {
+    _resetForTests();
+    await assert.rejects(
+      () => writeDataStore("   ", { x: 1 }),
+      /invalid key/i,
+    );
+    await assert.rejects(
+      () => writeDataStore("null", { x: 1 }),
+      /invalid key/i,
+    );
+    await assert.rejects(
+      () => writeDataStore("undefined", { x: 1 }),
+      /invalid key/i,
+    );
+  });
+});
+
 // Cleanup after the suite — the disabled-cache state shouldn't leak to other
 // tests in the runner (they each call _resetForTests anyway, but be explicit).
 test.after(async () => {

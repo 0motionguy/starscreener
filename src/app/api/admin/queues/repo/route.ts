@@ -10,6 +10,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
+import { serverError } from "@/lib/api/error-response";
 import { parseBody } from "@/lib/api/parse-body";
 import { readQueue } from "@/lib/aiso-queue";
 
@@ -67,8 +68,11 @@ export async function GET(
       })),
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ ok: false, error: message }, { status: 500 });
+    return serverError<Err>(err, {
+      scope: "[api/admin/queues/repo:GET]",
+      publicMessage: "server error",
+      status: 500,
+    });
   }
 }
 
@@ -120,10 +124,10 @@ export async function POST(
     }
     return NextResponse.json({ ok: true, drain: true, result });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(
-      { ok: false, error: `drain call failed: ${message}` },
-      { status: 500 },
-    );
+    return serverError<Err>(err, {
+      scope: "[api/admin/queues/repo:POST]",
+      publicMessage: "drain call failed",
+      status: 500,
+    });
   }
 }

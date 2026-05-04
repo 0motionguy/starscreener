@@ -20,6 +20,10 @@
 // `ok: false` discriminator.
 
 import { NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
+import { engineErrorTags } from "@/lib/errors";
+
+let sentryCaptureException = Sentry.captureException;
 
 /**
  * Canonical 4xx/5xx body shape for the StarScreener REST API.
@@ -71,9 +75,30 @@ export function serverError<T = ApiErrorEnvelope>(
 ): NextResponse<T> {
   const message = err instanceof Error ? err.message : String(err);
   console.error(`${opts.scope} handler failed`, { message });
+  sentryCaptureException(err, {
+    tags: {
+      scope: opts.scope,
+      ...engineErrorTags(err),
+    },
+    extra: {
+      status: opts.status ?? 500,
+      publicMessage: opts.publicMessage ?? "server error",
+      code: opts.code ?? null,
+    },
+  });
   const body = errorEnvelope(
     opts.publicMessage ?? "server error",
     opts.code,
   );
   return NextResponse.json(body, { status: opts.status ?? 500 }) as NextResponse<T>;
+}
+
+export function __setErrorResponseSentryCaptureForTests(
+  capture: typeof Sentry.captureException,
+): void {
+  sentryCaptureException = capture;
+}
+
+export function __resetErrorResponseSentryCaptureForTests(): void {
+  sentryCaptureException = Sentry.captureException;
 }

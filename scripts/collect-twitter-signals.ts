@@ -27,6 +27,7 @@ import {
 import { extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeSourceMeta } from "./_data-meta.mjs";
+import { writeDataStore } from "./_data-store-write.mjs";
 
 // Brand-migration shim: prefer the new TRENDINGREPO_* env name, fall back
 // to the legacy STARSCREENER_*. Inlined here (no warn) because scripts run
@@ -766,6 +767,35 @@ async function writeOutput(path: string, payloads: TwitterIngestRequest[]): Prom
   await writeFile(resolved, `${JSON.stringify(payloads, null, 2)}\n`, "utf8");
 }
 
+async function readJsonlRecords<T>(relativePath: string): Promise<T[]> {
+  const absolutePath = resolve(ROOT, relativePath);
+  const raw = await readFile(absolutePath, "utf8");
+  return raw
+    .split(/\r?\n/)
+    .filter((line) => line.trim().length > 0)
+    .map((line) => JSON.parse(line) as T);
+}
+
+async function mirrorTwitterFilesToDataStore(): Promise<void> {
+  const [repoSignals, scans, auditLogs] = await Promise.all([
+    readJsonlRecords(".data/twitter-repo-signals.jsonl"),
+    readJsonlRecords(".data/twitter-scans.jsonl"),
+    readJsonlRecords(".data/twitter-ingestion-audit.jsonl"),
+  ]);
+
+  await Promise.all([
+    writeDataStore("twitter-repo-signals", repoSignals, {
+      stampPerRecord: false,
+    }),
+    writeDataStore("twitter-scans", scans, {
+      stampPerRecord: false,
+    }),
+    writeDataStore("twitter-ingestion-audit", auditLogs, {
+      stampPerRecord: false,
+    }),
+  ]);
+}
+
 async function main(): Promise<void> {
   const startedMs = Date.now();
   const options = parseArgs(process.argv.slice(2));
@@ -896,6 +926,7 @@ async function main(): Promise<void> {
 
   if (!options.dryRun && options.mode === "direct") {
     await flushTwitterPersist();
+    await mirrorTwitterFilesToDataStore();
   }
 
   // Diagnostic for AUDIT-2026-05-04: .data/twitter-*.jsonl was frozen at

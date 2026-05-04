@@ -48,7 +48,7 @@ import {
 } from "@/lib/compare-selection";
 import type { CompareRepoBundle } from "@/lib/github-compare";
 import type { Repo } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { cn, slugToId } from "@/lib/utils";
 import { COMPARE_PALETTE, COMPARE_MAX_SLOTS } from "./palette";
 
 // Recharts weighs ~100KB gzipped. The compare chart sits in section 4 of a
@@ -140,9 +140,14 @@ export interface CompareClientProps {
    *  legacy `/api/repos` star-activity chart. Used when this client is
    *  embedded below the canonical `<CompareProfileGrid />` on `/compare`. */
   embedded?: boolean;
+  /** Canonical owner/name values parsed from the URL (when available). */
+  initialFullNames?: string[];
 }
 
-export function CompareClient({ embedded = false }: CompareClientProps = {}) {
+export function CompareClient({
+  embedded = false,
+  initialFullNames = [],
+}: CompareClientProps = {}) {
   const repoIds = useCompareStore((s) => s.repos);
   const [bundles, setBundles] = useState<CompareRepoBundle[]>([]);
   const [bundlesLoading, setBundlesLoading] = useState(false);
@@ -243,9 +248,21 @@ export function CompareClient({ embedded = false }: CompareClientProps = {}) {
     return map;
   }, [bundles]);
 
+  const initialFullNameOverridesById = useMemo(() => {
+    const pairs = initialFullNames
+      .map((fullName) => [slugToId(fullName), fullName] as const)
+      .filter((entry): entry is readonly [string, string] => Boolean(entry[0] && entry[1]));
+    return Object.fromEntries(pairs);
+  }, [initialFullNames]);
+
   const selectedFullNames = useMemo(
-    () => resolveCompareFullNames(repoIds, orderedRepos),
-    [repoIds, orderedRepos],
+    () =>
+      resolveCompareFullNames(
+        repoIds,
+        orderedRepos,
+        initialFullNameOverridesById,
+      ),
+    [repoIds, orderedRepos, initialFullNameOverridesById],
   );
 
   // Ordered bundles mirroring selector order. Prefer the API response slot

@@ -115,13 +115,18 @@ export async function refreshHotCollectionsFromStore(): Promise<RefreshResult> {
   }
 
   inflight = (async (): Promise<RefreshResult> => {
-    const { getDataStore } = await import("./data-store");
-    const result = await getDataStore().read<HotCollectionsFile>("hot-collections");
-    if (result.data && result.source !== "missing") {
-      data = result.data;
+    try {
+      const { getDataStore } = await import("./data-store");
+      const result = await getDataStore().read<HotCollectionsFile>("hot-collections");
+      if (result.data && result.source !== "missing") {
+        data = result.data;
+      }
+      lastRefreshMs = Date.now();
+      return { source: result.source, ageMs: result.ageMs };
+    } catch {
+      lastRefreshMs = Date.now();
+      return { source: "missing", ageMs: 0 };
     }
-    lastRefreshMs = Date.now();
-    return { source: result.source, ageMs: result.ageMs };
   })().finally(() => {
     inflight = null;
   });
@@ -135,3 +140,4 @@ export function _resetHotCollectionsCacheForTests(): void {
   lastRefreshMs = 0;
   inflight = null;
 }
+

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { errorEnvelope } from "@/lib/api/error-response";
-import { getTwitterAdminReview } from "@/lib/twitter";
+import { getTwitterAdminReview, refreshTwitterSignalsFromStore } from "@/lib/twitter";
 
 export const runtime = "nodejs";
 
@@ -19,6 +19,7 @@ export async function GET(
     return NextResponse.json(errorEnvelope("Invalid repo slug"), { status: 400 });
   }
 
+  await refreshTwitterSignalsFromStore();
   const review = await getTwitterAdminReview(`${owner}/${name}`);
   if (!review) {
     return NextResponse.json(errorEnvelope("Twitter review data not found for repo"), { status: 404 });

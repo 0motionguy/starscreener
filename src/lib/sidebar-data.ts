@@ -65,16 +65,33 @@ export interface BuildSidebarDataOptions {
    * consumer of this map is the 5-item watchlist preview).
    */
   reposByIdTopN?: number;
+  onTiming?: (name: string, durationMs: number) => void;
 }
 
 export async function buildSidebarData(
   opts: BuildSidebarDataOptions = {},
 ): Promise<SidebarDataResponse> {
-  const { userId, reposByIdTopN } = opts;
-  const repos = getDerivedRepos();
-  const categoryStats = getDerivedCategoryStats(repos);
-  const metaCounts = getDerivedMetaCounts(repos);
-  const availableLanguages = getDerivedAvailableLanguages(repos);
+  const { userId, reposByIdTopN, onTiming } = opts;
+  const timed = <T>(name: string, fn: () => T): T => {
+    const start = performance.now();
+    const out = fn();
+    onTiming?.(name, performance.now() - start);
+    return out;
+  };
+  const timedAsync = async <T>(name: string, fn: () => Promise<T>): Promise<T> => {
+    const start = performance.now();
+    const out = await fn();
+    onTiming?.(name, performance.now() - start);
+    return out;
+  };
+  const repos = timed("getDerivedRepos", () => getDerivedRepos());
+  const categoryStats = timed("getDerivedCategoryStats", () =>
+    getDerivedCategoryStats(repos),
+  );
+  const metaCounts = timed("getDerivedMetaCounts", () => getDerivedMetaCounts(repos));
+  const availableLanguages = timed("getDerivedAvailableLanguages", () =>
+    getDerivedAvailableLanguages(repos),
+  );
 
   // Compact repo map keyed by id. Only the fields the sidebar actually
   // renders travel over the wire so the payload stays small. When a cap
@@ -82,33 +99,33 @@ export async function buildSidebarData(
   // can still resolve popular tracked repos.
   const reposForMap =
     typeof reposByIdTopN === "number" && reposByIdTopN < repos.length
-      ? [...repos]
-          .sort((a, b) => b.momentumScore - a.momentumScore)
-          .slice(0, reposByIdTopN)
+      ? repos.slice(0, reposByIdTopN)
       : repos;
   const reposById: Record<string, SidebarDataRepo> = {};
-  for (const r of reposForMap) {
-    reposById[r.id] = {
-      id: r.id,
-      fullName: r.fullName,
-      owner: r.owner,
-      name: r.name,
-      ownerAvatarUrl: r.ownerAvatarUrl,
-      momentumScore: r.momentumScore,
-      movementStatus: r.movementStatus,
-      sparklineData: r.sparklineData,
-      stars: r.stars,
-      starsDelta24h: r.starsDelta24h,
-      starsDelta24hMissing: r.starsDelta24hMissing,
-    };
-  }
+  timed("buildReposById", () => {
+    for (const r of reposForMap) {
+      reposById[r.id] = {
+        id: r.id,
+        fullName: r.fullName,
+        owner: r.owner,
+        name: r.name,
+        ownerAvatarUrl: r.ownerAvatarUrl,
+        momentumScore: r.momentumScore,
+        movementStatus: r.movementStatus,
+        sparklineData: r.sparklineData,
+        stars: r.stars,
+        starsDelta24h: r.starsDelta24h,
+        starsDelta24hMissing: r.starsDelta24hMissing,
+      };
+    }
+  });
 
   // Unread alerts — optional, keyed by userId. Default to 0 when absent
   // or when the pipeline isn't ready.
   let unreadAlerts = 0;
   try {
-    await pipeline.ensureReady();
-    const events = pipeline.getAlerts(userId);
+    await timedAsync("pipeline.ensureReady", () => pipeline.ensureReady());
+    const events = timed("pipeline.getAlerts", () => pipeline.getAlerts(userId));
     unreadAlerts = events.filter((e) => e.readAt === null).length;
   } catch {
     unreadAlerts = 0;
@@ -118,7 +135,9 @@ export async function buildSidebarData(
   // cold data-store / read error so the sidebar still renders.
   let sourceCounts: SidebarSourceCounts;
   try {
-    sourceCounts = await getSidebarSourceCounts();
+    sourceCounts = await timedAsync("getSidebarSourceCounts", () =>
+      getSidebarSourceCounts(),
+    );
   } catch {
     sourceCounts = emptySidebarSourceCounts();
   }

@@ -105,7 +105,13 @@ function computeDiffFlags(
   return { starsDelta24h, starsDelta7d, momentumScore, npmDownloads7d };
 }
 
-export function CompareProfileGrid() {
+export interface CompareProfileGridProps {
+  initialFullNames?: string[];
+}
+
+export function CompareProfileGrid({
+  initialFullNames = [],
+}: CompareProfileGridProps = {}) {
   const repoIds = useCompareStore((s) => s.repos);
   const addRepo = useCompareStore((s) => s.addRepo);
   const clearAll = useCompareStore((s) => s.clearAll);
@@ -166,9 +172,17 @@ export function CompareProfileGrid() {
   // `/api/compare?repos=` needs owner/name, so the resolved Repo[]
   // gets fed into resolveCompareFullNames below.
 
+  const initialFullNameOverridesById = useMemo(() => {
+    const pairs = initialFullNames
+      .map((fullName) => [slugToId(fullName), fullName] as const)
+      .filter((entry): entry is readonly [string, string] => Boolean(entry[0] && entry[1]));
+    return Object.fromEntries(pairs);
+  }, [initialFullNames]);
+
   const selectedFullNames = useMemo(
-    () => resolveCompareFullNames(repoIds, repos),
-    [repoIds, repos],
+    () =>
+      resolveCompareFullNames(repoIds, repos, initialFullNameOverridesById),
+    [repoIds, repos, initialFullNameOverridesById],
   );
 
   // Fetch canonical profiles whenever the resolved fullName set changes.

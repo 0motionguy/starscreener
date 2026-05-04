@@ -18,9 +18,19 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { timingSafeEqual } from "node:crypto";
+import * as Sentry from "@sentry/nextjs";
 import { verifySession } from "./session";
 import { readAdminSessionCookie, verifyAdminSession } from "./admin-session";
+import {
+  AuthFatalError,
+  AuthQuarantineError,
+  AdminFatalError,
+  AdminQuarantineError,
+  engineErrorTags,
+} from "@/lib/errors";
 import type { UserTier } from "@/lib/pricing/tiers";
+
+let sentryCaptureException = Sentry.captureException;
 
 /** Name of the HMAC-signed session cookie set by /api/auth/session. */
 export const SESSION_COOKIE_NAME = "ss_user";
@@ -428,8 +438,22 @@ export function adminAuthFailureResponse(
 ): NextResponse | null {
   if (verdict.kind === "ok") return null;
   if (verdict.kind === "unauthorized") {
+    const err = new AdminQuarantineError("admin auth denied: unauthorized");
+    sentryCaptureException(err, {
+      tags: {
+        ...engineErrorTags(err),
+        auth_surface: "admin",
+      },
+    });
     return NextResponse.json({ ok: false, reason: "unauthorized" }, { status: 401 });
   }
+  const err = new AdminFatalError("admin auth blocked: ADMIN_TOKEN missing");
+  sentryCaptureException(err, {
+    tags: {
+      ...engineErrorTags(err),
+      auth_surface: "admin",
+    },
+  });
   return NextResponse.json(
     { ok: false, reason: "admin endpoint not configured (ADMIN_TOKEN unset)" },
     { status: 503 },
@@ -441,11 +465,27 @@ export function userAuthFailureResponse(
 ): NextResponse | null {
   if (verdict.kind === "ok") return null;
   if (verdict.kind === "unauthorized") {
+    const err = new AuthQuarantineError("user auth denied: unauthorized");
+    sentryCaptureException(err, {
+      tags: {
+        ...engineErrorTags(err),
+        auth_surface: "user",
+      },
+    });
     return NextResponse.json(
       { ok: false, error: "unauthorized", code: "UNAUTHORIZED" },
       { status: 401 },
     );
   }
+  const err = new AuthFatalError(
+    "user auth blocked: USER_TOKEN/USER_TOKENS_JSON missing",
+  );
+  sentryCaptureException(err, {
+    tags: {
+      ...engineErrorTags(err),
+      auth_surface: "user",
+    },
+  });
   return NextResponse.json(
     {
       ok: false,
@@ -462,6 +502,15 @@ export function internalAgentAuthFailureResponse(
 ): NextResponse | null {
   if (verdict.kind === "ok") return null;
   if (verdict.kind === "unauthorized") {
+    const err = new AuthQuarantineError(
+      "internal agent auth denied: missing or invalid token",
+    );
+    sentryCaptureException(err, {
+      tags: {
+        ...engineErrorTags(err),
+        auth_surface: "internal-agent",
+      },
+    });
     return NextResponse.json(
       {
         ok: false,
@@ -474,6 +523,13 @@ export function internalAgentAuthFailureResponse(
       { status: 401 },
     );
   }
+  const err = new AuthFatalError("internal agent auth blocked: config missing");
+  sentryCaptureException(err, {
+    tags: {
+      ...engineErrorTags(err),
+      auth_surface: "internal-agent",
+    },
+  });
   return NextResponse.json(
     {
       ok: false,
@@ -494,4 +550,14 @@ export function __resetAuthWarningsForTests(): void {
   userDevFallbackWarned = false;
   cachedUserTokens = null;
   cachedUserTokensRaw = undefined;
+}
+
+export function __setAuthSentryCaptureForTests(
+  capture: typeof Sentry.captureException,
+): void {
+  sentryCaptureException = capture;
+}
+
+export function __resetAuthSentryCaptureForTests(): void {
+  sentryCaptureException = Sentry.captureException;
 }

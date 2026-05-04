@@ -30,6 +30,7 @@
 //   pattern, same factory shape, same one-shot warn discipline.
 
 import { dirname, resolve } from "path";
+import { DataStoreFatalError } from "@/lib/errors";
 
 // Lazy-load `fs` to keep this module safe to import (transitively) from
 // client components. Webpack bundling for the client side replaces `fs`
@@ -146,18 +147,30 @@ export interface DataStore {
 // during a migration window because the writer can dual-write v1 and v2.
 const NAMESPACE = "ss:data:v1";
 const META_NAMESPACE = "ss:meta:v1";
+const INVALID_KEY_LITERALS = new Set(["null", "undefined"]);
+
+function normalizeKeyOrThrow(key: string): string {
+  const normalized = key.trim();
+  if (!normalized || INVALID_KEY_LITERALS.has(normalized)) {
+    throw new DataStoreFatalError(
+      `[data-store] invalid key "${key}" - expected non-empty slug and not null/undefined`,
+      { key },
+    );
+  }
+  return normalized;
+}
 
 function payloadKey(key: string): string {
-  return `${NAMESPACE}:${key}`;
+  return `${NAMESPACE}:${normalizeKeyOrThrow(key)}`;
 }
 
 function metaKey(key: string): string {
-  return `${META_NAMESPACE}:${key}`;
+  return `${META_NAMESPACE}:${normalizeKeyOrThrow(key)}`;
 }
 
 function fileFallbackPath(key: string, dataDir: string): string {
   // key is the bare slug (e.g. "trending"); the on-disk file is data/<slug>.json.
-  return resolve(dataDir, `${key}.json`);
+  return resolve(dataDir, `${normalizeKeyOrThrow(key)}.json`);
 }
 
 // ---------------------------------------------------------------------------
@@ -401,8 +414,9 @@ class DefaultDataStore implements DataStore {
     } else if (!opts.mirrorToFile) {
       // No Redis AND no file mirror: caller would have no durable path.
       // Surface this so the operator notices in CI.
-      throw new Error(
-        `[data-store] write("${key}") has no destination — Redis not configured and mirrorToFile=false.`,
+      throw new DataStoreFatalError(
+        `[data-store] write("${key}") has no destination - Redis not configured and mirrorToFile=false.`,
+        { key },
       );
     }
 
@@ -713,9 +727,10 @@ export function createDataStore(
 function defaultRedisFactory(url: string, token?: string): RedisClientLike {
   if (url.startsWith("https://") || url.startsWith("http://")) {
     if (!token) {
-      throw new Error(
+      throw new DataStoreFatalError(
         "[data-store] Upstash REST URL requires UPSTASH_REDIS_REST_TOKEN. " +
           "If using Railway Redis, set REDIS_URL to the redis:// or rediss:// URL instead.",
+        { urlScheme: "upstash-rest", hasToken: Boolean(token) },
       );
     }
     // eslint-disable-next-line @typescript-eslint/no-require-imports

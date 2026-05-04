@@ -1,0 +1,118 @@
+   ▲ Next.js 15.5.15
+   - Local:        http://localhost:3024
+   - Network:      http://100.112.71.27:3024
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+ ✓ Starting...
+ ✓ Ready in 3.6s
+ ○ Compiling /signals ...
+ GET /signals 200 in 13230ms
+ GET /signals 200 in 2500ms
+ GET / 200 in 8689ms
+ GET /signals 500 in 4317ms
+ GET /signals 200 in 3877ms
+ GET /signals 200 in 1505ms
+ ✓ Compiled /_error in 1894ms (1905 modules)
+ ✓ Compiled in 875ms (1796 modules)
+ ✓ Compiled in 1154ms (1796 modules)
+ ○ Compiling / ...
+ GET / 200 in 6609ms
+ ✓ Compiled / in 1658ms (1905 modules)
+ ✓ Compiled in 962ms (1796 modules)
+ ✓ Compiled in 890ms (1796 modules)
+ ✓ Compiled in 1081ms (1796 modules)
+ ✓ Compiled in 1862ms (1891 modules)
+ ○ Compiling / ...
+ GET / 500 in 12357ms
+ GET / 500 in 73ms
+ GET / 500 in 987ms
+ GET / 500 in 68ms
+ ✓ Compiled /_error in 1477ms (1808 modules)
+ ✓ Compiled in 686ms (1808 modules)
+ ✓ Compiled in 1010ms (1808 modules)
+ ✓ Compiled in 1275ms (1808 modules)
+ ✓ Compiled in 1061ms (1808 modules)
+ ✓ Compiled in 134ms (109 modules)
+ ✓ Compiled in 2.8s (1917 modules)
+ ✓ Compiled in 984ms (1808 modules)
+ ✓ Compiled in 921ms (1808 modules)
+ ✓ Compiled in 1156ms (1808 modules)
+ ✓ Compiled in 1025ms (1808 modules)
+ ✓ Compiled in 1232ms (1808 modules)
+ ✓ Compiled in 939ms (1808 modules)
+ ✓ Compiled in 1136ms (1808 modules)
+ ✓ Compiled in 1033ms (1808 modules)
+ ✓ Compiled in 1303ms (1808 modules)
+ ✓ Compiled in 845ms (1808 modules)
+ ✓ Compiled in 1647ms (1808 modules)
+ ○ Compiling / ...
+ GET / 200 in 16973ms
+ GET /twitter 200 in 7236ms
+ GET /twitter 200 in 1428ms
+ ✓ Compiled /twitter in 3.7s (1920 modules)
+ ✓ Compiled in 1767ms (1812 modules)
+ ○ Compiling /agent-commerce ...
+ GET /agent-commerce 200 in 15049ms
+ GET / 200 in 8794ms
+ GET /commer 200 in 6218ms
+ GET /agent-commerce 200 in 4722ms
+ GET /funding 200 in 10856ms
+ GET /twitter 200 in 5541ms
+ GET /twitter 200 in 1288ms
+ GET /twitter 200 in 1992ms
+ ✓ Compiled /twitter in 2.7s (1929 modules)
+ ✓ Compiled in 1237ms (1820 modules)
+ ✓ Compiled in 4.8s (1928 modules)
+ ✓ Compiled in 1409ms (1819 modules)
+ ✓ Compiled in 907ms (1819 modules)
+ ✓ Compiled in 759ms (1819 modules)
+ ✓ Compiled in 725ms (1819 modules)
+ ✓ Compiled in 961ms (1819 modules)
+ ✓ Compiled in 722ms (1819 modules)
+ ✓ Compiled in 692ms (1819 modules)
+ ✓ Compiled in 718ms (1819 modules)
+ ✓ Compiled in 693ms (1819 modules)
+ ✓ Compiled in 722ms (1819 modules)
+ ✓ Compiled in 698ms (1819 modules)
+ ✓ Compiled in 1378ms (1820 modules)
+ ✓ Compiled in 716ms (1820 modules)
+ ✓ Compiled in 1733ms (1821 modules)
+ ✓ Compiled in 1562ms (1916 modules)
+ ○ Compiling /api/cron/freshness/state ...
+ ✓ Compiled /api/cron/freshness/state in 6.2s (2117 modules)
+ GET /api/cron/freshness/state 200 in 7130ms
+ GET /api/health?soft=1 200 in 7791ms
+ ✓ Compiled in 2.6s (1930 modules)
+ ○ Compiling /api/cron/freshness/state ...
+ ✓ Compiled /api/cron/freshness/state in 905ms (293 modules)
+ ✓ Compiled (296 modules)
+ GET /api/cron/freshness/state 401 in 1252ms
+ GET /api/health?soft=1 200 in 2168ms
+ ✓ Compiled in 2.7s (1930 modules)
+ ○ Compiling / ...
+ ✓ Compiled /api/health in 976ms (258 modules)
+ ✓ Compiled (296 modules)
+ GET /api/cron/freshness/state 401 in 1857ms
+ GET /api/health?soft=1 200 in 2657ms
+ GET /api/health 503 in 70ms
+ ✓ Compiled in 1936ms (1821 modules)
+ ✓ Compiled in 1157ms (1821 modules)
+ ✓ Compiled in 828ms (1821 modules)
+ ✓ Compiled in 3.9s (1821 modules)
+ ✓ Compiled in 4.8s (1821 modules)
+ ✓ Compiled in 2.2s (1822 modules)
+ ✓ Compiled in 1263ms (1821 modules)
+ ✓ Compiled in 3.1s (1821 modules)
+ ✓ Compiled in 1711ms (1822 modules)
+ ✓ Compiled in 928ms (1822 modules)
+ ✓ Compiled in 772ms (1822 modules)
+ ✓ Compiled in 3.9s (1931 modules)
+ ✓ Compiled in 2.8s (1822 modules)
+ ✓ Compiled in 1322ms (1822 modules)
+ ✓ Compiled in 1203ms (1808 modules)
+ ○ Compiling / ...
+ GET / 200 in 9792ms
+ GET /?nocache=1777826188 200 in 3507ms
+[?25h

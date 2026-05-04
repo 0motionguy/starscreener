@@ -128,3 +128,82 @@ test("scrapeTwitterFor throws TwitterAllSourcesFailedError and posts OPS alert w
   assert.match(webhookCalls[0].body, /twitter-all-sources-failed/);
   assert.equal(sentryExceptions.length > 0, true, "expected fatal Sentry exception");
 });
+
+test("scrapeTwitterFor emits explicit Sentry warning when OPS webhook is missing", async () => {
+  const sentryExceptions: Array<{ error: unknown; context: unknown }> = [];
+  _setTwitterFallbackSentryForTests({
+    captureMessage: (() => "evt-msg") as never,
+    captureException: ((error: unknown, context?: unknown) => {
+      sentryExceptions.push({ error, context });
+      return "evt-exc";
+    }) as never,
+  });
+
+  delete process.env.OPS_ALERT_WEBHOOK;
+  globalThis.fetch = (async () => new Response("down", { status: 503 })) as typeof fetch;
+
+  const failingProvider = {
+    async search(): Promise<never> {
+      throw new Error("HTTP 401 from apify");
+    },
+  };
+
+  await assert.rejects(
+    () => scrapeTwitterFor("gamma/repo", { provider: failingProvider as never, limit: 10 }),
+    (error: unknown) => error instanceof TwitterAllSourcesFailedError,
+  );
+
+  const blocked = sentryExceptions.find((entry) =>
+    entry.error instanceof Error &&
+    entry.error.message.includes("OPS_ALERT_WEBHOOK missing"),
+  );
+  assert.ok(blocked, "expected blocked OPS webhook warning");
+  const tags = (blocked?.context as { tags?: Record<string, string> } | undefined)?.tags;
+  assert.equal(tags?.alert, "ops-alert-blocked");
+  assert.equal(tags?.source, "ops-alert");
+  assert.equal(tags?.upstream_source, "twitter");
+  assert.equal(tags?.category, "fatal");
+});
+
+test("scrapeTwitterFor classifies non-2xx OPS webhook responses as recoverable delivery failures", async () => {
+  const sentryExceptions: Array<{ error: unknown; context: unknown }> = [];
+  _setTwitterFallbackSentryForTests({
+    captureMessage: (() => "evt-msg") as never,
+    captureException: ((error: unknown, context?: unknown) => {
+      sentryExceptions.push({ error, context });
+      return "evt-exc";
+    }) as never,
+  });
+
+  process.env.OPS_ALERT_WEBHOOK = "https://ops.example/webhook";
+  globalThis.fetch = (async (input: RequestInfo | URL) => {
+    const url = String(input);
+    if (url === process.env.OPS_ALERT_WEBHOOK) {
+      return new Response("forbidden", { status: 403 });
+    }
+    return new Response("down", { status: 503 });
+  }) as typeof fetch;
+
+  const failingProvider = {
+    async search(): Promise<never> {
+      throw new Error("HTTP 401 from apify");
+    },
+  };
+
+  await assert.rejects(
+    () => scrapeTwitterFor("delta/repo", { provider: failingProvider as never, limit: 10 }),
+    (error: unknown) => error instanceof TwitterAllSourcesFailedError,
+  );
+
+  const deliveryFailure = sentryExceptions.find(
+    (entry) =>
+      entry.error instanceof Error &&
+      entry.error.message.includes("OPS alert webhook delivery failed"),
+  );
+  assert.ok(deliveryFailure, "expected ops-alert delivery failure exception");
+  const tags = (deliveryFailure?.context as { tags?: Record<string, string> } | undefined)?.tags;
+  assert.equal(tags?.alert, "ops-alert-delivery-failed");
+  assert.equal(tags?.source, "ops-alert");
+  assert.equal(tags?.upstream_source, "twitter");
+  assert.equal(tags?.category, "recoverable");
+});

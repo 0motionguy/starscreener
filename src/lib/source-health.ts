@@ -90,7 +90,7 @@ export interface ScannerSourceHealth {
 }
 
 export async function refreshScannerSourceHealthFromStore(): Promise<void> {
-  await Promise.all([
+  await Promise.allSettled([
     refreshRedditMentionsFromStore(),
     refreshRedditAllPostsFromStore(),
     refreshHackernewsMentionsFromStore(),

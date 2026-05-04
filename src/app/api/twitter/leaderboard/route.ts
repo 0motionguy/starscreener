@@ -3,7 +3,11 @@ import {
   getTwitterLeaderboard,
   getTwitterOverviewStats,
   getTwitterTrendingRepoLeaderboard,
+  refreshTwitterSignalsFromStore,
 } from "@/lib/twitter";
+import { refreshTrendingFromStore } from "@/lib/trending";
+import { refreshRecentReposFromStore } from "@/lib/recent-repos";
+import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 import { errorEnvelope } from "@/lib/api/error-response";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
@@ -50,6 +54,15 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       },
     );
   }
+
+  // Data-store conformance: refresh caches before reading sync twitter/trending
+  // projections used by leaderboard assembly.
+  await Promise.all([
+    refreshTwitterSignalsFromStore(),
+    refreshTrendingFromStore(),
+    refreshRecentReposFromStore(),
+    refreshRepoMetadataFromStore(),
+  ]);
 
   const [rows, stats] = await Promise.all([
     mode === "global"

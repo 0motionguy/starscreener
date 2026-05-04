@@ -24,6 +24,7 @@
 
 import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 
+import { AuthFatalError } from "@/lib/errors";
 import { isUserTier, type UserTier } from "@/lib/pricing/tiers";
 
 /** Stable 30-day session window. Matches the cookie Max-Age. */
@@ -97,7 +98,10 @@ function getSessionSecret(): string | null {
 export function signSession(payload: SessionPayload): string {
   const secret = getSessionSecret();
   if (!secret) {
-    throw new Error("SESSION_SECRET is not configured");
+    throw new AuthFatalError("SESSION_SECRET is not configured", {
+      scope: "api/session",
+      operation: "signSession",
+    });
   }
   const payloadB64 = base64urlEncode(JSON.stringify(payload));
   const sig = createHmac("sha256", secret).update(payloadB64).digest();
@@ -174,7 +178,10 @@ export function verifySession(token: string | null | undefined): SessionPayload 
 export function deriveUserId(email: string | null | undefined): string {
   const secret = getSessionSecret();
   if (!secret) {
-    throw new Error("SESSION_SECRET is not configured");
+    throw new AuthFatalError("SESSION_SECRET is not configured", {
+      scope: "api/session",
+      operation: "deriveUserId",
+    });
   }
   if (email && typeof email === "string" && email.trim().length > 0) {
     const normalized = email.trim().toLowerCase();

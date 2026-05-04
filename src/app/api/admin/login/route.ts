@@ -12,6 +12,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import * as Sentry from "@sentry/nextjs";
 
 import { timingSafeEqualStr } from "@/lib/api/auth";
 import { parseBody } from "@/lib/api/parse-body";
@@ -21,6 +22,11 @@ import {
   signAdminSession,
 } from "@/lib/api/admin-session";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
+import {
+  AdminFatalError,
+  AdminQuarantineError,
+  engineErrorTags,
+} from "@/lib/errors";
 
 export const runtime = "nodejs";
 
@@ -61,6 +67,13 @@ export async function POST(
   // already protects timing; this protects volume.
   const rate = await checkRateLimitAsync(request, LOGIN_RATE_LIMIT);
   if (!rate.allowed) {
+    const err = new AdminQuarantineError("admin login denied: rate limited");
+    Sentry.captureException(err, {
+      tags: {
+        ...engineErrorTags(err),
+        auth_surface: "admin-login",
+      },
+    });
     return NextResponse.json(
       {
         ok: false,
@@ -78,6 +91,15 @@ export async function POST(
 
   const config = configured();
   if (!config) {
+    const err = new AdminFatalError(
+      "admin login blocked: ADMIN_USERNAME/ADMIN_PASSWORD/SESSION_SECRET missing",
+    );
+    Sentry.captureException(err, {
+      tags: {
+        ...engineErrorTags(err),
+        auth_surface: "admin-login",
+      },
+    });
     return NextResponse.json(
       {
         ok: false,
@@ -122,6 +144,13 @@ export async function POST(
   const userOk = timingSafeEqualStr(providedUsername, config.username);
   const passOk = timingSafeEqualStr(providedPassword, config.password);
   if (!userOk || !passOk) {
+    const err = new AdminQuarantineError("admin login denied: unauthorized");
+    Sentry.captureException(err, {
+      tags: {
+        ...engineErrorTags(err),
+        auth_surface: "admin-login",
+      },
+    });
     return NextResponse.json(
       { ok: false, reason: "unauthorized" },
       { status: 401 },

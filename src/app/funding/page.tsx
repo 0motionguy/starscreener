@@ -175,11 +175,13 @@ export default async function FundingPage() {
       .slice(0, 10)
       .map((signal, index) => {
         // AUDIT-2026-05-04: closes the funding-page no-images gap.
-        // Prefer the extractor's pre-resolved logoUrl when populated,
-        // otherwise derive a Google Favicons URL from companyWebsite.
-        const explicit = signal.extracted?.companyLogoUrl ?? null;
-        const logoUrl =
-          explicit ?? companyLogoUrl(signal.extracted?.companyWebsite ?? null);
+        // Route extractor logo inputs through the shared sanitizer so legacy
+        // Clearbit URLs do not leak direct third-party image failures into UI.
+        const explicit =
+          signal.extracted?.companyLogoUrl ??
+          signal.extracted?.companyWebsite ??
+          null;
+        const logoUrl = companyLogoUrl(explicit);
         return (
           <MoverRow
             key={signal.id}

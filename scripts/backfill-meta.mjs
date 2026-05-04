@@ -29,6 +29,7 @@
 
 const NAMESPACE = "ss:data:v1";
 const META_NAMESPACE = "ss:meta:v1";
+const INVALID_KEY_LITERALS = new Set(["null", "undefined"]);
 
 const dryRun = process.argv.includes("--dry-run");
 
@@ -117,6 +118,10 @@ async function main() {
   for await (const dataKey of scanKeys(handle, `${NAMESPACE}:*`)) {
     total.data++;
     const slug = dataKey.slice(NAMESPACE.length + 1);
+    if (!slug || INVALID_KEY_LITERALS.has(slug.trim())) {
+      console.warn(`[backfill-meta] skip invalid slug "${slug}" from key ${dataKey}`);
+      continue;
+    }
     const expectedMetaKey = `${META_NAMESPACE}:${slug}`;
     const existingMeta = await getRaw(handle, expectedMetaKey);
     if (existingMeta === null || existingMeta === undefined) {

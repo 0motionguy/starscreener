@@ -1,52 +1,54 @@
 {
-  "fetchedAt": "2026-04-30T10:10:22.321Z",
+  "fetchedAt": "2026-05-04T11:05:17.495Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 2,
   "mentions": {
-    "twentyhq/twenty": {
+    "maaslalani/sheets": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:e5hwrginobgjo6tozltj4utw/app.bsky.feed.post/3mkpbhtxvx72r",
-        "cid": "bafyreiav4prn6b4yv33vv7y6nlqlgz2quorl7bhrblvy4bo4nzixowa27y",
-        "bskyUrl": "https://bsky.app/profile/sigmanor.net/post/3mkpbhtxvx72r",
-        "text": "https://github.com/twentyhq/twenty",
+        "uri": "at://did:plc:onk4xy2h4k2wenfbdaelpcqc/app.bsky.feed.post/3mkzj6x6u4s2x",
+        "cid": "bafyreice6xlgk6prvxgv6sbfrmshiyqnpe6xh2mjkc3kaav5ao4an4nje4",
+        "bskyUrl": "https://bsky.app/profile/permutans.bsky.social/post/3mkzj6x6u4s2x",
+        "text": "that’s cute github.com/maaslalani/s...",
         "author": {
-          "handle": "sigmanor.net",
-          "displayName": "Github Repositories"
+          "handle": "permutans.bsky.social",
+          "displayName": "Louis Maddox"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-30T09:12:04.361438089Z",
-        "hoursSincePosted": 0.97
+        "createdAt": "2026-05-04T10:56:53.287Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:e5hwrginobgjo6tozltj4utw/app.bsky.feed.post/3mkpbhtxvx72r",
-          "cid": "bafyreiav4prn6b4yv33vv7y6nlqlgz2quorl7bhrblvy4bo4nzixowa27y",
-          "bskyUrl": "https://bsky.app/profile/sigmanor.net/post/3mkpbhtxvx72r",
-          "text": "https://github.com/twentyhq/twenty",
+          "uri": "at://did:plc:onk4xy2h4k2wenfbdaelpcqc/app.bsky.feed.post/3mkzj6x6u4s2x",
+          "cid": "bafyreice6xlgk6prvxgv6sbfrmshiyqnpe6xh2mjkc3kaav5ao4an4nje4",
+          "bskyUrl": "https://bsky.app/profile/permutans.bsky.social/post/3mkzj6x6u4s2x",
+          "text": "that’s cute github.com/maaslalani/s...",
           "author": {
-            "handle": "sigmanor.net",
-            "displayName": "Github Repositories"
+            "handle": "permutans.bsky.social",
+            "displayName": "Louis Maddox"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-30T09:12:04.361438089Z",
-          "createdUtc": 1777540324,
-          "ageHours": 0.97,
+          "createdAt": "2026-05-04T10:56:53.287Z",
+          "createdUtc": 1777892213,
+          "ageHours": 0.5,
           "trendingScore": 0,
-          "content_tags": [],
-          "value_score": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "twentyhq/twenty",
+              "fullName": "maaslalani/sheets",
               "matchType": "url",
               "confidence": 1
             }
@@ -54,32 +56,718 @@
         }
       ]
     },
-    "garrytan/gbrain": {
+    "ruvnet/ruflo": {
+      "count7d": 3,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkzhpnntok2l",
+        "cid": "bafyreiaw5kx4w7trf5omfn55rebivfioaogcenhy63pcaiou4fagrf2lnm",
+        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkzhpnntok2l",
+        "text": "Ruflo: Multi-agent AI orchestration for Claude Code https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md",
+        "author": {
+          "handle": "hnbot.gsuscs.xyz",
+          "displayName": "HackerNews Compilator"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-04T10:30:26.226Z",
+        "hoursSincePosted": 0.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkzhpnntok2l",
+          "cid": "bafyreiaw5kx4w7trf5omfn55rebivfioaogcenhy63pcaiou4fagrf2lnm",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkzhpnntok2l",
+          "text": "Ruflo: Multi-agent AI orchestration for Claude Code https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-04T10:30:26.226Z",
+          "createdUtc": 1777890626,
+          "ageHours": 0.58,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file",
+            "has-agent"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/ruflo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mkzitdzqbj2c",
+          "cid": "bafyreibnjmqy6ib7ihsb3biuk4uptt5mo5c7mcjoeapc22gyjhk524xwoe",
+          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mkzitdzqbj2c",
+          "text": "📰 Ruflo: Multi-agent AI orchestration for Claude Code 🔗 https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md #Tech #Dev",
+          "author": {
+            "handle": "sagalinked.bsky.social",
+            "displayName": "SagaLinked"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T10:50:20.597604+00:00",
+          "createdUtc": 1777891820,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file",
+            "has-agent"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/ruflo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkzhykgzef2v",
+          "cid": "bafyreie4ogi2pnan6h3refqtnixl6rta773vn3j7gjokg6vbdxsm2opvwy",
+          "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkzhykgzef2v",
+          "text": "Ruflo: Multi-agent AI orchestration for Claude Code https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md",
+          "author": {
+            "handle": "mm-hacker-news.bsky.social",
+            "displayName": "Hacker News"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T10:35:24.516Z",
+          "createdUtc": 1777890924,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file",
+            "has-agent"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/ruflo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "reubeno/brush": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkp7k6fijf2b",
-        "cid": "bafyreib2sd6ohpf5jn6a53lsdljaqhpavfd254cu54nspnvibiwp3jhz24",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkp7k6fijf2b",
-        "text": "Use GBrain for retrieval and memory with your Hermes Agent or OpenClaw MIT-licensed open source, and I use it every day with my OpenClaw and Hermes Agents with over 75,000 markdown files https://github.com/garrytan/gbrain",
+        "uri": "at://did:plc:rouotscdkg4cxv4qbnm4uqgc/app.bsky.feed.post/3mkziistpdry2",
+        "cid": "bafyreid46ejyrlamtrbni53lke2unyjyuuduebwdooxsgtsmqbqbiidh54",
+        "bskyUrl": "https://bsky.app/profile/omasanori.mstdn.maud.io.ap.brid.gy/post/3mkziistpdry2",
+        "text": "brushはPOSIX shとGNU bashとの互換性を重視したRust製のコマンドラインシェル。Ubuntuが次に導入するRust製ツールはこれかも？ https://github.com/reubeno/brush",
         "author": {
-          "handle": "garrytan-mirr.selfhosted.social",
-          "displayName": "Garry Tan [UNOFFICIAL]"
+          "handle": "omasanori.mstdn.maud.io.ap.brid.gy",
+          "displayName": "Masanori Ogino 𓀁"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-30T08:26:06.000Z",
+        "createdAt": "2026-05-04T10:44:22.000Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:rouotscdkg4cxv4qbnm4uqgc/app.bsky.feed.post/3mkziistpdry2",
+          "cid": "bafyreid46ejyrlamtrbni53lke2unyjyuuduebwdooxsgtsmqbqbiidh54",
+          "bskyUrl": "https://bsky.app/profile/omasanori.mstdn.maud.io.ap.brid.gy/post/3mkziistpdry2",
+          "text": "brushはPOSIX shとGNU bashとの互換性を重視したRust製のコマンドラインシェル。Ubuntuが次に導入するRust製ツールはこれかも？ https://github.com/reubeno/brush",
+          "author": {
+            "handle": "omasanori.mstdn.maud.io.ap.brid.gy",
+            "displayName": "Masanori Ogino 𓀁"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T10:44:22.000Z",
+          "createdUtc": 1777891462,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "reubeno/brush",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Gentleman-Programming/gentle-ai": {
+      "count7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mkzhjv3v3m24",
+        "cid": "bafyreief5pdzunjl4yui6sj3kiz47borsznkrgab6lrs57awosofbxudfm",
+        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mkzhjv3v3m24",
+        "text": "AIの仕組みをコードレベルで基礎から丁寧に解説する学習リポジトリっぽい ゼロから実装を学んでみたい自分には非常に試したい yug1224 starred Gentleman-Programming/gentle-ai https://github.com/Gentleman-Programming/gentle-ai",
+        "author": {
+          "handle": "yug1224.com",
+          "displayName": "ぷーじ"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T10:27:11.884Z",
+        "hoursSincePosted": 0.64
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mkzhjv3v3m24",
+          "cid": "bafyreief5pdzunjl4yui6sj3kiz47borsznkrgab6lrs57awosofbxudfm",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mkzhjv3v3m24",
+          "text": "AIの仕組みをコードレベルで基礎から丁寧に解説する学習リポジトリっぽい ゼロから実装を学んでみたい自分には非常に試したい yug1224 starred Gentleman-Programming/gentle-ai https://github.com/Gentleman-Programming/gentle-ai",
+          "author": {
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T10:27:11.884Z",
+          "createdUtc": 1777890431,
+          "ageHours": 0.64,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Gentleman-Programming/gentle-ai",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mkzg2urmoa2t",
+          "cid": "bafyreicufgdlzbvynfksgqbr2d7imf52dwk3y7nwnaccbgzsehvwk5wpna",
+          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mkzg2urmoa2t",
+          "text": "github.com/Gentleman-Progr... GitHub - Gentleman-Programming/gentle-ai",
+          "author": {
+            "handle": "technews4869.bsky.social",
+            "displayName": "technews4869"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T10:00:54.488Z",
+          "createdUtc": 1777888854,
+          "ageHours": 1.07,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Gentleman-Programming/gentle-ai",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "mattpocock/sandcastle": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:2pbcv2hgynjwwxnpu633n23w/app.bsky.feed.post/3mkzg27mykt2a",
+        "cid": "bafyreif26tnibphtkojgk7wmc3yf5l5q3k2yhf2acduj5oqznek3hgzlli",
+        "bskyUrl": "https://bsky.app/profile/jordbastin.bsky.social/post/3mkzg27mykt2a",
+        "text": "Orchestrer plusieurs agents IA en parallèle sans conflits git. sandcastle par @mattpocockuk — chaque agent dans son sandbox isolé. MIT. TypeScript. Une seule fonction. github.com/mattpocock/...",
+        "author": {
+          "handle": "jordbastin.bsky.social",
+          "displayName": "Jordan Bastin 🇫🇷"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T10:00:33.043740Z",
+        "hoursSincePosted": 1.08
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2pbcv2hgynjwwxnpu633n23w/app.bsky.feed.post/3mkzg27mykt2a",
+          "cid": "bafyreif26tnibphtkojgk7wmc3yf5l5q3k2yhf2acduj5oqznek3hgzlli",
+          "bskyUrl": "https://bsky.app/profile/jordbastin.bsky.social/post/3mkzg27mykt2a",
+          "text": "Orchestrer plusieurs agents IA en parallèle sans conflits git. sandcastle par @mattpocockuk — chaque agent dans son sandbox isolé. MIT. TypeScript. Une seule fonction. github.com/mattpocock/...",
+          "author": {
+            "handle": "jordbastin.bsky.social",
+            "displayName": "Jordan Bastin 🇫🇷"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T10:00:33.043740Z",
+          "createdUtc": 1777888833,
+          "ageHours": 1.08,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "mattpocock/sandcastle",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "getagentseal/codeburn": {
+      "count7d": 1,
+      "likesSum7d": 4,
+      "repostsSum7d": 1,
+      "repliesSum7d": 2,
+      "topPost": {
+        "uri": "at://did:plc:oz4kje2m72iq76acl676o5za/app.bsky.feed.post/3mkzflmc6lk2v",
+        "cid": "bafyreiapaqggh2qtfddpqibv5noywva7ogr4uohuo3ruawxhwbfmawbmlm",
+        "bskyUrl": "https://bsky.app/profile/remvze.bsky.social/post/3mkzflmc6lk2v",
+        "text": "OSS Spotlight: «CodeBurn» See where your AI coding tokens go. Interactive TUI dashboard for Claude Code, Codex, and Cursor cost observability. → github.com/getagentseal/codeburn #opensource #github",
+        "author": {
+          "handle": "remvze.bsky.social",
+          "displayName": "MAZE"
+        },
+        "likeCount": 4,
+        "repostCount": 1,
+        "replyCount": 2,
+        "createdAt": "2026-05-04T09:52:23.096Z",
+        "hoursSincePosted": 1.22
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:oz4kje2m72iq76acl676o5za/app.bsky.feed.post/3mkzflmc6lk2v",
+          "cid": "bafyreiapaqggh2qtfddpqibv5noywva7ogr4uohuo3ruawxhwbfmawbmlm",
+          "bskyUrl": "https://bsky.app/profile/remvze.bsky.social/post/3mkzflmc6lk2v",
+          "text": "OSS Spotlight: «CodeBurn» See where your AI coding tokens go. Interactive TUI dashboard for Claude Code, Codex, and Cursor cost observability. → github.com/getagentseal/codeburn #opensource #github",
+          "author": {
+            "handle": "remvze.bsky.social",
+            "displayName": "MAZE"
+          },
+          "likeCount": 4,
+          "repostCount": 1,
+          "replyCount": 2,
+          "createdAt": "2026-05-04T09:52:23.096Z",
+          "createdUtc": 1777888343,
+          "ageHours": 1.22,
+          "trendingScore": 7,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "getagentseal/codeburn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "rorkai/App-Store-Connect-CLI": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mkzew3pdym2z",
+        "cid": "bafyreibr55mm7sx55t6iszqdumctnizululs6qhkcoyocvwocw2l67cgca",
+        "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mkzew3pdym2z",
+        "text": "App Store Connect CLI 1.3.0 is out! New: - `asc analytics request --reuse-existing` - `asc apps registry pull` - safer local registry sync with dry runs, duplicate-key checks, and confirmed pruning Release: github.com/rorkai/App-...",
+        "author": {
+          "handle": "rudrank.bsky.social",
+          "displayName": "Rudrank Riyam"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T09:40:20.996400Z",
+        "hoursSincePosted": 1.42
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mkzew3pdym2z",
+          "cid": "bafyreibr55mm7sx55t6iszqdumctnizululs6qhkcoyocvwocw2l67cgca",
+          "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mkzew3pdym2z",
+          "text": "App Store Connect CLI 1.3.0 is out! New: - `asc analytics request --reuse-existing` - `asc apps registry pull` - safer local registry sync with dry runs, duplicate-key checks, and confirmed pruning Release: github.com/rorkai/App-...",
+          "author": {
+            "handle": "rudrank.bsky.social",
+            "displayName": "Rudrank Riyam"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T09:40:20.996400Z",
+          "createdUtc": 1777887620,
+          "ageHours": 1.42,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "rorkai/App-Store-Connect-CLI",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "charmbracelet/crush": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:tcd7vfiocwe35evwczucocrm/app.bsky.feed.post/3mkzdst7m5s2c",
+        "cid": "bafyreicp7kqig6li3lrttimmei2fyov5tc3ehc62ufhw2wtcsq4bn6b3jq",
+        "bskyUrl": "https://bsky.app/profile/thylong.bsky.social/post/3mkzdst7m5s2c",
+        "text": "Wait, @charm.land is discretely announcing its own inference service for Crush? Excited to give it a try as soon as possible! github.com/charmbracele...",
+        "author": {
+          "handle": "thylong.bsky.social",
+          "displayName": "Théotime 🇺🇦🇫🇷🇪🇺"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T09:20:37.755Z",
         "hoursSincePosted": 1.74
       },
       "posts": [
         {
-          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mkp7k6fijf2b",
-          "cid": "bafyreib2sd6ohpf5jn6a53lsdljaqhpavfd254cu54nspnvibiwp3jhz24",
-          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkp7k6fijf2b",
-          "text": "Use GBrain for retrieval and memory with your Hermes Agent or OpenClaw MIT-licensed open source, and I use it every day with my OpenClaw and Hermes Agents with over 75,000 markdown files https://github.com/garrytan/gbrain",
+          "uri": "at://did:plc:tcd7vfiocwe35evwczucocrm/app.bsky.feed.post/3mkzdst7m5s2c",
+          "cid": "bafyreicp7kqig6li3lrttimmei2fyov5tc3ehc62ufhw2wtcsq4bn6b3jq",
+          "bskyUrl": "https://bsky.app/profile/thylong.bsky.social/post/3mkzdst7m5s2c",
+          "text": "Wait, @charm.land is discretely announcing its own inference service for Crush? Excited to give it a try as soon as possible! github.com/charmbracele...",
+          "author": {
+            "handle": "thylong.bsky.social",
+            "displayName": "Théotime 🇺🇦🇫🇷🇪🇺"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T09:20:37.755Z",
+          "createdUtc": 1777886437,
+          "ageHours": 1.74,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "charmbracelet/crush",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ggml-org/llama.cpp": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:vblsvx2dvtmtfldmjpfu7wod/app.bsky.feed.post/3mkzber2nsk2k",
+        "cid": "bafyreicbuaicnpebbotogghgn5qpaywhpgpyqwchlc45mmwmel3bhdkrsq",
+        "bskyUrl": "https://bsky.app/profile/morisoba1024.bsky.social/post/3mkzber2nsk2k",
+        "text": "github.com/ggml-org/lla...",
+        "author": {
+          "handle": "morisoba1024.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T08:36:58.251Z",
+        "hoursSincePosted": 2.47
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:vblsvx2dvtmtfldmjpfu7wod/app.bsky.feed.post/3mkzber2nsk2k",
+          "cid": "bafyreicbuaicnpebbotogghgn5qpaywhpgpyqwchlc45mmwmel3bhdkrsq",
+          "bskyUrl": "https://bsky.app/profile/morisoba1024.bsky.social/post/3mkzber2nsk2k",
+          "text": "github.com/ggml-org/lla...",
+          "author": {
+            "handle": "morisoba1024.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T08:36:58.251Z",
+          "createdUtc": 1777883818,
+          "ageHours": 2.47,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "bschoepke/ableton-live-mcp": {
+      "count7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkzazgkgrk2l",
+        "cid": "bafyreiav2arr7dvbvozoeeamfcq6jr2jrtwu5sy4vwmwrgvwcyfd7zsr5y",
+        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkzazgkgrk2l",
+        "text": "Show HN: Ableton Live MCP https://github.com/bschoepke/ableton-live-mcp",
+        "author": {
+          "handle": "hnbot.gsuscs.xyz",
+          "displayName": "HackerNews Compilator"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T08:30:38.128Z",
+        "hoursSincePosted": 2.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkzazgkgrk2l",
+          "cid": "bafyreiav2arr7dvbvozoeeamfcq6jr2jrtwu5sy4vwmwrgvwcyfd7zsr5y",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkzazgkgrk2l",
+          "text": "Show HN: Ableton Live MCP https://github.com/bschoepke/ableton-live-mcp",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T08:30:38.128Z",
+          "createdUtc": 1777883438,
+          "ageHours": 2.58,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "bschoepke/ableton-live-mcp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mkz4qourm72q",
+          "cid": "bafyreif5nfeacockjrlisi3er3vrfa7miar3qqyipgbwyejdunrfuzhyzq",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mkz4qourm72q",
+          "text": "Show HN: Ableton Live MCP (github.com) Discussion | Main Link",
+          "author": {
+            "handle": "newsycombinatorbot.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T07:14:09.859790Z",
+          "createdUtc": 1777878849,
+          "ageHours": 3.85,
+          "trendingScore": 0,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "bschoepke/ableton-live-mcp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "aattaran/deepclaude": {
+      "count7d": 6,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkzaz6l7rs2l",
+        "cid": "bafyreic2e6qvxi2x5u7lnz3briqlztoq7nmhmj6pqrvr23wv6yilasnzk4",
+        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkzaz6l7rs2l",
+        "text": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro https://github.com/aattaran/deepclaude",
+        "author": {
+          "handle": "hnbot.gsuscs.xyz",
+          "displayName": "HackerNews Compilator"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T08:30:29.763Z",
+        "hoursSincePosted": 2.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkzaz6l7rs2l",
+          "cid": "bafyreic2e6qvxi2x5u7lnz3briqlztoq7nmhmj6pqrvr23wv6yilasnzk4",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkzaz6l7rs2l",
+          "text": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro https://github.com/aattaran/deepclaude",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T08:30:29.763Z",
+          "createdUtc": 1777883429,
+          "ageHours": 2.58,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "aattaran/deepclaude",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:3tadq4w54a5yc27m6azfghwe/app.bsky.feed.post/3mkz7d3zhbd22",
+          "cid": "bafyreibtixwkj4my6sg7tpwpap4hq23ksaozpbwfselmpn4aiug4dwxyim",
+          "bskyUrl": "https://bsky.app/profile/hnbest.bsky.social/post/3mkz7d3zhbd22",
+          "text": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro https://github.com/aattaran/deepclaude comments #github.com",
+          "author": {
+            "handle": "hnbest.bsky.social",
+            "displayName": "Hacker News Best"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T08:00:15.111581+00:00",
+          "createdUtc": 1777881615,
+          "ageHours": 3.08,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "aattaran/deepclaude",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkz5t3emvf2u",
+          "cid": "bafyreifo64bz7prqp7d4enzcnshbwurjzc6ex7tnxq3pdrv75gdhqaup4y",
+          "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkz5t3emvf2u",
+          "text": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro https://github.com/aattaran/deepclaude",
+          "author": {
+            "handle": "mm-hacker-news.bsky.social",
+            "displayName": "Hacker News"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T07:33:23.671Z",
+          "createdUtc": 1777880003,
+          "ageHours": 3.53,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "aattaran/deepclaude",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mkz34y3o232v",
+          "cid": "bafyreidjgnnydqj6su6opil65mwb74j3og7uclzjyiin5es4trzlqukij4",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mkz34y3o232v",
+          "text": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro https://github.com/aattaran/deepclaude https://news.ycombinator.com/item?id=48002136",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T06:45:14.648668+00:00",
+          "createdUtc": 1777877114,
+          "ageHours": 4.33,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "aattaran/deepclaude",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mkyyrklzvr2y",
+          "cid": "bafyreihsciyb6vqcplilzo77yo6lkpygl5ejzmz2q5icwgjhihntdjjzae",
+          "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mkyyrklzvr2y",
+          "text": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro, 17x cheaper https://github.com/aattaran/deepclaude [comments] [326 points]",
           "author": {
             "handle": "hnfeed.bsky.social",
             "displayName": "Hacker News Bot"
@@ -87,9 +775,9 @@
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-30T08:26:06.000Z",
-          "createdUtc": 1777537566,
-          "ageHours": 1.74,
+          "createdAt": "2026-05-04T06:03:03.945Z",
+          "createdUtc": 1777874583,
+          "ageHours": 5.04,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -117,119 +805,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-04T05:45:16.043Z",
           "createdUtc": 1777873516,
-          "ageHours": 1.69,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "aattaran/deepclaude",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mkyvcnkuoe2k",
-          "cid": "bafyreie7mds5jtjydbvzmjjzy4aaprugipiessewinr3ljjjrb6kp6iwhe",
-          "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mkyvcnkuoe2k",
-          "text": "When devs rush to cheaper, backend-agnostic agent loops, it’s a warning: AI platforms that ignore cost and lock-in may soon be left behind. https://github.com/aattaran/deepclaude https://www.projectnothing.ai/experiments/signal-from-the-void",
-          "author": {
-            "handle": "projectnothing.bsky.social",
-            "displayName": "Project Nothing"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-04T05:01:01.243Z",
-          "createdUtc": 1777870861,
-          "ageHours": 2.43,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "aattaran/deepclaude",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:ngq4y7h2tlxtn6qi6zokimms/app.bsky.feed.post/3mkyuctjk2l2g",
-          "cid": "bafyreig22rejvfkddkuz6g4cl4psormyqfgtd4y7ucm7uobu4oqpz7hxbm",
-          "bskyUrl": "https://bsky.app/profile/newsyc250.bsky.social/post/3mkyuctjk2l2g",
-          "text": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro, 17x cheaper https://github.com/aattaran/deepclaude (http://news.ycombinator.com/item?id=48002136)",
-          "author": {
-            "handle": "newsyc250.bsky.social",
-            "displayName": "Hacker News 250 Points"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-04T07:43:14+03:00",
-          "createdUtc": 1777869794,
-          "ageHours": 2.72,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "aattaran/deepclaude",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:jae5tazawa2t7gorbrhbmfoe/app.bsky.feed.post/3mkytnauqso2d",
-          "cid": "bafyreigdalidm4xvqgljstwsuv43uwby4sft4skid3ijprt6v2wt5mfukq",
-          "bskyUrl": "https://bsky.app/profile/eltableroglobal.bsky.social/post/3mkytnauqso2d",
-          "text": "2/2 costes y posibles casos de uso. Fuente: https://github.com/aattaran/deepclaude",
-          "author": {
-            "handle": "eltableroglobal.bsky.social",
-            "displayName": "El tablero global"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-04T04:31:10.785Z",
-          "createdUtc": 1777869070,
-          "ageHours": 2.93,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "aattaran/deepclaude",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:l5gupr4kifwasjek7vblnoy2/app.bsky.feed.post/3mkyt27bkq42y",
-          "cid": "bafyreicahefzttx4fow4ah2czvwgp33zwqrcknajqrwbkvjfmf3gk4ljky",
-          "bskyUrl": "https://bsky.app/profile/hn.rbrt.fr/post/3mkyt27bkq42y",
-          "text": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro, 17x cheaper https://github.com/aattaran/deepclaude https://news.ycombinator.com/item?id=48002136",
-          "author": {
-            "handle": "hn.rbrt.fr",
-            "displayName": "Hacker News RSS"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-04T04:20:31Z",
-          "createdUtc": 1777868431,
-          "ageHours": 3.1,
+          "ageHours": 5.33,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -245,32 +821,195 @@
         }
       ]
     },
-    "anthropics/claude-code": {
-      "count7d": 2,
+    "openclaw/openclaw": {
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkp3xc5ok32a",
-        "cid": "bafyreicagdvromv2thxpah5oskkqo2sigpt2hikcagrxcgy46eh2qgk7mq",
-        "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkp3xc5ok32a",
-        "text": "HERMES.md in commit messages causes requests to route to extra usage billing https://github.com/anthropics/claude-code/issues/53262",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkz4h2j73p2u",
+        "cid": "bafyreicv3rysa2lhpvxgoge24w5cw4wk6mhgvkq2xhs3iqy55sq3ebocni",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkz4h2j73p2u",
+        "text": "🟠 OpenClaw 2026.5.3 lands in stable with bundled node file-transfer tools and queue-independent /steer control OpenClaw has shipped stable v2026.5.3, promoting a meaningful workflow release out of beta. https://github.com/openclaw/openclaw/releases/tag/v2026.5.3 #AI #AgentWyre",
         "author": {
-          "handle": "mm-hacker-news.bsky.social",
-          "displayName": "Hacker News"
+          "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-30T07:33:20.149Z",
-        "hoursSincePosted": 2.62
+        "createdAt": "2026-05-04T07:08:45.582132+00:00",
+        "hoursSincePosted": 3.94
       },
       "posts": [
         {
-          "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkp3xc5ok32a",
-          "cid": "bafyreicagdvromv2thxpah5oskkqo2sigpt2hikcagrxcgy46eh2qgk7mq",
-          "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkp3xc5ok32a",
-          "text": "HERMES.md in commit messages causes requests to route to extra usage billing https://github.com/anthropics/claude-code/issues/53262",
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkz4h2j73p2u",
+          "cid": "bafyreicv3rysa2lhpvxgoge24w5cw4wk6mhgvkq2xhs3iqy55sq3ebocni",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkz4h2j73p2u",
+          "text": "🟠 OpenClaw 2026.5.3 lands in stable with bundled node file-transfer tools and queue-independent /steer control OpenClaw has shipped stable v2026.5.3, promoting a meaningful workflow release out of beta. https://github.com/openclaw/openclaw/releases/tag/v2026.5.3 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T07:08:45.582132+00:00",
+          "createdUtc": 1777878525,
+          "ageHours": 3.94,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "mentionsByRepoId": {
+    "maaslalani--sheets": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:onk4xy2h4k2wenfbdaelpcqc/app.bsky.feed.post/3mkzj6x6u4s2x",
+        "cid": "bafyreice6xlgk6prvxgv6sbfrmshiyqnpe6xh2mjkc3kaav5ao4an4nje4",
+        "bskyUrl": "https://bsky.app/profile/permutans.bsky.social/post/3mkzj6x6u4s2x",
+        "text": "that’s cute github.com/maaslalani/s...",
+        "author": {
+          "handle": "permutans.bsky.social",
+          "displayName": "Louis Maddox"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T10:56:53.287Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:onk4xy2h4k2wenfbdaelpcqc/app.bsky.feed.post/3mkzj6x6u4s2x",
+          "cid": "bafyreice6xlgk6prvxgv6sbfrmshiyqnpe6xh2mjkc3kaav5ao4an4nje4",
+          "bskyUrl": "https://bsky.app/profile/permutans.bsky.social/post/3mkzj6x6u4s2x",
+          "text": "that’s cute github.com/maaslalani/s...",
+          "author": {
+            "handle": "permutans.bsky.social",
+            "displayName": "Louis Maddox"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T10:56:53.287Z",
+          "createdUtc": 1777892213,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "maaslalani/sheets",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ruvnet--ruflo": {
+      "count7d": 3,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkzhpnntok2l",
+        "cid": "bafyreiaw5kx4w7trf5omfn55rebivfioaogcenhy63pcaiou4fagrf2lnm",
+        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkzhpnntok2l",
+        "text": "Ruflo: Multi-agent AI orchestration for Claude Code https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md",
+        "author": {
+          "handle": "hnbot.gsuscs.xyz",
+          "displayName": "HackerNews Compilator"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-04T10:30:26.226Z",
+        "hoursSincePosted": 0.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkzhpnntok2l",
+          "cid": "bafyreiaw5kx4w7trf5omfn55rebivfioaogcenhy63pcaiou4fagrf2lnm",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkzhpnntok2l",
+          "text": "Ruflo: Multi-agent AI orchestration for Claude Code https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-04T10:30:26.226Z",
+          "createdUtc": 1777890626,
+          "ageHours": 0.58,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file",
+            "has-agent"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/ruflo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mkzitdzqbj2c",
+          "cid": "bafyreibnjmqy6ib7ihsb3biuk4uptt5mo5c7mcjoeapc22gyjhk524xwoe",
+          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mkzitdzqbj2c",
+          "text": "📰 Ruflo: Multi-agent AI orchestration for Claude Code 🔗 https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md #Tech #Dev",
+          "author": {
+            "handle": "sagalinked.bsky.social",
+            "displayName": "SagaLinked"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T10:50:20.597604+00:00",
+          "createdUtc": 1777891820,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file",
+            "has-agent"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/ruflo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkzhykgzef2v",
+          "cid": "bafyreie4ogi2pnan6h3refqtnixl6rta773vn3j7gjokg6vbdxsm2opvwy",
+          "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkzhykgzef2v",
+          "text": "Ruflo: Multi-agent AI orchestration for Claude Code https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md",
           "author": {
             "handle": "mm-hacker-news.bsky.social",
             "displayName": "Hacker News"
@@ -278,144 +1017,16 @@
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-30T07:33:20.149Z",
-          "createdUtc": 1777534400,
-          "ageHours": 2.62,
+          "createdAt": "2026-05-04T10:35:24.516Z",
+          "createdUtc": 1777890924,
+          "ageHours": 0.5,
           "trendingScore": 0,
           "content_tags": [
-            "has-github-repo"
+            "has-github-repo",
+            "has-md-file",
+            "has-agent"
           ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:jt2ndfyk3u6sscookxz2jwif/app.bsky.feed.post/3mkoylktjsk2o",
-          "cid": "bafyreigfmn7k36wgtn3bpiezraof3q5wpbvtx3nucoimxsblkgyoh7g34e",
-          "bskyUrl": "https://bsky.app/profile/mastodonstorm.bsky.social/post/3mkoylktjsk2o",
-          "text": "lol. lmao even. github.com/anthropics/c...",
-          "author": {
-            "handle": "mastodonstorm.bsky.social",
-            "displayName": "mastodonstorm"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T06:33:05.547Z",
-          "createdUtc": 1777530785,
-          "ageHours": 3.62,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "browser-use/browser-harness": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mkp2xf7h6x2i",
-        "cid": "bafyreiaxv74rr22xeitgqta6gbsanuc7vmb3adonxcpp3mhb4km4axzc2u",
-        "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mkp2xf7h6x2i",
-        "text": "browser-harness Self-healing browser harness that enables LLMs to complete any task. https://github.com/browser-use/browser-harness",
-        "author": {
-          "handle": "pythonhub.dev",
-          "displayName": "Python Hub"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-30T07:15:29.703484+00:00",
-        "hoursSincePosted": 2.91
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mkp2xf7h6x2i",
-          "cid": "bafyreiaxv74rr22xeitgqta6gbsanuc7vmb3adonxcpp3mhb4km4axzc2u",
-          "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mkp2xf7h6x2i",
-          "text": "browser-harness Self-healing browser harness that enables LLMs to complete any task. https://github.com/browser-use/browser-harness",
-          "author": {
-            "handle": "pythonhub.dev",
-            "displayName": "Python Hub"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T07:15:29.703484+00:00",
-          "createdUtc": 1777533329,
-          "ageHours": 2.91,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "browser-use/browser-harness",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "heygen-com/hyperframes": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:bbkkj7c4mibd7gkih2nbs46r/app.bsky.feed.post/3mkp2vefurs2u",
-        "cid": "bafyreie7j5idaqtc5ibkewbcsu3mxuwtysimtgracbtx7lfvtlhrk33ana",
-        "bskyUrl": "https://bsky.app/profile/tonyhschu.bsky.social/post/3mkp2vefurs2u",
-        "text": "In case anyone else wants a double nerd-snipe. Pair this with github.com/heygen-com/h... which I also came across today. Makes me wonder if I can re-implement R2D3 *without* Javascript.",
-        "author": {
-          "handle": "tonyhschu.bsky.social",
-          "displayName": "Tony Chu"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-04-30T07:14:21.835Z",
-        "hoursSincePosted": 2.93
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:bbkkj7c4mibd7gkih2nbs46r/app.bsky.feed.post/3mkp2vefurs2u",
-          "cid": "bafyreie7j5idaqtc5ibkewbcsu3mxuwtysimtgracbtx7lfvtlhrk33ana",
-          "bskyUrl": "https://bsky.app/profile/tonyhschu.bsky.social/post/3mkp2vefurs2u",
-          "text": "In case anyone else wants a double nerd-snipe. Pair this with github.com/heygen-com/h... which I also came across today. Makes me wonder if I can re-implement R2D3 *without* Javascript.",
-          "author": {
-            "handle": "tonyhschu.bsky.social",
-            "displayName": "Tony Chu"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-04-30T07:14:21.835Z",
-          "createdUtc": 1777533261,
-          "ageHours": 2.93,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
+          "value_score": 3,
           "linkedRepos": [
             {
               "fullName": "heygen-com/hyperframes",
@@ -426,42 +1037,42 @@
         }
       ]
     },
-    "mattpocock/skills": {
+    "reubeno--brush": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:kzmllyojxozcoopstkufq4ei/app.bsky.feed.post/3mkozloby5s2v",
-        "cid": "bafyreifp4j7pcjbc42qpq3b7kruol2t7fdvbcsd3adc4qb6rtcuc56atki",
-        "bskyUrl": "https://bsky.app/profile/snichme.bsky.social/post/3mkozloby5s2v",
-        "text": "Best skill I've found so far is `/grill-me` github.com/mattpocock/s... So simple yet so powerful. Help you design your code instead of generating just a lot of code to solve a problem.",
+        "uri": "at://did:plc:rouotscdkg4cxv4qbnm4uqgc/app.bsky.feed.post/3mkziistpdry2",
+        "cid": "bafyreid46ejyrlamtrbni53lke2unyjyuuduebwdooxsgtsmqbqbiidh54",
+        "bskyUrl": "https://bsky.app/profile/omasanori.mstdn.maud.io.ap.brid.gy/post/3mkziistpdry2",
+        "text": "brushはPOSIX shとGNU bashとの互換性を重視したRust製のコマンドラインシェル。Ubuntuが次に導入するRust製ツールはこれかも？ https://github.com/reubeno/brush",
         "author": {
-          "handle": "snichme.bsky.social",
-          "displayName": "Mange"
+          "handle": "omasanori.mstdn.maud.io.ap.brid.gy",
+          "displayName": "Masanori Ogino 𓀁"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-30T06:51:02.907Z",
-        "hoursSincePosted": 3.32
+        "createdAt": "2026-05-04T10:44:22.000Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:kzmllyojxozcoopstkufq4ei/app.bsky.feed.post/3mkozloby5s2v",
-          "cid": "bafyreifp4j7pcjbc42qpq3b7kruol2t7fdvbcsd3adc4qb6rtcuc56atki",
-          "bskyUrl": "https://bsky.app/profile/snichme.bsky.social/post/3mkozloby5s2v",
-          "text": "Best skill I've found so far is `/grill-me` github.com/mattpocock/s... So simple yet so powerful. Help you design your code instead of generating just a lot of code to solve a problem.",
+          "uri": "at://did:plc:rouotscdkg4cxv4qbnm4uqgc/app.bsky.feed.post/3mkziistpdry2",
+          "cid": "bafyreid46ejyrlamtrbni53lke2unyjyuuduebwdooxsgtsmqbqbiidh54",
+          "bskyUrl": "https://bsky.app/profile/omasanori.mstdn.maud.io.ap.brid.gy/post/3mkziistpdry2",
+          "text": "brushはPOSIX shとGNU bashとの互換性を重視したRust製のコマンドラインシェル。Ubuntuが次に導入するRust製ツールはこれかも？ https://github.com/reubeno/brush",
           "author": {
-            "handle": "snichme.bsky.social",
-            "displayName": "Mange"
+            "handle": "omasanori.mstdn.maud.io.ap.brid.gy",
+            "displayName": "Masanori Ogino 𓀁"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-30T06:51:02.907Z",
-          "createdUtc": 1777531862,
-          "ageHours": 3.32,
+          "createdAt": "2026-05-04T10:44:22.000Z",
+          "createdUtc": 1777891462,
+          "ageHours": 0.5,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -470,7 +1081,7 @@
           "value_score": 2,
           "linkedRepos": [
             {
-              "fullName": "mattpocock/skills",
+              "fullName": "reubeno/brush",
               "matchType": "url",
               "confidence": 1
             }
@@ -478,43 +1089,376 @@
         }
       ]
     },
-    "charmbracelet/bubbletea": {
+    "gentleman-programming--gentle-ai": {
+      "count7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mkzhjv3v3m24",
+        "cid": "bafyreief5pdzunjl4yui6sj3kiz47borsznkrgab6lrs57awosofbxudfm",
+        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mkzhjv3v3m24",
+        "text": "AIの仕組みをコードレベルで基礎から丁寧に解説する学習リポジトリっぽい ゼロから実装を学んでみたい自分には非常に試したい yug1224 starred Gentleman-Programming/gentle-ai https://github.com/Gentleman-Programming/gentle-ai",
+        "author": {
+          "handle": "yug1224.com",
+          "displayName": "ぷーじ"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T10:27:11.884Z",
+        "hoursSincePosted": 0.64
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mkzhjv3v3m24",
+          "cid": "bafyreief5pdzunjl4yui6sj3kiz47borsznkrgab6lrs57awosofbxudfm",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mkzhjv3v3m24",
+          "text": "AIの仕組みをコードレベルで基礎から丁寧に解説する学習リポジトリっぽい ゼロから実装を学んでみたい自分には非常に試したい yug1224 starred Gentleman-Programming/gentle-ai https://github.com/Gentleman-Programming/gentle-ai",
+          "author": {
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T10:27:11.884Z",
+          "createdUtc": 1777890431,
+          "ageHours": 0.64,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Gentleman-Programming/gentle-ai",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:n6zzgg5g4qwn4kwwvxs6xjn3/app.bsky.feed.post/3mkzg2urmoa2t",
+          "cid": "bafyreicufgdlzbvynfksgqbr2d7imf52dwk3y7nwnaccbgzsehvwk5wpna",
+          "bskyUrl": "https://bsky.app/profile/technews4869.bsky.social/post/3mkzg2urmoa2t",
+          "text": "github.com/Gentleman-Progr... GitHub - Gentleman-Programming/gentle-ai",
+          "author": {
+            "handle": "technews4869.bsky.social",
+            "displayName": "technews4869"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T10:00:54.488Z",
+          "createdUtc": 1777888854,
+          "ageHours": 1.07,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Gentleman-Programming/gentle-ai",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "mattpocock--sandcastle": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:2pbcv2hgynjwwxnpu633n23w/app.bsky.feed.post/3mkzg27mykt2a",
+        "cid": "bafyreif26tnibphtkojgk7wmc3yf5l5q3k2yhf2acduj5oqznek3hgzlli",
+        "bskyUrl": "https://bsky.app/profile/jordbastin.bsky.social/post/3mkzg27mykt2a",
+        "text": "Orchestrer plusieurs agents IA en parallèle sans conflits git. sandcastle par @mattpocockuk — chaque agent dans son sandbox isolé. MIT. TypeScript. Une seule fonction. github.com/mattpocock/...",
+        "author": {
+          "handle": "jordbastin.bsky.social",
+          "displayName": "Jordan Bastin 🇫🇷"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T10:00:33.043740Z",
+        "hoursSincePosted": 1.08
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2pbcv2hgynjwwxnpu633n23w/app.bsky.feed.post/3mkzg27mykt2a",
+          "cid": "bafyreif26tnibphtkojgk7wmc3yf5l5q3k2yhf2acduj5oqznek3hgzlli",
+          "bskyUrl": "https://bsky.app/profile/jordbastin.bsky.social/post/3mkzg27mykt2a",
+          "text": "Orchestrer plusieurs agents IA en parallèle sans conflits git. sandcastle par @mattpocockuk — chaque agent dans son sandbox isolé. MIT. TypeScript. Une seule fonction. github.com/mattpocock/...",
+          "author": {
+            "handle": "jordbastin.bsky.social",
+            "displayName": "Jordan Bastin 🇫🇷"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T10:00:33.043740Z",
+          "createdUtc": 1777888833,
+          "ageHours": 1.08,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "mattpocock/sandcastle",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "getagentseal--codeburn": {
+      "count7d": 1,
+      "likesSum7d": 4,
+      "repostsSum7d": 1,
+      "repliesSum7d": 2,
+      "topPost": {
+        "uri": "at://did:plc:oz4kje2m72iq76acl676o5za/app.bsky.feed.post/3mkzflmc6lk2v",
+        "cid": "bafyreiapaqggh2qtfddpqibv5noywva7ogr4uohuo3ruawxhwbfmawbmlm",
+        "bskyUrl": "https://bsky.app/profile/remvze.bsky.social/post/3mkzflmc6lk2v",
+        "text": "OSS Spotlight: «CodeBurn» See where your AI coding tokens go. Interactive TUI dashboard for Claude Code, Codex, and Cursor cost observability. → github.com/getagentseal/codeburn #opensource #github",
+        "author": {
+          "handle": "remvze.bsky.social",
+          "displayName": "MAZE"
+        },
+        "likeCount": 4,
+        "repostCount": 1,
+        "replyCount": 2,
+        "createdAt": "2026-05-04T09:52:23.096Z",
+        "hoursSincePosted": 1.22
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:oz4kje2m72iq76acl676o5za/app.bsky.feed.post/3mkzflmc6lk2v",
+          "cid": "bafyreiapaqggh2qtfddpqibv5noywva7ogr4uohuo3ruawxhwbfmawbmlm",
+          "bskyUrl": "https://bsky.app/profile/remvze.bsky.social/post/3mkzflmc6lk2v",
+          "text": "OSS Spotlight: «CodeBurn» See where your AI coding tokens go. Interactive TUI dashboard for Claude Code, Codex, and Cursor cost observability. → github.com/getagentseal/codeburn #opensource #github",
+          "author": {
+            "handle": "remvze.bsky.social",
+            "displayName": "MAZE"
+          },
+          "likeCount": 4,
+          "repostCount": 1,
+          "replyCount": 2,
+          "createdAt": "2026-05-04T09:52:23.096Z",
+          "createdUtc": 1777888343,
+          "ageHours": 1.22,
+          "trendingScore": 7,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "getagentseal/codeburn",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "rorkai--app-store-connect-cli": {
       "count7d": 1,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:7wutone443frcq23laowyeqy/app.bsky.feed.post/3mkot4vztac2b",
-        "cid": "bafyreigv57emtnrds5bqigwfnqdnpvldkt5xivrfkf4f6j77jvldq7vrw4",
-        "bskyUrl": "https://bsky.app/profile/raedisch.net/post/3mkot4vztac2b",
-        "text": "Cool! Will check it out for my next Go based terminal app. These days, I tend to build much more of those. (github.com/charmbracele...)",
+        "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mkzew3pdym2z",
+        "cid": "bafyreibr55mm7sx55t6iszqdumctnizululs6qhkcoyocvwocw2l67cgca",
+        "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mkzew3pdym2z",
+        "text": "App Store Connect CLI 1.3.0 is out! New: - `asc analytics request --reuse-existing` - `asc apps registry pull` - safer local registry sync with dry runs, duplicate-key checks, and confirmed pruning Release: github.com/rorkai/App-...",
         "author": {
-          "handle": "raedisch.net",
-          "displayName": "Jasper"
+          "handle": "rudrank.bsky.social",
+          "displayName": "Rudrank Riyam"
         },
         "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-04-30T04:55:25.262Z",
-        "hoursSincePosted": 5.25
+        "createdAt": "2026-05-04T09:40:20.996400Z",
+        "hoursSincePosted": 1.42
       },
       "posts": [
         {
-          "uri": "at://did:plc:7wutone443frcq23laowyeqy/app.bsky.feed.post/3mkot4vztac2b",
-          "cid": "bafyreigv57emtnrds5bqigwfnqdnpvldkt5xivrfkf4f6j77jvldq7vrw4",
-          "bskyUrl": "https://bsky.app/profile/raedisch.net/post/3mkot4vztac2b",
-          "text": "Cool! Will check it out for my next Go based terminal app. These days, I tend to build much more of those. (github.com/charmbracele...)",
+          "uri": "at://did:plc:bxcxxsccko254qidvw5atfvi/app.bsky.feed.post/3mkzew3pdym2z",
+          "cid": "bafyreibr55mm7sx55t6iszqdumctnizululs6qhkcoyocvwocw2l67cgca",
+          "bskyUrl": "https://bsky.app/profile/rudrank.bsky.social/post/3mkzew3pdym2z",
+          "text": "App Store Connect CLI 1.3.0 is out! New: - `asc analytics request --reuse-existing` - `asc apps registry pull` - safer local registry sync with dry runs, duplicate-key checks, and confirmed pruning Release: github.com/rorkai/App-...",
           "author": {
-            "handle": "raedisch.net",
-            "displayName": "Jasper"
+            "handle": "rudrank.bsky.social",
+            "displayName": "Rudrank Riyam"
           },
           "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-04-30T04:55:25.262Z",
-          "createdUtc": 1777524925,
-          "ageHours": 5.25,
+          "createdAt": "2026-05-04T09:40:20.996400Z",
+          "createdUtc": 1777887620,
+          "ageHours": 1.42,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "rorkai/App-Store-Connect-CLI",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "charmbracelet--crush": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:tcd7vfiocwe35evwczucocrm/app.bsky.feed.post/3mkzdst7m5s2c",
+        "cid": "bafyreicp7kqig6li3lrttimmei2fyov5tc3ehc62ufhw2wtcsq4bn6b3jq",
+        "bskyUrl": "https://bsky.app/profile/thylong.bsky.social/post/3mkzdst7m5s2c",
+        "text": "Wait, @charm.land is discretely announcing its own inference service for Crush? Excited to give it a try as soon as possible! github.com/charmbracele...",
+        "author": {
+          "handle": "thylong.bsky.social",
+          "displayName": "Théotime 🇺🇦🇫🇷🇪🇺"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T09:20:37.755Z",
+        "hoursSincePosted": 1.74
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:tcd7vfiocwe35evwczucocrm/app.bsky.feed.post/3mkzdst7m5s2c",
+          "cid": "bafyreicp7kqig6li3lrttimmei2fyov5tc3ehc62ufhw2wtcsq4bn6b3jq",
+          "bskyUrl": "https://bsky.app/profile/thylong.bsky.social/post/3mkzdst7m5s2c",
+          "text": "Wait, @charm.land is discretely announcing its own inference service for Crush? Excited to give it a try as soon as possible! github.com/charmbracele...",
+          "author": {
+            "handle": "thylong.bsky.social",
+            "displayName": "Théotime 🇺🇦🇫🇷🇪🇺"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T09:20:37.755Z",
+          "createdUtc": 1777886437,
+          "ageHours": 1.74,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "charmbracelet/crush",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ggml-org--llama-cpp": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:vblsvx2dvtmtfldmjpfu7wod/app.bsky.feed.post/3mkzber2nsk2k",
+        "cid": "bafyreicbuaicnpebbotogghgn5qpaywhpgpyqwchlc45mmwmel3bhdkrsq",
+        "bskyUrl": "https://bsky.app/profile/morisoba1024.bsky.social/post/3mkzber2nsk2k",
+        "text": "github.com/ggml-org/lla...",
+        "author": {
+          "handle": "morisoba1024.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T08:36:58.251Z",
+        "hoursSincePosted": 2.47
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:vblsvx2dvtmtfldmjpfu7wod/app.bsky.feed.post/3mkzber2nsk2k",
+          "cid": "bafyreicbuaicnpebbotogghgn5qpaywhpgpyqwchlc45mmwmel3bhdkrsq",
+          "bskyUrl": "https://bsky.app/profile/morisoba1024.bsky.social/post/3mkzber2nsk2k",
+          "text": "github.com/ggml-org/lla...",
+          "author": {
+            "handle": "morisoba1024.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T08:36:58.251Z",
+          "createdUtc": 1777883818,
+          "ageHours": 2.47,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ggml-org/llama.cpp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "bschoepke--ableton-live-mcp": {
+      "count7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkzazgkgrk2l",
+        "cid": "bafyreiav2arr7dvbvozoeeamfcq6jr2jrtwu5sy4vwmwrgvwcyfd7zsr5y",
+        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkzazgkgrk2l",
+        "text": "Show HN: Ableton Live MCP https://github.com/bschoepke/ableton-live-mcp",
+        "author": {
+          "handle": "hnbot.gsuscs.xyz",
+          "displayName": "HackerNews Compilator"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T08:30:38.128Z",
+        "hoursSincePosted": 2.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkzazgkgrk2l",
+          "cid": "bafyreiav2arr7dvbvozoeeamfcq6jr2jrtwu5sy4vwmwrgvwcyfd7zsr5y",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkzazgkgrk2l",
+          "text": "Show HN: Ableton Live MCP https://github.com/bschoepke/ableton-live-mcp",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T08:30:38.128Z",
+          "createdUtc": 1777883438,
+          "ageHours": 2.58,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -526,43 +1470,335 @@
               "confidence": 1
             }
           ]
+        },
+        {
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mkz4qourm72q",
+          "cid": "bafyreif5nfeacockjrlisi3er3vrfa7miar3qqyipgbwyejdunrfuzhyzq",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mkz4qourm72q",
+          "text": "Show HN: Ableton Live MCP (github.com) Discussion | Main Link",
+          "author": {
+            "handle": "newsycombinatorbot.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T07:14:09.859790Z",
+          "createdUtc": 1777878849,
+          "ageHours": 3.85,
+          "trendingScore": 0,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "bschoepke/ableton-live-mcp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "aattaran--deepclaude": {
+      "count7d": 6,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkzaz6l7rs2l",
+        "cid": "bafyreic2e6qvxi2x5u7lnz3briqlztoq7nmhmj6pqrvr23wv6yilasnzk4",
+        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkzaz6l7rs2l",
+        "text": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro https://github.com/aattaran/deepclaude",
+        "author": {
+          "handle": "hnbot.gsuscs.xyz",
+          "displayName": "HackerNews Compilator"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T08:30:29.763Z",
+        "hoursSincePosted": 2.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mkzaz6l7rs2l",
+          "cid": "bafyreic2e6qvxi2x5u7lnz3briqlztoq7nmhmj6pqrvr23wv6yilasnzk4",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkzaz6l7rs2l",
+          "text": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro https://github.com/aattaran/deepclaude",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T08:30:29.763Z",
+          "createdUtc": 1777883429,
+          "ageHours": 2.58,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "aattaran/deepclaude",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:3tadq4w54a5yc27m6azfghwe/app.bsky.feed.post/3mkz7d3zhbd22",
+          "cid": "bafyreibtixwkj4my6sg7tpwpap4hq23ksaozpbwfselmpn4aiug4dwxyim",
+          "bskyUrl": "https://bsky.app/profile/hnbest.bsky.social/post/3mkz7d3zhbd22",
+          "text": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro https://github.com/aattaran/deepclaude comments #github.com",
+          "author": {
+            "handle": "hnbest.bsky.social",
+            "displayName": "Hacker News Best"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T08:00:15.111581+00:00",
+          "createdUtc": 1777881615,
+          "ageHours": 3.08,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "aattaran/deepclaude",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3mkz5t3emvf2u",
+          "cid": "bafyreifo64bz7prqp7d4enzcnshbwurjzc6ex7tnxq3pdrv75gdhqaup4y",
+          "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkz5t3emvf2u",
+          "text": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro https://github.com/aattaran/deepclaude",
+          "author": {
+            "handle": "mm-hacker-news.bsky.social",
+            "displayName": "Hacker News"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T07:33:23.671Z",
+          "createdUtc": 1777880003,
+          "ageHours": 3.53,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "aattaran/deepclaude",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mkz34y3o232v",
+          "cid": "bafyreidjgnnydqj6su6opil65mwb74j3og7uclzjyiin5es4trzlqukij4",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mkz34y3o232v",
+          "text": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro https://github.com/aattaran/deepclaude https://news.ycombinator.com/item?id=48002136",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T06:45:14.648668+00:00",
+          "createdUtc": 1777877114,
+          "ageHours": 4.33,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "aattaran/deepclaude",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mkyyrklzvr2y",
+          "cid": "bafyreihsciyb6vqcplilzo77yo6lkpygl5ejzmz2q5icwgjhihntdjjzae",
+          "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mkyyrklzvr2y",
+          "text": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro, 17x cheaper https://github.com/aattaran/deepclaude [comments] [326 points]",
+          "author": {
+            "handle": "hnfeed.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T06:03:03.945Z",
+          "createdUtc": 1777874583,
+          "ageHours": 5.04,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "aattaran/deepclaude",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:j5jiovhowtgvvuvr2shke2ae/app.bsky.feed.post/3mkyxrqtfea24",
+          "cid": "bafyreiciglyih27xorndcl2l6lwqyaazk3ujo2zzzyjzonyrvctogmt3rm",
+          "bskyUrl": "https://bsky.app/profile/betterhn300.e-work.xyz/post/3mkyxrqtfea24",
+          "text": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro, 17x cheaper https://github.com/aattaran/deepclaude (https://news.ycombinator.com/item?id=48002136)",
+          "author": {
+            "handle": "betterhn300.e-work.xyz",
+            "displayName": "Hacker News 300"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T05:45:16.043Z",
+          "createdUtc": 1777873516,
+          "ageHours": 5.33,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "aattaran/deepclaude",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "openclaw--openclaw": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkz4h2j73p2u",
+        "cid": "bafyreicv3rysa2lhpvxgoge24w5cw4wk6mhgvkq2xhs3iqy55sq3ebocni",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkz4h2j73p2u",
+        "text": "🟠 OpenClaw 2026.5.3 lands in stable with bundled node file-transfer tools and queue-independent /steer control OpenClaw has shipped stable v2026.5.3, promoting a meaningful workflow release out of beta. https://github.com/openclaw/openclaw/releases/tag/v2026.5.3 #AI #AgentWyre",
+        "author": {
+          "handle": "agentwyre.ai"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T07:08:45.582132+00:00",
+        "hoursSincePosted": 3.94
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mkz4h2j73p2u",
+          "cid": "bafyreicv3rysa2lhpvxgoge24w5cw4wk6mhgvkq2xhs3iqy55sq3ebocni",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mkz4h2j73p2u",
+          "text": "🟠 OpenClaw 2026.5.3 lands in stable with bundled node file-transfer tools and queue-independent /steer control OpenClaw has shipped stable v2026.5.3, promoting a meaningful workflow release out of beta. https://github.com/openclaw/openclaw/releases/tag/v2026.5.3 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T07:08:45.582132+00:00",
+          "createdUtc": 1777878525,
+          "ageHours": 3.94,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
         }
       ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "browser-use/browser-harness",
+      "fullName": "getagentseal/codeburn",
+      "count7d": 1,
+      "likesSum7d": 4
+    },
+    {
+      "fullName": "ruvnet/ruflo",
+      "count7d": 3,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "rorkai/App-Store-Connect-CLI",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "charmbracelet/bubbletea",
-      "count7d": 1,
-      "likesSum7d": 1
+      "fullName": "aattaran/deepclaude",
+      "count7d": 6,
+      "likesSum7d": 0
     },
     {
-      "fullName": "anthropics/claude-code",
+      "fullName": "bschoepke/ableton-live-mcp",
       "count7d": 2,
       "likesSum7d": 0
     },
     {
-      "fullName": "garrytan/gbrain",
+      "fullName": "Gentleman-Programming/gentle-ai",
+      "count7d": 2,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "charmbracelet/crush",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "heygen-com/hyperframes",
+      "fullName": "ggml-org/llama.cpp",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "mattpocock/skills",
+      "fullName": "maaslalani/sheets",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "twentyhq/twenty",
+      "fullName": "mattpocock/sandcastle",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "openclaw/openclaw",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "reubeno/brush",
       "count7d": 1,
       "likesSum7d": 0
     }

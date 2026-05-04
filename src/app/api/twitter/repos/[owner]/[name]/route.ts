@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getTwitterRepoPanel } from "@/lib/twitter";
+import { getTwitterRepoPanel, refreshTwitterSignalsFromStore } from "@/lib/twitter";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 import { errorEnvelope } from "@/lib/api/error-response";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
@@ -37,6 +37,7 @@ export async function GET(
     return NextResponse.json(errorEnvelope("Invalid repo slug"), { status: 400 });
   }
 
+  await refreshTwitterSignalsFromStore();
   const panel = await getTwitterRepoPanel(`${owner}/${name}`);
   if (!panel) {
     return NextResponse.json(errorEnvelope("Twitter signal not found for repo"), { status: 404 });

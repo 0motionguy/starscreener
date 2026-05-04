@@ -21,6 +21,7 @@ interface DependentsEntry {
 interface CacheEntry {
   signature: string;
   byPackage: Map<string, DependentsEntry>;
+  fromRedis?: boolean;
 }
 
 let cache: CacheEntry | null = null;
@@ -46,6 +47,7 @@ function fileSignature(path: string): string {
 }
 
 function loadIndex(): Map<string, DependentsEntry> {
+  if (cache?.fromRedis) return cache.byPackage;
   const path = currentPath();
   const signature = fileSignature(path);
   if (cache && cache.signature === signature) return cache.byPackage;
@@ -92,4 +94,54 @@ export function getNpmDependentsCount(name: string): number | null {
   const entry = loadIndex().get(name);
   if (!entry) return null;
   return entry.count;
+}
+
+let inflight: Promise<{ source: string; ageMs: number }> | null = null;
+let lastRefreshMs = 0;
+const MIN_REFRESH_INTERVAL_MS = 30_000;
+
+export async function refreshNpmDependentsFromStore(): Promise<{
+  source: string;
+  ageMs: number;
+}> {
+  if (pathOverride) {
+    return { source: "file", ageMs: 0 };
+  }
+  if (inflight) return inflight;
+  if (
+    Date.now() - lastRefreshMs < MIN_REFRESH_INTERVAL_MS &&
+    lastRefreshMs > 0
+  ) {
+    return { source: "memory", ageMs: Date.now() - lastRefreshMs };
+  }
+  inflight = (async () => {
+    const { getDataStore } = await import("./data-store");
+    const result = await getDataStore().read<unknown>("npm-dependents");
+    if (result.data && typeof result.data === "object" && result.source !== "missing") {
+      const byPackage = new Map<string, DependentsEntry>();
+      for (const [name, raw] of Object.entries(result.data as Record<string, unknown>)) {
+        if (!raw || typeof raw !== "object") continue;
+        const rec = raw as Record<string, unknown>;
+        const countRaw = rec.count;
+        const count =
+          countRaw === null
+            ? null
+            : typeof countRaw === "number" && Number.isFinite(countRaw)
+              ? Math.max(0, Math.round(countRaw))
+              : null;
+        const fetchedAt = typeof rec.fetchedAt === "string" ? rec.fetchedAt : "";
+        byPackage.set(name, { count, fetchedAt });
+      }
+      cache = {
+        signature: `redis:${result.writtenAt ?? Date.now()}`,
+        byPackage,
+        fromRedis: true,
+      };
+    }
+    lastRefreshMs = Date.now();
+    return { source: result.source, ageMs: result.ageMs };
+  })().finally(() => {
+    inflight = null;
+  });
+  return inflight;
 }

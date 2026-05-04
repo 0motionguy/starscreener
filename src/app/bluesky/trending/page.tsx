@@ -21,7 +21,6 @@ import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFe
 import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoLogoUrl, userLogoUrl } from "@/lib/logos";
-import { resolveLogoUrl } from "@/lib/logo-url";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -215,9 +214,6 @@ function BskyPostFeed({ posts }: { posts: BskyPost[] }) {
             ?.avatar ??
           (p.author as { avatarUrl?: string | null } | null)?.avatarUrl ??
           null;
-        const handleFavicon = p.author?.handle
-          ? resolveLogoUrl(p.author.handle, null, 64)
-          : null;
         return (
           <div className="flex min-w-0 items-start gap-2">
             <EntityLogo

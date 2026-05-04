@@ -28,6 +28,7 @@ import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { MarkVisited } from "@/components/layout/MarkVisited";
+import { HfNavTabs } from "@/components/huggingface/HfNavTabs";
 
 const HF_ACCENT_BAR = "#FFD21E"; // HF brand yellow
 
@@ -86,6 +87,7 @@ export default async function HuggingFaceDatasetsPage() {
           }
           title="Hugging Face · datasets"
           lede="Top datasets ranked by domain-scored momentum. Weekly downloads + recency drive ranking through hfDatasetScorer + computeCrossDomainMomentum."
+          tabBar={<HfNavTabs activeHref="/huggingface/datasets" />}
         />
         <ColdState />
       </main>
@@ -154,6 +156,7 @@ export default async function HuggingFaceDatasetsPage() {
             ]}
           />
         }
+        tabBar={<HfNavTabs activeHref="/huggingface/datasets" />}
         listEyebrow="Dataset feed · top 100 by momentum"
         list={<HfDatasetFeed datasets={datasets} />}
       />

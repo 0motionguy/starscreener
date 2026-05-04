@@ -34,6 +34,7 @@ const SLOT_COLORS = [
   { border: "border-accent-blue", text: "text-accent-blue", dot: "bg-accent-blue" },
   { border: "border-accent-purple", text: "text-accent-purple", dot: "bg-accent-purple" },
   { border: "border-accent-amber", text: "text-accent-amber", dot: "bg-accent-amber" },
+  { border: "border-accent-red", text: "text-accent-red", dot: "bg-accent-red" },
 ];
 
 const SEARCH_DEBOUNCE_MS = 200;
@@ -54,8 +55,14 @@ export function CompareSelector() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // --- Close dropdown on outside click ---------------------------------
+  // --- Close dropdown on Escape or outside click ----------------------
   useEffect(() => {
+    function handleEscape(e: KeyboardEvent) {
+      if (e.key === "Escape" && isOpen) {
+        setIsOpen(false);
+        setQuery("");
+      }
+    }
     function handleClickOutside(e: MouseEvent) {
       if (
         dropdownRef.current &&
@@ -65,9 +72,13 @@ export function CompareSelector() {
         setQuery("");
       }
     }
+    document.addEventListener("keydown", handleEscape);
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   // --- Debounced search ------------------------------------------------
   // Refetches only when the query changes; the `repos` filter is applied
@@ -204,7 +215,7 @@ export function CompareSelector() {
       {/* Pills + empty slots */}
       <div className="flex flex-wrap items-center gap-2">
         {repos.map((id, i) => {
-          const color = SLOT_COLORS[i];
+          const color = SLOT_COLORS[i % SLOT_COLORS.length];
           const name = getRepoName(id);
           return (
             <div

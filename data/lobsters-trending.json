@@ -1,40 +1,55 @@
 {
-  "fetchedAt": "2026-05-04T05:03:19.822Z",
+  "fetchedAt": "2026-05-04T12:11:58.869Z",
   "windowHours": 72,
-  "scannedTotal": 75,
+  "scannedTotal": 82,
   "stories": [
+    {
+      "shortId": "6cmh6h",
+      "title": "Reminder: You Can Stitch Together Lots of Little HTML Pages With Navigations For Interactions",
+      "url": "https://blog.jim-nielsen.com/2026/small-html-pages/",
+      "commentsUrl": "https://lobste.rs/s/6cmh6h/reminder_you_can_stitch_together_lots",
+      "by": "",
+      "score": 39,
+      "commentCount": 11,
+      "createdUtc": 1777876610,
+      "ageHours": 5.585555555555556,
+      "trendingScore": 1.866738639096776,
+      "tags": [
+        "web"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "rks8da",
+      "title": "I accidentally made law enforcement shut down their stresser honeypot",
+      "url": "https://lina.sh/blog/ddos-honeypot",
+      "commentsUrl": "https://lobste.rs/s/rks8da/i_accidentally_made_law_enforcement_shut",
+      "by": "",
+      "score": 21,
+      "commentCount": 1,
+      "createdUtc": 1777873947,
+      "ageHours": 6.325277777777778,
+      "trendingScore": 0.8742209209591509,
+      "tags": [
+        "security"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
     {
       "shortId": "ifbdw1",
       "title": "The text mode lie: why modern TUIs are a nightmare for accessibility",
       "url": "https://xogium.me/the-text-mode-lie-why-modern-tuis-are-a-nightmare-for-accessibility",
       "commentsUrl": "https://lobste.rs/s/ifbdw1/text_mode_lie_why_modern_tuis_are",
       "by": "",
-      "score": 70,
-      "commentCount": 17,
+      "score": 82,
+      "commentCount": 22,
       "createdUtc": 1777809834,
-      "ageHours": 16.990277777777777,
-      "trendingScore": 0.845865017068073,
+      "ageHours": 24.134444444444444,
+      "trendingScore": 0.6137534461857351,
       "tags": [
         "a11y"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "xvtq0l",
-      "title": "Fake Notepad++ for Mac",
-      "url": "https://notepad-plus-plus.org/news/npp-trademark-infringement/",
-      "commentsUrl": "https://lobste.rs/s/xvtq0l/fake_notepad_for_mac",
-      "by": "",
-      "score": 39,
-      "commentCount": 6,
-      "createdUtc": 1777829689,
-      "ageHours": 11.475,
-      "trendingScore": 0.7884450777753109,
-      "tags": [
-        "editors",
-        "mac",
-        "web"
       ],
       "description": "",
       "linkedRepos": []
@@ -45,15 +60,69 @@
       "url": "https://larsfaye.com/articles/agentic-coding-is-a-trap",
       "commentsUrl": "https://lobste.rs/s/dyq1jw/agentic_coding_is_trap",
       "by": "",
-      "score": 17,
-      "commentCount": 2,
+      "score": 36,
+      "commentCount": 4,
       "createdUtc": 1777848774,
-      "ageHours": 6.173611111111111,
-      "trendingScore": 0.7274915701180679,
+      "ageHours": 13.317777777777778,
+      "trendingScore": 0.6004942506821584,
       "tags": [
         "vibecoding"
       ],
       "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "xvtq0l",
+      "title": "Fake Notepad++ for Mac",
+      "url": "https://notepad-plus-plus.org/news/npp-trademark-infringement/",
+      "commentsUrl": "https://lobste.rs/s/xvtq0l/fake_notepad_for_mac",
+      "by": "",
+      "score": 56,
+      "commentCount": 7,
+      "createdUtc": 1777829689,
+      "ageHours": 18.61916666666667,
+      "trendingScore": 0.5981104128711445,
+      "tags": [
+        "editors",
+        "mac",
+        "web"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "pjuxhr",
+      "title": "Native macOS app to track YouTube channels, no Google login required",
+      "url": "https://github.com/agentcooper/Telik",
+      "commentsUrl": "https://lobste.rs/s/pjuxhr/native_macos_app_track_youtube_channels",
+      "by": "",
+      "score": 8,
+      "commentCount": 1,
+      "createdUtc": 1777882563,
+      "ageHours": 3.9319444444444445,
+      "trendingScore": 0.5537253094224945,
+      "tags": [
+        "mac"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "abg2mj",
+      "title": "What are you doing this week?",
+      "url": "",
+      "commentsUrl": "https://lobste.rs/s/abg2mj/what_are_you_doing_this_week",
+      "by": "",
+      "score": 7,
+      "commentCount": 7,
+      "createdUtc": 1777884001,
+      "ageHours": 3.5325,
+      "trendingScore": 0.5379177882940723,
+      "tags": [
+        "ask",
+        "programming"
+      ],
+      "description": "<p>What are you doing this week? Feel free to share!</p>\n<p>Keep in mind it’s OK to do nothing at all, too.</p>\n",
       "linkedRepos": []
     },
     {
@@ -62,32 +131,14 @@
       "url": "https://purplesyringa.moe/blog/this-wasm-interpreter-fits-in-a-qr-code/",
       "commentsUrl": "https://lobste.rs/s/bmhm7k/this_wasm_interpreter_fits_qr_code",
       "by": "",
-      "score": 29,
+      "score": 41,
       "commentCount": 2,
       "createdUtc": 1777831205,
-      "ageHours": 11.053888888888888,
-      "trendingScore": 0.6148768329860477,
+      "ageHours": 18.198055555555555,
+      "trendingScore": 0.45166819818910653,
       "tags": [
         "assembly",
         "wasm"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "jhuf5a",
-      "title": "NetHack 5.0.0",
-      "url": "https://nethack.org/v500/release.html",
-      "commentsUrl": "https://lobste.rs/s/jhuf5a/nethack_5_0_0",
-      "by": "",
-      "score": 80,
-      "commentCount": 9,
-      "createdUtc": 1777771711,
-      "ageHours": 27.58,
-      "trendingScore": 0.4972705418207723,
-      "tags": [
-        "games",
-        "release"
       ],
       "description": "",
       "linkedRepos": []
@@ -98,30 +149,13 @@
       "url": "https://evertpot.com/broadcasting-gps-on-local-network/",
       "commentsUrl": "https://lobste.rs/s/4n38xw/broadcasting_gps_on_local_network",
       "by": "",
-      "score": 12,
-      "commentCount": 8,
+      "score": 30,
+      "commentCount": 12,
       "createdUtc": 1777843097,
-      "ageHours": 7.750555555555556,
-      "trendingScore": 0.39412792273927055,
+      "ageHours": 14.894722222222223,
+      "trendingScore": 0.4320108668730627,
       "tags": [
         "linux"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "qp0vi5",
-      "title": "NHS Goes To War Against Open Source",
-      "url": "https://shkspr.mobi/blog/2026/05/nhs-goes-to-war-against-open-source/",
-      "commentsUrl": "https://lobste.rs/s/qp0vi5/nhs_goes_war_against_open_source",
-      "by": "",
-      "score": 86,
-      "commentCount": 7,
-      "createdUtc": 1777745637,
-      "ageHours": 34.82277777777778,
-      "trendingScore": 0.38487848175511546,
-      "tags": [
-        "security"
       ],
       "description": "",
       "linkedRepos": []
@@ -132,13 +166,82 @@
       "url": "https://seiya.me/blog/microkernel-ipc-design",
       "commentsUrl": "https://lobste.rs/s/60qq1o/designing_microkernel_ipc",
       "by": "",
-      "score": 2,
-      "commentCount": 0,
+      "score": 13,
+      "commentCount": 2,
       "createdUtc": 1777867197,
-      "ageHours": 1.056111111111111,
-      "trendingScore": 0.3743486625915624,
+      "ageHours": 8.200277777777778,
+      "trendingScore": 0.3990481981214621,
       "tags": [
         "osdev"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "jhuf5a",
+      "title": "NetHack 5.0.0",
+      "url": "https://nethack.org/v500/release.html",
+      "commentsUrl": "https://lobste.rs/s/jhuf5a/nethack_5_0_0",
+      "by": "",
+      "score": 83,
+      "commentCount": 9,
+      "createdUtc": 1777771711,
+      "ageHours": 34.72416666666667,
+      "trendingScore": 0.37294961900697754,
+      "tags": [
+        "games",
+        "release"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "txbgo5",
+      "title": "Do AI summaries hurt critical thinking?",
+      "url": "https://medium.com/blueprint-for-disaster/ai-summaries-are-a-threat-to-our-cognitive-sovereignty-917afc37692f",
+      "commentsUrl": "https://lobste.rs/s/txbgo5/do_ai_summaries_hurt_critical_thinking",
+      "by": "",
+      "score": 2,
+      "commentCount": 1,
+      "createdUtc": 1777892776,
+      "ageHours": 1.095,
+      "trendingScore": 0.36731529744956676,
+      "tags": [
+        "ai"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "ocm5ox",
+      "title": "Is form design easy?",
+      "url": "https://adamsilver.io/blog/is-form-design-easy/",
+      "commentsUrl": "https://lobste.rs/s/ocm5ox/is_form_design_easy",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777896510,
+      "ageHours": 0.057777777777777775,
+      "trendingScore": 0.3387679301615732,
+      "tags": [
+        "design"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "qp0vi5",
+      "title": "NHS Goes To War Against Open Source",
+      "url": "https://shkspr.mobi/blog/2026/05/nhs-goes-to-war-against-open-source/",
+      "commentsUrl": "https://lobste.rs/s/qp0vi5/nhs_goes_war_against_open_source",
+      "by": "",
+      "score": 90,
+      "commentCount": 7,
+      "createdUtc": 1777745637,
+      "ageHours": 41.966944444444444,
+      "trendingScore": 0.3087116951281125,
+      "tags": [
+        "security"
       ],
       "description": "",
       "linkedRepos": []
@@ -149,30 +252,13 @@
       "url": "https://blog.feld.me/posts/2026/04/open-source-does-not-imply-open-community/",
       "commentsUrl": "https://lobste.rs/s/rp1lti/open_source_does_not_imply_open_community",
       "by": "",
-      "score": 69,
-      "commentCount": 19,
+      "score": 76,
+      "commentCount": 22,
       "createdUtc": 1777759564,
-      "ageHours": 30.954166666666666,
-      "trendingScore": 0.3647401647985314,
+      "ageHours": 38.098333333333336,
+      "trendingScore": 0.29931198671905335,
       "tags": [
         "programming"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "bznmaf",
-      "title": "Your Container Is Not a Sandbox",
-      "url": "https://emirb.github.io/blog/microvm-2026/",
-      "commentsUrl": "https://lobste.rs/s/bznmaf/your_container_is_not_sandbox",
-      "by": "",
-      "score": 21,
-      "commentCount": 16,
-      "createdUtc": 1777823336,
-      "ageHours": 13.239722222222222,
-      "trendingScore": 0.3529829416752225,
-      "tags": [
-        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -183,11 +269,11 @@
       "url": "",
       "commentsUrl": "https://lobste.rs/s/ncngka/what_fun_websites_do_you_know",
       "by": "",
-      "score": 79,
+      "score": 84,
       "commentCount": 50,
       "createdUtc": 1777741519,
-      "ageHours": 35.96666666666667,
-      "trendingScore": 0.33769403335976983,
+      "ageHours": 43.11083333333333,
+      "trendingScore": 0.2772413540043856,
       "tags": [
         "ask",
         "web"
@@ -196,19 +282,36 @@
       "linkedRepos": []
     },
     {
-      "shortId": "ffu7l8",
-      "title": "My favorite device is a Chromebook, without ChromeOS",
-      "url": "https://kokada.dev/blog/my-favorite-device-is-a-chromebook-without-chromeos/",
-      "commentsUrl": "https://lobste.rs/s/ffu7l8/my_favorite_device_is_chromebook_without",
+      "shortId": "v1hrs7",
+      "title": "[2022] the tragedy of gethostbyname",
+      "url": "https://ariadne.space/2022/03/26/the-tragedy-of-gethostbyname.html",
+      "commentsUrl": "https://lobste.rs/s/v1hrs7/2022_tragedy_gethostbyname",
       "by": "",
-      "score": 25,
-      "commentCount": 5,
-      "createdUtc": 1777812233,
-      "ageHours": 16.323888888888888,
-      "trendingScore": 0.31872309510000313,
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777895422,
+      "ageHours": 0.36,
+      "trendingScore": 0.2758239639424235,
       "tags": [
         "linux",
-        "systemd"
+        "networking"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "bznmaf",
+      "title": "Your Container Is Not a Sandbox",
+      "url": "https://emirb.github.io/blog/microvm-2026/",
+      "commentsUrl": "https://lobste.rs/s/bznmaf/your_container_is_not_sandbox",
+      "by": "",
+      "score": 27,
+      "commentCount": 20,
+      "createdUtc": 1777823336,
+      "ageHours": 20.38388888888889,
+      "trendingScore": 0.25495319107964537,
+      "tags": [
+        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -219,13 +322,31 @@
       "url": "https://nesbitt.io/2026/05/02/a-github-for-maintainers.html",
       "commentsUrl": "https://lobste.rs/s/bwppor/github_for_maintainers",
       "by": "",
-      "score": 51,
-      "commentCount": 6,
+      "score": 55,
+      "commentCount": 10,
       "createdUtc": 1777768518,
-      "ageHours": 28.466944444444444,
-      "trendingScore": 0.30326816616155794,
+      "ageHours": 35.611111111111114,
+      "trendingScore": 0.2384451230191983,
       "tags": [
         "vcs"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "ffu7l8",
+      "title": "My favorite device is a Chromebook, without ChromeOS",
+      "url": "https://kokada.dev/blog/my-favorite-device-is-a-chromebook-without-chromeos/",
+      "commentsUrl": "https://lobste.rs/s/ffu7l8/my_favorite_device_is_chromebook_without",
+      "by": "",
+      "score": 30,
+      "commentCount": 5,
+      "createdUtc": 1777812233,
+      "ageHours": 23.468055555555555,
+      "trendingScore": 0.23341436048955205,
+      "tags": [
+        "linux",
+        "systemd"
       ],
       "description": "",
       "linkedRepos": []
@@ -236,11 +357,11 @@
       "url": "https://christophermeiklejohn.com/ai/personal/phish/flow/agents/2026/05/03/rift.html",
       "commentsUrl": "https://lobste.rs/s/mkwtsj/for_thirty_years_i_programmed_with_phish",
       "by": "",
-      "score": 16,
-      "commentCount": 9,
+      "score": 23,
+      "commentCount": 11,
       "createdUtc": 1777826933,
-      "ageHours": 12.240555555555556,
-      "trendingScore": 0.29773478969668266,
+      "ageHours": 19.384722222222223,
+      "trendingScore": 0.23258002668080296,
       "tags": [
         "culture",
         "vibecoding"
@@ -249,18 +370,18 @@
       "linkedRepos": []
     },
     {
-      "shortId": "klw6bu",
-      "title": "A desktop made for one",
-      "url": "https://isene.org/2026/05/Audience-of-One.html",
-      "commentsUrl": "https://lobste.rs/s/klw6bu/desktop_made_for_one",
+      "shortId": "oepyso",
+      "title": "Netizen",
+      "url": "https://sive.rs/netizen",
+      "commentsUrl": "https://lobste.rs/s/oepyso/netizen",
       "by": "",
-      "score": 17,
-      "commentCount": 20,
-      "createdUtc": 1777819765,
-      "ageHours": 14.231666666666667,
-      "trendingScore": 0.25995863518618956,
+      "score": 3,
+      "commentCount": 0,
+      "createdUtc": 1777883937,
+      "ageHours": 3.5502777777777776,
+      "trendingScore": 0.2294294564200097,
       "tags": [
-        "vibecoding"
+        "culture"
       ],
       "description": "",
       "linkedRepos": []
@@ -271,31 +392,13 @@
       "url": "https://mydbanotebook.org/posts/pgbackrest-is-dead.-now-what/",
       "commentsUrl": "https://lobste.rs/s/dp3tdn/pgbackrest_is_dead_now_what",
       "by": "",
-      "score": 24,
-      "commentCount": 7,
+      "score": 29,
+      "commentCount": 9,
       "createdUtc": 1777801108,
-      "ageHours": 19.414166666666667,
-      "trendingScore": 0.24219182178206258,
+      "ageHours": 26.558333333333334,
+      "trendingScore": 0.1900197359771155,
       "tags": [
         "databases"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "cqomz3",
-      "title": "Continuing the story of early DOS development",
-      "url": "https://opensource.microsoft.com/blog/2026/04/28/continuing-the-story-of-early-dos-development/",
-      "commentsUrl": "https://lobste.rs/s/cqomz3/continuing_story_early_dos_development",
-      "by": "",
-      "score": 4,
-      "commentCount": 0,
-      "createdUtc": 1777854655,
-      "ageHours": 4.54,
-      "trendingScore": 0.2391626565766896,
-      "tags": [
-        "osdev",
-        "programming"
       ],
       "description": "",
       "linkedRepos": []
@@ -306,13 +409,31 @@
       "url": "https://peps.python.org/pep-0661/",
       "commentsUrl": "https://lobste.rs/s/mi9xrw/pep_661_sentinel_values_accepted_5_years",
       "by": "",
-      "score": 52,
+      "score": 54,
       "commentCount": 11,
       "createdUtc": 1777742819,
-      "ageHours": 35.605555555555554,
-      "trendingScore": 0.225488984186648,
+      "ageHours": 42.749722222222225,
+      "trendingScore": 0.1803882494608911,
       "tags": [
         "python"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "cqomz3",
+      "title": "Continuing the story of early DOS development",
+      "url": "https://opensource.microsoft.com/blog/2026/04/28/continuing-the-story-of-early-dos-development/",
+      "commentsUrl": "https://lobste.rs/s/cqomz3/continuing_story_early_dos_development",
+      "by": "",
+      "score": 9,
+      "commentCount": 0,
+      "createdUtc": 1777854655,
+      "ageHours": 11.684166666666666,
+      "trendingScore": 0.17779313050343387,
+      "tags": [
+        "osdev",
+        "programming"
       ],
       "description": "",
       "linkedRepos": []
@@ -324,10 +445,10 @@
       "commentsUrl": "https://lobste.rs/s/miwd1w/i_do_not_recommend_bitwarden",
       "by": "",
       "score": 66,
-      "commentCount": 57,
+      "commentCount": 58,
       "createdUtc": 1777703958,
-      "ageHours": 46.40027777777778,
-      "trendingScore": 0.1960072584854736,
+      "ageHours": 53.544444444444444,
+      "trendingScore": 0.1594347534706252,
       "tags": [
         "security"
       ],
@@ -340,13 +461,47 @@
       "url": "https://raw.githubusercontent.com/git/git/e83c5163316f89bfbde7d9ab23ca2e25604af290/README",
       "commentsUrl": "https://lobste.rs/s/nthsyb/git_stupid_content_tracker_2005",
       "by": "",
-      "score": 18,
-      "commentCount": 4,
+      "score": 22,
+      "commentCount": 6,
       "createdUtc": 1777802810,
-      "ageHours": 18.941388888888888,
-      "trendingScore": 0.18782970754527653,
+      "ageHours": 26.085555555555555,
+      "trendingScore": 0.14780807206817828,
       "tags": [
         "vcs"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "klw6bu",
+      "title": "A desktop made for one",
+      "url": "https://isene.org/2026/05/Audience-of-One.html",
+      "commentsUrl": "https://lobste.rs/s/klw6bu/desktop_made_for_one",
+      "by": "",
+      "score": 16,
+      "commentCount": 30,
+      "createdUtc": 1777819765,
+      "ageHours": 21.375833333333333,
+      "trendingScore": 0.14156937979320605,
+      "tags": [
+        "vibecoding"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "222h0a",
+      "title": "How a Broken Bike Sync Led Me to Reverse Engineering My Wahoo’s Hidden Debug Mode",
+      "url": "https://noahclements.com/Wahoo-Bolt-Hidden-Debug-Mode/",
+      "commentsUrl": "https://lobste.rs/s/222h0a/how_broken_bike_sync_led_me_reverse",
+      "by": "",
+      "score": 14,
+      "commentCount": 0,
+      "createdUtc": 1777826823,
+      "ageHours": 19.415277777777778,
+      "trendingScore": 0.14126756769510015,
+      "tags": [
+        "reversing"
       ],
       "description": "",
       "linkedRepos": []
@@ -357,15 +512,50 @@
       "url": "https://www.growse.com/2026/05/02/screw-you-realtek.html",
       "commentsUrl": "https://lobste.rs/s/aunywc/screw_you_realtek",
       "by": "",
-      "score": 45,
+      "score": 46,
       "commentCount": 8,
       "createdUtc": 1777724318,
-      "ageHours": 40.74472222222222,
-      "trendingScore": 0.16102331566519384,
+      "ageHours": 47.888888888888886,
+      "trendingScore": 0.13054254772901935,
       "tags": [
         "linux",
         "networking",
         "vibecoding"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "pp5yza",
+      "title": "Writing middlewares for Rust Lambda functions",
+      "url": "https://loige.co/writing-middlewares-for-rust-lambda-functions/",
+      "commentsUrl": "https://lobste.rs/s/pp5yza/writing_middlewares_for_rust_lambda",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777889600,
+      "ageHours": 1.9772222222222222,
+      "trendingScore": 0.12607535915685122,
+      "tags": [
+        "rust",
+        "web"
+      ],
+      "description": "<p>A practical look at using <code>tower</code> as the middleware layer for Rust AWS Lambda functions, with examples that build up to a DynamoDB-backed per-IP rate limiter. It covers <code>Service</code>, <code>Layer</code>, stack ordering, short-circuiting, boxed async futures, and testing middleware without deploying a Lambda.</p>\n",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "s99bls",
+      "title": "Project Mithridates Preview",
+      "url": "https://pboyd.io/posts/mithridates/",
+      "commentsUrl": "https://lobste.rs/s/s99bls/project_mithridates_preview",
+      "by": "",
+      "score": 1,
+      "commentCount": 1,
+      "createdUtc": 1777889533,
+      "ageHours": 1.9958333333333333,
+      "trendingScore": 0.12519556712257476,
+      "tags": [
+        "satire"
       ],
       "description": "",
       "linkedRepos": []
@@ -377,10 +567,10 @@
       "commentsUrl": "https://lobste.rs/s/bzltqt/unsigned_sizes_five_year_mistake",
       "by": "",
       "score": 27,
-      "commentCount": 23,
+      "commentCount": 24,
       "createdUtc": 1777759909,
-      "ageHours": 30.858333333333334,
-      "trendingScore": 0.14334926404495532,
+      "ageHours": 38.0025,
+      "trendingScore": 0.10671686616815765,
       "tags": [
         "c",
         "plt"
@@ -394,49 +584,14 @@
       "url": "https://microblog.thomascannon.me/2026/05/03/blue-ridge-ruby.html",
       "commentsUrl": "https://lobste.rs/s/gzosvk/blue_ridge_ruby_2026",
       "by": "",
-      "score": 3,
+      "score": 6,
       "commentCount": 0,
       "createdUtc": 1777849956,
-      "ageHours": 5.845277777777778,
-      "trendingScore": 0.13652392540080172,
+      "ageHours": 12.989444444444445,
+      "trendingScore": 0.10338866918151482,
       "tags": [
         "event",
         "ruby"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "jwzowr",
-      "title": "dithering with css",
-      "url": "https://ikesau.co/blog/dithering-with-css/",
-      "commentsUrl": "https://lobste.rs/s/jwzowr/dithering_with_css",
-      "by": "",
-      "score": 3,
-      "commentCount": 0,
-      "createdUtc": 1777849412,
-      "ageHours": 5.996388888888889,
-      "trendingScore": 0.1326723415658914,
-      "tags": [
-        "css",
-        "web"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "222h0a",
-      "title": "How a Broken Bike Sync Led Me to Reverse Engineering My Wahoo’s Hidden Debug Mode",
-      "url": "https://noahclements.com/Wahoo-Bolt-Hidden-Debug-Mode/",
-      "commentsUrl": "https://lobste.rs/s/222h0a/how_broken_bike_sync_led_me_reverse",
-      "by": "",
-      "score": 7,
-      "commentCount": 0,
-      "createdUtc": 1777826823,
-      "ageHours": 12.27111111111111,
-      "trendingScore": 0.12984085266253076,
-      "tags": [
-        "reversing"
       ],
       "description": "",
       "linkedRepos": []
@@ -450,30 +605,12 @@
       "score": 17,
       "commentCount": 4,
       "createdUtc": 1777771630,
-      "ageHours": 27.6025,
-      "trendingScore": 0.1055495379991153,
+      "ageHours": 34.74666666666667,
+      "trendingScore": 0.07631712416413199,
       "tags": [
         "browsers"
       ],
       "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "rtnzfj",
-      "title": "What Conferences are You Excited to Attend in the Next 12 Months?",
-      "url": "",
-      "commentsUrl": "https://lobste.rs/s/rtnzfj/what_conferences_are_you_excited_attend",
-      "by": "",
-      "score": 41,
-      "commentCount": 33,
-      "createdUtc": 1777681882,
-      "ageHours": 52.5325,
-      "trendingScore": 0.10181241631106595,
-      "tags": [
-        "ask",
-        "event"
-      ],
-      "description": "<p>I've let conference attendance slide in the last few years (last was ElixirConf 2023), and would like to get back in the habit. I value them from a professional development/community POV. I've even got a trip to Europe planned in the next year and could dovetail that--since I'm suspecting that the \"good conferences\" are happening more and more outside of the states.</p>\n",
       "linkedRepos": []
     },
     {
@@ -482,11 +619,11 @@
       "url": "http://oldvcr.blogspot.com/2026/05/testing-macos-on-apple-network-server.html",
       "commentsUrl": "https://lobste.rs/s/bnfmcw/testing_macos_on_apple_network_server_2_0",
       "by": "",
-      "score": 12,
+      "score": 13,
       "commentCount": 0,
       "createdUtc": 1777791154,
-      "ageHours": 22.179166666666667,
-      "trendingScore": 0.1009297628396522,
+      "ageHours": 29.323333333333334,
+      "trendingScore": 0.0741551630417709,
       "tags": [
         "mac",
         "retrocomputing"
@@ -503,8 +640,8 @@
       "score": 21,
       "commentCount": 16,
       "createdUtc": 1777739691,
-      "ageHours": 36.474444444444444,
-      "trendingScore": 0.0879955597976654,
+      "ageHours": 43.618611111111115,
+      "trendingScore": 0.06815633150262432,
       "tags": [
         "programming",
         "vibecoding"
@@ -513,77 +650,54 @@
       "linkedRepos": []
     },
     {
-      "shortId": "pwwn0j",
-      "title": "git-async web demo - A git browser in the browser",
-      "url": "https://git-async.donk.systems/",
-      "commentsUrl": "https://lobste.rs/s/pwwn0j/git_async_web_demo_git_browser_browser",
+      "shortId": "jwzowr",
+      "title": "dithering with css",
+      "url": "https://ikesau.co/blog/dithering-with-css/",
+      "commentsUrl": "https://lobste.rs/s/jwzowr/dithering_with_css",
       "by": "",
-      "score": 6,
-      "commentCount": 2,
-      "createdUtc": 1777816770,
-      "ageHours": 15.063611111111111,
-      "trendingScore": 0.08512259077572822,
+      "score": 4,
+      "commentCount": 0,
+      "createdUtc": 1777849412,
+      "ageHours": 13.140555555555556,
+      "trendingScore": 0.06789648237555018,
       "tags": [
-        "rust",
-        "show",
-        "vcs",
-        "wasm",
+        "css",
         "web"
       ],
       "description": "",
       "linkedRepos": []
     },
     {
-      "shortId": "jtzbv8",
-      "title": "Protect Your Shed",
-      "url": "https://dylanbutler.dev/blog/protect-your-shed/",
-      "commentsUrl": "https://lobste.rs/s/jtzbv8/protect_your_shed",
+      "shortId": "cfgtdp",
+      "title": "Minimal Viable Zig Error Contexts",
+      "url": "https://matklad.github.io/2026/05/03/zig-error-context.html",
+      "commentsUrl": "https://lobste.rs/s/cfgtdp/minimal_viable_zig_error_contexts",
       "by": "",
-      "score": 24,
-      "commentCount": 0,
-      "createdUtc": 1777717789,
-      "ageHours": 42.55833333333333,
-      "trendingScore": 0.08068965055008939,
+      "score": 7,
+      "commentCount": 2,
+      "createdUtc": 1777816254,
+      "ageHours": 22.351111111111113,
+      "trendingScore": 0.05825321062988386,
       "tags": [
-        "practices",
-        "programming"
+        "zig"
       ],
       "description": "",
       "linkedRepos": []
     },
     {
-      "shortId": "a2mdys",
-      "title": "C8s: A Confidential Kubernetes Architecture",
-      "url": "https://arxiv.org/abs/2604.26974",
-      "commentsUrl": "https://lobste.rs/s/a2mdys/c8s_confidential_kubernetes",
+      "shortId": "s1yqiu",
+      "title": "Debian adds an SPF record to debian.org",
+      "url": "https://lists.debian.org/debian-devel-announce/2026/04/msg00010.html",
+      "commentsUrl": "https://lobste.rs/s/s1yqiu/debian_adds_spf_record_debian_org",
       "by": "",
-      "score": 5,
-      "commentCount": 0,
-      "createdUtc": 1777821684,
-      "ageHours": 13.698611111111111,
-      "trendingScore": 0.08038558146944175,
+      "score": 17,
+      "commentCount": 7,
+      "createdUtc": 1777744663,
+      "ageHours": 42.2375,
+      "trendingScore": 0.05777807361761273,
       "tags": [
-        "cryptography",
-        "hardware",
-        "security",
-        "virtualization"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "quulrs",
-      "title": "Why TUIs are back",
-      "url": "https://wiki.alcidesfonseca.com/blog/why-tuis-are-back/",
-      "commentsUrl": "https://lobste.rs/s/quulrs/why_tuis_are_back",
-      "by": "",
-      "score": 24,
-      "commentCount": 75,
-      "createdUtc": 1777717029,
-      "ageHours": 42.769444444444446,
-      "trendingScore": 0.08011958369144215,
-      "tags": [
-        "design"
+        "email",
+        "linux"
       ],
       "description": "",
       "linkedRepos": []
@@ -597,8 +711,8 @@
       "score": 19,
       "commentCount": 3,
       "createdUtc": 1777731431,
-      "ageHours": 38.76888888888889,
-      "trendingScore": 0.07298948306673766,
+      "ageHours": 45.91305555555556,
+      "trendingScore": 0.05728920544775853,
       "tags": [
         "hardware",
         "networking"
@@ -607,73 +721,56 @@
       "linkedRepos": []
     },
     {
-      "shortId": "s1yqiu",
-      "title": "Debian adds an SPF record to debian.org",
-      "url": "https://lists.debian.org/debian-devel-announce/2026/04/msg00010.html",
-      "commentsUrl": "https://lobste.rs/s/s1yqiu/debian_adds_spf_record_debian_org",
+      "shortId": "0u4fin",
+      "title": "On (not) using “cryptographic hashes” for hash table keys",
+      "url": "https://runxiyu.org/comp/ch4ht/",
+      "commentsUrl": "https://lobste.rs/s/0u4fin/on_not_using_cryptographic_hashes_for",
       "by": "",
-      "score": 16,
-      "commentCount": 7,
-      "createdUtc": 1777744663,
-      "ageHours": 35.093333333333334,
-      "trendingScore": 0.07082330497155896,
+      "score": 3,
+      "commentCount": 2,
+      "createdUtc": 1777852761,
+      "ageHours": 12.210277777777778,
+      "trendingScore": 0.05600378807812806,
       "tags": [
-        "email",
-        "linux"
+        "security"
       ],
       "description": "",
       "linkedRepos": []
     },
     {
-      "shortId": "v4mdaq",
-      "title": "Guix System on WSL",
-      "url": "http://arian-d.github.io/blog/posts/guix-on-wsl/",
-      "commentsUrl": "https://lobste.rs/s/v4mdaq/guix_system_on_wsl",
+      "shortId": "a2mdys",
+      "title": "C8s: A Confidential Kubernetes Architecture",
+      "url": "https://arxiv.org/abs/2604.26974",
+      "commentsUrl": "https://lobste.rs/s/a2mdys/c8s_confidential_kubernetes",
+      "by": "",
+      "score": 6,
+      "commentCount": 0,
+      "createdUtc": 1777821684,
+      "ageHours": 20.842777777777776,
+      "trendingScore": 0.05495761510205309,
+      "tags": [
+        "cryptography",
+        "hardware",
+        "security",
+        "virtualization"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "om4vxn",
+      "title": "10K+ Satellites in Space (with DuckDB, and H3, Lindel, Spatial Extensions)",
+      "url": "https://tech.marksblogg.com/gcat-satellite-database.html",
+      "commentsUrl": "https://lobste.rs/s/om4vxn/10k_satellites_space_with_duckdb_h3",
       "by": "",
       "score": 1,
       "commentCount": 0,
-      "createdUtc": 1777857153,
-      "ageHours": 3.846111111111111,
-      "trendingScore": 0.07074559475920898,
+      "createdUtc": 1777877997,
+      "ageHours": 5.200277777777778,
+      "trendingScore": 0.05175783753837807,
       "tags": [
-        "lisp",
-        "nix",
-        "windows"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "cfgtdp",
-      "title": "Minimal Viable Zig Error Contexts",
-      "url": "https://matklad.github.io/2026/05/03/zig-error-context.html",
-      "commentsUrl": "https://lobste.rs/s/cfgtdp/minimal_viable_zig_error_contexts",
-      "by": "",
-      "score": 5,
-      "commentCount": 2,
-      "createdUtc": 1777816254,
-      "ageHours": 15.206944444444444,
-      "trendingScore": 0.07005100487268967,
-      "tags": [
-        "zig"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "gm1hcc",
-      "title": "stackless coroutines for gamedev in ~200 lines of C++",
-      "url": "https://vittorioromeo.com/index/blog/sfex_coroutine.html",
-      "commentsUrl": "https://lobste.rs/s/gm1hcc/stackless_coroutines_for_gamedev_200",
-      "by": "",
-      "score": 22,
-      "commentCount": 3,
-      "createdUtc": 1777703630,
-      "ageHours": 46.49138888888889,
-      "trendingScore": 0.06515169903798927,
-      "tags": [
-        "c++",
-        "games"
+        "databases",
+        "visualization"
       ],
       "description": "",
       "linkedRepos": []
@@ -684,14 +781,35 @@
       "url": "https://github.com/NetHack/NetHack/releases/tag/NetHack-5.0.0_Released",
       "commentsUrl": "https://lobste.rs/s/jmxtiq/nethack_5_0_0_released",
       "by": "",
-      "score": 9,
+      "score": 10,
       "commentCount": 2,
       "createdUtc": 1777781925,
-      "ageHours": 24.74277777777778,
-      "trendingScore": 0.0650777810088979,
+      "ageHours": 31.886944444444445,
+      "trendingScore": 0.05069339576729579,
       "tags": [
         "games",
         "release"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "pwwn0j",
+      "title": "git-async web demo - A git browser in the browser",
+      "url": "https://git-async.donk.systems/",
+      "commentsUrl": "https://lobste.rs/s/pwwn0j/git_async_web_demo_git_browser_browser",
+      "by": "",
+      "score": 6,
+      "commentCount": 2,
+      "createdUtc": 1777816770,
+      "ageHours": 22.20777777777778,
+      "trendingScore": 0.050375441387195595,
+      "tags": [
+        "rust",
+        "show",
+        "vcs",
+        "wasm",
+        "web"
       ],
       "description": "",
       "linkedRepos": []
@@ -705,8 +823,114 @@
       "score": 9,
       "commentCount": 4,
       "createdUtc": 1777778819,
-      "ageHours": 25.605555555555554,
-      "trendingScore": 0.06205085527824802,
+      "ageHours": 32.749722222222225,
+      "trendingScore": 0.043935492945115326,
+      "tags": [
+        "programming"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "c2xlzf",
+      "title": "Libera Bot/LLM policy update",
+      "url": "https://libera.chat/news/bot-policy-update",
+      "commentsUrl": "https://lobste.rs/s/c2xlzf/libera_bot_llm_policy_update",
+      "by": "",
+      "score": 14,
+      "commentCount": 0,
+      "createdUtc": 1777726793,
+      "ageHours": 47.201388888888886,
+      "trendingScore": 0.04056598184418894,
+      "tags": [
+        "culture",
+        "vibecoding"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "k0idcn",
+      "title": "WhatCable, Framework, and USB-C ·",
+      "url": "https://www.nedrichards.com/2026/05/whatcable-framework-and-usb-c/",
+      "commentsUrl": "https://lobste.rs/s/k0idcn/whatcable_framework_usb_c",
+      "by": "",
+      "score": 2,
+      "commentCount": 0,
+      "createdUtc": 1777851491,
+      "ageHours": 12.563055555555556,
+      "trendingScore": 0.03598746340432454,
+      "tags": [
+        "hardware",
+        "linux"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "molxmi",
+      "title": "The \"Design Conductor\" paper is bunk",
+      "url": "https://mlyoung.cool/blog/design_conductor_paper/",
+      "commentsUrl": "https://lobste.rs/s/molxmi/design_conductor_paper_is_bunk",
+      "by": "",
+      "score": 2,
+      "commentCount": 0,
+      "createdUtc": 1777850977,
+      "ageHours": 12.705833333333333,
+      "trendingScore": 0.03546463840734668,
+      "tags": [
+        "hardware",
+        "vibecoding"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "ypm74r",
+      "title": "Losrs - Spaced Repetition in the terminal with markdown cards",
+      "url": "https://github.com/blin/losrs",
+      "commentsUrl": "https://lobste.rs/s/ypm74r/losrs_spaced_repetition_terminal_with",
+      "by": "",
+      "score": 5,
+      "commentCount": 1,
+      "createdUtc": 1777805857,
+      "ageHours": 25.239166666666666,
+      "trendingScore": 0.03517055963335135,
+      "tags": [
+        "education",
+        "show"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "qbfu36",
+      "title": "Toptout",
+      "url": "https://toptout.me/",
+      "commentsUrl": "https://lobste.rs/s/qbfu36/toptout",
+      "by": "",
+      "score": 5,
+      "commentCount": 5,
+      "createdUtc": 1777797967,
+      "ageHours": 27.430833333333332,
+      "trendingScore": 0.031315991417459825,
+      "tags": [
+        "privacy"
+      ],
+      "description": "<p>A collection of environment variable settings to opt out of analytics and telemetry</p>\n",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "85wpyb",
+      "title": "Quickheap: the fastest comparison-based heap?",
+      "url": "https://curiouscoding.nl/posts/quickheap/",
+      "commentsUrl": "https://lobste.rs/s/85wpyb/quickheap_fastest_comparison_based_heap",
+      "by": "",
+      "score": 5,
+      "commentCount": 0,
+      "createdUtc": 1777795184,
+      "ageHours": 28.20388888888889,
+      "trendingScore": 0.030121438493738856,
       "tags": [
         "programming"
       ],
@@ -722,189 +946,11 @@
       "score": 3,
       "commentCount": 0,
       "createdUtc": 1777825550,
-      "ageHours": 12.624722222222223,
-      "trendingScore": 0.053640129264989435,
+      "ageHours": 19.76888888888889,
+      "trendingScore": 0.02953703248933903,
       "tags": [
         "formalmethods",
         "math",
-        "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "0u4fin",
-      "title": "On (not) using “cryptographic hashes” for hash table keys",
-      "url": "https://runxiyu.org/comp/ch4ht/",
-      "commentsUrl": "https://lobste.rs/s/0u4fin/on_not_using_cryptographic_hashes_for",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1777852761,
-      "ageHours": 5.066111111111111,
-      "trendingScore": 0.053238928561338716,
-      "tags": [
-        "security"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "k0idcn",
-      "title": "WhatCable, Framework, and USB-C ·",
-      "url": "https://www.nedrichards.com/2026/05/whatcable-framework-and-usb-c/",
-      "commentsUrl": "https://lobste.rs/s/k0idcn/whatcable_framework_usb_c",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1777851491,
-      "ageHours": 5.418888888888889,
-      "trendingScore": 0.049487065291315205,
-      "tags": [
-        "hardware",
-        "linux"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "molxmi",
-      "title": "The \"Design Conductor\" paper is bunk",
-      "url": "https://mlyoung.cool/blog/design_conductor_paper/",
-      "commentsUrl": "https://lobste.rs/s/molxmi/design_conductor_paper_is_bunk",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1777850977,
-      "ageHours": 5.5616666666666665,
-      "trendingScore": 0.048092096145514206,
-      "tags": [
-        "hardware",
-        "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "c2xlzf",
-      "title": "Libera Bot/LLM policy update",
-      "url": "https://libera.chat/news/bot-policy-update",
-      "commentsUrl": "https://lobste.rs/s/c2xlzf/libera_bot_llm_policy_update",
-      "by": "",
-      "score": 13,
-      "commentCount": 0,
-      "createdUtc": 1777726793,
-      "ageHours": 40.05722222222222,
-      "trendingScore": 0.04766312075794525,
-      "tags": [
-        "culture",
-        "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "qbfu36",
-      "title": "Toptout",
-      "url": "https://toptout.me/",
-      "commentsUrl": "https://lobste.rs/s/qbfu36/toptout",
-      "by": "",
-      "score": 5,
-      "commentCount": 5,
-      "createdUtc": 1777797967,
-      "ageHours": 20.286666666666665,
-      "trendingScore": 0.047522833601151476,
-      "tags": [
-        "privacy"
-      ],
-      "description": "<p>A collection of environment variable settings to opt out of analytics and telemetry</p>\n",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "le8yxh",
-      "title": "A Programmer's Guide to COMMON LISP (1987)",
-      "url": "https://archive.org/details/a-programmers-guide-to-common-lisp",
-      "commentsUrl": "https://lobste.rs/s/le8yxh/programmer_s_guide_common_lisp_1987",
-      "by": "",
-      "score": 14,
-      "commentCount": 2,
-      "createdUtc": 1777718535,
-      "ageHours": 42.35111111111111,
-      "trendingScore": 0.04739922915791532,
-      "tags": [
-        "book",
-        "lisp"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "rz9ayu",
-      "title": "fast16 | High-Precision Software Sabotage 5 Years Before Stuxnet",
-      "url": "https://www.sentinelone.com/labs/fast16-mystery-shadowbrokers-reference-reveals-high-precision-software-sabotage-5-years-before-stuxnet/",
-      "commentsUrl": "https://lobste.rs/s/rz9ayu/fast16_high_precision_software_sabotage",
-      "by": "",
-      "score": 14,
-      "commentCount": 0,
-      "createdUtc": 1777717402,
-      "ageHours": 42.66583333333333,
-      "trendingScore": 0.04689913946590138,
-      "tags": [
-        "historical",
-        "reversing"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "85wpyb",
-      "title": "Quickheap: the fastest comparison-based heap?",
-      "url": "https://curiouscoding.nl/posts/quickheap/",
-      "commentsUrl": "https://lobste.rs/s/85wpyb/quickheap_fastest_comparison_based_heap",
-      "by": "",
-      "score": 5,
-      "commentCount": 0,
-      "createdUtc": 1777795184,
-      "ageHours": 21.059722222222224,
-      "trendingScore": 0.04515323774161811,
-      "tags": [
-        "programming"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "ypm74r",
-      "title": "Losrs - Spaced Repetition in the terminal with markdown cards",
-      "url": "https://github.com/blin/losrs",
-      "commentsUrl": "https://lobste.rs/s/ypm74r/losrs_spaced_repetition_terminal_with",
-      "by": "",
-      "score": 4,
-      "commentCount": 1,
-      "createdUtc": 1777805857,
-      "ageHours": 18.095,
-      "trendingScore": 0.044404601357669826,
-      "tags": [
-        "education",
-        "show"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "iu9rhu",
-      "title": "Adding a feature to a closed-source app",
-      "url": "https://www.stavros.io/posts/adding-a-feature-to-a-closed-source-app/",
-      "commentsUrl": "https://lobste.rs/s/iu9rhu/adding_feature_closed_source_app",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1777845849,
-      "ageHours": 6.986111111111111,
-      "trendingScore": 0.037122936599057056,
-      "tags": [
-        "android",
-        "reversing",
         "vibecoding"
       ],
       "description": "",
@@ -919,28 +965,10 @@
       "score": 7,
       "commentCount": 0,
       "createdUtc": 1777747269,
-      "ageHours": 34.36944444444445,
-      "trendingScore": 0.0319148670316327,
+      "ageHours": 41.51361111111111,
+      "trendingScore": 0.02438711077132238,
       "tags": [
         "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "lplm9j",
-      "title": "Finding a RCE in my old TP-Link router",
-      "url": "https://mrbruh.com/tplink/",
-      "commentsUrl": "https://lobste.rs/s/lplm9j/finding_rce_my_old_tp_link_router",
-      "by": "",
-      "score": 13,
-      "commentCount": 3,
-      "createdUtc": 1777673967,
-      "ageHours": 54.73111111111111,
-      "trendingScore": 0.030423657128571598,
-      "tags": [
-        "reversing",
-        "security"
       ],
       "description": "",
       "linkedRepos": []
@@ -954,8 +982,8 @@
       "score": 8,
       "commentCount": 3,
       "createdUtc": 1777725253,
-      "ageHours": 40.485,
-      "trendingScore": 0.028889269020039382,
+      "ageHours": 47.62916666666667,
+      "trendingScore": 0.022881501122346253,
       "tags": [
         "apl",
         "programming"
@@ -972,8 +1000,8 @@
       "score": 8,
       "commentCount": 1,
       "createdUtc": 1777724714,
-      "ageHours": 40.63472222222222,
-      "trendingScore": 0.028737225132638832,
+      "ageHours": 47.778888888888886,
+      "trendingScore": 0.02277834619229819,
       "tags": [
         "design",
         "graphics"
@@ -982,18 +1010,20 @@
       "linkedRepos": []
     },
     {
-      "shortId": "ixqnxw",
-      "title": "Reducing ML-KEM-768 encapsulation key sizes by 24 octets",
-      "url": "https://runxiyu.org/comp/mlkem768pack/",
-      "commentsUrl": "https://lobste.rs/s/ixqnxw/reducing_ml_kem_768_encapsulation_key",
+      "shortId": "v4mdaq",
+      "title": "Guix System on WSL",
+      "url": "http://arian-d.github.io/blog/posts/guix-on-wsl/",
+      "commentsUrl": "https://lobste.rs/s/v4mdaq/guix_system_on_wsl",
       "by": "",
-      "score": 10,
-      "commentCount": 3,
-      "createdUtc": 1777697340,
-      "ageHours": 48.23861111111111,
-      "trendingScore": 0.02808300409657506,
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777857153,
+      "ageHours": 10.990277777777777,
+      "trendingScore": 0.0213585783952033,
       "tags": [
-        "cryptography"
+        "lisp",
+        "nix",
+        "windows"
       ],
       "description": "",
       "linkedRepos": []
@@ -1007,10 +1037,47 @@
       "score": 4,
       "commentCount": 0,
       "createdUtc": 1777776011,
-      "ageHours": 26.385555555555555,
-      "trendingScore": 0.026449282392718276,
+      "ageHours": 33.52972222222222,
+      "trendingScore": 0.018887404140108782,
       "tags": [
         "performance"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "waog4g",
+      "title": "Let’s talk about efficient agent setups",
+      "url": "",
+      "commentsUrl": "https://lobste.rs/s/waog4g/let_s_talk_about_efficient_agent_setups",
+      "by": "",
+      "score": 4,
+      "commentCount": 1,
+      "createdUtc": 1777767144,
+      "ageHours": 35.992777777777775,
+      "trendingScore": 0.017080808363715106,
+      "tags": [
+        "practices",
+        "vibecoding"
+      ],
+      "description": "<p>I’m fortunate that at work my llm spending budget is fully adequate to my needs. However, I’d like to go faster at work and I’d like to bring agentic coding into my own projects (frankly it’s going to be the only way I have time for side projects), so for that I want to be cheap and fast.</p>\n<p>My recent setups:</p>\n<ol>\n<li>\n<p>Cursor with composer 1.5 - very fast, capable, decent tool use, integrates its own code indexing features to make things faster. I’ve tried it with composer 2 but fr",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "iu9rhu",
+      "title": "Adding a feature to a closed-source app",
+      "url": "https://www.stavros.io/posts/adding-a-feature-to-a-closed-source-app/",
+      "commentsUrl": "https://lobste.rs/s/iu9rhu/adding_feature_closed_source_app",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1777845849,
+      "ageHours": 14.130277777777778,
+      "trendingScore": 0.015436087453524512,
+      "tags": [
+        "android",
+        "reversing",
+        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -1024,8 +1091,8 @@
       "score": 5,
       "commentCount": 0,
       "createdUtc": 1777731579,
-      "ageHours": 38.727777777777774,
-      "trendingScore": 0.019236848855333357,
+      "ageHours": 45.871944444444445,
+      "trendingScore": 0.015095531285173503,
       "tags": [
         "javascript"
       ],
@@ -1041,31 +1108,13 @@
       "score": 4,
       "commentCount": 1,
       "createdUtc": 1777745958,
-      "ageHours": 34.73361111111111,
-      "trendingScore": 0.017966544418456555,
+      "ageHours": 41.87777777777778,
+      "trendingScore": 0.013762364462319121,
       "tags": [
         "performance",
         "release"
       ],
       "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "waog4g",
-      "title": "Let’s talk about efficient agent setups",
-      "url": "",
-      "commentsUrl": "https://lobste.rs/s/waog4g/let_s_talk_about_efficient_agent_setups",
-      "by": "",
-      "score": 3,
-      "commentCount": 1,
-      "createdUtc": 1777767144,
-      "ageHours": 28.84861111111111,
-      "trendingScore": 0.01750926159102695,
-      "tags": [
-        "practices",
-        "vibecoding"
-      ],
-      "description": "<p>I’m fortunate that at work my llm spending budget is fully adequate to my needs. However, I’d like to go faster at work and I’d like to bring agentic coding into my own projects (frankly it’s going to be the only way I have time for side projects), so for that I want to be cheap and fast.</p>\n<p>My recent setups:</p>\n<ol>\n<li>\n<p>Cursor with composer 1.5 - very fast, capable, decent tool use, integrates its own code indexing features to make things faster. I’ve tried it with composer 2 but fr",
       "linkedRepos": []
     },
     {
@@ -1077,46 +1126,9 @@
       "score": 3,
       "commentCount": 0,
       "createdUtc": 1777767048,
-      "ageHours": 28.87527777777778,
-      "trendingScore": 0.017486582630171117,
+      "ageHours": 36.019444444444446,
+      "trendingScore": 0.012797130684311077,
       "tags": [
-        "security"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "qgrmpo",
-      "title": "Why C++ wins in Finance",
-      "url": "https://www.youtube.com/watch?v=InLxLEqg_fs",
-      "commentsUrl": "https://lobste.rs/s/qgrmpo/why_c_wins_finance",
-      "by": "",
-      "score": 2,
-      "commentCount": 2,
-      "createdUtc": 1777792287,
-      "ageHours": 21.864444444444445,
-      "trendingScore": 0.017155485091775103,
-      "tags": [
-        "c++",
-        "programming",
-        "video"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "b39dpz",
-      "title": "Project Wycheproof tests crypto libraries against known attacks",
-      "url": "https://github.com/C2SP/wycheproof",
-      "commentsUrl": "https://lobste.rs/s/b39dpz/project_wycheproof_tests_crypto",
-      "by": "",
-      "score": 5,
-      "commentCount": 0,
-      "createdUtc": 1777717354,
-      "ageHours": 42.67916666666667,
-      "trendingScore": 0.016742195461666217,
-      "tags": [
-        "cryptography",
         "security"
       ],
       "description": "",
@@ -1131,11 +1143,30 @@
       "score": 4,
       "commentCount": 0,
       "createdUtc": 1777726831,
-      "ageHours": 40.04666666666667,
-      "trendingScore": 0.014671098517466452,
+      "ageHours": 47.19083333333333,
+      "trendingScore": 0.011594011356558404,
       "tags": [
         "games",
         "release"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "qgrmpo",
+      "title": "Why C++ wins in Finance",
+      "url": "https://www.youtube.com/watch?v=InLxLEqg_fs",
+      "commentsUrl": "https://lobste.rs/s/qgrmpo/why_c_wins_finance",
+      "by": "",
+      "score": 2,
+      "commentCount": 2,
+      "createdUtc": 1777792287,
+      "ageHours": 29.00861111111111,
+      "trendingScore": 0.011582612416800569,
+      "tags": [
+        "c++",
+        "programming",
+        "video"
       ],
       "description": "",
       "linkedRepos": []
@@ -1149,28 +1180,11 @@
       "score": 2,
       "commentCount": 1,
       "createdUtc": 1777751347,
-      "ageHours": 33.236666666666665,
-      "trendingScore": 0.009561758454208443,
+      "ageHours": 40.380833333333335,
+      "trendingScore": 0.0072489609077580975,
       "tags": [
         "ai",
         "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "scz8vc",
-      "title": "Adventures not building 3G UMTS RNCs",
-      "url": "https://nickvsnetworking.com/adventures-not-building-3g-umts-rncs/",
-      "commentsUrl": "https://lobste.rs/s/scz8vc/adventures_not_building_3g_umts_rncs",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1777713544,
-      "ageHours": 43.7375,
-      "trendingScore": 0.006465786526728997,
-      "tags": [
-        "networking"
       ],
       "description": "",
       "linkedRepos": []
@@ -1184,8 +1198,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1777766789,
-      "ageHours": 28.947222222222223,
-      "trendingScore": 0.005808546759176651,
+      "ageHours": 36.091388888888886,
+      "trendingScore": 0.004253630757956476,
       "tags": [
         "android",
         "hardware"
@@ -1202,8 +1216,8 @@
       "score": 1,
       "commentCount": 2,
       "createdUtc": 1777755890,
-      "ageHours": 31.974722222222223,
-      "trendingScore": 0.005049706399559246,
+      "ageHours": 39.11888888888889,
+      "trendingScore": 0.0037926078880933275,
       "tags": [
         "c++",
         "show"
@@ -1220,8 +1234,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1777739200,
-      "ageHours": 36.61083333333333,
-      "trendingScore": 0.004168081837123716,
+      "ageHours": 43.755,
+      "trendingScore": 0.003231038704667618,
       "tags": [
         "linux",
         "security"
@@ -1238,8 +1252,8 @@
       "score": 1,
       "commentCount": 0,
       "createdUtc": 1777729136,
-      "ageHours": 39.40638888888889,
-      "trendingScore": 0.0037531762974135053,
+      "ageHours": 46.550555555555555,
+      "trendingScore": 0.0029560290264458635,
       "tags": [
         "vibecoding"
       ],
@@ -1247,22 +1261,46 @@
       "linkedRepos": []
     },
     {
-      "shortId": "q54gzh",
-      "title": "ChaCha20 in Brainfuck",
-      "url": "https://mid.net.ua/posts/bfchacha.html",
-      "commentsUrl": "https://lobste.rs/s/q54gzh/chacha20_brainfuck",
+      "shortId": "jiwddu",
+      "title": "In the Lab: Inside Brave Origin & Containers",
+      "url": "https://incognitocat.me/in-the-lab-inside-brave-origin-containers/",
+      "commentsUrl": "https://lobste.rs/s/jiwddu/lab_inside_brave_origin_containers",
       "by": "",
-      "score": 1,
-      "commentCount": 1,
-      "createdUtc": 1777710257,
-      "ageHours": 44.650555555555556,
-      "trendingScore": 0.003138446789852358,
+      "score": 0,
+      "commentCount": 0,
+      "createdUtc": 1777894012,
+      "ageHours": 0.7516666666666667,
+      "trendingScore": 0,
       "tags": [
-        "cryptography",
-        "programming"
+        "browsers",
+        "privacy"
       ],
       "description": "",
       "linkedRepos": []
+    },
+    {
+      "shortId": "qdfbsp",
+      "title": "RaTeX: LaTeX math renderer in Rust",
+      "url": "https://github.com/erweixin/RaTeX",
+      "commentsUrl": "https://lobste.rs/s/qdfbsp/ratex_latex_math_renderer_rust",
+      "by": "",
+      "score": 0,
+      "commentCount": 0,
+      "createdUtc": 1777871143,
+      "ageHours": 7.104166666666667,
+      "trendingScore": 0,
+      "tags": [
+        "rust",
+        "vibecoding"
+      ],
+      "description": "",
+      "linkedRepos": [
+        {
+          "fullName": "erweixin/RaTeX",
+          "matchType": "url",
+          "confidence": 1
+        }
+      ]
     },
     {
       "shortId": "x5gxok",
@@ -1273,7 +1311,7 @@
       "score": 0,
       "commentCount": 0,
       "createdUtc": 1777824626,
-      "ageHours": 12.881388888888889,
+      "ageHours": 20.025555555555556,
       "trendingScore": 0,
       "tags": [
         "show",
@@ -1291,27 +1329,9 @@
       "score": 0,
       "commentCount": 0,
       "createdUtc": 1777769328,
-      "ageHours": 28.241944444444446,
+      "ageHours": 35.38611111111111,
       "trendingScore": 0,
       "tags": [
-        "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "yhhh4j",
-      "title": "The Architect's Instinct",
-      "url": "https://webframp.com/posts/architects-instinct/",
-      "commentsUrl": "https://lobste.rs/s/yhhh4j/architect_s_instinct",
-      "by": "",
-      "score": -1,
-      "commentCount": 1,
-      "createdUtc": 1777697844,
-      "ageHours": 48.09861111111111,
-      "trendingScore": -0.002820080275183477,
-      "tags": [
-        "philosophy",
         "vibecoding"
       ],
       "description": "",
@@ -1326,8 +1346,8 @@
       "score": -2,
       "commentCount": 1,
       "createdUtc": 1777771477,
-      "ageHours": 27.645,
-      "trendingScore": -0.012390898904334145,
+      "ageHours": 34.78916666666667,
+      "trendingScore": -0.008962931348170921,
       "tags": [
         "vibecoding"
       ],

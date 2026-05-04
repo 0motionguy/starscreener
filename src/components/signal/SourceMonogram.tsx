@@ -30,7 +30,7 @@ const STYLES: Record<MonoSource, { label: string; cls: string }> = {
     cls: "border-border-primary bg-bg-muted text-text-secondary",
   },
   mcp: { label: "MCP", cls: "border-functional/60 bg-functional/10 text-functional" },
-  skills: { label: "SK", cls: "border-up/60 bg-up/10 text-[var(--v4-money)]" },
+  skills: { label: "SK", cls: "border-up/60 bg-up/10 text-up" },
 };
 
 interface SourceMonogramProps {

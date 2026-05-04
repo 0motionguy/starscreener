@@ -35,7 +35,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
-import { extractAllRepoMentions, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
+import { extractGithubRepoFullNames, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
@@ -274,6 +274,13 @@ async function main() {
     mentions,
     leaderboard,
   };
+
+  if (unknownsAccumulator.size > 0) {
+    await appendUnknownMentions(
+      Array.from(unknownsAccumulator, (fullName) => ({ source: "lobsters", fullName })),
+    );
+    log(`unknown candidates: ${unknownsAccumulator.size}`);
+  }
 
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(TRENDING_OUT, JSON.stringify(trendingPayload, null, 2) + "\n", "utf8");

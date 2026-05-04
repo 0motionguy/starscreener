@@ -42,14 +42,6 @@ jobs:
           - { name: trendingrepo, url: "https://trendingrepo.com/" }
           - { name: agntdot, url: "https://agntdot.com/" }
           - { name: agnt-api, url: "https://api.agntdot.com/health" }
-          # Positive control: the Railway-default hostname always points at
-          # the same Railway service. If `agnt-api` (custom domain) is RED
-          # but `agnt-api-railway` is GREEN, the backend is fine and only
-          # the custom-domain cert/edge route is broken — that's a 5-min
-          # dashboard fix (Railway → api → Settings → Domains → re-add).
-          # Found on 2026-04-28: api.agntdot.com had a stale CNAME with no
-          # matching Railway custom-domain registration, hence HTTP 000.
-          - { name: agnt-api-railway, url: "https://api-production-870c.up.railway.app/health" }
     steps:
       - name: Curl + PostHog ingest
         env:

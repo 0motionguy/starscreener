@@ -1,31 +1,46 @@
 import * as Sentry from "@sentry/nextjs";
 import { NextRequest, NextResponse } from "next/server";
 
-import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
-import { EngineError } from "@/lib/errors";
+import { timingSafeEqualStr } from "@/lib/api/auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-class SentryCanaryError extends EngineError {
-  readonly category = "fatal" as const;
-  readonly source = "sentry-canary" as const;
-}
-
-interface SentryCanaryResponse {
-  ok: false;
-  error: string;
-  code: "NOT_FOUND" | "SENTRY_CANARY_FIRED";
-  eventId?: string;
-}
-
-export async function GET(
-  request: NextRequest,
-): Promise<NextResponse<SentryCanaryResponse | { ok: false; reason: string }>> {
-  const deny = authFailureResponse(verifyCronAuth(request));
-  if (deny) {
-    return deny as NextResponse<{ ok: false; reason: string }>;
+function authFailure(request: NextRequest): NextResponse | null {
+  const secret = process.env.CRON_SECRET?.trim();
+  if (!secret) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "CRON_SECRET not configured",
+        code: "AUTH_NOT_CONFIGURED",
+      },
+      { status: 503 },
+    );
   }
+
+  const header = request.headers.get("authorization")?.trim() ?? "";
+  if (!header.startsWith("Bearer ")) {
+    return NextResponse.json(
+      { ok: false, error: "unauthorized", code: "UNAUTHORIZED" },
+      { status: 401 },
+    );
+  }
+
+  const candidate = header.slice("Bearer ".length).trim();
+  if (!timingSafeEqualStr(candidate, secret)) {
+    return NextResponse.json(
+      { ok: false, error: "unauthorized", code: "UNAUTHORIZED" },
+      { status: 401 },
+    );
+  }
+
+  return null;
+}
+
+export async function GET(request: NextRequest): Promise<NextResponse> {
+  const deny = authFailure(request);
+  if (deny) return deny;
 
   if (process.env.SENTRY_CANARY_ENABLED !== "1") {
     return NextResponse.json(
@@ -34,40 +49,20 @@ export async function GET(
     );
   }
 
-  let error: SentryCanaryError;
-  try {
-    throw new SentryCanaryError("Sentry canary test error", {
-      canary: true,
-      route: "api/_internal/sentry-canary",
-    });
-  } catch (caught) {
-    error = caught as SentryCanaryError;
-  }
-
+  const error = new Error("Sentry canary test error");
   let eventId: string | undefined;
 
   Sentry.withScope((scope) => {
     scope.setTag("canary", "true");
     scope.setTag("route", "api/_internal/sentry-canary");
-    scope.setTag("source", error.source);
-    scope.setTag("category", error.category);
     scope.setContext("sentry_canary", {
       firedAt: new Date().toISOString(),
       enabled: true,
-      metadata: error.metadata,
     });
     eventId = Sentry.captureException(error);
   });
 
   await Sentry.flush(2000);
   console.error("[sentry-canary] fired", eventId ?? "event-id-unavailable");
-  return NextResponse.json(
-    {
-      ok: false,
-      error: "sentry canary fired",
-      code: "SENTRY_CANARY_FIRED",
-      ...(eventId ? { eventId } : {}),
-    },
-    { status: 500 },
-  );
+  throw error;
 }

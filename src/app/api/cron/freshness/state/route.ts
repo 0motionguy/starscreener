@@ -39,6 +39,14 @@ interface SourceState {
   blocking: boolean;
 }
 
+// `health` distinguishes the three operator-meaningful states the gate can be
+// in: `ok` (everything GREEN), `advisory` (only non-blocking sources have
+// degraded — operator can ship), `stale` (at least one blocking source has
+// degraded — gate must not pass). Without this third value, a real Redis
+// outage on a blocking source looks identical to steady-state advisory
+// yellow on `mcp-dependents` / `mcp-smithery-rank`.
+type FreshnessHealth = "ok" | "advisory" | "stale";
+
 interface FreshnessStateResponse {
   checkedAt: string;
   health: FreshnessHealth;
@@ -554,6 +562,16 @@ function summarize(sources: SourceState[]): FreshnessStateResponse["summary"] {
     red: sources.filter((source) => source.status === "RED").length,
     dead: sources.filter((source) => source.status === "DEAD").length,
   };
+}
+
+function deriveHealth(sources: SourceState[]): FreshnessHealth {
+  let advisoryDegraded = false;
+  for (const source of sources) {
+    if (source.status === "GREEN") continue;
+    if (source.blocking) return "stale";
+    advisoryDegraded = true;
+  }
+  return advisoryDegraded ? "advisory" : "ok";
 }
 
 export async function GET(

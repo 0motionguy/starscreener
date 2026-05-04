@@ -359,17 +359,13 @@ export function SidebarContent({
       <CursorRail className="flex-1 overflow-y-auto scrollbar-hide">
         {/* TREND TERMINAL */}
         <V2Section label="TREND TERMINAL">
-          <V2NavRow
-            onClick={() => goToReposTerminal(null)}
+          <FreshCountNavRow
+            routeKey="trendingRepos"
+            currentCount={trendingReposCount ?? 0}
+            href="/"
             icon={TrendingUp}
             label="Trending Repos"
-            badge={
-              trendingReposCount && trendingReposCount > 0
-                ? compactCount(trendingReposCount)
-                : undefined
-            }
-            badgeTone="default"
-            active={pathname === "/" && activeMetaFilter === null}
+            active={pathname === "/"}
           />
           <V2NavRow
             href="/skills"

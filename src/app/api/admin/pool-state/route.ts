@@ -4,11 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
 import { getDataStore } from "@/lib/data-store";
-import {
-  getGitHubTokenPool,
-  redactToken,
-  type PublishedTokenState,
-} from "@/lib/github-token-pool";
+import { getGitHubTokenPool } from "@/lib/github-token-pool";
 import { githubKeyFingerprint } from "@/lib/pool/github-telemetry";
 import { redditUserAgentFingerprint } from "@/lib/pool/reddit-ua-pool";
 import { redis } from "@/lib/redis";
@@ -25,8 +21,6 @@ export interface UsageSummary {
   requests24h: number;
   success24h: number;
   fail24h: number;
-  rateLimited24h?: number;
-  last429At?: string | null;
   lastCallAt: string | null;
   lastOperation: string | null;
   lastStatusCode: number | null;
@@ -121,12 +115,6 @@ interface MetaFile {
   writtenAt?: string;
 }
 
-interface GithubKeyDescriptor {
-  label: string;
-  usageFingerprints: string[];
-  publishedState: PublishedTokenState | null;
-}
-
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
 const IDLE_KEY_MS = 12 * HOUR_MS;
@@ -181,29 +169,15 @@ function classifyByAge(iso: string | null, budgetMs: number): PoolStatus {
 
 async function readUsage(
   prefix: "github" | "reddit" | "twitter",
-  fingerprintOrAliases: string | string[],
+  fingerprint: string,
   buckets: string[],
 ): Promise<UsageSummary & { lastRateLimitRemaining: number | null; lastRateLimitReset: string | null }> {
-  const fingerprints = Array.from(
-    new Set(
-      (Array.isArray(fingerprintOrAliases)
-        ? fingerprintOrAliases
-        : [fingerprintOrAliases]
-      ).filter(Boolean),
-    ),
-  );
   const hashes = await Promise.all(
-    buckets.flatMap((bucket) =>
-      fingerprints.map((fingerprint) =>
-        redis.hgetall(`pool:${prefix}:usage:${fingerprint}:${bucket}`),
-      ),
-    ),
+    buckets.map((bucket) => redis.hgetall(`pool:${prefix}:usage:${fingerprint}:${bucket}`)),
   );
   let requests24h = 0;
   let success24h = 0;
   let fail24h = 0;
-  let rateLimited24h = 0;
-  let last429At: string | null = null;
   let lastCallAt: string | null = null;
   let lastOperation: string | null = null;
   let lastStatusCode: number | null = null;
@@ -215,7 +189,6 @@ async function readUsage(
     requests24h += parseNumber(hash.requests) ?? 0;
     success24h += parseNumber(hash.success) ?? 0;
     fail24h += parseNumber(hash.fail) ?? 0;
-    rateLimited24h += parseNumber(hash.rateLimited) ?? 0;
 
     const callAt = parseIso(hash.lastCallAt);
     if (callAt && (!lastCallAt || Date.parse(callAt) > Date.parse(lastCallAt))) {
@@ -229,21 +202,12 @@ async function readUsage(
         ? new Date(resetUnix * 1000).toISOString()
         : null;
     }
-    const rateLimitedAt = parseIso(hash.last429At);
-    if (
-      rateLimitedAt &&
-      (!last429At || Date.parse(rateLimitedAt) > Date.parse(last429At))
-    ) {
-      last429At = rateLimitedAt;
-    }
   }
 
   return {
     requests24h,
     success24h,
     fail24h,
-    rateLimited24h,
-    last429At,
     lastCallAt,
     lastOperation,
     lastStatusCode,
@@ -255,108 +219,34 @@ async function readUsage(
 
 async function readQuarantine(
   prefix: "github" | "reddit",
-  fingerprintOrAliases: string | string[],
+  fingerprint: string,
 ): Promise<QuarantineState> {
-  const fingerprints = Array.from(
-    new Set(
-      (Array.isArray(fingerprintOrAliases)
-        ? fingerprintOrAliases
-        : [fingerprintOrAliases]
-      ).filter(Boolean),
-    ),
-  );
-  const raws = await Promise.all(
-    fingerprints.map((fingerprint) =>
-      redis.get(`pool:${prefix}:quarantine:${fingerprint}`),
-    ),
-  );
-  let latestInactive: QuarantineState = { active: false, reason: null, until: null };
-  for (const raw of raws) {
-    if (!raw) continue;
-    try {
-      const parsed = JSON.parse(raw) as { reason?: string; untilTimestamp?: number };
-      const untilMs =
-        typeof parsed.untilTimestamp === "number"
-          ? parsed.untilTimestamp * 1000
-          : null;
-      const state: QuarantineState = {
-        active: untilMs !== null && untilMs > Date.now(),
-        reason: parsed.reason ?? null,
-        until: untilMs ? new Date(untilMs).toISOString() : null,
-      };
-      if (state.active) return state;
-      if (
-        state.until &&
-        (!latestInactive.until ||
-          Date.parse(state.until) > Date.parse(latestInactive.until))
-      ) {
-        latestInactive = state;
-      }
-    } catch {
-      return { active: true, reason: "unknown", until: null };
-    }
-  }
-  return latestInactive;
-}
-
-function githubLegacyFingerprint(token: string | null | undefined): string {
-  const trimmed = token?.trim() ?? "";
-  return trimmed.length > 0 ? trimmed.slice(-4) : "none";
-}
-
-function quarantineFromPublishedState(
-  state: PublishedTokenState | null,
-): QuarantineState {
-  if (!state?.quarantinedUntilMs) {
-    return { active: false, reason: null, until: null };
-  }
-  return {
-    active: state.quarantinedUntilMs > Date.now(),
-    reason: "published",
-    until: new Date(state.quarantinedUntilMs).toISOString(),
-  };
-}
-
-function configuredGithubKeys(): GithubKeyDescriptor[] {
-  const states = getGitHubTokenPool().snapshot();
-  const legacyCounts = new Map<string, number>();
-  const labelCounts = new Map<string, number>();
-  const labelIndexes = new Map<string, number>();
-
-  for (const state of states) {
-    const legacy = githubLegacyFingerprint(state.token);
-    legacyCounts.set(legacy, (legacyCounts.get(legacy) ?? 0) + 1);
-    const label = redactToken(state.token);
-    labelCounts.set(label, (labelCounts.get(label) ?? 0) + 1);
-  }
-
-  return states.map((state): GithubKeyDescriptor => {
-    const label = redactToken(state.token);
-    const labelIndex = (labelIndexes.get(label) ?? 0) + 1;
-    labelIndexes.set(label, labelIndex);
-    const safeLabel =
-      (labelCounts.get(label) ?? 0) > 1 ? `${label}#${labelIndex}` : label;
-    const legacy = githubLegacyFingerprint(state.token);
-    const usageFingerprints = [githubKeyFingerprint(state.token)];
-    if ((legacyCounts.get(legacy) ?? 0) === 1) {
-      usageFingerprints.push(legacy);
-    }
+  const raw = await redis.get(`pool:${prefix}:quarantine:${fingerprint}`);
+  if (!raw) return { active: false, reason: null, until: null };
+  try {
+    const parsed = JSON.parse(raw) as { reason?: string; untilTimestamp?: number };
+    const untilMs =
+      typeof parsed.untilTimestamp === "number"
+        ? parsed.untilTimestamp * 1000
+        : null;
     return {
-      label: safeLabel,
-      usageFingerprints,
-      publishedState: {
-        tokenLabel: label,
-        remaining: state.remaining,
-        resetUnixSec: state.resetUnixSec,
-        lastObservedMs: state.lastObservedMs,
-        quarantinedUntilMs: state.quarantinedUntilMs,
-        lambdaId: "local",
-        writtenAt: state.lastObservedMs
-          ? new Date(state.lastObservedMs).toISOString()
-          : "",
-      },
+      active: untilMs !== null && untilMs > Date.now(),
+      reason: parsed.reason ?? null,
+      until: untilMs ? new Date(untilMs).toISOString() : null,
     };
-  });
+  } catch {
+    return { active: true, reason: "unknown", until: null };
+  }
+}
+
+function configuredGithubFingerprints(): string[] {
+  return Array.from(
+    new Set(
+      getGitHubTokenPool()
+        .snapshot()
+        .map((state) => githubKeyFingerprint(state.token)),
+    ),
+  );
 }
 
 function stddev(values: number[]): number {
@@ -379,45 +269,22 @@ function poolHealth(rows: Array<{ status: PoolStatus; requests24h: number }>): P
 }
 
 async function githubState(buckets: string[]): Promise<AdminPoolStateResponse["github"]> {
-  const keys = configuredGithubKeys();
+  const fingerprints = configuredGithubFingerprints();
   const rows = await Promise.all(
-    keys.map(async (key): Promise<GithubPoolRow> => {
-      const usage = await readUsage("github", key.usageFingerprints, buckets);
-      const telemetryQuarantine = await readQuarantine("github", key.usageFingerprints);
-      const publishedQuarantine = quarantineFromPublishedState(key.publishedState);
-      const quarantine = telemetryQuarantine.active
-        ? telemetryQuarantine
-        : publishedQuarantine.active
-          ? publishedQuarantine
-          : telemetryQuarantine.until
-            ? telemetryQuarantine
-            : publishedQuarantine;
-      const publishedLastObserved = key.publishedState?.lastObservedMs
-        ? new Date(key.publishedState.lastObservedMs).toISOString()
-        : null;
-      const lastCallAt =
-        usage.lastCallAt ??
-        publishedLastObserved ??
-        parseIso(key.publishedState?.writtenAt);
+    fingerprints.map(async (fingerprint): Promise<GithubPoolRow> => {
+      const usage = await readUsage("github", fingerprint, buckets);
+      const quarantine = await readQuarantine("github", fingerprint);
       const idle =
-        !lastCallAt ||
-        Date.now() - Date.parse(lastCallAt) > IDLE_KEY_MS;
+        !usage.lastCallAt ||
+        Date.now() - Date.parse(usage.lastCallAt) > IDLE_KEY_MS;
       const status: PoolStatus = quarantine.active
         ? "RED"
         : idle
-          ? "RED"
+          ? "YELLOW"
           : "GREEN";
       return {
-        fingerprint: key.label,
+        fingerprint,
         ...usage,
-        lastCallAt,
-        lastRateLimitRemaining:
-          usage.lastRateLimitRemaining ?? key.publishedState?.remaining ?? null,
-        lastRateLimitReset:
-          usage.lastRateLimitReset ??
-          (key.publishedState?.resetUnixSec
-            ? new Date(key.publishedState.resetUnixSec * 1000).toISOString()
-            : null),
         quarantine,
         idle,
         status,
@@ -425,7 +292,7 @@ async function githubState(buckets: string[]): Promise<AdminPoolStateResponse["g
     }),
   );
   return {
-    totalConfigured: keys.length,
+    totalConfigured: fingerprints.length,
     health: poolHealth(rows),
     rows,
   };
@@ -440,14 +307,11 @@ async function redditState(buckets: string[]): Promise<AdminPoolStateResponse["r
       const fingerprint = redditUserAgentFingerprint(userAgent);
       const usage = await readUsage("reddit", fingerprint, buckets);
       const quarantine = await readQuarantine("reddit", fingerprint);
-      const last429At =
-        usage.last429At ?? (usage.lastStatusCode === 429 ? usage.lastCallAt : null);
+      const last429At = usage.lastStatusCode === 429 ? usage.lastCallAt : null;
       const status: PoolStatus = quarantine.active
         ? "RED"
-        : usage.rateLimited24h && usage.rateLimited24h > 0
+        : last429At
           ? "YELLOW"
-          : usage.fail24h > usage.success24h && usage.fail24h > 0
-            ? "YELLOW"
           : "GREEN";
       return {
         fingerprint,
@@ -464,7 +328,7 @@ async function redditState(buckets: string[]): Promise<AdminPoolStateResponse["r
     rows.map((row) => redis.hgetall(`pool:reddit:usage:${row.fingerprint}:${currentBucket}`)),
   );
   const rateLimitedLastHour = lastHourHashes.reduce((sum, hash) => {
-    return sum + (parseNumber(hash.rateLimited) ?? 0);
+    return sum + (parseNumber(hash.lastStatusCode) === 429 ? (parseNumber(hash.requests) ?? 1) : 0);
   }, 0);
   return {
     totalConfigured: agents.length,

@@ -35,6 +35,11 @@ export default defineConfig({
       // level, no nesting) so funding/__tests__/ doesn't double-run
       // under tsx --test.
       "src/lib/funding/__tests__/**/*.test.{ts,tsx}",
+      // E5: oEmbed route uses NextRequest + vitest API; node:test runner
+      // can't import next/server cleanly, so it lives under vitest.
+      "src/app/api/oembed/__tests__/**/*.test.{ts,tsx}",
+      // E6: x402 manifest stub route — same rationale as E5.
+      "src/app/x402/__tests__/**/*.test.{ts,tsx}",
     ],
     // src/lib/__tests__/* and src/lib/pipeline/__tests__/* run under
     // node:test via `npm test` — vitest can't read those (no

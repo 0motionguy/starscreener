@@ -48,6 +48,7 @@
     "lint:v3-budget:snapshot": "node scripts/check-v3-token-budget.mjs --snapshot",
     "lint:bypass": "node scripts/check-no-pool-bypass.mjs",
     "verify:pool-throughput": "node scripts/verify-pool-throughput.mjs",
+    "verify:sentry-wiring": "node scripts/verify-sentry-wiring.mjs",
     "lint:guards": "npm run lint:tokens && npm run lint:err-message && npm run lint:zod-routes && npm run lint:runtime && npm run lint:err-envelope && npm run lint:v3-budget && npm run lint:bypass",
     "audit:status": "node scripts/audit-status.mjs",
     "update:badges": "node scripts/update-readme-badges.mjs",
@@ -115,9 +116,8 @@
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
-    "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
-    "@sentry/nextjs": "^10.50.0",
+    "@sentry/nextjs": "^10.51.0",
     "@upstash/redis": "^1.37.0",
     "framer-motion": "^12.38.0",
     "ioredis": "^5.10.1",

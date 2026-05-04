@@ -34,7 +34,9 @@ import collectionRankings from './fetchers/collection-rankings/index.js';
 import repoProfiles from './fetchers/repo-profiles/index.js';
 import repoMetadata from './fetchers/repo-metadata/index.js';
 import npmPackages from './fetchers/npm-packages/index.js';
+import crunchbase from './fetchers/crunchbase/index.js';
 import fundingNews from './fetchers/funding-news/index.js';
+import xFunding from './fetchers/x-funding/index.js';
 import trustmrr from './fetchers/trustmrr/index.js';
 import revenueBenchmarks from './fetchers/revenue-benchmarks/index.js';
 import redditBaselines from './fetchers/reddit-baselines/index.js';
@@ -80,6 +82,8 @@ export const FETCHERS: Fetcher[] = [
   repoMetadata,
   npmPackages,
   fundingNews,
+  crunchbase,
+  xFunding,
   trustmrr,
   revenueBenchmarks,
   redditBaselines,

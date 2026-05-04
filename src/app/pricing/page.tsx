@@ -18,7 +18,7 @@ import {
   TIERS,
   type BillingCadence,
 } from "@/lib/pricing/tiers";
-import { SITE_NAME, SITE_URL } from "@/lib/seo";
+import { safeJsonLd, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: `${SITE_NAME} — Pricing`,
@@ -82,7 +82,7 @@ function buildProductJsonLd(): string {
       },
     };
   });
-  return JSON.stringify(products);
+  return safeJsonLd(products);
 }
 
 // -----------------------------------------------------------------------------

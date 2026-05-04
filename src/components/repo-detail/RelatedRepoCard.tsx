@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 
-import { BrandStar } from "@/components/shared/BrandStar";
 import { cn } from "@/lib/utils";
 
 export interface RelatedRepoCardProps {
@@ -53,8 +52,8 @@ export function RelatedRepoCard({
           <span className="v4-related-card__lang">{language}</span>
         ) : null}
         {stars ? (
-          <span className="v4-related-card__stars inline-flex items-center gap-1">
-            <BrandStar size={11} className="text-[var(--v4-acc)]" />
+          <span className="v4-related-card__stars">
+            {"★ "}
             {stars}
           </span>
         ) : null}

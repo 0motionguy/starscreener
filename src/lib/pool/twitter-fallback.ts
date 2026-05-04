@@ -4,6 +4,7 @@ import {
   ApifyQuotaError,
   ApifyTokenInvalidError,
   TwitterAllSourcesFailedError,
+  engineErrorTags,
 } from "@/lib/errors";
 
 import {
@@ -81,7 +82,11 @@ export async function scrapeTwitterFor(
       );
       sentryCaptureException(fatal, {
         level: "fatal",
-        tags: { pool: "twitter", alert: "twitter-all-sources-failed" },
+        tags: {
+          pool: "twitter",
+          alert: "twitter-all-sources-failed",
+          ...engineErrorTags(fatal),
+        },
       });
       await alertOps("twitter-all-sources-failed", {
         repoFullName,

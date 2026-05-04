@@ -73,7 +73,7 @@ const HOMEPAGE_FAQ: ReadonlyArray<{ q: string; a: string }> = [
   },
   {
     q: "How often is the data refreshed?",
-    a: "Scrapers run every 3 hours via GitHub Actions. The homepage is ISR-cached for 30 minutes, so the edge serves a static hit while the pipeline ingests fresh signals in the background.",
+    a: "Scrapers run every 20 minutes via GitHub Actions. The homepage is ISR-cached for 30 minutes, so the edge serves a static hit while the pipeline ingests fresh signals in the background.",
   },
   {
     q: "Is there an API?",
@@ -733,7 +733,7 @@ export default async function HomePage() {
         (b.crossSignalScore ?? sourceCount(b)) -
         (a.crossSignalScore ?? sourceCount(a)),
     )
-    .slice(0, 3);
+    .slice(0, 8);
   const breakoutRepos = [...repos]
     .sort((a, b) => {
       const aBase = Math.max(1, a.starsDelta7d / 7);
@@ -1219,7 +1219,7 @@ export default async function HomePage() {
             name: `${SITE_NAME} - open-source repo trend dataset`,
             alternateName: "TrendingRepo Catalog",
             description:
-              "Aggregated repo metadata + cross-source signals (GitHub, Reddit, Hacker News, Bluesky, dev.to, ProductHunt, Lobsters) for the open-source ecosystem. Updated every 3 hours.",
+              "Aggregated repo metadata + cross-source signals (GitHub, Reddit, Hacker News, Bluesky, dev.to, ProductHunt, Lobsters) for the open-source ecosystem. Updated every 20 minutes.",
             url: SITE_URL,
             sameAs: [SITE_URL],
             inLanguage: "en-US",

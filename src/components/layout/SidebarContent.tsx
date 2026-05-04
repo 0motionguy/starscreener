@@ -379,10 +379,10 @@ export function SidebarContent({
           <FreshCountNavRow
             routeKey="trendingRepos"
             currentCount={trendingReposCount ?? 0}
-            href="/githubrepo"
+            href="/"
             icon={TrendingUp}
             label="Trending Repos"
-            active={pathname === "/githubrepo"}
+            active={pathname === "/"}
           />
           <FreshCountNavRow
             routeKey="skills"

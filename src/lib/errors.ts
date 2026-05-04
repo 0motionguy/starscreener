@@ -75,3 +75,11 @@ export class TwitterAllSourcesFailedError extends EngineError {
   readonly category = "fatal" as const;
   readonly source = "twitter";
 }
+
+export function engineErrorTags(error: unknown): Record<string, string> {
+  if (!(error instanceof EngineError)) return {};
+  return {
+    source: error.source,
+    category: error.category,
+  };
+}

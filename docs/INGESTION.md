@@ -36,13 +36,15 @@ each Lambda invocation gets its own `/tmp` and its own process memory —
 the writer and reader never shared state, so freshly written snapshots
 were invisible to the next request. This is architectural, not a bug.
 
-The fix is to remove shared state from the request path. Scrape and delta
-computation run in GitHub Actions, commit both JSON files, and the next
-Vercel deploy ships them in the bundle. Every Lambda reads identical bytes
-from the build; git history substitutes for a delta database. Serverless
-plus cross-invocation state normally needs external infra (KV, Redis,
-Postgres); committing JSON gives us the same property for free, with the
-deploy pipeline as the only coordination point.
+Phase 3 removed shared state from the request path by committing both JSON
+files in GitHub Actions and reading them as bundled bytes. Phase 4 (in
+progress, 2026-Q2) adds **Redis as the source of truth** in front of the
+bundled JSON. The request path now reads from Redis first; bundled JSON +
+in-memory last-known-good are fallbacks. Collectors dual-write file +
+Redis via [scripts/_data-store-write.mjs](../scripts/_data-store-write.mjs).
+See [CLAUDE.md](../CLAUDE.md) "Critical Conventions" and
+[tasks/data-api.md](../tasks/data-api.md) for the migration plan; the
+collector inventory lists which sources have been ported to dual-write.
 
 ## Scraper (`scripts/scrape-trending.mjs`)
 

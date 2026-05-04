@@ -16,7 +16,11 @@
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore, readDataStore } from '../../lib/redis.js';
 import { fetchJsonWithRetry, HttpStatusError, sleep } from '../../lib/util/http-helpers.js';
-import { pickGithubToken } from '../../lib/util/github-token-pool.js';
+import {
+  parseRateLimitHeaders,
+  pickGithubToken,
+  recordRateLimit,
+} from '../../lib/util/github-token-pool.js';
 
 const USER_AGENT = 'TrendingRepo-Skill-Derivatives/1.0 (+https://trendingrepo.com)';
 const REQ_INTERVAL_MS = 2200; // ~27/min, under the 30/min authenticated cap
@@ -223,6 +227,11 @@ async function fetchDerivativeCount(skillName: string): Promise<number | null> {
       retryDelayMs: 3000,
       timeoutMs: 20_000,
       headers,
+      onResponse: (res) => {
+        if (!token) return;
+        const rl = parseRateLimitHeaders(res.headers);
+        if (rl) recordRateLimit(token, rl.remaining, rl.resetUnixSec);
+      },
     });
     return typeof data.total_count === 'number' ? data.total_count : 0;
   } catch (err) {

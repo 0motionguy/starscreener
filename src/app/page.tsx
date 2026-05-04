@@ -739,7 +739,7 @@ export default async function HomePage() {
         (b.crossSignalScore ?? sourceCount(b)) -
         (a.crossSignalScore ?? sourceCount(a)),
     )
-    .slice(0, 3);
+    .slice(0, 8);
   const breakoutRepos = [...repos]
     .sort((a, b) => {
       const aBase = Math.max(1, a.starsDelta7d / 7);

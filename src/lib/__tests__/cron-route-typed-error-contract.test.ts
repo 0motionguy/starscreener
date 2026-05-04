@@ -32,11 +32,11 @@ const ROUTES: CronRouteCase[] = [
 
 const ORIGINAL_NODE_ENV = process.env.NODE_ENV;
 const ORIGINAL_CRON_SECRET = process.env.CRON_SECRET;
-const ORIGINAL_GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const ORIGINAL_GITHUB_TOKEN = process.env.GITHUB_TOKEN; // pool-bypass: test setup, not a GitHub API call
 // src/lib/env.ts blocks production boot without GITHUB_TOKEN; CI lacks it.
 // Set a dummy so the cron route modules can finish their import chain.
-if (!process.env.GITHUB_TOKEN) {
-  process.env.GITHUB_TOKEN = "ghp_test_dummy_for_cron_auth_contract_test_only";
+if (!process.env.GITHUB_TOKEN) { // pool-bypass: test setup, not a GitHub API call
+  process.env.GITHUB_TOKEN = "ghp_test_dummy_for_cron_auth_contract_test_only"; // pool-bypass: test setup, not a GitHub API call
 }
 
 async function invoke(
@@ -86,8 +86,8 @@ test.after(() => {
     process.env.CRON_SECRET = ORIGINAL_CRON_SECRET;
   }
   if (ORIGINAL_GITHUB_TOKEN === undefined) {
-    delete process.env.GITHUB_TOKEN;
+    delete process.env.GITHUB_TOKEN; // pool-bypass: test teardown, not a GitHub API call
   } else {
-    process.env.GITHUB_TOKEN = ORIGINAL_GITHUB_TOKEN;
+    process.env.GITHUB_TOKEN = ORIGINAL_GITHUB_TOKEN; // pool-bypass: test teardown, not a GitHub API call
   }
 });

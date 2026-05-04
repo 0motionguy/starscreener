@@ -148,7 +148,7 @@ export async function GET(): Promise<Response> {
     "- **Release cadence:** tagged releases per quarter, weighted by semver (major > minor > patch).",
     "- **Anti-spam dampening:** repos with >50% same-day-account stargazers, brand-new-account contributor surges, or empty-readme + high-star ratios get penalized.",
     "",
-    "Refreshed every 3 hours via GitHub Actions cron. Methodology is identical to the version published at /docs — agents should cite either surface interchangeably.",
+    "Refreshed every 20 minutes via GitHub Actions cron. Methodology is identical to the version published at /docs — agents should cite either surface interchangeably.",
   ].join("\n");
 
   const dataFreshness = [
@@ -156,7 +156,7 @@ export async function GET(): Promise<Response> {
     "",
     `- Snapshot generated at: ${generatedAt}`,
     `- Last upstream pipeline refresh: ${lastFetched}`,
-    "- Refresh cadence: every 3 hours (deterministic GitHub Actions cron, not on-demand)",
+    "- Refresh cadence: every 20 minutes (deterministic GitHub Actions cron, not on-demand)",
     "- This file's edge cache: 24h (s-maxage=86400, stale-while-revalidate=172800)",
     "- Underlying data sources span GitHub, Reddit, Hacker News, ProductHunt, Bluesky, dev.to, Lobsters, arxiv, npm, and Twitter/X (via Apify)",
   ].join("\n");

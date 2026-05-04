@@ -38,6 +38,7 @@ import {
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { lastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { repoLogoUrl } from "@/lib/logos";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
@@ -250,10 +251,14 @@ export default async function PredictPage() {
               first={idx === 0}
               href={`/repo/${f.repo.owner}/${f.repo.name}`}
               avatar={
-                f.repo.ownerAvatarUrl ? (
+                // 3-tier avatar fallback per AUDIT-2026-05-04 logo-coverage
+                // criterion: enriched ownerAvatarUrl → derived GitHub avatar
+                // → uppercase initial. GitHub serves a deterministic monogram
+                // on 404 so the IMG fallback is never blank.
+                f.repo.ownerAvatarUrl || repoLogoUrl(f.repo.fullName, 28) ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={f.repo.ownerAvatarUrl}
+                    src={f.repo.ownerAvatarUrl ?? repoLogoUrl(f.repo.fullName, 28) ?? undefined}
                     alt=""
                     width={28}
                     height={28}

@@ -190,7 +190,14 @@ function stampTrackedRepos(value, ts, depth = 0) {
  * @returns {Promise<{ source: "redis" | "skipped"; writtenAt: string }>}
  */
 export async function writeDataStore(key, value, opts = {}) {
-  const writtenAt = new Date().toISOString();
+  // AUDIT-2026-05-04 §B2 — meta carries WriterMeta envelope:
+  //   { ts, writerId, sourceWorkflow, commitSha }
+  // so /admin/staleness can show "GHA scrape-trending wrote this last"
+  // vs "worker oss-trending wrote this last". The reader in
+  // src/lib/data-store.ts (parseWriterMeta) accepts both this envelope
+  // and legacy bare-ISO meta values for back-compat.
+  const writerMeta = buildScriptWriterMeta(opts);
+  const writtenAt = writerMeta.ts;
 
   if (opts.stampPerRecord !== false && value && typeof value === "object") {
     stampTrackedRepos(value, writtenAt);
@@ -202,32 +209,11 @@ export async function writeDataStore(key, value, opts = {}) {
   }
 
   const payload = JSON.stringify(value);
+  const metaPayload = JSON.stringify(writerMeta);
   const setOpts =
     opts.ttlSeconds && opts.ttlSeconds > 0
       ? { ex: opts.ttlSeconds }
       : undefined;
-
-  // Build the meta value. JSON-object shape only when at least one
-  // provenance field is present; otherwise keep the bare-ISO-string back-
-  // compat shape that older readers still understand.
-  const writer =
-    opts.writer ??
-    (process.env.GITHUB_WORKFLOW
-      ? `github-actions:${process.env.GITHUB_WORKFLOW}`
-      : undefined);
-  const runId = opts.runId ?? process.env.GITHUB_RUN_ID;
-  const commitFull = opts.commit ?? process.env.GITHUB_SHA;
-  const commit = commitFull ? commitFull.slice(0, 7) : undefined;
-  const hasProvenance =
-    writer !== undefined || runId !== undefined || commit !== undefined;
-  const metaValue = hasProvenance
-    ? JSON.stringify({
-        writtenAt,
-        ...(writer !== undefined ? { writer } : {}),
-        ...(runId !== undefined ? { runId } : {}),
-        ...(commit !== undefined ? { commit } : {}),
-      })
-    : writtenAt;
 
   // Two SETs in parallel. ioredis supports MULTI/EXEC for true atomicity but
   // for our use case (collector scripts that run serially per source) a
@@ -236,10 +222,35 @@ export async function writeDataStore(key, value, opts = {}) {
   // read after meta lands sees both.
   await Promise.all([
     client.set(`${NAMESPACE}:${key}`, payload, setOpts),
-    client.set(`${META_NAMESPACE}:${key}`, metaValue, setOpts),
+    client.set(`${META_NAMESPACE}:${key}`, metaPayload, setOpts),
   ]);
 
   return { source: "redis", writtenAt };
+}
+
+/**
+ * Build the WriterMeta envelope. Mirrors src/lib/data-store.ts
+ * buildWriterMeta — same shape, same env-var precedence, so dual-writer
+ * observability sees consistent provenance regardless of which path wrote.
+ *
+ * @returns {{ ts: string; writerId?: string; sourceWorkflow?: string; commitSha?: string; runId?: string }}
+ */
+function buildScriptWriterMeta(opts = {}) {
+  const meta = { ts: new Date().toISOString() };
+  const explicit = opts.writer?.trim?.() || process.env.WRITER_ID?.trim();
+  if (explicit) meta.writerId = explicit;
+  else if (process.env.GITHUB_WORKFLOW) {
+    meta.writerId = `gha:${process.env.GITHUB_WORKFLOW}`;
+  } else {
+    meta.writerId = "script:local";
+  }
+  const wf = process.env.GITHUB_WORKFLOW?.trim();
+  if (wf) meta.sourceWorkflow = wf;
+  const sha = opts.commit?.trim?.() || process.env.GITHUB_SHA?.trim();
+  if (sha) meta.commitSha = sha;
+  const runId = opts.runId?.trim?.() || process.env.GITHUB_RUN_ID?.trim();
+  if (runId) meta.runId = runId;
+  return meta;
 }
 
 /**

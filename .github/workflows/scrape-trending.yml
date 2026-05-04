@@ -43,6 +43,7 @@ jobs:
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
           GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN_POOL: ${{ secrets.GH_TOKEN_POOL }}
         run: node scripts/discover-recent-repos.mjs
 
       - name: Refresh Reddit mentions
@@ -72,6 +73,7 @@ jobs:
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
           GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN_POOL: ${{ secrets.GH_TOKEN_POOL }}
         run: node scripts/fetch-repo-metadata.mjs
 
       - name: Compute deltas from git history

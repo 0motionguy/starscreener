@@ -34,9 +34,7 @@ import collectionRankings from './fetchers/collection-rankings/index.js';
 import repoProfiles from './fetchers/repo-profiles/index.js';
 import repoMetadata from './fetchers/repo-metadata/index.js';
 import npmPackages from './fetchers/npm-packages/index.js';
-import crunchbase from './fetchers/crunchbase/index.js';
 import fundingNews from './fetchers/funding-news/index.js';
-import xFunding from './fetchers/x-funding/index.js';
 import trustmrr from './fetchers/trustmrr/index.js';
 import revenueBenchmarks from './fetchers/revenue-benchmarks/index.js';
 import redditBaselines from './fetchers/reddit-baselines/index.js';
@@ -69,6 +67,11 @@ import skillInstallSnapshot from './fetchers/skill-install-snapshot/index.js';
 import skillForksSnapshot from './fetchers/skill-forks-snapshot/index.js';
 import hotnessSnapshot from './fetchers/hotness-snapshot/index.js';
 import mcpUsageSnapshot from './fetchers/mcp-usage-snapshot/index.js';
+// Funding side-channel fetchers — write `funding-news-crunchbase` and
+// `funding-news-x` keys that consumers may already read but stayed
+// forever stale before registration. AUDIT-2026-05-04 §A4 fix.
+import crunchbase from './fetchers/crunchbase/index.js';
+import xFunding from './fetchers/x-funding/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,

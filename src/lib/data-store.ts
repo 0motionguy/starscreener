@@ -55,6 +55,27 @@ function fs(): FsModule {
 
 export type DataSource = "redis" | "file" | "memory" | "missing";
 
+/**
+ * Writer-provenance metadata stored alongside every Redis payload write.
+ *
+ * AUDIT-2026-05-04 §B2 — multiple writers (GHA scripts + worker fetchers)
+ * compete for the same key. `writerId` lets observability distinguish
+ * who won the last race, so /admin/staleness can surface dual-writer
+ * oscillation without a human grep.
+ */
+export interface WriterMeta {
+  /** ISO string of when the write happened. */
+  ts: string;
+  /** Stable id of the writer process. e.g. "worker:trendingrepo-worker:devto" or "gha:scrape-trending". */
+  writerId?: string;
+  /** GHA workflow name, when running in CI. */
+  sourceWorkflow?: string;
+  /** Commit SHA at time of write, when available. */
+  commitSha?: string;
+  /** GitHub run id / external run id, when available. */
+  runId?: string;
+}
+
 export interface DataReadResult<T> {
   /** The payload, or null if every tier missed. */
   data: T | null;
@@ -66,6 +87,12 @@ export interface DataReadResult<T> {
   fresh: boolean;
   /** Set when source==="redis" and fetch succeeded. ISO string. */
   writtenAt?: string;
+  /**
+   * Writer provenance — set when source==="redis" AND the meta payload is
+   * the new JSON envelope (writes after AUDIT-2026-05-04 §B2). Older
+   * writes that stored only an ISO string omit this field.
+   */
+  writerMeta?: WriterMeta;
 }
 
 export interface DataWriteOptions {
@@ -79,9 +106,9 @@ export interface DataWriteOptions {
    * Added 2026-05-04 after audit found dual-writer keys with no way to
    * attribute last-write-wins between collector scripts and the worker.
    *
-   * Shape (when at least one provenance field is set):
-   *   { writtenAt, writer?, runId?, commit? }
-   * Otherwise the meta key remains a bare ISO string for back-compat.
+   * These override or enrich the WriterMeta envelope written beside the
+   * payload. Older `{ writtenAt, writer?, runId?, commit? }` envelopes are
+   * still accepted on read for back-compat.
    */
   writer?: string;
   runId?: string;
@@ -93,6 +120,12 @@ export interface DataStore {
   write<T>(key: string, value: T, opts?: DataWriteOptions): Promise<void>;
   /** Last-write timestamp from Redis without fetching the payload. */
   writtenAt(key: string): Promise<string | null>;
+  /**
+   * WriterMeta envelope from Redis without fetching the payload.
+   * Returns null if Redis is disabled, the key is missing, or the meta
+   * value is in legacy bare-ISO format. AUDIT-2026-05-04 §B2.
+   */
+  writerMeta(key: string): Promise<WriterMeta | null>;
   /** Test/admin — drop a key from every tier. */
   reset(key: string): Promise<void>;
   /**
@@ -260,6 +293,7 @@ class DefaultDataStore implements DataStore {
           const data = parsePayload<T>(rawPayload);
           if (data !== null) {
             const writtenAt = parseWrittenAt(rawMeta);
+            const writerMeta = parseWriterMeta(rawMeta) ?? undefined;
             const ageMs = writtenAt
               ? Math.max(0, Date.now() - new Date(writtenAt).getTime())
               : 0;
@@ -271,6 +305,7 @@ class DefaultDataStore implements DataStore {
               ageMs,
               fresh: true,
               writtenAt: writtenAt ?? undefined,
+              writerMeta,
             };
           }
         }
@@ -319,23 +354,14 @@ class DefaultDataStore implements DataStore {
   }
 
   async write<T>(key: string, value: T, opts: DataWriteOptions = {}): Promise<void> {
-    const writtenAt = new Date().toISOString();
+    // AUDIT-2026-05-04 §B2 — meta now carries WriterMeta envelope (ts +
+    // writerId + sourceWorkflow + commitSha) so /admin/staleness can show
+    // who won the dual-writer race. parseWriterMeta is back-compat with
+    // older bare-ISO meta values, so existing keys keep reading correctly.
+    const writerMeta = buildWriterMeta(opts);
+    const writtenAt = writerMeta.ts;
     const payload = JSON.stringify(value);
-    // Provenance: serialise as JSON object only when at least one field
-    // beyond `writtenAt` is present, to keep the back-compat path with
-    // older readers that expect a bare ISO string.
-    const hasProvenance =
-      opts.writer !== undefined ||
-      opts.runId !== undefined ||
-      opts.commit !== undefined;
-    const metaValue = hasProvenance
-      ? JSON.stringify({
-          writtenAt,
-          ...(opts.writer !== undefined ? { writer: opts.writer } : {}),
-          ...(opts.runId !== undefined ? { runId: opts.runId } : {}),
-          ...(opts.commit !== undefined ? { commit: opts.commit } : {}),
-        })
-      : writtenAt;
+    const metaPayload = JSON.stringify(writerMeta);
 
     // Always update the memory cache so subsequent reads in the same process
     // can hit it even if Redis is unreachable mid-write.
@@ -352,7 +378,7 @@ class DefaultDataStore implements DataStore {
             : undefined;
         await Promise.all([
           this.redis.set(payloadKey(key), payload, setOpts),
-          this.redis.set(metaKey(key), metaValue, setOpts),
+          this.redis.set(metaKey(key), metaPayload, setOpts),
         ]);
       } catch (err) {
         this.onError(err, "write");
@@ -392,6 +418,17 @@ class DefaultDataStore implements DataStore {
     if (stat) return new Date(stat.mtimeMs).toISOString();
     const cached = this.memory.get(key);
     return cached?.writtenAt ?? null;
+  }
+
+  async writerMeta(key: string): Promise<WriterMeta | null> {
+    if (!this.redis) return null;
+    try {
+      const raw = await this.redis.get(metaKey(key));
+      return parseWriterMeta(raw);
+    } catch (err) {
+      this.onError(err, "read");
+      return null;
+    }
   }
 
   async reset(key: string): Promise<void> {
@@ -441,39 +478,112 @@ function parsePayload<T>(raw: unknown): T | null {
   return null;
 }
 
+/**
+ * Extract `writtenAt` from a meta blob. Accepts both:
+ *  - legacy: bare ISO string (writes pre AUDIT-2026-05-04 §B2)
+ *  - new:    JSON-encoded WriterMeta envelope `{ ts, writerId, ... }`
+ *
+ * Some Upstash/ioredis clients auto-parse JSON; this handles both
+ * already-parsed objects and raw strings transparently.
+ */
 function parseWrittenAt(raw: unknown): string | null {
-  if (raw === null || raw === undefined) return null;
+  const meta = parseWriterMeta(raw);
+  if (meta?.ts) return meta.ts;
   if (typeof raw === "string" && raw.length > 0) {
-    // Two valid string shapes:
-    //   1. Bare ISO timestamp written by older collectors / readers that
-    //      predate writer-provenance (2026-05-04 audit).
-    //   2. JSON-encoded `{ writtenAt, writer?, runId?, commit? }` from the
-    //      same release: Upstash clients hand us the string back unparsed
-    //      because we wrote a JSON.stringify result.
-    if (raw[0] === "{") {
-      try {
-        const parsed = JSON.parse(raw) as { writtenAt?: unknown };
-        if (typeof parsed.writtenAt === "string" && parsed.writtenAt.length > 0) {
-          return parsed.writtenAt;
-        }
-      } catch {
-        // Not valid JSON despite the leading brace; treat as opaque string
-        // and fall through.
-      }
-    }
+    // Legacy: bare ISO string with no envelope.
     return raw;
   }
-  if (typeof raw === "object") {
-    // Some Upstash clients auto-parse JSON-looking strings into objects.
-    // Accept the new provenance shape transparently; older shape was
-    // string-only so this branch is the new-format path.
-    const parsed = raw as { writtenAt?: unknown };
-    if (typeof parsed.writtenAt === "string" && parsed.writtenAt.length > 0) {
-      return parsed.writtenAt;
+  return null;
+}
+
+/**
+ * Parse a WriterMeta envelope from Redis. Returns null for legacy bare-ISO
+ * strings (use parseWrittenAt() to get just the timestamp in that case).
+ */
+function parseWriterMeta(raw: unknown): WriterMeta | null {
+  if (raw === null || raw === undefined) return null;
+  // Already-parsed object (some clients auto-parse JSON)
+  if (typeof raw === "object" && raw !== null) {
+    const parsed = normalizeWriterMeta(raw);
+    if (parsed) return parsed;
+  }
+  if (typeof raw !== "string" || raw.length === 0) return null;
+  // Try JSON envelope; fall through silently for legacy ISO strings.
+  if (raw.startsWith("{")) {
+    try {
+      const obj = JSON.parse(raw) as unknown;
+      return normalizeWriterMeta(obj);
+    } catch {
+      return null;
     }
-    return null;
   }
   return null;
+}
+
+function normalizeWriterMeta(raw: unknown): WriterMeta | null {
+  if (!raw || typeof raw !== "object") return null;
+  const obj = raw as {
+    ts?: unknown;
+    writtenAt?: unknown;
+    writerId?: unknown;
+    writer?: unknown;
+    sourceWorkflow?: unknown;
+    commitSha?: unknown;
+    commit?: unknown;
+    runId?: unknown;
+  };
+  const ts =
+    typeof obj.ts === "string" && obj.ts.length > 0
+      ? obj.ts
+      : typeof obj.writtenAt === "string" && obj.writtenAt.length > 0
+        ? obj.writtenAt
+        : null;
+  if (!ts) return null;
+  const meta: WriterMeta = { ts };
+  const writerId =
+    typeof obj.writerId === "string" && obj.writerId.length > 0
+      ? obj.writerId
+      : typeof obj.writer === "string" && obj.writer.length > 0
+        ? obj.writer
+        : undefined;
+  if (writerId) meta.writerId = writerId;
+  if (typeof obj.sourceWorkflow === "string" && obj.sourceWorkflow.length > 0) {
+    meta.sourceWorkflow = obj.sourceWorkflow;
+  }
+  const commitSha =
+    typeof obj.commitSha === "string" && obj.commitSha.length > 0
+      ? obj.commitSha
+      : typeof obj.commit === "string" && obj.commit.length > 0
+        ? obj.commit
+        : undefined;
+  if (commitSha) meta.commitSha = commitSha;
+  if (typeof obj.runId === "string" && obj.runId.length > 0) {
+    meta.runId = obj.runId;
+  }
+  return meta;
+}
+
+/**
+ * Build the WriterMeta envelope for a write. Sources writerId from
+ * `WRITER_ID` env; falls back to GHA + worker hints. Always sets `ts`.
+ */
+function buildWriterMeta(opts: DataWriteOptions = {}): WriterMeta {
+  const meta: WriterMeta = { ts: new Date().toISOString() };
+  const writerId = opts.writer?.trim() || process.env.WRITER_ID?.trim();
+  if (writerId) meta.writerId = writerId;
+  else if (process.env.GITHUB_WORKFLOW) {
+    meta.writerId = `gha:${process.env.GITHUB_WORKFLOW}`;
+  }
+  const wf = process.env.GITHUB_WORKFLOW?.trim();
+  if (wf) meta.sourceWorkflow = wf;
+  const sha =
+    opts.commit?.trim() ??
+    process.env.GITHUB_SHA?.trim() ??
+    process.env.VERCEL_GIT_COMMIT_SHA?.trim();
+  if (sha) meta.commitSha = sha;
+  const runId = opts.runId?.trim() ?? process.env.GITHUB_RUN_ID?.trim();
+  if (runId) meta.runId = runId;
+  return meta;
 }
 
 function safeStat(path: string): { mtimeMs: number } | null {

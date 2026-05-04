@@ -13,7 +13,7 @@
  * Sections:
  *   1. TREND TERMINAL    — Repos, Skills, MCP, AGNT, Breakouts, Consensus
  *   2. SIGNAL TERMINAL   — HN / Lobsters / Dev.to / Bluesky / Reddit / X / PH
- *   3. LLM / PACK TERMINAL — NPM / Hugging Face / Datasets / Spaces
+ *   3. LLM / PACK TERMINAL — NPM / Huggingface
  *   4. LAUNCH TERMINAL   — Funding / Revenue / Hackathons / Launch
  *   5. RESEARCH TERMINAL — arXiv Papers / Cited Repos
  *   6. TOOLS             — Watchlist / Compare / Tier List / MindShare / Top 10
@@ -525,29 +525,10 @@ export function SidebarContent({
           <FreshCountNavRow
             routeKey="hfModels"
             currentCount={sourceCounts?.hfModels ?? 0}
-            href="/huggingface/trending"
+            href="/huggingface"
             icon={Brain}
-            label="HF Models"
-            active={
-              pathname === "/huggingface" ||
-              pathname === "/huggingface/trending"
-            }
-          />
-          <FreshCountNavRow
-            routeKey="hfDatasets"
-            currentCount={sourceCounts?.hfDatasets ?? 0}
-            href="/huggingface/datasets"
-            icon={FileText}
-            label="HF Datasets"
-            active={pathname === "/huggingface/datasets"}
-          />
-          <FreshCountNavRow
-            routeKey="hfSpaces"
-            currentCount={sourceCounts?.hfSpaces ?? 0}
-            href="/huggingface/spaces"
-            icon={Rocket}
-            label="HF Spaces"
-            active={pathname === "/huggingface/spaces"}
+            label="HUGGINGFACE"
+            active={pathname.startsWith("/huggingface")}
           />
         </V2Section>
 
@@ -716,3 +697,4 @@ export function SidebarContent({
     </div>
   );
 }
+

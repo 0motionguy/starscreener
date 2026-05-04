@@ -208,8 +208,8 @@ export function DropRepoPage() {
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)]">
-        <section className="v2-card p-5 sm:p-6">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+        <section className="v2-card p-5 sm:p-6 lg:min-w-0 lg:flex-1">
           <div className="flex flex-wrap items-center gap-3">
             <span className="inline-flex items-center gap-2 rounded-full border border-border-primary bg-bg-secondary px-3 py-1 text-[11px] font-mono uppercase tracking-[0.14em] text-text-tertiary">
               <Send className="h-3.5 w-3.5" />
@@ -246,8 +246,8 @@ export function DropRepoPage() {
             </Link>
           </div>
 
-          <form className="mt-6 grid gap-4" onSubmit={handleSubmit}>
-            <label className="grid gap-2">
+          <form className="mt-6 flex flex-col gap-4" onSubmit={handleSubmit}>
+            <label className="flex flex-col gap-2">
               <span className="text-sm font-medium text-text-primary">
                 GitHub repo
               </span>
@@ -260,7 +260,7 @@ export function DropRepoPage() {
               />
             </label>
 
-            <label className="grid gap-2">
+            <label className="flex flex-col gap-2">
               <span className="text-sm font-medium text-text-primary">
                 Why now
               </span>
@@ -273,8 +273,8 @@ export function DropRepoPage() {
               />
             </label>
 
-            <div className="grid gap-4 md:grid-cols-2">
-              <label className="grid gap-2">
+            <div className="flex flex-col gap-4 md:flex-row">
+              <label className="flex flex-1 flex-col gap-2">
                 <span className="text-sm font-medium text-text-primary">
                   Contact
                 </span>
@@ -287,7 +287,7 @@ export function DropRepoPage() {
                 />
               </label>
 
-              <label className="grid gap-2">
+              <label className="flex flex-1 flex-col gap-2">
                 <span className="text-sm font-medium text-text-primary">
                   X share link
                 </span>
@@ -333,7 +333,7 @@ export function DropRepoPage() {
           {result && (
             <div className="mt-4 rounded-card border border-border-primary bg-bg-secondary px-4 py-4">
               {result.kind === "created" && result.submission && (
-                <div className="grid gap-2">
+                <div className="flex flex-col gap-2">
                   <p className="text-sm font-medium text-text-primary">
                     Added to queue: {result.submission.fullName}
                   </p>
@@ -345,7 +345,7 @@ export function DropRepoPage() {
               )}
 
               {result.kind === "duplicate" && result.submission && (
-                <div className="grid gap-2">
+                <div className="flex flex-col gap-2">
                   <p className="text-sm font-medium text-text-primary">
                     Already in queue: {result.submission.fullName}
                   </p>
@@ -356,7 +356,7 @@ export function DropRepoPage() {
               )}
 
               {result.kind === "already_tracked" && result.repo && (
-                <div className="grid gap-2">
+                <div className="flex flex-col gap-2">
                   <p className="text-sm font-medium text-text-primary">
                     Already tracked: {result.repo.fullName}
                   </p>
@@ -373,7 +373,7 @@ export function DropRepoPage() {
           )}
         </section>
 
-        <aside className="grid gap-6">
+        <aside className="flex flex-col gap-6 lg:w-[360px] lg:max-w-[38%] lg:shrink-0">
           <section className="v2-card p-5 sm:p-6">
             <div className="flex items-center gap-2 text-text-primary">
               <Sparkles className="h-4 w-4 text-brand" />
@@ -381,7 +381,7 @@ export function DropRepoPage() {
                 Queue signals
               </h2>
             </div>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:flex-col">
               <MetricCard
                 label="Active"
                 value={loading ? "..." : String(queue.pending)}
@@ -418,7 +418,7 @@ export function DropRepoPage() {
               </h2>
             </div>
 
-            <div className="mt-4 grid gap-3">
+            <div className="mt-4 flex flex-col gap-3">
               {submissions.length === 0 && !loading && (
                 <p className="text-sm text-text-secondary">
                   No queued submissions yet.

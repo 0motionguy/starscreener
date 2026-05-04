@@ -551,8 +551,7 @@ export function buildHackerNewsHeader(
       byline: s.by ? `@${s.by}` : undefined,
       scoreLabel: `${compactNumber(s.score ?? 0)} pts · ${compactNumber(s.descendants ?? 0)} cmts`,
       ageHours: s.ageHours ?? null,
-      logoUrl:
-        repoLogoUrl(linkedRepo) ?? resolveLogoUrl(s.url ?? null, s.title, 64),
+      logoUrl: repoLogoUrl(linkedRepo),
       logoName: linkedRepo ?? s.by ?? s.title,
     };
   });
@@ -627,10 +626,7 @@ export function buildBlueskyHeader(
       ageHours: p.ageHours ?? null,
       logoUrl:
         repoLogoUrl(linkedRepo) ??
-        userLogoUrl(authorAvatar) ??
-        (p.author?.handle
-          ? resolveLogoUrl(p.author.handle, null, 64)
-          : null),
+        userLogoUrl(authorAvatar),
       logoName: linkedRepo ?? p.author?.handle ?? p.text,
     };
   });
@@ -972,8 +968,7 @@ export function buildLobstersHeader(
       byline: s.by ? `@${s.by}` : undefined,
       scoreLabel: `${compactNumber(s.score ?? 0)} pts · ${compactNumber(s.commentCount ?? 0)} cmts`,
       ageHours: s.ageHours ?? null,
-      logoUrl:
-        repoLogoUrl(linkedRepo) ?? resolveLogoUrl(s.url ?? null, s.title, 64),
+      logoUrl: repoLogoUrl(linkedRepo),
       logoName: linkedRepo ?? s.by ?? s.title,
     };
   });

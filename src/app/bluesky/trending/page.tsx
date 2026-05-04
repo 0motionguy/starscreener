@@ -20,7 +20,7 @@ import {
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { repoLogoUrl, userLogoUrl, resolveLogoUrl } from "@/lib/logos";
+import { repoLogoUrl, userLogoUrl } from "@/lib/logos";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -214,16 +214,12 @@ function BskyPostFeed({ posts }: { posts: BskyPost[] }) {
             ?.avatar ??
           (p.author as { avatarUrl?: string | null } | null)?.avatarUrl ??
           null;
-        const handleFavicon = p.author?.handle
-          ? resolveLogoUrl(p.author.handle, null, 64)
-          : null;
         return (
           <div className="flex min-w-0 items-start gap-2">
             <EntityLogo
               src={
                 repoLogoUrl(linkedRepo) ??
-                userLogoUrl(authorAvatar) ??
-                handleFavicon
+                userLogoUrl(authorAvatar)
               }
               name={linkedRepo ?? p.author?.handle ?? p.text}
               size={20}

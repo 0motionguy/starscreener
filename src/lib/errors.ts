@@ -86,6 +86,56 @@ export class DataStoreFatalError extends EngineError {
   readonly source = "data-store" as const;
 }
 
+export class AuthRecoverableError extends EngineError {
+  readonly category = "recoverable" as const;
+  readonly source = "auth" as const;
+}
+
+export class AuthQuarantineError extends EngineError {
+  readonly category = "quarantine" as const;
+  readonly source = "auth" as const;
+}
+
+export class AuthFatalError extends EngineError {
+  readonly category = "fatal" as const;
+  readonly source = "auth" as const;
+}
+
+export class RateLimitRecoverableError extends EngineError {
+  readonly category = "recoverable" as const;
+  readonly source = "rate-limit" as const;
+}
+
+export class AdminRecoverableError extends EngineError {
+  readonly category = "recoverable" as const;
+  readonly source = "admin" as const;
+}
+
+export class AdminQuarantineError extends EngineError {
+  readonly category = "quarantine" as const;
+  readonly source = "admin" as const;
+}
+
+export class AdminFatalError extends EngineError {
+  readonly category = "fatal" as const;
+  readonly source = "admin" as const;
+}
+
+export class OpsAlertFatalError extends EngineError {
+  readonly category = "fatal" as const;
+  readonly source = "ops-alert" as const;
+}
+
+export class OpsAlertRecoverableError extends EngineError {
+  readonly category = "recoverable" as const;
+  readonly source = "ops-alert" as const;
+}
+
+export class DataStoreFatalError extends EngineError {
+  readonly category = "fatal" as const;
+  readonly source = "data-store" as const;
+}
+
 export class GithubRateLimitError extends EngineError {
   readonly category = "quarantine" as const;
   readonly source = "github";

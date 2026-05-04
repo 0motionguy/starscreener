@@ -30,15 +30,14 @@ import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { RankRow } from "@/components/ui/RankRow";
+import { LiveDot } from "@/components/ui/LiveDot";
 import {
   PREDICTION_MODEL_VERSION,
   predictTrajectory,
   type PredictionRecord,
 } from "@/lib/predictions";
 import { getDerivedRepos } from "@/lib/derived-repos";
-import { lastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
-import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
-import { repoLogoUrl } from "@/lib/logos";
+import { refreshTrendingFromStore } from "@/lib/trending";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
@@ -48,7 +47,7 @@ export const runtime = "nodejs";
 // which itself only refreshes when the scraper writes new sparkline data.
 // 10 min keeps the page responsive on first paint without blowing the
 // cache budget.
-export const revalidate = 60;
+export const revalidate = 600;
 
 const FORECAST_HORIZON_DAYS = 30;
 const FORECAST_LIMIT = 12;
@@ -165,7 +164,7 @@ export default async function PredictPage() {
           <>
             <span className="big">{breakoutCount}</span>
             <span className="muted">FORECASTS · 30D</span>
-            <FreshnessBadge source="mcp" lastUpdatedAt={lastFetchedAt} />
+            <LiveDot label="LIVE" />
           </>
         }
       />
@@ -250,32 +249,7 @@ export default async function PredictPage() {
               rank={idx + 1}
               first={idx === 0}
               href={`/repo/${f.repo.owner}/${f.repo.name}`}
-              avatar={
-                // 3-tier avatar fallback per AUDIT-2026-05-04 logo-coverage
-                // criterion: enriched ownerAvatarUrl → derived GitHub avatar
-                // → uppercase initial. GitHub serves a deterministic monogram
-                // on 404 so the IMG fallback is never blank.
-                f.repo.ownerAvatarUrl || repoLogoUrl(f.repo.fullName, 28) ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={f.repo.ownerAvatarUrl ?? repoLogoUrl(f.repo.fullName, 28) ?? undefined}
-                    alt=""
-                    width={28}
-                    height={28}
-                    style={{
-                      width: 28,
-                      height: 28,
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                      flexShrink: 0,
-                    }}
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                  />
-                ) : (
-                  f.repo.name.slice(0, 1).toUpperCase()
-                )
-              }
+              avatar={f.repo.name.slice(0, 1).toUpperCase()}
               title={
                 <>
                   {f.repo.owner} <span className="o">/</span> {f.repo.name}

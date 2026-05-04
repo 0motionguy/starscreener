@@ -147,8 +147,21 @@ const EMPTY_SOURCE_COUNTS: SidebarDataResponse["sourceCounts"] = {
   npmPackages: 0,
 };
 
-export function useSidebarData(): SidebarData | null {
-  const [data, setData] = useState<SidebarData | null>(null);
+export function useSidebarData(
+  initialData?: SidebarDataResponse | null,
+): SidebarData | null {
+  const [data, setData] = useState<SidebarData | null>(() => {
+    if (!initialData) return null;
+    return {
+      categoryStats: initialData.categoryStats,
+      metaCounts: initialData.metaCounts,
+      availableLanguages: initialData.availableLanguages,
+      reposById: initialData.reposById,
+      unreadAlerts: initialData.unreadAlerts ?? 0,
+      sourceCounts: initialData.sourceCounts ?? EMPTY_SOURCE_COUNTS,
+      trendingReposCount: initialData.trendingReposCount ?? 0,
+    };
+  });
 
   useEffect(() => {
     if (initialData) return; // Already seeded server-side; skip the round-trip.

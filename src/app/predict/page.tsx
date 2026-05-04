@@ -14,8 +14,9 @@ import {
   predictTrajectory,
   type PredictionRecord,
 } from "@/lib/predictions";
-import { getDerivedRepos } from "@/lib/derived-repos";
+import { getDerivedRepos, getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { refreshTrendingFromStore } from "@/lib/trending";
+import { PredictTool } from "@/components/predict/PredictTool";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
@@ -81,7 +82,11 @@ function computeConfidence(prediction: PredictionRecord): number {
   return Math.min(95, Math.max(15, Math.round(score)));
 }
 
-export default async function PredictPage({ searchParams }: PageProps) {
+interface PredictPageProps {
+  searchParams: Promise<{ repo?: string }>;
+}
+
+export default async function PredictPage({ searchParams }: PredictPageProps) {
   const { repo } = await searchParams;
   const baseRepo = repo ? getDerivedRepoByFullName(repo.trim()) : null;
   const sparklineData = baseRepo?.sparklineData ?? null;

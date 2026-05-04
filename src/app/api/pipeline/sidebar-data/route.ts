@@ -59,6 +59,28 @@ export async function GET(
 ): Promise<NextResponse<SidebarDataResponse | { error: string }>> {
   try {
     const userId = request.nextUrl.searchParams.get("userId") ?? undefined;
+    const repos = getDerivedRepos();
+    const categoryStats = getDerivedCategoryStats(repos);
+    const metaCounts = getDerivedMetaCounts(repos);
+    const availableLanguages = getDerivedAvailableLanguages(repos);
+
+    const reposById: Record<string, SidebarDataRepo> = {};
+    for (const r of repos) {
+      reposById[r.id] = {
+        id: r.id,
+        fullName: r.fullName,
+        owner: r.owner,
+        name: r.name,
+        ownerAvatarUrl: r.ownerAvatarUrl,
+        momentumScore: r.momentumScore,
+        movementStatus: r.movementStatus,
+        sparklineData: r.sparklineData,
+        stars: r.stars,
+        starsDelta24h: r.starsDelta24h,
+        starsDelta24hMissing: r.starsDelta24hMissing,
+      };
+    }
+
     let unreadAlerts = 0;
     try {
       await pipeline.ensureReady();

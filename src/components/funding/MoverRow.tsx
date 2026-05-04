@@ -46,6 +46,10 @@ export interface MoverRowProps {
   /** Optional href — renders as <a>. */
   href?: string;
   className?: string;
+  /** Optional logo URL for the company avatar. */
+  logoUrl?: string | null;
+  /** Used for the monogram fallback when logoUrl is null. */
+  logoName?: string;
 }
 
 export function MoverRow({
@@ -57,6 +61,8 @@ export function MoverRow({
   first = false,
   href,
   className,
+  logoUrl: _logoUrl,
+  logoName: _logoName,
 }: MoverRowProps) {
   const Tag = href ? "a" : "div";
   const stageCls = stageToClass(stage);

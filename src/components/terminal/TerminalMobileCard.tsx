@@ -33,6 +33,7 @@ import {
   toastWatchRemoved,
 } from "@/lib/toast";
 
+import { BrandStar } from "@/components/shared/BrandStar";
 import { CategoryPill } from "@/components/shared/CategoryPill";
 import { DeltaBadge } from "@/components/shared/DeltaBadge";
 import { MomentumBadge } from "@/components/shared/MomentumBadge";

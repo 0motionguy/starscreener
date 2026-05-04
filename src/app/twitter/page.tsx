@@ -53,11 +53,6 @@ function formatClock(iso: string | undefined | null): string {
   return new Date(iso).toISOString().slice(11, 19);
 }
 
-function formatClock(iso: string | undefined | null): string {
-  if (!iso) return "warming";
-  return new Date(iso).toISOString().slice(11, 19);
-}
-
 const AUTHOR_BUBBLE_TONES = [
   {
     backgroundColor: "rgba(122, 167, 255, 0.16)",

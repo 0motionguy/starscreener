@@ -38,11 +38,6 @@ import {
   BlueskyIcon,
   DevtoIcon,
 } from "@/components/brand/BrandIcons";
-import {
-  LiveTopTable,
-  type LiveRow,
-  type CategoryFacet,
-} from "@/components/home/LiveTopTable";
 import { CATEGORIES } from "@/lib/constants";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { repoLogoUrl } from "@/lib/logos";
@@ -115,6 +110,14 @@ interface HomeEntity {
   logoUrl: string;
   /** First letter for the monogram fallback. */
   initial: string;
+  /** Optional secondary windows for hero-row stack rendering. */
+  delta7d?: number;
+  delta30d?: number;
+  deltaUnit?: string;
+  /** Optional category label (e.g. "Skill" / "MCP" / repo category). */
+  category?: string;
+  /** Optional mentions count surfaced on FeaturedCard tiles. */
+  mentions?: number;
 }
 
 const CATEGORY_LABELS = new Map(CATEGORIES.map((c) => [c.id, c.shortName]));
@@ -168,6 +171,8 @@ function repoEntity(repo: Repo): HomeEntity {
     // client-side via onError.
     logoUrl: `https://github.com/${encodeURIComponent(repo.owner)}.png?size=40`,
     initial: (repo.owner.charAt(0) || "?").toUpperCase(),
+    category: categoryLabel(repo),
+    mentions: repo.mentionCount24h,
   };
 }
 
@@ -197,17 +202,30 @@ function ecosystemEntity(
   const linked = lookupKey
     ? (repoByFullName?.get(lookupKey) ?? null)
     : null;
+  // Pick the strongest available window. Prefer linked repo's GitHub star
+  // velocity (always populated for tracked repos); fall back to side-channel
+  // installs / fork velocity only when the linked repo is missing.
   const raw24 =
-    (useRepoFallback ? linked?.starsDelta24h : undefined) ??
-    item.mcp?.installs24h ??
-    item.installsDelta7d ??
-    item.forkVelocity7d ??
-    Math.round(item.signalScore * 10);
-  const base =
-    item.popularity ??
-    item.installs7d ??
-    item.mcp?.useCount ??
-    Math.max(100, delta * 4);
+    (useRepoFallback ? linked?.starsDelta24h : undefined) ?? item.mcp?.installs24h;
+  const raw7 =
+    (useRepoFallback ? linked?.starsDelta7d : undefined) ?? item.installsDelta7d;
+  const raw30 = useRepoFallback ? linked?.starsDelta30d : undefined;
+  const realSparkline = linked?.sparklineData ?? emptySparkline();
+  let delta = 0;
+  let primaryWindow: "24h" | "7d" | "30d" = "24h";
+  if (typeof raw24 === "number" && raw24 !== 0) {
+    delta = raw24;
+    primaryWindow = "24h";
+  } else if (typeof raw7 === "number" && raw7 !== 0) {
+    delta = raw7;
+    primaryWindow = "7d";
+  } else if (typeof raw30 === "number" && raw30 !== 0) {
+    delta = raw30;
+    primaryWindow = "30d";
+  } else {
+    delta = raw24 ?? raw7 ?? raw30 ?? 0;
+    primaryWindow = "24h";
+  }
   // Same SSR-friendly avatar logic as repoEntity. ecosystem items expose
   // logoUrl directly when available; otherwise derive from linkedRepo's
   // GitHub owner. Empty string → EntityHeroRow renders monogram instead.
@@ -240,6 +258,12 @@ function ecosystemEntity(
     channels: item.crossSourceCount,
     logoUrl,
     initial,
+    category: kind === "skill" ? "Skill" : "MCP",
+    delta7d:
+      primaryWindow !== "7d" && typeof raw7 === "number" ? raw7 : undefined,
+    delta30d:
+      primaryWindow !== "30d" && typeof raw30 === "number" ? raw30 : undefined,
+    deltaUnit: primaryWindow,
   };
 }
 
@@ -755,6 +779,13 @@ export default async function HomePage() {
     value,
   }));
 
+  // Lookup map for plumbing real GitHub star deltas onto skill / mcp rows
+  // when the registry's own velocity snapshot isn't populated yet.
+  const repoByFullName = new Map<string, Repo>();
+  for (const r of repos) {
+    repoByFullName.set(r.fullName.toLowerCase(), r);
+  }
+
   const skillsBoard = skillsItems
     ? dedupeSkillItemsForHome(skillsItems)
         .map((item) => ecosystemEntity(item, "skill", repoByFullName))
@@ -790,15 +821,15 @@ export default async function HomePage() {
   // a round trip. Old fixed-momentum sort retained for the cold render
   // (used until React hydrates). Top 50 by 24h delta gives a reasonable
   // default view; LiveTopTable shows top `limit` per its own current sort.
-  // Reuse the synthetic-sparkline + logo-resolution logic so the LiveTopTable
-  // rows look as alive as the hero panels above. Skills/mcp ecosystem items
-  // don't carry their own per-day star series — buildSyntheticSparkline gives
-  // us a smooth wobble keyed off (signalScore, delta) so each row still has
-  // a per-row trend chart instead of a dead `—`.
+  // Skills/mcp ecosystem items don't carry their own per-day star series,
+  // so we plumb the linked GitHub repo's sparkline + window deltas through
+  // when available — otherwise the row renders honestly without a chart.
   const liveSkillItems: LiveSkill[] = (skillsItems ?? [])
     .slice(0, 50)
     .map((item): LiveSkill => {
-      const delta = item.installsDelta1d ?? 0;
+      const linkedKey = item.linkedRepo?.toLowerCase();
+      const linked = linkedKey ? repoByFullName.get(linkedKey) : undefined;
+      const delta = linked?.starsDelta24h ?? 0;
       const linkedOwner = item.linkedRepo?.split("/", 1)[0]?.trim() ?? "";
       const fallbackOwnerLogo = linkedOwner
         ? `https://github.com/${encodeURIComponent(linkedOwner)}.png?size=40`
@@ -814,16 +845,18 @@ export default async function HomePage() {
         sub: item.sourceLabel ?? item.topic,
         score: item.signalScore,
         delta24h: delta,
-        delta7d: item.installsDelta7d ?? 0,
-        delta30d: item.installsDelta30d ?? 0,
+        delta7d: linked?.starsDelta7d ?? item.installsDelta7d ?? 0,
+        delta30d: linked?.starsDelta30d ?? 0,
         logoUrl: cleanLogo || fallbackOwnerLogo || undefined,
-        sparkline: buildSyntheticSparkline(item.signalScore, delta),
+        sparkline: linked?.sparklineData,
       };
     });
   const liveMcpItems: LiveMcp[] = (mcpItems ?? [])
     .slice(0, 50)
     .map((item): LiveMcp => {
-      const delta = item.mcp?.installs24h ?? 0;
+      const linkedKey = item.linkedRepo?.toLowerCase();
+      const linked = linkedKey ? repoByFullName.get(linkedKey) : undefined;
+      const delta = linked?.starsDelta24h ?? item.mcp?.installs24h ?? 0;
       const linkedOwner = item.linkedRepo?.split("/", 1)[0]?.trim() ?? "";
       const fallbackOwnerLogo = linkedOwner
         ? `https://github.com/${encodeURIComponent(linkedOwner)}.png?size=40`
@@ -839,10 +872,10 @@ export default async function HomePage() {
         sub: item.vendor ?? item.sourceLabel ?? item.topic,
         score: item.signalScore,
         delta24h: delta,
-        delta7d: item.installsDelta7d ?? 0,
-        delta30d: item.installsDelta30d ?? 0,
+        delta7d: linked?.starsDelta7d ?? item.installsDelta7d ?? 0,
+        delta30d: linked?.starsDelta30d ?? 0,
         logoUrl: cleanLogo || fallbackOwnerLogo || undefined,
-        sparkline: buildSyntheticSparkline(item.signalScore, delta),
+        sparkline: linked?.sparklineData,
       };
     });
   const refreshed = new Date(lastFetchedAt);

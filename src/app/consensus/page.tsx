@@ -6,6 +6,8 @@ import {
   refreshConsensusTrendingFromStore,
   type ConsensusBadge,
   type ConsensusItem,
+  type ConsensusSource,
+  type ConsensusSourceComponent,
 } from "@/lib/consensus-trending";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoLogoUrl } from "@/lib/logos";
@@ -31,9 +33,14 @@ function fmtScore(value: number): string {
   return Number.isFinite(value) ? value.toFixed(1) : "0.0";
 }
 
-function sourceMark(item: ConsensusItem, source: "ours" | "oss" | "trendshift") {
-  const s = item.sources[source];
-  if (!s.present) return <span className="text-text-tertiary">-</span>;
+function sourceMark(
+  item: ConsensusItem,
+  source: ConsensusSource | "oss" | "trendshift",
+) {
+  const s = (item.sources as Record<string, ConsensusSourceComponent | undefined>)[
+    source
+  ];
+  if (!s || !s.present) return <span className="text-text-tertiary">-</span>;
   return (
     <span className="tabular-nums text-text-primary">
       #{s.rank}

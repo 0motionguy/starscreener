@@ -15,6 +15,7 @@
 // renders a TerminalFeedTable directly (instead of the generic SignalTable)
 // so we can lay down the new MCP-specific columns cleanly.
 
+import Link from "next/link";
 import type { Metadata } from "next";
 
 import { PageHead } from "@/components/ui/PageHead";
@@ -66,10 +67,56 @@ import {
   TerminalCellToolCount,
   TerminalCellTransports,
   TerminalCellWeeklyDownloads,
+  slugForMcp,
 } from "./_components/McpCells";
+import { compactNumber } from "@/components/news/newsTopMetrics";
 
 const MCP_ACCENT = "rgba(58, 214, 197, 0.85)";
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+
+// ---------------------------------------------------------------------------
+// File-local helpers (restored after squash-merge dropped the inline V4 set).
+// ---------------------------------------------------------------------------
+
+function starsOf(item: EcosystemLeaderboardItem): number {
+  // Prefer absolute stars from the publish payload; fall back to popularity
+  // when the label says "Stars". Items without star data return 0 so they
+  // sort to the bottom of the stars-leaderboard.
+  if (item.popularityLabel === "Stars" && typeof item.popularity === "number") {
+    return item.popularity;
+  }
+  return 0;
+}
+
+function citationsOf(item: EcosystemLeaderboardItem): number {
+  // Cross-registry presence — counts how many registries this MCP appears
+  // on. Best proxy for "most-cited" we have today.
+  return item.crossSourceCount ?? 0;
+}
+
+function isNewWithin7d(item: EcosystemLeaderboardItem): boolean {
+  const iso = item.mcp?.lastReleaseAt ?? item.postedAt;
+  if (!iso) return false;
+  const t = Date.parse(iso);
+  if (!Number.isFinite(t)) return false;
+  return Date.now() - t < SEVEN_DAYS_MS;
+}
+
+function formatAge(iso: string): string {
+  const t = Date.parse(iso);
+  if (!Number.isFinite(t)) return "—";
+  const sec = Math.max(0, Math.floor((Date.now() - t) / 1000));
+  if (sec < 60) return `${sec}s`;
+  const min = Math.floor(sec / 60);
+  if (min < 60) return `${min}m`;
+  const hr = Math.floor(min / 60);
+  if (hr < 24) return `${hr}h`;
+  const d = Math.floor(hr / 24);
+  if (d < 30) return `${d}d`;
+  const mo = Math.floor(d / 30);
+  if (mo < 12) return `${mo}mo`;
+  return `${Math.floor(mo / 12)}y`;
+}
 
 export const dynamic = "force-dynamic";
 
@@ -276,6 +323,28 @@ export default async function McpPage() {
   const freshness = classifyFreshness("mcp", data.fetchedAt);
   const items = data.board.items;
 
+  // ---- KPI band metrics + section lists (restored from V4 baseline) -------
+  const total = items.length;
+  const topByStars = [...items].sort((a, b) => starsOf(b) - starsOf(a))[0];
+  const newCount = items.filter(isNewWithin7d).length;
+  const mostCited = [...items].sort(
+    (a, b) => citationsOf(b) - citationsOf(a),
+  )[0];
+  const topByStarsList = [...items]
+    .sort((a, b) => starsOf(b) - starsOf(a))
+    .slice(0, 10);
+  // Sort by lastRelease desc, capped at 10. Falls back to signalScore when
+  // no release timestamp is available so the section still populates on
+  // cold-start.
+  const breakouts = [...items]
+    .sort((a, b) => {
+      const at = Date.parse(a.mcp?.lastReleaseAt ?? a.postedAt ?? "") || 0;
+      const bt = Date.parse(b.mcp?.lastReleaseAt ?? b.postedAt ?? "") || 0;
+      if (bt !== at) return bt - at;
+      return (b.signalScore ?? 0) - (a.signalScore ?? 0);
+    })
+    .slice(0, 10);
+
   const { cards, topStories } = buildEcosystemHeader({
     items,
     snapshotEyebrow: "// SNAPSHOT · NOW",
@@ -423,12 +492,18 @@ export default async function McpPage() {
     };
   };
   const moversByWindow = (key: "1d" | "7d" | "30d"): WindowedRow[] => {
+    // Only `installsDelta7d` exists as a signed delta on the leaderboard
+    // item type; for the 1d / 30d windows we fall back to the absolute
+    // `mcp.installs24h` / `mcp.installs30d` window-installs published by
+    // the worker. These are non-negative, so the buildMcpRow direction
+    // collapses to "up" / "flat" — matching what the UI shows during
+    // cold-start when no prior snapshot exists.
     const get = (it: EcosystemLeaderboardItem) =>
       key === "1d"
-        ? it.installsDelta1d ?? 0
+        ? it.mcp?.installs24h ?? 0
         : key === "7d"
           ? it.installsDelta7d ?? 0
-          : it.installsDelta30d ?? 0;
+          : it.mcp?.installs30d ?? 0;
     return [...items]
       .map((it) => ({ it, d: get(it) }))
       .filter(({ d }) => d !== 0)

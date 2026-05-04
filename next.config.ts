@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 import bundleAnalyzer from "@next/bundle-analyzer";
 import { withSentryConfig } from "@sentry/nextjs";
+import pkg from "./package.json";
 
 // Bundle-size visualization: `npm run analyze` sets ANALYZE=true and runs a
 // production build, dumping interactive HTML reports to .next/analyze/.

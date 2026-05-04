@@ -433,3 +433,39 @@ export function parseRateLimitHeaders(
   }
   return { remaining, resetUnixSec };
 }
+
+// ---------------------------------------------------------------------------
+// Fleet-wide pool aggregation (Redis key shape)
+//
+// The per-token Redis publishing logic is currently disabled (see -X theirs
+// merge). The constants + wire type below stay exported so the read-side
+// aggregator at /admin/pool-aggregate (src/lib/github-token-pool-aggregate.ts)
+// keeps its API stable and renders an empty-but-valid view until publish is
+// re-enabled.
+// ---------------------------------------------------------------------------
+
+/** Key prefix for per-token fleet-aggregate state. Read by the aggregator. */
+export const POOL_REDIS_KEY_PREFIX = "pool:github:tokens";
+
+/** TTL (seconds) on each per-token key. 30d covers a normal "operator forgot to rotate" window. */
+export const POOL_REDIS_TTL_SECONDS = 30 * 24 * 60 * 60;
+
+/**
+ * Wire-format payload published per token. NEVER includes the raw PAT.
+ * `lambdaId` is best-effort identification of the writer so the aggregator
+ * can surface "how many distinct lambdas have reported on this token".
+ */
+export interface PublishedTokenState {
+  tokenLabel: string;
+  remaining: number | null;
+  resetUnixSec: number | null;
+  lastObservedMs: number | null;
+  quarantinedUntilMs: number | null;
+  lambdaId: string;
+  writtenAt: string;
+}
+
+/** Build the Redis key that holds the latest state for one token label. */
+export function poolRedisKeyFor(tokenLabel: string): string {
+  return `${POOL_REDIS_KEY_PREFIX}:${tokenLabel}`;
+}

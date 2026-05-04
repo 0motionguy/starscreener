@@ -21,6 +21,12 @@ import {
   redactToken,
   type GitHubTokenPool,
 } from "@/lib/github-token-pool";
+import { GithubRateLimitError } from "@/lib/errors";
+import {
+  githubKeyFingerprint,
+  quarantineKey,
+  recordGithubCall,
+} from "@/lib/pool/github-telemetry";
 // Phase 2C: per-source circuit breaker. Wrapped around request() so a
 // flapping GitHub API doesn't keep getting hit and an OPEN breaker
 // short-circuits before we burn quota on requests we know will fail.
@@ -318,6 +324,7 @@ export class GitHubApiAdapter implements GitHubAdapter {
       }
 
       this.updateRateLimit(res, token);
+      const parsedRateLimit = parseRateLimitHeaders(res.headers);
       const remaining =
         this.rateLimit.remaining === null ? "?" : String(this.rateLimit.remaining);
       const tokenLabel = token ? redactToken(token) : "unauth";

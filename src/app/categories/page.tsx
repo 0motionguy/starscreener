@@ -3,8 +3,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
-export const revalidate = 1800;
-
 import { CATEGORIES } from "@/lib/constants";
 import { getCategoryIcon } from "@/lib/category-icons";
 import { getDerivedCategoryStats } from "@/lib/derived-insights";
@@ -16,6 +14,7 @@ import { LiveDot } from "@/components/ui/LiveDot";
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
+import { MomentumBadge } from "@/components/shared/MomentumBadge";
 
 export const revalidate = 1800;
 

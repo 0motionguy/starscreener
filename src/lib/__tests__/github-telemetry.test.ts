@@ -194,7 +194,6 @@ test("githubFetch records usage telemetry for a successful response", async () =
 
   const result = await githubFetch("/rate_limit", {
     pool,
-    operation: "rate_limit",
   });
 
   assert.equal(result?.response.status, 200);
@@ -224,7 +223,6 @@ test("githubFetch quarantines invalid tokens by fingerprint after 401", async ()
 
   const result = await githubFetch("/rate_limit", {
     pool,
-    operation: "rate_limit",
   });
 
   assert.equal(result?.response.status, 401);

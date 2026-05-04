@@ -14,6 +14,7 @@ import type { Metadata } from "next";
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { ToolTile } from "@/components/tools/ToolTile";
+import { LiveDot } from "@/components/ui/LiveDot";
 import { absoluteUrl } from "@/lib/seo";
 
 export const runtime = "nodejs";

@@ -16,6 +16,15 @@ import {
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { formatNumber, slugToId } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { refreshTrendingFromStore } from "@/lib/trending";
+import { refreshRedditMentionsFromStore } from "@/lib/reddit-data";
+import { refreshHackernewsMentionsFromStore } from "@/lib/hackernews";
+import { refreshBlueskyMentionsFromStore } from "@/lib/bluesky";
+import { refreshDevtoMentionsFromStore } from "@/lib/devto";
+import { refreshLobstersMentionsFromStore } from "@/lib/lobsters";
+import { refreshNpmFromStore } from "@/lib/npm";
+import { refreshHfModelsFromStore } from "@/lib/huggingface";
+import { refreshArxivFromStore } from "@/lib/arxiv";
 
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
@@ -24,18 +33,6 @@ import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { RankRow } from "@/components/ui/RankRow";
 
-import { Card } from "@/components/ui/Card";
-import { Metric, MetricGrid } from "@/components/ui/Metric";
-import { FooterBar } from "@/components/ui/FooterBar";
-import { PageHead } from "@/components/ui/PageHead";
-import { SectionHead } from "@/components/ui/SectionHead";
-import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
-import { MarkVisited } from "@/components/layout/MarkVisited";
-import {
-  LiveTopTable,
-  type CategoryFacet,
-  type LiveRow,
-} from "@/components/home/LiveTopTable";
 import { CATEGORIES } from "@/lib/constants";
 import type { Repo } from "@/lib/types";
 

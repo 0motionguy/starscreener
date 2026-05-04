@@ -239,6 +239,7 @@ function phaseAssemble(baseRepos: Repo[]): Repo[] {
     }
     return fromTrending;
   });
+  return freshRepos;
 }
 
 /** Phase 2: batch score, persist each. */

@@ -17,6 +17,8 @@ import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { RelatedRepoCard } from "@/components/repo-detail/RelatedRepoCard";
+import { CategoryNewsRollup } from "@/components/categories/CategoryNewsRollup";
+import { TerminalLayout } from "@/components/terminal/TerminalLayout";
 
 export const revalidate = 1800;
 
@@ -76,6 +78,7 @@ export default async function CategoryDetailPage({
   if (!category) notFound();
 
   const repos = getDerivedRepos().filter((r) => r.categoryId === slug);
+  const Icon = getCategoryIcon(category.icon);
 
   const heading = (
     <>

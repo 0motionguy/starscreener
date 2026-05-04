@@ -9,6 +9,11 @@ import type {
   RedditStats,
 } from "./reddit";
 import { buildGlobalRedditPosts, buildRedditStats } from "./reddit";
+import {
+  countMentionsInWindow,
+  WINDOW_24H,
+  WINDOW_30D,
+} from "./mention-windows";
 
 // F2 dual-key transition: stable repoId derived from fullName.
 // MUST match src/lib/utils.ts:slugToId so consumers can index by repoId

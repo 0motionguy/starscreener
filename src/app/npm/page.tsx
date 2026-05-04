@@ -348,6 +348,23 @@ function PackageFeed({
   );
 }
 
+// Strip markdown / HTML residue from npm package READMEs so the row meta line
+// renders as plain text. Caps length at 140 chars with a trailing ellipsis to
+// match the column truncate width.
+function cleanDescription(raw: string | null): string {
+  if (!raw) return "repo-linked npm package";
+  const stripped = raw
+    .replace(/<[^>]+>/g, " ")
+    .replace(/!?\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/[`*_>#]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!stripped) return "repo-linked npm package";
+  return stripped.length > 140
+    ? `${stripped.slice(0, 137).trimEnd()}…`
+    : stripped;
+}
+
 function PackageIdentity({ pkg }: { pkg: NpmPackageRow }) {
   return (
     <div className="flex min-w-0 items-center gap-2.5">

@@ -28,6 +28,7 @@ import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { RelatedRepoCard } from "@/components/repo-detail/RelatedRepoCard";
+import { TerminalLayout } from "@/components/terminal/TerminalLayout";
 
 export const revalidate = 600;
 

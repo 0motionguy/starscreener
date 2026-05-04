@@ -20,9 +20,14 @@ import {
 } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { huggingFaceLogoUrl } from "@/lib/logos";
+import { applyCompactV1 } from "@/components/news/newsTopMetrics";
+import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
+import { KpiBand } from "@/components/ui/KpiBand";
+import { LiveDot } from "@/components/ui/LiveDot";
 
 const HF_ACCENT = "rgba(255, 159, 28, 0.85)"; // HF "yellow" (warm orange)
 const HF_ACCENT_BAR = "#FF9F1C";
+const HF_YELLOW = "#FFD21E";
 
 export const dynamic = "force-static";
 export const revalidate = 1800; // 30 min

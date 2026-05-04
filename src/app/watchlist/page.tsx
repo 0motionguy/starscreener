@@ -2,8 +2,14 @@
 
 // StarScreener - Watchlist.
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+import { Eye } from "lucide-react";
+
+import type { Repo } from "@/lib/types";
+import { useWatchlistStore } from "@/lib/store";
+import { TerminalLayout } from "@/components/terminal/TerminalLayout";
 
 const AlertConfig = dynamic(
   () =>
@@ -20,12 +26,19 @@ export default function WatchlistPage() {
 
   const watchlist = useWatchlistStore((s) => s.repos);
   const [hasHydrated, setHasHydrated] = useState(false);
-  const [repos, setRepos] = useState<Repo[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [reposById, setReposById] = useState<Record<string, Repo>>({});
+  const [loading, setReposLoading] = useState(false);
 
   useEffect(() => {
     setHasHydrated(true);
   }, []);
+
+  // Stable refetch key — sorted, joined repoIds. Mirrors WatchlistManager
+  // so removing/re-adding a repo doesn't force a refetch loop.
+  const repoIdKey = useMemo(
+    () => watchlist.map((w) => w.repoId).sort().join(","),
+    [watchlist],
+  );
 
   useEffect(() => {
     if (!hasHydrated) return;
@@ -38,7 +51,7 @@ export default function WatchlistPage() {
     setReposLoading(true);
     (async () => {
       try {
-        const ids = watchlist.map((w) => w.repoId).join(",");
+        const ids = watchlist.map((w: { repoId: string }) => w.repoId).join(",");
         const res = await fetch(`/api/repos?ids=${encodeURIComponent(ids)}`, {
           signal: controller.signal,
         });
@@ -57,7 +70,17 @@ export default function WatchlistPage() {
       }
     })();
     return () => controller.abort();
-  }, [repoIdKey, hasHydrated]);
+  }, [repoIdKey, hasHydrated, watchlist]);
+
+  // Resolve watched repo IDs to their hydrated Repo records. Drop items
+  // we couldn't hydrate (e.g. removed from the store).
+  const repos = useMemo<Repo[]>(
+    () =>
+      watchlist
+        .map((item: { repoId: string }) => reposById[item.repoId])
+        .filter((r): r is Repo => Boolean(r)),
+    [watchlist, reposById],
+  );
 
   const heading = (
     <section className="page-head">

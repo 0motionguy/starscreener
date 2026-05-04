@@ -42,6 +42,11 @@ export interface SidebarSourceCounts {
   fundingSignals: number;
   revenueOverlays: number;
   npmPackages: number;
+  // Optional fresh-count snapshots — populated by extended source
+  // pipelines; sidebar rows tolerate missing values via `?? 0`.
+  twitterRepos?: number;
+  hfDatasets?: number;
+  hfSpaces?: number;
 }
 
 const ZERO_COUNTS: SidebarSourceCounts = {

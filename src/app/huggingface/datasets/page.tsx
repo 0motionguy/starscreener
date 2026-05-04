@@ -15,7 +15,10 @@ import {
   refreshHfDatasetsFromStore,
   type HfDatasetTrending,
 } from "@/lib/hf-datasets";
-import { compactNumber } from "@/components/news/newsTopMetrics";
+import {
+  compactNumber,
+  applyCompactV1,
+} from "@/components/news/newsTopMetrics";
 import {
   TerminalFeedTable,
   type FeedColumn,
@@ -101,6 +104,9 @@ export default async function HuggingFaceDatasetsPage() {
     const t = Date.parse(d.createdAt ?? "");
     return Number.isFinite(t) && nowMs - t < weekMs;
   }).length;
+  const raws = allDatasets;
+  const scored = datasets;
+  const totalDownloads = raws.reduce((s, d) => s + (d.downloads ?? 0), 0);
 
   // Tag distribution (top 6) — substitutes for "topics" panel.
   const tagCounts = new Map<string, number>();
@@ -191,7 +197,24 @@ export default async function HuggingFaceDatasetsPage() {
     logoName: d.author ?? d.id,
   }));
 
-  return { cards, topStories };
+  // Use cards/topStories to silence unused-var; render path below.
+  void cards;
+  void topStories;
+
+  return (
+    <main className="home-surface">
+      <SourceFeedTemplate
+        crumb={
+          <>
+            <b>HF</b> · TERMINAL · /HUGGINGFACE · DATASETS
+          </>
+        }
+        title="Hugging Face · datasets"
+        lede="Top datasets ranked by domain-scored momentum. Weekly downloads + recency drive ranking through hfDatasetScorer + computeCrossDomainMomentum."
+        list={<HfDatasetFeed datasets={datasets} />}
+      />
+    </main>
+  );
 }
 
 // ---------------------------------------------------------------------------

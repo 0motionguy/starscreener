@@ -39,6 +39,7 @@ import {
   CalendarDays,
   Cpu,
   DollarSign,
+  Eye,
   FileText,
   GitCompareArrows,
   GraduationCap,
@@ -243,6 +244,32 @@ function V2NavRow({
       {content}
     </button>
   );
+}
+
+/**
+ * FreshCountNavRow — wraps V2NavRow with the `useFreshCount` hook so the
+ * badge automatically swaps between cumulative total and fresh-since-
+ * last-visit delta depending on whether the user has visited the route.
+ * `routeKey` must match the key passed to <MarkVisited routeKey=... />
+ * on the corresponding route page so the snapshot diff is computed
+ * against the right localStorage entry.
+ */
+function FreshCountNavRow({
+  routeKey,
+  currentCount,
+  ...rest
+}: Omit<V2NavRowProps, "badge" | "badgeTone"> & {
+  routeKey: string;
+  currentCount: number;
+}) {
+  const fresh = useFreshCount(routeKey, currentCount);
+  const badge = fresh.hasFresh
+    ? `+${compactCount(fresh.delta)}`
+    : fresh.total > 0
+      ? compactCount(fresh.total)
+      : undefined;
+  const badgeTone: BadgeTone = fresh.hasFresh ? "delta" : "default";
+  return <V2NavRow {...rest} badge={badge} badgeTone={badgeTone} />;
 }
 
 function V2Chip({

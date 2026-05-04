@@ -11,6 +11,11 @@
 // flips true, badges render null, and the homepage keeps serving.
 
 import lobstersMentionsData from "../../data/lobsters-mentions.json";
+import {
+  countMentionsInWindow,
+  WINDOW_24H,
+  WINDOW_30D,
+} from "./mention-windows";
 
 function slugIdFromFullName(fullName: string): string {
   return String(fullName)

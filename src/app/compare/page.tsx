@@ -3,8 +3,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import type { Metadata } from "next";
-
 import { CompareProfileGrid } from "@/components/compare/CompareProfileGrid";
 import { CompareClient } from "@/components/compare/CompareClient";
 import { CompareWaveTop } from "@/components/compare/CompareWaveTop";

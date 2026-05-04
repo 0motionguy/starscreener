@@ -25,6 +25,10 @@ import {
   parseRateLimitHeaders,
   type GitHubTokenPool,
 } from "@/lib/github-token-pool";
+import {
+  githubKeyFingerprint,
+  recordGithubCall,
+} from "@/lib/pool/github-telemetry";
 
 const GITHUB_API = "https://api.github.com";
 const ONE_DAY_MS = 86_400_000;

@@ -21,6 +21,7 @@ import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFe
 import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoLogoUrl, userLogoUrl } from "@/lib/logos";
+import { resolveLogoUrl } from "@/lib/logo-url";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";

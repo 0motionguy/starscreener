@@ -944,7 +944,7 @@ function coerceSkillsShItem(
   raw: unknown,
   fallbackRank: number,
   fallbackDate: string | null,
-): EcosystemLeaderboardItem | null {
+): { item: EcosystemLeaderboardItem; raw: Record<string, unknown> } | null {
   const item = asRecord(raw);
   if (!item) return null;
   const owner = asString(item.owner);
@@ -1001,7 +1001,7 @@ function coerceSkillsShItem(
 function coerceGithubSkillItem(
   raw: unknown,
   fallbackRank: number,
-): EcosystemLeaderboardItem | null {
+): { item: EcosystemLeaderboardItem; raw: Record<string, unknown> } | null {
   const item = asRecord(raw);
   if (!item) return null;
   const fullName = asString(item.full_name);

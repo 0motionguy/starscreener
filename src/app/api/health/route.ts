@@ -136,6 +136,19 @@ interface HealthBody {
   error?: string;
 }
 
+type PublicHealthBody = Pick<
+  HealthBody,
+  "status" | "sourceStatus" | "lastFetchedAt" | "computedAt" | "warning" | "error"
+>;
+
+function canViewDetail(request: NextRequest): boolean {
+  const cronSecret = process.env.CRON_SECRET?.trim();
+  return (
+    (cronSecret ? verifyCronAuth(request).kind === "ok" : false) ||
+    verifyAdminAuth(request).kind === "ok"
+  );
+}
+
 function getCircuitBreakerSummary(): {
   open: string[];
   half_open: string[];

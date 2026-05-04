@@ -21,6 +21,10 @@ import {
 } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { huggingFaceLogoUrl } from "@/lib/logos";
+import {
+  applyCompactV1,
+  compactNumber,
+} from "@/components/news/newsTopMetrics";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -28,6 +32,7 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 
 const HF_YELLOW = "#FFD21E";
+const HF_ACCENT_BAR = "#FFD21E"; // HF brand yellow
 
 export const dynamic = "force-static";
 export const revalidate = 1800; // 30 min

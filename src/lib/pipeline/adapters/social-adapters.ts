@@ -18,6 +18,19 @@ import {
   getGitHubTokenPool,
   parseRateLimitHeaders,
 } from "@/lib/github-token-pool";
+import {
+  RedditPoolExhaustedError,
+  RedditRecoverableError,
+} from "@/lib/errors";
+import {
+  githubKeyFingerprint,
+  recordGithubCall,
+} from "@/lib/pool/github-telemetry";
+import { recordRedditCall } from "@/lib/pool/reddit-telemetry";
+import {
+  redditUserAgentFingerprint,
+  selectUserAgent,
+} from "@/lib/pool/reddit-ua-pool";
 // Phase 2C: per-source circuit breaker. Each adapter checks isOpen()
 // at the top of fetch and records success/failure on every response so
 // 5 consecutive failures auto-disable the source until the cooldown.

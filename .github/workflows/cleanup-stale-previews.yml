@@ -1,0 +1,166 @@
+name: Cleanup Stale Vercel Previews
+
+on:
+  schedule:
+    - cron: "23 2 * * 1"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Set false to delete deployments"
+        required: false
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+      max_deletes:
+        description: "Safety cap for deletions per run"
+        required: false
+        default: "25"
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cleanup-stale-previews
+  cancel-in-progress: true
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Validate required secrets
+        shell: bash
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_TEAM_ID: ${{ secrets.VERCEL_TEAM_ID }}
+        run: |
+          set -euo pipefail
+          for key in VERCEL_TOKEN VERCEL_PROJECT_ID VERCEL_TEAM_ID; do
+            if [ -z "${!key:-}" ]; then
+              echo "::error::Missing required secret: $key"
+              exit 1
+            fi
+          done
+
+      - name: Find stale preview deployments (deleted branch)
+        id: scan
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: 0motionguy
+          REPO: starscreener
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_TEAM_ID: ${{ secrets.VERCEL_TEAM_ID }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'true' }}
+          MAX_DELETES: ${{ github.event.inputs.max_deletes || '25' }}
+        run: |
+          set -euo pipefail
+          WORK_DIR=".tmp/cleanup-stale-previews"
+          mkdir -p "$WORK_DIR"
+
+          API_BASE="https://api.vercel.com"
+          LIST_URL="$API_BASE/v6/deployments?projectId=${VERCEL_PROJECT_ID}&teamId=${VERCEL_TEAM_ID}&target=preview&limit=100"
+          curl -fsSL \
+            -H "Authorization: Bearer ${VERCEL_TOKEN}" \
+            "$LIST_URL" > "$WORK_DIR/vercel-previews.json"
+
+          jq -r '
+            .deployments[]
+            | [
+                .uid,
+                .url,
+                (.createdAt | tostring),
+                (.meta.githubCommitRef // ""),
+                (.meta.githubCommitSha // ""),
+                (.state // "")
+              ]
+            | @tsv
+          ' "$WORK_DIR/vercel-previews.json" > "$WORK_DIR/previews.tsv"
+
+          : > "$WORK_DIR/stale.tsv"
+          now_epoch="$(date +%s)"
+          while IFS=$'\t' read -r uid url created_ms branch sha state; do
+            [ -z "$uid" ] && continue
+            [ -z "$branch" ] && continue
+
+            # Skip fresh previews from active branches; keep >=24h age threshold.
+            created_epoch="$((created_ms / 1000))"
+            age_hours="$(((now_epoch - created_epoch) / 3600))"
+            if [ "$age_hours" -lt 24 ]; then
+              continue
+            fi
+
+            code="$(curl -sS -o /dev/null -w "%{http_code}" \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/repos/${OWNER}/${REPO}/branches/${branch}")"
+
+            # Branch is deleted (404) => stale preview candidate.
+            if [ "$code" = "404" ]; then
+              printf "%s\t%s\t%s\t%s\t%s\t%s\n" "$uid" "$url" "$branch" "$sha" "$state" "$age_hours" >> "$WORK_DIR/stale.tsv"
+            fi
+          done < "$WORK_DIR/previews.tsv"
+
+          stale_count="$(wc -l < "$WORK_DIR/stale.tsv" | tr -d '[:space:]')"
+          echo "stale_count=$stale_count" >> "$GITHUB_OUTPUT"
+          echo "dry_run=$DRY_RUN" >> "$GITHUB_OUTPUT"
+          echo "max_deletes=$MAX_DELETES" >> "$GITHUB_OUTPUT"
+
+      - name: Delete stale previews
+        if: ${{ steps.scan.outputs.stale_count != '0' && steps.scan.outputs.dry_run == 'false' }}
+        shell: bash
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_TEAM_ID: ${{ secrets.VERCEL_TEAM_ID }}
+          MAX_DELETES: ${{ steps.scan.outputs.max_deletes }}
+        run: |
+          set -euo pipefail
+          WORK_DIR=".tmp/cleanup-stale-previews"
+          deleted=0
+          while IFS=$'\t' read -r uid url branch sha state age_hours; do
+            [ -z "$uid" ] && continue
+            if [ "$deleted" -ge "$MAX_DELETES" ]; then
+              break
+            fi
+            delete_url="https://api.vercel.com/v13/deployments/${uid}?teamId=${VERCEL_TEAM_ID}"
+            curl -fsSL -X DELETE \
+              -H "Authorization: Bearer ${VERCEL_TOKEN}" \
+              "$delete_url" > /dev/null
+            deleted="$((deleted + 1))"
+          done < "$WORK_DIR/stale.tsv"
+          echo "deleted_count=$deleted" >> "$GITHUB_ENV"
+
+      - name: Summary
+        shell: bash
+        run: |
+          set -euo pipefail
+          WORK_DIR=".tmp/cleanup-stale-previews"
+          stale_count="${{ steps.scan.outputs.stale_count }}"
+          dry_run="${{ steps.scan.outputs.dry_run }}"
+          {
+            echo "## Cleanup Stale Vercel Previews"
+            echo
+            echo "- stale_count: \`${stale_count}\`"
+            echo "- dry_run: \`${dry_run}\`"
+            echo "- max_deletes: \`${{ steps.scan.outputs.max_deletes }}\`"
+            if [ -f "$WORK_DIR/stale.tsv" ] && [ "$stale_count" != "0" ]; then
+              echo
+              echo "| deployment_uid | url | branch | sha | state | age_hours |"
+              echo "|---|---|---|---|---|---:|"
+              while IFS=$'\t' read -r uid url branch sha state age_hours; do
+                echo "| ${uid} | ${url} | ${branch} | ${sha:--} | ${state} | ${age_hours} |"
+              done < "$WORK_DIR/stale.tsv"
+            fi
+            if [ "${dry_run}" = "false" ]; then
+              echo
+              echo "- deleted_count: \`${deleted_count:-0}\`"
+            else
+              echo
+              echo "- No deletions executed (dry-run mode)."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -9,7 +9,12 @@ import { resolve } from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import {
+  type ApiErrorEnvelope,
+  serverError,
+} from "@/lib/api/error-response";
 import { getDataStore } from "@/lib/data-store";
+import { OpsAlertFatalError } from "@/lib/errors";
 import { deriveHealth, type FreshnessHealth } from "@/lib/freshness-health";
 
 export const runtime = "nodejs";
@@ -21,6 +26,7 @@ interface SourceSpec {
   name: string;
   metaSource?: string;
   redisSlugs?: string[];
+  redisGroupMode?: "all" | "any";
   redisSlugGroups?: Array<{
     label: string;
     slugs: (nowMs: number) => string[];
@@ -33,6 +39,9 @@ interface SourceSpec {
 interface SourceState {
   name: string;
   lastUpdate: string | null;
+  lastWriter: string | null;
+  lastWriterRunId: string | null;
+  lastWriterCommit: string | null;
   freshnessBudget: string;
   ageMs: number | null;
   status: SourceStatus;
@@ -51,6 +60,8 @@ interface FreshnessStateResponse {
   };
 }
 
+type FreshnessStateErrorResponse = ApiErrorEnvelope;
+
 interface SourceMeta {
   reason?: string;
   ts?: string;
@@ -58,8 +69,12 @@ interface SourceMeta {
 }
 
 interface TimestampProbe {
+  slug: string | null;
   timestamp: string | null;
   status: SourceStatus;
+  writer: string | null;
+  runId: string | null;
+  commit: string | null;
 }
 
 const HOUR_MS = 60 * 60 * 1000;
@@ -248,6 +263,7 @@ const SOURCE_SPECS: ReadonlyArray<SourceSpec> = [
   {
     name: "mcp-downloads",
     redisSlugs: ["mcp-downloads", "mcp-downloads-pypi"],
+    redisGroupMode: "any",
     ...hours(12),
   },
   {
@@ -429,33 +445,91 @@ async function readMetaProbe(source: string): Promise<TimestampProbe> {
     const meta = JSON.parse(raw) as SourceMeta;
     const timestamp = parseIso(meta.ts ?? meta.writtenAt);
     return {
+      slug: null,
       timestamp,
       status: timestamp ? metaStatus(meta) : "DEAD",
+      writer: null,
+      runId: null,
+      commit: null,
     };
   } catch {
-    return { timestamp: null, status: "DEAD" };
+    return {
+      slug: null,
+      timestamp: null,
+      status: "DEAD",
+      writer: null,
+      runId: null,
+      commit: null,
+    };
   }
 }
 
+function parseWriterMeta(raw: unknown): {
+  writer: string | null;
+  runId: string | null;
+  commit: string | null;
+} {
+  if (raw === null || raw === undefined) {
+    return { writer: null, runId: null, commit: null };
+  }
+  let obj: Record<string, unknown> | null = null;
+  if (typeof raw === "string") {
+    if (raw.startsWith("{")) {
+      try {
+        const parsed = JSON.parse(raw) as Record<string, unknown>;
+        obj = parsed;
+      } catch {
+        obj = null;
+      }
+    }
+  } else if (typeof raw === "object") {
+    obj = raw as Record<string, unknown>;
+  }
+  if (!obj) return { writer: null, runId: null, commit: null };
+  return {
+    writer: typeof obj.writer === "string" ? obj.writer : null,
+    runId: typeof obj.runId === "string" ? obj.runId : null,
+    commit: typeof obj.commit === "string" ? obj.commit : null,
+  };
+}
+
 async function readStoreProbe(slug: string): Promise<TimestampProbe> {
+  const store = getDataStore();
   try {
-    const timestamp = parseIso(await getDataStore().writtenAt(slug));
+    const [rawMeta, timestampRaw] = await Promise.all([
+      store.redisClient()?.get(`ss:meta:v1:${slug}`) ?? null,
+      store.writtenAt(slug),
+    ]);
+    const timestamp = parseIso(timestampRaw);
+    const writerMeta = parseWriterMeta(rawMeta);
     if (!timestamp) {
       const fallbackTimestamp = await readPayloadFileTimestamp(slug);
       return {
+        slug,
         timestamp: fallbackTimestamp,
         status: fallbackTimestamp ? "GREEN" : "DEAD",
+        writer: writerMeta.writer,
+        runId: writerMeta.runId,
+        commit: writerMeta.commit,
       };
     }
     return {
+      slug,
       timestamp,
       status: "GREEN",
+      writer: writerMeta.writer,
+      runId: writerMeta.runId,
+      commit: writerMeta.commit,
     };
   } catch {
     const fallbackTimestamp = await readPayloadFileTimestamp(slug);
     return {
+      slug,
       timestamp: fallbackTimestamp,
       status: fallbackTimestamp ? "GREEN" : "DEAD",
+      writer: null,
+      runId: null,
+      commit: null,
     };
   }
 }
@@ -471,7 +545,16 @@ async function readBestStoreProbe(slugs: string[]): Promise<TimestampProbe> {
       bestMs = ms;
     }
   }
-  return best ?? { timestamp: null, status: "DEAD" };
+  return (
+    best ?? {
+      slug: null,
+      timestamp: null,
+      status: "DEAD",
+      writer: null,
+      runId: null,
+      commit: null,
+    }
+  );
 }
 
 async function readPayloadFileTimestamp(slug: string): Promise<string | null> {
@@ -517,35 +600,60 @@ function maxStatus(...statuses: SourceStatus[]): SourceStatus {
 }
 
 async function inspectSource(spec: SourceSpec, nowMs: number): Promise<SourceState> {
-  const probes = await Promise.all([
+  const probesAll = await Promise.all([
     spec.metaSource
       ? readMetaProbe(spec.metaSource)
-      : Promise.resolve<TimestampProbe>({ timestamp: null, status: "GREEN" }),
+      : Promise.resolve<TimestampProbe>({
+          slug: null,
+          timestamp: null,
+          status: "GREEN",
+          writer: null,
+          runId: null,
+          commit: null,
+        }),
     ...(spec.redisSlugs ?? []).map((slug) => readStoreProbe(slug)),
     ...(spec.redisSlugGroups ?? []).map((group) =>
       readBestStoreProbe(group.slugs(nowMs)),
     ),
   ]);
+  const probes =
+    spec.redisGroupMode === "any"
+      ? probesAll.filter((probe) => probe.status !== "DEAD")
+      : probesAll;
+  const effectiveProbes = probes.length > 0 ? probes : probesAll;
   // Use the oldest required timestamp so a fresh sibling artifact cannot mask
   // a stale or missing payload under the same source group.
-  const lastUpdate = oldestIso(probes.map((probe) => probe.timestamp));
+  const lastUpdate = oldestIso(effectiveProbes.map((probe) => probe.timestamp));
   const ageMs = lastUpdate
     ? Math.max(0, nowMs - Date.parse(lastUpdate))
     : null;
+  const provenanceProbe =
+    effectiveProbes
+      .filter((probe) => probe.timestamp)
+      .sort((a, b) => Date.parse(b.timestamp ?? "") - Date.parse(a.timestamp ?? ""))[0] ??
+    null;
   const status = maxStatus(
     classify(ageMs, spec.budgetMs),
-    ...probes.map((probe) => probe.status),
+    ...effectiveProbes.map((probe) => probe.status),
   );
 
   return {
     name: spec.name,
     lastUpdate,
+    lastWriter: provenanceProbe?.writer ?? null,
+    lastWriterRunId: provenanceProbe?.runId ?? null,
+    lastWriterCommit: provenanceProbe?.commit ?? null,
     freshnessBudget: spec.budgetLabel,
     ageMs,
     status,
     blocking: spec.blocking !== false,
   };
 }
+
+let inspectSourceForRoute: (
+  spec: SourceSpec,
+  nowMs: number,
+) => Promise<SourceState> = inspectSource;
 
 function summarize(sources: SourceState[]): FreshnessStateResponse["summary"] {
   return {
@@ -558,22 +666,51 @@ function summarize(sources: SourceState[]): FreshnessStateResponse["summary"] {
 
 export async function GET(
   request: NextRequest,
-): Promise<NextResponse<FreshnessStateResponse | { ok: false; reason: string }>> {
+): Promise<
+  NextResponse<
+    FreshnessStateResponse | { ok: false; reason: string } | FreshnessStateErrorResponse
+  >
+> {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) {
     return deny as NextResponse<{ ok: false; reason: string }>;
   }
+  try {
+    const nowMs = Date.now();
+    const sources = await Promise.all(
+      SOURCE_SPECS.map((spec) => inspectSourceForRoute(spec, nowMs)),
+    );
+    sources.sort((a, b) => a.name.localeCompare(b.name));
 
-  const nowMs = Date.now();
-  const sources = await Promise.all(
-    SOURCE_SPECS.map((spec) => inspectSource(spec, nowMs)),
-  );
-  sources.sort((a, b) => a.name.localeCompare(b.name));
+    return NextResponse.json({
+      checkedAt: new Date(nowMs).toISOString(),
+      health: deriveHealth(sources),
+      sources,
+      summary: summarize(sources),
+    });
+  } catch (error) {
+    const typedError =
+      error instanceof Error
+        ? new OpsAlertFatalError(
+            "freshness state route failed",
+            { route: "/api/cron/freshness/state" },
+          )
+        : error;
+    return serverError<FreshnessStateErrorResponse>(typedError, {
+      scope: "[cron/freshness-state]",
+      code: "FRESHNESS_STATE_FAILED",
+      publicMessage: "freshness state unavailable",
+      status: 500,
+    });
+  }
+}
 
-  return NextResponse.json({
-    checkedAt: new Date(nowMs).toISOString(),
-    health: deriveHealth(sources),
-    sources,
-    summary: summarize(sources),
-  });
+export function __setInspectSourceForTests(
+  fn: typeof inspectSourceForRoute,
+): void {
+  inspectSourceForRoute = fn;
+}
+
+export function __resetInspectSourceForTests(): void {
+  inspectSourceForRoute = inspectSource;
 }

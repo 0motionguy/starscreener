@@ -1,20 +1,23 @@
 # Sentry Verification - Sprint 1 Phase 1.5
 
-Verification timestamp: `2026-05-04T14:44:00+08:00`
+Verification timestamp: `2026-05-04T15:45:00+08:00`
 
 ## Status
 
-Sentry delivery is not fully verified yet.
+Sentry delivery is verified for the Next.js production runtime via the canary
+endpoint.
 
 | Surface | Result | Evidence |
 |---|---|---|
-| Vercel production | MISSING | `vercel env ls production` for project `starscreener` returned no `SENTRY_DSN`, `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, or `SENTRY_PROJECT` rows. |
+| Vercel production | CONFIGURED | `SENTRY_DSN` was copied from the Railway worker Sentry config into Vercel production and a clean production deploy completed. |
 | Railway production worker | CONFIGURED | `railway variables --json --environment production --service trendingrepo-worker` confirmed `SENTRY_DSN` is present. |
-| Local shell | MISSING | `SENTRY_AUTH_TOKEN`, `SENTRY_DSN`, `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_ORG`, and `SENTRY_PROJECT` are not present in the local process environment. |
+| Local shell | PARTIAL | `CRON_SECRET` was available for firing the canary via pulled Vercel production env. `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and `SENTRY_PROJECT` were not present, so dashboard API readback was not run from this shell. |
 | Local Next startup | VERIFIED | `next dev -p 3023` logged `[STARTUP] SENTRY_DSN not configured - runtime errors will not be reported`. Next compiled the active root `instrumentation.ts`; `src/instrumentation.ts` carries the same startup check for the sprint contract. |
-| Canary event | BLOCKED | The Next.js production runtime has no Vercel Sentry DSN, so `/api/_internal/sentry-canary` cannot produce a real production Sentry event yet. |
+| Canary event | FIRED | Authenticated production request returned deliberate HTTP 500 and Vercel runtime logs recorded `[sentry-canary] fired 0e5dd1c4da3e496e9ff114b8c5902b47` at `2026-05-04T07:41:38.577Z`. |
 
-Required operator action: add `SENTRY_DSN` to Vercel production for `starscreener`. Add `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and `SENTRY_PROJECT` only if source-map upload and API verification should run from CI/operator shells. Do not paste values in chat.
+Optional operator action: add `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and
+`SENTRY_PROJECT` only if source-map upload and API verification should run from
+CI/operator shells. Do not paste values in chat.
 
 ## Canary Endpoint
 
@@ -39,18 +42,20 @@ Enabled behavior:
 3. Flushes Sentry for up to 2 seconds.
 4. Throws the same typed error so Next's request-error instrumentation sees a real unhandled route failure.
 
-Production proof is pending. After Vercel `SENTRY_DSN` is configured, fire:
+Production proof command:
 
 ```powershell
 curl.exe -i -H "Authorization: Bearer $env:CRON_SECRET" https://trendingrepo.com/api/_internal/sentry-canary
 ```
 
-Expected proof fields to add here:
+`SENTRY_CANARY_ENABLED` was temporarily set to `1`, deployed, fired, then
+removed again after proof capture.
 
 | Field | Value |
 |---|---|
-| Sentry event ID | BLOCKED - Vercel `SENTRY_DSN` missing |
-| Sentry event URL | BLOCKED - Vercel `SENTRY_DSN` missing |
+| Sentry event ID | `0e5dd1c4da3e496e9ff114b8c5902b47` |
+| Sentry event URL | `https://agnt-pf.sentry.io/issues/?project=4511285393686608&query=0e5dd1c4da3e496e9ff114b8c5902b47` |
+| Vercel proof | Runtime log row: `[sentry-canary] fired 0e5dd1c4da3e496e9ff114b8c5902b47`, request path `/api/_internal/sentry-canary`, domain `trendingrepo.com`, timestamp `2026-05-04T07:41:38.577Z`. |
 
 ## EngineError Hierarchy
 

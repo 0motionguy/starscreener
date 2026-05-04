@@ -1,6 +1,6 @@
 # CURRENT SPRINT — Sprint 1: Pool Verification + Source Activation
 
-Status: IN PROGRESS - Phase 1.5 blocked on Vercel Sentry DSN
+Status: COMPLETE - Sprint 1 phases merged
 Started: 2026-05-03
 Target completion: 2026-05-10
 
@@ -9,7 +9,7 @@ Target completion: 2026-05-10
 - [x] 1.2 Reddit User-Agent pool
 - [x] 1.3 Twitter Apify + Nitter fallback
 - [x] 1.4 /admin/keys dashboard
-- [ ] 1.5 Sentry verification + error class hierarchy
+- [x] 1.5 Sentry verification + error class hierarchy
 
 ## Acceptance criteria (Sprint 1)
 See individual phase prompts.
@@ -95,13 +95,17 @@ See individual phase prompts.
   freshness:check -- --timeout-ms 30000` passed with blocking_non_green=0;
   `npm run typecheck`, `npm run lint`, `npm run test`, and `npm run build`
   passed. Local auth probe returned API/page HTTP 200 with pool rows populated.
-- 2026-05-04 Phase 1.5 partial: `EngineError` hierarchy expanded to the
+- 2026-05-04 Phase 1.5 done: `EngineError` hierarchy expanded to the
   38-class target, active root `instrumentation.ts` plus
   `src/instrumentation.ts` log `SENTRY_DSN` startup status,
   `/api/_internal/sentry-canary` exists behind `CRON_SECRET` and
   `SENTRY_CANARY_ENABLED=1` via physical App Router folder
   `src/app/api/%5Finternal/sentry-canary`, and `scripts/check-freshness.mts` reports a
-  Sentry readiness row. Verification is blocked because Vercel production is
-  missing `SENTRY_DSN`, and the local shell is missing `SENTRY_AUTH_TOKEN` /
-  Sentry org/project values for dashboard API proof. Railway production worker
-  does have `SENTRY_DSN` configured.
+  Sentry readiness row. Vercel production now has `SENTRY_DSN`; the canary was
+  temporarily enabled, fired with production `CRON_SECRET`, returned the expected
+  deliberate HTTP 500, and Vercel logs recorded Sentry event id
+  `0e5dd1c4da3e496e9ff114b8c5902b47` at `2026-05-04T07:41:38.577Z`.
+  `SENTRY_CANARY_ENABLED` was removed again after proof capture. Production
+  `npm run freshness:check -- --prod --timeout-ms 30000` then passed with
+  green=50, yellow=0, red=0, dead=0, blocking_non_green=0,
+  advisory_non_green=0, and `Sentry: CONFIGURED`.

@@ -193,6 +193,7 @@ function ToolGrid({ tools }: { tools: ToolEntry[] }) {
             foot={
               tool.status === "live" ? (
                 <>
+                  <LiveDot label="LIVE" />
                   <span>OPEN →</span>
                 </>
               ) : (

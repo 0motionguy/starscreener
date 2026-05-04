@@ -32,6 +32,9 @@ Current report set:
 - [AGN-733 CORS posture audit per public API route (2026-05-04)](./AGN-733-CORS-POSTURE-AUDIT-2026-05-04.md)
 - [AGN-587 data-store read-path coverage audit (2026-05-04)](./AGN-587-DATA-STORE-READ-PATH-COVERAGE-AUDIT-2026-05-04.md)
 - [AGN-210 DevTo dual-writer drift packet (2026-05-04)](./AGN-210-DEVTO-DUAL-WRITER-DRIFT-2026-05-04.md)
+=======
+- [AGN-303 verification heartbeat (2026-05-04)](./AGN-303-VERIFICATION-2026-05-04.md)
+- [Sprint 0 + Sprint 1 verification audit (2026-05-04)](./07-VERIFICATION-AUDIT-SPRINT-1.md)
 
 Future forensic reports should update this file to point at the current dated
 report directory so the session-opening protocol has a stable path.

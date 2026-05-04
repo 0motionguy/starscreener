@@ -38,6 +38,7 @@ const ORIGINAL_GITHUB_TOKEN = process.env.GITHUB_TOKEN; // pool-bypass: test set
 if (!process.env.GITHUB_TOKEN) { // pool-bypass: test setup, not a GitHub API call
   process.env.GITHUB_TOKEN = "ghp_test_dummy_for_cron_auth_contract_test_only"; // pool-bypass: test setup, not a GitHub API call
 }
+=======
 
 async function invoke(
   route: CronRouteCase,
@@ -90,4 +91,5 @@ test.after(() => {
   } else {
     process.env.GITHUB_TOKEN = ORIGINAL_GITHUB_TOKEN; // pool-bypass: test teardown, not a GitHub API call
   }
+=======
 });

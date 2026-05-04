@@ -23,8 +23,11 @@ import {
   __resetAuthSentryCaptureForTests,
   __setAuthSentryCaptureForTests,
 =======
+=======
   verifyAdminAuth,
   verifyCronAuth,
+  __resetAuthSentryCaptureForTests,
+  __setAuthSentryCaptureForTests,
   __resetAuthWarningsForTests,
 } from "../auth";
 import { signAdminSession } from "../admin-session";
@@ -53,6 +56,7 @@ beforeEach(() => {
 afterEach(() => {
   process.env = { ...ORIGINAL_ENV };
   __resetAuthSentryCaptureForTests();
+=======
 =======
   __resetAuthWarningsForTests();
 });
@@ -292,4 +296,5 @@ test("internalAgentAuthFailureResponse: not_configured emits fatal-tagged Sentry
   assert.equal(tags?.category, "fatal");
   assert.equal(tags?.auth_surface, "internal-agent");
 });
+=======
 =======

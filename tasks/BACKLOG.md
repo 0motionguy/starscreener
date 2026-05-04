@@ -471,6 +471,7 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
     - `AGN-343`/`AGN-329` plus multiple external-fix issues: restore localhost service/freshness endpoint and baseline typecheck/test/build gates for closure checks.
   - [ ] AGN-343 PM blocker triage continuity follow-through (owner: PM triage). Done when active blocker rows in sprint/backlog docs retain one owner, one unblock action, and one binary done-state line aligned to the latest verified preflight evidence.
     Dependencies: platform engineer restores localhost:3023 reachability and freshness endpoint health; CTO/platform restores GH auth for `AGN-819`/`AGN-210` and sets Vercel `SENTRY_DSN`; board/user resolves AGN-50 approval; platform/frontend/backend owners resolve remaining external-fix blockers and baseline gates (`AGN-343`,`AGN-671`,`AGN-584`,`AGN-768`,`AGN-662`,`AGN-740`,`AGN-71`,`AGN-772`,`AGN-403`,`AGN-822`,`AGN-329`,`AGN-765`,`AGN-72`).
+=======
 - 2026-05-04 AGN-318 [Sprint 1 audit] Acceptance-criteria lint delta pass (documentation scope this heartbeat):
   - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
   - Verified `npm run freshness:check` at `2026-05-04T19:21:57.6874876+08:00` reached localhost (`http://localhost:3023`) but failed with `GET /api/cron/freshness/state -> HTTP 500 Internal Server Error` (localhost not missing; product stale/degraded), so this heartbeat remained triage/documentation-only.
@@ -503,6 +504,9 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
   - Remediation queue by impact: `AGN-464` workflow merge + lock sync/rerun, `AGN-419` prod deploy + 24h CSP verify, `AGN-379` telemetry credential provisioning, then `AGN-343` closeout.
   - [ ] AGN-309 blocked-owner/action completeness continuity follow-through (owner: PM triage). Done when all active blocker rows in sprint/backlog notes keep one owner, one unblock action, and one binary done-state line aligned to latest verified preflight evidence.
     Dependencies: platform engineer restores blocking freshness sources (`npm`, `producthunt`) to GREEN; CTO/platform sets Vercel `SENTRY_DSN` and canary evidence; CTO/platform provide telemetry credentials for `AGN-379` (`ADMIN_TOKEN` or Redis/Upstash read access).
+=======
+  - [ ] AGN-309 blocked-owner/action completeness continuity follow-through (owner: PM triage). Done when all active blocker rows in sprint/backlog notes keep one owner, one unblock action, and one binary done-state line aligned to latest verified preflight evidence.
+    Dependencies: platform engineer restores blocking DEAD rows (`category-metrics`, `mcp-downloads`, `star-snapshots`, `trending-repos`) to GREEN; CTO/platform sets Vercel `SENTRY_DSN` and canary evidence.
 - 2026-05-04 AGN-308 [Sprint 1 audit] PM sprint-boundary pointer-only enforcement:
   - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
   - Verified `npm run freshness:check` at `2026-05-04T11:10:54.348Z` reached localhost (`http://localhost:3023`) and is stale/degraded (not missing): `green=45`, `dead=5`, `blocking_non_green=4`, `advisory_non_green=1`, `Sentry: MISSING`.
@@ -548,6 +552,7 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
     - AGN-343 classification: `creds + external-fix` (freshness blockers plus missing telemetry credentials).
     - AGN-379 classification: `creds` (missing ADMIN_TOKEN and Redis/Upstash read credentials).
     - Reality check: `ADMIN_TOKEN`, `SENTRY_DSN`, `NEXT_PUBLIC_SENTRY_DSN`, `REDIS_URL`, `UPSTASH_REDIS_REST_URL`, and `UPSTASH_REDIS_REST_TOKEN` are all missing in the current runtime, so no blocked issue can be safely unblocked to `todo` in this heartbeat.
+=======
 - 2026-05-04 AGN-276 [Sprint 1 audit] blocked issue unblock-owner completeness sweep (out of Sprint 1 implementation scope):
   - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
   - Verified `npm run freshness:check` at `2026-05-04T10:50:00.291Z` reached localhost (`http://localhost:3023`) but failed with degraded freshness (`blocking_non_green=5`, `dead=5`, `yellow=1`) and `Sentry: MISSING`, so this heartbeat remains triage/documentation-only.
@@ -561,6 +566,9 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
   - Continuation evidence: latest `npm run freshness:check` failed at `2026-05-04T13:33:45+08:00` with `GET /api/health?soft=1 -> HTTP 500` on localhost:3023, so Sprint 1 local freshness unblock is hard-blocked again.
   - [ ] Sprint scope lock compliance continuity follow-through (owner: PM triage). Done when Sprint 1 remains limited to Phase 1.5 + local freshness unblock and out-of-scope discoveries remain backlog-only with one owner, explicit dependencies, and binary done-state wording.
     Dependencies: platform engineer restores localhost freshness endpoint health (`/api/health?soft=1` HTTP 200) and blocking freshness sources (`npm`, `producthunt`) to GREEN budget compliance; CTO/platform sets Vercel `SENTRY_DSN`; CTO confirms mixed-priority execution intent or enforces lane split before scope reassignment.
+=======
+  - [ ] Sprint scope lock compliance continuity follow-through (owner: PM triage). Done when Sprint 1 remains limited to Phase 1.5 + local freshness unblock and out-of-scope discoveries remain backlog-only with one owner, explicit dependencies, and binary done-state wording.
+    Dependencies: platform engineer resolves blocking freshness rows (`category-metrics`, `mcp-downloads`, `star-snapshots`, `trending-repos`, and reddit freshness budget); CTO/platform sets Vercel `SENTRY_DSN`; CTO confirms any sprint priority changes before scope reassignment.
 - 2026-05-04 AGN-254 [Sprint 2 audit] blocked issue unblock-owner completeness (out of Sprint 1 implementation scope):
   - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
   - Verified `npm run freshness:check` at `2026-05-04T10:26:13.386Z` reached localhost (`http://localhost:3023`) but failed with degraded freshness (`blocking_non_green=5`, `dead=5`) and `Sentry: MISSING`, so this remains triage/documentation-only.
@@ -631,6 +639,7 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
 - 2026-05-04 AGN-172 scope guardrail audit (out of Sprint 1; owner PM triage unless reassigned):
   - Parent linkage: all items below are children of `AGN-172` scope guardrail and must not be pulled into Sprint 1 unless CTO reprioritizes.
   - Current audit decision: no backlog item is promoted into Sprint 1 by default; Sprint 1 keeps only Phase 1.5 + local freshness unblock.
+=======
   - [ ] Workflow failure triage packet (owner: PM triage). Done when each currently failing workflow has one assigned implementation issue with binary acceptance criteria (`Cron - freshness check`, `Audit - source freshness`, `Source health watch`, `Refresh fast discovery`, `Refresh collection rankings`).
     Dependencies: local freshness gate no longer blocks (`2026-05-04T08:13:05.686Z` pass). Depends on PM assignment capacity and Sprint 1 scope lock to avoid parallel scope expansion.
   - [ ] Twitter persistence path consistency task (owner: data pipeline engineer). Done when `/twitter` reads from the canonical store path and freshness evidence shows data newer than 24h without dual-writer ambiguity.
@@ -659,6 +668,10 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
   - [ ] Reduce server response latency on key routes (owner: platform engineer). Done when Lighthouse no longer reports `server-response-time` savings in the multi-second range on `/` and `/signals` (baseline savings: ~12,233ms home, ~4,121ms signals).
   - [ ] Eliminate large unused JavaScript payloads on landing/signal surfaces (owner: frontend engineer). Done when Lighthouse `unused-javascript` savings drop materially from current baselines (~3,940ms home, ~1,210ms signals).
   - [ ] Minify and bundle JS/CSS consistently in production path (owner: platform engineer). Done when Lighthouse no longer flags `unminified-javascript`/`unminified-css` on audited routes (baseline JS savings: ~2,730ms home, ~570ms signals).
+=======
+- Document or script the Windows OneDrive `.next` dev/build workaround. On 2026-05-03 the local `.next` directory was a junction at `%TEMP%\trendingrepo-next-dev`; `next dev` and `next build` both need `NODE_PATH=C:\Users\mirko\OneDrive\Desktop\STARSCREENER\node_modules` so chunks emitted under `%TEMP%` can resolve externals like `react/jsx-runtime` and Next's app-route runtime.
+- Decide expanded freshness semantics for advisory side channels: `mcp-dependents` needs `LIBRARIES_IO_API_KEY`, `mcp-smithery-rank` needs `SMITHERY_API_KEY`, `skill-install-snapshots` currently has no install data, `model-usage` can have successful zero-event cron runs, and `hotness-snapshots` can publish only populated domains. Either provision the missing keys/data or mark these rows non-blocking in `/api/cron/freshness/state`.
+- Normalize Vercel project targeting across local shells: repo link file `.vercel/project.json` points to `projectId=prj_ycY0bM38UMyAl9jPcAgrmQGUc4tQ` / `orgId=team_NrVhqhXUDEYB9YOWaqkBIQ4w`, while ambient env may inject a different `VERCEL_PROJECT_ID` without `VERCEL_ORG_ID`, causing wrong-target deploy/list behavior and stale-build confusion.
 
 ## EngineError completeness gaps (from AGN-148, 2026-05-04)
 - [ ] Migrate backend/platform untyped throws in `src/lib/data-store.ts` and `src/lib/pipeline/ingestion/**` to `EngineError` categories (`recoverable|quarantine|fatal`) with source tags. Owner: Backend (AGN-187).
@@ -690,3 +703,4 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
 
 
 
+=======

@@ -100,3 +100,9 @@ CLAUDE.local.md
 
 # embedded clones (not submodules)
 awesome-codex-skills/
+
+# agent scratch directories — never commit, even by accident
+.audit/
+.claude-flow/
+.hive-mind/
+.tmp-*.log

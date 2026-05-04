@@ -1,4 +1,5 @@
 import { redis } from "@/lib/redis";
+import { createHash } from "node:crypto";
 
 export type GithubQuarantineReason =
   | "rate_limit"
@@ -18,7 +19,9 @@ export interface GithubCallTelemetry {
 
 export function githubKeyFingerprint(token: string | null | undefined): string {
   const trimmed = token?.trim() ?? "";
-  return trimmed.length > 0 ? trimmed.slice(-4) : "none";
+  if (trimmed.length === 0) return "none";
+  const hash = createHash("sha256").update(trimmed).digest("hex").slice(0, 8);
+  return `${trimmed.slice(-4)}-${hash}`;
 }
 
 export async function recordGithubCall(

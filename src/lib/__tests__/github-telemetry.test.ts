@@ -3,6 +3,7 @@ import { afterEach, test } from "node:test";
 
 import { _setRedisForTests } from "../redis";
 import {
+  githubKeyFingerprint,
   isKeyQuarantined,
   quarantineKey,
   recordGithubCall,
@@ -76,10 +77,11 @@ class FakePool implements GitHubTokenPool {
   }
 
   recordRateLimit(_token: string, remaining: number, resetUnixSec: number): void {
+    void _token;
     this.rateLimitRecords.push({ remaining, resetUnixSec });
   }
 
-  quarantine(_token: string): void {
+  quarantine(): void {
     this.quarantineCalls += 1;
   }
 
@@ -148,6 +150,15 @@ test("recordGithubCall increments fail counter when the call is not successful",
   assert.equal(hash.lastRateLimitRemaining, undefined);
 });
 
+test("githubKeyFingerprint distinguishes different tokens with the same suffix", () => {
+  const first = githubKeyFingerprint("tok-a-aaaaaaaaaaaaaaaaabcd");
+  const second = githubKeyFingerprint("tok-b-bbbbbbbbbbbbbbbbabcd");
+
+  assert.notEqual(first, second);
+  assert.match(first, /^abcd-[0-9a-f]{8}$/);
+  assert.match(second, /^abcd-[0-9a-f]{8}$/);
+});
+
 test("quarantineKey stores fingerprint quarantine until an absolute unix timestamp", async () => {
   const fake = new FakeRedis();
   _setRedisForTests(fake);
@@ -191,7 +202,8 @@ test("githubFetch records usage telemetry for a successful response", async () =
     { remaining: 4998, resetUnixSec: 1_800_000_000 },
   ]);
   const hourBucket = new Date().toISOString().slice(0, 13).replace("T", "-");
-  const hash = await fake.hgetall(`pool:github:usage:abcd:${hourBucket}`);
+  const fingerprint = githubKeyFingerprint(pool.token);
+  const hash = await fake.hgetall(`pool:github:usage:${fingerprint}:${hourBucket}`);
   assert.equal(hash.requests, "1");
   assert.equal(hash.success, "1");
   assert.equal(hash.lastOperation, "rate_limit");
@@ -217,6 +229,10 @@ test("githubFetch quarantines invalid tokens by fingerprint after 401", async ()
 
   assert.equal(result?.response.status, 401);
   assert.equal(pool.quarantineCalls, 4);
-  assert.equal(await isKeyQuarantined("abcd"), true);
-  assert.match(fake.strings.get("pool:github:quarantine:abcd") ?? "", /invalid_token/);
+  const fingerprint = githubKeyFingerprint(pool.token);
+  assert.equal(await isKeyQuarantined(fingerprint), true);
+  assert.match(
+    fake.strings.get(`pool:github:quarantine:${fingerprint}`) ?? "",
+    /invalid_token/,
+  );
 });

@@ -495,6 +495,42 @@ export function SidebarContent({
             }
           />
           <V2NavRow
+            href="/lobsters"
+            icon={LobstersSidebarIcon}
+            label="Lobsters"
+            badge={deltaChip(sourceCounts?.lobstersStories ?? 0) || undefined}
+            badgeTone="delta"
+            active={
+              pathname === "/lobsters" ||
+              pathname.startsWith("/lobsters/") ||
+              (pathname === "/news" && newsTab === "lobsters")
+            }
+          />
+          <V2NavRow
+            href="/devto"
+            icon={DevtoSidebarIcon}
+            label="Dev.to"
+            badge={deltaChip(sourceCounts?.devtoArticles ?? 0) || undefined}
+            badgeTone="delta"
+            active={
+              pathname === "/devto" ||
+              pathname.startsWith("/devto/") ||
+              (pathname === "/news" && newsTab === "devto")
+            }
+          />
+          <V2NavRow
+            href="/bluesky/trending"
+            icon={BlueskySidebarIcon}
+            label="Bluesky"
+            badge={deltaChip(sourceCounts?.blueskyPosts ?? 0) || undefined}
+            badgeTone="delta"
+            active={
+              pathname === "/bluesky" ||
+              pathname.startsWith("/bluesky/") ||
+              (pathname === "/news" && newsTab === "bluesky")
+            }
+          />
+          <V2NavRow
             href="/reddit/trending"
             icon={RedditSidebarIcon}
             label="Reddit"

@@ -209,6 +209,11 @@ const nextConfig: NextConfig = {
 // Sentry wrap — outermost so source-map upload + auto-instrumentation
 // run after bundle analyzer + base config. SENTRY_AUTH_TOKEN gates the
 // upload (set in CI / Vercel prod build env only).
+//
+// Migrated to @sentry/nextjs ≥10 shape: disableLogger and
+// automaticVercelMonitors moved under the new `webpack` namespace
+// (the wizard's defaults still emit the deprecation warnings on every
+// build until this lands).
 const sentryWebpackPluginOptions = {
   org: process.env.SENTRY_ORG,
   project: process.env.SENTRY_PROJECT,
@@ -216,9 +221,11 @@ const sentryWebpackPluginOptions = {
   silent: !process.env.CI,
   widenClientFileUpload: true,
   hideSourceMaps: true,
-  disableLogger: true,
-  automaticVercelMonitors: false,
   tunnelRoute: "/api/_sentry-tunnel",
+  webpack: {
+    treeshake: { removeDebugLogging: true },
+    automaticVercelMonitors: false,
+  },
 };
 
 // Skip Sentry's Next plugin wrap during local `next dev` (Turbopack 15.5

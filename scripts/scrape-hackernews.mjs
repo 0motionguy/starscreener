@@ -33,7 +33,7 @@ import {
   recentRepoRows,
 } from "./_tracked-repos.mjs";
 import {
-  extractAllRepoMentions,
+  extractGithubRepoFullNames,
   extractUnknownRepoCandidates,
   normalizeGithubFullName,
 } from "./_github-repo-links.mjs";

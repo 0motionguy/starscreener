@@ -99,7 +99,8 @@ See individual phase prompts.
   38-class target, active root `instrumentation.ts` plus
   `src/instrumentation.ts` log `SENTRY_DSN` startup status,
   `/api/_internal/sentry-canary` exists behind `CRON_SECRET` and
-  `SENTRY_CANARY_ENABLED=1`, and `scripts/check-freshness.mts` reports a
+  `SENTRY_CANARY_ENABLED=1` via physical App Router folder
+  `src/app/api/%5Finternal/sentry-canary`, and `scripts/check-freshness.mts` reports a
   Sentry readiness row. Verification is blocked because Vercel production is
   missing `SENTRY_DSN`, and the local shell is missing `SENTRY_AUTH_TOKEN` /
   Sentry org/project values for dashboard API proof. Railway production worker

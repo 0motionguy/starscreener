@@ -20,6 +20,10 @@ Required operator action: add `SENTRY_DSN` to Vercel production for `starscreene
 
 Endpoint: `GET /api/_internal/sentry-canary`
 
+Physical route file: `src/app/api/%5Finternal/sentry-canary/route.ts`. Next.js
+App Router treats folder names beginning with `_` as private folders, so the
+literal URL segment is stored as `%5Finternal`.
+
 Auth: `Authorization: Bearer <CRON_SECRET>`
 
 Gate: returns `404` unless `SENTRY_CANARY_ENABLED=1`.

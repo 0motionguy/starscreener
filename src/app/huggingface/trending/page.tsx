@@ -25,7 +25,6 @@ import { huggingFaceLogoUrl, huggingFaceAuthorLogoUrl } from "@/lib/logos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
-import { MarkVisited } from "@/components/layout/MarkVisited";
 
 // HF "yellow" — no `--v4-src-hf` token exists; hardcoded once on the pip,
 // rest of the page stays tokenized via var(--v4-*).
@@ -86,7 +85,6 @@ export default async function HuggingFaceTrendingPage() {
   if (cold) {
     return (
       <main className="home-surface">
-        <MarkVisited routeKey="hfModels" count={allModels.length} />
         <SourceFeedTemplate
           crumb={
             <>
@@ -116,7 +114,6 @@ export default async function HuggingFaceTrendingPage() {
 
   return (
     <main className="home-surface">
-      <MarkVisited routeKey="hfModels" count={allModels.length} />
       <SourceFeedTemplate
         crumb={
           <>
@@ -129,7 +126,7 @@ export default async function HuggingFaceTrendingPage() {
           <>
             <span className="big">{formatClock(file.fetchedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="FRESH · 3H" />
+            <LiveDot label="LIVE · 30M" />
           </>
         }
         snapshot={

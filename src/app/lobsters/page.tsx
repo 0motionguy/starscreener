@@ -26,13 +26,11 @@ import { repoLogoUrl } from "@/lib/logos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
-import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
-  // Layout template appends ` — TrendingRepo`; bare title here.
-  title: "Lobsters Trending",
+  title: "TrendingRepo — Lobsters Trending",
   description:
     "Lobsters stories ranked by recent score velocity and cross-linked to tracked GitHub repositories.",
   alternates: { canonical: "/lobsters" },
@@ -107,7 +105,6 @@ export default async function LobstersPage() {
             <span className="big">{formatClock(file.fetchedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
             <LiveDot label={`LIVE · ${file.windowHours}H`} />
-            <FreshnessBadge source="lobsters" lastUpdatedAt={file.fetchedAt} />
           </>
         }
         snapshot={
@@ -142,7 +139,7 @@ export default async function LobstersPage() {
             ]}
           />
         }
-        listEyebrow="Story feed · 24h / 7d / 30d window · repo leaderboard"
+        listEyebrow="Story feed · top 50 by score · repo leaderboard"
         list={
           <div
             className={
@@ -151,7 +148,7 @@ export default async function LobstersPage() {
                 : ""
             }
           >
-            <WindowedStoryFeed allStories={allStories} />
+            <StoryFeed stories={stories} />
             {leaderboard.length > 0 ? (
               <Leaderboard entries={leaderboard.slice(0, 15)} />
             ) : null}

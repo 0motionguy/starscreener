@@ -27,7 +27,6 @@ import { huggingFaceLogoUrl, huggingFaceAuthorLogoUrl } from "@/lib/logos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
-import { MarkVisited } from "@/components/layout/MarkVisited";
 
 const HF_ACCENT_BAR = "#FFD21E"; // HF brand yellow
 
@@ -77,7 +76,6 @@ export default async function HuggingFaceDatasetsPage() {
   if (cold) {
     return (
       <main className="home-surface">
-        <MarkVisited routeKey="hfDatasets" count={allDatasets.length} />
         <SourceFeedTemplate
           crumb={
             <>
@@ -106,7 +104,6 @@ export default async function HuggingFaceDatasetsPage() {
 
   return (
     <main className="home-surface">
-      <MarkVisited routeKey="hfDatasets" count={allDatasets.length} />
       <SourceFeedTemplate
         crumb={
           <>
@@ -119,7 +116,7 @@ export default async function HuggingFaceDatasetsPage() {
           <>
             <span className="big">{formatClock(file.fetchedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="FRESH · 3H" />
+            <LiveDot label="LIVE · 30M" />
           </>
         }
         snapshot={

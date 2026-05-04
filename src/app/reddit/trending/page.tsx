@@ -14,11 +14,6 @@ import {
   refreshRedditAllPostsFromStore,
 } from "@/lib/reddit-all-data";
 import { AllTrendingTabs } from "@/components/reddit-trending/AllTrendingTabs";
-import {
-  buildAllPostsStats,
-  type RedditAllPost,
-  type RedditAllPostsFile,
-} from "@/lib/reddit-all";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -26,54 +21,6 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 
 export const revalidate = 300;
-
-// SSR safety net — when the in-memory cache is empty (Redis returned `missing`
-// AND the per-Lambda module cache hasn't been seeded yet) the page used to
-// render the cold empty-state even though the bundled JSON snapshot ships
-// with every Vercel build. Read it directly so users always see the most
-// recent committed scan as a floor. Cached at module scope: bundled data is
-// immutable for the deploy lifetime so re-reading per render is wasted work.
-let bundledFallback: { posts: RedditAllPost[]; lastFetchedAt: string } | null =
-  null;
-function loadBundledFallback(): {
-  posts: RedditAllPost[];
-  lastFetchedAt: string;
-} {
-  if (bundledFallback) return bundledFallback;
-  try {
-    const raw = readFileSync(
-      resolve(process.cwd(), "data", "reddit-all-posts.json"),
-      "utf8",
-    );
-    const parsed = JSON.parse(raw) as Partial<RedditAllPostsFile>;
-    bundledFallback = {
-      posts: Array.isArray(parsed.posts) ? (parsed.posts as RedditAllPost[]) : [],
-      lastFetchedAt:
-        typeof parsed.lastFetchedAt === "string" ? parsed.lastFetchedAt : "",
-    };
-  } catch {
-    bundledFallback = { posts: [], lastFetchedAt: "" };
-  }
-  return bundledFallback;
-}
-
-export const metadata: Metadata = {
-  title: "Trending on Reddit",
-  description:
-    "Top Reddit posts across the tech subreddits, scored for velocity. Cross-subreddit signal terminal with breakout flagging.",
-  alternates: { canonical: "/reddit/trending" },
-  openGraph: {
-    title: "Trending on Reddit — TrendingRepo",
-    description: "Top Reddit tech posts by velocity, cross-subreddit signal.",
-    url: "/reddit/trending",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Trending on Reddit — TrendingRepo",
-    description: "Top Reddit tech posts by velocity, cross-subreddit signal.",
-  },
-};
 
 function formatClock(iso: string | undefined): string {
   if (!iso) return "warming";
@@ -127,6 +74,26 @@ export default async function RedditTrendingPage() {
   const topScore = posts.reduce((m, p) => Math.max(m, p.score ?? 0), 0);
   const subredditCount = new Set(posts.map((p) => p.subreddit).filter(Boolean)).size;
 
+  if (allPostsCold) {
+    return (
+      <main className="home-surface">
+        <SourceFeedTemplate
+          crumb={
+            <>
+              <b>REDDIT</b> · TERMINAL · /REDDIT/TRENDING
+            </>
+          }
+          title="Reddit · top posts"
+          lede="7-day rolling firehose across the tracked subreddits, scored by velocity-weighted upvotes and cross-linked to GitHub repos."
+        />
+        <ColdState />
+      </main>
+    );
+  }
+
+  const topScore = posts.reduce((m, p) => Math.max(m, p.score ?? 0), 0);
+  const subredditCount = new Set(posts.map((p) => p.subreddit).filter(Boolean)).size;
+
   return (
     <main className="home-surface">
       <SourceFeedTemplate
@@ -141,7 +108,7 @@ export default async function RedditTrendingPage() {
           <>
             <span className="big">{formatClock(allPostsFetchedAt ?? undefined)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="FRESH · 1H" />
+            <LiveDot label="LIVE · 7D" />
           </>
         }
         snapshot={

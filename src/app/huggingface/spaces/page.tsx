@@ -26,7 +26,6 @@ import { huggingFaceLogoUrl, huggingFaceAuthorLogoUrl } from "@/lib/logos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
-import { MarkVisited } from "@/components/layout/MarkVisited";
 
 const HF_YELLOW = "#FFD21E";
 
@@ -76,7 +75,6 @@ export default async function HuggingFaceSpacesPage() {
   if (cold) {
     return (
       <main className="home-surface">
-        <MarkVisited routeKey="hfSpaces" count={allSpaces.length} />
         <SourceFeedTemplate
           crumb={
             <>
@@ -105,7 +103,6 @@ export default async function HuggingFaceSpacesPage() {
 
   return (
     <main className="home-surface">
-      <MarkVisited routeKey="hfSpaces" count={allSpaces.length} />
       <SourceFeedTemplate
         crumb={
           <>
@@ -118,7 +115,7 @@ export default async function HuggingFaceSpacesPage() {
           <>
             <span className="big">{formatClock(file.fetchedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="FRESH · 3H" />
+            <LiveDot label="LIVE · 30M" />
           </>
         }
         snapshot={

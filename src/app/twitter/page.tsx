@@ -18,14 +18,12 @@ import {
   getTwitterLeaderboard,
   getTwitterOverviewStats,
   getTwitterTrendingRepoLeaderboard,
-} from "@/lib/twitter";
+} from "@/lib/twitter/service";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
-import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
-import { MarkVisited } from "@/components/layout/MarkVisited";
 
 const X_BLUE = "var(--v4-src-x)";
 
@@ -48,6 +46,11 @@ function parseTwitterTab(raw: string | string[] | undefined): TwitterTab {
   // filter, not the rank. That made the same momentum-leading repo sit on
   // top day after day regardless of actual X activity.
   return candidate === "trending" ? "trending" : "global";
+}
+
+function formatClock(iso: string | undefined | null): string {
+  if (!iso) return "warming";
+  return new Date(iso).toISOString().slice(11, 19);
 }
 
 function formatClock(iso: string | undefined | null): string {
@@ -309,7 +312,6 @@ export default async function TwitterPage({
   if (cold) {
     return (
       <main className="home-surface">
-        <MarkVisited routeKey="twitter" count={stats.reposWithMentions} />
         <SourceFeedTemplate
           crumb={
             <>
@@ -322,11 +324,7 @@ export default async function TwitterPage({
             <>
               <span className="big">{formatClock(stats.lastScannedAt)}</span>
               <span className="muted">UTC · SCRAPED</span>
-              <LiveDot label="FEED LIVE" />
-              <FreshnessBadge
-                source="twitter"
-                lastUpdatedAt={stats.lastScannedAt ?? null}
-              />
+              <LiveDot label="LIVE · 24H" />
             </>
           }
         />
@@ -350,7 +348,6 @@ export default async function TwitterPage({
 
   return (
     <main className="home-surface">
-      <MarkVisited routeKey="twitter" count={stats.reposWithMentions} />
       <SourceFeedTemplate
         crumb={
           <>
@@ -363,11 +360,7 @@ export default async function TwitterPage({
           <>
             <span className="big">{formatClock(stats.lastScannedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="FEED LIVE" />
-            <FreshnessBadge
-              source="twitter"
-              lastUpdatedAt={stats.lastScannedAt ?? null}
-            />
+            <LiveDot label="LIVE · 24H" />
           </>
         }
         snapshot={
@@ -438,9 +431,9 @@ function TwitterLeaderboardTable({
         borderRadius: 2,
       }}
     >
-      <div className="sm:min-w-[920px]">
+      <div className="min-w-[840px]">
         <div
-          className="v2-mono grid h-9 grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 text-[10px] uppercase tracking-[0.18em]"
+          className="v2-mono grid h-9 grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 text-[10px] uppercase tracking-[0.18em]"
           style={{
             borderBottom: "1px solid var(--v4-line-100)",
             background: "var(--v4-bg-025)",
@@ -492,7 +485,7 @@ function TwitterLeaderboardTable({
             return (
               <li
                 key={row.repoId}
-                className="v2-row group grid grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 py-2"
+                className="v2-row group grid grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 py-2"
                 style={{
                   borderBottom: "1px dashed var(--v4-line-100)",
                   animation:
@@ -510,49 +503,48 @@ function TwitterLeaderboardTable({
                   <MentionAuthorBubbles authors={row.topMentionAuthors} />
                 </div>
                 <div className="min-w-0">
-                  <div className="flex min-w-0 items-center gap-2">
-                    <Image
-                      src={getRepoAvatarUrl(row)}
-                      alt=""
-                      width={18}
-                      height={18}
-                      unoptimized
-                      className="h-[18px] w-[18px] shrink-0 rounded-full"
-                      style={{
-                        border: "1px solid var(--v4-line-200)",
-                        background: "var(--v4-bg-100)",
-                      }}
-                    />
-                    <Link
-                      href={`/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`}
-                      className="block min-w-0 flex-1 truncate text-sm font-medium leading-tight transition-colors hover:text-[color:var(--v4-acc)]"
-                      style={{ color: "var(--v4-ink-100)" }}
-                      title={row.githubFullName}
-                    >
-                      {row.githubFullName}
-                    </Link>
-                  </div>
-                  <div
-                    className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px]"
-                    style={{ color: "var(--v4-ink-400)" }}
-                  >
+                  <div className="flex min-w-0 items-center justify-between gap-2">
+                    <div className="flex min-w-0 items-center gap-2">
+                      <Image
+                        src={getRepoAvatarUrl(row)}
+                        alt=""
+                        width={18}
+                        height={18}
+                        unoptimized
+                        className="h-[18px] w-[18px] shrink-0 rounded-full"
+                        style={{
+                          border: "1px solid var(--v4-line-200)",
+                          background: "var(--v4-bg-100)",
+                        }}
+                      />
+                      <Link
+                        href={`/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`}
+                        className="truncate text-sm font-medium transition-colors hover:text-[color:var(--v4-acc)]"
+                        style={{ color: "var(--v4-ink-100)" }}
+                      >
+                        {row.githubFullName}
+                      </Link>
+                    </div>
                     <RepoActionLinks row={row} />
-                    {activeTab === "trending" ? (
-                      <>
-                        {row.momentumScore !== undefined ? (
-                          <span>{row.momentumScore.toFixed(1)} momentum</span>
-                        ) : null}
-                        {row.starsDelta24h !== undefined ? (
-                          <span>
-                            {formatSignedNumber(row.starsDelta24h)} stars 24h
-                          </span>
-                        ) : null}
-                        {row.stars !== undefined ? (
-                          <span>{formatNumber(row.stars)} stars</span>
-                        ) : null}
-                      </>
-                    ) : null}
                   </div>
+                  {activeTab === "trending" ? (
+                    <div
+                      className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10px]"
+                      style={{ color: "var(--v4-ink-400)" }}
+                    >
+                      {row.momentumScore !== undefined ? (
+                        <span>{row.momentumScore.toFixed(1)} momentum</span>
+                      ) : null}
+                      {row.starsDelta24h !== undefined ? (
+                        <span>
+                          {formatSignedNumber(row.starsDelta24h)} stars 24h
+                        </span>
+                      ) : null}
+                      {row.stars !== undefined ? (
+                        <span>{formatNumber(row.stars)} stars</span>
+                      ) : null}
+                    </div>
+                  ) : null}
                 </div>
                 <div
                   className="text-right text-xs tabular-nums"

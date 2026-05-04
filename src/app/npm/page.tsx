@@ -28,7 +28,6 @@ import { npmLogoUrl } from "@/lib/logos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
-import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 // npm brand red — no --v4-src-npm token exists in v4.css yet, so we hardcode
 // it once on the KpiBand pip and reuse the same hex for the active-tab
@@ -96,25 +95,6 @@ function formatClock(iso: string | undefined): string {
   return new Date(iso).toISOString().slice(11, 19);
 }
 
-// npm registry descriptions are scraped from the package's README and often
-// arrive as raw HTML/markdown — `<p align="center">`, `<code>`, badge image
-// links, etc. Strip the noise so the Package cell renders as a clean one-line
-// blurb instead of `<p><code>npm i -g X</code>...`. Length clamp matches the
-// truncate width so the trailing ellipsis lines up with the column edge.
-function cleanDescription(raw: string | null): string {
-  if (!raw) return "repo-linked npm package";
-  const stripped = raw
-    .replace(/<[^>]+>/g, " ")
-    .replace(/!?\[[^\]]*\]\([^)]*\)/g, " ")
-    .replace(/[`*_>#]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-  if (!stripped) return "repo-linked npm package";
-  return stripped.length > 140
-    ? `${stripped.slice(0, 137).trimEnd()}…`
-    : stripped;
-}
-
 export default async function NpmPage({ searchParams }: NpmPageProps) {
   const { range } = await searchParams;
   // Refresh npm-packages cache from the data-store before reading sync getters.
@@ -141,15 +121,16 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
     );
   }
 
-  // KpiBand snapshot — tracked packages, top mover for the active window,
-  // linked-repo count, active window. Top mover is `packages[0]` because
-  // getTopNpmPackages already sorts by trendScore for the active window —
-  // ranking a stale legacy library by absolute downloads (the prior
-  // behaviour) hid every actual breakout from the snapshot.
-  const topMover = packages[0] ?? null;
-  const topMoverDelta = topMover ? deltaForNpmWindow(topMover, activeWindow) : 0;
-  const topMoverPct = topMover ? deltaPctForNpmWindow(topMover, activeWindow) ?? 0 : 0;
-  const linkedRepoCount = packages.filter((pkg) => pkg.linkedRepo).length;
+  // KpiBand snapshot — tracked packages, top 24h downloader, linked-repo
+  // count, active window. Window cell echoes the active tab so the snapshot
+  // stays stable when users flip ranges.
+  const topByDownloads = packages.reduce<NpmPackageRow | null>((best, pkg) => {
+    if (!best) return pkg;
+    return pkg.downloads24h > best.downloads24h ? pkg : best;
+  }, null);
+  const topDownloadValue = topByDownloads?.downloads24h ?? 0;
+  const topDownloadName = topByDownloads?.name ?? "—";
+  const linkedRepoCount = file.counts?.linkedRepos ?? packages.length;
 
   return (
     <main className="home-surface">
@@ -159,14 +140,13 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
             <b>NPM</b> · TERMINAL · /NPM
           </>
         }
-        title="npm · package velocity"
-        lede="Repo-linked npm packages ranked by 24h / 7d / 30d download movement. Every row comes from the fresh npm corpus and links back to its GitHub repo."
+        title="npm · top packages"
+        lede="Top npm package movement over 24h, 7d, and 30d windows. Discovery sweep keeps only packages whose registry metadata links back to a GitHub repo, then ranks by download velocity."
         clock={
           <>
             <span className="big">{formatClock(file.fetchedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
             <LiveDot label={`LIVE · ${activeWindow.toUpperCase()}`} />
-            <FreshnessBadge source="npm" lastUpdatedAt={file.fetchedAt} />
           </>
         }
         snapshot={
@@ -174,16 +154,14 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
             cells={[
               {
                 label: "TRACKED",
-                value: linkedRepoCount.toLocaleString("en-US"),
+                value: packages.length.toLocaleString("en-US"),
                 sub: "repo-linked pkgs",
                 pip: NPM_RED,
               },
               {
-                label: `TOP ${activeWindow.toUpperCase()} MOVER`,
-                value: topMover ? formatSignedCompact(topMoverDelta) : "—",
-                sub: topMover
-                  ? `${topMover.name} · ${formatDeltaPct(topMoverPct)}`
-                  : "warming",
+                label: "TOP 24H DL",
+                value: formatCompact(topDownloadValue),
+                sub: topDownloadName,
                 tone: "acc",
                 pip: "var(--v4-acc)",
               },
@@ -203,7 +181,7 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
             ]}
           />
         }
-        listEyebrow={`Repo-linked packages · top ${packages.length} by ${activeWindow} movement`}
+        listEyebrow={`Package feed · top ${packages.length} by ${activeWindow} velocity`}
         list={
           <>
             <TabNav active={activeWindow} />

@@ -24,8 +24,6 @@ import { repoLogoUrl } from "@/lib/logos";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
-import { SITE_URL, safeJsonLd } from "@/lib/seo";
-import { buildItemListSchema } from "@/lib/seo-repo-schemas";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 
@@ -101,23 +99,8 @@ export default async function HackerNewsTrendingPage() {
     (s) => Array.isArray(s.linkedRepos) && s.linkedRepos.length > 0,
   ).length;
 
-  const hnItemList = buildItemListSchema({
-    listId: `${SITE_URL.replace(/\/+$/, "")}/hackernews/trending#list`,
-    name: "Hacker News Trending Stories",
-    description:
-      "Top Hacker News stories ranked by velocity-weighted trending score. Updated every 30 minutes.",
-    items: stories.slice(0, 50).map((s) => ({
-      url: s.url || `https://news.ycombinator.com/item?id=${s.id}`,
-      name: s.title,
-    })),
-  });
-
   return (
     <main className="home-surface">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: safeJsonLd(hnItemList) }}
-      />
       <SourceFeedTemplate
         crumb={
           <>
@@ -165,8 +148,8 @@ export default async function HackerNewsTrendingPage() {
             ]}
           />
         }
-        listEyebrow="Story feed · 24h / 7d / 30d window"
-        list={<WindowedHnFeed allStories={allStories} />}
+        listEyebrow="Story feed · top 50 by score"
+        list={<HnStoryFeed stories={stories} />}
       />
     </main>
   );

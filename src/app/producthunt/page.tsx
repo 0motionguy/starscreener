@@ -157,7 +157,7 @@ export default async function ProductHuntPage({
           <>
             <span className="big">{formatClock(fetchedAt)}</span>
             <span className="muted">UTC · LATEST POST</span>
-            <LiveDot label="FRESH · 4H" />
+            <LiveDot label="LIVE · 7D" />
           </>
         }
         snapshot={

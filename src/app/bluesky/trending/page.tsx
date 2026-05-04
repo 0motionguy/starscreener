@@ -150,8 +150,8 @@ export default async function BlueskyTrendingPage() {
             ]}
           />
         }
-        listEyebrow="Post feed · 24h / 7d / 30d window"
-        list={<WindowedBskyFeed allPosts={allPosts} />}
+        listEyebrow="Post feed · top 50 by engagement"
+        list={<BskyPostFeed posts={posts} />}
       />
     </main>
   );
@@ -214,6 +214,9 @@ function BskyPostFeed({ posts }: { posts: BskyPost[] }) {
             ?.avatar ??
           (p.author as { avatarUrl?: string | null } | null)?.avatarUrl ??
           null;
+        const handleFavicon = p.author?.handle
+          ? resolveLogoUrl(p.author.handle, null, 64)
+          : null;
         return (
           <div className="flex min-w-0 items-start gap-2">
             <EntityLogo

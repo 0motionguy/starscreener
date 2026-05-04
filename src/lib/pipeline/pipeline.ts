@@ -212,12 +212,17 @@ function snapshotPreviousState(): PreviousState {
 function phaseAssemble(baseRepos: Repo[]): Repo[] {
   const trendingDeltas = getDeltas();
   const aggregateNow = new Date();
-  return baseRepos.map((repo) => {
+  const freshRepos: Repo[] = baseRepos.map((repo) => {
     const sparklineData = deriveSparklineData(repo.id, snapshotStore);
     const fromTrending = {
       ...assembleRepoFromTrending(repo, trendingDeltas),
       sparklineData,
     };
+    // 1a. Roll up persisted mentions → SocialAggregate → buzz score. Replaces
+    //     the hard-coded `socialBuzzScore = 0` shim from `normalizeGitHubRepo`
+    //     so anti-spam dampening and the social-buzz component finally have
+    //     real input. Aggregate is upserted here for the in-memory store so
+    //     query layers (mostDiscussed, repoSummary) see it on the next read.
     const repoMentions = mentionStore.listForRepo(fromTrending.id);
     if (repoMentions.length > 0) {
       const agg = aggregateRepoMentions(

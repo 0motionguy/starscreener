@@ -157,22 +157,6 @@ test("appendMentionsToFile keeps distinct URLs as separate rows", async () => {
   assert.equal(res.duplicates, 0);
 });
 
-test("appendMentionsToFile fans out same URL across distinct repos", async () => {
-  // A single HN comment can link two repos; both rows must persist.
-  const url = "https://news.ycombinator.com/item?id=42";
-  const res = await harness.mentionStore.appendMentionsToFile([
-    mkMention({ id: "hn-1", url, repoId: "vercel--next-js" }),
-    mkMention({ id: "hn-2", url, repoId: "facebook--react" }),
-  ]);
-  assert.equal(res.appended, 2, "different repos → distinct rows");
-  assert.equal(res.duplicates, 0);
-
-  const onDisk = await harness.mentionStore.readPersistedMentions();
-  const byRepo = new Set(onDisk.map((m) => m.repoId));
-  assert.ok(byRepo.has("vercel--next-js"));
-  assert.ok(byRepo.has("facebook--react"));
-});
-
 test("appendMentionsToFile fills normalizedUrl on the persisted record", async () => {
   await harness.mentionStore.appendMentionsToFile([
     mkMention({

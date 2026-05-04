@@ -25,10 +25,6 @@ import {
   parseRateLimitHeaders,
   type GitHubTokenPool,
 } from "@/lib/github-token-pool";
-import {
-  githubKeyFingerprint,
-  recordGithubCall,
-} from "@/lib/pool/github-telemetry";
 
 const GITHUB_API = "https://api.github.com";
 const ONE_DAY_MS = 86_400_000;
@@ -179,16 +175,6 @@ export async function backfillFromEvents(
         pool.recordRateLimit(activeToken, parsedRl.remaining, parsedRl.resetUnixSec);
       }
     }
-    const parsedRl = parseRateLimitHeaders(res.headers);
-    await recordGithubCall({
-      keyFingerprint: githubKeyFingerprint(activeToken),
-      statusCode: res.status,
-      rateLimitRemaining: parsedRl?.remaining ?? null,
-      rateLimitReset: parsedRl?.resetUnixSec ?? null,
-      responseTimeMs: Date.now() - startedAt,
-      operation: "github_events_backfill",
-      success: res.ok,
-    });
     const rlHeader = res.headers.get("x-ratelimit-remaining");
     if (rlHeader) rateLimitRemaining = parseInt(rlHeader, 10);
 

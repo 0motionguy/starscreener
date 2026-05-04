@@ -12,13 +12,6 @@ import type {
   GitHubRepoRaw,
   GitHubReleaseRaw,
 } from "../types";
-import { posthogCapture } from "@/lib/analytics/posthog";
-import {
-  GithubInvalidTokenError,
-  GithubPoolExhaustedError,
-  GithubRateLimitError,
-  GithubRecoverableError,
-} from "@/lib/errors";
 import {
   GitHubTokenPoolEmptyError,
   GitHubTokenPoolExhaustedError,
@@ -28,11 +21,6 @@ import {
   redactToken,
   type GitHubTokenPool,
 } from "@/lib/github-token-pool";
-import {
-  githubKeyFingerprint,
-  quarantineKey,
-  recordGithubCall,
-} from "@/lib/pool/github-telemetry";
 // Phase 2C: per-source circuit breaker. Wrapped around request() so a
 // flapping GitHub API doesn't keep getting hit and an OPEN breaker
 // short-circuits before we burn quota on requests we know will fail.
@@ -282,14 +270,6 @@ export class GitHubApiAdapter implements GitHubAdapter {
           // adapter without a PAT and accepts the 60/hr cap.
           token = null;
         } else if (err instanceof GitHubTokenPoolExhaustedError) {
-          const wrapped = new GithubPoolExhaustedError(err.message, {
-            allQuarantined: err.allQuarantined,
-            resetsAtUnixSec: err.resetsAtUnixSec,
-            operation,
-          });
-          Sentry.captureException(wrapped, {
-            tags: { pool: "github", alert: "github-pool-exhausted" },
-          });
           console.warn(
             `[github-adapter] every PAT in the pool is rate-limited; refusing ${path}. ${err.message}`,
           );
@@ -328,14 +308,6 @@ export class GitHubApiAdapter implements GitHubAdapter {
         }
         // Final attempt failed — feed the breaker so 5 consecutive net
         // errors flip it to OPEN.
-        Sentry.captureException(
-          new GithubRecoverableError("GitHub adapter network error", {
-            operation,
-            path,
-            message: err instanceof Error ? err.message : String(err),
-          }),
-          { tags: { pool: "github", alert: "github-pool-network" } },
-        );
         sourceHealthTracker.recordFailure(
           "github",
           err instanceof Error ? err.message : String(err),
@@ -346,56 +318,10 @@ export class GitHubApiAdapter implements GitHubAdapter {
       }
 
       this.updateRateLimit(res, token);
-      const parsedRateLimit = parseRateLimitHeaders(res.headers);
-      await recordGithubCall({
-        keyFingerprint: githubKeyFingerprint(token),
-        statusCode: res.status,
-        rateLimitRemaining: parsedRateLimit?.remaining ?? null,
-        rateLimitReset: parsedRateLimit?.resetUnixSec ?? null,
-        responseTimeMs: Date.now() - startedAt,
-        operation,
-        success: res.ok,
-      });
       const remaining =
         this.rateLimit.remaining === null ? "?" : String(this.rateLimit.remaining);
       const tokenLabel = token ? redactToken(token) : "unauth";
       console.log(`[github] GET ${path} tok=${tokenLabel} rl=${remaining}`);
-
-      void posthogCapture("github_api_call", {
-        distinct_id: "github-pool",
-        tokenLabel,
-        remaining: this.rateLimit.remaining,
-        reset_in_sec: this.rateLimit.reset
-          ? Math.max(
-              0,
-              Math.floor(new Date(this.rateLimit.reset).getTime() / 1000) -
-                Math.floor(Date.now() / 1000),
-            )
-          : null,
-        status: res.status,
-        path,
-        method: "GET",
-      });
-
-      if (res.status === 401 && token) {
-        this.pool.quarantine(token);
-        await quarantineKey({
-          keyFingerprint: githubKeyFingerprint(token),
-          reason: "invalid_token",
-          untilTimestamp: Math.floor((Date.now() + 24 * 60 * 60 * 1000) / 1000),
-        });
-        Sentry.captureException(
-          new GithubInvalidTokenError("GitHub adapter token rejected with 401", {
-            operation,
-            statusCode: res.status,
-          }),
-          { tags: { pool: "github", alert: "github-pool-key-invalid" } },
-        );
-        if (attempt < maxAttempts - 1) {
-          await sleep(1000 * 2 ** attempt);
-          continue;
-        }
-      }
 
       // Retry on transient errors. 403 with remaining=0 is a rate limit on
       // the token we just used — the pool will skip it on the next attempt
@@ -434,15 +360,6 @@ export class GitHubApiAdapter implements GitHubAdapter {
       // as success because GitHub is responding correctly — only 5xx and
       // unhandled 429 indicate upstream trouble.
       if (isServerError || isTooManyRequests) {
-        if (isServerError) {
-          Sentry.captureException(
-            new GithubRecoverableError("GitHub adapter server error", {
-              operation,
-              statusCode: res.status,
-            }),
-            { tags: { pool: "github", alert: "github-pool-5xx" } },
-          );
-        }
         sourceHealthTracker.recordFailure("github", `HTTP ${res.status}`);
       } else {
         sourceHealthTracker.recordSuccess("github");

@@ -13,29 +13,11 @@ import type { Sentiment, SocialPlatform } from "@/lib/types";
 import * as Sentry from "@sentry/nextjs";
 import { slugToId } from "@/lib/utils";
 import {
-  RedditBlockedError,
-  RedditPoolExhaustedError,
-  RedditRateLimitError,
-  RedditRecoverableError,
-} from "@/lib/errors";
-import {
   GitHubTokenPoolEmptyError,
   GitHubTokenPoolExhaustedError,
   getGitHubTokenPool,
   parseRateLimitHeaders,
 } from "@/lib/github-token-pool";
-import {
-  githubKeyFingerprint,
-  recordGithubCall,
-} from "@/lib/pool/github-telemetry";
-import {
-  quarantineUserAgent,
-  recordRedditCall,
-} from "@/lib/pool/reddit-telemetry";
-import {
-  redditUserAgentFingerprint,
-  selectUserAgent,
-} from "@/lib/pool/reddit-ua-pool";
 // Phase 2C: per-source circuit breaker. Each adapter checks isOpen()
 // at the top of fetch and records success/failure on every response so
 // 5 consecutive failures auto-disable the source until the cooldown.
@@ -403,56 +385,8 @@ export class RedditAdapter implements SocialAdapter {
         success: res.ok,
       });
       if (!res.ok) {
-        if (res.status === 429) {
-          const retryAfterMs = parseRetryAfterMs(res.headers.get("retry-after"));
-          const quarantineMs = Math.max(retryAfterMs ?? 0, 10 * 60 * 1000);
-          await quarantineUserAgent({
-            userAgentFingerprint,
-            reason: "rate_limit",
-            untilTimestamp: Math.floor((Date.now() + quarantineMs) / 1000),
-          });
-          Sentry.captureException(
-            new RedditRateLimitError("Reddit rate limit (429)", {
-              statusCode: 429,
-              retryAfterMs,
-              userAgentFingerprint,
-            }),
-            { tags: { pool: "reddit", alert: "reddit-ua-rate-limit" } },
-          );
-        } else if (res.status === 403) {
-          await quarantineUserAgent({
-            userAgentFingerprint,
-            reason: "blocked",
-            untilTimestamp: Math.floor((Date.now() + 60 * 60 * 1000) / 1000),
-          });
-          Sentry.captureException(
-            new RedditBlockedError("Reddit blocked request (403)", {
-              statusCode: 403,
-              userAgentFingerprint,
-            }),
-            { tags: { pool: "reddit", alert: "reddit-ua-blocked" } },
-          );
-        } else if (res.status >= 500 && res.status <= 599) {
-          await quarantineUserAgent({
-            userAgentFingerprint,
-            reason: "5xx",
-            untilTimestamp: Math.floor((Date.now() + 60) / 1000),
-          });
-          Sentry.captureException(
-            new RedditRecoverableError("Reddit upstream 5xx", {
-              statusCode: res.status,
-              userAgentFingerprint,
-            }),
-            { tags: { pool: "reddit", alert: "reddit-ua-5xx" } },
-          );
-        }
-        console.error(
-          `[social:reddit] HTTP ${res.status} for ${fullName} ua=${userAgentFingerprint}`,
-        );
-        sourceHealthTracker.recordFailure(
-          "reddit",
-          `HTTP ${res.status} (${userAgentFingerprint})`,
-        );
+        console.error(`[social:reddit] HTTP ${res.status} for ${fullName}`);
+        sourceHealthTracker.recordFailure("reddit", `HTTP ${res.status}`);
         return [];
       }
       const body: unknown = await res.json();
@@ -657,20 +591,11 @@ export class GitHubActivityAdapter implements SocialAdapter {
     const operation = "github_activity_mentions";
     try {
       const res = await fetch(url, { signal, headers });
-      const rl = parseRateLimitHeaders(res.headers);
-      await recordGithubCall({
-        keyFingerprint: githubKeyFingerprint(token),
-        statusCode: res.status,
-        rateLimitRemaining: rl?.remaining ?? null,
-        rateLimitReset: rl?.resetUnixSec ?? null,
-        responseTimeMs: Date.now() - startedAt,
-        operation,
-        success: res.ok,
-      });
       // Update pool quota from headers REGARDLESS of status — GitHub still
       // returns x-ratelimit-* on 403s, and not recording exhaustion would
       // leave the pool picking the dead token again.
       if (token) {
+        const rl = parseRateLimitHeaders(res.headers);
         if (rl) pool.recordRateLimit(token, rl.remaining, rl.resetUnixSec);
       }
       if (!res.ok) {

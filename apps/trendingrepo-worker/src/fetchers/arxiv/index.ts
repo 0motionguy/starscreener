@@ -1,3 +1,5 @@
+// PLANNED. Not registered in registry.ts. The working writer is scripts/scrape-arxiv.mjs.
+//
 // arXiv fetcher. Pulls last 7 days of cs.AI/CL/LG/MA, normalizes to
 // trending_items rows with type='paper', publishes leaderboard payload to
 // ss:data:v1:trending-paper.

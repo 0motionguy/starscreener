@@ -48,11 +48,6 @@ import {
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
-// F3 unknown-mentions accumulator — per-run Set populated inside the
-// extractRepoMentions path. Flushed at end of main() so the lake gets
-// every github.com URL we couldn't attribute to a tracked repo.
-const unknownsAccumulator = new Set();
-
 // F2 dual-key transition: stable repoId derived from fullName.
 // MUST match src/lib/utils.ts:slugToId so consumers can index by repoId
 // without needing the original fullName.

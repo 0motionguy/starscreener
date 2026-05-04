@@ -34,6 +34,17 @@ import {
 } from '../../lib/sources/reddit.js';
 import { isApifyProxyEnabled } from '../../lib/util/apify-proxy.js';
 
+// F2 dual-key transition: stable repoId derived from fullName.
+// MUST match src/lib/utils.ts:slugToId so consumers can index by repoId
+// without needing the original fullName.
+function slugIdFromFullName(fullName: string): string {
+  return String(fullName)
+    .toLowerCase()
+    .replace(/\//g, '--')
+    .replace(/\./g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+}
+
 const POSTS_PER_SUB = 100;
 const WINDOW_DAYS = 7;
 const WINDOW_SECONDS = WINDOW_DAYS * 24 * 60 * 60;
@@ -269,6 +280,12 @@ const fetcher: Fetcher = {
       scannedSubreddits: SUBREDDITS,
       scannedPostsTotal: scannedTotal,
       mentions: mentionsOut,
+      mentionsByRepoId: Object.fromEntries(
+        Object.entries(mentionsOut).map(([fullName, value]) => [
+          slugIdFromFullName(fullName),
+          value,
+        ]),
+      ),
       allPosts: allPostsOut,
       topPosts,
       leaderboard,

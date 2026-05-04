@@ -432,7 +432,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
 
   // ── Render ----------------------------------------------------------------
   return (
-    <main className="v4-root signals-page px-4 py-6 font-mono md:px-6 md:py-8">
+    <main className="signals-page" style={{ padding: "14px 16px 60px" }}>
       <PageHead
         crumb={
           <>

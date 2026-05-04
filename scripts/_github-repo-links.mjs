@@ -108,37 +108,6 @@ export function extractTrackedBareRefs(text, trackedLower) {
   return hits;
 }
 
-// Combined extractor — URL-form (github.com/owner/repo) AND bare `owner/repo`
-// tokens that are members of the caller-supplied tracked set. Use this from
-// social adapters where folks routinely drop the github.com prefix; the URL
-// path keeps catching every shape we already handled.
-export function extractAllRepoMentions(text, trackedLower) {
-  const out = new Set();
-  for (const m of extractGithubRepoFullNames(text, trackedLower)) out.add(m);
-  for (const m of extractTrackedBareRefs(text, trackedLower)) out.add(m);
-  return out;
-}
-
-// Inverse — github.com/owner/repo URLs in text that are NOT in the tracked
-// set. Routes to the unknown-mentions lake (data/unknown-mentions.jsonl)
-// for promotion candidates. URL-form only — bare-form would explode false
-// positives without a tracked-set anchor (path fragments like "src/lib"
-// would match every repo with that name).
-export function extractUnknownRepoCandidates(text, trackedLower) {
-  const out = new Set();
-  if (!text || typeof text !== "string") return out;
-  GITHUB_REPO_URL_RE.lastIndex = 0;
-  let match;
-  while ((match = GITHUB_REPO_URL_RE.exec(text)) !== null) {
-    const fullName = normalizeGithubFullName(match[1], match[2]);
-    const [owner, repo] = fullName.split("/", 2);
-    if (!owner || !repo || isReservedGithubOwner(owner)) continue;
-    if (trackedLower && trackedLower.has(fullName)) continue;
-    out.add(fullName);
-  }
-  return out;
-}
-
 export function normalizeGithubRepoUrl(raw) {
   if (!raw || typeof raw !== "string") return null;
   let parsed;

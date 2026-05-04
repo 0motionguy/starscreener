@@ -44,7 +44,7 @@ jobs:
         run: |
           git config user.name  "trendingrepo-bot"
           git config user.email "bot@trendingrepo.local"
-          git add data/bluesky-mentions.json data/bluesky-trending.json data/_meta/bluesky.json data/unknown-mentions.jsonl
+          git add data/bluesky-mentions.json data/bluesky-trending.json data/_meta/bluesky.json
           if git diff --quiet --staged; then
             echo "no changes - skipping commit"
             exit 0

@@ -70,7 +70,10 @@ export function CostStackedChart({ data, models }: CostStackedProps) {
           axisLine={false}
           tickFormatter={(v: number) => `$${v < 1 ? v.toFixed(2) : Math.round(v)}`}
         />
-        <Tooltip contentStyle={tooltipStyle} />
+        <Tooltip
+          contentStyle={tooltipStyle}
+          formatter={(v) => `$${Number(v ?? 0).toFixed(4)}`}
+        />
         {models.map((m, i) => (
           <Bar
             key={m}
@@ -102,7 +105,10 @@ export function LatencyLineChart({ data }: { data: DayPoint[] }) {
           axisLine={false}
           tickFormatter={(v: number) => `${(v / 1000).toFixed(1)}s`}
         />
-        <Tooltip contentStyle={tooltipStyle} />
+        <Tooltip
+          contentStyle={tooltipStyle}
+          formatter={(v) => `${v ?? 0}ms`}
+        />
         <Line
           type="monotone"
           dataKey="value"
@@ -143,7 +149,10 @@ export function ReliabilityAreaChart({ data }: { data: DayPoint[] }) {
           axisLine={false}
           tickFormatter={(v: number) => `${(v * 100).toFixed(0)}%`}
         />
-        <Tooltip contentStyle={tooltipStyle} />
+        <Tooltip
+          contentStyle={tooltipStyle}
+          formatter={(v) => `${(Number(v ?? 0) * 100).toFixed(2)}%`}
+        />
         <Area
           type="monotone"
           dataKey="value"

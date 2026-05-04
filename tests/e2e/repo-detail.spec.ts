@@ -2,9 +2,9 @@
 //
 // Invariants (V4 / W5 migration):
 //   1. GET /repo/vercel/next.js returns 200 (the repo is in our seeded set).
-//   2. The PageHead inside ProfileTemplate renders the V4 crumb + repo name.
-//   3. The VerdictRibbon mounts (per-repo verdict).
-//   4. The ProfileTemplate body renders with mainPanels content.
+//   2. The .id-strip identity hero renders with "vercel" + "next.js".
+//   3. The crumb inside .id-strip mounts (Repo · rank #N · …).
+//   4. At least one body section from the repo-detail layout mounts.
 //
 // If the seed data ever changes such that vercel/next.js isn't tracked, the
 // page should still 404 cleanly — the test will surface that as a failure
@@ -13,33 +13,25 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("repo detail", () => {
-  test("renders V4 head, verdict, and body chrome", async ({ page }) => {
+  test("renders title, crumb, and body chrome", async ({ page }) => {
     const response = await page.goto("/repo/vercel/next.js", {
       waitUntil: "domcontentloaded",
     });
     expect(response?.ok()).toBe(true);
 
-    // ProfileTemplate root — V4 page shell.
-    const template = page.locator(".v4-profile-template").first();
-    await expect(template).toBeAttached();
+    // Identity strip — repo-detail's hero block.
+    const idStrip = page.locator(".id-strip").first();
+    await expect(idStrip).toBeVisible();
+    await expect(idStrip).toContainText(/vercel/i);
+    await expect(idStrip).toContainText(/next\.js/i);
 
-    // PageHead — repo identity hero.
-    const head = page.locator(".v4-page-head").first();
-    await expect(head).toBeVisible();
-    await expect(head).toContainText(/vercel/i);
-    await expect(head).toContainText(/next\.js/i);
-
-    // V4 crumb prefixed REPO eyebrow.
-    const crumb = head.locator(".v4-page-head__crumb").first();
+    // Crumb inside the identity strip — replaces the V3 breadcrumb-role nav.
+    const crumb = idStrip.locator(".crumb").first();
     await expect(crumb).toBeVisible();
-    await expect(crumb).toContainText(/REPO/i);
+    await expect(crumb).toContainText(/Repo/i);
 
-    // VerdictRibbon — per-repo ranking + cross-signal score.
-    const verdict = page.locator(".v4-verdict-ribbon").first();
-    await expect(verdict).toBeVisible();
-
-    // Body main column mounts (mainPanels slot).
-    const main = page.locator(".v4-profile-template__main").first();
-    await expect(main).toBeAttached();
+    // Body chrome — at least the repo-detail stack mounts.
+    const stack = page.locator(".repo-detail-stack").first();
+    await expect(stack).toBeAttached();
   });
 });

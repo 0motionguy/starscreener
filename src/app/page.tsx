@@ -38,6 +38,7 @@ import {
   type CategoryFacet,
 } from "@/components/home/LiveTopTable";
 import { CATEGORIES } from "@/lib/constants";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { repoLogoUrl } from "@/lib/logos";
 import type { Repo } from "@/lib/types";
 import {

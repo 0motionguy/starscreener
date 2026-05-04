@@ -7,6 +7,26 @@ const FOOTER_LINKS = [
     external: true,
   },
   {
+    href: "https://www.linkedin.com/company/trendingrepo",
+    label: "LinkedIn",
+    external: true,
+  },
+  {
+    href: "https://www.youtube.com/@trendingrepo",
+    label: "YouTube",
+    external: true,
+  },
+  {
+    href: "https://www.reddit.com/r/trendingrepo",
+    label: "Reddit",
+    external: true,
+  },
+  {
+    href: "https://www.g2.com/products/trendingrepo",
+    label: "G2",
+    external: true,
+  },
+  {
     href: "https://x.com/0motionguy",
     label: "@0motionguy",
     external: true,

@@ -12,6 +12,14 @@ import { writeDataStore } from '../../lib/redis.js';
 import { extractAllRepoMentions } from '../../lib/util/github-repo-links.js';
 import { loadTrackedRepos } from '../../lib/util/tracked-repos.js';
 
+function slugIdFromFullName(fullName: string): string {
+  return String(fullName)
+    .toLowerCase()
+    .replace(/\//g, '--')
+    .replace(/\./g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+}
+
 const USER_AGENT =
   'StarScreener-worker/0.1 (+https://github.com/0motionguy/starscreener; lobsters)';
 const TRENDING_WINDOW_HOURS = 72;
@@ -235,6 +243,9 @@ const fetcher: Fetcher = {
       windowDays: MENTIONS_WINDOW_DAYS,
       scannedStories: stories.length,
       mentions,
+      mentionsByRepoId: Object.fromEntries(
+        Object.entries(mentions).map(([fullName, value]) => [slugIdFromFullName(fullName), value]),
+      ),
       leaderboard,
     };
 

@@ -625,13 +625,11 @@ export function _resetGitHubTokenPoolForTests(): void {
 
 /**
  * Render a token for log output without leaking the secret. Shows the
- * first 6 and last 4 characters with the middle masked. PAT format is
- * usually 40+ chars (`ghp_...` / `github_pat_...`), so the prefix is
- * enough to identify which slot the request came from.
+ * first 4 and last 4 characters with the middle masked.
  */
 export function redactToken(token: string): string {
-  if (token.length <= 12) return "***";
-  return `${token.slice(0, 6)}…${token.slice(-4)}`;
+  if (token.length <= 8) return "***";
+  return `${token.slice(0, 4)}...${token.slice(-4)}`;
 }
 
 /**

@@ -14,7 +14,11 @@
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore, readDataStore } from '../../lib/redis.js';
 import { fetchJsonWithRetry } from '../../lib/util/http-helpers.js';
-import { pickGithubToken } from '../../lib/util/github-token-pool.js';
+import {
+  parseRateLimitHeaders,
+  pickGithubToken,
+  recordRateLimit,
+} from '../../lib/util/github-token-pool.js';
 
 const GRAPHQL_URL = 'https://api.github.com/graphql';
 const API_VERSION = '2022-11-28';
@@ -295,6 +299,10 @@ const fetcher: Fetcher = {
           attempts: 3,
           retryDelayMs: 1_000,
           timeoutMs: 20_000,
+          onResponse: (res) => {
+            const rl = parseRateLimitHeaders(res.headers);
+            if (rl) recordRateLimit(token, rl.remaining, rl.resetUnixSec);
+          },
         });
         const data = body?.data ?? {};
         const ghErrors = Array.isArray(body?.errors) ? body.errors : [];

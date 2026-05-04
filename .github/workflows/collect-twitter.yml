@@ -93,6 +93,7 @@ jobs:
             .data/twitter-repo-signals.jsonl
             .data/twitter-scans.jsonl
             .data/twitter-ingestion-audit.jsonl
+            data/_meta/twitter.json
             data/unknown-mentions.jsonl
 
       - name: Upload collector output

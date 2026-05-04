@@ -36,6 +36,7 @@ import { RankRow } from "@/components/ui/RankRow";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { LetterAvatar } from "@/components/shared/LetterAvatar";
 import { Sparkline } from "@/components/shared/Sparkline";
+import { repoLogoUrl } from "@/lib/logos";
 
 // ISR — 10-minute cadence matches the V4 leaderboard surfaces. Underlying
 // readers refresh every 6 hours via cron; tighter cache wastes work
@@ -276,10 +277,14 @@ export default async function Top10RootPage() {
               key={item.slug}
               rank={item.rank}
               avatar={
-                sourceRepo?.ownerAvatarUrl ? (
+                // 3-tier avatar fallback per AUDIT-2026-05-04 logo-coverage
+                // criterion: enriched sourceRepo.ownerAvatarUrl → derived
+                // GitHub avatar URL (stable public endpoint, redirects to
+                // monogram on 404) → deterministic LetterAvatar tile.
+                sourceRepo?.ownerAvatarUrl || repoLogoUrl(item.slug, 28) ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={sourceRepo.ownerAvatarUrl}
+                    src={sourceRepo?.ownerAvatarUrl ?? repoLogoUrl(item.slug, 28) ?? undefined}
                     alt=""
                     width={28}
                     height={28}

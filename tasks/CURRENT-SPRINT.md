@@ -1,6 +1,6 @@
 # CURRENT SPRINT — Sprint 1: Pool Verification + Source Activation
 
-Status: IN PROGRESS - Phase 1.3 Twitter Apify + Nitter fallback
+Status: IN PROGRESS - Phase 1.5 blocked on Vercel Sentry DSN
 Started: 2026-05-03
 Target completion: 2026-05-10
 
@@ -8,7 +8,7 @@ Target completion: 2026-05-10
 - [x] 1.1 GitHub pool runtime telemetry
 - [x] 1.2 Reddit User-Agent pool
 - [x] 1.3 Twitter Apify + Nitter fallback
-- [ ] 1.4 /admin/keys dashboard
+- [x] 1.4 /admin/keys dashboard
 - [ ] 1.5 Sentry verification + error class hierarchy
 
 ## Acceptance criteria (Sprint 1)
@@ -89,3 +89,19 @@ See individual phase prompts.
   adapters (`src/lib/pool/twitter-*.ts`), nightly Nitter health workflow
   (`.github/workflows/check-nitter.yml`), and migrated the main Twitter
   collector to route Apify calls through the new Apify->Nitter fallback path.
+- 2026-05-04 Phase 1.4 done: added authenticated `/api/admin/pool-state` and
+  `/admin/keys` runtime dashboard for GitHub, Reddit, Twitter/Nitter, pool
+  anomalies, and singleton source health. Verification: `npm run
+  freshness:check -- --timeout-ms 30000` passed with blocking_non_green=0;
+  `npm run typecheck`, `npm run lint`, `npm run test`, and `npm run build`
+  passed. Local auth probe returned API/page HTTP 200 with pool rows populated.
+- 2026-05-04 Phase 1.5 partial: `EngineError` hierarchy expanded to the
+  38-class target, active root `instrumentation.ts` plus
+  `src/instrumentation.ts` log `SENTRY_DSN` startup status,
+  `/api/_internal/sentry-canary` exists behind `CRON_SECRET` and
+  `SENTRY_CANARY_ENABLED=1` via physical App Router folder
+  `src/app/api/%5Finternal/sentry-canary`, and `scripts/check-freshness.mts` reports a
+  Sentry readiness row. Verification is blocked because Vercel production is
+  missing `SENTRY_DSN`, and the local shell is missing `SENTRY_AUTH_TOKEN` /
+  Sentry org/project values for dashboard API proof. Railway production worker
+  does have `SENTRY_DSN` configured.

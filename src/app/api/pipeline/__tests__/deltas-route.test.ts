@@ -82,6 +82,9 @@ function makeStubStore(): DataStore {
     async writtenAt() {
       return null;
     },
+    async writerMeta() {
+      return null;
+    },
     async reset() {
       /* noop */
     },

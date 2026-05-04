@@ -67,6 +67,11 @@ import skillInstallSnapshot from './fetchers/skill-install-snapshot/index.js';
 import skillForksSnapshot from './fetchers/skill-forks-snapshot/index.js';
 import hotnessSnapshot from './fetchers/hotness-snapshot/index.js';
 import mcpUsageSnapshot from './fetchers/mcp-usage-snapshot/index.js';
+// Funding side-channel fetchers — write `funding-news-crunchbase` and
+// `funding-news-x` keys that consumers may already read but stayed
+// forever stale before registration. AUDIT-2026-05-04 §A4 fix.
+import crunchbase from './fetchers/crunchbase/index.js';
+import xFunding from './fetchers/x-funding/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -80,6 +85,8 @@ export const FETCHERS: Fetcher[] = [
   repoMetadata,
   npmPackages,
   fundingNews,
+  crunchbase,
+  xFunding,
   trustmrr,
   revenueBenchmarks,
   redditBaselines,

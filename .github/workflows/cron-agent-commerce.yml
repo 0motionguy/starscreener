@@ -24,19 +24,40 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node 20
+      - name: Setup Node 22
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
       - name: Fetch Agentic Market services
+        continue-on-error: true
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
-        run: node scripts/fetch-agentic-market.mjs
+        run: |
+          set +e
+          attempt=1
+          max_attempts=3
+          while [ "$attempt" -le "$max_attempts" ]; do
+            echo "[agent-commerce] agentic.market attempt=$attempt/$max_attempts"
+            node scripts/fetch-agentic-market.mjs
+            rc=$?
+            if [ "$rc" -eq 0 ]; then
+              echo "[agent-commerce] agentic.market fetch succeeded"
+              exit 0
+            fi
+            if [ "$attempt" -eq "$max_attempts" ]; then
+              echo "::warning::agentic.market fetch failed after $max_attempts attempts (last_rc=$rc); continuing with stale cached payload"
+              exit 0
+            fi
+            sleep_seconds=$((attempt * 30))
+            echo "[agent-commerce] retrying in ${sleep_seconds}s"
+            sleep "$sleep_seconds"
+            attempt=$((attempt + 1))
+          done
 
       - name: Fetch OpenRouter models
         env:

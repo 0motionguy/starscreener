@@ -52,6 +52,12 @@ interface FetchJsonRetryOptions extends FetchOptions {
   attempts?: number;
   retryStatuses?: Set<number>;
   retryDelayMs?: number;
+  /**
+   * Invoked once per response (success OR retried failure) before the body
+   * is consumed. Lets callers observe headers (e.g. `x-ratelimit-*`) without
+   * forcing the helper to expose a `Response` shape. Throws are swallowed.
+   */
+  onResponse?: (res: Response) => void;
 }
 
 export async function fetchWithTimeout(url: string, opts: FetchOptions = {}): Promise<Response> {
@@ -77,6 +83,7 @@ export async function fetchJsonWithRetry<T = unknown>(
     retryStatuses = DEFAULT_RETRY_STATUSES,
     retryDelayMs = 500,
     timeoutMs = 15_000,
+    onResponse,
     ...init
   } = opts;
   let lastErr: unknown;
@@ -84,6 +91,13 @@ export async function fetchJsonWithRetry<T = unknown>(
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     try {
       const res = await fetchWithTimeout(url, { ...init, timeoutMs });
+      if (onResponse) {
+        try {
+          onResponse(res);
+        } catch {
+          // observer is fire-and-forget
+        }
+      }
       if (!res.ok) {
         const text = await res.text().catch(() => '');
         const err = new HttpStatusError(res, url, text);

@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-03T13:23:26.480Z",
+  "fetchedAt": "2026-05-04T03:42:57.828Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1307,
+  "scannedArticles": 1321,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -188,12 +188,12 @@
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
     "tag-codex-top-7d": 14,
-    "tag-cursor-top-7d": 28,
+    "tag-cursor-top-7d": 33,
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 6,
     "tag-mcp-top-7d": 100,
-    "tag-rag-top-7d": 100,
-    "tag-promptengineering-top-7d": 40,
+    "tag-rag-top-7d": 97,
+    "tag-promptengineering-top-7d": 42,
     "tag-workflow-top-7d": 20,
     "tag-workflows-top-7d": 4,
     "tag-automation-top-7d": 100,
@@ -216,7 +216,7 @@
         "author": "shricodev",
         "reactions": 18,
         "comments": 5,
-        "hoursSincePosted": 118.9,
+        "hoursSincePosted": 133.2,
         "readingTime": 6
       },
       "articles": [
@@ -240,7 +240,7 @@
             "productivity",
             "programming"
           ],
-          "trendingScore": 0.29,
+          "trendingScore": 0.25,
           "linkedRepos": [
             {
               "fullName": "charmbracelet/bubbletea",
@@ -261,7 +261,7 @@
         "author": "evanlin",
         "reactions": 8,
         "comments": 0,
-        "hoursSincePosted": 25.4,
+        "hoursSincePosted": 39.7,
         "readingTime": 3
       },
       "articles": [
@@ -285,7 +285,7 @@
             "googlecloud",
             "tutorial"
           ],
-          "trendingScore": 0.28,
+          "trendingScore": 0.18,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -347,18 +347,63 @@
         }
       ]
     },
+    "microsoft/typescript-go": {
+      "count7d": 1,
+      "reactionsSum7d": 10,
+      "commentsSum7d": 2,
+      "topArticle": {
+        "id": 3604313,
+        "title": "AI Deleted My Tests and Said 'All Tests Pass' — A Horror Story from Porting 'typia' from TypeScript to Go",
+        "url": "https://dev.to/samchon/ai-deleted-my-tests-and-said-all-tests-pass-a-horror-story-from-porting-typia-from-typescript-2bmf",
+        "author": "samchon",
+        "reactions": 10,
+        "comments": 2,
+        "hoursSincePosted": 13.3,
+        "readingTime": 10
+      },
+      "articles": [
+        {
+          "id": 3604313,
+          "title": "AI Deleted My Tests and Said 'All Tests Pass' — A Horror Story from Porting 'typia' from TypeScript to Go",
+          "description": "TL;DR   The job. Take typia's existing TS files, translate the contents line by line into...",
+          "url": "https://dev.to/samchon/ai-deleted-my-tests-and-said-all-tests-pass-a-horror-story-from-porting-typia-from-typescript-2bmf",
+          "author": {
+            "username": "samchon",
+            "name": "Jeongho Nam",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F901175%2Fd1a551cd-f5ae-4d4f-8dea-e5edec30b8d1.jpeg"
+          },
+          "reactionsCount": 10,
+          "commentsCount": 2,
+          "readingTime": 10,
+          "publishedAt": "2026-05-03T14:22:03Z",
+          "tags": [
+            "ai",
+            "vibecoding",
+            "typescript",
+            "go"
+          ],
+          "trendingScore": 0.9,
+          "linkedRepos": [
+            {
+              "fullName": "microsoft/typescript-go",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "anthropics/skills": {
-      "count7d": 2,
-      "reactionsSum7d": 15,
+      "count7d": 3,
+      "reactionsSum7d": 21,
       "commentsSum7d": 2,
       "topArticle": {
         "id": 3595159,
         "title": "Skills Without Evals Are Just Markdown and Hope",
         "url": "https://dev.to/danielsogl/skills-without-evals-are-just-markdown-and-hope-3a71",
         "author": "danielsogl",
-        "reactions": 9,
+        "reactions": 10,
         "comments": 1,
-        "hoursSincePosted": 50.8,
+        "hoursSincePosted": 65.1,
         "readingTime": 13
       },
       "articles": [
@@ -372,7 +417,7 @@
             "name": "Daniel Sogl",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1395106%2Fa783e28e-502c-4e12-a14d-694baaede8cf.jpeg"
           },
-          "reactionsCount": 9,
+          "reactionsCount": 10,
           "commentsCount": 1,
           "readingTime": 13,
           "publishedAt": "2026-05-01T10:38:09Z",
@@ -382,7 +427,7 @@
             "angular",
             "ngrx"
           ],
-          "trendingScore": 0.19,
+          "trendingScore": 0.17,
           "linkedRepos": [
             {
               "fullName": "anthropics/skills",
@@ -410,7 +455,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -429,6 +474,34 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3557258,
+          "title": "Your Documentation Has Two Audiences Now (And One Is an AI)",
+          "description": "Technical documentation’s audience has changed. It’s no longer just engineers reading pages —...",
+          "url": "https://dev.to/seekdb/your-documentation-has-two-audiences-now-and-one-is-an-ai-3ce8",
+          "author": {
+            "username": "_4f268336f6580845cdc475",
+            "name": "Charles Wu",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805236%2Fc2ca81a3-8882-48ac-9ce7-046a056995ab.jpg"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-27T11:59:40Z",
+          "tags": [
+            "techwriting",
+            "ai",
+            "documentation",
+            "llm"
+          ],
+          "trendingScore": 0.02,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/skills",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
@@ -443,7 +516,7 @@
         "author": "nevermiss",
         "reactions": 8,
         "comments": 1,
-        "hoursSincePosted": 37.2,
+        "hoursSincePosted": 51.5,
         "readingTime": 11
       },
       "articles": [
@@ -467,7 +540,7 @@
             "ai",
             "automation"
           ],
-          "trendingScore": 0.21,
+          "trendingScore": 0.15,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -495,7 +568,7 @@
             "ai",
             "agents"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -551,7 +624,7 @@
             "openclaw",
             "agents"
           ],
-          "trendingScore": 0.03,
+          "trendingScore": 0.02,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -559,6 +632,51 @@
             },
             {
               "fullName": "obra/superpowers",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "sickn33/antigravity-awesome-skills": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 6,
+      "topArticle": {
+        "id": 3583755,
+        "title": "94% of Published SKILL.md Files Skip the Spec's Two Most Basic Patterns",
+        "url": "https://dev.to/moonrunnerkc/94-of-published-skillmd-files-skip-the-specs-two-most-basic-patterns-oo0",
+        "author": "moonrunnerkc",
+        "reactions": 1,
+        "comments": 6,
+        "hoursSincePosted": 121.2,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3583755,
+          "title": "94% of Published SKILL.md Files Skip the Spec's Two Most Basic Patterns",
+          "description": "I ran skillcheck v1.2.0 against 500 random skills from a 1,436-skill corpus. Here's what the SKILL.md ecosystem actually looks like in production.",
+          "url": "https://dev.to/moonrunnerkc/94-of-published-skillmd-files-skip-the-specs-two-most-basic-patterns-oo0",
+          "author": {
+            "username": "moonrunnerkc",
+            "name": "Brad Kinnard",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3727405%2Fdace59d9-5970-49b1-9ee7-0836891c5a65.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 6,
+          "readingTime": 7,
+          "publishedAt": "2026-04-29T02:30:37Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "claude",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "sickn33/antigravity-awesome-skills",
               "location": "body"
             }
           ]
@@ -576,7 +694,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 107.1,
+        "hoursSincePosted": 121.5,
         "readingTime": 6
       },
       "articles": [
@@ -600,7 +718,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -633,7 +751,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 107.1,
+        "hoursSincePosted": 121.5,
         "readingTime": 6
       },
       "articles": [
@@ -657,7 +775,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -697,7 +815,7 @@
             "openclaw",
             "agents"
           ],
-          "trendingScore": 0.03,
+          "trendingScore": 0.02,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -990,7 +1108,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 107.1,
+        "hoursSincePosted": 121.5,
         "readingTime": 6
       },
       "articles": [
@@ -1014,7 +1132,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -1036,51 +1154,6 @@
         }
       ]
     },
-    "sickn33/antigravity-awesome-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 6,
-      "topArticle": {
-        "id": 3583755,
-        "title": "94% of Published SKILL.md Files Skip the Spec's Two Most Basic Patterns",
-        "url": "https://dev.to/moonrunnerkc/94-of-published-skillmd-files-skip-the-specs-two-most-basic-patterns-oo0",
-        "author": "moonrunnerkc",
-        "reactions": 1,
-        "comments": 6,
-        "hoursSincePosted": 106.9,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3583755,
-          "title": "94% of Published SKILL.md Files Skip the Spec's Two Most Basic Patterns",
-          "description": "I ran skillcheck v1.2.0 against 500 random skills from a 1,436-skill corpus. Here's what the SKILL.md ecosystem actually looks like in production.",
-          "url": "https://dev.to/moonrunnerkc/94-of-published-skillmd-files-skip-the-specs-two-most-basic-patterns-oo0",
-          "author": {
-            "username": "moonrunnerkc",
-            "name": "Brad Kinnard",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3727405%2Fdace59d9-5970-49b1-9ee7-0836891c5a65.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 6,
-          "readingTime": 7,
-          "publishedAt": "2026-04-29T02:30:37Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "claude",
-            "devops"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "sickn33/antigravity-awesome-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "getagentseal/codeburn": {
       "count7d": 1,
       "reactionsSum7d": 3,
@@ -1092,7 +1165,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 149.2,
+        "hoursSincePosted": 163.6,
         "readingTime": 3
       },
       "articles": [
@@ -1141,7 +1214,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 149.2,
+        "hoursSincePosted": 163.6,
         "readingTime": 3
       },
       "articles": [
@@ -1197,7 +1270,35 @@
             "cli",
             "productivity"
           ],
-          "trendingScore": 0.02,
+          "trendingScore": 0.01,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3557548,
+          "title": "Why I’m Cautious About AI Gateways After My Bifrost Collaboration",
+          "description": "My personal experience testing Maxim AI’s Bifrost gateway left me uneasy. Here’s what...",
+          "url": "https://dev.to/bradleymatera/why-im-cautious-about-ai-gateways-after-my-bifrost-collaboration-18pj",
+          "author": {
+            "username": "bradleymatera",
+            "name": "Bradley Matera",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-04-29T22:41:14Z",
+          "tags": [
+            "ai",
+            "security",
+            "mcp",
+            "programming"
+          ],
+          "trendingScore": 0,
           "linkedRepos": [
             {
               "fullName": "JuliusBrussee/caveman",
@@ -1238,34 +1339,6 @@
           ]
         },
         {
-          "id": 3557548,
-          "title": "Why I’m Cautious About AI Gateways After My Bifrost Collaboration",
-          "description": "My personal experience testing Maxim AI’s Bifrost gateway left me uneasy. Here’s what...",
-          "url": "https://dev.to/bradleymatera/why-im-cautious-about-ai-gateways-after-my-bifrost-collaboration-18pj",
-          "author": {
-            "username": "bradleymatera",
-            "name": "Bradley Matera",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-29T22:41:14Z",
-          "tags": [
-            "ai",
-            "security",
-            "mcp",
-            "programming"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3557556,
           "title": "Research: Bifrost (Maxim AI / H3 Labs Inc.) – Why Its “Governance” Architecture Is a Single Point of Failure for Solo American Web Devs",
           "description": "After my direct experience with Maxim AI’s paid-collaboration bait-and-switch, I dug deeper into...",
@@ -1284,38 +1357,6 @@
             "security",
             "apigateway",
             "mcp"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
-              "location": "body"
-            },
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3557496,
-          "title": "Research: Why Bifrost (Maxim AI / H3 Labs Inc.) Fits the Exact Pattern of API Key Harvesting Services Targeting American Indie Devs",
-          "description": "After my experience with Maxim AI, I decided to dig deeper. I wanted to see if this was just one...",
-          "url": "https://dev.to/bradleymatera/research-why-bifrost-maxim-ai-h3-labs-inc-fits-the-exact-pattern-of-api-key-harvesting-2844",
-          "author": {
-            "username": "bradleymatera",
-            "name": "Bradley Matera",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-29T22:40:36Z",
-          "tags": [
-            "ai",
-            "mcp",
-            "opensource",
-            "devtools"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -1360,11 +1401,43 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3557496,
+          "title": "Research: Why Bifrost (Maxim AI / H3 Labs Inc.) Fits the Exact Pattern of API Key Harvesting Services Targeting American Indie Devs",
+          "description": "After my experience with Maxim AI, I decided to dig deeper. I wanted to see if this was just one...",
+          "url": "https://dev.to/bradleymatera/research-why-bifrost-maxim-ai-h3-labs-inc-fits-the-exact-pattern-of-api-key-harvesting-2844",
+          "author": {
+            "username": "bradleymatera",
+            "name": "Bradley Matera",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-29T22:40:36Z",
+          "tags": [
+            "ai",
+            "mcp",
+            "opensource",
+            "devtools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "location": "body"
+            },
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
     "anthropics/claude-code": {
-      "count7d": 7,
+      "count7d": 8,
       "reactionsSum7d": 4,
       "commentsSum7d": 0,
       "topArticle": {
@@ -1374,7 +1447,7 @@
         "author": "manveer_chawla_64a7283d5a",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 44.5,
+        "hoursSincePosted": 58.9,
         "readingTime": 21
       },
       "articles": [
@@ -1398,7 +1471,7 @@
             "claude",
             "devops"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
@@ -1475,32 +1548,6 @@
           ]
         },
         {
-          "id": 3554106,
-          "title": "How to Add Old Models to Claude Code /model Picker: 3 Methods Tested",
-          "description": "After Opus 4.7 auto-upgrade, the old version vanished from /model. Tested availableModels, modelOverrides, and ANTHROPIC_CUSTOM_MODEL_OPTION — with pitfalls and GitHub community discussion.",
-          "url": "https://dev.to/recca0120/how-to-add-old-models-to-claude-code-model-picker-3-methods-tested-4ie9",
-          "author": {
-            "username": "recca0120",
-            "name": "Recca Tsai",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F50274%2F427ea12d-13dd-4a0e-8955-dddfbf0a39ea.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-04-26T18:17:29Z",
-          "tags": [
-            "claudecode",
-            "costoptimization"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3586970,
           "title": "I Spent 25 Years Avoiding Malware. Claude Code Stored 600 of My Secrets Anyway.",
           "description": "I have not caught a single piece of malware in 25 years on a keyboard. Not one. I spot a .scr...",
@@ -1556,6 +1603,62 @@
           ]
         },
         {
+          "id": 3557078,
+          "title": "Claude Code's Prompt Cache TTL Dropped From 1h to 5m",
+          "description": "A TTL change on Claude Code's prompt cache rewrote billing for affected sessions. The instrumentation that catches it before payday.",
+          "url": "https://dev.to/gabrielanhaia/claude-codes-prompt-cache-ttl-dropped-from-1h-to-5m-35g",
+          "author": {
+            "username": "gabrielanhaia",
+            "name": "Gabriel Anhaia",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2F531a245a-bc24-453e-bb2b-eb7077a3da8b.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-04-27T11:14:43Z",
+          "tags": [
+            "ai",
+            "llm",
+            "observability",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3584385,
+          "title": "Claude Code with Local LLMs and ANTHROPIC_BASE_URL: Ollama, LM Studio, llama.cpp, vLLM",
+          "description": "Run Claude Code on a local LLM via ANTHROPIC_BASE_URL. Native Anthropic endpoints for Ollama, LM Studio, llama.cpp, vLLM. 32K context floor.",
+          "url": "https://dev.to/reneza/claude-code-with-local-llms-and-anthropicbaseurl-ollama-lm-studio-llamacpp-vllm-1g6j",
+          "author": {
+            "username": "reneza",
+            "name": "René Zander",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1138713%2Fa7d8635c-22db-4dec-b156-1fb07de64a8d.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-29T05:53:48Z",
+          "tags": [
+            "ai",
+            "llm",
+            "programming",
+            "tutorial"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3557094,
           "title": "The Flat-Rate AI Coding Subscription Era Is Ending",
           "description": "Six weeks of pricing changes from Copilot, Claude Code, and Cursor read together. The 3 signals that pricing tightens further. A bill estimator.",
@@ -1596,7 +1699,7 @@
         "author": "alanwest",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 97,
+        "hoursSincePosted": 111.3,
         "readingTime": 4
       },
       "articles": [
@@ -1641,7 +1744,7 @@
         "author": "mukeshswamy",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 147,
+        "hoursSincePosted": 161.3,
         "readingTime": 9
       },
       "articles": [
@@ -1738,7 +1841,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 127.3,
+        "hoursSincePosted": 141.6,
         "readingTime": 9
       },
       "articles": [
@@ -1907,38 +2010,6 @@
           ]
         },
         {
-          "id": 3559963,
-          "title": "Harness Leaderboards Are the New Model Leaderboards",
-          "description": "Dirac took Gemini 3 Flash from 47.8% to 65.2% on TerminalBench — a +17pp swing from harness alone. Why model leaderboards miss the real story.",
-          "url": "https://dev.to/max_quimby/harness-leaderboards-are-the-new-model-leaderboards-2omm",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 12,
-          "publishedAt": "2026-04-28T03:27:33Z",
-          "tags": [
-            "ai",
-            "agents",
-            "llm",
-            "devtools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "dirac-run/dirac",
-              "location": "body"
-            },
-            {
-              "fullName": "mattpocock/skills",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3594323,
           "title": "Claude Code Charges Extra for 'OpenClaw' Git Commits",
           "description": "If your git history mentions OpenClaw, Claude Code refuses requests or bills you pay-as-you-go. The reproduction recipe and how to escape it.",
@@ -1985,6 +2056,38 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3559963,
+          "title": "Harness Leaderboards Are the New Model Leaderboards",
+          "description": "Dirac took Gemini 3 Flash from 47.8% to 65.2% on TerminalBench — a +17pp swing from harness alone. Why model leaderboards miss the real story.",
+          "url": "https://dev.to/max_quimby/harness-leaderboards-are-the-new-model-leaderboards-2omm",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 12,
+          "publishedAt": "2026-04-28T03:27:33Z",
+          "tags": [
+            "ai",
+            "agents",
+            "llm",
+            "devtools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "dirac-run/dirac",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
@@ -1999,7 +2102,7 @@
         "author": "jun0-ds",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 58.2,
+        "hoursSincePosted": 72.5,
         "readingTime": 3
       },
       "articles": [
@@ -2056,7 +2159,7 @@
         "author": "jun0-ds",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 58.2,
+        "hoursSincePosted": 72.5,
         "readingTime": 3
       },
       "articles": [
@@ -2113,7 +2216,7 @@
         "author": "guilherme44",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 58.1,
+        "hoursSincePosted": 72.4,
         "readingTime": 5
       },
       "articles": [
@@ -2214,7 +2317,7 @@
         "author": "toniantunovic",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 116.3,
+        "hoursSincePosted": 130.7,
         "readingTime": 6
       },
       "articles": [
@@ -2248,51 +2351,6 @@
         }
       ]
     },
-    "pbakaus/impeccable": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3554361,
-        "title": "Your Coding Agent's Best Feature Isn't the Code",
-        "url": "https://dev.to/stevengonsalvez/your-coding-agents-best-feature-isnt-the-code-pgd",
-        "author": "stevengonsalvez",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 161.6,
-        "readingTime": 12
-      },
-      "articles": [
-        {
-          "id": 3554361,
-          "title": "Your Coding Agent's Best Feature Isn't the Code",
-          "description": "Why Claude Code beats Codex, Copilot, and every other coding agent in 2026. The developer experience of terminal AI coding agents matters more than the model. Statusline, /insights, hooks, and the features that make the 8th hour feel like the 1st.",
-          "url": "https://dev.to/stevengonsalvez/your-coding-agents-best-feature-isnt-the-code-pgd",
-          "author": {
-            "username": "stevengonsalvez",
-            "name": "Steven Gonsalvez",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F613704%2F6fa5896f-e719-469e-812f-d2f8f9971b0e.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 12,
-          "publishedAt": "2026-04-26T19:49:36Z",
-          "tags": [
-            "claudecode",
-            "aicodingagent",
-            "devrel",
-            "codex"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "pbakaus/impeccable",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "musistudio/claude-code-router": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2304,7 +2362,7 @@
         "author": "lizhaopengcn",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 124.3,
+        "hoursSincePosted": 138.6,
         "readingTime": 8
       },
       "articles": [
@@ -2348,7 +2406,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 82.2,
         "readingTime": 7
       },
       "articles": [
@@ -2434,149 +2492,6 @@
         }
       ]
     },
-    "Alishahryar1/free-claude-code": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3555543,
-        "title": "One Open Source Project a Day (No.49): free-claude-code - Run Claude Code for Free with One Environment Variable",
-        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no49-free-claude-code-run-claude-code-for-free-with-one-ed6",
-        "author": "wonderlab",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 151.2,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3555543,
-          "title": "One Open Source Project a Day (No.49): free-claude-code - Run Claude Code for Free with One Environment Variable",
-          "description": "Introduction    \"When a tool is too expensive, programmers build a cheaper key.\"   This is...",
-          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no49-free-claude-code-run-claude-code-for-free-with-one-ed6",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-04-27T06:10:47Z",
-          "tags": [
-            "opensource",
-            "claude",
-            "nvidia",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "Alishahryar1/free-claude-code",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "github/spec-kit": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592010,
-        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-        "author": "sundr_dev",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 72,
-        "readingTime": 14
-      },
-      "articles": [
-        {
-          "id": 3592010,
-          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
-          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-          "author": {
-            "username": "sundr_dev",
-            "name": "Aleksandr Sakov",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-04-30T13:24:40Z",
-          "tags": [
-            "ai",
-            "claude",
-            "specdrivendevelopment",
-            "programming"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/spec-kit",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-plugins-official",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "anthropics/claude-plugins-official": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592010,
-        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-        "author": "sundr_dev",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 72,
-        "readingTime": 14
-      },
-      "articles": [
-        {
-          "id": 3592010,
-          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
-          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-          "author": {
-            "username": "sundr_dev",
-            "name": "Aleksandr Sakov",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-04-30T13:24:40Z",
-          "tags": [
-            "ai",
-            "claude",
-            "specdrivendevelopment",
-            "programming"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/spec-kit",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-plugins-official",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "gastownhall/beads": {
       "count7d": 2,
       "reactionsSum7d": 1,
@@ -2588,7 +2503,7 @@
         "author": "frr149",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 70,
+        "hoursSincePosted": 84.3,
         "readingTime": 5
       },
       "articles": [
@@ -2674,6 +2589,194 @@
         }
       ]
     },
+    "Alishahryar1/free-claude-code": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3555543,
+        "title": "One Open Source Project a Day (No.49): free-claude-code - Run Claude Code for Free with One Environment Variable",
+        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no49-free-claude-code-run-claude-code-for-free-with-one-ed6",
+        "author": "wonderlab",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 165.5,
+        "readingTime": 8
+      },
+      "articles": [
+        {
+          "id": 3555543,
+          "title": "One Open Source Project a Day (No.49): free-claude-code - Run Claude Code for Free with One Environment Variable",
+          "description": "Introduction    \"When a tool is too expensive, programmers build a cheaper key.\"   This is...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no49-free-claude-code-run-claude-code-for-free-with-one-ed6",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 8,
+          "publishedAt": "2026-04-27T06:10:47Z",
+          "tags": [
+            "opensource",
+            "claude",
+            "nvidia",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "abhigyanpatwari/GitNexus": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3604924,
+        "title": "How I stopped Claude Code from hallucinating function names on a 4,000-file repo (with a local MCP server)",
+        "url": "https://dev.to/nike-17/how-i-stopped-claude-code-from-hallucinating-function-names-on-a-4000-file-repo-with-a-local-mcp-jl5",
+        "author": "nike-17",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 10.1,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3604924,
+          "title": "How I stopped Claude Code from hallucinating function names on a 4,000-file repo (with a local MCP server)",
+          "description": "TL;DR: My Claude Code agent kept inventing function names that looked plausible but didn't exist...",
+          "url": "https://dev.to/nike-17/how-i-stopped-claude-code-from-hallucinating-function-names-on-a-4000-file-repo-with-a-local-mcp-jl5",
+          "author": {
+            "username": "nike-17",
+            "name": "Nikita Groshin",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3903349%2Fbe1fac32-c30f-4575-b225-239f86e6fea8.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-03T17:34:20Z",
+          "tags": [
+            "claude",
+            "ai",
+            "productivity",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "abhigyanpatwari/GitNexus",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "github/spec-kit": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3592010,
+        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+        "author": "sundr_dev",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 86.3,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3592010,
+          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
+          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+          "author": {
+            "username": "sundr_dev",
+            "name": "Aleksandr Sakov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-30T13:24:40Z",
+          "tags": [
+            "ai",
+            "claude",
+            "specdrivendevelopment",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics/claude-plugins-official": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3592010,
+        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+        "author": "sundr_dev",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 86.3,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3592010,
+          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
+          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+          "author": {
+            "username": "sundr_dev",
+            "name": "Aleksandr Sakov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-30T13:24:40Z",
+          "tags": [
+            "ai",
+            "claude",
+            "specdrivendevelopment",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "nextlevelbuilder/ui-ux-pro-max-skill": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2685,7 +2788,7 @@
         "author": "sumon4skf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 125.1,
+        "hoursSincePosted": 139.5,
         "readingTime": 2
       },
       "articles": [
@@ -2742,7 +2845,7 @@
         "author": "sumon4skf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 125.1,
+        "hoursSincePosted": 139.5,
         "readingTime": 2
       },
       "articles": [
@@ -2799,7 +2902,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 82.2,
         "readingTime": 7
       },
       "articles": [
@@ -2897,6 +3000,51 @@
         }
       ]
     },
+    "pbakaus/impeccable": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3554361,
+        "title": "Your Coding Agent's Best Feature Isn't the Code",
+        "url": "https://dev.to/stevengonsalvez/your-coding-agents-best-feature-isnt-the-code-pgd",
+        "author": "stevengonsalvez",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 175.9,
+        "readingTime": 12
+      },
+      "articles": [
+        {
+          "id": 3554361,
+          "title": "Your Coding Agent's Best Feature Isn't the Code",
+          "description": "Why Claude Code beats Codex, Copilot, and every other coding agent in 2026. The developer experience of terminal AI coding agents matters more than the model. Statusline, /insights, hooks, and the features that make the 8th hour feel like the 1st.",
+          "url": "https://dev.to/stevengonsalvez/your-coding-agents-best-feature-isnt-the-code-pgd",
+          "author": {
+            "username": "stevengonsalvez",
+            "name": "Steven Gonsalvez",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F613704%2F6fa5896f-e719-469e-812f-d2f8f9971b0e.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 12,
+          "publishedAt": "2026-04-26T19:49:36Z",
+          "tags": [
+            "claudecode",
+            "aicodingagent",
+            "devrel",
+            "codex"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "pbakaus/impeccable",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "warpdotdev/warp": {
       "count7d": 4,
       "reactionsSum7d": 0,
@@ -2908,7 +3056,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 33.9,
+        "hoursSincePosted": 48.2,
         "readingTime": 3
       },
       "articles": [
@@ -3085,7 +3233,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.7,
+        "hoursSincePosted": 144,
         "readingTime": 9
       },
       "articles": [
@@ -3192,7 +3340,7 @@
       ]
     },
     "farion1231/cc-switch": {
-      "count7d": 3,
+      "count7d": 4,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
@@ -3202,7 +3350,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.7,
+        "hoursSincePosted": 144,
         "readingTime": 9
       },
       "articles": [
@@ -3307,6 +3455,38 @@
           ]
         },
         {
+          "id": 3602381,
+          "title": "Cursor SDK vs Browserbase vs OpenAI Apps SDK: 3 Substrates",
+          "description": "Three harness substrates embedding into CI/CD this month. We compare use case, distribution, lock-in, and pricing across all three.",
+          "url": "https://dev.to/max_quimby/cursor-sdk-vs-browserbase-vs-openai-apps-sdk-3-substrates-498",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-03T03:46:39Z",
+          "tags": [
+            "aiagents",
+            "cursor",
+            "openai",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "browserbase/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3594323,
           "title": "Claude Code Charges Extra for 'OpenClaw' Git Commits",
           "description": "If your git history mentions OpenClaw, Claude Code refuses requests or bills you pay-as-you-go. The reproduction recipe and how to escape it.",
@@ -3367,7 +3547,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.7,
+        "hoursSincePosted": 144,
         "readingTime": 9
       },
       "articles": [
@@ -3436,7 +3616,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.7,
+        "hoursSincePosted": 144,
         "readingTime": 9
       },
       "articles": [
@@ -3537,7 +3717,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 56.1,
+        "hoursSincePosted": 70.5,
         "readingTime": 10
       },
       "articles": [
@@ -3639,6 +3819,55 @@
         }
       ]
     },
+    "browserbase/skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3602381,
+        "title": "Cursor SDK vs Browserbase vs OpenAI Apps SDK: 3 Substrates",
+        "url": "https://dev.to/max_quimby/cursor-sdk-vs-browserbase-vs-openai-apps-sdk-3-substrates-498",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 23.9,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3602381,
+          "title": "Cursor SDK vs Browserbase vs OpenAI Apps SDK: 3 Substrates",
+          "description": "Three harness substrates embedding into CI/CD this month. We compare use case, distribution, lock-in, and pricing across all three.",
+          "url": "https://dev.to/max_quimby/cursor-sdk-vs-browserbase-vs-openai-apps-sdk-3-substrates-498",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-03T03:46:39Z",
+          "tags": [
+            "aiagents",
+            "cursor",
+            "openai",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "browserbase/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "HKUDS/nanobot": {
       "count7d": 2,
       "reactionsSum7d": 7,
@@ -3650,7 +3879,7 @@
         "author": "truongpx396",
         "reactions": 7,
         "comments": 0,
-        "hoursSincePosted": 125.8,
+        "hoursSincePosted": 140.1,
         "readingTime": 18
       },
       "articles": [
@@ -3674,7 +3903,7 @@
             "webdev",
             "tutorial"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "HKUDS/nanobot",
@@ -3723,7 +3952,7 @@
         "author": "truongpx396",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 126.8,
+        "hoursSincePosted": 141.1,
         "readingTime": 31
       },
       "articles": [
@@ -3747,7 +3976,7 @@
             "webdev",
             "tutorial"
           ],
-          "trendingScore": 0.04,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "BerriAI/litellm",
@@ -3796,7 +4025,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 123.9,
+        "hoursSincePosted": 138.2,
         "readingTime": 23
       },
       "articles": [
@@ -3841,7 +4070,7 @@
         "author": "truongpx396",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 124.5,
+        "hoursSincePosted": 138.8,
         "readingTime": 22
       },
       "articles": [
@@ -3886,7 +4115,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 82.2,
         "readingTime": 7
       },
       "articles": [
@@ -3955,7 +4184,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 82.2,
         "readingTime": 7
       },
       "articles": [
@@ -4024,7 +4253,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 82.2,
         "readingTime": 7
       },
       "articles": [
@@ -4093,7 +4322,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 82.2,
         "readingTime": 7
       },
       "articles": [
@@ -4151,45 +4380,44 @@
         }
       ]
     },
-    "defilantech/LLMKube": {
+    "github/github-mcp-server": {
       "count7d": 1,
-      "reactionsSum7d": 0,
+      "reactionsSum7d": 1,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3555588,
-        "title": "62.2% on Aider Polyglot from a MacBook Pro. Then the other model we tried scored 4%. Here's what actually happened, with a working cost loop attached.",
-        "url": "https://dev.to/defilan/628-on-aider-polyglot-from-a-macbook-pro-then-the-other-model-we-tried-scored-4-heres-what-17ed",
-        "author": "defilan",
-        "reactions": 0,
+        "id": 3558416,
+        "title": "Helping Claude Do Its Best Work",
+        "url": "https://dev.to/aigal/helping-claude-do-its-best-work-2c8f",
+        "author": "aigal",
+        "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 151,
-        "readingTime": 16
+        "hoursSincePosted": 155.1,
+        "readingTime": 4
       },
       "articles": [
         {
-          "id": 3555588,
-          "title": "62.2% on Aider Polyglot from a MacBook Pro. Then the other model we tried scored 4%. Here's what actually happened, with a working cost loop attached.",
-          "description": "Qwen3.6-35B-A3B Q8 on a MacBook Pro M5 Max scored 62.2% on Aider Polyglot, beating Claude Sonnet 4 with 32k thinking. Then Devstral 2 scored 4% on the same harness but 81.7% on HumanEval+. Plus the InferCost Apple Silicon collector that landed today, validating live cost-per-toke",
-          "url": "https://dev.to/defilan/628-on-aider-polyglot-from-a-macbook-pro-then-the-other-model-we-tried-scored-4-heres-what-17ed",
+          "id": 3558416,
+          "title": "Helping Claude Do Its Best Work",
+          "description": "For almost a year, I've been spending more time with Claude than with any other entity in my life. A...",
+          "url": "https://dev.to/aigal/helping-claude-do-its-best-work-2c8f",
           "author": {
-            "username": "defilan",
-            "name": "Christopher Maher",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3828578%2Fd03de6fc-1dcb-419b-b336-0d9c7d86f7cc.jpeg"
+            "username": "aigal",
+            "name": "Rachael Burger",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3810672%2F7aba9e80-9a32-4d94-8068-ca8e99cadb23.png"
           },
-          "reactionsCount": 0,
+          "reactionsCount": 1,
           "commentsCount": 0,
-          "readingTime": 16,
-          "publishedAt": "2026-04-27T06:24:59Z",
+          "readingTime": 4,
+          "publishedAt": "2026-04-27T16:37:46Z",
           "tags": [
-            "kubernetes",
             "ai",
             "llm",
-            "opensource"
+            "engineering"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "defilantech/LLMKube",
+              "fullName": "github/github-mcp-server",
               "location": "body"
             }
           ]
@@ -4201,35 +4429,35 @@
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3596790,
-        "title": "Your AI, Your Rules: Running a Local LLM with GPU Acceleration on Proxmox",
-        "url": "https://dev.to/clintjosy/your-ai-your-rules-running-a-local-llm-with-gpu-acceleration-on-proxmox-1plh",
-        "author": "clintjosy",
+        "id": 3557067,
+        "title": "Google's TurboQuant: 6x KV Cache Compression Without Retraining",
+        "url": "https://dev.to/gabrielanhaia/googles-turboquant-6x-kv-cache-compression-without-retraining-1f3g",
+        "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 44.9,
-        "readingTime": 10
+        "hoursSincePosted": 160.5,
+        "readingTime": 8
       },
       "articles": [
         {
-          "id": 3596790,
-          "title": "Your AI, Your Rules: Running a Local LLM with GPU Acceleration on Proxmox",
-          "description": "From 3 tok/s frustration to 21 tok/s GPU-hybrid inference - a real engineer's guide to self-hosted...",
-          "url": "https://dev.to/clintjosy/your-ai-your-rules-running-a-local-llm-with-gpu-acceleration-on-proxmox-1plh",
+          "id": 3557067,
+          "title": "Google's TurboQuant: 6x KV Cache Compression Without Retraining",
+          "description": "TurboQuant pairs PolarQuant with a QJL residual to shrink KV cache 6x at near-zero quality loss. What it changes for long-context self-hosting.",
+          "url": "https://dev.to/gabrielanhaia/googles-turboquant-6x-kv-cache-compression-without-retraining-1f3g",
           "author": {
-            "username": "clintjosy",
-            "name": "Clint",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3890922%2F410a06d1-1613-46c5-a78b-23600e882992.png"
+            "username": "gabrielanhaia",
+            "name": "Gabriel Anhaia",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2F531a245a-bc24-453e-bb2b-eb7077a3da8b.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-01T16:26:51Z",
+          "readingTime": 8,
+          "publishedAt": "2026-04-27T11:12:24Z",
           "tags": [
+            "ai",
             "llm",
-            "selfhosted",
-            "proxmox",
-            "nvidia"
+            "architecture",
+            "observability"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -4252,7 +4480,7 @@
         "author": "bradleymatera",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 86.7,
+        "hoursSincePosted": 101,
         "readingTime": 3
       },
       "articles": [
@@ -4349,38 +4577,6 @@
           ]
         },
         {
-          "id": 3557496,
-          "title": "Research: Why Bifrost (Maxim AI / H3 Labs Inc.) Fits the Exact Pattern of API Key Harvesting Services Targeting American Indie Devs",
-          "description": "After my experience with Maxim AI, I decided to dig deeper. I wanted to see if this was just one...",
-          "url": "https://dev.to/bradleymatera/research-why-bifrost-maxim-ai-h3-labs-inc-fits-the-exact-pattern-of-api-key-harvesting-2844",
-          "author": {
-            "username": "bradleymatera",
-            "name": "Bradley Matera",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-29T22:40:36Z",
-          "tags": [
-            "ai",
-            "mcp",
-            "opensource",
-            "devtools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
-              "location": "body"
-            },
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3557525,
           "title": "Protect Your API Keys: Evaluating AI Tools Like Bifrost and Caveman",
           "description": "A practical guide on safeguarding API keys when using third-party AI tools, with a look at...",
@@ -4411,6 +4607,38 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3557496,
+          "title": "Research: Why Bifrost (Maxim AI / H3 Labs Inc.) Fits the Exact Pattern of API Key Harvesting Services Targeting American Indie Devs",
+          "description": "After my experience with Maxim AI, I decided to dig deeper. I wanted to see if this was just one...",
+          "url": "https://dev.to/bradleymatera/research-why-bifrost-maxim-ai-h3-labs-inc-fits-the-exact-pattern-of-api-key-harvesting-2844",
+          "author": {
+            "username": "bradleymatera",
+            "name": "Bradley Matera",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-29T22:40:36Z",
+          "tags": [
+            "ai",
+            "mcp",
+            "opensource",
+            "devtools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "location": "body"
+            },
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
@@ -4425,7 +4653,7 @@
         "author": "dharshan_a_23835c7dc05682",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 126.9,
+        "hoursSincePosted": 141.2,
         "readingTime": 4
       },
       "articles": [
@@ -4470,7 +4698,7 @@
         "author": "programmersd21",
         "reactions": 5,
         "comments": 1,
-        "hoursSincePosted": 107.3,
+        "hoursSincePosted": 121.6,
         "readingTime": 4
       },
       "articles": [
@@ -4494,7 +4722,7 @@
             "go",
             "mcp"
           ],
-          "trendingScore": 0.04,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "programmersd21/kairo",
@@ -4515,7 +4743,7 @@
         "author": "mindmnml",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 145.4,
+        "hoursSincePosted": 159.7,
         "readingTime": 5
       },
       "articles": [
@@ -4549,79 +4777,6 @@
         }
       ]
     },
-    "HKUDS/LightRAG": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3554497,
-        "title": "Why Every RAG Company Is Quietly Building a Graph Layer in 2026",
-        "url": "https://dev.to/gabrielanhaia/why-every-rag-company-is-quietly-building-a-graph-layer-in-2026-70p",
-        "author": "gabrielanhaia",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 160.8,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3554497,
-          "title": "Why Every RAG Company Is Quietly Building a Graph Layer in 2026",
-          "description": "Vector RAG hits a ceiling on enterprise corpora. A graph layer fixes entity disambiguation, multi-hop, and relationship reasoning.",
-          "url": "https://dev.to/gabrielanhaia/why-every-rag-company-is-quietly-building-a-graph-layer-in-2026-70p",
-          "author": {
-            "username": "gabrielanhaia",
-            "name": "Gabriel Anhaia",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2F531a245a-bc24-453e-bb2b-eb7077a3da8b.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-04-26T20:36:37Z",
-          "tags": [
-            "ai",
-            "rag",
-            "database",
-            "architecture"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "HKUDS/LightRAG",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3586892,
-          "title": "GraphRAG in 2026: How Microsoft's Knowledge Graph Approach Beats Standard RAG",
-          "description": "Standard RAG has a ceiling. If your query requires connecting information across multiple documents —...",
-          "url": "https://dev.to/agdex_ai/graphrag-in-2026-how-microsofts-knowledge-graph-approach-beats-standard-rag-58n4",
-          "author": {
-            "username": "agdex_ai",
-            "name": "Agdex AI",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3861038%2Ffa99a40b-56f4-4201-b919-18b764f02355.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-04-29T13:23:24Z",
-          "tags": [
-            "rag",
-            "python",
-            "llm",
-            "aiagents"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "HKUDS/LightRAG",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "onyx-dot-app/onyx": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -4633,7 +4788,7 @@
         "author": "dengkui_yang_fcb5dbe2da32",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 81,
+        "hoursSincePosted": 95.4,
         "readingTime": 7
       },
       "articles": [
@@ -4678,7 +4833,7 @@
         "author": "yohann_streibel_7e1f7b4b8",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 72.9,
+        "hoursSincePosted": 87.2,
         "readingTime": 15
       },
       "articles": [
@@ -4712,6 +4867,51 @@
         }
       ]
     },
+    "HKUDS/LightRAG": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3586892,
+        "title": "GraphRAG in 2026: How Microsoft's Knowledge Graph Approach Beats Standard RAG",
+        "url": "https://dev.to/agdex_ai/graphrag-in-2026-how-microsofts-knowledge-graph-approach-beats-standard-rag-58n4",
+        "author": "agdex_ai",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 110.3,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3586892,
+          "title": "GraphRAG in 2026: How Microsoft's Knowledge Graph Approach Beats Standard RAG",
+          "description": "Standard RAG has a ceiling. If your query requires connecting information across multiple documents —...",
+          "url": "https://dev.to/agdex_ai/graphrag-in-2026-how-microsofts-knowledge-graph-approach-beats-standard-rag-58n4",
+          "author": {
+            "username": "agdex_ai",
+            "name": "Agdex AI",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3861038%2Ffa99a40b-56f4-4201-b919-18b764f02355.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-29T13:23:24Z",
+          "tags": [
+            "rag",
+            "python",
+            "llm",
+            "aiagents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "HKUDS/LightRAG",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "langchain-ai/langgraph": {
       "count7d": 3,
       "reactionsSum7d": 0,
@@ -4723,7 +4923,7 @@
         "author": "johalputt",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 68.3,
+        "hoursSincePosted": 82.6,
         "readingTime": 15
       },
       "articles": [
@@ -4824,7 +5024,7 @@
         "author": "dengkui_yang_fcb5dbe2da32",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 101,
+        "hoursSincePosted": 115.4,
         "readingTime": 10
       },
       "articles": [
@@ -4869,7 +5069,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 56.3,
+        "hoursSincePosted": 70.6,
         "readingTime": 12
       },
       "articles": [
@@ -4923,6 +5123,51 @@
         }
       ]
     },
+    "browser-act/skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3585538,
+        "title": "browser-act CLI Launches Dynamic Proxy — All-in-One Browser Automation for AI Agents",
+        "url": "https://dev.to/double_chen_70da460344c73/browser-act-cli-launches-dynamic-proxy-all-in-one-browser-automation-for-ai-agents-525l",
+        "author": "double_chen_70da460344c73",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 114.4,
+        "readingTime": 1
+      },
+      "articles": [
+        {
+          "id": 3585538,
+          "title": "browser-act CLI Launches Dynamic Proxy — All-in-One Browser Automation for AI Agents",
+          "description": "BrowserAct just released a major feature for browser-act CLI: built-in dynamic proxies. This is...",
+          "url": "https://dev.to/double_chen_70da460344c73/browser-act-cli-launches-dynamic-proxy-all-in-one-browser-automation-for-ai-agents-525l",
+          "author": {
+            "username": "double_chen_70da460344c73",
+            "name": "Double CHEN",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3506122%2F7c2ff04c-887f-404d-bd2e-c4150e6431e8.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 1,
+          "publishedAt": "2026-04-29T09:19:28Z",
+          "tags": [
+            "browseract",
+            "webautomation",
+            "ai",
+            "devtools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "browser-act/skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "versity/versitygw": {
       "count7d": 1,
       "reactionsSum7d": 2,
@@ -4934,7 +5179,7 @@
         "author": "sebakubisz",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 27.7,
+        "hoursSincePosted": 42,
         "readingTime": 14
       },
       "articles": [
@@ -4958,7 +5203,7 @@
             "devops",
             "docker"
           ],
-          "trendingScore": 0.02,
+          "trendingScore": 0.01,
           "linkedRepos": [
             {
               "fullName": "versity/versitygw",
@@ -4983,7 +5228,7 @@
         "author": "sebakubisz",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 27.7,
+        "hoursSincePosted": 42,
         "readingTime": 14
       },
       "articles": [
@@ -5007,7 +5252,7 @@
             "devops",
             "docker"
           ],
-          "trendingScore": 0.02,
+          "trendingScore": 0.01,
           "linkedRepos": [
             {
               "fullName": "versity/versitygw",
@@ -5015,6 +5260,51 @@
             },
             {
               "fullName": "rustfs/rustfs",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "0x0funky/agent-sprite-forge": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3559624,
+        "title": "How to Stop Getting Garbage Sprite Sheets from AI Image Generators",
+        "url": "https://dev.to/alanwest/how-to-stop-getting-garbage-sprite-sheets-from-ai-image-generators-3pli",
+        "author": "alanwest",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 146.7,
+        "readingTime": 5
+      },
+      "articles": [
+        {
+          "id": 3559624,
+          "title": "How to Stop Getting Garbage Sprite Sheets from AI Image Generators",
+          "description": "AI image generators produce unusable sprite sheets. Here's how to build a pipeline that enforces structure, handles transparency, and outputs game-ready assets.",
+          "url": "https://dev.to/alanwest/how-to-stop-getting-garbage-sprite-sheets-from-ai-image-generators-3pli",
+          "author": {
+            "username": "alanwest",
+            "name": "Alan West",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3834047%2F6413d0cf-9d90-4ccc-80a9-123656fd78ba.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-04-28T01:03:34Z",
+          "tags": [
+            "gamedev",
+            "python",
+            "ai",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "0x0funky/agent-sprite-forge",
               "location": "body"
             }
           ]
@@ -5034,7 +5324,7 @@
         "author": "shricodev",
         "reactions": 18,
         "comments": 5,
-        "hoursSincePosted": 118.9,
+        "hoursSincePosted": 133.2,
         "readingTime": 6
       },
       "articles": [
@@ -5058,7 +5348,7 @@
             "productivity",
             "programming"
           ],
-          "trendingScore": 0.29,
+          "trendingScore": 0.25,
           "linkedRepos": [
             {
               "fullName": "charmbracelet/bubbletea",
@@ -5079,7 +5369,7 @@
         "author": "evanlin",
         "reactions": 8,
         "comments": 0,
-        "hoursSincePosted": 25.4,
+        "hoursSincePosted": 39.7,
         "readingTime": 3
       },
       "articles": [
@@ -5103,7 +5393,7 @@
             "googlecloud",
             "tutorial"
           ],
-          "trendingScore": 0.28,
+          "trendingScore": 0.18,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
@@ -5165,18 +5455,63 @@
         }
       ]
     },
+    "microsoft--typescript-go": {
+      "count7d": 1,
+      "reactionsSum7d": 10,
+      "commentsSum7d": 2,
+      "topArticle": {
+        "id": 3604313,
+        "title": "AI Deleted My Tests and Said 'All Tests Pass' — A Horror Story from Porting 'typia' from TypeScript to Go",
+        "url": "https://dev.to/samchon/ai-deleted-my-tests-and-said-all-tests-pass-a-horror-story-from-porting-typia-from-typescript-2bmf",
+        "author": "samchon",
+        "reactions": 10,
+        "comments": 2,
+        "hoursSincePosted": 13.3,
+        "readingTime": 10
+      },
+      "articles": [
+        {
+          "id": 3604313,
+          "title": "AI Deleted My Tests and Said 'All Tests Pass' — A Horror Story from Porting 'typia' from TypeScript to Go",
+          "description": "TL;DR   The job. Take typia's existing TS files, translate the contents line by line into...",
+          "url": "https://dev.to/samchon/ai-deleted-my-tests-and-said-all-tests-pass-a-horror-story-from-porting-typia-from-typescript-2bmf",
+          "author": {
+            "username": "samchon",
+            "name": "Jeongho Nam",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F901175%2Fd1a551cd-f5ae-4d4f-8dea-e5edec30b8d1.jpeg"
+          },
+          "reactionsCount": 10,
+          "commentsCount": 2,
+          "readingTime": 10,
+          "publishedAt": "2026-05-03T14:22:03Z",
+          "tags": [
+            "ai",
+            "vibecoding",
+            "typescript",
+            "go"
+          ],
+          "trendingScore": 0.9,
+          "linkedRepos": [
+            {
+              "fullName": "microsoft/typescript-go",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "anthropics--skills": {
-      "count7d": 2,
-      "reactionsSum7d": 15,
+      "count7d": 3,
+      "reactionsSum7d": 21,
       "commentsSum7d": 2,
       "topArticle": {
         "id": 3595159,
         "title": "Skills Without Evals Are Just Markdown and Hope",
         "url": "https://dev.to/danielsogl/skills-without-evals-are-just-markdown-and-hope-3a71",
         "author": "danielsogl",
-        "reactions": 9,
+        "reactions": 10,
         "comments": 1,
-        "hoursSincePosted": 50.8,
+        "hoursSincePosted": 65.1,
         "readingTime": 13
       },
       "articles": [
@@ -5190,7 +5525,7 @@
             "name": "Daniel Sogl",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1395106%2Fa783e28e-502c-4e12-a14d-694baaede8cf.jpeg"
           },
-          "reactionsCount": 9,
+          "reactionsCount": 10,
           "commentsCount": 1,
           "readingTime": 13,
           "publishedAt": "2026-05-01T10:38:09Z",
@@ -5200,7 +5535,7 @@
             "angular",
             "ngrx"
           ],
-          "trendingScore": 0.19,
+          "trendingScore": 0.17,
           "linkedRepos": [
             {
               "fullName": "anthropics/skills",
@@ -5228,7 +5563,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -5247,6 +5582,34 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3557258,
+          "title": "Your Documentation Has Two Audiences Now (And One Is an AI)",
+          "description": "Technical documentation’s audience has changed. It’s no longer just engineers reading pages —...",
+          "url": "https://dev.to/seekdb/your-documentation-has-two-audiences-now-and-one-is-an-ai-3ce8",
+          "author": {
+            "username": "_4f268336f6580845cdc475",
+            "name": "Charles Wu",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805236%2Fc2ca81a3-8882-48ac-9ce7-046a056995ab.jpg"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-27T11:59:40Z",
+          "tags": [
+            "techwriting",
+            "ai",
+            "documentation",
+            "llm"
+          ],
+          "trendingScore": 0.02,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/skills",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
@@ -5261,7 +5624,7 @@
         "author": "nevermiss",
         "reactions": 8,
         "comments": 1,
-        "hoursSincePosted": 37.2,
+        "hoursSincePosted": 51.5,
         "readingTime": 11
       },
       "articles": [
@@ -5285,7 +5648,7 @@
             "ai",
             "automation"
           ],
-          "trendingScore": 0.21,
+          "trendingScore": 0.15,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -5313,7 +5676,7 @@
             "ai",
             "agents"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -5369,7 +5732,7 @@
             "openclaw",
             "agents"
           ],
-          "trendingScore": 0.03,
+          "trendingScore": 0.02,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -5377,6 +5740,51 @@
             },
             {
               "fullName": "obra/superpowers",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "sickn33--antigravity-awesome-skills": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 6,
+      "topArticle": {
+        "id": 3583755,
+        "title": "94% of Published SKILL.md Files Skip the Spec's Two Most Basic Patterns",
+        "url": "https://dev.to/moonrunnerkc/94-of-published-skillmd-files-skip-the-specs-two-most-basic-patterns-oo0",
+        "author": "moonrunnerkc",
+        "reactions": 1,
+        "comments": 6,
+        "hoursSincePosted": 121.2,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3583755,
+          "title": "94% of Published SKILL.md Files Skip the Spec's Two Most Basic Patterns",
+          "description": "I ran skillcheck v1.2.0 against 500 random skills from a 1,436-skill corpus. Here's what the SKILL.md ecosystem actually looks like in production.",
+          "url": "https://dev.to/moonrunnerkc/94-of-published-skillmd-files-skip-the-specs-two-most-basic-patterns-oo0",
+          "author": {
+            "username": "moonrunnerkc",
+            "name": "Brad Kinnard",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3727405%2Fdace59d9-5970-49b1-9ee7-0836891c5a65.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 6,
+          "readingTime": 7,
+          "publishedAt": "2026-04-29T02:30:37Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "claude",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "sickn33/antigravity-awesome-skills",
               "location": "body"
             }
           ]
@@ -5394,7 +5802,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 107.1,
+        "hoursSincePosted": 121.5,
         "readingTime": 6
       },
       "articles": [
@@ -5418,7 +5826,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -5451,7 +5859,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 107.1,
+        "hoursSincePosted": 121.5,
         "readingTime": 6
       },
       "articles": [
@@ -5475,7 +5883,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -5515,7 +5923,7 @@
             "openclaw",
             "agents"
           ],
-          "trendingScore": 0.03,
+          "trendingScore": 0.02,
           "linkedRepos": [
             {
               "fullName": "openclaw/openclaw",
@@ -5808,7 +6216,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 1,
-        "hoursSincePosted": 107.1,
+        "hoursSincePosted": 121.5,
         "readingTime": 6
       },
       "articles": [
@@ -5832,7 +6240,7 @@
             "llm",
             "tutorial"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "openai/skills",
@@ -5854,51 +6262,6 @@
         }
       ]
     },
-    "sickn33--antigravity-awesome-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 6,
-      "topArticle": {
-        "id": 3583755,
-        "title": "94% of Published SKILL.md Files Skip the Spec's Two Most Basic Patterns",
-        "url": "https://dev.to/moonrunnerkc/94-of-published-skillmd-files-skip-the-specs-two-most-basic-patterns-oo0",
-        "author": "moonrunnerkc",
-        "reactions": 1,
-        "comments": 6,
-        "hoursSincePosted": 106.9,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3583755,
-          "title": "94% of Published SKILL.md Files Skip the Spec's Two Most Basic Patterns",
-          "description": "I ran skillcheck v1.2.0 against 500 random skills from a 1,436-skill corpus. Here's what the SKILL.md ecosystem actually looks like in production.",
-          "url": "https://dev.to/moonrunnerkc/94-of-published-skillmd-files-skip-the-specs-two-most-basic-patterns-oo0",
-          "author": {
-            "username": "moonrunnerkc",
-            "name": "Brad Kinnard",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3727405%2Fdace59d9-5970-49b1-9ee7-0836891c5a65.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 6,
-          "readingTime": 7,
-          "publishedAt": "2026-04-29T02:30:37Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "claude",
-            "devops"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "sickn33/antigravity-awesome-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "getagentseal--codeburn": {
       "count7d": 1,
       "reactionsSum7d": 3,
@@ -5910,7 +6273,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 149.2,
+        "hoursSincePosted": 163.6,
         "readingTime": 3
       },
       "articles": [
@@ -5959,7 +6322,7 @@
         "author": "094459",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 149.2,
+        "hoursSincePosted": 163.6,
         "readingTime": 3
       },
       "articles": [
@@ -6015,7 +6378,35 @@
             "cli",
             "productivity"
           ],
-          "trendingScore": 0.02,
+          "trendingScore": 0.01,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3557548,
+          "title": "Why I’m Cautious About AI Gateways After My Bifrost Collaboration",
+          "description": "My personal experience testing Maxim AI’s Bifrost gateway left me uneasy. Here’s what...",
+          "url": "https://dev.to/bradleymatera/why-im-cautious-about-ai-gateways-after-my-bifrost-collaboration-18pj",
+          "author": {
+            "username": "bradleymatera",
+            "name": "Bradley Matera",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-04-29T22:41:14Z",
+          "tags": [
+            "ai",
+            "security",
+            "mcp",
+            "programming"
+          ],
+          "trendingScore": 0,
           "linkedRepos": [
             {
               "fullName": "JuliusBrussee/caveman",
@@ -6056,34 +6447,6 @@
           ]
         },
         {
-          "id": 3557548,
-          "title": "Why I’m Cautious About AI Gateways After My Bifrost Collaboration",
-          "description": "My personal experience testing Maxim AI’s Bifrost gateway left me uneasy. Here’s what...",
-          "url": "https://dev.to/bradleymatera/why-im-cautious-about-ai-gateways-after-my-bifrost-collaboration-18pj",
-          "author": {
-            "username": "bradleymatera",
-            "name": "Bradley Matera",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-29T22:41:14Z",
-          "tags": [
-            "ai",
-            "security",
-            "mcp",
-            "programming"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3557556,
           "title": "Research: Bifrost (Maxim AI / H3 Labs Inc.) – Why Its “Governance” Architecture Is a Single Point of Failure for Solo American Web Devs",
           "description": "After my direct experience with Maxim AI’s paid-collaboration bait-and-switch, I dug deeper into...",
@@ -6102,38 +6465,6 @@
             "security",
             "apigateway",
             "mcp"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
-              "location": "body"
-            },
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3557496,
-          "title": "Research: Why Bifrost (Maxim AI / H3 Labs Inc.) Fits the Exact Pattern of API Key Harvesting Services Targeting American Indie Devs",
-          "description": "After my experience with Maxim AI, I decided to dig deeper. I wanted to see if this was just one...",
-          "url": "https://dev.to/bradleymatera/research-why-bifrost-maxim-ai-h3-labs-inc-fits-the-exact-pattern-of-api-key-harvesting-2844",
-          "author": {
-            "username": "bradleymatera",
-            "name": "Bradley Matera",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-29T22:40:36Z",
-          "tags": [
-            "ai",
-            "mcp",
-            "opensource",
-            "devtools"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -6178,11 +6509,43 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3557496,
+          "title": "Research: Why Bifrost (Maxim AI / H3 Labs Inc.) Fits the Exact Pattern of API Key Harvesting Services Targeting American Indie Devs",
+          "description": "After my experience with Maxim AI, I decided to dig deeper. I wanted to see if this was just one...",
+          "url": "https://dev.to/bradleymatera/research-why-bifrost-maxim-ai-h3-labs-inc-fits-the-exact-pattern-of-api-key-harvesting-2844",
+          "author": {
+            "username": "bradleymatera",
+            "name": "Bradley Matera",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-29T22:40:36Z",
+          "tags": [
+            "ai",
+            "mcp",
+            "opensource",
+            "devtools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "location": "body"
+            },
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
     "anthropics--claude-code": {
-      "count7d": 7,
+      "count7d": 8,
       "reactionsSum7d": 4,
       "commentsSum7d": 0,
       "topArticle": {
@@ -6192,7 +6555,7 @@
         "author": "manveer_chawla_64a7283d5a",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 44.5,
+        "hoursSincePosted": 58.9,
         "readingTime": 21
       },
       "articles": [
@@ -6216,7 +6579,7 @@
             "claude",
             "devops"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
@@ -6293,32 +6656,6 @@
           ]
         },
         {
-          "id": 3554106,
-          "title": "How to Add Old Models to Claude Code /model Picker: 3 Methods Tested",
-          "description": "After Opus 4.7 auto-upgrade, the old version vanished from /model. Tested availableModels, modelOverrides, and ANTHROPIC_CUSTOM_MODEL_OPTION — with pitfalls and GitHub community discussion.",
-          "url": "https://dev.to/recca0120/how-to-add-old-models-to-claude-code-model-picker-3-methods-tested-4ie9",
-          "author": {
-            "username": "recca0120",
-            "name": "Recca Tsai",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F50274%2F427ea12d-13dd-4a0e-8955-dddfbf0a39ea.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-04-26T18:17:29Z",
-          "tags": [
-            "claudecode",
-            "costoptimization"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3586970,
           "title": "I Spent 25 Years Avoiding Malware. Claude Code Stored 600 of My Secrets Anyway.",
           "description": "I have not caught a single piece of malware in 25 years on a keyboard. Not one. I spot a .scr...",
@@ -6374,6 +6711,62 @@
           ]
         },
         {
+          "id": 3557078,
+          "title": "Claude Code's Prompt Cache TTL Dropped From 1h to 5m",
+          "description": "A TTL change on Claude Code's prompt cache rewrote billing for affected sessions. The instrumentation that catches it before payday.",
+          "url": "https://dev.to/gabrielanhaia/claude-codes-prompt-cache-ttl-dropped-from-1h-to-5m-35g",
+          "author": {
+            "username": "gabrielanhaia",
+            "name": "Gabriel Anhaia",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2F531a245a-bc24-453e-bb2b-eb7077a3da8b.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-04-27T11:14:43Z",
+          "tags": [
+            "ai",
+            "llm",
+            "observability",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3584385,
+          "title": "Claude Code with Local LLMs and ANTHROPIC_BASE_URL: Ollama, LM Studio, llama.cpp, vLLM",
+          "description": "Run Claude Code on a local LLM via ANTHROPIC_BASE_URL. Native Anthropic endpoints for Ollama, LM Studio, llama.cpp, vLLM. 32K context floor.",
+          "url": "https://dev.to/reneza/claude-code-with-local-llms-and-anthropicbaseurl-ollama-lm-studio-llamacpp-vllm-1g6j",
+          "author": {
+            "username": "reneza",
+            "name": "René Zander",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1138713%2Fa7d8635c-22db-4dec-b156-1fb07de64a8d.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-29T05:53:48Z",
+          "tags": [
+            "ai",
+            "llm",
+            "programming",
+            "tutorial"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3557094,
           "title": "The Flat-Rate AI Coding Subscription Era Is Ending",
           "description": "Six weeks of pricing changes from Copilot, Claude Code, and Cursor read together. The 3 signals that pricing tightens further. A bill estimator.",
@@ -6414,7 +6807,7 @@
         "author": "alanwest",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 97,
+        "hoursSincePosted": 111.3,
         "readingTime": 4
       },
       "articles": [
@@ -6459,7 +6852,7 @@
         "author": "mukeshswamy",
         "reactions": 3,
         "comments": 0,
-        "hoursSincePosted": 147,
+        "hoursSincePosted": 161.3,
         "readingTime": 9
       },
       "articles": [
@@ -6556,7 +6949,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 127.3,
+        "hoursSincePosted": 141.6,
         "readingTime": 9
       },
       "articles": [
@@ -6725,38 +7118,6 @@
           ]
         },
         {
-          "id": 3559963,
-          "title": "Harness Leaderboards Are the New Model Leaderboards",
-          "description": "Dirac took Gemini 3 Flash from 47.8% to 65.2% on TerminalBench — a +17pp swing from harness alone. Why model leaderboards miss the real story.",
-          "url": "https://dev.to/max_quimby/harness-leaderboards-are-the-new-model-leaderboards-2omm",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 12,
-          "publishedAt": "2026-04-28T03:27:33Z",
-          "tags": [
-            "ai",
-            "agents",
-            "llm",
-            "devtools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "dirac-run/dirac",
-              "location": "body"
-            },
-            {
-              "fullName": "mattpocock/skills",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3594323,
           "title": "Claude Code Charges Extra for 'OpenClaw' Git Commits",
           "description": "If your git history mentions OpenClaw, Claude Code refuses requests or bills you pay-as-you-go. The reproduction recipe and how to escape it.",
@@ -6803,6 +7164,38 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3559963,
+          "title": "Harness Leaderboards Are the New Model Leaderboards",
+          "description": "Dirac took Gemini 3 Flash from 47.8% to 65.2% on TerminalBench — a +17pp swing from harness alone. Why model leaderboards miss the real story.",
+          "url": "https://dev.to/max_quimby/harness-leaderboards-are-the-new-model-leaderboards-2omm",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 12,
+          "publishedAt": "2026-04-28T03:27:33Z",
+          "tags": [
+            "ai",
+            "agents",
+            "llm",
+            "devtools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "dirac-run/dirac",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
@@ -6817,7 +7210,7 @@
         "author": "jun0-ds",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 58.2,
+        "hoursSincePosted": 72.5,
         "readingTime": 3
       },
       "articles": [
@@ -6874,7 +7267,7 @@
         "author": "jun0-ds",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 58.2,
+        "hoursSincePosted": 72.5,
         "readingTime": 3
       },
       "articles": [
@@ -6931,7 +7324,7 @@
         "author": "guilherme44",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 58.1,
+        "hoursSincePosted": 72.4,
         "readingTime": 5
       },
       "articles": [
@@ -7032,7 +7425,7 @@
         "author": "toniantunovic",
         "reactions": 1,
         "comments": 1,
-        "hoursSincePosted": 116.3,
+        "hoursSincePosted": 130.7,
         "readingTime": 6
       },
       "articles": [
@@ -7066,51 +7459,6 @@
         }
       ]
     },
-    "pbakaus--impeccable": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3554361,
-        "title": "Your Coding Agent's Best Feature Isn't the Code",
-        "url": "https://dev.to/stevengonsalvez/your-coding-agents-best-feature-isnt-the-code-pgd",
-        "author": "stevengonsalvez",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 161.6,
-        "readingTime": 12
-      },
-      "articles": [
-        {
-          "id": 3554361,
-          "title": "Your Coding Agent's Best Feature Isn't the Code",
-          "description": "Why Claude Code beats Codex, Copilot, and every other coding agent in 2026. The developer experience of terminal AI coding agents matters more than the model. Statusline, /insights, hooks, and the features that make the 8th hour feel like the 1st.",
-          "url": "https://dev.to/stevengonsalvez/your-coding-agents-best-feature-isnt-the-code-pgd",
-          "author": {
-            "username": "stevengonsalvez",
-            "name": "Steven Gonsalvez",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F613704%2F6fa5896f-e719-469e-812f-d2f8f9971b0e.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 12,
-          "publishedAt": "2026-04-26T19:49:36Z",
-          "tags": [
-            "claudecode",
-            "aicodingagent",
-            "devrel",
-            "codex"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "pbakaus/impeccable",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "musistudio--claude-code-router": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -7122,7 +7470,7 @@
         "author": "lizhaopengcn",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 124.3,
+        "hoursSincePosted": 138.6,
         "readingTime": 8
       },
       "articles": [
@@ -7166,7 +7514,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 82.2,
         "readingTime": 7
       },
       "articles": [
@@ -7252,149 +7600,6 @@
         }
       ]
     },
-    "alishahryar1--free-claude-code": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3555543,
-        "title": "One Open Source Project a Day (No.49): free-claude-code - Run Claude Code for Free with One Environment Variable",
-        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no49-free-claude-code-run-claude-code-for-free-with-one-ed6",
-        "author": "wonderlab",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 151.2,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3555543,
-          "title": "One Open Source Project a Day (No.49): free-claude-code - Run Claude Code for Free with One Environment Variable",
-          "description": "Introduction    \"When a tool is too expensive, programmers build a cheaper key.\"   This is...",
-          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no49-free-claude-code-run-claude-code-for-free-with-one-ed6",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-04-27T06:10:47Z",
-          "tags": [
-            "opensource",
-            "claude",
-            "nvidia",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "Alishahryar1/free-claude-code",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "github--spec-kit": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592010,
-        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-        "author": "sundr_dev",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 72,
-        "readingTime": 14
-      },
-      "articles": [
-        {
-          "id": 3592010,
-          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
-          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-          "author": {
-            "username": "sundr_dev",
-            "name": "Aleksandr Sakov",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-04-30T13:24:40Z",
-          "tags": [
-            "ai",
-            "claude",
-            "specdrivendevelopment",
-            "programming"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/spec-kit",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-plugins-official",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "anthropics--claude-plugins-official": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592010,
-        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-        "author": "sundr_dev",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 72,
-        "readingTime": 14
-      },
-      "articles": [
-        {
-          "id": 3592010,
-          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
-          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
-          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
-          "author": {
-            "username": "sundr_dev",
-            "name": "Aleksandr Sakov",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 14,
-          "publishedAt": "2026-04-30T13:24:40Z",
-          "tags": [
-            "ai",
-            "claude",
-            "specdrivendevelopment",
-            "programming"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/spec-kit",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-plugins-official",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "gastownhall--beads": {
       "count7d": 2,
       "reactionsSum7d": 1,
@@ -7406,7 +7611,7 @@
         "author": "frr149",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 70,
+        "hoursSincePosted": 84.3,
         "readingTime": 5
       },
       "articles": [
@@ -7492,6 +7697,194 @@
         }
       ]
     },
+    "alishahryar1--free-claude-code": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3555543,
+        "title": "One Open Source Project a Day (No.49): free-claude-code - Run Claude Code for Free with One Environment Variable",
+        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no49-free-claude-code-run-claude-code-for-free-with-one-ed6",
+        "author": "wonderlab",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 165.5,
+        "readingTime": 8
+      },
+      "articles": [
+        {
+          "id": 3555543,
+          "title": "One Open Source Project a Day (No.49): free-claude-code - Run Claude Code for Free with One Environment Variable",
+          "description": "Introduction    \"When a tool is too expensive, programmers build a cheaper key.\"   This is...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no49-free-claude-code-run-claude-code-for-free-with-one-ed6",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 8,
+          "publishedAt": "2026-04-27T06:10:47Z",
+          "tags": [
+            "opensource",
+            "claude",
+            "nvidia",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "abhigyanpatwari--gitnexus": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3604924,
+        "title": "How I stopped Claude Code from hallucinating function names on a 4,000-file repo (with a local MCP server)",
+        "url": "https://dev.to/nike-17/how-i-stopped-claude-code-from-hallucinating-function-names-on-a-4000-file-repo-with-a-local-mcp-jl5",
+        "author": "nike-17",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 10.1,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3604924,
+          "title": "How I stopped Claude Code from hallucinating function names on a 4,000-file repo (with a local MCP server)",
+          "description": "TL;DR: My Claude Code agent kept inventing function names that looked plausible but didn't exist...",
+          "url": "https://dev.to/nike-17/how-i-stopped-claude-code-from-hallucinating-function-names-on-a-4000-file-repo-with-a-local-mcp-jl5",
+          "author": {
+            "username": "nike-17",
+            "name": "Nikita Groshin",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3903349%2Fbe1fac32-c30f-4575-b225-239f86e6fea8.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-03T17:34:20Z",
+          "tags": [
+            "claude",
+            "ai",
+            "productivity",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "abhigyanpatwari/GitNexus",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "github--spec-kit": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3592010,
+        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+        "author": "sundr_dev",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 86.3,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3592010,
+          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
+          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+          "author": {
+            "username": "sundr_dev",
+            "name": "Aleksandr Sakov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-30T13:24:40Z",
+          "tags": [
+            "ai",
+            "claude",
+            "specdrivendevelopment",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics--claude-plugins-official": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3592010,
+        "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+        "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+        "author": "sundr_dev",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 86.3,
+        "readingTime": 14
+      },
+      "articles": [
+        {
+          "id": 3592010,
+          "title": "From Vibe Coding to Shipping: My Spec-Driven Workflow with Claude Code",
+          "description": "On February 2, 2025, Andrej Karpathy coined the term \"vibe coding\": \"fully give in to the vibes,...",
+          "url": "https://dev.to/sundr_dev/from-vibe-coding-to-shipping-my-spec-driven-workflow-with-claude-code-50ok",
+          "author": {
+            "username": "sundr_dev",
+            "name": "Aleksandr Sakov",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3849697%2Fc4a179dc-8110-4ee2-84d4-bbaed6acd301.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 14,
+          "publishedAt": "2026-04-30T13:24:40Z",
+          "tags": [
+            "ai",
+            "claude",
+            "specdrivendevelopment",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            },
+            {
+              "fullName": "anthropics/claude-plugins-official",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "nextlevelbuilder--ui-ux-pro-max-skill": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -7503,7 +7896,7 @@
         "author": "sumon4skf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 125.1,
+        "hoursSincePosted": 139.5,
         "readingTime": 2
       },
       "articles": [
@@ -7560,7 +7953,7 @@
         "author": "sumon4skf",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 125.1,
+        "hoursSincePosted": 139.5,
         "readingTime": 2
       },
       "articles": [
@@ -7617,7 +8010,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 82.2,
         "readingTime": 7
       },
       "articles": [
@@ -7715,6 +8108,51 @@
         }
       ]
     },
+    "pbakaus--impeccable": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3554361,
+        "title": "Your Coding Agent's Best Feature Isn't the Code",
+        "url": "https://dev.to/stevengonsalvez/your-coding-agents-best-feature-isnt-the-code-pgd",
+        "author": "stevengonsalvez",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 175.9,
+        "readingTime": 12
+      },
+      "articles": [
+        {
+          "id": 3554361,
+          "title": "Your Coding Agent's Best Feature Isn't the Code",
+          "description": "Why Claude Code beats Codex, Copilot, and every other coding agent in 2026. The developer experience of terminal AI coding agents matters more than the model. Statusline, /insights, hooks, and the features that make the 8th hour feel like the 1st.",
+          "url": "https://dev.to/stevengonsalvez/your-coding-agents-best-feature-isnt-the-code-pgd",
+          "author": {
+            "username": "stevengonsalvez",
+            "name": "Steven Gonsalvez",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F613704%2F6fa5896f-e719-469e-812f-d2f8f9971b0e.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 12,
+          "publishedAt": "2026-04-26T19:49:36Z",
+          "tags": [
+            "claudecode",
+            "aicodingagent",
+            "devrel",
+            "codex"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "pbakaus/impeccable",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "warpdotdev--warp": {
       "count7d": 4,
       "reactionsSum7d": 0,
@@ -7726,7 +8164,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 33.9,
+        "hoursSincePosted": 48.2,
         "readingTime": 3
       },
       "articles": [
@@ -7903,7 +8341,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.7,
+        "hoursSincePosted": 144,
         "readingTime": 9
       },
       "articles": [
@@ -8010,7 +8448,7 @@
       ]
     },
     "farion1231--cc-switch": {
-      "count7d": 3,
+      "count7d": 4,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
@@ -8020,7 +8458,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.7,
+        "hoursSincePosted": 144,
         "readingTime": 9
       },
       "articles": [
@@ -8125,6 +8563,38 @@
           ]
         },
         {
+          "id": 3602381,
+          "title": "Cursor SDK vs Browserbase vs OpenAI Apps SDK: 3 Substrates",
+          "description": "Three harness substrates embedding into CI/CD this month. We compare use case, distribution, lock-in, and pricing across all three.",
+          "url": "https://dev.to/max_quimby/cursor-sdk-vs-browserbase-vs-openai-apps-sdk-3-substrates-498",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-03T03:46:39Z",
+          "tags": [
+            "aiagents",
+            "cursor",
+            "openai",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "browserbase/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3594323,
           "title": "Claude Code Charges Extra for 'OpenClaw' Git Commits",
           "description": "If your git history mentions OpenClaw, Claude Code refuses requests or bills you pay-as-you-go. The reproduction recipe and how to escape it.",
@@ -8185,7 +8655,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.7,
+        "hoursSincePosted": 144,
         "readingTime": 9
       },
       "articles": [
@@ -8254,7 +8724,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 129.7,
+        "hoursSincePosted": 144,
         "readingTime": 9
       },
       "articles": [
@@ -8355,7 +8825,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 56.1,
+        "hoursSincePosted": 70.5,
         "readingTime": 10
       },
       "articles": [
@@ -8457,6 +8927,55 @@
         }
       ]
     },
+    "browserbase--skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3602381,
+        "title": "Cursor SDK vs Browserbase vs OpenAI Apps SDK: 3 Substrates",
+        "url": "https://dev.to/max_quimby/cursor-sdk-vs-browserbase-vs-openai-apps-sdk-3-substrates-498",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 23.9,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3602381,
+          "title": "Cursor SDK vs Browserbase vs OpenAI Apps SDK: 3 Substrates",
+          "description": "Three harness substrates embedding into CI/CD this month. We compare use case, distribution, lock-in, and pricing across all three.",
+          "url": "https://dev.to/max_quimby/cursor-sdk-vs-browserbase-vs-openai-apps-sdk-3-substrates-498",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-03T03:46:39Z",
+          "tags": [
+            "aiagents",
+            "cursor",
+            "openai",
+            "devops"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "browserbase/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "hkuds--nanobot": {
       "count7d": 2,
       "reactionsSum7d": 7,
@@ -8468,7 +8987,7 @@
         "author": "truongpx396",
         "reactions": 7,
         "comments": 0,
-        "hoursSincePosted": 125.8,
+        "hoursSincePosted": 140.1,
         "readingTime": 18
       },
       "articles": [
@@ -8492,7 +9011,7 @@
             "webdev",
             "tutorial"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.04,
           "linkedRepos": [
             {
               "fullName": "HKUDS/nanobot",
@@ -8541,7 +9060,7 @@
         "author": "truongpx396",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 126.8,
+        "hoursSincePosted": 141.1,
         "readingTime": 31
       },
       "articles": [
@@ -8565,7 +9084,7 @@
             "webdev",
             "tutorial"
           ],
-          "trendingScore": 0.04,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "BerriAI/litellm",
@@ -8614,7 +9133,7 @@
         "author": "truongpx396",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 123.9,
+        "hoursSincePosted": 138.2,
         "readingTime": 23
       },
       "articles": [
@@ -8659,7 +9178,7 @@
         "author": "truongpx396",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 124.5,
+        "hoursSincePosted": 138.8,
         "readingTime": 22
       },
       "articles": [
@@ -8704,7 +9223,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 82.2,
         "readingTime": 7
       },
       "articles": [
@@ -8773,7 +9292,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 82.2,
         "readingTime": 7
       },
       "articles": [
@@ -8842,7 +9361,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 82.2,
         "readingTime": 7
       },
       "articles": [
@@ -8911,7 +9430,7 @@
         "author": "k1lgor",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 67.9,
+        "hoursSincePosted": 82.2,
         "readingTime": 7
       },
       "articles": [
@@ -8969,45 +9488,44 @@
         }
       ]
     },
-    "defilantech--llmkube": {
+    "github--github-mcp-server": {
       "count7d": 1,
-      "reactionsSum7d": 0,
+      "reactionsSum7d": 1,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3555588,
-        "title": "62.2% on Aider Polyglot from a MacBook Pro. Then the other model we tried scored 4%. Here's what actually happened, with a working cost loop attached.",
-        "url": "https://dev.to/defilan/628-on-aider-polyglot-from-a-macbook-pro-then-the-other-model-we-tried-scored-4-heres-what-17ed",
-        "author": "defilan",
-        "reactions": 0,
+        "id": 3558416,
+        "title": "Helping Claude Do Its Best Work",
+        "url": "https://dev.to/aigal/helping-claude-do-its-best-work-2c8f",
+        "author": "aigal",
+        "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 151,
-        "readingTime": 16
+        "hoursSincePosted": 155.1,
+        "readingTime": 4
       },
       "articles": [
         {
-          "id": 3555588,
-          "title": "62.2% on Aider Polyglot from a MacBook Pro. Then the other model we tried scored 4%. Here's what actually happened, with a working cost loop attached.",
-          "description": "Qwen3.6-35B-A3B Q8 on a MacBook Pro M5 Max scored 62.2% on Aider Polyglot, beating Claude Sonnet 4 with 32k thinking. Then Devstral 2 scored 4% on the same harness but 81.7% on HumanEval+. Plus the InferCost Apple Silicon collector that landed today, validating live cost-per-toke",
-          "url": "https://dev.to/defilan/628-on-aider-polyglot-from-a-macbook-pro-then-the-other-model-we-tried-scored-4-heres-what-17ed",
+          "id": 3558416,
+          "title": "Helping Claude Do Its Best Work",
+          "description": "For almost a year, I've been spending more time with Claude than with any other entity in my life. A...",
+          "url": "https://dev.to/aigal/helping-claude-do-its-best-work-2c8f",
           "author": {
-            "username": "defilan",
-            "name": "Christopher Maher",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3828578%2Fd03de6fc-1dcb-419b-b336-0d9c7d86f7cc.jpeg"
+            "username": "aigal",
+            "name": "Rachael Burger",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3810672%2F7aba9e80-9a32-4d94-8068-ca8e99cadb23.png"
           },
-          "reactionsCount": 0,
+          "reactionsCount": 1,
           "commentsCount": 0,
-          "readingTime": 16,
-          "publishedAt": "2026-04-27T06:24:59Z",
+          "readingTime": 4,
+          "publishedAt": "2026-04-27T16:37:46Z",
           "tags": [
-            "kubernetes",
             "ai",
             "llm",
-            "opensource"
+            "engineering"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "defilantech/LLMKube",
+              "fullName": "github/github-mcp-server",
               "location": "body"
             }
           ]
@@ -9019,35 +9537,35 @@
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3596790,
-        "title": "Your AI, Your Rules: Running a Local LLM with GPU Acceleration on Proxmox",
-        "url": "https://dev.to/clintjosy/your-ai-your-rules-running-a-local-llm-with-gpu-acceleration-on-proxmox-1plh",
-        "author": "clintjosy",
+        "id": 3557067,
+        "title": "Google's TurboQuant: 6x KV Cache Compression Without Retraining",
+        "url": "https://dev.to/gabrielanhaia/googles-turboquant-6x-kv-cache-compression-without-retraining-1f3g",
+        "author": "gabrielanhaia",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 44.9,
-        "readingTime": 10
+        "hoursSincePosted": 160.5,
+        "readingTime": 8
       },
       "articles": [
         {
-          "id": 3596790,
-          "title": "Your AI, Your Rules: Running a Local LLM with GPU Acceleration on Proxmox",
-          "description": "From 3 tok/s frustration to 21 tok/s GPU-hybrid inference - a real engineer's guide to self-hosted...",
-          "url": "https://dev.to/clintjosy/your-ai-your-rules-running-a-local-llm-with-gpu-acceleration-on-proxmox-1plh",
+          "id": 3557067,
+          "title": "Google's TurboQuant: 6x KV Cache Compression Without Retraining",
+          "description": "TurboQuant pairs PolarQuant with a QJL residual to shrink KV cache 6x at near-zero quality loss. What it changes for long-context self-hosting.",
+          "url": "https://dev.to/gabrielanhaia/googles-turboquant-6x-kv-cache-compression-without-retraining-1f3g",
           "author": {
-            "username": "clintjosy",
-            "name": "Clint",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3890922%2F410a06d1-1613-46c5-a78b-23600e882992.png"
+            "username": "gabrielanhaia",
+            "name": "Gabriel Anhaia",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2F531a245a-bc24-453e-bb2b-eb7077a3da8b.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-01T16:26:51Z",
+          "readingTime": 8,
+          "publishedAt": "2026-04-27T11:12:24Z",
           "tags": [
+            "ai",
             "llm",
-            "selfhosted",
-            "proxmox",
-            "nvidia"
+            "architecture",
+            "observability"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -9070,7 +9588,7 @@
         "author": "bradleymatera",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 86.7,
+        "hoursSincePosted": 101,
         "readingTime": 3
       },
       "articles": [
@@ -9167,38 +9685,6 @@
           ]
         },
         {
-          "id": 3557496,
-          "title": "Research: Why Bifrost (Maxim AI / H3 Labs Inc.) Fits the Exact Pattern of API Key Harvesting Services Targeting American Indie Devs",
-          "description": "After my experience with Maxim AI, I decided to dig deeper. I wanted to see if this was just one...",
-          "url": "https://dev.to/bradleymatera/research-why-bifrost-maxim-ai-h3-labs-inc-fits-the-exact-pattern-of-api-key-harvesting-2844",
-          "author": {
-            "username": "bradleymatera",
-            "name": "Bradley Matera",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-04-29T22:40:36Z",
-          "tags": [
-            "ai",
-            "mcp",
-            "opensource",
-            "devtools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
-              "location": "body"
-            },
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3557525,
           "title": "Protect Your API Keys: Evaluating AI Tools Like Bifrost and Caveman",
           "description": "A practical guide on safeguarding API keys when using third-party AI tools, with a look at...",
@@ -9229,6 +9715,38 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3557496,
+          "title": "Research: Why Bifrost (Maxim AI / H3 Labs Inc.) Fits the Exact Pattern of API Key Harvesting Services Targeting American Indie Devs",
+          "description": "After my experience with Maxim AI, I decided to dig deeper. I wanted to see if this was just one...",
+          "url": "https://dev.to/bradleymatera/research-why-bifrost-maxim-ai-h3-labs-inc-fits-the-exact-pattern-of-api-key-harvesting-2844",
+          "author": {
+            "username": "bradleymatera",
+            "name": "Bradley Matera",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3610693%2Ff7d715bb-f1d2-416f-94ad-ff8a4576e06a.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-04-29T22:40:36Z",
+          "tags": [
+            "ai",
+            "mcp",
+            "opensource",
+            "devtools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "location": "body"
+            },
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
@@ -9243,7 +9761,7 @@
         "author": "dharshan_a_23835c7dc05682",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 126.9,
+        "hoursSincePosted": 141.2,
         "readingTime": 4
       },
       "articles": [
@@ -9288,7 +9806,7 @@
         "author": "programmersd21",
         "reactions": 5,
         "comments": 1,
-        "hoursSincePosted": 107.3,
+        "hoursSincePosted": 121.6,
         "readingTime": 4
       },
       "articles": [
@@ -9312,7 +9830,7 @@
             "go",
             "mcp"
           ],
-          "trendingScore": 0.04,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "programmersd21/kairo",
@@ -9333,7 +9851,7 @@
         "author": "mindmnml",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 145.4,
+        "hoursSincePosted": 159.7,
         "readingTime": 5
       },
       "articles": [
@@ -9367,79 +9885,6 @@
         }
       ]
     },
-    "hkuds--lightrag": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3554497,
-        "title": "Why Every RAG Company Is Quietly Building a Graph Layer in 2026",
-        "url": "https://dev.to/gabrielanhaia/why-every-rag-company-is-quietly-building-a-graph-layer-in-2026-70p",
-        "author": "gabrielanhaia",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 160.8,
-        "readingTime": 8
-      },
-      "articles": [
-        {
-          "id": 3554497,
-          "title": "Why Every RAG Company Is Quietly Building a Graph Layer in 2026",
-          "description": "Vector RAG hits a ceiling on enterprise corpora. A graph layer fixes entity disambiguation, multi-hop, and relationship reasoning.",
-          "url": "https://dev.to/gabrielanhaia/why-every-rag-company-is-quietly-building-a-graph-layer-in-2026-70p",
-          "author": {
-            "username": "gabrielanhaia",
-            "name": "Gabriel Anhaia",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F425693%2F531a245a-bc24-453e-bb2b-eb7077a3da8b.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-04-26T20:36:37Z",
-          "tags": [
-            "ai",
-            "rag",
-            "database",
-            "architecture"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "HKUDS/LightRAG",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3586892,
-          "title": "GraphRAG in 2026: How Microsoft's Knowledge Graph Approach Beats Standard RAG",
-          "description": "Standard RAG has a ceiling. If your query requires connecting information across multiple documents —...",
-          "url": "https://dev.to/agdex_ai/graphrag-in-2026-how-microsofts-knowledge-graph-approach-beats-standard-rag-58n4",
-          "author": {
-            "username": "agdex_ai",
-            "name": "Agdex AI",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3861038%2Ffa99a40b-56f4-4201-b919-18b764f02355.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-04-29T13:23:24Z",
-          "tags": [
-            "rag",
-            "python",
-            "llm",
-            "aiagents"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "HKUDS/LightRAG",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "onyx-dot-app--onyx": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -9451,7 +9896,7 @@
         "author": "dengkui_yang_fcb5dbe2da32",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 81,
+        "hoursSincePosted": 95.4,
         "readingTime": 7
       },
       "articles": [
@@ -9496,7 +9941,7 @@
         "author": "yohann_streibel_7e1f7b4b8",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 72.9,
+        "hoursSincePosted": 87.2,
         "readingTime": 15
       },
       "articles": [
@@ -9530,6 +9975,51 @@
         }
       ]
     },
+    "hkuds--lightrag": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3586892,
+        "title": "GraphRAG in 2026: How Microsoft's Knowledge Graph Approach Beats Standard RAG",
+        "url": "https://dev.to/agdex_ai/graphrag-in-2026-how-microsofts-knowledge-graph-approach-beats-standard-rag-58n4",
+        "author": "agdex_ai",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 110.3,
+        "readingTime": 4
+      },
+      "articles": [
+        {
+          "id": 3586892,
+          "title": "GraphRAG in 2026: How Microsoft's Knowledge Graph Approach Beats Standard RAG",
+          "description": "Standard RAG has a ceiling. If your query requires connecting information across multiple documents —...",
+          "url": "https://dev.to/agdex_ai/graphrag-in-2026-how-microsofts-knowledge-graph-approach-beats-standard-rag-58n4",
+          "author": {
+            "username": "agdex_ai",
+            "name": "Agdex AI",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3861038%2Ffa99a40b-56f4-4201-b919-18b764f02355.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 4,
+          "publishedAt": "2026-04-29T13:23:24Z",
+          "tags": [
+            "rag",
+            "python",
+            "llm",
+            "aiagents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "HKUDS/LightRAG",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "langchain-ai--langgraph": {
       "count7d": 3,
       "reactionsSum7d": 0,
@@ -9541,7 +10031,7 @@
         "author": "johalputt",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 68.3,
+        "hoursSincePosted": 82.6,
         "readingTime": 15
       },
       "articles": [
@@ -9642,7 +10132,7 @@
         "author": "dengkui_yang_fcb5dbe2da32",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 101,
+        "hoursSincePosted": 115.4,
         "readingTime": 10
       },
       "articles": [
@@ -9687,7 +10177,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 56.3,
+        "hoursSincePosted": 70.6,
         "readingTime": 12
       },
       "articles": [
@@ -9741,6 +10231,51 @@
         }
       ]
     },
+    "browser-act--skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3585538,
+        "title": "browser-act CLI Launches Dynamic Proxy — All-in-One Browser Automation for AI Agents",
+        "url": "https://dev.to/double_chen_70da460344c73/browser-act-cli-launches-dynamic-proxy-all-in-one-browser-automation-for-ai-agents-525l",
+        "author": "double_chen_70da460344c73",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 114.4,
+        "readingTime": 1
+      },
+      "articles": [
+        {
+          "id": 3585538,
+          "title": "browser-act CLI Launches Dynamic Proxy — All-in-One Browser Automation for AI Agents",
+          "description": "BrowserAct just released a major feature for browser-act CLI: built-in dynamic proxies. This is...",
+          "url": "https://dev.to/double_chen_70da460344c73/browser-act-cli-launches-dynamic-proxy-all-in-one-browser-automation-for-ai-agents-525l",
+          "author": {
+            "username": "double_chen_70da460344c73",
+            "name": "Double CHEN",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3506122%2F7c2ff04c-887f-404d-bd2e-c4150e6431e8.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 1,
+          "publishedAt": "2026-04-29T09:19:28Z",
+          "tags": [
+            "browseract",
+            "webautomation",
+            "ai",
+            "devtools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "browser-act/skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "versity--versitygw": {
       "count7d": 1,
       "reactionsSum7d": 2,
@@ -9752,7 +10287,7 @@
         "author": "sebakubisz",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 27.7,
+        "hoursSincePosted": 42,
         "readingTime": 14
       },
       "articles": [
@@ -9776,7 +10311,7 @@
             "devops",
             "docker"
           ],
-          "trendingScore": 0.02,
+          "trendingScore": 0.01,
           "linkedRepos": [
             {
               "fullName": "versity/versitygw",
@@ -9801,7 +10336,7 @@
         "author": "sebakubisz",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 27.7,
+        "hoursSincePosted": 42,
         "readingTime": 14
       },
       "articles": [
@@ -9825,7 +10360,7 @@
             "devops",
             "docker"
           ],
-          "trendingScore": 0.02,
+          "trendingScore": 0.01,
           "linkedRepos": [
             {
               "fullName": "versity/versitygw",
@@ -9833,6 +10368,51 @@
             },
             {
               "fullName": "rustfs/rustfs",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "0x0funky--agent-sprite-forge": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3559624,
+        "title": "How to Stop Getting Garbage Sprite Sheets from AI Image Generators",
+        "url": "https://dev.to/alanwest/how-to-stop-getting-garbage-sprite-sheets-from-ai-image-generators-3pli",
+        "author": "alanwest",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 146.7,
+        "readingTime": 5
+      },
+      "articles": [
+        {
+          "id": 3559624,
+          "title": "How to Stop Getting Garbage Sprite Sheets from AI Image Generators",
+          "description": "AI image generators produce unusable sprite sheets. Here's how to build a pipeline that enforces structure, handles transparency, and outputs game-ready assets.",
+          "url": "https://dev.to/alanwest/how-to-stop-getting-garbage-sprite-sheets-from-ai-image-generators-3pli",
+          "author": {
+            "username": "alanwest",
+            "name": "Alan West",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3834047%2F6413d0cf-9d90-4ccc-80a9-123656fd78ba.png"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-04-28T01:03:34Z",
+          "tags": [
+            "gamedev",
+            "python",
+            "ai",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "0x0funky/agent-sprite-forge",
               "location": "body"
             }
           ]
@@ -9847,14 +10427,14 @@
       "reactionsSum7d": 24
     },
     {
+      "fullName": "anthropics/skills",
+      "count7d": 3,
+      "reactionsSum7d": 21
+    },
+    {
       "fullName": "charmbracelet/bubbletea",
       "count7d": 1,
       "reactionsSum7d": 18
-    },
-    {
-      "fullName": "anthropics/skills",
-      "count7d": 2,
-      "reactionsSum7d": 15
     },
     {
       "fullName": "JuliusBrussee/caveman",
@@ -9864,6 +10444,11 @@
     {
       "fullName": "BerriAI/litellm",
       "count7d": 2,
+      "reactionsSum7d": 10
+    },
+    {
+      "fullName": "microsoft/typescript-go",
+      "count7d": 1,
       "reactionsSum7d": 10
     },
     {
@@ -9908,7 +10493,7 @@
     },
     {
       "fullName": "anthropics/claude-code",
-      "count7d": 7,
+      "count7d": 8,
       "reactionsSum7d": 4
     },
     {
@@ -9962,6 +10547,16 @@
       "reactionsSum7d": 1
     },
     {
+      "fullName": "0x0funky/agent-sprite-forge",
+      "count7d": 1,
+      "reactionsSum7d": 1
+    },
+    {
+      "fullName": "github/github-mcp-server",
+      "count7d": 1,
+      "reactionsSum7d": 1
+    },
+    {
       "fullName": "gitleaks/gitleaks",
       "count7d": 1,
       "reactionsSum7d": 1
@@ -10002,13 +10597,13 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "warpdotdev/warp",
+      "fullName": "farion1231/cc-switch",
       "count7d": 4,
       "reactionsSum7d": 0
     },
     {
-      "fullName": "farion1231/cc-switch",
-      "count7d": 3,
+      "fullName": "warpdotdev/warp",
+      "count7d": 4,
       "reactionsSum7d": 0
     },
     {
@@ -10032,8 +10627,8 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "HKUDS/LightRAG",
-      "count7d": 2,
+      "fullName": "abhigyanpatwari/GitNexus",
+      "count7d": 1,
       "reactionsSum7d": 0
     },
     {
@@ -10047,7 +10642,12 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "defilantech/LLMKube",
+      "fullName": "browser-act/skills",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "browserbase/skills",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -10083,6 +10683,11 @@
     },
     {
       "fullName": "hesreallyhim/awesome-claude-code",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "HKUDS/LightRAG",
       "count7d": 1,
       "reactionsSum7d": 0
     },

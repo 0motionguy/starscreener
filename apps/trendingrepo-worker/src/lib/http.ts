@@ -1,5 +1,6 @@
 import { Agent, fetch as undiciFetch } from 'undici';
 import type { HttpClient, HttpOptions, RedisHandle } from './types.js';
+import { parseRateLimitHeaders, recordRateLimit } from './util/github-token-pool.js';
 
 const DEFAULT_AGENT = new Agent({
   connectTimeout: 10_000,
@@ -123,9 +124,30 @@ async function fetchWithRetry(
         deps.redis.set(ETAG_BODY_PREFIX + url, body, { ex: ETAG_TTL_SECONDS }),
       ]);
     }
+    publishGithubRateLimit(url, headers, res.headers);
     return { body, etag: newEtag, cached: false };
   }
   throw new Error(`http: exhausted retries for ${url}`);
+}
+
+function publishGithubRateLimit(
+  url: string,
+  reqHeaders: Record<string, string>,
+  resHeaders: Headers,
+): void {
+  // Only publish for github.com — the pool's recordRateLimit also guards
+  // against pool-foreign tokens, but cheap host check avoids parsing URLs
+  // for every non-GitHub call.
+  if (!url.startsWith('https://api.github.com')) return;
+  const auth = reqHeaders.authorization ?? reqHeaders.Authorization;
+  if (typeof auth !== 'string') return;
+  const match = /^Bearer\s+(.+)$/i.exec(auth.trim());
+  if (!match) return;
+  const token = match[1]?.trim();
+  if (!token) return;
+  const rl = parseRateLimitHeaders(resHeaders);
+  if (!rl) return;
+  recordRateLimit(token, rl.remaining, rl.resetUnixSec);
 }
 
 function parseRetryAfter(header: string | null): number | null {

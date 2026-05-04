@@ -29,6 +29,7 @@ import * as Sentry from "@sentry/nextjs";
 
 import { posthogCapture } from "./analytics/posthog";
 import {
+  engineErrorTags,
   GithubInvalidTokenError,
   GithubPoolExhaustedError,
   GithubRateLimitError,
@@ -114,7 +115,11 @@ export async function githubFetch(
           operation,
         });
         Sentry.captureException(wrapped, {
-          tags: { pool: "github", alert: "github-pool-exhausted" },
+          tags: {
+            pool: "github",
+            alert: "github-pool-exhausted",
+            ...engineErrorTags(wrapped),
+          },
         });
         void alertOps("github-pool-exhausted", wrapped.metadata);
         console.warn(
@@ -175,7 +180,11 @@ export async function githubFetch(
         message: err instanceof Error ? err.message : String(err),
       });
       Sentry.captureException(wrapped, {
-        tags: { pool: "github", alert: "github-pool-network" },
+        tags: {
+          pool: "github",
+          alert: "github-pool-network",
+          ...engineErrorTags(wrapped),
+        },
       });
       console.warn(
         `[github-fetch] network error on ${method} ${pathOrUrl}: ${
@@ -213,7 +222,14 @@ export async function githubFetch(
           operation,
           statusCode: res.status,
         }),
-        { tags: { pool: "github", alert: "github-pool-key-invalid" } },
+        {
+          tags: {
+            pool: "github",
+            alert: "github-pool-key-invalid",
+            source: "github",
+            category: "quarantine",
+          },
+        },
       );
       console.warn(
         `[github-fetch] 401 on ${method} ${pathOrUrl} tok=${redactToken(token)} — quarantined`,
@@ -241,7 +257,14 @@ export async function githubFetch(
           statusCode: res.status,
           resetUnixSec: headerLimits.resetUnixSec,
         }),
-        { tags: { pool: "github", alert: "github-pool-rate-limit" } },
+        {
+          tags: {
+            pool: "github",
+            alert: "github-pool-rate-limit",
+            source: "github",
+            category: "quarantine",
+          },
+        },
       );
     } else if (res.status === 403 && token) {
       await quarantineKey({
@@ -254,7 +277,14 @@ export async function githubFetch(
           operation,
           statusCode: res.status,
         }),
-        { tags: { pool: "github", alert: "github-pool-key-invalid" } },
+        {
+          tags: {
+            pool: "github",
+            alert: "github-pool-key-invalid",
+            source: "github",
+            category: "quarantine",
+          },
+        },
       );
     }
     if ((res.status === 403 || res.status === 429) && attempt < MAX_ATTEMPTS - 1) {
@@ -280,7 +310,11 @@ export async function githubFetch(
         statusCode: res.status,
       });
       Sentry.captureException(wrapped, {
-        tags: { pool: "github", alert: "github-pool-5xx" },
+        tags: {
+          pool: "github",
+          alert: "github-pool-5xx",
+          ...engineErrorTags(wrapped),
+        },
       });
     }
 

@@ -27,6 +27,7 @@ import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { MarkVisited } from "@/components/layout/MarkVisited";
+import { HfNavTabs } from "@/components/huggingface/HfNavTabs";
 
 const HF_YELLOW = "#FFD21E";
 
@@ -85,6 +86,7 @@ export default async function HuggingFaceSpacesPage() {
           }
           title="Hugging Face · spaces"
           lede="Trending spaces ranked by domain-scored momentum: likes velocity, model count, and recency. Cross-domain join surfaces the most-impactful underlying models."
+          tabBar={<HfNavTabs activeHref="/huggingface/spaces" />}
         />
         <ColdState />
       </main>
@@ -153,6 +155,7 @@ export default async function HuggingFaceSpacesPage() {
             ]}
           />
         }
+        tabBar={<HfNavTabs activeHref="/huggingface/spaces" />}
         listEyebrow="Space feed · top 100 by momentum"
         list={<HfSpaceFeed spaces={spaces} />}
       />

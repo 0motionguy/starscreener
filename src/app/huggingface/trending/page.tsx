@@ -26,6 +26,7 @@ import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { MarkVisited } from "@/components/layout/MarkVisited";
+import { HfNavTabs } from "@/components/huggingface/HfNavTabs";
 
 // HF "yellow" — no `--v4-src-hf` token exists; hardcoded once on the pip,
 // rest of the page stays tokenized via var(--v4-*).
@@ -38,11 +39,11 @@ export const metadata: Metadata = {
   title: "Trending Hugging Face Models",
   description:
     "Top 100 Hugging Face models by domain-scored momentum — downloads, likes, recency, and cross-source mentions. Live model leaderboard.",
-  alternates: { canonical: "/huggingface/trending" },
+  alternates: { canonical: "/huggingface" },
   openGraph: {
     title: "Trending Hugging Face Models — TrendingRepo",
     description: "Top HF models by domain-scored momentum.",
-    url: "/huggingface/trending",
+    url: "/huggingface",
     type: "website",
   },
   twitter: {
@@ -95,6 +96,7 @@ export default async function HuggingFaceTrendingPage() {
           }
           title="Hugging Face · trending"
           lede="Top models ranked by domain-scored momentum (weeklyDownloads + recency). Snapshot pulled from the public trending feed and re-scored against the cross-domain percentile."
+          tabBar={<HfNavTabs activeHref="/huggingface/models" />}
         />
         <ColdState />
       </main>
@@ -164,6 +166,7 @@ export default async function HuggingFaceTrendingPage() {
             ]}
           />
         }
+        tabBar={<HfNavTabs activeHref="/huggingface/models" />}
         listEyebrow="Model feed · top 100 by momentum"
         list={<HfModelFeed models={models} />}
       />

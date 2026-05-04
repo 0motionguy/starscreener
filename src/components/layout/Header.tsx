@@ -40,12 +40,16 @@ export function Header() {
               </span>
             </span>
 
-            <span
-              aria-hidden="true"
-              className="brand-sub mt-0.5 hidden leading-none sm:inline"
-              style={{ paddingLeft: "calc(24px + 0.625rem)" }}
-            >
-              {"// TRENDINGREPO / TREND MAP FOR OPEN SOURCE"}
+            <span className="flex flex-col leading-none">
+              <span className="brand-name inline-flex items-center leading-none">
+                TRENDING<span style={{ color: "var(--v4-acc)" }}>REPO</span>
+              </span>
+              <span
+                aria-hidden="true"
+                className="brand-sub mt-0.5 hidden leading-none sm:inline"
+              >
+                {"// TRENDINGREPO / TREND MAP FOR OPEN SOURCE"}
+              </span>
             </span>
           </Link>
         </div>

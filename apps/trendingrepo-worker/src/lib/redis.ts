@@ -8,6 +8,7 @@ import { loadEnv } from './env.js';
 
 const NAMESPACE = 'ss:data:v1';
 const META_NAMESPACE = 'ss:meta:v1';
+const INVALID_KEY_LITERALS = new Set(['null', 'undefined']);
 
 let cachedHandle: RedisHandle | null = null;
 let warned = false;
@@ -135,6 +136,13 @@ export async function writeDataStore(
   value: unknown,
   opts: DataStoreWriteOptions = {},
 ): Promise<DataStoreWriteResult> {
+  const normalizedKey = key.trim();
+  if (!normalizedKey || INVALID_KEY_LITERALS.has(normalizedKey)) {
+    throw new Error(
+      `[worker:data-store] invalid key "${key}" - expected non-empty slug and not null/undefined`,
+    );
+  }
+
   const writtenAt = new Date().toISOString();
   const handle = await getRedis();
   if (!handle) {
@@ -161,8 +169,8 @@ export async function writeDataStore(
     : writtenAt;
 
   await Promise.all([
-    handle.set(`${NAMESPACE}:${key}`, payload, setOpts),
-    handle.set(`${META_NAMESPACE}:${key}`, metaValue, setOpts),
+    handle.set(`${NAMESPACE}:${normalizedKey}`, payload, setOpts),
+    handle.set(`${META_NAMESPACE}:${normalizedKey}`, metaValue, setOpts),
   ]);
   return { source: 'redis', writtenAt };
 }
@@ -177,9 +185,11 @@ export async function writeDataStore(
  * compute on top of payloads other fetchers wrote.
  */
 export async function readDataStore<T = unknown>(key: string): Promise<T | null> {
+  const normalizedKey = key.trim();
+  if (!normalizedKey || INVALID_KEY_LITERALS.has(normalizedKey)) return null;
   const handle = await getRedis();
   if (!handle) return null;
-  const raw = await handle.get(`${NAMESPACE}:${key}`);
+  const raw = await handle.get(`${NAMESPACE}:${normalizedKey}`);
   if (raw === null) return null;
   try {
     return JSON.parse(raw) as T;

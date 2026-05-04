@@ -8,7 +8,7 @@
 
 ---
 
-## 1. Sidebar navigation — 7 sections, 40 nav items
+## 1. Sidebar navigation — 8 sections, 31 clickable nav routes (+2 disabled placeholders)
 
 [src/components/layout/SidebarContent.tsx](../src/components/layout/SidebarContent.tsx) defines the menu structure. Sections in render order (post-`7bf5a747` sidebar trim):
 
@@ -21,7 +21,7 @@
 7. **TOOLS** — Watchlist / Compare / Tier List / MindShare / Top 10
 8. **WATCHING** — top 5 watchlist preview cards (user-state)
 
-**Orphaned but URL-reachable** (kept on disk, removed from sidebar in `7bf5a747` and prior trims): `/top` (Top 100), `/predict`, `/categories`, `/categories/[slug]`, `/pricing` (Plans), `/model-usage` (LLM Charts), `/agent-repos` (Trending AGNT), `/tools/revenue-estimate` (Revenue Tool), `/submit/revenue` (Drop Revenue). BACKLOG AGN-63 tracks the keep-vs-retire decision.
+**Orphaned but URL-reachable** (kept on disk, removed from sidebar in `7bf5a747` and prior trims): `/top` (Top 100), `/predict`, `/categories`, `/categories/[slug]`, `/pricing` (Plans), `/model-usage` (LLM Charts), `/tools/revenue-estimate` (Revenue Tool), `/submit/revenue` (Drop Revenue). BACKLOG AGN-63 tracks the keep-vs-retire decision.
 
 Routes NOT in the sidebar but addressable: `/u/[handle]`, `/repo/[owner]/[name]`, `/repo/[owner]/[name]/star-activity`, `/search`, `/alerts`, `/alerts/new`, `/submit`, `/submit/revenue`, `/cli`, `/portal/docs`, `/pricing`, `/digest/[date]`, `/agent-commerce/[slug]`, `/agent-commerce/facilitator/[name]`, `/agent-repos/[slug]`, `/skills/[slug]`, `/categories/[slug]`, `/collections/[slug]`, `/consensus/[owner]/[name]`, `/mcp/[slug]`, `/ideas/[id]`, `/tierlist/[shortId]`, `/s/[shortId]`, `/embed/top10`, `/demo`, `/design-lab/primitives`, `/admin/*` (8 admin routes), `/you`.
 
@@ -57,7 +57,6 @@ Most pages don't read raw collector output — they read derived/joined views. F
 | `/mcp` (Trending MCP) | `getMcpSignalData()` | refresh-mcp-smithery-rank + ping-mcp-liveness + refresh-mcp-dependents + refresh-mcp-usage-snapshot | every 6h + daily | Smithery (`smithery.ai/api/...`), PulseMCP (`api.pulsemcp.com/v0/`), npm |
 | `/agent-repos` (Trending AGNT) | `getDerivedRepos()` filtered by `agent` topic/tag | trending + scoring | (same as `/`) | OSS Insight |
 | `/breakouts` | `getDerivedRepos()` + `getChannelStatus()` (cross-signal) | trending + every mention source (6-channel) | various | OSS Insight + 6 mention APIs |
-| `/top` (Top 100) | `getDerivedRepos()` sorted by momentum score | (same fan-out) | (same as `/`) | (same) |
 
 ### 3b. SIGNAL TERMINAL
 
@@ -141,6 +140,7 @@ Most pages don't read raw collector output — they read derived/joined views. F
 | `/cli` | static docs page | n/a | n/a | n/a |
 | `/portal/docs` | static docs (API portal) | n/a | n/a | n/a |
 | `/agent-commerce/*` | agent-commerce signal data | cron-agent-commerce | daily `31 4 * * *` | derived (LLM-augmented) |
+| `/top` (Top 100) | `getDerivedRepos()` sorted by momentum score | same as core trending fan-out | hourly `27 * * * *` | OSS Insight + derived |
 | `/embed/top10` | iframe-friendly Top10 | (same as `/top10`) | (same) | (same) |
 | `/admin/*` (8 routes) | server-state snapshots | n/a (admin views, no collectors) | n/a | n/a |
 | `/admin/pool` | per-process GitHub pool snapshot | n/a (live in-memory) | n/a | n/a |

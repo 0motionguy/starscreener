@@ -8,15 +8,13 @@
 //        synchronously (admin already vetted; no need for the queue → review
 //        loop the public /api/repo-submissions endpoint uses).
 
-import { readFile } from "node:fs/promises";
-import path from "node:path";
-
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
 import { serverError } from "@/lib/api/error-response";
 import { parseBody } from "@/lib/api/parse-body";
+import { getDataStore } from "@/lib/data-store";
 import { runRepoIntakeForSubmission } from "@/lib/repo-intake";
 import { submitRepoToQueue } from "@/lib/repo-submissions";
 
@@ -74,14 +72,11 @@ interface AdminErrorResponse {
 }
 
 async function loadPromoted(): Promise<PromotedFile> {
-  const filePath = path.join(
-    process.cwd(),
-    "data",
-    "unknown-mentions-promoted.json",
-  );
   try {
-    const raw = await readFile(filePath, "utf8");
-    const parsed = JSON.parse(raw) as Partial<PromotedFile>;
+    const result = await getDataStore().read<PromotedFile>(
+      "unknown-mentions-promoted",
+    );
+    const parsed = (result.data ?? EMPTY_FILE) as Partial<PromotedFile>;
     return {
       generatedAt:
         typeof parsed.generatedAt === "string" ? parsed.generatedAt : null,

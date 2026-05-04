@@ -198,30 +198,37 @@ export async function refreshTrendingFromStore(): Promise<RefreshResult> {
   }
 
   inflight = (async (): Promise<RefreshResult> => {
-    const { getDataStore } = await import("./data-store");
-    const store = getDataStore();
-    const [trendingResult, deltasResult] = await Promise.all([
-      store.read<TrendingFile>("trending"),
-      store.read<DeltasJson>("deltas"),
-    ]);
+    try {
+      const { getDataStore } = await import("./data-store");
+      const store = getDataStore();
+      const [trendingResult, deltasResult] = await Promise.all([
+        store.read<TrendingFile>("trending"),
+        store.read<DeltasJson>("deltas"),
+      ]);
 
-    if (trendingResult.data && trendingResult.source !== "missing") {
-      // Only swap if we got something real — never blank out the seed.
-      data = trendingResult.data;
-      _fullNameToRepoId = null; // invalidate derived index
-    }
-    if (deltasResult.data && deltasResult.source !== "missing") {
-      deltas = deltasResult.data;
-    }
+      if (trendingResult.data && trendingResult.source !== "missing") {
+        data = trendingResult.data;
+        _fullNameToRepoId = null;
+      }
+      if (deltasResult.data && deltasResult.source !== "missing") {
+        deltas = deltasResult.data;
+      }
 
-    lastRefreshMs = Date.now();
-    return {
-      trending: {
-        source: trendingResult.source,
-        ageMs: trendingResult.ageMs,
-      },
-      deltas: { source: deltasResult.source, ageMs: deltasResult.ageMs },
-    };
+      lastRefreshMs = Date.now();
+      return {
+        trending: {
+          source: trendingResult.source,
+          ageMs: trendingResult.ageMs,
+        },
+        deltas: { source: deltasResult.source, ageMs: deltasResult.ageMs },
+      };
+    } catch {
+      lastRefreshMs = Date.now();
+      return {
+        trending: { source: "missing", ageMs: 0 },
+        deltas: { source: "missing", ageMs: 0 },
+      };
+    }
   })().finally(() => {
     inflight = null;
   });
@@ -415,3 +422,4 @@ export function assembleRepoFromTrending(repo: Repo, d: DeltasJson): Repo {
     contributorsDelta30dMissing: true,
   };
 }
+

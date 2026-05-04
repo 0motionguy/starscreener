@@ -3,7 +3,7 @@
 // ranking snapshots, then persist them to committed JSON files. No auth; OSS
 // Insight allows 600 req/hr per IP. We throttle between calls to stay polite.
 
-import { writeFile, mkdir, readdir, readFile } from "node:fs/promises";
+import { appendFile, writeFile, mkdir, readdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
@@ -33,6 +33,12 @@ const TRENDS_LITE_LANGUAGE = "All";
 const HOT_COLLECTIONS_OUT = resolve(__dirname, "..", "data", "hot-collections.json");
 const COLLECTIONS_ROOT = resolve(__dirname, "..", "data", "collections");
 const COLLECTION_RANKINGS_OUT = resolve(__dirname, "..", "data", "collection-rankings.json");
+const DUAL_WRITE_TRACE_OUT = resolve(
+  __dirname,
+  "..",
+  ".data",
+  "trending-dual-write-trace.jsonl",
+);
 
 const args = new Set(process.argv.slice(2));
 const fetchTrendBuckets = !args.has("--only-collection-rankings");
@@ -45,6 +51,11 @@ if (!fetchTrendBuckets && !fetchCollectionRankings) {
 }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function appendDualWriteTrace(event) {
+  await mkdir(dirname(DUAL_WRITE_TRACE_OUT), { recursive: true });
+  await appendFile(DUAL_WRITE_TRACE_OUT, `${JSON.stringify(event)}\n`, "utf8");
+}
 
 function expectRows(body, label) {
   const rows = body?.data?.rows;
@@ -147,6 +158,18 @@ async function fetchCollectionRanking(collectionId, metric) {
 
 async function main() {
   const fetchedAt = new Date().toISOString();
+  const traceEvent = {
+    source: "trending",
+    fetchedAt,
+    workflow: process.env.GITHUB_WORKFLOW ?? null,
+    runId: process.env.GITHUB_RUN_ID ?? null,
+    commit: process.env.GITHUB_SHA?.slice(0, 7) ?? null,
+    mode: {
+      fetchTrendBuckets,
+      fetchCollectionRankings,
+    },
+    writes: [],
+  };
   let totalRows = 0;
   let hotCollections = [];
   let totalCollectionRankingRows = 0;
@@ -221,6 +244,29 @@ async function main() {
       trendsLitePayload,
     );
     const hotRedis = await writeDataStore("hot-collections", hotCollectionsPayload);
+    traceEvent.writes.push(
+      {
+        key: "trending",
+        file: "data/trending.json",
+        redisSource: trendsRedis.source,
+        writtenAt: trendsRedis.writtenAt,
+        rows: totalRows,
+      },
+      {
+        key: "trending-lite",
+        file: "data/trending-lite.json",
+        redisSource: trendsLiteRedis.source,
+        writtenAt: trendsLiteRedis.writtenAt,
+        rows: liteRows.length,
+      },
+      {
+        key: "hot-collections",
+        file: "data/hot-collections.json",
+        redisSource: hotRedis.source,
+        writtenAt: hotRedis.writtenAt,
+        rows: hotCollections.length,
+      },
+    );
 
     console.log(
       `wrote ${TRENDS_OUT} (${totalRows} rows across ${PERIODS.length * LANGUAGES.length} buckets) [redis: ${trendsRedis.source}]`,
@@ -268,11 +314,20 @@ async function main() {
       "collection-rankings",
       collectionRankingsPayload,
     );
+    traceEvent.writes.push({
+      key: "collection-rankings",
+      file: "data/collection-rankings.json",
+      redisSource: rankingsRedis.source,
+      writtenAt: rankingsRedis.writtenAt,
+      rows: totalCollectionRankingRows,
+    });
 
     console.log(
       `wrote ${COLLECTION_RANKINGS_OUT} (${totalCollectionRankingRows} rows across ${collectionRefs.length} collections x ${COLLECTION_RANKING_METRICS.length} metrics) [redis: ${rankingsRedis.source}]`,
     );
   }
+
+  await appendDualWriteTrace(traceEvent);
 }
 
 const startedAt = Date.now();
@@ -290,6 +345,23 @@ main()
   })
   .catch(async (err) => {
     console.error("scrape-trending failed:", err.message ?? err);
+    try {
+      await appendDualWriteTrace({
+        source: "trending",
+        fetchedAt: new Date().toISOString(),
+        workflow: process.env.GITHUB_WORKFLOW ?? null,
+        runId: process.env.GITHUB_RUN_ID ?? null,
+        commit: process.env.GITHUB_SHA?.slice(0, 7) ?? null,
+        mode: {
+          fetchTrendBuckets,
+          fetchCollectionRankings,
+        },
+        status: "failed",
+        error: err?.message ?? String(err),
+      });
+    } catch (traceErr) {
+      console.error("[trace] dual-write append failed:", traceErr);
+    }
     try {
       await writeSourceMetaFromOutcome({
         source: "trending",

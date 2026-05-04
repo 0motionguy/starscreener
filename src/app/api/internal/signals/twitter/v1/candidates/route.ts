@@ -3,7 +3,8 @@ import {
   internalAgentAuthFailureResponse,
   verifyInternalAgentAuth,
 } from "@/lib/api/auth";
-import { getTwitterScanCandidates } from "@/lib/twitter";
+import { getTwitterScanCandidates, refreshTwitterSignalsFromStore } from "@/lib/twitter";
+import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
 
 export const runtime = "nodejs";
 
@@ -43,6 +44,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     );
   }
 
+  await Promise.all([
+    refreshTwitterSignalsFromStore(),
+    refreshRepoMetadataFromStore(),
+  ]);
   const candidates = await getTwitterScanCandidates(limit);
 
   return NextResponse.json(

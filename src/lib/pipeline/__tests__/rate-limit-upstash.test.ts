@@ -25,6 +25,7 @@ import {
   type UpstashPipelineLike,
   type UpstashRedisLike,
 } from "../../api/rate-limit-store";
+import { RateLimitRecoverableError } from "../../errors";
 
 // ---------------------------------------------------------------------------
 // Fake Upstash client
@@ -210,6 +211,33 @@ test("UpstashRateLimitStore: transport failure falls back to memory", async () =
   // cross-path consistency here, only that the route didn't throw.
   const r2 = await store.incrementWithTtl("k", 60);
   assert.ok(r2.count >= 1);
+});
+
+test("UpstashRateLimitStore: malformed INCR response emits typed EngineError and falls back", async () => {
+  class MalformedRedis extends FakeRedis {
+    pipeline(): UpstashPipelineLike {
+      const p = super.pipeline();
+      return {
+        incr: p.incr.bind(p),
+        expire: p.expire.bind(p),
+        pttl: p.pttl.bind(p),
+        async exec() {
+          return ["not-a-number", 1, 60_000];
+        },
+      };
+    }
+  }
+
+  const redis = new MalformedRedis();
+  const errors: unknown[] = [];
+  const store = new UpstashRateLimitStore(redis, {
+    onError: (err) => errors.push(err),
+  });
+
+  const r = await store.incrementWithTtl("k", 60);
+  assert.equal(r.count, 1, "fallback memory store should still allow request");
+  assert.equal(errors.length, 1);
+  assert.ok(errors[0] instanceof RateLimitRecoverableError);
 });
 
 test("UpstashRateLimitStore: reset() deletes the key on both stores", async () => {

@@ -24,6 +24,8 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
+import { serverError } from "@/lib/api/error-response";
+import { AdminRecoverableError } from "@/lib/errors";
 
 export const runtime = "nodejs";
 
@@ -131,7 +133,11 @@ async function findNewestLog(
     entries = await fs.readdir(RUNS_DIR);
   } catch (err: unknown) {
     if ((err as NodeJS.ErrnoException)?.code === "ENOENT") return null;
-    throw err;
+    throw new AdminRecoverableError("admin scan log directory read failed", {
+      scope: "api/admin/scan-log",
+      operation: "readdir",
+      code: (err as NodeJS.ErrnoException)?.code ?? null,
+    });
   }
 
   const prefix = `${source}-`;
@@ -235,10 +241,13 @@ export async function GET(
       { status: 200, headers: { "Cache-Control": "no-store" } },
     );
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(
-      { ok: false, error: message, reason: "scan_log_read_failed" },
-      { status: 500, headers: { "Cache-Control": "no-store" } },
-    );
+    const response = serverError<ErrorShape>(err, {
+      scope: "[admin/scan-log:GET]",
+      publicMessage: "scan log read failed",
+      code: "scan_log_read_failed",
+      status: 500,
+    });
+    response.headers.set("Cache-Control", "no-store");
+    return response;
   }
 }

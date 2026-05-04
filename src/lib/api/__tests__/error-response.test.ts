@@ -10,7 +10,13 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-import { errorEnvelope } from "../error-response";
+import {
+  __resetErrorResponseSentryCaptureForTests,
+  __setErrorResponseSentryCaptureForTests,
+  errorEnvelope,
+  serverError,
+} from "../error-response";
+import { AdminFatalError } from "@/lib/errors";
 
 test("errorEnvelope returns {ok:false, error} with no code key when code omitted", () => {
   const env = errorEnvelope("bad thing");
@@ -34,4 +40,28 @@ test("errorEnvelope drops code when explicitly undefined", () => {
 test("errorEnvelope preserves ok:false discriminator", () => {
   const env = errorEnvelope("x");
   assert.equal(env.ok, false);
+});
+
+test("serverError forwards EngineError source/category tags to Sentry", async () => {
+  const calls: Array<{ error: unknown; context: unknown }> = [];
+  __setErrorResponseSentryCaptureForTests(((
+    error: unknown,
+    context?: unknown,
+  ) => {
+    calls.push({ error, context: context ?? null });
+    return "evt-server-error";
+  }) as Parameters<typeof __setErrorResponseSentryCaptureForTests>[0]);
+
+  try {
+    const err = new AdminFatalError("fatal admin path", { scope: "test" });
+    const response = serverError(err, { scope: "[test:serverError]" });
+    assert.equal(response.status, 500);
+    assert.equal(calls.length, 1);
+    const tags = (calls[0].context as { tags?: Record<string, string> } | null)?.tags;
+    assert.equal(tags?.source, "admin");
+    assert.equal(tags?.category, "fatal");
+    assert.equal(tags?.scope, "[test:serverError]");
+  } finally {
+    __resetErrorResponseSentryCaptureForTests();
+  }
 });

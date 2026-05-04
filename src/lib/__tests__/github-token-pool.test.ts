@@ -361,8 +361,7 @@ test("parseRateLimitHeaders returns null on garbage values", () => {
 
 test("redactToken masks the secret in the middle", () => {
   const r = redactToken("ghp_1234567890ABCDEFGHIJKLMNOP");
-  assert.ok(r.startsWith("ghp_"), `expected prefix, got: ${r}`);
-  assert.ok(r.endsWith("MNOP"), `expected suffix, got: ${r}`);
+  assert.equal(r, "ghp_****MNOP");
   assert.ok(!r.includes("1234567890"), "middle must be masked");
 });
 

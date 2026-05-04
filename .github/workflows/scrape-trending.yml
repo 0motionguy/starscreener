@@ -110,6 +110,7 @@ jobs:
           message: "chore(data): refresh fast discovery snapshots ${{ steps.ts.outputs.value }}"
           paths: |
             data/trending.json
+            data/trending-lite.json
             data/deltas.json
             data/hot-collections.json
             data/recent-repos.json
@@ -122,3 +123,4 @@ jobs:
             data/_meta/hackernews.json
             data/_meta/trending.json
             data/unknown-mentions.jsonl
+            .data/trending-dual-write-trace.jsonl

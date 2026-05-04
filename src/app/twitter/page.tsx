@@ -438,9 +438,9 @@ function TwitterLeaderboardTable({
         borderRadius: 2,
       }}
     >
-      <div className="sm:min-w-[920px]">
+      <div>
         <div
-          className="v2-mono grid h-9 grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 text-[10px] uppercase tracking-[0.18em]"
+          className="v2-mono grid h-9 grid-cols-[30px_48px_minmax(0,1fr)_64px_70px] items-center gap-2 px-2 text-[10px] uppercase tracking-[0.18em] sm:grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] sm:gap-3 sm:px-3"
           style={{
             borderBottom: "1px solid var(--v4-line-100)",
             background: "var(--v4-bg-025)",
@@ -451,9 +451,9 @@ function TwitterLeaderboardTable({
           <div className="text-center">Top</div>
           <div>Repo</div>
           <div className="text-right">Mentions</div>
-          <div className="text-right">Likes</div>
-          <div className="text-right">Reposts</div>
-          <div className="text-right">Score</div>
+          <div className="hidden text-right sm:block">Likes</div>
+          <div className="hidden text-right sm:block">Reposts</div>
+          <div className="hidden text-right sm:block">Score</div>
           <div>Badge</div>
         </div>
         <ol>
@@ -492,7 +492,7 @@ function TwitterLeaderboardTable({
             return (
               <li
                 key={row.repoId}
-                className="v2-row group grid grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 py-2"
+                className="v2-row group grid grid-cols-[30px_48px_minmax(0,1fr)_64px_70px] items-center gap-2 px-2 py-2 sm:grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] sm:gap-3 sm:px-3"
                 style={{
                   borderBottom: "1px dashed var(--v4-line-100)",
                   animation:
@@ -510,7 +510,7 @@ function TwitterLeaderboardTable({
                   <MentionAuthorBubbles authors={row.topMentionAuthors} />
                 </div>
                 <div className="min-w-0">
-                  <div className="flex min-w-0 items-center gap-2">
+                  <div className="flex min-w-0 items-center gap-1.5 sm:gap-2">
                     <Image
                       src={getRepoAvatarUrl(row)}
                       alt=""
@@ -552,6 +552,11 @@ function TwitterLeaderboardTable({
                         ) : null}
                       </>
                     ) : null}
+                    <span className="sm:hidden">
+                      {formatNumber(row.totalLikes24h)} likes | {" "}
+                      {formatNumber(row.totalReposts24h)} rts | {" "}
+                      {row.finalTwitterScore.toFixed(1)} score
+                    </span>
                   </div>
                 </div>
                 <div
@@ -561,19 +566,19 @@ function TwitterLeaderboardTable({
                   {formatNumber(row.mentionCount24h)}
                 </div>
                 <div
-                  className="text-right text-xs tabular-nums"
+                  className="hidden text-right text-xs tabular-nums sm:block"
                   style={{ color: "var(--v4-ink-100)" }}
                 >
                   {formatNumber(row.totalLikes24h)}
                 </div>
                 <div
-                  className="text-right text-xs tabular-nums"
+                  className="hidden text-right text-xs tabular-nums sm:block"
                   style={{ color: "var(--v4-ink-100)" }}
                 >
                   {formatNumber(row.totalReposts24h)}
                 </div>
                 <div
-                  className="text-right text-xs font-semibold tabular-nums"
+                  className="hidden text-right text-xs font-semibold tabular-nums sm:block"
                   style={{ color: "var(--v4-acc)" }}
                 >
                   {row.finalTwitterScore.toFixed(1)}

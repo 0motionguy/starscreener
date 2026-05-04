@@ -12,6 +12,7 @@
 // admin is higher-privilege. Operators can re-log-in once a week.
 
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { AdminFatalError } from "@/lib/errors";
 
 /** Name of the HMAC-signed admin session cookie. */
 export const ADMIN_SESSION_COOKIE_NAME = "ss_admin";
@@ -64,7 +65,10 @@ function getSessionSecret(): string | null {
 export function signAdminSession(payload: AdminSessionPayload): string {
   const secret = getSessionSecret();
   if (!secret) {
-    throw new Error("SESSION_SECRET is not configured");
+    throw new AdminFatalError("SESSION_SECRET is not configured", {
+      scope: "api/admin-session",
+      operation: "signAdminSession",
+    });
   }
   const payloadB64 = base64urlEncode(JSON.stringify(payload));
   const sig = createHmac("sha256", secret).update(payloadB64).digest();

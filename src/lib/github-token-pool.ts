@@ -629,7 +629,7 @@ export function _resetGitHubTokenPoolForTests(): void {
  */
 export function redactToken(token: string): string {
   if (token.length <= 8) return "***";
-  return `${token.slice(0, 4)}...${token.slice(-4)}`;
+  return `${token.slice(0, 4)}****${token.slice(-4)}`;
 }
 
 /**

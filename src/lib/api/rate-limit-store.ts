@@ -22,6 +22,8 @@
 // fallback is per-instance, so cross-Lambda guarantees degrade but nothing
 // breaks. Each Upstash failure logs once per cold start to avoid log spam.
 
+import { RateLimitRecoverableError } from "@/lib/errors";
+
 export interface RateLimitIncrementResult {
   /** New count for `key` after this increment. */
   count: number;
@@ -152,8 +154,12 @@ export class UpstashRateLimitStore implements RateLimitStore {
       const pttl = coerceNumber(results[2]);
 
       if (count === null) {
-        throw new Error(
-          `Upstash pipeline returned non-numeric INCR result: ${JSON.stringify(results[0])}`,
+        throw new RateLimitRecoverableError(
+          "Upstash pipeline returned non-numeric INCR result",
+          {
+            operation: "incrementWithTtl",
+            result: results[0],
+          },
         );
       }
 

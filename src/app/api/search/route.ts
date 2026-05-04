@@ -22,6 +22,9 @@ import { NextRequest, NextResponse } from "next/server";
 import type { Repo } from "@/lib/types";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 import { getDerivedRepos } from "@/lib/derived-repos";
+import { refreshTrendingFromStore } from "@/lib/trending";
+import { refreshRecentReposFromStore } from "@/lib/recent-repos";
+import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
 import {
   computeFacets,
   matchesQuery,
@@ -153,9 +156,13 @@ function buildLegacyResponse(
 // ---------------------------------------------------------------------------
 
 export async function GET(request: NextRequest) {
-  // Pull fresh overlays from the data-store before scoring matches. Internal
-  // 30s rate-limit absorbs the spike from concurrent search requests.
-  await refreshRevenueOverlaysFromStore();
+  await Promise.all([
+    refreshTrendingFromStore(),
+    refreshRecentReposFromStore(),
+    refreshRepoMetadataFromStore(),
+    refreshRevenueOverlaysFromStore(),
+  ]);
+
   // `request.nextUrl` is only populated when the handler is invoked via the
   // Next runtime. Unit tests pass a plain `Request`, so we fall back to
   // parsing `request.url` directly — both paths produce the same URL.

@@ -9,10 +9,12 @@
 //
 // Keeps the existing per-repo reader (signal-data.ts) untouched.
 
-import { getTwitterSignalSync, getTwitterSignalsDataVersion } from "./signal-data";
+import {
+  getAllTwitterSignalsSync,
+  getTwitterSignalSync,
+  getTwitterSignalsDataVersion,
+} from "./signal-data";
 import type { TwitterRepoSignal, TwitterMatchedPostPreview } from "./types";
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
 
 export interface TwitterBuzzItem {
   fullName: string;
@@ -48,35 +50,10 @@ interface BuzzCache {
 }
 let cache: BuzzCache | null = null;
 
-const TWITTER_SIGNALS_PATH = resolve(
-  process.cwd(),
-  ".data",
-  "twitter-repo-signals.jsonl",
-);
-
-function loadAll(): TwitterRepoSignal[] {
-  try {
-    const raw = readFileSync(TWITTER_SIGNALS_PATH, "utf8");
-    const out: TwitterRepoSignal[] = [];
-    for (const line of raw.split(/\r?\n/)) {
-      const trimmed = line.trim();
-      if (!trimmed) continue;
-      try {
-        out.push(JSON.parse(trimmed) as TwitterRepoSignal);
-      } catch {
-        // skip malformed
-      }
-    }
-    return out;
-  } catch {
-    return [];
-  }
-}
-
 function buildCache(): BuzzCache {
   const signature = getTwitterSignalsDataVersion();
   if (cache && cache.signature === signature) return cache;
-  const all = loadAll();
+  const all = getAllTwitterSignalsSync();
 
   const items: TwitterBuzzItem[] = [];
   const posts: TwitterPostItem[] = [];

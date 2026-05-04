@@ -44,7 +44,7 @@ export interface RulesCreateResponse {
 }
 
 export interface RulesDeleteResponse {
-  ok: boolean;
+  ok: true;
 }
 
 export interface RulesErrorResponse {
@@ -261,13 +261,20 @@ export async function DELETE(
     const owned = rules.some((r) => r.id === id);
     if (!owned) {
       // 404 not 403 to avoid leaking "this id exists but isn't yours".
-      return NextResponse.json({ ok: false }, { status: 404 });
+      return NextResponse.json(
+        { ok: false, error: "rule not found" },
+        { status: 404 },
+      );
     }
     const ok = pipeline.deleteAlertRule(id);
-    if (ok) {
-      await persistPipeline();
+    if (!ok) {
+      return NextResponse.json(
+        { ok: false, error: "rule not found" },
+        { status: 404 },
+      );
     }
-    return NextResponse.json({ ok });
+    await persistPipeline();
+    return NextResponse.json({ ok: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json(

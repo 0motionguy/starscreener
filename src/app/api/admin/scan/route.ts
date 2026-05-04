@@ -21,6 +21,8 @@ import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
+import { serverError } from "@/lib/api/error-response";
+import { AdminRecoverableError } from "@/lib/errors";
 
 export const runtime = "nodejs";
 
@@ -254,12 +256,21 @@ export async function POST(
     });
   } catch (err) {
     await logFd.close().catch(() => void 0);
-    const message = err instanceof Error ? err.message : String(err);
-    console.error("[api:admin:scan] spawn failed", err);
-    return NextResponse.json(
-      { ok: false, error: `spawn failed: ${message}` },
-      { status: 500 },
+    const wrapped = new AdminRecoverableError(
+      "admin scan spawn failed",
+      {
+        scope: "api/admin/scan",
+        source,
+        script: scriptRel,
+        message: err instanceof Error ? err.message : String(err),
+      },
     );
+    return serverError<Err>(wrapped, {
+      scope: "[api/admin/scan:POST]",
+      publicMessage: "scan spawn failed",
+      code: "SCAN_SPAWN_FAILED",
+      status: 500,
+    });
   }
 }
 

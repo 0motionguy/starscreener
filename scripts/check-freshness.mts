@@ -278,6 +278,38 @@ function sanitizeUrl(raw: string): string {
   return url.toString();
 }
 
+function extractFetchDetail(error: unknown): string | null {
+  if (!(error instanceof Error)) return null;
+  const withCause = error as Error & {
+    cause?: { code?: string; errno?: number; message?: string };
+  };
+  const cause = withCause.cause;
+  const detailParts: string[] = [];
+  if (cause?.code) detailParts.push(`code=${cause.code}`);
+  if (typeof cause?.errno === "number") detailParts.push(`errno=${cause.errno}`);
+  if (cause?.message) detailParts.push(cause.message);
+  if (detailParts.length === 0) return null;
+  return detailParts.join(" ");
+}
+
+function classifyFetchFailure(error: unknown, baseUrl: string): string | null {
+  if (!(error instanceof Error)) return null;
+  const detail = extractFetchDetail(error) ?? error.message;
+  const lower = detail.toLowerCase();
+  const host = new URL(baseUrl).hostname.toLowerCase();
+  const localHost = host === "localhost" || host === "127.0.0.1" || host === "::1";
+  if (localHost && (lower.includes("econnrefused") || lower.includes("fetch failed"))) {
+    return `local server not reachable at ${baseUrl}. Start it with: npm run dev`;
+  }
+  if (lower.includes("econnrefused")) {
+    return `connection refused at ${baseUrl}`;
+  }
+  if (lower.includes("timed out") || lower.includes("etimedout")) {
+    return `request timed out while contacting ${baseUrl}`;
+  }
+  return null;
+}
+
 function validateFreshnessState(value: FreshnessState): void {
   if (!value || typeof value !== "object") throw new Error("freshness state is not an object");
   if (typeof value.checkedAt !== "string") throw new Error("freshness state missing checkedAt");
@@ -417,11 +449,25 @@ async function main(): Promise<void> {
   process.exitCode = code;
 }
 
+const fallbackBaseUrl = (() => {
+  try {
+    return parseArgs(process.argv.slice(2)).baseUrl;
+  } catch {
+    return DEFAULT_BASE_URL;
+  }
+})();
+
 process.on("SIGINT", () => {
   process.exit(130);
 });
 
 main().catch((error) => {
-  console.error(`freshness-check: ${redactSecret(error instanceof Error ? error.message : String(error))}`);
+  const classified = classifyFetchFailure(error, fallbackBaseUrl);
+  const detail = extractFetchDetail(error);
+  const raw = error instanceof Error ? error.message : String(error);
+  const message = classified
+    ? `${classified}${detail ? ` (${detail})` : ""}`
+    : `${raw}${detail ? ` (${detail})` : ""}`;
+  console.error(`freshness-check: ${redactSecret(message)}`);
   process.exitCode = 2;
 });

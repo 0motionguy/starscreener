@@ -50,6 +50,7 @@ export const revalidate = 60;
 
 const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 const TOP_N = 20;
+const REFRESH_TIMEOUT_MS = 4000;
 const DESCRIPTION =
   "Top Claude / Codex / agent skills merged from skills.sh, GitHub, Smithery, lobehub, and skillsmp.";
 
@@ -101,6 +102,20 @@ function fullNameFromUrl(url: string | null | undefined): string | null {
   return `${m[1]}/${m[2].replace(/\.git$/i, "")}`.toLowerCase();
 }
 
+async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T | null> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      promise,
+      new Promise<null>((resolve) => {
+        timer = setTimeout(() => resolve(null), ms);
+      }),
+    ]);
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+}
+
 export const metadata: Metadata = {
   title: `Trending Skills - ${SITE_NAME}`,
   description: DESCRIPTION,
@@ -126,16 +141,16 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
   // as "—". Mirrors the pattern used by /githubrepo and /home — each
   // refresh is internally rate-limited (30s) + dedupes in-flight callers
   // so calling them here on every render is cheap.
-  await Promise.all([
-    refreshTrendingFromStore(),
-    refreshRedditMentionsFromStore(),
-    refreshHackernewsMentionsFromStore(),
-    refreshBlueskyMentionsFromStore(),
-    refreshDevtoMentionsFromStore(),
-    refreshLobstersMentionsFromStore(),
-    refreshNpmFromStore(),
-    refreshHfModelsFromStore(),
-    refreshArxivFromStore(),
+  await Promise.allSettled([
+    withTimeout(refreshTrendingFromStore(), REFRESH_TIMEOUT_MS),
+    withTimeout(refreshRedditMentionsFromStore(), REFRESH_TIMEOUT_MS),
+    withTimeout(refreshHackernewsMentionsFromStore(), REFRESH_TIMEOUT_MS),
+    withTimeout(refreshBlueskyMentionsFromStore(), REFRESH_TIMEOUT_MS),
+    withTimeout(refreshDevtoMentionsFromStore(), REFRESH_TIMEOUT_MS),
+    withTimeout(refreshLobstersMentionsFromStore(), REFRESH_TIMEOUT_MS),
+    withTimeout(refreshNpmFromStore(), REFRESH_TIMEOUT_MS),
+    withTimeout(refreshHfModelsFromStore(), REFRESH_TIMEOUT_MS),
+    withTimeout(refreshArxivFromStore(), REFRESH_TIMEOUT_MS),
   ]);
 
   const data = await getSkillsSignalData();

@@ -26,6 +26,8 @@ import {
   isTwitterIngestError,
 } from "./service";
 import {
+  getAllTwitterSignalsSync,
+  refreshTwitterSignalsFromStore,
   getTwitterSignalSync,
   getTwitterSignalsDataVersion,
 } from "./signal-data";
@@ -51,7 +53,9 @@ export const TwitterSignalBuilder = {
   getTwitterOverviewStats,
   // Sync getters — used by derived-repos decorators + cross-signal pipeline.
   getTwitterSignalSync,
+  getAllTwitterSignalsSync,
   getTwitterSignalsDataVersion,
+  refreshTwitterSignalsFromStore,
   getTwitterTrackedRepoCount,
   getTwitterLatestUpdatedAt,
   // Buzz / post lists — used by /signals.
@@ -80,7 +84,9 @@ export {
   ingestTwitterFindings,
   isTwitterIngestError,
   getTwitterSignalSync,
+  getAllTwitterSignalsSync,
   getTwitterSignalsDataVersion,
+  refreshTwitterSignalsFromStore,
   getTopTwitterBuzz,
   getTopTwitterPosts,
   getTwitterLatestUpdatedAt,

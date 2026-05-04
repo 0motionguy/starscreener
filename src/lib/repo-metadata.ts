@@ -116,14 +116,19 @@ export async function refreshRepoMetadataFromStore(): Promise<RefreshResult> {
   }
 
   inflight = (async (): Promise<RefreshResult> => {
-    const { getDataStore } = await import("./data-store");
-    const result = await getDataStore().read<RepoMetadataFile>("repo-metadata");
-    if (result.data && result.source !== "missing") {
-      data = result.data;
-      _byFullName = null; // invalidate derived index
+    try {
+      const { getDataStore } = await import("./data-store");
+      const result = await getDataStore().read<RepoMetadataFile>("repo-metadata");
+      if (result.data && result.source !== "missing") {
+        data = result.data;
+        _byFullName = null;
+      }
+      lastRefreshMs = Date.now();
+      return { source: result.source, ageMs: result.ageMs };
+    } catch {
+      lastRefreshMs = Date.now();
+      return { source: "missing", ageMs: 0 };
     }
-    lastRefreshMs = Date.now();
-    return { source: result.source, ageMs: result.ageMs };
   })().finally(() => {
     inflight = null;
   });
@@ -140,3 +145,4 @@ export function _resetRepoMetadataCacheForTests(): void {
   lastRefreshMs = 0;
   inflight = null;
 }
+

@@ -14,6 +14,7 @@ import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
+import { serverError } from "@/lib/api/error-response";
 import { githubFetch } from "@/lib/github-fetch";
 import { FAST_DATA_STALE_THRESHOLD_MS } from "@/lib/source-health";
 import { lastFetchedAt, deltasComputedAt } from "@/lib/trending";
@@ -214,10 +215,12 @@ export async function GET(
       headers: { "Cache-Control": "no-store" },
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(
-      { ok: false, error: message },
-      { status: 500, headers: { "Cache-Control": "no-store" } },
-    );
+    const response = serverError<AdminStatsErrorResponse>(err, {
+      scope: "[api/admin/stats:GET]",
+      publicMessage: "server error",
+      status: 500,
+    });
+    response.headers.set("Cache-Control", "no-store");
+    return response;
   }
 }

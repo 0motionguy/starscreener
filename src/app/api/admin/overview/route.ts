@@ -9,6 +9,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
+import { serverError } from "@/lib/api/error-response";
 import { readQueue } from "@/lib/aiso-queue";
 import { listIdeas, type IdeaRecord } from "@/lib/ideas";
 import {
@@ -237,8 +238,10 @@ export async function GET(
       headers: { "Cache-Control": "no-store" },
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.error("[api:admin:overview] failed", err);
-    return NextResponse.json({ ok: false, error: message }, { status: 500 });
+    return serverError<ErrorResponse>(err, {
+      scope: "[api/admin/overview:GET]",
+      publicMessage: "server error",
+      status: 500,
+    });
   }
 }

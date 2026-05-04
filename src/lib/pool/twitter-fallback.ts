@@ -3,6 +3,8 @@ import * as Sentry from "@sentry/nextjs";
 import {
   ApifyQuotaError,
   ApifyTokenInvalidError,
+  OpsAlertFatalError,
+  OpsAlertRecoverableError,
   TwitterAllSourcesFailedError,
   engineErrorTags,
 } from "@/lib/errors";
@@ -49,7 +51,13 @@ export async function scrapeTwitterFor(
     await recordDegradation({ from: "apify", error: message });
     sentryCaptureMessage("twitter source degraded: apify -> nitter fallback", {
       level: "warning",
-      tags: { pool: "twitter", alert: "twitter-degraded", source: "apify" },
+      tags: {
+        pool: "twitter",
+        alert: "twitter-degraded",
+        source: "twitter",
+        category: "recoverable",
+        upstream_source: "apify",
+      },
       extra: { repoFullName, error: message },
     });
 
@@ -144,9 +152,25 @@ async function alertOps(
   metadata: Record<string, unknown>,
 ): Promise<void> {
   const url = process.env.OPS_ALERT_WEBHOOK?.trim();
-  if (!url) return;
+  if (!url) {
+    const blocked = new OpsAlertFatalError(
+      "ops alert blocked: OPS_ALERT_WEBHOOK missing",
+      { event, source: "twitter", metadata },
+    );
+    sentryCaptureException(blocked, {
+      level: "warning",
+      tags: {
+        pool: "twitter",
+        alert: "ops-alert-blocked",
+        upstream_source: "twitter",
+        ...engineErrorTags(blocked),
+      },
+      extra: { event, metadata },
+    });
+    return;
+  }
   try {
-    await fetch(url, {
+    const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -156,7 +180,28 @@ async function alertOps(
         metadata,
       }),
     });
-  } catch {
+    if (!response.ok) {
+      throw new Error(`OPS webhook HTTP ${response.status}`);
+    }
+  } catch (error) {
+    const failed = new OpsAlertRecoverableError(
+      "OPS alert webhook delivery failed",
+      {
+        event,
+        source: "twitter",
+        message: error instanceof Error ? error.message : String(error),
+      },
+    );
+    sentryCaptureException(failed, {
+      level: "warning",
+      tags: {
+        pool: "twitter",
+        alert: "ops-alert-delivery-failed",
+        upstream_source: "twitter",
+        ...engineErrorTags(failed),
+      },
+      extra: { event },
+    });
     // best-effort alert only
   }
 }

@@ -8,8 +8,16 @@ import {
   quarantineKey,
   recordGithubCall,
 } from "../pool/github-telemetry";
-import { githubFetch } from "../github-fetch";
-import type { GitHubTokenPool, TokenState } from "../github-token-pool";
+import {
+  _resetGithubFetchSentryForTests,
+  _setGithubFetchSentryForTests,
+  githubFetch,
+} from "../github-fetch";
+import {
+  GitHubTokenPoolExhaustedError,
+  type GitHubTokenPool,
+  type TokenState,
+} from "../github-token-pool";
 
 class FakeRedis {
   readonly hashes = new Map<string, Record<string, string>>();
@@ -62,6 +70,7 @@ class FakeRedis {
 
 afterEach(() => {
   _setRedisForTests(null);
+  _resetGithubFetchSentryForTests();
   globalThis.fetch = ORIGINAL_FETCH;
 });
 
@@ -235,4 +244,115 @@ test("githubFetch quarantines invalid tokens by fingerprint after 401", async ()
     fake.strings.get(`pool:github:quarantine:${fingerprint}`) ?? "",
     /invalid_token/,
   );
+});
+
+test("githubFetch emits typed fatal ops-alert exception when webhook is missing", async () => {
+  const originalWebhook = process.env.OPS_ALERT_WEBHOOK;
+  delete process.env.OPS_ALERT_WEBHOOK;
+  const exceptions: Array<{ error: unknown; context: unknown }> = [];
+  _setGithubFetchSentryForTests({
+    captureException: ((error: unknown, context?: unknown) => {
+      exceptions.push({ error, context });
+      return "evt";
+    }) as never,
+  });
+
+  const exhaustedPool: GitHubTokenPool = {
+    getNextToken() {
+      throw new GitHubTokenPoolExhaustedError(1_800_000_000, {
+        allQuarantined: true,
+      });
+    },
+    recordRateLimit() {},
+    quarantine() {},
+    snapshot() {
+      return [];
+    },
+    hydrationStatus() {
+      return { enabled: false, started: false, completed: false };
+    },
+    size() {
+      return 0;
+    },
+  };
+
+  const result = await githubFetch("/rate_limit", { pool: exhaustedPool });
+  assert.equal(result, null);
+  assert.equal(exceptions.length >= 2, true);
+  const blocked = exceptions.find(
+    (entry) =>
+      entry.error instanceof Error &&
+      entry.error.message.includes("OPS_ALERT_WEBHOOK missing"),
+  );
+  assert.ok(blocked, "expected ops-alert blocked exception");
+  const tags = (blocked?.context as { tags?: Record<string, string> } | undefined)?.tags;
+  assert.equal(tags?.source, "ops-alert");
+  assert.equal(tags?.category, "fatal");
+  assert.equal(tags?.upstream_source, "github");
+
+  if (originalWebhook === undefined) {
+    delete process.env.OPS_ALERT_WEBHOOK;
+  } else {
+    process.env.OPS_ALERT_WEBHOOK = originalWebhook;
+  }
+});
+
+test("githubFetch classifies non-2xx OPS webhook responses as recoverable delivery failures", async () => {
+  const originalWebhook = process.env.OPS_ALERT_WEBHOOK;
+  process.env.OPS_ALERT_WEBHOOK = "https://ops.example/webhook";
+  const exceptions: Array<{ error: unknown; context: unknown }> = [];
+  _setGithubFetchSentryForTests({
+    captureException: ((error: unknown, context?: unknown) => {
+      exceptions.push({ error, context });
+      return "evt";
+    }) as never,
+  });
+
+  globalThis.fetch = (async (input: RequestInfo | URL) => {
+    const url = String(input);
+    if (url === process.env.OPS_ALERT_WEBHOOK) {
+      return new Response("forbidden", { status: 403 });
+    }
+    throw new Error(`unexpected fetch url ${url}`);
+  }) as typeof fetch;
+
+  const exhaustedPool: GitHubTokenPool = {
+    getNextToken() {
+      throw new GitHubTokenPoolExhaustedError(1_800_000_000, {
+        allQuarantined: true,
+      });
+    },
+    recordRateLimit() {},
+    quarantine() {},
+    snapshot() {
+      return [];
+    },
+    hydrationStatus() {
+      return { enabled: false, started: false, completed: false };
+    },
+    size() {
+      return 0;
+    },
+  };
+
+  const result = await githubFetch("/rate_limit", { pool: exhaustedPool });
+  assert.equal(result, null);
+  const deliveryFailure = exceptions.find(
+    (entry) =>
+      entry.error instanceof Error &&
+      entry.error.message.includes("OPS alert webhook delivery failed"),
+  );
+  assert.ok(deliveryFailure, "expected ops-alert delivery failure exception");
+  const tags = (
+    deliveryFailure?.context as { tags?: Record<string, string> } | undefined
+  )?.tags;
+  assert.equal(tags?.source, "ops-alert");
+  assert.equal(tags?.category, "recoverable");
+  assert.equal(tags?.upstream_source, "github");
+
+  if (originalWebhook === undefined) {
+    delete process.env.OPS_ALERT_WEBHOOK;
+  } else {
+    process.env.OPS_ALERT_WEBHOOK = originalWebhook;
+  }
 });

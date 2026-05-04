@@ -9,6 +9,9 @@ import {
   getDerivedRepoById,
   getDerivedRepos,
 } from "@/lib/derived-repos";
+import { refreshTrendingFromStore } from "@/lib/trending";
+import { refreshRecentReposFromStore } from "@/lib/recent-repos";
+import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
 
 export const runtime = "nodejs";
 
@@ -114,6 +117,12 @@ function applyLocalFilter(repos: Repo[], filter: TrendFilter): Repo[] {
 }
 
 export async function GET(request: NextRequest) {
+  await Promise.all([
+    refreshTrendingFromStore(),
+    refreshRecentReposFromStore(),
+    refreshRepoMetadataFromStore(),
+  ]);
+
   const { searchParams } = request.nextUrl;
 
   // Direct-id lookup path — ?ids=a,b,c returns the corresponding Repo

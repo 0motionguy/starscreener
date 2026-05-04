@@ -10,6 +10,7 @@ import {
   GithubRecoverableError,
   NitterAllInstancesDownError,
   NitterInstanceDownError,
+  RateLimitRecoverableError,
   RedditBlockedError,
   RedditPoolExhaustedError,
   RedditRateLimitError,
@@ -115,4 +116,15 @@ test("Twitter engine errors expose category, source, and metadata", () => {
     assert.ok(err instanceof Error);
     assert.equal(typeof err.metadata, "object");
   }
+});
+
+test("Rate-limit engine errors expose category, source, and metadata", () => {
+  const err = new RateLimitRecoverableError("rate-limit backend degraded", {
+    operation: "incrementWithTtl",
+  });
+  assert.equal(err.category, "recoverable");
+  assert.equal(err.source, "rate-limit");
+  assert.equal(err.name, err.constructor.name);
+  assert.ok(err instanceof Error);
+  assert.equal(typeof err.metadata, "object");
 });

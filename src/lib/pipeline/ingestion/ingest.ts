@@ -11,6 +11,7 @@ import { emitPipelineEvent } from "../events";
 import { normalizeGitHubRepo } from "../adapters/normalizer";
 import { readEnv } from "@/lib/env-helpers";
 import { getGitHubTokenPool } from "@/lib/github-token-pool";
+import { GithubPoolExhaustedError } from "@/lib/errors";
 import type {
   GitHubAdapter,
   IngestBatchResult,
@@ -255,9 +256,10 @@ export function createGitHubAdapter(
   const useMock = opts.useMock ?? false;
   if (useMock) {
     if (!allowMock) {
-      throw new Error(
+      throw new GithubPoolExhaustedError(
         "createGitHubAdapter: useMock=true but TRENDINGREPO_ALLOW_MOCK is not set. " +
           "Mock adapter is disabled in production. Set TRENDINGREPO_ALLOW_MOCK=true for local dev.",
+        { allowMock, useMock },
       );
     }
     return new MockGitHubAdapter();
@@ -267,9 +269,10 @@ export function createGitHubAdapter(
   // token is preserved as a per-instance override for tests; the legacy
   // env-var fallback is gone so the singleton is the single source of truth.
   if (!opts.token && getGitHubTokenPool().size() === 0) {
-    throw new Error(
+    throw new GithubPoolExhaustedError(
       "createGitHubAdapter: GitHub token pool is empty. Set GITHUB_TOKEN and/or " +
         "GH_TOKEN_POOL (comma-separated PATs). Silent mock fallback is disabled.",
+      { hasExplicitToken: Boolean(opts.token) },
     );
   }
   return new GitHubApiAdapter({ token: opts.token });

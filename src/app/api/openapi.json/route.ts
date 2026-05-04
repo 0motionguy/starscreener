@@ -19,6 +19,8 @@ import path from "node:path";
 
 import { NextResponse } from "next/server";
 
+import { AdminFatalError, EngineError } from "@/lib/errors";
+
 export const runtime = "nodejs";
 
 // The spec reads from the repo-rooted `docs/openapi.json`; that file is not
@@ -39,6 +41,8 @@ interface LoadedSpec {
   readonly [key: string]: unknown;
 }
 
+class OpenApiLoadError extends AdminFatalError {}
+
 function loadSpec(): LoadedSpec {
   // Resolve from the repo root rather than the compiled `.next` output.
   // `process.cwd()` is the Next.js project root in both `next dev` and the
@@ -52,7 +56,7 @@ function loadSpec(): LoadedSpec {
     typeof (parsed as { openapi?: unknown }).openapi !== "string" ||
     typeof (parsed as { paths?: unknown }).paths !== "object"
   ) {
-    throw new Error(
+    throw new OpenApiLoadError(
       "docs/openapi.json is not a valid OpenAPI document (missing openapi/paths keys)",
     );
   }
@@ -62,7 +66,7 @@ function loadSpec(): LoadedSpec {
 // Cache the parsed spec at module scope. Subsequent requests only pay the
 // JSON.stringify cost (and the NextResponse object allocation).
 let cachedSpec: LoadedSpec | null = null;
-let loadError: Error | null = null;
+let loadError: EngineError | null = null;
 
 function getSpec(): LoadedSpec {
   if (cachedSpec) return cachedSpec;
@@ -71,7 +75,10 @@ function getSpec(): LoadedSpec {
     cachedSpec = loadSpec();
     return cachedSpec;
   } catch (err) {
-    loadError = err instanceof Error ? err : new Error(String(err));
+    loadError =
+      err instanceof EngineError
+        ? err
+        : new OpenApiLoadError(String(err), { originalError: String(err) });
     throw loadError;
   }
 }

@@ -34,6 +34,8 @@ import {
   GithubPoolExhaustedError,
   GithubRateLimitError,
   GithubRecoverableError,
+  OpsAlertFatalError,
+  OpsAlertRecoverableError,
 } from "./errors";
 import {
   GitHubTokenPoolEmptyError,
@@ -53,6 +55,7 @@ const GITHUB_API = "https://api.github.com";
 const DEFAULT_TIMEOUT_MS = 15_000;
 const RETRY_DELAYS_MS = [1_000, 2_000, 4_000] as const;
 const MAX_ATTEMPTS = RETRY_DELAYS_MS.length + 1;
+let sentryCaptureException = Sentry.captureException;
 
 export interface GithubFetchOptions {
   /** HTTP method. Defaults to GET. */
@@ -114,7 +117,7 @@ export async function githubFetch(
           resetsAtUnixSec: err.resetsAtUnixSec,
           operation,
         });
-        Sentry.captureException(wrapped, {
+        sentryCaptureException(wrapped, {
           tags: {
             pool: "github",
             alert: "github-pool-exhausted",
@@ -179,7 +182,7 @@ export async function githubFetch(
         path: pathOrUrl,
         message: err instanceof Error ? err.message : String(err),
       });
-      Sentry.captureException(wrapped, {
+      sentryCaptureException(wrapped, {
         tags: {
           pool: "github",
           alert: "github-pool-network",
@@ -217,7 +220,7 @@ export async function githubFetch(
         reason: "invalid_token",
         untilTimestamp: Math.floor((Date.now() + 24 * 60 * 60 * 1000) / 1000),
       });
-      Sentry.captureException(
+      sentryCaptureException(
         new GithubInvalidTokenError("GitHub token rejected with 401", {
           operation,
           statusCode: res.status,
@@ -251,7 +254,7 @@ export async function githubFetch(
         reason: "rate_limit",
         untilTimestamp: headerLimits.resetUnixSec,
       });
-      Sentry.captureException(
+      sentryCaptureException(
         new GithubRateLimitError("GitHub token hit rate limit", {
           operation,
           statusCode: res.status,
@@ -272,7 +275,7 @@ export async function githubFetch(
         reason: "forbidden",
         untilTimestamp: Math.floor((Date.now() + 24 * 60 * 60 * 1000) / 1000),
       });
-      Sentry.captureException(
+      sentryCaptureException(
         new GithubInvalidTokenError("GitHub token rejected with 403", {
           operation,
           statusCode: res.status,
@@ -309,7 +312,7 @@ export async function githubFetch(
         operation,
         statusCode: res.status,
       });
-      Sentry.captureException(wrapped, {
+      sentryCaptureException(wrapped, {
         tags: {
           pool: "github",
           alert: "github-pool-5xx",
@@ -359,9 +362,25 @@ async function alertOps(
   metadata: Record<string, unknown>,
 ): Promise<void> {
   const url = process.env.OPS_ALERT_WEBHOOK?.trim();
-  if (!url) return;
+  if (!url) {
+    const blocked = new OpsAlertFatalError(
+      "ops alert blocked: OPS_ALERT_WEBHOOK missing",
+      { event, source: "github", metadata },
+    );
+    sentryCaptureException(blocked, {
+      level: "error",
+      tags: {
+        pool: "github",
+        alert: "ops-alert-blocked",
+        upstream_source: "github",
+        ...engineErrorTags(blocked),
+      },
+      extra: { event, metadata },
+    });
+    return;
+  }
   try {
-    await fetch(url, {
+    const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -371,7 +390,36 @@ async function alertOps(
         at: new Date().toISOString(),
       }),
     });
-  } catch {
+    if (!response.ok) {
+      throw new Error(`OPS webhook HTTP ${response.status}`);
+    }
+  } catch (error) {
+    const failed = new OpsAlertRecoverableError(
+      "OPS alert webhook delivery failed",
+      {
+        event,
+        source: "github",
+        message: error instanceof Error ? error.message : String(error),
+      },
+    );
+    sentryCaptureException(failed, {
+      tags: {
+        pool: "github",
+        alert: "ops-alert-delivery-failed",
+        upstream_source: "github",
+        ...engineErrorTags(failed),
+      },
+    });
     // Alert failures must not break the caller handling the original outage.
   }
+}
+
+export function _setGithubFetchSentryForTests(deps: {
+  captureException: typeof Sentry.captureException;
+}): void {
+  sentryCaptureException = deps.captureException;
+}
+
+export function _resetGithubFetchSentryForTests(): void {
+  sentryCaptureException = Sentry.captureException;
 }

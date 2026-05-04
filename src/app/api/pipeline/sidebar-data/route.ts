@@ -23,12 +23,27 @@ export type {
 export const runtime = "nodejs";
 
 export async function GET(request: NextRequest) {
+  const trace = process.env.PERF_TRACE_ROUTES === "1";
+  const startedAt = performance.now();
   try {
+    const spans: Array<{ name: string; ms: number }> = [];
     const userId = request.nextUrl.searchParams.get("userId") ?? undefined;
-    // No reposById cap on the API path: the mobile drawer (the only
-    // remaining consumer post-B1) reads watchlist tiles and may target
-    // repos outside the top-N momentum slice the layout passes inline.
-    const data = await buildSidebarData({ userId });
+    const includeAllRepos = request.nextUrl.searchParams.get("full") === "1";
+    // Cap by default to keep payload latency under control for mobile drawer
+    // fetches. Clients that need the full map can opt in with `?full=1`.
+    const data = await buildSidebarData({
+      userId,
+      reposByIdTopN: includeAllRepos ? undefined : 300,
+      onTiming: (name, durationMs) => {
+        if (trace) spans.push({ name, ms: durationMs });
+      },
+    });
+    if (trace) {
+      const totalMs = performance.now() - startedAt;
+      console.info(
+        `[perf][route:/api/pipeline/sidebar-data] totalMs=${totalMs.toFixed(1)} includeAllRepos=${includeAllRepos ? "1" : "0"} repos=${data.trendingReposCount} spans=${JSON.stringify(spans)}`,
+      );
+    }
     return NextResponse.json(data, {
       headers: { "Content-Type": "application/json; charset=utf-8" },
     });

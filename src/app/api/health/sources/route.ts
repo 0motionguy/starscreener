@@ -76,13 +76,19 @@ function toView(snapshot: SourceHealthSnapshot): SourceBreakerView {
 }
 
 export async function GET(): Promise<NextResponse<HealthSourcesBody>> {
+  const trace = process.env.PERF_TRACE_ROUTES === "1";
+  const startedAt = performance.now();
   // Make sure the canonical list is always represented even before any
   // traffic flows (cold-start scenario on a fresh process).
+  const registerStart = performance.now();
   for (const id of KNOWN_SOURCES) {
     sourceHealthTracker.register(id);
   }
+  const registerMs = performance.now() - registerStart;
 
+  const getAllStart = performance.now();
   const all = sourceHealthTracker.getAllHealth();
+  const getAllMs = performance.now() - getAllStart;
   const sources: Record<string, SourceBreakerView> = {};
   let closed = 0;
   let open = 0;
@@ -128,5 +134,11 @@ export async function GET(): Promise<NextResponse<HealthSourcesBody>> {
   // 207 Multi-Status when degraded so monitors can split "down" from
   // "degraded but serving".
   const status = open + halfOpen > 0 ? 207 : 200;
+  if (trace) {
+    const totalMs = performance.now() - startedAt;
+    console.info(
+      `[perf][route:/api/health/sources] totalMs=${totalMs.toFixed(1)} registerMs=${registerMs.toFixed(1)} getAllMs=${getAllMs.toFixed(1)} totalSources=${Object.keys(sources).length} open=${open} halfOpen=${halfOpen}`,
+    );
+  }
   return NextResponse.json(body, { status });
 }

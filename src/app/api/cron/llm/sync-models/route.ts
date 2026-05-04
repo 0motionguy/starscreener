@@ -14,12 +14,14 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { getDataStore } from "@/lib/data-store";
+import { DataStoreFatalError } from "@/lib/errors";
 import type { ModelMeta, ModelMetadataPayload } from "@/lib/llm/types";
 
 export const runtime = "nodejs";
 
 const ENDPOINT = "https://openrouter.ai/api/v1/models";
 const NO_STORE = { "Cache-Control": "no-store" } as const;
+class LlmModelSyncError extends DataStoreFatalError {}
 
 interface OpenRouterModel {
   id: string;
@@ -102,7 +104,10 @@ async function syncModels(): Promise<{ count: number; syncedAt: string }> {
     clearTimeout(timer);
   }
   if (!res.ok) {
-    throw new Error(`OpenRouter /models returned ${res.status}`);
+    throw new LlmModelSyncError(`OpenRouter /models returned ${res.status}`, {
+      endpoint: ENDPOINT,
+      status: res.status,
+    });
   }
   const json = (await res.json()) as { data?: OpenRouterModel[] };
   const list = Array.isArray(json.data) ? json.data : [];

@@ -47,7 +47,10 @@ import {
   getDailyDownloadsForPackage,
   type DailyDownload,
 } from "@/lib/npm-daily";
-import { getNpmDependentsCount } from "@/lib/npm-dependents";
+import {
+  getNpmDependentsCount,
+  refreshNpmDependentsFromStore,
+} from "@/lib/npm-dependents";
 import { getLaunchForRepo, type Launch } from "@/lib/producthunt";
 import {
   getLobstersMentions,
@@ -457,6 +460,7 @@ export async function buildCanonicalRepoProfile(
   await Promise.all([
     refreshRepoProfilesFromStore(),
     refreshRevenueOverlaysFromStore(),
+    refreshNpmDependentsFromStore(),
   ]);
 
   // Hydrate mentions from disk. Idempotent on warm Lambdas; the store is

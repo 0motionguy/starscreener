@@ -90,6 +90,23 @@ async function readTwitterJsonlFile<T>(filename: string): Promise<T[]> {
   return bundledRecords;
 }
 
+async function readTwitterRecordsFromStore<T>(key: string): Promise<T[] | null> {
+  try {
+    const { getDataStore } = await import("@/lib/data-store");
+    const result = await getDataStore().read<unknown>(key);
+    if (result.source === "missing" || !Array.isArray(result.data)) {
+      return null;
+    }
+    return result.data as T[];
+  } catch (err) {
+    console.warn(
+      `[twitter:storage] failed to hydrate ${key} from data-store:`,
+      err,
+    );
+    return null;
+  }
+}
+
 class InMemoryTwitterStore {
   private repoSignals = new Map<string, TwitterRepoSignal>();
   private repoSignalsByFullName = new Map<string, string>();
@@ -262,24 +279,47 @@ class InMemoryTwitterStore {
     this.scansByRepo.clear();
     this.auditLogs.clear();
 
-    const [repoSignals, scans, auditLogs] = await Promise.all([
-      readTwitterJsonlFile<TwitterRepoSignal>(TWITTER_FILES.repoSignals).catch(
-        (err) => {
-          console.error("[twitter:storage] failed to hydrate repo signals:", err);
-          return [];
-        },
-      ),
-      readTwitterJsonlFile<TwitterScanRecord>(TWITTER_FILES.scans).catch((err) => {
-        console.error("[twitter:storage] failed to hydrate scans:", err);
-        return [];
-      }),
-      readTwitterJsonlFile<TwitterIngestionAuditLog>(TWITTER_FILES.auditLogs).catch(
-        (err) => {
-          console.error("[twitter:storage] failed to hydrate audit logs:", err);
-          return [];
-        },
+    const [repoSignalsStore, scansStore, auditLogsStore] = await Promise.all([
+      readTwitterRecordsFromStore<TwitterRepoSignal>("twitter-repo-signals"),
+      readTwitterRecordsFromStore<TwitterScanRecord>("twitter-scans"),
+      readTwitterRecordsFromStore<TwitterIngestionAuditLog>(
+        "twitter-ingestion-audit",
       ),
     ]);
+
+    const [repoSignalsFile, scansFile, auditLogsFile] = await Promise.all([
+      repoSignalsStore
+        ? Promise.resolve([])
+        : readTwitterJsonlFile<TwitterRepoSignal>(TWITTER_FILES.repoSignals).catch(
+            (err) => {
+              console.error(
+                "[twitter:storage] failed to hydrate repo signals:",
+                err,
+              );
+              return [];
+            },
+          ),
+      scansStore
+        ? Promise.resolve([])
+        : readTwitterJsonlFile<TwitterScanRecord>(TWITTER_FILES.scans).catch(
+            (err) => {
+              console.error("[twitter:storage] failed to hydrate scans:", err);
+              return [];
+            },
+          ),
+      auditLogsStore
+        ? Promise.resolve([])
+        : readTwitterJsonlFile<TwitterIngestionAuditLog>(
+            TWITTER_FILES.auditLogs,
+          ).catch((err) => {
+            console.error("[twitter:storage] failed to hydrate audit logs:", err);
+            return [];
+          }),
+    ]);
+
+    const repoSignals = repoSignalsStore ?? repoSignalsFile;
+    const scans = scansStore ?? scansFile;
+    const auditLogs = auditLogsStore ?? auditLogsFile;
 
     for (const signal of repoSignals) {
       this.repoSignals.set(signal.repoId, signal);

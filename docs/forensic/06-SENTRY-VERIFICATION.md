@@ -1,6 +1,6 @@
 # Sentry Verification - Sprint 1 Phase 1.5
 
-Verification timestamp: `2026-05-04T14:24:03.0378696+08:00`
+Verification timestamp: `2026-05-04T14:44:00+08:00`
 
 ## Status
 
@@ -11,7 +11,7 @@ Sentry delivery is not fully verified yet.
 | Vercel production | MISSING | `vercel env ls production` for project `starscreener` returned no `SENTRY_DSN`, `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, or `SENTRY_PROJECT` rows. |
 | Railway production worker | CONFIGURED | `railway variables --json --environment production --service trendingrepo-worker` confirmed `SENTRY_DSN` is present. |
 | Local shell | MISSING | `SENTRY_AUTH_TOKEN`, `SENTRY_DSN`, `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_ORG`, and `SENTRY_PROJECT` are not present in the local process environment. |
-| Local Next startup | VERIFIED | `next dev -p 3024` logged `[STARTUP] SENTRY_DSN not configured - runtime errors will not be reported`. Next compiled the active root `instrumentation.ts`; `src/instrumentation.ts` carries the same startup check for the sprint contract. |
+| Local Next startup | VERIFIED | `next dev -p 3023` logged `[STARTUP] SENTRY_DSN not configured - runtime errors will not be reported`. Next compiled the active root `instrumentation.ts`; `src/instrumentation.ts` carries the same startup check for the sprint contract. |
 | Canary event | BLOCKED | The Next.js production runtime has no Vercel Sentry DSN, so `/api/_internal/sentry-canary` cannot produce a real production Sentry event yet. |
 
 Required operator action: add `SENTRY_DSN` to Vercel production for `starscreener`. Add `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and `SENTRY_PROJECT` only if source-map upload and API verification should run from CI/operator shells. Do not paste values in chat.
@@ -26,12 +26,14 @@ Gate: returns `404` unless `SENTRY_CANARY_ENABLED=1`.
 
 Enabled behavior:
 
-1. Creates a deliberate `Error("Sentry canary test error")`.
+1. Creates a deliberate local `SentryCanaryError` typed as an `EngineError`.
 2. Captures it to Sentry with tags:
    - `canary=true`
    - `route=api/_internal/sentry-canary`
+   - `source=sentry-canary`
+   - `category=fatal`
 3. Flushes Sentry for up to 2 seconds.
-4. Throws the same error so Next's request-error instrumentation sees a real unhandled route failure.
+4. Throws the same typed error so Next's request-error instrumentation sees a real unhandled route failure.
 
 Production proof is pending. After Vercel `SENTRY_DSN` is configured, fire:
 
@@ -79,7 +81,7 @@ All subclasses expose:
 | Reddit UA pool | `pool=reddit`, `alert=reddit-ua-pool-exhausted`, `alert=reddit-ua-rate-limit`, `alert=reddit-ua-blocked`, `alert=reddit-ua-5xx`, `alert=reddit-ua-network`. |
 | Twitter fallback | `pool=twitter`, `alert=twitter-degraded`, `source=apify`, `alert=twitter-all-sources-failed`. |
 | Nitter health | `source=nitter-health-check`, `alert=twitter-nitter-health`. |
-| Canary | `canary=true`, `route=api/_internal/sentry-canary`. |
+| Canary | `canary=true`, `route=api/_internal/sentry-canary`, `source=sentry-canary`, `category=fatal`. |
 | Sprint 2 placeholders | No Sentry events emitted yet. Add `source=<EngineError.source>` and `category=<EngineError.category>` when wiring each source. |
 
 ## Adding a New EngineError Subclass

@@ -20,16 +20,19 @@ export function TwitterSection({
         </>
       }
     >
-      <div className="grid gap-3 md:grid-cols-4">
+      <div
+        className="grid gap-3"
+        style={{ gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))" }}
+      >
         <Metric label="Apify status" value={data.apify.status} />
         <Metric label="Last success" value={formatAge(data.apify.lastSuccess)} />
         <Metric label="Last fail" value={formatAge(data.apify.lastFailure)} />
         <Metric label="Quota" value={data.apify.estimatedQuotaState} />
       </div>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+      <div className="mt-4 space-y-4">
         <div className="overflow-x-auto rounded-[2px] border" style={{ borderColor: "var(--v3-line-100)" }}>
-          <table className="w-full text-[12px]">
+          <table className="min-w-[760px] w-full text-[12px]">
             <thead>
               <tr style={{ borderBottom: "1px solid var(--v3-line-100)" }}>
                 <Th>Source</Th>
@@ -56,7 +59,7 @@ export function TwitterSection({
         </div>
 
         <div className="overflow-x-auto rounded-[2px] border" style={{ borderColor: "var(--v3-line-100)" }}>
-          <table className="w-full text-[12px]">
+          <table className="min-w-[720px] w-full text-[12px]">
             <thead>
               <tr style={{ borderBottom: "1px solid var(--v3-line-100)" }}>
                 <Th>Nitter instance</Th>

@@ -82,7 +82,7 @@ export function AdminKeysDashboard({
   }, [state]);
 
   return (
-    <main className="mx-auto max-w-[1500px] px-4 py-8 sm:px-6 lg:px-8">
+    <main className="mx-auto max-w-[1500px] px-4 pb-32 pt-8 sm:px-6 md:pb-8 lg:px-8">
       <header className="mb-6 flex flex-col gap-4 border-b pb-5 md:flex-row md:items-end md:justify-between" style={{ borderColor: "var(--v3-line-100)" }}>
         <div>
           <p
@@ -146,11 +146,14 @@ export function PoolAnomalies({ anomalies }: { anomalies: PoolAnomaly[] }) {
           Pool anomalies
         </h2>
       </div>
-      <div className="mt-3 grid gap-2 md:grid-cols-2">
+      <div
+        className="mt-3 grid gap-3"
+        style={{ gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))" }}
+      >
         {anomalies.map((anomaly) => (
-          <div key={`${anomaly.label}:${anomaly.detail}`} className="rounded-[2px] border p-3" style={{ borderColor: anomaly.severity === "RED" ? "rgba(248,113,113,0.55)" : "rgba(251,191,36,0.5)", background: "var(--v3-bg-050)" }}>
-            <div className="flex items-center justify-between gap-3">
-              <p className="v2-mono text-[11px] tracking-[0.14em] uppercase" style={{ color: "var(--v3-ink-100)" }}>
+          <div key={`${anomaly.label}:${anomaly.detail}`} className="min-w-0 rounded-[2px] border p-3" style={{ borderColor: anomaly.severity === "RED" ? "rgba(248,113,113,0.55)" : "rgba(251,191,36,0.5)", background: "var(--v3-bg-050)" }}>
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <p className="v2-mono min-w-0 flex-1 break-words text-[11px] tracking-[0.14em] uppercase" style={{ color: "var(--v3-ink-100)" }}>
                 {anomaly.label}
               </p>
               <StatusPill status={anomaly.severity} label={anomaly.severity} />
@@ -180,7 +183,7 @@ export function StatusPill({
         : "var(--v3-sig-red)";
   return (
     <span
-      className="v2-mono inline-flex items-center rounded-[2px] border px-2 py-1 text-[10px] tracking-[0.14em] uppercase"
+      className="v2-mono inline-flex shrink-0 self-start rounded-[2px] border px-2 py-1 text-[10px] tracking-[0.14em] uppercase"
       style={{
         color,
         borderColor: color,

@@ -21,7 +21,10 @@ export function GithubPoolSection({
         </>
       }
     >
-      <div className="grid gap-3 md:grid-cols-3">
+      <div
+        className="grid gap-3"
+        style={{ gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))" }}
+      >
         <Stat label="Configured" value={String(data.totalConfigured)} />
         <Stat label="Requests 24h" value={String(data.rows.reduce((sum, row) => sum + row.requests24h, 0))} />
         <Stat label="Quarantined" value={String(data.rows.filter((row) => row.quarantine.active).length)} />

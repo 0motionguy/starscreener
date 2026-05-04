@@ -194,20 +194,7 @@ export default async function RevenuePage({ searchParams }: PageProps) {
         {tracked.length === 0 ? (
           <TrackedColdState />
         ) : (
-          // NOTE: do not use Tailwind's `grid grid-cols-*` here — globals.css
-          // ships a v2 `.grid { grid-template-columns: repeat(12, ...) }`
-          // utility that overrides Tailwind's class at equal specificity (it
-          // is loaded after Tailwind), squashing every card into a 12-column
-          // micro-strip. Inline style wins regardless of source order.
-          <div
-            className="revenue-card-grid"
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fill, minmax(min(280px, 100%), 1fr))",
-              gap: "1rem",
-            }}
-          >
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {tracked.map((startup, i) => {
               const stagger = Math.min(i, 6) * 50;
               return (
@@ -260,17 +247,7 @@ export default async function RevenuePage({ searchParams }: PageProps) {
             No startups in this filter.
           </div>
         ) : (
-          // See note above on the tracked grid — same v2 `.grid` global
-          // collision applies here.
-          <div
-            className="revenue-card-grid"
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fill, minmax(min(280px, 100%), 1fr))",
-              gap: "1rem",
-            }}
-          >
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {leaderboard.rows.map((startup, i) => {
               const stagger = Math.min(i, 6) * 50;
               return (

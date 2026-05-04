@@ -1,3 +1,10 @@
+// V3 accent registry — five named themes that the picker writes to
+// `localStorage["trendingrepo-v3-accent"]` and applies via the
+// `html[data-theme]` attribute. Each entry carries the brand colours
+// the picker needs to paint its swatch chrome; the actual site-wide
+// recolour is driven by CSS `[data-theme="<id>"]` scopes in globals.css
+// that override --v4-acc and friends.
+
 export interface V3AccentTheme {
   id: string;
   label: string;
@@ -9,53 +16,53 @@ export interface V3AccentTheme {
 }
 
 export const V3_THEME_STORAGE_KEY = "trendingrepo-v3-accent";
-export const V3_DEFAULT_THEME_ID = "lava";
+export const V3_DEFAULT_THEME_ID = "orange";
 
 export const V3_ACCENT_THEMES: V3AccentTheme[] = [
   {
-    id: "lava",
-    label: "Lava",
-    acc: "#ff6b35",
-    accHover: "#ff8458",
-    accDim: "#c44a1f",
-    accSoft: "rgba(255, 107, 53, 0.14)",
-    accGlow: "rgba(255, 107, 53, 0.45)",
+    id: "orange",
+    label: "Orange",
+    acc: "#fb923c",
+    accHover: "#fdba74",
+    accDim: "#c2410c",
+    accSoft: "rgba(251, 146, 60, 0.14)",
+    accGlow: "rgba(251, 146, 60, 0.45)",
   },
   {
-    id: "indigo",
-    label: "Indigo",
-    acc: "#9297f6",
-    accHover: "#a8acf8",
-    accDim: "#555bd8",
-    accSoft: "rgba(146, 151, 246, 0.14)",
-    accGlow: "rgba(146, 151, 246, 0.45)",
+    id: "blue",
+    label: "Blue",
+    acc: "#60a5fa",
+    accHover: "#93c5fd",
+    accDim: "#1d4ed8",
+    accSoft: "rgba(96, 165, 250, 0.14)",
+    accGlow: "rgba(96, 165, 250, 0.45)",
   },
   {
-    id: "lime",
-    label: "Lime",
-    acc: "#def135",
-    accHover: "#e8fb55",
-    accDim: "#a9b827",
-    accSoft: "rgba(222, 241, 53, 0.14)",
-    accGlow: "rgba(222, 241, 53, 0.45)",
+    id: "yellow",
+    label: "Yellow",
+    acc: "#facc15",
+    accHover: "#fde047",
+    accDim: "#a16207",
+    accSoft: "rgba(250, 204, 21, 0.14)",
+    accGlow: "rgba(250, 204, 21, 0.45)",
   },
   {
-    id: "cyan",
-    label: "Cyan",
-    acc: "#3ad6c5",
-    accHover: "#63e1d3",
-    accDim: "#26a597",
-    accSoft: "rgba(58, 214, 197, 0.14)",
-    accGlow: "rgba(58, 214, 197, 0.45)",
+    id: "green",
+    label: "Green",
+    acc: "#4ade80",
+    accHover: "#86efac",
+    accDim: "#15803d",
+    accSoft: "rgba(74, 222, 128, 0.14)",
+    accGlow: "rgba(74, 222, 128, 0.45)",
   },
   {
-    id: "magenta",
-    label: "Magenta",
-    acc: "#e879f9",
-    accHover: "#f0a2ff",
-    accDim: "#a855f7",
-    accSoft: "rgba(232, 121, 249, 0.14)",
-    accGlow: "rgba(232, 121, 249, 0.45)",
+    id: "purple",
+    label: "Purple",
+    acc: "#c084fc",
+    accHover: "#d8b4fe",
+    accDim: "#7e22ce",
+    accSoft: "rgba(192, 132, 252, 0.14)",
+    accGlow: "rgba(192, 132, 252, 0.45)",
   },
 ];
 

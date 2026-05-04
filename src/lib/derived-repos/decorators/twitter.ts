@@ -13,6 +13,10 @@ export function decorateWithTwitter(repos: Repo[]): Repo[] {
     if (!signal) {
       return { ...r, twitter: null };
     }
+    // Note: `mentionCount24h` is no longer set here — the unified rollup
+    // decorator (`decorateWithMentionsRollup`) sums across all 9 sources
+    // and writes it. The nested `repo.twitter.mentionCount24h` stays the
+    // canonical Twitter-only number.
     return {
       ...r,
       twitter: {

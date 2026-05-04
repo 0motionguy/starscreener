@@ -34,11 +34,15 @@ node -e "console.log(require('crypto').randomBytes(24).toString('base64url'))"
 `GITHUB_TOKEN` must be a GitHub PAT (classic) with at minimum `public_repo` scope.
 Without it, the ingestion layer falls back to mock data.
 
-> **Scope of `GITHUB_TOKEN` in Phase 3.** Production ingestion runs in
-> GitHub Actions and calls OSS Insight, not the GitHub API — it does not
-> consume this token. `GITHUB_TOKEN` is only required for the ad-hoc
-> `POST /api/pipeline/ingest` path and for local dev against real GitHub.
-> Leaving it unset on Vercel is fine for the default flow.
+> **Scope of `GITHUB_TOKEN` on Vercel.** Required. The runtime callers
+> in `src/app/compare`, `/u/[handle]`, `/repo/*`, the avatar/icon resolver,
+> and the GitHub-pool admin views consume `GITHUB_TOKEN` (via
+> [src/lib/github-token-pool.ts](../src/lib/github-token-pool.ts)) at
+> request time. `src/lib/env.ts` throws `Production boot aborted: missing
+> required env vars: GITHUB_TOKEN, CRON_SECRET` if either is unset (unless
+> `TRENDINGREPO_ALLOW_MISSING_ENV=true`). The hourly OSS-Insight ingest
+> runs in GitHub Actions and does not use this token — but the request
+> path does. See [ENGINE.md §3a](./ENGINE.md) for the runtime caller list.
 
 ProductHunt ingestion is GitHub Actions-only. Add a repository secret named
 `PRODUCTHUNT_TOKEN` for `.github/workflows/scrape-producthunt.yml`; Vercel and
@@ -50,8 +54,10 @@ Bluesky ingestion is GitHub Actions-only too. Add `BLUESKY_HANDLE` and
 
 Reddit can run anonymously, but production is more reliable with OAuth.
 Add `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, and optionally
-`REDDIT_USER_AGENT` as repository secrets so the Reddit scrapers can use
-`oauth.reddit.com` in GitHub Actions instead of the public JSON endpoints.
+`REDDIT_USER_AGENT` or comma/newline-separated `REDDIT_USER_AGENTS` as
+repository secrets so the Reddit scrapers can use `oauth.reddit.com` in
+GitHub Actions instead of the public JSON endpoints, while rotating public
+fallback user agents when no single-UA override is set.
 
 ---
 
@@ -154,13 +160,13 @@ Secrets are NEVER committed. Paste these once in each dashboard:
 - `GITHUB_TOKEN` — GitHub PAT
 - `CRON_SECRET` — already set via CLI. Rotate via dashboard if leaked.
 - `BLUESKY_HANDLE` / `BLUESKY_APP_PASSWORD` — only if you want runtime/local parity for Bluesky scraping outside GitHub Actions
-- `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET` / `REDDIT_USER_AGENT` — only if you run Reddit scrapers outside GitHub Actions
+- `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET` / `REDDIT_USER_AGENT` / `REDDIT_USER_AGENTS` — only if you run Reddit scrapers outside GitHub Actions
 
 ### Railway (project → starscreener service → Variables)
 - `GITHUB_TOKEN` — same GitHub PAT
 - `CRON_SECRET` — already set
 - `BLUESKY_HANDLE` / `BLUESKY_APP_PASSWORD` — only if you run Bluesky scraping there
-- `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET` / `REDDIT_USER_AGENT` — only if you run Reddit scraping there
+- `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET` / `REDDIT_USER_AGENT` / `REDDIT_USER_AGENTS` — only if you run Reddit scraping there
 
 Both deploys must share the same `CRON_SECRET` so authenticated admin
 requests work against either host.

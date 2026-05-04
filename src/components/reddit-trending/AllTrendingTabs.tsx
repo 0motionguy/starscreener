@@ -29,12 +29,22 @@ import type { RedditAllPost } from "@/lib/reddit-all";
 import { redditPostHref, repoFullNameToHref } from "@/lib/reddit";
 import { cn, formatNumber } from "@/lib/utils";
 
-export type TrendingTab = "trending-now" | "hot-7d" | "by-subreddit";
+export type TrendingTab =
+  | "trending-now"
+  | "hot-7d"
+  | "hot-30d"
+  | "by-subreddit";
 
-const TAB_IDS: TrendingTab[] = ["trending-now", "hot-7d", "by-subreddit"];
+const TAB_IDS: TrendingTab[] = [
+  "trending-now",
+  "hot-7d",
+  "hot-30d",
+  "by-subreddit",
+];
 const TAB_LABELS: Record<TrendingTab, string> = {
-  "trending-now": "Trending Now",
+  "trending-now": "Trending 24h",
   "hot-7d": "Hot 7d",
+  "hot-30d": "Hot 30d",
   "by-subreddit": "By Subreddit",
 };
 
@@ -42,6 +52,7 @@ type TabIcon = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
 const TAB_ICONS: Record<TrendingTab, TabIcon> = {
   "trending-now": TrendingUp,
   "hot-7d": Flame,
+  "hot-30d": Flame,
   "by-subreddit": Users,
 };
 
@@ -210,12 +221,27 @@ function filterByWindow(
 }
 
 function sortTrendingNow(posts: RedditAllPost[]): RedditAllPost[] {
+  // When trendingScore is uniformly 0 (RSS-fallback degraded mode where
+  // Reddit /new.json doesn't expose upvotes for unauthenticated GH-Actions
+  // egress) the velocity sort collapses and the feed looks frozen. Fall
+  // back to chronological (newest first) so the 24h tab is still useful.
+  const hasSignal = posts.some((p) => (p.trendingScore ?? 0) > 0);
+  if (!hasSignal) {
+    return posts.slice().sort((a, b) => b.createdUtc - a.createdUtc);
+  }
   return posts
     .slice()
     .sort((a, b) => (b.trendingScore ?? 0) - (a.trendingScore ?? 0));
 }
 
 function sortHot7d(posts: RedditAllPost[]): RedditAllPost[] {
+  // Same degraded-mode guard as sortTrendingNow — when score is uniformly 0
+  // the (ratio × score) sort produces undefined order. Newest-first is the
+  // only signal we have left.
+  const hasSignal = posts.some((p) => p.score > 0);
+  if (!hasSignal) {
+    return posts.slice().sort((a, b) => b.createdUtc - a.createdUtc);
+  }
   return posts.slice().sort((a, b) => {
     const av = (a.baselineRatio ?? 1) * a.score;
     const bv = (b.baselineRatio ?? 1) * b.score;
@@ -265,17 +291,37 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
     [topicFiltered],
   );
 
+  // Auto-degrade: when the chip filter is in default state (no chips +
+  // showAll off) and that default would zero out the visible feed (the
+  // degraded-data scenario where Reddit's RSS fallback never sets
+  // value_score so 80%+ of posts get hidden), bypass the value_score gate
+  // so the page still shows content. Active chips OR explicit showAll are
+  // user intent — never override those.
+  const defaultFilterWouldHideAll = useMemo(() => {
+    if (activeChips.size > 0 || showAll) return false;
+    if (topicFiltered.length === 0) return false;
+    const passing = topicFiltered.filter((p) => (p.value_score ?? 0) >= 1);
+    return passing.length === 0;
+  }, [activeChips, showAll, topicFiltered]);
+  const effectiveShowAll = showAll || defaultFilterWouldHideAll;
+
   const filtered = useMemo(() => {
-    const chipFiltered = applyChipFilter(topicFiltered, activeChips, showAll);
+    const chipFiltered = applyChipFilter(
+      topicFiltered,
+      activeChips,
+      effectiveShowAll,
+    );
     switch (activeTab) {
       case "trending-now":
         return sortTrendingNow(filterByWindow(chipFiltered, 24, nowMs)).slice(0, 50);
       case "hot-7d":
         return sortHot7d(filterByWindow(chipFiltered, 168, nowMs)).slice(0, 50);
+      case "hot-30d":
+        return sortHot7d(filterByWindow(chipFiltered, 30 * 24, nowMs)).slice(0, 50);
       case "by-subreddit":
         return filterByWindow(chipFiltered, 168, nowMs);
     }
-  }, [activeTab, topicFiltered, activeChips, showAll, nowMs]);
+  }, [activeTab, topicFiltered, activeChips, effectiveShowAll, nowMs]);
 
   function clearTopic() {
     const params = new URLSearchParams(searchParams.toString());
@@ -313,13 +359,18 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
   // Per-tab counts (post-topic, post-chip, post-showAll, post-window). Drives
   // the inset count badge on each tab in the strip below.
   const tabCounts = useMemo<Record<TrendingTab, number>>(() => {
-    const chipFiltered = applyChipFilter(topicFiltered, activeChips, showAll);
+    const chipFiltered = applyChipFilter(
+      topicFiltered,
+      activeChips,
+      effectiveShowAll,
+    );
     return {
       "trending-now": filterByWindow(chipFiltered, 24, nowMs).length,
       "hot-7d": filterByWindow(chipFiltered, 168, nowMs).length,
+      "hot-30d": filterByWindow(chipFiltered, 30 * 24, nowMs).length,
       "by-subreddit": filterByWindow(chipFiltered, 168, nowMs).length,
     };
-  }, [topicFiltered, activeChips, showAll, nowMs]);
+  }, [topicFiltered, activeChips, effectiveShowAll, nowMs]);
 
   return (
     <section>
@@ -411,9 +462,14 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="border border-dashed border-border-primary rounded-md p-6 bg-bg-secondary/40 text-sm text-text-tertiary">
-          No posts in this window{activeTopic ? ` matching "${activeTopic}"` : ""}.
-        </div>
+        <EmptyWindow
+          activeTab={activeTab}
+          activeTopic={activeTopic}
+          totalPosts={topicFiltered.length}
+          tabCounts={tabCounts}
+          pathname={pathname}
+          searchParams={searchParams}
+        />
       ) : activeTab === "by-subreddit" ? (
         <SubredditGroupView
           posts={filtered}
@@ -443,6 +499,66 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
 
 function postHref(p: RedditAllPost): string {
   return redditPostHref(p.permalink, p.url);
+}
+
+// Empty-window UI — replaces the silent dead-end "No posts" message with
+// an explanation + navigation to a tab that DOES have data. Surfaced when
+// the chip/window combo zeros out (e.g. classifier hasn't tagged any post
+// in the last 24h, or topic filter excludes everything).
+function EmptyWindow({
+  activeTab,
+  activeTopic,
+  totalPosts,
+  tabCounts,
+  pathname,
+  searchParams,
+}: {
+  activeTab: TrendingTab;
+  activeTopic: string;
+  totalPosts: number;
+  tabCounts: Record<TrendingTab, number>;
+  pathname: string;
+  searchParams: ReturnType<typeof useSearchParams>;
+}) {
+  // Suggest the first non-active tab that has matches.
+  const suggestion = TAB_IDS.find(
+    (t) => t !== activeTab && tabCounts[t] > 0,
+  );
+  const suggestionHref = suggestion
+    ? (() => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("tab", suggestion);
+        return `${pathname}?${params.toString()}`;
+      })()
+    : null;
+
+  return (
+    <div className="border border-dashed border-border-primary rounded-md p-6 bg-bg-secondary/40 text-sm text-text-tertiary">
+      <p>
+        No posts in <span className="font-mono">{TAB_LABELS[activeTab]}</span>
+        {activeTopic ? (
+          <>
+            {" "}matching <span className="font-mono">&ldquo;{activeTopic}&rdquo;</span>
+          </>
+        ) : null}
+        .
+      </p>
+      {totalPosts > 0 ? (
+        <p className="mt-2 text-text-muted">
+          {totalPosts.toLocaleString("en-US")} posts available across other windows.
+        </p>
+      ) : null}
+      {suggestion && suggestionHref ? (
+        <p className="mt-3">
+          Try{" "}
+          <Link href={suggestionHref} scroll={false} className="text-brand underline">
+            {TAB_LABELS[suggestion]}
+          </Link>
+          {" "}({tabCounts[suggestion].toLocaleString("en-US")} posts).
+        </p>
+      ) : null}
+    </div>
+  );
 }
 
 interface PostRowProps {

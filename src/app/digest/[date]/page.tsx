@@ -282,7 +282,7 @@ export default async function DigestDatePage({ params }: PageProps) {
               url: SITE_URL,
               logo: {
                 "@type": "ImageObject",
-                url: absoluteUrl("/icon.svg"),
+                url: absoluteUrl("/icon-512.png"),
               },
             },
             mainEntityOfPage: absoluteUrl(`/digest/${date}`),

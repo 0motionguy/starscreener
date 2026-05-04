@@ -87,6 +87,25 @@ function formatClock(iso: string | undefined): string {
   return new Date(iso).toISOString().slice(11, 19);
 }
 
+// npm registry descriptions are scraped from the package's README and often
+// arrive as raw HTML/markdown — `<p align="center">`, `<code>`, badge image
+// links, etc. Strip the noise so the Package cell renders as a clean one-line
+// blurb instead of `<p><code>npm i -g X</code>...`. Length clamp matches the
+// truncate width so the trailing ellipsis lines up with the column edge.
+function cleanDescription(raw: string | null): string {
+  if (!raw) return "repo-linked npm package";
+  const stripped = raw
+    .replace(/<[^>]+>/g, " ")
+    .replace(/!?\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/[`*_>#]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!stripped) return "repo-linked npm package";
+  return stripped.length > 140
+    ? `${stripped.slice(0, 137).trimEnd()}…`
+    : stripped;
+}
+
 export default async function NpmPage({ searchParams }: NpmPageProps) {
   const { range } = await searchParams;
   // Refresh npm-packages cache from the data-store before reading sync getters.
@@ -113,16 +132,15 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
     );
   }
 
-  // KpiBand snapshot — tracked packages, top 24h downloader, linked-repo
-  // count, active window. Window cell echoes the active tab so the snapshot
-  // stays stable when users flip ranges.
-  const topByDownloads = packages.reduce<NpmPackageRow | null>((best, pkg) => {
-    if (!best) return pkg;
-    return pkg.downloads24h > best.downloads24h ? pkg : best;
-  }, null);
-  const topDownloadValue = topByDownloads?.downloads24h ?? 0;
-  const topDownloadName = topByDownloads?.name ?? "—";
-  const linkedRepoCount = file.counts?.linkedRepos ?? packages.length;
+  // KpiBand snapshot — tracked packages, top mover for the active window,
+  // linked-repo count, active window. Top mover is `packages[0]` because
+  // getTopNpmPackages already sorts by trendScore for the active window —
+  // ranking a stale legacy library by absolute downloads (the prior
+  // behaviour) hid every actual breakout from the snapshot.
+  const topMover = packages[0] ?? null;
+  const topMoverDelta = topMover ? deltaForNpmWindow(topMover, activeWindow) : 0;
+  const topMoverPct = topMover ? deltaPctForNpmWindow(topMover, activeWindow) ?? 0 : 0;
+  const linkedRepoCount = packages.filter((pkg) => pkg.linkedRepo).length;
 
   return (
     <main className="home-surface">
@@ -132,8 +150,8 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
             <b>NPM</b> · TERMINAL · /NPM
           </>
         }
-        title="npm · top packages"
-        lede="Top npm package movement over 24h, 7d, and 30d windows. Discovery sweep keeps only packages whose registry metadata links back to a GitHub repo, then ranks by download velocity."
+        title="npm · package velocity"
+        lede="Repo-linked npm packages ranked by 24h / 7d / 30d download movement. Every row comes from the fresh npm corpus and links back to its GitHub repo."
         clock={
           <>
             <span className="big">{formatClock(file.fetchedAt)}</span>
@@ -147,14 +165,16 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
             cells={[
               {
                 label: "TRACKED",
-                value: packages.length.toLocaleString("en-US"),
+                value: linkedRepoCount.toLocaleString("en-US"),
                 sub: "repo-linked pkgs",
                 pip: NPM_RED,
               },
               {
-                label: "TOP 24H DL",
-                value: formatCompact(topDownloadValue),
-                sub: topDownloadName,
+                label: `TOP ${activeWindow.toUpperCase()} MOVER`,
+                value: topMover ? formatSignedCompact(topMoverDelta) : "—",
+                sub: topMover
+                  ? `${topMover.name} · ${formatDeltaPct(topMoverPct)}`
+                  : "warming",
                 tone: "acc",
                 pip: "var(--v4-acc)",
               },
@@ -174,7 +194,7 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
             ]}
           />
         }
-        listEyebrow={`Package feed · top ${packages.length} by ${activeWindow} velocity`}
+        listEyebrow={`Repo-linked packages · top ${packages.length} by ${activeWindow} movement`}
         list={
           <>
             <TabNav active={activeWindow} />
@@ -242,11 +262,16 @@ function PackageFeed({
     {
       id: "package",
       header: "Package",
+      // Under fixedLayout: no explicit width here means this cell takes a
+      // share of the leftover after the fixed-width metric/version columns,
+      // instead of auto-sizing to the description's nowrap intrinsic width
+      // and pushing the move/version cells off the viewport.
       render: (pkg) => <PackageIdentity pkg={pkg} />,
     },
     {
       id: "repo",
       header: "Repo",
+      width: "220px",
       hideBelow: "md",
       render: (pkg) => <RepoLink pkg={pkg} />,
     },
@@ -326,6 +351,7 @@ function PackageFeed({
       rowKey={(pkg) => pkg.name}
       accent={NPM_RED}
       caption="Top npm packages by download movement, repo-linked only"
+      fixedLayout
     />
   );
 }
@@ -355,7 +381,7 @@ function PackageIdentity({ pkg }: { pkg: NpmPackageRow }) {
           className="truncate text-[11px]"
           style={{ color: "var(--v4-ink-400)" }}
         >
-          {pkg.description ?? "repo-linked npm package"}
+          {cleanDescription(pkg.description)}
         </div>
       </div>
     </div>

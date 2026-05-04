@@ -119,6 +119,7 @@ export default async function AdminPoolPage() {
 
   const pool = getGitHubTokenPool();
   const snapshot = pool.snapshot();
+  const hydration = pool.hydrationStatus();
   const nowMs = Date.now();
   const rows = snapshot.map((s, i) => buildRow(s, i, nowMs));
 
@@ -162,6 +163,13 @@ export default async function AdminPoolPage() {
           <strong>{exhausted}</strong> · quarantined:{" "}
           <strong>{quarantined}</strong> · untouched:{" "}
           <strong>{untouched}</strong>
+        </div>
+        <div>
+          cold-start hydration:{" "}
+          <strong>{hydration.enabled ? "enabled" : "disabled"}</strong>{" "}
+          / started: <strong>{hydration.started ? "yes" : "no"}</strong>{" "}
+          / completed:{" "}
+          <strong>{hydration.completed ? "yes" : "no"}</strong>
         </div>
       </section>
 

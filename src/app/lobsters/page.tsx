@@ -18,6 +18,7 @@ import {
   type LobstersStory,
 } from "@/lib/lobsters";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
+import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoLogoUrl, resolveLogoUrl } from "@/lib/logos";
 
@@ -132,7 +133,7 @@ export default async function LobstersPage() {
             ]}
           />
         }
-        listEyebrow="Story feed · top 50 by score · repo leaderboard"
+        listEyebrow="Story feed · 24h / 7d / 30d window · repo leaderboard"
         list={
           <div
             className={
@@ -141,7 +142,7 @@ export default async function LobstersPage() {
                 : ""
             }
           >
-            <StoryFeed stories={stories} />
+            <WindowedStoryFeed allStories={allStories} />
             {leaderboard.length > 0 ? (
               <Leaderboard entries={leaderboard.slice(0, 15)} />
             ) : null}
@@ -149,6 +150,37 @@ export default async function LobstersPage() {
         }
       />
     </main>
+  );
+}
+
+// AUDIT-2026-05-04 follow-up: 24h / 7d / 30d toggle on the story feed.
+// All stories carry `ageHours`, so we filter server-side into three
+// windows and let the client toggle which to render.
+function WindowedStoryFeed({ allStories }: { allStories: LobstersStory[] }) {
+  const sortByScore = (list: LobstersStory[]) =>
+    list
+      .slice()
+      .sort((a, b) => (b.trendingScore ?? 0) - (a.trendingScore ?? 0))
+      .slice(0, 50);
+  const inWindow = (max: number) =>
+    sortByScore(
+      allStories.filter(
+        (s) => s.ageHours !== undefined && s.ageHours <= max,
+      ),
+    );
+  const w24h = inWindow(24);
+  const w7d = inWindow(7 * 24);
+  const w30d = inWindow(30 * 24);
+  return (
+    <WindowedFeedTable
+      count24h={w24h.length}
+      count7d={w7d.length}
+      count30d={w30d.length}
+      table24h={<StoryFeed stories={w24h} />}
+      table7d={<StoryFeed stories={w7d} />}
+      table30d={<StoryFeed stories={w30d} />}
+      defaultWindow="7d"
+    />
   );
 }
 

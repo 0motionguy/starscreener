@@ -73,6 +73,7 @@ const CHILD_ENV_ALLOW = [
   "REDDIT_CLIENT_ID",
   "REDDIT_CLIENT_SECRET",
   "REDDIT_USER_AGENT",
+  "REDDIT_USER_AGENTS",
   "BLUESKY_HANDLE",
   "BLUESKY_APP_PASSWORD",
   "GITHUB_TOKEN",
@@ -262,6 +263,10 @@ export async function POST(
   }
 }
 
-export async function GET(): Promise<NextResponse<{ ok: true; sources: string[] }>> {
+export async function GET(
+  request: NextRequest,
+): Promise<NextResponse<{ ok: true; sources: string[] }>> {
+  const deny = adminAuthFailureResponse(verifyAdminAuth(request));
+  if (deny) return deny as NextResponse<{ ok: true; sources: string[] }>;
   return NextResponse.json({ ok: true, sources: Object.keys(SCRIPTS) });
 }

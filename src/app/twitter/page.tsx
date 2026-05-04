@@ -24,6 +24,8 @@ import {
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { MarkVisited } from "@/components/layout/MarkVisited";
 
 const X_BLUE = "var(--v4-src-x)";
 
@@ -40,7 +42,12 @@ type TwitterTab = "trending" | "global";
 
 function parseTwitterTab(raw: string | string[] | undefined): TwitterTab {
   const candidate = Array.isArray(raw) ? raw[0] : raw;
-  return candidate === "global" ? "global" : "trending";
+  // Default = "global" (sorted by finalTwitterScore). The previous default
+  // "trending" walked getDerivedRepos() which is sorted by overall
+  // momentumScore (GH+HN+Reddit composite) — Twitter signals were just a
+  // filter, not the rank. That made the same momentum-leading repo sit on
+  // top day after day regardless of actual X activity.
+  return candidate === "trending" ? "trending" : "global";
 }
 
 function formatClock(iso: string | undefined | null): string {
@@ -174,6 +181,7 @@ function MentionAuthorBubbles({
       {authors.slice(0, 5).map((author, index) => {
         const tone = getAuthorBubbleTone(author.authorHandle);
         const avatarUrl = author.avatarUrl ?? null;
+        const initial = getAuthorInitial(author.authorHandle);
 
         return (
           <Link
@@ -183,11 +191,18 @@ function MentionAuthorBubbles({
             rel="noopener noreferrer"
             className={`${
               index === 0 ? "" : "-ml-1.5"
-            } inline-flex h-5 w-5 items-center justify-center overflow-hidden rounded-full border text-[9px] font-semibold uppercase ring-1 ring-bg-secondary transition-transform hover:z-10 hover:-translate-y-0.5`}
+            } relative inline-flex h-5 w-5 items-center justify-center overflow-hidden rounded-full border text-[9px] font-semibold uppercase ring-1 ring-bg-secondary transition-transform hover:z-10 hover:-translate-y-0.5`}
             style={tone}
             aria-label={`Open top X mention from @${author.authorHandle}`}
             title={`@${author.authorHandle} - ${formatNumber(author.engagement)} engagement`}
           >
+            {/* Initial sits behind the image so it shows through when unavatar.io
+                rate-limits us (429) or the avatar URL otherwise fails to load.
+                Without this, broken-image placeholders rendered as empty
+                colored circles in production. */}
+            <span aria-hidden className="absolute inset-0 flex items-center justify-center">
+              {initial}
+            </span>
             {avatarUrl ? (
               <Image
                 src={avatarUrl}
@@ -196,11 +211,9 @@ function MentionAuthorBubbles({
                 height={20}
                 unoptimized
                 loading="lazy"
-                className="h-full w-full object-cover"
+                className="relative h-full w-full object-cover"
               />
-            ) : (
-              getAuthorInitial(author.authorHandle)
-            )}
+            ) : null}
           </Link>
         );
       })}
@@ -219,16 +232,16 @@ function TwitterTabNav({
 }) {
   const tabs: { id: TwitterTab; label: string; count: number; href: string }[] = [
     {
-      id: "trending",
-      label: "Trending repos + X",
-      count: trendingCount,
+      id: "global",
+      label: "Top X buzz",
+      count: globalCount,
       href: "/twitter",
     },
     {
-      id: "global",
-      label: "Global X score",
-      count: globalCount,
-      href: "/twitter?tab=global",
+      id: "trending",
+      label: "By repo momentum",
+      count: trendingCount,
+      href: "/twitter?tab=trending",
     },
   ];
 
@@ -285,8 +298,8 @@ export default async function TwitterPage({
   const activeTab = parseTwitterTab(rawTab);
 
   const [trendingRows, globalRows, stats] = await Promise.all([
-    getTwitterTrendingRepoLeaderboard(100),
-    getTwitterLeaderboard(100),
+    getTwitterTrendingRepoLeaderboard(200),
+    getTwitterLeaderboard(200),
     getTwitterOverviewStats(),
   ]);
   const rows = activeTab === "global" ? globalRows : trendingRows;
@@ -296,6 +309,7 @@ export default async function TwitterPage({
   if (cold) {
     return (
       <main className="home-surface">
+        <MarkVisited routeKey="twitter" count={stats.reposWithMentions} />
         <SourceFeedTemplate
           crumb={
             <>
@@ -308,7 +322,11 @@ export default async function TwitterPage({
             <>
               <span className="big">{formatClock(stats.lastScannedAt)}</span>
               <span className="muted">UTC · SCRAPED</span>
-              <LiveDot label="FRESH · 3H" />
+              <LiveDot label="FEED LIVE" />
+              <FreshnessBadge
+                source="twitter"
+                lastUpdatedAt={stats.lastScannedAt ?? null}
+              />
             </>
           }
         />
@@ -332,6 +350,7 @@ export default async function TwitterPage({
 
   return (
     <main className="home-surface">
+      <MarkVisited routeKey="twitter" count={stats.reposWithMentions} />
       <SourceFeedTemplate
         crumb={
           <>
@@ -344,7 +363,11 @@ export default async function TwitterPage({
           <>
             <span className="big">{formatClock(stats.lastScannedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="FRESH · 3H" />
+            <LiveDot label="FEED LIVE" />
+            <FreshnessBadge
+              source="twitter"
+              lastUpdatedAt={stats.lastScannedAt ?? null}
+            />
           </>
         }
         snapshot={
@@ -415,9 +438,9 @@ function TwitterLeaderboardTable({
         borderRadius: 2,
       }}
     >
-      <div className="min-w-[840px]">
+      <div className="sm:min-w-[920px]">
         <div
-          className="v2-mono grid h-9 grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 text-[10px] uppercase tracking-[0.18em]"
+          className="v2-mono grid h-9 grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 text-[10px] uppercase tracking-[0.18em]"
           style={{
             borderBottom: "1px solid var(--v4-line-100)",
             background: "var(--v4-bg-025)",
@@ -469,7 +492,7 @@ function TwitterLeaderboardTable({
             return (
               <li
                 key={row.repoId}
-                className="v2-row group grid grid-cols-[36px_56px_minmax(260px,1.7fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 py-2"
+                className="v2-row group grid grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] items-center gap-3 px-3 py-2"
                 style={{
                   borderBottom: "1px dashed var(--v4-line-100)",
                   animation:
@@ -487,48 +510,49 @@ function TwitterLeaderboardTable({
                   <MentionAuthorBubbles authors={row.topMentionAuthors} />
                 </div>
                 <div className="min-w-0">
-                  <div className="flex min-w-0 items-center justify-between gap-2">
-                    <div className="flex min-w-0 items-center gap-2">
-                      <Image
-                        src={getRepoAvatarUrl(row)}
-                        alt=""
-                        width={18}
-                        height={18}
-                        unoptimized
-                        className="h-[18px] w-[18px] shrink-0 rounded-full"
-                        style={{
-                          border: "1px solid var(--v4-line-200)",
-                          background: "var(--v4-bg-100)",
-                        }}
-                      />
-                      <Link
-                        href={`/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`}
-                        className="truncate text-sm font-medium transition-colors hover:text-[color:var(--v4-acc)]"
-                        style={{ color: "var(--v4-ink-100)" }}
-                      >
-                        {row.githubFullName}
-                      </Link>
-                    </div>
-                    <RepoActionLinks row={row} />
-                  </div>
-                  {activeTab === "trending" ? (
-                    <div
-                      className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10px]"
-                      style={{ color: "var(--v4-ink-400)" }}
+                  <div className="flex min-w-0 items-center gap-2">
+                    <Image
+                      src={getRepoAvatarUrl(row)}
+                      alt=""
+                      width={18}
+                      height={18}
+                      unoptimized
+                      className="h-[18px] w-[18px] shrink-0 rounded-full"
+                      style={{
+                        border: "1px solid var(--v4-line-200)",
+                        background: "var(--v4-bg-100)",
+                      }}
+                    />
+                    <Link
+                      href={`/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`}
+                      className="block min-w-0 flex-1 truncate text-sm font-medium leading-tight transition-colors hover:text-[color:var(--v4-acc)]"
+                      style={{ color: "var(--v4-ink-100)" }}
+                      title={row.githubFullName}
                     >
-                      {row.momentumScore !== undefined ? (
-                        <span>{row.momentumScore.toFixed(1)} momentum</span>
-                      ) : null}
-                      {row.starsDelta24h !== undefined ? (
-                        <span>
-                          {formatSignedNumber(row.starsDelta24h)} stars 24h
-                        </span>
-                      ) : null}
-                      {row.stars !== undefined ? (
-                        <span>{formatNumber(row.stars)} stars</span>
-                      ) : null}
-                    </div>
-                  ) : null}
+                      {row.githubFullName}
+                    </Link>
+                  </div>
+                  <div
+                    className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px]"
+                    style={{ color: "var(--v4-ink-400)" }}
+                  >
+                    <RepoActionLinks row={row} />
+                    {activeTab === "trending" ? (
+                      <>
+                        {row.momentumScore !== undefined ? (
+                          <span>{row.momentumScore.toFixed(1)} momentum</span>
+                        ) : null}
+                        {row.starsDelta24h !== undefined ? (
+                          <span>
+                            {formatSignedNumber(row.starsDelta24h)} stars 24h
+                          </span>
+                        ) : null}
+                        {row.stars !== undefined ? (
+                          <span>{formatNumber(row.stars)} stars</span>
+                        ) : null}
+                      </>
+                    ) : null}
+                  </div>
                 </div>
                 <div
                   className="text-right text-xs tabular-nums"

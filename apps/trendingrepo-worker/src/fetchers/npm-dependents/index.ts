@@ -51,6 +51,8 @@ interface AggregatePayload {
   fetchedAt: string;
   summary: Record<string, AggregateSummaryEntry>;
   counts: { roster: number; npmPackages: number; ok: number; failed: number; cacheHit: number };
+  status?: 'ok' | 'disabled' | 'empty';
+  reason?: string;
 }
 
 const fetcher: Fetcher = {
@@ -66,7 +68,14 @@ const fetcher: Fetcher = {
     const apiKey = process.env.LIBRARIES_IO_API_KEY?.trim();
     if (!apiKey) {
       ctx.log.warn('LIBRARIES_IO_API_KEY not set - npm-dependents skipped (scorer drops term)');
-      return done(startedAt, 0, false, []);
+      const redisPublished = await publishAggregate('disabled', 'missing_libraries_io_api_key', {
+        roster: 0,
+        npmPackages: 0,
+        ok: 0,
+        failed: 0,
+        cacheHit: 0,
+      });
+      return done(startedAt, 0, redisPublished, []);
     }
 
     const errors: RunResult['errors'] = [];
@@ -74,7 +83,14 @@ const fetcher: Fetcher = {
     const items = Array.isArray(roster?.items) ? roster.items : [];
     if (items.length === 0) {
       ctx.log.warn('trending-mcp empty - npm-dependents exiting');
-      return done(startedAt, 0, false, []);
+      const redisPublished = await publishAggregate('empty', 'empty_trending_mcp', {
+        roster: 0,
+        npmPackages: 0,
+        ok: 0,
+        failed: 0,
+        cacheHit: 0,
+      });
+      return done(startedAt, 0, redisPublished, []);
     }
 
     // Map slug -> npm package name (npm only — libraries.io supports pypi too,
@@ -134,6 +150,7 @@ const fetcher: Fetcher = {
       fetchedAt: new Date().toISOString(),
       summary,
       counts: { roster: items.length, npmPackages: seenPkgs.size, ok, failed, cacheHit },
+      status: 'ok',
     };
     const result = await writeDataStore('mcp-dependents', aggregate);
     ctx.log.info(
@@ -155,6 +172,22 @@ const fetcher: Fetcher = {
 };
 
 export default fetcher;
+
+async function publishAggregate(
+  status: NonNullable<AggregatePayload['status']>,
+  reason: string,
+  counts: AggregatePayload['counts'],
+): Promise<boolean> {
+  const aggregate: AggregatePayload = {
+    fetchedAt: new Date().toISOString(),
+    summary: {},
+    counts,
+    status,
+    reason,
+  };
+  const result = await writeDataStore('mcp-dependents', aggregate);
+  return result.source === 'redis';
+}
 
 function extractNpmPackage(it: RosterMcpItem): string | null {
   const raw = (it.raw ?? {}) as Record<string, unknown>;

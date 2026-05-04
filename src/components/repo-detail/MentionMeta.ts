@@ -7,7 +7,11 @@ export type MentionSource =
   | "bluesky"
   | "devto"
   | "ph"
-  | "twitter";
+  | "twitter"
+  | "lobsters"
+  | "npm"
+  | "huggingface"
+  | "arxiv";
 
 export interface MentionItem {
   /** Unique enough across the merged feed. Source + native id. */
@@ -36,7 +40,11 @@ export const MENTION_TABS = [
   "bluesky",
   "twitter",
   "devto",
+  "lobsters",
   "ph",
+  "npm",
+  "huggingface",
+  "arxiv",
 ] as const;
 
 export type MentionTab = (typeof MENTION_TABS)[number];
@@ -48,6 +56,10 @@ export const MENTION_SOURCE_LABELS: Record<MentionSource, string> = {
   devto: "dev.to",
   ph: "ProductHunt",
   twitter: "Twitter",
+  lobsters: "Lobsters",
+  npm: "npm",
+  huggingface: "HuggingFace",
+  arxiv: "arXiv",
 };
 
 export const MENTION_TAB_LABELS: Record<MentionTab, string> = {
@@ -62,6 +74,10 @@ export const MENTION_SOURCE_COLORS: Record<MentionSource, string> = {
   devto: "#0a0a0a",
   ph: "#DA552F",
   twitter: "#1d9bf0",
+  lobsters: "#ac130d",
+  npm: "#cb3837",
+  huggingface: "#ff9d00",
+  arxiv: "#a51c30",
 };
 
 export const MENTION_SOURCE_BADGE_TEXT: Record<MentionSource, string> = {
@@ -71,6 +87,10 @@ export const MENTION_SOURCE_BADGE_TEXT: Record<MentionSource, string> = {
   devto: "DEV",
   ph: "P",
   twitter: "X",
+  lobsters: "L",
+  npm: "N",
+  huggingface: "HF",
+  arxiv: "AX",
 };
 
 export const MENTION_SOURCE_SHORT_LABEL: Record<MentionSource, string> = {
@@ -80,6 +100,10 @@ export const MENTION_SOURCE_SHORT_LABEL: Record<MentionSource, string> = {
   devto: "dev.to",
   ph: "ph",
   twitter: "x",
+  lobsters: "lobsters",
+  npm: "npm",
+  huggingface: "hf",
+  arxiv: "arxiv",
 };
 
 /**
@@ -98,6 +122,13 @@ export const MENTION_SOURCE_DESCRIPTIONS: Record<MentionSource, string> = {
   ph: "ProductHunt — launches whose website or description points at this repo.",
   twitter:
     "Twitter/X — posts from tracked developer accounts mentioning the repo; scored by unique-author reach.",
+  lobsters:
+    "Lobsters — stories on lobste.rs that link to or discuss the repo from the last 7 days.",
+  npm: "npm — packages published in the registry whose `repository` field points at this repo.",
+  huggingface:
+    "HuggingFace — models, datasets, and spaces whose card metadata references this repo.",
+  arxiv:
+    "arXiv — research papers in the recent index whose `linkedRepos` contains this repo (citations).",
 };
 
 /** Description shown on the "All" tab so the default view is also self-explaining. */
@@ -120,6 +151,10 @@ const PLATFORM_TO_SOURCE: Partial<Record<SocialPlatform, MentionSource>> = {
   bluesky: "bluesky",
   devto: "devto",
   twitter: "twitter",
+  lobsters: "lobsters",
+  npm: "npm",
+  huggingface: "huggingface",
+  arxiv: "arxiv",
 };
 
 /** Per-platform label for the primary engagement metric on a store row. */
@@ -130,6 +165,10 @@ const PLATFORM_SCORE_LABEL: Record<MentionSource, string> = {
   devto: "reactions",
   ph: "votes",
   twitter: "engagement",
+  lobsters: "score",
+  npm: "downloads/wk",
+  huggingface: "downloads",
+  arxiv: "citations",
 };
 
 /** Render-friendly author handle shaped by source convention. */
@@ -141,6 +180,9 @@ function formatAuthor(source: MentionSource, author: string): string {
   }
   if (source === "bluesky" || source === "twitter" || source === "devto") {
     return raw.startsWith("@") ? raw : `@${raw.replace(/^@+/, "")}`;
+  }
+  if (source === "lobsters") {
+    return raw.startsWith("~") ? raw : `~${raw.replace(/^~+/, "")}`;
   }
   return raw;
 }
@@ -196,6 +238,14 @@ export function mentionTabToWirePlatform(tab: MentionTab): SocialPlatform | null
       return "twitter";
     case "devto":
       return "devto";
+    case "lobsters":
+      return "lobsters";
+    case "npm":
+      return "npm";
+    case "huggingface":
+      return "huggingface";
+    case "arxiv":
+      return "arxiv";
     case "ph":
       // ProductHunt launches aren't stored in the MentionStore (they live
       // in the launch index and are synthesized into the feed at SSR

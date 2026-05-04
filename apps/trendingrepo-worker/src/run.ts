@@ -11,7 +11,7 @@
 
 import { captureException } from './lib/sentry.js';
 import { getLogger } from './lib/log.js';
-import { getRedis } from './lib/redis.js';
+import { getRedis, setCurrentFetcherName } from './lib/redis.js';
 import { getDb } from './lib/db.js';
 import { createHttpClient } from './lib/http.js';
 import type { Fetcher, FetcherContext, RedisHandle, RunResult } from './lib/types.js';
@@ -43,6 +43,11 @@ export async function runFetcher(
     return emptyResult(fetcher.name, startedAt);
   }
 
+  // Set the writer-provenance slot so any writeDataStore() call inside the
+  // fetcher attributes itself to `worker:<name>` in the meta JSON. Cleared
+  // in finally so concurrent (or subsequent) calls can't mistakenly inherit
+  // a stale name.
+  setCurrentFetcherName(fetcher.name);
   try {
     const redis = dryRun ? null : await getRedis();
 
@@ -116,12 +121,24 @@ export async function runFetcher(
       },
       'fetcher complete',
     );
+    // Diagnostic for AUDIT-2026-05-04: trending_items.last_seen_at lagged
+    // for sources like `glama` while worker lastRunAt was fresh. Surfaces
+    // requiresDb fetchers that ran but wrote zero rows so they're easy to
+    // spot in Sentry / log search instead of hiding behind aggregate health.
+    if (fetcher.requiresDb === true && result.itemsUpserted === 0) {
+      log.warn(
+        { fetcher: fetcher.name, itemsSeen: result.itemsSeen },
+        'requiresDb fetcher wrote zero rows — check trending_items.last_seen_at',
+      );
+    }
     recordRun();
     return result;
   } catch (err) {
     captureException(err, { fetcher: fetcher.name });
     log.error({ err: (err as Error).message, fetcher: fetcher.name }, 'fetcher failed');
     throw err;
+  } finally {
+    setCurrentFetcherName(null);
   }
 }
 

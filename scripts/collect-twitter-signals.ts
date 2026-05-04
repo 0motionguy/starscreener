@@ -24,7 +24,6 @@ import {
   TwitterWebProvider,
   type TwitterWebPost,
 } from "./_twitter-web-provider";
-import { ApifyTwitterProvider } from "./_apify-twitter-provider";
 import { extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeSourceMeta } from "./_data-meta.mjs";
@@ -39,9 +38,10 @@ import {
   getTwitterScanCandidates,
   ingestTwitterAgentFindings,
 } from "../src/lib/twitter/service";
-import { flushTwitterPersist } from "../src/lib/twitter/storage";
+import { ensureTwitterReady, flushTwitterPersist } from "../src/lib/twitter/storage";
 import { getRepoMetadata, listRepoMetadata, type RepoMetadata } from "../src/lib/repo-metadata";
 import { slugToId } from "../src/lib/utils";
+import { scrapeTwitterFor } from "../src/lib/pool/twitter-fallback";
 import type {
   TwitterIngestRequest,
   TwitterQuery,
@@ -664,7 +664,6 @@ async function collectFromWeb(
 }
 
 async function collectFromApify(
-  provider: ApifyTwitterProvider,
   query: TwitterQuery,
   options: CliOptions,
 ): Promise<CollectorRawPost[]> {
@@ -674,10 +673,11 @@ async function collectFromApify(
   const limit = options.postsPerQuery > 0 ? Math.min(options.postsPerQuery, 100) : 25;
 
   try {
-    const posts = await provider.search({
+    const posts = await scrapeTwitterFor(searchQuery, {
       query: searchQuery,
       sinceISO,
       limit,
+      timeoutMs: options.timeoutMs,
     });
     const mapped = posts.map(webPostToRawPost);
     return capQueryPosts(mapped, options);
@@ -770,6 +770,17 @@ async function main(): Promise<void> {
   const startedMs = Date.now();
   const options = parseArgs(process.argv.slice(2));
   process.env.TWITTER_COLLECTOR_RUN_ID = options.runId;
+
+  // CRITICAL FIX 2026-05-03: hydrate the in-memory store from the existing
+  // .data/twitter-*.jsonl files BEFORE any ingest. Without this, each GH
+  // Actions run starts with an empty memory store, ingests N new findings,
+  // then `persist()` overwrites the JSONL files with only those N records.
+  // The bug had been silently truncating .data/twitter-*.jsonl every cron
+  // tick — file went from 490+ lines on 2026-04-23 to 15 lines/run since.
+  // git diff saw the same N lines repeating each run and skipped commit,
+  // so the workflow looked green but data was 10 days frozen.
+  await ensureTwitterReady();
+
   const candidates = await loadCandidates(options);
   const fixturePosts =
     options.provider === "fixture" && options.fixtureFile
@@ -784,14 +795,6 @@ async function main(): Promise<void> {
       timeoutMs: options.timeoutMs,
     });
     log(`web-provider initialized with ${accounts.length} account(s)`);
-  }
-
-  let apifyProvider: ApifyTwitterProvider | null = null;
-  if (options.provider === "apify") {
-    apifyProvider = new ApifyTwitterProvider({
-      timeoutMs: options.timeoutMs,
-    });
-    log(`apify-provider initialized (actor=${apifyProvider.getActor()})`);
   }
 
   const payloads: TwitterIngestRequest[] = [];
@@ -837,12 +840,12 @@ async function main(): Promise<void> {
                 posts = [];
               }
             }
-          } else if (options.provider === "apify" && apifyProvider) {
+          } else if (options.provider === "apify") {
             if (repoWebExhausted) {
               posts = [];
             } else {
               try {
-                posts = await collectFromApify(apifyProvider, query, options);
+                posts = await collectFromApify(query, options);
               } catch (error) {
                 const message = error instanceof Error ? error.message : String(error);
                 log(
@@ -895,17 +898,21 @@ async function main(): Promise<void> {
     await flushTwitterPersist();
   }
 
+  // Diagnostic for AUDIT-2026-05-04: .data/twitter-*.jsonl was frozen at
+  // 2026-04-23 while the workflow ran green hourly. With this line the GHA
+  // log shows whether new lines accrued (>0) or whether Apify returned an
+  // empty set (=0). Helps decide between dedupe-bug vs upstream-stuck.
+  const flushScans = payloads.length;
+  const flushPosts = payloads.reduce((sum, p) => sum + p.posts.length, 0);
+  console.error(
+    `[twitter-collector] FLUSH SUMMARY repoSignals=${flushScans} scans=${flushScans} posts=${flushPosts} dryRun=${options.dryRun} mode=${options.mode}`,
+  );
+
   const postCount = payloads.reduce((sum, payload) => sum + payload.posts.length, 0);
   if (webProvider) {
     const stats = webProvider.getStats();
     log(
       `web-provider stats requests=${stats.requests} errors=${stats.errors} healthy=${stats.accountsHealthy} rateLimited=${stats.accountsRateLimited}`,
-    );
-  }
-  if (apifyProvider) {
-    const stats = apifyProvider.getStats();
-    log(
-      `apify-provider stats requests=${stats.requests} errors=${stats.errors} lastError=${stats.lastError ?? "none"}`,
     );
   }
   log(`done payloads=${payloads.length} posts=${postCount}`);

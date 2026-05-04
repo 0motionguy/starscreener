@@ -156,18 +156,13 @@ const fetcher: Fetcher = {
       return done(startedAt, 0, false);
     }
 
-    const [
-      tracked,
-      hnMentions,
-      redditMentions,
-      blueskyMentions,
-      devtoMentions,
-      npmPackages,
-      deltas,
-      repoMetadata,
-      phLaunches,
-    ] = await Promise.all([
-      loadTrackedRepos({ log: ctx.log }),
+    // AUDIT-2026-05-04: same Promise.all-rejects-everything anti-pattern
+    // that bricked consensus-trending (see f39cd09d). engagement-composite
+    // is the upstream of consensus-trending, so a flake here cascades.
+    // tracked is required (no repos = no work); the 8 readDataStore calls
+    // each degrade to null on per-source flakes.
+    const tracked = await loadTrackedRepos({ log: ctx.log });
+    const reads = await Promise.allSettled([
       readDataStore<HnMentionsPayload>('hackernews-repo-mentions'),
       readDataStore<RedditMentionsPayload>('reddit-mentions'),
       readDataStore<BlueskyMentionsPayload>('bluesky-mentions'),
@@ -177,6 +172,50 @@ const fetcher: Fetcher = {
       readDataStore<RepoMetadataPayload>('repo-metadata'),
       readDataStore<PhLaunchesPayload>('producthunt-launches'),
     ]);
+    const READ_KEYS = [
+      'hackernews-repo-mentions',
+      'reddit-mentions',
+      'bluesky-mentions',
+      'devto-mentions',
+      'npm-packages',
+      'deltas',
+      'repo-metadata',
+      'producthunt-launches',
+    ] as const;
+    const readFailures: Array<{ key: string; err: string }> = [];
+    const values = reads.map((r, i) => {
+      if (r.status === 'fulfilled') return r.value;
+      readFailures.push({
+        key: READ_KEYS[i] ?? `index-${i}`,
+        err: r.reason instanceof Error ? r.reason.message : String(r.reason),
+      });
+      return null;
+    });
+    if (readFailures.length > 0) {
+      ctx.log.warn(
+        { failures: readFailures },
+        'engagement-composite: some reads failed; degrading those sources to null',
+      );
+    }
+    const [
+      hnMentions,
+      redditMentions,
+      blueskyMentions,
+      devtoMentions,
+      npmPackages,
+      deltas,
+      repoMetadata,
+      phLaunches,
+    ] = values as [
+      HnMentionsPayload | null,
+      RedditMentionsPayload | null,
+      BlueskyMentionsPayload | null,
+      DevtoMentionsPayload | null,
+      NpmPackagesPayload | null,
+      DeltasPayload | null,
+      RepoMetadataPayload | null,
+      PhLaunchesPayload | null,
+    ];
 
     const accum = emptyAccum();
 

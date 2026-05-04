@@ -7,6 +7,7 @@
 
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { verifyAdminAuth, verifyCronAuth } from "@/lib/api/auth";
 import {
   getCollectionRankingsCoverage,
   getCollectionRankingsFetchedAt,
@@ -36,6 +37,7 @@ import {
   PRODUCTHUNT_STALE_THRESHOLD_MS,
   getDegradedScannerSources,
   getScannerSourceHealth,
+  refreshScannerSourceHealthFromStore,
   type ScannerSourceHealth,
 } from "@/lib/source-health";
 import { sourceHealthTracker } from "@/lib/source-health-tracker";
@@ -134,6 +136,19 @@ interface HealthBody {
   error?: string;
 }
 
+type PublicHealthBody = Pick<
+  HealthBody,
+  "status" | "sourceStatus" | "lastFetchedAt" | "computedAt" | "warning" | "error"
+>;
+
+function canViewDetail(request: NextRequest): boolean {
+  const cronSecret = process.env.CRON_SECRET?.trim();
+  return (
+    (cronSecret ? verifyCronAuth(request).kind === "ok" : false) ||
+    verifyAdminAuth(request).kind === "ok"
+  );
+}
+
 function getCircuitBreakerSummary(): {
   open: string[];
   half_open: string[];
@@ -157,21 +172,14 @@ function ageMs(iso: string | null): number | null {
   return Date.now() - ts;
 }
 
-export async function GET(request: NextRequest): Promise<NextResponse<HealthBody>> {
+export async function GET(
+  request: NextRequest,
+): Promise<NextResponse<HealthBody | PublicHealthBody>> {
+  const wantsDetail = request.nextUrl.searchParams.get("detail") === "1";
+  const includeDetail = wantsDetail && canViewDetail(request);
+
   try {
     const soft = request.nextUrl.searchParams.get("soft") === "1";
-    // APP-12: detail payload (per-source freshness, circuit-breaker state,
-    // failure counts, etc.) is reconnaissance surface for an attacker
-    // probing the deploy. Gate behind ?detail=1 + the cron-secret bearer
-    // so cron jobs + monitoring tools still get the rich body, public
-    // probes get the minimal status/computedAt envelope.
-    const wantsDetail =
-      request.nextUrl.searchParams.get("detail") === "1";
-    const auth = request.headers.get("authorization") ?? "";
-    const cronSecret = process.env.CRON_SECRET ?? "";
-    const detailAuthorized =
-      cronSecret.length > 0 && auth === `Bearer ${cronSecret}`;
-    const includeDetail = wantsDetail && detailAuthorized;
 
     // Refresh in-memory caches from the data-store so per-source freshness
     // reflects the live Redis payload, not the bundled JSON snapshot. Each
@@ -182,6 +190,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<HealthBody
       refreshRecentReposFromStore(),
       refreshRepoMetadataFromStore(),
       refreshCollectionRankingsFromStore(),
+      refreshScannerSourceHealthFromStore(),
     ]);
 
     const lastFetchedAt = getLastFetchedAt();
@@ -358,7 +367,21 @@ export async function GET(request: NextRequest): Promise<NextResponse<HealthBody
 
     return NextResponse.json(body, { status: anyStale && !soft ? 503 : 200 });
   } catch (err) {
+    console.error("[api:health] failed", err);
     const message = err instanceof Error ? err.message : String(err);
+    if (!includeDetail) {
+      return NextResponse.json(
+        {
+          status: "error",
+          sourceStatus: "degraded",
+          lastFetchedAt: getLastFetchedAt() ?? null,
+          computedAt: getDeltasComputedAt() ?? null,
+          error: "health check failed",
+        },
+        { status: 503 },
+      );
+    }
+
     return NextResponse.json(
       {
         status: "error",

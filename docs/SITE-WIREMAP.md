@@ -10,16 +10,18 @@
 
 ## 1. Sidebar navigation — 7 sections, 40 nav items
 
-[src/components/layout/SidebarContent.tsx](../src/components/layout/SidebarContent.tsx) defines the menu structure. Sections in render order:
+[src/components/layout/SidebarContent.tsx](../src/components/layout/SidebarContent.tsx) defines the menu structure. Sections in render order (post-`7bf5a747` sidebar trim):
 
-1. **TREND TERMINAL** — Trending Repos / Consensus / Trending Skills / Trending MCP / Trending AGNT / Breakouts / Top 100
+1. **TREND TERMINAL** — Trending Repos / Trending Skills / Trending MCP / Breakouts / Consensus
 2. **SIGNAL TERMINAL** — Market Signals / Hacker News / Lobsters / Dev.to / Bluesky / Reddit / X (Twitter) / Product Hunt
-3. **LLM / PACK TERMINAL** — NPM Packages / HF Models / HF Datasets / HF Spaces / LLM Charts (model-usage)
-4. **LAUNCH TERMINAL** — Funding Radar / Revenue / Drop Revenue / Hackathons / Launch
+3. **LLM / PACK TERMINAL** — NPM Packages / HF Models / HF Datasets / HF Spaces
+4. **LAUNCH TERMINAL** — Funding Radar / Revenue / Agent Commerce
 5. **RESEARCH TERMINAL** — arXiv Papers / Cited Repos
-6. **EXPLORE** — Digest / Ideas / Predict / Categories / Collections / Plans / Revenue Tool
-7. **TOOLS** — Watchlist / Compare / Tier List / MindShare / Top 10 / Signal Radar
+6. **EXPLORE** — Digest / Ideas / Collections
+7. **TOOLS** — Watchlist / Compare / Tier List / MindShare / Top 10
 8. **WATCHING** — top 5 watchlist preview cards (user-state)
+
+**Orphaned but URL-reachable** (kept on disk, removed from sidebar in `7bf5a747` and prior trims): `/top` (Top 100), `/predict`, `/categories`, `/categories/[slug]`, `/pricing` (Plans), `/model-usage` (LLM Charts), `/agent-repos` (Trending AGNT), `/tools/revenue-estimate` (Revenue Tool), `/submit/revenue` (Drop Revenue). BACKLOG AGN-63 tracks the keep-vs-retire decision.
 
 Routes NOT in the sidebar but addressable: `/u/[handle]`, `/repo/[owner]/[name]`, `/repo/[owner]/[name]/star-activity`, `/search`, `/alerts`, `/alerts/new`, `/submit`, `/submit/revenue`, `/cli`, `/portal/docs`, `/pricing`, `/digest/[date]`, `/agent-commerce/[slug]`, `/agent-commerce/facilitator/[name]`, `/agent-repos/[slug]`, `/skills/[slug]`, `/categories/[slug]`, `/collections/[slug]`, `/consensus/[owner]/[name]`, `/mcp/[slug]`, `/ideas/[id]`, `/tierlist/[shortId]`, `/s/[shortId]`, `/embed/top10`, `/demo`, `/design-lab/primitives`, `/admin/*` (8 admin routes), `/you`.
 

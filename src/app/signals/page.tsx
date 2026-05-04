@@ -227,9 +227,8 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
   // own native data regardless of the URL filter.
   const nowMs = Date.now();
   const cutoffMs = nowMs - lookbackHours * 3_600_000;
-  const filteredItems = items.filter(
+  const windowTopicItems = items.filter(
     (it) =>
-      activeSourceFilter.has(it.source) &&
       // Items missing a usable timestamp (some GitHub trending rows) are
       // kept so they don't disappear on shorter windows. They cluster at
       // the dataset's fetchedAt which lives inside any reasonable window.
@@ -239,6 +238,12 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       (activeTopic === null || matchesTopic(it, activeTopic)),
   );
 
+  const filteredItems = windowTopicItems.filter(
+    (it) =>
+      activeSourceFilter.has(it.source),
+  );
+
+  const sourceWindowVolume = buildVolume(windowTopicItems, { nowMs, lookbackHours });
   const volume = buildVolume(filteredItems, { nowMs, lookbackHours });
   const tagMomentum = buildTagMomentum(filteredItems, {
     nowMs,
@@ -246,31 +251,31 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
     lookbackHours,
   });
 
-  // Consensus: strong signals (3+ sources) come first. When the panel would
-  // be sparse (< 5 strong stories), top up with the next-best near-consensus
-  // items so the slot doesn't read as half-empty. The KPI strip's
-  // "Consensus stories" count tracks the strong-only number.
-  // When the user filters down to <3 sources, consensus drops minSources
+  // Consensus: strong signals (3+ sources) come first, capped at 5. When
+  // there aren't 5 strong stories we top up with near-consensus (1+ source)
+  // — but only enough to fill 5 rows total, never more. KPI strip's
+  // "Consensus stories" count tracks the strong-only number; the radar
+  // header shows "+ N near" when padding is in play.
+  // When the user filters down to <3 sources, minSources drops
   // proportionally so the radar still has something to show.
+  const RADAR_LIMIT = 5;
   const minStrongSources = Math.min(3, activeSourceFilter.size);
   const strongConsensus = buildConsensus(filteredItems, {
     nowMs,
     minSources: minStrongSources,
-    limit: 8,
+    limit: RADAR_LIMIT,
     lookbackHours,
   });
   const consensusCount = strongConsensus.length;
   let consensus = strongConsensus;
-  if (consensus.length < 5) {
+  if (consensus.length < RADAR_LIMIT) {
     const nearConsensus = buildConsensus(filteredItems, {
       nowMs,
       minSources: 1,
-      limit: 12,
+      limit: RADAR_LIMIT * 2,
       lookbackHours,
-    }).filter(
-      (s) => !strongConsensus.some((c) => c.key === s.key),
-    );
-    consensus = [...strongConsensus, ...nearConsensus].slice(0, 8);
+    }).filter((s) => !strongConsensus.some((c) => c.key === s.key));
+    consensus = [...strongConsensus, ...nearConsensus].slice(0, RADAR_LIMIT);
   }
 
   // ── KPI calculations -------------------------------------------------------
@@ -282,16 +287,9 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       ? (volume.perSource[volume.dominantSource] / volume.totalItems) * 100
       : 0;
 
-  // "Alpha score" = average of top-5 consensus story scores, capped 0..100.
-  const topConsensus = consensus.slice(0, 5);
-  const alphaScore =
-    topConsensus.length === 0
-      ? 0
-      : Math.min(
-          100,
-          topConsensus.reduce((sum, s) => sum + s.score, 0) / (topConsensus.length * 4),
-        );
-  const alphaDelta = consensus.reduce((d, s) => d + s.delta, 0);
+  // Alpha-score / heat-index calculation removed (2026-05-03) — the
+  // "alpha score" framing read as market data on a code-trends newsroom.
+  // Story-level intensity is already surfaced by the Consensus radar.
 
   const freshnessIso =
     [
@@ -471,6 +469,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
         active={activeSourceFilter}
         timeWindow={activeWindow}
         topic={activeTopic}
+        sourceCounts={sourceWindowVolume.perSource}
         totalSignals={volume.totalItems}
       />
 
@@ -484,8 +483,6 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
           topTagDelta={tagMomentum.topTag?.delta ?? null}
           topTagCount={tagMomentum.topTag?.count ?? null}
           consensusCount={consensusCount}
-          alphaScore={alphaScore}
-          alphaDelta={alphaDelta}
           freshnessLabel={freshnessLabel}
           windowLabel={activeWindowLabel}
         />

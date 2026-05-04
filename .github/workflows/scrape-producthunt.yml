@@ -36,23 +36,17 @@ jobs:
           PRODUCTHUNT_TOKEN: ${{ secrets.PRODUCTHUNT_TOKEN }}
           PRODUCTHUNT_TOKENS: ${{ secrets.PRODUCTHUNT_TOKENS }}
           GITHUB_TOKEN: ${{ github.token }}
-          GH_TOKEN_POOL: ${{ secrets.GH_TOKEN_POOL }}
         run: node scripts/scrape-producthunt.mjs
 
+      - name: Compute commit timestamp
+        id: ts
+        run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
       - name: Commit if changed
-        run: |
-          git config user.name  "trendingrepo-bot"
-          git config user.email "bot@trendingrepo.local"
-          git add data/producthunt-launches.json data/_meta/producthunt.json data/unknown-mentions.jsonl
-          if git diff --quiet --staged; then
-            echo "no changes - skipping commit"
-            exit 0
-          fi
-          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          git commit -m "chore(data): refresh ProductHunt launches ${TS}"
-          for i in 1 2 3; do
-            if git pull --rebase --autostash origin main && git push; then exit 0; fi
-            echo "push attempt $i failed; retrying"
-            sleep 2
-          done
-          exit 1
+        uses: ./.github/actions/git-commit-data
+        with:
+          message: "chore(data): refresh ProductHunt launches ${{ steps.ts.outputs.value }}"
+          paths: |
+            data/producthunt-launches.json
+            data/_meta/producthunt.json
+            data/unknown-mentions.jsonl

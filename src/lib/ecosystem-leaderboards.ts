@@ -1115,24 +1115,57 @@ function coerceMcpItem(
   if (!id || !title || !url) return null;
 
   const metrics = asRecord(item.metrics);
-  const popularity =
-    asNumber(metrics?.installs_total) ??
-    asNumber(metrics?.downloads_7d) ??
-    asNumber(metrics?.stars_total) ??
-    null;
-  const popularityLabel =
-    asNumber(metrics?.installs_total) !== null
-      ? "Installs"
-      : asNumber(metrics?.downloads_7d) !== null
-        ? "Downloads"
-        : "Stars";
+  // Real per-source signals (set by publish.ts pickMcpUsage). Each source
+  // ranks its own catalog by one of these — Smithery: lifetime connections
+  // (`use_count`); PulseMCP / Glama: 4-week visitors (`visitors_4w`);
+  // Glama: GitHub stars (`stars_total`). The `installs_total` field is the
+  // merger's normalized 0..1 signal — last-resort, never preferred when a
+  // real number is available. Drops the misleading "Installs" label
+  // entirely when it's just the 0..1 normalized score.
+  const useCount = asNumber(metrics?.use_count);
+  const visitors4w = asNumber(metrics?.visitors_4w);
+  const starsTotal = asNumber(metrics?.stars_total);
+  const downloads7d = asNumber(metrics?.downloads_7d);
+  const installsTotalNormalized = asNumber(metrics?.installs_total);
+  let popularity: number | null;
+  let popularityLabel: string;
+  if (useCount !== null) {
+    popularity = useCount;
+    popularityLabel = "Connections";
+  } else if (visitors4w !== null) {
+    popularity = visitors4w;
+    popularityLabel = "Visitors · 4w";
+  } else if (starsTotal !== null) {
+    popularity = starsTotal;
+    popularityLabel = "Stars";
+  } else if (downloads7d !== null) {
+    popularity = downloads7d;
+    popularityLabel = "Downloads · 7d";
+  } else if (installsTotalNormalized !== null && installsTotalNormalized > 1) {
+    // Real install count (>1 means non-normalized). Treat as Installs.
+    popularity = installsTotalNormalized;
+    popularityLabel = "Installs";
+  } else {
+    popularity = null;
+    popularityLabel = "";
+  }
   const slug = asString(item.slug);
-  const linkedRepo = url.includes("github.com/")
-    ? url.replace(/^https?:\/\/github\.com\//, "").replace(/\/$/, "")
+  // url may be a registry placeholder like `smithery.invalid/<uuid>`. The
+  // worker now also surfaces the upstream homepage at `raw.homepage` for
+  // those rows so consumers can favicon it. linkedRepo prefers a real
+  // github.com URL from either field.
+  const homepage = asString(asRecord(item.raw)?.homepage);
+  const repoUrl = url.includes("github.com/") ? url : homepage?.includes("github.com/") ? homepage : null;
+  const linkedRepo = repoUrl
+    ? repoUrl.replace(/^https?:\/\/github\.com\//, "").replace(/\/$/, "").split("#")[0] ?? null
     : null;
 
   const vendor = asString(item.vendor);
-  const logoUrl = asString(item.logo_url);
+  // Per-server icon — `thumbnail_url` is now the worker's first-found
+  // iconUrl across the four MCP sources (Smithery's iconUrl is the big
+  // win), falling back to the merger's Simple Icons brand mark. Either
+  // way the value here is per-server, not per-registry.
+  const logoUrl = asString(item.thumbnail_url) ?? asString(item.logo_url);
   const brandColor = asString(item.brand_color);
   const verified = asBoolean(item.is_official_vendor);
   const crossSourceCount = asNumber(item.cross_source_count) ?? 1;
@@ -1219,7 +1252,12 @@ function coerceMcpItem(
       id,
       title,
       url,
-      author: vendor,
+      // Vendor wins (when official-detected by the merger), else fall through
+      // to whatever upstream `author` field was projected (Smithery's
+      // namespace, Glama's owner, …). Was hard-set to `vendor` only — that
+      // discarded real per-server author data and broke per-author avatar
+      // resolution.
+      author: vendor ?? asString(item.author),
       rank: asNumber(item.rank) ?? fallbackRank,
       description: asString(item.description),
       topic: vendor ?? (slug?.includes("/") ? slug.split("/")[0] ?? "MCP" : "MCP"),
@@ -1360,7 +1398,10 @@ function buildMcpDisplayFields(args: {
     toolCount: livenessEntry?.toolCount ?? null,
     p50LatencyMs: livenessEntry?.p50LatencyMs ?? null,
     uptime7d: livenessEntry?.uptime7d ?? null,
-    lastReleaseAt: downloadsEntry?.lastReleaseAt ?? null,
+    lastReleaseAt:
+      downloadsEntry?.lastReleaseAt ??
+      asString((args.raw as Record<string, unknown> | undefined)?.last_release_at) ??
+      null,
     smitheryRank: smitheryRankEntry?.rank ?? null,
     smitheryTotal: smitheryRankEntry?.total ?? null,
     npmDependents: dependentsCount ?? null,

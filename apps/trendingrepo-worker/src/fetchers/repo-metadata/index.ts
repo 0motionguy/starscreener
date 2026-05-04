@@ -14,7 +14,11 @@
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore, readDataStore } from '../../lib/redis.js';
 import { fetchJsonWithRetry } from '../../lib/util/http-helpers.js';
-import { pickGithubToken } from '../../lib/util/github-token-pool.js';
+import {
+  parseRateLimitHeaders,
+  pickGithubToken,
+  recordRateLimit,
+} from '../../lib/util/github-token-pool.js';
 
 const GRAPHQL_URL = 'https://api.github.com/graphql';
 const API_VERSION = '2022-11-28';
@@ -229,12 +233,41 @@ const fetcher: Fetcher = {
       return done(startedAt, 0, false, [{ stage: 'auth', message: msg }]);
     }
 
-    const [trending, recentRepos, manualRepos, previous] = await Promise.all([
+    // AUDIT-2026-05-04: allSettled so a single Redis flake degrades to
+    // null instead of crashing the whole fetcher. Same fix as f39cd09d.
+    const READ_KEYS = [
+      'trending',
+      'recent-repos',
+      'manual-repos',
+      'repo-metadata',
+    ] as const;
+    const reads = await Promise.allSettled([
       readDataStore<TrendingPayload>('trending'),
       readDataStore<RecentReposPayload>('recent-repos'),
       readDataStore<ManualReposPayload>('manual-repos'),
       readDataStore<RepoMetadataPayload>('repo-metadata'),
     ]);
+    const readFailures: Array<{ key: string; err: string }> = [];
+    const values = reads.map((r, i) => {
+      if (r.status === 'fulfilled') return r.value;
+      readFailures.push({
+        key: READ_KEYS[i] ?? `index-${i}`,
+        err: r.reason instanceof Error ? r.reason.message : String(r.reason),
+      });
+      return null;
+    });
+    if (readFailures.length > 0) {
+      ctx.log.warn(
+        { failures: readFailures },
+        'repo-metadata: some reads failed; degrading those sources to null',
+      );
+    }
+    const [trending, recentRepos, manualRepos, previous] = values as [
+      TrendingPayload | null,
+      RecentReposPayload | null,
+      ManualReposPayload | null,
+      RepoMetadataPayload | null,
+    ];
 
     const previousByName = new Map<string, RepoMetadataItem>();
     for (const item of previous?.items ?? []) {
@@ -266,6 +299,10 @@ const fetcher: Fetcher = {
           attempts: 3,
           retryDelayMs: 1_000,
           timeoutMs: 20_000,
+          onResponse: (res) => {
+            const rl = parseRateLimitHeaders(res.headers);
+            if (rl) recordRateLimit(token, rl.remaining, rl.resetUnixSec);
+          },
         });
         const data = body?.data ?? {};
         const ghErrors = Array.isArray(body?.errors) ? body.errors : [];

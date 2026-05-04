@@ -24,10 +24,9 @@ import { getDataStore, type RedisClientLike } from "./data-store";
 //   1. `getNextToken()` THROWS when every token is exhausted. Silent
 //      degradation is forbidden — the operator needs to know they're out
 //      of quota so they can rotate / add tokens.
-//   2. State is per-process. We do NOT replicate to Redis; the worst case
-//      across processes is each process burning slightly faster than a
-//      shared view would (still bounded by the per-token GitHub limit
-//      itself).
+//   2. Selection state is process-local for the hot path, but every observed
+//      token state is published to Redis for fleet telemetry and cold-start
+//      hydration. Redis failures never block a GitHub call.
 //   3. Tokens with no recorded quota are assumed healthy (they get the
 //      benefit of the doubt on first use; the response will record the
 //      real number).
@@ -108,6 +107,12 @@ export interface GitHubTokenPool {
   quarantine(token: string): void;
   /** Return current state for observability / tests. */
   snapshot(): readonly TokenState[];
+  /** Cold-start hydration state for admin telemetry / tests. */
+  hydrationStatus(): {
+    enabled: boolean;
+    started: boolean;
+    completed: boolean;
+  };
   /** Number of tokens currently in the pool. */
   size(): number;
 }
@@ -223,6 +228,18 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
   snapshot(): readonly TokenState[] {
     // Return shallow clones so callers can't mutate internal state.
     return this.states.map((s) => ({ ...s }));
+  }
+
+  hydrationStatus(): {
+    enabled: boolean;
+    started: boolean;
+    completed: boolean;
+  } {
+    return {
+      enabled: this.hydrationEnabled,
+      started: this.hydrationPromise !== null,
+      completed: this.hasHydrated,
+    };
   }
 
   getNextToken(): string {
@@ -560,7 +577,7 @@ export function createGitHubTokenPool(
     options.onEmpty();
   }
 
-  return new DefaultGitHubTokenPool(tokens, now);
+  return new DefaultGitHubTokenPool(tokens, now, options.hydrate === true);
 }
 
 let singleton: GitHubTokenPool | null = null;
@@ -575,6 +592,7 @@ let warnedAboutEmptyPool = false;
 export function getGitHubTokenPool(): GitHubTokenPool {
   if (!singleton) {
     singleton = createGitHubTokenPool({
+      hydrate: true,
       onEmpty: () => {
         if (warnedAboutEmptyPool) return;
         warnedAboutEmptyPool = true;
@@ -607,13 +625,11 @@ export function _resetGitHubTokenPoolForTests(): void {
 
 /**
  * Render a token for log output without leaking the secret. Shows the
- * first 6 and last 4 characters with the middle masked. PAT format is
- * usually 40+ chars (`ghp_...` / `github_pat_...`), so the prefix is
- * enough to identify which slot the request came from.
+ * first 4 and last 4 characters with the middle masked.
  */
 export function redactToken(token: string): string {
-  if (token.length <= 12) return "***";
-  return `${token.slice(0, 6)}…${token.slice(-4)}`;
+  if (token.length <= 8) return "***";
+  return `${token.slice(0, 4)}...${token.slice(-4)}`;
 }
 
 /**

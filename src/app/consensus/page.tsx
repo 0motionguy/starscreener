@@ -11,10 +11,12 @@ import {
   getConsensusVerdictsPayload,
   refreshConsensusVerdictsFromStore,
 } from "@/lib/consensus-verdicts";
+import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { AgreementMatrix } from "@/components/consensus/AgreementMatrix";
 import { ConsensusBoard } from "@/components/consensus/ConsensusBoard";
 import { DailyVerdictPanel } from "@/components/consensus/DailyVerdictPanel";
 import { SourceStrip } from "@/components/consensus/SourceStrip";
+import { RankStarMark } from "@/components/brand/RankStarMark";
 
 // V4 (CORPUS) primitives — page chrome + verdict + KPI band.
 import { PageHead } from "@/components/ui/PageHead";
@@ -60,7 +62,13 @@ function consensusHref(fullName: string): string {
   return `/consensus/${owner}/${name}`;
 }
 
-function EarlyCallList({ items }: { items: ConsensusItem[] }) {
+function EarlyCallList({
+  items,
+  mentions24h,
+}: {
+  items: ConsensusItem[];
+  mentions24h: Map<string, number>;
+}) {
   if (items.length === 0) {
     return (
       <div className="sp-row">
@@ -79,10 +87,11 @@ function EarlyCallList({ items }: { items: ConsensusItem[] }) {
           item.externalRank != null && item.oursRank != null
             ? Math.max(0, item.externalRank - item.oursRank)
             : 0;
+        const mentions = mentions24h.get(item.fullName.toLowerCase()) ?? 0;
         return (
           <Link href={consensusHref(item.fullName)} className="sp-row" key={item.fullName}>
             <div className="rk">
-              {i === 0 ? <span className="star">★</span> : null}
+              {i === 0 ? <span className="star"><RankStarMark size={10} /></span> : null}
               {String(i + 1).padStart(2, "0")}
             </div>
             <div className="nm">
@@ -90,6 +99,7 @@ function EarlyCallList({ items }: { items: ConsensusItem[] }) {
               <div className="meta">
                 OURS #{item.oursRank ?? "—"} · external #{item.externalRank ?? "—"} ·{" "}
                 {item.sourceCount}/8 sources
+                {mentions > 0 ? ` · ${mentions} mentions 24h` : ""}
               </div>
             </div>
             <div className="delta up">
@@ -103,7 +113,13 @@ function EarlyCallList({ items }: { items: ConsensusItem[] }) {
   );
 }
 
-function DivergenceList({ items }: { items: ConsensusItem[] }) {
+function DivergenceList({
+  items,
+  mentions24h,
+}: {
+  items: ConsensusItem[];
+  mentions24h: Map<string, number>;
+}) {
   if (items.length === 0) {
     return (
       <div className="sp-row">
@@ -117,23 +133,65 @@ function DivergenceList({ items }: { items: ConsensusItem[] }) {
   }
   return (
     <>
-      {items.map((item, i) => (
-        <Link href={consensusHref(item.fullName)} className="sp-row" key={item.fullName}>
-          <div className="rk">{String(i + 1).padStart(2, "0")}</div>
-          <div className="nm">
-            <div className="h">{item.fullName}</div>
-            <div className="meta">
-              {item.sourceCount}/8 sources · ranks span {item.maxRankGap}
+      {items.map((item, i) => {
+        const mentions = mentions24h.get(item.fullName.toLowerCase()) ?? 0;
+        return (
+          <Link href={consensusHref(item.fullName)} className="sp-row" key={item.fullName}>
+            <div className="rk">{String(i + 1).padStart(2, "0")}</div>
+            <div className="nm">
+              <div className="h">{item.fullName}</div>
+              <div className="meta">
+                {item.sourceCount}/8 sources · ranks span {item.maxRankGap}
+                {mentions > 0 ? ` · ${mentions} mentions 24h` : ""}
+              </div>
             </div>
-          </div>
-          <div className="delta dn">
-            ≥ {item.maxRankGap}
-            <span className="lbl">GAP</span>
-          </div>
-        </Link>
-      ))}
+            <div className="delta dn">
+              ≥ {item.maxRankGap}
+              <span className="lbl">GAP</span>
+            </div>
+          </Link>
+        );
+      })}
     </>
   );
+}
+
+// Display-only relaxed threshold for the "strong consensus" band.
+//
+// The worker's classifier requires ≥5 of 8 external sources before an item
+// is tagged `strong_consensus` (apps/trendingrepo-worker/.../scoring.ts).
+// In practice most discovery feeds only surface ~3-4 sources per repo, so
+// the strict gate produces a permanent "0 strong consensus picks" header
+// even when the leaderboard has dozens of high-conviction multi-source
+// items. We re-classify on the consumer side so the page surfaces actual
+// agreement instead of an empty band. The underlying score and per-source
+// rank data are NEVER mutated — only the display verdict is relaxed.
+const DISPLAY_STRONG_MIN_SOURCES = 3;
+const DISPLAY_STRONG_MAX_GAP = 60;
+
+function relaxStrongConsensus(item: ConsensusItem): ConsensusItem {
+  if (item.verdict === "strong_consensus") return item;
+  if (
+    item.sourceCount >= DISPLAY_STRONG_MIN_SOURCES &&
+    item.maxRankGap <= DISPLAY_STRONG_MAX_GAP
+  ) {
+    return { ...item, verdict: "strong_consensus" };
+  }
+  return item;
+}
+
+function recountBands(
+  items: ConsensusItem[],
+): Record<ConsensusItem["verdict"], number> {
+  const counts = {
+    strong_consensus: 0,
+    early_call: 0,
+    divergence: 0,
+    external_only: 0,
+    single_source: 0,
+  };
+  for (const item of items) counts[item.verdict] += 1;
+  return counts;
 }
 
 export default async function ConsensusPage() {
@@ -144,24 +202,50 @@ export default async function ConsensusPage() {
   ]);
 
   const meta = getConsensusTrendingMeta();
-  const items = getConsensusTrendingItems(100);
+  const rawItems = getConsensusTrendingItems(200);
+  const items = rawItems.map(relaxStrongConsensus);
+  const displayBandCounts = recountBands(items);
   const verdicts = getConsensusVerdictsPayload();
 
-  const earlyItems = items.filter((i) => i.verdict === "early_call").slice(0, 7);
-  const divItems = items.filter((i) => i.verdict === "divergence").slice(0, 7);
+  const earlyItems = items.filter((i) => i.verdict === "early_call").slice(0, 15);
+  const divItems = items.filter((i) => i.verdict === "divergence").slice(0, 15);
 
-  const computedAt = verdicts.computedAt || meta.computedAt;
+  // Build a fullName→24h-mentions map by joining each ConsensusItem's
+  // fullName against the derived-repos pool. Missing entries (consensus
+  // items that aren't yet in our derived pool) fall back to 0.
+  const mentions24h = new Map<string, number>();
+  for (const item of items) {
+    const repo = getDerivedRepoByFullName(item.fullName);
+    if (repo?.mentions) {
+      mentions24h.set(item.fullName.toLowerCase(), repo.mentions.total24h);
+    }
+  }
+
+  // The data layer is consensus-trending (refreshed hourly by the worker).
+  // The analyst (verdicts) layer rides on top and can lag by hours; if it's
+  // significantly older than the underlying data, treat its content as
+  // stale and fall back to the deterministic summary so the page chrome
+  // never advertises a 3-day-old verdict on top of fresh signals.
+  const dataAtMs = meta.computedAt ? Date.parse(meta.computedAt) : 0;
+  const verdictAtMs = verdicts.computedAt ? Date.parse(verdicts.computedAt) : 0;
+  const verdictsFresh =
+    verdictAtMs > 0 && dataAtMs > 0
+      ? verdictAtMs >= dataAtMs - 60 * 60 * 1000
+      : Boolean(verdicts.computedAt);
+
+  const computedAt = meta.computedAt || verdicts.computedAt;
   const computedClock = computedAt ? fmtClock(computedAt) : "warming";
   const computedAgo = computedAt
     ? `${Math.max(0, Math.floor((Date.now() - new Date(computedAt).getTime()) / 60000))}m ago`
     : "";
 
-  // V4 verdict-ribbon copy: prefer the analyst headline, otherwise derive
-  // a deterministic summary from band counts. Same fallback the V3 ribbon used.
+  // Prefer the analyst headline only when fresh; otherwise derive a
+  // deterministic summary from band counts so the ribbon always tracks
+  // today's data, not yesterday's analyst run.
   const verdictText =
-    verdicts.ribbon.headline ||
-    `${meta.bandCounts.strong_consensus} strong consensus picks today across 8 sources · ` +
-      `${meta.bandCounts.early_call} early calls · ${meta.bandCounts.divergence} divergences to watch.`;
+    (verdictsFresh && verdicts.ribbon.headline) ||
+    `${displayBandCounts.strong_consensus} strong consensus picks today across 8 sources · ` +
+      `${displayBandCounts.early_call} early calls · ${displayBandCounts.divergence} divergences to watch.`;
 
   return (
     <main className="home-surface">
@@ -213,28 +297,28 @@ export default async function ConsensusPage() {
           },
           {
             label: "STRONG CONSENSUS",
-            value: meta.bandCounts.strong_consensus,
-            sub: "≥ 5 / 8 sources agree",
+            value: displayBandCounts.strong_consensus,
+            sub: "≥ 3 / 8 sources agree",
             tone: "money",
             pip: "var(--v4-money)",
           },
           {
             label: "EARLY CALLS",
-            value: meta.bandCounts.early_call,
+            value: displayBandCounts.early_call,
             sub: "we ranked first",
             tone: "acc",
             pip: "var(--v4-violet)",
           },
           {
             label: "DIVERGENCE",
-            value: meta.bandCounts.divergence,
+            value: displayBandCounts.divergence,
             sub: "feeds disagree · gap > 30",
             tone: "amber",
             pip: "var(--v4-amber)",
           },
           {
             label: "EXTERNAL-ONLY",
-            value: meta.bandCounts.external_only,
+            value: displayBandCounts.external_only,
             sub: "not yet on our radar",
             pip: "var(--v4-blue)",
           },
@@ -309,7 +393,7 @@ export default async function ConsensusPage() {
               <span style={{ color: "var(--v4-violet)" }}>↑ {earlyItems.length} ACTIVE</span>
             </span>
           </div>
-          <EarlyCallList items={earlyItems} />
+          <EarlyCallList items={earlyItems} mentions24h={mentions24h} />
         </section>
 
         <section className="panel col-6">
@@ -320,7 +404,7 @@ export default async function ConsensusPage() {
               <span style={{ color: "var(--v4-amber)" }}>⚠ {divItems.length} ACTIVE</span>
             </span>
           </div>
-          <DivergenceList items={divItems} />
+          <DivergenceList items={divItems} mentions24h={mentions24h} />
         </section>
       </div>
 
@@ -341,7 +425,7 @@ export default async function ConsensusPage() {
             fetchers refresh.
           </div>
         ) : (
-          <ConsensusBoard items={items} perBand={20} />
+          <ConsensusBoard items={items} perBand={40} mentions24h={mentions24h} />
         )}
       </div>
     </main>

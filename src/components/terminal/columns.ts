@@ -10,8 +10,9 @@
 
 import type { ReactNode } from "react";
 import { createElement } from "react";
-import { Eye, GitCompareArrows, Star, Zap } from "lucide-react";
+import { Eye, GitCompareArrows, Zap } from "lucide-react";
 
+import { BrandStar } from "@/components/shared/BrandStar";
 import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
 import { Sparkline } from "@/components/shared/Sparkline";
@@ -396,11 +397,10 @@ export const COLUMNS: Column[] = [
           className:
             "inline-flex items-center justify-end gap-1 font-mono tabular-nums text-[color:var(--v2-ink-100)]",
         },
-        createElement(Star, {
+        createElement(BrandStar, {
           size: 10,
-          className: "shrink-0 text-[color:var(--v2-ink-400)]",
+          className: "text-[color:var(--v2-ink-400)]",
           "aria-hidden": true,
-          strokeWidth: 1.5,
         }),
         formatNumber(repo.stars),
       ),
@@ -436,7 +436,6 @@ export const COLUMNS: Column[] = [
           size: 10,
           className: "shrink-0 text-[color:var(--v2-acc)]",
           "aria-hidden": true,
-          strokeWidth: 1.5,
         }),
         formatNumber(Math.round(score)),
       );
@@ -446,7 +445,7 @@ export const COLUMNS: Column[] = [
   // --- delta24h -----------------------------------------------------------
   {
     id: "delta24h",
-    label: "24H ★",
+    label: "24H STAR",
     width: 84,
     align: "right",
     sortable: true,
@@ -464,7 +463,7 @@ export const COLUMNS: Column[] = [
   // --- delta7d ------------------------------------------------------------
   {
     id: "delta7d",
-    label: "7D ★",
+    label: "7D STAR",
     width: 84,
     align: "right",
     sortable: true,
@@ -482,7 +481,7 @@ export const COLUMNS: Column[] = [
   // --- delta30d -----------------------------------------------------------
   {
     id: "delta30d",
-    label: "30D ★",
+    label: "30D STAR",
     width: 84,
     align: "right",
     sortable: true,
@@ -794,7 +793,6 @@ export const COLUMNS: Column[] = [
           },
           createElement(Eye, {
             size: 14,
-            strokeWidth: 1.5,
             className: "shrink-0",
           }),
         ),
@@ -832,7 +830,6 @@ export const COLUMNS: Column[] = [
           },
           createElement(GitCompareArrows, {
             size: 14,
-            strokeWidth: 1.5,
             className: "shrink-0",
           }),
         ),

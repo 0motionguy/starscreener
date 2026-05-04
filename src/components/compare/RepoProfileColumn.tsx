@@ -9,7 +9,6 @@
 // doesn't jitter when one lookup fails.
 
 import Link from "next/link";
-import { Star } from "lucide-react";
 import type { CompareRepoRow, DiffTone } from "./CompareProfileGrid";
 import { MomentumRow } from "./MomentumRow";
 import { WhyTrendingCompact } from "./WhyTrendingCompact";
@@ -18,6 +17,7 @@ import { RevenueCompact } from "./RevenueCompact";
 import { FundingCompact } from "./FundingCompact";
 import { NpmCompact } from "./NpmCompact";
 import { MentionsRecentCompact } from "./MentionsRecentCompact";
+import { BrandStar } from "@/components/shared/BrandStar";
 import { cn } from "@/lib/utils";
 import { COMPARE_PALETTE as PALETTE } from "./palette";
 import { EntityLogo } from "@/components/ui/EntityLogo";
@@ -103,7 +103,7 @@ export function RepoProfileColumn({
             </span>
             <span aria-hidden="true">·</span>
             <span className="inline-flex items-center gap-1 font-mono shrink-0">
-              <Star size={10} className="shrink-0" />
+              <BrandStar size={10} className="text-[var(--v4-amber)]" />
               {formatCompact(repo.stars)}
             </span>
           </div>
@@ -139,7 +139,6 @@ export function RepoProfileColumn({
     </article>
   );
 }
-
 function Divider() {
   return (
     <div

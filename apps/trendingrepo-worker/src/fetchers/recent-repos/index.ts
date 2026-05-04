@@ -7,14 +7,14 @@
 //
 // Cadence: hourly at :27 (matches the same fast-refresh GH workflow that
 // runs scrape-trending). GitHub Search counts as a separate API quota
-// pool from REST; using GH_PAT (when set) raises the quota from 10 to 30
-// req/min on search. We disable ETag caching because the query embeds a
+// pool from REST; using the worker GitHub token pool raises the quota from
+// 10 to 30 req/min on search. We disable ETag caching because the query embeds a
 // rolling `created:>=YYYY-MM-DD` date that changes daily AND because the
 // payload itself updates as new repos cross the star threshold.
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore } from '../../lib/redis.js';
-import { loadEnv } from '../../lib/env.js';
+import { pickGithubToken } from '../../lib/util/github-token-pool.js';
 
 const API_URL = 'https://api.github.com/search/repositories';
 const API_VERSION = '2022-11-28';
@@ -182,12 +182,7 @@ const fetcher: Fetcher = {
       return done(startedAt, 0, false, errors);
     }
 
-    const env = loadEnv();
-    // Reuse the worker's GH_PAT if set (Phase 2 token-pool env hadn't been
-    // ported into the worker schema yet; single-token path is fine — this
-    // fetcher does ~5 search-API calls per tick which sits well below the
-    // 30 req/min authenticated quota).
-    const token = env.GH_PAT;
+    const token = pickGithubToken() ?? undefined;
     const fetchedAt = new Date().toISOString();
     const deduped = new Map<string, RecentRepoRow>();
 

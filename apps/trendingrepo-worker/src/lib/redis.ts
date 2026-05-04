@@ -12,6 +12,15 @@ const META_NAMESPACE = 'ss:meta:v1';
 let cachedHandle: RedisHandle | null = null;
 let warned = false;
 
+// Module-scoped fetcher name set by run.ts so writeDataStore() can attribute
+// last-write provenance without every fetcher having to thread it through.
+// The worker scheduler runs one fetcher at a time per `runFetcher()` call,
+// so this single-slot mutation is safe.
+let currentFetcherName: string | null = null;
+export function setCurrentFetcherName(name: string | null): void {
+  currentFetcherName = name;
+}
+
 export interface DataStoreWriteResult {
   source: 'redis' | 'skipped';
   writtenAt: string;
@@ -107,16 +116,30 @@ function upstashAdapter(client: UpstashLike): RedisHandle {
   };
 }
 
+export interface DataStoreWriteOptions {
+  ttlSeconds?: number;
+  /**
+   * Writer provenance — included in the meta key as a JSON object so audits
+   * can attribute last-write-wins between worker fetchers and collector
+   * scripts. Pass the fetcher name; the worker will prefix it `worker:`.
+   * Older readers tolerate both shapes (parseWrittenAt in
+   * src/lib/data-store.ts).
+   */
+  writer?: string;
+  runId?: string;
+  commit?: string;
+}
+
 export async function writeDataStore(
   key: string,
   value: unknown,
-  opts: { ttlSeconds?: number } = {},
+  opts: DataStoreWriteOptions = {},
 ): Promise<DataStoreWriteResult> {
   // AUDIT-2026-05-04 §B2 — write WriterMeta envelope so dual-writer
   // observability can show "worker won the last write to <key>" vs
   // "GHA won". Back-compat: parseWriterMeta in src/lib/data-store.ts
   // accepts both envelopes and bare ISO strings.
-  const writerMeta = buildWorkerWriterMeta();
+  const writerMeta = buildWorkerWriterMeta(opts);
   const writtenAt = writerMeta.ts;
   const handle = await getRedis();
   if (!handle) {
@@ -125,6 +148,7 @@ export async function writeDataStore(
   const payload = JSON.stringify(value);
   const metaPayload = JSON.stringify(writerMeta);
   const setOpts = opts.ttlSeconds && opts.ttlSeconds > 0 ? { ex: opts.ttlSeconds } : undefined;
+
   await Promise.all([
     handle.set(`${NAMESPACE}:${key}`, payload, setOpts),
     handle.set(`${META_NAMESPACE}:${key}`, metaPayload, setOpts),
@@ -142,20 +166,26 @@ interface WorkerWriterMeta {
   writerId?: string;
   sourceWorkflow?: string;
   commitSha?: string;
+  runId?: string;
 }
 
-function buildWorkerWriterMeta(): WorkerWriterMeta {
+function buildWorkerWriterMeta(opts: DataStoreWriteOptions = {}): WorkerWriterMeta {
   const meta: WorkerWriterMeta = { ts: new Date().toISOString() };
-  const explicit = process.env.WRITER_ID?.trim();
+  const explicit = opts.writer?.trim() ?? process.env.WRITER_ID?.trim();
   if (explicit) {
     meta.writerId = explicit;
   } else {
     const service = process.env.RAILWAY_SERVICE_NAME?.trim() ?? 'trendingrepo-worker';
-    const fetcher = process.env.FETCHER_NAME?.trim();
+    const fetcher = currentFetcherName?.trim() ?? process.env.FETCHER_NAME?.trim();
     meta.writerId = fetcher ? `worker:${service}:${fetcher}` : `worker:${service}`;
   }
-  const sha = process.env.RAILWAY_GIT_COMMIT_SHA?.trim() ?? process.env.GITHUB_SHA?.trim();
+  const sha =
+    opts.commit?.trim() ??
+    process.env.RAILWAY_GIT_COMMIT_SHA?.trim() ??
+    process.env.GITHUB_SHA?.trim();
   if (sha) meta.commitSha = sha;
+  const runId = opts.runId?.trim() ?? process.env.GITHUB_RUN_ID?.trim();
+  if (runId) meta.runId = runId;
   return meta;
 }
 

@@ -175,11 +175,18 @@ function stampTrackedRepos(value, ts, depth = 0) {
  * shape OR id+stars shape) gets a `lastRefreshedAt` field set to writtenAt.
  * Other records (posts, articles, launches) pass through unmodified.
  *
+ * Provenance: when GITHUB_WORKFLOW / GITHUB_RUN_ID / GITHUB_SHA are present
+ * (i.e. a GitHub Actions runner) the meta key is written as a JSON object
+ * with writer/runId/commit so audits can attribute last-write-wins. Outside
+ * GitHub Actions the meta key keeps the legacy bare-ISO-string shape, which
+ * `parseWrittenAt` in src/lib/data-store.ts accepts back-compat.
+ *
  * @param {string} key       Slug, e.g. "trending" → ss:data:v1:trending
  * @param {unknown} value    Any JSON-serializable value
- * @param {{ ttlSeconds?: number; stampPerRecord?: boolean }} [opts]
+ * @param {{ ttlSeconds?: number; stampPerRecord?: boolean; writer?: string; runId?: string; commit?: string }} [opts]
  *   stampPerRecord defaults to true; pass false to opt out for sources that
- *   manage their own per-record timestamps.
+ *   manage their own per-record timestamps. Caller-supplied writer/runId/
+ *   commit override the GitHub-Actions auto-detection.
  * @returns {Promise<{ source: "redis" | "skipped"; writtenAt: string }>}
  */
 export async function writeDataStore(key, value, opts = {}) {
@@ -189,7 +196,7 @@ export async function writeDataStore(key, value, opts = {}) {
   // vs "worker oss-trending wrote this last". The reader in
   // src/lib/data-store.ts (parseWriterMeta) accepts both this envelope
   // and legacy bare-ISO meta values for back-compat.
-  const writerMeta = buildScriptWriterMeta();
+  const writerMeta = buildScriptWriterMeta(opts);
   const writtenAt = writerMeta.ts;
 
   if (opts.stampPerRecord !== false && value && typeof value === "object") {
@@ -226,11 +233,11 @@ export async function writeDataStore(key, value, opts = {}) {
  * buildWriterMeta — same shape, same env-var precedence, so dual-writer
  * observability sees consistent provenance regardless of which path wrote.
  *
- * @returns {{ ts: string; writerId?: string; sourceWorkflow?: string; commitSha?: string }}
+ * @returns {{ ts: string; writerId?: string; sourceWorkflow?: string; commitSha?: string; runId?: string }}
  */
-function buildScriptWriterMeta() {
+function buildScriptWriterMeta(opts = {}) {
   const meta = { ts: new Date().toISOString() };
-  const explicit = process.env.WRITER_ID?.trim();
+  const explicit = opts.writer?.trim?.() || process.env.WRITER_ID?.trim();
   if (explicit) meta.writerId = explicit;
   else if (process.env.GITHUB_WORKFLOW) {
     meta.writerId = `gha:${process.env.GITHUB_WORKFLOW}`;
@@ -239,8 +246,10 @@ function buildScriptWriterMeta() {
   }
   const wf = process.env.GITHUB_WORKFLOW?.trim();
   if (wf) meta.sourceWorkflow = wf;
-  const sha = process.env.GITHUB_SHA?.trim();
+  const sha = opts.commit?.trim?.() || process.env.GITHUB_SHA?.trim();
   if (sha) meta.commitSha = sha;
+  const runId = opts.runId?.trim?.() || process.env.GITHUB_RUN_ID?.trim();
+  if (runId) meta.runId = runId;
   return meta;
 }
 

@@ -1,68 +1,26 @@
-// V3 background-theme registry. Five swatches that the picker writes
-// to `localStorage["trendingrepo-v3-bg"]` and applies via the
-// `html[data-bg-theme]` attribute. Each entry carries its own swatch
-// palette (`bg`, `bgEdge`, `ink`) so the picker can render a faithful
-// preview chip without re-deriving from the CSS at render time.
+// V3 surface-mode registry. Three sizes (sm / md / lg) that the picker
+// writes to `localStorage["trendingrepo-v3-surface"]` and applies via
+// the `html[data-surface]` attribute. Scopes in globals.css use that
+// attribute to scale the type / spacing tokens site-wide. Each entry
+// carries the picker preview metadata (label + the px value rendered
+// inside the swatch) so the chrome doesn't have to re-derive from CSS.
 
 export interface V3BgTheme {
-  /** Used in localStorage + on `html[data-bg-theme]`. */
-  id: string;
+  /** Used in localStorage + on `html[data-surface]`. */
+  id: "sm" | "md" | "lg";
   /** Picker label. */
   label: string;
-  /** Family — controls the picker's category divider. */
-  family: "dark" | "light";
-  /** Swatch fill. */
-  bg: string;
-  /** Hairline / border tone for the swatch outline. */
-  bgEdge: string;
-  /** Ink colour shown as a `Aa` glyph inside the swatch. */
-  ink: string;
+  /** Pixel size shown inside the Aa preview chip. */
+  previewSize: number;
 }
 
-export const V3_BG_THEME_STORAGE_KEY = "trendingrepo-v3-bg";
-export const V3_DEFAULT_BG_ID = "black";
+export const V3_BG_THEME_STORAGE_KEY = "trendingrepo-v3-surface";
+export const V3_DEFAULT_BG_ID: V3BgTheme["id"] = "md";
 
 export const V3_BG_THEMES: V3BgTheme[] = [
-  {
-    id: "black",
-    label: "Void",
-    family: "dark",
-    bg: "#08090a",
-    bgEdge: "#272c33",
-    ink: "#e6e7e8",
-  },
-  {
-    id: "graphite",
-    label: "Graphite",
-    family: "dark",
-    bg: "#0c0c12",
-    bgEdge: "#2a2a36",
-    ink: "#e6e7e8",
-  },
-  {
-    id: "slate",
-    label: "Slate",
-    family: "dark",
-    bg: "#1a1a1f",
-    bgEdge: "#3a3a44",
-    ink: "#eef0f2",
-  },
-  {
-    id: "creme",
-    label: "Creme",
-    family: "dark",
-    bg: "#1a1a1f",
-    bgEdge: "#3a3a44",
-    ink: "#f7f1de",
-  },
-  {
-    id: "linen",
-    label: "Linen",
-    family: "light",
-    bg: "#f4eee2",
-    bgEdge: "#d4cab2",
-    ink: "#18140b",
-  },
+  { id: "sm", label: "Compact", previewSize: 9 },
+  { id: "md", label: "Default", previewSize: 11 },
+  { id: "lg", label: "Comfort", previewSize: 13 },
 ];
 
 export function getV3BgTheme(id: string | null | undefined): V3BgTheme {

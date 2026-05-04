@@ -84,11 +84,14 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-48.png", sizes: "48x48", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
-    shortcut: "/favicon.ico",
-    apple: [{ url: "/apple-touch-icon.svg", type: "image/svg+xml" }],
+    shortcut: "/favicon-32.png",
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
     type: "website",
@@ -97,11 +100,20 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     url: SITE_URL,
     locale: "en_US",
+    images: [
+      {
+        url: "/og-card.png",
+        width: 1200,
+        height: 630,
+        alt: `${SITE_NAME} preview`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${SITE_NAME} — ${SITE_TAGLINE}`,
     description: SITE_DESCRIPTION,
+    images: ["/og-card.png"],
   },
   alternates: {
     canonical: "/",
@@ -184,7 +196,11 @@ export default async function RootLayout({
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var k="trendingrepo-v3-accent",t=localStorage.getItem(k)||"lava",m={lava:["#ff6b35","#ff8458","#c44a1f","rgba(255,107,53,.14)","rgba(255,107,53,.45)"],indigo:["#9297f6","#a8acf8","#555bd8","rgba(146,151,246,.14)","rgba(146,151,246,.45)"],lime:["#def135","#e8fb55","#a9b827","rgba(222,241,53,.14)","rgba(222,241,53,.45)"],cyan:["#3ad6c5","#63e1d3","#26a597","rgba(58,214,197,.14)","rgba(58,214,197,.45)"],magenta:["#e879f9","#f0a2ff","#a855f7","rgba(232,121,249,.14)","rgba(232,121,249,.45)"]}[t]||["#ff6b35","#ff8458","#c44a1f","rgba(255,107,53,.14)","rgba(255,107,53,.45)"],r=document.documentElement;r.dataset.v3Accent=t;r.style.setProperty("--v3-acc",m[0]);r.style.setProperty("--v3-acc-hover",m[1]);r.style.setProperty("--v3-acc-dim",m[2]);r.style.setProperty("--v3-acc-soft",m[3]);r.style.setProperty("--v3-acc-glow",m[4]);r.style.setProperty("--color-accent",m[0]);r.style.setProperty("--color-accent-hover",m[1]);r.style.setProperty("--color-accent-dim",m[2]);r.style.setProperty("--color-accent-soft",m[3]);r.style.setProperty("--color-accent-glow",m[4]);r.style.setProperty("--v2-acc",m[0]);r.style.setProperty("--v2-acc-hover",m[1]);r.style.setProperty("--v2-acc-soft",m[3]);r.style.setProperty("--v2-acc-glow",m[4]);r.style.setProperty("--v2-acc-dim",m[2]);r.style.setProperty("--color-brand",m[0]);r.style.setProperty("--color-brand-hover",m[1]);r.style.setProperty("--color-brand-active",m[2]);r.style.setProperty("--color-border-focus",m[0]);var b=localStorage.getItem("trendingrepo-v3-bg")||"black";r.dataset.bgTheme=b;}catch(e){}})();`,
+            // Pre-paint bootstrap for data-theme + data-surface so the
+            // chosen accent and surface scale apply before first paint
+            // (no FOUC). Mirrors getV3Theme/getV3BgTheme defaults but
+            // inlined to avoid pulling the v3 module into the head.
+            __html: `(function(){try{var ACC_KEY="trendingrepo-v3-accent",SURF_KEY="trendingrepo-v3-surface";var t=localStorage.getItem(ACC_KEY);var palette={orange:["#fb923c","#fdba74","#c2410c","rgba(251,146,60,.14)","rgba(251,146,60,.45)"],blue:["#60a5fa","#93c5fd","#1d4ed8","rgba(96,165,250,.14)","rgba(96,165,250,.45)"],yellow:["#facc15","#fde047","#a16207","rgba(250,204,21,.14)","rgba(250,204,21,.45)"],green:["#4ade80","#86efac","#15803d","rgba(74,222,128,.14)","rgba(74,222,128,.45)"],purple:["#c084fc","#d8b4fe","#7e22ce","rgba(192,132,252,.14)","rgba(192,132,252,.45)"]};if(!t||!palette[t])t="orange";var m=palette[t];var r=document.documentElement;r.dataset.theme=t;r.dataset.v3Accent=t;r.style.setProperty("--v3-acc",m[0]);r.style.setProperty("--v3-acc-hover",m[1]);r.style.setProperty("--v3-acc-dim",m[2]);r.style.setProperty("--v3-acc-soft",m[3]);r.style.setProperty("--v3-acc-glow",m[4]);r.style.setProperty("--color-accent",m[0]);r.style.setProperty("--color-accent-hover",m[1]);r.style.setProperty("--color-accent-dim",m[2]);r.style.setProperty("--color-accent-soft",m[3]);r.style.setProperty("--color-accent-glow",m[4]);r.style.setProperty("--v2-acc",m[0]);r.style.setProperty("--v2-acc-hover",m[1]);r.style.setProperty("--v2-acc-soft",m[3]);r.style.setProperty("--v2-acc-glow",m[4]);r.style.setProperty("--v2-acc-dim",m[2]);r.style.setProperty("--color-brand",m[0]);r.style.setProperty("--color-brand-hover",m[1]);r.style.setProperty("--color-brand-active",m[2]);r.style.setProperty("--color-border-focus",m[0]);var s=localStorage.getItem(SURF_KEY);if(s!=="sm"&&s!=="md"&&s!=="lg")s="md";r.dataset.surface=s;}catch(e){}})();`,
           }}
         />
       </head>

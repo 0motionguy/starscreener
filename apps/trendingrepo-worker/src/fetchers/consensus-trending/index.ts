@@ -155,17 +155,15 @@ const fetcher: Fetcher = {
       return done(startedAt, 0, false);
     }
 
-    const [
-      engagement,
-      oss,
-      hf,
-      hnMentions,
-      twitter,
-      redditMentions,
-      ph,
-      devtoMentions,
-      blueskyMentions,
-    ] = await Promise.all([
+    // AUDIT-2026-05-04: consensus-trending was 45h stale because a single
+    // Redis flake on any of these 9 reads would reject the Promise.all
+    // and crash the whole fetcher (run.ts captures + rethrows; cron
+    // .catch swallows; meta key never refreshes). Switch to allSettled
+    // so per-source flakes degrade to null (treated identically to a
+    // genuine cache miss by the from*() coercers below) and the
+    // fetcher always publishes SOMETHING. Per-key failures are logged
+    // so they're not invisible.
+    const reads = await Promise.allSettled([
       readDataStore<EngagementCompositePayload>('engagement-composite'),
       readDataStore<OssTrendingPayload>('trending'),
       readDataStore<HfTrendingPayload>('huggingface-trending'),
@@ -176,6 +174,53 @@ const fetcher: Fetcher = {
       readDataStore<MentionsPayload>('devto-mentions'),
       readDataStore<MentionsPayload>('bluesky-mentions'),
     ]);
+    const READ_KEYS = [
+      'engagement-composite',
+      'trending',
+      'huggingface-trending',
+      'hackernews-repo-mentions',
+      'twitter-trending',
+      'reddit-mentions',
+      'producthunt-launches',
+      'devto-mentions',
+      'bluesky-mentions',
+    ] as const;
+    const readFailures: Array<{ key: string; err: string }> = [];
+    const values = reads.map((r, i) => {
+      if (r.status === 'fulfilled') return r.value;
+      readFailures.push({
+        key: READ_KEYS[i] ?? `index-${i}`,
+        err: r.reason instanceof Error ? r.reason.message : String(r.reason),
+      });
+      return null;
+    });
+    if (readFailures.length > 0) {
+      ctx.log.warn(
+        { failures: readFailures },
+        'consensus-trending: some reads failed; degrading those sources to null',
+      );
+    }
+    const [
+      engagement,
+      oss,
+      hf,
+      hnMentions,
+      twitter,
+      redditMentions,
+      ph,
+      devtoMentions,
+      blueskyMentions,
+    ] = values as [
+      EngagementCompositePayload | null,
+      OssTrendingPayload | null,
+      HfTrendingPayload | null,
+      MentionsPayload | null,
+      TwitterTrendingPayload | null,
+      MentionsPayload | null,
+      ProductHuntPayload | null,
+      MentionsPayload | null,
+      MentionsPayload | null,
+    ];
 
     const input: ConsensusScoreInput = {
       ours: fromEngagement(engagement),

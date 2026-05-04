@@ -1,0 +1,64 @@
+name: Backfill orphan meta keys
+
+# One-off operator-triggered workflow for AUDIT-2026-05-04. Walks
+# ss:data:v1:* in Redis, finds entries with no companion ss:meta:v1:*,
+# and writes a backfill meta entry. Idempotent — re-running is safe.
+#
+# Usage:
+#   - Trigger manually with `dry_run=true` first to print orphan keys
+#     without touching Redis.
+#   - Re-trigger with `dry_run=false` to actually write the backfill
+#     meta entries.
+#
+# This is NOT cron-scheduled. Once orphans are cleared, future
+# collector / worker writes keep meta keys in sync via the
+# writer-provenance path landed in 6e831f1c. So a one-time run is all
+# that's needed.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry-run (print orphan keys without writing)"
+        required: false
+        default: "true"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: backfill-meta
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        # backfill-meta.mjs dynamic-imports `ioredis`/`@upstash/redis` so
+        # we need node_modules. Same pattern as scrape-trending.yml.
+        run: npm ci
+
+      - name: Run backfill
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            node scripts/backfill-meta.mjs --dry-run
+          else
+            node scripts/backfill-meta.mjs
+          fi

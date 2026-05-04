@@ -18,8 +18,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { getSkillsSignalData } from "@/lib/ecosystem-leaderboards";
+import { getDerivedRepos } from "@/lib/derived-repos";
+import { refreshTrendingFromStore } from "@/lib/trending";
+import { refreshRedditMentionsFromStore } from "@/lib/reddit-data";
+import { refreshHackernewsMentionsFromStore } from "@/lib/hackernews";
+import { refreshBlueskyMentionsFromStore } from "@/lib/bluesky";
+import { refreshDevtoMentionsFromStore } from "@/lib/devto";
+import { refreshLobstersMentionsFromStore } from "@/lib/lobsters";
+import { refreshNpmFromStore } from "@/lib/npm";
+import { refreshHfModelsFromStore } from "@/lib/huggingface";
+import { refreshArxivFromStore } from "@/lib/arxiv";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { formatNumber } from "@/lib/utils";
+import type { Repo } from "@/lib/types";
 
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
@@ -27,6 +38,11 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { RankRow } from "@/components/ui/RankRow";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { MarkVisited } from "@/components/layout/MarkVisited";
+import {
+  SkillsTopTable,
+  type SkillRow,
+} from "@/components/skills/SkillsTopTable";
 
 import { encodeSkillSlug } from "./_slug";
 
@@ -50,7 +66,7 @@ const WINDOW_LABEL: Record<SortWindow, string> = {
 
 function parseSortWindow(value: string | string[] | undefined): SortWindow {
   const v = Array.isArray(value) ? value[0] : value;
-  return SORT_WINDOWS.includes(v as SortWindow) ? (v as SortWindow) : "7d";
+  return SORT_WINDOWS.includes(v as SortWindow) ? (v as SortWindow) : "24h";
 }
 
 /**
@@ -69,6 +85,20 @@ function pickInstallsDelta(
   if (win === "24h") return item.installsDelta1d;
   if (win === "30d") return item.installsDelta30d;
   return item.installsDelta7d;
+}
+
+function pickRepoDelta(repo: Repo | null, win: SortWindow): number | undefined {
+  if (!repo) return undefined;
+  if (win === "24h") return repo.starsDelta24h;
+  if (win === "30d") return repo.starsDelta30d;
+  return repo.starsDelta7d;
+}
+
+function fullNameFromUrl(url: string | null | undefined): string | null {
+  if (typeof url !== "string") return null;
+  const m = url.match(/github\.com\/([^/?#]+)\/([^/?#]+)/i);
+  if (!m) return null;
+  return `${m[1]}/${m[2].replace(/\.git$/i, "")}`.toLowerCase();
 }
 
 export const metadata: Metadata = {
@@ -90,20 +120,59 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
   const params = (await searchParams) ?? {};
   const sortWindow = parseSortWindow(params.window);
 
+  // BUG-FIX 2026-05-03: rehydrate the in-memory caches `getDerivedRepos()`
+  // depends on. Without these refreshes, `linked` repo lookups returned
+  // stale (often empty) Repo objects and every star delta column rendered
+  // as "—". Mirrors the pattern used by /githubrepo and /home — each
+  // refresh is internally rate-limited (30s) + dedupes in-flight callers
+  // so calling them here on every render is cheap.
+  await Promise.all([
+    refreshTrendingFromStore(),
+    refreshRedditMentionsFromStore(),
+    refreshHackernewsMentionsFromStore(),
+    refreshBlueskyMentionsFromStore(),
+    refreshDevtoMentionsFromStore(),
+    refreshLobstersMentionsFromStore(),
+    refreshNpmFromStore(),
+    refreshHfModelsFromStore(),
+    refreshArxivFromStore(),
+  ]);
+
   const data = await getSkillsSignalData();
   const items = data.combined.items;
   const now = Date.now();
 
-  // W5-SKILLS24H — pre-compute the active-window install delta per row so
-  // the leaderboard sort + the delta column on each RankRow share the same
-  // value. Empty during cold-start; in that case we fall through to the
-  // original signal-score ordering.
+  // Build a lookup of tracked GitHub repos so we can plumb real
+  // starsDelta24h/7d/30d onto skill rows when the registry's own
+  // installsDelta snapshot is empty (cold start).
+  const repos = getDerivedRepos();
+  const repoByFullName = new Map<string, Repo>();
+  for (const r of repos) {
+    repoByFullName.set(r.fullName.toLowerCase(), r);
+  }
+  const linkedRepoCounts = new Map<string, number>();
+  for (const it of items) {
+    const key = (it.linkedRepo ?? fullNameFromUrl(it.url))?.toLowerCase();
+    if (!key) continue;
+    linkedRepoCounts.set(key, (linkedRepoCounts.get(key) ?? 0) + 1);
+  }
+
+  // Active-window delta per row. Prefer the linked GitHub repo's real
+  // star delta over the registry's installsDelta (which is mostly empty
+  // until a 7d-old snapshot exists). Fall back to installsDelta when
+  // the linked repo isn't in our tracked set.
   const deltaByItem = new Map<string, number>();
   for (const it of items) {
-    const d = pickInstallsDelta(it, sortWindow);
+    const key = (it.linkedRepo ?? fullNameFromUrl(it.url))?.toLowerCase() ?? null;
+    const uniqueRepo =
+      key !== null && (linkedRepoCounts.get(key) ?? 0) === 1;
+    const linked = uniqueRepo && key ? (repoByFullName.get(key) ?? null) : null;
+    const fromRepo = pickRepoDelta(linked, sortWindow);
+    const fromRegistry = pickInstallsDelta(it, sortWindow);
+    const d = fromRepo ?? fromRegistry;
     if (d !== undefined && Number.isFinite(d)) deltaByItem.set(it.id, d);
   }
-  const haveWindowedData = deltaByItem.size > 0;
+  const haveWindowedData = Array.from(deltaByItem.values()).some((v) => v !== 0);
 
   // Top — primary leaderboard. When the active window's snapshot is
   // populated, sort by the window delta (descending). Otherwise fall back
@@ -172,6 +241,7 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
 
   return (
     <main className="home-surface">
+      <MarkVisited routeKey="skills" count={items.length} />
       <PageHead
         crumb={
           <>
@@ -264,20 +334,17 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
         title="Top skills"
         meta={
           <>
-            <b>{topByScore.length}</b> · ranked by{" "}
-            {haveWindowedData ? (
-              <>installs Δ <b>{WINDOW_LABEL[sortWindow]}</b></>
-            ) : (
-              <>signal score</>
-            )}
+            <b>{items.length}</b> · sortable · stars Δ + installs Δ · sort{" "}
+            <b>{WINDOW_LABEL[sortWindow]}</b>
           </>
         }
       />
 
-      {/* W5-SKILLS24H — tracking-window tab strip. Server-rendered links so
-          the URL is canonical + shareable; default 7d (no query param). */}
+      {/* W5-SKILLS24H — sort-by-window control. Server-rendered links so
+          the URL is canonical + shareable; default 24h matches the page
+          intent ("instant velocity"). Mirrors /categories pattern. */}
       <nav
-        aria-label="Re-rank skills by tracking window"
+        aria-label="Sort skills by time window"
         style={{
           display: "flex",
           gap: 6,
@@ -289,11 +356,11 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
         }}
       >
         <span style={{ color: "var(--v4-ink-400)", paddingRight: 6 }}>
-          WINDOW ·
+          SORT BY ·
         </span>
         {SORT_WINDOWS.map((w) => {
           const active = w === sortWindow;
-          const href = w === "7d" ? "/skills" : `/skills?window=${w}`;
+          const href = w === "24h" ? "/skills" : `/skills?window=${w}`;
           return (
             <Link
               key={w}
@@ -314,108 +381,55 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
             </Link>
           );
         })}
-        {!haveWindowedData ? (
-          <span
-            style={{
-              marginLeft: "auto",
-              color: "var(--v4-ink-400)",
-              fontStyle: "italic",
-            }}
-          >
-            cold start — falling back to signal score
-          </span>
-        ) : null}
       </nav>
-      {topByScore.length > 0 ? (
-        <section
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            border: "1px solid var(--v4-line-200)",
-            borderRadius: 4,
-            background: "var(--v4-bg-050)",
-            marginBottom: 24,
-          }}
-        >
-          {topByScore.map((item, idx) => {
-            // W5-SKILLS24H — when the active window has data for this row,
-            // surface the install delta as the primary delta chip.
-            // Otherwise keep the original derivative-or-popularity chip.
-            const windowDelta = deltaByItem.get(item.id);
-            const windowDeltaChip =
-              windowDelta !== undefined && windowDelta > 0
-                ? {
-                    value: `+${formatNumber(windowDelta)} ${WINDOW_LABEL[sortWindow]}`,
-                    direction: "up" as const,
-                  }
-                : windowDelta !== undefined && windowDelta < 0
-                  ? {
-                      value: `${formatNumber(windowDelta)} ${WINDOW_LABEL[sortWindow]}`,
-                      direction: "down" as const,
-                    }
-                  : undefined;
-            const fallbackChip =
-              item.derivativeRepoCount && item.derivativeRepoCount > 0
-                ? {
-                    value: `${formatNumber(item.derivativeRepoCount)} cited`,
-                    direction: "up" as const,
-                  }
-                : item.popularity
-                  ? {
-                      value: `${formatNumber(item.popularity)} ${item.popularityLabel}`,
-                      direction: "flat" as const,
-                    }
-                  : undefined;
-            return (
-              <RankRow
-                key={item.id}
-                rank={idx + 1}
-                first={idx === 0}
-                avatar={
-                  <SkillAvatar
-                    logoUrl={item.logoUrl}
-                    fallback={item.title}
-                  />
-                }
-                title={
-                  <>
-                    {item.author ? (
-                      <>
-                        <span style={{ color: "var(--v4-ink-300)" }}>
-                          {item.author}
-                        </span>
-                        <span style={{ color: "var(--v4-ink-400)" }}> / </span>
-                      </>
-                    ) : null}
-                    <span style={{ color: "var(--v4-ink-100)" }}>
-                      {item.title}
-                    </span>
-                  </>
-                }
-                desc={item.description ?? item.sourceLabel}
-                metric={{
-                  value: item.signalScore.toFixed(0),
-                  label: "/ 100",
-                }}
-                delta={windowDeltaChip ?? fallbackChip}
-                href={`/skills/${encodeSkillSlug(item.id)}`}
-              />
-            );
-          })}
-        </section>
-      ) : (
-        <p
-          style={{
-            fontFamily: "var(--font-geist-mono), monospace",
-            fontSize: 12,
-            color: "var(--v4-ink-300)",
-            padding: "24px 0",
-          }}
-        >
-          No skills leaderboard rows have landed yet. Waiting for upstream
-          fetchers to populate Redis.
-        </p>
-      )}
+
+      {(() => {
+        const skillRows: SkillRow[] = items.map((item) => {
+          const key =
+            (item.linkedRepo ?? fullNameFromUrl(item.url))?.toLowerCase() ?? null;
+          const uniqueRepo =
+            key !== null && (linkedRepoCounts.get(key) ?? 0) === 1;
+          const linked = uniqueRepo && key ? (repoByFullName.get(key) ?? null) : null;
+          return {
+            id: item.id,
+            title: item.title,
+            author: item.author ?? null,
+            href: `/skills/${encodeSkillSlug(item.id)}`,
+            logoUrl: item.logoUrl ?? null,
+            stars:
+              typeof item.popularity === "number"
+                ? item.popularity
+                : (linked?.stars ?? 0),
+            starsDelta24h: linked?.starsDelta24h ?? null,
+            starsDelta7d: linked?.starsDelta7d ?? null,
+            starsDelta30d: linked?.starsDelta30d ?? null,
+            installsDelta24h: item.installsDelta1d ?? null,
+            installsDelta7d: item.installsDelta7d ?? null,
+            installsDelta30d: item.installsDelta30d ?? null,
+            cited: item.derivativeRepoCount ?? 0,
+            sparklineData: linked?.sparklineData ?? [],
+            trackingId: linked?.id ?? `skill:${item.id}`,
+          };
+        });
+        if (skillRows.length === 0) {
+          return (
+            <p
+              style={{
+                fontFamily: "var(--font-geist-mono), monospace",
+                fontSize: 12,
+                color: "var(--v4-ink-300)",
+                padding: "24px 0",
+              }}
+            >
+              No skills leaderboard rows have landed yet. Waiting for upstream
+              fetchers to populate Redis.
+            </p>
+          );
+        }
+        const sortKey =
+          sortWindow === "24h" ? "s24" : sortWindow === "30d" ? "s30" : "s7";
+        return <SkillsTopTable rows={skillRows} defaultSortKey={sortKey} />;
+      })()}
 
       <SectionHead
         num="// 02"

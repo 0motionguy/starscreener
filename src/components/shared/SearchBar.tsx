@@ -3,11 +3,12 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
-import { Search, Star, X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { ROUTES } from "@/lib/constants";
 import type { Repo } from "@/lib/types";
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { BrandStar } from "@/components/shared/BrandStar";
 import { Input } from "@/components/ui/Input";
 import { repoDisplayLogoUrl } from "@/lib/logos";
 
@@ -93,14 +94,24 @@ export function SearchBar({
     };
   }, []);
 
-  // Click-outside closes the preview dropdown.
+  // Click-outside closes the preview dropdown. The dropdown is rendered
+  // through a Portal to document.body so it lives OUTSIDE containerRef —
+  // clicks on it must NOT close the preview, otherwise React unmounts the
+  // listbox between mousedown and click and the row's onClick never fires
+  // (the bug that made search results un-clickable).
   useEffect(() => {
     if (!previewOpen) return;
     const onDown = (e: MouseEvent) => {
-      if (!containerRef.current) return;
-      if (!containerRef.current.contains(e.target as Node)) {
-        setPreviewOpen(false);
+      const target = e.target as Node | null;
+      if (!target) return;
+      if (containerRef.current?.contains(target)) return;
+      if (
+        target instanceof Element &&
+        target.closest("#search-preview")
+      ) {
+        return;
       }
+      setPreviewOpen(false);
     };
     document.addEventListener("mousedown", onDown);
     return () => document.removeEventListener("mousedown", onDown);
@@ -312,12 +323,7 @@ export function SearchBar({
                         </span>
                       )}
                       <span className="inline-flex items-center gap-1 text-[11px] font-mono text-text-tertiary tabular-nums whitespace-nowrap">
-                        <Star
-                          size={10}
-                          className="text-[var(--v4-amber)]"
-                          fill="currentColor"
-                          aria-hidden
-                        />
+                        <BrandStar size={10} className="text-[var(--v4-amber)]" />
                         {formatNumber(repo.stars)}
                       </span>
                     </button>

@@ -21,12 +21,13 @@ import {
   type FeedColumn,
 } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { huggingFaceLogoUrl } from "@/lib/logos";
+import { huggingFaceLogoUrl, huggingFaceAuthorLogoUrl } from "@/lib/logos";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { MarkVisited } from "@/components/layout/MarkVisited";
 
 const HF_ACCENT_BAR = "#FFD21E"; // HF brand yellow
 
@@ -76,6 +77,7 @@ export default async function HuggingFaceDatasetsPage() {
   if (cold) {
     return (
       <main className="home-surface">
+        <MarkVisited routeKey="hfDatasets" count={allDatasets.length} />
         <SourceFeedTemplate
           crumb={
             <>
@@ -104,6 +106,7 @@ export default async function HuggingFaceDatasetsPage() {
 
   return (
     <main className="home-surface">
+      <MarkVisited routeKey="hfDatasets" count={allDatasets.length} />
       <SourceFeedTemplate
         crumb={
           <>
@@ -185,7 +188,7 @@ function HfDatasetFeed({ datasets }: { datasets: HfDatasetTrending[] }) {
       render: (d) => (
         <div className="flex min-w-0 items-center gap-2">
           <EntityLogo
-            src={huggingFaceLogoUrl()}
+            src={huggingFaceAuthorLogoUrl(d.author)}
             name={d.author ?? d.id}
             size={20}
             shape="square"

@@ -1,71 +1,31 @@
 {
-  "fetchedAt": "2026-05-02T01:57:35.577Z",
+  "fetchedAt": "2026-05-04T02:01:38.084Z",
   "source": "funding-news-scraper",
   "windowDays": 21,
   "signals": [
     {
-      "id": "www.pymnts.com-4b5d09c8",
-      "headline": "Fun Secures $72 Million To Power Global Capital Markets",
-      "description": "Fun raised $72 million in a Series A funding round to expand its payments infrastructure that powers Polymarket and other internet-native capital markets. The company was founded in 2022, has operated in stealth, and now processes over $18 billion in transaction volume per year, delivering a 99.999% success rate and supporting millions of users across 100 countries, it said in a […] The post Fun Secures $72 Million To Power Global Capital Markets appeared first on PYMNTS.com .",
-      "sourceUrl": "https://www.pymnts.com/news/investment-tracker/2026/fun-secures-72-million-to-power-global-capital-markets/",
+      "id": "www.pymnts.com-5968367f",
+      "headline": "GameStop Makes $55 Billion Bid to Acquire eBay",
+      "description": "GameStop says it has made a $55 billion proposal to acquire eBay. The video game retailer announced Sunday (May 3) it had submitted a nonbinding proposal to acquire 100% of the online marketplace. Following closing, GameStop CEO Ryan Cohen would serve as chief executive of the new combined company. In its letter to eBay, […] The post GameStop Makes $55 Billion Bid to Acquire eBay appeared first on PYMNTS.com .",
+      "sourceUrl": "https://www.pymnts.com/acquisitions/2026/gamestop-eyes-ebay-acquisition-to-become-100-billion-company/",
       "sourcePlatform": "pymnts",
-      "publishedAt": "2026-05-01T17:57:52.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "publishedAt": "2026-05-03T20:44:32.000Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
-        "companyName": "Fun",
-        "companyWebsite": "https://fun.xyz",
-        "companyLogoUrl": "https://logo.clearbit.com/fun.xyz",
-        "amount": 72,
-        "amountDisplay": "$72",
+        "companyName": "GameStop Makes",
+        "companyWebsite": "https://gamestop.com",
+        "companyLogoUrl": "https://logo.clearbit.com/gamestop.com",
+        "amount": 55,
+        "amountDisplay": "$55",
         "currency": "USD",
-        "roundType": "series-a",
-        "investors": [
-          "Multicoin Capital"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Multicoin Capital",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
-        "confidence": "high"
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
       },
       "tags": [
         "ai",
-        "fintech"
-      ]
-    },
-    {
-      "id": "www.pymnts.com-dccf791d",
-      "headline": "SoftBank-Backed OPay Eyes $4 Billion Valuation in US IPO",
-      "description": "OPay Digital Services, a payments platform focused on Nigeria and backed by SoftBank Vision Fund and Sequoia Capital, is preparing for an initial public offering (IPO) in the United States, Bloomberg reported Friday (May 1), citing unnamed sources. The company is seeking a valuation of $4 billion, which would double the $2 billion valuation it achieved in a 2021 funding round, […] The post SoftBank-Backed OPay Eyes $4 Billion Valuation in US IPO appeared first on PYMNTS.com .",
-      "sourceUrl": "https://www.pymnts.com/news/ipo/2026/softbank-backed-opay-eyes-4-billion-valuation-in-us-ipo/",
-      "sourcePlatform": "pymnts",
-      "publishedAt": "2026-05-01T17:43:34.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
-      "extracted": {
-        "companyName": "SoftBank-Backed OPay Eyes",
-        "companyWebsite": "https://visionfund.com",
-        "companyLogoUrl": "https://logo.clearbit.com/visionfund.com",
-        "amount": 4,
-        "amountDisplay": "$4",
-        "currency": "USD",
-        "roundType": "ipo",
-        "investors": [
-          "SoftBank Vision"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "SoftBank Vision",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
-        "confidence": "high"
-      },
-      "tags": [
-        "fintech"
+        "consumer"
       ]
     },
     {
@@ -75,7 +35,7 @@
       "sourceUrl": "https://sifted.eu/articles/kerecis-iceland-innovation-week-interview/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-05-01T05:00:30.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "How",
         "companyWebsite": null,
@@ -97,7 +57,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/30/y-combinator-alum-skio-sells-for-105m-cash-only-raised-8m-founder-says/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-30T23:58:52.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "Y Combinator",
         "companyWebsite": "https://ycombinator.com",
@@ -123,7 +83,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/30/spacex-backer-137-ventures-raises-700m-for-two-growth-stage-funds/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-30T15:29:49.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "SpaceX backer 137 Ventures",
         "companyWebsite": null,
@@ -148,7 +108,7 @@
       "sourceUrl": "https://tech.eu/2026/04/30/featherlessai-secures-20m-to-expand-serverless-platform-for-open-source-ai/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-30T15:00:00.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "Featherless.ai",
         "companyWebsite": "https://featherless.ai",
@@ -181,7 +141,7 @@
       "sourceUrl": "https://tech.eu/2026/04/30/mosaic-soc-raises-38m-pre-seed-to-build-low-power-perception-chips-for-spatial-computing/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-30T09:47:00.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "Mosaic SoC",
         "companyWebsite": "https://mosaic-soc.com",
@@ -214,7 +174,7 @@
       "sourceUrl": "https://tech.eu/2026/04/30/spiral-hydrogen-raises-eur27m-to-build-green-hydrogen-pilot-in-rotterdam/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-30T08:30:00.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "Spiral Hydrogen",
         "companyWebsite": "https://spiralhydrogen.com",
@@ -239,7 +199,7 @@
       "sourceUrl": "https://tech.eu/2026/04/30/software-10-companies-that-raised-the-most-in-2025/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-30T08:30:00.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "Software",
         "companyWebsite": null,
@@ -264,7 +224,7 @@
       "sourceUrl": "https://tech.eu/2026/04/30/rocsys-launches-first-multi-bay-hands-free-robotaxi-charger-raises-13m-series-a-extension/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-30T07:15:00.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "Rocsys",
         "companyWebsite": "https://rocsys.com",
@@ -296,7 +256,7 @@
       "sourceUrl": "https://tech.eu/2026/04/30/online-oceans-raises-ps4m-to-scale-autonomous-fleets-for-maritime-security/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-30T07:00:00.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "Online Oceans",
         "companyWebsite": "https://onlineoceans.com",
@@ -330,7 +290,7 @@
       "sourceUrl": "https://tech.eu/2026/04/30/manamind-secures-15m-to-develop-autonomous-testing-for-gaming/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-30T06:30:00.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "ManaMind",
         "companyWebsite": "https://manamind.ai",
@@ -363,7 +323,7 @@
       "sourceUrl": "https://sifted.eu/articles/groove-quantum-16m-seed/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-30T05:00:09.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "Exclusive",
         "companyWebsite": null,
@@ -388,7 +348,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/29/parallel-web-systems-hits-2b-valuation-five-months-after-its-last-big-raise/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-29T18:33:05.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "Parallel Web Systems",
         "companyWebsite": "https://parallel.ai",
@@ -426,7 +386,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/29/firestorm-labs-raises-82m-to-take-drone-factories-into-the-field/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-29T13:10:57.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "Firestorm Labs",
         "companyWebsite": "https://launchfirestorm.com",
@@ -460,7 +420,7 @@
       "sourceUrl": "https://tech.eu/2026/04/29/cleo-labs-secures-eur15m-to-scale-ai-driven-product-compliance-globally/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-29T10:00:00.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "Cleo Labs",
         "companyWebsite": "https://cleolabs.co",
@@ -493,7 +453,7 @@
       "sourceUrl": "https://tech.eu/2026/04/29/all3-raises-25m-to-boost-construction-productivity-with-robotics-and-ai/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-04-29T08:00:00.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "All3",
         "companyWebsite": "https://all3.com",
@@ -526,7 +486,7 @@
       "sourceUrl": "https://sifted.eu/articles/e-bike-startup-forest-secures-40m-series-b-funding-round/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-28T10:06:29.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "E-bike startup Forest",
         "companyWebsite": null,
@@ -556,7 +516,7 @@
       "sourceUrl": "https://sifted.eu/articles/redpine-raises-e6-8m-to-give-ai-agents-access-to-non-public-data/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-28T05:00:55.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "Redpine",
         "companyWebsite": null,
@@ -588,7 +548,7 @@
       "sourceUrl": "https://sifted.eu/articles/zellify-funding-round-seed-project-europe/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-04-28T05:00:06.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "Voi",
         "companyWebsite": null,
@@ -610,7 +570,7 @@
       "sourceUrl": "https://techcrunch.com/2026/04/27/indias-snabbit-closes-56m-round-as-investor-interest-heats-up-in-on-demand-home-services/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-04-28T03:30:00.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
+      "discoveredAt": "2026-05-04T02:01:38.084Z",
       "extracted": {
         "companyName": "India",
         "companyWebsite": null,
@@ -633,38 +593,6 @@
       },
       "tags": [
         "ai",
-        "india"
-      ]
-    },
-    {
-      "id": "techcrunch.com-1d9d7fa5",
-      "headline": "India’s Snabbit seeks fresh funding at a $400M valuation, sources say",
-      "description": "Snabbit has scaled rapidly, crossing 1 million jobs in March, amid growing investor interest.",
-      "sourceUrl": "https://techcrunch.com/2026/04/25/indias-snabbit-seeks-fresh-funding-at-a-400m-valuation-sources-say/",
-      "sourcePlatform": "techcrunch",
-      "publishedAt": "2026-04-25T14:57:26.000Z",
-      "discoveredAt": "2026-05-02T01:57:35.577Z",
-      "extracted": {
-        "companyName": "India",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 1000000,
-        "amountDisplay": "$1M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [
-          "Susquehanna Venture Capital"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Susquehanna Venture Capital",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
-        "confidence": "medium"
-      },
-      "tags": [
         "india"
       ]
     },
@@ -712,7 +640,7 @@
         "saas",
         "devtools"
       ],
-      "discoveredAt": "2026-05-02T01:57:35.577Z"
+      "discoveredAt": "2026-05-04T02:01:38.084Z"
     },
     {
       "id": "seed-coreweave-series-c-2026",
@@ -758,7 +686,7 @@
         "hardware",
         "saas"
       ],
-      "discoveredAt": "2026-05-02T01:57:35.577Z"
+      "discoveredAt": "2026-05-04T02:01:38.084Z"
     },
     {
       "id": "seed-cognition-series-a-2026",
@@ -797,7 +725,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-05-02T01:57:35.577Z"
+      "discoveredAt": "2026-05-04T02:01:38.084Z"
     },
     {
       "id": "seed-anduril-series-f-2026",
@@ -842,7 +770,7 @@
         "defense",
         "ai"
       ],
-      "discoveredAt": "2026-05-02T01:57:35.577Z"
+      "discoveredAt": "2026-05-04T02:01:38.084Z"
     },
     {
       "id": "seed-sambanova-series-e-2026",
@@ -887,7 +815,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-05-02T01:57:35.577Z"
+      "discoveredAt": "2026-05-04T02:01:38.084Z"
     },
     {
       "id": "seed-poolside-series-a-2026",
@@ -926,7 +854,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-05-02T01:57:35.577Z"
+      "discoveredAt": "2026-05-04T02:01:38.084Z"
     },
     {
       "id": "seed-hebbia-series-b-2026",
@@ -965,7 +893,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-02T01:57:35.577Z"
+      "discoveredAt": "2026-05-04T02:01:38.084Z"
     },
     {
       "id": "seed-together-series-a-2026",
@@ -1004,7 +932,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-02T01:57:35.577Z"
+      "discoveredAt": "2026-05-04T02:01:38.084Z"
     },
     {
       "id": "seed-sierra-series-b-2026",
@@ -1043,7 +971,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-02T01:57:35.577Z"
+      "discoveredAt": "2026-05-04T02:01:38.084Z"
     },
     {
       "id": "seed-glean-series-d-2026",
@@ -1082,7 +1010,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-02T01:57:35.577Z"
+      "discoveredAt": "2026-05-04T02:01:38.084Z"
     },
     {
       "id": "seed-groq-series-d-2026",
@@ -1121,7 +1049,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-05-02T01:57:35.577Z"
+      "discoveredAt": "2026-05-04T02:01:38.084Z"
     },
     {
       "id": "seed-mistral-series-b-2026",
@@ -1166,7 +1094,7 @@
         "ai",
         "europe"
       ],
-      "discoveredAt": "2026-05-02T01:57:35.577Z"
+      "discoveredAt": "2026-05-04T02:01:38.084Z"
     },
     {
       "id": "seed-adept-series-b-2026",
@@ -1205,7 +1133,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-02T01:57:35.577Z"
+      "discoveredAt": "2026-05-04T02:01:38.084Z"
     },
     {
       "id": "seed-elevenlabs-series-c-2026",
@@ -1249,7 +1177,7 @@
       "tags": [
         "ai"
       ],
-      "discoveredAt": "2026-05-02T01:57:35.577Z"
+      "discoveredAt": "2026-05-04T02:01:38.084Z"
     },
     {
       "id": "seed-scale-series-f-2026",
@@ -1294,7 +1222,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-02T01:57:35.577Z"
+      "discoveredAt": "2026-05-04T02:01:38.084Z"
     },
     {
       "id": "seed-perplexity-series-c-2026",
@@ -1339,7 +1267,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-02T01:57:35.577Z"
+      "discoveredAt": "2026-05-04T02:01:38.084Z"
     }
   ]
 }

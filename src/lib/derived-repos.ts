@@ -32,6 +32,7 @@ import {
   deriveTags,
 } from "./pipeline/classification/classifier";
 import { decorateWithCrossSignal } from "./derived-repos/decorators/cross-signal";
+import { decorateWithMentionsRollup } from "./derived-repos/decorators/mentions-rollup";
 import { decorateWithProductHunt } from "./derived-repos/decorators/producthunt";
 import { decorateWithTwitter } from "./derived-repos/decorators/twitter";
 import { getRedditDataVersion } from "./reddit-data";
@@ -336,6 +337,14 @@ export function getDerivedRepos(): Repo[] {
 
   // 3.6 Twitter/X row rollup (.data/twitter-repo-signals).
   repos = decorateWithTwitter(repos);
+
+  // 3.65 Unified all-source mentions rollup. Reads per-source sync getters
+  // (twitter / reddit / hn / bluesky / devto / lobsters) plus walks the
+  // bundled npm / huggingface / arxiv data files to attribute by linked
+  // repo. Sets `repo.mentions` (typed rollup) and overrides
+  // `repo.mentionCount24h` with the all-source 24h sum so existing
+  // scoring + UI consumers see the unified total instead of just twitter.
+  repos = decorateWithMentionsRollup(repos);
 
   // 3.7 ProductHunt launch (sparse — most repos keep producthunt undefined).
   repos = decorateWithProductHunt(repos);

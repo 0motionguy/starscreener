@@ -39,6 +39,8 @@ interface SnapshotPayload {
   fetchedAt: string;
   installs: Record<string, number>; // slug -> installs7d
   counts: { sources: number; skills: number };
+  status?: 'ok' | 'empty';
+  reason?: string;
 }
 
 const fetcher: Fetcher = {
@@ -54,10 +56,33 @@ const fetcher: Fetcher = {
     const errors: RunResult['errors'] = [];
     const today = todayUtc();
 
-    const [github, skillsSh] = await Promise.all([
+    // AUDIT-2026-05-04: allSettled so a single Redis flake degrades to
+    // null instead of crashing the whole fetcher. Same fix as f39cd09d.
+    const reads = await Promise.allSettled([
       readDataStore<{ items?: RosterSkillItem[] }>('trending-skill'),
       readDataStore<{ items?: RosterSkillItem[] }>('trending-skill-sh'),
     ]);
+    const github = reads[0].status === 'fulfilled' ? reads[0].value : null;
+    const skillsSh = reads[1].status === 'fulfilled' ? reads[1].value : null;
+    if (reads[0].status === 'rejected' || reads[1].status === 'rejected') {
+      ctx.log.warn(
+        {
+          trendingSkill:
+            reads[0].status === 'rejected'
+              ? reads[0].reason instanceof Error
+                ? reads[0].reason.message
+                : String(reads[0].reason)
+              : null,
+          trendingSkillSh:
+            reads[1].status === 'rejected'
+              ? reads[1].reason instanceof Error
+                ? reads[1].reason.message
+                : String(reads[1].reason)
+              : null,
+        },
+        'skill-install-snapshot: roster read failed; degrading to null',
+      );
+    }
 
     const installs: Record<string, number> = {};
     let sources = 0;
@@ -72,17 +97,18 @@ const fetcher: Fetcher = {
     const skillCount = Object.keys(installs).length;
     ctx.log.info({ skills: skillCount, sources }, 'skill-install-snapshot collected');
 
-    if (skillCount === 0) {
-      ctx.log.warn('skill-install-snapshot: no install data found - both rosters empty');
-      return done(startedAt, 0, false, []);
-    }
+    if (skillCount === 0) ctx.log.warn('skill-install-snapshot: no install data found');
 
-    const payload: SnapshotPayload = {
-      date: today,
-      fetchedAt: new Date().toISOString(),
-      installs,
-      counts: { sources, skills: skillCount },
-    };
+    const payload: SnapshotPayload =
+      skillCount === 0
+        ? emptySnapshot(today, sources, 'no_install_counts')
+        : {
+            date: today,
+            fetchedAt: new Date().toISOString(),
+            installs,
+            counts: { sources, skills: skillCount },
+            status: 'ok',
+          };
     const writeResult = await writeDataStore(`skill-install-snapshot:${today}`, payload, {
       ttlSeconds: SNAPSHOT_TTL_SECONDS,
     });
@@ -120,8 +146,11 @@ const fetcher: Fetcher = {
       const targetDate = isoDateNDaysAgo(w.days);
       const targetKey = `skill-install-snapshot:${targetDate}`;
       const targetPayload = await readDataStore<SnapshotPayload>(targetKey);
-      if (!targetPayload || !targetPayload.installs) continue;
-      await writeDataStore(`skill-install-snapshot:prev:${w.name}`, targetPayload, {
+      const slotPayload =
+        targetPayload && targetPayload.installs
+          ? targetPayload
+          : emptySnapshot(targetDate, 0, 'history_missing');
+      await writeDataStore(`skill-install-snapshot:prev:${w.name}`, slotPayload, {
         ttlSeconds: (w.days + 1) * 24 * 60 * 60,
       });
     }
@@ -145,6 +174,17 @@ const fetcher: Fetcher = {
 };
 
 export default fetcher;
+
+function emptySnapshot(date: string, sources: number, reason: string): SnapshotPayload {
+  return {
+    date,
+    fetchedAt: new Date().toISOString(),
+    installs: {},
+    counts: { sources, skills: 0 },
+    status: 'empty',
+    reason,
+  };
+}
 
 function absorb(out: Record<string, number>, it: RosterSkillItem): void {
   const slug = String(it.slug ?? it.full_name ?? '').trim().toLowerCase();

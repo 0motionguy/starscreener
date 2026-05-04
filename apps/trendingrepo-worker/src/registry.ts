@@ -1,6 +1,10 @@
 import type { Fetcher } from './lib/types.js';
 
-import huggingface from './fetchers/huggingface/index.js';
+// `huggingface` worker fetcher is a stub; the real HF data comes from
+// scripts/scrape-huggingface{,-datasets,-spaces}.mjs (workflow-side).
+// Same treatment as the github / mcp-so / mcp-servers-repo stubs below —
+// import removed so we don't ship a tick-every-4h "not yet implemented"
+// warning to Sentry. Re-add once a real port lands.
 import bluesky from './fetchers/bluesky/index.js';
 import pulsemcp from './fetchers/pulsemcp/index.js';
 import smithery from './fetchers/smithery/index.js';
@@ -16,10 +20,11 @@ import producthunt from './fetchers/producthunt/index.js';
 import devto from './fetchers/devto/index.js';
 import reddit from './fetchers/reddit/index.js';
 import hnPulse from './fetchers/hn-pulse/index.js';
-// 3 stubs (`github`, `mcp-so`, `mcp-servers-repo`) intentionally NOT imported
-// here — they were registered + ticking but only emitted "not yet implemented"
-// warnings, polluting Sentry every cron tick. Files remain in src/fetchers/
-// as documentation of intent; re-add to FETCHERS once a real port lands.
+// 4 stubs (`github`, `mcp-so`, `mcp-servers-repo`, `huggingface`)
+// intentionally NOT imported here — they were registered + ticking but
+// only emitted "not yet implemented" warnings, polluting Sentry every
+// cron tick. Files remain in src/fetchers/ as documentation of intent;
+// re-add to FETCHERS once a real port lands.
 // Phase B Group 1 (signals)
 import ossTrending from './fetchers/oss-trending/index.js';
 import recentRepos from './fetchers/recent-repos/index.js';
@@ -29,7 +34,9 @@ import collectionRankings from './fetchers/collection-rankings/index.js';
 import repoProfiles from './fetchers/repo-profiles/index.js';
 import repoMetadata from './fetchers/repo-metadata/index.js';
 import npmPackages from './fetchers/npm-packages/index.js';
+import crunchbase from './fetchers/crunchbase/index.js';
 import fundingNews from './fetchers/funding-news/index.js';
+import xFunding from './fetchers/x-funding/index.js';
 import trustmrr from './fetchers/trustmrr/index.js';
 import revenueBenchmarks from './fetchers/revenue-benchmarks/index.js';
 import redditBaselines from './fetchers/reddit-baselines/index.js';
@@ -80,6 +87,8 @@ export const FETCHERS: Fetcher[] = [
   repoMetadata,
   npmPackages,
   fundingNews,
+  crunchbase,
+  xFunding,
   trustmrr,
   revenueBenchmarks,
   redditBaselines,
@@ -88,7 +97,6 @@ export const FETCHERS: Fetcher[] = [
   consensusTrending,
   consensusAnalyst,
   lobsters,
-  huggingface,
   bluesky,
   mcpRegistryOfficial,
   glama,

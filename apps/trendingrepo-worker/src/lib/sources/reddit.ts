@@ -8,6 +8,9 @@
 // rotation is the fix.
 
 import { apifyAwareFetch, isApifyProxyEnabled } from '../util/apify-proxy.js';
+import { readFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 export const REQUEST_PAUSE_MS = 5000;
 
@@ -16,6 +19,10 @@ const DEFAULT_USER_AGENT =
 
 const PUBLIC_REDDIT_ORIGIN = 'https://www.reddit.com';
 const TOKEN_URL = `${PUBLIC_REDDIT_ORIGIN}/api/v1/access_token`;
+const REDDIT_UA_POOL_CONFIG_PATH = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  '../../../../../config/reddit-user-agents.json',
+);
 
 interface OAuthCacheEntry {
   cacheKey: string;
@@ -25,6 +32,22 @@ interface OAuthCacheEntry {
 
 let oauthTokenCache: OAuthCacheEntry | null = null;
 let fetchRuntime = createFetchRuntime();
+let userAgentPoolIndex = 0;
+const quarantinedUserAgents = new Map<string, number>();
+
+function readDefaultUserAgentsFromConfig(): string[] {
+  try {
+    const raw = readFileSync(REDDIT_UA_POOL_CONFIG_PATH, 'utf8');
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [DEFAULT_USER_AGENT];
+    const normalized = parsed
+      .map((value) => (typeof value === 'string' ? value.trim() : ''))
+      .filter(Boolean);
+    return normalized.length > 0 ? normalized : [DEFAULT_USER_AGENT];
+  } catch {
+    return [DEFAULT_USER_AGENT];
+  }
+}
 
 export interface FetchRuntime {
   preferredMode: 'oauth' | 'public-json' | null;
@@ -56,7 +79,53 @@ function readEnv(name: string): string {
 }
 
 export function getRedditUserAgent(): string {
-  return readEnv('REDDIT_USER_AGENT') || DEFAULT_USER_AGENT;
+  const exact = readEnv('REDDIT_USER_AGENT');
+  if (exact) return exact;
+
+  const pool = readRedditUserAgentPool();
+  const userAgent = pool[userAgentPoolIndex % pool.length] ?? DEFAULT_USER_AGENT;
+  userAgentPoolIndex = (userAgentPoolIndex + 1) % pool.length;
+  return userAgent;
+}
+
+function readRedditUserAgentPool(): string[] {
+  const raw = readEnv('REDDIT_USER_AGENTS');
+  if (!raw) return readDefaultUserAgentsFromConfig();
+  const pool = raw
+    .split(/[,\n]+/)
+    .map((value) => value.trim())
+    .filter(Boolean);
+  return pool.length > 0 ? pool : readDefaultUserAgentsFromConfig();
+}
+
+function isUserAgentQuarantined(userAgent: string): boolean {
+  const untilMs = quarantinedUserAgents.get(userAgent);
+  if (!untilMs) return false;
+  if (untilMs <= Date.now()) {
+    quarantinedUserAgents.delete(userAgent);
+    return false;
+  }
+  return true;
+}
+
+function quarantineUserAgentLocal(userAgent: string, durationMs: number): void {
+  const untilMs = Date.now() + Math.max(1000, durationMs);
+  quarantinedUserAgents.set(userAgent, untilMs);
+}
+
+export async function selectUserAgent(): Promise<string> {
+  const exact = readEnv('REDDIT_USER_AGENT');
+  if (exact) return exact;
+  const pool = readRedditUserAgentPool();
+  for (let attempt = 0; attempt < pool.length; attempt += 1) {
+    const idx = (userAgentPoolIndex + attempt) % pool.length;
+    const userAgent = pool[idx] ?? DEFAULT_USER_AGENT;
+    if (!isUserAgentQuarantined(userAgent)) {
+      userAgentPoolIndex = (idx + 1) % pool.length;
+      return userAgent;
+    }
+  }
+  throw new Error('All Reddit User-Agents quarantined');
 }
 
 export function hasRedditOAuthCreds(): boolean {
@@ -74,6 +143,8 @@ export function getRedditFetchRuntime(): FetchRuntime {
 export function resetRedditFetchRuntime(): void {
   fetchRuntime = createFetchRuntime();
   oauthTokenCache = null;
+  userAgentPoolIndex = 0;
+  quarantinedUserAgents.clear();
 }
 
 function resolveOauthApiUrl(url: string): string {
@@ -134,7 +205,7 @@ async function getRedditAccessToken(): Promise<string | null> {
       authorization: `Basic ${basicAuth}`,
       'content-type': 'application/x-www-form-urlencoded',
       accept: 'application/json',
-      'user-agent': getRedditUserAgent(),
+      'user-agent': await selectUserAgent(),
     },
     body: tokenBody,
     timeoutMs: 15_000,
@@ -303,8 +374,8 @@ const PUBLIC_HEADERS_BASE: Record<string, string> = {
   'sec-ch-ua-platform': '"macOS"',
 };
 
-function publicHeaders(): Record<string, string> {
-  return { ...PUBLIC_HEADERS_BASE, 'user-agent': getRedditUserAgent() };
+async function publicHeaders(): Promise<Record<string, string>> {
+  return { ...PUBLIC_HEADERS_BASE, 'user-agent': await selectUserAgent() };
 }
 
 async function fetchTextWithRetry(
@@ -365,14 +436,14 @@ export async function fetchRedditJson(url: string): Promise<RedditListingRespons
       const fallbackSub = subMatch?.[1] ?? '';
       const rssText = await fetchTextWithRetry(rssUrl, {
         headers: {
-          ...publicHeaders(),
+          ...(await publicHeaders()),
           accept: 'application/atom+xml,application/xml;q=0.9,*/*;q=0.8',
         },
       });
       return parseRedditAtomFeed(rssText, fallbackSub);
     }
     return (await fetchJsonWithRetry(rewriteToOldReddit(url), {
-      headers: publicHeaders(),
+      headers: await publicHeaders(),
     })) as RedditListingResponse;
   }
 
@@ -382,13 +453,26 @@ export async function fetchRedditJson(url: string): Promise<RedditListingRespons
     fetchRuntime.oauthRequests += 1;
     const result = (await fetchJsonWithRetry(resolveOauthApiUrl(url), {
       headers: {
-        ...publicHeaders(),
+        ...(await publicHeaders()),
         authorization: `Bearer ${accessToken ?? ''}`,
       },
     })) as RedditListingResponse;
     return result;
   } catch (err) {
     const status = (err as Error & { status?: number }).status;
+    let userAgent: string | null = null;
+    try {
+      userAgent = await selectUserAgent();
+    } catch {
+      userAgent = null;
+    }
+    if (userAgent && status === 429) {
+      quarantineUserAgentLocal(userAgent, 10 * 60 * 1000);
+    } else if (userAgent && status === 403) {
+      quarantineUserAgentLocal(userAgent, 60 * 60 * 1000);
+    } else if (userAgent && status != null && status >= 500 && status <= 599) {
+      quarantineUserAgentLocal(userAgent, 60 * 1000);
+    }
     const fallbackAllowed =
       status == null ||
       [401, 403, 408, 429, 500, 502, 503, 504].includes(status);
@@ -407,14 +491,14 @@ export async function fetchRedditJson(url: string): Promise<RedditListingRespons
       const fallbackSub = subMatch?.[1] ?? '';
       const rssText = await fetchTextWithRetry(rssUrl, {
         headers: {
-          ...publicHeaders(),
+          ...(await publicHeaders()),
           accept: 'application/atom+xml,application/xml;q=0.9,*/*;q=0.8',
         },
       });
       return parseRedditAtomFeed(rssText, fallbackSub);
     }
     return (await fetchJsonWithRetry(rewriteToOldReddit(url), {
-      headers: publicHeaders(),
+      headers: await publicHeaders(),
     })) as RedditListingResponse;
   }
 }

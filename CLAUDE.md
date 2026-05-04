@@ -1,3 +1,20 @@
+# SESSION OPENING PROTOCOL — MANDATORY BEFORE ANY OTHER ACTION
+
+When you start a session in this repository, the FIRST steps are
+not optional:
+
+1. Read this entire CLAUDE.md
+2. Read docs/ENGINE.md and docs/SITE-WIREMAP.md
+3. Read docs/AUDIT-2026-05-04.md and docs/forensic/00-INDEX.md
+4. Read tasks/CURRENT-SPRINT.md to know in-flight work
+5. Read tasks/BACKLOG.md for deferred items
+6. Run: `npm run freshness:check`
+7. If any source past freshness budget: REPAIR before features.
+
+Sessions that propose new work without doing 1-7 are operating on
+stale assumptions. The audit found this is the root cause of the
+"engine drift" problem.
+
 # STARSCREENER
 
 Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit/HN/Bluesky/ProductHunt/DevTo signals, computes scoring + classification, surfaces breakout repos before they go mainstream.
@@ -46,6 +63,7 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - Verify Redis data-store: `npm run verify:data-store` (requires `REDIS_URL` for Railway, OR `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` for Upstash)
 
 ## Where to Look First
+- **Operator situational-awareness doc (start here)** → [docs/OPERATOR.md](docs/OPERATOR.md) — TL;DR for a fresh session, current production state, audit-2026-05-04 followup status, hourly+minute workflow rotation, image-coverage map, what-shipped-vs-open. Operator-only — never linked from any public route. Refreshed at the end of every "go" wave.
 - **Engine map (62 workflows + every API key + every cron + pool architecture)** → [docs/ENGINE.md](docs/ENGINE.md) — read FIRST when you need to know what runs where, on what cadence, with which keys. Refreshed 2026-05-02.
 - **Site wire map (every route → its data → collector → external API)** → [docs/SITE-WIREMAP.md](docs/SITE-WIREMAP.md) — top-down menu walk. Use when a page is broken to trace it back to the failing collector. Refreshed 2026-05-02.
 - New here? `docs/ARCHITECTURE.md`

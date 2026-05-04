@@ -15,6 +15,7 @@ function withEnv(overrides, fn) {
     REDDIT_CLIENT_ID: process.env.REDDIT_CLIENT_ID,
     REDDIT_CLIENT_SECRET: process.env.REDDIT_CLIENT_SECRET,
     REDDIT_USER_AGENT: process.env.REDDIT_USER_AGENT,
+    REDDIT_USER_AGENTS: process.env.REDDIT_USER_AGENTS,
   };
 
   for (const [key, value] of Object.entries(overrides)) {
@@ -45,14 +46,46 @@ test("reddit shared: defaults to public-json without oauth creds", async () => {
     async () => {
       assert.equal(hasRedditOAuthCreds(), false);
       assert.equal(getRedditAuthMode(), "public-json");
-      // Default UA is now a Mozilla/Chrome profile (anti-bot workaround for
-      // GH Actions egress IPs); the StarScreener/0.1 UA is only used when
-      // REDDIT_USER_AGENT is set explicitly.
-      assert.match(getRedditUserAgent(), /Mozilla\/5\.0/);
+      assert.equal(
+        getRedditUserAgent(),
+        "trendingrepo-scanner/1.0 (+https://trendingrepo.com)",
+      );
       assert.equal(
         resolveRedditApiUrl("https://www.reddit.com/r/OpenAI/new.json?limit=3"),
         "https://www.reddit.com/r/OpenAI/new.json?limit=3",
       );
+    },
+  );
+});
+
+test("reddit shared: rotates REDDIT_USER_AGENTS when no single-UA override is set", async () => {
+  await withEnv(
+    {
+      REDDIT_CLIENT_ID: null,
+      REDDIT_CLIENT_SECRET: null,
+      REDDIT_USER_AGENT: null,
+      REDDIT_USER_AGENTS: "PoolUA/1, PoolUA/2\nPoolUA/3",
+    },
+    async () => {
+      assert.equal(getRedditUserAgent(), "PoolUA/1");
+      assert.equal(getRedditUserAgent(), "PoolUA/2");
+      assert.equal(getRedditUserAgent(), "PoolUA/3");
+      assert.equal(getRedditUserAgent(), "PoolUA/1");
+    },
+  );
+});
+
+test("reddit shared: REDDIT_USER_AGENT keeps exact stable override over pool", async () => {
+  await withEnv(
+    {
+      REDDIT_CLIENT_ID: null,
+      REDDIT_CLIENT_SECRET: null,
+      REDDIT_USER_AGENT: "ExactUA/1",
+      REDDIT_USER_AGENTS: "PoolUA/1,PoolUA/2",
+    },
+    async () => {
+      assert.equal(getRedditUserAgent(), "ExactUA/1");
+      assert.equal(getRedditUserAgent(), "ExactUA/1");
     },
   );
 });
@@ -110,7 +143,40 @@ test("reddit shared: fetchRedditJson uses public endpoint without oauth creds", 
         "https://www.reddit.com/r/OpenAI/new/.rss?limit=3",
       );
       assert.equal(calls[0].init.headers.Authorization, undefined);
-      assert.match(calls[0].init.headers["User-Agent"], /Mozilla\/5\.0/);
+      assert.equal(
+        calls[0].init.headers["User-Agent"],
+        "trendingrepo-scanner/1.0 (+https://trendingrepo.com)",
+      );
+    },
+  );
+});
+
+test("reddit shared: public RSS requests rotate pooled user agents per request", async () => {
+  await withEnv(
+    {
+      REDDIT_CLIENT_ID: null,
+      REDDIT_CLIENT_SECRET: null,
+      REDDIT_USER_AGENT: null,
+      REDDIT_USER_AGENTS: "PoolUA/1,PoolUA/2",
+    },
+    async () => {
+      const calls = [];
+      const fetchImpl = async (url, init) => {
+        calls.push({ url, init });
+        return new Response("<feed></feed>", {
+          headers: { "Content-Type": "application/atom+xml" },
+        });
+      };
+
+      await fetchRedditJson("https://www.reddit.com/r/OpenAI/new.json?limit=3", {
+        fetchImpl,
+      });
+      await fetchRedditJson("https://www.reddit.com/r/ClaudeAI/new.json?limit=3", {
+        fetchImpl,
+      });
+
+      assert.equal(calls[0].init.headers["User-Agent"], "PoolUA/1");
+      assert.equal(calls[1].init.headers["User-Agent"], "PoolUA/2");
     },
   );
 });

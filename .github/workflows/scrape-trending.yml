@@ -2,7 +2,7 @@ name: Refresh fast discovery
 
 on:
   schedule:
-    - cron: "27 * * * *"
+    - cron: "7,27,47 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -57,6 +57,7 @@ jobs:
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+          REDDIT_USER_AGENTS: ${{ secrets.REDDIT_USER_AGENTS }}
         run: node scripts/scrape-reddit.mjs
 
       - name: Refresh HackerNews trending + repo mentions
@@ -101,20 +102,25 @@ jobs:
           REDIS_URL: ${{ secrets.REDIS_URL }}
         run: node scripts/snapshot-category-metrics.mjs
 
+      - name: Compute commit timestamp
+        id: ts
+        run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
       - name: Commit if changed
-        run: |
-          git config user.name  "trendingrepo-bot"
-          git config user.email "bot@trendingrepo.local"
-          git add data/trending.json data/deltas.json data/hot-collections.json data/recent-repos.json data/repo-metadata.json data/reddit-mentions.json data/reddit-all-posts.json data/hackernews-trending.json data/hackernews-repo-mentions.json data/_meta/reddit.json data/_meta/hackernews.json data/_meta/trending.json data/unknown-mentions.jsonl
-          if git diff --quiet --staged; then
-            echo "no changes - skipping commit"
-            exit 0
-          fi
-          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          git commit -m "chore(data): refresh fast discovery snapshots ${TS}"
-          for i in 1 2 3; do
-            if git pull --rebase --autostash origin main && git push; then exit 0; fi
-            echo "push attempt $i failed; retrying"
-            sleep 2
-          done
-          exit 1
+        uses: ./.github/actions/git-commit-data
+        with:
+          message: "chore(data): refresh fast discovery snapshots ${{ steps.ts.outputs.value }}"
+          paths: |
+            data/trending.json
+            data/deltas.json
+            data/hot-collections.json
+            data/recent-repos.json
+            data/repo-metadata.json
+            data/reddit-mentions.json
+            data/reddit-all-posts.json
+            data/hackernews-trending.json
+            data/hackernews-repo-mentions.json
+            data/_meta/reddit.json
+            data/_meta/hackernews.json
+            data/_meta/trending.json
+            data/unknown-mentions.jsonl

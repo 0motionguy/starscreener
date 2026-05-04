@@ -117,13 +117,15 @@ Supported triggers:
 - `new_release` (release since previous tick)
 - `breakout` (breakout flag flipped on)
 
-## Refresh via committed JSON
+## Refresh via Redis-backed data-store (with committed-JSON fallback)
 
-Source: `scripts/scrape-trending.mjs`, `scripts/compute-deltas.mjs`, `.github/workflows/scrape-trending.yml`, `src/lib/trending.ts`.
+Source: `scripts/scrape-trending.mjs`, `scripts/compute-deltas.mjs`, `.github/workflows/scrape-trending.yml`, `src/lib/trending.ts`, `src/lib/data-store.ts`.
 
-Ingestion does not run in the request path. A GitHub Actions workflow scrapes OSS Insight hourly, runs the delta computer against the git history of `data/trending.json`, and commits both `data/trending.json` and `data/deltas.json`. The next Vercel build ships those files in the bundle; every Lambda reads identical bytes. There is no scheduler, no refresh tier, no in-memory snapshot store on the request path — the earlier tier-driven cron design was retired in Phase 3 because Vercel Lambdas cannot share ephemeral state across invocations.
+Ingestion does not run in the request path. A GitHub Actions workflow scrapes OSS Insight hourly, runs the delta computer against the git history of `data/trending.json`, and commits both `data/trending.json` and `data/deltas.json`. Collectors **dual-write** the same payload to Redis via [scripts/_data-store-write.mjs](../scripts/_data-store-write.mjs).
 
-`src/lib/trending.ts::assembleRepoFromTrending` projects per-window delta values onto `Repo` objects at the query boundary; scoring and classification below are untouched. Freshness is enforced by `/api/health` and `/api/pipeline/status` against the committed timestamps. See [INGESTION.md](./INGESTION.md) for the full flow and operator runbook.
+The runtime read path is three-tier: Redis first, bundled JSON next, in-memory last-known-good last. This makes Redis the source of truth while preserving uptime if Redis is unreachable. Per-source `refreshXxxFromStore()` hooks rate-limit Redis pings to ≤1 / 30s with in-flight dedupe so calling them on every render is cheap. Phase-3's earlier "committed-JSON only, every Lambda reads identical bytes" design is the **fallback layer** — Redis is the primary truth as of 2026-Q2 (Phase 4). See [CLAUDE.md](../CLAUDE.md) "Critical Conventions" and [tasks/data-api.md](../tasks/data-api.md) for the migration plan.
+
+`src/lib/trending.ts::assembleRepoFromTrending` projects per-window delta values onto `Repo` objects at the query boundary; scoring and classification below are untouched. Freshness is enforced by `/api/health`, `/api/pipeline/status`, and `/api/cron/freshness/state` against the data-store's per-source `_meta` timestamps. See [INGESTION.md](./INGESTION.md) for the full flow and operator runbook.
 
 ## Seeing changes
 
@@ -131,7 +133,9 @@ After ingestion, the UI doesn't hot-reload automatically — call `/api/pipeline
 
 ## trendingrepo-worker overlap
 
-A sister Railway service (`apps/trendingrepo-worker/`, branched in worktrees not yet merged to `main`) hosts ~37 fetchers — MCP registries, funding sources, agent-commerce discovery, the consensus K2.6 analyst, scoring shadow runs, and several signal sources that overlap the main repo's collectors. The two systems share the same Redis data-store but have **different ownership** for 5 sources where the main repo wins:
+A sister Railway service (`apps/trendingrepo-worker/`, branched in worktrees not yet merged to `main`) hosts ~37 fetchers — MCP registries, funding sources, agent-commerce discovery, the consensus K2.6 analyst, scoring shadow runs, and several signal sources that overlap the main repo's collectors. The two systems share the same Redis data-store but ownership splits as follows:
+
+**Main-repo wins (5 sources)** — when a signal exists in both, the main payload is the source of truth and worker payloads are namespaced (`worker:<source>:*`) cross-checks:
 
 - **arxiv** — `scripts/scrape-arxiv*` (main) is canonical; worker's arxiv fetcher is a backup / cross-check
 - **bluesky** — `scripts/scrape-bluesky*` (main) owns the mention pipeline; worker only enriches profile metadata
@@ -139,7 +143,11 @@ A sister Railway service (`apps/trendingrepo-worker/`, branched in worktrees not
 - **hackernews** — `scripts/scrape-hn*` (main) owns story + count rollups
 - **funding** — `scripts/collect-funding*` (main) owns the FundingEvent ETL; worker pulls a parallel feed for cross-validation only
 
-When a signal exists in both, the main repo's payload is the source of truth. Worker payloads land in Redis under namespaced keys (e.g. `worker:arxiv:*`) so they can't shadow the main payloads at `arxiv:*`. Audit cross-reference: `docs/ultra-audit-2026-05-01.md` A6.
+**Worker wins (1 source)**:
+
+- **twitter** — `/twitter` reads `twitter-repo-signals` populated by the worker's Apify (`apidojo~tweet-scraper`) fetcher. The CI-side `scripts/_apify-twitter-provider.ts` writes append-only `.data/twitter-*.jsonl` for forensic audit, but the live Redis key surfacing on `/twitter` is worker-fetched. See [SITE-WIREMAP.md §3b](./SITE-WIREMAP.md).
+
+Audit cross-reference: `docs/ultra-audit-2026-05-01.md` A6, `.audit/2026-05-04-swarm/phase-logs/A3-architecture-themes.md` C6.
 
 ## Related docs
 

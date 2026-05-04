@@ -29,6 +29,14 @@ import {
   refreshRevenueOverlaysFromStore,
 } from "./revenue-overlays";
 import { getNpmPackagesFile, refreshNpmFromStore } from "./npm";
+import { getHfTrendingFile, refreshHfModelsFromStore } from "./huggingface";
+import { getHfDatasetsFile, refreshHfDatasetsFromStore } from "./hf-datasets";
+import { getHfSpacesFile, refreshHfSpacesFromStore } from "./hf-spaces";
+import { getArxivRecentFile, refreshArxivFromStore } from "./arxiv";
+import { getSkillsSignalData, getMcpSignalData } from "./ecosystem-leaderboards";
+import { selectAgentRepos } from "./agent-repos";
+import { getDerivedRepos } from "./derived-repos";
+import { getTwitterOverviewStats } from "./twitter";
 
 export interface SidebarSourceCounts {
   // Feed deltas — rendered as `+N` accent chip.
@@ -42,6 +50,17 @@ export interface SidebarSourceCounts {
   fundingSignals: number;
   revenueOverlays: number;
   npmPackages: number;
+  // Phase 2 — sidebar-fresh-count-badges. Snapshot totals; the client
+  // hook diffs against `lastSeen.<routeKey>` to render fresh deltas.
+  skillsItems: number;
+  mcpItems: number;
+  agentRepos: number;
+  twitterRepos: number;
+  hfModels: number;
+  hfDatasets: number;
+  hfSpaces: number;
+  arxivPapers: number;
+  citedRepos: number;
 }
 
 const ZERO_COUNTS: SidebarSourceCounts = {
@@ -54,6 +73,15 @@ const ZERO_COUNTS: SidebarSourceCounts = {
   fundingSignals: 0,
   revenueOverlays: 0,
   npmPackages: 0,
+  skillsItems: 0,
+  mcpItems: 0,
+  agentRepos: 0,
+  twitterRepos: 0,
+  hfModels: 0,
+  hfDatasets: 0,
+  hfSpaces: 0,
+  arxivPapers: 0,
+  citedRepos: 0,
 };
 
 function safe<T>(fn: () => T, fallback: T): T {
@@ -64,9 +92,19 @@ function safe<T>(fn: () => T, fallback: T): T {
   }
 }
 
+async function safeAsync<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
+  try {
+    return await fn();
+  } catch {
+    return fallback;
+  }
+}
+
 export async function getSidebarSourceCounts(): Promise<SidebarSourceCounts> {
   // Fire all refresh hooks in parallel. Each one is rate-limited to 30s
   // internally and will return { source: "memory", ... } when fresh.
+  // Skills + MCP signal-data getters do their own internal store reads
+  // and are awaited below (not part of this allSettled set).
   await Promise.allSettled([
     refreshHackernewsTrendingFromStore(),
     refreshLobstersTrendingFromStore(),
@@ -77,6 +115,10 @@ export async function getSidebarSourceCounts(): Promise<SidebarSourceCounts> {
     refreshFundingNewsFromStore(),
     refreshRevenueOverlaysFromStore(),
     refreshNpmFromStore(),
+    refreshHfModelsFromStore(),
+    refreshHfDatasetsFromStore(),
+    refreshHfSpacesFromStore(),
+    refreshArxivFromStore(),
   ]);
 
   const npmFile = safe(() => getNpmPackagesFile(), null);
@@ -86,6 +128,30 @@ export async function getSidebarSourceCounts(): Promise<SidebarSourceCounts> {
 
   const overlaysMeta = safe(() => getRevenueOverlaysMeta(), null);
   const overlaysCount = overlaysMeta?.matchedCount ?? 0;
+
+  // Phase 2 — pull snapshot counts for routes that previously had no
+  // sidebar badge. Each is wrapped in safeAsync so a single broken store
+  // read doesn't take the whole sidebar down.
+  const [skillsData, mcpData, twitterStats] = await Promise.all([
+    safeAsync(() => getSkillsSignalData(), null),
+    safeAsync(() => getMcpSignalData(), null),
+    safeAsync(() => getTwitterOverviewStats(), null),
+  ]);
+
+  const allRepos = safe(() => getDerivedRepos(), []);
+  const agentRepoCount = safe(() => selectAgentRepos(allRepos).length, 0);
+
+  // Cited repos = arxiv papers that link to a tracked GitHub repo.
+  const arxivPapers = safe(
+    () => (getArxivRecentFile().papers ?? []).length,
+    0,
+  );
+  const citedRepos = safe(() => {
+    const papers = getArxivRecentFile().papers ?? [];
+    return papers.filter(
+      (p) => Array.isArray(p?.linkedRepos) && p.linkedRepos.length > 0,
+    ).length;
+  }, 0);
 
   return {
     hackernewsStories: safe(() => getHnTrendingFile().stories.length, 0),
@@ -97,6 +163,15 @@ export async function getSidebarSourceCounts(): Promise<SidebarSourceCounts> {
     fundingSignals: safe(() => getFundingSignals().length, 0),
     revenueOverlays: overlaysCount,
     npmPackages: npmCount,
+    skillsItems: skillsData?.combined?.items?.length ?? 0,
+    mcpItems: mcpData?.board?.items?.length ?? 0,
+    agentRepos: agentRepoCount,
+    twitterRepos: twitterStats?.reposWithMentions ?? 0,
+    hfModels: safe(() => (getHfTrendingFile().models ?? []).length, 0),
+    hfDatasets: safe(() => (getHfDatasetsFile().datasets ?? []).length, 0),
+    hfSpaces: safe(() => (getHfSpacesFile().spaces ?? []).length, 0),
+    arxivPapers,
+    citedRepos,
   };
 }
 

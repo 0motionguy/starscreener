@@ -1,9 +1,10 @@
-import type { JSX } from "react";
+import type { JSX, ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface StatIconProps {
-  icon: LucideIcon;
+  icon?: LucideIcon;
+  iconNode?: ReactNode;
   label: string;
   value: string | number;
   hint?: string;
@@ -23,6 +24,7 @@ const TONE_CLASS: Record<NonNullable<StatIconProps["tone"]>, string> = {
  */
 export function StatIcon({
   icon: Icon,
+  iconNode,
   label,
   value,
   hint,
@@ -33,10 +35,14 @@ export function StatIcon({
       className="flex items-center gap-2 min-w-0"
       title={hint ?? `${label}: ${value}`}
     >
-      <Icon
-        className="size-3.5 shrink-0 text-text-tertiary"
-        aria-hidden="true"
-      />
+      {iconNode ?? (
+        Icon ? (
+          <Icon
+            className="size-3.5 shrink-0 text-text-tertiary"
+            aria-hidden="true"
+          />
+        ) : null
+      )}
       <div className="flex flex-col min-w-0 leading-tight">
         <span className="label-micro truncate">{label}</span>
         <span

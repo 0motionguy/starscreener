@@ -103,7 +103,7 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
           className="v2-stat shrink-0 tabular-nums"
           style={{ color: "var(--v2-ink-300)" }}
         >
-          {formatNumber(repo.stars)} ★
+          <span>{`${formatNumber(repo.stars)} ★`}</span>
         </span>
       </div>
 
@@ -148,8 +148,7 @@ export function FeaturedCard({ card, index = 0 }: FeaturedCardProps) {
               className="v2-stat tabular-nums text-[15px] leading-none"
               style={{ color: deltaColor }}
             >
-              {gainSign}
-              {formatNumber(gain)} ★
+              {`${gainSign}${formatNumber(gain)} ★`}
             </span>
             <span
               className="v2-stat tabular-nums text-[11px] leading-none opacity-90"

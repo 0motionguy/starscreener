@@ -72,6 +72,8 @@ export interface WriterMeta {
   sourceWorkflow?: string;
   /** Commit SHA at time of write, when available. */
   commitSha?: string;
+  /** GitHub run id / external run id, when available. */
+  runId?: string;
 }
 
 export interface DataReadResult<T> {
@@ -98,6 +100,19 @@ export interface DataWriteOptions {
   mirrorToFile?: boolean;
   /** Override the per-key TTL. Default: no TTL (Redis keeps until overwritten). */
   ttlSeconds?: number;
+  /**
+   * Writer provenance — recorded into the meta key so the audit trail can
+   * answer "which writer last touched this key?" instead of just "when?".
+   * Added 2026-05-04 after audit found dual-writer keys with no way to
+   * attribute last-write-wins between collector scripts and the worker.
+   *
+   * These override or enrich the WriterMeta envelope written beside the
+   * payload. Older `{ writtenAt, writer?, runId?, commit? }` envelopes are
+   * still accepted on read for back-compat.
+   */
+  writer?: string;
+  runId?: string;
+  commit?: string;
 }
 
 export interface DataStore {
@@ -119,6 +134,8 @@ export interface DataStore {
    * disabled — callers must handle the no-Redis fallback themselves.
    */
   redisClient(): RedisClientLike | null;
+  /** Close underlying network clients so one-shot scripts can exit cleanly. */
+  close?(): Promise<void>;
 }
 
 // ---------------------------------------------------------------------------
@@ -201,6 +218,7 @@ export interface RedisClientLike {
     opts?: { ex?: number; nx?: boolean },
   ): Promise<unknown>;
   del(...keys: string[]): Promise<number>;
+  close?(): Promise<void> | void;
 }
 
 // Backwards-compat alias for tests + external callers that still import
@@ -340,7 +358,7 @@ class DefaultDataStore implements DataStore {
     // writerId + sourceWorkflow + commitSha) so /admin/staleness can show
     // who won the dual-writer race. parseWriterMeta is back-compat with
     // older bare-ISO meta values, so existing keys keep reading correctly.
-    const writerMeta = buildWriterMeta();
+    const writerMeta = buildWriterMeta(opts);
     const writtenAt = writerMeta.ts;
     const payload = JSON.stringify(value);
     const metaPayload = JSON.stringify(writerMeta);
@@ -427,6 +445,10 @@ class DefaultDataStore implements DataStore {
   redisClient(): RedisClientLike | null {
     return this.redis;
   }
+
+  async close(): Promise<void> {
+    await this.redis?.close?.();
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -481,22 +503,16 @@ function parseWrittenAt(raw: unknown): string | null {
 function parseWriterMeta(raw: unknown): WriterMeta | null {
   if (raw === null || raw === undefined) return null;
   // Already-parsed object (some clients auto-parse JSON)
-  if (typeof raw === "object" && raw !== null && "ts" in raw) {
-    const ts = (raw as { ts: unknown }).ts;
-    if (typeof ts === "string" && ts.length > 0) return raw as WriterMeta;
-    return null;
+  if (typeof raw === "object" && raw !== null) {
+    const parsed = normalizeWriterMeta(raw);
+    if (parsed) return parsed;
   }
   if (typeof raw !== "string" || raw.length === 0) return null;
   // Try JSON envelope; fall through silently for legacy ISO strings.
   if (raw.startsWith("{")) {
     try {
       const obj = JSON.parse(raw) as unknown;
-      if (
-        obj && typeof obj === "object" && "ts" in obj &&
-        typeof (obj as { ts: unknown }).ts === "string"
-      ) {
-        return obj as WriterMeta;
-      }
+      return normalizeWriterMeta(obj);
     } catch {
       return null;
     }
@@ -504,21 +520,69 @@ function parseWriterMeta(raw: unknown): WriterMeta | null {
   return null;
 }
 
+function normalizeWriterMeta(raw: unknown): WriterMeta | null {
+  if (!raw || typeof raw !== "object") return null;
+  const obj = raw as {
+    ts?: unknown;
+    writtenAt?: unknown;
+    writerId?: unknown;
+    writer?: unknown;
+    sourceWorkflow?: unknown;
+    commitSha?: unknown;
+    commit?: unknown;
+    runId?: unknown;
+  };
+  const ts =
+    typeof obj.ts === "string" && obj.ts.length > 0
+      ? obj.ts
+      : typeof obj.writtenAt === "string" && obj.writtenAt.length > 0
+        ? obj.writtenAt
+        : null;
+  if (!ts) return null;
+  const meta: WriterMeta = { ts };
+  const writerId =
+    typeof obj.writerId === "string" && obj.writerId.length > 0
+      ? obj.writerId
+      : typeof obj.writer === "string" && obj.writer.length > 0
+        ? obj.writer
+        : undefined;
+  if (writerId) meta.writerId = writerId;
+  if (typeof obj.sourceWorkflow === "string" && obj.sourceWorkflow.length > 0) {
+    meta.sourceWorkflow = obj.sourceWorkflow;
+  }
+  const commitSha =
+    typeof obj.commitSha === "string" && obj.commitSha.length > 0
+      ? obj.commitSha
+      : typeof obj.commit === "string" && obj.commit.length > 0
+        ? obj.commit
+        : undefined;
+  if (commitSha) meta.commitSha = commitSha;
+  if (typeof obj.runId === "string" && obj.runId.length > 0) {
+    meta.runId = obj.runId;
+  }
+  return meta;
+}
+
 /**
  * Build the WriterMeta envelope for a write. Sources writerId from
  * `WRITER_ID` env; falls back to GHA + worker hints. Always sets `ts`.
  */
-function buildWriterMeta(): WriterMeta {
+function buildWriterMeta(opts: DataWriteOptions = {}): WriterMeta {
   const meta: WriterMeta = { ts: new Date().toISOString() };
-  const writerId = process.env.WRITER_ID?.trim();
+  const writerId = opts.writer?.trim() || process.env.WRITER_ID?.trim();
   if (writerId) meta.writerId = writerId;
   else if (process.env.GITHUB_WORKFLOW) {
     meta.writerId = `gha:${process.env.GITHUB_WORKFLOW}`;
   }
   const wf = process.env.GITHUB_WORKFLOW?.trim();
   if (wf) meta.sourceWorkflow = wf;
-  const sha = process.env.GITHUB_SHA?.trim() ?? process.env.VERCEL_GIT_COMMIT_SHA?.trim();
+  const sha =
+    opts.commit?.trim() ??
+    process.env.GITHUB_SHA?.trim() ??
+    process.env.VERCEL_GIT_COMMIT_SHA?.trim();
   if (sha) meta.commitSha = sha;
+  const runId = opts.runId?.trim() ?? process.env.GITHUB_RUN_ID?.trim();
+  if (runId) meta.runId = runId;
   return meta;
 }
 
@@ -688,6 +752,13 @@ function defaultRedisFactory(url: string, token?: string): RedisClientLike {
       return c.set(key, value);
     },
     del: (...keys) => client.del(...keys),
+    close: async () => {
+      try {
+        await client.quit();
+      } catch {
+        client.disconnect();
+      }
+    },
   };
 }
 
@@ -702,6 +773,14 @@ export function getDataStore(): DataStore {
     singleton = createDataStore();
   }
   return singleton;
+}
+
+export async function closeDataStore(): Promise<void> {
+  const store = singleton;
+  singleton = null;
+  if (store) {
+    await store.close?.();
+  }
 }
 
 /** Test-only — clear the singleton so each test gets a fresh client. */

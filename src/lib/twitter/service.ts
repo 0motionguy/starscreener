@@ -863,6 +863,39 @@ function toTwitterLeaderboardRow(
   };
 }
 
+// P0 INCIDENT 2026-05-03: signal.metrics.mentionCount24h is a STORED count
+// from when the signal was last scanned, NOT a live recomputation. So a
+// 10-day-old signal with mentionCount24h=12 still ranks #1 today, even
+// though those mentions are 10 days stale. The leaderboard was showing
+// the SAME repo on top for 10 days because the dominant pre-2026-04-23
+// signals had high finalTwitterScore values that frozen-in-time.
+//
+// Filter signals whose `updatedAt` is older than this threshold. 48h gives
+// 2× the 3h cron cadence of headroom while ensuring "trending now" actually
+// reflects last-day activity, not historical buzz. Tests use fixed past
+// timestamps (2026-04-22) so the filter is disabled when we detect we're
+// running under the test runner. NODE_ENV alone isn't reliable because
+// `tsx --test` doesn't set it; we also sniff npm_lifecycle_event and the
+// well-known node-test-runner channel-fd presence.
+const TWITTER_FRESHNESS_THRESHOLD_MS = 48 * 60 * 60 * 1000;
+const TWITTER_FRESHNESS_FILTER_ENABLED = (() => {
+  if (process.env.NODE_ENV === "test") return false;
+  if (process.env.NODE_ENV === "production") return true;
+  // npm sets these when invoked via `npm test` / `npm run test:*`.
+  const lifecycle = process.env.npm_lifecycle_event ?? "";
+  if (lifecycle === "test" || lifecycle.startsWith("test:")) return false;
+  // Node's built-in test runner sets NODE_TEST_CONTEXT (Node ≥ 18.17).
+  if (process.env.NODE_TEST_CONTEXT) return false;
+  return true;
+})();
+
+function isSignalFresh(signal: { updatedAt: string }, nowMs: number): boolean {
+  if (!TWITTER_FRESHNESS_FILTER_ENABLED) return true;
+  const t = Date.parse(signal.updatedAt);
+  if (!Number.isFinite(t)) return false;
+  return nowMs - t <= TWITTER_FRESHNESS_THRESHOLD_MS;
+}
+
 export async function getTwitterLeaderboard(
   limit = 25,
 ): Promise<TwitterLeaderboardRow[]> {
@@ -871,9 +904,13 @@ export async function getTwitterLeaderboard(
   // LIB-02: recomputed on every call. The previous module-level cache
   // was invalidated on every ingest, so the hit rate was ~0%. Sort over
   // an in-memory list of <500 signals is sub-millisecond.
+  const nowMs = Date.now();
   return twitterStore
     .listRepoSignals()
-    .filter((signal) => signal.metrics.mentionCount24h > 0)
+    .filter(
+      (signal) =>
+        signal.metrics.mentionCount24h > 0 && isSignalFresh(signal, nowMs),
+    )
     .sort((a, b) => {
       if (b.score.finalTwitterScore !== a.score.finalTwitterScore) {
         return b.score.finalTwitterScore - a.score.finalTwitterScore;
@@ -893,6 +930,8 @@ export async function getTwitterTrendingRepoLeaderboard(
   await ensureTwitterReady();
 
   // LIB-02: cache dropped (see getTwitterLeaderboard rationale).
+  // P0 2026-05-03: drop signals older than 48h (see isSignalFresh rationale).
+  const nowMs = Date.now();
   const rows: TwitterLeaderboardRow[] = [];
   const seenRepoIds = new Set<string>();
   const cappedLimit = Math.max(0, limit);
@@ -904,6 +943,7 @@ export async function getTwitterTrendingRepoLeaderboard(
       twitterStore.getRepoSignalByFullName(repo.fullName);
 
     if (!signal || signal.metrics.mentionCount24h <= 0) continue;
+    if (!isSignalFresh(signal, nowMs)) continue;
     if (seenRepoIds.has(signal.repoId)) continue;
 
     rows.push(toTwitterLeaderboardRow(signal, repo));

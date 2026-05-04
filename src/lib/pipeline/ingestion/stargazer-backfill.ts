@@ -24,6 +24,10 @@ import {
   parseRateLimitHeaders,
   type GitHubTokenPool,
 } from "@/lib/github-token-pool";
+import {
+  githubKeyFingerprint,
+  recordGithubCall,
+} from "@/lib/pool/github-telemetry";
 
 const GITHUB_API = "https://api.github.com";
 const ONE_DAY_MS = 86_400_000;
@@ -315,13 +319,37 @@ function makeStargazerRequester(
     };
     if (token) headers.Authorization = `Bearer ${token}`;
 
-    const res = await fetch(url, { method: "GET", headers });
+    const startedAt = Date.now();
+    let res: Response;
+    try {
+      res = await fetch(url, { method: "GET", headers });
+    } catch (err) {
+      await recordGithubCall({
+        keyFingerprint: githubKeyFingerprint(token),
+        statusCode: 0,
+        rateLimitRemaining: null,
+        rateLimitReset: null,
+        responseTimeMs: Date.now() - startedAt,
+        operation: "github_stargazers_backfill",
+        success: false,
+      });
+      throw err;
+    }
 
     // Feed the response's rate-limit info back to the pool so future picks
     // see the post-call quota. Skipped for the legacy single-PAT path
     // since we don't manage that token's quota in the pool.
+    const rl = parseRateLimitHeaders(res.headers);
+    await recordGithubCall({
+      keyFingerprint: githubKeyFingerprint(token),
+      statusCode: res.status,
+      rateLimitRemaining: rl?.remaining ?? null,
+      rateLimitReset: rl?.resetUnixSec ?? null,
+      responseTimeMs: Date.now() - startedAt,
+      operation: "github_stargazers_backfill",
+      success: res.ok,
+    });
     if (token && pool) {
-      const rl = parseRateLimitHeaders(res.headers);
       if (rl) pool.recordRateLimit(token, rl.remaining, rl.resetUnixSec);
     }
     return res;

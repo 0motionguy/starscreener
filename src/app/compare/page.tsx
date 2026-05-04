@@ -69,10 +69,9 @@ export default async function ComparePage({ searchParams }: ComparePageProps) {
           <div className="crumb">
             <b>Tools</b> / compare
           </div>
-          <h1>The creator suite - visualize. compare. share.</h1>
+          <h1>Compare Repos · Canonical Signals</h1>
           <p className="lede">
-            Plot star history against multiple repos, inspect canonical
-            signals, and export branded share cards from one dense workbench.
+            Side-by-side: momentum, reasons, revenue, funding, mentions.
           </p>
         </div>
         <div className="clock">

@@ -1,9 +1,9 @@
-// /huggingface/datasets — V4 SourceFeedTemplate consumer.
+// /huggingface/datasets â€” domain-scored Hugging Face dataset feed.
 //
-// Domain-scored Hugging Face dataset feed (top 100). Reads
-// `huggingface-datasets` Redis payload via the data-store and runs the
-// new domain pipeline:
-//   hfDatasetScorer.computeRaw() → computeCrossDomainMomentum() → top 100
+// Reads `huggingface-datasets` Redis payload (populated by
+// scripts/scrape-huggingface-datasets.mjs) through the new domain
+// pipeline:
+//   hfDatasetScorer.computeRaw() â†’ computeCrossDomainMomentum() â†’ top 100
 //
 // Template provides PageHead + KpiBand snapshot + list slot. The dense
 // TerminalFeedTable renders inside the list slot unchanged.
@@ -15,13 +15,17 @@ import {
   refreshHfDatasetsFromStore,
   type HfDatasetTrending,
 } from "@/lib/hf-datasets";
-import { compactNumber } from "@/components/news/newsTopMetrics";
+import {
+  applyCompactV1,
+  compactNumber,
+} from "@/components/news/newsTopMetrics";
 import {
   TerminalFeedTable,
   type FeedColumn,
 } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { huggingFaceLogoUrl } from "@/lib/logos";
+import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -52,9 +56,9 @@ export const metadata: Metadata = {
 };
 
 function formatAgeIso(iso: string | null | undefined, nowMs: number): string {
-  if (!iso) return "—";
+  if (!iso) return "â€”";
   const t = Date.parse(iso);
-  if (!Number.isFinite(t)) return "—";
+  if (!Number.isFinite(t)) return "â€”";
   const hours = Math.max(0, (nowMs - t) / 3_600_000);
   if (hours < 1) return "<1h";
   if (hours < 24) return `${Math.round(hours)}h`;
@@ -73,25 +77,47 @@ export default async function HuggingFaceDatasetsPage() {
   const allDatasets = file.datasets ?? [];
   const cold = allDatasets.length === 0;
 
-  if (cold) {
-    return (
-      <main className="home-surface">
-        <SourceFeedTemplate
-          crumb={
-            <>
-              <b>HF</b> · TERMINAL · /HUGGINGFACE · DATASETS
-            </>
-          }
-          title="Hugging Face · datasets"
-          lede="Top datasets ranked by domain-scored momentum. Weekly downloads + recency drive ranking through hfDatasetScorer + computeCrossDomainMomentum."
-        />
-        <ColdState />
-      </main>
-    );
-  }
+  return (
+    <SourceFeedTemplate
+      cold={cold}
+      coldState={<ColdState />}
+      header={{
+        routeTitle: "HUGGINGFACE - DATASETS",
+        liveLabel: "LIVE - 30M",
+        eyebrow: "// HUGGINGFACE - DATASETS",
+        meta: [
+          {
+            label: "TRACKED",
+            value: (file.datasets?.length ?? 0).toLocaleString("en-US"),
+          },
+          { label: "TOP", value: String(datasets.length) },
+        ],
+        ...buildHuggingFaceDatasetsHeader(file.datasets ?? [], datasets),
+        accent: HF_ACCENT,
+        caption: [
+          "// LAYOUT compact-v1",
+          "- DOMAIN hf-dataset",
+          "- SCORER weeklyDownloads + recency",
+        ],
+      }}
+    >
+      <HfDatasetFeed datasets={datasets} />
+    </SourceFeedTemplate>
+  );
+}
 
-  const topDownloads = allDatasets.reduce(
-    (m, d) => Math.max(m, d.downloads ?? 0),
+// ---------------------------------------------------------------------------
+// Header builder
+// ---------------------------------------------------------------------------
+
+function buildHuggingFaceDatasetsHeader(
+  raws: { downloads: number; likes: number; tags: string[]; author: string }[],
+  scored: HfDatasetTrending[],
+) {
+  const totalDownloads = raws.reduce((s, d) => s + (d.downloads ?? 0), 0);
+  const totalLikes = raws.reduce((s, d) => s + (d.likes ?? 0), 0);
+  const topDownloads = raws.reduce(
+    (m, r) => Math.max(m, r.downloads ?? 0),
     0,
   );
   const totalLikes = allDatasets.reduce((s, d) => s + (d.likes ?? 0), 0);
@@ -102,7 +128,7 @@ export default async function HuggingFaceDatasetsPage() {
     return Number.isFinite(t) && nowMs - t < weekMs;
   }).length;
 
-  // Tag distribution (top 6) — substitutes for "topics" panel.
+  // Tag distribution (top 6) â€” substitutes for "topics" panel.
   const tagCounts = new Map<string, number>();
   for (const r of raws) {
     for (const t of r.tags ?? []) {
@@ -141,7 +167,7 @@ export default async function HuggingFaceDatasetsPage() {
     [
       {
         variant: "snapshot",
-        title: "// SNAPSHOT · NOW",
+        title: "// SNAPSHOT Â· NOW",
         rightLabel: `${raws.length} DATASETS`,
         label: "DATASETS TRACKED",
         value: compactNumber(raws.length),
@@ -158,7 +184,7 @@ export default async function HuggingFaceDatasetsPage() {
       },
       {
         variant: "bars",
-        title: "// AUTHORS · TOP 6",
+        title: "// AUTHORS Â· TOP 6",
         rightLabel: `${authorBars.length}`,
         bars: authorBars,
         labelWidth: 96,
@@ -166,7 +192,7 @@ export default async function HuggingFaceDatasetsPage() {
       },
       {
         variant: "bars",
-        title: "// TAGS · MIX",
+        title: "// TAGS Â· MIX",
         rightLabel: `TOP ${tagBars.length}`,
         bars: tagBars,
         labelWidth: 96,
@@ -176,14 +202,14 @@ export default async function HuggingFaceDatasetsPage() {
     { totalItems: raws.length },
   );
 
-  // Hero stories — top 3 datasets by momentum.
+  // Hero stories â€” top 3 datasets by momentum.
   const topStories = scored.slice(0, 3).map((d) => ({
     title: d.id,
     href: d.url,
     external: true,
     sourceCode: "HF",
     byline: d.tags?.[0] ?? undefined,
-    scoreLabel: `${compactNumber(d.downloads ?? 0)} dl · ${compactNumber(d.likes ?? 0)} ♥`,
+    scoreLabel: `${compactNumber(d.downloads ?? 0)} dl Â· ${compactNumber(d.likes ?? 0)} â™¥`,
     ageHours: d.lastModified
       ? Math.max(0, (Date.now() - Date.parse(d.lastModified)) / 3_600_000)
       : null,
@@ -347,7 +373,6 @@ function ColdState() {
   return (
     <section
       style={{
-        padding: 32,
         background: "var(--v4-bg-025)",
         border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
@@ -365,7 +390,10 @@ function ColdState() {
       >
         {"// no data yet"}
       </h2>
-      <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
+      <p
+        className="mt-3 max-w-xl text-sm"
+        style={{ color: "var(--v4-ink-300)" }}
+      >
         The Hugging Face datasets scraper hasn&apos;t run yet. Run{" "}
         <code style={{ color: "var(--v4-ink-100)" }}>
           node scripts/scrape-huggingface-datasets.mjs
@@ -379,3 +407,4 @@ function ColdState() {
     </section>
   );
 }
+

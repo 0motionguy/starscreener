@@ -1,8 +1,8 @@
-// /huggingface/spaces — V4 SourceFeedTemplate consumer.
+// /huggingface/spaces â€” domain-scored Hugging Face spaces feed.
 //
 // Reads `huggingface-spaces` Redis payload (populated by
-// scripts/scrape-huggingface-spaces.mjs) through the domain pipeline:
-//   hfSpaceScorer.computeRaw() → computeCrossDomainMomentum() → top 100
+// scripts/scrape-huggingface-spaces.mjs) through the new domain pipeline:
+//   hfSpaceScorer.computeRaw() â†’ computeCrossDomainMomentum() â†’ top 100
 //
 // Mirrors /hackernews/trending visually: V4 PageHead + KpiBand snapshot
 // + TerminalFeedTable list slot. ISR-cached at 30 min per project
@@ -16,11 +16,16 @@ import {
   type HfSpaceTrending,
 } from "@/lib/hf-spaces";
 import {
+  applyCompactV1,
+  compactNumber,
+} from "@/components/news/newsTopMetrics";
+import {
   TerminalFeedTable,
   type FeedColumn,
 } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { huggingFaceLogoUrl } from "@/lib/logos";
+import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -51,9 +56,9 @@ export const metadata: Metadata = {
 };
 
 function formatAgeIso(iso: string | null | undefined, nowMs: number): string {
-  if (!iso) return "—";
+  if (!iso) return "â€”";
   const t = Date.parse(iso);
-  if (!Number.isFinite(t)) return "—";
+  if (!Number.isFinite(t)) return "â€”";
   const hours = Math.max(0, (nowMs - t) / 3_600_000);
   if (hours < 1) return "<1h";
   if (hours < 24) return `${Math.round(hours)}h`;
@@ -102,58 +107,31 @@ export default async function HuggingFaceSpacesPage() {
   }).length;
 
   return (
-    <main className="home-surface">
-      <SourceFeedTemplate
-        crumb={
-          <>
-            <b>HF</b> · TERMINAL · /HUGGINGFACE/SPACES
-          </>
-        }
-        title="Hugging Face · spaces"
-        lede="Trending spaces ranked by domain-scored momentum: likes velocity, model count, and recency. Cross-domain join surfaces the most-impactful underlying models."
-        clock={
-          <>
-            <span className="big">{formatClock(file.fetchedAt)}</span>
-            <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="LIVE · 30M" />
-          </>
-        }
-        snapshot={
-          <KpiBand
-            cells={[
-              {
-                label: "SPACES",
-                value: allSpaces.length.toLocaleString("en-US"),
-                sub: "tracked",
-                pip: HF_YELLOW,
-              },
-              {
-                label: "TOP LIKES",
-                value: topLikes.toLocaleString("en-US"),
-                sub: "engagement peak",
-                tone: "acc",
-                pip: "var(--v4-acc)",
-              },
-              {
-                label: "NEW THIS WEEK",
-                value: newThisWeek.toLocaleString("en-US"),
-                sub: "created · 7d",
-                tone: "money",
-                pip: "var(--v4-money)",
-              },
-              {
-                label: "GRADIO/STREAMLIT",
-                value: gradioStreamlit.toLocaleString("en-US"),
-                sub: "sdk count",
-                pip: "var(--v4-blue)",
-              },
-            ]}
-          />
-        }
-        listEyebrow="Space feed · top 100 by momentum"
-        list={<HfSpaceFeed spaces={spaces} />}
-      />
-    </main>
+    <SourceFeedTemplate
+      cold={cold}
+      coldState={<ColdState />}
+      header={{
+        routeTitle: "HUGGINGFACE - SPACES",
+        liveLabel: "LIVE - 30M",
+        eyebrow: "// HUGGINGFACE - SPACES",
+        meta: [
+          {
+            label: "TRACKED",
+            value: (file.spaces?.length ?? 0).toLocaleString("en-US"),
+          },
+          { label: "TOP", value: String(spaces.length) },
+        ],
+        ...buildHuggingFaceSpacesHeader(file.spaces ?? [], spaces),
+        accent: HF_ACCENT,
+        caption: [
+          "// LAYOUT compact-v1",
+          "- DOMAIN hf-space",
+          "- SCORER modelCount + recency",
+        ],
+      }}
+    >
+      <HfSpaceFeed spaces={spaces} />
+    </SourceFeedTemplate>
   );
 }
 
@@ -177,7 +155,7 @@ function buildHuggingFaceSpacesHeader(
     0,
   );
 
-  // SDK distribution (top 6) — substitutes for "topics" panel.
+  // SDK distribution (top 6) â€” substitutes for "topics" panel.
   const sdkCounts = new Map<string, number>();
   for (const r of raws) {
     const sdk = r.sdk ?? "untagged";
@@ -215,7 +193,7 @@ function buildHuggingFaceSpacesHeader(
     [
       {
         variant: "snapshot",
-        title: "// SNAPSHOT · NOW",
+        title: "// SNAPSHOT Â· NOW",
         rightLabel: `${raws.length} SPACES`,
         label: "SPACES TRACKED",
         value: compactNumber(raws.length),
@@ -232,7 +210,7 @@ function buildHuggingFaceSpacesHeader(
       },
       {
         variant: "bars",
-        title: "// AUTHORS · TOP 6",
+        title: "// AUTHORS Â· TOP 6",
         rightLabel: `${authorBars.length}`,
         bars: authorBars,
         labelWidth: 96,
@@ -240,7 +218,7 @@ function buildHuggingFaceSpacesHeader(
       },
       {
         variant: "bars",
-        title: "// SDK · MIX",
+        title: "// SDK Â· MIX",
         rightLabel: `TOP ${sdkBars.length}`,
         bars: sdkBars,
         labelWidth: 96,
@@ -250,14 +228,14 @@ function buildHuggingFaceSpacesHeader(
     { totalItems: raws.length },
   );
 
-  // Hero stories — top 3 spaces by momentum.
+  // Hero stories â€” top 3 spaces by momentum.
   const topStories = scored.slice(0, 3).map((s) => ({
     title: s.id,
     href: s.url,
     external: true,
     sourceCode: "HF",
     byline: s.sdk ?? undefined,
-    scoreLabel: `${compactNumber(s.likes ?? 0)} ♥ · ${s.models.length} models`,
+    scoreLabel: `${compactNumber(s.likes ?? 0)} â™¥ Â· ${s.models.length} models`,
     ageHours: s.lastModified
       ? Math.max(0, (Date.now() - Date.parse(s.lastModified)) / 3_600_000)
       : null,
@@ -283,7 +261,7 @@ function HfSpaceFeed({ spaces }: { spaces: HfSpaceTrending[] }) {
       render: (_, i) => (
         <span
           className="font-mono text-[12px] tabular-nums font-semibold"
-          style={{ color: i < 10 ? HF_YELLOW : "var(--v4-ink-400)" }}
+          style={{ color: i < 10 ? HF_ACCENT_BAR : "var(--v4-ink-400)" }}
         >
           {String(i + 1).padStart(2, "0")}
         </span>
@@ -321,7 +299,7 @@ function HfSpaceFeed({ spaces }: { spaces: HfSpaceTrending[] }) {
       hideBelow: "sm",
       render: (s) => {
         const sdk = s.sdk;
-        if (!sdk) return <span style={{ color: "var(--v4-ink-500)" }}>—</span>;
+        if (!sdk) return <span style={{ color: "var(--v4-ink-500)" }}>â€”</span>;
         return (
           <span
             className="v2-mono inline-block px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase"
@@ -351,12 +329,12 @@ function HfSpaceFeed({ spaces }: { spaces: HfSpaceTrending[] }) {
             ? "no models declared"
             : s.models
                 .slice(0, 3)
-                .join("\n") + (count > 3 ? `\n… +${count - 3} more` : "");
+                .join("\n") + (count > 3 ? `\nâ€¦ +${count - 3} more` : "");
         return (
           <span
             className="font-mono text-[12px] tabular-nums"
             style={{
-              color: count >= 3 ? HF_YELLOW : "var(--v4-ink-300)",
+              color: count >= 3 ? HF_ACCENT_BAR : "var(--v4-ink-300)",
               cursor: count > 0 ? "help" : "default",
             }}
             title={tooltip}
@@ -457,7 +435,6 @@ function ColdState() {
   return (
     <section
       style={{
-        padding: 32,
         background: "var(--v4-bg-025)",
         border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
@@ -476,12 +453,8 @@ function ColdState() {
         {"// no data yet"}
       </h2>
       <p
-        style={{
-          marginTop: 12,
-          maxWidth: "32rem",
-          fontSize: 13,
-          color: "var(--v4-ink-300)",
-        }}
+        className="mt-3 max-w-xl text-sm"
+        style={{ color: "var(--v4-ink-300)" }}
       >
         The Hugging Face spaces scraper hasn&apos;t run yet. Run{" "}
         <code style={{ color: "var(--v4-ink-100)" }}>
@@ -496,3 +469,4 @@ function ColdState() {
     </section>
   );
 }
+

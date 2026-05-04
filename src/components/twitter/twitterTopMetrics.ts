@@ -20,13 +20,13 @@ import type {
 } from "@/lib/twitter/types";
 
 const BADGE_PALETTE: Record<string, string> = {
-  x_fire: "var(--v3-acc)",
+  x_fire: "var(--v4-acc)",
   x: "#1d9bf0",
-  none: "var(--v3-line-300)",
+  none: "var(--v4-line-300)",
 };
 
 const REPO_PALETTE = [
-  "var(--v3-acc)",
+  "var(--v4-acc)",
   "#F59E0B",
   "#3AD6C5",
   "#F472B6",

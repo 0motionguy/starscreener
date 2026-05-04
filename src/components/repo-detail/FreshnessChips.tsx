@@ -70,10 +70,11 @@ export function FreshnessChips({ sources }: FreshnessChipsProps) {
   return (
     <div
       aria-label="Scanner freshness"
-      className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-wider text-text-tertiary"
+      className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-wider"
+      style={{ color: "var(--v4-ink-300)" }}
     >
       <span
-        className="text-text-tertiary/70"
+        style={{ color: "var(--v4-ink-400)" }}
         title="Last scan age per source. A trailing * means the scan is older than the per-source freshness threshold (stale); numbers on newer scans are safe to trust."
       >
         {"// last scan"}
@@ -92,13 +93,13 @@ export function FreshnessChips({ sources }: FreshnessChipsProps) {
                 : `${CHIP_LABEL[key]} never scanned`
             }
           >
-            <span className={isStale ? "text-[var(--v4-amber)]" : undefined}>
+            <span style={isStale ? { color: "var(--v4-amber)" } : undefined}>
               {CHIP_LABEL[key]}{" "}
               <span className="tabular-nums">{ageLabel}</span>
               {isStale ? "*" : ""}
             </span>
             {idx < visible.length - 1 ? (
-              <span aria-hidden className="text-text-tertiary/40">
+              <span aria-hidden style={{ color: "var(--v4-ink-400)" }}>
                 ·
               </span>
             ) : null}

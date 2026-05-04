@@ -49,12 +49,15 @@ jobs:
         run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
 
       - name: Commit if changed
-        uses: ./.github/actions/git-commit-data
-        with:
-          actor-email: "bot@trendingrepo.com"
-          message: "chore(data): refresh lobsters signals ${{ steps.ts.outputs.value }}"
-          paths: |
-            data/lobsters-mentions.json
-            data/lobsters-trending.json
-            data/_meta/lobsters.json
-            data/unknown-mentions.jsonl
+        run: |
+          git config user.name  "trendingrepo-bot"
+          git config user.email "bot@trendingrepo.com"
+          git add data/lobsters-mentions.json data/lobsters-trending.json data/_meta/lobsters.json data/unknown-mentions.jsonl
+          if git diff --quiet --staged; then
+            echo "no changes - skipping commit"
+            exit 0
+          fi
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "chore(data): refresh lobsters signals ${TS}"
+          git pull --rebase origin main
+          git push

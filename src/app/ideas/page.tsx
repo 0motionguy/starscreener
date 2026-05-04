@@ -144,7 +144,7 @@ export default async function IdeasPage({ searchParams }: PageProps) {
   const list = feed.slice(1);
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
+    <main className="v4-root font-mono">
       <div className="max-w-[900px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
         {/* V2 terminal-bar — operator chrome */}
         <div className="v2-frame overflow-hidden">

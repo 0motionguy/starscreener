@@ -32,7 +32,7 @@ function formatTopRound(sig: FundingSignal | null | undefined): string {
 }
 
 const ROUND_PALETTE = [
-  "var(--v3-acc)",
+  "var(--v4-acc)",
   "#F59E0B",
   "#3AD6C5",
   "#F472B6",

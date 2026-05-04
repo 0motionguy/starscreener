@@ -76,32 +76,32 @@ interface MomentumStyle {
 function momentumColor(ratio: number, breakoutCount: number): MomentumStyle {
   if (breakoutCount >= 3 || ratio > 5) {
     return {
-      fill: "var(--v3-tier-breakout-fill)",
-      gradientEnd: "var(--v3-tier-breakout-end)",
-      textColor: "var(--v3-tier-text)",
+      fill: "var(--v4-tier-breakout-fill)",
+      gradientEnd: "var(--v4-tier-breakout-end)",
+      textColor: "var(--v4-tier-text)",
       tier: "breakout",
     };
   }
   if (ratio > 1.3) {
     return {
-      fill: "var(--v3-tier-heating-fill)",
-      gradientEnd: "var(--v3-tier-heating-end)",
-      textColor: "var(--v3-tier-text)",
+      fill: "var(--v4-tier-heating-fill)",
+      gradientEnd: "var(--v4-tier-heating-end)",
+      textColor: "var(--v4-tier-text)",
       tier: "heating",
     };
   }
   if (ratio >= 0.7) {
     return {
-      fill: "var(--v3-tier-stable-fill)",
-      gradientEnd: "var(--v3-tier-stable-end)",
-      textColor: "var(--v3-tier-text)",
+      fill: "var(--v4-tier-stable-fill)",
+      gradientEnd: "var(--v4-tier-stable-end)",
+      textColor: "var(--v4-tier-text)",
       tier: "stable",
     };
   }
   return {
-    fill: "var(--v3-tier-cooling-fill)",
-    gradientEnd: "var(--v3-tier-cooling-end)",
-    textColor: "var(--v3-tier-text)",
+    fill: "var(--v4-tier-cooling-fill)",
+    gradientEnd: "var(--v4-tier-cooling-end)",
+    textColor: "var(--v4-tier-text)",
     tier: "cooling",
   };
 }

@@ -1,10 +1,13 @@
-// /producthunt — V4 SourceFeedTemplate consumer.
+// /producthunt â€” full ProductHunt launches view.
 //
-// Top 50 PH launches in the last 7 days, ordered by votes desc. AI vs All
-// tabs share the same source JSON; "AI" filters via the aiAdjacent flag,
-// "All" shows everything. Template provides PageHead + KpiBand snapshot +
-// list slot; the existing LaunchFeed / CrossLinkedReposPanel / TabNav
-// render inside the list slot unchanged.
+// Mirrors the structural/visual rhythm of /hackernews/trending: header strip,
+// 4 stat tiles, list below. Renders the top 50 AI-adjacent launches from the
+// last 7-day window, ordered by votes desc. The compact 10-row tab inside
+// /news?tab=producthunt is the morning glance â€” this page is the deep dive.
+//
+// Server component + force-static: data comes from the producthunt loader,
+// which reads committed JSON, so every request is identical until the next
+// scrape lands.
 
 import type { Metadata } from "next";
 import { EntityLogo } from "@/components/ui/EntityLogo";
@@ -19,6 +22,8 @@ import {
   type Launch,
 } from "@/lib/producthunt";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { buildProductHuntHeader } from "@/components/news/newsTopMetrics";
+import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -44,8 +49,7 @@ function parseTab(raw: string | string[] | undefined): PhTab {
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  // Layout template appends ` — TrendingRepo`; bare title here.
-  title: "ProductHunt Launches",
+  title: "TrendingRepo â€” ProductHunt Launches",
   description:
     "Daily ProductHunt launches scored by votes/comments, cross-linked to GitHub repos when the maker mentions one.",
   alternates: { canonical: "/producthunt" },
@@ -110,106 +114,43 @@ export default async function ProductHuntPage({
     .sort((a, b) => b.votesCount - a.votesCount)
     .slice(0, 50);
 
-  // Pull lastFetchedAt off the loader's getter — we don't need to import
-  // the file shape directly because getPhFile() drives off the same cache.
-  // The clock value is fine to fall back to "warming" when the store is cold.
-  const fetchedAt = !cold ? topLaunches[0]?.createdAt : undefined;
-
-  if (cold) {
-    return (
-      <main className="home-surface">
-        <SourceFeedTemplate
-          crumb={
-            <>
-              <b>PH</b> · TERMINAL · /PRODUCTHUNT
-            </>
-          }
-          title="ProductHunt · launches"
-          lede="Top launches in the last 7 days, ordered by votes desc. AI tab filters to llm / agent / mcp / skill / rag adjacent products; All tab shows the full PH feed."
-        />
-        <ColdState />
-      </main>
-    );
-  }
-
-  // KpiBand math.
-  const topVotes = current.reduce((m, l) => Math.max(m, l.votesCount), 0);
-  const makerSet = new Set<string>();
-  for (const l of current) {
-    for (const m of l.makers ?? []) {
-      if (m.username) makerSet.add(m.username.toLowerCase());
-    }
-  }
-  const makerCount = makerSet.size;
-  const ghLinkedCount = current.filter((l) => Boolean(l.linkedRepo)).length;
-
   return (
-    <main className="home-surface">
-      <SourceFeedTemplate
-        crumb={
-          <>
-            <b>PH</b> · TERMINAL · /PRODUCTHUNT
-          </>
-        }
-        title={`ProductHunt · ${activeTab === "ai" ? "AI launches" : "all launches"}`}
-        lede="Top launches in the last 7 days, ordered by votes desc. AI tab filters to llm / agent / mcp / skill / rag adjacent products; All tab shows the full PH feed."
-        clock={
-          <>
-            <span className="big">{formatClock(fetchedAt)}</span>
-            <span className="muted">UTC · LATEST POST</span>
-            <LiveDot label="LIVE · 7D" />
-          </>
-        }
-        snapshot={
-          <KpiBand
-            cells={[
-              {
-                label: "TRACKED",
-                value: current.length.toLocaleString("en-US"),
-                sub: "7d rolling",
-                pip: PH_RED,
-              },
-              {
-                label: "TOP VOTES",
-                value: topVotes.toLocaleString("en-US"),
-                sub: "engagement peak",
-                tone: "acc",
-                pip: "var(--v4-acc)",
-              },
-              {
-                label: "MAKERS",
-                value: makerCount.toLocaleString("en-US"),
-                sub: "unique shippers",
-                tone: "money",
-                pip: "var(--v4-money)",
-              },
-              {
-                label: "GH-LINKED",
-                value: ghLinkedCount,
-                sub: "launches w/ repo",
-                pip: "var(--v4-blue)",
-              },
-            ]}
-          />
-        }
-        listEyebrow={`Launch feed · top 50 by votes (${activeTab === "ai" ? "AI" : "ALL"})`}
-        list={
-          <>
-            <div className="mb-4">
-              <TabNav active={activeTab} aiCount={ai7d.length} allCount={all7d.length} />
-            </div>
-            {topLaunches.length > 0 ? (
-              <>
-                <LaunchFeed launches={topLaunches} />
-                <CrossLinkedReposPanel launches={current} />
-              </>
-            ) : (
-              <EmptyState tab={activeTab} />
-            )}
-          </>
-        }
-      />
-    </main>
+    <SourceFeedTemplate
+      cold={cold}
+      coldState={<ColdState />}
+      header={{
+        routeTitle: `PRODUCTHUNT - ${activeTab === "ai" ? "AI LAUNCHES" : "ALL LAUNCHES"}`,
+        liveLabel: "LIVE - 7D",
+        eyebrow: "// PRODUCTHUNT - LIVE FIREHOSE",
+        meta: [
+          { label: "TRACKED", value: current.length.toLocaleString("en-US") },
+          { label: "WINDOW", value: "7D" },
+        ],
+        ...buildProductHuntHeader(
+          ({ launches: current } as Pick<ProductHuntFile, "launches">) as ProductHuntFile,
+          topLaunches.slice(0, 3),
+        ),
+        accent: PH_ACCENT,
+        caption: [
+          "// LAYOUT compact-v1",
+          "- 3-COL - 320 / 1FR / 1FR",
+          "- DATA UNCHANGED",
+        ],
+      }}
+    >
+      <div className="mb-6">
+        <TabNav active={activeTab} aiCount={ai7d.length} allCount={all7d.length} />
+      </div>
+
+      {topLaunches.length > 0 ? (
+        <>
+          <LaunchFeed launches={topLaunches} />
+          <CrossLinkedReposPanel launches={current} />
+        </>
+      ) : (
+        <EmptyState tab={activeTab} />
+      )}
+    </SourceFeedTemplate>
   );
 }
 
@@ -220,11 +161,11 @@ export default async function ProductHuntPage({
 function LaunchFeed({ launches }: { launches: Launch[] }) {
   return (
     <section className="border border-border-primary rounded-md bg-bg-secondary overflow-hidden">
-      {/* Header row — desktop columns. Mobile hides thumbnail + comments. */}
+      {/* Header row â€” desktop columns. Mobile hides thumbnail + comments. */}
       <div className="hidden md:grid grid-cols-[40px_60px_minmax(0,1fr)_72px_80px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
         <div>#</div>
         <div></div>
-        <div>NAME · TAGLINE</div>
+        <div>NAME Â· TAGLINE</div>
         <div className="text-center">LINKS</div>
         <div className="text-right">VOTES</div>
         <div className="text-right">CMTS</div>
@@ -279,7 +220,7 @@ function LaunchFeed({ launches }: { launches: Launch[] }) {
                 </div>
               </div>
 
-              {/* Mobile layout — hides thumbnail + comments per spec */}
+              {/* Mobile layout â€” hides thumbnail + comments per spec */}
               <div className="grid md:hidden grid-cols-[32px_1fr_60px_70px] gap-2 items-center px-3 py-2 min-h-[56px] hover:bg-bg-card-hover transition-colors">
                 <div
                   className="text-xs tabular-nums font-semibold"
@@ -324,14 +265,8 @@ function ThumbLink({ launch }: { launch: Launch }) {
       className="shrink-0 block"
       aria-label={`${launch.name} on ProductHunt`}
     >
-      <EntityLogo
-        src={launch.thumbnail ?? null}
-        name={launch.name}
-        size={40}
-        shape="square"
-        alt=""
-      />
-    </a>
+      â–²
+    </div>
   );
 }
 
@@ -345,7 +280,7 @@ function NameTagline({ launch }: { launch: Launch }) {
         target="_blank"
         rel="noopener noreferrer"
         className="block min-w-0"
-        title={`${launch.name} — ${launch.tagline}`}
+        title={`${launch.name} â€” ${launch.tagline}`}
       >
         <div className="flex items-center gap-2 min-w-0 flex-wrap">
           <span className="text-sm text-text-primary font-semibold truncate hover:text-brand transition-colors">
@@ -373,16 +308,16 @@ function NameTagline({ launch }: { launch: Launch }) {
           className="hidden mt-0.5 inline-flex items-center gap-1 text-[10px] font-mono text-text-tertiary hover:text-functional transition-colors"
           title={
             stars !== undefined
-              ? `${launch.githubUrl.replace(/^https?:\/\/github\.com\//, "")} · ${stars.toLocaleString("en-US")}★`
+              ? `${launch.githubUrl.replace(/^https?:\/\/github\.com\//, "")} Â· ${stars.toLocaleString("en-US")}â˜…`
               : launch.githubUrl
           }
         >
-          <span aria-hidden>↗</span>
+          <span aria-hidden>â†—</span>
           <span className="truncate">
             {launch.githubUrl.replace(/^https?:\/\/github\.com\//, "")}
           </span>
           {stars !== undefined ? (
-            <span className="text-text-muted">· {stars.toLocaleString("en-US")}★</span>
+            <span className="text-text-muted">Â· {stars.toLocaleString("en-US")}â˜…</span>
           ) : null}
         </a>
       ) : null}
@@ -393,7 +328,7 @@ function NameTagline({ launch }: { launch: Launch }) {
 function CrossLinkedReposPanel({ launches }: { launches: Launch[] }) {
   // Filter to launches that both (a) have a linkedRepo extracted from the
   // description AND (b) match a repo currently tracked by TrendingRepo.
-  // Drop the panel entirely when zero matches — empty crosslink boxes look
+  // Drop the panel entirely when zero matches â€” empty crosslink boxes look
   // broken on a fresh scrape day where nobody linked GitHub.
   const rows = launches
     .filter((l): l is Launch & { linkedRepo: string } => Boolean(l.linkedRepo))
@@ -428,7 +363,7 @@ function CrossLinkedReposPanel({ launches }: { launches: Launch[] }) {
                 >
                   {launch.name}
                 </a>
-                <span className="text-[10px] text-text-tertiary">→</span>
+                <span className="text-[10px] text-text-tertiary">â†’</span>
                 <Link
                   href={`/repo/${repo.owner}/${repo.name}`}
                   className="text-xs text-text-tertiary font-mono hover:text-functional transition-colors truncate"
@@ -540,7 +475,7 @@ function TabNav({
       id: "ai",
       label: "AI Launches",
       count: aiCount,
-      hint: "llm · agent · mcp · skill · rag",
+      hint: "llm Â· agent Â· mcp Â· skill Â· rag",
     },
     {
       id: "all",
@@ -580,3 +515,4 @@ function TabNav({
     </nav>
   );
 }
+

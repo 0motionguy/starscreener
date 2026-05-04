@@ -1,8 +1,9 @@
 // FundingPanel — funding & M&A events for a repo detail page.
 //
-// Server component. Mirrors the chrome of RepoRevenuePanel (font-mono labels,
-// border-border-primary, bg-bg-card, getRelativeTime) but leans into a list
-// layout: one event per row, badge + amount + date + investors + source.
+// Server component. Mirrors the V4 chrome of MaintainerCard / NpmAdoptionPanel
+// (mono header strip, var(--v4-line-200) borders, var(--v4-bg-025) body) but
+// leans into a list layout: one event per row, badge + amount + date + investors
+// + source.
 //
 // Confidence badge: hidden on exact-domain matches (implicit trust). Shown as
 // a terse tag for alias / exact-name / fuzzy — keeps the VC/founder skimmer
@@ -45,35 +46,51 @@ export function FundingPanel({ events }: FundingPanelProps): JSX.Element | null 
   return (
     <section
       aria-label="Funding & M&A"
-      className="v2-card overflow-hidden"
+      style={{
+        border: "1px solid var(--v4-line-200)",
+        background: "var(--v4-bg-025)",
+        borderRadius: 2,
+        overflow: "hidden",
+      }}
     >
-      <div className="v2-term-bar">
-        <span aria-hidden className="flex items-center gap-1.5">
-          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
-          <span
-            className="block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--v2-line-200)" }}
-          />
-          <span
-            className="block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--v2-line-200)" }}
-          />
-        </span>
+      <div
+        style={{
+          padding: "10px 12px",
+          borderBottom: "1px solid var(--v4-line-200)",
+          background: "var(--v4-bg-050)",
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          fontFamily: "var(--font-geist-mono), monospace",
+        }}
+      >
         <Landmark
           size={12}
-          className="shrink-0"
-          style={{ color: "var(--v2-acc)" }}
+          style={{ color: "var(--v4-acc)", flexShrink: 0 }}
           aria-hidden
         />
         <span
-          className="flex-1 truncate"
-          style={{ color: "var(--v2-ink-200)" }}
+          style={{
+            flex: 1,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            color: "var(--v4-ink-200)",
+            fontSize: 11,
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+          }}
         >
           {"// FUNDING · M&A"}
         </span>
         <span
-          className="v2-stat shrink-0"
-          style={{ color: "var(--v2-ink-300)" }}
+          style={{
+            flexShrink: 0,
+            color: "var(--v4-ink-300)",
+            fontSize: 10,
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+          }}
         >
           {events.length} EVENT{events.length === 1 ? "" : "S"}
         </span>
@@ -91,8 +108,14 @@ export function FundingPanel({ events }: FundingPanelProps): JSX.Element | null 
 
       {hiddenCount > 0 ? (
         <footer
-          className="v2-mono px-4 pb-3 pt-1"
-          style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+          className="px-4 pb-3 pt-1"
+          style={{
+            fontSize: 10,
+            color: "var(--v4-ink-400)",
+            fontFamily: "var(--font-geist-mono), monospace",
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+          }}
         >
           {`// +${hiddenCount} MORE EVENT${hiddenCount === 1 ? "" : "S"}`}
         </footer>
@@ -140,7 +163,7 @@ function FundingRow({
     <li
       className="flex flex-wrap items-baseline gap-x-3 gap-y-1 py-3"
       style={{
-        borderBottom: isLast ? "none" : "1px solid var(--v2-line-std)",
+        borderBottom: isLast ? "none" : "1px solid var(--v4-line-200)",
       }}
     >
       <EntityLogo
@@ -151,22 +174,41 @@ function FundingRow({
         alt=""
       />
 
-      <span className="v2-tag shrink-0">{roundLabel.toUpperCase()}</span>
+      <span
+        className="shrink-0"
+        style={{
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 10,
+          padding: "2px 6px",
+          border: "1px solid var(--v4-line-200)",
+          borderRadius: 2,
+          color: "var(--v4-ink-200)",
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+        }}
+      >
+        {roundLabel.toUpperCase()}
+      </span>
 
       <span
-        className="v2-stat tabular-nums"
+        className="tabular-nums"
         style={{
+          fontFamily: "var(--font-geist-mono), monospace",
           fontSize: 14,
           fontWeight: 510,
-          color: amount === "Undisclosed" ? "var(--v2-ink-300)" : "var(--v2-acc)",
+          color: amount === "Undisclosed" ? "var(--v4-ink-300)" : "var(--v4-acc)",
         }}
       >
         {amount}
       </span>
 
       <span
-        className="v2-mono-tight tabular-nums"
-        style={{ fontSize: 11, color: "var(--v2-ink-400)" }}
+        className="tabular-nums"
+        style={{
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 11,
+          color: "var(--v4-ink-400)",
+        }}
       >
         {getRelativeTime(announcedAt)}
       </span>
@@ -175,7 +217,7 @@ function FundingRow({
         <span
           style={{
             fontSize: 11,
-            color: "var(--v2-ink-200)",
+            color: "var(--v4-ink-200)",
             fontFamily: "var(--font-geist-mono), monospace",
           }}
         >
@@ -198,8 +240,17 @@ function FundingRow({
 
       {showConfidence && confidenceLabel ? (
         <span
-          className="v2-tag shrink-0"
-          style={{ color: "var(--v2-ink-400)" }}
+          className="shrink-0"
+          style={{
+            fontFamily: "var(--font-geist-mono), monospace",
+            fontSize: 10,
+            padding: "2px 6px",
+            border: "1px solid var(--v4-line-200)",
+            borderRadius: 2,
+            color: "var(--v4-ink-400)",
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+          }}
           title={`Matched via ${match.reason.replace(/_/g, " ")} — confidence ${match.confidence.toFixed(2)}`}
         >
           {confidenceLabel.toUpperCase()}
@@ -210,8 +261,14 @@ function FundingRow({
         href={signal.sourceUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="v2-mono ml-auto inline-flex items-center gap-1 transition-colors"
-        style={{ fontSize: 10, color: "var(--v2-ink-300)" }}
+        className="ml-auto inline-flex items-center gap-1 transition-colors"
+        style={{
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 10,
+          color: "var(--v4-ink-300)",
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+        }}
       >
         SOURCE
         <ArrowUpRight size={11} aria-hidden />

@@ -29,38 +29,38 @@ const MIN_RADIUS = 26;
 const MAX_RADIUS = 84;
 
 // Tier color tokens — matches BaselinePill exactly so the legend reads
-// the same as per-post pills. Routes through --v3-tier-* tokens so creme
+// the same as per-post pills. Routes through --v4-tier-* tokens so creme
 // and linen themes can retune the ramp for paper-friendly contrast.
 const TIER_COLORS: Record<BaselineTier, { fill: string; stroke: string; glow: string; text: string }> = {
   breakout: {
-    fill: "var(--v3-tier-breakout-fill)",
-    stroke: "var(--v3-tier-breakout-end)",
-    glow: "var(--v3-tier-breakout-glow)",
-    text: "var(--v3-tier-text)",
+    fill: "var(--v4-tier-breakout-fill)",
+    stroke: "var(--v4-tier-breakout-end)",
+    glow: "var(--v4-tier-breakout-glow)",
+    text: "var(--v4-tier-text)",
   },
   "above-average": {
-    fill: "var(--v3-tier-heating-fill)",
-    stroke: "var(--v3-tier-heating-end)",
-    glow: "var(--v3-tier-heating-glow)",
-    text: "var(--v3-tier-text)",
+    fill: "var(--v4-tier-heating-fill)",
+    stroke: "var(--v4-tier-heating-end)",
+    glow: "var(--v4-tier-heating-glow)",
+    text: "var(--v4-tier-text)",
   },
   normal: {
-    fill: "var(--v3-tier-stable-fill)",
-    stroke: "var(--v3-tier-stable-end)",
-    glow: "var(--v3-tier-stable-glow)",
-    text: "var(--v3-tier-text)",
+    fill: "var(--v4-tier-stable-fill)",
+    stroke: "var(--v4-tier-stable-end)",
+    glow: "var(--v4-tier-stable-glow)",
+    text: "var(--v4-tier-text)",
   },
   "below-average": {
-    fill: "var(--v3-tier-cooling-fill)",
-    stroke: "var(--v3-tier-cooling-end)",
-    glow: "var(--v3-tier-cooling-glow)",
-    text: "var(--v3-tier-text)",
+    fill: "var(--v4-tier-cooling-fill)",
+    stroke: "var(--v4-tier-cooling-end)",
+    glow: "var(--v4-tier-cooling-glow)",
+    text: "var(--v4-tier-text)",
   },
   "no-baseline": {
-    fill: "var(--v3-tier-dormant-fill)",
-    stroke: "var(--v3-tier-dormant-end)",
-    glow: "var(--v3-tier-dormant-glow)",
-    text: "var(--v3-tier-text)",
+    fill: "var(--v4-tier-dormant-fill)",
+    stroke: "var(--v4-tier-dormant-end)",
+    glow: "var(--v4-tier-dormant-glow)",
+    text: "var(--v4-tier-text)",
   },
 };
 

@@ -13,8 +13,8 @@ export function FeaturedCardsSkeleton() {
           key={i}
           className="flex flex-col flex-shrink-0 min-w-[240px] sm:w-[280px] h-[160px] rounded-[2px] p-4 overflow-hidden"
           style={{
-            background: "var(--v3-bg-050)",
-            border: "1px solid var(--v3-line-200)",
+            background: "var(--v4-bg-050)",
+            border: "1px solid var(--v4-line-200)",
           }}
           aria-hidden="true"
         >

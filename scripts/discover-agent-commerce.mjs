@@ -50,6 +50,37 @@ const MERGE_MIN_NPM_DOWNLOADS = parseNumberArg("--merge-min-npm-dl", 200);
 const MERGE_MAX_NEW = parseNumberArg("--merge-max-new", 50);
 const TOKEN = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN ?? "";
 
+// Auto-merge topic gate: a discovered repo only qualifies for auto-merge if
+// its GitHub `topics` array includes at least one of these. Prevents
+// tangentially-relevant repos (n8n, gemini-cli, etc.) sneaking through.
+const AUTO_MERGE_REQUIRED_TOPICS = [
+  "x402",
+  "mcp-server",
+  "agent-payments",
+  "agent-wallet",
+  "agent-commerce",
+  "a2a",
+];
+
+// Auto-merge push-recency floor (in days). A repo with a qualifying
+// topic but no push activity in the last year is likely abandoned —
+// reject so it lands in the rejected sidecar for human review instead
+// of inflating the seed.
+const AUTO_MERGE_MAX_PUSH_AGE_DAYS = 365;
+
+function qualifiesForAutoMerge(candidate) {
+  const topics = candidate?._discovery?.topics ?? [];
+  if (!topics.some((t) => AUTO_MERGE_REQUIRED_TOPICS.includes(t))) return false;
+  const pushedAt = candidate?._discovery?.pushedAt;
+  if (pushedAt) {
+    const ageDays = (Date.now() - new Date(pushedAt).getTime()) / 86_400_000;
+    if (Number.isFinite(ageDays) && ageDays > AUTO_MERGE_MAX_PUSH_AGE_DAYS) {
+      return false;
+    }
+  }
+  return true;
+}
+
 function parseNumberArg(name, fallback) {
   const idx = process.argv.indexOf(name);
   if (idx === -1 || idx === process.argv.length - 1) return fallback;
@@ -262,6 +293,7 @@ function buildSeedCandidateFromGithub(hit, classification, npmDownloads) {
       stars: hit.stars,
       pushedAt: hit.pushedAt,
       language: hit.language,
+      topics: hit.topics ?? [],
       slug,
     },
   };
@@ -481,28 +513,96 @@ async function main() {
     },
   };
 
-  if (DRY_RUN) {
+  if (DRY_RUN && !AUTO_MERGE) {
     console.log("");
     console.log("[ac-discover] --dry-run — nothing written.");
     return;
   }
 
-  mkdirSync(dirname(OUT_PATH), { recursive: true });
-  writeFileSync(OUT_PATH, JSON.stringify(out, null, 2), "utf8");
-  console.log("");
-  console.log(`[ac-discover] wrote ${OUT_PATH}`);
-  console.log(
-    `[ac-discover] review and merge into seed: ${candidatesGithub.length + candidatesNpm.length} new candidates.`,
-  );
+  if (!DRY_RUN) {
+    mkdirSync(dirname(OUT_PATH), { recursive: true });
+    writeFileSync(OUT_PATH, JSON.stringify(out, null, 2), "utf8");
+    console.log("");
+    console.log(`[ac-discover] wrote ${OUT_PATH}`);
+    console.log(
+      `[ac-discover] review and merge into seed: ${candidatesGithub.length + candidatesNpm.length} new candidates.`,
+    );
+  } else {
+    console.log("");
+    console.log("[ac-discover] --dry-run — discovery file not written; simulating --auto-merge gate below.");
+  }
 
   // ---- Auto-merge gate ----
   if (AUTO_MERGE) {
-    const ghPass = candidatesGithub.filter(
+    const ghStarPass = candidatesGithub.filter(
       (c) => (c._discovery?.stars ?? 0) >= MERGE_MIN_GH_STARS,
     );
-    const npmPass = candidatesNpm.filter(
+    const npmDlPass = candidatesNpm.filter(
       (c) => (c._discovery?.weeklyDownloads ?? 0) >= MERGE_MIN_NPM_DOWNLOADS,
     );
+
+    // Topic gate: only repos whose GitHub `topics` include at least one
+    // qualifying topic survive. npm-only candidates have no topics and
+    // fail the gate by construction (they need human review).
+    const candidatesAfterStarsAndDl = [...ghStarPass, ...npmDlPass];
+    const rejected = [];
+    const ghPass = [];
+    const npmPass = [];
+    for (const c of candidatesAfterStarsAndDl) {
+      if (qualifiesForAutoMerge(c)) {
+        if (c._discovery?.sourceTopic) ghPass.push(c);
+        else npmPass.push(c);
+      } else {
+        rejected.push({
+          name: c.name,
+          github: c.links?.github,
+          npmName: c._discovery?.npmName,
+          stars: c._discovery?.stars,
+          weeklyDownloads: c._discovery?.weeklyDownloads,
+          topics: c._discovery?.topics ?? [],
+          reason: "no qualifying topic",
+        });
+      }
+    }
+
+    if (rejected.length > 0) {
+      console.log("");
+      console.log(
+        `[ac-discover] auto-merge: ${rejected.length} candidate(s) rejected (no qualifying topic from ${AUTO_MERGE_REQUIRED_TOPICS.join(",")}):`,
+      );
+      for (const r of rejected.slice(0, 25)) {
+        const id = r.github ?? r.npmName ?? r.name;
+        const sig = r.stars != null
+          ? `★${r.stars}`
+          : r.weeklyDownloads != null
+            ? `npm ${r.weeklyDownloads}/wk`
+            : "";
+        const topicsStr = r.topics.length
+          ? `topics=[${r.topics.slice(0, 6).join(",")}]`
+          : "topics=[]";
+        console.log(`  - ${String(id).padEnd(40)} ${sig.padEnd(10)} ${topicsStr}  reason=${r.reason}`);
+      }
+      // Persist rejected list to a sidecar JSONL for human review.
+      if (!DRY_RUN) {
+        try {
+          const rejectedPath = resolve(
+            process.cwd(),
+            ".data/agent-commerce-discovery-rejected.jsonl",
+          );
+          mkdirSync(dirname(rejectedPath), { recursive: true });
+          const lines = rejected
+            .map((r) =>
+              JSON.stringify({ rejectedAt: new Date().toISOString(), ...r }),
+            )
+            .join("\n") + "\n";
+          writeFileSync(rejectedPath, lines, { flag: "a", encoding: "utf8" });
+          console.log(`[ac-discover] auto-merge: appended rejections to ${rejectedPath}`);
+        } catch (err) {
+          console.warn(`[ac-discover] auto-merge: failed to write rejected sidecar: ${err?.message ?? err}`);
+        }
+      }
+    }
+
     let promoted = [...ghPass, ...npmPass].slice(0, MERGE_MAX_NEW);
     // Final dedupe (slug already deduped against seed; also dedupe pairs)
     const seen = new Set();
@@ -540,14 +640,20 @@ async function main() {
         ),
       });
     }
-    writeFileSync(
-      SEED_PATH_LOCAL,
-      JSON.stringify(seedFile, null, 2) + "\n",
-      "utf8",
-    );
-    console.log(
-      `[ac-discover] auto-merged ${promoted.length} entries into seed (${before} → ${seedFile.entries.length}).`,
-    );
+    if (!DRY_RUN) {
+      writeFileSync(
+        SEED_PATH_LOCAL,
+        JSON.stringify(seedFile, null, 2) + "\n",
+        "utf8",
+      );
+      console.log(
+        `[ac-discover] auto-merged ${promoted.length} entries into seed (${before} → ${seedFile.entries.length}).`,
+      );
+    } else {
+      console.log(
+        `[ac-discover] auto-merge --dry-run: would merge ${promoted.length} entries (${before} → ${before + promoted.length}). No write.`,
+      );
+    }
     console.log("[ac-discover] sample of auto-merged:");
     for (const c of promoted.slice(0, 8)) {
       const tag = c._discovery?.stars

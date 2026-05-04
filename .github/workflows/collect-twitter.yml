@@ -86,14 +86,18 @@ jobs:
 
       - name: Commit updated twitter signals
         if: github.event.inputs.dry_run != 'true'
-        uses: ./.github/actions/git-commit-data
-        with:
-          message: "chore(data): refresh twitter signals ${{ steps.ts.outputs.value }}"
-          paths: |
-            .data/twitter-repo-signals.jsonl
-            .data/twitter-scans.jsonl
-            .data/twitter-ingestion-audit.jsonl
-            data/unknown-mentions.jsonl
+        run: |
+          git config user.name  "trendingrepo-bot"
+          git config user.email "bot@trendingrepo.local"
+          git add .data/twitter-repo-signals.jsonl .data/twitter-scans.jsonl .data/twitter-ingestion-audit.jsonl data/unknown-mentions.jsonl
+          if git diff --quiet --staged; then
+            echo "no changes to twitter data — skipping commit"
+            exit 0
+          fi
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git commit -m "chore(data): refresh twitter signals ${TS}"
+          git pull --rebase origin main
+          git push
 
       - name: Upload collector output
         if: failure()

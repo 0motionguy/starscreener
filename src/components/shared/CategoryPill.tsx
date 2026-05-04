@@ -45,13 +45,13 @@ export function CategoryPill({
         dot
         className={`${baseClasses} ${className}`}
         style={{
-          background: "var(--v3-acc-soft)",
-          border: "1px solid var(--v3-acc-dim)",
-          color: "var(--v3-acc)",
+          background: "var(--v4-acc-soft)",
+          border: "1px solid var(--v4-acc-dim)",
+          color: "var(--v4-acc)",
         }}
         dotStyle={{
-          background: "var(--v3-acc)",
-          boxShadow: "0 0 4px var(--v3-acc-glow)",
+          background: "var(--v4-acc)",
+          boxShadow: "0 0 4px var(--v4-acc-glow)",
         }}
       >
         {category.shortName}
@@ -65,9 +65,9 @@ export function CategoryPill({
       dot
       className={`${baseClasses} ${className}`}
       style={{
-        background: "var(--v3-bg-050)",
-        border: "1px solid var(--v3-line-200)",
-        color: "var(--v3-ink-200)",
+        background: "var(--v4-bg-050)",
+        border: "1px solid var(--v4-line-200)",
+        color: "var(--v4-ink-200)",
       }}
       dotStyle={{ backgroundColor: category.color }}
     >

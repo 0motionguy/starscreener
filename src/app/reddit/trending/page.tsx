@@ -14,7 +14,8 @@ import {
   refreshRedditAllPostsFromStore,
 } from "@/lib/reddit-all-data";
 import { AllTrendingTabs } from "@/components/reddit-trending/AllTrendingTabs";
-import type { RedditAllPost, RedditAllPostsFile } from "@/lib/reddit-all";
+import { buildRedditHeader } from "@/components/news/newsTopMetrics";
+import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -127,62 +128,32 @@ export default async function RedditTrendingPage() {
   const subredditCount = new Set(posts.map((p) => p.subreddit).filter(Boolean)).size;
 
   return (
-    <main className="home-surface">
-      <SourceFeedTemplate
-        crumb={
-          <>
-            <b>REDDIT</b> · TERMINAL · /REDDIT/TRENDING
-          </>
-        }
-        title="Reddit · top posts"
-        lede="7-day rolling firehose across the tracked subreddits, scored by velocity-weighted upvotes and cross-linked to GitHub repos."
-        clock={
-          <>
-            <span className="big">{formatClock(allPostsFetchedAt ?? undefined)}</span>
-            <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="LIVE · 7D" />
-          </>
-        }
-        snapshot={
-          <KpiBand
-            cells={[
-              {
-                label: "TRACKED",
-                value: stats.totalPosts.toLocaleString("en-US"),
-                sub: "7d rolling",
-                pip: "var(--v4-src-reddit)",
-              },
-              {
-                label: "TOP SCORE",
-                value: topScore.toLocaleString("en-US"),
-                sub: "velocity peak",
-                tone: "acc",
-                pip: "var(--v4-acc)",
-              },
-              {
-                label: "SUBREDDITS",
-                value: subredditCount,
-                sub: "active sources",
-                tone: "money",
-                pip: "var(--v4-money)",
-              },
-              {
-                label: "GH-LINKED",
-                value: stats.postsWithLinkedRepos,
-                sub: "repos in feed",
-                pip: "var(--v4-blue)",
-              },
-            ]}
-          />
-        }
-        listEyebrow="Story feed · grouped by subreddit"
-        list={
-          <Suspense fallback={<FeedSkeleton />}>
-            <AllTrendingTabs posts={posts} />
-          </Suspense>
-        }
-      />
-    </main>
+    <SourceFeedTemplate
+      cold={allPostsCold}
+      coldState={<ColdState />}
+      header={{
+        routeTitle: "REDDIT - TOP POSTS",
+        liveLabel: "LIVE - 7D",
+        eyebrow: `// REDDIT - LIVE FIREHOSE - ${
+          allPostsFetchedAt ? formatRelative(allPostsFetchedAt).toUpperCase() : "COLD"
+        }`,
+        meta: [
+          { label: "TRACKED", value: stats.totalPosts.toLocaleString("en-US") },
+          { label: "WINDOW", value: "7D" },
+        ],
+        ...buildRedditHeader(posts, stats),
+        accent: REDDIT_ACCENT,
+        caption: [
+          "// LAYOUT compact-v1",
+          "- 3-COL - 320 / 1FR / 1FR",
+          "- DATA UNCHANGED",
+        ],
+      }}
+    >
+      <Suspense fallback={<FeedSkeleton />}>
+        <AllTrendingTabs posts={posts} />
+      </Suspense>
+    </SourceFeedTemplate>
   );
 }
 
@@ -190,8 +161,6 @@ function FeedSkeleton() {
   return (
     <div
       style={{
-        padding: 24,
-        fontSize: 13,
         background: "var(--v4-bg-025)",
         border: "1px solid var(--v4-line-200)",
         borderRadius: 2,
@@ -207,7 +176,6 @@ function ColdState() {
   return (
     <section
       style={{
-        padding: 32,
         background: "var(--v4-bg-025)",
         border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
@@ -225,7 +193,10 @@ function ColdState() {
       >
         {"// no data yet"}
       </h2>
-      <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
+      <p
+        className="mt-3 max-w-xl text-sm"
+        style={{ color: "var(--v4-ink-300)" }}
+      >
         The Reddit scraper has not run yet. Run{" "}
         <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:reddit</code>{" "}
         locally to populate{" "}

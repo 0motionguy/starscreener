@@ -31,6 +31,4 @@ jobs:
           node-version: "20"
 
       - name: Check source health
-        env:
-          REDIS_URL: ${{ secrets.REDIS_URL }}
         run: node scripts/check-source-health.mjs

@@ -188,9 +188,9 @@ function truncate(s: string, max: number): string {
 }
 
 function deltaColor(ratio: number): { color: string; arrow: "↑" | "↓" | "→" } {
-  if (ratio > 1.3) return { color: "var(--v3-sig-green)", arrow: "↑" };
+  if (ratio > 1.3) return { color: "var(--v4-money)", arrow: "↑" };
   if (ratio >= 0.7) return { color: "rgba(255,255,255,0.65)", arrow: "→" };
-  return { color: "var(--v3-sig-red)", arrow: "↓" };
+  return { color: "var(--v4-red)", arrow: "↓" };
 }
 
 function deltaText(ratio: number): string {
@@ -463,7 +463,7 @@ function Cell({
   // (rgba 0.06) on normal cells, Reddit orange on breakouts.
   const background = `linear-gradient(135deg, ${cell.fill} 0%, ${cell.gradientEnd} 100%)`;
   const borderColor = isBreakout
-    ? "var(--v3-tier-breakout-end)"
+    ? "var(--v4-tier-breakout-end)"
     : active
       ? "rgba(255, 255, 255, 0.45)"
       : "rgba(255, 255, 255, 0.06)";
@@ -623,8 +623,8 @@ function CellContent({ cell, typo, delta, isBreakout }: CellContentProps) {
             width: 6,
             height: 6,
             borderRadius: "50%",
-            backgroundColor: "var(--v3-tier-breakout-end)",
-            boxShadow: "0 0 6px var(--v3-tier-breakout-glow)",
+            backgroundColor: "var(--v4-tier-breakout-end)",
+            boxShadow: "0 0 6px var(--v4-tier-breakout-glow)",
           }}
         />
       )}
@@ -643,12 +643,12 @@ function Legend() {
         className="h-2 flex-1 rounded-sm border border-border-primary/60"
         style={{
           background:
-            "linear-gradient(90deg, var(--v3-tier-cooling-fill) 0%, var(--v3-tier-cooling-end) 22%, var(--v3-tier-stable-fill) 38%, var(--v3-tier-stable-end) 58%, var(--v3-tier-heating-fill) 72%, var(--v3-tier-breakout-fill) 88%, var(--v3-tier-breakout-end) 100%)",
+            "linear-gradient(90deg, var(--v4-tier-cooling-fill) 0%, var(--v4-tier-cooling-end) 22%, var(--v4-tier-stable-fill) 38%, var(--v4-tier-stable-end) 58%, var(--v4-tier-heating-fill) 72%, var(--v4-tier-breakout-fill) 88%, var(--v4-tier-breakout-end) 100%)",
         }}
         aria-hidden="true"
       />
       <span>HEATING</span>
-      <span style={{ color: "var(--v3-tier-breakout-fill)" }}>BREAKOUT</span>
+      <span style={{ color: "var(--v4-tier-breakout-fill)" }}>BREAKOUT</span>
     </div>
   );
 }

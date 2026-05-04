@@ -22,3 +22,152 @@
 .terminal-page [role="table"] {
   border-radius: var(--radius-none);
 }
+
+.search-command-panel {
+  padding: 0;
+}
+
+.search-command-body {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+}
+
+.search-result-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  color: var(--ink-300);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-micro);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.search-result-meta b {
+  color: var(--acc);
+  font-weight: var(--font-weight-semibold);
+}
+
+.search-result-meta .live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--sig-green);
+  box-shadow: var(--shadow-live);
+}
+
+.search-state {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 72px 18px;
+  color: var(--ink-300);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  letter-spacing: var(--tracking-label);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.search-state p {
+  margin: 0;
+}
+
+.search-state .hint {
+  max-width: 460px;
+  color: var(--ink-400);
+  font-size: var(--font-size-micro);
+  line-height: 1.6;
+}
+
+.search-state-icon {
+  color: var(--acc);
+}
+
+.search-state-icon.muted {
+  color: var(--ink-400);
+}
+
+.watchlist-alerts {
+  margin-top: 12px;
+  padding: 0;
+}
+
+.watchlist-alert-body {
+  padding: 14px;
+}
+
+.watchlist-state {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 72px 18px;
+  color: var(--ink-300);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  letter-spacing: var(--tracking-label);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.watchlist-state p {
+  margin: 0;
+}
+
+.watchlist-state .hint {
+  max-width: 500px;
+  color: var(--ink-400);
+  font-size: var(--font-size-micro);
+  line-height: 1.6;
+}
+
+.watchlist-state-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line-200);
+  background: var(--bg-050);
+  color: var(--acc);
+}
+
+.watchlist-state-icon.muted {
+  color: var(--ink-400);
+}
+
+.news-source-page {
+  gap: 10px;
+  padding-bottom: 34px;
+}
+
+.news-source-metrics {
+  margin-bottom: 0;
+}
+
+.news-source-tabs {
+  margin-top: 2px;
+}
+
+.news-source-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 12px;
+  min-width: 0;
+}
+
+.news-source-rail {
+  min-width: 0;
+}
+
+@media (max-width: 1100px) {
+  .news-source-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .news-source-rail {
+    display: none;
+  }
+}

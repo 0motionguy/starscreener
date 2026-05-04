@@ -35,9 +35,18 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
-import { extractGithubRepoFullNames, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
+import { extractAllRepoMentions, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
+
+function slugIdFromFullName(fullName) {
+  return String(fullName)
+    .toLowerCase()
+    .replace(/\//g, "--")
+    .replace(/\./g, "-")
+    .replace(/[^a-z0-9-]/g, "");
+}
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");

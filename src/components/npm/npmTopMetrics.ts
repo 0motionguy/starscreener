@@ -22,7 +22,7 @@ import { npmLogoUrl } from "@/lib/logos";
 import type { NpmPackageRow, NpmPackagesFile } from "@/lib/npm";
 
 const PKG_PALETTE = [
-  "var(--v3-acc)",
+  "var(--v4-acc)",
   "#F59E0B",
   "#3AD6C5",
   "#F472B6",

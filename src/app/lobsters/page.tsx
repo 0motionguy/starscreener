@@ -17,10 +17,12 @@ import {
   repoFullNameToHref,
   type LobstersStory,
 } from "@/lib/lobsters";
+import { buildLobstersHeader } from "@/components/news/newsTopMetrics";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { repoLogoUrl } from "@/lib/logos";
+import { repoLogoUrl, resolveLogoUrl } from "@/lib/logos";
+import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -68,94 +70,40 @@ export default async function LobstersPage() {
   const leaderboard = getLobstersLeaderboard();
   const cold = allStories.length === 0;
 
-  if (cold) {
-    return (
-      <main className="home-surface">
-        <SourceFeedTemplate
-          crumb={
-            <>
-              <b>LOBSTERS</b> · TERMINAL · /LOBSTERS
-            </>
-          }
-          title="Lobsters · top stories"
-          lede="Stories ranked by recent score velocity, cross-linked to GitHub repos. The Lobsters firehose runs every cron tick and keeps the rolling 24h list fresh."
-        />
-        <ColdState />
-      </main>
-    );
-  }
-
-  const topScore = allStories.reduce((m, s) => Math.max(m, s.score), 0);
-  const linkedRepoCount = allStories.filter(
-    (s) => Array.isArray(s.linkedRepos) && s.linkedRepos.length > 0,
-  ).length;
-
   return (
-    <main className="home-surface">
-      <SourceFeedTemplate
-        crumb={
-          <>
-            <b>LOBSTERS</b> · TERMINAL · /LOBSTERS
-          </>
+    <SourceFeedTemplate
+      cold={cold}
+      coldState={<ColdState />}
+      header={{
+        routeTitle: "LOBSTERS - TOP STORIES",
+        liveLabel: `LIVE - ${file.windowHours}H`,
+        eyebrow: "// LOBSTE.RS - LIVE FIREHOSE",
+        meta: [
+          { label: "TRACKED", value: allStories.length.toLocaleString("en-US") },
+          { label: "WINDOW", value: `${file.windowHours}H` },
+        ],
+        ...buildLobstersHeader(file, getLobstersTopStories(3)),
+        accent: LOBSTERS_ACCENT,
+        caption: [
+          "// LAYOUT compact-v1",
+          "- 3-COL - 320 / 1FR / 1FR",
+          "- DATA UNCHANGED",
+        ],
+      }}
+    >
+      <div
+        className={
+          leaderboard.length > 0
+            ? "grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]"
+            : ""
         }
-        title="Lobsters · top stories"
-        lede="Stories ranked by recent score velocity, cross-linked to GitHub repos. The Lobsters firehose runs every cron tick and keeps the rolling 24h list fresh."
-        clock={
-          <>
-            <span className="big">{formatClock(file.fetchedAt)}</span>
-            <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label={`LIVE · ${file.windowHours}H`} />
-          </>
-        }
-        snapshot={
-          <KpiBand
-            cells={[
-              {
-                label: "TRACKED",
-                value: allStories.length.toLocaleString("en-US"),
-                sub: `${file.windowHours}h rolling`,
-                pip: LOBSTERS_RED,
-              },
-              {
-                label: "TOP SCORE",
-                value: topScore.toLocaleString("en-US"),
-                sub: "velocity peak",
-                tone: "acc",
-                pip: "var(--v4-acc)",
-              },
-              {
-                label: "LEADERBOARD",
-                value: leaderboard.length,
-                sub: "tracked repos · 7d",
-                tone: "money",
-                pip: "var(--v4-money)",
-              },
-              {
-                label: "GH-LINKED",
-                value: linkedRepoCount,
-                sub: "stories with repo",
-                pip: "var(--v4-blue)",
-              },
-            ]}
-          />
-        }
-        listEyebrow="Story feed · 24h / 7d / 30d window · repo leaderboard"
-        list={
-          <div
-            className={
-              leaderboard.length > 0
-                ? "grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6"
-                : ""
-            }
-          >
-            <WindowedStoryFeed allStories={allStories} />
-            {leaderboard.length > 0 ? (
-              <Leaderboard entries={leaderboard.slice(0, 15)} />
-            ) : null}
-          </div>
-        }
-      />
-    </main>
+      >
+        <StoryFeed stories={stories} />
+        {leaderboard.length > 0 ? (
+          <Leaderboard entries={leaderboard.slice(0, 15)} />
+        ) : null}
+      </div>
+    </SourceFeedTemplate>
   );
 }
 
@@ -448,7 +396,6 @@ function ColdState() {
   return (
     <section
       style={{
-        padding: 32,
         background: "var(--v4-bg-025)",
         border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
@@ -466,7 +413,10 @@ function ColdState() {
       >
         {"// no lobsters data yet"}
       </h2>
-      <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
+      <p
+        className="mt-3 max-w-xl text-sm"
+        style={{ color: "var(--v4-ink-300)" }}
+      >
         The Lobsters scraper has not produced data yet. Run{" "}
         <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:lobsters</code>{" "}
         locally to populate{" "}

@@ -117,13 +117,13 @@ describe("MetasBar", () => {
       { name: /hot this week/i },
     ) as HTMLElement;
     // Inactive border uses the neutral line token.
-    expect(hotBtn.style.borderColor).toContain("--v3-line-200");
+    expect(hotBtn.style.borderColor).toContain("--v4-line-200");
 
     act(() => {
       fireEvent.click(hotBtn);
     });
-    // Active border shifts onto the per-meta color (HOT uses --v3-acc).
-    expect(hotBtn.style.borderColor).toContain("--v3-acc");
-    expect(hotBtn.style.borderColor).not.toContain("--v3-line-200");
+    // Active border shifts onto the per-meta color (HOT uses --v4-acc).
+    expect(hotBtn.style.borderColor).toContain("--v4-acc");
+    expect(hotBtn.style.borderColor).not.toContain("--v4-line-200");
   });
 });

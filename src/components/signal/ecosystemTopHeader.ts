@@ -18,7 +18,7 @@ import { mcpEntityLogoUrl } from "@/lib/logos";
 import type { EcosystemLeaderboardItem } from "@/lib/ecosystem-leaderboards";
 
 const SOURCE_PALETTE = [
-  "var(--v3-acc)",
+  "var(--v4-acc)",
   "#3AD6C5",
   "#F59E0B",
   "#A78BFA",

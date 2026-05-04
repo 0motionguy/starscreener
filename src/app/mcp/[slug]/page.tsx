@@ -130,7 +130,7 @@ export default async function McpDetailPage({ params }: PageProps) {
     Date.now() - Date.parse(lastReleaseAt) < SEVEN_DAYS_MS;
 
   return (
-    <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
+    <main className="v4-root font-mono">
       <div className="mx-auto max-w-[1100px] space-y-6 px-4 py-6 sm:px-6 sm:py-8">
         {/* Breadcrumb */}
         <nav
@@ -195,9 +195,9 @@ export default async function McpDetailPage({ params }: PageProps) {
                     <span
                       className="v2-mono inline-flex items-center px-1.5 py-px text-[9px] uppercase tracking-[0.14em]"
                       style={{
-                        border: "1px solid var(--v3-acc)66",
-                        background: "var(--v3-acc)1A",
-                        color: "var(--v3-acc)",
+                        border: "1px solid var(--v4-acc)66",
+                        background: "var(--v4-acc)1A",
+                        color: "var(--v4-acc)",
                         borderRadius: 2,
                       }}
                     >
@@ -223,7 +223,7 @@ export default async function McpDetailPage({ params }: PageProps) {
                 <li key={tool.name} className="flex flex-col gap-0.5 py-1.5">
                   <span
                     className="font-mono"
-                    style={{ color: "var(--v3-ink-100)" }}
+                    style={{ color: "var(--v4-ink-100)" }}
                   >
                     {tool.name}
                   </span>
@@ -329,7 +329,7 @@ function Header({
           <div className="min-w-0 flex-1">
             <h1
               className="truncate text-[18px] font-semibold sm:text-[20px]"
-              style={{ color: "var(--v3-ink-000)" }}
+              style={{ color: "var(--v4-ink-000)" }}
             >
               {item.title}
             </h1>
@@ -349,7 +349,7 @@ function Header({
         {item.description ? (
           <p
             className="text-[13px] leading-relaxed"
-            style={{ color: "var(--v3-ink-200)" }}
+            style={{ color: "var(--v4-ink-200)" }}
           >
             {item.description}
           </p>
@@ -366,9 +366,9 @@ function Header({
                 rel="noopener noreferrer"
                 className="v2-mono inline-flex items-center px-2 py-px uppercase tracking-[0.14em] hover:underline"
                 style={{
-                  border: "1px solid var(--v3-line-200)",
-                  background: "var(--v3-bg-100)",
-                  color: "var(--v3-ink-200)",
+                  border: "1px solid var(--v4-line-200)",
+                  background: "var(--v4-bg-100)",
+                  color: "var(--v4-ink-200)",
                   borderRadius: 2,
                   fontSize: 10,
                 }}
@@ -449,7 +449,7 @@ function StatsStrip({ item }: { item: EcosystemLeaderboardItem }) {
           </span>
           <span
             className="font-mono tabular-nums"
-            style={{ color: "var(--v3-ink-000)" }}
+            style={{ color: "var(--v4-ink-000)" }}
           >
             {s.value}
           </span>

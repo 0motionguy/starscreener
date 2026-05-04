@@ -17,10 +17,12 @@ import {
   repoFullNameToHref,
   type HnStory,
 } from "@/lib/hackernews";
+import { buildHackerNewsHeader } from "@/components/news/newsTopMetrics";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { repoLogoUrl } from "@/lib/logos";
+import { repoLogoUrl, resolveLogoUrl } from "@/lib/logos";
+import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -76,82 +78,29 @@ export default async function HackerNewsTrendingPage() {
   const allStories = trendingFile.stories;
   const cold = allStories.length === 0;
 
-  if (cold) {
-    return (
-      <main className="home-surface">
-        <SourceFeedTemplate
-          crumb={
-            <>
-              <b>HN</b> · TERMINAL · /HACKERNEWS
-            </>
-          }
-          title="Hacker News · trending"
-          lede="Top stories ranked by velocity-weighted trending score. Firebase top-500 cross-checked with the 7-day Algolia GitHub-mention sweep, deduped, scored."
-        />
-        <ColdState />
-      </main>
-    );
-  }
-
-  const topScore = allStories.reduce((m, s) => Math.max(m, s.score), 0);
-  const frontPageHits = allStories.filter((s) => s.everHitFrontPage).length;
-  const linkedRepoCount = allStories.filter(
-    (s) => Array.isArray(s.linkedRepos) && s.linkedRepos.length > 0,
-  ).length;
-
   return (
-    <main className="home-surface">
-      <SourceFeedTemplate
-        crumb={
-          <>
-            <b>HN</b> · TERMINAL · /HACKERNEWS
-          </>
-        }
-        title="Hacker News · trending"
-        lede="Top stories ranked by velocity-weighted trending score. Firebase top-500 cross-checked with the 7-day Algolia GitHub-mention sweep, deduped, scored."
-        clock={
-          <>
-            <span className="big">{formatClock(trendingFile.fetchedAt)}</span>
-            <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label={`LIVE · ${trendingFile.windowHours}H`} />
-          </>
-        }
-        snapshot={
-          <KpiBand
-            cells={[
-              {
-                label: "TRACKED",
-                value: allStories.length.toLocaleString("en-US"),
-                sub: `${trendingFile.windowHours}h rolling`,
-                pip: "var(--v4-src-hn)",
-              },
-              {
-                label: "TOP SCORE",
-                value: topScore.toLocaleString("en-US"),
-                sub: "velocity peak",
-                tone: "acc",
-                pip: "var(--v4-acc)",
-              },
-              {
-                label: "FRONT PAGE",
-                value: frontPageHits,
-                sub: "ever hit FP",
-                tone: "money",
-                pip: "var(--v4-money)",
-              },
-              {
-                label: "GH-LINKED",
-                value: linkedRepoCount,
-                sub: "repos in feed",
-                pip: "var(--v4-blue)",
-              },
-            ]}
-          />
-        }
-        listEyebrow="Story feed · 24h / 7d / 30d window"
-        list={<WindowedHnFeed allStories={allStories} />}
-      />
-    </main>
+    <SourceFeedTemplate
+      cold={cold}
+      coldState={<ColdState />}
+      header={{
+        routeTitle: "HACKERNEWS - TRENDING",
+        liveLabel: `LIVE - ${trendingFile.windowHours}H`,
+        eyebrow: "// HACKERNEWS - LIVE FIREHOSE",
+        meta: [
+          { label: "TRACKED", value: allStories.length.toLocaleString("en-US") },
+          { label: "WINDOW", value: `${trendingFile.windowHours}H` },
+        ],
+        ...buildHackerNewsHeader(trendingFile, getHnTopStories(3)),
+        accent: HN_ACCENT,
+        caption: [
+          "// LAYOUT compact-v1",
+          "- 3-COL - 320 / 1FR / 1FR",
+          "- DATA UNCHANGED",
+        ],
+      }}
+    >
+      <HnStoryFeed stories={stories} />
+    </SourceFeedTemplate>
   );
 }
 
@@ -327,7 +276,6 @@ function ColdState() {
   return (
     <section
       style={{
-        padding: 32,
         background: "var(--v4-bg-025)",
         border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
@@ -345,7 +293,10 @@ function ColdState() {
       >
         {"// no data yet"}
       </h2>
-      <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
+      <p
+        className="mt-3 max-w-xl text-sm"
+        style={{ color: "var(--v4-ink-300)" }}
+      >
         The Hacker News scraper hasn&apos;t run yet. Run{" "}
         <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:hn</code>{" "}
         locally to populate{" "}

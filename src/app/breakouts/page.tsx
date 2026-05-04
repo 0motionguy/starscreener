@@ -210,20 +210,20 @@ export default async function BreakoutsPage({
         meta={<><b>{view.length}</b> / {FILTER_LABELS[filter]}</>}
       />
       <section className="board">
-        <div className="filter-bar">
-          <span className="lbl">Filter</span>
+        <div className="v4-filter-bar">
+          <span className="v4-chip-group__label">Filter</span>
           {(Object.keys(FILTER_LABELS) as FilterKey[]).map((key) => (
             <Link
               key={key}
               href={`/breakouts?filter=${key}`}
               scroll={false}
-              className={`chip ${key === filter ? "on" : ""}`}
+              className={`v4-chip ${key === filter ? "v4-chip--on" : ""}`}
               aria-current={key === filter ? "page" : undefined}
             >
               {FILTER_LABELS[key]}
             </Link>
           ))}
-          <span className="right">{view.length} repos</span>
+          <span className="v4-chip-group__right">{view.length} repos</span>
         </div>
         {view.length === 0 ? (
           <div className="p-8 text-sm text-text-secondary">

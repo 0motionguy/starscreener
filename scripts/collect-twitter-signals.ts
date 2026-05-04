@@ -24,9 +24,9 @@ import {
   TwitterWebProvider,
   type TwitterWebPost,
 } from "./_twitter-web-provider";
+import { ApifyTwitterProvider } from "./_apify-twitter-provider";
 import { extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
-import { writeSourceMeta } from "./_data-meta.mjs";
 
 // Brand-migration shim: prefer the new TRENDINGREPO_* env name, fall back
 // to the legacy STARSCREENER_*. Inlined here (no warn) because scripts run
@@ -948,24 +948,6 @@ async function main(): Promise<void> {
     );
     log(`lake: ${unknownsAccumulator.size} candidates → data/unknown-mentions.jsonl`);
   }
-
-  // I2 — emit data/_meta/twitter.json so the audit-freshness gate can detect
-  // a broken Apify actor (key reason: cookie-based providers are dead and
-  // Apify is the SPOF). Reason classification:
-  //   - "ok"            payloads.length > 0 AND postCount > 0
-  //   - "empty_results" payloads.length > 0 AND postCount === 0 (quiet day)
-  //   - "partial"       no payloads emitted (every candidate failed)
-  await writeSourceMeta({
-    source: "twitter",
-    reason:
-      payloads.length === 0
-        ? "partial"
-        : postCount === 0
-          ? "empty_results"
-          : "ok",
-    count: postCount,
-    durationMs: Date.now() - startedMs,
-  });
 }
 
 main().catch((error) => {

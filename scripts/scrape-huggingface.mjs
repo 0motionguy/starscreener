@@ -28,6 +28,8 @@ import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
+import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
+import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 
@@ -86,14 +88,9 @@ async function runWithConcurrency(items, concurrency, sleepMs, task) {
 // fullNames, or null on fetch failure (caller leaves the field unset).
 async function fetchModelCardGithubRepos(modelId) {
   const url = `https://huggingface.co/api/models/${encodeURIComponent(modelId)}`;
-  const token = pickToken(HF_TOKENS, hfCursor++);
   try {
     const detail = await fetchJsonWithRetry(url, {
-      headers: {
-        "User-Agent": USER_AGENT,
-        Accept: "application/json",
-        ...authHeader(token),
-      },
+      headers: { "User-Agent": USER_AGENT, Accept: "application/json" },
       timeoutMs: 15_000,
       attempts: 2,
       retryDelayMs: 500,

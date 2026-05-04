@@ -41,7 +41,7 @@ jobs:
         run: |
           git config user.name  "trendingrepo-bot"
           git config user.email "bot@trendingrepo.local"
-          git add data/openai-rss.json
+          git add data/openai-rss.json data/_meta/openai-rss.json
           if git diff --quiet --staged; then
             echo "no changes - skipping commit"
             exit 0

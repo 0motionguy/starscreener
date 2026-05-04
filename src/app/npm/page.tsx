@@ -20,9 +20,11 @@ import {
   type NpmWindow,
 } from "@/lib/npm";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { buildNpmHeader } from "@/components/npm/npmTopMetrics";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { npmLogoUrl } from "@/lib/logos";
+import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -133,63 +135,30 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
   const linkedRepoCount = file.counts?.linkedRepos ?? packages.length;
 
   return (
-    <main className="home-surface">
-      <SourceFeedTemplate
-        crumb={
-          <>
-            <b>NPM</b> · TERMINAL · /NPM
-          </>
-        }
-        title="npm · top packages"
-        lede="Top npm package movement over 24h, 7d, and 30d windows. Discovery sweep keeps only packages whose registry metadata links back to a GitHub repo, then ranks by download velocity."
-        clock={
-          <>
-            <span className="big">{formatClock(file.fetchedAt)}</span>
-            <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label={`LIVE · ${activeWindow.toUpperCase()}`} />
-          </>
-        }
-        snapshot={
-          <KpiBand
-            cells={[
-              {
-                label: "TRACKED",
-                value: packages.length.toLocaleString("en-US"),
-                sub: "repo-linked pkgs",
-                pip: NPM_RED,
-              },
-              {
-                label: "TOP 24H INSTALLS",
-                value: formatCompact(topDownloadValue),
-                sub: topDownloadName,
-                tone: "acc",
-                pip: "var(--v4-acc)",
-              },
-              {
-                label: "LINKED REPOS",
-                value: linkedRepoCount.toLocaleString("en-US"),
-                sub: "github attached",
-                tone: "money",
-                pip: "var(--v4-money)",
-              },
-              {
-                label: "WINDOW",
-                value: activeWindow.toUpperCase(),
-                sub: "active rank",
-                pip: "var(--v4-blue)",
-              },
-            ]}
-          />
-        }
-        listEyebrow={`Package feed · top ${packages.length} by ${activeWindow} install velocity (trending)`}
-        list={
-          <>
-            <TabNav active={activeWindow} />
-            <PackageFeed packages={packages} activeWindow={activeWindow} />
-          </>
-        }
-      />
-    </main>
+    <SourceFeedTemplate
+      cold={cold}
+      coldState={<ColdState />}
+      header={{
+        routeTitle: "NPM - TOP PACKAGES",
+        liveLabel: `LIVE - ${activeWindow.toUpperCase()}`,
+        eyebrow: "// NPM - REGISTRY - TRENDING",
+        meta: [
+          { label: "TRACKED", value: packages.length.toLocaleString("en-US") },
+          { label: "WINDOW", value: activeWindow.toUpperCase() },
+        ],
+        cards: header.cards,
+        topStories: header.topStories,
+        accent: NPM_ACCENT,
+        caption: [
+          "// LAYOUT compact-v1",
+          "- 3-COL - 320 / 1FR / 1FR",
+          "- DATA UNCHANGED",
+        ],
+      }}
+    >
+      <TabNav active={activeWindow} />
+      <PackageFeed packages={packages} activeWindow={activeWindow} />
+    </SourceFeedTemplate>
   );
 }
 
@@ -197,7 +166,7 @@ function TabNav({ active }: { active: NpmWindow }) {
   return (
     <nav
       aria-label="npm time windows"
-      className="mb-4 flex items-center gap-1 overflow-x-auto scrollbar-hide"
+      className="mb-6 flex items-center gap-1 overflow-x-auto scrollbar-hide"
       style={{ borderBottom: "1px solid var(--v4-line-100)" }}
     >
       {WINDOWS.map((window) => {
@@ -422,19 +391,19 @@ function Metric({
   const pct = Number(deltaPct) || 0;
   const deltaColor =
     delta > 0
-      ? "var(--v4-sig-green)"
+      ? "var(--v4-money)"
       : delta < 0
-        ? "var(--v4-sig-red)"
+        ? "var(--v4-red)"
         : "var(--v4-ink-300)";
   const pctColor =
     pct > 0
-      ? "var(--v4-sig-green)"
+      ? "var(--v4-money)"
       : pct < 0
-        ? "var(--v4-sig-red)"
+        ? "var(--v4-red)"
         : "var(--v4-ink-400)";
   return (
     <div className="text-right text-xs tabular-nums">
-      {/* Total installs — primary, large, ink-100. NPM's whole point is
+      {/* Total installs â€” primary, large, ink-100. NPM's whole point is
           "how many installs?" so this beats the delta in visual weight.
           Active window goes brighter (ink-000 + 600 weight).
           P0 2026-05-02: relabeled inline suffix "dl" → "installs" so the
@@ -455,14 +424,14 @@ function Metric({
           {" "}installs
         </span>
       </div>
-      {/* Signed delta — secondary, color-coded green/red. */}
+      {/* Signed delta â€” secondary, color-coded green/red. */}
       <div
         className="mt-0.5 text-[11px] font-medium"
         style={{ color: deltaColor }}
       >
         {formatSignedCompact(delta)}
       </div>
-      {/* Pct change — tertiary. */}
+      {/* Pct change â€” tertiary. */}
       {typeof deltaPct === "number" ? (
         <div
           className="mt-0.5 text-[10px] font-normal"
@@ -502,7 +471,6 @@ function ColdState() {
   return (
     <section
       style={{
-        padding: 32,
         background: "var(--v4-bg-025)",
         border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
@@ -520,7 +488,10 @@ function ColdState() {
       >
         {"// no repo-linked npm data yet"}
       </h2>
-      <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
+      <p
+        className="mt-3 max-w-xl text-sm"
+        style={{ color: "var(--v4-ink-300)" }}
+      >
         Run <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:npm</code>{" "}
         to discover npm packages, keep only packages with GitHub repos attached,
         and populate{" "}
@@ -529,3 +500,4 @@ function ColdState() {
     </section>
   );
 }
+

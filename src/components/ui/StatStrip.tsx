@@ -3,7 +3,7 @@
 // /signals, /reddit, /funding, /revenue, /research).
 //
 // One eyebrow line + 3-5 stat tiles + optional rightSlot for nav/tabs.
-// v3-panel chrome with 4 corner brackets (matches CardShell in
+// V4 panel chrome with 4 corner brackets (matches CardShell in
 // NewsTopHeaderV3.tsx).
 
 import type { ReactNode } from "react";
@@ -29,7 +29,7 @@ interface StatStripProps {
   stats: StatStripStat[];
   /** Optional right-aligned slot (tabs, links). */
   rightSlot?: ReactNode;
-  /** Page accent for the corner-bracket markers. Defaults to v3-acc. */
+  /** Page accent for the corner-bracket markers. Defaults to v4-acc. */
   accent?: string;
 }
 
@@ -51,15 +51,15 @@ export function StatStrip({
   status,
   stats,
   rightSlot,
-  accent = "var(--v3-acc)",
+  accent = "var(--v4-acc)",
 }: StatStripProps) {
   return (
     <section
       aria-label="Page metrics"
       className="relative"
       style={{
-        background: "linear-gradient(180deg, var(--v3-bg-050), var(--v3-bg-000))",
-        border: "1px solid var(--v3-line-200)",
+        background: "linear-gradient(180deg, var(--v4-bg-050), var(--v4-bg-000))",
+        border: "1px solid var(--v4-line-200)",
         borderRadius: 2,
       }}
     >
@@ -70,19 +70,19 @@ export function StatStrip({
       <div
         className="v2-mono flex items-center justify-between gap-3 px-3 py-2"
         style={{
-          borderBottom: "1px solid var(--v3-line-100)",
-          background: "var(--v3-bg-025)",
+          borderBottom: "1px solid var(--v4-line-100)",
+          background: "var(--v4-bg-025)",
         }}
       >
         <span className="flex min-w-0 items-center gap-2 truncate">
           <span aria-hidden className="flex items-center gap-1">
             <Square color={accent} glow={accent} />
-            <Square color="var(--v3-line-300)" />
-            <Square color="var(--v3-line-300)" />
+            <Square color="var(--v4-line-300)" />
+            <Square color="var(--v4-line-300)" />
           </span>
           <span
             className="truncate text-[11px] tracking-[0.18em]"
-            style={{ color: "var(--v3-ink-200)" }}
+            style={{ color: "var(--v4-ink-200)" }}
           >
             {eyebrow}
           </span>
@@ -90,7 +90,7 @@ export function StatStrip({
         {status ? (
           <span
             className="shrink-0 text-[10px] tabular-nums tracking-[0.14em]"
-            style={{ color: "var(--v3-ink-400)" }}
+            style={{ color: "var(--v4-ink-400)" }}
           >
             {status}
           </span>

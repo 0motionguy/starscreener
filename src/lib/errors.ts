@@ -19,6 +19,7 @@ export type EngineErrorSource =
   | "twitter"
   | "twitter-apify"
   | "twitter-nitter"
+  | "sentry-canary"
   | "hackernews"
   | "bluesky"
   | "devto"

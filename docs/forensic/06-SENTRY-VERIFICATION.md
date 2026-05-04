@@ -25,12 +25,14 @@ Gate: returns `404` unless `SENTRY_CANARY_ENABLED=1`.
 
 Enabled behavior:
 
-1. Creates a deliberate `Error("Sentry canary test error")`.
+1. Throws and catches a typed `SentryCanaryError`.
 2. Captures it to Sentry with tags:
    - `canary=true`
    - `route=api/_internal/sentry-canary`
+   - `source=sentry-canary`
+   - `category=fatal`
 3. Flushes Sentry for up to 2 seconds.
-4. Throws the same error so Next's request-error instrumentation sees a real unhandled route failure.
+4. Returns HTTP `500` JSON with `code=SENTRY_CANARY_FIRED` and `eventId` when the SDK returns one.
 
 Production proof is pending. After Vercel `SENTRY_DSN` is configured, fire:
 
@@ -78,7 +80,7 @@ All subclasses expose:
 | Reddit UA pool | `pool=reddit`, `alert=reddit-ua-pool-exhausted`, `alert=reddit-ua-rate-limit`, `alert=reddit-ua-blocked`, `alert=reddit-ua-5xx`, `alert=reddit-ua-network`. |
 | Twitter fallback | `pool=twitter`, `alert=twitter-degraded`, `source=apify`, `alert=twitter-all-sources-failed`. |
 | Nitter health | `source=nitter-health-check`, `alert=twitter-nitter-health`. |
-| Canary | `canary=true`, `route=api/_internal/sentry-canary`. |
+| Canary | `canary=true`, `route=api/_internal/sentry-canary`, `source=sentry-canary`, `category=fatal`. |
 | Sprint 2 placeholders | No Sentry events emitted yet. Add `source=<EngineError.source>` and `category=<EngineError.category>` when wiring each source. |
 
 ## Adding a New EngineError Subclass

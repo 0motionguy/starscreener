@@ -12,19 +12,13 @@
 // Lambdas serve the bundled JSON snapshot and warm ones see Redis-fresh
 // data. No file reads on the render path.
 
-import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import {
-  SignalSourcePage,
-  type SignalTabSpec,
-} from "@/components/signal/SignalSourcePage";
-import type { SignalRow } from "@/components/signal/SignalTable";
-import type { SignalMetricCardProps } from "@/components/signal/SignalMetricCard";
-import { classifyFreshness, findOldestRecordAt } from "@/lib/news/freshness";
-import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
-import Link from "next/link";
-
+  refreshTrendingFromStore,
+  getTrending,
+  getLastFetchedAt,
+} from "@/lib/trending";
 import {
   refreshHackernewsTrendingFromStore,
   getHnTopStories,
@@ -43,41 +37,59 @@ import { devtoFetchedAt } from "@/lib/devto";
 import {
   getAllRedditPosts,
   getRedditFetchedAt,
-  getRedditFile,
 } from "@/lib/reddit-data";
 import {
-  getAllHnMentions,
-  getHnFile,
-  hnFetchedAt,
-  hnItemHref,
-  type HnStory,
-} from "@/lib/hackernews";
-import { getHnTopStories } from "@/lib/hackernews-trending";
+  refreshClaudeRssFromStore,
+  refreshOpenaiRssFromStore,
+  getClaudeRssTop,
+  getOpenaiRssTop,
+  claudeFetchedAt,
+  openaiFetchedAt,
+} from "@/lib/rss-feeds";
 import {
-  getAllBlueskyMentions,
-  blueskyFetchedAt,
-  bskyPostHref,
-  getBlueskyFile,
-  type BskyPost,
-} from "@/lib/bluesky";
-import { getBlueskyTopPosts } from "@/lib/bluesky-trending";
+  getTopTwitterBuzz,
+  getTopTwitterPosts,
+  getTwitterLatestUpdatedAt,
+} from "@/lib/twitter/trending-tweets";
+
 import {
-  getAllDevtoMentions,
-  devtoFetchedAt,
-  getDevtoFile,
-  type DevtoArticle,
-} from "@/lib/devto";
-import { getDevtoTopArticles } from "@/lib/devto-trending";
+  hnToSignalItems,
+  redditToSignalItems,
+  bskyToSignalItems,
+  devtoToSignalItems,
+  githubToSignalItems,
+  twitterToSignalItems,
+  rssToSignalItems,
+} from "@/lib/signals/build-items";
+import { buildConsensus } from "@/lib/signals/consensus";
+import { buildVolume } from "@/lib/signals/volume";
+import { buildTagMomentum } from "@/lib/signals/tag-momentum";
+import type { SignalItem, SourceKey } from "@/lib/signals/types";
+
+import { LiveClock } from "@/components/signals-terminal/LiveClock";
 import {
-  getAllLobstersMentions,
-  getLobstersFile,
-  lobstersFetchedAt,
-  lobstersStoryHref,
-  type LobstersStory,
-} from "@/lib/lobsters";
-import { getLobstersTopStories } from "@/lib/lobsters-trending";
-import { getDerivedRepos } from "@/lib/derived-repos";
-import { CATEGORIES } from "@/lib/constants";
+  LiveTicker,
+  type TickerItem,
+} from "@/components/signals-terminal/LiveTicker";
+import { KpiStrip } from "@/components/signals-terminal/KpiStrip";
+import { VolumeAreaChart } from "@/components/signals-terminal/VolumeAreaChart";
+import { ConsensusRadar } from "@/components/signals-terminal/ConsensusRadar";
+import {
+  SourceFeedPanel,
+  type ListItem,
+  type TweetItem,
+  type RssArticleItem,
+} from "@/components/signals-terminal/SourceFeedPanel";
+import { TagMomentumHeatmap } from "@/components/signals-terminal/TagMomentumHeatmap";
+import {
+  SourceFilterBar,
+  parseActiveSources,
+  parseTimeWindow,
+  parseTopic,
+  windowHours,
+  windowLabel,
+} from "@/components/signals-terminal/SourceFilterBar";
+import { matchesTopic } from "@/lib/signals/topics";
 
 import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 
@@ -91,24 +103,6 @@ import "./signals.css";
 
 // ISR — same cadence as the homepage so collectors don't trigger redeploys.
 export const revalidate = 1800;
-
-export const metadata: Metadata = {
-  title: "Signals — Cross-Source Newsroom",
-  description:
-    "Eight-source live signal terminal: Hacker News, GitHub, X, Reddit, Bluesky, Dev.to, Claude RSS, OpenAI RSS — plus volume, consensus stories, and tag-momentum.",
-  alternates: { canonical: "/signals" },
-  openGraph: {
-    title: "Signals — Cross-Source Newsroom — TrendingRepo",
-    description: "Eight-source live signal terminal with volume, consensus, and tag-momentum.",
-    url: "/signals",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Signals — Cross-Source Newsroom — TrendingRepo",
-    description: "Eight-source live signal terminal with volume, consensus, and tag-momentum.",
-  },
-};
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -177,23 +171,35 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
     refreshOpenaiRssFromStore(),
   ]);
 
-  // Per-record freshness floor (B4). Reading from the in-memory cache that
-  // refreshXxxFromStore() populates from Redis — records there carry
-  // `lastRefreshedAt` (stamped by scripts/_data-store-write.mjs). When the
-  // cache is still seeded from bundled JSON these will be null and the
-  // classifier falls back to fetchedAt-only behavior.
-  const redditOldest = findOldestRecordAt(getRedditFile().mentions);
-  const hnOldest = findOldestRecordAt(getHnFile().mentions);
-  const bskyOldest = findOldestRecordAt(getBlueskyFile().mentions);
-  const devtoOldest = findOldestRecordAt(getDevtoFile().mentions);
-  const lobstersOldest = findOldestRecordAt(getLobstersFile().mentions);
+  // ── Pull source records ----------------------------------------------------
+  const ghRows = getTrending("past_24_hours", "All").slice(0, 50);
+  const ghFetchedAt = getLastFetchedAt();
+  const hnTop = getHnTopStories(60);
+  const redditAll = getAllRedditPosts();
+  const bskyTop = getBlueskyTopPosts(60);
+  const devtoTop = getDevtoTopArticles(40);
+  const claudeTop = getClaudeRssTop(20);
+  const openaiTop = getOpenaiRssTop(20);
+  const twBuzz = getTopTwitterBuzz(20);
+  const twPosts = getTopTwitterPosts(20);
+  const twLatestAt = getTwitterLatestUpdatedAt();
 
-  const sourceVerdicts: Array<{ source: Parameters<typeof triggerScanIfStale>[0]; at: string | null; status: "live" | "warn" | "cold" }> = [
-    { source: "reddit", at: redditAt, status: classifyFreshness("reddit", redditAt, undefined, redditOldest).status },
-    { source: "hackernews", at: hnAt, status: classifyFreshness("hackernews", hnAt, undefined, hnOldest).status },
-    { source: "bluesky", at: bskyAt, status: classifyFreshness("bluesky", bskyAt, undefined, bskyOldest).status },
-    { source: "devto", at: devtoAt, status: classifyFreshness("devto", devtoAt, undefined, devtoOldest).status },
-    { source: "lobsters", at: lobstersAt, status: classifyFreshness("lobsters", lobstersAt, undefined, lobstersOldest).status },
+  // ── Auto-rescrape stale sources (best-effort) -----------------------------
+  safeTrigger("hackernews", hnFetchedAt || null);
+  safeTrigger("reddit", getRedditFetchedAt());
+  safeTrigger("bluesky", blueskyFetchedAt);
+  safeTrigger("devto", devtoFetchedAt || null);
+
+  // ── Build SignalItem[] across all 8 sources -------------------------------
+  const items: SignalItem[] = [
+    ...hnToSignalItems(hnTop),
+    ...redditToSignalItems(redditAll),
+    ...bskyToSignalItems(bskyTop),
+    ...devtoToSignalItems(devtoTop),
+    ...githubToSignalItems(ghRows, ghFetchedAt),
+    ...twitterToSignalItems(twPosts),
+    ...rssToSignalItems(claudeTop, "claude"),
+    ...rssToSignalItems(openaiTop, "openai"),
   ];
 
   // ── Cross-source synthesis -------------------------------------------------
@@ -202,8 +208,9 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
   // own native data regardless of the URL filter.
   const nowMs = Date.now();
   const cutoffMs = nowMs - lookbackHours * 3_600_000;
-  const windowTopicItems = items.filter(
+  const filteredItems = items.filter(
     (it) =>
+      activeSourceFilter.has(it.source) &&
       // Items missing a usable timestamp (some GitHub trending rows) are
       // kept so they don't disappear on shorter windows. They cluster at
       // the dataset's fetchedAt which lives inside any reasonable window.
@@ -213,12 +220,6 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       (activeTopic === null || matchesTopic(it, activeTopic)),
   );
 
-  const filteredItems = windowTopicItems.filter(
-    (it) =>
-      activeSourceFilter.has(it.source),
-  );
-
-  const sourceWindowVolume = buildVolume(windowTopicItems, { nowMs, lookbackHours });
   const volume = buildVolume(filteredItems, { nowMs, lookbackHours });
   const tagMomentum = buildTagMomentum(filteredItems, {
     nowMs,
@@ -226,31 +227,31 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
     lookbackHours,
   });
 
-  // Consensus: strong signals (3+ sources) come first, capped at 5. When
-  // there aren't 5 strong stories we top up with near-consensus (1+ source)
-  // — but only enough to fill 5 rows total, never more. KPI strip's
-  // "Consensus stories" count tracks the strong-only number; the radar
-  // header shows "+ N near" when padding is in play.
-  // When the user filters down to <3 sources, minSources drops
+  // Consensus: strong signals (3+ sources) come first. When the panel would
+  // be sparse (< 5 strong stories), top up with the next-best near-consensus
+  // items so the slot doesn't read as half-empty. The KPI strip's
+  // "Consensus stories" count tracks the strong-only number.
+  // When the user filters down to <3 sources, consensus drops minSources
   // proportionally so the radar still has something to show.
-  const RADAR_LIMIT = 5;
   const minStrongSources = Math.min(3, activeSourceFilter.size);
   const strongConsensus = buildConsensus(filteredItems, {
     nowMs,
     minSources: minStrongSources,
-    limit: RADAR_LIMIT,
+    limit: 8,
     lookbackHours,
   });
   const consensusCount = strongConsensus.length;
   let consensus = strongConsensus;
-  if (consensus.length < RADAR_LIMIT) {
+  if (consensus.length < 5) {
     const nearConsensus = buildConsensus(filteredItems, {
       nowMs,
       minSources: 1,
-      limit: RADAR_LIMIT * 2,
+      limit: 12,
       lookbackHours,
-    }).filter((s) => !strongConsensus.some((c) => c.key === s.key));
-    consensus = [...strongConsensus, ...nearConsensus].slice(0, RADAR_LIMIT);
+    }).filter(
+      (s) => !strongConsensus.some((c) => c.key === s.key),
+    );
+    consensus = [...strongConsensus, ...nearConsensus].slice(0, 8);
   }
 
   // ── KPI calculations -------------------------------------------------------
@@ -262,9 +263,16 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       ? (volume.perSource[volume.dominantSource] / volume.totalItems) * 100
       : 0;
 
-  // Alpha-score / heat-index calculation removed (2026-05-03) — the
-  // "alpha score" framing read as market data on a code-trends newsroom.
-  // Story-level intensity is already surfaced by the Consensus radar.
+  // "Alpha score" = average of top-5 consensus story scores, capped 0..100.
+  const topConsensus = consensus.slice(0, 5);
+  const alphaScore =
+    topConsensus.length === 0
+      ? 0
+      : Math.min(
+          100,
+          topConsensus.reduce((sum, s) => sum + s.score, 0) / (topConsensus.length * 4),
+        );
+  const alphaDelta = consensus.reduce((d, s) => d + s.delta, 0);
 
   const freshnessIso =
     [
@@ -444,7 +452,6 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
         active={activeSourceFilter}
         timeWindow={activeWindow}
         topic={activeTopic}
-        sourceCounts={sourceWindowVolume.perSource}
         totalSignals={volume.totalItems}
       />
 
@@ -458,6 +465,8 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
           topTagDelta={tagMomentum.topTag?.delta ?? null}
           topTagCount={tagMomentum.topTag?.count ?? null}
           consensusCount={consensusCount}
+          alphaScore={alphaScore}
+          alphaDelta={alphaDelta}
           freshnessLabel={freshnessLabel}
           windowLabel={activeWindowLabel}
         />

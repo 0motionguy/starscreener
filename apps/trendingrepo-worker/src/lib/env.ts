@@ -61,6 +61,16 @@ const envSchema = z
     KIMI_BASE_URL: z.string().url().optional(),
     KIMI_MODEL: z.string().optional(),
 
+    // LLM telemetry layer (model-usage intelligence v1).
+    //   LLM_PROVIDER          — 'kimi' (default, direct Kimi) or 'openrouter'.
+    //   OPENROUTER_API_KEY    — required when LLM_PROVIDER=openrouter.
+    //   OPENROUTER_REFERER    — sent as HTTP-Referer for OpenRouter app attribution.
+    //   LLM_USER_HASH_SALT    — server-side salt for pseudonymizing user_id in events.
+    LLM_PROVIDER: z.enum(['kimi', 'openrouter']).optional(),
+    OPENROUTER_API_KEY: z.string().optional(),
+    OPENROUTER_REFERER: z.string().url().optional(),
+    LLM_USER_HASH_SALT: z.string().optional(),
+
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
     PORT: z.coerce.number().int().positive().default(8080),
     LOG_LEVEL: z.enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal']).default('info'),

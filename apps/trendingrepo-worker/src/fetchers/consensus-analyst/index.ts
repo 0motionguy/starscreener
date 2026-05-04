@@ -1,6 +1,8 @@
+import { randomUUID } from 'node:crypto';
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
-import { callLlm, parseJson, isLlmConfigured, LLM_PROVIDER } from './llm.js';
+import { callLlm, parseJson, isLlmConfigured, getLlmProvider } from './llm.js';
+import { flushLlmEvents } from '../../lib/llm/usage-recorder.js';
 import {
   ItemReportSchema,
   RibbonSchema,
@@ -29,7 +31,7 @@ interface VerdictsItemPayload extends ItemReport {
 
 interface VerdictsPayload {
   computedAt: string;
-  generator: typeof LLM_PROVIDER | 'template';
+  generator: ReturnType<typeof getLlmProvider> | 'template';
   model?: string;
   ribbon: Ribbon;
   items: Record<string, VerdictsItemPayload>;
@@ -93,15 +95,18 @@ const fetcher: Fetcher = {
         const item = queue.shift();
         if (!item) return;
         try {
-          const r = await callLlm({
-            systemPrompt: SYSTEM_PROMPT,
-            userMessage: buildItemUserMessage(item, ctxMsg),
-            // K2.6 is a reasoning model — burns ~2-4k tokens on internal CoT
-            // before emitting the final JSON. Headroom for reasoning + answer.
-            maxTokens: 5000,
-            temperature: 0.4,
-            jsonMode: true,
-          });
+          const r = await callLlm(
+            {
+              systemPrompt: SYSTEM_PROMPT,
+              userMessage: buildItemUserMessage(item, ctxMsg),
+              // K2.6 is a reasoning model — burns ~2-4k tokens on internal CoT
+              // before emitting the final JSON. Headroom for reasoning + answer.
+              maxTokens: 5000,
+              temperature: 0.4,
+              jsonMode: true,
+            },
+            { feature: 'ai_analyst', task_type: 'item', request_id: randomUUID() },
+          );
           totalInput += r.usage.inputTokens;
           totalOutput += r.usage.outputTokens;
           totalCached += r.usage.cachedInputTokens;
@@ -130,13 +135,16 @@ const fetcher: Fetcher = {
 
     let ribbon: Ribbon = templateRibbon(consensusPayload);
     try {
-      const r = await callLlm({
-        systemPrompt: RIBBON_SYSTEM_PROMPT,
-        userMessage: buildRibbonUserMessage(topItems, ctxMsg),
-        maxTokens: 3500,
-        temperature: 0.5,
-        jsonMode: true,
-      });
+      const r = await callLlm(
+        {
+          systemPrompt: RIBBON_SYSTEM_PROMPT,
+          userMessage: buildRibbonUserMessage(topItems, ctxMsg),
+          maxTokens: 3500,
+          temperature: 0.5,
+          jsonMode: true,
+        },
+        { feature: 'ai_analyst', task_type: 'ribbon', request_id: randomUUID() },
+      );
       totalInput += r.usage.inputTokens;
       totalOutput += r.usage.outputTokens;
       totalCached += r.usage.cachedInputTokens;
@@ -157,7 +165,7 @@ const fetcher: Fetcher = {
     const env = loadEnvFromProcess();
     const payload: VerdictsPayload = {
       computedAt: new Date().toISOString(),
-      generator: LLM_PROVIDER,
+      generator: getLlmProvider(),
       model: env.model,
       ribbon,
       items,
@@ -167,6 +175,13 @@ const fetcher: Fetcher = {
         totalCachedInputTokens: totalCached,
       },
     };
+
+    // Force-flush any queued LLM telemetry before the fetcher returns. Cron
+    // workers may exit immediately after run() resolves; the recorder's
+    // flush-on-exit hook isn't guaranteed to fire under all process managers.
+    await flushLlmEvents().catch((err: unknown) => {
+      ctx.log.warn({ err: err instanceof Error ? err.message : String(err) }, 'consensus-analyst: llm telemetry flush failed');
+    });
 
     const result = await writeDataStore('consensus-verdicts', payload);
     ctx.log.info(

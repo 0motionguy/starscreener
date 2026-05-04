@@ -606,9 +606,7 @@ async function main() {
   }
 }
 
-main()
-  .then(() => process.exit(0))
-  .catch((err) => {
-    console.error("[agent-commerce] fatal:", err);
-    process.exit(1);
-  });
+main().catch((err) => {
+  console.error("[agent-commerce] fatal:", err);
+  process.exit(1);
+});

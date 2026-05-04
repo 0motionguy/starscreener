@@ -21,7 +21,6 @@
 //   />
 
 import { cn } from "@/lib/utils";
-import { EntityLogo } from "@/components/ui/EntityLogo";
 
 export type FundingStage =
   | "Seed"
@@ -47,13 +46,6 @@ export interface MoverRowProps {
   /** Optional href — renders as <a>. */
   href?: string;
   className?: string;
-  /** Company logo URL. AUDIT-2026-05-04: closes the funding-page no-images
-      gap. Pass extracted.companyLogoUrl from FundingSignal; falls back to
-      a deterministic monogram tile via EntityLogo when null/blocked. */
-  logoUrl?: string | null;
-  /** Used by EntityLogo for the monogram fallback when logoUrl is null
-      or fails to load. Defaults to the row name. */
-  logoName?: string;
 }
 
 export function MoverRow({
@@ -65,8 +57,6 @@ export function MoverRow({
   first = false,
   href,
   className,
-  logoUrl,
-  logoName,
 }: MoverRowProps) {
   const Tag = href ? "a" : "div";
   const stageCls = stageToClass(stage);
@@ -82,15 +72,6 @@ export function MoverRow({
       <span className="v4-mover-row__rank">
         {String(rank).padStart(2, "0")}
       </span>
-      <span style={{ display: "inline-flex", alignItems: "center", marginRight: 8 }}>
-        <EntityLogo
-          src={logoUrl ?? null}
-          name={logoName ?? name}
-          size={24}
-          shape="square"
-          alt=""
-        />
-      </span>
       <div className="v4-mover-row__body">
         <div className="v4-mover-row__name">{name}</div>
         {meta ? <div className="v4-mover-row__meta">{meta}</div> : null}
@@ -105,23 +86,21 @@ export function MoverRow({
 }
 
 function stageToClass(stage: string): string {
-  // Match the trailing tier letter explicitly. Earlier substring checks
-  // (e.g. `upper.includes("E")`) matched "SERIES" itself and bucketed every
-  // round into the orange "mega" class, making /funding look broken (every
-  // pill the same colour). Use a regex anchored to the end of the string so
-  // "SERIES A" → A, "SERIES E" → mega, "SEED" → seed.
-  const upper = stage.toUpperCase().trim();
-  if (upper === "GROWTH" || upper === "IPO" || upper === "M&A") {
+  // Series E/F/G + Growth/IPO are "mega" — orange treatment.
+  const upper = stage.toUpperCase();
+  if (
+    upper.includes("F") ||
+    upper.includes("E") ||
+    upper === "GROWTH" ||
+    upper === "IPO" ||
+    upper === "M&A"
+  ) {
     return "v4-mover-row__stage--mega";
   }
-  if (upper.startsWith("SEED") || upper === "PRE-SEED") {
-    return "v4-mover-row__stage--seed";
-  }
-  // Series E/F/G+ → mega (late-stage / growth equivalents)
-  if (/SERIES\s+[EFG]\+?$/.test(upper)) return "v4-mover-row__stage--mega";
-  if (/SERIES\s+D\+?$/.test(upper)) return "v4-mover-row__stage--d";
-  if (/SERIES\s+C\+?$/.test(upper)) return "v4-mover-row__stage--c";
-  if (/SERIES\s+B\+?$/.test(upper)) return "v4-mover-row__stage--b";
-  if (/SERIES\s+A\+?$/.test(upper)) return "v4-mover-row__stage--a";
+  if (upper.includes("D")) return "v4-mover-row__stage--d";
+  if (upper.includes("C")) return "v4-mover-row__stage--c";
+  if (upper.includes("B")) return "v4-mover-row__stage--b";
+  if (upper.includes("A")) return "v4-mover-row__stage--a";
+  if (upper.includes("SEED")) return "v4-mover-row__stage--seed";
   return "v4-mover-row__stage--default";
 }

@@ -1,29 +1,9 @@
 {
-  "fetchedAt": "2026-05-03T12:54:31.542Z",
+  "fetchedAt": "2026-04-30T01:48:50.454Z",
   "source": "openai",
   "feedUrl": "https://openai.com/news/rss.xml",
   "error": null,
   "items": [
-    {
-      "id": "https://openai.com/index/advanced-account-security",
-      "title": "Introducing Advanced Account Security",
-      "url": "https://openai.com/index/advanced-account-security",
-      "summary": "Introducing Advanced Account Security: phishing-resistant login, stronger recovery, and enhanced protections to safeguard sensitive data and prevent account takeover.",
-      "publishedAt": "2026-04-30T00:00:00.000Z",
-      "author": "",
-      "source": "openai",
-      "category": "POST"
-    },
-    {
-      "id": "https://openai.com/index/where-the-goblins-came-from",
-      "title": "Where the goblins came from",
-      "url": "https://openai.com/index/where-the-goblins-came-from",
-      "summary": "How goblin outputs spread in AI models: timeline, root cause, and fixes behind personality-driven quirks in GPT-5 behavior.",
-      "publishedAt": "2026-04-29T20:00:00.000Z",
-      "author": "",
-      "source": "openai",
-      "category": "MODEL"
-    },
     {
       "id": "https://openai.com/index/building-the-compute-infrastructure-for-the-intelligence-age",
       "title": "Building the compute infrastructure for the Intelligence Age",
@@ -135,10 +115,10 @@
       "category": "MODEL"
     },
     {
-      "id": "https://openai.com/academy/what-is-codex",
-      "title": "What is Codex?",
-      "url": "https://openai.com/academy/what-is-codex",
-      "summary": "Learn how Codex helps you go beyond chat by automating tasks, connecting tools, and producing real outputs like docs and dashboards.",
+      "id": "https://openai.com/academy/codex-automations",
+      "title": "Automations",
+      "url": "https://openai.com/academy/codex-automations",
+      "summary": "Learn how to automate tasks in Codex using schedules and triggers to create reports, summaries, and recurring workflows without manual effort.",
       "publishedAt": "2026-04-23T10:00:00.000Z",
       "author": "",
       "source": "openai",
@@ -195,10 +175,10 @@
       "category": "POST"
     },
     {
-      "id": "https://openai.com/academy/codex-automations",
-      "title": "Automations",
-      "url": "https://openai.com/academy/codex-automations",
-      "summary": "Learn how to automate tasks in Codex using schedules and triggers to create reports, summaries, and recurring workflows without manual effort.",
+      "id": "https://openai.com/academy/what-is-codex",
+      "title": "What is Codex?",
+      "url": "https://openai.com/academy/what-is-codex",
+      "summary": "Learn how Codex helps you go beyond chat by automating tasks, connecting tools, and producing real outputs like docs and dashboards.",
       "publishedAt": "2026-04-23T10:00:00.000Z",
       "author": "",
       "source": "openai",
@@ -225,16 +205,6 @@
       "category": "POST"
     },
     {
-      "id": "https://openai.com/academy/workspace-agents",
-      "title": "Workspace agents",
-      "url": "https://openai.com/academy/workspace-agents",
-      "summary": "Learn how to build, use, and scale workspace agents in ChatGPT to automate repeatable workflows, connect tools, and streamline team operations.",
-      "publishedAt": "2026-04-22T10:00:00.000Z",
-      "author": "",
-      "source": "openai",
-      "category": "POST"
-    },
-    {
       "id": "https://openai.com/index/speeding-up-agentic-workflows-with-websockets",
       "title": "Speeding up agentic workflows with WebSockets in the Responses API",
       "url": "https://openai.com/index/speeding-up-agentic-workflows-with-websockets",
@@ -249,6 +219,16 @@
       "title": "Introducing workspace agents in ChatGPT",
       "url": "https://openai.com/index/introducing-workspace-agents-in-chatgpt",
       "summary": "Workspace agents in ChatGPT are Codex-powered agents that automate complex workflows, run in the cloud, and help teams scale work across tools securely.",
+      "publishedAt": "2026-04-22T10:00:00.000Z",
+      "author": "",
+      "source": "openai",
+      "category": "POST"
+    },
+    {
+      "id": "https://openai.com/academy/workspace-agents",
+      "title": "Workspace agents",
+      "url": "https://openai.com/academy/workspace-agents",
+      "summary": "Learn how to build, use, and scale workspace agents in ChatGPT to automate repeatable workflows, connect tools, and streamline team operations.",
       "publishedAt": "2026-04-22T10:00:00.000Z",
       "author": "",
       "source": "openai",
@@ -303,6 +283,26 @@
       "author": "",
       "source": "openai",
       "category": "POST"
+    },
+    {
+      "id": "https://openai.com/index/introducing-gpt-rosalind",
+      "title": "Introducing GPT-Rosalind for life sciences research",
+      "url": "https://openai.com/index/introducing-gpt-rosalind",
+      "summary": "OpenAI introduces GPT-Rosalind, a frontier reasoning model built to accelerate drug discovery, genomics analysis, protein reasoning, and scientific research workflows.",
+      "publishedAt": "2026-04-16T01:00:00.000Z",
+      "author": "",
+      "source": "openai",
+      "category": "POST"
+    },
+    {
+      "id": "https://openai.com/index/accelerating-cyber-defense-ecosystem",
+      "title": "Accelerating the cyber defense ecosystem that protects us all",
+      "url": "https://openai.com/index/accelerating-cyber-defense-ecosystem",
+      "summary": "Leading security firms and enterprises join OpenAI’s Trusted Access for Cyber, using GPT-5.4-Cyber and $10M in API grants to strengthen global cyber defense.",
+      "publishedAt": "2026-04-16T00:00:00.000Z",
+      "author": "",
+      "source": "openai",
+      "category": "MODEL"
     }
   ]
 }

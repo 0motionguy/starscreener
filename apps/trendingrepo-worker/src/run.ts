@@ -156,18 +156,33 @@ function emptyResult(name: string, startedAt: string): RunResult {
 }
 
 function throwOnUseRedisHandle(): RedisHandle {
+  const fail = async (): Promise<never> => {
+    throw new Error('Redis is not configured');
+  };
   return {
     async get() {
-      throw new Error('Redis is not configured');
+      return fail();
     },
     async set() {
-      throw new Error('Redis is not configured');
+      return fail();
     },
     async del() {
-      throw new Error('Redis is not configured');
+      return fail();
     },
     async quit() {
       // no-op
+    },
+    async xadd() {
+      return fail();
+    },
+    async xrange() {
+      return fail();
+    },
+    async xtrim() {
+      return fail();
+    },
+    async xlen() {
+      return fail();
     },
   };
 }

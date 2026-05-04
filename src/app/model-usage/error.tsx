@@ -7,7 +7,6 @@
 // aggregator pipeline.
 
 import { useEffect } from "react";
-import * as Sentry from "@sentry/nextjs";
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -16,7 +15,6 @@ interface ErrorProps {
 
 export default function ModelUsageError({ error, reset }: ErrorProps) {
   useEffect(() => {
-    Sentry.captureException(error);
     console.error("[model-usage] render error", error);
   }, [error]);
 

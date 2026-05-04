@@ -1,7 +1,11 @@
 "use client";
 
-import type { CSSProperties, ReactNode } from "react";
-import { BrandStar } from "@/components/shared/BrandStar";
+// Live ticker for the Agent Commerce dashboard.
+// Mirrors src/components/signals-terminal/LiveTicker.tsx but with
+// agent-commerce-specific event types: token movers, fresh GitHub pushes,
+// new x402 launches.
+
+import type { CSSProperties } from "react";
 
 export type TickerKind =
   | "token-up"
@@ -13,9 +17,9 @@ export type TickerKind =
 export interface AgentCommerceTickerItem {
   kind: TickerKind;
   href: string;
-  label: string;
-  text: string;
-  value: string;
+  label: string; // e.g. "$VIRTUAL"
+  text: string; // e.g. "Virtuals Protocol"
+  value: string; // e.g. "+12.5%" or "★1.2k" or "2d ago"
   down?: boolean;
 }
 
@@ -27,12 +31,12 @@ const KIND_COLOR: Record<TickerKind, string> = {
   social: "#a78bfa",
 };
 
-const KIND_GLYPH: Record<TickerKind, ReactNode> = {
-  "token-up": "?",
-  "token-down": "?",
-  "github-push": <BrandStar size={10} className="text-[var(--v4-amber)]" />,
+const KIND_GLYPH: Record<TickerKind, string> = {
+  "token-up": "↑",
+  "token-down": "↓",
+  "github-push": "★",
   "x402-new": "x402",
-  social: "�",
+  social: "·",
 };
 
 export function AgentCommerceTicker({
@@ -40,6 +44,7 @@ export function AgentCommerceTicker({
 }: {
   items: AgentCommerceTickerItem[];
 }) {
+  // Duplicate for seamless loop.
   const doubled = items.length > 0 ? [...items, ...items] : [];
 
   return (
@@ -82,7 +87,7 @@ export function AgentCommerceTicker({
             animation: "ac-ticker-pulse 1.4s ease-in-out infinite",
           }}
         />
-        LIVE � AGENT COMMERCE
+        LIVE · AGENT COMMERCE
       </div>
       <div
         style={{
@@ -133,9 +138,6 @@ export function AgentCommerceTicker({
                   style={{
                     color: KIND_COLOR[t.kind],
                     fontWeight: 700,
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "4px",
                   }}
                 >
                   {KIND_GLYPH[t.kind]} {t.label}
@@ -161,7 +163,7 @@ export function AgentCommerceTicker({
               color: "var(--color-text-faint)",
             }}
           >
-            no recent agent-commerce signals - collectors warming up
+            no recent agent-commerce signals — collectors warming up
           </div>
         )}
       </div>

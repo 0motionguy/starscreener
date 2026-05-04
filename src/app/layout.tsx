@@ -33,6 +33,7 @@ import "@/components/compare/compare.css";
 import "@/components/predict/predict.css";
 import "@/components/terminal/terminal-pages.css";
 import "@/components/categories/categories.css";
+import "@/components/agent-commerce/agent-commerce.css";
 
 const geist = Geist({
   variable: "--font-geist",

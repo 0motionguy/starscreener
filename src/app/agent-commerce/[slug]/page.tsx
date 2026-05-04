@@ -20,16 +20,7 @@ import {
   getAgentCommerceItems,
   refreshAgentCommerceFromStore,
 } from "@/lib/agent-commerce";
-import { getRepoProfile } from "@/lib/repo-profiles";
-
-import {
-  AisoScanSection,
-  LiveSignalsCard,
-  SCORE_LABELS,
-  findRelated,
-  getGradient,
-  getInitials,
-} from "./_sections";
+import type { AgentCommerceItem } from "@/lib/agent-commerce/types";
 
 export const revalidate = 600;
 
@@ -51,6 +42,51 @@ export async function generateMetadata({
   };
 }
 
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "??";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+function getGradient(name: string): string {
+  const grads = [
+    "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
+    "linear-gradient(135deg, #10b981 0%, #047857 100%)",
+    "linear-gradient(135deg, #f472b6 0%, #db2777 100%)",
+    "linear-gradient(135deg, #f59e0b 0%, #b45309 100%)",
+    "linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)",
+    "linear-gradient(135deg, #06b6d4 0%, #0e7490 100%)",
+    "linear-gradient(135deg, #f97316 0%, #c2410c 100%)",
+  ];
+  let hash = 0;
+  for (const ch of name) hash = (hash * 31 + ch.charCodeAt(0)) >>> 0;
+  return grads[hash % grads.length];
+}
+
+function findRelated(
+  items: AgentCommerceItem[],
+  target: AgentCommerceItem,
+): AgentCommerceItem[] {
+  return items
+    .filter(
+      (it) =>
+        it.id !== target.id &&
+        (it.category === target.category || it.kind === target.kind),
+    )
+    .sort((a, b) => b.scores.composite - a.scores.composite)
+    .slice(0, 4);
+}
+
+const SCORE_LABELS: { key: keyof AgentCommerceItem["scores"]; label: string }[] = [
+  { key: "githubVelocity", label: "GitHub velocity" },
+  { key: "socialMentions", label: "Social mentions" },
+  { key: "pricingClarity", label: "Pricing clarity" },
+  { key: "apiClarity", label: "API clarity" },
+  { key: "aisoScore", label: "AISO score" },
+  { key: "portalReady", label: "Portal Ready" },
+];
+
 export default async function AgentCommerceDetailPage({ params }: DetailProps) {
   const { slug } = await params;
   await refreshAgentCommerceFromStore();
@@ -63,13 +99,6 @@ export default async function AgentCommerceDetailPage({ params }: DetailProps) {
     (item.links.github ? `https://github.com/${item.links.github}` : null) ??
     item.links.docs ??
     null;
-
-  // AISO scan lookup — repo-profiles.json is keyed by GitHub fullName, which
-  // for agent-commerce items lives at item.links.github (item.id is a slug
-  // like "tool:langchain"). When the GitHub link is missing or no profile
-  // exists, the panel renders nothing.
-  const repoProfile = item.links.github ? getRepoProfile(item.links.github) : null;
-  const aisoScan = repoProfile?.aisoScan ?? null;
 
   return (
     <main className="home-surface ac-detail">
@@ -102,9 +131,154 @@ export default async function AgentCommerceDetailPage({ params }: DetailProps) {
         </div>
       </header>
 
-      {item.live ? <LiveSignalsCard live={item.live} /> : null}
-
-      {aisoScan ? <AisoScanSection aisoScan={aisoScan} /> : null}
+      {item.live ? (
+        <Card>
+          <CardHeader
+            showCorner
+            right={
+              item.live.fetchedAt ? (
+                <span>
+                  refreshed{" "}
+                  {(() => {
+                    const ms = Date.now() - new Date(item.live.fetchedAt).getTime();
+                    const mins = Math.floor(ms / 60_000);
+                    if (mins < 60) return `${mins}m ago`;
+                    const hrs = Math.floor(mins / 60);
+                    if (hrs < 48) return `${hrs}h ago`;
+                    return `${Math.floor(hrs / 24)}d ago`;
+                  })()}
+                </span>
+              ) : null
+            }
+          >
+            Live signals
+          </CardHeader>
+          <CardBody>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+                gap: 14,
+                padding: "12px 14px",
+                fontFamily: "var(--font-mono, ui-monospace)",
+                fontSize: 12,
+              }}
+            >
+              {typeof item.live.stars === "number" ? (
+                <div>
+                  <div style={{ color: "var(--color-text-faint)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    Stars
+                  </div>
+                  <div style={{ color: "#fbbf24", fontSize: 20, fontWeight: 700 }}>
+                    {item.live.stars.toLocaleString("en-US")}
+                  </div>
+                </div>
+              ) : null}
+              {typeof item.live.forks === "number" ? (
+                <div>
+                  <div style={{ color: "var(--color-text-faint)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    Forks
+                  </div>
+                  <div style={{ color: "var(--color-text-default)", fontSize: 20, fontWeight: 700 }}>
+                    {item.live.forks.toLocaleString("en-US")}
+                  </div>
+                </div>
+              ) : null}
+              {item.live.pushedAt ? (
+                <div>
+                  <div style={{ color: "var(--color-text-faint)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    Last pushed
+                  </div>
+                  <div style={{ color: "#34d399", fontSize: 14, fontWeight: 700 }}>
+                    {(() => {
+                      const days = Math.max(
+                        0,
+                        Math.floor((Date.now() - new Date(item.live.pushedAt).getTime()) / 86_400_000),
+                      );
+                      return days === 0
+                        ? "today"
+                        : days === 1
+                          ? "1 day ago"
+                          : days < 30
+                            ? `${days} days ago`
+                            : days < 365
+                              ? `${Math.floor(days / 30)} months ago`
+                              : `${Math.floor(days / 365)} years ago`;
+                    })()}
+                  </div>
+                  <div style={{ color: "var(--color-text-faint)", fontSize: 10 }}>
+                    {new Date(item.live.pushedAt).toISOString().slice(0, 10)}
+                  </div>
+                </div>
+              ) : null}
+              {item.live.language ? (
+                <div>
+                  <div style={{ color: "var(--color-text-faint)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    Language
+                  </div>
+                  <div style={{ color: "var(--color-text-default)", fontSize: 14, fontWeight: 700 }}>
+                    {item.live.language}
+                  </div>
+                </div>
+              ) : null}
+              {typeof item.live.openIssues === "number" ? (
+                <div>
+                  <div style={{ color: "var(--color-text-faint)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    Open Issues
+                  </div>
+                  <div style={{ color: "var(--color-text-default)", fontSize: 14, fontWeight: 700 }}>
+                    {item.live.openIssues.toLocaleString("en-US")}
+                  </div>
+                </div>
+              ) : null}
+              {typeof item.live.hnMentions90d === "number" && item.live.hnMentions90d > 0 ? (
+                <div>
+                  <div style={{ color: "var(--color-text-faint)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    HN mentions (90d)
+                  </div>
+                  <div style={{ color: "#f97316", fontSize: 20, fontWeight: 700 }}>
+                    {item.live.hnMentions90d}
+                  </div>
+                  {item.live.hnTopUrl ? (
+                    <a
+                      href={item.live.hnTopUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{ color: "var(--color-text-faint)", fontSize: 10, textDecoration: "none" }}
+                    >
+                      top story →
+                    </a>
+                  ) : null}
+                </div>
+              ) : null}
+              {typeof item.live.npmWeeklyDownloads === "number" && item.live.npmWeeklyDownloads > 0 ? (
+                <div>
+                  <div style={{ color: "var(--color-text-faint)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    npm /wk
+                  </div>
+                  <div style={{ color: "#cbd5e1", fontSize: 20, fontWeight: 700 }}>
+                    {item.live.npmWeeklyDownloads >= 1_000_000
+                      ? `${(item.live.npmWeeklyDownloads / 1_000_000).toFixed(2)}M`
+                      : item.live.npmWeeklyDownloads >= 1000
+                        ? `${(item.live.npmWeeklyDownloads / 1000).toFixed(1)}k`
+                        : `${item.live.npmWeeklyDownloads}`}
+                  </div>
+                  {item.live.npmName ? (
+                    <a
+                      href={item.live.npmRegistryUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{ color: "var(--color-text-faint)", fontSize: 10, textDecoration: "none" }}
+                    >
+                      {item.live.npmName} {item.live.npmLatestVersion ? `@${item.live.npmLatestVersion}` : ""} →
+                    </a>
+                  ) : null}
+                </div>
+              ) : null}
+            </div>
+          </CardBody>
+        </Card>
+      ) : null}
 
       <div className="ac-detail-grid">
         <div style={{ display: "grid", gap: 12 }}>
@@ -117,7 +291,7 @@ export default async function AgentCommerceDetailPage({ params }: DetailProps) {
                 {SCORE_LABELS.map(({ key, label }) => {
                   const raw = item.scores[key];
                   const n = typeof raw === "number" ? raw : 0;
-                  const display = raw === null ? "—" : Number.isInteger(n) ? String(n) : n.toFixed(1);
+                  const display = raw === null ? "—" : String(n);
                   return (
                     <div className="ac-score-row" key={key}>
                       <span>{label}</span>

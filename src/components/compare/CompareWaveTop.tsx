@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import { CompareChart } from "./CompareChart";
@@ -53,10 +52,7 @@ function buildLightStub(fullName: string): Repo {
   };
 }
 import { useCompareStore } from "@/lib/store";
-import {
-  compareIdToFallbackFullName,
-  resolveCompareFullNames,
-} from "@/lib/compare-selection";
+import { resolveCompareFullNames } from "@/lib/compare-selection";
 import type { Repo } from "@/lib/types";
 import type {
   StarActivityMetric,
@@ -272,7 +268,7 @@ export function CompareWaveTop() {
 
       <div className="compare-work-grid">
         <div className="compare-chart-stack">
-          {hasSelection ? (
+          {repos.length > 0 ? (
             <>
               <CompareChart
                 repos={displayRepos}
@@ -289,7 +285,7 @@ export function CompareWaveTop() {
                 onThemeChange={setTheme}
               />
               <CompareStatStrip
-                repos={displayRepos}
+                repos={repos}
                 mindsharePctByFullName={mindsharePctByFullName}
               />
             </>

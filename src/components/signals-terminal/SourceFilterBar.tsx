@@ -14,44 +14,20 @@
 // refresh hooks are 30s-rate-limited.
 
 import Link from "next/link";
-import type { CSSProperties } from "react";
 import type { SourceKey } from "@/lib/signals/types";
 import { allTopics, type TopicKey } from "@/lib/signals/topics";
-import { SourceMark, SOURCE_BRAND_COLOR } from "./SourceMark";
-import { LobstersIcon, ProductHuntIcon } from "@/components/brand/BrandIcons";
 
 export { parseTopic } from "@/lib/signals/topics";
 
-const SOURCES: Array<{ key: SourceKey; label: string }> = [
-  { key: "hn", label: "HN" },
-  { key: "github", label: "GH" },
-  { key: "x", label: "X" },
-  { key: "reddit", label: "RDT" },
-  { key: "bluesky", label: "BSKY" },
-  { key: "devto", label: "DEV" },
-  { key: "claude", label: "CLAUDE" },
-  { key: "openai", label: "OAI" },
-];
-
-// Additional sources we collect but that don't yet feed the cross-source
-// synthesis layer (consensus / volume / tag-momentum) — they live on their
-// own dedicated pages. Surfaced here as link chips so the user knows the
-// data exists without us pretending the synthesis layer covers them. Adding
-// these to the SourceKey union + build-items adapters is a separate lift.
-interface ExtraSourceChip {
-  key: string;
-  label: string;
-  href: string;
-  icon?: React.ComponentType<{ size?: number; monochrome?: boolean }>;
-  color: string;
-}
-
-const EXTRA_SOURCES: ExtraSourceChip[] = [
-  { key: "lobsters", label: "LOB", href: "/lobsters", icon: LobstersIcon, color: "#AC130D" },
-  { key: "producthunt", label: "PH", href: "/producthunt", icon: ProductHuntIcon, color: "var(--source-producthunt)" },
-  { key: "npm", label: "NPM", href: "/npm", color: "#cb3837" },
-  { key: "huggingface", label: "HF", href: "/huggingface", color: "#ff9d00" },
-  { key: "arxiv", label: "ARX", href: "/arxiv/trending", color: "#b31b1b" },
+const SOURCES: Array<{ key: SourceKey; label: string; color: string }> = [
+  { key: "hn", label: "HN", color: "var(--source-hackernews)" },
+  { key: "github", label: "GH", color: "var(--source-github)" },
+  { key: "x", label: "X", color: "var(--source-x)" },
+  { key: "reddit", label: "RDT", color: "var(--source-reddit)" },
+  { key: "bluesky", label: "BSKY", color: "var(--source-bluesky)" },
+  { key: "devto", label: "DEV", color: "var(--source-dev)" },
+  { key: "claude", label: "CLAUDE", color: "var(--source-claude)" },
+  { key: "openai", label: "OAI", color: "var(--source-openai)" },
 ];
 
 const ALL_KEYS: ReadonlySet<SourceKey> = new Set(SOURCES.map((s) => s.key));
@@ -203,24 +179,14 @@ export interface SourceFilterBarProps {
   timeWindow: TimeWindow;
   /** null = all topics. */
   topic: TopicKey | null;
-  /** Per-source counts in the active time/topic window (before src filtering). */
-  sourceCounts: Record<SourceKey, number>;
   /** Total signals across the active sources/window/topic, shown on the right. */
   totalSignals: number;
-}
-
-function formatChipCount(value: number): string {
-  if (value < 1000) return String(value);
-  if (value < 10_000) return `${(value / 1000).toFixed(1)}k`;
-  if (value < 1_000_000) return `${Math.round(value / 1000)}k`;
-  return `${(value / 1_000_000).toFixed(1)}m`;
 }
 
 export function SourceFilterBar({
   active,
   timeWindow,
   topic,
-  sourceCounts,
   totalSignals,
 }: SourceFilterBarProps) {
   const isAllOn = active.size === ALL_KEYS.size;
@@ -264,52 +230,20 @@ export function SourceFilterBar({
 
       {SOURCES.map((s) => {
         const on = active.has(s.key);
-        const count = sourceCounts[s.key] ?? 0;
         return (
           <Link
             key={s.key}
             href={buildSourceHref(active, timeWindow, topic, s.key)}
             prefetch={false}
-            className={`signals-chip signals-chip-brand${on ? " signals-chip-on" : ""}`}
+            className={`signals-chip${on ? " signals-chip-on" : ""}`}
             aria-pressed={on}
-            aria-label={s.label}
-            style={
-              {
-                "--chip-color": SOURCE_BRAND_COLOR[s.key],
-              } as CSSProperties
-            }
           >
-            {/* monochrome always — icon adopts chip text color so it reads
-                cleanly on every chip state (off=muted dark, on=inverted). */}
-            <SourceMark source={s.key} size={13} monochrome />
-            <span className="signals-chip-text">{s.label}</span>
-            <span className="signals-chip-count">{formatChipCount(count)}</span>
-          </Link>
-        );
-      })}
-
-      {/* Additional collected sources — display-only link chips. Not part of
-          the cross-source filter (consensus/volume/tag-momentum) yet, but
-          surfaced here so the user knows the data exists. Click → dedicated
-          page. */}
-      {EXTRA_SOURCES.map((s) => {
-        const Icon = s.icon;
-        return (
-          <Link
-            key={s.key}
-            href={s.href}
-            prefetch={false}
-            className="signals-chip signals-chip-brand"
-            aria-label={s.label}
-            title={`${s.key} · view dedicated page`}
-            style={
-              {
-                "--chip-color": s.color,
-              } as CSSProperties
-            }
-          >
-            {Icon ? <Icon size={13} monochrome /> : null}
-            <span className="signals-chip-text">{s.label}</span>
+            <span
+              aria-hidden
+              className="signals-chip-dot"
+              style={{ background: s.color }}
+            />
+            {s.label}
           </Link>
         );
       })}

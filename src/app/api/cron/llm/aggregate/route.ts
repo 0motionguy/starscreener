@@ -19,7 +19,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { getDataStore } from "@/lib/data-store";
-import { touchDailyAggregates } from "@/lib/llm/aggregate";
 import { getStreamHandle } from "@/lib/llm/redis-streams";
 import {
   type DailyByFeaturePayload,
@@ -32,7 +31,6 @@ import {
   type LlmEvent,
   type LlmGenMeta,
   LLM_AGG_CURSOR_KEY,
-  LLM_AGG_HEARTBEAT_KEY,
   LLM_EVENTS_STREAM,
   LLM_GEN_META_STREAM,
   type ModelMetadataPayload,
@@ -79,15 +77,7 @@ export async function GET(request: NextRequest) {
 async function runAggregate(): Promise<AggregateResult> {
   const stream = await getStreamHandle();
   if (!stream) {
-    const result = { events_processed: 0, cursor: null, trimmed_before: null, days_touched: 0 };
-    const store = getDataStore();
-    await Promise.all([
-      touchDailyAggregates(store),
-      writeAggregateHeartbeat(store, result),
-    ]).catch((err: unknown) => {
-      console.warn("[api:cron:llm:aggregate] no-stream heartbeat failed:", err);
-    });
-    return result;
+    return { events_processed: 0, cursor: null, trimmed_before: null, days_touched: 0 };
   }
 
   // 1. Cursor — '0-0' on first run.
@@ -118,11 +108,8 @@ async function runAggregate(): Promise<AggregateResult> {
   }
 
   if (events.length === 0) {
-    const result = { events_processed: 0, cursor, trimmed_before: null, days_touched: 0 };
-    const store = getDataStore();
-    await touchDailyAggregates(store);
-    await writeAggregateHeartbeat(store, result);
-    return result;
+    // Nothing to do; preserve cursor.
+    return { events_processed: 0, cursor, trimmed_before: null, days_touched: 0 };
   }
 
   // 3. Build gen-meta lookup map (one full sweep, capped).
@@ -295,14 +282,12 @@ async function runAggregate(): Promise<AggregateResult> {
   // 8. Save cursor.
   await stream.set(LLM_AGG_CURSOR_KEY, lastId);
 
-  const result = {
+  return {
     events_processed: events.length,
     cursor: lastId,
     trimmed_before: trimBefore,
     days_touched: touchedDays.size,
   };
-  await writeAggregateHeartbeat(store, result);
-  return result;
 }
 
 // ---------------------------------------------------------------------------
@@ -429,21 +414,4 @@ function buildPriceLookup(payload: ModelMetadataPayload | null): Map<string, { i
     });
   }
   return out;
-}
-
-async function writeAggregateHeartbeat(
-  store: ReturnType<typeof getDataStore>,
-  result: AggregateResult,
-): Promise<void> {
-  await store.write(
-    LLM_AGG_HEARTBEAT_KEY,
-    {
-      lastRunAt: new Date().toISOString(),
-      eventsProcessed: result.events_processed,
-      cursor: result.cursor,
-      daysTouched: result.days_touched,
-      trimmedBefore: result.trimmed_before,
-    },
-    { writer: "cron:llm-aggregate" },
-  );
 }

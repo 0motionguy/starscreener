@@ -97,10 +97,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     legend: "tr",
     aspect: "h",
   });
-  // Layout template at app/layout.tsx:65 appends ` — ${SITE_NAME}`. Drop the
-  // manual suffix to avoid double-brand "rtk-ai/rtk - Star Activity -
-  // TrendingRepo - TrendingRepo" which Google flags as low-quality.
-  const title = `${fullName} - Star Activity`;
+  const title = `${fullName} - Star Activity - ${SITE_NAME}`;
   const description = `Full-history star activity for ${fullName}. Compare against up to 3 other repos and share the chart.`;
   return {
     title,

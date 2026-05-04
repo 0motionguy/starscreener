@@ -1,11 +1,4 @@
-// /categories/[slug] — V4 ProfileTemplate consumer.
-//
-// Migrated off the legacy TerminalLayout chrome to the V4 ProfileTemplate
-// signature (per master plan §312, same envelope used by /collections/[slug]
-// and /repo/[owner]/[name]). The category becomes the "entity" — identity
-// strip with category title + repo count + topic chips, KpiBand summary,
-// repo grid (RelatedRepoCard) as // 01, About card + Related categories in
-// the right rail.
+// StarScreener - Category detail.
 
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -84,438 +77,48 @@ export default async function CategoryDetailPage({
 
   const repos = getDerivedRepos().filter((r) => r.categoryId === slug);
 
-  // Aggregates for the KPI band.
-  const totalStars = repos.reduce((sum, r) => sum + r.stars, 0);
-  const languageSet = new Set<string>();
-  for (const r of repos) {
-    if (r.language) languageSet.add(r.language);
-  }
-  const languageCount = languageSet.size;
-
-  // Most-active 7d — top repo by 7d star delta in this sector.
-  const mostActive7d = [...repos]
-    .filter((r) => !r.starsDelta7dMissing && r.starsDelta7d > 0)
-    .sort((a, b) => b.starsDelta7d - a.starsDelta7d)[0];
-
-  // Avg momentum across the sector.
-  const avgMomentum =
-    repos.length > 0
-      ? Number(
-          (
-            repos.reduce((sum, r) => sum + r.momentumScore, 0) / repos.length
-          ).toFixed(2),
-        )
-      : 0;
-
-  // Movement counts feed the verdict tone.
-  const breakouts = repos.filter((r) => r.movementStatus === "breakout").length;
-  const hot = repos.filter((r) => r.movementStatus === "hot").length;
-  const moving = breakouts + hot;
-  const verdictTone: "money" | "acc" | "amber" =
-    breakouts > 0 ? "money" : moving > 0 ? "acc" : "amber";
-
-  // Topic chips — most-frequent topics across this category's repos.
-  const topicChips = collectTopTopics(repos, 5);
-
-  // Repos sorted for the grid — momentum-first, then stars.
-  const sortedRepos = [...repos].sort((a, b) => {
-    if (b.momentumScore !== a.momentumScore) {
-      return b.momentumScore - a.momentumScore;
-    }
-    return b.stars - a.stars;
-  });
-  const gridRepos = sortedRepos.slice(0, 24);
-
-  // Related categories — siblings in the same constants order, excluding
-  // this one. Sorted by repo count so the most-populated neighbours appear
-  // first.
-  const allStats = getDerivedCategoryStats();
-  const statsById = new Map(allStats.map((s) => [s.categoryId, s]));
-  const relatedCategories = CATEGORIES.filter((c) => c.id !== slug)
-    .map((c) => {
-      const s = statsById.get(c.id);
-      return {
-        id: c.id,
-        name: c.name,
-        color: c.color,
-        repoCount: s?.repoCount ?? 0,
-      };
-    })
-    .sort((a, b) => b.repoCount - a.repoCount)
-    .slice(0, 6);
-
-  return (
-    <main className="home-surface category-detail-page">
-      <ProfileTemplate
-        crumb={
-          <>
-            <b>CATEGORY</b> · TERMINAL · /CATEGORIES/{slug.toUpperCase()}
-          </>
-        }
-        identity={
-          <CategoryIdentity
-            name={category.name}
-            description={category.description}
-            color={category.color}
-            iconName={category.icon}
-            repoCount={repos.length}
-            topics={topicChips}
-          />
-        }
-        clock={
-          <span
-            style={{
-              fontFamily: "var(--font-geist-mono), monospace",
-              fontSize: 10,
-              color: "var(--v4-ink-300)",
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
-            }}
-          >
-            {formatNumber(repos.length)} REPOS · TRACKED
-          </span>
-        }
-        verdict={
-          <VerdictRibbon
-            tone={verdictTone}
-            stamp={{
-              eyebrow: "// CATEGORY",
-              headline: `${repos.length} repos tracked`,
-              sub: `${breakouts} breakout · ${hot} hot · avg mom ${avgMomentum.toFixed(1)}`,
-            }}
-            text={
-              <>
-                <b>{category.name}</b> tracks{" "}
-                <span style={{ color: "var(--v4-ink-100)" }}>
-                  {repos.length}
-                </span>{" "}
-                repos.{" "}
-                {breakouts > 0 ? (
-                  <>
-                    <span style={{ color: "var(--v4-money)" }}>
-                      {breakouts} breaking out
-                    </span>{" "}
-                    right now,{" "}
-                  </>
-                ) : null}
-                <span style={{ color: "var(--v4-acc)" }}>{moving} moving</span>{" "}
-                across the sector.
-              </>
-            }
-            actionHref="/categories"
-            actionLabel="ALL CATEGORIES →"
-          />
-        }
-        kpiBand={
-          <KpiBand
-            cells={[
-              {
-                label: "REPOS",
-                value: formatNumber(repos.length),
-                sub: "in this sector",
-                pip: category.color,
-              },
-              {
-                label: "TOTAL STARS",
-                value: formatNumber(totalStars),
-                sub: "lifetime",
-                tone: "money",
-                pip: "var(--v4-money)",
-              },
-              {
-                label: "LANGUAGES",
-                value: formatNumber(languageCount),
-                sub: languageCount > 0 ? "distinct" : "no data",
-                pip: "var(--v4-ink-300)",
-              },
-              {
-                label: "MOST ACTIVE · 7D",
-                value: mostActive7d
-                  ? `+${formatNumber(mostActive7d.starsDelta7d)}`
-                  : "—",
-                sub: mostActive7d ? mostActive7d.fullName : "no movement",
-                tone: mostActive7d ? "money" : "default",
-                pip: "var(--v4-amber)",
-              },
-            ]}
-          />
-        }
-        mainPanels={
-          <>
-            <SectionHead
-              num="// 01"
-              title="Repos · ranked"
-              meta={
-                <>
-                  <b>{gridRepos.length}</b> shown ·{" "}
-                  {repos.length > gridRepos.length
-                    ? `${repos.length} total`
-                    : "all"}
-                </>
-              }
-            />
-            {gridRepos.length > 0 ? (
-              <div className="v4-profile-template__related">
-                {gridRepos.map((repo) => {
-                  const [owner, name] = repo.fullName.split("/");
-                  const href =
-                    owner && name ? `/repo/${owner}/${name}` : undefined;
-                  return (
-                    <RelatedRepoCard
-                      key={repo.fullName}
-                      fullName={repo.fullName}
-                      description={repo.description?.trim() || undefined}
-                      language={
-                        repo.language
-                          ? repo.language.toUpperCase()
-                          : undefined
-                      }
-                      stars={formatNumber(repo.stars)}
-                      similarity={
-                        repo.movementStatus
-                          ? repo.movementStatus.toUpperCase().replace("_", " ")
-                          : undefined
-                      }
-                      href={href}
-                    />
-                  );
-                })}
-              </div>
-            ) : (
-              <p
-                style={{
-                  fontFamily: "var(--font-geist-mono), monospace",
-                  fontSize: 12,
-                  color: "var(--v4-ink-300)",
-                  padding: "12px 0",
-                }}
-              >
-                No repos in this category yet — pool is warming.
-              </p>
+  const heading = (
+    <>
+      <section className="page-head category-detail-head">
+        <div>
+          <div className="crumb">
+            <Link href="/categories">Trend terminal / categories</Link>
+            <span> / </span>
+            <b>{category.name}</b>
+          </div>
+          <h1>
+            {Icon && (
+              <Icon
+                size={28}
+                style={{ color: category.color }}
+                aria-hidden="true"
+              />
             )}
-          </>
-        }
-        rightRail={
-          <>
-            <SectionHead num="// 02" title="About" as="h3" />
-            <div className="v4-collection-rail-card">
-              <div className="v4-collection-rail-card__row">
-                <span className="v4-collection-rail-card__label">Sector</span>
-                <span className="v4-collection-rail-card__value">
-                  {category.name}
-                </span>
-              </div>
-              <div className="v4-collection-rail-card__row">
-                <span className="v4-collection-rail-card__label">Short</span>
-                <span className="v4-collection-rail-card__value">
-                  {category.shortName}
-                </span>
-              </div>
-              <div className="v4-collection-rail-card__row">
-                <span className="v4-collection-rail-card__label">Repos</span>
-                <span className="v4-collection-rail-card__value">
-                  {formatNumber(repos.length)}
-                </span>
-              </div>
-              <div className="v4-collection-rail-card__row">
-                <span className="v4-collection-rail-card__label">
-                  Avg momentum
-                </span>
-                <span className="v4-collection-rail-card__value">
-                  {avgMomentum.toFixed(1)}
-                </span>
-              </div>
-              <div className="v4-collection-rail-card__row">
-                <span className="v4-collection-rail-card__label">Source</span>
-                <span className="v4-collection-rail-card__value">
-                  src/lib/constants.ts
-                </span>
-              </div>
-            </div>
-
-            <SectionHead num="// 03" title="Related categories" as="h3" />
-            {relatedCategories.length > 0 ? (
-              <ul className="v4-collection-rail-list">
-                {relatedCategories.map((c) => (
-                  <li
-                    key={c.id}
-                    className="v4-collection-rail-list__item"
-                  >
-                    <Link
-                      href={`/categories/${c.id}`}
-                      className="v4-collection-rail-list__link"
-                    >
-                      <span
-                        style={{
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 8,
-                        }}
-                      >
-                        <span
-                          aria-hidden
-                          style={{
-                            width: 6,
-                            height: 6,
-                            background: c.color,
-                            borderRadius: 1,
-                            flexShrink: 0,
-                          }}
-                        />
-                        <span>{c.name}</span>
-                      </span>
-                      <span className="v4-collection-rail-list__count">
-                        {c.repoCount}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p
-                style={{
-                  fontFamily: "var(--font-geist-mono), monospace",
-                  fontSize: 11,
-                  color: "var(--v4-ink-300)",
-                  padding: "8px 0",
-                }}
-              >
-                No related categories.
-              </p>
-            )}
-          </>
-        }
-      />
-    </main>
-  );
-}
-
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  return CATEGORIES.map((c) => ({ slug: c.id }));
-}
-
-// --- Composition helpers --------------------------------------------------
-
-interface CategoryIdentityProps {
-  name: string;
-  description: string;
-  color: string;
-  iconName: string;
-  repoCount: number;
-  topics: string[];
-}
-
-function CategoryIdentity({
-  name,
-  description,
-  color,
-  iconName,
-  repoCount,
-  topics,
-}: CategoryIdentityProps) {
-  const Icon = getCategoryIcon(iconName);
-  return (
-    <div
-      style={{
-        display: "flex",
-        gap: 16,
-        alignItems: "flex-start",
-        marginTop: 8,
-      }}
-    >
-      <div
-        aria-hidden
-        style={{
-          width: 56,
-          height: 56,
-          borderRadius: 4,
-          background: "var(--v4-bg-100)",
-          border: `1px solid ${color}`,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexShrink: 0,
-        }}
-      >
-        {Icon ? (
-          <Icon size={26} style={{ color }} aria-hidden="true" />
-        ) : (
-          <span
-            style={{
-              fontFamily: "var(--font-geist-mono), monospace",
-              fontSize: 22,
-              color,
-              textTransform: "uppercase",
-            }}
-          >
-            {name.slice(0, 2)}
-          </span>
-        )}
-      </div>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <h1
-          className="v4-page-head__h1"
-          style={{ marginTop: 0, marginBottom: 4 }}
-        >
-          {name}
-        </h1>
-        <p
-          className="v4-page-head__lede"
-          style={{ marginTop: 0, marginBottom: 10 }}
-        >
-          {description}.
-        </p>
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 12,
-            fontFamily: "var(--font-geist-mono), monospace",
-            fontSize: 11,
-            color: "var(--v4-ink-300)",
-            textTransform: "uppercase",
-            letterSpacing: "0.06em",
-          }}
-        >
-          {topics.map((topic) => (
-            <span
-              key={topic}
-              style={{
-                padding: "1px 6px",
-                border: "1px solid var(--v4-line-200)",
-                borderRadius: 2,
-                color: "var(--v4-ink-300)",
-              }}
-            >
-              {topic}
-            </span>
-          ))}
-          <span>
-            REPOS{" "}
-            <b style={{ color: "var(--v4-ink-100)" }}>
-              {formatNumber(repoCount)}
-            </b>
-          </span>
-          {repoCount > 0 ? (
-            <span style={{ color: "var(--v4-money)" }}>● TRACKED</span>
-          ) : (
-            <span style={{ color: "var(--v4-amber)" }}>● WARMING</span>
-          )}
+            <span>{category.name}</span>
+          </h1>
+          <p className="lede">{category.description}</p>
         </div>
-      </div>
-    </div>
-  );
-}
+        <div className="clock">
+          <span className="big">{repos.length}</span>
+          <span className="live">repos tracked</span>
+        </div>
+      </section>
 
-function collectTopTopics(repos: Repo[], limit: number): string[] {
-  const counts = new Map<string, number>();
-  for (const repo of repos) {
-    for (const topic of repo.topics ?? []) {
-      counts.set(topic, (counts.get(topic) ?? 0) + 1);
-    }
-  }
-  return [...counts.entries()]
-    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-    .slice(0, limit)
-    .map(([topic]) => topic);
+      <CategoryNewsRollup
+        repos={repos}
+        categorySlug={slug}
+        categoryLabel={category.name}
+      />
+    </>
+  );
+
+  return (
+    <TerminalLayout
+      repos={repos}
+      className="home-surface terminal-page category-detail-page"
+      filterBarVariant="category"
+      featuredCount={4}
+      heading={heading}
+    />
+  );
 }

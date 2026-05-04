@@ -34,7 +34,9 @@ export interface SkillItem extends DomainItem {
 
 const COMPONENT_LABELS: Record<string, string> = {
   installsDelta7d: "installs Δ7d",
+  installsAbs: "installs abs",
   forkVelocity7d: "forks Δ7d",
+  forksAbs: "forks abs",
   forkRatio: "fork ratio",
   derivativeRepoCount: "derivatives",
   awesomeListInclusion: "awesome lists",
@@ -49,14 +51,11 @@ const COMPONENT_LABELS: Record<string, string> = {
 // `forksAbs` fallbacks fire ONLY when their delta counterparts cannot
 // (mutually exclusive). Smaller weight than the deltas because absolute
 // snapshots are noisier signal.
-// W5-SKILLS24H: installsDelta1d (instant velocity) + installsDelta30d
-// (sustained adoption) join installsDelta7d as additive momentum components.
-// Each missing delta is dropped + the remaining weights renormalize, so a
-// cold-start skill (no prev snapshots yet) still scores via the abs/static
-// fallbacks. Keeping installsDelta7d as the dominant momentum signal.
 const DEFAULT_WEIGHTS: Readonly<Record<string, number>> = Object.freeze({
   installsDelta7d: 0.30,
+  installsAbs: 0.20,
   forkVelocity7d: 0.10,
+  forksAbs: 0.12,
   forkRatio: 0.10,
   derivativeRepoCount: 0.10,
   awesomeListInclusion: 0.15,
@@ -87,6 +86,11 @@ function computeOne(item: SkillItem): ScoredItem<SkillItem> {
     const delta = item.forks - item.forks7dAgo;
     components.forkVelocity7d = logNorm(delta, 100);
     activeWeights.forkVelocity7d = DEFAULT_WEIGHTS.forkVelocity7d;
+  } else if (item.forks !== undefined && item.forks > 0) {
+    // forksAbs (0.12): mutually exclusive with forkVelocity7d. Cold-start
+    // fallback so a skill with 12K forks gets meaningful Hotness on day-1.
+    components.forksAbs = logNorm(item.forks, 5_000);
+    activeWeights.forksAbs = DEFAULT_WEIGHTS.forksAbs;
   }
 
   // forkRatio (0.10): requires both forks and stars

@@ -67,6 +67,7 @@ import skillDerivatives from './fetchers/skill-derivatives/index.js';
 import skillInstallSnapshot from './fetchers/skill-install-snapshot/index.js';
 import skillForksSnapshot from './fetchers/skill-forks-snapshot/index.js';
 import hotnessSnapshot from './fetchers/hotness-snapshot/index.js';
+import mcpUsageSnapshot from './fetchers/mcp-usage-snapshot/index.js';
 
 export const FETCHERS: Fetcher[] = [
   hnPulse,
@@ -111,6 +112,7 @@ export const FETCHERS: Fetcher[] = [
   skillInstallSnapshot,
   skillForksSnapshot,
   hotnessSnapshot,
+  mcpUsageSnapshot,
 ];
 
 export function getFetcher(name: string): Fetcher | undefined {

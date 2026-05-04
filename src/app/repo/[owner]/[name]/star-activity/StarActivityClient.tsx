@@ -2,15 +2,17 @@
 
 // Client wrapper for the single-repo Star Activity sub-route.
 //
-// Owns the mode/scale toggle state so the chart and ShareBar see the same
-// source of truth. The page-level URL state is intentionally not updated on
-// toggle changes because pushing a URL update would force a server re-render.
+// Owns the mode/scale toggle state so the chart and the ShareBar see the
+// same source of truth. The page-level URL state is intentionally NOT
+// updated on toggle changes — the user can copy the link to share whatever
+// state the chart is currently in via the Copy Link button. (Wiring URL
+// pushState here would force a server re-render on every toggle which
+// makes the chart feel sluggish.)
 
 import { useMemo, useState } from "react";
 
 import { CompareChart } from "@/components/compare/CompareChart";
 import { ShareBar } from "@/components/share/ShareBar";
-import { Metric, MetricGrid } from "@/components/ui/Metric";
 import {
   type StarActivityMode,
   type StarActivityPayload,
@@ -29,7 +31,10 @@ export function StarActivityClient({ repo, payload }: Props) {
   const [scale, setScale] = useState<StarActivityScale>("lin");
 
   const payloads = useMemo(
-    () => (payload ? { [repo.fullName.toLowerCase()]: payload } : undefined),
+    () =>
+      payload
+        ? { [repo.fullName.toLowerCase()]: payload }
+        : undefined,
     [payload, repo.fullName],
   );
 
@@ -59,7 +64,7 @@ export function StarActivityClient({ repo, payload }: Props) {
   const today = payload?.points[payload.points.length - 1]?.s ?? repo.stars;
 
   return (
-    <div className="repo-detail-stack">
+    <div className="flex flex-col gap-4">
       <CompareChart
         repos={[repo]}
         payloads={payloads}
@@ -69,23 +74,12 @@ export function StarActivityClient({ repo, payload }: Props) {
         onScaleChange={setScale}
       />
 
-      <MetricGrid columns={4} className="kpi-band">
-        <Metric label="Today" value={today.toLocaleString("en-US")} sub="stars" />
-        <Metric
-          label="Peak/day"
-          value={`+${peakDelta.toLocaleString("en-US")}`}
-          sub="daily max"
-          tone="positive"
-          pip
-        />
-        <Metric
-          label="Momentum"
-          value={repo.momentumScore.toFixed(2)}
-          sub="terminal score"
-          tone="accent"
-        />
-        <Metric label="Since" value={since ?? "-"} sub="first point" />
-      </MetricGrid>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <Stat label="Today" value={today.toLocaleString("en-US")} />
+        <Stat label="Peak/day" value={`+${peakDelta.toLocaleString("en-US")}`} />
+        <Stat label="Momentum" value={repo.momentumScore.toFixed(2)} />
+        <Stat label="Since" value={since ?? "—"} />
+      </div>
 
       <ShareBar
         state={{
@@ -96,6 +90,19 @@ export function StarActivityClient({ repo, payload }: Props) {
         }}
         csvSeries={csvSeries}
       />
+    </div>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-card border border-border-primary bg-bg-secondary px-3 py-2">
+      <div className="text-[10px] font-mono uppercase tracking-[0.14em] text-text-tertiary">
+        {label}
+      </div>
+      <div className="mt-1 text-base font-mono font-semibold text-text-primary">
+        {value}
+      </div>
     </div>
   );
 }

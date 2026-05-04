@@ -35,12 +35,6 @@ interface RosterMcpItem {
     installs_total?: number | null;
     downloads_7d?: number | null;
     stars_total?: number | null;
-    // Top-level use_count / visitors_4w are populated by publish.ts'
-    // pickMcpUsage (MAX across the 4 source raws). When the published
-    // payload doesn't carry per-source nested raw (publish.ts strips raw
-    // down to `{sources, homepage}` for size), these are the only path.
-    use_count?: number | null;
-    visitors_4w?: number | null;
   };
   raw?: {
     pulsemcp?: { metrics?: { visitors_4w?: number; use_count?: number } };
@@ -154,12 +148,7 @@ function absorb(out: Record<string, SnapshotEntry>, it: RosterMcpItem): void {
   // installs_total is the densest signal — Smithery's useCount lifetime
   // aggregated by the publish layer. Falls back to use_count from any
   // single source when the aggregate isn't computed yet.
-  // Prefer the top-level publish-layer aggregates (now MAX'd across all 4
-  // sources by pickMcpUsage). Fall back to per-source raw when those aren't
-  // in the payload — covers older roster snapshots that pre-date the
-  // publish.ts surface.
   const installsTotal = pickFiniteNumber(
-    it.metrics?.use_count,
     it.metrics?.installs_total,
     it.raw?.smithery?.metrics?.use_count,
     it.raw?.pulsemcp?.metrics?.use_count,
@@ -167,14 +156,12 @@ function absorb(out: Record<string, SnapshotEntry>, it: RosterMcpItem): void {
     it.raw?.official?.metrics?.use_count,
   );
   const useCount = pickFiniteNumber(
-    it.metrics?.use_count,
     it.raw?.smithery?.metrics?.use_count,
     it.raw?.glama?.metrics?.use_count,
     it.raw?.pulsemcp?.metrics?.use_count,
     it.raw?.official?.metrics?.use_count,
   );
   const visitors4w = pickFiniteNumber(
-    it.metrics?.visitors_4w,
     it.raw?.pulsemcp?.metrics?.visitors_4w,
     it.raw?.glama?.metrics?.visitors_4w,
     it.raw?.official?.metrics?.visitors_4w,

@@ -13,10 +13,10 @@
  * Sections:
  *   1. TREND TERMINAL    — Repos, Skills, MCP, AGNT, Breakouts, Top 100
  *   2. SIGNAL TERMINAL   — HN / Lobsters / Dev.to / Bluesky / Reddit / X / PH
- *   3. LLM / PACK TERMINAL — NPM / Hugging Face / LLM Charts
+ *   3. LLM / PACK TERMINAL — NPM / Hugging Face / Datasets / Spaces
  *   4. LAUNCH TERMINAL   — Funding / Revenue / Hackathons / Launch
  *   5. RESEARCH TERMINAL — arXiv Papers / Cited Repos
- *   6. TOOLS             — Watchlist / Compare / Signal Radar
+ *   6. TOOLS             — Watchlist / Compare / Tier List / Signal Radar
  *   7. WATCHING          — top 5 watchlist preview cards
  *
  * Three badge tones:
@@ -35,6 +35,8 @@ import {
   Bot,
   Bookmark,
   Brain,
+  Calculator,
+  CalendarDays,
   Cpu,
   DollarSign,
   FileText,
@@ -44,11 +46,13 @@ import {
   Library,
   Lightbulb,
   LineChart,
+  Newspaper,
   Network,
   Package,
   Plug,
   Radar,
   Rocket,
+  Tags,
   TrendingUp,
   Trophy,
   X,
@@ -370,6 +374,14 @@ export function SidebarContent({
             active={pathname === "/"}
           />
           <V2NavRow
+            href="/consensus"
+            icon={Radar}
+            label="Consensus"
+            badge="3X"
+            badgeTone="accent"
+            active={pathname === "/consensus"}
+          />
+          <V2NavRow
             href="/skills"
             icon={GraduationCap}
             label="Trending Skills"
@@ -396,12 +408,12 @@ export function SidebarContent({
             active={pathname === "/breakouts"}
           />
           <V2NavRow
-            href="/search?sort=stars-total&limit=100"
+            href="/top"
             icon={Trophy}
             label="Top 100"
             badge="100"
             badgeTone="default"
-            active={pathname === "/search"}
+            active={pathname === "/top"}
           />
         </V2Section>
 
@@ -502,10 +514,27 @@ export function SidebarContent({
             active={pathname === "/npm" || pathname.startsWith("/npm/")}
           />
           <V2NavRow
+            href="/huggingface/trending"
             icon={Brain}
-            label="Hugging Face"
-            badge="Soon"
-            disabled
+            label="HF Models"
+            badge="Live"
+            badgeTone="delta"
+            active={
+              pathname === "/huggingface" ||
+              pathname === "/huggingface/trending"
+            }
+          />
+          <V2NavRow
+            href="/huggingface/datasets"
+            icon={FileText}
+            label="HF Datasets"
+            active={pathname === "/huggingface/datasets"}
+          />
+          <V2NavRow
+            href="/huggingface/spaces"
+            icon={Rocket}
+            label="HF Spaces"
+            active={pathname === "/huggingface/spaces"}
           />
           <FreshCountNavRow
             routeKey="hfDatasets"
@@ -565,6 +594,12 @@ export function SidebarContent({
               having no shared data source and no production traffic. Re-enable
               once the submission pipeline is wired into the data-store. */}
           <V2NavRow
+            href="/submit/revenue"
+            icon={Zap}
+            label="Drop Revenue"
+            active={pathname === "/submit/revenue"}
+          />
+          <V2NavRow
             icon={Trophy}
             label="Hackathons"
             badge="Soon"
@@ -581,10 +616,16 @@ export function SidebarContent({
         {/* RESEARCH TERMINAL */}
         <V2Section label="RESEARCH TERMINAL">
           <V2NavRow
-            href="/papers"
+            href="/arxiv/trending"
             icon={FileText}
             label="arXiv Papers"
-            active={pathname === "/papers" || pathname.startsWith("/papers/")}
+            active={
+              pathname === "/papers" ||
+              pathname === "/arxiv" ||
+              pathname === "/arxiv/trending" ||
+              pathname.startsWith("/papers/") ||
+              pathname.startsWith("/arxiv/")
+            }
           />
           <V2NavRow
             href="/research"
@@ -597,6 +638,12 @@ export function SidebarContent({
         {/* EXPLORE */}
         <V2Section label="EXPLORE">
           <V2NavRow
+            href="/news"
+            icon={Newspaper}
+            label="News Desk"
+            active={pathname === "/news"}
+          />
+          <V2NavRow
             href="/digest"
             icon={CalendarDays}
             label="Digest"
@@ -608,11 +655,14 @@ export function SidebarContent({
             label="Ideas"
             active={pathname === "/ideas" || pathname.startsWith("/ideas/")}
           />
-          {/* "Predict" sidebar entry hidden 2026-05-03 — page kept on disk
-              (direct links still work) but the audit flagged the underlying
-              data shape (.data/predictions.jsonl) as un-routed through the
-              data-store, so freshness can't be tracked. Re-enable once
-              predictions land in Redis like the other surfaces. */}
+          <V2NavRow
+            href="/predict"
+            icon={LineChart}
+            label="Predict"
+            badge="V1"
+            badgeTone="default"
+            active={pathname === "/predict"}
+          />
           <V2NavRow
             href="/categories"
             icon={Tags}
@@ -662,6 +712,30 @@ export function SidebarContent({
             badge={compareCount > 0 ? compareCount : undefined}
             badgeTone="accent"
             active={pathname === "/compare"}
+          />
+          <V2NavRow
+            href="/tierlist"
+            icon={Trophy}
+            label="Tier List"
+            active={
+              pathname === "/tierlist" || pathname.startsWith("/tierlist/")
+            }
+          />
+          <V2NavRow
+            href="/mindshare"
+            icon={Network}
+            label="MindShare"
+            badge="New"
+            badgeTone="accent"
+            active={pathname === "/mindshare"}
+          />
+          <V2NavRow
+            href="/top10"
+            icon={BarChart3}
+            label="Top 10"
+            badge="New"
+            badgeTone="accent"
+            active={pathname === "/top10" || pathname.startsWith("/top10/")}
           />
           <V2NavRow
             href="/signals"

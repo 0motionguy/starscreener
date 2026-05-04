@@ -91,9 +91,7 @@ const fetcher: Fetcher = {
     // payload, but better than the zero rows the prior gate produced.
     if (rows.length === 0) {
       try {
-        // ctx.http.text returns { data, cached } since the HTTP-cache wave;
-        // parseLobehubHtml only wants the body string.
-        const { data: html } = await ctx.http.text(PAGE_URL, {
+        const html = await ctx.http.text(PAGE_URL, {
           timeoutMs: 30_000,
           useEtagCache: false,
           headers: { 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) Gecko/20100101 Firefox/120.0' },

@@ -11,7 +11,6 @@
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import * as Sentry from "@sentry/nextjs";
 
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { getHfModelsTrending, refreshHfModelsFromStore } from "@/lib/huggingface";
@@ -627,8 +626,6 @@ function parseAspect(value: string | null): Aspect {
 }
 
 export async function GET(request: NextRequest) {
-  Sentry.setTag("route", "api/og/top10");
-
   const { searchParams } = new URL(request.url);
   const category = parseCategory(searchParams.get("cat"));
   const window = parseWindow(
@@ -640,69 +637,51 @@ export async function GET(request: NextRequest) {
   const theme = parseTheme(searchParams.get("theme"));
   const dim = ASPECT_DIMENSIONS[aspect];
 
-  Sentry.setTag("og.category", category);
-  Sentry.setTag("og.window", window);
-  Sentry.setTag("og.aspect", aspect);
-  Sentry.setTag("og.format", format);
-
   // 5 rows for h/sq/yt; 10 rows for v (IG Story portrait has the headroom).
   const rowCount = aspect === "v" ? 10 : 5;
 
-  try {
-    const bundle = await resolveBundle(category, window);
+  const bundle = await resolveBundle(category, window);
 
-    if (format === "svg") {
-      const svg = buildSvg(
-        bundle,
-        category,
-        window,
-        dim.width,
-        dim.height,
-        rowCount,
-        theme,
-      );
-      return new NextResponse(svg, {
-        headers: {
-          "Content-Type": "image/svg+xml; charset=utf-8",
-          "Cache-Control": CACHE_HEADER,
-          ...(searchParams.get("download") === "1"
-            ? {
-                "Content-Disposition": `attachment; filename="top10-${category}-${aspect}-${theme}-${todayStamp()}.svg"`,
-              }
-            : {}),
-        },
-      });
-    }
-
-    return new ImageResponse(
-      (
-        <CardJSX
-          bundle={bundle}
-          category={category}
-          window={window}
-          width={dim.width}
-          height={dim.height}
-          rowCount={rowCount}
-          theme={theme}
-        />
-      ),
-      {
-        ...dim,
-        headers: { "Cache-Control": CACHE_HEADER },
-      },
+  if (format === "svg") {
+    const svg = buildSvg(
+      bundle,
+      category,
+      window,
+      dim.width,
+      dim.height,
+      rowCount,
+      theme,
     );
-  } catch (err) {
-    Sentry.captureException(err, {
-      tags: {
-        route: "api/og/top10",
-        category,
-        window,
-        aspect,
-        format,
+    return new NextResponse(svg, {
+      headers: {
+        "Content-Type": "image/svg+xml; charset=utf-8",
+        "Cache-Control": CACHE_HEADER,
+        ...(searchParams.get("download") === "1"
+          ? {
+              "Content-Disposition": `attachment; filename="top10-${category}-${aspect}-${theme}-${todayStamp()}.svg"`,
+            }
+          : {}),
       },
     });
-    throw err;
   }
+
+  return new ImageResponse(
+    (
+      <CardJSX
+        bundle={bundle}
+        category={category}
+        window={window}
+        width={dim.width}
+        height={dim.height}
+        rowCount={rowCount}
+        theme={theme}
+      />
+    ),
+    {
+      ...dim,
+      headers: { "Cache-Control": CACHE_HEADER },
+    },
+  );
 }
 
 function todayStamp(): string {

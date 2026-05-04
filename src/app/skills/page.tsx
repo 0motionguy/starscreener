@@ -52,58 +52,36 @@ export default async function SkillsPage() {
   const items = data.combined.items;
   const now = Date.now();
 
-  // 1. Hottest This Week — rank by Δhotness (current - 7d-prior) when both
-  //    values are present; fall back to absolute hotness, then signalScore
-  //    so cold-start rows still place. The 7d snapshot comes from the
-  //    `hotness-snapshot` worker fetcher; first 7 days of the rolling
-  //    window everything sorts on absolute.
+  // 1. Hottest This Week — rank by Δhotness (current - 7d-prior) when EITHER
+  //    side has a 7d-ago snapshot (cold-start: usually neither does, in which
+  //    case all deltas collapse to 0 and we drop to the absolute fallback
+  //    chain). Falls through to absolute hotness, then signalScore, then
+  //    most-recently-pushed as the final tiebreak so day-1 ranking is useful
+  //    instead of a flat list.
   const hottest = [...items]
     .sort((a, b) => {
-      const av =
-        a.hotness !== undefined && a.hotnessPrev7d !== undefined
-          ? a.hotness - a.hotnessPrev7d
-          : (a.hotness ?? a.signalScore);
-      const bv =
-        b.hotness !== undefined && b.hotnessPrev7d !== undefined
-          ? b.hotness - b.hotnessPrev7d
-          : (b.hotness ?? b.signalScore);
-      return bv - av;
+      const aHasPrev = a.hotnessPrev7d !== undefined;
+      const bHasPrev = b.hotnessPrev7d !== undefined;
+      if (aHasPrev || bHasPrev) {
+        const aDelta = (a.hotness ?? 0) - (a.hotnessPrev7d ?? a.hotness ?? 0);
+        const bDelta = (b.hotness ?? 0) - (b.hotnessPrev7d ?? b.hotness ?? 0);
+        if (aDelta !== bDelta) return bDelta - aDelta;
+      }
+      const aH = a.hotness ?? a.signalScore ?? 0;
+      const bH = b.hotness ?? b.signalScore ?? 0;
+      if (aH !== bH) return bH - aH;
+      return (
+        (Date.parse(b.lastPushedAt ?? "") || 0) -
+        (Date.parse(a.lastPushedAt ?? "") || 0)
+      );
     })
     .map((item, idx) => ({ ...item, rank: idx + 1 }));
 
-  // 2. Most Forked This Week — sort by forkVelocity7d desc; rows without
-  //    that signal go to the bottom (kept visible, not filtered out, since
-  //    forkVelocity7d isn't wired yet upstream — empty state would mislead).
-  const mostForked = [...items]
-    .sort((a, b) => {
-      const av = a.forkVelocity7d ?? -Infinity;
-      const bv = b.forkVelocity7d ?? -Infinity;
-      return bv - av;
-    })
-    .map((item, idx) => ({ ...item, rank: idx + 1 }));
-
-  // 3. New This Week — items where createdAt is within the last 7 days.
-  //    Falls back to lastPushedAt when createdAt isn't on the payload.
-  const newThisWeek = items
-    .filter((item) => {
-      const iso = item.createdAt ?? item.lastPushedAt;
-      if (!iso) return false;
-      const t = Date.parse(iso);
-      if (!Number.isFinite(t)) return false;
-      return now - t <= ONE_WEEK_MS;
-    })
-    .sort((a, b) => {
-      const at = Date.parse(a.createdAt ?? a.lastPushedAt ?? "") || 0;
-      const bt = Date.parse(b.createdAt ?? b.lastPushedAt ?? "") || 0;
-      return bt - at;
-    })
-    .map((item, idx) => ({ ...item, rank: idx + 1 }));
-
-  // 4. Most Adopted in Collections — sort by derivativeRepoCount desc.
-  //    Rows without a count drop to bottom.
-  const mostAdopted = [...items]
-    .sort((a, b) => (b.derivativeRepoCount ?? -1) - (a.derivativeRepoCount ?? -1))
-    .map((item, idx) => ({ ...item, rank: idx + 1 }));
+  // (Phase-5 escalation 2026-04-29) Old `mostForked` / `newThisWeek` /
+  // `mostAdopted` arrays removed when the four-tab UI was replaced with
+  // three (All Time / Trending 24h / Hot). The signals they surfaced
+  // (forkVelocity7d, createdAt, derivativeRepoCount) are still on the
+  // EcosystemLeaderboardItem and consumed by other surfaces.
 
   const topItem = data.combined.items[0];
 
@@ -152,60 +130,99 @@ export default async function SkillsPage() {
   // paint. Default = "all".
   const sourceFilter: SkillSourceFilter = "all";
 
+  // Phase-5 escalation 2026-04-29: replaced 4 weekly-themed tabs with 3
+  // user-facing tabs that match the reference UI (All Time / Trending 24h
+  // / Hot). The underlying sort comparators stay (hottest = Δhotness with
+  // absolute fallback chain; mostForked/mostAdopted retired since their
+  // signal isn't surfaced as a tab anymore).
+  //
+  // 1. All Time — sort by popularity desc (installs > downloads > stars per
+  //    coercer priority); falls through to signalScore. Counts upstream
+  //    pagination.total when present (e.g. skillsmp 1M+ catalog).
+  const allTime = [...items]
+    .sort((a, b) => {
+      const aP = a.popularity ?? a.signalScore ?? 0;
+      const bP = b.popularity ?? b.signalScore ?? 0;
+      if (aP !== bP) return bP - aP;
+      return (
+        (Date.parse(b.lastPushedAt ?? "") || 0) -
+        (Date.parse(a.lastPushedAt ?? "") || 0)
+      );
+    })
+    .map((item, idx) => ({ ...item, rank: idx + 1 }));
+
+  // 2. Trending (24h) — Δhotness (current - prev) when at least one side
+  //    has a 7d-prior snapshot. Cold-start fallback chain hottest → above.
+  //    Reuses the `hottest` array built earlier in this file.
+  const trending24h = hottest;
+
+  // 3. Hot — items pushed in the last 7d, ranked by absolute hotness desc.
+  //    Surfaces "what's actively churning" without needing a 1h-snapshot
+  //    fetcher (defer that until snapshots ship in a follow-up).
+  const hotRecent = items
+    .filter((item) => {
+      const iso = item.lastPushedAt ?? item.createdAt;
+      if (!iso) return false;
+      const t = Date.parse(iso);
+      if (!Number.isFinite(t)) return false;
+      return now - t <= ONE_WEEK_MS;
+    })
+    .sort((a, b) => {
+      const aH = a.hotness ?? a.signalScore ?? 0;
+      const bH = b.hotness ?? b.signalScore ?? 0;
+      if (aH !== bH) return bH - aH;
+      return (
+        (Date.parse(b.lastPushedAt ?? "") || 0) -
+        (Date.parse(a.lastPushedAt ?? "") || 0)
+      );
+    })
+    .map((item, idx) => ({ ...item, rank: idx + 1 }));
+
+  const totalLabel =
+    typeof data.combined.meta?.total === "number" && data.combined.meta.total > 0
+      ? data.combined.meta.total.toLocaleString("en-US")
+      : data.combined.items.length.toLocaleString("en-US");
+
   const tabs: SignalTabSpec[] = [
     {
-      id: "hottest",
-      label: "Hottest This Week",
+      id: "all-time",
+      label: `All Time (${totalLabel})`,
       rows: [],
       content: (
         <SkillsTerminalTable
-          items={hottest}
+          items={allTime}
           accent={SKILLS_ACCENT}
           sourceFilter={sourceFilter}
           emptyTitle="No skills leaderboard rows have landed yet."
-          emptySubtitle="Waiting for the publish-leaderboards job to write trending-skill."
+          emptySubtitle="Waiting for upstream skill fetchers to populate Redis."
         />
       ),
     },
     {
-      id: "most-forked",
-      label: "Most Forked This Week",
+      id: "trending-24h",
+      label: "Trending (24h)",
       rows: [],
       content: (
         <SkillsTerminalTable
-          items={mostForked}
+          items={trending24h}
           accent={SKILLS_ACCENT}
           sourceFilter={sourceFilter}
-          emptyTitle="No fork velocity yet."
-          emptySubtitle="forkVelocity7d is typed but not yet populated by an upstream fetcher."
+          emptyTitle="No 24h trending data yet."
+          emptySubtitle="Cold-start: ranking falls back to absolute hotness until 7d-prior snapshots fill in."
         />
       ),
     },
     {
-      id: "new",
-      label: "New This Week",
+      id: "hot",
+      label: "Hot",
       rows: [],
       content: (
         <SkillsTerminalTable
-          items={newThisWeek}
+          items={hotRecent}
           accent={SKILLS_ACCENT}
           sourceFilter={sourceFilter}
-          emptyTitle="No new skills landed this week."
-          emptySubtitle="Falls back to lastPushedAt when createdAt isn't on the payload."
-        />
-      ),
-    },
-    {
-      id: "most-adopted",
-      label: "Most Adopted in Collections",
-      rows: [],
-      content: (
-        <SkillsTerminalTable
-          items={mostAdopted}
-          accent={SKILLS_ACCENT}
-          sourceFilter={sourceFilter}
-          emptyTitle="No derivative-count data yet."
-          emptySubtitle="skill-derivative-count fetcher publishes every 12h."
+          emptyTitle="Nothing pushed in the last 7d."
+          emptySubtitle="Hot tab surfaces actively-churning skills."
         />
       ),
     },

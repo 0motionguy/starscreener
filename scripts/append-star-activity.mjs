@@ -172,9 +172,7 @@ async function main() {
   if (failed > 0 && ok === 0) process.exitCode = 1;
 }
 
-main()
-  .then(() => process.exit(0))
-  .catch((err) => {
-    console.error("[append-star-activity] fatal", err);
-    process.exit(1);
-  });
+main().catch((err) => {
+  console.error("[append-star-activity] fatal", err);
+  process.exit(1);
+});

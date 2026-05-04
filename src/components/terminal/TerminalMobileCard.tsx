@@ -40,7 +40,6 @@ import { RankBadge } from "@/components/shared/RankBadge";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { RepoMentionBadges } from "@/components/repo-signals/RepoMentionBadges";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { BrandStar } from "@/components/shared/BrandStar";
 import { repoDisplayLogoUrl } from "@/lib/logos";
 
 interface TerminalMobileCardProps {

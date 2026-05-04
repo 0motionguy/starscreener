@@ -28,6 +28,17 @@ export interface McpItem extends DomainItem {
   isStdio?: boolean;
   /** ISO timestamp of the last npm/pypi release — feeds lastReleaseRecency. */
   lastReleaseAt?: string;
+  /**
+   * Absolute install count snapshot (lifetime, not delta). Cold-start
+   * fallback for `installsAbs` component — fires only when both
+   * npmDownloads7d and pypiDownloads7d are undefined.
+   */
+  installsTotal?: number;
+  /**
+   * Absolute star count for the MCP's GitHub repo. Cold-start fallback
+   * for `starsAbs` — fires only when downloads + dependents are absent.
+   */
+  stars?: number;
 }
 
 const COMPONENT_LABELS: Record<string, string> = {

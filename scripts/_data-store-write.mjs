@@ -237,31 +237,6 @@ export async function writeDataStore(key, value, opts = {}) {
 }
 
 /**
- * Build the WriterMeta envelope. Mirrors src/lib/data-store.ts
- * buildWriterMeta — same shape, same env-var precedence, so dual-writer
- * observability sees consistent provenance regardless of which path wrote.
- *
- * @returns {{ ts: string; writerId?: string; sourceWorkflow?: string; commitSha?: string; runId?: string }}
- */
-function buildScriptWriterMeta(opts = {}) {
-  const meta = { ts: new Date().toISOString() };
-  const explicit = opts.writer?.trim?.() || process.env.WRITER_ID?.trim();
-  if (explicit) meta.writerId = explicit;
-  else if (process.env.GITHUB_WORKFLOW) {
-    meta.writerId = `gha:${process.env.GITHUB_WORKFLOW}`;
-  } else {
-    meta.writerId = "script:local";
-  }
-  const wf = process.env.GITHUB_WORKFLOW?.trim();
-  if (wf) meta.sourceWorkflow = wf;
-  const sha = opts.commit?.trim?.() || process.env.GITHUB_SHA?.trim();
-  if (sha) meta.commitSha = sha;
-  const runId = opts.runId?.trim?.() || process.env.GITHUB_RUN_ID?.trim();
-  if (runId) meta.runId = runId;
-  return meta;
-}
-
-/**
  * Read a JSON payload from the data-store under the same `ss:data:v1:<slug>`
  * namespace `writeDataStore` writes to. Returns `null` when Redis is disabled,
  * the key is missing, or the value cannot be parsed back to JSON. Used by

@@ -1,7 +1,9 @@
-// /tierlist/[shortId] - saved/shared tier list view plus remix.
+// /tierlist/[shortId] — saved/shared tier list (view + remix).
+//
+// Server-side hydration: looks up the payload, builds the avatar metadata
+// cache from the derived-repos index, and seeds the client editor.
 
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { TierListEditor } from "@/components/tier-list/TierListEditor";
@@ -46,11 +48,11 @@ function buildItemMeta(repoIds: string[]): Record<string, PoolItem> {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { shortId } = await params;
   if (!isShortId(shortId)) {
-    return { title: `Tier list - ${SITE_NAME}` };
+    return { title: `Tier list — ${SITE_NAME}` };
   }
   const payload = await getTierList(shortId);
   if (!payload) {
-    return { title: `Tier list - ${SITE_NAME}` };
+    return { title: `Tier list — ${SITE_NAME}` };
   }
   const hash = stateHash({
     title: payload.title,
@@ -62,9 +64,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   );
   const description = payload.description
     ? payload.description
-    : `${payload.title} - tier list built on TrendingRepo.`;
+    : `${payload.title} — tier list built on TrendingRepo.`;
   return {
-    title: `${payload.title} - ${SITE_NAME}`,
+    title: `${payload.title} — ${SITE_NAME}`,
     description,
     alternates: {
       canonical: absoluteUrl(`/tierlist/${shortId}`),
@@ -98,24 +100,7 @@ export default async function SavedTierListPage({ params }: Params) {
   const itemMeta = buildItemMeta(allItemIds);
 
   return (
-    <main className="home-surface tools-page tierlist-page">
-      <section className="page-head">
-        <div>
-          <div className="crumb">
-            <b>Tools</b> / tier list / {payload.shortId}
-          </div>
-          <h1>{payload.title}</h1>
-          <p className="lede">
-            Shared tier board built on TrendingRepo. Remix it into a fresh
-            editable draft or export a branded card.
-          </p>
-        </div>
-        <div className="clock">
-          <span className="big">{payload.shortId}</span>
-          <span className="live">saved board</span>
-        </div>
-      </section>
-
+    <main style={{ minHeight: "100vh", backgroundColor: "#151419" }}>
       <RemixBanner payload={payload} />
       <TierListEditor
         initial={{
@@ -129,26 +114,62 @@ export default async function SavedTierListPage({ params }: Params) {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Remix banner — shown at the top of any saved-list page so the visitor can
+// fork the list into a fresh editable draft. Hitting Save & Share on the
+// remix produces a NEW shortId (the original is never overwritten — POST
+// always creates).
+// ---------------------------------------------------------------------------
+
 function RemixBanner({ payload }: { payload: TierListPayload }) {
   const remixHref = `/tierlist?${encodeTierListUrl({
-    title: `${payload.title} - remix`,
+    title: `${payload.title} — remix`,
     tiers: payload.tiers,
     unrankedItems: payload.unrankedItems,
   }).toString()}`;
   const author = payload.ownerHandle
     ? `@${payload.ownerHandle}`
-    : "anonymous author";
+    : "an anonymous author";
   return (
-    <section className="tier-remix-banner">
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 12,
+        flexWrap: "wrap",
+        padding: "10px 24px",
+        borderBottom: "1px solid #2B2B2F",
+        backgroundColor: "#13161a",
+        fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+        fontSize: 12,
+        color: "#aab0b6",
+        letterSpacing: "0.04em",
+      }}
+    >
       <span>
-        {"// viewing tier list "}
-        <b>{payload.shortId}</b>
-        {" / made by "}
-        <b>{author}</b>
+        {"// "}viewing tier list{" "}
+        <span style={{ color: "#FBFBFB" }}>{payload.shortId}</span>
+        {" · made by "}
+        <span style={{ color: "#FBFBFB" }}>{author}</span>
       </span>
-      <Link href={remixHref} className="ico-btn">
-        Remix
-      </Link>
-    </section>
+      <a
+        href={remixHref}
+        style={{
+          padding: "6px 12px",
+          border: "1px solid #272c33",
+          borderRadius: 3,
+          backgroundColor: "#1b1b1e",
+          color: "#FBFBFB",
+          textDecoration: "none",
+          fontWeight: 700,
+          textTransform: "uppercase",
+          letterSpacing: "0.14em",
+          fontSize: 11,
+        }}
+      >
+        ↻ Remix
+      </a>
+    </div>
   );
 }

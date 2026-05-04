@@ -31,6 +31,8 @@ import type { EcosystemLeaderboardItem } from "@/lib/ecosystem-leaderboards";
 import { LivenessPill, classifyLiveness } from "@/components/signal/LivenessPill";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { TerminalBar } from "@/components/v2";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { mcpEntityLogoUrl } from "@/lib/logos";
 import { McpDownloadsSparklineLazy } from "./_components/McpDownloadsSparklineLazy";
 
 // force-dynamic mirrors the /mcp index page's posture: data is read at
@@ -317,19 +319,13 @@ function Header({
     <header className="rounded-card border border-border-primary bg-bg-card p-4 sm:p-5">
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-3">
-          {item.logoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={item.logoUrl}
-              alt=""
-              width={40}
-              height={40}
-              loading="lazy"
-              className="h-10 w-10 flex-none rounded-sm border border-border-primary object-contain"
-            />
-          ) : (
-            <span className="h-10 w-10 flex-none rounded-sm border border-border-primary bg-bg-muted" />
-          )}
+          <EntityLogo
+            src={mcpEntityLogoUrl(item, 40)}
+            name={item.title}
+            size={40}
+            shape="square"
+            alt=""
+          />
           <div className="min-w-0 flex-1">
             <h1
               className="truncate text-[18px] font-semibold sm:text-[20px]"

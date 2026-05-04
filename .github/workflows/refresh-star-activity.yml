@@ -40,5 +40,4 @@ jobs:
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
           GITHUB_TOKEN: ${{ github.token }}
-          GH_TOKEN_POOL: ${{ secrets.GH_TOKEN_POOL }}
         run: node scripts/append-star-activity.mjs

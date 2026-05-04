@@ -52,7 +52,6 @@ import {
 } from "@/lib/top10/builders";
 import { writeTop10Snapshot, todayUtcDate } from "@/lib/top10/snapshots";
 import type { Top10Payload } from "@/lib/top10/types";
-import { closeDataStore } from "@/lib/data-store";
 
 async function main(): Promise<void> {
   const date = todayUtcDate();
@@ -115,9 +114,7 @@ async function main(): Promise<void> {
   console.log(`[snapshot-top10] wrote key=top10:${date} ok`);
 }
 
-main()
-  .then(() => process.exit(0))
-  .catch((err) => {
-    console.error("[snapshot-top10] FAILED", err);
-    process.exit(1);
-  });
+main().catch((err) => {
+  console.error("[snapshot-top10] FAILED", err);
+  process.exit(1);
+});

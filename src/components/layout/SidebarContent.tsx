@@ -13,10 +13,10 @@
  * Sections:
  *   1. TREND TERMINAL    — Repos, Skills, MCP, AGNT, Breakouts, Top 100
  *   2. SIGNAL TERMINAL   — HN / Lobsters / Dev.to / Bluesky / Reddit / X / PH
- *   3. LLM / PACK TERMINAL — NPM / Hugging Face / Datasets / Spaces
+ *   3. LLM / PACK TERMINAL — NPM / Hugging Face / LLM Charts
  *   4. LAUNCH TERMINAL   — Funding / Revenue / Hackathons / Launch
  *   5. RESEARCH TERMINAL — arXiv Papers / Cited Repos
- *   6. TOOLS             — Watchlist / Compare / Tier List / MindShare / Top 10
+ *   6. TOOLS             — Watchlist / Compare / Signal Radar
  *   7. WATCHING          — top 5 watchlist preview cards
  *
  * Three badge tones:
@@ -33,18 +33,13 @@ import {
   BadgeCheck,
   BarChart3,
   Bot,
+  Bookmark,
   Brain,
-  CalendarDays,
-  Coins,
   Cpu,
   DollarSign,
-  Eye,
   FileText,
   GitCompareArrows,
   GraduationCap,
-  Library,
-  Lightbulb,
-  Network,
   Package,
   Plug,
   Radar,
@@ -241,36 +236,6 @@ function V2NavRow({
   );
 }
 
-/**
- * FreshCountNavRow — wraps V2NavRow with the `useFreshCount` hook so the
- * badge automatically swaps between cumulative total ("840") and
- * fresh-since-last-visit delta ("+521") depending on whether the user
- * has visited this route before. First-visit users see the cumulative
- * total; on subsequent visits, the badge shows new items added in
- * between (or stays empty when there are none).
- *
- * `routeKey` must match the key passed to <MarkVisited routeKey=... />
- * on the corresponding route page so the snapshot diff is computed
- * against the right localStorage entry.
- */
-function FreshCountNavRow({
-  routeKey,
-  currentCount,
-  ...rest
-}: Omit<V2NavRowProps, "badge" | "badgeTone"> & {
-  routeKey: string;
-  currentCount: number;
-}) {
-  const fresh = useFreshCount(routeKey, currentCount);
-  const badge = fresh.hasFresh
-    ? `+${compactCount(fresh.delta)}`
-    : fresh.total > 0
-      ? compactCount(fresh.total)
-      : undefined;
-  const badgeTone: BadgeTone = fresh.hasFresh ? "delta" : "default";
-  return <V2NavRow {...rest} badge={badge} badgeTone={badgeTone} />;
-}
-
 function V2Chip({
   value,
   tone = "default",
@@ -282,10 +247,10 @@ function V2Chip({
     tone === "accent"
       ? { bg: "var(--acc-soft)", color: "var(--acc)" }
       : tone === "danger"
-        ? { bg: "rgba(255, 77, 77, 0.14)", color: "var(--sig-red)" }
+        ? { bg: "rgba(239, 68, 68, 0.14)", color: "#ef4444" }
         : tone === "delta"
-          ? { bg: "var(--money-soft)", color: "var(--sig-green)" }
-          : { bg: "var(--bg-100)", color: "var(--ink-300)" };
+          ? { bg: "var(--color-up-bg)", color: "var(--color-up)" }
+          : { bg: "var(--v2-bg-200)", color: "var(--v2-ink-300)" };
 
   return (
     <span
@@ -317,6 +282,24 @@ export function SidebarContent({
 
   const watchCount = useWatchlistStore((s) => s.repos.length);
   const compareCount = useCompareStore((s) => s.repos.length);
+
+  useEffect(() => {
+    setNewsTab(new URLSearchParams(window.location.search).get("tab"));
+  }, [pathname]);
+
+  function goToReposTerminal(filter: "breakouts" | "new" | null) {
+    setActiveTag(null);
+    if (filter) {
+      setActiveMetaFilter(filter);
+    } else {
+      setActiveMetaFilter(null);
+      setActiveTab("trending");
+    }
+    if (pathname !== "/") {
+      router.push("/");
+    }
+    onClose?.();
+  }
 
   function goToAgentRepos() {
     setActiveTag(null);
@@ -376,33 +359,31 @@ export function SidebarContent({
       <CursorRail className="flex-1 overflow-y-auto scrollbar-hide">
         {/* TREND TERMINAL */}
         <V2Section label="TREND TERMINAL">
-          <FreshCountNavRow
-            routeKey="trendingRepos"
-            currentCount={trendingReposCount ?? 0}
-            href="/"
+          <V2NavRow
+            onClick={() => goToReposTerminal(null)}
             icon={TrendingUp}
             label="Trending Repos"
-            active={pathname === "/"}
+            badge={
+              trendingReposCount && trendingReposCount > 0
+                ? compactCount(trendingReposCount)
+                : undefined
+            }
+            badgeTone="default"
+            active={pathname === "/" && activeMetaFilter === null}
           />
-          <FreshCountNavRow
-            routeKey="skills"
-            currentCount={sourceCounts?.skillsItems ?? 0}
+          <V2NavRow
             href="/skills"
             icon={GraduationCap}
             label="Trending Skills"
             active={pathname === "/skills" || pathname.startsWith("/skills/")}
           />
-          <FreshCountNavRow
-            routeKey="mcp"
-            currentCount={sourceCounts?.mcpItems ?? 0}
+          <V2NavRow
             href="/mcp"
             icon={Plug}
             label="Trending MCP"
             active={pathname === "/mcp" || pathname.startsWith("/mcp/")}
           />
-          <FreshCountNavRow
-            routeKey="agentRepos"
-            currentCount={sourceCounts?.agentRepos ?? 0}
+          <V2NavRow
             onClick={goToAgentRepos}
             icon={Cpu}
             label="Trending AGNT"
@@ -417,12 +398,12 @@ export function SidebarContent({
             active={pathname === "/breakouts"}
           />
           <V2NavRow
-            href="/consensus"
-            icon={Radar}
-            label="Consensus"
-            badge="3X"
-            badgeTone="accent"
-            active={pathname === "/consensus"}
+            href="/search?sort=stars-total&limit=100"
+            icon={Trophy}
+            label="Top 100"
+            badge="100"
+            badgeTone="default"
+            active={pathname === "/search"}
           />
         </V2Section>
 
@@ -478,6 +459,42 @@ export function SidebarContent({
             }
           />
           <V2NavRow
+            href="/lobsters"
+            icon={LobstersSidebarIcon}
+            label="Lobsters"
+            badge={deltaChip(sourceCounts?.lobstersStories ?? 0) || undefined}
+            badgeTone="delta"
+            active={
+              pathname === "/lobsters" ||
+              pathname.startsWith("/lobsters/") ||
+              (pathname === "/news" && newsTab === "lobsters")
+            }
+          />
+          <V2NavRow
+            href="/devto"
+            icon={DevtoSidebarIcon}
+            label="Dev.to"
+            badge={deltaChip(sourceCounts?.devtoArticles ?? 0) || undefined}
+            badgeTone="delta"
+            active={
+              pathname === "/devto" ||
+              pathname.startsWith("/devto/") ||
+              (pathname === "/news" && newsTab === "devto")
+            }
+          />
+          <V2NavRow
+            href="/bluesky/trending"
+            icon={BlueskySidebarIcon}
+            label="Bluesky"
+            badge={deltaChip(sourceCounts?.blueskyPosts ?? 0) || undefined}
+            badgeTone="delta"
+            active={
+              pathname === "/bluesky" ||
+              pathname.startsWith("/bluesky/") ||
+              (pathname === "/news" && newsTab === "bluesky")
+            }
+          />
+          <V2NavRow
             href="/reddit/trending"
             icon={RedditSidebarIcon}
             label="Reddit"
@@ -503,7 +520,8 @@ export function SidebarContent({
             badgeTone="delta"
             active={
               pathname === "/producthunt" ||
-              pathname.startsWith("/producthunt/")
+              pathname.startsWith("/producthunt/") ||
+              (pathname === "/news" && newsTab === "producthunt")
             }
           />
         </V2Section>
@@ -522,16 +540,11 @@ export function SidebarContent({
             badgeTone="default"
             active={pathname === "/npm" || pathname.startsWith("/npm/")}
           />
-          <FreshCountNavRow
-            routeKey="hfModels"
-            currentCount={sourceCounts?.hfModels ?? 0}
-            href="/huggingface/trending"
+          <V2NavRow
             icon={Brain}
-            label="HF Models"
-            active={
-              pathname === "/huggingface" ||
-              pathname === "/huggingface/trending"
-            }
+            label="Hugging Face"
+            badge="Soon"
+            disabled
           />
           <FreshCountNavRow
             routeKey="hfDatasets"
@@ -608,57 +621,17 @@ export function SidebarContent({
 
         {/* RESEARCH TERMINAL */}
         <V2Section label="RESEARCH TERMINAL">
-          <FreshCountNavRow
-            routeKey="arxivPapers"
-            currentCount={sourceCounts?.arxivPapers ?? 0}
-            href="/arxiv/trending"
+          <V2NavRow
+            href="/papers"
             icon={FileText}
             label="arXiv Papers"
-            active={
-              pathname === "/papers" ||
-              pathname === "/arxiv" ||
-              pathname === "/arxiv/trending" ||
-              pathname.startsWith("/papers/") ||
-              pathname.startsWith("/arxiv/")
-            }
+            active={pathname === "/papers" || pathname.startsWith("/papers/")}
           />
-          <FreshCountNavRow
-            routeKey="citedRepos"
-            currentCount={sourceCounts?.citedRepos ?? 0}
+          <V2NavRow
             href="/research"
             icon={Bot}
             label="Cited Repos"
             active={pathname === "/research" || pathname.startsWith("/research/")}
-          />
-        </V2Section>
-
-        {/* EXPLORE */}
-        <V2Section label="EXPLORE">
-          <V2NavRow
-            href="/digest"
-            icon={CalendarDays}
-            label="Digest"
-            active={pathname === "/digest" || pathname.startsWith("/digest/")}
-          />
-          <V2NavRow
-            href="/ideas"
-            icon={Lightbulb}
-            label="Ideas"
-            active={pathname === "/ideas" || pathname.startsWith("/ideas/")}
-          />
-          {/* "Predict" sidebar entry hidden 2026-05-03 — page kept on disk
-              (direct links still work) but the audit flagged the underlying
-              data shape (.data/predictions.jsonl) as un-routed through the
-              data-store, so freshness can't be tracked. Re-enable once
-              predictions land in Redis like the other surfaces. */}
-          <V2NavRow
-            href="/collections"
-            icon={Library}
-            label="Collections"
-            active={
-              pathname === "/collections" ||
-              pathname.startsWith("/collections/")
-            }
           />
         </V2Section>
 
@@ -681,28 +654,12 @@ export function SidebarContent({
             active={pathname === "/compare"}
           />
           <V2NavRow
-            href="/tierlist"
-            icon={Trophy}
-            label="Tier List"
+            href="/signals"
+            icon={Radar}
+            label="Signal Radar"
             active={
-              pathname === "/tierlist" || pathname.startsWith("/tierlist/")
+              pathname === "/signals" || pathname.startsWith("/signals/")
             }
-          />
-          <V2NavRow
-            href="/mindshare"
-            icon={Network}
-            label="MindShare"
-            badge="New"
-            badgeTone="accent"
-            active={pathname === "/mindshare"}
-          />
-          <V2NavRow
-            href="/top10"
-            icon={BarChart3}
-            label="Top 10"
-            badge="New"
-            badgeTone="accent"
-            active={pathname === "/top10" || pathname.startsWith("/top10/")}
           />
         </V2Section>
 

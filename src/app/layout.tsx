@@ -1,12 +1,9 @@
 import type { Metadata, Viewport } from "next";
-// Trimmed to 3 actively-rendered fonts (Geist sans, Geist Mono, Space
-// Grotesk display). Inter and JetBrains Mono lived only as CSS-fallback
-// strings in globals.css after `var(--font-geist*)` and never painted
-// when geist loaded successfully — dropping the next/font loads saves
-// ~60 KB of font payload + 2 <link rel="preload"> head entries. The
-// named "Inter" / "JetBrains Mono" strings remain in the font-family
-// chains so locally-installed copies still work as system fallbacks.
-import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
+// Trimmed from 4 fonts to 3: Instrument Serif (--font-editorial) was
+// defined but not referenced anywhere in src/components or src/app.
+// Dropping it saves ~30 KB of font payload + one <link rel="preload">.
+import { Geist, Geist_Mono, Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { Toaster } from "sonner";
 // Validate environment variables at server boot. Must stay first so misconfig
 // crashes the app before any routes load.
 import "@/lib/bootstrap";
@@ -283,7 +280,29 @@ export default async function RootLayout({
               </AppShell>
               <MobileNav />
               <BrowserAlertBridge />
-              <ToasterLazy />
+              <Toaster
+                theme="dark"
+                position="bottom-right"
+                richColors={false}
+                closeButton={false}
+                toastOptions={{
+                  classNames: {
+                    toast:
+                      "!bg-[var(--v3-bg-050)] !border !border-[var(--v3-line-200)] !text-[var(--v3-ink-100)] !rounded-[2px] !shadow-[var(--shadow-popover)] !font-sans !text-[13px]",
+                    title:
+                      "!text-[var(--v3-ink-000)] !font-medium !tracking-[-0.005em]",
+                    description: "!text-[var(--v3-ink-300)] !text-[12px]",
+                    success:
+                      "!border-l-[3px] !border-l-[var(--v3-sig-green)]",
+                    error:
+                      "!border-l-[3px] !border-l-[var(--v3-sig-red)]",
+                    info:
+                      "!border-l-[3px] !border-l-[var(--v3-acc)]",
+                    warning:
+                      "!border-l-[3px] !border-l-[var(--v3-sig-amber)]",
+                  },
+                }}
+              />
               </DesignSystemProvider>
             </StoreProvider>
           </PostHogProvider>

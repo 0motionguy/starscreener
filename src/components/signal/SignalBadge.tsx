@@ -68,6 +68,10 @@ const STYLES: Record<SignalBadgeKind, { label: string; tone: BadgeTone }> = {
     label: "VERIFIED",
     tone: "positive",
   },
+  verified: {
+    label: "VERIFIED",
+    cls: "border-up/60 bg-up/10 text-up",
+  },
 };
 
 interface SignalBadgeProps {

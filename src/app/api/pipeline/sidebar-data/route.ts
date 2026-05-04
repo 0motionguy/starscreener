@@ -12,26 +12,84 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { errorEnvelope } from "@/lib/api/error-response";
-import { buildSidebarData } from "@/lib/sidebar-data";
-
-// Re-export the wire types so existing import paths keep working.
-export type {
-  SidebarDataRepo,
-  SidebarDataResponse,
-} from "@/lib/sidebar-data";
+import { pipeline } from "@/lib/pipeline/pipeline";
+import {
+  getDerivedAvailableLanguages,
+  getDerivedCategoryStats,
+  getDerivedMetaCounts,
+} from "@/lib/derived-insights";
+import { getDerivedRepos } from "@/lib/derived-repos";
+import {
+  getSidebarSourceCounts,
+  emptySidebarSourceCounts,
+  type SidebarSourceCounts,
+} from "@/lib/sidebar-source-counts";
+import type { MetaCounts, MovementStatus } from "@/lib/types";
+import type { CategoryStats } from "@/lib/pipeline/queries/aggregate";
 
 export const runtime = "nodejs";
 
-export async function GET(request: NextRequest) {
+export interface SidebarDataRepo {
+  id: string;
+  fullName: string;
+  owner: string;
+  name: string;
+  ownerAvatarUrl: string;
+  momentumScore: number;
+  movementStatus: MovementStatus;
+  sparklineData: number[];
+  stars: number;
+  starsDelta24h: number;
+  starsDelta24hMissing?: boolean;
+}
+
+export interface SidebarDataResponse {
+  categoryStats: CategoryStats[];
+  metaCounts: MetaCounts;
+  availableLanguages: string[];
+  reposById: Record<string, SidebarDataRepo>;
+  unreadAlerts: number;
+  sourceCounts: SidebarSourceCounts;
+  trendingReposCount: number;
+  generatedAt: string;
+}
+
+export async function GET(
+  request: NextRequest,
+): Promise<NextResponse<SidebarDataResponse | { error: string }>> {
   try {
     const userId = request.nextUrl.searchParams.get("userId") ?? undefined;
-    // No reposById cap on the API path: the mobile drawer (the only
-    // remaining consumer post-B1) reads watchlist tiles and may target
-    // repos outside the top-N momentum slice the layout passes inline.
-    const data = await buildSidebarData({ userId });
-    return NextResponse.json(data, {
-      headers: { "Content-Type": "application/json; charset=utf-8" },
-    });
+    let unreadAlerts = 0;
+    try {
+      await pipeline.ensureReady();
+      const events = pipeline.getAlerts(userId);
+      unreadAlerts = events.filter((e) => e.readAt === null).length;
+    } catch {
+      unreadAlerts = 0;
+    }
+
+    // Per-source counts for the sidebar count badges. Degrade to zeros
+    // on cold data-store / read error so the sidebar still renders.
+    let sourceCounts: SidebarSourceCounts;
+    try {
+      sourceCounts = await getSidebarSourceCounts();
+    } catch {
+      sourceCounts = emptySidebarSourceCounts();
+    }
+
+    return NextResponse.json(
+      {
+        categoryStats,
+        metaCounts,
+        availableLanguages,
+        reposById,
+        unreadAlerts,
+        sourceCounts,
+        trendingReposCount: repos.length,
+        generatedAt: new Date().toISOString(),
+      },
+      { headers: { "Content-Type": "application/json; charset=utf-8" } },
+    );
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json(errorEnvelope(message), { status: 500 });

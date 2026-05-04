@@ -15,12 +15,6 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
       capture_pageview: "history_change",
       capture_pageleave: true,
       person_profiles: "identified_only",
-      // Skip the session-recording chunk on every page. Replay-on-error
-      // is already gated by the Sentry replay flag (Phase 1 perf work);
-      // PostHog recording isn't wired into any internal review surface
-      // today. Flip back to false if a future analyst wants session
-      // replay.
-      disable_session_recording: true,
       loaded: (ph) => {
         ph.register({ project: "trendingrepo", surface: "web" });
         if (process.env.NODE_ENV === "development") ph.debug();

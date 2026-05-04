@@ -463,9 +463,6 @@ if (isDirectRun) {
       } catch (metaErr) {
         console.error("[meta] devto.json error-write failed:", metaErr);
       }
-      process.exitCode = 1;
-    })
-    .finally(async () => {
-      await closeDataStore();
+      process.exit(1);
     });
 }

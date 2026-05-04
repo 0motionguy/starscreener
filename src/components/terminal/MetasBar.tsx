@@ -21,13 +21,13 @@ const METAS: MetaDef[] = [
   {
     id: "hot",
     label: "HOT THIS WEEK",
-    color: "var(--v4-acc)",
+    color: "var(--v3-acc)",
     countKey: "hot",
   },
   {
     id: "breakouts",
     label: "BREAKOUTS",
-    color: "var(--v4-amber)",
+    color: "var(--v3-sig-amber)",
     countKey: "breakouts",
   },
   {
@@ -39,25 +39,25 @@ const METAS: MetaDef[] = [
   {
     id: "new",
     label: "NEW <30D",
-    color: "var(--v4-cyan)",
+    color: "var(--v3-sig-cyan)",
     countKey: "new",
   },
   {
     id: "discussed",
     label: "MOST DISCUSSED",
-    color: "var(--v4-acc)",
+    color: "var(--v3-acc)",
     countKey: "discussed",
   },
   {
     id: "rank-climbers",
     label: "RANK CLIMBERS",
-    color: "var(--v4-amber)",
+    color: "var(--v3-sig-amber)",
     countKey: "rankClimbers",
   },
   {
     id: "fresh-releases",
     label: "FRESH RELEASES",
-    color: "var(--v4-money)",
+    color: "var(--v3-sig-green)",
     countKey: "freshReleases",
   },
 ];
@@ -107,11 +107,11 @@ export function MetasBar({ counts }: MetasBarProps) {
             style={{
               background: isActive
                 ? `color-mix(in oklab, ${meta.color} 14%, transparent)`
-                : "var(--v4-bg-050)",
+                : "var(--v3-bg-050)",
               borderColor: isActive
                 ? meta.color
-                : "var(--v4-line-200)",
-              color: isActive ? meta.color : "var(--v4-ink-200)",
+                : "var(--v3-line-200)",
+              color: isActive ? meta.color : "var(--v3-ink-200)",
             }}
             dotStyle={{
               background: meta.color,

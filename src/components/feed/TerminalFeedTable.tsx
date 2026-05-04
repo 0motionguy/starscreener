@@ -80,20 +80,20 @@ export function TerminalFeedTable<T>({
       <div
         className="rounded-[2px] border border-dashed px-4 py-10 text-center"
         style={{
-          borderColor: "var(--v4-line-100)",
-          background: "var(--v4-bg-025)",
+          borderColor: "var(--v3-line-100)",
+          background: "var(--v3-bg-025)",
         }}
       >
         <p
           className="v2-mono text-[11px] tracking-[0.18em] uppercase"
-          style={{ color: "var(--v4-ink-300)" }}
+          style={{ color: "var(--v3-ink-300)" }}
         >
           {emptyTitle}
         </p>
         {emptySubtitle ? (
           <p
             className="mt-1 text-[11px]"
-            style={{ color: "var(--v4-ink-400)" }}
+            style={{ color: "var(--v3-ink-400)" }}
           >
             {emptySubtitle}
           </p>
@@ -106,8 +106,8 @@ export function TerminalFeedTable<T>({
     <div
       className="overflow-x-auto"
       style={{
-        background: "var(--v4-bg-050)",
-        border: "1px solid var(--v4-line-200)",
+        background: "var(--v3-bg-050)",
+        border: "1px solid var(--v3-line-200)",
         borderRadius: 2,
       }}
     >
@@ -122,8 +122,8 @@ export function TerminalFeedTable<T>({
         <thead>
           <tr
             style={{
-              borderBottom: "1px solid var(--v4-line-100)",
-              background: "var(--v4-bg-025)",
+              borderBottom: "1px solid var(--v3-line-100)",
+              background: "var(--v3-bg-025)",
             }}
           >
             {columns.map((col) => (
@@ -135,7 +135,7 @@ export function TerminalFeedTable<T>({
                 } ${visibilityClass(col)}`}
                 style={{
                   width: col.width,
-                  color: "var(--v4-ink-400)",
+                  color: "var(--v3-ink-400)",
                   fontWeight: 500,
                 }}
               >
@@ -152,7 +152,7 @@ export function TerminalFeedTable<T>({
                 key={rowKey(row, rowIndex)}
                 className="v2-row group"
                 style={{
-                  borderBottom: "1px dashed var(--v4-line-100)",
+                  borderBottom: "1px dashed var(--v3-line-100)",
                   animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
                   animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
                   ["--feed-accent" as string]: accent,
@@ -166,7 +166,7 @@ export function TerminalFeedTable<T>({
                     } ${visibilityClass(col)}`}
                     style={{
                       width: col.width,
-                      color: "var(--v4-ink-100)",
+                      color: "var(--v3-ink-100)",
                     }}
                   >
                     {col.render(row, rowIndex)}

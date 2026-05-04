@@ -11,7 +11,9 @@ import {
   HttpStatusError,
   parseRetryAfterMs,
 } from "./_fetch-json.mjs";
-import { apifyAwareFetch } from "./_apify-proxy.mjs";
+import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 // Real-browser UA — Reddit's anti-bot started 403'ing the previous
 // "TrendingRepo/0.2 …" identifier (formerly "StarScreener/0.1 …") from
@@ -492,8 +494,8 @@ async function fetchTextWithRetry(
   throw lastErr ?? new Error(`fetchTextWithRetry: exhausted attempts for ${url}`);
 }
 
-export async function fetchRedditJson(url, { fetchImpl = apifyAwareFetch } = {}) {
-  const userAgent = getRedditUserAgent();
+export async function fetchRedditJson(url, { fetchImpl = fetch } = {}) {
+  const userAgent = await selectUserAgent();
   // Full browser-shaped header set. Reddit's anti-bot looks at the UA + the
   // accompanying headers as a coherent profile; bare UA without sec-fetch-*
   // or accept-language is a tell. This won't bypass IP-level blocks (GH

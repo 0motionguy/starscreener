@@ -69,30 +69,23 @@ export function NewsSourceLayout({
   );
 
   return (
-    <main className="v4-root news-source-page px-4 py-6 font-mono md:px-6 md:py-8">
-      <section className="v4-page-head">
-        <div className="v4-page-head__main">
-          <div className="v4-page-head__crumb">
+    <main className="home-surface news-source-page">
+      <section className="page-head">
+        <div>
+          <div className="crumb">
             <b>{sourceLabel}</b> / source terminal
           </div>
-          <h1 className="v4-page-head__h1">{tagline ?? sourceLabel}</h1>
-          {description ? (
-            <p className="v4-page-head__lede">{description}</p>
-          ) : null}
+          <h1>{tagline ?? sourceLabel}</h1>
+          {description ? <p className="lede">{description}</p> : null}
         </div>
-        <div className="v4-page-head__clock">
-          <span className="block text-[14px] tracking-[0.16em] text-[color:var(--v4-ink-100)]">
-            {ageLabel}
-          </span>
-          <span className="v4-live-dot v4-live-dot--money mt-1 justify-end">
-            <span className="v4-live-dot__pip" aria-hidden="true" />
-            Feed {freshnessStatus}
-          </span>
+        <div className="clock">
+          <span className="big">{ageLabel}</span>
+          <span className="live">Feed {freshnessStatus}</span>
         </div>
       </section>
 
-      <section className="v4-filter-bar news-source-filter">
-        <span className="v4-chip-group__label">Freshness</span>
+      <section className="filter-bar news-source-filter">
+        <span className="lbl">Freshness</span>
         <ScrapeAge
           status={freshnessStatus}
           ageLabel={ageLabel}
@@ -108,8 +101,8 @@ export function NewsSourceLayout({
         </section>
       ) : null}
 
-      <section className="v4-filter-bar news-source-tabs">
-        <span className="v4-chip-group__label">View</span>
+      <section className="filter-bar news-source-tabs">
+        <span className="lbl">View</span>
         <TabButton
           active={tab === "mentions"}
           onClick={() => switchTab("mentions")}
@@ -169,12 +162,10 @@ function TabButton({
     <button
       type="button"
       onClick={onClick}
-      className={`v4-chip ${active ? "v4-chip--on" : ""}`}
+      className={`chip ${active ? "on" : ""}`}
     >
       {children}
-      {typeof count === "number" ? (
-        <span className="v4-chip__count">({count})</span>
-      ) : null}
+      {typeof count === "number" ? <span className="ct">({count})</span> : null}
     </button>
   );
 }

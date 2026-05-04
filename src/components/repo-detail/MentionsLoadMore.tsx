@@ -168,28 +168,16 @@ export function MentionsLoadMore({
   return (
     <>
       {items.length > 0 ? (
-        <ul className="mt-0">
-          {items.map((m, idx) => (
-            <li
-              key={m.id}
-              style={
-                idx > 0
-                  ? { borderTop: "1px solid var(--v4-line-200)" }
-                  : undefined
-              }
-            >
-              <MentionRow item={m} />
-            </li>
+        <ul className="mt-0 divide-y divide-border-primary/40">
+          {items.map((m) => (
+            <MentionRow key={m.id} item={m} />
           ))}
         </ul>
       ) : null}
 
       <div className="mt-3 flex flex-col items-start gap-1">
         {terminal ? (
-          <p
-            className="font-mono text-[11px]"
-            style={{ color: "var(--v4-ink-300)" }}
-          >
+          <p className="font-mono text-[11px] text-text-tertiary">
             {"// end of feed — no more mentions"}
           </p>
         ) : (
@@ -199,14 +187,11 @@ export function MentionsLoadMore({
             disabled={loading}
             aria-busy={loading}
             title="Load the next 50 mentions"
-            className={`inline-flex items-center gap-2 rounded-badge px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider transition-colors min-h-[36px] ${
-              loading ? "cursor-wait opacity-60" : ""
+            className={`inline-flex items-center gap-2 rounded-badge border border-border-primary bg-bg-secondary px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-text-secondary transition-colors min-h-[36px] ${
+              loading
+                ? "cursor-wait opacity-60"
+                : "hover:text-text-primary hover:border-border-secondary"
             }`}
-            style={{
-              border: "1px solid var(--v4-line-200)",
-              background: "var(--v4-bg-050)",
-              color: "var(--v4-ink-200)",
-            }}
           >
             {loading ? "Loading..." : "Load more evidence"}
           </button>

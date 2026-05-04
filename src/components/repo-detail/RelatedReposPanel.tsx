@@ -1,21 +1,29 @@
-// RelatedReposPanel — compact grid of related/competing repos.
+// RelatedReposPanel — compact grid of related/competing repos for the
+// repo profile page.
 //
-// V4. Server component. Consumes the narrowed RelatedRepoItem[] shape from
-// `@/lib/repo-related` and renders a SectionHead + 3-column grid of
-// RelatedRepoCard primitives.
+// Server component. Consumes the narrowed RelatedRepoItem[] shape from
+// `@/lib/repo-related`, which delegates to getDerivedRelatedRepos and
+// caps the list at 6. Ordering comes from the derived layer — we do not
+// resort here.
 //
-// As of W5 the canonical repo-detail page bypasses this wrapper and slots
-// RelatedRepoCard instances directly into <ProfileTemplate>'s `related`
-// slot. This panel remains exported so it can be dropped into any page
-// that wants the panel-with-its-own-header shape (e.g. a future profile
-// surface). Empty-state rule: if `items.length === 0`, render nothing.
+// Chrome matches FundingPanel / NpmAdoptionPanel conventions:
+//   - rounded-card + border-border-primary + bg-bg-primary container
+//   - font-mono uppercase tracking-wider tertiary-text header label
+//   - 3-column grid on lg+, 1-column on mobile
+//
+// Empty-state rule: if `items.length === 0`, render nothing. The page
+// must not show an empty shell — the spec explicitly asks for a clean
+// null return so the layout collapses gracefully when the derived
+// scorer produces no candidates.
 
 import type { JSX } from "react";
+import Link from "next/link";
+import { Network } from "lucide-react";
 
 import { formatNumber } from "@/lib/utils";
 import type { RelatedRepoItem } from "@/lib/repo-related";
-import { SectionHead } from "@/components/ui/SectionHead";
-import { RelatedRepoCard } from "@/components/repo-detail/RelatedRepoCard";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoDisplayLogoUrl } from "@/lib/logos";
 
 interface RelatedReposPanelProps {
   items: RelatedRepoItem[];
@@ -37,39 +45,124 @@ export function RelatedReposPanel({
   if (items.length === 0) return null;
 
   return (
-    <section aria-label="Related repositories">
-      <SectionHead
-        num="// REL"
-        title="Related repos"
-        meta={`${items.length} ${items.length === 1 ? "REPO" : "REPOS"}`}
-      />
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-          gap: "var(--v4-grid-gap, 12px)",
-        }}
-      >
-        {items.map((item) => {
-          const [owner, name] = item.fullName.split("/");
-          const href = owner && name ? `/repo/${owner}/${name}` : undefined;
-          const similarity = item.relation
-            ? RELATION_LABELS[item.relation]
-            : undefined;
-          return (
-            <RelatedRepoCard
-              key={item.fullName}
-              fullName={item.fullName}
-              description={item.description ?? undefined}
-              language={item.language ? item.language.toUpperCase() : undefined}
-              stars={formatNumber(item.stars)}
-              similarity={similarity}
-              href={href}
-            />
-          );
-        })}
+    <section
+      aria-label="Related repositories"
+      className="v2-card overflow-hidden"
+    >
+      <div className="v2-term-bar">
+        <span aria-hidden className="flex items-center gap-1.5">
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-acc)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+        </span>
+        <Network
+          size={12}
+          className="shrink-0"
+          style={{ color: "var(--v2-acc)" }}
+          aria-hidden
+        />
+        <span
+          className="flex-1 truncate"
+          style={{ color: "var(--v2-ink-200)" }}
+        >
+          {"// RELATED REPOS"}
+        </span>
+        <span
+          className="v2-stat shrink-0"
+          style={{ color: "var(--v2-ink-300)" }}
+        >
+          {items.length} {items.length === 1 ? "REPO" : "REPOS"}
+        </span>
       </div>
+
+      <ul className="grid grid-cols-1 gap-2 p-3 lg:grid-cols-3">
+        {items.map((item) => (
+          <RelatedRepoCard key={item.fullName} item={item} />
+        ))}
+      </ul>
     </section>
+  );
+}
+
+function RelatedRepoCard({ item }: { item: RelatedRepoItem }): JSX.Element {
+  const [owner, name] = item.fullName.split("/");
+  const href = owner && name ? `/repo/${owner}/${name}` : "#";
+  const relationLabel = item.relation
+    ? RELATION_LABELS[item.relation]
+    : null;
+
+  const meta: string[] = [];
+  if (item.language) meta.push(item.language);
+  meta.push(`${formatNumber(item.stars)} stars`);
+
+  return (
+    <li
+      className="transition-colors v2-row"
+      style={{
+        background: "var(--v2-bg-050)",
+        border: "1px solid var(--v2-line-std)",
+        borderRadius: 2,
+        padding: 12,
+      }}
+    >
+      <Link
+        href={href}
+        className="block"
+        aria-label={`Open ${item.fullName}`}
+      >
+        <div className="flex items-center gap-2">
+          <EntityLogo
+            src={repoDisplayLogoUrl(item.fullName, item.ownerAvatarUrl, 20)}
+            name={item.fullName}
+            size={20}
+            shape="square"
+            alt=""
+          />
+          <span
+            className="truncate"
+            style={{
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 13,
+              color: "var(--v2-ink-100)",
+            }}
+          >
+            {item.fullName}
+          </span>
+          {relationLabel ? (
+            <span className="v2-tag ml-auto shrink-0">{relationLabel}</span>
+          ) : null}
+        </div>
+
+        <div
+          className="mt-1.5 v2-mono-tight tabular-nums"
+          style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+        >
+          {meta.join(" · ")}
+        </div>
+
+        {item.description ? (
+          <p
+            className="mt-1 truncate"
+            style={{
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 11,
+              color: "var(--v2-ink-300)",
+            }}
+          >
+            {item.description}
+          </p>
+        ) : null}
+      </Link>
+    </li>
   );
 }
 

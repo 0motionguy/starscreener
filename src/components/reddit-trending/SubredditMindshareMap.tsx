@@ -98,36 +98,36 @@ function momentumColor(ratio: number, breakoutCount: number): MomentumStyle {
   // BREAKOUT supersedes (≥3 breakouts OR ratio > 5)
   if (breakoutCount >= 3 || ratio > 5) {
     return {
-      fill: "var(--v4-tier-breakout-fill)",
-      gradientEnd: "var(--v4-tier-breakout-end)",
-      glow: "var(--v4-tier-breakout-glow)",
-      textColor: "var(--v4-tier-text)",
+      fill: "var(--v3-tier-breakout-fill)",
+      gradientEnd: "var(--v3-tier-breakout-end)",
+      glow: "var(--v3-tier-breakout-glow)",
+      textColor: "var(--v3-tier-text)",
     };
   }
   // HEATING (1.3 - 5)
   if (ratio > 1.3) {
     return {
-      fill: "var(--v4-tier-heating-fill)",
-      gradientEnd: "var(--v4-tier-heating-end)",
-      glow: "var(--v4-tier-heating-glow)",
-      textColor: "var(--v4-tier-text)",
+      fill: "var(--v3-tier-heating-fill)",
+      gradientEnd: "var(--v3-tier-heating-end)",
+      glow: "var(--v3-tier-heating-glow)",
+      textColor: "var(--v3-tier-text)",
     };
   }
   // STABLE (0.7 - 1.3)
   if (ratio >= 0.7) {
     return {
-      fill: "var(--v4-tier-stable-fill)",
-      gradientEnd: "var(--v4-tier-stable-end)",
-      glow: "var(--v4-tier-stable-glow)",
-      textColor: "var(--v4-tier-text)",
+      fill: "var(--v3-tier-stable-fill)",
+      gradientEnd: "var(--v3-tier-stable-end)",
+      glow: "var(--v3-tier-stable-glow)",
+      textColor: "var(--v3-tier-text)",
     };
   }
   // COOLING (< 0.7)
   return {
-    fill: "var(--v4-tier-cooling-fill)",
-    gradientEnd: "var(--v4-tier-cooling-end)",
-    glow: "var(--v4-tier-cooling-glow)",
-    textColor: "var(--v4-tier-text)",
+    fill: "var(--v3-tier-cooling-fill)",
+    gradientEnd: "var(--v3-tier-cooling-end)",
+    glow: "var(--v3-tier-cooling-glow)",
+    textColor: "var(--v3-tier-text)",
   };
 }
 

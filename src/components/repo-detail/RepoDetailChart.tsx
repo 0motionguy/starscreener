@@ -211,36 +211,16 @@ function SignalTooltip({
   const activeSources = SIGNAL_SOURCES.filter((src) => point.counts[src] > 0);
 
   return (
-    <div
-      className="px-3 py-2 min-w-[200px]"
-      style={{
-        border: "1px solid var(--v4-line-200)",
-        background: "var(--v4-bg-025)",
-        borderRadius: 2,
-      }}
-    >
-      <p
-        className="text-[11px] font-mono mb-1.5"
-        style={{ color: "var(--v4-ink-300)" }}
-      >
+    <div className="v2-card px-3 py-2 min-w-[200px]">
+      <p className="text-[11px] font-mono text-text-tertiary mb-1.5">
         {dateLabel}
       </p>
       <div className="flex items-center justify-between gap-4 mb-1">
-        <span
-          className="text-[11px] inline-flex items-center gap-1.5"
-          style={{ color: "var(--v4-ink-200)" }}
-        >
-          <span
-            className="size-1.5 rounded-full"
-            style={{ background: "var(--v4-money)" }}
-            aria-hidden
-          />
+        <span className="text-[11px] text-text-secondary inline-flex items-center gap-1.5">
+          <span className="size-1.5 rounded-full bg-up" aria-hidden />
           Stars
         </span>
-        <span
-          className="font-mono text-xs tabular-nums"
-          style={{ color: "var(--v4-ink-100)" }}
-        >
+        <span className="font-mono text-xs text-text-primary tabular-nums">
           {formatNumber(point.stars)}{" "}
           <span
             className="text-[10px]"
@@ -250,29 +230,17 @@ function SignalTooltip({
           </span>
         </span>
       </div>
-      <div
-        className="mt-1.5 pt-1.5"
-        style={{ borderTop: "1px solid var(--v4-line-200)" }}
-      >
+      <div className="mt-1.5 pt-1.5 border-t border-border-primary">
         <div className="flex items-center justify-between gap-4 mb-1">
-          <span
-            className="text-[10px] font-mono uppercase tracking-wider"
-            style={{ color: "var(--v4-ink-300)" }}
-          >
+          <span className="text-[10px] font-mono uppercase tracking-wider text-text-tertiary">
             Mentions
           </span>
-          <span
-            className="font-mono text-xs tabular-nums"
-            style={{ color: "var(--v4-ink-100)" }}
-          >
+          <span className="font-mono text-xs text-text-primary tabular-nums">
             {point.total}
           </span>
         </div>
         {activeSources.length === 0 ? (
-          <p
-            className="text-[10px] font-mono italic"
-            style={{ color: "var(--v4-ink-300)" }}
-          >
+          <p className="text-[10px] font-mono text-text-tertiary italic">
             no mentions this day
           </p>
         ) : (
@@ -282,10 +250,7 @@ function SignalTooltip({
                 key={src}
                 className="flex items-center justify-between gap-3 text-[10px] font-mono"
               >
-                <span
-                  className="inline-flex items-center gap-1.5"
-                  style={{ color: "var(--v4-ink-200)" }}
-                >
+                <span className="inline-flex items-center gap-1.5 text-text-secondary">
                   <span
                     className="size-1.5 rounded-full"
                     style={{ backgroundColor: MENTION_PLATFORM_COLORS[src] }}
@@ -293,10 +258,7 @@ function SignalTooltip({
                   />
                   {MENTION_PLATFORM_LABELS[src]}
                 </span>
-                <span
-                  className="tabular-nums"
-                  style={{ color: "var(--v4-ink-100)" }}
-                >
+                <span className="text-text-primary tabular-nums">
                   {point.counts[src]}
                 </span>
               </li>
@@ -328,14 +290,7 @@ function MarkerTooltip({
     day: "numeric",
   });
   return (
-    <div
-      className="px-3 py-2 max-w-[280px]"
-      style={{
-        border: "1px solid var(--v4-line-200)",
-        background: "var(--v4-bg-025)",
-        borderRadius: 2,
-      }}
-    >
+    <div className="v2-card px-3 py-2 max-w-[280px]">
       <div className="flex items-center justify-between gap-3 mb-1">
         <span
           className="inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider"
@@ -351,26 +306,17 @@ function MarkerTooltip({
           />
           {marker.platformLabel}
         </span>
-        <span
-          className="text-[10px] font-mono tabular-nums"
-          style={{ color: "var(--v4-ink-300)" }}
-        >
+        <span className="text-[10px] font-mono text-text-tertiary tabular-nums">
           {date}
         </span>
       </div>
-      <p
-        className="text-[12px] leading-snug mb-1"
-        style={{ color: "var(--v4-ink-100)" }}
-      >
+      <p className="text-[12px] text-text-primary leading-snug mb-1">
         {truncate(marker.title, 80)}
       </p>
-      <div
-        className="flex items-center justify-between text-[11px] font-mono tabular-nums"
-        style={{ color: "var(--v4-ink-300)" }}
-      >
+      <div className="flex items-center justify-between text-[11px] font-mono text-text-tertiary tabular-nums">
         <span className="truncate">{marker.author}</span>
         <span>
-          <span style={{ color: "var(--v4-ink-200)" }}>
+          <span className="text-text-secondary">
             {formatNumber(marker.score)}
           </span>{" "}
           {marker.scoreLabel}
@@ -556,16 +502,10 @@ export function RepoDetailChart({
     >
       <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
         <div className="min-w-0">
-          <h2
-            className="text-sm font-semibold uppercase tracking-wider"
-            style={{ color: "var(--v4-ink-100)" }}
-          >
+          <h2 className="text-sm font-semibold text-text-primary uppercase tracking-wider">
             Stars + daily mention volume
           </h2>
-          <p
-            className="text-[11px] font-mono mt-0.5"
-            style={{ color: "var(--v4-ink-300)" }}
-          >
+          <p className="text-[11px] font-mono text-text-tertiary mt-0.5">
             {totalMentions > 0
               ? `${totalMentions} mention${totalMentions === 1 ? "" : "s"} across ${legendPlatforms.length} source${legendPlatforms.length === 1 ? "" : "s"} in this window`
               : "No cross-channel mentions in this window"}
@@ -574,8 +514,8 @@ export function RepoDetailChart({
         <div
           className="flex gap-px rounded-[2px] p-px"
           style={{
-            background: "var(--v4-bg-100)",
-            border: "1px solid var(--v4-line-200)",
+            background: "var(--v3-bg-100)",
+            border: "1px solid var(--v3-line-200)",
           }}
         >
           {TIME_TABS.map((tab) => (
@@ -589,11 +529,11 @@ export function RepoDetailChart({
               style={
                 timeRange === tab.value
                   ? {
-                      background: "var(--v4-acc-soft)",
-                      color: "var(--v4-acc)",
+                      background: "var(--v3-acc-soft)",
+                      color: "var(--v3-acc)",
                     }
                   : {
-                      color: "var(--v4-ink-300)",
+                      color: "var(--v3-ink-300)",
                     }
               }
             >
@@ -607,10 +547,7 @@ export function RepoDetailChart({
         <div className="h-full w-full">
           {isSparse ? (
             <div className="h-full w-full flex items-center justify-center">
-              <p
-                className="text-xs font-mono"
-                style={{ color: "var(--v4-ink-300)" }}
-              >
+              <p className="text-xs font-mono text-text-tertiary">
                 Collecting star history...
               </p>
             </div>
@@ -638,7 +575,7 @@ export function RepoDetailChart({
                   </linearGradient>
                 </defs>
                 <CartesianGrid
-                  stroke="var(--v4-line-200)"
+                  stroke="var(--v3-line-200)"
                   strokeOpacity={0.35}
                   vertical={false}
                 />
@@ -649,7 +586,7 @@ export function RepoDetailChart({
                   axisLine={false}
                   tickLine={false}
                   tick={{
-                    fill: "var(--v4-ink-400)",
+                    fill: "var(--v3-ink-400)",
                     fontSize: 10,
                     fontFamily: "var(--font-geist-mono), monospace",
                     letterSpacing: "0.12em",
@@ -676,7 +613,7 @@ export function RepoDetailChart({
                   tickLine={false}
                   tickCount={5}
                   tick={{
-                    fill: "var(--v4-ink-400)",
+                    fill: "var(--v3-ink-400)",
                     fontSize: 10,
                     fontFamily: "var(--font-geist-mono), monospace",
                     letterSpacing: "0.12em",
@@ -693,7 +630,7 @@ export function RepoDetailChart({
                   axisLine={false}
                   tickLine={false}
                   tick={{
-                    fill: "var(--v4-ink-400)",
+                    fill: "var(--v3-ink-400)",
                     fontSize: 10,
                     fontFamily: "var(--font-geist-mono), monospace",
                     letterSpacing: "0.12em",
@@ -714,7 +651,7 @@ export function RepoDetailChart({
                   // renderTooltipContent above. Tracked under audit UI-16.
                   content={renderTooltipContent as never}
                   cursor={{
-                    stroke: "var(--v4-line-300)",
+                    stroke: "var(--v3-line-300)",
                     strokeDasharray: "4 4",
                     strokeOpacity: 0.6,
                   }}
@@ -785,10 +722,7 @@ export function RepoDetailChart({
       </div>
 
       {legendPlatforms.length > 0 && (
-        <div
-          className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] font-mono"
-          style={{ color: "var(--v4-ink-300)" }}
-        >
+        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] font-mono text-text-tertiary">
           <span>{"// sources"}</span>
           {legendPlatforms.map((platform) => {
             const count = signalSeries.reduce(
@@ -810,7 +744,7 @@ export function RepoDetailChart({
                   }}
                   aria-hidden
                 />
-                <span style={{ color: "var(--v4-ink-200)" }}>
+                <span className="text-text-secondary">
                   {MENTION_PLATFORM_LABELS[platform]}
                 </span>
                 <span className="tabular-nums">{count}</span>

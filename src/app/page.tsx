@@ -688,8 +688,11 @@ export default async function HomePage() {
                 style={{ borderColor: "var(--v4-line-100)" }}
               >
                 <summary
-                  className="v2-mono flex cursor-pointer select-none items-center justify-between gap-4 px-4 py-3.5 text-[11px] tracking-[0.12em] transition-colors hover:bg-[var(--v4-bg-050)]"
-                  style={{ color: "var(--v4-ink-200)" }}
+                  className="flex cursor-pointer select-none items-center justify-between gap-4 px-4 py-3.5 text-[11px] tracking-[0.12em] transition-colors hover:bg-[var(--v4-bg-050)]"
+                  style={{
+                    color: "var(--v4-ink-200)",
+                    fontFamily: "var(--font-geist-mono), monospace",
+                  }}
                 >
                   <span className="flex items-baseline gap-3 min-w-0">
                     <span
@@ -713,6 +716,7 @@ export default async function HomePage() {
                 <div
                   className="px-4 pb-4 pt-1 text-[13px] leading-relaxed"
                   style={{ color: "var(--v4-ink-300)" }}
+                  {...(aHtml ? { dangerouslySetInnerHTML: { __html: aHtml } } : {})}
                 >
                   {aHtml ? null : a}
                 </div>

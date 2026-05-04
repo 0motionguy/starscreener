@@ -43,7 +43,7 @@ jobs:
         run: |
           git config user.name  "trendingrepo-bot"
           git config user.email "bot@trendingrepo.local"
-          git add data/claude-rss.json data/_meta/claude-rss.json
+          git add data/claude-rss.json
           if git diff --quiet --staged; then
             echo "no changes - skipping commit"
             exit 0

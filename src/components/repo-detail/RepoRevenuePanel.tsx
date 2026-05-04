@@ -110,52 +110,26 @@ function VerifiedRevenueCard({
   return (
     <div
       aria-label="Verified revenue"
-      style={{
-        border: "1px solid var(--v4-line-200)",
-        background: "var(--v4-bg-025)",
-        borderRadius: 2,
-        overflow: "hidden",
-      }}
+      className="v2-card p-4"
     >
-      <header
-        className="flex flex-wrap items-center justify-between gap-3"
-        style={{
-          padding: "10px 12px",
-          borderBottom: "1px solid var(--v4-line-200)",
-          background: "var(--v4-bg-050)",
-          fontFamily: "var(--font-geist-mono), monospace",
-        }}
-      >
+      <header className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-2">
           <BadgeCheck
             className="size-4"
-            style={{ color: "var(--v4-money)" }}
+            style={{ color: "var(--v3-sig-green)" }}
             aria-hidden
           />
-          <h3
-            style={{
-              fontFamily: "var(--font-geist-mono), monospace",
-              fontSize: 11,
-              color: "var(--v4-ink-200)",
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
-            }}
-          >
-            {"// VERIFIED REVENUE"}
+          <h3 className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
+            Verified revenue
           </h3>
         </div>
         {freshness === "stale" ? (
           <span
+            className="rounded-[2px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em]"
             style={{
-              border: "1px solid var(--v4-line-200)",
-              background: "var(--v4-bg-100)",
-              color: "var(--v4-amber)",
-              borderRadius: 2,
-              padding: "2px 8px",
-              fontFamily: "var(--font-geist-mono), monospace",
-              fontSize: 10,
-              textTransform: "uppercase",
-              letterSpacing: "0.14em",
+              borderColor: "var(--v3-line-200)",
+              background: "var(--v3-bg-100)",
+              color: "var(--v3-sig-amber)",
             }}
           >
             updated {getRelativeTime(overlay.asOf)}
@@ -163,37 +137,32 @@ function VerifiedRevenueCard({
         ) : null}
       </header>
 
-      <div className="p-4">
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <Metric label="MRR" value={mrr ?? "-"} highlight />
-          <Metric label="Last 30 days" value={last30 ?? "-"} />
-          <Metric
-            label="Growth 30d"
-            value={growth.label}
-            tone={growth.tone}
-            icon={growthIcon}
-          />
-          <Metric
-            label="Subscriptions"
-            value={
-              typeof overlay.activeSubscriptions === "number" &&
-              overlay.activeSubscriptions > 0
-                ? formatNumber(overlay.activeSubscriptions)
-                : typeof overlay.customers === "number" && overlay.customers > 0
-                  ? formatNumber(overlay.customers)
-                  : "-"
-            }
-          />
-        </div>
-
-        <footer
-          className="mt-3"
-          style={{ fontSize: 11, color: "var(--v4-ink-400)" }}
-        >
-          Verified via {provider}
-          {overlay.category ? ` · ${overlay.category}` : ""}
-        </footer>
+      <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <Metric label="MRR" value={mrr ?? "-"} highlight />
+        <Metric label="Last 30 days" value={last30 ?? "-"} />
+        <Metric
+          label="Growth 30d"
+          value={growth.label}
+          tone={growth.tone}
+          icon={growthIcon}
+        />
+        <Metric
+          label="Subscriptions"
+          value={
+            typeof overlay.activeSubscriptions === "number" &&
+            overlay.activeSubscriptions > 0
+              ? formatNumber(overlay.activeSubscriptions)
+              : typeof overlay.customers === "number" && overlay.customers > 0
+                ? formatNumber(overlay.customers)
+                : "-"
+          }
+        />
       </div>
+
+      <footer className="mt-3 text-[11px] text-text-tertiary">
+        Verified via {provider}
+        {overlay.category ? ` · ${overlay.category}` : ""}
+      </footer>
     </div>
   );
 }
@@ -215,65 +184,35 @@ function TrustmrrClaimCard({
   return (
     <div
       aria-label="Linked TrustMRR profile"
-      style={{
-        border: "1px solid var(--v4-line-200)",
-        background: "var(--v4-bg-100)",
-        borderRadius: 2,
-        overflow: "hidden",
-      }}
+      className="v2-card p-4"
+      style={{ background: "var(--v2-bg-100)" }}
     >
-      <header
-        className="flex flex-wrap items-center justify-between gap-3"
-        style={{
-          padding: "10px 12px",
-          borderBottom: "1px solid var(--v4-line-200)",
-          background: "var(--v4-bg-050)",
-          fontFamily: "var(--font-geist-mono), monospace",
-        }}
-      >
+      <header className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-2">
-          <Link2
-            className="size-4"
-            style={{ color: "var(--v4-ink-300)" }}
-            aria-hidden
-          />
-          <h3
-            style={{
-              fontFamily: "var(--font-geist-mono), monospace",
-              fontSize: 11,
-              color: "var(--v4-ink-200)",
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
-            }}
-          >
-            {"// LINKED TRUSTMRR PROFILE — NUMBERS NOT YET VERIFIED"}
+          <Link2 className="size-4 text-text-tertiary" aria-hidden />
+          <h3 className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
+            Linked TrustMRR profile — numbers not yet verified
           </h3>
         </div>
       </header>
-      <div className="p-4">
-        <p style={{ fontSize: 14, color: "var(--v4-ink-200)" }}>
-          The founder linked this repo to a TrustMRR profile. Live metrics will
-          appear here after the next catalog sync. Until then, this is a
-          pointer — not a verified revenue figure.
-        </p>
-        <footer
-          className="mt-3"
-          style={{ fontSize: 11, color: "var(--v4-ink-400)" }}
-        >
-          {overlay.sourceUrl ? (
-            <a
-              href={overlay.sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 hover:underline"
-              style={{ color: "var(--v4-ink-200)" }}
-            >
-              View on TrustMRR
-              <ExternalLink className="size-3" aria-hidden />
-            </a>
-          ) : null}
-        </footer>
-      </div>
+      <p className="mt-3 text-sm text-text-secondary">
+        The founder linked this repo to a TrustMRR profile. Live metrics will
+        appear here after the next catalog sync. Until then, this is a
+        pointer — not a verified revenue figure.
+      </p>
+      <footer className="mt-3 text-[11px] text-text-tertiary">
+        {overlay.sourceUrl ? (
+          <a
+            href={overlay.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-text-secondary hover:text-text-primary hover:underline"
+          >
+            View on TrustMRR
+            <ExternalLink className="size-3" aria-hidden />
+          </a>
+        ) : null}
+      </footer>
     </div>
   );
 }
@@ -297,52 +236,26 @@ function SelfReportedRevenueCard({
   return (
     <div
       aria-label="Self-reported revenue"
-      style={{
-        border: "1px solid var(--v4-line-200)",
-        background: "var(--v4-bg-100)",
-        borderRadius: 2,
-        overflow: "hidden",
-      }}
+      className="v2-card p-4"
+      style={{ background: "var(--v2-bg-100)" }}
     >
-      <header
-        className="flex flex-wrap items-center justify-between gap-3"
-        style={{
-          padding: "10px 12px",
-          borderBottom: "1px solid var(--v4-line-200)",
-          background: "var(--v4-bg-050)",
-          fontFamily: "var(--font-geist-mono), monospace",
-        }}
-      >
+      <header className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-2">
           <AlertCircle
-            className="size-4"
-            style={{ color: "var(--v4-ink-300)" }}
+            className="size-4 text-text-tertiary"
             aria-hidden
           />
-          <h3
-            style={{
-              fontFamily: "var(--font-geist-mono), monospace",
-              fontSize: 11,
-              color: "var(--v4-ink-200)",
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
-            }}
-          >
-            {"// SELF-REPORTED — NOT INDEPENDENTLY VERIFIED"}
+          <h3 className="font-mono text-[11px] uppercase tracking-wider text-text-tertiary">
+            Self-reported — not independently verified
           </h3>
         </div>
         {freshness === "stale" ? (
           <span
+            className="rounded-[2px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em]"
             style={{
-              border: "1px solid var(--v4-line-200)",
-              background: "var(--v4-bg-100)",
-              color: "var(--v4-amber)",
-              borderRadius: 2,
-              padding: "2px 8px",
-              fontFamily: "var(--font-geist-mono), monospace",
-              fontSize: 10,
-              textTransform: "uppercase",
-              letterSpacing: "0.14em",
+              borderColor: "var(--v3-line-200)",
+              background: "var(--v3-bg-100)",
+              color: "var(--v3-sig-amber)",
             }}
           >
             {getRelativeTime(overlay.asOf)}
@@ -350,27 +263,22 @@ function SelfReportedRevenueCard({
         ) : null}
       </header>
 
-      <div className="p-4">
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          <PlainMetric label="MRR reported" value={mrr ?? "-"} />
-          <PlainMetric
-            label="Customers"
-            value={
-              typeof overlay.customers === "number"
-                ? formatNumber(overlay.customers)
-                : "-"
-            }
-          />
-          <PlainMetric label="Provider" value={provider} />
-        </div>
-
-        <footer
-          className="mt-3"
-          style={{ fontSize: 11, color: "var(--v4-ink-400)" }}
-        >
-          Submitted by founder. Not sourced from a payment-provider sync.
-        </footer>
+      <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <PlainMetric label="MRR reported" value={mrr ?? "-"} />
+        <PlainMetric
+          label="Customers"
+          value={
+            typeof overlay.customers === "number"
+              ? formatNumber(overlay.customers)
+              : "-"
+          }
+        />
+        <PlainMetric label="Provider" value={provider} />
       </div>
+
+      <footer className="mt-3 text-[11px] text-text-tertiary">
+        Submitted by founder. Not sourced from a payment-provider sync.
+      </footer>
     </div>
   );
 }
@@ -392,32 +300,20 @@ function Metric({
 }: MetricProps): JSX.Element {
   const valueColor =
     tone === "up"
-      ? "var(--v4-money)"
+      ? "var(--v3-sig-green)"
       : tone === "down"
-        ? "var(--v4-red)"
-        : "var(--v4-ink-100)";
+        ? "var(--v3-sig-red)"
+        : "var(--v3-ink-100)";
   return (
     <div>
-      <div
-        style={{
-          fontFamily: "var(--font-geist-mono), monospace",
-          fontSize: 10,
-          color: "var(--v4-ink-400)",
-          textTransform: "uppercase",
-          letterSpacing: "0.08em",
-        }}
-      >
+      <div className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
         {label}
       </div>
       <div
-        className={`mt-1 flex items-baseline gap-1 tabular-nums leading-none ${
+        className={`mt-1 flex items-baseline gap-1 font-mono font-semibold tabular-nums leading-none ${
           highlight ? "text-2xl" : "text-lg"
         }`}
-        style={{
-          color: valueColor,
-          fontFamily: "var(--font-geist-mono), monospace",
-          fontWeight: 600,
-        }}
+        style={{ color: valueColor }}
       >
         {Icon ? <Icon className="size-4" aria-hidden /> : null}
         <span>{value}</span>
@@ -435,25 +331,10 @@ function PlainMetric({
 }): JSX.Element {
   return (
     <div>
-      <div
-        style={{
-          fontFamily: "var(--font-geist-mono), monospace",
-          fontSize: 10,
-          color: "var(--v4-ink-400)",
-          textTransform: "uppercase",
-          letterSpacing: "0.08em",
-        }}
-      >
+      <div className="font-mono text-[10px] uppercase tracking-wider text-text-tertiary">
         {label}
       </div>
-      <div
-        className="mt-1 text-base tabular-nums leading-none"
-        style={{
-          fontFamily: "var(--font-geist-mono), monospace",
-          fontWeight: 500,
-          color: "var(--v4-ink-200)",
-        }}
-      >
+      <div className="mt-1 font-mono text-base font-medium tabular-nums leading-none text-text-secondary">
         {value}
       </div>
     </div>

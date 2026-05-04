@@ -15,16 +15,11 @@ import {
   type HfModelTrending,
 } from "@/lib/huggingface";
 import {
-  applyCompactV1,
-  compactNumber,
-} from "@/components/news/newsTopMetrics";
-import {
   TerminalFeedTable,
   type FeedColumn,
 } from "@/components/feed/TerminalFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { huggingFaceLogoUrl } from "@/lib/logos";
-import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
 
 const HF_ACCENT = "rgba(255, 159, 28, 0.85)"; // HF "yellow" (warm orange)
 const HF_ACCENT_BAR = "#FF9F1C";
@@ -112,28 +107,58 @@ export default async function HuggingFaceTrendingPage() {
   }).length;
 
   return (
-    <SourceFeedTemplate
-      cold={cold}
-      coldState={<ColdState />}
-      header={{
-        routeTitle: "HUGGINGFACE - TRENDING",
-        liveLabel: "LIVE - 30M",
-        eyebrow: "// HUGGINGFACE - MODELS",
-        meta: [
-          { label: "TRACKED", value: (file.models?.length ?? 0).toLocaleString("en-US") },
-          { label: "TOP", value: String(models.length) },
-        ],
-        ...buildHuggingFaceHeader(file.models ?? [], models),
-        accent: HF_ACCENT,
-        caption: [
-          "// LAYOUT compact-v1",
-          "- DOMAIN hf-model",
-          "- SCORER weeklyDownloads + recency",
-        ],
-      }}
-    >
-      <HfModelFeed models={models} />
-    </SourceFeedTemplate>
+    <main className="home-surface">
+      <SourceFeedTemplate
+        crumb={
+          <>
+            <b>HF</b> · TERMINAL · /HUGGINGFACE
+          </>
+        }
+        title="Hugging Face · trending"
+        lede="Top models ranked by domain-scored momentum (weeklyDownloads + recency). Snapshot pulled from the public trending feed and re-scored against the cross-domain percentile."
+        clock={
+          <>
+            <span className="big">{formatClock(file.fetchedAt)}</span>
+            <span className="muted">UTC · SCRAPED</span>
+            <LiveDot label="LIVE · 30M" />
+          </>
+        }
+        snapshot={
+          <KpiBand
+            cells={[
+              {
+                label: "MODELS",
+                value: allModels.length.toLocaleString("en-US"),
+                sub: "tracked",
+                pip: HF_YELLOW,
+              },
+              {
+                label: "TOP DOWNLOADS",
+                value: compactNumber(topDownloads),
+                sub: `${compactNumber(totalDownloads)} total`,
+                tone: "acc",
+                pip: "var(--v4-acc)",
+              },
+              {
+                label: "NEW THIS WEEK",
+                value: newThisWeek,
+                sub: "createdAt ≤ 7d",
+                tone: "money",
+                pip: "var(--v4-money)",
+              },
+              {
+                label: "LIKES",
+                value: compactNumber(totalLikes),
+                sub: "summed across feed",
+                pip: "var(--v4-blue)",
+              },
+            ]}
+          />
+        }
+        listEyebrow="Model feed · top 100 by momentum"
+        list={<HfModelFeed models={models} />}
+      />
+    </main>
   );
 }
 
@@ -251,7 +276,7 @@ function HfModelFeed({ models }: { models: HfModelTrending[] }) {
       render: (_, i) => (
         <span
           className="font-mono text-[12px] tabular-nums font-semibold"
-          style={{ color: i < 10 ? HF_ACCENT_BAR : "var(--v4-ink-400)" }}
+          style={{ color: i < 10 ? HF_YELLOW : "var(--v4-ink-400)" }}
         >
           {String(i + 1).padStart(2, "0")}
         </span>
@@ -315,7 +340,7 @@ function HfModelFeed({ models }: { models: HfModelTrending[] }) {
         <span
           className="font-mono text-[12px] tabular-nums"
           style={{
-            color: (m.downloads ?? 0) >= 100_000 ? HF_ACCENT_BAR : "var(--v4-ink-100)",
+            color: (m.downloads ?? 0) >= 100_000 ? HF_YELLOW : "var(--v4-ink-100)",
           }}
         >
           {compactNumber(m.downloads ?? 0)}
@@ -413,6 +438,7 @@ function ColdState() {
   return (
     <section
       style={{
+        padding: 32,
         background: "var(--v4-bg-025)",
         border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
@@ -430,10 +456,7 @@ function ColdState() {
       >
         {"// no data yet"}
       </h2>
-      <p
-        className="mt-3 max-w-xl text-sm"
-        style={{ color: "var(--v4-ink-300)" }}
-      >
+      <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
         The Hugging Face scraper hasn&apos;t run yet. Run{" "}
         <code style={{ color: "var(--v4-ink-100)" }}>
           npm run scrape:huggingface

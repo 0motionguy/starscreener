@@ -12,16 +12,16 @@ export default function RepoLoading() {
         <div className="flex items-center gap-3">
           <div
             className="h-10 w-10 rounded-[2px]"
-            style={{ background: "var(--v4-bg-100)" }}
+            style={{ background: "var(--v3-bg-100)" }}
           />
           <div className="flex flex-col gap-1.5">
             <div
               className="h-5 w-64 rounded-[2px]"
-              style={{ background: "var(--v4-bg-100)" }}
+              style={{ background: "var(--v3-bg-100)" }}
             />
             <div
               className="h-3 w-40 rounded-[2px]"
-              style={{ background: "var(--v4-bg-050)" }}
+              style={{ background: "var(--v3-bg-050)" }}
             />
           </div>
         </div>
@@ -32,7 +32,7 @@ export default function RepoLoading() {
             <div
               key={i}
               className="h-16 rounded-[2px]"
-              style={{ background: "var(--v4-bg-050)" }}
+              style={{ background: "var(--v3-bg-050)" }}
             />
           ))}
         </div>
@@ -40,7 +40,7 @@ export default function RepoLoading() {
         {/* Chart placeholder */}
         <div
           className="h-64 rounded-[2px]"
-          style={{ background: "var(--v4-bg-050)" }}
+          style={{ background: "var(--v3-bg-050)" }}
         />
 
         {/* Two-column panel grid */}
@@ -49,7 +49,7 @@ export default function RepoLoading() {
             <div
               key={i}
               className="h-40 rounded-[2px]"
-              style={{ background: "var(--v4-bg-050)" }}
+              style={{ background: "var(--v3-bg-050)" }}
             />
           ))}
         </div>

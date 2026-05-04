@@ -60,12 +60,12 @@ describe("CategoryPill", () => {
     // shorthand props like `border` once parsed, but preserves them in the
     // attribute string and in longhand-keyed accessors like borderColor.
     const styleAttr = root.getAttribute("style") ?? "";
-    expect(styleAttr).toContain("--v4-acc-soft");
-    expect(styleAttr).toContain("--v4-acc-dim");
-    expect(styleAttr).toContain("--v4-acc");
-    // Dot is also tinted by --v4-acc, NOT by category.color.
+    expect(styleAttr).toContain("--v3-acc-soft");
+    expect(styleAttr).toContain("--v3-acc-dim");
+    expect(styleAttr).toContain("--v3-acc");
+    // Dot is also tinted by --v3-acc, NOT by category.color.
     const dot = container.querySelector('[aria-hidden="true"]') as HTMLElement;
-    expect(dot.style.background).toContain("--v4-acc");
+    expect(dot.style.background).toContain("--v3-acc");
   });
 
   it("size=sm and size=md produce different height classes", () => {

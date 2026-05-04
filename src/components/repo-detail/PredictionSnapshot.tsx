@@ -12,9 +12,10 @@
 //     mini-bar with the baseline pinned on the left.
 //   - Footer: model version + "via calibration" tag.
 //
-// V4 chrome: surfaces use --v4-bg-* / --v4-ink-* / --v4-line-* tokens.
-// The delta tone uses --v4-money (up) / --v4-red (down) / --v4-ink-300
-// (flat) so the card stays on-brand in both light and dark.
+// No new colors are invented — the card reuses bg-bg-primary,
+// border-border-primary, text tokens, and `up`/`down` for the delta
+// tone. The band uses the same tokens so it stays on-brand in both
+// light and dark.
 
 import type { JSX } from "react";
 import { ArrowUpRight, ArrowRight, ArrowDownRight } from "lucide-react";
@@ -70,10 +71,10 @@ export function PredictionSnapshot({
 
   const toneColor =
     tone === "up"
-      ? "var(--v4-money)"
+      ? "var(--v2-sig-green)"
       : tone === "down"
-        ? "var(--v4-red)"
-        : "var(--v4-ink-300)";
+        ? "var(--v2-sig-red)"
+        : "var(--v2-ink-300)";
 
   // Band geometry: the p10..p90 range is a horizontal bar. Inside the
   // bar we draw a tick at the point estimate so the reader can see the
@@ -86,46 +87,29 @@ export function PredictionSnapshot({
   return (
     <section
       aria-label="Projected star trajectory"
-      style={{
-        border: "1px solid var(--v4-line-200)",
-        background: "var(--v4-bg-025)",
-        borderRadius: 2,
-        overflow: "hidden",
-      }}
+      className="v2-card overflow-hidden"
     >
-      <div
-        style={{
-          padding: "10px 12px",
-          borderBottom: "1px solid var(--v4-line-200)",
-          background: "var(--v4-bg-050)",
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-          fontFamily: "var(--font-geist-mono), monospace",
-        }}
-      >
+      <div className="v2-term-bar">
+        <span aria-hidden className="flex items-center gap-1.5">
+          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+        </span>
         <span
           className="flex-1 truncate"
-          style={{
-            fontSize: 11,
-            color: "var(--v4-ink-200)",
-            textTransform: "uppercase",
-            letterSpacing: "0.08em",
-          }}
+          style={{ color: "var(--v2-ink-200)" }}
         >
           {"// PROJECTED"}
         </span>
         <span
-          className="shrink-0 tabular-nums"
-          style={{
-            padding: "1px 6px",
-            border: "1px solid var(--v4-line-200)",
-            borderRadius: 2,
-            fontSize: 10,
-            color: "var(--v4-acc)",
-            textTransform: "uppercase",
-            letterSpacing: "0.06em",
-          }}
+          className="v2-stat shrink-0 tabular-nums"
+          style={{ color: "var(--v2-acc)" }}
         >
           {horizonLabel(prediction.horizonDays)}
         </span>
@@ -156,7 +140,7 @@ export function PredictionSnapshot({
               </span>
               <span
                 className="tabular-nums"
-                style={{ fontSize: 11, color: "var(--v4-ink-400)" }}
+                style={{ fontSize: 11, color: "var(--v2-ink-400)" }}
               >
                 ({formatSignedPct(deltaPct)})
               </span>
@@ -167,8 +151,8 @@ export function PredictionSnapshot({
             <div
               className="relative h-1.5 w-full"
               style={{
-                background: "var(--v4-bg-100)",
-                border: "1px solid var(--v4-line-200)",
+                background: "var(--v2-bg-100)",
+                border: "1px solid var(--v2-line-200)",
                 borderRadius: 1,
               }}
             >
@@ -176,7 +160,7 @@ export function PredictionSnapshot({
                 className="absolute top-1/2 size-2 -translate-x-1/2 -translate-y-1/2"
                 style={{
                   left: `${(tickOffset * 100).toFixed(2)}%`,
-                  background: "var(--v4-acc)",
+                  background: "var(--v2-acc)",
                   borderRadius: 1,
                 }}
               />
@@ -186,11 +170,11 @@ export function PredictionSnapshot({
               style={{
                 fontFamily: "var(--font-geist-mono), monospace",
                 fontSize: 10,
-                color: "var(--v4-ink-400)",
+                color: "var(--v2-ink-400)",
               }}
             >
               <span>{formatNumber(prediction.p10)}</span>
-              <span style={{ color: "var(--v4-ink-200)" }}>
+              <span style={{ color: "var(--v2-ink-200)" }}>
                 {formatNumber(prediction.pointEstimate)}
               </span>
               <span>{formatNumber(prediction.p90)}</span>
@@ -199,17 +183,13 @@ export function PredictionSnapshot({
         </div>
 
         <footer
-          className="flex items-center gap-2"
-          style={{
-            fontFamily: "var(--font-geist-mono), monospace",
-            fontSize: 10,
-            color: "var(--v4-ink-400)",
-          }}
+          className="v2-mono flex items-center gap-2"
+          style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
         >
           <span>{`// MODEL ${prediction.modelVersion}`}</span>
-          <span aria-hidden style={{ color: "var(--v4-line-300)" }}>·</span>
+          <span aria-hidden style={{ color: "var(--v2-line-300)" }}>·</span>
           <span>VIA CALIBRATION</span>
-          <span aria-hidden style={{ color: "var(--v4-line-300)" }}>·</span>
+          <span aria-hidden style={{ color: "var(--v2-line-300)" }}>·</span>
           <span>{prediction.horizonDays}D HORIZON</span>
         </footer>
       </div>

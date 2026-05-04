@@ -44,10 +44,10 @@ const WINDOW_TABS: Array<{ key: TopicWindowKey; label: string }> = [
 ];
 
 const TIER_LEGEND: Array<{ tier: BaselineTier; label: string; color: string }> = [
-  { tier: "breakout", label: "Breakout", color: "var(--v4-tier-breakout-fill)" },
-  { tier: "above-average", label: "Above avg", color: "var(--v4-tier-heating-fill)" },
-  { tier: "normal", label: "Normal", color: "var(--v4-tier-stable-fill)" },
-  { tier: "no-baseline", label: "No baseline", color: "var(--v4-tier-dormant-fill)" },
+  { tier: "breakout", label: "Breakout", color: "var(--v3-tier-breakout-fill)" },
+  { tier: "above-average", label: "Above avg", color: "var(--v3-tier-heating-fill)" },
+  { tier: "normal", label: "Normal", color: "var(--v3-tier-stable-fill)" },
+  { tier: "no-baseline", label: "No baseline", color: "var(--v3-tier-dormant-fill)" },
 ];
 
 export function TopicMindshareCanvas({
@@ -143,7 +143,7 @@ export function TopicMindshareCanvas({
           <circle
             r={s.r}
             fill={`url(#tgrad-${s.id})`}
-            stroke={isActive ? "var(--v4-ink-000)" : s.stroke}
+            stroke={isActive ? "var(--v3-ink-000)" : s.stroke}
             strokeWidth={isActive ? 2.5 : isDragging ? 2.25 : 1.5}
             style={{
               transition: "stroke-width 120ms ease-out",

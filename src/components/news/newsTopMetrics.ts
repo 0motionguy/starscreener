@@ -38,7 +38,7 @@ import { repoLogoUrl, userLogoUrl, resolveLogoUrl } from "@/lib/logos";
 // ---------------------------------------------------------------------------
 
 const TOPIC_PALETTE = [
-  "var(--v4-acc)",
+  "var(--v3-acc)",
   "#F59E0B",
   "#3AD6C5",
   "#F472B6",
@@ -174,7 +174,7 @@ export function activityBars(items: ActivityItem[]): NewsMetricBar[] {
     value: count,
     valueLabel: count.toLocaleString("en-US"),
     hintLabel: orderedWeights[i] > 0 ? compactNumber(orderedWeights[i]) : "—",
-    color: "var(--v4-acc)",
+    color: "var(--v3-acc)",
   }));
 }
 

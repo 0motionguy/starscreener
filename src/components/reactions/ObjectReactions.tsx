@@ -239,7 +239,8 @@ export function ObjectReactions({
               aria-pressed={active}
               title={meta.hint}
               className={cn(
-                "inline-flex items-center",
+                "v2-btn",
+                active ? "v2-btn-primary" : "v2-btn-ghost",
                 busy === type && "opacity-50 cursor-progress",
                 busy && busy !== type && "opacity-70",
               )}
@@ -248,13 +249,6 @@ export function ObjectReactions({
                 height: compact ? 32 : 36,
                 padding: compact ? "0 10px" : "0 14px",
                 fontSize: compact ? 10 : 11,
-                fontFamily: "var(--font-geist-mono), monospace",
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-                border: "1px solid var(--v4-line-300)",
-                borderRadius: 2,
-                color: active ? "var(--v4-bg-000)" : "var(--v4-ink-100)",
-                background: active ? "var(--v4-acc)" : "var(--v4-bg-050)",
               }}
             >
               <Icon size={13} aria-hidden style={{ marginRight: 6 }} />
@@ -263,7 +257,7 @@ export function ObjectReactions({
                 className="tabular-nums"
                 style={{
                   marginLeft: 8,
-                  color: active ? "inherit" : "var(--v4-ink-300)",
+                  color: active ? "inherit" : "var(--v2-ink-300)",
                   opacity: active ? 0.85 : 1,
                 }}
               >
@@ -276,10 +270,10 @@ export function ObjectReactions({
 
       {authMissing ? (
         <p
+          className="v2-mono"
           style={{
-            fontFamily: "var(--font-geist-mono), monospace",
             fontSize: 10,
-            color: "var(--v4-ink-400)",
+            color: "var(--v2-ink-400)",
           }}
         >
           {"// SIGN IN TO REACT · reactions help builders see what to ship next"}
@@ -287,10 +281,10 @@ export function ObjectReactions({
       ) : null}
       {error ? (
         <p
+          className="v2-mono"
           style={{
-            fontFamily: "var(--font-geist-mono), monospace",
             fontSize: 10,
-            color: "var(--v4-red)",
+            color: "var(--v2-sig-red)",
           }}
         >
           {`// SAVE FAILED · ${error}`}
@@ -353,25 +347,25 @@ function ConfirmReactionModal({
       }}
     >
       <div
-        className="max-w-md w-full"
+        className="v2-card max-w-md w-full"
         style={{
-          background: "var(--v4-bg-100)",
-          border: "1px solid var(--v4-line-200)",
-          borderRadius: 2,
+          background: "var(--v2-bg-100)",
+          border: "1px solid var(--v2-line-300)",
+          borderRadius: 8,
           padding: 20,
         }}
       >
         <h2
           id={titleId}
           className="font-display text-lg font-bold"
-          style={{ color: "var(--v4-ink-100)", marginBottom: 8 }}
+          style={{ color: "var(--v2-ink-100)", marginBottom: 8 }}
         >
           {`Confirm: ${meta.label}`}
         </h2>
         <p
           id={bodyId}
           className="text-sm"
-          style={{ color: "var(--v4-ink-200)", marginBottom: 16 }}
+          style={{ color: "var(--v2-ink-200)", marginBottom: 16 }}
         >
           {meta.confirmCopy}
         </p>
@@ -379,18 +373,8 @@ function ConfirmReactionModal({
           <button
             type="button"
             onClick={onCancel}
-            style={{
-              minHeight: 36,
-              padding: "0 14px",
-              fontFamily: "var(--font-geist-mono), monospace",
-              fontSize: 11,
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
-              border: "1px solid var(--v4-line-300)",
-              borderRadius: 2,
-              color: "var(--v4-ink-100)",
-              background: "var(--v4-bg-050)",
-            }}
+            className="v2-btn v2-btn-ghost"
+            style={{ minHeight: 36, padding: "0 14px" }}
           >
             Cancel
           </button>
@@ -398,18 +382,8 @@ function ConfirmReactionModal({
             type="button"
             ref={confirmRef}
             onClick={onConfirm}
-            style={{
-              minHeight: 36,
-              padding: "0 14px",
-              fontFamily: "var(--font-geist-mono), monospace",
-              fontSize: 11,
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
-              border: "1px solid var(--v4-line-300)",
-              borderRadius: 2,
-              color: "var(--v4-bg-000)",
-              background: "var(--v4-acc)",
-            }}
+            className="v2-btn v2-btn-primary"
+            style={{ minHeight: 36, padding: "0 14px" }}
             data-testid="confirm-reaction"
           >
             {`Yes, mark as ${meta.label}`}

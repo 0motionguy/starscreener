@@ -143,11 +143,11 @@ export function FeaturedCards({
       <div className="flex items-center justify-between px-1">
         <h2
           className="flex items-center gap-2 font-mono uppercase text-[11px] tracking-[0.18em]"
-          style={{ color: "var(--v4-ink-300)" }}
+          style={{ color: "var(--v3-ink-300)" }}
         >
           <Flame
             size={12}
-            style={{ color: "var(--v4-acc)" }}
+            style={{ color: "var(--v3-acc)" }}
             aria-hidden="true"
           />
           <span>{`// ${(title ?? "FEATURED NOW").toUpperCase()}`}</span>
@@ -155,7 +155,7 @@ export function FeaturedCards({
         {lastRefresh && (
           <span
             className="text-[10px] font-mono tabular-nums tracking-[0.14em]"
-            style={{ color: "var(--v4-ink-400)" }}
+            style={{ color: "var(--v3-ink-400)" }}
           >
             UPDATED {getRelativeTime(lastRefresh).toUpperCase()}
           </span>
@@ -168,16 +168,16 @@ export function FeaturedCards({
         <div
           className="flex items-center gap-4 w-full h-[160px] p-5 rounded-[2px]"
           style={{
-            background: "var(--v4-bg-050)",
-            border: "1px solid var(--v4-line-200)",
+            background: "var(--v3-bg-050)",
+            border: "1px solid var(--v3-line-200)",
           }}
         >
           <div
             className="flex-shrink-0 flex items-center justify-center size-10 rounded-[2px]"
             style={{
-              background: "var(--v4-acc-soft)",
-              border: "1px solid var(--v4-acc-dim)",
-              color: "var(--v4-acc)",
+              background: "var(--v3-acc-soft)",
+              border: "1px solid var(--v3-acc-dim)",
+              color: "var(--v3-acc)",
             }}
           >
             <TrendingUp size={18} />
@@ -185,13 +185,13 @@ export function FeaturedCards({
           <div className="flex-1 min-w-0">
             <div
               className="font-semibold text-sm"
-              style={{ color: "var(--v4-ink-000)" }}
+              style={{ color: "var(--v3-ink-000)" }}
             >
               NO TRENDING REPOS YET
             </div>
             <div
               className="mt-1 text-[11px] font-mono tracking-[0.14em] uppercase"
-              style={{ color: "var(--v4-ink-300)" }}
+              style={{ color: "var(--v3-ink-300)" }}
             >
               {`// RUN THE PIPELINE TO COMPUTE FRESH FEATURED CARDS`}
             </div>
@@ -200,9 +200,9 @@ export function FeaturedCards({
             type="button"
             onClick={handleRecompute}
             disabled={recomputing}
-            className="v4-button v4-button-primary disabled:opacity-60 disabled:cursor-not-allowed"
+            className="v3-button v3-button-primary disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {recomputing ? "RUNNING..." : "RUN RECOMPUTE"}
+            {recomputing ? "RUNNING…" : "RUN RECOMPUTE"}
           </button>
         </div>
       ) : (

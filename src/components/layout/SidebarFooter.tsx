@@ -27,7 +27,7 @@ export function SidebarFooter() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub repository"
-          className="v4-button h-9 w-9 p-0"
+          className="v3-button h-9 w-9 p-0"
         >
           <Code2 className="h-4 w-4" strokeWidth={2} />
         </a>
@@ -36,7 +36,7 @@ export function SidebarFooter() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Author on X / Twitter"
-          className="v4-button h-9 w-9 p-0"
+          className="v3-button h-9 w-9 p-0"
         >
           <X className="h-4 w-4" strokeWidth={2} />
         </a>

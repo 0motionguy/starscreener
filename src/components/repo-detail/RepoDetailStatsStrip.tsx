@@ -119,31 +119,19 @@ function MiniCard({
   const tone = deltaTone(delta);
   const toneColor =
     deltaMissing
-      ? "var(--v4-ink-400)"
+      ? "var(--v2-ink-400)"
       : tone === "up"
-        ? "var(--v4-money)"
+        ? "var(--v2-sig-green)"
         : tone === "down"
-          ? "var(--v4-red)"
-          : "var(--v4-ink-400)";
+          ? "var(--v2-sig-red)"
+          : "var(--v2-ink-400)";
 
   return (
-    <div
-      className="p-3 flex items-center gap-3"
-      style={{
-        border: "1px solid var(--v4-line-200)",
-        background: "var(--v4-bg-025)",
-        borderRadius: 2,
-        overflow: "hidden",
-      }}
-    >
+    <div className="v2-card p-3 flex items-center gap-3">
       <div className="flex flex-col min-w-0 flex-1">
         <span
-          className="inline-flex items-center gap-1.5"
-          style={{
-            fontFamily: "var(--font-geist-mono), monospace",
-            fontSize: 10,
-            color: "var(--v4-ink-400)",
-          }}
+          className="v2-mono inline-flex items-center gap-1.5"
+          style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
         >
           {icon === "brand-star"
             ? (
@@ -156,20 +144,18 @@ function MiniCard({
           <span>{`// ${label.toUpperCase()}`}</span>
         </span>
         <span
-          className="tabular-nums leading-tight mt-1"
+          className="v2-stat tabular-nums leading-tight mt-1"
           style={{
-            fontFamily: "var(--font-geist-mono), monospace",
             fontSize: 22,
             fontWeight: 510,
-            color: "var(--v4-ink-100)",
+            color: "var(--v2-ink-100)",
           }}
         >
           {formatNumber(value)}
         </span>
         <span
-          className={cn("tabular-nums mt-0.5")}
+          className={cn("v2-stat tabular-nums mt-0.5")}
           style={{
-            fontFamily: "var(--font-geist-mono), monospace",
             fontSize: 11,
             color: toneColor,
           }}
@@ -180,7 +166,7 @@ function MiniCard({
           }
         >
           {deltaMissing ? "—" : formatDelta(delta)}
-          <span style={{ color: "var(--v4-ink-400)", marginLeft: 4 }}>
+          <span style={{ color: "var(--v2-ink-400)", marginLeft: 4 }}>
             / {deltaWindow}
           </span>
         </span>

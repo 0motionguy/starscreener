@@ -17,12 +17,10 @@ import {
   repoFullNameToHref,
   type BskyPost,
 } from "@/lib/bluesky";
-import { buildBlueskyHeader } from "@/components/news/newsTopMetrics";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { repoLogoUrl, userLogoUrl, resolveLogoUrl } from "@/lib/logos";
-import { SourceFeedTemplate } from "@/components/source-feed/SourceFeedTemplate";
+import { repoLogoUrl, userLogoUrl } from "@/lib/logos";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -78,29 +76,84 @@ export default async function BlueskyTrendingPage() {
 
   const cold = blueskyCold || allPosts.length === 0;
 
+  if (cold) {
+    return (
+      <main className="home-surface">
+        <SourceFeedTemplate
+          crumb={
+            <>
+              <b>BLUESKY</b> · TERMINAL · /BLUESKY/TRENDING
+            </>
+          }
+          title="Bluesky · top posts"
+          lede="Posts merged across curated AI query families (agents, LLMs, coding agents, MCP, workflow), scored by engagement and cross-linked to GitHub repos."
+        />
+        <ColdState />
+      </main>
+    );
+  }
+
+  const topLikes = allPosts.reduce((m, p) => Math.max(m, p.likeCount), 0);
+  const linkedRepoCount = allPosts.filter(
+    (p) => Array.isArray(p.linkedRepos) && p.linkedRepos.length > 0,
+  ).length;
+  const topicCount = new Set(
+    allPosts.map((p) => p.matchedTopicLabel ?? p.matchedKeyword).filter(Boolean),
+  ).size;
+
   return (
-    <SourceFeedTemplate
-      cold={cold}
-      coldState={<ColdState />}
-      header={{
-        routeTitle: "BLUESKY - TOP POSTS",
-        liveLabel: "LIVE - 24H",
-        eyebrow: "// BLUESKY - LIVE FIREHOSE",
-        meta: [
-          { label: "TRACKED", value: allPosts.length.toLocaleString("en-US") },
-          { label: "WINDOW", value: "24H" },
-        ],
-        ...buildBlueskyHeader(trendingFile, getBlueskyTopPosts(3)),
-        accent: BSKY_ACCENT,
-        caption: [
-          "// LAYOUT compact-v1",
-          "- 3-COL - 320 / 1FR / 1FR",
-          "- DATA UNCHANGED",
-        ],
-      }}
-    >
-      <BskyPostFeed posts={posts} />
-    </SourceFeedTemplate>
+    <main className="home-surface">
+      <SourceFeedTemplate
+        crumb={
+          <>
+            <b>BLUESKY</b> · TERMINAL · /BLUESKY/TRENDING
+          </>
+        }
+        title="Bluesky · top posts"
+        lede="Posts merged across curated AI query families (agents, LLMs, coding agents, MCP, workflow), scored by engagement and cross-linked to GitHub repos."
+        clock={
+          <>
+            <span className="big">{formatClock(trendingFile.fetchedAt)}</span>
+            <span className="muted">UTC · SCRAPED</span>
+            <LiveDot label="LIVE · 24H" />
+          </>
+        }
+        snapshot={
+          <KpiBand
+            cells={[
+              {
+                label: "TRACKED",
+                value: allPosts.length.toLocaleString("en-US"),
+                sub: "24h rolling",
+                pip: "var(--v4-src-bsky)",
+              },
+              {
+                label: "TOP LIKES",
+                value: topLikes.toLocaleString("en-US"),
+                sub: "engagement peak",
+                tone: "acc",
+                pip: "var(--v4-acc)",
+              },
+              {
+                label: "TOPICS",
+                value: topicCount,
+                sub: "matched query families",
+                tone: "money",
+                pip: "var(--v4-money)",
+              },
+              {
+                label: "GH-LINKED",
+                value: linkedRepoCount,
+                sub: "posts with repo",
+                pip: "var(--v4-blue)",
+              },
+            ]}
+          />
+        }
+        listEyebrow="Post feed · 24h / 7d / 30d window"
+        list={<WindowedBskyFeed allPosts={allPosts} />}
+      />
+    </main>
   );
 }
 
@@ -177,39 +230,25 @@ function BskyPostFeed({ posts }: { posts: BskyPost[] }) {
               alt=""
             />
             <div className="min-w-0 flex-1">
-            <a
-              href={p.bskyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="line-clamp-2 text-[13px] font-medium transition-colors hover:text-[color:var(--v4-acc)]"
-              style={{ color: "var(--v4-ink-100)" }}
-              title={p.text}
-            >
-              {snippet}
-            </a>
-            <div className="mt-0.5 flex flex-wrap items-center gap-2">
-              <span
-                className="text-[10px]"
-                style={{ color: "var(--v4-ink-400)" }}
-                title={
-                  p.author.displayName
-                    ? `${p.author.displayName} (@${p.author.handle})`
-                    : `@${p.author.handle}`
-                }
+              <a
+                href={p.bskyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="line-clamp-2 text-[13px] font-medium transition-colors hover:text-[color:var(--v4-acc)]"
+                style={{ color: "var(--v4-ink-100)" }}
+                title={p.text}
               >
-                @{p.author.handle}
-              </span>
-              {linkedRepo ? (
-                <a
-                  href={repoFullNameToHref(linkedRepo)}
-                  className="v2-mono shrink-0 px-1.5 py-0.5 text-[10px] tracking-[0.14em] uppercase transition-colors hover:text-[color:var(--v4-acc)]"
-                  style={{
-                    border: "1px solid var(--v4-line-200)",
-                    background: "var(--v4-bg-100)",
-                    color: "var(--v4-ink-300)",
-                    borderRadius: 2,
-                  }}
-                  title={`Linked repo: ${linkedRepo}`}
+                {snippet}
+              </a>
+              <div className="mt-0.5 flex flex-wrap items-center gap-2">
+                <span
+                  className="text-[10px]"
+                  style={{ color: "var(--v4-ink-400)" }}
+                  title={
+                    p.author.displayName
+                      ? `${p.author.displayName} (@${p.author.handle})`
+                      : `@${p.author.handle}`
+                  }
                 >
                   @{p.author.handle}
                 </span>
@@ -350,6 +389,7 @@ function ColdState() {
   return (
     <section
       style={{
+        padding: 32,
         background: "var(--v4-bg-025)",
         border: "1px dashed var(--v4-line-100)",
         borderRadius: 2,
@@ -367,17 +407,15 @@ function ColdState() {
       >
         {"// no data yet"}
       </h2>
-      <p
-        className="mt-3 max-w-xl text-sm"
-        style={{ color: "var(--v4-ink-300)" }}
-      >
+      <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
         The Bluesky scraper hasn&apos;t run yet. Run{" "}
         <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:bsky</code>{" "}
-        locally (with <code style={{ color: "var(--v4-ink-100)" }}>BLUESKY_HANDLE</code>{" "}
-        + <code style={{ color: "var(--v4-ink-100)" }}>BLUESKY_APP_PASSWORD</code>{" "}
-        in env) to populate{" "}
-        <code style={{ color: "var(--v4-ink-100)" }}>data/bluesky-trending.json</code>,
-        then refresh this page.
+        locally (with{" "}
+        <code style={{ color: "var(--v4-ink-100)" }}>BLUESKY_HANDLE</code> +{" "}
+        <code style={{ color: "var(--v4-ink-100)" }}>BLUESKY_APP_PASSWORD</code> in env) to
+        populate{" "}
+        <code style={{ color: "var(--v4-ink-100)" }}>data/bluesky-trending.json</code>, then
+        refresh this page.
       </p>
     </section>
   );

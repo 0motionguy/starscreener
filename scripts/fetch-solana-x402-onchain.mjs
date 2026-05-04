@@ -6,12 +6,11 @@
 // Operators: set SOLANA_RPC_URL (comma-separated for fallback chain) for production.
 // The default api.mainnet-beta.solana.com is rate-limited (~10 rps per-IP).
 
-import { writeFileSync, mkdirSync, readFileSync, existsSync } from "fs";
+import { writeFileSync, mkdirSync } from "fs";
 import { resolve, dirname } from "path";
 import { writeDataStore } from "./_data-store-write.mjs";
 
 const OUT_PATH = resolve(process.cwd(), ".data/solana-x402-onchain.json");
-const RESUME_TTL_MS = 6 * 60 * 60 * 1000;
 const RPC_ENDPOINTS = (process.env.SOLANA_RPC_URL ?? "https://api.mainnet-beta.solana.com")
   .split(",")
   .map((s) => s.trim())
@@ -30,7 +29,6 @@ const BACKOFF_CAP_MS = 30_000;
 const TIMEOUT_MS = 30_000;
 const MAX_PAGES = parseNumberArg("--max-pages-per-addr", 3);
 const DRY_RUN = process.argv.includes("--dry-run");
-const RESUME = process.argv.includes("--resume");
 const ADDR_FILTER = parseStringArg("--addr", null);
 
 const FACILITATORS = {
@@ -221,31 +219,6 @@ function selectFacilitators() {
   return filtered;
 }
 
-function loadExistingForResume() {
-  if (!existsSync(OUT_PATH)) return null;
-  try {
-    const raw = readFileSync(OUT_PATH, "utf8");
-    const parsed = JSON.parse(raw);
-    if (!parsed || typeof parsed !== "object") return null;
-    const fetchedAt = Date.parse(parsed.fetchedAt ?? "");
-    if (!Number.isFinite(fetchedAt)) return null;
-    if (Date.now() - fetchedAt > RESUME_TTL_MS) return null;
-    return parsed;
-  } catch (err) {
-    console.warn(`[x402-sol] --resume: failed to read existing ${OUT_PATH}: ${err.message}`);
-    return null;
-  }
-}
-
-async function writeCheckpoint(payload) {
-  mkdirSync(dirname(OUT_PATH), { recursive: true });
-  writeFileSync(OUT_PATH, JSON.stringify(payload, null, 2), "utf8");
-  const ds = await writeDataStore("solana-x402-onchain", payload, {
-    stampPerRecord: false,
-  });
-  return ds;
-}
-
 async function main() {
   const targets = selectFacilitators();
   const targetAddrCount = Object.values(targets).flat().length;
@@ -267,62 +240,7 @@ async function main() {
   let totalTxs = 0;
   let totalSettlements = 0;
 
-  const resumeData = RESUME ? loadExistingForResume() : null;
-  if (RESUME) {
-    if (resumeData) {
-      console.log(
-        `[x402-sol] --resume: existing snapshot fetchedAt=${resumeData.fetchedAt} (within 6h)`,
-      );
-    } else {
-      console.log(`[x402-sol] --resume: no fresh snapshot found, processing all targets`);
-    }
-  }
-
-  function buildSnapshot() {
-    return {
-      fetchedAt,
-      source: RPC_ENDPOINTS[0],
-      chain: "solana",
-      totalTxs,
-      totalSettlements,
-      byFacilitator,
-      byDay,
-      samples,
-      facilitatorAddresses: FACILITATORS,
-    };
-  }
-
   for (const [name, addresses] of Object.entries(targets)) {
-    // Resume short-circuit: if cached file has data for this facilitator and is fresh, skip RPC.
-    const cachedFac = resumeData?.byFacilitator?.[name];
-    if (resumeData && cachedFac && cachedFac.x402Settlements > 0) {
-      byFacilitator[name] = {
-        addressCount: cachedFac.addressCount ?? addresses.length,
-        totalTxs: cachedFac.totalTxs ?? 0,
-        x402Settlements: cachedFac.x402Settlements ?? 0,
-      };
-      totalTxs += byFacilitator[name].totalTxs;
-      totalSettlements += byFacilitator[name].x402Settlements;
-      // Merge cached byDay entries for this facilitator.
-      for (const [day, entry] of Object.entries(resumeData.byDay ?? {})) {
-        const cnt = entry?.byFacilitator?.[name];
-        if (!cnt) continue;
-        if (!byDay[day]) byDay[day] = { txs: 0, byFacilitator: {} };
-        byDay[day].txs += cnt;
-        byDay[day].byFacilitator[name] = (byDay[day].byFacilitator[name] ?? 0) + cnt;
-      }
-      // Merge cached samples for this facilitator (still capped at 10 overall).
-      for (const s of resumeData.samples ?? []) {
-        if (s?.facilitator !== name) continue;
-        if (samples.length >= 10) break;
-        samples.push(s);
-      }
-      console.log(
-        `  skip ${name}: cached (txs=${byFacilitator[name].totalTxs} usdc=${byFacilitator[name].x402Settlements})`,
-      );
-      continue;
-    }
-
     let facTxs = 0;
     let facSettlements = 0;
     for (const addr of addresses) {
@@ -380,18 +298,6 @@ async function main() {
     };
     totalTxs += facTxs;
     totalSettlements += facSettlements;
-
-    // Fault-tolerant checkpoint: full-snapshot write after every facilitator.
-    if (!DRY_RUN) {
-      try {
-        const ds = await writeCheckpoint(buildSnapshot());
-        console.log(
-          `  checkpoint written: ${name} (file + data-store=${ds.source} @ ${ds.writtenAt})`,
-        );
-      } catch (err) {
-        console.warn(`[x402-sol] checkpoint write failed for ${name}: ${err.message}`);
-      }
-    }
   }
 
   console.log(`\n[x402-sol] TOTAL: ${totalTxs} txs · ${totalSettlements} x402 settlements`);
@@ -408,14 +314,29 @@ async function main() {
     console.log("[x402-sol] --dry-run");
     return;
   }
-  // Final snapshot write — equals the last checkpoint when at least one
-  // facilitator was processed; covers the all-skipped case too.
-  const ds = await writeCheckpoint(buildSnapshot());
+  const payload = {
+    fetchedAt,
+    source: RPC_ENDPOINTS[0],
+    chain: "solana",
+    totalTxs,
+    totalSettlements,
+    byFacilitator,
+    byDay,
+    samples,
+    facilitatorAddresses: FACILITATORS,
+  };
+  mkdirSync(dirname(OUT_PATH), { recursive: true });
+  writeFileSync(OUT_PATH, JSON.stringify(payload, null, 2), "utf8");
   console.log(`[x402-sol] wrote ${OUT_PATH}`);
+  const ds = await writeDataStore("solana-x402-onchain", payload, {
+    stampPerRecord: false,
+  });
   console.log(`[x402-sol] data-store: ${ds.source} @ ${ds.writtenAt}`);
 }
 
-main().catch((err) => {
-  console.error("[x402-sol] fatal:", err);
-  process.exit(1);
-});
+main()
+  .then(() => process.exit(0))
+  .catch((err) => {
+    console.error("[x402-sol] fatal:", err);
+    process.exit(1);
+  });

@@ -33,20 +33,11 @@ import {
   recentRepoRows,
 } from "./_tracked-repos.mjs";
 import {
-  extractAllRepoMentions,
+  extractGithubRepoFullNames,
   extractUnknownRepoCandidates,
   normalizeGithubFullName,
 } from "./_github-repo-links.mjs";
-import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
-
-function slugIdFromFullName(fullName) {
-  return String(fullName)
-    .toLowerCase()
-    .replace(/\//g, "--")
-    .replace(/\./g, "-")
-    .replace(/[^a-z0-9-]/g, "");
-}
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");

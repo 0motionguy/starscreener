@@ -45,21 +45,21 @@ export function buildBreakoutsHeader({
       value: allThree,
       valueLabel: allThree.toLocaleString("en-US"),
       hintLabel: "GH+R+HN",
-      color: "var(--v4-acc)",
+      color: "var(--v3-acc)",
     },
     {
       label: "2 CH",
       value: twoChannel,
       valueLabel: twoChannel.toLocaleString("en-US"),
       hintLabel: "MULTI",
-      color: "var(--v4-acc)",
+      color: "var(--v3-acc)",
     },
     {
       label: "1 CH",
       value: oneChannel,
       valueLabel: oneChannel.toLocaleString("en-US"),
       hintLabel: "NOISE",
-      color: "var(--v4-line-300)",
+      color: "var(--v3-line-300)",
     },
   ];
 
@@ -72,7 +72,7 @@ export function buildBreakoutsHeader({
     catCounts.set(id, (catCounts.get(id) ?? 0) + 1);
   }
   const TOPIC_PALETTE = [
-    "var(--v4-acc)",
+    "var(--v3-acc)",
     "#F59E0B",
     "#3AD6C5",
     "#F472B6",

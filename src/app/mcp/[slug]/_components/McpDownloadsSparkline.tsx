@@ -44,27 +44,27 @@ export function McpDownloadsSparkline({ points }: McpDownloadsSparklineProps) {
           </defs>
           <XAxis
             dataKey="date"
-            tick={{ fill: "var(--v4-ink-400)", fontSize: 10 }}
+            tick={{ fill: "var(--v3-ink-400)", fontSize: 10 }}
             axisLine={false}
             tickLine={false}
             minTickGap={20}
           />
           <YAxis
-            tick={{ fill: "var(--v4-ink-400)", fontSize: 10 }}
+            tick={{ fill: "var(--v3-ink-400)", fontSize: 10 }}
             axisLine={false}
             tickLine={false}
             width={36}
           />
           <Tooltip
             contentStyle={{
-              background: "var(--v4-bg-100)",
-              border: "1px solid var(--v4-line-200)",
+              background: "var(--v3-bg-100)",
+              border: "1px solid var(--v3-line-200)",
               borderRadius: 4,
               fontFamily: "var(--font-mono, ui-monospace)",
               fontSize: 11,
             }}
-            labelStyle={{ color: "var(--v4-ink-200)" }}
-            itemStyle={{ color: "var(--v4-acc)" }}
+            labelStyle={{ color: "var(--v3-ink-200)" }}
+            itemStyle={{ color: "var(--v3-acc)" }}
           />
           <Area
             type="monotone"

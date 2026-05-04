@@ -128,35 +128,26 @@ export function RepoSignalSnapshot({
         const Icon = card.icon;
         const valueColor =
           card.tone === "up"
-            ? "var(--v4-acc)"
+            ? "var(--v2-acc)"
             : card.tone === "warning"
-              ? "var(--v4-amber)"
-              : "var(--v4-ink-100)";
+              ? "var(--v2-sig-amber)"
+              : "var(--v2-ink-100)";
         const iconColor =
           card.tone === "up"
-            ? "var(--v4-acc)"
+            ? "var(--v2-acc)"
             : card.tone === "warning"
-              ? "var(--v4-amber)"
-              : "var(--v4-ink-400)";
+              ? "var(--v2-sig-amber)"
+              : "var(--v2-ink-400)";
         return (
           <div
             key={card.label}
             title={card.explainer}
-            style={{
-              border: "1px solid var(--v4-line-200)",
-              background: "var(--v4-bg-025)",
-              borderRadius: 2,
-              overflow: "hidden",
-              padding: 12,
-            }}
+            className="v2-card p-3"
           >
             <div className="flex items-center justify-between gap-3">
               <span
-                style={{
-                  fontFamily: "var(--font-geist-mono), monospace",
-                  fontSize: 10,
-                  color: "var(--v4-ink-400)",
-                }}
+                className="v2-mono"
+                style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
               >
                 {`// 0${idx + 1} · ${card.label.toUpperCase()}`}
               </span>
@@ -167,9 +158,8 @@ export function RepoSignalSnapshot({
               />
             </div>
             <div
-              className="tabular-nums leading-none mt-2"
+              className="v2-stat tabular-nums leading-none mt-2"
               style={{
-                fontFamily: "var(--font-geist-mono), monospace",
                 fontSize: 24,
                 fontWeight: 510,
                 color: valueColor,
@@ -181,7 +171,7 @@ export function RepoSignalSnapshot({
               className="mt-2 leading-snug"
               style={{
                 fontSize: 11,
-                color: "var(--v4-ink-300)",
+                color: "var(--v2-ink-300)",
               }}
             >
               {card.detail}

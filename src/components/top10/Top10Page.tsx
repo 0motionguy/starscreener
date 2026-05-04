@@ -181,7 +181,7 @@ export function Top10Page({
   }
 
   return (
-    <div className="min-h-screen" style={{ background: "var(--v4-bg-000, #08090a)" }}>
+    <div className="min-h-screen" style={{ background: "var(--v3-bg-000, #08090a)" }}>
       <Main
         category={category}
         window={window}
@@ -378,8 +378,8 @@ function CategoryTabs({ active, counts, meta, onPick }: CategoryTabsProps) {
     <div
       className="flex gap-1.5 mb-3 overflow-x-auto"
       style={{
-        border: "1px solid var(--v4-line-200, #29323b)",
-        background: "var(--v4-bg-025, #0b0d0f)",
+        border: "1px solid var(--v3-line-200, #29323b)",
+        background: "var(--v3-bg-025, #0b0d0f)",
         padding: 6,
       }}
     >
@@ -399,7 +399,7 @@ function CategoryTabs({ active, counts, meta, onPick }: CategoryTabsProps) {
                 ? "1px solid var(--v2-acc, #f56e0f)"
                 : "1px solid transparent",
               background: on ? "var(--v2-acc, #f56e0f)" : "transparent",
-              color: on ? "#1a0a04" : "var(--v4-ink-300, #84909b)",
+              color: on ? "#1a0a04" : "var(--v3-ink-300, #84909b)",
               fontSize: 10.5,
               letterSpacing: "0.14em",
               textTransform: "uppercase",
@@ -417,8 +417,8 @@ function CategoryTabs({ active, counts, meta, onPick }: CategoryTabsProps) {
               className="tabular-nums"
               style={{
                 fontSize: 9,
-                color: on ? "rgba(0,0,0,0.45)" : "var(--v4-ink-500, #3c444d)",
-                background: on ? "rgba(0,0,0,0.18)" : "var(--v4-bg-100, #151a20)",
+                color: on ? "rgba(0,0,0,0.45)" : "var(--v3-ink-500, #3c444d)",
+                background: on ? "rgba(0,0,0,0.18)" : "var(--v3-bg-100, #151a20)",
                 padding: "2px 7px",
               }}
             >
@@ -458,8 +458,8 @@ function RankingPanel({
     <section
       className="flex flex-col min-w-0"
       style={{
-        border: "1px solid var(--v4-line-200, #29323b)",
-        background: "var(--v4-bg-025, #0b0d0f)",
+        border: "1px solid var(--v3-line-200, #29323b)",
+        background: "var(--v3-bg-025, #0b0d0f)",
       }}
     >
       <PanelHead
@@ -510,24 +510,24 @@ function PanelHead({
     <div
       className="v2-mono flex items-center gap-2 px-3 py-2"
       style={{
-        borderBottom: "1px solid var(--v4-line-200, #29323b)",
+        borderBottom: "1px solid var(--v3-line-200, #29323b)",
         fontSize: 10,
         letterSpacing: "0.20em",
         textTransform: "uppercase",
-        color: "var(--v4-ink-300, #84909b)",
+        color: "var(--v3-ink-300, #84909b)",
         background:
-          "linear-gradient(180deg, var(--v4-bg-050, #101418), var(--v4-bg-025, #0b0d0f))",
+          "linear-gradient(180deg, var(--v3-bg-050, #101418), var(--v3-bg-025, #0b0d0f))",
       }}
     >
       <CornerDots />
-      <span style={{ color: "var(--v4-ink-100, #eef0f2)", fontWeight: 600 }}>
+      <span style={{ color: "var(--v3-ink-100, #eef0f2)", fontWeight: 600 }}>
         {title}
       </span>
-      <span style={{ color: "var(--v4-ink-400, #909caa)" }}>{subtitle}</span>
+      <span style={{ color: "var(--v3-ink-400, #909caa)" }}>{subtitle}</span>
       <span
         style={{
           marginLeft: "auto",
-          color: "var(--v4-money, #22c55e)",
+          color: "var(--v3-sig-green, #22c55e)",
         }}
       >
         {right}
@@ -551,7 +551,7 @@ function CornerDots() {
         style={{
           width: 4,
           height: 4,
-          background: "var(--v4-money, #22c55e)",
+          background: "var(--v3-sig-green, #22c55e)",
           display: "block",
         }}
       />
@@ -559,7 +559,7 @@ function CornerDots() {
         style={{
           width: 4,
           height: 4,
-          background: "var(--v4-ink-300, #84909b)",
+          background: "var(--v3-ink-300, #84909b)",
           display: "block",
         }}
       />
@@ -606,8 +606,8 @@ function FilterRow({
     <div
       className="flex gap-1.5 px-3 py-2 items-center flex-wrap"
       style={{
-        borderBottom: "1px solid var(--v4-line-200, #29323b)",
-        background: "var(--v4-bg-050, #101418)",
+        borderBottom: "1px solid var(--v3-line-200, #29323b)",
+        background: "var(--v3-bg-050, #101418)",
       }}
     >
       <ChipLabel>WINDOW</ChipLabel>
@@ -625,7 +625,7 @@ function FilterRow({
         style={{
           width: 1,
           height: 18,
-          background: "var(--v4-line-200, #29323b)",
+          background: "var(--v3-line-200, #29323b)",
           margin: "0 4px",
         }}
       />
@@ -651,7 +651,7 @@ function ChipLabel({ children }: { children: React.ReactNode }) {
       style={{
         fontSize: 9,
         letterSpacing: "0.18em",
-        color: "var(--v4-ink-400, #909caa)",
+        color: "var(--v3-ink-400, #909caa)",
         textTransform: "uppercase",
         marginRight: 4,
       }}
@@ -681,16 +681,16 @@ function Chip({
         height: 24,
         padding: "0 9px",
         border: on
-          ? "1px solid var(--v4-ink-100, #eef0f2)"
-          : "1px solid var(--v4-line-300, #3a444f)",
+          ? "1px solid var(--v3-ink-100, #eef0f2)"
+          : "1px solid var(--v3-line-300, #3a444f)",
         background: on
-          ? "var(--v4-ink-100, #eef0f2)"
-          : "var(--v4-bg-100, #151a20)",
+          ? "var(--v3-ink-100, #eef0f2)"
+          : "var(--v3-bg-100, #151a20)",
         color: on
           ? "#08090a"
           : disabled
-            ? "var(--v4-ink-500, #3c444d)"
-            : "var(--v4-ink-300, #84909b)",
+            ? "var(--v3-ink-500, #3c444d)"
+            : "var(--v3-ink-300, #84909b)",
         fontSize: 9.5,
         letterSpacing: "0.14em",
         textTransform: "uppercase",
@@ -731,21 +731,21 @@ function RankRow({
         ? "#c0c5cc"
         : item.rank === 3
           ? "#cd7f32"
-          : "var(--v4-ink-300, #84909b)";
+          : "var(--v3-ink-300, #84909b)";
 
   return (
     <Link
       href={item.href}
       target={item.href.startsWith("http") ? "_blank" : undefined}
       rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-      className="block hover:bg-[var(--v4-bg-050,#101418)] relative cursor-pointer"
+      className="block hover:bg-[var(--v3-bg-050,#101418)] relative cursor-pointer"
       style={{
         display: "grid",
         gridTemplateColumns: "44px 36px minmax(0,1fr) 120px 110px 24px",
         gap: 12,
         padding: "10px 14px",
         alignItems: "center",
-        borderBottom: "1px solid var(--v4-line-100, #1b2229)",
+        borderBottom: "1px solid var(--v3-line-100, #1b2229)",
       }}
     >
       {isTop && (
@@ -786,7 +786,7 @@ function RankRow({
       <Delta delta={item.deltaPct} sparkline={item.sparkline} />
       <span
         className="text-center"
-        style={{ color: "var(--v4-ink-500, #3c444d)" }}
+        style={{ color: "var(--v3-ink-500, #3c444d)" }}
       >
         →
       </span>
@@ -824,7 +824,7 @@ function Body({ item, category }: { item: Top10Item; category: Top10Category }) 
         className="font-display"
         style={{
           fontSize: 14.5,
-          color: "var(--v4-ink-000, #fff)",
+          color: "var(--v3-ink-000, #fff)",
           fontWeight: 500,
           letterSpacing: "-0.012em",
           display: "flex",
@@ -835,10 +835,10 @@ function Body({ item, category }: { item: Top10Item; category: Top10Category }) 
       >
         {item.owner ? (
           <>
-            <span style={{ color: "var(--v4-ink-300, #84909b)", fontWeight: 400 }}>
+            <span style={{ color: "var(--v3-ink-300, #84909b)", fontWeight: 400 }}>
               {item.owner}
             </span>
-            <span style={{ color: "var(--v4-ink-500, #3c444d)" }}>/</span>
+            <span style={{ color: "var(--v3-ink-500, #3c444d)" }}>/</span>
           </>
         ) : null}
         <span>{item.title}</span>
@@ -850,7 +850,7 @@ function Body({ item, category }: { item: Top10Item; category: Top10Category }) 
         className="font-display"
         style={{
           fontSize: 11.5,
-          color: "var(--v4-ink-300, #84909b)",
+          color: "var(--v3-ink-300, #84909b)",
           marginTop: 2,
           lineHeight: 1.4,
           overflow: "hidden",
@@ -875,20 +875,20 @@ function Badge({ kind }: { kind: Top10Item["badges"][number] }) {
     FIRING_5: {
       label: "5/5 FIRING",
       bg: "rgba(34,197,94,0.14)",
-      color: "var(--v4-money, #22c55e)",
+      color: "var(--v3-sig-green, #22c55e)",
       border: "rgba(34,197,94,0.4)",
     },
     FIRING_4: {
       label: "4/5 FIRING",
       bg: "rgba(34,197,94,0.10)",
-      color: "var(--v4-money, #22c55e)",
+      color: "var(--v3-sig-green, #22c55e)",
       border: "rgba(34,197,94,0.35)",
     },
     FIRING_3: {
       label: "3/5 FIRING",
       bg: "transparent",
-      color: "var(--v4-ink-300, #84909b)",
-      border: "var(--v4-line-300, #3a444f)",
+      color: "var(--v3-ink-300, #84909b)",
+      border: "var(--v3-line-300, #3a444f)",
     },
     NEW: {
       label: "NEW ENTRY",
@@ -899,7 +899,7 @@ function Badge({ kind }: { kind: Top10Item["badges"][number] }) {
     HOT: {
       label: "HOT",
       bg: "rgba(255,77,77,0.14)",
-      color: "var(--v4-red, #ff4d4d)",
+      color: "var(--v3-sig-red, #ff4d4d)",
       border: "rgba(255,77,77,0.4)",
     },
   };
@@ -934,7 +934,7 @@ function Metric({ score }: { score: number }) {
       <span
         style={{
           fontSize: 14,
-          color: "var(--v4-ink-100, #eef0f2)",
+          color: "var(--v3-ink-100, #eef0f2)",
           fontWeight: 600,
         }}
       >
@@ -945,7 +945,7 @@ function Metric({ score }: { score: number }) {
           display: "block",
           fontSize: 9,
           letterSpacing: "0.18em",
-          color: "var(--v4-ink-400, #909caa)",
+          color: "var(--v3-ink-400, #909caa)",
           textTransform: "uppercase",
           marginTop: 1,
         }}
@@ -974,10 +974,10 @@ function Delta({
           fontSize: 12.5,
           color:
             delta === undefined
-              ? "var(--v4-ink-400, #909caa)"
+              ? "var(--v3-ink-400, #909caa)"
               : positive
-                ? "var(--v4-money, #22c55e)"
-                : "var(--v4-red, #ff4d4d)",
+                ? "var(--v3-sig-green, #22c55e)"
+                : "var(--v3-sig-red, #ff4d4d)",
           fontWeight: 600,
         }}
       >
@@ -1000,7 +1000,7 @@ function Delta({
           display: "block",
           fontSize: 9,
           letterSpacing: "0.18em",
-          color: "var(--v4-ink-400, #909caa)",
+          color: "var(--v3-ink-400, #909caa)",
           textTransform: "uppercase",
           marginTop: 1,
         }}
@@ -1018,7 +1018,7 @@ function EmptyRows() {
       style={{
         padding: "24px 14px",
         textAlign: "center",
-        color: "var(--v4-ink-400, #909caa)",
+        color: "var(--v3-ink-400, #909caa)",
         fontSize: 11,
         letterSpacing: "0.14em",
       }}
@@ -1043,25 +1043,25 @@ function RankingMetaStrip({ meta }: { meta: Top10Bundle["meta"] }) {
       lbl: "Total movement",
       v: meta.totalMovement,
       sub: meta.totalMovementSub,
-      sub_color: "var(--v4-money, #22c55e)",
+      sub_color: "var(--v3-sig-green, #22c55e)",
     },
     {
       lbl: "Mean score",
       v: meta.meanScore,
       sub: meta.meanScoreSub,
-      sub_color: "var(--v4-money, #22c55e)",
+      sub_color: "var(--v3-sig-green, #22c55e)",
     },
     {
       lbl: "Hottest mover",
       v: meta.hottest,
       sub: meta.hottestSub,
-      sub_color: "var(--v4-money, #22c55e)",
+      sub_color: "var(--v3-sig-green, #22c55e)",
     },
     {
       lbl: "Coldest mover",
       v: meta.coldest ?? "—",
       sub: meta.coldestSub,
-      sub_color: meta.coldest ? "var(--v4-red, #ff4d4d)" : undefined,
+      sub_color: meta.coldest ? "var(--v3-sig-red, #ff4d4d)" : undefined,
     },
   ];
   return (
@@ -1069,7 +1069,7 @@ function RankingMetaStrip({ meta }: { meta: Top10Bundle["meta"] }) {
       style={{
         display: "grid",
         gridTemplateColumns: "repeat(4, 1fr)",
-        borderTop: "1px solid var(--v4-line-200, #29323b)",
+        borderTop: "1px solid var(--v3-line-200, #29323b)",
       }}
     >
       {cells.map((c, i) => (
@@ -1079,7 +1079,7 @@ function RankingMetaStrip({ meta }: { meta: Top10Bundle["meta"] }) {
             padding: "10px 14px",
             borderRight:
               i < cells.length - 1
-                ? "1px solid var(--v4-line-200, #29323b)"
+                ? "1px solid var(--v3-line-200, #29323b)"
                 : "none",
           }}
         >
@@ -1088,7 +1088,7 @@ function RankingMetaStrip({ meta }: { meta: Top10Bundle["meta"] }) {
             style={{
               fontSize: 9,
               letterSpacing: "0.20em",
-              color: "var(--v4-ink-400, #909caa)",
+              color: "var(--v3-ink-400, #909caa)",
               textTransform: "uppercase",
             }}
           >
@@ -1100,8 +1100,8 @@ function RankingMetaStrip({ meta }: { meta: Top10Bundle["meta"] }) {
               fontSize: 14,
               color:
                 c.lbl === "Coldest mover" && c.v !== "—"
-                  ? "var(--v4-red, #ff4d4d)"
-                  : "var(--v4-ink-000, #fff)",
+                  ? "var(--v3-sig-red, #ff4d4d)"
+                  : "var(--v3-ink-000, #fff)",
               marginTop: 2,
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -1115,7 +1115,7 @@ function RankingMetaStrip({ meta }: { meta: Top10Bundle["meta"] }) {
               className="v2-mono"
               style={{
                 fontSize: 9.5,
-                color: c.sub_color ?? "var(--v4-ink-400, #909caa)",
+                color: c.sub_color ?? "var(--v3-ink-400, #909caa)",
                 letterSpacing: "0.10em",
                 marginTop: 2,
               }}
@@ -1196,23 +1196,23 @@ function ShareStack({
         <div
           className="v2-mono flex items-center gap-2 px-3 py-2"
           style={{
-            borderBottom: "1px solid var(--v4-line-200, #29323b)",
+            borderBottom: "1px solid var(--v3-line-200, #29323b)",
             fontSize: 10,
             letterSpacing: "0.20em",
             textTransform: "uppercase",
-            color: "var(--v4-ink-300, #84909b)",
+            color: "var(--v3-ink-300, #84909b)",
             background:
-              "linear-gradient(180deg, var(--v4-bg-050, #101418), var(--v4-bg-025, #0b0d0f))",
+              "linear-gradient(180deg, var(--v3-bg-050, #101418), var(--v3-bg-025, #0b0d0f))",
           }}
         >
           <CornerDots />
-          <span style={{ color: "var(--v4-ink-100, #eef0f2)", fontWeight: 600 }}>
+          <span style={{ color: "var(--v3-ink-100, #eef0f2)", fontWeight: 600 }}>
             {"// SHARE"}
           </span>
           <span
             style={{
               marginLeft: "auto",
-              color: "var(--v4-money, #22c55e)",
+              color: "var(--v3-sig-green, #22c55e)",
             }}
           >
             PNG · BRANDED
@@ -1279,7 +1279,7 @@ function ThemePicker({
         style={{
           fontSize: 9,
           letterSpacing: "0.18em",
-          color: "var(--v4-ink-400, #909caa)",
+          color: "var(--v3-ink-400, #909caa)",
           textTransform: "uppercase",
           paddingRight: 8,
         }}
@@ -1299,11 +1299,11 @@ function ThemePicker({
               height: 32,
               border: on
                 ? "1px solid var(--v2-acc, #f56e0f)"
-                : "1px solid var(--v4-line-300, #3a444f)",
+                : "1px solid var(--v3-line-300, #3a444f)",
               background: on
                 ? "var(--v2-acc-soft, rgba(245,110,15,0.14))"
-                : "var(--v4-bg-050, #101418)",
-              color: on ? "var(--v2-acc, #f56e0f)" : "var(--v4-ink-300, #84909b)",
+                : "var(--v3-bg-050, #101418)",
+              color: on ? "var(--v2-acc, #f56e0f)" : "var(--v3-ink-300, #84909b)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -1388,7 +1388,7 @@ function CardPreview({
           width: "100%",
           aspectRatio: ratio[aspect],
           background: frameBg,
-          border: "1px solid var(--v4-line-300, #3a444f)",
+          border: "1px solid var(--v3-line-300, #3a444f)",
           overflow: "hidden",
           position: "relative",
         }}
@@ -1437,7 +1437,7 @@ function ShareActions({
         gridTemplateColumns: "1fr 1fr",
         gap: 6,
         padding: 10,
-        borderTop: "1px solid var(--v4-line-200, #29323b)",
+        borderTop: "1px solid var(--v3-line-200, #29323b)",
       }}
     >
       <a
@@ -1469,9 +1469,9 @@ function ShareActions({
         className="v2-mono"
         style={{
           height: 34,
-          border: "1px solid var(--v4-line-300, #3a444f)",
-          background: "var(--v4-bg-050, #101418)",
-          color: "var(--v4-ink-100, #eef0f2)",
+          border: "1px solid var(--v3-line-300, #3a444f)",
+          background: "var(--v3-bg-050, #101418)",
+          color: "var(--v3-ink-100, #eef0f2)",
           fontSize: 10.5,
           letterSpacing: "0.14em",
           textTransform: "uppercase",
@@ -1487,9 +1487,9 @@ function ShareActions({
         className="v2-mono"
         style={{
           height: 34,
-          border: "1px solid var(--v4-line-300, #3a444f)",
-          background: "var(--v4-bg-050, #101418)",
-          color: "var(--v4-ink-100, #eef0f2)",
+          border: "1px solid var(--v3-line-300, #3a444f)",
+          background: "var(--v3-bg-050, #101418)",
+          color: "var(--v3-ink-100, #eef0f2)",
           fontSize: 10.5,
           letterSpacing: "0.14em",
           textTransform: "uppercase",
@@ -1537,16 +1537,16 @@ function MetaRow({
   return (
     <ShareMetaRow label={label}>
       {readOnly ? (
-        <span style={{ color: "var(--v4-ink-200, #b8c0c8)" }}>{value}</span>
+        <span style={{ color: "var(--v3-ink-200, #b8c0c8)" }}>{value}</span>
       ) : (
         <input
           value={value}
           readOnly
           style={{
             flex: 1,
-            background: "var(--v4-bg-050, #101418)",
-            border: "1px solid var(--v4-line-300, #3a444f)",
-            color: "var(--v4-ink-100, #eef0f2)",
+            background: "var(--v3-bg-050, #101418)",
+            border: "1px solid var(--v3-line-300, #3a444f)",
+            color: "var(--v3-ink-100, #eef0f2)",
             padding: "5px 8px",
             fontFamily: "var(--font-jetbrains-mono, ui-monospace, monospace)",
             fontSize: 10,
@@ -1622,7 +1622,7 @@ function Mini({
           className="v2-mono"
           style={{
             fontSize: 11,
-            color: "var(--v4-ink-400, #909caa)",
+            color: "var(--v3-ink-400, #909caa)",
             padding: "10px 0",
           }}
         >
@@ -1634,7 +1634,7 @@ function Mini({
             margin: 0,
             paddingLeft: 18,
             fontSize: 11.5,
-            color: "var(--v4-ink-200, #b8c0c8)",
+            color: "var(--v3-ink-200, #b8c0c8)",
             lineHeight: 1.55,
           }}
         >
@@ -1650,7 +1650,7 @@ function Mini({
               >
                 <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
                   {item.owner ? (
-                    <span style={{ color: "var(--v4-ink-400, #909caa)" }}>
+                    <span style={{ color: "var(--v3-ink-400, #909caa)" }}>
                       {item.owner} <span style={{ opacity: 0.4 }}>/</span>{" "}
                     </span>
                   ) : null}
@@ -1659,7 +1659,7 @@ function Mini({
                 <b
                   className="v2-mono tabular-nums"
                   style={{
-                    color: "var(--v4-money, #22c55e)",
+                    color: "var(--v3-sig-green, #22c55e)",
                     fontWeight: 600,
                     fontSize: 10,
                     letterSpacing: "0.04em",

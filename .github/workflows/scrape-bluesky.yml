@@ -41,15 +41,11 @@ jobs:
         run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
 
       - name: Commit if changed
-        run: |
-          git config user.name  "trendingrepo-bot"
-          git config user.email "bot@trendingrepo.local"
-          git add data/bluesky-mentions.json data/bluesky-trending.json data/_meta/bluesky.json data/unknown-mentions.jsonl
-          if git diff --quiet --staged; then
-            echo "no changes - skipping commit"
-            exit 0
-          fi
-          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          git commit -m "chore(data): refresh bluesky signals ${TS}"
-          git pull --rebase origin main
-          git push
+        uses: ./.github/actions/git-commit-data
+        with:
+          message: "chore(data): refresh bluesky signals ${{ steps.ts.outputs.value }}"
+          paths: |
+            data/bluesky-mentions.json
+            data/bluesky-trending.json
+            data/_meta/bluesky.json
+            data/unknown-mentions.jsonl

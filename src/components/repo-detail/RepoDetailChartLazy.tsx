@@ -23,8 +23,7 @@ const RepoDetailChart = dynamic(
     loading: () => (
       <section
         aria-label="Signal trend"
-        className="skeleton-shimmer h-[380px] w-full"
-        style={{ borderRadius: 2 }}
+        className="skeleton-shimmer rounded-card h-[380px] w-full"
       />
     ),
   },

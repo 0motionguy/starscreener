@@ -34,7 +34,7 @@ const TABS: ReadonlyArray<{ key: UsageTabKey; label: string }> = [
 
 export function UsageTabs({ active, days }: UsageTabsProps) {
   return (
-    <nav className="v4-tab-bar signals-tabs" role="tablist" aria-label="Model usage tabs">
+    <nav className="filter-bar signals-tabs" role="tablist" aria-label="Model usage tabs" style={navStyle}>
       {TABS.map(({ key, label }) => {
         const isActive = key === active;
         const href = `/model-usage?tab=${key}${days !== 1 ? `&days=${days}` : ""}`;
@@ -45,7 +45,11 @@ export function UsageTabs({ active, days }: UsageTabsProps) {
             role="tab"
             aria-selected={isActive}
             scroll={false}
-            className={cn("v4-tab", isActive && "v4-tab--on")}
+            className={cn("ds-tab", isActive && "is-active")}
+            style={{
+              ...buttonStyle,
+              ...(isActive ? activeStyle : {}),
+            }}
           >
             {label}
           </Link>
@@ -54,3 +58,28 @@ export function UsageTabs({ active, days }: UsageTabsProps) {
     </nav>
   );
 }
+
+const navStyle = {
+  display: "flex",
+  gap: 4,
+  borderBottom: "1px solid var(--color-border-subtle, #1f2329)",
+  paddingBottom: 4,
+  flexWrap: "wrap" as const,
+};
+
+const buttonStyle = {
+  padding: "8px 14px",
+  fontFamily: "var(--font-mono, ui-monospace, monospace)",
+  fontSize: 13,
+  letterSpacing: 0.4,
+  color: "var(--color-text-secondary, #8b9097)",
+  border: "1px solid transparent",
+  borderBottom: "2px solid transparent",
+  textDecoration: "none",
+  textTransform: "uppercase" as const,
+};
+
+const activeStyle = {
+  color: "var(--color-text-default, #eef0f2)",
+  borderBottom: "2px solid var(--color-accent, #ff6b35)",
+};

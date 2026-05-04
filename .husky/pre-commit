@@ -1,4 +1,3 @@
-#!/usr/bin/env sh
 # Pre-commit hook: typecheck + zod-route lint before every commit.
 #
 # `lint:zod-routes` enforces P0-critical: every mutating route handler

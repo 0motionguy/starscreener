@@ -101,36 +101,31 @@ export function SignalSourcePage({
   const current = tabs.find((t) => t.id === activeTab) ?? tabs[0];
 
   return (
-    <main className="v4-root signals-page px-4 py-6 font-mono md:px-6 md:py-8">
-      <section className="v4-page-head">
-        <div className="v4-page-head__main">
-          <div className="v4-page-head__crumb">
+    <main className="home-surface signals-page">
+      <section className="page-head">
+        <div>
+          <div className="crumb">
             <b>{sourceLabel}</b> / {mode} / signal terminal
           </div>
-          <h1 className="v4-page-head__h1">The newsroom for AI &amp; dev tooling.</h1>
-          {subtitle ? <p className="v4-page-head__lede">{subtitle}</p> : null}
+          <h1>The newsroom for AI &amp; dev tooling.</h1>
+          {subtitle ? <p className="lede">{subtitle}</p> : null}
         </div>
-        <div className="v4-page-head__clock">
-          <span className="block text-[14px] tracking-[0.16em] text-[color:var(--v4-ink-100)]">
-            {ageLabel}
-          </span>
-          <span className="v4-live-dot v4-live-dot--money mt-1 justify-end">
-            <span className="v4-live-dot__pip" aria-hidden="true" />
-            Feed {freshnessStatus}
-          </span>
+        <div className="clock">
+          <span className="big">{ageLabel}</span>
+          <span className="live">Feed {freshnessStatus}</span>
         </div>
       </section>
 
-      <div className="v4-filter-bar signals-filter">
-        <span className="v4-chip-group__label">Sources</span>
-        <span className="v4-chip v4-chip--on">All</span>
-        <span className="v4-chip v4-chip--on">HN</span>
-        <span className="v4-chip v4-chip--on">Reddit</span>
-        <span className="v4-chip v4-chip--on">Bluesky</span>
-        <span className="v4-chip v4-chip--on">Dev.to</span>
-        <span className="v4-chip v4-chip--on">Lobsters</span>
-        <span className="v4-chip-group__divider" aria-hidden="true" />
-        <span className="v4-chip-group__label">Freshness</span>
+      <div className="filter-bar signals-filter">
+        <span className="lbl">Sources</span>
+        <span className="chip on">All</span>
+        <span className="chip on">HN</span>
+        <span className="chip on">Reddit</span>
+        <span className="chip on">Bluesky</span>
+        <span className="chip on">Dev.to</span>
+        <span className="chip on">Lobsters</span>
+        <span className="sep" aria-hidden="true" />
+        <span className="lbl">Freshness</span>
         <ScrapeAge
           status={freshnessStatus}
           ageLabel={ageLabel}
@@ -142,8 +137,8 @@ export function SignalSourcePage({
 
         <SignalMetricStrip metrics={metrics} />
 
-        <section className="v4-filter-bar signals-tabs">
-          <span className="v4-chip-group__label">View</span>
+        <section className="filter-bar signals-tabs">
+          <span className="lbl">View</span>
           {tabs.map((t) => {
             const active = t.id === current?.id;
             const count = t.content !== undefined ? null : t.rows.length;
@@ -152,11 +147,11 @@ export function SignalSourcePage({
                 key={t.id}
                 type="button"
                 onClick={() => switchTab(t.id)}
-                className={`v4-chip ${active ? "v4-chip--on" : ""}`}
+                className={`chip ${active ? "on" : ""}`}
               >
                 {t.label}
                 {count !== null ? (
-                  <span className="v4-chip__count">
+                  <span className="ct">
                     ({count})
                   </span>
                 ) : null}

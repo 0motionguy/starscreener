@@ -72,9 +72,9 @@ export default async function FrozenTop10Page({
         className="v2-mono"
         style={{
           padding: "6px 16px",
-          borderBottom: "1px solid var(--v4-line-200, #29323b)",
-          background: "var(--v4-bg-050, #101418)",
-          color: "var(--v4-ink-300, #84909b)",
+          borderBottom: "1px solid var(--v3-line-200, #29323b)",
+          background: "var(--v3-bg-050, #101418)",
+          color: "var(--v3-ink-300, #84909b)",
           fontSize: 10,
           letterSpacing: "0.20em",
           textTransform: "uppercase",
@@ -86,11 +86,11 @@ export default async function FrozenTop10Page({
         <span style={{ color: "var(--v2-acc, #f56e0f)", fontWeight: 700 }}>
           {"// SNAPSHOT"}
         </span>
-        <span style={{ color: "var(--v4-ink-100, #eef0f2)" }}>{date}</span>
+        <span style={{ color: "var(--v3-ink-100, #eef0f2)" }}>{date}</span>
         <span style={{ marginLeft: "auto" }}>
           <Link
             href="/top10"
-            style={{ color: "var(--v4-ink-200, #b8c0c8)", textDecoration: "none" }}
+            style={{ color: "var(--v3-ink-200, #b8c0c8)", textDecoration: "none" }}
           >
             ← BACK TO LIVE
           </Link>

@@ -163,8 +163,8 @@ export function NewsTopHeaderV3({
   meta,
   caption,
 }: NewsTopHeaderV3Props) {
-  const accentVar = accent ?? "var(--v4-acc)";
-  const accentGlow = accent ? `${accent.replace("0.85", "0.45")}` : "var(--v4-acc-glow)";
+  const accentVar = accent ?? "var(--v3-acc)";
+  const accentGlow = accent ? `${accent.replace("0.85", "0.45")}` : "var(--v3-acc-glow)";
 
   return (
     <section aria-label="News overview" className="space-y-3">
@@ -173,10 +173,10 @@ export function NewsTopHeaderV3({
         <CornerTickBar accent={accentVar}>
           <span
             className="v2-mono truncate text-[11px] tracking-[0.18em]"
-            style={{ color: "var(--v4-ink-200)" }}
+            style={{ color: "var(--v3-ink-200)" }}
           >
-            <span style={{ color: "var(--v4-ink-400)" }}>{"// "}</span>
-            <b style={{ color: "var(--v4-ink-000)", fontWeight: 600 }}>
+            <span style={{ color: "var(--v3-ink-400)" }}>{"// "}</span>
+            <b style={{ color: "var(--v3-ink-000)", fontWeight: 600 }}>
               {routeTitle}
             </b>
           </span>
@@ -190,12 +190,12 @@ export function NewsTopHeaderV3({
         <span className="flex items-center gap-2 min-w-0 truncate">
           <span aria-hidden className="flex items-center gap-1">
             <Square color={accentVar} glow={accentGlow} />
-            <Square color="var(--v4-line-300)" />
-            <Square color="var(--v4-line-300)" />
+            <Square color="var(--v3-line-300)" />
+            <Square color="var(--v3-line-300)" />
           </span>
           <span
             className="v2-mono truncate text-[11px] tracking-[0.18em]"
-            style={{ color: "var(--v4-ink-200)" }}
+            style={{ color: "var(--v3-ink-200)" }}
           >
             {eyebrow}
           </span>
@@ -205,7 +205,7 @@ export function NewsTopHeaderV3({
         ) : status ? (
           <span
             className="v2-mono shrink-0 text-[10px] tabular-nums tracking-[0.14em]"
-            style={{ color: "var(--v4-ink-400)" }}
+            style={{ color: "var(--v3-ink-400)" }}
           >
             {status}
           </span>
@@ -231,7 +231,7 @@ export function NewsTopHeaderV3({
       {caption && caption.length > 0 ? (
         <div
           className="v2-mono px-1 pt-1 text-[10.5px] tracking-[0.08em] flex flex-wrap gap-x-5 gap-y-1"
-          style={{ color: "var(--v4-ink-500)" }}
+          style={{ color: "var(--v3-ink-500)" }}
         >
           {caption.map((piece, i) => (
             <span key={i}>{piece}</span>
@@ -247,23 +247,23 @@ export function NewsTopHeaderV3({
           <span className="flex items-center gap-2 min-w-0 truncate">
             <span aria-hidden className="flex items-center gap-1">
               <Square color={accentVar} glow={accentGlow} />
-              <Square color="var(--v4-line-300)" />
-              <Square color="var(--v4-line-300)" />
+              <Square color="var(--v3-line-300)" />
+              <Square color="var(--v3-line-300)" />
             </span>
             <span
               className="v2-mono truncate text-[11px] tracking-[0.18em]"
-              style={{ color: "var(--v4-ink-200)" }}
+              style={{ color: "var(--v3-ink-200)" }}
             >
-              <span style={{ color: "var(--v4-ink-400)" }}>{"// "}</span>
-              <b style={{ color: "var(--v4-ink-000)", fontWeight: 600 }}>FEATURED</b>
-              <span style={{ color: "var(--v4-ink-400)" }}>{" · TODAY"}</span>
+              <span style={{ color: "var(--v3-ink-400)" }}>{"// "}</span>
+              <b style={{ color: "var(--v3-ink-000)", fontWeight: 600 }}>FEATURED</b>
+              <span style={{ color: "var(--v3-ink-400)" }}>{" · TODAY"}</span>
             </span>
           </span>
           <span
             className="v2-mono shrink-0 text-[10px] tabular-nums tracking-[0.14em]"
-            style={{ color: "var(--v4-ink-400)" }}
+            style={{ color: "var(--v3-ink-400)" }}
           >
-            <b style={{ color: "var(--v4-ink-000)", fontWeight: 600 }}>3</b> PICKS
+            <b style={{ color: "var(--v3-ink-000)", fontWeight: 600 }}>3</b> PICKS
           </span>
         </CornerTickBar>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -306,8 +306,8 @@ function CornerTickBar({
         dense ? "py-2" : "py-2.5"
       } border`}
       style={{
-        borderColor: "var(--v4-line-200)",
-        background: "var(--v4-bg-050)",
+        borderColor: "var(--v3-line-200)",
+        background: "var(--v3-bg-050)",
         borderRadius: 2,
       }}
     >
@@ -334,9 +334,9 @@ function LivePill({ label }: { label: string }) {
     <span
       className="v2-mono shrink-0 inline-flex items-center gap-1.5 text-[10.5px] tracking-[0.14em]"
       style={{
-        color: "var(--v4-money)",
-        border: "1px solid color-mix(in srgb, var(--v4-money) 35%, transparent)",
-        background: "color-mix(in srgb, var(--v4-money) 8%, transparent)",
+        color: "var(--v3-sig-green)",
+        border: "1px solid color-mix(in srgb, var(--v3-sig-green) 35%, transparent)",
+        background: "color-mix(in srgb, var(--v3-sig-green) 8%, transparent)",
         borderRadius: 1,
         padding: "3px 8px",
       }}
@@ -346,15 +346,15 @@ function LivePill({ label }: { label: string }) {
         style={{
           width: 6,
           height: 6,
-          background: "var(--v4-money)",
+          background: "var(--v3-sig-green)",
           borderRadius: "50%",
-          boxShadow: "0 0 8px var(--v4-money)",
-          animation: "v4LivePulse 1.6s ease-in-out infinite",
+          boxShadow: "0 0 8px var(--v3-sig-green)",
+          animation: "v3LivePulse 1.6s ease-in-out infinite",
           display: "inline-block",
         }}
       />
       {label}
-      <style>{`@keyframes v4LivePulse{0%,100%{opacity:1}50%{opacity:.35}}`}</style>
+      <style>{`@keyframes v3LivePulse{0%,100%{opacity:1}50%{opacity:.35}}`}</style>
     </span>
   );
 }
@@ -366,9 +366,9 @@ function MetaStrip({ meta }: { meta: NewsTopHeaderMeta[] }) {
         <span
           key={i}
           className="v2-mono text-[10.5px] tabular-nums tracking-[0.14em]"
-          style={{ color: "var(--v4-ink-400)" }}
+          style={{ color: "var(--v3-ink-400)" }}
         >
-          <b style={{ color: "var(--v4-ink-000)", fontWeight: 600 }}>{m.value}</b>{" "}
+          <b style={{ color: "var(--v3-ink-000)", fontWeight: 600 }}>{m.value}</b>{" "}
           {m.label}
         </span>
       ))}
@@ -394,8 +394,8 @@ function CardShell({
     <div
       className="relative"
       style={{
-        background: "var(--v4-bg-050)",
-        border: "1px solid var(--v4-line-200)",
+        background: "var(--v3-bg-050)",
+        border: "1px solid var(--v3-line-200)",
         borderRadius: 2,
       }}
     >
@@ -459,17 +459,17 @@ function CardHeader({
     <div
       className="v2-mono flex items-center justify-between gap-3 px-3 h-9 border-b"
       style={{
-        borderColor: "var(--v4-line-100)",
-        background: "var(--v4-bg-025)",
+        borderColor: "var(--v3-line-100)",
+        background: "var(--v3-bg-025)",
       }}
     >
       <span className="flex items-center gap-1.5 min-w-0 truncate">
-        <Square color="var(--v4-acc)" />
-        <Square color="var(--v4-line-300)" />
-        <Square color="var(--v4-line-300)" />
+        <Square color="var(--v3-acc)" />
+        <Square color="var(--v3-line-300)" />
+        <Square color="var(--v3-line-300)" />
         <span
           className="ml-1 truncate text-[10px] tracking-[0.18em] uppercase"
-          style={{ color: "var(--v4-ink-300)" }}
+          style={{ color: "var(--v3-ink-300)" }}
         >
           {title}
         </span>
@@ -477,7 +477,7 @@ function CardHeader({
       {rightLabel ? (
         <span
           className="shrink-0 text-[10px] tabular-nums tracking-[0.14em]"
-          style={{ color: "var(--v4-ink-400)" }}
+          style={{ color: "var(--v3-ink-400)" }}
         >
           {rightLabel}
         </span>
@@ -507,7 +507,7 @@ function SnapshotBody({
       <div className="px-4 pt-4 pb-3 flex flex-col gap-3">
         <div
           className="v2-mono text-[10px] tracking-[0.18em] uppercase"
-          style={{ color: "var(--v4-ink-300)" }}
+          style={{ color: "var(--v3-ink-300)" }}
         >
           {card.label}
         </div>
@@ -520,7 +520,7 @@ function SnapshotBody({
               fontSize: "clamp(40px, 5vw, 56px)",
               letterSpacing: "-0.035em",
               lineHeight: 0.95,
-              color: "var(--v4-ink-000)",
+              color: "var(--v3-ink-000)",
             }}
           >
             {card.value}
@@ -530,7 +530,7 @@ function SnapshotBody({
         {card.hint ? (
           <div
             className="v2-mono text-[10px] tracking-[0.18em] uppercase"
-            style={{ color: "var(--v4-ink-400)" }}
+            style={{ color: "var(--v3-ink-400)" }}
           >
             {card.hint}
           </div>
@@ -542,11 +542,11 @@ function SnapshotBody({
             {card.sparkTrend ? (
               <div
                 className="v2-mono text-right shrink-0 text-[9.5px] tracking-[0.10em]"
-                style={{ color: "var(--v4-ink-400)", lineHeight: 1.4 }}
+                style={{ color: "var(--v3-ink-400)", lineHeight: 1.4 }}
               >
                 <div>{card.sparkTrend.label}</div>
                 <div
-                  style={{ color: "var(--v4-ink-000)", fontWeight: 600 }}
+                  style={{ color: "var(--v3-ink-000)", fontWeight: 600 }}
                   className="tabular-nums"
                 >
                   {card.sparkTrend.value}
@@ -563,22 +563,22 @@ function SnapshotBody({
                 key={i}
                 className="flex items-center justify-between v2-mono text-[10px] tracking-[0.14em] uppercase"
                 style={{
-                  borderTop: "1px dashed var(--v4-line-100)",
+                  borderTop: "1px dashed var(--v3-line-100)",
                   paddingTop: 8,
                 }}
               >
-                <span style={{ color: "var(--v4-ink-300)" }}>{row.label}</span>
+                <span style={{ color: "var(--v3-ink-300)" }}>{row.label}</span>
                 <span
                   className="tabular-nums"
                   style={{
                     color:
                       row.tone === "accent"
-                        ? "var(--v4-acc)"
+                        ? "var(--v3-acc)"
                         : row.tone === "up"
-                          ? "var(--v4-money)"
+                          ? "var(--v3-sig-green)"
                           : row.tone === "down"
-                            ? "var(--v4-red)"
-                            : "var(--v4-ink-100)",
+                            ? "var(--v3-sig-red)"
+                            : "var(--v3-ink-100)",
                     fontWeight: row.tone === "accent" ? 500 : 400,
                   }}
                 >
@@ -618,7 +618,7 @@ function Sparkline({ values, accent }: { values: number[]; accent: string }) {
   const lastIdx = values.length - 1;
   const lastX = lastIdx * stepX;
   const lastY = h - 2 - ((values[lastIdx] - min) / range) * (h - 6);
-  const gradId = `v4spark-${Math.abs(values.reduce((s, v) => s + v, 0)) || 0}`;
+  const gradId = `v3spark-${Math.abs(values.reduce((s, v) => s + v, 0)) || 0}`;
   return (
     <svg
       viewBox={`0 0 ${w} ${h}`}
@@ -635,7 +635,7 @@ function Sparkline({ values, accent }: { values: number[]; accent: string }) {
       </defs>
       <path d={areaPath} fill={`url(#${gradId})`} />
       <path d={linePath} fill="none" stroke={accent} strokeWidth={1.5} />
-      <circle cx={lastX} cy={lastY} r={2.4} fill="var(--v4-ink-000)" />
+      <circle cx={lastX} cy={lastY} r={2.4} fill="var(--v3-ink-000)" />
     </svg>
   );
 }
@@ -647,22 +647,22 @@ function DeltaPill({
 }) {
   const color =
     delta.tone === "up"
-      ? "var(--v4-money)"
+      ? "var(--v3-sig-green)"
       : delta.tone === "down"
-        ? "var(--v4-red)"
-        : "var(--v4-ink-300)";
+        ? "var(--v3-sig-red)"
+        : "var(--v3-ink-300)";
   const tint =
     delta.tone === "up"
-      ? "color-mix(in srgb, var(--v4-money) 8%, transparent)"
+      ? "color-mix(in srgb, var(--v3-sig-green) 8%, transparent)"
       : delta.tone === "down"
-        ? "color-mix(in srgb, var(--v4-red) 8%, transparent)"
-        : "color-mix(in srgb, var(--v4-ink-300) 8%, transparent)";
+        ? "color-mix(in srgb, var(--v3-sig-red) 8%, transparent)"
+        : "color-mix(in srgb, var(--v3-ink-300) 8%, transparent)";
   const border =
     delta.tone === "up"
-      ? "color-mix(in srgb, var(--v4-money) 30%, transparent)"
+      ? "color-mix(in srgb, var(--v3-sig-green) 30%, transparent)"
       : delta.tone === "down"
-        ? "color-mix(in srgb, var(--v4-red) 30%, transparent)"
-        : "color-mix(in srgb, var(--v4-ink-300) 30%, transparent)";
+        ? "color-mix(in srgb, var(--v3-sig-red) 30%, transparent)"
+        : "color-mix(in srgb, var(--v3-ink-300) 30%, transparent)";
   return (
     <span
       className="v2-mono inline-flex items-center gap-1 text-[10.5px] tabular-nums shrink-0"
@@ -698,7 +698,7 @@ function FooterStrip({ cells }: { cells: NewsMetricFooterCell[] }) {
       className="grid"
       style={{
         gridTemplateColumns: `repeat(${cells.length}, 1fr)`,
-        borderTop: "1px solid var(--v4-line-100)",
+        borderTop: "1px solid var(--v3-line-100)",
       }}
     >
       {cells.map((c, i) => (
@@ -707,12 +707,12 @@ function FooterStrip({ cells }: { cells: NewsMetricFooterCell[] }) {
           className="px-3 py-2.5"
           style={{
             borderRight:
-              i < cells.length - 1 ? "1px solid var(--v4-line-100)" : "none",
+              i < cells.length - 1 ? "1px solid var(--v3-line-100)" : "none",
           }}
         >
           <div
             className="v2-mono text-[9.5px] tracking-[0.14em] uppercase"
-            style={{ color: "var(--v4-ink-300)", marginBottom: 3 }}
+            style={{ color: "var(--v3-ink-300)", marginBottom: 3 }}
           >
             {c.label}
           </div>
@@ -721,12 +721,12 @@ function FooterStrip({ cells }: { cells: NewsMetricFooterCell[] }) {
             style={{
               color:
                 c.tone === "accent"
-                  ? "var(--v4-acc)"
+                  ? "var(--v3-acc)"
                   : c.tone === "up"
-                    ? "var(--v4-money)"
+                    ? "var(--v3-sig-green)"
                     : c.tone === "down"
-                      ? "var(--v4-red)"
-                      : "var(--v4-ink-000)",
+                      ? "var(--v3-sig-red)"
+                      : "var(--v3-ink-000)",
               fontWeight: 600,
             }}
           >
@@ -804,7 +804,7 @@ function HourlyDistribution({
               key={i}
               aria-hidden
               style={{
-                background: isPeak ? "var(--v4-money)" : accent,
+                background: isPeak ? "var(--v3-sig-green)" : accent,
                 opacity: v === 0 ? 0.15 : op,
                 display: "block",
                 minHeight: 2,
@@ -816,7 +816,7 @@ function HourlyDistribution({
       </div>
       <div
         className="v2-mono flex justify-between text-[9px] tracking-[0.10em]"
-        style={{ color: "var(--v4-ink-500)" }}
+        style={{ color: "var(--v3-ink-500)" }}
       >
         <span>00</span>
         <span>06</span>
@@ -848,7 +848,7 @@ function BarsBody({
     return (
       <div
         className="v2-mono py-8 px-3 text-center text-[10px] tracking-[0.18em]"
-        style={{ color: "var(--v4-ink-500)" }}
+        style={{ color: "var(--v3-ink-500)" }}
       >
         <span aria-hidden>{"// "}</span>
         {card.emptyText ?? "NO DATA YET"}
@@ -891,7 +891,7 @@ function BarsBody({
               width: undefined,
               minWidth: 40,
               maxWidth: labelWidth,
-              color: "var(--v4-ink-200)",
+              color: "var(--v3-ink-200)",
             }}
             title={bar.label}
           >
@@ -901,7 +901,7 @@ function BarsBody({
             className="flex-1 relative"
             style={{
               height: 12,
-              background: "var(--v4-bg-100)",
+              background: "var(--v3-bg-100)",
               borderRadius: 1,
               overflow: "hidden",
             }}
@@ -924,7 +924,7 @@ function BarsBody({
             className="v2-mono tabular-nums shrink-0 text-right text-[11px]"
             style={{
               width: 40,
-              color: "var(--v4-ink-100)",
+              color: "var(--v3-ink-100)",
               fontWeight: 500,
             }}
           >
@@ -938,7 +938,7 @@ function BarsBody({
               className="v2-mono tabular-nums shrink-0 text-right text-[9px] tracking-[0.14em] hidden sm:inline-block"
               style={{
                 width: 48,
-                color: "var(--v4-ink-400)",
+                color: "var(--v3-ink-400)",
               }}
             >
               {bar.hintLabel ?? ""}
@@ -953,16 +953,16 @@ function BarsBody({
       {card.minuteHeatmap ? (
         <div
           className="px-3 sm:px-4 pb-3 pt-3"
-          style={{ borderTop: "1px dashed var(--v4-line-100)" }}
+          style={{ borderTop: "1px dashed var(--v3-line-100)" }}
         >
           <div className="flex items-baseline justify-between mb-2 v2-mono text-[10px] tracking-[0.14em]">
-            <span style={{ color: "var(--v4-ink-300)" }}>
+            <span style={{ color: "var(--v3-ink-300)" }}>
               LAST 30M · PER MINUTE
             </span>
-            <span style={{ color: "var(--v4-ink-500)" }}>
+            <span style={{ color: "var(--v3-ink-500)" }}>
               MAX{" "}
               <b
-                style={{ color: "var(--v4-ink-200)", fontWeight: 600 }}
+                style={{ color: "var(--v3-ink-200)", fontWeight: 600 }}
                 className="tabular-nums"
               >
                 {card.minuteHeatmap.max}
@@ -976,14 +976,14 @@ function BarsBody({
       {card.hourlyDistribution ? (
         <div
           className="px-3 sm:px-4 pb-3 pt-3"
-          style={{ borderTop: "1px dashed var(--v4-line-100)" }}
+          style={{ borderTop: "1px dashed var(--v3-line-100)" }}
         >
           <div className="flex items-baseline justify-between mb-2 v2-mono text-[10px] tracking-[0.14em]">
-            <span style={{ color: "var(--v4-ink-300)" }}>24H DISTRIBUTION</span>
-            <span style={{ color: "var(--v4-ink-500)" }}>
+            <span style={{ color: "var(--v3-ink-300)" }}>24H DISTRIBUTION</span>
+            <span style={{ color: "var(--v3-ink-500)" }}>
               PEAK{" "}
               <b
-                style={{ color: "var(--v4-ink-200)", fontWeight: 600 }}
+                style={{ color: "var(--v3-ink-200)", fontWeight: 600 }}
                 className="tabular-nums"
               >
                 {card.hourlyDistribution.peakLabel}
@@ -1024,10 +1024,10 @@ function HeroFeatureCard({
 }) {
   if (!story) {
     return (
-      <CardShell accent="var(--v4-line-300)">
+      <CardShell accent="var(--v3-line-300)">
         <div
           className="flex items-center justify-center p-4 min-h-[112px]"
-          style={{ color: "var(--v4-ink-500)" }}
+          style={{ color: "var(--v3-ink-500)" }}
         >
           <span className="v2-mono text-[10px] tracking-[0.18em]">
             {`/ NO #${String(rank).padStart(2, "0")} YET`}
@@ -1044,10 +1044,10 @@ function HeroFeatureCard({
     : { href: story.href };
 
   return (
-    <CardShell accent={isTop ? accent : "var(--v4-line-300)"}>
+    <CardShell accent={isTop ? accent : "var(--v3-line-300)"}>
       <Wrap
         {...linkProps}
-        className="group flex flex-col gap-3 p-4 transition-colors hover:bg-[var(--v4-bg-100)]"
+        className="group flex flex-col gap-3 p-4 transition-colors hover:bg-[var(--v3-bg-100)]"
         style={{
           boxShadow: isTop ? `inset 3px 0 0 ${accent}` : undefined,
           minHeight: 168,
@@ -1058,9 +1058,9 @@ function HeroFeatureCard({
           <span
             className="px-1.5 py-0.5 shrink-0 inline-flex items-center gap-1"
             style={{
-              background: isTop ? `${accent}1a` : "var(--v4-bg-100)",
-              border: `1px solid ${isTop ? `${accent}66` : "var(--v4-line-200)"}`,
-              color: isTop ? accent : "var(--v4-ink-200)",
+              background: isTop ? `${accent}1a` : "var(--v3-bg-100)",
+              border: `1px solid ${isTop ? `${accent}66` : "var(--v3-line-200)"}`,
+              color: isTop ? accent : "var(--v3-ink-200)",
               borderRadius: 1,
               fontWeight: 500,
             }}
@@ -1077,7 +1077,7 @@ function HeroFeatureCard({
           {story.byline ? (
             <span
               className="truncate min-w-0"
-              style={{ color: "var(--v4-ink-400)" }}
+              style={{ color: "var(--v3-ink-400)" }}
             >
               {story.byline}
             </span>
@@ -1092,7 +1092,7 @@ function HeroFeatureCard({
           ) : (
             <span
               className="ml-auto shrink-0 tabular-nums"
-              style={{ color: "var(--v4-ink-500)" }}
+              style={{ color: "var(--v3-ink-500)" }}
             >
               {`#${String(rank).padStart(2, "0")}`}
             </span>
@@ -1103,7 +1103,7 @@ function HeroFeatureCard({
         <h3
           className="text-[15px] sm:text-[16px] leading-tight font-semibold"
           style={{
-            color: "var(--v4-ink-000)",
+            color: "var(--v3-ink-000)",
             fontFamily: "var(--font-geist), Inter, sans-serif",
             letterSpacing: "-0.012em",
             display: "-webkit-box",
@@ -1118,10 +1118,10 @@ function HeroFeatureCard({
         {/* Inline meta */}
         <div
           className="flex items-center gap-2 text-[11px] tabular-nums"
-          style={{ color: "var(--v4-ink-300)" }}
+          style={{ color: "var(--v3-ink-300)" }}
         >
           <span>{story.scoreLabel}</span>
-          <span aria-hidden style={{ color: "var(--v4-line-300)" }}>·</span>
+          <span aria-hidden style={{ color: "var(--v3-line-300)" }}>·</span>
           <span>{formatAge(story.ageHours)} ago</span>
         </div>
 
@@ -1129,18 +1129,18 @@ function HeroFeatureCard({
         <div
           className="mt-auto pt-2 flex items-center justify-between v2-mono text-[10px] tracking-[0.16em]"
           style={{
-            borderTop: "1px dashed var(--v4-line-100)",
-            color: "var(--v4-ink-400)",
+            borderTop: "1px dashed var(--v3-line-100)",
+            color: "var(--v3-ink-400)",
           }}
         >
           <span className="flex items-center gap-1">
-            <Square color={isTop ? accent : "var(--v4-line-300)"} />
-            <Square color="var(--v4-line-300)" />
-            <Square color="var(--v4-line-300)" />
+            <Square color={isTop ? accent : "var(--v3-line-300)"} />
+            <Square color="var(--v3-line-300)" />
+            <Square color="var(--v3-line-300)" />
           </span>
           <span
-            className="tabular-nums transition-colors group-hover:text-[color:var(--v4-acc)]"
-            style={{ color: "var(--v4-ink-400)" }}
+            className="tabular-nums transition-colors group-hover:text-[color:var(--v3-acc)]"
+            style={{ color: "var(--v3-ink-400)" }}
             aria-hidden
           >
             OPEN ↗

@@ -21,10 +21,6 @@ function slugIdFromFullName(fullName: string): string {
   return String(fullName).toLowerCase().replace(/\//g, "--").replace(/\./g, "-").replace(/[^a-z0-9-]/g, "");
 }
 
-function slugIdFromFullName(fullName: string): string {
-  return String(fullName).toLowerCase().replace(/\//g, "--").replace(/\./g, "-").replace(/[^a-z0-9-]/g, "");
-}
-
 // data-store import is dynamic: pulling it statically here drags ioredis
 // (Node-only `dns` dep) into client bundles whenever a client component
 // imports `getBlueskyMentions`. The refresh function below is server-only

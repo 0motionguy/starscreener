@@ -149,7 +149,7 @@ export function CrossSourceTriBoxes({
           eyebrow="// REPOS · TOP GAINERS · 24H"
           status={`${repoRows.length} OF ${repos.length}`}
           rows={repoRows}
-          accent="var(--v4-acc)"
+          accent="var(--v3-acc)"
           emptyHint="no repos in window"
         />
         <Box
@@ -188,8 +188,8 @@ function Box({
     <div
       className="relative"
       style={{
-        background: "linear-gradient(180deg, var(--v4-bg-050), var(--v4-bg-000))",
-        border: "1px solid var(--v4-line-200)",
+        background: "linear-gradient(180deg, var(--v3-bg-050), var(--v3-bg-000))",
+        border: "1px solid var(--v3-line-200)",
         borderRadius: 2,
       }}
     >
@@ -199,26 +199,26 @@ function Box({
       <div
         className="v2-mono flex items-center justify-between gap-3 px-3 py-2"
         style={{
-          borderBottom: "1px solid var(--v4-line-100)",
-          background: "var(--v4-bg-025)",
+          borderBottom: "1px solid var(--v3-line-100)",
+          background: "var(--v3-bg-025)",
         }}
       >
         <span className="flex min-w-0 items-center gap-2 truncate">
           <span aria-hidden className="flex items-center gap-1">
             <Square color={accent} glow />
-            <Square color="var(--v4-line-300)" />
-            <Square color="var(--v4-line-300)" />
+            <Square color="var(--v3-line-300)" />
+            <Square color="var(--v3-line-300)" />
           </span>
           <span
             className="truncate text-[11px] tracking-[0.18em]"
-            style={{ color: "var(--v4-ink-200)" }}
+            style={{ color: "var(--v3-ink-200)" }}
           >
             {eyebrow}
           </span>
         </span>
         <span
           className="shrink-0 text-[10px] tabular-nums tracking-[0.14em]"
-          style={{ color: "var(--v4-ink-400)" }}
+          style={{ color: "var(--v3-ink-400)" }}
         >
           {status}
         </span>
@@ -228,7 +228,7 @@ function Box({
       {rows.length === 0 ? (
         <div
           className="v2-mono py-6 px-3 text-center text-[10px] tracking-[0.18em]"
-          style={{ color: "var(--v4-ink-500)" }}
+          style={{ color: "var(--v3-ink-500)" }}
         >
           {`// ${emptyHint}`}
         </div>
@@ -238,10 +238,10 @@ function Box({
             const stagger = Math.min(i, 6) * 50;
             const valueColor =
               row.tone === "up"
-                ? "var(--v4-money)"
+                ? "var(--v3-sig-green)"
                 : row.tone === "down"
-                  ? "var(--v4-red)"
-                  : "var(--v4-ink-100)";
+                  ? "var(--v3-sig-red)"
+                  : "var(--v3-ink-100)";
             const RowLink = row.external ? "a" : Link;
             const linkProps = row.external
               ? {
@@ -259,7 +259,7 @@ function Box({
                   borderBottom:
                     i === rows.length - 1
                       ? "none"
-                      : "1px dashed var(--v4-line-100)",
+                      : "1px dashed var(--v3-line-100)",
                   animation: "slide-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both",
                   animationDelay: stagger > 0 ? `${stagger}ms` : undefined,
                 }}
@@ -270,7 +270,7 @@ function Box({
                 >
                   <span
                     className="font-mono text-[10px] tabular-nums shrink-0"
-                    style={{ color: "var(--v4-ink-400)" }}
+                    style={{ color: "var(--v3-ink-400)" }}
                   >
                     {String(i + 1).padStart(2, "0")}
                   </span>
@@ -282,8 +282,8 @@ function Box({
                     alt=""
                   />
                   <span
-                    className="min-w-0 flex-1 truncate text-[12px] transition-colors group-hover:text-[color:var(--v4-acc)]"
-                    style={{ color: "var(--v4-ink-100)" }}
+                    className="min-w-0 flex-1 truncate text-[12px] transition-colors group-hover:text-[color:var(--v3-acc)]"
+                    style={{ color: "var(--v3-ink-100)" }}
                     title={row.title}
                   >
                     {row.title}

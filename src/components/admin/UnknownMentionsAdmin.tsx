@@ -125,7 +125,7 @@ export function UnknownMentionsAdmin({
         <header className="mb-6 flex flex-wrap items-start justify-between gap-3 border-b border-border-primary pb-6">
           <div>
             <h1 className="text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
-              <ShieldAlert className="size-5 text-warning" aria-hidden />
+              <ShieldAlert className="size-5 text-[var(--v4-amber)]" aria-hidden />
               Unknown Mentions Discovery
             </h1>
             <p className="mt-2 max-w-2xl text-sm text-text-secondary">
@@ -177,7 +177,7 @@ export function UnknownMentionsAdmin({
         </header>
 
         {error ? (
-          <div className="mb-4 rounded-md border border-down/60 bg-down/5 px-3 py-2 text-sm text-down">
+          <div className="mb-4 rounded-md border border-down/60 bg-down/5 px-3 py-2 text-sm text-[var(--v4-red)]">
             {error}
           </div>
         ) : null}
@@ -277,7 +277,7 @@ function UnknownMentionRow({
       </td>
       <td className="py-2 pl-3 text-right">
         {state?.status === "promoted" ? (
-          <span className="inline-flex items-center gap-1.5 text-up">
+          <span className="inline-flex items-center gap-1.5 text-[var(--v4-money)]">
             <CheckCircle2 className="size-3.5" aria-hidden />
             {state.repoPath ? (
               <Link
@@ -297,7 +297,7 @@ function UnknownMentionRow({
             type="button"
             onClick={onPromote}
             disabled={busy}
-            className="inline-flex items-center gap-1.5 rounded-md border border-up/60 bg-up/10 px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-up hover:bg-up/20 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-md border border-up/60 bg-up/10 px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-[var(--v4-money)] hover:bg-up/20 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {busy ? (
               <LoaderCircle className="size-3.5 animate-spin" aria-hidden />

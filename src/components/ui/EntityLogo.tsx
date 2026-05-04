@@ -58,8 +58,8 @@ export function EntityLogo({
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    border: `1px solid ${showImage ? "var(--v4-line-200)" : tone.border}`,
-    background: showImage ? "var(--v4-bg-100)" : tone.bg,
+    border: `1px solid ${showImage ? "var(--v3-line-200)" : tone.border}`,
+    background: showImage ? "var(--v3-bg-100)" : tone.bg,
   };
 
   if (showImage) {

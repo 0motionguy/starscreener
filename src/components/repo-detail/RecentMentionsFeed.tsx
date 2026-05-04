@@ -1,25 +1,27 @@
 "use client";
 
-// V4 — Tabbed mentions feed. All · Reddit · HackerNews · Bluesky · dev.to ·
-// ProductHunt · Twitter.
+// Tabbed mentions feed — All · Reddit · HackerNews · Bluesky · dev.to · ProductHunt.
 //
 // Client component for the tab interaction; data is fully prefetched
 // on the server and passed in as a normalized list so the bundle never
 // reaches into per-source mention JSON.
 //
-// Each row uses the V4 <MentionRow> primitive — source pip + author + ts +
-// body + stats + open button. Tabs use V4 tokens.
+// Each row: source badge, title, author, score/likes, age, click→opens
+// the source URL in a new tab. Source-canonical color on the badge so
+// users can scan by channel.
 
 import { useMemo, useState } from "react";
+import { ExternalLink } from "lucide-react";
 import { getRelativeTime } from "@/lib/utils";
 import type { FreshnessSnapshot } from "@/lib/source-health";
 import { FreshnessChips } from "./FreshnessChips";
 import { MentionsLoadMore } from "./MentionsLoadMore";
-import { MentionRow as V4MentionRow } from "@/components/repo-detail/MentionRow";
-import { SourcePip, type SourceKey } from "@/components/ui/SourcePip";
 import {
   MENTION_ALL_DESCRIPTION,
+  MENTION_SOURCE_BADGE_TEXT,
+  MENTION_SOURCE_COLORS,
   MENTION_SOURCE_DESCRIPTIONS,
+  MENTION_SOURCE_LABELS,
   MENTION_SOURCE_SHORT_LABEL,
   MENTION_TAB_LABELS,
   MENTION_TABS,
@@ -53,28 +55,6 @@ interface RecentMentionsFeedProps {
    * wired up for this caller.
    */
   initialCursor?: string | null;
-}
-
-// MentionSource → V4 SourceKey. ph has no V4 equivalent; we use the
-// openai pip color as a neutral cyan-ish placeholder and override the
-// code text so the badge still reads "PH".
-function toV4Source(s: MentionSource): { src: SourceKey; code?: string } {
-  switch (s) {
-    case "hn":
-      return { src: "hn" };
-    case "reddit":
-      return { src: "reddit" };
-    case "bluesky":
-      return { src: "bsky" };
-    case "devto":
-      return { src: "dev" };
-    case "twitter":
-      return { src: "x" };
-    case "ph":
-      return { src: "openai", code: "PH" };
-    default:
-      return { src: "gh" };
-  }
 }
 
 export function RecentMentionsFeed({
@@ -114,195 +94,231 @@ export function RecentMentionsFeed({
   const totalCount = mentions.length;
 
   return (
-    <section aria-label="All mentions">
-      {/* Freshness chips */}
-      {freshness ? (
-        <div style={{ marginBottom: 12 }}>
-          <FreshnessChips sources={freshness.sources} />
-        </div>
-      ) : null}
-
-      {/* V4 tab bar — sharp 2px corners, hairline borders, mono caps */}
-      <div
-        style={{
-          display: "flex",
-          gap: 0,
-          overflowX: "auto",
-          border: "1px solid var(--v4-line-200)",
-          borderRadius: 2,
-          background: "var(--v4-bg-025)",
-        }}
-        className="scrollbar-hide"
-      >
-        {MENTION_TABS.map((key, i) => {
-          const active = key === tab;
-          const count =
-            key === "all" ? totalCount : counts[key as MentionSource];
-          const disabled = count === 0;
-          const tabTitle =
-            key === "all"
-              ? MENTION_ALL_DESCRIPTION
-              : MENTION_SOURCE_DESCRIPTIONS[key as MentionSource];
-          return (
-            <button
-              key={key}
-              type="button"
-              onClick={() => !disabled && setTab(key)}
-              disabled={disabled}
-              aria-pressed={active}
-              title={tabTitle}
-              style={{
-                fontFamily: "var(--font-geist-mono), monospace",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-                whiteSpace: "nowrap",
-                minHeight: 36,
-                padding: "0 12px",
-                fontSize: 10,
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-                background: active ? "var(--v4-acc-soft)" : "transparent",
-                color: active
-                  ? "var(--v4-acc)"
-                  : disabled
-                    ? "var(--v4-ink-500)"
-                    : "var(--v4-ink-300)",
-                borderRight:
-                  i < MENTION_TABS.length - 1
-                    ? "1px solid var(--v4-line-200)"
-                    : "none",
-                cursor: disabled ? "not-allowed" : "pointer",
-                opacity: disabled ? 0.5 : 1,
-                transition: "background-color 120ms, color 120ms",
-              }}
-            >
-              {MENTION_TAB_LABELS[key]}
-              <span
-                className="tabular-nums"
-                style={{
-                  color: active ? "var(--v4-acc)" : "var(--v4-ink-400)",
-                }}
-              >
-                {count}
-              </span>
-            </button>
-          );
-        })}
+    <section
+      aria-label="All mentions"
+      className="v2-card overflow-hidden"
+    >
+      <div className="v2-term-bar">
+        <span aria-hidden className="flex items-center gap-1.5">
+          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+          <span
+            className="block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--v2-line-200)" }}
+          />
+        </span>
+        <span
+          className="flex-1 truncate"
+          style={{ color: "var(--v2-ink-200)" }}
+        >
+          {"// MENTIONS · EVIDENCE FEED"}
+        </span>
+        <span
+          className="v2-stat shrink-0 tabular-nums"
+          style={{ color: "var(--v2-ink-300)" }}
+        >
+          {visible.length} / {totalCount}
+        </span>
       </div>
 
-      {/* List */}
-      {visible.length === 0 ? (
+      <div className="p-4">
+        {/* Freshness chips */}
+        {freshness ? (
+          <div className="mb-3">
+            <FreshnessChips sources={freshness.sources} />
+          </div>
+        ) : null}
+
+        {/* V2 tabs — sharp 2px corners, hairline borders, no pill backgrounds */}
         <div
+          className="flex gap-0 overflow-x-auto scrollbar-hide"
           style={{
-            marginTop: 12,
-            padding: 24,
-            border: "1px dashed var(--v4-line-200)",
+            border: "1px solid var(--v2-line-std)",
             borderRadius: 2,
-            background: "var(--v4-bg-025)",
+            background: "var(--v2-bg-050)",
           }}
         >
-          <p style={{ fontSize: 13, color: "var(--v4-ink-200)", margin: 0 }}>
-            No mentions on this channel in the last 7 days.
-          </p>
-          <p
+          {MENTION_TABS.map((key, i) => {
+            const active = key === tab;
+            const count =
+              key === "all" ? totalCount : counts[key as MentionSource];
+            const disabled = count === 0;
+            const tabTitle =
+              key === "all"
+                ? MENTION_ALL_DESCRIPTION
+                : MENTION_SOURCE_DESCRIPTIONS[key as MentionSource];
+            return (
+              <button
+                key={key}
+                type="button"
+                onClick={() => !disabled && setTab(key)}
+                disabled={disabled}
+                aria-pressed={active}
+                title={tabTitle}
+                className="v2-mono inline-flex items-center gap-1.5 whitespace-nowrap transition-colors"
+                style={{
+                  minHeight: 36,
+                  padding: "0 12px",
+                  fontSize: 10,
+                  background: active
+                    ? "var(--v2-acc-soft)"
+                    : "transparent",
+                  color: active
+                    ? "var(--v2-acc)"
+                    : disabled
+                      ? "var(--v2-ink-400)"
+                      : "var(--v2-ink-300)",
+                  borderRight:
+                    i < MENTION_TABS.length - 1
+                      ? "1px solid var(--v2-line-std)"
+                      : "none",
+                  cursor: disabled ? "not-allowed" : "pointer",
+                  opacity: disabled ? 0.5 : 1,
+                }}
+              >
+                {MENTION_TAB_LABELS[key]}
+                <span
+                  className="tabular-nums"
+                  style={{
+                    color: active ? "var(--v2-acc)" : "var(--v2-ink-400)",
+                  }}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* List */}
+        {visible.length === 0 ? (
+          <div
+            className="mt-4 p-6"
             style={{
-              fontFamily: "var(--font-geist-mono), monospace",
-              marginTop: 6,
-              fontSize: 10,
-              color: "var(--v4-ink-400)",
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
+              border: "1px dashed var(--v2-line-200)",
+              borderRadius: 2,
+              background: "var(--v2-bg-050)",
             }}
           >
-            {"// QUIET HERE DOESN'T MEAN THE REPO IS DEAD — CHECK OTHER TABS"}
-          </p>
-        </div>
-      ) : (
-        <div
-          style={{
-            marginTop: 12,
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          {visible.map((m) => (
-            <MentionRowAdapter key={m.id} item={m} />
-          ))}
-        </div>
-      )}
+            <p
+              style={{
+                fontSize: 13,
+                color: "var(--v2-ink-200)",
+              }}
+            >
+              No mentions on this channel in the last 7 days.
+            </p>
+            <p
+              className="v2-mono mt-1"
+              style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+            >
+              {"// QUIET HERE DOESN'T MEAN THE REPO IS DEAD — CHECK OTHER TABS"}
+            </p>
+          </div>
+        ) : (
+          <ul
+            className="mt-3"
+            style={{
+              borderTop: "1px solid var(--v2-line-std)",
+            }}
+          >
+            {visible.map((m) => (
+              <MentionRow key={m.id} item={m} />
+            ))}
+          </ul>
+        )}
 
-      {/* Paginated tail */}
-      {repoFullName && visible.length > 0 ? (
-        <MentionsLoadMore
-          key={tab}
-          repoFullName={repoFullName}
-          source={tab}
-          initialCursor={tab === "all" ? (initialCursor ?? null) : undefined}
-        />
-      ) : null}
+        {/* Paginated tail */}
+        {repoFullName && visible.length > 0 ? (
+          <MentionsLoadMore
+            key={tab}
+            repoFullName={repoFullName}
+            source={tab}
+            initialCursor={tab === "all" ? (initialCursor ?? null) : undefined}
+          />
+        ) : null}
+      </div>
     </section>
   );
 }
 
 /**
- * Adapts a MentionItem to the V4 <MentionRow> shape. Exported so the
- * client paginator (`MentionsLoadMore`) renders newly-fetched items with
- * pixel-perfect parity.
+ * A single row in the mentions list. Exported so the client paginator
+ * (`MentionsLoadMore`) can render newly-fetched items with pixel-perfect
+ * parity — the alternative of duplicating this markup drifts over time.
+ *
+ * Shape: source badge · title · metadata strip. The metadata strip
+ * collapses to a column on narrow viewports because Tailwind's flex-wrap
+ * already does the right thing here; nothing source-specific is hidden.
  */
 export function MentionRow({ item: m }: { item: MentionItem }) {
-  return <MentionRowAdapter item={m} />;
+  return (
+    <li
+      style={{
+        borderBottom: "1px solid var(--v2-line-std)",
+      }}
+      className="last:border-b-0"
+    >
+      <a
+        href={m.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group flex items-start gap-3 py-3 min-h-[44px] v2-row -mx-2 px-2 transition-colors"
+      >
+        <SourceBadge source={m.source} />
+        <div className="min-w-0 flex-1">
+          <p className="text-sm text-text-primary leading-snug line-clamp-2 group-hover:text-brand transition-colors">
+            {m.title}
+          </p>
+          <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 font-mono text-[11px] text-text-tertiary">
+            <span className="truncate max-w-[140px] sm:max-w-[220px]">
+              {m.author}
+            </span>
+            <span className="tabular-nums">
+              <span className="text-text-secondary">
+                {m.score.toLocaleString("en-US")}
+              </span>{" "}
+              {m.scoreLabel ?? "pts"}
+            </span>
+            {m.secondary && (
+              <span className="tabular-nums">
+                <span className="text-text-secondary">
+                  {m.secondary.value.toLocaleString("en-US")}
+                </span>{" "}
+                {m.secondary.label}
+              </span>
+            )}
+            <span>{getRelativeTime(m.createdAt)}</span>
+            {m.matchReason && (
+              <span className="hidden md:inline text-text-tertiary/80">
+                matched: {m.matchReason}
+              </span>
+            )}
+            <span className="ml-auto inline-flex items-center gap-1 text-text-tertiary uppercase tracking-wider">
+              {MENTION_SOURCE_SHORT_LABEL[m.source]}
+              <ExternalLink size={10} aria-hidden />
+            </span>
+          </div>
+        </div>
+      </a>
+    </li>
+  );
 }
 
-function MentionRowAdapter({ item: m }: { item: MentionItem }) {
-  const { src, code } = toV4Source(m.source);
-  const stats = [
-    {
-      label: (
-        <>
-          <b style={{ color: "var(--v4-ink-100)" }}>
-            {m.score.toLocaleString("en-US")}
-          </b>{" "}
-          {m.scoreLabel ?? "pts"}
-        </>
-      ),
-    },
-    ...(m.secondary
-      ? [
-          {
-            label: (
-              <>
-                <b style={{ color: "var(--v4-ink-100)" }}>
-                  {m.secondary.value.toLocaleString("en-US")}
-                </b>{" "}
-                {m.secondary.label}
-              </>
-            ),
-          },
-        ]
-      : []),
-    ...(m.matchReason
-      ? [{ label: <>matched: {m.matchReason}</> }]
-      : []),
-  ];
-
+function SourceBadge({ source }: { source: MentionSource }) {
+  const color = MENTION_SOURCE_COLORS[source];
   return (
-    <V4MentionRow
-      source={src}
-      avatar={
-        code ? (
-          <SourcePip src={src} size="lg" code={code} />
-        ) : (
-          <SourcePip src={src} size="lg" />
-        )
-      }
-      author={m.author}
-      sourceLabel={MENTION_SOURCE_SHORT_LABEL[m.source]}
-      ts={getRelativeTime(m.createdAt)}
-      body={m.title}
-      stats={stats}
-      href={m.url}
-    />
+    <span
+      className="mt-0.5 shrink-0 size-6 rounded-md inline-flex items-center justify-center font-bold text-white text-[10px]"
+      style={{ backgroundColor: color }}
+      aria-label={MENTION_SOURCE_LABELS[source]}
+      title={MENTION_SOURCE_LABELS[source]}
+    >
+      {MENTION_SOURCE_BADGE_TEXT[source]}
+    </span>
   );
 }
 

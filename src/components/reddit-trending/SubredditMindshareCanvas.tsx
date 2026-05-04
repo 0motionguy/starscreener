@@ -94,8 +94,8 @@ const SCALE_TABS: Array<{ key: ScaleMode; label: string }> = [
 
 // Two-color legend — orange = breakout intensity, green = the heating/stable
 // momentum band. Used by the static legend pills at the top of the canvas.
-const LEGEND_GREEN = "var(--v4-tier-heating-end)";
-const LEGEND_ORANGE = "var(--v4-tier-breakout-end)";
+const LEGEND_GREEN = "var(--v3-tier-heating-end)";
+const LEGEND_ORANGE = "var(--v3-tier-breakout-end)";
 
 // Every rendered bubble gets an identity label — unlabeled grey circles
 // read as "broken data" rather than "quiet subreddit". Small bubbles use
@@ -260,7 +260,7 @@ const BubbleNode = memo(function BubbleNode({
           reduceMotion ? { duration: 0 } : { duration: 0.6, ease: "easeInOut" }
         }
         fill={`url(#${gradientId})`}
-        stroke={isActive ? "var(--v4-ink-000)" : s.stroke}
+        stroke={isActive ? "var(--v3-ink-000)" : s.stroke}
         strokeWidth={
           isActive
             ? 2.5
@@ -320,7 +320,7 @@ const BubbleNode = memo(function BubbleNode({
                 1
               }
               textAnchor="middle"
-              fill="var(--v4-tier-breakout-fill)"
+              fill="var(--v3-tier-breakout-fill)"
               fontSize={breakoutFontSize}
               fontWeight={700}
               style={{
@@ -362,7 +362,7 @@ const BubbleNode = memo(function BubbleNode({
             y={outside.ty}
             textAnchor={outside.anchor}
             dominantBaseline="middle"
-            fill="var(--v4-ink-200)"
+            fill="var(--v3-ink-200)"
             fontSize={NAME_FONT_OUTSIDE}
             fontWeight={600}
             style={{

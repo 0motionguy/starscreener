@@ -49,14 +49,14 @@ export function TagsBar({ counts }: TagsBarProps) {
               "focus-visible:outline-none focus-visible:ring-1",
             )}
             style={{
-              background: isActive ? "var(--v4-acc-soft)" : "var(--v4-bg-050)",
+              background: isActive ? "var(--v3-acc-soft)" : "var(--v3-bg-050)",
               borderColor: isActive
-                ? "var(--v4-acc)"
-                : "var(--v4-line-200)",
-              color: isActive ? "var(--v4-acc)" : "var(--v4-ink-300)",
+                ? "var(--v3-acc)"
+                : "var(--v3-line-200)",
+              color: isActive ? "var(--v3-acc)" : "var(--v3-ink-300)",
             }}
             dotStyle={{
-              background: isActive ? "var(--v4-acc)" : "var(--v4-line-400)",
+              background: isActive ? "var(--v3-acc)" : "var(--v3-line-400)",
             }}
           >
             {tag.label}

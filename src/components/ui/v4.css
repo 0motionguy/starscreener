@@ -16,36 +16,6 @@
 /* ---------------------------------------------------------------------------
  * 01. CornerDots — three 4×4px squares for panel-head decoration
  * --------------------------------------------------------------------------- */
-.v4-root {
-  min-height: 100vh;
-  background:
-    radial-gradient(1100px 520px at 8% -12%, var(--v4-acc-soft), transparent 58%),
-    radial-gradient(850px 440px at 100% 112%, rgba(34, 197, 94, 0.055), transparent 60%),
-    var(--v4-bg-000);
-  color: var(--v4-ink-100);
-  --color-bg-primary: var(--v4-bg-000);
-  --color-bg-secondary: var(--v4-bg-100);
-  --color-bg-tertiary: var(--v4-bg-200);
-  --color-bg-card: var(--v4-bg-050);
-  --color-bg-card-hover: var(--v4-bg-100);
-  --color-bg-row-hover: var(--v4-bg-100);
-  --color-bg-elevated: var(--v4-bg-200);
-  --color-bg-inset: var(--v4-bg-000);
-  --color-text-primary: var(--v4-ink-000);
-  --color-text-secondary: var(--v4-ink-200);
-  --color-text-tertiary: var(--v4-ink-300);
-  --color-text-muted: var(--v4-ink-400);
-  --color-border-primary: var(--v4-line-200);
-  --color-border-secondary: var(--v4-line-100);
-  --color-border-strong: var(--v4-line-300);
-  --color-border-focus: var(--v4-acc);
-  --color-brand: var(--v4-acc);
-  --color-brand-hover: var(--v4-acc-hover);
-  --color-brand-active: var(--v4-acc-dim);
-  --color-brand-glow: var(--v4-acc-soft);
-  --color-brand-glow-strong: var(--v4-acc-glow);
-}
-
 .v4-corner-dots {
   display: inline-flex;
   gap: 3px;
@@ -141,66 +111,6 @@
 /* ---------------------------------------------------------------------------
  * 03. PanelHead — every panel's top strip
  * --------------------------------------------------------------------------- */
-.v4-panel {
-  background: var(--v4-bg-025);
-  border: var(--v4-stroke-1) solid var(--v4-line-200);
-  border-radius: var(--v4-radius-2);
-}
-
-.v4-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--v4-space-3);
-  min-height: 28px;
-  padding: 0 var(--v4-space-6);
-  border: var(--v4-stroke-1) solid var(--v4-line-300);
-  border-radius: var(--v4-radius-2);
-  background: var(--v4-bg-050);
-  color: var(--v4-ink-200);
-  font-family: var(--v4-mono);
-  font-size: var(--v4-text-11);
-  font-weight: 600;
-  letter-spacing: var(--v4-track-14);
-  line-height: 1;
-  text-transform: uppercase;
-  white-space: nowrap;
-  transition:
-    background-color var(--v4-duration-fast) var(--v4-ease),
-    border-color var(--v4-duration-fast) var(--v4-ease),
-    color var(--v4-duration-fast) var(--v4-ease),
-    box-shadow var(--v4-duration-fast) var(--v4-ease);
-}
-
-.v4-button:hover {
-  background: var(--v4-bg-100);
-  border-color: var(--v4-line-400);
-  color: var(--v4-ink-100);
-}
-
-.v4-button:focus-visible {
-  outline: 2px solid var(--v4-acc);
-  outline-offset: 2px;
-}
-
-.v4-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.v4-button-primary {
-  background: var(--v4-acc);
-  border-color: var(--v4-acc);
-  color: #1a0a04;
-  font-weight: 700;
-}
-
-.v4-button-primary:hover {
-  background: var(--v4-acc-hover);
-  border-color: var(--v4-acc-hover);
-  color: #1a0a04;
-}
-
 .v4-panel-head {
   display: flex;
   align-items: center;

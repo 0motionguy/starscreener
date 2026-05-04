@@ -160,7 +160,7 @@ export default async function EmbedTop10Page() {
           padding-top: 0 !important;
         }
         body {
-          background: var(--v4-bg-000, #08090a);
+          background: var(--v3-bg-000, #08090a);
         }
       `}</style>
       <Top10Page

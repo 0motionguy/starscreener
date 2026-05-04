@@ -21,7 +21,6 @@ import {
   refreshAgentCommerceFromStore,
 } from "@/lib/agent-commerce";
 import type { AgentCommerceItem } from "@/lib/agent-commerce/types";
-import { getRepoProfile } from "@/lib/repo-profiles";
 
 export const revalidate = 600;
 
@@ -100,13 +99,6 @@ export default async function AgentCommerceDetailPage({ params }: DetailProps) {
     (item.links.github ? `https://github.com/${item.links.github}` : null) ??
     item.links.docs ??
     null;
-
-  // AISO scan lookup — repo-profiles.json is keyed by GitHub fullName, which
-  // for agent-commerce items lives at item.links.github (item.id is a slug
-  // like "tool:langchain"). When the GitHub link is missing or no profile
-  // exists, the panel renders nothing.
-  const repoProfile = item.links.github ? getRepoProfile(item.links.github) : null;
-  const aisoScan = repoProfile?.aisoScan ?? null;
 
   return (
     <main className="home-surface ac-detail">
@@ -288,138 +280,6 @@ export default async function AgentCommerceDetailPage({ params }: DetailProps) {
         </Card>
       ) : null}
 
-      {aisoScan && aisoScan.status === "completed" ? (
-        <Card>
-          <CardHeader
-            showCorner
-            right={
-              aisoScan.tier ? (
-                <span style={{ textTransform: "uppercase", letterSpacing: "0.06em" }}>
-                  {aisoScan.tier}
-                </span>
-              ) : null
-            }
-          >
-            AS · AISO score
-          </CardHeader>
-          <CardBody>
-            <div style={{ padding: "12px 14px", display: "grid", gap: 14 }}>
-              <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono, ui-monospace)",
-                    fontSize: 32,
-                    fontWeight: 700,
-                    color: "var(--color-text-default)",
-                    lineHeight: 1,
-                  }}
-                >
-                  {aisoScan.score ?? "—"}
-                </span>
-                {aisoScan.tier ? (
-                  <span
-                    style={{
-                      fontFamily: "var(--font-mono, ui-monospace)",
-                      fontSize: 12,
-                      color: "var(--color-text-faint)",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.06em",
-                    }}
-                  >
-                    · {aisoScan.tier}-tier
-                  </span>
-                ) : null}
-              </div>
-
-              {aisoScan.dimensions.length > 0 ? (
-                <div className="ac-score-rows">
-                  {aisoScan.dimensions.map((d) => {
-                    const n = Math.max(0, Math.min(100, d.score));
-                    return (
-                      <div className="ac-score-row" key={d.key}>
-                        <span>{d.label}</span>
-                        <span className="ac-score-track">
-                          <i style={{ width: `${n}%` }} />
-                        </span>
-                        <span className="ac-score-num">{n}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : null}
-
-              {aisoScan.issues.length > 0 ? (
-                <ul
-                  style={{
-                    margin: 0,
-                    padding: 0,
-                    listStyle: "none",
-                    display: "grid",
-                    gap: 4,
-                    fontFamily: "var(--font-mono, ui-monospace)",
-                    fontSize: 11,
-                  }}
-                >
-                  {aisoScan.issues.slice(0, 5).map((issue, i) => (
-                    <li
-                      key={`${issue.severity}-${i}`}
-                      style={{ color: "var(--color-text-default)" }}
-                    >
-                      <span
-                        style={{
-                          color: "var(--color-text-faint)",
-                          textTransform: "uppercase",
-                          letterSpacing: "0.06em",
-                          marginRight: 8,
-                        }}
-                      >
-                        [{issue.severity}]
-                      </span>
-                      {issue.title}
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-
-              <div
-                style={{
-                  fontFamily: "var(--font-mono, ui-monospace)",
-                  fontSize: 10,
-                  color: "var(--color-text-faint)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.06em",
-                }}
-              >
-                Last scanned{" "}
-                {aisoScan.completedAt
-                  ? new Date(aisoScan.completedAt).toISOString().slice(0, 10)
-                  : "—"}
-              </div>
-            </div>
-          </CardBody>
-        </Card>
-      ) : aisoScan && (aisoScan.status === "queued" || aisoScan.status === "running") ? (
-        <div
-          style={{
-            display: "inline-flex",
-            alignSelf: "flex-start",
-            alignItems: "center",
-            gap: 6,
-            padding: "4px 10px",
-            borderRadius: 999,
-            border: "1px solid var(--color-border, rgba(255,255,255,0.12))",
-            background: "var(--color-bg-soft, rgba(255,255,255,0.03))",
-            fontFamily: "var(--font-mono, ui-monospace)",
-            fontSize: 10,
-            textTransform: "uppercase",
-            letterSpacing: "0.08em",
-            color: "var(--color-text-faint)",
-          }}
-        >
-          AISO scan in progress
-        </div>
-      ) : null}
-
       <div className="ac-detail-grid">
         <div style={{ display: "grid", gap: 12 }}>
           <Card>
@@ -431,7 +291,7 @@ export default async function AgentCommerceDetailPage({ params }: DetailProps) {
                 {SCORE_LABELS.map(({ key, label }) => {
                   const raw = item.scores[key];
                   const n = typeof raw === "number" ? raw : 0;
-                  const display = raw === null ? "—" : Number.isInteger(n) ? String(n) : n.toFixed(1);
+                  const display = raw === null ? "—" : String(n);
                   return (
                     <div className="ac-score-row" key={key}>
                       <span>{label}</span>

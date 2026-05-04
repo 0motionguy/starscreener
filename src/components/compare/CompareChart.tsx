@@ -471,7 +471,7 @@ export function CompareChart({
         ? (v: number) => formatTimelineTick(v)
         : (v: number) => formatDateTick(v),
     tickLine: false,
-    axisLine: { stroke: "var(--v4-line-200)" },
+    axisLine: { stroke: "var(--v3-line-200)" },
   };
 
   // Y-axis tick formatter swaps per metric — STARS shows compacted counts,
@@ -496,7 +496,7 @@ export function CompareChart({
   const yAxisProps = {
     tick: {
       fontSize: 10,
-      fill: "var(--v4-ink-400)",
+      fill: "var(--v3-ink-400)",
       fontFamily: "var(--font-geist-mono), monospace",
       letterSpacing: "0.12em",
     },
@@ -614,7 +614,7 @@ export function CompareChart({
               {themeConfig.gridDensity !== "none" && (
                 <CartesianGrid
                   strokeDasharray={themeConfig.gridDash}
-                  stroke={themeConfig.light ? "#1f1f1f" : "var(--v4-line-200)"}
+                  stroke={themeConfig.light ? "#1f1f1f" : "var(--v3-line-200)"}
                   opacity={themeConfig.light ? 0.15 : 0.35}
                   vertical={false}
                 />
@@ -732,7 +732,7 @@ export function CompareChart({
               {themeConfig.gridDensity !== "none" && (
                 <CartesianGrid
                   strokeDasharray={themeConfig.gridDash}
-                  stroke={themeConfig.light ? "#1f1f1f" : "var(--v4-line-200)"}
+                  stroke={themeConfig.light ? "#1f1f1f" : "var(--v3-line-200)"}
                   opacity={themeConfig.light ? 0.15 : 0.35}
                   vertical={false}
                 />
@@ -869,9 +869,9 @@ function CompareChartPlaceholder() {
       <p
         className="relative text-[11px] font-mono uppercase tracking-[0.14em] px-2.5 py-1 rounded-[2px]"
         style={{
-          background: "var(--v4-bg-050)",
-          border: "1px solid var(--v4-line-200)",
-          color: "var(--v4-ink-300)",
+          background: "var(--v3-bg-050)",
+          border: "1px solid var(--v3-line-200)",
+          color: "var(--v3-ink-300)",
         }}
       >
         {"// COLLECTING HISTORY · CHECK BACK AFTER MORE DAILY SNAPSHOTS"}

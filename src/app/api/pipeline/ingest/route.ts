@@ -19,6 +19,11 @@ import { getDerivedRepos } from "@/lib/derived-repos";
 import { trendScoreForTimeRange } from "@/lib/filters";
 
 export const runtime = "nodejs";
+// Batch ingest fans out 50 repos × multiple social adapters and then runs
+// pipeline.recomputeAll(). The default 10s Vercel function timeout is way
+// too tight — sibling pipeline routes (cleanup/enrich/backfill/rebuild) all
+// run at 300s for the same reason. Cron 504s on this route were the symptom.
+export const maxDuration = 300;
 
 const FULL_NAME_PATTERN = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;
 const MAX_BATCH_SIZE = 50;

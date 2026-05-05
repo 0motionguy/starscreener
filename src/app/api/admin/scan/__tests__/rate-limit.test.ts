@@ -25,6 +25,8 @@ import {
 
 const ADMIN_SCAN_WINDOW_MS = 60_000;
 const ADMIN_SCAN_MAX = 5;
+const ADMIN_SCAN_ESCALATION_WINDOW_MS = 15 * 60_000;
+const ADMIN_SCAN_ESCALATION_MAX = 20;
 const ADMIN_TOKEN = "test-admin-token-rate-limit-fixture-32chars";
 
 const previousAdminToken = process.env.ADMIN_TOKEN;
@@ -93,4 +95,42 @@ test("POST /api/admin/scan: returns 429 with Retry-After when rate-limit bucket 
   const body = (await res.json()) as { ok: boolean; error: string };
   assert.equal(body.ok, false, "envelope must be { ok: false, ... }");
   assert.match(body.error, /rate limited/, "error string must mention rate limited");
+});
+
+test("POST /api/admin/scan: escalation lockout triggers before base limiter", async () => {
+  const ip = "198.51.100.99";
+  const principalScopedKey = `admin-scan|bearer:token|${ip}`;
+  await primeSaturatedStore(
+    principalScopedKey,
+    ADMIN_SCAN_ESCALATION_WINDOW_MS,
+    ADMIN_SCAN_ESCALATION_MAX,
+  );
+
+  const { POST } = await import("../route");
+  const { NextRequest } = await import("next/server");
+
+  const req = new Request("http://localhost/api/admin/scan", {
+    method: "POST",
+    headers: {
+      "x-forwarded-for": ip,
+      authorization: `Bearer ${ADMIN_TOKEN}`,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ source: "reddit" }),
+  });
+  const res = await POST(new NextRequest(req) as never);
+
+  assert.equal(
+    res.status,
+    429,
+    "expected 429 when escalation lockout bucket is saturated",
+  );
+  const retryAfter = res.headers.get("retry-after");
+  assert.ok(
+    retryAfter !== null && /^\d+$/.test(retryAfter),
+    `Retry-After must be integer seconds, got: ${retryAfter}`,
+  );
+  const body = (await res.json()) as { ok: boolean; error: string };
+  assert.equal(body.ok, false);
+  assert.match(body.error, /temporarily locked/i);
 });

@@ -11,8 +11,8 @@ Single-page execution checklist for running AISO scan + remediation loops for `h
    - `CLAUDE.md`
    - `docs/ENGINE.md`
    - `docs/SITE-WIREMAP.md`
-   - `docs/AUDIT-2026-05-04.md`
-   - `docs/forensic/00-INDEX.md`
+   - `docs/archive/AUDIT-2026-05-04.md`
+   - `docs/archive/forensic-2026-05-pre/00-INDEX.md`
    - `tasks/CURRENT-SPRINT.md`
    - `tasks/BACKLOG.md`
 2. Run freshness gate:
@@ -63,8 +63,8 @@ curl -sS "https://aiso.tools/api/scan/<scanId>"
 3. Validate locally with smallest proof for touched files (lint/typecheck/test command scoped if possible).
 4. Re-run scan when rate limits allow.
 5. Log delta in:
-   - `docs/forensic/13-AISO-SELF-SCAN.md`
-   - `docs/forensic/15-AISO-REMEDIATION-LOG.md`
+   - `docs/archive/forensic-2026-05-pre/13-AISO-SELF-SCAN.md`
+   - `docs/archive/forensic-2026-05-pre/15-AISO-REMEDIATION-LOG.md`
 
 ## 4) Evidence checklist before closing heartbeat
 - Freshness command result + classification (localhost missing vs product failure).

@@ -1,0 +1,46 @@
+name: pa11y-ci
+
+# AGN-822 / TEST-9 — accessibility automation.
+# Scaffold workflow: runs pa11y-ci against the dev server URLs in .pa11yci.json
+# and reports findings as a non-blocking annotation. The pa11y step is marked
+# continue-on-error until the dev-server start sequence is calibrated; once
+# stable, drop the flag to make a11y a hard PR gate.
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  a11y:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build (production)
+        run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+
+      - name: Start app
+        run: |
+          npm run start &
+          npx --yes wait-on@7 http://localhost:3000 -t 60000
+        env:
+          NODE_ENV: production
+          PORT: "3000"
+
+      - name: pa11y-ci
+        continue-on-error: true
+        run: npx --yes pa11y-ci@4 --config .pa11yci.json

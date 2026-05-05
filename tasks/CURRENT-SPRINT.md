@@ -4,6 +4,249 @@ Status: IN PROGRESS - Phase 1.5 blocked on Vercel Sentry DSN
 Started: 2026-05-03
 Target completion: 2026-05-10
 
+## AGN-710 [AGN-122] Fix Lighthouse perf score <80 on / (35) (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`a73f66ae-4984-4939-b64b-d2f10c88cfc5`) rerouted AGN-710 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05T12:07:31+08:00`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-710 in triage lane until one implementation owner is explicitly assigned for home-route Lighthouse performance remediation and acceptance evidence.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-710 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one implementation owner for AGN-710; assigned engineer captures baseline Lighthouse report for `/`, lands focused performance fixes that raise performance score to >=80, and posts reproducible before/after evidence; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-710 has one active implementation owner, one explicit unblock action path for Lighthouse >=80 on `/` with evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-711 [AGN-122] Fix Lighthouse perf score <80 on /signals (43) (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`4039110f-3600-4928-b3a6-9742a859d6ba`) rerouted AGN-711 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05T12:06:49+08:00`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-711 in triage lane until one implementation owner is explicitly assigned for `/signals` Lighthouse performance remediation and acceptance evidence.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-711 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one implementation owner for AGN-711; assigned engineer captures baseline Lighthouse report for `/signals` (score 43), lands focused performance fixes that raise performance score to >=80, and posts reproducible before/after evidence; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-711 has one active implementation owner, one explicit unblock action path for Lighthouse >=80 on `/signals` with evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-712 [AGN-122] Restore /trends route + Lighthouse baseline (404) (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`ee28f769-ec8c-4f18-8ffd-89ee9449f147`) rerouted AGN-712 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05T12:06:32+08:00`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-712 in triage lane until one implementation owner is explicitly assigned for `/trends` route restore + Lighthouse baseline evidence.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-712 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one implementation owner for AGN-712; assigned engineer restores `/trends` route from 404 to 200 with route-level verification and captures fresh Lighthouse baseline artifacts for AGN-122 acceptance; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-712 has one active implementation owner, one explicit unblock action path for `/trends` and Lighthouse baseline delivery with evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-858 Investigate broken workflow: Refresh agent-commerce pipeline (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`bf254603-6c1d-47f0-9a42-2c3e8bc7e845`) rerouted AGN-858 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05T12:00:00+08:00`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-858 in triage lane until one implementation owner is explicitly assigned for `Refresh agent-commerce pipeline` workflow investigation and repair evidence.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-858 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one implementation owner for AGN-858; assigned engineer verifies failing `Refresh agent-commerce pipeline` workflow run evidence (run id + failing step + log pointer) and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-858 has one active implementation owner, one explicit unblock action path for `Refresh agent-commerce pipeline` remediation with evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-859 Investigate broken workflow: Cron - pipeline ingest (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`6876da3c-b736-411e-9b59-6b8af9925367`) rerouted AGN-859 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05T12:45:00+08:00`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-859 in triage lane until one implementation owner is explicitly assigned for `Cron - pipeline ingest` workflow investigation and repair evidence.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-859 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one implementation owner for AGN-859; assigned engineer verifies failing `Cron - pipeline ingest` run evidence (run id + failing step + log pointer) and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-859 has one active implementation owner, one explicit unblock action path for `Cron - pipeline ingest` remediation with evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-813 [AISO] Fix repo typecheck blockers preventing AGN-786 QA close-out (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`891f114a-f40c-4591-ac90-7877e4d3a611`) rerouted AGN-813 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05T12:48:00+08:00`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-813 in triage lane until one implementation owner is explicitly assigned for repo `typecheck` blocker triage and remediation evidence needed for AGN-786 QA close-out.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-813 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one implementation owner for AGN-813; assigned engineer captures `npm run typecheck` blocker evidence (failing files + errors), lands the minimal fix set, and posts green `npm run typecheck` proof for AGN-786 QA; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-813 has one active implementation owner, one explicit unblock action path for typecheck remediation with evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-861 Investigate broken workflow: Refresh repo profiles (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`bee3645f-4114-4853-ad9a-72430345bd75`) rerouted AGN-861 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05T12:03:18+08:00`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-861 in triage lane until one implementation owner is explicitly assigned for `Refresh repo profiles` workflow investigation and repair evidence.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-861 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one implementation owner for AGN-861; assigned engineer verifies failing `Refresh repo profiles` workflow run evidence (run id + failing step + log pointer) and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-861 has one active implementation owner, one explicit unblock action path for `Refresh repo profiles` remediation with evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-860 Investigate broken workflow: cron-subdomain-takeover.yml (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`b4cf2719-3fe0-4f16-80ea-60e0027bf454`) rerouted AGN-860 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05T12:03:13+08:00`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-860 in triage lane until one implementation owner is explicitly assigned for `cron-subdomain-takeover.yml` workflow investigation and repair evidence.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-860 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one implementation owner for AGN-860; assigned engineer verifies failing `cron-subdomain-takeover.yml` run evidence (run id + failing step + log pointer) and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-860 has one active implementation owner, one explicit unblock action path for `cron-subdomain-takeover.yml` remediation with evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-862 Investigate broken workflow: release-cdn-purge-and-targeted-refresh.yml (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`99dc17ac-5d5c-4e80-90b3-65dbd0a1a6fc`) rerouted AGN-862 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05T12:02:06+08:00`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-862 in triage lane until one implementation owner is explicitly assigned for `release-cdn-purge-and-targeted-refresh.yml` workflow investigation and repair evidence.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-862 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one implementation owner for AGN-862; assigned engineer verifies failing `release-cdn-purge-and-targeted-refresh.yml` run evidence (run id + failing step + log pointer) and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-862 has one active implementation owner, one explicit unblock action path for `release-cdn-purge-and-targeted-refresh.yml` remediation with evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-864 Investigate broken workflow: Refresh Bluesky signals (Sprint triage redistribution heartbeat, 2026-05-05)
+## AGN-857 Investigate broken workflow: Collect Twitter Signals (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`38414d08-b656-47d6-9405-f3eb827a1a12`) rerouted AGN-857 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05T12:14:00+08:00`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-857 in triage lane until one implementation owner is explicitly assigned for `Collect Twitter Signals` workflow investigation and repair evidence.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-857 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one implementation owner for AGN-857; assigned engineer verifies failing `Collect Twitter Signals` workflow run evidence (run id + failing step + log pointer) and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-857 has one active implementation owner, one explicit unblock action path for `Collect Twitter Signals` remediation with evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-864 Investigate broken workflow: Refresh Bluesky signals (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`b854e207-e2b6-4830-a78e-92eebdde97f2`) rerouted AGN-864 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05T12:05:00+08:00`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-864 in triage lane until one implementation owner is explicitly assigned for `Refresh Bluesky signals` workflow investigation and repair evidence.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-864 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one implementation owner for AGN-864; assigned engineer verifies failing `Refresh Bluesky signals` workflow run evidence (run id + failing step + log pointer) and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-864 has one active implementation owner, one explicit unblock action path for `Refresh Bluesky signals` remediation with evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-865 Investigate broken workflow: Refresh Lobsters signals (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`6edc942c-db7f-4355-a7e6-596acc600ef4`) rerouted AGN-865 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05T11:55:00+08:00`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-865 in triage lane until one implementation owner is explicitly assigned for `Refresh Lobsters signals` workflow investigation and repair evidence.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-865 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one implementation owner for AGN-865; assigned engineer verifies failing `Refresh Lobsters signals` workflow run evidence (run id + failing step + log pointer) and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-865 has one active implementation owner, one explicit unblock action path for `Refresh Lobsters signals` remediation with evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-866 Investigate broken workflow: secrets-scan.yml (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`bff3fe71-13b8-4aaa-a0c9-6e971306b0fb`) rerouted AGN-866 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05T11:58:36+08:00`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-866 in triage lane until one implementation owner is explicitly assigned for `secrets-scan.yml` workflow investigation and repair evidence.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-866 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one implementation owner for AGN-866; assigned engineer verifies failing `secrets-scan.yml` run evidence (run id + failing step + log pointer) and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-866 has one active implementation owner, one explicit unblock action path for `secrets-scan.yml` remediation with evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-867 Investigate broken workflow: sre-actions-visibility.yml (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`1866b43e-7db5-4a38-9fb2-32634de01299`) rerouted AGN-867 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05T11:59:51+08:00`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-867 in triage lane until one implementation owner is explicitly assigned for `sre-actions-visibility.yml` workflow investigation and repair evidence.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-867 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one implementation owner for AGN-867; assigned engineer verifies failing `sre-actions-visibility.yml` run evidence (run id + failing step + log pointer) and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-867 has one active implementation owner, one explicit unblock action path for `sre-actions-visibility.yml` remediation with evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-868 Investigate broken workflow: sre-cron-secret-rotation-guard.yml (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`7ee56107-f7af-4b2d-900d-be5ac130153a`) rerouted AGN-868 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location currently resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-868 in triage lane until one implementation owner is explicitly assigned for `sre-cron-secret-rotation-guard.yml` workflow investigation and repair evidence.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-868 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one implementation owner for AGN-868; assigned engineer verifies failing `sre-cron-secret-rotation-guard.yml` workflow run evidence and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-868 has one active implementation owner, one explicit unblock action path for `sre-cron-secret-rotation-guard.yml` workflow remediation with evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-869 Investigate broken workflow: sre-redis-restore-drill.yml (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`1e5f439d-5398-4e11-b3c3-8fa5b5f04b57`) rerouted AGN-869 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location currently resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05T12:00:12+08:00`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-869 in triage lane until one implementation owner is explicitly assigned for `sre-redis-restore-drill.yml` workflow investigation and repair evidence.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-869 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one implementation owner for AGN-869; assigned engineer verifies failing `sre-redis-restore-drill.yml` run evidence (run id + failing step + log pointer) and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-869 has one active implementation owner, one explicit unblock action path for `sre-redis-restore-drill.yml` workflow remediation with evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-870 Investigate broken workflow: Sync TrustMRR revenue overlays (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`1a5e06a1-167a-4852-b53c-86715100df36`) rerouted AGN-870 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location currently resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-870 in triage lane until one implementation owner is explicitly assigned for Sync TrustMRR workflow investigation and repair evidence.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-870 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one implementation owner for AGN-870; assigned engineer verifies failing `sync-trustmrr` workflow evidence and patches the failure path for revenue overlay sync; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-870 has one active implementation owner, one explicit unblock action path for Sync TrustMRR workflow remediation with evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-871 Investigate broken workflow: trendingrepo-worker (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`0ccd56f9-a929-4185-8db3-c043cb1745cc`) rerouted AGN-871 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit file currently resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost is missing and product preflight is stale-blocked.
+- Workflow verification blocker at `2026-05-05`: `gh run list --workflow trendingrepo-worker.yml --limit 10` failed with `HTTP 401 Bad credentials`, so run-level failure evidence cannot be refreshed from this runtime.
+- Redistribution scope decision: keep AGN-871 in triage lane until one implementation owner is explicitly assigned and authenticated workflow-run evidence is posted; do not expand scope.
+- Owner: PM triage.
+- Blocked on: AGN-871 has no active implementation owner after reassignment; workflow-run verification is blocked by missing GitHub auth credentials in this runtime; localhost preflight is currently non-reachable.
+- Needs: CTO assigns one implementation owner for AGN-871; assigned engineer runs authenticated `gh` workflow inspection and posts the failing `trendingrepo-worker` run id/log pointer; platform engineer restores `localhost:3023` reachability and reruns `npm run freshness:check` to exit 0.
+- Done when: AGN-871 has one active implementation owner, one authenticated workflow-failure evidence packet (run id + failing step + fix scope), and one fresh heartbeat proving localhost preflight is reachable with non-blocking freshness (`npm run freshness:check` exit 0).
+
+## AGN-863 Investigate broken workflow: Refresh arXiv signals (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`55884d6c-f49b-4020-8bc7-7bf8e5d7b591`) rerouted AGN-863 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location currently resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing and the product is stale in this heartbeat.
+- Redistribution scope decision: keep AGN-863 in triage lane until one data/backend implementation owner is explicitly assigned for `Refresh arXiv signals` workflow recovery and verification evidence.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-863 after reassignment, and local freshness preflight is blocked by missing localhost server.
+- Needs: CTO assigns one data/backend owner for AGN-863; assigned engineer verifies failing `Refresh arXiv signals` workflow run evidence and lands a fix with fresh success evidence; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-863 has one active implementation owner, one explicit unblock action path for arXiv workflow recovery, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-1473 [Bug][P1] /mcp route external icon/avatar request failures (ORB/404) with console noise (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`10a1d975-0c16-4058-b82a-0001640afb5b`) rerouted AGN-1473 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location currently resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05T11:54:35+08:00`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-1473 in triage lane until one frontend implementation owner is explicitly assigned for `/mcp` external icon/avatar fallback hardening and verification evidence.
+- Owner: PM triage.
+- Blocked on: no active frontend implementation owner is attached to AGN-1473 after reassignment, and local freshness preflight is currently blocked by missing localhost server.
+- Needs: CTO assigns one frontend owner for AGN-1473; assigned engineer verifies `/mcp` ORB/404 failure paths and patches icon/avatar fallback behavior to suppress broken-request console noise; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- Done when: AGN-1473 has one active frontend implementation owner, one explicit unblock action path for `/mcp` external icon/avatar failure handling, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-726 [P0 backend] DROP REPO should return already_tracked for known tracked repos (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`0f2b2ebe-c4cc-4a4d-ae02-917ed8c3b2b4`) rerouted AGN-726 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location currently resolves to `docs/archive/AUDIT-2026-05-04.md`.
+- Freshness gate result at `2026-05-05`: `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+- Redistribution scope decision: keep AGN-726 in triage lane until one backend implementation owner is explicitly assigned for the DROP REPO `already_tracked` contract fix and verification evidence.
+- Owner: PM triage.
+- Blocked on: no active backend implementation owner is attached to AGN-726 after reassignment, and local freshness preflight is currently blocked by missing localhost server.
+- Needs: CTO assigns one backend owner for AGN-726; assigned engineer verifies/patches DROP REPO behavior so known tracked repos return `already_tracked`; platform engineer restores localhost:3023 reachability so `npm run freshness:check` can run as close-readiness evidence.
+- Done when: AGN-726 has one active backend implementation owner, one explicit unblock action path for `already_tracked` contract verification/fix, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness evidence.
+
+## AGN-9 AGNT full-sync failing (Sprint triage redistribution heartbeat, 2026-05-05)
+- Reassignment intake: latest board comment (`c1a7376d-8b96-4c2c-af5d-deb105e26f59`) rerouted AGN-9 to Sprint Triage because original assignee was missing/removed.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate result at `2026-05-05`: `npm run freshness:check` reached `http://localhost:3023` (not missing) and failed with `GET /api/health?soft=1 -> HTTP 500 Internal Server Error`, so product is stale/degraded.
+- Redistribution scope decision: keep AGN-9 in triage lane until one implementation owner is explicitly assigned for AGNT full-sync recovery; do not expand scope into product ideas.
+- Owner: PM triage.
+- Blocked on: no active implementation owner is currently attached to AGN-9 after reassignment, and local freshness preflight remains non-passing (`HTTP 500`).
+- Needs: CTO assigns one implementation owner for AGN-9 full-sync recovery; assigned engineer posts full-sync failure evidence and fix proof; platform engineer restores `/api/health?soft=1` to HTTP 200 and reruns `npm run freshness:check` to exit 0.
+- Done when: AGN-9 has one active implementation owner, one explicit unblock action path for full-sync remediation, and a fresh heartbeat proves localhost preflight is reachable and non-blocking (`npm run freshness:check` exit 0) with status evidence attached.
+
 ## AGN-1515 [Sprint 1 audit] Sprint Triage sprint-vs-backlog boundary enforcement check
 - Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
 - Freshness gate result at `2026-05-05`: `npm run freshness:check` failed with `ECONNRESET`, and direct probe `http://localhost:3023/api/health?soft=1` failed with connection error (localhost missing/unreachable in this heartbeat).
@@ -157,12 +400,13 @@ See individual phase prompts.
 - Done when: active Sprint 1 blocker/lint scopes in this file exclude Sprint 2 issue rows and keep only pointer context.
 
 ## AGN-1047 [Sprint 1 audit] Sprint/backlog boundary integrity pass
-- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
-- Freshness gate result at `2026-05-05T02:37:30.7864875+08:00`: `npm run freshness:check` reached localhost:3023 (not missing) but failed with `GET /api/health?soft=1 -> HTTP 500 Internal Server Error` (product stale/degraded).
+- Evidence (2026-05-05 retry-pass heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate result at `2026-05-05`: `npm run freshness:check` timed out while contacting `http://localhost:3023` (localhost unstable/unreachable in this retry pass).
+- Live in-progress boundary sample (`GET /api/companies/{companyId}/issues?status=in_progress&limit=20`) still includes out-of-scope implementation work in active queue: `AGN-386`, `AGN-799`, `AGN-885`, `AGN-544`, `AGN-899`, `AGN-1484`, `AGN-876`.
 - Boundary integrity decision: Sprint 1 remains limited to Phase 1.5 + local freshness unblock; out-of-scope work stays backlog-only with one owner and binary done-state wording.
 - Owner: PM triage.
-- Blocked on: local freshness endpoint remains degraded (`/api/health?soft=1` returns 500), preventing close-readiness verification.
-- Needs: platform engineer restores local freshness endpoint behavior and clears blocking freshness failures; CTO/platform provides Vercel `SENTRY_DSN` verification evidence when applicable.
+- Blocked on: local freshness preflight is currently unstable (timeout to localhost:3023) and cross-sprint mixed execution remains active in `in_progress`.
+- Needs: platform engineer restores localhost freshness responsiveness and reruns `npm run freshness:check` to pass; CTO/board confirms move-to-backlog vs child-split routing for sampled non-Sprint-1 active issues.
 - Done when: Sprint 1 notes remain pointer-only for out-of-scope items, backlog carries execution details, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
 
 ## AGN-1292 [Sprint 1 audit] Sprint/backlog boundary integrity refresh
@@ -702,3 +946,4 @@ Result: acceptance-criteria lint delta pass is PASS (2/2). Sprint close-readines
 - Blocked on: none for linkage audit scope.
 - Needs: board/CTO decision whether `AGN-363` should be relinked under AGN-58 (`parentId=cb773b12-65b5-494c-a695-c8f409b47bf0`) or remain out of AGN-58 graph references.
 - Done when: AGN-58 linkage notes across sprint/backlog include only live AGN-58 children (or explicitly tagged exceptions with board decision) and each row retains one owner + binary done-state wording + explicit action/dependency text.
+

@@ -1,4 +1,5 @@
 import { redis } from "@/lib/redis";
+import { keys } from "@/lib/redis/keys";
 
 export interface RedditCallTelemetryParams {
   userAgentFingerprint: string;
@@ -18,7 +19,10 @@ export async function recordRedditCall(
   params: RedditCallTelemetryParams,
 ): Promise<void> {
   const hourBucket = new Date().toISOString().slice(0, 13).replace("T", "-");
-  const usageKey = `pool:reddit:usage:${params.userAgentFingerprint}:${hourBucket}`;
+  const usageKey = keys.pool.reddit.usage(
+    params.userAgentFingerprint,
+    hourBucket,
+  );
 
   await redis.hincrby(usageKey, "requests", 1);
   if (params.success) {
@@ -36,14 +40,14 @@ export async function recordRedditCall(
 export async function quarantineUserAgent(
   params: RedditQuarantineParams,
 ): Promise<void> {
-  const key = `pool:reddit:quarantine:${params.userAgentFingerprint}`;
+  const key = keys.pool.reddit.quarantine(params.userAgentFingerprint);
   await redis.set(key, JSON.stringify(params), "EXAT", params.untilTimestamp);
 }
 
 export async function isUserAgentQuarantined(
   userAgentFingerprint: string,
 ): Promise<boolean> {
-  const key = `pool:reddit:quarantine:${userAgentFingerprint}`;
+  const key = keys.pool.reddit.quarantine(userAgentFingerprint);
   const value = await redis.get(key);
   return value !== null;
 }

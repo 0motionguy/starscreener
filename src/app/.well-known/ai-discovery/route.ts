@@ -4,24 +4,37 @@
 // Keeps canonical pointers in one place so clients can bootstrap
 // from the well-known prefix and then fetch llms artifacts.
 
-import { SITE_URL } from "@/lib/seo";
+import { absoluteUrl, SITE_NAME, SITE_DESCRIPTION } from "@/lib/seo";
 
 export const dynamic = "force-static";
 export const revalidate = 86400;
 
 export function GET(): Response {
-  const base = SITE_URL.replace(/\/+$/, "");
   const body = {
     version: "1",
-    provider: "TrendingRepo",
-    website: base,
-    updatedAt: new Date().toISOString(),
+    provider: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    website: absoluteUrl("/"),
     endpoints: {
-      llmsTxt: `${base}/llms.txt`,
-      llmsFullTxt: `${base}/llms-full.txt`,
-      wellKnownLlmsTxt: `${base}/.well-known/llms.txt`,
-      sitemap: `${base}/sitemap.xml`,
-      robots: `${base}/robots.txt`,
+      llmsTxt: absoluteUrl("/llms.txt"),
+      llmsFullTxt: absoluteUrl("/llms-full.txt"),
+      wellKnownLlmsTxt: absoluteUrl("/.well-known/llms.txt"),
+      sitemap: absoluteUrl("/sitemap.xml"),
+      robots: absoluteUrl("/robots.txt"),
+      mentionsApi: absoluteUrl("/api/repos"),
+    },
+    capabilities: {
+      discovery: true,
+      mentions: true,
+      trending: true,
+      briefs: true,
+    },
+    importantUrls: {
+      trending: absoluteUrl("/"),
+      breakouts: absoluteUrl("/breakouts"),
+      signals: absoluteUrl("/signals"),
+      funding: absoluteUrl("/funding"),
+      briefs: absoluteUrl("/brief"),
     },
   };
 

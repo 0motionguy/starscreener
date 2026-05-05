@@ -19,7 +19,6 @@
 
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { errorEnvelope } from "@/lib/api/error-response";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 
 export const runtime = "nodejs";
@@ -42,6 +41,19 @@ interface OEmbedRich {
   width: number;
   height: number;
   cache_age: string;
+}
+
+interface OEmbedErrorEnvelope {
+  ok: false;
+  error: string;
+  code?: string;
+}
+
+function oembedErrorEnvelope(
+  error: string,
+  code?: string,
+): OEmbedErrorEnvelope {
+  return code ? { ok: false, error, code } : { ok: false, error };
 }
 
 function parseRepoUrl(raw: string | null): { owner: string; name: string } | null {
@@ -75,7 +87,7 @@ export function GET(request: NextRequest): NextResponse {
   // callers fall back to JSON instead of getting a malformed body.
   if (format !== "json") {
     return NextResponse.json(
-      errorEnvelope("Only json format is supported", "UNSUPPORTED_FORMAT"),
+      oembedErrorEnvelope("Only json format is supported", "UNSUPPORTED_FORMAT"),
       { status: 501 },
     );
   }
@@ -83,7 +95,7 @@ export function GET(request: NextRequest): NextResponse {
   const repo = parseRepoUrl(url);
   if (!repo) {
     return NextResponse.json(
-      errorEnvelope(
+      oembedErrorEnvelope(
         "Invalid or unsupported url. Expected https://<site>/repo/<owner>/<name>",
         "UNSUPPORTED_URL",
       ),

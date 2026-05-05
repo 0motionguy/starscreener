@@ -29,6 +29,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import path from "node:path";
 
+import { jsonWithEtag } from "@/lib/api/etag";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import {
   getRepoProfile,
@@ -43,6 +44,7 @@ import type {
   AisoToolsScan,
 } from "@/lib/aiso-tools";
 import { getClientIp } from "@/lib/api/client-ip";
+import { enforceMutationSameOrigin } from "@/lib/api/mutation-origin-guard";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 
 export const runtime = "nodejs";
@@ -124,7 +126,7 @@ async function enqueueRescan(row: RescanQueueRow): Promise<void> {
 // ---------------------------------------------------------------------------
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ owner: string; name: string }> },
 ) {
   const { owner, name } = await params;
@@ -150,7 +152,8 @@ export async function GET(
   const uiStatus = toUiStatus(scan, profile?.status);
 
   if (uiStatus === "none" && !scan) {
-    return NextResponse.json(
+    return jsonWithEtag(
+      request,
       {
         ok: true,
         status: "none" as const,
@@ -160,7 +163,8 @@ export async function GET(
     );
   }
 
-  return NextResponse.json(
+  return jsonWithEtag(
+    request,
     {
       ok: true,
       status: uiStatus,
@@ -193,6 +197,9 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ owner: string; name: string }> },
 ) {
+  const guard = enforceMutationSameOrigin(request);
+  if (!guard.ok) return guard.response;
+
   const { owner, name } = await params;
 
   if (!SLUG_PART_PATTERN.test(owner) || !SLUG_PART_PATTERN.test(name)) {

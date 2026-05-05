@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # Cron route conventions
 
 Every route under `src/app/api/cron/**/route.ts` follows the same shape.

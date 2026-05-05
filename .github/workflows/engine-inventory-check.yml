@@ -28,6 +28,11 @@ jobs:
       - name: Re-derive engine inventory
         run: node scripts/derive-engine-inventory.mjs
       - name: Verify inventory is up-to-date
+        # Output is deterministic: derive-engine-inventory.mjs writes no
+        # timestamp (generated_at field removed 2026-05-05), so a clean
+        # re-derive on a passing PR produces zero diff. If this step fails,
+        # something in workflows/cron-routes/worker-fetchers/env-vars actually
+        # changed and the committed inventory is stale.
         run: |
           if ! git diff --quiet docs/_generated/engine.json docs/_generated/engine.md; then
             echo "::error::Engine inventory is stale. Run 'npm run engine:derive' and commit the updated docs/_generated/engine.{json,md} files."

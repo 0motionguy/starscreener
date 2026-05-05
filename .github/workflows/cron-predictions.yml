@@ -14,7 +14,7 @@ name: Cron - predictions
 
 on:
   schedule:
-    - cron: "0 6 * * *"  # UTC, daily at 06:00
+    - cron: "56 6 * * *"  # UTC, daily at 06:56 (staggered off :00 burst, was 06:00)
   workflow_dispatch: {}
 
 permissions:

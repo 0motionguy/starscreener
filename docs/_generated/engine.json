@@ -1,4 +1,5 @@
 {
+  "generated_at": "2026-05-05T06:38:01.765Z",
   "workflows": [
     {
       "file": "aiso-self-scan.yml",
@@ -34,7 +35,7 @@
       "file": "check-nitter.yml",
       "name": "nitter-health-check",
       "crons": [
-        "0 4 * * *"
+        "58 3 * * *"
       ],
       "triggers": [
         "schedule",
@@ -66,7 +67,7 @@
       "file": "collect-funding.yml",
       "name": "Collect Funding Signals",
       "crons": [
-        "0 */6 * * *"
+        "24 */6 * * *"
       ],
       "triggers": [
         "schedule",
@@ -77,7 +78,7 @@
       "file": "collect-twitter.yml",
       "name": "Collect Twitter Signals",
       "crons": [
-        "0 */3 * * *"
+        "9 */3 * * *"
       ],
       "triggers": [
         "schedule",
@@ -119,7 +120,7 @@
       "file": "cron-digest-weekly.yml",
       "name": "Cron - weekly digest email",
       "crons": [
-        "0 14 * * 5"
+        "14 14 * * 5"
       ],
       "triggers": [
         "schedule",
@@ -208,7 +209,7 @@
       "file": "cron-pipeline-rebuild.yml",
       "name": "Cron - pipeline rebuild",
       "crons": [
-        "0 5 * * 0"
+        "2 5 * * 0"
       ],
       "triggers": [
         "schedule",
@@ -219,7 +220,7 @@
       "file": "cron-predictions.yml",
       "name": "Cron - predictions",
       "crons": [
-        "0 6 * * *"
+        "56 6 * * *"
       ],
       "triggers": [
         "schedule",
@@ -230,7 +231,7 @@
       "file": "cron-subdomain-takeover.yml",
       "name": "cron-subdomain-takeover",
       "crons": [
-        "0 3 * * 1"
+        "1 3 * * 1"
       ],
       "triggers": [
         "schedule",
@@ -241,8 +242,8 @@
       "file": "cron-twitter-outbound.yml",
       "name": "Cron — Twitter outbound",
       "crons": [
-        "0 14 * * *",
-        "0 16 * * 5"
+        "57 13 * * *",
+        "57 15 * * 5"
       ],
       "triggers": [
         "schedule",
@@ -284,7 +285,7 @@
       "file": "docs-freshness.yml",
       "name": "docs-freshness",
       "crons": [
-        "0 13 * * 1"
+        "29 13 * * 1"
       ],
       "triggers": [
         "pull_request",
@@ -304,7 +305,7 @@
       "file": "engine-inventory-refresh.yml",
       "name": "engine-inventory-refresh",
       "crons": [
-        "0 14 * * 1"
+        "49 14 * * 1"
       ],
       "triggers": [
         "pull_request",
@@ -518,7 +519,7 @@
       "file": "refresh-skill-install-snapshot.yml",
       "name": "Refresh skill install snapshot",
       "crons": [
-        "0 3 * * *"
+        "54 2 * * *"
       ],
       "triggers": [
         "schedule",
@@ -551,7 +552,7 @@
       "file": "refresh-skill-smithery.yml",
       "name": "Refresh skill smithery",
       "crons": [
-        "30 3 * * *"
+        "19 3 * * *"
       ],
       "triggers": [
         "schedule",
@@ -583,7 +584,7 @@
       "file": "run-shadow-scoring.yml",
       "name": "Run shadow scoring",
       "crons": [
-        "0 2 * * *"
+        "42 1 * * *"
       ],
       "triggers": [
         "schedule",
@@ -787,7 +788,7 @@
       "file": "snapshot-top10.yml",
       "name": "Snapshot /top10 daily",
       "crons": [
-        "55 23 * * *"
+        "26 23 * * *"
       ],
       "triggers": [
         "schedule",
@@ -828,7 +829,7 @@
       "file": "sre-cron-secret-rotation-guard.yml",
       "name": "SRE - CRON_SECRET Rotation Guard",
       "crons": [
-        "0 9 * * *"
+        "16 9 * * *"
       ],
       "triggers": [
         "schedule",
@@ -860,7 +861,7 @@
       "file": "sre-route-cost-attribution-verify.yml",
       "name": "SRE - Route Cost Attribution Verify",
       "crons": [
-        "17 */6 * * *"
+        "31 */6 * * *"
       ],
       "triggers": [
         "schedule",
@@ -933,7 +934,7 @@
       "file": "worklog-hygiene.yml",
       "name": "worklog-hygiene",
       "crons": [
-        "0 6 * * 1"
+        "59 5 * * 1"
       ],
       "triggers": [
         "schedule",
@@ -1012,16 +1013,20 @@
     "devto",
     "engagement-composite",
     "funding-news",
+    "github",
     "github-events",
     "glama",
     "hackernews",
     "hn-pulse",
     "hotness-snapshot",
+    "huggingface",
     "lobehub-skills",
     "lobsters",
     "manual-repos",
     "mcp-registry-official",
+    "mcp-servers-repo",
     "mcp-smithery-rank",
+    "mcp-so",
     "mcp-usage-snapshot",
     "npm-dependents",
     "npm-downloads",

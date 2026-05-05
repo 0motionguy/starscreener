@@ -1,11 +1,3 @@
----
-last-verified: 2026-05-05
-verified-by: claude
-status: snapshot
-audit-date: 2026-04-30
-reason: Phase E design audit one-shot against feat/repo-detail-v4-w5
----
-
 # Phase-E design audit (agent-commerce panels)
 
 Branch: feat/repo-detail-v4-w5

@@ -14,8 +14,8 @@ name: Cron — Twitter outbound
 
 on:
   schedule:
-    - cron: "0 14 * * *"
-    - cron: "0 16 * * 5"
+    - cron: "57 13 * * *"  # 13:57 UTC daily (staggered off 14:00 burst, was 14:00)
+    - cron: "57 15 * * 5"  # Fri 15:57 UTC (staggered off 16:00 burst, was 16:00)
   workflow_dispatch:
     inputs:
       kind:

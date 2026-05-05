@@ -1,12 +1,10 @@
 import type { Fetcher } from './lib/types.js';
 
-// Stub fetchers `github`, `huggingface`, `mcp-so`, and `mcp-servers-repo`
-// were deleted from src/fetchers/ on 2026-05-05 (NEXT-WAVE C2). The real
-// data for these sources lives elsewhere:
-//   - github / huggingface: scripts/scrape-{trending,huggingface*}.mjs
-//   - mcp-so / mcp-servers-repo: covered by glama / pulsemcp / smithery
-// Re-introduce as full fetchers (with imports here) only when a real
-// worker-side port lands.
+// `huggingface` worker fetcher is a stub; the real HF data comes from
+// scripts/scrape-huggingface{,-datasets,-spaces}.mjs (workflow-side).
+// Same treatment as the github / mcp-so / mcp-servers-repo stubs below —
+// import removed so we don't ship a tick-every-4h "not yet implemented"
+// warning to Sentry. Re-add once a real port lands.
 import bluesky from './fetchers/bluesky/index.js';
 import pulsemcp from './fetchers/pulsemcp/index.js';
 import smithery from './fetchers/smithery/index.js';
@@ -22,6 +20,11 @@ import producthunt from './fetchers/producthunt/index.js';
 import devto from './fetchers/devto/index.js';
 import reddit from './fetchers/reddit/index.js';
 import hnPulse from './fetchers/hn-pulse/index.js';
+// 4 stubs (`github`, `mcp-so`, `mcp-servers-repo`, `huggingface`)
+// intentionally NOT imported here — they were registered + ticking but
+// only emitted "not yet implemented" warnings, polluting Sentry every
+// cron tick. Files remain in src/fetchers/ as documentation of intent;
+// re-add to FETCHERS once a real port lands.
 // Phase B Group 1 (signals)
 import ossTrending from './fetchers/oss-trending/index.js';
 import recentRepos from './fetchers/recent-repos/index.js';

@@ -2,7 +2,7 @@ name: nitter-health-check
 
 on:
   schedule:
-    - cron: "0 4 * * *"
+    - cron: "58 3 * * *"  # daily 03:58 UTC (staggered off 04:00 burst, was 04:00)
   workflow_dispatch:
 
 jobs:

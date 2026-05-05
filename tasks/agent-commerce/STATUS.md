@@ -1,11 +1,3 @@
----
-last-verified: 2026-05-05
-verified-by: claude
-status: snapshot
-audit-date: 2026-04-30
-reason: agent-commerce sprint status as of 2026-04-30; not auto-refreshed
----
-
 # Agent Commerce — Status Snapshot
 
 - **Date:** 2026-04-30

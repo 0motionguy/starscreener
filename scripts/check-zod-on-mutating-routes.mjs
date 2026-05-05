@@ -64,14 +64,6 @@ const ALLOW_NO_PARSEBODY = new Map([
     "No-body cron trigger — scans derived repos + funding signals on auth alone.",
   ],
   [
-    "src/app/api/cron/github-pool-budget/route.ts",
-    "No-body cron trigger — collects GitHub pool budget sample on auth alone; no body fields consumed.",
-  ],
-  [
-    "src/app/api/cron/subdomain-takeover/route.ts",
-    "No-body cron trigger — runs subdomain takeover scan on auth alone; no body fields consumed.",
-  ],
-  [
     "src/app/api/repos/[owner]/[name]/aiso/route.ts",
     "POST takes no body — only URL slug params, per-IP rate limit, enqueues a rescan row from the auth-derived state.",
   ],

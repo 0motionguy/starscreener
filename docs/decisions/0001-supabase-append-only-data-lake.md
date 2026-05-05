@@ -1,10 +1,8 @@
 ---
-status: archive
-audit-date: 2026-05-05
-reason: deferred ADR superseded by 0004-redis-primary-worker-only-supabase.md; phases 1a/1b/1c never wired
+status: deferred
 last-verified: 2026-05-05
 verified-by: claude
-superseded-by: 0004-redis-primary-worker-only-supabase.md
+deferred-reason: phases 1a/1b/1c not wired in main app; worker schema covers current analytics needs
 ---
 
 # ADR 0001 — Supabase append-only data lake for cron payloads

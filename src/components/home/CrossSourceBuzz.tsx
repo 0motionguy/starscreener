@@ -11,6 +11,7 @@
 import Link from "next/link";
 
 import type { Repo } from "@/lib/types";
+import { BrandStar } from "@/components/shared/BrandStar";
 
 interface CrossSourceBuzzProps {
   repos: Repo[];
@@ -170,7 +171,11 @@ export function CrossSourceBuzz({
                       style={{ color: "var(--v2-ink-400)" }}
                     >
                       {(repo.starsDelta24h ?? 0) >= 0 ? "+" : ""}
-                      {repo.starsDelta24h ?? 0}★ 24H
+                      {repo.starsDelta24h ?? 0}
+                      <span className="mx-1 inline-flex align-middle">
+                        <BrandStar size={9} className="text-[var(--v2-ink-400)]" />
+                      </span>
+                      24H
                     </span>
                   </div>
 

@@ -1,0 +1,110 @@
+name: SRE Redis Restore Drill
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "20 3 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  restore-drill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Redis persistence + restore drill
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+        run: |
+          node <<'EOF'
+          const crypto = require('crypto');
+          const Redis = require('ioredis');
+
+          if (!process.env.REDIS_URL) {
+            console.error('REDIS_URL secret is missing');
+            process.exit(1);
+          }
+
+          (async () => {
+            const redis = new Redis(process.env.REDIS_URL);
+            try {
+              const info = await redis.info('persistence');
+              const lines = info.split('\n').map((line) => line.trim()).filter(Boolean);
+              const pick = (key) => (lines.find((line) => line.startsWith(`${key}:`)) || '').split(':')[1] || 'unknown';
+
+              const ts = new Date().toISOString().replace(/[:.]/g, '-');
+              const key = `sre:restore-drill:${ts}`;
+              const payload = JSON.stringify({
+                workflow: process.env.GITHUB_WORKFLOW || 'SRE Redis Restore Drill',
+                runId: process.env.GITHUB_RUN_ID || 'unknown',
+                ts,
+                nonce: crypto.randomBytes(8).toString('hex'),
+              });
+
+              await redis.set(key, payload, 'EX', 600);
+              const ttlBefore = await redis.ttl(key);
+              const dumpBuf = await redis.callBuffer('DUMP', key);
+              const shaBefore = crypto.createHash('sha256').update(payload).digest('hex');
+
+              await redis.del(key);
+              await redis.call('RESTORE', key, '600000', dumpBuf, 'REPLACE');
+
+              const restored = await redis.get(key);
+              const ttlAfter = await redis.ttl(key);
+              const shaAfter = crypto.createHash('sha256').update(restored || '').digest('hex');
+              const restoredMatch = restored === payload;
+
+              console.log(
+                JSON.stringify(
+                  {
+                    checkedAt: new Date().toISOString(),
+                    persistence: {
+                      loading: pick('loading'),
+                      async_loading: pick('async_loading'),
+                      aof_enabled: pick('aof_enabled'),
+                      rdb_last_bgsave_status: pick('rdb_last_bgsave_status'),
+                      rdb_changes_since_last_save: pick('rdb_changes_since_last_save'),
+                      rdb_last_save_time: pick('rdb_last_save_time'),
+                    },
+                    drill: {
+                      key,
+                      ttlBefore,
+                      ttlAfter,
+                      dumpBytes: dumpBuf ? dumpBuf.length : 0,
+                      shaBefore,
+                      shaAfter,
+                      restoredMatch,
+                    },
+                  },
+                  null,
+                  2
+                )
+              );
+
+              await redis.del(key);
+              await redis.quit();
+
+              if (!restoredMatch) {
+                process.exit(2);
+              }
+            } catch (err) {
+              console.error(err);
+              try {
+                await redis.quit();
+              } catch {}
+              process.exit(1);
+            }
+          })();
+          EOF

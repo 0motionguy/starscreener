@@ -5,12 +5,19 @@
 // 404s on bad slug shape or unknown id; never throws.
 
 import { notFound, redirect } from "next/navigation";
+import type { Metadata } from "next";
 
 import { isShortId } from "@/lib/compare/short-id";
 import { getDataStore } from "@/lib/data-store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = {
+  robots: { index: false, follow: false, noarchive: true },
+  // This helper URL should not emit a canonical target; the redirected
+  // destination (/compare?...state) is the only indexable surface.
+  alternates: {},
+};
 
 interface CompareSharePayload {
   shortId: string;

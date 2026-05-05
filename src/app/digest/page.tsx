@@ -72,6 +72,7 @@ export default async function DigestIndexPage() {
   // Most recent first — `listAvailableDigestDates` returns ISO date strings
   // that sort lexicographically.
   const sorted = [...dates].sort((a, b) => (a < b ? 1 : a > b ? -1 : 0));
+  const hasAnyDigest = sorted.length > 0;
   const onlyToday = sorted.length <= 1;
 
   return (
@@ -93,9 +94,49 @@ export default async function DigestIndexPage() {
         }
       />
 
-      {onlyToday ? (
+      {!hasAnyDigest ? (
         <section
           className="panel"
+          data-testid="digest-empty-state"
+          style={{
+            padding: "20px 24px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 16,
+          }}
+        >
+          <div>
+            <p style={{ color: "var(--v4-ink-100)", fontWeight: 600, marginBottom: 4 }}>
+              No digest data available yet.
+            </p>
+            <p style={{ color: "var(--v4-ink-300)", fontSize: 13 }}>
+              The archive will appear after the collector writes the first daily
+              snapshot. If this persists, the ingest pipeline may be stalled.
+            </p>
+          </div>
+          <Link
+            href="/"
+            style={{
+              alignSelf: "flex-start",
+              display: "inline-flex",
+              alignItems: "center",
+              padding: "8px 16px",
+              background: "var(--v4-acc)",
+              color: "var(--v4-ink-000)",
+              fontFamily: "var(--v4-mono)",
+              fontSize: 11,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              fontWeight: 600,
+            }}
+          >
+            Open live trending →
+          </Link>
+        </section>
+      ) : onlyToday ? (
+        <section
+          className="panel"
+          data-testid="digest-today-only-state"
           style={{
             padding: "20px 24px",
             display: "flex",

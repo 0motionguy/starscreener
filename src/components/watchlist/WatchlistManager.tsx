@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Eye, Star, Trash2, ArrowRight } from "lucide-react";
+import * as Sentry from "@sentry/nextjs";
 import { useWatchlistStore } from "@/lib/store";
+import { toastWatchRemoved } from "@/lib/toast";
 import { cn, formatNumber, getRelativeTime } from "@/lib/utils";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { DeltaBadge } from "@/components/shared/DeltaBadge";
@@ -28,6 +30,11 @@ function WatchedRepoCard({
   const starsGained = repo.stars - item.starsAtAdd;
   const delta7dPct =
     repo.stars > 0 ? (repo.starsDelta7d / repo.stars) * 100 : 0;
+
+  const handleRemove = () => {
+    removeRepo(item.repoId);
+    toastWatchRemoved(repo.fullName);
+  };
 
   return (
     <div
@@ -83,7 +90,7 @@ function WatchedRepoCard({
         {/* Right: remove button */}
         <button
           type="button"
-          onClick={() => removeRepo(item.repoId)}
+          onClick={handleRemove}
           className={cn(
             "shrink-0 p-2 rounded-[var(--radius-button)]",
             "text-text-tertiary hover:text-accent-red hover:bg-accent-red/10",
@@ -170,6 +177,9 @@ export function WatchlistManager() {
         setReposById(next);
       } catch (err) {
         if ((err as { name?: string }).name === "AbortError") return;
+        Sentry.captureException(err, {
+          tags: { surface: "watchlist-manager", action: "hydrate-repos" },
+        });
         console.error("[watchlist:manager] fetch failed", err);
       } finally {
         setLoading(false);

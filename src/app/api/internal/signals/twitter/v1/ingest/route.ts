@@ -14,6 +14,7 @@ import {
   ingestTwitterAgentFindings,
   isTwitterIngestError,
 } from "@/lib/twitter";
+import { redactSensitiveText } from "@/lib/log-redaction";
 
 export const runtime = "nodejs";
 
@@ -103,11 +104,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const message = error instanceof Error ? error.message : String(error);
+    const rawMessage = error instanceof Error ? error.message : String(error);
+    const message = redactSensitiveText(rawMessage);
+    console.error("[internal/twitter/ingest] unhandled error", { message });
     return apiErrorResponse(
       500,
       "INGEST_FAILED",
-      message,
+      "internal ingestion failed",
       true,
     );
   }

@@ -40,7 +40,7 @@ STARSCREENER ingests from ~15 external data sources, normalizes them through a s
 - **Pool**: ✓ [src/lib/github-token-pool.ts](../src/lib/github-token-pool.ts) — singleton, 24h quarantine on 401, smart selection (highest remaining first, round-robin on ties), `GitHubTokenPoolExhaustedError` on full exhaustion (no silent degradation).
 - **Per-PAT quota**: 5,000/hr authenticated. Reset is rolling (X-RateLimit-Reset header).
 - **Cron-script bypasses** (intentional, separate quota lane): 11 scripts under `scripts/` use `process.env.GITHUB_TOKEN` directly — they run in CI with their own PAT.
-- **Worker**: reads `process.env.GITHUB_TOKEN` (single) — does NOT use the runtime pool. **Flag**: if Railway's `GITHUB_TOKEN` is the same PAT that Vercel slot-0 uses, calls double-bill that PAT.
+- **Worker**: runtime loader prefers `GH_TOKEN_POOL`/`GITHUB_TOKEN_POOL` and only falls back to singleton `GITHUB_TOKEN` when pool vars are absent. **Policy**: Railway must use a dedicated worker PAT/pool (never share Vercel slot-0). Verification snapshot on 2026-05-04: Railway had no GitHub token vars configured (`GITHUB_TOKEN`, `GH_TOKEN_POOL`, `GITHUB_TOKEN_POOL` all missing), so no active shared-PAT billing path existed at that time.
 - **Observability today**: `/admin/pool` page (cookie-auth) shows the per-process snapshot; `/admin/pool-aggregate` reads Redis-published redacted token state for the fleet view. Pool exhaustion and low-quota states emit Sentry events, and singleton pools hydrate from Redis on first token pick after cold start. **Gaps**: no historical per-lambda timeline; aggregate is last-write-wins per token.
 
 ### 3b. Apify (Twitter, optional Reddit proxy)

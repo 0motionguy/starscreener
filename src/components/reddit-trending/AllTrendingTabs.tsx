@@ -1,5 +1,3 @@
-"use client";
-
 // Feed tabs + rows below the mindshare map.
 //
 // Tabs: TRENDING NOW (<24h, trending_score desc) /
@@ -10,9 +8,7 @@
 // and a "filter active" chip appears with a clear-X.
 
 import Link from "next/link";
-import { useCallback, useMemo } from "react";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { motion, useReducedMotion } from "framer-motion";
+import { useMemo } from "react";
 import { ChevronUp, Flame, MessageSquare, TrendingUp, Users } from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
 import { BaselinePill, type BaselinePillSize } from "@/components/reddit/BaselinePill";
@@ -47,6 +43,7 @@ const TAB_LABELS: Record<TrendingTab, string> = {
   "hot-30d": "Hot 30d",
   "by-subreddit": "By Subreddit",
 };
+const POSTS_PER_PAGE = 50;
 
 type TabIcon = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
 const TAB_ICONS: Record<TrendingTab, TabIcon> = {
@@ -59,6 +56,13 @@ const TAB_ICONS: Record<TrendingTab, TabIcon> = {
 function parseTab(raw: string | null): TrendingTab {
   if (raw && (TAB_IDS as string[]).includes(raw)) return raw as TrendingTab;
   return "trending-now";
+}
+
+function parsePage(raw: string | null): number {
+  if (!raw) return 1;
+  const parsed = Number.parseInt(raw, 10);
+  if (!Number.isFinite(parsed) || parsed < 1) return 1;
+  return parsed;
 }
 
 function formatPostAge(hours: number | undefined): string {
@@ -249,15 +253,40 @@ function sortHot7d(posts: RedditAllPost[]): RedditAllPost[] {
   });
 }
 
-export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
-  const reduceMotion = useReducedMotion();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
-  const activeTab = parseTab(searchParams.get("tab"));
-  const activeTopic = searchParams.get("topic") ?? "";
-  const activeChips = parseActiveChips(searchParams.get("tags"));
-  const showAll = searchParams.get("showAll") === "1";
+function pickFirst(value: string | string[] | undefined): string | undefined {
+  if (Array.isArray(value)) return value[0];
+  return value;
+}
+
+function buildParams(
+  searchParams?: Record<string, string | string[] | undefined>,
+): URLSearchParams {
+  const params = new URLSearchParams();
+  if (!searchParams) return params;
+  for (const [k, v] of Object.entries(searchParams)) {
+    const first = pickFirst(v);
+    if (typeof first === "string" && first.length > 0) {
+      params.set(k, first);
+    }
+  }
+  return params;
+}
+
+export function AllTrendingTabs({
+  posts,
+  searchParams,
+  pathname = "/reddit/trending",
+}: {
+  posts: RedditAllPost[];
+  searchParams?: Record<string, string | string[] | undefined>;
+  pathname?: string;
+}) {
+  const params = buildParams(searchParams);
+  const activeTab = parseTab(params.get("tab"));
+  const requestedPage = parsePage(params.get("page"));
+  const activeTopic = params.get("topic") ?? "";
+  const activeChips = parseActiveChips(params.get("tags"));
+  const showAll = params.get("showAll") === "1";
 
   const nowMs = Date.now();
 
@@ -313,47 +342,43 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
     );
     switch (activeTab) {
       case "trending-now":
-        return sortTrendingNow(filterByWindow(chipFiltered, 24, nowMs)).slice(0, 50);
+        return sortTrendingNow(filterByWindow(chipFiltered, 24, nowMs));
       case "hot-7d":
-        return sortHot7d(filterByWindow(chipFiltered, 168, nowMs)).slice(0, 50);
+        return sortHot7d(filterByWindow(chipFiltered, 168, nowMs));
       case "hot-30d":
-        return sortHot7d(filterByWindow(chipFiltered, 30 * 24, nowMs)).slice(0, 50);
+        return sortHot7d(filterByWindow(chipFiltered, 30 * 24, nowMs));
       case "by-subreddit":
         return filterByWindow(chipFiltered, 168, nowMs);
     }
   }, [activeTab, topicFiltered, activeChips, effectiveShowAll, nowMs]);
+  const totalItems = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / POSTS_PER_PAGE));
+  const activePage = Math.min(requestedPage, totalPages);
+  const pageStart = (activePage - 1) * POSTS_PER_PAGE;
+  const pagedPosts = filtered.slice(pageStart, pageStart + POSTS_PER_PAGE);
 
-  function clearTopic() {
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("topic");
-    const qs = params.toString();
-    router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
-  }
+  const clearTopicHref = (() => {
+    const next = new URLSearchParams(params.toString());
+    next.delete("topic");
+    const qs = next.toString();
+    return qs ? `${pathname}?${qs}` : pathname;
+  })();
 
   // Click-to-filter on subreddit chip — pushes ?sub={name} the same way
   // the bubble map does. Feed consumption of ?sub is wired in commit 3.
-  const pushSubFilter = useCallback(
-    (sub: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set("sub", sub);
-      router.push(`${pathname}?${params.toString()}`, { scroll: false });
-    },
-    [pathname, router, searchParams],
-  );
-
   // p90 of trending_score across the currently-visible feed. Used to gate
   // the VelocityIndicator so chevrons only flag the top decile of activity.
   const velocityP90 = useMemo(
-    () => computeTrendingP90(filtered),
-    [filtered],
+    () => computeTrendingP90(pagedPosts),
+    [pagedPosts],
   );
 
   // p50/p90 of *velocity* (upvotes/hour) — drives the right-stats velocity
   // bar fill ratio + color (green if above p50). Distinct from
   // `velocityP90` above which is a trending-score percentile.
   const velocityStats = useMemo(
-    () => computeVelocityStats(filtered),
-    [filtered],
+    () => computeVelocityStats(pagedPosts),
+    [pagedPosts],
   );
 
   // Per-tab counts (post-topic, post-chip, post-showAll, post-window). Drives
@@ -386,8 +411,8 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
       >
         {TAB_IDS.map((tab) => {
           const active = tab === activeTab;
-          const params = new URLSearchParams(searchParams.toString());
-          params.set("tab", tab);
+          const nextParams = new URLSearchParams(params.toString());
+          nextParams.set("tab", tab);
           const Icon = TAB_ICONS[tab];
           const count = tabCounts[tab];
           return (
@@ -395,7 +420,7 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
               key={tab}
               role="tab"
               aria-selected={active}
-              href={`${pathname}?${params.toString()}`}
+              href={`${pathname}?${nextParams.toString()}`}
               scroll={false}
               className={cn(
                 "group relative h-10 px-4 inline-flex items-center gap-2 shrink-0",
@@ -434,30 +459,24 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
               ) : null}
               {/* Animated active indicator — shared layoutId slides between tabs */}
               {active ? (
-                <motion.span
-                  layoutId="trendingTabIndicator"
+                <span
                   aria-hidden="true"
                   className="pointer-events-none absolute bottom-0 left-0 right-0 h-[2px] bg-brand"
-                  transition={
-                    reduceMotion
-                      ? { duration: 0 }
-                      : { type: "spring", stiffness: 380, damping: 30 }
-                  }
                 />
               ) : null}
             </Link>
           );
         })}
         {activeTopic ? (
-          <button
-            type="button"
-            onClick={clearTopic}
+          <Link
+            href={clearTopicHref}
+            scroll={false}
             className="ml-auto mb-1 shrink-0 inline-flex items-center gap-1.5 px-2 h-7 rounded text-[11px] font-mono bg-brand/10 text-brand border border-brand/40 hover:bg-brand/20"
             aria-label={`Clear topic filter "${activeTopic}"`}
           >
             topic: {activeTopic}
             <span className="text-sm leading-none">×</span>
-          </button>
+          </Link>
         ) : null}
       </div>
 
@@ -468,28 +487,108 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
           totalPosts={topicFiltered.length}
           tabCounts={tabCounts}
           pathname={pathname}
-          searchParams={searchParams}
+          searchParams={params}
         />
       ) : activeTab === "by-subreddit" ? (
         <SubredditGroupView
-          posts={filtered}
+          posts={pagedPosts}
           velocityP90={velocityP90}
           velocityStats={velocityStats}
         />
       ) : (
         <ul className="space-y-2">
-          {filtered.map((p) => (
+          {pagedPosts.map((p) => (
             <PostRow
               key={p.id}
               post={p}
               velocityP90={velocityP90}
               velocityStats={velocityStats}
-              onSubClick={pushSubFilter}
+              pathname={pathname}
+              searchParams={params}
             />
           ))}
         </ul>
       )}
+
+      {totalItems > POSTS_PER_PAGE ? (
+        <PaginationNav
+          pathname={pathname}
+          searchParams={params}
+          page={activePage}
+          totalPages={totalPages}
+          totalItems={totalItems}
+        />
+      ) : null}
     </section>
+  );
+}
+
+function PaginationNav({
+  pathname,
+  searchParams,
+  page,
+  totalPages,
+  totalItems,
+}: {
+  pathname: string;
+  searchParams: URLSearchParams;
+  page: number;
+  totalPages: number;
+  totalItems: number;
+}) {
+  const makeHref = (nextPage: number): string => {
+    const next = new URLSearchParams(searchParams.toString());
+    if (nextPage <= 1) {
+      next.delete("page");
+    } else {
+      next.set("page", String(nextPage));
+    }
+    const qs = next.toString();
+    return qs ? `${pathname}?${qs}` : pathname;
+  };
+  const start = (page - 1) * POSTS_PER_PAGE + 1;
+  const end = Math.min(page * POSTS_PER_PAGE, totalItems);
+  return (
+    <nav
+      aria-label="Reddit trending pagination"
+      className="mt-4 flex items-center justify-between gap-3 border border-border-primary rounded-md px-3 py-2 bg-bg-secondary/40"
+    >
+      <span className="text-xs font-mono text-text-tertiary">
+        {start.toLocaleString("en-US")}–{end.toLocaleString("en-US")} of{" "}
+        {totalItems.toLocaleString("en-US")}
+      </span>
+      <div className="flex items-center gap-2">
+        {page > 1 ? (
+          <Link
+            href={makeHref(page - 1)}
+            scroll={false}
+            className="inline-flex h-8 items-center rounded border border-border-primary px-3 text-xs font-mono text-text-secondary hover:border-brand/50 hover:text-brand"
+          >
+            Prev
+          </Link>
+        ) : (
+          <span className="inline-flex h-8 items-center rounded border border-border-primary/50 px-3 text-xs font-mono text-text-muted">
+            Prev
+          </span>
+        )}
+        <span className="text-xs font-mono text-text-tertiary">
+          {page} / {totalPages}
+        </span>
+        {page < totalPages ? (
+          <Link
+            href={makeHref(page + 1)}
+            scroll={false}
+            className="inline-flex h-8 items-center rounded border border-border-primary px-3 text-xs font-mono text-text-secondary hover:border-brand/50 hover:text-brand"
+          >
+            Next
+          </Link>
+        ) : (
+          <span className="inline-flex h-8 items-center rounded border border-border-primary/50 px-3 text-xs font-mono text-text-muted">
+            Next
+          </span>
+        )}
+      </div>
+    </nav>
   );
 }
 
@@ -518,7 +617,7 @@ function EmptyWindow({
   totalPosts: number;
   tabCounts: Record<TrendingTab, number>;
   pathname: string;
-  searchParams: ReturnType<typeof useSearchParams>;
+  searchParams: URLSearchParams;
 }) {
   // Suggest the first non-active tab that has matches.
   const suggestion = TAB_IDS.find(
@@ -565,11 +664,11 @@ interface PostRowProps {
   post: RedditAllPost;
   velocityP90: number;
   velocityStats: VelocityStats;
-  onSubClick: (sub: string) => void;
+  pathname: string;
+  searchParams: URLSearchParams;
 }
 
-function PostRow({ post: p, velocityP90, velocityStats, onSubClick }: PostRowProps) {
-  const reduceMotion = useReducedMotion();
+function PostRow({ post: p, velocityP90, velocityStats, pathname, searchParams }: PostRowProps) {
   const primaryRepo =
     p.linkedRepos && p.linkedRepos.length > 0
       ? p.linkedRepos[0].fullName
@@ -591,12 +690,14 @@ function PostRow({ post: p, velocityP90, velocityStats, onSubClick }: PostRowPro
   const subColor = subredditColorHash(p.subreddit);
   const showVelocity = (p.trendingScore ?? 0) >= velocityP90;
 
+  const subHref = (() => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("sub", p.subreddit);
+    return `${pathname}?${params.toString()}`;
+  })();
+
   return (
-    <motion.li
-      whileHover={reduceMotion ? undefined : { y: -2, scale: 1.005 }}
-      transition={
-        reduceMotion ? { duration: 0 } : { duration: 0.15, ease: "easeOut" }
-      }
+    <li
       className={cn(
         // PREMIUM CARD — Linear changelog × Vercel feed × TweetDeck dense
         // Big breathing room, rounded-xl, hover-lift via framer + shadow.
@@ -610,15 +711,15 @@ function PostRow({ post: p, velocityP90, velocityStats, onSubClick }: PostRowPro
       {/* ── Top meta row: avatar · sub · user · age · velocity ──── pill (right) ── */}
       <div className="flex items-center gap-2 flex-wrap">
         <LetterAvatar seed={p.subreddit} size={28} />
-        <button
-          type="button"
-          onClick={() => onSubClick(p.subreddit)}
+        <Link
+          href={subHref}
+          scroll={false}
           className="text-sm font-mono font-semibold hover:underline truncate max-w-[200px]"
           style={{ color: subColor }}
           title={`Filter feed to r/${p.subreddit}`}
         >
           r/{p.subreddit}
-        </button>
+        </Link>
         <a
           href={`https://reddit.com/r/${p.subreddit}`}
           target="_blank"
@@ -733,7 +834,7 @@ function PostRow({ post: p, velocityP90, velocityStats, onSubClick }: PostRowPro
           )}
         </div>
       </div>
-    </motion.li>
+    </li>
   );
 }
 
@@ -818,7 +919,6 @@ function PostRowCompact({
   velocityP90: number;
   velocityStats: VelocityStats;
 }) {
-  const reduceMotion = useReducedMotion();
   const tier = getPostTier(p.baselineRatio);
   const tc = tierClassesCompact(tier);
   const showVelocity = (p.trendingScore ?? 0) >= velocityP90;
@@ -828,11 +928,7 @@ function PostRowCompact({
     velocityNum > 0 && (p.velocity ?? 0) > velocityStats.p50 && velocityStats.p50 > 0;
 
   return (
-    <motion.li
-      whileHover={reduceMotion ? undefined : { y: -1, scale: 1.003 }}
-      transition={
-        reduceMotion ? { duration: 0 } : { duration: 0.12, ease: "easeOut" }
-      }
+    <li
       className={cn(
         // Same card aesthetic as PostRow but tighter (p-3 vs p-5).
         "group relative block border border-border-primary rounded-xl bg-bg-card shadow-card p-3",
@@ -913,6 +1009,6 @@ function PostRowCompact({
           ) : null}
         </span>
       </div>
-    </motion.li>
+    </li>
   );
 }

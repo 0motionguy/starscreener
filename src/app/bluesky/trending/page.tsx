@@ -26,6 +26,8 @@ import { repoLogoUrl, userLogoUrl } from "@/lib/logos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { TrendingMentionsSection } from "@/components/news/TrendingMentionsSection";
+import { absoluteUrl } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
@@ -33,17 +35,19 @@ export const metadata: Metadata = {
   title: "Trending on Bluesky",
   description:
     "Top Bluesky posts about AI, dev tools, and open source — scored by likes, reposts, and replies. Posts linking to tracked GitHub repos surface inline.",
-  alternates: { canonical: "/bluesky/trending" },
+  alternates: { canonical: absoluteUrl("/bluesky/trending") },
   openGraph: {
     title: "Trending on Bluesky — TrendingRepo",
     description: "Top Bluesky tech posts, scored by engagement and tracked-repo overlap.",
-    url: "/bluesky/trending",
+    url: absoluteUrl("/bluesky/trending"),
     type: "website",
+    images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Trending on Bluesky — TrendingRepo",
     description: "Top Bluesky tech posts, scored by engagement and tracked-repo overlap.",
+    images: [absoluteUrl("/og-card.png")],
   },
 };
 
@@ -151,7 +155,12 @@ export default async function BlueskyTrendingPage() {
           />
         }
         listEyebrow="Post feed · 24h / 7d / 30d window"
-        list={<WindowedBskyFeed allPosts={allPosts} />}
+        list={
+          <div className="space-y-4">
+            <TrendingMentionsSection source="bluesky" accent={BSKY_BLUE} />
+            <WindowedBskyFeed allPosts={allPosts} />
+          </div>
+        }
       />
     </main>
   );

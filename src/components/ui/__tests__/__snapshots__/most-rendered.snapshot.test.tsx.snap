@@ -1,0 +1,219 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`snapshot gate: six most-rendered components > Card stable markup 1`] = `
+<div
+  class="ds-card ds-card-panel is-active"
+>
+  <div
+    class="ds-card-head"
+  >
+    <span
+      aria-hidden="true"
+      class="corner"
+    >
+      <i />
+      <i />
+      <i />
+    </span>
+    <span
+      class="key"
+    >
+      REPOS
+    </span>
+    <span
+      class="right"
+    >
+      LIVE
+    </span>
+  </div>
+  <div
+    class="ds-card-body"
+  >
+    Panel content
+  </div>
+</div>
+`;
+
+exports[`snapshot gate: six most-rendered components > KpiBand stable markup 1`] = `
+<div
+  aria-label="KPIs"
+  class="v4-kpi-band"
+  role="group"
+>
+  <div
+    class="v4-kpi-cell"
+  >
+    <div
+      class="v4-kpi-cell__label"
+    >
+      Signal volume � 24h
+    </div>
+    <div
+      class="v4-kpi-cell__row"
+    >
+      <span
+        class="v4-kpi-cell__value"
+      >
+        42,184
+      </span>
+      <span
+        class="v4-kpi-cell__delta"
+      >
+        +18.2%
+      </span>
+    </div>
+  </div>
+  <div
+    class="v4-kpi-cell"
+  >
+    <div
+      class="v4-kpi-cell__label"
+    >
+      Sources � live
+    </div>
+    <div
+      class="v4-kpi-cell__row"
+    >
+      <span
+        class="v4-kpi-cell__value"
+      >
+        8 / 8
+      </span>
+    </div>
+    <div
+      class="v4-kpi-cell__sub"
+    >
+      <span
+        aria-live="polite"
+        class="v4-live-dot v4-live-dot--money"
+        role="status"
+      >
+        <i
+          aria-hidden="true"
+          class="v4-live-dot__pip"
+        />
+        <span
+          class="v4-live-dot__label"
+        >
+          all healthy
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`snapshot gate: six most-rendered components > LiveDot stable markup 1`] = `
+<span
+  aria-live="polite"
+  class="v4-live-dot v4-live-dot--money"
+  role="status"
+>
+  <i
+    aria-hidden="true"
+    class="v4-live-dot__pip"
+  />
+  <span
+    class="v4-live-dot__label"
+  >
+    LIVE
+  </span>
+</span>
+`;
+
+exports[`snapshot gate: six most-rendered components > PageHead stable markup 1`] = `
+<header
+  class="v4-page-head"
+>
+  <div
+    class="v4-page-head__main"
+  >
+    <div
+      class="v4-page-head__crumb"
+    >
+      <b>
+        SIGNAL
+      </b>
+       � TERMINAL � /SIGNALS
+    </div>
+    <h1
+      class="v4-page-head__h1"
+    >
+      The newsroom for AI and dev tooling.
+    </h1>
+    <p
+      class="v4-page-head__lede"
+    >
+      Eight sources. One editorial layer.
+    </p>
+  </div>
+  <div
+    class="v4-page-head__clock"
+  >
+    <span>
+      14:00:00 UTC
+    </span>
+  </div>
+</header>
+`;
+
+exports[`snapshot gate: six most-rendered components > SectionHead stable markup 1`] = `
+<div
+  class="v4-section-head"
+>
+  <span
+    class="v4-section-head__num"
+  >
+    // 01
+  </span>
+  <h2
+    class="v4-section-head__title"
+  >
+    Trending now
+  </h2>
+  <span
+    class="v4-section-head__meta"
+  >
+    14 sources
+  </span>
+</div>
+`;
+
+exports[`snapshot gate: six most-rendered components > VerdictRibbon stable markup 1`] = `
+<div
+  aria-label="verdict"
+  class="v4-verdict-ribbon v4-verdict-ribbon--acc"
+  role="region"
+>
+  <div
+    class="v4-verdict-ribbon__stamp"
+  >
+    <span
+      class="v4-verdict-ribbon__eyebrow"
+    >
+      // STAMP
+    </span>
+    <span
+      class="v4-verdict-ribbon__headline"
+    >
+      28 APR � 06:29 UTC
+    </span>
+    <span
+      class="v4-verdict-ribbon__sub"
+    >
+      computed 4m ago
+    </span>
+  </div>
+  <div
+    class="v4-verdict-ribbon__text"
+  >
+    14 strong consensus picks today.
+  </div>
+  <a
+    class="v4-verdict-ribbon__action"
+    href="/methodology"
+  >
+    DOCS
+  </a>
+</div>
+`;

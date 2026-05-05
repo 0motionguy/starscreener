@@ -580,7 +580,7 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
       kind: "github-push",
       href: `/agent-commerce/${item.slug}`,
       label: item.name,
-      text: `★${item.live.stars.toLocaleString("en-US")}`,
+      text: `${item.live.stars.toLocaleString("en-US")} stars`,
       value: days === 0 ? "today" : `${days}d ago`,
     });
   }
@@ -653,6 +653,14 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
           <p>
             Run <code>npm run build:agent-commerce</code> to populate{" "}
             <code>data/agent-commerce.json</code>.
+          </p>
+        </div>
+      ) : stats.totalItems === 0 ? (
+        <div className="ac-empty" data-testid="agent-commerce-empty-state">
+          <h2>No agent-commerce entities yet.</h2>
+          <p>
+            Data loaded successfully but returned zero entities. Re-run{" "}
+            <code>npm run build:agent-commerce</code> and refresh this page.
           </p>
         </div>
       ) : (
@@ -844,7 +852,7 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
                             fontWeight: 700,
                           }}
                         >
-                          ★{item.live.stars.toLocaleString("en-US")}
+                          {item.live.stars.toLocaleString("en-US")} stars
                         </span>
                       ) : null}
                       {item.live?.pushedAt ? (

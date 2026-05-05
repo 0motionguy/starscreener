@@ -127,7 +127,7 @@ class FakeRedis implements UpstashRedisLike {
 }
 
 function mkRequest(ip: string): Request {
-  return new Request("https://example.test/route", {
+  return new Request("http://localhost/route", {
     headers: { "x-forwarded-for": ip },
   });
 }

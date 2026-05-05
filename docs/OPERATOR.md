@@ -1,29 +1,29 @@
-# OPERATOR — TrendingRepo full-stack situational awareness
+﻿# OPERATOR â€” TrendingRepo full-stack situational awareness
 
 **Audience:** Mirko + Claude Code sessions. NOT public. The `docs/` directory is not routed in Next.js so this file is not accessible by URL.
 
 **Purpose:** every Claude Code session can read this file and instantly know the current state of the engine, what is shipping, and what is broken. Refreshed by `/loop` autonomous runs and by hand. **Source of truth for the audit-2026-05-04 follow-up.**
 
-Last refreshed: 2026-05-03 ~05:30 UTC (post-rescue — engine recovered, PR #93 awaits merge)
+Last refreshed: 2026-05-03 ~05:30 UTC (post-rescue â€” engine recovered, PR #93 awaits merge)
 
 **Engine state:** all 11 sources fresh (1-2h old), 0 red workflows in last 30 runs, status=ok.
 **User-visible breakage on PROD:** still present (empty avatars, dead pages) until PR #93 merges.
-**Autonomous loop ended** — nothing more to ship without risking regressions. Waking every hour to verify PR still unmerged is wasted churn.
+**Autonomous loop ended** â€” nothing more to ship without risking regressions. Waking every hour to verify PR still unmerged is wasted churn.
 
-## 🚨 P0 RESCUE THIS SESSION — 10 FIXES, 46 commits on PR #93
+## ðŸš¨ P0 RESCUE THIS SESSION â€” 10 FIXES, 46 commits on PR #93
 
 User reported live product broken: empty avatars, dead skills/mcp/devto, reddit 0 24h, twitter 10-day stale, npm no installs, charts shitty.
 
 Root causes shipped:
-- **Twitter (10-day data loss)** `eafd2433`: collector never hydrated memory store before ingest → each run truncated `.data/twitter-*.jsonl` to ~15 lines. Now calls `ensureTwitterReady()` first.
-- **Home avatars** `adf58879`: SSR-render real GitHub `<img>` tags (was empty `.av` boxes — `EntityLogo` is client-only and never reached SSR HTML)
+- **Twitter (10-day data loss)** `eafd2433`: collector never hydrated memory store before ingest â†’ each run truncated `.data/twitter-*.jsonl` to ~15 lines. Now calls `ensureTwitterReady()` first.
+- **Home avatars** `adf58879`: SSR-render real GitHub `<img>` tags (was empty `.av` boxes â€” `EntityLogo` is client-only and never reached SSR HTML)
 - **Live/top-50 table** `7a0a9f87`: avatars + sparklines + channels-firing pills + momentum bars
 - **TR-100 sparkline** `1f3b51fd`: rebuilt as Recharts AreaChart with gradient
 - **Reddit /reddit/trending** `31b561f9`: chip-filter auto-degrade + chronological fallback when score=0 + SSR snapshot fallback. Root cause is upstream Reddit RSS-fallback returning score=0 on all posts (auth ops issue).
 - **MCP /mcp** `e64b514b`: warming-up placeholder when leaderboard empty
 - **Skills /skills** `607d1949`: warming-up banner when install-velocity layer is cold
 - **dev.to /devto** `1f3b51fd`: empty-window hint pointing to populated tab
-- **NPM /npm** `e64b514b`: column relabel "DL"→"INSTALLS"
+- **NPM /npm** `e64b514b`: column relabel "DL"â†’"INSTALLS"
 - **Worker MCP fetcher** `a0fe44d3`: surface zero-items + per-item upsert errors
 
 **STILL BLOCKED on human merge.** PR #93 (46 commits, all CI green) + PR #92 both open and mergeable. Production stays broken until merged.
@@ -34,56 +34,56 @@ Root causes shipped:
 
 You walked into a project whose 2026-05-04 audit found 6 classes of breakage. **Most are now fixed in PR [#93](https://github.com/0motionguy/starscreener/pull/93) (32 commits on `claude/modest-pasteur-59599d`).** As of 02:10 UTC 2026-05-03:
 
-🟢 **PR #93 CI is GREEN** (typecheck + tests + e2e + Vercel preview all pass)
-🔴 **Production health degraded:** `/api/health` returns `status:stale` because consensus-trending Redis key is 69h+ stale (snapshot-consensus failing nightly as result)
-🎯 **Single-action fix: merge PR #93.** That ships the consensus-trending allSettled hardening to Railway worker, and the .data/twitter-*.jsonl + dev.to author CORB fixes to Vercel. Everything downstream resolves.
+ðŸŸ¢ **PR #93 CI is GREEN** (typecheck + tests + e2e + Vercel preview all pass)
+ðŸ”´ **Production health degraded:** `/api/health` returns `status:stale` because consensus-trending Redis key is 69h+ stale (snapshot-consensus failing nightly as result)
+ðŸŽ¯ **Single-action fix: merge PR #93.** That ships the consensus-trending allSettled hardening to Railway worker, and the .data/twitter-*.jsonl + dev.to author CORB fixes to Vercel. Everything downstream resolves.
 
-If the user says "go" or "continue", consider checking PR #93 status first — if the user has merged it, snapshot/consensus failures will resolve in the next worker tick. Otherwise read § "Open follow-ups" below and pick the highest-leverage item.
+If the user says "go" or "continue", consider checking PR #93 status first â€” if the user has merged it, snapshot/consensus failures will resolve in the next worker tick. Otherwise read Â§ "Open follow-ups" below and pick the highest-leverage item.
 
 ---
 
 ## Engine geography
 
 ```
-                      ┌──────────────────────────────────────────────┐
-                      │  GitHub Actions (62 workflows)                │
-                      │   - 22 data-pushing scrapers (cron'd)         │
-                      │   - 5 snapshot/archival jobs (daily)          │
-                      │   - 8 cron-* app/API health probes            │
-                      │   - 7 enrichment / refresh / promote          │
-                      │   - 20 misc (CI, monitor, weekly)             │
-                      └────────────────┬─────────────────────────────┘
-                                       │ writes
-                                       ▼
-                ┌────────────────────────────────────────────────┐
-                │  Redis (Railway TCP via REDIS_URL)              │
-                │   ss:data:v1:<key>  payload                     │
-                │   ss:meta:v1:<key>  { writtenAt, writer,        │
-                │                       runId, commit }           │
-                └─────────┬──────────────────────────┬───────────┘
-              reads via   │                          │  writes via
-              data-store  │                          │  workers
-                          ▼                          ▼
-       ┌──────────────────────────┐    ┌────────────────────────────┐
-       │  Vercel Next.js (app)     │    │  Railway worker             │
-       │   - SSR/ISR pages         │    │   - 42 fetchers cron-fired   │
-       │   - /api/health probes    │    │   - In-process croner cron   │
-       │   - portal MCP server     │    │   - /healthz endpoint        │
-       └──────────────────────────┘    └────────────────────────────┘
-                                       │ writes (some)
-                                       ▼
-                              ┌──────────────────────┐
-                              │  Supabase Postgres    │
-                              │   trending_items      │
-                              │   trending_metrics    │
-                              │   trending_assets     │
-                              │   (only requiresDb)   │
-                              └──────────────────────┘
+                      â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                      â”‚  GitHub Actions (62 workflows)                â”‚
+                      â”‚   - 22 data-pushing scrapers (cron'd)         â”‚
+                      â”‚   - 5 snapshot/archival jobs (daily)          â”‚
+                      â”‚   - 8 cron-* app/API health probes            â”‚
+                      â”‚   - 7 enrichment / refresh / promote          â”‚
+                      â”‚   - 20 misc (CI, monitor, weekly)             â”‚
+                      â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                                       â”‚ writes
+                                       â–¼
+                â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                â”‚  Redis (Railway TCP via REDIS_URL)              â”‚
+                â”‚   ss:data:v1:<key>  payload                     â”‚
+                â”‚   ss:meta:v1:<key>  { writtenAt, writer,        â”‚
+                â”‚                       runId, commit }           â”‚
+                â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+              reads via   â”‚                          â”‚  writes via
+              data-store  â”‚                          â”‚  workers
+                          â–¼                          â–¼
+       â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+       â”‚  Vercel Next.js (app)     â”‚    â”‚  Railway worker             â”‚
+       â”‚   - SSR/ISR pages         â”‚    â”‚   - 42 fetchers cron-fired   â”‚
+       â”‚   - /api/health probes    â”‚    â”‚   - In-process croner cron   â”‚
+       â”‚   - portal MCP server     â”‚    â”‚   - /healthz endpoint        â”‚
+       â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                                       â”‚ writes (some)
+                                       â–¼
+                              â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                              â”‚  Supabase Postgres    â”‚
+                              â”‚   trending_items      â”‚
+                              â”‚   trending_metrics    â”‚
+                              â”‚   trending_assets     â”‚
+                              â”‚   (only requiresDb)   â”‚
+                              â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
 
-## Workflow rotation (UTC) — minute-level visibility
+## Workflow rotation (UTC) â€” minute-level visibility
 
 ### Every 5 minutes
 | Time | Workflow | Purpose |
@@ -155,7 +155,7 @@ If the user says "go" or "continue", consider checking PR #93 status first — i
 | 03:11 | refresh-mcp-smithery-rank | mcp-smithery-rank |
 | 03:12 | refresh-skill-claude | trending-skill-claude |
 | 03:13 | refresh-skill-forks-snapshot | skill-forks-snapshot |
-| 03:17 | aiso-self-scan | PostHog dogfood |
+| 03:17 (day 1) | aiso-self-scan | PostHog dogfood |
 | 03:17 | refresh-star-activity | star-activity per repo |
 | 03:25 | refresh-hotness-snapshot | hotness-snapshot per domain |
 | 03:30 | refresh-mcp-usage-snapshot | mcp-usage-snapshot |
@@ -188,6 +188,7 @@ If the user says "go" or "continue", consider checking PR #93 status first — i
 | Cron | Workflow |
 |---|---|
 | `0 3 1 * *` | cron-mcp-usage-rotate |
+| `17 3 1 * *` | aiso-self-scan |
 
 ### Sunday-only
 | Cron | Workflow |
@@ -195,77 +196,77 @@ If the user says "go" or "continue", consider checking PR #93 status first — i
 | `0 5 * * 0` | cron-pipeline-rebuild |
 
 ### Manual / on-demand only (workflow_dispatch)
-- `backfill-meta` — operator one-off for orphan ss:meta keys
-- `probe-reddit` — diagnostic
-- `sentry-fix-bot` — auto-fix bot
-- `trendingrepo-worker` — manual worker dispatch
-- `ci` — runs on push
+- `backfill-meta` â€” operator one-off for orphan ss:meta keys
+- `probe-reddit` â€” diagnostic
+- `sentry-fix-bot` â€” auto-fix bot
+- `trendingrepo-worker` â€” manual worker dispatch
+- `ci` â€” runs on push
 
 ---
 
 ## Data-store keys per source (ss:data:v1:<key>)
 
 ### Repo / discovery
-- `trending` — main bucket, hourly @ :27
-- `deltas` — 24h/7d/30d compute, hourly with trending
-- `hot-collections` — OSSInsight collections, hourly
-- `recent-repos` — github discovery, hourly
-- `repo-metadata` — GH GraphQL hydrate, hourly
-- `repo-profiles` — top 50 hourly + AISO scan queue
-- `collection-rankings` — OSSInsight rankings, every 6h
+- `trending` â€” main bucket, hourly @ :27
+- `deltas` â€” 24h/7d/30d compute, hourly with trending
+- `hot-collections` â€” OSSInsight collections, hourly
+- `recent-repos` â€” github discovery, hourly
+- `repo-metadata` â€” GH GraphQL hydrate, hourly
+- `repo-profiles` â€” top 50 hourly + AISO scan queue
+- `collection-rankings` â€” OSSInsight rankings, every 6h
 
 ### Mentions (per source)
-- `hackernews-repo-mentions` — rolling 7d
-- `reddit-mentions` — 45 subreddits scan
-- `bluesky-mentions` — AT Protocol scan
-- `devto-mentions` — dev.to API
-- `lobsters-mentions` — lobste.rs HN-format
-- `.data/twitter-repo-signals.jsonl` — Apify (file-based, NOT in Redis)
+- `hackernews-repo-mentions` â€” rolling 7d
+- `reddit-mentions` â€” 45 subreddits scan
+- `bluesky-mentions` â€” AT Protocol scan
+- `devto-mentions` â€” dev.to API
+- `lobsters-mentions` â€” lobste.rs HN-format
+- `.data/twitter-repo-signals.jsonl` â€” Apify (file-based, NOT in Redis)
 
 ### Aggregations (cross-source)
-- `engagement-composite` — feeds consensus, runs hourly @ :45
-- `consensus-trending` — 8-source agreement, hourly @ :50
-- `consensus-verdicts` — Kimi K2.6 LLM verdicts, hourly @ :00
+- `engagement-composite` â€” feeds consensus, runs hourly @ :45
+- `consensus-trending` â€” 8-source agreement, hourly @ :50
+- `consensus-verdicts` â€” Kimi K2.6 LLM verdicts, hourly @ :00
 
 ### MCP / Skills
-- `trending-mcp` — MCP server roster
-- `mcp-liveness` — uptime ping rolling 7d
-- `mcp-downloads` — npm package downloads
-- `mcp-downloads-pypi` — pypi downloads
-- `mcp-dependents` — npm reverse dependencies
-- `mcp-smithery-rank` — Smithery directory rank
-- `trending-skill` — claude/community SKILL.md
-- `trending-skill-sh` — skills.sh roster
-- `trending-skill-skillsmp` — skillsmp 1M+ catalog
-- `trending-skill-lobehub` — Lobehub plugins
-- `trending-skill-smithery` — Smithery skill subset
-- `skill-install-snapshot` — daily install ring buffer
-- `skill-forks-snapshot` — daily forks ring buffer
-- `skill-derivatives` — code-search derivative count
+- `trending-mcp` â€” MCP server roster
+- `mcp-liveness` â€” uptime ping rolling 7d
+- `mcp-downloads` â€” npm package downloads
+- `mcp-downloads-pypi` â€” pypi downloads
+- `mcp-dependents` â€” npm reverse dependencies
+- `mcp-smithery-rank` â€” Smithery directory rank
+- `trending-skill` â€” claude/community SKILL.md
+- `trending-skill-sh` â€” skills.sh roster
+- `trending-skill-skillsmp` â€” skillsmp 1M+ catalog
+- `trending-skill-lobehub` â€” Lobehub plugins
+- `trending-skill-smithery` â€” Smithery skill subset
+- `skill-install-snapshot` â€” daily install ring buffer
+- `skill-forks-snapshot` â€” daily forks ring buffer
+- `skill-derivatives` â€” code-search derivative count
 
 ### Other sources
-- `huggingface-trending` — models, every 6h @ :13
-- `huggingface-datasets` — every 6h @ :25
-- `huggingface-spaces` — every 6h @ :35
-- `arxiv-recent` — every 3h @ :43
-- `arxiv-enriched` — Semantic Scholar enrichment, every 12h
-- `npm-packages` — daily @ :17 09:00
-- `producthunt-launches` — 4×/day
-- `funding-news` — every 6h
-- `trustmrr-startups` — daily full sweep @ 02:27
-- `revenue-overlays` — hourly incremental
-- `revenue-benchmarks` — daily after trustmrr
-- `claude-rss` / `openai-rss` — daily
-- `awesome-skills` — daily
+- `huggingface-trending` â€” models, every 6h @ :13
+- `huggingface-datasets` â€” every 6h @ :25
+- `huggingface-spaces` â€” every 6h @ :35
+- `arxiv-recent` â€” every 3h @ :43
+- `arxiv-enriched` â€” Semantic Scholar enrichment, every 12h
+- `npm-packages` â€” daily @ :17 09:00
+- `producthunt-launches` â€” 4Ã—/day
+- `funding-news` â€” every 6h
+- `trustmrr-startups` â€” daily full sweep @ 02:27
+- `revenue-overlays` â€” hourly incremental
+- `revenue-benchmarks` â€” daily after trustmrr
+- `claude-rss` / `openai-rss` â€” daily
+- `awesome-skills` â€” daily
 
 ---
 
-## Audit 2026-05-04 — what shipped vs what remains
+## Audit 2026-05-04 â€” what shipped vs what remains
 
-### ✅ Shipped (PR #93, 28+ commits)
+### âœ… Shipped (PR #93, 28+ commits)
 
 **Workflow git-push race (was #1 cause of failures)**
-- New composite action `.github/actions/git-commit-data` (6× exponential backoff + jitter)
+- New composite action `.github/actions/git-commit-data` (6Ã— exponential backoff + jitter)
 - All 22 data-pushing workflows converted (waves 1-4)
 - LF forced on workflow yml (`.gitattributes`)
 
@@ -283,15 +284,15 @@ If the user says "go" or "continue", consider checking PR #93 status first — i
 - One-off `scripts/backfill-meta.mjs` + `.github/workflows/backfill-meta.yml` for orphan `mcp-dependents` / `mcp-smithery-rank`
 
 **24h / 7d / 30d window switchers**
-- Home page Live/top-50 (All / Repos / Skills / MCP × window)
+- Home page Live/top-50 (All / Repos / Skills / MCP Ã— window)
 - /mcp Top movers
 - /funding Top rounds (filters by publishedAt age)
 - /lobsters, /hackernews/trending, /devto, /bluesky/trending, /arxiv/trending
-- /reddit/trending added Hot-30d (renamed Trending Now → Trending 24h)
+- /reddit/trending added Hot-30d (renamed Trending Now â†’ Trending 24h)
 - /npm + /skills + /producthunt already had switchers (kept as-is)
 
 **Image fallbacks (audit's CORB list)**
-- MaintainerCard, /devto authors, /producthunt thumbnails, /twitter avatars: raw `next/image` → `EntityLogo` so blocked URLs render monogram instead of dead grey square
+- MaintainerCard, /devto authors, /producthunt thumbnails, /twitter avatars: raw `next/image` â†’ `EntityLogo` so blocked URLs render monogram instead of dead grey square
 - /arxiv/trending added a logo column (linked-repo owner avatar)
 - /funding MoverRow now renders company logos (companyLogoUrl or favicon-derived)
 
@@ -305,59 +306,59 @@ If the user says "go" or "continue", consider checking PR #93 status first — i
 **Worker stub cleanup**
 - Removed `huggingface` stub from FETCHERS (was emitting "not yet implemented" every 4h)
 
-### ⏸ Open follow-ups
+### â¸ Open follow-ups
 
 **Code-fixable (next session can grab)**
-- HF rolling-delta collector — required for /huggingface/* window switcher (currently API gives only absolute counts)
+- HF rolling-delta collector â€” required for /huggingface/* window switcher (currently API gives only absolute counts)
 - `/twitter` and `/ideas` should route through data-store for freshness tracking
-- ~~15 zombie scripts identified by audit~~ ✅ 14 deleted on 2026-05-03 (kept `_github-token-pool-mini.mjs` for the _* convention)
-- audit-freshness budget tightening for hourly sources (currently 6× cadence; comment says target is 2×)
+- ~~15 zombie scripts identified by audit~~ âœ… 14 deleted on 2026-05-03 (kept `_github-token-pool-mini.mjs` for the _* convention)
+- audit-freshness budget tightening for hourly sources (currently 6Ã— cadence; comment says target is 2Ã—)
 
 **External / blocked**
 - Sentry event delivery verification (need dashboard access)
 - Apify actor cost + last-run audit (need APIFY_API_TOKEN locally)
 - Vercel env-var inventory (need VERCEL_ORG_ID locally)
-- Run `backfill-meta` workflow (after PR #93 merge — needs main branch presence)
+- Run `backfill-meta` workflow (after PR #93 merge â€” needs main branch presence)
 
 ---
 
-## Pages / routes — current state
+## Pages / routes â€” current state
 
 ### GREEN (rendering with real data)
 `/`, `/consensus`, `/skills`, `/mcp`, `/agent-repos`, `/breakouts`, `/top`, `/signals`, `/hackernews/trending`, `/lobsters`, `/devto`, `/bluesky/trending`, `/reddit/trending`, `/twitter`, `/producthunt`, `/npm`, `/huggingface/trending|datasets|spaces`, `/funding`, `/revenue`, `/arxiv/trending`, `/research`, `/digest`, `/categories`, `/collections`, `/top10`, `/mindshare`, `/predict` (still on disk, hidden from sidebar)
 
 ### Sidebar-hidden but routes alive
-`/predict`, `/submit/revenue` — kept on disk for direct-link access
+`/predict`, `/submit/revenue` â€” kept on disk for direct-link access
 
 ### Static / user-data (intentional)
 `/pricing`, `/watchlist`, `/tierlist`, `/ideas`, `/compare`
 
 ### Disabled (sidebar shows "Soon")
-Hackathons, Launch — no route, no data, intentional
+Hackathons, Launch â€” no route, no data, intentional
 
 ---
 
 ## Critical files
 
 ### Where to look first
-- This file (`docs/OPERATOR.md`) — situational awareness
-- `CLAUDE.md` — project conventions, anti-patterns
-- `docs/ENGINE.md` — deeper engine map (62 workflows + every key)
-- `docs/SITE-WIREMAP.md` — top-down route → collector trace
-- `docs/AUDIT-2026-05-04.md` — full audit (deferred external blockers)
+- This file (`docs/OPERATOR.md`) â€” situational awareness
+- `CLAUDE.md` â€” project conventions, anti-patterns
+- `docs/ENGINE.md` â€” deeper engine map (62 workflows + every key)
+- `docs/SITE-WIREMAP.md` â€” top-down route â†’ collector trace
+- `docs/AUDIT-2026-05-04.md` â€” full audit (deferred external blockers)
 
 ### Hot files (changed often)
-- `src/lib/data-store.ts` — 3-tier read + writer-provenance
-- `scripts/_data-store-write.mjs` — collector mirror to Redis
-- `apps/trendingrepo-worker/src/lib/redis.ts` — worker mirror
-- `apps/trendingrepo-worker/src/run.ts` — fetcher boot + provenance setter
-- `.github/actions/git-commit-data/action.yml` — composite git push retry
-- `.github/workflows/scrape-trending.yml` — the big hourly job
-- `src/components/leaderboards/WindowedRanking.tsx` — generic window switcher
-- `src/components/feed/WindowedFeedTable.tsx` — generic feed switcher
-- `src/components/funding/WindowedFundingBoard.tsx` — funding-specific switcher
-- `src/components/home/LiveTopTable.tsx` — home page tabs
-- `src/components/ui/EntityLogo.tsx` — image-with-monogram-fallback
+- `src/lib/data-store.ts` â€” 3-tier read + writer-provenance
+- `scripts/_data-store-write.mjs` â€” collector mirror to Redis
+- `apps/trendingrepo-worker/src/lib/redis.ts` â€” worker mirror
+- `apps/trendingrepo-worker/src/run.ts` â€” fetcher boot + provenance setter
+- `.github/actions/git-commit-data/action.yml` â€” composite git push retry
+- `.github/workflows/scrape-trending.yml` â€” the big hourly job
+- `src/components/leaderboards/WindowedRanking.tsx` â€” generic window switcher
+- `src/components/feed/WindowedFeedTable.tsx` â€” generic feed switcher
+- `src/components/funding/WindowedFundingBoard.tsx` â€” funding-specific switcher
+- `src/components/home/LiveTopTable.tsx` â€” home page tabs
+- `src/components/ui/EntityLogo.tsx` â€” image-with-monogram-fallback
 
 ---
 
@@ -369,13 +370,13 @@ Last verified: 2026-05-03 ~03:20 UTC
 - **/api/health/sources**: 9/9 CLOSED breakers
 - **Worker /healthz**: ok, db=true, redis=true, lastRunAt fresh within minutes
 - **`consensus-trending` Redis key**: 71h+ stale (climbing)
-- **PR #93**: 🟢 ALL 5 CI CHECKS PASSING. 32 commits ready. Mergeable. Awaiting human merge.
+- **PR #93**: ðŸŸ¢ ALL 5 CI CHECKS PASSING. 32 commits ready. Mergeable. Awaiting human merge.
 
-**✅ GH Actions cron drought resolved.** 13 cron-triggered runs in last 60 min (04:09-04:14 UTC). 12 green, 1 red (cron-freshness-check — correctly alarming on the not-yet-propagated stale state). Production data is currently catching up.
+**âœ… GH Actions cron drought resolved.** 13 cron-triggered runs in last 60 min (04:09-04:14 UTC). 12 green, 1 red (cron-freshness-check â€” correctly alarming on the not-yet-propagated stale state). Production data is currently catching up.
 
 **Two blockers right now:**
-1. PR #93 needs human merge → fixes data-store consensus-trending crash + scripts hang + image fallbacks + 24h/7d/30d UX
-2. GH Actions cron drought is starving the data pipeline → time will heal it
+1. PR #93 needs human merge â†’ fixes data-store consensus-trending crash + scripts hang + image fallbacks + 24h/7d/30d UX
+2. GH Actions cron drought is starving the data pipeline â†’ time will heal it
 
 To re-verify, run:
 ```bash
@@ -391,13 +392,13 @@ gh pr checks 93
 
 K1-K4 + M1-M6 from `~/.claude/CLAUDE.md` apply. Project-specific:
 
-- **Never `git add -A` or `git add .`** — always specific files. CLAUDE.md anti-pattern: parallel-session merges silently steal staged work.
-- **Never switch Twitter to API mode** — silently fails on Vercel.
-- **Never mock Redis in scoring tests** — 2026-Q1 incident.
-- **Never use cookie-based Twitter scrapers** — dead since 2026 anti-bot.
-- **Don't `readFileSync` data files** — use the data-store.
-- **Kimi For Coding requires `stream: true`** — non-stream hangs silently.
-- **Don't sequential-loop the consensus-analyst** — use the bounded-concurrency queue.
+- **Never `git add -A` or `git add .`** â€” always specific files. CLAUDE.md anti-pattern: parallel-session merges silently steal staged work.
+- **Never switch Twitter to API mode** â€” silently fails on Vercel.
+- **Never mock Redis in scoring tests** â€” 2026-Q1 incident.
+- **Never use cookie-based Twitter scrapers** â€” dead since 2026 anti-bot.
+- **Don't `readFileSync` data files** â€” use the data-store.
+- **Kimi For Coding requires `stream: true`** â€” non-stream hangs silently.
+- **Don't sequential-loop the consensus-analyst** â€” use the bounded-concurrency queue.
 - **Audit premises must be verified before believing** (M6).
 
 ---
@@ -407,3 +408,19 @@ K1-K4 + M1-M6 from `~/.claude/CLAUDE.md` apply. Project-specific:
 - Refreshed by hand at the end of every "go" wave so the next session has fresh context
 - Loop scheduling: when the user runs `/loop` against this file's update task, refresh once per autonomous tick
 - The `Last refreshed` timestamp at the top is the authoritative freshness marker
+
+## SRE Workflow Health routine prompt (weekly)
+
+Run this check every Monday (UTC) and attach evidence in a release-validation note:
+
+1. Probe GitHub pool usage from Redis `pool:github:usage:*` using `SCAN` (never `KEYS` on prod).
+2. Tally request counts per configured token fingerprint for the latest 24 hourly buckets.
+3. Compute:
+   - `mean = totalRequests24h / tokenCount`
+   - `stddev/mean`
+   - per-token `abs((requests24h - mean) / mean)` for ±15% balance
+4. Gate:
+   - PASS if `stddev/mean <= 0.7` and all tokens are within ±15%
+   - FAIL otherwise, and open/refresh a P1 follow-up for rotation-bias investigation.
+5. Record the result with timestamp, probe output summary, and verdict in `docs/release-validation/`.
+

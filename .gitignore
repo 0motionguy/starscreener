@@ -85,6 +85,40 @@ dev_server*.log
 tmp_probe/
 .tmp/
 
+# agent / operator scratch dirs (not for commit)
+.audit/
+.claude-flow/
+.hive-mind/
+.paperclip/
+.stryker-tmp/
+.tmp_*
+.tmp-*
+tmp-*-dev.log/
+tmp-*-dev.err.log/
+tmp-*-dev.out.log/
+tmp_*.json
+qa-artifacts-tmp/
+
+# stray scratch files committed by a misconfigured tool
+/-
+
+# dev-server transcript dumps
+tmp-*-dev*.log
+tmp-*-dev*.err.log
+tmp-*-dev*.out.log
+
+# QA freshness probe / run dumps
+qa-freshness-probe-run*.json
+qa-freshness-run*.json
+qa-freshness-state-*.json
+
+# stryker mutation-testing output
+stryker.data-store.config.json
+.stryker-tmp/
+
+# session report dumps (regenerated on demand)
+/reports/
+
 # personal operator rules (per CLAUDE.md — not for commit)
 CLAUDE.local.md
 

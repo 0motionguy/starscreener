@@ -90,6 +90,7 @@ export function getAllFullNames(): string[] {
 // ---------------------------------------------------------------------------
 
 export type DeltaWindowKey = "1h" | "24h" | "7d" | "30d";
+export type UiDeltaWindowKey = "1h" | "6h" | "24h" | "7d" | "30d";
 
 export type DeltaValue =
   | { value: number; basis: "exact" | "nearest"; from_commit: string; from_ts: number }
@@ -421,5 +422,39 @@ export function assembleRepoFromTrending(repo: Repo, d: DeltasJson): Repo {
     forksDelta7dMissing: true,
     contributorsDelta30dMissing: true,
   };
+}
+
+function resolveDeltaValue(v: DeltaValue): number | null {
+  if (v.value === null) return null;
+  if (v.basis === "cold-start") return null;
+  return v.value;
+}
+
+/**
+ * Return a raw delta window value for one repo fullName from the current
+ * in-memory deltas cache. `6h` is not yet produced by the backend windows,
+ * so callers get null and can render a clear unavailable state.
+ */
+export function getRepoDeltaWindowValue(
+  fullName: string,
+  window: UiDeltaWindowKey,
+): number | null {
+  if (window === "6h") return null;
+  const repoId = fullNameIndex().get(fullName);
+  if (!repoId) return null;
+  const entry = deltas.repos[repoId];
+  if (!entry) return null;
+  switch (window) {
+    case "1h":
+      return resolveDeltaValue(entry.delta_1h);
+    case "24h":
+      return resolveDeltaValue(entry.delta_24h);
+    case "7d":
+      return resolveDeltaValue(entry.delta_7d);
+    case "30d":
+      return resolveDeltaValue(entry.delta_30d);
+    default:
+      return null;
+  }
 }
 

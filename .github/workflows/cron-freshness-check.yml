@@ -1,13 +1,12 @@
 name: Cron - freshness check
 
-# Cheap GET /api/health probe every 15 min UTC to detect cold-start
-# regressions and freshness drops between ingest runs. No auth needed:
-# the route is an unauthenticated uptime probe. If `status` is anything
-# other than "ok" the step fails so Actions email/ops dashboards light
-# up before a user notices stale data.
+# Cheap probe every 15 min UTC to detect cold-start regressions, freshness
+# drops between ingest runs, and auth-path regressions on the protected
+# freshness inventory route.
 #
 # Required repo config:
 #   vars.TRENDINGREPO_URL  — optional; defaults to prod URL (legacy: vars.STARSCREENER_URL)
+#   secrets.CRON_SECRET    — required for /api/cron/freshness/state auth check
 #   secrets.OPS_ALERT_WEBHOOK — optional Discord/Slack webhook URL.
 #     When set, the workflow POSTs a one-line JSON message on state changes
 #     (healthy → stale and stale → healthy). Email-on-fail is too quiet,
@@ -93,6 +92,30 @@ jobs:
             # would also have failed and we don't want to spam on infra blips.
             echo "status=ok" >> "$GITHUB_OUTPUT"
             echo "message=health ok (jq unavailable, HTTP 200 only)" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: GET /api/cron/freshness/state (auth path)
+        id: state_probe
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET is unset — refusing unauthenticated freshness-state probe"
+            exit 1
+          fi
+          code=$(curl -sS -o /tmp/state_out -w "%{http_code}" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            "$BASE_URL/api/cron/freshness/state")
+          echo "freshness-state HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/state_out >/dev/null 2>&1; then
+            jq . /tmp/state_out | head -c 2000
+          else
+            head -c 2000 /tmp/state_out
+          fi
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::freshness state auth probe failed (HTTP $code)"
+            exit 1
           fi
 
       - name: Read previous status

@@ -100,6 +100,7 @@ import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 // migration shape other Phase 2 worktrees will follow.
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
+import { absoluteUrl, safeJsonLd, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 import "./signals.css";
 
@@ -110,17 +111,20 @@ export const metadata: Metadata = {
   title: "Signals — Cross-Source Newsroom",
   description:
     "Eight-source live signal terminal: Hacker News, GitHub, X, Reddit, Bluesky, Dev.to, Claude RSS, OpenAI RSS — plus volume, consensus stories, and tag-momentum.",
-  alternates: { canonical: "/signals" },
+  alternates: { canonical: absoluteUrl("/signals") },
+  robots: { index: true, follow: true },
   openGraph: {
     title: "Signals — Cross-Source Newsroom — TrendingRepo",
     description: "Eight-source live signal terminal with volume, consensus, and tag-momentum.",
-    url: "/signals",
+    url: absoluteUrl("/signals"),
     type: "website",
+    images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Signals — Cross-Source Newsroom — TrendingRepo",
     description: "Eight-source live signal terminal with volume, consensus, and tag-momentum.",
+    images: [absoluteUrl("/og-card.png")],
   },
 };
 
@@ -489,6 +493,32 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
           windowLabel={activeWindowLabel}
         />
       </div>
+      {filteredItems.length === 0 ? (
+        <section
+          style={{
+            border: "1px solid var(--v4-line-200)",
+            background: "var(--v4-bg-050)",
+            padding: "12px 14px",
+            marginBottom: 12,
+          }}
+        >
+          <p
+            style={{
+              margin: 0,
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 11,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              color: "var(--v4-ink-300)",
+            }}
+          >
+            // no signals match current filters ({activeWindowLabel})
+          </p>
+          <p style={{ margin: "6px 0 0", fontSize: 13, color: "var(--v4-ink-300)" }}>
+            Try widening the window or enabling more sources to repopulate the newsroom.
+          </p>
+        </section>
+      ) : null}
 
       {/* Row 1: Volume chart + Consensus radar */}
       <div className="grid">
@@ -625,6 +655,25 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       <TagMomentumHeatmap rows={tagMomentum.rows} />
 
       <LiveTicker items={tickerItems} />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLd({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "Signals - Cross-Source Newsroom",
+            url: absoluteUrl("/signals"),
+            description:
+              "Cross-source newsroom for GitHub, Hacker News, Reddit, X, Bluesky, dev.to, and major AI RSS feeds.",
+            isPartOf: {
+              "@type": "WebSite",
+              name: SITE_NAME,
+              url: SITE_URL,
+            },
+          }),
+        }}
+      />
     </main>
   );
 }

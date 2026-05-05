@@ -24,7 +24,7 @@
 //   topN?: number         — default 300; picks top-N by momentumScore
 //                           when `fullNames` is absent.
 //   horizons?: number[]   — default [7, 30] (from the writer's defaults).
-//                           Only 7/30/90 are accepted — anything else 400s.
+//                           Only 1/7/30/90 are accepted — anything else 400s.
 
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -170,7 +170,8 @@ export async function POST(
 // GET alias for Vercel Cron, which fires GET (not POST) to each cron path.
 // Vercel auto-injects `Authorization: Bearer <CRON_SECRET>`, and `parseBody`
 // already tolerates empty bodies — the writer defaults to topN=300,
-// horizons=[7,30], which matches the GitHub Actions workflow body.
+// horizons=[7,30]. The GitHub Actions workflow explicitly requests
+// [1,7,30] so 24h predictions are generated every run.
 export async function GET(
   request: NextRequest,
 ): Promise<NextResponse<SuccessResponse | ErrorResponse>> {

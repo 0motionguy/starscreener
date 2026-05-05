@@ -1,0 +1,51 @@
+name: Sources auto-recover
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sources-auto-recover
+  cancel-in-progress: false
+
+env:
+  BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Verify secret
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET is unset"
+            exit 1
+          fi
+
+      - name: Trigger sources auto-recover
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          code=$(curl -sS -o /tmp/out.json -w "%{http_code}" \
+            -X POST \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            "$BASE_URL/api/cron/sources-auto-recover")
+
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/out.json >/dev/null 2>&1; then
+            jq . /tmp/out.json | head -c 3000
+          else
+            head -c 3000 /tmp/out.json || true
+          fi
+          echo
+
+          if [ "$code" != "200" ]; then
+            echo "::error::sources-auto-recover failed (HTTP $code)"
+            exit 1
+          fi

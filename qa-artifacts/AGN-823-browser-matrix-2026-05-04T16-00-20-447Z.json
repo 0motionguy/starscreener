@@ -1,0 +1,122 @@
+{
+  "generatedAt": "2026-05-04T16:01:49.889Z",
+  "baseURL": "https://trendingrepo.com",
+  "routes": [
+    "/",
+    "/signals",
+    "/mcp",
+    "/twitter",
+    "/producthunt"
+  ],
+  "matrix": [
+    {
+      "browser": "firefox",
+      "launchError": "Error: browserType.launch: Failed to launch the browser process.\nBrowser logs:\n\n<launching> C:\\Users\\mirko\\AppData\\Local\\ms-playwright\\firefox-1511\\firefox\\firefox.exe -no-remote -headless -profile C:\\Users\\mirko\\AppData\\Local\\Temp\\playwright_firefoxdev_profile-zErRlE -juggler-pipe -silent\n<launched> pid=116048\n[pid=116048] <process did exit: exitCode=255, signal=null>\n[pid=116048] starting temporary directories cleanup\nCall log:\n\u001b[2m  - <launching> C:\\Users\\mirko\\AppData\\Local\\ms-playwright\\firefox-1511\\firefox\\firefox.exe -no-remote -headless -profile C:\\Users\\mirko\\AppData\\Local\\Temp\\playwright_firefoxdev_profile-zErRlE -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=116048\u001b[22m\n\u001b[2m  - [pid=116048] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=116048] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=116048] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=116048] <kill>\u001b[22m\n\u001b[2m  - [pid=116048] <skipped force kill spawnedProcess.killed=false processClosed=true>\u001b[22m\n\u001b[2m  - [pid=116048] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=116048] <gracefully close end>\u001b[22m\n",
+      "results": []
+    },
+    {
+      "browser": "webkit",
+      "launchError": "Error: browserType.launch: Executable doesn't exist at C:\\Users\\mirko\\AppData\\Local\\ms-playwright\\webkit-2272\\Playwright.exe\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+      "results": []
+    },
+    {
+      "browser": "msedge",
+      "results": [
+        {
+          "route": "/",
+          "url": "https://trendingrepo.com/",
+          "startedAt": "2026-05-04T16:00:26.137Z",
+          "status": 200,
+          "title": "TrendingRepo — The trend map for open source",
+          "bodyChars": 10341,
+          "navError": null,
+          "consoleErrorCount": 0,
+          "requestFailureCount": 0,
+          "consoleErrors": [],
+          "requestFailures": []
+        },
+        {
+          "route": "/signals",
+          "url": "https://trendingrepo.com/signals",
+          "startedAt": "2026-05-04T16:00:33.152Z",
+          "status": 200,
+          "title": "Signals — Cross-Source Newsroom — TrendingRepo",
+          "bodyChars": 12639,
+          "navError": null,
+          "consoleErrorCount": 0,
+          "requestFailureCount": 73,
+          "consoleErrors": [],
+          "requestFailures": [
+            "GET https://api.smithery.ai/servers/polymarket/polymarket-mcp/icon :: net::ERR_BLOCKED_BY_ORB",
+            "GET https://avatars.githubusercontent.com/u/104168679?s=64&v=4 :: net::ERR_ABORTED",
+            "GET https://avatars.githubusercontent.com/u/126733545?s=64&v=4 :: net::ERR_ABORTED",
+            "GET https://trendingrepo.com/skills?_rsc=3lb4g :: net::ERR_ABORTED",
+            "GET https://avatars.githubusercontent.com/u/901795?s=80&v=4 :: net::ERR_ABORTED"
+          ]
+        },
+        {
+          "route": "/mcp",
+          "url": "https://trendingrepo.com/mcp",
+          "startedAt": "2026-05-04T16:00:45.058Z",
+          "status": 200,
+          "title": "Trending MCP - TrendingRepo — TrendingRepo",
+          "bodyChars": 802,
+          "navError": null,
+          "consoleErrorCount": 0,
+          "requestFailureCount": 16,
+          "consoleErrors": [],
+          "requestFailures": [
+            "GET https://trendingrepo.com/skills?_rsc=qr415 :: net::ERR_ABORTED",
+            "GET https://trendingrepo.com/mcp?_rsc=qr415 :: net::ERR_ABORTED",
+            "GET https://trendingrepo.com/api/pipeline/sidebar-data :: net::ERR_ABORTED",
+            "GET https://trendingrepo.com/_next/static/chunks/app/submit/error-6df7cb46a00053f3.js?dpl=dpl_EJBghNsEFTGF1j8FZeoBkB77dbuN :: net::ERR_ABORTED",
+            "GET https://trendingrepo.com/_next/static/chunks/app/you/page-cebeaa3b6ef0e57f.js?dpl=dpl_EJBghNsEFTGF1j8FZeoBkB77dbuN :: net::ERR_ABORTED"
+          ]
+        },
+        {
+          "route": "/twitter",
+          "url": "https://trendingrepo.com/twitter",
+          "startedAt": "2026-05-04T16:01:00.199Z",
+          "status": 200,
+          "title": "Trending Repos on X — TrendingRepo",
+          "bodyChars": 1954,
+          "navError": null,
+          "consoleErrorCount": 4,
+          "requestFailureCount": 16,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 404 ()",
+            "Failed to load resource: the server responded with a status of 404 ()",
+            "Failed to load resource: the server responded with a status of 404 ()",
+            "Failed to load resource: the server responded with a status of 404 ()"
+          ],
+          "requestFailures": [
+            "POST https://us.i.posthog.com/flags/?v=2&ip=0&_=1777910459257&ver=1.372.3&compression=base64 :: net::ERR_ABORTED",
+            "GET https://api.smithery.ai/servers/polymarket/polymarket-mcp/icon :: net::ERR_BLOCKED_BY_ORB",
+            "GET https://github.com/rashforddamion.png?size=80 :: net::ERR_BLOCKED_BY_ORB",
+            "GET https://api.smithery.ai/servers/polymarket/polymarket-mcp/icon :: net::ERR_BLOCKED_BY_ORB",
+            "GET https://trendingrepo.com/twitter?_rsc=264h5 :: net::ERR_ABORTED"
+          ]
+        },
+        {
+          "route": "/producthunt",
+          "url": "https://trendingrepo.com/producthunt",
+          "startedAt": "2026-05-04T16:01:16.939Z",
+          "status": 200,
+          "title": "TrendingRepo — ProductHunt Launches — TrendingRepo",
+          "bodyChars": 7887,
+          "navError": null,
+          "consoleErrorCount": 0,
+          "requestFailureCount": 37,
+          "consoleErrors": [],
+          "requestFailures": [
+            "GET https://unavatar.io/x/cobi_bean :: net::ERR_BLOCKED_BY_ORB",
+            "GET https://unavatar.io/x/KSimback :: net::ERR_BLOCKED_BY_ORB",
+            "GET https://unavatar.io/x/anshublog :: net::ERR_BLOCKED_BY_ORB",
+            "GET https://unavatar.io/x/kunchenguid :: net::ERR_BLOCKED_BY_ORB",
+            "GET https://unavatar.io/x/lefunny87104 :: net::ERR_BLOCKED_BY_ORB"
+          ]
+        }
+      ]
+    }
+  ]
+}

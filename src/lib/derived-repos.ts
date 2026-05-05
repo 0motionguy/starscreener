@@ -211,6 +211,11 @@ export function getDerivedRepos(): Repo[] {
         withHistory.lastCommitAt,
       createdAt: metadata?.createdAt ?? withHistory.createdAt,
       topics: metadata?.topics ?? withHistory.topics,
+      repoCategory: metadata?.repoCategory ?? "library",
+      repoCategoryConfidence:
+        typeof metadata?.repoCategoryConfidence === "number"
+          ? metadata.repoCategoryConfidence
+          : 0.7,
       archived: metadata?.archived ?? withHistory.archived,
       starsDelta24h: d24.value,
       starsDelta7d: d7.value,
@@ -251,6 +256,11 @@ export function getDerivedRepos(): Repo[] {
       url: metadata?.url ?? base.url,
       language: metadata?.language ?? base.language,
       topics: metadata?.topics ?? base.topics,
+      repoCategory: metadata?.repoCategory ?? "library",
+      repoCategoryConfidence:
+        typeof metadata?.repoCategoryConfidence === "number"
+          ? metadata.repoCategoryConfidence
+          : 0.7,
       stars: metadata?.stars ?? base.stars,
       forks: metadata?.forks ?? base.forks,
       openIssues: metadata?.openIssues ?? base.openIssues,
@@ -297,6 +307,13 @@ export function getDerivedRepos(): Repo[] {
       url: metadata?.url ?? row.url,
       language: metadata?.language ?? row.language,
       topics: metadata?.topics ?? row.topics ?? [],
+      repoCategory: metadata?.repoCategory ?? row.repoCategory ?? "library",
+      repoCategoryConfidence:
+        typeof metadata?.repoCategoryConfidence === "number"
+          ? metadata.repoCategoryConfidence
+          : typeof row.repoCategoryConfidence === "number"
+            ? row.repoCategoryConfidence
+            : 0.7,
       stars: metadata?.stars ?? row.stars,
       forks: metadata?.forks ?? row.forks,
       openIssues: metadata?.openIssues ?? row.openIssues,

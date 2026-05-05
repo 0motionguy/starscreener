@@ -17,12 +17,25 @@
 import { spawn } from "node:child_process";
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { StringDecoder } from "node:string_decoder";
 
 import { NextRequest, NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
+import {
+  readAdminSessionCookie,
+  verifyAdminSession,
+} from "@/lib/api/admin-session";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
+import { getClientIp } from "@/lib/api/client-ip";
 import { serverError } from "@/lib/api/error-response";
-import { AdminRecoverableError } from "@/lib/errors";
+import {
+  AdminQuarantineError,
+  AdminRecoverableError,
+  engineErrorSentryContext,
+} from "@/lib/errors";
+import { redactSensitiveText } from "@/lib/log-redaction";
 
 export const runtime = "nodejs";
 
@@ -42,6 +55,29 @@ const SCRIPTS: Record<string, string> = {
 };
 
 const LOG_DIR = path.join(process.cwd(), ".data", "admin-scan-runs");
+const ADMIN_SCAN_RATE_LIMIT = { windowMs: 60_000, maxRequests: 5 } as const;
+
+function getAdminPrincipal(request: NextRequest): string {
+  const token = readAdminSessionCookie(request.headers.get("cookie"));
+  const session = token ? verifyAdminSession(token) : null;
+  if (session?.username) return `session:${session.username}`;
+
+  const auth = request.headers.get("authorization")?.trim();
+  if (!auth) return "bearer:unknown";
+  return auth.startsWith("Bearer ") ? "bearer:token" : "bearer:raw";
+}
+
+async function checkAdminScanRateLimit(
+  request: NextRequest,
+): ReturnType<typeof checkRateLimitAsync> {
+  const ip = getClientIp(request);
+  const principal = getAdminPrincipal(request);
+  const keyedForwardedFor = `admin-scan|${principal}|${ip}`;
+  const headers = new Headers(request.headers);
+  headers.set("x-forwarded-for", keyedForwardedFor);
+  const scoped = new Request(request.url, { method: request.method, headers });
+  return checkRateLimitAsync(scoped, ADMIN_SCAN_RATE_LIMIT);
+}
 
 /**
  * Allow-list of env vars the spawned scrape script needs. Curated to
@@ -150,6 +186,20 @@ async function pruneScanRunLogs(
   );
 }
 
+async function streamAndRedactToLog(
+  stream: NodeJS.ReadableStream,
+  logFd: fs.FileHandle,
+): Promise<void> {
+  const decoder = new StringDecoder("utf8");
+  for await (const chunk of stream) {
+    const text = typeof chunk === "string" ? chunk : decoder.write(chunk);
+    if (!text) continue;
+    await logFd.write(redactSensitiveText(text));
+  }
+  const tail = decoder.end();
+  if (tail) await logFd.write(redactSensitiveText(tail));
+}
+
 interface Ok {
   ok: true;
   source: string;
@@ -170,6 +220,26 @@ export async function POST(
 ): Promise<NextResponse<Ok | Err>> {
   const deny = adminAuthFailureResponse(verifyAdminAuth(request));
   if (deny) return deny as NextResponse<Err>;
+  const rate = await checkAdminScanRateLimit(request);
+  if (!rate.allowed) {
+    const err = new AdminQuarantineError("admin scan denied: rate limited");
+    const context = engineErrorSentryContext(err, {
+      auth_surface: "admin-scan",
+    });
+    Sentry.captureException(err, {
+      tags: context.tags,
+      extra: context.extra,
+    });
+    return NextResponse.json(
+      { ok: false, error: "rate limited: too many admin scan requests" },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil(rate.retryAfterMs / 1000)),
+        },
+      },
+    );
+  }
 
   let body: { source?: unknown } = {};
   try {
@@ -229,19 +299,27 @@ export async function POST(
       cwd: process.cwd(),
       env: childEnv,
       detached: true,
-      stdio: ["ignore", logFd.fd, logFd.fd],
+      stdio: ["ignore", "pipe", "pipe"],
     });
+    if (child.stdout) {
+      void streamAndRedactToLog(child.stdout, logFd).catch(() => void 0);
+    }
+    if (child.stderr) {
+      void streamAndRedactToLog(child.stderr, logFd).catch(() => void 0);
+    }
     child.unref();
-
-    await logFd.close();
+    child.once("close", () => {
+      void logFd.close().catch(() => void 0);
+    });
 
     // Fire-and-forget rotation — keep only the newest N logs per source.
     // Errors don't propagate; pruning failures must never block scans.
     void pruneScanRunLogs(LOG_DIR, source, KEEP_LOGS_PER_SOURCE).catch(
       (err) => {
+        const message = err instanceof Error ? err.message : String(err);
         console.warn(
           `[api:admin:scan] log rotation failed for ${source}`,
-          err,
+          redactSensitiveText(message),
         );
       },
     );

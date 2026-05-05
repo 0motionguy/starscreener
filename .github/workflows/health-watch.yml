@@ -33,4 +33,5 @@ jobs:
       - name: Check source health
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
         run: node scripts/check-source-health.mjs

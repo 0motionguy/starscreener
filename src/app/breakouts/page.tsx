@@ -15,6 +15,7 @@ import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { FreshnessChip } from "@/components/shared/FreshnessChip";
 
 export const dynamic = "force-static";
 
@@ -235,6 +236,8 @@ export default async function BreakoutsPage({
                       <span className="nm">{repo.fullName}</span>
                       <span className="desc">
                         {repo.categoryId ?? "uncategorized"} / {formatNumber(repo.stars)} stars
+                        {" · "}
+                        <FreshnessChip updatedAt={lastFetchedAt} size="xs" />
                       </span>
                     </span>
                   </span>

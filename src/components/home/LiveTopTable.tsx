@@ -32,6 +32,7 @@ import {
   toastWatchRemoved,
 } from "@/lib/toast";
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { FreshnessChip } from "@/components/shared/FreshnessChip";
 import { repoLogoUrl } from "@/lib/logos";
 import type { Repo } from "@/lib/types";
 
@@ -75,6 +76,12 @@ interface LiveRow {
   mentionCount24h: number;
   /** Per-source 24h count for tooltip + on/off state. Missing key = no signal. */
   sources: Partial<Record<LiveSourceKey, number>>;
+  /**
+   * AGN-450: per-row freshness timestamp. ISO string of when the underlying
+   * row data was last fetched. Falls back to the page-level lastFetchedAt
+   * when the row doesn't carry its own (most rows in v1).
+   */
+  updatedAt?: string | null;
 }
 
 // Wrap brand icons to swallow extra lucide props (className, strokeWidth) the
@@ -434,6 +441,12 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
                         <span>{row.fullName}</span>
                         <small>
                           {row.categoryLabel} / {row.language ?? "mixed"}
+                          {row.updatedAt ? (
+                            <>
+                              {" · "}
+                              <FreshnessChip updatedAt={row.updatedAt} size="xs" />
+                            </>
+                          ) : null}
                         </small>
                       </span>
                     </a>

@@ -770,6 +770,10 @@ export default async function HomePage() {
         hf: ps?.huggingface.count7d ?? ps?.huggingface.count24h ?? 0,
         arxiv: ps?.arxiv.count7d ?? ps?.arxiv.count24h ?? 0,
       },
+      // AGN-450: per-row freshness. The home feed is fetched as a single
+      // snapshot (lastFetchedAt), so every row inherits that timestamp
+      // until the data-store starts emitting per-record fetchedAt floors.
+      updatedAt: lastFetchedAt,
     };
   });
   const liveCategories: CategoryFacet[] = (() => {

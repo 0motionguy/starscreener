@@ -1,23 +1,13 @@
 // /reddit/trending — V4 SourceFeedTemplate consumer.
-
-import { readFileSync } from "fs";
-import { resolve } from "path";
 import { Suspense } from "react";
 
 import type { Metadata } from "next";
 
 import {
-  getAllPostsFetchedAt,
-  getAllPostsStats,
-  getAllScoredPosts,
-  isAllPostsCold,
+  getAllPostsViewWithFallback,
   refreshRedditAllPostsFromStore,
 } from "@/lib/reddit-all-data";
-import {
-  buildAllPostsStats,
-  type RedditAllPost,
-  type RedditAllPostsFile,
-} from "@/lib/reddit-all";
+import { buildTrendingRowsDto } from "@/components/reddit-trending/AllTrendingTabs";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -28,43 +18,9 @@ import { AllTrendingTabs } from "@/components/reddit-trending/AllTrendingTabs";
 import { absoluteUrl } from "@/lib/seo";
 
 export const revalidate = 300;
-const BUNDLED_FALLBACK_MAX_POSTS = 50;
 
 interface PageProps {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
-}
-
-// SSR safety net — when the in-memory cache is empty (Redis returned `missing`
-// AND the per-Lambda module cache hasn't been seeded yet) the page used to
-// render the cold empty-state even though the bundled JSON snapshot ships
-// with every Vercel build. Read it directly so users always see the most
-// recent committed scan as a floor. Cached at module scope: bundled data is
-// immutable for the deploy lifetime so re-reading per render is wasted work.
-let bundledFallback: { posts: RedditAllPost[]; lastFetchedAt: string } | null =
-  null;
-function loadBundledFallback(): {
-  posts: RedditAllPost[];
-  lastFetchedAt: string;
-} {
-  if (bundledFallback) return bundledFallback;
-  try {
-    const raw = readFileSync(
-      resolve(process.cwd(), "data", "reddit-all-posts.json"),
-      "utf8",
-    );
-    const parsed = JSON.parse(raw) as Partial<RedditAllPostsFile>;
-    const bundledPosts = Array.isArray(parsed.posts)
-      ? (parsed.posts as RedditAllPost[])
-      : [];
-    bundledFallback = {
-      posts: bundledPosts.slice(0, BUNDLED_FALLBACK_MAX_POSTS),
-      lastFetchedAt:
-        typeof parsed.lastFetchedAt === "string" ? parsed.lastFetchedAt : "",
-    };
-  } catch {
-    bundledFallback = { posts: [], lastFetchedAt: "" };
-  }
-  return bundledFallback;
 }
 
 export const metadata: Metadata = {
@@ -110,30 +66,11 @@ async function RedditTrendingFeed({
 }) {
   const resolvedSearchParams = searchParams ?? {};
   await refreshRedditAllPostsFromStore();
-  let allPostsFetchedAt = getAllPostsFetchedAt();
-  let allPostsCold = isAllPostsCold();
-  let posts = getAllScoredPosts();
-  let stats = getAllPostsStats();
-
-  // SSR fallback: if Redis returned cold/empty (typical on a fresh Lambda
-  // before the first refresh tick lands), splice in the bundled JSON
-  // snapshot so visitors never see the cold empty-state. Bundled data ages
-  // out per deploy but it's strictly better than "no data yet" for a
-  // page hit by 2k+ users/day. The Redis refresh hook overlays fresher
-  // data on the next render once the in-flight read resolves.
-  if (allPostsCold || posts.length === 0) {
-    const fallback = loadBundledFallback();
-    if (fallback.posts.length > 0) {
-      posts = fallback.posts;
-      // Derive the full stats payload from the bundled posts so the KPI band
-      // shows the same numbers users would see when Redis is healthy.
-      // Previously this short-circuited breakouts24h/topicsSurfaced to 0,
-      // which read as "0 freshness" alongside the recovered post list.
-      stats = buildAllPostsStats(fallback.posts);
-      allPostsFetchedAt = fallback.lastFetchedAt || allPostsFetchedAt;
-      allPostsCold = false;
-    }
-  }
+  const view = getAllPostsViewWithFallback();
+  const { posts, stats } = view;
+  const allPostsFetchedAt = view.fetchedAt;
+  const allPostsCold = view.cold;
+  const tabsDto = buildTrendingRowsDto(posts, resolvedSearchParams);
 
   if (allPostsCold) {
     return (
@@ -208,7 +145,7 @@ async function RedditTrendingFeed({
         <div className="space-y-4">
           <TrendingMentionsSection source="reddit" accent="var(--v4-src-reddit)" />
           <AllTrendingTabs
-            posts={posts}
+            dto={tabsDto}
             searchParams={resolvedSearchParams}
             pathname="/reddit/trending"
           />

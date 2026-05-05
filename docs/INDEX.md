@@ -16,6 +16,32 @@ Inventory scope: 862 markdown files across the working tree, excluding
 checkouts), and `.claude/worktrees/` (separate branches). The index links
 in-repo docs only; secondary archives are summarized as counts.
 
+## Status — 2026-05-05 (end-of-day)
+
+After 4 commits today (`8b845df6`, `e4737757`, `4ae6b74f`, `48a5e1c3`) the
+restructure is complete. Live counts via guard scripts:
+
+- **31 living** docs, all verified <=90 days
+- **10 snapshot** docs (dated, kept for reference)
+- **1 pointer** doc (redirect stub)
+- **47 archive** docs in active scope; 379 in `docs/archive/forensic-2026-05-pre/`; 44 in `docs/archive/release-validation-pre-2026-05-05/`
+- **6 unlabeled** (down from ~125 — final long tail)
+- **0 frontmatter violations** (160 files scanned)
+- **85 GH Actions workflows**, **14 cron API routes**, **51 worker fetchers**, **55 env vars** (re-derived from `docs/_generated/engine.json`)
+- **0 inline Redis-key violations** across `src/`, `apps/trendingrepo-worker/src/`, `scripts/`
+- **4 broken internal doc-links** (all in `docs/review/*` — intentional `status: archive` skips)
+
+Refresh this section by running:
+```
+node scripts/derive-engine-inventory.mjs
+node scripts/check-docs-freshness.mjs
+node scripts/check-living-docs-have-frontmatter.mjs
+node scripts/check-redis-keys.mjs
+node scripts/check-internal-doc-links.mjs
+```
+
+Next-wave plan: see `tasks/NEXT-WAVE-2026-05-06.md`.
+
 ## How to use this index
 
 1. **First stop for any question** -- find the topic, jump to a `living` doc.

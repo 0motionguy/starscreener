@@ -298,4 +298,4 @@ server:
   expose leaderboard/panel/review DTOs
 ```
 
-See [OPENCLAW_TWITTER_AGENT_INSTRUCTIONS.md](./OPENCLAW_TWITTER_AGENT_INSTRUCTIONS.md) for the exact agent contract.
+See [OPENCLAW_TWITTER_AGENT_INSTRUCTIONS.md](./archive/OPENCLAW_TWITTER_AGENT_INSTRUCTIONS.md) for the exact agent contract.

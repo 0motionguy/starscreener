@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-555 - Release SRE heartbeat evidence (pipeline ingest -> Railway queue)
 
 Date: 2026-05-04  

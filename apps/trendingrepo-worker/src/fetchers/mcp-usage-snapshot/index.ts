@@ -23,10 +23,10 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore, readDataStore, getRedis } from '../../lib/redis.js';
+import { keys } from '../../lib/redis-keys.js';
 
 const SNAPSHOT_TTL_SECONDS = 36 * 24 * 60 * 60; // 36d (one extra day for read-tolerance)
 const ROLLING_DAYS = 35;
-const NAMESPACE = 'ss:data:v1';
 
 interface RosterMcpItem {
   slug?: string;
@@ -120,8 +120,8 @@ const fetcher: Fetcher = {
       if (handle) {
         for (let d = ROLLING_DAYS + 1; d <= ROLLING_DAYS + 7; d += 1) {
           const oldDate = isoDateNDaysAgo(d);
-          await handle.del(`${NAMESPACE}:mcp-usage-snapshot:${oldDate}`);
-          await handle.del(`ss:meta:v1:mcp-usage-snapshot:${oldDate}`);
+          await handle.del(keys.dailySnapshot('mcp-usage-snapshot', oldDate));
+          await handle.del(keys.dailySnapshotMeta('mcp-usage-snapshot', oldDate));
         }
       }
     } catch (err) {

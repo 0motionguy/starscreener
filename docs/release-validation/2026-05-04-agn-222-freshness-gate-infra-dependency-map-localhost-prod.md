@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-222: Freshness Gate Infra Dependency Map (localhost/prod)
 
 Timestamp: 2026-05-04T17:28+08:00

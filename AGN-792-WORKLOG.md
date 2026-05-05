@@ -1,4 +1,10 @@
-# AGN-792 — SEO-003 AISO scan + lowest-dimension fix
+---
+status: worklog
+ticket: AGN-792
+last-touched: 2026-05-05
+---
+
+# AGN-792 ï¿½ SEO-003 AISO scan + lowest-dimension fix
 
 Date: 2026-05-04
 

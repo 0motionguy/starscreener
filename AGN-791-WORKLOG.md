@@ -1,3 +1,9 @@
+---
+status: worklog
+ticket: AGN-791
+last-touched: 2026-05-05
+---
+
 # AGN-791 — SEO-002 Why-narrative engine (top 50 trending repos)
 
 Date: 2026-05-04

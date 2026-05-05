@@ -1,3 +1,8 @@
+---
+status: archive
+last-touched: 2026-04-28
+---
+
 # Rate-limit hardening — follow-up needed
 
 **Status:** DEFERRED — patch saved at [`tasks/RATE_LIMIT_HARDENING_PATCH_2026-04-28.patch`](RATE_LIMIT_HARDENING_PATCH_2026-04-28.patch) (9.0 KiB, 233 lines).

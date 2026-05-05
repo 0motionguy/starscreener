@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-202 Cron Route and Health Endpoint Availability Matrix
 
 Timestamp: 2026-05-04T16:47:00+08:00

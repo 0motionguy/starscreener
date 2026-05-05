@@ -1,4 +1,10 @@
-﻿## Test review - Carmela
+﻿---
+status: archive
+audit-date: 2026-05-05
+reason: code review report of past state; references may not resolve to current files
+---
+
+## Test review - Carmela
 
 **Lenses applied:** Behavior-over-implementation, Regression-on-fix, Failure-mode coverage, Determinism
 

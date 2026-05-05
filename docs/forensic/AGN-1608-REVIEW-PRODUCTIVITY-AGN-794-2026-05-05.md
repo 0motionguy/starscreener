@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-1608 productivity review AGN-794 (2026-05-05)
 
 - Reviewed issue: AGN-794
@@ -25,7 +31,7 @@ Freshness result classification:
 
 Verified prior AGN-794 evidence packet:
 - `docs/archive/forensic-2026-05-pre/AGN-1249-PRODUCTIVITY-REVIEW-AGN-794-2026-05-05.md`
-- Recorded source issue details: `[SEO-005] JSON-LD on /repo/[owner]/[name] — SoftwareSourceCode`.
+- Recorded source issue details: `[SEO-005] JSON-LD on /repo/[owner]/[name] ï¿½ SoftwareSourceCode`.
 - Recorded productivity trigger context: lifecycle/long-active flag despite terminal execution evidence.
 - Recorded assignee evidence quality: concrete implementation and verification framing on `/repo/[owner]/[name]` JSON-LD path.
 

@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: code review report of past state; references may not resolve to current files
+---
+
 # Red Team Review — STARSCREENER @ e515a09 — 2026-04-19
 
 Auditor: Claude Opus 4.7 (1M) acting as "The Inquisitor" per `red-team-review` protocol.

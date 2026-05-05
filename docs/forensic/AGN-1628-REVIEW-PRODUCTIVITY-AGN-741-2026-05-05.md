@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-1628 Productivity Review AGN-741 (2026-05-05)
 
 ## Scope
@@ -24,7 +30,7 @@ Observed:
 
 ## AGN-741 productivity evidence
 Primary artifact reviewed:
-- `docs/release-validation/2026-05-04-agn-741-vercel-preview-deployment-cleanup.md`
+- `docs/archive/release-validation-pre-2026-05-05/2026-05-04-agn-741-vercel-preview-deployment-cleanup.md`
 
 Verified outputs in repo:
 - Manual cleanup evidence recorded: 3 stale preview deployments removed with `vercel remove <deployment> --yes`.
@@ -34,6 +40,7 @@ Verified outputs in repo:
   - manual dispatch with `dry_run` and `max_deletes`,
   - branch-existence check (`404` branch -> stale preview candidate),
   - deletion safety cap.
+- Supporting inventory evidence: `docs/ENGINE.md` includes `cleanup-stale-previews.yml` with weekly `23 2 * * 1` schedule.
 
 ## Review verdict
 `AGN-741` is **productive and materially complete at artifact level**:
@@ -41,6 +48,5 @@ Verified outputs in repo:
 - It added recurring guardrail automation (weekly stale preview cleanup workflow).
 
 Residual risk:
-- Live control-plane confirmation and terminal Paperclip status patch were previously blocked by API/network reachability, so board-state closure may lag artifact reality.
-- This heartbeat could not run live Vercel/GitHub API checks due scope/runtime limits; verdict is based on repository evidence and committed workflow logic.
-
+- Live control-plane confirmation and terminal Paperclip status patch are currently blocked by Paperclip API connectivity (`Unable to connect to the remote server` from `Invoke-RestMethod`), so board-state closure may lag artifact reality.
+- This heartbeat could not run live Vercel/GitHub API checks due connectivity/runtime limits; verdict is based on repository evidence and committed workflow logic.

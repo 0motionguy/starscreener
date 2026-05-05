@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: code review report of past state; references may not resolve to current files
+---
+
 # 90-Day Hardening Roadmap — STARSCREENER
 
 Companion to [`REVIEW_REPORT.md`](./REVIEW_REPORT.md) and [`PATCH_PLAN.md`](./PATCH_PLAN.md).

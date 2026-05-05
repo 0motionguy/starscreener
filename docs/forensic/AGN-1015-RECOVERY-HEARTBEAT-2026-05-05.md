@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 ## AGN-1015 escalation addendum (2026-05-05, board re-queue directive)
 
 Board directive acknowledged: blocked/cancelled tasks must be re-queued, and if still blocked, escalate with explicit blocker + unblock owner.

@@ -54,7 +54,7 @@ import {
   sleep,
   parseRetryAfterMs,
 } from "./_fetch-json.mjs";
-import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { writeDataStore, closeDataStore, keys } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -121,7 +121,7 @@ async function readDataStoreOrFile(slug, filePath) {
       });
       client.on("error", () => {});
       try {
-        const raw = await client.get(`ss:data:v1:${slug}`);
+        const raw = await client.get(keys.payload(slug));
         if (raw) {
           await client.quit().catch(() => {});
           return { data: JSON.parse(raw), source: "redis" };
@@ -138,7 +138,7 @@ async function readDataStoreOrFile(slug, filePath) {
     try {
       const { Redis } = await import("@upstash/redis");
       const client = new Redis({ url: upstashUrl, token: upstashToken });
-      const raw = await client.get(`ss:data:v1:${slug}`);
+      const raw = await client.get(keys.payload(slug));
       if (raw) {
         const data = typeof raw === "string" ? JSON.parse(raw) : raw;
         return { data, source: "redis" };

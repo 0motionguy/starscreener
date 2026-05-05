@@ -1,6 +1,13 @@
+---
+status: deferred
+last-verified: 2026-05-05
+verified-by: claude
+deferred-reason: phases 1a/1b/1c not wired in main app; worker schema covers current analytics needs
+---
+
 # ADR 0001 — Supabase append-only data lake for cron payloads
 
-- Status: Proposed
+- Status: Deferred (2026-05-05; was: Proposed 2026-05-03)
 - Date: 2026-05-03
 - Driver: Basil
 - Author: Claude (CTO seat)
@@ -386,3 +393,37 @@ whichever comes first.
 
 The win is replay + time-series + analytics with one new dependency
 and zero impact on the home page render path.
+
+## Update — 2026-05-05: deferred
+
+Reality check evidence: `docs/archive/ADR-0001-status-2026-05-05.md`.
+
+The append-only data lake described in this ADR was implemented in
+`apps/trendingrepo-worker/` (5 migrations under
+`apps/trendingrepo-worker/supabase/migrations/`, writes via
+`apps/trendingrepo-worker/src/lib/db.ts`) but the **main-app dual-write path
+(phase 1a), backfill (1b), and reader cutover (1c) were never wired**. As of
+2026-05-05:
+
+- `@supabase/supabase-js` is NOT in the root `package.json` (worker only)
+- `src/lib/supabase-store.ts` does not exist
+- Zero `appendCronPayload` callers in `src/`
+- `scripts/_data-store-write.mjs` writes only to Redis
+
+### Decision
+
+Phases 1a/1b/1c are **deferred**. The worker's `trending_items` /
+`trending_metrics` / `trending_assets` schema covers the analytics use cases
+that have actually surfaced. No incident has demanded the lake; replay/
+time-series use cases remain speculative.
+
+Reversible: when a future use-case surfaces (bad-scan replay, longitudinal
+analytics across all collectors, etc.), wiring phase 1a is ~1 day of work.
+
+### Supersedes / superseded by
+
+This ADR is **not** superseded — it is paused. The worker-only path is the
+de-facto current architecture. A future ADR may either:
+- Activate phases 1a/1b/1c (if the use case appears), or
+- Formally supersede 0001 with a new ADR documenting "Redis primary +
+  worker-only Supabase analytics" as the permanent design.

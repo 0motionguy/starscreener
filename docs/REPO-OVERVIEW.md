@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # STARSCREENER — Repo Overview
 
 Onboarding for a new contributor. One page. Read this first, then dive into the deep docs linked at the bottom.

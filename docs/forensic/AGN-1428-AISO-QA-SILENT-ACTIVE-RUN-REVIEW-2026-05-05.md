@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-1428 AISO/QA Silent Active Run Review (heartbeat evidence)
 
 - Timestamp: 2026-05-05T11:45:00+08:00

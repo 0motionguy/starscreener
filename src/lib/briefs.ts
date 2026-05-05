@@ -31,6 +31,7 @@ export interface RepoBriefRef {
 }
 
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
+export const REPO_BRIEF_TTL_SECONDS = 2_592_000;
 
 interface ParsedFrontmatter {
   [key: string]: string | string[];
@@ -261,7 +262,9 @@ export async function setBrief(owner: string, name: string, body: RepoBrief): Pr
   }
 
   const store = getDataStore();
-  await store.write<RepoBrief>(briefStoreKey(owner, name), normalized, { ttlSeconds: 2_592_000 });
+  await store.write<RepoBrief>(briefStoreKey(owner, name), normalized, {
+    ttlSeconds: REPO_BRIEF_TTL_SECONDS,
+  });
 
   // Keep markdown artifact for local indexing and durability.
   writeFileSync(briefPath(owner, name), toMarkdown(normalized), "utf8");

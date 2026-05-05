@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 
 ## Completed scan capture (unblocked)
 
@@ -8,13 +14,13 @@
 
 ### Lowest weighted dimensions observed
 
-- `ai-discovery` — score `0`, weight `5`
-- `delegate_economy` — score `0`, weight `6`
-- `entity` — score `0`, weight `10`
-- `csp-audit` — score `0`, weight `5`
-- `crawler_block_audit` — score `0`, weight `4`
-- `audience_reviews` — score `0`, weight `4`
-- `offsite` — score `0`, weight `5`
+- `ai-discovery` ï¿½ score `0`, weight `5`
+- `delegate_economy` ï¿½ score `0`, weight `6`
+- `entity` ï¿½ score `0`, weight `10`
+- `csp-audit` ï¿½ score `0`, weight `5`
+- `crawler_block_audit` ï¿½ score `0`, weight `4`
+- `audience_reviews` ï¿½ score `0`, weight `4`
+- `offsite` ï¿½ score `0`, weight `5`
 
 ### Dimension selected for this heartbeat
 

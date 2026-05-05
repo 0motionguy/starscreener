@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # Skills / Agents / MCP — priority lane for Marco + Sergio
 
 **Ticket**: [SAM-12] (AGN-953) — Sergio + Marco coordination

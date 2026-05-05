@@ -122,6 +122,16 @@ export async function ingestRepo(
             const mentions = await adapter.fetchMentionsForRepo(fullName);
             for (const m of mentions) {
               mentionStore.append(m);
+              emitPipelineEvent({
+                type: "mention_ingested",
+                at: new Date().toISOString(),
+                repoId: merged.id,
+                fullName: merged.fullName,
+                mentionId: m.id,
+                platform: m.platform,
+                url: m.url,
+                postedAt: m.postedAt,
+              });
             }
           } catch (err) {
             console.error(

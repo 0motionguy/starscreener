@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: code review report of past state; references may not resolve to current files
+---
+
 # Codex Review Log
 
 This is the running log for the BenedictKing `codex-review` workflow defined in `CODEX_REVIEW_SYSTEM.md`.

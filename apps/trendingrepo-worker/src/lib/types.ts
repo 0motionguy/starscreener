@@ -110,8 +110,8 @@ export interface RedisHandle {
   /** Redis XADD — append entry to a stream. Returns the entry id. */
   xadd(
     stream: string,
-    id: '*' | string,
-    ...fieldValues: string[]
+    fields: Record<string, string>,
+    opts?: { maxlenApprox?: number },
   ): Promise<string | null>;
 }
 

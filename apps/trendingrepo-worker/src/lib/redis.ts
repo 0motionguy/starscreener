@@ -87,6 +87,18 @@ function ioredisAdapter(client: IORedisType): RedisHandle {
         /* ignore */
       }
     },
+    async xadd(stream, fields, opts) {
+      // Build XADD args manually to support MAXLEN ~ N trim.
+      // ioredis xadd type overloads don't expose the MAXLEN form, so we
+      // use the raw-command escape hatch.
+      const flatFields = Object.entries(fields).flat();
+      type AnyXadd = { xadd(...args: string[]): Promise<string | null> };
+      const raw = client as unknown as AnyXadd;
+      if (opts?.maxlenApprox && opts.maxlenApprox > 0) {
+        return raw.xadd(stream, 'MAXLEN', '~', String(opts.maxlenApprox), '*', ...flatFields);
+      }
+      return raw.xadd(stream, '*', ...flatFields);
+    },
   };
 }
 
@@ -94,6 +106,7 @@ interface UpstashLike {
   get(key: string): Promise<string | null>;
   set(key: string, value: string, opts?: { ex?: number }): Promise<unknown>;
   del(...keys: string[]): Promise<unknown>;
+  xadd(...args: string[]): Promise<string | null>;
 }
 
 function upstashAdapter(client: UpstashLike): RedisHandle {
@@ -113,6 +126,13 @@ function upstashAdapter(client: UpstashLike): RedisHandle {
     },
     async quit() {
       // No-op for Upstash REST.
+    },
+    async xadd(stream, fields, opts) {
+      const flatFields = Object.entries(fields).flat();
+      if (opts?.maxlenApprox && opts.maxlenApprox > 0) {
+        return client.xadd(stream, 'MAXLEN', '~', String(opts.maxlenApprox), '*', ...flatFields) as Promise<string | null>;
+      }
+      return client.xadd(stream, '*', ...flatFields) as Promise<string | null>;
     },
   };
 }

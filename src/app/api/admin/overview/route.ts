@@ -151,16 +151,31 @@ async function readAutocompletionTile(): Promise<AdminOverviewResponse["autocomp
           ? tickedOff / totalRepos
           : 0;
     const weekCutoff = Date.now() - ONE_WEEK_MS;
-    const deltaThisWeek = repoStore.getAll().reduce((acc, profile) => {
+    // repoStore.getAll() returns Repo[]; the autocompletion fields live on
+    // RepoProfile. Cast through `unknown` so the field reads compile while
+    // tolerating either store wiring at runtime.
+    type ProfileShape = {
+      lastProfiledAt?: string | null;
+      websiteUrl?: string | null;
+      surfaces?: {
+        docsUrl?: string | null;
+        npmPackages?: unknown[];
+        productHuntLaunchId?: string | null;
+      };
+      aisoScan?: unknown;
+      status?: string;
+    };
+    const deltaThisWeek = repoStore.getAll().reduce((acc, raw) => {
+      const profile = raw as unknown as ProfileShape;
       const lastProfiledAt = Date.parse(profile.lastProfiledAt ?? "");
       if (!Number.isFinite(lastProfiledAt) || lastProfiledAt < weekCutoff) {
         return acc;
       }
       const checklistDone =
         Boolean(profile.websiteUrl) &&
-        Boolean(profile.surfaces.docsUrl) &&
-        profile.surfaces.npmPackages.length > 0 &&
-        Boolean(profile.surfaces.productHuntLaunchId) &&
+        Boolean(profile.surfaces?.docsUrl) &&
+        (profile.surfaces?.npmPackages?.length ?? 0) > 0 &&
+        Boolean(profile.surfaces?.productHuntLaunchId) &&
         Boolean(profile.aisoScan) &&
         profile.status === "scanned";
       return checklistDone ? acc + 1 : acc;

@@ -191,7 +191,7 @@ function CollectionSummaryRow({
         {row.siblings.length > 30 ? (
           <li
             className="font-mono italic"
-            style={{ color: "var(--v3-ink-500)" }}
+            style={{ color: "var(--v3-ink-400)" }}
           >
             +{row.siblings.length - 30} more not shown
           </li>
@@ -349,7 +349,7 @@ function TerminalCellSkillNumber({
   signed?: boolean;
 }) {
   if (value === undefined || value === null || !Number.isFinite(value)) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v3-ink-400)" }}>—</span>;
   }
   const formatted = formatCompactNumber(Math.abs(value));
   const sign = signed ? (value > 0 ? "+" : value < 0 ? "−" : "") : "";
@@ -380,14 +380,14 @@ function TerminalCellForksWithFallback({ row }: { row: EcosystemLeaderboardItem 
         {formatCompactNumber(row.forks)}
         <span
           className="ml-1 text-[9px] uppercase tracking-[0.16em]"
-          style={{ color: "var(--v3-ink-500)" }}
+          style={{ color: "var(--v3-ink-400)" }}
         >
           abs
         </span>
       </span>
     );
   }
-  return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+  return <span style={{ color: "var(--v3-ink-400)" }}>—</span>;
 }
 
 function TerminalCellInstallsWithFallback({ row }: { row: EcosystemLeaderboardItem }) {
@@ -400,19 +400,19 @@ function TerminalCellInstallsWithFallback({ row }: { row: EcosystemLeaderboardIt
         {formatCompactNumber(row.installs7d)}
         <span
           className="ml-1 text-[9px] uppercase tracking-[0.16em]"
-          style={{ color: "var(--v3-ink-500)" }}
+          style={{ color: "var(--v3-ink-400)" }}
         >
           abs
         </span>
       </span>
     );
   }
-  return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+  return <span style={{ color: "var(--v3-ink-400)" }}>—</span>;
 }
 
 function TerminalCellSkillDerivative({ row }: { row: EcosystemLeaderboardItem }) {
   if (row.derivativeRepoCount === undefined || row.derivativeRepoCount === null) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v3-ink-400)" }}>—</span>;
   }
   // E3: tooltip surfaces sample sources (registry the count was derived from)
   // when present. Today's payload carries roster keys ("trending-skill",
@@ -452,7 +452,7 @@ export function TerminalCellHotness({
 }) {
   const value = rawScore ?? signalScore;
   if (value === undefined || value === null || !Number.isFinite(value)) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v3-ink-400)" }}>—</span>;
   }
   const pct = Math.max(0, Math.min(100, value));
   return (

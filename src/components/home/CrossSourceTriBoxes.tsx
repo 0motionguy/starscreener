@@ -228,7 +228,7 @@ function Box({
       {rows.length === 0 ? (
         <div
           className="v2-mono py-6 px-3 text-center text-[10px] tracking-[0.18em]"
-          style={{ color: "var(--v3-ink-500)" }}
+          style={{ color: "var(--v3-ink-400)" }}
         >
           {`// ${emptyHint}`}
         </div>

@@ -107,7 +107,7 @@ export function TerminalCellTitle({ item }: { item: EcosystemLeaderboardItem }) 
 
 export function TerminalCellPackage({ mcp }: { mcp: McpDisplayFields | undefined }) {
   if (!mcp || !mcp.packageName) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v3-ink-400)" }}>—</span>;
   }
   const reg = mcp.packageRegistry;
   const regColor =
@@ -155,7 +155,7 @@ export function TerminalCellWeeklyDownloads({
   mcp: McpDisplayFields | undefined;
 }) {
   if (!mcp) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v3-ink-400)" }}>—</span>;
   }
 
   // Primary path: combined 7d downloads available.
@@ -207,7 +207,7 @@ export function TerminalCellWeeklyDownloads({
         {fmtCompact(sum)}
         <span
           className="ml-1 text-[9px] uppercase tracking-[0.16em]"
-          style={{ color: "var(--v3-ink-500)" }}
+          style={{ color: "var(--v3-ink-400)" }}
         >
           abs
         </span>
@@ -229,7 +229,7 @@ export function TerminalCellWeeklyDownloads({
         {fmtCompact(mcp.npmDependents)}
         <span
           className="ml-1 text-[9px] uppercase tracking-[0.16em]"
-          style={{ color: "var(--v3-ink-500)" }}
+          style={{ color: "var(--v3-ink-400)" }}
         >
           abs
         </span>
@@ -254,7 +254,7 @@ export function TerminalCellWeeklyDownloads({
         {fmtCompact(mcp.installsTotal)}
         <span
           className="ml-1 text-[9px] uppercase tracking-[0.16em]"
-          style={{ color: "var(--v3-ink-500)" }}
+          style={{ color: "var(--v3-ink-400)" }}
           title="lifetime installs (cold-start fallback)"
         >
           abs
@@ -278,7 +278,7 @@ export function TerminalCellWeeklyDownloads({
         {fmtCompact(mcp.starsTotal)}
         <span
           className="ml-1 text-[9px] uppercase tracking-[0.16em]"
-          style={{ color: "var(--v3-ink-500)" }}
+          style={{ color: "var(--v3-ink-400)" }}
           title="GitHub stars (final fallback)"
         >
           stars
@@ -287,7 +287,7 @@ export function TerminalCellWeeklyDownloads({
     );
   }
 
-  return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+  return <span style={{ color: "var(--v3-ink-400)" }}>—</span>;
 }
 
 // ---------------------------------------------------------------------------
@@ -301,7 +301,7 @@ export function TerminalCellWeeklyDownloads({
 
 function renderInstallWindow(value: number | null | undefined) {
   if (value === null || value === undefined || !Number.isFinite(value)) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v3-ink-400)" }}>—</span>;
   }
   return (
     <span
@@ -343,7 +343,7 @@ export function TerminalCellToolCount({
   mcp: McpDisplayFields | undefined;
 }) {
   if (!mcp || mcp.toolCount === null) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v3-ink-400)" }}>—</span>;
   }
   return (
     <span
@@ -365,7 +365,7 @@ export function TerminalCellTransports({
 }: {
   mcp: McpDisplayFields | undefined;
 }) {
-  if (!mcp) return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+  if (!mcp) return <span style={{ color: "var(--v3-ink-400)" }}>—</span>;
   const transports: Array<{ label: string; tone: string }> = [];
   if (mcp.isStdio) {
     transports.push({ label: "stdio", tone: "var(--v3-ink-300)" });
@@ -377,7 +377,7 @@ export function TerminalCellTransports({
     transports.push({ label: "stream", tone: "var(--v3-acc)" });
   }
   if (transports.length === 0) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v3-ink-400)" }}>—</span>;
   }
   return (
     <div className="flex flex-wrap gap-1">
@@ -428,7 +428,7 @@ export function TerminalCellLastRelease({
   mcp: McpDisplayFields | undefined;
 }) {
   if (!mcp || !mcp.lastReleaseAt) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v3-ink-400)" }}>—</span>;
   }
   return (
     <span
@@ -525,7 +525,7 @@ export function TerminalCellHotness({
   const value =
     typeof item.hotness === "number" ? item.hotness : item.signalScore;
   if (value === null || value === undefined || !Number.isFinite(value)) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v3-ink-400)" }}>—</span>;
   }
   return (
     <span
@@ -545,7 +545,7 @@ export function TerminalCellLinkedRepo({
   item: EcosystemLeaderboardItem;
 }) {
   if (!item.linkedRepo) {
-    return <span style={{ color: "var(--v3-ink-500)" }}>—</span>;
+    return <span style={{ color: "var(--v3-ink-400)" }}>—</span>;
   }
   return (
     <Link

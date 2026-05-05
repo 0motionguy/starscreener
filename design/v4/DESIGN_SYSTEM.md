@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # TRENDINGREPO V4 (CORPUS) — Design System
 
 > **The contract.** Every page in V4 reads from this document and from

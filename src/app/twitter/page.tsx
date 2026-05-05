@@ -440,7 +440,7 @@ function TwitterLeaderboardTable({
     >
       <div>
         <div
-          className="v2-mono grid h-9 grid-cols-[30px_48px_minmax(0,1fr)_64px_70px] items-center gap-2 px-2 text-[10px] uppercase tracking-[0.18em] md:grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] md:gap-3 md:px-3"
+          className="v2-mono grid h-8 grid-cols-[30px_48px_minmax(0,1fr)_64px_70px] items-center gap-2 px-2 text-[10px] uppercase tracking-[0.18em] md:grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px] md:gap-3 md:px-3"
           style={{
             borderBottom: "1px solid var(--v4-line-100)",
             background: "var(--v4-bg-025)",
@@ -454,45 +454,20 @@ function TwitterLeaderboardTable({
           <div className="hidden text-right md:block">Likes</div>
           <div className="hidden text-right md:block">Reposts</div>
           <div className="hidden text-right md:block">Score</div>
-          <div>Badge</div>
         </div>
         <ol>
           {rows.map((row, index) => {
             const [owner, name] = row.githubFullName.split("/", 2);
-            const badgeLabel =
-              row.badgeState === "x_fire"
-                ? "X FIRE"
-                : row.badgeState === "x"
-                  ? "X"
-                  : "--";
             const rankLabel =
               activeTab === "trending" && row.trendingRank
                 ? `#${row.trendingRank}`
                 : `#${index + 1}`;
             const stagger = Math.min(index, 6) * 50;
 
-            const badgeStyle =
-              row.badgeState === "x_fire"
-                ? {
-                    border: "1px solid rgba(245, 110, 15, 0.4)",
-                    background: "rgba(245, 110, 15, 0.1)",
-                    color: "var(--v4-acc)",
-                  }
-                : row.badgeState === "x"
-                  ? {
-                      border: `1px solid ${X_BLUE}66`,
-                      background: `${X_BLUE}1A`,
-                      color: X_BLUE,
-                    }
-                  : {
-                      border: "1px solid var(--v4-line-200)",
-                      color: "var(--v4-ink-400)",
-                    };
-
             return (
               <li
                 key={row.repoId}
-                className="v2-row group grid grid-cols-[30px_48px_minmax(0,1fr)_64px_70px] items-center gap-2 px-2 py-2 md:grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] md:gap-3 md:px-3"
+                className="v2-row group grid grid-cols-[30px_48px_minmax(0,1fr)_64px_70px] items-center gap-2 px-2 py-1.5 md:grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px] md:gap-3 md:px-3"
                 style={{
                   borderBottom: "1px dashed var(--v4-line-100)",
                   animation:
@@ -533,10 +508,23 @@ function TwitterLeaderboardTable({
                     </Link>
                   </div>
                   <div
-                    className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px]"
+                    className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10px]"
                     style={{ color: "var(--v4-ink-400)" }}
                   >
                     <RepoActionLinks row={row} />
+                    {row.badgeState === "x_fire" ? (
+                      <span
+                        className="v2-mono inline-flex items-center px-1 py-0.5 text-[10px] uppercase tracking-[0.16em]"
+                        style={{
+                          border: "1px solid rgba(245, 110, 15, 0.4)",
+                          background: "rgba(245, 110, 15, 0.1)",
+                          color: "var(--v4-acc)",
+                          borderRadius: 2,
+                        }}
+                      >
+                        X FIRE
+                      </span>
+                    ) : null}
                     {activeTab === "trending" ? (
                       <>
                         {row.momentumScore !== undefined ? (
@@ -582,14 +570,6 @@ function TwitterLeaderboardTable({
                   style={{ color: "var(--v4-acc)" }}
                 >
                   {row.finalTwitterScore.toFixed(1)}
-                </div>
-                <div>
-                  <span
-                    className="v2-mono inline-flex items-center px-2 py-0.5 text-[10px] uppercase tracking-[0.16em]"
-                    style={{ ...badgeStyle, borderRadius: 2 }}
-                  >
-                    {badgeLabel}
-                  </span>
                 </div>
               </li>
             );

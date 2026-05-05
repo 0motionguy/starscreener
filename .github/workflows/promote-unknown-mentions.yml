@@ -36,8 +36,6 @@ jobs:
         run: npm ci
 
       - name: Promote top-N unknown mentions
-        env:
-          REDIS_URL: ${{ secrets.REDIS_URL }}
         run: node scripts/promote-unknown-mentions.mjs
 
       - name: Compute commit timestamp

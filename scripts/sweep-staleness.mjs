@@ -23,7 +23,6 @@
 import { writeFile, readFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "..");
@@ -195,15 +194,10 @@ async function main() {
 
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(OUT_PATH, JSON.stringify(report, null, 2) + "\n", "utf8");
-  const writeResult = await writeDataStore("staleness-report", report, {
-    writer: "github-actions:sweep-staleness",
-  });
-  await closeDataStore();
 
   const totalStale = sources.reduce((acc, s) => acc + s.stale, 0);
   const totalRecords = sources.reduce((acc, s) => acc + s.total, 0);
   log(`wrote ${OUT_PATH}`);
-  log(`  data-store: ${writeResult.source} @ ${writeResult.writtenAt}`);
   log(`  ${totalStale} stale / ${totalRecords} records across ${sources.length} sources`);
   for (const s of sources) {
     log(`  - ${s.slug}: ${s.stale}/${s.total} stale (>${s.thresholdHours}h)`);

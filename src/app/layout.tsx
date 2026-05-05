@@ -32,6 +32,7 @@ import { OnboardingTour } from "@/components/layout/OnboardingTour";
 import { PwaInstallPrompt } from "@/components/layout/PwaInstallPrompt";
 import { ScrollToTopButton } from "@/components/layout/ScrollToTopButton";
 import { CmdKPalette } from "@/components/layout/CmdKPalette";
+import { BrowserTabLiveCounter } from "@/components/layout/BrowserTabLiveCounter";
 import { ClientDeferredProviders } from "@/components/layout/ClientDeferredProviders";
 import { DesignSystemProvider } from "@/components/v3";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -269,6 +270,7 @@ export default async function RootLayout({
               <PwaInstallPrompt />
               <OnboardingTour />
               <CmdKPalette />
+              <BrowserTabLiveCounter />
               <ScrollToTopButton />
               <Footer />
               <BugReportWidget />
@@ -282,4 +284,3 @@ export default async function RootLayout({
     </html>
   );
 }
-

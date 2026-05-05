@@ -27,6 +27,7 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { MarkVisited } from "@/components/layout/MarkVisited";
 import { HfNavTabs } from "@/components/huggingface/HfNavTabs";
+import { absoluteUrl } from "@/lib/seo";
 
 // HF "yellow" — no `--v4-src-hf` token exists; hardcoded once on the pip,
 // rest of the page stays tokenized via var(--v4-*).
@@ -39,17 +40,19 @@ export const metadata: Metadata = {
   title: "Trending Hugging Face Models",
   description:
     "Top 100 Hugging Face models by domain-scored momentum — downloads, likes, recency, and cross-source mentions. Live model leaderboard.",
-  alternates: { canonical: "/huggingface" },
+  alternates: { canonical: absoluteUrl("/huggingface") },
   openGraph: {
     title: "Trending Hugging Face Models — TrendingRepo",
     description: "Top HF models by domain-scored momentum.",
-    url: "/huggingface",
+    url: absoluteUrl("/huggingface"),
     type: "website",
+    images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Trending Hugging Face Models — TrendingRepo",
     description: "Top HF models by domain-scored momentum.",
+    images: [absoluteUrl("/og-card.png")],
   },
 };
 

@@ -17,6 +17,7 @@ import {
   XCircle,
 } from "lucide-react";
 
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { trustmrrProfileUrl } from "@/lib/trustmrr-url";
 
 type Mode = "trustmrr_link" | "self_report";
@@ -57,6 +58,10 @@ export function RevenueQueueAdmin() {
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<Filter>("pending");
   const [busyId, setBusyId] = useState<string | null>(null);
+  // AGN-611 — pending destructive action awaiting confirmation.
+  const [pendingReject, setPendingReject] = useState<AdminSubmission | null>(
+    null,
+  );
 
   const filtered = useMemo(() => {
     if (filter === "all") return submissions;
@@ -130,6 +135,27 @@ export function RevenueQueueAdmin() {
     void loadQueue();
   }, [loadQueue]);
 
+  // AGN-611 — Reject is destructive (submission stops surfacing on the
+  // repo detail page and the submitter is notified). Gate it behind a
+  // confirmation modal; approve stays one-click.
+  const handleAction = useCallback(
+    (row: AdminSubmission, action: "approve" | "reject") => {
+      if (action === "reject") {
+        setPendingReject(row);
+        return;
+      }
+      void moderate(row.id, action);
+    },
+    [],
+  );
+
+  const confirmReject = useCallback(() => {
+    if (!pendingReject) return;
+    const target = pendingReject;
+    setPendingReject(null);
+    void moderate(target.id, "reject");
+  }, [pendingReject]);
+
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1100px] mx-auto px-4 md:px-6 py-6 md:py-8">
@@ -195,12 +221,32 @@ export function RevenueQueueAdmin() {
                 key={row.id}
                 row={row}
                 busy={busyId === row.id}
-                onAction={(action) => moderate(row.id, action)}
+                onAction={(action) => handleAction(row, action)}
               />
             ))
           )}
         </section>
       </div>
+      <ConfirmDialog
+        open={pendingReject !== null}
+        title="Reject revenue submission?"
+        description={
+          pendingReject ? (
+            <span>
+              Reject the {pendingReject.mode === "trustmrr_link" ? "TrustMRR" : "self-reported"}{" "}
+              submission for <strong>{pendingReject.fullName}</strong>? It will
+              stop surfacing on the repo detail page and the submitter is
+              notified.
+            </span>
+          ) : null
+        }
+        confirmLabel="Reject"
+        cancelLabel="Cancel"
+        tone="danger"
+        busy={pendingReject ? busyId === pendingReject.id : false}
+        onConfirm={confirmReject}
+        onCancel={() => setPendingReject(null)}
+      />
     </main>
   );
 }

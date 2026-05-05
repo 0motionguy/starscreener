@@ -35,6 +35,10 @@ const MAX_SCAN_AGE_MS = 30 * 24 * 60 * 60 * 1000;
 const MAX_AUDIT_LOGS = 1_000;
 const MAX_AUDIT_LOG_AGE_MS = 30 * 24 * 60 * 60 * 1000;
 const PERSIST_DEBOUNCE_MS = 2_000;
+
+export const TWITTER_SCAN_RETENTION_DAYS = MAX_SCAN_AGE_MS / (24 * 60 * 60 * 1000);
+export const TWITTER_AUDIT_LOG_RETENTION_DAYS = MAX_AUDIT_LOG_AGE_MS / (24 * 60 * 60 * 1000);
+export const TWITTER_AUDIT_LOG_MAX_ENTRIES = MAX_AUDIT_LOGS;
 const BUNDLED_TWITTER_DATA_DIR = path.join(process.cwd(), ".data");
 
 function isEnoent(err: unknown): boolean {

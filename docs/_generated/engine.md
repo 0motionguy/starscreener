@@ -1,6 +1,6 @@
-# Engine inventory - auto-generated 2026-05-05T05:48:15.872Z
+# Engine inventory - auto-generated 2026-05-05T06:05:04.056Z
 
-## Workflows (85)
+## Workflows (88)
 
 | file | name | cron | triggers |
 | --- | --- | --- | --- |
@@ -31,6 +31,7 @@
 | cron-webhooks-flush.yml | Cron - webhooks flush + scan | `5,35 * * * *` | schedule, workflow_dispatch |
 | doc-links-check.yml | doc-links-check | - | pull_request, workflow_dispatch |
 | docs-freshness.yml | docs-freshness | `0 13 * * 1` | pull_request, schedule, workflow_dispatch |
+| engine-inventory-check.yml | engine-inventory-check | - | pull_request |
 | engine-inventory-refresh.yml | engine-inventory-refresh | `0 14 * * 1` | pull_request, schedule, workflow_dispatch |
 | enrich-arxiv.yml | Enrich arXiv signals | `13 */12 * * *` | schedule, workflow_dispatch |
 | enrich-repo-profiles.yml | Refresh repo profiles | `41 * * * *` | schedule, workflow_dispatch |
@@ -89,6 +90,8 @@
 | trendingrepo-worker.yml | trendingrepo-worker | - | pull_request, push, workflow_dispatch |
 | trivy-worker-image.yml | trivy-worker-image | - | pull_request, push, workflow_dispatch |
 | uptime-monitor.yml | Uptime monitor (every 5 minutes) | `*/5 * * * *` | schedule, workflow_dispatch |
+| workflow-coverage-check.yml | workflow-coverage-check | - | pull_request |
+| worklog-hygiene.yml | worklog-hygiene | `0 6 * * 1` | schedule, workflow_dispatch |
 
 ## Cron routes (14)
 
@@ -109,7 +112,7 @@
 | src/app/api/cron/webhooks/flush/route.ts | verifyCronAuth |
 | src/app/api/cron/webhooks/scan/route.ts | verifyCronAuth |
 
-## Worker fetchers (51)
+## Worker fetchers (47)
 
 - ai-blogs
 - arxiv
@@ -123,20 +126,16 @@
 - devto
 - engagement-composite
 - funding-news
-- github
 - github-events
 - glama
 - hackernews
 - hn-pulse
 - hotness-snapshot
-- huggingface
 - lobehub-skills
 - lobsters
 - manual-repos
 - mcp-registry-official
-- mcp-servers-repo
 - mcp-smithery-rank
-- mcp-so
 - mcp-usage-snapshot
 - npm-dependents
 - npm-downloads

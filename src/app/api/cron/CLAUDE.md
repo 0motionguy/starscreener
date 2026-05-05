@@ -1,8 +1,14 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # Cron route conventions
 
-Every route under `src/app/api/cron/**/route.ts` follows the same shape.
-See `aiso-drain/route.ts` and `twitter-daily/route.ts` as canonical
-references.
+Every route under `src/app/api/cron/**/route.ts` follows the same shape
+(14 active routes after the Wave 4 deletions). See `aiso-drain/route.ts`
+and `twitter-daily/route.ts` as canonical references.
 
 ## Auth — non-negotiable
 

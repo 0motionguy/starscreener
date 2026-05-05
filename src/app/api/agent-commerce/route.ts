@@ -3,8 +3,10 @@
 // matching the page (tab, cat, protocol, pricing, portalready, q, limit, offset).
 
 import { NextResponse, type NextRequest } from "next/server";
+import { z } from "zod";
 
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
+import { errorEnvelope, serverError } from "@/lib/api/error-response";
 import {
   getAgentCommerceFile,
   getAgentCommerceItems,
@@ -25,6 +27,16 @@ import {
 export const runtime = "nodejs";
 
 const MAX_LIMIT = 200;
+const QuerySchema = z.object({
+  tab: z.string().optional(),
+  cat: z.string().optional(),
+  protocol: z.string().optional(),
+  pricing: z.string().optional(),
+  portalready: z.string().optional(),
+  q: z.string().optional(),
+  limit: z.string().optional(),
+  offset: z.string().optional(),
+});
 
 function clampLimit(raw: string | null): number {
   const n = Number.parseInt(raw ?? "60", 10);
@@ -39,41 +51,57 @@ function clampOffset(raw: string | null): number {
 }
 
 export async function GET(request: NextRequest) {
-  await refreshAgentCommerceFromStore();
-  const sp = request.nextUrl.searchParams;
+  try {
+    const parsed = QuerySchema.safeParse(
+      Object.fromEntries(request.nextUrl.searchParams.entries()),
+    );
+    if (!parsed.success) {
+      return NextResponse.json(
+        errorEnvelope("invalid query parameters", "INVALID_QUERY"),
+        { status: 400 },
+      );
+    }
+    await refreshAgentCommerceFromStore();
+    const sp = request.nextUrl.searchParams;
 
-  const filter: AgentCommerceFilter = {
-    tab: parseTab(sp.get("tab")),
-    category: parseCategory(sp.get("cat")),
-    protocols: parseProtocols(sp.get("protocol")),
-    pricing: parsePricing(sp.get("pricing")),
-    portalReady: parsePortalReady(sp.get("portalready")),
-    query: parseSearchQuery(sp.get("q")),
-  };
+    const filter: AgentCommerceFilter = {
+      tab: parseTab(sp.get("tab")),
+      category: parseCategory(sp.get("cat")),
+      protocols: parseProtocols(sp.get("protocol")),
+      pricing: parsePricing(sp.get("pricing")),
+      portalReady: parsePortalReady(sp.get("portalready")),
+      query: parseSearchQuery(sp.get("q")),
+    };
 
-  const limit = clampLimit(sp.get("limit"));
-  const offset = clampOffset(sp.get("offset"));
+    const limit = clampLimit(sp.get("limit"));
+    const offset = clampOffset(sp.get("offset"));
 
-  const all = getAgentCommerceItems();
-  const filtered = applyFilter(all, filter);
-  const sorted = filtered
-    .slice()
-    .sort((a, b) => b.scores.composite - a.scores.composite);
-  const slice = sorted.slice(offset, offset + limit);
+    const all = getAgentCommerceItems();
+    const filtered = applyFilter(all, filter);
+    const sorted = filtered
+      .slice()
+      .sort((a, b) => b.scores.composite - a.scores.composite);
+    const slice = sorted.slice(offset, offset + limit);
 
-  const file = getAgentCommerceFile();
+    const file = getAgentCommerceFile();
 
-  return NextResponse.json(
-    {
-      fetchedAt: file.fetchedAt,
-      source: file.source,
-      windowDays: file.windowDays,
-      total: filtered.length,
-      offset,
-      limit,
-      stats: getAgentCommerceStats(),
-      items: slice,
-    },
-    { headers: READ_CACHE_HEADERS },
-  );
+    return NextResponse.json(
+      {
+        fetchedAt: file.fetchedAt,
+        source: file.source,
+        windowDays: file.windowDays,
+        total: filtered.length,
+        offset,
+        limit,
+        stats: getAgentCommerceStats(),
+        items: slice,
+      },
+      { headers: READ_CACHE_HEADERS },
+    );
+  } catch (error) {
+    return serverError(error, {
+      scope: "[api/agent-commerce]",
+      code: "AGENT_COMMERCE_ROUTE_FAILED",
+    });
+  }
 }

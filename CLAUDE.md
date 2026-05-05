@@ -1,3 +1,5 @@
+<!-- last-verified: 2026-05-05 -->
+
 # SESSION OPENING PROTOCOL — MANDATORY BEFORE ANY OTHER ACTION
 
 When you start a session in this repository, the FIRST steps are
@@ -40,7 +42,7 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 ## Setup
 - `npm install` (Node 22.x — pinned via `engines` in package.json)
 - Copy `.env.example` to `.env.local`. Required for prod: `GITHUB_TOKEN`, `CRON_SECRET`. Pick exactly ONE Redis pair: `REDIS_URL` (Railway) OR `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` (Upstash) — never both. Without either, the data-store gracefully falls back to bundled JSON + memory.
-- Windows + OneDrive gotcha: dev server hits ENOENT loops without the `.next` junction workaround in `next.config.ts:12-25`. CSS edits can also be silently reverted by OneDrive sync — see memory note `project_onedrive_dev_server_block`.
+- Windows + OneDrive gotcha: dev server hits ENOENT loops without the `.next` junction workaround documented in `next.config.ts:38-52`. CSS edits can also be silently reverted by OneDrive sync — see memory note `project_onedrive_dev_server_block`.
 
 ## Critical Conventions
 - **Data reads MUST go through the data-store.** Server components / route handlers call the per-source `refreshXxxFromStore()` (async) once at the top, then sync getters in the rest of the file return whatever's in the in-memory cache. Each refresh hook has internal 30s rate-limit + in-flight dedupe so calling it on every render is cheap. Pattern reference: [src/lib/trending.ts:refreshTrendingFromStore](src/lib/trending.ts) and [src/app/page.tsx](src/app/page.tsx). Plan + provisioning: [tasks/data-api.md](tasks/data-api.md).
@@ -49,6 +51,7 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - **Twitter** uses Nitter as the current provider (see [docs/TWITTER_SIGNAL_LAYER.md](docs/TWITTER_SIGNAL_LAYER.md) and `scripts/check-nitter-health.mjs` for the live health probe). Cookie-based scrapers and the previous Apify `apidojo~tweet-scraper` path are dead/deprecated â€” do not revert.
 - **Append-only JSONL.** Each scan adds new lines, never replaces. Aggregator dedupes downstream.
 - **Home page (`/`) is ISR-cached at 30 min** (`revalidate=1800`). Bundled JSON seeds the cold start; client refresh hooks repopulate the in-memory cache on navigation. Don't expect fresh data on first paint.
+- **Redis keys go through the registry.** Every key built in `src/` flows through [src/lib/redis/keys.ts](src/lib/redis/keys.ts) (`keys.payload(slug)` / `keys.meta(slug)` / etc.). No inline `` `ss:data:v1:${slug}` `` template literals — `scripts/check-redis-keys.mjs` (in `npm run lint:guards`) fails the build. Worker mirrors this at `apps/trendingrepo-worker/src/lib/redis-keys.ts`; the two MUST stay byte-identical for `ss:data:v1` / `ss:meta:v1`.
 
 ## Common Tasks
 - Dev: `npm run dev` (Turbopack, port 3023)
@@ -64,14 +67,16 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 
 ## Where to Look First
 - **Operator situational-awareness doc (start here)** → [docs/OPERATOR.md](docs/OPERATOR.md) — TL;DR for a fresh session, current production state, audit-2026-05-04 followup status, hourly+minute workflow rotation, image-coverage map, what-shipped-vs-open. Operator-only — never linked from any public route. Refreshed at the end of every "go" wave.
-- **Engine map (85 workflows + every API key + every cron + pool architecture)** → [docs/ENGINE.md](docs/ENGINE.md) — read FIRST when you need to know what runs where, on what cadence, with which keys. Rewritten from current code 2026-05-05.
+- **Engine map (88 workflows + 14 cron API routes + every API key + pool architecture)** → [docs/ENGINE.md](docs/ENGINE.md) — read FIRST when you need to know what runs where, on what cadence, with which keys. Rewritten from current code 2026-05-05.
 - **Site wire map (every route → its data → collector → external API)** → [docs/SITE-WIREMAP.md](docs/SITE-WIREMAP.md) — top-down menu walk. Use when a page is broken to trace it back to the failing collector. Refreshed 2026-05-02.
 - New here? `docs/ARCHITECTURE.md`
 - Data layer (Redis-backed)? [tasks/data-api.md](tasks/data-api.md) — full plan, provisioning steps, phased roadmap
 - Ingest pipeline? `docs/INGESTION.md` + `docs/TWITTER_SIGNAL_LAYER.md`
 - Deploy issues? `docs/DEPLOY.md`
 - Adding a signal source? `docs/SOURCE_DISCOVERY.md`
-- See `apps/trendingrepo-worker/` referenced in code? Sister Railway service hosting 51 fetchers (MCP registries, funding sources, scoring) — lives in worktree branches not yet in main. See memory `project_trendingrepo_worker.md`.
+- Architecture decisions? `docs/decisions/` (ADRs 0001–0006). 0004 (redis primary), 0005 (generated-docs commit policy), 0006 (redis namespace unification) are the live load-bearing ones.
+- CI guards? `scripts/check-*.mjs` — `check-docs-freshness`, `check-living-docs-have-frontmatter`, `check-redis-keys`, `check-internal-doc-links`, `check-workflow-engine-coverage`. All wired into `npm run lint:guards` or dedicated workflows (`docs-freshness.yml`, `engine-inventory-check.yml`, `workflow-coverage-check.yml`, `doc-links-check.yml`, `worklog-hygiene.yml`).
+- See `apps/trendingrepo-worker/` referenced in code? Sister Railway service — 44 active fetchers in `FETCHERS[]` (51 total in tree per `npm run engine:derive`; 7 stubs excluded from registry). See [apps/trendingrepo-worker/CLAUDE.md](apps/trendingrepo-worker/CLAUDE.md) and memory `project_trendingrepo_worker.md`.
 
 ## Anti-Patterns Already Burned
 - Don't switch Twitter collector back to API mode — it silently fails on Vercel.

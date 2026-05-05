@@ -24,9 +24,10 @@ test("GET /api/admin/pool-state: 503 when ADMIN_TOKEN is not configured", async 
   const res = await GET(makeRequest());
 
   assert.equal(res.status, 503);
-  const body = (await res.json()) as { ok: boolean; reason: string };
+  const body = (await res.json()) as { ok: boolean; error: string; code: string };
   assert.equal(body.ok, false);
-  assert.match(body.reason, /ADMIN_TOKEN unset/);
+  assert.match(body.error, /ADMIN_TOKEN unset/);
+  assert.equal(body.code, "NOT_CONFIGURED");
 });
 
 test("GET /api/admin/pool-state: 401 when ADMIN_TOKEN is configured but auth is missing", async () => {
@@ -35,9 +36,10 @@ test("GET /api/admin/pool-state: 401 when ADMIN_TOKEN is configured but auth is 
   const res = await GET(makeRequest());
 
   assert.equal(res.status, 401);
-  const body = (await res.json()) as { ok: boolean; reason: string };
+  const body = (await res.json()) as { ok: boolean; error: string; code: string };
   assert.equal(body.ok, false);
-  assert.equal(body.reason, "unauthorized");
+  assert.equal(body.error, "unauthorized");
+  assert.equal(body.code, "UNAUTHORIZED");
 });
 
 test("GET /api/admin/pool-state: 401 on wrong bearer token", async () => {
@@ -48,9 +50,10 @@ test("GET /api/admin/pool-state: 401 on wrong bearer token", async () => {
   );
 
   assert.equal(res.status, 401);
-  const body = (await res.json()) as { ok: boolean; reason: string };
+  const body = (await res.json()) as { ok: boolean; error: string; code: string };
   assert.equal(body.ok, false);
-  assert.equal(body.reason, "unauthorized");
+  assert.equal(body.error, "unauthorized");
+  assert.equal(body.code, "UNAUTHORIZED");
 });
 
 test("GET /api/admin/pool-state: CRON_SECRET is never accepted as admin auth", async () => {
@@ -62,7 +65,8 @@ test("GET /api/admin/pool-state: CRON_SECRET is never accepted as admin auth", a
   );
 
   assert.equal(res.status, 401);
-  const body = (await res.json()) as { ok: boolean; reason: string };
+  const body = (await res.json()) as { ok: boolean; error: string; code: string };
   assert.equal(body.ok, false);
-  assert.equal(body.reason, "unauthorized");
+  assert.equal(body.error, "unauthorized");
+  assert.equal(body.code, "UNAUTHORIZED");
 });

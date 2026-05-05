@@ -1,9 +1,20 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # trendingrepo-worker
 
 Sister Railway service. Standalone npm package
-(`@trendingrepo/worker`, private, ESM, Node >=20). Hosts ~30 fetchers
-plus scoring/publish jobs. Talks to the same Redis the Next.js app
-reads, but ships independently.
+(`@trendingrepo/worker`, private, ESM, Node >=20). 44 active fetchers in
+`FETCHERS[]` (out of 54 dirs in `src/fetchers/` — `_template`, `arxiv`
+[PLANNED, real writer is `scripts/scrape-arxiv.mjs`], plus 4 stub dirs
+[`github`, `huggingface`, `mcp-so`, `mcp-servers-repo`] left on disk as
+intent docs but intentionally NOT imported into the registry to avoid
+Sentry "not yet implemented" spam every cron tick). Plus scoring/publish
+jobs. Talks to the same Redis the Next.js app reads, but ships
+independently.
 
 Entrypoint: `src/index.ts` (cron mode via `croner`); see
 `registry.ts` for the fetcher list and `schedule.ts` for cadences.

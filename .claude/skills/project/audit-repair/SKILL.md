@@ -18,8 +18,11 @@ Trigger phrases:
 ## The loop (one item at a time -- do NOT batch)
 
 1. **Read the item.**
-   - Open `docs/AUDIT-2026-05-04.md` (or whichever audit doc the user named).
-   - Open `docs/forensic/00-INDEX.md` for any cross-referenced forensic notes.
+   - Open `docs/INDEX.md` (canonical audit table after Wave 1) or the
+     archived snapshot at `docs/archive/AUDIT-2026-05-04.md` if the
+     user names it explicitly.
+   - Open `docs/archive/forensic-2026-05-pre/00-INDEX.md` for any
+     cross-referenced forensic notes (the pre-2026-05-05 archive).
    - Quote the exact row and ID back to the user so we agree on scope.
 
 2. **Read affected code.**
@@ -45,8 +48,10 @@ Trigger phrases:
    - Reproducer test for functional rows -- write the failing test first if missing.
 
 6. **Update the ledger.**
-   - Mark the row Done in `docs/AUDIT-*.md` with date + commit SHA.
-   - If the item references a forensic doc, update `docs/forensic/00-INDEX.md` status.
+   - Mark the row Done in `docs/INDEX.md` with date + commit SHA.
+   - If the item references a forensic doc, update
+     `docs/archive/forensic-2026-05-pre/00-INDEX.md` status (the
+     pre-2026-05-05 forensic archive index).
    - If new follow-ups surfaced, add them to `tasks/BACKLOG.md` -- do NOT silently
      expand the current row.
 

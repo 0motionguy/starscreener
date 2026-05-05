@@ -80,7 +80,7 @@ export function buildBadgeLabel(status: HealthStatus, scraperAgeSeconds: number 
   if (status === "stale") {
     return age === "--" ? "STALE" : `STALE / ${age}`;
   }
-  return age === "--" ? "LIVE" : `LIVE / ${age}`;
+  return age === "--" ? "FRESH" : `FRESH / ${age}`;
 }
 
 const POLL_INTERVAL_ERROR_MS = 30_000;

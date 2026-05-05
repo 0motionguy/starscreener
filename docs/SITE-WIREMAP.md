@@ -1,4 +1,10 @@
-﻿# SITE-WIREMAP.md â€” Frontend â†’ Data â†’ Collector â†’ External API
+﻿---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
+# SITE-WIREMAP.md â€” Frontend â†’ Data â†’ Collector â†’ External API
 
 **Purpose**: every user-facing route in the site, mapped to the data-store key it reads, the collector that populates that key, the cron schedule, and the external API at the source. Sister doc to [ENGINE.md](ENGINE.md) (which catalogues the engine bottom-up by service); this one walks **top-down from the menu**.
 
@@ -26,7 +32,7 @@ For route-level smoke ownership and one-line validation checks, see [regression-
 
 Routes NOT in the sidebar but addressable: `/u/[handle]`, `/repo/[owner]/[name]`, `/repo/[owner]/[name]/star-activity`, `/search`, `/alerts`, `/alerts/new`, `/submit`, `/submit/revenue`, `/cli`, `/portal/docs`, `/pricing`, `/digest/[date]`, `/agent-commerce/[slug]`, `/agent-commerce/facilitator/[name]`, `/agent-repos/[slug]`, `/skills/[slug]`, `/categories/[slug]`, `/collections/[slug]`, `/consensus/[owner]/[name]`, `/mcp/[slug]`, `/ideas/[id]`, `/tierlist/[shortId]`, `/s/[shortId]`, `/embed/top10`, `/demo`, `/design-lab/primitives`, `/admin/*` (8 admin routes), `/you`.
 
-**Total user-facing pages**: 78 page.tsx files (all have error.tsx + most have loading.tsx after this session's PROD-1 wave).
+**Total user-facing pages**: 93 page.tsx files (all have error.tsx + most have loading.tsx after this session's PROD-1 wave).
 
 ---
 
@@ -54,7 +60,7 @@ Most pages don't read raw collector output â€” they read derived/joined vie
 |---|---|---|---|---|
 | `/` (Trending Repos) | `getDerivedRepos()` + `lastFetchedAt` (trending) | scrape-trending â†’ `data/trending.json` | hourly `27 * * * *` | OSS Insight (`api.ossinsight.io/v1/trends/repos/`) |
 | `/consensus` | consensus payload via factory reader | snapshot-consensus + scoring shadow | daily `55 23 * * *` | derives from internal pipeline, no external |
-| `/skills` (Trending Skills) | `getSkillsSignalData()` | refresh-skill-* (5 workflows) + skill-install-snapshot + skill-derivatives | every 6h â†’ daily nightly (post-2026-05-02 cuts) | GitHub API (skills derivative repos), SkillsMP, Smithery, Lobehub, Claude RSS |
+| `/skills` (Trending Skills) | `getSkillsSignalData()` | refresh-skill-* (5 workflows) + skill-install-snapshot + skill-derivatives | `refresh-skill-install-snapshot` daily @ 03:00 UTC; other skill collectors remain on 6h / 12h cadences (refresh-skill-derivatives `7 */12 * * *`, refresh-skill-lobehub `45 */12 * * *`, refresh-skill-claude / -smithery / -skillsmp daily) | GitHub API (skills derivative repos), SkillsMP, Smithery, Lobehub, Claude RSS |
 | `/mcp` (Trending MCP) | `getMcpSignalData()` | refresh-mcp-smithery-rank + ping-mcp-liveness + refresh-mcp-dependents + refresh-mcp-usage-snapshot | every 6h + daily | Smithery (`smithery.ai/api/...`), PulseMCP (`api.pulsemcp.com/v0/`), npm |
 | `/agent-repos` (Trending AGNT) | `getDerivedRepos()` filtered by `agent` topic/tag | trending + scoring | (same as `/`) | OSS Insight |
 | `/breakouts` | `getDerivedRepos()` + `getChannelStatus()` (cross-signal) | trending + every mention source (6-channel) | various | OSS Insight + 6 mention APIs |
@@ -80,7 +86,7 @@ Most pages don't read raw collector output â€” they read derived/joined vie
 | `/huggingface/trending` (HF Models) | `refreshHfModelsFromStore()` | scrape-huggingface | every 3h â†’ 6h (post-2026-05-02 cuts) | HF API (`huggingface.co/api/models`) |
 | `/huggingface/datasets` | `refreshHfDatasetsFromStore()` | scrape-huggingface-datasets | every 3h â†’ 6h | HF API (`huggingface.co/api/datasets`) |
 | `/huggingface/spaces` | `refreshHfSpacesFromStore()` | scrape-huggingface-spaces | every 3h â†’ 6h | HF API (`huggingface.co/api/spaces`) |
-| `/model-usage` (LLM Charts) | model-usage-snapshot via tabbed UI | refresh-mcp-usage-snapshot (despite name, drives LLM charts too) | daily `30 3 * * *` | derived from internal data + Claude RSS via OpenRouter |
+| `/model-usage` (LLM Charts) | model-usage-snapshot via tabbed UI | refresh-mcp-usage-snapshot (despite name, drives LLM charts too); `cron-mcp-usage-rotate` runs monthly `0 3 1 * *` to roll the rolling window archive | daily `30 3 * * *` (snapshot) + monthly `0 3 1 * *` (rotate) | derived from internal data + Claude RSS via OpenRouter |
 
 ### 3d. LAUNCH TERMINAL
 
@@ -208,6 +214,9 @@ Most pages don't read raw collector output â€” they read derived/joined vie
 | scrape-awesome-skills | daily | awesome-skills index | `/skills` |
 | aiso-self-scan | monthly day 1 (`17 3 1 * *`) | aiso-self-scan report | dogfood |
 | health-watch | every 30 min | source-health breaker state | internal â€” drives circuit breakers |
+| cron-github-pool-budget | every 5 min (`*/5 * * * *`) | pool budget snapshot in Redis | `/admin/pool-aggregate` (internal SRE â€” GitHub token pool budget guard) |
+| cron-subdomain-takeover | weekly Mon (`20 3 * * 1`) | subdomain-takeover scan report | internal SRE alert (no user surface) |
+| sre-actions-visibility | every 15 min (`*/15 * * * *`) | actions-visibility / hung-workflow report | internal SRE alert (no user surface) |
 
 ---
 

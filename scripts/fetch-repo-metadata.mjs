@@ -25,6 +25,12 @@ const BATCH_SIZE = Math.max(
 );
 
 const REPO_CATEGORY_VALUES = ["mcp", "skill", "agent", "library"];
+const FIXTURE_REPOS = [
+  "coreyhaines31/marketingskills",
+  "msitarzewski/agency-agents",
+  "modelcontextprotocol/servers",
+  "facebook/react",
+];
 
 function hasTopic(topics, needle) {
   return topics.some((t) => String(t || "").toLowerCase() === needle);
@@ -62,6 +68,8 @@ function includesMcpSdk(pkgText) {
 
 function classifyRepoCategory(node, topics, repoName) {
   const nameLower = String(repoName || "").toLowerCase();
+  const fullNameLower = String(node.nameWithOwner || "").toLowerCase();
+  const descLower = String(node.description || "").toLowerCase();
 
   const hasSkillMd = Boolean(node.skillMd?.byteSize > 0);
   const hasAgentsMd = Boolean(node.agentsMd?.byteSize > 0);
@@ -73,19 +81,37 @@ function classifyRepoCategory(node, topics, repoName) {
   const hasMcpSdk = includesMcpSdk(node.packageJson?.text ?? "");
   const hasMcpNamePattern =
     nameLower.startsWith("mcp-") || nameLower.endsWith("-mcp");
+  const hasMcpOrgPattern =
+    fullNameLower.startsWith("modelcontextprotocol/") &&
+    nameLower.includes("server");
+  const hasSkillNamePattern =
+    nameLower.includes("skill") || fullNameLower.includes("skills");
+  const hasAgentNamePattern =
+    nameLower.includes("agent") || fullNameLower.includes("agents");
+  const hasSkillDescPattern =
+    descLower.includes("skill for claude") ||
+    descLower.includes("skills for claude") ||
+    descLower.includes("agent skills");
+  const hasAgentDescPattern =
+    descLower.includes("ai agency") ||
+    descLower.includes("agent framework") ||
+    descLower.includes("autonomous agent");
 
   const mcpScore =
     (hasTopic(topics, "mcp-server") ? 0.35 : 0) +
     (hasMcpSdk ? 0.35 : 0) +
     (hasMcpJson || hasManifestMcp ? 0.2 : 0) +
-    (hasMcpNamePattern ? 0.1 : 0);
+    (hasMcpNamePattern ? 0.1 : 0) +
+    (hasMcpOrgPattern ? 0.15 : 0);
 
   const skillScore =
     (hasSkillMd ? 0.45 : 0) +
     (hasSkillsDir ? 0.35 : 0) +
     (hasTopic(topics, "claude-skills") || hasTopic(topics, "agent-skills")
       ? 0.2
-      : 0);
+      : 0) +
+    (hasSkillNamePattern ? 0.2 : 0) +
+    (hasSkillDescPattern ? 0.2 : 0);
 
   const agentScore =
     (hasAgentsMd ? 0.45 : 0) +
@@ -94,7 +120,9 @@ function classifyRepoCategory(node, topics, repoName) {
     hasTopic(topics, "claude-agents") ||
     hasTopic(topics, "agentic")
       ? 0.2
-      : 0);
+      : 0) +
+    (hasAgentNamePattern ? 0.2 : 0) +
+    (hasAgentDescPattern ? 0.2 : 0);
 
   const scored = [
     { category: "mcp", score: mcpScore },
@@ -166,6 +194,9 @@ function collectFullNames(trending, recentRepos, manualRepos, runtimeManualRepos
 
   for (const row of runtimeManualRepos ?? []) {
     addFullName(names, row?.fullName);
+  }
+  for (const fullName of FIXTURE_REPOS) {
+    addFullName(names, fullName);
   }
 
   return Array.from(names.values()).sort((a, b) =>
@@ -291,32 +322,40 @@ function buildBatchQuery(batch) {
   };
 }
 
-async function fetchBatch(batch, token) {
+async function fetchBatch(batch, tokens) {
   const payload = buildBatchQuery(batch);
-  let body;
-  try {
-    body = await fetchJsonWithRetry(GRAPHQL_URL, {
-      method: "POST",
-      headers: {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        "User-Agent": "trendingrepo-metadata-bot",
-        "X-GitHub-Api-Version": API_VERSION,
-      },
-      body: JSON.stringify(payload),
-      attempts: 3,
-      retryDelayMs: 1000,
-      timeoutMs: 15_000,
-    });
-  } catch (err) {
-    throw new Error(`GitHub GraphQL metadata fetch failed: ${err.message}`);
+  let lastError = null;
+  for (const token of tokens) {
+    try {
+      const body = await fetchJsonWithRetry(GRAPHQL_URL, {
+        method: "POST",
+        headers: {
+          Accept: "application/vnd.github+json",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "User-Agent": "trendingrepo-metadata-bot",
+          "X-GitHub-Api-Version": API_VERSION,
+        },
+        body: JSON.stringify(payload),
+        attempts: 2,
+        retryDelayMs: 1000,
+        timeoutMs: 15_000,
+      });
+      return {
+        data: body?.data ?? {},
+        errors: Array.isArray(body?.errors) ? body.errors : [],
+      };
+    } catch (err) {
+      lastError = err;
+      const message = String(err?.message ?? err).toLowerCase();
+      const unauthorized =
+        message.includes("401") || message.includes("bad credentials");
+      if (!unauthorized) break;
+    }
   }
-
-  return {
-    data: body?.data ?? {},
-    errors: Array.isArray(body?.errors) ? body.errors : [],
-  };
+  throw new Error(
+    `GitHub GraphQL metadata fetch failed: ${String(lastError?.message ?? lastError ?? "unknown error")}`,
+  );
 }
 
 function normalizeRepo(node, requestedFullName, fetchedAt) {
@@ -359,10 +398,28 @@ function normalizeRepo(node, requestedFullName, fetchedAt) {
   };
 }
 
+function pickGithubTokens() {
+  const pooled = [
+    ...(String(process.env.GH_TOKEN_POOL ?? "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean)),
+    ...(String(process.env.GITHUB_TOKEN_POOL ?? "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean)),
+  ];
+  const singleton = String(process.env.GITHUB_TOKEN ?? "").trim();
+  if (singleton) pooled.push(singleton);
+  return Array.from(new Set(pooled));
+}
+
 async function main() {
-  const token = process.env.GITHUB_TOKEN ?? "";
-  if (!token) {
-    throw new Error("GITHUB_TOKEN is required to refresh data/repo-metadata.json");
+  const tokens = pickGithubTokens();
+  if (tokens.length <= 0) {
+    throw new Error(
+      "A GitHub token is required to refresh data/repo-metadata.json (GH_TOKEN_POOL/GITHUB_TOKEN_POOL/GITHUB_TOKEN)",
+    );
   }
 
   const [trending, recentRepos, manualRepos, runtimeManualRepos, previous] =
@@ -390,7 +447,7 @@ async function main() {
     const batchTotal = Math.ceil(fullNames.length / BATCH_SIZE);
 
     try {
-      const { data, errors } = await fetchBatch(batch, token);
+      const { data, errors } = await fetchBatch(batch, tokens);
       if (errors.length > 0) {
         console.warn(`warn metadata batch ${batchNo}/${batchTotal}: ${errors.length} GraphQL errors`);
       }

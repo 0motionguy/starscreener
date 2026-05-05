@@ -21,6 +21,10 @@ import {
   getGitHubTokenPool,
   redactToken,
 } from "@/lib/github-token-pool";
+import {
+  formatRelativeFuture,
+  formatRelativeTime,
+} from "@/lib/admin/time-format";
 
 export const metadata: Metadata = {
   title: "Admin — GitHub Token Pool",
@@ -39,24 +43,6 @@ interface RowVM {
   lastObserved: string;
   quarantine: string;
   health: "healthy" | "exhausted" | "quarantined" | "untouched";
-}
-
-function relTime(thenMs: number, nowMs: number): string {
-  const diff = nowMs - thenMs;
-  if (diff < 0) return "in future";
-  if (diff < 60_000) return `${Math.floor(diff / 1000)}s ago`;
-  if (diff < 3_600_000) return `${Math.floor(diff / 60_000)}m ago`;
-  if (diff < 86_400_000) return `${Math.floor(diff / 3_600_000)}h ago`;
-  return `${Math.floor(diff / 86_400_000)}d ago`;
-}
-
-function relFuture(thenMs: number, nowMs: number): string {
-  const diff = thenMs - nowMs;
-  if (diff <= 0) return "expired";
-  if (diff < 60_000) return `${Math.floor(diff / 1000)}s`;
-  if (diff < 3_600_000) return `${Math.floor(diff / 60_000)}m`;
-  if (diff < 86_400_000) return `${Math.floor(diff / 3_600_000)}h`;
-  return `${Math.floor(diff / 86_400_000)}d`;
 }
 
 function buildRow(
@@ -92,16 +78,16 @@ function buildRow(
     resetAt:
       state.resetUnixSec === null
         ? "—"
-        : `${new Date(state.resetUnixSec * 1000).toISOString()} (${relFuture(
+        : `${new Date(state.resetUnixSec * 1000).toISOString()} (${formatRelativeFuture(
             state.resetUnixSec * 1000,
             nowMs,
           )})`,
     lastObserved:
       state.lastObservedMs === null
         ? "never"
-        : relTime(state.lastObservedMs, nowMs),
+        : formatRelativeTime(state.lastObservedMs, nowMs),
     quarantine: isQuarantined
-      ? `until ${new Date(state.quarantinedUntilMs!).toISOString()} (${relFuture(
+      ? `until ${new Date(state.quarantinedUntilMs!).toISOString()} (${formatRelativeFuture(
           state.quarantinedUntilMs!,
           nowMs,
         )})`
@@ -240,3 +226,4 @@ export default async function AdminPoolPage() {
     </main>
   );
 }
+

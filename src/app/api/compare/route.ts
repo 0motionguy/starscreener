@@ -29,9 +29,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { compareIdToFallbackFullName } from "@/lib/compare-selection";
 import { getDerivedRepoById } from "@/lib/derived-repos";
 import {
-  buildCanonicalRepoProfile,
   type CanonicalRepoProfile,
 } from "@/lib/api/repo-profile";
+import { getCanonicalRepoProfileCached } from "@/lib/api/repo-profile-cache";
 import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
 import { refreshNpmFromStore } from "@/lib/npm";
 
@@ -148,7 +148,7 @@ export async function GET(request: NextRequest) {
   let rows: CompareRepoRow[];
   try {
     const settled = await Promise.allSettled(
-      names.map((fullName) => buildCanonicalRepoProfile(fullName)),
+      names.map((fullName) => getCanonicalRepoProfileCached(fullName)),
     );
     rows = settled.map((s, i) => {
       const fullName = names[i];

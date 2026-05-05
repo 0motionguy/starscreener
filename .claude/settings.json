@@ -1,0 +1,181 @@
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "CLAUDE_FLOW_V3_ENABLED": "true",
+    "CLAUDE_FLOW_HOOKS_ENABLED": "true"
+  },
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:ossinsight.io)",
+      "WebFetch(domain:trendshift.io)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:star-history.com)",
+      "WebFetch(domain:www.star-history.com)",
+      "WebFetch(domain:gitlogs.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:trendingrepo.com)",
+      "WebFetch(domain:trustmrr.com)",
+      "WebFetch(domain:skills.sh)",
+      "WebFetch(domain:www.pulsemcp.com)",
+      "WebFetch(domain:registry.modelcontextprotocol.io)",
+      "WebFetch(domain:smithery.ai)",
+      "WebFetch(domain:export.arxiv.org)",
+      "Skill(schedule)",
+      "Skill(schedule:*)",
+      "mcp__tavily__tavily_research",
+      "PowerShell(Get-Process node -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue }; Start-Sleep -Milliseconds 1000; \"all node killed\"; Get-NetTCPConnection -LocalPort 3023 -State Listen -ErrorAction SilentlyContinue; \"\\(empty above = port free\\)\")",
+      "PowerShell(Get-NetTCPConnection -LocalPort 3023 -State Listen -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Process | Where-Object { $_.ProcessName -eq 'node' } | Select-Object Id, ProcessName, CPU, StartTime | Format-Table)",
+      "Bash(git push *)",
+      "Read(//tmp/**)",
+      "Bash(taskkill //IM node.exe //F)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(taskkill //F //FI \"WINDOWTITLE eq next dev*\")",
+      "Bash(taskkill //F //IM node.exe //FI \"MEMUSAGE gt 50000\")",
+      "WebFetch(domain:platform.kimi.ai)",
+      "WebFetch(domain:www.kimi.com)",
+      "Bash(git rm *)",
+      "Read(//c/Users/mirko/AppData/Local/Temp/claude/c--Users-mirko-OneDrive-Desktop-STARSCREENER/4857a2f2-228a-4fa3-921e-b5b95b546350/tasks/**)",
+      "Bash(KIMI_API_KEY=\"sk-kimi-a4PG7UjF1vorsJY3mzZKln3jf5BQ7aOMesLsTfM654cYBqJxhURpbfa2zfXFwTqe\" KIMI_BASE_URL=\"https://api.kimi.com/coding/v1\" KIMI_MODEL=\"kimi-for-coding\" npx tsx .tmp/smoke-kimi.mts)",
+      "Bash([ -s \"$F\" ])",
+      "Bash(KIMI_API_KEY=\"sk-kimi-a4PG7UjF1vorsJY3mzZKln3jf5BQ7aOMesLsTfM654cYBqJxhURpbfa2zfXFwTqe\" KIMI_BASE_URL=\"https://api.kimi.com/coding/v1\" KIMI_MODEL=\"kimi-for-coding\" timeout 180 npx tsx .tmp/smoke-kimi.mts)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" branch --show-current)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" log --oneline -5)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" branch -m feat/signals-v4-newsroom)",
+      "Read(//c/Users/mirko/AppData/Local/Temp/**)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" diff HEAD -- src/components/signals-terminal/VolumeAreaChart.tsx)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" status --short)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" add src/app/signals/page.tsx src/components/signals-terminal/VolumeAreaChart.tsx src/lib/__tests__/signals-synthesis.smoke.test.ts)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" diff --cached --stat)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" log --oneline -3)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" add design/v4/tokens.css design/v4/DESIGN_SYSTEM.md design/v4/COMPONENT_INVENTORY.md design/v4/MIGRATION_PLAN.md src/app/globals.css)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" add src/components/ui/CornerDots.tsx src/components/ui/LiveDot.tsx src/components/ui/PanelHead.tsx src/components/ui/SectionHead.tsx src/components/ui/PageHead.tsx src/components/ui/v4.css src/components/ui/__tests__/v4-chrome.test.tsx src/app/globals.css)",
+      "WebFetch(domain:www.x402scan.com)",
+      "WebFetch(domain:agentic.market)",
+      "WebFetch(domain:agdp.io)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" add src/components/ui/Chip.tsx src/components/ui/ChipGroup.tsx src/components/ui/TabBar.tsx src/components/ui/v4.css src/components/ui/__tests__/v4-filters.test.tsx)",
+      "WebFetch(domain:glama.ai)",
+      "WebFetch(domain:mcp.so)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" add src/components/ui/SourcePip.tsx src/components/ui/GaugeStrip.tsx src/components/ui/KpiBand.tsx src/components/ui/RankRow.tsx src/components/ui/VerdictRibbon.tsx src/components/ui/v4.css src/components/ui/__tests__/v4-data-display.test.tsx)",
+      "WebFetch(domain:dune.com)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" add src/components/funding/MoverRow.tsx src/components/funding/ARRClimberRow.tsx src/components/funding/DealTapeRow.tsx src/components/funding/StockSparkline.tsx src/components/funding/CapitalFlowChart.tsx src/components/funding/SectorHeatmap.tsx src/components/funding/LiveTape.tsx src/components/ui/v4.css src/components/funding/__tests__/v4-funding.test.tsx)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" log --oneline -8)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" add src/components/tools/ToolTile.tsx src/components/tools/MiniListCard.tsx src/components/tools/Treemap.tsx src/components/ui/v4.css src/components/tools/__tests__/v4-tools.test.tsx)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" add src/components/home/CategoryPanel.tsx src/components/repo-detail/MentionRow.tsx src/components/repo-detail/RelatedRepoCard.tsx src/components/ui/v4.css src/components/home/__tests__/v4-home-repo.test.tsx)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" add src/components/breakouts/ChannelHeatStrip.tsx src/components/breakouts/__tests__/v4-breakouts.test.tsx src/components/alerts/AlertBadge.tsx src/components/alerts/AlertToggle.tsx src/components/alerts/AlertTriggerCard.tsx src/components/alerts/AlertEventRow.tsx src/components/alerts/AlertInbox.tsx src/components/alerts/__tests__/v4-alerts.test.tsx src/components/ui/v4.css)",
+      "Bash(git -C \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER\" log --oneline -10)",
+      "Bash(git ls-tree *)",
+      "Bash(git reset *)",
+      "WebFetch(domain:www.x402.org)",
+      "WebFetch(domain:solana.com)",
+      "WebFetch(domain:docs.dune.com)",
+      "Bash(tee /tmp/solana-x402-run.log)",
+      "Bash(perl -i -pe 's|^\\(\\\\s+\\)\\(// [A-Z][A-Z\\\\s…]*\\)$|$1\\\\{\"$2\"\\\\}|g' \"src/app/u/[handle]/page.tsx\")",
+      "Read(//c/c/Users/mirko/OneDrive/Desktop/STARSCREENER/.claude/worktrees/agent-aa3258fe57219666c/src/app/**)",
+      "Bash(bash .claude/skills/git-guardrails-claude-code/scripts/block-dangerous-git.sh)",
+      "Bash(HUSKY=0 git -c core.hooksPath=/dev/null cherry-pick --keep-redundant-commits 8e31f8d1 0afa0d2e 484162b6 92dc7a97 d9f46279 8e519bc5 2b303826 89bb52b6 a1ffda9f 0293f287 2de7b3a2 a4340bb7 f458c9c3 bbb8eb74)",
+      "Bash(HUSKY=0 git -c core.hooksPath=/dev/null cherry-pick --continue --no-edit)",
+      "Bash(HUSKY=0 git -c core.hooksPath=/dev/null commit --no-edit --no-verify -C 89bb52b6)",
+      "Bash(HUSKY=0 git -c core.hooksPath=/dev/null cherry-pick --abort)",
+      "Bash(HUSKY=0 git -c core.hooksPath=/dev/null cherry-pick 8e31f8d1 0afa0d2e 484162b6 92dc7a97 d9f46279 8e519bc5 2b303826)",
+      "Bash(HUSKY=0 git -c core.hooksPath=/dev/null cherry-pick 0afa0d2e)",
+      "Bash(git ls-remote *)",
+      "Bash(HUSKY=0 git -c core.hooksPath=/dev/null merge origin/main --no-edit)",
+      "Bash(git -c core.hooksPath=/dev/null commit --no-verify -m 'fix\\(workflows\\): REDIS_URL env + retry-rebase on 5 failing workflows *)",
+      "Bash(git -c core.hooksPath=/dev/null commit --no-verify -m 'fix\\(workflows,data-store\\): cap snapshot timeouts + ioredis commandTimeout + soft health probe *)",
+      "Bash(git -c core.hooksPath=/dev/null commit --no-verify -m 'fix\\(git\\): merge=union on append-only JSONL lakes *)",
+      "Bash(git -c core.hooksPath=/dev/null commit --no-verify -m 'fix\\(workflows\\): --autostash on retry-rebase pulls *)",
+      "Bash(git cherry-pick *)",
+      "Read(//c/Users/mirko/OneDrive/**)",
+      "Bash(npx @claude-flow*)",
+      "Bash(npx claude-flow*)",
+      "Bash(node .claude/*)",
+      "mcp__claude-flow__:*",
+      "Bash(ruflo daemon *)",
+      "Bash(ruflo --version)",
+      "PowerShell($p = Get-Process -Id 34852 -ErrorAction SilentlyContinue; if \\($p\\) { \"PID 34852 ALIVE: $\\($p.ProcessName\\) cpu=$\\($p.CPU\\)\" } else { \"PID 34852 NOT RUNNING\" })",
+      "Bash(ruflo doctor *)",
+      "PowerShell(Start-Sleep -Seconds 3; $p = Get-Process -Id 660 -ErrorAction SilentlyContinue; if \\($p\\) { \"PID 660 ALIVE: $\\($p.ProcessName\\)\" } else { \"PID 660 DEAD\" }; Get-ChildItem .claude-flow\\\\daemon.log -ErrorAction SilentlyContinue | Select-Object Name, Length, LastWriteTime)",
+      "Read(//c/Users/mirko/AppData/Roaming/npm/node_modules/ruflo/**)",
+      "PowerShell(Start-Sleep -Seconds 4; $p = Get-Process -Id 14372 -ErrorAction SilentlyContinue; if \\($p\\) { \"PID 14372 ALIVE: $\\($p.ProcessName\\) cpu=$\\($p.CPU\\)s\" } else { \"PID 14372 DEAD\" }; Write-Host \"---\"; if \\(Test-Path .claude-flow\\\\daemon.log\\) { \"log size: $\\(\\(Get-Item .claude-flow\\\\daemon.log\\).Length\\) bytes\" } else { \"NO LOG FILE\" })",
+      "Bash(timeout 60 claude.cmd -p --tools default --permission-mode bypassPermissions \"Use the Write tool to create file at exact path C:/tmp/direct-proof.txt with single line: DIRECT_OK. Then stop.\")",
+      "Bash(timeout 15 claude.cmd --version)",
+      "Bash(timeout 30 claude.cmd -p)",
+      "Bash(timeout 90 claude.cmd -p --tools default --permission-mode bypassPermissions)",
+      "Bash(timeout 90 claude.cmd -p --output-format stream-json --verbose --tools default --dangerously-skip-permissions)",
+      "Bash(timeout 120 ruflo hive-mind spawn --claude --non-interactive --objective \"Use the Write tool to create the file at exact path C:/tmp/ruflo-final.txt containing the single line: RUFLO_AUTONOMOUS_OK. Then stop. Do not write any other files.\")",
+      "Read(//c/Users/mirko/AppData/Roaming/npm/**)",
+      "Read(//c/Users/mirko/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/**)",
+      "Bash(powershell -File scripts/ruflo-swarm-orchestrate.ps1 -Phase 0 -DryRun)",
+      "Bash(powershell -File scripts/ruflo-swarm-orchestrate.ps1 -Phase 0)",
+      "Bash(ruflo swarm *)",
+      "Bash(claude-mem --version)",
+      "PowerShell(Get-Process | Where-Object {$_.ProcessName -match 'cmd|powershell|pwsh|conhost|WindowsTerminal|wt|node'} | Select-Object Id, ProcessName, MainWindowTitle, StartTime | Sort-Object StartTime -Descending | Format-Table -AutoSize)",
+      "PowerShell(Get-WmiObject Win32_Process | Where-Object {$_.CommandLine -match 'claude-mem|claude_mem'} | Select-Object ProcessId, ParentProcessId, Name, CommandLine | Format-List)",
+      "Read(//c/Users/mirko/.claude-mem/**)",
+      "Bash(powershell -NoProfile -Command \"Get-Content 'c:\\\\Users\\\\mirko\\\\OneDrive\\\\Desktop\\\\STARSCREENER\\\\docs\\\\API.md' -TotalCount 30\")",
+      "Bash(mkdir -p \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER/.claude/agents/project\" && ls \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER/.claude/agents\")",
+      "Bash(mkdir -p \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER/.claude/skills/project/new-cron-route\" \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER/.claude/skills/project/redis-key-design\" \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER/.claude/skills/project/audit-repair\" \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER/.claude/skills/project/forensic-prune\" \"c:/Users/mirko/OneDrive/Desktop/STARSCREENER/.claude/skills/project/deploy-checklist\" && echo OK)",
+      "Edit(/.claude/skills/project/**)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER\\.claude\\skills",
+      "c:\\Users\\mirko\\.claude\\projects\\c--Users-mirko-OneDrive-Desktop-STARSCREENER\\memory",
+      "c:\\Users\\mirko\\OneDrive\\Desktop\\trendingrepo-pr25-fix\\src\\lib\\pipeline\\__tests__",
+      "\\tmp",
+      "C:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER\\.claude\\temp-merge",
+      "C:\\Users\\mirko\\.claude\\plans",
+      "C:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER",
+      "C:\\Users\\mirko\\.claude",
+      "C:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER\\.claude",
+      "C:\\Projects\\starscreener-w10b",
+      "C:\\Users\\mirko\\AppData\\Roaming\\npm\\node_modules\\ruflo\\node_modules\\@claude-flow\\cli\\dist\\src\\commands",
+      "c:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER\\.claude\\agents",
+      "c:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER\\.claude\\skills\\project"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-dangerous-git.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/protect-files.mjs\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/post-edit.mjs\" \"$CLAUDE_TOOL_INPUT_FILE_PATH\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/update-handoff.mjs\""
+          }
+        ]
+      }
+    ]
+  }
+}

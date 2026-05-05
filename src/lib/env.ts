@@ -30,6 +30,8 @@ const EnvSchema = z.object({
 
   // ── Data sources ───────────────────────────────────────────────────────
   GITHUB_TOKEN: z.string().optional(),
+  GITHUB_PAT_PROD: z.string().optional(),
+  GITHUB_PAT_TEST: z.string().optional(),
   // Comma-separated list of ADDITIONAL PATs the github-token-pool will
   // round-robin across. Treated as additive to GITHUB_TOKEN; duplicates
   // across the two vars are deduped at parse time. See

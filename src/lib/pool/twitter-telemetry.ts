@@ -1,4 +1,5 @@
 import { redis } from "@/lib/redis";
+import { keys } from "@/lib/redis/keys";
 
 export type TwitterSource = "apify" | "nitter";
 
@@ -18,7 +19,7 @@ export async function recordTwitterCall(
   params: TwitterCallTelemetry,
 ): Promise<void> {
   const hourBucket = new Date().toISOString().slice(0, 13).replace("T", "-");
-  const usageKey = `pool:twitter:usage:${params.source}:${hourBucket}`;
+  const usageKey = keys.pool.twitter.usage(params.source, hourBucket);
 
   await redis.hincrby(usageKey, "requests", 1);
   if (params.success) {
@@ -40,7 +41,7 @@ export async function recordDegradation(
   params: TwitterDegradationTelemetry,
 ): Promise<void> {
   const hourBucket = new Date().toISOString().slice(0, 13).replace("T", "-");
-  const key = `pool:twitter:degradation:${hourBucket}`;
+  const key = keys.pool.twitter.degradation(hourBucket);
   await redis.hincrby(key, "count", 1);
   await redis.hincrby(key, `from:${params.from}`, 1);
   await redis.hset(key, "lastError", params.error.slice(0, 300));

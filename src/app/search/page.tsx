@@ -30,15 +30,28 @@ export default function SearchPage() {
   );
 }
 
+const CATEGORY_VALUES = ["mcp", "skill", "agent", "library"] as const;
+type CategoryValue = (typeof CATEGORY_VALUES)[number];
+
+function isCategoryValue(value: string | null): value is CategoryValue {
+  return value !== null && (CATEGORY_VALUES as readonly string[]).includes(value);
+}
+
 function SearchPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get("q") ?? "";
   const queryText = query.trim();
   const hasQuery = queryText.length > 0;
+  const rawCategory = searchParams.get("category");
+  const category: CategoryValue | null = isCategoryValue(rawCategory)
+    ? rawCategory
+    : null;
+  const hasCategory = category !== null;
   const sortParam = searchParams.get("sort");
   const limitParam = searchParams.get("limit");
-  const isTopList = !hasQuery && (sortParam !== null || limitParam !== null);
+  const isTopList =
+    !hasQuery && !hasCategory && (sortParam !== null || limitParam !== null);
   const topLimit = Math.min(
     Math.max(Number.parseInt(limitParam ?? "100", 10) || 100, 1),
     100,
@@ -57,16 +70,25 @@ function SearchPageInner() {
   }, [isTopList, setSort]);
 
   useEffect(() => {
-    if (!hasQuery && !isTopList) {
+    if (!hasQuery && !hasCategory && !isTopList) {
       setResults([]);
       setLoading(false);
       return;
     }
     const controller = new AbortController();
     setLoading(true);
-    const url = hasQuery
-      ? `/api/search?q=${encodeURIComponent(queryText)}&limit=50`
-      : `/api/repos?sort=${encodeURIComponent(topSort)}&limit=${topLimit}`;
+    // /api/search supports facet-only queries (e.g. `?category=mcp`) at v=1
+    // — the route's `hasAnyFacet` short-circuit treats `category` as a facet.
+    let url: string;
+    if (hasQuery || hasCategory) {
+      const params = new URLSearchParams();
+      if (hasQuery) params.set("q", queryText);
+      if (hasCategory) params.set("category", category);
+      params.set("limit", "50");
+      url = `/api/search?${params.toString()}`;
+    } else {
+      url = `/api/repos?sort=${encodeURIComponent(topSort)}&limit=${topLimit}`;
+    }
 
     (async () => {
       try {
@@ -92,7 +114,7 @@ function SearchPageInner() {
     })();
 
     return () => controller.abort();
-  }, [hasQuery, isTopList, queryText, topSort, topLimit]);
+  }, [hasQuery, hasCategory, category, isTopList, queryText, topSort, topLimit]);
 
   const handleSearch = useCallback(
     (q: string) => {
@@ -101,6 +123,20 @@ function SearchPageInner() {
         params.set("q", q.trim());
       } else {
         params.delete("q");
+      }
+      router.replace(`/search?${params.toString()}`);
+    },
+    [router, searchParams],
+  );
+
+  const handleCategoryClick = useCallback(
+    (next: CategoryValue) => {
+      const params = new URLSearchParams(searchParams.toString());
+      // Toggle: clicking the active chip clears the filter.
+      if (params.get("category") === next) {
+        params.delete("category");
+      } else {
+        params.set("category", next);
       }
       router.replace(`/search?${params.toString()}`);
     },
@@ -144,6 +180,26 @@ function SearchPageInner() {
             placeholder="Search repos by name, language, topic..."
             onSearch={handleSearch}
           />
+          <div
+            className="search-category-chips"
+            role="group"
+            aria-label="Filter by category"
+          >
+            {CATEGORY_VALUES.map((value) => {
+              const active = category === value;
+              return (
+                <button
+                  key={value}
+                  type="button"
+                  className={`search-category-chip${active ? " is-active" : ""}`}
+                  aria-pressed={active}
+                  onClick={() => handleCategoryClick(value)}
+                >
+                  {value}
+                </button>
+              );
+            })}
+          </div>
           {hasQuery && (
             <p className="search-result-meta" aria-live="polite">
               {loading ? (

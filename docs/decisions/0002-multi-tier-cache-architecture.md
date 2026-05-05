@@ -115,7 +115,7 @@ No new product data path may bypass `src/lib/data-store.ts` for server reads. Ne
 ### Phase 2
 
 - Audit top stale-prone routes and align TTL vs source cadence.
-- Document per-surface TTL/freshness matrix under `docs/forensic/`.
+- Document per-surface TTL/freshness matrix under `docs/archive/forensic-2026-05-pre/` (or successor location once forensic generator is redirected).
 
 ### Phase 3
 
@@ -124,7 +124,7 @@ No new product data path may bypass `src/lib/data-store.ts` for server reads. Ne
 
 ## Verification evidence (heartbeat)
 
-- Mandatory opening protocol docs read this heartbeat (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Mandatory opening protocol docs read this heartbeat (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
 - `npm run freshness:check` result at this heartbeat: `GET http://localhost:3023/api/cron/freshness/state -> HTTP 500 Internal Server Error`.
 - Classification: product failure (endpoint error), not missing localhost server.
 

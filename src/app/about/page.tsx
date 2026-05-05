@@ -66,6 +66,9 @@ export default function AboutPage() {
         <p style={{ fontSize: "16px", lineHeight: 1.6, color: "var(--v4-ink-300)" }}>
           Reach the team on <Link href="https://github.com/0motionguy/starscreener">GitHub</Link>, <Link href="https://x.com/0motionguy">X / Twitter</Link>, <Link href="https://agnt.newsroom">AGNT Newsroom</Link>, or via the <Link href="/submit">submission form</Link> for repo nominations. For partnerships and press, see the contact details on the company LinkedIn page linked in the footer.
         </p>
+        <p style={{ fontSize: "16px", lineHeight: 1.6, color: "var(--v4-ink-300)", marginTop: "12px" }}>
+          Live platform health is publicly available at <Link href="/status">/status</Link>.
+        </p>
       </article>
     </main>
   );

@@ -1,0 +1,23 @@
+{
+  "defaults": {
+    "standard": "WCAG2AA",
+    "timeout": 30000,
+    "wait": 1000,
+    "chromeLaunchConfig": {
+      "args": ["--no-sandbox", "--disable-setuid-sandbox"]
+    },
+    "ignore": [
+      "color-contrast"
+    ]
+  },
+  "urls": [
+    "http://localhost:3000/",
+    "http://localhost:3000/githubrepo",
+    "http://localhost:3000/signals",
+    "http://localhost:3000/compare",
+    "http://localhost:3000/top10",
+    "http://localhost:3000/skills",
+    "http://localhost:3000/mcp",
+    "http://localhost:3000/methodology"
+  ]
+}

@@ -32,6 +32,13 @@ export type SearchOrder = "asc" | "desc";
 /** Subset of RevenueTier that the API exposes as a filter. */
 export type SearchRevenueTier = "verified" | "self_reported";
 
+/**
+ * Repo category enum (SAM-07). Mirrors `Repo.repoCategory` — the LLM-derived
+ * classification stored alongside trending metadata. `library` is the catch-all
+ * for repos that aren't an MCP server, agent, or skill pack.
+ */
+export type SearchRepoCategory = "mcp" | "skill" | "agent" | "library";
+
 /** Mapping from the public API tier name → the stored RevenueOverlay.tier. */
 export function matchesOverlayTier(
   overlayTier: RevenueTier,
@@ -59,6 +66,7 @@ export interface SearchQuery {
   hasFunding: boolean | null;
   hasTwitter: boolean | null;
   topics: string[];
+  category: SearchRepoCategory | null;
   sort: SearchSort;
   order: SearchOrder;
   limit: number;
@@ -101,6 +109,13 @@ const ORDER_VALUES: readonly SearchOrder[] = ["asc", "desc"];
 const REVENUE_TIER_VALUES: readonly SearchRevenueTier[] = [
   "verified",
   "self_reported",
+];
+
+const REPO_CATEGORY_VALUES: readonly SearchRepoCategory[] = [
+  "mcp",
+  "skill",
+  "agent",
+  "library",
 ];
 
 const DEFAULT_LIMIT = 30;
@@ -265,6 +280,25 @@ export function parseSearchQuery(url: URL): ParseResult {
   const hasRevenue: boolean | null =
     revenueTier !== null ? true : hasRevenueResult.value;
 
+  // category — single value, validated against the SAM-07 enum
+  // (`mcp | skill | agent | library`). Anything else is a 400 so callers
+  // get clear feedback (matches the `movement` / `revenueTier` discipline
+  // above; we don't silently coerce unknowns to "library").
+  const rawCategory = params.get("category");
+  let category: SearchRepoCategory | null = null;
+  if (rawCategory !== null && rawCategory.trim() !== "") {
+    const normalized = rawCategory.trim().toLowerCase() as SearchRepoCategory;
+    if (!REPO_CATEGORY_VALUES.includes(normalized)) {
+      return {
+        ok: false,
+        code: "invalid_param",
+        param: "category",
+        error: `Invalid category: ${rawCategory}`,
+      };
+    }
+    category = normalized;
+  }
+
   // Topics — case-insensitive substring match.
   const rawTopics = readRepeatable(params, "topic");
   const topics = Array.from(new Set(rawTopics.map((s) => s.toLowerCase())));
@@ -337,6 +371,7 @@ export function parseSearchQuery(url: URL): ParseResult {
       hasFunding: hasFundingResult.value,
       hasTwitter: hasTwitterResult.value,
       topics,
+      category,
       sort,
       order,
       limit: limitResult.value,
@@ -435,6 +470,15 @@ export function matchesQuery(
     if (!anyHit) return false;
   }
 
+  // Repo category (SAM-07). `repo.repoCategory` is optional on the type — the
+  // derived-repos pipeline defaults to "library" for everything without a
+  // classifier hit, so a missing field at this point would be a fixture/test
+  // shape. Treat undefined as a non-match when a filter is set, otherwise the
+  // chip would silently include unclassified repos.
+  if (query.category !== null) {
+    if ((repo.repoCategory ?? null) !== query.category) return false;
+  }
+
   return true;
 }
 
@@ -491,6 +535,7 @@ export interface Facets {
   hasRevenue: { true: number; false: number };
   hasFunding: { true: number; false: number };
   revenueTier: { verified: number; self_reported: number; none: number };
+  categories: Record<SearchRepoCategory, number>;
 }
 
 const LANGUAGE_TOP_N = 20;
@@ -547,6 +592,7 @@ export function computeFacets(
   // the user selected hasRevenue=false, revenueTier buckets should respect
   // that (they'll all land in `none`).
   const queryNoRevenueTier: SearchQuery = { ...baseQuery, revenueTier: null };
+  const queryNoCategory: SearchQuery = { ...baseQuery, category: null };
 
   const languageCounts = new Map<string, number>();
   const movementCounts = new Map<string, number>();
@@ -556,6 +602,12 @@ export function computeFacets(
   const hasRevenueCounts = { true: 0, false: 0 };
   const hasFundingCounts = { true: 0, false: 0 };
   const revenueTierCounts = { verified: 0, self_reported: 0, none: 0 };
+  const categoryCounts: Record<SearchRepoCategory, number> = {
+    mcp: 0,
+    skill: 0,
+    agent: 0,
+    library: 0,
+  };
 
   for (const repo of repos) {
     if (matchesQuery(repo, queryNoLanguages, ctx)) {
@@ -590,6 +642,13 @@ export function computeFacets(
       else hasFundingCounts.false += 1;
     }
 
+    if (matchesQuery(repo, queryNoCategory, ctx)) {
+      const cat = (repo.repoCategory ?? "library") as SearchRepoCategory;
+      if (cat in categoryCounts) {
+        categoryCounts[cat] += 1;
+      }
+    }
+
     if (matchesQuery(repo, queryNoRevenueTier, ctx)) {
       const tier = ctx.getRevenueTier(repo.fullName);
       if (tier === null) {
@@ -619,5 +678,6 @@ export function computeFacets(
     hasRevenue: hasRevenueCounts,
     hasFunding: hasFundingCounts,
     revenueTier: revenueTierCounts,
+    categories: categoryCounts,
   };
 }

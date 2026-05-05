@@ -39,6 +39,7 @@ import { LetterAvatar } from "@/components/shared/LetterAvatar";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { WhyBadge } from "@/components/repo/WhyBadge";
 import { getOrGenerateRepoWhy } from "@/lib/repo-why";
+import { FunnelMount } from "@/components/analytics/FunnelMount";
 
 // ISR — 10-minute cadence matches the V4 leaderboard surfaces. Underlying
 // readers refresh every 6 hours via cron; tighter cache wastes work

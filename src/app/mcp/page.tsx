@@ -45,6 +45,7 @@ export const metadata: Metadata = {
     description:
       "A live leaderboard for Model Context Protocol servers across MCP registries.",
     url: absoluteUrl("/mcp"),
+    type: "website",
     images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
   },
   twitter: {

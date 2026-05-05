@@ -56,6 +56,10 @@ const SCRIPTS: Record<string, string> = {
 
 const LOG_DIR = path.join(process.cwd(), ".data", "admin-scan-runs");
 const ADMIN_SCAN_RATE_LIMIT = { windowMs: 60_000, maxRequests: 5 } as const;
+const ADMIN_SCAN_ESCALATION_RATE_LIMIT = {
+  windowMs: 15 * 60_000,
+  maxRequests: 20,
+} as const;
 
 function getAdminPrincipal(request: NextRequest): string {
   const token = readAdminSessionCookie(request.headers.get("cookie"));
@@ -69,6 +73,7 @@ function getAdminPrincipal(request: NextRequest): string {
 
 async function checkAdminScanRateLimit(
   request: NextRequest,
+  options: { windowMs: number; maxRequests: number } = ADMIN_SCAN_RATE_LIMIT,
 ): ReturnType<typeof checkRateLimitAsync> {
   const ip = getClientIp(request);
   const principal = getAdminPrincipal(request);
@@ -76,7 +81,7 @@ async function checkAdminScanRateLimit(
   const headers = new Headers(request.headers);
   headers.set("x-forwarded-for", keyedForwardedFor);
   const scoped = new Request(request.url, { method: request.method, headers });
-  return checkRateLimitAsync(scoped, ADMIN_SCAN_RATE_LIMIT);
+  return checkRateLimitAsync(scoped, options);
 }
 
 /**
@@ -220,6 +225,32 @@ export async function POST(
 ): Promise<NextResponse<Ok | Err>> {
   const deny = adminAuthFailureResponse(verifyAdminAuth(request));
   if (deny) return deny as NextResponse<Err>;
+  const escalationRate = await checkAdminScanRateLimit(
+    request,
+    ADMIN_SCAN_ESCALATION_RATE_LIMIT,
+  );
+  if (!escalationRate.allowed) {
+    const err = new AdminQuarantineError(
+      "admin scan denied: escalation lockout triggered",
+    );
+    const context = engineErrorSentryContext(err, {
+      auth_surface: "admin-scan",
+      lockout_tier: "escalation",
+    });
+    Sentry.captureException(err, {
+      tags: context.tags,
+      extra: context.extra,
+    });
+    return NextResponse.json(
+      { ok: false, error: "admin scan temporarily locked; try again later" },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil(escalationRate.retryAfterMs / 1000)),
+        },
+      },
+    );
+  }
   const rate = await checkAdminScanRateLimit(request);
   if (!rate.allowed) {
     const err = new AdminQuarantineError("admin scan denied: rate limited");

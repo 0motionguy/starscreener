@@ -3,8 +3,16 @@
 // paint. Network-first for navigations (so updates land); cache-first for
 // static brand assets.
 
-const CACHE_VERSION = 'tr-v1-2026-05-05';
-const HOT_ROUTES = ['/', '/githubrepo', '/signals'];
+const CACHE_VERSION = 'tr-v2-2026-05-05';
+const HOT_ROUTES = [
+  '/',
+  '/trending',
+  '/trending?window=1h',
+  '/trending?window=6h',
+  '/trending?window=24h',
+  '/trending?window=7d',
+];
+const HOT_ROUTE_SET = new Set(HOT_ROUTES);
 const STATIC_ASSETS = [
   '/brand/trendingrepo-mark.svg',
   '/manifest.json',
@@ -55,7 +63,8 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Hot navigation routes: network-first with cache fallback
-  if (req.mode === 'navigate' && HOT_ROUTES.includes(url.pathname)) {
+  const navKey = `${url.pathname}${url.search}`;
+  if (req.mode === 'navigate' && HOT_ROUTE_SET.has(navKey)) {
     event.respondWith(
       fetch(req).then((res) => {
         const clone = res.clone();

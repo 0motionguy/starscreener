@@ -1,13 +1,115 @@
 {
-  "fetchedAt": "2026-05-05T01:39:15.366Z",
+  "fetchedAt": "2026-05-05T03:40:22.247Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
-    "jdx/mise": {
+    "TecharoHQ/anubis": {
       "count7d": 1,
       "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:k4jks2wtp6g3dri2wdz4apcr/app.bsky.feed.post/3ml356ntv7l62",
+        "cid": "bafyreidaqdkczodmwval2xp7oeqs3wzkarea6aisi3czhmao7iykeprfyi",
+        "bskyUrl": "https://bsky.app/profile/wragge.hcommons.social.ap.brid.gy/post/3ml356ntv7l62",
+        "text": "However, still getting hammered by meta-webindexer which is not currently blocked by Anubis: https://github.com/TecharoHQ/anubis/issues/1565 Gonna try adding a custom rule to block it.",
+        "author": {
+          "handle": "wragge.hcommons.social.ap.brid.gy",
+          "displayName": "Tim Sherratt"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-05T02:27:08.000Z",
+        "hoursSincePosted": 1.22
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:k4jks2wtp6g3dri2wdz4apcr/app.bsky.feed.post/3ml356ntv7l62",
+          "cid": "bafyreidaqdkczodmwval2xp7oeqs3wzkarea6aisi3czhmao7iykeprfyi",
+          "bskyUrl": "https://bsky.app/profile/wragge.hcommons.social.ap.brid.gy/post/3ml356ntv7l62",
+          "text": "However, still getting hammered by meta-webindexer which is not currently blocked by Anubis: https://github.com/TecharoHQ/anubis/issues/1565 Gonna try adding a custom rule to block it.",
+          "author": {
+            "handle": "wragge.hcommons.social.ap.brid.gy",
+            "displayName": "Tim Sherratt"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-05T02:27:08.000Z",
+          "createdUtc": 1777948028,
+          "ageHours": 1.22,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "TecharoHQ/anubis",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "russellromney/honker": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3ml32bk2xgg2z",
+        "cid": "bafyreidtyljyrbdxgvwjsgnfrhp6kqln6ywpp5gxq3ue54bggiw43fw2ym",
+        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3ml32bk2xgg2z",
+        "text": "GitHub - russellromney/honker: SQLite extension + bindings for Postgres NOTIFY/LISTEN semantics with durable queues, streams, pub/sub, and scheduler https://github.com/russellromney/honker",
+        "author": {
+          "handle": "tech-trending.bsky.social",
+          "displayName": "Tech Trending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-05T01:35:13.524Z",
+        "hoursSincePosted": 2.09
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3ml32bk2xgg2z",
+          "cid": "bafyreidtyljyrbdxgvwjsgnfrhp6kqln6ywpp5gxq3ue54bggiw43fw2ym",
+          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3ml32bk2xgg2z",
+          "text": "GitHub - russellromney/honker: SQLite extension + bindings for Postgres NOTIFY/LISTEN semantics with durable queues, streams, pub/sub, and scheduler https://github.com/russellromney/honker",
+          "author": {
+            "handle": "tech-trending.bsky.social",
+            "displayName": "Tech Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-05T01:35:13.524Z",
+          "createdUtc": 1777944913,
+          "ageHours": 2.09,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "russellromney/honker",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "jdx/mise": {
+      "count7d": 1,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -19,11 +121,11 @@
           "handle": "azu.bsky.social",
           "displayName": "azu"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-05T01:04:43.029Z",
-        "hoursSincePosted": 0.58
+        "hoursSincePosted": 2.59
       },
       "posts": [
         {
@@ -35,13 +137,13 @@
             "handle": "azu.bsky.social",
             "displayName": "azu"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-05T01:04:43.029Z",
           "createdUtc": 1777943083,
-          "ageHours": 0.58,
-          "trendingScore": 0,
+          "ageHours": 2.59,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -74,7 +176,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-05T00:44:04.622Z",
-        "hoursSincePosted": 0.92
+        "hoursSincePosted": 2.94
       },
       "posts": [
         {
@@ -91,7 +193,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-05T00:44:04.622Z",
           "createdUtc": 1777941844,
-          "ageHours": 0.92,
+          "ageHours": 2.94,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -125,7 +227,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-05T00:10:10.118134+00:00",
-        "hoursSincePosted": 1.48
+        "hoursSincePosted": 3.5
       },
       "posts": [
         {
@@ -141,7 +243,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-05T00:10:10.118134+00:00",
           "createdUtc": 1777939810,
-          "ageHours": 1.48,
+          "ageHours": 3.5,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -175,7 +277,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-04T23:38:44Z",
-        "hoursSincePosted": 2.01
+        "hoursSincePosted": 4.03
       },
       "posts": [
         {
@@ -192,7 +294,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-04T23:38:44Z",
           "createdUtc": 1777937924,
-          "ageHours": 2.01,
+          "ageHours": 4.03,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -226,7 +328,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-04T23:11:12.855Z",
-        "hoursSincePosted": 2.47
+        "hoursSincePosted": 4.49
       },
       "posts": [
         {
@@ -243,7 +345,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-04T23:11:12.855Z",
           "createdUtc": 1777936272,
-          "ageHours": 2.47,
+          "ageHours": 4.49,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -260,7 +362,7 @@
       ]
     },
     "warpdotdev/warp": {
-      "count7d": 7,
+      "count7d": 6,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 5,
@@ -277,7 +379,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-04T21:24:06.091985Z",
-        "hoursSincePosted": 4.25
+        "hoursSincePosted": 6.27
       },
       "posts": [
         {
@@ -294,7 +396,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-04T21:24:06.091985Z",
           "createdUtc": 1777929846,
-          "ageHours": 4.25,
+          "ageHours": 6.27,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -322,7 +424,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-04T21:24:03.089997Z",
           "createdUtc": 1777929843,
-          "ageHours": 4.25,
+          "ageHours": 6.27,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -350,7 +452,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-04T21:23:59.668003Z",
           "createdUtc": 1777929839,
-          "ageHours": 4.25,
+          "ageHours": 6.27,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -378,7 +480,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-04T21:23:58.591349Z",
           "createdUtc": 1777929838,
-          "ageHours": 4.25,
+          "ageHours": 6.27,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -406,7 +508,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-04T21:23:57.386918Z",
           "createdUtc": 1777929837,
-          "ageHours": 4.26,
+          "ageHours": 6.27,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -434,36 +536,8 @@
           "replyCount": 1,
           "createdAt": "2026-05-04T21:23:56.097845Z",
           "createdUtc": 1777929836,
-          "ageHours": 4.26,
+          "ageHours": 6.27,
           "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "warpdotdev/warp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:4xmtqkvesnepl5zttqwa6iyw/app.bsky.feed.post/3ml2ius7m3y2c",
-          "cid": "bafyreib7g4hxtpcoxom5lurmif66rfxyghttpct3pbwoze2bwog6ys2ed4",
-          "bskyUrl": "https://bsky.app/profile/bogdanovwtf.bsky.social/post/3ml2ius7m3y2c",
-          "text": "Warp went open-source. The terminal has become an entry point to any kind of dev activity for me for a year now, all thanks to agents. I'm yet to find a decent text/markdown editor though, so might give it a try. https://github.com/warpdotdev/warp",
-          "author": {
-            "handle": "bogdanovwtf.bsky.social",
-            "displayName": "Alex Bogdanov"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-04T20:23:51.872501Z",
-          "createdUtc": 1777926231,
-          "ageHours": 5.26,
-          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -496,7 +570,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-04T21:18:55.112Z",
-        "hoursSincePosted": 4.34
+        "hoursSincePosted": 6.36
       },
       "posts": [
         {
@@ -513,7 +587,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-04T21:18:55.112Z",
           "createdUtc": 1777929535,
-          "ageHours": 4.34,
+          "ageHours": 6.36,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -531,9 +605,111 @@
     }
   },
   "mentionsByRepoId": {
-    "jdx--mise": {
+    "techarohq--anubis": {
       "count7d": 1,
       "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:k4jks2wtp6g3dri2wdz4apcr/app.bsky.feed.post/3ml356ntv7l62",
+        "cid": "bafyreidaqdkczodmwval2xp7oeqs3wzkarea6aisi3czhmao7iykeprfyi",
+        "bskyUrl": "https://bsky.app/profile/wragge.hcommons.social.ap.brid.gy/post/3ml356ntv7l62",
+        "text": "However, still getting hammered by meta-webindexer which is not currently blocked by Anubis: https://github.com/TecharoHQ/anubis/issues/1565 Gonna try adding a custom rule to block it.",
+        "author": {
+          "handle": "wragge.hcommons.social.ap.brid.gy",
+          "displayName": "Tim Sherratt"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-05T02:27:08.000Z",
+        "hoursSincePosted": 1.22
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:k4jks2wtp6g3dri2wdz4apcr/app.bsky.feed.post/3ml356ntv7l62",
+          "cid": "bafyreidaqdkczodmwval2xp7oeqs3wzkarea6aisi3czhmao7iykeprfyi",
+          "bskyUrl": "https://bsky.app/profile/wragge.hcommons.social.ap.brid.gy/post/3ml356ntv7l62",
+          "text": "However, still getting hammered by meta-webindexer which is not currently blocked by Anubis: https://github.com/TecharoHQ/anubis/issues/1565 Gonna try adding a custom rule to block it.",
+          "author": {
+            "handle": "wragge.hcommons.social.ap.brid.gy",
+            "displayName": "Tim Sherratt"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-05T02:27:08.000Z",
+          "createdUtc": 1777948028,
+          "ageHours": 1.22,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "TecharoHQ/anubis",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "russellromney--honker": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3ml32bk2xgg2z",
+        "cid": "bafyreidtyljyrbdxgvwjsgnfrhp6kqln6ywpp5gxq3ue54bggiw43fw2ym",
+        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3ml32bk2xgg2z",
+        "text": "GitHub - russellromney/honker: SQLite extension + bindings for Postgres NOTIFY/LISTEN semantics with durable queues, streams, pub/sub, and scheduler https://github.com/russellromney/honker",
+        "author": {
+          "handle": "tech-trending.bsky.social",
+          "displayName": "Tech Trending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-05T01:35:13.524Z",
+        "hoursSincePosted": 2.09
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3ml32bk2xgg2z",
+          "cid": "bafyreidtyljyrbdxgvwjsgnfrhp6kqln6ywpp5gxq3ue54bggiw43fw2ym",
+          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3ml32bk2xgg2z",
+          "text": "GitHub - russellromney/honker: SQLite extension + bindings for Postgres NOTIFY/LISTEN semantics with durable queues, streams, pub/sub, and scheduler https://github.com/russellromney/honker",
+          "author": {
+            "handle": "tech-trending.bsky.social",
+            "displayName": "Tech Trending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-05T01:35:13.524Z",
+          "createdUtc": 1777944913,
+          "ageHours": 2.09,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "russellromney/honker",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "jdx--mise": {
+      "count7d": 1,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -545,11 +721,11 @@
           "handle": "azu.bsky.social",
           "displayName": "azu"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-05T01:04:43.029Z",
-        "hoursSincePosted": 0.58
+        "hoursSincePosted": 2.59
       },
       "posts": [
         {
@@ -561,13 +737,13 @@
             "handle": "azu.bsky.social",
             "displayName": "azu"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-05T01:04:43.029Z",
           "createdUtc": 1777943083,
-          "ageHours": 0.58,
-          "trendingScore": 0,
+          "ageHours": 2.59,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -600,7 +776,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-05T00:44:04.622Z",
-        "hoursSincePosted": 0.92
+        "hoursSincePosted": 2.94
       },
       "posts": [
         {
@@ -617,7 +793,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-05T00:44:04.622Z",
           "createdUtc": 1777941844,
-          "ageHours": 0.92,
+          "ageHours": 2.94,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -651,7 +827,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-05T00:10:10.118134+00:00",
-        "hoursSincePosted": 1.48
+        "hoursSincePosted": 3.5
       },
       "posts": [
         {
@@ -667,7 +843,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-05T00:10:10.118134+00:00",
           "createdUtc": 1777939810,
-          "ageHours": 1.48,
+          "ageHours": 3.5,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -701,7 +877,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-04T23:38:44Z",
-        "hoursSincePosted": 2.01
+        "hoursSincePosted": 4.03
       },
       "posts": [
         {
@@ -718,7 +894,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-04T23:38:44Z",
           "createdUtc": 1777937924,
-          "ageHours": 2.01,
+          "ageHours": 4.03,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -752,7 +928,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-04T23:11:12.855Z",
-        "hoursSincePosted": 2.47
+        "hoursSincePosted": 4.49
       },
       "posts": [
         {
@@ -769,7 +945,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-04T23:11:12.855Z",
           "createdUtc": 1777936272,
-          "ageHours": 2.47,
+          "ageHours": 4.49,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -786,7 +962,7 @@
       ]
     },
     "warpdotdev--warp": {
-      "count7d": 7,
+      "count7d": 6,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 5,
@@ -803,7 +979,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-04T21:24:06.091985Z",
-        "hoursSincePosted": 4.25
+        "hoursSincePosted": 6.27
       },
       "posts": [
         {
@@ -820,7 +996,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-04T21:24:06.091985Z",
           "createdUtc": 1777929846,
-          "ageHours": 4.25,
+          "ageHours": 6.27,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -848,7 +1024,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-04T21:24:03.089997Z",
           "createdUtc": 1777929843,
-          "ageHours": 4.25,
+          "ageHours": 6.27,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -876,7 +1052,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-04T21:23:59.668003Z",
           "createdUtc": 1777929839,
-          "ageHours": 4.25,
+          "ageHours": 6.27,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -904,7 +1080,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-04T21:23:58.591349Z",
           "createdUtc": 1777929838,
-          "ageHours": 4.25,
+          "ageHours": 6.27,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -932,7 +1108,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-04T21:23:57.386918Z",
           "createdUtc": 1777929837,
-          "ageHours": 4.26,
+          "ageHours": 6.27,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -960,36 +1136,8 @@
           "replyCount": 1,
           "createdAt": "2026-05-04T21:23:56.097845Z",
           "createdUtc": 1777929836,
-          "ageHours": 4.26,
+          "ageHours": 6.27,
           "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "warpdotdev/warp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:4xmtqkvesnepl5zttqwa6iyw/app.bsky.feed.post/3ml2ius7m3y2c",
-          "cid": "bafyreib7g4hxtpcoxom5lurmif66rfxyghttpct3pbwoze2bwog6ys2ed4",
-          "bskyUrl": "https://bsky.app/profile/bogdanovwtf.bsky.social/post/3ml2ius7m3y2c",
-          "text": "Warp went open-source. The terminal has become an entry point to any kind of dev activity for me for a year now, all thanks to agents. I'm yet to find a decent text/markdown editor though, so might give it a try. https://github.com/warpdotdev/warp",
-          "author": {
-            "handle": "bogdanovwtf.bsky.social",
-            "displayName": "Alex Bogdanov"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-04T20:23:51.872501Z",
-          "createdUtc": 1777926231,
-          "ageHours": 5.26,
-          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -1022,7 +1170,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-04T21:18:55.112Z",
-        "hoursSincePosted": 4.34
+        "hoursSincePosted": 6.36
       },
       "posts": [
         {
@@ -1039,7 +1187,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-04T21:18:55.112Z",
           "createdUtc": 1777929535,
-          "ageHours": 4.34,
+          "ageHours": 6.36,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -1058,8 +1206,13 @@
   },
   "leaderboard": [
     {
+      "fullName": "jdx/mise",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
       "fullName": "warpdotdev/warp",
-      "count7d": 7,
+      "count7d": 6,
       "likesSum7d": 0
     },
     {
@@ -1078,17 +1231,22 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "jdx/mise",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
       "fullName": "openai/symphony",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
+      "fullName": "russellromney/honker",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
       "fullName": "ruvnet/RuVector",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "TecharoHQ/anubis",
       "count7d": 1,
       "likesSum7d": 0
     }

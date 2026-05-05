@@ -689,7 +689,7 @@ function EmptyTrackedState() {
           fontWeight: 600,
         }}
       >
-        Add your first repo →
+        Browse trending repos →
       </Link>
 
       {/* Top-3 trending suggestion strip (AC: 'suggestion (top 3 trending)') */}

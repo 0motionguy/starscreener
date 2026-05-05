@@ -1,9 +1,3 @@
----
-last-verified: 2026-05-05
-verified-by: claude
-status: living
----
-
 # Redis layer conventions
 
 This directory holds Redis client glue and the canonical key registry

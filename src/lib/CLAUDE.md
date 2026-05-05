@@ -1,9 +1,3 @@
----
-last-verified: 2026-05-05
-verified-by: claude
-status: living
----
-
 # src/lib conventions
 
 Server-side library code. Reader libs, data-store, scoring, auth,

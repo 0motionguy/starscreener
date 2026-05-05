@@ -1,9 +1,3 @@
----
-last-verified: 2026-05-05
-verified-by: claude
-status: living
----
-
 # GitHub Actions workflow conventions
 
 Collectors run from GitHub Actions, not Vercel. Vercel's serverless

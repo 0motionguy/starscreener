@@ -92,4 +92,4 @@ After completing the above:
 
 ## Frozen audit dirs (keep untouched)
 
-`starscreener-fix/` and `starscreener-inspection/` are frozen audit snapshots. `docs/archive/handoffs/NEXT_SESSION.md:142` says "do not touch." Any future cleanup of those directories is a separate ticket.
+`starscreener-fix/` and `starscreener-inspection/` are frozen audit snapshots. `docs/NEXT_SESSION.md:142` says "do not touch." Any future cleanup of those directories is a separate ticket.

@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # Sentry Readiness and DSN Exposure Checklist (AGN-269)
 
 Date: 2026-05-04

@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # ADR 0002 - Multi-tier cache architecture (CDN / KV / Redis / in-memory / browser)
 
 - Status: Proposed

@@ -1,32 +1,55 @@
-# AGN-1629 heartbeat: productivity review for AGN-817 (2026-05-05)
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
 
-## Scope
-- Assigned issue: `AGN-1629` (`Review productivity for AGN-817`).
-- Source issue under review: `AGN-817` (`[TEST-4] Snapshot tests for the 6 most-rendered components`).
+# AGN-1629 productivity review AGN-817 (2026-05-05)
 
-## Mandatory opening protocol evidence
-- Read in this heartbeat: `CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`.
-- Ran `npm run freshness:check`.
-- Result: `freshness-check: local server not reachable at http://localhost:3023 ... code=ECONNREFUSED`.
-- Classification: **environment/preflight failure** (localhost missing), not a product freshness verdict.
+- Reviewed issue: AGN-817
+- Review issue: AGN-1629
+- Reviewer: CTO
+- Timestamp: 2026-05-05T13:04:00+08:00
 
-## AGN-817 productivity evidence available in workspace
-- Prior AGN-817 review packet exists:
-  - `docs/archive/forensic-2026-05-pre/AGN-1298-PRODUCTIVITY-REVIEW-AGN-817-2026-05-05.md`
-- Prior packet states:
-  - AGN-817 had control-plane evidence recorded in that earlier heartbeat.
-  - `.audit/AGN-817-HEARTBEAT-NOTE.md` was used as local artifact evidence.
-  - Prior recommendation was to close AGN-817 if board accepts consolidated snapshot coverage as equivalent to six-component acceptance.
+## Mandatory opening protocol status
 
-## Current heartbeat blocker
-- After initial verification commands, the local shell runner began failing every command with `exit code -1073741502`, including trivial commands (`echo ok`).
-- Because of this runtime failure, this heartbeat could not re-fetch AGN-817 control-plane state or re-open prior files for full revalidation.
+Completed in this heartbeat:
+1. `CLAUDE.md`
+2. `docs/ENGINE.md`
+3. `docs/SITE-WIREMAP.md`
+4. `docs/AUDIT-2026-05-04.md` (path check: missing at this path; canonical file is `docs/archive/AUDIT-2026-05-04.md`)
+5. `docs/forensic/00-INDEX.md`
+6. `tasks/CURRENT-SPRINT.md`
+7. `tasks/BACKLOG.md`
+8. Ran `npm run freshness:check`
 
-## Productivity verdict (current heartbeat)
-- **Provisional: productive history previously evidenced; current verification blocked by runtime/tool failure.**
-- AGN-817 has a documented prior productivity packet, but this heartbeat cannot confirm newest board state from control-plane while shell execution is broken.
+Freshness result classification:
+- `freshness-check: local server not reachable at http://localhost:3023. Start it with: npm run dev (code=ECONNREFUSED)`
+- Failure mode: **local server missing/unreachable preflight**, not a confirmed product freshness-state failure.
 
-## Unblock action
-1. Restore command runtime health (shell tool must execute successfully again).
-2. Re-fetch AGN-817 current issue/thread state from Paperclip API.
-3. Reconfirm terminal state hygiene and close AGN-1629 with a final productivity verdict (`done` or `blocked` with explicit owner/action).
+## Productivity evidence check for AGN-817
+
+Verified workspace evidence:
+- Current review packet exists: `docs/forensic/AGN-1629-REVIEW-PRODUCTIVITY-AGN-817-2026-05-05.md`.
+- Prior AGN-817 packet exists: `docs/archive/forensic-2026-05-pre/AGN-1298-PRODUCTIVITY-REVIEW-AGN-817-2026-05-05.md`.
+- Prior packet records concrete AGN-817 execution evidence and notes:
+  - Control-plane issue-thread evidence was captured in that earlier heartbeat.
+  - Local artifact `.audit/AGN-817-HEARTBEAT-NOTE.md` was present and used as evidence.
+  - Prior recommendation: close AGN-817 if board accepts consolidated snapshot coverage as equivalent to six-component acceptance.
+
+Current heartbeat constraint:
+- This heartbeat revalidated local evidence and opening checks, but did not re-fetch live AGN-817 control-plane thread state from Paperclip API in this pass.
+
+## Review verdict
+
+`AGN-817` productivity is **previously evidenced as productive, with closure-hygiene verification pending**:
+- Productive-history evidence exists and is specific.
+- Remaining risk is stale lifecycle state if AGN-817 is still left `in_progress` despite acceptance.
+
+## Required next action
+
+Owner lane: AGN-817 assignee + Sprint Triage
+
+1. Re-fetch current AGN-817 issue/thread state from Paperclip API and verify terminal status hygiene.
+2. If acceptance is already met, close AGN-817 as `done` with evidence links to AGN-1298 packet.
+3. If acceptance is not met, keep AGN-817 scoped to the remaining delta and mark blocker/owner/action explicitly.

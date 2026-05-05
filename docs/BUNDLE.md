@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # Bundle size — baseline + top heavy modules
 
 Snapshot from a production `npm run analyze` (Next.js 15.5.15 + webpack, ANALYZE=true).

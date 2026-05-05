@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # Cache Tiers Decision Matrix (AGN-670)
 
 - Status: Proposed

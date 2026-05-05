@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 
 ## Heartbeat update (resume) - 2026-05-04T07:00Z+
 - Local mandatory preflight rerun: `npm run freshness:check` now reaches localhost but fails with `GET http://localhost:3023/api/health?soft=1 failed: HTTP 500 Internal Server Error`.

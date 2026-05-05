@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-1604 productivity review AGN-796 (2026-05-05)
 
 - Reviewed issue: AGN-796

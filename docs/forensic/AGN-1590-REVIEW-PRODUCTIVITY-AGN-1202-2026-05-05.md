@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-1590 heartbeat: productivity review for AGN-1202 (2026-05-05)
 
 Timestamp (Asia/Makassar): 2026-05-05T11:59:18+08:00

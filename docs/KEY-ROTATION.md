@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # KEY-ROTATION.md - Production Secret Rotation Runbook
 
 Last updated: 2026-05-04

@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # LiveTopTable split plan (home critical path)
 
 Issue: AGN-483  
@@ -73,11 +79,11 @@ Goal is to keep table rows/data visible early while deferring interaction wiring
 
 Estimate is directional (no analyzer snapshot in this issue), based on module decoupling:
 
-- **Immediate critical-path reduction (home route): ~6–12 KB gzip**
+- **Immediate critical-path reduction (home route): ~6ï¿½12 KB gzip**
   - from isolating action-cell behavior + store subscriptions + toast wiring into lazy chunk.
-- **Potential additional reduction: ~2–5 KB gzip**
+- **Potential additional reduction: ~2ï¿½5 KB gzip**
   - if sparkline rendering is also deferred.
-- **Total expected range: ~8–17 KB gzip** first-load JS improvement on `/`.
+- **Total expected range: ~8ï¿½17 KB gzip** first-load JS improvement on `/`.
 
 Validation method after implementation:
 - run route-level bundle report (`next build` + analyzer)

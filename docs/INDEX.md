@@ -94,7 +94,7 @@ Count: 27 (per `node scripts/check-docs-freshness.mjs`).
 | `docs/API.md` | Public API surface | 2026-05-05 |
 | `docs/ARCHITECTURE.md` | Redis 3-tier read order, namespaces, compute lanes, error categories | 2026-05-05 |
 | `docs/DEPLOY.md` | Vercel + Railway deploy paths, env wiring, Node 22.x | 2026-05-05 |
-| `docs/ENGINE.md` | 83 workflows + 16 cron routes + 44 worker fetchers + ~85 env vars | 2026-05-05 |
+| `docs/ENGINE.md` | 85 workflows + 16 cron routes + 52 worker fetchers + ~85 env vars | 2026-05-05 |
 | `docs/INGESTION.md` | Scraper cadence, dual-write helper, Redis-as-truth | 2026-05-05 |
 | `docs/OPERATOR.md` | Operator situational awareness (single source of truth) | 2026-05-05 |
 | `docs/RUNBOOK-internal-agent-token-rotation.md` | Internal agent token rotation | 2026-05-05 |
@@ -323,17 +323,22 @@ under Phase 1.4.
 
 ## Code review reports (`docs/review/`)
 
-| Path | Subject |
-|---|---|
-| `docs/review/AGN-502-TEST-REVIEW.md` | AGN-502 test review |
-| `docs/review/AGN-503-TEST-REVIEW.md` | AGN-503 test review |
-| `docs/review/AGN-504-VITO-REVIEW.md` | AGN-504 Vito review |
-| `docs/review/AGN-507-TEST-REVIEW.md` | AGN-507 test review |
-| `docs/review/CODEX_REVIEW_LOG.md` | Codex review log |
-| `docs/review/CODEX_REVIEW_SYSTEM.md` | Codex review system |
-| `docs/review/HARDENING_90D.md` | 90-day hardening plan |
-| `docs/review/PATCH_PLAN.md` | Patch plan |
-| `docs/review/REVIEW_REPORT.md` | Review report |
+All entries stamped `status: archive` on 2026-05-05 -- review reports of past
+code state, references may not resolve to current files. Treat as read-only
+history.
+
+| Path | Subject | Status |
+|---|---|---|
+| `docs/review/AGN-502-TEST-REVIEW.md` | AGN-502 test review | archive |
+| `docs/review/AGN-503-TEST-REVIEW.md` | AGN-503 test review | archive |
+| `docs/review/AGN-504-VITO-REVIEW.md` | AGN-504 Vito review | archive |
+| `docs/review/AGN-507-TEST-REVIEW.md` | AGN-507 test review | archive |
+| `docs/review/AGN-624-PR-DRAFT-CHECKLIST-2026-05-05.md` | AGN-624 PR draft checklist | archive |
+| `docs/review/CODEX_REVIEW_LOG.md` | Codex review log | archive |
+| `docs/review/CODEX_REVIEW_SYSTEM.md` | Codex review system | archive |
+| `docs/review/HARDENING_90D.md` | 90-day hardening plan | archive |
+| `docs/review/PATCH_PLAN.md` | Patch plan | archive |
+| `docs/review/REVIEW_REPORT.md` | Review report | archive |
 
 ---
 
@@ -487,9 +492,9 @@ below distill its critical gaps so they can be tracked here.
 
 ## Workflow inventory
 
-Current ground truth at 2026-05-05: 83 `.github/workflows/*.yml` files (per
+Current ground truth at 2026-05-05: 85 `.github/workflows/*.yml` files (per
 `docs/_generated/engine.json`, derived from filesystem), 16 cron API routes
-under `src/app/api/cron/`, 44 worker fetchers in the sister Railway worker
+under `src/app/api/cron/`, 52 worker fetchers in the sister Railway worker
 (`apps/trendingrepo-worker/`), and ~85 env vars. Re-derive with
 `npm run engine:derive`. See `docs/ENGINE.md` (now `status: living`) for the
 human-readable narrative; `docs/_generated/engine.md` for the auto-derived

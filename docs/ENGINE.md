@@ -8,9 +8,9 @@ status: living
 
 Last derived from filesystem on 2026-05-05. Direct re-derivation:
 
-- Workflows: `Glob .github/workflows/*.yml` (count = 83)
+- Workflows: `Glob .github/workflows/*.yml` (count = 85)
 - Cron API routes: `Glob src/app/api/cron/**/route.ts` (count = 16)
-- Worker fetchers: `apps/trendingrepo-worker/src/registry.ts` (44 active in `FETCHERS[]`; 4 stubs left in tree but excluded from registry)
+- Worker fetchers: `apps/trendingrepo-worker/src/registry.ts` (52 active in `FETCHERS[]`; stubs left in tree but excluded from registry)
 - Env vars: `.env.example` + `src/lib/env.ts` + `process.env.*` greps in `scripts/` and `apps/trendingrepo-worker/src/`
 
 This file is the canonical engine map. Every gain/loss of a workflow,
@@ -19,7 +19,7 @@ commit.
 
 ---
 
-## 1. GH Actions (.github/workflows/*.yml) - 83 files
+## 1. GH Actions (.github/workflows/*.yml) - 85 files
 
 Source: `Grep -E "^name:|cron:" .github/workflows/<file>.yml`. Only
 `schedule.cron` triggers + the workflow's primary `run:` line are shown.
@@ -148,7 +148,7 @@ them on a schedule today.
 
 ---
 
-## 3. Worker (apps/trendingrepo-worker/) - 44 active fetchers
+## 3. Worker (apps/trendingrepo-worker/) - 52 active fetchers
 
 Source: `apps/trendingrepo-worker/src/registry.ts` (`FETCHERS[]`) +
 each fetcher's `index.ts`. Schedules are 5-field UTC cron strings used

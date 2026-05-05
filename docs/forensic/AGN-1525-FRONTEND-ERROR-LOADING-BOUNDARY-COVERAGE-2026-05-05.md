@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-1525 Frontend error/loading boundary coverage on top traffic routes (2026-05-05)
 
 ## Scope

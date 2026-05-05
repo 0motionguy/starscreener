@@ -71,6 +71,7 @@ async function main() {
   let livingCount = 0;
   let snapshotCount = 0;
   let needsVerificationCount = 0;
+  let archiveCount = 0;
   let unlabeled = 0;
 
   for (const file of files) {
@@ -101,6 +102,8 @@ async function main() {
       snapshotCount++;
     } else if (status === "needs-verification") {
       needsVerificationCount++;
+    } else if (status === "archive" || status === "pointer") {
+      archiveCount++;
     } else {
       unlabeled++;
     }
@@ -113,7 +116,7 @@ async function main() {
   }
 
   console.log(`PASS ${livingCount} living doc(s) within ${MAX_AGE_DAYS}d (${files.length} total scanned).`);
-  console.log(`INFO snapshot=${snapshotCount} needs-verification=${needsVerificationCount} unlabeled=${unlabeled}`);
+  console.log(`INFO snapshot=${snapshotCount} needs-verification=${needsVerificationCount} archive=${archiveCount} unlabeled=${unlabeled}`);
 }
 
 main().catch((err) => {

@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-1125 Error/Loading/Empty-State Coverage Audit (2026-05-05)
 
 Issue: AGN-1125  

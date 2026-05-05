@@ -650,8 +650,8 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
 - [ ] **docs/DESIGN_SYSTEM.md rewrite** â€” file documents V3 only and references missing `docs/V2_HANDOFF.md` + `docs/HANDOFF_2026-04-27_V3.md`; replacement: `design/v4/DESIGN_SYSTEM.md` (canonical V4/CORPUS doc). Either redirect with a one-line stub or delete and update inbound links
 
 ### orphan cron routes
-- [ ] Delete or wire orphan cron route `src/app/api/cron/news-auto-recover/route.ts` â€” flagged 2026-05-05; no workflow caller found.
-- [ ] Delete or wire orphan cron route `src/app/api/cron/predictions/calibrate/route.ts` â€” flagged 2026-05-05; no workflow caller found.
+- [x] Delete orphan cron route `src/app/api/cron/news-auto-recover/route.ts` — DELETED 2026-05-05.
+- [x] Delete orphan cron route `src/app/api/cron/predictions/calibrate/route.ts` — DELETED 2026-05-05.
 
 ### ADR reconciliation
 - [ ] ADR 0001 reality reconciliation - wire phase 1a OR amend ADR (see `docs/archive/ADR-0001-status-2026-05-05.md`). Phases 1a/1b/1c are NOT wired in main app: `@supabase/supabase-js` absent from root `package.json`, `src/lib/supabase-store.ts` does not exist, no `appendCronPayload` callers anywhere. Worker uses Supabase but for `trending_items` (different schema). Recommendation: amend ADR to "Deferred" (~30 min) unless a replay/history requirement materialises.

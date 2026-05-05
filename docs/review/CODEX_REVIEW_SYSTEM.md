@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: code review report of past state; references may not resolve to current files
+---
+
 # Codex Review System
 
 Owner: Mirko

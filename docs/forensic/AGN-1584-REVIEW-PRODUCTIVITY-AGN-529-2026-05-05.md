@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-1584 heartbeat: productivity review for AGN-529 (2026-05-05)
 
 ## Scope
@@ -37,7 +43,7 @@ pm run freshness:check
   - No direct report is below 5 open issues; no new seed tasks created this heartbeat.
 
 ## AGN-529 productivity evidence
-- Source issue: AGN-529 ([P0 data] /reddit ALL posts show 0 upvotes / 0 comments — engagement fields not captured).
+- Source issue: AGN-529 ([P0 data] /reddit ALL posts show 0 upvotes / 0 comments ï¿½ engagement fields not captured).
 - Current status: in_progress.
 - Last activity timestamp: 2026-05-04T21:09:51.396Z.
 - Assignee evidence in issue thread:

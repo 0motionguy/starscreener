@@ -12,39 +12,7 @@ status: living
 
 Last refreshed: 2026-05-05 (Phase 1.0 docs-drift verification pass)
 
-**Engine state:** all 11 sources fresh (1-2h old), 0 red workflows in last 30 runs, status=ok.
-**User-visible breakage on PROD:** still present (empty avatars, dead pages) until PR #93 merges.
-**Autonomous loop ended** â€” nothing more to ship without risking regressions. Waking every hour to verify PR still unmerged is wasted churn.
-
-## ðŸš¨ P0 RESCUE THIS SESSION â€” 10 FIXES, 46 commits on PR #93
-
-User reported live product broken: empty avatars, dead skills/mcp/devto, reddit 0 24h, twitter 10-day stale, npm no installs, charts shitty.
-
-Root causes shipped:
-- **Twitter (10-day data loss)** `eafd2433`: collector never hydrated memory store before ingest â†’ each run truncated `.data/twitter-*.jsonl` to ~15 lines. Now calls `ensureTwitterReady()` first.
-- **Home avatars** `adf58879`: SSR-render real GitHub `<img>` tags (was empty `.av` boxes â€” `EntityLogo` is client-only and never reached SSR HTML)
-- **Live/top-50 table** `7a0a9f87`: avatars + sparklines + channels-firing pills + momentum bars
-- **TR-100 sparkline** `1f3b51fd`: rebuilt as Recharts AreaChart with gradient
-- **Reddit /reddit/trending** `31b561f9`: chip-filter auto-degrade + chronological fallback when score=0 + SSR snapshot fallback. Root cause is upstream Reddit RSS-fallback returning score=0 on all posts (auth ops issue).
-- **MCP /mcp** `e64b514b`: warming-up placeholder when leaderboard empty
-- **Skills /skills** `607d1949`: warming-up banner when install-velocity layer is cold
-- **dev.to /devto** `1f3b51fd`: empty-window hint pointing to populated tab
-- **NPM /npm** `e64b514b`: column relabel "DL"â†’"INSTALLS"
-- **Worker MCP fetcher** `a0fe44d3`: surface zero-items + per-item upsert errors
-
-**STILL BLOCKED on human merge.** PR #93 (46 commits, all CI green) + PR #92 both open and mergeable. Production stays broken until merged.
-
----
-
-## TL;DR for a fresh session
-
-You walked into a project whose 2026-05-04 audit found 6 classes of breakage. **Most are now fixed in PR [#93](https://github.com/0motionguy/starscreener/pull/93) (32 commits on `claude/modest-pasteur-59599d`).** As of 02:10 UTC 2026-05-03:
-
-ðŸŸ¢ **PR #93 CI is GREEN** (typecheck + tests + e2e + Vercel preview all pass)
-ðŸ”´ **Production health degraded:** `/api/health` returns `status:stale` because consensus-trending Redis key is 69h+ stale (snapshot-consensus failing nightly as result)
-ðŸŽ¯ **Single-action fix: merge PR #93.** That ships the consensus-trending allSettled hardening to Railway worker, and the .data/twitter-*.jsonl + dev.to author CORB fixes to Vercel. Everything downstream resolves.
-
-If the user says "go" or "continue", consider checking PR #93 status first â€” if the user has merged it, snapshot/consensus failures will resolve in the next worker tick. Otherwise read Â§ "Open follow-ups" below and pick the highest-leverage item.
+> **Current state:** PR #93 (audit-2026-05-04 stop-the-bleeding, 24 commits) merged as commit `0b3a477d`; follow-up PRs #96/#97/#99 also merged. For the latest pass, see the "2026-05-05 - Phase 1 docs restructure" section below.
 
 ---
 
@@ -52,7 +20,7 @@ If the user says "go" or "continue", consider checking PR #93 status first â€
 
 ```
                       â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-                      â”‚  GitHub Actions (83 workflows)                â”‚
+                      â”‚  GitHub Actions (85 workflows)                â”‚
                       â”‚   - 22 data-pushing scrapers (cron'd)         â”‚
                       â”‚   - 5 snapshot/archival jobs (daily)          â”‚
                       â”‚   - 8 cron-* app/API health probes            â”‚
@@ -373,7 +341,7 @@ Hackathons, Launch â€” no route, no data, intentional
 - `docs/INDEX.md` â€” canonical front-door doc index (862 md files classified by trust level) [Phase 1 docs restructure, 2026-05-05]
 - This file (`docs/OPERATOR.md`) â€” situational awareness
 - `CLAUDE.md` â€” project conventions, anti-patterns
-- `docs/ENGINE.md` â€” deeper engine map (83 workflows + every key) [rewritten from current code 2026-05-05]
+- `docs/ENGINE.md` â€” deeper engine map (85 workflows + every key) [rewritten from current code 2026-05-05]
 - `docs/SITE-WIREMAP.md` â€” top-down route â†’ collector trace
 - `docs/AUDIT-2026-05-04.md` â€” full audit (deferred external blockers)
 

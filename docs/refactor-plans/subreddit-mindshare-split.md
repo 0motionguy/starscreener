@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # SubredditMindshareCanvas split plan
 
 Source file: `src/components/reddit-trending/SubredditMindshareCanvas.tsx` (876 LOC)
@@ -8,19 +14,19 @@ Split `SubredditMindshareCanvas.tsx` into deeper modules with explicit seams so 
 
 ## Current structural findings
 
-1. **God module / concern leakage** — `SubredditMindshareCanvas.tsx:L1-L876`
+1. **God module / concern leakage** ï¿½ `SubredditMindshareCanvas.tsx:L1-L876`
    UI controls, legend aggregation, gradient dedupe, physics orchestration, pointer event plumbing, tooltip positioning, label collision layout, and SVG paint order are all co-located. This makes each change load-bearing because unrelated concerns share one state surface.
 
-2. **Shallow module boundary** — `SubredditMindshareCanvas.tsx:L338-L876`
+2. **Shallow module boundary** ï¿½ `SubredditMindshareCanvas.tsx:L338-L876`
    The top-level component exposes almost all implementation details directly in one render path instead of hiding complexity behind narrower interfaces.
 
-3. **Cross-cutting interaction coupling** — `SubredditMindshareCanvas.tsx:L392-L511` + `:L656-L746`
+3. **Cross-cutting interaction coupling** ï¿½ `SubredditMindshareCanvas.tsx:L392-L511` + `:L656-L746`
    Navigation/filter mutation (`router.push`), drag/hover semantics, and tooltip state transitions are interleaved, so interaction tweaks risk regressions across URL state and pointer behavior.
 
-4. **Computation mixed with view assembly** — `SubredditMindshareCanvas.tsx:L452-L654`
+4. **Computation mixed with view assembly** ï¿½ `SubredditMindshareCanvas.tsx:L452-L654`
    Label collision/layout, viewport clamping, and render order are colocated with JSX assembly, increasing cognitive load and reducing test seam clarity.
 
-5. **Animation provider hard dependency** — `SubredditMindshareCanvas.tsx:L32` + `:L248-L266`
+5. **Animation provider hard dependency** ï¿½ `SubredditMindshareCanvas.tsx:L32` + `:L248-L266`
    `framer-motion` is imported at module top and used in `BubbleNode`, forcing the bundle path to pay motion runtime cost even when reduced motion is enabled or chart is offscreen.
 
 ## Target module seams (split map)

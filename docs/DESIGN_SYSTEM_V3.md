@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # Design System V3
 
 V3 is the production skin for TrendingRepo. It is not the old V2 demo branch.

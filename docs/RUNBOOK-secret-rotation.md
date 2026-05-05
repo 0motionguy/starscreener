@@ -1,7 +1,7 @@
 ---
-status: snapshot
-audit-date: 2026-05-05
-reason: references src/lib/cron-auth.ts (does not exist; actual is src/lib/api/auth.ts verifyCronAuth); ProductHunt cron documented as "0 11,15,19,23" but workflow is "22 11,15,19,23"
+last-verified: 2026-05-05
+verified-by: claude
+status: living
 ---
 
 # RUNBOOK — Secret rotation (quarterly cadence)
@@ -153,7 +153,7 @@ The route handlers must accept BOTH old + new during the window.
 
 1. **Generate** new value, save to password manager.
 2. **Vercel**: add a SECOND env `CRON_SECRET_NEXT` = new value. Don't touch `CRON_SECRET` yet.
-3. **Update `src/lib/cron-auth.ts`** (or the equivalent guard) to accept either:
+3. **Update `src/lib/api/auth.ts`** (`verifyCronAuth`, or the equivalent guard) to accept either:
    ```ts
    const valid = [process.env.CRON_SECRET, process.env.CRON_SECRET_NEXT].filter(Boolean);
    if (!valid.includes(token)) return new Response("unauthorized", { status: 401 });
@@ -162,7 +162,7 @@ The route handlers must accept BOTH old + new during the window.
 4. **GH Actions**: `gh secret set CRON_SECRET --body <new_value>`. Workflows now send the new value; Vercel still accepts both.
 5. **Wait one full cron cycle** (15 min — `cron-freshness-check.yml` runs every 15 min). Confirm none of the cron workflows turned red: `gh run list --limit 30 --json status,workflowName | jq '.[] | select(.workflowName | startswith("cron-"))'`.
 6. **Promote**: in Vercel, set `CRON_SECRET` = new value, remove `CRON_SECRET_NEXT`. Redeploy.
-7. **Remove the dual-accept code** in `cron-auth.ts` (revert step 3). Commit.
+7. **Remove the dual-accept code** in `src/lib/api/auth.ts` (revert step 3). Commit.
 
 ### How to verify the new value is active
 1. Manual probe with the NEW secret:
@@ -222,7 +222,7 @@ Single bot account → no real pool. Use a temporary alias secret.
 ## 5. `PRODUCTHUNT_TOKEN` (+ `PRODUCTHUNT_TOKENS`)
 
 ### Where it is used
-- **Cron**: [`scripts/scrape-producthunt.mjs`](../scripts/scrape-producthunt.mjs), driven by `.github/workflows/scrape-producthunt.yml` 4×/day at `0 11,15,19,23 * * *` (PT-launch-aligned).
+- **Cron**: [`scripts/scrape-producthunt.mjs`](../scripts/scrape-producthunt.mjs), driven by `.github/workflows/scrape-producthunt.yml` 4×/day at `22 11,15,19,23 * * *` (PT-launch-aligned, staggered off :00 burst).
 - **Pool-aware**: `loadProducthuntTokens` round-robins via `_phCursor`. Per-token quota: ~6,250 req / 15-min window (PH GraphQL).
 - **App**: not used.
 - **Worker**: not used.

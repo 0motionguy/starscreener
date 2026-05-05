@@ -40,14 +40,7 @@ export function CriticalRouteStyles({ route }: CriticalRouteStylesProps): ReactE
     <>
       <style precedence={`critical-${route}`}>{css}</style>
       <link rel="preload" as="style" href={deferredHref} />
-      <link
-        rel="stylesheet"
-        href={deferredHref}
-        media="print"
-        onLoad={(event) => {
-          event.currentTarget.media = "all";
-        }}
-      />
+      <link rel="stylesheet" href={deferredHref} />
       <noscript>
         <link rel="stylesheet" href={deferredHref} />
       </noscript>

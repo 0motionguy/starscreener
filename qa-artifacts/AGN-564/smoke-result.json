@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-05-04T22:27:25.283Z",
+  "fixtureCount": 3,
+  "passCount": 3,
+  "failCount": 0,
+  "results": [
+    {
+      "file": "fixture-01-localhost-missing.json",
+      "name": "fixture-env-blocker-localhost-missing",
+      "expected": "environment_blocker",
+      "actual": "environment_blocker",
+      "pass": true
+    },
+    {
+      "file": "fixture-02-product-stale.json",
+      "name": "fixture-product-stale-blocking-non-green",
+      "expected": "product_stale",
+      "actual": "product_stale",
+      "pass": true
+    },
+    {
+      "file": "fixture-03-green.json",
+      "name": "fixture-green-all-blocking-green",
+      "expected": "green",
+      "actual": "green",
+      "pass": true
+    }
+  ]
+}

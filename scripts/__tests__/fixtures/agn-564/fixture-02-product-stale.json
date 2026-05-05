@@ -1,0 +1,11 @@
+{
+  "name": "fixture-product-stale-blocking-non-green",
+  "input": {
+    "localhostMissing": false,
+    "blockingNonGreen": 2,
+    "advisoryNonGreen": 1
+  },
+  "expected": {
+    "classification": "product_stale"
+  }
+}

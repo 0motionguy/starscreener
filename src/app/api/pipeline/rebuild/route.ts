@@ -35,12 +35,15 @@
 //   }
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import { pipeline, repoStore } from "@/lib/pipeline/pipeline";
 import { stores as pipelineStores } from "@/lib/pipeline/storage/singleton";
 import { backfillStargazerHistory } from "@/lib/pipeline/ingestion/stargazer-backfill";
 import { backfillFromEvents } from "@/lib/pipeline/ingestion/events-backfill";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { getGitHubTokenPool } from "@/lib/github-token-pool";
+import { parseBody } from "@/lib/api/parse-body";
+import { redactSensitiveText } from "@/lib/log-redaction";
 
 export const runtime = "nodejs";
 
@@ -63,6 +66,15 @@ interface RebuildBody {
   /** If true, only process repos where stars > 40_000 (events-api fast path). */
   onlyMegaRepos?: boolean;
 }
+const RebuildBodySchema = z.object({
+  limit: z.number().int().positive().max(500).optional(),
+  offset: z.number().int().min(0).optional(),
+  maxPages: z.number().int().positive().max(50).optional(),
+  skipSeeded: z.boolean().optional(),
+  skipRecompute: z.boolean().optional(),
+  fullNames: z.array(z.string()).optional(),
+  onlyMegaRepos: z.boolean().optional(),
+});
 
 interface PerRepoResult {
   fullName: string;
@@ -94,28 +106,13 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   }
   const token = "";
 
-  let body: RebuildBody = {};
-  try {
-    if (req.headers.get("content-type")?.includes("application/json")) {
-      const parsed = (await req.json()) as unknown;
-      if (parsed && typeof parsed === "object") body = parsed as RebuildBody;
-    }
-  } catch {
-    // empty body OK
-  }
+  const parsed = await parseBody(req, RebuildBodySchema, { allowEmpty: true });
+  if (!parsed.ok) return parsed.response;
+  const body: RebuildBody = parsed.data;
 
-  const limit =
-    typeof body.limit === "number" && body.limit > 0 && body.limit <= 500
-      ? Math.floor(body.limit)
-      : 20;
-  const offset =
-    typeof body.offset === "number" && body.offset >= 0
-      ? Math.floor(body.offset)
-      : 0;
-  const maxPages =
-    typeof body.maxPages === "number" && body.maxPages > 0 && body.maxPages <= 50
-      ? Math.floor(body.maxPages)
-      : 4;
+  const limit = body.limit ?? 20;
+  const offset = body.offset ?? 0;
+  const maxPages = body.maxPages ?? 4;
   const skipSeeded = body.skipSeeded === true;
   const skipRecompute = body.skipRecompute === true;
   const onlyMegaRepos = body.onlyMegaRepos === true;
@@ -221,13 +218,19 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       }
     } catch (err) {
       failed += 1;
+      const rawMessage = err instanceof Error ? err.message : String(err);
+      const message = redactSensitiveText(rawMessage);
+      console.error("[pipeline:rebuild] repo backfill failed", {
+        repo: repo.fullName,
+        message,
+      });
       details.push({
         fullName: repo.fullName,
         ok: false,
         snapshotsWritten: 0,
         daysCovered: 0,
         ms: Date.now() - t0,
-        reason: err instanceof Error ? err.message : String(err),
+        reason: "backfill failed",
       });
     }
   }

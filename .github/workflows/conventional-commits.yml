@@ -1,0 +1,23 @@
+name: Conventional Commits
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  commitlint:
+    name: Validate PR commit messages
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Enforce Conventional Commits
+        uses: wagoid/commitlint-github-action@v6
+        with:
+          failOnWarnings: true

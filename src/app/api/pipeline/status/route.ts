@@ -4,7 +4,9 @@
 // top of the same committed JSON freshness signals /api/health enforces.
 
 import { NextResponse } from "next/server";
-import { errorEnvelope } from "@/lib/api/error-response";
+import type { NextRequest } from "next/server";
+import { serverError } from "@/lib/api/error-response";
+import { verifyAdminAuth, verifyCronAuth } from "@/lib/api/auth";
 import { pipeline, repoStore, scoreStore, snapshotStore } from "@/lib/pipeline/pipeline";
 import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
 import { getDerivedMetaCounts } from "@/lib/derived-insights";
@@ -92,6 +94,26 @@ export interface PipelineStatusResponse {
   };
 }
 
+type PublicPipelineStatusResponse = Pick<
+  PipelineStatusResponse,
+  | "seeded"
+  | "healthy"
+  | "healthStatus"
+  | "sourceStatus"
+  | "ageSeconds"
+  | "lastFetchedAt"
+  | "computedAt"
+  | "coveragePct"
+>;
+
+function canViewDetail(request: NextRequest): boolean {
+  const cronSecret = process.env.CRON_SECRET?.trim();
+  return (
+    (cronSecret ? verifyCronAuth(request).kind === "ok" : false) ||
+    verifyAdminAuth(request).kind === "ok"
+  );
+}
+
 function ageMs(iso: string | null): number | null {
   if (!iso) return null;
   const t = new Date(iso).getTime();
@@ -99,7 +121,11 @@ function ageMs(iso: string | null): number | null {
   return Date.now() - t;
 }
 
-export async function GET(): Promise<NextResponse<PipelineStatusResponse | { error: string }>> {
+export async function GET(
+  request: NextRequest,
+): Promise<NextResponse<PipelineStatusResponse | PublicPipelineStatusResponse | { error: string }>> {
+  const wantsDetail = request.nextUrl.searchParams.get("detail") === "1";
+  const includeDetail = wantsDetail && canViewDetail(request);
   try {
     await pipeline.ensureReady();
 
@@ -233,9 +259,26 @@ export async function GET(): Promise<NextResponse<PipelineStatusResponse | { err
       },
     };
 
+    if (!includeDetail) {
+      const publicBody: PublicPipelineStatusResponse = {
+        seeded: body.seeded,
+        healthy: body.healthy,
+        healthStatus: body.healthStatus,
+        sourceStatus: body.sourceStatus,
+        ageSeconds: body.ageSeconds,
+        lastFetchedAt: body.lastFetchedAt,
+        computedAt: body.computedAt,
+        coveragePct: body.coveragePct,
+      };
+      return NextResponse.json(publicBody, { status: httpStatus });
+    }
     return NextResponse.json(body, { status: httpStatus });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(errorEnvelope(message), { status: 500 });
+    return serverError(err, {
+      scope: "[api/pipeline/status:GET]",
+      publicMessage: "server error",
+      code: "PIPELINE_STATUS_READ_FAILED",
+      status: 500,
+    });
   }
 }

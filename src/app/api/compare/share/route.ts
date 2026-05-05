@@ -12,8 +12,9 @@ import { z } from "zod";
 
 import { parseBody } from "@/lib/api/parse-body";
 import { errorEnvelope } from "@/lib/api/error-response";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import { generateShortId } from "@/lib/compare/short-id";
-import { getDataStore } from "@/lib/data-store";
+import { getDataStore, type DataStore } from "@/lib/data-store";
 import { absoluteUrl } from "@/lib/seo";
 
 export const runtime = "nodejs";
@@ -21,6 +22,9 @@ export const dynamic = "force-dynamic";
 
 const SHORT_ID_RETRY_LIMIT = 5;
 const COMPARE_SHARE_KEY_PREFIX = "compare-share";
+export const COMPARE_SHARE_MAX_REQUESTS = 30;
+export const COMPARE_SHARE_WINDOW_MS = 60 * 60 * 1000;
+export const COMPARE_SHARE_TTL_SECONDS = 30 * 24 * 60 * 60;
 
 const FULL_NAME_RE = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;
 
@@ -48,7 +52,38 @@ function compareShareKey(shortId: string): string {
   return `${COMPARE_SHARE_KEY_PREFIX}/${shortId}`;
 }
 
+export async function persistCompareSharePayload(
+  store: DataStore,
+  payload: CompareSharePayload,
+): Promise<void> {
+  await store.write(compareShareKey(payload.shortId), payload, {
+    ttlSeconds: COMPARE_SHARE_TTL_SECONDS,
+  });
+}
+
 export async function POST(request: Request) {
+  const limit = await checkRateLimitAsync(request, {
+    windowMs: COMPARE_SHARE_WINDOW_MS,
+    maxRequests: COMPARE_SHARE_MAX_REQUESTS,
+  });
+  if (!limit.allowed) {
+    return NextResponse.json(
+      errorEnvelope(
+        `rate limit exceeded - try again in ${Math.ceil(
+          limit.retryAfterMs / 1000,
+        )}s`,
+        "RATE_LIMITED",
+      ),
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil(limit.retryAfterMs / 1000)),
+          "Cache-Control": "no-store",
+        },
+      },
+    );
+  }
+
   const parsed = await parseBody(request, compareShareSchema);
   if (!parsed.ok) return parsed.response;
 
@@ -69,7 +104,7 @@ export async function POST(request: Request) {
         createdAt: now,
       };
 
-      await store.write(compareShareKey(shortId), payload);
+      await persistCompareSharePayload(store, payload);
 
       return NextResponse.json(
         {

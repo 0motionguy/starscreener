@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import * as Sentry from "@sentry/nextjs";
 import {
   BROWSER_ALERTS_CHANGE_EVENT,
   buildBrowserAlertBody,
@@ -97,6 +98,7 @@ export function BrowserAlertBridge() {
   }, []);
 
   const pollAlerts = useCallback(async (primeOnly: boolean) => {
+    if (typeof document !== "undefined" && document.hidden) return;
     if (
       typeof window === "undefined" ||
       !("Notification" in window) ||
@@ -144,6 +146,9 @@ export function BrowserAlertBridge() {
       seenIdsRef.current = new Set(mergedSeen);
       writeSeenAlertIds(window.localStorage, mergedSeen);
     } catch (err) {
+      Sentry.captureException(err, {
+        tags: { surface: "browser-alert-bridge", action: "poll-alerts" },
+      });
       console.error("[browser-alerts] poll failed", err);
     }
   }, []);
@@ -173,13 +178,19 @@ export function BrowserAlertBridge() {
       if (document.hidden) return;
       void pollAlerts(false);
     };
+    const onVisibility = () => {
+      if (document.hidden) return;
+      void pollAlerts(false);
+    };
 
     window.addEventListener("focus", onFocus);
+    document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
       cancelled = true;
       window.clearInterval(intervalId);
       window.removeEventListener("focus", onFocus);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [enabled, permission, pollAlerts]);
 

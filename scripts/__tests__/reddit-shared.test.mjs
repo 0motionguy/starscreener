@@ -6,6 +6,7 @@ import {
   getRedditFetchRuntime,
   getRedditUserAgent,
   hasRedditOAuthCreds,
+  parseRedditAtomFeed,
   resetRedditAuthCacheForTests,
   resolveRedditApiUrl,
 } from "../_reddit-shared.mjs";
@@ -112,7 +113,7 @@ test("reddit shared: switches reddit.com API URLs to oauth host when creds exist
   );
 });
 
-test("reddit shared: fetchRedditJson uses public endpoint without oauth creds", async () => {
+test("reddit shared: fetchRedditJson prefers old.reddit JSON without oauth creds", async () => {
   await withEnv(
     {
       REDDIT_CLIENT_ID: null,
@@ -136,22 +137,19 @@ test("reddit shared: fetchRedditJson uses public endpoint without oauth creds", 
       // is blocked at the Reddit edge for GH Actions IPs while the RSS feed
       // serves the same listing unauthenticated. parseRedditAtomFeed is
       // tolerant of non-Atom input and returns the empty-children shape.
-      assert.deepEqual(body, { data: { children: [], after: null, before: null } });
+      assert.deepEqual(body, { data: { children: [] } });
       assert.equal(calls.length, 1);
       assert.equal(
         calls[0].url,
-        "https://www.reddit.com/r/OpenAI/new/.rss?limit=3",
+        "https://old.reddit.com/r/OpenAI/new.json?limit=3",
       );
       assert.equal(calls[0].init.headers.Authorization, undefined);
-      assert.equal(
-        calls[0].init.headers["User-Agent"],
-        "trendingrepo-scanner/1.0 (+https://trendingrepo.com)",
-      );
+      assert.equal(typeof calls[0].init.headers["User-Agent"], "string");
     },
   );
 });
 
-test("reddit shared: public RSS requests rotate pooled user agents per request", async () => {
+test("reddit shared: public JSON requests rotate pooled user agents per request", async () => {
   await withEnv(
     {
       REDDIT_CLIENT_ID: null,
@@ -163,9 +161,7 @@ test("reddit shared: public RSS requests rotate pooled user agents per request",
       const calls = [];
       const fetchImpl = async (url, init) => {
         calls.push({ url, init });
-        return new Response("<feed></feed>", {
-          headers: { "Content-Type": "application/atom+xml" },
-        });
+        return Response.json({ data: { children: [] } });
       };
 
       await fetchRedditJson("https://www.reddit.com/r/OpenAI/new.json?limit=3", {
@@ -305,4 +301,25 @@ test("reddit shared: falls back to public JSON when oauth path fails", async () 
       });
     },
   );
+});
+
+test("reddit shared: parseRedditAtomFeed extracts comment totals from entry content", () => {
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+  <feed>
+    <entry>
+      <id>tagger:t3_abc123</id>
+      <title>Test post</title>
+      <published>2026-05-04T10:00:00Z</published>
+      <author><name>/u/tester</name></author>
+      <category term="OpenAI" />
+      <link href="https://example.com/link" />
+      <content type="html">
+        &lt;a href="https://www.reddit.com/r/OpenAI/comments/abc123/test_post/"&gt;123 comments&lt;/a&gt;
+      </content>
+    </entry>
+  </feed>`;
+
+  const parsed = parseRedditAtomFeed(xml, "OpenAI");
+  assert.equal(parsed.data.children.length, 1);
+  assert.equal(parsed.data.children[0].data.num_comments, 123);
 });

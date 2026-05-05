@@ -18,6 +18,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
+import { respondWithSizeGuard } from "@/lib/api/response-size";
 import {
   getGithubEventsRepoByFullName,
   readGithubEventsForRepo,
@@ -92,7 +93,7 @@ export async function GET(
   const events: NormalizedGithubEvent[] = (result.data.events ?? []).slice(0, limit);
   const ageSeconds = Math.round(result.ageMs / 1000);
 
-  return NextResponse.json(
+  return respondWithSizeGuard(
     {
       ok: true,
       source: result.source,
@@ -102,6 +103,10 @@ export async function GET(
       count: events.length,
       events,
     },
-    { headers: CACHE_HEADERS },
+    {
+      headers: CACHE_HEADERS,
+      route: "/api/repos/[owner]/[name]/events",
+      arrayKeys: ["events"],
+    },
   );
 }

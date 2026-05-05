@@ -7,10 +7,10 @@
 // to the PH post URL, with a secondary link to the repo page on
 // StarScreener when the launch links to a tracked repo.
 
-import Image from "next/image";
 import Link from "next/link";
 import { getAiLaunches, producthuntCold } from "@/lib/producthunt";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { EntityLogo } from "@/components/ui/EntityLogo";
 
 interface RecentLaunchesProps {
   limit?: number;
@@ -63,31 +63,22 @@ export function RecentLaunches({
           return (
             <li key={l.id} className="px-4 py-3">
               <div className="flex items-start gap-3">
-                {l.thumbnail ? (
-                  <a
-                    href={l.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="shrink-0"
-                    aria-label={`${l.name} on ProductHunt`}
-                  >
-                    <Image
-                      src={l.thumbnail}
-                      alt=""
-                      width={48}
-                      height={48}
-                      className="size-12 rounded-md border border-border-primary bg-bg-tertiary object-cover"
-                    />
-                  </a>
-                ) : (
-                  <div
-                    aria-hidden
-                    className="size-12 shrink-0 rounded-md border border-border-primary bg-bg-tertiary flex items-center justify-center font-mono text-[18px]"
-                    style={{ color: PH_ORANGE }}
-                  >
-                    ▲
-                  </div>
-                )}
+                <a
+                  href={l.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0"
+                  aria-label={`${l.name} on ProductHunt`}
+                >
+                  <EntityLogo
+                    src={l.thumbnail ?? null}
+                    name={l.name}
+                    size={48}
+                    shape="square"
+                    alt=""
+                    className="border border-border-primary bg-bg-tertiary"
+                  />
+                </a>
 
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">

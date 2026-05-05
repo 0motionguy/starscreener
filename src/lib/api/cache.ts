@@ -1,5 +1,8 @@
 // Shared cache-header constants for read endpoints (APP-09).
 //
+// Canonical tier contract: docs/decisions/cache-tiers.md (AGN-670).
+// These headers define Tier T2 behavior (edge CDN) as consumed by T1.
+//
 // Four named profiles cover every read path. Pick the tightest one
 // that works for your data; routes needing bespoke freshness should
 // add a profile here rather than inline a fifth Cache-Control string.

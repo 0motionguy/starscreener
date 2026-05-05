@@ -29,7 +29,7 @@ const ASPECT_DIMENSIONS = {
   v: { width: 1080, height: 1350 },
 } as const;
 
-const CACHE_HEADER = "public, s-maxage=300, stale-while-revalidate=3600";
+const CACHE_HEADER = "public, s-maxage=3600, stale-while-revalidate=3600";
 
 const PACK_LIMIT = 24;
 

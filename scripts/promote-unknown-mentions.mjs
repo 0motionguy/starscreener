@@ -16,6 +16,7 @@
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const LAKE_PATH = resolve(__dirname, "..", "data", "unknown-mentions.jsonl");
@@ -143,9 +144,16 @@ export async function main() {
 
   await mkdir(dirname(OUT_PATH), { recursive: true });
   await writeFile(OUT_PATH, JSON.stringify(payload, null, 2) + "\n", "utf8");
+  const writeResult = await writeDataStore("unknown-mentions-promoted", payload, {
+    writer: "github-actions:promote-unknown-mentions",
+  });
+  await closeDataStore();
 
   process.stdout.write(
     `[promote-unknown-mentions] lake=${totalUnknownMentions} distinct=${distinctRepos} ranked=${rows.length} malformed=${malformed}\n`,
+  );
+  process.stdout.write(
+    `[promote-unknown-mentions] data-store=${writeResult.source} writtenAt=${writeResult.writtenAt}\n`,
   );
 }
 

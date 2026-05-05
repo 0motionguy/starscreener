@@ -50,6 +50,8 @@ import {
   synthesizeRecentRepoSparkline,
   synthesizeSparkline,
 } from "./derived-repos/sparkline";
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 
 // Process-global derived-repos cache (LIB-17).
 //
@@ -67,6 +69,7 @@ import {
 // getXxxDataVersion(); a fresh collector write bumps the version on the
 // next cache-key floor expiration, no manual reset needed.
 let _cache: Repo[] | null = null;
+let _rawCache: Repo[] | null = null;
 let _cacheKey: string | null = null;
 let _byFullName: Map<string, Repo> | null = null;
 let _byId: Map<string, Repo> | null = null;
@@ -81,6 +84,13 @@ let _byId: Map<string, Repo> | null = null;
 const CACHE_KEY_FLOOR_MS = 5_000;
 let _cacheKeyComputedAtMs = 0;
 let _cacheKeyComputed = "";
+const DIVERSITY_TOP_WINDOW = 20;
+const DIVERSITY_SCAN_WINDOW = 40;
+const MEGA_REPO_STARS_THRESHOLD = 50_000;
+const MAX_MEGA_REPOS_IN_TOP_WINDOW = 10;
+const LONG_STAY_MIN_DAYS = 8;
+const LONG_STAY_LOOKBACK_DAYS = 14;
+const LONG_STAY_DECAY_FACTOR = 0.88;
 
 function computeCacheKey(): string {
   const now = Date.now();
@@ -90,6 +100,113 @@ function computeCacheKey(): string {
   _cacheKeyComputed = `${getRedditDataVersion()}:${getManualReposDataVersion()}:${getTwitterSignalsDataVersion()}:${getPipelineReposDataVersion()}`;
   _cacheKeyComputedAtMs = now;
   return _cacheKeyComputed;
+}
+
+function isMegaRepo(repo: Repo): boolean {
+  return repo.stars >= MEGA_REPO_STARS_THRESHOLD;
+}
+
+function loadLongStayRepoIdsFromSnapshots(): Set<string> {
+  const result = new Set<string>();
+  try {
+    const path = join(process.cwd(), ".data", "snapshots.jsonl");
+    if (!existsSync(path)) return result;
+    const body = readFileSync(path, "utf8");
+    if (!body.trim()) return result;
+    const lines = body.split(/\r?\n/);
+    const cutoff = Date.now() - LONG_STAY_LOOKBACK_DAYS * 86_400_000;
+    const byRepoDays = new Map<string, Set<string>>();
+    for (const line of lines) {
+      if (!line) continue;
+      let parsed: unknown;
+      try {
+        parsed = JSON.parse(line);
+      } catch {
+        continue;
+      }
+      if (!parsed || typeof parsed !== "object") continue;
+      const row = parsed as Record<string, unknown>;
+      if (row.source !== "github") continue;
+      const repoId = typeof row.repoId === "string" ? row.repoId : null;
+      const capturedAt = typeof row.capturedAt === "string" ? row.capturedAt : null;
+      if (!repoId || !capturedAt) continue;
+      const capturedMs = Date.parse(capturedAt);
+      if (!Number.isFinite(capturedMs) || capturedMs < cutoff) continue;
+      const day = new Date(capturedMs).toISOString().slice(0, 10);
+      const bucket = byRepoDays.get(repoId) ?? new Set<string>();
+      bucket.add(day);
+      byRepoDays.set(repoId, bucket);
+    }
+    for (const [repoId, days] of byRepoDays.entries()) {
+      if (days.size >= LONG_STAY_MIN_DAYS) result.add(repoId);
+    }
+  } catch {
+    return result;
+  }
+  return result;
+}
+
+function applyDiversityRerank(
+  sortedByMomentum: Repo[],
+  longStayRepoIds: Set<string>,
+): Repo[] {
+  if (sortedByMomentum.length <= DIVERSITY_TOP_WINDOW) return sortedByMomentum;
+  const window = sortedByMomentum.slice(
+    0,
+    Math.min(DIVERSITY_SCAN_WINDOW, sortedByMomentum.length),
+  );
+  const tail = sortedByMomentum.slice(window.length);
+
+  const byDiverseScore = [...window].sort((a, b) => {
+    const aScore =
+      a.momentumScore *
+      (longStayRepoIds.has(a.id) ? LONG_STAY_DECAY_FACTOR : 1);
+    const bScore =
+      b.momentumScore *
+      (longStayRepoIds.has(b.id) ? LONG_STAY_DECAY_FACTOR : 1);
+    if (bScore !== aScore) return bScore - aScore;
+    return b.momentumScore - a.momentumScore;
+  });
+
+  const selected: Repo[] = [];
+  const deferredMega: Repo[] = [];
+  let megaCount = 0;
+  for (const repo of byDiverseScore) {
+    if (selected.length >= DIVERSITY_TOP_WINDOW) break;
+    if (isMegaRepo(repo) && megaCount >= MAX_MEGA_REPOS_IN_TOP_WINDOW) {
+      deferredMega.push(repo);
+      continue;
+    }
+    selected.push(repo);
+    if (isMegaRepo(repo)) megaCount += 1;
+  }
+  if (selected.length < DIVERSITY_TOP_WINDOW) {
+    for (const repo of deferredMega) {
+      if (selected.length >= DIVERSITY_TOP_WINDOW) break;
+      selected.push(repo);
+    }
+  }
+  const selectedKeys = new Set(selected.map((repo) => repo.fullName.toLowerCase()));
+  const restOfWindow = byDiverseScore.filter(
+    (repo) => !selectedKeys.has(repo.fullName.toLowerCase()),
+  );
+  return [...selected, ...restOfWindow, ...tail];
+}
+
+function assignRanks(repos: Repo[]): Repo[] {
+  const perCatCounter = new Map<string, number>();
+  const ranked = [...repos];
+  for (let i = 0; i < ranked.length; i++) {
+    const r = ranked[i];
+    const catIdx = (perCatCounter.get(r.categoryId) ?? 0) + 1;
+    perCatCounter.set(r.categoryId, catIdx);
+    ranked[i] = {
+      ...r,
+      rank: i + 1,
+      categoryRank: catIdx,
+    };
+  }
+  return ranked;
 }
 
 /**
@@ -366,23 +483,26 @@ export function getDerivedRepos(): Repo[] {
   // 3.7 ProductHunt launch (sparse — most repos keep producthunt undefined).
   repos = decorateWithProductHunt(repos);
 
-  // 4. Rank by momentum desc, tracking per-category position.
-  const sorted = [...repos].sort((a, b) => b.momentumScore - a.momentumScore);
-  const perCatCounter = new Map<string, number>();
-  for (let i = 0; i < sorted.length; i++) {
-    const r = sorted[i];
-    const catIdx = (perCatCounter.get(r.categoryId) ?? 0) + 1;
-    perCatCounter.set(r.categoryId, catIdx);
-    sorted[i] = {
-      ...r,
-      rank: i + 1,
-      categoryRank: catIdx,
-    };
-  }
+  // 4. Raw ranking by momentum.
+  const sortedByMomentum = [...repos].sort((a, b) => b.momentumScore - a.momentumScore);
+  const rawRanked = assignRanks(sortedByMomentum);
 
-  _cache = sorted;
+  // 5. Diversity post-rerank.
+  const longStayRepoIds = loadLongStayRepoIdsFromSnapshots();
+  const reranked = applyDiversityRerank(sortedByMomentum, longStayRepoIds);
+  const diversityRanked = assignRanks(reranked);
+
+  _rawCache = rawRanked;
+  _cache = diversityRanked;
   _cacheKey = cacheKey;
-  return sorted;
+  return diversityRanked;
+}
+
+export function getDerivedReposRaw(): Repo[] {
+  const cacheKey = computeCacheKey();
+  if (_rawCache && _cacheKey === cacheKey) return _rawCache;
+  void getDerivedRepos();
+  return _rawCache ?? [];
 }
 
 /** Case-insensitive lookup by `owner/name`. */
@@ -421,10 +541,19 @@ export function getDerivedRepoCount(): number {
 // one call.
 export function __resetDerivedReposCache(): void {
   _cache = null;
+  _rawCache = null;
   _cacheKey = null;
   _byFullName = null;
   _byId = null;
   _cacheKeyComputed = "";
   _cacheKeyComputedAtMs = 0;
   __resetPipelineReposCacheForTests();
+}
+
+export function __applyDiversityRerankForTests(
+  repos: Repo[],
+  longStayRepoIds: Iterable<string> = [],
+): Repo[] {
+  const sorted = [...repos].sort((a, b) => b.momentumScore - a.momentumScore);
+  return applyDiversityRerank(sorted, new Set(longStayRepoIds));
 }

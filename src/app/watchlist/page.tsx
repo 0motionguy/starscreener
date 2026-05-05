@@ -69,6 +69,8 @@ export default function WatchlistPage() {
   const [hasHydrated, setHasHydrated] = useState(false);
   const [reposById, setReposById] = useState<Record<string, Repo>>({});
   const [reposLoading, setReposLoading] = useState(false);
+  const [suggestedRepos, setSuggestedRepos] = useState<Repo[]>([]);
+  const [suggestionsLoading, setSuggestionsLoading] = useState(false);
 
   const [rules, setRules] = useState<AlertRule[]>([]);
   const [events, setEvents] = useState<AlertEvent[]>([]);
@@ -116,6 +118,29 @@ export default function WatchlistPage() {
     })();
     return () => controller.abort();
   }, [repoIdKey, hasHydrated]);
+
+  useEffect(() => {
+    if (!hasHydrated || watchlist.length > 0) return;
+    const controller = new AbortController();
+    setSuggestionsLoading(true);
+    (async () => {
+      try {
+        const res = await fetch(
+          "/api/repos?limit=3&period=week&sort=trending&fields=id,owner,name,fullName,description,starsDelta7d",
+          { signal: controller.signal },
+        );
+        if (!res.ok) throw new Error(`status ${res.status}`);
+        const data = (await res.json()) as { repos?: Repo[] };
+        setSuggestedRepos(Array.isArray(data.repos) ? data.repos : []);
+      } catch (err) {
+        if ((err as { name?: string }).name === "AbortError") return;
+        console.error("[watchlist] suggestions fetch failed", err);
+      } finally {
+        setSuggestionsLoading(false);
+      }
+    })();
+    return () => controller.abort();
+  }, [hasHydrated, watchlist.length]);
 
   // Hoist alert rules + events into the page so KpiBand / rail can read
   // them. Same endpoints AlertConfig used; we keep this minimal because
@@ -424,20 +449,12 @@ export default function WatchlistPage() {
               meta={`${tracked} REPO${tracked === 1 ? "" : "S"}`}
             />
             {!hasHydrated || reposLoading ? (
-              <div
-                style={{
-                  fontFamily: "var(--font-geist-mono), monospace",
-                  fontSize: 12,
-                  color: "var(--v4-ink-300)",
-                  padding: "24px 0",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.06em",
-                }}
-              >
-                {"// LOADING WATCHLIST…"}
-              </div>
+              <TrackedReposLoadingState />
             ) : watchedRepos.length === 0 ? (
-              <EmptyTrackedState />
+              <EmptyTrackedState
+                suggestedRepos={suggestedRepos}
+                suggestionsLoading={suggestionsLoading}
+              />
             ) : (
               <div
                 style={{
@@ -612,7 +629,39 @@ export default function WatchlistPage() {
   );
 }
 
-function EmptyTrackedState() {
+function TrackedReposLoadingState() {
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+        gap: 12,
+      }}
+      aria-label="Loading watchlist cards"
+    >
+      {Array.from({ length: 3 }).map((_, i) => (
+        <div
+          key={`watchlist-skeleton-${i}`}
+          style={{
+            border: "1px solid var(--v4-line-200)",
+            borderRadius: 4,
+            background: "var(--v4-bg-050)",
+            minHeight: 122,
+            animation: "pulse 1.2s ease-in-out infinite",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function EmptyTrackedState({
+  suggestedRepos,
+  suggestionsLoading,
+}: {
+  suggestedRepos: Repo[];
+  suggestionsLoading: boolean;
+}) {
   return (
     <div
       style={{
@@ -635,6 +684,16 @@ function EmptyTrackedState() {
         }}
       >
         {"// WATCHLIST IS EMPTY"}
+      </p>
+      <p
+        style={{
+          fontSize: 18,
+          fontWeight: 700,
+          color: "var(--v4-ink-100)",
+          margin: "0 0 6px",
+        }}
+      >
+        No repos saved yet
       </p>
       <p
         style={{
@@ -670,8 +729,64 @@ function EmptyTrackedState() {
           letterSpacing: "0.08em",
         }}
       >
-        Start tracking repos →
+        Start tracking repos ->
       </Link>
+      <div
+        style={{
+          marginTop: 16,
+          width: "100%",
+          maxWidth: 460,
+          textAlign: "left",
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}
+      >
+        <p
+          style={{
+            margin: "0 0 8px",
+            fontFamily: "var(--font-geist-mono), monospace",
+            fontSize: 10,
+            color: "var(--v4-ink-300)",
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+          }}
+        >
+          {"// SUGGESTED NOW"}
+        </p>
+        {suggestionsLoading ? (
+          <p style={{ margin: 0, fontSize: 12, color: "var(--v4-ink-300)" }}>
+            Loading top trending repos...
+          </p>
+        ) : suggestedRepos.length === 0 ? (
+          <p style={{ margin: 0, fontSize: 12, color: "var(--v4-ink-300)" }}>
+            Trending suggestions unavailable right now.
+          </p>
+        ) : (
+          <ol
+            style={{
+              margin: 0,
+              paddingLeft: 18,
+              display: "grid",
+              gap: 6,
+            }}
+          >
+            {suggestedRepos.slice(0, 3).map((repo) => (
+              <li key={repo.id}>
+                <Link
+                  href={`/repo/${repo.owner}/${repo.name}`}
+                  style={{
+                    color: "var(--v4-ink-100)",
+                    textDecoration: "none",
+                    fontSize: 13,
+                  }}
+                >
+                  {repo.fullName}
+                </Link>
+              </li>
+            ))}
+          </ol>
+        )}
+      </div>
     </div>
   );
 }

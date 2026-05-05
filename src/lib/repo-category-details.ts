@@ -24,6 +24,21 @@ export interface RepoCategoryDetails {
   };
 }
 
+export function getCategoryKind(repo: Repo): RepoCategoryKind {
+  return classifyRepoKind(repo);
+}
+
+const BRIEF_DIFFERENTIATION_LENSES: Record<RepoCategoryKind, string> = {
+  mcp: "Surface tool surface area, resource catalog, and install ergonomics so operators can judge MCP fit at a glance.",
+  skill: "Highlight skill frontmatter, version history, and body preview so reviewers can audit the prompt contract quickly.",
+  agent: "Frame the agent persona, capability set, and example invocations to clarify when to delegate work to it.",
+  library: "Emphasize API ergonomics, integration cost, and language fit so engineers know whether to depend on it.",
+};
+
+export function getBriefDifferentiationLens(kind: RepoCategoryKind): string {
+  return BRIEF_DIFFERENTIATION_LENSES[kind];
+}
+
 function classifyRepoKind(repo: Repo): RepoCategoryKind {
   const lowerTopics = (repo.topics ?? []).map((t) => t.toLowerCase());
   const name = repo.name.toLowerCase();

@@ -61,3 +61,24 @@ Unblock owner/action:
 
 - Re-ran required AISO POST and captured full raw response in docs/forensic/AGN-792-AISO-POST-20260504T213640Z.txt.
 - Created explicit blocker packet AGN-792-BLOCKER.md with unblock owner/action + retry ETA.
+
+## 2026-05-05 unblocked scan + fix
+
+- AISO scan unblocked and completed: `scanId=f3058017-7df2-42d7-8c0b-99c13348d1ee`, score `51`.
+- Persisted full result JSON: `docs/forensic/AGN-792-AISO-RESULT-20260505T041559Z.json`.
+- Picked lowest weighted actionable dimension: `ai-discovery` (0/5).
+- Implemented first fix on STARSCREENER side:
+  - `src/app/ai/summary.json/route.ts`
+  - `src/app/.well-known/ai.txt/route.ts`
+- Added reusable runner for monthly repetition:
+  - `scripts/agn792-aiso-scan.mjs`
+  - `package.json` script `agn792:aiso-scan`.
+
+Next action:
+- Trigger second scan after deployment/merge to verify `ai-discovery` delta and overall score lift.
+
+## 2026-05-05 second scan (pre-merge)
+
+- Completed second live scan (`7cc48a9f-de01-4cf7-be38-b8aa462fd189`) and persisted result JSON.
+- Score remains `51` pre-merge; no production delta expected until branch is merged and deployed.
+- Next action is now review/merge path, then post-merge re-scan for acceptance proof.

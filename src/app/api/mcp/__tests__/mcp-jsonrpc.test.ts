@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // Unit tests for the HTTP MCP route handler at /api/mcp (SAM-06 / AGN-947).
 //
 // These tests exercise the JSON-RPC dispatcher directly via the `__test__`

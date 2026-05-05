@@ -1,5 +1,3 @@
-"use client";
-
 // Feed tabs + rows below the mindshare map.
 //
 // Tabs: TRENDING NOW (<24h, trending_score desc) /
@@ -10,11 +8,8 @@
 // and a "filter active" chip appears with a clear-X.
 
 import Link from "next/link";
-import dynamic from "next/dynamic";
-import { useCallback, useMemo } from "react";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { motion, useReducedMotion } from "framer-motion";
-import { Flame, TrendingUp, Users } from "lucide-react";
+import { useMemo } from "react";
+import { ChevronUp, Flame, MessageSquare, TrendingUp, Users } from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
 import {
   ContentTagChips,
@@ -57,6 +52,7 @@ const TAB_LABELS: Record<TrendingTab, string> = {
   "hot-30d": "Hot 30d",
   "by-subreddit": "By Subreddit",
 };
+const POSTS_PER_PAGE = 50;
 
 type TabIcon = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
 const TAB_ICONS: Record<TrendingTab, TabIcon> = {
@@ -69,6 +65,124 @@ const TAB_ICONS: Record<TrendingTab, TabIcon> = {
 function parseTab(raw: string | null): TrendingTab {
   if (raw && (TAB_IDS as string[]).includes(raw)) return raw as TrendingTab;
   return "trending-now";
+}
+
+function parsePage(raw: string | null): number {
+  if (!raw) return 1;
+  const parsed = Number.parseInt(raw, 10);
+  if (!Number.isFinite(parsed) || parsed < 1) return 1;
+  return parsed;
+}
+
+function formatPostAge(hours: number | undefined): string {
+  if (hours == null) return "—";
+  if (hours < 1) return `${Math.round(hours * 60)}m`;
+  if (hours < 24) return `${Math.round(hours)}h`;
+  const days = hours / 24;
+  return `${Math.round(days)}d`;
+}
+
+// ---------------------------------------------------------------------------
+// Tier classification (Fix 8)
+// ---------------------------------------------------------------------------
+
+type PostTier = "hyperviral" | "breakout" | "above-avg" | "baseline";
+
+interface TierClasses {
+  row: string;
+  title: string;
+  baselinePillSize: BaselinePillSize;
+  contentOpacity: string;
+}
+
+function getPostTier(ratio: number | null | undefined): PostTier {
+  if (ratio == null) return "baseline";
+  if (ratio >= 100) return "hyperviral";
+  if (ratio >= 10) return "breakout";
+  if (ratio >= 1) return "above-avg";
+  return "baseline";
+}
+
+// Premium card-aesthetic tiers. The card *itself* (border, shadow, fill,
+// gradient wash) lives here; the title/baseline pill scaling lives here too.
+// HYPERVIRAL gets a bold orange left border + faint orange wash gradient so
+// the row screams across the feed at a single glance.
+function tierClasses(tier: PostTier): TierClasses {
+  switch (tier) {
+    case "hyperviral":
+      return {
+        row: "border-l-4 border-l-[#ff6600] bg-gradient-to-br from-bg-card via-bg-card to-[#ff6600]/[0.06]",
+        title: "text-lg sm:text-xl font-bold",
+        baselinePillSize: "lg",
+        contentOpacity: "",
+      };
+    case "breakout":
+      return {
+        row: "border-l-2 border-l-[#ff4500]/70",
+        title: "text-base sm:text-lg font-bold",
+        baselinePillSize: "md",
+        contentOpacity: "",
+      };
+    case "above-avg":
+      return {
+        row: "",
+        title: "text-base font-semibold",
+        baselinePillSize: "sm",
+        contentOpacity: "",
+      };
+    case "baseline":
+      return {
+        row: "opacity-75 hover:opacity-100",
+        title: "text-sm font-semibold",
+        baselinePillSize: "sm",
+        contentOpacity: "",
+      };
+  }
+}
+
+// Compact form factor — same card aesthetic as `tierClasses` but with
+// tighter padding and a flat font ramp (`text-sm font-bold` for all tiers
+// except baseline) since SubredditGroupView is dense by design.
+function tierClassesCompact(tier: PostTier): TierClasses {
+  switch (tier) {
+    case "hyperviral":
+      return {
+        row: "border-l-4 border-l-[#ff6600] bg-gradient-to-br from-bg-card via-bg-card to-[#ff6600]/[0.06]",
+        title: "text-sm font-bold",
+        baselinePillSize: "md",
+        contentOpacity: "",
+      };
+    case "breakout":
+      return {
+        row: "border-l-2 border-l-[#ff4500]/70",
+        title: "text-sm font-bold",
+        baselinePillSize: "sm",
+        contentOpacity: "",
+      };
+    case "above-avg":
+      return {
+        row: "",
+        title: "text-sm font-semibold",
+        baselinePillSize: "sm",
+        contentOpacity: "",
+      };
+    case "baseline":
+      return {
+        row: "opacity-75 hover:opacity-100",
+        title: "text-xs font-semibold",
+        baselinePillSize: "sm",
+        contentOpacity: "",
+      };
+  }
+}
+
+// 12 stable hues per subreddit (60% sat, 65% lightness) → readable on dark
+// theme as TEXT color, unlike LetterAvatar's 50/35 background variant.
+function subredditColorHash(seed: string): string {
+  let sum = 0;
+  for (let i = 0; i < seed.length; i++) sum += seed.charCodeAt(i);
+  const hue = (Math.round(sum / 30) * 30) % 360;
+  return `hsl(${hue}, 60%, 65%)`;
 }
 
 // p90 trending score across the currently-visible feed. Used to gate the
@@ -144,31 +258,40 @@ function sortHot7d(posts: RedditAllPost[]): RedditAllPost[] {
   });
 }
 
-function PanelSkeleton() {
-  // Reserves vertical space while the dynamic chunk fetches so the page
-  // doesn't shift (CLS) on tab switch. Three rough card heights ~= a
-  // typical above-the-fold list view.
-  return (
-    <div className="space-y-2" aria-hidden="true">
-      {[0, 1, 2].map((i) => (
-        <div
-          key={i}
-          className="h-[120px] rounded-xl border border-border-primary bg-bg-card/40"
-        />
-      ))}
-    </div>
-  );
+function pickFirst(value: string | string[] | undefined): string | undefined {
+  if (Array.isArray(value)) return value[0];
+  return value;
 }
 
-export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
-  const reduceMotion = useReducedMotion();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
-  const activeTab = parseTab(searchParams.get("tab"));
-  const activeTopic = searchParams.get("topic") ?? "";
-  const activeChips = parseActiveChips(searchParams.get("tags"));
-  const showAll = searchParams.get("showAll") === "1";
+function buildParams(
+  searchParams?: Record<string, string | string[] | undefined>,
+): URLSearchParams {
+  const params = new URLSearchParams();
+  if (!searchParams) return params;
+  for (const [k, v] of Object.entries(searchParams)) {
+    const first = pickFirst(v);
+    if (typeof first === "string" && first.length > 0) {
+      params.set(k, first);
+    }
+  }
+  return params;
+}
+
+export function AllTrendingTabs({
+  posts,
+  searchParams,
+  pathname = "/reddit/trending",
+}: {
+  posts: RedditAllPost[];
+  searchParams?: Record<string, string | string[] | undefined>;
+  pathname?: string;
+}) {
+  const params = buildParams(searchParams);
+  const activeTab = parseTab(params.get("tab"));
+  const requestedPage = parsePage(params.get("page"));
+  const activeTopic = params.get("topic") ?? "";
+  const activeChips = parseActiveChips(params.get("tags"));
+  const showAll = params.get("showAll") === "1";
 
   const nowMs = Date.now();
 
@@ -224,47 +347,43 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
     );
     switch (activeTab) {
       case "trending-now":
-        return sortTrendingNow(filterByWindow(chipFiltered, 24, nowMs)).slice(0, 50);
+        return sortTrendingNow(filterByWindow(chipFiltered, 24, nowMs));
       case "hot-7d":
-        return sortHot7d(filterByWindow(chipFiltered, 168, nowMs)).slice(0, 50);
+        return sortHot7d(filterByWindow(chipFiltered, 168, nowMs));
       case "hot-30d":
-        return sortHot7d(filterByWindow(chipFiltered, 30 * 24, nowMs)).slice(0, 50);
+        return sortHot7d(filterByWindow(chipFiltered, 30 * 24, nowMs));
       case "by-subreddit":
         return filterByWindow(chipFiltered, 168, nowMs);
     }
   }, [activeTab, topicFiltered, activeChips, effectiveShowAll, nowMs]);
+  const totalItems = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / POSTS_PER_PAGE));
+  const activePage = Math.min(requestedPage, totalPages);
+  const pageStart = (activePage - 1) * POSTS_PER_PAGE;
+  const pagedPosts = filtered.slice(pageStart, pageStart + POSTS_PER_PAGE);
 
-  function clearTopic() {
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("topic");
-    const qs = params.toString();
-    router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
-  }
+  const clearTopicHref = (() => {
+    const next = new URLSearchParams(params.toString());
+    next.delete("topic");
+    const qs = next.toString();
+    return qs ? `${pathname}?${qs}` : pathname;
+  })();
 
   // Click-to-filter on subreddit chip — pushes ?sub={name} the same way
   // the bubble map does. Feed consumption of ?sub is wired in commit 3.
-  const pushSubFilter = useCallback(
-    (sub: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set("sub", sub);
-      router.push(`${pathname}?${params.toString()}`, { scroll: false });
-    },
-    [pathname, router, searchParams],
-  );
-
   // p90 of trending_score across the currently-visible feed. Used to gate
   // the VelocityIndicator so chevrons only flag the top decile of activity.
   const velocityP90 = useMemo(
-    () => computeTrendingP90(filtered),
-    [filtered],
+    () => computeTrendingP90(pagedPosts),
+    [pagedPosts],
   );
 
   // p50/p90 of *velocity* (upvotes/hour) — drives the right-stats velocity
   // bar fill ratio + color (green if above p50). Distinct from
   // `velocityP90` above which is a trending-score percentile.
   const velocityStats = useMemo(
-    () => computeVelocityStats(filtered),
-    [filtered],
+    () => computeVelocityStats(pagedPosts),
+    [pagedPosts],
   );
 
   // Per-tab counts (post-topic, post-chip, post-showAll, post-window). Drives
@@ -297,8 +416,8 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
       >
         {TAB_IDS.map((tab) => {
           const active = tab === activeTab;
-          const params = new URLSearchParams(searchParams.toString());
-          params.set("tab", tab);
+          const nextParams = new URLSearchParams(params.toString());
+          nextParams.set("tab", tab);
           const Icon = TAB_ICONS[tab];
           const count = tabCounts[tab];
           return (
@@ -306,7 +425,7 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
               key={tab}
               role="tab"
               aria-selected={active}
-              href={`${pathname}?${params.toString()}`}
+              href={`${pathname}?${nextParams.toString()}`}
               scroll={false}
               className={cn(
                 "group relative h-10 px-4 inline-flex items-center gap-2 shrink-0",
@@ -345,30 +464,24 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
               ) : null}
               {/* Animated active indicator — shared layoutId slides between tabs */}
               {active ? (
-                <motion.span
-                  layoutId="trendingTabIndicator"
+                <span
                   aria-hidden="true"
                   className="pointer-events-none absolute bottom-0 left-0 right-0 h-[2px] bg-brand"
-                  transition={
-                    reduceMotion
-                      ? { duration: 0 }
-                      : { type: "spring", stiffness: 380, damping: 30 }
-                  }
                 />
               ) : null}
             </Link>
           );
         })}
         {activeTopic ? (
-          <button
-            type="button"
-            onClick={clearTopic}
+          <Link
+            href={clearTopicHref}
+            scroll={false}
             className="ml-auto mb-1 shrink-0 inline-flex items-center gap-1.5 px-2 h-7 rounded text-[11px] font-mono bg-brand/10 text-brand border border-brand/40 hover:bg-brand/20"
             aria-label={`Clear topic filter "${activeTopic}"`}
           >
             topic: {activeTopic}
             <span className="text-sm leading-none">×</span>
-          </button>
+          </Link>
         ) : null}
       </div>
 
@@ -379,24 +492,117 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
           totalPosts={topicFiltered.length}
           tabCounts={tabCounts}
           pathname={pathname}
-          searchParams={searchParams}
+          searchParams={params}
         />
       ) : activeTab === "by-subreddit" ? (
-        <SubredditGroupPanel
-          posts={filtered}
+        <SubredditGroupView
+          posts={pagedPosts}
           velocityP90={velocityP90}
           velocityStats={velocityStats}
         />
       ) : (
-        <PostListPanel
-          posts={filtered}
-          velocityP90={velocityP90}
-          velocityStats={velocityStats}
-          onSubClick={pushSubFilter}
-        />
+        <ul className="space-y-2">
+          {pagedPosts.map((p) => (
+            <PostRow
+              key={p.id}
+              post={p}
+              velocityP90={velocityP90}
+              velocityStats={velocityStats}
+              pathname={pathname}
+              searchParams={params}
+            />
+          ))}
+        </ul>
       )}
+
+      {totalItems > POSTS_PER_PAGE ? (
+        <PaginationNav
+          pathname={pathname}
+          searchParams={params}
+          page={activePage}
+          totalPages={totalPages}
+          totalItems={totalItems}
+        />
+      ) : null}
     </section>
   );
+}
+
+function PaginationNav({
+  pathname,
+  searchParams,
+  page,
+  totalPages,
+  totalItems,
+}: {
+  pathname: string;
+  searchParams: URLSearchParams;
+  page: number;
+  totalPages: number;
+  totalItems: number;
+}) {
+  const makeHref = (nextPage: number): string => {
+    const next = new URLSearchParams(searchParams.toString());
+    if (nextPage <= 1) {
+      next.delete("page");
+    } else {
+      next.set("page", String(nextPage));
+    }
+    const qs = next.toString();
+    return qs ? `${pathname}?${qs}` : pathname;
+  };
+  const start = (page - 1) * POSTS_PER_PAGE + 1;
+  const end = Math.min(page * POSTS_PER_PAGE, totalItems);
+  return (
+    <nav
+      aria-label="Reddit trending pagination"
+      className="mt-4 flex items-center justify-between gap-3 border border-border-primary rounded-md px-3 py-2 bg-bg-secondary/40"
+    >
+      <span className="text-xs font-mono text-text-tertiary">
+        {start.toLocaleString("en-US")}–{end.toLocaleString("en-US")} of{" "}
+        {totalItems.toLocaleString("en-US")}
+      </span>
+      <div className="flex items-center gap-2">
+        {page > 1 ? (
+          <Link
+            href={makeHref(page - 1)}
+            scroll={false}
+            className="inline-flex h-8 items-center rounded border border-border-primary px-3 text-xs font-mono text-text-secondary hover:border-brand/50 hover:text-brand"
+          >
+            Prev
+          </Link>
+        ) : (
+          <span className="inline-flex h-8 items-center rounded border border-border-primary/50 px-3 text-xs font-mono text-text-muted">
+            Prev
+          </span>
+        )}
+        <span className="text-xs font-mono text-text-tertiary">
+          {page} / {totalPages}
+        </span>
+        {page < totalPages ? (
+          <Link
+            href={makeHref(page + 1)}
+            scroll={false}
+            className="inline-flex h-8 items-center rounded border border-border-primary px-3 text-xs font-mono text-text-secondary hover:border-brand/50 hover:text-brand"
+          >
+            Next
+          </Link>
+        ) : (
+          <span className="inline-flex h-8 items-center rounded border border-border-primary/50 px-3 text-xs font-mono text-text-muted">
+            Next
+          </span>
+        )}
+      </div>
+    </nav>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Row + grouped view
+// ---------------------------------------------------------------------------
+
+function postHref(p: RedditAllPost): string {
+  return redditPostHref(p.permalink, p.url);
 }
 
 // Empty-window UI — replaces the silent dead-end "No posts" message with
@@ -416,7 +622,7 @@ function EmptyWindow({
   totalPosts: number;
   tabCounts: Record<TrendingTab, number>;
   pathname: string;
-  searchParams: ReturnType<typeof useSearchParams>;
+  searchParams: URLSearchParams;
 }) {
   // Suggest the first non-active tab that has matches.
   const suggestion = TAB_IDS.find(
@@ -456,5 +662,358 @@ function EmptyWindow({
         </p>
       ) : null}
     </div>
+  );
+}
+
+interface PostRowProps {
+  post: RedditAllPost;
+  velocityP90: number;
+  velocityStats: VelocityStats;
+  pathname: string;
+  searchParams: URLSearchParams;
+}
+
+function PostRow({ post: p, velocityP90, velocityStats, pathname, searchParams }: PostRowProps) {
+  const primaryRepo =
+    p.linkedRepos && p.linkedRepos.length > 0
+      ? p.linkedRepos[0].fullName
+      : p.repoFullName ?? null;
+  const velocityNum =
+    typeof p.velocity === "number" && p.velocity > 0 ? Math.round(p.velocity) : 0;
+  const velocityHasData = velocityNum > 0;
+  // Bar fill ratio — clamped 0..1 against the visible-feed p90 so the
+  // longest bar in the feed is always ~full.
+  const velocityFillRatio = (() => {
+    if (!velocityHasData || velocityStats.p90 <= 0) return 0;
+    return Math.min(1, (p.velocity ?? 0) / velocityStats.p90);
+  })();
+  const velocityIsHot =
+    velocityHasData && (p.velocity ?? 0) > velocityStats.p50 && velocityStats.p50 > 0;
+
+  const tier = getPostTier(p.baselineRatio);
+  const tc = tierClasses(tier);
+  const subColor = subredditColorHash(p.subreddit);
+  const showVelocity = (p.trendingScore ?? 0) >= velocityP90;
+
+  const subHref = (() => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("sub", p.subreddit);
+    return `${pathname}?${params.toString()}`;
+  })();
+
+  return (
+    <li
+      className={cn(
+        // PREMIUM CARD — Linear changelog × Vercel feed × TweetDeck dense
+        // Big breathing room, rounded-xl, hover-lift via framer + shadow.
+        "group relative block border border-border-primary rounded-xl bg-bg-card shadow-card p-4 sm:p-5",
+        "transition-[border-color,box-shadow,background-color] duration-200",
+        "hover:border-brand/40 hover:shadow-[0_8px_24px_-8px_rgba(245,110,15,0.25)]",
+        tc.row,
+        tc.contentOpacity,
+      )}
+    >
+      {/* ── Top meta row: avatar · sub · user · age · velocity ──── pill (right) ── */}
+      <div className="flex items-center gap-2 flex-wrap">
+        <LetterAvatar seed={p.subreddit} size={28} />
+        <Link
+          href={subHref}
+          scroll={false}
+          className="text-sm font-mono font-semibold hover:underline truncate max-w-[200px]"
+          style={{ color: subColor }}
+          title={`Filter feed to r/${p.subreddit}`}
+        >
+          r/{p.subreddit}
+        </Link>
+        <a
+          href={`https://reddit.com/r/${p.subreddit}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-text-muted hover:text-accent-green text-xs leading-none -ml-1"
+          aria-label={`Open r/${p.subreddit} on Reddit`}
+          title="Open on reddit.com"
+        >
+          ↗
+        </a>
+        <span className="text-text-muted text-xs">·</span>
+        <a
+          href={`https://reddit.com/u/${p.author}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-text-muted hover:text-accent-green text-xs font-mono truncate max-w-[140px]"
+        >
+          u/{p.author}
+        </a>
+        <span className="text-text-muted text-xs">·</span>
+        <span className="text-text-muted text-xs font-mono">
+          {formatPostAge(p.ageHours)}
+        </span>
+        <VelocityIndicator
+          trendingScore={p.trendingScore}
+          gated={showVelocity}
+        />
+        {/* BaselinePill pinned to right edge — the big trend signal */}
+        <span className="ml-auto inline-flex items-center">
+          <BaselinePill
+            sub={p.subreddit}
+            ratio={p.baselineRatio}
+            tier={p.baselineTier}
+            confidence={p.baselineConfidence}
+            size={tc.baselinePillSize}
+          />
+        </span>
+      </div>
+
+      {/* ── Title row: THE HERO ─────────────────────────────────────── */}
+      <a
+        href={postHref(p)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cn(
+          "mt-3 block text-text-primary leading-tight line-clamp-2 transition-colors",
+          "group-hover:text-brand",
+          tc.title,
+        )}
+      >
+        {p.title}
+      </a>
+
+      {/* ── Bottom row: tag-icons + repo (left)  /  stats cluster (right) ── */}
+      <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+        {/* LEFT cluster — tag icons + linked repo chip */}
+        <div className="flex items-center flex-wrap gap-2 min-w-0">
+          <ContentTagIcons tags={p.content_tags} max={6} size={14} />
+          {primaryRepo ? (
+            <Link
+              href={repoFullNameToHref(primaryRepo)}
+              className="inline-flex items-center px-2 h-6 rounded-md border border-border-primary text-[11px] font-mono text-brand hover:border-brand/60 hover:bg-brand/5 transition-colors truncate max-w-[220px]"
+              aria-label={`Tracked repo ${primaryRepo}`}
+              title={`linked: ${primaryRepo}`}
+            >
+              <span className="mr-1 opacity-70">→</span>
+              <span className="truncate">{primaryRepo}</span>
+            </Link>
+          ) : null}
+        </div>
+
+        {/* RIGHT cluster — boxed terminal-grade stats dashboard */}
+        <div className="sm:ml-auto inline-flex items-center gap-3 px-3 py-1.5 rounded-lg bg-bg-secondary/50 border border-border-primary/40 shrink-0 self-start sm:self-auto">
+          <span className="inline-flex items-center gap-1 text-sm font-bold font-mono tabular-nums text-text-primary leading-none">
+            <ChevronUp
+              size={14}
+              className={velocityIsHot ? "text-[var(--v4-money)]" : "text-text-muted"}
+              aria-hidden="true"
+              strokeWidth={3}
+            />
+            {formatNumber(p.score)}
+          </span>
+          <span className="h-3 w-px bg-border-primary/60" aria-hidden="true" />
+          <span className="inline-flex items-center gap-1 text-xs font-mono tabular-nums text-text-secondary leading-none">
+            <MessageSquare size={13} aria-hidden="true" />
+            {formatNumber(p.numComments)}
+          </span>
+          <span className="h-3 w-px bg-border-primary/60" aria-hidden="true" />
+          {velocityHasData ? (
+            <span className="inline-flex items-center gap-1.5">
+              <span
+                aria-hidden="true"
+                title={`${velocityNum}/h velocity vs feed p90 ${Math.round(velocityStats.p90)}/h`}
+                className="block w-10 h-[3px] rounded-full bg-bg-card-hover overflow-hidden"
+              >
+                <span
+                  className={cn(
+                    "block h-full rounded-full",
+                    velocityIsHot ? "bg-up" : "bg-text-muted",
+                  )}
+                  style={{ width: `${Math.max(velocityFillRatio * 100, 4)}%` }}
+                />
+              </span>
+              <span className="text-[11px] text-text-tertiary font-mono tabular-nums leading-none">
+                {velocityNum}/h
+              </span>
+            </span>
+          ) : (
+            <span className="text-[11px] text-text-tertiary font-mono tabular-nums leading-none">
+              0/h
+            </span>
+          )}
+        </div>
+      </div>
+    </li>
+  );
+}
+
+function SubredditGroupView({
+  posts,
+  velocityP90,
+  velocityStats,
+}: {
+  posts: RedditAllPost[];
+  velocityP90: number;
+  velocityStats: VelocityStats;
+}) {
+  const grouped = useMemo(() => {
+    const bySub = new Map<string, RedditAllPost[]>();
+    for (const p of posts) {
+      const bucket = bySub.get(p.subreddit) ?? [];
+      bucket.push(p);
+      bySub.set(p.subreddit, bucket);
+    }
+    return Array.from(bySub.entries())
+      .map(([sub, bucket]) => {
+        const sorted = bucket
+          .slice()
+          .sort((a, b) => (b.trendingScore ?? 0) - (a.trendingScore ?? 0));
+        const top3 = sorted.slice(0, 3);
+        const breakouts = bucket.filter(
+          (p) => p.baselineTier === "breakout",
+        ).length;
+        const trendingScoreSum = bucket.reduce(
+          (acc, p) => acc + (p.trendingScore ?? 0),
+          0,
+        );
+        return { sub, top3, breakouts, trendingScoreSum };
+      })
+      .filter((g) => g.top3.length > 0)
+      .sort((a, b) => b.trendingScoreSum - a.trendingScoreSum);
+  }, [posts]);
+
+  if (grouped.length === 0) return null;
+
+  return (
+    <ul className="space-y-4">
+      {grouped.map((g) => (
+        <li
+          key={g.sub}
+          className="border border-border-primary rounded-md bg-bg-secondary"
+        >
+          <div className="flex items-center justify-between px-4 py-2 border-b border-border-primary">
+            <span
+              className="text-sm font-bold"
+              style={{ color: subredditColorHash(g.sub) }}
+            >
+              r/{g.sub}
+            </span>
+            <span className="text-[11px] text-text-tertiary font-mono">
+              {g.breakouts > 0 ? `${g.breakouts} breakout · ` : ""}
+              Σ trending {Math.round(g.trendingScoreSum).toLocaleString("en-US")}
+            </span>
+          </div>
+          <ul className="p-3 space-y-2">
+            {g.top3.map((p) => (
+              <PostRowCompact
+                key={p.id}
+                post={p}
+                velocityP90={velocityP90}
+                velocityStats={velocityStats}
+              />
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function PostRowCompact({
+  post: p,
+  velocityP90,
+  velocityStats,
+}: {
+  post: RedditAllPost;
+  velocityP90: number;
+  velocityStats: VelocityStats;
+}) {
+  const tier = getPostTier(p.baselineRatio);
+  const tc = tierClassesCompact(tier);
+  const showVelocity = (p.trendingScore ?? 0) >= velocityP90;
+  const velocityNum =
+    typeof p.velocity === "number" && p.velocity > 0 ? Math.round(p.velocity) : 0;
+  const velocityIsHot =
+    velocityNum > 0 && (p.velocity ?? 0) > velocityStats.p50 && velocityStats.p50 > 0;
+
+  return (
+    <li
+      className={cn(
+        // Same card aesthetic as PostRow but tighter (p-3 vs p-5).
+        "group relative block border border-border-primary rounded-xl bg-bg-card shadow-card p-3",
+        "transition-[border-color,box-shadow,background-color] duration-200",
+        "hover:border-brand/40 hover:shadow-[0_6px_18px_-8px_rgba(245,110,15,0.22)]",
+        tc.row,
+        tc.contentOpacity,
+      )}
+    >
+      {/* Top meta — no avatar / no r/sub (parent group owns sub context) */}
+      <div className="flex items-center gap-2 flex-wrap">
+        <a
+          href={`https://reddit.com/u/${p.author}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[11px] font-mono text-text-muted hover:text-accent-green truncate max-w-[160px]"
+        >
+          u/{p.author}
+        </a>
+        <span className="text-text-muted text-[11px]">·</span>
+        <span className="text-[11px] font-mono text-text-muted">
+          {formatPostAge(p.ageHours)}
+        </span>
+        <VelocityIndicator
+          trendingScore={p.trendingScore}
+          gated={showVelocity}
+        />
+        <span className="ml-auto inline-flex items-center">
+          <BaselinePill
+            sub={p.subreddit}
+            ratio={p.baselineRatio}
+            tier={p.baselineTier}
+            confidence={p.baselineConfidence}
+            size={tc.baselinePillSize}
+          />
+        </span>
+      </div>
+
+      {/* Title — bold but compact (no tier scaling) */}
+      <a
+        href={postHref(p)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cn(
+          "mt-2 block text-text-primary leading-snug line-clamp-2 transition-colors",
+          "group-hover:text-brand",
+          tc.title,
+        )}
+      >
+        {p.title}
+      </a>
+
+      {/* Bottom row: tag icons (left) / compact stats cluster (right) */}
+      <div className="mt-2.5 flex items-center gap-2 flex-wrap">
+        <ContentTagIcons tags={p.content_tags} max={4} size={12} />
+        <span className="ml-auto inline-flex items-center gap-2 px-2 py-1 rounded-md bg-bg-secondary/50 border border-border-primary/40 shrink-0">
+          <span className="inline-flex items-center gap-0.5 text-xs font-bold font-mono tabular-nums text-text-primary leading-none">
+            <ChevronUp
+              size={12}
+              className={velocityIsHot ? "text-[var(--v4-money)]" : "text-text-muted"}
+              aria-hidden="true"
+              strokeWidth={3}
+            />
+            {formatNumber(p.score)}
+          </span>
+          <span className="h-2.5 w-px bg-border-primary/60" aria-hidden="true" />
+          <span className="inline-flex items-center gap-0.5 text-[11px] font-mono tabular-nums text-text-secondary leading-none">
+            <MessageSquare size={11} aria-hidden="true" />
+            {formatNumber(p.numComments)}
+          </span>
+          {velocityNum > 0 ? (
+            <>
+              <span className="h-2.5 w-px bg-border-primary/60" aria-hidden="true" />
+              <span className="text-[10px] font-mono tabular-nums text-text-tertiary leading-none">
+                {velocityNum}/h
+              </span>
+            </>
+          ) : null}
+        </span>
+      </div>
+    </li>
   );
 }

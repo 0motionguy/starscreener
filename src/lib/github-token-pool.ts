@@ -321,6 +321,8 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
       // this — they re-throw / bubble whatever they want for app-level UX.
       Sentry.captureException(exhaustedError, {
         tags: {
+          source: "github",
+          category: "fatal",
           pool: "github",
           all_quarantined: String(allQuarantined),
           soonest_reset_iso:
@@ -388,6 +390,8 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
         {
           level: "warning",
           tags: {
+            source: "github",
+            category: "recoverable",
             pool: "github",
             token: redactToken(state.token),
             remaining: String(state.remaining),
@@ -414,6 +418,8 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
       {
         level: "error",
         tags: {
+          source: "github",
+          category: "quarantine",
           pool: "github",
           token: redactToken(token),
           reason: "401",
@@ -628,8 +634,9 @@ export function _resetGitHubTokenPoolForTests(): void {
  * first 4 and last 4 characters with the middle masked.
  */
 export function redactToken(token: string): string {
-  if (token.length <= 8) return "***";
-  return `${token.slice(0, 4)}****${token.slice(-4)}`;
+  const trimmed = token.trim();
+  if (!trimmed) return "missing";
+  return `${trimmed.slice(0, 4)}****${trimmed.slice(-4)}`;
 }
 
 /**
@@ -664,8 +671,34 @@ export function parseRateLimitHeaders(
 // dead lambdas don't pollute the keyspace forever.
 // ---------------------------------------------------------------------------
 
+const DEFAULT_GITHUB_POOL_NAMESPACE = "prod";
+const GITHUB_POOL_NAMESPACE_ENV_KEYS = [
+  "GITHUB_POOL_NAMESPACE",
+  "GITHUB_POOL_TELEMETRY_NAMESPACE",
+] as const;
+
+function normalizeGithubPoolNamespace(raw: string | undefined): string {
+  const trimmed = (raw ?? "").trim().toLowerCase();
+  if (!trimmed) return DEFAULT_GITHUB_POOL_NAMESPACE;
+  const safe = trimmed.replace(/[^a-z0-9_-]/g, "-").replace(/-+/g, "-");
+  return safe || DEFAULT_GITHUB_POOL_NAMESPACE;
+}
+
+function resolveGithubPoolNamespace(env: EnvLike): string {
+  for (const key of GITHUB_POOL_NAMESPACE_ENV_KEYS) {
+    const value = env[key];
+    if (typeof value === "string" && value.trim().length > 0) {
+      return normalizeGithubPoolNamespace(value);
+    }
+  }
+  return DEFAULT_GITHUB_POOL_NAMESPACE;
+}
+
+/** Active GitHub telemetry namespace (e.g. `prod`, `test`). */
+export const GITHUB_POOL_NAMESPACE = resolveGithubPoolNamespace(process.env);
+
 /** Key prefix for per-token fleet-aggregate state. Read by the aggregator. */
-export const POOL_REDIS_KEY_PREFIX = "pool:github:tokens";
+export const POOL_REDIS_KEY_PREFIX = `pool:github:tokens:${GITHUB_POOL_NAMESPACE}`;
 
 /** TTL (seconds) on each per-token key. 30d covers a normal "operator forgot to rotate" window. */
 export const POOL_REDIS_TTL_SECONDS = 30 * 24 * 60 * 60;

@@ -429,6 +429,8 @@ export default async function AgentRepoDetailPage({ params }: PageProps) {
                       other.description?.trim() ||
                       (other.language ?? "agent repo")
                     }
+                    mentions24h={other.mentionCount24h}
+                    delta24h={other.starsDelta24h}
                     language={
                       other.language ? other.language.toUpperCase() : undefined
                     }

@@ -21,6 +21,7 @@
 // `src/lib/pipeline/__tests__/rate-limit-upstash.test.ts` (upstash).
 
 import { createStore, type RateLimitStore } from "./rate-limit-store";
+import { getClientIp } from "./client-ip";
 
 interface Bucket {
   tokens: number;
@@ -44,14 +45,6 @@ const DEFAULT_OPTIONS: RateLimitOptions = {
   windowMs: 60_000, // 1 minute
   maxRequests: 60,
 };
-
-function getClientIp(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for");
-  if (forwarded) {
-    return forwarded.split(",")[0]?.trim() ?? "unknown";
-  }
-  return "unknown";
-}
 
 // ---------------------------------------------------------------------------
 // Synchronous — in-memory only. Preserved for back-compat; do not change

@@ -26,6 +26,30 @@ interface SearchBarProps {
  */
 const PREVIEW_MIN_CHARS = 2;
 const PREVIEW_LIMIT = 8;
+const SEARCH_EVENT = "search_flow";
+let posthogModulePromise: Promise<typeof import("posthog-js")> | null = null;
+
+function capturePosthogSearch(
+  action: "submit" | "preview_result_click" | "see_all_click",
+  query: string,
+  source: "autocomplete" | "custom",
+): void {
+  if (typeof window === "undefined") return;
+
+  posthogModulePromise ??= import("posthog-js");
+  void posthogModulePromise
+    .then((mod) => {
+      mod.default.capture(SEARCH_EVENT, {
+        action,
+        query_length: query.length,
+        has_query: query.length > 0,
+        source,
+      });
+    })
+    .catch(() => {
+      // Analytics is best-effort and must never break primary UX.
+    });
+}
 
 export function SearchBar({
   placeholder = "Search repos...",
@@ -57,6 +81,13 @@ export function SearchBar({
     width: number;
   } | null>(null);
   const [mounted, setMounted] = useState(false);
+
+  const captureSearchEvent = useCallback(
+    (action: "submit" | "preview_result_click" | "see_all_click", query: string) => {
+      capturePosthogSearch(action, query, showPreview ? "autocomplete" : "custom");
+    },
+    [showPreview],
+  );
 
   useEffect(() => {
     setMounted(true);
@@ -92,6 +123,30 @@ export function SearchBar({
       if (debounceRef.current) clearTimeout(debounceRef.current);
       if (abortRef.current) abortRef.current.abort();
     };
+  }, []);
+
+  // Global "/" shortcut focuses search when the user is not typing in
+  // another editable element and no modifier keys are pressed.
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "/" || e.ctrlKey || e.metaKey || e.altKey) return;
+
+      const target = e.target as HTMLElement | null;
+      const tag = target?.tagName;
+      const inField =
+        tag === "INPUT" ||
+        tag === "TEXTAREA" ||
+        tag === "SELECT" ||
+        target?.isContentEditable;
+      if (inField) return;
+
+      e.preventDefault();
+      inputRef.current?.focus();
+      inputRef.current?.select();
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
   }, []);
 
   // Click-outside closes the preview dropdown. The dropdown is rendered
@@ -166,12 +221,13 @@ export function SearchBar({
 
   const gotoRepo = useCallback(
     (repo: Repo) => {
+      captureSearchEvent("preview_result_click", value.trim());
       router.push(`/repo/${repo.owner}/${repo.name}`);
       setPreviewOpen(false);
       setValue("");
       inputRef.current?.blur();
     },
-    [router],
+    [captureSearchEvent, router, value],
   );
 
   const handleKeyDown = useCallback(
@@ -202,12 +258,22 @@ export function SearchBar({
       if (e.key === "Enter") {
         const q = value.trim();
         if (q) {
+          captureSearchEvent("submit", q);
           router.push(`${ROUTES.SEARCH}?q=${encodeURIComponent(q)}`);
           setPreviewOpen(false);
         }
       }
     },
-    [showPreview, previewOpen, previewResults, highlight, value, router, gotoRepo],
+    [
+      showPreview,
+      previewOpen,
+      previewResults,
+      highlight,
+      value,
+      router,
+      gotoRepo,
+      captureSearchEvent,
+    ],
   );
 
   const handleClear = useCallback(() => {
@@ -344,6 +410,7 @@ export function SearchBar({
                 onClick={() => {
                   const q = value.trim();
                   if (q) {
+                    captureSearchEvent("see_all_click", q);
                     router.push(`${ROUTES.SEARCH}?q=${encodeURIComponent(q)}`);
                     setPreviewOpen(false);
                   }

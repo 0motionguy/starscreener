@@ -1,0 +1,153 @@
+{
+  "generatedAt": "2026-05-04T16:27:18.490Z",
+  "count": 10,
+  "success": 3,
+  "failed": 7,
+  "results": [
+    {
+      "fullName": "zubair-trabzada/ai-legal-claude",
+      "websiteUrl": "https://www.skool.com/aiworkshop",
+      "startedAt": "2026-05-04T16:26:19.737Z",
+      "httpStatus": 500,
+      "ok": false,
+      "scanId": null,
+      "status": null,
+      "raw": {
+        "error": "insert_failed",
+        "message": "unknown"
+      }
+    },
+    {
+      "fullName": "google/langextract",
+      "websiteUrl": "https://pypi.org/project/langextract/",
+      "startedAt": "2026-05-04T16:27:02.920Z",
+      "httpStatus": 200,
+      "ok": true,
+      "scanId": "21404e09-71cc-452c-a379-29e77d91669b",
+      "status": "queued",
+      "raw": {
+        "scanId": "21404e09-71cc-452c-a379-29e77d91669b",
+        "status": "queued",
+        "mode": "homepage",
+        "resultUrl": "https://aiso.tools/scan/21404e09-71cc-452c-a379-29e77d91669b",
+        "source": "web",
+        "projectName": null,
+        "projectUrl": null
+      }
+    },
+    {
+      "fullName": "braedonsaunders/codeflow",
+      "websiteUrl": "https://codeflow-five.vercel.app/",
+      "startedAt": "2026-05-04T16:27:05.518Z",
+      "httpStatus": 200,
+      "ok": true,
+      "scanId": "e95d33d7-6554-40e2-8e39-7eb3992d06d4",
+      "status": "queued",
+      "raw": {
+        "scanId": "e95d33d7-6554-40e2-8e39-7eb3992d06d4",
+        "status": "queued",
+        "mode": "homepage",
+        "resultUrl": "https://aiso.tools/scan/e95d33d7-6554-40e2-8e39-7eb3992d06d4",
+        "source": "web",
+        "projectName": null,
+        "projectUrl": null
+      }
+    },
+    {
+      "fullName": "1sdv/TripStar",
+      "websiteUrl": "https://modelscope.cn/studios/lcclxy/Journey-to-the-China",
+      "startedAt": "2026-05-04T16:27:07.536Z",
+      "httpStatus": 200,
+      "ok": true,
+      "scanId": "6baaf159-2ba0-4b0e-af7d-48cb1100d494",
+      "status": "queued",
+      "raw": {
+        "scanId": "6baaf159-2ba0-4b0e-af7d-48cb1100d494",
+        "status": "queued",
+        "mode": "homepage",
+        "resultUrl": "https://aiso.tools/scan/6baaf159-2ba0-4b0e-af7d-48cb1100d494",
+        "source": "web",
+        "projectName": null,
+        "projectUrl": null
+      }
+    },
+    {
+      "fullName": "alvinreal/awesome-autoresearch",
+      "websiteUrl": "https://moltfounders.com/autoresearch",
+      "startedAt": "2026-05-04T16:27:09.480Z",
+      "httpStatus": 429,
+      "ok": false,
+      "scanId": null,
+      "status": null,
+      "raw": {
+        "error": "rate_limited_ip",
+        "retryAfterSeconds": 86395
+      }
+    },
+    {
+      "fullName": "nyldn/claude-octopus",
+      "websiteUrl": "https://reddit.com/r/ClaudeOctopus/",
+      "startedAt": "2026-05-04T16:27:10.982Z",
+      "httpStatus": 429,
+      "ok": false,
+      "scanId": null,
+      "status": null,
+      "raw": {
+        "error": "rate_limited_ip",
+        "retryAfterSeconds": 86393
+      }
+    },
+    {
+      "fullName": "mindfold-ai/Trellis",
+      "websiteUrl": "https://docs.trytrellis.app/",
+      "startedAt": "2026-05-04T16:27:12.515Z",
+      "httpStatus": 429,
+      "ok": false,
+      "scanId": null,
+      "status": null,
+      "raw": {
+        "error": "rate_limited_ip",
+        "retryAfterSeconds": 86392
+      }
+    },
+    {
+      "fullName": "tw93/Mole",
+      "websiteUrl": "https://x.com/HiTw93/status/2048546667071431063",
+      "startedAt": "2026-05-04T16:27:14.027Z",
+      "httpStatus": 429,
+      "ok": false,
+      "scanId": null,
+      "status": null,
+      "raw": {
+        "error": "rate_limited_ip",
+        "retryAfterSeconds": 86390
+      }
+    },
+    {
+      "fullName": "lemony-ai/cascadeflow",
+      "websiteUrl": "https://cascadeflow.ai/",
+      "startedAt": "2026-05-04T16:27:15.518Z",
+      "httpStatus": 429,
+      "ok": false,
+      "scanId": null,
+      "status": null,
+      "raw": {
+        "error": "rate_limited_ip",
+        "retryAfterSeconds": 86389
+      }
+    },
+    {
+      "fullName": "Auriti-Labs/geo-optimizer-skill",
+      "websiteUrl": "https://auriti-labs.github.io/geo-optimizer-skill/",
+      "startedAt": "2026-05-04T16:27:17.000Z",
+      "httpStatus": 429,
+      "ok": false,
+      "scanId": null,
+      "status": null,
+      "raw": {
+        "error": "rate_limited_ip",
+        "retryAfterSeconds": 86387
+      }
+    }
+  ]
+}

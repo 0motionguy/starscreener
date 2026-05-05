@@ -21,6 +21,29 @@ export default async function TopPage() {
     .sort((a, b) => b.stars - a.stars)
     .slice(0, TOP_N);
 
+  if (repos.length === 0) {
+    return (
+      <main className="home-surface terminal-page top-page">
+        <section className="page-head">
+          <div>
+            <div className="crumb">
+              <b>Trend terminal</b> / top 100
+            </div>
+            <h1>The 100 most-starred repos in the index.</h1>
+            <p className="lede">
+              Top 100 is warming. No ranked repos are available yet from the
+              latest trending snapshot.
+            </p>
+          </div>
+          <div className="clock">
+            <span className="big">0</span>
+            <span className="live">repos ranked</span>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
   const heading = (
     <section className="page-head">
       <div>

@@ -20,6 +20,7 @@ import {
   getTwitterRepoPanel,
   getTwitterRepoSignal,
   getTwitterScanCandidates,
+  getTwitterTopMentioners7d,
   getTwitterTrendingRepoLeaderboard,
   ingestTwitterAgentFindings,
   ingestTwitterFindings,
@@ -51,6 +52,7 @@ export const TwitterSignalBuilder = {
   getTwitterLeaderboard,
   getTwitterTrendingRepoLeaderboard,
   getTwitterOverviewStats,
+  getTwitterTopMentioners7d,
   // Sync getters — used by derived-repos decorators + cross-signal pipeline.
   getTwitterSignalSync,
   getAllTwitterSignalsSync,
@@ -79,6 +81,7 @@ export {
   getTwitterRepoPanel,
   getTwitterRepoSignal,
   getTwitterScanCandidates,
+  getTwitterTopMentioners7d,
   getTwitterTrendingRepoLeaderboard,
   ingestTwitterAgentFindings,
   ingestTwitterFindings,

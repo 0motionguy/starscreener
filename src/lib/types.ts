@@ -259,6 +259,13 @@ export interface Repo {
   } | null;
 
   /**
+   * Heuristic repository kind for the agent-economy surfaces.
+   * Derived from repo metadata signals (topics + well-known files).
+   */
+  repoCategory?: "mcp" | "skill" | "agent" | "library";
+  repoCategoryConfidence?: number;
+
+  /**
    * Cross-domain joins — bare arxivIds (no version suffix) of papers
    * whose `linkedRepos` includes this repo. Populated by
    * `attachCrossDomainJoins()` (src/lib/pipeline/cross-domain-joins.ts).

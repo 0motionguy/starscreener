@@ -4,51 +4,12 @@ import { join } from "node:path";
 
 import type { Repo } from "../../../types";
 import { __resetDerivedReposCache } from "../../../derived-repos";
+import { makeRepo } from "../../../../test-utils/factories";
 import { FILES } from "../../storage/file-persistence";
 
-function makeRepo(fullName: string, overrides: Partial<Repo> = {}): Repo {
-  const [owner, name] = fullName.split("/") as [string, string];
-  const id = `${owner}--${name.replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
-
-  return {
-    id,
-    fullName,
-    name,
-    owner,
-    ownerAvatarUrl: `https://github.com/${owner}.png`,
-    description: `${fullName} fixture repo`,
-    url: `https://github.com/${fullName}`,
-    language: "TypeScript",
-    topics: [],
-    categoryId: "fixture",
-    stars: 1000,
-    forks: 100,
-    contributors: 10,
-    openIssues: 5,
-    lastCommitAt: "2026-04-20T00:00:00.000Z",
-    lastReleaseAt: null,
-    lastReleaseTag: null,
-    createdAt: "2020-01-01T00:00:00.000Z",
-    starsDelta24h: 1,
-    starsDelta7d: 7,
-    starsDelta30d: 30,
-    forksDelta7d: 1,
-    contributorsDelta30d: 1,
-    hasMovementData: true,
-    momentumScore: 50,
-    movementStatus: "stable",
-    rank: 1,
-    categoryRank: 1,
-    sparklineData: Array.from({ length: 30 }, (_, i) => 1000 + i),
-    socialBuzzScore: 0,
-    mentionCount24h: 0,
-    tags: ["fixture"],
-    ...overrides,
-  };
-}
-
 const REQUIRED_REPOS: Repo[] = [
-  makeRepo("ollama/ollama", {
+  makeRepo({
+    fullName: "ollama/ollama",
     id: "ollama--ollama",
     name: "ollama",
     owner: "ollama",
@@ -56,7 +17,8 @@ const REQUIRED_REPOS: Repo[] = [
     categoryId: "local-llm",
     tags: ["local-llm"],
   }),
-  makeRepo("langchain-ai/langchain", {
+  makeRepo({
+    fullName: "langchain-ai/langchain",
     id: "langchain-ai--langchain",
     name: "langchain",
     owner: "langchain-ai",
@@ -64,7 +26,8 @@ const REQUIRED_REPOS: Repo[] = [
     categoryId: "ai-agents",
     tags: ["ai-agents"],
   }),
-  makeRepo("huggingface/transformers", {
+  makeRepo({
+    fullName: "huggingface/transformers",
     id: "huggingface--transformers",
     name: "transformers",
     owner: "huggingface",
@@ -72,14 +35,16 @@ const REQUIRED_REPOS: Repo[] = [
     categoryId: "ml-frameworks",
     tags: ["ml-frameworks"],
   }),
-  makeRepo("vercel/next.js", {
+  makeRepo({
+    fullName: "vercel/next.js",
     id: "vercel--next-js",
     name: "next.js",
     owner: "vercel",
     categoryId: "web-frameworks",
     tags: ["web-frameworks"],
   }),
-  makeRepo("openai/whisper", {
+  makeRepo({
+    fullName: "openai/whisper",
     id: "openai--whisper",
     name: "whisper",
     owner: "openai",

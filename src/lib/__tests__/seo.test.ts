@@ -72,3 +72,45 @@ test("safeJsonLd round-trips back to the original value via JSON.parse", () => {
   // JSON.parse interprets \uXXXX escapes — the round-trip should equal input.
   assert.deepEqual(JSON.parse(out), payload);
 });
+
+test("safeJsonLd does not allow script-tag breakout when embedded in HTML", () => {
+  const payload = {
+    dangerous: '</script><img src=x onerror="globalThis.__xss = 1">',
+    alsoDangerous: "<ScRiPt>alert(1)</ScRiPt>",
+  };
+
+  const html = `<script type="application/ld+json">${safeJsonLd(payload)}</script>`;
+  const closeScriptMatches = html.match(/<\/script>/gi) ?? [];
+
+  // The wrapper close tag should be the only real </script> in the emitted HTML.
+  assert.equal(closeScriptMatches.length, 1);
+  // Injection markers must remain encoded and never become active tags.
+  assert.ok(!html.includes("<img"), "payload must not create a live <img> tag");
+  assert.ok(!/<script>/i.test(html.slice(0, -9)), "payload must not create nested <script> tags");
+  assert.match(html, /\\u003c\/script\\u003e/i);
+});
+
+test("safeJsonLd XSS escape matrix covers common script-breakout payloads", () => {
+  const vectors = [
+    "</script><script>alert(1)</script>",
+    "</script><img src=x onerror=alert(1)>",
+    "<svg/onload=alert(1)>",
+    "<ScRiPt>alert(String.fromCharCode(88,83,83))</sCrIpT>",
+    "javascript:alert(1) & </script>",
+  ];
+
+  for (const vector of vectors) {
+    const html = `<script type="application/ld+json">${safeJsonLd({ vector })}</script>`;
+    const closeScriptMatches = html.match(/<\/script>/gi) ?? [];
+    assert.equal(
+      closeScriptMatches.length,
+      1,
+      `wrapper close tag must be unique for vector: ${vector}`,
+    );
+    assert.ok(!html.includes("<img"), `no live <img> tag for vector: ${vector}`);
+    assert.ok(!/<script>/i.test(html.slice(0, -9)), `no nested <script> tag for vector: ${vector}`);
+    assert.ok(!html.includes("</script><"), `no script breakout sequence for vector: ${vector}`);
+    assert.match(html, /\\u003c/, `vector must include escaped < token: ${vector}`);
+    assert.match(html, /\\u003e/, `vector must include escaped > token: ${vector}`);
+  }
+});

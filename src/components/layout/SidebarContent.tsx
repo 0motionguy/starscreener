@@ -40,9 +40,9 @@ import {
   DollarSign,
   Eye,
   FileText,
+  FolderKanban,
   GitCompareArrows,
   GraduationCap,
-  Library,
   Lightbulb,
   Network,
   Package,
@@ -73,7 +73,10 @@ import {
   SidebarWatchlistPreview,
   type SidebarWatchlistPreviewRepo,
 } from "./SidebarWatchlistPreview";
-import { SidebarRecentViewedRepos } from "./SidebarRecentViewedRepos";
+import {
+  SidebarRecentViewedPreview,
+  type SidebarRecentViewedPreviewRepo,
+} from "./SidebarRecentViewedPreview";
 import { SidebarFooter } from "./SidebarFooter";
 import { cn } from "@/lib/utils";
 import { CursorRail } from "@/components/v3";
@@ -103,6 +106,7 @@ export interface SidebarContentProps {
   metaCounts: MetaCounts;
   availableLanguages: string[];
   watchlistPreview: SidebarWatchlistPreviewRepo[];
+  recentViewedPreview: SidebarRecentViewedPreviewRepo[];
   unreadAlerts?: number;
   /** Per-source counts for badge chips. */
   sourceCounts?: SidebarSourceCounts;
@@ -120,7 +124,7 @@ function compactCount(n: number): string {
 
 function deltaChip(n: number): string {
   if (!Number.isFinite(n) || n <= 0) return "";
-  return `+${compactCount(n)}`;
+  return `+${compactCount(n)} (24h new)`;
 }
 
 interface V2SectionProps {
@@ -161,6 +165,7 @@ type BadgeTone = "default" | "accent" | "danger" | "delta";
 
 interface V2NavRowProps {
   href?: string;
+  prefetchHref?: string;
   onClick?: () => void;
   icon: SidebarIconComponent;
   label: string;
@@ -172,6 +177,7 @@ interface V2NavRowProps {
 
 function V2NavRow({
   href,
+  prefetchHref,
   onClick,
   icon: Icon,
   label,
@@ -180,7 +186,14 @@ function V2NavRow({
   active = false,
   disabled = false,
 }: V2NavRowProps) {
+  const router = useRouter();
   const isActive = active && !disabled;
+  const targetHref = prefetchHref ?? href;
+
+  function prefetchTarget() {
+    if (!targetHref || disabled) return;
+    router.prefetch(targetHref);
+  }
 
   const className = cn(
     "nav relative w-full",
@@ -229,14 +242,29 @@ function V2NavRow({
 
   if (href) {
     return (
-      <Link href={href} className={className} style={style}>
+      <Link
+        href={href}
+        className={className}
+        style={style}
+        onMouseEnter={prefetchTarget}
+        onFocus={prefetchTarget}
+        onTouchStart={prefetchTarget}
+      >
         {content}
       </Link>
     );
   }
 
   return (
-    <button type="button" onClick={onClick} className={className} style={style}>
+    <button
+      type="button"
+      onClick={onClick}
+      onMouseEnter={prefetchTarget}
+      onFocus={prefetchTarget}
+      onTouchStart={prefetchTarget}
+      className={className}
+      style={style}
+    >
       {content}
     </button>
   );
@@ -279,22 +307,19 @@ function V2Chip({
   value: string | number;
   tone?: BadgeTone;
 }) {
-  const palette =
+  const color =
     tone === "accent"
-      ? { bg: "var(--acc-soft)", color: "var(--acc)" }
+      ? "var(--acc)"
       : tone === "danger"
-        ? { bg: "rgba(255, 77, 77, 0.14)", color: "var(--sig-red)" }
+        ? "var(--sig-red)"
         : tone === "delta"
-          ? { bg: "var(--money-soft)", color: "var(--sig-green)" }
-          : { bg: "var(--bg-100)", color: "var(--ink-300)" };
+          ? "var(--sig-green)"
+          : "var(--ink-300)";
 
   return (
     <span
       className="badge shrink-0 tabular-nums"
-      style={{
-        background: palette.bg,
-        color: palette.color,
-      }}
+      style={{ background: "transparent", color }}
     >
       {value}
     </span>
@@ -304,6 +329,7 @@ function V2Chip({
 export function SidebarContent({
   metaCounts,
   watchlistPreview,
+  recentViewedPreview,
   sourceCounts,
   trendingReposCount,
   onClose,
@@ -327,6 +353,20 @@ export function SidebarContent({
     setSort("stars", "desc");
     if (pathname !== "/agent-repos") {
       router.push("/agent-repos");
+    }
+    onClose?.();
+  }
+
+  function goToTrendingSkills() {
+    if (pathname !== "/skills") {
+      router.push("/skills");
+    }
+    onClose?.();
+  }
+
+  function goToTrendingMcp() {
+    if (pathname !== "/mcp") {
+      router.push("/mcp");
     }
     onClose?.();
   }
@@ -388,26 +428,38 @@ export function SidebarContent({
           <FreshCountNavRow
             routeKey="skills"
             currentCount={sourceCounts?.skillsItems ?? 0}
-            href="/skills"
+            onClick={goToTrendingSkills}
+            prefetchHref="/skills"
             icon={GraduationCap}
             label="Trending Skills"
-            active={pathname === "/skills" || pathname.startsWith("/skills/")}
+            active={
+              pathname === "/skills" ||
+              pathname.startsWith("/skills/")
+            }
           />
           <FreshCountNavRow
             routeKey="mcp"
             currentCount={sourceCounts?.mcpItems ?? 0}
-            href="/mcp"
+            onClick={goToTrendingMcp}
+            prefetchHref="/mcp"
             icon={Plug}
             label="Trending MCP"
-            active={pathname === "/mcp" || pathname.startsWith("/mcp/")}
+            active={
+              pathname === "/mcp" ||
+              pathname.startsWith("/mcp/")
+            }
           />
           <FreshCountNavRow
             routeKey="agentRepos"
             currentCount={sourceCounts?.agentRepos ?? 0}
             onClick={goToAgentRepos}
+            prefetchHref="/agent-repos"
             icon={Cpu}
             label="Trending AGNT"
-            active={pathname === "/agent-repos"}
+            active={
+              pathname === "/agent-repos" ||
+              pathname.startsWith("/agent-repos/")
+            }
           />
           <V2NavRow
             href="/breakouts"
@@ -575,10 +627,12 @@ export function SidebarContent({
               having no shared data source and no production traffic. Re-enable
               once the submission pipeline is wired into the data-store. */}
           <V2NavRow
+            href="/hackathons"
             icon={Trophy}
             label="Hackathons"
-            badge="Soon"
-            disabled
+            badge="20"
+            badgeTone="accent"
+            active={pathname === "/hackathons" || pathname.startsWith("/hackathons/")}
           />
           <V2NavRow
             icon={Zap}
@@ -628,20 +682,20 @@ export function SidebarContent({
             label="Ideas"
             active={pathname === "/ideas" || pathname.startsWith("/ideas/")}
           />
-          {/* "Predict" sidebar entry hidden 2026-05-03 — page kept on disk
-              (direct links still work) but the audit flagged the underlying
-              data shape (.data/predictions.jsonl) as un-routed through the
-              data-store, so freshness can't be tracked. Re-enable once
-              predictions land in Redis like the other surfaces. */}
           <V2NavRow
             href="/collections"
-            icon={Library}
+            icon={FolderKanban}
             label="Collections"
             active={
               pathname === "/collections" ||
               pathname.startsWith("/collections/")
             }
           />
+          {/* "Predict" sidebar entry hidden 2026-05-03 — page kept on disk
+              (direct links still work) but the audit flagged the underlying
+              data shape (.data/predictions.jsonl) as un-routed through the
+              data-store, so freshness can't be tracked. Re-enable once
+              predictions land in Redis like the other surfaces. */}
         </V2Section>
 
         {/* TOOLS */}
@@ -699,6 +753,9 @@ export function SidebarContent({
         {/* WATCHING */}
         <V2Section label="WATCHING">
           <SidebarWatchlistPreview repos={watchlistPreview} />
+        </V2Section>
+        <V2Section label="RECENT VIEWED">
+          <SidebarRecentViewedPreview repos={recentViewedPreview} />
         </V2Section>
       </CursorRail>
 

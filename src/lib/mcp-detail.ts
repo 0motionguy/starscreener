@@ -14,6 +14,7 @@ import {
   type EcosystemLeaderboardItem,
 } from "./ecosystem-leaderboards";
 import { getDataStore } from "./data-store";
+import { parseManifestSnapshot } from "./manifest-store";
 
 /**
  * URL-safe slug for an MCP item. The publish payload's `slug` is the
@@ -138,20 +139,15 @@ export async function readMcpManifestTools(
   // placeholder when the list is empty.
   const key = `mcp-manifest:${itemId.toLowerCase()}`;
   const result = await store.read<unknown>(key);
-  const root = result.data as Record<string, unknown> | null;
-  const tools = root && Array.isArray(root.tools) ? root.tools : null;
-  if (!tools) return [];
+  const parsed = parseManifestSnapshot(result.data);
+  const mcpEntry = parsed.mcps.find((m) => m.id === itemId.toLowerCase());
+  const tools = mcpEntry?.tools ?? [];
   const out: McpToolDescriptor[] = [];
   for (const t of tools) {
-    if (!t || typeof t !== "object") continue;
-    const e = t as Record<string, unknown>;
-    const name = typeof e.name === "string" && e.name.trim().length > 0 ? e.name.trim() : null;
-    if (!name) continue;
-    const description =
-      typeof e.description === "string" && e.description.trim().length > 0
-        ? e.description.trim()
-        : undefined;
-    out.push({ name, description });
+    out.push({
+      name: t.name,
+      description: t.description,
+    });
   }
   return out;
 }

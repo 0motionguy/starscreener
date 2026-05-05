@@ -8,6 +8,8 @@ import {
   TwitterAllSourcesFailedError,
   engineErrorTags,
 } from "@/lib/errors";
+import { getTrustedOpsAlertWebhookUrl } from "@/lib/security/trusted-url";
+import { sourceHealthTracker } from "@/lib/source-health-tracker";
 
 import {
   tryApifyScrape,
@@ -28,20 +30,28 @@ export async function scrapeTwitterFor(
   options: TwitterFallbackOptions = {},
 ): Promise<TwitterSignal[]> {
   const startedApify = Date.now();
+  const apifyBreakerOpen = sourceHealthTracker.isOpen("apify");
   try {
-    const apifySignals = await runWithRetry(
-      () => tryApifyScrape(repoFullName, options),
-      (error) => isApifyRecoverable(error),
-    );
-    await recordTwitterCall({
-      source: "apify",
-      success: true,
-      statusCode: 200,
-      responseTimeMs: Date.now() - startedApify,
-    });
-    return apifySignals;
+    if (!apifyBreakerOpen) {
+      const apifySignals = await runWithRetry(
+        () => tryApifyScrape(repoFullName, options),
+        (error) => isApifyRecoverable(error),
+      );
+      sourceHealthTracker.recordSuccess("apify");
+      await recordTwitterCall({
+        source: "apify",
+        success: true,
+        statusCode: 200,
+        responseTimeMs: Date.now() - startedApify,
+      });
+      return apifySignals;
+    }
+    throw new Error("apify circuit open");
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
+    if (!apifyBreakerOpen) {
+      sourceHealthTracker.recordFailure("apify", message);
+    }
     await recordTwitterCall({
       source: "apify",
       success: false,
@@ -62,11 +72,16 @@ export async function scrapeTwitterFor(
     });
 
     const startedNitter = Date.now();
+    const nitterBreakerOpen = sourceHealthTracker.isOpen("nitter");
     try {
+      if (nitterBreakerOpen) {
+        throw new Error("nitter circuit open");
+      }
       const nitterSignals = await runWithRetry(
         () => tryNitterScrape(repoFullName, options),
         (nitterError) => isRecoverableTransportError(nitterError),
       );
+      sourceHealthTracker.recordSuccess("nitter");
       await recordTwitterCall({
         source: "nitter",
         success: true,
@@ -77,6 +92,9 @@ export async function scrapeTwitterFor(
     } catch (nitterError) {
       const nitterMessage =
         nitterError instanceof Error ? nitterError.message : String(nitterError);
+      if (!nitterBreakerOpen) {
+        sourceHealthTracker.recordFailure("nitter", nitterMessage);
+      }
       await recordTwitterCall({
         source: "nitter",
         success: false,
@@ -151,14 +169,15 @@ async function alertOps(
   event: string,
   metadata: Record<string, unknown>,
 ): Promise<void> {
-  const url = process.env.OPS_ALERT_WEBHOOK?.trim();
+  const configured = process.env.OPS_ALERT_WEBHOOK;
+  const url = getTrustedOpsAlertWebhookUrl(configured);
   if (!url) {
     const blocked = new OpsAlertFatalError(
-      "ops alert blocked: OPS_ALERT_WEBHOOK missing",
-      { event, source: "twitter", metadata },
+      "ops alert blocked: OPS_ALERT_WEBHOOK missing or untrusted",
+      { event, source: "twitter", metadata, configured: configured ? "present" : "missing" },
     );
     sentryCaptureException(blocked, {
-      level: "warning",
+      level: "error",
       tags: {
         pool: "twitter",
         alert: "ops-alert-blocked",

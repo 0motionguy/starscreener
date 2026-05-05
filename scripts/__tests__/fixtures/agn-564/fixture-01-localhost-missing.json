@@ -1,0 +1,11 @@
+{
+  "name": "fixture-env-blocker-localhost-missing",
+  "input": {
+    "localhostMissing": true,
+    "blockingNonGreen": 0,
+    "advisoryNonGreen": 0
+  },
+  "expected": {
+    "classification": "environment_blocker"
+  }
+}

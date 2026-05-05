@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import posthog from "posthog-js";
 import {
   ArrowUpRight,
   LoaderCircle,
@@ -122,6 +123,7 @@ export function DropRepoPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<SubmissionResult | null>(null);
+  const trackedFillRef = useRef(false);
 
   async function loadQueue(): Promise<void> {
     setLoading(true);
@@ -144,6 +146,11 @@ export function DropRepoPage() {
   }
 
   useEffect(() => {
+    try {
+      posthog.capture("submit_flow", { action: "open", page: "/submit" });
+    } catch {
+      // Best-effort analytics only.
+    }
     void loadQueue();
   }, []);
 
@@ -162,6 +169,16 @@ export function DropRepoPage() {
     if (loading) return "Loading queue";
     return `${queue.pending} pending`;
   }, [loading, queue.pending]);
+
+  function trackFill(field: "repo" | "why_now" | "contact" | "share_url"): void {
+    if (trackedFillRef.current) return;
+    trackedFillRef.current = true;
+    try {
+      posthog.capture("submit_flow", { action: "fill", page: "/submit", field });
+    } catch {
+      // Best-effort analytics only.
+    }
+  }
 
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>,
@@ -191,6 +208,15 @@ export function DropRepoPage() {
 
       setResult(data.result);
       setQueue(data.result.queue);
+      try {
+        posthog.capture("submit_flow", {
+          action: "submit",
+          page: "/submit",
+          kind: data.result.kind,
+        });
+      } catch {
+        // Best-effort analytics only.
+      }
       await loadQueue();
 
       if (data.result.kind === "created") {
@@ -253,7 +279,10 @@ export function DropRepoPage() {
               </span>
               <input
                 value={repo}
-                onChange={(event) => setRepo(event.target.value)}
+                onChange={(event) => {
+                  trackFill("repo");
+                  setRepo(event.target.value);
+                }}
                 placeholder="openai/openai-agents-python or https://github.com/openai/openai-agents-python"
                 className="h-11 rounded-card border border-border-primary bg-bg-secondary px-3 text-sm text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-brand/50"
                 autoComplete="off"
@@ -266,7 +295,10 @@ export function DropRepoPage() {
               </span>
               <textarea
                 value={whyNow}
-                onChange={(event) => setWhyNow(event.target.value)}
+                onChange={(event) => {
+                  trackFill("why_now");
+                  setWhyNow(event.target.value);
+                }}
                 placeholder="Short reason this repo should be reviewed now."
                 rows={5}
                 className="min-h-32 rounded-card border border-border-primary bg-bg-secondary px-3 py-3 text-sm text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-brand/50"
@@ -280,7 +312,10 @@ export function DropRepoPage() {
                 </span>
                 <input
                   value={contact}
-                  onChange={(event) => setContact(event.target.value)}
+                  onChange={(event) => {
+                    trackFill("contact");
+                    setContact(event.target.value);
+                  }}
                   placeholder="Email or X handle"
                   className="h-11 rounded-card border border-border-primary bg-bg-secondary px-3 text-sm text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-brand/50"
                   autoComplete="off"
@@ -293,7 +328,10 @@ export function DropRepoPage() {
                 </span>
                 <input
                   value={shareUrl}
-                  onChange={(event) => setShareUrl(event.target.value)}
+                  onChange={(event) => {
+                    trackFill("share_url");
+                    setShareUrl(event.target.value);
+                  }}
                   placeholder="https://x.com/.../status/..."
                   className="h-11 rounded-card border border-border-primary bg-bg-secondary px-3 text-sm text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-brand/50"
                   autoComplete="off"

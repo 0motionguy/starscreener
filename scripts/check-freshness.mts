@@ -251,7 +251,10 @@ async function fetchSentryCanary(opts: Options): Promise<SentryState | null> {
 }
 
 function sentryDsnConfigured(): boolean {
-  return Boolean((process.env.SENTRY_DSN ?? "").trim());
+  return Boolean(
+    (process.env.SENTRY_DSN ?? "").trim() ||
+      (process.env.NEXT_PUBLIC_SENTRY_DSN ?? "").trim(),
+  );
 }
 
 async function checkSentryStatus(opts: Options): Promise<SentryState> {

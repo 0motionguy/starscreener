@@ -7,6 +7,7 @@ import { Download } from "lucide-react";
 import { useTierListEditor } from "@/lib/tier-list/client-store";
 import { stateHash } from "@/lib/tier-list/url";
 import type { TierListDraft } from "@/lib/types/tier-list";
+import { encodeUtf8Base64Url } from "@/lib/tier-list/base64url";
 
 export function TopSharePngButton() {
   const title = useTierListEditor((s) => s.title);
@@ -50,11 +51,5 @@ function encodeUnsavedState(draft: TierListDraft): string {
     published: false,
   };
   if (typeof window === "undefined") return "";
-  const json = JSON.stringify(stateLike);
-  const utf8 = unescape(encodeURIComponent(json));
-  return window
-    .btoa(utf8)
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
+  return encodeUtf8Base64Url(JSON.stringify(stateLike));
 }

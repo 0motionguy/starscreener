@@ -1395,10 +1395,13 @@ function CardPreview({
       >
         {/* Cache-bust on category/aspect/theme change so the browser doesn't
             reuse an old SVG when the user flips state. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           key={`${category}-${aspect}-${theme}`}
           src={svgUrl}
           alt={`Top 10 ${category} — ${aspect} ${theme} preview`}
+          loading="lazy"
+          decoding="async"
           style={{
             width: "100%",
             height: "100%",

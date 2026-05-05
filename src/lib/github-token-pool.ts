@@ -636,7 +636,9 @@ export function _resetGitHubTokenPoolForTests(): void {
 export function redactToken(token: string): string {
   const trimmed = token.trim();
   if (!trimmed) return "missing";
-  return `${trimmed.slice(0, 4)}****${trimmed.slice(-4)}`;
+  const first4 = trimmed.slice(0, 4).padEnd(4, "*");
+  const last4 = trimmed.slice(-4).padStart(4, "*");
+  return `${first4}****${last4}`;
 }
 
 /**

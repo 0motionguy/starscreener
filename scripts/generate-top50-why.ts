@@ -1,6 +1,7 @@
-import { ensureTopRepoWhys } from "@/lib/repo-why";
-
 async function main(): Promise<void> {
+  console.log("[agn-791] generate-top50-why: start");
+  const { ensureTopRepoWhys } = await import("@/lib/repo-why");
+  console.log("[agn-791] generate-top50-why: engine-loaded");
   const written = await ensureTopRepoWhys(50);
   console.log(`[agn-791] persisted why captions: ${written}/50`);
 }

@@ -13,6 +13,7 @@
 // for loading the repo data and passing it in.
 
 import { SITE_URL, SITE_NAME, absoluteUrl } from "@/lib/seo";
+import type { RepoCategoryDetails } from "@/lib/repo-category-details";
 
 export type JsonLd = Record<string, unknown>;
 
@@ -38,6 +39,7 @@ export interface RepoSchemaInput {
   momentumScore?: number | null;
   /** e.g. "AI Agents" - drives applicationCategory hint. */
   category?: string | null;
+  categoryDetails?: RepoCategoryDetails | null;
 }
 
 export interface RepoSubpageSchemaInput {
@@ -58,6 +60,8 @@ export function buildRepoPageSchemas(input: RepoSchemaInput): JsonLd[] {
   const repoUrl = `https://github.com/${input.owner}/${input.name}`;
   const trUrl = absoluteUrl(`/repo/${input.owner}/${input.name}`);
 
+  const categoryProperties = buildCategoryProperties(input.categoryDetails);
+
   // 1. SoftwareSourceCode - the canonical "this URL is about a repo" entity.
   const sourceCode: JsonLd = {
     "@context": "https://schema.org",
@@ -77,6 +81,9 @@ export function buildRepoPageSchemas(input: RepoSchemaInput): JsonLd[] {
     ...(input.createdAt ? { dateCreated: toIso(input.createdAt) } : {}),
     ...(input.topics && input.topics.length
       ? { keywords: input.topics.join(", ") }
+      : {}),
+    ...(categoryProperties.length > 0
+      ? { additionalProperty: categoryProperties }
       : {}),
   };
 
@@ -173,4 +180,77 @@ export function buildRepoSubpageSchema(
 
 function toIso(d: Date | string): string {
   return typeof d === "string" ? new Date(d).toISOString() : d.toISOString();
+}
+
+function buildCategoryProperties(
+  details: RepoCategoryDetails | null | undefined,
+): JsonLd[] {
+  if (!details || details.kind === "library") return [];
+  if (details.kind === "mcp" && details.mcp) {
+    return [
+      {
+        "@type": "PropertyValue",
+        name: "category",
+        value: "mcp",
+      },
+      {
+        "@type": "PropertyValue",
+        name: "mcpTools",
+        value: details.mcp.tools.join(", "),
+      },
+      {
+        "@type": "PropertyValue",
+        name: "mcpResources",
+        value: details.mcp.resources.join(", "),
+      },
+      {
+        "@type": "PropertyValue",
+        name: "installSnippet",
+        value: details.mcp.installSnippet,
+      },
+    ];
+  }
+  if (details.kind === "skill" && details.skill) {
+    return [
+      { "@type": "PropertyValue", name: "category", value: "skill" },
+      {
+        "@type": "PropertyValue",
+        name: "skillFrontmatter",
+        value: details.skill.frontmatter
+          .map((entry) => `${entry.key}:${entry.value}`)
+          .join(" | "),
+      },
+      {
+        "@type": "PropertyValue",
+        name: "skillVersions",
+        value: details.skill.versionHistory.join(", "),
+      },
+      {
+        "@type": "PropertyValue",
+        name: "skillBodyPreview",
+        value: details.skill.bodyPreview,
+      },
+    ];
+  }
+  if (details.kind === "agent" && details.agent) {
+    return [
+      { "@type": "PropertyValue", name: "category", value: "agent" },
+      {
+        "@type": "PropertyValue",
+        name: "personaRole",
+        value: details.agent.personaRole,
+      },
+      {
+        "@type": "PropertyValue",
+        name: "capabilities",
+        value: details.agent.capabilities.join(", "),
+      },
+      {
+        "@type": "PropertyValue",
+        name: "exampleInvocations",
+        value: details.agent.exampleInvocations.join(" | "),
+      },
+    ];
+  }
+  return [];
 }

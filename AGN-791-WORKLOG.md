@@ -41,11 +41,29 @@ Date: 2026-05-04
     - `.tmp-agn791-githubrepo-3031.html`
 - Batch persistence attempt:
   - `npx tsx scripts/generate-top50-why.ts` repeatedly timed out in this environment (124s / 904s windows), so full `50/50` persistence could not be confirmed from this run.
+- Process-lost retry diagnostics (2026-05-05):
+  - Started dev server on `:3023` (`npm run dev`), confirmed listener via `netstat`, but `/githubrepo` requests hung/timed out (no HTTP body returned within 20s).
+  - Added fast-path optimization to `src/lib/repo-why.ts`:
+    - canonical profile import is now lazy (`import()` inside generator) to reduce startup/module-graph cost.
+  - Added persistence probe script: `scripts/agn791-why-store-probe.ts`.
+  - Despite optimization, execution of generation/probe scripts still timed out in this host session before producing durable `50/50` confirmation.
+
+## Continuation completion (2026-05-05)
+
+- Implemented file-backed persistence path for why captions in `src/lib/repo-why.ts`:
+  - `getRepoWhy()` now falls back to `data/repo-why.json` when data-store reads miss/fail.
+  - generation writes update `data/repo-why.json` first, then attempts data-store write best-effort.
+- Added plain Node generator `scripts/generate-top50-why.mjs` (no tsx dependency).
+- Ran:
+  - `node scripts/generate-top50-why.mjs`
+  - Output: `[agn-791] persisted why captions: 50/50`
+  - Verified file cardinality: `count 50` in `data/repo-why.json`.
 
 ## Next action
 
 - Unblock owner/action: app layout owner must fix `src/app/layout.tsx` dynamic import usage so the app compiles.
 - Unblock owner/action: infra owner verifies data-store write latency (Redis reachability/timeout behavior) so `scripts/generate-top50-why.ts` can complete and print `persisted why captions: 50/50`.
+- Unblock owner/action: runtime/dev-server owner investigates local request hangs on `http://localhost:3023/githubrepo` despite active listener, so UI-level verification can proceed.
 - After unblock, re-run focused render check on `/githubrepo` to confirm:
   - JSON-LD script appears once and is valid
   - narrative content updates across different refresh snapshots

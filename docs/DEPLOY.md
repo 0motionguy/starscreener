@@ -1,3 +1,9 @@
+---
+status: living
+last-verified: 2026-05-05
+verified-by: claude (drift audit — 16/16 env vars, project names, Node 22.x verified against .env.example and package.json)
+---
+
 # Deploying TrendingRepo
 
 TrendingRepo runs on two environments in parallel:

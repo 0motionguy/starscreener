@@ -15,6 +15,7 @@ import assert from "node:assert/strict";
 import { NextRequest } from "next/server";
 
 import {
+  authFailureResponse,
   adminAuthFailureResponse,
   internalAgentAuthFailureResponse,
   userAuthFailureResponse,
@@ -505,6 +506,40 @@ test("adminAuthFailureResponse: unauthorized emits quarantine-tagged Sentry even
   assert.equal(tags?.source, "admin");
   assert.equal(tags?.category, "quarantine");
   assert.equal(tags?.auth_surface, "admin");
+});
+
+test("authFailureResponse: unauthorized emits quarantine-tagged Sentry event", () => {
+  const sentryCalls: Array<{ error: unknown; context: unknown }> = [];
+  __setAuthSentryCaptureForTests(((error: unknown, context?: unknown) => {
+    sentryCalls.push({ error, context: context ?? null });
+    return "evt-cron-unauth";
+  }) as Parameters<typeof __setAuthSentryCaptureForTests>[0]);
+
+  const response = authFailureResponse({ kind: "unauthorized" });
+  assert.ok(response);
+  assert.equal(response!.status, 401);
+  assert.equal(sentryCalls.length, 1);
+  const tags = (sentryCalls[0].context as { tags?: Record<string, string> } | null)?.tags;
+  assert.equal(tags?.source, "auth");
+  assert.equal(tags?.category, "quarantine");
+  assert.equal(tags?.auth_surface, "cron");
+});
+
+test("authFailureResponse: not_configured emits fatal-tagged Sentry event", () => {
+  const sentryCalls: Array<{ error: unknown; context: unknown }> = [];
+  __setAuthSentryCaptureForTests(((error: unknown, context?: unknown) => {
+    sentryCalls.push({ error, context: context ?? null });
+    return "evt-cron-config";
+  }) as Parameters<typeof __setAuthSentryCaptureForTests>[0]);
+
+  const response = authFailureResponse({ kind: "not_configured" });
+  assert.ok(response);
+  assert.equal(response!.status, 503);
+  assert.equal(sentryCalls.length, 1);
+  const tags = (sentryCalls[0].context as { tags?: Record<string, string> } | null)?.tags;
+  assert.equal(tags?.source, "auth");
+  assert.equal(tags?.category, "fatal");
+  assert.equal(tags?.auth_surface, "cron");
 });
 
 test("adminAuthFailureResponse: blocked emits quarantine-tagged Sentry event", async () => {

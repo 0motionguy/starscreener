@@ -14,6 +14,7 @@ import * as Sentry from "@sentry/nextjs";
 import { parseBody } from "@/lib/api/parse-body";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import { errorEnvelope, serverError } from "@/lib/api/error-response";
+import { enforceMutationSameOrigin } from "@/lib/api/mutation-origin-guard";
 import { verifyTurnstileToken } from "@/lib/api/turnstile";
 import {
   AuthFatalError,
@@ -92,6 +93,17 @@ export async function POST(
     RevenueSubmissionsCreateResponse | RevenueSubmissionsErrorResponse
   >
 > {
+  const guard = enforceMutationSameOrigin(request);
+  if (!guard.ok) {
+    Sentry.captureException(guard.error, {
+      tags: {
+        ...engineErrorTags(guard.error),
+        abuse_surface: "revenue-submissions",
+      },
+    });
+    return guard.response as NextResponse<RevenueSubmissionsErrorResponse>;
+  }
+
   const rate = await checkRateLimitAsync(
     scopedByIp(request, "revenue-submissions"),
     REVENUE_SUBMIT_RATE_LIMIT,

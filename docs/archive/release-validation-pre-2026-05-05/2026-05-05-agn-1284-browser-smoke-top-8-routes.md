@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-1284 Release QA Evidence - Browser smoke top-8 route reliability pass
 
 Date: 2026-05-05

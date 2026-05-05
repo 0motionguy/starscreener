@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-378 verification - GitHub token-pool rotation balance (+/-15%)
 
 Timestamp (UTC): 2026-05-04T12:36:24.924Z

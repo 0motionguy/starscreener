@@ -11,7 +11,28 @@ import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, extname } from "node:path";
 
-const file = process.argv[2];
+// Resolve edited file path. Claude Code passes tool input as JSON on stdin
+// (see .claude/hooks/protect-files.mjs for the same pattern). Fall back to
+// argv[2] so the hook is also invokable manually for smoke-testing.
+function readStdinSync() {
+  try {
+    return readFileSync(0, "utf8");
+  } catch {
+    return "";
+  }
+}
+let file = process.argv[2] || "";
+if (!file) {
+  const raw = readStdinSync();
+  if (raw) {
+    try {
+      const evt = JSON.parse(raw);
+      file = evt?.tool_input?.file_path || evt?.tool_input?.path || "";
+    } catch {
+      /* not JSON — leave file empty */
+    }
+  }
+}
 if (!file) process.exit(0);
 const ext = extname(file).toLowerCase();
 const allowed = new Set([".ts", ".tsx", ".mjs", ".js"]);

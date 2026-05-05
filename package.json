@@ -108,6 +108,7 @@
                     "audit:freshness:report":  "tsx scripts/audit-source-freshness.ts",
                     "freshness:check":  "tsx scripts/check-freshness.mts",
                     "freshness:docs":  "node scripts/check-docs-freshness.mjs",
+                    "lint:doc-frontmatter":  "node scripts/check-living-docs-have-frontmatter.mjs",
                     "paperclip:agn561:progress":  "node scripts/append-agn561-progress-log.mjs",
                     "snapshot:top10":  "tsx --env-file-if-exists=.env.local scripts/snapshot-top10.ts",
                     "snapshot:top10-sparklines":  "tsx --env-file-if-exists=.env.local scripts/snapshot-top10-sparklines.ts",

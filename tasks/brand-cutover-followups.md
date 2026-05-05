@@ -1,3 +1,7 @@
+---
+status: plan
+---
+
 # Brand Cutover — Manual Follow-ups (Chunk D)
 
 The in-repo brand consolidation (StarScreener → TrendingRepo) shipped on `feat/brand-trendingrepo`. Chunks A/B/C cover code, docs, env-var aliasing, package metadata, OG cards, MCP server identity, browser localStorage migration, and 22 GitHub Actions workflows.

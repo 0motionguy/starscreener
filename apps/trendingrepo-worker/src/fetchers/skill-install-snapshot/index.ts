@@ -22,10 +22,10 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore, readDataStore, getRedis } from '../../lib/redis.js';
+import { keys } from '../../lib/redis-keys.js';
 
 const SNAPSHOT_TTL_SECONDS = 31 * 24 * 60 * 60; // 31d (covers 24h/7d/30d windows)
 const ROLLING_DAYS = 30;
-const NAMESPACE = 'ss:data:v1';
 
 interface RosterSkillItem {
   slug?: string;
@@ -121,8 +121,8 @@ const fetcher: Fetcher = {
       if (handle) {
         for (let d = ROLLING_DAYS + 1; d <= ROLLING_DAYS + 7; d += 1) {
           const oldDate = isoDateNDaysAgo(d);
-          await handle.del(`${NAMESPACE}:skill-install-snapshot:${oldDate}`);
-          await handle.del(`ss:meta:v1:skill-install-snapshot:${oldDate}`);
+          await handle.del(keys.dailySnapshot('skill-install-snapshot', oldDate));
+          await handle.del(keys.dailySnapshotMeta('skill-install-snapshot', oldDate));
         }
       }
     } catch (err) {

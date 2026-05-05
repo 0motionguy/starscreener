@@ -156,7 +156,7 @@ _Avoid_: conflating with TrustMRR — the submitted claim isn't pulled FROM Trus
 ## Language — Data Architecture
 
 **Data-store**:
-The `DataStore` abstraction in `src/lib/data-store.ts` — the **single read path** for 30+ cron-driven payloads. Backend auto-selected: `REDIS_URL` (Railway) or Upstash REST or no-Redis fallback. See [ADR-0001](docs/adr/0001-three-tier-data-store.md).
+The `DataStore` abstraction in `src/lib/data-store.ts` — the **single read path** for 30+ cron-driven payloads. Backend auto-selected: `REDIS_URL` (Railway) or Upstash REST or no-Redis fallback. See ADR-0001 (`docs/adr/0001-three-tier-data-store.md`).
 
 **Tier**:
 One of `redis | file | memory | missing`. Fixed order: Redis → bundled file → in-memory last-known-good → missing.
@@ -256,7 +256,7 @@ Alias when scoping to ingest only.
 Individual processes (scripts under `bin/`, `cli/`, `scripts/`, plus worker fetchers) pulling from a single source and writing a payload into the data-store. Plural umbrella within the **Ingestion Pipeline**.
 
 **Direct mode**:
-Collectors run via GitHub Actions: write to `.data/*.jsonl` and `data/*.json` locally, call `writeDataStore()` to push Redis, then `git push`. **Canonical mode.** See [ADR-0002](docs/adr/0002-direct-mode-collectors.md).
+Collectors run via GitHub Actions: write to `.data/*.jsonl` and `data/*.json` locally, call `writeDataStore()` to push Redis, then `git push`. **Canonical mode.** See ADR-0002 (`docs/adr/0002-direct-mode-collectors.md`).
 
 **API mode** (anti-pattern):
 Vercel route-handler collectors. Filesystem ephemeral; writes vanish. Burned us in `edf99d2`. Don't reintroduce.

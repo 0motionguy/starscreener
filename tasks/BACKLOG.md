@@ -22,6 +22,9 @@ Note on sampling: file is 628 lines (under 800-line threshold). Read lines 1-200
 
 Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs live Paperclip board reconciliation (`/api/companies/{companyId}/issues`) rather than git-commit grep, because the body of this file is operational heartbeat continuity, not feature commits. Suggest Phase 1.0.E live-board pass on the same ID set.
 
+## Doc-hygiene follow-ups (2026-05-05 drift audit)
+- [ ] Relocate worklog/coverage files older than 30 days to `docs/archive/worklogs/`. Sweep at root for `AGN-*-WORKLOG.md` and `AGN-*-COVERAGE-REPORT.md` whose `last-touched` frontmatter is past the 30-day budget; move + update any inbound links. Done when root contains no worklog/coverage file older than 30 days and a follow-up audit re-runs cleanly.
+
 ## From audit (2026-05-04) — not in Sprint 1
 - [ ] Profile completeness scanner (owner: data quality engineer). Done when a scanner report is generated and each profile field has pass/fail coverage output. Target sprint: Sprint 3.
 - [ ] Image coverage backfill (owner: frontend/data engineer). Done when missing image slots are enumerated and backfill pipeline raises coverage above agreed threshold. Target sprint: Sprint 3.

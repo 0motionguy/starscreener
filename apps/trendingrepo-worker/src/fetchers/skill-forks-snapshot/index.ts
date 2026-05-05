@@ -115,8 +115,8 @@ const fetcher: Fetcher = {
       if (handle) {
         for (let d = ROLLING_DAYS + 1; d <= ROLLING_DAYS + 7; d += 1) {
           const oldDate = isoDateNDaysAgo(d);
-          await handle.del(`${NAMESPACE}:skill-forks-snapshot:${oldDate}`);
-          await handle.del(`ss:meta:v1:skill-forks-snapshot:${oldDate}`);
+          await handle.del(keys.dailySnapshot('skill-forks-snapshot', oldDate));
+          await handle.del(keys.dailySnapshotMeta('skill-forks-snapshot', oldDate));
         }
       }
     } catch (err) {

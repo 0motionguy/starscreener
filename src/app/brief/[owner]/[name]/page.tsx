@@ -112,7 +112,7 @@ export default async function BriefPage({ params }: BriefPageProps) {
                 </li>
               ))}
             </ul>
-            <p style={{ marginTop: 16, fontSize: 12, color: "var(--v4-ink-400)"}>Written at: {brief.written_at}</p>
+            <p style={{ marginTop: 16, fontSize: 12, color: "var(--v4-ink-400)" }}>Written at: {brief.written_at}</p>
           </aside>
         </div>
       </article>

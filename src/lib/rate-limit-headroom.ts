@@ -5,11 +5,21 @@ const WINDOW_MS = 60 * 60 * 1000;
 const ALERT_THRESHOLD_PCT = 10;
 const MAX_SAMPLES_PER_SOURCE = 2048;
 const ALERT_COOLDOWN_MS = 15 * 60 * 1000;
-type RedisLike = Pick<
-  typeof redis,
-  "zadd" | "zremrangebyscore" | "zremrangebyrank" | "zrangebyscore" | "hset" | "expire" | "get" | "set" | "hget"
->;
-let redisClient: RedisLike = redis;
+// Explicit shape — RuntimeRedis (the project's wrapper) doesn't surface
+// zset/hash methods statically, but the underlying client does. Tests inject
+// a mock; runtime uses the cast `redis` directly.
+interface RedisLike {
+  zadd(key: string, score: number, member: string): Promise<unknown>;
+  zremrangebyscore(key: string, min: number, max: number): Promise<unknown>;
+  zremrangebyrank(key: string, start: number, stop: number): Promise<unknown>;
+  zrangebyscore(key: string, min: number, max: number): Promise<string[]>;
+  hset(key: string, field: string, value: string): Promise<unknown>;
+  hget(key: string, field: string): Promise<string | null>;
+  expire(key: string, seconds: number): Promise<unknown>;
+  get(key: string): Promise<string | null>;
+  set(key: string, value: string, ...rest: unknown[]): Promise<unknown>;
+}
+let redisClient: RedisLike = redis as unknown as RedisLike;
 let sentryCaptureMessage: typeof Sentry.captureMessage = Sentry.captureMessage;
 
 export interface RateLimitRolling {
@@ -69,13 +79,13 @@ export async function recordRateLimitSample(params: {
 
     const raw = await redisClient.zrangebyscore(sKey, nowMs - WINDOW_MS, nowMs);
     const values = raw
-      .map((entry) => {
+      .map((entry: string): number | null => {
         const parts = String(entry).split(":");
         const v = Number.parseFloat(parts[3] ?? "");
         return Number.isFinite(v) ? v : null;
       })
-      .filter((v): v is number => v !== null)
-      .sort((a, b) => a - b);
+      .filter((v: number | null): v is number => v !== null)
+      .sort((a: number, b: number) => a - b);
     if (values.length === 0) return;
 
     const rolling: RateLimitRolling = {
@@ -107,7 +117,7 @@ export async function recordRateLimitSample(params: {
               alert: "rate-limit-headroom-low",
               category: "quarantine",
             },
-            extra: rolling,
+            extra: rolling as unknown as Record<string, unknown>,
           },
         );
       }
@@ -140,6 +150,6 @@ export function _setRateLimitHeadroomDepsForTests(deps: {
 }
 
 export function _resetRateLimitHeadroomDepsForTests(): void {
-  redisClient = redis;
+  redisClient = redis as unknown as RedisLike;
   sentryCaptureMessage = Sentry.captureMessage;
 }

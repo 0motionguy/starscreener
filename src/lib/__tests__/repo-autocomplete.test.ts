@@ -36,7 +36,8 @@ function makeProfile(overrides: Partial<RepoProfile> = {}): RepoProfile {
       runtimeVisibility: 50,
       scanDurationMs: 1,
       completedAt: "2026-05-04T00:00:00.000Z",
-      resultUrl: null,
+      // AisoToolsScan declares resultUrl as string; null is valid in fixtures.
+      resultUrl: null as unknown as string,
       dimensions: [],
       issues: [],
       promptTests: [],

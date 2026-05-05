@@ -2732,6 +2732,22 @@ body::before {
   max-width: 100%;
 }
 
+/* AGN-723/725 mobile overflow guard. The .table-scroll clamp above keeps
+   the leaderboard contained, but sub-pixel rounding + nested flex children
+   on home-surface still produced a ~11px page overshoot at 375/390 widths.
+   Clip horizontal overflow on the route-shell containers so scrollWidth ≤
+   innerWidth. `clip` is preferred over `hidden`: it does not establish a
+   new scroll container, so internal .table-scroll panes still scroll
+   horizontally as intended. Desktop (>=768px) is unaffected. */
+@media (max-width: 767px) {
+  html,
+  body,
+  .v3-root,
+  .app-shell {
+    overflow-x: clip;
+  }
+}
+
 .tbl {
   width: 100%;
   border-collapse: collapse;

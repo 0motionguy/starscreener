@@ -792,8 +792,17 @@ export default async function HomePage() {
   })();
   const refreshed = new Date(lastFetchedAt);
   const refreshedTime = refreshed.toISOString().slice(11, 19);
+  // AGN-641: "stars gained in last 24h across tracked repos" — sum positive
+  // 24h deltas only (negative deltas would mean unstars, which we don't want
+  // to net out of the "gained" summary the home tile advertises). Tracking
+  // the contributing-repo count lets the tile's sub-label say "from N repos"
+  // so the value isn't a context-free number.
   const total24h = repos.reduce(
     (sum, repo) => sum + Math.max(0, repo.starsDelta24h),
+    0,
+  );
+  const reposGained24h = repos.reduce(
+    (count, repo) => count + (repo.starsDelta24h > 0 ? 1 : 0),
     0,
   );
   const total7d = repos.reduce(
@@ -837,7 +846,14 @@ export default async function HomePage() {
 
         <MetricGrid columns={6}>
           <Metric label="tracked repos" value={formatCompact(repos.length)} sub="derived feed" />
-          <Metric label="24h stars" value={formatCompact(total24h)} delta="+ live" tone="positive" />
+          {/* AGN-641: last-24h gained-stars summary across tracked repos. */}
+          <Metric
+            label="stars gained 24h"
+            value={formatCompact(total24h)}
+            sub={`from ${formatCompact(reposGained24h)} repos`}
+            tone="positive"
+            live
+          />
           <Metric label="7d stars" value={formatCompact(total7d)} sub="rolling window" />
           <Metric label="consensus" value={consensusRepos.length} sub="multi-source" tone="consensus" />
           <Metric label="breakouts" value={breakoutRepos.length} sub="velocity spike" tone="accent" />

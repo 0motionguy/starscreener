@@ -34,7 +34,8 @@ export type EngineErrorSource =
   | "huggingface"
   | "npm"
   | "arxiv"
-  | "sentry-canary";
+  | "sentry-canary"
+  | "soft-404";
 
 export class AuthRecoverableError extends EngineError {
   readonly category = "recoverable" as const;
@@ -79,6 +80,11 @@ export class AdminFatalError extends EngineError {
 export class SubdomainTakeoverRecoverableError extends EngineError {
   readonly category = "recoverable" as const;
   readonly source = "subdomain-takeover" as const;
+}
+
+export class Soft404RecoverableError extends EngineError {
+  readonly category = "recoverable" as const;
+  readonly source = "soft-404" as const;
 }
 
 export class SubdomainTakeoverQuarantineError extends EngineError {

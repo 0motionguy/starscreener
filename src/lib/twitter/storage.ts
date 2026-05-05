@@ -35,6 +35,13 @@ const MAX_SCAN_AGE_MS = 30 * 24 * 60 * 60 * 1000;
 const MAX_AUDIT_LOGS = 1_000;
 const MAX_AUDIT_LOG_AGE_MS = 30 * 24 * 60 * 60 * 1000;
 const PERSIST_DEBOUNCE_MS = 2_000;
+
+// Public retention surface — `src/lib/data-retention-policy.ts` derives its
+// policy table from these. Values mirror the internal MAX_* constants above
+// so the policy doc and the runtime enforcement can never drift.
+export const TWITTER_SCAN_RETENTION_DAYS = MAX_SCAN_AGE_MS / (24 * 60 * 60 * 1000);
+export const TWITTER_AUDIT_LOG_RETENTION_DAYS = MAX_AUDIT_LOG_AGE_MS / (24 * 60 * 60 * 1000);
+export const TWITTER_AUDIT_LOG_MAX_ENTRIES = MAX_AUDIT_LOGS;
 const BUNDLED_TWITTER_DATA_DIR = path.join(process.cwd(), ".data");
 
 function isEnoent(err: unknown): boolean {

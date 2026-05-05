@@ -34,6 +34,7 @@ import { ScrollToTopButton } from "@/components/layout/ScrollToTopButton";
 import { CmdKPalette } from "@/components/layout/CmdKPalette";
 import { ClientDeferredProviders } from "@/components/layout/ClientDeferredProviders";
 import { DesignSystemProvider } from "@/components/v3";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
 import "@/components/tier-list/tier-list.css";
@@ -272,6 +273,7 @@ export default async function RootLayout({
               <Footer />
               <BugReportWidget />
               <ToasterLazy />
+              <SpeedInsights />
               </DesignSystemProvider>
             </StoreProvider>
           </ClientDeferredProviders>

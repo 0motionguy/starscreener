@@ -46,6 +46,21 @@ export function ClientDeferredProviders({
   const [posthogIdleReady, setPosthogIdleReady] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!('serviceWorker' in navigator)) return;
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') return;
+    // Register after the page is idle so we don't race the first paint.
+    const idle = (cb: () => void) =>
+      (window as unknown as { requestIdleCallback?: (cb: () => void) => void })
+        .requestIdleCallback?.(cb) ?? setTimeout(cb, 2000);
+    idle(() => {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .catch(() => {});
+    });
+  }, []);
+
+  useEffect(() => {
     let cancelled = false;
     const win = window as Window & typeof globalThis;
     const start = () => {

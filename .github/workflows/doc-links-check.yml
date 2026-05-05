@@ -1,0 +1,25 @@
+name: doc-links-check
+on:
+  pull_request:
+    paths:
+      - "docs/**/*.md"
+      - "tasks/**/*.md"
+      - "*.md"
+      - ".claude/skills/**/*.md"
+      - ".claude/agents/**/*.md"
+      - "src/**/CLAUDE.md"
+      - "apps/**/CLAUDE.md"
+      - ".github/workflows/CLAUDE.md"
+      - "scripts/check-internal-doc-links.mjs"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node scripts/check-internal-doc-links.mjs

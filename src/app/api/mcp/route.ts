@@ -635,13 +635,3 @@ function errorStatusFor(code: number): number {
   if (code === ERR_INVALID_PARAMS) return 400;
   return 500;
 }
-
-// Exports for unit tests. The dispatcher is the surface that exercises
-// the most logic; exporting it lets tests skip the HTTP layer entirely.
-export const __test__ = {
-  TOOLS,
-  PROTOCOL_VERSION,
-  dispatch,
-  handleInitialize,
-  handleToolsList,
-};

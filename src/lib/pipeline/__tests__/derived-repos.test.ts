@@ -2,10 +2,12 @@ import { test } from "node:test";
 import { strict as assert } from "node:assert";
 
 import {
+  __applyDiversityRerankForTests,
   __resetDerivedReposCache,
   getDerivedRepoByFullName,
   getDerivedRepos,
 } from "../../derived-repos";
+import type { Repo } from "../../types";
 import {
   getDeltas,
   getTopMoversByDelta24h,
@@ -92,4 +94,67 @@ test("top movers use OSS Insight 24h activity instead of cold-start deltas", () 
   const top = getTopMoversByDelta24h(1)[0];
   assert.ok(top, "expected top mover");
   assert.ok(top.starsDelta24h > 0, "expected positive top mover value");
+});
+
+function makeRankRow(index: number, stars: number, momentumScore: number): Repo {
+  return {
+    id: `owner--repo-${index}`,
+    fullName: `owner/repo-${index}`,
+    name: `repo-${index}`,
+    owner: "owner",
+    ownerAvatarUrl: "",
+    description: "",
+    url: `https://github.com/owner/repo-${index}`,
+    language: "TypeScript",
+    topics: [],
+    categoryId: "ai",
+    stars,
+    forks: 0,
+    contributors: 0,
+    openIssues: 0,
+    lastCommitAt: "2026-05-05T00:00:00.000Z",
+    lastReleaseAt: null,
+    lastReleaseTag: null,
+    createdAt: "2026-05-05T00:00:00.000Z",
+    starsDelta24h: 0,
+    starsDelta7d: 0,
+    starsDelta30d: 0,
+    forksDelta7d: 0,
+    contributorsDelta30d: 0,
+    momentumScore,
+    movementStatus: "stable",
+    rank: index + 1,
+    categoryRank: index + 1,
+    sparklineData: [],
+    socialBuzzScore: 0,
+    mentionCount24h: 0,
+  };
+}
+
+test("diversity rerank caps mega-repos to 50% of top 20", () => {
+  const rows: Repo[] = [];
+  for (let i = 0; i < 14; i++) rows.push(makeRankRow(i, 90_000, 200 - i));
+  for (let i = 14; i < 30; i++) rows.push(makeRankRow(i, 20_000, 200 - i));
+
+  const reranked = __applyDiversityRerankForTests(rows);
+  const megaInTop20 = reranked
+    .slice(0, 20)
+    .filter((repo) => repo.stars >= 50_000).length;
+
+  assert.equal(megaInTop20, 10);
+});
+
+test("diversity rerank demotes long-staying repos inside the top window", () => {
+  const rows: Repo[] = [];
+  for (let i = 0; i < 25; i++) rows.push(makeRankRow(i, 30_000, 200 - i));
+
+  const longStayIds = rows.slice(0, 8).map((repo) => repo.id);
+  const reranked = __applyDiversityRerankForTests(rows, longStayIds);
+  const rerankedTop8 = reranked.slice(0, 8).map((repo) => repo.id);
+  const overlap = rerankedTop8.filter((id) => longStayIds.includes(id)).length;
+
+  assert.ok(
+    overlap < 8,
+    "expected at least one long-staying repo to be pushed out of the top 8",
+  );
 });

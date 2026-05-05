@@ -11,6 +11,7 @@ import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 // crashes the app before any routes load.
 import "@/lib/bootstrap";
 import { ToasterLazy } from "@/components/feedback/ToasterLazy";
+import { PWAInstallPromptLazy } from "@/components/feedback/PWAInstallPromptLazy";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { StoreProvider } from "@/components/providers/StoreProvider";
 import { PostHogProvider } from "@/components/providers/PostHogProvider";
@@ -232,6 +233,7 @@ export default async function RootLayout({
               <BrowserAlertBridge />
               <GlobalShortcuts />
               <ToasterLazy />
+              <PWAInstallPromptLazy />
               </DesignSystemProvider>
             </StoreProvider>
           </PostHogProvider>

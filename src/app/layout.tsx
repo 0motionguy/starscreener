@@ -14,6 +14,7 @@ import { ToasterLazy } from "@/components/feedback/ToasterLazy";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { StoreProvider } from "@/components/providers/StoreProvider";
 import { PostHogProvider } from "@/components/providers/PostHogProvider";
+import { WebVitalsReporter } from "@/components/providers/WebVitalsReporter";
 import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
@@ -220,6 +221,7 @@ export default async function RootLayout({
         </a>
         <ThemeProvider>
           <PostHogProvider>
+            <WebVitalsReporter />
             <StoreProvider>
               <DesignSystemProvider>
               <Header />

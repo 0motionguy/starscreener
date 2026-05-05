@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # MCP integration
 
 TrendingRepo ships an MCP server that exposes the live trend index as typed tools for Claude Desktop, Claude Code, Cursor, and any other agent that speaks the [Model Context Protocol](https://modelcontextprotocol.io).

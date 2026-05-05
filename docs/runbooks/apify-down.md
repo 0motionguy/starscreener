@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # Apify Down (Twitter Signal Stop) Runbook
 
 Target MTTR: <= 30 minutes

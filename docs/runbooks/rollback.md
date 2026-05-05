@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # Rollback Runbook (AGN-130)
 
 Scope: STARSCREENER release rollback on Vercel, GitHub Actions workflow revert, and Railway worker redeploy.

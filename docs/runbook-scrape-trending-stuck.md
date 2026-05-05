@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # Runbook: scrape-trending stuck
 
 Last updated: 2026-05-04

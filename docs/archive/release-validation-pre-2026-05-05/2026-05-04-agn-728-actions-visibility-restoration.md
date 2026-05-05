@@ -1,4 +1,10 @@
-﻿# AGN-728 — GitHub Actions Live Run Visibility Restoration (SRE)
+﻿---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
+# AGN-728 - GitHub Actions Live Run Visibility Restoration (SRE)
 
 Date: 2026-05-04 (updated 2026-05-05)
 Issue: AGN-728

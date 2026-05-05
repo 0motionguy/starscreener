@@ -38,3 +38,30 @@ the hourly slot. Use the bounded-concurrency queue pattern in
 Writes go through `src/lib/redis.ts` (`readDataStore` /
 `writeDataStore`) using the same `ss:data:v1:<slug>` namespace as the
 Next.js app. Schemas validated with Zod at the fetcher boundary.
+
+## Redis key construction — single source of truth
+
+Every Redis key built anywhere in `apps/trendingrepo-worker/src/` MUST
+flow through the registry at `src/lib/redis-keys.ts` (sibling to the
+flat `src/lib/redis.ts` Redis glue — kept flat to avoid colliding with
+the main app's `protect-files.mjs` hook on `src/lib/redis/keys.ts`).
+No inline `\`ss:data:v1:${slug}\`` template literals. Violations are
+caught by `<repo>/scripts/check-redis-keys.mjs`, which now scans this
+directory too (wired into `npm run lint:guards` at the repo root).
+
+Builders today:
+
+- `keys.payload(slug)` / `keys.meta(slug)` — data-store payload + meta
+  sidecar. MUST stay byte-identical with the main app's
+  `<repo>/src/lib/redis/keys.ts` (same `ss:data:v1` / `ss:meta:v1`
+  namespaces). Bump `v1` only via a coordinated migration across both.
+- `keys.dailySnapshot(slug, date)` /
+  `keys.dailySnapshotMeta(slug, date)` — daily roll-window keys for
+  the snapshot fetchers (`hotness-snapshot`, `mcp-usage-snapshot`,
+  `skill-forks-snapshot`, `skill-install-snapshot`).
+- `keys.worker.healthcheck()` — `tr:healthcheck`, the only
+  worker-private namespace; written by `server.ts` for Railway TCP
+  liveness, never read by the Next.js app.
+
+Adding a new key? Add the builder to `redis-keys.ts` first, then call
+it from the fetcher. The lint guard fails the build otherwise.

@@ -162,7 +162,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/post-edit.mjs\" \"$CLAUDE_TOOL_INPUT_FILE_PATH\""
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/post-edit.mjs\""
           }
         ]
       }

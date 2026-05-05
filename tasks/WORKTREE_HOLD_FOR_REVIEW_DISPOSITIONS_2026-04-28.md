@@ -1,3 +1,8 @@
+---
+status: archive
+last-touched: 2026-04-28
+---
+
 # Worktree HOLD-FOR-REVIEW dispositions — 2026-04-28
 
 Per-worktree triage of the 7 HOLD-FOR-REVIEW worktrees + the af54744 incomplete-merge. Companion to [tasks/WORKTREE_DISPOSITION_2026-04-28.md](WORKTREE_DISPOSITION_2026-04-28.md) and [tasks/AUDIT_TRENDINGREPO_2026-04-28.md](AUDIT_TRENDINGREPO_2026-04-28.md).

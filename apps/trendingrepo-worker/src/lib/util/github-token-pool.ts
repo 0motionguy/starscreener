@@ -20,8 +20,8 @@
 //   brownouts degrade gracefully — pool falls back to plain round-robin.
 
 import { getRedis } from '../redis.js';
+import { keys } from '../redis-keys.js';
 
-const POOL_REDIS_KEY_PREFIX = 'pool:github:tokens';
 const QUARANTINE_TTL_MS = 24 * 60 * 60 * 1000;
 const POOL_REDIS_TTL_SECONDS = 30 * 24 * 60 * 60;
 
@@ -78,7 +78,7 @@ function redactToken(token: string): string {
 }
 
 function poolRedisKeyFor(tokenLabel: string): string {
-  return `${POOL_REDIS_KEY_PREFIX}:${tokenLabel}`;
+  return keys.pool.github.tokenState(tokenLabel);
 }
 
 function isUnusable(hint: SharedTokenHint | undefined, nowMs: number): boolean {

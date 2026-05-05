@@ -1,3 +1,7 @@
+// STATUS: orphaned (2026-05-05 audit) — no workflow caller, no recent commits.
+// Slated for deletion; see tasks/BACKLOG.md "orphan cron routes". Keep until
+// a follow-up sweep confirms no inbound traffic.
+//
 // POST /api/cron/predictions/calibrate
 //
 // Calibration loop for the prediction writer. Walks every row in

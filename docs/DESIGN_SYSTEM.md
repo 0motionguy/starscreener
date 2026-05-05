@@ -1,3 +1,10 @@
+---
+status: needs-rewrite
+audit-date: 2026-05-05
+reason: documents V3 only; V4 (Liquid Lava / CORPUS) is the current design system, and cited V2_HANDOFF.md / HANDOFF_2026-04-27_V3.md no longer exist
+replacement: design/v4/DESIGN_SYSTEM.md
+---
+
 # STARSCREENER design system
 
 V3 is the production skin: a Node/01 x Linear fusion. Dark canvas, sharp 2px

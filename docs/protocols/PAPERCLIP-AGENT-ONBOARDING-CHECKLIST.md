@@ -1,3 +1,9 @@
+---
+status: snapshot
+audit-date: 2026-05-05
+reason: all referenced files exist but step 2 omits docs/INDEX.md and docs/OPERATOR.md from CLAUDE.md SESSION OPENING PROTOCOL
+---
+
 # PAPERCLIP AGENT ONBOARDING CHECKLIST (STARSCREENER)
 
 Issue: AGN-831  

@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # Portal v0.1 integration
 
 TrendingRepo speaks the [Portal v0.1 protocol](https://visitportal.dev) so any LLM client with a Portal visitor SDK can discover and call TrendingRepo's tools without installation.

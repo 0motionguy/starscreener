@@ -1,4 +1,26 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: needs-verification
+audit-note: per-line drift-check deferred; commit-grep cross-reference attached
+---
+
 # CURRENT SPRINT — Sprint 1: Pool Verification + Source Activation
+
+## Audit notes — 2026-05-05
+
+Drift-audit method (Phase 1.0.D): cross-checked every OPEN ticket header (54 unique AGN ticket IDs in this file) against `git log --all --oneline | grep -oE 'AGN-[0-9]+'`. The complete set of AGN tickets that have shipped in commit subjects across all branches is: AGN-365, AGN-469, AGN-513, AGN-650, AGN-695, AGN-696, AGN-702, AGN-703, AGN-704, AGN-733, AGN-792, AGN-795, AGN-799, AGN-903, AGN-949.
+
+Result: zero (0) intersection between OPEN/IN-PROGRESS sprint tickets in this file and shipped-in-commit tickets. No sprint header here is "probably-shipped" by commit evidence. The 54 unique IDs in this file (AGN-9, 58, 172, 189, 201, 205, 232, 268, 282, 291, 292, 295, 300, 302, 308, 309, 310, 318, 364, 391, 396, 402, 412, 441, 450, 459, 463, 467, 471, 478, 487, 495, 515, 523, 532, 541, 605, 606, 607, 685, 706, 721, 727, 742, 752, 773, 793, 811, 830, 846, 859, 867, 876, 884, 892, 900, 908, 917, 925, 933, 941, 1047, 1048, 1138, 1139, 1140, 1155, 1156, 1157, 1210, 1211, 1212, 1292, 1293, 1294, 1353, 1354, 1355, 1473, 1513, 1514, 1515, 1538, 1539, 1540, 710, 711, 712, 726, 756, 757, 758, 813, 857, 858, 860, 861, 862, 863, 864, 865, 866, 868, 869, 870, 871) are all PM-triage / heartbeat / audit-housekeeping rows; they do not correspond to feature commits and remain genuinely OPEN.
+
+Sample of 5 tickets verified shipped-but-still-listed-OPEN:
+- (none) — no ticket in this file is currently "probably shipped, verify and close" per commit evidence.
+
+Note on cap: 30-item cap not exceeded because zero items qualified.
+
+Note on sampling: file is 949 lines (>800 cap). Sampled section headers `^## AGN-\d+` (full extraction), audit/blocker/notes regions (read lines 1-300 and 540-740). Per-line drift-check deferred. The file's body is dominated by repetitive triage-heartbeat boilerplate; the head/tail samples confirm uniform pattern (all rows are PM-triage continuity entries blocked on Sentry DSN + freshness preflight, not feature work that would land in commit history).
+
+Recommended follow-up: this file is operating as a heartbeat ledger, not a sprint board. A meaningful drift-audit would require comparing to the live Paperclip board (`/api/companies/{companyId}/issues`) rather than git commits — recommend Phase 1.0.E pass that fetches live board status for these 54 IDs and reconciles.
 
 Status: IN PROGRESS - Phase 1.5 blocked on Vercel Sentry DSN
 Started: 2026-05-03

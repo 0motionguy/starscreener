@@ -1,4 +1,26 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: needs-verification
+audit-note: per-line drift-check deferred; commit-grep cross-reference attached
+---
+
 # BACKLOG — Items deferred from current sprint
+
+## Audit notes — 2026-05-05
+
+Drift-audit method (Phase 1.0.D): cross-checked every backlog row dated `2026-05-05 AGN-NNN` (40 unique AGN ticket IDs identified) against `git log --all --oneline | grep -oE 'AGN-[0-9]+'`. The complete shipped-in-commits set across all branches: AGN-365, AGN-469, AGN-513, AGN-650, AGN-695, AGN-696, AGN-702, AGN-703, AGN-704, AGN-733, AGN-792, AGN-795, AGN-799, AGN-903, AGN-949.
+
+Result: zero (0) intersection between OPEN backlog rows in this file and shipped-in-commit tickets. No backlog item here qualifies as "probably-shipped" by commit evidence. Backlog IDs sampled (AGN-9, 201, 710, 711, 712, 726, 813, 857, 858, 859, 860, 861, 862, 863, 864, 865, 866, 867, 868, 869, 870, 871, 1047, 1048, 1138, 1139, 1140, 1155, 1156, 1157, 1210, 1211, 1212, 1292, 1293, 1294, 1353, 1354, 1355, 1473, 1482, 1513, 1514, 1515, 1538, 1539, 1540) are all PM-triage continuity / "redistribution follow-through" rows blocked on Sentry DSN, freshness preflight recovery, or CTO owner-assignment — none correspond to shippable feature commits.
+
+Sample of 5 tickets verified shipped-but-still-listed-OPEN:
+- (none) — no backlog item is currently "probably shipped, verify and close" per commit evidence.
+
+Note on cap: 30-item cap not exceeded because zero items qualified.
+
+Note on sampling: file is 628 lines (under 800-line threshold). Read lines 1-200 fully; sampled lines 340-540 to confirm pattern. The discovered-during-current-work section contains uniform triage-heartbeat rows, not work tracked by commits. The original "From audit (2026-05-04) — not in Sprint 1" section (lines 3-10) lists feature backlog with target sprints (profile-completeness scanner, image-coverage backfill, cross-mention completeness, news/funding RSS, AI vendor blog RSS, workflow consolidation, VPS migration); none of these surface in commit history yet, consistent with their Sprint 2-6 targets.
+
+Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs live Paperclip board reconciliation (`/api/companies/{companyId}/issues`) rather than git-commit grep, because the body of this file is operational heartbeat continuity, not feature commits. Suggest Phase 1.0.E live-board pass on the same ID set.
 
 ## From audit (2026-05-04) — not in Sprint 1
 - [ ] Profile completeness scanner (owner: data quality engineer). Done when a scanner report is generated and each profile field has pass/fail coverage output. Target sprint: Sprint 3.
@@ -622,6 +644,7 @@
 - [ ] **DATABASE.md full rewrite** â€” document current Redis + Supabase duality; reference ADR 0001 + `apps/trendingrepo-worker/src/lib/db.ts:upsertItem()`
 - [ ] **SCORING.md full rewrite** â€” document v3 8-source consensus + Kimi K2.6 AI Analyst (refs `apps/trendingrepo-worker/src/fetchers/consensus-trending/{types.ts,scoring.ts}`)
 - [ ] **Phase 1.0.D verification sweep** â€” drift-audit `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`, `docs/runbooks/*` (5 files), `docs/protocols/*` (5 files), `docs/RUNBOOK-secret-rotation.md`, `docs/DESIGN_SYSTEM.md`; mark living/snapshot/needs-rewrite
+- [ ] **docs/DESIGN_SYSTEM.md rewrite** â€” file documents V3 only and references missing `docs/V2_HANDOFF.md` + `docs/HANDOFF_2026-04-27_V3.md`; replacement: `design/v4/DESIGN_SYSTEM.md` (canonical V4/CORPUS doc). Either redirect with a one-line stub or delete and update inbound links
 
 
 

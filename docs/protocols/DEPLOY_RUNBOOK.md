@@ -1,3 +1,9 @@
+---
+status: snapshot
+audit-date: 2026-05-05
+reason: hardcoded "215/215 pass" test count likely stale; all file paths and scripts still valid
+---
+
 # Phase 8 — Production Deploy Runbook
 
 All prior phases are complete and verified locally. Phase 8 actions require human auth (Vercel, DNS, npm) so they are staged here rather than run in CI.

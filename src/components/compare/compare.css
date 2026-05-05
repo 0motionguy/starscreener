@@ -7,6 +7,17 @@
   margin-bottom: 0;
 }
 
+.compare-page .compare-tool-grid .tool {
+  min-width: 0;
+}
+
+.compare-page .compare-tool-grid .t-num,
+.compare-page .compare-tool-grid .t-h,
+.compare-page .compare-tool-grid .t-d,
+.compare-page .compare-tool-grid .t-foot {
+  overflow-wrap: anywhere;
+}
+
 .compare-wave {
   display: flex;
   flex-direction: column;
@@ -208,6 +219,11 @@
 @media (max-width: 640px) {
   .compare-page .compare-tool-grid {
     grid-template-columns: 1fr;
+  }
+
+  .compare-page .compare-tool-grid .tool {
+    min-height: 0;
+    padding: 12px;
   }
 
   .compare-control-panel .panel-body,

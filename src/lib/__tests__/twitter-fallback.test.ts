@@ -159,10 +159,12 @@ test("scrapeTwitterFor emits explicit Sentry warning when OPS webhook is missing
   );
   assert.ok(blocked, "expected blocked OPS webhook warning");
   const tags = (blocked?.context as { tags?: Record<string, string> } | undefined)?.tags;
+  const level = (blocked?.context as { level?: string } | undefined)?.level;
   assert.equal(tags?.alert, "ops-alert-blocked");
   assert.equal(tags?.source, "ops-alert");
   assert.equal(tags?.upstream_source, "twitter");
   assert.equal(tags?.category, "fatal");
+  assert.equal(level, "error");
 });
 
 test("scrapeTwitterFor classifies non-2xx OPS webhook responses as recoverable delivery failures", async () => {

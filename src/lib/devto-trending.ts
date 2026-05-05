@@ -30,6 +30,31 @@ export interface DevtoTrendingFile {
 // Mutable in-memory cache — seeded from bundled JSON, replaced via
 // refreshDevtoTrendingFromStore().
 let trendingFile: DevtoTrendingFile = devtoTrendingData as unknown as DevtoTrendingFile;
+trendingFile = sanitizeTrendingFile(trendingFile);
+
+function sanitizeTrendingFile(input: unknown): DevtoTrendingFile {
+  const file = (input ?? {}) as Partial<DevtoTrendingFile>;
+  return {
+    fetchedAt: typeof file.fetchedAt === "string" ? file.fetchedAt : "",
+    discoveryVersion:
+      typeof file.discoveryVersion === "string" ? file.discoveryVersion : undefined,
+    windowDays: Number.isFinite(file.windowDays) ? Number(file.windowDays) : 7,
+    scannedArticles: Number.isFinite(file.scannedArticles)
+      ? Number(file.scannedArticles)
+      : 0,
+    bodyFetchMode:
+      file.bodyFetchMode === "full" ||
+      file.bodyFetchMode === "partial" ||
+      file.bodyFetchMode === "description-only"
+        ? file.bodyFetchMode
+        : "description-only",
+    priorityTags: Array.isArray(file.priorityTags) ? file.priorityTags : [],
+    discoverySlices: Array.isArray(file.discoverySlices) ? file.discoverySlices : [],
+    sliceCounts:
+      file.sliceCounts && typeof file.sliceCounts === "object" ? file.sliceCounts : {},
+    articles: Array.isArray(file.articles) ? file.articles : [],
+  };
+}
 
 export function getDevtoTrendingFile(): DevtoTrendingFile {
   return trendingFile;
@@ -66,7 +91,7 @@ export async function refreshDevtoTrendingFromStore(): Promise<{
       "devto-trending",
     );
     if (result.data && result.source !== "missing") {
-      trendingFile = result.data;
+      trendingFile = sanitizeTrendingFile(result.data);
     }
     lastRefreshMs = Date.now();
     return { source: result.source, ageMs: result.ageMs };

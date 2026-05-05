@@ -12,19 +12,21 @@
 // seeds the cache, so the page never blanks out.
 
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { lastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
 import { refreshRecentReposFromStore } from "@/lib/recent-repos";
 
-import { SITE_NAME, absoluteUrl } from "@/lib/seo";
+import { SITE_NAME, SITE_URL, absoluteUrl, safeJsonLd } from "@/lib/seo";
 import {
   buildRepoTop10,
   emptyBundle,
 } from "@/lib/top10/builders";
 import { CATEGORIES } from "@/lib/constants";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
+import { preloadTopLcpImages } from "@/lib/lcp-preload";
 
 // V4 primitives.
 import { PageHead } from "@/components/ui/PageHead";
@@ -36,8 +38,7 @@ import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { LetterAvatar } from "@/components/shared/LetterAvatar";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { WhyBadge } from "@/components/repo/WhyBadge";
-import { getWhyNarrative, type WhyNarrative } from "@/lib/why-narrative";
-import { FunnelMount } from "@/components/analytics/FunnelMount";
+import { getOrGenerateRepoWhy } from "@/lib/repo-why";
 
 // ISR — 10-minute cadence matches the V4 leaderboard surfaces. Underlying
 // readers refresh every 6 hours via cron; tighter cache wastes work
@@ -124,6 +125,16 @@ export default async function Top10RootPage() {
       : emptyBundle("7d");
   const topItems = bundle.items;
   const topRepo = topItems[0];
+  const whyByFullName = new Map(
+    (
+      await Promise.all(
+        topItems.map(async (item) => {
+          const rec = await getOrGenerateRepoWhy(item.slug);
+          return [item.slug.toLowerCase(), rec] as const;
+        }),
+      )
+    ).filter(([, rec]) => Boolean(rec?.line)),
+  );
 
   // repoToItem encodes slug = repo.fullName, so the slug round-trips back
   // into the underlying derived row for the language / topics / delta lookups
@@ -152,23 +163,14 @@ export default async function Top10RootPage() {
   const hottestTag =
     [...tagCounts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "—";
 
-  // Per-row why-narrative lookup. Reads the persisted 24h cache populated
-  // by scripts/build-why-narratives.mjs; falls back to live synthesis when
-  // the cache is cold so the badge always renders. Issued in parallel —
-  // each call is a single Redis get + cheap synth fallback. AGN-791.
-  const whyByFullName = new Map<string, WhyNarrative | null>();
-  const whyEntries = await Promise.all(
-    topItems.map(async (item) => {
-      const repo = repoByFullName.get(item.slug);
-      if (!item.owner) return [item.slug, null] as const;
-      const why = await getWhyNarrative(item.owner, item.title, repo ?? null);
-      return [item.slug, why] as const;
-    }),
+  // Stamp freshness from the underlying trending payload timestamp so the
+  // page doesn't display a misleading "just now" clock when data is stale.
+  preloadTopLcpImages(
+    topItems
+      .slice(0, 3)
+      .map((item) => repoByFullName.get(item.slug)?.ownerAvatarUrl),
   );
-  for (const [k, v] of whyEntries) whyByFullName.set(k, v);
-
-  // Computed-ago label for the verdict ribbon.
-  const computedAt = new Date().toISOString();
+  const computedAt = lastFetchedAt;
   const computedAgo = getRelativeTime(computedAt);
   const computedClock = computedAt.slice(11, 19);
 
@@ -187,7 +189,7 @@ export default async function Top10RootPage() {
           <>
             <span className="big">{computedClock}</span>
             <span className="muted">UTC · COMPUTED</span>
-            <FreshnessBadge source="mcp" lastUpdatedAt={lastFetchedAt} />
+            <FreshnessBadge source="reddit" lastUpdatedAt={lastFetchedAt} />
           </>
         }
       />
@@ -280,12 +282,12 @@ export default async function Top10RootPage() {
               rank={item.rank}
               avatar={
                 sourceRepo?.ownerAvatarUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
+                  <Image
                     src={sourceRepo.ownerAvatarUrl}
                     alt=""
                     width={28}
                     height={28}
+                    unoptimized
                     style={{
                       width: 28,
                       height: 28,
@@ -293,7 +295,6 @@ export default async function Top10RootPage() {
                       objectFit: "cover",
                       flexShrink: 0,
                     }}
-                    loading="lazy"
                     referrerPolicy="no-referrer"
                   />
                 ) : (
@@ -314,7 +315,19 @@ export default async function Top10RootPage() {
                   item.title
                 )
               }
-              desc={item.description}
+              desc={
+                <>
+                  {item.description}
+                  {(() => {
+                    const why = whyByFullName.get(item.slug.toLowerCase());
+                    return why?.line ? (
+                      <span style={{ display: "block", marginTop: 6 }}>
+                        <WhyBadge text={why.line} signal={why.signal} />
+                      </span>
+                    ) : null;
+                  })()}
+                </>
+              }
               metric={{
                 value: formatNumber(sourceRepo?.stars ?? 0),
                 label: "STARS",
@@ -446,6 +459,24 @@ export default async function Top10RootPage() {
           </Link>
         </div>
       </section>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLd({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "Top 10",
+            url: absoluteUrl("/top10"),
+            description: DESCRIPTION,
+            isPartOf: {
+              "@type": "WebSite",
+              name: SITE_NAME,
+              url: SITE_URL,
+            },
+          }),
+        }}
+      />
     </main>
   );
 }

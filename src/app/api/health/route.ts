@@ -63,6 +63,9 @@ let cachedSoftHealth:
       expiresAt: number;
     }
   | null = null;
+let softRefreshInFlight:
+  | Promise<PromiseSettledResult<unknown>[]>
+  | null = null;
 
 type HealthStatus = "ok" | "stale" | "error";
 
@@ -224,11 +227,21 @@ export async function GET(
       refreshCollectionRankingsFromStore(),
       refreshScannerSourceHealthFromStore(),
     ];
-    const refreshResults = soft
-      ? await Promise.all(
+    let refreshResults: PromiseSettledResult<unknown>[];
+    if (soft) {
+      // CACHE-1: coalesce concurrent soft refreshes onto a single in-flight run
+      // so cache expiry cannot trigger a refetch stampede.
+      if (!softRefreshInFlight) {
+        softRefreshInFlight = Promise.all(
           refreshTasks.map((task) => settleWithin(task, 150)),
-        )
-      : await Promise.allSettled(refreshTasks);
+        ).finally(() => {
+          softRefreshInFlight = null;
+        });
+      }
+      refreshResults = await softRefreshInFlight;
+    } else {
+      refreshResults = await Promise.allSettled(refreshTasks);
+    }
     const refreshFailureCount = refreshResults.filter(
       (result) => result.status === "rejected",
     ).length;

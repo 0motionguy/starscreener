@@ -1,0 +1,42 @@
+{
+  "generatedAt": "2026-05-04T21:55:27.649Z",
+  "input": {
+    "topTrendingLimit": 200,
+    "rescanDays": 7,
+    "trendingCount": 100
+  },
+  "summary": {
+    "totalProfiles": 1065,
+    "coveredRepos": 100,
+    "missingRepos": 0,
+    "coveragePct": 100,
+    "scanned": 61,
+    "queued": 0,
+    "failed": 0,
+    "noWebsite": 39,
+    "staleScanned": 0,
+    "staleOver7d": 203
+  },
+  "segments": {
+    "byStatus": {
+      "no_website": 735,
+      "scanned": 275,
+      "scan_pending": 55
+    },
+    "byRankBand": {
+      "top_1_50": 849,
+      "top_51_200": 216,
+      "top_201_500": 0,
+      "top_501_plus": 0,
+      "unranked": 0
+    },
+    "byStalenessAgeBucket": {
+      "lte_7d": 862,
+      "d8_30": 203,
+      "gt_30d": 0,
+      "unknown": 0
+    }
+  },
+  "staleBacklog": [],
+  "missingBacklog": []
+}

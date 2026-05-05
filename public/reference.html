@@ -16,6 +16,7 @@
       Air-gapped deployments: mirror
         https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js
       to an internal origin and swap the <script src=".."> below.
+      If the upstream bundle changes, recalculate the SRI hash before deploy.
     -->
     <link
       rel="preconnect"
@@ -56,6 +57,8 @@
     <div id="boot-hint">Loading API reference from /api/openapi.json…</div>
     <script
       src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"
+      integrity="sha384-70P5pmIdaQdVbxvjhrcTDv1uKcKqalZ3OHi7S2J+uzDl0PW8dO6L+pHOpm9EEjGJ"
+      crossorigin="anonymous"
       defer
     ></script>
   </body>

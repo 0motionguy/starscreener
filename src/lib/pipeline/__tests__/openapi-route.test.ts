@@ -23,8 +23,8 @@ import assert from "node:assert/strict";
 
 async function invokeGet(): Promise<Response> {
   const { GET } = await import("../../../app/api/openapi.json/route");
-  // The route handler takes no request arg (the spec is a static document).
-  return GET();
+  const req = new Request("http://localhost:3023/api/openapi.json");
+  return GET(req as never);
 }
 
 function resetCache(): void {
@@ -51,19 +51,12 @@ test("GET 200 with JSON content type", async () => {
   );
 });
 
-test("GET sets an edge-friendly Cache-Control", async () => {
+test("GET is private/no-store", async () => {
   resetCache();
   const res = await invokeGet();
   const cc = res.headers.get("cache-control") ?? "";
-  assert.ok(cc.includes("public"), `cache-control missing public: ${cc}`);
-  assert.ok(
-    cc.includes("s-maxage="),
-    `cache-control missing s-maxage: ${cc}`,
-  );
-  assert.ok(
-    cc.includes("stale-while-revalidate="),
-    `cache-control missing swr: ${cc}`,
-  );
+  assert.ok(cc.includes("private"), `cache-control missing private: ${cc}`);
+  assert.ok(cc.includes("no-store"), `cache-control missing no-store: ${cc}`);
 });
 
 // ---------------------------------------------------------------------------
@@ -117,15 +110,57 @@ test("spec declares the canonical profile paths", async () => {
   }
 });
 
-test("spec declares the four security schemes", async () => {
+test("spec does not expose admin/internal/webhook/cron paths", async () => {
+  resetCache();
+  const res = await invokeGet();
+  const body = (await res.json()) as OpenApiDoc;
+  for (const p of Object.keys(body.paths)) {
+    assert.equal(
+      p.startsWith("/api/admin/") ||
+        p.startsWith("/api/_internal/") ||
+        p.startsWith("/api/webhooks/") ||
+        p.startsWith("/api/cron/"),
+      false,
+      `non-public path leaked: ${p}`,
+    );
+  }
+});
+
+test("encoded non-public path prefixes are treated as non-public", async () => {
+  await import("../../../app/api/openapi.json/route");
+  const key = Symbol.for("trendingrepo.openapi.test.isPublicPath");
+  const isPublicPath = (globalThis as unknown as Record<
+    symbol,
+    ((pathname: string) => boolean) | undefined
+  >)[key];
+  assert.equal(typeof isPublicPath, "function");
+
+  const candidates = [
+    "/api/%61dmin/stats",
+    "/api/%5Finternal/sentry-canary",
+    "/api/%77ebhooks/stripe",
+    "/api/%63ron/predictions",
+  ];
+  for (const candidate of candidates) {
+    assert.equal(
+      isPublicPath!(candidate),
+      false,
+      `encoded non-public path leaked: ${candidate}`,
+    );
+  }
+});
+
+test("spec hides admin/cron security schemes", async () => {
   resetCache();
   const res = await invokeGet();
   const body = (await res.json()) as OpenApiDoc;
   const schemes = body.components?.securitySchemes;
   assert.ok(schemes, "components.securitySchemes missing");
-  for (const name of ["cronBearer", "adminBearer", "userBearer", "sessionCookie"]) {
+  for (const name of ["userBearer", "sessionCookie"]) {
     assert.ok(name in schemes, `securityScheme missing: ${name}`);
   }
+  assert.equal("cronBearer" in schemes, false);
+  assert.equal("adminBearer" in schemes, false);
 });
 
 // ---------------------------------------------------------------------------

@@ -22,7 +22,7 @@ import type { NextRequest } from "next/server";
 import { errorEnvelope } from "@/lib/api/error-response";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 // 24h edge cache + SWR — repo cards don't change minute-to-minute, and
 // chat platforms hammer this endpoint.
 export const revalidate = 86400;

@@ -72,9 +72,9 @@ export default function RootError({ error, reset }: ErrorProps) {
             className="leading-relaxed mb-5"
             style={{ fontSize: 14, color: "var(--v2-ink-300)" }}
           >
-            The firehose is still running — this is a client-side render
-            fault, not stale data. Try refreshing the view; if it keeps
-            erroring, the homepage usually survives.
+            We have been notified. This is a render fault, not a data outage.
+            Try reloading this surface, or report the incident with the digest
+            so we can triage quickly.
           </p>
           {error.digest && (
             <p
@@ -98,6 +98,14 @@ export default function RootError({ error, reset }: ErrorProps) {
               <Home className="h-4 w-4" style={{ marginRight: 8 }} />
               BACK TO HOME
             </Link>
+            <a
+              href="https://github.com/0motionguy/starscreener/issues/new"
+              target="_blank"
+              rel="noreferrer"
+              className="v2-btn v2-btn-ghost inline-flex"
+            >
+              REPORT BUG
+            </a>
           </div>
         </div>
       </div>

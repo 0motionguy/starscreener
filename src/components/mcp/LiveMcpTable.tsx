@@ -30,6 +30,7 @@ type SortKey = "rank" | "use" | "released" | "d24" | "d7" | "d30";
 type SortDir = "asc" | "desc";
 
 export interface McpRow {
+  rank: number;
   id: string;
   title: string;
   href: string;
@@ -160,6 +161,8 @@ function compareNumeric(a: number, b: number, dir: SortDir): number {
 
 function getSortValue(row: McpRow, key: SortKey): number {
   switch (key) {
+    case "rank":
+      return row.rank;
     case "use":
       return row.use;
     case "d24":
@@ -170,12 +173,8 @@ function getSortValue(row: McpRow, key: SortKey): number {
       return row.delta30d;
     case "released":
       return row.releasedAt ? Date.parse(row.releasedAt) || 0 : 0;
-    case "rank":
     default:
-      // Upstream `rank` is ascending (1 = best); flip it for "desc"
-      // semantics so toggling the column header matches every other
-      // sortable column.
-      return -1;
+      return row.rank;
   }
 }
 
@@ -213,7 +212,7 @@ function SortHeader({
 }
 
 export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
-  const [sortKey, setSortKey] = useState<SortKey>("use");
+  const [sortKey, setSortKey] = useState<SortKey>("d24");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [activeCat, setActiveCat] = useState<string | null>(null);
 
@@ -341,9 +340,7 @@ export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
                         <RankStarMark />
                       </span>
                     ) : null}
-                    <span className="rk-n">
-                      #{String(index + 1).padStart(2, "0")}
-                    </span>
+                    <span className="rk-n">#{String(row.rank).padStart(2, "0")}</span>
                   </td>
                   <td>
                     <a className="repo-cell" href={row.href}>

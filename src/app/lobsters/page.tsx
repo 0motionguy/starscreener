@@ -27,13 +27,33 @@ import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { TrendingMentionsSection } from "@/components/news/TrendingMentionsSection";
+import { absoluteUrl } from "@/lib/seo";
 
-export const dynamic = "force-static";
+// ISR (5min) so /lobsters keeps re-reading Redis-backed store refreshes.
+// `force-static` bakes the deploy-time snapshot and can drift from the
+// hourly scrape-lobsters collector between deploys.
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "TrendingRepo — Lobsters Trending",
   description:
     "Lobsters stories ranked by recent score velocity and cross-linked to tracked GitHub repositories.",
+  alternates: { canonical: absoluteUrl("/lobsters") },
+  openGraph: {
+    title: "Trending on Lobsters - TrendingRepo",
+    description:
+      "Lobsters stories ranked by recent score velocity and cross-linked to tracked GitHub repositories.",
+    url: absoluteUrl("/lobsters"),
+    images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trending on Lobsters - TrendingRepo",
+    description:
+      "Lobsters stories ranked by recent score velocity and cross-linked to tracked GitHub repositories.",
+    images: [absoluteUrl("/og-card.png")],
+  },
 };
 
 const LOBSTERS_RED = "#ac130d";
@@ -135,17 +155,20 @@ export default async function LobstersPage() {
         }
         listEyebrow="Story feed · 24h / 7d / 30d window · repo leaderboard"
         list={
-          <div
-            className={
-              leaderboard.length > 0
-                ? "grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6"
-                : ""
-            }
-          >
-            <WindowedStoryFeed allStories={allStories} />
-            {leaderboard.length > 0 ? (
-              <Leaderboard entries={leaderboard.slice(0, 15)} />
-            ) : null}
+          <div className="space-y-4">
+            <TrendingMentionsSection source="lobsters" accent={LOBSTERS_RED} />
+            <div
+              className={
+                leaderboard.length > 0
+                  ? "grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]"
+                  : ""
+              }
+            >
+              <WindowedStoryFeed allStories={allStories} />
+              {leaderboard.length > 0 ? (
+                <Leaderboard entries={leaderboard.slice(0, 15)} />
+              ) : null}
+            </div>
           </div>
         }
       />

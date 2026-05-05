@@ -1,0 +1,100 @@
+{
+  "base": "http://localhost:3023",
+  "checkedAt": "2026-05-04T11:03:34.781Z",
+  "routes": [
+    "/",
+    "/skills",
+    "/mcp",
+    "/agent-repos",
+    "/breakouts"
+  ],
+  "results": [
+    {
+      "route": "/",
+      "navStatus": 200,
+      "navOk": true,
+      "title": "TrendingRepo — The trend map for open source",
+      "bodyChars": 10322,
+      "h1Count": 2,
+      "sidebarVisible": true,
+      "consoleErrorCount": 1,
+      "requestFailCount": 1,
+      "sampleConsoleError": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used: - A server/client branch `if (typeof window",
+      "sampleRequestFail": {
+        "url": "https://api.smithery.ai/servers/polymarket/polymarket-mcp/icon",
+        "errorText": "net::ERR_BLOCKED_BY_ORB"
+      },
+      "durationMs": 5677,
+      "error": null
+    },
+    {
+      "route": "/skills",
+      "navStatus": 200,
+      "navOk": true,
+      "title": "Trending Skills - TrendingRepo — TrendingRepo",
+      "bodyChars": 120574,
+      "h1Count": 1,
+      "sidebarVisible": true,
+      "consoleErrorCount": 1,
+      "requestFailCount": 0,
+      "sampleConsoleError": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used: - A server/client branch `if (typeof window",
+      "sampleRequestFail": null,
+      "durationMs": 8960,
+      "error": null
+    },
+    {
+      "route": "/mcp",
+      "navStatus": 200,
+      "navOk": true,
+      "title": "Trending MCP - TrendingRepo — TrendingRepo",
+      "bodyChars": 31028,
+      "h1Count": 1,
+      "sidebarVisible": true,
+      "consoleErrorCount": 4,
+      "requestFailCount": 4,
+      "sampleConsoleError": "Failed to load resource: the server responded with a status of 404 ()",
+      "sampleRequestFail": {
+        "url": "https://github.com/rashforddamion.png?size=80",
+        "errorText": "net::ERR_BLOCKED_BY_ORB"
+      },
+      "durationMs": 4702,
+      "error": null
+    },
+    {
+      "route": "/agent-repos",
+      "navStatus": 200,
+      "navOk": true,
+      "title": "Agent Repos — TrendingRepo — TrendingRepo",
+      "bodyChars": 4764,
+      "h1Count": 1,
+      "sidebarVisible": true,
+      "consoleErrorCount": 0,
+      "requestFailCount": 1,
+      "sampleConsoleError": null,
+      "sampleRequestFail": {
+        "url": "http://localhost:3023/api/pipeline/sidebar-data",
+        "errorText": "net::ERR_ABORTED"
+      },
+      "durationMs": 3801,
+      "error": null
+    },
+    {
+      "route": "/breakouts",
+      "navStatus": 200,
+      "navOk": true,
+      "title": "Cross-Signal Breakouts — TrendingRepo",
+      "bodyChars": 1815,
+      "h1Count": 1,
+      "sidebarVisible": true,
+      "consoleErrorCount": 0,
+      "requestFailCount": 1,
+      "sampleConsoleError": null,
+      "sampleRequestFail": {
+        "url": "http://localhost:3023/api/pipeline/sidebar-data",
+        "errorText": "net::ERR_ABORTED"
+      },
+      "durationMs": 2872,
+      "error": null
+    }
+  ]
+}

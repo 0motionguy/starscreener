@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 type HealthStatus = "ok" | "stale" | "error";
@@ -74,33 +74,69 @@ export function formatAge(seconds: number | null): string {
   return `${d}d`;
 }
 
-const POLL_INTERVAL_MS = 60_000;
+export function buildBadgeLabel(status: HealthStatus, scraperAgeSeconds: number | null): string {
+  if (status === "error") return "--";
+  const age = formatAge(scraperAgeSeconds);
+  if (status === "stale") {
+    return age === "--" ? "STALE" : `STALE / ${age}`;
+  }
+  return age === "--" ? "LIVE" : `LIVE / ${age}`;
+}
+
+const POLL_INTERVAL_ERROR_MS = 30_000;
+const POLL_INTERVAL_STALE_MS = 60_000;
+const POLL_INTERVAL_FAST_SOURCE_OK_MS = 5 * 60_000;
+
+export function getPollIntervalMs(snap: HealthSnapshot | null): number {
+  if (snap === null) return POLL_INTERVAL_STALE_MS;
+  if (snap.status === "error") return POLL_INTERVAL_ERROR_MS;
+  if (snap.status === "stale") return POLL_INTERVAL_STALE_MS;
+  // Fastest source cadence on this badge is hourly (GitHub/Reddit/HN/Bluesky/Lobsters).
+  // Polling every 5 minutes is enough to catch freshness changes without 60s churn.
+  return POLL_INTERVAL_FAST_SOURCE_OK_MS;
+}
 
 export function FreshBadge() {
   const [snap, setSnap] = useState<HealthSnapshot | null>(null);
+  const latestSnapRef = useRef<HealthSnapshot | null>(null);
 
   useEffect(() => {
     let cancelled = false;
-    let timer: ReturnType<typeof setInterval> | null = null;
+    let timer: ReturnType<typeof setTimeout> | null = null;
 
     const tick = async () => {
+      if (typeof document !== "undefined" && document.hidden) return;
       try {
         const res = await fetch("/api/health?soft=1", { cache: "no-store" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
-        if (!cancelled) setSnap(normalizeHealth(json));
+        if (!cancelled) {
+          const nextSnap = normalizeHealth(json);
+          latestSnapRef.current = nextSnap;
+          setSnap(nextSnap);
+        }
       } catch {
         if (!cancelled) {
-          setSnap({ status: "error", ageSeconds: EMPTY_AGES });
+          const errorSnap = { status: "error", ageSeconds: EMPTY_AGES } satisfies HealthSnapshot;
+          latestSnapRef.current = errorSnap;
+          setSnap(errorSnap);
         }
+      }
+      if (!cancelled) {
+        timer = setTimeout(tick, getPollIntervalMs(latestSnapRef.current));
       }
     };
 
     tick();
-    timer = setInterval(tick, POLL_INTERVAL_MS);
+    const onVisibility = () => {
+      if (document.hidden) return;
+      void tick();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
     return () => {
       cancelled = true;
-      if (timer !== null) clearInterval(timer);
+      if (timer !== null) clearTimeout(timer);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
 
@@ -119,20 +155,20 @@ export function FreshBadge() {
   const { label, dotClass, textClass } = (() => {
     if (status === "error") {
       return {
-        label: "--",
+        label: buildBadgeLabel(status, scraperSec),
         dotClass: "bg-[var(--ink-500)]",
         textClass: "text-[var(--ink-500)]",
       };
     }
     if (status === "stale") {
       return {
-        label: `STALE / ${formatAge(scraperSec)}`,
+        label: buildBadgeLabel(status, scraperSec),
         dotClass: "bg-[var(--sig-amber)]",
         textClass: "text-[var(--sig-amber)]",
       };
     }
     return {
-      label: `LIVE / ${formatAge(scraperSec)}`,
+      label: buildBadgeLabel(status, scraperSec),
       dotClass: "bg-[var(--sig-green)]",
       textClass: "text-[var(--sig-green)]",
     };

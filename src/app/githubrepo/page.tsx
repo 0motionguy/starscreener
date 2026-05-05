@@ -1,14 +1,10 @@
-// /githubrepo — isolated trending-repos surface.
+// /githubrepo - isolated trending-repos surface.
 //
-// Strips the home page down to its three load-bearing pieces: the page-head
-// (title + refreshed clock), the 6-up MetricGrid stats, and the LiveTopTable
-// with category tabs. No consensus / breakout / featured / bubble map / FAQ —
-// just the list. Same data wiring as `/` so cards stay consistent.
-//
-// Inline JSON-LD (CollectionPage + ItemList + BreadcrumbList) anchors this
-// surface in structured data so crawlers don't fall back to the parent
-// homepage feed, plus an explicit per-page Metadata export with canonical /
-// OG / Twitter / robots so rich-result tooling has a complete head block.
+// Streaming SSR rewrite for AGN-624: render page shell immediately, then
+// stream metrics + top-50 table once data-store hydration resolves.
+
+import { Suspense } from "react";
+import type { Metadata } from "next";
 
 import type { Metadata } from "next";
 import { getDerivedRepos } from "@/lib/derived-repos";
@@ -21,16 +17,12 @@ import { refreshLobstersMentionsFromStore } from "@/lib/lobsters";
 import { refreshNpmFromStore } from "@/lib/npm";
 import { refreshHfModelsFromStore } from "@/lib/huggingface";
 import { refreshArxivFromStore } from "@/lib/arxiv";
-import { Card } from "@/components/ui/Card";
-import { Metric, MetricGrid } from "@/components/ui/Metric";
-import { FooterBar } from "@/components/ui/FooterBar";
-import { SectionHead } from "@/components/ui/SectionHead";
+import { LiveTopTable, type CategoryFacet, type LiveRow } from "@/components/home/LiveTopTable";
 import { MarkVisited } from "@/components/layout/MarkVisited";
-import {
-  LiveTopTable,
-  type CategoryFacet,
-  type LiveRow,
-} from "@/components/home/LiveTopTable";
+import { Card } from "@/components/ui/Card";
+import { FooterBar } from "@/components/ui/FooterBar";
+import { Metric, MetricGrid } from "@/components/ui/Metric";
+import { SectionHead } from "@/components/ui/SectionHead";
 import { CATEGORIES } from "@/lib/constants";
 import {
   SITE_NAME,
@@ -39,8 +31,54 @@ import {
   safeJsonLd,
 } from "@/lib/seo";
 import type { Repo } from "@/lib/types";
+import { SITE_NAME, absoluteUrl, safeJsonLd } from "@/lib/seo";
+import { getRepoWhy } from "@/lib/repo-why";
 
 export const revalidate = 60;
+const PAGE_PATH = "/githubrepo";
+const PAGE_TITLE = "Top 50 Trending GitHub Repos";
+const PAGE_DESCRIPTION =
+  "Live top 50 trending GitHub repositories ranked by momentum, star velocity, and cross-source agreement.";
+const OG_IMAGE = absoluteUrl("/og-card.png");
+
+export const metadata: Metadata = {
+  title: `${PAGE_TITLE} - ${SITE_NAME}`,
+  description: PAGE_DESCRIPTION,
+  alternates: { canonical: absoluteUrl(PAGE_PATH) },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    url: absoluteUrl(PAGE_PATH),
+    title: `${PAGE_TITLE} - ${SITE_NAME}`,
+    description: PAGE_DESCRIPTION,
+    siteName: SITE_NAME,
+    locale: "en_US",
+    images: [
+      {
+        url: OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: `${SITE_NAME} GitHub trending repositories`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${PAGE_TITLE} - ${SITE_NAME}`,
+    description: PAGE_DESCRIPTION,
+    images: [OG_IMAGE],
+  },
+};
 
 const PAGE_PATH = "/githubrepo";
 const PAGE_TITLE = "Top 50 trending GitHub repos — live";
@@ -104,189 +142,227 @@ function categoryLabel(repo: Repo): string {
   return CATEGORY_LABELS.get(repo.categoryId) ?? repo.language ?? "Repo";
 }
 
-export default async function GithubRepoPage() {
-  // Keep the LiveTopTable mention badges tied to the latest data-store
-  // payloads instead of stale bundled snapshots.
-  await Promise.all([
-    refreshTrendingFromStore(),
-    refreshRedditMentionsFromStore(),
-    refreshHackernewsMentionsFromStore(),
-    refreshBlueskyMentionsFromStore(),
-    refreshDevtoMentionsFromStore(),
-    refreshLobstersMentionsFromStore(),
-    refreshNpmFromStore(),
-    refreshHfModelsFromStore(),
-    refreshArxivFromStore(),
-  ]);
-
-  const repos = getDerivedRepos();
-
-  const liveRows = [...repos]
-    .sort((a, b) => b.momentumScore - a.momentumScore)
-    .slice(0, 50);
-  const liveTableRows: LiveRow[] = liveRows.map((repo) => {
-    const ps = repo.mentions?.perSource;
-    return {
-      id: repo.id,
-      fullName: repo.fullName,
-      owner: repo.owner,
-      name: repo.name,
-      href: `/repo/${repo.owner}/${repo.name}`,
-      categoryId: repo.categoryId,
-      categoryLabel: categoryLabel(repo),
-      language: repo.language ?? null,
-      stars: repo.stars,
-      starsDelta24h: repo.starsDelta24h,
-      starsDelta7d: repo.starsDelta7d,
-      starsDelta30d: repo.starsDelta30d,
-      forks: repo.forks,
-      sparklineData: repo.sparklineData,
-      momentumScore: repo.momentumScore,
-      mentionCount24h: repo.mentionCount24h ?? 0,
-      // Chip on/off uses the wider 7d window so slow-cadence sources
-      // (lobsters / npm / hf / arxiv / devto) actually fire on the row.
-      // 24h is too narrow for most non-twitter signals — the result was
-      // "8 chip slots, only github + twitter colored." Falls back to the
-      // 24h count when 7d is missing.
-      sources: {
-        gh: 1,
-        hn: ps?.hackernews.count7d ?? ps?.hackernews.count24h ?? 0,
-        r: ps?.reddit.count7d ?? ps?.reddit.count24h ?? 0,
-        b: ps?.bluesky.count7d ?? ps?.bluesky.count24h ?? 0,
-        d: ps?.devto.count7d ?? ps?.devto.count24h ?? 0,
-        lobsters: ps?.lobsters.count7d ?? ps?.lobsters.count24h ?? 0,
-        x: ps?.twitter.count7d ?? ps?.twitter.count24h ?? 0,
-        npm: ps?.npm.count7d ?? ps?.npm.count24h ?? 0,
-        hf: ps?.huggingface.count7d ?? ps?.huggingface.count24h ?? 0,
-        arxiv: ps?.arxiv.count7d ?? ps?.arxiv.count24h ?? 0,
-      },
-    };
-  });
-  const liveCategories: CategoryFacet[] = (() => {
-    const counts = new Map<string, number>();
-    for (const row of liveTableRows) {
-      counts.set(row.categoryId, (counts.get(row.categoryId) ?? 0) + 1);
-    }
-    return CATEGORIES.map((category) => ({
-      id: category.id,
-      label: category.shortName,
-      count: counts.get(category.id) ?? 0,
-    }))
-      .filter((category) => category.count > 0)
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 6);
-  })();
-
-  const refreshed = new Date(lastFetchedAt);
-  const refreshedTime = refreshed.toISOString().slice(11, 19);
-  const total24h = repos.reduce(
-    (sum, repo) => sum + Math.max(0, repo.starsDelta24h),
-    0,
+function PageHead({ refreshedTime }: { refreshedTime?: string }) {
+  return (
+    <section className="page-head">
+      <div>
+        <div className="crumb">
+          <b>TREND</b> / TERMINAL / GITHUB REPOS
+        </div>
+        <h1>Top 50 trending GitHub repos - right now.</h1>
+        <p className="lede">
+          The same momentum-ranked list you see on the front page, isolated
+          with stats and category tabs. No consensus / breakouts / featured /
+          charts - just the table.
+        </p>
+      </div>
+      <div
+        className="clock"
+        aria-label={
+          refreshedTime
+            ? `Data refreshed at ${refreshedTime} UTC`
+            : "Data refresh pending"
+        }
+      >
+        <span className="big">
+          {refreshedTime ? `${refreshedTime} UTC` : "syncing..."}
+        </span>
+      </div>
+    </section>
   );
-  const total7d = repos.reduce(
-    (sum, repo) => sum + Math.max(0, repo.starsDelta7d),
-    0,
-  );
-  const breakoutCount = repos.filter(
-    (r) => r.movementStatus === "rising" || r.movementStatus === "hot",
-  ).length;
-  const consensusCount = repos.filter(
-    (r) => (r.crossSignalScore ?? 0) >= 2,
-  ).length;
-  const topCategory = CATEGORIES.map((category) => ({
-    label: category.shortName,
-    delta: repos
-      .filter((repo) => repo.categoryId === category.id)
-      .reduce((sum, repo) => sum + Math.max(0, repo.starsDelta24h), 0),
-  })).sort((a, b) => b.delta - a.delta)[0];
+}
 
-  // Top 20 of the visible 50 — keeps the structured-data payload bounded
-  // while still giving crawlers a meaningful ItemList to anchor against.
-  const itemListTop = liveRows.slice(0, 20);
-  const pageUrl = absoluteUrl(PAGE_PATH);
-
+function LoadingShell() {
   return (
     <>
-      <MarkVisited routeKey="trendingRepos" count={repos.length} />
-      {/* CollectionPage + ItemList JSON-LD — declares this page is a
-          curated list of trending GitHub repos and enumerates the top 20
-          so structured-data rich results can pick them up. */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: safeJsonLd({
-            "@context": "https://schema.org",
-            "@type": "CollectionPage",
-            "@id": `${SITE_URL}${PAGE_PATH}#page`,
-            name: PAGE_OG_TITLE,
-            description: PAGE_DESCRIPTION,
-            url: pageUrl,
-            inLanguage: "en-US",
-            isPartOf: {
-              "@type": "WebSite",
-              name: SITE_NAME,
-              url: SITE_URL,
-            },
-            dateModified: new Date(lastFetchedAt).toISOString(),
-            mainEntity: {
-              "@type": "ItemList",
-              numberOfItems: itemListTop.length,
-              itemListOrder: "https://schema.org/ItemListOrderDescending",
-              itemListElement: itemListTop.map((repo, i) => ({
-                "@type": "ListItem",
-                position: i + 1,
-                url: absoluteUrl(`/repo/${repo.owner}/${repo.name}`),
-                name: repo.fullName,
-              })),
-            },
-          }),
-        }}
+      <PageHead />
+      <MetricGrid columns={6}>
+        <Metric label="tracked repos" value="..." sub="loading" />
+        <Metric label="24h stars" value="..." sub="loading" />
+        <Metric label="7d stars" value="..." sub="loading" />
+        <Metric label="consensus" value="..." sub="loading" />
+        <Metric label="breakouts" value="..." sub="loading" />
+        <Metric label="top category" value="..." sub="loading" />
+      </MetricGrid>
+
+      <SectionHead
+        num="// 01"
+        title="Live / top 50"
+        meta={
+          <>
+            <b>...</b> / loading
+          </>
+        }
       />
-      {/* BreadcrumbList JSON-LD — Home -> GitHub repos so crawlers can
-          attach this surface to the canonical home anchor. */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: safeJsonLd({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: absoluteUrl("/"),
-              },
-              {
-                "@type": "ListItem",
-                position: 2,
-                name: "GitHub repos",
-                item: pageUrl,
-              },
-            ],
-          }),
-        }}
-      />
-      <div className="home-surface">
-        <section className="page-head">
-          <div>
-            <div className="crumb">
-              <b>TREND</b> / TERMINAL / GITHUB REPOS
-            </div>
-            <h1>Top 50 trending GitHub repos — right now.</h1>
-            <p className="lede">
-              The same momentum-ranked list you see on the front page, isolated
-              with stats and category tabs. No consensus / breakouts / featured
-              / charts — just the table.
-            </p>
-          </div>
-          <div
-            className="clock"
-            aria-label={`Data refreshed at ${refreshedTime} UTC`}
-          >
-            <span className="big">{refreshedTime} UTC</span>
-          </div>
-        </section>
+      <Card>
+        <div className="p-6 text-sm text-[var(--v3-ink-400)]">
+          Loading top 50 rows...
+        </div>
+      </Card>
+    </>
+  );
+}
+
+function ErrorShell({ message }: { message: string }) {
+  return (
+    <Card>
+      <div className="p-6 text-sm">
+        <p className="font-semibold text-[var(--v3-neg)]">Failed to load top 50.</p>
+        <p className="mt-2 text-[var(--v3-ink-400)]">{message}</p>
+      </div>
+    </Card>
+  );
+}
+
+function EmptyShell() {
+  return (
+    <Card>
+      <div className="p-6 text-sm text-[var(--v3-ink-400)]">
+        No repos are available right now. Refresh after the next data-store sync.
+      </div>
+    </Card>
+  );
+}
+
+export default function GithubRepoPage() {
+  return (
+    <div className="home-surface">
+      <Suspense fallback={<LoadingShell />}>
+        <GithubRepoTop50Stream />
+      </Suspense>
+    </div>
+  );
+}
+
+function buildTop50WhyNarrative(rows: LiveRow[]): string {
+  if (rows.length === 0) {
+    return "No trending repos are available in this cycle.";
+  }
+  const top = rows[0];
+  const breakoutLike = rows.filter((r) => r.starsDelta24h > 0 && r.momentumScore >= 70).length;
+  const consensusLike = rows.filter((r) => r.mentionCount24h > 0).length;
+  const total24h = rows.reduce((sum, r) => sum + Math.max(0, r.starsDelta24h), 0);
+  const leadCategory = (() => {
+    const counts = new Map<string, number>();
+    for (const row of rows) counts.set(row.categoryLabel, (counts.get(row.categoryLabel) ?? 0) + 1);
+    return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "mixed";
+  })();
+  return `${top.fullName} leads the live board. The top 50 gained ${formatCompact(total24h)} stars in 24h, with ${breakoutLike} high-momentum movers and ${consensusLike} repos showing active mention flow. ${leadCategory} is the largest category in this snapshot.`;
+}
+
+async function GithubRepoTop50Stream() {
+  try {
+    await Promise.all([
+      refreshTrendingFromStore(),
+      refreshRedditMentionsFromStore(),
+      refreshHackernewsMentionsFromStore(),
+      refreshBlueskyMentionsFromStore(),
+      refreshDevtoMentionsFromStore(),
+      refreshLobstersMentionsFromStore(),
+      refreshNpmFromStore(),
+      refreshHfModelsFromStore(),
+      refreshArxivFromStore(),
+    ]);
+
+    const repos = getDerivedRepos();
+    if (repos.length === 0) {
+      return (
+        <>
+          <PageHead />
+          <EmptyShell />
+          <FooterBar meta="// TRENDINGREPO / githubrepo / serial 0" actions="DATA / n/a" />
+        </>
+      );
+    }
+
+    const liveRows = [...repos]
+      .sort((a, b) => b.momentumScore - a.momentumScore)
+      .slice(0, 50);
+
+    const liveTableRows: LiveRow[] = await Promise.all(
+      liveRows.map(async (repo) => {
+        const ps = repo.mentions?.perSource;
+        const why = await getRepoWhy(repo.owner, repo.name);
+        return {
+          id: repo.id,
+          fullName: repo.fullName,
+          owner: repo.owner,
+          name: repo.name,
+          href: `/repo/${repo.owner}/${repo.name}`,
+          categoryId: repo.categoryId,
+          categoryLabel: categoryLabel(repo),
+          language: repo.language ?? null,
+          stars: repo.stars,
+          starsDelta24h: repo.starsDelta24h,
+          starsDelta7d: repo.starsDelta7d,
+          starsDelta30d: repo.starsDelta30d,
+          forks: repo.forks,
+          sparklineData: repo.sparklineData,
+          momentumScore: repo.momentumScore,
+          mentionCount24h: repo.mentionCount24h ?? 0,
+          lastCommitAt: repo.lastCommitAt ?? null,
+          whyLine: why?.line ?? null,
+          whySignal: why?.signal ?? null,
+          sources: {
+            gh: 1,
+            hn: ps?.hackernews.count7d ?? ps?.hackernews.count24h ?? 0,
+            r: ps?.reddit.count7d ?? ps?.reddit.count24h ?? 0,
+            b: ps?.bluesky.count7d ?? ps?.bluesky.count24h ?? 0,
+            d: ps?.devto.count7d ?? ps?.devto.count24h ?? 0,
+            lobsters: ps?.lobsters.count7d ?? ps?.lobsters.count24h ?? 0,
+            x: ps?.twitter.count7d ?? ps?.twitter.count24h ?? 0,
+            npm: ps?.npm.count7d ?? ps?.npm.count24h ?? 0,
+            hf: ps?.huggingface.count7d ?? ps?.huggingface.count24h ?? 0,
+            arxiv: ps?.arxiv.count7d ?? ps?.arxiv.count24h ?? 0,
+          },
+        };
+      }),
+    );
+
+    const liveCategories: CategoryFacet[] = (() => {
+      const counts = new Map<string, number>();
+      for (const row of liveTableRows) {
+        counts.set(row.categoryId, (counts.get(row.categoryId) ?? 0) + 1);
+      }
+      return CATEGORIES.map((category) => ({
+        id: category.id,
+        label: category.shortName,
+        count: counts.get(category.id) ?? 0,
+      }))
+        .filter((category) => category.count > 0)
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 6);
+    })();
+
+    const refreshed = new Date(lastFetchedAt);
+    const refreshedTime = refreshed.toISOString().slice(11, 19);
+    const total24h = repos.reduce(
+      (sum, repo) => sum + Math.max(0, repo.starsDelta24h),
+      0,
+    );
+    const total7d = repos.reduce(
+      (sum, repo) => sum + Math.max(0, repo.starsDelta7d),
+      0,
+    );
+    const breakoutCount = repos.filter(
+      (r) => r.movementStatus === "rising" || r.movementStatus === "hot",
+    ).length;
+    const consensusCount = repos.filter(
+      (r) => (r.crossSignalScore ?? 0) >= 2,
+    ).length;
+    const topCategory = CATEGORIES.map((category) => ({
+      label: category.shortName,
+      delta: repos
+        .filter((repo) => repo.categoryId === category.id)
+        .reduce((sum, repo) => sum + Math.max(0, repo.starsDelta24h), 0),
+    })).sort((a, b) => b.delta - a.delta)[0];
+    const whyNarrative = buildTop50WhyNarrative(liveTableRows);
+    const itemListTop = liveRows.slice(0, 50);
+
+    return (
+      <>
+        <MarkVisited routeKey="trendingRepos" count={repos.length} />
+        <PageHead refreshedTime={refreshedTime} />
 
         <MetricGrid columns={6}>
           <Metric
@@ -336,12 +412,58 @@ export default async function GithubRepoPage() {
         <Card>
           <LiveTopTable rows={liveTableRows} categories={liveCategories} />
         </Card>
-      </div>
+        <Card className="mt-4">
+          <div className="p-6 text-sm text-[var(--v3-ink-300)]">
+            <p className="mb-2 font-semibold text-[var(--v3-ink-100)]">Why these repos are trending</p>
+            <p>{whyNarrative}</p>
+          </div>
+        </Card>
 
-      <FooterBar
-        meta={`// TRENDINGREPO / githubrepo / serial ${repos.length}`}
-        actions={`DATA / ${refreshedTime} UTC`}
-      />
-    </>
-  );
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: safeJsonLd({
+              "@context": "https://schema.org",
+              "@type": "CollectionPage",
+              "@id": `${absoluteUrl(PAGE_PATH)}#collection`,
+              name: `${PAGE_TITLE} - ${SITE_NAME}`,
+              url: absoluteUrl(PAGE_PATH),
+              description: PAGE_DESCRIPTION,
+              dateModified: refreshed.toISOString(),
+              abstract: whyNarrative,
+              mainEntity: {
+                "@type": "ItemList",
+                numberOfItems: itemListTop.length,
+                itemListOrder: "https://schema.org/ItemListOrderDescending",
+                itemListElement: itemListTop.map((repo, i) => ({
+                  "@type": "ListItem",
+                  position: i + 1,
+                  name: repo.fullName,
+                  url: absoluteUrl(`/repo/${repo.owner}/${repo.name}`),
+                })),
+              },
+            }),
+          }}
+        />
+
+        <FooterBar
+          meta={`// TRENDINGREPO / githubrepo / serial ${repos.length}`}
+          actions={`DATA / ${refreshedTime} UTC`}
+        />
+      </>
+    );
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Unknown server error";
+    return (
+      <>
+        <PageHead />
+        <ErrorShell message={message} />
+        <FooterBar
+          meta="// TRENDINGREPO / githubrepo / serial error"
+          actions="DATA / unavailable"
+        />
+      </>
+    );
+  }
 }

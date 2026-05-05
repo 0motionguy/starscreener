@@ -1,0 +1,78 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MentionEvidenceCard snapshot > renders stable mention evidence markup 1`] = `
+<article
+  class="v4-mention-row v4-mention-row--hn"
+>
+  <div
+    class="v4-mention-row__avatar"
+  >
+    <span
+      aria-label="HN source"
+      class="v4-source-pip v4-source-pip--lg v4-source-pip--hn"
+    >
+      HN
+    </span>
+  </div>
+  <div
+    class="v4-mention-row__body"
+  >
+    <header
+      class="v4-mention-row__head"
+    >
+      <span
+        class="v4-mention-row__author"
+      >
+        Ada
+      </span>
+      <span
+        class="v4-mention-row__handle"
+      >
+        @ada
+      </span>
+      <span
+        class="v4-mention-row__source"
+      >
+        HN
+      </span>
+      <span
+        class="v4-mention-row__ts"
+      >
+        2h ago
+      </span>
+    </header>
+    <div
+      class="v4-mention-row__text"
+    >
+      Launch thread crossed front page.
+    </div>
+    <footer
+      class="v4-mention-row__meta"
+    >
+      <span
+        class="v4-mention-row__stat v4-mention-row__stat--up"
+      >
+        ? 412
+      </span>
+      <span
+        class="v4-mention-row__stat v4-mention-row__stat--down"
+      >
+        ? 12
+      </span>
+      <span
+        class="v4-mention-row__url"
+      >
+        news.ycombinator.com/item?id=123
+      </span>
+    </footer>
+  </div>
+  <a
+    class="v4-mention-row__open"
+    href="https://news.ycombinator.com/item?id=123"
+    rel="noopener"
+    target="_blank"
+  >
+    → OPEN
+  </a>
+</article>
+`;

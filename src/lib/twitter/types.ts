@@ -432,3 +432,14 @@ export interface TwitterOverviewStats {
   topRepoFullName: string | null;
   topRepoScore: number | null;
 }
+
+export interface TwitterTopMentioner {
+  authorHandle: string;
+  avatarUrl: string | null;
+  profileUrl: string;
+  mentionCount7d: number;
+  engagement7d: number;
+  topPostUrl: string | null;
+  topRepoFullName: string | null;
+  lastPostedAt: string | null;
+}

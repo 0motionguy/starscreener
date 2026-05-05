@@ -2,6 +2,7 @@ import { FooterBar, FooterLink } from "@/components/ui/FooterBar";
 
 const FOOTER_LINKS = [
   { href: "/about", label: "About", external: false },
+  { href: "/status", label: "Status", external: false },
   { href: "/privacy", label: "Privacy", external: false },
   { href: "/terms", label: "Terms", external: false },
   { href: "/about#contact", label: "Contact", external: false },

@@ -9,6 +9,7 @@ import { GET as getFreshnessState, type FreshnessStateResponse } from "@/app/api
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { getDataStore } from "@/lib/data-store";
 import { OpsAlertFatalError } from "@/lib/errors";
+import { keys } from "@/lib/redis/keys";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -106,10 +107,10 @@ async function writeRecoveryRecord(record: RecoveryRecord): Promise<void> {
   if (!redis) return;
 
   const serialized = JSON.stringify(record);
-  const eventKey = `recovery:${record.source}:${record.attemptAt}`;
-  const lastKey = `recovery:last:${record.source}`;
-  const attemptKey = `recovery:last-attempt:${record.source}`;
-  const streakKey = `recovery:streak:${record.source}`;
+  const eventKey = keys.recovery.event(record.source, record.attemptAt);
+  const lastKey = keys.recovery.last(record.source);
+  const attemptKey = keys.recovery.lastAttempt(record.source);
+  const streakKey = keys.recovery.streak(record.source);
 
   let streak = 0;
   const previousRaw = await redis.get(streakKey).catch(() => null);
@@ -175,7 +176,7 @@ export async function POST(request: NextRequest) {
       continue;
     }
 
-    const lastAttemptKey = `recovery:last-attempt:${source.name}`;
+    const lastAttemptKey = keys.recovery.lastAttempt(source.name);
     const lastAttemptRaw = redis ? await redis.get(lastAttemptKey).catch(() => null) : null;
     const lastAttemptMs = parseDate(toStringOrNull(lastAttemptRaw));
     if (lastAttemptMs !== null && now - lastAttemptMs < ATTEMPT_THROTTLE_MS) {

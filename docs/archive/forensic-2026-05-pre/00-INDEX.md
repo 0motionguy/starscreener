@@ -347,6 +347,10 @@ report directory so the session-opening protocol has a stable path.
 - [AGN-1541 productivity review AGN-1019 heartbeat (2026-05-05)](./AGN-1541-PRODUCTIVITY-REVIEW-AGN-1019-2026-05-05.md)
 - [AGN-1545 productivity review AGN-336 blocked heartbeat (2026-05-05)](./AGN-1545-PRODUCTIVITY-REVIEW-AGN-336-BLOCKED-2026-05-05.md)
 - [AGN-1569 productivity review AGN-708 heartbeat (2026-05-05)](./AGN-1569-PRODUCTIVITY-REVIEW-AGN-708-2026-05-05.md)
+- [AGN-1586 productivity review AGN-1204 heartbeat (2026-05-05)](./AGN-1586-REVIEW-PRODUCTIVITY-AGN-1204-2026-05-05.md)
+- [AGN-1560 productivity review AGN-703 heartbeat (2026-05-05)](./AGN-1560-REVIEW-PRODUCTIVITY-AGN-703-2026-05-05.md)
+- [AGN-1560 final status marker (2026-05-05)](./AGN-1560-FINAL-STATUS-MARKER-2026-05-05.md)
+- [AGN-1560 control-plane blocker probe (2026-05-05)](./AGN-1560-CONTROL-PLANE-BLOCKER-PROBE-2026-05-05.md)
 
 - [AGN-1546 Frontend silent active run review (2026-05-05)](./AGN-1546-FRONTEND-SILENT-ACTIVE-RUN-REVIEW-2026-05-05.md)
 

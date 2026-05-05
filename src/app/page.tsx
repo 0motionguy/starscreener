@@ -52,6 +52,7 @@ import {
 } from "@/lib/seo";
 import type { Metadata } from "next";
 import { preloadTopLcpImages } from "@/lib/lcp-preload";
+import { CriticalRouteStyles } from "@/components/layout/CriticalRouteStyles";
 
 // ISR: homepage payload is recomputed from cached store-backed snapshots.
 // A short revalidate window keeps visible freshness markers closer to current
@@ -875,6 +876,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <CriticalRouteStyles route="home" />
       <div className="home-surface">
         <section className="page-head">
           <div>

@@ -6,6 +6,7 @@ import { getDerivedRepos } from "@/lib/derived-repos";
 import { getDataStore } from "@/lib/data-store";
 import { absoluteUrl } from "@/lib/seo";
 import { getRepoDeltaWindowValue, refreshTrendingFromStore } from "@/lib/trending";
+import { CriticalRouteStyles } from "@/components/layout/CriticalRouteStyles";
 
 type TrendWindow = "1h" | "6h" | "24h" | "7d";
 
@@ -140,28 +141,31 @@ export default async function TrendingPage({ searchParams }: TrendingPageProps) 
   })();
 
   return (
-    <main className="home-surface terminal-page">
-      <section className="page-head">
-        <div>
-          <div className="crumb">
-            <b>TREND</b> / TERMINAL / WINDOWED
+    <>
+      <CriticalRouteStyles route="trending" />
+      <main className="home-surface terminal-page">
+        <section className="page-head">
+          <div>
+            <div className="crumb">
+              <b>TREND</b> / TERMINAL / WINDOWED
+            </div>
+            <h1>Trending repos by time window.</h1>
+            <p className="lede">
+              Switch between 1h, 6h, 24h, and 7d windows. Default is 24h.
+            </p>
           </div>
-          <h1>Trending repos by time window.</h1>
-          <p className="lede">
-            Switch between 1h, 6h, 24h, and 7d windows. Default is 24h.
-          </p>
-        </div>
-        <div className="clock">
-          <span className="big">{activeWindow}</span>
-          <span className="live">active window</span>
-        </div>
-      </section>
-      <LiveTopTable
-        rows={rows}
-        categories={categories}
-        defaultWindow={activeWindow}
-        syncWindowQuery
-      />
-    </main>
+          <div className="clock">
+            <span className="big">{activeWindow}</span>
+            <span className="live">active window</span>
+          </div>
+        </section>
+        <LiveTopTable
+          rows={rows}
+          categories={categories}
+          defaultWindow={activeWindow}
+          syncWindowQuery
+        />
+      </main>
+    </>
   );
 }

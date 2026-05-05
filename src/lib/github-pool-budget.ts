@@ -2,6 +2,7 @@ import * as Sentry from "@sentry/nextjs";
 
 import { readAggregatePoolState } from "@/lib/github-token-pool-aggregate";
 import { redis } from "@/lib/redis";
+import { keys } from "@/lib/redis/keys";
 
 const DEFAULT_LIMIT_PER_TOKEN = 5_000;
 const ROLLING_WINDOW_MS = 15 * 60 * 1000;
@@ -42,11 +43,11 @@ let redisClient: RedisLike = redis as unknown as RedisLike;
 let sentryCaptureMessage: typeof Sentry.captureMessage = Sentry.captureMessage;
 
 function sampleKey(): string {
-  return "pool:github:budget:used:samples";
+  return keys.pool.github.budgetSamples();
 }
 
 function alertedAtKey(): string {
-  return "pool:github:budget:used:alerted-at";
+  return keys.pool.github.budgetAlertedAt();
 }
 
 function clampPct(value: number): number {

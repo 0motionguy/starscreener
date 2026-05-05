@@ -17,8 +17,8 @@ Give every new Paperclip agent a single, mandatory startup checklist so work sta
    - `CLAUDE.md`
    - `docs/ENGINE.md`
    - `docs/SITE-WIREMAP.md`
-   - `docs/AUDIT-2026-05-04.md`
-   - `docs/forensic/00-INDEX.md`
+   - `docs/archive/AUDIT-2026-05-04.md`
+   - `docs/archive/forensic-2026-05-pre/00-INDEX.md`
    - `tasks/CURRENT-SPRINT.md`
    - `tasks/BACKLOG.md`
 3. Run freshness gate:

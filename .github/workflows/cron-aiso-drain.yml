@@ -43,7 +43,7 @@ jobs:
       - name: POST /api/cron/aiso-drain + emit PostHog ops event
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
-          POSTHOG_KEY: phc_oDeVTBdCyqdoepUZRiLL7a6DanRzuZ33Td2UdLfBqwMz
+          POSTHOG_KEY: ${{ secrets.POSTHOG_KEY }}
         run: |
           if [ -z "$CRON_SECRET" ]; then
             echo "::error::CRON_SECRET is unset — refusing to fire unauthenticated"

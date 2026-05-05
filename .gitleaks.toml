@@ -1,0 +1,10 @@
+# .gitleaks.toml — Gitleaks configuration for starscreener
+# Allowlist historical findings that pre-date this config.
+
+[allowlist]
+  description = "Historical findings resolved in current HEAD"
+  commits = [
+    # POSTHOG_KEY was hardcoded in cron-aiso-drain.yml in this commit;
+    # replaced with ${{ secrets.POSTHOG_KEY }} in a subsequent fix commit.
+    "0359c50dbcd3865861dc03cd7295458e2524309b",
+  ]

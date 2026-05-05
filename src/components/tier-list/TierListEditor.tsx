@@ -5,6 +5,7 @@
 // Hydrates the Zustand store from URL state, then hosts the title input,
 // search box, drag-drop board, and share/export controls.
 
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 import { useTierListEditor, type PoolItem } from "@/lib/tier-list/client-store";
@@ -109,6 +110,7 @@ export function TierListEditor({ initial }: TierListEditorProps) {
           </div>
         </div>
 
+        {totalCount === 0 ? <TierListZeroState /> : null}
         <TierBoard />
       </section>
 
@@ -118,6 +120,69 @@ export function TierListEditor({ initial }: TierListEditorProps) {
       </aside>
 
       <MobileTierPicker />
+    </div>
+  );
+}
+
+// AGN-1439 — branded 0-lists empty state.
+//
+// Renders ABOVE the (still-visible) TierBoard whenever the editor is
+// fully empty (no pool items, no tier items). Operators land on
+// /tierlist with no preset, so a blank board is the default first
+// impression. This banner gives them three real one-click starts:
+// Templates anchor (scrolls the TemplatePicker into view), the search
+// box (focuses for repo lookup), and a Compare exit. Matches the
+// SearchSuggestions pattern from AGN-608 (chip groups + monospace
+// labels + ghost buttons) so the surface feels coherent.
+function TierListZeroState() {
+  const focusSearch = () => {
+    if (typeof document === "undefined") return;
+    const input = document.querySelector<HTMLInputElement>(
+      ".tier-toolbar input[type='search'], .tier-toolbar input[type='text']",
+    );
+    if (input) {
+      input.focus();
+      input.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
+  const scrollToTemplates = () => {
+    if (typeof document === "undefined") return;
+    const label = document.querySelector(".tier-template-label");
+    if (label) {
+      label.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
+  return (
+    <div className="tierlist-zero" role="status">
+      <div className="tierlist-zero-head">
+        <span className="tierlist-zero-eyebrow">{"// 00 — empty board"}</span>
+        <h3>Your tier list is empty.</h3>
+        <p>
+          Pick a builder template, search the AI-repo index, or paste a shared
+          link. Drag rows into S–F, rename tiers, then export the card.
+        </p>
+      </div>
+      <div className="tierlist-zero-actions">
+        <button
+          type="button"
+          onClick={scrollToTemplates}
+          className="v2-btn v2-btn-primary"
+        >
+          Pick a template
+        </button>
+        <button
+          type="button"
+          onClick={focusSearch}
+          className="v2-btn v2-btn-ghost"
+        >
+          Add your first repo
+        </button>
+        <Link href="/compare" className="v2-btn v2-btn-ghost">
+          Compare instead
+        </Link>
+      </div>
     </div>
   );
 }

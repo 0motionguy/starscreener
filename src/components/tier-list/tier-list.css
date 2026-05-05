@@ -538,3 +538,65 @@
     grid-template-columns: 58px minmax(0, 1fr);
   }
 }
+
+/* AGN-1439 — Branded 0-lists empty state.
+   Sits above the still-visible board to anchor first-time visitors.
+   Border-dashed convention matches `.ac-empty` so the empty surface
+   reads consistently across /tierlist and /agent-commerce. */
+.tierlist-zero {
+  margin: 12px 12px 0;
+  padding: 22px 20px;
+  border: 1px dashed var(--line-200);
+  background: var(--bg-025);
+  display: grid;
+  gap: 14px;
+  text-align: center;
+}
+
+.tierlist-zero-head {
+  display: grid;
+  gap: 6px;
+}
+
+.tierlist-zero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-micro);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-400);
+}
+
+.tierlist-zero h3 {
+  margin: 0;
+  font-size: 16px;
+  color: var(--ink-000);
+}
+
+.tierlist-zero p {
+  margin: 0 auto;
+  max-width: 520px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink-300);
+}
+
+.tierlist-zero-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+@media (max-width: 760px) {
+  .tierlist-zero {
+    padding: 18px 14px;
+  }
+
+  .tierlist-zero-actions {
+    width: 100%;
+  }
+
+  .tierlist-zero-actions .v2-btn {
+    flex: 1 1 auto;
+  }
+}

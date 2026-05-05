@@ -648,13 +648,35 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
         baseQuery={baseQuery}
       />
 
-      {cold ? (
-        <div className="ac-empty">
-          <h2>Agent Commerce snapshot warming up.</h2>
+      {cold || stats.totalItems === 0 ? (
+        // AGN-1439 — branded 0-agents empty state. Replaces the previous
+        // dev-only "warming up" hint with a public-facing explainer + a
+        // Submit CTA so visitors who land before the index has populated
+        // (cold cache) or after a wiped snapshot can still take an
+        // action. The dev `npm run build:agent-commerce` hint remains
+        // visible for local devs but is demoted to a footnote.
+        <div className="ac-empty ac-empty-zero">
+          <h2>The Agent Commerce radar is empty.</h2>
           <p>
-            Run <code>npm run build:agent-commerce</code> to populate{" "}
-            <code>data/agent-commerce.json</code>.
+            We index x402 services, agent wallets, MCP servers, and
+            agent-callable APIs as they ship. None are tracked yet — be
+            the first to drop one in.
           </p>
+          <div className="ac-empty-actions">
+            <Link href="/submit" className="v2-btn v2-btn-primary">
+              Submit an agent service
+            </Link>
+            <Link href="/funding" className="v2-btn v2-btn-ghost">
+              Browse funding instead
+            </Link>
+          </div>
+          {cold && (
+            <p className="ac-empty-foot">
+              <span>{"// dev"}</span> run{" "}
+              <code>npm run build:agent-commerce</code> to populate{" "}
+              <code>data/agent-commerce.json</code>.
+            </p>
+          )}
         </div>
       ) : (
         <>

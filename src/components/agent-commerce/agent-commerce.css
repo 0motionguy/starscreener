@@ -581,3 +581,37 @@
   margin: 0;
   font-size: 13px;
 }
+
+/* AGN-1439 — Zero-agents branded variant.
+   Adds spacing for the action row + a demoted dev footnote so the
+   empty state is operator-friendly without losing the local dev hint. */
+.ac-empty-zero {
+  padding: 56px 40px;
+}
+
+.ac-empty-zero p {
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.55;
+}
+
+.ac-empty-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.ac-empty-foot {
+  margin-top: 18px !important;
+  font-size: 11px !important;
+  color: var(--color-text-muted, var(--color-text-subtle));
+  opacity: 0.75;
+}
+
+.ac-empty-foot span {
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  margin-right: 6px;
+}

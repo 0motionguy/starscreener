@@ -277,12 +277,93 @@ function buildParams(
   return params;
 }
 
+export interface TrendingRowsDto {
+  tab: TrendingTab;
+  rows: RedditAllPost[];
+  counts: Record<TrendingTab, number>;
+  totalItems: number;
+  totalPages: number;
+  activePage: number;
+  topicPoolSize: number;
+  chipCounts: Record<string, number>;
+  hiddenCount: number;
+  velocityP90: number;
+  velocityStats: VelocityStats;
+}
+
+export function buildTrendingRowsDto(
+  posts: RedditAllPost[],
+  searchParams?: Record<string, string | string[] | undefined>,
+): TrendingRowsDto {
+  const params = buildParams(searchParams);
+  const activeTab = dto?.tab ?? parseTab(params.get("tab"));
+  const requestedPage = parsePage(params.get("page"));
+  const activeTopic = params.get("topic") ?? "";
+  const activeChips = parseActiveChips(params.get("tags"));
+  const showAll = params.get("showAll") === "1";
+  const nowMs = Date.now();
+
+  const topicFiltered = activeTopic
+    ? posts.filter((p) => postMatchesTopic(p, activeTopic))
+    : posts;
+
+  const chipCounts: Record<string, number> = {};
+  for (const chip of CONTENT_CHIPS) {
+    chipCounts[chip.key] = topicFiltered.filter((p) =>
+      Array.isArray(p.content_tags) && p.content_tags.includes(chip.contentTag),
+    ).length;
+  }
+  const hiddenCount = topicFiltered.filter((p) => (p.value_score ?? 0) < 1).length;
+
+  const defaultFilterWouldHideAll =
+    activeChips.size === 0 &&
+    !showAll &&
+    topicFiltered.length > 0 &&
+    topicFiltered.filter((p) => (p.value_score ?? 0) >= 1).length === 0;
+  const effectiveShowAll = showAll || defaultFilterWouldHideAll;
+  const chipFiltered = applyChipFilter(topicFiltered, activeChips, effectiveShowAll);
+
+  const byTab: Record<TrendingTab, RedditAllPost[]> = {
+    "trending-now": sortTrendingNow(filterByWindow(chipFiltered, 24, nowMs)),
+    "hot-7d": sortHot7d(filterByWindow(chipFiltered, 168, nowMs)),
+    "hot-30d": sortHot7d(filterByWindow(chipFiltered, 30 * 24, nowMs)),
+    "by-subreddit": filterByWindow(chipFiltered, 168, nowMs),
+  };
+  const filtered = byTab[activeTab];
+  const totalItems = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / POSTS_PER_PAGE));
+  const activePage = Math.min(requestedPage, totalPages);
+  const pageStart = (activePage - 1) * POSTS_PER_PAGE;
+  const rows = filtered.slice(pageStart, pageStart + POSTS_PER_PAGE);
+
+  return {
+    tab: activeTab,
+    rows,
+    counts: {
+      "trending-now": byTab["trending-now"].length,
+      "hot-7d": byTab["hot-7d"].length,
+      "hot-30d": byTab["hot-30d"].length,
+      "by-subreddit": byTab["by-subreddit"].length,
+    },
+    totalItems,
+    totalPages,
+    activePage,
+    topicPoolSize: topicFiltered.length,
+    chipCounts,
+    hiddenCount,
+    velocityP90: computeTrendingP90(rows),
+    velocityStats: computeVelocityStats(rows),
+  };
+}
+
 export function AllTrendingTabs({
   posts,
+  dto,
   searchParams,
   pathname = "/reddit/trending",
 }: {
-  posts: RedditAllPost[];
+  posts?: RedditAllPost[];
+  dto?: TrendingRowsDto;
   searchParams?: Record<string, string | string[] | undefined>;
   pathname?: string;
 }) {
@@ -302,8 +383,8 @@ export function AllTrendingTabs({
   const topicFiltered = useMemo(
     () =>
       activeTopic
-        ? posts.filter((p) => postMatchesTopic(p, activeTopic))
-        : posts,
+        ? (posts ?? []).filter((p) => postMatchesTopic(p, activeTopic))
+        : (posts ?? []),
     [posts, activeTopic],
   );
 
@@ -311,6 +392,7 @@ export function AllTrendingTabs({
   // below are computed off the pool AFTER topic filter but BEFORE chip
   // selection so toggling a chip doesn't zero out its own count.
   const chipCounts = useMemo(() => {
+    if (dto) return dto.chipCounts;
     const counts: Record<string, number> = {};
     for (const chip of CONTENT_CHIPS) {
       counts[chip.key] = topicFiltered.filter((p) =>
@@ -318,12 +400,12 @@ export function AllTrendingTabs({
       ).length;
     }
     return counts;
-  }, [topicFiltered]);
+  }, [dto, topicFiltered]);
 
-  const hiddenCount = useMemo(
-    () => topicFiltered.filter((p) => (p.value_score ?? 0) < 1).length,
-    [topicFiltered],
-  );
+  const hiddenCount = useMemo(() => {
+    if (dto) return dto.hiddenCount;
+    return topicFiltered.filter((p) => (p.value_score ?? 0) < 1).length;
+  }, [dto, topicFiltered]);
 
   // Auto-degrade: when the chip filter is in default state (no chips +
   // showAll off) and that default would zero out the visible feed (the
@@ -340,6 +422,7 @@ export function AllTrendingTabs({
   const effectiveShowAll = showAll || defaultFilterWouldHideAll;
 
   const filtered = useMemo(() => {
+    if (dto) return dto.rows;
     const chipFiltered = applyChipFilter(
       topicFiltered,
       activeChips,
@@ -355,12 +438,12 @@ export function AllTrendingTabs({
       case "by-subreddit":
         return filterByWindow(chipFiltered, 168, nowMs);
     }
-  }, [activeTab, topicFiltered, activeChips, effectiveShowAll, nowMs]);
-  const totalItems = filtered.length;
-  const totalPages = Math.max(1, Math.ceil(totalItems / POSTS_PER_PAGE));
-  const activePage = Math.min(requestedPage, totalPages);
+  }, [dto, activeTab, topicFiltered, activeChips, effectiveShowAll, nowMs]);
+  const totalItems = dto?.totalItems ?? filtered.length;
+  const totalPages = dto?.totalPages ?? Math.max(1, Math.ceil(totalItems / POSTS_PER_PAGE));
+  const activePage = dto?.activePage ?? Math.min(requestedPage, totalPages);
   const pageStart = (activePage - 1) * POSTS_PER_PAGE;
-  const pagedPosts = filtered.slice(pageStart, pageStart + POSTS_PER_PAGE);
+  const pagedPosts = dto?.rows ?? filtered.slice(pageStart, pageStart + POSTS_PER_PAGE);
 
   const clearTopicHref = (() => {
     const next = new URLSearchParams(params.toString());
@@ -373,22 +456,25 @@ export function AllTrendingTabs({
   // the bubble map does. Feed consumption of ?sub is wired in commit 3.
   // p90 of trending_score across the currently-visible feed. Used to gate
   // the VelocityIndicator so chevrons only flag the top decile of activity.
-  const velocityP90 = useMemo(
+  const computedVelocityP90 = useMemo(
     () => computeTrendingP90(pagedPosts),
     [pagedPosts],
   );
+  const velocityP90 = dto?.velocityP90 ?? computedVelocityP90;
 
   // p50/p90 of *velocity* (upvotes/hour) — drives the right-stats velocity
   // bar fill ratio + color (green if above p50). Distinct from
   // `velocityP90` above which is a trending-score percentile.
-  const velocityStats = useMemo(
+  const computedVelocityStats = useMemo(
     () => computeVelocityStats(pagedPosts),
     [pagedPosts],
   );
+  const velocityStats = dto?.velocityStats ?? computedVelocityStats;
 
   // Per-tab counts (post-topic, post-chip, post-showAll, post-window). Drives
   // the inset count badge on each tab in the strip below.
   const tabCounts = useMemo<Record<TrendingTab, number>>(() => {
+    if (dto) return dto.counts;
     const chipFiltered = applyChipFilter(
       topicFiltered,
       activeChips,
@@ -400,7 +486,7 @@ export function AllTrendingTabs({
       "hot-30d": filterByWindow(chipFiltered, 30 * 24, nowMs).length,
       "by-subreddit": filterByWindow(chipFiltered, 168, nowMs).length,
     };
-  }, [topicFiltered, activeChips, effectiveShowAll, nowMs]);
+  }, [dto, topicFiltered, activeChips, effectiveShowAll, nowMs]);
 
   return (
     <section>
@@ -489,7 +575,7 @@ export function AllTrendingTabs({
         <EmptyWindow
           activeTab={activeTab}
           activeTopic={activeTopic}
-          totalPosts={topicFiltered.length}
+          totalPosts={dto?.topicPoolSize ?? topicFiltered.length}
           tabCounts={tabCounts}
           pathname={pathname}
           searchParams={params}

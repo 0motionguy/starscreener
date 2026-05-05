@@ -136,6 +136,15 @@ export const metadata: Metadata = {
       "msvalidate.01": process.env.BING_SITE_VERIFICATION ?? "",
     },
   },
+  // Apple Smart Banner — surfaces an "Open in App" prompt on iOS Safari
+  // when an iOS app exists. We don't ship a native iOS app yet, so the
+  // app-id is a placeholder and the banner stays inert until the App
+  // Store assigns a real ID. (AGN-639)
+  // TODO: replace `app-id=000000000` with the real iTunes app ID once
+  // the iOS app is published.
+  other: {
+    "apple-itunes-app": "app-id=000000000",
+  },
 };
 
 export const viewport: Viewport = {

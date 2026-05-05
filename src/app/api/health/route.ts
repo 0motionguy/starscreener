@@ -240,8 +240,17 @@ export async function GET(
     const repoMetadataFetchedAt = getRepoMetadataFetchedAt();
     const collectionRankingsFetchedAt = getCollectionRankingsFetchedAt();
 
-    const sources = getScannerSourceHealth();
-    const degradedSources = getDegradedScannerSources().map((source) => source.id);
+    let sources: ReturnType<typeof getScannerSourceHealth> = [];
+    let degradedSources: string[] = [];
+    try {
+      sources = getScannerSourceHealth();
+      degradedSources = getDegradedScannerSources().map((source) => source.id);
+    } catch {
+      // getScannerSourceHealth / getDegradedScannerSources can throw when the
+      // scanner store is uninitialised after a soft-mode 150ms timeout.  Fall
+      // back to empty arrays so the outer try can still build the 503 body
+      // instead of letting a TypeError escape to a 500.
+    }
     const sourceById = new Map<ScannerSourceHealth["id"], ScannerSourceHealth>(
       sources.map((source) => [source.id, source]),
     );

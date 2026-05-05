@@ -3,7 +3,8 @@ import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 export const runtime = "nodejs";
 export const dynamic = "force-static";
-export const revalidate = 60 * 60;
+// 1 hour (60 * 60)
+export const revalidate = 3600;
 
 export async function GET(): Promise<NextResponse> {
   return NextResponse.json(

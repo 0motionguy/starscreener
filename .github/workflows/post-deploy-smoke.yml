@@ -16,6 +16,7 @@ jobs:
     env:
       BASE_URL: https://trendingrepo.com
       OPS_ALERT_WEBHOOK: ${{ secrets.OPS_ALERT_WEBHOOK }}
+      CRON_SECRET: ${{ secrets.CRON_SECRET }}
     steps:
       - name: Wait for deploy propagation
         run: sleep 30
@@ -37,7 +38,6 @@ jobs:
             "/arxiv/trending"
             "/producthunt"
             "/api/health?soft=1"
-            "/api/cron/freshness/state"
           )
 
           failures=0
@@ -51,6 +51,18 @@ jobs:
               failures=$((failures + 1))
             fi
           done
+
+          cron_url="${BASE_URL}/api/cron/freshness/state"
+          if [ -n "${CRON_SECRET:-}" ]; then
+            cron_line="$(curl -sS -o /dev/null -w "%{http_code} %{time_total} %{size_download}" -H "Authorization: Bearer ${CRON_SECRET}" "$cron_url")"
+          else
+            cron_line="$(curl -sS -o /dev/null -w "%{http_code} %{time_total} %{size_download}" "$cron_url")"
+          fi
+          cron_code="$(echo "$cron_line" | awk '{print $1}')"
+          report+="/api/cron/freshness/state => ${cron_line}\n"
+          if [ "$cron_code" != "200" ]; then
+            failures=$((failures + 1))
+          fi
 
           echo -e "$report"
           {

@@ -7,7 +7,7 @@
 import { ImageResponse } from "next/og";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { CATEGORIES } from "@/lib/constants";
-import { OG_COLORS } from "@/lib/seo";
+import { OG_CACHE_HEADERS, OG_COLORS } from "@/lib/seo";
 import { StarMark } from "@/lib/og-primitives";
 
 export const runtime = "nodejs";
@@ -59,7 +59,7 @@ export default async function CategoryOGImage({ params }: RouteParams) {
           </div>
         </div>
       ),
-      size,
+      { ...size, headers: OG_CACHE_HEADERS },
     );
   }
 
@@ -307,7 +307,7 @@ export default async function CategoryOGImage({ params }: RouteParams) {
         />
       </div>
     ),
-    size,
+    { ...size, headers: OG_CACHE_HEADERS },
   );
 }
 

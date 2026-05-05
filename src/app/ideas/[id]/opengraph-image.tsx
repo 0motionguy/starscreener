@@ -16,7 +16,7 @@ import { ImageResponse } from "next/og";
 
 import { getIdeaById, toPublicIdea } from "@/lib/ideas";
 import { countReactions, listReactionsForObject } from "@/lib/reactions";
-import { OG_COLORS } from "@/lib/seo";
+import { OG_CACHE_HEADERS, OG_COLORS } from "@/lib/seo";
 import { StarMark } from "@/lib/og-primitives";
 
 export const runtime = "nodejs";
@@ -42,7 +42,10 @@ export default async function IdeaOGImage({ params }: RouteParams) {
     (record.status === "published" || record.status === "shipped");
 
   if (!visible) {
-    return new ImageResponse(<NotFoundCard />, { ...size });
+    return new ImageResponse(<NotFoundCard />, {
+      ...size,
+      headers: OG_CACHE_HEADERS,
+    });
   }
 
   const idea = toPublicIdea(record);
@@ -184,7 +187,7 @@ export default async function IdeaOGImage({ params }: RouteParams) {
         </div>
       </div>
     ),
-    { ...size },
+    { ...size, headers: OG_CACHE_HEADERS },
   );
 }
 

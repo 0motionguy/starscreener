@@ -18,7 +18,7 @@ import {
   getDerivedRepoById,
   getDerivedRepos,
 } from "@/lib/derived-repos";
-import { OG_COLORS } from "@/lib/seo";
+import { OG_CACHE_HEADERS, OG_COLORS } from "@/lib/seo";
 import { StarMark } from "@/lib/og-primitives";
 import type { Repo } from "@/lib/types";
 
@@ -158,7 +158,7 @@ export default async function CompareOGImage() {
           />
         </div>
       ),
-      size,
+      { ...size, headers: OG_CACHE_HEADERS },
     );
   }
 
@@ -340,7 +340,7 @@ export default async function CompareOGImage() {
         />
       </div>
     ),
-    size,
+    { ...size, headers: OG_CACHE_HEADERS },
   );
 }
 

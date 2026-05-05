@@ -16,7 +16,7 @@ import {
   isCuratedQuietStub,
 } from "@/lib/collections";
 import { getDerivedRepos } from "@/lib/derived-repos";
-import { OG_COLORS } from "@/lib/seo";
+import { OG_CACHE_HEADERS, OG_COLORS } from "@/lib/seo";
 import {
   CardFrame,
   NotFoundCard,
@@ -52,7 +52,7 @@ export default async function CollectionOGImage({ params }: RouteParams) {
           hint={`/collections/${slug}`}
         />
       ),
-      size,
+      { ...size, headers: OG_CACHE_HEADERS },
     );
   }
 
@@ -258,7 +258,7 @@ export default async function CollectionOGImage({ params }: RouteParams) {
         </div>
       </CardFrame>
     ),
-    size,
+    { ...size, headers: OG_CACHE_HEADERS },
   );
 }
 

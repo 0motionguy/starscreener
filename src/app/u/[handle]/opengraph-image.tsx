@@ -9,7 +9,7 @@
 import { ImageResponse } from "next/og";
 
 import { getProfile } from "@/lib/profile";
-import { OG_COLORS } from "@/lib/seo";
+import { OG_CACHE_HEADERS, OG_COLORS } from "@/lib/seo";
 import {
   CardFrame,
   NotFoundCard,
@@ -43,7 +43,7 @@ export default async function UserProfileOGImage({ params }: RouteParams) {
           hint={`/u/${handle}`}
         />
       ),
-      size,
+      { ...size, headers: OG_CACHE_HEADERS },
     );
   }
 
@@ -118,7 +118,7 @@ export default async function UserProfileOGImage({ params }: RouteParams) {
           </div>
         </CardFrame>
       ),
-      size,
+      { ...size, headers: OG_CACHE_HEADERS },
     );
   }
 
@@ -283,7 +283,7 @@ export default async function UserProfileOGImage({ params }: RouteParams) {
         </div>
       </CardFrame>
     ),
-    size,
+    { ...size, headers: OG_CACHE_HEADERS },
   );
 }
 

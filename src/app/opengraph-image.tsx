@@ -8,7 +8,7 @@
 import { ImageResponse } from "next/og";
 import { getTopMoversByDelta24h } from "@/lib/trending";
 import { getDerivedRepoCount } from "@/lib/derived-repos";
-import { OG_COLORS } from "@/lib/seo";
+import { OG_CACHE_HEADERS, OG_COLORS } from "@/lib/seo";
 import { Dot, StarMark } from "@/lib/og-primitives";
 
 export const runtime = "nodejs";
@@ -199,7 +199,7 @@ export default async function HomeOGImage() {
         />
       </div>
     ),
-    size,
+    { ...size, headers: OG_CACHE_HEADERS },
   );
 }
 

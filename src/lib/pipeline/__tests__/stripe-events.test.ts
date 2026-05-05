@@ -451,6 +451,13 @@ async function loadRoute() {
   return routeMod ?? (await import("../../../app/api/webhooks/stripe/route"));
 }
 
+async function loadTestHooks() {
+  const hooksMod = await import(
+    "../../../app/api/webhooks/stripe/_test-hooks.js"
+  ).catch(() => null);
+  return hooksMod ?? (await import("../../../app/api/webhooks/stripe/_test-hooks"));
+}
+
 test("webhook route — missing stripe-signature header returns 400", async () => {
   await withStripeEnv(async () => {
     const ts = await loadRoute();
@@ -511,12 +518,13 @@ test("webhook route — malformed stripe-signature value returns 400", async () 
 test("webhook route — bad signature captures quarantine-tagged Sentry exception", async () => {
   await withStripeEnv(async () => {
     const ts = await loadRoute();
+    const hooks = await loadTestHooks();
     const sentryEvents: Array<{ error: unknown; context?: unknown }> = [];
-    ts.__setStripeWebhookSentryCaptureForTests(
+    hooks.__setStripeWebhookSentryCaptureForTests(
       ((error: unknown, context?: unknown) => {
         sentryEvents.push({ error, context });
         return "evt_test";
-      }) as Parameters<typeof ts.__setStripeWebhookSentryCaptureForTests>[0],
+      }) as Parameters<typeof hooks.__setStripeWebhookSentryCaptureForTests>[0],
     );
 
     try {
@@ -539,7 +547,7 @@ test("webhook route — bad signature captures quarantine-tagged Sentry exceptio
       assert.equal(tags?.category, "quarantine");
       assert.equal(tags?.scope, "api/webhooks/stripe");
     } finally {
-      ts.__resetStripeWebhookSentryCaptureForTests();
+      hooks.__resetStripeWebhookSentryCaptureForTests();
     }
   });
 });
@@ -547,21 +555,22 @@ test("webhook route — bad signature captures quarantine-tagged Sentry exceptio
 test("webhook route - handler failure captures recoverable-tagged Sentry exception", async () => {
   await withStripeEnv(async () => {
     const ts = await loadRoute();
+    const hooks = await loadTestHooks();
     const sentryEvents: Array<{ error: unknown; context?: unknown }> = [];
 
-    ts.__setStripeWebhookSentryCaptureForTests(
+    hooks.__setStripeWebhookSentryCaptureForTests(
       ((error: unknown, context?: unknown) => {
         sentryEvents.push({ error, context });
         return "evt_test";
-      }) as Parameters<typeof ts.__setStripeWebhookSentryCaptureForTests>[0],
+      }) as Parameters<typeof hooks.__setStripeWebhookSentryCaptureForTests>[0],
     );
-    ts.__setStripeWebhookEventHandlerForTests(
+    hooks.__setStripeWebhookEventHandlerForTests(
       (async () => {
         throw new Error("forced handler failure");
-      }) as Parameters<typeof ts.__setStripeWebhookEventHandlerForTests>[0],
+      }) as Parameters<typeof hooks.__setStripeWebhookEventHandlerForTests>[0],
     );
-    ts.__setStripeWebhookLockAcquirerForTests(
-      (async () => true) as Parameters<typeof ts.__setStripeWebhookLockAcquirerForTests>[0],
+    hooks.__setStripeWebhookLockAcquirerForTests(
+      (async () => true) as Parameters<typeof hooks.__setStripeWebhookLockAcquirerForTests>[0],
     );
 
     try {
@@ -600,9 +609,9 @@ test("webhook route - handler failure captures recoverable-tagged Sentry excepti
       assert.equal(tags?.category, "recoverable");
       assert.equal(tags?.scope, "api/webhooks/stripe");
     } finally {
-      ts.__resetStripeWebhookLockAcquirerForTests();
-      ts.__resetStripeWebhookEventHandlerForTests();
-      ts.__resetStripeWebhookSentryCaptureForTests();
+      hooks.__resetStripeWebhookLockAcquirerForTests();
+      hooks.__resetStripeWebhookEventHandlerForTests();
+      hooks.__resetStripeWebhookSentryCaptureForTests();
     }
   });
 });

@@ -32,13 +32,14 @@ after(() => {
 
 test("POST /api/compare/share: returns 429 + Retry-After when bucket is saturated", async () => {
   const route = await import("../route");
+  const lib = await import("../_lib");
   const { NextRequest } = await import("next/server");
 
   const ip = "198.51.100.60";
   await primeSaturatedStore(
     ip,
-    route.COMPARE_SHARE_WINDOW_MS,
-    route.COMPARE_SHARE_MAX_REQUESTS,
+    lib.COMPARE_SHARE_WINDOW_MS,
+    lib.COMPARE_SHARE_MAX_REQUESTS,
   );
 
   const req = new Request("http://localhost/api/compare/share", {
@@ -63,7 +64,7 @@ test("POST /api/compare/share: returns 429 + Retry-After when bucket is saturate
 });
 
 test("persistCompareSharePayload: forwards finite ttlSeconds to store.write", async () => {
-  const route = await import("../route");
+  const lib = await import("../_lib");
 
   type WriteArgs = {
     key: string;
@@ -77,7 +78,7 @@ test("persistCompareSharePayload: forwards finite ttlSeconds to store.write", as
     },
   };
 
-  await route.persistCompareSharePayload(fakeStore as never, {
+  await lib.persistCompareSharePayload(fakeStore as never, {
     shortId: "ABCDEFGH",
     createdAt: new Date().toISOString(),
     repos: ["vercel/next.js"],
@@ -87,7 +88,7 @@ test("persistCompareSharePayload: forwards finite ttlSeconds to store.write", as
   assert.equal(writes[0].key, "compare-share/ABCDEFGH");
   assert.equal(
     writes[0].opts?.ttlSeconds,
-    route.COMPARE_SHARE_TTL_SECONDS,
+    lib.COMPARE_SHARE_TTL_SECONDS,
     "compare-share payloads must always be persisted with finite TTL",
   );
 });

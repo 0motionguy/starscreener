@@ -1,59 +1,34 @@
 // POST /api/cron/digest/weekly
 //
-// Builds a per-user weekly digest from:
-//   1. The caller's own fired AlertEvents in the last 7 days.
-//   2. The top breakouts platform-wide in the last 7 days (shared).
-//
-// Sends each digest via the pluggable email provider from
-// `src/lib/email/send.ts` — Resend when `RESEND_API_KEY` is set,
-// ConsoleProvider otherwise (so local dev never hits the network).
+// Builds a weekly editorial digest from repo briefs:
+//   - Pulls up to 7 briefs written in the last 7 days.
+//   - Renders one intro paragraph + linked brief excerpts.
+//   - Sends to recipients configured in DIGEST_USER_EMAILS_JSON.
 //
 // Gate:
-//   - `DIGEST_ENABLED` env: if unset or "false", the endpoint returns
-//     `{ ok: true, skipped: "disabled" }` without touching anything.
-//     Ops must explicitly opt in.
-//   - `CRON_SECRET` via `verifyCronAuth` (same pattern as every other
-//     cron route — see src/lib/api/auth.ts).
-//   - `?dryRun=true` query flag forces rendering only; no provider.send
-//     call is made even when the provider is configured.
-//
-// User → email mapping:
-//   StarScreener today does NOT persist email addresses. `userId` is
-//   derived from an email HMAC, so the server cannot recover the email
-//   from a rule. Until that changes, operators can provide a JSON map
-//   in `DIGEST_USER_EMAILS_JSON` (format `{ "<userId>": "<email>" }`);
-//   users without an entry are skipped and counted. Once a user→email
-//   table lands, the lookup here should switch to that table and the
-//   env map becomes a test-only override.
-//
-// Response shape:
-//   { ok: true, skipped?, attempted, sent, skippedUsers, errors: [...],
-//     durationMs, dryRun }
+//   - DIGEST_ENABLED env: when unset or "false", returns skipped=disabled.
+//   - CRON_SECRET bearer auth via verifyCronAuth.
+//   - ?dryRun=true renders preview content without sending.
 
 import { NextRequest, NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import {
-  buildWeeklyDigests,
-  loadUserEmailMapFromEnv,
-  collectAlertsByUser,
-  type DigestUserEmailMap,
-} from "@/lib/pipeline/alerts/weekly-digest";
-import { pipeline } from "@/lib/pipeline/pipeline";
-import {
-  alertEventStore,
-  alertRuleStore,
-} from "@/lib/pipeline/storage/singleton";
-import { getDerivedRepos } from "@/lib/derived-repos";
+  getBriefFromFile,
+  listRepoBriefRefs,
+  type RepoBrief,
+} from "@/lib/briefs";
 import { getEmailProvider, resolveEmailFrom } from "@/lib/email/send";
-import { renderDigestEmail } from "@/lib/email/render-digest";
 
 export const runtime = "nodejs";
 
 const POST_CACHE_HEADERS = {
   "Cache-Control": "no-store",
 } as const;
+const SITE_URL = "https://trendingrepo.com";
+const BRIEF_LIMIT = 7;
+const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
 function isEnabled(): boolean {
   const raw = process.env.DIGEST_ENABLED;
@@ -69,15 +44,186 @@ function parseDryRun(url: URL): boolean {
   return v === "1" || v === "true" || v === "yes";
 }
 
+interface BriefDigestEntry {
+  owner: string;
+  name: string;
+  hook: string;
+  excerpt: string;
+  url: string;
+}
+
+interface RenderedBriefDigest {
+  subject: string;
+  html: string;
+  text: string;
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function normalizeSentence(value: string): string {
+  const compact = value.replace(/\s+/g, " ").trim();
+  if (!compact) return "";
+  if (compact.length <= 240) return compact;
+  return `${compact.slice(0, 237).trimEnd()}...`;
+}
+
+function firstSentence(value: string): string {
+  const compact = value.replace(/\s+/g, " ").trim();
+  if (!compact) return "";
+  const idx = compact.search(/[.!?](\s|$)/);
+  if (idx === -1) return normalizeSentence(compact);
+  return normalizeSentence(compact.slice(0, idx + 1));
+}
+
+function buildIntro(generatedAt: string, briefCount: number): string {
+  const weekLabel = new Date(generatedAt).toISOString().slice(0, 10);
+  return `Marco's weekly read for ${weekLabel}: ${briefCount} repos broke through the noise this week because they shipped, attracted attention, or changed buyer behavior faster than incumbents. Scan the list, pick one signal to act on, and open the full brief for source-backed context.`;
+}
+
+function parseDigestRecipients(): string[] {
+  const raw = process.env.DIGEST_USER_EMAILS_JSON;
+  if (!raw || raw.trim().length === 0) return [];
+
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    const out = new Set<string>();
+    if (Array.isArray(parsed)) {
+      for (const entry of parsed) {
+        if (typeof entry !== "string") continue;
+        const email = entry.trim();
+        if (!email.includes("@")) continue;
+        out.add(email);
+      }
+    } else if (parsed && typeof parsed === "object") {
+      for (const value of Object.values(parsed as Record<string, unknown>)) {
+        if (typeof value !== "string") continue;
+        const email = value.trim();
+        if (!email.includes("@")) continue;
+        out.add(email);
+      }
+    }
+    return Array.from(out);
+  } catch {
+    return [];
+  }
+}
+
+function toBriefEntry(brief: RepoBrief): BriefDigestEntry {
+  const fullName = `${brief.owner}/${brief.name}`;
+  return {
+    owner: brief.owner,
+    name: brief.name,
+    hook: normalizeSentence(brief.hook),
+    excerpt: firstSentence(brief.what || brief.body),
+    url: `${SITE_URL}/brief/${brief.owner}/${brief.name}`,
+  };
+}
+
+async function loadWeeklyBriefEntries(limit = BRIEF_LIMIT): Promise<BriefDigestEntry[]> {
+  const refs = listRepoBriefRefs();
+  const cutoff = Date.now() - WEEK_MS;
+
+  const recent = refs
+    .filter((ref) => {
+      const t = Date.parse(ref.writtenAt);
+      return Number.isFinite(t) && t >= cutoff;
+    })
+    .sort((a, b) => Date.parse(b.writtenAt) - Date.parse(a.writtenAt))
+    .slice(0, limit);
+
+  const out: BriefDigestEntry[] = [];
+  for (const ref of recent) {
+    const brief = getBriefFromFile(ref.owner, ref.name);
+    if (!brief) continue;
+    out.push(toBriefEntry(brief));
+  }
+  return out;
+}
+
+function renderWeeklyBriefDigest(
+  entries: BriefDigestEntry[],
+  generatedAt: string,
+): RenderedBriefDigest {
+  const subjectDate = new Date(generatedAt).toISOString().slice(0, 10);
+  const subject = `TrendingRepo weekly briefs — ${entries.length} picks (${subjectDate})`;
+  const intro = buildIntro(generatedAt, entries.length);
+
+  const rows = entries
+    .map(
+      (entry, index) => `
+        <tr>
+          <td style="padding:12px 0;border-bottom:1px solid #e5e7eb;">
+            <div style="font-size:12px;color:#6b7280;font-family:ui-monospace,Menlo,Consolas,monospace;">#${index + 1} · ${escapeHtml(entry.owner)}/${escapeHtml(entry.name)}</div>
+            <div style="font-size:15px;color:#111827;font-weight:700;margin-top:4px;">${escapeHtml(entry.hook)}</div>
+            <div style="font-size:13px;color:#374151;line-height:1.5;margin-top:6px;">${escapeHtml(entry.excerpt)}</div>
+            <div style="margin-top:8px;"><a href="${entry.url}" style="color:#1d4ed8;text-decoration:none;font-size:13px;">Read full brief →</a></div>
+          </td>
+        </tr>`,
+    )
+    .join("");
+
+  const html = `<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>${escapeHtml(subject)}</title>
+  </head>
+  <body style="margin:0;padding:24px;background:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#111827;">
+    <div style="max-width:680px;margin:0 auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:24px;">
+      <div style="font-size:11px;letter-spacing:0.08em;color:#64748b;text-transform:uppercase;">TrendingRepo · Weekly Digest</div>
+      <h1 style="margin:8px 0 12px 0;font-size:24px;line-height:1.2;">Top repo briefs from the past week</h1>
+      <p style="margin:0 0 20px 0;font-size:14px;line-height:1.6;color:#334155;">${escapeHtml(intro)}</p>
+      <table style="width:100%;border-collapse:collapse;">
+        ${rows}
+      </table>
+      <p style="margin:18px 0 0 0;font-size:12px;color:#64748b;">
+        Browse all briefs: <a href="${SITE_URL}/brief" style="color:#1d4ed8;text-decoration:none;">${SITE_URL}/brief</a>
+      </p>
+    </div>
+  </body>
+</html>`;
+
+  const text = [
+    `TrendingRepo weekly briefs (${subjectDate})`,
+    "",
+    intro,
+    "",
+    ...entries.flatMap((entry, index) => [
+      `${index + 1}. ${entry.owner}/${entry.name}`,
+      entry.hook,
+      entry.excerpt,
+      entry.url,
+      "",
+    ]),
+    `All briefs: ${SITE_URL}/brief`,
+  ].join("\n");
+
+  return { subject, html, text };
+}
+
 interface DigestCronResponse {
   ok: true;
   skipped?: "disabled";
   attempted: number;
   sent: number;
   skippedUsers: number;
-  errors: Array<{ userId: string; error: string }>;
+  errors: Array<{ recipient: string; error: string }>;
   dryRun: boolean;
   durationMs: number;
+  preview?: {
+    subject: string;
+    html: string;
+    text: string;
+    recipients: string[];
+    briefCount: number;
+  };
 }
 
 export async function POST(
@@ -107,57 +253,49 @@ export async function POST(
   const dryRun = parseDryRun(url);
 
   try {
-    await pipeline.ensureReady();
-
-    // 1. Collect per-user alerts (last 7d) and the set of userIds with rules.
-    const allRules = alertRuleStore.listAll();
-    const activeUserIds = new Set<string>();
-    for (const rule of allRules) {
-      if (rule.enabled) activeUserIds.add(rule.userId);
+    const recipients = parseDigestRecipients();
+    if (recipients.length === 0) {
+      return NextResponse.json(
+        {
+          ok: true,
+          attempted: 0,
+          sent: 0,
+          skippedUsers: 0,
+          errors: [],
+          dryRun,
+          durationMs: Date.now() - startedAt,
+        },
+        { headers: POST_CACHE_HEADERS },
+      );
     }
 
-    const cutoffMs = Date.now() - 7 * 24 * 60 * 60 * 1000;
-    const alertsByUser = collectAlertsByUser(
-      activeUserIds,
-      alertEventStore,
-      cutoffMs,
-    );
-
-    // 2. Build platform-wide top breakouts (shared across users). Use the
-    //    derived-repos surface — same list the terminal UI renders from.
-    //    Defensive: if the derived data isn't ready yet, we fall back to an
-    //    empty list so the digest still builds (empty-breakout branch).
-    let repos: ReturnType<typeof getDerivedRepos> = [];
-    try {
-      repos = getDerivedRepos();
-    } catch (err) {
-      console.warn("[api:cron:digest:weekly] getDerivedRepos failed", err);
-      repos = [];
+    const generatedAt = new Date().toISOString();
+    const briefEntries = await loadWeeklyBriefEntries(BRIEF_LIMIT);
+    if (briefEntries.length === 0) {
+      return NextResponse.json(
+        {
+          ok: true,
+          attempted: 0,
+          sent: 0,
+          skippedUsers: 0,
+          errors: [],
+          dryRun,
+          durationMs: Date.now() - startedAt,
+        },
+        { headers: POST_CACHE_HEADERS },
+      );
     }
-    const { digests, skippedUsers } = buildWeeklyDigests({
-      activeUserIds,
-      alertsByUser,
-      repos,
-      userEmails: loadUserEmailMapFromEnv(),
-      generatedAt: new Date().toISOString(),
-    });
 
-    // 3. Render + send.
+    const rendered = renderWeeklyBriefDigest(briefEntries, generatedAt);
     const provider = getEmailProvider();
     const from = resolveEmailFrom();
-    const errors: Array<{ userId: string; error: string }> = [];
+    const errors: Array<{ recipient: string; error: string }> = [];
     let sent = 0;
 
-    for (const digest of digests) {
-      const rendered = renderDigestEmail(digest);
-      if (dryRun) {
-        // Dry run: never call provider.send. We still count this as
-        // "attempted" so operators can see the template + lookup path
-        // worked even without burning an email quota.
-        continue;
-      }
+    for (const recipient of recipients) {
+      if (dryRun) continue;
       const result = await provider.send({
-        to: digest.userEmail,
+        to: recipient,
         from,
         subject: rendered.subject,
         html: rendered.html,
@@ -166,19 +304,30 @@ export async function POST(
       if (result.ok) {
         sent += 1;
       } else {
-        errors.push({ userId: digest.userId, error: result.error });
+        errors.push({ recipient, error: result.error });
       }
     }
 
     return NextResponse.json(
       {
         ok: true,
-        attempted: digests.length,
+        attempted: recipients.length,
         sent: dryRun ? 0 : sent,
-        skippedUsers,
+        skippedUsers: 0,
         errors,
         dryRun,
         durationMs: Date.now() - startedAt,
+        ...(dryRun
+          ? {
+              preview: {
+                subject: rendered.subject,
+                html: rendered.html,
+                text: rendered.text,
+                recipients,
+                briefCount: briefEntries.length,
+              },
+            }
+          : {}),
       },
       { headers: POST_CACHE_HEADERS },
     );
@@ -201,7 +350,3 @@ export async function POST(
 export async function GET(request: NextRequest) {
   return POST(request);
 }
-
-// The env-map loader + DigestUserEmailMap type used to be re-exported here
-// for tests. Next 15 rejects non-HTTP-verb exports on route files, so tests
-// now import them directly from `@/lib/pipeline/alerts/weekly-digest`.

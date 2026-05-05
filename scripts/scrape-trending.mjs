@@ -159,6 +159,9 @@ async function fetchCollectionRanking(collectionId, metric) {
 
 async function main() {
   const fetchedAt = new Date().toISOString();
+  let fallbackKeepaliveCount = 0;
+  let fallbackKeepaliveKeys = [];
+  let fallbackErrors = [];
   const traceEvent = {
     source: "trending",
     fetchedAt,
@@ -297,6 +300,9 @@ async function main() {
       if (fallbackKeys.length === 0) {
         throw trendErr;
       }
+      fallbackKeepaliveCount += 1;
+      fallbackKeepaliveKeys.push(...fallbackKeys);
+      fallbackErrors.push(`trend-buckets:${trendErr.message ?? trendErr}`);
       traceEvent.mode.trendBucketsFallback = "outage-cache-keepalive";
       traceEvent.mode.trendBucketsFallbackKeys = fallbackKeys;
       console.warn(
@@ -363,6 +369,9 @@ async function main() {
       if (!keptAlive) {
         throw rankErr;
       }
+      fallbackKeepaliveCount += 1;
+      fallbackKeepaliveKeys.push("collection-rankings");
+      fallbackErrors.push(`collection-rankings:${rankErr.message ?? rankErr}`);
       traceEvent.mode.collectionRankingsFallback = "outage-cache-keepalive";
       console.warn(
         `[outage-fallback] collection rankings fetch failed, kept cached Redis snapshot alive (ttl=${OUTAGE_CACHE_TTL_SECONDS}s): ${rankErr.message ?? rankErr}`,
@@ -371,6 +380,11 @@ async function main() {
   }
 
   await appendDualWriteTrace(traceEvent);
+  return {
+    fallbackKeepaliveCount,
+    fallbackKeepaliveKeys: [...new Set(fallbackKeepaliveKeys)],
+    fallbackErrors,
+  };
 }
 
 async function keepCachedSnapshotAlive(key, traceEvent) {
@@ -393,12 +407,22 @@ async function keepCachedSnapshotAlive(key, traceEvent) {
 
 const startedAt = Date.now();
 main()
-  .then(async () => {
+  .then(async (result) => {
     try {
       await writeSourceMetaFromOutcome({
         source: "trending",
         count: 1,
         durationMs: Date.now() - startedAt,
+        partialFailures: result.fallbackKeepaliveCount,
+        extra:
+          result.fallbackKeepaliveCount > 0
+            ? {
+                outageFallback: "redis-snapshot-keepalive",
+                fallbackKeys: result.fallbackKeepaliveKeys,
+                fallbackErrors: result.fallbackErrors,
+                fallbackTtlSeconds: OUTAGE_CACHE_TTL_SECONDS,
+              }
+            : undefined,
       });
     } catch (metaErr) {
       console.error("[meta] trending.json write failed:", metaErr);

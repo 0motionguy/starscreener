@@ -9,6 +9,7 @@ import * as Sentry from "@sentry/nextjs";
 
 import type {
   GitHubAdapter,
+  GitHubRepoFetchOutcome,
   GitHubRepoRaw,
   GitHubReleaseRaw,
 } from "../types";
@@ -110,22 +111,43 @@ export class GitHubApiAdapter implements GitHubAdapter {
   // -------------------------------------------------------------------------
 
   async fetchRepo(fullName: string): Promise<GitHubRepoRaw | null> {
+    const outcome = await this.fetchRepoOutcome(fullName);
+    return outcome.status === "ok" ? outcome.repo : null;
+  }
+
+  async fetchRepoOutcome(fullName: string): Promise<GitHubRepoFetchOutcome> {
     const path = `/repos/${fullName}`;
     const res = await this.request(path);
-    if (!res) return null;
-    if (res.status === 404) return null;
+    if (!res) {
+      return {
+        status: "unavailable",
+        repo: null,
+        reason: "request_failed",
+      };
+    }
+    if (res.status === 404 || res.status === 410) {
+      return { status: "not_found", repo: null };
+    }
     if (!res.ok) {
       console.error(
         `[github-adapter] fetchRepo ${fullName} failed: ${res.status} ${res.statusText}`,
       );
-      return null;
+      return {
+        status: "unavailable",
+        repo: null,
+        reason: `http_${res.status}`,
+      };
     }
     try {
       const data = (await res.json()) as GitHubRepoRaw;
-      return data;
+      return { status: "ok", repo: data };
     } catch (err) {
       console.error(`[github-adapter] fetchRepo ${fullName} parse error`, err);
-      return null;
+      return {
+        status: "unavailable",
+        repo: null,
+        reason: "parse_error",
+      };
     }
   }
 

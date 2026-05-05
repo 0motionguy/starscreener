@@ -622,6 +622,9 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
           <Link href="/feeds/agent-commerce.xml">RSS</Link>
           <Link href="/funding">Funding</Link>
           <Link href="/signals">Signals</Link>
+          <Link href="/trending/agents">Trending Agents</Link>
+          <Link href="/trending/skills">Trending Skills</Link>
+          <Link href="/trending/mcp">Trending MCP</Link>
         </div>
       </section>
 

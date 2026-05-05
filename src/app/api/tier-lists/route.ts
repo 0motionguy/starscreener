@@ -4,10 +4,11 @@
 // spam the namespace. Body validated against tierListDraftSchema; canonical
 // shape in `src/lib/types/tier-list.ts`.
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { parseBody } from "@/lib/api/parse-body";
 import { errorEnvelope } from "@/lib/api/error-response";
+import { enforceMutationSameOrigin } from "@/lib/api/mutation-origin-guard";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import { absoluteUrl } from "@/lib/seo";
 import { tierListDraftSchema } from "@/lib/tier-list/schema";
@@ -19,7 +20,10 @@ export const dynamic = "force-dynamic";
 const SAVES_PER_HOUR = 30;
 const HOUR_MS = 60 * 60 * 1000;
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const guard = enforceMutationSameOrigin(request);
+  if (!guard.ok) return guard.response;
+
   const limit = await checkRateLimitAsync(request, {
     windowMs: HOUR_MS,
     maxRequests: SAVES_PER_HOUR,

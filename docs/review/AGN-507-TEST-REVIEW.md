@@ -19,3 +19,27 @@ Server host is hardcoded to EU while client default path is configurable and cur
 ---
 
 **Verdict: REQUEST_CHANGES** - two High findings block merge for AGN-507 because the regression is not encoded in tests and region-host drift remains unguarded.
+
+## CTO sweep verification (2026-05-05)
+
+- Acceptance criteria met (binary): NO
+- Visual or functional proof: functional mismatch still present
+  - Client default host remains US: `src/components/providers/PostHogProvider.tsx:62`
+  - Env defaults remain US: `.env.example:103` and `.env.example:105`
+  - Server host remains EU: `src/lib/analytics/posthog.ts:34`
+- `npm run typecheck` clean: NO
+  - Current workspace typecheck fails with unrelated pre-existing errors in generated `.next/types` contracts, including:
+    - `.next/types/app/api/compare/share/route.ts:12`
+    - `.next/types/app/api/webhooks/stripe/route.ts:12`
+    - `.next/types/app/arxiv/trending/page.ts:34`
+    - `.next/types/app/trending/page.ts:2`
+
+### Sibling spot-check
+
+- Spot-checked sibling config path `apps/trendingrepo-worker/.env.example` for PostHog host defaults: no compensating AGN-507 fix evidence found in this heartbeat.
+
+### Test-gate status
+
+- Verdict remains `REQUEST_CHANGES` until:
+  1. host consistency fix is implemented for the scoped surface, and
+  2. regression + contract tests are added to prevent client/server host drift.

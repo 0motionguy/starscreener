@@ -40,3 +40,4 @@ Child issue tracks to create under AGN-927:
 
 ## Next action
 - After edge-route blocker is resolved, rerun `npm run analyze`, replace snapshot-derived rows with fresh `client.html` data, then post delta (`before -> after`) per module.
+- Note: build output reported analyzer HTML write events, but `.next/analyze` did not persist post-build in this workspace (likely cleaned during the failing build tail). Treat this run-log evidence as transient until a clean build preserves artifacts on disk.

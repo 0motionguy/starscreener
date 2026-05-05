@@ -136,12 +136,12 @@ describe("formatAge", () => {
 
 describe("buildBadgeLabel", () => {
   it('omits age suffix when the age is unavailable (soft=1 shape)', () => {
-    expect(buildBadgeLabel("ok", null)).toBe("LIVE");
+    expect(buildBadgeLabel("ok", null)).toBe("FRESH");
     expect(buildBadgeLabel("stale", null)).toBe("STALE");
   });
 
   it("includes age suffix when scraper age is present", () => {
-    expect(buildBadgeLabel("ok", 120)).toBe("LIVE / 2m");
+    expect(buildBadgeLabel("ok", 120)).toBe("FRESH / 2m");
     expect(buildBadgeLabel("stale", 3600)).toBe("STALE / 1h");
   });
 

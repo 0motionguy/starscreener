@@ -156,7 +156,7 @@ export function IdeasQueueAdmin() {
         </header>
 
         {error ? (
-          <div className="mb-4 rounded-md border border-down/60 bg-down/5 px-3 py-2 text-sm text-[var(--v4-red)]">
+          <div className="mb-4 rounded-md border border-[var(--v4-red)]/60 bg-[var(--v4-red)]/5 px-3 py-2 text-sm text-[var(--v4-red)]">
             {error}
           </div>
         ) : null}
@@ -264,9 +264,9 @@ function ModerationRow({
           className={
             "rounded-[2px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] " +
             (row.status === "published" || row.status === "shipped"
-              ? "border-up/60 bg-up/10 text-[var(--v4-money)]"
+              ? "border-[var(--v4-money)]/60 bg-[var(--v4-money)]/10 text-[var(--v4-money)]"
               : row.status === "rejected"
-                ? "border-down/60 bg-down/10 text-[var(--v4-red)]"
+                ? "border-[var(--v4-red)]/60 bg-[var(--v4-red)]/10 text-[var(--v4-red)]"
                 : "border-border-primary bg-bg-muted text-text-secondary")
           }
         >

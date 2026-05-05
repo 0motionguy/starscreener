@@ -11,10 +11,11 @@ You are the surgical repair loop for STARSCREENER's audit backlog.
 
 ## Source of truth
 
-The audit table lives at `docs/INDEX.md` once Phase 1 of the repo
-restructure plan lands. Until then, the canonical table is at
-`docs/AUDIT-2026-05-04.md`. Always re-read whichever exists at the
-start of each invocation — do not trust prior memory of item state.
+The audit table lives at `docs/INDEX.md` (Wave 1 landed it). The
+historical snapshot is at `docs/archive/AUDIT-2026-05-04.md` for
+context only — never edit the archive copy. Always re-read
+`docs/INDEX.md` at the start of each invocation — do not trust prior
+memory of item state.
 
 ## Loop (one item per invocation)
 

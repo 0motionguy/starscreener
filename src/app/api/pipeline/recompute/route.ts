@@ -13,9 +13,11 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
+import { z } from "zod";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { serverError } from "@/lib/api/error-response";
+import { parseBody } from "@/lib/api/parse-body";
 
 export const runtime = "nodejs";
 
@@ -31,12 +33,17 @@ export interface RecomputeResponse {
 // cheap defense-in-depth against a burst of authenticated recomputes.
 const COOLDOWN_MS = 15_000;
 let lastFinishedAt = 0;
+const RecomputeBodySchema = z.object({}).strict();
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   Sentry.setTag("route", "api/pipeline/recompute");
 
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
+  const parsed = await parseBody(request, RecomputeBodySchema, {
+    allowEmpty: true,
+  });
+  if (!parsed.ok) return parsed.response;
 
   const now = Date.now();
   const sinceLast = now - lastFinishedAt;

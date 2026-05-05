@@ -7,6 +7,7 @@ import {
   isGithubPoolBudgetMuteActive,
   recordGithubPoolBudget,
 } from "@/lib/github-pool-budget";
+// lint-allow: no-parsebody — no-body cron trigger; route reads no request payload.
 
 export const runtime = "nodejs";
 

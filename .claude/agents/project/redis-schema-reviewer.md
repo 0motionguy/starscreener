@@ -13,10 +13,10 @@ review only.
 
 ## What you read
 
-1. `src/lib/redis/keys.ts` — the canonical key builders (lands in
-   Phase 4 of the restructure plan; if absent, fall back to the
-   `payloadKey()` / `metaKey()` exports in `src/lib/data-store.ts`
-   and any inline keys discovered via grep).
+1. `src/lib/redis/keys.ts` — the canonical key builders (Wave 1 /
+   Wave 4 landed this). The namespace inventory is documented in the
+   header comment. Reject any inline key string outside this file —
+   `npm run lint:redis-keys` enforces it.
 2. `src/lib/data-store.ts` — the three-tier read pattern
    (Redis → bundled file → in-memory last-known-good) is sacred.
    Any proposed change must preserve this fallback chain.

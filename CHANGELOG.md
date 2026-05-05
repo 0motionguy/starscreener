@@ -1,3 +1,9 @@
+---
+status: living
+last-verified: 2026-05-05
+verified-by: bot/sergio/AGN-792
+---
+
 # Changelog
 
 All notable changes to trendingrepo.com (formerly StarScreener) are documented in this file.
@@ -12,10 +18,41 @@ This changelog is public release notes, separate from git commit history.
 ## [2026-05-05]
 
 ### Added
-- Weekly stale-preview cleanup workflow to reduce stale operational artifacts over time.
+- 5 guard scripts: docs-freshness, frontmatter validity, redis-keys,
+  internal doc-links, workflow-engine-coverage.
+- 4 CI workflows: engine-inventory-check, workflow-coverage-check,
+  doc-links-check, worklog-hygiene.
+- 9 path-scoped CLAUDE.md files (root + 8 subdir).
+- 3 new ADRs: 0004 (supersedes 0001), 0005 (generated-docs commit
+  policy), 0006 (Redis namespace plan).
+- src/lib/redis/keys.ts registry + worker counterpart at
+  apps/trendingrepo-worker/src/lib/redis-keys.ts.
+- BYPASS_PROTECTION env override for the protect-files hook.
+- docs/INDEX.md as the canonical doc front door.
+- Weekly stale-preview cleanup workflow to reduce stale operational
+  artifacts over time.
 
 ### Changed
-- CORS policy documentation clarified, including portal exception handling for AGN-733 hardening follow-through.
+- ENGINE.md / DATABASE.md / SCORING.md fully rewritten from current
+  code.
+- 17 cron workflows minute-staggered to reduce GitHub Actions
+  contention (max collisions per slot 10 -> 8).
+- Forensic generator output redirected to
+  docs/archive/forensic/<YYYY-MM-DD>/.
+- CORS policy documentation clarified, including portal exception
+  handling for AGN-733 hardening follow-through.
+
+### Removed
+- 4 dead worker fetcher stubs.
+- 2 orphan cron routes.
+
+### Fixed
+- post-edit hook now reads tool input from stdin (was silently
+  no-op'ing).
+- 7 nextUrl mock failures in test fixtures.
+- 2 Next.js BinaryExpression warnings on `revalidate`.
+- 2 typecheck errors (missing repo-category-details exports).
+- watchlist/page.tsx JSX syntax (orphan element + bare `>` arrow).
 
 ## [2026-05-04]
 

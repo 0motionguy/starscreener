@@ -18,18 +18,20 @@ in-repo docs only; secondary archives are summarized as counts.
 
 ## Status — 2026-05-05 (end-of-day)
 
-After 4 commits today (`8b845df6`, `e4737757`, `4ae6b74f`, `48a5e1c3`) the
+After 9 commits today (`8b845df6`, `e4737757`, `4ae6b74f`, `48a5e1c3`,
+`e4030e21`, `d0876c51`, `d5a29fa6`, `42ee8569`, `c38fd335`) the post-Wave 6
 restructure is complete. Live counts via guard scripts:
 
-- **31 living** docs, all verified <=90 days
-- **10 snapshot** docs (dated, kept for reference)
-- **1 pointer** doc (redirect stub)
-- **47 archive** docs in active scope; 379 in `docs/archive/forensic-2026-05-pre/`; 44 in `docs/archive/release-validation-pre-2026-05-05/`
-- **6 unlabeled** (down from ~125 — final long tail)
-- **0 frontmatter violations** (160 files scanned)
-- **85 GH Actions workflows**, **14 cron API routes**, **51 worker fetchers**, **55 env vars** (re-derived from `docs/_generated/engine.json`)
+- **38 living** docs, all verified <=90 days (134 total scanned by freshness)
+- **16 snapshot** docs (dated, kept for reference)
+- **2 pointer** docs (redirect stubs)
+- **48 archive** docs in active scope; 379 in `docs/archive/forensic-2026-05-pre/`; 44 in `docs/archive/release-validation-pre-2026-05-05/`
+- **32 unlabeled** (long tail — Phase 1.5 follow-up)
+- **0 frontmatter violations** (206 files scanned; living=42, snapshot=16, pointer=2)
+- **88 GH Actions workflows**, **14 cron API routes**, **51 worker fetchers**, **55 env vars** (re-derived from `docs/_generated/engine.json`)
 - **0 inline Redis-key violations** across `src/`, `apps/trendingrepo-worker/src/`, `scripts/`
-- **4 broken internal doc-links** (all in `docs/review/*` — intentional `status: archive` skips)
+- **6 broken internal doc-links** (all `docs/review/*` archive entries — intentional `status: archive` skips)
+- **0 workflow-coverage gaps** (88/88 workflows referenced from `docs/ENGINE.md`)
 
 Refresh this section by running:
 ```
@@ -38,9 +40,14 @@ node scripts/check-docs-freshness.mjs
 node scripts/check-living-docs-have-frontmatter.mjs
 node scripts/check-redis-keys.mjs
 node scripts/check-internal-doc-links.mjs
+node scripts/check-workflow-engine-coverage.mjs
 ```
 
 Next-wave plan: see `tasks/NEXT-WAVE-2026-05-06.md`.
+
+## Next session entry point
+
+See `tasks/HANDOFF-2026-05-05-EOD.md` for what's open and what NOT to redo.
 
 ## How to use this index
 

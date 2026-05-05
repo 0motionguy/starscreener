@@ -17,24 +17,24 @@ diffs.
 
 | Script | Status | Summary |
 |---|---|---|
-| check-docs-freshness | PASS | INFO snapshot=15 needs-verification=0 archive=48 unlabeled=2 |
-| check-living-docs-have-frontmatter | PASS | FRONTMATTER: scanned=174 living=56 snapshot=18 pointer=3 violations=0 |
+| check-docs-freshness | PASS | INFO snapshot=16 needs-verification=0 archive=48 unlabeled=47 |
+| check-living-docs-have-frontmatter | PASS | FRONTMATTER: scanned=221 living=49 snapshot=16 pointer=2 violations=0 |
 | check-redis-keys | PASS | [check-redis-keys] OK - scanned src, apps/trendingrepo-worker/src, scripts for inline Redis key literals. |
-| check-internal-doc-links | PASS | LINKS: scanned=170 skipped=54 total-links=113 broken=0 |
+| check-internal-doc-links | PASS | LINKS: scanned=217 skipped=54 total-links=130 broken=0 |
 | check-workflow-engine-coverage | PASS | WORKFLOWS: total=88 documented=88 undocumented=0 |
-| check-cron-overlap | PASS | CRON-OVERLAP: workflows=88 slots-used=3760 overlaps=2317 |
+| check-cron-overlap | PASS | CRON-OVERLAP: workflows=88 slots-used=3935 overlaps=2317 |
 
 ## Engine inventory (from docs/_generated/engine.json)
 
 - 88 workflows
 - 14 cron API routes
-- 47 worker fetchers
+- 51 worker fetchers
 - 55 env vars
 
 ## Doc counts (from frontmatter audit)
 
-- 56 living
-- 18 snapshot
-- 3 pointer
+- 49 living
+- 16 snapshot
+- 2 pointer
 - 48 archive (in scope)
-- 2 unlabeled
+- 47 unlabeled

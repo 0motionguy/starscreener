@@ -13,9 +13,12 @@ Each fetcher = `<source>/index.ts` exporting a default `Fetcher`
 ## Registry is mandatory
 
 A fetcher does NOT run until imported AND appended to `FETCHERS` in
-`../registry.ts`. Stub fetchers (`run()` throws Not Implemented) were
-stripped 2026-05-05 — ship the real impl or leave it out of the
-registry.
+`../registry.ts`. 44 active fetchers in `FETCHERS[]`. 4 stub dirs
+(`github`, `huggingface`, `mcp-so`, `mcp-servers-repo`) remain on disk
+as intent docs but are intentionally NOT imported into the registry —
+their `run()` only logs `not yet implemented` and would otherwise spam
+Sentry every cron tick. Ship the real impl OR leave it out of the
+registry; never both half-measures at once.
 
 ## `run(ctx)` shape
 

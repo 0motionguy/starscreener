@@ -1,3 +1,10 @@
+---
+status: snapshot
+audit-date: 2026-05-05
+reason: ticket-bound release SRE preflight evidence for AGN-1688 agnt-health freshness
+verified-by: claude
+---
+
 # AGN-1688 Release SRE preflight evidence (2026-05-05)
 
 ## Mandatory opening verification

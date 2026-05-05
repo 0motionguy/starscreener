@@ -46,6 +46,8 @@
     "lint:err-envelope": "node scripts/check-error-envelope.mjs",
     "lint:v3-budget": "node scripts/check-v3-token-budget.mjs",
     "lint:v3-budget:snapshot": "node scripts/check-v3-token-budget.mjs --snapshot",
+    "lint:bundle-budget": "node scripts/check-bundle-budget.mjs",
+    "lint:bundle-budget:snapshot": "node scripts/check-bundle-budget.mjs --snapshot",
     "lint:bypass": "node scripts/check-no-pool-bypass.mjs",
     "lint:img-lazy": "node scripts/check-img-lazy.mjs",
     "verify:pool-throughput": "node scripts/verify-pool-throughput.mjs",

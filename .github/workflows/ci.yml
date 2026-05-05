@@ -79,27 +79,13 @@ jobs:
       - name: Build (production)
         run: npm run build
 
-      - name: Bundle size check (T3.3 — warn at >300 KB per client chunk)
-        # Catches accidental client-side bundling of heavy libs. Annotation-
-        # only; never fails the build. Tighten threshold or fail-on-overage
-        # once the bundle stabilizes.
-        shell: bash
-        run: |
-          THRESHOLD_BYTES=$((300 * 1024))
-          oversized=0
-          while IFS= read -r f; do
-            [ -z "$f" ] && continue
-            size=$(stat -c '%s' "$f" 2>/dev/null || stat -f '%z' "$f")
-            if [ "$size" -gt "$THRESHOLD_BYTES" ]; then
-              echo "::warning file=$f::Client chunk $f is $((size/1024)) KB (>300 KB threshold)"
-              oversized=$((oversized + 1))
-            fi
-          done < <(find .next/static/chunks -name "*.js" 2>/dev/null)
-          if [ "$oversized" -eq 0 ]; then
-            echo "Bundle size check OK — all client chunks under 300 KB"
-          else
-            echo "Bundle size: $oversized client chunk(s) exceed 300 KB (warning, not failing)"
-          fi
+      # Bundle-size budget enforcement (AGN-833). Reads
+      # .next/app-build-manifest.json, sums per-route first-load JS, and
+      # fails when a route exceeds its baseline in
+      # scripts/_bundle-budget-baseline.json by more than max(5%, 5 KB).
+      # Replaces the prior 300 KB-per-chunk warning, which never failed.
+      - name: Bundle size budget (AGN-833)
+        run: npm run lint:bundle-budget
 
       # Background next start on port 3023 (the project's canonical port —
       # matches scripts.start, scripts.dev, and the playwright config

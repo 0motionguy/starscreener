@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { Eye, Star, Trash2, ArrowRight } from "lucide-react";
+import { Eye, Trash2, ArrowRight } from "lucide-react";
+import { BrandStar } from "@/components/shared/BrandStar";
 import { useWatchlistStore } from "@/lib/store";
 import { cn, formatNumber, getRelativeTime } from "@/lib/utils";
 import { Sparkline } from "@/components/shared/Sparkline";
@@ -52,7 +53,7 @@ function WatchedRepoCard({
           {/* Stats row */}
           <div className="flex items-center gap-3 mt-2 flex-wrap">
             <span className="inline-flex items-center gap-1 text-sm text-text-secondary">
-              <Star size={13} className="text-accent-amber shrink-0" />
+              <BrandStar size={13} className="text-accent-amber shrink-0" />
               <span className="font-mono text-text-primary">
                 {formatNumber(repo.stars)}
               </span>

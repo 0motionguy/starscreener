@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Star } from "lucide-react";
 import type { Repo } from "@/lib/types";
 import { cn, formatNumber } from "@/lib/utils";
 import { Sparkline } from "@/components/shared/Sparkline";
@@ -9,6 +8,7 @@ import { DeltaBadge } from "@/components/shared/DeltaBadge";
 import { CategoryPill } from "@/components/shared/CategoryPill";
 import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
+import { BrandStar } from "@/components/shared/BrandStar";
 import { RepoMentionBadges } from "@/components/repo-signals/RepoMentionBadges";
 import { NpmBadge } from "@/components/npm/NpmBadge";
 import { getNpmPackagesForRepo } from "@/lib/npm";
@@ -68,7 +68,7 @@ export function RepoCard({ repo, index = 0, showRank = false }: RepoCardProps) {
       {/* Row 3: Stars | Delta | Sparkline | Momentum */}
       <div className="mt-2.5 flex items-center gap-3">
         <span className="inline-flex items-center gap-1 font-mono text-xs text-text-secondary shrink-0">
-          <Star size={12} className="text-[var(--v4-amber)]" />
+          <BrandStar size={12} className="text-[var(--v4-amber)]" />
           {formatNumber(repo.stars)}
         </span>
 

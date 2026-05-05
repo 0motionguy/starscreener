@@ -191,9 +191,9 @@ describe("RelatedRepoCard", () => {
       />,
     );
     expect(getByText("TYPESCRIPT").className).toBe("v4-related-card__lang");
-    expect(container.querySelector(".v4-related-card__stars")?.textContent).toBe(
-      "★ 22.2K",
-    );
+    const starsCell = container.querySelector(".v4-related-card__stars");
+    expect(starsCell?.querySelector("svg")).not.toBeNull();
+    expect(starsCell?.textContent?.trim()).toBe("22.2K");
     expect(getByText("SIM 0.86").className).toBe("v4-related-card__why");
   });
 

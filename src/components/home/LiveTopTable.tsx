@@ -7,11 +7,11 @@ import {
   ArrowUp,
   ArrowDown,
   ArrowUpDown,
-  Star,
   Brain,
   FileText,
   Package,
 } from "lucide-react";
+import { BrandStar } from "@/components/shared/BrandStar";
 
 import {
   GithubIcon,
@@ -467,7 +467,7 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
                   </td>
                   <td className="num metric-num stars-num">
                     <span className="stars-main">
-                      <Star size={12} strokeWidth={2.1} fill="currentColor" />
+                      <BrandStar size={12} />
                       {formatCompact(row.stars)}
                     </span>
                   </td>

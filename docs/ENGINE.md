@@ -115,6 +115,21 @@ Unclassified: none. Every workflow has a parsed `name:` and trigger.
 
 Total cron-driven workflows: 65. Push/PR-only or dispatch-only: 18.
 
+### Meta / hygiene workflows
+
+These workflows operate ON the repo (docs, CI gates, generated
+inventories) rather than producing data. They are PR-gates or weekly
+hygiene runs and are intentionally excluded from the cron-driven
+total above.
+
+| File | Schedule | Trigger | Purpose |
+|---|---|---|---|
+| `doc-links-check.yml` | - | PR (md/skill/agent changes) + dispatch | `node scripts/check-internal-doc-links.mjs` - validates internal markdown links across docs/, tasks/, .claude/skills, .claude/agents, src/**/CLAUDE.md, apps/**/CLAUDE.md |
+| `engine-inventory-check.yml` | - | PR (workflow / cron route / fetcher / derive script changes) | Re-runs `node scripts/derive-engine-inventory.mjs` and fails the PR if `docs/_generated/engine.{json,md}` are stale |
+| `engine-inventory-refresh.yml` | `0 14 * * 1` (Mon 14:00 UTC) | weekly + dispatch + PR (workflow/cron/worker changes) | Re-derives engine inventory; auto-commits `docs/_generated/` diff via `engine-inventory-bot` |
+| `workflow-coverage-check.yml` | - | PR (.github/workflows / docs/ENGINE.md / coverage script changes) | `node scripts/check-workflow-engine-coverage.mjs` - fails PR if any workflow YAML is missing from this ENGINE.md inventory |
+| `worklog-hygiene.yml` | `0 6 * * 1` (Mon 06:00 UTC) | weekly + dispatch | `node scripts/archive-old-worklogs.mjs` - `git mv`s root-level worklogs older than 30d into the archive; auto-commits via `worklog-hygiene-bot` |
+
 ---
 
 ## 2. Cron API routes (src/app/api/cron/*/route.ts) - 16 routes

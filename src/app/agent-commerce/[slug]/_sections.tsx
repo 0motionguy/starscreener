@@ -1,6 +1,7 @@
 // Co-located helpers + sections for /agent-commerce/[slug].
 // Extracted from page.tsx (A30 refactor) — server-only, no client islands.
 
+import { AisoRawEngines } from "@/components/agent-commerce/AisoRawEngines";
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
 import type { AgentCommerceItem } from "@/lib/agent-commerce/types";
 import type { AisoToolsScan } from "@/lib/aiso-tools";
@@ -200,7 +201,13 @@ export function LiveSignalsCard({
   );
 }
 
-export function AisoScanSection({ aisoScan }: { aisoScan: AisoToolsScan }) {
+export function AisoScanSection({
+  aisoScan,
+  itemSlug,
+}: {
+  aisoScan: AisoToolsScan;
+  itemSlug: string;
+}) {
   if (aisoScan.status === "completed") {
     return (
       <Card>
@@ -309,6 +316,11 @@ export function AisoScanSection({ aisoScan }: { aisoScan: AisoToolsScan }) {
                 ? new Date(aisoScan.completedAt).toISOString().slice(0, 10)
                 : "—"}
             </div>
+
+            <AisoRawEngines
+              promptTests={aisoScan.promptTests}
+              itemSlug={itemSlug}
+            />
           </div>
         </CardBody>
       </Card>

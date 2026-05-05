@@ -104,7 +104,9 @@ export default async function AgentCommerceDetailPage({ params }: DetailProps) {
 
       {item.live ? <LiveSignalsCard live={item.live} /> : null}
 
-      {aisoScan ? <AisoScanSection aisoScan={aisoScan} /> : null}
+      {aisoScan ? (
+        <AisoScanSection aisoScan={aisoScan} itemSlug={item.slug} />
+      ) : null}
 
       <div className="ac-detail-grid">
         <div style={{ display: "grid", gap: 12 }}>

@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # GitHub Pool Exhausted Runbook
 
 Target MTTR: <= 30 minutes

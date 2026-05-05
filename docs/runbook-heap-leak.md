@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # Heap Leak Runbook (AGN-852 / OBS-7)
 
 ## Purpose

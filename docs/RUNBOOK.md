@@ -1,3 +1,9 @@
+---
+status: snapshot
+audit-date: 2026-05-05
+reason: dated 2026-04-26/27 audit-cleanup commentary; references parked operator-WIP files and "lint broken at branch level" that may no longer hold; concrete script/guard claims still valid
+---
+
 # STARSCREENER — Operator Runbook
 
 Consolidates the operational learnings from the tech-debt audit cleanup

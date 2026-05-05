@@ -10,6 +10,175 @@
 - [ ] VPS migration (owner: CTO). Done when migration decision is documented as ship/no-ship with risk, cost, and rollback criteria. Target sprint: Sprint 6 (optional).
 
 ## Discovered during current work
+- 2026-05-05 AGN-711 [AGN-122] Fix Lighthouse perf score <80 on /signals (43) (reassignment redistribution triage):
+  - Reassignment intake: board comment `4039110f-3600-4928-b3a6-9742a859d6ba` rerouted AGN-711 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-711 redistribution continuity follow-through (owner: PM triage). Done when AGN-711 has one implementation owner assigned by CTO, one explicit unblock path for `/signals` Lighthouse perf remediation with before/after evidence, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-711; assigned engineer captures `/signals` Lighthouse baseline evidence (score 43), lands targeted fixes, and posts rerun evidence showing Lighthouse perf >=80; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+
+- 2026-05-05 AGN-710 [AGN-122] Fix Lighthouse perf score <80 on / (35) (reassignment redistribution triage):
+  - Reassignment intake: board comment `a73f66ae-4984-4939-b64b-d2f10c88cfc5` rerouted AGN-710 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-710 redistribution continuity follow-through (owner: PM triage). Done when AGN-710 has one implementation owner assigned by CTO, one explicit unblock path for home-route Lighthouse >=80 remediation with before/after evidence, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-710; assigned engineer captures baseline Lighthouse evidence on `/`, lands focused perf improvements to reach >=80, and posts reproducible after-fix evidence; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+
+- 2026-05-05 AGN-712 [AGN-122] Restore /trends route + Lighthouse baseline (404) (reassignment redistribution triage):
+  - Reassignment intake: board comment `ee28f769-ec8c-4f18-8ffd-89ee9449f147` rerouted AGN-712 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-712 redistribution continuity follow-through (owner: PM triage). Done when AGN-712 has one implementation owner assigned by CTO, one explicit unblock path for `/trends` route restore and Lighthouse baseline artifacts for AGN-122 acceptance, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-712; assigned engineer restores `/trends` from 404 to 200 and captures Lighthouse baseline evidence; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+
+- 2026-05-05 AGN-858 Investigate broken workflow: Refresh agent-commerce pipeline (reassignment redistribution triage):
+  - Reassignment intake: board comment `bf254603-6c1d-47f0-9a42-2c3e8bc7e845` rerouted AGN-858 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-858 redistribution continuity follow-through (owner: PM triage). Done when AGN-858 has one implementation owner assigned by CTO, one explicit unblock path for `Refresh agent-commerce pipeline` workflow remediation with run-level evidence, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-858; assigned engineer verifies failing `Refresh agent-commerce pipeline` workflow run id/log evidence and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+
+- 2026-05-05 AGN-859 Investigate broken workflow: Cron - pipeline ingest (reassignment redistribution triage):
+  - Reassignment intake: board comment `6876da3c-b736-411e-9b59-6b8af9925367` rerouted AGN-859 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-859 redistribution continuity follow-through (owner: PM triage). Done when AGN-859 has one implementation owner assigned by CTO, one explicit unblock path for `Cron - pipeline ingest` workflow remediation with run-level evidence, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-859; assigned engineer verifies failing `Cron - pipeline ingest` workflow run id/log evidence and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+
+- 2026-05-05 AGN-813 [AISO] Fix repo typecheck blockers preventing AGN-786 QA close-out (reassignment redistribution triage):
+  - Reassignment intake: board comment `891f114a-f40c-4591-ac90-7877e4d3a611` rerouted AGN-813 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-813 redistribution continuity follow-through (owner: PM triage). Done when AGN-813 has one implementation owner assigned by CTO, one explicit unblock path for repo `typecheck` remediation with run-level evidence for AGN-786 QA close-out, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-813; assigned engineer captures failing `npm run typecheck` evidence, ships minimal fixes, and posts green `npm run typecheck` proof for AGN-786 QA; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- 2026-05-05 AGN-861 Investigate broken workflow: Refresh repo profiles (reassignment redistribution triage):
+  - Reassignment intake: board comment `bee3645f-4114-4853-ad9a-72430345bd75` rerouted AGN-861 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-861 redistribution continuity follow-through (owner: PM triage). Done when AGN-861 has one implementation owner assigned by CTO, one explicit unblock path for `Refresh repo profiles` workflow remediation with run-level evidence, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-861; assigned engineer verifies failing `Refresh repo profiles` workflow run id/log evidence and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- 2026-05-05 AGN-860 Investigate broken workflow: cron-subdomain-takeover.yml (reassignment redistribution triage):
+  - Reassignment intake: board comment `b4cf2719-3fe0-4f16-80ea-60e0027bf454` rerouted AGN-860 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-860 redistribution continuity follow-through (owner: PM triage). Done when AGN-860 has one implementation owner assigned by CTO, one explicit unblock path for `cron-subdomain-takeover.yml` workflow remediation with run-level evidence, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-860; assigned engineer verifies failing `cron-subdomain-takeover.yml` run id/log evidence and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+
+- 2026-05-05 AGN-857 Investigate broken workflow: Collect Twitter Signals (reassignment redistribution triage):
+  - Reassignment intake: board comment `38414d08-b656-47d6-9405-f3eb827a1a12` rerouted AGN-857 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-857 redistribution continuity follow-through (owner: PM triage). Done when AGN-857 has one implementation owner assigned by CTO, one explicit unblock path for `Collect Twitter Signals` workflow remediation with run-level evidence, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-857; assigned engineer verifies failing `Collect Twitter Signals` workflow run id/log evidence and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- 2026-05-05 AGN-862 Investigate broken workflow: release-cdn-purge-and-targeted-refresh.yml (reassignment redistribution triage):
+  - Reassignment intake: board comment `99dc17ac-5d5c-4e80-90b3-65dbd0a1a6fc` rerouted AGN-862 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-862 redistribution continuity follow-through (owner: PM triage). Done when AGN-862 has one implementation owner assigned by CTO, one explicit unblock path for `release-cdn-purge-and-targeted-refresh.yml` workflow remediation with run-level evidence, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-862; assigned engineer verifies failing `release-cdn-purge-and-targeted-refresh.yml` run id/log evidence and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+
+- 2026-05-05 AGN-864 Investigate broken workflow: Refresh Bluesky signals (reassignment redistribution triage):
+  - Reassignment intake: board comment `b854e207-e2b6-4830-a78e-92eebdde97f2` rerouted AGN-864 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-864 redistribution continuity follow-through (owner: PM triage). Done when AGN-864 has one implementation owner assigned by CTO, one explicit unblock path for `Refresh Bluesky signals` workflow remediation with run-level evidence, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-864; assigned engineer verifies failing `Refresh Bluesky signals` workflow run id/log evidence and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+
+- 2026-05-05 AGN-865 Investigate broken workflow: Refresh Lobsters signals (reassignment redistribution triage):
+  - Reassignment intake: board comment `6edc942c-db7f-4355-a7e6-596acc600ef4` rerouted AGN-865 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-865 redistribution continuity follow-through (owner: PM triage). Done when AGN-865 has one implementation owner assigned by CTO, one explicit unblock path for `Refresh Lobsters signals` workflow remediation with run-level evidence, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-865; assigned engineer verifies failing `Refresh Lobsters signals` workflow run id/log evidence and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+
+- 2026-05-05 AGN-866 Investigate broken workflow: secrets-scan.yml (reassignment redistribution triage):
+  - Reassignment intake: board comment `bff3fe71-13b8-4aaa-a0c9-6e971306b0fb` rerouted AGN-866 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-866 redistribution continuity follow-through (owner: PM triage). Done when AGN-866 has one implementation owner assigned by CTO, one explicit unblock path for `secrets-scan.yml` workflow remediation with run-level evidence, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-866; assigned engineer verifies failing `secrets-scan.yml` run id/log evidence and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+
+- 2026-05-05 AGN-867 Investigate broken workflow: sre-actions-visibility.yml (reassignment redistribution triage):
+  - Reassignment intake: board comment `1866b43e-7db5-4a38-9fb2-32634de01299` rerouted AGN-867 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-867 redistribution continuity follow-through (owner: PM triage). Done when AGN-867 has one implementation owner assigned by CTO, one explicit unblock path for `sre-actions-visibility.yml` workflow remediation with run-level evidence, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-867; assigned engineer verifies failing `sre-actions-visibility.yml` run id/log evidence and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+
+- 2026-05-05 AGN-868 Investigate broken workflow: sre-cron-secret-rotation-guard.yml (reassignment redistribution triage):
+  - Reassignment intake: board comment `7ee56107-f7af-4b2d-900d-be5ac130153a` rerouted AGN-868 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location currently resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-868 redistribution continuity follow-through (owner: PM triage). Done when AGN-868 has one implementation owner assigned by CTO, one explicit unblock path for `sre-cron-secret-rotation-guard.yml` workflow remediation with evidence, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-868; assigned engineer verifies failing `sre-cron-secret-rotation-guard.yml` workflow evidence and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+
+- 2026-05-05 AGN-869 Investigate broken workflow: sre-redis-restore-drill.yml (reassignment redistribution triage):
+  - Reassignment intake: board comment `1e5f439d-5398-4e11-b3c3-8fa5b5f04b57` rerouted AGN-869 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location currently resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-869 redistribution continuity follow-through (owner: PM triage). Done when AGN-869 has one implementation owner assigned by CTO, one explicit unblock path for `sre-redis-restore-drill.yml` workflow remediation with run-level evidence, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-869; assigned engineer verifies failing `sre-redis-restore-drill.yml` run id/log evidence and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+
+- 2026-05-05 AGN-863 Investigate broken workflow: Refresh arXiv signals (reassignment redistribution triage):
+  - Reassignment intake: board comment `55884d6c-f49b-4020-8bc7-7bf8e5d7b591` rerouted AGN-863 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location currently resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing and product preflight is stale-blocked in this heartbeat.
+  - [ ] AGN-863 redistribution continuity follow-through (owner: PM triage). Done when AGN-863 has one data/backend implementation owner assigned by CTO, one explicit unblock path for `Refresh arXiv signals` workflow run-failure verification and repair evidence, and a fresh heartbeat proves localhost preflight is reachable with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-863; assigned engineer verifies failing `Refresh arXiv signals` run id/log evidence and lands workflow remediation with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+
+- 2026-05-05 AGN-870 Investigate broken workflow: Sync TrustMRR revenue overlays (reassignment redistribution triage):
+  - Reassignment intake: board comment `1a5e06a1-167a-4852-b53c-86715100df36` rerouted AGN-870 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location currently resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-870 redistribution continuity follow-through (owner: PM triage). Done when AGN-870 has one implementation owner assigned by CTO, one explicit unblock path for Sync TrustMRR workflow remediation with evidence, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-870; assigned engineer verifies failing `sync-trustmrr` workflow evidence and patches the failure path for revenue overlay sync; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- 2026-05-05 AGN-1473 [Bug][P1] /mcp route external icon/avatar request failures (ORB/404) with console noise (reassignment redistribution triage):
+  - Reassignment intake: board comment `10a1d975-0c16-4058-b82a-0001640afb5b` rerouted AGN-1473 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location currently resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-1473 redistribution continuity follow-through (owner: PM triage). Done when AGN-1473 has one frontend implementation owner assigned by CTO, one explicit unblock path for `/mcp` external icon/avatar ORB/404 failure handling plus console-noise reduction verification, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-1473; frontend engineer verifies/patches `/mcp` external icon/avatar fallback behavior for ORB/404 failures and console noise suppression; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- 2026-05-05 AGN-871 Investigate broken workflow: trendingrepo-worker (reassignment redistribution triage):
+  - Reassignment intake: board comment `0ccd56f9-a929-4185-8db3-c043cb1745cc` rerouted AGN-871 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - Verified workflow-run inspection attempt failed: `gh run list --workflow trendingrepo-worker.yml --limit 10` -> `HTTP 401 Bad credentials`.
+  - [ ] AGN-871 redistribution continuity follow-through (owner: PM triage). Done when AGN-871 has one implementation owner assigned by CTO, one authenticated workflow failure evidence packet for `trendingrepo-worker` (run id + failing step + fix scope), and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-871; assigned engineer uses authenticated `gh` access to collect failing run evidence and implement remediation; platform engineer restores localhost:3023 reachability so freshness preflight can pass.
+- 2026-05-05 AGN-726 [P0 backend] DROP REPO should return already_tracked for known tracked repos (reassignment redistribution triage):
+  - Reassignment intake: board comment `0f2b2ebe-c4cc-4a4d-ae02-917ed8c3b2b4` rerouted AGN-726 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location currently resolves to `docs/archive/AUDIT-2026-05-04.md`.
+  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
+  - [ ] AGN-726 redistribution continuity follow-through (owner: PM triage). Done when AGN-726 has one backend implementation owner assigned by CTO, one explicit unblock path for DROP REPO `already_tracked` contract verification/fix, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-726; backend engineer validates and patches DROP REPO `already_tracked` behavior for known tracked repos; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+- 2026-05-05 AGN-9 AGNT full-sync failing (reassignment redistribution triage):
+  - Reassignment intake: board comment `c1a7376d-8b96-4c2c-af5d-deb105e26f59` rerouted AGN-9 to Sprint Triage because original assignee was missing/removed.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Verified `npm run freshness:check` reached `http://localhost:3023` (not missing) and failed with `GET /api/health?soft=1 -> HTTP 500 Internal Server Error`, so product is stale/degraded.
+  - [ ] AGN-9 redistribution continuity follow-through (owner: PM triage). Done when AGN-9 has one implementation owner assigned by CTO, one explicit unblock path for full-sync remediation, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
+    Dependencies: CTO assigns implementation owner for AGN-9 full-sync recovery; assigned engineer posts full-sync failure evidence and fix proof; platform engineer restores `/api/health?soft=1` to HTTP 200 and reruns `npm run freshness:check` to pass.
+
 - 2026-05-05 AGN-1515 [Sprint 1 audit] Sprint Triage sprint-vs-backlog boundary enforcement check (documentation scope this heartbeat):
   - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
   - Verified `npm run freshness:check` failed with `ECONNRESET`; direct probe `http://localhost:3023/api/health?soft=1` failed with connection error, so localhost is missing/unreachable in this heartbeat.
@@ -148,10 +317,11 @@
     Dependencies: platform engineer restores blocking freshness rows to GREEN within budget (especially `trending-repos`, `producthunt`, `twitter`, `npm`, `lobsters`, `awesome-skills`, `claude-rss`, `openai-rss`); CTO/platform provides Vercel `SENTRY_DSN` canary evidence.
 - 2026-05-05 AGN-1047 [Sprint 1 audit] Sprint/backlog boundary integrity pass (documentation scope this heartbeat):
   - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
-  - Verified `npm run freshness:check` reached localhost (`http://localhost:3023`, not missing) but failed with `GET /api/health?soft=1 -> HTTP 500 Internal Server Error` at `2026-05-05T02:37:30.7864875+08:00`.
+  - Retry-pass evidence (2026-05-05): `npm run freshness:check` timed out contacting `http://localhost:3023` (localhost unstable/unreachable in this heartbeat path).
+  - Live in-progress scope sample (`GET /api/companies/{companyId}/issues?status=in_progress&limit=20`) still includes out-of-scope implementation tickets: `AGN-386`, `AGN-799`, `AGN-885`, `AGN-544`, `AGN-899`, `AGN-1484`, `AGN-876`.
   - Scope decision: keep Sprint 1 execution locked to Phase 1.5 + local freshness unblock; keep all out-of-scope discoveries backlog-only unless CTO reprioritizes.
   - [ ] AGN-1047 boundary integrity continuity follow-through (owner: PM triage). Done when sprint/backlog ownership and acceptance metadata stay synchronized with one owner + binary done-state text per issue, and non-Sprint-1 execution remains backlog-first unless CTO reprioritizes.
-    Dependencies: platform engineer restores local freshness endpoint behavior (`/api/health?soft=1` HTTP 200 and passing `npm run freshness:check`); CTO/platform provides Vercel `SENTRY_DSN` verification evidence where required for sprint closure.
+    Dependencies: platform engineer restores localhost freshness responsiveness and returns `npm run freshness:check` to pass state; CTO/board confirms move-to-backlog vs child-split routing for sampled non-Sprint-1 active issues; CTO/platform provides Vercel `SENTRY_DSN` verification evidence where required for sprint closure.
 - 2026-05-04 AGN-756 [GAP-AUDIT-21] Privacy Policy + Terms of Service pages (out of Sprint 1 implementation scope):
   - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
   - Verification evidence: `rg -n "privacy|terms|tos|terms of service" src/app docs tasks` returned no product route implementations; `Get-ChildItem -Name src/app` shows no `privacy` or `terms` route folders.
@@ -452,3 +622,7 @@
 - [ ] **DATABASE.md full rewrite** â€” document current Redis + Supabase duality; reference ADR 0001 + `apps/trendingrepo-worker/src/lib/db.ts:upsertItem()`
 - [ ] **SCORING.md full rewrite** â€” document v3 8-source consensus + Kimi K2.6 AI Analyst (refs `apps/trendingrepo-worker/src/fetchers/consensus-trending/{types.ts,scoring.ts}`)
 - [ ] **Phase 1.0.D verification sweep** â€” drift-audit `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`, `docs/runbooks/*` (5 files), `docs/protocols/*` (5 files), `docs/RUNBOOK-secret-rotation.md`, `docs/DESIGN_SYSTEM.md`; mark living/snapshot/needs-rewrite
+
+
+
+

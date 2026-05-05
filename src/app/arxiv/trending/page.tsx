@@ -40,6 +40,7 @@ import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { MarkVisited } from "@/components/layout/MarkVisited";
+import { absoluteUrl } from "@/lib/seo";
 
 // arXiv brand: Cornell crimson. No `--v4-src-arxiv` token exists yet, so
 // hardcode the brand color rather than fall back to the generic `--v4-red`
@@ -90,17 +91,19 @@ export const metadata: Metadata = {
   title: "Trending arXiv Papers",
   description:
     "Top arXiv papers by recency + linked-repo momentum across cs.AI / cs.CL / cs.LG. Source-scoped twin of the /papers feed.",
-  alternates: { canonical: "/arxiv/trending" },
+  alternates: { canonical: absoluteUrl("/arxiv/trending") },
   openGraph: {
     title: "Trending arXiv Papers — TrendingRepo",
     description: "arXiv papers by recency and linked-repo momentum.",
-    url: "/arxiv/trending",
+    url: absoluteUrl("/arxiv/trending"),
     type: "website",
+    images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Trending arXiv Papers — TrendingRepo",
     description: "arXiv papers by recency and linked-repo momentum.",
+    images: [absoluteUrl("/og-card.png")],
   },
 };
 

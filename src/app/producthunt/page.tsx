@@ -56,6 +56,7 @@ export const metadata: Metadata = {
     description:
       "Daily ProductHunt launches scored by votes/comments, cross-linked to GitHub repos when the maker mentions one.",
     url: absoluteUrl("/producthunt"),
+    type: "website",
     images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
   },
   twitter: {

@@ -24,7 +24,7 @@ Target MTTR: <= 30 minutes
 4. Recheck affected pages and `/api/health?soft=1`.
 
 ## Real Example (Past Quarter)
-- 2026-05-04: GitHub pool audit captured operator visibility and pool-state gaps, including mixed env naming (`GH_TOKEN_POOL` vs `GITHUB_TOKEN_POOL`) and verification drift risk. See `docs/forensic/AGN-720-CTO-GITHUB-POOL-AUDIT-2026-05-04.md`.
+- 2026-05-04: GitHub pool audit captured operator visibility and pool-state gaps, including mixed env naming (`GH_TOKEN_POOL` vs `GITHUB_TOKEN_POOL`) and verification drift risk. See `docs/archive/forensic-2026-05-pre/AGN-720-CTO-GITHUB-POOL-AUDIT-2026-05-04.md`.
 
 ## Rollback
 - If newly added token causes auth errors, remove that token from pool env, redeploy, and revert to last known good token set.

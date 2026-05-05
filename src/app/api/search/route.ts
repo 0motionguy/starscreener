@@ -216,16 +216,13 @@ export async function GET(request: NextRequest) {
     return buildLegacyResponse([], 0, query);
   }
 
-  // Optional legacy `category` filter — not part of the new facet contract
-  // but preserved so existing callers (`?q=foo&category=web`) keep working.
-  const category = url.searchParams.get("category");
-
-  // Iterate the derived repos once, applying the faceted filter.
+  // Iterate the derived repos once, applying the faceted filter. `category`
+  // is part of the parsed `query` (SAM-07: enum mcp|skill|agent|library) and
+  // is enforced inside `matchesQuery` against `repo.repoCategory`.
   const ctx = buildMatchContext();
   const all = getDerivedRepos();
   const matched: Repo[] = [];
   for (const repo of all) {
-    if (category && repo.categoryId !== category) continue;
     if (!matchesQuery(repo, query, ctx)) continue;
     matched.push(repo);
   }
@@ -244,17 +241,10 @@ export async function GET(request: NextRequest) {
   const withFacets =
     url.searchParams.get("facets") === "1" ||
     url.searchParams.get("withFacets") === "1";
-  // Candidate set for facet counting = every repo that passes the legacy
-  // `category` pre-filter (which is not part of the faceted contract). That
-  // way the per-dimension drops inside `computeFacets` work off the same
-  // universe the main query path does.
-  const facets = withFacets
-    ? computeFacets(
-        all.filter((r) => (category ? r.categoryId === category : true)),
-        query,
-        ctx,
-      )
-    : null;
+  // Facet counting walks every repo and applies all base-query filters
+  // EXCEPT the dimension being counted (`computeFacets` clones the query
+  // per dimension). `category` is treated like any other facet.
+  const facets = withFacets ? computeFacets(all, query, ctx) : null;
 
   return respondWithSizeGuard(
     {

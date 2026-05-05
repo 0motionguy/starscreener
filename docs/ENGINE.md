@@ -8,9 +8,9 @@ status: living
 
 Last derived from filesystem on 2026-05-05. Direct re-derivation:
 
-- Workflows: `Glob .github/workflows/*.yml` (count = 85)
-- Cron API routes: `Glob src/app/api/cron/**/route.ts` (count = 16)
-- Worker fetchers: `apps/trendingrepo-worker/src/registry.ts` (44 active in `FETCHERS[]`; 7 stubs left in tree but excluded from registry; 51 total per `npm run engine:derive`)
+- Workflows: `Glob .github/workflows/*.yml` (count = 88)
+- Cron API routes: `Glob src/app/api/cron/**/route.ts` (count = 14)
+- Worker fetchers: `apps/trendingrepo-worker/src/registry.ts` (44 active in `FETCHERS[]`, all imported and exported; 4 prior stub directories — `huggingface`, `github`, `mcp-so`, `mcp-servers-repo` — deleted 2026-05-05. 3 implementations exist on disk but are not yet wired: `ai-blogs`, `arxiv`, `github-events`. `agent-commerce/` is data-only.)
 - Env vars: `.env.example` + `src/lib/env.ts` + `process.env.*` greps in `scripts/` and `apps/trendingrepo-worker/src/`
 
 This file is the canonical engine map. Every gain/loss of a workflow,
@@ -148,19 +148,22 @@ them on a schedule today.
 
 ---
 
-## 3. Worker (apps/trendingrepo-worker/) - 44 active fetchers (51 total in tree)
+## 3. Worker (apps/trendingrepo-worker/) - 44 active fetchers
 
 Source: `apps/trendingrepo-worker/src/registry.ts` (`FETCHERS[]`) +
 each fetcher's `index.ts`. Schedules are 5-field UTC cron strings used
 by `croner` in `src/schedule.ts`. Every fetcher writes to the
 `ss:data:v1:<name>` Redis key via `src/lib/redis.ts`.
 
-`_template`, `huggingface`, `github`, `mcp-so`, `mcp-servers-repo`,
-`github-events`, `ai-blogs`, `arxiv` exist as files under
-`src/fetchers/` but are not in the active `FETCHERS[]` registry export
-(see `registry.ts` comments: stubs left in tree as documentation of
-intent). `agent-commerce/` exists as a data-only directory (no
-`index.ts`).
+`_template/` is the deliberate scaffolding template (see
+`_template/README.md`). The four prior stubs (`huggingface`, `github`,
+`mcp-so`, `mcp-servers-repo`) were deleted 2026-05-05 (they only
+emitted "not yet implemented" warnings every cron tick). The three
+real-but-unwired implementations (`ai-blogs`, `arxiv`,
+`github-events`) have full code + tests but are not in `FETCHERS[]`
+yet — see the banner comment at the top of each `index.ts` for the
+promotion path. `agent-commerce/` is data-only (just `seed-data.json`,
+no `index.ts`; consumed by `scripts/build-agent-commerce-seed.mjs`).
 
 | Fetcher | Schedule (UTC) | Output Redis key | Notes |
 |---|---|---|---|

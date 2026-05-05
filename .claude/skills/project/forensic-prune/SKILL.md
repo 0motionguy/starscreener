@@ -50,19 +50,20 @@ Trigger phrases:
 3. **Move existing reports.**
    - Create `docs/archive/forensic/YYYY-MM-DD/` for each distinct date present.
    - `git mv` (preserves history) each report to its dated archive folder.
-   - Keep `docs/forensic/00-INDEX.md` at the top level -- it gets rewritten, not moved.
+   - The top-level `docs/forensic/` directory itself is archived + gitignored; do NOT recreate `docs/forensic/00-INDEX.md` under it. The canonical INDEX lives at `docs/archive/forensic-2026-05-pre/00-INDEX.md` (historical) plus `docs/archive/forensic/INDEX.md` (rolling).
 
 4. **Redirect the generator.**
    - Edit the generator to write to `docs/archive/forensic/<today>/<id>.md`
      instead of `docs/forensic/<id>.md`.
-   - The top-level `docs/forensic/` becomes a thin pointer dir, not a dump.
+   - The top-level `docs/forensic/` is gone -- it is NOT a thin pointer dir, it is archived. Any write to `docs/forensic/` is a bug.
 
 5. **Regenerate the INDEX.**
-   - Rewrite `docs/forensic/00-INDEX.md` as a SHORT pointer doc:
+   - Rewrite `docs/archive/forensic/INDEX.md` as a SHORT pointer doc:
      - One section per archive date with a relative link to the folder.
      - Keep only currently-actionable findings inline at the top.
      - Closed/historical items live behind the date links, not in the body.
    - Cap the INDEX at ~80 lines. If it grows past that, more pruning is due.
+   - Do NOT (re)create `docs/forensic/00-INDEX.md` -- that path is gitignored and archived.
 
 6. **Verify.**
    - `git status` -- confirm the moves are recognized as renames (R), not delete+add.

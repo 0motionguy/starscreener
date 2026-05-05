@@ -26,6 +26,63 @@ Status: IN PROGRESS - Phase 1.5 blocked on Vercel Sentry DSN
 Started: 2026-05-03
 Target completion: 2026-05-10
 
+## AGN-809 [SEO child] Add explicit OG image/type coverage on signal surfaces (PM triage reclassification, 2026-05-05)
+- Reclassification trigger: board comment `51d1f643-6c89-4700-ac75-13c582254082` requested PM to re-read thread and clarify blocker cause.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness preflight evidence at `2026-05-05T14:00:22+08:00`: `npm run freshness:check` reached `http://localhost:3023` (`health=ok`), so localhost is not missing; product is stale/degraded (`blocking_non_green=17`, `red=4`, `Sentry: MISSING`).
+- Verified implementation state: all 12 audited signal routes include explicit `openGraph` blocks with `images` and `twitter.images` entries (grep evidence in `src/app/{signals,hackernews/trending,bluesky/trending,devto,arxiv/trending,huggingface/trending,npm,mcp,twitter,producthunt,lobsters,reddit/trending}/page.tsx`).
+- Blocker cause (reclassified): AGN-809 is blocked on missing acceptance-evidence closure, not on missing implementation. The thread currently lacks a binary AGN-585 matrix proof showing OG core PASS for all 12 routes and non-500 OG image endpoint checks.
+- Owner: PM triage (acceptance packet), then QA/SEO verifier (execution evidence), then CTO for final close decision.
+- Needs: run the AGN-585 OG matrix verification pass against all 12 routes, attach route-by-route PASS/FAIL evidence plus OG image URL status checks (non-500), and close or reopen implementation only for concrete failing routes.
+- Done when: one evidence packet in the issue thread shows OG core PASS + non-500 image endpoint proof across all 12 audited routes, with no ambiguous blocker language.
+
+## AGN-810 [SEO child] Structured data + sitemap-pages parity for top routes (triage reclassification, 2026-05-05)
+- Reclassification trigger: board comment `29386d74-10ce-4453-9af3-62d5dd4ae9cc` requested Sprint Triage to re-read thread and clarify blocker cause.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness preflight evidence at `2026-05-05T14:00:32+08:00`: `npm run freshness:check` reached `http://localhost:3023` (`health=ok`) but product is stale/degraded (`blocking_non_green=24`, `Sentry: MISSING`).
+- Blocker cause (reclassified): blocker is not missing localhost reachability; blocker is stale/degraded product freshness state, which prevents clean acceptance evidence for SEO parity closure.
+- Evidence recheck: JSON-LD coverage is present in `src/app/skills/page.tsx`, `src/app/mcp/page.tsx`, `src/app/signals/page.tsx`, `src/app/top10/page.tsx`, `src/app/agent-repos/page.tsx`, and sitemap parity for `/skills` + `/mcp` is present in `src/app/sitemap-pages.xml/route.ts`.
+- Owner: PM triage (until CTO confirms acceptance-path owner).
+- Needs: CTO/release owner confirms acceptance path (`localhost freshness green` or approved staging/prod parity proof); platform/data owner restores blocking stale/red/dead sources and resolves `Sentry: MISSING`; assignee posts final parity evidence and closes AGN-810.
+- Done when: AGN-810 has one explicit acceptance owner, one accepted verification path, and one evidence packet showing JSON-LD + sitemap parity PASS with freshness no longer blocking closure.
+
+## AGN-725 [AGN-582 child] Fix mobile overflow on /githubrepo at 375px (PM blocker reclassification, 2026-05-05)
+- Reclassification trigger: board comment `549d8967-8914-46f8-ad73-7c290f04b7e7` requested PM triage to re-read thread and clarify blocker cause.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate evidence at `2026-05-05T06:00:29.329Z`: `npm run freshness:check` reached `http://localhost:3023` (`health=ok`), but product is stale/degraded (`blocking_non_green=17`, `Sentry: MISSING`).
+- Blocker cause (reclassified): this is an active frontend defect still reproducible in production (`/githubrepo` overflows at 375/390) and blocked by missing implementation owner + missing remediation PR, not by QA ambiguity.
+- Owner: PM triage (until CTO assigns one frontend implementation owner for AGN-725).
+- Needs: CTO assigns one frontend implementation owner; assignee patches `/githubrepo` mobile layout to remove horizontal overflow and ships verification evidence at `375`, `390`, and `768` widths.
+- Done when: one merged fix removes horizontal overflow (`scrollWidth <= innerWidth`) on `/githubrepo` for `375/390/768` and rerun evidence is attached.
+
+## AGN-723 [AGN-582 child] Fix mobile overflow on / at 375px (PM blocker reclassification, 2026-05-05)
+- Reclassification trigger: board comment `e2648bc9-c8c7-438f-91b4-ba55148f4dad` requested Sprint Triage to re-read thread and clarify blocker cause.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate evidence at `2026-05-05T06:03:25.650Z`: `npm run freshness:check` reached `http://localhost:3023` (`health=ok`), so localhost is not missing; product is stale/degraded (`blocking_non_green=17`, `red=4`, `Sentry: MISSING`).
+- Verified defect evidence from latest QA retry summary: homepage `/` still overflows on mobile (`375x667`: `scrollWidth=386` > `innerWidth=375`; `390x844`: `scrollWidth=399` > `innerWidth=390`; `768x1024`: no overflow).
+- Blocker cause (reclassified): AGN-723 is blocked by unresolved implementation ownership + no merged homepage overflow fix, not by QA ambiguity. QA has already provided reproducible failure evidence.
+- Owner: CTO to assign one frontend implementation owner; PM triage owns boundary hygiene until assignment lands.
+- Needs: assign one frontend engineer to patch homepage mobile layout on `/` and ship rerun evidence at `375`, `390`, and `768` proving `scrollWidth <= innerWidth`.
+- Done when: one merged fix removes horizontal overflow on `/` for `375/390/768` and rerun evidence is attached in AGN-723.
+
+## AGN-70 [Sprint 1 Ph 1.5] Sentry event delivery verification (triage reclassification, 2026-05-05)
+- Reclassification trigger: board comment `bd5070c8-adce-4207-9963-7492dcd4967e` asked PM triage to re-read and clarify blocker cause.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness preflight evidence at `2026-05-05`: `npm run freshness:check` failed with `request timed out while contacting http://localhost:3023`, so localhost freshness is currently non-verifiable in this heartbeat.
+- Blocker cause (reclassified): AGN-70 remains blocked by missing/unenforced production app `SENTRY_DSN` delivery path for live canary proof, not by implementation uncertainty in Next 15 hook wiring (wiring checks are already complete per prior run summary).
+- Unblock owner chain: CTO -> Infra/Vercel operator for DSN provisioning + redeploy + live canary trigger; Backend/Platform engineer for post-deploy evidence capture in Sentry (`agnt-pf`, `de.sentry.io`) and worker-init proof.
+- Needs: set app `SENTRY_DSN` in production runtime, redeploy app, trigger one deterministic app-route canary event and one worker event, attach event IDs/screenshots/log evidence, and rerun verification script/checklist.
+- Done when: one app-route Sentry event and one worker event are visible in `agnt-pf` with timestamped evidence, and AGN-70 records binary pass/fail for hook export checks + canary delivery proof.
+
+## AGN-721 [P1 a11y] ARIA attribute violations on /signals and home (triage reclassification, 2026-05-05)
+- Reclassification trigger: board comment `d4a607d7-7119-475c-9c6f-03ca250cda70` requested blocker-cause clarification.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness preflight evidence at `2026-05-05T05:59:12.345Z`: `npm run freshness:check` reached `http://localhost:3023` (`health=ok`) but product is stale/degraded (`blocking_non_green=31`, `Sentry: MISSING`).
+- Blocker cause (reclassified): AGN-721 is blocked by unassigned frontend remediation for invalid `aria-pressed` semantics on `/signals` chips, not by missing localhost reachability.
+- Owner: PM triage (until CTO assigns one implementation owner).
+- Needs: CTO assigns one frontend implementation owner for AGN-721; assignee replaces invalid anchor+`aria-pressed` pattern with valid toggle semantics, deploys, and QA reruns route-level axe scan proving zero critical/serious ARIA violations on `/` and `/signals`.
+- Done when: AGN-721 has one implementation owner, one merged remediation, and QA evidence shows `/` and `/signals` each report `0` critical/serious ARIA violations.
+
 ## AGN-710 [AGN-122] Fix Lighthouse perf score <80 on / (35) (Sprint triage redistribution heartbeat, 2026-05-05)
 - Reassignment intake: latest board comment (`a73f66ae-4984-4939-b64b-d2f10c88cfc5`) rerouted AGN-710 to Sprint Triage because original assignee was missing/removed.
 - Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
@@ -969,3 +1026,4 @@ Result: acceptance-criteria lint delta pass is PASS (2/2). Sprint close-readines
 - Needs: board/CTO decision whether `AGN-363` should be relinked under AGN-58 (`parentId=cb773b12-65b5-494c-a695-c8f409b47bf0`) or remain out of AGN-58 graph references.
 - Done when: AGN-58 linkage notes across sprint/backlog include only live AGN-58 children (or explicitly tagged exceptions with board decision) and each row retains one owner + binary done-state wording + explicit action/dependency text.
 
+- 2026-05-05 AGN-436 [P0 ops] deploy-storm ownership triage heartbeat: latest board comment requested Sprint Triage to resolve "no active implementation owner." Mandatory opening bundle re-verified; `npm run freshness:check` at 2026-05-05T05:56:24.688Z reached localhost:3023 (not missing) but product is stale/degraded (`blocking_non_green=18`, `Sentry: MISSING`). PM decision: escalate to CTO to assign AGN-436 to one named backend engineer (file scope `scripts/_data-store-write.mjs`). Execution blocker: Paperclip API endpoint `http://192.168.192.1:3100` unreachable from this runner (curl/TCP connect failed), so issue comment + terminal status PATCH could not be persisted this heartbeat. Unblock owner: platform/network owner for Paperclip API reachability; after restore, PM must immediately post AGN-436 evidence comment and PATCH terminal `blocked` with CTO assignment request.

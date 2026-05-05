@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-05T05:48:15.872Z",
+  "generated_at": "2026-05-05T06:05:04.056Z",
   "workflows": [
     {
       "file": "aiso-self-scan.yml",
@@ -291,6 +291,14 @@
         "pull_request",
         "schedule",
         "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "engine-inventory-check.yml",
+      "name": "engine-inventory-check",
+      "crons": [],
+      "triggers": [
+        "pull_request"
       ]
     },
     {
@@ -913,6 +921,25 @@
         "schedule",
         "workflow_dispatch"
       ]
+    },
+    {
+      "file": "workflow-coverage-check.yml",
+      "name": "workflow-coverage-check",
+      "crons": [],
+      "triggers": [
+        "pull_request"
+      ]
+    },
+    {
+      "file": "worklog-hygiene.yml",
+      "name": "worklog-hygiene",
+      "crons": [
+        "0 6 * * 1"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
     }
   ],
   "cron_routes": [
@@ -986,20 +1013,16 @@
     "devto",
     "engagement-composite",
     "funding-news",
-    "github",
     "github-events",
     "glama",
     "hackernews",
     "hn-pulse",
     "hotness-snapshot",
-    "huggingface",
     "lobehub-skills",
     "lobsters",
     "manual-repos",
     "mcp-registry-official",
-    "mcp-servers-repo",
     "mcp-smithery-rank",
-    "mcp-so",
     "mcp-usage-snapshot",
     "npm-dependents",
     "npm-downloads",

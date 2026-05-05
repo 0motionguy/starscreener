@@ -35,6 +35,28 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
 - [ ] VPS migration (owner: CTO). Done when migration decision is documented as ship/no-ship with risk, cost, and rollback criteria. Target sprint: Sprint 6 (optional).
 
 ## Discovered during current work
+- 2026-05-05 AGN-723 [AGN-582 child] Fix mobile overflow on / at 375px (triage reclassification):
+  - Reclassification trigger: board comment `e2648bc9-c8c7-438f-91b4-ba55148f4dad` requested Sprint Triage to re-read thread and clarify blocker cause.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Verified `npm run freshness:check` at `2026-05-05T06:03:25.650Z` reached `http://localhost:3023` (`health=ok`) and failed freshness policy (`blocking_non_green=17`, `red=4`, `Sentry: MISSING`), so localhost is not missing but product is stale/degraded.
+  - Verified latest QA retry still reproduces homepage overflow on `/` (`375`: `386>375`, `390`: `399>390`, `768`: pass).
+  - [ ] AGN-723 blocker-cause reclassification continuity follow-through (owner: PM triage). Done when AGN-723 has one assigned frontend implementation owner and one merged homepage overflow fix with rerun proofs at `375/390/768` showing `scrollWidth <= innerWidth`.
+    Dependencies: CTO assigns one frontend implementation owner for AGN-723; assigned engineer lands the `/` mobile overflow fix and posts verification artifacts for all required widths.
+
+- 2026-05-05 AGN-810 [SEO child] Structured data + sitemap-pages parity for top routes (triage reclassification):
+  - Reclassification trigger: board comment `29386d74-10ce-4453-9af3-62d5dd4ae9cc` requested Sprint Triage to re-read thread and clarify blocker cause.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Verified `npm run freshness:check` at `2026-05-05T14:00:32+08:00` reached `http://localhost:3023` (`health=ok`) and failed freshness policy (`blocking_non_green=24`, `Sentry: MISSING`), so localhost is not missing but product is stale/degraded.
+  - [ ] AGN-810 blocker-cause reclassification continuity follow-through (owner: PM triage). Done when AGN-810 has one explicit acceptance owner, one accepted verification path (freshness green or CTO-approved staging/prod parity proof), and one evidence packet proving JSON-LD + sitemap-pages parity PASS on required route classes.
+    Dependencies: CTO/release owner confirms acceptance path; platform/data owner restores blocking stale/red/dead freshness sources and resolves `Sentry: MISSING`; implementation assignee posts final parity evidence and requests closure.
+
+- 2026-05-05 AGN-721 [P1 a11y] ARIA attribute violations on /signals and home (triage reclassification):
+  - Reclassification trigger: board comment `d4a607d7-7119-475c-9c6f-03ca250cda70` requested blocker-cause clarification.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Verified `npm run freshness:check` reached `http://localhost:3023` at `2026-05-05T05:59:12.345Z` (`health=ok`) but failed freshness policy (`blocking_non_green=31`, `Sentry: MISSING`), so product is stale/degraded.
+  - [ ] AGN-721 blocker-cause reclassification continuity follow-through (owner: PM triage). Done when AGN-721 has one frontend implementation owner assigned by CTO and one explicit unblock path to remove invalid `/signals` ARIA semantics with post-fix QA proof (`/` and `/signals` each `0` critical/serious ARIA violations).
+    Dependencies: CTO assigns one frontend implementation owner for AGN-721; assigned engineer lands the ARIA semantics fix and deploys; QA reruns route-level axe scan and posts artifacts proving acceptance.
+
 - 2026-05-05 AGN-711 [AGN-122] Fix Lighthouse perf score <80 on /signals (43) (reassignment redistribution triage):
   - Reassignment intake: board comment `4039110f-3600-4928-b3a6-9742a859d6ba` rerouted AGN-711 to Sprint Triage because original assignee was missing/removed.
   - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
@@ -623,7 +645,7 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
   - [ ] `/watchlist` unauth behavior decision (owner: product/PM). Done when expected unauth responses are documented and 503s are either removed or explicitly accepted.
   - [ ] External avatar/icon fallback hardening (owner: frontend engineer). Done when failed external image loads degrade gracefully without broken UI markers.
   - [ ] Windows OneDrive `.next` workaround codified (owner: platform engineer). Done when local setup docs or script enforce the workaround and local dev/typecheck no longer race on generated files.
-- Document or script the Windows OneDrive `.next` dev/build workaround. On 2026-05-03 the local `.next` directory was a junction at `%TEMP%\trendingrepo-next-dev`; `next dev` and `next build` both need `NODE_PATH=C:\Users\mirko\OneDrive\Desktop\STARSCREENER\node_modules` so chunks emitted under `%TEMP%` can resolve externals like `react/jsx-runtime` and Next's app-route runtime.
+- Document or script the Windows OneDrive `.next` dev/build workaround. On 2026-05-03 the local `.next` directory was a junction at `%TEMP%\trendingrepo-next-dev`; `next dev` and `next build` both need `NODE_PATH=<repo-root>\node_modules` (point at the workspace `node_modules/` for the current host) so chunks emitted under `%TEMP%` can resolve externals like `react/jsx-runtime` and Next's app-route runtime.
 - Decide expanded freshness semantics for advisory side channels: `mcp-dependents` needs `LIBRARIES_IO_API_KEY`, `mcp-smithery-rank` needs `SMITHERY_API_KEY`, `skill-install-snapshots` currently has no install data, `model-usage` can have successful zero-event cron runs, and `hotness-snapshots` can publish only populated domains. Either provision the missing keys/data or mark these rows non-blocking in `/api/cron/freshness/state`.
 - Normalize Vercel project targeting across local shells: repo link file `.vercel/project.json` points to `projectId=prj_ycY0bM38UMyAl9jPcAgrmQGUc4tQ` / `orgId=team_NrVhqhXUDEYB9YOWaqkBIQ4w`, while ambient env may inject a different `VERCEL_PROJECT_ID` without `VERCEL_ORG_ID`, causing wrong-target deploy/list behavior and stale-build confusion.
 - 2026-05-04 AGN-122 Lighthouse perf budget audit top-3 wins (artifacts in `docs/perf/agn-122-lighthouse-*.report.{html,json}`):
@@ -649,6 +671,7 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
 - [ ] **Phase 1.0.D verification sweep** â€” drift-audit `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`, `docs/runbooks/*` (5 files), `docs/protocols/*` (5 files), `docs/RUNBOOK-secret-rotation.md`, `docs/DESIGN_SYSTEM.md`; mark living/snapshot/needs-rewrite
 - [ ] **docs/DESIGN_SYSTEM.md rewrite** â€” file documents V3 only and references missing `docs/V2_HANDOFF.md` + `docs/HANDOFF_2026-04-27_V3.md`; replacement: `design/v4/DESIGN_SYSTEM.md` (canonical V4/CORPUS doc). Either redirect with a one-line stub or delete and update inbound links
 - [x] Phase 4 part 3 — scripts/ Redis-key sweep — DONE 2026-05-05 (3 migrations: scripts/enrich-arxiv.mjs x2 + scripts/audit-redis-file-drift.mjs x1; exported `keys` shim from scripts/_data-store-write.mjs; check-redis-keys.mjs now scans scripts/).
+- [x] B4 — engine-inventory PR gate — DONE 2026-05-05 (`.github/workflows/engine-inventory-check.yml`).
 
 ### orphan cron routes
 - [x] Delete orphan cron route `src/app/api/cron/news-auto-recover/route.ts` — DELETED 2026-05-05.

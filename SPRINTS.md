@@ -1,4 +1,13 @@
-# Tech Debt Sprint Plan — STARSCREENER
+---
+status: archive
+audit-date: 2026-05-05
+reason: Sprint plan dated 2026-04-27 sourcing TECH_DEBT_AUDIT.md (now itself archive). No commits since 2026-04-27 reference Sprint 0/1/2 structure; current work tracked via AGN-* tickets + Paperclip board (tasks/CURRENT-SPRINT.md). Plan never advanced past "Sprint 0 starting now" status line.
+---
+
+# Tech Debt Sprint Plan — STARSCREENER (ARCHIVED 2026-05-05)
+
+> ARCHIVED: source audit (TECH_DEBT_AUDIT.md) was archived 2026-05-05;
+> in-flight work moved to AGN-* tickets + Paperclip board. Kept for archaeology.
 
 Source: [TECH_DEBT_AUDIT.md](TECH_DEBT_AUDIT.md) (87 findings, 5-module audit, 2026-04-27).
 Mode: solo founder + AI pair. "Sprint" = a focused work block (1h to 2 days), not a 2-week ceremony.

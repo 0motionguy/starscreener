@@ -1,7 +1,11 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # Redis TTL Conventions (Per Prefix)
 
-Status: living  
-Last verified: 2026-05-05  
 Owners: Backend + Platform
 
 This is the authoritative TTL policy by Redis key prefix. Prefixes come from [`src/lib/redis/keys.ts`](../src/lib/redis/keys.ts), and TTL values are verified against the current writers.

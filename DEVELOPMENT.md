@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # Development Notes
 
 ## OBS-6 long-task profiler (dev only)

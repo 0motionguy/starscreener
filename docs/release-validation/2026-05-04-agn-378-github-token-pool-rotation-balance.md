@@ -1,4 +1,4 @@
-# AGN-378 verification — GitHub token-pool rotation balance (±15%)
+# AGN-378 verification - GitHub token-pool rotation balance (+/-15%)
 
 Timestamp (UTC): 2026-05-04T12:36:24.924Z
 
@@ -25,7 +25,7 @@ Two live checks were run against local runtime + Redis:
 - `selectedKeyCount` (last-24h buckets): `103`
 - `totalRequests24h`: `2485`
 
-## ±15% balance proof (normalized 11-token pool)
+## +/-15% balance proof (normalized 11-token pool)
 
 Definition used for AGN-378:
 
@@ -37,11 +37,13 @@ Computed values:
 - `totalConfigured=11`
 - `totalRequests24h=2485`
 - `meanRequests24h=225.91`
+- `stddevRequests24h=269.91`
+- `stddev/mean=1.1948`
 - `passWithinPlusMinus15Pct=false`
 
 Per-token deviations:
 
-| token | requests24h | deviation vs mean | within ±15% |
+| token | requests24h | deviation vs mean | within +/-15% |
 |---|---:|---:|---:|
 | ghp_****nWII | 1012 | +347.97% | no |
 | ghp_****fC8P | 310 | +37.22% | no |
@@ -57,4 +59,8 @@ Per-token deviations:
 
 ## Verdict
 
-AGN-378 verification result: **FAIL**. GitHub token-pool rotation is not within ±15% balance in the latest 24h window; usage is heavily concentrated on `ghp_****nWII`.
+AGN-378 verification result: **FAIL**.
+
+- `stddev/mean=1.1948` exceeds the dashboard anomaly threshold (`0.7`).
+- +/-15% balance gate fails.
+- Usage is heavily concentrated on `ghp_****nWII`.

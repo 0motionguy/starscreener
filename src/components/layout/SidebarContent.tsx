@@ -78,6 +78,7 @@ import {
   type SidebarRecentViewedPreviewRepo,
 } from "./SidebarRecentViewedPreview";
 import { SidebarFooter } from "./SidebarFooter";
+import { SidebarRecentViewedRepos } from "./SidebarRecentViewedRepos";
 import { cn } from "@/lib/utils";
 import { CursorRail } from "@/components/v3";
 

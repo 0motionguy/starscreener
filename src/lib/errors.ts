@@ -18,7 +18,6 @@ export type EngineErrorSource =
   | "edge-cache"
   | "auth"
   | "admin"
-  | "subdomain-takeover"
   | "ops-alert"
   | "data-store"
   | "github"
@@ -71,76 +70,6 @@ export class AdminQuarantineError extends EngineError {
 export class AdminFatalError extends EngineError {
   readonly category = "fatal" as const;
   readonly source = "admin" as const;
-}
-
-export class OpsAlertFatalError extends EngineError {
-  readonly category = "fatal" as const;
-  readonly source = "ops-alert" as const;
-}
-
-export class OpsAlertRecoverableError extends EngineError {
-  readonly category = "recoverable" as const;
-  readonly source = "ops-alert" as const;
-}
-
-export class DataStoreFatalError extends EngineError {
-  readonly category = "fatal" as const;
-  readonly source = "data-store" as const;
-}
-
-export class AuthRecoverableError extends EngineError {
-  readonly category = "recoverable" as const;
-  readonly source = "auth" as const;
-}
-
-export class AuthQuarantineError extends EngineError {
-  readonly category = "quarantine" as const;
-  readonly source = "auth" as const;
-}
-
-export class AuthFatalError extends EngineError {
-  readonly category = "fatal" as const;
-  readonly source = "auth" as const;
-}
-
-export class RateLimitRecoverableError extends EngineError {
-  readonly category = "recoverable" as const;
-  readonly source = "rate-limit" as const;
-}
-
-export class EdgeCacheRecoverableError extends EngineError {
-  readonly category = "recoverable" as const;
-  readonly source = "edge-cache" as const;
-}
-
-export class AdminRecoverableError extends EngineError {
-  readonly category = "recoverable" as const;
-  readonly source = "admin" as const;
-}
-
-export class AdminQuarantineError extends EngineError {
-  readonly category = "quarantine" as const;
-  readonly source = "admin" as const;
-}
-
-export class AdminFatalError extends EngineError {
-  readonly category = "fatal" as const;
-  readonly source = "admin" as const;
-}
-
-export class SubdomainTakeoverRecoverableError extends EngineError {
-  readonly category = "recoverable" as const;
-  readonly source = "subdomain-takeover" as const;
-}
-
-export class SubdomainTakeoverQuarantineError extends EngineError {
-  readonly category = "quarantine" as const;
-  readonly source = "subdomain-takeover" as const;
-}
-
-export class SubdomainTakeoverFatalError extends EngineError {
-  readonly category = "fatal" as const;
-  readonly source = "subdomain-takeover" as const;
 }
 
 export class OpsAlertFatalError extends EngineError {
@@ -343,17 +272,25 @@ export class ArxivFatalError extends EngineError {
   readonly source = "arxiv" as const;
 }
 
-export class Soft404RecoverableError extends EngineError {
+
+export class EdgeCacheRecoverableError extends EngineError {
   readonly category = "recoverable" as const;
-  readonly source = "soft-404" as const;
+  readonly source = "edge-cache" as const;
 }
 
-export function engineErrorTags(error: unknown): Record<string, string> {
-  if (!(error instanceof EngineError)) return {};
-  return {
-    source: error.source,
-    category: error.category,
-  };
+export class SubdomainTakeoverRecoverableError extends EngineError {
+  readonly category = "recoverable" as const;
+  readonly source = "subdomain-takeover" as const;
+}
+
+export class SubdomainTakeoverQuarantineError extends EngineError {
+  readonly category = "quarantine" as const;
+  readonly source = "subdomain-takeover" as const;
+}
+
+export class SubdomainTakeoverFatalError extends EngineError {
+  readonly category = "fatal" as const;
+  readonly source = "subdomain-takeover" as const;
 }
 
 export function engineErrorSentryContext(
@@ -376,4 +313,16 @@ export function engineErrorSentryContext(
     extra.engine_error_metadata = error.metadata;
   }
   return { tags, extra };
+}
+export class Soft404RecoverableError extends EngineError {
+  readonly category = "recoverable" as const;
+  readonly source = "soft-404" as const;
+}
+
+export function engineErrorTags(error: unknown): Record<string, string> {
+  if (!(error instanceof EngineError)) return {};
+  return {
+    source: error.source,
+    category: error.category,
+  };
 }

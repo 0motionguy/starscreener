@@ -103,8 +103,6 @@ interface HomeEntity {
   mentions?: number;
   category?: string;
   logoUrl: string | null;
-  delta7d?: number;
-  delta30d?: number;
   deltaUnit?: string;
 }
 
@@ -235,10 +233,6 @@ function ecosystemEntity(
     channels: item.crossSourceCount,
     category: kind === "skill" ? "Skill" : "MCP",
     logoUrl: item.logoUrl ?? repoLogoUrl(item.linkedRepo, 80),
-    delta7d:
-      primaryWindow !== "7d" && typeof raw7 === "number" ? raw7 : undefined,
-    delta30d:
-      primaryWindow !== "30d" && typeof raw30 === "number" ? raw30 : undefined,
     deltaUnit: primaryWindow,
   };
 }
@@ -446,18 +440,6 @@ function EntityHeroRow({
           {formatDelta(entity.delta)}
           <span className="d-lbl">{entity.deltaUnit ?? "24h"}</span>
         </span>
-        {entity.delta7d !== undefined ? (
-          <span className={`d-sec ${entity.delta7d < 0 ? "dn" : ""}`}>
-            {formatDelta(entity.delta7d)}
-            <span className="d-lbl">7d</span>
-          </span>
-        ) : null}
-        {entity.delta30d !== undefined ? (
-          <span className={`d-sec ${entity.delta30d < 0 ? "dn" : ""}`}>
-            {formatDelta(entity.delta30d)}
-            <span className="d-lbl">30d</span>
-          </span>
-        ) : null}
         {pctText ? <span className="pct">{pctText}</span> : null}
       </span>
       {entity.hasRealSparkline ? (

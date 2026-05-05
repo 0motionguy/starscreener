@@ -37,6 +37,13 @@ function collectRouteFiles(relativeRoot: string): RouteFile[] {
   return out.sort((a, b) => a.relativePath.localeCompare(b.relativePath));
 }
 
+function hasDenyReturnGuard(content: string): boolean {
+  return (
+    /if\s*\(\s*deny\s*\)\s*return\s+deny\b/.test(content) ||
+    /if\s*\(\s*deny\s*\)\s*\{\s*return\s+deny\b[\s\S]*?\}/.test(content)
+  );
+}
+
 test("admin routes enforce verifyAdminAuth gate (except admin/login)", () => {
   const files = collectRouteFiles("src/app/api/admin");
   const exempt = new Set(["src/app/api/admin/login/route.ts"]);
@@ -45,8 +52,9 @@ test("admin routes enforce verifyAdminAuth gate (except admin/login)", () => {
   for (const file of files) {
     if (exempt.has(file.relativePath)) continue;
     const hasGate =
-      file.content.includes("verifyAdminAuth(") &&
-      file.content.includes("adminAuthFailureResponse(");
+      /const\s+deny\s*=\s*adminAuthFailureResponse\(\s*verifyAdminAuth\(request\)\s*\)/.test(
+        file.content,
+      ) && hasDenyReturnGuard(file.content);
     if (!hasGate) offenders.push(file.relativePath);
   }
 
@@ -59,8 +67,9 @@ test("cron routes enforce verifyCronAuth gate", () => {
 
   for (const file of files) {
     const hasGate =
-      file.content.includes("verifyCronAuth(") &&
-      file.content.includes("authFailureResponse(");
+      /const\s+deny\s*=\s*authFailureResponse\(\s*verifyCronAuth\(request\)\s*\)/.test(
+        file.content,
+      ) && hasDenyReturnGuard(file.content);
     if (!hasGate) offenders.push(file.relativePath);
   }
 

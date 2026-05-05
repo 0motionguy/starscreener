@@ -63,3 +63,28 @@ test("buildRepoSubpageSchema links subpage back to repo entity", () => {
   });
   assert.deepEqual(schema.publisher, { "@id": `${SITE_URL}#organization` });
 });
+
+test("buildRepoPageSchemas adds category-specific JSON-LD properties", () => {
+  const schemas = buildRepoPageSchemas({
+    owner: "acme",
+    name: "mcp-server",
+    stars: 10,
+    forks: 1,
+    category: "mcp",
+    categoryDetails: {
+      kind: "mcp",
+      mcp: {
+        tools: ["search", "list"],
+        resources: ["repos", "issues"],
+        installSnippet: "npx mcp-server",
+      },
+    },
+  });
+  const sourceCode = schemas.find(
+    (schema) => schema["@type"] === "SoftwareSourceCode",
+  ) as Record<string, unknown> | undefined;
+  assert.ok(sourceCode);
+  const props = sourceCode.additionalProperty as Array<Record<string, unknown>> | undefined;
+  assert.ok(Array.isArray(props) && props.length > 0);
+  assert.equal(props[0]?.value, "mcp");
+});

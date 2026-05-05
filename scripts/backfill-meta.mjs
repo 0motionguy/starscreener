@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 //
-// backfill-meta.mjs — one-off Redis meta backfill for AUDIT-2026-05-04.
+// backfill-meta.mjs — Redis orphan-key sweep for AUDIT-2026-05-04.
 //
 // The audit found several `ss:data:v1:<key>` payloads with NO companion
 // `ss:meta:v1:<key>` entry (notably `mcp-dependents`, `mcp-smithery-rank`).
@@ -8,15 +8,20 @@
 // `audit-freshness.mjs` and the `/api/freshness` route get null timestamps
 // which look red on the dashboard.
 //
-// This script SCANs the data namespace, pairs each payload key with its
-// expected meta key, and writes a meta entry for every orphaned data key.
+// This script SCANs both namespaces, then:
+//   1) backfills missing meta entries for payload keys
+//   2) optionally prunes meta-only keys (meta exists, payload missing)
+//
+// Backfill runs by default; prune requires an explicit flag.
 // New entries use the writer-provenance object shape introduced by the
 // same audit (writer="backfill", runId/commit absent — readers tolerate
 // the partial shape).
 //
 // USAGE
-//   node scripts/backfill-meta.mjs --dry-run   # list orphaned keys, write nothing
-//   node scripts/backfill-meta.mjs             # write missing meta entries
+//   node scripts/backfill-meta.mjs --dry-run
+//   node scripts/backfill-meta.mjs
+//   node scripts/backfill-meta.mjs --dry-run --prune-meta-only
+//   node scripts/backfill-meta.mjs --prune-meta-only
 //
 // CONFIG (env, in priority order — same as _data-store-write.mjs)
 //   REDIS_URL                  Railway-style redis://[user:pass@]host:port
@@ -32,6 +37,7 @@ const META_NAMESPACE = "ss:meta:v1";
 const INVALID_KEY_LITERALS = new Set(["null", "undefined"]);
 
 const dryRun = process.argv.includes("--dry-run");
+const pruneMetaOnly = process.argv.includes("--prune-meta-only");
 
 async function getClient() {
   const redisUrl = process.env.REDIS_URL?.trim();
@@ -106,41 +112,77 @@ async function quit(handle) {
   // Upstash REST has no persistent connection; nothing to close.
 }
 
+async function delRaw(handle, key) {
+  if (handle.kind === "ioredis") return handle.client.del(key);
+  return handle.client.del(key);
+}
+
 async function main() {
   const handle = await getClient();
-  const orphans = [];
-  const total = { data: 0, meta: 0 };
+  const payloadKeys = [];
+  const metaKeys = [];
 
   console.log(
-    `[backfill-meta] scanning ${NAMESPACE}:* (dryRun=${dryRun}, backend=${handle.kind})`,
+    `[backfill-meta] scanning ${NAMESPACE}:* + ${META_NAMESPACE}:* (dryRun=${dryRun}, pruneMetaOnly=${pruneMetaOnly}, backend=${handle.kind})`,
   );
 
   for await (const dataKey of scanKeys(handle, `${NAMESPACE}:*`)) {
-    total.data++;
+    payloadKeys.push(dataKey);
+  }
+  for await (const key of scanKeys(handle, `${META_NAMESPACE}:*`)) metaKeys.push(key);
+
+  const payloadSlugs = new Set();
+  const metaSlugs = new Set();
+  for (const dataKey of payloadKeys) {
     const slug = dataKey.slice(NAMESPACE.length + 1);
     if (!slug || INVALID_KEY_LITERALS.has(slug.trim())) {
-      console.warn(`[backfill-meta] skip invalid slug "${slug}" from key ${dataKey}`);
+      console.warn(`[backfill-meta] skip invalid payload slug "${slug}" from key ${dataKey}`);
       continue;
     }
-    const expectedMetaKey = `${META_NAMESPACE}:${slug}`;
-    const existingMeta = await getRaw(handle, expectedMetaKey);
-    if (existingMeta === null || existingMeta === undefined) {
-      orphans.push({ slug, dataKey, metaKey: expectedMetaKey });
-    } else {
-      total.meta++;
+    payloadSlugs.add(slug);
+  }
+  for (const key of metaKeys) {
+    const slug = key.slice(META_NAMESPACE.length + 1);
+    if (!slug || INVALID_KEY_LITERALS.has(slug.trim())) {
+      console.warn(`[backfill-meta] skip invalid meta slug "${slug}" from key ${key}`);
+      continue;
     }
+    metaSlugs.add(slug);
   }
 
-  if (orphans.length === 0) {
-    console.log(`[backfill-meta] no orphans found (data=${total.data}, meta=${total.meta})`);
+  const payloadWithoutMeta = [];
+  for (const slug of payloadSlugs) {
+    if (!metaSlugs.has(slug)) {
+      payloadWithoutMeta.push({
+        slug,
+        dataKey: `${NAMESPACE}:${slug}`,
+        metaKey: `${META_NAMESPACE}:${slug}`,
+      });
+    }
+  }
+  const metaOnly = [];
+  for (const slug of metaSlugs) {
+    if (!payloadSlugs.has(slug)) metaOnly.push({ slug, metaKey: `${META_NAMESPACE}:${slug}` });
+  }
+
+  if (payloadWithoutMeta.length === 0 && metaOnly.length === 0) {
+    console.log(
+      `[backfill-meta] no orphans found (payload=${payloadSlugs.size}, meta=${metaSlugs.size})`,
+    );
     await quit(handle);
     return;
   }
 
-  console.log(
-    `[backfill-meta] found ${orphans.length} orphan data key(s) without meta:`,
-  );
-  for (const o of orphans) console.log(`  - ${o.slug}`);
+  if (payloadWithoutMeta.length > 0) {
+    console.log(
+      `[backfill-meta] payload-without-meta: ${payloadWithoutMeta.length}`,
+    );
+    for (const o of payloadWithoutMeta) console.log(`  - ${o.slug}`);
+  }
+  if (metaOnly.length > 0) {
+    console.log(`[backfill-meta] meta-only: ${metaOnly.length}`);
+    for (const o of metaOnly) console.log(`  - ${o.slug}`);
+  }
 
   if (dryRun) {
     console.log("[backfill-meta] dry-run — no writes performed");
@@ -152,7 +194,7 @@ async function main() {
   const metaValue = JSON.stringify({ writtenAt, writer: "backfill" });
 
   let written = 0;
-  for (const o of orphans) {
+  for (const o of payloadWithoutMeta) {
     // Re-check before writing to stay idempotent — a collector may have
     // landed a real meta entry between scan and write.
     const recheck = await getRaw(handle, o.metaKey);
@@ -164,9 +206,28 @@ async function main() {
     written++;
   }
 
+  let deletedMetaOnly = 0;
+  if (pruneMetaOnly) {
+    for (const o of metaOnly) {
+      const payloadCheck = await getRaw(handle, `${NAMESPACE}:${o.slug}`);
+      if (payloadCheck !== null && payloadCheck !== undefined) continue;
+      await delRaw(handle, o.metaKey);
+      deletedMetaOnly++;
+    }
+  }
+
   console.log(
     `[backfill-meta] wrote ${written} meta entr${written === 1 ? "y" : "ies"} (writer="backfill", writtenAt=${writtenAt})`,
   );
+  if (pruneMetaOnly) {
+    console.log(
+      `[backfill-meta] deleted ${deletedMetaOnly} meta-only orphan${deletedMetaOnly === 1 ? "" : "s"}`,
+    );
+  } else if (metaOnly.length > 0) {
+    console.log(
+      `[backfill-meta] meta-only keys were not deleted (pass --prune-meta-only to prune)`,
+    );
+  }
   await quit(handle);
 }
 

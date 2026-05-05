@@ -31,6 +31,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
+import { enforceMutationSameOrigin } from "@/lib/api/mutation-origin-guard";
 import { parseBody } from "@/lib/api/parse-body";
 import { canUseFeature } from "@/lib/pricing/entitlements";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
@@ -243,6 +244,9 @@ function todayIso(): string {
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  const guard = enforceMutationSameOrigin(request);
+  if (!guard.ok) return guard.response;
+
   // Refresh data-store-backed caches before serializing rows. Both have
   // internal 30s rate-limits so back-to-back exports don't burn quota:
   //   - repo-metadata (Group A) — homepageUrl + description columns

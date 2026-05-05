@@ -178,27 +178,34 @@ export async function GET(
   const store = getDataStore();
   const now = Date.now();
 
-  // Read every slug's meta in parallel. data-store's `writtenAt()` is a
-  // single GET on the sidecar key (no payload deserialize) — cheap.
-  const probes = await Promise.all(
-    SLUG_TABLE.map(async (spec) => {
-      const writtenAt = await store.writtenAt(spec.slug).catch(() => null);
-      const ageSec =
-        writtenAt !== null
-          ? Math.max(0, Math.floor((now - new Date(writtenAt).getTime()) / 1000))
-          : null;
-      const status = classifyAge(ageSec, spec.cadenceMin, spec.slowMoving === true);
-      return {
-        slug: spec.slug,
-        fetcher: spec.fetcher,
-        cadenceMin: spec.cadenceMin,
-        blocking: spec.blocking !== false,
-        status,
-        writtenAt,
-        ageSec,
-      } satisfies SlugHealth;
-    }),
-  );
+  // Pipeline every slug's meta in ONE Redis round trip (two MGETs in
+  // flight) instead of N parallel GETs. Pre-fix this route fanned out
+  // ~33 slugs × 2 GETs = 66 individual round trips (audit-08 A.5,
+  // AGN-468); now it's 2 regardless of fleet size. data-store's
+  // `writtenAtMany` falls back to per-key reads if the underlying Redis
+  // client doesn't expose mget, so functional behaviour is unchanged.
+  const slugs = SLUG_TABLE.map((s) => s.slug);
+  const writtenAtMap = await store
+    .writtenAtMany(slugs)
+    .catch(() => new Map<string, string | null>());
+
+  const probes: SlugHealth[] = SLUG_TABLE.map((spec) => {
+    const writtenAt = writtenAtMap.get(spec.slug) ?? null;
+    const ageSec =
+      writtenAt !== null
+        ? Math.max(0, Math.floor((now - new Date(writtenAt).getTime()) / 1000))
+        : null;
+    const status = classifyAge(ageSec, spec.cadenceMin, spec.slowMoving === true);
+    return {
+      slug: spec.slug,
+      fetcher: spec.fetcher,
+      cadenceMin: spec.cadenceMin,
+      blocking: spec.blocking !== false,
+      status,
+      writtenAt,
+      ageSec,
+    } satisfies SlugHealth;
+  });
 
   const summary: HealthSummary = {
     total: probes.length,

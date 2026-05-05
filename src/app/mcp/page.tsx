@@ -432,7 +432,7 @@ export default async function McpPage({ searchParams }: McpPageProps) {
               color: "var(--v4-ink-400)",
             }}
           >
-            // MCP EMPTY
+            {"// MCP EMPTY"}
           </p>
           <p style={{ margin: 0, color: "var(--v4-ink-200)" }}>
             No MCP servers are available right now. This usually means the

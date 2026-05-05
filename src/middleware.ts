@@ -32,6 +32,7 @@ let cachedBlockRules: BlockRule[] = [];
 let cachedBlockRulesAt = 0;
 
 function routeGroup(pathname: string): RouteGroup | null {
+  if (pathname === "/api/worker/health") return null;
   if (pathname.startsWith("/api/admin")) return "admin";
   if (pathname.startsWith("/api/pipeline")) return "pipeline";
   if (pathname.startsWith("/api/worker")) return "worker";
@@ -241,7 +242,9 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 }
 
 export const config = {
-  matcher: ["/:path*"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|\\.well-known/).*)",
+  ],
 };
 
 export function __resetMiddlewareRateLimitForTests(): void {

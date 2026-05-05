@@ -534,6 +534,7 @@ test("webhook route — bad signature captures quarantine-tagged Sentry exceptio
       const tags = (
         sentryEvents[0].context as { tags?: Record<string, string> } | undefined
       )?.tags;
+      assert.equal(tags?.webhook, "stripe-webhook");
       assert.equal(tags?.source, "stripe");
       assert.equal(tags?.category, "quarantine");
       assert.equal(tags?.scope, "api/webhooks/stripe");
@@ -542,3 +543,67 @@ test("webhook route — bad signature captures quarantine-tagged Sentry exceptio
     }
   });
 });
+
+test("webhook route - handler failure captures recoverable-tagged Sentry exception", async () => {
+  await withStripeEnv(async () => {
+    const ts = await loadRoute();
+    const sentryEvents: Array<{ error: unknown; context?: unknown }> = [];
+
+    ts.__setStripeWebhookSentryCaptureForTests(
+      ((error: unknown, context?: unknown) => {
+        sentryEvents.push({ error, context });
+        return "evt_test";
+      }) as Parameters<typeof ts.__setStripeWebhookSentryCaptureForTests>[0],
+    );
+    ts.__setStripeWebhookEventHandlerForTests(
+      (async () => {
+        throw new Error("forced handler failure");
+      }) as Parameters<typeof ts.__setStripeWebhookEventHandlerForTests>[0],
+    );
+    ts.__setStripeWebhookLockAcquirerForTests(
+      (async () => true) as Parameters<typeof ts.__setStripeWebhookLockAcquirerForTests>[0],
+    );
+
+    try {
+      const payload = JSON.stringify({
+        id: "evt_test_handler_failure",
+        object: "event",
+        type: "invoice.payment_failed",
+        data: { object: { id: "in_test", object: "invoice" } },
+      });
+      const signature = (
+        await import("stripe")
+      ).default.webhooks.generateTestHeaderString({
+        payload,
+        secret: "whsec_dummy_do_not_use",
+      });
+
+      const fakeRequest = {
+        headers: new Headers({
+          "content-type": "application/json",
+          "stripe-signature": signature,
+        }),
+        text: async () => payload,
+      } as unknown as Parameters<typeof ts.POST>[0];
+
+      const res = await ts.POST(fakeRequest);
+      assert.equal(res.status, 500);
+      const body = (await res.json()) as { ok: boolean; code?: string };
+      assert.equal(body.ok, false);
+      assert.equal(body.code, "HANDLER_ERROR");
+      assert.equal(sentryEvents.length, 1);
+      const tags = (
+        sentryEvents[0].context as { tags?: Record<string, string> } | undefined
+      )?.tags;
+      assert.equal(tags?.webhook, "stripe-webhook");
+      assert.equal(tags?.source, "stripe");
+      assert.equal(tags?.category, "recoverable");
+      assert.equal(tags?.scope, "api/webhooks/stripe");
+    } finally {
+      ts.__resetStripeWebhookLockAcquirerForTests();
+      ts.__resetStripeWebhookEventHandlerForTests();
+      ts.__resetStripeWebhookSentryCaptureForTests();
+    }
+  });
+});
+

@@ -234,6 +234,11 @@ function parseRepoBriefFromFile(owner: string, name: string): RepoBrief | null {
   return parseMarkdownBrief(owner, name, raw);
 }
 
+export function getBriefFromFile(owner: string, name: string): RepoBrief | null {
+  if (!isValidSlugPart(owner) || !isValidSlugPart(name)) return null;
+  return parseRepoBriefFromFile(owner, name);
+}
+
 export async function getBrief(owner: string, name: string): Promise<RepoBrief | null> {
   if (!isValidSlugPart(owner) || !isValidSlugPart(name)) return null;
 

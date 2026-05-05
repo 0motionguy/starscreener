@@ -63,15 +63,19 @@ describe("LiveTopTable", () => {
     expect(container.querySelectorAll(".mentions-pills .sd.on").length).toBe(2);
   });
 
-  it("shows a transparency tooltip explaining why a repo is at its current rank", () => {
+  it("shows a transparency tooltip explaining why a repo is at its current rank (TRENDING — AGN-524)", () => {
     const { getByLabelText } = render(
       <LiveTopTable rows={[row]} categories={categories} />,
     );
 
+    // 152 (Δ24h) + 9 mentions × 8 (MENTION_WEIGHT) = 224
     expect(
       getByLabelText(
-        "Why #01: momentum 88. Signals: n/a (1h), n/a (6h), +152 (24h), +699 (7d), 9 mentions.",
+        "Why #01: trending 224. Signals: n/a (1h), n/a (6h), +152 (24h), +699 (7d), 9 mentions.",
       ),
     ).toBeTruthy();
   });
+
+  // AGN-524 ranking-formula behaviour is asserted in
+  // src/lib/__tests__/live-top-ranking.test.ts (pure unit, no jsdom/router).
 });

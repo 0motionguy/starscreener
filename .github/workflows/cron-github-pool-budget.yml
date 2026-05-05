@@ -1,0 +1,43 @@
+name: Cron - github pool budget
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch: {}
+
+concurrency:
+  group: cron-github-pool-budget
+  cancel-in-progress: false
+
+env:
+  BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: POST /api/cron/github-pool-budget
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET is unset"
+            exit 1
+          fi
+
+          code=$(curl -sS -o /tmp/out -w "%{http_code}" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            "$BASE_URL/api/cron/github-pool-budget")
+          echo "HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
+            jq . /tmp/out | head -c 2000
+          else
+            head -c 2000 /tmp/out
+          fi
+          echo
+
+          if [ "$code" != "200" ]; then
+            echo "::error::github-pool-budget cron failed (HTTP $code)"
+            exit 1
+          fi

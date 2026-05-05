@@ -73,6 +73,8 @@ import {
 import { TwitterSignalPanel } from "@/components/twitter/TwitterSignalPanel";
 import { RepoRevenuePanel } from "@/components/repo-detail/RepoRevenuePanel";
 import { WhyTrending } from "@/components/repo-detail/WhyTrending";
+import { WhyBadge } from "@/components/repo/WhyBadge";
+import { getWhyNarrative } from "@/lib/why-narrative";
 import { FundingPanel } from "@/components/repo-detail/FundingPanel";
 import { RelatedReposPanel } from "@/components/repo-detail/RelatedReposPanel";
 import { PredictionSnapshot } from "@/components/repo-detail/PredictionSnapshot";
@@ -199,6 +201,11 @@ export default async function RepoDetailPage({ params }: PageProps) {
     notFound();
   }
   const { repo } = profile;
+
+  // Why-narrative — short caption surfaced above the existing WhyTrending
+  // strip. Reads the persisted 24h cache; falls back to live synthesis so
+  // long-tail repos outside the persisted top-50 still get a line. AGN-791.
+  const whyNarrative = await getWhyNarrative(owner, name, repo);
 
   // Flatten the persisted store slice into the render shape the feed +
   // signal cards consume. Platforms that aren't surfaced by MentionItem
@@ -379,6 +386,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
             question (why should I care?) above the quantitative snapshot.
             Renders null when no reasons are available for this repo.
           */}
+          <WhyBadge narrative={whyNarrative} variant="full" />
           <WhyTrending reasons={profile.reasons} />
           <PredictionSnapshot
             prediction={profile.prediction}

@@ -50,6 +50,7 @@
     "lint:bypass": "node scripts/check-no-pool-bypass.mjs",
     "verify:pool-throughput": "node scripts/verify-pool-throughput.mjs",
     "verify:sentry-wiring": "node scripts/verify-sentry-wiring.mjs",
+    "verify:sentry": "node scripts/verify-sentry.mjs",
     "lint:guards": "npm run lint:tokens && npm run lint:err-message && npm run lint:zod-routes && npm run lint:runtime && npm run lint:err-envelope && npm run lint:v3-budget && npm run lint:bypass",
     "audit:status": "node scripts/audit-status.mjs",
     "audit:github-token-callsites": "node scripts/audit-github-token-callsites.mjs",

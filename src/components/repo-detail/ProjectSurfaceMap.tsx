@@ -18,6 +18,7 @@ import { getRepoProfile, type RepoProfileStatus } from "@/lib/repo-profiles";
 import { fetchGithubRepoHomepageUrl } from "@/lib/github-repo-homepage";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { AisoRetryButton } from "./AisoRetryButton";
+import { EnginesStatus } from "./EnginesStatus";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoDisplayLogoUrl, resolveLogoUrl } from "@/lib/logos";
 
@@ -756,6 +757,10 @@ export async function ProjectSurfaceMap({
               </div>
             </div>
           )}
+
+          <div className="mt-3">
+            <EnginesStatus promptTests={aisoScan.promptTests} />
+          </div>
 
           {engines.some((engine) => engine.total > 0) && (
             <div

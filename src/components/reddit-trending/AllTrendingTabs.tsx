@@ -14,6 +14,7 @@ import type { ComponentType, SVGProps } from "react";
 import { ContentTagChips } from "@/components/reddit/ContentTagChips";
 import type { RedditAllPost } from "@/lib/reddit-all";
 import { cn } from "@/lib/utils";
+import type { VelocityStats } from "./trending-helpers";
 const TrendingNowTab = dynamic(() =>
   import("@/components/reddit-trending/TrendingNowTab").then(
     (mod) => mod.TrendingNowTab,

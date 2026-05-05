@@ -1,3 +1,7 @@
+// STATUS: orphaned (2026-05-05 audit) — no workflow caller, no recent commits.
+// Slated for deletion; see tasks/BACKLOG.md "orphan cron routes". Keep until
+// a follow-up sweep confirms no inbound traffic.
+//
 // GET/POST /api/cron/news-auto-recover
 //
 // Periodic safety net for the server-side auto-rescrape system. While

@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-1445 - Routine 932807cd run-rate dashboard tile (Release SRE heartbeat)
 
 Date: 2026-05-05

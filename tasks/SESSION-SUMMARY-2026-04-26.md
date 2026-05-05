@@ -1,3 +1,8 @@
+---
+status: archive
+last-touched: 2026-04-26
+---
+
 # Session Summary — 2026-04-26
 
 **Goal at start:** "stop the every-20-min Vercel deploys" → expanded to "ultra reliable data terminal API to make money with"

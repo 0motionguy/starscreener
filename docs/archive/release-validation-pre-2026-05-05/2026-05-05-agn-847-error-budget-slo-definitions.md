@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-847 Release SRE heartbeat - Error budget and SLO definitions
 
 Date: 2026-05-05

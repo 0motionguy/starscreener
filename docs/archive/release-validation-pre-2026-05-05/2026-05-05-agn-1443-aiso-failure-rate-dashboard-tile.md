@@ -1,4 +1,10 @@
-# AGN-1443 — AISO scan failure-rate dashboard tile (Release SRE heartbeat)
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
+# AGN-1443 - AISO scan failure-rate dashboard tile (Release SRE heartbeat)
 
 Date: 2026-05-05  
 Issue: `AGN-1443` (`[QUE-50][OPS] AISO scan failure-rate dashboard tile`)  

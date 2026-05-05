@@ -16,6 +16,10 @@
 //   - The registry itself (src/lib/redis/keys.ts).
 //   - The data-store core (src/lib/data-store.ts) — owns the
 //     payloadKey/metaKey delegation.
+//   - The worker registry (apps/trendingrepo-worker/src/lib/redis-keys.ts).
+//   - The worker data-store core
+//     (apps/trendingrepo-worker/src/lib/redis.ts) — owns writeDataStore /
+//     readDataStore for the same ss:data:v1 / ss:meta:v1 namespaces.
 //   - Tests under __tests__ — they assert on raw key shapes by design.
 //
 // Run via `npm run lint:redis-keys` (also wired into `npm run lint:guards`).
@@ -28,12 +32,17 @@ import { dirname, join, resolve, relative } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 
-const SCAN_DIRS = ["src"];
+const SCAN_DIRS = ["src", "apps/trendingrepo-worker/src"];
 const FILE_EXTS = new Set([".ts", ".tsx", ".mjs", ".js"]);
 
 const ALLOW_FILES = new Set([
   "src/lib/redis/keys.ts",
   "src/lib/data-store.ts",
+  // Worker package mirror (Phase 4 part 2). The worker keeps its keys
+  // file flat as `lib/redis-keys.ts` (sibling to `lib/redis.ts`) since
+  // the protect-files PreToolUse hook gates the main app's path.
+  "apps/trendingrepo-worker/src/lib/redis-keys.ts",
+  "apps/trendingrepo-worker/src/lib/redis.ts",
 ]);
 
 const ALLOW_DIR_PREFIXES = [
@@ -53,8 +62,9 @@ const METHODS =
   "get|set|del|incr|expire|setex|hincrby|hset|hget|hgetall|sadd|srem|smembers|" +
   "zrange|zadd|zrem|zincrby|exists|mget|mset|xadd|xread|xlen|xrange|xrevrange";
 
-// First arg starts with a known Redis namespace prefix.
-const NAMESPACES = "ss|pool|ratelimit|recovery";
+// First arg starts with a known Redis namespace prefix. `tr:` is the
+// worker-only liveness-probe namespace (see worker redis-keys.ts).
+const NAMESPACES = "ss|pool|ratelimit|recovery|tr";
 
 const PATTERN = new RegExp(
   String.raw`\b\w+\s*\.\s*(?:${METHODS})\s*\(\s*(['"\`])(${NAMESPACES}):`,

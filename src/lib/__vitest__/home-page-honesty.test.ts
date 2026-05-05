@@ -15,6 +15,12 @@ describe("home page data honesty", () => {
     expect(source).not.toContain("sparkline: buildSyntheticSparkline");
   });
 
+  it("keeps repoLogoUrl snapshot fallback chain for ecosystem rows", () => {
+    expect(source).toContain(
+      "logoUrl: item.logoUrl ?? repoLogoUrl(item.linkedRepo ?? fullNameFromUrl, 80)",
+    );
+  });
+
   it("keeps the landing consensus panel larger than three rows", () => {
     const match = source.match(/const consensusRepos =[\s\S]*?\.slice\(0, (\d+)\);/);
 

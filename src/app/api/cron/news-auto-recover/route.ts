@@ -16,6 +16,7 @@
 // scheduler likes — the throttle lives downstream.
 
 import { NextRequest, NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
@@ -75,6 +76,12 @@ export async function POST(request: NextRequest) {
       results[probe.source] = outcome;
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
+      Sentry.captureException(err, {
+        tags: {
+          route: "api:cron:news-auto-recover",
+          source: probe.source,
+        },
+      });
       console.warn(
         `[cron:news-auto-recover] probe failed for ${probe.source}:`,
         message,

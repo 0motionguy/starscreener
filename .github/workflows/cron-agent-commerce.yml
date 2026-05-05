@@ -124,6 +124,9 @@ jobs:
 
       - name: Commit if changed
         id: commit-step
+        env:
+          HUSKY: "0"
+          HUSKY_SKIP_HOOKS: "1"
         uses: ./.github/actions/git-commit-data
         with:
           message: "data(agent-commerce): refresh pipeline ${{ steps.ts.outputs.value }}"

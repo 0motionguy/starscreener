@@ -15,6 +15,7 @@
 // because the upstream data only changes when the calibration cron runs.
 
 import { NextRequest, NextResponse } from "next/server";
+import { serverError } from "@/lib/api/error-response";
 
 import {
   isScoredPrediction,
@@ -80,10 +81,11 @@ export async function GET(
       { headers: CACHE_HEADERS },
     );
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(
-      { ok: false, error: message, code: "CALIBRATION_READ_FAILED" },
-      { status: 500 },
-    );
+    return serverError<ErrorResponse>(err, {
+      scope: "[api/predict/calibration:GET]",
+      publicMessage: "server error",
+      code: "CALIBRATION_READ_FAILED",
+      status: 500,
+    });
   }
 }

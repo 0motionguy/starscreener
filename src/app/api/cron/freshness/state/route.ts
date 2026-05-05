@@ -16,6 +16,7 @@ import {
 import { getDataStore } from "@/lib/data-store";
 import { OpsAlertFatalError } from "@/lib/errors";
 import { deriveHealth, type FreshnessHealth } from "@/lib/freshness-health";
+import { sourceHealthTracker } from "@/lib/source-health-tracker";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -36,7 +37,7 @@ interface SourceSpec {
   budgetLabel: string;
 }
 
-interface SourceState {
+export interface SourceState {
   name: string;
   lastUpdate: string | null;
   lastWriter: string | null;
@@ -48,7 +49,32 @@ interface SourceState {
   blocking: boolean;
 }
 
-interface FreshnessStateResponse {
+const SOURCE_BREAKER_BINDINGS: ReadonlyArray<{
+  sourceName: string;
+  breaker: string;
+}> = [
+  { sourceName: "trending-repos", breaker: "ossinsight" },
+  { sourceName: "hackernews", breaker: "hackernews" },
+  { sourceName: "reddit", breaker: "reddit" },
+  { sourceName: "bluesky", breaker: "bluesky" },
+  { sourceName: "lobsters", breaker: "lobsters" },
+  { sourceName: "devto", breaker: "devto" },
+  { sourceName: "producthunt", breaker: "producthunt" },
+  { sourceName: "twitter", breaker: "apify" },
+  { sourceName: "arxiv", breaker: "arxiv" },
+  { sourceName: "huggingface", breaker: "huggingface" },
+  { sourceName: "huggingface-datasets", breaker: "huggingface" },
+  { sourceName: "huggingface-spaces", breaker: "huggingface" },
+  { sourceName: "npm", breaker: "npm" },
+  { sourceName: "revenue", breaker: "trustmrr" },
+  { sourceName: "funding-news", breaker: "firecrawl" },
+  { sourceName: "funding-crunchbase", breaker: "firecrawl" },
+  { sourceName: "trending-mcp", breaker: "pulsemcp" },
+  { sourceName: "mcp-smithery-rank", breaker: "smithery" },
+  { sourceName: "mcp-dependents", breaker: "libraries-io" },
+];
+
+export interface FreshnessStateResponse {
   checkedAt: string;
   health: FreshnessHealth;
   sources: SourceState[];
@@ -79,6 +105,7 @@ interface TimestampProbe {
 
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
+const STORE_PROBE_TIMEOUT_MS = 8_000;
 
 function hours(n: number): { budgetMs: number; budgetLabel: string } {
   return { budgetMs: n * HOUR_MS, budgetLabel: `${n}h` };
@@ -497,8 +524,12 @@ async function readStoreProbe(slug: string): Promise<TimestampProbe> {
   const store = getDataStore();
   try {
     const [rawMeta, timestampRaw] = await Promise.all([
-      store.redisClient()?.get(`ss:meta:v1:${slug}`) ?? null,
-      store.writtenAt(slug),
+      withTimeout(
+        store.redisClient()?.get(`ss:meta:v1:${slug}`) ?? Promise.resolve(null),
+        STORE_PROBE_TIMEOUT_MS,
+        null,
+      ),
+      withTimeout(store.writtenAt(slug), STORE_PROBE_TIMEOUT_MS, null),
     ]);
     const timestamp = parseIso(timestampRaw);
     const writerMeta = parseWriterMeta(rawMeta);
@@ -650,6 +681,40 @@ async function inspectSource(spec: SourceSpec, nowMs: number): Promise<SourceSta
   };
 }
 
+function withTimeout<T>(
+  promise: Promise<T>,
+  timeoutMs: number,
+  fallback: T,
+): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((resolve) => {
+      setTimeout(() => resolve(fallback), timeoutMs);
+    }),
+  ]);
+}
+
+async function inspectSourceSafe(
+  spec: SourceSpec,
+  nowMs: number,
+): Promise<SourceState> {
+  try {
+    return await resolveInspectSource(inspectSource)(spec, nowMs);
+  } catch {
+    return {
+      name: spec.name,
+      lastUpdate: null,
+      lastWriter: null,
+      lastWriterRunId: null,
+      lastWriterCommit: null,
+      freshnessBudget: spec.budgetLabel,
+      ageMs: null,
+      status: "DEAD",
+      blocking: spec.blocking ?? true,
+    };
+  }
+}
+
 // Test seam moved to ./_test-hooks.ts (Next.js app-router type validator
 // rejects non-route exports from this file). resolveInspectSource is called
 // at handler-time so test overrides registered after module import still apply.
@@ -662,6 +727,23 @@ function summarize(sources: SourceState[]): FreshnessStateResponse["summary"] {
     red: sources.filter((source) => source.status === "RED").length,
     dead: sources.filter((source) => source.status === "DEAD").length,
   };
+}
+
+function updateBreakerStateFromFreshness(sources: SourceState[]): void {
+  const byName = new Map<string, SourceState>();
+  for (const source of sources) byName.set(source.name, source);
+  for (const binding of SOURCE_BREAKER_BINDINGS) {
+    const source = byName.get(binding.sourceName);
+    if (!source) continue;
+    if (source.status === "GREEN") {
+      sourceHealthTracker.recordSuccess(binding.breaker);
+      continue;
+    }
+    sourceHealthTracker.recordFailure(
+      binding.breaker,
+      `${binding.sourceName} freshness=${source.status}`,
+    );
+  }
 }
 
 export async function GET(
@@ -677,10 +759,9 @@ export async function GET(
   }
   try {
     const nowMs = Date.now();
-    const sources = await Promise.all(
-      SOURCE_SPECS.map((spec) => resolveInspectSource(inspectSource)(spec, nowMs)),
-    );
+    const sources = await Promise.all(SOURCE_SPECS.map((spec) => inspectSourceSafe(spec, nowMs)));
     sources.sort((a, b) => a.name.localeCompare(b.name));
+    updateBreakerStateFromFreshness(sources);
 
     return NextResponse.json({
       checkedAt: new Date(nowMs).toISOString(),

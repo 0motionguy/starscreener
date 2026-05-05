@@ -2,10 +2,9 @@
 
 import type { Metadata } from "next";
 import Link from "next/link";
+import dynamicImport from "next/dynamic";
 
-import { CompareProfileGrid } from "@/components/compare/CompareProfileGrid";
 import { CompareClient } from "@/components/compare/CompareClient";
-import { CompareWaveTop } from "@/components/compare/CompareWaveTop";
 import { ShareBar } from "@/components/share/ShareBar";
 import { absoluteUrl } from "@/lib/seo";
 import {
@@ -13,6 +12,26 @@ import {
   decodeStarActivityUrl,
   encodeStarActivityUrl,
 } from "@/lib/star-activity-url";
+
+const CompareWaveTop = dynamicImport(
+  () =>
+    import("@/components/compare/CompareWaveTop").then((m) => ({
+      default: m.CompareWaveTop,
+    })),
+  {
+    loading: () => <div className="skeleton-shimmer h-36 w-full rounded-card" />,
+  },
+);
+
+const CompareProfileGrid = dynamicImport(
+  () =>
+    import("@/components/compare/CompareProfileGrid").then((m) => ({
+      default: m.CompareProfileGrid,
+    })),
+  {
+    loading: () => <div className="skeleton-shimmer h-60 w-full rounded-card" />,
+  },
+);
 
 export const dynamic = "force-dynamic";
 

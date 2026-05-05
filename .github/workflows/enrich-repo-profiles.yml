@@ -38,6 +38,12 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/enrich-repo-profiles.mjs --mode incremental --limit 50 --max-scans 5
 
+      - name: Verify repo profile coverage + stale backlog
+        run: node scripts/verify-repo-profile-coverage.mjs --limit=200 --rescan-days=7
+
+      - name: Build repo autocompletion checklist
+        run: node scripts/build-repo-autocompletion-checklist.mjs
+
       - name: Compute commit timestamp
         id: ts
         run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
@@ -48,3 +54,6 @@ jobs:
           message: "chore(data): refresh repo profiles ${{ steps.ts.outputs.value }}"
           paths: |
             data/repo-profiles.json
+            data/repo-profile-coverage.json
+            data/repo-autocompletion-checklist.json
+            data/_meta/repo-profiles.json

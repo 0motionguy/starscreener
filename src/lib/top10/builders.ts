@@ -30,6 +30,7 @@ import type {
   Top10Metric,
   Top10Window,
 } from "./types";
+import { windowLabel } from "./labels";
 
 // ---------------------------------------------------------------------------
 // Avatar gradient — deterministic from the slug so a repo always paints the
@@ -222,10 +223,6 @@ function buildMeta(items: Top10Item[], windowLabel: string): Top10MetaStats {
         ? `${coldest.deltaPct.toFixed(0)}% · ${windowLabel}`
         : "",
   };
-}
-
-function windowLabel(w: Top10Window): string {
-  return w === "24h" ? "24h" : w === "7d" ? "7d" : w === "30d" ? "30d" : "YTD";
 }
 
 // ---------------------------------------------------------------------------

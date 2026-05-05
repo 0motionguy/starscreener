@@ -21,22 +21,26 @@ import { timingSafeEqual } from "node:crypto";
 import * as Sentry from "@sentry/nextjs";
 import { verifySession } from "./session";
 import { readAdminSessionCookie, verifyAdminSession } from "./admin-session";
+import { getClientIp } from "./client-ip";
+import { redactToken } from "@/lib/github-token-pool";
 import {
   AuthFatalError,
   AuthQuarantineError,
   AdminFatalError,
   AdminQuarantineError,
-  engineErrorTags,
+  engineErrorSentryContext,
 } from "@/lib/errors";
 import type { UserTier } from "@/lib/pricing/tiers";
 
 let sentryCaptureException = Sentry.captureException;
+let sentryCaptureMessage = Sentry.captureMessage;
 
 /** Name of the HMAC-signed session cookie set by /api/auth/session. */
 export const SESSION_COOKIE_NAME = "ss_user";
 
 export type AuthVerdict =
   | { kind: "ok" }
+  | { kind: "blocked"; reason: "ip_blocked"; ip: string }
   | { kind: "unauthorized" }
   | { kind: "not_configured" };
 
@@ -122,6 +126,15 @@ export function verifyCronAuth(request: NextRequest): AuthVerdict {
 // starts reset it, which is the desired cadence.
 let adminConfigWarned = false;
 
+function parseAdminIpBlocklist(raw: string | undefined): Set<string> {
+  if (!raw) return new Set<string>();
+  const entries = raw
+    .split(",")
+    .map((part) => part.trim())
+    .filter((part) => part.length > 0);
+  return new Set(entries);
+}
+
 /**
  * Admin-console auth for browser-facing admin tools (moderation queue, etc).
  *
@@ -135,12 +148,22 @@ let adminConfigWarned = false;
  * warning stops firing.
  */
 export function verifyAdminAuth(request: NextRequest): AuthVerdict {
+  const requesterIp = getClientIp(request);
+  const blockedIps = parseAdminIpBlocklist(process.env.ADMIN_IP_BLOCKLIST);
+  if (requesterIp !== "unknown" && blockedIps.has(requesterIp)) {
+    const verdict = { kind: "blocked", reason: "ip_blocked", ip: requesterIp } as const;
+    captureAdminAudit(request, verdict, "bearer:ip-blocked");
+    return verdict;
+  }
+
   // Browser admin path: HMAC-signed ss_admin cookie set by /api/admin/login.
   // Evaluated first so a logged-in operator doesn't need to also hold a
   // bearer token. Cookie verification fails silently if SESSION_SECRET is
   // unset — we fall through to the bearer path.
   const adminCookie = readAdminSessionCookie(request.headers.get("cookie"));
-  if (adminCookie && verifyAdminSession(adminCookie)) {
+  const adminSession = adminCookie ? verifyAdminSession(adminCookie) : null;
+  if (adminSession) {
+    captureAdminAudit(request, { kind: "ok" }, `session:${adminSession.username}`);
     return { kind: "ok" };
   }
 
@@ -153,18 +176,28 @@ export function verifyAdminAuth(request: NextRequest): AuthVerdict {
           "Set ADMIN_TOKEN to a 32+ character random string (distinct from CRON_SECRET).",
       );
     }
+    captureAdminAudit(request, { kind: "not_configured" }, "bearer:missing");
     return { kind: "not_configured" };
   }
   const header = request.headers.get("authorization");
-  if (!header) return { kind: "unauthorized" };
+  if (!header) {
+    captureAdminAudit(request, { kind: "unauthorized" }, "bearer:missing");
+    return { kind: "unauthorized" };
+  }
   const trimmed = header.trim();
-  if (timingSafeEqualStr(trimmed, adminToken)) return { kind: "ok" };
+  if (timingSafeEqualStr(trimmed, adminToken)) {
+    captureAdminAudit(request, { kind: "ok" }, `bearer:${maskSecretForAudit(trimmed)}`);
+    return { kind: "ok" };
+  }
   if (trimmed.startsWith("Bearer ")) {
     const candidate = trimmed.slice("Bearer ".length);
-    return timingSafeEqualStr(candidate, adminToken)
-      ? { kind: "ok" }
-      : { kind: "unauthorized" };
+    const verdict = timingSafeEqualStr(candidate, adminToken)
+      ? ({ kind: "ok" } as const)
+      : ({ kind: "unauthorized" } as const);
+    captureAdminAudit(request, verdict, `bearer:${maskSecretForAudit(candidate)}`);
+    return verdict;
   }
+  captureAdminAudit(request, { kind: "unauthorized" }, `bearer:${maskSecretForAudit(trimmed)}`);
   return { kind: "unauthorized" };
 }
 
@@ -185,12 +218,27 @@ function parseInternalAgentTokens(): Map<string, string> {
 
   try {
     const parsed = JSON.parse(raw) as Record<string, unknown>;
-    const entries = Object.entries(parsed)
-      .filter(
-        (entry): entry is [string, string] =>
-          typeof entry[0] === "string" && typeof entry[1] === "string" && entry[1].trim() !== "",
-      )
-      .map(([principal, token]) => [principal.trim(), token.trim()] as const);
+    const entries: Array<readonly [string, string]> = [];
+    for (const [principalRaw, tokenValue] of Object.entries(parsed)) {
+      if (typeof principalRaw !== "string") continue;
+      const principal = principalRaw.trim();
+      if (principal.length === 0) continue;
+
+      const tokens =
+        typeof tokenValue === "string"
+          ? [tokenValue]
+          : Array.isArray(tokenValue)
+            ? tokenValue.filter((token): token is string => typeof token === "string")
+            : [];
+
+      for (const tokenRaw of tokens) {
+        const token = tokenRaw.trim();
+        if (token.length === 0) continue;
+        // token => principal map so we can accept either legacy one-token
+        // or graceful rotation arrays per principal.
+        entries.push([token, principal] as const);
+      }
+    }
 
     cachedTokens = new Map(entries);
   } catch {
@@ -210,7 +258,7 @@ export function verifyInternalAgentAuth(
 
   const tokens = parseInternalAgentTokens();
   if (tokens.size > 0) {
-    for (const [principal, token] of tokens.entries()) {
+    for (const [token, principal] of tokens.entries()) {
       if (timingSafeEqualStr(bearer, token)) {
         return { kind: "ok", principal };
       }
@@ -437,27 +485,84 @@ export function adminAuthFailureResponse(
   verdict: AuthVerdict,
 ): NextResponse | null {
   if (verdict.kind === "ok") return null;
+  if (verdict.kind === "blocked") {
+    const err = new AdminQuarantineError("admin auth denied: ip blocked");
+    const context = engineErrorSentryContext(err, {
+      auth_surface: "admin",
+      denial_reason: verdict.reason,
+    });
+    sentryCaptureException(err, {
+      tags: context.tags,
+      extra: {
+        ...context.extra,
+        ip: verdict.ip,
+      },
+    });
+    return NextResponse.json(
+      { ok: false, reason: "ip blocked" },
+      { status: 403 },
+    );
+  }
   if (verdict.kind === "unauthorized") {
     const err = new AdminQuarantineError("admin auth denied: unauthorized");
+    const context = engineErrorSentryContext(err, {
+      auth_surface: "admin",
+    });
     sentryCaptureException(err, {
-      tags: {
-        ...engineErrorTags(err),
-        auth_surface: "admin",
-      },
+      tags: context.tags,
+      extra: context.extra,
     });
     return NextResponse.json({ ok: false, reason: "unauthorized" }, { status: 401 });
   }
   const err = new AdminFatalError("admin auth blocked: ADMIN_TOKEN missing");
+  const context = engineErrorSentryContext(err, {
+    auth_surface: "admin",
+  });
   sentryCaptureException(err, {
-    tags: {
-      ...engineErrorTags(err),
-      auth_surface: "admin",
-    },
+    tags: context.tags,
+    extra: context.extra,
   });
   return NextResponse.json(
     { ok: false, reason: "admin endpoint not configured (ADMIN_TOKEN unset)" },
     { status: 503 },
   );
+}
+
+function maskSecretForAudit(value: string | null | undefined): string {
+  const token = (value ?? "").trim();
+  if (!token) return "missing";
+  return redactToken(token);
+}
+
+function captureAdminAudit(
+  request: NextRequest,
+  verdict: AuthVerdict,
+  actor: string,
+): void {
+  const level = verdict.kind === "ok" ? "info" : "warning";
+  const category =
+    verdict.kind === "ok"
+      ? "recoverable"
+      : verdict.kind === "not_configured"
+        ? "fatal"
+        : "quarantine";
+  sentryCaptureMessage("admin_auth_audit", {
+    level,
+    tags: {
+      source: "admin",
+      category,
+      auth_surface: "admin",
+      auth_verdict: verdict.kind,
+      auth_reason: verdict.kind === "blocked" ? verdict.reason : "none",
+      auth_method: actor.startsWith("session:") ? "session" : "bearer",
+      route: request.nextUrl.pathname,
+      method: request.method,
+    },
+    extra: {
+      actor_masked: actor,
+      ...(verdict.kind === "blocked" ? { ip: verdict.ip } : {}),
+    },
+  });
 }
 
 export function userAuthFailureResponse(
@@ -466,11 +571,12 @@ export function userAuthFailureResponse(
   if (verdict.kind === "ok") return null;
   if (verdict.kind === "unauthorized") {
     const err = new AuthQuarantineError("user auth denied: unauthorized");
+    const context = engineErrorSentryContext(err, {
+      auth_surface: "user",
+    });
     sentryCaptureException(err, {
-      tags: {
-        ...engineErrorTags(err),
-        auth_surface: "user",
-      },
+      tags: context.tags,
+      extra: context.extra,
     });
     return NextResponse.json(
       { ok: false, error: "unauthorized", code: "UNAUTHORIZED" },
@@ -480,11 +586,12 @@ export function userAuthFailureResponse(
   const err = new AuthFatalError(
     "user auth blocked: USER_TOKEN/USER_TOKENS_JSON missing",
   );
+  const context = engineErrorSentryContext(err, {
+    auth_surface: "user",
+  });
   sentryCaptureException(err, {
-    tags: {
-      ...engineErrorTags(err),
-      auth_surface: "user",
-    },
+    tags: context.tags,
+    extra: context.extra,
   });
   return NextResponse.json(
     {
@@ -505,11 +612,12 @@ export function internalAgentAuthFailureResponse(
     const err = new AuthQuarantineError(
       "internal agent auth denied: missing or invalid token",
     );
+    const context = engineErrorSentryContext(err, {
+      auth_surface: "internal-agent",
+    });
     sentryCaptureException(err, {
-      tags: {
-        ...engineErrorTags(err),
-        auth_surface: "internal-agent",
-      },
+      tags: context.tags,
+      extra: context.extra,
     });
     return NextResponse.json(
       {
@@ -524,11 +632,12 @@ export function internalAgentAuthFailureResponse(
     );
   }
   const err = new AuthFatalError("internal agent auth blocked: config missing");
+  const context = engineErrorSentryContext(err, {
+    auth_surface: "internal-agent",
+  });
   sentryCaptureException(err, {
-    tags: {
-      ...engineErrorTags(err),
-      auth_surface: "internal-agent",
-    },
+    tags: context.tags,
+    extra: context.extra,
   });
   return NextResponse.json(
     {
@@ -560,4 +669,11 @@ export function __setAuthSentryCaptureForTests(
 
 export function __resetAuthSentryCaptureForTests(): void {
   sentryCaptureException = Sentry.captureException;
+  sentryCaptureMessage = Sentry.captureMessage;
+}
+
+export function __setAuthSentryMessageCaptureForTests(
+  capture: typeof Sentry.captureMessage,
+): void {
+  sentryCaptureMessage = capture;
 }

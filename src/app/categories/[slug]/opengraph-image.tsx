@@ -11,10 +11,17 @@ import { OG_COLORS } from "@/lib/seo";
 import { StarMark } from "@/lib/og-primitives";
 
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 export const alt = "TrendingRepo — Category momentum card";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+const IMAGE_RESPONSE_OPTIONS = {
+  ...size,
+  headers: {
+    "cache-control": "public, s-maxage=300, stale-while-revalidate=3600",
+  },
+};
 
 interface RouteParams {
   params: Promise<{ slug: string }>;
@@ -59,8 +66,8 @@ export default async function CategoryOGImage({ params }: RouteParams) {
           </div>
         </div>
       ),
-      size,
-    );
+    IMAGE_RESPONSE_OPTIONS,
+  );
   }
 
   const repos = getDerivedRepos()
@@ -307,7 +314,7 @@ export default async function CategoryOGImage({ params }: RouteParams) {
         />
       </div>
     ),
-    size,
+    IMAGE_RESPONSE_OPTIONS,
   );
 }
 

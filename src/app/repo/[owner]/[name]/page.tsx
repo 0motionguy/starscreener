@@ -23,7 +23,6 @@ import type { Metadata } from "next";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME, safeJsonLd } from "@/lib/seo";
-import { BrandStar } from "@/components/shared/BrandStar";
 import { buildRepoPageSchemas } from "@/lib/seo-repo-schemas";
 import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
 // Data-store refresh hooks. The repo detail page consumes signal data from
@@ -57,9 +56,6 @@ import { ErrorBoundary } from "@/components/shared/ErrorBoundary";
 import { buildMentionMarkers } from "@/components/repo-detail/MentionMarkers";
 import { CrossSignalBreakdown } from "@/components/repo-detail/CrossSignalBreakdown";
 import { RecentMentionsFeed } from "@/components/repo-detail/RecentMentionsFeed";
-// CompletenessStrip is a work-in-progress component parked in a local
-// stash; re-import once it lands on main and CanonicalRepoProfile
-// exposes the `completeness` field.
 import { toMentionItem } from "@/components/repo-detail/MentionMeta";
 import type { MentionItem } from "@/components/repo-detail/MentionMeta";
 import { RepoSignalSnapshot } from "@/components/repo-detail/RepoSignalSnapshot";
@@ -78,7 +74,17 @@ import { FundingPanel } from "@/components/repo-detail/FundingPanel";
 import { RelatedReposPanel } from "@/components/repo-detail/RelatedReposPanel";
 import { PredictionSnapshot } from "@/components/repo-detail/PredictionSnapshot";
 import { RelatedIdeasPanel } from "@/components/repo-detail/RelatedIdeasPanel";
+import { NewsroomCallout } from "@/components/repo-detail/NewsroomCallout";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { BrandStar } from "@/components/shared/BrandStar";
+import { RecordRecentRepoView } from "@/components/layout/RecordRecentRepoView";
+import { WhyBadge } from "@/components/repo/WhyBadge";
+import { getOrGenerateRepoWhy } from "@/lib/repo-why";
+import { getNewsroomCrossLink } from "@/lib/newsroom-crosslinks";
+import { getBrief } from "@/lib/briefs";
+import { RepoBriefHero } from "@/components/repo/RepoBrief";
+import { MentionsCard } from "@/components/repo/MentionsCard";
+import { CompletenessStrip } from "@/components/repo-detail/CompletenessStrip";
 
 // ISR over force-dynamic: the 12+ refresh hooks above each share the
 // data-store's 30s rate-limit + dedupe, so calling them on every request
@@ -89,6 +95,55 @@ import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 export const revalidate = 300;
 
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
+const DISTRIBUTION_HEAVY_CATEGORIES = new Set([
+  "devtools",
+  "web-frameworks",
+  "infrastructure",
+  "databases",
+  "mobile",
+  "rust-ecosystem",
+]);
+const RESEARCH_HEAVY_CATEGORIES = new Set([
+  "ai-agents",
+  "ai-ml",
+  "local-llm",
+  "mcp",
+  "browser-automation",
+]);
+const MARKET_HEAVY_CATEGORIES = new Set([
+  "crypto-web3",
+  "design-engineering",
+  "data-analytics",
+  "security",
+]);
+
+function categoryFocusLabel(categoryId: string): string {
+  if (RESEARCH_HEAVY_CATEGORIES.has(categoryId)) return "research signal";
+  if (DISTRIBUTION_HEAVY_CATEGORIES.has(categoryId))
+    return "distribution signal";
+  if (MARKET_HEAVY_CATEGORIES.has(categoryId)) return "market signal";
+  return "cross-signal";
+}
+
+function repoCategoryLabel(
+  category: "mcp" | "skill" | "agent" | "library" | undefined,
+): string {
+  if (category === "mcp") return "MCP Server";
+  if (category === "skill") return "Skill";
+  if (category === "agent") return "Agent";
+  return "Library";
+}
+
+function countMentionsInWindow(
+  mentions: MentionItem[],
+  fromMs: number,
+  toMs: number,
+): number {
+  return mentions.filter((mention) => {
+    const ts = Date.parse(mention.createdAt);
+    return Number.isFinite(ts) && ts >= fromMs && ts < toMs;
+  }).length;
+}
 
 interface PageProps {
   params: Promise<{ owner: string; name: string }>;
@@ -192,13 +247,19 @@ export default async function RepoDetailPage({ params }: PageProps) {
     refreshProducthuntLaunchesFromStore(),
   ]);
 
-  // Single canonical call replaces the fifteen-loader stitch that used to
-  // live here. Every surface consumes a slice of `profile`, so any future
-  // signal migration only has to touch `buildCanonicalRepoProfile`.
-  const profile = await buildCanonicalRepoProfile(baseRepo.fullName);
+  // Kick off canonical profile assembly + repo reactions together to avoid
+  // serial network/storage latency on the critical render path.
+  const profilePromise = buildCanonicalRepoProfile(baseRepo.fullName);
+  const reactionsPromise = listReactionsForObject("repo", baseRepo.fullName);
+  const [profile, reactionRecords] = await Promise.all([
+    profilePromise,
+    reactionsPromise,
+  ]);
   if (!profile) {
     notFound();
   }
+  const whyRecord = await getOrGenerateRepoWhy(baseRepo.fullName, profile);
+  const repoBrief = await getBrief(owner, name);
   const { repo } = profile;
 
   // Flatten the persisted store slice into the render shape the feed +
@@ -207,19 +268,50 @@ export default async function RepoDetailPage({ params }: PageProps) {
   const mentions: MentionItem[] = profile.mentions.recent
     .map(toMentionItem)
     .filter((item): item is MentionItem => item !== null);
+  const nowMs = Date.now();
+  const mentions24h = countMentionsInWindow(mentions, nowMs - 24 * 60 * 60 * 1000, nowMs);
+  const mentionsPrev24h = countMentionsInWindow(
+    mentions,
+    nowMs - 48 * 60 * 60 * 1000,
+    nowMs - 24 * 60 * 60 * 1000,
+  );
+  const mentionsDelta24h = mentions24h - mentionsPrev24h;
+  const completenessItems = [
+    { label: "Signals", ready: mentions.length > 0 },
+    {
+      label: "NPM",
+      ready:
+        profile.npm.packages.length > 0 ||
+        Object.keys(profile.npm.dailyDownloads).length > 0,
+    },
+    { label: "Funding", ready: profile.funding.length > 0 },
+    {
+      label: "Revenue",
+      ready:
+        Boolean(profile.revenue.verified) ||
+        Boolean(profile.revenue.selfReported) ||
+        Boolean(profile.revenue.trustmrrClaim),
+    },
+    { label: "Prediction", ready: Boolean(profile.prediction) },
+    { label: "Ideas", ready: profile.ideas.length > 0 },
+    { label: "Twitter", ready: Boolean(profile.twitter?.topPosts?.length) },
+    { label: "Related", ready: profile.related.length > 0 },
+  ];
 
   // Server-render the reaction counts so the strip below the action row
   // shows real numbers on first paint instead of zeros + a spinner. The
   // client component still re-fetches if a user takes any action.
-  const initialReactionCounts = countReactions(
-    await listReactionsForObject("repo", repo.fullName),
-  );
+  const initialReactionCounts = countReactions(reactionRecords);
   // Cross-channel marker dots for the Stars chart — pre-built server-side
   // so the client RepoDetailChart bundle stays free of every per-source
   // mentions JSON. Kept as a direct call because this is pure rendering
   // data that doesn't need to live on the canonical profile.
   const markers = buildMentionMarkers(repo.fullName, 30);
   const lastRefresh = getRelativeTime(new Date().toISOString());
+  const focusLabel = categoryFocusLabel(repo.categoryId);
+  const distributionFirst = DISTRIBUTION_HEAVY_CATEGORIES.has(repo.categoryId);
+  const marketFirst = MARKET_HEAVY_CATEGORIES.has(repo.categoryId);
+  const newsroomCrossLink = getNewsroomCrossLink(repo.fullName);
 
   // JSON-LD entity graph for the repo page. Replaces the previous hand-rolled
   // SoftwareSourceCode + BreadcrumbList pair with a richer set:
@@ -238,6 +330,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
     lastCommitAt: repo.lastCommitAt,
     createdAt: repo.createdAt,
     momentumScore: repo.momentumScore,
+    category: repo.categoryId,
   });
 
   return (
@@ -253,6 +346,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
       ))}
 
       <main className="home-surface repo-detail-page">
+        <RecordRecentRepoView repoId={repo.id} />
         <section className="id-strip">
           <div className="id-avatar">{repo.name.slice(0, 1).toLowerCase()}</div>
           <div className="id-meta">
@@ -283,6 +377,10 @@ export default async function RepoDetailPage({ params }: PageProps) {
             </h1>
             {repo.description ? <p className="desc">{repo.description}</p> : null}
             <div className="row">
+              <span className="topic">
+                {repoCategoryLabel(repo.repoCategory)}{" "}
+                ({Math.round((repo.repoCategoryConfidence ?? 0.7) * 100)}%)
+              </span>
               {repo.language ? <span className="lang">{repo.language}</span> : null}
               {(repo.topics ?? []).slice(0, 5).map((topic) => (
                 <span key={topic} className="topic">
@@ -290,7 +388,9 @@ export default async function RepoDetailPage({ params }: PageProps) {
                 </span>
               ))}
               <span className="stat">
-                <span className="lbl"><BrandStar size={11} /></span>
+                <span className="lbl inline-flex items-center">
+                  <BrandStar size={11} />
+                </span>
                 <b>{formatNumber(repo.stars)}</b>
               </span>
               <span className="stat">
@@ -305,6 +405,9 @@ export default async function RepoDetailPage({ params }: PageProps) {
             </div>
           </div>
           <div className="id-actions">
+            <Link href={`/repo/${repo.owner}/${repo.name}/mentions`} className="btn">
+              Mentions
+            </Link>
             <Link href={`/repo/${repo.owner}/${repo.name}/star-activity`} className="btn">
               Star activity
             </Link>
@@ -361,15 +464,41 @@ export default async function RepoDetailPage({ params }: PageProps) {
             </span>
           </div>
         </section>
+        <section className="v2-card p-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[10px] font-mono uppercase tracking-[0.14em] text-text-tertiary">
+              {"// CATEGORY FOCUS"}
+            </span>
+            <span className="badge badge--info">{repo.categoryId}</span>
+            <span className="text-[11px] text-text-tertiary">
+              Prioritizing {focusLabel} sections for this profile.
+            </span>
+            {whyRecord?.line ? (
+              <WhyBadge
+                text={whyRecord.line}
+                signal={whyRecord.signal}
+                className="max-w-full"
+              />
+            ) : null}
+          </div>
+        </section>
+        {repoBrief ? (
+          <RepoBriefHero
+            owner={repoBrief.owner}
+            name={repoBrief.name}
+            hook={repoBrief.hook}
+          />
+        ) : null}
 
         <div className="repo-detail-stack">
-          {/* Completeness strip — audit finding #1 trust fix.
-              Answers "how much of this profile is actually populated?"
-              before the user scrolls through modules that might be empty
-              because the pipeline hasn't scanned that source yet vs because
-              nothing exists. */}
-          {/* <CompletenessStrip> WIP — re-enable once merged from stash. */}
+          <CompletenessStrip items={completenessItems} />
           <RepoActionRow repo={repo} />
+          <MentionsCard
+            owner={repo.owner}
+            name={repo.name}
+            totalMentions={mentions.length}
+            delta24h={mentionsDelta24h}
+          />
           <ObjectReactions
             objectType="repo"
             objectId={repo.fullName}
@@ -381,10 +510,21 @@ export default async function RepoDetailPage({ params }: PageProps) {
             Renders null when no reasons are available for this repo.
           */}
           <WhyTrending reasons={profile.reasons} />
+          {newsroomCrossLink ? <NewsroomCallout link={newsroomCrossLink} /> : null}
           <PredictionSnapshot
             prediction={profile.prediction}
             currentStars={repo.stars}
           />
+          {marketFirst ? (
+            <>
+              <RepoRevenuePanel
+                verified={profile.revenue.verified}
+                selfReported={profile.revenue.selfReported}
+                trustmrrClaim={profile.revenue.trustmrrClaim}
+              />
+              <FundingPanel events={profile.funding} />
+            </>
+          ) : null}
           <RepoSignalSnapshot
             repo={repo}
             mentions={mentions}
@@ -392,23 +532,17 @@ export default async function RepoDetailPage({ params }: PageProps) {
             productHuntLaunch={profile.productHunt}
           />
 
-          <RepoRevenuePanel
-            verified={profile.revenue.verified}
-            selfReported={profile.revenue.selfReported}
-            trustmrrClaim={profile.revenue.trustmrrClaim}
-          />
-          <FundingPanel events={profile.funding} />
-
           <div className="repo-detail-two-col">
-            <RepoDetailStatsStrip repo={repo} />
-            <RepoDetailStats repo={repo} />
+            <RepoDetailStatsStrip repo={repo} updatedAt={profile.fetchedAt ?? null} />
+            <RepoDetailStats repo={repo} updatedAt={profile.fetchedAt ?? null} />
           </div>
-
-          <NpmAdoptionPanel
-            packages={profile.npm.packages}
-            dailyDownloads={profile.npm.dailyDownloads}
-            dependentsByPackage={profile.npm.dependents}
-          />
+          {distributionFirst ? (
+            <NpmAdoptionPanel
+              packages={profile.npm.packages}
+              dailyDownloads={profile.npm.dailyDownloads}
+              dependentsByPackage={profile.npm.dependents}
+            />
+          ) : null}
 
           <div className="repo-detail-split">
             <ProjectSurfaceMap
@@ -418,6 +552,23 @@ export default async function RepoDetailPage({ params }: PageProps) {
             />
             <CrossSignalBreakdown repo={repo} />
           </div>
+          {!distributionFirst ? (
+            <NpmAdoptionPanel
+              packages={profile.npm.packages}
+              dailyDownloads={profile.npm.dailyDownloads}
+              dependentsByPackage={profile.npm.dependents}
+            />
+          ) : null}
+          {!marketFirst ? (
+            <>
+              <RepoRevenuePanel
+                verified={profile.revenue.verified}
+                selfReported={profile.revenue.selfReported}
+                trustmrrClaim={profile.revenue.trustmrrClaim}
+              />
+              <FundingPanel events={profile.funding} />
+            </>
+          ) : null}
 
           <RecentMentionsFeed
             mentions={mentions}

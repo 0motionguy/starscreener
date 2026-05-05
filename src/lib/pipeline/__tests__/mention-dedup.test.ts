@@ -144,6 +144,11 @@ test("append dedupes by normalizedUrl — utm params collapse", () => {
 
   const rows = store.listForRepo("vercel--next-js");
   assert.equal(rows.length, 1, "utm/ref/www variants should collapse to one");
+  assert.deepEqual(
+    rows[0].sourcePlatforms?.slice().sort(),
+    ["hackernews", "reddit"],
+    "cross-source dedupe should retain origin platforms",
+  );
 });
 
 test("append keeps distinct URLs as separate rows", () => {

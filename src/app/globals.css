@@ -1258,6 +1258,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   position: relative;
+  overflow-x: clip;
 }
 
 /* Ambient canvas: 40px dot+line grid (AGNTCP-inspired) + two pinned
@@ -1342,6 +1343,7 @@ body::before {
 
 .app-main {
   min-width: 0;
+  overflow-x: clip;
   /* 80px MobileNav height + iOS safe-area inset so content doesn't
      tuck under the home indicator on iPhones. On Android + desktop
      the inset resolves to 0, so this is a no-op there. */
@@ -1727,6 +1729,10 @@ body::before {
 }
 
 @media (max-width: 640px) {
+  .home-surface .grid {
+    grid-template-columns: 1fr;
+  }
+
   .x-signal-stats {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -2741,7 +2747,16 @@ body::before {
 }
 
 .table-scroll {
+  max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.live-top {
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
 }
 
 .tbl {
@@ -3146,6 +3161,52 @@ body::before {
   vertical-align: middle;
 }
 
+@media (max-width: 767px) {
+  .live-top-filters .live-top-spacer {
+    display: none;
+  }
+
+  .live-top-filters .tabs {
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 4px;
+  }
+
+  .live-top-filters .live-top-meta {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .tbl-live .mentions-cell {
+    overflow: hidden;
+  }
+
+  .tbl-live .mentions-cell .mentions-pills {
+    max-width: calc(100% - 26px);
+    overflow: hidden;
+    gap: 2px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .tbl-live .mentions-cell .mentions-pills .sd {
+    width: 16px;
+    height: 16px;
+    padding: 1px;
+  }
+
+  .tbl-live .mentions-cell .mentions-pills .sd svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  .tbl-live .mentions-cell .mentions-pills .sd:nth-child(n + 7) {
+    display: none;
+  }
+}
+
 .chart-legend-row {
   display: flex;
   flex-wrap: wrap;
@@ -3225,6 +3286,7 @@ body::before {
 @media (max-width: 767px) {
   .home-surface {
     padding: 12px 12px 0;
+    overflow-x: clip;
   }
 
   .page-head {
@@ -5184,6 +5246,24 @@ body::before {
   font-family: var(--font-mono);
 }
 
+@media (max-width: 640px) {
+  .chart-toggle {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .chart-toggle > [role="tablist"] {
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+
+  .chart-toggle .right {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
 .ds-share-panel {
   overflow: hidden;
   border: 1px solid var(--line-200);
@@ -5404,6 +5484,13 @@ body::before {
 .feed-foot a:hover,
 .feat-foot a:hover {
   color: var(--acc);
+}
+
+.ds-footer nav {
+  min-width: 0;
+  max-width: 100%;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .t-foot,
@@ -6109,6 +6196,20 @@ body::before {
   font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
   font-variant-numeric: tabular-nums;
   letter-spacing: var(--v2-tracking-mono-tight);
+}
+
+.freshness-tag {
+  font-family: var(--font-geist-mono), var(--font-jetbrains-mono), monospace;
+  font-variant-numeric: tabular-nums;
+  color: var(--v2-ink-300);
+}
+
+.freshness-tag--fresh {
+  color: var(--v2-sig-green);
+}
+
+.freshness-tag--stale {
+  color: var(--v2-ink-400);
 }
 
 .v2-row {

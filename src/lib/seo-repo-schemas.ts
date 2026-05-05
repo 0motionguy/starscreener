@@ -40,6 +40,14 @@ export interface RepoSchemaInput {
   category?: string | null;
 }
 
+export interface RepoSubpageSchemaInput {
+  owner: string;
+  name: string;
+  pagePath: string;
+  pageTitle: string;
+  description: string;
+}
+
 /**
  * Build the JSON-LD entity graph for a /repo/{owner}/{name} page.
  *
@@ -130,6 +138,37 @@ export function buildRepoPageSchemas(input: RepoSchemaInput): JsonLd[] {
   }
 
   return schemas;
+}
+
+export function buildRepoSubpageSchema(
+  input: RepoSubpageSchemaInput,
+): JsonLd {
+  const repoUrl = absoluteUrl(`/repo/${input.owner}/${input.name}`);
+  const pageUrl = absoluteUrl(input.pagePath);
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    name: input.pageTitle,
+    description: input.description,
+    url: pageUrl,
+    isPartOf: { "@id": `${SITE_URL}#website` },
+    about: { "@id": `${repoUrl}#code` },
+    publisher: { "@id": ORG_ID },
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: SITE_NAME, item: SITE_URL },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: `${input.owner}/${input.name}`,
+          item: repoUrl,
+        },
+        { "@type": "ListItem", position: 3, name: input.pageTitle, item: pageUrl },
+      ],
+    },
+  };
 }
 
 function toIso(d: Date | string): string {

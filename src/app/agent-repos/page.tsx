@@ -21,7 +21,7 @@ import { refreshLobstersMentionsFromStore } from "@/lib/lobsters";
 import { refreshNpmFromStore } from "@/lib/npm";
 import { refreshHfModelsFromStore } from "@/lib/huggingface";
 import { refreshArxivFromStore } from "@/lib/arxiv";
-import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { absoluteUrl, safeJsonLd, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 import { Card } from "@/components/ui/Card";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
@@ -102,6 +102,7 @@ export default async function AgentReposPage() {
       sparklineData: repo.sparklineData,
       momentumScore: repo.momentumScore,
       mentionCount24h: repo.mentionCount24h ?? 0,
+      lastCommitAt: repo.lastCommitAt ?? null,
       sources: {
         gh: 1,
         hn: ps?.hackernews.count24h ?? 0,
@@ -222,9 +223,45 @@ export default async function AgentReposPage() {
             </>
           }
         />
-        <Card>
-          <LiveTopTable rows={liveTableRows} categories={liveCategories} />
-        </Card>
+        {liveTableRows.length > 0 ? (
+          <Card>
+            <LiveTopTable rows={liveTableRows} categories={liveCategories} />
+          </Card>
+        ) : (
+          <Card>
+            <div
+              style={{
+                padding: "20px 16px",
+                fontFamily: "var(--font-geist-mono), monospace",
+                fontSize: 12,
+                color: "var(--v4-ink-300)",
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
+              }}
+            >
+              // AGENT REPOS ARE WARMING. CHECK BACK AFTER THE NEXT TRENDING REFRESH.
+            </div>
+          </Card>
+        )}
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: safeJsonLd({
+              "@context": "https://schema.org",
+              "@type": "CollectionPage",
+              name: "Agent Repos",
+              url: absoluteUrl("/agent-repos"),
+              description:
+                "Top tracked AI agent runtimes, frameworks, orchestrators, and OpenClaw-like systems ranked by total GitHub stars.",
+              isPartOf: {
+                "@type": "WebSite",
+                name: SITE_NAME,
+                url: SITE_URL,
+              },
+            }),
+          }}
+        />
       </main>
 
       <FooterBar

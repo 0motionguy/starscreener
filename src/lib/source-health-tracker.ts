@@ -332,6 +332,7 @@ function formatError(err: unknown): string | null {
  * Add new sources here when wiring a new adapter.
  */
 export const KNOWN_SOURCES = [
+  "ossinsight",
   "hackernews",
   "reddit",
   "bluesky",
@@ -339,8 +340,17 @@ export const KNOWN_SOURCES = [
   "github",
   "github-search",
   "nitter",
+  "apify",
   "lobsters",
   "producthunt",
+  "huggingface",
+  "npm",
+  "arxiv",
+  "trustmrr",
+  "firecrawl",
+  "smithery",
+  "pulsemcp",
+  "libraries-io",
 ] as const;
 
 export type KnownSource = (typeof KNOWN_SOURCES)[number];

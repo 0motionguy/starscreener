@@ -46,7 +46,8 @@ Date: 2026-05-04
 
 ### Scan result (dogfood target)
 
-- Executed in read-only AISO workspace (sibling checkout of `Agnt/aiso` on the operator host):
+- Executed in read-only AISO workspace:
+  - `C:\Users\mirko\OneDrive\Desktop\Agnt\aiso`
   - command: `npx tsx scripts/scan-self.ts https://aiso.tools`
 - Result:
   - score `60/100`
@@ -56,9 +57,9 @@ Date: 2026-05-04
 ### Durable output created
 
 - Manual-apply patchset with unified diffs for 7 high-impact fixes:
-  - [AGN-797-AISO-PATCHSET.md](AGN-797-AISO-PATCHSET.md)
+  - [AGN-797-AISO-PATCHSET.md](C:\Users\mirko\OneDrive\Desktop\STARSCREENER\AGN-797-AISO-PATCHSET.md)
 - Pluggable protocol README for reuse on any project:
-  - [docs/sergio-pluggable-protocol.md](docs/sergio-pluggable-protocol.md)
+  - [docs/sergio-pluggable-protocol.md](C:\Users\mirko\OneDrive\Desktop\STARSCREENER\docs\sergio-pluggable-protocol.md)
 
 ### Next action
 

@@ -2,7 +2,7 @@ name: Refresh ProductHunt launches
 
 on:
   schedule:
-    - cron: "0 11,15,19,23 * * *"  # refresh throughout the PH day so votes/comments don't freeze from the early snapshot
+    - cron: "22 11,15,19,23 * * *"  # staggered off :00 burst; preserves the same 4x/day cadence
   workflow_dispatch:
 
 permissions:

@@ -1,40 +1,42 @@
-// /breakouts — full-page Cross-Signal Breakouts (V4 chrome).
+// /breakouts - full-page Cross-Signal Breakouts (V4 chrome).
 
 import type { Metadata } from "next";
 import Link from "next/link";
 
 import { getDerivedRepos } from "@/lib/derived-repos";
-import { lastFetchedAt } from "@/lib/trending";
 import { getChannelStatus } from "@/lib/pipeline/cross-signal";
-import { formatNumber } from "@/lib/utils";
+import { lastFetchedAt } from "@/lib/trending";
 import type { Repo } from "@/lib/types";
+import { formatNumber, getRelativeTime } from "@/lib/utils";
 
-// V4 (CORPUS) primitives.
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { KpiBand } from "@/components/ui/KpiBand";
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
-import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
-import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { absoluteUrl } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
   title: "Cross-Signal Breakouts",
   description:
-    "Repos firing across multiple signal channels right now — GitHub stars, Reddit, Hacker News, Bluesky, dev.to, and X/Twitter — surfaced before they go mainstream.",
-  alternates: { canonical: "/breakouts" },
+    "Repos firing across multiple signal channels right now - GitHub stars, Reddit, Hacker News, Bluesky, dev.to, and X/Twitter - surfaced before they go mainstream.",
+  alternates: { canonical: absoluteUrl("/breakouts") },
   openGraph: {
-    title: "Cross-Signal Breakouts — TrendingRepo",
+    title: "Cross-Signal Breakouts - TrendingRepo",
     description:
       "Repos firing across multiple signal channels at once. The earliest cross-source breakout view.",
-    url: "/breakouts",
+    url: absoluteUrl("/breakouts"),
     type: "website",
+    images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Cross-Signal Breakouts — TrendingRepo",
+    title: "Cross-Signal Breakouts - TrendingRepo",
     description:
       "Repos firing across multiple signal channels at once. The earliest cross-source breakout view.",
+    images: [absoluteUrl("/og-card.png")],
   },
 };
 
@@ -67,6 +69,15 @@ function channelRank(repo: Repo, nowMs: number, channel: "github" | "reddit" | "
   return status[channel] ? "ON" : "-";
 }
 
+function freshnessTone(isoDate: string): "fresh" | "stale" | "normal" {
+  const then = new Date(isoDate).getTime();
+  if (!Number.isFinite(then)) return "normal";
+  const ageMinutes = (Date.now() - then) / 60_000;
+  if (ageMinutes <= 30) return "fresh";
+  if (ageMinutes > 60) return "stale";
+  return "normal";
+}
+
 export default async function BreakoutsPage({
   searchParams,
 }: {
@@ -85,29 +96,39 @@ export default async function BreakoutsPage({
   const multiChannel = annotated.filter((r) => r._firing >= 2).length;
   const allThree = annotated.filter((r) => r._firing === 3).length;
   const oneChannel = totalFiring - multiChannel;
-  const topScore = annotated.reduce(
-    (max, repo) => Math.max(max, repo.crossSignalScore ?? 0),
-    0,
-  );
+  const topScore = annotated.reduce((max, repo) => Math.max(max, repo.crossSignalScore ?? 0), 0);
 
   const view = applyFilter(annotated, filter)
     .sort((a, b) => (b.crossSignalScore ?? 0) - (a.crossSignalScore ?? 0))
     .slice(0, 50);
+
+  const shouldShowSingleChannelFallback = filter === "multi" && view.length === 0 && totalFiring > 0;
+  const displayRows = shouldShowSingleChannelFallback
+    ? annotated
+        .filter((r) => r._firing >= 1)
+        .sort((a, b) => (b.crossSignalScore ?? 0) - (a.crossSignalScore ?? 0))
+        .slice(0, 50)
+    : view;
 
   return (
     <main className="home-surface breakouts-page">
       <PageHead
         crumb={
           <>
-            <b>BREAKOUTS</b> · TERMINAL · /BREAKOUTS
+            <b>BREAKOUTS</b> - TERMINAL - /BREAKOUTS
           </>
         }
         h1="Where independent channels fire together."
-        lede="Multi-channel repo momentum, ranked by cross-signal score and filtered by visible firing count. Three signal sources: GitHub stars · Reddit submissions · Hacker News."
+        lede="Multi-channel repo momentum, ranked by cross-signal score and filtered by visible firing count. Three signal sources: GitHub stars - Reddit submissions - Hacker News."
         clock={
           <>
-            <span className="big">{view.length}</span>
-            <span className="muted">REPOS · {FILTER_LABELS[filter].toUpperCase()}</span>
+            <span className="big">{displayRows.length}</span>
+            <span className="muted">
+              REPOS - {" "}
+              {(shouldShowSingleChannelFallback
+                ? "single-channel fallback"
+                : FILTER_LABELS[filter]).toUpperCase()}
+            </span>
             <FreshnessBadge source="mcp" lastUpdatedAt={lastFetchedAt} />
           </>
         }
@@ -118,19 +139,19 @@ export default async function BreakoutsPage({
         stamp={{
           eyebrow: "// BREAKOUT BOARD",
           headline: `${multiChannel} MULTI-CHANNEL`,
-          sub: `of ${totalFiring} firing · ${allThree} all-three · refreshed live`,
+          sub: `of ${totalFiring} firing - ${allThree} all-three - refreshed live`,
         }}
         text={
           <>
-            <b>{totalFiring} repos</b> are firing on at least one visible channel.{" "}
+            <b>{totalFiring} repos</b> are firing on at least one visible channel. {" "}
             <span style={{ color: "var(--v4-violet)" }}>{multiChannel} multi-channel</span>{" "}
-            candidates clear the noise filter, with{" "}
+            candidates clear the noise filter, with {" "}
             <span style={{ color: "var(--v4-amber)" }}>{allThree} all-three</span> consensus
             hits.
           </>
         }
         actionHref="/feeds/breakouts.xml"
-        actionLabel="RSS →"
+        actionLabel="RSS ->"
       />
 
       <KpiBand
@@ -139,13 +160,13 @@ export default async function BreakoutsPage({
           {
             label: "FIRING",
             value: totalFiring,
-            sub: "≥ 1 channel",
+            sub: ">= 1 channel",
             pip: "var(--v4-ink-300)",
           },
           {
             label: "MULTI",
             value: multiChannel,
-            sub: "≥ 2 channels",
+            sub: ">= 2 channels",
             tone: "money",
             pip: "var(--v4-money)",
           },
@@ -177,7 +198,8 @@ export default async function BreakoutsPage({
         title="Breakout leaderboard"
         meta={
           <>
-            <b>{view.length}</b> · {FILTER_LABELS[filter]}
+            <b>{displayRows.length}</b> - {" "}
+            {shouldShowSingleChannelFallback ? "Single-channel fallback" : FILTER_LABELS[filter]}
           </>
         }
       />
@@ -195,14 +217,26 @@ export default async function BreakoutsPage({
               {FILTER_LABELS[key]}
             </Link>
           ))}
-          <span className="right">{view.length} repos</span>
+          <span className="right">{displayRows.length} repos</span>
         </div>
-        {view.length === 0 ? (
-          <div className="p-8 text-sm text-text-secondary">
-            No repos match this filter right now.
+        {displayRows.length === 0 ? (
+          <div className="p-8 text-sm text-text-secondary space-y-3">
+            <p>No repos match this filter right now.</p>
+            <p className="text-xs uppercase tracking-[0.14em] text-text-tertiary">
+              Try{" "}
+              <Link href="/breakouts?filter=all" className="underline">
+                All firing
+              </Link>{" "}
+              to inspect early single-channel movement.
+            </p>
           </div>
         ) : (
           <>
+            {shouldShowSingleChannelFallback ? (
+              <div className="px-4 py-3 text-xs uppercase tracking-[0.12em] text-text-secondary">
+                No 2+ channel breakouts right now. Showing highest-signal single-channel movers.
+              </div>
+            ) : null}
             <div className="lb-head">
               <span>#</span>
               <span>Repository</span>
@@ -211,14 +245,10 @@ export default async function BreakoutsPage({
               <span>Signals</span>
               <span>24h</span>
             </div>
-            {view.map((repo, index) => {
+            {displayRows.map((repo, index) => {
               const delta24 = repo.starsDelta24h;
               const deltaLabel =
-                delta24 > 0
-                  ? `+${formatNumber(delta24)}`
-                  : delta24 < 0
-                    ? formatNumber(delta24)
-                    : "0";
+                delta24 > 0 ? `+${formatNumber(delta24)}` : delta24 < 0 ? formatNumber(delta24) : "0";
               const score = Math.max(4, Math.min(100, Math.round((repo.crossSignalScore ?? 0) * 32)));
               return (
                 <Link
@@ -235,19 +265,40 @@ export default async function BreakoutsPage({
                       <span className="nm">{repo.fullName}</span>
                       <span className="desc">
                         {repo.categoryId ?? "uncategorized"} / {formatNumber(repo.stars)} stars
+                        {repo.lastCommitAt ? (
+                          <>
+                            {" / "}
+                            <span
+                              className={`freshness-tag freshness-tag--${freshnessTone(repo.lastCommitAt)}`}
+                            >
+                              Updated {getRelativeTime(repo.lastCommitAt)}
+                            </span>
+                          </>
+                        ) : null}
                       </span>
                     </span>
                   </span>
                   <span className="score">
                     <span className="v">{(repo.crossSignalScore ?? 0).toFixed(2)}</span>
-                    <span className="conf-bar"><i style={{ width: `${score}%` }} /></span>
+                    <span className="conf-bar">
+                      <i style={{ width: `${score}%` }} />
+                    </span>
                   </span>
                   <span className="ranks">
-                    <span className="rb us"><span className="lab">GH</span><span className="v">{channelRank(repo, nowMs, "github")}</span></span>
+                    <span className="rb us">
+                      <span className="lab">GH</span>
+                      <span className="v">{channelRank(repo, nowMs, "github")}</span>
+                    </span>
                   </span>
                   <span className="ranks">
-                    <span className="rb gh"><span className="lab">R</span><span className="v">{channelRank(repo, nowMs, "reddit")}</span></span>
-                    <span className="rb hf"><span className="lab">HN</span><span className="v">{channelRank(repo, nowMs, "hn")}</span></span>
+                    <span className="rb gh">
+                      <span className="lab">R</span>
+                      <span className="v">{channelRank(repo, nowMs, "reddit")}</span>
+                    </span>
+                    <span className="rb hf">
+                      <span className="lab">HN</span>
+                      <span className="v">{channelRank(repo, nowMs, "hn")}</span>
+                    </span>
                   </span>
                   <span className="badge cons">
                     <span className="pip" aria-hidden="true" />

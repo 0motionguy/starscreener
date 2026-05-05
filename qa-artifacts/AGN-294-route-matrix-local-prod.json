@@ -1,0 +1,219 @@
+{
+  "checkedAt": "2026-05-04T11:05:44.010Z",
+  "routes": [
+    "/",
+    "/skills",
+    "/mcp",
+    "/signals",
+    "/twitter"
+  ],
+  "targets": [
+    {
+      "name": "localhost",
+      "base": "http://localhost:3023"
+    },
+    {
+      "name": "production",
+      "base": "https://trendingrepo.com"
+    }
+  ],
+  "matrix": [
+    {
+      "target": "localhost",
+      "base": "http://localhost:3023",
+      "route": "/",
+      "navStatus": 200,
+      "navOk": true,
+      "title": "TrendingRepo — The trend map for open source",
+      "bodyChars": 10322,
+      "h1Count": 2,
+      "sidebarVisible": true,
+      "consoleErrorCount": 1,
+      "requestFailCount": 1,
+      "sampleConsoleError": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used: - A server/client branch `if (typeof window",
+      "sampleRequestFail": {
+        "url": "https://api.smithery.ai/servers/polymarket/polymarket-mcp/icon",
+        "errorText": "net::ERR_BLOCKED_BY_ORB"
+      },
+      "durationMs": 7703,
+      "error": null
+    },
+    {
+      "target": "localhost",
+      "base": "http://localhost:3023",
+      "route": "/skills",
+      "navStatus": 200,
+      "navOk": true,
+      "title": "Trending Skills - TrendingRepo — TrendingRepo",
+      "bodyChars": 120912,
+      "h1Count": 1,
+      "sidebarVisible": true,
+      "consoleErrorCount": 0,
+      "requestFailCount": 0,
+      "sampleConsoleError": null,
+      "sampleRequestFail": null,
+      "durationMs": 9682,
+      "error": null
+    },
+    {
+      "target": "localhost",
+      "base": "http://localhost:3023",
+      "route": "/mcp",
+      "navStatus": 200,
+      "navOk": true,
+      "title": "Trending MCP - TrendingRepo — TrendingRepo",
+      "bodyChars": 31028,
+      "h1Count": 1,
+      "sidebarVisible": true,
+      "consoleErrorCount": 5,
+      "requestFailCount": 10,
+      "sampleConsoleError": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used: - A server/client branch `if (typeof window",
+      "sampleRequestFail": {
+        "url": "http://localhost:3023/_next/static/chunks/src_components_layout_MobileDrawer_tsx_7ce88f18._.js",
+        "errorText": "net::ERR_ABORTED"
+      },
+      "durationMs": 5755,
+      "error": null
+    },
+    {
+      "target": "localhost",
+      "base": "http://localhost:3023",
+      "route": "/signals",
+      "navStatus": 200,
+      "navOk": true,
+      "title": "Signals — Cross-Source Newsroom — TrendingRepo",
+      "bodyChars": 12944,
+      "h1Count": 1,
+      "sidebarVisible": true,
+      "consoleErrorCount": 0,
+      "requestFailCount": 1,
+      "sampleConsoleError": null,
+      "sampleRequestFail": {
+        "url": "http://localhost:3023/api/pipeline/sidebar-data",
+        "errorText": "net::ERR_ABORTED"
+      },
+      "durationMs": 4045,
+      "error": null
+    },
+    {
+      "target": "localhost",
+      "base": "http://localhost:3023",
+      "route": "/twitter",
+      "navStatus": 200,
+      "navOk": true,
+      "title": "Trending Repos on X — TrendingRepo",
+      "bodyChars": 2145,
+      "h1Count": 1,
+      "sidebarVisible": true,
+      "consoleErrorCount": 0,
+      "requestFailCount": 5,
+      "sampleConsoleError": null,
+      "sampleRequestFail": {
+        "url": "https://unavatar.io/x/TheCyberized",
+        "errorText": "net::ERR_BLOCKED_BY_ORB"
+      },
+      "durationMs": 4283,
+      "error": null
+    },
+    {
+      "target": "production",
+      "base": "https://trendingrepo.com",
+      "route": "/",
+      "navStatus": 200,
+      "navOk": true,
+      "title": "TrendingRepo — The trend map for open source",
+      "bodyChars": 10606,
+      "h1Count": 1,
+      "sidebarVisible": true,
+      "consoleErrorCount": 0,
+      "requestFailCount": 26,
+      "sampleConsoleError": null,
+      "sampleRequestFail": {
+        "url": "https://unavatar.io/x/MemeTactician",
+        "errorText": "net::ERR_BLOCKED_BY_ORB"
+      },
+      "durationMs": 2154,
+      "error": null
+    },
+    {
+      "target": "production",
+      "base": "https://trendingrepo.com",
+      "route": "/skills",
+      "navStatus": 200,
+      "navOk": true,
+      "title": "Trending Skills - TrendingRepo — TrendingRepo",
+      "bodyChars": 120931,
+      "h1Count": 1,
+      "sidebarVisible": true,
+      "consoleErrorCount": 0,
+      "requestFailCount": 3,
+      "sampleConsoleError": null,
+      "sampleRequestFail": {
+        "url": "https://trendingrepo.com/api/pipeline/sidebar-data",
+        "errorText": "net::ERR_ABORTED"
+      },
+      "durationMs": 5388,
+      "error": null
+    },
+    {
+      "target": "production",
+      "base": "https://trendingrepo.com",
+      "route": "/mcp",
+      "navStatus": 200,
+      "navOk": true,
+      "title": "Trending MCP — TrendingRepo",
+      "bodyChars": 31027,
+      "h1Count": 1,
+      "sidebarVisible": true,
+      "consoleErrorCount": 4,
+      "requestFailCount": 7,
+      "sampleConsoleError": "Failed to load resource: the server responded with a status of 404 ()",
+      "sampleRequestFail": {
+        "url": "https://trendingrepo.com/api/pipeline/sidebar-data",
+        "errorText": "net::ERR_ABORTED"
+      },
+      "durationMs": 1440,
+      "error": null
+    },
+    {
+      "target": "production",
+      "base": "https://trendingrepo.com",
+      "route": "/signals",
+      "navStatus": 200,
+      "navOk": true,
+      "title": "Signals — Cross-Source Newsroom — TrendingRepo",
+      "bodyChars": 13210,
+      "h1Count": 1,
+      "sidebarVisible": true,
+      "consoleErrorCount": 0,
+      "requestFailCount": 2,
+      "sampleConsoleError": null,
+      "sampleRequestFail": {
+        "url": "https://trendingrepo.com/twitter?_rsc=qr415",
+        "errorText": "net::ERR_ABORTED"
+      },
+      "durationMs": 4584,
+      "error": null
+    },
+    {
+      "target": "production",
+      "base": "https://trendingrepo.com",
+      "route": "/twitter",
+      "navStatus": 200,
+      "navOk": true,
+      "title": "Trending Repos on X — TrendingRepo",
+      "bodyChars": 2143,
+      "h1Count": 1,
+      "sidebarVisible": true,
+      "consoleErrorCount": 0,
+      "requestFailCount": 26,
+      "sampleConsoleError": null,
+      "sampleRequestFail": {
+        "url": "https://unavatar.io/x/yaelkroy",
+        "errorText": "net::ERR_BLOCKED_BY_ORB"
+      },
+      "durationMs": 7441,
+      "error": null
+    }
+  ]
+}

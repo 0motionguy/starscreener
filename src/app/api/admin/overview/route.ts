@@ -6,10 +6,13 @@
 //
 // Auth: ADMIN_TOKEN bearer or ss_admin cookie (verifyAdminAuth handles both).
 
+import { readFile, stat } from "node:fs/promises";
+import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
 import { serverError } from "@/lib/api/error-response";
+import { redactSensitiveText } from "@/lib/log-redaction";
 import { readQueue } from "@/lib/aiso-queue";
 import { listIdeas, type IdeaRecord } from "@/lib/ideas";
 import {
@@ -93,6 +96,14 @@ export interface AdminOverviewResponse {
     repoMetadataCount: number;
     repoMetadataSourceCount: number;
   };
+  autocompletion: {
+    totalRepos: number;
+    tickedOff: number;
+    completionRatio: number;
+    deltaThisWeek: number;
+    checklistMtime: string | null;
+    linkedIssue: "AGN-561";
+  } | null;
 }
 
 interface ErrorResponse {
@@ -103,11 +114,69 @@ interface ErrorResponse {
 const QUEUE_PREVIEW_LIMIT = 20;
 const IDEAS_PREVIEW_LIMIT = 5;
 const QUEUE_STUCK_THRESHOLD_MS = 6 * 60 * 60 * 1000;
+const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+const AUTOCOMPLETION_CHECKLIST_FILE = path.join(
+  process.cwd(),
+  "data",
+  "repo-autocompletion-checklist.json",
+);
+
+interface AutocompletionChecklistFile {
+  summary?: {
+    totalRepos?: number;
+    tickedOff?: number;
+    completionRatio?: number;
+  };
+}
 
 function ageSecondsFrom(iso: string): number {
   const t = Date.parse(iso);
   if (!Number.isFinite(t)) return 0;
   return Math.max(0, Math.floor((Date.now() - t) / 1000));
+}
+
+async function readAutocompletionTile(): Promise<AdminOverviewResponse["autocompletion"]> {
+  try {
+    const [fileStat, raw] = await Promise.all([
+      stat(AUTOCOMPLETION_CHECKLIST_FILE),
+      readFile(AUTOCOMPLETION_CHECKLIST_FILE, "utf8"),
+    ]);
+    const parsed = JSON.parse(raw) as AutocompletionChecklistFile;
+    const totalRepos = Number(parsed.summary?.totalRepos ?? 0);
+    const tickedOff = Number(parsed.summary?.tickedOff ?? 0);
+    const completionRatio =
+      typeof parsed.summary?.completionRatio === "number"
+        ? parsed.summary.completionRatio
+        : totalRepos > 0
+          ? tickedOff / totalRepos
+          : 0;
+    const weekCutoff = Date.now() - ONE_WEEK_MS;
+    const deltaThisWeek = repoStore.getAll().reduce((acc, profile) => {
+      const lastProfiledAt = Date.parse(profile.lastProfiledAt ?? "");
+      if (!Number.isFinite(lastProfiledAt) || lastProfiledAt < weekCutoff) {
+        return acc;
+      }
+      const checklistDone =
+        Boolean(profile.websiteUrl) &&
+        Boolean(profile.surfaces.docsUrl) &&
+        profile.surfaces.npmPackages.length > 0 &&
+        Boolean(profile.surfaces.productHuntLaunchId) &&
+        Boolean(profile.aisoScan) &&
+        profile.status === "scanned";
+      return checklistDone ? acc + 1 : acc;
+    }, 0);
+
+    return {
+      totalRepos: Number.isFinite(totalRepos) ? totalRepos : 0,
+      tickedOff: Number.isFinite(tickedOff) ? tickedOff : 0,
+      completionRatio: Number.isFinite(completionRatio) ? completionRatio : 0,
+      deltaThisWeek,
+      checklistMtime: fileStat.mtime.toISOString(),
+      linkedIssue: "AGN-561",
+    };
+  } catch {
+    return null;
+  }
 }
 
 export async function GET(
@@ -150,7 +219,8 @@ export async function GET(
     try {
       ideas = await listIdeas();
     } catch (err) {
-      console.warn("[admin:overview] listIdeas failed", err);
+      const message = err instanceof Error ? err.message : String(err);
+      console.warn("[admin:overview] listIdeas failed", redactSensitiveText(message));
     }
     const pending = ideas.filter((i) => i.status === "pending_moderation");
     const published = ideas.filter(
@@ -207,6 +277,8 @@ export async function GET(
       });
     }
 
+    const autocompletion = await readAutocompletionTile();
+
     const body: AdminOverviewResponse = {
       ok: true,
       generatedAt: new Date().toISOString(),
@@ -233,6 +305,7 @@ export async function GET(
         repoMetadataCount: getRepoMetadataCount(),
         repoMetadataSourceCount: getRepoMetadataSourceCount(),
       },
+      autocompletion,
     };
     return NextResponse.json(body, {
       headers: { "Cache-Control": "no-store" },

@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # UI Gap Audit — 2026-04-28
 
 Audit of `src/lib/*.ts` modules with weak or no UI consumer, and routes

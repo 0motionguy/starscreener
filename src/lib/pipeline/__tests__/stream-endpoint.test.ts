@@ -47,6 +47,7 @@ test("stream route source keeps ready frame and heartbeat contract", async () =>
   assert.match(source, /event: ready/);
   assert.match(source, /heartbeat/);
   assert.match(source, /Content-Type": "text\/event-stream; charset=utf-8"/);
+  assert.match(source, /"mention_ingested"/);
 });
 
 test.after(() => {

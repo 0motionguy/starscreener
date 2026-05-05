@@ -32,7 +32,7 @@ import { dirname, join, resolve, relative } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 
-const SCAN_DIRS = ["src", "apps/trendingrepo-worker/src"];
+const SCAN_DIRS = ["src", "apps/trendingrepo-worker/src", "scripts"];
 const FILE_EXTS = new Set([".ts", ".tsx", ".mjs", ".js"]);
 
 const ALLOW_FILES = new Set([
@@ -43,6 +43,15 @@ const ALLOW_FILES = new Set([
   // the protect-files PreToolUse hook gates the main app's path.
   "apps/trendingrepo-worker/src/lib/redis-keys.ts",
   "apps/trendingrepo-worker/src/lib/redis.ts",
+  // Scripts-side data-store core (Phase 4 part 3). Owns the same
+  // ss:data:v1 / ss:meta:v1 namespaces in plain ESM for collectors that
+  // run as `node` (not tsx). Exports the typed `keys` shim that other
+  // scripts/*.mjs files import.
+  "scripts/_data-store-write.mjs",
+  // Self-referential exemption: this guard's own doc-comment includes
+  // a `redis.get("ss:data:v1:" + slug)` example string that would
+  // self-flag once `scripts/` is in SCAN_DIRS.
+  "scripts/check-redis-keys.mjs",
 ]);
 
 const ALLOW_DIR_PREFIXES = [

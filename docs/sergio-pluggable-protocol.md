@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # Sergio Pluggable AISO-Fix Protocol
 
 This protocol defines how to run Sergio against any project using AISO findings, while keeping execution pluggable across repos and deployment setups.

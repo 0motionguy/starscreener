@@ -138,7 +138,7 @@ export interface DataStore {
 // string construction to the registry so there is one place to grep when
 // Redis key conventions change. Bump the version in keys.ts only when the
 // payload schema changes incompatibly.
-const DEFAULT_TTL_SECONDS = 86_400;
+export const DATA_STORE_DEFAULT_TTL_SECONDS = 86_400;
 const INVALID_KEY_LITERALS = new Set(["null", "undefined"]);
 
 function normalizeKeyOrThrow(key: string): string {
@@ -449,7 +449,7 @@ class DefaultDataStore implements DataStore {
             ? undefined
             : opts.ttlSeconds && opts.ttlSeconds > 0
               ? opts.ttlSeconds
-              : DEFAULT_TTL_SECONDS;
+              : DATA_STORE_DEFAULT_TTL_SECONDS;
         const setOpts: { ex?: number } | undefined =
           ttlSeconds && ttlSeconds > 0 ? { ex: ttlSeconds } : undefined;
         await Promise.all([

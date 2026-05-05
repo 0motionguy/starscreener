@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # Next-session handoff — 2026-04-20
 
 Session-close note after P9 + P8 + P10 + P3 shipped on top of

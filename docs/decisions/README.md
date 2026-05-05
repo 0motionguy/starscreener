@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # Architecture Decision Records
 
 Numbered MADR-style decision records. Newest = current truth. Read in order

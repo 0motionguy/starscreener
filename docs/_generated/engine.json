@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-05T05:09:28.821Z",
+  "generated_at": "2026-05-05T05:40:22.798Z",
   "workflows": [
     {
       "file": "aiso-self-scan.yml",
@@ -273,10 +273,31 @@
       ]
     },
     {
+      "file": "doc-links-check.yml",
+      "name": "doc-links-check",
+      "crons": [],
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ]
+    },
+    {
       "file": "docs-freshness.yml",
       "name": "docs-freshness",
       "crons": [
         "0 13 * * 1"
+      ],
+      "triggers": [
+        "pull_request",
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "engine-inventory-refresh.yml",
+      "name": "engine-inventory-refresh",
+      "crons": [
+        "0 14 * * 1"
       ],
       "triggers": [
         "pull_request",
@@ -921,14 +942,6 @@
     },
     {
       "path": "src/app/api/cron/mcp/rotate-usage/route.ts",
-      "auth": "verifyCronAuth"
-    },
-    {
-      "path": "src/app/api/cron/news-auto-recover/route.ts",
-      "auth": "verifyCronAuth"
-    },
-    {
-      "path": "src/app/api/cron/predictions/calibrate/route.ts",
       "auth": "verifyCronAuth"
     },
     {

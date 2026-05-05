@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # Bundle Audit: STARSCREENER Client-Side Weight & Lazy-Load Opportunities
 
 **Date:** 2026-05-02 | **Scope:** Read-only analysis | **Action Items:** Next session

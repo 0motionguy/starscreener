@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-1503 — Backend EngineError Category Adoption Audit
 
 **Date:** 2026-05-05

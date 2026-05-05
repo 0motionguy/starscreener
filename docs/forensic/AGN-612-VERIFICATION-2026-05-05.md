@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-612 Verification Log (2026-05-05)
 
 Issue: AGN-612 [UX-5] Browser-tab live counter

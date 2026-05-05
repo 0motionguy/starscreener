@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-1585 Productivity Review - AGN-1207 (2026-05-05)
 
 Timestamp (Asia/Makassar): 2026-05-05T14:30:00+08:00

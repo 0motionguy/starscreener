@@ -6,8 +6,9 @@ status: living
 
 # scripts/ conventions
 
-144 scripts. Match the prefix when adding new ones — discoverability
-and CI wiring depend on it.
+146 scripts (127 .mjs + 14 .ts + a few .json/.md helpers). Match the
+prefix when adding new ones — discoverability and CI wiring depend
+on it.
 
 ## Naming prefixes
 

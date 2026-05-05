@@ -33,6 +33,7 @@
 // SAM-06 / AGN-947.
 
 import { NextRequest, NextResponse } from "next/server";
+// lint-allow: no-parsebody — JSON-RPC envelope requires custom request.json parsing.
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

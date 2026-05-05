@@ -54,6 +54,9 @@ export interface RedditPoolRow extends UsageSummary {
   fingerprint: string;
   userAgentLabel: string;
   last429At: string | null;
+  requests30m: number;
+  fail30m: number;
+  rateLimited30m: number;
   quarantine: QuarantineState;
   status: PoolStatus;
 }
@@ -106,6 +109,8 @@ export interface AdminPoolStateResponse {
     health: PoolStatus;
     rows: RedditPoolRow[];
     rateLimitedLastHour: number;
+    rateLimitedLast30Min: number;
+    requestsLast30Min: number;
   };
   twitter: {
     apify: {
@@ -163,6 +168,22 @@ function hourBuckets(now: Date): string[] {
         .toISOString()
         .slice(0, 13)
         .replace("T", "-"),
+    );
+  }
+  return out;
+}
+
+function minuteBuckets(now: Date, minutes: number): string[] {
+  const out: string[] = [];
+  const anchor = new Date(now);
+  anchor.setSeconds(0, 0);
+  for (let i = 0; i < minutes; i += 1) {
+    out.push(
+      new Date(anchor.getTime() - i * 60_000)
+        .toISOString()
+        .slice(0, 16)
+        .replace("T", "-")
+        .replace(":", "-"),
     );
   }
   return out;
@@ -570,17 +591,27 @@ async function redditState(buckets: string[]): Promise<AdminPoolStateResponse["r
   const usageKeysPerRow = fingerprints.map((fp) =>
     buildUsageKeys("reddit", fp, buckets),
   );
+  const minute30mBuckets = minuteBuckets(new Date(), 30);
+  const usage30mKeysPerRow = fingerprints.map((fp) =>
+    minute30mBuckets.map((bucket) => keys.pool.reddit.usage30m(fp, bucket)),
+  );
   const flatUsageKeys = usageKeysPerRow.flat();
+  const flatUsage30mKeys = usage30mKeysPerRow.flat();
   const flatQuarantineKeys = fingerprints.map((fp) =>
     buildQuarantineKeys("reddit", fp)[0]!,
   );
 
-  const [allUsageHashes, allQuarantineRaws] = await Promise.all([
+  const [allUsageHashes, allUsage30mHashes, allQuarantineRaws] = await Promise.all([
     flatUsageKeys.length === 0
       ? Promise.resolve<Record<string, string>[]>([])
       : redis.hgetallMany
         ? redis.hgetallMany(flatUsageKeys)
         : Promise.all(flatUsageKeys.map((key) => redis.hgetall(key))),
+    flatUsage30mKeys.length === 0
+      ? Promise.resolve<Record<string, string>[]>([])
+      : redis.hgetallMany
+        ? redis.hgetallMany(flatUsage30mKeys)
+        : Promise.all(flatUsage30mKeys.map((key) => redis.hgetall(key))),
     flatQuarantineKeys.length === 0
       ? Promise.resolve<(string | null)[]>([])
       : redis.mget
@@ -589,17 +620,24 @@ async function redditState(buckets: string[]): Promise<AdminPoolStateResponse["r
   ]);
 
   let usageCursor = 0;
+  let usage30mCursor = 0;
   const rows: RedditPoolRow[] = agents.map((userAgent, idx): RedditPoolRow => {
     const fingerprint = fingerprints[idx]!;
     const usageWindow = allUsageHashes.slice(
       usageCursor,
       usageCursor + usageKeysPerRow[idx]!.length,
     );
+    const usage30mWindow = allUsage30mHashes.slice(
+      usage30mCursor,
+      usage30mCursor + usage30mKeysPerRow[idx]!.length,
+    );
     usageCursor += usageKeysPerRow[idx]!.length;
+    usage30mCursor += usage30mKeysPerRow[idx]!.length;
     const usage = summarizeUsageHashes(usageWindow);
     const quarantine = summarizeQuarantineRaws([allQuarantineRaws[idx] ?? null]);
     const last429At =
       usage.last429At ?? (usage.lastStatusCode === 429 ? usage.lastCallAt : null);
+    const usage30m = summarizeUsageHashes(usage30mWindow);
     const status: PoolStatus = quarantine.active
       ? "RED"
       : usage.rateLimited24h && usage.rateLimited24h > 0
@@ -612,6 +650,9 @@ async function redditState(buckets: string[]): Promise<AdminPoolStateResponse["r
       userAgentLabel: userAgent.split(" ")[0] ?? fingerprint,
       ...usage,
       last429At,
+      requests30m: usage30m.requests24h,
+      fail30m: usage30m.fail24h,
+      rateLimited30m: usage30m.rateLimited24h ?? 0,
       quarantine,
       status,
     };
@@ -625,12 +666,19 @@ async function redditState(buckets: string[]): Promise<AdminPoolStateResponse["r
     const hash = allUsageHashes[currentBucketIdx * rows.length + i] ?? {};
     rateLimitedLastHour += parseNumber(hash.rateLimited) ?? 0;
   }
+  const rateLimitedLast30Min = rows.reduce(
+    (sum, row) => sum + row.rateLimited30m,
+    0,
+  );
+  const requestsLast30Min = rows.reduce((sum, row) => sum + row.requests30m, 0);
 
   return {
     totalConfigured: agents.length,
     health: poolHealth(rows),
     rows,
     rateLimitedLastHour,
+    rateLimitedLast30Min,
+    requestsLast30Min,
   };
 }
 
@@ -800,6 +848,13 @@ export function buildAnomalies(
       detail: `${reddit.rateLimitedLastHour} rate-limited request(s) in the current hour bucket.`,
     });
   }
+  if (reddit.rateLimitedLast30Min > 0) {
+    anomalies.push({
+      severity: "YELLOW",
+      label: "Reddit 30-minute pressure",
+      detail: `${reddit.rateLimitedLast30Min} rate-limited request(s) across ${reddit.requestsLast30Min} request(s) in the last 30 minutes.`,
+    });
+  }
   const deadNitterCount = twitter.nitterInstances.filter(
     (instance) => instance.status === "dead",
   ).length;
@@ -897,7 +952,7 @@ export function buildRateLimitHeadroom(
       source: "reddit",
       status: redditStatus,
       headroomPct: redditPct,
-      detail: `${reddit.rateLimitedLastHour} rate-limited events in the current hour bucket.`,
+      detail: `${reddit.rateLimitedLast30Min} rate-limited events in the last 30 minutes (${reddit.requestsLast30Min} requests).`,
     },
     {
       source: "twitter-apify",

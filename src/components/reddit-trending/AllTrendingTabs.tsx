@@ -296,7 +296,7 @@ export function buildTrendingRowsDto(
   searchParams?: Record<string, string | string[] | undefined>,
 ): TrendingRowsDto {
   const params = buildParams(searchParams);
-  const activeTab = dto?.tab ?? parseTab(params.get("tab"));
+  const activeTab = parseTab(params.get("tab"));
   const requestedPage = parsePage(params.get("page"));
   const activeTopic = params.get("topic") ?? "";
   const activeChips = parseActiveChips(params.get("tags"));

@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
+// AGN-365: tabs live on the HF Models host page (/huggingface/trending). The
+// Models tab points to that canonical path so sidebar + tab active states
+// align (sidebar links to /huggingface/trending; Models tab is active there).
 const HF_TABS = [
-  { href: "/huggingface/models", label: "Models" },
+  { href: "/huggingface/trending", label: "Models" },
   { href: "/huggingface/datasets", label: "Datasets" },
   { href: "/huggingface/spaces", label: "Spaces" },
 ] as const;

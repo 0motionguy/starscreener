@@ -523,12 +523,15 @@ export function SidebarContent({
             badgeTone="default"
             active={pathname === "/npm" || pathname.startsWith("/npm/")}
           />
+          {/* AGN-365: single HF entry. Datasets/Spaces are tabs on the host page,
+              not separate sidebar items. Pathname startsWith /huggingface still
+              keeps the row active across all three tabs. */}
           <FreshCountNavRow
             routeKey="hfModels"
             currentCount={sourceCounts?.hfModels ?? 0}
-            href="/huggingface"
+            href="/huggingface/trending"
             icon={Brain}
-            label="HUGGINGFACE"
+            label="HF Models"
             active={pathname.startsWith("/huggingface")}
           />
         </V2Section>

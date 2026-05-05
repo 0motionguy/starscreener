@@ -67,6 +67,8 @@ import { ProjectSurfaceMap } from "@/components/repo-detail/ProjectSurfaceMap";
 import { NpmAdoptionPanel } from "@/components/repo-detail/NpmAdoptionPanel";
 import { RepoActionRow } from "@/components/repo-detail/RepoActionRow";
 import { MarkRepoViewed } from "@/components/repo-detail/MarkRepoViewed";
+import { FunnelMount } from "@/components/analytics/FunnelMount";
+import { TrackedExternalLink } from "@/components/analytics/TrackedExternalLink";
 import { ObjectReactions } from "@/components/reactions/ObjectReactions";
 import {
   countReactions,
@@ -279,15 +281,16 @@ export default async function RepoDetailPage({ params }: PageProps) {
             </div>
             <h1>
               <span className="owner">{repo.owner} /</span> {repo.name}
-              <a
+              <TrackedExternalLink
+                step="github_click"
+                flow="discover-repo"
+                trackProps={{ repo: repo.fullName, position: "header" }}
                 href={repo.url || `https://github.com/${repo.fullName}`}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="ext"
                 aria-label={`Open ${repo.fullName} on GitHub`}
               >
                 ↗
-              </a>
+              </TrackedExternalLink>
             </h1>
             {repo.description ? <p className="desc">{repo.description}</p> : null}
             <div className="row">
@@ -316,14 +319,15 @@ export default async function RepoDetailPage({ params }: PageProps) {
             <Link href={`/repo/${repo.owner}/${repo.name}/star-activity`} className="btn">
               Star activity
             </Link>
-            <a
+            <TrackedExternalLink
+              step="github_click"
+              flow="discover-repo"
+              trackProps={{ repo: repo.fullName, position: "id_actions" }}
               href={repo.url || `https://github.com/${repo.fullName}`}
-              target="_blank"
-              rel="noopener noreferrer"
               className="btn gh"
             >
               GitHub ↗
-            </a>
+            </TrackedExternalLink>
           </div>
         </section>
 
@@ -378,6 +382,11 @@ export default async function RepoDetailPage({ params }: PageProps) {
               nothing exists. */}
           {/* <CompletenessStrip> WIP — re-enable once merged from stash. */}
           <MarkRepoViewed owner={repo.owner} name={repo.name} />
+          <FunnelMount
+            step="repo_view"
+            flow="discover-repo"
+            properties={{ repo: repo.fullName }}
+          />
           <RepoActionRow repo={repo} />
           <ObjectReactions
             objectType="repo"

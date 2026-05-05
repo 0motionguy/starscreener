@@ -19,6 +19,7 @@ import {
 } from "@/lib/ecosystem-leaderboards";
 import { BubbleMap } from "@/components/terminal/BubbleMap";
 import { HomeEmptyState } from "@/components/home/HomeEmptyState";
+import { FunnelMount } from "@/components/analytics/FunnelMount";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { ChartStat, ChartStats } from "@/components/ui/ChartShell";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
@@ -813,6 +814,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <FunnelMount step="home_view" flow="discover-repo" />
       <div className="home-surface">
         <section className="page-head">
           <div>

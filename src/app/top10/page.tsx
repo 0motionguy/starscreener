@@ -37,6 +37,7 @@ import { LetterAvatar } from "@/components/shared/LetterAvatar";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { WhyBadge } from "@/components/repo/WhyBadge";
 import { getWhyNarrative, type WhyNarrative } from "@/lib/why-narrative";
+import { FunnelMount } from "@/components/analytics/FunnelMount";
 
 // ISR — 10-minute cadence matches the V4 leaderboard surfaces. Underlying
 // readers refresh every 6 hours via cron; tighter cache wastes work
@@ -173,6 +174,7 @@ export default async function Top10RootPage() {
 
   return (
     <main className="home-surface">
+      <FunnelMount step="top10_view" flow="top10-discover" />
       <PageHead
         crumb={
           <>

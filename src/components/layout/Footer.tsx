@@ -31,6 +31,7 @@ const FOOTER_LINKS = [
     label: "@0motionguy",
     external: true,
   },
+  { href: "/methodology", label: "Methodology", external: false },
   { href: "/portal/docs", label: "API Docs", external: false },
   { href: "/cli", label: "CLI", external: false },
 ] as const;

@@ -630,12 +630,11 @@ export function SidebarContent({
               having no shared data source and no production traffic. Re-enable
               once the submission pipeline is wired into the data-store. */}
           <V2NavRow
-            href="/hackathons"
             icon={Trophy}
             label="Hackathons"
             badge="20"
             badgeTone="accent"
-            active={pathname === "/hackathons" || pathname.startsWith("/hackathons/")}
+            disabled
           />
           <V2NavRow
             icon={Zap}

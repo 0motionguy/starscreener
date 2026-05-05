@@ -14,6 +14,7 @@ import { z } from "zod";
 
 import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
 import { serverError } from "@/lib/api/error-response";
+import { enforceMutationSameOrigin } from "@/lib/api/mutation-origin-guard";
 import { parseBody } from "@/lib/api/parse-body";
 import {
   createIdea,
@@ -156,6 +157,9 @@ export async function GET(
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<IdeasCreateResponse | IdeasErrorResponse>> {
+  const guard = enforceMutationSameOrigin(request);
+  if (!guard.ok) return guard.response as NextResponse<IdeasErrorResponse>;
+
   const auth = verifyUserAuth(request);
   const deny = userAuthFailureResponse(auth);
   if (deny) return deny as NextResponse<IdeasErrorResponse>;

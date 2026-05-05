@@ -1,10 +1,13 @@
-import { buildCanonicalRepoProfile, type CanonicalRepoProfile } from "@/lib/api/repo-profile";
 import { getDataStore } from "@/lib/data-store";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import type { Repo } from "@/lib/types";
+import type { CanonicalRepoProfile } from "@/lib/api/repo-profile";
+import { existsSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 const WHY_TTL_SECONDS = 24 * 60 * 60;
 const WHY_KEY_PREFIX = "repo";
+const WHY_FILE_PATH = resolve(process.cwd(), "data", "repo-why.json");
 
 export type WhySignal =
   | "release"
@@ -20,6 +23,45 @@ export interface RepoWhyRecord {
   signal: WhySignal;
   line: string;
   generatedAt: string;
+}
+
+type RepoWhyFile = Record<string, RepoWhyRecord>;
+
+let fileCache: { mtimeMs: number; byKey: RepoWhyFile } | null = null;
+
+function readWhyFile(): RepoWhyFile {
+  try {
+    const st = existsSync(WHY_FILE_PATH) ? statSync(WHY_FILE_PATH) : null;
+    const mtimeMs = st?.mtimeMs ?? -1;
+    if (fileCache && fileCache.mtimeMs === mtimeMs) return fileCache.byKey;
+    if (!st) {
+      fileCache = { mtimeMs: -1, byKey: {} };
+      return {};
+    }
+    const raw = readFileSync(WHY_FILE_PATH, "utf8");
+    const parsed = JSON.parse(raw) as RepoWhyFile;
+    fileCache = { mtimeMs, byKey: parsed && typeof parsed === "object" ? parsed : {} };
+    return fileCache.byKey;
+  } catch {
+    return {};
+  }
+}
+
+function writeWhyFile(next: RepoWhyFile): void {
+  writeFileSync(WHY_FILE_PATH, `${JSON.stringify(next, null, 2)}\n`, "utf8");
+  try {
+    const st = statSync(WHY_FILE_PATH);
+    fileCache = { mtimeMs: st.mtimeMs, byKey: next };
+  } catch {
+    fileCache = { mtimeMs: -1, byKey: next };
+  }
+}
+
+function writeWhyFileRecord(record: RepoWhyRecord): void {
+  const key = repoWhyKey(record.owner, record.name);
+  const byKey = readWhyFile();
+  byKey[key] = record;
+  writeWhyFile(byKey);
 }
 
 function slugParts(fullName: string): { owner: string; name: string } {
@@ -87,8 +129,14 @@ function buildLineFromRepo(repo: Repo): RepoWhyRecord {
 
 export async function getRepoWhy(owner: string, name: string): Promise<RepoWhyRecord | null> {
   const key = repoWhyKey(owner, name);
-  const read = await getDataStore().read<RepoWhyRecord>(key);
-  return read.data ?? null;
+  try {
+    const read = await getDataStore().read<RepoWhyRecord>(key);
+    if (read.data?.line) return read.data;
+  } catch {
+    // fall through to file-backed cache
+  }
+  const fileHit = readWhyFile()[key];
+  return fileHit?.line ? fileHit : null;
 }
 
 export async function generateAndPersistRepoWhy(
@@ -98,7 +146,11 @@ export async function generateAndPersistRepoWhy(
   const { owner, name } = slugParts(fullName);
   if (!owner || !name) return null;
 
-  const canonical = profile ?? (await buildCanonicalRepoProfile(`${owner}/${name}`));
+  const canonical =
+    profile ??
+    (await import("@/lib/api/repo-profile").then((mod) =>
+      mod.buildCanonicalRepoProfile(`${owner}/${name}`),
+    ));
   if (!canonical) return null;
 
   const signal = dominantSignal(canonical);
@@ -110,10 +162,13 @@ export async function generateAndPersistRepoWhy(
     line: buildLine(canonical, signal),
     generatedAt: new Date().toISOString(),
   };
-  await getDataStore().write(repoWhyKey(record.owner, record.name), record, {
-    ttlSeconds: WHY_TTL_SECONDS,
-    writer: "agn-791-why-engine",
-  });
+  writeWhyFileRecord(record);
+  void getDataStore()
+    .write(repoWhyKey(record.owner, record.name), record, {
+      ttlSeconds: WHY_TTL_SECONDS,
+      writer: "agn-791-why-engine",
+    })
+    .catch(() => {});
   return record;
 }
 
@@ -135,10 +190,13 @@ export async function ensureTopRepoWhys(limit = 50): Promise<number> {
   let written = 0;
   for (const repo of top) {
     const fallback = buildLineFromRepo(repo);
-    await getDataStore().write(repoWhyKey(fallback.owner, fallback.name), fallback, {
-      ttlSeconds: WHY_TTL_SECONDS,
-      writer: "agn-791-why-engine-fallback",
-    });
+    writeWhyFileRecord(fallback);
+    void getDataStore()
+      .write(repoWhyKey(fallback.owner, fallback.name), fallback, {
+        ttlSeconds: WHY_TTL_SECONDS,
+        writer: "agn-791-why-engine-fallback",
+      })
+      .catch(() => {});
     const out = fallback;
     if (out?.line) written += 1;
   }

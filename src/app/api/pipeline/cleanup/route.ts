@@ -5,6 +5,7 @@ import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { parseBody } from "@/lib/api/parse-body";
 import { redactSensitiveText } from "@/lib/log-redaction";
+import { decideCleanupChange } from "@/lib/pipeline/repo-deletion";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -56,30 +57,13 @@ async function handler(req: NextRequest): Promise<NextResponse> {
   let wouldDelete = 0;
 
   for (const repo of repos) {
-    const raw = await adapter.fetchRepo(repo.fullName);
-    if (raw === null) {
-      if (mode === "deleted" || mode === "all") {
-        wouldDelete += 1;
-        changes.push({ id: repo.id, fullName: repo.fullName, change: "deleted" });
-        if (!dryRun) repoStore.upsert({ ...repo, deleted: true });
-      }
-      continue;
-    }
-
-    const isArchived = raw.archived === true || raw.disabled === true;
-    if (isArchived) {
-      if (mode === "archived" || mode === "all") {
-        wouldArchive += 1;
-        changes.push({ id: repo.id, fullName: repo.fullName, change: "archived" });
-        if (!dryRun) repoStore.upsert({ ...repo, archived: true, deleted: false });
-      }
-      continue;
-    }
-
-    if (repo.archived || repo.deleted) {
-      changes.push({ id: repo.id, fullName: repo.fullName, change: "revived" });
-      if (!dryRun) repoStore.upsert({ ...repo, archived: false, deleted: false });
-    }
+    const outcome = await adapter.fetchRepoOutcome(repo.fullName);
+    const decision = decideCleanupChange(repo, outcome, mode);
+    if (decision.change === "none") continue;
+    if (decision.change === "deleted") wouldDelete += 1;
+    if (decision.change === "archived") wouldArchive += 1;
+    changes.push({ id: repo.id, fullName: repo.fullName, change: decision.change });
+    if (!dryRun && decision.nextRepo) repoStore.upsert(decision.nextRepo);
   }
 
   let rateLimitRemaining: number | null = null;

@@ -4,14 +4,85 @@ Status: IN PROGRESS - Phase 1.5 blocked on Vercel Sentry DSN
 Started: 2026-05-03
 Target completion: 2026-05-10
 
+## AGN-1515 [Sprint 1 audit] Sprint Triage sprint-vs-backlog boundary enforcement check
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate result at `2026-05-05`: `npm run freshness:check` failed with `ECONNRESET`, and direct probe `http://localhost:3023/api/health?soft=1` failed with connection error (localhost missing/unreachable in this heartbeat).
+- Boundary enforcement findings:
+  - Current sprint surface still carries long-form continuity detail for multiple out-of-scope audit issues, which weakens pointer-only boundary clarity.
+  - Scope overlap remains high across boundary/audit triage rows (`AGN-1292`, `AGN-1293`, `AGN-1354`, `AGN-1355`, `AGN-1514`, `AGN-1539`, `AGN-1540`) and should stay documentation-only until CTO reprioritizes.
+  - Backlog-first rule is present, but enforcement depends on keeping sprint rows concise and explicit about non-execution status.
+- Owner: PM triage.
+- Blocked on: localhost freshness preflight is unreachable in this heartbeat and CTO/board priority decisions are still required for ambiguous AGN-58 lineage rows.
+- Needs: platform engineer restores localhost:3023 reachability and `npm run freshness:check` pass state; CTO confirms whether to collapse overlapping sprint triage rows to pointer-only references.
+- Done when: sprint rows keep one owner + explicit blocker/action + binary done-state wording, out-of-scope execution remains backlog-only, and freshness preflight is reachable/passing.
+
+## AGN-1539 [Sprint 1 audit] Sprint Triage parent-child linkage hygiene check AGN-58 tree
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate result at `2026-05-05`: `npm run freshness:check` reached `http://localhost:3023` (not missing) and failed with `GET /api/health?soft=1 -> HTTP 500 Internal Server Error` (product stale/degraded).
+- Linkage hygiene check result: AGN-58 child-link ambiguity remains unresolved for `AGN-172`, `AGN-173`, `AGN-185`, `AGN-230`, `AGN-231`; keep sprint/backlog linkage rows synchronized and triage-only until CTO/board confirms the intended parent model.
+- Owner: PM triage.
+- Blocked on: CTO/board parent-linkage decision for the five ambiguous issues and non-passing freshness preflight (`/api/health?soft=1` returns 500).
+- Needs: CTO/board confirms whether `AGN-172`, `AGN-173`, `AGN-185`, `AGN-230`, `AGN-231` are direct AGN-58 children or AGN-172-only descendants; platform engineer restores freshness endpoint to HTTP 200 and reruns `npm run freshness:check` to exit 0.
+- Done when: AGN-58 parent-child rows in sprint/backlog align to one explicit parent model with one owner + explicit blocker/action + binary done-state wording per row, and freshness preflight passes.
+
+## AGN-1538 [Sprint 1 audit] Sprint Triage blocked-issue owner/action completeness sweep
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate result at `2026-05-05`: `npm run freshness:check` reached localhost (`http://localhost:3023`, not missing) but failed with `GET /api/cron/freshness/state -> HTTP 500 Internal Server Error`, so product is stale/degraded.
+- Completeness sweep decision: blocked-issue rows remain triage-only with one owner, one unblock owner/action path, and binary done-state wording; out-of-scope execution remains backlog-only unless CTO reprioritizes.
+- Owner: PM triage.
+- Blocked on: local freshness-state endpoint failure (`/api/cron/freshness/state` HTTP 500) and missing Vercel `SENTRY_DSN` readiness evidence for Sprint 1 close criteria.
+- Needs: platform engineer restores `/api/cron/freshness/state` to HTTP 200 and returns `npm run freshness:check` to exit 0; CTO/platform sets Vercel `SENTRY_DSN` and provides canary evidence; CTO confirms any sprint-priority override before cross-sprint reassignment.
+- Done when: blocked issue rows keep one owner + one unblock action + one binary done-state line, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
+
+## AGN-1514 [Sprint 1 audit] Sprint Triage parent-child linkage hygiene refresh
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate result at `2026-05-05`: `npm run freshness:check` timed out contacting `http://localhost:3023`; localhost is currently unreachable from this heartbeat path, so close-readiness verification is blocked.
+- Linkage hygiene decision: keep AGN-58/AGN-172 parent-child rows synchronized across sprint/backlog with explicit owner, blocker owner/action, and binary `Done when`; out-of-scope discoveries remain backlog-only unless CTO reprioritizes.
+- Owner: PM triage.
+- Blocked on: CTO/board decision remains pending for unresolved AGN-58 mapping ambiguity (`AGN-172`, `AGN-173`, `AGN-185`, `AGN-230`, `AGN-231`) and localhost freshness preflight is currently unreachable.
+- Needs: CTO/board confirms parent model for the five ambiguous issues (AGN-58 child vs AGN-172-only descendant); platform engineer restores localhost:3023 reachability and reruns `npm run freshness:check` to a passing result.
+- Done when: sprint/backlog parent-child rows are fully aligned to one explicit parent model, each row keeps one owner + explicit blocker/action + binary done-state wording, and freshness preflight is reachable/passing.
+
+## AGN-1540 [Sprint 1 audit] Sprint Triage in-progress stagnation scan and handoff map
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate result at `2026-05-05`: `npm run freshness:check` reached localhost (`http://localhost:3023`, not missing) and failed with `GET /api/health?soft=1 -> HTTP 500 Internal Server Error` (product stale/degraded).
+- Stagnation scan (active PM triage cohort):
+  - `AGN-1514`: blocked on CTO/board parent-model decision for AGN-58 ambiguity and freshness preflight still non-passing.
+  - `AGN-1293`: blocked on CTO/board decision to resolve AGN-58 vs AGN-172-only lineage for `AGN-172`, `AGN-173`, `AGN-185`, `AGN-230`, `AGN-231`.
+  - `AGN-1354`/`AGN-1355`/`AGN-1292`/`AGN-1211`/`AGN-1212`/`AGN-1294`/`AGN-1513`: blocked by local freshness non-pass states (HTTP 500, timeout, or localhost down in prior heartbeats) plus missing Vercel `SENTRY_DSN` readiness evidence.
+- Handoff map (next-action owners):
+  - Platform engineer: restore `/api/health?soft=1` and freshness-state path to HTTP 200, then post fresh `npm run freshness:check` evidence with `blocking_non_green=0`.
+  - CTO/platform: set Vercel Production `SENTRY_DSN` and provide canary/error-capture evidence.
+  - CTO/board: publish one parent-model decision for AGN-58 lineage references (`AGN-172`, `AGN-173`, `AGN-185`, `AGN-230`, `AGN-231`) so PM triage can converge sprint/backlog linkage rows.
+  - PM triage: keep sprint/backlog rows synchronized to one owner + explicit blocker/needs + binary done-state wording; keep out-of-scope execution backlog-only unless CTO reprioritizes.
+- Owner: PM triage.
+- Blocked on: local freshness remains non-passing (`HTTP 500` on localhost health path), missing Vercel `SENTRY_DSN` readiness evidence, and unresolved CTO/board AGN-58 lineage decision.
+- Needs: platform engineer freshness recovery evidence, CTO/platform Sentry canary evidence, CTO/board lineage decision packet.
+- Done when: each stagnated `in_progress` issue has one owner + one next action + one explicit blocker owner/action line and is either terminal (`done`/`blocked`) or explicitly split/handoff-linked, while Sprint 1 remains coherent and scope-locked.
+- Closure update (2026-05-05 CTO comment): board confirmed "already shipped" and requested close-as-done after stagnation scan + handoff map landed in sprint/backlog surfaces; AGN-1540 triage deliverable is complete.
+
 ## AGN-1293 [Sprint 1 audit] Parent-child dependency map synchronization check
 - Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
-- Freshness gate result at `2026-05-05`: `npm run freshness:check` reached localhost:3023 (not missing) but failed with `GET /api/cron/freshness/state -> HTTP 500 Internal Server Error` (product stale/degraded).
+- Freshness gate result at `2026-05-05`: `npm run freshness:check` failed with `ECONNREFUSED` to `http://localhost:3023` (localhost missing in this heartbeat).
 - Synchronization decision: keep parent-child dependency-map updates sprint/backlog synchronized with one owner, explicit `Blocked on`/`Needs`, and binary `Done when`; out-of-scope execution remains backlog-only unless CTO reprioritizes.
+- AGN-58 dependency-map mismatch table (tracker vs sprint doc graph):
+  - `AGN-172`: listed under AGN-58 graph in sprint doc, but no AGN-58 link detected in tracker metadata.
+  - `AGN-173`: listed under AGN-58 graph in sprint doc, but no AGN-58 link detected in tracker metadata.
+  - `AGN-185`: listed under AGN-58 graph in sprint doc, but no AGN-58 link detected in tracker metadata.
+  - `AGN-230`: listed under AGN-58 graph in sprint doc, but no AGN-58 link detected in tracker metadata.
+  - `AGN-231`: listed under AGN-58 graph in sprint doc, but no AGN-58 link detected in tracker metadata.
+- Missing child-link action list:
+  - Add explicit AGN-58 mention/linkage evidence to `AGN-172`, `AGN-173`, `AGN-185`, `AGN-230`, `AGN-231` tracker records, or remove them from the AGN-58 child graph in docs if they are intentionally AGN-172-only.
+- Status drift notes:
+  - `AGN-1353` remains `in_progress` and already covers AGN-58 linkage integrity; AGN-1293 should avoid duplicate execution scope and stay focused on synchronization evidence + decision path.
+- Sync-restoration update plan:
+  - Step 1 (PM triage): keep mismatch table current per heartbeat using tracker metadata + sprint/backlog notes.
+  - Step 2 (CTO/board decision): confirm whether AGN-172/173/185/230/231 are AGN-58 children or AGN-172-only descendants.
+  - Step 3 (PM triage): after decision, patch sprint/backlog graph rows to match tracker linkage model and remove stale mappings.
 - Owner: PM triage.
-- Blocked on: local freshness-state endpoint failure (`/api/cron/freshness/state` HTTP 500), which blocks closure-grade verification.
-- Needs: platform engineer restores freshness-state endpoint to HTTP 200 and returns `npm run freshness:check` to exit 0; CTO/platform provides Vercel `SENTRY_DSN` canary evidence where Sprint 1 closure depends on it; CTO confirms any sprint-priority override before cross-sprint reassignment.
-- Done when: parent-child dependency rows across sprint/backlog surfaces remain synchronized with one owner + explicit blocker/needs lines + binary done-state wording, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
+- Blocked on: CTO/board decision is required to resolve whether the five mismatched issues are true AGN-58 children or AGN-172-only descendants.
+- Needs: CTO/board confirms intended parent model for `AGN-172`, `AGN-173`, `AGN-185`, `AGN-230`, `AGN-231`; PM triage applies final graph alignment in sprint/backlog rows.
+- Done when: mismatch table is resolved by explicit decision and sprint/backlog graph rows match tracker parent-link intent with no unresolved AGN-58 linkage ambiguity.
 
 ## AGN-1354 [Sprint 1 audit] Blocked issue owner-action completeness sweep
 - Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
@@ -96,12 +167,32 @@ See individual phase prompts.
 
 ## AGN-1292 [Sprint 1 audit] Sprint/backlog boundary integrity refresh
 - Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
-- Freshness gate result at `2026-05-05T05:16:00+08:00`: `npm run freshness:check` reached localhost:3023 (not missing) but failed with `GET /api/health?soft=1 -> HTTP 500 Internal Server Error` (product stale/degraded).
+- Freshness gate result at `2026-05-05T08:09:00+08:00`: `npm run freshness:check` failed with `ECONNREFUSED` (`local server not reachable at http://localhost:3023`), so localhost:3023 is missing in this heartbeat.
 - Boundary integrity decision: keep Sprint 1 constrained to Phase 1.5 + local freshness unblock; keep all non-Sprint-1 execution backlog-only with one owner and binary done-state wording.
 - Owner: PM triage.
-- Blocked on: local freshness endpoint remains degraded (`/api/health?soft=1` HTTP 500), so closure-grade verification cannot pass.
-- Needs: platform engineer restores `/api/health?soft=1` to HTTP 200 and reruns freshness check; CTO/platform provides Vercel `SENTRY_DSN` verification evidence when required for Sprint 1 closure.
-- Done when: sprint/backlog boundary rows stay synchronized and pointer-only for out-of-scope execution, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
+- Blocked on: local verification preflight unavailable because localhost app is down (`ECONNREFUSED` on `http://localhost:3023`).
+- Needs: platform engineer starts local app (`npm run dev`) and reruns `npm run freshness:check`; CTO/platform provides Vercel `SENTRY_DSN` verification evidence when required for Sprint 1 closure.
+- Done when: this issue provides (1) leakage findings, (2) owner/done-state completeness table, (3) blocker owner/action coverage, and (4) corrected pointer-only recommendations with explicit unblock steps.
+
+### AGN-1292 deliverables (2026-05-05)
+1. Leakage findings:
+   - Sprint file still carries backlog-execution detail across many non-Sprint-1 rows; this is reporting noise vs pointer-only intent.
+   - New Sprint rows (`AGN-1293`, `AGN-1354`, `AGN-1355`) repeat boundary audits with overlapping scope, increasing duplication risk.
+   - Pointer-only rule is present but inconsistently enforced at row detail depth in Sprint notes.
+2. Owner/done-state completeness table:
+   - `AGN-1292`: owner present (`PM triage`), binary done-state present (`Done when`), result `PASS`.
+   - `AGN-1293`: owner present (`PM triage`), binary done-state present (`Done when`), result `PASS`.
+   - `AGN-1354`: owner present (`PM triage`), binary done-state present (`Done when`), result `PASS`.
+   - `AGN-1355`: owner present (`PM triage`), binary done-state present (`Done when`), result `PASS`.
+3. Blocker owner/action coverage:
+   - Localhost preflight blocker owner: platform engineer.
+   - Unblock action: run `npm run dev` in workspace root, then run `npm run freshness:check` and capture output.
+   - Sentry readiness blocker owner: CTO/platform.
+   - Unblock action: set `SENTRY_DSN` in Vercel Production and provide canary evidence.
+4. Corrected pointer-only recommendations:
+   - Keep Sprint 1 in this file as summary + blockers only; move execution-level continuity details to `tasks/BACKLOG.md`.
+   - Keep Sprint references to non-Sprint-1 issues pointer-only (issue id + one-line state), not full dependency packets.
+   - If CTO reprioritizes backlog work into Sprint 1, require dated owner/blocker/done-state insertion before execution.
 
 ## AGN-1139 [Sprint 1 audit] Sprint/backlog boundary integrity pass
 - Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
@@ -361,9 +452,8 @@ See individual phase prompts.
 | AGN-230 Sprint doc to issue-board consistency pass | AGN-58 | PM triage | Sprint doc and issue-board metadata can drift when heartbeat evidence changes | PM re-runs mandatory opening checks, reconciles sprint/backlog issue rows against board scope, and records freshness evidence in the same heartbeat | Sprint/backlog issue metadata is synchronized with board scope for AGN-230, with one owner per issue, explicit blocker/needs lines, and binary done-state wording |
 | AGN-231 Blocked-issue unblock owner/action completeness | AGN-58 | PM triage | Blocked rows can drift and lose explicit unblock owner/action fields when freshness status changes | PM re-runs mandatory opening checks, verifies blocker status, and enforces owner/action/done-state completeness across blocker rows in sprint/backlog notes | All AGN-231-linked blocker rows retain one owner, one unblock action, and one binary done-state line aligned to latest verification evidence |
 | AGN-232 Acceptance-criteria quality lint for new Sprint tasks | AGN-58 | PM triage | Newly created sprint triage tickets can drift from owner/done/dependency standards | PM runs a focused lint pass over newly created sprint tasks and patches sprint/backlog wording in the same heartbeat when gaps are found | Every newly created sprint triage issue has one owner, one binary done-state line, and explicit dependency/blocker text |
-| AGN-363 [Sprint 1 audit] AGN dependency graph hygiene refresh | AGN-58 | PM triage | Dependency graph rows can drift from current freshness evidence and lose explicit blocker/action ownership | PM reruns mandatory opening + `npm run freshness:check`, then refreshes AGN-58 graph rows with one owner, explicit Blocked on/Needs lines, and binary done-state wording | AGN-58 dependency graph entries stay synchronized across sprint/backlog docs with one owner per issue, explicit blockers/actions, and binary done-state text aligned to the latest verified heartbeat evidence |
 | AGN-1140 [Sprint 1 audit] Parent-child dependency hygiene refresh under AGN-58 | AGN-58 | PM triage | AGN-58 child linkage can drift when stale preflight evidence or sprint/backlog updates are applied asymmetrically | PM reruns mandatory opening + `npm run freshness:check`, then patches sprint/backlog AGN-58 rows in the same heartbeat with explicit owner/blocker/needs fields | AGN-58 parent-child rows remain synchronized across sprint/backlog docs with one owner, explicit blocker/action lines, and binary done-state wording tied to the latest verified evidence |
-| AGN-1353 [Sprint 1 audit] Parent-child linkage integrity pass for AGN-58 tree | AGN-58 | PM triage | Mandatory freshness script cannot execute in current shell because `tsx` is missing and direct localhost probes to `http://localhost:3023/api/health?soft=1` and `/api/cron/freshness/state` fail with connection errors | Platform engineer restores local toolchain (`tsx` available for `npm run freshness:check`) and brings localhost:3023 back; PM reruns mandatory opening and updates Sprint/Backlog AGN-58 rows in the same heartbeat | AGN-58 parent-child linkage rows across sprint/backlog stay synchronized with one owner, explicit `Blocked on`/`Needs` wording, and binary done-state text, with fresh verification evidence |
+| AGN-1353 [Sprint 1 audit] Parent-child linkage integrity pass for AGN-58 tree | AGN-58 | PM triage | Sprint AGN-58 graph can drift from live Paperclip parent-child metadata | PM verifies AGN-58 children via Paperclip API (`/api/companies/{companyId}/issues?parentId=cb773b12-65b5-494c-a695-c8f409b47bf0`) and reconciles stale graph rows in sprint/backlog docs | AGN-58 graph rows in sprint/backlog match live parent-child metadata, with explicit owner/status/blocker text and correction actions for any mismatches |
 | AGN-253 Sprint 2 parent-child linkage integrity | AGN-58 | PM triage | Pointer-only in Sprint 1; execution updates are backlog-first | See `tasks/BACKLOG.md` AGN-253 follow-through entry | Sprint 1 keeps pointer-only context unless CTO reprioritizes |
 | AGN-290 [Sprint 2 audit] Parent-child dependency drift sweep under AGN-58 | AGN-58 | PM triage | Pointer-only in Sprint 1; execution updates are backlog-first | See `tasks/BACKLOG.md` AGN-290 follow-through entry | Sprint 1 keeps pointer-only context unless CTO reprioritizes |
 | AGN-277 Sprint 1 audit parent-child linkage integrity under AGN-58 | AGN-58 | PM triage | Mandatory opening preflight is reachable but degraded (`npm run freshness:check` at `2026-05-04T10:51:44.773Z`: localhost:3023 reachable, `blocking_non_green=5`, `dead=5`, `yellow=1`, `Sentry: MISSING`), so closure remains documentation-only | PM keeps AGN-58 parent-child links synchronized across sprint/backlog notes; platform engineer clears blocking freshness rows; CTO/platform sets Vercel `SENTRY_DSN`; rerun opening checks in same heartbeat | AGN-277 linkage references remain explicit under AGN-58 with one owner, explicit blocker/needs text, and binary done-state wording aligned to latest verified preflight evidence |
@@ -596,10 +686,19 @@ Result: acceptance-criteria lint delta pass is PASS (2/2). Sprint close-readines
 - Needs: platform engineer restores `/api/health?soft=1` to HTTP 200 and returns `npm run freshness:check` to exit 0; CTO/platform sets Vercel `SENTRY_DSN` and provides canary evidence; CTO confirms any sprint-priority override before cross-sprint reassignment.
 - Done when: blocked issue rows keep one owner + one unblock action + one binary done-state line, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
 
-## AGN-1353 [Sprint 1 audit] Parent-child linkage integrity pass for AGN-58 tree
-- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`); `npm run freshness:check` could not complete because `tsx` is missing (`'tsx' is not recognized as an internal or external command`), and direct localhost probes to `http://localhost:3023/api/health?soft=1` plus `http://localhost:3023/api/cron/freshness/state` both returned connection failures (`Unable to connect to the remote server`), so localhost:3023 is currently missing.
-- Linkage-integrity decision: keep AGN-58 child rows synchronized across sprint/backlog notes with one owner + explicit `Blocked on`/`Needs` lines + binary done-state wording; keep out-of-scope execution backlog-only unless CTO reprioritizes.
+## AGN-1513 [Sprint 1 audit] Sprint Triage blocked-owner/action completeness pass
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`) and `npm run freshness:check` at `2026-05-05T09:18:41.7074336+08:00` failed with `request timed out while contacting http://localhost:3023`.
+- Completeness pass decision: blocked-issue rows remain triage-only with one unblock owner and one unblock action per row; no blocked implementation work advances while freshness preflight is timing out and Sentry readiness evidence remains missing.
 - Owner: PM triage.
-- Blocked on: local freshness toolchain/runtime is non-passing (`tsx` missing for freshness script and localhost:3023 unreachable), preventing closure-grade verification.
-- Needs: platform engineer restores local dependencies so `npm run freshness:check` runs and restores localhost:3023 endpoints; CTO/platform provides Vercel `SENTRY_DSN` canary evidence when Sprint closure depends on it; CTO confirms any sprint-priority override before cross-sprint reassignment.
-- Done when: AGN-58 parent-child linkage rows remain synchronized across sprint/backlog with one owner + explicit blocker/action text + binary done-state wording, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
+- Blocked on: local freshness preflight timeout against `http://localhost:3023` (reachability/health unknown in this run) and missing Vercel `SENTRY_DSN` readiness evidence.
+- Needs: platform engineer restore local app responsiveness on `localhost:3023` and rerun `npm run freshness:check` to a non-timeout result; CTO/platform set Vercel `SENTRY_DSN` and provide canary evidence; CTO confirm any sprint-priority override before cross-sprint reassignment.
+- Done when: blocked issue rows keep one owner + one unblock action + one binary done-state line, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
+
+## AGN-1353 [Sprint 1 audit] Parent-child linkage integrity pass for AGN-58 tree
+- Evidence (2026-05-05 heartbeat): AGN-58 linkage verified directly from Paperclip API payload (`/api/companies/{companyId}/issues?parentId=cb773b12-65b5-494c-a695-c8f409b47bf0&limit=1000`, 314 children in payload). Verified parent/status/owner for AGN-58 graph items includes: `AGN-172 done`, `AGN-173 done`, `AGN-174 done`, `AGN-185 done`, `AGN-186 done`, `AGN-203 done`, `AGN-225 done`, `AGN-230 done`, `AGN-231 done`, `AGN-232 done`, `AGN-1140 done`, `AGN-253 todo`, `AGN-277 done`, `AGN-290 done`, `AGN-1353 in_progress`; all with parent `cb773b12-65b5-494c-a695-c8f409b47bf0`.
+- Linkage-integrity finding: `AGN-363` is referenced in sprint/backlog AGN-58 linkage notes but not present in the AGN-58 child payload (not returned as a child under parent `cb773b12-65b5-494c-a695-c8f409b47bf0`).
+- Correction action applied in this heartbeat: removed `AGN-363` row from the AGN-58 child dependency graph in this file and updated backlog linkage note to mark `AGN-363` as non-child until relinked on the board.
+- Owner: PM triage.
+- Blocked on: none for linkage audit scope.
+- Needs: board/CTO decision whether `AGN-363` should be relinked under AGN-58 (`parentId=cb773b12-65b5-494c-a695-c8f409b47bf0`) or remain out of AGN-58 graph references.
+- Done when: AGN-58 linkage notes across sprint/backlog include only live AGN-58 children (or explicitly tagged exceptions with board decision) and each row retains one owner + binary done-state wording + explicit action/dependency text.

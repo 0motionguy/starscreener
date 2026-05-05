@@ -1,3 +1,9 @@
+---
+status: snapshot
+audit-date: 2026-05-05
+reason: predates Redis-as-primary + Supabase-as-data-lake architecture (see ADR 0001)
+---
+
 # Migrating StarScreener from In-Memory to Postgres
 
 Today, every store (repos, scores, categories, reasons, snapshots, mentions, alerts) lives in-memory behind a `*Store` interface and is persisted to JSONL files in `.data/`. This doc sketches the drop-in path to Postgres when we outgrow that.

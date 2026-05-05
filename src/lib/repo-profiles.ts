@@ -30,6 +30,25 @@ export interface RepoProfileSurface {
   productHuntLaunchId: string | null;
 }
 
+export interface RepoManifestProfileMetadata {
+  skill: {
+    name: string;
+    description?: string;
+    version?: string;
+  } | null;
+  agent: {
+    role: string;
+    capabilities: string[];
+    tools: string[];
+  } | null;
+  mcp: {
+    name: string;
+    version: string;
+    toolsCount: number;
+    resourcesCount: number;
+  } | null;
+}
+
 export interface RepoProfile {
   fullName: string;
   rank: number | null;
@@ -40,6 +59,8 @@ export interface RepoProfile {
   lastProfiledAt: string;
   nextScanAfter: string | null;
   surfaces: RepoProfileSurface;
+  manifest?: RepoManifestProfileMetadata | null;
+  manifestErrors?: string[];
   aisoScan?: AisoToolsScan | null;
   error: string | null;
 }

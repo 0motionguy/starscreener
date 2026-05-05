@@ -9,6 +9,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
+import { jsonWithEtag } from "@/lib/api/etag";
 import { errorEnvelope } from "@/lib/api/error-response";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import {
@@ -25,7 +26,7 @@ const FRESHNESS_CACHE_HEADERS = {
 } as const;
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ owner: string; name: string }> },
 ) {
   const { owner, name } = await params;
@@ -42,7 +43,8 @@ export async function GET(
   await refreshScannerSourceHealthFromStore();
   const snapshot = getFreshnessSnapshot();
 
-  return NextResponse.json(
+  return jsonWithEtag(
+    request,
     {
       ok: true,
       fetchedAt: snapshot.fetchedAt,

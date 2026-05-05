@@ -10,6 +10,7 @@
 import type { Repo } from "@/lib/types";
 import type {
   GitHubAdapter,
+  GitHubRepoFetchOutcome,
   GitHubRepoRaw,
   GitHubReleaseRaw,
 } from "../types";
@@ -24,9 +25,14 @@ export class MockGitHubAdapter implements GitHubAdapter {
   }
 
   async fetchRepo(fullName: string): Promise<GitHubRepoRaw | null> {
+    const outcome = await this.fetchRepoOutcome(fullName);
+    return outcome.status === "ok" ? outcome.repo : null;
+  }
+
+  async fetchRepoOutcome(fullName: string): Promise<GitHubRepoFetchOutcome> {
     const repo = this.byFullName.get(fullName.toLowerCase());
-    if (!repo) return null;
-    return synthesizeRepoRaw(repo);
+    if (!repo) return { status: "not_found", repo: null };
+    return { status: "ok", repo: synthesizeRepoRaw(repo) };
   }
 
   async fetchLatestRelease(

@@ -24,6 +24,9 @@ test("touchDailyAggregates refreshes all LLM daily aggregate payloads", async ()
     async writtenAt() {
       return null;
     },
+    async writtenAtMany(keys: ReadonlyArray<string>) {
+      return new Map(keys.map((k) => [k, null] as const));
+    },
     async reset() {
       // no-op
     },

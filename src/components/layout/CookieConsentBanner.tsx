@@ -35,7 +35,14 @@ export function CookieConsentBanner() {
 
   return (
     <div className="fixed inset-x-0 bottom-3 z-[90] px-3 sm:bottom-4 sm:px-4">
-      <div className="mx-auto max-w-4xl rounded-xl border border-white/15 bg-zinc-950/95 p-4 text-zinc-100 shadow-2xl backdrop-blur">
+      <div
+        className="mx-auto max-w-4xl rounded-xl p-4 shadow-2xl backdrop-blur"
+        style={{
+          border: "1px solid var(--v2-line-200)",
+          background: "color-mix(in oklab, var(--v2-bg-000) 92%, transparent)",
+          color: "var(--v2-ink-100)",
+        }}
+      >
         <p className="text-sm leading-relaxed">
           We use essential cookies to keep TrendingRepo working and optional
           analytics cookies to improve the product. You can accept or reject
@@ -48,7 +55,11 @@ export function CookieConsentBanner() {
               writeConsent("accepted");
               setVisible(false);
             }}
-            className="rounded-md bg-amber-500 px-3 py-1.5 text-sm font-semibold text-zinc-950 transition hover:bg-amber-400"
+            className="rounded-md px-3 py-1.5 text-sm font-semibold transition hover:brightness-110"
+            style={{
+              background: "var(--v2-sig-amber)",
+              color: "var(--v2-bg-000)",
+            }}
           >
             Accept optional cookies
           </button>
@@ -58,13 +69,18 @@ export function CookieConsentBanner() {
               writeConsent("rejected");
               setVisible(false);
             }}
-            className="rounded-md border border-white/20 px-3 py-1.5 text-sm font-medium text-zinc-100 transition hover:bg-white/10"
+            className="rounded-md px-3 py-1.5 text-sm font-medium transition hover:brightness-110"
+            style={{
+              border: "1px solid var(--v2-line-200)",
+              color: "var(--v2-ink-100)",
+            }}
           >
             Reject optional cookies
           </button>
           <Link
             href="/privacy"
-            className="ml-auto text-xs text-zinc-300 underline underline-offset-2 hover:text-white"
+            className="ml-auto text-xs underline underline-offset-2"
+            style={{ color: "var(--v2-ink-300)" }}
           >
             Privacy Policy
           </Link>
@@ -73,4 +89,3 @@ export function CookieConsentBanner() {
     </div>
   );
 }
-

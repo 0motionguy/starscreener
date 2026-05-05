@@ -19,6 +19,24 @@
 
 import { test, expect } from "@playwright/test";
 
+function normalizeCanonicalHref(href: string, origin: string): string {
+  const url = new URL(href, origin);
+  url.hash = "";
+  url.search = "";
+  if (url.pathname !== "/" && url.pathname.endsWith("/")) {
+    url.pathname = url.pathname.replace(/\/+$/, "");
+  }
+  return url.toString();
+}
+
+function extractSitemapPaths(xml: string): string[] {
+  const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
+  return locs.map((loc) => {
+    const url = new URL(loc);
+    return `${url.pathname}${url.search}`;
+  });
+}
+
 test.describe("sitemap and robots", () => {
   test("/sitemap.xml is a sitemap index referencing all expected buckets", async ({
     request,
@@ -48,6 +66,43 @@ test.describe("sitemap and robots", () => {
     expect(body).toContain("<urlset");
     // Some <loc> entry must end with '/' (the homepage).
     expect(body).toMatch(/<loc>[^<]+\/<\/loc>/);
+  });
+
+  test("every indexable route listed in /sitemap-pages.xml emits one canonical URL matching route policy", async ({
+    request,
+  }) => {
+    const sitemapRes = await request.get("/sitemap-pages.xml");
+    expect(sitemapRes.status()).toBe(200);
+    const sitemapBody = await sitemapRes.text();
+    const routes = extractSitemapPaths(sitemapBody);
+    expect(routes.length).toBeGreaterThan(0);
+
+    for (const route of routes) {
+      const res = await request.get(route, {
+        maxRedirects: 0,
+      });
+      expect(res.status(), `${route} should be directly indexable`).toBe(200);
+
+      const contentType = (res.headers()["content-type"] ?? "").toLowerCase();
+      expect(contentType, `${route} should return html`).toContain("text/html");
+
+      const html = await res.text();
+      const canonicalTags = [
+        ...html.matchAll(
+          /<link[^>]*rel=["']canonical["'][^>]*href=["']([^"']+)["'][^>]*>/gi,
+        ),
+        ...html.matchAll(
+          /<link[^>]*href=["']([^"']+)["'][^>]*rel=["']canonical["'][^>]*>/gi,
+        ),
+      ];
+      expect(canonicalTags.length, `${route} should have exactly one canonical`).toBe(1);
+
+      const pageUrl = new URL(res.url());
+      const canonicalHref = canonicalTags[0][1];
+      const expectedCanonical = normalizeCanonicalHref(pageUrl.toString(), pageUrl.origin);
+      const actualCanonical = normalizeCanonicalHref(canonicalHref, pageUrl.origin);
+      expect(actualCanonical, `${route} canonical mismatch`).toBe(expectedCanonical);
+    }
   });
 
   test("/sitemap-repos.xml is a urlset with the image namespace", async ({

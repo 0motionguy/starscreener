@@ -35,6 +35,8 @@ const WINDOW_DAYS = 21;
 const MAX_AGE_MS = WINDOW_DAYS * 24 * 60 * 60 * 1000;
 const USER_AGENT =
   "Mozilla/5.0 (compatible; TrendingRepoBot/1.0; +https://trendingrepo.com)";
+const FUNDING_RSS_MAX_ATTEMPTS = 3;
+const FUNDING_RSS_BASE_BACKOFF_MS = 750;
 
 const RSS_FEEDS = {
   techcrunch: "https://techcrunch.com/category/startups/feed/",
@@ -434,26 +436,48 @@ function extractFunding(headline, description) {
 
 async function fetchRssFeed(url, sourceName) {
   console.log(`[funding] fetching ${sourceName}: ${url}`);
-  try {
-    const res = await fetchWithTimeout(url, {
-      timeoutMs: 20_000,
-      headers: {
-        "User-Agent": USER_AGENT,
-        Accept: "application/rss+xml,application/xml,*/*;q=0.8",
-      },
-    });
-    if (!res.ok) {
-      console.error(`[funding] ${sourceName} HTTP ${res.status}`);
-      return [];
+  for (let attempt = 1; attempt <= FUNDING_RSS_MAX_ATTEMPTS; attempt++) {
+    try {
+      const res = await fetchWithTimeout(url, {
+        timeoutMs: 20_000,
+        headers: {
+          "User-Agent": USER_AGENT,
+          Accept: "application/rss+xml,application/xml,*/*;q=0.8",
+        },
+      });
+      if (!res.ok) {
+        const isRetriableStatus = res.status === 429 || res.status >= 500;
+        const category = res.status === 429 ? "rate_limit" : isRetriableStatus ? "upstream_http" : "http_non_retriable";
+        console.warn(
+          `[funding] ${sourceName} attempt ${attempt}/${FUNDING_RSS_MAX_ATTEMPTS} failed (${category}) HTTP ${res.status}`,
+        );
+        if (!isRetriableStatus || attempt === FUNDING_RSS_MAX_ATTEMPTS) {
+          return [];
+        }
+      } else {
+        const xml = await res.text();
+        const items = parseRssItems(xml, url);
+        console.log(`[funding] ${sourceName}: ${items.length} items`);
+        return items;
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      const category =
+        /timeout|aborted|timed out/i.test(message) ? "timeout" : "network";
+      console.warn(
+        `[funding] ${sourceName} attempt ${attempt}/${FUNDING_RSS_MAX_ATTEMPTS} failed (${category})`,
+      );
+      if (attempt === FUNDING_RSS_MAX_ATTEMPTS) {
+        return [];
+      }
     }
-    const xml = await res.text();
-    const items = parseRssItems(xml, url);
-    console.log(`[funding] ${sourceName}: ${items.length} items`);
-    return items;
-  } catch (err) {
-    console.error(`[funding] ${sourceName} failed: ${err.message}`);
-    return [];
+
+    const jitterMs = Math.floor(Math.random() * 250);
+    const backoffMs =
+      FUNDING_RSS_BASE_BACKOFF_MS * 2 ** (attempt - 1) + jitterMs;
+    await sleep(backoffMs);
   }
+  return [];
 }
 
 function createSignalId(headline, sourceUrl) {

@@ -233,7 +233,14 @@ export function MindshareTreemap({ rows, className }: MindshareTreemapProps) {
           <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono uppercase tracking-[0.12em] text-text-tertiary">
             <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden />Positive</span>
             <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-rose-500" aria-hidden />Negative</span>
-            <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-slate-500" aria-hidden />Flat</span>
+            <span className="inline-flex items-center gap-1.5">
+              <span
+                className="h-2 w-2 rounded-full"
+                style={{ background: "var(--v2-ink-400)" }}
+                aria-hidden
+              />
+              Flat
+            </span>
           </div>
 
           <div

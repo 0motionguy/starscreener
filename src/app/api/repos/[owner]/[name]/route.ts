@@ -14,7 +14,7 @@
 //
 // Both shapes use the same auth model (public read), the same slug regex,
 // and the same cache posture as sibling read endpoints
-// (`Cache-Control: public, s-maxage=30, stale-while-revalidate=60`).
+// (`Cache-Control: public, s-maxage=300, stale-while-revalidate=60`).
 //
 // Error envelope (v2 + 4xx/5xx on v1):
 //     { ok: false, error: string, code?: string }
@@ -23,7 +23,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
-import { errorEnvelope } from "@/lib/api/error-response";
+import { jsonWithEtag } from "@/lib/api/etag";
 import { getDefaultSocialAdapters } from "@/lib/pipeline/adapters/social-adapters";
 import {
   NitterAdapter,
@@ -36,9 +36,8 @@ import {
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import type { SocialMention } from "@/lib/types";
 import type { RepoMention } from "@/lib/pipeline/types";
-import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 import { getTwitterRepoPanel } from "@/lib/twitter";
-import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
+import { getCanonicalRepoProfileCached } from "@/lib/api/repo-profile-cache";
 import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
 import { refreshNpmFromStore } from "@/lib/npm";
 import { refreshTrendingFromStore } from "@/lib/trending";
@@ -47,6 +46,9 @@ import { refreshRecentReposFromStore } from "@/lib/recent-repos";
 export const runtime = "nodejs";
 
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
+const REPO_PROFILE_CACHE_HEADERS = {
+  "Cache-Control": "public, s-maxage=300, stale-while-revalidate=60",
+} as const;
 
 interface ErrorEnvelope {
   ok: false;
@@ -106,16 +108,16 @@ export async function GET(
     // APP-17: track sunset criterion — log every legacy hit so we can tell
     // when ?v=1 traffic has dropped to zero and the branch is safe to remove.
     console.warn("[api/repos] legacy v=1 path hit", { owner, name });
-    return handleV1(owner, name);
+    return handleV1(request, owner, name);
   }
-  return handleV2(owner, name);
+  return handleV2(request, owner, name);
 }
 
 // ---------------------------------------------------------------------------
 // v2 — canonical profile
 // ---------------------------------------------------------------------------
 
-async function handleV2(owner: string, name: string) {
+async function handleV2(request: NextRequest, owner: string, name: string) {
   try {
     // Refresh data-store-backed caches consumed by derived + canonical
     // assemblers.
@@ -125,13 +127,14 @@ async function handleV2(owner: string, name: string) {
       refreshRepoMetadataFromStore(),
       refreshNpmFromStore(),
     ]);
-    const profile = await buildCanonicalRepoProfile(`${owner}/${name}`);
+    const profile = await getCanonicalRepoProfileCached(`${owner}/${name}`);
     if (!profile) {
       return errorResponse("Repo not found", 404, "repo_not_found");
     }
-    return NextResponse.json(
+    return jsonWithEtag(
+      request,
       { ok: true, ...profile },
-      { headers: READ_CACHE_HEADERS },
+      { headers: REPO_PROFILE_CACHE_HEADERS },
     );
   } catch (err) {
     console.error(
@@ -146,7 +149,7 @@ async function handleV2(owner: string, name: string) {
 // v1 — legacy shape (kept byte-compatible with the pre-canonical endpoint)
 // ---------------------------------------------------------------------------
 
-async function handleV1(owner: string, name: string) {
+async function handleV1(request: NextRequest, owner: string, name: string) {
   await Promise.all([
     refreshTrendingFromStore(),
     refreshRecentReposFromStore(),
@@ -188,7 +191,8 @@ async function handleV1(owner: string, name: string) {
   const relatedRepos = getDerivedRelatedRepos(repo, 6);
   const twitterSignal = await getTwitterRepoPanel(repo.fullName);
 
-  return NextResponse.json(
+  return jsonWithEtag(
+    request,
     {
       repo,
       score: null,
@@ -201,6 +205,6 @@ async function handleV1(owner: string, name: string) {
       relatedRepos,
       twitterAvailable: isTwitterAvailable(),
     },
-    { headers: READ_CACHE_HEADERS },
+    { headers: REPO_PROFILE_CACHE_HEADERS },
   );
 }

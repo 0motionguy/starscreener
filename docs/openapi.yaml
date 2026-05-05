@@ -1,3 +1,6 @@
+# last-verified: 2026-05-05
+# verified-by: claude
+# status: living
 # ---------------------------------------------------------------------------
 # TrendingRepo — public + auth-gated API surface.
 #
@@ -880,29 +883,70 @@ paths:
   /api/repos/{owner}/{name}/mentions:
     get:
       tags: [Profile, Evidence]
-      summary: Paginated evidence feed for a single repo.
+      summary: Unified mentions feed for a repo across all sources.
       description: |
-        Cursor-paginated mentions over `(postedAt desc, id desc)`. Cursors are
-        opaque base64url JSON; the default slice returns 50 rows.
+        Returns normalized mention rows across pipeline mentions + synthesized
+        source signals. Supports source filter, time-window filter, and cursor
+        pagination by mention id via `after`.
       operationId: listRepoMentions
       parameters:
         - $ref: "#/components/parameters/OwnerPath"
         - $ref: "#/components/parameters/NamePath"
         - name: source
           in: query
-          schema: { $ref: "#/components/schemas/SocialPlatform" }
+          schema:
+            type: string
+            enum: [all, hn, reddit, twitter, bluesky, devto, github, producthunt, lobsters, npm, huggingface, arxiv]
+            default: all
+        - name: since
+          in: query
+          schema:
+            type: string
+            enum: [24h, 7d, 30d, all]
+            default: all
         - name: limit
           in: query
-          schema: { type: integer, minimum: 1, maximum: 200, default: 50 }
-        - name: cursor
+          schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+        - name: after
           in: query
-          schema: { type: string }
+          schema:
+            type: string
+          description: Last seen mention id from the prior page.
       responses:
         "200":
-          description: Page of mentions.
+          description: Unified mentions result page.
           content:
             application/json:
-              schema: { $ref: "#/components/schemas/MentionsPage" }
+              schema:
+                type: object
+                required: [items, totalCount, sourcesBreakdown]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      required: [id, source, url, title, snippet, author, occurredAt, repoFullName]
+                      properties:
+                        id: { type: string }
+                        source:
+                          type: string
+                          enum: [hn, reddit, twitter, bluesky, devto, github, producthunt, lobsters, npm, huggingface, arxiv]
+                        url: { type: string, format: uri }
+                        title: { type: string }
+                        snippet: { type: string }
+                        author: { type: string }
+                        occurredAt: { $ref: "#/components/schemas/Timestamp" }
+                        repoFullName: { $ref: "#/components/schemas/FullName" }
+                  totalCount:
+                    type: integer
+                    minimum: 0
+                  sourcesBreakdown:
+                    type: object
+                    additionalProperties:
+                      type: integer
+                      minimum: 0
+                  nextAfter:
+                    type: [string, "null"]
         "400": { $ref: "#/components/responses/BadRequest" }
         "404": { $ref: "#/components/responses/NotFound" }
         "500": { $ref: "#/components/responses/ServerError" }

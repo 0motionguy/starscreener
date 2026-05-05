@@ -107,6 +107,7 @@ export async function GET(
       headers: CACHE_HEADERS,
       route: "/api/repos/[owner]/[name]/events",
       arrayKeys: ["events"],
+      requestForEtag: request,
     },
   );
 }

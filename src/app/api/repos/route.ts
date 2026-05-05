@@ -33,6 +33,77 @@ const VALID_FILTERS = new Set<TrendFilter>([
 const MS_PER_DAY = 86_400_000;
 
 type SortKey = "trending" | "momentum" | "stars-today" | "stars-total" | "newest";
+type RepoSparseField =
+  | "id"
+  | "fullName"
+  | "name"
+  | "owner"
+  | "ownerAvatarUrl"
+  | "description"
+  | "url"
+  | "language"
+  | "topics"
+  | "categoryId"
+  | "stars"
+  | "forks"
+  | "contributors"
+  | "openIssues"
+  | "lastCommitAt"
+  | "lastReleaseAt"
+  | "lastReleaseTag"
+  | "createdAt"
+  | "starsDelta24h"
+  | "starsDelta7d"
+  | "starsDelta30d"
+  | "momentumScore"
+  | "movementStatus"
+  | "rank"
+  | "categoryRank"
+  | "socialBuzzScore"
+  | "mentionCount24h"
+  | "tags"
+  | "collectionNames"
+  | "crossSignalScore"
+  | "channelsFiring"
+  | "repoCategory"
+  | "repoCategoryConfidence";
+
+const SPARSE_FIELDS: readonly RepoSparseField[] = [
+  "id",
+  "fullName",
+  "name",
+  "owner",
+  "ownerAvatarUrl",
+  "description",
+  "url",
+  "language",
+  "topics",
+  "categoryId",
+  "stars",
+  "forks",
+  "contributors",
+  "openIssues",
+  "lastCommitAt",
+  "lastReleaseAt",
+  "lastReleaseTag",
+  "createdAt",
+  "starsDelta24h",
+  "starsDelta7d",
+  "starsDelta30d",
+  "momentumScore",
+  "movementStatus",
+  "rank",
+  "categoryRank",
+  "socialBuzzScore",
+  "mentionCount24h",
+  "tags",
+  "collectionNames",
+  "crossSignalScore",
+  "channelsFiring",
+  "repoCategory",
+  "repoCategoryConfidence",
+];
+const SPARSE_FIELD_SET = new Set<string>(SPARSE_FIELDS);
 
 function deltaForWindow(repo: Repo, window: TrendWindow): number {
   switch (window) {
@@ -117,6 +188,40 @@ function applyLocalFilter(repos: Repo[], filter: TrendFilter): Repo[] {
   return repos;
 }
 
+function parseSparseFields(raw: string | null): RepoSparseField[] | null {
+  if (raw === null) return null;
+  const tokens = raw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (tokens.length === 0) return [];
+  const out: RepoSparseField[] = [];
+  const seen = new Set<string>();
+  for (const token of tokens) {
+    if (!SPARSE_FIELD_SET.has(token)) return [];
+    if (seen.has(token)) continue;
+    seen.add(token);
+    out.push(token as RepoSparseField);
+  }
+  return out;
+}
+
+function projectRepoFields(
+  repos: Repo[],
+  sparseFields: RepoSparseField[] | null,
+): Array<Repo | Partial<Repo>> {
+  if (sparseFields === null) return repos;
+  return repos.map((repo) => {
+    const projected: Partial<Repo> = {};
+    for (const field of sparseFields) {
+      // Field-by-field copy across a heterogeneous union of value types — TS
+      // can't narrow the assignment, but it's safe at runtime.
+      (projected as Record<string, unknown>)[field] = repo[field];
+    }
+    return projected;
+  });
+}
+
 export async function GET(request: NextRequest) {
   await Promise.all([
     refreshTrendingFromStore(),
@@ -125,6 +230,18 @@ export async function GET(request: NextRequest) {
   ]);
 
   const { searchParams } = request.nextUrl;
+  const sparseFieldsRaw = searchParams.get("fields");
+  const sparseFields = parseSparseFields(sparseFieldsRaw);
+  if (sparseFieldsRaw !== null && sparseFields !== null && sparseFields.length === 0) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: `Invalid fields: ${sparseFieldsRaw}`,
+        valid: SPARSE_FIELDS,
+      },
+      { status: 400 },
+    );
+  }
 
   // Direct-id lookup path — ?ids=a,b,c returns the corresponding Repo
   // objects (in the requested order, missing ids silently dropped) without
@@ -156,7 +273,7 @@ export async function GET(request: NextRequest) {
     }
     return respondWithSizeGuard(
       {
-        repos,
+        repos: projectRepoFields(repos, sparseFields),
         meta: {
           total: repos.length,
           requested: rawIds.length,
@@ -167,6 +284,7 @@ export async function GET(request: NextRequest) {
         route: "/api/repos",
         arrayKeys: ["repos"],
         headers: READ_CACHE_HEADERS,
+        requestForEtag: request,
       },
     );
   }
@@ -257,7 +375,7 @@ export async function GET(request: NextRequest) {
 
   return respondWithSizeGuard(
     {
-      repos: page,
+      repos: projectRepoFields(page, sparseFields),
       meta: {
         total,
         limit,
@@ -270,6 +388,7 @@ export async function GET(request: NextRequest) {
       route: "/api/repos",
       arrayKeys: ["repos"],
       headers: READ_CACHE_HEADERS,
+      requestForEtag: request,
     },
   );
 }

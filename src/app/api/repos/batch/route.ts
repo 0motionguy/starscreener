@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
+import { jsonWithEtag } from "@/lib/api/etag";
 import { errorEnvelope, serverError } from "@/lib/api/error-response";
-import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
+import { getCanonicalRepoProfileCached } from "@/lib/api/repo-profile-cache";
 import { compareIdToFallbackFullName } from "@/lib/compare-selection";
 import { getDerivedRepoById } from "@/lib/derived-repos";
 import { refreshNpmFromStore } from "@/lib/npm";
@@ -20,14 +21,8 @@ const MAX_SLUGS = 25;
 interface BatchRepoRow {
   slug: string;
   fullName: string;
-  profile: Awaited<ReturnType<typeof buildCanonicalRepoProfile>> | null;
+  profile: Awaited<ReturnType<typeof getCanonicalRepoProfileCached>> | null;
   error?: "not_found" | "invalid_slug" | "internal_error";
-}
-
-interface BatchOkBody {
-  ok: true;
-  fetchedAt: string;
-  repos: BatchRepoRow[];
 }
 
 function parseRequestedSlugs(searchParams: URLSearchParams): string[] {
@@ -93,7 +88,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         }
 
         try {
-          const profile = await buildCanonicalRepoProfile(normalized.fullName);
+          const profile = await getCanonicalRepoProfileCached(
+            normalized.fullName,
+          );
           if (!profile) {
             return {
               slug,
@@ -123,7 +120,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       }),
     );
 
-    return NextResponse.json(
+    return jsonWithEtag(
+      request,
       {
         ok: true,
         fetchedAt: new Date().toISOString(),

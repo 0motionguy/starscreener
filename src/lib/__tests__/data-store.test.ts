@@ -251,6 +251,7 @@ test("read() marks redis payload without meta as not fresh", async () => {
   fake.store.set("ss:data:v1:meta-skew", JSON.stringify({ ok: true }));
   const result = await store.read<{ ok: boolean }>("meta-skew");
   assert.equal(result.source, "redis");
+  assert.notEqual(result.ageMs, 0);
   assert.equal(result.fresh, false);
   assert.equal(result.ageMs, Number.MAX_SAFE_INTEGER);
   assert.equal(result.writtenAt, undefined);

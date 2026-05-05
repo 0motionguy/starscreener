@@ -10,6 +10,7 @@
 // - no per-page override here so the canonical "TrendingRepo - {tagline}"
 // formula stays source-of-truth in one place (src/lib/seo.ts).
 
+import dynamic from "next/dynamic";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { lastFetchedAt } from "@/lib/trending";
 import {
@@ -17,7 +18,29 @@ import {
   getMcpSignalData,
   type EcosystemLeaderboardItem,
 } from "@/lib/ecosystem-leaderboards";
-import { BubbleMap } from "@/components/terminal/BubbleMap";
+// Lazy-load BubbleMap (AGN-710): the bubble pack + canvas + framer-motion
+// chunk landed eagerly in the home critical path and tanked Lighthouse perf
+// (35 → target ≥80). Deferring it past the LCP frame (ssr:false + skeleton)
+// keeps the radar feature intact while moving the JS off the boot path.
+// Reserves layout space via the skeleton so swapping in the real map
+// after hydration doesn't shift the rest of the page (CLS).
+const BubbleMap = dynamic(
+  () => import("@/components/terminal/BubbleMap").then((m) => ({ default: m.BubbleMap })),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        aria-hidden="true"
+        style={{
+          width: "100%",
+          height: 360,
+          background: "var(--v2-bg-000, transparent)",
+          borderRadius: 8,
+        }}
+      />
+    ),
+  },
+);
 import { HomeEmptyState } from "@/components/home/HomeEmptyState";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { ChartStat, ChartStats } from "@/components/ui/ChartShell";

@@ -64,7 +64,7 @@ export async function POST(
   const parsed = await parseBody(request, BackfillHistoryBodySchema, {
     publicMessage: "fullName must be in the form 'owner/repo'",
   });
-  if (!parsed.ok) return parsed.response;
+  if (!parsed.ok) return parsed.response as NextResponse<BackfillHistoryErrorResponse>;
   const { fullName, maxPages } = parsed.data;
 
   const maxPagesSafe =

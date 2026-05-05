@@ -3,6 +3,22 @@ status: archive
 last-touched: 2026-05-05
 ---
 
+## AGN-937 closure update (2026-05-05)
+
+Scope: `[QUE-34][REFACTOR-5] Extract src/components/top10/share-surface.tsx`.
+
+Completed:
+- Share panel extracted to `src/components/top10/share-surface.tsx`.
+- `src/components/top10/Top10Page.tsx` reduced to composition shell (`export { Top10Page } from "./Top10PageContent";`).
+- Former implementation moved to `src/components/top10/Top10PageContent.tsx`.
+
+Architecture verdict for this scope: **APPROVE**.
+
+Verification note:
+- Local e2e run (`critical-paths.spec.ts` + `sitemap-and-robots.spec.ts`) reported 2 failing tests not specific to the extracted top10 share surface:
+  - missing `.home-surface` on `/` in `critical-paths`,
+  - canonical-base mismatch / intermittent timeout in sitemap canonical policy test.
+- These failures should be tracked separately from AGN-937 extraction acceptance.
 ## Architecture review � Top10Page.tsx refactor plan (no behavior changes)
 
 **Scope reviewed:** `src/components/top10/Top10Page.tsx` (~1741 LOC), `src/lib/top10/types.ts`, `src/lib/top10/builders.ts`
@@ -71,3 +87,4 @@ last-touched: 2026-05-05
 2. Extract module 2 and replace inline share derivation.
 3. Extract module 3 with rendering parity.
 4. Extract module 4 and reduce `Top10Page.tsx` to shell.
+

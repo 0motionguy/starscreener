@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-193 Read-only Redis key families follow-up (2026-05-04)
 
 Timestamp (local): 2026-05-04T17:10:00+08:00  

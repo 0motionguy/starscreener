@@ -1,3 +1,7 @@
+---
+status: plan
+---
+
 # Sprint 6 Vultr Migration Scoping Plan
 
 Date: 2026-05-04

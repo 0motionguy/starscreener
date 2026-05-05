@@ -153,7 +153,7 @@ The route handlers must accept BOTH old + new during the window.
 
 1. **Generate** new value, save to password manager.
 2. **Vercel**: add a SECOND env `CRON_SECRET_NEXT` = new value. Don't touch `CRON_SECRET` yet.
-3. **Update [`src/lib/cron-auth.ts`](../src/lib/cron-auth.ts)** (or the equivalent guard) to accept either:
+3. **Update `src/lib/cron-auth.ts`** (or the equivalent guard) to accept either:
    ```ts
    const valid = [process.env.CRON_SECRET, process.env.CRON_SECRET_NEXT].filter(Boolean);
    if (!valid.includes(token)) return new Response("unauthorized", { status: 401 });
@@ -304,7 +304,7 @@ The 10-minute grace window IS your overlap.
 ## 7. `SENTRY_AUTH_TOKEN`
 
 ### Where it is used
-- **App (Vercel runtime + build)**: source map upload during `next build` via `@sentry/nextjs` integration. Org: `agnt-pf` (EU `de.sentry.io`), project id `4511285393686608` (per [memory note](../.claude/projects/c--Users-mirko-OneDrive-Desktop-STARSCREENER/memory/project_sentry_agnt_pf.md)).
+- **App (Vercel runtime + build)**: source map upload during `next build` via `@sentry/nextjs` integration. Org: `agnt-pf` (EU `de.sentry.io`), project id `4511285393686608` (per memory note `project_sentry_agnt_pf.md`).
 - **Worker (Railway)**: error reporting at runtime via `@sentry/node`.
 - **GH Actions release jobs**: `sentry-fix-bot.yml` and any release-tracking workflow uses it to create releases / attach commits.
 

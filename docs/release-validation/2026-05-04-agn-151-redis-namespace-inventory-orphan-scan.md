@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-151 Redis namespace inventory + orphan scan (2026-05-04)
 
 Timestamp (local): 2026-05-04T16:31:00+08:00

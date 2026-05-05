@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-353 Release QA Evidence - Browser smoke for top 10 revenue routes
 
 Checked at: 2026-05-04T12:06:44.447Z  
@@ -21,15 +27,15 @@ Environment: production (`https://trendingrepo.com`) via Playwright Chromium hea
 ## Per-route results
 | Route | HTTP | Title | Body chars | Console errors | Request fails | Result |
 |---|---:|---|---:|---:|---:|---|
-| `/` | 200 | TrendingRepo — The trend map for open source | 8621 | 0 | 3 | GREEN |
-| `/breakouts` | 200 | Cross-Signal Breakouts — TrendingRepo | 1833 | 0 | 11 | GREEN |
-| `/top10` | 200 | Top 10 — TrendingRepo — TrendingRepo | 4412 | 0 | 9 | GREEN |
-| `/funding` | 200 | TrendingRepo — Funding Radar — TrendingRepo | 2999 | 0 | 10 | GREEN |
-| `/revenue` | 200 | Revenue Terminal — TrendingRepo | 26468 | 1 | 0 | GREEN |
-| `/tools/revenue-estimate` | 200 | Revenue Estimator — TrendingRepo — TrendingRepo | 2396 | 0 | 7 | GREEN |
-| `/submit/revenue` | 200 | Claim or Submit Revenue — TrendingRepo | 1769 | 0 | 5 | GREEN |
-| `/pricing` | 200 | TrendingRepo — Pricing — TrendingRepo | 4751 | 0 | 2 | GREEN |
-| `/compare` | 200 | Compare — TrendingRepo — TrendingRepo | 1780 | 0 | 4 | GREEN |
+| `/` | 200 | TrendingRepo ï¿½ The trend map for open source | 8621 | 0 | 3 | GREEN |
+| `/breakouts` | 200 | Cross-Signal Breakouts ï¿½ TrendingRepo | 1833 | 0 | 11 | GREEN |
+| `/top10` | 200 | Top 10 ï¿½ TrendingRepo ï¿½ TrendingRepo | 4412 | 0 | 9 | GREEN |
+| `/funding` | 200 | TrendingRepo ï¿½ Funding Radar ï¿½ TrendingRepo | 2999 | 0 | 10 | GREEN |
+| `/revenue` | 200 | Revenue Terminal ï¿½ TrendingRepo | 26468 | 1 | 0 | GREEN |
+| `/tools/revenue-estimate` | 200 | Revenue Estimator ï¿½ TrendingRepo ï¿½ TrendingRepo | 2396 | 0 | 7 | GREEN |
+| `/submit/revenue` | 200 | Claim or Submit Revenue ï¿½ TrendingRepo | 1769 | 0 | 5 | GREEN |
+| `/pricing` | 200 | TrendingRepo ï¿½ Pricing ï¿½ TrendingRepo | 4751 | 0 | 2 | GREEN |
+| `/compare` | 200 | Compare ï¿½ TrendingRepo ï¿½ TrendingRepo | 1780 | 0 | 4 | GREEN |
 | `/watchlist` | 200 | Watchlist - TrendingRepo | 1353 | 0 | 3 | GREEN |
 
 ## Failure taxonomy

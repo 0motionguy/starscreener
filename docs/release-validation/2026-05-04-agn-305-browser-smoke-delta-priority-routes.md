@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-305 Browser Smoke Delta on Priority Routes (2026-05-04)
 
 Issue: `AGN-305`  

@@ -2,6 +2,7 @@ import http from 'node:http';
 import { loadEnv } from './lib/env.js';
 import { getDb, pingDb } from './lib/db.js';
 import { getRedis } from './lib/redis.js';
+import { keys } from './lib/redis-keys.js';
 import { getLogger } from './lib/log.js';
 
 interface HealthState {
@@ -37,7 +38,7 @@ async function refreshHealth(): Promise<HealthState> {
   try {
     const handle = await getRedis();
     if (handle) {
-      await handle.set('tr:healthcheck', new Date().toISOString(), { ex: 60 });
+      await handle.set(keys.worker.healthcheck(), new Date().toISOString(), { ex: 60 });
       redisOk = true;
     } else {
       redisOk = true; // disabled-by-config counts as healthy

@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # AGN-852 [OBS-7] Heap Snapshot Drill (Client Memory Leaks)
 
 Date: 2026-05-04  

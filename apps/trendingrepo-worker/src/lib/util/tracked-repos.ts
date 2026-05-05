@@ -11,8 +11,7 @@
 
 import type { Logger } from 'pino';
 import { getRedis } from '../redis.js';
-
-const NAMESPACE = 'ss:data:v1';
+import { keys } from '../redis-keys.js';
 
 interface TrendingPayload {
   buckets?: Record<string, Record<string, unknown[]>>;
@@ -49,7 +48,7 @@ async function readSlug<T>(slug: string, log?: Logger): Promise<T | null> {
   const redis = await getRedis();
   if (!redis) return null;
   try {
-    const raw = await redis.get(`${NAMESPACE}:${slug}`);
+    const raw = await redis.get(keys.payload(slug));
     if (!raw) return null;
     return JSON.parse(raw) as T;
   } catch (err) {

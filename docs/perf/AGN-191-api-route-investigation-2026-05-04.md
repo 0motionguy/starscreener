@@ -1,3 +1,9 @@
+---
+status: snapshot
+audit-date: 2026-05-05
+reason: Dated route-latency follow-up for AGN-191; reproduction-result snapshot.
+---
+
 # AGN-191 route latency follow-up (2026-05-04)
 
 ## Scope

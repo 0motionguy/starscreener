@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-285 - Cron overlap and duplicate-trigger drift check (Release SRE)
 
 ## Scope and mandatory preflight evidence

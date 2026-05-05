@@ -24,6 +24,7 @@
 
 import type { Metadata } from "next";
 import Link from "next/link";
+import { LineChart } from "lucide-react";
 
 import { PageHead } from "@/components/ui/PageHead";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
@@ -294,15 +295,37 @@ export default async function PredictPage() {
           ))}
         </div>
       ) : (
-        <p className="text-sm text-text-tertiary">
-          No repos in the current trending window have enough star history to
-          forecast. Check back after the next collector run, or pick a repo
-          manually from the{" "}
-          <Link className="link" href="/compare">
-            compare tool
-          </Link>
-          .
-        </p>
+        // AGN-1440 — branded empty data state for /predict.
+        // Why: repos in the current trending payload don't have ≥14d of
+        // sparkline history yet, so the velocity model has nothing to
+        // extrapolate from. When: trending payload refreshes every 20 min
+        // (:07/:27/:47 UTC) and the model + ISR recompute on the next hit.
+        <div className="search-state">
+          <LineChart
+            size={32}
+            className="search-state-icon muted"
+            aria-hidden="true"
+          />
+          <p>{"// NO FORECASTS YET · WARMING UP"}</p>
+          <p className="hint">
+            None of the repos in the current trending payload have the 14+
+            days of star history the velocity model needs. The trending
+            scrape runs every 20 minutes (:07, :27, :47 UTC) and the
+            forecast page revalidates on the next hit (10-min ISR), so this
+            list should fill in once the sparkline history catches up.
+          </p>
+          <p className="hint">
+            In the meantime, pick a repo manually from{" "}
+            <Link className="link" href="/compare">
+              /compare
+            </Link>{" "}
+            or browse the latest{" "}
+            <Link className="link" href="/digest">
+              /digest
+            </Link>
+            .
+          </p>
+        </div>
       )}
 
       <SectionHead

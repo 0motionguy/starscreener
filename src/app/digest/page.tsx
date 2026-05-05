@@ -7,6 +7,7 @@
 
 import Link from "next/link";
 import type { Metadata } from "next";
+import { CalendarClock } from "lucide-react";
 
 import { listAvailableDigestDates } from "@/lib/digest/queries";
 import {
@@ -94,29 +95,38 @@ export default async function DigestIndexPage() {
       />
 
       {onlyToday ? (
-        <section
-          className="panel"
-          style={{
-            padding: "20px 24px",
-            display: "flex",
-            flexDirection: "column",
-            gap: 16,
-          }}
-        >
-          <div>
-            <p style={{ color: "var(--v4-ink-100)", fontWeight: 600, marginBottom: 4 }}>
-              Daily digests start today.
+        // AGN-1440 — branded empty data state for /digest.
+        // Why: the data store currently holds a single live snapshot; per-
+        // date archive keys are a follow-up (see lib/digest/queries.ts
+        // header). The only resolvable date is today's UTC stamp, so we
+        // surface that as the "last available digest" link rather than
+        // leaving the page near-blank.
+        <div className="search-state">
+          <CalendarClock
+            size={32}
+            className="search-state-icon muted"
+            aria-hidden="true"
+          />
+          <p>{"// ARCHIVE WARMING UP · ONE SNAPSHOT AVAILABLE"}</p>
+          <p className="hint">
+            Daily digests are dated permanent URLs. The store currently holds
+            a single live snapshot, so today is the only resolvable date —
+            historical days will appear once the collector starts writing
+            dated keys (next deploy of the data-store update).
+          </p>
+          {sorted[0] ? (
+            <p className="hint">
+              Last available digest:{" "}
+              <Link className="link" href={`/digest/${sorted[0]}`}>
+                /digest/{sorted[0]}
+              </Link>
             </p>
-            <p style={{ color: "var(--v4-ink-300)", fontSize: 13 }}>
-              Check back tomorrow for the first archive — every day from now on
-              produces a new permanent URL.
-            </p>
-          </div>
+          ) : null}
           {sorted[0] ? (
             <Link
               href={`/digest/${sorted[0]}`}
               style={{
-                alignSelf: "flex-start",
+                marginTop: 4,
                 display: "inline-flex",
                 alignItems: "center",
                 padding: "8px 16px",
@@ -132,7 +142,7 @@ export default async function DigestIndexPage() {
               View today&apos;s digest →
             </Link>
           ) : null}
-        </section>
+        </div>
       ) : (
         <>
           <SectionHead

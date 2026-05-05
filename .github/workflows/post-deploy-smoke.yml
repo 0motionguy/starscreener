@@ -1,0 +1,103 @@
+name: Post-deploy smoke
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BASE_URL: https://trendingrepo.com
+      OPS_ALERT_WEBHOOK: ${{ secrets.OPS_ALERT_WEBHOOK }}
+      CRON_SECRET: ${{ secrets.CRON_SECRET }}
+    steps:
+      - name: Wait for deploy propagation
+        run: sleep 30
+
+      - name: Synthetic curl checks (12 critical routes)
+        id: smoke
+        shell: bash
+        run: |
+          set +e
+          routes=(
+            "/"
+            "/signals"
+            "/twitter"
+            "/top10"
+            "/skills"
+            "/mcp"
+            "/funding"
+            "/revenue"
+            "/arxiv/trending"
+            "/producthunt"
+            "/api/health?soft=1"
+          )
+
+          failures=0
+          report="post-deploy-smoke results\n"
+          for route in "${routes[@]}"; do
+            url="${BASE_URL}${route}"
+            line="$(curl -sS -o /dev/null -w "%{http_code} %{time_total} %{size_download}" "$url")"
+            code="$(echo "$line" | awk '{print $1}')"
+            report+="${route} => ${line}\n"
+            if [ "$code" != "200" ]; then
+              failures=$((failures + 1))
+            fi
+          done
+
+          cron_url="${BASE_URL}/api/cron/freshness/state"
+          if [ -n "${CRON_SECRET:-}" ]; then
+            cron_line="$(curl -sS -o /dev/null -w "%{http_code} %{time_total} %{size_download}" -H "Authorization: Bearer ${CRON_SECRET}" "$cron_url")"
+          else
+            cron_line="$(curl -sS -o /dev/null -w "%{http_code} %{time_total} %{size_download}" "$cron_url")"
+          fi
+          cron_code="$(echo "$cron_line" | awk '{print $1}')"
+          report+="/api/cron/freshness/state => ${cron_line}\n"
+          if [ "$cron_code" != "200" ]; then
+            failures=$((failures + 1))
+          fi
+
+          echo -e "$report"
+          {
+            echo "failure_count=$failures"
+            echo "report<<EOF"
+            echo -e "$report"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+          if [ "$failures" -gt 0 ]; then
+            exit 1
+          fi
+
+      - name: Alert ops webhook on smoke failure
+        if: failure()
+        shell: bash
+        run: |
+          if [ -z "${OPS_ALERT_WEBHOOK:-}" ]; then
+            echo "::warning::OPS_ALERT_WEBHOOK is not set; skipping alert"
+            exit 0
+          fi
+
+          payload="$(cat <<'JSON'
+          {
+            "text": "post-deploy-smoke failed on main for https://trendingrepo.com. Check GitHub Actions run details."
+          }
+          JSON
+          )"
+
+          curl -sS -X POST \
+            -H "Content-Type: application/json" \
+            -d "$payload" \
+            "$OPS_ALERT_WEBHOOK" || echo "::warning::webhook post failed"
+
+      - name: Attach smoke report on failure
+        if: failure()
+        run: |
+          echo "${{ steps.smoke.outputs.report }}"

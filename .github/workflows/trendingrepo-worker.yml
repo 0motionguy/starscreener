@@ -12,12 +12,19 @@ on:
       - 'apps/trendingrepo-worker/**'
       - '.github/workflows/trendingrepo-worker.yml'
   workflow_dispatch:
+    inputs:
+      fetcher:
+        description: "Optional one-shot fetcher to run instead of validation"
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: read
 
 jobs:
   test:
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.fetcher == '' }}
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -42,3 +49,30 @@ jobs:
 
       - name: Test (excluding SQL parity which needs Supabase local)
         run: npx vitest run --exclude tests/sql/**
+
+  run-fetcher:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.fetcher != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: apps/trendingrepo-worker
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/trendingrepo-worker/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Run fetcher
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
+        run: npx tsx src/index.ts "${{ inputs.fetcher }}"

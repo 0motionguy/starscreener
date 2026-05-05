@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 
 import type { IdeaRecord } from "@/lib/ideas";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 
 type Filter = "pending" | "published" | "rejected" | "all";
 
@@ -27,6 +28,8 @@ export function IdeasQueueAdmin() {
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<Filter>("pending");
   const [busyId, setBusyId] = useState<string | null>(null);
+  // AGN-611 — pending destructive action awaiting confirmation.
+  const [pendingReject, setPendingReject] = useState<IdeaRecord | null>(null);
 
   const filtered = useMemo(() => {
     if (filter === "all") return ideas;
@@ -99,6 +102,29 @@ export function IdeasQueueAdmin() {
     void loadQueue();
   }, [loadQueue]);
 
+  // AGN-611 — Reject is destructive (idea disappears from /ideas, author
+  // signal-counts get docked). Gate it behind a confirmation modal; approve
+  // is non-destructive and stays one-click.
+  const handleAction = useCallback(
+    (row: IdeaRecord, action: "approve" | "reject") => {
+      if (action === "reject") {
+        setPendingReject(row);
+        return;
+      }
+      void moderate(row.id, action);
+    },
+    // moderate is stable within this component instance; eslint-disable-next-line
+    // react-hooks/exhaustive-deps would only narrow noise here.
+    [],
+  );
+
+  const confirmReject = useCallback(() => {
+    if (!pendingReject) return;
+    const target = pendingReject;
+    setPendingReject(null);
+    void moderate(target.id, "reject");
+  }, [pendingReject]);
+
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[1100px] mx-auto px-4 md:px-6 py-6 md:py-8">
@@ -130,7 +156,7 @@ export function IdeasQueueAdmin() {
         </header>
 
         {error ? (
-          <div className="mb-4 rounded-md border border-down/60 bg-down/5 px-3 py-2 text-sm text-[var(--v4-red)]">
+          <div className="mb-4 rounded-md border border-[var(--v4-red)]/60 bg-[var(--v4-red)]/5 px-3 py-2 text-sm text-[var(--v4-red)]">
             {error}
           </div>
         ) : null}
@@ -165,12 +191,31 @@ export function IdeasQueueAdmin() {
                 key={row.id}
                 row={row}
                 busy={busyId === row.id}
-                onAction={(action) => moderate(row.id, action)}
+                onAction={(action) => handleAction(row, action)}
               />
             ))
           )}
         </section>
       </div>
+      <ConfirmDialog
+        open={pendingReject !== null}
+        title="Reject idea?"
+        description={
+          pendingReject ? (
+            <span>
+              Reject <strong>{pendingReject.title}</strong> by{" "}
+              <span className="font-mono">@{pendingReject.authorHandle}</span>?
+              The idea will not appear on /ideas and the author is notified.
+            </span>
+          ) : null
+        }
+        confirmLabel="Reject"
+        cancelLabel="Cancel"
+        tone="danger"
+        busy={pendingReject ? busyId === pendingReject.id : false}
+        onConfirm={confirmReject}
+        onCancel={() => setPendingReject(null)}
+      />
     </main>
   );
 }
@@ -219,9 +264,9 @@ function ModerationRow({
           className={
             "rounded-[2px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] " +
             (row.status === "published" || row.status === "shipped"
-              ? "border-up/60 bg-up/10 text-[var(--v4-money)]"
+              ? "border-[var(--v4-money)]/60 bg-[var(--v4-money)]/10 text-[var(--v4-money)]"
               : row.status === "rejected"
-                ? "border-down/60 bg-down/10 text-[var(--v4-red)]"
+                ? "border-[var(--v4-red)]/60 bg-[var(--v4-red)]/10 text-[var(--v4-red)]"
                 : "border-border-primary bg-bg-muted text-text-secondary")
           }
         >

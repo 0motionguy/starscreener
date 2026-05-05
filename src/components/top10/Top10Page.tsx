@@ -417,7 +417,7 @@ function CategoryTabs({ active, counts, meta, onPick }: CategoryTabsProps) {
               className="tabular-nums"
               style={{
                 fontSize: 9,
-                color: on ? "rgba(0,0,0,0.45)" : "var(--v3-ink-500, #3c444d)",
+                color: on ? "rgba(0,0,0,0.45)" : "var(--v3-ink-400, #909caa)",
                 background: on ? "rgba(0,0,0,0.18)" : "var(--v3-bg-100, #151a20)",
                 padding: "2px 7px",
               }}
@@ -689,7 +689,7 @@ function Chip({
         color: on
           ? "#08090a"
           : disabled
-            ? "var(--v3-ink-500, #3c444d)"
+            ? "var(--v3-ink-400, #909caa)"
             : "var(--v3-ink-300, #84909b)",
         fontSize: 9.5,
         letterSpacing: "0.14em",
@@ -786,7 +786,7 @@ function RankRow({
       <Delta delta={item.deltaPct} sparkline={item.sparkline} />
       <span
         className="text-center"
-        style={{ color: "var(--v3-ink-500, #3c444d)" }}
+        style={{ color: "var(--v3-ink-400, #909caa)" }}
       >
         →
       </span>
@@ -838,7 +838,7 @@ function Body({ item, category }: { item: Top10Item; category: Top10Category }) 
             <span style={{ color: "var(--v3-ink-300, #84909b)", fontWeight: 400 }}>
               {item.owner}
             </span>
-            <span style={{ color: "var(--v3-ink-500, #3c444d)" }}>/</span>
+            <span style={{ color: "var(--v3-ink-400, #909caa)" }}>/</span>
           </>
         ) : null}
         <span>{item.title}</span>

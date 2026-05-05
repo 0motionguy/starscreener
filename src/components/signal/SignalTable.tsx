@@ -325,7 +325,7 @@ export function SignalTable({
                             {row.topic}
                           </span>
                         ) : (
-                          <span style={{ color: "var(--v3-ink-500)" }}>—</span>
+                          <span style={{ color: "var(--v3-ink-400)" }}>—</span>
                         )}
                       </td>
                     );
@@ -343,7 +343,7 @@ export function SignalTable({
                             <span className="truncate">{row.linkedRepo}</span>
                           </Link>
                         ) : (
-                          <span style={{ color: "var(--v3-ink-500)" }}>—</span>
+                          <span style={{ color: "var(--v3-ink-400)" }}>—</span>
                         )}
                       </td>
                     );

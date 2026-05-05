@@ -109,6 +109,15 @@ export function TierListEditor({ initial }: TierListEditorProps) {
           </div>
         </div>
 
+        {totalCount === 0 ? (
+          <div className="ac-empty" data-testid="tierlist-empty-state">
+            <h2>No repos in this tier list yet.</h2>
+            <p>
+              Search for a repo or apply a template to seed your first board.
+            </p>
+          </div>
+        ) : null}
+
         <TierBoard />
       </section>
 

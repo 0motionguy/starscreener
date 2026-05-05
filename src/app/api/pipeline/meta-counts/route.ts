@@ -5,7 +5,7 @@
 // repo in a single pass.
 
 import { NextResponse } from "next/server";
-import { errorEnvelope } from "@/lib/api/error-response";
+import { serverError } from "@/lib/api/error-response";
 import { getDerivedMetaCounts } from "@/lib/derived-insights";
 import type { MetaCounts } from "@/lib/types";
 
@@ -25,7 +25,11 @@ export async function GET(): Promise<
       { headers: { "Content-Type": "application/json; charset=utf-8" } },
     );
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(errorEnvelope(message), { status: 500 });
+    return serverError(err, {
+      scope: "[api/pipeline/meta-counts:GET]",
+      publicMessage: "server error",
+      code: "PIPELINE_META_COUNTS_READ_FAILED",
+      status: 500,
+    });
   }
 }

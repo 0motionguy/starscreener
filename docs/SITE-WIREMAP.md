@@ -1,25 +1,26 @@
-# SITE-WIREMAP.md — Frontend → Data → Collector → External API
+﻿# SITE-WIREMAP.md â€” Frontend â†’ Data â†’ Collector â†’ External API
 
 **Purpose**: every user-facing route in the site, mapped to the data-store key it reads, the collector that populates that key, the cron schedule, and the external API at the source. Sister doc to [ENGINE.md](ENGINE.md) (which catalogues the engine bottom-up by service); this one walks **top-down from the menu**.
 
 **Read-order**: when a route looks broken, look it up here, find its collector, then check `data/_meta/<key>.json` (last-write timestamp) and the matching workflow run on GitHub Actions.
+For route-level smoke ownership and one-line validation checks, see [regression-map.md](./regression-map.md).
 
 **Last refreshed**: 2026-05-02
 
 ---
 
-## 1. Sidebar navigation — 8 sections, 31 clickable nav routes (+2 disabled placeholders)
+## 1. Sidebar navigation â€” 8 sections, 29 clickable nav routes (+2 disabled placeholders)
 
 [src/components/layout/SidebarContent.tsx](../src/components/layout/SidebarContent.tsx) defines the menu structure. Sections in render order (post-`7bf5a747` sidebar trim):
 
-1. **TREND TERMINAL** — Trending Repos / Trending Skills / Trending MCP / Breakouts / Consensus
-2. **SIGNAL TERMINAL** — Market Signals / Hacker News / Lobsters / Dev.to / Bluesky / Reddit / X (Twitter) / Product Hunt
-3. **LLM / PACK TERMINAL** — NPM Packages / HF Models / HF Datasets / HF Spaces
-4. **LAUNCH TERMINAL** — Funding Radar / Revenue / Agent Commerce
-5. **RESEARCH TERMINAL** — arXiv Papers / Cited Repos
-6. **EXPLORE** — Digest / Ideas / Collections
-7. **TOOLS** — Watchlist / Compare / Tier List / MindShare / Top 10
-8. **WATCHING** — top 5 watchlist preview cards (user-state)
+1. **TREND TERMINAL** â€” Trending Repos / Trending Skills / Trending MCP / Breakouts / Consensus
+2. **SIGNAL TERMINAL** â€” Market Signals / Hacker News / Lobsters / Dev.to / Bluesky / Reddit / X (Twitter) / Product Hunt
+3. **LLM / PACK TERMINAL** â€” NPM Packages / HF Models / HF Datasets / HF Spaces
+4. **LAUNCH TERMINAL** â€” Funding Radar / Revenue / Agent Commerce
+5. **RESEARCH TERMINAL** â€” arXiv Papers / Cited Repos
+6. **EXPLORE** â€” Digest / Ideas / Collections
+7. **TOOLS** â€” Watchlist / Compare / Tier List / MindShare / Top 10
+8. **WATCHING** â€” top 5 watchlist preview cards (user-state)
 
 **Orphaned but URL-reachable** (kept on disk, removed from sidebar in `7bf5a747` and prior trims): `/top` (Top 100), `/predict`, `/categories`, `/categories/[slug]`, `/pricing` (Plans), `/model-usage` (LLM Charts), `/tools/revenue-estimate` (Revenue Tool), `/submit/revenue` (Drop Revenue). BACKLOG AGN-63 tracks the keep-vs-retire decision.
 
@@ -31,7 +32,7 @@ Routes NOT in the sidebar but addressable: `/u/[handle]`, `/repo/[owner]/[name]`
 
 ## 2. The 5 data-fan-out functions
 
-Most pages don't read raw collector output — they read derived/joined views. Five fan-out points absorb 95% of the engine's signal surface:
+Most pages don't read raw collector output â€” they read derived/joined views. Five fan-out points absorb 95% of the engine's signal surface:
 
 | Function | Source file | Reads from | Used by routes |
 |---|---|---|---|
@@ -41,7 +42,7 @@ Most pages don't read raw collector output — they read derived/joined views. F
 | `getMcpSignalData()` | same | mcp-smithery + pulsemcp + mcp-dependents + mcp-usage-snapshot + mcp-liveness | `/mcp`, `/mcp/[slug]` |
 | `buildConsensus(items)` | [src/lib/signals/consensus.ts](../src/lib/signals/consensus.ts) | hackernews + bluesky + devto rollups | `/signals`, `/consensus` (different surface, same engine) |
 
-**Implication**: when a single collector dies (e.g. Reddit OAuth expires), 9+ routes degrade simultaneously because they all join via `getDerivedRepos()`. This is also why the per-source `_meta/*.json` freshness gate is so valuable — one source dying is a fleet-wide event.
+**Implication**: when a single collector dies (e.g. Reddit OAuth expires), 9+ routes degrade simultaneously because they all join via `getDerivedRepos()`. This is also why the per-source `_meta/*.json` freshness gate is so valuable â€” one source dying is a fleet-wide event.
 
 ---
 
@@ -51,9 +52,9 @@ Most pages don't read raw collector output — they read derived/joined views. F
 
 | Route | Reads | Collector | Cron | External API |
 |---|---|---|---|---|
-| `/` (Trending Repos) | `getDerivedRepos()` + `lastFetchedAt` (trending) | scrape-trending → `data/trending.json` | hourly `27 * * * *` | OSS Insight (`api.ossinsight.io/v1/trends/repos/`) |
+| `/` (Trending Repos) | `getDerivedRepos()` + `lastFetchedAt` (trending) | scrape-trending â†’ `data/trending.json` | hourly `27 * * * *` | OSS Insight (`api.ossinsight.io/v1/trends/repos/`) |
 | `/consensus` | consensus payload via factory reader | snapshot-consensus + scoring shadow | daily `55 23 * * *` | derives from internal pipeline, no external |
-| `/skills` (Trending Skills) | `getSkillsSignalData()` | refresh-skill-* (5 workflows) + skill-install-snapshot + skill-derivatives | every 6h → daily nightly (post-2026-05-02 cuts) | GitHub API (skills derivative repos), SkillsMP, Smithery, Lobehub, Claude RSS |
+| `/skills` (Trending Skills) | `getSkillsSignalData()` | refresh-skill-* (5 workflows) + skill-install-snapshot + skill-derivatives | every 6h â†’ daily nightly (post-2026-05-02 cuts) | GitHub API (skills derivative repos), SkillsMP, Smithery, Lobehub, Claude RSS |
 | `/mcp` (Trending MCP) | `getMcpSignalData()` | refresh-mcp-smithery-rank + ping-mcp-liveness + refresh-mcp-dependents + refresh-mcp-usage-snapshot | every 6h + daily | Smithery (`smithery.ai/api/...`), PulseMCP (`api.pulsemcp.com/v0/`), npm |
 | `/agent-repos` (Trending AGNT) | `getDerivedRepos()` filtered by `agent` topic/tag | trending + scoring | (same as `/`) | OSS Insight |
 | `/breakouts` | `getDerivedRepos()` + `getChannelStatus()` (cross-signal) | trending + every mention source (6-channel) | various | OSS Insight + 6 mention APIs |
@@ -69,16 +70,16 @@ Most pages don't read raw collector output — they read derived/joined views. F
 | `/bluesky/trending` | bluesky-mentions + bluesky-trending payloads | scrape-bluesky | hourly | Bluesky (`bsky.social/xrpc/`) |
 | `/reddit/trending` | reddit-mentions payload | scrape-trending (reddit collector inside) | hourly | Reddit OAuth (`oauth.reddit.com`) |
 | `/twitter` (X) | twitter-repo-signals (worker-fetched) | collect-twitter (Apify actor) | every 3h | Apify `apidojo~tweet-scraper` actor |
-| `/producthunt` | `getDerivedRepoByFullName` + producthunt payload | scrape-producthunt | 4×/day at PT-cron | ProductHunt GraphQL (`api.producthunt.com/v2/api/graphql`) |
+| `/producthunt` | `getDerivedRepoByFullName` + producthunt payload | scrape-producthunt | 4Ã—/day at PT-cron | ProductHunt GraphQL (`api.producthunt.com/v2/api/graphql`) |
 
 ### 3c. LLM / PACK TERMINAL
 
 | Route | Reads | Collector | Cron | External API |
 |---|---|---|---|---|
-| `/npm` (NPM Packages) | `refreshNpmFromStore()` → npm-trending + npm-downloads | scrape-npm + refresh-npm-downloads | daily + every 6h | npm registry + downloads (`api.npmjs.org/downloads/`) |
-| `/huggingface/trending` (HF Models) | `refreshHfModelsFromStore()` | scrape-huggingface | every 3h → 6h (post-2026-05-02 cuts) | HF API (`huggingface.co/api/models`) |
-| `/huggingface/datasets` | `refreshHfDatasetsFromStore()` | scrape-huggingface-datasets | every 3h → 6h | HF API (`huggingface.co/api/datasets`) |
-| `/huggingface/spaces` | `refreshHfSpacesFromStore()` | scrape-huggingface-spaces | every 3h → 6h | HF API (`huggingface.co/api/spaces`) |
+| `/npm` (NPM Packages) | `refreshNpmFromStore()` â†’ npm-trending + npm-downloads | scrape-npm + refresh-npm-downloads | daily + every 6h | npm registry + downloads (`api.npmjs.org/downloads/`) |
+| `/huggingface/trending` (HF Models) | `refreshHfModelsFromStore()` | scrape-huggingface | every 3h â†’ 6h (post-2026-05-02 cuts) | HF API (`huggingface.co/api/models`) |
+| `/huggingface/datasets` | `refreshHfDatasetsFromStore()` | scrape-huggingface-datasets | every 3h â†’ 6h | HF API (`huggingface.co/api/datasets`) |
+| `/huggingface/spaces` | `refreshHfSpacesFromStore()` | scrape-huggingface-spaces | every 3h â†’ 6h | HF API (`huggingface.co/api/spaces`) |
 | `/model-usage` (LLM Charts) | model-usage-snapshot via tabbed UI | refresh-mcp-usage-snapshot (despite name, drives LLM charts too) | daily `30 3 * * *` | derived from internal data + Claude RSS via OpenRouter |
 
 ### 3d. LAUNCH TERMINAL
@@ -87,8 +88,8 @@ Most pages don't read raw collector output — they read derived/joined views. F
 |---|---|---|---|---|
 | `/funding` (Funding Radar) | `refreshFundingNewsFromStore()` | collect-funding (Railway worker fetches) | every 6h | Crunchbase-like via Firecrawl + Coingecko + Dune + Libraries.io |
 | `/revenue` | `refreshRevenueStartupsFromStore()` + `refreshRevenueOverlaysFromStore()` | sync-trustmrr (Trustmrr sync nightly) | daily `27 2 * * *` | Trustmrr API (`TRUSTMRR_API_KEY`) |
-| `/submit/revenue` (Drop Revenue) | static form → POST to `/api/revenue/claim` | n/a (user submission) | n/a | n/a |
-| (Hackathons, Launch nav-only — TBD pages) | placeholder routes | n/a | n/a | n/a |
+| `/submit/revenue` (Drop Revenue) | static form â†’ POST to `/api/revenue/claim` | n/a (user submission) | n/a | n/a |
+| (Hackathons, Launch nav-only â€” TBD pages) | placeholder routes | n/a | n/a | n/a |
 
 ### 3e. RESEARCH TERMINAL
 
@@ -104,7 +105,7 @@ Most pages don't read raw collector output — they read derived/joined views. F
 |---|---|---|---|---|
 | `/digest` (Digest list) | `listAvailableDigestDates()` reads `data/digest/<YYYY-MM-DD>.json` | cron-digest-weekly | weekly Monday 8am | derived snapshot, no external |
 | `/digest/[date]` | digest payload for the date | (same) | (same) | (same) |
-| `/ideas` | repo-ideas store via Zustand + supabase if wired | user submissions + LLM enrichment via cron-llm | hourly `10 * * * *` | Kimi K2.6 (LLM) — non-default; falls back gracefully |
+| `/ideas` | repo-ideas store via Zustand + supabase if wired | user submissions + LLM enrichment via cron-llm | hourly `10 * * * *` | Kimi K2.6 (LLM) â€” non-default; falls back gracefully |
 | `/predict` | `getDerivedRepos()` + repo-predictions store | cron-predictions | daily `0 6 * * *` | derived from internal scoring (LLM-augmented) |
 | `/categories` | `getDerivedCategoryStats()` over derived-repos | (same fan-out as `/`) | (same) | (same) |
 | `/categories/[slug]` | category snapshot + window deltas | snapshot-category-metrics (W5-CATWINDOW) | hourly | (same) |
@@ -118,13 +119,13 @@ Most pages don't read raw collector output — they read derived/joined views. F
 | Route | Reads | Collector | Cron | External API |
 |---|---|---|---|---|
 | `/watchlist` | Zustand `useWatchlistStore` (localStorage) | n/a (client-side state) | n/a | n/a |
-| `/compare` | client form → on-demand `githubFetch` to 7 endpoints | n/a (request-time) | n/a | GitHub API direct (pool-aware) |
+| `/compare` | client form â†’ on-demand `githubFetch` to 7 endpoints | n/a (request-time) | n/a | GitHub API direct (pool-aware) |
 | `/tierlist` | shared tierlist payloads | user submissions | n/a | n/a |
 | `/tierlist/[shortId]` | persisted tierlist via shortId | (same) | n/a | n/a |
 | `/mindshare` | `getDerivedRepos()` + `packBubbles()` | (same fan-out) | (same) | (same) |
 | `/top10` | `buildLiveTop10PageData()` | snapshot-top10 + snapshot-top10-sparklines | daily `55 23 * * *` + `50 23 * * *` | derived snapshots |
 | `/top10/[date]` | date-pinned top10 snapshot | (same) | (same) | (same) |
-| `/signals` (Signal Radar — same route as Market Signals above) | (see SIGNAL TERMINAL) | | | |
+| `/signals` (Signal Radar â€” same route as Market Signals above) | (see SIGNAL TERMINAL) | | | |
 
 ### 3h. UNLISTED but addressable
 
@@ -135,7 +136,7 @@ Most pages don't read raw collector output — they read derived/joined views. F
 | `/u/[handle]` | `getProfile()` from data-store | enrich-repo-profiles + GitHub user fetch | hourly `41 * * * *` | GitHub user API + derived |
 | `/search` | client filter over `getDerivedRepos()` | (same) | (same) | (same) |
 | `/alerts` | alert rules + persisted events | cron-aiso-drain | every 30 min | derived (no external) |
-| `/alerts/new` | static form → API POST | n/a | n/a | n/a |
+| `/alerts/new` | static form â†’ API POST | n/a | n/a | n/a |
 | `/submit` | static form (user submission) | promote-unknown-mentions ingest path | daily | derived from lake |
 | `/cli` | static docs page | n/a | n/a | n/a |
 | `/portal/docs` | static docs (API portal) | n/a | n/a | n/a |
@@ -150,7 +151,7 @@ Most pages don't read raw collector output — they read derived/joined views. F
 
 ---
 
-## 4. Reverse map — every collector and what surfaces depend on it
+## 4. Reverse map â€” every collector and what surfaces depend on it
 
 | Collector / Workflow | Cron | Output key | Surfaces breaking on failure |
 |---|---|---|---|
@@ -159,19 +160,19 @@ Most pages don't read raw collector output — they read derived/joined views. F
 | scrape-lobsters | hourly `37 * * * *` | lobsters-mentions, lobsters-trending | `/lobsters`, repo profile lobsters synth, breakouts |
 | scrape-devto | every 6h | devto-mentions, devto-trending | `/devto`, `/signals`, breakouts `devto` channel |
 | scrape-arxiv + enrich-arxiv | every 3h + every 12h | arxiv-recent | `/arxiv/trending`, `/research`, `/papers`, repo profile arxiv synth |
-| scrape-huggingface (×3) | every 6h (post-cuts) | huggingface-*, huggingface-datasets, huggingface-spaces | `/huggingface/*`, repo profile HF synth |
+| scrape-huggingface (Ã—3) | every 6h (post-cuts) | huggingface-*, huggingface-datasets, huggingface-spaces | `/huggingface/*`, repo profile HF synth |
 | scrape-npm + refresh-npm-downloads | daily + every 6h | npm-trending, npm-downloads | `/npm`, repo profile npm synth |
-| scrape-producthunt | 4×/day | producthunt-launches | `/producthunt`, repo profile PH synth |
+| scrape-producthunt | 4Ã—/day | producthunt-launches | `/producthunt`, repo profile PH synth |
 | collect-twitter | every 3h | `.data/twitter-*.jsonl` + new `data/_meta/twitter.json` | `/twitter`, repo profile twitter panel + synth, breakouts `twitter` channel |
 | collect-funding | every 6h | funding-news, funding-events | `/funding`, repo profile funding events |
 | sync-trustmrr | daily `27 2 * * *` | revenue-overlays, revenue-startups | `/revenue`, `/tools/revenue-estimate`, repo profile revenue overlays |
-| refresh-skill-* (5 workflows, post-cuts → nightly) | nightly | skill-* | `/skills`, `/skills/[slug]` |
+| refresh-skill-* (5 workflows, post-cuts â†’ nightly) | nightly | skill-* | `/skills`, `/skills/[slug]` |
 | refresh-mcp-* (4 workflows) | every 6h + daily | mcp-* | `/mcp`, `/mcp/[slug]` |
 | refresh-collection-rankings | every 6h | collection-rankings | `/collections`, `/collections/[slug]` |
 | snapshot-stars (NEW Phase 2) | hourly within scrape-trending | `star-snapshot:24h/7d/30d` | `/api/pipeline/deltas` (consumer of all delta-rendering surfaces) |
 | snapshot-category-metrics (NEW W5-CATWINDOW) | hourly within scrape-trending | `category-metrics-snapshot:24h/7d/30d` | `/categories/[slug]` window tabs |
 | skill-install-snapshot (NEW W5-SKILLS24H) | daily 03:00 UTC | `skill-install-snapshot:prev:1d/7d/30d` | `/skills` window tabs |
-| snapshot-top10 + snapshot-top10-sparklines | daily 23:50–55 | top10 daily snapshot | `/top10`, `/top10/[date]`, `/embed/top10` |
+| snapshot-top10 + snapshot-top10-sparklines | daily 23:50â€“55 | top10 daily snapshot | `/top10`, `/top10/[date]`, `/embed/top10` |
 | snapshot-consensus | daily `55 23 * * *` | consensus snapshot | `/consensus`, `/consensus/[owner]/[name]` |
 | run-shadow-scoring | daily `0 2 * * *` | scoring-shadow report | `/admin/scoring-shadow` |
 | sweep-staleness | daily `0 2 * * *` | staleness report | `/admin/staleness` |
@@ -182,7 +183,7 @@ Most pages don't read raw collector output — they read derived/joined views. F
 | cron-pipeline-ingest | every 2h `15 */2 * * *` | mention-store hydrate | repo profile recent mentions feed |
 | cron-pipeline-persist | every 6h `30 */6 * * *` | mention-store persist | (same) |
 | cron-pipeline-cleanup | daily `0 4 * * *` | mention-store pruning | (same) |
-| cron-pipeline-rebuild | weekly `0 5 * * 0` | full rebuild | recovery only — never user-facing |
+| cron-pipeline-rebuild | weekly `0 5 * * 0` | full rebuild | recovery only â€” never user-facing |
 | cron-predictions | daily `0 6 * * *` | predictions store | `/predict` |
 | cron-agent-commerce | daily `31 4 * * *` | agent-commerce signal data | `/agent-commerce/*` |
 | cron-digest-weekly | Mon 8am | weekly digest | `/digest`, `/digest/[date]`, email digest via Resend |
@@ -201,12 +202,12 @@ Most pages don't read raw collector output — they read derived/joined views. F
 | refresh-hotness-snapshot | daily | hotness rolling | (internal scoring) |
 | refresh-skill-forks-snapshot | daily | skill-forks | `/skills` |
 | refresh-pypi-downloads | every 6h | pypi-downloads | (internal scoring; no direct user surface yet) |
-| refresh-reddit-baselines | weekly Mon | reddit-baseline | (internal — feeds cross-signal threshold) |
+| refresh-reddit-baselines | weekly Mon | reddit-baseline | (internal â€” feeds cross-signal threshold) |
 | scrape-claude-rss | daily | claude-rss | `/model-usage` Claude announcements |
 | scrape-openai-rss | daily | openai-rss | `/model-usage` OpenAI announcements |
 | scrape-awesome-skills | daily | awesome-skills index | `/skills` |
-| aiso-self-scan | daily | aiso-self-scan report | dogfood |
-| health-watch | every 30 min | source-health breaker state | internal — drives circuit breakers |
+| aiso-self-scan | monthly day 1 (`17 3 1 * *`) | aiso-self-scan report | dogfood |
+| health-watch | every 30 min | source-health breaker state | internal â€” drives circuit breakers |
 
 ---
 
@@ -216,19 +217,19 @@ When you ask "what collector matters most", count incoming edges:
 
 | Collector | Surfaces depending |
 |---|---|
-| **scrape-trending** | 11+ surfaces (the whole site backbone — trending.json is THE root of derived-repos) |
+| **scrape-trending** | 11+ surfaces (the whole site backbone â€” trending.json is THE root of derived-repos) |
 | **scrape-bluesky / hn / devto / lobsters / reddit / twitter** | 6 surfaces each (own page + cross-signal breakouts + repo profile + signals page) |
 | **collect-twitter** | 5 surfaces |
 | **collect-funding** | 3 surfaces |
 | **scrape-arxiv** | 3 surfaces |
 | **refresh-skill-*** | 2 surfaces (`/skills` + `/skills/[slug]`) |
-| **enrich-repo-profiles** | profile completeness (low blast radius if dies — old data persists) |
+| **enrich-repo-profiles** | profile completeness (low blast radius if dies â€” old data persists) |
 | **snapshot-stars (NEW)** | every delta number on every leaderboard |
 
 **Top 3 single points of failure** by blast radius:
-1. **scrape-trending** — kills every derived-repos consumer
-2. **OSS Insight upstream** (api.ossinsight.io) — same blast radius from the API side
-3. **Redis** (data-store) — kills everything (mitigated by 3-tier fallback to bundled JSON + memory)
+1. **scrape-trending** â€” kills every derived-repos consumer
+2. **OSS Insight upstream** (api.ossinsight.io) â€” same blast radius from the API side
+3. **Redis** (data-store) â€” kills everything (mitigated by 3-tier fallback to bundled JSON + memory)
 
 ---
 
@@ -236,22 +237,22 @@ When you ask "what collector matters most", count incoming edges:
 
 When something breaks:
 
-1. **Identify the broken surface** — which page is empty/stale?
-2. **Look it up in §3** — find the collector
-3. **Check freshness** — `cat data/_meta/<key>.json | jq .ts` (or visit `/admin/staleness`)
-4. **Check workflow run** — `gh run list --workflow=<name>.yml --limit=3 --json status,conclusion,createdAt`
-5. **Check upstream** — try the external API directly (curl)
-6. **Check pool** — if GitHub-related, `/admin/pool-aggregate`
-7. **Check logs** — Sentry (`agnt-pf` org, EU `de.sentry.io`) for runtime errors
+1. **Identify the broken surface** â€” which page is empty/stale?
+2. **Look it up in Â§3** â€” find the collector
+3. **Check freshness** â€” `cat data/_meta/<key>.json | jq .ts` (or visit `/admin/staleness`)
+4. **Check workflow run** â€” `gh run list --workflow=<name>.yml --limit=3 --json status,conclusion,createdAt`
+5. **Check upstream** â€” try the external API directly (curl)
+6. **Check pool** â€” if GitHub-related, `/admin/pool-aggregate`
+7. **Check logs** â€” Sentry (`agnt-pf` org, EU `de.sentry.io`) for runtime errors
 
 ---
 
 ## 7. What this map deliberately doesn't cover
 
-- **Internal pipeline modules** (scoring engine, classification, mention store) — those live in `src/lib/pipeline/*` and are derivative of collected data. See ENGINE.md §1 for the architecture summary.
-- **Admin tools** — listed in §3h but not deeply mapped because they're operator UIs, not user surfaces.
-- **API routes** — `/api/*` reads same data, mostly mirroring page surfaces. See `src/app/api/` for the list.
-- **Worker fetchers (Railway side)** — covered in ENGINE.md §3 + the worker-audit doc (next session).
+- **Internal pipeline modules** (scoring engine, classification, mention store) â€” those live in `src/lib/pipeline/*` and are derivative of collected data. See ENGINE.md Â§1 for the architecture summary.
+- **Admin tools** â€” listed in Â§3h but not deeply mapped because they're operator UIs, not user surfaces.
+- **API routes** â€” `/api/*` reads same data, mostly mirroring page surfaces. See `src/app/api/` for the list.
+- **Worker fetchers (Railway side)** â€” covered in ENGINE.md Â§3 + the worker-audit doc (next session).
 
 ---
 
@@ -260,9 +261,10 @@ When something breaks:
 This file is the **canonical site-to-data wire map**. Update it in the same commit when:
 - A new user-facing route lands
 - A collector's data-store key changes
-- A workflow's cron cadence shifts ≥2x
+- A workflow's cron cadence shifts â‰¥2x
 - A new fan-out function is introduced (joining multiple sources into one)
 
-Sister doc: [ENGINE.md](ENGINE.md) (engine bottom-up) — keep both consistent.
+Sister doc: [ENGINE.md](ENGINE.md) (engine bottom-up) â€” keep both consistent.
 
 **Last full sweep**: 2026-05-02 (initial), based on commit `7b91cf06` post-pool-finishing wave.
+

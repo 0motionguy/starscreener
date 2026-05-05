@@ -16,6 +16,8 @@
 //     differentiate "server up but degraded" from "server down".
 
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { verifyAdminAuth, verifyCronAuth } from "@/lib/api/auth";
 
 import {
   KNOWN_SOURCES,
@@ -40,6 +42,16 @@ interface SourceBreakerView {
   nextProbeAt: string | null;
 }
 
+interface PublicSourceBreakerView {
+  state: SourceHealthSnapshot["state"];
+  successCount: number;
+  failureCount: number;
+  errorRate: number;
+  totalAttempts: number;
+  windowSize: number;
+  consecutiveFailures: number;
+}
+
 interface HealthSourcesBody {
   fetchedAt: string;
   summary: {
@@ -58,6 +70,11 @@ interface HealthSourcesBody {
   sources: Record<string, SourceBreakerView>;
 }
 
+type PublicHealthSourcesBody = Pick<
+  HealthSourcesBody,
+  "fetchedAt" | "summary"
+> & { sources: Record<string, PublicSourceBreakerView> };
+
 function toView(snapshot: SourceHealthSnapshot): SourceBreakerView {
   return {
     state: snapshot.state,
@@ -75,7 +92,31 @@ function toView(snapshot: SourceHealthSnapshot): SourceBreakerView {
   };
 }
 
-export async function GET(): Promise<NextResponse<HealthSourcesBody>> {
+function canViewDetail(request: NextRequest): boolean {
+  const cronSecret = process.env.CRON_SECRET?.trim();
+  return (
+    (cronSecret ? verifyCronAuth(request).kind === "ok" : false) ||
+    verifyAdminAuth(request).kind === "ok"
+  );
+}
+
+function toPublicView(snapshot: SourceHealthSnapshot): PublicSourceBreakerView {
+  return {
+    state: snapshot.state,
+    successCount: snapshot.successCount,
+    failureCount: snapshot.failureCount,
+    errorRate: Math.round(snapshot.errorRate * 1000) / 1000,
+    totalAttempts: snapshot.totalAttempts,
+    windowSize: snapshot.windowSize,
+    consecutiveFailures: snapshot.consecutiveFailures,
+  };
+}
+
+export async function GET(
+  request: NextRequest,
+): Promise<NextResponse<HealthSourcesBody | PublicHealthSourcesBody>> {
+  const wantsDetail = request.nextUrl.searchParams.get("detail") === "1";
+  const includeDetail = wantsDetail && canViewDetail(request);
   const trace = process.env.PERF_TRACE_ROUTES === "1";
   const startedAt = performance.now();
   // Make sure the canonical list is always represented even before any
@@ -133,12 +174,32 @@ export async function GET(): Promise<NextResponse<HealthSourcesBody>> {
 
   // 207 Multi-Status when degraded so monitors can split "down" from
   // "degraded but serving".
-  const status = open + halfOpen > 0 ? 207 : 200;
+  const degradedStatus = open + halfOpen > 0 ? 207 : 200;
   if (trace) {
     const totalMs = performance.now() - startedAt;
     console.info(
       `[perf][route:/api/health/sources] totalMs=${totalMs.toFixed(1)} registerMs=${registerMs.toFixed(1)} getAllMs=${getAllMs.toFixed(1)} totalSources=${Object.keys(sources).length} open=${open} halfOpen=${halfOpen}`,
     );
   }
-  return NextResponse.json(body, { status });
+  if (!includeDetail) {
+    const publicSources: Record<string, PublicSourceBreakerView> = {};
+    for (const [id, snap] of Object.entries(all)) {
+      publicSources[id] = toPublicView(snap);
+    }
+    const publicBody: PublicHealthSourcesBody = {
+      fetchedAt: body.fetchedAt,
+      summary: {
+        total: body.summary.total,
+        closed: body.summary.closed,
+        open: body.summary.open,
+        halfOpen: body.summary.halfOpen,
+        openSources: [],
+        halfOpenSources: [],
+      },
+      sources: publicSources,
+    };
+    return NextResponse.json(publicBody, { status: 200 });
+  }
+
+  return NextResponse.json(body, { status: degradedStatus });
 }

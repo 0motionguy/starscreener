@@ -36,7 +36,10 @@ const SHORTCUT_GROUPS: { title: string; items: Shortcut[] }[] = [
   },
   {
     title: "Help",
-    items: [{ keys: ["?"], label: "Open this shortcut reference" }],
+    items: [
+      { keys: ["/"], label: "Focus search input" },
+      { keys: ["?"], label: "Open this shortcut reference" },
+    ],
   },
 ];
 

@@ -17,7 +17,11 @@ import Link from "next/link";
 import type { Repo } from "@/lib/types";
 import type { AlertEvent, AlertRule } from "@/lib/pipeline/types";
 import { getRelativeTime } from "@/lib/utils";
-import { toastAlertDeleted, toastAlertError } from "@/lib/toast";
+import {
+  toastAlertDeleted,
+  toastAlertError,
+  toastAlertMarkedRead,
+} from "@/lib/toast";
 
 import { ProfileTemplate } from "@/components/templates/ProfileTemplate";
 import { SectionHead } from "@/components/ui/SectionHead";
@@ -206,8 +210,12 @@ export default function AlertsPage() {
       });
       const data = (await res.json().catch(() => ({ ok: false }))) as {
         ok: boolean;
+        error?: string;
       };
-      if (!res.ok || !data.ok) return;
+      if (!res.ok || !data.ok) {
+        toastAlertError(data.error ?? "failed to mark alert as read");
+        return;
+      }
       setEvents((prev) =>
         prev.map((e) =>
           e.id === event.id
@@ -215,8 +223,10 @@ export default function AlertsPage() {
             : e,
         ),
       );
+      toastAlertMarkedRead();
     } catch (err) {
-      console.error("[alerts] markRead failed", err);
+      const msg = err instanceof Error ? err.message : String(err);
+      toastAlertError(msg);
     }
   }, []);
 

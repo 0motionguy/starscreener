@@ -62,14 +62,11 @@ export default async function BriefPage({ params }: BriefPageProps) {
     notFound();
   }
 
-  // TypeScript cannot narrow through notFound() — brief is guaranteed non-null here.
-  const resolvedBrief = brief!;
-
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: `${resolvedBrief.name}: ${resolvedBrief.hook}`,
-    description: resolvedBrief.what,
+    headline: `${brief.name}: ${brief.hook}`,
+    description: brief.what,
     author: {
       "@type": "Person",
       name: "TrendingRepo Editorial",
@@ -78,10 +75,10 @@ export default async function BriefPage({ params }: BriefPageProps) {
       "@type": "Organization",
       name: SITE_NAME,
     },
-    datePublished: resolvedBrief.written_at,
-    dateModified: resolvedBrief.written_at,
-    mainEntityOfPage: absoluteUrl(`/brief/${resolvedBrief.owner}/${resolvedBrief.name}`),
-    url: absoluteUrl(`/brief/${resolvedBrief.owner}/${resolvedBrief.name}`),
+    datePublished: brief.written_at,
+    dateModified: brief.written_at,
+    mainEntityOfPage: absoluteUrl(`/brief/${brief.owner}/${brief.name}`),
+    url: absoluteUrl(`/brief/${brief.owner}/${brief.name}`),
   };
 
   return (
@@ -90,14 +87,14 @@ export default async function BriefPage({ params }: BriefPageProps) {
       <article className="panel" style={{ padding: 24 }}>
         <header style={{ marginBottom: 20 }}>
           <p style={{ fontFamily: "var(--v4-mono)", fontSize: 12, color: "var(--v4-ink-400)", margin: 0 }}>
-            {resolvedBrief.owner}/{resolvedBrief.name}
+            {brief.owner}/{brief.name}
           </p>
-          <h1 style={{ margin: "8px 0 0", fontSize: 30, lineHeight: 1.2 }}>{resolvedBrief.hook}</h1>
+          <h1 style={{ margin: "8px 0 0", fontSize: 30, lineHeight: 1.2 }}>{brief.hook}</h1>
         </header>
 
         <div style={{ display: "grid", gap: 20, gridTemplateColumns: "minmax(0,1fr) minmax(220px,300px)" }}>
           <section>
-            {bodyParagraphs(resolvedBrief.body).map((paragraph, idx) => (
+            {bodyParagraphs(brief.body).map((paragraph, idx) => (
               <p key={`${paragraph.slice(0, 16)}-${idx}`} style={{ marginTop: idx === 0 ? 0 : 14, lineHeight: 1.7 }}>
                 {paragraph}
               </p>
@@ -107,7 +104,7 @@ export default async function BriefPage({ params }: BriefPageProps) {
           <aside>
             <h2 style={{ margin: "0 0 10px", fontSize: 14, letterSpacing: "0.08em", textTransform: "uppercase" }}>Sources</h2>
             <ul style={{ margin: 0, paddingLeft: 18, display: "grid", gap: 8 }}>
-              {resolvedBrief.sources.map((source) => (
+              {brief.sources.map((source) => (
                 <li key={source}>
                   <Link href={source} target="_blank" rel="noopener noreferrer">
                     {source}
@@ -115,7 +112,7 @@ export default async function BriefPage({ params }: BriefPageProps) {
                 </li>
               ))}
             </ul>
-            <p style={{ marginTop: 16, fontSize: 12, color: "var(--v4-ink-400)" }}>Written at: {resolvedBrief.written_at}</p>
+            <p style={{ marginTop: 16, fontSize: 12, color: "var(--v4-ink-400)"}>Written at: {brief.written_at}</p>
           </aside>
         </div>
       </article>

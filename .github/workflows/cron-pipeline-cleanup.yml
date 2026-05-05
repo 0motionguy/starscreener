@@ -12,7 +12,7 @@ name: Cron - pipeline cleanup
 
 on:
   schedule:
-    - cron: "0 4 * * *"  # UTC, daily at 04:00
+    - cron: "12 4 * * *"  # UTC, daily at 04:12 (staggered off :00 burst)
   workflow_dispatch: {}
 
 permissions:

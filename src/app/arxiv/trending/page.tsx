@@ -11,18 +11,29 @@
 
 import type { Metadata } from "next";
 import {
+  BarChart3,
+  Eye,
+  FileCode2,
+  GitBranch,
+  Lock,
+  MessageSquareText,
+  Speaker,
+  Waves,
+  Wrench,
+} from "lucide-react";
+import {
   getArxivPapersTrending,
   getArxivRecentFile,
   refreshArxivFromStore,
   type ArxivPaperTrending,
 } from "@/lib/arxiv";
+import { getDerivedRepos } from "@/lib/derived-repos";
+import { refreshTrendingFromStore } from "@/lib/trending";
 import {
   TerminalFeedTable,
   type FeedColumn,
 } from "@/components/feed/TerminalFeedTable";
 import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
-import { EntityLogo } from "@/components/ui/EntityLogo";
-import { repoLogoUrl } from "@/lib/logos";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -34,6 +45,43 @@ import { MarkVisited } from "@/components/layout/MarkVisited";
 // hardcode the brand color rather than fall back to the generic `--v4-red`
 // (which is reserved for negative-delta semantics).
 const ARXIV_BRAND = "#B22234";
+
+function buildTrackedMentionSet(
+  paper: ArxivPaperTrending,
+  trackedRepos: Set<string>,
+): string[] {
+  const hits = new Set<string>();
+  for (const link of paper.linkedRepos ?? []) {
+    const full = (link.fullName ?? "").trim().toLowerCase();
+    if (full && trackedRepos.has(full)) hits.add(full);
+  }
+  const body = `${paper.title}\n${paper.summary ?? ""}`;
+  const githubUrlRegex = /github\.com\/([a-z0-9_.-]+\/[a-z0-9_.-]+)/gi;
+  let m: RegExpExecArray | null;
+  while ((m = githubUrlRegex.exec(body)) !== null) {
+    const full = m[1].replace(/\.git$/i, "").toLowerCase();
+    if (trackedRepos.has(full)) hits.add(full);
+  }
+  const ownerRepoRegex = /\b([a-z0-9_.-]+\/[a-z0-9_.-]+)\b/gi;
+  while ((m = ownerRepoRegex.exec(body)) !== null) {
+    const full = m[1].toLowerCase();
+    if (trackedRepos.has(full)) hits.add(full);
+  }
+  return Array.from(hits).sort();
+}
+
+function categoryIconFor(cat: string | null | undefined) {
+  const upper = (cat ?? "").toUpperCase();
+  if (upper === "CS.CV") return Eye;
+  if (upper === "CS.LG") return GitBranch;
+  if (upper === "CS.CL") return MessageSquareText;
+  if (upper === "CS.SE") return Wrench;
+  if (upper === "CS.CR") return Lock;
+  if (upper === "EESS.IV") return Waves;
+  if (upper === "STAT.ME") return BarChart3;
+  if (upper === "CS.SD") return Speaker;
+  return FileCode2;
+}
 
 export const dynamic = "force-static";
 export const revalidate = 1800; // 30 min
@@ -56,6 +104,8 @@ export const metadata: Metadata = {
   },
 };
 
+type ArxivSearchParams = { mentions?: string | string[] | undefined };
+
 function formatAgeDays(days: number): string {
   if (!Number.isFinite(days)) return "—";
   if (days < 1) return "<1d";
@@ -74,11 +124,28 @@ function formatClock(iso: string | undefined): string {
   return new Date(iso).toISOString().slice(11, 19);
 }
 
-export default async function ArxivTrendingPage() {
+export default async function ArxivTrendingPage({
+  searchParams,
+}: {
+  searchParams?: ArxivSearchParams | Promise<ArxivSearchParams>;
+}) {
+  const sp = searchParams ? await searchParams : undefined;
+  const mentionsOnly =
+    (Array.isArray(sp?.mentions) ? sp?.mentions[0] : sp?.mentions) === "1";
   await refreshArxivFromStore();
+  await refreshTrendingFromStore();
   const file = getArxivRecentFile();
   const papers = getArxivPapersTrending(100);
   const allPapers = file.papers ?? [];
+  const trackedRepoSet = new Set(
+    getDerivedRepos().map((r) => r.fullName.toLowerCase()),
+  );
+  const mentioningCount = papers.filter(
+    (p) => buildTrackedMentionSet(p, trackedRepoSet).length > 0,
+  ).length;
+  const visiblePapers = mentionsOnly
+    ? papers.filter((p) => buildTrackedMentionSet(p, trackedRepoSet).length > 0)
+    : papers;
   const cold = allPapers.length === 0;
 
   if (cold) {
@@ -161,7 +228,11 @@ export default async function ArxivTrendingPage() {
         list={
           <>
             <EnrichmentBanner />
-            <WindowedArxivFeed papers={papers} />
+            <TrackedMentionFilterChip
+              mentionsOnly={mentionsOnly}
+              mentioningCount={mentioningCount}
+            />
+            <WindowedArxivFeed papers={visiblePapers} trackedRepoSet={trackedRepoSet} />
           </>
         }
       />
@@ -175,7 +246,13 @@ export default async function ArxivTrendingPage() {
 // momentum descending — we just slice by age window and let the client
 // toggle which of the three pre-sorted lists to render. Default 7d
 // matches arXiv's normal "this week" reading rhythm.
-function WindowedArxivFeed({ papers }: { papers: ArxivPaperTrending[] }) {
+function WindowedArxivFeed({
+  papers,
+  trackedRepoSet,
+}: {
+  papers: ArxivPaperTrending[];
+  trackedRepoSet: Set<string>;
+}) {
   const inWindow = (maxDays: number) =>
     papers.filter((p) => {
       const d = p.daysSincePublished;
@@ -189,9 +266,9 @@ function WindowedArxivFeed({ papers }: { papers: ArxivPaperTrending[] }) {
       count24h={w24h.length}
       count7d={w7d.length}
       count30d={w30d.length}
-      table24h={<ArxivPaperFeed papers={w24h} />}
-      table7d={<ArxivPaperFeed papers={w7d} />}
-      table30d={<ArxivPaperFeed papers={w30d} />}
+      table24h={<ArxivPaperFeed papers={w24h} trackedRepoSet={trackedRepoSet} />}
+      table7d={<ArxivPaperFeed papers={w7d} trackedRepoSet={trackedRepoSet} />}
+      table30d={<ArxivPaperFeed papers={w30d} trackedRepoSet={trackedRepoSet} />}
       defaultWindow="7d"
     />
   );
@@ -223,7 +300,13 @@ function EnrichmentBanner() {
 // Feed table
 // ---------------------------------------------------------------------------
 
-function ArxivPaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
+function ArxivPaperFeed({
+  papers,
+  trackedRepoSet,
+}: {
+  papers: ArxivPaperTrending[];
+  trackedRepoSet: Set<string>;
+}) {
   const columns: FeedColumn<ArxivPaperTrending>[] = [
     {
       id: "rank",
@@ -242,52 +325,74 @@ function ArxivPaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
       id: "title",
       header: "Paper",
       render: (p) => {
-        const linkedRepo = p.linkedRepos?.[0]?.fullName ?? null;
-        // AUDIT-2026-05-04: arxiv rows had no logo column; closes the
-        // "non-repo entities have no first-class images" gap. Show linked
-        // repo owner's avatar when present, otherwise EntityLogo's
-        // monogram fallback (deterministic hue derived from the title).
+        const CategoryIcon = categoryIconFor(p.primaryCategory);
+        const mentions = buildTrackedMentionSet(p, trackedRepoSet);
+        const primaryMention = mentions[0] ?? null;
         return (
           <div className="flex min-w-0 items-start gap-2">
-            <EntityLogo
-              src={linkedRepo ? repoLogoUrl(linkedRepo) : null}
-              name={linkedRepo ?? p.title}
-              size={20}
-              shape="square"
-              alt=""
-            />
-            <div className="flex min-w-0 flex-col gap-0.5">
-            <a
-              href={p.absUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v4-acc)]"
-              style={{ color: "var(--v4-ink-100)" }}
-              title={p.title}
-            >
-              {p.title}
-            </a>
             <span
-              className="truncate text-[10.5px]"
-              style={{ color: "var(--v4-ink-400)" }}
-              title={p.authors?.join(", ")}
+              aria-hidden="true"
+              className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-sm"
+              style={{
+                border: `1px solid ${ARXIV_BRAND}66`,
+                background: `${ARXIV_BRAND}14`,
+                color: ARXIV_BRAND,
+              }}
+              title={p.primaryCategory ?? "uncategorized"}
             >
-              {formatAuthors(p.authors ?? [])}
-              {linkedRepo ? (
-                <span
-                  className="v2-mono ml-2 px-1.5 py-0.5 text-[9px] tracking-[0.14em] uppercase"
-                  style={{
-                    border: "1px solid var(--v4-line-200)",
-                    background: "var(--v4-bg-100)",
-                    color: "var(--v4-ink-300)",
-                    borderRadius: 2,
-                  }}
-                  title={`Linked repo: ${linkedRepo}`}
-                >
-                  ↳ {linkedRepo}
-                </span>
-              ) : null}
+              <CategoryIcon size={12} strokeWidth={2.1} />
             </span>
+            <div className="flex min-w-0 flex-col gap-0.5">
+              <a
+                href={p.absUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="truncate text-[13px] font-medium transition-colors hover:text-[color:var(--v4-acc)]"
+                style={{ color: "var(--v4-ink-100)" }}
+                title={p.title}
+              >
+                {p.title}
+              </a>
+              <span
+                className="truncate text-[10.5px]"
+                style={{ color: "var(--v4-ink-400)" }}
+                title={p.authors?.join(", ")}
+              >
+                {formatAuthors(p.authors ?? [])}
+              </span>
+              {primaryMention ? (
+                <div className="mt-0.5 flex min-w-0 items-center gap-1.5">
+                  <span
+                    className="v2-mono shrink-0 px-1.5 py-0.5 text-[9px] tracking-[0.14em] uppercase"
+                    style={{
+                      border: "1px solid " + ARXIV_BRAND + "66",
+                      background: ARXIV_BRAND + "14",
+                      color: ARXIV_BRAND,
+                      borderRadius: 2,
+                    }}
+                    title="Paper mentions tracked repositories"
+                  >
+                    tracked
+                  </span>
+                  <a
+                    href={`/repo/${primaryMention}`}
+                    className="truncate v2-mono text-[9px] tracking-[0.1em] hover:underline"
+                    style={{ color: "var(--v4-ink-300)" }}
+                    title={"Open repo profile: " + primaryMention}
+                  >
+                    [+ {primaryMention}]
+                  </a>
+                  {mentions.length > 1 ? (
+                    <span
+                      className="truncate v2-mono text-[9px] tracking-[0.1em]"
+                      style={{ color: "var(--v4-ink-300)" }}
+                      title="Additional tracked mentions"
+                    >
+                      {"+" + String(mentions.length - 1)}
+                    </span>
+                  ) : null}
+                </div>
+              ) : null}
             </div>
           </div>
         );
@@ -367,6 +472,35 @@ function ArxivPaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
       accent={ARXIV_BRAND}
       caption="arXiv papers ranked by domain-scored momentum"
     />
+  );
+}
+
+function TrackedMentionFilterChip({
+  mentionsOnly,
+  mentioningCount,
+}: {
+  mentionsOnly: boolean;
+  mentioningCount: number;
+}) {
+  return (
+    <div className="mb-3 flex items-center gap-2">
+      <a
+        href={mentionsOnly ? "/arxiv/trending" : "/arxiv/trending?mentions=1"}
+        className="v2-mono inline-flex items-center rounded-sm px-2 py-1 text-[10px] uppercase tracking-[0.14em]"
+        style={{
+          border: `1px solid ${mentionsOnly ? ARXIV_BRAND : "var(--v4-line-200)"}`,
+          background: mentionsOnly ? `${ARXIV_BRAND}14` : "var(--v4-bg-100)",
+          color: mentionsOnly ? ARXIV_BRAND : "var(--v4-ink-300)",
+        }}
+        title={
+          mentionsOnly
+            ? "Show all papers"
+            : "Show only papers mentioning tracked repos"
+        }
+      >
+        Mentioning tracked repos ({mentioningCount})
+      </a>
+    </div>
   );
 }
 

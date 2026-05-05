@@ -47,6 +47,22 @@ async function expectAllJsonLdParse(
   }
 }
 
+async function getJsonLdObjects(page: import("@playwright/test").Page) {
+  const locator = page.locator('script[type="application/ld+json"]');
+  const scripts = await locator.evaluateAll((nodes) =>
+    nodes.map((node) => node.textContent ?? ""),
+  );
+  return scripts
+    .map((raw) => {
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return null;
+      }
+    })
+    .filter((v): v is Record<string, unknown> => !!v && !Array.isArray(v));
+}
+
 test.describe("json-ld", () => {
   test("homepage emits >=5 ld+json scripts and all parse", async ({ page }) => {
     const response = await page.goto("/", { waitUntil: "domcontentloaded" });
@@ -64,5 +80,20 @@ test.describe("json-ld", () => {
     expect(response?.ok()).toBe(true);
 
     await expectAllJsonLdParse(page, 2);
+    const schemas = await getJsonLdObjects(page);
+    expect(
+      schemas.some((schema) => schema["@type"] === "SoftwareSourceCode"),
+    ).toBe(true);
+  });
+
+  test("/u profile emits Person json-ld", async ({ page }) => {
+    const response = await page.goto("/u/mirko", {
+      waitUntil: "domcontentloaded",
+    });
+    expect(response?.ok()).toBe(true);
+
+    await expectAllJsonLdParse(page, 1);
+    const schemas = await getJsonLdObjects(page);
+    expect(schemas.some((schema) => schema["@type"] === "Person")).toBe(true);
   });
 });

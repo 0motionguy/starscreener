@@ -40,7 +40,7 @@ export interface RepoProfile {
   lastProfiledAt: string;
   nextScanAfter: string | null;
   surfaces: RepoProfileSurface;
-  aisoScan: AisoToolsScan | null;
+  aisoScan?: AisoToolsScan | null;
   error: string | null;
 }
 

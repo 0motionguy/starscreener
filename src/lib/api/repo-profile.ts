@@ -157,7 +157,13 @@ function countMentionsByPlatform(
 ): Partial<Record<SocialPlatform, number>> {
   const out: Partial<Record<SocialPlatform, number>> = {};
   for (const m of all) {
-    out[m.platform] = (out[m.platform] ?? 0) + 1;
+    const platforms =
+      m.sourcePlatforms && m.sourcePlatforms.length > 0
+        ? m.sourcePlatforms
+        : [m.platform];
+    for (const platform of platforms) {
+      out[platform] = (out[platform] ?? 0) + 1;
+    }
   }
   return out;
 }

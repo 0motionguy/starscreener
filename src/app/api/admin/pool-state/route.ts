@@ -20,6 +20,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export type PoolStatus = "GREEN" | "YELLOW" | "RED" | "DEAD";
+export type HeadroomStatus = PoolStatus;
 
 export interface UsageSummary {
   requests24h: number;
@@ -65,6 +66,7 @@ export interface NitterInstanceRow {
   url: string;
   status: "unknown" | "healthy" | "dead";
   lastChecked: string | null;
+  deadCount24h: number;
   successRate24h: number | null;
 }
 
@@ -81,10 +83,18 @@ export interface PoolAnomaly {
   detail: string;
 }
 
+export interface RateLimitHeadroomRow {
+  source: "github" | "reddit" | "twitter-apify";
+  status: HeadroomStatus;
+  headroomPct: number | null;
+  detail: string;
+}
+
 export interface AdminPoolStateResponse {
   ok: true;
   generatedAt: string;
   anomalies: PoolAnomaly[];
+  headroom: RateLimitHeadroomRow[];
   github: {
     totalConfigured: number;
     health: PoolStatus;
@@ -130,6 +140,19 @@ interface GithubKeyDescriptor {
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
 const IDLE_KEY_MS = 12 * HOUR_MS;
+const NITTER_DEAD_COUNT_ALERT_MIN = 1;
+const DEFAULT_GITHUB_POOL_NAMESPACE = "prod";
+
+function githubPoolNamespace(): string {
+  const raw =
+    process.env.GITHUB_POOL_NAMESPACE ??
+    process.env.GITHUB_POOL_TELEMETRY_NAMESPACE ??
+    DEFAULT_GITHUB_POOL_NAMESPACE;
+  const trimmed = raw.trim().toLowerCase();
+  if (!trimmed) return DEFAULT_GITHUB_POOL_NAMESPACE;
+  const safe = trimmed.replace(/[^a-z0-9_-]/g, "-").replace(/-+/g, "-");
+  return safe || DEFAULT_GITHUB_POOL_NAMESPACE;
+}
 
 function hourBuckets(now: Date): string[] {
   const out: string[] = [];
@@ -194,9 +217,13 @@ async function readUsage(
   );
   const hashes = await Promise.all(
     buckets.flatMap((bucket) =>
-      fingerprints.map((fingerprint) =>
-        redis.hgetall(`pool:${prefix}:usage:${fingerprint}:${bucket}`),
-      ),
+      fingerprints.map((fingerprint) => {
+        const key =
+          prefix === "github"
+            ? `pool:github:usage:${githubPoolNamespace()}:${fingerprint}:${bucket}`
+            : `pool:${prefix}:usage:${fingerprint}:${bucket}`;
+        return redis.hgetall(key);
+      }),
     ),
   );
   let requests24h = 0;
@@ -266,9 +293,13 @@ async function readQuarantine(
     ),
   );
   const raws = await Promise.all(
-    fingerprints.map((fingerprint) =>
-      redis.get(`pool:${prefix}:quarantine:${fingerprint}`),
-    ),
+    fingerprints.map((fingerprint) => {
+      const key =
+        prefix === "github"
+          ? `pool:github:quarantine:${githubPoolNamespace()}:${fingerprint}`
+          : `pool:${prefix}:quarantine:${fingerprint}`;
+      return redis.get(key);
+    }),
   );
   let latestInactive: QuarantineState = { active: false, reason: null, until: null };
   for (const raw of raws) {
@@ -520,9 +551,22 @@ function normalizeNitterInstances(): NitterInstanceRow[] {
       url,
       status,
       lastChecked: typeof obj.lastChecked === "string" ? parseIso(obj.lastChecked) : null,
+      deadCount24h: Number.isFinite(Number(obj.deadCount24h))
+        ? Math.max(0, Number(obj.deadCount24h))
+        : 0,
       successRate24h: null,
     }];
   });
+}
+
+export function shouldFlagDeadNitterInstance(
+  instance: NitterInstanceRow,
+  nowMs = Date.now(),
+): boolean {
+  if (instance.status !== "dead") return false;
+  if (instance.deadCount24h < NITTER_DEAD_COUNT_ALERT_MIN) return false;
+  const checkedMs = instance.lastChecked ? Date.parse(instance.lastChecked) : NaN;
+  return !Number.isFinite(checkedMs) || nowMs - checkedMs > DAY_MS;
 }
 
 async function readMeta(source: string): Promise<MetaFile | null> {
@@ -586,10 +630,11 @@ async function singletonRows(): Promise<SingletonRow[]> {
   );
 }
 
-function buildAnomalies(
+export function buildAnomalies(
   github: AdminPoolStateResponse["github"],
   reddit: AdminPoolStateResponse["reddit"],
   twitter: AdminPoolStateResponse["twitter"],
+  headroom: RateLimitHeadroomRow[],
 ): PoolAnomaly[] {
   const anomalies: PoolAnomaly[] = [];
   for (const row of github.rows) {
@@ -624,16 +669,24 @@ function buildAnomalies(
       detail: `${reddit.rateLimitedLastHour} rate-limited request(s) in the current hour bucket.`,
     });
   }
+  const deadNitterCount = twitter.nitterInstances.filter(
+    (instance) => instance.status === "dead",
+  ).length;
+  const nitterCount = twitter.nitterInstances.length;
+  const quorumLostThreshold = Math.ceil(nitterCount / 2);
+  if (nitterCount > 0 && deadNitterCount >= quorumLostThreshold) {
+    anomalies.push({
+      severity: "RED",
+      label: "Nitter quorum lost",
+      detail: `${deadNitterCount}/${nitterCount} Nitter instances are dead (threshold ${quorumLostThreshold}/${nitterCount}).`,
+    });
+  }
   for (const instance of twitter.nitterInstances) {
-    const checkedMs = instance.lastChecked ? Date.parse(instance.lastChecked) : NaN;
-    if (
-      instance.status === "dead" &&
-      (!Number.isFinite(checkedMs) || Date.now() - checkedMs > DAY_MS)
-    ) {
+    if (shouldFlagDeadNitterInstance(instance)) {
       anomalies.push({
         severity: "YELLOW",
         label: "Dead Nitter instance",
-        detail: `${instance.url} has been marked dead for >24h or has no health timestamp.`,
+        detail: `${instance.url} has been marked dead ${instance.deadCount24h} time(s) in 24h and is stale (>24h) or missing health timestamp.`,
       });
     }
   }
@@ -644,7 +697,84 @@ function buildAnomalies(
       detail: `${Math.round(twitter.degradationRate24h * 100)}% of Twitter calls fell through to fallback telemetry.`,
     });
   }
+  for (const row of headroom) {
+    if (row.status === "YELLOW" || row.status === "RED") {
+      anomalies.push({
+        severity: row.status === "RED" ? "RED" : "YELLOW",
+        label: `${row.source} rate-limit headroom`,
+        detail: row.detail,
+      });
+    }
+  }
   return anomalies;
+}
+
+export function buildRateLimitHeadroom(
+  github: AdminPoolStateResponse["github"],
+  reddit: AdminPoolStateResponse["reddit"],
+  twitter: AdminPoolStateResponse["twitter"],
+): RateLimitHeadroomRow[] {
+  const githubKnown = github.rows
+    .map((row) => row.lastRateLimitRemaining)
+    .filter((v): v is number => typeof v === "number" && Number.isFinite(v));
+  const githubMax = githubKnown.length * 5_000;
+  const githubRemaining = githubKnown.reduce((sum, v) => sum + Math.max(0, v), 0);
+  const githubPct = githubMax > 0 ? githubRemaining / githubMax : null;
+  const githubStatus: HeadroomStatus =
+    githubPct === null
+      ? "DEAD"
+      : githubPct <= 0.1
+        ? "RED"
+        : githubPct <= 0.25
+          ? "YELLOW"
+          : "GREEN";
+
+  const redditRequestsLastHour = reddit.rows.reduce(
+    (sum, row) => sum + row.requests24h / 24,
+    0,
+  );
+  const redditPressure =
+    redditRequestsLastHour > 0
+      ? reddit.rateLimitedLastHour / redditRequestsLastHour
+      : reddit.rateLimitedLastHour > 0
+        ? 1
+        : 0;
+  const redditPct = Math.max(0, 1 - Math.min(1, redditPressure));
+  const redditStatus: HeadroomStatus =
+    redditPct <= 0.1 ? "RED" : redditPct <= 0.25 ? "YELLOW" : "GREEN";
+
+  const apify = twitter.sources.find((row) => row.source === "apify");
+  const apifyRequests = apify?.requests24h ?? 0;
+  const apifyFailRate =
+    apifyRequests > 0 ? (apify?.fail24h ?? 0) / apifyRequests : 0;
+  const apifyPressure = Math.max(apifyFailRate, twitter.degradationRate24h);
+  const apifyPct = Math.max(0, 1 - Math.min(1, apifyPressure));
+  const apifyStatus: HeadroomStatus =
+    apifyPct <= 0.1 ? "RED" : apifyPct <= 0.25 ? "YELLOW" : "GREEN";
+
+  return [
+    {
+      source: "github",
+      status: githubStatus,
+      headroomPct: githubPct,
+      detail:
+        githubPct === null
+          ? "No observed x-ratelimit-remaining values yet."
+          : `${Math.round(githubPct * 100)}% remaining based on latest per-key quota snapshots.`,
+    },
+    {
+      source: "reddit",
+      status: redditStatus,
+      headroomPct: redditPct,
+      detail: `${reddit.rateLimitedLastHour} rate-limited events in the current hour bucket.`,
+    },
+    {
+      source: "twitter-apify",
+      status: apifyStatus,
+      headroomPct: apifyPct,
+      detail: `${Math.round(apifyPressure * 100)}% pressure from fail/degradation telemetry over 24h.`,
+    },
+  ];
 }
 
 async function readAdminPoolState(): Promise<AdminPoolStateResponse> {
@@ -655,11 +785,13 @@ async function readAdminPoolState(): Promise<AdminPoolStateResponse> {
     twitterState(buckets),
     singletonRows(),
   ]);
+  const headroom = buildRateLimitHeadroom(github, reddit, twitter);
 
   return {
     ok: true,
     generatedAt: new Date().toISOString(),
-    anomalies: buildAnomalies(github, reddit, twitter),
+    anomalies: buildAnomalies(github, reddit, twitter, headroom),
+    headroom,
     github,
     reddit,
     twitter,

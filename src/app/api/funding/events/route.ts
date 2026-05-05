@@ -18,7 +18,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
-import { errorEnvelope } from "@/lib/api/error-response";
+import { errorEnvelope, serverError } from "@/lib/api/error-response";
 import {
   queryFundingEvents,
   refreshFundingFromStore,
@@ -126,7 +126,11 @@ export async function GET(
       { headers: { "Content-Type": "application/json; charset=utf-8" } },
     );
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(errorEnvelope(message), { status: 500 });
+    return serverError(err, {
+      scope: "[api/funding/events:GET]",
+      publicMessage: "server error",
+      code: "FUNDING_EVENTS_READ_FAILED",
+      status: 500,
+    });
   }
 }

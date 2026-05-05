@@ -10,6 +10,7 @@ export function AdminLoginForm() {
 
   const [username, setUsername] = useState("admin");
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,7 +23,7 @@ export function AdminLoginForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password, otp }),
       });
       const data = (await res.json()) as
         | { ok: true; username: string }
@@ -33,7 +34,10 @@ export function AdminLoginForm() {
             data.error ?? "Admin login not configured. Check .env.local.",
           );
         }
-        throw new Error("Invalid username or password.");
+        if (data.ok === false && data.reason === "mfa_required") {
+          throw new Error(data.error ?? "Invalid MFA code.");
+        }
+        throw new Error("Invalid username, password, or MFA code.");
       }
       router.push(next.startsWith("/admin") ? next : "/admin");
       router.refresh();
@@ -152,6 +156,27 @@ export function AdminLoginForm() {
               />
             </label>
 
+            <label className="flex flex-col gap-2">
+              <span
+                className="v2-mono"
+                style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
+              >
+                {"// MFA CODE (TOTP)"}
+              </span>
+              <input
+                type="text"
+                name="otp"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                autoComplete="one-time-code"
+                inputMode="numeric"
+                pattern="[0-9]{6}"
+                maxLength={6}
+                required
+                style={inputStyle}
+              />
+            </label>
+
             {error ? (
               <div
                 className="v2-mono"
@@ -170,7 +195,7 @@ export function AdminLoginForm() {
 
             <button
               type="submit"
-              disabled={busy || !password}
+              disabled={busy || !password || otp.length !== 6}
               className="v2-btn v2-btn-primary w-full"
               style={{ minHeight: 42 }}
             >
@@ -188,6 +213,8 @@ export function AdminLoginForm() {
           <span style={{ color: "var(--v2-ink-200)" }}>ADMIN_USERNAME</span>
           {" + "}
           <span style={{ color: "var(--v2-ink-200)" }}>ADMIN_PASSWORD</span>
+          {" + "}
+          <span style={{ color: "var(--v2-ink-200)" }}>ADMIN_TOTP_SECRET</span>
           {" IN "}
           <span style={{ color: "var(--v2-ink-200)" }}>.env.local</span>
           {" · COOKIE EXPIRES 7D"}

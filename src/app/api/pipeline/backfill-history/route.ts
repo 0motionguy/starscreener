@@ -15,17 +15,27 @@
 //     durationMs }
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import { ensureSeededAsync } from "@/lib/pipeline/pipeline";
 import { backfillStargazerHistory } from "@/lib/pipeline/ingestion/stargazer-backfill";
 import { stores } from "@/lib/pipeline/storage/singleton";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
 import { getGitHubTokenPool } from "@/lib/github-token-pool";
+import { redactSensitiveText } from "@/lib/log-redaction";
 
 export const runtime = "nodejs";
 
 export const maxDuration = 300;
 
 const FULL_NAME_PATTERN = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;
+const BackfillHistoryBodySchema = z.object({
+  fullName: z
+    .string()
+    .trim()
+    .regex(FULL_NAME_PATTERN, "fullName must be in the form 'owner/repo'"),
+  maxPages: z.number().finite().positive().optional(),
+});
 
 export interface BackfillHistoryResponse {
   ok: true;
@@ -51,36 +61,14 @@ export async function POST(
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny as NextResponse<BackfillHistoryErrorResponse>;
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json(
-      { ok: false, reason: "invalid JSON body" },
-      { status: 400 },
-    );
-  }
-
-  if (typeof body !== "object" || body === null) {
-    return NextResponse.json(
-      { ok: false, reason: "body must be an object" },
-      { status: 400 },
-    );
-  }
-  const { fullName, maxPages } = body as {
-    fullName?: unknown;
-    maxPages?: unknown;
-  };
-
-  if (typeof fullName !== "string" || !FULL_NAME_PATTERN.test(fullName)) {
-    return NextResponse.json(
-      { ok: false, reason: "fullName must be in the form 'owner/repo'" },
-      { status: 400 },
-    );
-  }
+  const parsed = await parseBody(request, BackfillHistoryBodySchema, {
+    publicMessage: "fullName must be in the form 'owner/repo'",
+  });
+  if (!parsed.ok) return parsed.response;
+  const { fullName, maxPages } = parsed.data;
 
   const maxPagesSafe =
-    typeof maxPages === "number" && Number.isFinite(maxPages) && maxPages > 0
+    typeof maxPages === "number"
       ? Math.min(Math.floor(maxPages), 200)
       : undefined;
 
@@ -115,12 +103,13 @@ export async function POST(
       durationMs: Date.now() - startedAt,
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.error("[pipeline:backfill-history] unexpected error", err);
+    const rawMessage = err instanceof Error ? err.message : String(err);
+    const message = redactSensitiveText(rawMessage);
+    console.error("[pipeline:backfill-history] unexpected error", { message });
     return NextResponse.json(
       {
         ok: false,
-        reason: `internal error: ${message}`,
+        reason: "internal error",
         durationMs: Date.now() - startedAt,
       },
       { status: 500 },

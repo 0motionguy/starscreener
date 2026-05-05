@@ -21,10 +21,10 @@
 // selected id, we synthesize a fallback ok:false bundle so the banner card
 // still renders in error state — per-repo failures never block siblings.
 
-import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
+import * as Sentry from "@sentry/nextjs";
 import {
   CircleDot,
   GitCommit,
@@ -42,6 +42,7 @@ import { LanguageBar } from "@/components/compare/LanguageBar";
 import { ContributorGrid } from "@/components/compare/ContributorGrid";
 import { WinnerChips } from "@/components/compare/WinnerChips";
 import { StatIcon } from "@/components/compare/StatIcon";
+import { EntityLogo } from "@/components/ui/EntityLogo";
 import {
   compareIdToFallbackFullName,
   resolveCompareFullNames,
@@ -115,7 +116,8 @@ function sumCommitsLastWeeks(bundle: CompareRepoBundle, weeks: number): number {
   const slice = series.slice(-weeks);
   let total = 0;
   for (const w of slice) {
-    for (const d of w.days) total += Number.isFinite(d) ? d : 0;
+    const days = Array.isArray(w?.days) ? w.days : [];
+    for (const d of days) total += Number.isFinite(d) ? d : 0;
   }
   return total;
 }
@@ -229,6 +231,9 @@ export function CompareClient({
         setBundles(Array.isArray(data.bundles) ? data.bundles : []);
       } catch (err) {
         if ((err as { name?: string }).name === "AbortError") return;
+        Sentry.captureException(err, {
+          tags: { surface: "compare-client", action: "fetch-github-bundles" },
+        });
         console.error("[compare] /api/compare/github failed", err);
         setBundles([]);
       } finally {
@@ -631,17 +636,14 @@ function PulseCard({ bundle, accent }: BundleWithAccent) {
       style={{ borderLeft: `3px solid ${accent}` }}
     >
       <div className="flex items-center gap-2 min-w-0">
-        {bundle.avatarUrl ? (
-          <Image
-            src={bundle.avatarUrl}
-            alt=""
-            width={24}
-            height={24}
-            className="size-6 rounded-full bg-bg-card-hover shrink-0"
-          />
-        ) : (
-          <div className="size-6 rounded-full bg-bg-card-hover shrink-0" />
-        )}
+        <EntityLogo
+          src={bundle.avatarUrl}
+          name={fullName}
+          alt=""
+          size={24}
+          shape="circle"
+          className="shrink-0"
+        />
         <p className="text-sm font-medium text-text-primary truncate">
           {fullName}
         </p>
@@ -694,17 +696,14 @@ function RepoSubHeader({
       style={{ borderLeft: `3px solid ${accent}` }}
     >
       <div className="flex items-center gap-2 mb-3 min-w-0">
-        {bundle.avatarUrl ? (
-          <Image
-            src={bundle.avatarUrl}
-            alt=""
-            width={24}
-            height={24}
-            className="size-6 rounded-full bg-bg-card-hover shrink-0"
-          />
-        ) : (
-          <div className="size-6 rounded-full bg-bg-card-hover shrink-0" />
-        )}
+        <EntityLogo
+          src={bundle.avatarUrl}
+          name={fullName}
+          alt=""
+          size={24}
+          shape="circle"
+          className="shrink-0"
+        />
         <p className="text-[18px] font-medium text-text-primary truncate">
           {fullName}
         </p>

@@ -12,7 +12,7 @@
 // Reads from committed JSON so the homepage renders on cold lambdas.
 
 import { NextRequest, NextResponse } from "next/server";
-import { errorEnvelope } from "@/lib/api/error-response";
+import { errorEnvelope, serverError } from "@/lib/api/error-response";
 import { applyTerminalTabFilter, trendScoreForTimeRange } from "@/lib/filters";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import type {
@@ -333,7 +333,11 @@ export async function GET(
       },
     );
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(errorEnvelope(message), { status: 500 });
+    return serverError(err, {
+      scope: "[api/pipeline/featured:GET]",
+      publicMessage: "server error",
+      code: "PIPELINE_FEATURED_READ_FAILED",
+      status: 500,
+    });
   }
 }

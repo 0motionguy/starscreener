@@ -18,10 +18,17 @@ import { OG_CACHE_HEADERS, OG_COLORS } from "@/lib/seo";
 import { StarMark } from "@/lib/og-primitives";
 
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 export const alt = "TrendingRepo — Repo momentum card";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+const IMAGE_RESPONSE_OPTIONS = {
+  ...size,
+  headers: {
+    "cache-control": "public, s-maxage=300, stale-while-revalidate=3600",
+  },
+};
 
 const DESCRIPTION_MAX = 120;
 const SPARKLINE_MIN_POINTS = 7;
@@ -90,8 +97,8 @@ export default async function RepoOGImage({ params }: RouteParams) {
           </div>
         </div>
       ),
-      { ...size, headers: OG_CACHE_HEADERS },
-    );
+    IMAGE_RESPONSE_OPTIONS,
+  );
   }
 
   const category = CATEGORIES.find((c) => c.id === repo.categoryId);
@@ -299,7 +306,7 @@ export default async function RepoOGImage({ params }: RouteParams) {
         />
       </div>
     ),
-    { ...size, headers: OG_CACHE_HEADERS },
+    IMAGE_RESPONSE_OPTIONS,
   );
 }
 

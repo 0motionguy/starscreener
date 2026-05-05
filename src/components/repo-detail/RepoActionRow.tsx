@@ -10,6 +10,7 @@
 
 import { useCallback } from "react";
 import { Eye, EyeOff, GitCompareArrows, ExternalLink } from "lucide-react";
+import posthog from "posthog-js";
 import type { Repo } from "@/lib/types";
 import { useWatchlistStore, useCompareStore } from "@/lib/store";
 import {
@@ -83,6 +84,7 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
   }, [isComparing, addCompare, removeCompare, repo.id]);
 
   const compareDisabled = !isComparing && isFull;
+  const githubHref = repo.url || `https://github.com/${repo.fullName}`;
 
   return (
     <div className="flex flex-wrap items-center gap-2">
@@ -128,7 +130,19 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
       </button>
 
       <a
-        href={repo.url || `https://github.com/${repo.fullName}`}
+        href={githubHref}
+        onClick={() => {
+          try {
+            posthog.capture("repo_detail_flow", {
+              action: "github_click",
+              repo_id: repo.id,
+              repo_full_name: repo.fullName,
+              target_host: "github.com",
+            });
+          } catch {
+            // Best-effort analytics only.
+          }
+        }}
         target="_blank"
         rel="noopener noreferrer"
         onClick={handleGithubClick}

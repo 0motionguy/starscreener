@@ -21,11 +21,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
 
+import { respondWithSizeGuard } from "@/lib/api/response-size";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { getTwitterRepoPanel } from "@/lib/twitter/service";
+import { getLaunchForRepo } from "@/lib/producthunt";
+import { getLobstersMentions, lobstersStoryHref } from "@/lib/lobsters";
+import { getNpmPackagesForRepo } from "@/lib/npm";
+import { getHfTrendingFile } from "@/lib/huggingface";
+import { getArxivRecentFile } from "@/lib/arxiv";
 import { pipeline, mentionStore } from "@/lib/pipeline/pipeline";
+import type { RepoMention } from "@/lib/pipeline/types";
 import type {
   MentionPageCursor,
-  MentionListOptions,
 } from "@/lib/pipeline/storage/memory-stores";
 import type { SocialPlatform } from "@/lib/types";
 
@@ -61,6 +68,189 @@ interface ErrorEnvelope {
   ok: false;
   error: string;
   code?: string;
+}
+
+function sortMentionsNewestFirst(a: RepoMention, b: RepoMention): number {
+  if (a.postedAt !== b.postedAt) return a.postedAt < b.postedAt ? 1 : -1;
+  return a.id < b.id ? 1 : a.id > b.id ? -1 : 0;
+}
+
+function applyCursor(
+  mentions: RepoMention[],
+  cursor: MentionPageCursor | undefined,
+): RepoMention[] {
+  if (!cursor) return mentions;
+  return mentions.filter((m) => {
+    if (m.postedAt < cursor.postedAt) return true;
+    if (m.postedAt > cursor.postedAt) return false;
+    return m.id < cursor.id;
+  });
+}
+
+async function buildUnifiedMentions(fullName: string, repoId: string): Promise<RepoMention[]> {
+  const [twitter, productHunt] = await Promise.all([
+    getTwitterRepoPanel(fullName),
+    Promise.resolve(getLaunchForRepo(fullName)),
+  ]);
+  const nowIso = new Date().toISOString();
+  const out: RepoMention[] = [];
+
+  for (const post of twitter?.topPosts ?? []) {
+    const confidence =
+      post.confidence === "high" ? 1.0 : post.confidence === "medium" ? 0.6 : 0.3;
+    out.push({
+      id: `twitter-${post.postId}`,
+      repoId,
+      platform: "twitter",
+      author: post.authorHandle,
+      authorFollowers: null,
+      content: post.text,
+      url: post.postUrl,
+      sentiment: "neutral",
+      engagement: post.engagement ?? 0,
+      reach: 0,
+      postedAt: post.postedAt,
+      discoveredAt: nowIso,
+      isInfluencer: false,
+      confidence,
+      matchReason: post.matchedBy,
+      normalizedUrl: post.postUrl,
+    });
+  }
+
+  if (productHunt) {
+    out.push({
+      id: `producthunt-${productHunt.id}`,
+      repoId,
+      platform: "producthunt",
+      author: productHunt.makers?.[0]?.username ?? productHunt.name,
+      authorFollowers: null,
+      content: productHunt.tagline || productHunt.description || productHunt.name,
+      url: productHunt.url,
+      sentiment: "neutral",
+      engagement: (productHunt.votesCount ?? 0) + (productHunt.commentsCount ?? 0),
+      reach: 0,
+      postedAt: productHunt.createdAt,
+      discoveredAt: nowIso,
+      isInfluencer: false,
+      confidence: 1.0,
+      matchReason: "github_repo_field",
+      normalizedUrl: productHunt.url,
+    });
+  }
+
+  const lobstersStories = getLobstersMentions(fullName)?.stories ?? [];
+  for (const story of lobstersStories) {
+    const postedAt =
+      typeof story.createdUtc === "number" && Number.isFinite(story.createdUtc)
+        ? new Date(story.createdUtc * 1000).toISOString()
+        : nowIso;
+    out.push({
+      id: `lobsters-${story.shortId}`,
+      repoId,
+      platform: "lobsters",
+      author: story.by ?? "",
+      authorFollowers: null,
+      content: story.title,
+      url: story.commentsUrl || lobstersStoryHref(story.shortId),
+      sentiment: "neutral",
+      engagement: (story.score ?? 0) + (story.commentCount ?? 0),
+      reach: 0,
+      postedAt,
+      discoveredAt: nowIso,
+      isInfluencer: false,
+      confidence: 1.0,
+      matchReason: story.linkedRepos?.[0]?.matchType ?? "url_link",
+      normalizedUrl: story.url,
+    });
+  }
+
+  const npmPackages = getNpmPackagesForRepo(fullName);
+  for (const pkg of npmPackages) {
+    if (!pkg.publishedAt) continue;
+    out.push({
+      id: `npm-${pkg.name}`,
+      repoId,
+      platform: "npm",
+      author: pkg.name,
+      authorFollowers: null,
+      content: pkg.description?.trim() ? `${pkg.name} - ${pkg.description}` : pkg.name,
+      url: pkg.npmUrl,
+      sentiment: "neutral",
+      engagement: pkg.discovery?.weeklyDownloads ?? pkg.downloads7d ?? 0,
+      reach: 0,
+      postedAt: pkg.publishedAt,
+      discoveredAt: nowIso,
+      isInfluencer: false,
+      confidence: 1.0,
+      matchReason: "linked_repo_field",
+      normalizedUrl: pkg.npmUrl,
+    });
+  }
+
+  const hfModels = getHfTrendingFile().models ?? [];
+  const linkedHf = getDerivedRepoByFullName(fullName)?.linkedHfModels ?? [];
+  const hfById = new Map(hfModels.map((m) => [m.id, m]));
+  for (const modelId of linkedHf) {
+    const model = hfById.get(modelId);
+    if (!model) continue;
+    out.push({
+      id: `huggingface-${model.id}`,
+      repoId,
+      platform: "huggingface",
+      author: model.author ?? "",
+      authorFollowers: null,
+      content: model.id,
+      url: model.url,
+      sentiment: "neutral",
+      engagement: (model.likes ?? 0) + (model.downloads ?? 0),
+      reach: 0,
+      postedAt: model.lastModified || model.createdAt || nowIso,
+      discoveredAt: nowIso,
+      isInfluencer: false,
+      confidence: 1.0,
+      matchReason: "cross_domain_join",
+      normalizedUrl: model.url,
+    });
+  }
+
+  const arxivPapers = getArxivRecentFile().papers ?? [];
+  const linkedArxiv = new Set(
+    (getDerivedRepoByFullName(fullName)?.linkedArxivIds ?? []).map((id) =>
+      id.replace(/v\d+$/i, ""),
+    ),
+  );
+  const lowerFull = fullName.toLowerCase();
+  for (const paper of arxivPapers) {
+    const bare = paper.arxivId.replace(/v\d+$/i, "");
+    if (
+      !linkedArxiv.has(bare) &&
+      !paper.linkedRepos?.some((r) => r.fullName?.toLowerCase() === lowerFull)
+    ) {
+      continue;
+    }
+    if (out.some((m) => m.id === `arxiv-${bare}`)) continue;
+    out.push({
+      id: `arxiv-${bare}`,
+      repoId,
+      platform: "arxiv",
+      author: paper.authors?.[0] ?? "",
+      authorFollowers: null,
+      content: paper.title,
+      url: paper.absUrl,
+      sentiment: "neutral",
+      engagement: 0,
+      reach: 0,
+      postedAt: paper.publishedAt,
+      discoveredAt: nowIso,
+      isInfluencer: false,
+      confidence: 1.0,
+      matchReason: "paper_citation",
+      normalizedUrl: paper.absUrl,
+    });
+  }
+
+  return out;
 }
 
 function errorResponse(
@@ -196,22 +386,35 @@ export async function GET(
   // Defensive try/catch so internal errors never leak a stack trace via the
   // response body — map to a generic 500 with a stable shape.
   try {
-    const opts: MentionListOptions = { limit };
-    if (source) opts.source = source;
-    if (cursor) opts.cursor = cursor;
+    const baseMentions = mentionStore.listForRepo(repo.id);
+    const unifiedMentions = await buildUnifiedMentions(repo.fullName, repo.id);
+    const merged = [...baseMentions, ...unifiedMentions].sort(sortMentionsNewestFirst);
+    const scoped = source ? merged.filter((m) => m.platform === source) : merged;
+    const afterCursor = applyCursor(scoped, cursor);
+    const items = afterCursor.slice(0, limit);
+    const hasMore = afterCursor.length > limit;
+    const nextCursor =
+      hasMore && items.length > 0
+        ? encodeCursor({
+            postedAt: items[items.length - 1].postedAt,
+            id: items[items.length - 1].id,
+          })
+        : null;
 
-    const page = mentionStore.listForRepoPaginated(repo.id, opts);
-
-    return NextResponse.json(
+    return respondWithSizeGuard(
       {
         ok: true,
         fetchedAt: new Date().toISOString(),
         repo: repo.fullName,
-        count: page.items.length,
-        nextCursor: page.nextCursor ? encodeCursor(page.nextCursor) : null,
-        items: page.items,
+        count: items.length,
+        nextCursor,
+        items,
       },
-      { headers: MENTIONS_CACHE_HEADERS },
+      {
+        headers: MENTIONS_CACHE_HEADERS,
+        route: "/api/repos/[owner]/[name]/mentions",
+        arrayKeys: ["items"],
+      },
     );
   } catch (err) {
     console.error(

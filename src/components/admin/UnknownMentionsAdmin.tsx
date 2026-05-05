@@ -15,6 +15,7 @@ import {
   ExternalLink,
   LoaderCircle,
   RefreshCw,
+  RotateCcw,
   Search,
   ShieldAlert,
 } from "lucide-react";
@@ -191,6 +192,17 @@ export function UnknownMentionsAdmin({
             placeholder="Filter by repo or source…"
             className="flex-1 rounded-md border border-border-primary bg-bg-muted px-3 py-1.5 font-mono text-xs text-text-primary placeholder:text-text-tertiary"
           />
+          {filter.trim().length > 0 ? (
+            <button
+              type="button"
+              onClick={() => setFilter("")}
+              className="inline-flex items-center gap-1 rounded-md border border-border-primary bg-bg-muted px-2.5 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-wider text-text-secondary hover:text-text-primary"
+              aria-label="Clear filter"
+            >
+              <RotateCcw className="size-3" aria-hidden />
+              Clear
+            </button>
+          ) : null}
           <span className="font-mono text-[11px] text-text-tertiary">
             {filtered.length} / {data.rows.length}
           </span>

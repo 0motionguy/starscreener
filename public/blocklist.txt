@@ -1,0 +1,12 @@
+# STARSCREENER platform blocklist
+# Format per line:
+#   <IPv4-or-CIDR> <ASN> <label>
+# Notes:
+# - Middleware consumes IPv4 / CIDR and blocks /api/admin/* /api/pipeline/* /api/worker/* early.
+# - ASN token is for operator review context and audit traceability.
+# - Keep entries tight (single IP or narrow CIDR), never broad ASN-wide null routes.
+
+# Known scraper infrastructure (HARD-9 baseline)
+167.94.138.0/24 AS398324 CENSYS
+198.20.69.0/24 AS9009 SHODAN
+206.168.34.0/24 AS14061 DIGITALOCEAN-SCRAPER-COHORT

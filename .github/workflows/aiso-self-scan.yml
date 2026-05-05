@@ -1,12 +1,12 @@
-name: AISO daily self-scan dogfood
+﻿name: AISO monthly self-scan dogfood
 
 # Once a day, run aiso.tools' OWN scan against itself. Two wins:
 #
-# 1. MARKETING — proves the product works on the canonical case ("if AISO
+# 1. MARKETING â€” proves the product works on the canonical case ("if AISO
 #    can't score AISO well, why would I pay for it?"). Auto-published
 #    score over time becomes a public credibility signal.
 #
-# 2. REGRESSION CATCH — the scanner has 9 dimensions. If aiso.tools' own
+# 2. REGRESSION CATCH â€” the scanner has 9 dimensions. If aiso.tools' own
 #    score drops 10+ points day-over-day, something broke in the scanner
 #    OR something on aiso.tools regressed. Either way, signal worth a
 #    look the same morning instead of 6 weeks later.
@@ -24,7 +24,7 @@ name: AISO daily self-scan dogfood
 
 on:
   schedule:
-    - cron: "17 3 * * *" # 03:17 UTC = 11:17am Bali / 8:17pm PT — off-peak
+    - cron: "17 3 1 * *" # 03:17 UTC on day 1 = 11:17am Bali / 8:17pm PT (monthly, off-peak)
   workflow_dispatch:
 
 permissions:
@@ -42,7 +42,7 @@ jobs:
           set +e
           start=$(date +%s%3N)
           # Submit the scan. AISO API expects { url, mode } per the existing
-          # /api/scan/route handler — homepage = the 1-page diagnostic, fastest
+          # /api/scan/route handler â€” homepage = the 1-page diagnostic, fastest
           # tier, costs nothing for free users.
           resp=$(curl -s -w "\n__HTTP__%{http_code}" --max-time 30 \
             -X POST "https://aiso.tools/api/scan" \
@@ -88,7 +88,9 @@ jobs:
 
           echo "  http=$status  scanId=$scan_id  err=$err  latency=${latency}ms  ok=$ok"
 
-          # Job RED on failure → GitHub auto-emails on workflow failure.
+          # Job RED on failure â†’ GitHub auto-emails on workflow failure.
           if [ "$ok" != "true" ]; then
             exit 1
           fi
+
+

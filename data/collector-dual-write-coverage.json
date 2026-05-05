@@ -1,0 +1,931 @@
+{
+  "generatedAt": "2026-05-05T00:20:46.878Z",
+  "issue": "AGN-1444",
+  "scope": "Workflow-invoked collector scripts under scripts/",
+  "summary": {
+    "workflowsScanned": 41,
+    "scriptsScanned": 37,
+    "covered": 37,
+    "uncovered": 0
+  },
+  "top12KeyCoverage": {
+    "total": 12,
+    "covered": 12,
+    "uncovered": 0,
+    "rows": [
+      {
+        "key": "trending",
+        "writerFile": "scripts/scrape-trending.mjs",
+        "readerFile": "src/lib/trending.ts",
+        "refreshFn": "refreshTrendingFromStore",
+        "workflow": ".github/workflows/scrape-trending.yml",
+        "hasWriter": true,
+        "hasReader": true,
+        "cron": "7,27,47 * * * *",
+        "covered": true
+      },
+      {
+        "key": "reddit-mentions",
+        "writerFile": "scripts/scrape-reddit.mjs",
+        "readerFile": "src/lib/reddit-data.ts",
+        "refreshFn": "refreshRedditMentionsFromStore",
+        "workflow": ".github/workflows/scrape-trending.yml",
+        "hasWriter": true,
+        "hasReader": true,
+        "cron": "7,27,47 * * * *",
+        "covered": true
+      },
+      {
+        "key": "hackernews-repo-mentions",
+        "writerFile": "scripts/scrape-hackernews.mjs",
+        "readerFile": "src/lib/hackernews.ts",
+        "refreshFn": "refreshHackernewsMentionsFromStore",
+        "workflow": ".github/workflows/scrape-trending.yml",
+        "hasWriter": true,
+        "hasReader": true,
+        "cron": "7,27,47 * * * *",
+        "covered": true
+      },
+      {
+        "key": "bluesky-mentions",
+        "writerFile": "scripts/scrape-bluesky.mjs",
+        "readerFile": "src/lib/bluesky.ts",
+        "refreshFn": "refreshBlueskyMentionsFromStore",
+        "workflow": ".github/workflows/scrape-bluesky.yml",
+        "hasWriter": true,
+        "hasReader": true,
+        "cron": "17 * * * *",
+        "covered": true
+      },
+      {
+        "key": "devto-mentions",
+        "writerFile": "scripts/scrape-devto.mjs",
+        "readerFile": "src/lib/devto.ts",
+        "refreshFn": "refreshDevtoMentionsFromStore",
+        "workflow": ".github/workflows/scrape-devto.yml",
+        "hasWriter": true,
+        "hasReader": true,
+        "cron": "18 */6 * * *",
+        "covered": true
+      },
+      {
+        "key": "lobsters-mentions",
+        "writerFile": "scripts/scrape-lobsters.mjs",
+        "readerFile": "src/lib/lobsters.ts",
+        "refreshFn": "refreshLobstersMentionsFromStore",
+        "workflow": ".github/workflows/scrape-lobsters.yml",
+        "hasWriter": true,
+        "hasReader": true,
+        "cron": "37 * * * *",
+        "covered": true
+      },
+      {
+        "key": "twitter-repo-signals",
+        "writerFile": "scripts/collect-twitter-signals.ts",
+        "readerFile": "src/lib/twitter/signal-data.ts",
+        "refreshFn": "refreshTwitterSignalsFromStore",
+        "workflow": ".github/workflows/collect-twitter.yml",
+        "hasWriter": true,
+        "hasReader": true,
+        "cron": "0 */3 * * *",
+        "covered": true
+      },
+      {
+        "key": "producthunt-launches",
+        "writerFile": "scripts/scrape-producthunt.mjs",
+        "readerFile": "src/lib/producthunt.ts",
+        "refreshFn": "refreshProducthuntLaunchesFromStore",
+        "workflow": ".github/workflows/scrape-producthunt.yml",
+        "hasWriter": true,
+        "hasReader": true,
+        "cron": "22 11,15,19,23 * * *",
+        "covered": true
+      },
+      {
+        "key": "npm-packages",
+        "writerFile": "scripts/scrape-npm.mjs",
+        "readerFile": "src/lib/npm.ts",
+        "refreshFn": "refreshNpmFromStore",
+        "workflow": ".github/workflows/scrape-npm.yml",
+        "hasWriter": true,
+        "hasReader": true,
+        "cron": "17 9 * * *",
+        "covered": true
+      },
+      {
+        "key": "huggingface-trending",
+        "writerFile": "scripts/scrape-huggingface.mjs",
+        "readerFile": "src/lib/huggingface.ts",
+        "refreshFn": "refreshHfModelsFromStore",
+        "workflow": ".github/workflows/scrape-huggingface.yml",
+        "hasWriter": true,
+        "hasReader": true,
+        "cron": "13 */6 * * *",
+        "covered": true
+      },
+      {
+        "key": "arxiv-recent",
+        "writerFile": "scripts/scrape-arxiv.mjs",
+        "readerFile": "src/lib/arxiv.ts",
+        "refreshFn": "refreshArxivFromStore",
+        "workflow": ".github/workflows/scrape-arxiv.yml",
+        "hasWriter": true,
+        "hasReader": true,
+        "cron": "43 */3 * * *",
+        "covered": true
+      },
+      {
+        "key": "funding-news",
+        "writerFile": "scripts/scrape-funding-news.mjs",
+        "readerFile": "src/lib/funding-news.ts",
+        "refreshFn": "refreshFundingNewsFromStore",
+        "workflow": ".github/workflows/collect-funding.yml",
+        "hasWriter": true,
+        "hasReader": true,
+        "cron": "0 */6 * * *",
+        "covered": true
+      }
+    ]
+  },
+  "uncovered": [],
+  "workflows": [
+    {
+      "workflow": "aiso-self-scan.yml",
+      "scripts": [],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "collect-funding.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/scrape-funding-crunchbase.ts",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        },
+        {
+          "scriptPath": "scripts/scrape-funding-news.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "collect-twitter.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/collect-twitter-signals.ts",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "enrich-arxiv.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/enrich-arxiv.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "enrich-repo-profiles.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/build-repo-autocompletion-checklist.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        },
+        {
+          "scriptPath": "scripts/enrich-repo-profiles.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        },
+        {
+          "scriptPath": "scripts/verify-repo-profile-coverage.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "ping-mcp-liveness.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/ping-mcp-liveness.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "promote-unknown-mentions.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/promote-unknown-mentions.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "refresh-collection-rankings.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/scrape-trending.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "refresh-hotness-snapshot.yml",
+      "scripts": [],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "refresh-mcp-dependents.yml",
+      "scripts": [],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "refresh-mcp-smithery-rank.yml",
+      "scripts": [],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "refresh-mcp-usage-snapshot.yml",
+      "scripts": [],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "refresh-npm-downloads.yml",
+      "scripts": [],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "refresh-pypi-downloads.yml",
+      "scripts": [],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "refresh-reddit-baselines.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/compute-reddit-baselines.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        },
+        {
+          "scriptPath": "scripts/scrape-reddit.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "refresh-skill-claude.yml",
+      "scripts": [],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "refresh-skill-derivatives.yml",
+      "scripts": [],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "refresh-skill-forks-snapshot.yml",
+      "scripts": [],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "refresh-skill-install-snapshot.yml",
+      "scripts": [],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "refresh-skill-lobehub.yml",
+      "scripts": [],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "refresh-skill-skillsmp.yml",
+      "scripts": [],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "refresh-skill-smithery.yml",
+      "scripts": [],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "refresh-star-activity.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/append-star-activity.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "run-shadow-scoring.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/run-shadow-scoring.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "scrape-arxiv.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/scrape-arxiv.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "scrape-awesome-skills.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/scrape-awesome-skills.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "scrape-bluesky.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/scrape-bluesky.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "scrape-claude-rss.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/scrape-claude-rss.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "scrape-devto.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/scrape-devto.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "scrape-huggingface-datasets.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/scrape-huggingface-datasets.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "scrape-huggingface-spaces.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/scrape-huggingface-spaces.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "scrape-huggingface.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/scrape-huggingface.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "scrape-lobsters.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/scrape-lobsters.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "scrape-npm.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/scrape-npm.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "scrape-openai-rss.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/scrape-openai-rss.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "scrape-producthunt.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/scrape-producthunt.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "scrape-trending.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/compute-deltas.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        },
+        {
+          "scriptPath": "scripts/discover-recent-repos.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        },
+        {
+          "scriptPath": "scripts/fetch-repo-metadata.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        },
+        {
+          "scriptPath": "scripts/scrape-hackernews.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        },
+        {
+          "scriptPath": "scripts/scrape-reddit.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        },
+        {
+          "scriptPath": "scripts/scrape-trending.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        },
+        {
+          "scriptPath": "scripts/snapshot-category-metrics.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        },
+        {
+          "scriptPath": "scripts/snapshot-stars.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "snapshot-consensus.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/snapshot-consensus.ts",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": false,
+            "hasLegacyCall": false,
+            "hasStoreImport": true,
+            "hasStoreWriteCall": true,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "snapshot-top10-sparklines.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/snapshot-top10-sparklines.ts",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": false,
+            "hasLegacyCall": false,
+            "hasStoreImport": true,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": true
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "snapshot-top10.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/snapshot-top10.ts",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": false,
+            "hasLegacyCall": false,
+            "hasStoreImport": true,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": true,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    },
+    {
+      "workflow": "sync-trustmrr.yml",
+      "scripts": [
+        {
+          "scriptPath": "scripts/compute-revenue-benchmarks.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        },
+        {
+          "scriptPath": "scripts/sync-trustmrr.mjs",
+          "dualWrite": true,
+          "hasImport": true,
+          "hasCall": true,
+          "detection": {
+            "hasLegacyImport": true,
+            "hasLegacyCall": true,
+            "hasStoreImport": false,
+            "hasStoreWriteCall": false,
+            "hasSnapshotHelperWrite": false,
+            "hasSparklineAppendWrite": false
+          }
+        }
+      ],
+      "allDualWrite": true
+    }
+  ]
+}

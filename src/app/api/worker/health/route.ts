@@ -26,7 +26,9 @@
 // worker-fleet view.
 
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 import { getDataStore } from "@/lib/data-store";
+import { verifyAdminAuth, verifyCronAuth } from "@/lib/api/auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -138,6 +140,16 @@ interface HealthResponse {
   slugs: SlugHealth[];
 }
 
+type PublicWorkerHealthResponse = Omit<HealthResponse, "slugs">;
+
+function canViewDetail(request: NextRequest): boolean {
+  const cronSecret = process.env.CRON_SECRET?.trim();
+  return (
+    (cronSecret ? verifyCronAuth(request).kind === "ok" : false) ||
+    verifyAdminAuth(request).kind === "ok"
+  );
+}
+
 function classifyAge(
   ageSec: number | null,
   cadenceMin: number,
@@ -158,7 +170,11 @@ function classifyAge(
 // Route handler
 // ---------------------------------------------------------------------------
 
-export async function GET(): Promise<NextResponse<HealthResponse>> {
+export async function GET(
+  request: NextRequest,
+): Promise<NextResponse<HealthResponse | PublicWorkerHealthResponse>> {
+  const wantsDetail = request.nextUrl.searchParams.get("detail") === "1";
+  const includeDetail = wantsDetail && canViewDetail(request);
   const store = getDataStore();
   const now = Date.now();
 
@@ -210,13 +226,29 @@ export async function GET(): Promise<NextResponse<HealthResponse>> {
 
   const ok = summary.blockingRed === 0 && summary.blockingMissing === 0;
 
-  return NextResponse.json(
-    {
+  const body: HealthResponse = {
       ok,
       generatedAt: new Date().toISOString(),
       summary,
       slugs: probes,
-    },
+    };
+
+  if (!includeDetail) {
+    const publicBody: PublicWorkerHealthResponse = {
+      ok: body.ok,
+      generatedAt: body.generatedAt,
+      summary: body.summary,
+    };
+    return NextResponse.json(publicBody, {
+      status: ok ? 200 : 503,
+      headers: {
+        "Cache-Control": "public, s-maxage=30, stale-while-revalidate=60",
+      },
+    });
+  }
+
+  return NextResponse.json(
+    body,
     {
       status: ok ? 200 : 503,
       headers: {

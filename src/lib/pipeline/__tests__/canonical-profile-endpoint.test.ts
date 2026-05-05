@@ -27,6 +27,7 @@ import assert from "node:assert/strict";
 
 import type { RepoMention } from "../types";
 import { mentionStore } from "../storage/singleton";
+import { makeMention } from "../../../test-utils/factories";
 
 // ---------------------------------------------------------------------------
 // Fixture repo — shared with mentions-endpoint.test.ts for the same reason:
@@ -46,21 +47,12 @@ function mkMention(
     platform: RepoMention["platform"];
   },
 ): RepoMention {
-  return {
-    id: overrides.id,
-    repoId: overrides.repoId ?? FIXTURE_REPO_ID,
-    platform: overrides.platform,
-    author: overrides.author ?? "alice",
-    authorFollowers: overrides.authorFollowers ?? null,
-    content: overrides.content ?? "test content",
-    url: overrides.url ?? `https://example.com/${overrides.id}`,
-    sentiment: overrides.sentiment ?? "neutral",
-    engagement: overrides.engagement ?? 0,
-    reach: overrides.reach ?? 0,
-    postedAt: overrides.postedAt,
-    discoveredAt: overrides.discoveredAt ?? overrides.postedAt,
-    isInfluencer: overrides.isInfluencer ?? false,
-  };
+  return makeMention({
+    repoId: FIXTURE_REPO_ID,
+    url: `https://example.com/${overrides.id}`,
+    discoveredAt: overrides.postedAt,
+    ...overrides,
+  });
 }
 
 function buildSeedMentions(): RepoMention[] {

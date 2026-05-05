@@ -13,6 +13,7 @@ import { MessageSquare, ChevronUp } from "lucide-react";
 import { LaunchLinkIcons } from "@/components/producthunt/LaunchLinkIcons";
 import {
   getAiLaunches,
+  getProducthuntFetchedAt,
   getRecentLaunches,
   producthuntCold,
   refreshProducthuntLaunchesFromStore,
@@ -23,8 +24,9 @@ import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
-import { LiveDot } from "@/components/ui/LiveDot";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { absoluteUrl } from "@/lib/seo";
+import { classifyFreshness } from "@/lib/news/freshness";
 
 const PH_RED = "#DA552F";
 
@@ -117,10 +119,10 @@ export default async function ProductHuntPage({
     .sort((a, b) => b.votesCount - a.votesCount)
     .slice(0, 50);
 
-  // Pull lastFetchedAt off the loader's getter — we don't need to import
-  // the file shape directly because getPhFile() drives off the same cache.
-  // The clock value is fine to fall back to "warming" when the store is cold.
-  const fetchedAt = !cold ? topLaunches[0]?.createdAt : undefined;
+  // Route-level freshness must come from source fetch time, not newest post
+  // time, so RED/YELLOW product freshness is visible in the UI.
+  const fetchedAt = getProducthuntFetchedAt() || undefined;
+  const freshness = classifyFreshness("producthunt", fetchedAt ?? null);
 
   if (cold) {
     return (
@@ -163,8 +165,13 @@ export default async function ProductHuntPage({
         clock={
           <>
             <span className="big">{formatClock(fetchedAt)}</span>
-            <span className="muted">UTC · LATEST POST</span>
-            <LiveDot label="FRESH · 4H" />
+            <span className="muted">UTC · LAST SCRAPE</span>
+            <FreshnessBadge source="producthunt" lastUpdatedAt={fetchedAt ?? null} />
+            {freshness.status === "cold" ? (
+              <span className="muted">Data stale — ranking may be outdated</span>
+            ) : freshness.status === "warn" ? (
+              <span className="muted">Data delayed — refresh exceeded warn threshold</span>
+            ) : null}
           </>
         }
         snapshot={

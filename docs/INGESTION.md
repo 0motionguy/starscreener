@@ -1,3 +1,9 @@
+---
+status: living
+last-verified: 2026-05-05
+verified-by: claude (drift audit — scrape cadence at :07, dual-write via scripts/_data-store-write.mjs, Redis-as-truth phase 4 all verified)
+---
+
 # TrendingRepo Ingestion — Operator Guide
 
 ## Ingestion

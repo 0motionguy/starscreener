@@ -1,17 +1,30 @@
 import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import type { AnchorHTMLAttributes } from "react";
 
 import { RepoCard } from "@/components/feed/RepoCard";
 import type { Repo } from "@/lib/types";
 
+// Mock next/image -> plain <img>. Strip the next/image-only props.
 vi.mock("next/image", () => ({
-  default: ({ loader, priority, unoptimized, fetchPriority, ...props }: any) => (
-    <img {...props} />
+  default: ({
+    loader: _loader,
+    priority: _priority,
+    unoptimized: _unoptimized,
+    fetchPriority: _fetchPriority,
+    ...props
+  }: Record<string, unknown> & { alt?: string }) => (
+    <img alt={props.alt ?? ""} {...(props as Record<string, unknown>)} />
   ),
 }));
 
 vi.mock("@/components/repo/RepoHoverPrefetchLink", () => ({
-  RepoHoverPrefetchLink: ({ href, className, style, children }: any) => (
+  RepoHoverPrefetchLink: ({
+    href,
+    className,
+    style,
+    children,
+  }: AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a href={href} className={className} style={style}>
       {children}
     </a>

@@ -15,6 +15,7 @@ export type EngineErrorCategory = "recoverable" | "quarantine" | "fatal";
 
 export type EngineErrorSource =
   | "rate-limit"
+  | "edge-cache"
   | "auth"
   | "admin"
   | "subdomain-takeover"
@@ -105,6 +106,11 @@ export class AuthFatalError extends EngineError {
 export class RateLimitRecoverableError extends EngineError {
   readonly category = "recoverable" as const;
   readonly source = "rate-limit" as const;
+}
+
+export class EdgeCacheRecoverableError extends EngineError {
+  readonly category = "recoverable" as const;
+  readonly source = "edge-cache" as const;
 }
 
 export class AdminRecoverableError extends EngineError {

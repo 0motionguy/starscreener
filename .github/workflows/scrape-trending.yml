@@ -34,6 +34,17 @@ jobs:
         # PR #9 / 89273868, 2026-04-28T12:00Z added the import.)
         run: npm ci
 
+      - name: Assert data-store credentials present
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+        run: |
+          if [ -z "${REDIS_URL}" ] && { [ -z "${UPSTASH_REDIS_REST_URL}" ] || [ -z "${UPSTASH_REDIS_REST_TOKEN}" ]; }; then
+            echo "Missing Redis/Upstash credentials; refusing snapshot run to avoid silent DEAD keys."
+            exit 1
+          fi
+
       - name: Refresh OSSInsight trending + hot collections
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
@@ -83,10 +94,8 @@ jobs:
         # W2-PROD producer: writes star-snapshot:{24h,7d,30d} keys consumed
         # by /api/pipeline/deltas. Drops home-page staleness from 4h (legacy
         # git-history compute-deltas.mjs) to 30min (cron cadence).
-        # Failures don't fail the workflow — the legacy deltas pipeline above
-        # still ships data, and the consumer falls back to prior=null/fresh=false
-        # gracefully.
-        continue-on-error: true
+        # Fail loud: masking failures here can keep cron green while
+        # freshness rows go DEAD (`star-snapshots`).
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
         run: node scripts/snapshot-stars.mjs
@@ -95,7 +104,7 @@ jobs:
         # Writes category-metrics-snapshot:{24h,7d,30d} keys consumed by the
         # /categories index + detail surfaces (loadCategoryMetricsPrev{1d,7d,30d}).
         # Cold-start safe: empty Map → UI falls back to lifetime totals.
-        continue-on-error: true
+        # Fail loud for the same reason as star-snapshots.
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
         run: node scripts/snapshot-category-metrics.mjs

@@ -51,3 +51,8 @@ Re-run screenshot capture for `/skills` page 1 and page 37 (1280 / 375 / 768) an
 
 ## Remaining follow-up
 - Publish these artifacts/status to the Paperclip issue thread when control-plane connectivity is restored.
+
+## Comment triage update (2026-05-05)
+- New comment `a37b198e-7a82-4a28-b07d-070ea34cb42a` requests cancel/relaunch due silent/stalled run risk.
+- Disposition: obsolete/non-actionable for AGN-761 because CTO already closed the issue as `done` (`0afcf339-83ff-44ff-ad1f-bd30b5503635`).
+- Attempted to post this triage outcome to Paperclip thread, but control-plane API remains unreachable from runtime (`http://192.168.192.1:3100`).

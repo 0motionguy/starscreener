@@ -1,10 +1,16 @@
-﻿# OPERATOR â€” TrendingRepo full-stack situational awareness
+﻿---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
+# OPERATOR â€” TrendingRepo full-stack situational awareness
 
 **Audience:** Mirko + Claude Code sessions. NOT public. The `docs/` directory is not routed in Next.js so this file is not accessible by URL.
 
 **Purpose:** every Claude Code session can read this file and instantly know the current state of the engine, what is shipping, and what is broken. Refreshed by `/loop` autonomous runs and by hand. **Source of truth for the audit-2026-05-04 follow-up.**
 
-Last refreshed: 2026-05-03 ~05:30 UTC (post-rescue â€” engine recovered, PR #93 awaits merge)
+Last refreshed: 2026-05-05 (Phase 1.0 docs-drift verification pass)
 
 **Engine state:** all 11 sources fresh (1-2h old), 0 red workflows in last 30 runs, status=ok.
 **User-visible breakage on PROD:** still present (empty avatars, dead pages) until PR #93 merges.
@@ -46,7 +52,7 @@ If the user says "go" or "continue", consider checking PR #93 status first â€
 
 ```
                       â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-                      â”‚  GitHub Actions (62 workflows)                â”‚
+                      â”‚  GitHub Actions (83 workflows)                â”‚
                       â”‚   - 22 data-pushing scrapers (cron'd)         â”‚
                       â”‚   - 5 snapshot/archival jobs (daily)          â”‚
                       â”‚   - 8 cron-* app/API health probes            â”‚
@@ -104,7 +110,7 @@ If the user says "go" or "continue", consider checking PR #93 status first â€
 ### Hourly
 | :MM | Workflow | What it writes |
 |---|---|---|
-| :00 | audit-freshness | per-source budget gate |
+| :08 | audit-freshness | per-source budget gate (cron `8 * * * *`) |
 | :05 | cron-webhooks-flush | flush queued webhooks |
 | :10 | cron-llm | LLM telemetry aggregate |
 | :17 | scrape-bluesky | bluesky-trending, bluesky-mentions |
@@ -226,6 +232,7 @@ If the user says "go" or "continue", consider checking PR #93 status first â€
 ### Aggregations (cross-source)
 - `engagement-composite` â€” feeds consensus, runs hourly @ :45
 - `consensus-trending` â€” 8-source agreement, hourly @ :50
+- `snapshot-consensus` â€” daily @ 23:55 UTC (cron `55 23 * * *`) â€” archives `consensus:<date>` for `/consensus` and `/consensus/[owner]/[name]`
 - `consensus-verdicts` â€” Kimi K2.6 LLM verdicts, hourly @ :00
 
 ### MCP / Skills
@@ -319,6 +326,7 @@ If the user says "go" or "continue", consider checking PR #93 status first â€
 - Apify actor cost + last-run audit (need APIFY_API_TOKEN locally)
 - Vercel env-var inventory (need VERCEL_ORG_ID locally)
 - Run `backfill-meta` workflow (after PR #93 merge â€” needs main branch presence)
+- AISO failure-rate dashboard tile packet: `docs/release-validation/2026-05-05-agn-1443-aiso-failure-rate-dashboard-tile.md`
 
 ---
 
@@ -343,7 +351,7 @@ Hackathons, Launch â€” no route, no data, intentional
 ### Where to look first
 - This file (`docs/OPERATOR.md`) â€” situational awareness
 - `CLAUDE.md` â€” project conventions, anti-patterns
-- `docs/ENGINE.md` â€” deeper engine map (62 workflows + every key)
+- `docs/ENGINE.md` â€” deeper engine map (83 workflows + every key) [snapshot 2026-05-02 â€” see drift report]
 - `docs/SITE-WIREMAP.md` â€” top-down route â†’ collector trace
 - `docs/AUDIT-2026-05-04.md` â€” full audit (deferred external blockers)
 

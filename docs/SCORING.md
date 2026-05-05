@@ -1,3 +1,9 @@
+---
+status: snapshot
+audit-date: 2026-05-05
+reason: describes deprecated v1/v2 3-source consensus; current is 8-source v3 + Kimi K2.6 (PR #52)
+---
+
 # StarScreener Scoring Methodology
 
 This document describes the scoring algorithms StarScreener publishes via its

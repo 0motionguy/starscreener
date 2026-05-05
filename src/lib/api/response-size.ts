@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
+import { jsonWithEtag } from "@/lib/api/etag";
+import type { NextRequest } from "next/server";
 
 const KB = 1024;
 export const RESPONSE_WARN_BYTES = 500 * KB;
@@ -10,6 +12,7 @@ type GuardOptions = {
   headers?: HeadersInit;
   route: string;
   arrayKeys?: string[];
+  requestForEtag?: NextRequest;
 };
 
 function byteLength(value: unknown): number {
@@ -92,6 +95,9 @@ export function respondWithSizeGuard(
   }
 
   if (originalBytes <= RESPONSE_WARN_BYTES) {
+    if (options.requestForEtag) {
+      return jsonWithEtag(options.requestForEtag, body, { status, headers: baseHeaders });
+    }
     return NextResponse.json(body, { status, headers: baseHeaders });
   }
 
@@ -108,7 +114,6 @@ export function respondWithSizeGuard(
 
   let candidate = body;
   if (body && typeof body === "object" && !Array.isArray(body)) {
-    const obj = body as Record<string, unknown>;
     const keys = options.arrayKeys ?? ["items", "repos", "bundles"];
     for (const key of keys) {
       candidate = truncateArrayBody(
@@ -124,5 +129,8 @@ export function respondWithSizeGuard(
     );
   }
 
+  if (options.requestForEtag) {
+    return jsonWithEtag(options.requestForEtag, candidate, { status, headers: baseHeaders });
+  }
   return NextResponse.json(candidate, { status, headers: baseHeaders });
 }

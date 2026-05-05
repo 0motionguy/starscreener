@@ -239,7 +239,7 @@ export default async function AgentReposPage() {
                 letterSpacing: "0.08em",
               }}
             >
-              // AGENT REPOS ARE WARMING. CHECK BACK AFTER THE NEXT TRENDING REFRESH.
+              {"// AGENT REPOS ARE WARMING. CHECK BACK AFTER THE NEXT TRENDING REFRESH."}
             </div>
           </Card>
         )}

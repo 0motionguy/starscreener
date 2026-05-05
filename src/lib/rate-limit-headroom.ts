@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/nextjs";
 import { redis } from "@/lib/redis";
+import { keys } from "@/lib/redis/keys";
 
 const WINDOW_MS = 60 * 60 * 1000;
 const ALERT_THRESHOLD_PCT = 10;
@@ -42,15 +43,15 @@ function percentile(sorted: number[], p: number): number {
 }
 
 function sampleKey(source: string): string {
-  return `ratelimit:${source}:samples`;
+  return keys.rateLimit.samples(source);
 }
 
 function rollingKey(source: string): string {
-  return `ratelimit:${source}:rolling`;
+  return keys.rateLimit.rolling(source);
 }
 
 function alertKey(source: string): string {
-  return `ratelimit:${source}:alerted-at`;
+  return keys.rateLimit.alertedAt(source);
 }
 
 function normalizeSample(remaining: number, limit: number): number {

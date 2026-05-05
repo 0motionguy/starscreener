@@ -228,7 +228,7 @@ async function fetchSentryCanary(opts: Options): Promise<SentryState | null> {
       return {
         status: "TEST_FIRED",
         detail: `canary endpoint returned HTTP ${response.status}`,
-        ...(body.eventId ? { eventId: body.eventId } : {}),
+        ...(body?.eventId ? { eventId: body.eventId } : {}),
       };
     }
 

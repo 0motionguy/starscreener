@@ -1,0 +1,1869 @@
+[
+  {
+    "testEngine": {
+      "name": "axe-core",
+      "version": "4.11.3"
+    },
+    "testRunner": {
+      "name": "axe"
+    },
+    "testEnvironment": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/148.0.0.0 Safari/537.36",
+      "windowWidth": 762,
+      "windowHeight": 428,
+      "orientationAngle": 0,
+      "orientationType": "landscape-primary"
+    },
+    "timestamp": "2026-05-05T03:49:13.297Z",
+    "url": "https://trendingrepo.com/signals",
+    "toolOptions": {
+      "runOnly": {
+        "type": "rule",
+        "values": [
+          "aria-allowed-attr",
+          "aria-valid-attr"
+        ]
+      },
+      "reporter": "v1"
+    },
+    "inapplicable": [],
+    "passes": [
+      {
+        "id": "aria-allowed-attr",
+        "impact": "critical",
+        "tags": [
+          "cat.aria",
+          "wcag2a",
+          "wcag412",
+          "EN-301-549",
+          "EN-9.4.1.2",
+          "RGAAv4",
+          "RGAA-7.1.1"
+        ],
+        "description": "Ensure an element's role supports its ARIA attributes",
+        "help": "Elements must only use supported ARIA attributes",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/aria-allowed-attr?application=webdriverjs",
+        "nodes": [
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<button type=\"button\" class=\"md:hidden w-10 h-10 flex items-center justify-center transition-colors\" style=\"background:transparent;border:1px solid transparent;border-radius:2px;color:var(--v4-ink-200)\" aria-label=\"Open menu\">",
+            "target": [
+              ".w-10"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<a class=\"group flex min-w-0 flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded\" aria-label=\"TrendingRepo home\" href=\"/\">",
+            "target": [
+              "a[aria-label=\"TrendingRepo home\"]"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"search repos...\" aria-label=\"search repos...\" role=\"combobox\" aria-expanded=\"false\" aria-controls=\"search-preview\" aria-autocomplete=\"list\" value=\"\">",
+            "target": [
+              "input"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<a class=\"pill cta focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded\" aria-label=\"Drop your repo\" href=\"/submit\">",
+            "target": [
+              ".pill"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand\" aria-label=\"LOB\" title=\"lobsters · view dedicated page\" style=\"--chip-color:#AC130D\" href=\"/lobsters\">",
+            "target": [
+              "a[aria-label=\"LOB\"]"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand\" aria-label=\"PH\" title=\"producthunt · view dedicated page\" style=\"--chip-color:var(--source-producthunt)\" href=\"/producthunt\">",
+            "target": [
+              "a[aria-label=\"PH\"]"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand\" aria-label=\"NPM\" title=\"npm · view dedicated page\" style=\"--chip-color:#cb3837\" href=\"/npm\"><span class=\"signals-chip-text\">NPM</span></a>",
+            "target": [
+              "a[aria-label=\"NPM\"]"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand\" aria-label=\"HF\" title=\"huggingface · view dedicated page\" style=\"--chip-color:#ff9d00\" href=\"/huggingface\"><span class=\"signals-chip-text\">HF</span></a>",
+            "target": [
+              "a[aria-label=\"HF\"]"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand\" aria-label=\"ARX\" title=\"arxiv · view dedicated page\" style=\"--chip-color:#b31b1b\" href=\"/arxiv/trending\"><span class=\"signals-chip-text\">ARX</span></a>",
+            "target": [
+              "a[aria-label=\"ARX\"]"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<svg role=\"img\" aria-label=\"24 hour signal volume stacked by source\" viewBox=\"0 0 720 220\" preserveAspectRatio=\"none\" style=\"display:block;width:100%;height:220px\">",
+            "target": [
+              "svg[role=\"img\"]"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"reddit\" aria-label=\"reddit\" style=\"background:color-mix(in srgb, var(--source-reddit) 22%, transparent);border-color:color-mix(in srgb, var(--source-reddit) 55%, transparent);color:var(--source-reddit)\">",
+            "target": [
+              "a[href$=\"symphony\"] > .cons-bot > .srcs > .sd[title=\"reddit\"][aria-label=\"reddit\"]"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"github\" aria-label=\"github\" style=\"background:color-mix(in srgb, var(--source-github) 22%, transparent);border-color:color-mix(in srgb, var(--source-github) 55%, transparent);color:var(--source-github)\">",
+            "target": [
+              "a[href$=\"symphony\"] > .cons-bot > .srcs > .sd[title=\"github\"][aria-label=\"github\"]"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"reddit\" aria-label=\"reddit\" style=\"background:color-mix(in srgb, var(--source-reddit) 22%, transparent);border-color:color-mix(in srgb, var(--source-reddit) 55%, transparent);color:var(--source-reddit)\">",
+            "target": [
+              "a[href$=\"vibe-trading\"] > .cons-bot > .srcs > .sd[title=\"reddit\"][aria-label=\"reddit\"]"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"github\" aria-label=\"github\" style=\"background:color-mix(in srgb, var(--source-github) 22%, transparent);border-color:color-mix(in srgb, var(--source-github) 55%, transparent);color:var(--source-github)\">",
+            "target": [
+              "a[href$=\"vibe-trading\"] > .cons-bot > .srcs > .sd[title=\"github\"][aria-label=\"github\"]"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"reddit\" aria-label=\"reddit\" style=\"background:color-mix(in srgb, var(--source-reddit) 22%, transparent);border-color:color-mix(in srgb, var(--source-reddit) 55%, transparent);color:var(--source-reddit)\">",
+            "target": [
+              ".cons-row:nth-child(3) > .cons-bot > .srcs > .sd[title=\"reddit\"][aria-label=\"reddit\"]"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"github\" aria-label=\"github\" style=\"background:color-mix(in srgb, var(--source-github) 22%, transparent);border-color:color-mix(in srgb, var(--source-github) 55%, transparent);color:var(--source-github)\">",
+            "target": [
+              ".cons-row:nth-child(3) > .cons-bot > .srcs > .sd[title=\"github\"][aria-label=\"github\"]"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"reddit\" aria-label=\"reddit\" style=\"background:color-mix(in srgb, var(--source-reddit) 22%, transparent);border-color:color-mix(in srgb, var(--source-reddit) 55%, transparent);color:var(--source-reddit)\">",
+            "target": [
+              ".cons-row:nth-child(4) > .cons-bot > .srcs > .sd[title=\"reddit\"][aria-label=\"reddit\"]"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"github\" aria-label=\"github\" style=\"background:color-mix(in srgb, var(--source-github) 22%, transparent);border-color:color-mix(in srgb, var(--source-github) 55%, transparent);color:var(--source-github)\">",
+            "target": [
+              ".cons-row:nth-child(4) > .cons-bot > .srcs > .sd[title=\"github\"][aria-label=\"github\"]"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"reddit\" aria-label=\"reddit\" style=\"background:color-mix(in srgb, var(--source-reddit) 22%, transparent);border-color:color-mix(in srgb, var(--source-reddit) 55%, transparent);color:var(--source-reddit)\">",
+            "target": [
+              ".cons-row:nth-child(5) > .cons-bot > .srcs > .sd[title=\"reddit\"][aria-label=\"reddit\"]"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"github\" aria-label=\"github\" style=\"background:color-mix(in srgb, var(--source-github) 22%, transparent);border-color:color-mix(in srgb, var(--source-github) 55%, transparent);color:var(--source-github)\">",
+            "target": [
+              ".cons-row:nth-child(5) > .cons-bot > .srcs > .sd[title=\"github\"][aria-label=\"github\"]"
+            ]
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attributes are used correctly for the defined role"
+              },
+              {
+                "id": "aria-allowed-attr-elm",
+                "data": null,
+                "relatedNodes": [],
+                "message": "ARIA attributes are allowed for this element",
+                "impact": "critical"
+              }
+            ],
+            "none": [
+              {
+                "id": "aria-unsupported-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is supported"
+              }
+            ],
+            "impact": null,
+            "html": "<div aria-live=\"assertive\" id=\"__next-route-announcer__\" role=\"alert\" style=\"position: absolute; border: 0px; height: 1px; margin: -1px; padding: 0px; width: 1px; clip: rect(0px, 0px, 0px, 0px); overflow: hidden; white-space: nowrap; overflow-wrap: normal;\"></div>",
+            "target": [
+              [
+                "next-route-announcer",
+                "#__next-route-announcer__"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "aria-valid-attr",
+        "impact": null,
+        "tags": [
+          "cat.aria",
+          "wcag2a",
+          "wcag412",
+          "EN-301-549",
+          "EN-9.4.1.2",
+          "RGAAv4",
+          "RGAA-7.1.1"
+        ],
+        "description": "Ensure attributes that begin with aria- are valid ARIA attributes",
+        "help": "ARIA attributes must conform to valid names",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/aria-valid-attr?application=webdriverjs",
+        "nodes": [
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<button type=\"button\" class=\"md:hidden w-10 h-10 flex items-center justify-center transition-colors\" style=\"background:transparent;border:1px solid transparent;border-radius:2px;color:var(--v4-ink-200)\" aria-label=\"Open menu\">",
+            "target": [
+              ".w-10"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"group flex min-w-0 flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded\" aria-label=\"TrendingRepo home\" href=\"/\">",
+            "target": [
+              "a[aria-label=\"TrendingRepo home\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"search repos...\" aria-label=\"search repos...\" role=\"combobox\" aria-expanded=\"false\" aria-controls=\"search-preview\" aria-autocomplete=\"list\" value=\"\">",
+            "target": [
+              "input"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"pill cta focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded\" aria-label=\"Drop your repo\" href=\"/submit\">",
+            "target": [
+              ".pill"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-on\" aria-pressed=\"true\" href=\"/signals\">ALL</a>",
+            "target": [
+              ".signals-chip-on.signals-chip[href$=\"signals\"]:nth-child(2)"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand signals-chip-on\" aria-pressed=\"true\" aria-label=\"HN\" style=\"--chip-color:var(--source-hackernews)\" href=\"/signals?src=bluesky%2Cclaude%2Cdevto%2Cgithub%2Copenai%2Creddit%2Cx\">",
+            "target": [
+              "a[aria-label=\"HN\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand signals-chip-on\" aria-pressed=\"true\" aria-label=\"GH\" style=\"--chip-color:var(--source-github)\" href=\"/signals?src=bluesky%2Cclaude%2Cdevto%2Chn%2Copenai%2Creddit%2Cx\">",
+            "target": [
+              "a[aria-label=\"GH\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand signals-chip-on\" aria-pressed=\"true\" aria-label=\"X\" style=\"--chip-color:var(--source-x)\" href=\"/signals?src=bluesky%2Cclaude%2Cdevto%2Cgithub%2Chn%2Copenai%2Creddit\">",
+            "target": [
+              "a[aria-label=\"X\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand signals-chip-on\" aria-pressed=\"true\" aria-label=\"RDT\" style=\"--chip-color:var(--source-reddit)\" href=\"/signals?src=bluesky%2Cclaude%2Cdevto%2Cgithub%2Chn%2Copenai%2Cx\">",
+            "target": [
+              "a[aria-label=\"RDT\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand signals-chip-on\" aria-pressed=\"true\" aria-label=\"BSKY\" style=\"--chip-color:var(--source-bluesky)\" href=\"/signals?src=claude%2Cdevto%2Cgithub%2Chn%2Copenai%2Creddit%2Cx\">",
+            "target": [
+              "a[aria-label=\"BSKY\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand signals-chip-on\" aria-pressed=\"true\" aria-label=\"DEV\" style=\"--chip-color:var(--source-dev)\" href=\"/signals?src=bluesky%2Cclaude%2Cgithub%2Chn%2Copenai%2Creddit%2Cx\">",
+            "target": [
+              "a[aria-label=\"DEV\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand signals-chip-on\" aria-pressed=\"true\" aria-label=\"CLAUDE\" style=\"--chip-color:var(--source-claude)\" href=\"/signals?src=bluesky%2Cdevto%2Cgithub%2Chn%2Copenai%2Creddit%2Cx\">",
+            "target": [
+              "a[aria-label=\"CLAUDE\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand signals-chip-on\" aria-pressed=\"true\" aria-label=\"OAI\" style=\"--chip-color:var(--source-openai)\" href=\"/signals?src=bluesky%2Cclaude%2Cdevto%2Cgithub%2Chn%2Creddit%2Cx\">",
+            "target": [
+              "a[aria-label=\"OAI\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand\" aria-label=\"LOB\" title=\"lobsters · view dedicated page\" style=\"--chip-color:#AC130D\" href=\"/lobsters\">",
+            "target": [
+              "a[aria-label=\"LOB\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand\" aria-label=\"PH\" title=\"producthunt · view dedicated page\" style=\"--chip-color:var(--source-producthunt)\" href=\"/producthunt\">",
+            "target": [
+              "a[aria-label=\"PH\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand\" aria-label=\"NPM\" title=\"npm · view dedicated page\" style=\"--chip-color:#cb3837\" href=\"/npm\"><span class=\"signals-chip-text\">NPM</span></a>",
+            "target": [
+              "a[aria-label=\"NPM\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand\" aria-label=\"HF\" title=\"huggingface · view dedicated page\" style=\"--chip-color:#ff9d00\" href=\"/huggingface\"><span class=\"signals-chip-text\">HF</span></a>",
+            "target": [
+              "a[aria-label=\"HF\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-brand\" aria-label=\"ARX\" title=\"arxiv · view dedicated page\" style=\"--chip-color:#b31b1b\" href=\"/arxiv/trending\"><span class=\"signals-chip-text\">ARX</span></a>",
+            "target": [
+              "a[aria-label=\"ARX\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-time\" aria-pressed=\"false\" href=\"/signals?w=1h\">1H</a>",
+            "target": [
+              "a[href=\"/signals?w=1h\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-time signals-chip-on\" aria-pressed=\"true\" href=\"/signals\">24H</a>",
+            "target": [
+              ".signals-chip-time.signals-chip-on[href$=\"signals\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-time\" aria-pressed=\"false\" href=\"/signals?w=7d\">7D</a>",
+            "target": [
+              "a[href=\"/signals?w=7d\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-time\" aria-pressed=\"false\" href=\"/signals?w=30d\">30D</a>",
+            "target": [
+              "a[href=\"/signals?w=30d\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-topic signals-chip-on\" aria-pressed=\"true\" href=\"/signals\">ALL</a>",
+            "target": [
+              ".signals-chip-topic.signals-chip-on[href$=\"signals\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-topic\" aria-pressed=\"false\" href=\"/signals?topic=agents\">AGENTS</a>",
+            "target": [
+              "a[href=\"/signals?topic=agents\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-topic\" aria-pressed=\"false\" href=\"/signals?topic=models\">MODELS</a>",
+            "target": [
+              "a[href=\"/signals?topic=models\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-topic\" aria-pressed=\"false\" href=\"/signals?topic=devtools\">DEVTOOLS</a>",
+            "target": [
+              "a[href=\"/signals?topic=devtools\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<a class=\"signals-chip signals-chip-topic\" aria-pressed=\"false\" href=\"/signals?topic=research\">RESEARCH</a>",
+            "target": [
+              "a[href=\"/signals?topic=research\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<svg role=\"img\" aria-label=\"24 hour signal volume stacked by source\" viewBox=\"0 0 720 220\" preserveAspectRatio=\"none\" style=\"display:block;width:100%;height:220px\">",
+            "target": [
+              "svg[role=\"img\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"reddit\" aria-label=\"reddit\" style=\"background:color-mix(in srgb, var(--source-reddit) 22%, transparent);border-color:color-mix(in srgb, var(--source-reddit) 55%, transparent);color:var(--source-reddit)\">",
+            "target": [
+              "a[href$=\"symphony\"] > .cons-bot > .srcs > .sd[title=\"reddit\"][aria-label=\"reddit\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"github\" aria-label=\"github\" style=\"background:color-mix(in srgb, var(--source-github) 22%, transparent);border-color:color-mix(in srgb, var(--source-github) 55%, transparent);color:var(--source-github)\">",
+            "target": [
+              "a[href$=\"symphony\"] > .cons-bot > .srcs > .sd[title=\"github\"][aria-label=\"github\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"reddit\" aria-label=\"reddit\" style=\"background:color-mix(in srgb, var(--source-reddit) 22%, transparent);border-color:color-mix(in srgb, var(--source-reddit) 55%, transparent);color:var(--source-reddit)\">",
+            "target": [
+              "a[href$=\"vibe-trading\"] > .cons-bot > .srcs > .sd[title=\"reddit\"][aria-label=\"reddit\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"github\" aria-label=\"github\" style=\"background:color-mix(in srgb, var(--source-github) 22%, transparent);border-color:color-mix(in srgb, var(--source-github) 55%, transparent);color:var(--source-github)\">",
+            "target": [
+              "a[href$=\"vibe-trading\"] > .cons-bot > .srcs > .sd[title=\"github\"][aria-label=\"github\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"reddit\" aria-label=\"reddit\" style=\"background:color-mix(in srgb, var(--source-reddit) 22%, transparent);border-color:color-mix(in srgb, var(--source-reddit) 55%, transparent);color:var(--source-reddit)\">",
+            "target": [
+              ".cons-row:nth-child(3) > .cons-bot > .srcs > .sd[title=\"reddit\"][aria-label=\"reddit\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"github\" aria-label=\"github\" style=\"background:color-mix(in srgb, var(--source-github) 22%, transparent);border-color:color-mix(in srgb, var(--source-github) 55%, transparent);color:var(--source-github)\">",
+            "target": [
+              ".cons-row:nth-child(3) > .cons-bot > .srcs > .sd[title=\"github\"][aria-label=\"github\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"reddit\" aria-label=\"reddit\" style=\"background:color-mix(in srgb, var(--source-reddit) 22%, transparent);border-color:color-mix(in srgb, var(--source-reddit) 55%, transparent);color:var(--source-reddit)\">",
+            "target": [
+              ".cons-row:nth-child(4) > .cons-bot > .srcs > .sd[title=\"reddit\"][aria-label=\"reddit\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"github\" aria-label=\"github\" style=\"background:color-mix(in srgb, var(--source-github) 22%, transparent);border-color:color-mix(in srgb, var(--source-github) 55%, transparent);color:var(--source-github)\">",
+            "target": [
+              ".cons-row:nth-child(4) > .cons-bot > .srcs > .sd[title=\"github\"][aria-label=\"github\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"reddit\" aria-label=\"reddit\" style=\"background:color-mix(in srgb, var(--source-reddit) 22%, transparent);border-color:color-mix(in srgb, var(--source-reddit) 55%, transparent);color:var(--source-reddit)\">",
+            "target": [
+              ".cons-row:nth-child(5) > .cons-bot > .srcs > .sd[title=\"reddit\"][aria-label=\"reddit\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<span class=\"sd cons-srcmark\" title=\"github\" aria-label=\"github\" style=\"background:color-mix(in srgb, var(--source-github) 22%, transparent);border-color:color-mix(in srgb, var(--source-github) 55%, transparent);color:var(--source-github)\">",
+            "target": [
+              ".cons-row:nth-child(5) > .cons-bot > .srcs > .sd[title=\"github\"][aria-label=\"github\"]"
+            ]
+          },
+          {
+            "any": [
+              {
+                "id": "aria-valid-attr",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute name is valid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": null,
+            "html": "<div aria-live=\"assertive\" id=\"__next-route-announcer__\" role=\"alert\" style=\"position: absolute; border: 0px; height: 1px; margin: -1px; padding: 0px; width: 1px; clip: rect(0px, 0px, 0px, 0px); overflow: hidden; white-space: nowrap; overflow-wrap: normal;\"></div>",
+            "target": [
+              [
+                "next-route-announcer",
+                "#__next-route-announcer__"
+              ]
+            ]
+          }
+        ]
+      }
+    ],
+    "incomplete": [],
+    "violations": [
+      {
+        "id": "aria-allowed-attr",
+        "impact": "critical",
+        "tags": [
+          "cat.aria",
+          "wcag2a",
+          "wcag412",
+          "EN-301-549",
+          "EN-9.4.1.2",
+          "RGAAv4",
+          "RGAA-7.1.1"
+        ],
+        "description": "Ensure an element's role supports its ARIA attributes",
+        "help": "Elements must only use supported ARIA attributes",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/aria-allowed-attr?application=webdriverjs",
+        "nodes": [
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"true\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"true\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-on\" aria-pressed=\"true\" href=\"/signals\">ALL</a>",
+            "target": [
+              ".signals-chip-on.signals-chip[href$=\"signals\"]:nth-child(2)"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"true\""
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"true\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"true\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-brand signals-chip-on\" aria-pressed=\"true\" aria-label=\"HN\" style=\"--chip-color:var(--source-hackernews)\" href=\"/signals?src=bluesky%2Cclaude%2Cdevto%2Cgithub%2Copenai%2Creddit%2Cx\">",
+            "target": [
+              "a[aria-label=\"HN\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"true\""
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"true\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"true\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-brand signals-chip-on\" aria-pressed=\"true\" aria-label=\"GH\" style=\"--chip-color:var(--source-github)\" href=\"/signals?src=bluesky%2Cclaude%2Cdevto%2Chn%2Copenai%2Creddit%2Cx\">",
+            "target": [
+              "a[aria-label=\"GH\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"true\""
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"true\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"true\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-brand signals-chip-on\" aria-pressed=\"true\" aria-label=\"X\" style=\"--chip-color:var(--source-x)\" href=\"/signals?src=bluesky%2Cclaude%2Cdevto%2Cgithub%2Chn%2Copenai%2Creddit\">",
+            "target": [
+              "a[aria-label=\"X\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"true\""
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"true\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"true\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-brand signals-chip-on\" aria-pressed=\"true\" aria-label=\"RDT\" style=\"--chip-color:var(--source-reddit)\" href=\"/signals?src=bluesky%2Cclaude%2Cdevto%2Cgithub%2Chn%2Copenai%2Cx\">",
+            "target": [
+              "a[aria-label=\"RDT\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"true\""
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"true\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"true\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-brand signals-chip-on\" aria-pressed=\"true\" aria-label=\"BSKY\" style=\"--chip-color:var(--source-bluesky)\" href=\"/signals?src=claude%2Cdevto%2Cgithub%2Chn%2Copenai%2Creddit%2Cx\">",
+            "target": [
+              "a[aria-label=\"BSKY\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"true\""
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"true\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"true\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-brand signals-chip-on\" aria-pressed=\"true\" aria-label=\"DEV\" style=\"--chip-color:var(--source-dev)\" href=\"/signals?src=bluesky%2Cclaude%2Cgithub%2Chn%2Copenai%2Creddit%2Cx\">",
+            "target": [
+              "a[aria-label=\"DEV\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"true\""
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"true\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"true\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-brand signals-chip-on\" aria-pressed=\"true\" aria-label=\"CLAUDE\" style=\"--chip-color:var(--source-claude)\" href=\"/signals?src=bluesky%2Cdevto%2Cgithub%2Chn%2Copenai%2Creddit%2Cx\">",
+            "target": [
+              "a[aria-label=\"CLAUDE\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"true\""
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"true\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"true\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-brand signals-chip-on\" aria-pressed=\"true\" aria-label=\"OAI\" style=\"--chip-color:var(--source-openai)\" href=\"/signals?src=bluesky%2Cclaude%2Cdevto%2Cgithub%2Chn%2Creddit%2Cx\">",
+            "target": [
+              "a[aria-label=\"OAI\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"true\""
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"false\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"false\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-time\" aria-pressed=\"false\" href=\"/signals?w=1h\">1H</a>",
+            "target": [
+              "a[href=\"/signals?w=1h\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"false\""
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"true\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"true\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-time signals-chip-on\" aria-pressed=\"true\" href=\"/signals\">24H</a>",
+            "target": [
+              ".signals-chip-time.signals-chip-on[href$=\"signals\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"true\""
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"false\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"false\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-time\" aria-pressed=\"false\" href=\"/signals?w=7d\">7D</a>",
+            "target": [
+              "a[href=\"/signals?w=7d\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"false\""
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"false\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"false\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-time\" aria-pressed=\"false\" href=\"/signals?w=30d\">30D</a>",
+            "target": [
+              "a[href=\"/signals?w=30d\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"false\""
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"true\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"true\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-topic signals-chip-on\" aria-pressed=\"true\" href=\"/signals\">ALL</a>",
+            "target": [
+              ".signals-chip-topic.signals-chip-on[href$=\"signals\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"true\""
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"false\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"false\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-topic\" aria-pressed=\"false\" href=\"/signals?topic=agents\">AGENTS</a>",
+            "target": [
+              "a[href=\"/signals?topic=agents\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"false\""
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"false\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"false\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-topic\" aria-pressed=\"false\" href=\"/signals?topic=models\">MODELS</a>",
+            "target": [
+              "a[href=\"/signals?topic=models\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"false\""
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"false\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"false\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-topic\" aria-pressed=\"false\" href=\"/signals?topic=devtools\">DEVTOOLS</a>",
+            "target": [
+              "a[href=\"/signals?topic=devtools\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"false\""
+          },
+          {
+            "any": [],
+            "all": [
+              {
+                "id": "aria-allowed-attr",
+                "data": [
+                  "aria-pressed=\"false\""
+                ],
+                "relatedNodes": [],
+                "impact": "critical",
+                "message": "ARIA attribute is not allowed: aria-pressed=\"false\""
+              }
+            ],
+            "none": [],
+            "impact": "critical",
+            "html": "<a class=\"signals-chip signals-chip-topic\" aria-pressed=\"false\" href=\"/signals?topic=research\">RESEARCH</a>",
+            "target": [
+              "a[href=\"/signals?topic=research\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-pressed=\"false\""
+          }
+        ]
+      }
+    ]
+  }
+]

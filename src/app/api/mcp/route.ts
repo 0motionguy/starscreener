@@ -1,7 +1,3 @@
-// lint-allow: no-parsebody — JSON-RPC 2.0 dispatcher; body may be a single object or batch array.
-// parseBody expects a single typed shape; the MCP protocol requires discriminating
-// array vs object before any Zod schema can apply. Raw request.json() is the correct approach here.
-//
 // POST /api/mcp — HTTP MCP server endpoint for trendingrepo.com.
 //
 // Implements the Model Context Protocol over HTTP via JSON-RPC 2.0 so any
@@ -638,3 +634,13 @@ function errorStatusFor(code: number): number {
   if (code === ERR_INVALID_PARAMS) return 400;
   return 500;
 }
+
+// Exports for unit tests. The dispatcher is the surface that exercises
+// the most logic; exporting it lets tests skip the HTTP layer entirely.
+export const __test__ = {
+  TOOLS,
+  PROTOCOL_VERSION,
+  dispatch,
+  handleInitialize,
+  handleToolsList,
+};

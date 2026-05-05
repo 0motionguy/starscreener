@@ -1,0 +1,13 @@
+.hero-row .spark {
+  will-change: transform;
+}
+
+.hero-row:hover .spark {
+  transform: translateY(-1px);
+  transition: transform 140ms ease;
+}
+
+.chart-wrap svg {
+  image-rendering: auto;
+}
+

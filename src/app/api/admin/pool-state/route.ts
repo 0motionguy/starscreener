@@ -12,6 +12,7 @@ import {
 import { githubKeyFingerprint } from "@/lib/pool/github-telemetry";
 import { redditUserAgentFingerprint } from "@/lib/pool/reddit-ua-pool";
 import { redis } from "@/lib/redis";
+import { keys } from "@/lib/redis/keys";
 
 import redditUserAgents from "@/../config/reddit-user-agents.json";
 import nitterConfig from "@/../config/nitter-instances.json";
@@ -202,11 +203,24 @@ function classifyByAge(iso: string | null, budgetMs: number): PoolStatus {
   return "GREEN";
 }
 
-async function readUsage(
+type UsageBag = UsageSummary & {
+  lastRateLimitRemaining: number | null;
+  lastRateLimitReset: string | null;
+};
+
+/**
+ * AGN-467: builds the bucket × fingerprint key list for a given pool member
+ * without touching Redis. Lets `githubState` / `redditState` collect ALL
+ * keys for ALL pool members and dispatch a single pipelined HGETALL via
+ * `redis.hgetallMany` (1 round trip on ioredis) instead of
+ * `Promise.all(rows.map(readUsage))` (which fanned out N × buckets HGETALLs
+ * per request, scaling with the GitHub PAT pool size).
+ */
+function buildUsageKeys(
   prefix: "github" | "reddit" | "twitter",
   fingerprintOrAliases: string | string[],
   buckets: string[],
-): Promise<UsageSummary & { lastRateLimitRemaining: number | null; lastRateLimitReset: string | null }> {
+): string[] {
   const fingerprints = Array.from(
     new Set(
       (Array.isArray(fingerprintOrAliases)
@@ -215,17 +229,22 @@ async function readUsage(
       ).filter(Boolean),
     ),
   );
-  const hashes = await Promise.all(
-    buckets.flatMap((bucket) =>
-      fingerprints.map((fingerprint) => {
-        const key =
-          prefix === "github"
-            ? `pool:github:usage:${githubPoolNamespace()}:${fingerprint}:${bucket}`
-            : `pool:${prefix}:usage:${fingerprint}:${bucket}`;
-        return redis.hgetall(key);
-      }),
+  return buckets.flatMap((bucket) =>
+    fingerprints.map((fingerprint) =>
+      prefix === "github"
+        ? keys.pool.github.usage(
+            githubPoolNamespace(),
+            fingerprint,
+            bucket,
+          )
+        : prefix === "reddit"
+          ? keys.pool.reddit.usage(fingerprint, bucket)
+          : keys.pool.twitter.usage(fingerprint, bucket),
     ),
   );
+}
+
+function summarizeUsageHashes(hashes: ReadonlyArray<Record<string, string>>): UsageBag {
   let requests24h = 0;
   let success24h = 0;
   let fail24h = 0;
@@ -280,10 +299,34 @@ async function readUsage(
   };
 }
 
-async function readQuarantine(
+/**
+ * Single-pool-member usage read. Kept for `twitterState` (apify/nitter,
+ * 2 sources total — pipelining buys nothing). The N+1-prone GitHub /
+ * Reddit paths now batch via `buildUsageKeys` + `redis.hgetallMany`.
+ */
+async function readUsage(
+  prefix: "github" | "reddit" | "twitter",
+  fingerprintOrAliases: string | string[],
+  buckets: string[],
+): Promise<UsageBag> {
+  const usageKeys = buildUsageKeys(prefix, fingerprintOrAliases, buckets);
+  if (usageKeys.length === 0) return summarizeUsageHashes([]);
+  const hashes = redis.hgetallMany
+    ? await redis.hgetallMany(usageKeys)
+    : await Promise.all(usageKeys.map((key) => redis.hgetall(key)));
+  return summarizeUsageHashes(hashes);
+}
+
+/**
+ * AGN-467: builds the quarantine key list for a given pool member without
+ * touching Redis. Lets `githubState` collect ALL quarantine keys for ALL
+ * GitHub PATs and dispatch a single `redis.mget` (1 round trip) instead
+ * of N parallel GETs.
+ */
+function buildQuarantineKeys(
   prefix: "github" | "reddit",
   fingerprintOrAliases: string | string[],
-): Promise<QuarantineState> {
+): string[] {
   const fingerprints = Array.from(
     new Set(
       (Array.isArray(fingerprintOrAliases)
@@ -292,15 +335,16 @@ async function readQuarantine(
       ).filter(Boolean),
     ),
   );
-  const raws = await Promise.all(
-    fingerprints.map((fingerprint) => {
-      const key =
-        prefix === "github"
-          ? `pool:github:quarantine:${githubPoolNamespace()}:${fingerprint}`
-          : `pool:${prefix}:quarantine:${fingerprint}`;
-      return redis.get(key);
-    }),
+  return fingerprints.map((fingerprint) =>
+    prefix === "github"
+      ? keys.pool.github.quarantine(githubPoolNamespace(), fingerprint)
+      : keys.pool.reddit.quarantine(fingerprint),
   );
+}
+
+function summarizeQuarantineRaws(
+  raws: ReadonlyArray<string | null>,
+): QuarantineState {
   let latestInactive: QuarantineState = { active: false, reason: null, until: null };
   for (const raw of raws) {
     if (!raw) continue;
@@ -328,6 +372,18 @@ async function readQuarantine(
     }
   }
   return latestInactive;
+}
+
+async function readQuarantine(
+  prefix: "github" | "reddit",
+  fingerprintOrAliases: string | string[],
+): Promise<QuarantineState> {
+  const qkeys = buildQuarantineKeys(prefix, fingerprintOrAliases);
+  if (qkeys.length === 0) return { active: false, reason: null, until: null };
+  const raws = redis.mget
+    ? await redis.mget(...qkeys)
+    : await Promise.all(qkeys.map((key) => redis.get(key)));
+  return summarizeQuarantineRaws(raws);
 }
 
 function githubLegacyFingerprint(token: string | null | undefined): string {
@@ -410,53 +466,92 @@ function poolHealth(rows: Array<{ status: PoolStatus; requests24h: number }>): P
 }
 
 async function githubState(buckets: string[]): Promise<AdminPoolStateResponse["github"]> {
-  const keys = configuredGithubKeys();
-  const rows = await Promise.all(
-    keys.map(async (key): Promise<GithubPoolRow> => {
-      const usage = await readUsage("github", key.usageFingerprints, buckets);
-      const telemetryQuarantine = await readQuarantine("github", key.usageFingerprints);
-      const publishedQuarantine = quarantineFromPublishedState(key.publishedState);
-      const quarantine = telemetryQuarantine.active
-        ? telemetryQuarantine
-        : publishedQuarantine.active
-          ? publishedQuarantine
-          : telemetryQuarantine.until
-            ? telemetryQuarantine
-            : publishedQuarantine;
-      const publishedLastObserved = key.publishedState?.lastObservedMs
-        ? new Date(key.publishedState.lastObservedMs).toISOString()
-        : null;
-      const lastCallAt =
-        usage.lastCallAt ??
-        publishedLastObserved ??
-        parseIso(key.publishedState?.writtenAt);
-      const idle =
-        !lastCallAt ||
-        Date.now() - Date.parse(lastCallAt) > IDLE_KEY_MS;
-      const status: PoolStatus = quarantine.active
-        ? "RED"
-        : idle
-          ? "RED"
-          : "GREEN";
-      return {
-        fingerprint: key.label,
-        ...usage,
-        lastCallAt,
-        lastRateLimitRemaining:
-          usage.lastRateLimitRemaining ?? key.publishedState?.remaining ?? null,
-        lastRateLimitReset:
-          usage.lastRateLimitReset ??
-          (key.publishedState?.resetUnixSec
-            ? new Date(key.publishedState.resetUnixSec * 1000).toISOString()
-            : null),
-        quarantine,
-        idle,
-        status,
-      };
-    }),
+  const poolKeys = configuredGithubKeys();
+
+  // AGN-467: batch ALL usage hash keys + ALL quarantine keys for the
+  // entire GitHub PAT pool, then dispatch in 2 round trips total
+  // (1 pipelined HGETALL + 1 MGET) instead of N × 24 HGETALLs and
+  // N GETs running per-row inside Promise.all.
+  const usageKeysPerRow = poolKeys.map((key) =>
+    buildUsageKeys("github", key.usageFingerprints, buckets),
   );
+  const quarantineKeysPerRow = poolKeys.map((key) =>
+    buildQuarantineKeys("github", key.usageFingerprints),
+  );
+  const flatUsageKeys = usageKeysPerRow.flat();
+  const flatQuarantineKeys = quarantineKeysPerRow.flat();
+
+  const [allUsageHashes, allQuarantineRaws] = await Promise.all([
+    flatUsageKeys.length === 0
+      ? Promise.resolve<Record<string, string>[]>([])
+      : redis.hgetallMany
+        ? redis.hgetallMany(flatUsageKeys)
+        : Promise.all(flatUsageKeys.map((key) => redis.hgetall(key))),
+    flatQuarantineKeys.length === 0
+      ? Promise.resolve<(string | null)[]>([])
+      : redis.mget
+        ? redis.mget(...flatQuarantineKeys)
+        : Promise.all(flatQuarantineKeys.map((key) => redis.get(key))),
+  ]);
+
+  // Slice the flat result back into per-row windows preserving order.
+  let usageCursor = 0;
+  let quarantineCursor = 0;
+  const rows: GithubPoolRow[] = poolKeys.map((key, idx): GithubPoolRow => {
+    const usageWindow = allUsageHashes.slice(
+      usageCursor,
+      usageCursor + usageKeysPerRow[idx]!.length,
+    );
+    usageCursor += usageKeysPerRow[idx]!.length;
+    const quarantineWindow = allQuarantineRaws.slice(
+      quarantineCursor,
+      quarantineCursor + quarantineKeysPerRow[idx]!.length,
+    );
+    quarantineCursor += quarantineKeysPerRow[idx]!.length;
+
+    const usage = summarizeUsageHashes(usageWindow);
+    const telemetryQuarantine = summarizeQuarantineRaws(quarantineWindow);
+    const publishedQuarantine = quarantineFromPublishedState(key.publishedState);
+    const quarantine = telemetryQuarantine.active
+      ? telemetryQuarantine
+      : publishedQuarantine.active
+        ? publishedQuarantine
+        : telemetryQuarantine.until
+          ? telemetryQuarantine
+          : publishedQuarantine;
+    const publishedLastObserved = key.publishedState?.lastObservedMs
+      ? new Date(key.publishedState.lastObservedMs).toISOString()
+      : null;
+    const lastCallAt =
+      usage.lastCallAt ??
+      publishedLastObserved ??
+      parseIso(key.publishedState?.writtenAt);
+    const idle =
+      !lastCallAt ||
+      Date.now() - Date.parse(lastCallAt) > IDLE_KEY_MS;
+    const status: PoolStatus = quarantine.active
+      ? "RED"
+      : idle
+        ? "RED"
+        : "GREEN";
+    return {
+      fingerprint: key.label,
+      ...usage,
+      lastCallAt,
+      lastRateLimitRemaining:
+        usage.lastRateLimitRemaining ?? key.publishedState?.remaining ?? null,
+      lastRateLimitReset:
+        usage.lastRateLimitReset ??
+        (key.publishedState?.resetUnixSec
+          ? new Date(key.publishedState.resetUnixSec * 1000).toISOString()
+          : null),
+      quarantine,
+      idle,
+      status,
+    };
+  });
   return {
-    totalConfigured: keys.length,
+    totalConfigured: poolKeys.length,
     health: poolHealth(rows),
     rows,
   };
@@ -466,37 +561,71 @@ async function redditState(buckets: string[]): Promise<AdminPoolStateResponse["r
   const agents = (Array.isArray(redditUserAgents) ? redditUserAgents : [])
     .map((value) => (typeof value === "string" ? value.trim() : ""))
     .filter(Boolean);
-  const rows = await Promise.all(
-    agents.map(async (userAgent): Promise<RedditPoolRow> => {
-      const fingerprint = redditUserAgentFingerprint(userAgent);
-      const usage = await readUsage("reddit", fingerprint, buckets);
-      const quarantine = await readQuarantine("reddit", fingerprint);
-      const last429At =
-        usage.last429At ?? (usage.lastStatusCode === 429 ? usage.lastCallAt : null);
-      const status: PoolStatus = quarantine.active
-        ? "RED"
-        : usage.rateLimited24h && usage.rateLimited24h > 0
+  const fingerprints = agents.map((agent) => redditUserAgentFingerprint(agent));
+
+  // AGN-467: batch ALL Reddit UA usage hashes (24 buckets × N agents) +
+  // ALL quarantine keys + the "last hour" hashes for `rateLimitedLastHour`
+  // into 2 round trips total (1 pipelined HGETALL + 1 MGET) instead of
+  // N × (24+1) round trips. Same scaling shape as `githubState` above.
+  const usageKeysPerRow = fingerprints.map((fp) =>
+    buildUsageKeys("reddit", fp, buckets),
+  );
+  const flatUsageKeys = usageKeysPerRow.flat();
+  const flatQuarantineKeys = fingerprints.map((fp) =>
+    buildQuarantineKeys("reddit", fp)[0]!,
+  );
+
+  const [allUsageHashes, allQuarantineRaws] = await Promise.all([
+    flatUsageKeys.length === 0
+      ? Promise.resolve<Record<string, string>[]>([])
+      : redis.hgetallMany
+        ? redis.hgetallMany(flatUsageKeys)
+        : Promise.all(flatUsageKeys.map((key) => redis.hgetall(key))),
+    flatQuarantineKeys.length === 0
+      ? Promise.resolve<(string | null)[]>([])
+      : redis.mget
+        ? redis.mget(...flatQuarantineKeys)
+        : Promise.all(flatQuarantineKeys.map((key) => redis.get(key))),
+  ]);
+
+  let usageCursor = 0;
+  const rows: RedditPoolRow[] = agents.map((userAgent, idx): RedditPoolRow => {
+    const fingerprint = fingerprints[idx]!;
+    const usageWindow = allUsageHashes.slice(
+      usageCursor,
+      usageCursor + usageKeysPerRow[idx]!.length,
+    );
+    usageCursor += usageKeysPerRow[idx]!.length;
+    const usage = summarizeUsageHashes(usageWindow);
+    const quarantine = summarizeQuarantineRaws([allQuarantineRaws[idx] ?? null]);
+    const last429At =
+      usage.last429At ?? (usage.lastStatusCode === 429 ? usage.lastCallAt : null);
+    const status: PoolStatus = quarantine.active
+      ? "RED"
+      : usage.rateLimited24h && usage.rateLimited24h > 0
+        ? "YELLOW"
+        : usage.fail24h > usage.success24h && usage.fail24h > 0
           ? "YELLOW"
-          : usage.fail24h > usage.success24h && usage.fail24h > 0
-            ? "YELLOW"
           : "GREEN";
-      return {
-        fingerprint,
-        userAgentLabel: userAgent.split(" ")[0] ?? fingerprint,
-        ...usage,
-        last429At,
-        quarantine,
-        status,
-      };
-    }),
-  );
-  const currentBucket = buckets[0];
-  const lastHourHashes = await Promise.all(
-    rows.map((row) => redis.hgetall(`pool:reddit:usage:${row.fingerprint}:${currentBucket}`)),
-  );
-  const rateLimitedLastHour = lastHourHashes.reduce((sum, hash) => {
-    return sum + (parseNumber(hash.rateLimited) ?? 0);
-  }, 0);
+    return {
+      fingerprint,
+      userAgentLabel: userAgent.split(" ")[0] ?? fingerprint,
+      ...usage,
+      last429At,
+      quarantine,
+      status,
+    };
+  });
+
+  // `rateLimitedLastHour` reuses the current-hour bucket already fetched
+  // above (buckets[0] is now-hour by construction). No extra Redis call.
+  const currentBucketIdx = 0;
+  let rateLimitedLastHour = 0;
+  for (let i = 0; i < rows.length; i += 1) {
+    const hash = allUsageHashes[currentBucketIdx * rows.length + i] ?? {};
+    rateLimitedLastHour += parseNumber(hash.rateLimited) ?? 0;
+  }
+
   return {
     totalConfigured: agents.length,
     health: poolHealth(rows),
@@ -517,7 +646,9 @@ async function twitterState(buckets: string[]): Promise<AdminPoolStateResponse["
     }),
   );
   const degradationHashes = await Promise.all(
-    buckets.map((bucket) => redis.hgetall(`pool:twitter:degradation:${bucket}`)),
+    buckets.map((bucket) =>
+      redis.hgetall(keys.pool.twitter.degradation(bucket)),
+    ),
   );
   const degradations = degradationHashes.reduce((sum, hash) => sum + (parseNumber(hash.count) ?? 0), 0);
   const totalTwitterCalls = sources.reduce((sum, row) => sum + row.requests24h, 0);

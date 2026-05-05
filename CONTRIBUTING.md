@@ -9,8 +9,8 @@ Before proposing changes, read:
 1. `CLAUDE.md`
 2. `docs/ENGINE.md`
 3. `docs/SITE-WIREMAP.md`
-4. `docs/AUDIT-2026-05-04.md`
-5. `docs/forensic/00-INDEX.md`
+4. `docs/archive/AUDIT-2026-05-04.md`
+5. `docs/archive/forensic-2026-05-pre/00-INDEX.md`
 6. `tasks/CURRENT-SPRINT.md`
 7. `tasks/BACKLOG.md`
 

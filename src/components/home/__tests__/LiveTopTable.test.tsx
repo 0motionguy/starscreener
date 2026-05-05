@@ -1,5 +1,5 @@
 import { cleanup, render } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
   LiveTopTable,
@@ -7,8 +7,20 @@ import {
   type LiveRow,
 } from "@/components/home/LiveTopTable";
 
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ replace: vi.fn() }),
+  usePathname: () => "/",
+  useSearchParams: () => new URLSearchParams(),
+}));
+
 afterEach(() => {
   cleanup();
+  vi.useRealTimers();
+});
+
+beforeEach(() => {
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date("2026-05-05T12:00:00.000Z"));
 });
 
 const row: LiveRow = {
@@ -74,6 +86,30 @@ describe("LiveTopTable", () => {
         "Why #01: trending 224. Signals: n/a (1h), n/a (6h), +152 (24h), +699 (7d), 9 mentions.",
       ),
     ).toBeTruthy();
+  });
+
+  it("colors freshness tags by age threshold", () => {
+    const freshRow: LiveRow = {
+      ...row,
+      id: "repo-fresh",
+      fullName: "owner/fresh",
+      href: "/repo/owner/fresh",
+      lastCommitAt: "2026-05-05T11:45:00.000Z",
+    };
+    const staleRow: LiveRow = {
+      ...row,
+      id: "repo-stale",
+      fullName: "owner/stale",
+      href: "/repo/owner/stale",
+      lastCommitAt: "2026-05-05T09:30:00.000Z",
+    };
+
+    const { container } = render(
+      <LiveTopTable rows={[freshRow, staleRow]} categories={categories} />,
+    );
+
+    expect(container.querySelectorAll(".freshness-tag--fresh").length).toBe(1);
+    expect(container.querySelectorAll(".freshness-tag--stale").length).toBe(1);
   });
 
   // AGN-524 ranking-formula behaviour is asserted in

@@ -45,6 +45,7 @@ export const metadata: Metadata = {
     description:
       "Lobsters stories ranked by recent score velocity and cross-linked to tracked GitHub repositories.",
     url: absoluteUrl("/lobsters"),
+    type: "website",
     images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
   },
   twitter: {

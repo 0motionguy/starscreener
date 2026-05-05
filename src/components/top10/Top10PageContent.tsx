@@ -559,7 +559,7 @@ function FilterRow({
           disabled={!supportedW.has(w)}
           onClick={() => supportedW.has(w) && onWindow(w)}
         >
-          {w === "ytd" ? "YTD" : w.toUpperCase()}
+          {windowLabel(w).toUpperCase()}
         </Chip>
       ))}
       <span

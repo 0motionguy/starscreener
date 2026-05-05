@@ -32,6 +32,7 @@ import Stripe from "stripe";
 import { z } from "zod";
 
 import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
+import { enforceMutationSameOrigin } from "@/lib/api/mutation-origin-guard";
 import { parseBody } from "@/lib/api/parse-body";
 import {
   getStripeClient,
@@ -108,6 +109,8 @@ function originFromRequest(request: NextRequest): string {
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<CheckoutOkResponse | CheckoutErrorResponse>> {
+  const guard = enforceMutationSameOrigin(request);
+  if (!guard.ok) return guard.response as NextResponse<CheckoutErrorResponse>;
   // 1. Auth — user must be logged in.
   const auth = verifyUserAuth(request);
   const deny = userAuthFailureResponse(auth);
@@ -249,3 +252,4 @@ export async function POST(
     );
   }
 }
+

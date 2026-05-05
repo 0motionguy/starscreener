@@ -469,8 +469,24 @@ export function authFailureResponse(
 ): NextResponse | null {
   if (verdict.kind === "ok") return null;
   if (verdict.kind === "unauthorized") {
+    const err = new AuthQuarantineError("cron auth denied: unauthorized");
+    const context = engineErrorSentryContext(err, {
+      auth_surface: "cron",
+    });
+    sentryCaptureException(err, {
+      tags: context.tags,
+      extra: context.extra,
+    });
     return NextResponse.json({ ok: false, reason: "unauthorized" }, { status: 401 });
   }
+  const err = new AuthFatalError("cron auth blocked: CRON_SECRET missing");
+  const context = engineErrorSentryContext(err, {
+    auth_surface: "cron",
+  });
+  sentryCaptureException(err, {
+    tags: context.tags,
+    extra: context.extra,
+  });
   return NextResponse.json(
     { ok: false, reason: "CRON_SECRET not configured" },
     { status: 503 },

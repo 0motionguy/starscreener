@@ -22,6 +22,7 @@ import { z } from "zod";
 import {
   SESSION_COOKIE_NAME,
 } from "@/lib/api/auth";
+import { enforceMutationSameOrigin } from "@/lib/api/mutation-origin-guard";
 import { parseBody } from "@/lib/api/parse-body";
 import {
   deriveUserId,
@@ -122,6 +123,9 @@ export async function GET(
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<SessionIssuedOk | SessionError>> {
+  const guard = enforceMutationSameOrigin(request);
+  if (!guard.ok) return guard.response as NextResponse<SessionError>;
+
   // Dev fallback: SESSION_SECRET unset. Return the "local" identity without
   // setting a cookie — AlertConfig's existing dev path picks this up.
   if (!isSecretConfigured()) {

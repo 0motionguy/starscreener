@@ -37,6 +37,21 @@ export interface GitHubRepoRaw {
   disabled: boolean;
 }
 
+export type GitHubRepoFetchOutcome =
+  | {
+      status: "ok";
+      repo: GitHubRepoRaw;
+    }
+  | {
+      status: "not_found";
+      repo: null;
+    }
+  | {
+      status: "unavailable";
+      repo: null;
+      reason: string;
+    };
+
 /** Release metadata from GitHub. */
 export interface GitHubReleaseRaw {
   tag_name: string;
@@ -467,6 +482,7 @@ export interface CompareResult {
 
 export interface GitHubAdapter {
   readonly id: "github" | "mock-github";
+  fetchRepoOutcome(fullName: string): Promise<GitHubRepoFetchOutcome>;
   fetchRepo(fullName: string): Promise<GitHubRepoRaw | null>;
   fetchLatestRelease(fullName: string): Promise<GitHubReleaseRaw | null>;
   fetchContributorCount(fullName: string): Promise<number>;

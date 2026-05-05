@@ -1,3 +1,9 @@
+---
+status: snapshot
+audit-date: 2026-05-05
+reason: predates 2026-05-04 workflow expansion; 26% workflow undercount, 3 wrong cron schedules, 21 missing SRE workflows
+---
+
 # ENGINE.md — STARSCREENER Engine Registry
 
 **Purpose**: One-stop concept/architecture map. Every Claude session loads this via the reference in [CLAUDE.md](../CLAUDE.md). When you (Claude or operator) need to know "what runs where, on what cadence, with which keys" — read this first.

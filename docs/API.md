@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # StarScreener API Reference
 
 All routes live under `/api/*`. Every response is `application/json`. Public routes are unauthenticated; a small set of admin routes under `/api/pipeline/*` require `Authorization: Bearer $CRON_SECRET` via `verifyCronAuth`.
@@ -780,3 +786,28 @@ All routes return a consistent error envelope:
 ```
 
 with appropriate HTTP status codes (`400`, `401`, `404`, `500`).
+
+---
+
+## Admin / Cron
+
+A non-trivial number of admin and cron-driven routes exist under `src/app/api/admin/*` and `src/app/api/cron/*`. As of 2026-05-05 these routes are NOT individually documented in this reference; their existence and auth model is documented here so callers know they are intentional, not accidental.
+
+- `src/app/api/admin/*` â€” operator-only views (pool snapshot, staleness, scoring shadow, unknown mentions, etc.). Auth: cookie-based admin session via `verifyAdminSession()` from [src/lib/api/auth.ts](../src/lib/api/auth.ts). Returns `401` on missing / invalid session.
+- `src/app/api/cron/*` â€” HTTP-trigger surface for scheduled work (driven by GitHub Actions `cron-*.yml` workflows that hit these endpoints with `Authorization: Bearer $CRON_SECRET`). Auth: `verifyCronAuth(request)` from the same module. Returns `401` on missing / mismatched bearer.
+
+Per-route schemas are deferred to a future doc pass. Until then, treat these as operator/internal surfaces and consult the route handler directly. The cron schedules themselves live in [docs/SITE-WIREMAP.md Â§4](./SITE-WIREMAP.md) (reverse map).
+
+---
+
+## Agent Commerce
+
+Routes added in PRs #96â€“97 (agent-commerce signal layer). Currently undocumented here pending a v2 spec sweep. Existing endpoints (per `src/app/api/agent-commerce/`):
+
+- `GET /api/agent-commerce` â€” list / index endpoint
+- `GET /api/agent-commerce/[slug]` â€” per-agent payload (commerce summary, signals)
+- `GET /api/agent-commerce/categories` â€” category buckets
+- `GET /api/agent-commerce/signals` â€” aggregated signal feed
+- `GET /api/agent-commerce/trending` â€” trending agents
+
+All currently public read; no auth gate. Schemas TBD â€” see `cron-agent-commerce` workflow (daily `31 4 * * *`) for the upstream collector.

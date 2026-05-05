@@ -9,7 +9,13 @@
 
 import { describe, expect, it } from "vitest";
 
-import { normalizeHealth, readAge, formatAge } from "../FreshBadge";
+import {
+  normalizeHealth,
+  readAge,
+  formatAge,
+  buildBadgeLabel,
+  getPollIntervalMs,
+} from "../FreshBadge";
 
 describe("normalizeHealth", () => {
   it("returns status='error' and undefined ageSeconds for an empty object", () => {
@@ -125,5 +131,37 @@ describe("formatAge", () => {
     expect(formatAge(86400)).toBe("1d");
     expect(formatAge(172800)).toBe("2d");
     expect(formatAge(7 * 86400)).toBe("7d");
+  });
+});
+
+describe("buildBadgeLabel", () => {
+  it('omits age suffix when the age is unavailable (soft=1 shape)', () => {
+    expect(buildBadgeLabel("ok", null)).toBe("LIVE");
+    expect(buildBadgeLabel("stale", null)).toBe("STALE");
+  });
+
+  it("includes age suffix when scraper age is present", () => {
+    expect(buildBadgeLabel("ok", 120)).toBe("LIVE / 2m");
+    expect(buildBadgeLabel("stale", 3600)).toBe("STALE / 1h");
+  });
+
+  it("returns placeholder for error status", () => {
+    expect(buildBadgeLabel("error", null)).toBe("--");
+    expect(buildBadgeLabel("error", 30)).toBe("--");
+  });
+});
+
+describe("getPollIntervalMs", () => {
+  it("uses stale cadence while bootstrapping", () => {
+    expect(getPollIntervalMs(null)).toBe(60_000);
+  });
+
+  it("polls aggressively on error and stale snapshots", () => {
+    expect(getPollIntervalMs({ status: "error" })).toBe(30_000);
+    expect(getPollIntervalMs({ status: "stale" })).toBe(60_000);
+  });
+
+  it("uses source-cadence polling when status is healthy", () => {
+    expect(getPollIntervalMs({ status: "ok" })).toBe(300_000);
   });
 });

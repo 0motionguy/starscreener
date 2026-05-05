@@ -15,11 +15,12 @@ import type { LucideIcon } from "lucide-react";
 
 import { BrandStar } from "@/components/shared/BrandStar";
 import type { Repo } from "@/lib/types";
-import { cn, formatNumber } from "@/lib/utils";
+import { cn, formatNumber, getRelativeTime } from "@/lib/utils";
 import { Sparkline } from "@/components/shared/Sparkline";
 
 interface RepoDetailStatsStripProps {
   repo: Repo;
+  updatedAt?: string | null;
 }
 
 interface MiniCardData {
@@ -31,6 +32,8 @@ interface MiniCardData {
   sparkline: number[];
   /** Set true when the underlying delta wasn't available; the chip greys out. */
   deltaMissing?: boolean;
+  updatedAt?: string | null;
+  showFreshness?: boolean;
 }
 
 /**
@@ -62,8 +65,18 @@ function deltaTone(n: number): "up" | "down" | "flat" {
   return "flat";
 }
 
+function freshnessTone(isoDate: string): "fresh" | "stale" | "normal" {
+  const then = new Date(isoDate).getTime();
+  if (!Number.isFinite(then)) return "normal";
+  const ageMinutes = (Date.now() - then) / 60_000;
+  if (ageMinutes <= 30) return "fresh";
+  if (ageMinutes > 60) return "stale";
+  return "normal";
+}
+
 export function RepoDetailStatsStrip({
   repo,
+  updatedAt,
 }: RepoDetailStatsStripProps): JSX.Element {
   const cards: MiniCardData[] = [
     {
@@ -74,6 +87,8 @@ export function RepoDetailStatsStrip({
       deltaWindow: "7d",
       sparkline: repo.sparklineData ?? [],
       deltaMissing: repo.starsDelta7dMissing,
+      updatedAt,
+      showFreshness: true,
     },
     {
       label: "Forks",
@@ -83,6 +98,8 @@ export function RepoDetailStatsStrip({
       deltaWindow: "7d",
       sparkline: syntheticSeries(repo.forks, repo.forksDelta7d),
       deltaMissing: repo.forksDelta7dMissing,
+      updatedAt,
+      showFreshness: true,
     },
     {
       label: "Contributors",
@@ -92,6 +109,8 @@ export function RepoDetailStatsStrip({
       deltaWindow: "30d",
       sparkline: syntheticSeries(repo.contributors, repo.contributorsDelta30d, 7),
       deltaMissing: repo.contributorsDelta30dMissing,
+      updatedAt,
+      showFreshness: false,
     },
   ];
 
@@ -115,6 +134,8 @@ function MiniCard({
   deltaWindow,
   sparkline,
   deltaMissing,
+  updatedAt,
+  showFreshness,
 }: MiniCardData) {
   const tone = deltaTone(delta);
   const toneColor =
@@ -170,6 +191,14 @@ function MiniCard({
             / {deltaWindow}
           </span>
         </span>
+        {showFreshness && updatedAt ? (
+          <span
+            className={`freshness-tag freshness-tag--${freshnessTone(updatedAt)} mt-1`}
+            style={{ fontSize: 10 }}
+          >
+            Updated {getRelativeTime(updatedAt)}
+          </span>
+        ) : null}
       </div>
       <div className="shrink-0">
         <Sparkline

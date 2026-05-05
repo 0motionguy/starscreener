@@ -1,0 +1,32 @@
+{
+  "generatedAt": "2026-05-04T21:22:04.215Z",
+  "base": "http://localhost:4140",
+  "routes": [
+    {
+      "route": "/",
+      "status": 200,
+      "title": "TrendingRepo - The trend map for open source"
+    },
+    {
+      "route": "/search?q=zzzz-nohit-agn608",
+      "status": 200,
+      "title": "Search - TrendingRepo — TrendingRepo"
+    },
+    {
+      "route": "/top",
+      "status": 200,
+      "title": "Top 100 GitHub Repos by Stars — TrendingRepo"
+    },
+    {
+      "route": "/watchlist",
+      "status": 200,
+      "title": "Watchlist — TrendingRepo"
+    }
+  ],
+  "tabCheck": {
+    "tag": "A",
+    "text": "Skip to main content",
+    "ariaLabel": null,
+    "href": "#main-content"
+  }
+}

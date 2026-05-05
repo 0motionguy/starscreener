@@ -98,31 +98,73 @@ const FAILED_CACHE_TTL_MS = 5 * 60 * 1000;
 const DEFAULT_POLL_INTERVAL_MS = 1_500;
 const DEFAULT_PAGE_WAIT_MS = 14_000;
 const DEFAULT_REQUEST_TIMEOUT_MS = 8_000;
+const DEFAULT_PROTOCOL = "aiso.tools";
 
 const memoryCache = new Map<
   string,
   { expiresAt: number; value: AisoToolsScan | null }
 >();
 
-function normalizeBaseUrl(): string | null {
-  if (readEnv("TRENDINGREPO_AISO_AUTO_SCAN", "STARSCREENER_AISO_AUTO_SCAN") === "false") return null;
+interface AisoProtocolConfig {
+  name: string;
+  baseUrl: string;
+  submitPath: string;
+  statusPathTemplate: string;
+  resultPathTemplate: string;
+}
 
+function trimTrailingSlash(value: string): string {
+  return value.replace(/\/+$/, "");
+}
+
+function normalizePath(value: string, fallback: string): string {
+  const raw = value.trim();
+  if (!raw) return fallback;
+  return raw.startsWith("/") ? raw : `/${raw}`;
+}
+
+function pickBaseUrlFromEnv(): string {
   const explicit =
     process.env.AISO_API_URL ??
     process.env.AISO_TOOLS_API_URL ??
     process.env.AISOTOOLS_API_URL;
 
-  if (explicit) return explicit.replace(/\/+$/, "");
-
-  if (process.env.NODE_ENV === "development") {
-    return "http://localhost:3033";
-  }
-
+  if (explicit) return trimTrailingSlash(explicit);
+  if (process.env.NODE_ENV === "development") return "http://localhost:3033";
   return "https://aiso.tools";
 }
 
-function resultPageUrl(baseUrl: string, scanId: string): string {
-  return `${baseUrl}/scan/${scanId}`;
+function resolveProtocol(): AisoProtocolConfig | null {
+  if (readEnv("TRENDINGREPO_AISO_AUTO_SCAN", "STARSCREENER_AISO_AUTO_SCAN") === "false") return null;
+
+  return {
+    name: process.env.AISO_SCAN_PROTOCOL?.trim() || DEFAULT_PROTOCOL,
+    baseUrl: pickBaseUrlFromEnv(),
+    submitPath: normalizePath(process.env.AISO_SCAN_SUBMIT_PATH ?? "", "/api/scan"),
+    statusPathTemplate:
+      process.env.AISO_SCAN_STATUS_PATH_TEMPLATE?.trim() || "/api/scan/{scanId}",
+    resultPathTemplate:
+      process.env.AISO_SCAN_RESULT_PATH_TEMPLATE?.trim() || "/scan/{scanId}",
+  };
+}
+
+function resolvePath(
+  baseUrl: string,
+  template: string,
+  scanId: string,
+  fallback: string,
+): string {
+  const clean = template.trim();
+  if (!clean) return `${baseUrl}${fallback}`;
+  const withScanId = clean.includes("{scanId}")
+    ? clean.replace(/\{scanId\}/g, encodeURIComponent(scanId))
+    : clean;
+  const normalized = withScanId.startsWith("/") ? withScanId : `/${withScanId}`;
+  return `${baseUrl}${normalized}`;
+}
+
+function resultPageUrl(protocol: AisoProtocolConfig, scanId: string): string {
+  return resolvePath(protocol.baseUrl, protocol.resultPathTemplate, scanId, `/scan/${encodeURIComponent(scanId)}`);
 }
 
 function cacheTtl(scan: AisoToolsScan | null): number {
@@ -158,10 +200,11 @@ async function fetchJson<T>(
 }
 
 async function submitScan(
-  baseUrl: string,
+  protocol: AisoProtocolConfig,
   targetUrl: string,
 ): Promise<ScanSubmitResponse | null> {
-  return fetchJson<ScanSubmitResponse>(`${baseUrl}/api/scan`, {
+  const endpoint = resolvePath(protocol.baseUrl, protocol.submitPath, "", "/api/scan");
+  return fetchJson<ScanSubmitResponse>(endpoint, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ url: targetUrl }),
@@ -169,16 +212,17 @@ async function submitScan(
 }
 
 async function fetchScan(
-  baseUrl: string,
+  protocol: AisoProtocolConfig,
   scanId: string,
 ): Promise<ScanPayload | null> {
-  return fetchJson<ScanPayload>(`${baseUrl}/api/scan/${scanId}`, {
+  const endpoint = resolvePath(protocol.baseUrl, protocol.statusPathTemplate, scanId, `/api/scan/${encodeURIComponent(scanId)}`);
+  return fetchJson<ScanPayload>(endpoint, {
     method: "GET",
     headers: { accept: "application/json" },
   });
 }
 
-function normalizeScan(baseUrl: string, payload: ScanPayload): AisoToolsScan {
+function normalizeScan(protocol: AisoProtocolConfig, payload: ScanPayload): AisoToolsScan {
   return {
     scanId: payload.scanId,
     url: payload.url,
@@ -191,7 +235,7 @@ function normalizeScan(baseUrl: string, payload: ScanPayload): AisoToolsScan {
     runtimeVisibility: payload.runtimeVisibility,
     scanDurationMs: payload.scanDurationMs,
     completedAt: payload.completedAt,
-    resultUrl: resultPageUrl(baseUrl, payload.scanId),
+    resultUrl: resultPageUrl(protocol, payload.scanId),
     dimensions: (payload.dimensions ?? []).map((dimension) => ({
       key: dimension.key,
       label: dimension.label,
@@ -219,7 +263,7 @@ function normalizeScan(baseUrl: string, payload: ScanPayload): AisoToolsScan {
 }
 
 async function pollScan(
-  baseUrl: string,
+  protocol: AisoProtocolConfig,
   scanId: string,
   waitMs: number,
 ): Promise<AisoToolsScan | null> {
@@ -227,9 +271,9 @@ async function pollScan(
   let last: AisoToolsScan | null = null;
 
   while (Date.now() <= deadline) {
-    const payload = await fetchScan(baseUrl, scanId);
+    const payload = await fetchScan(protocol, scanId);
     if (!payload) return last;
-    last = normalizeScan(baseUrl, payload);
+    last = normalizeScan(protocol, payload);
     if (!ACTIVE_STATUSES.has(last.status)) return last;
     await new Promise((resolve) => setTimeout(resolve, DEFAULT_POLL_INTERVAL_MS));
   }
@@ -242,16 +286,16 @@ export async function getAisoToolsScan(
 ): Promise<AisoToolsScan | null> {
   if (!targetUrl) return null;
 
-  const baseUrl = normalizeBaseUrl();
-  if (!baseUrl) return null;
+  const protocol = resolveProtocol();
+  if (!protocol) return null;
 
-  const cacheKey = `${baseUrl}::${targetUrl}`;
+  const cacheKey = `${protocol.name}::${protocol.baseUrl}::${targetUrl}`;
   const cached = memoryCache.get(cacheKey);
   if (cached && cached.expiresAt > Date.now()) {
     if (!cached.value || !ACTIVE_STATUSES.has(cached.value.status)) {
       return cached.value;
     }
-    const refreshed = await pollScan(baseUrl, cached.value.scanId, 1);
+    const refreshed = await pollScan(protocol, cached.value.scanId, 1);
     if (refreshed) {
       memoryCache.set(cacheKey, {
         expiresAt: Date.now() + cacheTtl(refreshed),
@@ -262,7 +306,7 @@ export async function getAisoToolsScan(
     return cached.value;
   }
 
-  const submitted = await submitScan(baseUrl, targetUrl);
+  const submitted = await submitScan(protocol, targetUrl);
   if (!submitted?.scanId) {
     memoryCache.set(cacheKey, {
       expiresAt: Date.now() + FAILED_CACHE_TTL_MS,
@@ -276,7 +320,7 @@ export async function getAisoToolsScan(
     "STARSCREENER_AISO_PAGE_WAIT_MS",
     DEFAULT_PAGE_WAIT_MS,
   );
-  const scan = await pollScan(baseUrl, submitted.scanId, waitMs);
+  const scan = await pollScan(protocol, submitted.scanId, waitMs);
   const value =
     scan ??
     ({
@@ -291,7 +335,7 @@ export async function getAisoToolsScan(
       runtimeVisibility: null,
       scanDurationMs: null,
       completedAt: null,
-      resultUrl: resultPageUrl(baseUrl, submitted.scanId),
+      resultUrl: resultPageUrl(protocol, submitted.scanId),
       dimensions: [],
       issues: [],
       promptTests: [],

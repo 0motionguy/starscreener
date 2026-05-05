@@ -20,6 +20,8 @@ export interface RepoMetadata {
   archived: boolean;
   disabled: boolean;
   fork: boolean;
+  repoCategory?: "mcp" | "skill" | "agent" | "library";
+  repoCategoryConfidence?: number;
   fetchedAt: string;
 }
 

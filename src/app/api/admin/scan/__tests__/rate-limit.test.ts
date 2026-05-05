@@ -1,6 +1,6 @@
 // StarScreener — POST /api/admin/scan rate-limit envelope test.
 //
-// The route advertises 8 requests per 60s window. When the bucket is
+// The route allows 5 requests per 60s window per admin principal. When the bucket is
 // saturated, POST must return 429 with a numeric Retry-After header
 // (seconds) and the standard { ok: false, error: "rate limited" } body.
 //
@@ -24,20 +24,20 @@ import {
 } from "../../../../../lib/api/rate-limit-store";
 
 const ADMIN_SCAN_WINDOW_MS = 60_000;
-const ADMIN_SCAN_MAX = 8;
+const ADMIN_SCAN_MAX = 5;
 const ADMIN_TOKEN = "test-admin-token-rate-limit-fixture-32chars";
 
 const previousAdminToken = process.env.ADMIN_TOKEN;
 process.env.ADMIN_TOKEN = ADMIN_TOKEN;
 
 async function primeSaturatedStore(
-  ip: string,
+  keyId: string,
   windowMs: number,
   maxRequests: number,
 ): Promise<MemoryRateLimitStore> {
   const store = new MemoryRateLimitStore();
   const ttlSec = Math.max(1, Math.ceil(windowMs / 1000));
-  const key = `rl:${ip}:${windowMs}:${maxRequests}`;
+  const key = `rl:${keyId}:${windowMs}:${maxRequests}`;
   for (let i = 0; i < maxRequests; i += 1) {
     await store.incrementWithTtl(key, ttlSec);
   }
@@ -61,7 +61,8 @@ after(() => {
 
 test("POST /api/admin/scan: returns 429 with Retry-After when rate-limit bucket is saturated", async () => {
   const ip = "198.51.100.50";
-  await primeSaturatedStore(ip, ADMIN_SCAN_WINDOW_MS, ADMIN_SCAN_MAX);
+  const principalScopedKey = `admin-scan|bearer:token|${ip}`;
+  await primeSaturatedStore(principalScopedKey, ADMIN_SCAN_WINDOW_MS, ADMIN_SCAN_MAX);
 
   const { POST } = await import("../route");
   const { NextRequest } = await import("next/server");

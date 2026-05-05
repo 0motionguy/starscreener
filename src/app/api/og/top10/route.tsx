@@ -78,7 +78,7 @@ const ASPECT_DIMENSIONS = {
 
 type Aspect = keyof typeof ASPECT_DIMENSIONS;
 
-const CACHE_HEADER = "public, s-maxage=300, stale-while-revalidate=3600";
+const CACHE_HEADER = "public, s-maxage=3600, stale-while-revalidate=3600";
 
 const TITLE_BY_CATEGORY: Record<Top10Category, string> = {
   repos: "The 10 repos\neveryone's starring.",

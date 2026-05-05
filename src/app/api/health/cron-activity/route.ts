@@ -19,6 +19,7 @@
 // public the same way /api/health is.
 
 import { NextRequest, NextResponse } from "next/server";
+import { verifyAdminAuth, verifyCronAuth } from "@/lib/api/auth";
 import {
   getCronActivity,
   summarizeCronActivity,
@@ -33,11 +34,19 @@ interface CronActivityResponse {
   summary: CronActivitySummary;
 }
 
+type PublicCronActivityResponse = Pick<CronActivityResponse, "summary">;
+
 const DEFAULT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
 
 export async function GET(
   request: NextRequest,
-): Promise<NextResponse<CronActivityResponse>> {
+): Promise<NextResponse<CronActivityResponse | PublicCronActivityResponse>> {
+  const wantsDetail = request.nextUrl.searchParams.get("detail") === "1";
+  const cronSecret = process.env.CRON_SECRET?.trim();
+  const includeDetail =
+    wantsDetail &&
+    ((cronSecret ? verifyCronAuth(request).kind === "ok" : false) ||
+      verifyAdminAuth(request).kind === "ok");
   const params = request.nextUrl.searchParams;
 
   const limitStr = params.get("limit");
@@ -57,5 +66,8 @@ export async function GET(
   const entries = getCronActivity({ limit, scope, since });
   const summary = summarizeCronActivity(windowMs, scope);
 
+  if (!includeDetail) {
+    return NextResponse.json({ summary });
+  }
   return NextResponse.json({ entries, summary });
 }

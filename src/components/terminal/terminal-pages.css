@@ -82,6 +82,45 @@
   line-height: 1.6;
 }
 
+.search-empty-card {
+  display: grid;
+  gap: 10px;
+  width: min(580px, 100%);
+  border: 1px solid var(--line-200);
+  background: color-mix(in srgb, var(--bg-100) 92%, var(--acc) 8%);
+  padding: 14px;
+}
+
+.search-empty-title {
+  color: var(--ink-200);
+  font-size: var(--font-size-sm);
+}
+
+.search-empty-copy {
+  max-width: none;
+}
+
+.search-empty-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.search-empty-pill {
+  border: 1px solid var(--line-200);
+  background: var(--bg-050);
+  color: var(--acc);
+  padding: 4px 8px;
+  font-size: var(--font-size-micro);
+  text-decoration: none;
+}
+
+.search-empty-pill:hover {
+  border-color: var(--acc);
+  color: var(--ink-100);
+}
+
 .search-state-icon {
   color: var(--acc);
 }

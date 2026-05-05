@@ -12,7 +12,7 @@ name: Cron - AISO drain
 
 on:
   schedule:
-    - cron: "0,30 * * * *"  # UTC, every hour at :00 and :30
+    - cron: "3,33 * * * *"  # UTC, every hour at :03 and :33 (staggered off :00 burst)
   workflow_dispatch: {}
 
 permissions:

@@ -8,6 +8,17 @@ import { SearchBar } from "@/components/shared/SearchBar";
 import { HamburgerButton } from "@/components/layout/HamburgerButton";
 
 export function Header() {
+  function openBrandAssetsOnRightClick(
+    event: React.MouseEvent<HTMLAnchorElement>,
+  ) {
+    event.preventDefault();
+    window.open(
+      "/brand/trendingrepo-brand-assets.zip",
+      "_blank",
+      "noopener,noreferrer",
+    );
+  }
+
   return (
     <header className="topbar">
       <div className="flex h-full w-full items-center gap-2 sm:gap-[14px]">
@@ -17,6 +28,7 @@ export function Header() {
             href={ROUTES.HOME}
             className="group flex min-w-0 flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded"
             aria-label="TrendingRepo home"
+            onContextMenu={openBrandAssetsOnRightClick}
           >
             <span className="flex min-w-0 items-center gap-1.5 sm:gap-2.5">
               <span
@@ -29,7 +41,6 @@ export function Header() {
                   width={18}
                   height={18}
                   className="block size-[18px] shrink-0"
-                  priority
                 />
               </span>
 

@@ -1,0 +1,154 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`RepoCard snapshot > renders stable card markup 1`] = `
+<a
+  class="block bg-bg-card border border-border-primary rounded-[var(--radius-card)] p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] hover:border-accent-green/30 hover:-translate-y-px transition-all duration-200 animate-[slide-up_0.35s_ease-out_forwards] opacity-0 animate-[heat-pulse_1.5s_ease-in-out_infinite]"
+  href="/repo/vercel/next.js"
+  style="animation-delay: 0ms;"
+>
+  <div
+    class="flex items-center gap-2 min-w-0"
+  >
+    <span
+      class="rank inline-flex items-baseline gap-1 font-sans font-semibold text-xs shrink-0"
+      style="color: var(--gold);"
+    >
+      <span>
+        #
+        1
+      </span>
+    </span>
+    <img
+      alt=""
+      class=""
+      height="24"
+      loading="lazy"
+      referrerpolicy="no-referrer"
+      src="https://example.com/avatar.png"
+      style="width: 24px; height: 24px; border-radius: 2px; overflow: hidden; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border: 1px solid; background: var(--v3-bg-100); object-fit: cover; border-width: var(--v3-line-200); border-style: var(--v3-line-200); border-color: var(--v3-line-200);"
+      width="24"
+    />
+    <span
+      class="font-semibold text-text-primary truncate text-sm"
+    >
+      vercel/next.js
+    </span>
+    <span
+      class="inline-flex min-w-0 shrink-0 items-center gap-1"
+    />
+    <button
+      aria-label="next has 34650378 npm downloads in the last 7 days"
+      class="ds-chip ds-badge-neutral h-5 px-1.5 text-[10px]"
+      style="color: var(--red); border-color: rgba(255, 77, 77, 0.4); background: rgba(255, 77, 77, 0.12);"
+      title="next: 34,650,378 npm downloads / 7d (7 linked packages)"
+      type="button"
+    >
+      <span
+        class="ds-badge-label"
+      >
+        <span
+          aria-hidden="true"
+          class="flex size-3 items-center justify-center bg-[var(--red)] text-[8px] font-bold leading-none text-[#0a0a0a]"
+        >
+          N
+        </span>
+        34.7M
+      </span>
+    </button>
+    <div
+      class="ml-auto shrink-0"
+    >
+      <span
+        class="ds-badge ds-badge-neutral ds-badge-xs inline-flex items-center gap-1.5 rounded-[2px] font-mono uppercase tracking-[0.16em] font-medium tabular-nums h-[18px] px-1.5 text-[10px] "
+        style="background: var(--v3-bg-050); border: 1px solid; color: var(--v3-ink-200); border-width: var(--v3-line-200); border-style: var(--v3-line-200); border-color: var(--v3-line-200);"
+      >
+        <span
+          aria-hidden="true"
+          class="ds-badge-pip"
+          style="background-color: #3B82F6;"
+        />
+        <span
+          class="ds-badge-label"
+        >
+          Web
+        </span>
+      </span>
+    </div>
+  </div>
+  <p
+    class="mt-1.5 text-sm text-text-secondary truncate leading-snug"
+  >
+    The React framework for production.
+  </p>
+  <div
+    class="mt-2.5 flex items-center gap-3"
+  >
+    <span
+      class="inline-flex items-center gap-1 font-mono text-xs text-text-secondary shrink-0"
+    >
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-star text-[var(--v4-amber)]"
+        fill="none"
+        height="12"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="12"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"
+        />
+      </svg>
+      100k
+    </span>
+    <span
+      class="delta inline-flex items-center font-mono font-bold text-[var(--sig-green)] text-xs "
+    >
+      +2.0%
+    </span>
+    <svg
+      aria-hidden="true"
+      class="shrink-0"
+      fill="none"
+      height="20"
+      viewBox="0 0 72 20"
+      width="72"
+    >
+      <path
+        d="M 1,18 Q 1,18 6.833333333333333,16.666666666666668 T 18.5,14 T 30.166666666666664,11.333333333333334 T 41.83333333333333,8.666666666666668 T 53.5,6 T 65.16666666666667,3.333333333333333 T 71,2 L 71,20 L 1,20 Z"
+        fill="var(--color-accent-green)"
+        opacity="0.15"
+      />
+      <path
+        d="M 1,18 Q 1,18 6.833333333333333,16.666666666666668 T 18.5,14 T 30.166666666666664,11.333333333333334 T 41.83333333333333,8.666666666666668 T 53.5,6 T 65.16666666666667,3.333333333333333 T 71,2"
+        fill="none"
+        stroke="var(--color-accent-green)"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1.5"
+      />
+    </svg>
+    <div
+      class="ml-auto shrink-0"
+    >
+      <span
+        class="inline-flex flex-col items-center "
+      >
+        <span
+          class="ds-badge ds-badge-hot ds-badge-xs animate-pulse-glow"
+        >
+          <span
+            class="ds-badge-label"
+          >
+            84
+          </span>
+        </span>
+      </span>
+    </div>
+  </div>
+</a>
+`;

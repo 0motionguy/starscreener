@@ -2,7 +2,9 @@ name: Cron - predictions
 
 # Fires POST /api/cron/predictions daily at 06:00 UTC. Runs after the
 # nightly ingest/cleanup window so the top-N slate reflects the freshest
-# momentum scores. Body pins topN=300 and horizons=[7,30] which matches
+# momentum scores. Body pins topN=300 and horizons=[1,7,30] so the
+# 24h rising-stars signal is produced alongside medium horizons.
+# This matches
 # the writer defaults explicitly (so a later default change doesn't
 # silently widen the workload).
 #
@@ -42,7 +44,7 @@ jobs:
             "$BASE_URL/api/cron/predictions" \
             -H "Authorization: Bearer $CRON_SECRET" \
             -H "Content-Type: application/json" \
-            -d '{"topN":300,"horizons":[7,30]}')
+            -d '{"topN":300,"horizons":[1,7,30]}')
           echo "HTTP $code"
           if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
             jq . /tmp/out | head -c 2000

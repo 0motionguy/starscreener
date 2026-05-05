@@ -2,8 +2,8 @@
 
 import { useMemo } from "react";
 import type { JSX } from "react";
-import Image from "next/image";
 import type { CompareRepoBundle } from "@/lib/github-compare";
+import { EntityLogo } from "@/components/ui/EntityLogo";
 
 interface CompareHeatmapProps {
   bundles: CompareRepoBundle[];
@@ -69,7 +69,16 @@ function pickBucket(count: number, t: [number, number, number, number]): number 
 
 function buildRow(bundle: CompareRepoBundle, accent: string): RepoRow {
   const empty: WeekBucket = { weekStart: 0, days: [0, 0, 0, 0, 0, 0, 0] };
-  const tail = (bundle.commitActivity ?? []).slice(-WEEKS);
+  const tail = (bundle.commitActivity ?? []).slice(-WEEKS).map((w) => {
+    const normalizedDays = Array.isArray(w?.days)
+      ? w.days.slice(0, DAYS).map((v) => (Number.isFinite(v) ? v : 0))
+      : [];
+    while (normalizedDays.length < DAYS) normalizedDays.push(0);
+    return {
+      weekStart: Number.isFinite(w?.weekStart) ? w.weekStart : 0,
+      days: normalizedDays as WeekBucket["days"],
+    };
+  });
   const weeks: WeekBucket[] = [
     ...Array.from({ length: WEEKS - tail.length }, () => empty),
     ...tail,
@@ -118,7 +127,7 @@ function HeatRow({ row }: { row: RepoRow }): JSX.Element {
       style={{ borderLeft: `3px solid ${row.accent}` }}
     >
       <div className="flex flex-wrap items-center gap-2 mb-2">
-        <Image src={row.bundle.avatarUrl} alt={row.bundle.owner} width={16} height={16} className="size-4 rounded-full" />
+        <RepoAvatar src={row.bundle.avatarUrl} alt={row.bundle.owner} />
         <span className="font-mono text-[12px] text-text-primary truncate">{row.bundle.fullName}</span>
         <span className="font-mono text-[11px] text-text-tertiary tabular-nums ml-auto">
           <span className="text-text-secondary">{row.total30d}</span> commits (30d) ·{" "}
@@ -176,11 +185,23 @@ function UnavailableRow({ bundle, accent }: { bundle: CompareRepoBundle; accent:
       style={{ borderLeft: `3px solid ${accent}` }}
     >
       <div className="flex items-center gap-2 mb-1">
-        <Image src={bundle.avatarUrl} alt={bundle.owner} width={16} height={16} className="size-4 rounded-full" />
+        <RepoAvatar src={bundle.avatarUrl} alt={bundle.owner} />
         <span className="font-mono text-[12px] text-text-secondary truncate">{bundle.fullName}</span>
       </div>
       <p className="text-xs text-text-tertiary">Heatmap unavailable</p>
     </div>
+  );
+}
+
+function RepoAvatar({ src, alt }: { src: string; alt: string }): JSX.Element {
+  return (
+    <EntityLogo
+      src={src}
+      name={alt || "repo"}
+      alt={alt || ""}
+      size={16}
+      shape="circle"
+    />
   );
 }
 

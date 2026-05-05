@@ -11,7 +11,7 @@
 // formula stays source-of-truth in one place (src/lib/seo.ts).
 
 import { getDerivedRepos } from "@/lib/derived-repos";
-import { lastFetchedAt } from "@/lib/trending";
+import { getRepoDeltaWindowValue, lastFetchedAt } from "@/lib/trending";
 import {
   getSkillsSignalData,
   getMcpSignalData,
@@ -40,6 +40,7 @@ import {
 import { CATEGORIES } from "@/lib/constants";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { repoLogoUrl } from "@/lib/logos";
+import { compareLiveTopTrending } from "@/lib/live-top-ranking";
 import type { Repo } from "@/lib/types";
 import {
   SITE_NAME,
@@ -49,11 +50,31 @@ import {
   absoluteUrl,
   safeJsonLd,
 } from "@/lib/seo";
+import type { Metadata } from "next";
+import { preloadTopLcpImages } from "@/lib/lcp-preload";
 
 // ISR: homepage payload is recomputed from cached store-backed snapshots.
 // A short revalidate window keeps visible freshness markers closer to current
 // collector state while avoiding fully dynamic rendering.
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: `${SITE_NAME} - The trend map for open source`,
+  description: SITE_DESCRIPTION,
+  alternates: { canonical: absoluteUrl("/") },
+  openGraph: {
+    title: `${SITE_NAME} - ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
+    url: absoluteUrl("/"),
+    images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} - ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
+    images: [absoluteUrl("/og-card.png")],
+  },
+};
 
 // Single source of truth for the homepage FAQ. Renders both the visible
 // <details> list and the FAQPage JSON-LD below - keeping them in one array
@@ -103,6 +124,8 @@ interface HomeEntity {
   mentions?: number;
   category?: string;
   logoUrl: string | null;
+  delta7d?: number;
+  delta30d?: number;
   deltaUnit?: string;
 }
 
@@ -232,7 +255,11 @@ function ecosystemEntity(
     stars: typeof item.popularity === "number" ? item.popularity : undefined,
     channels: item.crossSourceCount,
     category: kind === "skill" ? "Skill" : "MCP",
-    logoUrl: item.logoUrl ?? repoLogoUrl(item.linkedRepo, 80),
+    logoUrl: item.logoUrl ?? repoLogoUrl(item.linkedRepo ?? fullNameFromUrl, 80),
+    delta7d:
+      primaryWindow !== "7d" && typeof raw7 === "number" ? raw7 : undefined,
+    delta30d:
+      primaryWindow !== "30d" && typeof raw30 === "number" ? raw30 : undefined,
     deltaUnit: primaryWindow,
   };
 }
@@ -408,10 +435,12 @@ function EntityHeroRow({
   entity,
   index,
   color,
+  prioritizeLogo = false,
 }: {
   entity: HomeEntity;
   index: number;
   color: string;
+  prioritizeLogo?: boolean;
 }) {
   const lineColor = entity.delta < 0 ? "var(--sig-red)" : color;
   const pctText =
@@ -430,6 +459,7 @@ function EntityHeroRow({
         name={entity.name}
         size={28}
         className="av"
+        priority={prioritizeLogo}
       />
       <span className="nm">
         <span className="txt">{entity.name}</span>
@@ -440,6 +470,18 @@ function EntityHeroRow({
           {formatDelta(entity.delta)}
           <span className="d-lbl">{entity.deltaUnit ?? "24h"}</span>
         </span>
+        {entity.delta7d !== undefined ? (
+          <span className={`d-sec ${entity.delta7d < 0 ? "dn" : ""}`}>
+            {formatDelta(entity.delta7d)}
+            <span className="d-lbl">7d</span>
+          </span>
+        ) : null}
+        {entity.delta30d !== undefined ? (
+          <span className={`d-sec ${entity.delta30d < 0 ? "dn" : ""}`}>
+            {formatDelta(entity.delta30d)}
+            <span className="d-lbl">30d</span>
+          </span>
+        ) : null}
         {pctText ? <span className="pct">{pctText}</span> : null}
       </span>
       {entity.hasRealSparkline ? (
@@ -466,12 +508,14 @@ function HeroPanel({
   color,
   href,
   items,
+  prioritizeFirstLogo = false,
 }: {
   title: string;
   count: number;
   color: string;
   href: string;
   items: HomeEntity[];
+  prioritizeFirstLogo?: boolean;
 }) {
   return (
     <Card className="hero-panel col-4">
@@ -486,7 +530,13 @@ function HeroPanel({
       <div className="panel-body">
         {items.length > 0 ? (
           items.map((item, index) => (
-            <EntityHeroRow key={`${title}-${item.id}`} entity={item} index={index} color={color} />
+            <EntityHeroRow
+              key={`${title}-${item.id}`}
+              entity={item}
+              index={index}
+              color={color}
+              prioritizeLogo={prioritizeFirstLogo && index === 0}
+            />
           ))
         ) : (
           <div className="hero-panel-empty">waiting for live rows</div>
@@ -587,9 +637,11 @@ function BreakoutRow({ repo, index }: { repo: Repo; index: number }) {
 function FeaturedCard({
   entity,
   index,
+  prioritizeLogo = false,
 }: {
   entity: HomeEntity;
   index: number;
+  prioritizeLogo?: boolean;
 }) {
   const badge =
     index === 0
@@ -617,7 +669,12 @@ function FeaturedCard({
         </span>
       </div>
       <div className="title-row">
-        <EntityLogo src={entity.logoUrl} name={entity.name} size={28} />
+        <EntityLogo
+          src={entity.logoUrl}
+          name={entity.name}
+          size={28}
+          priority={prioritizeLogo}
+        />
         <h3 className="title">{entity.name}</h3>
       </div>
       <Sparkline values={entity.sparkline} className="spark-feat" color={sparkColor} />
@@ -709,13 +766,18 @@ export default async function HomePage() {
         .slice(0, 5)
     : topCategoryFallback(repos, ["mcp"], 5);
   const repoBoard = topByDelta(repos, 5);
+  preloadTopLcpImages([
+    repoBoard[0]?.logoUrl,
+    skillsBoard[0]?.logoUrl,
+    mcpBoard[0]?.logoUrl,
+  ]);
   const consensusRepos = [...repos]
     .sort(
       (a, b) =>
         (b.crossSignalScore ?? sourceCount(b)) -
         (a.crossSignalScore ?? sourceCount(a)),
     )
-    .slice(0, 8);
+    .slice(0, 3);
   const breakoutRepos = [...repos]
     .sort((a, b) => {
       const aBase = Math.max(1, a.starsDelta7d / 7);
@@ -732,7 +794,7 @@ export default async function HomePage() {
     )
     .slice(0, 5);
   const liveRows = [...repos]
-    .sort((a, b) => b.momentumScore - a.momentumScore)
+    .sort(compareLiveTopTrending)
     .slice(0, 50);
   const liveTableRows: LiveRow[] = liveRows.map((repo) => {
     const ps = repo.mentions?.perSource;
@@ -746,6 +808,8 @@ export default async function HomePage() {
       categoryLabel: categoryLabel(repo),
       language: repo.language ?? null,
       stars: repo.stars,
+      starsDelta1h: getRepoDeltaWindowValue(repo.fullName, "1h"),
+      starsDelta6h: getRepoDeltaWindowValue(repo.fullName, "6h"),
       starsDelta24h: repo.starsDelta24h,
       starsDelta7d: repo.starsDelta7d,
       starsDelta30d: repo.starsDelta30d,
@@ -753,6 +817,7 @@ export default async function HomePage() {
       sparklineData: repo.sparklineData,
       momentumScore: repo.momentumScore,
       mentionCount24h: repo.mentionCount24h ?? 0,
+      lastCommitAt: repo.lastCommitAt ?? null,
       // Chip on/off uses the wider 7d window so slow-cadence sources
       // (lobsters / npm / hf / arxiv / devto) actually fire on the row.
       // 24h is too narrow for most non-twitter signals — the result was
@@ -806,6 +871,7 @@ export default async function HomePage() {
       .filter((repo) => repo.categoryId === category.id)
       .reduce((sum, repo) => sum + Math.max(0, repo.starsDelta24h), 0),
   })).sort((a, b) => b.delta - a.delta)[0];
+  const top24hRepo = [...repos].sort((a, b) => b.starsDelta24h - a.starsDelta24h)[0];
 
   return (
     <>
@@ -823,6 +889,7 @@ export default async function HomePage() {
           </div>
           <div className="clock" aria-label={`Data refreshed at ${refreshedTime} UTC`}>
             <span className="big">{refreshedTime} UTC</span>
+            <FreshnessBadge source="reddit" lastUpdatedAt={lastFetchedAt} />
           </div>
         </section>
 
@@ -839,6 +906,17 @@ export default async function HomePage() {
           <Metric label="breakouts" value={breakoutRepos.length} sub="velocity spike" tone="accent" />
           <Metric label="top category" value={topCategory?.label ?? "n/a"} sub="momentum leader" />
         </MetricGrid>
+        <p className="lede mt-3" data-testid="last-24h-gained-stars-summary">
+          Last 24h gained stars:{" "}
+          <b>{formatCompact(total24h)}</b> across <b>{repos.length}</b> tracked repos
+          {top24hRepo ? (
+            <>
+              {" "}led by <b>{top24hRepo.fullName}</b> ({formatDelta(top24hRepo.starsDelta24h)}).
+            </>
+          ) : (
+            "."
+          )}
+        </p>
 
         <SectionHead
           num="// 01"
@@ -846,7 +924,14 @@ export default async function HomePage() {
           meta={<><b>Repos</b> / Skills / MCP</>}
         />
         <div className="grid">
-          <HeroPanel title="Repos" count={repos.length} color="var(--cat-repo)" href="/repos" items={repoBoard} />
+          <HeroPanel
+            title="Repos"
+            count={repos.length}
+            color="var(--cat-repo)"
+            href="/repos"
+            items={repoBoard}
+            prioritizeFirstLogo
+          />
           <HeroPanel title="Claude skills" count={skillsItems?.length ?? skillsBoard.length} color="var(--cat-skill)" href="/skills" items={skillsBoard} />
           <HeroPanel title="MCP servers" count={mcpItems?.length ?? mcpBoard.length} color="var(--cat-mcp)" href="/mcp" items={mcpBoard} />
         </div>
@@ -893,7 +978,12 @@ export default async function HomePage() {
         />
         <div className="feat-grid">
           {featured.map((entity, index) => (
-            <FeaturedCard key={`${entity.kind}-${entity.id}`} entity={entity} index={index} />
+            <FeaturedCard
+              key={`${entity.kind}-${entity.id}`}
+              entity={entity}
+              index={index}
+              prioritizeLogo={index === 0}
+            />
           ))}
         </div>
 
@@ -903,7 +993,11 @@ export default async function HomePage() {
           meta={<><b>{refreshedTime}</b> / refreshed</>}
         />
         <Card>
-          <LiveTopTable rows={liveTableRows} categories={liveCategories} />
+          <LiveTopTable
+            rows={liveTableRows}
+            categories={liveCategories}
+            interactiveActions={false}
+          />
         </Card>
 
         <SectionHead
@@ -1111,6 +1205,12 @@ export default async function HomePage() {
               url: absoluteUrl("/icon-512.png"),
             },
             description: SITE_DESCRIPTION,
+            sameAs: [
+              "https://agnt.newsroom",
+              "https://agntdot.com",
+              "https://github.com/0motionguy/starscreener",
+              "https://x.com/0motionguy",
+            ],
           }),
         }}
       />

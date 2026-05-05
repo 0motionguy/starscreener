@@ -15,6 +15,7 @@ import { NextRequest, NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { serverError } from "@/lib/api/error-response";
 
 export const runtime = "nodejs";
 
@@ -65,10 +66,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     Sentry.captureException(err, {
       tags: { route: "api/pipeline/recompute", phase: "recomputeAll" },
     });
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(
-      { ok: false, error: message },
-      { status: 500 },
-    );
+    return serverError(err, {
+      scope: "[pipeline/recompute]",
+      publicMessage: "server error",
+    });
   }
 }

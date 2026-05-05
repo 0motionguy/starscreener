@@ -26,15 +26,21 @@ const HUB_DESCRIPTION =
   "Analyst tools for the open-source trend map: plot multi-repo star history, browse the consensus treemap, estimate repo revenue, and contribute self-reported MRR.";
 
 export function generateMetadata(): Metadata {
+  const canonical = absoluteUrl("/tools");
   return {
     title: HUB_TITLE,
     description: HUB_DESCRIPTION,
-    alternates: { canonical: absoluteUrl("/tools") },
+    alternates: { canonical },
     openGraph: {
       title: HUB_TITLE,
       description: HUB_DESCRIPTION,
-      url: absoluteUrl("/tools"),
+      url: canonical,
       type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: HUB_TITLE,
+      description: HUB_DESCRIPTION,
     },
   };
 }

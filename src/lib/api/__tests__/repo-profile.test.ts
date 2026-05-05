@@ -405,6 +405,31 @@ test("countMentionsByPlatform: tallies the FULL set, not capped", () => {
   assert.equal(counts.twitter, PROFILE_MENTIONS_LIMIT + 5);
 });
 
+test("countMentionsByPlatform: uses sourcePlatforms for deduped rows", () => {
+  const rows = [
+    {
+      id: "m-1",
+      repoId: REPO_ID,
+      platform: "hackernews",
+      sourcePlatforms: ["hackernews", "twitter"],
+      author: "a",
+      authorFollowers: null,
+      content: "x",
+      url: "https://news.ycombinator.com/item?id=1",
+      sentiment: "neutral",
+      engagement: 0,
+      reach: 0,
+      postedAt: NOW_ISO,
+      discoveredAt: NOW_ISO,
+      isInfluencer: false,
+    },
+  ] as unknown as import("../../pipeline/types").RepoMention[];
+
+  const counts = countMentionsByPlatform(rows);
+  assert.equal(counts.hackernews, 1);
+  assert.equal(counts.twitter, 1);
+});
+
 test("PROFILE_MENTIONS_LIMIT is 50 (assembler contract)", () => {
   assert.equal(PROFILE_MENTIONS_LIMIT, 50);
 });

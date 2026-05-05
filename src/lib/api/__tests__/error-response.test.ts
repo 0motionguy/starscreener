@@ -65,3 +65,27 @@ test("serverError forwards EngineError source/category tags to Sentry", async ()
     __resetErrorResponseSentryCaptureForTests();
   }
 });
+
+test("serverError redacts sensitive values from console output", () => {
+  const calls: Array<unknown[]> = [];
+  const original = console.error;
+  console.error = (...args: unknown[]) => {
+    calls.push(args);
+  };
+
+  try {
+    const err = new Error(
+      "Authorization: Bearer abcdefghijklmnop token=abcdefghijklmnopqrstuvwxyz",
+    );
+    serverError(err, { scope: "[test:redaction]" });
+    assert.equal(calls.length, 1);
+    const payload = calls[0][1] as { message?: string } | undefined;
+    const message = payload?.message ?? "";
+    assert.equal(message.includes("abcdefghijklmnop"), false);
+    assert.equal(message.includes("abcdefghijklmnopqrstuvwxyz"), false);
+    assert.match(message, /Bearer\s+abcd\*\*\*\*mnop/);
+    assert.match(message, /token=abcd\*\*\*\*wxyz/);
+  } finally {
+    console.error = original;
+  }
+});

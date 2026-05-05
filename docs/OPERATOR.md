@@ -1,18 +1,44 @@
-﻿---
-last-verified: 2026-05-05
-verified-by: claude
-status: living
----
-
-# OPERATOR â€” TrendingRepo full-stack situational awareness
+﻿# OPERATOR â€” TrendingRepo full-stack situational awareness
 
 **Audience:** Mirko + Claude Code sessions. NOT public. The `docs/` directory is not routed in Next.js so this file is not accessible by URL.
 
 **Purpose:** every Claude Code session can read this file and instantly know the current state of the engine, what is shipping, and what is broken. Refreshed by `/loop` autonomous runs and by hand. **Source of truth for the audit-2026-05-04 follow-up.**
 
-Last refreshed: 2026-05-05 (Phase 1.0 docs-drift verification pass)
+Last refreshed: 2026-05-03 ~05:30 UTC (post-rescue â€” engine recovered, PR #93 awaits merge)
 
-> **Current state:** PR #93 (audit-2026-05-04 stop-the-bleeding, 24 commits) merged as commit `0b3a477d`; follow-up PRs #96/#97/#99 also merged. For the latest pass, see the "2026-05-05 - Phase 1 docs restructure" section below.
+**Engine state:** all 11 sources fresh (1-2h old), 0 red workflows in last 30 runs, status=ok.
+**User-visible breakage on PROD:** still present (empty avatars, dead pages) until PR #93 merges.
+**Autonomous loop ended** â€” nothing more to ship without risking regressions. Waking every hour to verify PR still unmerged is wasted churn.
+
+## ðŸš¨ P0 RESCUE THIS SESSION â€” 10 FIXES, 46 commits on PR #93
+
+User reported live product broken: empty avatars, dead skills/mcp/devto, reddit 0 24h, twitter 10-day stale, npm no installs, charts shitty.
+
+Root causes shipped:
+- **Twitter (10-day data loss)** `eafd2433`: collector never hydrated memory store before ingest â†’ each run truncated `.data/twitter-*.jsonl` to ~15 lines. Now calls `ensureTwitterReady()` first.
+- **Home avatars** `adf58879`: SSR-render real GitHub `<img>` tags (was empty `.av` boxes â€” `EntityLogo` is client-only and never reached SSR HTML)
+- **Live/top-50 table** `7a0a9f87`: avatars + sparklines + channels-firing pills + momentum bars
+- **TR-100 sparkline** `1f3b51fd`: rebuilt as Recharts AreaChart with gradient
+- **Reddit /reddit/trending** `31b561f9`: chip-filter auto-degrade + chronological fallback when score=0 + SSR snapshot fallback. Root cause is upstream Reddit RSS-fallback returning score=0 on all posts (auth ops issue).
+- **MCP /mcp** `e64b514b`: warming-up placeholder when leaderboard empty
+- **Skills /skills** `607d1949`: warming-up banner when install-velocity layer is cold
+- **dev.to /devto** `1f3b51fd`: empty-window hint pointing to populated tab
+- **NPM /npm** `e64b514b`: column relabel "DL"â†’"INSTALLS"
+- **Worker MCP fetcher** `a0fe44d3`: surface zero-items + per-item upsert errors
+
+**STILL BLOCKED on human merge.** PR #93 (46 commits, all CI green) + PR #92 both open and mergeable. Production stays broken until merged.
+
+---
+
+## TL;DR for a fresh session
+
+You walked into a project whose 2026-05-04 audit found 6 classes of breakage. **Most are now fixed in PR [#93](https://github.com/0motionguy/starscreener/pull/93) (32 commits on `claude/modest-pasteur-59599d`).** As of 02:10 UTC 2026-05-03:
+
+ðŸŸ¢ **PR #93 CI is GREEN** (typecheck + tests + e2e + Vercel preview all pass)
+ðŸ”´ **Production health degraded:** `/api/health` returns `status:stale` because consensus-trending Redis key is 69h+ stale (snapshot-consensus failing nightly as result)
+ðŸŽ¯ **Single-action fix: merge PR #93.** That ships the consensus-trending allSettled hardening to Railway worker, and the .data/twitter-*.jsonl + dev.to author CORB fixes to Vercel. Everything downstream resolves.
+
+If the user says "go" or "continue", consider checking PR #93 status first â€” if the user has merged it, snapshot/consensus failures will resolve in the next worker tick. Otherwise read Â§ "Open follow-ups" below and pick the highest-leverage item.
 
 ---
 
@@ -20,7 +46,7 @@ Last refreshed: 2026-05-05 (Phase 1.0 docs-drift verification pass)
 
 ```
                       â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-                      â”‚  GitHub Actions (85 workflows)                â”‚
+                      â”‚  GitHub Actions (62 workflows)                â”‚
                       â”‚   - 22 data-pushing scrapers (cron'd)         â”‚
                       â”‚   - 5 snapshot/archival jobs (daily)          â”‚
                       â”‚   - 8 cron-* app/API health probes            â”‚
@@ -40,7 +66,7 @@ Last refreshed: 2026-05-05 (Phase 1.0 docs-drift verification pass)
                           â–¼                          â–¼
        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
        â”‚  Vercel Next.js (app)     â”‚    â”‚  Railway worker             â”‚
-       â”‚   - SSR/ISR pages         â”‚    â”‚   - 44 fetchers cron-fired   â”‚
+       â”‚   - SSR/ISR pages         â”‚    â”‚   - 42 fetchers cron-fired   â”‚
        â”‚   - /api/health probes    â”‚    â”‚   - In-process croner cron   â”‚
        â”‚   - portal MCP server     â”‚    â”‚   - /healthz endpoint        â”‚
        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
@@ -78,7 +104,7 @@ Last refreshed: 2026-05-05 (Phase 1.0 docs-drift verification pass)
 ### Hourly
 | :MM | Workflow | What it writes |
 |---|---|---|
-| :08 | audit-freshness | per-source budget gate (cron `8 * * * *`) |
+| :00 | audit-freshness | per-source budget gate |
 | :05 | cron-webhooks-flush | flush queued webhooks |
 | :10 | cron-llm | LLM telemetry aggregate |
 | :17 | scrape-bluesky | bluesky-trending, bluesky-mentions |
@@ -200,7 +226,6 @@ Last refreshed: 2026-05-05 (Phase 1.0 docs-drift verification pass)
 ### Aggregations (cross-source)
 - `engagement-composite` â€” feeds consensus, runs hourly @ :45
 - `consensus-trending` â€” 8-source agreement, hourly @ :50
-- `snapshot-consensus` â€” daily @ 23:55 UTC (cron `55 23 * * *`) â€” archives `consensus:<date>` for `/consensus` and `/consensus/[owner]/[name]`
 - `consensus-verdicts` â€” Kimi K2.6 LLM verdicts, hourly @ :00
 
 ### MCP / Skills
@@ -233,27 +258,6 @@ Last refreshed: 2026-05-05 (Phase 1.0 docs-drift verification pass)
 - `revenue-benchmarks` â€” daily after trustmrr
 - `claude-rss` / `openai-rss` â€” daily
 - `awesome-skills` â€” daily
-
----
-
-## 2026-05-05 â€” Phase 1 docs restructure
-
-- `docs/INDEX.md` is now the canonical front door (862 md files indexed).
-- `docs/ENGINE.md`, `docs/DATABASE.md`, `docs/SCORING.md` rewritten from
-  current code (the v1/v2/v3 snapshots they replaced were 26%-undercount on
-  workflows + describing deprecated scoring).
-- `src/lib/redis/keys.ts` registry centralizes Redis key construction.
-- 5 path-scoped CLAUDE.md files added (`src/app/api/cron/`, `src/lib/`,
-  `src/lib/redis/`, `apps/trendingrepo-worker/`, `.github/workflows/`).
-- 3 project subagents + 5 project skills added under `.claude/`.
-- 4 guard scripts + 2 CI workflows wired (docs-freshness, doc-links,
-  redis-keys, engine-inventory-refresh).
-- 379 forensic auto-reports archived to `docs/archive/forensic-2026-05-pre/`.
-
-Deferred (see `tasks/BACKLOG.md`):
-- 30 broken internal doc-links (ongoing fix sweep)
-- 2 orphan cron routes flagged
-- Sprint/backlog reconciliation against Paperclip API
 
 ---
 
@@ -315,7 +319,6 @@ Deferred (see `tasks/BACKLOG.md`):
 - Apify actor cost + last-run audit (need APIFY_API_TOKEN locally)
 - Vercel env-var inventory (need VERCEL_ORG_ID locally)
 - Run `backfill-meta` workflow (after PR #93 merge â€” needs main branch presence)
-- AISO failure-rate dashboard tile packet: `docs/release-validation/2026-05-05-agn-1443-aiso-failure-rate-dashboard-tile.md`
 
 ---
 
@@ -338,10 +341,9 @@ Hackathons, Launch â€” no route, no data, intentional
 ## Critical files
 
 ### Where to look first
-- `docs/INDEX.md` â€” canonical front-door doc index (862 md files classified by trust level) [Phase 1 docs restructure, 2026-05-05]
 - This file (`docs/OPERATOR.md`) â€” situational awareness
 - `CLAUDE.md` â€” project conventions, anti-patterns
-- `docs/ENGINE.md` â€” deeper engine map (85 workflows + every key) [rewritten from current code 2026-05-05]
+- `docs/ENGINE.md` â€” deeper engine map (62 workflows + every key)
 - `docs/SITE-WIREMAP.md` â€” top-down route â†’ collector trace
 - `docs/AUDIT-2026-05-04.md` â€” full audit (deferred external blockers)
 

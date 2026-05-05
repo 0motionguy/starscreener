@@ -20,7 +20,11 @@ import assert from "node:assert/strict";
 import { afterEach, beforeEach, test } from "node:test";
 
 import {
+  _resetDataStoreForTests,
+  _dataStoreTestHooks,
+  closeDataStore,
   createDataStore,
+  getDataStore,
   type UpstashClientLike,
 } from "../data-store";
 
@@ -31,6 +35,11 @@ import {
 class FakeRedis implements UpstashClientLike {
   public store = new Map<string, string>();
   public failNextWith: Error | null = null;
+  public setCalls: Array<{
+    key: string;
+    value: string;
+    opts?: { ex?: number; nx?: boolean };
+  }> = [];
 
   async get(key: string): Promise<unknown> {
     if (this.failNextWith) {
@@ -41,12 +50,17 @@ class FakeRedis implements UpstashClientLike {
     return this.store.has(key) ? this.store.get(key) : null;
   }
 
-  async set(key: string, value: string): Promise<unknown> {
+  async set(
+    key: string,
+    value: string,
+    opts?: { ex?: number; nx?: boolean },
+  ): Promise<unknown> {
     if (this.failNextWith) {
       const err = this.failNextWith;
       this.failNextWith = null;
       throw err;
     }
+    this.setCalls.push({ key, value, opts });
     this.store.set(key, value);
     return "OK";
   }
@@ -79,15 +93,17 @@ afterEach(() => {
 function buildStore(opts: {
   withRedis?: boolean;
   disableFileMirror?: boolean;
+  env?: Record<string, string | undefined>;
 } = {}) {
   const withRedis = opts.withRedis !== false;
+  const baseEnv = withRedis
+    ? {
+        UPSTASH_REDIS_REST_URL: "https://fake",
+        UPSTASH_REDIS_REST_TOKEN: "fake-token",
+      }
+    : {};
   return createDataStore({
-    env: withRedis
-      ? {
-          UPSTASH_REDIS_REST_URL: "https://fake",
-          UPSTASH_REDIS_REST_TOKEN: "fake-token",
-        }
-      : {},
+    env: { ...baseEnv, ...(opts.env ?? {}) },
     upstashFactory: () => fake,
     dataDir: tmpDir,
     disableFileMirror: opts.disableFileMirror ?? false,
@@ -153,13 +169,11 @@ test("read() prefers Redis when both Redis and file are populated", async () => 
   assert.deepEqual(result.data, { from: "fresh-redis" });
 });
 
-test("write({mirrorToFile:true}) snapshots to disk", async () => {
+test("write({mirrorToFile:true}) skips disk snapshot when Redis is healthy", async () => {
   const store = buildStore();
   await store.write("snap", { v: 1 }, { mirrorToFile: true });
   const path = join(tmpDir, "snap.json");
-  assert.ok(existsSync(path), "expected mirror file to be written");
-  const raw = readFileSync(path, "utf8");
-  assert.deepEqual(JSON.parse(raw), { v: 1 });
+  assert.equal(existsSync(path), false, "expected mirror file to be skipped");
 });
 
 test("write() with no Redis and no mirrorToFile throws", async () => {
@@ -230,4 +244,216 @@ test("ageMs is non-negative and reflects time since write", async () => {
   await new Promise((r) => setTimeout(r, 5));
   const result = await store.read("agecheck");
   assert.ok(result.ageMs >= 0, "ageMs should be non-negative");
+});
+
+test("read() marks redis payload without meta as not fresh", async () => {
+  const store = buildStore();
+  fake.store.set("ss:data:v1:meta-skew", JSON.stringify({ ok: true }));
+  const result = await store.read<{ ok: boolean }>("meta-skew");
+  assert.equal(result.source, "redis");
+  assert.equal(result.fresh, false);
+  assert.equal(result.ageMs, Number.MAX_SAFE_INTEGER);
+  assert.equal(result.writtenAt, undefined);
+});
+
+test("writtenAt() ignores meta when redis payload is missing", async () => {
+  const store = buildStore();
+  fake.store.set("ss:meta:v1:payload-skew", new Date().toISOString());
+  const ts = await store.writtenAt("payload-skew");
+  assert.equal(ts, null);
+});
+
+test("write() trims key and uses namespaced payload/meta redis keys", async () => {
+  const store = buildStore();
+  await store.write("  spaced-key  ", { ok: true });
+
+  const keys = fake.setCalls.map((c) => c.key);
+  assert.ok(keys.includes("ss:data:v1:spaced-key"));
+  assert.ok(keys.includes("ss:meta:v1:spaced-key"));
+});
+
+test("write() rejects invalid key literals null/undefined and blank keys", async () => {
+  const store = buildStore();
+
+  await assert.rejects(() => store.write("null", { x: 1 }), /invalid key/i);
+  await assert.rejects(() => store.write("undefined", { x: 1 }), /invalid key/i);
+  await assert.rejects(() => store.write("   ", { x: 1 }), /invalid key/i);
+});
+
+test("write() applies default TTL when omitted", async () => {
+  const store = buildStore();
+  await store.write("ttl-default", { v: 1 });
+  const payloadCall = fake.setCalls.find((c) => c.key === "ss:data:v1:ttl-default");
+  const metaCall = fake.setCalls.find((c) => c.key === "ss:meta:v1:ttl-default");
+  assert.deepEqual(payloadCall?.opts, { ex: 86400 });
+  assert.deepEqual(metaCall?.opts, { ex: 86400 });
+});
+
+test("write() with ttlSeconds=0 disables redis EX ttl", async () => {
+  const store = buildStore();
+  await store.write("ttl-none", { v: 1 }, { ttlSeconds: 0 });
+  const payloadCall = fake.setCalls.find((c) => c.key === "ss:data:v1:ttl-none");
+  const metaCall = fake.setCalls.find((c) => c.key === "ss:meta:v1:ttl-none");
+  assert.equal(payloadCall?.opts, undefined);
+  assert.equal(metaCall?.opts, undefined);
+});
+
+test("write() with positive ttlSeconds forwards EX ttl to redis", async () => {
+  const store = buildStore();
+  await store.write("ttl-custom", { v: 1 }, { ttlSeconds: 123 });
+  const payloadCall = fake.setCalls.find((c) => c.key === "ss:data:v1:ttl-custom");
+  const metaCall = fake.setCalls.find((c) => c.key === "ss:meta:v1:ttl-custom");
+  assert.deepEqual(payloadCall?.opts, { ex: 123 });
+  assert.deepEqual(metaCall?.opts, { ex: 123 });
+});
+
+test("write() stores provenance metadata as JSON when provenance fields are present", async () => {
+  const store = buildStore();
+  await store.write(
+    "prov",
+    { ok: true },
+    { writer: "collector", runId: "run-1", commit: "abc123" },
+  );
+  const meta = fake.store.get("ss:meta:v1:prov");
+  assert.ok(meta);
+  const parsed = JSON.parse(meta ?? "{}") as {
+    writtenAt?: string;
+    writer?: string;
+    runId?: string;
+    commit?: string;
+  };
+  assert.equal(typeof parsed.writtenAt, "string");
+  assert.equal(parsed.writer, "collector");
+  assert.equal(parsed.runId, "run-1");
+  assert.equal(parsed.commit, "abc123");
+});
+
+test("read() returns missing when redis payload is invalid JSON and no other tier has data", async () => {
+  const store = buildStore();
+  fake.store.set("ss:data:v1:bad-json", "{");
+  fake.store.set("ss:meta:v1:bad-json", new Date().toISOString());
+  const result = await store.read("bad-json");
+  assert.equal(result.source, "missing");
+  assert.equal(result.data, null);
+});
+
+test("writtenAt() parses JSON metadata written by provenance-capable writers", async () => {
+  const store = buildStore();
+  fake.store.set("ss:data:v1:meta-json", JSON.stringify({ ok: true }));
+  fake.store.set(
+    "ss:meta:v1:meta-json",
+    JSON.stringify({
+      writtenAt: "2026-05-04T10:11:12.000Z",
+      writer: "collector",
+    }),
+  );
+  const ts = await store.writtenAt("meta-json");
+  assert.equal(ts, "2026-05-04T10:11:12.000Z");
+});
+
+test("writtenAt() falls back to file timestamp when redis keys are missing", async () => {
+  const store = buildStore({ withRedis: false });
+  await store.write("file-ts", { ok: true }, { mirrorToFile: true });
+  const ts = await store.writtenAt("file-ts");
+  assert.ok(ts && ts.startsWith("20"), `expected file fallback ISO timestamp, got: ${ts}`);
+});
+
+test("writtenAt() returns null when redis payload is missing even if memory was warmed", async () => {
+  const store = buildStore();
+  await store.write("mem-ts", { ok: true });
+  await fake.del("ss:data:v1:mem-ts", "ss:meta:v1:mem-ts");
+  const ts = await store.writtenAt("mem-ts");
+  assert.equal(ts, null);
+});
+
+test("getDataStore() returns singleton instance and closeDataStore() resets it", async () => {
+  _resetDataStoreForTests();
+  const a = getDataStore();
+  const b = getDataStore();
+  assert.equal(a, b);
+  await closeDataStore();
+  const c = getDataStore();
+  assert.notEqual(c, a);
+  await closeDataStore();
+  _resetDataStoreForTests();
+});
+
+test("parsePayload() handles object, valid string JSON, invalid JSON, and nullish", () => {
+  assert.deepEqual(_dataStoreTestHooks.parsePayload('{"a":1}'), { a: 1 });
+  assert.deepEqual(_dataStoreTestHooks.parsePayload({ b: 2 }), { b: 2 });
+  assert.equal(_dataStoreTestHooks.parsePayload("{"), null);
+  assert.equal(_dataStoreTestHooks.parsePayload(null), null);
+  assert.equal(_dataStoreTestHooks.parsePayload(undefined), null);
+});
+
+test("parseWrittenAt() handles raw ISO, JSON metadata, object metadata, and invalid shapes", () => {
+  assert.equal(
+    _dataStoreTestHooks.parseWrittenAt("2026-05-04T10:00:00.000Z"),
+    "2026-05-04T10:00:00.000Z",
+  );
+  assert.equal(
+    _dataStoreTestHooks.parseWrittenAt(
+      JSON.stringify({ writtenAt: "2026-05-04T10:01:00.000Z", writer: "w" }),
+    ),
+    "2026-05-04T10:01:00.000Z",
+  );
+  assert.equal(
+    _dataStoreTestHooks.parseWrittenAt({ writtenAt: "2026-05-04T10:02:00.000Z" }),
+    "2026-05-04T10:02:00.000Z",
+  );
+  assert.equal(_dataStoreTestHooks.parseWrittenAt(""), null);
+  assert.equal(_dataStoreTestHooks.parseWrittenAt({ wrong: true }), null);
+});
+
+test("safeStat() returns null for missing files and mtime for existing files", () => {
+  const existing = join(tmpDir, "stat-check.json");
+  writeFileSync(existing, "{}");
+  const stat = _dataStoreTestHooks.safeStat(existing);
+  assert.ok(stat && stat.mtimeMs > 0);
+  assert.equal(_dataStoreTestHooks.safeStat(join(tmpDir, "missing.json")), null);
+});
+
+test("resolveWriteProvenance() derives writer/run/commit from env with commit truncation", () => {
+  const derived = _dataStoreTestHooks.resolveWriteProvenance(
+    {},
+    {
+      GITHUB_WORKFLOW: "ci",
+      GITHUB_RUN_ID: "run-123",
+      GITHUB_SHA: "abcdef1234567890",
+    },
+  );
+  assert.equal(derived.writer, "github-actions:ci");
+  assert.equal(derived.runId, "run-123");
+  assert.equal(derived.commit, "abcdef1");
+});
+
+test("defaultRedisFactory() rejects Upstash REST URL without token", () => {
+  assert.throws(
+    () => _dataStoreTestHooks.defaultRedisFactory("https://example.upstash.io"),
+    /UPSTASH_REDIS_REST_TOKEN/i,
+  );
+});
+
+test("write() auto-populates provenance from GitHub Actions env when options are omitted", async () => {
+  const store = buildStore({
+    env: {
+      GITHUB_WORKFLOW: "Collect Twitter Signals",
+      GITHUB_RUN_ID: "25200000001",
+      GITHUB_SHA: "1234567890abcdef1234567890abcdef12345678",
+    },
+  });
+  await store.write("prov-auto", { ok: true });
+
+  const meta = fake.store.get("ss:meta:v1:prov-auto");
+  assert.ok(meta);
+  const parsed = JSON.parse(meta ?? "{}") as {
+    writtenAt?: string;
+    writer?: string;
+    runId?: string;
+    commit?: string;
+  };
+  assert.equal(typeof parsed.writtenAt, "string");
+  assert.equal(parsed.writer, "github-actions:Collect Twitter Signals");
+  assert.equal(parsed.runId, "25200000001");
+  assert.equal(parsed.commit, "1234567");
 });

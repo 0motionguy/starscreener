@@ -1,6 +1,10 @@
 import { FooterBar, FooterLink } from "@/components/ui/FooterBar";
 
 const FOOTER_LINKS = [
+  { href: "/about", label: "About", external: false },
+  { href: "/privacy", label: "Privacy", external: false },
+  { href: "/terms", label: "Terms", external: false },
+  { href: "/about#contact", label: "Contact", external: false },
   {
     href: "https://github.com/0motionguy/starscreener",
     label: "GitHub",
@@ -31,7 +35,11 @@ const FOOTER_LINKS = [
     label: "@0motionguy",
     external: true,
   },
-  { href: "/methodology", label: "Methodology", external: false },
+  {
+    href: "https://agnt.newsroom",
+    label: "AGNT Newsroom",
+    external: true,
+  },
   { href: "/portal/docs", label: "API Docs", external: false },
   { href: "/cli", label: "CLI", external: false },
 ] as const;
@@ -65,7 +73,7 @@ export function Footer() {
           </a>
         </p>
 
-        <nav className="flex items-center gap-4">
+        <nav className="flex items-center justify-end gap-x-4 gap-y-2 flex-wrap">
           {FOOTER_LINKS.map(({ href, label, external }) => (
             <FooterLink key={label} href={href} external={external}>
               {label}

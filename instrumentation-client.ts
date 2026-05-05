@@ -3,6 +3,42 @@ import * as Sentry from "@sentry/nextjs";
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
 
 const SENTRY_DSN = process.env.NEXT_PUBLIC_SENTRY_DSN;
+const DEV_LONG_TASK_BUDGET_MS = Number(process.env.NEXT_PUBLIC_DEV_LONG_TASK_BUDGET_MS ?? "50");
+
+let longTaskProfilerStarted = false;
+
+function initDevLongTaskProfiler() {
+  if (process.env.NODE_ENV !== "development") return;
+  if (typeof window === "undefined") return;
+  if (longTaskProfilerStarted) return;
+  if (typeof PerformanceObserver === "undefined") return;
+
+  longTaskProfilerStarted = true;
+
+  try {
+    const observer = new PerformanceObserver((list) => {
+      for (const entry of list.getEntries()) {
+        if (entry.entryType !== "longtask") continue;
+        if (entry.duration <= DEV_LONG_TASK_BUDGET_MS) continue;
+
+        const start = Math.round(entry.startTime);
+        const duration = Math.round(entry.duration);
+
+        console.warn(
+          `[OBS-6][long-task][budget-exceeded] ${duration}ms at +${start}ms (budget ${DEV_LONG_TASK_BUDGET_MS}ms)`,
+        );
+      }
+    });
+
+    observer.observe({ type: "longtask", buffered: true });
+
+    console.info(`[OBS-6][long-task][profiler-started] budget=${DEV_LONG_TASK_BUDGET_MS}ms`);
+  } catch {
+    // Keep startup safe on unsupported/browser-restricted contexts.
+  }
+}
+
+initDevLongTaskProfiler();
 
 if (SENTRY_DSN) {
   Sentry.init({

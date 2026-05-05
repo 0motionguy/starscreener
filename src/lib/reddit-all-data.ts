@@ -126,6 +126,13 @@ let inflight: Promise<{ source: string; ageMs: number }> | null = null;
 let lastRefreshMs = 0;
 const MIN_REFRESH_INTERVAL_MS = 30_000;
 
+function hasAnyEngagementSignal(file: RedditAllPostsFile): boolean {
+  const posts = Array.isArray(file.posts) ? file.posts : [];
+  return posts.some(
+    (post) => (post.score ?? 0) > 0 || (post.numComments ?? 0) > 0,
+  );
+}
+
 export async function refreshRedditAllPostsFromStore(): Promise<{
   source: string;
   ageMs: number;
@@ -143,9 +150,19 @@ export async function refreshRedditAllPostsFromStore(): Promise<{
       "reddit-all-posts",
     );
     if (result.data && result.source !== "missing") {
+      const nextFile = normalizeFile(result.data);
+      const prevFile = cache?.file ?? null;
+      if (
+        prevFile &&
+        hasAnyEngagementSignal(prevFile) &&
+        !hasAnyEngagementSignal(nextFile)
+      ) {
+        lastRefreshMs = Date.now();
+        return { source: "memory", ageMs: 0 };
+      }
       cache = {
         signature: `redis:${result.writtenAt ?? Date.now()}`,
-        file: normalizeFile(result.data),
+        file: nextFile,
         fromRedis: true,
       };
     }

@@ -16,6 +16,7 @@
 // twice = single tier update.
 
 import { NextRequest, NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 import Stripe from "stripe";
 
 import { getDataStore } from "@/lib/data-store";
@@ -32,6 +33,7 @@ import {
 import { acquireStripeEventLock } from "@/lib/stripe/idempotency";
 
 export const runtime = "nodejs";
+let sentryCaptureException = Sentry.captureException;
 
 // setUserTier is now a static import from `@/lib/pricing/user-tiers`. Earlier
 // versions of this file used a dynamic-import stub guard while that module
@@ -93,6 +95,18 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // NEVER log the raw body — can contain PII / Stripe internals. Log only
     // the generic reason + event type hint.
     const message = err instanceof Error ? err.message : String(err);
+    const captureError = err instanceof Error ? err : new Error(message);
+    sentryCaptureException(captureError, {
+      tags: {
+        source: "stripe",
+        category: "quarantine",
+        scope: "api/webhooks/stripe",
+      },
+      extra: {
+        failureStage: "signature_verification",
+        message: message.slice(0, 200),
+      },
+    });
     console.warn("[stripe] webhook signature verification failed", {
       reason: message.slice(0, 200),
     });
@@ -143,6 +157,19 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // server-side but do NOT echo it — response body is visible in the
     // Stripe dashboard and can leak internals.
     const message = err instanceof Error ? err.message : String(err);
+    const captureError = err instanceof Error ? err : new Error(message);
+    sentryCaptureException(captureError, {
+      tags: {
+        source: "stripe",
+        category: "recoverable",
+        scope: "api/webhooks/stripe",
+      },
+      extra: {
+        failureStage: "handler",
+        eventId: event.id,
+        eventType: event.type,
+      },
+    });
     console.error("[stripe] webhook handler failed", {
       eventId: event.id,
       eventType: event.type,
@@ -163,4 +190,14 @@ export function GET(): NextResponse {
     { ok: false, error: "method not allowed; POST only", code: "METHOD_NOT_ALLOWED" },
     { status: 405 },
   );
+}
+
+export function __setStripeWebhookSentryCaptureForTests(
+  capture: typeof Sentry.captureException,
+): void {
+  sentryCaptureException = capture;
+}
+
+export function __resetStripeWebhookSentryCaptureForTests(): void {
+  sentryCaptureException = Sentry.captureException;
 }

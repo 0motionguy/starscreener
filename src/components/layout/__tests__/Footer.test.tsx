@@ -12,10 +12,11 @@ const SOCIAL_HREFS = {
   YouTube: "https://www.youtube.com/@trendingrepo",
   Reddit: "https://www.reddit.com/r/trendingrepo",
   G2: "https://www.g2.com/products/trendingrepo",
+  "AGNT Newsroom": "https://agnt.newsroom",
 } as const;
 
 describe("Footer social anchors", () => {
-  it("renders all 4 social anchors with their expected hrefs", () => {
+  it("renders all social anchors with their expected hrefs", () => {
     const { getByText } = render(<Footer />);
 
     for (const [label, expectedHref] of Object.entries(SOCIAL_HREFS)) {

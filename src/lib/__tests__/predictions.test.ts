@@ -260,10 +260,11 @@ test("predictRepoTrajectory clamps lowP10 at current stars even with high volati
 });
 
 test("PREDICTION_HORIZONS exports the supported horizons", () => {
-  assert.deepEqual([...PREDICTION_HORIZONS], [7, 30, 90]);
+  assert.deepEqual([...PREDICTION_HORIZONS], [1, 7, 30, 90]);
 });
 
 test("isPredictionHorizon narrows to the supported set", () => {
+  assert.equal(isPredictionHorizon(1), true);
   assert.equal(isPredictionHorizon(7), true);
   assert.equal(isPredictionHorizon(30), true);
   assert.equal(isPredictionHorizon(90), true);

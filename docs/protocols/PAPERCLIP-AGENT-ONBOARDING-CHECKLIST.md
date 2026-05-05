@@ -1,9 +1,3 @@
----
-status: snapshot
-audit-date: 2026-05-05
-reason: all referenced files exist but step 2 omits docs/INDEX.md and docs/OPERATOR.md from CLAUDE.md SESSION OPENING PROTOCOL
----
-
 # PAPERCLIP AGENT ONBOARDING CHECKLIST (STARSCREENER)
 
 Issue: AGN-831  
@@ -18,13 +12,13 @@ Give every new Paperclip agent a single, mandatory startup checklist so work sta
 
 1. Confirm repo root:
    - `git rev-parse --show-toplevel`
-   - Must point at the STARSCREENER working copy on the current host (path basename `STARSCREENER`).
+   - Must equal `C:/Users/mirko/OneDrive/Desktop/STARSCREENER`
 2. Read required context files:
    - `CLAUDE.md`
    - `docs/ENGINE.md`
    - `docs/SITE-WIREMAP.md`
-   - `docs/archive/AUDIT-2026-05-04.md`
-   - `docs/archive/forensic-2026-05-pre/00-INDEX.md`
+   - `docs/AUDIT-2026-05-04.md`
+   - `docs/forensic/00-INDEX.md`
    - `tasks/CURRENT-SPRINT.md`
    - `tasks/BACKLOG.md`
 3. Run freshness gate:

@@ -321,6 +321,12 @@ export interface RepoMention {
    * May be `null` if the raw `url` isn't parseable at all.
    */
   normalizedUrl?: string | null;
+
+  /**
+   * Source platforms that observed the same canonical URL mention.
+   * When absent, callers should treat it as `[platform]` for back-compat.
+   */
+  sourcePlatforms?: SocialPlatform[];
 }
 
 /** Aggregated social signal for a single repo. */

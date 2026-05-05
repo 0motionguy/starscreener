@@ -31,6 +31,7 @@ export function RepoSearchBox() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(false);
+  const [searchError, setSearchError] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
   const addToPool = useTierListEditor((s) => s.addToPool);
   const itemMeta = useTierListEditor((s) => s.itemMeta);
@@ -40,6 +41,7 @@ export function RepoSearchBox() {
     if (trimmed.length < 2) {
       setResults([]);
       setLoading(false);
+      setSearchError(false);
       return;
     }
 
@@ -48,6 +50,7 @@ export function RepoSearchBox() {
       const ac = new AbortController();
       abortRef.current = ac;
       setLoading(true);
+      setSearchError(false);
       const params = new URLSearchParams({
         v: "2",
         q: trimmed,
@@ -59,12 +62,17 @@ export function RepoSearchBox() {
         .then((data) => {
           if (data?.ok && Array.isArray(data.results)) {
             setResults(data.results.slice(0, RESULTS_LIMIT));
+            setSearchError(false);
           } else {
             setResults([]);
+            setSearchError(true);
           }
         })
         .catch((err) => {
-          if (err?.name !== "AbortError") setResults([]);
+          if (err?.name !== "AbortError") {
+            setResults([]);
+            setSearchError(true);
+          }
         })
         .finally(() => setLoading(false));
     }, DEBOUNCE_MS);
@@ -88,6 +96,8 @@ export function RepoSearchBox() {
         <div role="listbox" aria-label="Search results" className="tier-results">
           {loading && results.length === 0 ? (
             <div className="tier-result-empty">searching...</div>
+          ) : searchError ? (
+            <div className="tier-result-empty">search unavailable · try again</div>
           ) : results.length === 0 ? (
             <div className="tier-result-empty">no matches</div>
           ) : (

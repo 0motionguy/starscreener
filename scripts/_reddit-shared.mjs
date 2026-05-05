@@ -345,6 +345,15 @@ function extractTagAttr(xml, tag, attr) {
   return m ? m[1] : null;
 }
 
+function extractNumCommentsFromContent(contentHtml) {
+  if (!contentHtml) return 0;
+  const match = contentHtml.match(/>([\d,]+)\s+comments?<\/a>/i);
+  if (!match) return 0;
+  const normalized = match[1].replace(/,/g, "");
+  const parsed = Number.parseInt(normalized, 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
+}
+
 /**
  * Parse a Reddit Atom RSS feed body into the same `{ data: { children:
  * [{ data: ... }] } }` shape that `/r/X/new.json` returns. Caller code in
@@ -388,6 +397,7 @@ export function parseRedditAtomFeed(xmlText, fallbackSubreddit) {
     // <content type="html">…HTML-encoded body…</content>
     const contentRaw = extractTagBody(entry, "content") ?? "";
     const contentHtml = decodeHtmlEntities(contentRaw);
+    const numComments = extractNumCommentsFromContent(contentHtml);
 
     // Self-vs-link: a self post's <link href> points back to its own
     // /comments/ID/ URL on reddit.com. A link post's <link href> is the
@@ -432,7 +442,8 @@ export function parseRedditAtomFeed(xmlText, fallbackSubreddit) {
         is_self: isSelf,
         created_utc,
         score: 0,            // RSS doesn't expose upvotes
-        num_comments: 0,     // RSS doesn't expose comment count
+        // RSS exposes comment count in the "N comments" link text.
+        num_comments: numComments,
         link_flair_text: null, // RSS doesn't expose flair
         _source: "rss-atom",
       },
@@ -524,29 +535,8 @@ export async function fetchRedditJson(url, { fetchImpl = fetch } = {}) {
     fetchRuntime.activeMode = "public-json";
     fetchRuntime.publicRequests += 1;
     try {
-      // Listing URLs (/r/X/new.json) hit Reddit's edge IP block from GH
-      // Actions. The RSS variant of the same listing returns 200 and
-      // unauthenticated content. Detect listing URLs and route them through
-      // the Atom-feed parser; everything else (e.g. /r/X/about.json) keeps
-      // the original JSON path so callers that need fields RSS doesn't expose
-      // still degrade gracefully when they 403.
-      const rssUrl = rewriteToRss(url);
-      if (rssUrl !== url) {
-        const subMatch = url.match(SUBREDDIT_FROM_PATH_RE);
-        const fallbackSub = subMatch?.[1] ?? "";
-        const rssText = await fetchTextWithRetry(rssUrl, {
-          headers: {
-            ...publicHeaders,
-            Accept: "application/atom+xml,application/xml;q=0.9,*/*;q=0.8",
-          },
-          attempts: 2,
-          retryDelayMs: 1000,
-          timeoutMs: 15_000,
-          fetchImpl,
-        });
-        return parseRedditAtomFeed(rssText, fallbackSub);
-      }
-
+      // Prefer JSON first so engagement fields (score) stay intact.
+      // RSS is now a true fallback path only when listing JSON is blocked.
       return fetchJsonWithRetry(rewriteToOldReddit(url), {
         headers: publicHeaders,
         attempts: 2,
@@ -563,7 +553,35 @@ export async function fetchRedditJson(url, { fetchImpl = fetch } = {}) {
       } else if (status !== null && status >= 500 && status <= 599) {
         quarantineUserAgentLocal(userAgent, 60 * 1000);
       }
-      throw err;
+
+      const rssUrl = rewriteToRss(url);
+      const canFallbackToRss =
+        rssUrl !== url &&
+        (status === null ||
+          status === 401 ||
+          status === 403 ||
+          status === 408 ||
+          status === 429 ||
+          status === 500 ||
+          status === 502 ||
+          status === 503 ||
+          status === 504);
+      if (!canFallbackToRss) throw err;
+
+      const subMatch = url.match(SUBREDDIT_FROM_PATH_RE);
+      const fallbackSub = subMatch?.[1] ?? "";
+      const rssText = await fetchTextWithRetry(rssUrl, {
+        headers: {
+          ...publicHeaders,
+          Accept: "application/atom+xml,application/xml;q=0.9,*/*;q=0.8",
+        },
+        attempts: 2,
+        retryDelayMs: 1000,
+        timeoutMs: 15_000,
+        fetchImpl,
+      });
+      fetchRuntime.fallbackUsed = true;
+      return parseRedditAtomFeed(rssText, fallbackSub);
     }
   }
 

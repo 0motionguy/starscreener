@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-1588 heartbeat: productivity review for AGN-728 (2026-05-05)
 
 ## Scope

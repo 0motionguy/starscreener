@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: code review report of past state; references may not resolve to current files
+---
+
 # Patch Plan — STARSCREENER Red-Team Phase 2
 
 Input: [`REVIEW_REPORT.md`](./REVIEW_REPORT.md).

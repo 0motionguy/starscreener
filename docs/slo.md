@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # STARSCREENER SLO + Error Budget Policy
 
 Last updated: 2026-05-05
@@ -26,7 +32,7 @@ Assumptions:
 - Project: `starscreener-web` (replace if different)
 - Environment tag: `production`
 
-### Rule A — Homepage availability burn (maps to `/` 99.9% SLO)
+### Rule A ï¿½ Homepage availability burn (maps to `/` 99.9% SLO)
 
 - Name: `SLO-A / homepage availability burn`
 - Trigger condition:
@@ -36,7 +42,7 @@ Assumptions:
   - Escalate if `>0.2%` over 1h (2x burn)
 - Action: notify on-call channel and open incident.
 
-### Rule B — Repo route availability burn (maps to `/repo/*` 99.5% SLO)
+### Rule B ï¿½ Repo route availability burn (maps to `/repo/*` 99.5% SLO)
 
 - Name: `SLO-B /repo availability burn`
 - Trigger condition:
@@ -46,7 +52,7 @@ Assumptions:
   - Escalate if `>1.0%` over 1h (2x burn)
 - Action: notify on-call + Release SRE channel.
 
-### Rule C — Health API latency breach (maps to p95 < 1s SLO)
+### Rule C ï¿½ Health API latency breach (maps to p95 < 1s SLO)
 
 - Name: `SLO-C /api/health latency p95 breach`
 - Trigger condition:

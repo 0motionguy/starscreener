@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-1207 Release/SRE last-7 workflow classification refresh (2026-05-05)
 
 Capture timestamp (UTC): 2026-05-05T05:xxZ
@@ -12,7 +18,7 @@ Result in this heartbeat:
 - `freshness-check: local server not reachable at http://localhost:3023 ... ECONNREFUSED`
 
 Verdict:
-- `localhost:3023` is missing in this run context (different from prior heartbeat’s HTTP 500 state).
+- `localhost:3023` is missing in this run context (different from prior heartbeatï¿½s HTTP 500 state).
 
 ## Last-7 classification
 
@@ -80,7 +86,7 @@ Taxonomy:
   - 25329196055 (2026-05-04T16:00:57Z)
   - 25323063361 (2026-05-04T13:54:22Z)
 - Latest failure signature (`gh run view 25350311352 --log-failed`):
-  - `FAIL — 10 violation(s)` including `trending`, `reddit`, `hackernews`, `bluesky`, `producthunt`, `twitter`, `npm`, `awesome-skills`, `claude-rss`, `openai-rss`.
+  - `FAIL ï¿½ 10 violation(s)` including `trending`, `reddit`, `hackernews`, `bluesky`, `producthunt`, `twitter`, `npm`, `awesome-skills`, `claude-rss`, `openai-rss`.
 
 ### 5) Refresh collection rankings (`refresh-collection-rankings.yml`)
 - Classification: `FLAKY`
@@ -107,11 +113,11 @@ Taxonomy:
 
 ## Operator-ready next actions (priority order)
 
-1. **P0 – Stop hard failure in `scrape-trending.yml` commit step**
+1. **P0 ï¿½ Stop hard failure in `scrape-trending.yml` commit step**
    - Remove ignored `.data/trending-dual-write-trace.jsonl` from staged path list or force-add policy explicitly.
-2. **P0 – Align cron commit strategy with branch protection**
+2. **P0 ï¿½ Align cron commit strategy with branch protection**
    - Replace direct push-to-main path with bot PR flow (`scripts/bot-push.mjs`) or disable commit step in protected-branch workflows.
-3. **P1 – Restore freshness budgets for gate-critical sources**
+3. **P1 ï¿½ Restore freshness budgets for gate-critical sources**
    - Trending + Reddit + HN + Bluesky + ProductHunt + Twitter first; then npm and advisory feeds.
-4. **P1 – Re-run last-7 classification after first two fixes merge**
+4. **P1 ï¿½ Re-run last-7 classification after first two fixes merge**
    - Expect immediate state change from `FAIL` to at least `FLAKY` for `scrape-trending` and collection workflows.

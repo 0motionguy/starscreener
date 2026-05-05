@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # Forensic Index
 
 - Canonical archive index: ../archive/forensic-2026-05-pre/00-INDEX.md
@@ -43,3 +49,11 @@
 - [AGN-1602 productivity review AGN-1245 (2026-05-05)](./AGN-1602-REVIEW-PRODUCTIVITY-AGN-1245-2026-05-05.md)
 - [AGN-1603 productivity review AGN-1243 (2026-05-05)](./AGN-1603-REVIEW-PRODUCTIVITY-AGN-1243-2026-05-05.md)
 - [AGN-792 AISO completed result (2026-05-05)](./AGN-792-AISO-RESULT-20260505T041559Z.json)
+- [AGN-1627 productivity review AGN-815 (2026-05-05)](./AGN-1627-REVIEW-PRODUCTIVITY-AGN-815-2026-05-05.md)
+- [AGN-1626 productivity review AGN-811 (2026-05-05)](./AGN-1626-REVIEW-PRODUCTIVITY-AGN-811-2026-05-05.md)
+- [AGN-1631 productivity review AGN-826 (2026-05-05)](./AGN-1631-REVIEW-PRODUCTIVITY-AGN-826-2026-05-05.md)
+- [AGN-1636 productivity review AGN-613 (2026-05-05)](./AGN-1636-REVIEW-PRODUCTIVITY-AGN-613-2026-05-05.md)
+- [AGN-1635 productivity review AGN-820 (2026-05-05)](./AGN-1635-REVIEW-PRODUCTIVITY-AGN-820-2026-05-05.md)
+- [AGN-1634 productivity review AGN-111 (2026-05-05)](./AGN-1634-REVIEW-PRODUCTIVITY-AGN-111-2026-05-05.md)
+- [AGN-1632 productivity review AGN-848 (2026-05-05)](./AGN-1632-REVIEW-PRODUCTIVITY-AGN-848-2026-05-05.md)
+- [AGN-1633 productivity review AGN-827 (2026-05-05)](./AGN-1633-REVIEW-PRODUCTIVITY-AGN-827-2026-05-05.md)

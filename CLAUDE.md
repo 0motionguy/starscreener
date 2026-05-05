@@ -64,14 +64,14 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 
 ## Where to Look First
 - **Operator situational-awareness doc (start here)** → [docs/OPERATOR.md](docs/OPERATOR.md) — TL;DR for a fresh session, current production state, audit-2026-05-04 followup status, hourly+minute workflow rotation, image-coverage map, what-shipped-vs-open. Operator-only — never linked from any public route. Refreshed at the end of every "go" wave.
-- **Engine map (62 workflows + every API key + every cron + pool architecture)** → [docs/ENGINE.md](docs/ENGINE.md) — read FIRST when you need to know what runs where, on what cadence, with which keys. Refreshed 2026-05-02.
+- **Engine map (85 workflows + every API key + every cron + pool architecture)** → [docs/ENGINE.md](docs/ENGINE.md) — read FIRST when you need to know what runs where, on what cadence, with which keys. Rewritten from current code 2026-05-05.
 - **Site wire map (every route → its data → collector → external API)** → [docs/SITE-WIREMAP.md](docs/SITE-WIREMAP.md) — top-down menu walk. Use when a page is broken to trace it back to the failing collector. Refreshed 2026-05-02.
 - New here? `docs/ARCHITECTURE.md`
 - Data layer (Redis-backed)? [tasks/data-api.md](tasks/data-api.md) — full plan, provisioning steps, phased roadmap
 - Ingest pipeline? `docs/INGESTION.md` + `docs/TWITTER_SIGNAL_LAYER.md`
 - Deploy issues? `docs/DEPLOY.md`
 - Adding a signal source? `docs/SOURCE_DISCOVERY.md`
-- See `apps/trendingrepo-worker/` referenced in code? Sister Railway service hosting ~37 fetchers (MCP registries, funding sources, scoring) — lives in worktree branches not yet in main. See memory `project_trendingrepo_worker.md`.
+- See `apps/trendingrepo-worker/` referenced in code? Sister Railway service hosting 52 fetchers (MCP registries, funding sources, scoring) — lives in worktree branches not yet in main. See memory `project_trendingrepo_worker.md`.
 
 ## Anti-Patterns Already Burned
 - Don't switch Twitter collector back to API mode — it silently fails on Vercel.

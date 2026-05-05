@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # STARSCREENER Ultra Audit — 2026-05-02
 
 Pocock-skill-powered audit, run on `main` (HEAD `15167bef`) post-rollout sprint. 40 commits shipped across Phases 0-6 plus Phase 5 wave in progress.

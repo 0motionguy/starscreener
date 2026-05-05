@@ -7,7 +7,12 @@ const config: StorybookConfig = {
     name: "@storybook/nextjs",
     options: {},
   },
-  staticDirs: ["../public"],
+  webpackFinal: async (baseConfig) => {
+    return {
+      ...baseConfig,
+      cache: false,
+    };
+  },
 };
 
 export default config;

@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-1274 [Sprint 1 audit] Data-store dual-write coverage matrix refresh
 
 Date: 2026-05-05  

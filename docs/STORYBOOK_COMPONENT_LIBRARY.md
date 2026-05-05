@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # Storybook Component Library Docs
 
 This document defines the minimum Storybook documentation contract for the `src/components/ui/*` library and related reusable surface components.

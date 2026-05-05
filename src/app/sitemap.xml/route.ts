@@ -5,6 +5,8 @@
 //   /sitemap-repos.xml   — every tracked repo (image-extension, archived filter)
 //   /sitemap-news.xml    — Google News protocol over the live HN/PH/devto/lobsters feeds
 //   /sitemap-digest.xml  — /digest hub + every dated daily-trending snapshot URL
+//   /sitemap-profiles.xml — public /u/* profiles with activity-based lastmod
+//   /brief/sitemap.xml   — curated repo brief pages
 //   (future: /sitemap-repos-2.xml etc. via pagination if we cross 50k repos)
 //
 // Cache: revalidate hourly via the route handler's cache-control header
@@ -27,6 +29,8 @@ export function GET(): Response {
     { loc: absoluteUrl("/sitemap-repos.xml"), lastmod: now },
     { loc: absoluteUrl("/sitemap-news.xml"), lastmod: now },
     { loc: absoluteUrl("/sitemap-digest.xml"), lastmod: now },
+    { loc: absoluteUrl("/sitemap-profiles.xml"), lastmod: now },
+    { loc: absoluteUrl("/brief/sitemap.xml"), lastmod: now },
   ]);
   return xmlResponse(xml, 3600);
 }

@@ -11,14 +11,17 @@ import { NextRequest, NextResponse } from "next/server";
 import { readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 import * as Sentry from "@sentry/nextjs";
+import { z } from "zod";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
 import { getExtendedSocialAdapters } from "@/lib/pipeline/adapters/extended-social";
 import type { IngestBatchResult, SocialAdapter } from "@/lib/pipeline/types";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
 import { getGitHubTokenPool } from "@/lib/github-token-pool";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { trendScoreForTimeRange } from "@/lib/filters";
+import { serverError } from "@/lib/api/error-response";
 
 const REDDIT_MENTIONS_PATH = resolve(process.cwd(), "data", "reddit-mentions.json");
 
@@ -100,69 +103,14 @@ export interface IngestErrorResponse {
   details?: string[];
 }
 
-/** Validate and normalize the inbound JSON body.
- *
- * `fullNames` is OPTIONAL. When missing/empty, the caller is asking for
- * an auto-discovered batch (see autoDiscoverFullNames above) — which is
- * the case the GH Actions cron has been hitting since 2026-04-17. When
- * provided, it must satisfy the strict-validation contract callers added
- * for the public endpoint. */
-function parseBody(raw: unknown): {
-  ok: true;
-  value: { fullNames?: string[]; useMock?: boolean; recomputeAfter?: boolean };
-} | { ok: false; error: string; details?: string[] } {
-  if (raw === null || typeof raw !== "object") {
-    return { ok: false, error: "body must be a JSON object" };
-  }
-  const body = raw as Record<string, unknown>;
-
-  const fullNamesRaw = body.fullNames;
-  let fullNames: string[] | undefined;
-  if (fullNamesRaw !== undefined) {
-    if (!Array.isArray(fullNamesRaw)) {
-      return { ok: false, error: "fullNames must be an array of strings" };
-    }
-    if (fullNamesRaw.length > MAX_BATCH_SIZE) {
-      return {
-        ok: false,
-        error: `fullNames must contain at most ${MAX_BATCH_SIZE} entries`,
-      };
-    }
-    const invalid: string[] = [];
-    for (const n of fullNamesRaw) {
-      if (typeof n !== "string" || !FULL_NAME_PATTERN.test(n)) {
-        invalid.push(String(n));
-      }
-    }
-    if (invalid.length > 0) {
-      return {
-        ok: false,
-        error: "fullNames contains invalid entries",
-        details: invalid.map((n) => `"${n}" is not owner/repo`),
-      };
-    }
-    // Empty array → fall through to auto-discover (treat same as missing).
-    if (fullNamesRaw.length > 0) {
-      fullNames = fullNamesRaw as string[];
-    }
-  }
-
-  const useMock =
-    body.useMock === undefined ? undefined : Boolean(body.useMock);
-  const recomputeAfter =
-    body.recomputeAfter === undefined
-      ? undefined
-      : Boolean(body.recomputeAfter);
-
-  return {
-    ok: true,
-    value: {
-      fullNames,
-      useMock,
-      recomputeAfter,
-    },
-  };
-}
+const IngestBodySchema = z.object({
+  fullNames: z.array(z.string().regex(FULL_NAME_PATTERN, "fullNames entry must be owner/repo")).max(MAX_BATCH_SIZE).optional(),
+  useMock: z.boolean().optional(),
+  recomputeAfter: z.boolean().optional(),
+}).transform((body) => ({
+  ...body,
+  fullNames: body.fullNames && body.fullNames.length > 0 ? body.fullNames : undefined,
+}));
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   Sentry.setTag("route", "api/pipeline/ingest");
@@ -171,25 +119,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
 
-  let raw: unknown;
-  try {
-    raw = await request.json();
-  } catch {
-    return NextResponse.json(
-      { ok: false, error: "request body is not valid JSON" },
-      { status: 400 },
-    );
-  }
-
-  const parsed = parseBody(raw);
-  if (!parsed.ok) {
-    return NextResponse.json(
-      { ok: false, error: parsed.error, details: parsed.details },
-      { status: 400 },
-    );
-  }
-
-  const { fullNames: explicitFullNames, useMock, recomputeAfter } = parsed.value;
+  const parsed = await parseBody(request, IngestBodySchema, { allowEmpty: true });
+  if (!parsed.ok) return parsed.response;
+  const { fullNames: explicitFullNames, useMock, recomputeAfter } = parsed.data;
   const fullNames = explicitFullNames ?? autoDiscoverFullNames();
   const autoDiscovered = explicitFullNames === undefined;
 
@@ -272,11 +204,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         recomputeAfter: recomputeAfter ?? true,
       },
     });
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(
-      { ok: false, error: message },
-      { status: 500 },
-    );
+    return serverError<IngestErrorResponse>(err, {
+      scope: "[pipeline/ingest]",
+      publicMessage: "server error",
+    });
   }
 }
 

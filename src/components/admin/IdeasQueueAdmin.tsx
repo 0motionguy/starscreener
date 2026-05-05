@@ -12,10 +12,12 @@ import {
   Lightbulb,
   LoaderCircle,
   RefreshCw,
+  RotateCcw,
   ShieldAlert,
   XCircle,
 } from "lucide-react";
 
+import AdminConfirmModal from "@/components/admin/AdminConfirmModal";
 import type { IdeaRecord } from "@/lib/ideas";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 
@@ -28,7 +30,6 @@ export function IdeasQueueAdmin() {
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<Filter>("pending");
   const [busyId, setBusyId] = useState<string | null>(null);
-  // AGN-611 — pending destructive action awaiting confirmation.
   const [pendingReject, setPendingReject] = useState<IdeaRecord | null>(null);
 
   const filtered = useMemo(() => {
@@ -178,6 +179,17 @@ export function IdeasQueueAdmin() {
               {f === "pending" ? ` (${pendingCount})` : ""}
             </button>
           ))}
+          {filter !== "pending" ? (
+            <button
+              type="button"
+              onClick={() => setFilter("pending")}
+              className="inline-flex items-center gap-1 rounded-md border border-border-primary bg-bg-muted px-2.5 py-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-text-secondary hover:text-text-primary"
+              aria-label="Reset filter to pending"
+            >
+              <RotateCcw className="size-3" aria-hidden />
+              Reset
+            </button>
+          ) : null}
         </section>
 
         <section className="space-y-3">
@@ -191,30 +203,29 @@ export function IdeasQueueAdmin() {
                 key={row.id}
                 row={row}
                 busy={busyId === row.id}
-                onAction={(action) => handleAction(row, action)}
+                onAction={(action) => moderate(row.id, action)}
+                onReject={() => setPendingReject(row)}
               />
             ))
           )}
         </section>
       </div>
-      <ConfirmDialog
+      <AdminConfirmModal
         open={pendingReject !== null}
-        title="Reject idea?"
-        description={
-          pendingReject ? (
-            <span>
-              Reject <strong>{pendingReject.title}</strong> by{" "}
-              <span className="font-mono">@{pendingReject.authorHandle}</span>?
-              The idea will not appear on /ideas and the author is notified.
-            </span>
-          ) : null
+        title="Reject idea submission?"
+        body={
+          pendingReject
+            ? `This will set "${pendingReject.title}" to rejected.`
+            : ""
         }
-        confirmLabel="Reject"
-        cancelLabel="Cancel"
-        tone="danger"
+        confirmLabel="Reject idea"
         busy={pendingReject ? busyId === pendingReject.id : false}
-        onConfirm={confirmReject}
         onCancel={() => setPendingReject(null)}
+        onConfirm={() => {
+          if (!pendingReject) return;
+          void moderate(pendingReject.id, "reject");
+          setPendingReject(null);
+        }}
       />
     </main>
   );
@@ -224,10 +235,12 @@ function ModerationRow({
   row,
   busy,
   onAction,
+  onReject,
 }: {
   row: IdeaRecord;
   busy: boolean;
   onAction: (action: "approve" | "reject") => void;
+  onReject: () => void;
 }) {
   const isPending = row.status === "pending_moderation";
   return (
@@ -299,7 +312,7 @@ function ModerationRow({
           </button>
           <button
             type="button"
-            onClick={() => onAction("reject")}
+            onClick={onReject}
             disabled={busy}
             className="inline-flex items-center gap-1.5 rounded-md border border-down/60 bg-down/10 px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-[var(--v4-red)] hover:bg-down/20 disabled:cursor-not-allowed disabled:opacity-50"
           >

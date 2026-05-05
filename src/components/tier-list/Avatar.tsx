@@ -1,6 +1,8 @@
 "use client";
 
 import type { CSSProperties } from "react";
+import { useState } from "react";
+import Image from "next/image";
 
 interface AvatarProps {
   repoId: string;
@@ -16,6 +18,7 @@ export function Avatar({
   size = 40,
   rounded = 8,
 }: AvatarProps) {
+  const [errored, setErrored] = useState(false);
   const style: CSSProperties = {
     width: size,
     height: size,
@@ -23,17 +26,16 @@ export function Avatar({
     flexShrink: 0,
   };
 
-  if (avatarUrl) {
+  if (avatarUrl && !errored) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
+      <Image
         src={avatarUrl}
         alt=""
         width={size}
         height={size}
+        unoptimized
+        onError={() => setErrored(true)}
         style={{ ...style, objectFit: "cover" }}
-        loading="lazy"
-        decoding="async"
       />
     );
   }

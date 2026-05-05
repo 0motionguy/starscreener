@@ -30,7 +30,7 @@
 import type { SocialPlatform } from "@/lib/types";
 
 import type { RepoMention } from "../types";
-import { normalizeUrl } from "../adapters/normalizer";
+import { canonicalizeUrl } from "@/lib/mention-dedupe";
 import {
   FILES,
   appendJsonlFile,
@@ -60,9 +60,9 @@ import {
 export function mentionDedupKey(mention: RepoMention): string {
   const canonical =
     mention.normalizedUrl ??
-    (mention.url ? normalizeUrl(mention.url) : null) ??
+    (mention.url ? canonicalizeUrl(mention.url) : null) ??
     `__nourl__:${mention.id}`;
-  return `${mention.platform} ${canonical} ${mention.repoId}`;
+  return `${canonical} ${mention.repoId}`;
 }
 
 // ---------------------------------------------------------------------------
@@ -117,7 +117,13 @@ export async function appendMentionsToFile(
       const mention: RepoMention =
         "normalizedUrl" in raw
           ? raw
-          : { ...raw, normalizedUrl: raw.url ? normalizeUrl(raw.url) : null };
+          : {
+              ...raw,
+              normalizedUrl: raw.url ? canonicalizeUrl(raw.url) : null,
+            };
+      if (!mention.sourcePlatforms || mention.sourcePlatforms.length === 0) {
+        mention.sourcePlatforms = [mention.platform];
+      }
       const key = mentionDedupKey(mention);
       if (seen.has(key)) {
         result.duplicates += 1;

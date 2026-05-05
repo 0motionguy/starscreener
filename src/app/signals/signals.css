@@ -29,12 +29,16 @@
   }
 }
 
-/* Phone: full-width single-column. Explicitly reset every page-level col
- * token so the source-feed row (4 × .col-3) collapses to a true vertical
- * stack at 390-640px instead of clinging to the tablet 2-up layout. */
+/* Phone: force true single-column for page-level rows.
+ * Target direct `.grid` children of `.signals-page` only, so inner
+ * component grids keep their own layout rules. */
 @media (max-width: 640px) {
-  .signals-page .grid {
-    grid-template-columns: 1fr;
+  .signals-page > .grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .signals-page > .grid > * {
+    grid-column: 1 / -1 !important;
+    min-width: 0;
   }
   .signals-page .col-7,
   .signals-page .col-5,

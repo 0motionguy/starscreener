@@ -79,6 +79,7 @@ process.env.STARSCREENER_PERSIST = "false";
 
 import { test, before, beforeEach } from "node:test";
 import assert from "node:assert/strict";
+import { _setStoreForTests } from "../../api/rate-limit";
 
 // Fixture repo — `vercel/next.js` is guaranteed to resolve via the
 // committed derived-repos snapshot used by the rest of the test suite.
@@ -137,17 +138,12 @@ async function invokePost(
 }
 
 async function resetRateLimit(): Promise<void> {
-  // Force the route module to load so its side-effect assignment onto
-  // `globalThis[AISO_TEST_RESET]` runs before we invoke the hook.
-  await import("../../../app/api/repos/[owner]/[name]/aiso/route");
-  const key = Symbol.for("trendingrepo.aiso.test.reset");
-  const fn = (globalThis as unknown as Record<symbol, (() => void) | undefined>)[key];
-  if (typeof fn === "function") fn();
+  // Reset shared store so each test gets a fresh in-memory limiter.
+  _setStoreForTests(null);
 }
 
 before(async () => {
-  // The route-local rate limiter is module-scoped. Clear it once before any
-  // test runs so prior suite-level imports can't leak state.
+  // Clear any store state that prior suite imports may have left behind.
   await resetRateLimit();
 });
 

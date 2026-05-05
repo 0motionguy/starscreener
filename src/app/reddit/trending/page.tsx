@@ -2,9 +2,9 @@
 
 import { readFileSync } from "fs";
 import { resolve } from "path";
+import { Suspense } from "react";
 
 import type { Metadata } from "next";
-import { Suspense } from "react";
 
 import {
   getAllPostsFetchedAt,
@@ -13,7 +13,6 @@ import {
   isAllPostsCold,
   refreshRedditAllPostsFromStore,
 } from "@/lib/reddit-all-data";
-import { AllTrendingTabs } from "@/components/reddit-trending/AllTrendingTabs";
 import {
   buildAllPostsStats,
   type RedditAllPost,
@@ -24,8 +23,16 @@ import {
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { TrendingMentionsSection } from "@/components/news/TrendingMentionsSection";
+import { AllTrendingTabs } from "@/components/reddit-trending/AllTrendingTabs";
+import { absoluteUrl } from "@/lib/seo";
 
 export const revalidate = 300;
+const BUNDLED_FALLBACK_MAX_POSTS = 50;
+
+interface PageProps {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}
 
 // SSR safety net — when the in-memory cache is empty (Redis returned `missing`
 // AND the per-Lambda module cache hasn't been seeded yet) the page used to
@@ -46,8 +53,11 @@ function loadBundledFallback(): {
       "utf8",
     );
     const parsed = JSON.parse(raw) as Partial<RedditAllPostsFile>;
+    const bundledPosts = Array.isArray(parsed.posts)
+      ? (parsed.posts as RedditAllPost[])
+      : [];
     bundledFallback = {
-      posts: Array.isArray(parsed.posts) ? (parsed.posts as RedditAllPost[]) : [],
+      posts: bundledPosts.slice(0, BUNDLED_FALLBACK_MAX_POSTS),
       lastFetchedAt:
         typeof parsed.lastFetchedAt === "string" ? parsed.lastFetchedAt : "",
     };
@@ -65,13 +75,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Trending on Reddit — TrendingRepo",
     description: "Top Reddit tech posts by velocity, cross-subreddit signal.",
-    url: "/reddit/trending",
+    url: absoluteUrl("/reddit/trending"),
     type: "website",
+    images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Trending on Reddit — TrendingRepo",
     description: "Top Reddit tech posts by velocity, cross-subreddit signal.",
+    images: [absoluteUrl("/og-card.png")],
   },
 };
 
@@ -80,7 +92,23 @@ function formatClock(iso: string | undefined): string {
   return new Date(iso).toISOString().slice(11, 19);
 }
 
-export default async function RedditTrendingPage() {
+export default async function RedditTrendingPage({ searchParams }: PageProps) {
+  const resolvedSearchParams = (await searchParams) ?? {};
+  return (
+    <main className="home-surface">
+      <Suspense fallback={<TrendingPageLoading />}>
+        <RedditTrendingFeed searchParams={resolvedSearchParams} />
+      </Suspense>
+    </main>
+  );
+}
+
+async function RedditTrendingFeed({
+  searchParams,
+}: {
+  searchParams: Record<string, string | string[] | undefined>;
+}) {
+  const resolvedSearchParams = searchParams ?? {};
   await refreshRedditAllPostsFromStore();
   let allPostsFetchedAt = getAllPostsFetchedAt();
   let allPostsCold = isAllPostsCold();
@@ -109,7 +137,7 @@ export default async function RedditTrendingPage() {
 
   if (allPostsCold) {
     return (
-      <main className="home-surface">
+      <>
         <SourceFeedTemplate
           crumb={
             <>
@@ -120,7 +148,7 @@ export default async function RedditTrendingPage() {
           lede="7-day rolling firehose across the tracked subreddits, scored by velocity-weighted upvotes and cross-linked to GitHub repos."
         />
         <ColdState />
-      </main>
+      </>
     );
   }
 
@@ -128,79 +156,85 @@ export default async function RedditTrendingPage() {
   const subredditCount = new Set(posts.map((p) => p.subreddit).filter(Boolean)).size;
 
   return (
-    <main className="home-surface">
-      <SourceFeedTemplate
-        crumb={
-          <>
-            <b>REDDIT</b> · TERMINAL · /REDDIT/TRENDING
-          </>
-        }
-        title="Reddit · top posts"
-        lede="7-day rolling firehose across the tracked subreddits, scored by velocity-weighted upvotes and cross-linked to GitHub repos."
-        clock={
-          <>
-            <span className="big">{formatClock(allPostsFetchedAt ?? undefined)}</span>
-            <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="FRESH · 1H" />
-          </>
-        }
-        snapshot={
-          <KpiBand
-            cells={[
-              {
-                label: "TRACKED",
-                value: stats.totalPosts.toLocaleString("en-US"),
-                sub: "7d rolling",
-                pip: "var(--v4-src-reddit)",
-              },
-              {
-                label: "TOP SCORE",
-                value: topScore.toLocaleString("en-US"),
-                sub: "velocity peak",
-                tone: "acc",
-                pip: "var(--v4-acc)",
-              },
-              {
-                label: "SUBREDDITS",
-                value: subredditCount,
-                sub: "active sources",
-                tone: "money",
-                pip: "var(--v4-money)",
-              },
-              {
-                label: "GH-LINKED",
-                value: stats.postsWithLinkedRepos,
-                sub: "repos in feed",
-                pip: "var(--v4-blue)",
-              },
-            ]}
+    <SourceFeedTemplate
+      crumb={
+        <>
+          <b>REDDIT</b> · TERMINAL · /REDDIT/TRENDING
+        </>
+      }
+      title="Reddit · top posts"
+      lede="7-day rolling firehose across the tracked subreddits, scored by velocity-weighted upvotes and cross-linked to GitHub repos."
+      clock={
+        <>
+          <span className="big">{formatClock(allPostsFetchedAt ?? undefined)}</span>
+          <span className="muted">UTC · SCRAPED</span>
+          <LiveDot label="FRESH · 1H" />
+        </>
+      }
+      snapshot={
+        <KpiBand
+          cells={[
+            {
+              label: "TRACKED",
+              value: stats.totalPosts.toLocaleString("en-US"),
+              sub: "7d rolling",
+              pip: "var(--v4-src-reddit)",
+            },
+            {
+              label: "TOP SCORE",
+              value: topScore.toLocaleString("en-US"),
+              sub: "velocity peak",
+              tone: "acc",
+              pip: "var(--v4-acc)",
+            },
+            {
+              label: "SUBREDDITS",
+              value: subredditCount,
+              sub: "active sources",
+              tone: "money",
+              pip: "var(--v4-money)",
+            },
+            {
+              label: "GH-LINKED",
+              value: stats.postsWithLinkedRepos,
+              sub: "repos in feed",
+              pip: "var(--v4-blue)",
+            },
+          ]}
+        />
+      }
+      listEyebrow="Story feed · grouped by subreddit"
+      list={
+        <div className="space-y-4">
+          <TrendingMentionsSection source="reddit" accent="var(--v4-src-reddit)" />
+          <AllTrendingTabs
+            posts={posts}
+            searchParams={resolvedSearchParams}
+            pathname="/reddit/trending"
           />
-        }
-        listEyebrow="Story feed · grouped by subreddit"
-        list={
-          <Suspense fallback={<FeedSkeleton />}>
-            <AllTrendingTabs posts={posts} />
-          </Suspense>
-        }
-      />
-    </main>
+        </div>
+      }
+    />
   );
 }
 
-function FeedSkeleton() {
+function TrendingPageLoading() {
   return (
-    <div
-      style={{
-        padding: 24,
-        fontSize: 13,
-        background: "var(--v4-bg-025)",
-        border: "1px solid var(--v4-line-200)",
-        borderRadius: 2,
-        color: "var(--v4-ink-400)",
-      }}
-    >
-      Loading feed...
-    </div>
+    <SourceFeedTemplate
+      crumb={
+        <>
+          <b>REDDIT</b> · TERMINAL · /REDDIT/TRENDING
+        </>
+      }
+      title="Reddit · top posts"
+      lede="7-day rolling firehose across the tracked subreddits, scored by velocity-weighted upvotes and cross-linked to GitHub repos."
+      listEyebrow="Story feed · grouped by subreddit"
+      list={
+        <section className="rounded-md border border-dashed border-border-primary bg-bg-secondary/40 p-6">
+          <p className="text-sm font-mono text-text-tertiary">Loading Reddit trending feed…</p>
+        </section>
+      }
+    />
   );
 }
 

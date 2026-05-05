@@ -345,6 +345,19 @@ export function monogramTone(name: string | null | undefined): MonogramTone {
 }
 
 /**
+ * Repo-aware tone seed for monogram fallbacks. For canonical `owner/name`
+ * strings we hash only by owner so repos from the same owner share a stable
+ * fallback color. Non-repo names return unchanged.
+ */
+export function monogramToneSeed(name: string | null | undefined): string {
+  const value = typeof name === "string" ? name.trim() : "";
+  if (!value) return "";
+  const match = /^([A-Za-z0-9._-]{2,})\/([A-Za-z0-9._-]+)$/.exec(value);
+  if (!match) return value;
+  return match[1];
+}
+
+/**
  * Single-character monogram letter — strips leading `r/`, `@`, `/` so
  * `r/ClaudeCode` → `C` and `@vercel` → `V`. Always uppercase.
  */

@@ -1,0 +1,54 @@
+name: trivy-worker-image
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "apps/trendingrepo-worker/**"
+      - ".github/workflows/trivy-worker-image.yml"
+  push:
+    branches: [main]
+    paths:
+      - "apps/trendingrepo-worker/**"
+      - ".github/workflows/trivy-worker-image.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  trivy:
+    name: Trivy scan (Railway worker image)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: apps/trendingrepo-worker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build worker image
+        run: docker build -t starscreener-worker:scan .
+
+      - name: Run Trivy (HIGH,CRITICAL)
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          scan-type: image
+          image-ref: starscreener-worker:scan
+          format: sarif
+          output: trivy-results.sarif
+          vuln-type: os,library
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: "1"
+
+      - name: Upload Trivy SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: apps/trendingrepo-worker/trivy-results.sarif

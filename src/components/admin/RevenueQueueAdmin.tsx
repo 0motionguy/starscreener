@@ -13,11 +13,12 @@ import {
   ExternalLink,
   LoaderCircle,
   RefreshCw,
+  RotateCcw,
   ShieldAlert,
   XCircle,
 } from "lucide-react";
 
-import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import AdminConfirmModal from "@/components/admin/AdminConfirmModal";
 import { trustmrrProfileUrl } from "@/lib/trustmrr-url";
 
 type Mode = "trustmrr_link" | "self_report";
@@ -58,7 +59,6 @@ export function RevenueQueueAdmin() {
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<Filter>("pending");
   const [busyId, setBusyId] = useState<string | null>(null);
-  // AGN-611 — pending destructive action awaiting confirmation.
   const [pendingReject, setPendingReject] = useState<AdminSubmission | null>(
     null,
   );
@@ -208,6 +208,17 @@ export function RevenueQueueAdmin() {
               {f === "pending" ? ` (${pendingCount})` : ""}
             </button>
           ))}
+          {filter !== "pending" ? (
+            <button
+              type="button"
+              onClick={() => setFilter("pending")}
+              className="inline-flex items-center gap-1 rounded-md border border-border-primary bg-bg-muted px-2.5 py-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-text-secondary hover:text-text-primary"
+              aria-label="Reset filter to pending"
+            >
+              <RotateCcw className="size-3" aria-hidden />
+              Reset
+            </button>
+          ) : null}
         </section>
 
         <section className="space-y-3">
@@ -221,31 +232,29 @@ export function RevenueQueueAdmin() {
                 key={row.id}
                 row={row}
                 busy={busyId === row.id}
-                onAction={(action) => handleAction(row, action)}
+                onAction={(action) => moderate(row.id, action)}
+                onReject={() => setPendingReject(row)}
               />
             ))
           )}
         </section>
       </div>
-      <ConfirmDialog
+      <AdminConfirmModal
         open={pendingReject !== null}
         title="Reject revenue submission?"
-        description={
-          pendingReject ? (
-            <span>
-              Reject the {pendingReject.mode === "trustmrr_link" ? "TrustMRR" : "self-reported"}{" "}
-              submission for <strong>{pendingReject.fullName}</strong>? It will
-              stop surfacing on the repo detail page and the submitter is
-              notified.
-            </span>
-          ) : null
+        body={
+          pendingReject
+            ? `This will mark ${pendingReject.fullName} as rejected.`
+            : ""
         }
-        confirmLabel="Reject"
-        cancelLabel="Cancel"
-        tone="danger"
+        confirmLabel="Reject submission"
         busy={pendingReject ? busyId === pendingReject.id : false}
-        onConfirm={confirmReject}
         onCancel={() => setPendingReject(null)}
+        onConfirm={() => {
+          if (!pendingReject) return;
+          void moderate(pendingReject.id, "reject");
+          setPendingReject(null);
+        }}
       />
     </main>
   );
@@ -255,10 +264,12 @@ function ModerationRow({
   row,
   busy,
   onAction,
+  onReject,
 }: {
   row: AdminSubmission;
   busy: boolean;
   onAction: (action: "approve" | "reject") => void;
+  onReject: () => void;
 }) {
   const isPending = row.status === "pending_moderation";
   return (
@@ -386,7 +397,7 @@ function ModerationRow({
           </button>
           <button
             type="button"
-            onClick={() => onAction("reject")}
+            onClick={onReject}
             disabled={busy}
             className="inline-flex items-center gap-1.5 rounded-md border border-down/60 bg-down/10 px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-[var(--v4-red)] hover:bg-down/20 disabled:cursor-not-allowed disabled:opacity-50"
           >

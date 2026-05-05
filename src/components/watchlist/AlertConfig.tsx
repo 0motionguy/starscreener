@@ -36,6 +36,7 @@ import {
   TrendingUp,
   Zap,
 } from "lucide-react";
+import * as Sentry from "@sentry/nextjs";
 import { useWatchlistStore } from "@/lib/store";
 import { cn, getRelativeTime } from "@/lib/utils";
 import {
@@ -544,6 +545,9 @@ export function AlertConfig() {
       return true;
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
+      Sentry.captureException(err, {
+        tags: { surface: "alert-config", action: "refresh-rules" },
+      });
       setError(msg);
       return false;
     }
@@ -568,6 +572,9 @@ export function AlertConfig() {
       return true;
     } catch (err) {
       // Events are non-critical; log but don't surface as a fatal error.
+      Sentry.captureException(err, {
+        tags: { surface: "alert-config", action: "refresh-events" },
+      });
       console.error("[AlertConfig] refreshEvents failed", err);
       return false;
     }
@@ -623,6 +630,9 @@ export function AlertConfig() {
         });
       } catch (err) {
         if ((err as { name?: string }).name === "AbortError") return;
+        Sentry.captureException(err, {
+          tags: { surface: "alert-config", action: "resolve-repo-names" },
+        });
         console.error("[AlertConfig] resolveRepoNames failed", err);
       }
     })();
@@ -672,6 +682,9 @@ export function AlertConfig() {
         return true;
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
+        Sentry.captureException(err, {
+          tags: { surface: "alert-config", action: "create-rule" },
+        });
         toastAlertError(msg);
         return false;
       } finally {
@@ -704,6 +717,9 @@ export function AlertConfig() {
       toastAlertDeleted();
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
+      Sentry.captureException(err, {
+        tags: { surface: "alert-config", action: "delete-rule" },
+      });
       toastAlertError(msg);
     }
   }, []);
@@ -730,6 +746,9 @@ export function AlertConfig() {
         ),
       );
     } catch (err) {
+      Sentry.captureException(err, {
+        tags: { surface: "alert-config", action: "mark-read" },
+      });
       console.error("[AlertConfig] markRead failed", err);
     }
   }, []);

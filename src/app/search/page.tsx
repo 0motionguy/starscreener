@@ -4,12 +4,23 @@
 
 import { Suspense, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search as SearchIcon, Clock, Sparkles, Tag } from "lucide-react";
 import type { Repo } from "@/lib/types";
 import { useFilterStore } from "@/lib/store";
 import { SearchBar } from "@/components/shared/SearchBar";
-import { TerminalLayout } from "@/components/terminal/TerminalLayout";
+
+const TerminalLayout = dynamic(
+  () =>
+    import("@/components/terminal/TerminalLayout").then((m) => ({
+      default: m.TerminalLayout,
+    })),
+  {
+    ssr: false,
+    loading: () => <SearchResultsShell />,
+  },
+);
 
 // AGN-608 — branded empty / no-results state.
 //
@@ -83,9 +94,11 @@ function SearchPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get("q") ?? "";
+  const queryText = query.trim();
+  const hasQuery = queryText.length > 0;
   const sortParam = searchParams.get("sort");
   const limitParam = searchParams.get("limit");
-  const isTopList = !query.trim() && (sortParam !== null || limitParam !== null);
+  const isTopList = !hasQuery && (sortParam !== null || limitParam !== null);
   const topLimit = Math.min(
     Math.max(Number.parseInt(limitParam ?? "100", 10) || 100, 1),
     100,
@@ -119,15 +132,15 @@ function SearchPageInner() {
   }, [isTopList, setSort]);
 
   useEffect(() => {
-    if (!query.trim() && !isTopList) {
+    if (!hasQuery && !isTopList) {
       setResults([]);
       setLoading(false);
       return;
     }
     const controller = new AbortController();
     setLoading(true);
-    const url = query.trim()
-      ? `/api/search?q=${encodeURIComponent(query)}&limit=50`
+    const url = hasQuery
+      ? `/api/search?q=${encodeURIComponent(queryText)}&limit=50`
       : `/api/repos?sort=${encodeURIComponent(topSort)}&limit=${topLimit}`;
 
     (async () => {
@@ -154,7 +167,7 @@ function SearchPageInner() {
     })();
 
     return () => controller.abort();
-  }, [query, isTopList, topSort, topLimit]);
+  }, [hasQuery, isTopList, queryText, topSort, topLimit]);
 
   const handleSearch = useCallback(
     (q: string) => {
@@ -186,7 +199,7 @@ function SearchPageInner() {
         </div>
         <div className="clock">
           <span className="big">
-            {query ? `${results.length}` : isTopList ? `${topLimit}` : "global"}
+            {hasQuery ? `${results.length}` : isTopList ? `${topLimit}` : "global"}
           </span>
           <span className="live">{loading ? "searching" : "ready"}</span>
         </div>
@@ -196,7 +209,7 @@ function SearchPageInner() {
         <div className="panel-head">
           <span className="key">{"// GLOBAL SEARCH"}</span>
           <span className="right">
-            <span className="live">{query || "operator prompt"}</span>
+            <span className="live">{queryText || "operator prompt"}</span>
           </span>
         </div>
         <div className="search-command-body">
@@ -206,17 +219,17 @@ function SearchPageInner() {
             placeholder="Search repos by name, language, topic..."
             onSearch={handleSearch}
           />
-          {query && (
+          {hasQuery && (
             <p className="search-result-meta" aria-live="polite">
               {loading ? (
                 <>
                   <span className="live-dot" aria-hidden />
-                  Searching for <b>{query}</b>
+                  Searching for <b>{queryText}</b>
                 </>
               ) : (
                 <>
                   <b>{results.length}</b> result
-                  {results.length !== 1 ? "s" : ""} for <b>{query}</b>
+                  {results.length !== 1 ? "s" : ""} for <b>{queryText}</b>
                 </>
               )}
             </p>
@@ -234,15 +247,11 @@ function SearchPageInner() {
       showFeatured={false}
       heading={heading}
       emptyState={
-        query ? (
+        hasQuery ? (
           loading ? (
-            <SearchLoading query={query} />
+            <SearchLoading query={queryText} />
           ) : (
-            <SearchEmpty
-              query={query}
-              recentSearches={recentSearches}
-              onPickQuery={handleSearch}
-            />
+            <SearchEmpty query={queryText} />
           )
         ) : (
           <SearchPrompt
@@ -280,23 +289,9 @@ function SearchLoading({ query }: { query: string }) {
   );
 }
 
-// AGN-608 — Branded empty state for "no results for <query>".
-//
-// Keeps the existing terminal `.search-state` chrome (caps mono headline,
-// muted icon, hint copy) for visual continuity and adds a Suggestions
-// block: recent queries (when present) + example queries + popular
-// categories. Each suggestion is a real action — clicking a query
-// re-fires the search via `onPickQuery`; clicking a category navigates
-// to /categories/[slug].
-function SearchEmpty({
-  query,
-  recentSearches,
-  onPickQuery,
-}: {
-  query: string;
-  recentSearches: string[];
-  onPickQuery: (q: string) => void;
-}) {
+function SearchEmpty({ query }: { query: string }) {
+  const quickQueries = ["openai", "rust", "agent", "database"];
+
   return (
     <div className="search-state">
       <SearchIcon
@@ -305,14 +300,37 @@ function SearchEmpty({
         aria-hidden="true"
       />
       <p>{`// NO REPOS FOUND FOR "${query}"`}</p>
-      <p className="hint">
-        Nothing matched in the live index. Try a different spelling, a
-        broader topic, or pick one of the suggestions below.
-      </p>
-      <SearchSuggestions
-        recentSearches={recentSearches}
-        onPickQuery={onPickQuery}
-      />
+      <div className="search-empty-card" role="note" aria-live="polite">
+        <p className="search-empty-title">Nothing matched this query in the live index.</p>
+        <p className="hint search-empty-copy">
+          Search supports owner/name, language tags, and topic keywords. Try a
+          shorter term, remove punctuation, or use one of these quick probes:
+        </p>
+        <div className="search-empty-pills">
+          {quickQueries.map((suggestion) => (
+            <Link
+              key={suggestion}
+              href={`/search?q=${encodeURIComponent(suggestion)}`}
+              className="search-empty-pill"
+            >
+              {suggestion}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SearchResultsShell() {
+  return (
+    <div className="panel p-4">
+      <div className="skeleton-shimmer h-5 w-40 rounded-sm" />
+      <div className="mt-3 space-y-2">
+        <div className="skeleton-shimmer h-10 w-full rounded-sm" />
+        <div className="skeleton-shimmer h-10 w-full rounded-sm" />
+        <div className="skeleton-shimmer h-10 w-full rounded-sm" />
+      </div>
     </div>
   );
 }

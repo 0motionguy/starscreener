@@ -11,6 +11,11 @@ import {
   getConsensusVerdictsPayload,
   refreshConsensusVerdictsFromStore,
 } from "@/lib/consensus-verdicts";
+import {
+  CONSENSUS_MIN_ACTIVE_EXTERNAL_SOURCES,
+  CONSENSUS_MIN_POOL_ITEMS,
+  evaluateConsensusCoverage,
+} from "@/lib/consensus-coverage";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { AgreementMatrix } from "@/components/consensus/AgreementMatrix";
 import { ConsensusBoard } from "@/components/consensus/ConsensusBoard";
@@ -203,6 +208,10 @@ export default async function ConsensusPage() {
 
   const meta = getConsensusTrendingMeta();
   const rawItems = getConsensusTrendingItems(200);
+  const coverage = evaluateConsensusCoverage({
+    itemCount: meta.itemCount,
+    sourceStats: meta.sourceStats,
+  });
   const items = rawItems.map(relaxStrongConsensus);
   const displayBandCounts = recountBands(items);
   const verdicts = getConsensusVerdictsPayload();
@@ -243,7 +252,7 @@ export default async function ConsensusPage() {
   // deterministic summary from band counts so the ribbon always tracks
   // today's data, not yesterday's analyst run.
   const verdictText =
-    (verdictsFresh && verdicts.ribbon.headline) ||
+    (!coverage.starved && verdictsFresh && verdicts.ribbon.headline) ||
     `${displayBandCounts.strong_consensus} strong consensus picks today across 8 sources · ` +
       `${displayBandCounts.early_call} early calls · ${displayBandCounts.divergence} divergences to watch.`;
 
@@ -325,6 +334,27 @@ export default async function ConsensusPage() {
         ]}
       />
 
+      {coverage.starved ? (
+        <div className="panel" style={{ padding: 20, borderColor: "var(--v4-red)", marginBottom: 16 }}>
+          <div className="panel-head">
+            <span className="key">{"// CONSENSUS GATED"}</span>
+          </div>
+          <p style={{ marginTop: 8, color: "var(--v4-ink-300)" }}>
+            Source pool is starved. Analyst-style consensus is hidden until coverage recovers.
+          </p>
+          <p style={{ marginTop: 8, color: "var(--v4-ink-300)" }}>
+            Active external sources: <b>{coverage.activeSources}/8</b> (min{" "}
+            {CONSENSUS_MIN_ACTIVE_EXTERNAL_SOURCES}/8). Candidate pool: <b>{meta.itemCount}</b>{" "}
+            (min {CONSENSUS_MIN_POOL_ITEMS}).
+          </p>
+          {coverage.inactiveSources.length > 0 ? (
+            <p style={{ marginTop: 8, color: "var(--v4-ink-300)" }}>
+              Missing sources: {coverage.inactiveSources.join(", ")}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
+
       <SourceStrip stats={meta.sourceStats} />
 
       <SectionHead
@@ -367,11 +397,17 @@ export default async function ConsensusPage() {
         </section>
 
         <div className="col-4">
-          <DailyVerdictPanel
-            ribbon={verdicts.ribbon}
-            generator={verdicts.generator}
-            computedAt={verdicts.computedAt}
-          />
+          {coverage.starved ? (
+            <section className="panel" style={{ padding: 16, color: "var(--v4-ink-300)" }}>
+              Analyst panel is gated while source coverage is below threshold.
+            </section>
+          ) : (
+            <DailyVerdictPanel
+              ribbon={verdicts.ribbon}
+              generator={verdicts.generator}
+              computedAt={verdicts.computedAt}
+            />
+          )}
         </div>
       </div>
 
@@ -419,7 +455,12 @@ export default async function ConsensusPage() {
       />
 
       <div id="consensus-leaderboard">
-        {items.length === 0 ? (
+        {coverage.starved ? (
+          <div className="panel" style={{ padding: 24, color: "var(--v4-ink-300)" }}>
+            Consensus leaderboard is temporarily gated while source coverage is below the
+            reliability threshold.
+          </div>
+        ) : items.length === 0 ? (
           <div className="panel" style={{ padding: 24, color: "var(--v4-ink-300)" }}>
             Consensus pool is warming. The worker publishes after engagement-composite + 8 source
             fetchers refresh.

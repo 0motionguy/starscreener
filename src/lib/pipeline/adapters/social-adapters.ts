@@ -36,6 +36,7 @@ import {
   redditUserAgentFingerprint,
   selectUserAgent,
 } from "@/lib/pool/reddit-ua-pool";
+import { recordRateLimitSample } from "@/lib/rate-limit-headroom";
 // Phase 2C: per-source circuit breaker. Each adapter checks isOpen()
 // at the top of fetch and records success/failure on every response so
 // 5 consecutive failures auto-disable the source until the cooldown.
@@ -402,6 +403,25 @@ export class RedditAdapter implements SocialAdapter {
         operation: "reddit_search_mentions",
         success: res.ok,
       });
+      const redditRemaining = Number.parseInt(
+        res.headers.get("x-ratelimit-remaining") ?? "",
+        10,
+      );
+      const redditLimit = Number.parseInt(
+        res.headers.get("x-ratelimit-limit") ?? "",
+        10,
+      );
+      if (
+        Number.isFinite(redditRemaining) &&
+        Number.isFinite(redditLimit) &&
+        redditLimit > 0
+      ) {
+        void recordRateLimitSample({
+          source: "reddit",
+          remaining: redditRemaining,
+          limit: redditLimit,
+        });
+      }
       if (!res.ok) {
         if (res.status === 429) {
           const retryAfterMs = parseRetryAfterMs(res.headers.get("retry-after"));
@@ -658,6 +678,10 @@ export class GitHubActivityAdapter implements SocialAdapter {
     try {
       const res = await fetch(url, { signal, headers });
       const rl = parseRateLimitHeaders(res.headers);
+      const ghLimit = Number.parseInt(
+        res.headers.get("x-ratelimit-limit") ?? "",
+        10,
+      );
       await recordGithubCall({
         keyFingerprint: githubKeyFingerprint(token),
         statusCode: res.status,
@@ -672,6 +696,13 @@ export class GitHubActivityAdapter implements SocialAdapter {
       // leave the pool picking the dead token again.
       if (token) {
         if (rl) pool.recordRateLimit(token, rl.remaining, rl.resetUnixSec);
+      }
+      if (rl && Number.isFinite(ghLimit) && ghLimit > 0) {
+        void recordRateLimitSample({
+          source: "github-search",
+          remaining: rl.remaining,
+          limit: ghLimit,
+        });
       }
       if (!res.ok) {
         // Rate limit exhaustion is the common unauthenticated failure.

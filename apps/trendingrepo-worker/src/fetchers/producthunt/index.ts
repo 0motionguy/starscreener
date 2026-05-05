@@ -16,6 +16,7 @@ import {
   resolveRedirect,
   discoverLinkedUrls,
   enrichWithGithub,
+  batchEnrichWithGithub,
   pickGithubToken,
   loadProducthuntTokens,
   pickToken,
@@ -130,6 +131,18 @@ interface NormalizedLaunch {
   tags?: string[];
 }
 
+type GithubEnricher = (
+  http: FetcherContext['http'],
+  fullName: string,
+  opts: { token?: string | null },
+) => Promise<Awaited<ReturnType<typeof enrichWithGithub>>>;
+
+type GithubBatchEnricher = (
+  http: FetcherContext['http'],
+  fullNames: string[],
+  opts: { token?: string | null },
+) => Promise<Map<string, Awaited<ReturnType<typeof enrichWithGithub>>>>;
+
 function normalizePost(node: PhPostNode, tracked: Map<string, string>): NormalizedLaunch | null {
   if (!node || typeof node !== 'object') return null;
   if (!node.id || !node.createdAt) return null;
@@ -199,6 +212,40 @@ function isAiAdjacent(launch: NormalizedLaunch): boolean {
     ...(Array.isArray(launch.topics) ? launch.topics : []),
   ].join(' ');
   return hasAiKeyword(blob);
+}
+
+export async function enrichLaunchesWithGithub(
+  launches: NormalizedLaunch[],
+  http: FetcherContext['http'],
+  token: string | null,
+  deps: {
+    batchEnrich?: GithubBatchEnricher;
+    enrichSingle?: GithubEnricher;
+  } = {},
+): Promise<number> {
+  const batchEnrich = deps.batchEnrich ?? batchEnrichWithGithub;
+  const enrichSingle = deps.enrichSingle ?? enrichWithGithub;
+  const githubFullNames = launches
+    .map((l) => (l.githubUrl ? l.githubUrl.replace(/^https?:\/\/github\.com\//, '') : ''))
+    .filter((full) => full.includes('/'));
+  const batched = await batchEnrich(http, githubFullNames, { token });
+  let enrichedCount = 0;
+
+  for (const l of launches) {
+    if (!l.githubUrl) continue;
+    const full = l.githubUrl.replace(/^https?:\/\/github\.com\//, '').toLowerCase();
+    const info = batched.get(full) ?? (await enrichSingle(http, full, { token }));
+    if (!info) continue;
+    l.githubRepo = {
+      stars: info.stars,
+      topics: info.topics,
+      readmeSnippet: info.readmeSnippet,
+    };
+    l.tags = info.tags;
+    enrichedCount += 1;
+  }
+
+  return enrichedCount;
 }
 
 const fetcher: Fetcher = {
@@ -343,20 +390,7 @@ const fetcher: Fetcher = {
 
     // GitHub enrichment.
     const ghToken = pickGithubToken();
-    let enrichedCount = 0;
-    for (const l of launches) {
-      if (!l.githubUrl) continue;
-      const full = l.githubUrl.replace(/^https?:\/\/github\.com\//, '');
-      const info = await enrichWithGithub(ctx.http, full, { token: ghToken });
-      if (!info) continue;
-      l.githubRepo = {
-        stars: info.stars,
-        topics: info.topics,
-        readmeSnippet: info.readmeSnippet,
-      };
-      l.tags = info.tags;
-      enrichedCount += 1;
-    }
+    const enrichedCount = await enrichLaunchesWithGithub(launches, ctx.http, ghToken);
     ctx.log.debug({ enriched: enrichedCount }, 'producthunt github enrichment');
 
     launches.sort((a, b) => {

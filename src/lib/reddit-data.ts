@@ -248,6 +248,14 @@ let inflight: Promise<{ source: string; ageMs: number }> | null = null;
 let lastRefreshMs = 0;
 const MIN_REFRESH_INTERVAL_MS = 30_000;
 
+function hasAnyEngagementSignal(file: RedditMentionsFile): boolean {
+  return Object.values(file.mentions ?? {}).some((mention) =>
+    (mention.posts ?? []).some(
+      (post) => (post.score ?? 0) > 0 || (post.numComments ?? 0) > 0,
+    ),
+  );
+}
+
 export async function refreshRedditMentionsFromStore(): Promise<{
   source: string;
   ageMs: number;
@@ -266,6 +274,15 @@ export async function refreshRedditMentionsFromStore(): Promise<{
     );
     if (result.data && result.source !== "missing") {
       const file = normalizeFile(result.data);
+      const prevFile = cache?.file ?? null;
+      if (
+        prevFile &&
+        hasAnyEngagementSignal(prevFile) &&
+        !hasAnyEngagementSignal(file)
+      ) {
+        lastRefreshMs = Date.now();
+        return { source: "memory", ageMs: 0 };
+      }
       enrichWindowedCounts(file);
       const mentionsByLowerName = new Map<string, RedditRepoMention>();
       for (const [fullName, mention] of Object.entries(file.mentions)) {

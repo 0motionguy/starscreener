@@ -11,6 +11,8 @@ import {
   refreshStarActivityFromStore,
 } from "@/lib/star-activity";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { safeJsonLd } from "@/lib/seo";
+import { buildRepoSubpageSchema } from "@/lib/seo-repo-schemas";
 import { buildAbsoluteShareImageUrl } from "@/lib/star-activity-url";
 import type { Repo } from "@/lib/types";
 import { slugToId } from "@/lib/utils";
@@ -155,10 +157,24 @@ export default async function StarActivityPage({ params }: PageProps) {
   const gainedStars = Math.max(0, currentStars - startStars);
   const peakDelta =
     payload?.points.reduce((max, point) => Math.max(max, point.delta), 0) ?? 0;
+  const pageTitle = `${fullName} star activity`;
+  const pageDescription = `Full-history star activity for ${fullName}.`;
+  const jsonLd = buildRepoSubpageSchema({
+    owner: repo.owner,
+    name: repo.name,
+    pagePath: `/repo/${repo.owner}/${repo.name}/star-activity`,
+    pageTitle,
+    description: pageDescription,
+  });
 
   return (
-    <main className="home-surface repo-detail-page star-activity-page">
-      <section className="id-strip">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
+      />
+      <main className="home-surface repo-detail-page star-activity-page">
+        <section className="id-strip">
         <div className="id-avatar">{repo.name.slice(0, 1).toLowerCase()}</div>
         <div className="id-meta">
           <div className="crumb">
@@ -211,9 +227,10 @@ export default async function StarActivityPage({ params }: PageProps) {
           stars since {firstPoint?.d ?? "the first tracked point"}, with current
           momentum at <span className="hl">{repo.momentumScore.toFixed(2)}</span>.
         </p>
-      </section>
+        </section>
 
-      <StarActivityClient repo={repo} payload={payload} />
-    </main>
+        <StarActivityClient repo={repo} payload={payload} />
+      </main>
+    </>
   );
 }

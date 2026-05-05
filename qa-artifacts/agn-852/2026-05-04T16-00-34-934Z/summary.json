@@ -1,0 +1,21 @@
+{
+  "issue": "AGN-852",
+  "scenario": "home <-> /search route churn",
+  "baseUrl": "https://trendingrepo.com",
+  "loops": 20,
+  "capturedAt": "2026-05-04T16:01:19.222Z",
+  "before": {
+    "usedSize": 8363888,
+    "totalSize": 9056256,
+    "usedMb": 7.98,
+    "totalMb": 8.64
+  },
+  "after": {
+    "usedSize": 9065232,
+    "totalSize": 13512704,
+    "usedMb": 8.65,
+    "totalMb": 12.89
+  },
+  "deltaMb": 0.67,
+  "leakSuspected": false
+}

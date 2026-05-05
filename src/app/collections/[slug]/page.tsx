@@ -255,8 +255,6 @@ export default async function CollectionDetailPage({ params }: PageProps) {
                         repo.description?.trim() ||
                         (quiet ? "No live data yet." : undefined)
                       }
-                      mentions24h={quiet ? undefined : repo.mentionCount24h}
-                      delta24h={quiet ? undefined : repo.starsDelta24h}
                       language={
                         repo.language ? repo.language.toUpperCase() : undefined
                       }

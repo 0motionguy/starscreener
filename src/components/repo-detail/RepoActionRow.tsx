@@ -131,18 +131,6 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
 
       <a
         href={githubHref}
-        onClick={() => {
-          try {
-            posthog.capture("repo_detail_flow", {
-              action: "github_click",
-              repo_id: repo.id,
-              repo_full_name: repo.fullName,
-              target_host: "github.com",
-            });
-          } catch {
-            // Best-effort analytics only.
-          }
-        }}
         target="_blank"
         rel="noopener noreferrer"
         onClick={handleGithubClick}

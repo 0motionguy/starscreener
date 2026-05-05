@@ -840,6 +840,7 @@ export default async function HomePage() {
       // AGN-450: per-row freshness. The home feed is fetched as a single
       // snapshot (lastFetchedAt), so every row inherits that timestamp
       // until the data-store starts emitting per-record fetchedAt floors.
+      lastCommitAt: null,
       updatedAt: lastFetchedAt,
     };
   });

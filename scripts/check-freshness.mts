@@ -54,7 +54,6 @@ interface Options {
 }
 
 const DEFAULT_BASE_URL = "http://localhost:3023";
-const LOOPBACK_BASE_URL = "http://127.0.0.1:3023";
 const PROD_BASE_URL = "https://trendingrepo.com";
 const DEFAULT_TIMEOUT_MS = 15_000;
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -418,40 +417,15 @@ function printReport(
 }
 
 async function main(): Promise<void> {
-  let opts = parseArgs(process.argv.slice(2));
-  let healthUrl = endpoint(opts.baseUrl, "/api/health?soft=1");
-  let stateUrl = endpoint(opts.baseUrl, "/api/cron/freshness/state");
+  const opts = parseArgs(process.argv.slice(2));
+  const healthUrl = endpoint(opts.baseUrl, "/api/health?soft=1");
+  const stateUrl = endpoint(opts.baseUrl, "/api/cron/freshness/state");
 
-  let health: HealthState;
-  let state: FreshnessState;
-  let sentry: SentryState;
-
-  try {
-    [health, state, sentry] = await Promise.all([
-      fetchJson<HealthState>(healthUrl, opts.timeoutMs, false),
-      fetchJson<FreshnessState>(stateUrl, opts.timeoutMs, true),
-      checkSentryStatus(opts),
-    ]);
-  } catch (error) {
-    const shouldRetryLoopback =
-      opts.baseUrl === DEFAULT_BASE_URL &&
-      classifyFetchFailure(error, opts.baseUrl) !== null;
-    if (!shouldRetryLoopback) throw error;
-
-    opts = { ...opts, baseUrl: LOOPBACK_BASE_URL };
-    healthUrl = endpoint(opts.baseUrl, "/api/health?soft=1");
-    stateUrl = endpoint(opts.baseUrl, "/api/cron/freshness/state");
-    [health, state, sentry] = await Promise.all([
-      fetchJson<HealthState>(healthUrl, opts.timeoutMs, false),
-      fetchJson<FreshnessState>(stateUrl, opts.timeoutMs, true),
-      checkSentryStatus(opts),
-    ]);
-    if (!opts.json) {
-      console.log(
-        `freshness-check: localhost probe failed; retried with ${LOOPBACK_BASE_URL}`,
-      );
-    }
-  }
+  const [health, state, sentry] = await Promise.all([
+    fetchJson<HealthState>(healthUrl, opts.timeoutMs, false),
+    fetchJson<FreshnessState>(stateUrl, opts.timeoutMs, true),
+    checkSentryStatus(opts),
+  ]);
 
   validateFreshnessState(state);
   const code = exitCodeFor(state);

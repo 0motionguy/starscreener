@@ -65,3 +65,21 @@ Seeding decision:
 
 1. Keep remediation in the freshness/Sentry unblock lanes.
 2. Close AGN-1106 with this evidence file reference.
+
+## Closeout API retry evidence (resume heartbeat)
+
+- Resume heartbeat queue-depth duty rerun (`todo,in_progress`) for required lanes:
+  - `[ENG] Data Pipeline` = `31`
+  - `[ENG] Frontend` = `17`
+  - `[ENG] Backend` = `38`
+  - `[QA] Release QA` = `22`
+  - `[SEC] Platform Security` = `26`
+  - `[OPS] Release SRE` = `57`
+  - `[PM] Sprint Triage` = `48`
+- Seeding decision remains unchanged: no required lane below `<5`; no seed tasks created.
+- Paperclip closeout API remains degraded from this runtime:
+  - `PATCH /api/issues/7210f0a4-acdc-4e7f-8f15-f531d1d6850d` -> `HTTP 500 Internal Server Error`
+  - `PATCH /api/issues/AGN-1106` -> `HTTP 500 Internal Server Error`
+- Unblock owner/action for terminal status persistence:
+  - Owner: Paperclip platform/runtime owner
+  - Action: restore issue write endpoints (`POST /api/issues/{id}/comments`, `PATCH /api/issues/{id}`) so AGN-1106 terminal status can be persisted.

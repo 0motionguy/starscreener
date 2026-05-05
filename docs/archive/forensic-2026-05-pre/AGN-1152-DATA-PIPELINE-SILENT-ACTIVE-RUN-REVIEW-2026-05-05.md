@@ -1,42 +1,57 @@
 # AGN-1152 Data Pipeline Silent Active Run Review (heartbeat evidence)
 
-- Timestamp: 2026-05-05T05:57:36.810Z
+- Timestamp: 2026-05-05T04:36:33.2357741+08:00
 - Scope: Review silent active run alert for [ENG] Data Pipeline on AGN-1152.
+- Assigned issue context: AGN-1152 (Review silent active run for [ENG] Data Pipeline).
 
-## Mandatory preflight + freshness evidence
+## Mandatory opening protocol status
 
-Command:
+Completed this heartbeat:
+1. `CLAUDE.md`
+2. `docs/ENGINE.md`
+3. `docs/SITE-WIREMAP.md`
+4. `docs/AUDIT-2026-05-04.md`
+5. `docs/forensic/00-INDEX.md`
+6. `tasks/CURRENT-SPRINT.md`
+7. `tasks/BACKLOG.md`
+
+Freshness command run:
 
 ```powershell
 npm run freshness:check
 ```
 
-Result:
+Result classification:
 - Exit code: 1
-- Localhost reachable: `http://localhost:3023`
-- Classification: product failure (not missing localhost server)
-- Summary: `green=10 yellow=17 red=5 dead=18 blocking_non_green=35 advisory_non_green=5`
-- High-risk keys: `trending-repos=DEAD`, `deltas=RED`, `hot-collections=RED`, `lobsters=RED`, `producthunt=RED`
-- Sentry: `MISSING`
+- Local server status: reachable (`http://localhost:3023`)
+- Failure type: product freshness drift (not localhost absence)
+- Summary: `green=40 yellow=9 red=1 dead=0 blocking_non_green=8 advisory_non_green=2`
+- Highest-risk source from this run: `trending-repos=RED` (`last_update=2026-05-04T08:06:14.928Z`, budget `6h`)
+- Additional blocking non-green sources: `awesome-skills`, `claude-rss`, `lobsters`, `npm`, `openai-rss`, `producthunt`, `twitter`
+- Sentry status from checker output: `MISSING`
 
-## Queue-depth duty + control-plane status
+## Queue-depth duty evidence
 
-Queue-depth execution is blocked by Paperclip issue API failures from this runtime:
-- `GET http://127.0.0.1:3100/health` -> `200`
-- `GET http://127.0.0.1:3100/api/companies/{companyId}/agents` -> `{"error":"Internal server error"}`
-- `GET http://127.0.0.1:3100/api/issues/{issueId}` -> `{"error":"Internal server error"}`
-- `GET http://192.168.192.1:3100/health` (`PAPERCLIP_API_URL`) -> unreachable (`000`)
+Queue-depth API check attempted before own-issue work:
+- `http://192.168.192.1:3100/api/companies/{companyId}/agents` (from `PAPERCLIP_API_URL`) was unreachable from this shell (`Unable to connect to the remote server`).
+- Fallback `http://127.0.0.1:3100/api/companies/{companyId}/agents` returned `{"error":"Internal server error"}`.
 
-Impact:
-- Cannot fetch direct-report issue counts; no safe queue seeding decision can be made.
-- Cannot post AGN-1152 issue comment or terminal PATCH from this runtime.
+Result:
+- Queue-depth counts could not be collected in this heartbeat due to Paperclip control-plane/API endpoint failure from this runtime.
+- No seeding actions were taken because required direct-report queue state was not retrievable.
 
-## Silent-run assessment
+## Silent-run review evidence
 
-- Alert pattern remains a false-positive stale-active-run signal.
-- Dominant active risk is freshness degradation and missing Sentry readiness.
+- Wake payload had no pending comments/run-log tail (`pending comments: 0/0`, `latest comment id: unknown`, `fallback fetch needed: no`).
+- This issue remains in the same alert family as prior Data Pipeline silent-run reviews completed on 2026-05-05.
+- Current heartbeat still shows active degraded pipeline outputs (blocking non-green freshness rows + missing Sentry), which does not support a truly silent/inert run conclusion.
 
-## Blocked outcome
+## Conclusion
 
-- Blocked on: Paperclip control-plane issue API read/write path unavailable from this runtime.
-- Needs: platform/control-plane owner to restore `/api/companies/*` and `/api/issues/*` endpoints so CTO heartbeat can persist required terminal status PATCH.
+- AGN-1152 is a false-positive stale-active-run alert.
+- Active risk remains data freshness remediation (especially `trending-repos` RED and seven additional blocking non-green sources) plus missing Sentry readiness, not run silence.
+
+## Next action
+
+1. Keep Data Pipeline remediation focused on blocking freshness sources from the latest checker run.
+2. Close AGN-1152 as done with this evidence packet.

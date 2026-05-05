@@ -3,7 +3,7 @@ name: SRE - Route Cost Attribution Verify
 on:
   workflow_dispatch: {}
   schedule:
-    - cron: "17 */6 * * *"
+    - cron: "31 */6 * * *"  # every 6h at :31 (was :17, dedup vs refresh-collection-rankings)
 
 permissions:
   contents: read

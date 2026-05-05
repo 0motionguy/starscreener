@@ -1,5 +1,3 @@
-import { sanitizeTelemetryValue } from "@/lib/log-redaction";
-
 export abstract class EngineError extends Error {
   abstract readonly category: EngineErrorCategory;
   abstract readonly source: EngineErrorSource;
@@ -20,7 +18,6 @@ export type EngineErrorSource =
   | "edge-cache"
   | "auth"
   | "admin"
-  | "subdomain-takeover"
   | "ops-alert"
   | "data-store"
   | "github"
@@ -88,26 +85,6 @@ export class OpsAlertRecoverableError extends EngineError {
 export class DataStoreFatalError extends EngineError {
   readonly category = "fatal" as const;
   readonly source = "data-store" as const;
-}
-
-export class EdgeCacheRecoverableError extends EngineError {
-  readonly category = "recoverable" as const;
-  readonly source = "edge-cache" as const;
-}
-
-export class SubdomainTakeoverRecoverableError extends EngineError {
-  readonly category = "recoverable" as const;
-  readonly source = "subdomain-takeover" as const;
-}
-
-export class SubdomainTakeoverQuarantineError extends EngineError {
-  readonly category = "quarantine" as const;
-  readonly source = "subdomain-takeover" as const;
-}
-
-export class SubdomainTakeoverFatalError extends EngineError {
-  readonly category = "fatal" as const;
-  readonly source = "subdomain-takeover" as const;
 }
 
 export class GithubRateLimitError extends EngineError {
@@ -295,17 +272,25 @@ export class ArxivFatalError extends EngineError {
   readonly source = "arxiv" as const;
 }
 
-export class Soft404RecoverableError extends EngineError {
+
+export class EdgeCacheRecoverableError extends EngineError {
   readonly category = "recoverable" as const;
-  readonly source = "soft-404" as const;
+  readonly source = "edge-cache" as const;
 }
 
-export function engineErrorTags(error: unknown): Record<string, string> {
-  if (!(error instanceof EngineError)) return {};
-  return {
-    source: error.source,
-    category: error.category,
-  };
+export class SubdomainTakeoverRecoverableError extends EngineError {
+  readonly category = "recoverable" as const;
+  readonly source = "subdomain-takeover" as const;
+}
+
+export class SubdomainTakeoverQuarantineError extends EngineError {
+  readonly category = "quarantine" as const;
+  readonly source = "subdomain-takeover" as const;
+}
+
+export class SubdomainTakeoverFatalError extends EngineError {
+  readonly category = "fatal" as const;
+  readonly source = "subdomain-takeover" as const;
 }
 
 export function engineErrorSentryContext(
@@ -325,7 +310,19 @@ export function engineErrorSentryContext(
   };
   if (error instanceof EngineError) {
     extra.engine_error_name = error.name;
-    extra.engine_error_metadata = sanitizeTelemetryValue(error.metadata);
+    extra.engine_error_metadata = error.metadata;
   }
   return { tags, extra };
+}
+export class Soft404RecoverableError extends EngineError {
+  readonly category = "recoverable" as const;
+  readonly source = "soft-404" as const;
+}
+
+export function engineErrorTags(error: unknown): Record<string, string> {
+  if (!(error instanceof EngineError)) return {};
+  return {
+    source: error.source,
+    category: error.category,
+  };
 }

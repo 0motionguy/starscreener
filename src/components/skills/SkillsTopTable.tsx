@@ -15,7 +15,6 @@ import {
   ArrowUp,
   ArrowDown,
   ArrowUpDown,
-  RotateCcw,
 } from "lucide-react";
 
 import { useCompareStore, useWatchlistStore } from "@/lib/store";
@@ -29,13 +28,7 @@ import {
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { RankStarMark } from "@/components/brand/RankStarMark";
 
-type SortKey =
-  | "rank"
-  | "stars"
-  | "s24"
-  | "s7"
-  | "s30"
-  | "cited";
+type SortKey = "rank" | "stars" | "cited";
 type SortDir = "asc" | "desc";
 
 export interface SkillRow {
@@ -108,12 +101,6 @@ function getSortValue(row: SkillRow, key: SortKey): number {
   switch (key) {
     case "stars":
       return row.stars;
-    case "s24":
-      return num(row.starsDelta24h);
-    case "s7":
-      return num(row.starsDelta7d);
-    case "s30":
-      return num(row.starsDelta30d);
     case "cited":
       return row.cited;
     case "rank":
@@ -297,17 +284,6 @@ export function SkillsTopTable({
             {label} <span className="ct">{ct}</span>
           </button>
         ))}
-        {filter !== "all" ? (
-          <button
-            type="button"
-            className="fchip"
-            onClick={() => setFilter("all")}
-            aria-label="Clear skills filter"
-          >
-            <RotateCcw size={12} strokeWidth={1.7} />
-            Clear
-          </button>
-        ) : null}
         <span className="live-top-spacer" />
         <span className="live-top-meta">
           showing <b>{visible.length}</b> / {rows.length}
@@ -325,27 +301,6 @@ export function SkillsTopTable({
                 label="Stars"
                 sortKey="stars"
                 active={sortKey === "stars"}
-                dir={sortDir}
-                onClick={handleSort}
-              />
-              <SortHeader
-                label="Stars 24h"
-                sortKey="s24"
-                active={sortKey === "s24"}
-                dir={sortDir}
-                onClick={handleSort}
-              />
-              <SortHeader
-                label="Stars 7d"
-                sortKey="s7"
-                active={sortKey === "s7"}
-                dir={sortDir}
-                onClick={handleSort}
-              />
-              <SortHeader
-                label="Stars 30d"
-                sortKey="s30"
-                active={sortKey === "s30"}
                 dir={sortDir}
                 onClick={handleSort}
               />
@@ -406,15 +361,6 @@ export function SkillsTopTable({
                   </td>
                   <td className="num">
                     {row.stars > 0 ? formatCompact(row.stars) : "—"}
-                  </td>
-                  <td className={`num ${deltaClass(row.starsDelta24h)}`}>
-                    {formatDelta(row.starsDelta24h)}
-                  </td>
-                  <td className={`num ${deltaClass(row.starsDelta7d)}`}>
-                    {formatDelta(row.starsDelta7d)}
-                  </td>
-                  <td className={`num ${deltaClass(row.starsDelta30d)}`}>
-                    {formatDelta(row.starsDelta30d)}
                   </td>
                   <td className="ch">
                     {hasSparkline ? (
@@ -484,7 +430,7 @@ export function SkillsTopTable({
             })}
             {visible.length === 0 ? (
               <tr>
-                <td colSpan={9} className="live-empty">
+                <td colSpan={6} className="live-empty">
                   No skills match this filter.
                 </td>
               </tr>

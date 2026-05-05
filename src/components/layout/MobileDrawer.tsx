@@ -175,6 +175,7 @@ export function MobileDrawer() {
                   metaCounts={data.metaCounts}
                   availableLanguages={data.availableLanguages}
                   watchlistPreview={watchlistPreview}
+                  recentViewedPreview={[]}
                   unreadAlerts={data.unreadAlerts}
                   sourceCounts={data.sourceCounts}
                   trendingReposCount={data.trendingReposCount}

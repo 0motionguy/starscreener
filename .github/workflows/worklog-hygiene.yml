@@ -1,0 +1,42 @@
+name: worklog-hygiene
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"  # Mondays 06:00 UTC (before US/EU work hours)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: worklog-hygiene-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  hygiene:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Archive old worklogs
+        id: archive
+        run: |
+          OUTPUT=$(node scripts/archive-old-worklogs.mjs)
+          echo "$OUTPUT"
+          ARCHIVED=$(echo "$OUTPUT" | grep -oP "archived=\K\d+" | head -1 || echo 0)
+          echo "archived=$ARCHIVED" >> "$GITHUB_OUTPUT"
+      - name: Commit if changed
+        if: steps.archive.outputs.archived != '0'
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name "worklog-hygiene-bot"
+            git config user.email "actions@github.com"
+            # archive-old-worklogs.mjs uses `git mv`, which already stages both
+            # the deletion and the new path. No `git add -A` (workflow convention:
+            # never blanket-stage in parallel-agent contexts).
+            git commit -m "chore(worklog-hygiene): archive ${{ steps.archive.outputs.archived }} old worklogs ($(date -u +%Y-%m-%d))"
+            git push
+          fi

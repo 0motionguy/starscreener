@@ -108,6 +108,8 @@ function collectFiles() {
 }
 
 const LINK_RE = /\[([^\]]+)\]\(([^)#\s]+?)(#[^)\s]*)?\)/g;
+const FRONTMATTER_RE = /^---\r?\n([\s\S]*?)\r?\n---/;
+const SKIP_FRONTMATTER_STATUSES = new Set(["archive", "pointer"]);
 
 function extractLinks(text) {
   const out = [];
@@ -116,6 +118,16 @@ function extractLinks(text) {
     out.push({ textLabel: m[1], target: m[2] });
   }
   return out;
+}
+
+function shouldSkipForFrontmatter(text) {
+  const m = FRONTMATTER_RE.exec(text);
+  if (!m) return false;
+  const block = m[1];
+  const statusMatch = /^status:\s*([^\s#]+)/m.exec(block);
+  if (!statusMatch) return false;
+  const value = statusMatch[1].trim().replace(/^["']|["']$/g, "");
+  return SKIP_FRONTMATTER_STATUSES.has(value);
 }
 
 function isExternalOrSpecial(target) {
@@ -130,11 +142,16 @@ function resolveTarget(srcFile, target) {
 const files = collectFiles();
 const broken = [];
 let totalLinks = 0;
+let skipped = 0;
 for (const f of files) {
   let body;
   try {
     body = fs.readFileSync(f, "utf8");
   } catch {
+    continue;
+  }
+  if (shouldSkipForFrontmatter(body)) {
+    skipped++;
     continue;
   }
   for (const { textLabel, target } of extractLinks(body)) {
@@ -173,5 +190,5 @@ if (broken.length === 0) {
 }
 fs.writeFileSync(reportPath, report);
 
-console.log(`LINKS: scanned=${files.length} total-links=${totalLinks} broken=${broken.length}`);
+console.log(`LINKS: scanned=${files.length} skipped=${skipped} total-links=${totalLinks} broken=${broken.length}`);
 process.exit(broken.length === 0 ? 0 : 1);

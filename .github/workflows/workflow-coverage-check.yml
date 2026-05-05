@@ -1,0 +1,27 @@
+name: workflow-coverage-check
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/**.yml"
+      - ".github/workflows/**.yaml"
+      - "docs/ENGINE.md"
+      - "scripts/check-workflow-engine-coverage.mjs"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: workflow-coverage-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node scripts/check-workflow-engine-coverage.mjs

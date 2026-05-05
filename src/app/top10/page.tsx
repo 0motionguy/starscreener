@@ -1,3 +1,4 @@
+// SEO: indexable
 // TrendingRepo — /top10 (V4)
 //
 // Today's leaderboard. Composes V4 primitives directly: PageHead +

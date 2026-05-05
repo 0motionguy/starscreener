@@ -1,3 +1,4 @@
+// SEO: indexable
 // /mcp/[slug] — V4 per-MCP detail page (ProfileTemplate consumer).
 //
 // Server component. Resolves the MCP from the same publish payload the

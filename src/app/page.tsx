@@ -1,3 +1,4 @@
+// SEO: indexable
 // TrendingRepo - Home (Phase 3 / P9)
 //
 // Server component. Reads the derived Repo[] from committed JSON

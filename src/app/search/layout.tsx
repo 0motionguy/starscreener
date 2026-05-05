@@ -24,6 +24,13 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
   },
+  robots: {
+    // Per docs/SEO-POLICY.md "canonical-only": search results pages are
+    // per-query and shouldn't appear in the index. Still follow outbound
+    // result links.
+    index: false,
+    follow: true,
+  },
 };
 
 export default function SearchLayout({

@@ -1,3 +1,4 @@
+// SEO: indexable
 // /u/[handle] — V4 (W9) public user profile.
 //
 // Composes ProfileTemplate (the canonical entity-profile shape) with:

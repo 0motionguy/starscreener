@@ -1,3 +1,4 @@
+// SEO: indexable
 // TrendingRepo — Daily digest detail (/digest/[date])
 //
 // Server component. Renders a permanent snapshot of the trending grid for

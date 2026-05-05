@@ -1,3 +1,4 @@
+// SEO: noindex
 // /demo — the WOW showcase. Premium, loud, story-driven.
 //
 // Every card tells a story in one glance:

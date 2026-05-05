@@ -1,3 +1,4 @@
+// SEO: redirect
 // /s/[shortId] — resolve a compare-share shortlink back to the canonical
 // /compare URL with full state encoded in the querystring, then 302.
 //

@@ -1,3 +1,4 @@
+// SEO: noindex
 // /embed/top10 — chrome-free iframe-friendly Top 10 surface.
 //
 // Third-party sites can drop `<iframe src="trendingrepo.com/embed/top10">`

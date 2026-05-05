@@ -1,5 +1,6 @@
 "use client";
 
+// SEO: canonical-only — metadata lives in sibling layout.tsx.
 // /alerts — V4 W10-A alerts inbox.
 //
 // ProfileTemplate consumer composing AlertInbox / AlertEventRow /

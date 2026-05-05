@@ -1,4 +1,7 @@
+// SEO: canonical-only
 // StarScreener - Compare page.
+// Per-user repo selection encoded in querystring; sibling layout.tsx owns
+// the static metadata block; this file owns the dynamic generateMetadata.
 
 import type { Metadata } from "next";
 import Link from "next/link";

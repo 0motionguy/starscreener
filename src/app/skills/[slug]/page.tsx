@@ -1,3 +1,4 @@
+// SEO: indexable
 // /skills/[slug] — V4 W9 ProfileTemplate consumer.
 //
 // One detail page per skill, keyed by the base64url-encoded skill `id` so

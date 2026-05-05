@@ -1,3 +1,6 @@
+// SEO: noindex
+// /admin/login — staff sign-in form. Public URL but never indexed.
+
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";

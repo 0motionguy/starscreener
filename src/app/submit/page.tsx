@@ -1,3 +1,6 @@
+// SEO: indexable
+// /submit — public drop-a-repo submission page.
+
 import type { Metadata } from "next";
 
 import { DropRepoPage } from "@/components/submissions/DropRepoPage";

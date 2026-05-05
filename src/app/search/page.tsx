@@ -1,5 +1,6 @@
 "use client";
 
+// SEO: canonical-only — metadata lives in sibling layout.tsx.
 // StarScreener - Search.
 
 import { Suspense, useCallback, useEffect, useState } from "react";

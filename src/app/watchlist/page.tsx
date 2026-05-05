@@ -1,5 +1,6 @@
 "use client";
 
+// SEO: canonical-only — metadata lives in sibling layout.tsx.
 // /watchlist — V4 W9 user-surfaces migration.
 //
 // Composes through ProfileTemplate (PageHead + KpiBand + VerdictRibbon +

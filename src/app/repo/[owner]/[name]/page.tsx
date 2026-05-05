@@ -1,3 +1,4 @@
+// SEO: indexable
 // /repo/[owner]/[name] — modernized repo detail page.
 //
 // Mostly a server component that composes:

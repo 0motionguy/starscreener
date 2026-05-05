@@ -1,3 +1,4 @@
+// SEO: indexable
 // /arxiv/trending — V4 SourceFeedTemplate consumer.
 //
 // Reads `arxiv-recent` Redis payload (populated by scripts/scrape-arxiv.mjs)

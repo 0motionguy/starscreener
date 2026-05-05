@@ -24,6 +24,14 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
   },
+  robots: {
+    // Per docs/SEO-POLICY.md "canonical-only": URL is public but the
+    // rendered repo selection is per-user query state. Don't pollute
+    // the index with one entry per query permutation; still follow
+    // outbound links to /repo/* so they get crawl credit.
+    index: false,
+    follow: true,
+  },
 };
 
 export default function CompareLayout({

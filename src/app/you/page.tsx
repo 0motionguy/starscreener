@@ -1,3 +1,4 @@
+// SEO: canonical-only
 // TrendingRepo — /you profile landing.
 //
 // Zero-auth personal signal panel. Pulls local-only state (watchlist +
@@ -16,6 +17,9 @@ export const metadata: Metadata = {
   title: "Your signal — TrendingRepo",
   description:
     "Personal watchlist, compare shortlist, and saved filter summary. No account required — TrendingRepo keeps your signal local.",
+  // Per docs/SEO-POLICY.md "canonical-only": public URL but content is
+  // per-browser localStorage. Don't index; still follow outbound links.
+  robots: { index: false, follow: true },
 };
 
 export default function YouPage() {

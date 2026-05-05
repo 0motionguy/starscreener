@@ -1,3 +1,4 @@
+// SEO: indexable
 // /categories/[slug] — V4 ProfileTemplate consumer.
 //
 // Migrated off the legacy TerminalLayout chrome to the V4 ProfileTemplate

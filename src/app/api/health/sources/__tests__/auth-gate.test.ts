@@ -71,3 +71,26 @@ test("GET /api/health/sources?detail=1: accepts valid admin cookie auth", async 
   assert.equal("sources" in body, true);
   assert.equal("options" in body, true);
 });
+
+test("GET /api/health/sources?detail=1: unauthenticated callers stay on stripped public payload", async () => {
+  Object.assign(process.env, { NODE_ENV: "production" });
+  process.env.CRON_SECRET = "cron-secret-test-fixture";
+  delete process.env.ADMIN_TOKEN;
+
+  const { GET } = await import("../route");
+  const res = await GET(
+    new NextRequest(
+      new Request("http://localhost/api/health/sources?detail=1"),
+    ),
+  );
+
+  assert.equal(res.status, 200);
+  const body = (await res.json()) as Record<string, unknown>;
+  assert.equal("summary" in body, true);
+  assert.equal("sources" in body, true);
+  assert.equal("options" in body, false);
+  const sourceView = (body.sources as Record<string, Record<string, unknown>>).github;
+  assert.equal("lastFailure" in sourceView, false);
+  assert.equal("openedAt" in sourceView, false);
+  assert.equal("nextProbeAt" in sourceView, false);
+});

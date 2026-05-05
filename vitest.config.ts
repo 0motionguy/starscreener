@@ -40,6 +40,9 @@ export default defineConfig({
       "src/app/api/oembed/__tests__/**/*.test.{ts,tsx}",
       // E6: x402 manifest stub route — same rationale as E5.
       "src/app/x402/__tests__/**/*.test.{ts,tsx}",
+      // AGN-912: /githubrepo Metadata snapshot — node:test can't load
+      // page.tsx (JSX + next/server-aware imports), vitest can.
+      "src/app/githubrepo/__tests__/**/*.test.{ts,tsx}",
     ],
     // src/lib/__tests__/* and src/lib/pipeline/__tests__/* run under
     // node:test via `npm test` — vitest can't read those (no

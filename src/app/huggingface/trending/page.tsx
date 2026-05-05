@@ -96,7 +96,7 @@ export default async function HuggingFaceTrendingPage() {
           }
           title="Hugging Face · trending"
           lede="Top models ranked by domain-scored momentum (weeklyDownloads + recency). Snapshot pulled from the public trending feed and re-scored against the cross-domain percentile."
-          tabBar={<HfNavTabs activeHref="/huggingface/models" />}
+          tabBar={<HfNavTabs activeHref="/huggingface/trending" />}
         />
         <ColdState />
       </main>
@@ -166,7 +166,7 @@ export default async function HuggingFaceTrendingPage() {
             ]}
           />
         }
-        tabBar={<HfNavTabs activeHref="/huggingface/models" />}
+        tabBar={<HfNavTabs activeHref="/huggingface/trending" />}
         listEyebrow="Model feed · top 100 by momentum"
         list={<HfModelFeed models={models} />}
       />

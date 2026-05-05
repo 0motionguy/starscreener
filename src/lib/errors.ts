@@ -32,7 +32,9 @@ export type EngineErrorSource =
   | "huggingface"
   | "npm"
   | "arxiv"
-  | "sentry-canary";
+  | "sentry-canary"
+  | "soft-404"
+  | "subdomain-takeover";
 
 export class AuthRecoverableError extends EngineError {
   readonly category = "recoverable" as const;
@@ -267,6 +269,11 @@ export class ArxivQuarantineError extends EngineError {
 export class ArxivFatalError extends EngineError {
   readonly category = "fatal" as const;
   readonly source = "arxiv" as const;
+}
+
+export class Soft404RecoverableError extends EngineError {
+  readonly category = "recoverable" as const;
+  readonly source = "soft-404" as const;
 }
 
 export function engineErrorTags(error: unknown): Record<string, string> {

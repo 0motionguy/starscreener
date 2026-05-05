@@ -34,6 +34,10 @@ const FOOTER_LINKS = [
   { href: "/methodology", label: "Methodology", external: false },
   { href: "/portal/docs", label: "API Docs", external: false },
   { href: "/cli", label: "CLI", external: false },
+  { href: "/about", label: "About", external: false },
+  { href: "/privacy", label: "Privacy", external: false },
+  { href: "/terms", label: "Terms", external: false },
+  { href: "/contact", label: "Contact", external: false },
 ] as const;
 
 export function Footer() {
@@ -65,7 +69,7 @@ export function Footer() {
           </a>
         </p>
 
-        <nav className="flex items-center gap-4">
+        <nav className="flex flex-wrap items-center gap-x-4 gap-y-2">
           {FOOTER_LINKS.map(({ href, label, external }) => (
             <FooterLink key={label} href={href} external={external}>
               {label}

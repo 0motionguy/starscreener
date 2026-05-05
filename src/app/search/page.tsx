@@ -5,11 +5,71 @@
 import { Suspense, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Search as SearchIcon } from "lucide-react";
+import { Search as SearchIcon, Clock, Sparkles, Tag } from "lucide-react";
 import type { Repo } from "@/lib/types";
 import { useFilterStore } from "@/lib/store";
 import { SearchBar } from "@/components/shared/SearchBar";
 import { TerminalLayout } from "@/components/terminal/TerminalLayout";
+
+// AGN-608 — branded empty / no-results state.
+//
+// Persists the operator's last few queries in localStorage so the empty
+// state isn't a black hole. Caps at 6 entries; older items get evicted
+// FIFO. Read on mount only (no live sync between tabs — these are hints,
+// not source of truth).
+const RECENT_SEARCHES_KEY = "starscreener:recent-searches";
+const RECENT_SEARCHES_MAX = 6;
+
+const EXAMPLE_QUERIES = [
+  "rust",
+  "llm",
+  "agents",
+  "database",
+  "typescript",
+  "vector",
+  "kubernetes",
+  "fastapi",
+];
+
+const POPULAR_CATEGORIES: { id: string; label: string }[] = [
+  { id: "ai-agents", label: "AI Agents" },
+  { id: "mcp", label: "MCP" },
+  { id: "devtools", label: "DevTools" },
+  { id: "browser-automation", label: "Browser Automation" },
+  { id: "llm-infra", label: "LLM Infra" },
+  { id: "rust", label: "Rust" },
+];
+
+function readRecentSearches(): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(RECENT_SEARCHES_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .filter((v): v is string => typeof v === "string" && v.trim().length > 0)
+      .slice(0, RECENT_SEARCHES_MAX);
+  } catch {
+    return [];
+  }
+}
+
+function writeRecentSearch(query: string) {
+  if (typeof window === "undefined") return;
+  const trimmed = query.trim();
+  if (!trimmed) return;
+  try {
+    const existing = readRecentSearches();
+    const next = [
+      trimmed,
+      ...existing.filter((q) => q.toLowerCase() !== trimmed.toLowerCase()),
+    ].slice(0, RECENT_SEARCHES_MAX);
+    window.localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(next));
+  } catch {
+    // Quota / disabled storage — silent. Suggestions just won't persist.
+  }
+}
 
 export default function SearchPage() {
   return (
@@ -35,6 +95,21 @@ function SearchPageInner() {
 
   const [results, setResults] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(false);
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+
+  // Hydrate recent-searches from localStorage on mount (client-only).
+  useEffect(() => {
+    setRecentSearches(readRecentSearches());
+  }, []);
+
+  // Once a query produces ≥1 result, record it as a recent search so the
+  // empty state has something useful to show next time.
+  useEffect(() => {
+    if (!query.trim() || loading) return;
+    if (results.length === 0) return;
+    writeRecentSearch(query);
+    setRecentSearches(readRecentSearches());
+  }, [query, loading, results.length]);
 
   const setSort = useFilterStore((s) => s.setSort);
   useEffect(() => {
@@ -163,10 +238,17 @@ function SearchPageInner() {
           loading ? (
             <SearchLoading query={query} />
           ) : (
-            <SearchEmpty query={query} />
+            <SearchEmpty
+              query={query}
+              recentSearches={recentSearches}
+              onPickQuery={handleSearch}
+            />
           )
         ) : (
-          <SearchPrompt />
+          <SearchPrompt
+            recentSearches={recentSearches}
+            onPickQuery={handleSearch}
+          />
         )
       }
     />
@@ -198,7 +280,23 @@ function SearchLoading({ query }: { query: string }) {
   );
 }
 
-function SearchEmpty({ query }: { query: string }) {
+// AGN-608 — Branded empty state for "no results for <query>".
+//
+// Keeps the existing terminal `.search-state` chrome (caps mono headline,
+// muted icon, hint copy) for visual continuity and adds a Suggestions
+// block: recent queries (when present) + example queries + popular
+// categories. Each suggestion is a real action — clicking a query
+// re-fires the search via `onPickQuery`; clicking a category navigates
+// to /categories/[slug].
+function SearchEmpty({
+  query,
+  recentSearches,
+  onPickQuery,
+}: {
+  query: string;
+  recentSearches: string[];
+  onPickQuery: (q: string) => void;
+}) {
   return (
     <div className="search-state">
       <SearchIcon
@@ -208,13 +306,29 @@ function SearchEmpty({ query }: { query: string }) {
       />
       <p>{`// NO REPOS FOUND FOR "${query}"`}</p>
       <p className="hint">
-        Try a repo name, language, or topic like rust, llm, or database.
+        Nothing matched in the live index. Try a different spelling, a
+        broader topic, or pick one of the suggestions below.
       </p>
+      <SearchSuggestions
+        recentSearches={recentSearches}
+        onPickQuery={onPickQuery}
+      />
     </div>
   );
 }
 
-function SearchPrompt() {
+// AGN-608 — Branded "type to search" state for empty query.
+//
+// Replaces the previous one-line placeholder with a brief explainer
+// of what the index covers + the same Suggestions block so the page
+// is never blank.
+function SearchPrompt({
+  recentSearches,
+  onPickQuery,
+}: {
+  recentSearches: string[];
+  onPickQuery: (q: string) => void;
+}) {
   return (
     <div className="search-state">
       <SearchIcon
@@ -222,10 +336,109 @@ function SearchPrompt() {
         className="search-state-icon muted"
         aria-hidden="true"
       />
-      <p>{"// START TYPING TO SEARCH ACROSS ALL REPOS"}</p>
+      <p>{"// SEARCH THE LIVE GITHUB INDEX"}</p>
       <p className="hint">
-        Search by name, owner, language, topic, or description.
+        Type a repo name, owner, language, topic, or keyword. We screen
+        every tracked repo across the trending stack and surface matches
+        with momentum, stars, and category context.
       </p>
+      <SearchSuggestions
+        recentSearches={recentSearches}
+        onPickQuery={onPickQuery}
+      />
+    </div>
+  );
+}
+
+// AGN-608 — Shared Suggestions block.
+//
+// Three groups, each gated on having content:
+//   1. Recent searches — rendered when the operator has previously
+//      executed a query that returned results (localStorage-backed).
+//   2. Example queries — always rendered. A curated set so first-time
+//      visitors have a one-click way to try the index.
+//   3. Popular categories — always rendered. Real links to /categories
+//      so users who don't want to type at all have an exit.
+//
+// Buttons reuse `v2-btn v2-btn-ghost` to match existing chrome (HomeEmptyState,
+// search/error.tsx) — no new component, no new tokens.
+function SearchSuggestions({
+  recentSearches,
+  onPickQuery,
+}: {
+  recentSearches: string[];
+  onPickQuery: (q: string) => void;
+}) {
+  return (
+    <div className="search-suggestions">
+      {recentSearches.length > 0 && (
+        <SuggestionGroup
+          icon={<Clock size={12} aria-hidden="true" />}
+          label="// RECENT"
+        >
+          {recentSearches.map((q) => (
+            <button
+              key={`recent-${q}`}
+              type="button"
+              onClick={() => onPickQuery(q)}
+              className="v2-btn v2-btn-ghost search-suggest-chip"
+            >
+              {q}
+            </button>
+          ))}
+        </SuggestionGroup>
+      )}
+
+      <SuggestionGroup
+        icon={<Sparkles size={12} aria-hidden="true" />}
+        label="// TRY AN EXAMPLE"
+      >
+        {EXAMPLE_QUERIES.map((q) => (
+          <button
+            key={`example-${q}`}
+            type="button"
+            onClick={() => onPickQuery(q)}
+            className="v2-btn v2-btn-ghost search-suggest-chip"
+          >
+            {q}
+          </button>
+        ))}
+      </SuggestionGroup>
+
+      <SuggestionGroup
+        icon={<Tag size={12} aria-hidden="true" />}
+        label="// BROWSE A CATEGORY"
+      >
+        {POPULAR_CATEGORIES.map((cat) => (
+          <Link
+            key={`cat-${cat.id}`}
+            href={`/categories/${cat.id}`}
+            className="v2-btn v2-btn-ghost search-suggest-chip"
+          >
+            {cat.label}
+          </Link>
+        ))}
+      </SuggestionGroup>
+    </div>
+  );
+}
+
+function SuggestionGroup({
+  icon,
+  label,
+  children,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="search-suggest-group">
+      <div className="search-suggest-label">
+        {icon}
+        <span>{label}</span>
+      </div>
+      <div className="search-suggest-chips">{children}</div>
     </div>
   );
 }

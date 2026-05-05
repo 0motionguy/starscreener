@@ -3,9 +3,29 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Send } from "lucide-react";
+import { toast } from "sonner";
 import { ROUTES } from "@/lib/constants";
 import { SearchBar } from "@/components/shared/SearchBar";
 import { HamburgerButton } from "@/components/layout/HamburgerButton";
+
+const BRAND_KIT_HREF = "/brand/trendingrepo-brand-kit.zip";
+
+// AGN-644 — right-clicking the wordmark surfaces a toast with a download
+// link to the brand kit zip. Suppresses the native context menu only on the
+// brand area; everywhere else the browser default still wins.
+function handleBrandContextMenu(event: React.MouseEvent<HTMLAnchorElement>) {
+  event.preventDefault();
+  toast("Download TrendingRepo brand assets", {
+    action: {
+      label: "Download .zip",
+      onClick: () => {
+        if (typeof window !== "undefined") {
+          window.location.href = BRAND_KIT_HREF;
+        }
+      },
+    },
+  });
+}
 
 export function Header() {
   return (
@@ -15,8 +35,9 @@ export function Header() {
           <HamburgerButton />
           <Link
             href={ROUTES.HOME}
+            onContextMenu={handleBrandContextMenu}
             className="group flex min-w-0 flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded"
-            aria-label="TrendingRepo home"
+            aria-label="TrendingRepo home (right-click for brand assets)"
           >
             <span className="flex min-w-0 items-center gap-1.5 sm:gap-2.5">
               <span

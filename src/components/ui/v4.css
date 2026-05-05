@@ -891,6 +891,46 @@
   }
 }
 
+/* AGN-923: at ≤390px the body+metric+delta overflow horizontally.
+   Switch to grid-template-areas so metric/delta stack below title. */
+@media (max-width: 390px) {
+  .v4-rank-row {
+    grid-template-columns: 24px auto minmax(0, 1fr);
+    grid-template-areas:
+      "rank avatar body"
+      "rank avatar metrics";
+    row-gap: 4px;
+    column-gap: 8px;
+    padding: 9px 10px;
+  }
+  .v4-rank-row__rank {
+    grid-area: rank;
+    align-self: start;
+    padding-top: 2px;
+  }
+  .v4-rank-row__avatar {
+    grid-area: avatar;
+    align-self: start;
+  }
+  .v4-rank-row__body {
+    grid-area: body;
+    min-width: 0;
+  }
+  .v4-rank-row__metric {
+    display: inline-flex;
+    grid-area: metrics;
+    justify-self: start;
+    text-align: left;
+  }
+  .v4-rank-row__delta {
+    grid-area: metrics;
+    justify-self: end;
+  }
+  .v4-rank-row__arr {
+    display: none;
+  }
+}
+
 /* ---------------------------------------------------------------------------
  * 13. VerdictRibbon
  * --------------------------------------------------------------------------- */

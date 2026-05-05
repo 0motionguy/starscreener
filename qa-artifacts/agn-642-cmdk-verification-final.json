@@ -1,0 +1,22 @@
+[
+  {
+    "name": "desktop",
+    "triggerMode": "keyboard",
+    "openScreenshot": "qa-artifacts/agn-642-cmdk-desktop-final-open.png",
+    "cmdkOpened": true,
+    "escClosed": true,
+    "outsideClosed": true,
+    "consoleErrorsCount": 6,
+    "firstConsoleError": "%o\n\n%s Error: Event handlers cannot be passed to Client Component props.\n  <link rel=... href=... media=\"print\" onLoad={function onLoad}>\n                                              ^^^^^^^^^^^^^^^^^\nIf you need interactivity, consider converting part of this to a Client Component.\n    at stringify (<anonymous>:1:18)\n    at stringify (<anonymous>:1:18)\n    at resolveErrorDev (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2396:46)\n    at processFullStringRow (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2882:23)\n    at processFullBinaryRow (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2825:7)\n    at processBinaryChunk (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:3028:15)\n    at progress (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:3294:13) The above error occurred in the <link> component. It was handled by the <ErrorBoundaryHandler> error boundary."
+  },
+  {
+    "name": "mobile",
+    "triggerMode": "dispatch",
+    "openScreenshot": "qa-artifacts/agn-642-cmdk-mobile-final-open.png",
+    "cmdkOpened": true,
+    "escClosed": true,
+    "outsideClosed": true,
+    "consoleErrorsCount": 6,
+    "firstConsoleError": "%o\n\n%s Error: Event handlers cannot be passed to Client Component props.\n  <link rel=... href=... media=\"print\" onLoad={function onLoad}>\n                                              ^^^^^^^^^^^^^^^^^\nIf you need interactivity, consider converting part of this to a Client Component.\n    at stringify (<anonymous>:1:18)\n    at stringify (<anonymous>:1:18)\n    at resolveErrorDev (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2396:46)\n    at processFullStringRow (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2882:23)\n    at processFullBinaryRow (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:2825:7)\n    at processBinaryChunk (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:3028:15)\n    at progress (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js:3294:13) The above error occurred in the <link> component. It was handled by the <ErrorBoundaryHandler> error boundary."
+  }
+]

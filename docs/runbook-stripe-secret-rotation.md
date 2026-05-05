@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # Stripe webhook secret rotation runbook
 
 Purpose: rotate `STRIPE_WEBHOOK_SECRET` on `trendingrepo.com` without dropping webhook intent, with explicit verification and rollback.

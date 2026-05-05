@@ -1,3 +1,9 @@
+---
+status: snapshot
+audit-date: 2026-05-05
+reason: duplicate of docs/runbooks/github-pool-exhausted.md with broader detail; consolidate or canonicalize one path
+---
+
 # GitHub token pool exhausted runbook
 
 Purpose: restore GitHub-backed ingestion/runtime when PAT pool exhaustion or quarantine causes GitHub calls to fail.

@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # Redis Full / Write Failure Runbook
 
 Target MTTR: <= 30 minutes
@@ -20,6 +26,9 @@ Target MTTR: <= 30 minutes
 2. If still under pressure, scale Redis plan/tier immediately.
 3. Re-run one high-signal collector (`scrape-trending` or `collect-twitter`) and verify meta timestamp advances.
 4. Validate recovery on `/api/health?soft=1` and freshness endpoint.
+
+TTL reference:
+- Per-prefix convention matrix lives in [`docs/REDIS-TTL-CONVENTIONS.md`](../REDIS-TTL-CONVENTIONS.md).
 
 ## Real Example (Past Quarter)
 - 2026-05-01 to 2026-05-04: audit documented dual-writer/fallback drift and Redis metadata visibility gaps during failed workflow windows. See `docs/AUDIT-2026-05-04.md` sections on freshness drift and writer provenance.

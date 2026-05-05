@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   title: "Trending on Reddit",
   description:
     "Top Reddit posts across the tech subreddits, scored for velocity. Cross-subreddit signal terminal with breakout flagging.",
-  alternates: { canonical: "/reddit/trending" },
+  alternates: { canonical: absoluteUrl("/reddit/trending") },
   openGraph: {
     title: "Trending on Reddit — TrendingRepo",
     description: "Top Reddit tech posts by velocity, cross-subreddit signal.",

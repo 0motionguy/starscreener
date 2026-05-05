@@ -16,8 +16,8 @@
 // outside the org can't get this far. Better to retry than to miss.
 
 import type { RedisClientLike } from "@/lib/data-store";
+import { keys } from "@/lib/redis/keys";
 
-const NAMESPACE = "ss:stripe:event:";
 /** 24h covers Stripe's documented retry window with margin. */
 const TTL_SECONDS = 24 * 60 * 60;
 
@@ -33,7 +33,7 @@ export async function acquireStripeEventLock(
   if (!redis) return true; // No Redis — fall back to in-memory in events.ts.
   if (!eventId) return true; // Defensive — shouldn't happen post sig verify.
   try {
-    const result = await redis.set(`${NAMESPACE}${eventId}`, "1", {
+    const result = await redis.set(keys.stripe.event(eventId), "1", {
       ex: TTL_SECONDS,
       nx: true,
     });

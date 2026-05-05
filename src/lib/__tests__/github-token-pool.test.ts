@@ -299,6 +299,40 @@ test("only GITHUB_TOKEN_POOL set still produces a working pool", () => {
   assert.equal(pool.getNextToken(), "tok-only-aaaaaaaaaaaaaaaaaaaa");
 });
 
+test("prod namespace prioritizes GITHUB_PAT_PROD before legacy token", () => {
+  const pool = createGitHubTokenPool({
+    env: {
+      GITHUB_POOL_NAMESPACE: "prod",
+      GITHUB_PAT_PROD: "tok-prod-aaaaaaaaaaaaaaaaaaaa",
+      GITHUB_TOKEN: "tok-legacy-bbbbbbbbbbbbbbbbbbbb",
+    },
+    now: () => FIXED_NOW_MS,
+  });
+
+  const tokens = pool.snapshot().map((s) => s.token);
+  assert.deepEqual(tokens, [
+    "tok-prod-aaaaaaaaaaaaaaaaaaaa",
+    "tok-legacy-bbbbbbbbbbbbbbbbbbbb",
+  ]);
+});
+
+test("test namespace prioritizes GITHUB_PAT_TEST before legacy token", () => {
+  const pool = createGitHubTokenPool({
+    env: {
+      GITHUB_POOL_NAMESPACE: "test",
+      GITHUB_PAT_TEST: "tok-test-aaaaaaaaaaaaaaaaaaaa",
+      GITHUB_TOKEN: "tok-legacy-bbbbbbbbbbbbbbbbbbbb",
+    },
+    now: () => FIXED_NOW_MS,
+  });
+
+  const tokens = pool.snapshot().map((s) => s.token);
+  assert.deepEqual(tokens, [
+    "tok-test-aaaaaaaaaaaaaaaaaaaa",
+    "tok-legacy-bbbbbbbbbbbbbbbbbbbb",
+  ]);
+});
+
 // ---------------------------------------------------------------------------
 // recordRateLimit edge cases
 // ---------------------------------------------------------------------------

@@ -14,6 +14,26 @@ export interface RuntimeRedis {
   hgetall(key: string): Promise<Record<string, string>>;
   expire(key: string, seconds: number): Promise<number>;
   del?(...keys: string[]): Promise<number>;
+  /**
+   * Optional batch GET — single round trip (MGET) for ioredis, parallel
+   * REST fan-out for Upstash. Returns values in the same order as `keys`,
+   * with `null` for misses. AGN-467: lets admin pool-state collapse N+1
+   * quarantine reads into one round trip.
+   */
+  mget?(...keys: string[]): Promise<(string | null)[]>;
+  /**
+   * Optional batched HGETALL — uses ioredis pipeline so N hash reads
+   * incur 1 round trip on ioredis, falls back to parallel HGETALL on
+   * Upstash REST. Returns hashes in the same order as `keys`. AGN-467:
+   * lets admin pool-state collapse 24×N hourly bucket reads into one
+   * round trip per pool.
+   */
+  hgetallMany?(keys: ReadonlyArray<string>): Promise<Record<string, string>[]>;
+}
+
+interface IoRedisPipeline {
+  hgetall(key: string): IoRedisPipeline;
+  exec(): Promise<Array<[Error | null, unknown]> | null>;
 }
 
 interface IoRedisNative {
@@ -30,6 +50,8 @@ interface IoRedisNative {
   hgetall(key: string): Promise<Record<string, string>>;
   expire(key: string, seconds: number): Promise<number>;
   del(...keys: string[]): Promise<number>;
+  mget(...keys: string[]): Promise<(string | null)[]>;
+  pipeline(): IoRedisPipeline;
   on(event: "error", listener: (err: Error) => void): unknown;
 }
 
@@ -41,6 +63,7 @@ interface UpstashRedisNative {
   hgetall<T = Record<string, unknown>>(key: string): Promise<T | null>;
   expire(key: string, seconds: number): Promise<number>;
   del(...keys: string[]): Promise<number>;
+  mget<T = unknown>(...keys: string[]): Promise<(T | null)[]>;
 }
 
 type IoRedisCtor = new (
@@ -105,6 +128,22 @@ export const redis: RuntimeRedis = {
     const client = await runtimeRedisClient();
     return client.del ? client.del(...keys) : 0;
   },
+  async mget(...keys) {
+    if (keys.length === 0) return [];
+    const client = await runtimeRedisClient();
+    if (typeof client.mget === "function") return client.mget(...keys);
+    // Fallback for the noop client / clients without batch GET.
+    return Promise.all(keys.map((key) => client.get(key)));
+  },
+  async hgetallMany(keys) {
+    if (keys.length === 0) return [];
+    const client = await runtimeRedisClient();
+    if (typeof client.hgetallMany === "function") {
+      return client.hgetallMany(keys);
+    }
+    // Fallback: parallel single HGETALLs.
+    return Promise.all(keys.map((key) => client.hgetall(key)));
+  },
 };
 
 async function runtimeRedisClient(): Promise<RuntimeRedis> {
@@ -137,7 +176,25 @@ function createIoRedisClient(url: string): RuntimeRedis {
     commandTimeout: 30_000,
   });
   client.on("error", (err) => warnOnce(err));
-  return client;
+  // ioredis exposes get/set/hgetall/mget/del directly; layer in hgetallMany
+  // via pipeline so admin pool-state can collapse 24×N hourly reads to one
+  // round trip. Cast widens the native client to the shared RuntimeRedis
+  // shape (mget already matches).
+  const native = client as unknown as RuntimeRedis & {
+    pipeline: IoRedisNative["pipeline"];
+  };
+  native.hgetallMany = async (keys) => {
+    if (keys.length === 0) return [];
+    const pipeline = client.pipeline();
+    for (const key of keys) pipeline.hgetall(key);
+    const results = await pipeline.exec();
+    if (!results) return keys.map(() => ({}));
+    return results.map(([err, value]) => {
+      if (err || !value || typeof value !== "object") return {};
+      return value as Record<string, string>;
+    });
+  };
+  return native;
 }
 
 function createUpstashRedisClient(url: string, token: string): RuntimeRedis {
@@ -163,6 +220,23 @@ function createUpstashRedisClient(url: string, token: string): RuntimeRedis {
     },
     expire: (key, seconds) => client.expire(key, seconds),
     del: (...keys) => client.del(...keys),
+    async mget(...keys) {
+      if (keys.length === 0) return [];
+      const values = await client.mget<string>(...keys);
+      return values.map((v) =>
+        typeof v === "string" ? v : v === null || v === undefined ? null : String(v),
+      );
+    },
+    async hgetallMany(keys) {
+      if (keys.length === 0) return [];
+      // Upstash REST has no pipeline equivalent; parallel HGETALL calls
+      // still saturate the HTTP connection pool and avoid the awaited-
+      // sequential pattern admin pool-state had per token.
+      const raws = await Promise.all(
+        keys.map((key) => client.hgetall<Record<string, unknown>>(key)),
+      );
+      return raws.map((raw) => stringifyHash(raw ?? {}));
+    },
   };
 }
 

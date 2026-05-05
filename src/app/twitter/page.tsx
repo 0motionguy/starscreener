@@ -47,6 +47,7 @@ export const metadata: Metadata = {
     description:
       "TrendingRepo-ranked repositories with real X/Twitter mentions in the last 24 hours.",
     url: absoluteUrl("/twitter"),
+    type: "website",
     images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
   },
   twitter: {

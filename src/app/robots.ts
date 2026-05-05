@@ -34,6 +34,11 @@ const PRIVATE_DISALLOW: string[] = [
   "/admin/*",
   "/you",
   "/you/*",
+  // /design-lab is an internal V4 primitive showcase — not linked from
+  // the sidebar, used only for visual verification of Phase 1 primitives.
+  // Block crawlers per H13 to keep dev-only surface out of search/AI indexes.
+  "/design-lab",
+  "/design-lab/*",
 ];
 
 // Major AI / GEO crawlers we explicitly welcome. Same disallow set as `*`.

@@ -22,6 +22,10 @@ on:
         description: "Dry-run (print orphan keys without writing)"
         required: false
         default: "true"
+      prune_meta_only:
+        description: "Delete meta-only orphan keys (requires dry_run=false)"
+        required: false
+        default: "false"
 
 permissions:
   contents: read
@@ -57,8 +61,12 @@ jobs:
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         run: |
+          PRUNE_ARG=""
+          if [ "${{ inputs.prune_meta_only }}" = "true" ]; then
+            PRUNE_ARG="--prune-meta-only"
+          fi
           if [ "${{ inputs.dry_run }}" = "true" ]; then
-            node scripts/backfill-meta.mjs --dry-run
+            node scripts/backfill-meta.mjs --dry-run $PRUNE_ARG
           else
-            node scripts/backfill-meta.mjs
+            node scripts/backfill-meta.mjs $PRUNE_ARG
           fi

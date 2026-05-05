@@ -36,10 +36,18 @@ import { FreshnessChip } from "@/components/shared/FreshnessChip";
 import { repoLogoUrl } from "@/lib/logos";
 import { getRelativeTime } from "@/lib/utils";
 import { WhyBadge } from "@/components/repo/WhyBadge";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { liveRowTrendingScore } from "@/lib/live-top-ranking";
 
 type SortKey = "rank" | "stars" | "delta" | "forks" | "mentions";
 type SortDir = "asc" | "desc";
 type TrendWindow = "1h" | "6h" | "24h" | "7d";
+
+// AGN-524: Top 50 Live default rank uses TRENDING (absolute Δstars/24h +
+// community mentions), NOT MOMENTUM (% delta). Momentum biases tiny repos
+// with bursty growth (a 50 → 150 repo at +200% crowds out warp at +162).
+// `liveRowTrendingScore` lives in `@/lib/live-top-ranking` so the formula
+// is unit-testable via node:test without standing up Next/jsdom.
 
 interface CategoryFacet {
   id: string;
@@ -119,6 +127,8 @@ interface LiveTopTableProps {
   rows: LiveRow[];
   categories: CategoryFacet[];
   interactiveActions?: boolean;
+  defaultWindow?: TrendWindow;
+  syncWindowQuery?: boolean;
 }
 
 const compactNumber = new Intl.NumberFormat("en-US", {
@@ -199,7 +209,9 @@ function getSortValue(row: LiveRow, key: SortKey): number {
       return row.mentionCount24h;
     case "rank":
     default:
-      return row.momentumScore;
+      // AGN-524 fix: was `row.momentumScore` (% growth → tiny repos win).
+      // TRENDING = absolute 24h delta + mention-weighted community signal.
+      return liveRowTrendingScore(row);
   }
 }
 
@@ -338,11 +350,16 @@ export function LiveTopTable({
   rows,
   categories,
   interactiveActions = true,
+  defaultWindow = "24h",
+  syncWindowQuery = false,
 }: LiveTopTableProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const query = useSearchParams();
   const [sortKey, setSortKey] = useState<SortKey>("rank");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [activeCat, setActiveCat] = useState<string | null>(null);
-  const [activeWindow, setActiveWindow] = useState<TrendWindow>("24h");
+  const [activeWindow, setActiveWindow] = useState<TrendWindow>(defaultWindow);
 
   const handleSort = (key: SortKey) => {
     if (key === sortKey) {
@@ -404,6 +421,17 @@ export function LiveTopTable({
                 setActiveWindow(w);
                 setSortKey("delta");
                 setSortDir("desc");
+                if (syncWindowQuery) {
+                  const next = new URLSearchParams(query?.toString() ?? "");
+                  if (w === "24h") next.delete("window");
+                  else next.set("window", w);
+                  const qs = next.toString();
+                  const nextUrl = qs ? `${pathname}?${qs}` : pathname;
+                  if (typeof window !== "undefined") {
+                    window.history.replaceState(null, "", nextUrl);
+                  }
+                  router.replace(nextUrl, { scroll: false });
+                }
               }}
             >
               {w}
@@ -453,8 +481,11 @@ export function LiveTopTable({
               const activeDelta = getWindowDelta(row, activeWindow);
               const pct = activeDelta === null ? null : formatPct(activeDelta, row.stars);
               const rankLabel = `#${String(index + 1).padStart(2, "0")}`;
+              // AGN-524: tooltip reports trending score (Δ24h + mentions × MENTION_WEIGHT)
+              // not momentum. Old "momentum N" copy still pinned in
+              // LiveTopTable.test.tsx — keep aligned when this lands.
               const rankTooltip =
-                `Why ${rankLabel}: momentum ${Math.round(row.momentumScore)}. ` +
+                `Why ${rankLabel}: trending ${Math.round(liveRowTrendingScore(row))}. ` +
                 `Signals: ${row.starsDelta1h == null ? "n/a" : formatDelta(row.starsDelta1h)} (1h), ` +
                 `${row.starsDelta6h == null ? "n/a" : formatDelta(row.starsDelta6h)} (6h), ` +
                 `${formatDelta(row.starsDelta24h)} (24h), ${formatDelta(row.starsDelta7d)} (7d), ` +

@@ -89,6 +89,34 @@ interface FetchTextOptions {
   headers?: Record<string, string>;
 }
 
+const RETRYABLE_HTTP_STATUSES = new Set([408, 429, 500, 502, 503, 504]);
+const BACKOFF_SCHEDULE_MS = [1_000, 2_000, 4_000] as const;
+
+class RetryableOperationError extends Error {
+  status: number | null;
+  retryAfterMs: number | null;
+  code: string | null;
+  kind: string | null;
+
+  constructor(
+    message: string,
+    options?: {
+      status?: number | null;
+      retryAfterMs?: number | null;
+      code?: string | null;
+      kind?: string | null;
+      cause?: unknown;
+    },
+  ) {
+    super(message, options?.cause !== undefined ? { cause: options.cause } : undefined);
+    this.name = "RetryableOperationError";
+    this.status = options?.status ?? null;
+    this.retryAfterMs = options?.retryAfterMs ?? null;
+    this.code = options?.code ?? null;
+    this.kind = options?.kind ?? null;
+  }
+}
+
 function log(message: string): void {
   console.log(`[twitter-collector] ${message}`);
 }
@@ -112,6 +140,97 @@ function logEvent(event: string, fields: Record<string, unknown>): void {
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolveSleep) => setTimeout(resolveSleep, ms));
+}
+
+function parseRetryAfterMs(value: string | null): number | null {
+  if (!value) return null;
+  const seconds = Number(value);
+  if (Number.isFinite(seconds) && seconds >= 0) {
+    return Math.trunc(seconds * 1_000);
+  }
+  const at = Date.parse(value);
+  if (!Number.isFinite(at)) return null;
+  return Math.max(0, at - Date.now());
+}
+
+function extractHttpStatusFromError(error: unknown): number | null {
+  if (error instanceof RetryableOperationError && error.status !== null) {
+    return error.status;
+  }
+  const message = error instanceof Error ? error.message : String(error);
+  const match = message.match(/\bhttp\s+(\d{3})\b/i);
+  if (!match) return null;
+  const status = Number.parseInt(match[1], 10);
+  return Number.isFinite(status) ? status : null;
+}
+
+function classifyRetryableError(error: unknown): string {
+  if (error instanceof RetryableOperationError && error.kind) {
+    return error.kind;
+  }
+  const status = extractHttpStatusFromError(error);
+  if (status === 429) return "rate_limit";
+  if (status === 401 || status === 403) return "auth_or_token";
+  if (status !== null && status >= 500) return "upstream_5xx";
+  const message = (error instanceof Error ? error.message : String(error)).toLowerCase();
+  if (message.includes("quota")) return "quota";
+  if (message.includes("timeout")) return "timeout";
+  if (message.includes("network") || message.includes("fetch failed")) return "network";
+  return "unknown";
+}
+
+function isRetryableError(error: unknown): boolean {
+  const status = extractHttpStatusFromError(error);
+  if (status !== null) return RETRYABLE_HTTP_STATUSES.has(status);
+  if (error instanceof RetryableOperationError && error.code) {
+    const code = error.code.toLowerCase();
+    return code === "etimedout" || code === "econnreset" || code === "enotfound" || code === "eai_again";
+  }
+  const message = (error instanceof Error ? error.message : String(error)).toLowerCase();
+  return (
+    message.includes("timeout") ||
+    message.includes("network") ||
+    message.includes("fetch failed") ||
+    message.includes("econnreset") ||
+    message.includes("etimedout")
+  );
+}
+
+async function withRetry<T>(
+  operation: string,
+  fn: (attempt: number) => Promise<T>,
+): Promise<T> {
+  let lastError: unknown = null;
+  for (let attempt = 1; attempt <= BACKOFF_SCHEDULE_MS.length + 1; attempt += 1) {
+    try {
+      return await fn(attempt);
+    } catch (error) {
+      lastError = error;
+      const retryable = isRetryableError(error);
+      if (!retryable || attempt > BACKOFF_SCHEDULE_MS.length) {
+        throw error;
+      }
+      const retryAfterMs = parseRetryAfterMs(
+        error instanceof RetryableOperationError
+          ? error.retryAfterMs !== null
+            ? String(error.retryAfterMs / 1_000)
+            : null
+          : error instanceof Error
+            ? error.message.match(/retry-after[:=\s]+([^\s,;]+)/i)?.[1] ?? null
+            : null,
+      );
+      const scheduledMs = BACKOFF_SCHEDULE_MS[attempt - 1] ?? BACKOFF_SCHEDULE_MS.at(-1)!;
+      const delayMs = Math.max(scheduledMs, retryAfterMs ?? 0);
+      logEvent("retry_backoff", {
+        operation,
+        attempt,
+        delayMs,
+        errorClass: classifyRetryableError(error),
+      });
+      await sleep(delayMs);
+    }
+  }
+  throw lastError instanceof Error ? lastError : new Error(String(lastError));
 }
 
 function parseIntegerFlag(
@@ -674,11 +793,39 @@ async function collectFromApify(
   const limit = options.postsPerQuery > 0 ? Math.min(options.postsPerQuery, 100) : 25;
 
   try {
-    const posts = await scrapeTwitterFor(searchQuery, {
-      query: searchQuery,
-      sinceISO,
-      limit,
-      timeoutMs: options.timeoutMs,
+    const posts = await withRetry("apify_direct_fetch", async () => {
+      try {
+        return await scrapeTwitterFor(searchQuery, {
+          query: searchQuery,
+          sinceISO,
+          limit,
+          timeoutMs: options.timeoutMs,
+        });
+      } catch (error) {
+        const status = extractHttpStatusFromError(error);
+        const message = error instanceof Error ? error.message : String(error);
+        const lower = message.toLowerCase();
+        const kind =
+          status === 429
+            ? "rate_limit"
+            : status !== null && status >= 500
+              ? "upstream_5xx"
+              : lower.includes("quota")
+                ? "quota"
+                : lower.includes("timeout")
+                  ? "timeout"
+                  : "network";
+        const code =
+          error && typeof error === "object" && "code" in error
+            ? String((error as { code?: unknown }).code ?? "")
+            : null;
+        throw new RetryableOperationError(message, {
+          status,
+          kind,
+          code,
+          cause: error,
+        });
+      }
     });
     const mapped = posts.map(webPostToRawPost);
     return capQueryPosts(mapped, options);
@@ -730,19 +877,41 @@ async function postPayloadToApi(
   options: CliOptions,
 ): Promise<void> {
   const url = `${options.baseUrl.replace(/\/+$/, "")}/api/internal/signals/twitter/v1/ingest`;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      ...(options.token ? { Authorization: `Bearer ${options.token}` } : {}),
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(payload),
+  await withRetry("ingest_post", async () => {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        ...(options.token ? { Authorization: `Bearer ${options.token}` } : {}),
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      const retryAfter = res.headers.get("retry-after");
+      const retryAfterMs = parseRetryAfterMs(retryAfter);
+      const bodySnippet = text.slice(0, 180).replace(/\s+/g, " ").trim().toLowerCase();
+      const kind =
+        res.status === 429
+          ? "rate_limit"
+          : res.status === 401 || res.status === 403
+            ? "auth_or_token"
+            : res.status >= 500
+              ? "upstream_5xx"
+              : bodySnippet.includes("quota")
+                ? "quota"
+                : "http_error";
+      throw new RetryableOperationError(
+        `ingest API failed for ${payload.repo.githubFullName}: HTTP ${res.status}`,
+        {
+          status: res.status,
+          retryAfterMs,
+          kind,
+        },
+      );
+    }
   });
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(`ingest API failed for ${payload.repo.githubFullName}: HTTP ${res.status} ${text.slice(0, 300)}`);
-  }
 }
 
 async function ingestPayload(

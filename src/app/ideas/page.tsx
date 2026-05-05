@@ -21,7 +21,7 @@ import {
 } from "@/lib/ideas";
 import {
   countReactions,
-  listReactionsForObject,
+  listReactionsForObjects,
 } from "@/lib/reactions";
 import type { ReactionCounts } from "@/lib/reactions-shape";
 import { IdeaCard } from "@/components/ideas/IdeaCard";
@@ -92,9 +92,11 @@ async function loadFeed(sort: SortKey): Promise<RankedIdea[]> {
       r.status === "shipped" ||
       r.status === "archived",
   );
+  const visibleIds = visible.map((record) => record.id);
+  const reactionsByIdeaId = await listReactionsForObjects("idea", visibleIds);
   const withCounts: RankedIdea[] = await Promise.all(
     visible.map(async (record) => {
-      const reactions = await listReactionsForObject("idea", record.id);
+      const reactions = reactionsByIdeaId.get(record.id) ?? [];
       const reactionCounts = countReactions(reactions);
       return {
         idea: toPublicIdea(record),

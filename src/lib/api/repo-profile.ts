@@ -66,6 +66,7 @@ import {
   refreshRevenueOverlaysFromStore,
 } from "@/lib/revenue-overlays";
 import { refreshRepoProfilesFromStore } from "@/lib/repo-profiles";
+import { getRepoProfile, type RepoManifestProfileMetadata } from "@/lib/repo-profiles";
 import {
   getFundingEventsForRepo,
   type RepoFundingEvent,
@@ -133,6 +134,10 @@ export interface CanonicalRepoProfile {
   prediction: PredictionItem | null;
   /** Ideas targeting this repo; capped at 5, sorted by createdAt desc. */
   ideas: IdeaItem[];
+  profileMetadata: {
+    manifest: RepoManifestProfileMetadata | null;
+    manifestErrors: string[];
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -508,6 +513,7 @@ export async function buildCanonicalRepoProfile(
   const funding = getFundingEventsForRepo(repo.fullName);
   const prediction = getPredictionForRepo(repo.fullName);
   const ideas = getIdeasForRepo(repo.fullName);
+  const repoProfileMetadata = getRepoProfile(repo.fullName);
 
   // Revenue trio — verified and trustmrrClaim are mutually exclusive by
   // design (see getTrustmrrClaimOverlay's short-circuit on getRevenueOverlay).
@@ -617,6 +623,10 @@ export async function buildCanonicalRepoProfile(
     related,
     prediction,
     ideas,
+    profileMetadata: {
+      manifest: repoProfileMetadata?.manifest ?? null,
+      manifestErrors: repoProfileMetadata?.manifestErrors ?? [],
+    },
   };
 }
 

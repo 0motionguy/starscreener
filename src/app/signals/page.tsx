@@ -512,7 +512,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
               color: "var(--v4-ink-300)",
             }}
           >
-            // no signals match current filters ({activeWindowLabel})
+            {`// no signals match current filters (${activeWindowLabel})`}
           </p>
           <p style={{ margin: "6px 0 0", fontSize: 13, color: "var(--v4-ink-300)" }}>
             Try widening the window or enabling more sources to repopulate the newsroom.

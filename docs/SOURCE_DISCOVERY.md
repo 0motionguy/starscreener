@@ -1,3 +1,9 @@
+---
+status: living
+last-verified: 2026-05-05
+verified-by: claude (drift audit — query families and discovery slices match scripts/_source-watchers.mjs)
+---
+
 # Source Discovery
 
 How TrendingRepo decides what to watch on Bluesky and DEV when hunting for AI-dev momentum.

@@ -1,0 +1,1 @@
+Captured desktop(1440x900) and mobile(iPhone13) for /, /mindshare, /reddit/trending, /githubrepo with 8-tab keyboard smoke before each shot.

@@ -14,6 +14,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
+import { enforceMutationSameOrigin } from "@/lib/api/mutation-origin-guard";
 import { parseBody } from "@/lib/api/parse-body";
 import {
   countReactions,
@@ -109,6 +110,9 @@ export async function GET(
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<ReactionsPostResponse | ReactionsErrorResponse>> {
+  const guard = enforceMutationSameOrigin(request);
+  if (!guard.ok) return guard.response as NextResponse<ReactionsErrorResponse>;
+
   const auth = verifyUserAuth(request);
   const deny = userAuthFailureResponse(auth);
   if (deny) return deny as NextResponse<ReactionsErrorResponse>;

@@ -14,12 +14,19 @@ import { GitFork, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 import { BrandStar } from "@/components/shared/BrandStar";
+import { FreshnessChip } from "@/components/shared/FreshnessChip";
 import type { Repo } from "@/lib/types";
 import { cn, formatNumber } from "@/lib/utils";
 import { Sparkline } from "@/components/shared/Sparkline";
 
 interface RepoDetailStatsStripProps {
   repo: Repo;
+  /**
+   * AGN-450: timestamp of the underlying snapshot. Renders a per-card
+   * "Updated 8h ago" tag so users can tell live from stale at a glance.
+   * Falls back to "—" tone when missing.
+   */
+  updatedAt?: string | null;
 }
 
 interface MiniCardData {
@@ -64,6 +71,7 @@ function deltaTone(n: number): "up" | "down" | "flat" {
 
 export function RepoDetailStatsStrip({
   repo,
+  updatedAt,
 }: RepoDetailStatsStripProps): JSX.Element {
   const cards: MiniCardData[] = [
     {
@@ -101,7 +109,7 @@ export function RepoDetailStatsStrip({
       className="grid grid-cols-1 sm:grid-cols-3 gap-3"
     >
       {cards.map((card) => (
-        <MiniCard key={card.label} {...card} />
+        <MiniCard key={card.label} {...card} updatedAt={updatedAt} />
       ))}
     </section>
   );
@@ -115,7 +123,8 @@ function MiniCard({
   deltaWindow,
   sparkline,
   deltaMissing,
-}: MiniCardData) {
+  updatedAt,
+}: MiniCardData & { updatedAt?: string | null }) {
   const tone = deltaTone(delta);
   const toneColor =
     deltaMissing
@@ -170,6 +179,11 @@ function MiniCard({
             / {deltaWindow}
           </span>
         </span>
+        {updatedAt !== undefined ? (
+          <span className="mt-1.5">
+            <FreshnessChip updatedAt={updatedAt} size="xs" />
+          </span>
+        ) : null}
       </div>
       <div className="shrink-0">
         <Sparkline

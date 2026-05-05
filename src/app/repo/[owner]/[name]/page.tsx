@@ -402,7 +402,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
           <FundingPanel events={profile.funding} />
 
           <div className="repo-detail-two-col">
-            <RepoDetailStatsStrip repo={repo} />
+            <RepoDetailStatsStrip repo={repo} updatedAt={profile.fetchedAt} />
             <RepoDetailStats repo={repo} />
           </div>
 

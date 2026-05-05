@@ -16,15 +16,17 @@ jobs:
       - name: Validate required backup configuration
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
-          BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.BACKUP_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.BACKUP_AWS_SECRET_ACCESS_KEY }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
         run: |
           set -euo pipefail
           test -n "${REDIS_URL:-}" || { echo 'Missing secret: REDIS_URL'; exit 1; }
-          test -n "${BACKUP_S3_BUCKET:-}" || { echo 'Missing secret: BACKUP_S3_BUCKET'; exit 1; }
-          test -n "${AWS_ACCESS_KEY_ID:-}" || { echo 'Missing secret: BACKUP_AWS_ACCESS_KEY_ID'; exit 1; }
-          test -n "${AWS_SECRET_ACCESS_KEY:-}" || { echo 'Missing secret: BACKUP_AWS_SECRET_ACCESS_KEY'; exit 1; }
+          test -n "${R2_ACCOUNT_ID:-}" || { echo 'Missing secret: R2_ACCOUNT_ID'; exit 1; }
+          test -n "${R2_ACCESS_KEY_ID:-}" || { echo 'Missing secret: R2_ACCESS_KEY_ID'; exit 1; }
+          test -n "${R2_SECRET_ACCESS_KEY:-}" || { echo 'Missing secret: R2_SECRET_ACCESS_KEY'; exit 1; }
+          test -n "${R2_BUCKET:-}" || { echo 'Missing secret: R2_BUCKET'; exit 1; }
 
       - name: Install backup dependencies
         run: |
@@ -32,7 +34,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y redis-tools
 
-      - name: Export Redis snapshot
+      - name: Export Redis snapshot (BGSAVE if allowed, fallback to RDB export)
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
         run: |
@@ -41,61 +43,57 @@ jobs:
           FILE="redis-${TS}.rdb"
           echo "BACKUP_FILE=$FILE" >> "$GITHUB_ENV"
 
-          # Preferred path for managed Redis: direct RDB export over the network.
+          if redis-cli -u "$REDIS_URL" BGSAVE; then
+            echo "BGSAVE accepted by Redis server."
+          else
+            echo "BGSAVE not allowed; falling back to direct redis-cli --rdb export."
+          fi
+
           redis-cli -u "$REDIS_URL" --rdb "$FILE"
           test -s "$FILE" || { echo 'RDB export produced empty file'; exit 1; }
           sha256sum "$FILE" | tee "${FILE}.sha256"
           ls -lh "$FILE"
 
-      - name: Upload snapshot to S3 / R2
+      - name: Upload snapshot to Cloudflare R2
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.BACKUP_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.BACKUP_AWS_SECRET_ACCESS_KEY }}
-          AWS_SESSION_TOKEN: ${{ secrets.BACKUP_AWS_SESSION_TOKEN }}
-          AWS_DEFAULT_REGION: ${{ secrets.BACKUP_AWS_REGION }}
-          BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
-          BACKUP_S3_PREFIX: ${{ secrets.BACKUP_S3_PREFIX }}
-          BACKUP_S3_ENDPOINT_URL: ${{ secrets.BACKUP_S3_ENDPOINT_URL }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          R2_PREFIX: ${{ secrets.R2_PREFIX }}
         run: |
           set -euo pipefail
-          PREFIX="${BACKUP_S3_PREFIX:-redis-daily}"
+          PREFIX="${R2_PREFIX:-redis-daily}"
           PREFIX="${PREFIX#/}"
           PREFIX="${PREFIX%/}"
+          ENDPOINT_URL="https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
 
-          DEST="s3://${BACKUP_S3_BUCKET}/${PREFIX}/${BACKUP_FILE}"
+          DEST="s3://${R2_BUCKET}/${PREFIX}/${BACKUP_FILE}"
           DEST_SHA="${DEST}.sha256"
 
-          ENDPOINT_ARGS=()
-          if [ -n "${BACKUP_S3_ENDPOINT_URL:-}" ]; then
-            ENDPOINT_ARGS=(--endpoint-url "$BACKUP_S3_ENDPOINT_URL")
-          fi
-
-          aws "${ENDPOINT_ARGS[@]}" s3 cp "$BACKUP_FILE" "$DEST" --only-show-errors
-          aws "${ENDPOINT_ARGS[@]}" s3 cp "${BACKUP_FILE}.sha256" "$DEST_SHA" --only-show-errors
+          aws --endpoint-url "$ENDPOINT_URL" s3 cp "$BACKUP_FILE" "$DEST" --only-show-errors
+          aws --endpoint-url "$ENDPOINT_URL" s3 cp "${BACKUP_FILE}.sha256" "$DEST_SHA" --only-show-errors
           echo "Uploaded: $DEST"
 
       - name: Enforce 30-day retention
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.BACKUP_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.BACKUP_AWS_SECRET_ACCESS_KEY }}
-          AWS_SESSION_TOKEN: ${{ secrets.BACKUP_AWS_SESSION_TOKEN }}
-          AWS_DEFAULT_REGION: ${{ secrets.BACKUP_AWS_REGION }}
-          BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
-          BACKUP_S3_PREFIX: ${{ secrets.BACKUP_S3_PREFIX }}
-          BACKUP_S3_ENDPOINT_URL: ${{ secrets.BACKUP_S3_ENDPOINT_URL }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          R2_PREFIX: ${{ secrets.R2_PREFIX }}
         run: |
           set -euo pipefail
-          PREFIX="${BACKUP_S3_PREFIX:-redis-daily}"
+          PREFIX="${R2_PREFIX:-redis-daily}"
           PREFIX="${PREFIX#/}"
           PREFIX="${PREFIX%/}"
+          ENDPOINT_URL="https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
+          export ENDPOINT_URL
 
-          ENDPOINT_ARGS=()
-          if [ -n "${BACKUP_S3_ENDPOINT_URL:-}" ]; then
-            ENDPOINT_ARGS=(--endpoint-url "$BACKUP_S3_ENDPOINT_URL")
-          fi
-
-          aws "${ENDPOINT_ARGS[@]}" s3api list-objects-v2 \
-            --bucket "$BACKUP_S3_BUCKET" \
+          aws --endpoint-url "$ENDPOINT_URL" s3api list-objects-v2 \
+            --bucket "$R2_BUCKET" \
             --prefix "${PREFIX}/" \
             > objects.json
 
@@ -105,27 +103,26 @@ import json
 import os
 import subprocess
 
-bucket = os.environ["BACKUP_S3_BUCKET"]
-prefix = os.environ.get("BACKUP_S3_PREFIX", "redis-daily").strip("/")
+bucket = os.environ["R2_BUCKET"]
 cutoff = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=30)
 
 with open("objects.json", "r", encoding="utf-8") as f:
     payload = json.load(f)
 
-endpoint = os.environ.get("BACKUP_S3_ENDPOINT_URL", "").strip()
+endpoint = os.environ.get("ENDPOINT_URL", "").strip()
 
 for obj in payload.get("Contents", []):
     key = obj["Key"]
     last_modified = datetime.datetime.fromisoformat(obj["LastModified"].replace("Z", "+00:00"))
     if last_modified >= cutoff:
-        continue
+      continue
     cmd = ["aws"]
     if endpoint:
-        cmd.extend(["--endpoint-url", endpoint])
+      cmd.extend(["--endpoint-url", endpoint])
     cmd.extend([
-        "s3api", "delete-object",
-        "--bucket", bucket,
-        "--key", key,
+      "s3api", "delete-object",
+      "--bucket", bucket,
+      "--key", key,
     ])
     subprocess.run(cmd, check=True)
     print(f"Deleted expired backup: {key}")

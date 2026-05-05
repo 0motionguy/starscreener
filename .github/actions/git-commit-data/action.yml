@@ -146,18 +146,28 @@ runs:
           PR_CREATE_ARGS+=(--label "$INPUT_PR_LABEL")
         fi
 
-        # `gh pr create` returns the PR URL on stdout.
-        PR_URL=$(gh pr create "${PR_CREATE_ARGS[@]}")
-        echo "opened PR: $PR_URL"
-
-        # Enable auto-merge (squash, delete branch on merge). The PR will
-        # sit until the required "Typecheck, guards, tests, build, e2e"
-        # status check reports success, then merge automatically. If
-        # auto-merge isn't enabled at the repo level, this errors out and
-        # the PR stays open for human merge — surface that as a warning
-        # rather than failing the data-collection job.
-        if ! gh pr merge --auto --squash --delete-branch "$PR_URL"; then
-          echo "::warning::gh pr merge --auto failed for ${PR_URL} — PR is open but not set to auto-merge. Operator must enable repo-level auto-merge or merge manually."
+        # `gh pr create` returns the PR URL on stdout. If the repo has
+        # "Allow GitHub Actions to create and approve pull requests"
+        # disabled (default for new repos), this fails with a GraphQL
+        # permission error. The data branch is ALREADY pushed at this
+        # point, so the data is durable — surface the failure as a
+        # warning and let the operator open the PR manually rather than
+        # failing the whole job (AGN-803 follow-up to AGN-858/861).
+        if PR_URL=$(gh pr create "${PR_CREATE_ARGS[@]}" 2>&1); then
+          echo "opened PR: $PR_URL"
+          # Enable auto-merge (squash, delete branch on merge). The PR
+          # will sit until the required "Typecheck, guards, tests,
+          # build, e2e" status check reports success, then merge
+          # automatically. If auto-merge isn't enabled at the repo
+          # level, this errors out and the PR stays open for human
+          # merge — surface that as a warning rather than failing the
+          # data-collection job.
+          if ! gh pr merge --auto --squash --delete-branch "$PR_URL"; then
+            echo "::warning::gh pr merge --auto failed for ${PR_URL} — PR is open but not set to auto-merge. Operator must enable repo-level auto-merge or merge manually."
+          fi
+        else
+          echo "::warning::gh pr create failed for ${BRANCH}: ${PR_URL}. Data branch is pushed but no PR was opened. Operator must enable Settings → Actions → General → Workflow permissions → 'Allow GitHub Actions to create and approve pull requests', or open the PR manually from ${BRANCH}."
+          PR_URL=""
         fi
 
         echo "committed=true" >> "$GITHUB_OUTPUT"

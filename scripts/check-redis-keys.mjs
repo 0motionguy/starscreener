@@ -62,7 +62,13 @@ const ALLOW_DIR_PREFIXES = [
 ];
 
 // Path segment markers that flag a file as test-only (allowed).
-const TEST_PATH_MARKERS = ["/__tests__/", ".test.ts", ".test.tsx", ".test.mjs"];
+const TEST_PATH_MARKERS = [
+  "/__tests__/",
+  ".test.ts",
+  ".test.tsx",
+  ".test.mjs",
+  ".test.js",
+];
 
 // Redis-ish methods we care about. Anchors on a word-boundary identifier
 // so we don't trip on `someObject.set("...")` for non-Redis contexts; we

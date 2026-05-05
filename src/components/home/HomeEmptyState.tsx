@@ -40,7 +40,7 @@ export function HomeEmptyState() {
           className="mx-auto mt-5 max-w-[52ch] v2-mono text-[10px] leading-relaxed text-[color:var(--v2-ink-400)]"
         >
           <span aria-hidden="true">{"// "}</span>
-          SCRAPER RUNS EVERY 20 MIN · DATA HYDRATES ON NEXT BUILD ·
+          SCRAPER RUNS EVERY 20 MIN (:07, :27, :47 UTC) · DATA HYDRATES ON NEXT BUILD ·
           SUBMITTED REPOS ARE PICKED UP ON THE NEXT INGEST.
         </p>
 

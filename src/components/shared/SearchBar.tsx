@@ -236,6 +236,12 @@ export function SearchBar({
         }}
         placeholder={placeholder}
         autoFocus={autoFocus}
+        // AGN-615: tag every SearchBar so the global "/" shortcut can
+        // find one to focus. The header SearchBar is the canonical
+        // target on most routes; on /search itself the in-page bar gets
+        // focus instead — querySelector returns the first match in DOM
+        // order which lines up with that expectation.
+        data-global-search="true"
         aria-label={placeholder}
         role={showPreview ? "combobox" : undefined}
         aria-expanded={showPreview ? previewOpen : undefined}

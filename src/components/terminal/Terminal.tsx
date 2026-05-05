@@ -199,6 +199,10 @@ export function Terminal({
         !e.altKey
       ) {
         if (helpOpen) return;
+        // AGN-615: preventDefault doubles as a signal to the global
+        // "?" listener (mounted in root layout) that this page
+        // already handled the event — its microtask check sees
+        // defaultPrevented and stands down.
         e.preventDefault();
         setHelpOpen(true);
         return;

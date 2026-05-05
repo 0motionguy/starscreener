@@ -21,7 +21,8 @@
 
 import { NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
-import { engineErrorTags } from "@/lib/errors";
+import { engineErrorSentryContext } from "@/lib/errors";
+import { redactSensitiveText } from "@/lib/log-redaction";
 
 let sentryCaptureException = Sentry.captureException;
 
@@ -73,18 +74,21 @@ export function serverError<T = ApiErrorEnvelope>(
   err: unknown,
   opts: ServerErrorOptions,
 ): NextResponse<T> {
-  const message = err instanceof Error ? err.message : String(err);
+  const rawMessage = err instanceof Error ? err.message : String(err);
+  const message = redactSensitiveText(rawMessage);
   console.error(`${opts.scope} handler failed`, { message });
-  sentryCaptureException(err, {
-    tags: {
-      scope: opts.scope,
-      ...engineErrorTags(err),
-    },
-    extra: {
+  const context = engineErrorSentryContext(
+    err,
+    { scope: opts.scope },
+    {
       status: opts.status ?? 500,
       publicMessage: opts.publicMessage ?? "server error",
       code: opts.code ?? null,
     },
+  );
+  sentryCaptureException(err, {
+    tags: context.tags,
+    extra: context.extra,
   });
   const body = errorEnvelope(
     opts.publicMessage ?? "server error",

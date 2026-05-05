@@ -1,5 +1,8 @@
 // StarScreener — durable data-store abstraction for collector outputs.
 //
+// Canonical tier contract: docs/decisions/cache-tiers.md (AGN-670).
+// This module implements Tier T4 (Redis origin cache) with Tier T6/T-memory fallback.
+//
 // PROBLEM
 //   30 JSON files in data/ feed the UI. Today they are bundled into the
 //   Vercel deploy and a fresh write requires a `git push` to main, which
@@ -72,7 +75,10 @@ export interface DataReadResult<T> {
 export interface DataWriteOptions {
   /** Also write the JSON to disk under data/<key>.json. Used by collectors. */
   mirrorToFile?: boolean;
-  /** Override the per-key TTL. Default: no TTL (Redis keeps until overwritten). */
+  /**
+   * Override the per-key TTL. Default: 86400s (24h). Set `0` to disable TTL
+   * for keys that must persist until explicitly overwritten.
+   */
   ttlSeconds?: number;
   /**
    * Writer provenance — recorded into the meta key so the audit trail can
@@ -84,6 +90,12 @@ export interface DataWriteOptions {
    *   { writtenAt, writer?, runId?, commit? }
    * Otherwise the meta key remains a bare ISO string for back-compat.
    */
+  writer?: string;
+  runId?: string;
+  commit?: string;
+}
+
+interface ResolvedProvenance {
   writer?: string;
   runId?: string;
   commit?: string;
@@ -114,6 +126,7 @@ export interface DataStore {
 // during a migration window because the writer can dual-write v1 and v2.
 const NAMESPACE = "ss:data:v1";
 const META_NAMESPACE = "ss:meta:v1";
+const DEFAULT_TTL_SECONDS = 86_400;
 const INVALID_KEY_LITERALS = new Set(["null", "undefined"]);
 
 function normalizeKeyOrThrow(key: string): string {
@@ -239,6 +252,7 @@ class DefaultDataStore implements DataStore {
   private readonly memory = new MemoryCache();
   private readonly dataDir: string;
   private readonly disableFileMirror: boolean;
+  private readonly env: EnvLike;
   private readonly onError: (err: unknown, op: "read" | "write") => void;
   private warnedRedisError = false;
 
@@ -246,11 +260,13 @@ class DefaultDataStore implements DataStore {
     redis: RedisClientLike | null;
     dataDir: string;
     disableFileMirror: boolean;
+    env: EnvLike;
     onError?: (err: unknown, op: "read" | "write") => void;
   }) {
     this.redis = opts.redis;
     this.dataDir = opts.dataDir;
     this.disableFileMirror = opts.disableFileMirror;
+    this.env = opts.env;
     this.onError =
       opts.onError ??
       ((err) => {
@@ -275,14 +291,16 @@ class DefaultDataStore implements DataStore {
             const writtenAt = parseWrittenAt(rawMeta);
             const ageMs = writtenAt
               ? Math.max(0, Date.now() - new Date(writtenAt).getTime())
-              : 0;
+              : Number.MAX_SAFE_INTEGER;
             // Update memory cache as last-known-good for any future Redis brownout.
             this.memory.set(key, data, writtenAt ?? new Date().toISOString());
             return {
               data,
               source: "redis",
               ageMs,
-              fresh: true,
+              // Guard against payload/meta key skew: if payload exists but
+              // the meta timestamp is missing/invalid, do not claim "fresh".
+              fresh: Boolean(writtenAt),
               writtenAt: writtenAt ?? undefined,
             };
           }
@@ -334,19 +352,20 @@ class DefaultDataStore implements DataStore {
   async write<T>(key: string, value: T, opts: DataWriteOptions = {}): Promise<void> {
     const writtenAt = new Date().toISOString();
     const payload = JSON.stringify(value);
+    const provenance = resolveWriteProvenance(opts, this.env);
     // Provenance: serialise as JSON object only when at least one field
     // beyond `writtenAt` is present, to keep the back-compat path with
     // older readers that expect a bare ISO string.
     const hasProvenance =
-      opts.writer !== undefined ||
-      opts.runId !== undefined ||
-      opts.commit !== undefined;
+      provenance.writer !== undefined ||
+      provenance.runId !== undefined ||
+      provenance.commit !== undefined;
     const metaValue = hasProvenance
       ? JSON.stringify({
           writtenAt,
-          ...(opts.writer !== undefined ? { writer: opts.writer } : {}),
-          ...(opts.runId !== undefined ? { runId: opts.runId } : {}),
-          ...(opts.commit !== undefined ? { commit: opts.commit } : {}),
+          ...(provenance.writer !== undefined ? { writer: provenance.writer } : {}),
+          ...(provenance.runId !== undefined ? { runId: provenance.runId } : {}),
+          ...(provenance.commit !== undefined ? { commit: provenance.commit } : {}),
         })
       : writtenAt;
 
@@ -359,10 +378,14 @@ class DefaultDataStore implements DataStore {
     // fail gives the operator a red workflow rather than silent stale data.
     if (this.redis) {
       try {
+        const ttlSeconds =
+          opts.ttlSeconds === 0
+            ? undefined
+            : opts.ttlSeconds && opts.ttlSeconds > 0
+              ? opts.ttlSeconds
+              : DEFAULT_TTL_SECONDS;
         const setOpts: { ex?: number } | undefined =
-          opts.ttlSeconds && opts.ttlSeconds > 0
-            ? { ex: opts.ttlSeconds }
-            : undefined;
+          ttlSeconds && ttlSeconds > 0 ? { ex: ttlSeconds } : undefined;
         await Promise.all([
           this.redis.set(payloadKey(key), payload, setOpts),
           this.redis.set(metaKey(key), metaValue, setOpts),
@@ -380,7 +403,7 @@ class DefaultDataStore implements DataStore {
       );
     }
 
-    if (opts.mirrorToFile && !this.disableFileMirror) {
+    if (opts.mirrorToFile && !this.disableFileMirror && !this.redis) {
       const filePath = fileFallbackPath(key, this.dataDir);
       try {
         fs().mkdirSync(dirname(filePath), { recursive: true });
@@ -395,8 +418,16 @@ class DefaultDataStore implements DataStore {
   async writtenAt(key: string): Promise<string | null> {
     if (this.redis) {
       try {
-        const raw = await this.redis.get(metaKey(key));
-        const writtenAt = parseWrittenAt(raw);
+        // Guard against meta/payload eviction races: only trust Redis meta
+        // when the payload key exists in the same probe.
+        const [rawPayload, rawMeta] = await Promise.all([
+          this.redis.get(payloadKey(key)),
+          this.redis.get(metaKey(key)),
+        ]);
+        if (rawPayload === null || rawPayload === undefined) {
+          return null;
+        }
+        const writtenAt = parseWrittenAt(rawMeta);
         if (writtenAt) return writtenAt;
       } catch (err) {
         this.onError(err, "read");
@@ -499,6 +530,38 @@ function safeStat(path: string): { mtimeMs: number } | null {
   }
 }
 
+function resolveWriteProvenance(
+  opts: DataWriteOptions,
+  env: EnvLike,
+): ResolvedProvenance {
+  const writer =
+    opts.writer ??
+    (env.GITHUB_WORKFLOW
+      ? `github-actions:${env.GITHUB_WORKFLOW}`
+      : env.RAILWAY_SERVICE_NAME
+        ? `railway:${env.RAILWAY_SERVICE_NAME}`
+        : env.VERCEL_PROJECT_PRODUCTION_URL
+          ? `vercel:${env.VERCEL_PROJECT_PRODUCTION_URL}`
+          : undefined);
+
+  const runId =
+    opts.runId ??
+    env.GITHUB_RUN_ID ??
+    env.RAILWAY_DEPLOYMENT_ID ??
+    env.VERCEL_DEPLOYMENT_ID ??
+    undefined;
+
+  const commitRaw =
+    opts.commit ??
+    env.GITHUB_SHA ??
+    env.RAILWAY_GIT_COMMIT_SHA ??
+    env.VERCEL_GIT_COMMIT_SHA ??
+    undefined;
+  const commit = commitRaw ? commitRaw.slice(0, 7) : undefined;
+
+  return { writer, runId, commit };
+}
+
 // ---------------------------------------------------------------------------
 // Factory
 // ---------------------------------------------------------------------------
@@ -544,6 +607,7 @@ export function createDataStore(
       redis: null,
       dataDir,
       disableFileMirror,
+      env,
     });
   }
 
@@ -555,6 +619,7 @@ export function createDataStore(
       redis,
       dataDir,
       disableFileMirror,
+      env,
     });
   } catch (err) {
     onFallback("import-failed", err);
@@ -562,6 +627,7 @@ export function createDataStore(
       redis: null,
       dataDir,
       disableFileMirror,
+      env,
     });
   }
 }
@@ -693,3 +759,15 @@ export function _resetDataStoreForTests(): void {
   singleton = null;
   warnedAboutFileFallback = false;
 }
+
+/**
+ * Test-only hooks for mutation-focused unit tests.
+ * Keep minimal and side-effect free where possible.
+ */
+export const _dataStoreTestHooks = {
+  parsePayload,
+  parseWrittenAt,
+  safeStat,
+  resolveWriteProvenance,
+  defaultRedisFactory,
+};

@@ -12,9 +12,12 @@
 // The `userId` query parameter is now IGNORED.
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import { persistPipeline, pipeline } from "@/lib/pipeline/pipeline";
 import type { AlertEvent } from "@/lib/pipeline/types";
 import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
+import { serverError } from "@/lib/api/error-response";
 
 export const runtime = "nodejs";
 
@@ -33,6 +36,10 @@ export interface AlertsErrorResponse {
   error: string;
   code?: string;
 }
+
+const MarkReadBodySchema = z.object({
+  eventId: z.string().min(1, "eventId must be a non-empty string"),
+});
 
 export async function GET(
   request: NextRequest,
@@ -67,11 +74,10 @@ export async function GET(
       unreadCount,
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(
-      { ok: false, error: message },
-      { status: 500 },
-    );
+    return serverError<AlertsErrorResponse>(err, {
+      scope: "[pipeline/alerts]",
+      publicMessage: "server error",
+    });
   }
 }
 
@@ -88,30 +94,9 @@ export async function POST(
     );
   }
 
-  let raw: unknown;
-  try {
-    raw = await request.json();
-  } catch {
-    return NextResponse.json(
-      { ok: false, error: "request body is not valid JSON" },
-      { status: 400 },
-    );
-  }
-
-  if (raw === null || typeof raw !== "object") {
-    return NextResponse.json(
-      { ok: false, error: "body must be a JSON object" },
-      { status: 400 },
-    );
-  }
-  const body = raw as Record<string, unknown>;
-  const eventId = body.eventId;
-  if (typeof eventId !== "string" || eventId.length === 0) {
-    return NextResponse.json(
-      { ok: false, error: "eventId must be a non-empty string" },
-      { status: 400 },
-    );
-  }
+  const parsed = await parseBody(request, MarkReadBodySchema);
+  if (!parsed.ok) return parsed.response as NextResponse<AlertsErrorResponse>;
+  const { eventId } = parsed.data;
 
   try {
     await pipeline.ensureReady();
@@ -128,10 +113,9 @@ export async function POST(
     }
     return NextResponse.json({ ok });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(
-      { ok: false, error: message },
-      { status: 500 },
-    );
+    return serverError<AlertsErrorResponse>(err, {
+      scope: "[pipeline/alerts]",
+      publicMessage: "server error",
+    });
   }
 }

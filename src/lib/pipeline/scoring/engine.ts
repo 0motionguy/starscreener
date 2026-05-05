@@ -60,6 +60,45 @@ function round1(n: number): number {
   return Math.round(n * 10) / 10;
 }
 
+function median(values: number[]): number {
+  if (values.length === 0) return 0;
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  if (sorted.length % 2 === 0) {
+    return (sorted[mid - 1] + sorted[mid]) / 2;
+  }
+  return sorted[mid];
+}
+
+function robustMad(values: number[], center: number): number {
+  if (values.length === 0) return 0;
+  const deviations = values.map((v) => Math.abs(v - center));
+  return median(deviations);
+}
+
+function outlierDampeningFactor(
+  value: number,
+  values: number[],
+): number {
+  if (values.length < 8) return 1.0;
+  if (value <= 0) return 1.0;
+
+  const center = median(values);
+  const mad = robustMad(values, center);
+  const scaledMad = mad * 1.4826;
+
+  // If the distribution is too flat, skip outlier dampening.
+  if (scaledMad < 1) return 1.0;
+
+  const threshold = center + scaledMad * 6;
+  if (value <= threshold) return 1.0;
+
+  // Convert excess above threshold into a capped dampening.
+  const excess = value - threshold;
+  const normalized = excess / (scaledMad * 10);
+  return clamp(1 - normalized * 0.4, 0.6, 1.0);
+}
+
 function weightedSum(
   components: ScoreComponents,
   weights: ScoreWeights,
@@ -82,6 +121,7 @@ function buildExplanation(
   weights: ScoreWeights,
   modifiers: ScoreModifiers,
   input: ScoringInput,
+  starVelocityOutlierDampening: number,
 ): string {
   // Rank components by their weighted contribution.
   const contributions = COMPONENT_KEYS.map((key) => ({
@@ -132,6 +172,11 @@ function buildExplanation(
   }
   if (modifiers.antiSpamDampening < 1.0) {
     mods.push(`spam dampening x${modifiers.antiSpamDampening.toFixed(2)}`);
+  }
+  if (starVelocityOutlierDampening < 1.0) {
+    mods.push(
+      `star-velocity outlier dampening x${starVelocityOutlierDampening.toFixed(2)}`,
+    );
   }
 
   let sentence = parts.join(" ");
@@ -220,6 +265,7 @@ export function computeScore(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   allInputs?: ScoringInput[],
   previousStatus?: MovementStatus,
+  starVelocityOutlierDampening = 1.0,
 ): RepoScore {
   const weights = resolveWeights(input.categoryId);
   const components = computeAllComponents(input);
@@ -234,6 +280,7 @@ export function computeScore(
     baseWeighted *
     modifiers.decayFactor *
     modifiers.antiSpamDampening *
+    starVelocityOutlierDampening *
     modifiers.breakoutMultiplier;
   const rawOverall = afterMultipliers + modifiers.quietKillerBonus;
   const overall = clamp(round1(rawOverall), 0, 100);
@@ -248,6 +295,7 @@ export function computeScore(
     weights,
     modifiers,
     input,
+    starVelocityOutlierDampening,
   );
 
   return {
@@ -373,9 +421,27 @@ export function scoreBatch(repos: Repo[]): RepoScore[] {
     toScoringInput(r, stats.get(r.categoryId)),
   );
 
+  const outlierDampeningByRepoId = new Map<string, number>();
+  for (const [cat, values] of byCategory.entries()) {
+    for (const repo of repos) {
+      if (repo.categoryId !== cat) continue;
+      outlierDampeningByRepoId.set(
+        repo.id,
+        outlierDampeningFactor(repo.starsDelta24h, values),
+      );
+    }
+  }
+
   return repos.map((repo, i) => {
     const modifierInput = toModifierInput(repo);
-    return computeScore(allInputs[i], modifierInput, allInputs, repo.movementStatus);
+    const outlierDampening = outlierDampeningByRepoId.get(repo.id) ?? 1.0;
+    return computeScore(
+      allInputs[i],
+      modifierInput,
+      allInputs,
+      repo.movementStatus,
+      outlierDampening,
+    );
   });
 }
 

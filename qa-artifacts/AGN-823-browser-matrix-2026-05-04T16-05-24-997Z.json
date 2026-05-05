@@ -1,0 +1,311 @@
+{
+  "generatedAt": "2026-05-04T16:07:54.307Z",
+  "baseURL": "https://trendingrepo.com",
+  "routes": [
+    "/",
+    "/signals",
+    "/mcp",
+    "/twitter",
+    "/producthunt"
+  ],
+  "matrix": [
+    {
+      "browser": "firefox",
+      "results": [
+        {
+          "route": "/",
+          "status": 200,
+          "title": "TrendingRepo — The trend map for open source",
+          "bodyChars": 10138,
+          "navError": null,
+          "consoleErrorCount": 84,
+          "requestFailureCount": 1,
+          "consoleErrors": [
+            "[JavaScript Error: \"Cookie “_gh_sess” has been rejected because it is in a cross-site context and its “SameSite” is “Lax” or “Strict”.\" {file: \"https://github.com/bwya77.png\" line: 0}]",
+            "[JavaScript Error: \"Cookie “_octo” has been rejected because it is in a cross-site context and its “SameSite” is “Lax” or “Strict”.\" {file: \"https://github.com/bwya77.png\" line: 0}]",
+            "[JavaScript Error: \"Cookie “logged_in” has been rejected because it is in a cross-site context and its “SameSite” is “Lax” or “Strict”.\" {file: \"https://github.com/bwya77.png\" line: 0}]",
+            "[JavaScript Error: \"Cookie “_gh_sess” has been rejected because it is in a cross-site context and its “SameSite” is “Lax” or “Strict”.\" {file: \"https://github.com/LearningCircuit.png\" line: 0}]",
+            "[JavaScript Error: \"Cookie “_octo” has been rejected because it is in a cross-site context and its “SameSite” is “Lax” or “Strict”.\" {file: \"https://github.com/LearningCircuit.png\" line: 0}]"
+          ],
+          "requestFailures": [
+            "GET https://api.smithery.ai/servers/polymarket/polymarket-mcp/icon :: NS_BINDING_ABORTED"
+          ]
+        },
+        {
+          "route": "/signals",
+          "status": 200,
+          "title": "Signals — Cross-Source Newsroom — TrendingRepo",
+          "bodyChars": 13728,
+          "navError": null,
+          "consoleErrorCount": 2,
+          "requestFailureCount": 70,
+          "consoleErrors": [
+            "[JavaScript Error: \"Cookie “dmn_chk_019df3bd-01b5-775b-acce-aab0af53d23c” has been rejected for invalid domain.\" {file: \"https://trendingrepo.com/\" line: 0}]",
+            "[JavaScript Error: \"Cookie “dmn_chk_019df3bd-2c86-7075-b0eb-29311dd66cd4” has been rejected for invalid domain.\" {file: \"https://trendingrepo.com/signals\" line: 0}]"
+          ],
+          "requestFailures": [
+            "GET https://avatars.githubusercontent.com/u/219127460?u=dd9859a68c2214eed5c3eb99b63ddc0a659142f8&v=4 :: NS_BINDING_ABORTED",
+            "GET https://avatars.githubusercontent.com/u/138379721?v=4 :: NS_BINDING_ABORTED",
+            "GET https://avatars.githubusercontent.com/u/178755995?v=4 :: NS_BINDING_ABORTED",
+            "GET https://avatars.githubusercontent.com/u/256850418?u=1abde924a2eb593c30ef8122a1efcf4e5622f727&v=4 :: NS_BINDING_ABORTED",
+            "GET https://avatars.githubusercontent.com/u/1862567?s=64&v=4 :: NS_BINDING_ABORTED"
+          ]
+        },
+        {
+          "route": "/mcp",
+          "status": 200,
+          "title": "Trending MCP - TrendingRepo — TrendingRepo",
+          "bodyChars": 30996,
+          "navError": null,
+          "consoleErrorCount": 18,
+          "requestFailureCount": 12,
+          "consoleErrors": [
+            "[JavaScript Error: \"Cookie “_gh_sess” has been rejected because it is in a cross-site context and its “SameSite” is “Lax” or “Strict”.\" {file: \"https://github.com/aattaran.png?size=64\" line: 0}]",
+            "[JavaScript Error: \"Cookie “_octo” has been rejected because it is in a cross-site context and its “SameSite” is “Lax” or “Strict”.\" {file: \"https://github.com/aattaran.png?size=64\" line: 0}]",
+            "[JavaScript Error: \"Cookie “logged_in” has been rejected because it is in a cross-site context and its “SameSite” is “Lax” or “Strict”.\" {file: \"https://github.com/aattaran.png?size=64\" line: 0}]",
+            "Failed to fetch RSC payload for https://trendingrepo.com/. Falling back to browser navigation. Error",
+            "Failed to fetch RSC payload for https://trendingrepo.com/portal/docs. Falling back to browser navigation. Error"
+          ],
+          "requestFailures": [
+            "GET https://trendingrepo.com/?_rsc=qr415 :: NS_BINDING_ABORTED",
+            "GET https://trendingrepo.com/portal/docs?_rsc=qr415 :: NS_BINDING_ABORTED",
+            "GET https://trendingrepo.com/you?_rsc=qr415 :: NS_BINDING_ABORTED",
+            "GET https://trendingrepo.com/cli?_rsc=qr415 :: NS_BINDING_ABORTED",
+            "GET https://trendingrepo.com/api/pipeline/sidebar-data :: NS_BINDING_ABORTED"
+          ]
+        },
+        {
+          "route": "/twitter",
+          "status": 200,
+          "title": "Trending Repos on X — TrendingRepo",
+          "bodyChars": 1954,
+          "navError": null,
+          "consoleErrorCount": 48,
+          "requestFailureCount": 17,
+          "consoleErrors": [
+            "Failed to fetch RSC payload for https://trendingrepo.com/you. Falling back to browser navigation. Error",
+            "Failed to fetch RSC payload for https://trendingrepo.com/skills. Falling back to browser navigation. Error",
+            "Failed to fetch RSC payload for https://trendingrepo.com/submit. Falling back to browser navigation. Error",
+            "Failed to fetch RSC payload for https://trendingrepo.com/portal/docs. Falling back to browser navigation. Error",
+            "Failed to fetch RSC payload for https://trendingrepo.com/cli. Falling back to browser navigation. Error"
+          ],
+          "requestFailures": [
+            "GET https://trendingrepo.com/you?_rsc=264h5 :: NS_BINDING_ABORTED",
+            "GET https://trendingrepo.com/skills?_rsc=264h5 :: NS_BINDING_ABORTED",
+            "GET https://trendingrepo.com/submit?_rsc=264h5 :: NS_BINDING_ABORTED",
+            "GET https://trendingrepo.com/api/pipeline/sidebar-data :: NS_BINDING_ABORTED",
+            "GET https://trendingrepo.com/portal/docs?_rsc=264h5 :: NS_BINDING_ABORTED"
+          ]
+        },
+        {
+          "route": "/producthunt",
+          "status": 200,
+          "title": "TrendingRepo — ProductHunt Launches — TrendingRepo",
+          "bodyChars": 7885,
+          "navError": null,
+          "consoleErrorCount": 5,
+          "requestFailureCount": 70,
+          "consoleErrors": [
+            "Failed to fetch RSC payload for https://trendingrepo.com/cli. Falling back to browser navigation. Error",
+            "Failed to fetch RSC payload for https://trendingrepo.com/you. Falling back to browser navigation. Error",
+            "Failed to fetch RSC payload for https://trendingrepo.com/skills. Falling back to browser navigation. Error",
+            "Failed to fetch RSC payload for https://trendingrepo.com/portal/docs. Falling back to browser navigation. Error",
+            "Failed to fetch RSC payload for https://trendingrepo.com/mcp. Falling back to browser navigation. Error"
+          ],
+          "requestFailures": [
+            "GET https://trendingrepo.com/cli?_rsc=mk4qe :: NS_BINDING_ABORTED",
+            "GET https://trendingrepo.com/you?_rsc=mk4qe :: NS_BINDING_ABORTED",
+            "GET https://trendingrepo.com/submit?_rsc=mk4qe :: NS_BINDING_ABORTED",
+            "GET https://trendingrepo.com/skills?_rsc=mk4qe :: NS_BINDING_ABORTED",
+            "GET https://trendingrepo.com/api/pipeline/sidebar-data :: NS_BINDING_ABORTED"
+          ]
+        }
+      ]
+    },
+    {
+      "browser": "webkit",
+      "results": [
+        {
+          "route": "/",
+          "status": 200,
+          "title": "TrendingRepo — The trend map for open source",
+          "bodyChars": 9876,
+          "navError": null,
+          "consoleErrorCount": 0,
+          "requestFailureCount": 0,
+          "consoleErrors": [],
+          "requestFailures": []
+        },
+        {
+          "route": "/signals",
+          "status": 200,
+          "title": "Signals — Cross-Source Newsroom — TrendingRepo",
+          "bodyChars": 12653,
+          "navError": null,
+          "consoleErrorCount": 1,
+          "requestFailureCount": 25,
+          "consoleErrors": [
+            "ChunkLoadError: Loading chunk 1656 failed.\n(error: https://trendingrepo.com/_next/static/chunks/1656-8eebe312a3d0a7bd.js?dpl=dpl_EJBghNsEFTGF1j8FZeoBkB77dbuN)"
+          ],
+          "requestFailures": [
+            "GET https://github.com/zanfranceschi.png?size=64 :: Load request cancelled",
+            "GET https://api.smithery.ai/servers/exa/icon :: Load request cancelled",
+            "GET https://github.com/affaan-m.png?size=80 :: Load request cancelled",
+            "GET https://github.com/langchain-ai.png?size=64 :: Load request cancelled",
+            "GET https://github.com/openclaw.png?size=64 :: Load request cancelled"
+          ]
+        },
+        {
+          "route": "/mcp",
+          "status": 200,
+          "title": "Trending MCP - TrendingRepo — TrendingRepo",
+          "bodyChars": 30209,
+          "navError": null,
+          "consoleErrorCount": 3,
+          "requestFailureCount": 7,
+          "consoleErrors": [
+            "Failed to fetch RSC payload for https://trendingrepo.com/reddit/trending. Falling back to browser navigation. TypeError: Load failed",
+            "Failed to fetch RSC payload for https://trendingrepo.com/twitter. Falling back to browser navigation. TypeError: Load failed",
+            "Failed to fetch RSC payload for https://trendingrepo.com/producthunt. Falling back to browser navigation. TypeError: Load failed"
+          ],
+          "requestFailures": [
+            "POST https://us.i.posthog.com/flags/?v=2&ip=0&_=1777910805014&ver=1.372.3&compression=base64 :: Load request cancelled",
+            "GET https://trendingrepo.com/reddit/trending?_rsc=qr415 :: Load request cancelled",
+            "GET https://trendingrepo.com/_next/static/chunks/app/devto/error-e16a90ea585b593a.js?dpl=dpl_EJBghNsEFTGF1j8FZeoBkB77dbuN :: Load request cancelled",
+            "GET https://trendingrepo.com/twitter?_rsc=qr415 :: Load request cancelled",
+            "GET https://trendingrepo.com/producthunt?_rsc=qr415 :: Load request cancelled"
+          ]
+        },
+        {
+          "route": "/twitter",
+          "status": 200,
+          "title": "Trending Repos on X — TrendingRepo",
+          "bodyChars": 1973,
+          "navError": null,
+          "consoleErrorCount": 13,
+          "requestFailureCount": 13,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 404 ()",
+            "Failed to load resource: the server responded with a status of 404 ()",
+            "Failed to fetch RSC payload for https://trendingrepo.com/skills. Falling back to browser navigation. TypeError: Load failed",
+            "Failed to fetch RSC payload for https://trendingrepo.com/breakouts. Falling back to browser navigation. TypeError: Load failed",
+            "Failed to fetch RSC payload for https://trendingrepo.com/consensus. Falling back to browser navigation. TypeError: Load failed"
+          ],
+          "requestFailures": [
+            "GET https://api.smithery.ai/servers/gantta/gantta-mcp/icon :: Load request cancelled",
+            "GET https://api.smithery.ai/servers/aniruddha-adhikary/gahmen-mcp/icon :: Load request cancelled",
+            "GET https://api.smithery.ai/servers/hamid-vakilzadeh/mcpsemanticscholar/icon :: Load request cancelled",
+            "GET https://avatars.githubusercontent.com/u/193479538?s=80&v=4 :: Load request cancelled",
+            "GET https://api.smithery.ai/servers/martin111ma-za5d/swiss-truth-mcp/icon :: Load request cancelled"
+          ]
+        },
+        {
+          "route": "/producthunt",
+          "status": 200,
+          "title": "TrendingRepo — ProductHunt Launches — TrendingRepo",
+          "bodyChars": 7761,
+          "navError": null,
+          "consoleErrorCount": 11,
+          "requestFailureCount": 56,
+          "consoleErrors": [
+            "Failed to fetch RSC payload for https://trendingrepo.com/repo/openclaw/acpx. Falling back to browser navigation. TypeError: Load failed",
+            "Failed to fetch RSC payload for https://trendingrepo.com/producthunt. Falling back to browser navigation. TypeError: Load failed",
+            "Failed to fetch RSC payload for https://trendingrepo.com/reddit/trending. Falling back to browser navigation. TypeError: Load failed",
+            "Failed to fetch RSC payload for https://trendingrepo.com/repo/1jehuang/jcode. Falling back to browser navigation. TypeError: Load failed",
+            "Failed to fetch RSC payload for https://trendingrepo.com/repo/outsourc-e/hermes-workspace. Falling back to browser navigation. TypeError: Load failed"
+          ],
+          "requestFailures": [
+            "GET https://unavatar.io/twitter/GongYouchai :: Load request cancelled",
+            "GET https://unavatar.io/twitter/_JKNFT_ :: Load request cancelled",
+            "GET https://unavatar.io/twitter/yaelkroy :: Load request cancelled",
+            "GET https://unavatar.io/twitter/Zenzeni_sangwen :: Load request cancelled",
+            "GET https://unavatar.io/twitter/anshublog :: Load request cancelled"
+          ]
+        }
+      ]
+    },
+    {
+      "browser": "msedge",
+      "results": [
+        {
+          "route": "/",
+          "status": 200,
+          "title": "TrendingRepo — The trend map for open source",
+          "bodyChars": 10341,
+          "navError": null,
+          "consoleErrorCount": 0,
+          "requestFailureCount": 0,
+          "consoleErrors": [],
+          "requestFailures": []
+        },
+        {
+          "route": "/signals",
+          "status": 200,
+          "title": "Signals — Cross-Source Newsroom — TrendingRepo",
+          "bodyChars": 12645,
+          "navError": null,
+          "consoleErrorCount": 0,
+          "requestFailureCount": 4,
+          "consoleErrors": [],
+          "requestFailures": [
+            "GET https://api.smithery.ai/servers/polymarket/polymarket-mcp/icon :: net::ERR_BLOCKED_BY_ORB",
+            "GET https://trendingrepo.com/signals?_rsc=3lb4g :: net::ERR_ABORTED",
+            "GET https://trendingrepo.com/twitter?_rsc=3lb4g :: net::ERR_ABORTED",
+            "GET https://trendingrepo.com/producthunt?_rsc=3lb4g :: net::ERR_ABORTED"
+          ]
+        },
+        {
+          "route": "/mcp",
+          "status": 200,
+          "title": "Trending MCP - TrendingRepo — TrendingRepo",
+          "bodyChars": 30995,
+          "navError": null,
+          "consoleErrorCount": 0,
+          "requestFailureCount": 7,
+          "consoleErrors": [],
+          "requestFailures": [
+            "GET https://trendingrepo.com/reddit/trending?_rsc=qr415 :: net::ERR_ABORTED",
+            "GET https://trendingrepo.com/repo/aattaran/deepclaude?_rsc=qr415 :: net::ERR_ABORTED",
+            "GET https://trendingrepo.com/producthunt?_rsc=qr415 :: net::ERR_ABORTED",
+            "GET https://trendingrepo.com/repo/openai/symphony?_rsc=qr415 :: net::ERR_ABORTED",
+            "GET https://trendingrepo.com/api/pipeline/sidebar-data :: net::ERR_ABORTED"
+          ]
+        },
+        {
+          "route": "/twitter",
+          "status": 200,
+          "title": "Trending Repos on X — TrendingRepo",
+          "bodyChars": 1954,
+          "navError": null,
+          "consoleErrorCount": 0,
+          "requestFailureCount": 47,
+          "consoleErrors": [],
+          "requestFailures": [
+            "GET https://api.smithery.ai/servers/polymarket/polymarket-mcp/icon :: net::ERR_BLOCKED_BY_ORB",
+            "GET https://api.smithery.ai/servers/tbakerx/instant-mcp/icon :: net::ERR_ABORTED",
+            "GET https://trendingrepo.com/submit?_rsc=264h5 :: net::ERR_ABORTED",
+            "GET https://trendingrepo.com/you?_rsc=264h5 :: net::ERR_ABORTED",
+            "GET https://github.com/github.png?size=80 :: net::ERR_ABORTED"
+          ]
+        },
+        {
+          "route": "/producthunt",
+          "status": 200,
+          "title": "TrendingRepo — ProductHunt Launches — TrendingRepo",
+          "bodyChars": 7887,
+          "navError": null,
+          "consoleErrorCount": 0,
+          "requestFailureCount": 46,
+          "consoleErrors": [],
+          "requestFailures": [
+            "GET https://unavatar.io/x/KSimback :: net::ERR_BLOCKED_BY_ORB",
+            "GET https://unavatar.io/x/AI_jacksaku :: net::ERR_BLOCKED_BY_ORB",
+            "GET https://unavatar.io/x/anshublog :: net::ERR_BLOCKED_BY_ORB",
+            "GET https://unavatar.io/x/MichaelGannotti :: net::ERR_BLOCKED_BY_ORB",
+            "GET https://unavatar.io/x/ai_cast_info :: net::ERR_BLOCKED_BY_ORB"
+          ]
+        }
+      ]
+    }
+  ]
+}

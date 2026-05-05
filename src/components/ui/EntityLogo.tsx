@@ -10,7 +10,8 @@
 // empty space while the image loads.
 
 import { useState } from "react";
-import { monogramInitial, monogramTone } from "@/lib/logos";
+import Image from "next/image";
+import { monogramInitial, monogramTone, monogramToneSeed } from "@/lib/logos";
 
 type LogoSize = 16 | 20 | 24 | 28 | 32 | 40 | 48;
 type LogoShape = "square" | "circle";
@@ -28,6 +29,8 @@ interface EntityLogoProps {
   alt?: string;
   /** Tailwind shrink-0 wrapper class hook. */
   className?: string;
+  /** Mark above-the-fold logos as eager to avoid lazy-loading LCP candidates. */
+  priority?: boolean;
 }
 
 export function EntityLogo({
@@ -37,6 +40,7 @@ export function EntityLogo({
   shape = "square",
   alt,
   className = "",
+  priority = false,
 }: EntityLogoProps) {
   // Track whether the network image has failed so we can fall back to
   // the monogram. State is initialised from `!src` so the monogram path
@@ -44,7 +48,7 @@ export function EntityLogo({
   const [errored, setErrored] = useState(false);
   const showImage = !!src && !errored;
 
-  const tone = monogramTone(name);
+  const tone = monogramTone(monogramToneSeed(name));
   const letter = monogramInitial(name);
   const radius = shape === "circle" ? "50%" : 2;
   const fontSize = Math.max(9, Math.round(size * 0.42));
@@ -64,15 +68,17 @@ export function EntityLogo({
 
   if (showImage) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
+      <Image
         src={src ?? undefined}
         alt={alt ?? name}
         title={alt === "" ? undefined : (alt ?? name)}
         width={size}
         height={size}
-        loading="lazy"
-        decoding="async"
+        priority={priority}
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : "auto"}
+        unoptimized
+        loader={({ src: imageSrc }) => imageSrc}
         referrerPolicy="no-referrer"
         onError={() => setErrored(true)}
         className={className}

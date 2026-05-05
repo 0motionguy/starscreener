@@ -21,17 +21,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node 20
+      - name: Setup Node 22
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: "npm"
 
       - name: Install dependencies
         # Defensive: scripts/scrape-npm.mjs imports _data-store-write.mjs
-        # which dynamic-imports `ioredis` when REDIS_URL is set. (PR #9
-        # boundary — same shape as scrape-trending/sync-trustmrr.)
-        run: npm ci
+        # which dynamic-imports `ioredis` when REDIS_URL is set. This job
+        # uses install (not ci) so scheduled telemetry refreshes are resilient
+        # to short-lived lock drift on main while package-lock catches up.
+        run: npm install --no-audit --no-fund
 
       - name: Scrape npm packages
         run: node scripts/scrape-npm.mjs

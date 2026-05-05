@@ -28,6 +28,8 @@ jobs:
       - run: npm ci
       - run: npm run scrape:funding -- --sources ${{ github.event.inputs.sources || 'techcrunch,venturebeat,sifted' }} --enrich ${{ github.event.inputs.dry_run == 'true' && '--output .tmp/funding-preview.json' || '' }}
       - if: github.event.inputs.dry_run != 'true'
+        run: npm run scrape:funding:crunchbase
+      - if: github.event.inputs.dry_run != 'true'
         name: Commit if changed
         uses: ./.github/actions/git-commit-data
         with:
@@ -36,7 +38,9 @@ jobs:
           message: "chore: auto-update funding signals [skip ci]"
           paths: |
             data/funding-news.json
+            data/funding-news-crunchbase.json
             data/_meta/funding-news.json
+            data/_meta/funding-crunchbase.json
             data/unknown-mentions.jsonl
       - if: failure()
         uses: actions/upload-artifact@v4

@@ -11,6 +11,7 @@ import { z } from "zod";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
 import { serverError } from "@/lib/api/error-response";
+import { AdminRecoverableError } from "@/lib/errors";
 import { parseBody } from "@/lib/api/parse-body";
 import {
   listIdeas,
@@ -51,7 +52,14 @@ export async function GET(
     const ideas = await listIdeas();
     return NextResponse.json({ ok: true, ideas });
   } catch (err) {
-    return serverError<AdminErrorResponse>(err, { scope: "[admin/ideas-queue:GET]" });
+    const wrapped = new AdminRecoverableError(
+      "admin ideas-queue list failed",
+      {
+        scope: "api/admin/ideas-queue:GET",
+        message: err instanceof Error ? err.message : String(err),
+      },
+    );
+    return serverError<AdminErrorResponse>(wrapped, { scope: "[admin/ideas-queue:GET]" });
   }
 }
 
@@ -76,7 +84,15 @@ export async function POST(
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     const status = message.includes("not found") ? 404 : 500;
-    return serverError<AdminErrorResponse>(err, {
+    const wrapped = new AdminRecoverableError(
+      "admin ideas-queue mutation failed",
+      {
+        scope: "api/admin/ideas-queue:POST",
+        message,
+        status,
+      },
+    );
+    return serverError<AdminErrorResponse>(wrapped, {
       scope: "[admin/ideas-queue:POST]",
       publicMessage: status === 404 ? "idea not found" : "server error",
       status,

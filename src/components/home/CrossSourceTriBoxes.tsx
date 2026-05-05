@@ -80,7 +80,7 @@ function repoRow(
       ? r.stars.toLocaleString("en-US")
       : `${formatSignedNumber(
           (metric === "starsDelta7d" ? r.starsDelta7d : r.starsDelta24h) ?? 0,
-        )}★`;
+        )} stars`;
   const numeric =
     metric === "stars"
       ? r.stars

@@ -1,0 +1,106 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ChannelStrip snapshot > renders stable 24-cell strip markup 1`] = `
+<div
+  aria-label="Hourly activity total intensity 36, 12 hot hours over last 24h"
+  class="v4-heat-strip"
+  role="img"
+>
+  <i
+    class="v4-heat-strip__cell"
+    title="00:00 — level 0"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h1"
+    title="01:00 — level 1"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h1"
+    title="02:00 — level 1"
+  />
+  <i
+    class="v4-heat-strip__cell"
+    title="03:00 — level 0"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h2"
+    title="04:00 — level 2"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h1"
+    title="05:00 — level 1"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h2"
+    title="06:00 — level 2"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h2"
+    title="07:00 — level 2"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h1"
+    title="08:00 — level 1"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h2"
+    title="09:00 — level 2"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h3"
+    title="10:00 — level 3"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h3"
+    title="11:00 — level 3"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h2"
+    title="12:00 — level 2"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h3"
+    title="13:00 — level 3"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h3"
+    title="14:00 — level 3"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h3"
+    title="15:00 — level 3"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h2"
+    title="16:00 — level 2"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h2"
+    title="17:00 — level 2"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h1"
+    title="18:00 — level 1"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h1"
+    title="19:00 — level 1"
+  />
+  <i
+    class="v4-heat-strip__cell"
+    title="20:00 — level 0"
+  />
+  <i
+    class="v4-heat-strip__cell v4-heat-strip__cell--h1"
+    title="21:00 — level 1"
+  />
+  <i
+    class="v4-heat-strip__cell"
+    title="22:00 — level 0"
+  />
+  <i
+    class="v4-heat-strip__cell"
+    title="23:00 — level 0"
+  />
+</div>
+`;

@@ -7,6 +7,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 import { getDataStore } from "@/lib/data-store";
+import { respondWithSizeGuard } from "@/lib/api/response-size";
 import type { StarActivityPayload } from "@/lib/star-activity";
 
 export const runtime = "nodejs";
@@ -70,12 +71,14 @@ export async function GET(request: NextRequest) {
     }),
   );
 
-  return NextResponse.json(
+  return respondWithSizeGuard(
     { ok: true, fetchedAt: new Date().toISOString(), rows },
     {
       headers: {
         "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
       },
+      route: "/api/compare/payloads",
+      arrayKeys: ["rows"],
     },
   );
 }

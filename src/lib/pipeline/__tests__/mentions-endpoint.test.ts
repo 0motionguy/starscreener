@@ -27,6 +27,7 @@ import assert from "node:assert/strict";
 
 import type { RepoMention } from "../types";
 import { mentionStore } from "../storage/singleton";
+import { makeMention } from "../../../test-utils/factories";
 
 // ---------------------------------------------------------------------------
 // Fixture repo
@@ -46,21 +47,12 @@ const FIXTURE_REPO_ID = "vercel--next-js";
 function mkMention(
   overrides: Partial<RepoMention> & { id: string; postedAt: string; platform: RepoMention["platform"] },
 ): RepoMention {
-  return {
-    id: overrides.id,
-    repoId: overrides.repoId ?? FIXTURE_REPO_ID,
-    platform: overrides.platform,
-    author: overrides.author ?? "alice",
-    authorFollowers: overrides.authorFollowers ?? null,
-    content: overrides.content ?? "test content",
-    url: overrides.url ?? `https://example.com/${overrides.id}`,
-    sentiment: overrides.sentiment ?? "neutral",
-    engagement: overrides.engagement ?? 0,
-    reach: overrides.reach ?? 0,
-    postedAt: overrides.postedAt,
-    discoveredAt: overrides.discoveredAt ?? overrides.postedAt,
-    isInfluencer: overrides.isInfluencer ?? false,
-  };
+  return makeMention({
+    repoId: FIXTURE_REPO_ID,
+    url: `https://example.com/${overrides.id}`,
+    discoveredAt: overrides.postedAt,
+    ...overrides,
+  });
 }
 
 /**
@@ -248,8 +240,8 @@ test("200 default returns all 12 seeded mentions sorted newest-first", async () 
   };
   assert.equal(body.ok, true);
   assert.equal(body.repo, FIXTURE_FULL_NAME);
-  assert.equal(body.count, 12, "all seeded mentions fit under default 50 cap");
-  assert.equal(body.items.length, 12);
+  assert.ok(body.count >= 12, "seeded mentions must be present in unified feed");
+  assert.equal(body.items.length, body.count);
   assert.equal(body.nextCursor, null, "less than limit → no next cursor");
   // Sort stability: items must be non-increasing on postedAt; ties break by id desc.
   for (let i = 1; i < body.items.length; i++) {
@@ -260,6 +252,10 @@ test("200 default returns all 12 seeded mentions sorted newest-first", async () 
     } else {
       assert.ok(prev.postedAt > cur.postedAt, `postedAt desc failed at i=${i}`);
     }
+  }
+  const ids = new Set(body.items.map((m) => m.id));
+  for (const expected of buildSeedMentions().map((m) => m.id)) {
+    assert.ok(ids.has(expected), `seed mention missing from unified feed: ${expected}`);
   }
   // Timestamp shape.
   assert.ok(!Number.isNaN(Date.parse(body.fetchedAt)));
@@ -304,7 +300,7 @@ test("200 with limit=5 returns a non-null nextCursor", async () => {
 });
 
 test("cursor walk covers every seeded mention exactly once across 3 pages", async () => {
-  // Pick a limit that forces 3 pages for the 12-row fixture.
+  // Limit small enough to force multi-page walks on the unified stream.
   const LIMIT = 5;
   const seen: RepoMention[] = [];
   let cursor: string | null = null;
@@ -326,8 +322,8 @@ test("cursor walk covers every seeded mention exactly once across 3 pages", asyn
     cursor = body.nextCursor;
   }
 
-  // Expect exactly 3 pages for 12 rows with limit=5: 5 + 5 + 2.
-  assert.deepEqual(pagesVisited, [5, 5, 2], "page sizes");
+  assert.ok(pagesVisited.length >= 3, "expected multi-page pagination");
+  assert.equal(pagesVisited[0], LIMIT, "first page should respect requested limit");
   // No duplicates.
   const ids = seen.map((m) => m.id);
   assert.equal(

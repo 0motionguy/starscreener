@@ -30,18 +30,51 @@ const CLI_ARGS = parseCliArgs(process.argv.slice(2));
 
 const MODE = normalizeMode(optionString("mode", "PROFILE_ENRICH_MODE", "top"));
 const DEFAULT_LIMIT =
-  MODE === "top" ? 20 : MODE === "incremental" ? 50 : 5_000;
+  MODE === "top" ? 20 : MODE === "incremental" ? 50 : MODE === "recovery" ? 250 : 5_000;
 const DEFAULT_MAX_SCANS =
-  MODE === "top" ? Math.min(DEFAULT_LIMIT, 10) : MODE === "incremental" ? 10 : 25;
+  MODE === "top" ? Math.min(DEFAULT_LIMIT, 10) : MODE === "incremental" ? 10 : MODE === "recovery" ? 40 : 25;
 const LIMIT = optionInt("limit", "PROFILE_ENRICH_LIMIT", DEFAULT_LIMIT, 1, 10_000);
 const MAX_SCANS = optionInt("max-scans", "PROFILE_ENRICH_MAX_SCANS", DEFAULT_MAX_SCANS, 0, 10_000);
 const RESCAN_DAYS = optionInt("rescan-days", "PROFILE_ENRICH_RESCAN_DAYS", 7, 1, 90);
+const RECOVERY_FAILED_RETRY_AFTER_HOURS = optionInt(
+  "recovery-failed-retry-hours",
+  "PROFILE_ENRICH_RECOVERY_FAILED_RETRY_HOURS",
+  12,
+  1,
+  168,
+);
+const RECOVERY_RATE_LIMIT_RETRY_AFTER_HOURS = optionInt(
+  "recovery-rate-limit-retry-hours",
+  "PROFILE_ENRICH_RECOVERY_RATE_LIMIT_RETRY_HOURS",
+  4,
+  1,
+  168,
+);
+const RECOVERY_PENDING_RETRY_AFTER_HOURS = optionInt(
+  "recovery-pending-retry-hours",
+  "PROFILE_ENRICH_RECOVERY_PENDING_RETRY_HOURS",
+  24,
+  1,
+  168,
+);
 const GITHUB_LOOKUP = optionBool("github-lookup", "PROFILE_ENRICH_GITHUB_LOOKUP", true);
 const AISO_ENABLED = optionBool("aiso", "PROFILE_ENRICH_AISO", true);
 const GITHUB_DELAY_MS = optionInt("github-delay-ms", "PROFILE_ENRICH_GITHUB_DELAY_MS", 250, 0, 10_000);
 const AISO_SCAN_DELAY_MS = optionInt("aiso-delay-ms", "PROFILE_ENRICH_AISO_DELAY_MS", 1_000, 0, 60_000);
 const AISO_WAIT_MS = optionInt("aiso-wait-ms", "PROFILE_ENRICH_AISO_WAIT_MS", 90_000, 5_000, 600_000);
 const AISO_POLL_MS = optionInt("aiso-poll-ms", "PROFILE_ENRICH_AISO_POLL_MS", 2_000, 500, 30_000);
+const AISO_SCAN_PROTOCOL = optionString("aiso-scan-protocol", "AISO_SCAN_PROTOCOL", "aiso.tools");
+const AISO_SCAN_SUBMIT_PATH = optionString("aiso-submit-path", "AISO_SCAN_SUBMIT_PATH", "/api/scan");
+const AISO_SCAN_STATUS_PATH_TEMPLATE = optionString(
+  "aiso-status-path-template",
+  "AISO_SCAN_STATUS_PATH_TEMPLATE",
+  "/api/scan/{scanId}",
+);
+const AISO_SCAN_RESULT_PATH_TEMPLATE = optionString(
+  "aiso-result-path-template",
+  "AISO_SCAN_RESULT_PATH_TEMPLATE",
+  "/scan/{scanId}",
+);
 
 function clampInt(raw, fallback, min, max) {
   const parsed = Number.parseInt(String(raw ?? ""), 10);
@@ -94,7 +127,15 @@ function optionBool(name, envName, fallback) {
 
 function normalizeMode(raw) {
   const value = String(raw ?? "top").trim().toLowerCase();
-  return value === "catchup" || value === "incremental" ? value : "top";
+  return value === "catchup" || value === "incremental" || value === "recovery"
+    ? value
+    : "top";
+}
+
+function normalizePath(pathValue, fallback) {
+  const trimmed = String(pathValue ?? "").trim();
+  if (!trimmed) return fallback;
+  return trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
 }
 
 async function readJson(file, fallback) {
@@ -249,6 +290,46 @@ function candidateSort(a, b) {
   return a.fullName.localeCompare(b.fullName);
 }
 
+function staleScanned(existing, nowMs) {
+  if (!existing || existing.status !== "scanned") return false;
+  const nextScanAt = Date.parse(existing.nextScanAfter ?? "");
+  if (Number.isFinite(nextScanAt) && nextScanAt <= nowMs) return true;
+  const lastProfiledAt = Date.parse(existing.lastProfiledAt ?? "");
+  if (!Number.isFinite(lastProfiledAt)) return true;
+  return nowMs - lastProfiledAt > RESCAN_DAYS * 86_400_000;
+}
+
+function recoveryPriority(existing, nowMs) {
+  if (!existing) return 5;
+  const status = String(existing.status ?? "unknown");
+  const lastProfiledAt = Date.parse(existing.lastProfiledAt ?? "");
+  const ageMs = Number.isFinite(lastProfiledAt) ? nowMs - lastProfiledAt : Number.MAX_SAFE_INTEGER;
+  const failedRetryMs = RECOVERY_FAILED_RETRY_AFTER_HOURS * 3_600_000;
+  const rateLimitRetryMs = RECOVERY_RATE_LIMIT_RETRY_AFTER_HOURS * 3_600_000;
+  const pendingRetryMs = RECOVERY_PENDING_RETRY_AFTER_HOURS * 3_600_000;
+  if (status === "scan_failed" && ageMs >= failedRetryMs) return 0;
+  if (status === "rate_limited" && ageMs >= rateLimitRetryMs) return 1;
+  if (status === "scanned" && staleScanned(existing, nowMs)) return 2;
+  if ((status === "scan_pending" || status === "scan_running") && ageMs >= pendingRetryMs) return 3;
+  if (status !== "no_website" && status !== "scanned") return 4;
+  return 6;
+}
+
+function recoverySort(a, b) {
+  if (a.recoveryPriority !== b.recoveryPriority) {
+    return a.recoveryPriority - b.recoveryPriority;
+  }
+  const ar = a.rank ?? Number.MAX_SAFE_INTEGER;
+  const br = b.rank ?? Number.MAX_SAFE_INTEGER;
+  if (ar !== br) return ar - br;
+  const at = Date.parse(a.existing?.lastProfiledAt ?? "");
+  const bt = Date.parse(b.existing?.lastProfiledAt ?? "");
+  if (Number.isFinite(at) && Number.isFinite(bt) && at !== bt) return at - bt;
+  if (!Number.isFinite(at) && Number.isFinite(bt)) return -1;
+  if (Number.isFinite(at) && !Number.isFinite(bt)) return 1;
+  return a.fullName.localeCompare(b.fullName);
+}
+
 function collectCandidates(trendingFile, metadataByRepo, profilesByRepo) {
   const rankMap = buildTrendingRankMap(trendingFile);
   const includeRepos = parseIncludes();
@@ -282,6 +363,33 @@ function collectCandidates(trendingFile, metadataByRepo, profilesByRepo) {
         metadata: metadataByRepo.get(key) ?? null,
         existing: profilesByRepo.get(key) ?? null,
       });
+    }
+    return out;
+  }
+
+  if (MODE === "recovery") {
+    const nowMs = Date.now();
+    const recoveryCandidates = collectAllRepoNames(trendingFile, metadataByRepo, profilesByRepo)
+      .filter((key) => !seen.has(key))
+      .map((key) => {
+        const existing = profilesByRepo.get(key) ?? null;
+        return {
+          key,
+          fullName: metadataByRepo.get(key)?.fullName ?? existing?.fullName ?? key,
+          rank: rankMap.get(key) ?? existing?.rank ?? null,
+          selectedFrom: "recovery_backlog",
+          metadata: metadataByRepo.get(key) ?? null,
+          existing,
+          recoveryPriority: recoveryPriority(existing, nowMs),
+        };
+      })
+      .filter((candidate) => candidate.recoveryPriority <= 5)
+      .sort(recoverySort)
+      .slice(0, LIMIT);
+
+    for (const candidate of recoveryCandidates) {
+      seen.add(candidate.key);
+      out.push(candidate);
     }
     return out;
   }
@@ -403,7 +511,22 @@ async function resolveAisoBaseUrl() {
 }
 
 function resultPageUrl(baseUrl, scanId) {
-  return `${baseUrl}/scan/${scanId}`;
+  return resolveAisoPath(
+    baseUrl,
+    AISO_SCAN_RESULT_PATH_TEMPLATE,
+    scanId,
+    `/scan/${encodeURIComponent(scanId)}`,
+  );
+}
+
+function resolveAisoPath(baseUrl, template, scanId, fallback) {
+  const raw = String(template ?? "").trim();
+  if (!raw) return `${baseUrl}${fallback}`;
+  const withScanId = raw.includes("{scanId}")
+    ? raw.replace(/\{scanId\}/g, encodeURIComponent(scanId))
+    : raw;
+  const normalized = withScanId.startsWith("/") ? withScanId : `/${withScanId}`;
+  return `${baseUrl}${normalized}`;
 }
 
 function normalizeAisoScan(baseUrl, payload) {
@@ -455,7 +578,9 @@ function existingScanIsFresh(existing, websiteUrl) {
 }
 
 async function submitAisoScan(baseUrl, websiteUrl) {
-  return fetchJsonWithRetry(`${baseUrl}/api/scan`, {
+  return fetchJsonWithRetry(
+    resolveAisoPath(baseUrl, AISO_SCAN_SUBMIT_PATH, "", "/api/scan"),
+    {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ url: websiteUrl }),
@@ -465,7 +590,9 @@ async function submitAisoScan(baseUrl, websiteUrl) {
 }
 
 async function fetchAisoScan(baseUrl, scanId) {
-  return fetchJsonWithRetry(`${baseUrl}/api/scan/${scanId}`, {
+  return fetchJsonWithRetry(
+    resolveAisoPath(baseUrl, AISO_SCAN_STATUS_PATH_TEMPLATE, scanId, `/api/scan/${encodeURIComponent(scanId)}`),
+    {
     method: "GET",
     headers: { accept: "application/json" },
     attempts: 1,
@@ -644,7 +771,7 @@ async function main() {
   let aisoRateLimited = false;
 
   console.log(
-    `repo profiles: mode=${MODE} candidates=${candidates.length} maxScans=${MAX_SCANS} aiso=${AISO_ENABLED ? aisoBaseUrl : "disabled"}`,
+    `repo profiles: mode=${MODE} candidates=${candidates.length} maxScans=${MAX_SCANS} aiso=${AISO_ENABLED ? `${AISO_SCAN_PROTOCOL}@${aisoBaseUrl}` : "disabled"}`,
   );
 
   for (const candidate of candidates) {

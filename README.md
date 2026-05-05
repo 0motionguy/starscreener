@@ -14,6 +14,7 @@
 [![V2 conformance](https://img.shields.io/badge/V2%20conformance-100%25-22c55e.svg?style=for-the-badge)](./scripts/check-no-legacy-tokens.mjs)
 [![Critical findings](https://img.shields.io/badge/critical%20open-0-22c55e.svg?style=for-the-badge)](./docs/AUDIT_COMPLETE.md)
 [![CI](https://github.com/0motionguy/starscreener/actions/workflows/ci.yml/badge.svg)](https://github.com/0motionguy/starscreener/actions/workflows/ci.yml)
+[![SEO Policy Guard](https://github.com/0motionguy/starscreener/actions/workflows/seo-policy.yml/badge.svg)](https://github.com/0motionguy/starscreener/actions/workflows/seo-policy.yml)
 
 [**Live**](https://trendingrepo.com)  ·  [**Portal manifest**](https://trendingrepo.com/portal)  ·  [**API docs**](https://trendingrepo.com/portal/docs)  ·  [**CLI**](https://trendingrepo.com/cli)  ·  [**@0motionguy**](https://x.com/0motionguy)
 

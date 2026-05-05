@@ -1,0 +1,15 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`EntityLogo snapshot > renders stable image markup 1`] = `
+<img
+  alt="acme/toolkit"
+  class=""
+  height="24"
+  loading="lazy"
+  referrerpolicy="no-referrer"
+  src="https://example.com/logo.png"
+  style="width: 24px; height: 24px; border-radius: 2px; overflow: hidden; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border: 1px solid; background: var(--v3-bg-100); object-fit: cover; border-width: var(--v3-line-200); border-style: var(--v3-line-200); border-color: var(--v3-line-200);"
+  title="acme/toolkit"
+  width="24"
+/>
+`;

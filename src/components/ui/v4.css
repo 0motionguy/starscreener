@@ -316,6 +316,7 @@
   letter-spacing: var(--v4-track-20);
   color: var(--v4-ink-400);
   text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 .v4-page-head__crumb b {
   color: var(--v4-acc);
@@ -330,6 +331,8 @@
   letter-spacing: var(--v4-track-tight-h1);
   color: var(--v4-ink-000);
   line-height: var(--v4-leading-105);
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .v4-page-head__lede {
@@ -339,6 +342,8 @@
   font-size: var(--v4-text-13);
   line-height: var(--v4-leading-15);
   max-width: 640px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .v4-page-head__clock {
@@ -370,6 +375,8 @@
     margin-left: 0;
     text-align: left;
     font-size: 9.5px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 }
 
@@ -883,11 +890,58 @@
 /* Mobile — collapse delta + arrow into a single trailing column */
 @media (max-width: 640px) {
   .v4-rank-row {
-    grid-template-columns: 24px auto 1fr auto;
+    grid-template-columns: 24px auto minmax(0, 1fr) auto;
+    gap: 8px;
   }
-  .v4-rank-row__metric,
+  .v4-rank-row__metric {
+    gap: 3px;
+  }
+  .v4-rank-row__metric-value {
+    font-size: var(--v4-text-12);
+  }
+  .v4-rank-row__delta {
+    gap: 4px;
+  }
+  .v4-rank-row__delta-spark {
+    display: none;
+  }
   .v4-rank-row__arr {
     display: none;
+  }
+}
+
+/* 390px — stack metric + delta via named grid areas for /top10 rows. */
+@media (max-width: 390px) {
+  .v4-rank-row {
+    grid-template-columns: 24px 24px minmax(0, 1fr);
+    grid-template-areas:
+      "rank avatar body"
+      "rank avatar metric"
+      "rank avatar delta";
+    row-gap: 3px;
+    column-gap: 8px;
+    align-items: start;
+    padding: 10px 12px;
+  }
+  .v4-rank-row__rank {
+    grid-area: rank;
+    align-self: center;
+  }
+  .v4-rank-row__avatar {
+    grid-area: avatar;
+    align-self: center;
+  }
+  .v4-rank-row__body {
+    grid-area: body;
+  }
+  .v4-rank-row__metric {
+    grid-area: metric;
+    justify-self: start;
+    text-align: left;
+  }
+  .v4-rank-row__delta {
+    grid-area: delta;
+    justify-self: start;
   }
 }
 
@@ -1975,6 +2029,31 @@
   font-size: var(--v4-text-9-5);
   color: var(--v4-ink-400);
   letter-spacing: var(--v4-track-10);
+}
+.v4-related-card__mentions {
+  height: 18px;
+  padding: 0 7px;
+  border: 1px solid var(--v4-line-200);
+  background: var(--v4-bg-050);
+  color: var(--v4-ink-200);
+  font-family: var(--v4-mono);
+  font-size: 9px;
+  letter-spacing: var(--v4-track-10);
+  display: inline-flex;
+  align-items: center;
+  text-transform: uppercase;
+}
+.v4-related-card__delta {
+  font-family: var(--v4-mono);
+  font-size: 9px;
+  letter-spacing: var(--v4-track-10);
+  text-transform: uppercase;
+}
+.v4-related-card__delta.is-up {
+  color: var(--v4-money);
+}
+.v4-related-card__delta.is-down {
+  color: var(--v4-red);
 }
 .v4-related-card__why {
   font-family: var(--v4-mono);

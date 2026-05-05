@@ -25,7 +25,9 @@ import {
 } from "../scoring/weights";
 import {
   computeScore,
+  scoreBatch,
 } from "../scoring/engine";
+import type { Repo } from "../../types";
 import {
   detectBreakout,
   detectQuietKiller,
@@ -75,6 +77,42 @@ function mkModifierInput(overrides: Partial<ModifierInput> = {}): ModifierInput 
     mentionCount24h: 2,
     lastCommitAt: new Date(Date.now() - 1 * 24 * 3600 * 1000).toISOString(),
     lastReleaseAt: new Date(Date.now() - 10 * 24 * 3600 * 1000).toISOString(),
+    ...overrides,
+  };
+}
+
+function mkRepo(overrides: Partial<Repo> = {}): Repo {
+  return {
+    id: "acme--rocket",
+    fullName: "acme/rocket",
+    name: "rocket",
+    owner: "acme",
+    ownerAvatarUrl: "https://avatars.example/acme.png",
+    description: "test repo",
+    url: "https://github.com/acme/rocket",
+    language: "TypeScript",
+    topics: [],
+    categoryId: "devtools",
+    stars: 500,
+    forks: 40,
+    contributors: 10,
+    openIssues: 25,
+    lastCommitAt: new Date(Date.now() - 1 * 24 * 3600 * 1000).toISOString(),
+    lastReleaseAt: new Date(Date.now() - 10 * 24 * 3600 * 1000).toISOString(),
+    lastReleaseTag: null,
+    createdAt: new Date(Date.now() - 365 * 24 * 3600 * 1000).toISOString(),
+    starsDelta24h: 20,
+    starsDelta7d: 120,
+    starsDelta30d: 300,
+    forksDelta7d: 4,
+    contributorsDelta30d: 2,
+    momentumScore: 50,
+    movementStatus: "stable",
+    rank: 100,
+    categoryRank: 10,
+    sparklineData: [],
+    socialBuzzScore: 45,
+    mentionCount24h: 2,
     ...overrides,
   };
 }
@@ -322,6 +360,47 @@ test("canonical: stale-abandoned profile scores in the low band", () => {
   assert.ok(
     s.overall >= 0 && s.overall <= 35,
     `stale: expected overall ∈ [0,35], got ${s.overall}`,
+  );
+});
+
+test("scoreBatch dampens extreme 24h star-velocity outlier in-category", () => {
+  const repos: Repo[] = [];
+  for (let i = 0; i < 10; i++) {
+    repos.push(
+      mkRepo({
+        id: `peer--${i}`,
+        fullName: `peer/${i}`,
+        starsDelta24h: 20 + i,
+        starsDelta7d: 120 + i * 2,
+      }),
+    );
+  }
+  repos.push(
+    mkRepo({
+      id: "peer--outlier",
+      fullName: "peer/outlier",
+      stars: 800,
+      starsDelta24h: 1000,
+      starsDelta7d: 1500,
+      socialBuzzScore: 5,
+      mentionCount24h: 0,
+    }),
+  );
+
+  const scores = scoreBatch(repos);
+  const outlier = scores.find((s) => s.repoId === "peer--outlier");
+  const highPeer = scores.find((s) => s.repoId === "peer--9");
+
+  assert.ok(outlier, "expected outlier score");
+  assert.ok(highPeer, "expected peer score");
+  assert.ok(
+    outlier.overall < highPeer.overall,
+    `expected outlier dampening to lower score (${outlier.overall} vs ${highPeer.overall})`,
+  );
+  assert.match(
+    outlier.explanation,
+    /outlier dampening/i,
+    `expected explanation to include outlier dampening, got: ${outlier.explanation}`,
   );
 });
 

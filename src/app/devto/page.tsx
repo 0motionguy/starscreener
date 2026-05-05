@@ -26,6 +26,8 @@ import { userLogoUrl, resolveLogoUrl } from "@/lib/logos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { TrendingMentionsSection } from "@/components/news/TrendingMentionsSection";
+import { absoluteUrl } from "@/lib/seo";
 
 const DEVTO_BLUE = "#6699ff";
 
@@ -35,17 +37,19 @@ export const metadata: Metadata = {
   title: "Trending on Dev.to",
   description:
     "Top developer-written articles by velocity score, plus the repo leaderboard mentioned across them. Long-form developer signal, scored.",
-  alternates: { canonical: "/devto" },
+  alternates: { canonical: absoluteUrl("/devto") },
   openGraph: {
     title: "Trending on Dev.to — TrendingRepo",
     description: "Top developer-written articles by velocity, plus mentioned repos.",
-    url: "/devto",
+    url: absoluteUrl("/devto"),
     type: "website",
+    images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Trending on Dev.to — TrendingRepo",
     description: "Top developer-written articles by velocity, plus mentioned repos.",
+    images: [absoluteUrl("/og-card.png")],
   },
 };
 
@@ -61,7 +65,9 @@ function formatAgeFromIso(iso: string): string {
 
 function formatClock(iso: string | undefined): string {
   if (!iso) return "warming";
-  return new Date(iso).toISOString().slice(11, 19);
+  const parsed = Date.parse(iso);
+  if (!Number.isFinite(parsed)) return "warming";
+  return new Date(parsed).toISOString().slice(11, 19);
 }
 
 export default async function DevtoPage() {
@@ -150,19 +156,22 @@ export default async function DevtoPage() {
         }
         listEyebrow="Article feed · 24h / 7d / 30d window · repo leaderboard"
         list={
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-6">
-            <section>
-              <WindowedArticlesFeed
-                allArticles={trendingFile.articles}
-                fetchedAt={trendingFile.fetchedAt}
-              />
-            </section>
-            <aside className="hidden md:block">
-              <Leaderboard
-                entries={leaderboard.slice(0, 15)}
-                totalRepos={reposLinked}
-              />
-            </aside>
+          <div className="space-y-4">
+            <TrendingMentionsSection source="devto" accent={DEVTO_BLUE} />
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-[1fr_320px]">
+              <section>
+                <WindowedArticlesFeed
+                  allArticles={trendingFile.articles}
+                  fetchedAt={trendingFile.fetchedAt}
+                />
+              </section>
+              <aside className="hidden md:block">
+                <Leaderboard
+                  entries={leaderboard.slice(0, 15)}
+                  totalRepos={reposLinked}
+                />
+              </aside>
+            </div>
           </div>
         }
       />
@@ -318,7 +327,7 @@ function ArticlesFeed({
               className="truncate text-[11px]"
               style={{ color: "var(--v4-ink-400)" }}
             >
-              by @{a.author.username} · {a.readingTime} min read
+              by @{a.author?.username || "unknown"} · {a.readingTime} min read
             </div>
           </div>
         </div>

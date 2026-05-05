@@ -16,6 +16,7 @@ import { toast } from "@/lib/toast";
 import { stateHash } from "@/lib/tier-list/url";
 import { buildShareToXUrl } from "@/lib/twitter/outbound/share";
 import type { TierListDraft } from "@/lib/types/tier-list";
+import { encodeUtf8Base64Url } from "@/lib/tier-list/base64url";
 
 interface CreateResponse {
   ok: boolean;
@@ -280,11 +281,5 @@ function encodeUnsavedState(draft: TierListDraft): string {
     published: false,
   };
   if (typeof window === "undefined") return "";
-  const json = JSON.stringify(stateLike);
-  const utf8 = unescape(encodeURIComponent(json));
-  return window
-    .btoa(utf8)
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
+  return encodeUtf8Base64Url(JSON.stringify(stateLike));
 }

@@ -1,7 +1,6 @@
 name: Cron - weekly digest email
 
-# Fires POST /api/cron/digest/weekly every Monday at 08:00 UTC — start-of-
-# week inbox slot when users are most likely to triage. Mirrors the
+# Fires POST /api/cron/digest/weekly every Friday at 14:00 UTC. Mirrors the
 # vercel.json registration; if both schedulers are live they will double-
 # fire, which is safe (the route is idempotent over the 7d window) but
 # wastes quota. If you want a single primary, disable EITHER this file
@@ -19,7 +18,7 @@ name: Cron - weekly digest email
 
 on:
   schedule:
-    - cron: "0 8 * * 1" # UTC, Monday 08:00
+    - cron: "0 14 * * 5" # UTC, Friday 14:00
   workflow_dispatch:
     inputs:
       dryRun:

@@ -21,6 +21,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import type { Repo } from "@/lib/types";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
+import { respondWithSizeGuard } from "@/lib/api/response-size";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { refreshTrendingFromStore } from "@/lib/trending";
 import { refreshRecentReposFromStore } from "@/lib/recent-repos";
@@ -138,7 +139,7 @@ function buildLegacyResponse(
   total: number,
   query: SearchQuery,
 ): NextResponse {
-  return NextResponse.json(
+  return respondWithSizeGuard(
     {
       results,
       meta: {
@@ -147,7 +148,11 @@ function buildLegacyResponse(
         limit: query.limit,
       },
     },
-    { headers: READ_CACHE_HEADERS },
+    {
+      headers: READ_CACHE_HEADERS,
+      route: "/api/search",
+      arrayKeys: ["results"],
+    },
   );
 }
 
@@ -251,7 +256,7 @@ export async function GET(request: NextRequest) {
       )
     : null;
 
-  return NextResponse.json(
+  return respondWithSizeGuard(
     {
       ok: true,
       fetchedAt: new Date().toISOString(),
@@ -262,6 +267,10 @@ export async function GET(request: NextRequest) {
       results,
       facets,
     },
-    { headers: READ_CACHE_HEADERS },
+    {
+      headers: READ_CACHE_HEADERS,
+      route: "/api/search",
+      arrayKeys: ["results"],
+    },
   );
 }

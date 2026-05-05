@@ -1,0 +1,184 @@
+{
+  "issue": "AGN-596",
+  "base": "http://localhost:3023",
+  "checkedAt": "2026-05-04T15:17:12.873Z",
+  "routes": [
+    "/",
+    "/signals",
+    "/skills",
+    "/mcp",
+    "/twitter",
+    "/breakouts",
+    "/top10",
+    "/compare",
+    "/funding",
+    "/revenue"
+  ],
+  "results": [
+    {
+      "route": "/",
+      "navStatus": 500,
+      "navOk": false,
+      "title": "",
+      "bodyChars": 0,
+      "h1Count": 0,
+      "sidebarVisible": true,
+      "consoleErrorCount": 2,
+      "requestFailCount": 0,
+      "sampleConsoleError": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "sampleRequestFail": null,
+      "durationMs": 4177,
+      "error": null
+    },
+    {
+      "route": "/signals",
+      "navStatus": null,
+      "navOk": false,
+      "title": null,
+      "bodyChars": 0,
+      "h1Count": 0,
+      "sidebarVisible": false,
+      "consoleErrorCount": 1,
+      "requestFailCount": 0,
+      "sampleConsoleError": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "sampleRequestFail": null,
+      "durationMs": 78,
+      "error": "page.goto: net::ERR_ABORTED at http://localhost:3023/signals\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3023/signals\", waiting until \"domcontentloaded\"\u001b[22m\n"
+    },
+    {
+      "route": "/skills",
+      "navStatus": null,
+      "navOk": false,
+      "title": "Loading http://localhost:3023/skills",
+      "bodyChars": 6644,
+      "h1Count": 0,
+      "sidebarVisible": false,
+      "consoleErrorCount": 12,
+      "requestFailCount": 7,
+      "sampleConsoleError": "./src/app/layout.tsx\nError:   x `ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.\n    ,-[C:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER\\src\\app\\layout.tsx:41:1]\n 38 |     import \"@/components/terminal/terminal-pages.css\";\n 39 |     import \"@/components/categories/categories.css\";\n 40 |     \n 41 | ,-> const PostHogProviderDeferred = dynamic(\n 42 | |     () =>\n 43 | |       import(\"@/components/providers/PostHogProvider\").then(\n 44 | |         (mod) => mod.PostHogProvider,\n 45 | |       ),\n 46 | |     { ssr: false },\n 47 | `-> );\n 48 |     \n 49 |     const BrowserAlertBridgeDeferred = dynamic(\n 50 |       () =>\n    `----\n  x `ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.\n    ,-[C:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER\\src\\app\\layout.tsx:49:1]\n 46 |       { ssr: false },\n 47 |     );\n 48 |     \n 49 | ,-> const BrowserAlertBridgeDeferred = dynamic(\n 50 | |     () =>\n 51 | |       import(\"@/components/alerts/BrowserAlertBridge\").then(\n 52 | |         (mod) => mod.BrowserAlertBridge,\n 53 | |       ),\n 54 | |     { ssr: false },\n 55 | `-> );\n 56 |     \n 57 |     const BrowserTabLiveCounterDeferred = dynamic(\n 58 |       () =>\n    `----\n  x `ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.\n    ,-[C:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER\\src\\app\\layout.tsx:57:1]\n 54 |       { ssr: false },\n 55 |     );\n 56 |     \n 57 | ,-> const BrowserTabLiveCounterDeferred = dynamic(\n 58 | |     () =>\n 59 | |       import(\"@/components/layout/BrowserTabLiveCounter\").then(\n 60 | |         (mod) => mod.BrowserTabLiveCounter,\n 61 | |       ),\n 62 | |     { ssr: false },\n 63 | `-> );\n 64 |     \n 65 |     const geist = Geist({\n 65 |       variable: \"--font-geist\",\r\n    `----\n\nImport trace for requested module:\n./src/app/layout.tsx",
+      "sampleRequestFail": {
+        "url": "http://localhost:3023/signals",
+        "errorText": "net::ERR_ABORTED"
+      },
+      "durationMs": 4623,
+      "error": null
+    },
+    {
+      "route": "/mcp",
+      "navStatus": 500,
+      "navOk": false,
+      "title": "",
+      "bodyChars": 0,
+      "h1Count": 0,
+      "sidebarVisible": true,
+      "consoleErrorCount": 2,
+      "requestFailCount": 1,
+      "sampleConsoleError": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "sampleRequestFail": {
+        "url": "http://localhost:3023/_next/static/chunks/fallback/main.js",
+        "errorText": "net::ERR_ABORTED"
+      },
+      "durationMs": 2754,
+      "error": null
+    },
+    {
+      "route": "/twitter",
+      "navStatus": null,
+      "navOk": false,
+      "title": null,
+      "bodyChars": 0,
+      "h1Count": 0,
+      "sidebarVisible": false,
+      "consoleErrorCount": 1,
+      "requestFailCount": 0,
+      "sampleConsoleError": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "sampleRequestFail": null,
+      "durationMs": 64,
+      "error": "page.goto: net::ERR_ABORTED at http://localhost:3023/twitter\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3023/twitter\", waiting until \"domcontentloaded\"\u001b[22m\n"
+    },
+    {
+      "route": "/breakouts",
+      "navStatus": null,
+      "navOk": false,
+      "title": "",
+      "bodyChars": 0,
+      "h1Count": 0,
+      "sidebarVisible": true,
+      "consoleErrorCount": 6,
+      "requestFailCount": 5,
+      "sampleConsoleError": "./src/app/layout.tsx\nError:   x `ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.\n    ,-[C:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER\\src\\app\\layout.tsx:42:1]\n 39 |     import \"@/components/terminal/terminal-pages.css\";\n 40 |     import \"@/components/categories/categories.css\";\n 41 |     \n 42 | ,-> const PostHogProviderDeferred = dynamic(\n 43 | |     () =>\n 44 | |       import(\"@/components/providers/PostHogProvider\").then(\n 45 | |         (mod) => mod.PostHogProvider,\n 46 | |       ),\n 47 | |     { ssr: false },\n 48 | `-> );\n 49 |     \n 50 |     const BrowserAlertBridgeDeferred = dynamic(\n 51 |       () =>\n    `----\n  x `ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.\n    ,-[C:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER\\src\\app\\layout.tsx:50:1]\n 47 |       { ssr: false },\n 48 |     );\n 49 |     \n 50 | ,-> const BrowserAlertBridgeDeferred = dynamic(\n 51 | |     () =>\n 52 | |       import(\"@/components/alerts/BrowserAlertBridge\").then(\n 53 | |         (mod) => mod.BrowserAlertBridge,\n 54 | |       ),\n 55 | |     { ssr: false },\n 56 | `-> );\n 57 |     \n 58 |     const BrowserTabLiveCounterDeferred = dynamic(\n 59 |       () =>\n    `----\n  x `ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.\n    ,-[C:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER\\src\\app\\layout.tsx:58:1]\n 55 |       { ssr: false },\n 56 |     );\n 57 |     \n 58 | ,-> const BrowserTabLiveCounterDeferred = dynamic(\n 59 | |     () =>\n 60 | |       import(\"@/components/layout/BrowserTabLiveCounter\").then(\n 61 | |         (mod) => mod.BrowserTabLiveCounter,\n 62 | |       ),\n 63 | |     { ssr: false },\n 64 | `-> );\n 65 |     \n 66 |     const geist = Geist({\n 66 |       variable: \"--font-geist\",\r\n    `----\n\nImport trace for requested module:\n./src/app/layout.tsx",
+      "sampleRequestFail": {
+        "url": "http://localhost:3023/twitter",
+        "errorText": "net::ERR_ABORTED"
+      },
+      "durationMs": 4087,
+      "error": null
+    },
+    {
+      "route": "/top10",
+      "navStatus": null,
+      "navOk": false,
+      "title": null,
+      "bodyChars": 0,
+      "h1Count": 0,
+      "sidebarVisible": false,
+      "consoleErrorCount": 1,
+      "requestFailCount": 0,
+      "sampleConsoleError": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "sampleRequestFail": null,
+      "durationMs": 54,
+      "error": "page.goto: net::ERR_ABORTED at http://localhost:3023/top10\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3023/top10\", waiting until \"domcontentloaded\"\u001b[22m\n"
+    },
+    {
+      "route": "/compare",
+      "navStatus": null,
+      "navOk": false,
+      "title": "",
+      "bodyChars": 0,
+      "h1Count": 0,
+      "sidebarVisible": true,
+      "consoleErrorCount": 6,
+      "requestFailCount": 5,
+      "sampleConsoleError": "./src/app/layout.tsx\nError:   x `ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.\n    ,-[C:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER\\src\\app\\layout.tsx:42:1]\n 39 |     import \"@/components/terminal/terminal-pages.css\";\n 40 |     import \"@/components/categories/categories.css\";\n 41 |     \n 42 | ,-> const PostHogProviderDeferred = dynamic(\n 43 | |     () =>\n 44 | |       import(\"@/components/providers/PostHogProvider\").then(\n 45 | |         (mod) => mod.PostHogProvider,\n 46 | |       ),\n 47 | |     { ssr: false },\n 48 | `-> );\n 49 |     \n 50 |     const BrowserAlertBridgeDeferred = dynamic(\n 51 |       () =>\n    `----\n  x `ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.\n    ,-[C:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER\\src\\app\\layout.tsx:50:1]\n 47 |       { ssr: false },\n 48 |     );\n 49 |     \n 50 | ,-> const BrowserAlertBridgeDeferred = dynamic(\n 51 | |     () =>\n 52 | |       import(\"@/components/alerts/BrowserAlertBridge\").then(\n 53 | |         (mod) => mod.BrowserAlertBridge,\n 54 | |       ),\n 55 | |     { ssr: false },\n 56 | `-> );\n 57 |     \n 58 |     const BrowserTabLiveCounterDeferred = dynamic(\n 59 |       () =>\n    `----\n  x `ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.\n    ,-[C:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER\\src\\app\\layout.tsx:58:1]\n 55 |       { ssr: false },\n 56 |     );\n 57 |     \n 58 | ,-> const BrowserTabLiveCounterDeferred = dynamic(\n 59 | |     () =>\n 60 | |       import(\"@/components/layout/BrowserTabLiveCounter\").then(\n 61 | |         (mod) => mod.BrowserTabLiveCounter,\n 62 | |       ),\n 63 | |     { ssr: false },\n 64 | `-> );\n 65 |     \n 66 |     const geist = Geist({\n 66 |       variable: \"--font-geist\",\r\n    `----\n\nImport trace for requested module:\n./src/app/layout.tsx",
+      "sampleRequestFail": {
+        "url": "http://localhost:3023/top10",
+        "errorText": "net::ERR_ABORTED"
+      },
+      "durationMs": 9143,
+      "error": null
+    },
+    {
+      "route": "/funding",
+      "navStatus": null,
+      "navOk": false,
+      "title": null,
+      "bodyChars": 0,
+      "h1Count": 0,
+      "sidebarVisible": false,
+      "consoleErrorCount": 1,
+      "requestFailCount": 0,
+      "sampleConsoleError": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "sampleRequestFail": null,
+      "durationMs": 79,
+      "error": "page.goto: net::ERR_ABORTED at http://localhost:3023/funding\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3023/funding\", waiting until \"domcontentloaded\"\u001b[22m\n"
+    },
+    {
+      "route": "/revenue",
+      "navStatus": null,
+      "navOk": false,
+      "title": "",
+      "bodyChars": 0,
+      "h1Count": 0,
+      "sidebarVisible": true,
+      "consoleErrorCount": 6,
+      "requestFailCount": 5,
+      "sampleConsoleError": "./src/app/layout.tsx\nError:   x `ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.\n    ,-[C:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER\\src\\app\\layout.tsx:42:1]\n 39 |     import \"@/components/terminal/terminal-pages.css\";\n 40 |     import \"@/components/categories/categories.css\";\n 41 |     \n 42 | ,-> const PostHogProviderDeferred = dynamic(\n 43 | |     () =>\n 44 | |       import(\"@/components/providers/PostHogProvider\").then(\n 45 | |         (mod) => mod.PostHogProvider,\n 46 | |       ),\n 47 | |     { ssr: false },\n 48 | `-> );\n 49 |     \n 50 |     const BrowserAlertBridgeDeferred = dynamic(\n 51 |       () =>\n    `----\n  x `ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.\n    ,-[C:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER\\src\\app\\layout.tsx:50:1]\n 47 |       { ssr: false },\n 48 |     );\n 49 |     \n 50 | ,-> const BrowserAlertBridgeDeferred = dynamic(\n 51 | |     () =>\n 52 | |       import(\"@/components/alerts/BrowserAlertBridge\").then(\n 53 | |         (mod) => mod.BrowserAlertBridge,\n 54 | |       ),\n 55 | |     { ssr: false },\n 56 | `-> );\n 57 |     \n 58 |     const BrowserTabLiveCounterDeferred = dynamic(\n 59 |       () =>\n    `----\n  x `ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.\n    ,-[C:\\Users\\mirko\\OneDrive\\Desktop\\STARSCREENER\\src\\app\\layout.tsx:58:1]\n 55 |       { ssr: false },\n 56 |     );\n 57 |     \n 58 | ,-> const BrowserTabLiveCounterDeferred = dynamic(\n 59 | |     () =>\n 60 | |       import(\"@/components/layout/BrowserTabLiveCounter\").then(\n 61 | |         (mod) => mod.BrowserTabLiveCounter,\n 62 | |       ),\n 63 | |     { ssr: false },\n 64 | `-> );\n 65 |     \n 66 |     const geist = Geist({\n 66 |       variable: \"--font-geist\",\r\n    `----\n\nImport trace for requested module:\n./src/app/layout.tsx",
+      "sampleRequestFail": {
+        "url": "http://localhost:3023/funding",
+        "errorText": "net::ERR_ABORTED"
+      },
+      "durationMs": 8936,
+      "error": null
+    }
+  ]
+}

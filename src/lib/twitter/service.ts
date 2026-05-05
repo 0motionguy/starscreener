@@ -44,9 +44,11 @@ import type {
   TwitterRepoSignal,
   TwitterScanCandidate,
   TwitterScanRecord,
+  TwitterTopMentioner,
 } from "./types";
 
 const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
+const SEVEN_DAYS_MS = 7 * TWENTY_FOUR_HOURS_MS;
 const SCAN_REFRESH_HOURS = 6;
 
 const QUERY_RATIONALES: Record<TwitterQueryType, string> = {
@@ -292,6 +294,32 @@ function getFallbackTwitterAvatarUrl(authorHandle: string): string | null {
   return handle ? `https://unavatar.io/twitter/${encodeURIComponent(handle)}` : null;
 }
 
+function normalizeTwitterAvatarUrl(
+  avatarUrl: string | null | undefined,
+  authorHandle: string,
+): string | null {
+  const fallback = getFallbackTwitterAvatarUrl(authorHandle);
+  const raw = avatarUrl?.trim();
+  if (!raw) return fallback;
+  try {
+    const parsed = new URL(raw);
+    // Legacy scans wrote nitter-hosted avatar URLs which are now unreliable
+    // and frequently broken. Keep only stable/allowed avatar hosts.
+    if (parsed.protocol !== "https:") return fallback;
+    const host = parsed.hostname.toLowerCase();
+    if (host === "unavatar.io" || host === "pbs.twimg.com" || host.endsWith(".twimg.com")) {
+      return raw;
+    }
+    if (host === "x.com" || host === "twitter.com" || host.endsWith(".x.com") || host.endsWith(".twitter.com")) {
+      return raw;
+    }
+    if (host === "nitter.net" || host.includes("nitter")) return fallback;
+    return raw;
+  } catch {
+    return fallback;
+  }
+}
+
 function normalizeIngestRequest(payload: TwitterIngestRequest): TwitterIngestRequest {
   const agent: TwitterAgentDescriptor = {
     name: payload.agent.name.trim(),
@@ -425,7 +453,10 @@ function buildTopMentionAuthorsFromPosts(
 
     authors.set(authorKey, {
       authorHandle,
-      avatarUrl: post.authorAvatarUrl ?? getFallbackTwitterAvatarUrl(authorHandle),
+      avatarUrl: normalizeTwitterAvatarUrl(
+        post.authorAvatarUrl,
+        authorHandle,
+      ),
       profileUrl: getTwitterProfileUrl(authorHandle),
       postUrl: post.postUrl,
       engagement: engagementForTwitterPost(post),
@@ -452,7 +483,10 @@ function buildTopMentionAuthorsFromPreviews(
 
     authors.set(authorKey, {
       authorHandle,
-      avatarUrl: preview.authorAvatarUrl ?? getFallbackTwitterAvatarUrl(authorHandle),
+      avatarUrl: normalizeTwitterAvatarUrl(
+        preview.authorAvatarUrl,
+        authorHandle,
+      ),
       profileUrl: getTwitterProfileUrl(authorHandle),
       postUrl: preview.postUrl,
       engagement: preview.engagement,
@@ -469,8 +503,10 @@ function hydrateMentionAuthorAvatars(
 ): TwitterMentionAuthorBubble[] {
   return authors.map((author) => ({
     ...author,
-    avatarUrl:
-      author.avatarUrl ?? getFallbackTwitterAvatarUrl(author.authorHandle),
+    avatarUrl: normalizeTwitterAvatarUrl(
+      author.avatarUrl,
+      author.authorHandle,
+    ),
   }));
 }
 
@@ -1074,6 +1110,74 @@ export async function getTwitterOverviewStats(): Promise<TwitterOverviewStats> {
     topRepoFullName,
     topRepoScore,
   };
+}
+
+export async function getTwitterTopMentioners7d(
+  limit = 10,
+): Promise<TwitterTopMentioner[]> {
+  await ensureTwitterReady();
+  const nowMs = Date.now();
+  const windowStartMs = nowMs - SEVEN_DAYS_MS;
+  const scans = twitterStore.listScans();
+  const mentioners = new Map<string, TwitterTopMentioner>();
+  const topPostEngagementByAuthor = new Map<string, number>();
+
+  for (const scan of scans) {
+    for (const post of scan.posts) {
+      const postedMs = Date.parse(post.postedAt);
+      if (!Number.isFinite(postedMs) || postedMs < windowStartMs || postedMs > nowMs) {
+        continue;
+      }
+
+      const authorHandle = post.authorHandle.trim().replace(/^@+/, "");
+      if (!authorHandle) continue;
+      const authorKey = authorHandle.toLowerCase();
+      const engagement = engagementForTwitterPost(post);
+
+      const existing = mentioners.get(authorKey);
+      if (!existing) {
+        mentioners.set(authorKey, {
+          authorHandle,
+          avatarUrl: normalizeTwitterAvatarUrl(post.authorAvatarUrl, authorHandle),
+          profileUrl: getTwitterProfileUrl(authorHandle),
+          mentionCount7d: 1,
+          engagement7d: engagement,
+          topPostUrl: post.postUrl,
+          topRepoFullName: scan.repo.githubFullName,
+          lastPostedAt: post.postedAt,
+        });
+        topPostEngagementByAuthor.set(authorKey, engagement);
+        continue;
+      }
+
+      existing.mentionCount7d += 1;
+      existing.engagement7d += engagement;
+
+      const existingLastMs = existing.lastPostedAt ? Date.parse(existing.lastPostedAt) : Number.NaN;
+      if (!Number.isFinite(existingLastMs) || postedMs > existingLastMs) {
+        existing.lastPostedAt = post.postedAt;
+      }
+
+      const topPostEngagement = topPostEngagementByAuthor.get(authorKey) ?? Number.NEGATIVE_INFINITY;
+      if (engagement > topPostEngagement) {
+        existing.topPostUrl = post.postUrl;
+        existing.topRepoFullName = scan.repo.githubFullName;
+        topPostEngagementByAuthor.set(authorKey, engagement);
+      }
+    }
+  }
+
+  return Array.from(mentioners.values())
+    .sort((a, b) => {
+      if (b.mentionCount7d !== a.mentionCount7d) {
+        return b.mentionCount7d - a.mentionCount7d;
+      }
+      if (b.engagement7d !== a.engagement7d) {
+        return b.engagement7d - a.engagement7d;
+      }
+      return a.authorHandle.localeCompare(b.authorHandle);
+    })
+    .slice(0, Math.max(0, limit));
 }
 
 export { buildTwitterQueryBundle };

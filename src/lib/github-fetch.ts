@@ -50,6 +50,8 @@ import {
   quarantineKey,
   recordGithubCall,
 } from "./pool/github-telemetry";
+import { recordRateLimitSample } from "./rate-limit-headroom";
+import { getTrustedOpsAlertWebhookUrl } from "./security/trusted-url";
 
 const GITHUB_API = "https://api.github.com";
 const DEFAULT_TIMEOUT_MS = 15_000;
@@ -199,8 +201,19 @@ export async function githubFetch(
     clearTimeout(timer);
 
     const headerLimits = parseRateLimitHeaders(res.headers);
+    const rateLimitLimit = Number.parseInt(
+      res.headers.get("x-ratelimit-limit") ?? "",
+      10,
+    );
     if (token && headerLimits) {
       pool.recordRateLimit(token, headerLimits.remaining, headerLimits.resetUnixSec);
+    }
+    if (headerLimits && Number.isFinite(rateLimitLimit) && rateLimitLimit > 0) {
+      void recordRateLimitSample({
+        source: "github",
+        remaining: headerLimits.remaining,
+        limit: rateLimitLimit,
+      });
     }
     await recordGithubCall({
       keyFingerprint: githubKeyFingerprint(token),
@@ -361,11 +374,12 @@ async function alertOps(
   event: string,
   metadata: Record<string, unknown>,
 ): Promise<void> {
-  const url = process.env.OPS_ALERT_WEBHOOK?.trim();
+  const configured = process.env.OPS_ALERT_WEBHOOK;
+  const url = getTrustedOpsAlertWebhookUrl(configured);
   if (!url) {
     const blocked = new OpsAlertFatalError(
-      "ops alert blocked: OPS_ALERT_WEBHOOK missing",
-      { event, source: "github", metadata },
+      "ops alert blocked: OPS_ALERT_WEBHOOK missing or untrusted",
+      { event, source: "github", metadata, configured: configured ? "present" : "missing" },
     );
     sentryCaptureException(blocked, {
       level: "error",

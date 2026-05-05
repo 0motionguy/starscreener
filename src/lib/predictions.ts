@@ -28,7 +28,7 @@ import type { Repo } from "@/lib/types";
 // modelVersion so a baseline change doesn't pollute historical accuracy.
 export const PREDICTION_MODEL_VERSION = "v1-velocity-extrapolation";
 
-export const PREDICTION_HORIZONS = [7, 30, 90] as const;
+export const PREDICTION_HORIZONS = [1, 7, 30, 90] as const;
 export type PredictionHorizonDays = (typeof PREDICTION_HORIZONS)[number];
 
 export function isPredictionHorizon(

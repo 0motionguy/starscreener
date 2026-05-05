@@ -1,55 +1,54 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-1533 CORS posture refresh for public APIs (2026-05-05)
 
 ## Scope
 - Issue: `AGN-1533` (`[Sprint 1 audit] Platform Security CORS posture refresh for public APIs`)
-- Owner lane: Platform Security
-- Surfaces touched (public API mutation guard hardening):
-  - `src/app/api/auth/session/route.ts`
-  - `src/app/api/export/csv/route.ts`
-  - `src/app/api/repo-submissions/route.ts`
-  - `src/app/api/repos/[owner]/[name]/aiso/route.ts`
+- Public API audit focus: `/api/*` preflight behavior and over-broad origin exposure.
 
-## Mandatory opening + freshness gate
-- Opened required docs in order: `CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`.
-- Ran `npm run freshness:check` on `2026-05-05`:
-  - Result: `freshness-check: local server not reachable at http://localhost:3023 ... (ECONNREFUSED)`
-  - Verdict: localhost missing; product stale/unreachable for local runtime probes.
+## Mandatory opener + freshness
+- Mandatory docs re-opened in this heartbeat.
+- `npm run freshness:check` result: request timed out contacting `http://localhost:3023`.
+- Verdict: localhost is stale/unreachable from this runner.
 
-## Runtime verification (production)
+## Live production probes (2026-05-05)
 Commands:
 - `curl -i -X OPTIONS https://trendingrepo.com/api/repos -H "Origin: https://evil.example" -H "Access-Control-Request-Method: GET"`
 - `curl -i -X OPTIONS https://trendingrepo.com/api/stream -H "Origin: https://evil.example" -H "Access-Control-Request-Method: GET"`
 - `curl -i -X OPTIONS https://trendingrepo.com/portal -H "Origin: https://evil.example" -H "Access-Control-Request-Method: GET"`
 
 Observed:
-- `/api/repos`: `204`, no `Access-Control-Allow-Origin` header (default deny posture).
-- `/api/stream`: `204`, no `Access-Control-Allow-Origin` header (default deny posture).
-- `/portal`: `204` with `Access-Control-Allow-Origin: *` (runtime drift vs repo allow-list posture from AGN-1509 evidence).
+- `/api/repos`: `204` with no `Access-Control-Allow-Origin` (default deny posture).
+- `/api/stream`: `204` with no `Access-Control-Allow-Origin` (default deny posture).
+- `/portal`: `204` with `Access-Control-Allow-Origin: *` (over-broad wildcard).
 
-## Security hardening applied (this heartbeat)
-Added explicit same-origin mutation denial (`enforceMutationSameOrigin`) to public POST handlers that are abuse-relevant or cookie-auth sensitive:
+## Repo hardening already applied in this issue
+Added `enforceMutationSameOrigin` to these POST routes:
+- `src/app/api/auth/session/route.ts`
+- `src/app/api/export/csv/route.ts`
+- `src/app/api/repo-submissions/route.ts`
+- `src/app/api/repos/[owner]/[name]/aiso/route.ts`
 
-1. `src/app/api/auth/session/route.ts`
-   - `POST /api/auth/session` now rejects cross-origin mutation with 403 `ORIGIN_DENIED` before issuing/rotating session cookie.
+## Findings vs acceptance goals
+- Sampled public routes and captured CORS methods/headers: complete.
+- Flagged over-broad origin risk: `/portal` wildcard ACAO remains present in production.
+- Compared live behavior to documented/repo posture: mismatch persists on `/portal`.
+- Patch-safe tightening recommendation: keep `/api/*` default deny posture; for `/portal`, enforce explicit allow-list response only (no wildcard), then verify with repeated OPTIONS probes.
 
-2. `src/app/api/export/csv/route.ts`
-   - `POST /api/export/csv` now rejects cross-origin mutation with 403 `ORIGIN_DENIED` before auth/entitlement + export work.
+## Chain-of-command escalation (fresh)
+- Blocker: production `/portal` runtime still emits wildcard ACAO and diverges from intended allow-list posture.
+- Unblock owner: CTO + deploy owner/platform.
+- Unblock action: verify deployed artifact/headers path for `/portal` OPTIONS, remove wildcard ACAO behavior, then post fresh curl evidence proving deny/allow-list behavior.
 
-3. `src/app/api/repo-submissions/route.ts`
-   - `POST /api/repo-submissions` now rejects cross-origin mutation with 403 `ORIGIN_DENIED` before rate-limit and Turnstile flow.
-
-4. `src/app/api/repos/[owner]/[name]/aiso/route.ts`
-   - `POST /api/repos/[owner]/[name]/aiso` now rejects cross-origin mutation with 403 `ORIGIN_DENIED` before queue write/rate-limit path.
-
-## Verification commands after patch
-- `npm run typecheck` -> **FAIL (pre-existing unrelated workspace errors)**
-  - Includes existing failures in `src/app/api/webhooks/stripe/route.ts`, `src/app/arxiv/trending/page.ts`, compare-share tests, and others not touched by this patch.
-- `npm run lint:guards` -> **FAIL (pre-existing unrelated guard failures)**
-  - `lint:zod-routes` fails on:
-    - `src/app/api/cron/github-pool-budget/route.ts`
-    - `src/app/api/cron/subdomain-takeover/route.ts`
-
-## Result
-- Public `/api/*` CORS deny-by-default posture remains intact.
-- Cross-site POST initiation surface has been reduced on four public endpoints by enforcing same-origin checks with explicit 403 denial.
-- `/portal` production wildcard CORS drift remains an open deploy/runtime mismatch and should stay tracked separately from this `/api/*` hardening delta.
+## Retry pass (re-queue, 2026-05-05T03:44Z)
+- Board-triggered retry executed.
+- `npm run freshness:check` still times out contacting `http://localhost:3023`.
+- Production probes unchanged:
+  - `/api/repos` preflight: `204`, no ACAO.
+  - `/api/stream` preflight: `204`, no ACAO.
+  - `/portal` preflight: `204`, `Access-Control-Allow-Origin: *` still present.
+- Conclusion: blocker remains external to this issue's in-repo patch surface.

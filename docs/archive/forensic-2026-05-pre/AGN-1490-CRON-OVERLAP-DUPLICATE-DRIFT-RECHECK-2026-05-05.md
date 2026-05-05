@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-1490 [Sprint 1 audit] Release/SRE cron overlap and duplicate trigger drift recheck (2026-05-05)
 
 ## Mandatory opening + freshness preflight (this heartbeat)

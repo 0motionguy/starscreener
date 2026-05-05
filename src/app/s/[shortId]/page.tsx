@@ -4,6 +4,7 @@
 // Reads `compare-share/{shortId}` from Redis via the global data-store.
 // 404s on bad slug shape or unknown id; never throws.
 
+import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
 import { isShortId } from "@/lib/compare/short-id";
@@ -11,6 +12,11 @@ import { getDataStore } from "@/lib/data-store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+// Redirect helper — must not be indexed and must not advertise a canonical.
+export const metadata: Metadata = {
+  robots: { index: false, follow: false, noarchive: true },
+};
 
 interface CompareSharePayload {
   shortId: string;

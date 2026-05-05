@@ -1,0 +1,206 @@
+name: Release - CDN Purge + Targeted Refresh
+
+on:
+  deployment_status:
+  workflow_run:
+    workflows:
+      - Refresh fast discovery
+      - Collect Twitter signals
+    types:
+      - completed
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Override base URL (default: vars.TRENDINGREPO_URL or trendingrepo.com)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  deployments: read
+
+concurrency:
+  group: release-cdn-purge-and-targeted-refresh
+  cancel-in-progress: false
+
+env:
+  BASE_URL: ${{ inputs.base_url || vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+
+jobs:
+  refresh:
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event_name == 'deployment_status' &&
+        github.event.deployment_status.state == 'success' &&
+        github.event.deployment.environment == 'production'
+      ) ||
+      (
+        github.event_name == 'workflow_run' &&
+        github.event.workflow_run.conclusion == 'success'
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Determine target deployment URL
+        id: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          deploy_url=""
+          if [ "${GITHUB_EVENT_NAME}" = "deployment_status" ]; then
+            deploy_url="$(jq -r '.deployment_status.target_url // empty' "$GITHUB_EVENT_PATH")"
+          fi
+          if [ -z "$deploy_url" ]; then
+            deploy_url="$BASE_URL"
+          fi
+          echo "url=$deploy_url" >> "$GITHUB_OUTPUT"
+          echo "target_url=$deploy_url" >> "$GITHUB_ENV"
+
+      - name: Verify health + freshness auth path
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${CRON_SECRET:-}" ]; then
+            echo "::error::CRON_SECRET is missing. Cannot verify protected freshness route."
+            exit 1
+          fi
+
+          code_health="$(curl -sS -o /tmp/health.json -w "%{http_code}" "${target_url}/api/health?soft=1")"
+          echo "health_http=${code_health}" >> "$GITHUB_ENV"
+          if [ "$code_health" != "200" ]; then
+            echo "::error::/api/health?soft=1 returned HTTP ${code_health}"
+            head -c 1200 /tmp/health.json || true
+            exit 1
+          fi
+
+          code_state="$(curl -sS -o /tmp/freshness.json -w "%{http_code}" \
+            -H "Authorization: Bearer ${CRON_SECRET}" \
+            "${target_url}/api/cron/freshness/state")"
+          echo "freshness_http=${code_state}" >> "$GITHUB_ENV"
+          if [ "$code_state" != "200" ]; then
+            echo "::error::/api/cron/freshness/state returned HTTP ${code_state}"
+            head -c 1200 /tmp/freshness.json || true
+            exit 1
+          fi
+
+      - name: Targeted cache refresh warm pass
+        shell: bash
+        run: |
+          set -euo pipefail
+          stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+          cat > /tmp/release-refresh-targets.txt <<'EOF'
+          /
+          /breakouts
+          /top10
+          /api/pipeline/sidebar-data
+          /api/collections
+          /api/categories
+          /api/twitter/leaderboard
+          EOF
+
+          while IFS= read -r path; do
+            [ -z "$path" ] && continue
+            url="${target_url}${path}?release_refresh=${stamp}"
+            code="$(curl -sS -o /tmp/resp.out -w "%{http_code}" "$url")"
+            echo "${path} -> ${code}"
+            if [ "$code" -lt "200" ] || [ "$code" -ge "500" ]; then
+              echo "::error::Target ${path} failed with HTTP ${code}"
+              head -c 800 /tmp/resp.out || true
+              exit 1
+            fi
+          done < /tmp/release-refresh-targets.txt
+
+      - name: Purge critical static/cache surfaces
+        shell: bash
+        run: |
+          set -euo pipefail
+          stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+          cat > /tmp/release-purge-targets.txt <<'EOF'
+          /robots.txt
+          /sitemap.xml
+          /og/home
+          /og/top10
+          /og/mindshare
+          EOF
+
+          while IFS= read -r path; do
+            [ -z "$path" ] && continue
+            url="${target_url}${path}?cdn_purge=${stamp}"
+            code="$(curl -sS -o /tmp/purge.out -w "%{http_code}" "$url")"
+            echo "${path} -> ${code}"
+            if [ "$code" -lt "200" ] || [ "$code" -ge "500" ]; then
+              echo "::error::Purge target ${path} failed with HTTP ${code}"
+              head -c 800 /tmp/purge.out || true
+              exit 1
+            fi
+          done < /tmp/release-purge-targets.txt
+
+      - name: Targeted /api/repos top-50 refresh
+        shell: bash
+        run: |
+          set -euo pipefail
+          stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+          code="$(curl -sS -o /tmp/repos.json -w "%{http_code}" "${target_url}/api/repos?limit=50&release_refresh=${stamp}")"
+          if [ "$code" != "200" ]; then
+            echo "::error::/api/repos top-50 seed failed with HTTP ${code}"
+            head -c 800 /tmp/repos.json || true
+            exit 1
+          fi
+
+          jq -r '
+            [
+              (.repos // [] | .[] | .fullName?),
+              (.items // [] | .[] | .fullName?),
+              (.data // [] | .[] | .fullName?)
+            ]
+            | flatten
+            | map(select(type == "string" and test("^[^/]+/[^/]+$")))
+            | unique
+            | .[:50]
+            | .[]
+          ' /tmp/repos.json > /tmp/repos.top50.txt
+
+          if [ ! -s /tmp/repos.top50.txt ]; then
+            echo "::warning::No repo fullName entries found in /api/repos payload; skipping repo path refresh."
+            exit 0
+          fi
+
+          while IFS= read -r full; do
+            [ -z "$full" ] && continue
+            owner="${full%%/*}"
+            repo="${full##*/}"
+            url="${target_url}/repo/${owner}/${repo}?release_refresh=${stamp}"
+            code="$(curl -sS -o /tmp/repo.out -w "%{http_code}" "$url")"
+            echo "/repo/${owner}/${repo} -> ${code}"
+            if [ "$code" -lt "200" ] || [ "$code" -ge "500" ]; then
+              echo "::error::Repo refresh failed for ${full} with HTTP ${code}"
+              head -c 500 /tmp/repo.out || true
+              exit 1
+            fi
+          done < /tmp/repos.top50.txt
+
+      - name: Release validation summary
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo "## Release CDN Purge + Targeted Refresh"
+            echo
+            echo "- Trigger: \`${GITHUB_EVENT_NAME}\`"
+            if [ "${GITHUB_EVENT_NAME}" = "workflow_run" ]; then
+              echo "- Source workflow: \`${{ github.event.workflow_run.name }}\`"
+              echo "- Source run: \`${{ github.event.workflow_run.html_url }}\`"
+            fi
+            echo "- Target URL: \`${target_url}\`"
+            echo "- health_http: \`${health_http}\`"
+            echo "- freshness_http: \`${freshness_http}\`"
+            echo "- Time (UTC): \`$(date -u +%Y-%m-%dT%H:%M:%SZ)\`"
+            echo
+            echo "### Rollback Path"
+            echo "1. Roll back to the previous production deployment in Vercel."
+            echo "2. Re-run this workflow via \`workflow_dispatch\` against the rollback URL."
+            echo "3. If freshness still fails, classify as data/cron drift (not deploy regression)."
+          } >> "$GITHUB_STEP_SUMMARY"

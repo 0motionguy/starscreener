@@ -1,5 +1,19 @@
 import { redis } from "@/lib/redis";
 import { createHash } from "node:crypto";
+import { redactSensitiveText } from "@/lib/log-redaction";
+
+const DEFAULT_GITHUB_POOL_NAMESPACE = "prod";
+
+function githubPoolNamespace(): string {
+  const raw =
+    process.env.GITHUB_POOL_NAMESPACE ??
+    process.env.GITHUB_POOL_TELEMETRY_NAMESPACE ??
+    DEFAULT_GITHUB_POOL_NAMESPACE;
+  const trimmed = raw.trim().toLowerCase();
+  if (!trimmed) return DEFAULT_GITHUB_POOL_NAMESPACE;
+  const safe = trimmed.replace(/[^a-z0-9_-]/g, "-").replace(/-+/g, "-");
+  return safe || DEFAULT_GITHUB_POOL_NAMESPACE;
+}
 
 export type GithubQuarantineReason =
   | "rate_limit"
@@ -28,7 +42,7 @@ export async function recordGithubCall(
   params: GithubCallTelemetry,
 ): Promise<void> {
   const hourBucket = new Date().toISOString().slice(0, 13).replace("T", "-");
-  const usageKey = `pool:github:usage:${params.keyFingerprint}:${hourBucket}`;
+  const usageKey = `pool:github:usage:${githubPoolNamespace()}:${params.keyFingerprint}:${hourBucket}`;
 
   try {
     await redis.hincrby(usageKey, "requests", 1);
@@ -60,7 +74,7 @@ export async function quarantineKey(params: {
   reason: GithubQuarantineReason;
   untilTimestamp: number;
 }): Promise<void> {
-  const key = `pool:github:quarantine:${params.keyFingerprint}`;
+  const key = `pool:github:quarantine:${githubPoolNamespace()}:${params.keyFingerprint}`;
   try {
     await redis.set(key, JSON.stringify(params), "EXAT", params.untilTimestamp);
   } catch (err) {
@@ -71,7 +85,7 @@ export async function quarantineKey(params: {
 export async function isKeyQuarantined(
   keyFingerprint: string,
 ): Promise<boolean> {
-  const key = `pool:github:quarantine:${keyFingerprint}`;
+  const key = `pool:github:quarantine:${githubPoolNamespace()}:${keyFingerprint}`;
   try {
     const value = await redis.get(key);
     return value !== null;
@@ -86,7 +100,9 @@ let warned = false;
 function warnTelemetryFailure(op: string, err: unknown): void {
   if (warned) return;
   warned = true;
-  const message = err instanceof Error ? err.message : String(err);
+  const message = redactSensitiveText(
+    err instanceof Error ? err.message : String(err),
+  );
   console.warn(`[github-telemetry] ${op} failed: ${message}`);
 }
 

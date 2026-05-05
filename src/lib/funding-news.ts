@@ -66,6 +66,30 @@ function normalizeFile(input: unknown): FundingNewsFile {
   };
 }
 
+function isValidIsoTimestamp(value: string): boolean {
+  const t = Date.parse(value);
+  return Number.isFinite(t);
+}
+
+function shouldAcceptStorePayload(
+  next: FundingNewsFile,
+  current: FundingNewsFile,
+): boolean {
+  // Reject obviously broken payloads that would blank /funding.
+  if (!isValidIsoTimestamp(next.fetchedAt) || next.fetchedAt.startsWith("1970-")) {
+    return false;
+  }
+
+  // Never let an empty store payload blank /funding when we already have a
+  // non-empty snapshot (from file or a previous good store read). This keeps
+  // transient scraper/writer regressions from presenting a dead funding page.
+  if (next.signals.length === 0 && current.signals.length > 0) {
+    return false;
+  }
+
+  return true;
+}
+
 function loadCache(): FundingNewsCache {
   const signature = getFileSignature(FUNDING_NEWS_PATH);
   if (cache && cache.signature === signature) return cache;
@@ -168,11 +192,14 @@ export async function refreshFundingNewsFromStore(): Promise<RefreshResult> {
       const result = await store.read<unknown>("funding-news");
       if (result.data && result.source !== "missing") {
         const next = normalizeFile(result.data);
-        // Swap the cache. Use a synthetic signature so loadCache() returns
-        // this entry until either (a) the on-disk file mtime changes — in
-        // which case loadCache() rebuilds from disk — or (b) the next
-        // refresh swaps in another Redis payload.
-        cache = { signature: `redis:${result.writtenAt ?? Date.now()}`, file: next };
+        const current = loadCache().file;
+        if (shouldAcceptStorePayload(next, current)) {
+          // Swap the cache. Use a synthetic signature so loadCache() returns
+          // this entry until either (a) the on-disk file mtime changes — in
+          // which case loadCache() rebuilds from disk — or (b) the next
+          // refresh swaps in another Redis payload.
+          cache = { signature: `redis:${result.writtenAt ?? Date.now()}`, file: next };
+        }
       }
       lastRefreshMs = Date.now();
       return { source: result.source, ageMs: result.ageMs };

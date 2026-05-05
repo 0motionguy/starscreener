@@ -21,7 +21,7 @@ name: Audit - source freshness
 
 on:
   schedule:
-    - cron: "0 * * * *"  # UTC, every hour on the hour
+    - cron: "8 * * * *"  # UTC, every hour at :08 (staggered off :00 burst)
   workflow_dispatch: {}
 
 permissions:

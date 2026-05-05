@@ -34,7 +34,7 @@ import {
   readJsonlFile,
   writeJsonlFile,
 } from "./file-persistence";
-import { normalizeUrl } from "../adapters/normalizer";
+import { canonicalizeUrl } from "@/lib/mention-dedupe";
 
 // ---------------------------------------------------------------------------
 // Shared mutation hook — singleton layer wires this up to debounce persists.
@@ -532,7 +532,10 @@ export class InMemoryMentionStore implements MentionStore {
     // `null` that an adapter may have set to record "url was unparseable".
     let incoming: RepoMention = mention;
     if (!("normalizedUrl" in mention) && mention.url) {
-      incoming = { ...mention, normalizedUrl: normalizeUrl(mention.url) };
+      incoming = { ...mention, normalizedUrl: canonicalizeUrl(mention.url) };
+    }
+    if (!incoming.sourcePlatforms || incoming.sourcePlatforms.length === 0) {
+      incoming = { ...incoming, sourcePlatforms: [incoming.platform] };
     }
 
     const existing = this.byRepo.get(incoming.repoId) ?? [];
@@ -569,13 +572,26 @@ export class InMemoryMentionStore implements MentionStore {
     }
 
     if (incoming.normalizedUrl) {
-      const urlDup = existing.find(
+      const urlDupIndex = existing.findIndex(
         (m) => m.normalizedUrl && m.normalizedUrl === incoming.normalizedUrl,
       );
-      if (urlDup) {
-        // Different id, same canonical URL → cross-source duplicate. Skip.
-        // First write wins; if adapters need to update metadata (engagement,
-        // reach) they must flow through a dedicated update path, not append.
+      if (urlDupIndex >= 0) {
+        const urlDup = existing[urlDupIndex];
+        const mergedPlatforms = Array.from(
+          new Set([
+            ...(urlDup.sourcePlatforms?.length
+              ? urlDup.sourcePlatforms
+              : [urlDup.platform]),
+            ...(incoming.sourcePlatforms?.length
+              ? incoming.sourcePlatforms
+              : [incoming.platform]),
+          ]),
+        );
+        const next = existing.slice();
+        next[urlDupIndex] = { ...urlDup, sourcePlatforms: mergedPlatforms };
+        this.byRepo.set(incoming.repoId, next);
+        this.markDirty();
+        notifyMutation();
         return;
       }
     }

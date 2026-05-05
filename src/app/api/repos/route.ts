@@ -4,6 +4,7 @@ import type { TrendFilter, TrendWindow } from "@/lib/pipeline/types";
 import { slugToId } from "@/lib/utils";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
 import { errorEnvelope } from "@/lib/api/error-response";
+import { respondWithSizeGuard } from "@/lib/api/response-size";
 import { isHotRepo, trendScoreForTimeRange } from "@/lib/filters";
 import {
   getDerivedRepoById,
@@ -153,7 +154,7 @@ export async function GET(request: NextRequest) {
       if (repo) repos.push(repo);
       else missing.push(rawIds[i]);
     }
-    return NextResponse.json(
+    return respondWithSizeGuard(
       {
         repos,
         meta: {
@@ -162,7 +163,11 @@ export async function GET(request: NextRequest) {
           missing,
         },
       },
-      { headers: READ_CACHE_HEADERS },
+      {
+        route: "/api/repos",
+        arrayKeys: ["repos"],
+        headers: READ_CACHE_HEADERS,
+      },
     );
   }
 
@@ -250,7 +255,7 @@ export async function GET(request: NextRequest) {
   // Paginate
   const page = sorted.slice(offset, offset + limit);
 
-  return NextResponse.json(
+  return respondWithSizeGuard(
     {
       repos: page,
       meta: {
@@ -261,6 +266,10 @@ export async function GET(request: NextRequest) {
         filter: filterParam,
       },
     },
-    { headers: READ_CACHE_HEADERS },
+    {
+      route: "/api/repos",
+      arrayKeys: ["repos"],
+      headers: READ_CACHE_HEADERS,
+    },
   );
 }

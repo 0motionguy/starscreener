@@ -192,9 +192,22 @@ describe("RelatedRepoCard", () => {
     );
     expect(getByText("TYPESCRIPT").className).toBe("v4-related-card__lang");
     expect(container.querySelector(".v4-related-card__stars")?.textContent).toBe(
-      "★ 22.2K",
+      "22.2K",
     );
     expect(getByText("SIM 0.86").className).toBe("v4-related-card__why");
+  });
+
+  it("renders mentions badge and 24h delta when provided", () => {
+    const { getByText } = render(
+      <RelatedRepoCard
+        fullName="x/y"
+        mentions24h={42}
+        delta24h={128}
+      />,
+    );
+    expect(getByText("x 42").className).toBe("v4-related-card__mentions");
+    expect(getByText("+128 24H").className).toContain("v4-related-card__delta");
+    expect(getByText("+128 24H").className).toContain("is-up");
   });
 
   it("renders as <a> when href is provided", () => {

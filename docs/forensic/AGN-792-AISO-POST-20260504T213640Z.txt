@@ -1,0 +1,24 @@
+HTTP/1.1 429 Too Many Requests
+Access-Control-Allow-Headers: accept, content-type, x-aiso-source, x-aiso-project, x-aiso-project-url
+Access-Control-Allow-Methods: GET, POST, OPTIONS
+Access-Control-Allow-Origin: *
+Access-Control-Max-Age: 86400
+Cache-Control: public, max-age=0, must-revalidate
+Content-Type: application/json
+Date: Mon, 04 May 2026 21:36:41 GMT
+Permissions-Policy: camera=(), microphone=(), geolocation=()
+Referrer-Policy: strict-origin-when-cross-origin
+Retry-After: 67823
+Server: Vercel
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+Vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+X-Brand: aiso
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-Matched-Path: /api/scan
+X-Vercel-Cache: MISS
+X-Vercel-Enable-Rewrite-Caching: 1
+X-Vercel-Id: sin1::sin1::j4w85-1777930601175-4afb092ea548
+Transfer-Encoding: chunked
+
+{"error":"rate_limited_ip","retryAfterSeconds":67823}

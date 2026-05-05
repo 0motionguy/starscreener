@@ -20,6 +20,7 @@
 // shared per-file lock.
 
 import { NextRequest, NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { rotateUsage } from "@/lib/mcp/usage";
@@ -55,6 +56,10 @@ export async function POST(request: NextRequest) {
     );
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
+    Sentry.captureException(err, {
+      tags: { route: "api:cron:mcp:rotate-usage" },
+      extra: { retentionDays: RETENTION_DAYS },
+    });
     console.error("[api:cron:mcp:rotate-usage] failed", err);
     return NextResponse.json(
       { ok: false as const, error: message, durationMs: Date.now() - started },

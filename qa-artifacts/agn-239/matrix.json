@@ -1,0 +1,271 @@
+{
+  "generatedAt": "2026-05-04T17:01:34.853Z",
+  "base": "https://trendingrepo.com",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "rows": [
+    {
+      "route": "/",
+      "viewport": 390,
+      "scrollW": 399,
+      "overflowPx": 9,
+      "pageLevelOverflow": true,
+      "primary": {
+        "selector": "",
+        "overPx": 685.53,
+        "width": 1062.53,
+        "tag": "TABLE",
+        "cls": "tbl tbl-rich tbl-live"
+      },
+      "offenders": [
+        {
+          "selector": "",
+          "overPx": 685.53,
+          "width": 1062.53,
+          "tag": "TABLE",
+          "cls": "tbl tbl-rich tbl-live"
+        },
+        {
+          "selector": "",
+          "overPx": 685.53,
+          "width": 1062.53,
+          "tag": "THEAD",
+          "cls": ""
+        },
+        {
+          "selector": "",
+          "overPx": 685.53,
+          "width": 1062.53,
+          "tag": "TR",
+          "cls": ""
+        },
+        {
+          "selector": "",
+          "overPx": 685.53,
+          "width": 76,
+          "tag": "TH",
+          "cls": "actions-h"
+        },
+        {
+          "selector": "",
+          "overPx": 685.53,
+          "width": 1062.53,
+          "tag": "TBODY",
+          "cls": ""
+        },
+        {
+          "selector": "",
+          "overPx": 685.53,
+          "width": 1062.53,
+          "tag": "TR",
+          "cls": "live-row"
+        },
+        {
+          "selector": "",
+          "overPx": 685.53,
+          "width": 76,
+          "tag": "TD",
+          "cls": "actions"
+        },
+        {
+          "selector": "",
+          "overPx": 685.53,
+          "width": 1062.53,
+          "tag": "TR",
+          "cls": "live-row"
+        }
+      ],
+      "status": 200,
+      "screenshot": "qa-artifacts/agn-239/home-390.png",
+      "error": null
+    },
+    {
+      "route": "/signals",
+      "viewport": 390,
+      "scrollW": 390,
+      "overflowPx": 0,
+      "pageLevelOverflow": false,
+      "primary": {
+        "selector": "main.signals-page > div:nth-of-type(10) > div:nth-of-type(2) > div.signals-ticker-track > span:nth-of-type(48)",
+        "overPx": 18468.74,
+        "width": 414.77,
+        "tag": "SPAN",
+        "cls": ""
+      },
+      "offenders": [
+        {
+          "selector": "main.signals-page > div:nth-of-type(10) > div:nth-of-type(2) > div.signals-ticker-track > span:nth-of-type(48)",
+          "overPx": 18468.74,
+          "width": 414.77,
+          "tag": "SPAN",
+          "cls": ""
+        },
+        {
+          "selector": "div:nth-of-type(10) > div:nth-of-type(2) > div.signals-ticker-track > span:nth-of-type(48) > em",
+          "overPx": 18468.74,
+          "width": 26.06,
+          "tag": "EM",
+          "cls": ""
+        },
+        {
+          "selector": "div:nth-of-type(10) > div:nth-of-type(2) > div.signals-ticker-track > span:nth-of-type(48) > span",
+          "overPx": 18436.68,
+          "width": 344.02,
+          "tag": "SPAN",
+          "cls": ""
+        },
+        {
+          "selector": "div:nth-of-type(10) > div:nth-of-type(2) > div.signals-ticker-track > span:nth-of-type(48) > b",
+          "overPx": 18086.66,
+          "width": 21.69,
+          "tag": "B",
+          "cls": ""
+        },
+        {
+          "selector": "div:nth-of-type(10) > div:nth-of-type(2) > div.signals-ticker-track > span:nth-of-type(48) > i",
+          "overPx": 18058.97,
+          "width": 5,
+          "tag": "I",
+          "cls": ""
+        },
+        {
+          "selector": "main.signals-page > div:nth-of-type(10) > div:nth-of-type(2) > div.signals-ticker-track > span:nth-of-type(47)",
+          "overPx": 18029.97,
+          "width": 325.81,
+          "tag": "SPAN",
+          "cls": ""
+        },
+        {
+          "selector": "div:nth-of-type(10) > div:nth-of-type(2) > div.signals-ticker-track > span:nth-of-type(47) > em",
+          "overPx": 18029.97,
+          "width": 26.06,
+          "tag": "EM",
+          "cls": ""
+        },
+        {
+          "selector": "div:nth-of-type(10) > div:nth-of-type(2) > div.signals-ticker-track > span:nth-of-type(47) > span",
+          "overPx": 17997.91,
+          "width": 255.06,
+          "tag": "SPAN",
+          "cls": ""
+        }
+      ],
+      "status": 200,
+      "screenshot": "qa-artifacts/agn-239/signals-390.png",
+      "error": null
+    },
+    {
+      "route": "/twitter",
+      "viewport": 390,
+      "scrollW": 390,
+      "overflowPx": 0,
+      "pageLevelOverflow": false,
+      "primary": null,
+      "offenders": [],
+      "status": 200,
+      "screenshot": "qa-artifacts/agn-239/twitter-390.png",
+      "error": null
+    },
+    {
+      "route": "/skills",
+      "viewport": 390,
+      "scrollW": 390,
+      "overflowPx": 0,
+      "pageLevelOverflow": false,
+      "primary": {
+        "selector": "main#main-content > main.home-surface > div.live-top:nth-of-type(4) > div.table-scroll:nth-of-type(2) > table.tbl.tbl-rich.tbl-live",
+        "overPx": 743.44,
+        "width": 1121.44,
+        "tag": "TABLE",
+        "cls": "tbl tbl-rich tbl-live tbl-skills"
+      },
+      "offenders": [
+        {
+          "selector": "main#main-content > main.home-surface > div.live-top:nth-of-type(4) > div.table-scroll:nth-of-type(2) > table.tbl.tbl-rich.tbl-live",
+          "overPx": 743.44,
+          "width": 1121.44,
+          "tag": "TABLE",
+          "cls": "tbl tbl-rich tbl-live tbl-skills"
+        },
+        {
+          "selector": "main.home-surface > div.live-top:nth-of-type(4) > div.table-scroll:nth-of-type(2) > table.tbl.tbl-rich.tbl-live > thead",
+          "overPx": 743.44,
+          "width": 1121.44,
+          "tag": "THEAD",
+          "cls": ""
+        },
+        {
+          "selector": "div.live-top:nth-of-type(4) > div.table-scroll:nth-of-type(2) > table.tbl.tbl-rich.tbl-live > thead > tr",
+          "overPx": 743.44,
+          "width": 1121.44,
+          "tag": "TR",
+          "cls": ""
+        },
+        {
+          "selector": "div.table-scroll:nth-of-type(2) > table.tbl.tbl-rich.tbl-live > thead > tr > th.actions-h:nth-of-type(12)",
+          "overPx": 743.44,
+          "width": 76,
+          "tag": "TH",
+          "cls": "actions-h"
+        },
+        {
+          "selector": "main.home-surface > div.live-top:nth-of-type(4) > div.table-scroll:nth-of-type(2) > table.tbl.tbl-rich.tbl-live > tbody",
+          "overPx": 743.44,
+          "width": 1121.44,
+          "tag": "TBODY",
+          "cls": ""
+        },
+        {
+          "selector": "div.live-top:nth-of-type(4) > div.table-scroll:nth-of-type(2) > table.tbl.tbl-rich.tbl-live > tbody > tr.live-row:nth-of-type(1)",
+          "overPx": 743.44,
+          "width": 1121.44,
+          "tag": "TR",
+          "cls": "live-row"
+        },
+        {
+          "selector": "div.table-scroll:nth-of-type(2) > table.tbl.tbl-rich.tbl-live > tbody > tr.live-row:nth-of-type(1) > td.actions:nth-of-type(12)",
+          "overPx": 743.44,
+          "width": 76,
+          "tag": "TD",
+          "cls": "actions"
+        },
+        {
+          "selector": "div.live-top:nth-of-type(4) > div.table-scroll:nth-of-type(2) > table.tbl.tbl-rich.tbl-live > tbody > tr.live-row:nth-of-type(2)",
+          "overPx": 743.44,
+          "width": 1121.44,
+          "tag": "TR",
+          "cls": "live-row"
+        }
+      ],
+      "status": 200,
+      "screenshot": "qa-artifacts/agn-239/skills-390.png",
+      "error": null
+    },
+    {
+      "route": "/compare",
+      "viewport": 390,
+      "scrollW": 390,
+      "overflowPx": 0,
+      "pageLevelOverflow": false,
+      "primary": null,
+      "offenders": [],
+      "status": 200,
+      "screenshot": "qa-artifacts/agn-239/compare-390.png",
+      "error": null
+    },
+    {
+      "route": "/top10",
+      "viewport": 390,
+      "scrollW": 390,
+      "overflowPx": 0,
+      "pageLevelOverflow": false,
+      "primary": null,
+      "offenders": [],
+      "status": 200,
+      "screenshot": "qa-artifacts/agn-239/top10-390.png",
+      "error": null
+    }
+  ]
+}

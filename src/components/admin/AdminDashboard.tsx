@@ -85,6 +85,14 @@ interface Overview {
     repoMetadataCount: number;
     repoMetadataSourceCount: number;
   };
+  autocompletion: {
+    totalRepos: number;
+    tickedOff: number;
+    completionRatio: number;
+    deltaThisWeek: number;
+    checklistMtime: string | null;
+    linkedIssue: "AGN-561";
+  } | null;
 }
 
 // `provider` tells the operator at a glance whether this source uses an
@@ -145,6 +153,11 @@ function fmtWhen(iso: string | null): string {
   return new Date(iso).toISOString().slice(0, 16).replace("T", " ") + "Z";
 }
 
+function fmtPct(ratio: number): string {
+  if (!Number.isFinite(ratio)) return "0.0%";
+  return `${(ratio * 100).toFixed(1)}%`;
+}
+
 function statusColor(status: ScannerStatus): CSSProperties {
   if (status === "ok") {
     return {
@@ -200,7 +213,12 @@ export function AdminDashboard() {
         cache: "no-store",
       });
       if (res.status === 401) {
-        router.push("/admin/login?next=/admin");
+        const nextUrl = "/admin/login?next=/admin";
+        router.replace(nextUrl);
+        if (typeof window !== "undefined") {
+          window.location.replace(nextUrl);
+        }
+        setError("unauthorized");
         return;
       }
       const data = await res.json();
@@ -360,6 +378,20 @@ export function AdminDashboard() {
                 >
                   /admin/unknown-mentions
                 </Link>
+                <Link
+                  href="/admin/sources"
+                  className="underline"
+                  style={{ color: "var(--v2-ink-300)" }}
+                >
+                  /admin/sources
+                </Link>
+                <Link
+                  href="/admin/observability"
+                  className="underline"
+                  style={{ color: "var(--v2-ink-300)" }}
+                >
+                  /admin/observability
+                </Link>
               </div>
             </div>
 
@@ -413,6 +445,18 @@ export function AdminDashboard() {
                 label="Last scraper tick"
                 value={fmtWhen(overview.stats.lastFetchedAt)}
               />
+              {overview.autocompletion ? (
+                <StatTile
+                  label={`AISO completion (${overview.autocompletion.linkedIssue})`}
+                  value={`${overview.autocompletion.tickedOff}/${overview.autocompletion.totalRepos} · ${fmtPct(overview.autocompletion.completionRatio)} · +${overview.autocompletion.deltaThisWeek} 7d`}
+                  subValue={`mtime ${fmtWhen(overview.autocompletion.checklistMtime)}`}
+                />
+              ) : (
+                <StatTile
+                  label="AISO completion (AGN-561)"
+                  value="checklist unavailable"
+                />
+              )}
             </section>
 
             {/* GitHub rate limit · stale signals · disk usage */}
@@ -1065,7 +1109,20 @@ export function AdminDashboard() {
           </>
         ) : loading ? (
           <p className="text-sm text-text-tertiary">Loading…</p>
-        ) : null}
+        ) : (
+          <div
+            className="v2-mono mb-4 px-3 py-2"
+            style={{
+              fontSize: 11,
+              color: "var(--v2-sig-red)",
+              border: "1px solid var(--v2-sig-red)",
+              borderRadius: 2,
+              background: "var(--v2-sig-red-soft)",
+            }}
+          >
+            {"// ERROR · unauthorized · redirecting to /admin/login"}
+          </div>
+        )}
       </div>
     </main>
   );
@@ -1074,18 +1131,35 @@ export function AdminDashboard() {
 function StatTile({
   label,
   value,
+  subValue,
+  href,
 }: {
   label: string;
   value: string | number;
+  subValue?: string;
+  href?: string;
 }) {
-  return (
+  const body = (
     <div className="v2-card p-3">
       <div className="text-[10px] uppercase tracking-wider text-text-tertiary">
         {label}
       </div>
       <div className="mt-1 text-base font-semibold">{value}</div>
+      {subValue ? (
+        <div className="mt-1 text-[10px] uppercase tracking-wider text-text-tertiary">
+          {subValue}
+        </div>
+      ) : null}
     </div>
   );
+  if (href) {
+    return (
+      <Link href={href} className="block">
+        {body}
+      </Link>
+    );
+  }
+  return body;
 }
 
 export default AdminDashboard;

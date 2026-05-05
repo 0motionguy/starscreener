@@ -291,7 +291,7 @@ export function MentionRow({ item: m }: { item: MentionItem }) {
                 {m.secondary.label}
               </span>
             )}
-            <span>{getRelativeTime(m.createdAt)}</span>
+            <span>Updated {getRelativeTime(m.createdAt)}</span>
             {m.matchReason && (
               <span className="hidden md:inline text-text-tertiary/80">
                 matched: {m.matchReason}

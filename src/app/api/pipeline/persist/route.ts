@@ -18,6 +18,7 @@ import {
   isPersistenceEnabled,
 } from "@/lib/pipeline/storage/file-persistence";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { serverError } from "@/lib/api/error-response";
 
 export const runtime = "nodejs";
 
@@ -67,14 +68,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       files,
     });
   } catch (err) {
-    Sentry.captureException(err, {
-      tags: { route: "api/pipeline/persist" },
+    return serverError(err, {
+      scope: "[api/pipeline/persist]",
+      code: "PERSIST_FAILED",
+      publicMessage: "pipeline persist failed",
+      status: 500,
     });
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(
-      { ok: false, error: message },
-      { status: 500 },
-    );
   }
 }
 

@@ -54,7 +54,7 @@ const ASPECT_DIMENSIONS = {
   yt: { width: 1280, height: 720 },  // YouTube thumbnail 16:9
 } as const;
 
-const CACHE_HEADER = "public, s-maxage=300, stale-while-revalidate=3600";
+const CACHE_HEADER = "public, s-maxage=3600, stale-while-revalidate=3600";
 
 type AspectKey = keyof typeof ASPECT_DIMENSIONS;
 

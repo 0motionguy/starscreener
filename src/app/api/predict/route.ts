@@ -1,11 +1,11 @@
-// GET /api/predict?repo=<owner/name>&horizon=7|30|90
+// GET /api/predict?repo=<owner/name>&horizon=1|7|30|90
 //
 // Returns a transparent forecast for the repo's star count at +N days.
 // Public read — predictions are derived from already-public data.
 // Optional `horizon` defaults to 30. Multiple horizons can be requested
 // at once via repeated `horizon` params:
 //
-//   /api/predict?repo=vercel/next.js&horizon=7&horizon=30&horizon=90
+//   /api/predict?repo=vercel/next.js&horizon=1&horizon=7&horizon=30
 //
 // The model is described in src/lib/predictions.ts; the inputs snapshot
 // is included in every response so consumers (UI, agent tools, future

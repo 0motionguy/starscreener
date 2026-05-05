@@ -24,6 +24,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
+import { serverError } from "@/lib/api/error-response";
 
 export const runtime = "nodejs";
 
@@ -119,10 +120,11 @@ export async function POST(
       durationMs: summary.durationMs,
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(
-      { ok: false, error: message },
-      { status: 500 },
-    );
+    return serverError<RefreshErrorResponse>(err, {
+      scope: "[api/pipeline/refresh:POST]",
+      publicMessage: "server error",
+      code: "PIPELINE_REFRESH_FAILED",
+      status: 500,
+    });
   }
 }

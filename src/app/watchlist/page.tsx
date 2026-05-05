@@ -26,6 +26,7 @@ import { formatNumber, getRelativeTime } from "@/lib/utils";
 import {
   toastAlertDeleted,
   toastAlertError,
+  toastAlertMarkedRead,
 } from "@/lib/toast";
 
 import { ProfileTemplate } from "@/components/templates/ProfileTemplate";
@@ -36,6 +37,7 @@ import { RelatedRepoCard } from "@/components/repo-detail/RelatedRepoCard";
 import { AlertTriggerCard } from "@/components/alerts/AlertTriggerCard";
 import { AlertEventRow } from "@/components/alerts/AlertEventRow";
 import { BrowserAlertToggle } from "@/components/watchlist/BrowserAlertToggle";
+import { BrandStar } from "@/components/shared/BrandStar";
 
 // Shared fetch options for per-user endpoints — same shape as AlertConfig.
 const USER_FETCH_INIT: RequestInit = {
@@ -209,8 +211,12 @@ export default function WatchlistPage() {
       });
       const data = (await res.json().catch(() => ({ ok: false }))) as {
         ok: boolean;
+        error?: string;
       };
-      if (!res.ok || !data.ok) return;
+      if (!res.ok || !data.ok) {
+        toastAlertError(data.error ?? "failed to mark alert as read");
+        return;
+      }
       setEvents((prev) =>
         prev.map((e) =>
           e.id === event.id
@@ -218,8 +224,10 @@ export default function WatchlistPage() {
             : e,
         ),
       );
+      toastAlertMarkedRead();
     } catch (err) {
-      console.error("[watchlist] markRead failed", err);
+      const msg = err instanceof Error ? err.message : String(err);
+      toastAlertError(msg);
     }
   }, []);
 
@@ -351,7 +359,12 @@ export default function WatchlistPage() {
                       <span style={{ color: "var(--v4-acc)" }}>
                         {mostActive.fullName}
                       </span>{" "}
-                      ({formatNumber(mostActive.stars)} ★)
+                      (
+                      <span className="inline-flex items-center gap-1">
+                        {formatNumber(mostActive.stars)}
+                        <BrandStar size={10} />
+                      </span>
+                      )
                     </>
                   ) : null}
                   {reposFiringThisWeek > 0 ? (
@@ -439,6 +452,8 @@ export default function WatchlistPage() {
                     key={item.repoId}
                     fullName={repo.fullName}
                     description={repo.description ?? undefined}
+                    mentions24h={repo.mentionCount24h}
+                    delta24h={repo.starsDelta24h}
                     language={
                       repo.language
                         ? repo.language.toUpperCase()
@@ -634,21 +649,28 @@ function EmptyTrackedState() {
       </p>
       <Link
         href="/"
+        data-testid="watchlist-empty-branded-cta"
         style={{
-          display: "inline-block",
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
           fontFamily: "var(--font-geist-mono), monospace",
           fontSize: 11,
-          padding: "6px 12px",
-          border: "1px solid var(--v4-line-300)",
+          fontWeight: 700,
+          padding: "8px 14px",
+          border: "1px solid #F59E0B",
           borderRadius: 2,
-          color: "var(--v4-ink-100)",
-          background: "var(--v4-bg-050)",
+          color: "#1A1202",
+          background:
+            "linear-gradient(180deg, rgba(245, 158, 11, 0.98) 0%, rgba(245, 158, 11, 0.88) 100%)",
+          boxShadow:
+            "0 0 0 1px rgba(245, 158, 11, 0.28), 0 8px 18px rgba(245, 158, 11, 0.24)",
           textDecoration: "none",
           textTransform: "uppercase",
-          letterSpacing: "0.06em",
+          letterSpacing: "0.08em",
         }}
       >
-        Browse trending repos →
+        Start tracking repos →
       </Link>
     </div>
   );

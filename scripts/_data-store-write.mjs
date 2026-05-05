@@ -33,6 +33,7 @@
 
 const NAMESPACE = "ss:data:v1";
 const META_NAMESPACE = "ss:meta:v1";
+const DEFAULT_TTL_SECONDS = 86_400;
 const INVALID_KEY_LITERALS = new Set(["null", "undefined"]);
 
 let cachedClient = null;
@@ -185,6 +186,7 @@ function stampTrackedRepos(value, ts, depth = 0) {
  * @param {string} key       Slug, e.g. "trending" → ss:data:v1:trending
  * @param {unknown} value    Any JSON-serializable value
  * @param {{ ttlSeconds?: number; stampPerRecord?: boolean; writer?: string; runId?: string; commit?: string }} [opts]
+ *   ttlSeconds defaults to 86400 (24h). Set `ttlSeconds: 0` to disable TTL.
  *   stampPerRecord defaults to true; pass false to opt out for sources that
  *   manage their own per-record timestamps. Caller-supplied writer/runId/
  *   commit override the GitHub-Actions auto-detection.
@@ -215,9 +217,15 @@ export async function writeDataStore(key, value, opts = {}) {
   }
 
   const payload = JSON.stringify(value);
+  const ttlSeconds =
+    opts.ttlSeconds === 0
+      ? undefined
+      : opts.ttlSeconds && opts.ttlSeconds > 0
+        ? opts.ttlSeconds
+        : DEFAULT_TTL_SECONDS;
   const setOpts =
-    opts.ttlSeconds && opts.ttlSeconds > 0
-      ? { ex: opts.ttlSeconds }
+    ttlSeconds && ttlSeconds > 0
+      ? { ex: ttlSeconds }
       : undefined;
 
   // Build the meta value. JSON-object shape only when at least one

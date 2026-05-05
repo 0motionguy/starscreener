@@ -122,7 +122,7 @@ test("recordGithubCall writes hourly usage counters", async () => {
   });
 
   const hourBucket = new Date().toISOString().slice(0, 13).replace("T", "-");
-  const key = `pool:github:usage:abcd:${hourBucket}`;
+  const key = `pool:github:usage:prod:abcd:${hourBucket}`;
   assert.deepEqual(await fake.hgetall(key), {
     requests: "1",
     success: "1",
@@ -152,7 +152,7 @@ test("recordGithubCall increments fail counter when the call is not successful",
   });
 
   const hourBucket = new Date().toISOString().slice(0, 13).replace("T", "-");
-  const hash = await fake.hgetall(`pool:github:usage:wxyz:${hourBucket}`);
+  const hash = await fake.hgetall(`pool:github:usage:prod:wxyz:${hourBucket}`);
   assert.equal(hash.requests, "1");
   assert.equal(hash.fail, "1");
   assert.equal(hash.lastStatusCode, "503");
@@ -178,7 +178,7 @@ test("quarantineKey stores fingerprint quarantine until an absolute unix timesta
     untilTimestamp: 1_800_000_000,
   });
 
-  const key = "pool:github:quarantine:abcd";
+  const key = "pool:github:quarantine:prod:abcd";
   assert.equal(await isKeyQuarantined("abcd"), true);
   assert.equal(fake.exat.get(key), 1_800_000_000);
   assert.deepEqual(JSON.parse(fake.strings.get(key) ?? "{}"), {
@@ -212,7 +212,9 @@ test("githubFetch records usage telemetry for a successful response", async () =
   ]);
   const hourBucket = new Date().toISOString().slice(0, 13).replace("T", "-");
   const fingerprint = githubKeyFingerprint(pool.token);
-  const hash = await fake.hgetall(`pool:github:usage:${fingerprint}:${hourBucket}`);
+  const hash = await fake.hgetall(
+    `pool:github:usage:prod:${fingerprint}:${hourBucket}`,
+  );
   assert.equal(hash.requests, "1");
   assert.equal(hash.success, "1");
   assert.equal(hash.lastOperation, "rate_limit");
@@ -241,7 +243,7 @@ test("githubFetch quarantines invalid tokens by fingerprint after 401", async ()
   const fingerprint = githubKeyFingerprint(pool.token);
   assert.equal(await isKeyQuarantined(fingerprint), true);
   assert.match(
-    fake.strings.get(`pool:github:quarantine:${fingerprint}`) ?? "",
+    fake.strings.get(`pool:github:quarantine:prod:${fingerprint}`) ?? "",
     /invalid_token/,
   );
 });

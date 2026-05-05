@@ -40,11 +40,11 @@ jobs:
             echo "::error::CRON_SECRET is unset — refusing to fire unauthenticated"
             exit 1
           fi
-          code=$(curl -sS -o /tmp/out -w "%{http_code}" -X POST \
+          code=$(curl -sS --retry 2 --retry-delay 5 --max-time 330 -o /tmp/out -w "%{http_code}" -X POST \
             "$BASE_URL/api/pipeline/ingest" \
             -H "Authorization: Bearer $CRON_SECRET" \
             -H "Content-Type: application/json" \
-            -d '{}')
+            -d '{"recomputeAfter":false}')
           echo "HTTP $code"
           if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
             jq . /tmp/out | head -c 2000

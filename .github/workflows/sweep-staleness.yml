@@ -8,7 +8,7 @@ name: Sweep staleness
 
 on:
   schedule:
-    - cron: "0 2 * * *"
+    - cron: "32 2 * * *"
   workflow_dispatch:
 
 permissions:

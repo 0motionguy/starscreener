@@ -13,10 +13,13 @@ import { formatNumber } from "@/lib/utils";
 import type {
   TwitterLeaderboardRow,
   TwitterMentionAuthorBubble,
+  TwitterTopMentioner,
 } from "@/lib/twitter/types";
 import {
   getTwitterLeaderboard,
   getTwitterOverviewStats,
+  getTwitterTopMentioners7d,
+  refreshTwitterSignalsFromStore,
   getTwitterTrendingRepoLeaderboard,
 } from "@/lib/twitter";
 
@@ -26,6 +29,9 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { MarkVisited } from "@/components/layout/MarkVisited";
+import { TrendingMentionsSection } from "@/components/news/TrendingMentionsSection";
+import { absoluteUrl } from "@/lib/seo";
+import { preloadTopLcpImages } from "@/lib/lcp-preload";
 
 const X_BLUE = "var(--v4-src-x)";
 
@@ -35,7 +41,21 @@ export const metadata: Metadata = {
   title: "Trending Repos on X",
   description:
     "TrendingRepo-ranked repositories with real X/Twitter mentions in the last 24 hours.",
-  alternates: { canonical: "/twitter" },
+  alternates: { canonical: absoluteUrl("/twitter") },
+  openGraph: {
+    title: "Trending Repos on X - TrendingRepo",
+    description:
+      "TrendingRepo-ranked repositories with real X/Twitter mentions in the last 24 hours.",
+    url: absoluteUrl("/twitter"),
+    images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trending Repos on X - TrendingRepo",
+    description:
+      "TrendingRepo-ranked repositories with real X/Twitter mentions in the last 24 hours.",
+    images: [absoluteUrl("/og-card.png")],
+  },
 };
 
 type TwitterTab = "trending" | "global";
@@ -297,12 +317,16 @@ export default async function TwitterPage({
   const { tab: rawTab } = await searchParams;
   const activeTab = parseTwitterTab(rawTab);
 
-  const [trendingRows, globalRows, stats] = await Promise.all([
+  await refreshTwitterSignalsFromStore();
+
+  const [trendingRows, globalRows, topMentioners7d, stats] = await Promise.all([
     getTwitterTrendingRepoLeaderboard(200),
     getTwitterLeaderboard(200),
+    getTwitterTopMentioners7d(12),
     getTwitterOverviewStats(),
   ]);
   const rows = activeTab === "global" ? globalRows : trendingRows;
+  preloadTopLcpImages(rows.slice(0, 3).map((row) => getRepoAvatarUrl(row)));
 
   const cold = rows.length === 0;
 
@@ -409,16 +433,82 @@ export default async function TwitterPage({
         }
         list={
           <>
+            <TrendingMentionsSection source="twitter" accent="var(--v4-src-x)" />
             <TwitterTabNav
               activeTab={activeTab}
               trendingCount={trendingRows.length}
               globalCount={globalRows.length}
             />
+            <TopMentionersWeekSection mentioners={topMentioners7d} />
             <TwitterLeaderboardTable rows={rows} activeTab={activeTab} />
           </>
         }
       />
     </main>
+  );
+}
+
+function TopMentionersWeekSection({
+  mentioners,
+}: {
+  mentioners: TwitterTopMentioner[];
+}) {
+  return (
+    <section
+      className="mb-4"
+      style={{
+        border: "1px solid var(--v4-line-200)",
+        background: "var(--v4-bg-050)",
+        borderRadius: 2,
+      }}
+    >
+      <header
+        className="v2-mono flex items-center justify-between gap-2 px-3 py-2 text-[10px] uppercase tracking-[0.18em]"
+        style={{
+          borderBottom: "1px solid var(--v4-line-100)",
+          color: "var(--v4-ink-400)",
+          background: "var(--v4-bg-025)",
+        }}
+      >
+        <span>Top mentioners</span>
+        <span>7d window</span>
+      </header>
+      {mentioners.length === 0 ? (
+        <p className="px-3 py-3 text-xs" style={{ color: "var(--v4-ink-300)" }}>
+          No mentioners found in the last 7 days.
+        </p>
+      ) : (
+        <ol className="grid gap-2 p-3 sm:grid-cols-2 xl:grid-cols-3">
+          {mentioners.slice(0, 12).map((entry) => (
+            <li
+              key={entry.authorHandle}
+              className="flex min-w-0 items-center justify-between gap-2 rounded-sm border px-2 py-1.5"
+              style={{ borderColor: "var(--v4-line-100)", background: "var(--v4-bg-025)" }}
+            >
+              <div className="min-w-0">
+                <a
+                  href={entry.profileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block truncate text-xs font-medium hover:text-[color:var(--v4-acc)]"
+                  style={{ color: "var(--v4-ink-100)" }}
+                  title={`@${entry.authorHandle}`}
+                >
+                  @{entry.authorHandle}
+                </a>
+                <p className="truncate text-[10px]" style={{ color: "var(--v4-ink-400)" }}>
+                  {entry.topRepoFullName ?? "repo unknown"}
+                </p>
+              </div>
+              <div className="text-right text-[10px] tabular-nums" style={{ color: "var(--v4-ink-300)" }}>
+                <div>{formatNumber(entry.mentionCount7d)} posts</div>
+                <div>{formatNumber(entry.engagement7d)} eng</div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      )}
+    </section>
   );
 }
 
@@ -440,7 +530,7 @@ function TwitterLeaderboardTable({
     >
       <div>
         <div
-          className="v2-mono grid h-9 grid-cols-[30px_48px_minmax(0,1fr)_64px_70px] items-center gap-2 px-2 text-[10px] uppercase tracking-[0.18em] sm:grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] sm:gap-3 sm:px-3"
+          className="v2-mono grid h-9 grid-cols-[30px_48px_minmax(0,1fr)_64px_70px] items-center gap-2 px-2 text-[10px] uppercase tracking-[0.18em] md:grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] md:gap-3 md:px-3"
           style={{
             borderBottom: "1px solid var(--v4-line-100)",
             background: "var(--v4-bg-025)",
@@ -451,9 +541,9 @@ function TwitterLeaderboardTable({
           <div className="text-center">Top</div>
           <div>Repo</div>
           <div className="text-right">Mentions</div>
-          <div className="hidden text-right sm:block">Likes</div>
-          <div className="hidden text-right sm:block">Reposts</div>
-          <div className="hidden text-right sm:block">Score</div>
+          <div className="hidden text-right md:block">Likes</div>
+          <div className="hidden text-right md:block">Reposts</div>
+          <div className="hidden text-right md:block">Score</div>
           <div>Badge</div>
         </div>
         <ol>
@@ -492,7 +582,7 @@ function TwitterLeaderboardTable({
             return (
               <li
                 key={row.repoId}
-                className="v2-row group grid grid-cols-[30px_48px_minmax(0,1fr)_64px_70px] items-center gap-2 px-2 py-2 sm:grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] sm:gap-3 sm:px-3"
+                className="v2-row group grid grid-cols-[30px_48px_minmax(0,1fr)_64px_70px] items-center gap-2 px-2 py-2 md:grid-cols-[36px_56px_minmax(320px,2fr)_72px_72px_72px_72px_88px] md:gap-3 md:px-3"
                 style={{
                   borderBottom: "1px dashed var(--v4-line-100)",
                   animation:
@@ -552,7 +642,7 @@ function TwitterLeaderboardTable({
                         ) : null}
                       </>
                     ) : null}
-                    <span className="sm:hidden">
+                    <span className="md:hidden">
                       {formatNumber(row.totalLikes24h)} likes | {" "}
                       {formatNumber(row.totalReposts24h)} rts | {" "}
                       {row.finalTwitterScore.toFixed(1)} score
@@ -566,19 +656,19 @@ function TwitterLeaderboardTable({
                   {formatNumber(row.mentionCount24h)}
                 </div>
                 <div
-                  className="hidden text-right text-xs tabular-nums sm:block"
+                  className="hidden text-right text-xs tabular-nums md:block"
                   style={{ color: "var(--v4-ink-100)" }}
                 >
                   {formatNumber(row.totalLikes24h)}
                 </div>
                 <div
-                  className="hidden text-right text-xs tabular-nums sm:block"
+                  className="hidden text-right text-xs tabular-nums md:block"
                   style={{ color: "var(--v4-ink-100)" }}
                 >
                   {formatNumber(row.totalReposts24h)}
                 </div>
                 <div
-                  className="hidden text-right text-xs font-semibold tabular-nums sm:block"
+                  className="hidden text-right text-xs font-semibold tabular-nums md:block"
                   style={{ color: "var(--v4-acc)" }}
                 >
                   {row.finalTwitterScore.toFixed(1)}

@@ -1,0 +1,135 @@
+name: Source outage backfill
+
+on:
+  workflow_dispatch:
+    inputs:
+      source:
+        description: "Source slug to backfill"
+        required: true
+        type: choice
+        options:
+          - trending
+          - reddit
+          - hackernews
+          - bluesky
+          - devto
+          - lobsters
+          - producthunt
+          - npm
+          - huggingface_models
+          - huggingface_datasets
+          - huggingface_spaces
+          - arxiv
+          - funding
+          - twitter
+      dry_run:
+        description: "Dry-run only (no collector execution)"
+        required: false
+        default: "true"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: source-outage-backfill-${{ github.event.inputs.source }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Execute outage backfill runner
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN_POOL: ${{ secrets.GH_TOKEN_POOL }}
+          BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
+          DEVTO_API_KEYS: ${{ secrets.DEVTO_API_KEYS }}
+          PRODUCTHUNT_TOKEN: ${{ secrets.PRODUCTHUNT_TOKEN }}
+          PRODUCTHUNT_TOKENS: ${{ secrets.PRODUCTHUNT_TOKENS }}
+          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
+          APIFY_TWITTER_ACTOR: ${{ vars.APIFY_TWITTER_ACTOR }}
+          TWITTER_WEB_ACCOUNTS_JSON: ${{ secrets.TWITTER_WEB_ACCOUNTS_JSON }}
+          TWITTER_GRAPHQL_SEARCH_QUERY_ID: ${{ vars.TWITTER_GRAPHQL_SEARCH_QUERY_ID }}
+          TWITTER_COLLECTOR_PROVIDER: ${{ vars.TWITTER_COLLECTOR_PROVIDER || 'apify' }}
+          TWITTER_COLLECTOR_MODE: direct
+          TWITTER_COLLECTOR_LIMIT: "25"
+          TWITTER_COLLECTOR_QUERIES_PER_REPO: ${{ vars.TWITTER_COLLECTOR_QUERIES_PER_REPO || '4' }}
+          TWITTER_COLLECTOR_DRY_RUN: "false"
+          TWITTER_COLLECTOR_BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+          INTERNAL_AGENT_TOKEN: ${{ secrets.INTERNAL_AGENT_TOKEN }}
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            node scripts/source-outage-backfill.mjs --source "${{ inputs.source }}" --dry-run
+          else
+            node scripts/source-outage-backfill.mjs --source "${{ inputs.source }}"
+          fi
+
+      - name: Compute commit timestamp
+        if: inputs.dry_run != 'true'
+        id: ts
+        run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
+      - name: Commit backfill artifacts
+        if: inputs.dry_run != 'true'
+        env:
+          HUSKY: "0"
+        uses: ./.github/actions/git-commit-data
+        with:
+          message: "chore(data): outage backfill ${{ inputs.source }} ${{ steps.ts.outputs.value }}"
+          paths: |
+            .data/source-outage-backfill.jsonl
+            .data/twitter-repo-signals.jsonl
+            .data/twitter-scans.jsonl
+            .data/twitter-ingestion-audit.jsonl
+            data/_meta/twitter.json
+            data/trending.json
+            data/_meta/trending.json
+            data/reddit-all-posts.json
+            data/reddit-mentions.json
+            data/_meta/reddit.json
+            data/hackernews-repo-mentions.json
+            data/hackernews-trending.json
+            data/_meta/hackernews.json
+            data/bluesky-mentions.json
+            data/bluesky-trending.json
+            data/_meta/bluesky.json
+            data/devto-mentions.json
+            data/devto-trending.json
+            data/_meta/devto.json
+            data/lobsters-mentions.json
+            data/lobsters-trending.json
+            data/_meta/lobsters.json
+            data/producthunt-launches.json
+            data/_meta/producthunt.json
+            data/npm-packages.json
+            data/_meta/npm.json
+            data/huggingface-trending.json
+            data/huggingface-datasets.json
+            data/huggingface-spaces.json
+            data/_meta/huggingface.json
+            data/arxiv-recent.json
+            data/_meta/arxiv.json
+            data/funding-news.json
+            data/_meta/funding.json
+            data/unknown-mentions.jsonl
+

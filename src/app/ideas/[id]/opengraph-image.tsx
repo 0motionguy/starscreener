@@ -20,10 +20,17 @@ import { OG_COLORS } from "@/lib/seo";
 import { StarMark } from "@/lib/og-primitives";
 
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 export const alt = "TrendingRepo — Builder idea card";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+const IMAGE_RESPONSE_OPTIONS = {
+  ...size,
+  headers: {
+    "cache-control": "public, s-maxage=300, stale-while-revalidate=3600",
+  },
+};
 
 const TITLE_MAX = 120;
 const PITCH_MAX = 170;
@@ -42,7 +49,7 @@ export default async function IdeaOGImage({ params }: RouteParams) {
     (record.status === "published" || record.status === "shipped");
 
   if (!visible) {
-    return new ImageResponse(<NotFoundCard />, { ...size });
+    return new ImageResponse(<NotFoundCard />, IMAGE_RESPONSE_OPTIONS);
   }
 
   const idea = toPublicIdea(record);
@@ -184,7 +191,7 @@ export default async function IdeaOGImage({ params }: RouteParams) {
         </div>
       </div>
     ),
-    { ...size },
+    IMAGE_RESPONSE_OPTIONS,
   );
 }
 

@@ -12,10 +12,17 @@ import { OG_COLORS } from "@/lib/seo";
 import { Dot, StarMark } from "@/lib/og-primitives";
 
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 export const alt = "TrendingRepo — The trend map for open source";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+const IMAGE_RESPONSE_OPTIONS = {
+  ...size,
+  headers: {
+    "cache-control": "public, s-maxage=300, stale-while-revalidate=3600",
+  },
+};
 
 export default async function HomeOGImage() {
   // Read from committed trending + deltas JSON instead of the in-memory
@@ -199,7 +206,7 @@ export default async function HomeOGImage() {
         />
       </div>
     ),
-    size,
+    IMAGE_RESPONSE_OPTIONS,
   );
 }
 

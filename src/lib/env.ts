@@ -48,6 +48,9 @@ const EnvSchema = z.object({
 
   // ── Cron protection ────────────────────────────────────────────────────
   CRON_SECRET: z.string().min(16).optional(),
+  ADMIN_TOKEN: z.string().optional(),
+  ADMIN_IP_BLOCKLIST: z.string().optional(),
+  SESSION_SECRET: z.string().optional(),
 
   // ── Observability ──────────────────────────────────────────────────────
   // PostHog project API key (EU region). Consumed by

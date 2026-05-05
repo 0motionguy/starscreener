@@ -3,6 +3,7 @@ import { CATEGORIES } from "@/lib/constants";
 import { getDerivedCategoryStats } from "@/lib/derived-insights";
 import type { Category } from "@/lib/types";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
+import { respondWithSizeGuard } from "@/lib/api/response-size";
 import { refreshTrendingFromStore } from "@/lib/trending";
 import { refreshRecentReposFromStore } from "@/lib/recent-repos";
 import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
@@ -29,8 +30,12 @@ export async function GET() {
     };
   });
 
-  return NextResponse.json(
+  return respondWithSizeGuard(
     { categories },
-    { headers: READ_CACHE_HEADERS },
+    {
+      headers: READ_CACHE_HEADERS,
+      route: "/api/categories",
+      arrayKeys: ["categories"],
+    },
   );
 }

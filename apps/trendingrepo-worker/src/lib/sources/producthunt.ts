@@ -356,6 +356,16 @@ interface GhReadme {
   encoding?: string;
 }
 
+interface GhBatchRepoNode {
+  description?: string | null;
+  repositoryTopics?: { nodes?: Array<{ topic?: { name?: string } }> };
+  stargazerCount?: number;
+}
+
+interface GhBatchResponse {
+  data?: Record<string, GhBatchRepoNode | null>;
+}
+
 async function ghFetch<T>(http: HttpClient, path: string, token: string | null): Promise<T | null> {
   const url = `https://api.github.com${path}`;
   const headers: Record<string, string> = {
@@ -437,6 +447,98 @@ export async function enrichWithGithub(
     readmeSnippet,
     tags: Array.from(tags),
   };
+}
+
+const GH_GRAPHQL_URL = 'https://api.github.com/graphql';
+const GH_GRAPHQL_BATCH_SIZE = 20;
+
+function buildGhRepoBatchQuery(fullNames: string[]): {
+  query: string;
+  variables: Record<string, string>;
+} {
+  const variableDefs: string[] = [];
+  const fields: string[] = [];
+  const variables: Record<string, string> = {};
+  fullNames.forEach((fullName, i) => {
+    const [owner, repo] = fullName.split('/', 2);
+    variableDefs.push(`$owner${i}: String!`, `$name${i}: String!`);
+    variables[`owner${i}`] = owner ?? '';
+    variables[`name${i}`] = repo ?? '';
+    fields.push(`
+      r${i}: repository(owner: $owner${i}, name: $name${i}) {
+        description
+        repositoryTopics(first: 20) { nodes { topic { name } } }
+        stargazerCount
+      }`);
+  });
+  return {
+    query: `query ProductHuntRepoBatch(${variableDefs.join(', ')}) {${fields.join('\n')}\n}`,
+    variables,
+  };
+}
+
+export async function batchEnrichWithGithub(
+  http: HttpClient,
+  fullNames: string[],
+  opts: { token?: string | null } = {},
+): Promise<Map<string, GithubEnrichmentResult>> {
+  const token = opts.token ?? null;
+  const normalized = Array.from(
+    new Set(
+      fullNames
+        .map((n) => String(n ?? '').trim())
+        .filter((n) => n.includes('/')),
+    ),
+  );
+  const out = new Map<string, GithubEnrichmentResult>();
+  for (let i = 0; i < normalized.length; i += GH_GRAPHQL_BATCH_SIZE) {
+    const batch = normalized.slice(i, i + GH_GRAPHQL_BATCH_SIZE);
+    const payload = buildGhRepoBatchQuery(batch);
+    const headers: Record<string, string> = {
+      accept: 'application/vnd.github+json',
+      'content-type': 'application/json',
+      'user-agent': USER_AGENT,
+      'x-github-api-version': '2022-11-28',
+    };
+    if (token) headers.authorization = `Bearer ${token}`;
+    const { data } = await http.json<GhBatchResponse>(GH_GRAPHQL_URL, {
+      method: 'POST',
+      headers,
+      body: payload,
+      useEtagCache: false,
+      timeoutMs: 15_000,
+    });
+    const nodes = data?.data ?? {};
+    batch.forEach((fullName, idx) => {
+      const node = nodes[`r${idx}`];
+      if (!node) return;
+      const topics =
+        node.repositoryTopics?.nodes
+          ?.map((entry) => entry?.topic?.name)
+          .filter((name): name is string => typeof name === 'string' && name.length > 0) ?? [];
+      const blob = [node.description ?? '', topics.join(' ')].join(' ').toLowerCase();
+      const tags = new Set<string>();
+      for (const t of topics) {
+        const slug = String(t).toLowerCase();
+        if (slug === 'mcp' || slug === 'model-context-protocol') tags.add('mcp');
+        if (slug.includes('agent')) tags.add('agent');
+        if (slug === 'llm' || slug === 'large-language-model') tags.add('llm');
+        if (slug === 'rag') tags.add('rag');
+        if (slug.includes('chatbot')) tags.add('chatbot');
+        if (slug === 'ai' || slug === 'artificial-intelligence') tags.add('ai');
+      }
+      for (const { tag, keywords } of KEYWORD_TAGS) {
+        if (keywords.some((kw) => blob.includes(kw))) tags.add(tag);
+      }
+      out.set(fullName.toLowerCase(), {
+        stars: Number.isFinite(node.stargazerCount) ? Number(node.stargazerCount) : 0,
+        topics,
+        readmeSnippet: '',
+        tags: Array.from(tags),
+      });
+    });
+  }
+  return out;
 }
 
 /**

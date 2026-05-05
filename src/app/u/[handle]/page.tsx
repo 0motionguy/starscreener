@@ -25,7 +25,8 @@ import {
   listReactionsForObject,
 } from "@/lib/reactions";
 import type { ReactionCounts } from "@/lib/reactions-shape";
-import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { absoluteUrl, SITE_NAME, safeJsonLd } from "@/lib/seo";
+import { buildUserPersonSchema } from "@/lib/seo-user-schemas";
 import { profileLogoUrl } from "@/lib/logos";
 import {
   fetchGithubUserProfile,
@@ -125,13 +126,28 @@ export default async function UserProfilePage({
   // bare full name only.
   const topRepos = buildTopReactedRepos(profile, 6);
   const lastRefresh = getRelativeTime(new Date().toISOString());
+  const personJsonLd = buildUserPersonSchema({
+    handle,
+    name: ghProfile?.name,
+    bio: ghProfile?.bio,
+    avatarUrl: ghProfile?.avatarUrl,
+    githubProfileUrl: ghProfile?.htmlUrl,
+  });
 
   return (
-    <main className="home-surface u-handle-page">
-      <ProfileTemplate
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(personJsonLd) }}
+      />
+      <main className="home-surface u-handle-page">
+        <ProfileTemplate
         crumb={
           <>
-            <b>USER</b> · TERMINAL · /U/{handle.toUpperCase()}
+            <b>USER</b> · TERMINAL ·{" "}
+            <span style={{ overflowWrap: "anywhere", wordBreak: "break-word" }}>
+              /U/{handle.toUpperCase()}
+            </span>
           </>
         }
         identity={
@@ -226,41 +242,19 @@ export default async function UserProfilePage({
             />
             <TopRepoGrid items={topRepos} />
 
-            {profile.ideas.length > 0 ? (
-              <>
-                <SectionHead
-                  num="// 03"
-                  title="Ideas"
-                  meta={`${profile.ideas.length} POSTS`}
-                />
-                <ul
-                  style={{
-                    listStyle: "none",
-                    padding: 0,
-                    margin: 0,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 12,
-                  }}
-                >
-                  {profile.ideas.map((idea) => (
-                    <li key={idea.id}>
-                      <IdeaCard
-                        idea={idea}
-                        reactionCounts={
-                          ideaReactionCounts[idea.id] ?? {
-                            build: 0,
-                            use: 0,
-                            buy: 0,
-                            invest: 0,
-                          }
-                        }
-                      />
-                    </li>
-                  ))}
-                </ul>
-              </>
-            ) : null}
+            <SectionHead
+              num="// 03"
+              title="Ideas"
+              meta={
+                profile.ideas.length > 0
+                  ? `${profile.ideas.length} POSTS`
+                  : undefined
+              }
+            />
+            <IdeasPanel
+              ideas={profile.ideas}
+              ideaReactionCounts={ideaReactionCounts}
+            />
           </>
         }
         rightRail={
@@ -269,8 +263,9 @@ export default async function UserProfilePage({
             <LinksCard handle={handle} ghProfile={ghProfile} />
           </>
         }
-      />
-    </main>
+        />
+      </main>
+    </>
   );
 }
 
@@ -341,7 +336,12 @@ function UserIdentity({
       <div style={{ flex: 1, minWidth: 0 }}>
         <h1
           className="v4-page-head__h1"
-          style={{ marginTop: 0, marginBottom: 4 }}
+          style={{
+            marginTop: 0,
+            marginBottom: 4,
+            overflowWrap: "anywhere",
+            wordBreak: "break-word",
+          }}
         >
           {displayName ? (
             <>
@@ -621,6 +621,64 @@ function buildTopReactedRepos(profile: Profile, limit: number): TopRepoEntry[] {
   }));
 }
 
+function IdeasPanel({
+  ideas,
+  ideaReactionCounts,
+}: {
+  ideas: Profile["ideas"];
+  ideaReactionCounts: Record<string, ReactionCounts>;
+}): JSX.Element {
+  if (ideas.length === 0) {
+    return (
+      <div
+        style={{
+          padding: "32px 16px",
+          textAlign: "center",
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 11,
+          color: "var(--v4-ink-400)",
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+          border: "1px dashed var(--v4-line-200)",
+          borderRadius: 2,
+          background: "var(--v4-bg-025)",
+        }}
+      >
+        {"// NO IDEAS POSTED YET"}
+      </div>
+    );
+  }
+
+  return (
+    <ul
+      style={{
+        listStyle: "none",
+        padding: 0,
+        margin: 0,
+        display: "flex",
+        flexDirection: "column",
+        gap: 12,
+      }}
+    >
+      {ideas.map((idea) => (
+        <li key={idea.id}>
+          <IdeaCard
+            idea={idea}
+            reactionCounts={
+              ideaReactionCounts[idea.id] ?? {
+                build: 0,
+                use: 0,
+                buy: 0,
+                invest: 0,
+              }
+            }
+          />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function TopRepoGrid({ items }: { items: TopRepoEntry[] }): JSX.Element {
   if (items.length === 0) {
     return (
@@ -661,6 +719,8 @@ function TopRepoGrid({ items }: { items: TopRepoEntry[] }): JSX.Element {
             key={item.fullName}
             fullName={item.fullName}
             description={item.repo?.description ?? undefined}
+            mentions24h={item.repo?.mentionCount24h}
+            delta24h={item.repo?.starsDelta24h}
             language={
               item.repo?.language
                 ? item.repo.language.toUpperCase()
@@ -708,6 +768,8 @@ function AboutCard({
             color: "var(--v4-ink-400)",
             textTransform: "uppercase",
             letterSpacing: "0.06em",
+            overflowWrap: "anywhere",
+            wordBreak: "break-word",
           }}
         >
           {"// NO BIO AVAILABLE"}

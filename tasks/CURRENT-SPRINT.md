@@ -4,6 +4,33 @@ Status: IN PROGRESS - Phase 1.5 blocked on Vercel Sentry DSN
 Started: 2026-05-03
 Target completion: 2026-05-10
 
+## AGN-1293 [Sprint 1 audit] Parent-child dependency map synchronization check
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate result at `2026-05-05`: `npm run freshness:check` reached localhost:3023 (not missing) but failed with `GET /api/cron/freshness/state -> HTTP 500 Internal Server Error` (product stale/degraded).
+- Synchronization decision: keep parent-child dependency-map updates sprint/backlog synchronized with one owner, explicit `Blocked on`/`Needs`, and binary `Done when`; out-of-scope execution remains backlog-only unless CTO reprioritizes.
+- Owner: PM triage.
+- Blocked on: local freshness-state endpoint failure (`/api/cron/freshness/state` HTTP 500), which blocks closure-grade verification.
+- Needs: platform engineer restores freshness-state endpoint to HTTP 200 and returns `npm run freshness:check` to exit 0; CTO/platform provides Vercel `SENTRY_DSN` canary evidence where Sprint 1 closure depends on it; CTO confirms any sprint-priority override before cross-sprint reassignment.
+- Done when: parent-child dependency rows across sprint/backlog surfaces remain synchronized with one owner + explicit blocker/needs lines + binary done-state wording, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
+
+## AGN-1354 [Sprint 1 audit] Blocked issue owner-action completeness sweep
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate result at `2026-05-05`: `npm run freshness:check` could not execute because `tsx` is missing in this runtime (`'tsx' is not recognized as an internal or external command`); direct probe `http://localhost:3023/api/health?soft=1` returned connection failure (`Unable to connect to the remote server`), so localhost:3023 is missing.
+- Completeness decision: keep blocked-issue rows owner/action complete in sprint/backlog notes and keep all out-of-scope execution backlog-only unless CTO reprioritizes.
+- Owner: PM triage.
+- Blocked on: local runtime toolchain missing `tsx` for freshness script execution and local app endpoint unreachable on localhost:3023.
+- Needs: platform engineer restores local app reachability on `localhost:3023` and toolchain support so `npm run freshness:check` executes; CTO/platform provides Vercel `SENTRY_DSN` canary evidence where Sprint 1 closure depends on it; CTO confirms any sprint-priority override before cross-sprint reassignment.
+- Done when: blocked issue rows across sprint/backlog surfaces retain one owner + one unblock action + binary done-state wording, and local verification runs with `npm run freshness:check` exiting 0 while localhost is reachable (not missing).
+
+## AGN-1355 [Sprint 1 audit] Sprint/backlog boundary integrity recheck
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate result at `2026-05-05T06:20:11.3649944+08:00`: `npm run freshness:check` did not reach localhost health evaluation because the command failed immediately with `'tsx' is not recognized as an internal or external command`, so localhost:3023 missing/stale state is currently unverified from this run.
+- Boundary integrity decision: keep Sprint 1 locked to Phase 1.5 + local freshness unblock; keep out-of-scope execution backlog-only with one owner and binary done-state wording.
+- Owner: PM triage.
+- Blocked on: local toolchain missing `tsx`, which blocks freshness preflight execution and prevents close-readiness verification.
+- Needs: platform engineer restores repo toolchain so `npm run freshness:check` runs (e.g., install dependencies and ensure `tsx` is available), then reruns preflight to classify localhost freshness state; CTO/platform provides Vercel `SENTRY_DSN` evidence where Sprint 1 closure depends on it.
+- Done when: sprint/backlog boundary rows remain synchronized with one owner + explicit blocker/needs + binary done-state wording, and `npm run freshness:check` executes successfully and returns a pass state with localhost reachable and no blocking non-green rows.
+
 ## Phase tracking
 - [x] 1.1 GitHub pool runtime telemetry
 - [x] 1.2 Reddit User-Agent pool
@@ -47,11 +74,64 @@ See individual phase prompts.
 - No new source expansion, workflow redesign, or product-surface additions are allowed in Sprint 1.
 - Any discovery outside Phase 1.5 + freshness unblock must be written to `tasks/BACKLOG.md` with an owner and binary done state.
 
+## AGN-172 decision snapshot (current vs backlog)
+- In Sprint 1 (keep active): Phase 1.5 Sentry verification and local freshness unblock only.
+- Move to backlog (not Sprint 1 execution): `AGN-253`, `AGN-254`, `AGN-255`, `AGN-290`, `AGN-291`, `AGN-292`, plus workflow/source hardening tasks listed under `tasks/BACKLOG.md` AGN-172 section.
+- Escalation rule: if CTO reprioritizes any backlog item into Sprint 1, add a dated note in this file with new owner, blocker, and binary `Done when` before execution starts.
+
 ## AGN-308 pointer-only enforcement (Sprint 1 vs Sprint 2)
 - Effective immediately, Sprint 2 audit issues appear in this file as pointer-only references: `AGN-253`, `AGN-254`, `AGN-255`, `AGN-290`, `AGN-291`, `AGN-292`.
 - Sprint 2 execution details, acceptance criteria, and dependency updates live in `tasks/BACKLOG.md` only unless CTO explicitly reprioritizes.
 - Owner: PM triage.
 - Done when: active Sprint 1 blocker/lint scopes in this file exclude Sprint 2 issue rows and keep only pointer context.
+
+## AGN-1047 [Sprint 1 audit] Sprint/backlog boundary integrity pass
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate result at `2026-05-05T02:37:30.7864875+08:00`: `npm run freshness:check` reached localhost:3023 (not missing) but failed with `GET /api/health?soft=1 -> HTTP 500 Internal Server Error` (product stale/degraded).
+- Boundary integrity decision: Sprint 1 remains limited to Phase 1.5 + local freshness unblock; out-of-scope work stays backlog-only with one owner and binary done-state wording.
+- Owner: PM triage.
+- Blocked on: local freshness endpoint remains degraded (`/api/health?soft=1` returns 500), preventing close-readiness verification.
+- Needs: platform engineer restores local freshness endpoint behavior and clears blocking freshness failures; CTO/platform provides Vercel `SENTRY_DSN` verification evidence when applicable.
+- Done when: Sprint 1 notes remain pointer-only for out-of-scope items, backlog carries execution details, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
+
+## AGN-1292 [Sprint 1 audit] Sprint/backlog boundary integrity refresh
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate result at `2026-05-05T05:16:00+08:00`: `npm run freshness:check` reached localhost:3023 (not missing) but failed with `GET /api/health?soft=1 -> HTTP 500 Internal Server Error` (product stale/degraded).
+- Boundary integrity decision: keep Sprint 1 constrained to Phase 1.5 + local freshness unblock; keep all non-Sprint-1 execution backlog-only with one owner and binary done-state wording.
+- Owner: PM triage.
+- Blocked on: local freshness endpoint remains degraded (`/api/health?soft=1` HTTP 500), so closure-grade verification cannot pass.
+- Needs: platform engineer restores `/api/health?soft=1` to HTTP 200 and reruns freshness check; CTO/platform provides Vercel `SENTRY_DSN` verification evidence when required for Sprint 1 closure.
+- Done when: sprint/backlog boundary rows stay synchronized and pointer-only for out-of-scope execution, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
+
+## AGN-1139 [Sprint 1 audit] Sprint/backlog boundary integrity pass
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate result at `2026-05-05T04:24:59.563Z`: `npm run freshness:check` reached localhost:3023 (not missing) with `health=stale sourceStatus=ok`; failed with `green=40`, `yellow=9`, `red=1`, `blocking_non_green=8`, `advisory_non_green=2`, `Sentry: MISSING` (`trending-repos` is RED).
+- Boundary integrity decision: Sprint 1 remains limited to Phase 1.5 + local freshness unblock; out-of-scope discoveries remain backlog-only with one owner and binary done-state wording.
+- Owner: PM triage.
+- Blocked on: blocking freshness rows remain non-green (`trending-repos` RED; `awesome-skills`, `claude-rss`, `lobsters`, `npm`, `openai-rss`, `producthunt`, `twitter` YELLOW) and `Sentry: MISSING`.
+- Needs: platform engineer restores blocking freshness rows to GREEN within budgets; CTO/platform sets Vercel `SENTRY_DSN` and provides canary evidence; CTO confirms any sprint-priority override before cross-sprint reassignment.
+- Done when: Sprint 1 stays pointer-only for out-of-scope execution, backlog carries non-Sprint-1 detail, and `npm run freshness:check` exits 0 with localhost reachable and `blocking_non_green=0`.
+
+## AGN-1157 [Sprint 1 audit] In-progress stagnation triage with handoff recommendations
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate result at `2026-05-05T04:39:25.788Z`: `npm run freshness:check` reached localhost:3023 (not missing) with `health=ok sourceStatus=ok`; failed with `green=40`, `yellow=9`, `red=1`, `blocking_non_green=8`, `advisory_non_green=2`, `Sentry: MISSING` (`trending-repos` RED).
+- Stagnation triage decision: keep Sprint 1 scope locked to Phase 1.5 + local freshness unblock and route all in-progress stagnation remediation to explicit owner/action handoffs, with out-of-scope execution backlog-only unless CTO reprioritizes.
+- Owner: PM triage.
+- Blocked on: blocking freshness rows remain non-green (`trending-repos` RED; `awesome-skills`, `claude-rss`, `lobsters`, `npm`, `openai-rss`, `producthunt`, `twitter` YELLOW) and `Sentry: MISSING`.
+- Needs: platform engineer clears the 8 blocking non-green rows to GREEN within budget; CTO/platform sets Vercel `SENTRY_DSN` and provides canary evidence; CTO confirms any sprint-priority changes before moving backlog work into Sprint 1.
+- Done when: each stagnated `in_progress` issue has one owner, one explicit next action, one explicit blocker owner/action path, and either terminal status (`done`/`blocked`) or a documented child split/handoff; Sprint 1 remains coherent and pointer-only for out-of-scope execution.
+
+## AGN-756 pointer-only scope note (compliance gap triage)
+- `AGN-756` (`[GAP-AUDIT-21] Privacy Policy + Terms of Service pages`) is backlog-scoped and out of Sprint 1 implementation scope.
+- Execution details, owner assignment, dependencies, and binary done-state for AGN-756 are tracked in `tasks/BACKLOG.md` unless CTO explicitly reprioritizes into current sprint.
+
+## AGN-757 pointer-only scope note (compliance gap triage)
+- `AGN-757` (`[GAP-AUDIT-22] Cookie consent banner (PostHog)`) is backlog-scoped and out of Sprint 1 implementation scope.
+- Execution details, owner assignment, dependencies, and binary done-state for AGN-757 are tracked in `tasks/BACKLOG.md` unless CTO explicitly reprioritizes into current sprint.
+
+## AGN-758 pointer-only scope note (compliance gap triage)
+- `AGN-758` (`[GAP-AUDIT-24] DMCA / repo-author takedown procedure`) is backlog-scoped and out of Sprint 1 implementation scope.
+- Execution details, owner assignment, dependencies, and binary done-state for AGN-758 are tracked in `tasks/BACKLOG.md` unless CTO explicitly reprioritizes into current sprint.
 
 ## AGN-291 Sprint boundary leakage check (Sprint 1 vs Sprint 2)
 - Evidence (2026-05-04 heartbeat): mandatory opening bundle re-verified and `npm run freshness:check` at `2026-05-04T10:58:05.245Z` reached localhost:3023 (not missing) but failed with `blocking_non_green=4`, `dead=5`, `advisory_non_green=1`, `Sentry: MISSING`.
@@ -84,8 +164,61 @@ See individual phase prompts.
 - Blocked on: `category-metrics` DEAD, `mcp-downloads` DEAD, `star-snapshots` DEAD, `trending-repos` DEAD, and `Sentry: MISSING`.
 - Needs: platform engineer restores blocking DEAD rows to GREEN inside freshness budgets; CTO/platform sets Vercel `SENTRY_DSN` and provides canary evidence.
 - Done when: `npm run freshness:check` exits 0 with `blocking_non_green=0` and no blocking DEAD rows, and blocker rows remain owner/action complete.
+- Evidence refresh (2026-05-04 heartbeat): `npm run freshness:check` at `2026-05-04T13:04:03.046Z` reached localhost:3023 (not missing) and failed with `green=47`, `yellow=2`, `dead=1`, `blocking_non_green=2`, `advisory_non_green=1`, `Sentry: MISSING`.
+- Live blocked issue enumeration (`GET /api/companies/{companyId}/issues?status=blocked`):
+  - `AGN-464` owner present, latest comment includes explicit `Blocked on` and `Needs`.
+  - `AGN-419` owner present, latest comment includes explicit `Blocked on` and `Needs`.
+  - `AGN-343` owner present, latest comment includes explicit `Blocked on` and `Needs`.
+  - `AGN-379` owner present, latest comment includes explicit `Blocked on` and `Needs`.
+- Missing owner/action fields by issue id: none (`AGN-464`, `AGN-419`, `AGN-343`, `AGN-379` all complete).
+- Remediation queue (highest impact first):
+  1. `AGN-464`: merge workflow fix and lockfile sync on main, then rerun `collect-twitter`.
+  2. `AGN-419`: deploy CSP changes to production and complete 24h violation monitoring with Sentry visibility.
+  3. `AGN-379`: provide `ADMIN_TOKEN` or Redis/Upstash read credentials for UA distribution proof.
+  4. `AGN-343`: close after upstream freshness/Sentry/credential blockers above are cleared.
+
+## AGN-364 [Sprint 1 audit] Issue evidence quality and closure gate check
+- Evidence (2026-05-04 heartbeat): mandatory opening bundle re-verified and `npm run freshness:check` at `2026-05-04T12:08:43.913Z` reached localhost:3023 (not missing) with `health=ok` and `sourceStatus=degraded`; result failed with `green=44`, `yellow=1`, `dead=5`, `blocking_non_green=5`, `advisory_non_green=1`, `Sentry: MISSING`.
+- Closure-gate finding: issue evidence quality is acceptable only when every closure claim includes command-timestamped proof plus explicit blocker owner/action lines; Sprint 1 closure remains blocked while any blocking non-green source or missing Sentry DSN exists.
+- Owner: PM triage.
+- Blocked on: `category-metrics` DEAD, `mcp-downloads` DEAD, `star-snapshots` DEAD, `trending-repos` DEAD, `producthunt` YELLOW (blocking), and `Sentry: MISSING`.
+- Needs: platform engineer restores blocking freshness rows to GREEN and keeps them within budgets; CTO/platform sets Vercel `SENTRY_DSN` with canary evidence.
+- Done when: closure-gate rows in sprint/backlog include one owner + one unblock action + one binary done-state line, and `npm run freshness:check` exits 0 with `blocking_non_green=0` and no blocking DEAD/YELLOW rows.
+
+## AGN-1049 [Sprint 1 audit] Parent-child dependency hygiene refresh
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness preflight (2026-05-05 heartbeat): `npm run freshness:check` reached localhost (`http://localhost:3023`, not missing) but failed with `GET /api/cron/freshness/state -> HTTP 500 Internal Server Error` (product stale/degraded).
+- Dependency-hygiene decision: keep Sprint 1 scoped to Phase 1.5 + local freshness unblock, keep parent-child linkage explicit per issue row (one owner + one blocker owner/action path), and keep out-of-scope execution backlog-only unless CTO reprioritizes.
+- Owner: PM triage.
+- Blocked on: local freshness-state endpoint failure (`/api/cron/freshness/state` HTTP 500) and missing Vercel `SENTRY_DSN` verification evidence.
+- Needs: platform engineer restores `/api/cron/freshness/state` health to HTTP 200 and clears blocking freshness rows; CTO/platform sets `SENTRY_DSN` in Vercel Production and provides canary evidence; CTO confirms any sprint-priority override before cross-sprint reassignment.
+- Done when: sprint/backlog parent-child rows remain owner-complete and dependency-explicit with binary done-state wording, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
+
+## AGN-1140 [Sprint 1 audit] Parent-child dependency hygiene refresh under AGN-58
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate result (`2026-05-05T04:25:24.6604535+08:00`): `npm run freshness:check` reached localhost (`http://localhost:3023`, not missing) and reported `health=stale`, `blocking_non_green=27`, `dead=18`, `Sentry: MISSING` (product stale/degraded).
+- Dependency-hygiene decision: keep AGN-58 child rows explicit with one owner, one blocker owner/action path, and pointer-only Sprint 2 references in Sprint 1 notes unless CTO reprioritizes.
+- Owner: PM triage.
+- Blocked on: stale freshness state (blocking_non_green=27, dead=18) and missing Vercel `SENTRY_DSN` verification evidence.
+- Needs: platform engineer restores freshness blockers to budget-compliant state and reduces blocking/dead rows to zero; CTO/platform sets Vercel `SENTRY_DSN` with canary evidence; CTO confirms any sprint-priority override before cross-sprint dependency reassignment.
+- Done when: AGN-58 parent-child rows across sprint/backlog remain synchronized with one owner + explicit `Blocked on`/`Needs` lines + binary `Done when` text, and `npm run freshness:check` exits 0 with localhost reachable and `blocking_non_green=0`.
+
+## AGN-1156 [Sprint 1 audit] Parent-child linkage drift scan for active epics
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate result (`2026-05-05T04:39:31.294Z`): `npm run freshness:check` reached localhost (`http://localhost:3023`, not missing) with `health=ok sourceStatus=ok`, but failed on staleness with `green=40`, `yellow=9`, `red=1`, `blocking_non_green=8`, `Sentry: MISSING` (product stale/degraded).
+- Drift scan scope: active epic linkage rows under `AGN-58` and `AGN-172` in Sprint doc vs backlog continuity rows.
+- Drift found and corrected in this heartbeat: `AGN-201` existed in Sprint active-epic graph but had no backlog continuity row; backlog row was added to restore parent-child continuity.
+- Owner: PM triage.
+- Blocked on: freshness remains non-passing (`blocking_non_green=8`, `trending-repos` RED) and missing Vercel `SENTRY_DSN` evidence.
+- Needs: platform engineer restores blocking freshness rows to GREEN within budget (`trending-repos`, `awesome-skills`, `claude-rss`, `lobsters`, `npm`, `openai-rss`, `producthunt`, `twitter`); CTO/platform sets Vercel `SENTRY_DSN` and provides canary evidence.
+- Done when: active epic child rows in `tasks/CURRENT-SPRINT.md` all have matching continuity rows in `tasks/BACKLOG.md`, each with one owner + explicit `Blocked on`/`Needs` + binary `Done when`, and preflight freshness exits 0.
 
 ## Blockers
+- 2026-05-05 AGN-1048 [Sprint 1 audit] Blocked issue unblock-owner completeness scan: mandatory opening bundle re-verified; `npm run freshness:check` failed with `GET /api/cron/freshness/state -> HTTP 500 Internal Server Error` while localhost:3023 was reachable (not missing), so product is stale/degraded in this heartbeat. Completeness scan decision: keep blocked-issue rows owner/action explicit and keep execution blocked until freshness state endpoint is restored. Unblock owners: platform engineer for `/api/cron/freshness/state` HTTP 200 recovery; CTO/platform for Vercel `SENTRY_DSN` + canary evidence.
+- 2026-05-04 AGN-552 [Recovery follow-up] Resolve cross-agent checkout locks on stale `in_progress` cohort: mandatory opening bundle re-verified; `npm run freshness:check` at `2026-05-04T13:13:36.826Z` reached localhost:3023 (not missing) but failed with `blocking_non_green=2` (`npm` YELLOW, `producthunt` YELLOW) and `Sentry: MISSING`. Sprint boundary decision: keep stale `in_progress` recovery documentation-only in PM lane; do not pull implementation work into Sprint 1 scope. Unblock owners: PM triage for stale-cohort owner/status normalization, platform engineer for freshness budget recovery on `npm` + `producthunt`, CTO/platform for Vercel `SENTRY_DSN`.
+- 2026-05-04 AGN-364 [Sprint 1 audit] Issue evidence quality and closure gate check: mandatory opening bundle re-verified; `npm run freshness:check` at `2026-05-04T12:08:43.913Z` reached localhost:3023 (not missing) but failed with `blocking_non_green=5`, `dead=5`, `yellow=1`, and `Sentry: MISSING`, so Sprint 1 remains blocked on blocking freshness recovery + Sentry DSN evidence. Unblock owners: platform engineer for blocking freshness rows (`category-metrics`, `mcp-downloads`, `star-snapshots`, `trending-repos`, `producthunt` budget recovery), CTO/platform for Vercel `SENTRY_DSN`.
+- 2026-05-04 AGN-362 [Sprint 1 audit] Sprint-vs-backlog boundary compliance pass: mandatory opening bundle re-verified; `npm run freshness:check` on this heartbeat reached localhost:3023 (not missing) but failed with `GET /api/health?soft=1 -> HTTP 500 Internal Server Error`, so Sprint 1 remains blocked on local freshness endpoint recovery + Sentry DSN evidence. Boundary compliance result: Sprint 1 continues to track only Phase 1.5 + local freshness unblock, and Sprint 2 audit execution remains backlog-first/pointer-only unless CTO reprioritizes. Unblock owners: platform engineer for localhost freshness endpoint recovery (`/api/health?soft=1` and `/api/cron/freshness/state`), CTO/platform for Vercel `SENTRY_DSN`, CTO for any sprint-priority override.
+- 2026-05-05 AGN-343 PM Blocker Triage: board bumped-concurrency retry executed. Mandatory opening bundle re-verified; `npm run freshness:check` now reports `local server not reachable` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat. Blocked-issue inventory query now returns `blocked_count=16` with latest-comment classifications/unblock paths: `external-fix` -> `AGN-343`, `AGN-671`, `AGN-584`, `AGN-768`, `AGN-662`, `AGN-740`, `AGN-71`, `AGN-772`, `AGN-403`, `AGN-822`, `AGN-329`, `AGN-765`, `AGN-72`; `creds` -> `AGN-819`, `AGN-210`; `decision` -> `AGN-50`. Key unblock paths: restore localhost service/freshness endpoint, restore GitHub auth, resolve board approval for AGN-50, and clear baseline typecheck/test gates for closure-dependent issues.
 - 2026-05-04 AGN-318 [Sprint 1 audit] Acceptance criteria lint delta pass: mandatory opening bundle re-verified; `npm run freshness:check` at `2026-05-04T19:21:57.6874876+08:00` reached localhost:3023 (not missing) but failed with `GET /api/cron/freshness/state -> HTTP 500 Internal Server Error`, so Sprint 1 remains blocked on local freshness endpoint recovery + Sentry DSN evidence. Delta-lint result: new delta scope entries (`AGN-316`, `AGN-317`) retain one owner, binary done-state wording, and explicit dependency/blocker lines across sprint/backlog notes.
 - 2026-05-04 AGN-317 [Sprint 1 audit] Sprint/backlog boundary consistency scan: mandatory opening bundle re-verified; `npm run freshness:check` at `2026-05-04T19:20:20.9948245+08:00` reached localhost:3023 (not missing) but failed with `GET /api/health?soft=1 -> HTTP 500`, so Sprint 1 remains blocked on local freshness endpoint recovery + Sentry DSN evidence. Boundary consistency result: Sprint 1 scope remains Phase 1.5 + local freshness unblock; out-of-scope discoveries remain backlog-only with owner + binary done-state wording.
 - 2026-05-04 AGN-316 [Sprint 1 audit] blocked issue ownership drift check: mandatory opening bundle re-verified; `npm run freshness:check` at `2026-05-04T11:17:49.186Z` reached localhost:3023 (not missing) but failed with `green=45`, `dead=5`, `blocking_non_green=4`, `advisory_non_green=1`, and `Sentry: MISSING`, so Sprint 1 remains blocked on freshness recovery + Sentry DSN evidence. Ownership drift check result: blocker rows continue to declare explicit unblock owners (platform engineer for blocking freshness DEAD rows `category-metrics`, `mcp-downloads`, `star-snapshots`, `trending-repos`; CTO/platform for Vercel `SENTRY_DSN`).
@@ -93,7 +226,10 @@ See individual phase prompts.
 - 2026-05-04 AGN-282 PM Blocker Triage: mandatory opening bundle re-verified; `npm run freshness:check` at `2026-05-04T10:53:36.658Z` reached localhost:3023 (not missing) but failed with `blocking_non_green=5`, `dead=5`, `yellow=1`, and `Sentry: MISSING`, so Sprint 1 remains blocked on freshness recovery + Sentry DSN evidence. Unblock owners: platform engineer for blocking freshness rows (`category-metrics`, `mcp-downloads`, `star-snapshots`, `trending-repos`, `reddit` stale budget), CTO/platform for Vercel `SENTRY_DSN`.
 - 2026-05-04 AGN-276 [Sprint 1 audit] blocked issue unblock-owner completeness sweep: mandatory opening bundle re-verified; `npm run freshness:check` at `2026-05-04T10:50:00.291Z` reached localhost:3023 (not missing) but failed with `blocking_non_green=5`, `dead=5`, `yellow=1`, and `Sentry: MISSING`, so Sprint 1 remains blocked on freshness recovery + Sentry DSN evidence. Unblock owners: platform engineer for blocking freshness rows (`category-metrics`, `mcp-downloads`, `star-snapshots`, `trending-repos`, `reddit` stale budget), CTO/platform for Vercel `SENTRY_DSN`.
 - 2026-05-04 AGN-275 [Sprint 1 audit] sprint scope lock compliance pass: mandatory opening bundle re-verified; `npm run freshness:check` at `2026-05-04T10:48:16.389Z` reached localhost:3023 (not missing) but failed with `blocking_non_green=5`, `dead=5`, `yellow=1`, and `Sentry: MISSING`, so Sprint 1 remains blocked on freshness recovery + Sentry DSN evidence. Unblock owners: platform engineer for blocking freshness rows (`category-metrics`, `mcp-downloads`, `star-snapshots`, `trending-repos`, `reddit` stale budget), CTO/platform for Vercel `SENTRY_DSN`.
-- 2026-05-04 AGN-254 blocked issue unblock-owner completeness: mandatory opening bundle re-verified; `npm run freshness:check` at `2026-05-04T10:26:13.386Z` reached localhost:3023 (not missing) but failed with `blocking_non_green=5`, `dead=5`, and `Sentry: MISSING`, so Sprint 1 close-readiness remains blocked on freshness recovery + Sentry DSN evidence. Unblock owners: platform engineer for freshness source recovery, CTO/platform for Vercel `SENTRY_DSN`.
+- 2026-05-04 AGN-275 continuation: reran `npm run freshness:check` at `2026-05-04T13:07:38.596Z`; localhost:3023 remained reachable (not missing), prior blocking DEAD rows recovered, but check still failed with `blocking_non_green=2` (`npm`, `producthunt` both YELLOW) and `Sentry: MISSING`. Sprint 1 scope lock remains documentation-only until freshness returns to blocking-green and Vercel Sentry DSN evidence is complete. Unblock owners: platform engineer for `npm` and `producthunt` freshness budget recovery, CTO/platform for Vercel `SENTRY_DSN`.
+- 2026-05-04 AGN-275 continuation: live board check via `GET /api/companies/{companyId}/issues?status=in_progress&limit=200` plus `npm run freshness:check` at `2026-05-04T13:29:59.883Z` confirms Sprint 1 scope-lock risk remains active. Freshness still fails (`blocking_non_green=2`: `npm`, `producthunt`; `Sentry: MISSING`) and cross-sprint queue is heavily mixed (examples: `AGN-544`, `AGN-545`, `AGN-514`, `AGN-517`, `AGN-520`, `AGN-531` all `in_progress` outside Sprint 1 scope). Escalation owner: CTO to confirm mixed-priority execution intent or enforce lane split.
+- 2026-05-04 AGN-275 continuation: local preflight regressed again; `npm run freshness:check` failed at `2026-05-04T13:33:45+08:00` because `GET /api/health?soft=1` on localhost:3023 returned `HTTP 500 Internal Server Error`. Scope lock remains blocked on local freshness endpoint recovery and Vercel Sentry DSN evidence. Cross-sprint queue remains mixed (`GET /api/companies/{companyId}/issues?status=in_progress&limit=200`), including non-Sprint-1 critical items still active (`AGN-514`, `AGN-517`, `AGN-520`, `AGN-544`, `AGN-545`). Escalation owners: platform engineer for localhost health endpoint and freshness recovery; CTO/platform for Sentry DSN; CTO for lane-split decision.
+- 2026-05-04 AGN-254 pointer-only reference: Sprint 2 blocked-issue execution details remain backlog-first in `tasks/BACKLOG.md`; keep Sprint 1 mention as pointer context only unless CTO reprioritizes.
 - 2026-05-04 AGN-232 acceptance-criteria lint for new Sprint tasks: mandatory opening bundle re-verified; `npm run freshness:check` failed at `2026-05-04T17:35:26.1985645+08:00` with `ECONNREFUSED` on `http://localhost:3023` (localhost missing). Unblock owner remains platform engineer to restore local preflight endpoints before Sprint 1 close.
 - 2026-05-04 AGN-231 blocked-issue unblock owner/action completeness pass: mandatory opening bundle re-verified; `npm run freshness:check` failed at `2026-05-04T17:57:46+08:00` with `ECONNREFUSED` on `http://localhost:3023` (localhost missing). Unblock owner remains platform engineer to restore local preflight endpoints before Sprint 1 close.
 - 2026-05-04 AGN-230 sprint doc to issue-board consistency pass: mandatory opening bundle re-verified; `npm run freshness:check` failed at `2026-05-04T17:31:52+08:00` with `ECONNREFUSED` on `http://localhost:3023` (localhost missing). Unblock owner remains platform engineer to restore local preflight endpoints before Sprint 1 close.
@@ -209,6 +345,7 @@ See individual phase prompts.
 | AGN-276 [Sprint 1 audit] blocked issue unblock-owner completeness sweep | PM triage | Mandatory preflight is reachable but degraded (`npm run freshness:check` at `2026-05-04T10:50:00.291Z`: `blocking_non_green=5`, `dead=5`, `yellow=1`, `Sentry: MISSING`), so blocker closure remains open | Platform engineer clears blocking non-green freshness rows (`category-metrics`, `mcp-downloads`, `star-snapshots`, `trending-repos`, `reddit` stale budget); CTO/platform sets Vercel `SENTRY_DSN`; PM reruns mandatory opening checks and revalidates blocker-owner lines in sprint/backlog docs | Freshness check exits 0 with `blocking_non_green=0` and no blocking DEAD rows, Sentry readiness is no longer `MISSING`, and all active blocker rows retain one owner, one unblock action, and one binary done-state line |
 | AGN-282 PM Blocker Triage | PM triage | Mandatory preflight is reachable but degraded (`npm run freshness:check` at `2026-05-04T10:53:36.658Z`: `blocking_non_green=5`, `dead=5`, `yellow=1`, `Sentry: MISSING`), so blocker closure remains open | Platform engineer clears blocking non-green freshness rows (`category-metrics`, `mcp-downloads`, `star-snapshots`, `trending-repos`, `reddit` stale budget); CTO/platform sets Vercel `SENTRY_DSN`; PM reruns mandatory opening checks and revalidates blocker-owner lines in sprint/backlog docs | Freshness check exits 0 with `blocking_non_green=0` and no blocking DEAD rows, Sentry readiness is no longer `MISSING`, and all active blocker rows retain one owner, one unblock action, and one binary done-state line |
 | AGN-301 [Sprint 1 audit] Blocked-issue metadata completeness sweep | PM triage | Mandatory opening preflight is reachable but stale/degraded (`npm run freshness:check` at `2026-05-04T11:05:38.114Z`: localhost:3023 reachable, `blocking_non_green=4`, `dead=5`, `advisory_non_green=1`, `Sentry: MISSING`), so blocked-issue metadata closure remains documentation-only this heartbeat | Platform engineer clears blocking freshness rows (`category-metrics`, `mcp-downloads`, `star-snapshots`, `trending-repos`); CTO/platform sets Vercel `SENTRY_DSN`; PM reruns mandatory opening checks and revalidates blocker metadata lines in sprint/backlog docs | All active blocked-issue rows in sprint/backlog retain one owner, one unblock action, and one binary done-state line aligned to the latest verified preflight evidence, and freshness check exits 0 with no blocking non-green rows |
+| AGN-343 PM Blocker Triage | PM triage | Mandatory preflight now fails with localhost unreachable (`ECONNREFUSED` at `http://localhost:3023`); blocked inventory currently returns 16 blocked issues | Unblock owners by class: platform engineer restores localhost service/freshness endpoint; CTO/platform restores GitHub auth for creds blockers (`AGN-819`,`AGN-210`); board/user resolves AGN-50 decision; platform/frontend/backend owners clear external-fix blockers and baseline gates (`AGN-343`,`AGN-671`,`AGN-584`,`AGN-768`,`AGN-662`,`AGN-740`,`AGN-71`,`AGN-772`,`AGN-403`,`AGN-822`,`AGN-329`,`AGN-765`,`AGN-72`) | Each blocked issue has a current classification + explicit unblock owner/action in AGN-343 evidence, any resolved blocker is moved off blocked, and freshness preflight reaches green with localhost reachable and `blocking_non_green=0` |
 
 ## AGN-58 child dependency graph (hygiene pass, AGN-203)
 
@@ -224,8 +361,11 @@ See individual phase prompts.
 | AGN-230 Sprint doc to issue-board consistency pass | AGN-58 | PM triage | Sprint doc and issue-board metadata can drift when heartbeat evidence changes | PM re-runs mandatory opening checks, reconciles sprint/backlog issue rows against board scope, and records freshness evidence in the same heartbeat | Sprint/backlog issue metadata is synchronized with board scope for AGN-230, with one owner per issue, explicit blocker/needs lines, and binary done-state wording |
 | AGN-231 Blocked-issue unblock owner/action completeness | AGN-58 | PM triage | Blocked rows can drift and lose explicit unblock owner/action fields when freshness status changes | PM re-runs mandatory opening checks, verifies blocker status, and enforces owner/action/done-state completeness across blocker rows in sprint/backlog notes | All AGN-231-linked blocker rows retain one owner, one unblock action, and one binary done-state line aligned to latest verification evidence |
 | AGN-232 Acceptance-criteria quality lint for new Sprint tasks | AGN-58 | PM triage | Newly created sprint triage tickets can drift from owner/done/dependency standards | PM runs a focused lint pass over newly created sprint tasks and patches sprint/backlog wording in the same heartbeat when gaps are found | Every newly created sprint triage issue has one owner, one binary done-state line, and explicit dependency/blocker text |
-| AGN-253 Sprint 2 parent-child linkage integrity | AGN-58 | PM triage | Sprint/backlog linkage rows can drift and omit active child references when heartbeat evidence changes | PM re-runs mandatory opening checks, records current freshness evidence, and patches sprint/backlog parent-child mappings in the same heartbeat | Sprint/backlog parent-child references remain synchronized for AGN-253 scope with one owner, explicit blocker/needs text, and binary done-state wording |
-| AGN-290 [Sprint 2 audit] Parent-child dependency drift sweep under AGN-58 | AGN-58 | PM triage | Mandatory opening preflight is reachable but degraded (`npm run freshness:check` at `2026-05-04T10:56:23.428Z`: localhost:3023 reachable, `blocking_non_green=4`, `dead=5`, `Sentry: MISSING`), so dependency closure remains documentation-only | PM keeps AGN-58 parent-child dependency rows synchronized across sprint/backlog docs and records latest preflight evidence; platform engineer clears blocking freshness rows (`category-metrics`, `mcp-downloads`, `star-snapshots`, `trending-repos`); CTO/platform sets Vercel `SENTRY_DSN` | AGN-290 dependency references under AGN-58 remain explicit in sprint/backlog with one owner, explicit blocker/needs text, and binary done-state wording aligned to latest verified preflight evidence |
+| AGN-363 [Sprint 1 audit] AGN dependency graph hygiene refresh | AGN-58 | PM triage | Dependency graph rows can drift from current freshness evidence and lose explicit blocker/action ownership | PM reruns mandatory opening + `npm run freshness:check`, then refreshes AGN-58 graph rows with one owner, explicit Blocked on/Needs lines, and binary done-state wording | AGN-58 dependency graph entries stay synchronized across sprint/backlog docs with one owner per issue, explicit blockers/actions, and binary done-state text aligned to the latest verified heartbeat evidence |
+| AGN-1140 [Sprint 1 audit] Parent-child dependency hygiene refresh under AGN-58 | AGN-58 | PM triage | AGN-58 child linkage can drift when stale preflight evidence or sprint/backlog updates are applied asymmetrically | PM reruns mandatory opening + `npm run freshness:check`, then patches sprint/backlog AGN-58 rows in the same heartbeat with explicit owner/blocker/needs fields | AGN-58 parent-child rows remain synchronized across sprint/backlog docs with one owner, explicit blocker/action lines, and binary done-state wording tied to the latest verified evidence |
+| AGN-1353 [Sprint 1 audit] Parent-child linkage integrity pass for AGN-58 tree | AGN-58 | PM triage | Mandatory freshness script cannot execute in current shell because `tsx` is missing and direct localhost probes to `http://localhost:3023/api/health?soft=1` and `/api/cron/freshness/state` fail with connection errors | Platform engineer restores local toolchain (`tsx` available for `npm run freshness:check`) and brings localhost:3023 back; PM reruns mandatory opening and updates Sprint/Backlog AGN-58 rows in the same heartbeat | AGN-58 parent-child linkage rows across sprint/backlog stay synchronized with one owner, explicit `Blocked on`/`Needs` wording, and binary done-state text, with fresh verification evidence |
+| AGN-253 Sprint 2 parent-child linkage integrity | AGN-58 | PM triage | Pointer-only in Sprint 1; execution updates are backlog-first | See `tasks/BACKLOG.md` AGN-253 follow-through entry | Sprint 1 keeps pointer-only context unless CTO reprioritizes |
+| AGN-290 [Sprint 2 audit] Parent-child dependency drift sweep under AGN-58 | AGN-58 | PM triage | Pointer-only in Sprint 1; execution updates are backlog-first | See `tasks/BACKLOG.md` AGN-290 follow-through entry | Sprint 1 keeps pointer-only context unless CTO reprioritizes |
 | AGN-277 Sprint 1 audit parent-child linkage integrity under AGN-58 | AGN-58 | PM triage | Mandatory opening preflight is reachable but degraded (`npm run freshness:check` at `2026-05-04T10:51:44.773Z`: localhost:3023 reachable, `blocking_non_green=5`, `dead=5`, `yellow=1`, `Sentry: MISSING`), so closure remains documentation-only | PM keeps AGN-58 parent-child links synchronized across sprint/backlog notes; platform engineer clears blocking freshness rows; CTO/platform sets Vercel `SENTRY_DSN`; rerun opening checks in same heartbeat | AGN-277 linkage references remain explicit under AGN-58 with one owner, explicit blocker/needs text, and binary done-state wording aligned to latest verified preflight evidence |
 | AGN-204 Sprint 1 vs backlog boundary enforcement check | AGN-172 | PM triage | Boundary hygiene can drift when preflight state changes and out-of-scope failures are pulled into sprint lanes | PM re-runs mandatory opening checks, records freshness evidence, and updates sprint/backlog boundary notes in the same heartbeat | Sprint scope remains Phase 1.5 + local freshness unblock only, with all non-Sprint-1 discoveries captured backlog-only with owner and binary done-state text |
 
@@ -264,6 +404,16 @@ Lint scope (new Sprint triage tasks created in this wave): `AGN-224`, `AGN-225`,
 
 Remediation in this heartbeat:
 - Added AGN-232 to the AGN-58 child dependency graph with owner, blocker, needs, and binary done-state text to keep the lint requirement durable in Sprint docs.
+
+## AGN-282 blocked-issue triage matrix (2026-05-04 heartbeat)
+
+Blocked issue inventory was re-queried from Paperclip (`/api/companies/{companyId}/issues?status=blocked`, count=3). No blocked issue was moved to `todo` because credential/deploy prerequisites are still unresolved in reality.
+
+| Issue | Latest blocker summary | Type | Unblocking path | Escalate to |
+|---|---|---|---|---|
+| AGN-419 | Waiting for production deploy verification and 24h CSP violation monitoring visibility | external-fix | CTO/platform deploys CSP changes to prod and provides Sentry CSP monitoring visibility for 24h zero-violation proof | CTO |
+| AGN-343 | Freshness still non-green (`npm`, `producthunt`) and missing telemetry creds (`SENTRY_DSN`, `ADMIN_TOKEN`, Redis/Upstash) | creds + external-fix | Platform clears freshness blockers; CTO/platform provisions missing telemetry credentials | CTO + platform |
+| AGN-379 | QA proof blocked by missing `ADMIN_TOKEN` and missing Redis/Upstash credentials | creds | CTO/platform provides admin auth or Redis read creds so 6-sample/30m UA distribution proof can run | CTO/platform |
 
 ## AGN-268 acceptance-criteria lint (2026-05-04 heartbeat)
 
@@ -358,3 +508,98 @@ Delta lint scope (newly added triage rows since AGN-310 pass): `AGN-316`, `AGN-3
 | AGN-317 | Yes (PM triage) | Yes (`Done when` under backlog continuity row) | Yes (platform + CTO unblock actions listed) | PASS |
 
 Result: acceptance-criteria lint delta pass is PASS (2/2). Sprint close-readiness remains blocked by local freshness endpoint HTTP 500 and missing Vercel `SENTRY_DSN`, which are outside AGN-318 lint scope.
+
+## AGN-605 [Sprint 1 audit] Sprint/backlog boundary hygiene audit
+- Evidence (2026-05-04 heartbeat): mandatory opening bundle re-verified and `npm run freshness:check` at `2026-05-04` reached localhost:3023 (not missing) but failed with `GET /api/cron/freshness/state -> HTTP 401 unauthorized`.
+- Evidence refresh (2026-05-04 heartbeat): mandatory opening bundle re-verified and `npm run freshness:check` reached localhost:3023 (not missing) but failed with `GET /api/cron/freshness/state -> HTTP 500 Internal Server Error`.
+- Boundary-hygiene decision for this heartbeat: keep Sprint 1 limited to Phase 1.5 + local freshness unblock, and keep all non-Sprint-1 execution updates backlog-first unless CTO reprioritizes.
+- Owner: PM triage.
+- Blocker classification: AGN-605 itself is executable (documentation/triage lane), not a hard blocker.
+- Operator action packet (explicit):
+  1. Env var: set `SENTRY_DSN` in Vercel Production for project `trendingrepo.com`.
+  2. Dashboard URL: `https://vercel.com/dashboard` -> project `trendingrepo.com` -> Settings -> Environment Variables.
+  3. Command: rerun `npm run freshness:check` locally after freshness auth fix to verify `GET /api/cron/freshness/state` returns 200.
+  4. Decision owner: CTO confirms whether any non-Sprint-1 `in_progress` issue is intentionally allowed to stay in Sprint 1 lane.
+- Done when: every active Sprint row keeps one owner + explicit blocker/action + binary `Done when`, and Sprint 2+ execution remains backlog-first unless CTO reprioritizes.
+
+## AGN-606 [Sprint 1 audit] Blocked issue unblock-owner completeness audit
+- Evidence (2026-05-04 heartbeat): mandatory opening bundle re-verified and `npm run freshness:check` at `2026-05-04T22:03:49.5441998+08:00` reached localhost:3023 (not missing) but failed with `GET /api/cron/freshness/state -> HTTP 401 unauthorized`.
+- Completeness decision for this heartbeat: keep blocked-issue tracking in triage lane with explicit unblock owner/action per row; do not move blocked implementation work into Sprint 1 until freshness auth and Sentry readiness are unblocked.
+- Owner: PM triage.
+- Blocked on: local freshness authorization failure (`/api/cron/freshness/state` 401 unauthorized) and missing Vercel `SENTRY_DSN` readiness evidence.
+- Needs: platform engineer restores local freshness auth behavior so `npm run freshness:check` can read freshness state; CTO/platform sets Vercel `SENTRY_DSN` and provides canary evidence; CTO confirms any Sprint priority override.
+- Done when: active blocked-issue rows keep one owner + one unblock action + one binary done-state line, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
+
+## AGN-607 [Sprint 1 audit] Child-issue acceptance criteria lint audit
+- Evidence (2026-05-04 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`) and `npm run freshness:check` failed at `2026-05-04` with `GET /api/cron/freshness/state -> HTTP 401 unauthorized` while localhost:3023 remained reachable (not missing).
+- Lint scope (new child triage audit issues in this wave): `AGN-605`, `AGN-606`, `AGN-607`.
+- Lint result: `AGN-605` PASS, `AGN-606` PASS, `AGN-607` PASS for one owner, binary done-state text, and explicit blocker/dependency wording across sprint/backlog notes.
+- Owner: PM triage.
+- Blocked on: local freshness authorization failure (`/api/cron/freshness/state` 401 unauthorized) and missing Vercel `SENTRY_DSN` readiness evidence.
+- Needs: platform engineer restores local freshness auth path so preflight can return a valid freshness payload; CTO/platform sets Vercel `SENTRY_DSN` and provides canary evidence; CTO confirms any sprint-priority override before scope changes.
+- Done when: every newly added child triage issue row keeps one owner + one binary `Done when` line + explicit `Blocked on`/`Needs` wording, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
+
+## AGN-1048 [Sprint 1 audit] Blocked issue unblock-owner completeness scan
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`) and `npm run freshness:check` failed with `GET /api/cron/freshness/state -> HTTP 500 Internal Server Error` while localhost:3023 remained reachable (not missing), so product is stale/degraded.
+- Completeness scan decision for this heartbeat: blocked-issue rows remain owner/action complete in triage docs; implementation closure stays blocked until freshness-state endpoint recovery and Sentry readiness evidence are restored.
+- Owner: PM triage.
+- Blocked on: local freshness-state endpoint failure (`/api/cron/freshness/state` HTTP 500) and missing Vercel `SENTRY_DSN` readiness evidence.
+- Needs: platform engineer restores `/api/cron/freshness/state` to HTTP 200 for `npm run freshness:check`; CTO/platform sets Vercel `SENTRY_DSN` and provides canary evidence; CTO confirms any sprint-priority override before scope reassignment.
+- Done when: blocked issue rows keep one owner + one unblock action + one binary done-state line, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
+
+## AGN-1138 [Sprint 1 audit] Blocked-issue unblock owner/action completeness pass
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`) and `npm run freshness:check` at `2026-05-05T04:25:16+08:00` reached localhost:3023 (not missing) but failed with `health=stale`, `blocking_non_green=27`, `dead=18`, and `Sentry: MISSING`, so product is stale/degraded.
+- Completeness pass decision: blocked-issue triage rows remain owner/action explicit; no blocked issue is advanced without freshness recovery and Sentry readiness evidence.
+- Owner: PM triage.
+- Blocked on: freshness gate remains non-passing (`blocking_non_green=27`, including blocking DEAD/RED rows such as `category-metrics`, `trending-repos`, `star-snapshots`, `mcp-downloads`) and Vercel `SENTRY_DSN` remains missing.
+- Needs: platform engineer restores blocking freshness sources to budget-compliant GREEN and returns `npm run freshness:check` to exit 0; CTO/platform sets Vercel `SENTRY_DSN` and provides canary evidence; CTO confirms any sprint-priority override before scope reassignment.
+- Done when: every blocked issue row keeps one owner + one unblock action + one binary done-state line, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
+
+## AGN-1155 [Sprint 1 audit] Blocked issue unblock-owner/action completeness sweep
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`) and `npm run freshness:check` at `2026-05-05T04:39:30.743Z` reached localhost:3023 (not missing) with `health=ok` and `sourceStatus=ok` but failed on freshness policy with `green=40`, `yellow=9`, `red=1`, `blocking_non_green=8`, `advisory_non_green=2`, `Sentry: MISSING` (`trending-repos` RED).
+- Completeness sweep decision: blocker rows remain in triage lane with explicit unblock owner/action wording; no blocked implementation issue is advanced while blocking freshness and Sentry readiness gaps remain.
+- Owner: PM triage.
+- Blocked on: blocking freshness remains non-passing (`trending-repos` RED; blocking YELLOW includes `awesome-skills`, `claude-rss`, `lobsters`, `npm`, `openai-rss`, `producthunt`, `twitter`) and Vercel `SENTRY_DSN` is missing.
+- Needs: platform engineer restores blocking non-green sources to GREEN within budget and reruns freshness gate; CTO/platform sets Vercel `SENTRY_DSN` with canary evidence; CTO confirms any sprint-priority override before cross-sprint reassignment.
+- Done when: blocked issue rows keep one owner + one unblock action + one binary done-state line, and `npm run freshness:check` exits 0 with localhost reachable and `blocking_non_green=0`.
+
+## AGN-1212 [Sprint 1 audit] Sprint Triage parent-child dependency hygiene scan (AGN-58 tree)
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`) and `npm run freshness:check` failed with `GET http://localhost:3023/api/health?soft=1 -> HTTP 500 Internal Server Error` (localhost reachable, product stale/degraded).
+- Dependency hygiene decision: AGN-58 child rows remain triage-only in Sprint 1 with one owner + explicit `Blocked on`/`Needs` lines + binary `Done when` wording; out-of-scope execution remains backlog-first unless CTO reprioritizes.
+- Owner: PM triage.
+- Blocked on: local freshness preflight is non-passing (`/api/health?soft=1` HTTP 500), preventing closure-grade verification.
+- Needs: platform engineer restores `/api/health?soft=1` to HTTP 200 and returns `npm run freshness:check` to exit 0; CTO/platform provides Vercel `SENTRY_DSN` canary evidence if Sprint closure depends on it; CTO confirms any priority change that would pull backlog execution into Sprint 1.
+- Done when: AGN-58 parent-child rows stay synchronized across sprint/backlog notes with one owner and explicit blocker/action text per row, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
+
+## AGN-1211 [Sprint 1 audit] Sprint Triage sprint/backlog boundary integrity check
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness gate result at `2026-05-05T05:08:34.2075113+08:00`: `npm run freshness:check` reached localhost:3023 (not missing) but failed with `GET /api/health?soft=1 -> HTTP 500 Internal Server Error` (product stale/degraded).
+- Boundary integrity decision: Sprint 1 scope remains limited to Phase 1.5 + local freshness unblock; out-of-scope execution remains backlog-only with one owner and binary done-state wording.
+- Owner: PM triage.
+- Blocked on: local freshness endpoint remains degraded (`/api/health?soft=1` returns HTTP 500), preventing close-readiness verification.
+- Needs: platform engineer restores local freshness endpoint behavior and reruns freshness gate; CTO/platform provides Vercel `SENTRY_DSN` verification evidence when required for Sprint 1 closure.
+- Done when: sprint/backlog boundary rows remain synchronized with one owner + explicit blocker/needs + binary done-state wording, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
+
+## AGN-1210 [Sprint 1 audit] Sprint Triage blocked-issue unblock-owner completeness pass
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`) and `npm run freshness:check` failed with `GET /api/health?soft=1 -> HTTP 500 Internal Server Error` while localhost `http://localhost:3023` remained reachable (not missing), so product is stale/degraded.
+- Completeness pass decision: blocked-issue rows stay in triage lane with one unblock owner and one unblock action per row; do not advance blocked implementation work while freshness gate and Sentry readiness remain unresolved.
+- Owner: PM triage.
+- Blocked on: local freshness endpoint failure (`/api/health?soft=1` HTTP 500) and missing Vercel `SENTRY_DSN` readiness evidence.
+- Needs: platform engineer restores local freshness endpoint behavior so `npm run freshness:check` can pass; CTO/platform sets Vercel `SENTRY_DSN` and provides canary evidence; CTO confirms any sprint-priority override before cross-sprint reassignment.
+- Done when: blocked issue rows keep one owner + one unblock action + one binary done-state line, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
+
+## AGN-1294 [Sprint 1 audit] Blocked issue unblock-owner/action completeness pass
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`) and `npm run freshness:check` failed with `GET /api/health?soft=1 -> HTTP 500 Internal Server Error` while localhost `http://localhost:3023` remained reachable (not missing), so product is stale/degraded.
+- Completeness pass decision: blocked-issue rows remain in triage lane with one unblock owner and one unblock action per row; blocked implementation work does not advance while freshness and Sentry readiness gaps remain.
+- Owner: PM triage.
+- Blocked on: local freshness endpoint failure (`/api/health?soft=1` HTTP 500) and missing Vercel `SENTRY_DSN` readiness evidence.
+- Needs: platform engineer restores `/api/health?soft=1` to HTTP 200 and returns `npm run freshness:check` to exit 0; CTO/platform sets Vercel `SENTRY_DSN` and provides canary evidence; CTO confirms any sprint-priority override before cross-sprint reassignment.
+- Done when: blocked issue rows keep one owner + one unblock action + one binary done-state line, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.
+
+## AGN-1353 [Sprint 1 audit] Parent-child linkage integrity pass for AGN-58 tree
+- Evidence (2026-05-05 heartbeat): mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`); `npm run freshness:check` could not complete because `tsx` is missing (`'tsx' is not recognized as an internal or external command`), and direct localhost probes to `http://localhost:3023/api/health?soft=1` plus `http://localhost:3023/api/cron/freshness/state` both returned connection failures (`Unable to connect to the remote server`), so localhost:3023 is currently missing.
+- Linkage-integrity decision: keep AGN-58 child rows synchronized across sprint/backlog notes with one owner + explicit `Blocked on`/`Needs` lines + binary done-state wording; keep out-of-scope execution backlog-only unless CTO reprioritizes.
+- Owner: PM triage.
+- Blocked on: local freshness toolchain/runtime is non-passing (`tsx` missing for freshness script and localhost:3023 unreachable), preventing closure-grade verification.
+- Needs: platform engineer restores local dependencies so `npm run freshness:check` runs and restores localhost:3023 endpoints; CTO/platform provides Vercel `SENTRY_DSN` canary evidence when Sprint closure depends on it; CTO confirms any sprint-priority override before cross-sprint reassignment.
+- Done when: AGN-58 parent-child linkage rows remain synchronized across sprint/backlog with one owner + explicit blocker/action text + binary done-state wording, and `npm run freshness:check` exits 0 with localhost reachable and no blocking non-green rows.

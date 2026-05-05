@@ -1,0 +1,70 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`KpiBand snapshot > renders stable KPI strip markup 1`] = `
+<div
+  aria-label="KPIs"
+  class="v4-kpi-band"
+  role="group"
+>
+  <div
+    class="v4-kpi-cell"
+  >
+    <div
+      class="v4-kpi-cell__label"
+    >
+      Signal volume � 24h
+    </div>
+    <div
+      class="v4-kpi-cell__row"
+    >
+      <span
+        class="v4-kpi-cell__value"
+      >
+        42,184
+      </span>
+      <span
+        class="v4-kpi-cell__delta"
+      >
+        +18.2%
+      </span>
+    </div>
+  </div>
+  <div
+    class="v4-kpi-cell"
+  >
+    <div
+      class="v4-kpi-cell__label"
+    >
+      Sources � live
+    </div>
+    <div
+      class="v4-kpi-cell__row"
+    >
+      <span
+        class="v4-kpi-cell__value"
+      >
+        8 / 8
+      </span>
+    </div>
+    <div
+      class="v4-kpi-cell__sub"
+    >
+      <span
+        aria-live="polite"
+        class="v4-live-dot v4-live-dot--money"
+        role="status"
+      >
+        <i
+          aria-hidden="true"
+          class="v4-live-dot__pip"
+        />
+        <span
+          class="v4-live-dot__label"
+        >
+          all healthy
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;

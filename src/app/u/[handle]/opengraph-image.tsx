@@ -19,10 +19,17 @@ import {
 } from "@/lib/og-primitives";
 
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 export const alt = "TrendingRepo — Builder profile card";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+const IMAGE_RESPONSE_OPTIONS = {
+  ...size,
+  headers: {
+    "cache-control": "public, s-maxage=300, stale-while-revalidate=3600",
+  },
+};
 
 const HANDLE_PATTERN = /^[A-Za-z0-9._-]{1,64}$/;
 const IDEA_TITLE_MAX = 72;
@@ -43,8 +50,8 @@ export default async function UserProfileOGImage({ params }: RouteParams) {
           hint={`/u/${handle}`}
         />
       ),
-      size,
-    );
+    IMAGE_RESPONSE_OPTIONS,
+  );
   }
 
   const profile = await getProfile(handle);
@@ -118,8 +125,8 @@ export default async function UserProfileOGImage({ params }: RouteParams) {
           </div>
         </CardFrame>
       ),
-      size,
-    );
+    IMAGE_RESPONSE_OPTIONS,
+  );
   }
 
   const topIdeas = profile.ideas.slice(0, 2);
@@ -283,7 +290,7 @@ export default async function UserProfileOGImage({ params }: RouteParams) {
         </div>
       </CardFrame>
     ),
-    size,
+    IMAGE_RESPONSE_OPTIONS,
   );
 }
 

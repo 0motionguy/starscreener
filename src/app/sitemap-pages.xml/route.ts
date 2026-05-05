@@ -20,11 +20,9 @@
 //
 // Caching:
 //   ISR-revalidated hourly (`revalidate = 3600`) and force-static so
-//   Vercel can serve the XML directly off the edge cache without
-//   re-running the file IO for `loadAllCollections()` on every crawl.
+//   Vercel can serve the XML directly off the edge cache.
 
 import { CATEGORIES } from "@/lib/constants";
-import { loadAllCollections } from "@/lib/collections";
 import { absoluteUrl } from "@/lib/seo";
 import {
   renderUrlset,
@@ -43,21 +41,37 @@ interface StaticHub {
 
 const STATIC_HUBS: StaticHub[] = [
   { path: "/", priority: 1.0, changefreq: "hourly" },
+  { path: "/top", priority: 0.95, changefreq: "hourly" },
   { path: "/top10", priority: 0.95, changefreq: "hourly" },
+  { path: "/trending", priority: 0.9, changefreq: "hourly" },
+  { path: "/trending/agents", priority: 0.9, changefreq: "hourly" },
+  { path: "/trending/skills", priority: 0.9, changefreq: "hourly" },
+  { path: "/trending/mcp", priority: 0.9, changefreq: "hourly" },
   { path: "/breakouts", priority: 0.9, changefreq: "hourly" },
+  { path: "/skills", priority: 0.9, changefreq: "hourly" },
+  { path: "/mcp", priority: 0.9, changefreq: "hourly" },
+  { path: "/agent-repos", priority: 0.9, changefreq: "hourly" },
+  { path: "/agent-commerce", priority: 0.9, changefreq: "hourly" },
   { path: "/funding", priority: 0.9, changefreq: "hourly" },
   { path: "/consensus", priority: 0.9, changefreq: "hourly" },
   { path: "/signals", priority: 0.85, changefreq: "hourly" },
+  { path: "/digest", priority: 0.85, changefreq: "daily" },
+  { path: "/collections", priority: 0.8, changefreq: "daily" },
+  { path: "/ideas", priority: 0.75, changefreq: "daily" },
+  { path: "/predict", priority: 0.75, changefreq: "daily" },
+  { path: "/npm", priority: 0.75, changefreq: "daily" },
   { path: "/twitter", priority: 0.85, changefreq: "hourly" },
-  { path: "/news", priority: 0.85, changefreq: "hourly" },
   { path: "/papers", priority: 0.8, changefreq: "daily" },
+  { path: "/research", priority: 0.8, changefreq: "daily" },
   { path: "/arxiv/trending", priority: 0.75, changefreq: "daily" },
+  { path: "/huggingface", priority: 0.8, changefreq: "daily" },
   { path: "/huggingface/trending", priority: 0.8, changefreq: "daily" },
+  { path: "/huggingface/models", priority: 0.8, changefreq: "daily" },
   { path: "/huggingface/datasets", priority: 0.75, changefreq: "daily" },
   { path: "/huggingface/spaces", priority: 0.75, changefreq: "daily" },
   { path: "/revenue", priority: 0.8, changefreq: "daily" },
+  { path: "/model-usage", priority: 0.75, changefreq: "daily" },
   { path: "/categories", priority: 0.8, changefreq: "daily" },
-  { path: "/collections", priority: 0.8, changefreq: "daily" },
   { path: "/hackernews/trending", priority: 0.8, changefreq: "hourly" },
   { path: "/bluesky/trending", priority: 0.75, changefreq: "daily" },
   { path: "/devto", priority: 0.75, changefreq: "daily" },
@@ -65,12 +79,28 @@ const STATIC_HUBS: StaticHub[] = [
   { path: "/producthunt", priority: 0.75, changefreq: "daily" },
   { path: "/reddit", priority: 0.75, changefreq: "daily" },
   { path: "/reddit/trending", priority: 0.75, changefreq: "daily" },
+  { path: "/mindshare", priority: 0.7, changefreq: "daily" },
+  { path: "/tierlist", priority: 0.65, changefreq: "weekly" },
+  { path: "/tools", priority: 0.65, changefreq: "weekly" },
+  { path: "/tools/revenue-estimate", priority: 0.55, changefreq: "weekly" },
+  { path: "/tools/star-history", priority: 0.55, changefreq: "weekly" },
+  { path: "/tools/treemap", priority: 0.55, changefreq: "weekly" },
   { path: "/compare", priority: 0.5, changefreq: "weekly" },
+  { path: "/alerts", priority: 0.55, changefreq: "daily" },
+  { path: "/alerts/new", priority: 0.5, changefreq: "weekly" },
+  { path: "/hackathons", priority: 0.6, changefreq: "weekly" },
+  { path: "/githubrepo", priority: 0.5, changefreq: "weekly" },
+  { path: "/about", priority: 0.45, changefreq: "monthly" },
+  { path: "/cli", priority: 0.45, changefreq: "weekly" },
+  { path: "/portal/docs", priority: 0.45, changefreq: "weekly" },
   { path: "/docs", priority: 0.5, changefreq: "weekly" },
   { path: "/search", priority: 0.5, changefreq: "weekly" },
   { path: "/watchlist", priority: 0.4, changefreq: "weekly" },
   { path: "/submit", priority: 0.5, changefreq: "weekly" },
+  { path: "/submit/revenue", priority: 0.45, changefreq: "weekly" },
   { path: "/pricing", priority: 0.6, changefreq: "weekly" },
+  { path: "/privacy", priority: 0.4, changefreq: "monthly" },
+  { path: "/terms", priority: 0.4, changefreq: "monthly" },
 ];
 
 // Static hub paths that ship their own `opengraph-image.tsx`. Keyed by
@@ -113,22 +143,6 @@ export function GET(): Response {
           loc: absoluteUrl(`/categories/${c.id}/opengraph-image`),
           title: c.name,
           caption: c.description ?? c.shortName ?? c.name,
-        },
-      ],
-    });
-  }
-
-  // 3. Curated collection pages — each ships a dynamic OG image.
-  for (const c of loadAllCollections()) {
-    entries.push({
-      loc: absoluteUrl(`/collections/${c.slug}`),
-      lastmod: now,
-      changefreq: "weekly",
-      priority: 0.7,
-      images: [
-        {
-          loc: absoluteUrl(`/collections/${c.slug}/opengraph-image`),
-          title: c.name,
         },
       ],
     });

@@ -20,6 +20,7 @@ import {
   getHuggingFaceTrending,
   refreshResearchSignalsFromStore,
 } from "@/lib/research-signals";
+import { absoluteUrl } from "@/lib/seo";
 import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
 import { MarkVisited } from "@/components/layout/MarkVisited";
 
@@ -29,7 +30,21 @@ export const metadata: Metadata = {
   title: "Research - TrendingRepo",
   description:
     "HuggingFace trending models + arXiv cs.AI / cs.CL / cs.LG recent papers, with cross-links to tracked GitHub repos.",
-  alternates: { canonical: "/research" },
+  alternates: { canonical: absoluteUrl("/research") },
+  robots: { index: true, follow: true },
+  openGraph: {
+    title: "Research - TrendingRepo",
+    description:
+      "HuggingFace trending models + arXiv cs.AI / cs.CL / cs.LG recent papers, with cross-links to tracked GitHub repos.",
+    url: absoluteUrl("/research"),
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Research - TrendingRepo",
+    description:
+      "HuggingFace trending models + arXiv cs.AI / cs.CL / cs.LG recent papers, with cross-links to tracked GitHub repos.",
+  },
 };
 
 const HF_TOP = 30;
@@ -51,6 +66,12 @@ function timeAgo(iso: string | null): string {
   if (h < 48) return `${h}h`;
   const d = Math.floor(h / 24);
   return `${d}d`;
+}
+
+function getRepoHref(fullName: string): string {
+  const [owner, name] = fullName.split("/");
+  if (!owner || !name) return `/search?q=${encodeURIComponent(fullName)}`;
+  return `/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
 }
 
 export default async function ResearchPage() {
@@ -197,7 +218,7 @@ export default async function ResearchPage() {
                       {p.linkedRepos.map((r) => (
                         <Link
                           key={r.fullName}
-                          href={`/repos/${encodeURIComponent(r.fullName)}`}
+                          href={getRepoHref(r.fullName)}
                           className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-accent-green/10 text-accent-green hover:bg-accent-green/20"
                         >
                           <GitBranch className="w-3 h-3" /> {r.fullName}

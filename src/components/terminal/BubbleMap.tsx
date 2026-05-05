@@ -1,8 +1,11 @@
+"use client";
+
 // Coin360-style LIVE bubble map for repo momentum — V2 chrome.
 //
-// Server component that computes initial circle-pack positions for all
-// three windows (24h / 7d / 30d) and hands them to the client
-// BubbleMapCanvas. The canvas owns the tab state + physics + drag.
+// Client component (post-AGN-710): hosted under BubbleMapClient's
+// dynamic({ ssr: false }) boundary so the canvas + framer-motion bundle
+// is deferred past the home LCP frame. packBubbles is pure CPU and
+// safely runs on the client; the canvas owns tab state + physics + drag.
 //
 // Visual spec (V2 / Node/01 fusion):
 //   - Up to 220 movers per window

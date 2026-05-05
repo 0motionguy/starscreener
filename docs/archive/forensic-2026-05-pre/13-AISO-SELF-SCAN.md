@@ -1,74 +1,57 @@
-# 13 — AISO Self-Scan (AGN-792)
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
 
-Date: 2026-05-05 (UTC)
-Issue: AGN-792 ([SEO-003] Run AISO scan of trendingrepo.com — fix lowest-scoring dimension first)
 
-## Attempted live submit (this heartbeat)
+## Completed scan capture (unblocked)
 
-Command:
-`ash
-curl -i -sS -X POST "https://aiso.tools/api/scan" \
-  -H "Content-Type: application/json" \
-  --data-binary '{"url":"https://trendingrepo.com"}'
-`
+- Scan ID: `f3058017-7df2-42d7-8c0b-99c13348d1ee`
+- Result artifact: `docs/forensic/AGN-792-AISO-RESULT-20260505T041559Z.json`
+- Domain score: `51` (`partial`)
+- Completed at: `2026-05-05T04:15:48.27+00:00`
 
-Observed response:
-- HTTP status: 429 Too Many Requests
-- Body: {"error":"rate_limited_ip","retryAfterSeconds":67966}
-- Header: Retry-After: 67966
+### Lowest weighted dimensions observed
 
-Captured at: 2026-05-04 21:34:49 UTC
-Earliest retry window (approx): 2026-05-05 16:27:35 UTC
+- `ai-discovery` ï¿½ score `0`, weight `5`
+- `delegate_economy` ï¿½ score `0`, weight `6`
+- `entity` ï¿½ score `0`, weight `10`
+- `csp-audit` ï¿½ score `0`, weight `5`
+- `crawler_block_audit` ï¿½ score `0`, weight `4`
+- `audience_reviews` ï¿½ score `0`, weight `4`
+- `offsite` ï¿½ score `0`, weight `5`
 
-## Current implementation progress (lowest known dimension fix)
+### Dimension selected for this heartbeat
 
-The previous AGN-792 heartbeat already shipped a focused performance-first fix:
-- Route: src/app/reddit/trending/page.tsx
-- Change: removed dynamic(..., { ssr: false }) for AllTrendingTabs and restored direct import/SSR path.
-- Local verification: eslint pass on touched files.
+- Selected: `ai-discovery` (0/5) because scanner marked it auto-fixable with missing:
+  - `/ai/summary.json`
+  - `/.well-known/ai.txt`
 
-This is the on-codebase remediation for the currently worst measurable surface from prior scan evidence; live AISO dimension re-score is blocked by upstream rate limit.
+### Fix implemented
 
-## Blocker
+- Added `src/app/ai/summary.json/route.ts`
+- Added `src/app/.well-known/ai.txt/route.ts`
+- Added automation runner script `scripts/agn792-aiso-scan.mjs`
+- Added npm command: `npm run agn792:aiso-scan`
 
-- Blocked by: AISO public API rate limit (ate_limited_ip)
-- Unblock owner: AISO API window
-- Unblock action: rerun the POST once Retry-After window passes
+### Verification
 
-## Next action (exact)
+- `npx eslint src/app/ai/summary.json/route.ts src/app/.well-known/ai.txt/route.ts scripts/agn792-aiso-scan.mjs` ?
 
-1. Re-run submit:
-`ash
-curl -sS -X POST "https://aiso.tools/api/scan" \
-  -H "Content-Type: application/json" \
-  --data-binary '{"url":"https://trendingrepo.com"}'
-`
-2. Poll result by returned scanId:
-`ash
-curl -sS "https://aiso.tools/api/scan/<scanId>"
-`
-3. Record all 9 dimension scores here and identify the lowest.
-4. Apply one focused fix for that lowest dimension and re-scan for delta.
+## Automated attempt ï¿½ 2026-05-05T04:18:57.507Z
+- Target: `https://trendingrepo.com`
+- Endpoint: `https://aiso.tools/api/scan`
+- Status: `200`
+- Artifact: `docs/forensic/AGN-792-AISO-SCAN-20260505T041857.507Z.json`
 
-## Retry attempt — 2026-05-05 heartbeat (run_liveness_continuation)
+## Post-fix re-scan attempt (pre-merge baseline)
 
-Command:
-`ash
-curl -i -sS -X POST "https://aiso.tools/api/scan" \
-  -H "Content-Type: application/json" \
-  --data-binary '{"url":"https://trendingrepo.com"}'
-`
+- Scan ID: `7cc48a9f-de01-4cf7-be38-b8aa462fd189`
+- Result artifact: `docs/forensic/AGN-792-AISO-RESULT-20260505T041920Z.json`
+- Domain score: `51` (unchanged from prior run) because STARSCREENER fixes are in-branch and not deployed yet.
+- Lowest weighted dimension remains `ai-discovery` at `0/5`.
 
-Response:
-- HTTP 429 Too Many Requests
-- Body: {"error":"rate_limited_ip","retryAfterSeconds":67874}
-- Header: Retry-After: 67874
-
-Captured at: 2026-05-04 21:35:58 UTC
-Next earliest retry: 2026-05-05 16:27:12 UTC
-
-## Retry attempt — raw capture artifact
-
-- Timestamp: 2026-05-04 21:36:57 UTC
-- Raw HTTP exchange captured to: docs/forensic/AGN-792-AISO-POST-20260504T213640Z.txt
-- Result: HTTP 429, ate_limited_ip, etryAfterSeconds=67823.
+Interpretation:
+- This run is a valid **pre-merge baseline confirmation**.
+- Acceptance delta (`>=10` improvement) must be measured after merge+deploy.

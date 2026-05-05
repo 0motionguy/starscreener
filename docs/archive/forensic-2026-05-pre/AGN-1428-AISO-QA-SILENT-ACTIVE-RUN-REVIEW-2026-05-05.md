@@ -1,10 +1,17 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-1428 AISO/QA Silent Active Run Review (heartbeat evidence)
 
-- Timestamp: 2026-05-05T09:00:00+08:00
-- Scope: Mandatory STARSCREENER opening protocol verification for AGN-1428.
+- Timestamp: 2026-05-05T11:45:00+08:00
+- Scope: Reopened heartbeat revalidation per Mirko directive.
 - Assigned issue context: AGN-1428 Review silent active run for [AISO/QA] Quality.
 
-## Mandatory reads completed
+## Mandatory opening protocol
+Completed in this heartbeat context:
 1. CLAUDE.md
 2. docs/ENGINE.md
 3. docs/SITE-WIREMAP.md
@@ -13,27 +20,24 @@
 6. tasks/CURRENT-SPRINT.md
 7. tasks/BACKLOG.md
 
-## Freshness check execution
-Command run from repo root:
+## Revalidation commands and results
 ```powershell
 npm run freshness:check
+Invoke-WebRequest -UseBasicParsing -Uri "http://localhost:3023/api/health?soft=1" -TimeoutSec 10
+Invoke-WebRequest -UseBasicParsing -Uri "http://localhost:3023/api/cron/freshness/state" -TimeoutSec 20
 ```
 
-Result:
-- Exit code: 1
-- Output: `freshness-check: request timed out while contacting http://localhost:3023`
+- `npm run freshness:check` -> exit 1, `request timed out while contacting http://localhost:3023`
+- `/api/health?soft=1` -> HTTP 200
+- `/api/cron/freshness/state` -> timed out
 
-Supporting probe:
-```powershell
-Invoke-WebRequest -UseBasicParsing -Uri "http://localhost:3023/api/health?soft=1" -TimeoutSec 8
-```
-- Result: `The operation has timed out.`
+## Classification
+- Reopened blocker is genuine and narrowed:
+  - App process is reachable (health 200).
+  - Freshness-state path is timing out, which prevents quality verification from completing.
+- This is no longer classified as simple localhost-missing.
 
-Classification:
-- This failure is a local precondition failure (localhost:3023 unreachable/timeout), not a confirmed product freshness-regression signal.
-- Because freshness endpoints could not be reached, this heartbeat cannot validate source-level freshness health.
-
-## Notes for AGN-1428 review
-- Mandatory protocol completed and evidenced in this artifact.
-- No code changes were made in this heartbeat.
-- Next unblock action: restore local app availability on port 3023, then rerun `npm run freshness:check` to classify true product status.
+## Chain-of-command escalation
+- Blocked on: `/api/cron/freshness/state` timeout on localhost:3023.
+- Must unblock: Platform/Backend owner responsible for freshness endpoint response-path recovery.
+- Required unblock action: restore `/api/cron/freshness/state` to timely HTTP 200 JSON response, then rerun `npm run freshness:check` and attach output.

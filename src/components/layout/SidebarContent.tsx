@@ -73,6 +73,7 @@ import {
   SidebarWatchlistPreview,
   type SidebarWatchlistPreviewRepo,
 } from "./SidebarWatchlistPreview";
+import { SidebarRecentViewedRepos } from "./SidebarRecentViewedRepos";
 import { SidebarFooter } from "./SidebarFooter";
 import { cn } from "@/lib/utils";
 import { CursorRail } from "@/components/v3";
@@ -685,6 +686,14 @@ export function SidebarContent({
             badgeTone="accent"
             active={pathname === "/top10" || pathname.startsWith("/top10/")}
           />
+        </V2Section>
+
+        {/* RECENT — last ~5 repos the user opened, persisted client-side
+            in localStorage. The widget self-hides on first-visit users
+            (returns `null` until something is tracked) so the V2Section
+            label only appears once there's something to show. */}
+        <V2Section label="RECENT">
+          <SidebarRecentViewedRepos />
         </V2Section>
 
         {/* WATCHING */}

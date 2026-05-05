@@ -66,6 +66,7 @@ import { RepoSignalSnapshot } from "@/components/repo-detail/RepoSignalSnapshot"
 import { ProjectSurfaceMap } from "@/components/repo-detail/ProjectSurfaceMap";
 import { NpmAdoptionPanel } from "@/components/repo-detail/NpmAdoptionPanel";
 import { RepoActionRow } from "@/components/repo-detail/RepoActionRow";
+import { MarkRepoViewed } from "@/components/repo-detail/MarkRepoViewed";
 import { ObjectReactions } from "@/components/reactions/ObjectReactions";
 import {
   countReactions,
@@ -369,6 +370,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
               because the pipeline hasn't scanned that source yet vs because
               nothing exists. */}
           {/* <CompletenessStrip> WIP — re-enable once merged from stash. */}
+          <MarkRepoViewed owner={repo.owner} name={repo.name} />
           <RepoActionRow repo={repo} />
           <ObjectReactions
             objectType="repo"

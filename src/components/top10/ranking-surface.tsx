@@ -1,4 +1,4 @@
-"use client";
+ï»¿"use client";
 
 import type { ReactNode } from "react";
 import Link from "next/link";
@@ -51,8 +51,8 @@ export function RankingPanel({
       }}
     >
       <PanelHead
-        title={`// TOP 10 · ${category.toUpperCase()}`}
-        subtitle={`· LIVE · ${windowLabel(window).toUpperCase()} WINDOW`}
+        title={`// TOP 10 Â· ${category.toUpperCase()}`}
+        subtitle={`Â· LIVE Â· ${windowLabel(window).toUpperCase()} WINDOW`}
         right={totalCount > 0 ? `${totalCount} ENTRIES` : "WAITING FOR FRESH DATA"}
       />
       <FilterRow
@@ -364,7 +364,7 @@ function Delta({ delta, sparkline }: { delta: number | undefined; sparkline: num
           fontWeight: 600,
         }}
       >
-        {delta === undefined ? "—" : `${positive ? "+" : ""}${delta.toFixed(0)}%`}
+        {delta === undefined ? "â€”" : `${positive ? "+" : ""}${delta.toFixed(0)}%`}
       </span>
       {sparkline && sparkline.length >= 2 && (
         <span style={{ display: "block", marginTop: 2 }}>
@@ -399,7 +399,7 @@ function EmptyRows() {
         letterSpacing: "0.14em",
       }}
     >
-      {"// no entries yet — check back after the next refresh"}
+      {"// no entries yet â€” check back after the next refresh"}
     </div>
   );
 }
@@ -409,7 +409,7 @@ function RankingMetaStrip({ meta }: { meta: Top10Bundle["meta"] }) {
     { lbl: "Total movement", v: meta.totalMovement, sub: meta.totalMovementSub, sub_color: "var(--v3-sig-green, #22c55e)" },
     { lbl: "Mean score", v: meta.meanScore, sub: meta.meanScoreSub, sub_color: "var(--v3-sig-green, #22c55e)" },
     { lbl: "Hottest mover", v: meta.hottest, sub: meta.hottestSub, sub_color: "var(--v3-sig-green, #22c55e)" },
-    { lbl: "Coldest mover", v: meta.coldest ?? "—", sub: meta.coldestSub, sub_color: meta.coldest ? "var(--v3-sig-red, #ff4d4d)" : undefined },
+    { lbl: "Coldest mover", v: meta.coldest ?? "â€”", sub: meta.coldestSub, sub_color: meta.coldest ? "var(--v3-sig-red, #ff4d4d)" : undefined },
   ];
   return (
     <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", borderTop: "1px solid var(--v3-line-200, #29323b)" }}>
@@ -436,7 +436,7 @@ function RankingMetaStrip({ meta }: { meta: Top10Bundle["meta"] }) {
             className="v2-mono tabular-nums"
             style={{
               fontSize: 14,
-              color: c.lbl === "Coldest mover" && c.v !== "—" ? "var(--v3-sig-red, #ff4d4d)" : "var(--v3-ink-000, #fff)",
+              color: c.lbl === "Coldest mover" && c.v !== "â€”" ? "var(--v3-sig-red, #ff4d4d)" : "var(--v3-ink-000, #fff)",
               marginTop: 2,
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -463,3 +463,4 @@ function RankingMetaStrip({ meta }: { meta: Top10Bundle["meta"] }) {
     </div>
   );
 }
+

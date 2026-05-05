@@ -49,6 +49,8 @@ jobs:
         run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
 
       - name: Commit if changed
+        id: commit_data
+        continue-on-error: true
         uses: ./.github/actions/git-commit-data
         with:
           message: "chore(data): refresh repo profiles ${{ steps.ts.outputs.value }}"
@@ -57,3 +59,8 @@ jobs:
             data/repo-profile-coverage.json
             data/repo-autocompletion-checklist.json
             data/_meta/repo-profiles.json
+
+      - name: Annotate commit/push failure without failing enrichment
+        if: steps.commit_data.outcome == 'failure'
+        run: |
+          echo "::warning::Refresh repo profiles data updated in-run, but commit/push failed (likely branch protection or push race)."

@@ -1,10 +1,4 @@
-﻿---
-last-verified: 2026-05-05
-verified-by: claude
-status: living
----
-
-# AISO Scan Infrastructure Specification
+﻿# AISO Scan Infrastructure Specification
 
 **Phase A1 — Agent Commerce AISO Scanner Producer Script**
 

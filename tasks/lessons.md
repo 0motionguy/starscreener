@@ -1,9 +1,3 @@
----
-last-verified: 2026-05-05
-verified-by: claude
-status: living
----
-
 # STARSCREENER - Lessons (running list)
 
 Capture pattern: when the user corrects you twice on the same flavor of mistake, append the rule that prevents it. Format:

@@ -27,7 +27,7 @@ restructure is complete. Live counts via guard scripts:
 - **47 archive** docs in active scope; 379 in `docs/archive/forensic-2026-05-pre/`; 44 in `docs/archive/release-validation-pre-2026-05-05/`
 - **6 unlabeled** (down from ~125 — final long tail)
 - **0 frontmatter violations** (160 files scanned)
-- **88 GH Actions workflows**, **14 cron API routes**, **44 active worker fetchers** in `FETCHERS[]` (47 dirs with `index.ts` on disk; 3 unwired: `ai-blogs`, `arxiv`, `github-events`), **55 env vars** (re-derived from `docs/_generated/engine.json`)
+- **85 GH Actions workflows**, **14 cron API routes**, **51 worker fetchers**, **55 env vars** (re-derived from `docs/_generated/engine.json`)
 - **0 inline Redis-key violations** across `src/`, `apps/trendingrepo-worker/src/`, `scripts/`
 - **4 broken internal doc-links** (all in `docs/review/*` — intentional `status: archive` skips)
 
@@ -120,7 +120,7 @@ Count: 27 (per `node scripts/check-docs-freshness.mjs`).
 | `docs/API.md` | Public API surface | 2026-05-05 |
 | `docs/ARCHITECTURE.md` | Redis 3-tier read order, namespaces, compute lanes, error categories | 2026-05-05 |
 | `docs/DEPLOY.md` | Vercel + Railway deploy paths, env wiring, Node 22.x | 2026-05-05 |
-| `docs/ENGINE.md` | 88 workflows + 14 cron routes + 44 active worker fetchers (47 dirs on disk) + 55 env vars | 2026-05-05 |
+| `docs/ENGINE.md` | 85 workflows + 16 cron routes + 51 worker fetchers + ~85 env vars | 2026-05-05 |
 | `docs/INGESTION.md` | Scraper cadence, dual-write helper, Redis-as-truth | 2026-05-05 |
 | `docs/OPERATOR.md` | Operator situational awareness (single source of truth) | 2026-05-05 |
 | `docs/RUNBOOK-internal-agent-token-rotation.md` | Internal agent token rotation | 2026-05-05 |
@@ -211,18 +211,11 @@ These are produced by `scripts/derive-engine-inventory.mjs` and
 `scripts/check-internal-doc-links.mjs`. Refresh via `npm run engine:derive`
 (or the weekly `engine-inventory-refresh.yml` workflow) -- do not edit by hand.
 
-Commit policy: see ADR 0005 (`docs/decisions/0005-generated-docs-commit-policy.md`).
-Stable inventory is tracked so PR reviewers see drift; high-churn reports
-are gitignored.
-
-| Path | Producer | Refresh command | Tracked? |
-|---|---|---|---|
-| `docs/_generated/engine.json` | `scripts/derive-engine-inventory.mjs` | `npm run engine:derive` | tracked |
-| `docs/_generated/engine.md` | `scripts/derive-engine-inventory.mjs` | `npm run engine:derive` | tracked |
-| `docs/_generated/broken-links.md` | `scripts/check-internal-doc-links.mjs` | `node scripts/check-internal-doc-links.mjs` | gitignored |
-| `docs/_generated/health-board.md` | guard rollup script | regenerated on demand | gitignored |
-| `docs/_generated/cron-overlap.md` | cron-overlap detector | regenerated on demand | gitignored |
-| `docs/_generated/hook-smoke-test.md` | manual hook smoke run (`.claude/hooks/README.md`) | regenerated on demand | gitignored |
+| Path | Producer | Refresh command |
+|---|---|---|
+| `docs/_generated/engine.json` | `scripts/derive-engine-inventory.mjs` | `npm run engine:derive` |
+| `docs/_generated/engine.md` | `scripts/derive-engine-inventory.mjs` | `npm run engine:derive` |
+| `docs/_generated/broken-links.md` | `scripts/check-internal-doc-links.mjs` | `node scripts/check-internal-doc-links.mjs` |
 
 ---
 
@@ -239,6 +232,8 @@ Time-boxed audit reports. Treat as historical unless explicitly current.
 | `docs/ui-gap-audit.md` | UI gap audit | 2026-04-28 |
 | `docs/SENTRY-READINESS-CHECKLIST-2026-05-04.md` | Sentry readiness + DSN exposure (AGN-269) | 2026-05-04 |
 | `docs/API_SNAPSHOT_2026-04-27.md` | API snapshot | 2026-04-27 |
+| `docs/SESSION_HANDOFF.md` | Session handoff | 2026-04-27 |
+| `docs/NEXT_SESSION.md` | Next-session handoff | 2026-04-20 |
 | `docs/release-validation-agn-98-2026-05-04.md` | Release validation AGN-98 | 2026-05-04 |
 
 ---
@@ -396,15 +391,16 @@ Highlights:
 
 ---
 
-## Forensic (`docs/archive/forensic/<YYYY-MM-DD>/`)
+## Forensic (`docs/forensic/`)
 
-`docs/forensic/` was archived 2026-05-05 to `docs/archive/forensic-2026-05-pre/` and is gitignored. New forensic deliverables write to `docs/archive/forensic/<YYYY-MM-DD>/`.
+Live forensic root. Bulk pre-2026-05 entries are archived (see Archive
+section).
 
 | Path | Subject |
 |---|---|
-| `docs/archive/forensic-2026-05-pre/00-INDEX.md` | Historical forensic index (pre-2026-05-05) |
-| `docs/archive/forensic/<YYYY-MM-DD>/` | Date-bucketed live forensic deliverables |
-| `docs/archive/forensic-generator-redirect.md` | Redirect/generator notes for orchestrator |
+| `docs/forensic/00-INDEX.md` | Forensic index (pointer to archive) |
+| `docs/forensic/AGN-1490-CRON-OVERLAP-DUPLICATE-DRIFT-RECHECK-2026-05-05.md` | Cron overlap drift recheck |
+| `docs/forensic/AGN-1524-SIDEBAR-ROUTE-VISIBILITY-PARITY-RECHECK-2026-05-05.md` | Sidebar route-visibility parity recheck |
 
 ---
 
@@ -486,7 +482,6 @@ A summary, not an exhaustive list. Read-only history.
 |---|---|---|
 | `docs/archive/forensic-2026-05-pre/` | 379 | Pre-restructure forensic reports (auto-archived) |
 | `docs/archive/forensic-2026-05-03/` | 5 | 2026-05-03 forensic snapshot |
-| `docs/archive/handoffs/` | 2 | Per-session handoff notes (`SESSION_HANDOFF.md`, `NEXT_SESSION.md`) |
 | `docs/archive/AUDIT-2026-05-04.md` | 1 | Source pipeline audit (drives the audit table below) |
 | `docs/archive/AUDIT_HANDOFF.md` | 1 | Audit handoff |
 | `docs/archive/audit-api-zod-typed-errors-AGN-88.md` | 1 | API Zod typed-errors audit |
@@ -525,8 +520,7 @@ below distill its critical gaps so they can be tracked here.
 
 Current ground truth at 2026-05-05: 85 `.github/workflows/*.yml` files (per
 `docs/_generated/engine.json`, derived from filesystem), 16 cron API routes
-under `src/app/api/cron/`, 44 active worker fetchers (47 with `index.ts` on
-disk; 3 unwired) in the sister Railway worker
+under `src/app/api/cron/`, 51 worker fetchers in the sister Railway worker
 (`apps/trendingrepo-worker/`), and ~85 env vars. Re-derive with
 `npm run engine:derive`. See `docs/ENGINE.md` (now `status: living`) for the
 human-readable narrative; `docs/_generated/engine.md` for the auto-derived

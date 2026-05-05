@@ -2,7 +2,7 @@ name: worklog-hygiene
 
 on:
   schedule:
-    - cron: "0 6 * * 1"  # Mondays 06:00 UTC (before US/EU work hours)
+    - cron: "59 5 * * 1"  # Mondays 05:59 UTC (staggered off 06:00 burst, was 06:00)
   workflow_dispatch:
 
 permissions:

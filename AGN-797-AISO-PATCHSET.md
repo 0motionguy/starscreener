@@ -1,7 +1,7 @@
 # AGN-797 — aiso.tools dogfood patchset (manual apply)
 
 Date: 2026-05-05  
-Target repo: sibling `Agnt/aiso/` checkout on the operator host (read-only in this run)  
+Target repo: `C:/Users/mirko/OneDrive/Desktop/Agnt/aiso/` (read-only in this run)  
 Scan command: `npx tsx scripts/scan-self.ts https://aiso.tools`
 
 ## Scan evidence

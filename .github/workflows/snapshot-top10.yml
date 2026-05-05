@@ -6,7 +6,7 @@ name: Snapshot /top10 daily
 # just ended in UTC. workflow_dispatch enables manual backfill.
 on:
   schedule:
-    - cron: "55 23 * * *"
+    - cron: "26 23 * * *"  # daily 23:26 UTC (was 23:55, dedup vs snapshot-consensus)
   workflow_dispatch:
 
 permissions:

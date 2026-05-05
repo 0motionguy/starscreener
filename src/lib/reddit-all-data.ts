@@ -8,6 +8,7 @@ const REDDIT_ALL_POSTS_PATH = resolve(
   "data",
   "reddit-all-posts.json",
 );
+const BUNDLED_FALLBACK_MAX_POSTS = 50;
 const EPOCH_ZERO = "1970-01-01T00:00:00.000Z";
 
 interface RedditAllPostsCache {
@@ -116,6 +117,56 @@ export function getAllScoredPosts(): RedditAllPost[] {
 
 export function getAllPostsStats(nowMs: number = Date.now()): AllPostsStats {
   return buildAllPostsStats(getAllScoredPosts(), nowMs);
+}
+
+let bundledFallbackCache: {
+  posts: RedditAllPost[];
+  lastFetchedAt: string;
+} | null = null;
+
+function loadBundledFallback(): {
+  posts: RedditAllPost[];
+  lastFetchedAt: string;
+} {
+  if (bundledFallbackCache) return bundledFallbackCache;
+  try {
+    const raw = readFileSync(REDDIT_ALL_POSTS_PATH, "utf8");
+    const parsed = normalizeFile(JSON.parse(raw));
+    bundledFallbackCache = {
+      posts: parsed.posts.slice(0, BUNDLED_FALLBACK_MAX_POSTS),
+      lastFetchedAt: parsed.lastFetchedAt,
+    };
+  } catch {
+    bundledFallbackCache = { posts: [], lastFetchedAt: "" };
+  }
+  return bundledFallbackCache;
+}
+
+export function getAllPostsViewWithFallback(nowMs: number = Date.now()): {
+  posts: RedditAllPost[];
+  stats: AllPostsStats;
+  fetchedAt: string | null;
+  cold: boolean;
+  source: "store" | "bundled" | "cold";
+} {
+  let posts = getAllScoredPosts();
+  let fetchedAt = getAllPostsFetchedAt();
+  let cold = isAllPostsCold();
+  let source: "store" | "bundled" | "cold" = "store";
+  let stats = getAllPostsStats(nowMs);
+
+  if (cold || posts.length === 0) {
+    const fallback = loadBundledFallback();
+    if (fallback.posts.length > 0) {
+      posts = fallback.posts;
+      stats = buildAllPostsStats(fallback.posts, nowMs);
+      fetchedAt = fallback.lastFetchedAt || fetchedAt;
+      cold = false;
+      source = "bundled";
+    }
+  }
+  if (cold) source = "cold";
+  return { posts, stats, fetchedAt, cold, source };
 }
 
 // ---------------------------------------------------------------------------

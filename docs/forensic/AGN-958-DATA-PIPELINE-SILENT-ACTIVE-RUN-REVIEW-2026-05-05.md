@@ -31,3 +31,9 @@ Classification:
 
 ## Next action
 - Data Pipeline owner should recover `/api/health?soft=1` to HTTP 200, then rerun `npm run freshness:check` and attach fresh output proving whether remaining non-green rows are product freshness issues vs resolved.
+
+## Paperclip close-loop transport blocker
+- Attempted `POST /api/issues/{issueId}/comments` and `PATCH /api/issues/{issueId}` using `PAPERCLIP_API_URL=http://192.168.192.1:3100` with valid `Authorization` and `X-Paperclip-Run-Id` headers.
+- Both calls failed with `Unable to connect to the remote server`.
+- Health probe to `GET /health` on the same host also failed with `Unable to connect to the remote server`.
+- Unblock owner/action: Paperclip platform/network must restore reachability to the API endpoint so the mandatory terminal status patch can be applied.

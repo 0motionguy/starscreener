@@ -283,3 +283,16 @@ report directory so the session-opening protocol has a stable path.
 - [AGN-1455 productivity review AGN-394 blocker packet (2026-05-05)](./AGN-1455-PRODUCTIVITY-REVIEW-AGN-394-2026-05-05.md)
 
 - [AGN-1456 Frontend silent active run review (2026-05-05)](./AGN-1456-FRONTEND-SILENT-ACTIVE-RUN-REVIEW-2026-05-05.md)
+
+- [AGN-1458 productivity review AGN-1044 heartbeat (2026-05-05)](./AGN-1458-PRODUCTIVITY-REVIEW-AGN-1044-2026-05-05.md)
+- [AGN-1461 productivity review AGN-1045 heartbeat (2026-05-05)](./AGN-1461-PRODUCTIVITY-REVIEW-AGN-1045-2026-05-05.md)
+- [AGN-1460 productivity review AGN-1030 heartbeat (2026-05-05)](./AGN-1460-PRODUCTIVITY-REVIEW-AGN-1030-2026-05-05.md)
+- [AGN-1462 productivity review AGN-1032 heartbeat (2026-05-05)](./AGN-1462-PRODUCTIVITY-REVIEW-AGN-1032-2026-05-05.md)
+- [AGN-1463 productivity review AGN-407 heartbeat (2026-05-05)](./AGN-1463-PRODUCTIVITY-REVIEW-AGN-407-2026-05-05.md)
+- [AGN-1466 CTO GitHub token-pool rotation and quota visibility replay audit (2026-05-05)](./AGN-1466-CTO-GITHUB-POOL-REPLAY-AUDIT-2026-05-05.md)
+- [AGN-1465 productivity review AGN-378 heartbeat (2026-05-05)](./AGN-1465-PRODUCTIVITY-REVIEW-AGN-378-2026-05-05.md)
+
+- [AGN-1464 productivity review AGN-368 heartbeat (2026-05-05)](./AGN-1464-PRODUCTIVITY-REVIEW-AGN-368-2026-05-05.md)
+
+- [AGN-1467 productivity review AGN-413 heartbeat (2026-05-05)](./AGN-1467-PRODUCTIVITY-REVIEW-AGN-413-2026-05-05.md)
+- [AGN-1468 productivity review AGN-959 heartbeat (2026-05-05)](./AGN-1468-PRODUCTIVITY-REVIEW-AGN-959-2026-05-05.md)

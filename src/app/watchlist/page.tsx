@@ -598,6 +598,35 @@ export default function WatchlistPage() {
 }
 
 function EmptyTrackedState() {
+  // AGN-1437: branded 0-saved state. Headline + sub-copy + primary CTA,
+  // plus a "top 3 trending" suggestion strip pulled live from /api/repos
+  // so first-time visitors have a 1-click path into watching their first
+  // repo. We swallow fetch errors silently — the headline + CTA still
+  // satisfy the empty state on their own.
+  const [suggestions, setSuggestions] = useState<Repo[]>([]);
+  const [suggestionsLoading, setSuggestionsLoading] = useState(true);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    (async () => {
+      try {
+        const res = await fetch(
+          "/api/repos?sort=trending&period=week&limit=3",
+          { signal: controller.signal },
+        );
+        if (!res.ok) throw new Error(`status ${res.status}`);
+        const data = (await res.json()) as { repos?: Repo[] };
+        setSuggestions(Array.isArray(data.repos) ? data.repos.slice(0, 3) : []);
+      } catch (err) {
+        if ((err as { name?: string }).name === "AbortError") return;
+        console.error("[watchlist:empty] suggestions fetch failed", err);
+      } finally {
+        setSuggestionsLoading(false);
+      }
+    })();
+    return () => controller.abort();
+  }, []);
+
   return (
     <div
       style={{
@@ -621,16 +650,27 @@ function EmptyTrackedState() {
       >
         {"// WATCHLIST IS EMPTY"}
       </p>
+      <h3
+        style={{
+          fontSize: 18,
+          fontWeight: 600,
+          color: "var(--v4-ink-050)",
+          margin: 0,
+          marginBottom: 6,
+        }}
+      >
+        No repos saved yet
+      </h3>
       <p
         style={{
           fontSize: 13,
           color: "var(--v4-ink-200)",
-          maxWidth: 360,
+          maxWidth: 380,
           margin: "0 auto 16px",
         }}
       >
-        Click the eye icon on any repo to add it here. Your tracked
-        projects appear in this terminal.
+        Click the eye icon on any repo to drop it into your private
+        terminal. Tracked repos surface alerts and 24h movement here.
       </p>
       <Link
         href="/"
@@ -638,18 +678,87 @@ function EmptyTrackedState() {
           display: "inline-block",
           fontFamily: "var(--font-geist-mono), monospace",
           fontSize: 11,
-          padding: "6px 12px",
-          border: "1px solid var(--v4-line-300)",
+          padding: "8px 14px",
+          border: "1px solid var(--v4-acc)",
           borderRadius: 2,
-          color: "var(--v4-ink-100)",
-          background: "var(--v4-bg-050)",
+          color: "var(--v4-acc)",
+          background: "transparent",
           textDecoration: "none",
           textTransform: "uppercase",
           letterSpacing: "0.06em",
+          fontWeight: 600,
         }}
       >
         Browse trending repos →
       </Link>
+
+      {/* Top-3 trending suggestion strip (AC: 'suggestion (top 3 trending)') */}
+      <div style={{ marginTop: 28 }}>
+        <p
+          style={{
+            fontFamily: "var(--font-geist-mono), monospace",
+            fontSize: 10,
+            color: "var(--v4-ink-300)",
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+            margin: 0,
+            marginBottom: 10,
+          }}
+        >
+          {"// OR START WITH THIS WEEK'S TOP 3"}
+        </p>
+        {suggestionsLoading ? (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+              gap: 8,
+            }}
+          >
+            {[0, 1, 2].map((i) => (
+              <div
+                key={i}
+                style={{
+                  height: 96,
+                  border: "1px solid var(--v4-line-200)",
+                  borderRadius: 3,
+                  background: "var(--v4-bg-100)",
+                  opacity: 0.5,
+                }}
+              />
+            ))}
+          </div>
+        ) : suggestions.length === 0 ? null : (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+              gap: 8,
+              textAlign: "left",
+            }}
+          >
+            {suggestions.map((repo) => (
+              <RelatedRepoCard
+                key={repo.id}
+                fullName={repo.fullName}
+                description={repo.description ?? undefined}
+                language={
+                  repo.language ? repo.language.toUpperCase() : undefined
+                }
+                stars={formatNumber(repo.stars)}
+                similarity={
+                  repo.starsDelta7d !== 0
+                    ? `${repo.starsDelta7d > 0 ? "+" : ""}${formatNumber(
+                        repo.starsDelta7d,
+                      )} 7D`
+                    : "STABLE"
+                }
+                href={`/repo/${repo.owner}/${repo.name}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

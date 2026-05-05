@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   title: "Your signal — TrendingRepo",
   description:
     "Personal watchlist, compare shortlist, and saved filter summary. No account required — TrendingRepo keeps your signal local.",
+  robots: { index: false, follow: false },
 };
 
 export default function YouPage() {

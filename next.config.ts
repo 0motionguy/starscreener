@@ -60,6 +60,11 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "unavatar.io" },
       { protocol: "https", hostname: "www.google.com" },
       { protocol: "https", hostname: "ph-files.imgix.net" },
+      // Hugging Face — platform mark + author/org avatars (CDN). Used by
+      // /huggingface/{models,datasets,spaces} via EntityLogo (raw <img>),
+      // listed here so any future migration to next/image doesn't break.
+      { protocol: "https", hostname: "huggingface.co" },
+      { protocol: "https", hostname: "cdn-avatars.huggingface.co" },
     ],
   },
   // Uncomment for Docker/Railway/Fly deployments that need a self-contained

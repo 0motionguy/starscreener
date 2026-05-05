@@ -6,7 +6,11 @@ on:
   workflow_dispatch:
 
 permissions:
+  # Required by .github/actions/git-commit-data: it pushes a data-bot
+  # branch (contents:write) and opens an auto-merge PR (pull-requests:write).
+  # See AGN-861 — direct push to main was blocked by GH006 protection.
   contents: write
+  pull-requests: write
 
 concurrency:
   group: repo-profile-refresh

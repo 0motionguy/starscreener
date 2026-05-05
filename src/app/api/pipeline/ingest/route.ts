@@ -23,10 +23,19 @@ export const runtime = "nodejs";
 // pipeline.recomputeAll(). The default 10s Vercel function timeout is way
 // too tight — sibling pipeline routes (cleanup/enrich/backfill/rebuild) all
 // run at 300s for the same reason. Cron 504s on this route were the symptom.
-export const maxDuration = 300;
+//
+// AGN-859: even at 300s the full sequential aggregator was hitting the
+// Vercel wall-clock cap and returning HTTP 504 FUNCTION_INVOCATION_TIMEOUT
+// to the GH Actions cron. Forward fix: bump per-call ceiling to 600s here
+// AND mirror the override in vercel.json (deploy-time enforcement); split
+// the work into two phases driven by `?phase=1` / `?phase=2` so each call
+// only does ~half the work and stays well under the ceiling.
+export const maxDuration = 600;
 
 const FULL_NAME_PATTERN = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;
 const MAX_BATCH_SIZE = 50;
+const VALID_PHASES = new Set([1, 2] as const);
+type IngestPhase = 1 | 2;
 
 /**
  * When the cron POSTs `{}` (the documented contract — see the GET-handler
@@ -149,6 +158,44 @@ function parseBody(raw: unknown): {
   };
 }
 
+/**
+ * AGN-859 phase support. The hourly cron used to fire a single POST that
+ * sequentially ingested up to 50 repos × N social adapters and then ran
+ * pipeline.recomputeAll(); on a cold lambda this regularly blew past the
+ * 300s function ceiling and Vercel returned 504 FUNCTION_INVOCATION_TIMEOUT.
+ *
+ * Forward-only fix: callers may pass `?phase=1` / `?phase=2` (query string
+ * or JSON body field), which slices `fullNames` along the midpoint so each
+ * invocation does roughly half the work. `phase` is additive — when it is
+ * absent the route still performs the full run, preserving every existing
+ * caller. The recompute step is suppressed on `phase=1` so we recompute
+ * exactly once after `phase=2` lands the second slice.
+ */
+function readPhase(request: NextRequest, body: { phase?: unknown }): {
+  ok: true;
+  phase: IngestPhase | null;
+} | { ok: false; error: string } {
+  const fromQuery = request.nextUrl.searchParams.get("phase");
+  const raw = fromQuery !== null ? fromQuery : body.phase;
+  if (raw === undefined || raw === null || raw === "") {
+    return { ok: true, phase: null };
+  }
+  const n = typeof raw === "number" ? raw : Number(raw);
+  if (!Number.isInteger(n) || !VALID_PHASES.has(n as IngestPhase)) {
+    return { ok: false, error: "phase must be 1 or 2" };
+  }
+  return { ok: true, phase: n as IngestPhase };
+}
+
+/** Slice fullNames by phase. `phase=1` is the first half (rounded up so it
+ * never returns an empty slice on an odd batch), `phase=2` is the
+ * remainder, `null` means full run.  */
+function slicePhase(fullNames: string[], phase: IngestPhase | null): string[] {
+  if (phase === null) return fullNames;
+  const mid = Math.ceil(fullNames.length / 2);
+  return phase === 1 ? fullNames.slice(0, mid) : fullNames.slice(mid);
+}
+
 export async function POST(request: NextRequest): Promise<NextResponse> {
   Sentry.setTag("route", "api/pipeline/ingest");
   const startedAt = Date.now();
@@ -174,14 +221,28 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
+  const phaseParse = readPhase(
+    request,
+    raw as { phase?: unknown },
+  );
+  if (!phaseParse.ok) {
+    return NextResponse.json(
+      { ok: false, error: phaseParse.error },
+      { status: 400 },
+    );
+  }
+  const phase = phaseParse.phase;
+
   const { fullNames: explicitFullNames, useMock, recomputeAfter } = parsed.value;
-  const fullNames = explicitFullNames ?? autoDiscoverFullNames();
+  const allFullNames = explicitFullNames ?? autoDiscoverFullNames();
   const autoDiscovered = explicitFullNames === undefined;
+  const fullNames = slicePhase(allFullNames, phase);
 
   Sentry.setTag("ingest.autoDiscovered", String(autoDiscovered));
   Sentry.setTag("ingest.batchSize", String(fullNames.length));
+  Sentry.setTag("ingest.phase", phase === null ? "full" : String(phase));
 
-  if (fullNames.length === 0) {
+  if (allFullNames.length === 0) {
     return NextResponse.json(
       {
         ok: false,
@@ -190,6 +251,29 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       },
       { status: 503 },
     );
+  }
+
+  // A non-empty source list with an empty phase slice (e.g. phase=2 on a
+  // single-repo batch) is a no-op success: the other phase already covered
+  // the work. Returning 200 here keeps the cron's two-call sequence happy.
+  if (fullNames.length === 0) {
+    const now = new Date().toISOString();
+    const emptyBatch: IngestBatchResult = {
+      startedAt: now,
+      finishedAt: now,
+      total: 0,
+      ok: 0,
+      failed: 0,
+      rateLimitRemaining: null,
+      results: [],
+    };
+    return NextResponse.json({
+      ok: true,
+      batch: emptyBatch,
+      recomputed: false,
+      phase,
+      durationMs: Date.now() - startedAt,
+    });
   }
 
   try {
@@ -222,12 +306,18 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       const summary = Object.entries(socialAdapters.counters)
         .map(([id, c]) => `${id}=${c.mentions}${c.failures > 0 ? `(${c.failures} fail)` : ""}`)
         .join(" ");
+      const phaseTag = phase === null ? "full" : `phase=${phase}`;
       console.log(
-        `[pipeline:ingest] social adapters summary repos=${fullNames.length}${autoDiscovered ? " auto" : ""} ${summary}`,
+        `[pipeline:ingest] social adapters summary ${phaseTag} repos=${fullNames.length}${autoDiscovered ? " auto" : ""} ${summary}`,
       );
     }
 
-    const shouldRecompute = recomputeAfter ?? true;
+    // Recompute exactly once. When the cron runs phase=1 then phase=2 we
+    // want the full recompute to happen after the second slice has landed,
+    // so phase=1 always skips it and phase=2 / full honour `recomputeAfter`
+    // (default true). Callers explicitly passing `recomputeAfter:false`
+    // (the cron does this) still get a no-op recompute regardless of phase.
+    const shouldRecompute = phase === 1 ? false : (recomputeAfter ?? true);
     if (shouldRecompute) {
       await pipeline.recomputeAll();
     }
@@ -236,6 +326,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       ok: true,
       batch,
       recomputed: shouldRecompute,
+      phase,
       durationMs: Date.now() - startedAt,
     });
   } catch (err) {
@@ -243,6 +334,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       tags: {
         route: "api/pipeline/ingest",
         autoDiscovered: String(autoDiscovered),
+        phase: phase === null ? "full" : String(phase),
       },
       extra: {
         batchSize: fullNames.length,

@@ -72,6 +72,7 @@
     "test:e2e:ui": "playwright test --ui",
     "typecheck": "tsc --noEmit",
     "verify:data-store": "node scripts/verify-data-store.mjs",
+    "lighthouse:mobile": "node scripts/lighthouse-mobile.mjs",
     "probe:dual-write": "node scripts/probe-dual-write-integrity.mjs",
     "scrape": "node scripts/scrape-trending.mjs",
     "scrape:reddit": "node scripts/scrape-reddit.mjs",

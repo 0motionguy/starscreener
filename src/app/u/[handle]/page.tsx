@@ -719,8 +719,6 @@ function TopRepoGrid({ items }: { items: TopRepoEntry[] }): JSX.Element {
             key={item.fullName}
             fullName={item.fullName}
             description={item.repo?.description ?? undefined}
-            mentions24h={item.repo?.mentionCount24h}
-            delta24h={item.repo?.starsDelta24h}
             language={
               item.repo?.language
                 ? item.repo.language.toUpperCase()

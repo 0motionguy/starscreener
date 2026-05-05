@@ -635,3 +635,6 @@ function errorStatusFor(code: number): number {
   if (code === ERR_INVALID_PARAMS) return 400;
   return 500;
 }
+
+// Test-only export (tree-shaken in production by bundler).
+export const __test__ = { dispatch, PROTOCOL_VERSION };

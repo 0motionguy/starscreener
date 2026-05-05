@@ -33,9 +33,9 @@ import { z } from "zod";
 import * as Sentry from "@sentry/nextjs";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { serverError } from "@/lib/api/error-response";
 import { parseBody } from "@/lib/api/parse-body";
 import { getDataStore } from "@/lib/data-store";
-import { redactSensitiveText } from "@/lib/log-redaction";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -190,15 +190,9 @@ export async function POST(
 
     return NextResponse.json(value);
   } catch (err) {
-    Sentry.captureException(err, {
-      tags: { route: "api/pipeline/deltas", repo, window },
+    return serverError<ErrResponse>(err, {
+      scope: "[pipeline/deltas]",
+      code: "PIPELINE_DELTAS_FAILED",
     });
-    const rawMessage = err instanceof Error ? err.message : String(err);
-    const message = redactSensitiveText(rawMessage);
-    console.error("[pipeline:deltas] handler failed", { repo, window, message });
-    return NextResponse.json(
-      { ok: false, error: "server error" },
-      { status: 500 },
-    );
   }
 }

@@ -494,7 +494,7 @@ function HeroPanel({
         )}
       </div>
       <div className="cat-foot">
-        <span>updated {new Date(lastFetchedAt).toISOString().slice(11, 16)} utc</span>
+        <span>updated {new Date().toISOString().slice(11, 16)} utc</span>
         <a href={href}>view all -&gt;</a>
       </div>
     </Card>

@@ -14,7 +14,8 @@ export type PipelineEventName =
   | "rank_changed"
   | "breakout_detected"
   | "snapshot_captured"
-  | "alert_triggered";
+  | "alert_triggered"
+  | "mention_ingested";
 
 export interface RankChangedEvent {
   type: "rank_changed";
@@ -53,11 +54,23 @@ export interface AlertTriggeredEvent {
   condition: string;
 }
 
+export interface MentionIngestedEvent {
+  type: "mention_ingested";
+  at: string;
+  repoId: string;
+  fullName: string;
+  mentionId: string;
+  platform: string;
+  url: string;
+  postedAt: string;
+}
+
 export type PipelineEvent =
   | RankChangedEvent
   | BreakoutDetectedEvent
   | SnapshotCapturedEvent
-  | AlertTriggeredEvent;
+  | AlertTriggeredEvent
+  | MentionIngestedEvent;
 
 // Module-level singleton — shared across all route handlers in the same
 // Node.js process. Vercel serverless functions each get their own process

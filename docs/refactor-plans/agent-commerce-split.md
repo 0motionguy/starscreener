@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # agent-commerce split plan
 
 ## 1) Current state map (LOC per concern)
@@ -17,44 +23,44 @@ Architectural diagnosis:
 
 ## 2) Proposed 4-module split
 
-### Module A — Route shell
+### Module A ï¿½ Route shell
 - Path: `src/app/agent-commerce/page.tsx`
 - Responsibility: RSC entrypoint only (metadata, refresh lifecycle, URL filter parse, cold/warm branching, compose section modules).
 - Public seam: imports one builder from Module B and renders Modules C/D.
 
-### Module B — View-model builder
+### Module B ï¿½ View-model builder
 - Path: `src/app/agent-commerce/_view-model.ts`
 - Responsibility: all pure transforms from (`all`, `stats`, `filter`, `file`) to a typed `AgentCommercePageViewModel`.
 - Includes: tab counts, sorted slices, pricing/flag/category breakdowns, score buckets, token boards, ticker rows, opportunities.
 
-### Module C — Overview/top sections
+### Module C ï¿½ Overview/top sections
 - Path: `src/app/agent-commerce/_sections-overview.tsx`
 - Responsibility: top shell and sections 00-03 plus token board `04b`; owns `Sparkline`.
 - Inputs: precomputed view-model slices from Module B.
 
-### Module D — Settlements + browse sections
+### Module D ï¿½ Settlements + browse sections
 - Path: `src/app/agent-commerce/_sections-settlements-and-browse.tsx`
 - Responsibility: sections 04, 04c, 04c-sol, 04d, 05, 06, 07; owns `MiniBoard`.
 - Inputs: precomputed view-model slices from Module B.
 
 ## 3) Migration order (NO behavior changes)
 
-### Phase 1 — Extract Module B (`_view-model.ts`)
+### Phase 1 ï¿½ Extract Module B (`_view-model.ts`)
 - Move pure derivation logic first (`L323-L587` + nested derivation helpers).
 - Route continues rendering existing JSX, now fed by builder output.
 - Estimated LOC moved: ~236.
 
-### Phase 2 — Extract Module C (`_sections-overview.tsx`)
+### Phase 2 ï¿½ Extract Module C (`_sections-overview.tsx`)
 - Move top shell and sections 00-03 + 04b.
 - Keep prop contract shallow: no direct data reads in section module.
 - Estimated LOC moved: ~760.
 
-### Phase 3 — Extract Module D (`_sections-settlements-and-browse.tsx`)
+### Phase 3 ï¿½ Extract Module D (`_sections-settlements-and-browse.tsx`)
 - Move 04/04c/04c-sol/04d/05/06/07 and `MiniBoard` rendering.
 - Leave `page.tsx` as composition-only.
 - Estimated LOC moved: ~891.
 
-### Phase 4 — Stabilize contracts + cleanup
+### Phase 4 ï¿½ Stabilize contracts + cleanup
 - Remove dead in-file helpers, tighten exported types, ensure zero behavior drift.
 - Estimated LOC moved: ~80 (net cleanup/re-homing only).
 

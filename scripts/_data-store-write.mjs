@@ -36,6 +36,23 @@ const META_NAMESPACE = "ss:meta:v1";
 const DEFAULT_TTL_SECONDS = 86_400;
 const INVALID_KEY_LITERALS = new Set(["null", "undefined"]);
 
+/**
+ * Typed key builders for the .mjs script world. Mirror of `keys` in
+ * src/lib/redis/keys.ts (TypeScript) — kept here in plain ESM so collectors
+ * and audit scripts that run as `node` (not tsx) can import without a
+ * transpile step. Single source of truth for the `ss:data:v1` /
+ * `ss:meta:v1` namespaces is the constants above; both `keys` and
+ * writeDataStore/readDataStore reach into them.
+ *
+ * Convention enforced by scripts/check-redis-keys.mjs: do NOT inline
+ * `redis.get(\`ss:data:v1:${slug}\`)` anywhere in scripts/ — import this
+ * builder instead.
+ */
+export const keys = {
+  payload: (slug) => `${NAMESPACE}:${slug}`,
+  meta: (slug) => `${META_NAMESPACE}:${slug}`,
+};
+
 let cachedClient = null;
 let warnedAboutMissingEnv = false;
 

@@ -1,6 +1,7 @@
 ﻿#!/usr/bin/env node
 import { readdir, readFile, stat, mkdir, appendFile, writeFile } from "node:fs/promises";
 import { resolve, basename } from "node:path";
+import { keys } from "./_data-store-write.mjs";
 
 const ROOT = process.cwd();
 const DATA_DIR = resolve(ROOT, "data");
@@ -147,7 +148,7 @@ async function main() {
     const fp = await fileProbe(slug);
     let rawMeta = null;
     if (redis) {
-      rawMeta = await redis.get(`ss:meta:v1:${slug}`);
+      rawMeta = await redis.get(keys.meta(slug));
     }
     const meta = parseMeta(rawMeta);
     const redisTs = meta.writtenAt;

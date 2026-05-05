@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # Tech-Debt Audit — Final Closure Report
 
 End-of-day 2026-04-27 (continuation of [`AUDIT_HANDOFF.md`](./archive/AUDIT_HANDOFF.md)).

@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # Session Handoff — 2026-04-27
 
 > Paste the section under `--- ROLE PROMPT ---` into a new Claude Code session

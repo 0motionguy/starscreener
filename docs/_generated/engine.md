@@ -1,6 +1,6 @@
-# Engine inventory - auto-generated 2026-05-05T05:09:28.821Z
+# Engine inventory - auto-generated 2026-05-05T05:40:22.798Z
 
-## Workflows (83)
+## Workflows (85)
 
 | file | name | cron | triggers |
 | --- | --- | --- | --- |
@@ -29,7 +29,9 @@
 | cron-twitter-outbound.yml | Cron — Twitter outbound | `0 14 * * *`<br>`0 16 * * 5` | schedule, workflow_dispatch |
 | cron-warmup.yml | Warm Vercel routes | `*/5 8-21 * * *` | schedule, workflow_dispatch |
 | cron-webhooks-flush.yml | Cron - webhooks flush + scan | `5,35 * * * *` | schedule, workflow_dispatch |
+| doc-links-check.yml | doc-links-check | - | pull_request, workflow_dispatch |
 | docs-freshness.yml | docs-freshness | `0 13 * * 1` | pull_request, schedule, workflow_dispatch |
+| engine-inventory-refresh.yml | engine-inventory-refresh | `0 14 * * 1` | pull_request, schedule, workflow_dispatch |
 | enrich-arxiv.yml | Enrich arXiv signals | `13 */12 * * *` | schedule, workflow_dispatch |
 | enrich-repo-profiles.yml | Refresh repo profiles | `41 * * * *` | schedule, workflow_dispatch |
 | health-watch.yml | Source health watch | `*/30 * * * *` | schedule, workflow_dispatch |
@@ -88,7 +90,7 @@
 | trivy-worker-image.yml | trivy-worker-image | - | pull_request, push, workflow_dispatch |
 | uptime-monitor.yml | Uptime monitor (every 5 minutes) | `*/5 * * * *` | schedule, workflow_dispatch |
 
-## Cron routes (16)
+## Cron routes (14)
 
 | path | auth |
 | --- | --- |
@@ -99,8 +101,6 @@
 | src/app/api/cron/llm/aggregate/route.ts | verifyCronAuth |
 | src/app/api/cron/llm/sync-models/route.ts | verifyCronAuth |
 | src/app/api/cron/mcp/rotate-usage/route.ts | verifyCronAuth |
-| src/app/api/cron/news-auto-recover/route.ts | verifyCronAuth |
-| src/app/api/cron/predictions/calibrate/route.ts | verifyCronAuth |
 | src/app/api/cron/predictions/route.ts | verifyCronAuth |
 | src/app/api/cron/sources-auto-recover/route.ts | verifyCronAuth |
 | src/app/api/cron/subdomain-takeover/route.ts | verifyCronAuth |

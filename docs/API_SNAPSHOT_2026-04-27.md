@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # API snapshot (2026-04-27)
 
 Probed against `http://localhost:3099` (fresh `next dev` after `.next` nuke). Public-only endpoints; auth/cron/webhook/admin routes excluded. Replaces the partial run captured earlier today against `:3088`.

@@ -47,6 +47,7 @@ const ALL_TYPES: PipelineEventName[] = [
   "breakout_detected",
   "snapshot_captured",
   "alert_triggered",
+  "mention_ingested",
 ];
 
 function parseTypeFilter(req: NextRequest): Set<PipelineEventName> {

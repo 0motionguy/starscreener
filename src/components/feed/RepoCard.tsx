@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { Star } from "lucide-react";
 import type { Repo } from "@/lib/types";
 import { cn, formatNumber } from "@/lib/utils";
@@ -14,6 +13,7 @@ import { NpmBadge } from "@/components/npm/NpmBadge";
 import { getNpmPackagesForRepo } from "@/lib/npm";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoDisplayLogoUrl } from "@/lib/logos";
+import { RepoHoverPrefetchLink } from "@/components/repo/RepoHoverPrefetchLink";
 
 interface RepoCardProps {
   repo: Repo;
@@ -27,7 +27,7 @@ export function RepoCard({ repo, index = 0, showRank = false }: RepoCardProps) {
     repo.stars > 0 ? (repo.starsDelta7d / repo.stars) * 100 : 0;
 
   return (
-    <Link
+    <RepoHoverPrefetchLink
       href={`/repo/${repo.owner}/${repo.name}`}
       className={cn(
         "block bg-bg-card border border-border-primary rounded-[var(--radius-card)] p-4 shadow-[var(--shadow-card)]",
@@ -86,6 +86,6 @@ export function RepoCard({ repo, index = 0, showRank = false }: RepoCardProps) {
           <MomentumBadge score={repo.momentumScore} size="sm" />
         </div>
       </div>
-    </Link>
+    </RepoHoverPrefetchLink>
   );
 }

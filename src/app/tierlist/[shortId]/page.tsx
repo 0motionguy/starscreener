@@ -19,6 +19,40 @@ interface Params {
   params: Promise<{ shortId: string }>;
 }
 
+function asStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter((v): v is string => typeof v === "string");
+}
+
+function normalizePayload(payload: TierListPayload): TierListPayload {
+  const normalizedTiers = Array.isArray(payload.tiers)
+    ? payload.tiers
+        .filter((tier): tier is TierListPayload["tiers"][number] => {
+          return (
+            !!tier &&
+            typeof tier === "object" &&
+            typeof tier.id === "string" &&
+            typeof tier.label === "string" &&
+            typeof tier.color === "string"
+          );
+        })
+        .map((tier) => ({
+          ...tier,
+          items: asStringArray(tier.items),
+        }))
+    : [];
+
+  return {
+    ...payload,
+    tiers: normalizedTiers,
+    unrankedItems: asStringArray(payload.unrankedItems),
+    title:
+      typeof payload.title === "string" && payload.title.trim().length > 0
+        ? payload.title
+        : "Untitled tier list",
+  };
+}
+
 function buildItemMeta(repoIds: string[]): Record<string, PoolItem> {
   const meta: Record<string, PoolItem> = {};
   for (const id of repoIds) {
@@ -48,10 +82,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   if (!isShortId(shortId)) {
     return { title: `Tier list - ${SITE_NAME}` };
   }
-  const payload = await getTierList(shortId);
-  if (!payload) {
+  const rawPayload = await getTierList(shortId);
+  if (!rawPayload) {
     return { title: `Tier list - ${SITE_NAME}` };
   }
+  const payload = normalizePayload(rawPayload);
   const hash = stateHash({
     title: payload.title,
     tiers: payload.tiers,
@@ -88,8 +123,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function SavedTierListPage({ params }: Params) {
   const { shortId } = await params;
   if (!isShortId(shortId)) notFound();
-  const payload = await getTierList(shortId);
-  if (!payload) notFound();
+  const rawPayload = await getTierList(shortId);
+  if (!rawPayload) notFound();
+  const payload = normalizePayload(rawPayload);
 
   const allItemIds = [
     ...payload.unrankedItems,

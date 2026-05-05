@@ -112,6 +112,7 @@ export interface DevtoMentionsFile {
 // Mutable in-memory cache — seeded from bundled JSON, replaced via
 // refreshDevtoMentionsFromStore().
 let mentionsFile: DevtoMentionsFile = devtoMentionsData as unknown as DevtoMentionsFile;
+mentionsFile = sanitizeMentionsFile(mentionsFile);
 enrichDevtoWindowedCounts(mentionsFile);
 
 /**
@@ -130,6 +131,31 @@ function enrichDevtoWindowedCounts(
     mention.count24h = countMentionsInWindow(rows, WINDOW_24H, nowMs);
     mention.count30d = countMentionsInWindow(rows, WINDOW_30D, nowMs);
   }
+}
+
+function sanitizeMentionsFile(input: unknown): DevtoMentionsFile {
+  const file = (input ?? {}) as Partial<DevtoMentionsFile>;
+  return {
+    fetchedAt: typeof file.fetchedAt === "string" ? file.fetchedAt : "",
+    discoveryVersion:
+      typeof file.discoveryVersion === "string" ? file.discoveryVersion : undefined,
+    windowDays: Number.isFinite(file.windowDays) ? Number(file.windowDays) : 7,
+    scannedArticles: Number.isFinite(file.scannedArticles)
+      ? Number(file.scannedArticles)
+      : 0,
+    bodyFetchMode:
+      file.bodyFetchMode === "full" ||
+      file.bodyFetchMode === "partial" ||
+      file.bodyFetchMode === "description-only"
+        ? file.bodyFetchMode
+        : "description-only",
+    priorityTags: Array.isArray(file.priorityTags) ? file.priorityTags : [],
+    discoverySlices: Array.isArray(file.discoverySlices) ? file.discoverySlices : [],
+    sliceCounts:
+      file.sliceCounts && typeof file.sliceCounts === "object" ? file.sliceCounts : {},
+    mentions: file.mentions && typeof file.mentions === "object" ? file.mentions : {},
+    leaderboard: Array.isArray(file.leaderboard) ? file.leaderboard : [],
+  };
 }
 
 export const devtoFetchedAt: string = mentionsFile.fetchedAt;
@@ -258,7 +284,7 @@ export async function refreshDevtoMentionsFromStore(): Promise<{
       "devto-mentions",
     );
     if (result.data && result.source !== "missing") {
-      mentionsFile = result.data;
+      mentionsFile = sanitizeMentionsFile(result.data);
       enrichDevtoWindowedCounts(mentionsFile);
       mentionsByLowerName = buildDevtoMentionsByLowerName(mentionsFile);
     }

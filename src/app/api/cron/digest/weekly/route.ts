@@ -31,6 +31,7 @@
 //     durationMs, dryRun }
 
 import { NextRequest, NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import {
@@ -183,6 +184,10 @@ export async function POST(
     );
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
+    Sentry.captureException(err, {
+      tags: { route: "api:cron:digest:weekly" },
+      extra: { dryRun },
+    });
     console.error("[api:cron:digest:weekly] failed", err);
     return NextResponse.json(
       { ok: false, error: message },

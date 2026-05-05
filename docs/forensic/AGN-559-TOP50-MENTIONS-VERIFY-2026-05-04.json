@@ -1,0 +1,202 @@
+{
+  "checkedAt": "2026-05-04T13:20:11.955Z",
+  "scope": "Top 50 /githubrepo momentum-ranked rows",
+  "sources10": [
+    "gh",
+    "twitter",
+    "reddit",
+    "hackernews",
+    "bluesky",
+    "devto",
+    "lobsters",
+    "npm",
+    "huggingface",
+    "arxiv"
+  ],
+  "note": "MENTIONS column excludes gh by design; gh is a binary chip in table",
+  "totalRows": 50,
+  "mismatchCount": 0,
+  "mismatches": [],
+  "sampleTop10": [
+    {
+      "fullName": "rtk-ai/rtk",
+      "platformMentions24h": 10,
+      "groundTruthMentions24h": 10,
+      "diff": 0,
+      "sources10": {
+        "gh": 1,
+        "tw": 10,
+        "rd": 0,
+        "hn": 0,
+        "bs": 0,
+        "dv": 0,
+        "lb": 0,
+        "np": 0,
+        "hfv": 0,
+        "ax": 0
+      }
+    },
+    {
+      "fullName": "Alishahryar1/free-claude-code",
+      "platformMentions24h": 22,
+      "groundTruthMentions24h": 22,
+      "diff": 0,
+      "sources10": {
+        "gh": 1,
+        "tw": 22,
+        "rd": 0,
+        "hn": 0,
+        "bs": 0,
+        "dv": 0,
+        "lb": 0,
+        "np": 0,
+        "hfv": 0,
+        "ax": 0
+      }
+    },
+    {
+      "fullName": "ShareX/ShareX",
+      "platformMentions24h": 11,
+      "groundTruthMentions24h": 11,
+      "diff": 0,
+      "sources10": {
+        "gh": 1,
+        "tw": 11,
+        "rd": 0,
+        "hn": 0,
+        "bs": 0,
+        "dv": 0,
+        "lb": 0,
+        "np": 0,
+        "hfv": 0,
+        "ax": 0
+      }
+    },
+    {
+      "fullName": "abhigyanpatwari/GitNexus",
+      "platformMentions24h": 10,
+      "groundTruthMentions24h": 10,
+      "diff": 0,
+      "sources10": {
+        "gh": 1,
+        "tw": 9,
+        "rd": 0,
+        "hn": 0,
+        "bs": 0,
+        "dv": 1,
+        "lb": 0,
+        "np": 0,
+        "hfv": 0,
+        "ax": 0
+      }
+    },
+    {
+      "fullName": "Wei-Shaw/sub2api",
+      "platformMentions24h": 7,
+      "groundTruthMentions24h": 7,
+      "diff": 0,
+      "sources10": {
+        "gh": 1,
+        "tw": 7,
+        "rd": 0,
+        "hn": 0,
+        "bs": 0,
+        "dv": 0,
+        "lb": 0,
+        "np": 0,
+        "hfv": 0,
+        "ax": 0
+      }
+    },
+    {
+      "fullName": "webadderallorg/Recordly",
+      "platformMentions24h": 31,
+      "groundTruthMentions24h": 31,
+      "diff": 0,
+      "sources10": {
+        "gh": 1,
+        "tw": 31,
+        "rd": 0,
+        "hn": 0,
+        "bs": 0,
+        "dv": 0,
+        "lb": 0,
+        "np": 0,
+        "hfv": 0,
+        "ax": 0
+      }
+    },
+    {
+      "fullName": "browser-use/browser-harness",
+      "platformMentions24h": 25,
+      "groundTruthMentions24h": 25,
+      "diff": 0,
+      "sources10": {
+        "gh": 1,
+        "tw": 25,
+        "rd": 0,
+        "hn": 0,
+        "bs": 0,
+        "dv": 0,
+        "lb": 0,
+        "np": 0,
+        "hfv": 0,
+        "ax": 0
+      }
+    },
+    {
+      "fullName": "refactoringhq/tolaria",
+      "platformMentions24h": 10,
+      "groundTruthMentions24h": 10,
+      "diff": 0,
+      "sources10": {
+        "gh": 1,
+        "tw": 10,
+        "rd": 0,
+        "hn": 0,
+        "bs": 0,
+        "dv": 0,
+        "lb": 0,
+        "np": 0,
+        "hfv": 0,
+        "ax": 0
+      }
+    },
+    {
+      "fullName": "QuantumNous/new-api",
+      "platformMentions24h": 8,
+      "groundTruthMentions24h": 8,
+      "diff": 0,
+      "sources10": {
+        "gh": 1,
+        "tw": 8,
+        "rd": 0,
+        "hn": 0,
+        "bs": 0,
+        "dv": 0,
+        "lb": 0,
+        "np": 0,
+        "hfv": 0,
+        "ax": 0
+      }
+    },
+    {
+      "fullName": "matthart1983/syswatch",
+      "platformMentions24h": 0,
+      "groundTruthMentions24h": 0,
+      "diff": 0,
+      "sources10": {
+        "gh": 1,
+        "tw": 0,
+        "rd": 0,
+        "hn": 0,
+        "bs": 0,
+        "dv": 0,
+        "lb": 0,
+        "np": 0,
+        "hfv": 0,
+        "ax": 0
+      }
+    }
+  ]
+}

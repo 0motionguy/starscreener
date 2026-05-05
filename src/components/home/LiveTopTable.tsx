@@ -33,10 +33,12 @@ import {
 } from "@/lib/toast";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoLogoUrl } from "@/lib/logos";
-import type { Repo } from "@/lib/types";
+import { getRelativeTime } from "@/lib/utils";
+import { WhyBadge } from "@/components/repo/WhyBadge";
 
-type SortKey = "rank" | "stars" | "d24" | "d7" | "d30" | "forks" | "mentions";
+type SortKey = "rank" | "stars" | "delta" | "forks" | "mentions";
 type SortDir = "asc" | "desc";
+type TrendWindow = "1h" | "6h" | "24h" | "7d";
 
 interface CategoryFacet {
   id: string;
@@ -66,6 +68,8 @@ interface LiveRow {
   categoryLabel: string;
   language: string | null;
   stars: number;
+  starsDelta1h?: number | null;
+  starsDelta6h?: number | null;
   starsDelta24h: number;
   starsDelta7d: number;
   starsDelta30d: number;
@@ -73,6 +77,9 @@ interface LiveRow {
   sparklineData: number[];
   momentumScore: number;
   mentionCount24h: number;
+  lastCommitAt: string | null;
+  whyLine?: string | null;
+  whySignal?: string | null;
   /** Per-source 24h count for tooltip + on/off state. Missing key = no signal. */
   sources: Partial<Record<LiveSourceKey, number>>;
 }
@@ -104,6 +111,7 @@ const ROW_SOURCE_ICONS = [
 interface LiveTopTableProps {
   rows: LiveRow[];
   categories: CategoryFacet[];
+  interactiveActions?: boolean;
 }
 
 const compactNumber = new Intl.NumberFormat("en-US", {
@@ -124,6 +132,15 @@ function formatPct(delta: number, base: number): string | null {
   if (base <= 0 || delta === 0) return null;
   const pct = Math.round((delta / Math.max(1, base - delta)) * 100);
   return `${pct >= 0 ? "+" : ""}${pct}%`;
+}
+
+function freshnessTone(isoDate: string): "fresh" | "stale" | "normal" {
+  const then = new Date(isoDate).getTime();
+  if (!Number.isFinite(then)) return "normal";
+  const ageMinutes = (Date.now() - then) / 60_000;
+  if (ageMinutes <= 30) return "fresh";
+  if (ageMinutes > 60) return "stale";
+  return "normal";
 }
 
 function sparkPath(values: number[], width: number, height: number): string {
@@ -167,12 +184,8 @@ function getSortValue(row: LiveRow, key: SortKey): number {
   switch (key) {
     case "stars":
       return row.stars;
-    case "d24":
+    case "delta":
       return row.starsDelta24h;
-    case "d7":
-      return row.starsDelta7d;
-    case "d30":
-      return row.starsDelta30d;
     case "forks":
       return row.forks;
     case "mentions":
@@ -180,6 +193,19 @@ function getSortValue(row: LiveRow, key: SortKey): number {
     case "rank":
     default:
       return row.momentumScore;
+  }
+}
+
+function getWindowDelta(row: LiveRow, win: TrendWindow): number | null {
+  switch (win) {
+    case "1h":
+      return row.starsDelta1h ?? null;
+    case "6h":
+      return row.starsDelta6h ?? null;
+    case "24h":
+      return row.starsDelta24h;
+    case "7d":
+      return row.starsDelta7d;
   }
 }
 
@@ -301,10 +327,15 @@ function ActionCell({
   );
 }
 
-export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
+export function LiveTopTable({
+  rows,
+  categories,
+  interactiveActions = true,
+}: LiveTopTableProps) {
   const [sortKey, setSortKey] = useState<SortKey>("rank");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [activeCat, setActiveCat] = useState<string | null>(null);
+  const [activeWindow, setActiveWindow] = useState<TrendWindow>("24h");
 
   const handleSort = (key: SortKey) => {
     if (key === sortKey) {
@@ -320,10 +351,18 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
       ? rows.filter((r) => r.categoryId === activeCat)
       : rows;
     const sorted = [...filtered].sort((a, b) =>
-      compareNumeric(getSortValue(a, sortKey), getSortValue(b, sortKey), sortDir),
+      compareNumeric(
+        sortKey === "delta"
+          ? (getWindowDelta(a, activeWindow) ?? Number.NEGATIVE_INFINITY)
+          : getSortValue(a, sortKey),
+        sortKey === "delta"
+          ? (getWindowDelta(b, activeWindow) ?? Number.NEGATIVE_INFINITY)
+          : getSortValue(b, sortKey),
+        sortDir,
+      ),
     );
     return sorted;
-  }, [rows, sortKey, sortDir, activeCat]);
+  }, [rows, sortKey, sortDir, activeCat, activeWindow]);
 
   return (
     <div className="live-top">
@@ -346,6 +385,24 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
           </button>
         ))}
         <span className="live-top-spacer" />
+        <div className="tabs" role="tablist" aria-label="Trending window">
+          {(["1h", "6h", "24h", "7d"] as const).map((w) => (
+            <button
+              key={w}
+              type="button"
+              role="tab"
+              aria-selected={activeWindow === w}
+              className={`tab${activeWindow === w ? " on" : ""}`}
+              onClick={() => {
+                setActiveWindow(w);
+                setSortKey("delta");
+                setSortDir("desc");
+              }}
+            >
+              {w}
+            </button>
+          ))}
+        </div>
         <span className="live-top-meta">
           showing <b>{visible.length}</b> / {rows.length}
           <span className="live-pip">live</span>
@@ -367,23 +424,9 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
                 onClick={handleSort}
               />
               <SortHeader
-                label="24h"
-                sortKey="d24"
-                active={sortKey === "d24"}
-                dir={sortDir}
-                onClick={handleSort}
-              />
-              <SortHeader
-                label="7d"
-                sortKey="d7"
-                active={sortKey === "d7"}
-                dir={sortDir}
-                onClick={handleSort}
-              />
-              <SortHeader
-                label="30d"
-                sortKey="d30"
-                active={sortKey === "d30"}
+                label={`Δ ${activeWindow}`}
+                sortKey="delta"
+                active={sortKey === "delta"}
                 dir={sortDir}
                 onClick={handleSort}
               />
@@ -400,9 +443,15 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
           </thead>
           <tbody>
             {visible.map((row, index) => {
-              const pct24 = formatPct(row.starsDelta24h, row.stars);
-              const pct7 = formatPct(row.starsDelta7d, row.stars);
-              const pct30 = formatPct(row.starsDelta30d, row.stars);
+              const activeDelta = getWindowDelta(row, activeWindow);
+              const pct = activeDelta === null ? null : formatPct(activeDelta, row.stars);
+              const rankLabel = `#${String(index + 1).padStart(2, "0")}`;
+              const rankTooltip =
+                `Why ${rankLabel}: momentum ${Math.round(row.momentumScore)}. ` +
+                `Signals: ${row.starsDelta1h == null ? "n/a" : formatDelta(row.starsDelta1h)} (1h), ` +
+                `${row.starsDelta6h == null ? "n/a" : formatDelta(row.starsDelta6h)} (6h), ` +
+                `${formatDelta(row.starsDelta24h)} (24h), ${formatDelta(row.starsDelta7d)} (7d), ` +
+                `${formatCompact(row.mentionCount24h)} mentions.`;
               const rankCls =
                 index === 0
                   ? "rk-1"
@@ -419,8 +468,8 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
                         <RankStarMark />
                       </span>
                     ) : null}
-                    <span className="rk-n">
-                      #{String(index + 1).padStart(2, "0")}
+                    <span className="rk-n" title={rankTooltip} aria-label={rankTooltip}>
+                      {rankLabel}
                     </span>
                   </td>
                   <td>
@@ -434,7 +483,22 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
                         <span>{row.fullName}</span>
                         <small>
                           {row.categoryLabel} / {row.language ?? "mixed"}
+                          {row.lastCommitAt ? (
+                            <>
+                              {" / "}
+                              <span
+                                className={`freshness-tag freshness-tag--${freshnessTone(row.lastCommitAt)}`}
+                              >
+                                Updated {getRelativeTime(row.lastCommitAt)}
+                              </span>
+                            </>
+                          ) : null}
                         </small>
+                        {row.whyLine ? (
+                          <span style={{ display: "block", marginTop: 4, maxWidth: 560 }}>
+                            <WhyBadge text={row.whyLine} signal={row.whySignal ?? undefined} />
+                          </span>
+                        ) : null}
                       </span>
                     </a>
                   </td>
@@ -471,17 +535,9 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
                       {formatCompact(row.stars)}
                     </span>
                   </td>
-                  <td className={`num metric-num ${row.starsDelta24h < 0 ? "dn" : "up"}`}>
-                    {formatDelta(row.starsDelta24h)}
-                    {pct24 ? <small className="pct">{pct24}</small> : null}
-                  </td>
-                  <td className={`num metric-num ${row.starsDelta7d < 0 ? "dn" : "up"}`}>
-                    {formatDelta(row.starsDelta7d)}
-                    {pct7 ? <small className="pct">{pct7}</small> : null}
-                  </td>
-                  <td className={`num metric-num ${row.starsDelta30d < 0 ? "dn" : "up"}`}>
-                    {formatDelta(row.starsDelta30d)}
-                    {pct30 ? <small className="pct">{pct30}</small> : null}
+                  <td className={`num metric-num ${activeDelta !== null && activeDelta < 0 ? "dn" : "up"}`}>
+                    {activeDelta === null ? "n/a" : formatDelta(activeDelta)}
+                    {pct ? <small className="pct">{pct}</small> : null}
                   </td>
                   <td className="ch">
                     {(() => {
@@ -552,17 +608,21 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
                     })()}
                   </td>
                   <td className="num metric-num">{formatCompact(row.forks)}</td>
-                  <ActionCell
-                    repoId={row.id}
-                    repoName={row.fullName}
-                    stars={row.stars}
-                  />
+                  {interactiveActions ? (
+                    <ActionCell
+                      repoId={row.id}
+                      repoName={row.fullName}
+                      stars={row.stars}
+                    />
+                  ) : (
+                    <td className="actions" aria-hidden="true" />
+                  )}
                 </tr>
               );
             })}
             {visible.length === 0 ? (
               <tr>
-                <td colSpan={10} className="live-empty">
+                <td colSpan={8} className="live-empty">
                   No repos match this filter.
                 </td>
               </tr>

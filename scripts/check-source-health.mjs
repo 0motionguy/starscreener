@@ -9,51 +9,40 @@
 //
 // Bad states:
 //   - reason !== "ok" (network_error / partial / unknown)
-//   - ts older than the source's STALENESS_HOURS threshold
+//   - ts older than the source's staleness threshold
 //
-// Sources without an entry in STALENESS_HOURS use DEFAULT_STALENESS_HOURS.
-// Tune by editing the table below — no other code change needed.
-//
+// Sources without an explicit budget use DEFAULT_STALENESS_HOURS.
 // Untracked sources (no _meta sidecar yet) are intentionally skipped, not
 // flagged. Adding meta wiring to a new source automatically opts it into
 // the watch.
 
-import { readdir, readFile, stat } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import * as Sentry from "@sentry/node";
+import { budgetHoursForSource } from "./_freshness-budgets.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const META_DIR = resolve(__dirname, "..", "data", "_meta");
-
-// Per-source freshness budgets. Pick generous thresholds (~6-10× the source's
-// own cron cadence) so transient cron skips don't fire spurious alerts —
-// the goal is "this source has stopped reporting", not "this source is
-// briefly behind".
-const STALENESS_HOURS = {
-  // Sub-hourly / hourly cadence sources
-  bluesky: 8,
-  lobsters: 8,
-  // Worker-driven (~12h effective on the Railway side)
-  reddit: 12,
-  hackernews: 12,
-  // 3h-cadence cron sources
-  arxiv: 12,
-  huggingface: 12,
-  "huggingface-datasets": 12,
-  "huggingface-spaces": 12,
-  "funding-news": 12,
-  trending: 12,
-  // Multiple-times-per-day cron
-  producthunt: 16,
-  // Daily-cadence sources
-  devto: 30,
-  npm: 30,
-  "npm-daily": 30,
-  "claude-rss": 30,
-  "openai-rss": 30,
-  "awesome-skills": 30,
-};
 const DEFAULT_STALENESS_HOURS = 24;
+
+function initSentry() {
+  const dsn = process.env.SENTRY_DSN?.trim();
+  if (!dsn) return false;
+  Sentry.init({
+    dsn,
+    tracesSampleRate: 0,
+    environment: process.env.NODE_ENV ?? "production",
+    release: process.env.GITHUB_SHA ?? process.env.VERCEL_GIT_COMMIT_SHA,
+    initialScope: {
+      tags: {
+        source: "health-watch",
+        runtime: "github-actions",
+      },
+    },
+  });
+  return true;
+}
 
 function fmtAge(hours) {
   if (!Number.isFinite(hours)) return "?";
@@ -63,14 +52,13 @@ function fmtAge(hours) {
 }
 
 async function main() {
+  const sentryReady = initSentry();
   let entries;
   try {
     entries = await readdir(META_DIR);
   } catch (err) {
     if (err?.code === "ENOENT") {
-      console.error(
-        `[health-watch] ${META_DIR} does not exist — no sources to check`,
-      );
+      console.error(`[health-watch] ${META_DIR} does not exist - no sources to check`);
       process.exit(0);
     }
     throw err;
@@ -96,10 +84,8 @@ async function main() {
     }
 
     const ts = typeof meta.ts === "string" ? Date.parse(meta.ts) : NaN;
-    const ageHours = Number.isFinite(ts)
-      ? (Date.now() - ts) / 3_600_000
-      : NaN;
-    const threshold = STALENESS_HOURS[source] ?? DEFAULT_STALENESS_HOURS;
+    const ageHours = Number.isFinite(ts) ? (Date.now() - ts) / 3_600_000 : NaN;
+    const threshold = budgetHoursForSource(source, DEFAULT_STALENESS_HOURS);
 
     if (meta.reason !== "ok") {
       reports.push({
@@ -129,7 +115,7 @@ async function main() {
         ok: false,
         ageHours,
         threshold,
-        reason: `STALE — last write ${fmtAge(ageHours)} ago (threshold ${threshold}h)`,
+        reason: `STALE - last write ${fmtAge(ageHours)} ago (threshold ${threshold}h)`,
       });
       continue;
     }
@@ -137,9 +123,8 @@ async function main() {
     reports.push({ source, ok: true, ageHours, threshold });
   }
 
-  // Print a markdown summary so GitHub Actions log shows a readable table.
   reports.sort((a, b) => Number(a.ok) - Number(b.ok) || a.source.localeCompare(b.source));
-  console.log(`# Source health — ${new Date().toISOString()}`);
+  console.log(`# Source health - ${new Date().toISOString()}`);
   console.log();
   console.log(`| source | status | age | threshold | reason |`);
   console.log(`|---|---|---|---|---|`);
@@ -154,14 +139,36 @@ async function main() {
 
   const fails = reports.filter((r) => !r.ok);
   if (fails.length > 0) {
-    console.error(
-      `\n[health-watch] ${fails.length} source(s) unhealthy of ${reports.length} checked. Failing workflow.`,
-    );
+    if (sentryReady) {
+      const repoProfilesFailure = fails.find((r) => r.source === "repo-profiles");
+      Sentry.captureMessage(
+        `[health-watch] ${fails.length} unhealthy source(s); repo-profiles stale alert=${repoProfilesFailure ? "yes" : "no"}`,
+        {
+          level: "error",
+          tags: {
+            alert: repoProfilesFailure
+              ? "repo-profiles-freshness-over-6h"
+              : "source-freshness-regression",
+            source: repoProfilesFailure ? "repo-profiles" : "health-watch",
+          },
+          extra: {
+            checkedAt: new Date().toISOString(),
+            failCount: fails.length,
+            fails: fails.map((f) => ({
+              source: f.source,
+              reason: f.reason ?? "",
+              ageHours: Number.isFinite(f.ageHours) ? Number(f.ageHours.toFixed(2)) : null,
+              thresholdHours: f.threshold ?? null,
+            })),
+          },
+        },
+      );
+      await Sentry.flush(2_000);
+    }
+    console.error(`\n[health-watch] ${fails.length} source(s) unhealthy of ${reports.length} checked. Failing workflow.`);
     process.exit(1);
   }
-  console.log(
-    `[health-watch] all ${reports.length} sources healthy.`,
-  );
+  console.log(`[health-watch] all ${reports.length} sources healthy.`);
 }
 
 main().catch((err) => {

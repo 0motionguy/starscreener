@@ -92,6 +92,7 @@ export default function robots(): MetadataRoute.Robots {
       absoluteUrl("/sitemap-repos.xml"),
       absoluteUrl("/sitemap-news.xml"),
       absoluteUrl("/sitemap-digest.xml"),
+      absoluteUrl("/sitemap-profiles.xml"),
     ],
     host: absoluteUrl("/"),
   };

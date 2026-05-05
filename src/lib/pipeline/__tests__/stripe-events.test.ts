@@ -507,3 +507,38 @@ test("webhook route — malformed stripe-signature value returns 400", async () 
     assert.equal(body.code, "BAD_SIGNATURE");
   });
 });
+
+test("webhook route — bad signature captures quarantine-tagged Sentry exception", async () => {
+  await withStripeEnv(async () => {
+    const ts = await loadRoute();
+    const sentryEvents: Array<{ error: unknown; context?: unknown }> = [];
+    ts.__setStripeWebhookSentryCaptureForTests(
+      ((error: unknown, context?: unknown) => {
+        sentryEvents.push({ error, context });
+        return "evt_test";
+      }) as Parameters<typeof ts.__setStripeWebhookSentryCaptureForTests>[0],
+    );
+
+    try {
+      const fakeRequest = {
+        headers: new Headers({
+          "content-type": "application/json",
+          "stripe-signature": "garbage-not-a-stripe-sig",
+        }),
+        text: async () => JSON.stringify({ id: "evt_x", type: "ping" }),
+      } as unknown as Parameters<typeof ts.POST>[0];
+
+      const res = await ts.POST(fakeRequest);
+      assert.equal(res.status, 400);
+      assert.equal(sentryEvents.length, 1);
+      const tags = (
+        sentryEvents[0].context as { tags?: Record<string, string> } | undefined
+      )?.tags;
+      assert.equal(tags?.source, "stripe");
+      assert.equal(tags?.category, "quarantine");
+      assert.equal(tags?.scope, "api/webhooks/stripe");
+    } finally {
+      ts.__resetStripeWebhookSentryCaptureForTests();
+    }
+  });
+});

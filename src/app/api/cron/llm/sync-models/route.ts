@@ -11,6 +11,7 @@
 // Frequency: daily — model catalogue churn is slow.
 
 import { NextRequest, NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { getDataStore } from "@/lib/data-store";
@@ -133,6 +134,9 @@ export async function POST(request: NextRequest) {
     );
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
+    Sentry.captureException(err, {
+      tags: { endpoint: "api:cron:llm:sync-models" },
+    });
     console.error('[api:cron:llm:sync-models] failed', err);
     return NextResponse.json(
       { ok: false as const, error: message },

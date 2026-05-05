@@ -63,7 +63,7 @@ const envSchema = z
 
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
     PORT: z.coerce.number().int().positive().default(8080),
-    LOG_LEVEL: z.enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal']).default('info'),
+    LOG_LEVEL: z.enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal']).optional(),
     DATA_STORE_DISABLE: z.string().optional(),
   })
   .refine(
@@ -94,7 +94,13 @@ export function loadEnv(): WorkerEnv {
     const issues = parsed.error.issues.map((i) => `  - ${i.path.join('.')}: ${i.message}`).join('\n');
     throw new Error(`Invalid worker environment:\n${issues}`);
   }
-  cached = parsed.data;
+  const resolved = parsed.data;
+  const defaultLogLevel =
+    resolved.NODE_ENV === 'production' ? 'warn' : 'info';
+  cached = {
+    ...resolved,
+    LOG_LEVEL: resolved.LOG_LEVEL ?? defaultLogLevel,
+  };
   return cached;
 }
 

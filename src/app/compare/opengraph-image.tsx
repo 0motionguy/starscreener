@@ -1,21 +1,11 @@
 // TrendingRepo — Compare page OG image
 //
-// 1200×630 share card for /compare?ids=a,b,c.
-//
-// CAVEAT: Next.js's file-based opengraph-image convention wraps our default
-// export with a GET(_, ctx) handler that throws away the Request (see
-// node_modules/next/dist/esm/build/webpack/loaders/next-metadata-route-loader.js).
-// `headers()` is available but carries no query string — we confirmed this by
-// dumping the live header set. That means we cannot reliably read ?ids= from
-// inside this route. We try `referer` as a best-effort fallback (works when
-// the preview fetch is triggered by a page that already has ids in its URL),
-// then gracefully default to showing the top-2 trending repos so the card
-// still previews the compare experience instead of looking empty.
+// 1200×630 share card for /compare. Metadata routes do not reliably expose
+// query strings, so this card renders a stable top-2 trending compare preview
+// that can be cached aggressively instead of forcing dynamic execution.
 
-import { headers } from "next/headers";
 import { ImageResponse } from "next/og";
 import {
-  getDerivedRepoById,
   getDerivedRepos,
 } from "@/lib/derived-repos";
 import { OG_COLORS } from "@/lib/seo";
@@ -23,73 +13,25 @@ import { StarMark } from "@/lib/og-primitives";
 import type { Repo } from "@/lib/types";
 
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 export const alt = "TrendingRepo — Compare repos momentum card";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const MAX_CARDS = 4;
+const IMAGE_RESPONSE_OPTIONS = {
+  ...size,
+  headers: {
+    "cache-control": "public, s-maxage=300, stale-while-revalidate=3600",
+  },
+};
+
 const MIN_CARDS_FOR_COMPARE = 2;
 
-/**
- * Best-effort extraction of ids from the request. Next.js's metadata-route
- * wrapper does not forward the Request or searchParams to image handlers, so
- * we can only probe the headers AsyncLocalStorage exposes. `referer` tends
- * to be the only one that ever carries a query string (when a browser
- * previews a share URL). Returns an empty array when we can't find ids.
- */
-async function readIdsFromRequest(): Promise<string[]> {
-  const h = await headers();
-  const candidates = [h.get("referer"), h.get("next-url")];
-  const host = h.get("host") ?? "localhost";
-  for (const raw of candidates) {
-    if (!raw) continue;
-    try {
-      const url = new URL(raw, `http://${host}`);
-      const ids = url.searchParams.get("ids");
-      if (ids) return parseIds(ids);
-    } catch {
-      // fall through
-    }
-  }
-  return [];
-}
-
-function parseIds(raw: string): string[] {
-  return raw
-    .split(",")
-    .map((s) => s.trim())
-    .filter((s) => s.length > 0)
-    .slice(0, MAX_CARDS);
-}
-
-function resolveRepos(ids: string[]): Repo[] {
-  const repos: Repo[] = [];
-  for (const id of ids) {
-    const repo = getDerivedRepoById(id);
-    if (repo) repos.push(repo);
-  }
-  return repos;
-}
-
 export default async function CompareOGImage() {
-  const requestedIds = await readIdsFromRequest();
-
-  let repos = resolveRepos(requestedIds);
-  let isFallback = false;
-
-  // Fallback when the metadata wrapper didn't expose ids — surface the two
-  // loudest movers today so the preview still demos the compare experience.
-  if (repos.length < MIN_CARDS_FOR_COMPARE) {
-    const all = getDerivedRepos();
-    const movers = [...all]
-      .sort((a, b) => b.starsDelta24h - a.starsDelta24h)
-      .slice(0, 2);
-    if (movers.length >= MIN_CARDS_FOR_COMPARE) {
-      repos = movers;
-      isFallback = true;
-    }
-  }
+  const all = getDerivedRepos();
+  const repos: Repo[] = [...all]
+    .sort((a, b) => b.starsDelta24h - a.starsDelta24h)
+    .slice(0, 2);
 
   if (repos.length < MIN_CARDS_FOR_COMPARE) {
     return new ImageResponse(
@@ -158,17 +100,15 @@ export default async function CompareOGImage() {
           />
         </div>
       ),
-      size,
-    );
+    IMAGE_RESPONSE_OPTIONS,
+  );
   }
 
   // Grid sizing: 2 cards → side-by-side wide; 3 cards → 3-up; 4 cards → 2x2.
   const n = repos.length;
   const cardWidth = n === 2 ? 500 : n === 3 ? 332 : 492;
   const cardHeight = n === 4 ? 188 : 356;
-  const title = isFallback
-    ? "Compare Repos · Trending"
-    : `Comparing ${n} repo${n === 1 ? "" : "s"}`;
+  const title = "Compare Repos · Trending";
 
   return new ImageResponse(
     (
@@ -340,7 +280,7 @@ export default async function CompareOGImage() {
         />
       </div>
     ),
-    size,
+    IMAGE_RESPONSE_OPTIONS,
   );
 }
 

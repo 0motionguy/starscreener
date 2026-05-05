@@ -32,16 +32,33 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { Treemap, type TreemapCell } from "@/components/tools/Treemap";
 import { getDerivedRepos } from "@/lib/derived-repos";
+import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import type { Repo } from "@/lib/types";
 
 export const runtime = "nodejs";
 export const revalidate = 1800;
 
 export function generateMetadata(): Metadata {
+  const canonical = absoluteUrl("/tools/treemap");
+  const title = "Treemap explorer - TrendingRepo";
+  const description =
+    "Visualize the top repos by star count and momentum, grouped by language. Two views drawn from the same momentum pipeline.";
   return {
-    title: "Treemap explorer — TrendingRepo",
-    description:
-      "Visualize the top repos by star count and momentum, grouped by language. Two views drawn from the same momentum pipeline.",
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      type: "website",
+      siteName: SITE_NAME,
+      title,
+      description,
+      url: canonical,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
   };
 }
 
@@ -341,3 +358,4 @@ export default function TreemapToolPage() {
     </main>
   );
 }
+

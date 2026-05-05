@@ -25,6 +25,7 @@ import { OG_COLORS, SITE_URL } from "@/lib/seo";
 import { tierListPayloadSchema } from "@/lib/tier-list/schema";
 import { isShortId } from "@/lib/tier-list/short-id";
 import { getTierList } from "@/lib/tier-list/store";
+import { decodeUtf8Base64Url } from "@/lib/tier-list/base64url";
 import type { TierListPayload, TierRow } from "@/lib/types/tier-list";
 
 export const runtime = "nodejs";
@@ -95,7 +96,7 @@ function parseAspect(raw: string | null): Aspect {
 function loadStateFromQuery(stateRaw: string | null): TierListPayload | null {
   if (!stateRaw) return null;
   try {
-    const json = Buffer.from(stateRaw, "base64").toString("utf8");
+    const json = decodeUtf8Base64Url(stateRaw);
     const parsed = tierListPayloadSchema.safeParse(JSON.parse(json));
     return parsed.success ? parsed.data : null;
   } catch {
@@ -126,7 +127,7 @@ export async function GET(request: Request) {
     height: size.height,
     headers: {
       "Cache-Control":
-        "public, s-maxage=300, stale-while-revalidate=3600",
+        "public, s-maxage=3600, stale-while-revalidate=3600",
     },
   });
 }

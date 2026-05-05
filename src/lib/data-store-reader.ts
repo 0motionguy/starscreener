@@ -1,5 +1,8 @@
 // Generic data-store payload reader factory.
 //
+// Canonical tier contract: docs/decisions/cache-tiers.md (AGN-670).
+// This helper sits on Tier T4 reads with rate-limited refresh into process cache.
+//
 // Extracts the duplicated pattern that every per-source reader was
 // open-coding: an in-memory cache, a 30s rate-limit + in-flight dedupe on
 // `refreshXxxFromStore()`, and a `read<T>(key)` against the data-store that

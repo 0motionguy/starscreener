@@ -2,6 +2,28 @@
 
 Thanks for your interest. This guide gets you from clone to a merged PR.
 
+## Mandatory Session Preflight
+
+Before proposing changes, read:
+
+1. `CLAUDE.md`
+2. `docs/ENGINE.md`
+3. `docs/SITE-WIREMAP.md`
+4. `docs/AUDIT-2026-05-04.md`
+5. `docs/forensic/00-INDEX.md`
+6. `tasks/CURRENT-SPRINT.md`
+7. `tasks/BACKLOG.md`
+
+Then run:
+
+```bash
+npm run freshness:check
+```
+
+Interpret failures correctly:
+- If it says localhost timed out / refused (`http://localhost:3023`), treat it as a local server availability issue.
+- If localhost is reachable and sources are stale/non-green, treat it as a product data freshness issue.
+
 ## Prerequisites
 
 - **Node 22.x** (pinned via `engines` in `package.json`)
@@ -58,6 +80,8 @@ npm run lint:guards     # meta-lints (Zod on mutating routes, error envelopes, r
 npm test                # node:test + tsx + vitest, runs in serial
 ```
 
+If your change affects data ingestion, cron routes, or freshness behavior, include one `npm run freshness:check` result in your PR notes and classify failures (`localhost unavailable` vs `product freshness regression`).
+
 If you touched a workflow under `.github/workflows/`, confirm it parses (no YAML errors) and has appropriate `permissions:` and `concurrency:` blocks where relevant.
 
 ## Pull requests
@@ -73,6 +97,15 @@ If you touched a workflow under `.github/workflows/`, confirm it parses (no YAML
 - **Collectors dual-write file + Redis** via `scripts/_data-store-write.mjs`. File mirror is acceptable during transitions; Redis is the source of truth.
 - **JSONL append-only.** Don't replace; append. The aggregator dedupes downstream.
 - **Don't** `readFileSync(process.cwd(), "data", ...)` for new sources — go through the data-store.
+
+## Error handling conventions (backend/platform)
+
+- Use `EngineError` from `src/lib/errors.ts` for new backend/platform failures with category: `recoverable`, `quarantine`, or `fatal`.
+- Do not add new bare `throw new Error(...)` in backend/platform paths.
+- Do not swallow errors. Log relevant failures to Sentry with source/category context.
+- For recoverable external calls, use retry backoff `1s -> 2s -> 4s` with max 3 attempts.
+- Quarantine auth/rate-limit cases; fatal cases should trigger `OPS_ALERT_WEBHOOK`.
+- Never expose raw secrets in logs; mask secrets as first4+last4 only.
 
 ## Anti-patterns to avoid
 

@@ -16,10 +16,22 @@
 
 import { readFileSync } from "node:fs";
 import path from "node:path";
+import * as Sentry from "@sentry/nextjs";
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-import { AdminFatalError, EngineError } from "@/lib/errors";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
+import { serverError } from "@/lib/api/error-response";
+import {
+  userAuthFailureResponse,
+  verifyUserAuth,
+} from "@/lib/api/auth";
+import {
+  AdminFatalError,
+  AuthQuarantineError,
+  EngineError,
+  engineErrorTags,
+} from "@/lib/errors";
 
 export const runtime = "nodejs";
 
@@ -84,28 +96,95 @@ function getSpec(): LoadedSpec {
 }
 
 const CACHE_HEADERS = {
-  "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+  "Cache-Control": "private, no-store",
   "Content-Type": "application/json; charset=utf-8",
 } as const;
 
-export async function GET(): Promise<NextResponse> {
+const OPENAPI_RATE_LIMIT = {
+  windowMs: 60_000,
+  maxRequests: 30,
+} as const;
+
+function isPublicPath(pathname: string): boolean {
+  const raw = pathname.toLowerCase();
+  let decoded = raw;
   try {
-    const spec = getSpec();
+    decoded = decodeURIComponent(raw);
+  } catch {
+    decoded = raw;
+  }
+  const blockedPrefixes = [
+    "/api/admin/",
+    "/api/_internal/",
+    "/api/webhooks/",
+    "/api/cron/",
+  ];
+  if (blockedPrefixes.some((prefix) => raw.startsWith(prefix))) return false;
+  if (blockedPrefixes.some((prefix) => decoded.startsWith(prefix))) return false;
+  return true;
+}
+
+function publicSpecView(spec: LoadedSpec): LoadedSpec {
+  const filteredPaths = Object.fromEntries(
+    Object.entries(spec.paths).filter(([pathname]) => isPublicPath(pathname)),
+  );
+  const schemes = spec.components?.securitySchemes ?? {};
+  const {
+    cronBearer: _cronBearer,
+    adminBearer: _adminBearer,
+    ...restSchemes
+  } = schemes;
+  return {
+    ...spec,
+    paths: filteredPaths,
+    components: {
+      ...(spec.components ?? {}),
+      securitySchemes: restSchemes,
+    },
+  };
+}
+
+export async function GET(request: NextRequest): Promise<NextResponse> {
+  const userVerdict = verifyUserAuth(request);
+  const denied = userAuthFailureResponse(userVerdict);
+  if (denied) return denied;
+
+  const limit = await checkRateLimitAsync(request, OPENAPI_RATE_LIMIT);
+  if (!limit.allowed) {
+    const err = new AuthQuarantineError(
+      "openapi denied: rate limited public-api spec request",
+      { route: "/api/openapi.json", count: limit.count },
+    );
+    Sentry.captureException(err, {
+      tags: {
+        ...engineErrorTags(err),
+        source: "auth",
+        category: "quarantine",
+        route: "openapi.json",
+      },
+    });
+    return NextResponse.json(
+      { ok: false, error: "rate limited", code: "RATE_LIMITED" },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil(limit.retryAfterMs / 1000)),
+          "Cache-Control": "no-store",
+        },
+      },
+    );
+  }
+
+  try {
+    const spec = publicSpecView(getSpec());
     return NextResponse.json(spec, { headers: CACHE_HEADERS });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    // Return a 500 with a machine-readable envelope matching the rest of
-    // the API. Stack traces stay in the server log.
-    console.error("[api:openapi.json] failed to load spec", err);
-    return NextResponse.json(
-      {
-        ok: false,
-        error: "Could not load OpenAPI spec",
-        code: "OPENAPI_LOAD_FAILED",
-        detail: message,
-      },
-      { status: 500 },
-    );
+    return serverError(err, {
+      scope: "[api/openapi.json:GET]",
+      publicMessage: "Could not load OpenAPI spec",
+      code: "OPENAPI_LOAD_FAILED",
+      status: 500,
+    });
   }
 }
 
@@ -120,3 +199,10 @@ const OPENAPI_TEST_RESET = Symbol.for("trendingrepo.openapi.test.reset");
     cachedSpec = null;
     loadError = null;
   };
+
+const OPENAPI_TEST_IS_PUBLIC_PATH = Symbol.for(
+  "trendingrepo.openapi.test.isPublicPath",
+);
+(globalThis as unknown as Record<symbol, (pathname: string) => boolean>)[
+  OPENAPI_TEST_IS_PUBLIC_PATH
+] = isPublicPath;

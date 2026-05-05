@@ -11,11 +11,12 @@ import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 // crashes the app before any routes load.
 import "@/lib/bootstrap";
 import { ToasterLazy } from "@/components/feedback/ToasterLazy";
+import { BugReportWidget } from "@/components/feedback/BugReportWidget";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { StoreProvider } from "@/components/providers/StoreProvider";
-import { PostHogProvider } from "@/components/providers/PostHogProvider";
 import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { Sidebar } from "@/components/layout/Sidebar";
 import {
   buildSidebarData,
@@ -27,7 +28,11 @@ import {
 // exists because Server Components can't pass ssr:false to next/dynamic.
 import { MobileDrawerLazy } from "@/components/layout/MobileDrawerLazy";
 import { MobileNav } from "@/components/layout/MobileNav";
-import { BrowserAlertBridge } from "@/components/alerts/BrowserAlertBridge";
+import { OnboardingTour } from "@/components/layout/OnboardingTour";
+import { PwaInstallPrompt } from "@/components/layout/PwaInstallPrompt";
+import { ScrollToTopButton } from "@/components/layout/ScrollToTopButton";
+import { CmdKPalette } from "@/components/layout/CmdKPalette";
+import { ClientDeferredProviders } from "@/components/layout/ClientDeferredProviders";
 import { DesignSystemProvider } from "@/components/v3";
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
@@ -41,22 +46,39 @@ const geist = Geist({
   variable: "--font-geist",
   subsets: ["latin"],
   display: "swap",
+  preload: true,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
+  preload: false,
 });
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
   display: "swap",
-  // Only 400 (default body), 600 (font-semibold), and 700 (font-bold)
-  // are referenced via `font-display` utilities — 500 was unused.
-  weight: ["400", "600", "700"],
+  preload: false,
+  // SPEED-9: reduce loaded weights to only the two active cuts.
+  weight: ["400", "600"],
 });
+
+const APPLE_SMART_BANNER_APP_ID =
+  process.env.NEXT_PUBLIC_APPLE_SMART_BANNER_APP_ID?.trim() ?? "";
+const APPLE_SMART_BANNER_APP_ARGUMENT =
+  process.env.NEXT_PUBLIC_APPLE_SMART_BANNER_APP_ARGUMENT?.trim() ?? "";
+const APPLE_SMART_BANNER_CONTENT = APPLE_SMART_BANNER_APP_ID
+  ? [
+      `app-id=${APPLE_SMART_BANNER_APP_ID}`,
+      APPLE_SMART_BANNER_APP_ARGUMENT
+        ? `app-argument=${APPLE_SMART_BANNER_APP_ARGUMENT}`
+        : "",
+    ]
+      .filter(Boolean)
+      .join(", ")
+  : "";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -175,6 +197,12 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        {APPLE_SMART_BANNER_CONTENT ? (
+          <meta
+            name="apple-itunes-app"
+            content={APPLE_SMART_BANNER_CONTENT}
+          />
+        ) : null}
         <script
           dangerouslySetInnerHTML={{
             // Reads the new key first, falls back to the legacy
@@ -218,7 +246,7 @@ export default async function RootLayout({
           Skip to main content
         </a>
         <ThemeProvider>
-          <PostHogProvider>
+          <ClientDeferredProviders>
             <StoreProvider>
               <DesignSystemProvider>
               <Header />
@@ -228,13 +256,21 @@ export default async function RootLayout({
                 <main id="main-content" className="app-main">{children}</main>
               </AppShell>
               <MobileNav />
-              <BrowserAlertBridge />
+              <PwaInstallPrompt />
+              <OnboardingTour />
+              <CmdKPalette />
+              <ScrollToTopButton />
+              <Footer />
+              <BugReportWidget />
               <ToasterLazy />
               </DesignSystemProvider>
             </StoreProvider>
-          </PostHogProvider>
+          </ClientDeferredProviders>
         </ThemeProvider>
       </body>
     </html>
   );
 }
+
+
+

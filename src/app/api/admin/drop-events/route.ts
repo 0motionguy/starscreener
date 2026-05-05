@@ -9,6 +9,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
 import { serverError } from "@/lib/api/error-response";
+import { AdminRecoverableError } from "@/lib/errors";
 import {
   readRecentDropEvents,
   summarizeDropEvents,
@@ -68,7 +69,14 @@ export async function GET(
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch (err) {
-    const response = serverError(err, { scope: "[admin/drop-events]" });
+    const wrapped = new AdminRecoverableError(
+      "admin drop-events read failed",
+      {
+        scope: "api/admin/drop-events",
+        message: err instanceof Error ? err.message : String(err),
+      },
+    );
+    const response = serverError(wrapped, { scope: "[admin/drop-events]" });
     response.headers.set("Cache-Control", "no-store");
     return response;
   }

@@ -9,6 +9,25 @@ description: Fires on prompts about forensic doc cleanup, "too many forensic fil
 swamps the index. This skill archives the existing reports, redirects the generator
 to date-bucketed subfolders, and rebuilds the lean INDEX.
 
+## CANONICAL OUTPUT PATH (all forensic writes)
+
+**Any new forensic deliverable -- script-generated OR ad-hoc agent-written --
+MUST land under `docs/archive/forensic/<YYYY-MM-DD>/`, never under
+`docs/forensic/`.**
+
+`docs/forensic/` was archived on 2026-05-05 to `docs/archive/forensic-2026-05-pre/`
+and is gitignored at the top level. Files written there will not be committed.
+
+If you are dispatching sub-agents that produce forensic reports (productivity
+reviews, audit deltas, AISO scans, recovery heartbeats, status markers,
+verification packets, etc.), instruct each agent to write to:
+
+```
+docs/archive/forensic/<YYYY-MM-DD>/AGN-NNNN-<SLUG>-<YYYY-MM-DD>.md
+```
+
+The `<YYYY-MM-DD>` segment is the date the agent runs (UTC).
+
 ## When to fire
 
 Trigger phrases:

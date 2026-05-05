@@ -71,7 +71,7 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - Ingest pipeline? `docs/INGESTION.md` + `docs/TWITTER_SIGNAL_LAYER.md`
 - Deploy issues? `docs/DEPLOY.md`
 - Adding a signal source? `docs/SOURCE_DISCOVERY.md`
-- See `apps/trendingrepo-worker/` referenced in code? Sister Railway service hosting 52 fetchers (MCP registries, funding sources, scoring) — lives in worktree branches not yet in main. See memory `project_trendingrepo_worker.md`.
+- See `apps/trendingrepo-worker/` referenced in code? Sister Railway service hosting 51 fetchers (MCP registries, funding sources, scoring) — lives in worktree branches not yet in main. See memory `project_trendingrepo_worker.md`.
 
 ## Anti-Patterns Already Burned
 - Don't switch Twitter collector back to API mode — it silently fails on Vercel.

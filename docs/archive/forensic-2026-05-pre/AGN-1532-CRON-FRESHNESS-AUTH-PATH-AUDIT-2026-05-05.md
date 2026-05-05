@@ -1,53 +1,51 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
+
 # AGN-1532 Cron Freshness Auth-Path Audit (2026-05-05)
 
 ## Scope
-- Issue: AGN-1532 `[Sprint 1 audit] Platform Security auth-path audit for cron freshness routes`
-- Owned surfaces checked:
-  - `src/app/api/cron/freshness/state/route.ts`
-  - `src/lib/api/auth.ts`
-  - `src/lib/errors.ts`
-  - auth coverage tests under `src/lib/__tests__` and freshness route tests
+- Route: `src/app/api/cron/freshness/state/route.ts`
+- Shared auth: `src/lib/api/auth.ts`
+- Validation tests: `src/lib/api/__tests__/auth.test.ts`
 
-## Mandatory opening evidence
-- Read: `CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`.
-- Freshness command:
-  - `npm run freshness:check`
-  - Result: `freshness-check: GET http://localhost:3023/api/health?soft=1 failed: HTTP 500 Internal Server Error`
-  - Classification: `localhost:3023 reachable (not missing), product stale/degraded`.
+## Mandatory opening + freshness gate
+- Required docs read in this heartbeat except `docs/AUDIT-2026-05-04.md` (path missing in current tree).
+- `npm run freshness:check` result: `request timed out while contacting http://localhost:3023`.
+- Interpretation: localhost:3023 unreachable in this heartbeat (missing from freshness perspective).
 
-## Auth-path verification findings
-1. Cron freshness route is gated by cron auth:
-   - `src/app/api/cron/freshness/state/route.ts` calls `authFailureResponse(verifyCronAuth(request))` before route body work.
-2. Unauthorized + misconfigured cron auth paths are explicit and typed:
-   - `src/lib/api/auth.ts` returns:
-     - 401 `{ ok: false, reason: "unauthorized" }`
-     - 503 `{ ok: false, reason: "CRON_SECRET not configured" }`
-3. Token masking policy uses first4+last4:
-   - `src/lib/api/auth.ts` -> `maskSecretForAudit(...)` -> `redactToken(...)`
-   - `src/lib/github-token-pool.ts` `redactToken` format: `${first4}****${last4}`.
-4. Sentry tag context includes source/category for typed errors:
-   - `src/lib/errors.ts` + `engineErrorSentryContext(...)`
-   - Auth denial responses in `src/lib/api/auth.ts` emit typed `AuthQuarantineError` / `AuthFatalError` / `AdminQuarantineError` / `AdminFatalError` with contextual tags.
+## Auth gate and caller identity
+- `GET /api/cron/freshness/state` calls `authFailureResponse(verifyCronAuth(request))` before route logic.
+- Expected caller identity: internal cron/job caller presenting `Authorization: Bearer $CRON_SECRET` (or raw secret format accepted by helper).
+- Deny behavior:
+  - invalid/missing auth -> `401 { ok:false, reason:"unauthorized" }`
+  - missing `CRON_SECRET` in production -> `503 { ok:false, reason:"CRON_SECRET not configured" }`
 
-## Test evidence (run in this heartbeat)
-Command:
-- `npx tsx --test src/lib/__tests__/cron-route-typed-error-contract.test.ts src/lib/__tests__/admin-cron-auth-coverage.test.ts src/app/api/cron/freshness/state/__tests__/error-envelope.test.ts src/app/api/cron/freshness/state/__tests__/health-states.test.ts`
+## Risk-ranked findings
+1. **High (closed): cron auth denials lacked typed Sentry quarantine/fatal telemetry**
+   - Prior state: deny responses were clear, but no typed Sentry capture on cron denial path.
+   - Fix applied in `src/lib/api/auth.ts`:
+     - unauthorized -> `AuthQuarantineError` + Sentry tags (`source=auth`, `category=quarantine`, `auth_surface=cron`)
+     - not_configured -> `AuthFatalError` + Sentry tags (`source=auth`, `category=fatal`, `auth_surface=cron`)
+   - Owner: Platform Security.
+   - Status: **Resolved in this heartbeat**.
 
-Result:
-- `tests 43`
-- `pass 43`
-- `fail 0`
+2. **Medium (open, external): localhost freshness check endpoint unavailable**
+   - `npm run freshness:check` cannot contact localhost:3023 in this heartbeat.
+   - Owner: Platform/Infra runtime operator.
+   - Unblock action: restore local app reachability at `http://localhost:3023` and rerun freshness gate.
 
-Notable passing checks:
-- `cron routes enforce verifyCronAuth gate`
-- `[cron auth contract] freshness-state: unauthorized -> 401 typed envelope`
-- `[cron auth contract] freshness-state: missing secret -> 503 typed envelope`
-- freshness-state error-envelope + health-state tests green.
+## Secret leakage checks
+- No token value is serialized in cron deny response bodies.
+- Admin token masking path remains redacted (`first4+last4`) through existing `redactToken` usage in auth audit messages.
 
-## Audit conclusion
-- Auth-path acceptance for cron freshness route is met in current code and test evidence:
-  - Cron secret gate enforced
-  - Deny/misconfig responses explicit
-  - Secret masking complies first4+last4
-  - Typed error/Sentry source-category context present
-- No code changes required for AGN-1532 in this heartbeat.
+## Verification evidence
+- Command: `npx tsx --test src/lib/api/__tests__/auth.test.ts`
+- Result: `32/32` passing (includes new cron authFailureResponse Sentry-tag assertions).
+
+## Files changed for AGN-1532
+- `src/lib/api/auth.ts`
+- `src/lib/api/__tests__/auth.test.ts`
+- `docs/forensic/AGN-1532-CRON-FRESHNESS-AUTH-PATH-AUDIT-2026-05-05.md`

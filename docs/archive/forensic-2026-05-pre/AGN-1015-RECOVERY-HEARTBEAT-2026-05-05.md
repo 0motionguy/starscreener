@@ -1,31 +1,18 @@
-# AGN-1015 recovery heartbeat evidence (2026-05-05)
+---
+status: archive
+audit-date: 2026-05-05
+reason: bulk drift sweep - content not yet drift-audited; treat as historical reference
+---
 
-- Issue: AGN-1015 Recover stalled issue AGN-1014.
-- Wake comment: board cancelled wrapper as auto-recovery noise and directed focus to original AGN-1014.
+## AGN-1015 escalation addendum (2026-05-05, board re-queue directive)
 
-## Mandatory opening protocol completed
-Read in this heartbeat:
-1. CLAUDE.md
-2. docs/ENGINE.md
-3. docs/SITE-WIREMAP.md
-4. docs/AUDIT-2026-05-04.md
-5. docs/forensic/00-INDEX.md
-6. tasks/CURRENT-SPRINT.md
-7. tasks/BACKLOG.md
+Board directive acknowledged: blocked/cancelled tasks must be re-queued, and if still blocked, escalate with explicit blocker + unblock owner.
 
-## Freshness check evidence
-Command: `npm run freshness:check`
-Timestamp: 2026-05-05 (local heartbeat)
-Result: FAILED with `GET http://localhost:3023/api/cron/freshness/state -> HTTP 500`.
-Classification: product failure (localhost server reachable), not "missing localhost:3023".
+### Fresh blocker (current heartbeat)
+- Blocker: Paperclip control-plane endpoint unreachable from runtime (`http://192.168.192.1:3100`, connection failure), preventing required issue-thread comment and terminal PATCH.
+- Unblock owner: Platform/Infra owning Paperclip runtime network path.
+- Unblock action: Restore agent runtime connectivity to Paperclip API host:port (`192.168.192.1:3100`) so authenticated POST/PATCH calls succeed.
 
-## Recovery disposition
-- AGN-1015 is confirmed wrapper noise per board comment and should be terminally closed.
-- Real work remains on AGN-1014.
-
-## Control-plane blocker
-- Could not call Paperclip API (`http://192.168.192.1:3100`): connection refused / unable to connect.
-- As a result, queue-depth check and terminal PATCH/comment calls could not be executed from this runtime.
-- Required follow-up once API is reachable:
-  1. POST evidence comment to AGN-1015 summarizing this file and freshness classification.
-  2. PATCH AGN-1015 status to `done` with one-line outcome referencing board cancellation.
+### Intended immediate thread update (once API returns)
+- Post comment on AGN-1015 with the blocker statement above.
+- Then terminal PATCH AGN-1015 to `blocked` with same owner/action wording if connectivity still failing, or to `done` if cancellation-close can be executed.

@@ -1,4 +1,10 @@
-﻿# AGN-273 - Vercel and Railway env parity check (Release SRE)
+﻿---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
+# AGN-273 - Vercel and Railway env parity check (Release SRE)
 
 Timestamp (Asia/Makassar): 2026-05-04T19:05:00+08:00
 

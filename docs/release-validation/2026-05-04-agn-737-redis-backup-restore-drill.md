@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-737 Redis backup strategy + restore drill (2026-05-04)
 
 Timestamp (UTC): 2026-05-04T15:15:29.709Z  

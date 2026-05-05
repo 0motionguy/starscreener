@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-182 Vercel Cron Route Health Probe Matrix
 
 Timestamp: 2026-05-04T16:25:04+08:00

@@ -1,3 +1,8 @@
+---
+status: archive
+last-touched: 2026-04-28
+---
+
 # PR #7 (Supabase ideas) — pre-existing CI failure
 
 **Status:** UNRESOLVED. Out of scope for the 2026-04-28 audit-driven PR wave.

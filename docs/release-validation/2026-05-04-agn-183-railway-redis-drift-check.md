@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-183 Release SRE heartbeat - Railway worker and Redis operational drift check
 
 Date: 2026-05-04

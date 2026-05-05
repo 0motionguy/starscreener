@@ -2111,6 +2111,21 @@ body::before {
   grid-column: span 3;
 }
 
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .col-12,
+  .col-9,
+  .col-8,
+  .col-6,
+  .col-4,
+  .col-3 {
+    grid-column: span 1;
+  }
+}
+
 .sec-head {
   display: flex;
   align-items: baseline;

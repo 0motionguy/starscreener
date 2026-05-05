@@ -25,9 +25,9 @@ const SHORT_ID_RETRY_LIMIT = 5;
 const COMPARE_SHARE_KEY_PREFIX = "compare-share";
 // Constants exported so the route test can assert against the same values
 // (mirrors the pattern used elsewhere — see cron/freshness/state).
-export const COMPARE_SHARE_MAX_REQUESTS = 30;
-export const COMPARE_SHARE_WINDOW_MS = 60 * 60 * 1000;
-export const COMPARE_SHARE_TTL_SECONDS = 30 * 24 * 60 * 60;
+const COMPARE_SHARE_MAX_REQUESTS = 30;
+const COMPARE_SHARE_WINDOW_MS = 60 * 60 * 1000;
+const COMPARE_SHARE_TTL_SECONDS = 30 * 24 * 60 * 60;
 
 const FULL_NAME_RE = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;
 
@@ -56,7 +56,7 @@ function compareShareKey(shortId: string): string {
 }
 
 // Exported so the route test can drive persistence directly.
-export async function persistCompareSharePayload(
+async function persistCompareSharePayload(
   store: DataStore,
   payload: CompareSharePayload,
 ): Promise<void> {
@@ -141,3 +141,13 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+const COMPARE_SHARE_TEST_CONSTANTS = Symbol.for("starscreener.compare-share.test.constants");
+const COMPARE_SHARE_TEST_PERSIST = Symbol.for("starscreener.compare-share.test.persist");
+(globalThis as unknown as Record<symbol, unknown>)[COMPARE_SHARE_TEST_CONSTANTS] = {
+  COMPARE_SHARE_MAX_REQUESTS,
+  COMPARE_SHARE_WINDOW_MS,
+  COMPARE_SHARE_TTL_SECONDS,
+};
+(globalThis as unknown as Record<symbol, unknown>)[COMPARE_SHARE_TEST_PERSIST] =
+  persistCompareSharePayload;

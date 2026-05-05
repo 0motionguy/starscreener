@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-05T01:19:37.147Z",
-  "issue": "AGN-1495",
+  "generatedAt": "2026-05-05T07:10:18.826Z",
+  "issue": "AGN-346",
   "scope": "Workflow-invoked collector scripts under scripts/",
   "summary": {
     "workflowsScanned": 41,
@@ -87,7 +87,7 @@
         "workflow": ".github/workflows/collect-twitter.yml",
         "hasWriter": true,
         "hasReader": true,
-        "cron": "0 */3 * * *",
+        "cron": "9 */3 * * *",
         "covered": true
       },
       {
@@ -142,7 +142,7 @@
         "workflow": ".github/workflows/collect-funding.yml",
         "hasWriter": true,
         "hasReader": true,
-        "cron": "0 */6 * * *",
+        "cron": "24 */6 * * *",
         "covered": true
       }
     ]

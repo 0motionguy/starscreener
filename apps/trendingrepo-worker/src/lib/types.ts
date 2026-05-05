@@ -107,6 +107,12 @@ export interface RedisHandle {
   set(key: string, value: string, opts?: { ex?: number }): Promise<void>;
   del(key: string): Promise<void>;
   quit(): Promise<void>;
+  /** Redis XADD — append entry to a stream. Returns the entry id. */
+  xadd(
+    stream: string,
+    id: '*' | string,
+    ...fieldValues: string[]
+  ): Promise<string | null>;
 }
 
 export interface HttpOptions {

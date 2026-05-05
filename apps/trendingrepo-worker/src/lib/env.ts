@@ -61,6 +61,12 @@ const envSchema = z
     KIMI_BASE_URL: z.string().url().optional(),
     KIMI_MODEL: z.string().optional(),
 
+    // LLM router / OpenRouter config (used by src/lib/llm/).
+    OPENROUTER_API_KEY: z.string().optional(),
+    OPENROUTER_REFERER: z.string().optional(),
+    LLM_PROVIDER: z.enum(['kimi', 'openrouter']).optional(),
+    LLM_USER_HASH_SALT: z.string().optional(),
+
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
     PORT: z.coerce.number().int().positive().default(8080),
     LOG_LEVEL: z.enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal']).optional(),

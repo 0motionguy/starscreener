@@ -85,6 +85,9 @@ dev_server*.log
 tmp_probe/
 .tmp/
 
+# Runtime vector store (ruvector)
+ruvector.db
+
 # personal operator rules (per CLAUDE.md — not for commit)
 CLAUDE.local.md
 

@@ -53,6 +53,11 @@ jobs:
         with:
           actor-email: "bot@trendingrepo.com"
           message: "chore(data): refresh lobsters signals ${{ steps.ts.outputs.value }}"
+          # unknown-mentions is best-effort and may not be touched every run.
+          # Also raise retry budget because this job often collides with other
+          # data writers around :37.
+          ignore-missing: "true"
+          max-attempts: "10"
           paths: |
             data/lobsters-mentions.json
             data/lobsters-trending.json

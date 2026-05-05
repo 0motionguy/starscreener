@@ -1,7 +1,7 @@
 name: engine-inventory-refresh
 on:
   schedule:
-    - cron: "0 14 * * 1"  # Mondays 14:00 UTC
+    - cron: "49 14 * * 1"  # Mondays 14:49 UTC (staggered off :00 burst, was 14:00)
   workflow_dispatch:
   pull_request:
     paths:

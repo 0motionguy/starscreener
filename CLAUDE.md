@@ -1,10 +1,4 @@
----
-last-verified: 2026-05-05
-verified-by: claude
-status: living
----
-
-# SESSION OPENING PROTOCOL -- MANDATORY BEFORE ANY OTHER ACTION
+# SESSION OPENING PROTOCOL — MANDATORY BEFORE ANY OTHER ACTION
 
 When you start a session in this repository, the FIRST steps are
 not optional:
@@ -29,7 +23,7 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - **Framework:** Next.js 15 (App Router, Turbopack, RSC + client islands)
 - **Language:** TypeScript 5 strict
 - **UI:** React 19, Tailwind 4, Recharts (charts), Framer Motion (animation), Zustand (client state)
-- **Data:** Redis (Railway-native via `ioredis` OR Upstash REST) is the source of truth for 51 cron-driven payloads (`data/*.json`) via [src/lib/data-store.ts](src/lib/data-store.ts) — three-tier read (Redis → bundled file → in-memory last-known-good). Picks the backend by URL scheme: `redis://` / `rediss://` → ioredis (TCP), `https://` → Upstash REST. Set `REDIS_URL` (Railway) or `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` (Upstash) — never both. `.data/*.jsonl` (Twitter scans, append-only logs) still git-committed via collector workflows.
+- **Data:** Redis (Railway-native via `ioredis` OR Upstash REST) is the source of truth for 30 cron-driven payloads (`data/*.json`) via [src/lib/data-store.ts](src/lib/data-store.ts) — three-tier read (Redis → bundled file → in-memory last-known-good). Picks the backend by URL scheme: `redis://` / `rediss://` → ioredis (TCP), `https://` → Upstash REST. Set `REDIS_URL` (Railway) or `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` (Upstash) — never both. `.data/*.jsonl` (Twitter scans, append-only logs) still git-committed via collector workflows.
 - **Validation:** Zod on all API boundaries
 - **Auth:** Cookie-based admin session (see `e2a0908`)
 - **Payments:** Stripe (configured, not billed yet)
@@ -52,9 +46,9 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - **Data reads MUST go through the data-store.** Server components / route handlers call the per-source `refreshXxxFromStore()` (async) once at the top, then sync getters in the rest of the file return whatever's in the in-memory cache. Each refresh hook has internal 30s rate-limit + in-flight dedupe so calling it on every render is cheap. Pattern reference: [src/lib/trending.ts:refreshTrendingFromStore](src/lib/trending.ts) and [src/app/page.tsx](src/app/page.tsx). Plan + provisioning: [tasks/data-api.md](tasks/data-api.md).
 - **Collectors dual-write file + Redis** during transition via [scripts/_data-store-write.mjs](scripts/_data-store-write.mjs). When `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` are missing, the Redis write is skipped silently and the file write stays — graceful degradation by design.
 - **Collectors run in `direct` mode**, NOT `api` mode. Vercel's serverless filesystem is ephemeral — API-mode writes vanish. GitHub Actions writes locally to `.data/*.jsonl` and `git push` from the workflow. See `.github/workflows/collect-twitter.yml` (committed fix `edf99d2`).
-- **Twitter** uses Nitter as the current provider (see [docs/TWITTER_SIGNAL_LAYER.md](docs/TWITTER_SIGNAL_LAYER.md) and `scripts/check-nitter-health.mjs` for the live health probe). Cookie-based scrapers and the previous Apify `apidojo~tweet-scraper` path are dead/deprecated -- do not revert.
+- **Twitter** uses Nitter as the current provider (see [docs/TWITTER_SIGNAL_LAYER.md](docs/TWITTER_SIGNAL_LAYER.md) and `scripts/check-nitter-health.mjs` for the live health probe). Cookie-based scrapers and the previous Apify `apidojo~tweet-scraper` path are dead/deprecated â€” do not revert.
 - **Append-only JSONL.** Each scan adds new lines, never replaces. Aggregator dedupes downstream.
-- **Home page (`/`) is ISR-cached at 60 s** (`revalidate = 60`, see `src/app/page.tsx`). Bundled JSON seeds the cold start; client refresh hooks repopulate the in-memory cache on navigation. Don't expect fresh data on first paint.
+- **Home page (`/`) is ISR-cached at 30 min** (`revalidate=1800`). Bundled JSON seeds the cold start; client refresh hooks repopulate the in-memory cache on navigation. Don't expect fresh data on first paint.
 
 ## Common Tasks
 - Dev: `npm run dev` (Turbopack, port 3023)
@@ -70,14 +64,14 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 
 ## Where to Look First
 - **Operator situational-awareness doc (start here)** → [docs/OPERATOR.md](docs/OPERATOR.md) — TL;DR for a fresh session, current production state, audit-2026-05-04 followup status, hourly+minute workflow rotation, image-coverage map, what-shipped-vs-open. Operator-only — never linked from any public route. Refreshed at the end of every "go" wave.
-- **Engine map (88 workflows + every API key + every cron + pool architecture)** → [docs/ENGINE.md](docs/ENGINE.md) — read FIRST when you need to know what runs where, on what cadence, with which keys. Rewritten from current code 2026-05-05.
+- **Engine map (85 workflows + every API key + every cron + pool architecture)** → [docs/ENGINE.md](docs/ENGINE.md) — read FIRST when you need to know what runs where, on what cadence, with which keys. Rewritten from current code 2026-05-05.
 - **Site wire map (every route → its data → collector → external API)** → [docs/SITE-WIREMAP.md](docs/SITE-WIREMAP.md) — top-down menu walk. Use when a page is broken to trace it back to the failing collector. Refreshed 2026-05-02.
 - New here? `docs/ARCHITECTURE.md`
 - Data layer (Redis-backed)? [tasks/data-api.md](tasks/data-api.md) — full plan, provisioning steps, phased roadmap
 - Ingest pipeline? `docs/INGESTION.md` + `docs/TWITTER_SIGNAL_LAYER.md`
 - Deploy issues? `docs/DEPLOY.md`
 - Adding a signal source? `docs/SOURCE_DISCOVERY.md`
-- See `apps/trendingrepo-worker/` referenced in code? Sister Railway service hosting 44 active fetchers in `FETCHERS[]` (47 with `index.ts` on disk; 3 are real-but-unwired: `ai-blogs`, `arxiv`, `github-events`). MCP registries, funding sources, scoring. Lives in worktree branches not yet in main. See memory `project_trendingrepo_worker.md`.
+- See `apps/trendingrepo-worker/` referenced in code? Sister Railway service hosting 51 fetchers (MCP registries, funding sources, scoring) — lives in worktree branches not yet in main. See memory `project_trendingrepo_worker.md`.
 
 ## Anti-Patterns Already Burned
 - Don't switch Twitter collector back to API mode — it silently fails on Vercel.
@@ -90,8 +84,6 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - **Parallel-session merges silently steal staged work.** When 4 agents work the same workspace concurrently, `git add` + `git commit` interleave: agent A's `git add file-a` lands in agent B's `git commit` and vice versa. Survival pattern: always `git add <SPECIFIC-FILE>` (NEVER `git add -A` or `git add .`), and `git commit -m "wip(...)"` IMMEDIATELY after each Write so the commit boundary is durable. Staging is shared mutable state; commits are durable history. Learned 2026-05-02 across 4 parallel agent dispatch.
 - **Audit premises must be verified before believing.** The 2026-05-01 ultra audit claimed 3 P0s lived on `feat/v4-alert-rules`; verification (`grep ThemeToggle src/components/layout/Header.tsx` etc.) showed they were never on any branch — they had to be implemented fresh. M6: memory is suspect — recalled facts are hypotheses until verified. Cherry-pick plans built on un-verified branch state will fail; always grep `main` for the markers BEFORE planning the cherry-pick.
 
-- **Don't write under `docs/forensic/`.** That path was archived 2026-05-05 to `docs/archive/forensic-2026-05-pre/` and is gitignored at the directory level. New forensic deliverables (productivity reviews, AISO scans, audit deltas, recovery heartbeats, status markers, silent-active-run reviews, etc.) MUST land under `docs/archive/forensic/<YYYY-MM-DD>/AGN-NNNN-<SLUG>-<YYYY-MM-DD>.md`. The historical INDEX is `docs/archive/forensic-2026-05-pre/00-INDEX.md`. Do NOT (re)create `docs/forensic/00-INDEX.md` — agent-written files there are silently dropped from commits and waste the next cleanup pass.
-
 ## References
 - Plans: `~/.claude/plans/`
-- Memory: Claude Code's per-project auto-memory at `~/.claude/projects/<project-slug>/memory/MEMORY.md` (the project-slug segment is host-specific; resolve via the local `~/.claude/projects/` listing).
+- Memory: `~/.claude/projects/c--Users-mirko-OneDrive-Desktop-STARSCREENER/memory/MEMORY.md`

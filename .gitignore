@@ -135,10 +135,3 @@ ruvector.db
 # See docs/archive/forensic-generator-redirect.md.
 /docs/forensic/
 /docs/storybook/
-
-# generated docs commit policy (ADR 0005): track stable inventory
-# (engine.json, engine.md), ignore high-churn reports.
-docs/_generated/broken-links.md
-docs/_generated/health-board.md
-docs/_generated/cron-overlap.md
-docs/_generated/hook-smoke-test.md

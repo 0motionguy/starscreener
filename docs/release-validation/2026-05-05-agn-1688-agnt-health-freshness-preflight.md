@@ -53,3 +53,19 @@ Unblock owner: CTO/Platform
 1. Pull last failing run IDs for the 4 RED source workflows and attach step-level log evidence.
 2. Distinguish stale deploy vs code failure by checking whether latest successful runs post-date latest prod deploy.
 3. Execute/confirm rollback decision path per `docs/runbooks/rollback.md` if failures map to deployment regression.
+
+## Heartbeat update (2026-05-05T06:27Z)
+- GitHub auth blocker resolved in runtime by clearing invalid env-token override for `gh` process (`GITHUB_TOKEN` in env is invalid and was overriding keyring auth).
+- Verified authenticated Actions visibility after override clear.
+- Confirmed latest failing runs on `main` before intervention:
+  - `Refresh fast discovery` run `25357902297` (failure)
+  - `Refresh ProductHunt launches` run `25350224301` (stale/red source writer)
+  - `Collect Twitter Signals` run `25359644649` (failure)
+  - `Refresh Lobsters signals` run `25358358287` (failure)
+  - `nitter-health-check` run `25360741900` (failure)
+- Manually dispatched recovery runs for all 4 RED freshness sources:
+  - `Refresh fast discovery` run `25361270377`
+  - `Refresh ProductHunt launches` run `25361273020`
+  - `Collect Twitter Signals` run `25361274765`
+  - `Refresh Lobsters signals` run `25361276354`
+- Current state at heartbeat close: all four runs are still `in_progress`; freshness gate remains non-passing (`blocking_non_green=18`) pending run completion and data-store update propagation.

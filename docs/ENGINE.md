@@ -8,9 +8,9 @@ status: living
 
 Last derived from filesystem on 2026-05-05. Direct re-derivation:
 
-- Workflows: `Glob .github/workflows/*.yml` (count = 88)
-- Cron API routes: `Glob src/app/api/cron/**/route.ts` (count = 14)
-- Worker fetchers: `apps/trendingrepo-worker/src/registry.ts` (44 active in `FETCHERS[]`, all imported and exported; 4 prior stub directories — `huggingface`, `github`, `mcp-so`, `mcp-servers-repo` — deleted 2026-05-05. 3 implementations exist on disk but are not yet wired: `ai-blogs`, `arxiv`, `github-events`. `agent-commerce/` is data-only.)
+- Workflows: `Glob .github/workflows/*.yml` (count = 85)
+- Cron API routes: `Glob src/app/api/cron/**/route.ts` (count = 16)
+- Worker fetchers: `apps/trendingrepo-worker/src/registry.ts` (44 active in `FETCHERS[]`; 7 stubs left in tree but excluded from registry; 51 total per `npm run engine:derive`)
 - Env vars: `.env.example` + `src/lib/env.ts` + `process.env.*` greps in `scripts/` and `apps/trendingrepo-worker/src/`
 
 This file is the canonical engine map. Every gain/loss of a workflow,
@@ -30,15 +30,15 @@ Workflows with multiple cron entries list each.
 | aiso-self-scan.yml | AISO monthly regression watcher | `17 3 1 * *` (monthly day 1 03:17 UTC) | `node scripts/aiso-monthly-regression-watcher.mjs` - scans trendingrepo.com via aiso.tools, files child issue if dimension drops > threshold |
 | audit-freshness.yml | Audit - source freshness | `8 * * * *` (hourly :08) | `node scripts/audit-freshness.mjs` - reads every `data/_meta/*.json`, fails if any source past freshness budget |
 | backfill-meta.yml | Backfill orphan meta keys | `workflow_dispatch` only | `node scripts/backfill-meta.mjs` |
-| check-nitter.yml | nitter-health-check | `0 4 * * *` | `node scripts/check-nitter-health.mjs` |
+| check-nitter.yml | nitter-health-check | `58 3 * * *` | `node scripts/check-nitter-health.mjs` |
 | ci.yml | CI | `push`, `pull_request`, `workflow_dispatch` | `npm run typecheck`, `lint:guards`, `check-v3-token-budget`, `test:hooks` |
 | cleanup-stale-previews.yml | Cleanup Stale Vercel Previews | `23 2 * * 1` (Mon 02:23) | Deletes stale Vercel preview deployments via Vercel API |
-| collect-funding.yml | Collect Funding Signals | `0 */6 * * *` | `npm run scrape:funding` (techcrunch, venturebeat, sifted) + `scrape:funding:crunchbase` |
-| collect-twitter.yml | Collect Twitter Signals | `0 */3 * * *` | `npm run collect:twitter` (Apify `apidojo~tweet-scraper`) |
+| collect-funding.yml | Collect Funding Signals | `24 */6 * * *` | `npm run scrape:funding` (techcrunch, venturebeat, sifted) + `scrape:funding:crunchbase` |
+| collect-twitter.yml | Collect Twitter Signals | `9 */3 * * *` | `npm run collect:twitter` (Apify `apidojo~tweet-scraper`) |
 | conventional-commits.yml | Conventional Commits | `pull_request`, `workflow_dispatch` | Lints PR titles |
 | cron-agent-commerce.yml | Refresh agent-commerce pipeline | `31 4 * * *` | `fetch-agentic-market.mjs` + `fetch-openrouter-models.mjs` + `fetch-coingecko-agents.mjs` + `fetch-artificial-analysis.mjs` + `fetch-base-x402-onchain.mjs` |
 | cron-aiso-drain.yml | Cron - AISO drain | `3,33 * * * *` | POST `/api/cron/aiso-drain` |
-| cron-digest-weekly.yml | Cron - weekly digest email | `0 14 * * 5` (Fri 14:00) | POST `/api/cron/digest/weekly` |
+| cron-digest-weekly.yml | Cron - weekly digest email | `14 14 * * 5` (Fri 14:14) | POST `/api/cron/digest/weekly` |
 | cron-freshness-check.yml | Cron - freshness check | `*/15 * * * *` | GET `/api/cron/freshness/state` |
 | cron-github-pool-budget.yml | Cron - github pool budget | `*/5 * * * *` | POST `/api/cron/github-pool-budget` |
 | cron-llm.yml | Cron - LLM telemetry | `10 * * * *` and `15 2 * * *` | GET `/api/cron/llm/aggregate` (hourly) + `/api/cron/llm/sync-models` (daily) |
@@ -46,13 +46,13 @@ Workflows with multiple cron entries list each.
 | cron-pipeline-cleanup.yml | Cron - pipeline cleanup | `12 4 * * *` | mention pruning (hits cron route) |
 | cron-pipeline-ingest.yml | Cron - pipeline ingest | `15 */2 * * *` | mention store hydrate |
 | cron-pipeline-persist.yml | Cron - pipeline persist | `30 */6 * * *` | mention store persist |
-| cron-pipeline-rebuild.yml | Cron - pipeline rebuild | `0 5 * * 0` (Sun 05:00) | weekly mention store rebuild |
-| cron-predictions.yml | Cron - predictions | `0 6 * * *` | POST `/api/cron/predictions` |
-| cron-subdomain-takeover.yml | Cron - subdomain takeover scan | `0 3 * * 1` (Mon 03:00) | POST `/api/cron/subdomain-takeover` |
+| cron-pipeline-rebuild.yml | Cron - pipeline rebuild | `2 5 * * 0` (Sun 05:02) | weekly mention store rebuild |
+| cron-predictions.yml | Cron - predictions | `56 6 * * *` (06:56) | POST `/api/cron/predictions` |
+| cron-subdomain-takeover.yml | Cron - subdomain takeover scan | `1 3 * * 1` (Mon 03:01) | POST `/api/cron/subdomain-takeover` |
 | cron-twitter-outbound.yml | Cron - Twitter outbound | `0 14 * * *` and `0 16 * * 5` | POST `/api/cron/twitter-daily` (daily) or `/api/cron/twitter-weekly-recap` (Fri) |
 | cron-warmup.yml | Warm Vercel routes | `*/5 8-21 * * *` | curl warm pings to hot routes |
 | cron-webhooks-flush.yml | Cron - webhooks flush + scan | `5,35 * * * *` | POST `/api/cron/webhooks/scan` then `/api/cron/webhooks/flush` |
-| docs-freshness.yml | docs-freshness | `0 13 * * 1` (Mon 13:00) + PR | `node scripts/check-docs-freshness.mjs` |
+| docs-freshness.yml | docs-freshness | `29 13 * * 1` (Mon 13:29) + PR | `node scripts/check-docs-freshness.mjs` |
 | enrich-arxiv.yml | Enrich arXiv signals | `13 */12 * * *` | `node scripts/enrich-arxiv.mjs` |
 | enrich-repo-profiles.yml | Refresh repo profiles | `41 * * * *` | `node scripts/enrich-repo-profiles.mjs --mode incremental --limit 50` |
 | health-watch.yml | Source health watch | `*/30 * * * *` | `node scripts/check-source-health.mjs` |
@@ -72,13 +72,13 @@ Workflows with multiple cron entries list each.
 | refresh-skill-claude.yml | Refresh skill claude | `12 3 * * *` | anthropic + community SKILL.md index |
 | refresh-skill-derivatives.yml | Refresh skill derivative counts | `7 */12 * * *` | derivative count |
 | refresh-skill-forks-snapshot.yml | Refresh skill forks snapshot | `13 3 * * *` | forks snapshot |
-| refresh-skill-install-snapshot.yml | Refresh skill install snapshot | `0 3 * * *` | install snapshot |
+| refresh-skill-install-snapshot.yml | Refresh skill install snapshot | `54 2 * * *` (02:54) | install snapshot |
 | refresh-skill-lobehub.yml | Refresh skill lobehub | `45 */12 * * *` | lobehub skills |
 | refresh-skill-skillsmp.yml | Refresh skill skillsmp | `5 3 * * *` | skillsmp 1M+ catalog |
-| refresh-skill-smithery.yml | Refresh skill smithery | `30 3 * * *` | smithery skills index |
+| refresh-skill-smithery.yml | Refresh skill smithery | `19 3 * * *` (03:19) | smithery skills index |
 | refresh-star-activity.yml | Refresh star activity | `17 3 * * *` | `node scripts/append-star-activity.mjs` |
 | release-cdn-purge-and-targeted-refresh.yml | Release - CDN Purge + Targeted Refresh | `workflow_dispatch` only | post-deploy CDN purge + targeted re-warm |
-| run-shadow-scoring.yml | Run shadow scoring | `0 2 * * *` | `node scripts/run-shadow-scoring.mjs` |
+| run-shadow-scoring.yml | Run shadow scoring | `42 1 * * *` (01:42) | `node scripts/run-shadow-scoring.mjs` |
 | scrape-arxiv.yml | Refresh arXiv signals | `43 */3 * * *` | `node scripts/scrape-arxiv.mjs` |
 | scrape-awesome-skills.yml | Refresh awesome-skills index | `23 4 * * *` | `node scripts/scrape-awesome-skills.mjs` |
 | scrape-bluesky.yml | Refresh Bluesky signals | `17 * * * *` | `node scripts/scrape-bluesky.mjs` |
@@ -96,15 +96,15 @@ Workflows with multiple cron entries list each.
 | sentry-fix-bot.yml | sentry-fix-bot | `issues.labeled` event | dispatches Claude Code Action when Sentry adds `sentry-error` label |
 | seo-policy.yml | SEO Policy Guard | `push`, `pull_request`, `workflow_dispatch` | `node scripts/seo-policy-lint.mjs --fail-on-new` |
 | snapshot-consensus.yml | Snapshot /consensus daily | `55 23 * * *` | `npm run snapshot:consensus` |
-| snapshot-top10.yml | Snapshot /top10 daily | `55 23 * * *` | `npm run snapshot:top10` |
+| snapshot-top10.yml | Snapshot /top10 daily | `26 23 * * *` (23:26) | `npm run snapshot:top10` |
 | snapshot-top10-sparklines.yml | Snapshot /top10 sparklines daily | `50 23 * * *` | `npm run snapshot:top10-sparklines` |
 | source-outage-backfill.yml | Source outage backfill | `workflow_dispatch` only | `node scripts/source-outage-backfill.mjs --source <slug>` |
 | sources-auto-recover.yml | Sources auto-recover | `*/30 * * * *` | POST `/api/cron/sources-auto-recover` |
 | sre-actions-visibility.yml | SRE - Actions Visibility Snapshot | `*/15 * * * *` | snapshot of recent Actions runs |
-| sre-cron-secret-rotation-guard.yml | SRE - CRON_SECRET Rotation Guard | `0 9 * * *` | guard against expired CRON_SECRET rotation |
+| sre-cron-secret-rotation-guard.yml | SRE - CRON_SECRET Rotation Guard | `16 9 * * *` (09:16) | guard against expired CRON_SECRET rotation |
 | sre-k8s-probe-guard.yml | SRE - Kubernetes probe guard | `push`, `pull_request`, `workflow_dispatch` | k8s probe lint |
 | sre-redis-restore-drill.yml | SRE Redis Restore Drill | `20 3 * * 1` (Mon 03:20) + dispatch | weekly Redis restore drill |
-| sre-route-cost-attribution-verify.yml | SRE - Route Cost Attribution Verify | `17 */6 * * *` + dispatch | route-cost attribution verify (admin-token gated) |
+| sre-route-cost-attribution-verify.yml | SRE - Route Cost Attribution Verify | `31 */6 * * *` + dispatch | route-cost attribution verify (admin-token gated) |
 | sweep-staleness.yml | Sweep staleness | `32 2 * * *` | `node scripts/sweep-staleness.mjs` |
 | sync-trustmrr.yml | Sync TrustMRR revenue overlays | `27 2 * * *` and `27 0,1,3..23 * * *` (hourly minus 02:27 incremental, daily 02:27 full) | `node scripts/sync-trustmrr.mjs` + `compute-revenue-benchmarks.mjs` |
 | trendingrepo-worker.yml | trendingrepo-worker | `push`, `pull_request`, `workflow_dispatch` | typecheck + build for the Railway worker |
@@ -114,21 +114,6 @@ Workflows with multiple cron entries list each.
 Unclassified: none. Every workflow has a parsed `name:` and trigger.
 
 Total cron-driven workflows: 65. Push/PR-only or dispatch-only: 18.
-
-### Meta / hygiene workflows
-
-These workflows operate ON the repo (docs, CI gates, generated
-inventories) rather than producing data. They are PR-gates or weekly
-hygiene runs and are intentionally excluded from the cron-driven
-total above.
-
-| File | Schedule | Trigger | Purpose |
-|---|---|---|---|
-| `doc-links-check.yml` | - | PR (md/skill/agent changes) + dispatch | `node scripts/check-internal-doc-links.mjs` - validates internal markdown links across docs/, tasks/, .claude/skills, .claude/agents, src/**/CLAUDE.md, apps/**/CLAUDE.md |
-| `engine-inventory-check.yml` | - | PR (workflow / cron route / fetcher / derive script changes) | Re-runs `node scripts/derive-engine-inventory.mjs` and fails the PR if `docs/_generated/engine.{json,md}` are stale |
-| `engine-inventory-refresh.yml` | `0 14 * * 1` (Mon 14:00 UTC) | weekly + dispatch + PR (workflow/cron/worker changes) | Re-derives engine inventory; auto-commits `docs/_generated/` diff via `engine-inventory-bot` |
-| `workflow-coverage-check.yml` | - | PR (.github/workflows / docs/ENGINE.md / coverage script changes) | `node scripts/check-workflow-engine-coverage.mjs` - fails PR if any workflow YAML is missing from this ENGINE.md inventory |
-| `worklog-hygiene.yml` | `0 6 * * 1` (Mon 06:00 UTC) | weekly + dispatch | `node scripts/archive-old-worklogs.mjs` - `git mv`s root-level worklogs older than 30d into the archive; auto-commits via `worklog-hygiene-bot` |
 
 ---
 
@@ -140,19 +125,19 @@ Source: `Glob src/app/api/cron/**/route.ts`. Caller workflow derived from
 | Route | Caller workflow | Auth | Purpose |
 |---|---|---|---|
 | `/api/cron/aiso-drain` | cron-aiso-drain.yml (`3,33 * * * *`) | Bearer `CRON_SECRET` | Drains AISO scan submission queue + emits PostHog ops event |
-| `/api/cron/digest/weekly` | cron-digest-weekly.yml (`0 14 * * 5`) | Bearer `CRON_SECRET` | Renders + sends weekly digest email via Resend |
+| `/api/cron/digest/weekly` | cron-digest-weekly.yml (`14 14 * * 5`) | Bearer `CRON_SECRET` | Renders + sends weekly digest email via Resend |
 | `/api/cron/freshness/state` | cron-freshness-check.yml (`*/15 * * * *`); also smoke-tested by post-deploy-smoke.yml + release-cdn-purge | Bearer `CRON_SECRET` | Returns per-source freshness state |
 | `/api/cron/github-pool-budget` | cron-github-pool-budget.yml (`*/5 * * * *`) | Bearer `CRON_SECRET` | Snapshots PAT pool remaining/reset to Redis aggregate |
 | `/api/cron/llm/aggregate` | cron-llm.yml (hourly `10 * * * *`) | Bearer `CRON_SECRET` | Aggregates LLM telemetry counters |
 | `/api/cron/llm/sync-models` | cron-llm.yml (daily `15 2 * * *`) | Bearer `CRON_SECRET` | Syncs LLM model catalog from upstream |
 | `/api/cron/mcp/rotate-usage` | cron-mcp-usage-rotate.yml (`0 3 1 * *`) | Bearer `CRON_SECRET` | Monthly rotation of MCP usage log |
 | `/api/cron/news-auto-recover` | (no scheduled workflow caller in tree as of 2026-05-05) | Bearer `CRON_SECRET` | News-feed auto-recovery (orphan; can be dispatched directly) |
-| `/api/cron/predictions` | cron-predictions.yml (`0 6 * * *`) | Bearer `CRON_SECRET` | Generates LLM-driven predictions |
+| `/api/cron/predictions` | cron-predictions.yml (`56 6 * * *`) | Bearer `CRON_SECRET` | Generates LLM-driven predictions |
 | `/api/cron/predictions/calibrate` | (no scheduled workflow caller in tree) | Bearer `CRON_SECRET` | Calibrate prediction scores; orphan or in-process call |
 | `/api/cron/sources-auto-recover` | sources-auto-recover.yml (`*/30 * * * *`) | Bearer `CRON_SECRET` | Auto-recovery sweep for failing sources |
-| `/api/cron/subdomain-takeover` | cron-subdomain-takeover.yml (`0 3 * * 1`) | Bearer `CRON_SECRET` | Weekly subdomain takeover scan |
-| `/api/cron/twitter-daily` | cron-twitter-outbound.yml (`0 14 * * *`) | Bearer `CRON_SECRET` | Daily outbound Twitter thread |
-| `/api/cron/twitter-weekly-recap` | cron-twitter-outbound.yml (`0 16 * * 5`) | Bearer `CRON_SECRET` | Friday weekly recap thread |
+| `/api/cron/subdomain-takeover` | cron-subdomain-takeover.yml (`1 3 * * 1`) | Bearer `CRON_SECRET` | Weekly subdomain takeover scan |
+| `/api/cron/twitter-daily` | cron-twitter-outbound.yml (`57 13 * * *`) | Bearer `CRON_SECRET` | Daily outbound Twitter thread |
+| `/api/cron/twitter-weekly-recap` | cron-twitter-outbound.yml (`57 15 * * 5`) | Bearer `CRON_SECRET` | Friday weekly recap thread |
 | `/api/cron/webhooks/flush` | cron-webhooks-flush.yml (`5,35 * * * *`) | Bearer `CRON_SECRET` | Drains webhook queue |
 | `/api/cron/webhooks/scan` | cron-webhooks-flush.yml (`5,35 * * * *`, runs before flush) | Bearer `CRON_SECRET` | Enqueues breakouts + funding rows |
 
@@ -163,22 +148,19 @@ them on a schedule today.
 
 ---
 
-## 3. Worker (apps/trendingrepo-worker/) - 44 active fetchers
+## 3. Worker (apps/trendingrepo-worker/) - 44 active fetchers (51 total in tree)
 
 Source: `apps/trendingrepo-worker/src/registry.ts` (`FETCHERS[]`) +
 each fetcher's `index.ts`. Schedules are 5-field UTC cron strings used
 by `croner` in `src/schedule.ts`. Every fetcher writes to the
 `ss:data:v1:<name>` Redis key via `src/lib/redis.ts`.
 
-`_template/` is the deliberate scaffolding template (see
-`_template/README.md`). The four prior stubs (`huggingface`, `github`,
-`mcp-so`, `mcp-servers-repo`) were deleted 2026-05-05 (they only
-emitted "not yet implemented" warnings every cron tick). The three
-real-but-unwired implementations (`ai-blogs`, `arxiv`,
-`github-events`) have full code + tests but are not in `FETCHERS[]`
-yet — see the banner comment at the top of each `index.ts` for the
-promotion path. `agent-commerce/` is data-only (just `seed-data.json`,
-no `index.ts`; consumed by `scripts/build-agent-commerce-seed.mjs`).
+`_template`, `huggingface`, `github`, `mcp-so`, `mcp-servers-repo`,
+`github-events`, `ai-blogs`, `arxiv` exist as files under
+`src/fetchers/` but are not in the active `FETCHERS[]` registry export
+(see `registry.ts` comments: stubs left in tree as documentation of
+intent). `agent-commerce/` exists as a data-only directory (no
+`index.ts`).
 
 | Fetcher | Schedule (UTC) | Output Redis key | Notes |
 |---|---|---|---|
@@ -215,7 +197,7 @@ no `index.ts`; consumed by `scripts/build-agent-commerce-seed.mjs`).
 | manual-repos | `7 4 * * *` | `manual-repos` | operator-curated |
 | revenue-manual-matches | `9 4 * * *` | `revenue-manual-matches` | operator-curated |
 | revenue-benchmarks | `57 2 * * *` | `revenue-benchmarks` | daily |
-| skill-install-snapshot | `0 3 * * *` | `skill-install-snapshot:<date>` | |
+| skill-install-snapshot | `54 2 * * *` | `skill-install-snapshot:<date>` | |
 | skill-forks-snapshot | `13 3 * * *` | `skill-forks-snapshot` | |
 | hotness-snapshot | `25 3 * * *` | `hotness-snapshot` | |
 | mcp-usage-snapshot | `30 3 * * *` | `mcp-usage-snapshot` | |

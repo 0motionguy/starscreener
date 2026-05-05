@@ -31,3 +31,21 @@
 1. Restore GitHub CLI auth context for workflow verification (`GITHUB_TOKEN` validity for `gh run list` / `gh workflow list`).
 2. Restore Vercel CLI context (`VERCEL_ORG_ID` aligned with current `VERCEL_PROJECT_ID`) for deploy-state visibility.
 3. Re-run AGN-847 live verification checklist and attach authenticated evidence to close AGN-847.
+
+## Control-plane close-loop replay (AGN-1671)
+- At `2026-05-05` heartbeat continuation, Paperclip control-plane replay was retried 3x against `http://192.168.192.1:3100/api/health`.
+- Result each attempt: `Unable to connect to the remote server`.
+- Impact: AGN-1671 evidence comment POST and terminal status PATCH cannot be persisted from this runner until API reachability is restored.
+- Unblock owner/action: platform/network owner restores runner access to Paperclip API endpoint; then replay:
+  1. `POST /api/issues/{issueId}/comments` with AGN-1671 evidence summary.
+  2. `PATCH /api/issues/{issueId}` with terminal status (`done`) and one-line evidence comment.
+
+## Continuation attempt 2/2 evidence
+- Socket-level probe (`TcpClient`) to `192.168.192.1:3100` failed with:
+  - `No connection could be made because the target machine actively refused it 192.168.192.1:3100`.
+- Fresh replay attempts still failed:
+  - `POST /api/issues/{issueId}/comments` -> `Unable to connect to the remote server`
+  - `PATCH /api/issues/{issueId}` -> `Unable to connect to the remote server`
+- Blocked owner/action remains unchanged:
+  - Owner: platform/network operator for Paperclip control-plane availability.
+  - Action: restore listener/routing to `192.168.192.1:3100` for runner network segment, then re-run POST+PATCH close-loop calls.

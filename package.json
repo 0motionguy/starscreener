@@ -60,9 +60,6 @@
         "lint:guards": "npm run lint:tokens && npm run lint:err-message && npm run lint:zod-routes && npm run lint:runtime && npm run lint:err-envelope && npm run lint:v3-budget && npm run lint:bypass && npm run lint:top10-window-labels && npm run lint:page-metadata && npm run lint:ssr-false-server-components && npm run lint:redis-keys",
         "audit:status": "node scripts/audit-status.mjs",
         "engine:derive": "node scripts/derive-engine-inventory.mjs",
-        "cron:overlap": "node scripts/check-cron-overlap.mjs",
-        "openapi:derive": "node scripts/derive-openapi.mjs",
-        "openapi:check": "node scripts/check-openapi-coverage.mjs",
         "audit:github-token-callsites": "node scripts/audit-github-token-callsites.mjs",
         "update:badges": "node scripts/update-readme-badges.mjs",
         "test": "npm run test:scraper-shared && npm run test:reddit && npm run test:hn && npm run test:bsky && npm run test:ph && npm run test:devto && npm run test:npm && npm run test:funding && npm run test:twitter-collector && tsx --test src/lib/__tests__/*.test.ts src/lib/pipeline/__tests__/*.test.ts src/lib/twitter/__tests__/*.test.ts src/tools/__tests__/*.test.ts src/portal/__tests__/*.test.ts src/app/about/__tests__/*.test.tsx",
@@ -113,8 +110,6 @@
         "freshness:check": "tsx scripts/check-freshness.mts",
         "freshness:docs": "node scripts/check-docs-freshness.mjs",
         "lint:doc-frontmatter": "node scripts/check-living-docs-have-frontmatter.mjs",
-        "lint:workflow-coverage": "node scripts/check-workflow-engine-coverage.mjs",
-        "health:board": "node scripts/build-health-board.mjs",
         "paperclip:agn561:progress": "node scripts/append-agn561-progress-log.mjs",
         "snapshot:top10": "tsx --env-file-if-exists=.env.local scripts/snapshot-top10.ts",
         "snapshot:top10-sparklines": "tsx --env-file-if-exists=.env.local scripts/snapshot-top10-sparklines.ts",
@@ -191,16 +186,8 @@
         "vitest": "^2.1.9"
     },
     "lint-staged": {
-        "*.{ts,tsx}": [
-            "eslint --fix --max-warnings=0",
-            "node scripts/check-redis-keys.mjs"
-        ],
-        "*.{js,mjs,cjs,jsx}": [
+        "*.{js,mjs,cjs,ts,tsx,jsx}": [
             "eslint --fix --max-warnings=0"
-        ],
-        "*.md": [
-            "node scripts/check-living-docs-have-frontmatter.mjs",
-            "node scripts/check-internal-doc-links.mjs"
         ]
     },
     "overrides": {

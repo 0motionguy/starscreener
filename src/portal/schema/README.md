@@ -1,8 +1,7 @@
 # Portal v0.1 schema + lean validator — vendored
 
-**Source:** Portal spec repo at `$VISITPORTAL_DEV` (sibling checkout of
-`visitportal.dev` on the operator host, git tag `v0.1.0` — commit freezing
-the v0.1 spec on 2026-04-19).
+**Source:** Portal spec repo at `C:/Users/mirko/OneDrive/Desktop/visitportal.dev`
+(git tag `v0.1.0` — commit freezing the v0.1 spec on 2026-04-19).
 
 **Vendored artifacts:**
 - `manifest-v0.1.0.json` — copied verbatim from
@@ -26,11 +25,11 @@ agent surface self-contained.
 
 When the Portal spec publishes v0.1.x or v0.2:
 
-1. Diff (with `$VISITPORTAL_DEV` pointing at the local visitportal.dev checkout):
+1. Diff:
    ```bash
-   diff "$VISITPORTAL_DEV/packages/spec/manifest.schema.json" \
+   diff C:/Users/mirko/OneDrive/Desktop/visitportal.dev/packages/spec/manifest.schema.json \
         src/portal/schema/manifest-v0.1.0.json
-   diff "$VISITPORTAL_DEV/packages/spec/conformance/lean-validator.ts" \
+   diff C:/Users/mirko/OneDrive/Desktop/visitportal.dev/packages/spec/conformance/lean-validator.ts \
         src/portal/validate.ts
    ```
 2. Port changes into both files together (they must stay in lockstep).

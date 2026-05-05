@@ -35,27 +35,56 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
 - [ ] VPS migration (owner: CTO). Done when migration decision is documented as ship/no-ship with risk, cost, and rollback criteria. Target sprint: Sprint 6 (optional).
 
 ## Discovered during current work
-- 2026-05-05 AGN-723 [AGN-582 child] Fix mobile overflow on / at 375px (triage reclassification):
-  - Reclassification trigger: board comment `e2648bc9-c8c7-438f-91b4-ba55148f4dad` requested Sprint Triage to re-read thread and clarify blocker cause.
+- 2026-05-05 AGN-781 [AISO-GAP-20] E2E test: full paid-tier checkout flow (PM blocker-cause reclassification):
+  - Human reroute trigger: board comment `1d755fea-13c6-44fd-afa5-3e9bbb9cb206` asked Sprint Triage to re-read thread and reclassify blocker cause.
   - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
-  - Verified `npm run freshness:check` at `2026-05-05T06:03:25.650Z` reached `http://localhost:3023` (`health=ok`) and failed freshness policy (`blocking_non_green=17`, `red=4`, `Sentry: MISSING`), so localhost is not missing but product is stale/degraded.
-  - Verified latest QA retry still reproduces homepage overflow on `/` (`375`: `386>375`, `390`: `399>390`, `768`: pass).
-  - [ ] AGN-723 blocker-cause reclassification continuity follow-through (owner: PM triage). Done when AGN-723 has one assigned frontend implementation owner and one merged homepage overflow fix with rerun proofs at `375/390/768` showing `scrollWidth <= innerWidth`.
-    Dependencies: CTO assigns one frontend implementation owner for AGN-723; assigned engineer lands the `/` mobile overflow fix and posts verification artifacts for all required widths.
+  - Freshness preflight at `2026-05-05`: localhost `http://localhost:3023` is reachable (not missing), but product is stale/degraded (`npm run freshness:check` fails because `/api/health?soft=1` returns HTTP 500).
+  - Reclassification decision: blocker cause is external dependency `AGN-872` runtime fix evidence gap, not PM ambiguity. Required unblock evidence remains runtime fix verification for `/` and `/install`, then QA rerun of `npm run test:e2e -- tests/e2e/paid-checkout.spec.ts`.
+  - Control-plane write blocker this heartbeat: Paperclip API endpoint `http://192.168.192.1:3100` unreachable from this runtime (`Unable to connect to the remote server`), so issue-thread comment/PATCH could not be executed.
+  - [ ] AGN-781 closure-path continuity follow-through (owner: PM triage). Done when Frontend/Platform posts AGN-872 runtime-fix evidence for `/` and `/install`, QA posts paid-checkout e2e rerun output, and PM records terminal board PATCH from a reachable control plane.
+    Dependencies: Frontend/Platform owner on AGN-872 provides runtime fix proof; QA reruns and posts `tests/e2e/paid-checkout.spec.ts` evidence; platform owner restores Paperclip API reachability for this agent lane.
 
-- 2026-05-05 AGN-810 [SEO child] Structured data + sitemap-pages parity for top routes (triage reclassification):
-  - Reclassification trigger: board comment `29386d74-10ce-4453-9af3-62d5dd4ae9cc` requested Sprint Triage to re-read thread and clarify blocker cause.
+- 2026-05-05 AGN-1244 [Sprint 1 audit] Bridge blocked-issue unblock-owner coverage audit (PM blocker-cause reclassification):
+  - Reclassification trigger: board comment `be436f2b-5124-4964-9b36-2b2df27518ab` requested Sprint Triage to re-read thread and clarify blocker cause.
   - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
-  - Verified `npm run freshness:check` at `2026-05-05T14:00:32+08:00` reached `http://localhost:3023` (`health=ok`) and failed freshness policy (`blocking_non_green=24`, `Sentry: MISSING`), so localhost is not missing but product is stale/degraded.
-  - [ ] AGN-810 blocker-cause reclassification continuity follow-through (owner: PM triage). Done when AGN-810 has one explicit acceptance owner, one accepted verification path (freshness green or CTO-approved staging/prod parity proof), and one evidence packet proving JSON-LD + sitemap-pages parity PASS on required route classes.
-    Dependencies: CTO/release owner confirms acceptance path; platform/data owner restores blocking stale/red/dead freshness sources and resolves `Sentry: MISSING`; implementation assignee posts final parity evidence and requests closure.
+  - Freshness preflight at `2026-05-05T06:38:46.907Z`: localhost `http://localhost:3023` is reachable (not missing) but stale/degraded (`blocking_non_green=17`; RED: `producthunt`, `trending-repos`, `twitter`).
+  - Thread reread decision: blocker is not unclear PM scope; blocker is external bridge/runtime dependency (runner API URL injection + Ruflo objective/log observability path).
+  - Control-plane write attempts in this heartbeat (`POST /api/issues/AGN-1244/comments`, `PATCH /api/issues/{id}`) returned HTTP 500 from loopback API, so board comment/PATCH could not be persisted from this runtime.
+  - [ ] AGN-1244 closure-path continuity follow-through (owner: PM triage). Done when CTO/Ruflo maintainer unblock actions are confirmed, AGN-1244 rerun produces blocked-issue owner/action coverage table plus escalation gaps, and a terminal board PATCH succeeds.
+    Dependencies: CTO + Ruflo maintainer fix runner API URL injection to reachable endpoint and repair Ruflo objective propagation + `agent_logs` MCP mapping; control-plane write path recovers from HTTP 500 for comment/PATCH operations.
 
-- 2026-05-05 AGN-721 [P1 a11y] ARIA attribute violations on /signals and home (triage reclassification):
-  - Reclassification trigger: board comment `d4a607d7-7119-475c-9c6f-03ca250cda70` requested blocker-cause clarification.
+- 2026-05-05 AGN-1533 [Sprint 1 audit] Platform Security CORS posture refresh for public APIs (PM ownership triage continuity):
+  - Reassignment trigger: board comment `2371316c-2587-4ae6-9639-3e5c0f47d791` requested Sprint Triage to resolve missing implementation owner.
   - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
-  - Verified `npm run freshness:check` reached `http://localhost:3023` at `2026-05-05T05:59:12.345Z` (`health=ok`) but failed freshness policy (`blocking_non_green=31`, `Sentry: MISSING`), so product is stale/degraded.
-  - [ ] AGN-721 blocker-cause reclassification continuity follow-through (owner: PM triage). Done when AGN-721 has one frontend implementation owner assigned by CTO and one explicit unblock path to remove invalid `/signals` ARIA semantics with post-fix QA proof (`/` and `/signals` each `0` critical/serious ARIA violations).
-    Dependencies: CTO assigns one frontend implementation owner for AGN-721; assigned engineer lands the ARIA semantics fix and deploys; QA reruns route-level axe scan and posts artifacts proving acceptance.
+  - Freshness evidence at `2026-05-05T06:38:47.157Z`: localhost `http://localhost:3023` reachable (not missing), product stale/degraded (`blocking_non_green=18`, `red=3`, `dead=2`).
+  - Verified control-plane blocker: Paperclip API `http://192.168.192.1:3100` unreachable from this runtime, so issue-thread comment/PATCH could not be executed in this heartbeat.
+  - [ ] AGN-1533 owner assignment escalation follow-through (owner: PM triage, unblock owner CTO/platform). Done when CTO assigns one concrete implementation engineer for CORS remediation evidence, platform restores Paperclip API reachability for this lane, and terminal board PATCH is recorded.
+    Dependencies: CTO assignment decision for AGN-1533 implementation owner; platform owner restores control-plane connectivity on `192.168.192.1:3100`.
+
+- 2026-05-05 AGN-785 [AISO-GAP-24] Privacy notice for scan data + retention policy (PM blocker-cause reclassification):
+  - Reclassification trigger: board comment `e2f449df-c7fd-42d6-8000-6ee86e0ac87c` requested Sprint Triage to re-read and clarify blocker cause.
+  - Mandatory opening bundle re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Freshness preflight at `2026-05-05T06:34:02.598Z`: localhost `http://localhost:3023` is reachable (not missing), but stale/degraded (`blocking_non_green=17`; RED: `producthunt`, `trending-repos`, `twitter`).
+  - Blocker cause reclassified: this is blocked on implementation ownership and execution evidence, not PM scope ambiguity. Required deliverables (`app/privacy/page.tsx`, footer link, authenticated delete endpoint, one real deletion proof) are code changes in the AISO lane and remain unlanded in this heartbeat.
+  - [ ] AGN-785 implementation ownership + acceptance evidence handoff (owner: CTO to assign implementation engineer; PM triage tracks boundary). Done when one implementation owner lands all three deliverables and posts binary proof for one successful end-to-end deletion, after which PM can move status from blocked to review.
+    Dependencies: CTO assigns a single implementation owner in the AISO code lane; implementer provides route + API + deletion proof artifacts; QA verifies acceptance checklist.
+
+- 2026-05-05 AGN-1509 [Sprint 1 audit] Platform Security CORS/CSP posture refresh (PM blocker-cause reclassification):
+  - Reclassification trigger: board comment `65e37003-70c2-4f80-8982-e4edbacb483f` requested PM thread re-read and blocker-cause clarity.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Verified `npm run freshness:check` at `2026-05-05T06:32:18.731Z` reached `http://localhost:3023` (localhost not missing) and failed policy (`blocking_non_green=17`; red `producthunt`, `trending-repos`, `twitter`), so product is stale/degraded.
+  - Reclassified blocker cause: external deploy-parity evidence gap (portal CORS + top-page CSP proof still missing), not a triage-scope ambiguity.
+  - Control-plane constraint: Paperclip API at `http://192.168.192.1:3100` is unreachable from this runtime, so thread fetch/comment/PATCH actions cannot complete in this heartbeat.
+  - [ ] AGN-1509 closure-path continuity follow-through (owner: PM triage). Done when release owner posts fresh hostile-origin CORS rejection proof for `/portal` + `/portal/call`, CSP-header proof for `/`, `/signals`, `/skills`, `/mcp`, `/twitter`, and PM can execute terminal board PATCH from a reachable control plane.
+    Dependencies: CTO delegate assigns release owner for deploy+evidence package; platform owner restores Paperclip API reachability for this agent lane.
+
+- 2026-05-05 AGN-674 [PRELOAD-1] Image preload -- top-3 LCP candidates per route via `<link rel=preload>` (PM blocker-cause reclassification):
+  - Reclassification trigger: board comment `97a3d1b8-fa16-4b6b-b63e-01daf170cc98` requested PM thread re-read and blocker-cause clarity.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Verified `npm run freshness:check` at `2026-05-05T06:29:18.938Z` reached `http://localhost:3023` (localhost not missing) but failed policy (`blocking_non_green=18`, `red=4`, `Sentry: MISSING`), so product remains stale/degraded.
+  - Verified control-plane access failure for board operations: `PAPERCLIP_API_URL=http://192.168.192.1:3100` responds to ping but TCP `3100` is closed (`TcpTestSucceeded=False`), preventing issue-thread fetch/comment/PATCH from this run.
+  - [ ] AGN-674 blocker-cause clarity + closure-path continuity (owner: PM triage). Done when control-plane API is reachable, AGN-674 thread receives explicit blocker-cause comment, and terminal status PATCH is recorded with unblock owner/action.
+    Dependencies: platform owner restores Paperclip API reachability on `192.168.192.1:3100`; frontend/runtime owner reruns preload proof for `/`, `/skills`, `/mcp`, `/twitter`, `/top10`, and sibling `/signals`; CTO confirms blocked-vs-reassign decision after control-plane recovery.
 
 - 2026-05-05 AGN-711 [AGN-122] Fix Lighthouse perf score <80 on /signals (43) (reassignment redistribution triage):
   - Reassignment intake: board comment `4039110f-3600-4928-b3a6-9742a859d6ba` rerouted AGN-711 to Sprint Triage because original assignee was missing/removed.
@@ -123,9 +152,10 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
   - Reassignment intake: board comment `38414d08-b656-47d6-9405-f3eb827a1a12` rerouted AGN-857 to Sprint Triage because original assignee was missing/removed.
   - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
   - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location resolves to `docs/archive/AUDIT-2026-05-04.md`.
-  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
-  - [ ] AGN-857 redistribution continuity follow-through (owner: PM triage). Done when AGN-857 has one implementation owner assigned by CTO, one explicit unblock path for `Collect Twitter Signals` workflow remediation with run-level evidence, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
-    Dependencies: CTO assigns implementation owner for AGN-857; assigned engineer verifies failing `Collect Twitter Signals` workflow run id/log evidence and patches the failure path with fresh success proof; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+  - Verified `npm run freshness:check` at `2026-05-05T14:41:19+08:00` reached localhost (`http://localhost:3023`, not missing) with `health=ok` but failed policy (`blocking_non_green=17`, `red=3`), so product remains stale/degraded.
+  - Workflow failure evidence packet refreshed: latest run `https://github.com/0motionguy/starscreener/actions/runs/25361274765` fails at `Commit updated twitter signals` after successful collection due to protected-branch rejection `GH006` (`main` requires PR flow + required checks), with six failed push retries.
+  - [ ] AGN-857 redistribution continuity follow-through (owner: PM triage). Done when AGN-857 has one implementation owner assigned by CTO, one explicit unblock path for protected-branch-compatible publish flow in `collect-twitter.yml`, and one green scheduled run proving end-to-end collect + publish success without GH006.
+    Dependencies: CTO assigns implementation owner for AGN-857; assigned engineer patches `collect-twitter.yml`/commit action to publish via PR-compatible path (no direct push to protected `main`) and posts green run evidence; release/platform verifies required checks/auto-merge path allows workflow completion.
 - 2026-05-05 AGN-862 Investigate broken workflow: release-cdn-purge-and-targeted-refresh.yml (reassignment redistribution triage):
   - Reassignment intake: board comment `99dc17ac-5d5c-4e80-90b3-65dbd0a1a6fc` rerouted AGN-862 to Sprint Triage because original assignee was missing/removed.
   - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
@@ -194,9 +224,10 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
   - Reassignment intake: board comment `1a5e06a1-167a-4852-b53c-86715100df36` rerouted AGN-870 to Sprint Triage because original assignee was missing/removed.
   - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
   - Path verification note: `docs/AUDIT-2026-05-04.md` is missing in this repo path; canonical audit location currently resolves to `docs/archive/AUDIT-2026-05-04.md`.
-  - Verified `npm run freshness:check` failed with `local server not reachable at http://localhost:3023` (`ECONNREFUSED`), so localhost:3023 is missing in this heartbeat.
-  - [ ] AGN-870 redistribution continuity follow-through (owner: PM triage). Done when AGN-870 has one implementation owner assigned by CTO, one explicit unblock path for Sync TrustMRR workflow remediation with evidence, and a fresh heartbeat evidences reachable localhost preflight with non-blocking freshness (`npm run freshness:check` exit 0).
-    Dependencies: CTO assigns implementation owner for AGN-870; assigned engineer verifies failing `sync-trustmrr` workflow evidence and patches the failure path for revenue overlay sync; platform engineer restores localhost:3023 reachability so freshness preflight can run.
+  - Verified `npm run freshness:check` reached localhost (`/api/health?soft=1` OK) but failed stale-policy gating (`blocking_non_green=18`; RED includes `trending-repos`, `producthunt`, `twitter`, `lobsters`), so product freshness remains degraded.
+  - Reassignment action completed: AGN-870 moved to concrete implementation owner `[OPS] Release SRE` (`assigneeAgentId=8a99f928-5e30-47f7-ac2d-4239f6bcf6cf`) per board directive.
+  - [ ] AGN-870 redistribution continuity follow-through (owner: [OPS] Release SRE, tracked by PM triage). Done when AGN-870 has failing-run evidence, remediation patch evidence, and fresh passing run proof for `sync-trustmrr`.
+    Dependencies: [OPS] Release SRE verifies failing `sync-trustmrr` run evidence (run id + failing step + log pointer), patches workflow/script path, and posts fresh success proof; PM triage keeps sprint/backlog acceptance wording synchronized.
 - 2026-05-05 AGN-1473 [Bug][P1] /mcp route external icon/avatar request failures (ORB/404) with console noise (reassignment redistribution triage):
   - Reassignment intake: board comment `10a1d975-0c16-4058-b82a-0001640afb5b` rerouted AGN-1473 to Sprint Triage because original assignee was missing/removed.
   - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
@@ -645,7 +676,7 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
   - [ ] `/watchlist` unauth behavior decision (owner: product/PM). Done when expected unauth responses are documented and 503s are either removed or explicitly accepted.
   - [ ] External avatar/icon fallback hardening (owner: frontend engineer). Done when failed external image loads degrade gracefully without broken UI markers.
   - [ ] Windows OneDrive `.next` workaround codified (owner: platform engineer). Done when local setup docs or script enforce the workaround and local dev/typecheck no longer race on generated files.
-- Document or script the Windows OneDrive `.next` dev/build workaround. On 2026-05-03 the local `.next` directory was a junction at `%TEMP%\trendingrepo-next-dev`; `next dev` and `next build` both need `NODE_PATH=<repo-root>\node_modules` (point at the workspace `node_modules/` for the current host) so chunks emitted under `%TEMP%` can resolve externals like `react/jsx-runtime` and Next's app-route runtime.
+- Document or script the Windows OneDrive `.next` dev/build workaround. On 2026-05-03 the local `.next` directory was a junction at `%TEMP%\trendingrepo-next-dev`; `next dev` and `next build` both need `NODE_PATH=C:\Users\mirko\OneDrive\Desktop\STARSCREENER\node_modules` so chunks emitted under `%TEMP%` can resolve externals like `react/jsx-runtime` and Next's app-route runtime.
 - Decide expanded freshness semantics for advisory side channels: `mcp-dependents` needs `LIBRARIES_IO_API_KEY`, `mcp-smithery-rank` needs `SMITHERY_API_KEY`, `skill-install-snapshots` currently has no install data, `model-usage` can have successful zero-event cron runs, and `hotness-snapshots` can publish only populated domains. Either provision the missing keys/data or mark these rows non-blocking in `/api/cron/freshness/state`.
 - Normalize Vercel project targeting across local shells: repo link file `.vercel/project.json` points to `projectId=prj_ycY0bM38UMyAl9jPcAgrmQGUc4tQ` / `orgId=team_NrVhqhXUDEYB9YOWaqkBIQ4w`, while ambient env may inject a different `VERCEL_PROJECT_ID` without `VERCEL_ORG_ID`, causing wrong-target deploy/list behavior and stale-build confusion.
 - 2026-05-04 AGN-122 Lighthouse perf budget audit top-3 wins (artifacts in `docs/perf/agn-122-lighthouse-*.report.{html,json}`):
@@ -671,7 +702,6 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
 - [ ] **Phase 1.0.D verification sweep** â€” drift-audit `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`, `docs/runbooks/*` (5 files), `docs/protocols/*` (5 files), `docs/RUNBOOK-secret-rotation.md`, `docs/DESIGN_SYSTEM.md`; mark living/snapshot/needs-rewrite
 - [ ] **docs/DESIGN_SYSTEM.md rewrite** â€” file documents V3 only and references missing `docs/V2_HANDOFF.md` + `docs/HANDOFF_2026-04-27_V3.md`; replacement: `design/v4/DESIGN_SYSTEM.md` (canonical V4/CORPUS doc). Either redirect with a one-line stub or delete and update inbound links
 - [x] Phase 4 part 3 — scripts/ Redis-key sweep — DONE 2026-05-05 (3 migrations: scripts/enrich-arxiv.mjs x2 + scripts/audit-redis-file-drift.mjs x1; exported `keys` shim from scripts/_data-store-write.mjs; check-redis-keys.mjs now scans scripts/).
-- [x] B4 — engine-inventory PR gate — DONE 2026-05-05 (`.github/workflows/engine-inventory-check.yml`).
 
 ### orphan cron routes
 - [x] Delete orphan cron route `src/app/api/cron/news-auto-recover/route.ts` — DELETED 2026-05-05.

@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-1129 Release QA Evidence - Browser smoke top-5 pages with console/request errors
 
 Issue: `AGN-1129`  

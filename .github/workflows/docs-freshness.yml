@@ -8,6 +8,7 @@ on:
     paths:
       - "docs/**"
       - "scripts/check-docs-freshness.mjs"
+      - "scripts/check-living-docs-have-frontmatter.mjs"
       - ".github/workflows/docs-freshness.yml"
 
 permissions:
@@ -28,3 +29,5 @@ jobs:
           node-version: "22"
       - name: Run freshness check
         run: node scripts/check-docs-freshness.mjs
+      - name: Run frontmatter validity check
+        run: node scripts/check-living-docs-have-frontmatter.mjs

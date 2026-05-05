@@ -32,7 +32,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: POST /api/pipeline/ingest
+      # AGN-859: split into two sequential phases so each call only does
+      # ~half the work. Vercel's per-call wall-clock cap was returning 504
+      # FUNCTION_INVOCATION_TIMEOUT on the single full-run path. Two ~250s
+      # calls (each capped at 330s by --max-time, well under the 600s
+      # maxDuration on the route) preserve sequential ordering and give
+      # each phase generous headroom.
+      - name: POST /api/pipeline/ingest?phase=1
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
@@ -41,7 +47,7 @@ jobs:
             exit 1
           fi
           code=$(curl -sS --retry 2 --retry-delay 5 --max-time 330 -o /tmp/out -w "%{http_code}" -X POST \
-            "$BASE_URL/api/pipeline/ingest" \
+            "$BASE_URL/api/pipeline/ingest?phase=1" \
             -H "Authorization: Bearer $CRON_SECRET" \
             -H "Content-Type: application/json" \
             -d '{"recomputeAfter":false}')
@@ -53,6 +59,31 @@ jobs:
           fi
           echo
           if [ "$code" != "200" ]; then
-            echo "::error::pipeline/ingest call failed ($code)"
+            echo "::error::pipeline/ingest phase=1 call failed ($code)"
+            exit 1
+          fi
+
+      - name: POST /api/pipeline/ingest?phase=2
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::CRON_SECRET is unset — refusing to fire unauthenticated"
+            exit 1
+          fi
+          code=$(curl -sS --retry 2 --retry-delay 5 --max-time 330 -o /tmp/out -w "%{http_code}" -X POST \
+            "$BASE_URL/api/pipeline/ingest?phase=2" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            -d '{"recomputeAfter":false}')
+          echo "HTTP $code"
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
+            jq . /tmp/out | head -c 2000
+          else
+            head -c 2000 /tmp/out
+          fi
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::pipeline/ingest phase=2 call failed ($code)"
             exit 1
           fi

@@ -61,7 +61,6 @@ import { RecentMentionsFeed } from "@/components/repo-detail/RecentMentionsFeed"
 // exposes the `completeness` field.
 import { toMentionItem } from "@/components/repo-detail/MentionMeta";
 import type { MentionItem } from "@/components/repo-detail/MentionMeta";
-import { RepoSignalSnapshot } from "@/components/repo-detail/RepoSignalSnapshot";
 import { ProjectSurfaceMap } from "@/components/repo-detail/ProjectSurfaceMap";
 import { NpmAdoptionPanel } from "@/components/repo-detail/NpmAdoptionPanel";
 import { RepoActionRow } from "@/components/repo-detail/RepoActionRow";
@@ -362,12 +361,9 @@ export default async function RepoDetailPage({ params }: PageProps) {
         </section>
 
         <div className="repo-detail-stack">
-          {/* Completeness strip — audit finding #1 trust fix.
-              Answers "how much of this profile is actually populated?"
-              before the user scrolls through modules that might be empty
-              because the pipeline hasn't scanned that source yet vs because
-              nothing exists. */}
-          {/* <CompletenessStrip> WIP — re-enable once merged from stash. */}
+          {/* Action row + reactions sit directly under the verdict ribbon to
+              give the user immediate watch / compare / open affordances
+              before scrolling. */}
           <RepoActionRow repo={repo} />
           <ObjectReactions
             objectType="repo"
@@ -384,13 +380,42 @@ export default async function RepoDetailPage({ params }: PageProps) {
             prediction={profile.prediction}
             currentStars={repo.stars}
           />
-          <RepoSignalSnapshot
-            repo={repo}
-            mentions={mentions}
-            npmPackages={profile.npm.packages}
-            productHuntLaunch={profile.productHunt}
-          />
 
+          {/* KPI band — Stars / Forks / Contributors at a glance. The mockup
+              calls this the "kpi-band" row that anchors the page above the
+              breakdown sections. */}
+          <RepoDetailStatsStrip repo={repo} />
+
+          {/* ============ // 01 · BREAKDOWN ============
+              Cross-signal per-channel score + project surface map. Mirrors
+              the mockup's two-up panel split (col-7 / col-5) so the user
+              sees firing channels and entity surfaces on the same fold. */}
+          <div>
+            <div className="sec-head">
+              <span className="sec-num">{"// 01 · BREAKDOWN"}</span>
+              <h2 className="sec-title">Cross-signal &amp; surface map</h2>
+              <span className="sec-meta">
+                <b>{repo.channelsFiring ?? 0}</b> firing
+              </span>
+            </div>
+            <div className="repo-detail-split">
+              <CrossSignalBreakdown repo={repo} />
+              <ProjectSurfaceMap
+                repo={repo}
+                npmPackages={profile.npm.packages}
+                productHuntLaunch={profile.productHunt}
+              />
+            </div>
+          </div>
+
+          {/* Adoption + revenue + funding sit between BREAKDOWN and GROWTH —
+              they're contextual surfaces that only render when the underlying
+              data exists, so they don't bloat empty repos. */}
+          <NpmAdoptionPanel
+            packages={profile.npm.packages}
+            dailyDownloads={profile.npm.dailyDownloads}
+            dependentsByPackage={profile.npm.dependents}
+          />
           <RepoRevenuePanel
             verified={profile.revenue.verified}
             selfReported={profile.revenue.selfReported}
@@ -398,53 +423,52 @@ export default async function RepoDetailPage({ params }: PageProps) {
           />
           <FundingPanel events={profile.funding} />
 
-          <div className="repo-detail-two-col">
-            <RepoDetailStatsStrip repo={repo} />
+          {/* ============ // 02 · GROWTH ============
+              Star/forks history chart. The chart is the centerpiece of this
+              section per the mockup; the dedicated /star-activity page is
+              already linked from the chart's own footer so the standalone
+              link block that used to live here would be redundant. */}
+          <div>
+            <div className="sec-head">
+              <span className="sec-num">{"// 02 · GROWTH"}</span>
+              <h2 className="sec-title">Stars · forks · 90 day</h2>
+              <span className="sec-meta">
+                cumulative ·{" "}
+                <b>
+                  {repo.starsDelta7d >= 0 ? "+" : ""}
+                  {formatNumber(repo.starsDelta7d)} / 7d
+                </b>
+              </span>
+            </div>
+            <ErrorBoundary>
+              <RepoDetailChartLazy repo={repo} markers={markers} />
+            </ErrorBoundary>
             <RepoDetailStats repo={repo} />
           </div>
 
-          <NpmAdoptionPanel
-            packages={profile.npm.packages}
-            dailyDownloads={profile.npm.dailyDownloads}
-            dependentsByPackage={profile.npm.dependents}
-          />
-
-          <div className="repo-detail-split">
-            <ProjectSurfaceMap
-              repo={repo}
-              npmPackages={profile.npm.packages}
-              productHuntLaunch={profile.productHunt}
+          {/* ============ // 03 · EVIDENCE ============
+              Cross-platform mentions feed — the canonical evidence trail for
+              the headline cross-signal score. Tabs + timeline are inside the
+              feed component itself. */}
+          <div>
+            <div className="sec-head">
+              <span className="sec-num">{"// 03 · EVIDENCE"}</span>
+              <h2 className="sec-title">Mentions · evidence feed</h2>
+              <span className="sec-meta">
+                <b>{mentions.length}</b> evidence item
+                {mentions.length === 1 ? "" : "s"}
+              </span>
+            </div>
+            <RecentMentionsFeed
+              mentions={mentions}
+              freshness={profile.freshness}
+              repoFullName={repo.fullName}
+              initialCursor={profile.mentions.nextCursor}
             />
-            <CrossSignalBreakdown repo={repo} />
           </div>
 
-          <RecentMentionsFeed
-            mentions={mentions}
-            freshness={profile.freshness}
-            repoFullName={repo.fullName}
-            initialCursor={profile.mentions.nextCursor}
-          />
           <RelatedReposPanel items={profile.related} />
           <RelatedIdeasPanel items={profile.ideas} />
-          <ErrorBoundary>
-            <RepoDetailChartLazy repo={repo} markers={markers} />
-          </ErrorBoundary>
-          <Link
-            href={`/repo/${repo.owner}/${repo.name}/star-activity`}
-            className="block rounded-card border border-border-primary bg-bg-secondary px-4 py-3 hover:bg-bg-tertiary transition-colors"
-          >
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <div className="text-[10px] font-mono uppercase tracking-[0.14em] text-text-tertiary">
-                  {"// STAR ACTIVITY · FULL HISTORY"}
-                </div>
-                <div className="text-sm text-text-secondary mt-1">
-                  Open the dedicated chart with toggles + share card.
-                </div>
-              </div>
-              <span className="text-text-tertiary font-mono">→</span>
-            </div>
-          </Link>
           {profile.twitter ? <TwitterSignalPanel panel={profile.twitter} /> : null}
         </div>
       </main>

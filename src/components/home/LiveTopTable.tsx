@@ -34,6 +34,7 @@ import {
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { FreshnessChip } from "@/components/shared/FreshnessChip";
 import { repoLogoUrl } from "@/lib/logos";
+import { useViewportPrefetch } from "@/hooks/useViewportPrefetch";
 import type { Repo } from "@/lib/types";
 
 type SortKey = "rank" | "stars" | "d24" | "d7" | "d30" | "forks" | "mentions";
@@ -312,6 +313,10 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
   const [sortKey, setSortKey] = useState<SortKey>("rank");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [activeCat, setActiveCat] = useState<string | null>(null);
+  // AGN-1782: viewport-triggered prefetch for /repo/{owner}/{name} routes.
+  // Each row anchor uses the ref to opt into the IntersectionObserver. The
+  // hook caps in-flight prefetches at 5 and skips entirely under Save-Data.
+  const observePrefetch = useViewportPrefetch();
 
   const handleSort = (key: SortKey) => {
     if (key === sortKey) {
@@ -431,7 +436,11 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
                     </span>
                   </td>
                   <td>
-                    <a className="repo-cell" href={row.href}>
+                    <a
+                      className="repo-cell"
+                      href={row.href}
+                      ref={(el) => observePrefetch(row.href, el)}
+                    >
                       <EntityLogo
                         src={repoLogoUrl(row.fullName, 64)}
                         name={row.fullName}

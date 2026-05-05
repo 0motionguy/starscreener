@@ -2,7 +2,7 @@ name: Run shadow scoring
 
 on:
   schedule:
-    - cron: "0 2 * * *"
+    - cron: "42 1 * * *"  # daily 01:42 UTC (staggered off 02:00 burst, was 02:00)
   workflow_dispatch:
 
 permissions:

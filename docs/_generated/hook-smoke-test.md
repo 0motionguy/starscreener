@@ -1,15 +1,3 @@
----
-last-verified: 2026-05-05
-verified-by: claude
-status: living
-regen-source: .claude/hooks/README.md hook-smoke-test section
----
-
-<!-- regen: when re-running the smoke test, KEEP this YAML frontmatter block
-     at the top of the file. Update last-verified to today's date. The doc
-     freshness checks rely on it. See .claude/hooks/README.md "Smoke testing"
-     for the procedure that produces the body below. -->
-
 # Hook smoke test -- 2026-05-05
 
 ## post-edit.mjs

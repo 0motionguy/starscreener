@@ -10,7 +10,7 @@ ecosystem). For Claude Code, the canonical file is `CLAUDE.md`.
 
 - `docs/INDEX.md` -- canonical map of every doc in the repo, classified by trust
 - `docs/OPERATOR.md` -- operator situational awareness (start here)
-- `docs/ENGINE.md` -- workflow + cron + key inventory (rewritten from current code 2026-05-05; 88 workflows + 44 active worker fetchers in FETCHERS[], 47 with index.ts on disk)
+- `docs/ENGINE.md` -- workflow + cron + key inventory (rewritten from current code 2026-05-05; 85 workflows + 52 fetchers)
 - `docs/SITE-WIREMAP.md` -- route -> data -> collector trace
 
 ## Tech stack

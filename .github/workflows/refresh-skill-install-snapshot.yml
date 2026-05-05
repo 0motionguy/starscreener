@@ -10,7 +10,7 @@ name: Refresh skill install snapshot
 # prev:1d / :7d / :30d) so the reader does a single Redis read per window.
 on:
   schedule:
-    - cron: "0 3 * * *"
+    - cron: "54 2 * * *"  # daily 02:54 UTC (staggered off 03:00 burst, was 03:00)
   workflow_dispatch:
 
 permissions:

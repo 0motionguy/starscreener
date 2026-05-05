@@ -18,7 +18,7 @@ name: Cron - weekly digest email
 
 on:
   schedule:
-    - cron: "0 14 * * 5" # UTC, Friday 14:00
+    - cron: "14 14 * * 5" # UTC, Friday 14:14 (staggered off :00 burst, was 14:00)
   workflow_dispatch:
     inputs:
       dryRun:

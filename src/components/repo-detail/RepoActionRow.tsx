@@ -20,6 +20,7 @@ import {
   toastWatchRemoved,
 } from "@/lib/toast";
 import { cn } from "@/lib/utils";
+import { captureFunnelStep } from "@/lib/analytics/funnel";
 
 interface RepoActionRowProps {
   repo: Repo;
@@ -37,9 +38,30 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
   const handleWatch = useCallback(() => {
     const wasWatched = isWatched;
     toggleWatch(repo.id, repo.stars);
-    if (wasWatched) toastWatchRemoved(repo.fullName);
-    else toastWatchAdded(repo.fullName);
+    if (wasWatched) {
+      toastWatchRemoved(repo.fullName);
+    } else {
+      toastWatchAdded(repo.fullName);
+      // AGN-848 — only track ADDs as the funnel step. Removals don't
+      // progress the discovery → save funnel; counting them would
+      // inflate conversion artificially.
+      captureFunnelStep({
+        step: "watchlist_add",
+        flow: "watchlist-add",
+        repo: repo.fullName,
+        source: "repo_detail",
+      });
+    }
   }, [isWatched, toggleWatch, repo.id, repo.stars, repo.fullName]);
+
+  const handleGithubClick = useCallback(() => {
+    captureFunnelStep({
+      step: "github_click",
+      flow: "discover-repo",
+      repo: repo.fullName,
+      position: "action_row",
+    });
+  }, [repo.fullName]);
 
   const handleCompare = useCallback(() => {
     if (isComparing) {
@@ -106,6 +128,7 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
         href={repo.url || `https://github.com/${repo.fullName}`}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={handleGithubClick}
         className="v2-btn v2-btn-ghost ml-auto min-h-[44px]"
       >
         <ExternalLink size={14} aria-hidden style={{ marginRight: 8 }} />

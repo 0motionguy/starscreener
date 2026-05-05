@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Search, X } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { ROUTES } from "@/lib/constants";
+import { captureFunnelStep } from "@/lib/analytics/funnel";
 import type { Repo } from "@/lib/types";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { BrandStar } from "@/components/shared/BrandStar";
@@ -166,6 +167,14 @@ export function SearchBar({
 
   const gotoRepo = useCallback(
     (repo: Repo) => {
+      // AGN-848 — funnel "search_result_select" step. Operator picked a
+      // repo from the autocomplete dropdown instead of submitting to
+      // /search; record the conversion for the discover-repo funnel.
+      captureFunnelStep({
+        step: "search_result_select",
+        flow: "discover-repo",
+        repo: repo.fullName,
+      });
       router.push(`/repo/${repo.owner}/${repo.name}`);
       setPreviewOpen(false);
       setValue("");
@@ -202,6 +211,15 @@ export function SearchBar({
       if (e.key === "Enter") {
         const q = value.trim();
         if (q) {
+          // AGN-848 — funnel step "search_query". Fired on the explicit
+          // submit (Enter), not on every keystroke, so the count maps 1:1
+          // to "operator decided to search this term".
+          captureFunnelStep({
+            step: "search_query",
+            flow: "discover-repo",
+            query_length: q.length,
+            source: "enter_key",
+          });
           router.push(`${ROUTES.SEARCH}?q=${encodeURIComponent(q)}`);
           setPreviewOpen(false);
         }
@@ -344,6 +362,14 @@ export function SearchBar({
                 onClick={() => {
                   const q = value.trim();
                   if (q) {
+                    // AGN-848 — funnel step "search_query" (alternate
+                    // trigger via the autocomplete footer button).
+                    captureFunnelStep({
+                      step: "search_query",
+                      flow: "discover-repo",
+                      query_length: q.length,
+                      source: "see_all_results",
+                    });
                     router.push(`${ROUTES.SEARCH}?q=${encodeURIComponent(q)}`);
                     setPreviewOpen(false);
                   }

@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 
 import { ROUTES } from "@/lib/constants";
+import { captureFunnelStep } from "@/lib/analytics/funnel";
 
 interface QueueSummary {
   pending: number;
@@ -122,6 +123,10 @@ export function DropRepoPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<SubmissionResult | null>(null);
+  // AGN-848 — funnel step "submit_fill" fires only the first time the
+  // operator types into the repo input on this mount. Without the latch
+  // every keystroke would inflate the metric.
+  const [fillFired, setFillFired] = useState(false);
 
   async function loadQueue(): Promise<void> {
     setLoading(true);
@@ -145,6 +150,8 @@ export function DropRepoPage() {
 
   useEffect(() => {
     void loadQueue();
+    // AGN-848 — funnel step "submit_open". Once on mount.
+    captureFunnelStep({ step: "submit_open", flow: "submit-repo" });
   }, []);
 
   useEffect(() => {
@@ -193,11 +200,22 @@ export function DropRepoPage() {
       setQueue(data.result.queue);
       await loadQueue();
 
+      // AGN-848 — funnel step "submit_success". Tag with `kind` so the
+      // dashboard can split created vs duplicate vs already_tracked
+      // without requiring per-call event names.
+      captureFunnelStep({
+        step: "submit_success",
+        flow: "submit-repo",
+        kind: data.result.kind,
+      });
+
       if (data.result.kind === "created") {
         setRepo("");
         setWhyNow("");
         setContact("");
         setShareUrl("");
+        // Allow `submit_fill` to fire again on the cleared form.
+        setFillFired(false);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
@@ -253,7 +271,18 @@ export function DropRepoPage() {
               </span>
               <input
                 value={repo}
-                onChange={(event) => setRepo(event.target.value)}
+                onChange={(event) => {
+                  const next = event.target.value;
+                  setRepo(next);
+                  // AGN-848 — funnel step "submit_fill" once per mount.
+                  if (!fillFired && next.trim().length > 0) {
+                    setFillFired(true);
+                    captureFunnelStep({
+                      step: "submit_fill",
+                      flow: "submit-repo",
+                    });
+                  }
+                }}
                 placeholder="openai/openai-agents-python or https://github.com/openai/openai-agents-python"
                 className="h-11 rounded-card border border-border-primary bg-bg-secondary px-3 text-sm text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-brand/50"
                 autoComplete="off"

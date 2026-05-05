@@ -1,4 +1,5 @@
 import { redis } from "@/lib/redis";
+import { keys } from "@/lib/redis/keys";
 import { createHash } from "node:crypto";
 import { redactSensitiveText } from "@/lib/log-redaction";
 
@@ -42,7 +43,11 @@ export async function recordGithubCall(
   params: GithubCallTelemetry,
 ): Promise<void> {
   const hourBucket = new Date().toISOString().slice(0, 13).replace("T", "-");
-  const usageKey = `pool:github:usage:${githubPoolNamespace()}:${params.keyFingerprint}:${hourBucket}`;
+  const usageKey = keys.pool.github.usage(
+    githubPoolNamespace(),
+    params.keyFingerprint,
+    hourBucket,
+  );
 
   try {
     await redis.hincrby(usageKey, "requests", 1);
@@ -74,7 +79,10 @@ export async function quarantineKey(params: {
   reason: GithubQuarantineReason;
   untilTimestamp: number;
 }): Promise<void> {
-  const key = `pool:github:quarantine:${githubPoolNamespace()}:${params.keyFingerprint}`;
+  const key = keys.pool.github.quarantine(
+    githubPoolNamespace(),
+    params.keyFingerprint,
+  );
   try {
     await redis.set(key, JSON.stringify(params), "EXAT", params.untilTimestamp);
   } catch (err) {
@@ -85,7 +93,10 @@ export async function quarantineKey(params: {
 export async function isKeyQuarantined(
   keyFingerprint: string,
 ): Promise<boolean> {
-  const key = `pool:github:quarantine:${githubPoolNamespace()}:${keyFingerprint}`;
+  const key = keys.pool.github.quarantine(
+    githubPoolNamespace(),
+    keyFingerprint,
+  );
   try {
     const value = await redis.get(key);
     return value !== null;

@@ -29,6 +29,7 @@ import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { absoluteUrl } from "@/lib/seo";
 
 // npm brand red — no --v4-src-npm token exists in v4.css yet, so we hardcode
 // it once on the KpiBand pip and reuse the same hex for the active-tab
@@ -47,6 +48,22 @@ export const metadata: Metadata = {
   title: "TrendingRepo - NPM Trending Packages",
   description:
     "Top npm package movement over 24h, 7d, and 30d windows, filtered to packages with GitHub repositories attached.",
+  alternates: { canonical: absoluteUrl("/npm") },
+  openGraph: {
+    title: "TrendingRepo - NPM Trending Packages",
+    description:
+      "Top npm package movement over 24h, 7d, and 30d windows, filtered to packages with GitHub repositories attached.",
+    url: absoluteUrl("/npm"),
+    type: "website",
+    images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TrendingRepo - NPM Trending Packages",
+    description:
+      "Top npm package movement over 24h, 7d, and 30d windows, filtered to packages with GitHub repositories attached.",
+    images: [absoluteUrl("/og-card.png")],
+  },
 };
 
 interface NpmPageProps {

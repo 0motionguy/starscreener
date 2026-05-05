@@ -21,7 +21,7 @@ Target MTTR: <= 30 minutes
 4. Confirm health endpoints and key route smoke checks.
 
 ## Real Example (Past Quarter)
-- 2026-05-04 and 2026-05-05 forensic runs repeatedly showed Vercel release verification blocked by org/project context drift (`VERCEL_ORG_ID` missing), preventing authenticated deploy-state checks. See `docs/forensic/AGN-739-RUNBOOKS-4-MOST-LIKELY-INCIDENTS-2026-05-04.md` and `docs/forensic/AGN-604-RUNTIME-WORKFLOW-ENV-DRIFT-2026-05-05.md`.
+- 2026-05-04 and 2026-05-05 forensic runs repeatedly showed Vercel release verification blocked by org/project context drift (`VERCEL_ORG_ID` missing), preventing authenticated deploy-state checks. See `docs/archive/forensic-2026-05-pre/AGN-739-RUNBOOKS-4-MOST-LIKELY-INCIDENTS-2026-05-04.md` and `docs/archive/forensic-2026-05-pre/AGN-604-RUNTIME-WORKFLOW-ENV-DRIFT-2026-05-05.md`.
 
 ## Rollback
 - Promote last known healthy deployment from Vercel dashboard (or revert offending merge and redeploy), then re-run release validation smoke checks.

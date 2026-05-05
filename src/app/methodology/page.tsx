@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+
+// AGN-755 / GAP-AUDIT-28 — scoring transparency UI.
+// Public, indexable methodology page so users can audit how trend scores are
+// computed. Inputs, weights, decay, and what we deliberately exclude.
 
 export const metadata: Metadata = {
   title: "How TrendingRepo ranks repos — Methodology",
@@ -15,14 +20,32 @@ export const metadata: Metadata = {
     url: absoluteUrl("/methodology"),
     siteName: SITE_NAME,
   },
+  twitter: {
+    card: "summary",
+    title: "TrendingRepo Methodology",
+    description:
+      "How we calculate trend scores. Inputs, weights, decay, and what we deliberately exclude.",
+  },
   robots: { index: true, follow: true },
 };
 
 export default function MethodologyPage() {
   return (
-    <main className="home-surface" style={{ paddingTop: 24, paddingBottom: 48, maxWidth: 880, margin: "0 auto" }}>
+    <main
+      className="home-surface"
+      style={{ paddingTop: 24, paddingBottom: 48, maxWidth: 880, margin: "0 auto" }}
+    >
       <header style={{ marginBottom: 24 }}>
-        <p style={{ fontFamily: "var(--v4-mono)", fontSize: 12, color: "var(--v4-ink-400)" }}>SCORING TRANSPARENCY</p>
+        <p
+          style={{
+            fontFamily: "var(--v4-mono)",
+            fontSize: 12,
+            color: "var(--v4-ink-400)",
+            margin: 0,
+          }}
+        >
+          SCORING TRANSPARENCY
+        </p>
         <h1 style={{ fontSize: 32, lineHeight: 1.2, margin: "8px 0 0" }}>How we rank repos</h1>
         <p style={{ marginTop: 12, color: "var(--v4-ink-300)" }}>
           TrendingRepo&apos;s trend score is deterministic and inspectable. Every input, weight, and decay constant lives in this document. No secret sauce.
@@ -61,11 +84,26 @@ export default function MethodologyPage() {
         <h2 style={{ fontSize: 20 }}>Inspect the data</h2>
         <p style={{ lineHeight: 1.7 }}>
           Every repo&apos;s detail page (<Link href="/repo/vercel/next.js">/repo/vercel/next.js</Link> for example) shows the raw signal breakdown — per-source mention counts, star deltas across windows, and the live trend score. The pipeline is open-source at{" "}
-          <a href="https://github.com/0motionguy/starscreener" target="_blank" rel="noreferrer">github.com/0motionguy/starscreener</a>.
+          <a
+            href="https://github.com/0motionguy/starscreener"
+            target="_blank"
+            rel="noreferrer"
+          >
+            github.com/0motionguy/starscreener
+          </a>
+          .
         </p>
       </section>
 
-      <footer style={{ marginTop: 40, paddingTop: 16, borderTop: "1px solid var(--v4-ink-700)", fontSize: 14, color: "var(--v4-ink-400)" }}>
+      <footer
+        style={{
+          marginTop: 40,
+          paddingTop: 16,
+          borderTop: "1px solid var(--v4-ink-700)",
+          fontSize: 14,
+          color: "var(--v4-ink-400)",
+        }}
+      >
         Last updated: 2026-05-05 · Methodology version 1.0 · Questions? Email{" "}
         <a href="mailto:hello@trendingrepo.com">hello@trendingrepo.com</a>
       </footer>

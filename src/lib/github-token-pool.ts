@@ -1,6 +1,7 @@
 import * as Sentry from "@sentry/nextjs";
 
 import { getDataStore, type RedisClientLike } from "./data-store";
+import { keys } from "./redis/keys";
 
 // StarScreener — GitHub PAT pool with per-token rate-limit accounting.
 //
@@ -527,8 +528,11 @@ function parsePublishedTokenState(raw: unknown): PublishedTokenState | null {
 
 /**
  * Read tokens from env. Order:
- *   1. GITHUB_TOKEN              (back-compat — always first if set)
- *   2. GITHUB_TOKEN_POOL[*]      (comma-separated, in declared order)
+ *   1. Namespace primary PAT:
+ *      - test namespace => GITHUB_PAT_TEST
+ *      - prod namespace => GITHUB_PAT_PROD
+ *   2. GITHUB_TOKEN              (back-compat fallback)
+ *   3. GH_TOKEN_POOL / GITHUB_TOKEN_POOL[*] (comma-separated, in order)
  *
  * Duplicates are dropped (someone listing the same PAT in both vars
  * shouldn't get extra round-robin slots that all hit the same quota).
@@ -546,6 +550,13 @@ function parseTokens(env: EnvLike): string[] {
     seen.add(trimmed);
     out.push(trimmed);
   };
+
+  const namespace = resolveGithubPoolNamespace(env);
+  if (namespace === "test") {
+    pushIfNew(env.GITHUB_PAT_TEST);
+  } else if (namespace === "prod") {
+    pushIfNew(env.GITHUB_PAT_PROD);
+  }
 
   pushIfNew(env.GITHUB_TOKEN);
 
@@ -700,7 +711,9 @@ function resolveGithubPoolNamespace(env: EnvLike): string {
 export const GITHUB_POOL_NAMESPACE = resolveGithubPoolNamespace(process.env);
 
 /** Key prefix for per-token fleet-aggregate state. Read by the aggregator. */
-export const POOL_REDIS_KEY_PREFIX = `pool:github:tokens:${GITHUB_POOL_NAMESPACE}`;
+export const POOL_REDIS_KEY_PREFIX = keys.pool.github.tokenStatePrefix(
+  GITHUB_POOL_NAMESPACE,
+);
 
 /** TTL (seconds) on each per-token key. 30d covers a normal "operator forgot to rotate" window. */
 export const POOL_REDIS_TTL_SECONDS = 30 * 24 * 60 * 60;
@@ -722,7 +735,7 @@ export interface PublishedTokenState {
 
 /** Build the Redis key that holds the latest state for one token label. */
 export function poolRedisKeyFor(tokenLabel: string): string {
-  return `${POOL_REDIS_KEY_PREFIX}:${tokenLabel}`;
+  return keys.pool.github.tokenState(GITHUB_POOL_NAMESPACE, tokenLabel);
 }
 
 function currentLambdaId(): string {

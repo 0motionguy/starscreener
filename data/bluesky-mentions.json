@@ -1,46 +1,46 @@
 {
-  "fetchedAt": "2026-05-04T20:26:33.627Z",
+  "fetchedAt": "2026-05-05T01:39:15.366Z",
   "windowDays": 7,
-  "scannedPosts": 59,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 3,
   "mentions": {
-    "openai/openai-agents-python": {
+    "jdx/mise": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3ml2hezatld2d",
-        "cid": "bafyreifwecz2zppviuruwuv4ddpl4rnifnreqcnd5krlqeowmjkx2nmsfi",
-        "bskyUrl": "https://bsky.app/profile/therobertta.bsky.social/post/3ml2hezatld2d",
-        "text": "Source: github.com/openai/open... Follow me if you want to build better AI than anybody, and use AI better than everybody.",
+        "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3ml2ykz4cm32k",
+        "cid": "bafyreiavsznrlupzwuiis7kn3kgp5ve4eak2ccpju6gvizxh4sgx26yxj4",
+        "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3ml2ykz4cm32k",
+        "text": "見てる: \"fix(pipx): honor install_before for uv and pipx installs by risu729 · Pull Request #9190 · jdx/mise\" https://github.com/jdx/mise/pull/9190",
         "author": {
-          "handle": "therobertta.bsky.social",
-          "displayName": "Robert Ta"
+          "handle": "azu.bsky.social",
+          "displayName": "azu"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-04T19:57:08.944563Z",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-05-05T01:04:43.029Z",
+        "hoursSincePosted": 0.58
       },
       "posts": [
         {
-          "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3ml2hezatld2d",
-          "cid": "bafyreifwecz2zppviuruwuv4ddpl4rnifnreqcnd5krlqeowmjkx2nmsfi",
-          "bskyUrl": "https://bsky.app/profile/therobertta.bsky.social/post/3ml2hezatld2d",
-          "text": "Source: github.com/openai/open... Follow me if you want to build better AI than anybody, and use AI better than everybody.",
+          "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3ml2ykz4cm32k",
+          "cid": "bafyreiavsznrlupzwuiis7kn3kgp5ve4eak2ccpju6gvizxh4sgx26yxj4",
+          "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3ml2ykz4cm32k",
+          "text": "見てる: \"fix(pipx): honor install_before for uv and pipx installs by risu729 · Pull Request #9190 · jdx/mise\" https://github.com/jdx/mise/pull/9190",
           "author": {
-            "handle": "therobertta.bsky.social",
-            "displayName": "Robert Ta"
+            "handle": "azu.bsky.social",
+            "displayName": "azu"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-04T19:57:08.944563Z",
-          "createdUtc": 1777924628,
-          "ageHours": 0.5,
+          "createdAt": "2026-05-05T01:04:43.029Z",
+          "createdUtc": 1777943083,
+          "ageHours": 0.58,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -48,7 +48,480 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "openai/openai-agents-python",
+              "fullName": "jdx/mise",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "openai/symphony": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:f45e3rettq7owufxvubwdptp/app.bsky.feed.post/3ml2xg3cypk2f",
+        "cid": "bafyreigw275dlmdybqt7ybcdbmpeiqz5h47jrpzjuhvwagtl6t4ptwx5pe",
+        "bskyUrl": "https://bsky.app/profile/ezba.bsky.social/post/3ml2xg3cypk2f",
+        "text": "What about? github.com/openai/symph... Personally I still do manual prompting.",
+        "author": {
+          "handle": "ezba.bsky.social",
+          "displayName": "Ezba"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-05T00:44:04.622Z",
+        "hoursSincePosted": 0.92
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:f45e3rettq7owufxvubwdptp/app.bsky.feed.post/3ml2xg3cypk2f",
+          "cid": "bafyreigw275dlmdybqt7ybcdbmpeiqz5h47jrpzjuhvwagtl6t4ptwx5pe",
+          "bskyUrl": "https://bsky.app/profile/ezba.bsky.social/post/3ml2xg3cypk2f",
+          "text": "What about? github.com/openai/symph... Personally I still do manual prompting.",
+          "author": {
+            "handle": "ezba.bsky.social",
+            "displayName": "Ezba"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-05T00:44:04.622Z",
+          "createdUtc": 1777941844,
+          "ageHours": 0.92,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "openai/symphony",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "browserbase/skills": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3ml2vjhgire2a",
+        "cid": "bafyreichasrhgp4yslxzm3xzxxg2j7tqz2hytkbnvnwcposarmgwiy4egi",
+        "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3ml2vjhgire2a",
+        "text": "📡 Builder signal of the day Claude Agent SDK with a web browsing tool — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/browserbase/skills",
+        "author": {
+          "handle": "rickqian.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-05T00:10:10.118134+00:00",
+        "hoursSincePosted": 1.48
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3ml2vjhgire2a",
+          "cid": "bafyreichasrhgp4yslxzm3xzxxg2j7tqz2hytkbnvnwcposarmgwiy4egi",
+          "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3ml2vjhgire2a",
+          "text": "📡 Builder signal of the day Claude Agent SDK with a web browsing tool — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/browserbase/skills",
+          "author": {
+            "handle": "rickqian.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-05T00:10:10.118134+00:00",
+          "createdUtc": 1777939810,
+          "ageHours": 1.48,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "browserbase/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ruvnet/RuVector": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3ml2trbakmu2d",
+        "cid": "bafyreiadkg64mozalxft4rxe4pvbrlk4e6n663rkwme2rxylexbugh344a",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3ml2trbakmu2d",
+        "text": "https://github.com/ruvnet/RuVector",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T23:38:44Z",
+        "hoursSincePosted": 2.01
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3ml2trbakmu2d",
+          "cid": "bafyreiadkg64mozalxft4rxe4pvbrlk4e6n663rkwme2rxylexbugh344a",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3ml2trbakmu2d",
+          "text": "https://github.com/ruvnet/RuVector",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T23:38:44Z",
+          "createdUtc": 1777937924,
+          "ageHours": 2.01,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/RuVector",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "anomalyco/opencode": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:srmltlrjqfr7mbfdejuxrbss/app.bsky.feed.post/3ml2s7zoiqk2g",
+        "cid": "bafyreibxiftuluaype2ifyzedlicliskle3cra5s34d6zrjzrzkuvdlif4",
+        "bskyUrl": "https://bsky.app/profile/jelloeater.bsky.social/post/3ml2s7zoiqk2g",
+        "text": "github.com/anomalyco/op... #opencode",
+        "author": {
+          "handle": "jelloeater.bsky.social",
+          "displayName": "Jelloeater"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T23:11:12.855Z",
+        "hoursSincePosted": 2.47
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:srmltlrjqfr7mbfdejuxrbss/app.bsky.feed.post/3ml2s7zoiqk2g",
+          "cid": "bafyreibxiftuluaype2ifyzedlicliskle3cra5s34d6zrjzrzkuvdlif4",
+          "bskyUrl": "https://bsky.app/profile/jelloeater.bsky.social/post/3ml2s7zoiqk2g",
+          "text": "github.com/anomalyco/op... #opencode",
+          "author": {
+            "handle": "jelloeater.bsky.social",
+            "displayName": "Jelloeater"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T23:11:12.855Z",
+          "createdUtc": 1777936272,
+          "ageHours": 2.47,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/opencode",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "warpdotdev/warp": {
+      "count7d": 7,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 5,
+      "topPost": {
+        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maiozkc2n",
+        "cid": "bafyreiac7vqug23xjparf4b3fhqzxkf7a6bu2hdqzrda24czyokult5gbi",
+        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maiozkc2n",
+        "text": "If you’ve hit a Windows or WSL bug in Warp, come contribute. Every fix makes the terminal better for the next developer. github.com/warpdotdev/... ⭐",
+        "author": {
+          "handle": "warp.dev",
+          "displayName": "Warp"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T21:24:06.091985Z",
+        "hoursSincePosted": 4.25
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maiozkc2n",
+          "cid": "bafyreiac7vqug23xjparf4b3fhqzxkf7a6bu2hdqzrda24czyokult5gbi",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maiozkc2n",
+          "text": "If you’ve hit a Windows or WSL bug in Warp, come contribute. Every fix makes the terminal better for the next developer. github.com/warpdotdev/... ⭐",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T21:24:06.091985Z",
+          "createdUtc": 1777929846,
+          "ageHours": 4.25,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maft73v2b",
+          "cid": "bafyreifassfwljjix336hmqfgos7sr2zbd7wmiznq3mqxmji5zohmpwvam",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maft73v2b",
+          "text": "Andy also fixed Quake Mode on Windows. Before, Quake Mode could fail when another app had focus. Now the window sizes correctly and receives focus when summoned. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-04T21:24:03.089997Z",
+          "createdUtc": 1777929843,
+          "ageHours": 4.25,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maclawf2b",
+          "cid": "bafyreib5zcs7u6cgaiimfoyn6virhkovnkas7ws2p7gwy3y2xmbmk6uinq",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maclawf2b",
+          "text": "On the maintainer side, Andy fixed symlink traversal in the Windows installer. A few people had reported this one, and Andy got it to the finish line. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-04T21:23:59.668003Z",
+          "createdUtc": 1777929839,
+          "ageHours": 4.25,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2mabjwdb2u",
+          "cid": "bafyreiggtyptioj36h2maw4kk6f7y2u4oprr6soxsh53ycmknrfzlznc4a",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2mabjwdb2u",
+          "text": "thien-tn is helping fix Vietnamese input on Windows for users typing with Unikey/EVKey. The PR preserves composed characters from non-IME input methods, and we’re working through the last review/CI details now. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-04T21:23:58.591349Z",
+          "createdUtc": 1777929838,
+          "ageHours": 4.25,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maaf7n22b",
+          "cid": "bafyreidirxyyy222xuprrqi3op5y4xgqeegisbbuf6quu2hgpi7f3o74ay",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maaf7n22b",
+          "text": "kranthik10 fixed /open-file inside WSL. The issue came down to WSL path handling: Unix separators were getting mangled when paths were joined. Small fix, very real quality-of-life improvement. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-04T21:23:57.386918Z",
+          "createdUtc": 1777929837,
+          "ageHours": 4.26,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2ma75uqb2u",
+          "cid": "bafyreidorbrraceofvpjreqfzk62slzgw7ype6lkkgr37i74q3gcri63je",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2ma75uqb2u",
+          "text": "Landon (landkirk on GitHub) fixed chord shortcuts on Windows for non-Latin keyboard layouts. If you use Cyrillic or another non-Latin layout, keyboard shortcuts should now behave the way you expect. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-04T21:23:56.097845Z",
+          "createdUtc": 1777929836,
+          "ageHours": 4.26,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:4xmtqkvesnepl5zttqwa6iyw/app.bsky.feed.post/3ml2ius7m3y2c",
+          "cid": "bafyreib7g4hxtpcoxom5lurmif66rfxyghttpct3pbwoze2bwog6ys2ed4",
+          "bskyUrl": "https://bsky.app/profile/bogdanovwtf.bsky.social/post/3ml2ius7m3y2c",
+          "text": "Warp went open-source. The terminal has become an entry point to any kind of dev activity for me for a year now, all thanks to agents. I'm yet to find a decent text/markdown editor though, so might give it a try. https://github.com/warpdotdev/warp",
+          "author": {
+            "handle": "bogdanovwtf.bsky.social",
+            "displayName": "Alex Bogdanov"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T20:23:51.872501Z",
+          "createdUtc": 1777926231,
+          "ageHours": 5.26,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "blader/humanizer": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:mfyvoiacugzkeg6llf4qzndj/app.bsky.feed.post/3ml2lxa2jus2i",
+        "cid": "bafyreidyohdp645m5xlu7aip6wpgm3rrdipkdcatlluwmytkqxqi5sox3u",
+        "bskyUrl": "https://bsky.app/profile/jelmore.crystalwind.org/post/3ml2lxa2jus2i",
+        "text": "Someone took the same article and flipped the premise, creating \"Humanizer\": a tool you can use with Claude Code or OpenCode to make its generated text seem more human github.com/blader/human... #writethedocs",
+        "author": {
+          "handle": "jelmore.crystalwind.org",
+          "displayName": "Jay Elmore"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-04T21:18:55.112Z",
+        "hoursSincePosted": 4.34
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:mfyvoiacugzkeg6llf4qzndj/app.bsky.feed.post/3ml2lxa2jus2i",
+          "cid": "bafyreidyohdp645m5xlu7aip6wpgm3rrdipkdcatlluwmytkqxqi5sox3u",
+          "bskyUrl": "https://bsky.app/profile/jelmore.crystalwind.org/post/3ml2lxa2jus2i",
+          "text": "Someone took the same article and flipped the premise, creating \"Humanizer\": a tool you can use with Claude Code or OpenCode to make its generated text seem more human github.com/blader/human... #writethedocs",
+          "author": {
+            "handle": "jelmore.crystalwind.org",
+            "displayName": "Jay Elmore"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-04T21:18:55.112Z",
+          "createdUtc": 1777929535,
+          "ageHours": 4.34,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "blader/humanizer",
               "matchType": "url",
               "confidence": 1
             }
@@ -58,42 +531,42 @@
     }
   },
   "mentionsByRepoId": {
-    "openai--openai-agents-python": {
+    "jdx--mise": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3ml2hezatld2d",
-        "cid": "bafyreifwecz2zppviuruwuv4ddpl4rnifnreqcnd5krlqeowmjkx2nmsfi",
-        "bskyUrl": "https://bsky.app/profile/therobertta.bsky.social/post/3ml2hezatld2d",
-        "text": "Source: github.com/openai/open... Follow me if you want to build better AI than anybody, and use AI better than everybody.",
+        "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3ml2ykz4cm32k",
+        "cid": "bafyreiavsznrlupzwuiis7kn3kgp5ve4eak2ccpju6gvizxh4sgx26yxj4",
+        "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3ml2ykz4cm32k",
+        "text": "見てる: \"fix(pipx): honor install_before for uv and pipx installs by risu729 · Pull Request #9190 · jdx/mise\" https://github.com/jdx/mise/pull/9190",
         "author": {
-          "handle": "therobertta.bsky.social",
-          "displayName": "Robert Ta"
+          "handle": "azu.bsky.social",
+          "displayName": "azu"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-04T19:57:08.944563Z",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-05-05T01:04:43.029Z",
+        "hoursSincePosted": 0.58
       },
       "posts": [
         {
-          "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3ml2hezatld2d",
-          "cid": "bafyreifwecz2zppviuruwuv4ddpl4rnifnreqcnd5krlqeowmjkx2nmsfi",
-          "bskyUrl": "https://bsky.app/profile/therobertta.bsky.social/post/3ml2hezatld2d",
-          "text": "Source: github.com/openai/open... Follow me if you want to build better AI than anybody, and use AI better than everybody.",
+          "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3ml2ykz4cm32k",
+          "cid": "bafyreiavsznrlupzwuiis7kn3kgp5ve4eak2ccpju6gvizxh4sgx26yxj4",
+          "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3ml2ykz4cm32k",
+          "text": "見てる: \"fix(pipx): honor install_before for uv and pipx installs by risu729 · Pull Request #9190 · jdx/mise\" https://github.com/jdx/mise/pull/9190",
           "author": {
-            "handle": "therobertta.bsky.social",
-            "displayName": "Robert Ta"
+            "handle": "azu.bsky.social",
+            "displayName": "azu"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-04T19:57:08.944563Z",
-          "createdUtc": 1777924628,
-          "ageHours": 0.5,
+          "createdAt": "2026-05-05T01:04:43.029Z",
+          "createdUtc": 1777943083,
+          "ageHours": 0.58,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -101,7 +574,480 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "openai/openai-agents-python",
+              "fullName": "jdx/mise",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "openai--symphony": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:f45e3rettq7owufxvubwdptp/app.bsky.feed.post/3ml2xg3cypk2f",
+        "cid": "bafyreigw275dlmdybqt7ybcdbmpeiqz5h47jrpzjuhvwagtl6t4ptwx5pe",
+        "bskyUrl": "https://bsky.app/profile/ezba.bsky.social/post/3ml2xg3cypk2f",
+        "text": "What about? github.com/openai/symph... Personally I still do manual prompting.",
+        "author": {
+          "handle": "ezba.bsky.social",
+          "displayName": "Ezba"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-05T00:44:04.622Z",
+        "hoursSincePosted": 0.92
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:f45e3rettq7owufxvubwdptp/app.bsky.feed.post/3ml2xg3cypk2f",
+          "cid": "bafyreigw275dlmdybqt7ybcdbmpeiqz5h47jrpzjuhvwagtl6t4ptwx5pe",
+          "bskyUrl": "https://bsky.app/profile/ezba.bsky.social/post/3ml2xg3cypk2f",
+          "text": "What about? github.com/openai/symph... Personally I still do manual prompting.",
+          "author": {
+            "handle": "ezba.bsky.social",
+            "displayName": "Ezba"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-05T00:44:04.622Z",
+          "createdUtc": 1777941844,
+          "ageHours": 0.92,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "openai/symphony",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "browserbase--skills": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3ml2vjhgire2a",
+        "cid": "bafyreichasrhgp4yslxzm3xzxxg2j7tqz2hytkbnvnwcposarmgwiy4egi",
+        "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3ml2vjhgire2a",
+        "text": "📡 Builder signal of the day Claude Agent SDK with a web browsing tool — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/browserbase/skills",
+        "author": {
+          "handle": "rickqian.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-05T00:10:10.118134+00:00",
+        "hoursSincePosted": 1.48
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3ml2vjhgire2a",
+          "cid": "bafyreichasrhgp4yslxzm3xzxxg2j7tqz2hytkbnvnwcposarmgwiy4egi",
+          "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3ml2vjhgire2a",
+          "text": "📡 Builder signal of the day Claude Agent SDK with a web browsing tool — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/browserbase/skills",
+          "author": {
+            "handle": "rickqian.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-05T00:10:10.118134+00:00",
+          "createdUtc": 1777939810,
+          "ageHours": 1.48,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "browserbase/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ruvnet--ruvector": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3ml2trbakmu2d",
+        "cid": "bafyreiadkg64mozalxft4rxe4pvbrlk4e6n663rkwme2rxylexbugh344a",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3ml2trbakmu2d",
+        "text": "https://github.com/ruvnet/RuVector",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T23:38:44Z",
+        "hoursSincePosted": 2.01
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3ml2trbakmu2d",
+          "cid": "bafyreiadkg64mozalxft4rxe4pvbrlk4e6n663rkwme2rxylexbugh344a",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3ml2trbakmu2d",
+          "text": "https://github.com/ruvnet/RuVector",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T23:38:44Z",
+          "createdUtc": 1777937924,
+          "ageHours": 2.01,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/RuVector",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "anomalyco--opencode": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:srmltlrjqfr7mbfdejuxrbss/app.bsky.feed.post/3ml2s7zoiqk2g",
+        "cid": "bafyreibxiftuluaype2ifyzedlicliskle3cra5s34d6zrjzrzkuvdlif4",
+        "bskyUrl": "https://bsky.app/profile/jelloeater.bsky.social/post/3ml2s7zoiqk2g",
+        "text": "github.com/anomalyco/op... #opencode",
+        "author": {
+          "handle": "jelloeater.bsky.social",
+          "displayName": "Jelloeater"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T23:11:12.855Z",
+        "hoursSincePosted": 2.47
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:srmltlrjqfr7mbfdejuxrbss/app.bsky.feed.post/3ml2s7zoiqk2g",
+          "cid": "bafyreibxiftuluaype2ifyzedlicliskle3cra5s34d6zrjzrzkuvdlif4",
+          "bskyUrl": "https://bsky.app/profile/jelloeater.bsky.social/post/3ml2s7zoiqk2g",
+          "text": "github.com/anomalyco/op... #opencode",
+          "author": {
+            "handle": "jelloeater.bsky.social",
+            "displayName": "Jelloeater"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T23:11:12.855Z",
+          "createdUtc": 1777936272,
+          "ageHours": 2.47,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anomalyco/opencode",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "warpdotdev--warp": {
+      "count7d": 7,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 5,
+      "topPost": {
+        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maiozkc2n",
+        "cid": "bafyreiac7vqug23xjparf4b3fhqzxkf7a6bu2hdqzrda24czyokult5gbi",
+        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maiozkc2n",
+        "text": "If you’ve hit a Windows or WSL bug in Warp, come contribute. Every fix makes the terminal better for the next developer. github.com/warpdotdev/... ⭐",
+        "author": {
+          "handle": "warp.dev",
+          "displayName": "Warp"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-04T21:24:06.091985Z",
+        "hoursSincePosted": 4.25
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maiozkc2n",
+          "cid": "bafyreiac7vqug23xjparf4b3fhqzxkf7a6bu2hdqzrda24czyokult5gbi",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maiozkc2n",
+          "text": "If you’ve hit a Windows or WSL bug in Warp, come contribute. Every fix makes the terminal better for the next developer. github.com/warpdotdev/... ⭐",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T21:24:06.091985Z",
+          "createdUtc": 1777929846,
+          "ageHours": 4.25,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maft73v2b",
+          "cid": "bafyreifassfwljjix336hmqfgos7sr2zbd7wmiznq3mqxmji5zohmpwvam",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maft73v2b",
+          "text": "Andy also fixed Quake Mode on Windows. Before, Quake Mode could fail when another app had focus. Now the window sizes correctly and receives focus when summoned. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-04T21:24:03.089997Z",
+          "createdUtc": 1777929843,
+          "ageHours": 4.25,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maclawf2b",
+          "cid": "bafyreib5zcs7u6cgaiimfoyn6virhkovnkas7ws2p7gwy3y2xmbmk6uinq",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maclawf2b",
+          "text": "On the maintainer side, Andy fixed symlink traversal in the Windows installer. A few people had reported this one, and Andy got it to the finish line. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-04T21:23:59.668003Z",
+          "createdUtc": 1777929839,
+          "ageHours": 4.25,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2mabjwdb2u",
+          "cid": "bafyreiggtyptioj36h2maw4kk6f7y2u4oprr6soxsh53ycmknrfzlznc4a",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2mabjwdb2u",
+          "text": "thien-tn is helping fix Vietnamese input on Windows for users typing with Unikey/EVKey. The PR preserves composed characters from non-IME input methods, and we’re working through the last review/CI details now. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-04T21:23:58.591349Z",
+          "createdUtc": 1777929838,
+          "ageHours": 4.25,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maaf7n22b",
+          "cid": "bafyreidirxyyy222xuprrqi3op5y4xgqeegisbbuf6quu2hgpi7f3o74ay",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maaf7n22b",
+          "text": "kranthik10 fixed /open-file inside WSL. The issue came down to WSL path handling: Unix separators were getting mangled when paths were joined. Small fix, very real quality-of-life improvement. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-04T21:23:57.386918Z",
+          "createdUtc": 1777929837,
+          "ageHours": 4.26,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2ma75uqb2u",
+          "cid": "bafyreidorbrraceofvpjreqfzk62slzgw7ype6lkkgr37i74q3gcri63je",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2ma75uqb2u",
+          "text": "Landon (landkirk on GitHub) fixed chord shortcuts on Windows for non-Latin keyboard layouts. If you use Cyrillic or another non-Latin layout, keyboard shortcuts should now behave the way you expect. github.com/warpdotdev/...",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-04T21:23:56.097845Z",
+          "createdUtc": 1777929836,
+          "ageHours": 4.26,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:4xmtqkvesnepl5zttqwa6iyw/app.bsky.feed.post/3ml2ius7m3y2c",
+          "cid": "bafyreib7g4hxtpcoxom5lurmif66rfxyghttpct3pbwoze2bwog6ys2ed4",
+          "bskyUrl": "https://bsky.app/profile/bogdanovwtf.bsky.social/post/3ml2ius7m3y2c",
+          "text": "Warp went open-source. The terminal has become an entry point to any kind of dev activity for me for a year now, all thanks to agents. I'm yet to find a decent text/markdown editor though, so might give it a try. https://github.com/warpdotdev/warp",
+          "author": {
+            "handle": "bogdanovwtf.bsky.social",
+            "displayName": "Alex Bogdanov"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-04T20:23:51.872501Z",
+          "createdUtc": 1777926231,
+          "ageHours": 5.26,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "blader--humanizer": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:mfyvoiacugzkeg6llf4qzndj/app.bsky.feed.post/3ml2lxa2jus2i",
+        "cid": "bafyreidyohdp645m5xlu7aip6wpgm3rrdipkdcatlluwmytkqxqi5sox3u",
+        "bskyUrl": "https://bsky.app/profile/jelmore.crystalwind.org/post/3ml2lxa2jus2i",
+        "text": "Someone took the same article and flipped the premise, creating \"Humanizer\": a tool you can use with Claude Code or OpenCode to make its generated text seem more human github.com/blader/human... #writethedocs",
+        "author": {
+          "handle": "jelmore.crystalwind.org",
+          "displayName": "Jay Elmore"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-04T21:18:55.112Z",
+        "hoursSincePosted": 4.34
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:mfyvoiacugzkeg6llf4qzndj/app.bsky.feed.post/3ml2lxa2jus2i",
+          "cid": "bafyreidyohdp645m5xlu7aip6wpgm3rrdipkdcatlluwmytkqxqi5sox3u",
+          "bskyUrl": "https://bsky.app/profile/jelmore.crystalwind.org/post/3ml2lxa2jus2i",
+          "text": "Someone took the same article and flipped the premise, creating \"Humanizer\": a tool you can use with Claude Code or OpenCode to make its generated text seem more human github.com/blader/human... #writethedocs",
+          "author": {
+            "handle": "jelmore.crystalwind.org",
+            "displayName": "Jay Elmore"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-04T21:18:55.112Z",
+          "createdUtc": 1777929535,
+          "ageHours": 4.34,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "blader/humanizer",
               "matchType": "url",
               "confidence": 1
             }
@@ -112,7 +1058,37 @@
   },
   "leaderboard": [
     {
-      "fullName": "openai/openai-agents-python",
+      "fullName": "warpdotdev/warp",
+      "count7d": 7,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "anomalyco/opencode",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "blader/humanizer",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "browserbase/skills",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "jdx/mise",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "openai/symphony",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "ruvnet/RuVector",
       "count7d": 1,
       "likesSum7d": 0
     }

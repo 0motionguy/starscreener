@@ -7,11 +7,12 @@
 // default factory binds `this` correctly for ioredis — see the tier-list
 // store comment for the historical context). No expiry for v1.
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 import { parseBody } from "@/lib/api/parse-body";
 import { errorEnvelope } from "@/lib/api/error-response";
+import { enforceMutationSameOrigin } from "@/lib/api/mutation-origin-guard";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import { generateShortId } from "@/lib/compare/short-id";
 import { getDataStore, type DataStore } from "@/lib/data-store";
@@ -22,6 +23,8 @@ export const dynamic = "force-dynamic";
 
 const SHORT_ID_RETRY_LIMIT = 5;
 const COMPARE_SHARE_KEY_PREFIX = "compare-share";
+// Constants exported so the route test can assert against the same values
+// (mirrors the pattern used elsewhere — see cron/freshness/state).
 export const COMPARE_SHARE_MAX_REQUESTS = 30;
 export const COMPARE_SHARE_WINDOW_MS = 60 * 60 * 1000;
 export const COMPARE_SHARE_TTL_SECONDS = 30 * 24 * 60 * 60;
@@ -41,9 +44,9 @@ const compareShareSchema = z.object({
   watermark: z.boolean().optional(),
 });
 
-export type CompareShareInput = z.infer<typeof compareShareSchema>;
+type CompareShareInput = z.infer<typeof compareShareSchema>;
 
-export interface CompareSharePayload extends CompareShareInput {
+interface CompareSharePayload extends CompareShareInput {
   shortId: string;
   createdAt: string;
 }
@@ -52,6 +55,7 @@ function compareShareKey(shortId: string): string {
   return `${COMPARE_SHARE_KEY_PREFIX}/${shortId}`;
 }
 
+// Exported so the route test can drive persistence directly.
 export async function persistCompareSharePayload(
   store: DataStore,
   payload: CompareSharePayload,
@@ -61,7 +65,10 @@ export async function persistCompareSharePayload(
   });
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const guard = enforceMutationSameOrigin(request);
+  if (!guard.ok) return guard.response;
+
   const limit = await checkRateLimitAsync(request, {
     windowMs: COMPARE_SHARE_WINDOW_MS,
     maxRequests: COMPARE_SHARE_MAX_REQUESTS,

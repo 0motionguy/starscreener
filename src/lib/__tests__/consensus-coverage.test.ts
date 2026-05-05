@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import {
+  CONSENSUS_MAX_SOURCE_SKEW_RATIO,
   CONSENSUS_MIN_ACTIVE_EXTERNAL_SOURCES,
   CONSENSUS_MIN_POOL_ITEMS,
   evaluateConsensusCoverage,
@@ -24,14 +25,14 @@ function stats(
   };
 }
 
-test("passes when source coverage and pool size meet minimums", () => {
+test("passes when all 8 sources are present and pool size meets minimum", () => {
   const coverage = evaluateConsensusCoverage({
     itemCount: CONSENSUS_MIN_POOL_ITEMS,
-    sourceStats: stats(["gh", "hf", "hn", "x", "r"]),
+    sourceStats: stats(["gh", "hf", "hn", "x", "r", "pdh", "dev", "bs"]),
   });
 
   assert.equal(coverage.starved, false);
-  assert.equal(coverage.activeSources, CONSENSUS_MIN_ACTIVE_EXTERNAL_SOURCES);
+  assert.equal(coverage.activeSources, 8);
   assert.deepEqual(coverage.reasons, []);
 });
 
@@ -46,6 +47,10 @@ test("gates when active source count drops below threshold", () => {
   assert.ok(
     coverage.reasons.some((r) => r.includes("active external sources")),
     "expected active source count reason",
+  );
+  assert.ok(
+    coverage.reasons.some((r) => r.includes("missing external sources")),
+    "expected missing source reason",
   );
   assert.ok(coverage.inactiveSources.includes("pdh"));
 });
@@ -70,5 +75,29 @@ test("accumulates both reasons when both constraints fail", () => {
   });
 
   assert.equal(coverage.starved, true);
-  assert.equal(coverage.reasons.length, 2);
+  assert.ok(coverage.reasons.length >= 2);
+});
+
+test("gates when source pool skew is too high", () => {
+  const coverage = evaluateConsensusCoverage({
+    itemCount: CONSENSUS_MIN_POOL_ITEMS + 50,
+    sourceStats: {
+      gh: { count: 1000, rows: 1000 },
+      hf: { count: 100, rows: 100 },
+      hn: { count: 100, rows: 100 },
+      x: { count: 100, rows: 100 },
+      r: { count: 100, rows: 100 },
+      pdh: { count: 10, rows: 10 },
+      dev: { count: 100, rows: 100 },
+      bs: { count: 100, rows: 100 },
+    },
+  });
+
+  assert.equal(coverage.starved, true);
+  assert.ok(
+    coverage.reasons.some((r) =>
+      r.includes(`exceeds ${CONSENSUS_MAX_SOURCE_SKEW_RATIO}x`),
+    ),
+    "expected skew reason",
+  );
 });

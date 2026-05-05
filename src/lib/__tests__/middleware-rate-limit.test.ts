@@ -56,3 +56,19 @@ test("middleware skips non-targeted paths", async () => {
   const response = await middleware(makeRequest("/api/health"));
   assert.equal(response.status, 200);
 });
+
+test("middleware exempts /api/worker/health from worker-group rate limit", async () => {
+  __resetMiddlewareRateLimitForTests();
+
+  let lastStatus = 200;
+  for (let i = 0; i < 200; i += 1) {
+    lastStatus = (await middleware(makeRequest("/api/worker/health"))).status;
+  }
+  assert.equal(lastStatus, 200);
+});
+
+test("middleware does not rate-limit /.well-known paths", async () => {
+  __resetMiddlewareRateLimitForTests();
+  const response = await middleware(makeRequest("/.well-known/ai-discovery"));
+  assert.equal(response.status, 200);
+});

@@ -140,6 +140,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
     types: {
+      "text/markdown": [{ url: "/llms.txt", title: `${SITE_NAME} - LLM discovery index` }],
       "application/rss+xml": [
         { url: "/feeds/breakouts.xml", title: `${SITE_NAME} — Cross-signal breakout repos` },
         { url: "/feeds/funding.xml", title: `${SITE_NAME} — Open-source funding signals` },
@@ -197,6 +198,14 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        {/* AGN-650 / SPEED-13: resource hints for the most-hit external origins.
+            These open the TLS handshake before the first asset request, which
+            shaves ~100-300ms off image and analytics fetches on cold visits. */}
+        <link rel="preconnect" href="https://avatars.githubusercontent.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://pbs.twimg.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://unavatar.io" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://eu.i.posthog.com" />
+        <link rel="dns-prefetch" href="https://o4508061066739712.ingest.us.sentry.io" />
         {APPLE_SMART_BANNER_CONTENT ? (
           <meta
             name="apple-itunes-app"
@@ -271,6 +280,4 @@ export default async function RootLayout({
     </html>
   );
 }
-
-
 

@@ -1,5 +1,6 @@
 // /reddit/trending — V4 SourceFeedTemplate consumer.
 import { Suspense } from "react";
+import dynamic from "next/dynamic";
 
 import type { Metadata } from "next";
 
@@ -14,8 +15,14 @@ import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { TrendingMentionsSection } from "@/components/news/TrendingMentionsSection";
-import { AllTrendingTabs } from "@/components/reddit-trending/AllTrendingTabs";
 import { absoluteUrl } from "@/lib/seo";
+
+const DynamicAllTrendingTabs = dynamic(
+  () =>
+    import("@/components/reddit-trending/AllTrendingTabs").then(
+      (mod) => mod.AllTrendingTabs,
+    ),
+);
 
 export const revalidate = 300;
 
@@ -144,7 +151,7 @@ async function RedditTrendingFeed({
       list={
         <div className="space-y-4">
           <TrendingMentionsSection source="reddit" accent="var(--v4-src-reddit)" />
-          <AllTrendingTabs
+          <DynamicAllTrendingTabs
             dto={tabsDto}
             searchParams={resolvedSearchParams}
             pathname="/reddit/trending"

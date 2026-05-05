@@ -9,6 +9,16 @@ name: Cron - AISO drain
 # Required repo config:
 #   secrets.CRON_SECRET     — must match server CRON_SECRET env
 #   vars.TRENDINGREPO_URL  — optional; defaults to prod URL (legacy: vars.STARSCREENER_URL)
+#
+# PostHog tile seed query (QUE-50):
+#   SELECT
+#     toStartOfHour(timestamp) AS hour,
+#     avg(toFloat64(properties.success_pct)) AS avg_success_pct,
+#     sum(toIntOrZero(properties.failed)) AS failed_rows
+#   FROM events
+#   WHERE event = 'aiso_cron_drain_run'
+#   GROUP BY hour
+#   ORDER BY hour DESC
 
 on:
   schedule:
@@ -30,9 +40,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: POST /api/cron/aiso-drain
+      - name: POST /api/cron/aiso-drain + emit PostHog ops event
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          POSTHOG_KEY: phc_oDeVTBdCyqdoepUZRiLL7a6DanRzuZ33Td2UdLfBqwMz
         run: |
           if [ -z "$CRON_SECRET" ]; then
             echo "::error::CRON_SECRET is unset — refusing to fire unauthenticated"
@@ -50,6 +61,92 @@ jobs:
             head -c 2000 /tmp/out
           fi
           echo
+
+          drained=0
+          succeeded=0
+          failed=0
+          remaining=0
+          duration_ms=0
+          ok=false
+          error_class="none"
+
+          if command -v jq >/dev/null 2>&1 && jq . /tmp/out >/dev/null 2>&1; then
+            drained=$(jq -r '.drained // 0' /tmp/out)
+            succeeded=$(jq -r '.succeeded // 0' /tmp/out)
+            failed=$(jq -r '.failed // 0' /tmp/out)
+            remaining=$(jq -r '.remaining // 0' /tmp/out)
+            duration_ms=$(jq -r '.durationMs // 0' /tmp/out)
+
+            if [ "$code" = "200" ] && [ "$(jq -r '.ok // false' /tmp/out)" = "true" ]; then
+              ok=true
+            fi
+
+            # Coarse error classes for dashboard drilldown.
+            # retry_depth histogram is approximated via remaining queue depth bins.
+            if [ "$code" != "200" ]; then
+              error_class="http_${code}"
+            elif [ "$failed" -gt 0 ]; then
+              if jq -r '.errors[]? // empty' /tmp/out | grep -Eqi 'timeout|timed out'; then
+                error_class="timeout"
+              elif jq -r '.errors[]? // empty' /tmp/out | grep -Eqi '429|rate.?limit'; then
+                error_class="rate_limit"
+              elif jq -r '.errors[]? // empty' /tmp/out | grep -Eqi 'auth|unauthor|forbidden|401|403'; then
+                error_class="auth"
+              else
+                error_class="runtime"
+              fi
+            fi
+          else
+            if [ "$code" != "200" ]; then
+              error_class="http_${code}"
+            else
+              error_class="unknown_non_json"
+            fi
+          fi
+
+          total_processed=$((succeeded + failed))
+          success_pct=0
+          if [ "$total_processed" -gt 0 ]; then
+            success_pct=$(( 100 * succeeded / total_processed ))
+          fi
+
+          retry_depth_bin="0"
+          if [ "$remaining" -ge 1 ] && [ "$remaining" -le 5 ]; then
+            retry_depth_bin="1_5"
+          elif [ "$remaining" -ge 6 ] && [ "$remaining" -le 20 ]; then
+            retry_depth_bin="6_20"
+          elif [ "$remaining" -gt 20 ]; then
+            retry_depth_bin="21_plus"
+          fi
+
+          curl -s -X POST "https://us.i.posthog.com/capture/" \
+            -H "Content-Type: application/json" \
+            -d "$(cat <<JSON
+          {
+            "api_key": "$POSTHOG_KEY",
+            "event": "aiso_cron_drain_run",
+            "distinct_id": "aiso-cron-drain-github-actions",
+            "properties": {
+              "base_url": "$BASE_URL",
+              "http_status": $([ -z "$code" ] && echo 0 || echo "$code"),
+              "ok": $ok,
+              "drained": $drained,
+              "succeeded": $succeeded,
+              "failed": $failed,
+              "remaining": $remaining,
+              "duration_ms": $duration_ms,
+              "success_pct": $success_pct,
+              "error_class": "$error_class",
+              "retry_depth_bin": "$retry_depth_bin",
+              "source": "github-actions-cron",
+              "project": "aiso-drain"
+            }
+          }
+          JSON
+          )" > /dev/null || true
+
+          echo "event=aiso_cron_drain_run code=$code ok=$ok success_pct=$success_pct failed=$failed error_class=$error_class retry_depth_bin=$retry_depth_bin"
+
           if [ "$code" != "200" ]; then
             echo "::error::cron/aiso-drain call failed ($code)"
             exit 1

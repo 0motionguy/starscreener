@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
+import { BrandStar } from "@/components/shared/BrandStar";
 
 export interface RelatedRepoCardProps {
   /** Repo full name e.g. "abhigyanpatwari/GitNexus". */
@@ -53,7 +54,7 @@ export function RelatedRepoCard({
         ) : null}
         {stars ? (
           <span className="v4-related-card__stars">
-            {"★ "}
+            <BrandStar size={11} className="text-[var(--v4-amber)]" />{" "}
             {stars}
           </span>
         ) : null}

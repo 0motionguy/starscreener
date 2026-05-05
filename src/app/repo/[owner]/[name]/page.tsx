@@ -23,6 +23,7 @@ import type { Metadata } from "next";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME, safeJsonLd } from "@/lib/seo";
+import { BrandStar } from "@/components/shared/BrandStar";
 import { buildRepoPageSchemas } from "@/lib/seo-repo-schemas";
 import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
 // Data-store refresh hooks. The repo detail page consumes signal data from
@@ -289,7 +290,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
                 </span>
               ))}
               <span className="stat">
-                <span className="lbl">★</span>
+                <span className="lbl"><BrandStar size={11} /></span>
                 <b>{formatNumber(repo.stars)}</b>
               </span>
               <span className="stat">

@@ -9,6 +9,7 @@ import Link from "next/link";
 
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
+import { BrandStar } from "@/components/shared/BrandStar";
 import { AgentCommerceCard } from "@/components/agent-commerce/AgentCommerceCard";
 import { AgentCommerceFilterBar } from "@/components/agent-commerce/AgentCommerceFilterBar";
 import { AgentCommerceTabs } from "@/components/agent-commerce/AgentCommerceTabs";
@@ -842,9 +843,13 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
                             marginLeft: 8,
                             color: "#fbbf24",
                             fontWeight: 700,
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 4,
                           }}
                         >
-                          ★{item.live.stars.toLocaleString("en-US")}
+                          <BrandStar size={12} />
+                          {item.live.stars.toLocaleString("en-US")}
                         </span>
                       ) : null}
                       {item.live?.pushedAt ? (

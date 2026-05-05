@@ -11,7 +11,6 @@
 // and surfaces stars + 24h delta for context.
 
 import Link from "next/link";
-import { Star } from "lucide-react";
 import type { Repo } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
 import { ChannelDots } from "./ChannelDots";
@@ -19,6 +18,7 @@ import { HnBadge } from "@/components/hackernews/HnBadge";
 import { getHnMentions } from "@/lib/hackernews";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoDisplayLogoUrl } from "@/lib/logos";
+import { BrandStar } from "@/components/shared/BrandStar";
 
 interface CrossSignalBreakoutsProps {
   repos: Repo[];
@@ -133,7 +133,7 @@ export function CrossSignalBreakouts({
                     overflowing. The 24h delta is the load-bearing signal. */}
                 <span className="hidden md:inline-flex"><HnBadge mention={hnMention} size="sm" /></span>
                 <span className="hidden md:inline-flex items-center gap-1 font-mono text-[11px] text-text-secondary tabular-nums">
-                  <Star size={11} className="text-[var(--v4-amber)] shrink-0" fill="currentColor" />
+                  <BrandStar size={11} className="text-[var(--v4-amber)] shrink-0" />
                   {formatNumber(repo.stars)}
                 </span>
                 <span

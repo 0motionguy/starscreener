@@ -24,6 +24,17 @@ Owner lane: [OPS] Release SRE
 - `gh run list --limit 80 --json ...` -> `HTTP 401 Bad credentials`
 - Result: live Actions run-state verification is blocked by missing/expired GitHub auth in this heartbeat.
 
+### Retry heartbeat update (same day continuation)
+
+- Paperclip control plane still unreachable:
+  - `curl.exe -sS -m 5 $PAPERCLIP_API_URL/api/health` -> connect failure to `192.168.192.1:3100`.
+- GitHub auth remains degraded for active token path:
+  - `gh auth status` reports `GITHUB_TOKEN` invalid for the active account context.
+- Freshness state regressed from stale to missing localhost:
+  - `npm run freshness:check` -> `local server not reachable at http://localhost:3023` (`ECONNREFUSED`).
+- Classification for continuation heartbeat:
+  - localhost is **missing** (not just stale) at this point in time.
+
 ## Current cron overlap evidence (workflow files)
 
 - `.github/workflows/scrape-trending.yml:5` -> `cron: "7,27,47 * * * *"`

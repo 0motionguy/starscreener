@@ -59,12 +59,19 @@ async function fetchRssFeed(url: string, sourceName: string) {
   let lastError: string | null = null;
   for (let attempt = 0; attempt <= 1; attempt += 1) {
     try {
+      // fetchWithTimeout doesn't expose `headers` in its options shape; pass
+      // headers via a wrapping fetchImpl so the request still emits them.
       const res = await fetchWithTimeout(url, {
         timeoutMs: 20_000,
-        headers: {
-          "User-Agent": USER_AGENT,
-          Accept: "application/rss+xml,application/xml,*/*;q=0.8",
-        },
+        fetchImpl: (input, init) =>
+          fetch(input, {
+            ...init,
+            headers: {
+              "User-Agent": USER_AGENT,
+              Accept: "application/rss+xml,application/xml,*/*;q=0.8",
+              ...(init?.headers ?? {}),
+            },
+          }),
       });
       if (!res.ok) {
         lastError = `http ${res.status}`;
@@ -143,6 +150,7 @@ async function main(): Promise<void> {
     source: "funding-crunchbase",
     count: allSignals.length,
     durationMs: Date.now() - startedAt,
+    error: null,
     partialFailures,
     extra: { feeds: Object.keys(CRUNCHBASE_FEEDS).length },
   });

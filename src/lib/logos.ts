@@ -174,13 +174,21 @@ function normalizeHfAuthor(author: string | null | undefined): string {
 
 /**
  * Project-specific logo for a HuggingFace org/user. Returns the favicon URL
- * for a mapped domain (NVIDIA, Google, Meta, DeepSeek, etc.) or null when
- * the author isn't recognised — null lets EntityLogo render its monogram
- * tile (colored initial), which looks intentional and consistent. We
- * deliberately do NOT slug-guess random author names into `{slug}.com`
- * favicons because Google's service serves a generic globe for unknown
- * domains, not a 404 — so misses look like "broken globe icons" rather
- * than letting the monogram fallback kick in.
+ * for a mapped domain (NVIDIA, Google, Meta, DeepSeek, etc.) when the author
+ * is in HF_AUTHOR_DOMAIN_MAP; otherwise falls back to the stable HF platform
+ * mark so every HF row carries a recognisable logo.
+ *
+ * History: this used to return null for unmapped authors and let EntityLogo
+ * render a monogram tile. In practice the long-tail (Jackrong, cyankiwi,
+ * etc.) made all 3 HF feed pages look broken — users reported every row as
+ * a missing logo (AGN-789). Slug-guessing `{slug}.com` favicons via Google
+ * s2 still serves a generic globe for unknown domains (looks like a broken
+ * icon), so the safe default is the HF mark itself: stable URL, on-brand,
+ * and unmistakably "this is a Hugging Face entity".
+ *
+ * Returns null only when `author` is empty/whitespace — there's nothing
+ * meaningful to render in that case, EntityLogo will fall back to its
+ * monogram tile.
  */
 export function huggingFaceAuthorLogoUrl(
   author: string | null | undefined,
@@ -189,9 +197,12 @@ export function huggingFaceAuthorLogoUrl(
   const slug = normalizeHfAuthor(author);
   if (!slug) return null;
   const mapped = HF_AUTHOR_DOMAIN_MAP.get(slug);
-  if (!mapped) return null;
-  const sz = Math.max(16, Math.min(256, Math.round(size)));
-  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(mapped)}&sz=${sz}`;
+  if (mapped) {
+    const sz = Math.max(16, Math.min(256, Math.round(size)));
+    return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(mapped)}&sz=${sz}`;
+  }
+  // Unmapped author → HF platform mark. Stable, on-brand, no broken icon.
+  return huggingFaceLogoUrl();
 }
 
 export interface McpLogoInput {

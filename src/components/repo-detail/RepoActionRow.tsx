@@ -55,11 +55,14 @@ export function RepoActionRow({ repo }: RepoActionRowProps) {
   }, [isWatched, toggleWatch, repo.id, repo.stars, repo.fullName]);
 
   const handleGithubClick = useCallback(() => {
+    // Position label aligns with `docs/POSTHOG-FUNNELS.md` so the
+    // dashboard can break down the github_click step by which surface
+    // emitted it.
     captureFunnelStep({
       step: "github_click",
       flow: "discover-repo",
       repo: repo.fullName,
-      position: "action_row",
+      position: "repo_detail",
     });
   }, [repo.fullName]);
 

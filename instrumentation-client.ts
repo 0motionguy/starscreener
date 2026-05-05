@@ -2,6 +2,50 @@ import * as Sentry from "@sentry/nextjs";
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
 
+// AGN-851 / OBS-6: dev-only long-task profiler.
+// Strictly gated on NODE_ENV === "development" so production bundles never
+// register the observer. Warns once per long task that exceeds the local
+// performance budget (default 50ms, overridable via
+// NEXT_PUBLIC_DEV_LONG_TASK_BUDGET_MS).
+if (
+  process.env.NODE_ENV === "development" &&
+  typeof window !== "undefined" &&
+  typeof PerformanceObserver !== "undefined"
+) {
+  try {
+    const supportedTypes = (PerformanceObserver as unknown as {
+      supportedEntryTypes?: ReadonlyArray<string>;
+    }).supportedEntryTypes;
+
+    if (supportedTypes && supportedTypes.includes("longtask")) {
+      const rawBudget = Number(process.env.NEXT_PUBLIC_DEV_LONG_TASK_BUDGET_MS);
+      const budgetMs = Number.isFinite(rawBudget) && rawBudget > 0 ? rawBudget : 50;
+
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (entry.duration <= budgetMs) continue;
+          const route =
+            typeof window !== "undefined" && window.location
+              ? window.location.pathname
+              : "(unknown)";
+          // eslint-disable-next-line no-console
+          console.warn(
+            `[OBS-6][long-task][budget-exceeded] ${Math.round(entry.duration)}ms at +${Math.round(
+              entry.startTime,
+            )}ms (budget ${budgetMs}ms) route=${route}`,
+          );
+        }
+      });
+
+      observer.observe({ type: "longtask", buffered: true });
+      // eslint-disable-next-line no-console
+      console.info(`[OBS-6][long-task][profiler-started] budget=${budgetMs}ms`);
+    }
+  } catch {
+    // Profiler is best-effort dev tooling; never let it break the page.
+  }
+}
+
 const SENTRY_DSN = process.env.NEXT_PUBLIC_SENTRY_DSN;
 
 if (SENTRY_DSN) {

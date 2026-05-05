@@ -1,3 +1,9 @@
+// PLANNED. Not registered in registry.ts — code is wired (with tests in
+// tests/fetchers/ai-blogs/) but the FETCHERS[] array does not include this
+// fetcher yet. Promote by adding `import aiBlogs from './fetchers/ai-blogs/index.js'`
+// to registry.ts and appending it to FETCHERS once the leaderboard wiring
+// is approved.
+//
 // AI-blog fetcher Phase 1: RSS path only. Pulls posts from labs in
 // AI_LAB_REGISTRY that publish a verified RSS/Atom feed, normalizes to
 // trending_items rows with type='post', publishes leaderboard to

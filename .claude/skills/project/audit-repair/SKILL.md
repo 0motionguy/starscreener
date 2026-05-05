@@ -19,7 +19,7 @@ Trigger phrases:
 
 1. **Read the item.**
    - Open `docs/AUDIT-2026-05-04.md` (or whichever audit doc the user named).
-   - Open `docs/forensic/00-INDEX.md` for any cross-referenced forensic notes.
+   - Open `docs/archive/forensic-2026-05-pre/00-INDEX.md` for any cross-referenced forensic notes (the live `docs/forensic/` was archived 2026-05-05; new writes go under `docs/archive/forensic/<YYYY-MM-DD>/`).
    - Quote the exact row and ID back to the user so we agree on scope.
 
 2. **Read affected code.**
@@ -46,7 +46,7 @@ Trigger phrases:
 
 6. **Update the ledger.**
    - Mark the row Done in `docs/AUDIT-*.md` with date + commit SHA.
-   - If the item references a forensic doc, update `docs/forensic/00-INDEX.md` status.
+   - If the item references a forensic doc, update `docs/archive/forensic-2026-05-pre/00-INDEX.md` status (or write a new dated note under `docs/archive/forensic/<YYYY-MM-DD>/`). Do NOT write or update under `docs/forensic/` -- that path is archived + gitignored.
    - If new follow-ups surfaced, add them to `tasks/BACKLOG.md` -- do NOT silently
      expand the current row.
 

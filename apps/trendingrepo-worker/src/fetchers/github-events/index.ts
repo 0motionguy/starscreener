@@ -1,3 +1,10 @@
+// PLANNED. Not registered in registry.ts — implementation is complete (with
+// tests in tests/fetchers/github-events/) but the FETCHERS[] array does not
+// include this fetcher yet. Promote by adding
+// `import githubEvents from './fetchers/github-events/index.js'` to
+// registry.ts and appending it to FETCHERS once the watchlist wiring is
+// approved (requires GH_TOKEN_POOL pool sizing review).
+//
 // Phase 3.3 — GitHub Events firehose for the top-N watchlist.
 //
 // Polls /repos/{owner}/{name}/events for the top WATCHLIST_TARGET (default

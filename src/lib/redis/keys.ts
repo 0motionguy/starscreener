@@ -22,6 +22,7 @@
 //   pool:github:budget:used:samples           — budget z-set sample stream
 //   pool:github:budget:used:alerted-at        — Sentry alert dedupe stamp
 //   pool:reddit:usage:<fp>:<bucket>           — per-UA hourly call counters
+//   pool:reddit:usage30m:<fp>:<bucket>        — per-UA per-minute counters
 //   pool:reddit:quarantine:<fp>               — per-UA quarantine state
 //   pool:twitter:usage:<source>:<bucket>      — per-source hourly counters
 //   pool:twitter:degradation:<bucket>         — degradation hourly counter
@@ -93,6 +94,9 @@ export const keys = {
       /** Per-UA hourly counters. fingerprint is sha256(UA) prefix. */
       usage: (fingerprint: string, bucket: string) =>
         `pool:reddit:usage:${fingerprint}:${bucket}`,
+      /** Per-UA per-minute counters. bucket is `YYYY-MM-DD-HH-mm`. */
+      usage30m: (fingerprint: string, bucket: string) =>
+        `pool:reddit:usage30m:${fingerprint}:${bucket}`,
       /** Per-UA quarantine. */
       quarantine: (fingerprint: string) =>
         `pool:reddit:quarantine:${fingerprint}`,

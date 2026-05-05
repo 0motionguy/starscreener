@@ -1,3 +1,9 @@
+---
+status: living
+last-verified: 2026-05-05
+verified-by: bot/sergio/AGN-792
+---
+
 <div align="center">
 
 # TrendingRepo
@@ -310,6 +316,31 @@ standalone `lint:v3-budget` guard, and a full `next build` before Playwright
 boots `next start` on port 3023.
 
 ## Development
+
+### Common tasks
+
+| Task | Command |
+|---|---|
+| Dev server (port 3023) | `npm run dev` |
+| Typecheck | `npm run typecheck` |
+| Lint guards (chained) | `npm run lint:guards` |
+| Tests (pipeline + tools + portal) | `npm test` |
+| Production build | `npm run build` |
+| Source freshness check | `npm run freshness:check` |
+| Living-doc freshness | `npm run freshness:docs` |
+| Doc frontmatter validity | `npm run lint:doc-frontmatter` |
+| Derive engine inventory | `npm run engine:derive` |
+| Archive old worklogs | `npm run archive:worklogs` |
+| Portal conformance | `npm run portal:conformance` |
+| Verify Redis data-store | `npm run verify:data-store` |
+
+### Architecture decisions
+
+ADRs live in [`docs/decisions/`](./docs/decisions/). Recent decisions worth reading first:
+
+- [`0004-redis-primary-worker-only-supabase.md`](./docs/decisions/0004-redis-primary-worker-only-supabase.md) — supersedes ADR 0001 on the data-lake direction.
+- [`0005-generated-docs-commit-policy.md`](./docs/decisions/0005-generated-docs-commit-policy.md) — what to commit vs regenerate for derived docs.
+- [`0006-redis-namespace-unification.md`](./docs/decisions/0006-redis-namespace-unification.md) — Redis key namespace plan + migration sequencing.
 
 ```bash
 # Install + run

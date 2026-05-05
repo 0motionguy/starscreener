@@ -50,6 +50,8 @@ test("buildRateLimitHeadroom: marks github RED when remaining quota is criticall
     health: "GREEN",
     rows: [],
     rateLimitedLastHour: 0,
+    rateLimitedLast30Min: 0,
+    requestsLast30Min: 0,
   };
   const twitter: AdminPoolStateResponse["twitter"] = {
     apify: {
@@ -80,6 +82,8 @@ test("buildAnomalies: emits headroom anomaly for non-green source", () => {
     health: "GREEN",
     rows: [],
     rateLimitedLastHour: 0,
+    rateLimitedLast30Min: 0,
+    requestsLast30Min: 0,
   };
   const twitter: AdminPoolStateResponse["twitter"] = {
     apify: {

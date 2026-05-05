@@ -12,15 +12,15 @@ work has a fixed shape in this repo — follow it exactly.
 
 ## Required reads (every invocation)
 
-1. `src/app/api/cron/CLAUDE.md` — local conventions (lands in Phase
-   3; if absent, infer from any existing route under
-   `src/app/api/cron/`).
+1. `src/app/api/cron/CLAUDE.md` — local conventions (Wave 1 landed
+   this; auth shape, handler size, error envelope).
 2. `src/lib/api/auth.ts` — the `verifyCronAuth(request)` wrapper.
    You must call this; do not reinvent auth.
 3. `scripts/_data-store-write.mjs` — the `writeDataStore(slug, payload)`
    helper. New collectors dual-write Redis + file via this.
-4. One existing cron route as a template (e.g.
-   `src/app/api/cron/refresh-trending/route.ts`).
+4. One existing cron route as a template (canonical references:
+   `src/app/api/cron/aiso-drain/route.ts` or
+   `src/app/api/cron/twitter-daily/route.ts`).
 5. The matching workflow YAML in `.github/workflows/cron-*.yml` to
    copy the schedule + secret-passing pattern.
 
@@ -28,9 +28,11 @@ work has a fixed shape in this repo — follow it exactly.
 
 - The route handler is ≤20 lines. Real work lives in a sibling
   helper (`./<slug>-job.ts`) or in `apps/trendingrepo-worker/src/`.
-- First line of the handler: `const auth = verifyCronAuth(request);
-  if (!auth.ok) return auth.response;` (match the exact shape used
-  in existing routes).
+- First two lines of the handler:
+  `const deny = authFailureResponse(verifyCronAuth(request));
+  if (deny) return deny;` (both imported from `@/lib/api/auth`,
+  matching every existing route — `verifyCronAuth` is sync, returns
+  `{ kind: "ok" | "unauthorized" | "not_configured" }`).
 - Data writes go through `writeDataStore("<slug>", payload)`. Never
   `writeFileSync` to `data/` directly. Never construct a Redis key
   inline — call into the keys module / data-store helpers.

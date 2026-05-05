@@ -10,6 +10,7 @@ import path from "node:path";
 
 import { NextRequest, NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
+import { z } from "zod";
 
 import { persistPipeline, pipeline } from "@/lib/pipeline/pipeline";
 import {
@@ -19,6 +20,7 @@ import {
 } from "@/lib/pipeline/storage/file-persistence";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { serverError } from "@/lib/api/error-response";
+import { parseBody } from "@/lib/api/parse-body";
 
 export const runtime = "nodejs";
 
@@ -30,11 +32,15 @@ export interface PersistResponse {
   files: Record<string, number>;
 }
 
+const PersistBodySchema = z.object({}).strict();
+
 export async function POST(request: NextRequest): Promise<NextResponse> {
   Sentry.setTag("route", "api/pipeline/persist");
 
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
+  const parsed = await parseBody(request, PersistBodySchema, { allowEmpty: true });
+  if (!parsed.ok) return parsed.response;
 
   const startedAt = Date.now();
   try {

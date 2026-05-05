@@ -30,6 +30,7 @@ import {
   AdminQuarantineError,
   engineErrorSentryContext,
 } from "@/lib/errors";
+import { errorEnvelope } from "@/lib/api/error-response";
 import type { UserTier } from "@/lib/pricing/tiers";
 
 let sentryCaptureException = Sentry.captureException;
@@ -477,7 +478,10 @@ export function authFailureResponse(
       tags: context.tags,
       extra: context.extra,
     });
-    return NextResponse.json({ ok: false, reason: "unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      errorEnvelope("unauthorized", "UNAUTHORIZED"),
+      { status: 401 },
+    );
   }
   const err = new AuthFatalError("cron auth blocked: CRON_SECRET missing");
   const context = engineErrorSentryContext(err, {
@@ -488,7 +492,7 @@ export function authFailureResponse(
     extra: context.extra,
   });
   return NextResponse.json(
-    { ok: false, reason: "CRON_SECRET not configured" },
+    errorEnvelope("CRON_SECRET not configured", "NOT_CONFIGURED"),
     { status: 503 },
   );
 }
@@ -515,7 +519,7 @@ export function adminAuthFailureResponse(
       },
     });
     return NextResponse.json(
-      { ok: false, reason: "ip blocked" },
+      errorEnvelope("ip blocked", "FORBIDDEN"),
       { status: 403 },
     );
   }
@@ -528,7 +532,10 @@ export function adminAuthFailureResponse(
       tags: context.tags,
       extra: context.extra,
     });
-    return NextResponse.json({ ok: false, reason: "unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      errorEnvelope("unauthorized", "UNAUTHORIZED"),
+      { status: 401 },
+    );
   }
   const err = new AdminFatalError("admin auth blocked: ADMIN_TOKEN missing");
   const context = engineErrorSentryContext(err, {
@@ -539,7 +546,10 @@ export function adminAuthFailureResponse(
     extra: context.extra,
   });
   return NextResponse.json(
-    { ok: false, reason: "admin endpoint not configured (ADMIN_TOKEN unset)" },
+    errorEnvelope(
+      "admin endpoint not configured (ADMIN_TOKEN unset)",
+      "NOT_CONFIGURED",
+    ),
     { status: 503 },
   );
 }

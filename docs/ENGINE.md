@@ -115,6 +115,19 @@ Unclassified: none. Every workflow has a parsed `name:` and trigger.
 
 Total cron-driven workflows: 65. Push/PR-only or dispatch-only: 18.
 
+### Meta / hygiene workflows (added 2026-05-05)
+
+These workflows operate ON the repo (docs, CI, hygiene) rather than producing
+data. They are PR-gates or weekly hygiene runs.
+
+| File | Schedule | Trigger | Purpose |
+|---|---|---|---|
+| `doc-links-check.yml` | - | PR (md changes) | Validates internal markdown links via `scripts/check-internal-doc-links.mjs` |
+| `engine-inventory-check.yml` | - | PR (workflow/cron changes) | Fails PR if `docs/_generated/engine.json` is stale vs filesystem |
+| `engine-inventory-refresh.yml` | `49 14 * * 1` | weekly + dispatch | Auto-commits engine inventory regeneration |
+| `workflow-coverage-check.yml` | - | PR (workflow changes) | Fails PR if a new workflow YAML lands without an ENGINE.md mention |
+| `worklog-hygiene.yml` | `59 5 * * 1` | weekly + dispatch | Auto-archives root-level worklogs older than 30 days |
+
 ---
 
 ## 2. Cron API routes (src/app/api/cron/*/route.ts) - 16 routes

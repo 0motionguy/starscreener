@@ -102,7 +102,12 @@ function computeVelocityStats(posts: RedditAllPost[]): VelocityStats {
 function postMatchesTopic(p: RedditAllPost, topic: string): boolean {
   if (!topic) return true;
   const needle = topic.toLowerCase();
-  const hay = `${p.title ?? ""} ${p.selftext ?? ""}`.toLowerCase();
+  // AGN-513: title-only match. `selftext` was previously OR'd in but the
+  // page-level trim drops that field from the SSR Flight payload to keep
+  // the rendered HTML below Vercel's bandwidth threshold. Title is the
+  // dominant signal — substring matches against truncated 500-char
+  // selftext blobs were noisy in practice.
+  const hay = (p.title ?? "").toLowerCase();
   return hay.includes(needle);
 }
 

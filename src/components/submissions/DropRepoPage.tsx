@@ -124,6 +124,7 @@ export function DropRepoPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<SubmissionResult | null>(null);
+  const [fillFired, setFillFired] = useState(false);
   const trackedFillRef = useRef(false);
 
   async function loadQueue(): Promise<void> {

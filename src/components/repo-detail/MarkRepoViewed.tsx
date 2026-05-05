@@ -1,16 +1,10 @@
 "use client";
 
-/**
- * MarkRepoViewed — invisible client component that records a
- * "viewed repo" entry in localStorage on mount. Drop it into the
- * /repo/[owner]/[name] server component and the sidebar's
- * <SidebarRecentViewedRepos> widget will pick the entry up on the
- * next render.
- *
- * Renders nothing — `null`.
- */
 import { useEffect } from "react";
-import { trackRepoViewed } from "@/lib/recent-viewed-repos";
+import {
+  recordRecentRepoView,
+  getRecentViewedReposEvent,
+} from "@/lib/recent-viewed-repos";
 
 export function MarkRepoViewed({
   owner,
@@ -20,7 +14,13 @@ export function MarkRepoViewed({
   name: string;
 }) {
   useEffect(() => {
-    trackRepoViewed({ owner, name });
+    const repoId = `${owner}/${name}`;
+    try {
+      recordRecentRepoView(window.localStorage, repoId);
+      window.dispatchEvent(new Event(getRecentViewedReposEvent()));
+    } catch {
+      // localStorage may be unavailable; sidebar widget is best-effort.
+    }
   }, [owner, name]);
   return null;
 }

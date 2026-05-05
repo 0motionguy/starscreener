@@ -211,11 +211,18 @@ These are produced by `scripts/derive-engine-inventory.mjs` and
 `scripts/check-internal-doc-links.mjs`. Refresh via `npm run engine:derive`
 (or the weekly `engine-inventory-refresh.yml` workflow) -- do not edit by hand.
 
-| Path | Producer | Refresh command |
-|---|---|---|
-| `docs/_generated/engine.json` | `scripts/derive-engine-inventory.mjs` | `npm run engine:derive` |
-| `docs/_generated/engine.md` | `scripts/derive-engine-inventory.mjs` | `npm run engine:derive` |
-| `docs/_generated/broken-links.md` | `scripts/check-internal-doc-links.mjs` | `node scripts/check-internal-doc-links.mjs` |
+Commit policy: see ADR 0005 (`docs/decisions/0005-generated-docs-commit-policy.md`).
+Stable inventory is tracked so PR reviewers see drift; high-churn reports
+are gitignored.
+
+| Path | Producer | Refresh command | Tracked? |
+|---|---|---|---|
+| `docs/_generated/engine.json` | `scripts/derive-engine-inventory.mjs` | `npm run engine:derive` | tracked |
+| `docs/_generated/engine.md` | `scripts/derive-engine-inventory.mjs` | `npm run engine:derive` | tracked |
+| `docs/_generated/broken-links.md` | `scripts/check-internal-doc-links.mjs` | `node scripts/check-internal-doc-links.mjs` | gitignored |
+| `docs/_generated/health-board.md` | guard rollup script | regenerated on demand | gitignored |
+| `docs/_generated/cron-overlap.md` | cron-overlap detector | regenerated on demand | gitignored |
+| `docs/_generated/hook-smoke-test.md` | manual hook smoke run (`.claude/hooks/README.md`) | regenerated on demand | gitignored |
 
 ---
 

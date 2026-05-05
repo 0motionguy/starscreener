@@ -90,6 +90,48 @@
   color: var(--ink-400);
 }
 
+/* AGN-608 — Branded empty / no-results suggestions block.
+   Stacked groups of clickable chips (recent / examples / categories)
+   that sit directly under the existing `.search-state` headline. */
+.search-suggestions {
+  margin-top: 18px;
+  display: grid;
+  gap: 14px;
+  width: min(100%, 640px);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.search-suggest-group {
+  display: grid;
+  gap: 8px;
+}
+
+.search-suggest-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-400);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-micro);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.search-suggest-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.search-suggest-chip {
+  font-size: var(--font-size-micro);
+  padding: 4px 10px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
 .watchlist-alerts {
   margin-top: 12px;
   padding: 0;

@@ -1,156 +1,54 @@
 {
-  "fetchedAt": "2026-05-05T03:40:22.247Z",
+  "fetchedAt": "2026-05-05T07:10:55.511Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
-    "TecharoHQ/anubis": {
+    "ruvnet/ruflo": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:k4jks2wtp6g3dri2wdz4apcr/app.bsky.feed.post/3ml356ntv7l62",
-        "cid": "bafyreidaqdkczodmwval2xp7oeqs3wzkarea6aisi3czhmao7iykeprfyi",
-        "bskyUrl": "https://bsky.app/profile/wragge.hcommons.social.ap.brid.gy/post/3ml356ntv7l62",
-        "text": "However, still getting hammered by meta-webindexer which is not currently blocked by Anubis: https://github.com/TecharoHQ/anubis/issues/1565 Gonna try adding a custom rule to block it.",
+        "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3ml3meuceex2h",
+        "cid": "bafyreib6tjnglcbsxxs6qbkv7ak3ahp3qm2pvjzvkxjllazn54kebm3xua",
+        "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3ml3meuceex2h",
+        "text": "The agent coordination patterns here look solid – the task decomposition and context sharing between Claude instances solves the usual multi-agent chaos problems. https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md",
         "author": {
-          "handle": "wragge.hcommons.social.ap.brid.gy",
-          "displayName": "Tim Sherratt"
+          "handle": "sirile.bsky.social"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-05T02:27:08.000Z",
-        "hoursSincePosted": 1.22
+        "createdAt": "2026-05-05T06:59:11.904562+00:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:k4jks2wtp6g3dri2wdz4apcr/app.bsky.feed.post/3ml356ntv7l62",
-          "cid": "bafyreidaqdkczodmwval2xp7oeqs3wzkarea6aisi3czhmao7iykeprfyi",
-          "bskyUrl": "https://bsky.app/profile/wragge.hcommons.social.ap.brid.gy/post/3ml356ntv7l62",
-          "text": "However, still getting hammered by meta-webindexer which is not currently blocked by Anubis: https://github.com/TecharoHQ/anubis/issues/1565 Gonna try adding a custom rule to block it.",
+          "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3ml3meuceex2h",
+          "cid": "bafyreib6tjnglcbsxxs6qbkv7ak3ahp3qm2pvjzvkxjllazn54kebm3xua",
+          "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3ml3meuceex2h",
+          "text": "The agent coordination patterns here look solid – the task decomposition and context sharing between Claude instances solves the usual multi-agent chaos problems. https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md",
           "author": {
-            "handle": "wragge.hcommons.social.ap.brid.gy",
-            "displayName": "Tim Sherratt"
+            "handle": "sirile.bsky.social"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 1,
-          "createdAt": "2026-05-05T02:27:08.000Z",
-          "createdUtc": 1777948028,
-          "ageHours": 1.22,
+          "createdAt": "2026-05-05T06:59:11.904562+00:00",
+          "createdUtc": 1777964351,
+          "ageHours": 0.5,
           "trendingScore": 0.5,
           "content_tags": [
-            "has-github-repo"
+            "has-github-repo",
+            "has-md-file",
+            "has-agent"
           ],
-          "value_score": 1,
+          "value_score": 3,
           "linkedRepos": [
             {
-              "fullName": "TecharoHQ/anubis",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "russellromney/honker": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3ml32bk2xgg2z",
-        "cid": "bafyreidtyljyrbdxgvwjsgnfrhp6kqln6ywpp5gxq3ue54bggiw43fw2ym",
-        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3ml32bk2xgg2z",
-        "text": "GitHub - russellromney/honker: SQLite extension + bindings for Postgres NOTIFY/LISTEN semantics with durable queues, streams, pub/sub, and scheduler https://github.com/russellromney/honker",
-        "author": {
-          "handle": "tech-trending.bsky.social",
-          "displayName": "Tech Trending"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-05T01:35:13.524Z",
-        "hoursSincePosted": 2.09
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3ml32bk2xgg2z",
-          "cid": "bafyreidtyljyrbdxgvwjsgnfrhp6kqln6ywpp5gxq3ue54bggiw43fw2ym",
-          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3ml32bk2xgg2z",
-          "text": "GitHub - russellromney/honker: SQLite extension + bindings for Postgres NOTIFY/LISTEN semantics with durable queues, streams, pub/sub, and scheduler https://github.com/russellromney/honker",
-          "author": {
-            "handle": "tech-trending.bsky.social",
-            "displayName": "Tech Trending"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-05T01:35:13.524Z",
-          "createdUtc": 1777944913,
-          "ageHours": 2.09,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "russellromney/honker",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "jdx/mise": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3ml2ykz4cm32k",
-        "cid": "bafyreiavsznrlupzwuiis7kn3kgp5ve4eak2ccpju6gvizxh4sgx26yxj4",
-        "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3ml2ykz4cm32k",
-        "text": "見てる: \"fix(pipx): honor install_before for uv and pipx installs by risu729 · Pull Request #9190 · jdx/mise\" https://github.com/jdx/mise/pull/9190",
-        "author": {
-          "handle": "azu.bsky.social",
-          "displayName": "azu"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-05T01:04:43.029Z",
-        "hoursSincePosted": 2.59
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3ml2ykz4cm32k",
-          "cid": "bafyreiavsznrlupzwuiis7kn3kgp5ve4eak2ccpju6gvizxh4sgx26yxj4",
-          "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3ml2ykz4cm32k",
-          "text": "見てる: \"fix(pipx): honor install_before for uv and pipx installs by risu729 · Pull Request #9190 · jdx/mise\" https://github.com/jdx/mise/pull/9190",
-          "author": {
-            "handle": "azu.bsky.social",
-            "displayName": "azu"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-05T01:04:43.029Z",
-          "createdUtc": 1777943083,
-          "ageHours": 2.59,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "jdx/mise",
+              "fullName": "ruvnet/ruflo",
               "matchType": "url",
               "confidence": 1
             }
@@ -160,44 +58,41 @@
     },
     "openai/symphony": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:f45e3rettq7owufxvubwdptp/app.bsky.feed.post/3ml2xg3cypk2f",
-        "cid": "bafyreigw275dlmdybqt7ybcdbmpeiqz5h47jrpzjuhvwagtl6t4ptwx5pe",
-        "bskyUrl": "https://bsky.app/profile/ezba.bsky.social/post/3ml2xg3cypk2f",
-        "text": "What about? github.com/openai/symph... Personally I still do manual prompting.",
+        "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3ml3lv45ieo22",
+        "cid": "bafyreia526p3l22acrviotgatkprpwtjuzdn3l2wit5njx6ydp3pn4p5ba",
+        "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3ml3lv45ieo22",
+        "text": "OpenAI's Symphony transforms project work into autonomous implementation runs, allowing teams to oversee tasks without micromanaging coding agents. It effectively integrates work management with AI for improved efficiency in software development. https://github.com/openai/symphony",
         "author": {
-          "handle": "ezba.bsky.social",
-          "displayName": "Ezba"
+          "handle": "ai-linkstream.bsky.social"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-05T00:44:04.622Z",
-        "hoursSincePosted": 2.94
+        "createdAt": "2026-05-05T06:50:23.628736+00:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:f45e3rettq7owufxvubwdptp/app.bsky.feed.post/3ml2xg3cypk2f",
-          "cid": "bafyreigw275dlmdybqt7ybcdbmpeiqz5h47jrpzjuhvwagtl6t4ptwx5pe",
-          "bskyUrl": "https://bsky.app/profile/ezba.bsky.social/post/3ml2xg3cypk2f",
-          "text": "What about? github.com/openai/symph... Personally I still do manual prompting.",
+          "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3ml3lv45ieo22",
+          "cid": "bafyreia526p3l22acrviotgatkprpwtjuzdn3l2wit5njx6ydp3pn4p5ba",
+          "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3ml3lv45ieo22",
+          "text": "OpenAI's Symphony transforms project work into autonomous implementation runs, allowing teams to oversee tasks without micromanaging coding agents. It effectively integrates work management with AI for improved efficiency in software development. https://github.com/openai/symphony",
           "author": {
-            "handle": "ezba.bsky.social",
-            "displayName": "Ezba"
+            "handle": "ai-linkstream.bsky.social"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-05T00:44:04.622Z",
-          "createdUtc": 1777941844,
-          "ageHours": 2.94,
-          "trendingScore": 0,
+          "createdAt": "2026-05-05T06:50:23.628736+00:00",
+          "createdUtc": 1777963823,
+          "ageHours": 0.5,
+          "trendingScore": 1,
           "content_tags": [
-            "has-github-repo",
-            "is-question"
+            "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
@@ -210,40 +105,120 @@
         }
       ]
     },
-    "browserbase/skills": {
+    "anthropics/claude-code": {
+      "count7d": 2,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3ml3jre75vc2i",
+        "cid": "bafyreifh54w46jfhr6qndjzsknrbghhkalss2rqzl4qtw6trumyyicdwqe",
+        "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3ml3jre75vc2i",
+        "text": "Claude Code 2.1.128 release change log github.com/anthropics/c...",
+        "author": {
+          "handle": "georgesl.bsky.social",
+          "displayName": "George"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-05T06:12:30.386Z",
+        "hoursSincePosted": 0.97
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3ml3jre75vc2i",
+          "cid": "bafyreifh54w46jfhr6qndjzsknrbghhkalss2rqzl4qtw6trumyyicdwqe",
+          "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3ml3jre75vc2i",
+          "text": "Claude Code 2.1.128 release change log github.com/anthropics/c...",
+          "author": {
+            "handle": "georgesl.bsky.social",
+            "displayName": "George"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-05T06:12:30.386Z",
+          "createdUtc": 1777961550,
+          "ageHours": 0.97,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jufrod2d6txss5l7zxyx3wgi/app.bsky.feed.post/3ml3djf6rys2y",
+          "cid": "bafyreie4gjrai5yd7qfe6forubmfttyxsrcw2pjxzunudg3qottjj5mmka",
+          "bskyUrl": "https://bsky.app/profile/doyourrubesty.bsky.social/post/3ml3djf6rys2y",
+          "text": "ほんまにありがとうなんだ㌔、乞食している奴おって草 github.com/anthropics/c...",
+          "author": {
+            "handle": "doyourrubesty.bsky.social",
+            "displayName": "ミルクせんべい"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-05T04:20:40.535Z",
+          "createdUtc": 1777954840,
+          "ageHours": 2.84,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ggml-org/llama.cpp": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3ml2vjhgire2a",
-        "cid": "bafyreichasrhgp4yslxzm3xzxxg2j7tqz2hytkbnvnwcposarmgwiy4egi",
-        "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3ml2vjhgire2a",
-        "text": "📡 Builder signal of the day Claude Agent SDK with a web browsing tool — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/browserbase/skills",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3ml3jnvvwc62h",
+        "cid": "bafyreifv672jgyfkzr7o4wu7nw4fsurx5cfgvud4bsh6pcfiws5ryoebny",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3ml3jnvvwc62h",
+        "text": "🟠 llama.cpp b9026 lands a 4x faster KV rotation path on Apple Silicon llama.cpp b9026 replaces Hadamard KV-cache rotation's old O(N^2) matrix multiply with an O(N log N) Fast Walsh-Hadamard Transform. https://github.com/ggml-org/llama.cpp/releases/tag/b9026 #AI #AgentWyre",
         "author": {
-          "handle": "rickqian.bsky.social"
+          "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-05T00:10:10.118134+00:00",
-        "hoursSincePosted": 3.5
+        "createdAt": "2026-05-05T06:10:33.898816+00:00",
+        "hoursSincePosted": 1.01
       },
       "posts": [
         {
-          "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3ml2vjhgire2a",
-          "cid": "bafyreichasrhgp4yslxzm3xzxxg2j7tqz2hytkbnvnwcposarmgwiy4egi",
-          "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3ml2vjhgire2a",
-          "text": "📡 Builder signal of the day Claude Agent SDK with a web browsing tool — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/browserbase/skills",
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3ml3jnvvwc62h",
+          "cid": "bafyreifv672jgyfkzr7o4wu7nw4fsurx5cfgvud4bsh6pcfiws5ryoebny",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3ml3jnvvwc62h",
+          "text": "🟠 llama.cpp b9026 lands a 4x faster KV rotation path on Apple Silicon llama.cpp b9026 replaces Hadamard KV-cache rotation's old O(N^2) matrix multiply with an O(N log N) Fast Walsh-Hadamard Transform. https://github.com/ggml-org/llama.cpp/releases/tag/b9026 #AI #AgentWyre",
           "author": {
-            "handle": "rickqian.bsky.social"
+            "handle": "agentwyre.ai"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-05T00:10:10.118134+00:00",
-          "createdUtc": 1777939810,
-          "ageHours": 3.5,
+          "createdAt": "2026-05-05T06:10:33.898816+00:00",
+          "createdUtc": 1777961433,
+          "ageHours": 1.01,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -251,7 +226,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "browserbase/skills",
+              "fullName": "ggml-org/llama.cpp",
               "matchType": "url",
               "confidence": 1
             }
@@ -259,50 +234,50 @@
         }
       ]
     },
-    "ruvnet/RuVector": {
+    "googleworkspace/cli": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3ml2trbakmu2d",
-        "cid": "bafyreiadkg64mozalxft4rxe4pvbrlk4e6n663rkwme2rxylexbugh344a",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3ml2trbakmu2d",
-        "text": "https://github.com/ruvnet/RuVector",
+        "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3ml3jnrs37b2r",
+        "cid": "bafyreigt3bjck7cve4wm7vvxcsp4gztmwhsb5y5agqrxvzlfjy3e35rona",
+        "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3ml3jnrs37b2r",
+        "text": "The Google Workspace CLI is a command-line tool for managing Google Drive, Gmail, and more, dynamically adapting to Google's Discovery Service. It simplifies interaction with Google Workspace APIs using AI agent skills and convenient authentication options. https://github.com/googleworkspace/cli",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "ai-linkstream.bsky.social"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-04T23:38:44Z",
-        "hoursSincePosted": 4.03
+        "createdAt": "2026-05-05T06:10:30.377690+00:00",
+        "hoursSincePosted": 1.01
       },
       "posts": [
         {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3ml2trbakmu2d",
-          "cid": "bafyreiadkg64mozalxft4rxe4pvbrlk4e6n663rkwme2rxylexbugh344a",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3ml2trbakmu2d",
-          "text": "https://github.com/ruvnet/RuVector",
+          "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3ml3jnrs37b2r",
+          "cid": "bafyreigt3bjck7cve4wm7vvxcsp4gztmwhsb5y5agqrxvzlfjy3e35rona",
+          "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3ml3jnrs37b2r",
+          "text": "The Google Workspace CLI is a command-line tool for managing Google Drive, Gmail, and more, dynamically adapting to Google's Discovery Service. It simplifies interaction with Google Workspace APIs using AI agent skills and convenient authentication options. https://github.com/googleworkspace/cli",
           "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
+            "handle": "ai-linkstream.bsky.social"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-04T23:38:44Z",
-          "createdUtc": 1777937924,
-          "ageHours": 4.03,
+          "createdAt": "2026-05-05T06:10:30.377690+00:00",
+          "createdUtc": 1777961430,
+          "ageHours": 1.01,
           "trendingScore": 0,
           "content_tags": [
-            "has-github-repo"
+            "has-github-repo",
+            "has-skill",
+            "has-agent"
           ],
-          "value_score": 1,
+          "value_score": 3,
           "linkedRepos": [
             {
-              "fullName": "ruvnet/RuVector",
+              "fullName": "googleworkspace/cli",
               "matchType": "url",
               "confidence": 1
             }
@@ -310,292 +285,51 @@
         }
       ]
     },
-    "anomalyco/opencode": {
+    "docusealco/docuseal": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:srmltlrjqfr7mbfdejuxrbss/app.bsky.feed.post/3ml2s7zoiqk2g",
-        "cid": "bafyreibxiftuluaype2ifyzedlicliskle3cra5s34d6zrjzrzkuvdlif4",
-        "bskyUrl": "https://bsky.app/profile/jelloeater.bsky.social/post/3ml2s7zoiqk2g",
-        "text": "github.com/anomalyco/op... #opencode",
-        "author": {
-          "handle": "jelloeater.bsky.social",
-          "displayName": "Jelloeater"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-04T23:11:12.855Z",
-        "hoursSincePosted": 4.49
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:srmltlrjqfr7mbfdejuxrbss/app.bsky.feed.post/3ml2s7zoiqk2g",
-          "cid": "bafyreibxiftuluaype2ifyzedlicliskle3cra5s34d6zrjzrzkuvdlif4",
-          "bskyUrl": "https://bsky.app/profile/jelloeater.bsky.social/post/3ml2s7zoiqk2g",
-          "text": "github.com/anomalyco/op... #opencode",
-          "author": {
-            "handle": "jelloeater.bsky.social",
-            "displayName": "Jelloeater"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-04T23:11:12.855Z",
-          "createdUtc": 1777936272,
-          "ageHours": 4.49,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "anomalyco/opencode",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "warpdotdev/warp": {
-      "count7d": 6,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 5,
-      "topPost": {
-        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maiozkc2n",
-        "cid": "bafyreiac7vqug23xjparf4b3fhqzxkf7a6bu2hdqzrda24czyokult5gbi",
-        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maiozkc2n",
-        "text": "If you’ve hit a Windows or WSL bug in Warp, come contribute. Every fix makes the terminal better for the next developer. github.com/warpdotdev/... ⭐",
-        "author": {
-          "handle": "warp.dev",
-          "displayName": "Warp"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-04T21:24:06.091985Z",
-        "hoursSincePosted": 6.27
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maiozkc2n",
-          "cid": "bafyreiac7vqug23xjparf4b3fhqzxkf7a6bu2hdqzrda24czyokult5gbi",
-          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maiozkc2n",
-          "text": "If you’ve hit a Windows or WSL bug in Warp, come contribute. Every fix makes the terminal better for the next developer. github.com/warpdotdev/... ⭐",
-          "author": {
-            "handle": "warp.dev",
-            "displayName": "Warp"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-04T21:24:06.091985Z",
-          "createdUtc": 1777929846,
-          "ageHours": 6.27,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "warpdotdev/warp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maft73v2b",
-          "cid": "bafyreifassfwljjix336hmqfgos7sr2zbd7wmiznq3mqxmji5zohmpwvam",
-          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maft73v2b",
-          "text": "Andy also fixed Quake Mode on Windows. Before, Quake Mode could fail when another app had focus. Now the window sizes correctly and receives focus when summoned. github.com/warpdotdev/...",
-          "author": {
-            "handle": "warp.dev",
-            "displayName": "Warp"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-04T21:24:03.089997Z",
-          "createdUtc": 1777929843,
-          "ageHours": 6.27,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "warpdotdev/warp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maclawf2b",
-          "cid": "bafyreib5zcs7u6cgaiimfoyn6virhkovnkas7ws2p7gwy3y2xmbmk6uinq",
-          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maclawf2b",
-          "text": "On the maintainer side, Andy fixed symlink traversal in the Windows installer. A few people had reported this one, and Andy got it to the finish line. github.com/warpdotdev/...",
-          "author": {
-            "handle": "warp.dev",
-            "displayName": "Warp"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-04T21:23:59.668003Z",
-          "createdUtc": 1777929839,
-          "ageHours": 6.27,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "warpdotdev/warp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2mabjwdb2u",
-          "cid": "bafyreiggtyptioj36h2maw4kk6f7y2u4oprr6soxsh53ycmknrfzlznc4a",
-          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2mabjwdb2u",
-          "text": "thien-tn is helping fix Vietnamese input on Windows for users typing with Unikey/EVKey. The PR preserves composed characters from non-IME input methods, and we’re working through the last review/CI details now. github.com/warpdotdev/...",
-          "author": {
-            "handle": "warp.dev",
-            "displayName": "Warp"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-04T21:23:58.591349Z",
-          "createdUtc": 1777929838,
-          "ageHours": 6.27,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "warpdotdev/warp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maaf7n22b",
-          "cid": "bafyreidirxyyy222xuprrqi3op5y4xgqeegisbbuf6quu2hgpi7f3o74ay",
-          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maaf7n22b",
-          "text": "kranthik10 fixed /open-file inside WSL. The issue came down to WSL path handling: Unix separators were getting mangled when paths were joined. Small fix, very real quality-of-life improvement. github.com/warpdotdev/...",
-          "author": {
-            "handle": "warp.dev",
-            "displayName": "Warp"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-04T21:23:57.386918Z",
-          "createdUtc": 1777929837,
-          "ageHours": 6.27,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "warpdotdev/warp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2ma75uqb2u",
-          "cid": "bafyreidorbrraceofvpjreqfzk62slzgw7ype6lkkgr37i74q3gcri63je",
-          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2ma75uqb2u",
-          "text": "Landon (landkirk on GitHub) fixed chord shortcuts on Windows for non-Latin keyboard layouts. If you use Cyrillic or another non-Latin layout, keyboard shortcuts should now behave the way you expect. github.com/warpdotdev/...",
-          "author": {
-            "handle": "warp.dev",
-            "displayName": "Warp"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-04T21:23:56.097845Z",
-          "createdUtc": 1777929836,
-          "ageHours": 6.27,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "warpdotdev/warp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "blader/humanizer": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
+      "likesSum7d": 32,
+      "repostsSum7d": 8,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:mfyvoiacugzkeg6llf4qzndj/app.bsky.feed.post/3ml2lxa2jus2i",
-        "cid": "bafyreidyohdp645m5xlu7aip6wpgm3rrdipkdcatlluwmytkqxqi5sox3u",
-        "bskyUrl": "https://bsky.app/profile/jelmore.crystalwind.org/post/3ml2lxa2jus2i",
-        "text": "Someone took the same article and flipped the premise, creating \"Humanizer\": a tool you can use with Claude Code or OpenCode to make its generated text seem more human github.com/blader/human... #writethedocs",
+        "uri": "at://did:plc:4q4wdaknunskbt47bzsi2qbv/app.bsky.feed.post/3ml3inlrdhc22",
+        "cid": "bafyreicc7f3asjnigfkvbraodl66qxxy2nmeg377oeidp7dinuqs54djze",
+        "bskyUrl": "https://bsky.app/profile/ponceto91.bsky.social/post/3ml3inlrdhc22",
+        "text": "DocuSeal est une alternative à DocuSign, open source sous licence AGPL-3.0, permettant de créer, remplir et signer des documents en ligne avec un éditeur WYSIWYG, les signatures électroniques, le multi-signataires, API, etc ... ⬇️ github.com/docusealco/d...",
         "author": {
-          "handle": "jelmore.crystalwind.org",
-          "displayName": "Jay Elmore"
+          "handle": "ponceto91.bsky.social",
+          "displayName": "Olivier Poncet 🦝"
         },
-        "likeCount": 0,
-        "repostCount": 0,
+        "likeCount": 32,
+        "repostCount": 8,
         "replyCount": 1,
-        "createdAt": "2026-05-04T21:18:55.112Z",
-        "hoursSincePosted": 6.36
+        "createdAt": "2026-05-05T05:52:30.361Z",
+        "hoursSincePosted": 1.31
       },
       "posts": [
         {
-          "uri": "at://did:plc:mfyvoiacugzkeg6llf4qzndj/app.bsky.feed.post/3ml2lxa2jus2i",
-          "cid": "bafyreidyohdp645m5xlu7aip6wpgm3rrdipkdcatlluwmytkqxqi5sox3u",
-          "bskyUrl": "https://bsky.app/profile/jelmore.crystalwind.org/post/3ml2lxa2jus2i",
-          "text": "Someone took the same article and flipped the premise, creating \"Humanizer\": a tool you can use with Claude Code or OpenCode to make its generated text seem more human github.com/blader/human... #writethedocs",
+          "uri": "at://did:plc:4q4wdaknunskbt47bzsi2qbv/app.bsky.feed.post/3ml3inlrdhc22",
+          "cid": "bafyreicc7f3asjnigfkvbraodl66qxxy2nmeg377oeidp7dinuqs54djze",
+          "bskyUrl": "https://bsky.app/profile/ponceto91.bsky.social/post/3ml3inlrdhc22",
+          "text": "DocuSeal est une alternative à DocuSign, open source sous licence AGPL-3.0, permettant de créer, remplir et signer des documents en ligne avec un éditeur WYSIWYG, les signatures électroniques, le multi-signataires, API, etc ... ⬇️ github.com/docusealco/d...",
           "author": {
-            "handle": "jelmore.crystalwind.org",
-            "displayName": "Jay Elmore"
+            "handle": "ponceto91.bsky.social",
+            "displayName": "Olivier Poncet 🦝"
           },
-          "likeCount": 0,
-          "repostCount": 0,
+          "likeCount": 32,
+          "repostCount": 8,
           "replyCount": 1,
-          "createdAt": "2026-05-04T21:18:55.112Z",
-          "createdUtc": 1777929535,
-          "ageHours": 6.36,
-          "trendingScore": 0.5,
+          "createdAt": "2026-05-05T05:52:30.361Z",
+          "createdUtc": 1777960350,
+          "ageHours": 1.31,
+          "trendingScore": 48.5,
           "content_tags": [
-            "has-github-repo"
+            "has-github-repo",
+            "is-announcement"
           ],
-          "value_score": 1,
+          "value_score": 2,
           "linkedRepos": [
             {
-              "fullName": "blader/humanizer",
+              "fullName": "docusealco/docuseal",
               "matchType": "url",
               "confidence": 1
             }
@@ -605,152 +339,50 @@
     }
   },
   "mentionsByRepoId": {
-    "techarohq--anubis": {
+    "ruvnet--ruflo": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:k4jks2wtp6g3dri2wdz4apcr/app.bsky.feed.post/3ml356ntv7l62",
-        "cid": "bafyreidaqdkczodmwval2xp7oeqs3wzkarea6aisi3czhmao7iykeprfyi",
-        "bskyUrl": "https://bsky.app/profile/wragge.hcommons.social.ap.brid.gy/post/3ml356ntv7l62",
-        "text": "However, still getting hammered by meta-webindexer which is not currently blocked by Anubis: https://github.com/TecharoHQ/anubis/issues/1565 Gonna try adding a custom rule to block it.",
+        "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3ml3meuceex2h",
+        "cid": "bafyreib6tjnglcbsxxs6qbkv7ak3ahp3qm2pvjzvkxjllazn54kebm3xua",
+        "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3ml3meuceex2h",
+        "text": "The agent coordination patterns here look solid – the task decomposition and context sharing between Claude instances solves the usual multi-agent chaos problems. https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md",
         "author": {
-          "handle": "wragge.hcommons.social.ap.brid.gy",
-          "displayName": "Tim Sherratt"
+          "handle": "sirile.bsky.social"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-05T02:27:08.000Z",
-        "hoursSincePosted": 1.22
+        "createdAt": "2026-05-05T06:59:11.904562+00:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:k4jks2wtp6g3dri2wdz4apcr/app.bsky.feed.post/3ml356ntv7l62",
-          "cid": "bafyreidaqdkczodmwval2xp7oeqs3wzkarea6aisi3czhmao7iykeprfyi",
-          "bskyUrl": "https://bsky.app/profile/wragge.hcommons.social.ap.brid.gy/post/3ml356ntv7l62",
-          "text": "However, still getting hammered by meta-webindexer which is not currently blocked by Anubis: https://github.com/TecharoHQ/anubis/issues/1565 Gonna try adding a custom rule to block it.",
+          "uri": "at://did:plc:22g7l55edwo5z2gddhfkemtm/app.bsky.feed.post/3ml3meuceex2h",
+          "cid": "bafyreib6tjnglcbsxxs6qbkv7ak3ahp3qm2pvjzvkxjllazn54kebm3xua",
+          "bskyUrl": "https://bsky.app/profile/sirile.bsky.social/post/3ml3meuceex2h",
+          "text": "The agent coordination patterns here look solid – the task decomposition and context sharing between Claude instances solves the usual multi-agent chaos problems. https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md",
           "author": {
-            "handle": "wragge.hcommons.social.ap.brid.gy",
-            "displayName": "Tim Sherratt"
+            "handle": "sirile.bsky.social"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 1,
-          "createdAt": "2026-05-05T02:27:08.000Z",
-          "createdUtc": 1777948028,
-          "ageHours": 1.22,
+          "createdAt": "2026-05-05T06:59:11.904562+00:00",
+          "createdUtc": 1777964351,
+          "ageHours": 0.5,
           "trendingScore": 0.5,
           "content_tags": [
-            "has-github-repo"
+            "has-github-repo",
+            "has-md-file",
+            "has-agent"
           ],
-          "value_score": 1,
+          "value_score": 3,
           "linkedRepos": [
             {
-              "fullName": "TecharoHQ/anubis",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "russellromney--honker": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3ml32bk2xgg2z",
-        "cid": "bafyreidtyljyrbdxgvwjsgnfrhp6kqln6ywpp5gxq3ue54bggiw43fw2ym",
-        "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3ml32bk2xgg2z",
-        "text": "GitHub - russellromney/honker: SQLite extension + bindings for Postgres NOTIFY/LISTEN semantics with durable queues, streams, pub/sub, and scheduler https://github.com/russellromney/honker",
-        "author": {
-          "handle": "tech-trending.bsky.social",
-          "displayName": "Tech Trending"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-05T01:35:13.524Z",
-        "hoursSincePosted": 2.09
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:2ow4s6cci5ylwwdedvx3qtkx/app.bsky.feed.post/3ml32bk2xgg2z",
-          "cid": "bafyreidtyljyrbdxgvwjsgnfrhp6kqln6ywpp5gxq3ue54bggiw43fw2ym",
-          "bskyUrl": "https://bsky.app/profile/tech-trending.bsky.social/post/3ml32bk2xgg2z",
-          "text": "GitHub - russellromney/honker: SQLite extension + bindings for Postgres NOTIFY/LISTEN semantics with durable queues, streams, pub/sub, and scheduler https://github.com/russellromney/honker",
-          "author": {
-            "handle": "tech-trending.bsky.social",
-            "displayName": "Tech Trending"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-05T01:35:13.524Z",
-          "createdUtc": 1777944913,
-          "ageHours": 2.09,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "russellromney/honker",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "jdx--mise": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3ml2ykz4cm32k",
-        "cid": "bafyreiavsznrlupzwuiis7kn3kgp5ve4eak2ccpju6gvizxh4sgx26yxj4",
-        "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3ml2ykz4cm32k",
-        "text": "見てる: \"fix(pipx): honor install_before for uv and pipx installs by risu729 · Pull Request #9190 · jdx/mise\" https://github.com/jdx/mise/pull/9190",
-        "author": {
-          "handle": "azu.bsky.social",
-          "displayName": "azu"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-05T01:04:43.029Z",
-        "hoursSincePosted": 2.59
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3ml2ykz4cm32k",
-          "cid": "bafyreiavsznrlupzwuiis7kn3kgp5ve4eak2ccpju6gvizxh4sgx26yxj4",
-          "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3ml2ykz4cm32k",
-          "text": "見てる: \"fix(pipx): honor install_before for uv and pipx installs by risu729 · Pull Request #9190 · jdx/mise\" https://github.com/jdx/mise/pull/9190",
-          "author": {
-            "handle": "azu.bsky.social",
-            "displayName": "azu"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-05T01:04:43.029Z",
-          "createdUtc": 1777943083,
-          "ageHours": 2.59,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "jdx/mise",
+              "fullName": "ruvnet/ruflo",
               "matchType": "url",
               "confidence": 1
             }
@@ -760,44 +392,41 @@
     },
     "openai--symphony": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:f45e3rettq7owufxvubwdptp/app.bsky.feed.post/3ml2xg3cypk2f",
-        "cid": "bafyreigw275dlmdybqt7ybcdbmpeiqz5h47jrpzjuhvwagtl6t4ptwx5pe",
-        "bskyUrl": "https://bsky.app/profile/ezba.bsky.social/post/3ml2xg3cypk2f",
-        "text": "What about? github.com/openai/symph... Personally I still do manual prompting.",
+        "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3ml3lv45ieo22",
+        "cid": "bafyreia526p3l22acrviotgatkprpwtjuzdn3l2wit5njx6ydp3pn4p5ba",
+        "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3ml3lv45ieo22",
+        "text": "OpenAI's Symphony transforms project work into autonomous implementation runs, allowing teams to oversee tasks without micromanaging coding agents. It effectively integrates work management with AI for improved efficiency in software development. https://github.com/openai/symphony",
         "author": {
-          "handle": "ezba.bsky.social",
-          "displayName": "Ezba"
+          "handle": "ai-linkstream.bsky.social"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-05T00:44:04.622Z",
-        "hoursSincePosted": 2.94
+        "createdAt": "2026-05-05T06:50:23.628736+00:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:f45e3rettq7owufxvubwdptp/app.bsky.feed.post/3ml2xg3cypk2f",
-          "cid": "bafyreigw275dlmdybqt7ybcdbmpeiqz5h47jrpzjuhvwagtl6t4ptwx5pe",
-          "bskyUrl": "https://bsky.app/profile/ezba.bsky.social/post/3ml2xg3cypk2f",
-          "text": "What about? github.com/openai/symph... Personally I still do manual prompting.",
+          "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3ml3lv45ieo22",
+          "cid": "bafyreia526p3l22acrviotgatkprpwtjuzdn3l2wit5njx6ydp3pn4p5ba",
+          "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3ml3lv45ieo22",
+          "text": "OpenAI's Symphony transforms project work into autonomous implementation runs, allowing teams to oversee tasks without micromanaging coding agents. It effectively integrates work management with AI for improved efficiency in software development. https://github.com/openai/symphony",
           "author": {
-            "handle": "ezba.bsky.social",
-            "displayName": "Ezba"
+            "handle": "ai-linkstream.bsky.social"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-05T00:44:04.622Z",
-          "createdUtc": 1777941844,
-          "ageHours": 2.94,
-          "trendingScore": 0,
+          "createdAt": "2026-05-05T06:50:23.628736+00:00",
+          "createdUtc": 1777963823,
+          "ageHours": 0.5,
+          "trendingScore": 1,
           "content_tags": [
-            "has-github-repo",
-            "is-question"
+            "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
@@ -810,40 +439,120 @@
         }
       ]
     },
-    "browserbase--skills": {
+    "anthropics--claude-code": {
+      "count7d": 2,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3ml3jre75vc2i",
+        "cid": "bafyreifh54w46jfhr6qndjzsknrbghhkalss2rqzl4qtw6trumyyicdwqe",
+        "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3ml3jre75vc2i",
+        "text": "Claude Code 2.1.128 release change log github.com/anthropics/c...",
+        "author": {
+          "handle": "georgesl.bsky.social",
+          "displayName": "George"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-05T06:12:30.386Z",
+        "hoursSincePosted": 0.97
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3ml3jre75vc2i",
+          "cid": "bafyreifh54w46jfhr6qndjzsknrbghhkalss2rqzl4qtw6trumyyicdwqe",
+          "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3ml3jre75vc2i",
+          "text": "Claude Code 2.1.128 release change log github.com/anthropics/c...",
+          "author": {
+            "handle": "georgesl.bsky.social",
+            "displayName": "George"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-05T06:12:30.386Z",
+          "createdUtc": 1777961550,
+          "ageHours": 0.97,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jufrod2d6txss5l7zxyx3wgi/app.bsky.feed.post/3ml3djf6rys2y",
+          "cid": "bafyreie4gjrai5yd7qfe6forubmfttyxsrcw2pjxzunudg3qottjj5mmka",
+          "bskyUrl": "https://bsky.app/profile/doyourrubesty.bsky.social/post/3ml3djf6rys2y",
+          "text": "ほんまにありがとうなんだ㌔、乞食している奴おって草 github.com/anthropics/c...",
+          "author": {
+            "handle": "doyourrubesty.bsky.social",
+            "displayName": "ミルクせんべい"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-05T04:20:40.535Z",
+          "createdUtc": 1777954840,
+          "ageHours": 2.84,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ggml-org--llama-cpp": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3ml2vjhgire2a",
-        "cid": "bafyreichasrhgp4yslxzm3xzxxg2j7tqz2hytkbnvnwcposarmgwiy4egi",
-        "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3ml2vjhgire2a",
-        "text": "📡 Builder signal of the day Claude Agent SDK with a web browsing tool — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/browserbase/skills",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3ml3jnvvwc62h",
+        "cid": "bafyreifv672jgyfkzr7o4wu7nw4fsurx5cfgvud4bsh6pcfiws5ryoebny",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3ml3jnvvwc62h",
+        "text": "🟠 llama.cpp b9026 lands a 4x faster KV rotation path on Apple Silicon llama.cpp b9026 replaces Hadamard KV-cache rotation's old O(N^2) matrix multiply with an O(N log N) Fast Walsh-Hadamard Transform. https://github.com/ggml-org/llama.cpp/releases/tag/b9026 #AI #AgentWyre",
         "author": {
-          "handle": "rickqian.bsky.social"
+          "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-05T00:10:10.118134+00:00",
-        "hoursSincePosted": 3.5
+        "createdAt": "2026-05-05T06:10:33.898816+00:00",
+        "hoursSincePosted": 1.01
       },
       "posts": [
         {
-          "uri": "at://did:plc:y4aj7oojk4hq64nr3lbxbz6q/app.bsky.feed.post/3ml2vjhgire2a",
-          "cid": "bafyreichasrhgp4yslxzm3xzxxg2j7tqz2hytkbnvnwcposarmgwiy4egi",
-          "bskyUrl": "https://bsky.app/profile/rickqian.bsky.social/post/3ml2vjhgire2a",
-          "text": "📡 Builder signal of the day Claude Agent SDK with a web browsing tool — via github-trending Daily channel → https://t.me/inforadar_signals Project radar → https://t.me/inforadar_agentbot https://github.com/browserbase/skills",
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3ml3jnvvwc62h",
+          "cid": "bafyreifv672jgyfkzr7o4wu7nw4fsurx5cfgvud4bsh6pcfiws5ryoebny",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3ml3jnvvwc62h",
+          "text": "🟠 llama.cpp b9026 lands a 4x faster KV rotation path on Apple Silicon llama.cpp b9026 replaces Hadamard KV-cache rotation's old O(N^2) matrix multiply with an O(N log N) Fast Walsh-Hadamard Transform. https://github.com/ggml-org/llama.cpp/releases/tag/b9026 #AI #AgentWyre",
           "author": {
-            "handle": "rickqian.bsky.social"
+            "handle": "agentwyre.ai"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-05T00:10:10.118134+00:00",
-          "createdUtc": 1777939810,
-          "ageHours": 3.5,
+          "createdAt": "2026-05-05T06:10:33.898816+00:00",
+          "createdUtc": 1777961433,
+          "ageHours": 1.01,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -851,7 +560,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "browserbase/skills",
+              "fullName": "ggml-org/llama.cpp",
               "matchType": "url",
               "confidence": 1
             }
@@ -859,50 +568,50 @@
         }
       ]
     },
-    "ruvnet--ruvector": {
+    "googleworkspace--cli": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3ml2trbakmu2d",
-        "cid": "bafyreiadkg64mozalxft4rxe4pvbrlk4e6n663rkwme2rxylexbugh344a",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3ml2trbakmu2d",
-        "text": "https://github.com/ruvnet/RuVector",
+        "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3ml3jnrs37b2r",
+        "cid": "bafyreigt3bjck7cve4wm7vvxcsp4gztmwhsb5y5agqrxvzlfjy3e35rona",
+        "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3ml3jnrs37b2r",
+        "text": "The Google Workspace CLI is a command-line tool for managing Google Drive, Gmail, and more, dynamically adapting to Google's Discovery Service. It simplifies interaction with Google Workspace APIs using AI agent skills and convenient authentication options. https://github.com/googleworkspace/cli",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "ai-linkstream.bsky.social"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-04T23:38:44Z",
-        "hoursSincePosted": 4.03
+        "createdAt": "2026-05-05T06:10:30.377690+00:00",
+        "hoursSincePosted": 1.01
       },
       "posts": [
         {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3ml2trbakmu2d",
-          "cid": "bafyreiadkg64mozalxft4rxe4pvbrlk4e6n663rkwme2rxylexbugh344a",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3ml2trbakmu2d",
-          "text": "https://github.com/ruvnet/RuVector",
+          "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3ml3jnrs37b2r",
+          "cid": "bafyreigt3bjck7cve4wm7vvxcsp4gztmwhsb5y5agqrxvzlfjy3e35rona",
+          "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3ml3jnrs37b2r",
+          "text": "The Google Workspace CLI is a command-line tool for managing Google Drive, Gmail, and more, dynamically adapting to Google's Discovery Service. It simplifies interaction with Google Workspace APIs using AI agent skills and convenient authentication options. https://github.com/googleworkspace/cli",
           "author": {
-            "handle": "tom-doerr.bsky.social",
-            "displayName": "Tom Dörr "
+            "handle": "ai-linkstream.bsky.social"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-04T23:38:44Z",
-          "createdUtc": 1777937924,
-          "ageHours": 4.03,
+          "createdAt": "2026-05-05T06:10:30.377690+00:00",
+          "createdUtc": 1777961430,
+          "ageHours": 1.01,
           "trendingScore": 0,
           "content_tags": [
-            "has-github-repo"
+            "has-github-repo",
+            "has-skill",
+            "has-agent"
           ],
-          "value_score": 1,
+          "value_score": 3,
           "linkedRepos": [
             {
-              "fullName": "ruvnet/RuVector",
+              "fullName": "googleworkspace/cli",
               "matchType": "url",
               "confidence": 1
             }
@@ -910,292 +619,51 @@
         }
       ]
     },
-    "anomalyco--opencode": {
+    "docusealco--docuseal": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:srmltlrjqfr7mbfdejuxrbss/app.bsky.feed.post/3ml2s7zoiqk2g",
-        "cid": "bafyreibxiftuluaype2ifyzedlicliskle3cra5s34d6zrjzrzkuvdlif4",
-        "bskyUrl": "https://bsky.app/profile/jelloeater.bsky.social/post/3ml2s7zoiqk2g",
-        "text": "github.com/anomalyco/op... #opencode",
-        "author": {
-          "handle": "jelloeater.bsky.social",
-          "displayName": "Jelloeater"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-04T23:11:12.855Z",
-        "hoursSincePosted": 4.49
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:srmltlrjqfr7mbfdejuxrbss/app.bsky.feed.post/3ml2s7zoiqk2g",
-          "cid": "bafyreibxiftuluaype2ifyzedlicliskle3cra5s34d6zrjzrzkuvdlif4",
-          "bskyUrl": "https://bsky.app/profile/jelloeater.bsky.social/post/3ml2s7zoiqk2g",
-          "text": "github.com/anomalyco/op... #opencode",
-          "author": {
-            "handle": "jelloeater.bsky.social",
-            "displayName": "Jelloeater"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-04T23:11:12.855Z",
-          "createdUtc": 1777936272,
-          "ageHours": 4.49,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "anomalyco/opencode",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "warpdotdev--warp": {
-      "count7d": 6,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 5,
-      "topPost": {
-        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maiozkc2n",
-        "cid": "bafyreiac7vqug23xjparf4b3fhqzxkf7a6bu2hdqzrda24czyokult5gbi",
-        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maiozkc2n",
-        "text": "If you’ve hit a Windows or WSL bug in Warp, come contribute. Every fix makes the terminal better for the next developer. github.com/warpdotdev/... ⭐",
-        "author": {
-          "handle": "warp.dev",
-          "displayName": "Warp"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-04T21:24:06.091985Z",
-        "hoursSincePosted": 6.27
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maiozkc2n",
-          "cid": "bafyreiac7vqug23xjparf4b3fhqzxkf7a6bu2hdqzrda24czyokult5gbi",
-          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maiozkc2n",
-          "text": "If you’ve hit a Windows or WSL bug in Warp, come contribute. Every fix makes the terminal better for the next developer. github.com/warpdotdev/... ⭐",
-          "author": {
-            "handle": "warp.dev",
-            "displayName": "Warp"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-04T21:24:06.091985Z",
-          "createdUtc": 1777929846,
-          "ageHours": 6.27,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "warpdotdev/warp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maft73v2b",
-          "cid": "bafyreifassfwljjix336hmqfgos7sr2zbd7wmiznq3mqxmji5zohmpwvam",
-          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maft73v2b",
-          "text": "Andy also fixed Quake Mode on Windows. Before, Quake Mode could fail when another app had focus. Now the window sizes correctly and receives focus when summoned. github.com/warpdotdev/...",
-          "author": {
-            "handle": "warp.dev",
-            "displayName": "Warp"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-04T21:24:03.089997Z",
-          "createdUtc": 1777929843,
-          "ageHours": 6.27,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "warpdotdev/warp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maclawf2b",
-          "cid": "bafyreib5zcs7u6cgaiimfoyn6virhkovnkas7ws2p7gwy3y2xmbmk6uinq",
-          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maclawf2b",
-          "text": "On the maintainer side, Andy fixed symlink traversal in the Windows installer. A few people had reported this one, and Andy got it to the finish line. github.com/warpdotdev/...",
-          "author": {
-            "handle": "warp.dev",
-            "displayName": "Warp"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-04T21:23:59.668003Z",
-          "createdUtc": 1777929839,
-          "ageHours": 6.27,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "warpdotdev/warp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2mabjwdb2u",
-          "cid": "bafyreiggtyptioj36h2maw4kk6f7y2u4oprr6soxsh53ycmknrfzlznc4a",
-          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2mabjwdb2u",
-          "text": "thien-tn is helping fix Vietnamese input on Windows for users typing with Unikey/EVKey. The PR preserves composed characters from non-IME input methods, and we’re working through the last review/CI details now. github.com/warpdotdev/...",
-          "author": {
-            "handle": "warp.dev",
-            "displayName": "Warp"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-04T21:23:58.591349Z",
-          "createdUtc": 1777929838,
-          "ageHours": 6.27,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "warpdotdev/warp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2maaf7n22b",
-          "cid": "bafyreidirxyyy222xuprrqi3op5y4xgqeegisbbuf6quu2hgpi7f3o74ay",
-          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2maaf7n22b",
-          "text": "kranthik10 fixed /open-file inside WSL. The issue came down to WSL path handling: Unix separators were getting mangled when paths were joined. Small fix, very real quality-of-life improvement. github.com/warpdotdev/...",
-          "author": {
-            "handle": "warp.dev",
-            "displayName": "Warp"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-04T21:23:57.386918Z",
-          "createdUtc": 1777929837,
-          "ageHours": 6.27,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "warpdotdev/warp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3ml2ma75uqb2u",
-          "cid": "bafyreidorbrraceofvpjreqfzk62slzgw7ype6lkkgr37i74q3gcri63je",
-          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3ml2ma75uqb2u",
-          "text": "Landon (landkirk on GitHub) fixed chord shortcuts on Windows for non-Latin keyboard layouts. If you use Cyrillic or another non-Latin layout, keyboard shortcuts should now behave the way you expect. github.com/warpdotdev/...",
-          "author": {
-            "handle": "warp.dev",
-            "displayName": "Warp"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-04T21:23:56.097845Z",
-          "createdUtc": 1777929836,
-          "ageHours": 6.27,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "warpdotdev/warp",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "blader--humanizer": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
+      "likesSum7d": 32,
+      "repostsSum7d": 8,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:mfyvoiacugzkeg6llf4qzndj/app.bsky.feed.post/3ml2lxa2jus2i",
-        "cid": "bafyreidyohdp645m5xlu7aip6wpgm3rrdipkdcatlluwmytkqxqi5sox3u",
-        "bskyUrl": "https://bsky.app/profile/jelmore.crystalwind.org/post/3ml2lxa2jus2i",
-        "text": "Someone took the same article and flipped the premise, creating \"Humanizer\": a tool you can use with Claude Code or OpenCode to make its generated text seem more human github.com/blader/human... #writethedocs",
+        "uri": "at://did:plc:4q4wdaknunskbt47bzsi2qbv/app.bsky.feed.post/3ml3inlrdhc22",
+        "cid": "bafyreicc7f3asjnigfkvbraodl66qxxy2nmeg377oeidp7dinuqs54djze",
+        "bskyUrl": "https://bsky.app/profile/ponceto91.bsky.social/post/3ml3inlrdhc22",
+        "text": "DocuSeal est une alternative à DocuSign, open source sous licence AGPL-3.0, permettant de créer, remplir et signer des documents en ligne avec un éditeur WYSIWYG, les signatures électroniques, le multi-signataires, API, etc ... ⬇️ github.com/docusealco/d...",
         "author": {
-          "handle": "jelmore.crystalwind.org",
-          "displayName": "Jay Elmore"
+          "handle": "ponceto91.bsky.social",
+          "displayName": "Olivier Poncet 🦝"
         },
-        "likeCount": 0,
-        "repostCount": 0,
+        "likeCount": 32,
+        "repostCount": 8,
         "replyCount": 1,
-        "createdAt": "2026-05-04T21:18:55.112Z",
-        "hoursSincePosted": 6.36
+        "createdAt": "2026-05-05T05:52:30.361Z",
+        "hoursSincePosted": 1.31
       },
       "posts": [
         {
-          "uri": "at://did:plc:mfyvoiacugzkeg6llf4qzndj/app.bsky.feed.post/3ml2lxa2jus2i",
-          "cid": "bafyreidyohdp645m5xlu7aip6wpgm3rrdipkdcatlluwmytkqxqi5sox3u",
-          "bskyUrl": "https://bsky.app/profile/jelmore.crystalwind.org/post/3ml2lxa2jus2i",
-          "text": "Someone took the same article and flipped the premise, creating \"Humanizer\": a tool you can use with Claude Code or OpenCode to make its generated text seem more human github.com/blader/human... #writethedocs",
+          "uri": "at://did:plc:4q4wdaknunskbt47bzsi2qbv/app.bsky.feed.post/3ml3inlrdhc22",
+          "cid": "bafyreicc7f3asjnigfkvbraodl66qxxy2nmeg377oeidp7dinuqs54djze",
+          "bskyUrl": "https://bsky.app/profile/ponceto91.bsky.social/post/3ml3inlrdhc22",
+          "text": "DocuSeal est une alternative à DocuSign, open source sous licence AGPL-3.0, permettant de créer, remplir et signer des documents en ligne avec un éditeur WYSIWYG, les signatures électroniques, le multi-signataires, API, etc ... ⬇️ github.com/docusealco/d...",
           "author": {
-            "handle": "jelmore.crystalwind.org",
-            "displayName": "Jay Elmore"
+            "handle": "ponceto91.bsky.social",
+            "displayName": "Olivier Poncet 🦝"
           },
-          "likeCount": 0,
-          "repostCount": 0,
+          "likeCount": 32,
+          "repostCount": 8,
           "replyCount": 1,
-          "createdAt": "2026-05-04T21:18:55.112Z",
-          "createdUtc": 1777929535,
-          "ageHours": 6.36,
-          "trendingScore": 0.5,
+          "createdAt": "2026-05-05T05:52:30.361Z",
+          "createdUtc": 1777960350,
+          "ageHours": 1.31,
+          "trendingScore": 48.5,
           "content_tags": [
-            "has-github-repo"
+            "has-github-repo",
+            "is-announcement"
           ],
-          "value_score": 1,
+          "value_score": 2,
           "linkedRepos": [
             {
-              "fullName": "blader/humanizer",
+              "fullName": "docusealco/docuseal",
               "matchType": "url",
               "confidence": 1
             }
@@ -1206,47 +674,32 @@
   },
   "leaderboard": [
     {
-      "fullName": "jdx/mise",
+      "fullName": "docusealco/docuseal",
       "count7d": 1,
+      "likesSum7d": 32
+    },
+    {
+      "fullName": "anthropics/claude-code",
+      "count7d": 2,
       "likesSum7d": 1
-    },
-    {
-      "fullName": "warpdotdev/warp",
-      "count7d": 6,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "anomalyco/opencode",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "blader/humanizer",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "browserbase/skills",
-      "count7d": 1,
-      "likesSum7d": 0
     },
     {
       "fullName": "openai/symphony",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 1
     },
     {
-      "fullName": "russellromney/honker",
+      "fullName": "ggml-org/llama.cpp",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "ruvnet/RuVector",
+      "fullName": "googleworkspace/cli",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "TecharoHQ/anubis",
+      "fullName": "ruvnet/ruflo",
       "count7d": 1,
       "likesSum7d": 0
     }

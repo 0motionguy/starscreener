@@ -729,7 +729,7 @@ function EmptyTrackedState({
           letterSpacing: "0.08em",
         }}
       >
-        Start tracking repos ->
+        Start tracking repos {"->"}
       </Link>
       <div
         style={{

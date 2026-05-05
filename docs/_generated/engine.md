@@ -5,7 +5,7 @@ verified-by: scripts/derive-engine-inventory.mjs
 reason: auto-generated engine inventory; tracked per ADR 0005
 ---
 
-# Engine inventory - auto-generated 2026-05-05T06:38:01.765Z
+# Engine inventory - auto-generated 2026-05-05T07:12:16.824Z
 
 ## Workflows (88)
 

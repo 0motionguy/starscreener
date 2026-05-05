@@ -365,8 +365,12 @@ test("redactToken masks the secret in the middle", () => {
   assert.ok(!r.includes("1234567890"), "middle must be masked");
 });
 
-test("redactToken fully masks short tokens", () => {
-  assert.equal(redactToken("short"), "***");
+test("redactToken always returns first4+last4 form", () => {
+  assert.equal(redactToken("short"), "shor****hort");
+  assert.equal(redactToken("abc"), "abc****abc");
+  assert.equal(redactToken("abcd"), "abcd****abcd");
+  assert.equal(redactToken("12345678"), "1234****5678");
+  assert.equal(redactToken(""), "missing");
 });
 
 // ---------------------------------------------------------------------------

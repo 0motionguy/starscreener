@@ -1,47 +1,32 @@
-// TrendingRepo — /mindshare
-//
-// Cross-source attention map ("mindshare"). Each bubble is one repo; size
-// = crossSignalScore (sum of GitHub + Reddit + HN + Bluesky + dev.to firing
-// components, range 0-5). The bubble's circumference is split into 5 arc
-// segments — ONE PER CHANNEL — sized PROPORTIONALLY to that channel's share
-// of 24h mention volume. Lit (bright + thick) when the channel is firing
-// in the cross-signal model; dim + thin when not but still proportionally
-// sized so the share reads at a glance.
-//
-// Reads as: "who is getting talked about, and where the chatter is coming
-// from" — the canonical mindshare visualisation.
-//
-// Hover → per-channel breakdown tooltip. Click → /repo/{owner}/{name}.
-
 import type { Metadata } from "next";
 
-import { getDerivedRepos } from "@/lib/derived-repos";
-import { packBubbles, type PackInput } from "@/lib/bubble-pack";
-import {
-  SITE_NAME,
-  absoluteUrl,
-  OG_COLORS,
-} from "@/lib/seo";
 import { ShareBar } from "@/components/share/ShareBar";
-import { MindShareCanvas } from "@/components/mindshare/MindShareCanvas";
 import {
-  CHANNELS,
   CHANNEL_COLORS,
   CHANNEL_LABELS,
-  type BubbleRow,
+  CHANNELS,
   type Channel,
 } from "@/components/mindshare/channels";
+import {
+  MindshareTreemap,
+  type MindshareTreemapRow,
+  type MindshareWindow,
+} from "@/components/mindshare/MindshareTreemap";
+import { getDerivedRepos } from "@/lib/derived-repos";
+import { SITE_NAME, absoluteUrl } from "@/lib/seo";
 import type { Repo } from "@/lib/types";
 
-// 30-min ISR — same cadence as homepage; underlying derived-repos changes
-// only when the cron commits fresh data, so a tighter cache wastes bandwidth.
 export const revalidate = 1800;
 
-const TITLE = `MindShare — ${SITE_NAME}`;
+const TITLE = `MindShare - ${SITE_NAME}`;
 const DESCRIPTION =
-  "Who's getting talked about, and where. Cross-source attention map across GitHub, Reddit, Hacker News, Bluesky, and dev.to.";
-
+  "Kaito-style AI repo mindshare treemap with period tabs, filters, and top gainers/losers.";
 const OG_IMAGE = absoluteUrl("/api/og/mindshare");
+const MAP_LIMIT = 140;
+
+const AI_CATEGORY_IDS = new Set<string>(["ai-ml", "ai-agents", "mcp", "local-llm", "ml-frameworks", "speech-ai"]);
+
+const AI_TOPIC_TOKENS = ["ai", "ml", "llm", "agent", "gpt", "rag", "mcp", "model"];
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -58,7 +43,7 @@ export const metadata: Metadata = {
         url: OG_IMAGE,
         width: 1200,
         height: 675,
-        alt: "TrendingRepo MindShare — cross-source attention map",
+        alt: "TrendingRepo mindshare treemap",
       },
     ],
   },
@@ -70,149 +55,160 @@ export const metadata: Metadata = {
   },
 };
 
-const MAP_WIDTH = 1200;
-const MAP_HEIGHT = 600;
-const MIN_RADIUS = 20;
-const MAX_RADIUS = 80;
-const PACK_LIMIT = 60;
-
-function selectMindShareRepos(repos: Repo[]): Repo[] {
-  // Need at least 2 channels firing to count as cross-source attention —
-  // a single channel is just that channel's noise, not mindshare.
-  const eligible = repos.filter(
-    (r) =>
-      typeof r.crossSignalScore === "number" &&
-      typeof r.channelsFiring === "number" &&
-      r.channelsFiring >= 2 &&
-      r.channelStatus,
-  );
-  eligible.sort(
-    (a, b) => (b.crossSignalScore ?? 0) - (a.crossSignalScore ?? 0),
-  );
-  return eligible.slice(0, PACK_LIMIT);
+function isAiRepo(repo: Repo): boolean {
+  if (AI_CATEGORY_IDS.has(repo.categoryId)) return true;
+  const topicBlob = (repo.topics ?? []).join(" ").toLowerCase();
+  return AI_TOPIC_TOKENS.some((token) => topicBlob.includes(token));
 }
 
-function buildBubbleRows(repos: Repo[]): BubbleRow[] {
-  const inputs: PackInput[] = repos.map((r) => ({
-    id: r.fullName,
-    // Pack weight is non-linear in score — squaring spreads the top-of-list
-    // visually so a 4.5 score reads ~2.5× a 2.0 score, instead of a flat
-    // proportional pack where a 4.5 vs 2.0 is barely noticeable on screen.
-    value: Math.max(0.1, (r.crossSignalScore ?? 0)) ** 2,
-  }));
-  const placed = packBubbles(inputs, {
-    width: MAP_WIDTH,
-    height: MAP_HEIGHT,
-    minRadius: MIN_RADIUS,
-    maxRadius: MAX_RADIUS,
-    padding: 4,
-    fillRatio: 0.7,
-    edgeMargin: 4,
+function selectMindshareRepos(repos: Repo[]): Repo[] {
+  const eligible = repos.filter(
+    (repo) =>
+      isAiRepo(repo) &&
+      typeof repo.crossSignalScore === "number" &&
+      typeof repo.channelsFiring === "number" &&
+      repo.channelsFiring >= 1,
+  );
+
+  eligible.sort((a, b) => {
+    const scoreA = (a.crossSignalScore ?? 0) + Math.log1p(a.mentionCount24h ?? 0) + Math.log1p(Math.max(0, a.starsDelta24h));
+    const scoreB = (b.crossSignalScore ?? 0) + Math.log1p(b.mentionCount24h ?? 0) + Math.log1p(Math.max(0, b.starsDelta24h));
+    return scoreB - scoreA;
   });
-  const byId = new Map(placed.map((p) => [p.id, p]));
-  const rows: BubbleRow[] = [];
-  for (const r of repos) {
-    const pack = byId.get(r.fullName);
-    if (!pack) continue;
-    const status = r.channelStatus ?? {
-      github: false,
-      reddit: false,
-      hn: false,
-      bluesky: false,
-      devto: false,
-      twitter: false,
-    };
-    // Map channelStatus -> our 5-channel display vocabulary (Twitter is in
-    // the score but not in the 5-arc display per the page header copy).
-    const firing: Record<Channel, boolean> = {
-      github: status.github,
-      reddit: status.reddit,
-      hn: status.hn,
-      bluesky: status.bluesky,
-      devto: status.devto,
-    };
-    // Per-channel 24h mention counts for proportional arc sizing. Maps
-    // mentions.perSource (which uses "hackernews") onto our display key
-    // ("hn") so the canvas math matches the legend labels.
-    const ps = r.mentions?.perSource;
+
+  return eligible.slice(0, MAP_LIMIT);
+}
+
+function dominantChannel(shares: Record<Channel, number>): Channel {
+  let winner: Channel = "github";
+  let winnerValue = -1;
+
+  for (const channel of CHANNELS) {
+    const value = shares[channel];
+    if (value > winnerValue) {
+      winner = channel;
+      winnerValue = value;
+    }
+  }
+
+  return winner;
+}
+
+function sparklineDelta(values: number[], days: number, fallback = 0): number {
+  if (values.length <= days) return fallback;
+  const last = values[values.length - 1] ?? 0;
+  const first = values[values.length - 1 - days] ?? last;
+  return Math.round(last - first);
+}
+
+function periodDeltas(repo: Repo): Record<MindshareWindow, number> {
+  const spark = Array.isArray(repo.sparklineData) ? repo.sparklineData : [];
+  const d24 = repo.starsDelta24h ?? sparklineDelta(spark, 1, 0);
+  const d48 = sparklineDelta(spark, 2, d24 * 2);
+  const d7 = repo.starsDelta7d ?? sparklineDelta(spark, 7, d24 * 7);
+  const d30 = repo.starsDelta30d ?? sparklineDelta(spark, 30, d7 * 4);
+
+  return {
+    "24h": d24,
+    "48h": d48,
+    "7d": d7,
+    "30d": d30,
+    "3m": Math.round(d30 * 3),
+    "6m": Math.round(d30 * 6),
+    "12m": Math.round(d30 * 12),
+  };
+}
+
+function periodMentions(repo: Repo): Record<MindshareWindow, number> {
+  const m24 = repo.mentionCount24h ?? 0;
+  const m7 = repo.mentions?.total7d ?? m24 * 7;
+  return {
+    "24h": m24,
+    "48h": m24 * 2,
+    "7d": m7,
+    "30d": m7 * 4,
+    "3m": m7 * 12,
+    "6m": m7 * 24,
+    "12m": m7 * 48,
+  };
+}
+
+function ecosystemLabel(repo: Repo): string {
+  const t = (repo.topics ?? []).map((topic) => topic.toLowerCase());
+  if (t.some((topic) => topic.includes("python"))) return "python";
+  if (t.some((topic) => topic.includes("typescript") || topic.includes("javascript"))) return "javascript";
+  if (t.some((topic) => topic.includes("rust"))) return "rust";
+  if (t.some((topic) => topic.includes("go"))) return "go";
+  return (repo.language ?? "other").toLowerCase();
+}
+
+function toTreemapRows(repos: Repo[]): MindshareTreemapRow[] {
+  return repos.map((repo) => {
+    const perSource = repo.mentions?.perSource;
     const shares: Record<Channel, number> = {
-      github: ps?.github?.count24h ?? 0,
-      reddit: ps?.reddit?.count24h ?? 0,
-      hn: ps?.hackernews?.count24h ?? 0,
-      bluesky: ps?.bluesky?.count24h ?? 0,
-      devto: ps?.devto?.count24h ?? 0,
+      github: perSource?.github?.count24h ?? 0,
+      reddit: perSource?.reddit?.count24h ?? 0,
+      hn: perSource?.hackernews?.count24h ?? 0,
+      bluesky: perSource?.bluesky?.count24h ?? 0,
+      devto: perSource?.devto?.count24h ?? 0,
     };
-    const totalShare = CHANNELS.reduce((acc, c) => acc + shares[c], 0);
-    const [owner, name] = r.fullName.split("/");
-    rows.push({
-      id: r.fullName,
-      fullName: r.fullName,
-      shortName: name ?? r.fullName,
+    const [owner, name] = repo.fullName.split("/");
+
+    return {
+      id: repo.fullName,
+      fullName: repo.fullName,
+      shortName: name ?? repo.fullName,
       owner: owner ?? "",
       name: name ?? "",
-      score: r.crossSignalScore ?? 0,
-      firing,
+      score: repo.crossSignalScore ?? 0,
+      starsDelta24h: repo.starsDelta24h ?? 0,
+      mentionCount24h: repo.mentionCount24h ?? 0,
+      channelsFiring: repo.channelsFiring ?? 0,
+      dominantChannel: dominantChannel(shares),
       shares,
-      totalShare,
-      pack,
-    });
-  }
-  return rows;
+      categoryId: repo.categoryId ?? "other",
+      ecosystem: ecosystemLabel(repo),
+      sparkline: repo.sparklineData ?? [],
+      periodDelta: periodDeltas(repo),
+      periodMentions: periodMentions(repo),
+    };
+  });
 }
 
 export default function MindSharePage() {
   const repos = getDerivedRepos();
-  const selected = selectMindShareRepos(repos);
-  const rows = buildBubbleRows(selected);
+  const selected = selectMindshareRepos(repos);
+  const rows = toTreemapRows(selected);
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+    <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
       <header className="mb-4">
         <h1 className="text-[10px] font-mono uppercase tracking-[0.18em] text-text-tertiary">
-          {"// MINDSHARE · CROSS-SOURCE ATTENTION"}
+          {"// MINDSHARE · AI REPO TREEMAP"}
         </h1>
-        <p className="mt-2 text-sm text-text-secondary max-w-3xl">
-          Who&rsquo;s getting talked about, and where. Bubble size = total
-          channels firing × strength. Each bubble splits into five arcs sized
-          by that channel&rsquo;s share of 24h mentions: GitHub · Reddit ·
-          Hacker News · Bluesky · dev.to. Lit arcs = active chatter on that
-          channel right now. Hover for breakdown · click to open repo.
+        <p className="mt-2 max-w-3xl text-sm text-text-secondary">
+          Kaito-style market map for tracked AI repositories. Area follows cross-source mindshare,
+          color follows selected-window delta, and side rails surface top gainers and losers.
         </p>
       </header>
 
       <ChannelLegend />
 
       <div className="rounded-card border border-border-primary bg-bg-secondary p-2 sm:p-3">
-        <div className="overflow-hidden">
-          <MindShareCanvas
-            rows={rows}
-            width={MAP_WIDTH}
-            height={MAP_HEIGHT}
-            bgColor={OG_COLORS.bg}
-            bgTertiary={OG_COLORS.bgTertiary}
-            borderColor={OG_COLORS.border}
-            textPrimaryColor={OG_COLORS.textPrimary}
-            textTertiaryColor={OG_COLORS.textTertiary}
-          />
-        </div>
+        <MindshareTreemap rows={rows} />
       </div>
 
       {rows.length === 0 && (
-        <div className="mt-6 rounded-card border border-border-primary bg-bg-secondary px-4 py-6 text-sm text-text-tertiary text-center font-mono">
-          {"// no repos firing on 2+ channels right now — check back after the next scrape"}
+        <div className="mt-6 rounded-card border border-border-primary bg-bg-secondary px-4 py-6 text-center font-mono text-sm text-text-tertiary">
+          {"// no AI repos with active signal right now - check back after the next scrape"}
         </div>
       )}
 
       {rows.length > 0 && (
         <div className="mt-4">
-          {/* ShareBar wired with the top repo IDs so Copy Link / Share-on-X
-              carry the exact set captured in the bubble field. CSV omitted
-              for the v1 — there's no per-day series here, just current
-              snapshot scores; the markdown / iframe / PNG / SVG embeds
-              are the meaningful share surfaces. */}
           <ShareBar
             state={{
-              repos: rows.slice(0, 4).map((r) => r.fullName),
+              repos: rows.slice(0, 4).map((row) => row.fullName),
               mode: "date",
               scale: "lin",
               legend: "tr",
@@ -230,14 +226,14 @@ export default function MindSharePage() {
 function ChannelLegend() {
   return (
     <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] font-mono uppercase tracking-[0.14em] text-text-tertiary">
-      {CHANNELS.map((c) => (
-        <span key={c} className="inline-flex items-center gap-1.5">
+      {CHANNELS.map((channel) => (
+        <span key={channel} className="inline-flex items-center gap-1.5">
           <span
             aria-hidden
             className="inline-block h-2 w-2 rounded-full"
-            style={{ backgroundColor: CHANNEL_COLORS[c] }}
+            style={{ backgroundColor: CHANNEL_COLORS[channel] }}
           />
-          <span>{CHANNEL_LABELS[c]}</span>
+          <span>{CHANNEL_LABELS[channel]}</span>
         </span>
       ))}
     </div>

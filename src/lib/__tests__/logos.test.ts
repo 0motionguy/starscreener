@@ -4,6 +4,8 @@ import test from "node:test";
 import {
   huggingFaceLogoUrl,
   mcpEntityLogoUrl,
+  monogramTone,
+  monogramToneSeed,
   profileLogoUrl,
   repoDisplayLogoUrl,
   repoLogoUrl,
@@ -110,5 +112,21 @@ test("mcpEntityLogoUrl ignores invalid registry logo URLs", () => {
       64,
     ),
     "https://www.google.com/s2/favicons?domain=mcp.so&sz=64",
+  );
+});
+
+test("monogramToneSeed uses owner for canonical owner/name repo ids", () => {
+  assert.equal(monogramToneSeed("vercel/next.js"), "vercel");
+});
+
+test("monogramToneSeed preserves non-repo labels", () => {
+  assert.equal(monogramToneSeed("OpenAI"), "OpenAI");
+  assert.equal(monogramToneSeed("r/LocalLLaMA"), "r/LocalLLaMA");
+});
+
+test("repos with same owner get the same fallback monogram tone", () => {
+  assert.deepEqual(
+    monogramTone(monogramToneSeed("vercel/next.js")),
+    monogramTone(monogramToneSeed("vercel/turborepo")),
   );
 });

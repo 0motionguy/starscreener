@@ -13,12 +13,18 @@
 import { spawn } from "node:child_process";
 import { resolve } from "node:path";
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
 import {
   getRepoProfilesGeneratedAt,
   readRepoProfilesFileSync,
   refreshRepoProfilesFromStore,
 } from "@/lib/repo-profiles";
+import {
+  buildRepoEnrichmentChecklist,
+  summarizeRepoEnrichmentChecklists,
+} from "@/lib/repo-enrichment-checklist";
 
 export const runtime = "nodejs";
 
@@ -27,31 +33,14 @@ export const maxDuration = 300;
 
 type EnrichMode = "top" | "catchup" | "incremental";
 
-interface EnrichBody {
-  mode?: EnrichMode;
-  limit?: number;
-  maxScans?: number;
-  includeRepos?: string[];
-  scanIdOverrides?: Record<string, string>;
-  aisoBaseUrl?: string;
-}
-
-function normalizeMode(value: unknown): EnrichMode {
-  const raw = String(value ?? "incremental").trim().toLowerCase();
-  if (raw === "top" || raw === "catchup") return raw;
-  return "incremental";
-}
-
-function clampInt(
-  value: unknown,
-  fallback: number,
-  min: number,
-  max: number,
-): number {
-  const parsed = Number.parseInt(String(value ?? ""), 10);
-  if (!Number.isFinite(parsed)) return fallback;
-  return Math.max(min, Math.min(max, parsed));
-}
+const EnrichBodySchema = z.object({
+  mode: z.enum(["top", "catchup", "incremental"]).optional(),
+  limit: z.number().int().min(1).max(10_000).optional(),
+  maxScans: z.number().int().min(0).max(10_000).optional(),
+  includeRepos: z.array(z.string()).optional(),
+  scanIdOverrides: z.record(z.string(), z.string()).optional(),
+  aisoBaseUrl: z.string().optional(),
+});
 
 function stringifyList(values: unknown): string | null {
   if (!Array.isArray(values)) return null;
@@ -78,6 +67,7 @@ function stringifyScanOverrides(values: unknown): string | null {
 
 function summarizeProfiles() {
   const file = readRepoProfilesFileSync();
+  const checklists = file.profiles.map(buildRepoEnrichmentChecklist);
   const counts = {
     total: file.profiles.length,
     scanned: file.profiles.filter((profile) => profile.status === "scanned").length,
@@ -98,11 +88,13 @@ function summarizeProfiles() {
     status: profile.status,
     websiteUrl: profile.websiteUrl,
     lastProfiledAt: profile.lastProfiledAt,
+    enrichmentChecklist: buildRepoEnrichmentChecklist(profile),
   }));
   return {
     generatedAt: getRepoProfilesGeneratedAt(),
     selection: file.selection,
     counts,
+    enrichmentChecklistSummary: summarizeRepoEnrichmentChecklists(checklists),
     recent,
   };
 }
@@ -155,19 +147,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) return deny;
 
-  let body: EnrichBody = {};
-  try {
-    if (request.headers.get("content-type")?.includes("application/json")) {
-      const parsed = (await request.json()) as unknown;
-      if (parsed && typeof parsed === "object") body = parsed as EnrichBody;
-    }
-  } catch {
-    body = {};
-  }
+  const parsed = await parseBody(request, EnrichBodySchema, { allowEmpty: true });
+  if (!parsed.ok) return parsed.response;
+  const body = parsed.data;
 
-  const mode = normalizeMode(body.mode);
-  const limit = clampInt(body.limit, mode === "catchup" ? 500 : 50, 1, 10_000);
-  const maxScans = clampInt(body.maxScans, mode === "incremental" ? 10 : 25, 0, 10_000);
+  const mode: EnrichMode = body.mode ?? "incremental";
+  const limit = body.limit ?? (mode === "catchup" ? 500 : 50);
+  const maxScans = body.maxScans ?? (mode === "incremental" ? 10 : 25);
   const include = stringifyList(body.includeRepos);
   const scanOverrides = stringifyScanOverrides(body.scanIdOverrides);
   const aisoBaseUrl =

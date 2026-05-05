@@ -18,6 +18,11 @@
 
 import { readdir, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import {
+  budgetMsForSource,
+  DEFAULT_FALLBACK_BUDGET_MS,
+  REQUIRED_META_SOURCE_LIST,
+} from "./_freshness-budgets.mjs";
 
 const META_DIR = resolve(process.cwd(), "data/_meta");
 
@@ -25,38 +30,10 @@ const META_DIR = resolve(process.cwd(), "data/_meta");
 // source's collector cadence — typically 2x cadence so a single missed
 // run is a warning but two missed runs is a failure.
 const HOUR = 60 * 60 * 1000;
-const DEFAULT_BUDGETS_MS = {
-  // Twitter/Apify is the audit-I2 motivating case. Cron is hourly; 12h
-  // means the actor has been broken for half a day with no fallback.
-  twitter: 12 * HOUR,
-  hackernews: 6 * HOUR,
-  reddit: 6 * HOUR,
-  bluesky: 6 * HOUR,
-  devto: 24 * HOUR,
-  producthunt: 12 * HOUR,
-  arxiv: 24 * HOUR,
-  huggingface: 24 * HOUR,
-  "huggingface-datasets": 24 * HOUR,
-  "huggingface-spaces": 24 * HOUR,
-  npm: 24 * HOUR,
-  lobsters: 12 * HOUR,
-  trending: 6 * HOUR,
-  "funding-news": 24 * HOUR,
-};
-
-// Sources we REQUIRE a meta file for. Missing-but-required = failure
-// (this is the actual Twitter-Apify alarm hook: when the collector
-// stops writing, the meta file ages then disappears on a fresh deploy).
-const REQUIRED_SOURCES = new Set([
-  "hackernews",
-  "reddit",
-  "trending",
-]);
-
-// Default budget for any source not in DEFAULT_BUDGETS_MS. Generous so
+// Default budget for any source not in explicit budgets. Generous so
 // adding a new collector doesn't immediately fail the gate before its
 // cadence stabilizes.
-const FALLBACK_BUDGET_MS = 24 * HOUR;
+const FALLBACK_BUDGET_MS = DEFAULT_FALLBACK_BUDGET_MS;
 
 function formatAge(ms) {
   if (ms < 0) return "future?";
@@ -70,8 +47,9 @@ function budgetForSource(source, meta) {
   if (meta && typeof meta.freshnessBudgetMs === "number" && meta.freshnessBudgetMs > 0) {
     return { ms: meta.freshnessBudgetMs, origin: "override" };
   }
-  if (Object.prototype.hasOwnProperty.call(DEFAULT_BUDGETS_MS, source)) {
-    return { ms: DEFAULT_BUDGETS_MS[source], origin: "default" };
+  const defaultMs = budgetMsForSource(source);
+  if (defaultMs !== FALLBACK_BUDGET_MS) {
+    return { ms: defaultMs, origin: "default" };
   }
   return { ms: FALLBACK_BUDGET_MS, origin: "fallback" };
 }
@@ -150,7 +128,7 @@ async function main() {
   }
 
   // Required sources whose meta file is entirely absent.
-  for (const req of REQUIRED_SOURCES) {
+  for (const req of REQUIRED_META_SOURCE_LIST) {
     if (!seen.has(req)) {
       console.log(`${pad(req, 24)}  ${pad("MISS", 6)}  -         -         no data/_meta/${req}.json`);
       violations.push({ source: req, kind: "missing_required" });

@@ -1,0 +1,198 @@
+name: SRE - Actions Visibility Snapshot
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: sre-actions-visibility
+  cancel-in-progress: true
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Collect latest workflow runs (token, fallback public)
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          REPO="${GITHUB_REPOSITORY}"
+          API_URL="https://api.github.com/repos/${REPO}/actions/runs?per_page=50"
+          OUT_DIR=".tmp/actions-visibility"
+          mkdir -p "$OUT_DIR"
+
+          # Primary path: GITHUB_TOKEN-backed request for stable rate limits.
+          # Fallback path: unauthenticated request for public repo continuity.
+          if curl -fsSL \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "$API_URL" > "$OUT_DIR/runs.raw.json"; then
+            request_mode="token"
+            echo "request_mode=token" >> "$GITHUB_ENV"
+          else
+            curl -fsSL \
+              -H "Accept: application/vnd.github+json" \
+              "$API_URL" > "$OUT_DIR/runs.raw.json"
+            request_mode="public_fallback"
+            echo "request_mode=public_fallback" >> "$GITHUB_ENV"
+          fi
+
+          jq --arg request_mode "$request_mode" '{
+            generatedAt: now | todate,
+            repository: env.GITHUB_REPOSITORY,
+            requestMode: $request_mode,
+            totalCount: .total_count,
+            runs: [
+              .workflow_runs[] | {
+                id,
+                name,
+                workflowPath: .path,
+                event,
+                status,
+                conclusion,
+                runNumber: .run_number,
+                runAttempt: .run_attempt,
+                createdAt: .created_at,
+                updatedAt: .updated_at,
+                htmlUrl: .html_url,
+                headSha: .head_sha,
+                headBranch: .head_branch
+              }
+            ]
+          }' "$OUT_DIR/runs.raw.json" > "$OUT_DIR/runs.snapshot.json"
+
+          jq -r '.runs[:20][] | [
+            .id,
+            .name,
+            .status,
+            (.conclusion // "-"),
+            .createdAt,
+            .htmlUrl
+          ] | @tsv' "$OUT_DIR/runs.snapshot.json" > "$OUT_DIR/runs.top20.tsv"
+
+      - name: Detect missed-fire gaps (cron watchdog)
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT_DIR=".tmp/actions-visibility"
+          NOW_EPOCH="$(date -u +%s)"
+
+          # AGN-738 gap detection watchlist:
+          # file path -> max allowed age in minutes for latest run.
+          cat > "$OUT_DIR/gap-thresholds.json" <<'JSON'
+          {
+            ".github/workflows/cron-freshness-check.yml": 30,
+            ".github/workflows/health-watch.yml": 60,
+            ".github/workflows/scrape-trending.yml": 90,
+            ".github/workflows/collect-twitter.yml": 240,
+            ".github/workflows/scrape-devto.yml": 420
+          }
+          JSON
+
+          jq --argjson now "$NOW_EPOCH" --slurpfile thresholds "$OUT_DIR/gap-thresholds.json" '
+            . as $snapshot
+            | ($thresholds[0] // {}) as $limits
+            | ($limits | to_entries) as $targets
+            | {
+                generatedAt: (now | todate),
+                repository: $snapshot.repository,
+                checks: [
+                  $targets[] as $t
+                  | ($snapshot.runs
+                      | map(select(.workflowPath == $t.key))
+                      | sort_by(.createdAt)
+                      | reverse
+                      | .[0]) as $latest
+                  | if ($latest == null) then
+                      {
+                        workflowPath: $t.key,
+                        maxAgeMinutes: $t.value,
+                        state: "missing_run",
+                        ageMinutes: null,
+                        latestCreatedAt: null,
+                        latestRunUrl: null
+                      }
+                    else
+                      (($now - (($latest.createdAt | fromdateiso8601))) / 60 | floor) as $age
+                      | {
+                          workflowPath: $t.key,
+                          maxAgeMinutes: $t.value,
+                          state: (if $age > $t.value then "gap_exceeded" else "within_window" end),
+                          ageMinutes: $age,
+                          latestCreatedAt: $latest.createdAt,
+                          latestRunUrl: $latest.htmlUrl
+                        }
+                    end
+                ]
+              }
+          ' "$OUT_DIR/runs.snapshot.json" > "$OUT_DIR/gap-report.json"
+
+          jq -r '
+            .checks[] | [
+              .workflowPath,
+              (.state // "-"),
+              ((.ageMinutes // "-") | tostring),
+              (.maxAgeMinutes | tostring),
+              (.latestCreatedAt // "-"),
+              (.latestRunUrl // "-")
+            ] | @tsv
+          ' "$OUT_DIR/gap-report.json" > "$OUT_DIR/gap-report.tsv"
+
+          failing_count="$(jq '[.checks[] | select(.state != "within_window")] | length' "$OUT_DIR/gap-report.json")"
+          echo "failing_count=$failing_count" >> "$GITHUB_ENV"
+          echo "gap_report=$OUT_DIR/gap-report.json" >> "$GITHUB_ENV"
+
+      - name: Publish run summary
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo "## SRE Actions Visibility Snapshot"
+            echo
+            echo "- Repository: \\`${GITHUB_REPOSITORY}\\`"
+            echo "- Captured at (UTC): \\`$(date -u +"%Y-%m-%dT%H:%M:%SZ")\\`"
+            echo "- Request mode: \\`${request_mode}\\`"
+            echo
+            echo "| run_id | workflow | status | conclusion | created_at | link |"
+            echo "|---|---|---|---|---|---|"
+            while IFS=$'\t' read -r id name status conclusion created url; do
+              echo "| ${id} | ${name} | ${status} | ${conclusion} | ${created} | [open](${url}) |"
+            done < .tmp/actions-visibility/runs.top20.tsv
+            echo
+            echo "## AGN-738 Missed-Fire Gap Detection"
+            echo
+            echo "| workflow_path | state | age_min | max_age_min | latest_created_at | latest_run |"
+            echo "|---|---|---:|---:|---|---|"
+            while IFS=$'\t' read -r wf state age max_age created url; do
+              if [ "$url" = "-" ]; then
+                link="-"
+              else
+                link="[open](${url})"
+              fi
+              echo "| ${wf} | ${state} | ${age} | ${max_age} | ${created} | ${link} |"
+            done < .tmp/actions-visibility/gap-report.tsv
+            echo
+            echo "- failing_count: \`${failing_count}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload visibility artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: actions-visibility-snapshot
+          path: |
+            .tmp/actions-visibility/runs.snapshot.json
+            .tmp/actions-visibility/gap-report.json
+          retention-days: 14
+
+      - name: Fail on missed-fire gap
+        if: ${{ env.failing_count != '0' }}
+        run: |
+          echo "::error::Detected ${failing_count} workflow gap violation(s). See AGN-738 gap table + artifact."
+          exit 1

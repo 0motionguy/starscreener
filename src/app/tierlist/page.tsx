@@ -6,8 +6,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { TierListEditor } from "@/components/tier-list/TierListEditor";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { TierListEditorIsland } from "@/components/tier-list/TierListEditorIsland";
 
 export const dynamic = "force-static";
 
@@ -80,7 +80,7 @@ export default function TierListEditorPage() {
         </Link>
       </div>
 
-      <TierListEditor />
+      <TierListEditorIsland />
     </main>
   );
 }

@@ -1,0 +1,23 @@
+{
+  "issue": "AGN-852",
+  "scenario": "zustand-watchlist-compare-churn",
+  "baseUrl": "https://trendingrepo.com",
+  "pathA": "/watchlist",
+  "pathB": "/compare",
+  "loops": 25,
+  "capturedAt": "2026-05-04T22:22:46.776Z",
+  "before": {
+    "usedSize": 6172824,
+    "totalSize": 6959104,
+    "usedMb": 5.89,
+    "totalMb": 6.64
+  },
+  "after": {
+    "usedSize": 6944028,
+    "totalSize": 10629120,
+    "usedMb": 6.62,
+    "totalMb": 10.14
+  },
+  "deltaMb": 0.73,
+  "leakSuspected": false
+}

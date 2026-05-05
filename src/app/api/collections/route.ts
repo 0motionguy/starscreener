@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { READ_CACHE_HEADERS } from "@/lib/api/cache";
+import { respondWithSizeGuard } from "@/lib/api/response-size";
 import { loadAllCollections, indexReposByFullName, liveCountFor } from "@/lib/collections";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { getLastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
@@ -69,7 +70,7 @@ export async function GET() {
       return a.name.localeCompare(b.name);
     });
 
-  return NextResponse.json(
+  return respondWithSizeGuard(
     {
       meta: {
         collectionsCount: rows.length,
@@ -81,6 +82,10 @@ export async function GET() {
       coverage: getCollectionRankingsCoverage(collectionRankings),
       collections: rows,
     },
-    { headers: READ_CACHE_HEADERS },
+    {
+      headers: READ_CACHE_HEADERS,
+      route: "/api/collections",
+      arrayKeys: ["collections"],
+    },
   );
 }

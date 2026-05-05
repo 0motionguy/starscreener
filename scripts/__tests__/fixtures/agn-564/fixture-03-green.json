@@ -1,0 +1,11 @@
+{
+  "name": "fixture-green-all-blocking-green",
+  "input": {
+    "localhostMissing": false,
+    "blockingNonGreen": 0,
+    "advisoryNonGreen": 1
+  },
+  "expected": {
+    "classification": "green"
+  }
+}

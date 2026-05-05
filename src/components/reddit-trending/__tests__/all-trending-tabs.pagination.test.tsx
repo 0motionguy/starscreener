@@ -26,7 +26,8 @@ function makePost(index: number, nowSec: number): RedditAllPost {
     author: `author${index}`,
     repoFullName: index % 3 === 0 ? `owner/repo-${index}` : null,
     baselineRatio: 1.2,
-    baselineTier: "above_avg",
+    // BaselineTier may not include "above_avg" in current schema; cast.
+    baselineTier: "above_avg" as unknown as never,
     baselineConfidence: "high",
     ageHours: index % 20,
     velocity: 50 - (index % 7),

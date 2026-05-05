@@ -1,0 +1,169 @@
+e2434700 | chore(sre): add weekly stale preview cleanup workflow (no-verify: pre-existing typecheck failure in src/app/brief/[owner]/[name]/page.tsx)
+2121d427 | docs(security): define CORS policy and correct AGN-733 portal exception [skip-verify: pre-existing repo typecheck/lint failures unrelated to docs scope]
+650c160a | fix(ci): disable husky in collect-twitter auto-commit step (#107)
+f81f002c | fix(ci): disable husky in collect-twitter auto-commit step
+938b4a74 | fix(ci): disable husky in collect-twitter auto-commit step
+71b8bbea | [RECOVER] Ship 6 agent-authored commits from today's session (#106)
+79118f80 | fix(AGN-365): consolidate HF sidebar — single entry with tabs
+e6ef10fd | fix(AGN-695): /compare H1 semantics + e2e alignment
+87eb9ec0 | fix(a11y/AGN-696): sidebar version text contrast now meets WCAG AA
+9a3c8641 | docs(AGN-703): mobile overflow audit — 8 findings across 5 routes at 390px
+9a719493 | docs(AGN-704): frontend empty/loading/error state audit — all 4 surfaces PASS
+1152b139 | docs(AGN-702): sidebar route render audit — all 5 TOOLS routes pass
+f43c7ea7 | fix(AGN-365): consolidate HF sidebar — single entry with tabs
+52f8a886 | fix(AGN-695): /compare H1 semantics + e2e alignment
+5fed0036 | fix(a11y/AGN-696): sidebar version text contrast now meets WCAG AA
+82937453 | docs(AGN-703): mobile overflow audit — 8 findings across 5 routes at 390px
+fd1aad80 | docs(AGN-704): frontend empty/loading/error state audit — all 4 surfaces PASS
+e084d0a8 | docs(AGN-702): sidebar route render audit — all 5 TOOLS routes pass
+6b24aadc | fix(ci): annotate 5 test-setup GITHUB_TOKEN refs as pool-bypass
+92089468 | feat(paperclip): bootstrap bot push pipeline
+087383b8 | fix(ci): disable husky in collect-twitter auto-commit step
+880280c6 | docs(refactor): agent-commerce split plan
+0b393c6c | fix(ci): unblock CI test failure on cron-route-typed-error-contract + restore gitignore
+e42846a2 | chore(data): refresh repo profiles 2026-05-04T12:14:23Z
+97759a00 | chore(data): refresh lobsters signals 2026-05-04T12:12:01Z
+16266082 | chore: restore wave2 working-tree content as main — landing/signals/agent-commerce/githubrepo edits
+457224a2 | chore: merge audit/operator-followup-wave2-2026-05-04 — preserve session work
+8996c0ba | docs(forensic): scale + hardening audit for 10k users
+fb957147 | fix(types): extract freshness/state test hooks to sibling _test-hooks.ts
+c6c83fdd | chore(wave2): preserve uncommitted session work — 92 files (no-verify)
+439730d3 | fix(deps): re-add posthog-node — was dropped in a merge but still imported
+d0a95433 | fix(build): replace <a> with <Link> on /top10/[date] back-nav
+e05cc39e | fix(build): repair main typecheck — 278 -> 0 errors
+9ee77a5c | fix(syntax): hand-fix JSX syntax errors in 4 page files post-Wave-4 revert
+c3cae0eb | Revert "Migrate categories page to design system mockup"
+df0a091d | Revert "fix(agent-commerce): clean AISO detail heading JSX"
+1ee5c558 | Revert "test(e2e): align repo-detail smoke with .id-strip V4 markup"
+1529ae5f | chore(ops): cron health ok
+798e489c | test(e2e): align repo-detail smoke with .id-strip V4 markup
+9f5eb8bf | fix(agent-commerce): clean AISO detail heading JSX
+e14f0831 | Migrate categories page to design system mockup
+7c8457cf | fix(top10): wrap operator-comment text in JSX braces (Vercel build)
+6491b743 | wip: codex mid-flight working-tree snapshot at 2026-04-30 session handoff
+cd760132 | fix(workflow): stage data/_meta/{reddit,hackernews}.json in scrape-trending
+a7ce3735 | fix(twitter): detect node test runner without NODE_ENV reliance
+5a1ce9e9 | fix(home): consensus slice 3->8 to satisfy home-page-honesty test
+1cac62e9 | chore(sentry): silence @sentry/nextjs 10 deprecation warnings
+0b81245c | chore: scripts/sentry-test-event.mjs — Starscreener loop validation
+de0841c9 | test(e2e): align news smoke with V4 SourceFeedTemplate markup
+4428a2c1 | Merge main into feat/trendingrepo-worker-scaffold
+53d7686a | fix(worker): tighten devto schedule to every 6h (Phase B1)
+0f567847 | test(derived-repos/F14): cover twitter decorator immutability + mapping
+a06e4443 | merge: resolve alerts/page.tsx — take main version (W10-A from #74 supersedes W10p1 partial)
+f529df35 | feat(reliability): Dev.to + ProductHunt token pools (3 + 2 keys wired)
+b4a83ea5 | fix(predict): use next/link for /compare nav (no-html-link-for-pages)
+98193ee1 | feat(F3): wire unknown-mentions accumulation in scrape-hackernews
+9ed99740 | feat(layout): V4 W1 — AppShell + Sidebar + Header chrome
+ab5d7534 | feat(F2,F3): workflow yamls commit unknown-mentions.jsonl + repoId roundtrip test
+e86c929b | feat(F2): lobsters + devto dual-key (fullName + repoId) mention shape
+b7ab96ba | feat(F2): reddit dual-key (fullName + repoId) mention shape
+d25b0a0c | feat(F2): bluesky dual-key (fullName + repoId) mention shape
+cb06f1f9 | feat(F3): wire unknown-mentions accumulation in scrape-lobsters
+be2d17c6 | feat(F2): hackernews dual-key (fullName + repoId) mention shape
+3c6f8806 | fix(skills): populate logoUrl in skill coercers so /skills renders avatars
+c436cda1 | feat(ci): aiso self-scan dogfood + agnt-api positive-control monitor
+072a819f | feat(worker): publish rich fields from trending_items + raise limit 200→500
+4e077a26 | feat(top10): V4 — PageHead + KpiBand + RankRow + SectionHead
+c47ec5e9 | feat(tools): V4 /tools/treemap page (W6)
+dc08f9ef | feat(tools): V4 /tools/star-history page (W6)
+863e9df0 | feat(tools): V4 /tools hub page (W6)
+38a97822 | feat(templates): SourceFeedTemplate — V4 W7 unblocker
+bf8502e4 | feat(mcp): V4 — leaderboard list + MCP detail page
+f8a477f7 | feat(funding): V4 W4-B — /funding page V4 chrome
+4f6247f8 | feat(funding): V4 W4-A backend — FundingEvent type + aggregate ETL + APIs
+edb5eb40 | feat(categories): V4 — list page + detail page
+0e35fb51 | feat(agent-repos): V4 — leaderboard + agent detail page
+42e50638 | feat(ci): uptime monitor cron — ping 4 prod hosts every 5 min, post to PostHog
+69c2b2b3 | fix(twitter): switch collector to direct mode + commit .data back to main
+a427dd31 | feat(F2): hackernews dual-key (fullName + repoId) mention shape
+4b21656c | chore(data): refresh Claude (Anthropic) news 2026-05-04T09:33:18Z
+50a0dee9 | chore(gitignore): exclude agent scratch directories
+4f5688c8 | chore(data): refresh mcp liveness 2026-05-04T09:08:09Z
+1994ef5b | chore(data): refresh arxiv signals 2026-05-04T09:07:24Z
+290a7542 | chore(data): refresh huggingface space signals 2026-05-04T09:05:28Z
+f09f9dac | chore(data): refresh fast discovery snapshots 2026-05-04T08:52:45Z
+cd253e19 | chore(data): refresh huggingface dataset signals 2026-05-04T08:44:08Z
+67f6d6d6 | chore(data): refresh huggingface signals 2026-05-04T08:43:25Z
+9f8b0cb6 | chore(data): refresh collection rankings 2026-05-04T08:43:21Z
+a2449042 | chore(data): refresh dev.to signals 2026-05-04T08:38:34Z
+e1fafcae | fix(admin): disambiguate key pool telemetry
+6479f0b0 | audit-2026-05-04 wave 4: 4 new test files + agent-commerce retry + admin/roi fixes (#104)
+e7581b16 | Merge pull request #95 from 0motionguy/seo/indexing-recovery-2026-05-03
+ea41da67 | chore: auto-update funding signals [skip ci]
+19b37309 | chore(data): refresh twitter signals 2026-05-04T08:17:04Z
+6c9c633b | On audit/operator-followup-wave2-2026-05-04: presession-pre-rebase-1777882540
+f2860a5b | index on audit/operator-followup-wave2-2026-05-04: 58ffcaba test(derived-repos/F14): cover twitter decorator immutability + mapping
+c2d2d9e0 | untracked files on audit/operator-followup-wave2-2026-05-04: 58ffcaba test(derived-repos/F14): cover twitter decorator immutability + mapping
+0cbc8009 | Merge origin/main into seo/indexing-recovery-2026-05-03
+76bbcfb6 | chore(data): refresh repo profiles 2026-05-04T08:09:33Z
+58ffcaba | test(derived-repos/F14): cover twitter decorator immutability + mapping
+f055ecb7 | chore(data): refresh lobsters signals 2026-05-04T08:07:00Z
+ba594d0c | test(api/E5): cover oEmbed route — SSRF guard + matrix of url shapes
+90ec33b5 | test(api/F2): cover admin/scan 10 req/min rate-limit envelope
+22d25330 | test(api/F13): cover error-envelope shape contract
+17134fd1 | docs(observability): record sentry canary proof
+96f1cbfa | docs(observability): record sentry canary proof
+57114a1e | Merge pull request #92 from 0motionguy/claude/audit-followup-clean
+23da3214 | fix(roi): harden source logos and submit layout
+4950b78c | fix(worker): dedupe funding fetcher registry entries
+545bc256 | chore(ops): cron health stale
+77551445 | fix(admin): disambiguate key pool telemetry
+23bccfb8 | fix(workflows/D1): retry+continue-on-error agentic.market 429s and align Node 22 (#101)
+22ecfb15 | Merge origin/main into claude/audit-followup-clean
+3b1df586 | chore(data): promote unknown mentions 2026-05-04T07:35:39Z
+6c30774a | fix(workflows/D1): retry+continue-on-error agentic.market 429s and align Node 22
+87bf11f8 | chore(data): refresh trustmrr overlays 2026-05-04T07:29:13Z
+109cc936 | chore(data): refresh awesome-skills index 2026-05-04T07:29:07Z
+b07236bb | chore(data): refresh bluesky signals 2026-05-04T07:26:49Z
+2ea006a9 | fix(observability): publish sentry canary route
+fd04ea5f | fix(observability): publish sentry canary route
+1901fe1c | audit-2026-05-04 followup: snapshot timeouts + secret rotation runbook + arxiv ownership (#99)
+594da410 | feat(observability): add Sprint 1.5 Sentry verification
+d9f21717 | fix(observability): use typed Sentry canary error
+600a9227 | fix(observability): use typed Sentry canary throw
+6d242fc3 | fix(observability): make Sentry canary throw after capture
+b97bb3f3 | fix(observability): wire active Sentry startup log
+5c6a528c | fix(observability): wire active Sentry startup check
+57507e69 | docs: refresh Sentry verification evidence
+18f22309 | fix(observability): use typed Sentry canary error
+1ac66690 | docs: align Sentry canary verification notes
+cc322398 | fix(observability): keep sentry canary endpoint scoped
+294d3d99 | chore: update CURRENT-SPRINT.md
+17d39f7a | feat(check-freshness): include Sentry status
+c13f8c7e | docs: Sentry verification proof
+ad04e262 | feat(observability): /api/_internal/sentry-canary endpoint
+9ff3d3f7 | feat(observability): Sentry DSN startup verification
+a1073b4f | feat(errors): consolidate + extend EngineError hierarchy
+1ddca17a | audit-2026-05-04 follow-up: /about, /x402, /api/oembed + Footer + llms-full + FreshnessBadge (#97)
+322be8e8 | chore: nitter health update
+39d9e429 | chore(data): refresh reddit baselines 2026-05-04T06:29:20Z
+2f937dfa | audit-2026-05-04: 9-commit swarm closes P0/P1 findings + admin/keys dashboard sprint (#96)
+c4f02c27 | chore(data): refresh trustmrr overlays 2026-05-04T05:49:18Z
+109be189 | chore(data): refresh staleness report 2026-05-04T05:38:09Z
+c5bd3801 | chore(data): refresh scoring shadow report 2026-05-04T05:24:36Z
+7955cbff | chore(data): refresh repo profiles 2026-05-04T05:05:34Z
+3ea6b722 | chore(data): refresh lobsters signals 2026-05-04T05:05:00Z
+fc3a452f | chore(ops): cron health ok
+9d35e529 | chore(data): refresh mcp liveness 2026-05-04T04:34:08Z
+5690d683 | chore(data): refresh arxiv signals 2026-05-04T04:32:36Z
+9648731c | chore(data): refresh huggingface space signals 2026-05-04T04:30:12Z
+2364c0e2 | chore(data): refresh fast discovery snapshots 2026-05-04T04:21:55Z
+cd640d64 | chore(data): refresh arxiv enrichment 2026-05-04T04:15:20Z
+e388c23d | chore(data): refresh trustmrr overlays 2026-05-04T04:14:00Z
+ea9b72ee | chore(data): refresh huggingface dataset signals 2026-05-04T04:13:29Z
+03281ed6 | chore(data): refresh bluesky signals 2026-05-04T04:11:57Z
+7f32c325 | chore(data): refresh huggingface signals 2026-05-04T04:10:43Z
+f4cc9d14 | chore(data): refresh collection rankings 2026-05-04T04:10:04Z
+2f37b05a | chore(data): refresh dev.to signals 2026-05-04T03:44:37Z
+0c9e60dc | fix(ci): remove redundant /docs/page.tsx + restore consensus slice to 8
+b76eafea | chore: ignore operator-local agent/audit/codex/swarm artifacts + add Windows ruflo daemon helper
+0e17775d | seo+content: /about, /docs, /x402 pages + submit OG + Footer socials + FreshnessBadge wiring + llms-full cadence
+7e98fa44 | sec: HSTS+frame+nosniff+referrer+permissions headers, admin scan rate-limit, health/sources recon-gating
+0f73fede | chore: auto-update funding signals [skip ci]
+fdac2d10 | chore(data): refresh twitter signals 2026-05-04T01:34:50Z
+b9744c7b | chore(data): refresh repo profiles 2026-05-04T01:20:28Z
+f2b914b1 | chore(data): refresh lobsters signals 2026-05-04T01:17:35Z
+7fb63bc4 | chore(data): refresh fast discovery snapshots 2026-05-04T00:15:07Z
+40532581 | chore(data): refresh trustmrr overlays 2026-05-04T00:07:37Z
+244d0ef7 | chore(data): refresh bluesky signals 2026-05-04T00:05:35Z

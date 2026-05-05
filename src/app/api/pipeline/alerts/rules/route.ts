@@ -99,7 +99,12 @@ export async function POST(
 
   try {
     await pipeline.ensureReady();
-    const input: Omit<CreateRuleInput, "userId"> = parsed.data;
+    // parsed.data is the Zod-validated shape; categoryId comes back as string|null
+    // but CreateRuleInput.categoryId is the branded PipelineCategoryId. The Zod
+    // schema is the source of truth for runtime validation; cast to satisfy the
+    // structural type without re-running validation.
+    const input: Omit<CreateRuleInput, "userId"> =
+      parsed.data as unknown as Omit<CreateRuleInput, "userId">;
     const rule = pipeline.createAlertRule({ ...input, userId: auth.userId });
     await persistPipeline();
     const validation = validateRule(rule);

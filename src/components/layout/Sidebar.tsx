@@ -24,7 +24,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Plug, Terminal, User } from "lucide-react";
+import { Plug, Terminal } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useWatchlistStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -50,7 +50,6 @@ interface LaunchpadTile {
 }
 
 const LAUNCHPAD_TILES: LaunchpadTile[] = [
-  { href: "/you", icon: User, label: "You", matchPrefix: "/you" },
   {
     href: "/portal/docs",
     icon: Plug,
@@ -65,7 +64,7 @@ function LaunchpadStrip() {
   return (
     <nav
       aria-label="Launchpad"
-      className="group grid grid-cols-3 gap-1.5 px-3 pb-3 pt-2"
+      className="group grid grid-cols-2 gap-1.5 px-3 pb-3 pt-2"
     >
       {LAUNCHPAD_TILES.map((tile) => {
         const active = pathname === tile.href

@@ -1,3 +1,9 @@
+---
+status: snapshot
+audit-date: 2026-05-05
+reason: references src/lib/cron-auth.ts (does not exist; actual is src/lib/api/auth.ts verifyCronAuth); ProductHunt cron documented as "0 11,15,19,23" but workflow is "22 11,15,19,23"
+---
+
 # RUNBOOK — Secret rotation (quarterly cadence)
 
 **Owner**: operator (Kermit457)

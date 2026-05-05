@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # RUNBOOK - Internal agent token rotation
 
 Scope: `INTERNAL_AGENT_TOKENS_JSON` used by `verifyInternalAgentAuth` for internal agent access to `/api/internal/*`.

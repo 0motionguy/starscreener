@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # Agent Skills integration
 
 TrendingRepo ships three [Anthropic Agent Skills](https://agentskills.io) — portable markdown playbooks that teach Claude (and any other spec-compliant agent) how to combine TrendingRepo's tools for the common high-signal workflows.

@@ -29,6 +29,7 @@ import { MobileDrawerLazy } from "@/components/layout/MobileDrawerLazy";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { BrowserAlertBridge } from "@/components/alerts/BrowserAlertBridge";
 import { DesignSystemProvider } from "@/components/v3";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
 import "@/components/tier-list/tier-list.css";
@@ -230,6 +231,7 @@ export default async function RootLayout({
               <MobileNav />
               <BrowserAlertBridge />
               <ToasterLazy />
+              <SpeedInsights />
               </DesignSystemProvider>
             </StoreProvider>
           </PostHogProvider>

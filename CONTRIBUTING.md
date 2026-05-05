@@ -2,6 +2,31 @@
 
 Thanks for your interest. This guide gets you from clone to a merged PR.
 
+<<<<<<< Updated upstream
+=======
+## Mandatory Session Preflight
+
+Before proposing changes, read:
+
+1. `CLAUDE.md`
+2. `docs/ENGINE.md`
+3. `docs/SITE-WIREMAP.md`
+4. `docs/archive/AUDIT-2026-05-04.md`
+5. `docs/archive/forensic-2026-05-pre/00-INDEX.md`
+6. `tasks/CURRENT-SPRINT.md`
+7. `tasks/BACKLOG.md`
+
+Then run:
+
+```bash
+npm run freshness:check
+```
+
+Interpret failures correctly:
+- If it says localhost timed out / refused (`http://localhost:3023`), treat it as a local server availability issue.
+- If localhost is reachable and sources are stale/non-green, treat it as a product data freshness issue.
+
+>>>>>>> Stashed changes
 ## Prerequisites
 
 - **Node 22.x** (pinned via `engines` in `package.json`)

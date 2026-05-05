@@ -147,6 +147,7 @@ A sister Railway service (`apps/trendingrepo-worker/`, branched in worktrees not
 
 - **twitter** — `/twitter` reads `twitter-repo-signals` populated by the worker's Apify (`apidojo~tweet-scraper`) fetcher. The CI-side `scripts/_apify-twitter-provider.ts` writes append-only `.data/twitter-*.jsonl` for forensic audit, but the live Redis key surfacing on `/twitter` is worker-fetched. See [SITE-WIREMAP.md §3b](./SITE-WIREMAP.md).
 
+<<<<<<< Updated upstream
 Audit cross-reference: `docs/ultra-audit-2026-05-01.md` A6, `.audit/2026-05-04-swarm/phase-logs/A3-architecture-themes.md` C6.
 
 ## Related docs
@@ -155,3 +156,10 @@ Audit cross-reference: `docs/ultra-audit-2026-05-01.md` A6, `.audit/2026-05-04-s
 - [DEPLOY.md](./DEPLOY.md) — Vercel deployment
 - [DATABASE.md](./DATABASE.md) — Postgres migration plan
 - [API.md](./API.md) — per-endpoint reference
+=======
+- `docs/ENGINE.md` : engine-level service and workflow registry
+- `docs/SITE-WIREMAP.md` : route-to-data mapping
+- `docs/archive/AUDIT-2026-05-04.md` : latest verified operational gaps
+- `docs/archive/forensic-2026-05-pre/00-INDEX.md` : archived forensic report index (pre-2026-05-05 dump; do NOT use for current state)
+- `CLAUDE.md` : mandatory operating protocol and guardrails
+>>>>>>> Stashed changes

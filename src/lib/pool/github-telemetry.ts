@@ -1,4 +1,5 @@
 import { redis } from "@/lib/redis";
+import { keys } from "@/lib/redis/keys";
 import { createHash } from "node:crypto";
 
 export type GithubQuarantineReason =
@@ -28,7 +29,15 @@ export async function recordGithubCall(
   params: GithubCallTelemetry,
 ): Promise<void> {
   const hourBucket = new Date().toISOString().slice(0, 13).replace("T", "-");
+<<<<<<< Updated upstream
   const usageKey = `pool:github:usage:${params.keyFingerprint}:${hourBucket}`;
+=======
+  const usageKey = keys.pool.github.usage(
+    githubPoolNamespace(),
+    params.keyFingerprint,
+    hourBucket,
+  );
+>>>>>>> Stashed changes
 
   try {
     await redis.hincrby(usageKey, "requests", 1);
@@ -60,7 +69,14 @@ export async function quarantineKey(params: {
   reason: GithubQuarantineReason;
   untilTimestamp: number;
 }): Promise<void> {
+<<<<<<< Updated upstream
   const key = `pool:github:quarantine:${params.keyFingerprint}`;
+=======
+  const key = keys.pool.github.quarantine(
+    githubPoolNamespace(),
+    params.keyFingerprint,
+  );
+>>>>>>> Stashed changes
   try {
     await redis.set(key, JSON.stringify(params), "EXAT", params.untilTimestamp);
   } catch (err) {
@@ -71,7 +87,14 @@ export async function quarantineKey(params: {
 export async function isKeyQuarantined(
   keyFingerprint: string,
 ): Promise<boolean> {
+<<<<<<< Updated upstream
   const key = `pool:github:quarantine:${keyFingerprint}`;
+=======
+  const key = keys.pool.github.quarantine(
+    githubPoolNamespace(),
+    keyFingerprint,
+  );
+>>>>>>> Stashed changes
   try {
     const value = await redis.get(key);
     return value !== null;

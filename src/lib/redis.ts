@@ -14,6 +14,26 @@ export interface RuntimeRedis {
   hgetall(key: string): Promise<Record<string, string>>;
   expire(key: string, seconds: number): Promise<number>;
   del?(...keys: string[]): Promise<number>;
+  /**
+   * Optional batch GET — single round trip (MGET) for ioredis, parallel
+   * REST fan-out for Upstash. Returns values in the same order as `keys`,
+   * with `null` for misses. AGN-467: lets admin pool-state collapse N+1
+   * quarantine reads into one round trip.
+   */
+  mget?(...keys: string[]): Promise<(string | null)[]>;
+  /**
+   * Optional batched HGETALL — uses ioredis pipeline so N hash reads
+   * incur 1 round trip on ioredis, falls back to parallel HGETALL on
+   * Upstash REST. Returns hashes in the same order as `keys`. AGN-467:
+   * lets admin pool-state collapse 24×N hourly bucket reads into one
+   * round trip per pool.
+   */
+  hgetallMany?(keys: ReadonlyArray<string>): Promise<Record<string, string>[]>;
+}
+
+interface IoRedisPipeline {
+  hgetall(key: string): IoRedisPipeline;
+  exec(): Promise<Array<[Error | null, unknown]> | null>;
 }
 
 interface IoRedisNative {
@@ -30,6 +50,8 @@ interface IoRedisNative {
   hgetall(key: string): Promise<Record<string, string>>;
   expire(key: string, seconds: number): Promise<number>;
   del(...keys: string[]): Promise<number>;
+  mget(...keys: string[]): Promise<(string | null)[]>;
+  pipeline(): IoRedisPipeline;
   on(event: "error", listener: (err: Error) => void): unknown;
 }
 
@@ -41,6 +63,7 @@ interface UpstashRedisNative {
   hgetall<T = Record<string, unknown>>(key: string): Promise<T | null>;
   expire(key: string, seconds: number): Promise<number>;
   del(...keys: string[]): Promise<number>;
+  mget<T = unknown>(...keys: string[]): Promise<(T | null)[]>;
 }
 
 type IoRedisCtor = new (

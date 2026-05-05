@@ -31,6 +31,7 @@
 
 import { dirname, resolve } from "path";
 import { DataStoreFatalError } from "@/lib/errors";
+import { keys } from "@/lib/redis/keys";
 
 // Lazy-load `fs` to keep this module safe to import (transitively) from
 // client components. Webpack bundling for the client side replaces `fs`
@@ -110,10 +111,19 @@ export interface DataStore {
 // Key namespace
 // ---------------------------------------------------------------------------
 
+<<<<<<< Updated upstream
 // Bumped if the on-disk shape changes incompatibly. Old keys stay readable
 // during a migration window because the writer can dual-write v1 and v2.
 const NAMESPACE = "ss:data:v1";
 const META_NAMESPACE = "ss:meta:v1";
+=======
+// The `ss:data:v1:` / `ss:meta:v1:` prefixes live in `src/lib/redis/keys.ts`
+// (the typed registry). This module owns slug *validation* but delegates
+// string construction to the registry so there is one place to grep when
+// Redis key conventions change. Bump the version in keys.ts only when the
+// payload schema changes incompatibly.
+const DEFAULT_TTL_SECONDS = 86_400;
+>>>>>>> Stashed changes
 const INVALID_KEY_LITERALS = new Set(["null", "undefined"]);
 
 function normalizeKeyOrThrow(key: string): string {
@@ -128,11 +138,11 @@ function normalizeKeyOrThrow(key: string): string {
 }
 
 function payloadKey(key: string): string {
-  return `${NAMESPACE}:${normalizeKeyOrThrow(key)}`;
+  return keys.payload(normalizeKeyOrThrow(key));
 }
 
 function metaKey(key: string): string {
-  return `${META_NAMESPACE}:${normalizeKeyOrThrow(key)}`;
+  return keys.meta(normalizeKeyOrThrow(key));
 }
 
 function fileFallbackPath(key: string, dataDir: string): string {

@@ -11,7 +11,7 @@ import { ImageResponse } from "next/og";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { getChannelStatus } from "@/lib/pipeline/cross-signal";
 import type { Repo } from "@/lib/types";
-import { OG_COLORS } from "@/lib/seo";
+import { OG_CACHE_HEADERS, OG_COLORS } from "@/lib/seo";
 import {
   CardFrame,
   StarMark,
@@ -244,6 +244,6 @@ export default async function BreakoutsOGImage() {
         </div>
       </CardFrame>
     ),
-    size,
+    { ...size, headers: OG_CACHE_HEADERS },
   );
 }

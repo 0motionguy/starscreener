@@ -16,6 +16,19 @@ export const SITE_URL: string = (
 
 export const SITE_NAME = "TrendingRepo";
 export const SITE_TAGLINE = "The trend map for open source";
+
+// Cache-Control headers for opengraph-image.tsx ImageResponse returns.
+//
+// Crawlers (Twitter, LinkedIn, Slack, Discord, Telegram) hit OG endpoints
+// on every share. Without this header, every unfurl triggers a fresh
+// ImageResponse render against the Lambda fleet. Mirroring the existing
+// /api/og/<route>/route.tsx policy: 5-minute edge cache, 1-hour SWR
+// window so crawlers get a near-instant response while content stays fresh.
+//
+// AGN-442 — patches the 8 force-dynamic OG metadata files.
+export const OG_CACHE_HEADERS = {
+  "cache-control": "public, s-maxage=300, stale-while-revalidate=3600",
+} as const;
 export const SITE_DESCRIPTION =
   "The trend map for open source. See what's heating up on GitHub, Reddit, Hacker News, ProductHunt, Bluesky, and dev.to — one live terminal for every signal.";
 

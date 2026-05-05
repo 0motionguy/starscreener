@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-244 Browser Smoke Evidence Quality Lint (2026-05-04)
 
 Issue: `AGN-244`  

@@ -1,3 +1,7 @@
+---
+status: plan
+---
+
 # Workflow Strip Rollout — stop the every-20-min Vercel deploys
 
 **Status:** Phase 1B code is shipped (commit `87e3f4e`). This doc is the LAST step that flips the deploy savings on.

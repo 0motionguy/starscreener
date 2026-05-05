@@ -1,3 +1,8 @@
+---
+status: archive
+last-touched: 2026-04-28
+---
+
 # Audit — trendingrepo.com: live vs planned vs missing
 **Date:** 2026-04-28  •  **Mode:** read-only forensics (plan mode)
 **Main HEAD:** `b762c6a` (test+a11y: featured-card tests, reduced-motion sweep)

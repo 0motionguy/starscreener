@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-311 Release SRE workflow failure packet (2026-05-04)
 
 Timestamp (UTC): 2026-05-04T11:12Z

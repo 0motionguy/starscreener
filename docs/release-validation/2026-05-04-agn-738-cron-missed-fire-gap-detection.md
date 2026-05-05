@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-738 Cron missed-fire recovery (gap detection)
 
 Date: 2026-05-04

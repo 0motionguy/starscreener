@@ -1,3 +1,9 @@
+---
+status: snapshot
+audit-date: 2026-05-05
+reason: One-shot 50-request curl profile dated 2026-05-04; diagnostic-only with no living command.
+---
+
 # AGN-150 Performance Profile - Top 3 API Routes
 
 Date: 2026-05-04

@@ -1,0 +1,28 @@
+{
+  "capturedAt": "2026-05-05T04:54:16.109Z",
+  "targetUrl": "https://trendingrepo.com",
+  "threshold": 5,
+  "scanId": "c68b14a4-cfbb-4df2-a621-df1e90bf4978",
+  "status": "completed",
+  "score": 51,
+  "previousMonthlyScan": {
+    "id": "4f053521-0c6a-4dc8-ace8-e88da1f32c31",
+    "completedAt": "2026-04-25T12:33:53.995+00:00",
+    "score": 47,
+    "tier": "partial"
+  },
+  "regressions": [],
+  "submit": {
+    "scanId": "c68b14a4-cfbb-4df2-a621-df1e90bf4978",
+    "submitUrl": "https://aiso.tools/api/scan",
+    "submitResponse": {
+      "scanId": "c68b14a4-cfbb-4df2-a621-df1e90bf4978",
+      "status": "queued",
+      "mode": "homepage",
+      "resultUrl": "https://aiso.tools/scan/c68b14a4-cfbb-4df2-a621-df1e90bf4978",
+      "source": "web",
+      "projectName": null,
+      "projectUrl": null
+    }
+  }
+}

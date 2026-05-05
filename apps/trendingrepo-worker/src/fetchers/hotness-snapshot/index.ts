@@ -24,10 +24,10 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore, readDataStore, getRedis } from '../../lib/redis.js';
+import { keys } from '../../lib/redis-keys.js';
 
 const SNAPSHOT_TTL_SECONDS = 8 * 24 * 60 * 60; // 8d (one extra day for read-tolerance)
 const ROLLING_DAYS = 7;
-const NAMESPACE = 'ss:data:v1';
 
 // Domains we snapshot. Keys here match the published leaderboard keys; the
 // per-item id is whatever the upstream payload uses (skills.sh: source_id,
@@ -98,8 +98,8 @@ const fetcher: Fetcher = {
         for (const domain of DOMAINS) {
           for (let d = ROLLING_DAYS + 1; d <= ROLLING_DAYS + 7; d += 1) {
             const oldDate = isoDateNDaysAgo(d);
-            await handle.del(`${NAMESPACE}:hotness-snapshot:${domain}:${oldDate}`);
-            await handle.del(`ss:meta:v1:hotness-snapshot:${domain}:${oldDate}`);
+            await handle.del(keys.dailySnapshot(`hotness-snapshot:${domain}`, oldDate));
+            await handle.del(keys.dailySnapshotMeta(`hotness-snapshot:${domain}`, oldDate));
           }
         }
       }

@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # Encryption-at-Rest Verification
 
 Last verified: 2026-05-05 (Asia/Makassar)

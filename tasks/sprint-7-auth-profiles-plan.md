@@ -1,3 +1,7 @@
+---
+status: plan
+---
+
 # Sprint 7 Plan - Clerk Auth + User Profiles Scoping
 
 Issue: AGN-375  

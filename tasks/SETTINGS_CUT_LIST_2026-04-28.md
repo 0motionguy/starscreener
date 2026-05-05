@@ -1,3 +1,8 @@
+---
+status: archive
+last-touched: 2026-04-28
+---
+
 # Settings Cut List — STARSCREENER — 2026-04-28
 
 Read-only audit of `.claude/settings.json` (91 lines, ~21 KB) and `.claude/settings.local.json` (126 lines, ~27.7 KB). The `code-review-graph` binary on the PostToolUse hook is verified at `/c/Users/mirko/.local/bin/code-review-graph` and executable, so the hook is healthy.

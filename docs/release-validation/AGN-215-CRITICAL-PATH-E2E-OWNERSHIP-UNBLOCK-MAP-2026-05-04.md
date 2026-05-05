@@ -1,4 +1,10 @@
-﻿# AGN-215 Critical Path E2E Spec Ownership + Unblock Map (2026-05-04)
+﻿---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
+# AGN-215 Critical Path E2E Spec Ownership + Unblock Map (2026-05-04)
 
 ## Scope and evidence anchor
 - Spec under ownership: `tests/e2e/critical-paths.spec.ts`

@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-289 - Sentry Readiness Verification Checklist (Phase 1.5)
 
 Timestamp (UTC): 2026-05-04T11:03:00Z

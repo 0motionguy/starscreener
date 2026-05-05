@@ -25,6 +25,7 @@ import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME, safeJsonLd } from "@/lib/seo";
 import { buildRepoPageSchemas } from "@/lib/seo-repo-schemas";
 import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
+import { loadRepoCategoryDetails } from "@/lib/repo-category-details";
 // Data-store refresh hooks. The repo detail page consumes signal data from
 // many sources; we refresh all of them in parallel before the canonical
 // assembler runs so the post-refresh getters see the freshest cache.
@@ -83,6 +84,7 @@ import { NewsroomCallout } from "@/components/repo-detail/NewsroomCallout";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { BrandStar } from "@/components/shared/BrandStar";
 import { RecordRecentRepoView } from "@/components/layout/RecordRecentRepoView";
+import { RepoCategoryDetails } from "@/components/repo-detail/RepoCategoryDetails";
 import { WhyBadge } from "@/components/repo/WhyBadge";
 import { getOrGenerateRepoWhy } from "@/lib/repo-why";
 import { getNewsroomCrossLink } from "@/lib/newsroom-crosslinks";
@@ -318,6 +320,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
   // data that doesn't need to live on the canonical profile.
   const markers = buildMentionMarkers(repo.fullName, 30);
   const lastRefresh = getRelativeTime(new Date().toISOString());
+  const categoryDetails = await loadRepoCategoryDetails(repo);
   const focusLabel = categoryFocusLabel(repo.categoryId);
   const distributionFirst = DISTRIBUTION_HEAVY_CATEGORIES.has(repo.categoryId);
   const marketFirst = MARKET_HEAVY_CATEGORIES.has(repo.categoryId);
@@ -341,6 +344,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
     createdAt: repo.createdAt,
     momentumScore: repo.momentumScore,
     category: repo.categoryId,
+    categoryDetails,
   });
 
   return (
@@ -386,6 +390,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
                 ↗
               </TrackedExternalLink>
             </h1>
+            <RepoCategoryDetails details={categoryDetails} />
             {repo.description ? <p className="desc">{repo.description}</p> : null}
             <div className="row">
               <span className="topic">

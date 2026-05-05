@@ -1,9 +1,12 @@
 "use client";
 
-// /skills — rich table mirroring LiveTopTable. Two metric groups per row:
-//   Stars Δ (24h / 7d / 30d) — from the linked GitHub repo's trending data
-//   Installs Δ (24h / 7d / 30d) — from skills.sh registry side-channel
-// Both labeled, both sortable. Compact rows (no description blob).
+// /skills — rich table mirroring LiveTopTable. Compact rows (no description
+// blob). AGN-536 (2026-05-04): the stars Δ (24h/7d/30d) and installs Δ
+// (24h/7d/30d) columns rendered "—" for every row because the upstream
+// snapshot pipelines aren't populated. Mirko called CUT (vs. BUILD) for
+// /skills, so those six delta columns + the matching filters are removed.
+// SkillRow props for the deltas remain so callers don't have to change
+// shape; they're just unused by the renderer for now.
 
 import { useMemo, useState } from "react";
 import {
@@ -25,16 +28,7 @@ import {
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { RankStarMark } from "@/components/brand/RankStarMark";
 
-type SortKey =
-  | "rank"
-  | "stars"
-  | "s24"
-  | "s7"
-  | "s30"
-  | "i24"
-  | "i7"
-  | "i30"
-  | "cited";
+type SortKey = "rank" | "stars" | "cited";
 type SortDir = "asc" | "desc";
 
 export interface SkillRow {
@@ -58,7 +52,7 @@ export interface SkillRow {
 
 interface SkillsTopTableProps {
   rows: SkillRow[];
-  /** Default sort = highest 24h star gainer. */
+  /** Default sort = absolute stars (delta-based defaults removed in AGN-536). */
   defaultSortKey?: SortKey;
 }
 
@@ -69,18 +63,6 @@ const compactNumber = new Intl.NumberFormat("en-US", {
 
 function formatCompact(value: number): string {
   return compactNumber.format(Math.max(0, Math.round(value))).toLowerCase();
-}
-
-function formatDelta(value: number | null): string {
-  if (value === null || value === undefined) return "—";
-  if (value === 0) return "0";
-  const abs = formatCompact(Math.abs(value));
-  return `${value >= 0 ? "+" : "-"}${abs}`;
-}
-
-function deltaClass(value: number | null): string {
-  if (value === null || value === undefined || value === 0) return "muted";
-  return value < 0 ? "dn" : "up";
 }
 
 function sparkPath(values: number[], width: number, height: number): string {
@@ -116,27 +98,14 @@ function sparkEnd(
 let __sgrad = 0;
 
 function getSortValue(row: SkillRow, key: SortKey): number {
-  const num = (v: number | null | undefined) => (typeof v === "number" ? v : -Infinity);
   switch (key) {
     case "stars":
       return row.stars;
-    case "s24":
-      return num(row.starsDelta24h);
-    case "s7":
-      return num(row.starsDelta7d);
-    case "s30":
-      return num(row.starsDelta30d);
-    case "i24":
-      return num(row.installsDelta24h);
-    case "i7":
-      return num(row.installsDelta7d);
-    case "i30":
-      return num(row.installsDelta30d);
     case "cited":
       return row.cited;
     case "rank":
     default:
-      return num(row.starsDelta24h);
+      return row.stars;
   }
 }
 
@@ -264,13 +233,11 @@ function ActionCell({
 
 export function SkillsTopTable({
   rows,
-  defaultSortKey = "s24",
+  defaultSortKey = "stars",
 }: SkillsTopTableProps) {
   const [sortKey, setSortKey] = useState<SortKey>(defaultSortKey);
   const [sortDir, setSortDir] = useState<SortDir>("desc");
-  const [filter, setFilter] = useState<"all" | "stars" | "installs" | "cited">(
-    "all",
-  );
+  const [filter, setFilter] = useState<"all" | "cited">("all");
 
   const handleSort = (key: SortKey) => {
     if (key === sortKey) {
@@ -284,18 +251,6 @@ export function SkillsTopTable({
   const counts = useMemo(
     () => ({
       all: rows.length,
-      stars: rows.filter(
-        (r) =>
-          (r.starsDelta24h ?? 0) !== 0 ||
-          (r.starsDelta7d ?? 0) !== 0 ||
-          (r.starsDelta30d ?? 0) !== 0,
-      ).length,
-      installs: rows.filter(
-        (r) =>
-          (r.installsDelta24h ?? 0) !== 0 ||
-          (r.installsDelta7d ?? 0) !== 0 ||
-          (r.installsDelta30d ?? 0) !== 0,
-      ).length,
       cited: rows.filter((r) => r.cited > 0).length,
     }),
     [rows],
@@ -303,18 +258,6 @@ export function SkillsTopTable({
 
   const visible = useMemo(() => {
     const filtered = rows.filter((r) => {
-      if (filter === "stars")
-        return (
-          (r.starsDelta24h ?? 0) !== 0 ||
-          (r.starsDelta7d ?? 0) !== 0 ||
-          (r.starsDelta30d ?? 0) !== 0
-        );
-      if (filter === "installs")
-        return (
-          (r.installsDelta24h ?? 0) !== 0 ||
-          (r.installsDelta7d ?? 0) !== 0 ||
-          (r.installsDelta30d ?? 0) !== 0
-        );
       if (filter === "cited") return r.cited > 0;
       return true;
     });
@@ -329,8 +272,6 @@ export function SkillsTopTable({
         {(
           [
             ["all", "All", counts.all],
-            ["stars", "Has stars Δ", counts.stars],
-            ["installs", "Has installs Δ", counts.installs],
             ["cited", "Cited", counts.cited],
           ] as const
         ).map(([k, label, ct]) => (
@@ -360,48 +301,6 @@ export function SkillsTopTable({
                 label="Stars"
                 sortKey="stars"
                 active={sortKey === "stars"}
-                dir={sortDir}
-                onClick={handleSort}
-              />
-              <SortHeader
-                label="★ 24h"
-                sortKey="s24"
-                active={sortKey === "s24"}
-                dir={sortDir}
-                onClick={handleSort}
-              />
-              <SortHeader
-                label="★ 7d"
-                sortKey="s7"
-                active={sortKey === "s7"}
-                dir={sortDir}
-                onClick={handleSort}
-              />
-              <SortHeader
-                label="★ 30d"
-                sortKey="s30"
-                active={sortKey === "s30"}
-                dir={sortDir}
-                onClick={handleSort}
-              />
-              <SortHeader
-                label="⬇ 24h"
-                sortKey="i24"
-                active={sortKey === "i24"}
-                dir={sortDir}
-                onClick={handleSort}
-              />
-              <SortHeader
-                label="⬇ 7d"
-                sortKey="i7"
-                active={sortKey === "i7"}
-                dir={sortDir}
-                onClick={handleSort}
-              />
-              <SortHeader
-                label="⬇ 30d"
-                sortKey="i30"
-                active={sortKey === "i30"}
                 dir={sortDir}
                 onClick={handleSort}
               />
@@ -462,24 +361,6 @@ export function SkillsTopTable({
                   </td>
                   <td className="num">
                     {row.stars > 0 ? formatCompact(row.stars) : "—"}
-                  </td>
-                  <td className={`num ${deltaClass(row.starsDelta24h)}`}>
-                    {formatDelta(row.starsDelta24h)}
-                  </td>
-                  <td className={`num ${deltaClass(row.starsDelta7d)}`}>
-                    {formatDelta(row.starsDelta7d)}
-                  </td>
-                  <td className={`num ${deltaClass(row.starsDelta30d)}`}>
-                    {formatDelta(row.starsDelta30d)}
-                  </td>
-                  <td className={`num ${deltaClass(row.installsDelta24h)}`}>
-                    {formatDelta(row.installsDelta24h)}
-                  </td>
-                  <td className={`num ${deltaClass(row.installsDelta7d)}`}>
-                    {formatDelta(row.installsDelta7d)}
-                  </td>
-                  <td className={`num ${deltaClass(row.installsDelta30d)}`}>
-                    {formatDelta(row.installsDelta30d)}
                   </td>
                   <td className="ch">
                     {hasSparkline ? (
@@ -549,7 +430,7 @@ export function SkillsTopTable({
             })}
             {visible.length === 0 ? (
               <tr>
-                <td colSpan={12} className="live-empty">
+                <td colSpan={6} className="live-empty">
                   No skills match this filter.
                 </td>
               </tr>

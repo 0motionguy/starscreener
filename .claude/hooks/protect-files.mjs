@@ -43,8 +43,17 @@ const matched =
   WORKFLOW_RE.test(String(candidate));
 
 if (matched) {
+  // Escape hatch for documented workflows (e.g. legitimate .github/workflows
+  // YAML edits during a release sweep). Logged to stderr so the bypass shows
+  // up in the harness audit trail. See .claude/hooks/README.md.
+  if (process.env.BYPASS_PROTECTION === "true") {
+    process.stderr.write(
+      `[protect-files] BYPASS_PROTECTION=true -- allowing edit to ${candidate}\n`,
+    );
+    process.exit(0);
+  }
   process.stderr.write(
-    `Protected file ${candidate}; ask the user before editing.\n`,
+    `Protected file ${candidate}; ask the user before editing. Override with BYPASS_PROTECTION=true (visible in audit log).\n`,
   );
   process.exit(2);
 }

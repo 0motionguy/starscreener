@@ -155,6 +155,6 @@ Before merging data or platform changes:
 
 - `docs/ENGINE.md` : engine-level service and workflow registry
 - `docs/SITE-WIREMAP.md` : route-to-data mapping
-- `docs/AUDIT-2026-05-04.md` : latest verified operational gaps
-- `docs/forensic/00-INDEX.md` : forensic report index
+- `docs/archive/AUDIT-2026-05-04.md` : latest verified operational gaps
+- `docs/archive/forensic-2026-05-pre/00-INDEX.md` : archived forensic report index (pre-2026-05-05 dump; do NOT use for current state)
 - `CLAUDE.md` : mandatory operating protocol and guardrails

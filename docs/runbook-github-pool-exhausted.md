@@ -93,5 +93,5 @@ Admin pages for live verification:
 
 ## 2026-05-04 heartbeat note (AGN-473)
 
-- Mandatory opening protocol executed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Mandatory opening protocol executed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
 - `npm run freshness:check` result: timed out contacting `http://localhost:3023` (stale/degraded; localhost not proven missing).

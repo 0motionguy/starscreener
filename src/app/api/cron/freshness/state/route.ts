@@ -16,6 +16,7 @@ import {
 import { getDataStore } from "@/lib/data-store";
 import { OpsAlertFatalError } from "@/lib/errors";
 import { deriveHealth, type FreshnessHealth } from "@/lib/freshness-health";
+import { keys } from "@/lib/redis/keys";
 import { sourceHealthTracker } from "@/lib/source-health-tracker";
 
 export const runtime = "nodejs";
@@ -525,7 +526,7 @@ async function readStoreProbe(slug: string): Promise<TimestampProbe> {
   try {
     const [rawMeta, timestampRaw] = await Promise.all([
       withTimeout(
-        store.redisClient()?.get(`ss:meta:v1:${slug}`) ?? Promise.resolve(null),
+        store.redisClient()?.get(keys.meta(slug)) ?? Promise.resolve(null),
         STORE_PROBE_TIMEOUT_MS,
         null,
       ),

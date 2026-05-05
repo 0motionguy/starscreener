@@ -5,10 +5,11 @@ ensurePipelineRepoJsonlFixture();
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { NextRequest } from "next/server";
 
 async function invokeRoute(query: string): Promise<Response> {
   const { GET } = await import("../../../app/api/repos/route");
-  const req = new Request(`http://localhost/api/repos${query}`);
+  const req = new NextRequest(`http://localhost/api/repos${query}`);
   return GET(req as never);
 }
 

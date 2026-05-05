@@ -673,5 +673,13 @@ export async function GET(
   const deny = adminAuthFailureResponse(verifyAdminAuth(request));
   if (deny) return deny as NextResponse<ErrorResponse>;
 
-  return NextResponse.json(await readAdminPoolState());
+  try {
+    return NextResponse.json(await readAdminPoolState());
+  } catch (err) {
+    console.error("[pool-state] aggregation failed:", err);
+    return NextResponse.json(
+      { ok: false, error: "Failed to aggregate pool state" },
+      { status: 500 },
+    );
+  }
 }

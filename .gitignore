@@ -127,3 +127,11 @@ awesome-codex-skills/
 
 # local agent vector db
 ruvector.db
+
+# forensic auto-generation: docs/forensic/ was archived 2026-05-05 to
+# docs/archive/forensic-2026-05-pre/. New writes belong under
+# docs/archive/forensic/<YYYY-MM-DD>/ -- not the top-level dir. This guard
+# prevents ad-hoc parallel-agent sweeps from re-polluting the archived path.
+# See docs/archive/forensic-generator-redirect.md.
+/docs/forensic/
+/docs/storybook/

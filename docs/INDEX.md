@@ -94,7 +94,7 @@ Count: 27 (per `node scripts/check-docs-freshness.mjs`).
 | `docs/API.md` | Public API surface | 2026-05-05 |
 | `docs/ARCHITECTURE.md` | Redis 3-tier read order, namespaces, compute lanes, error categories | 2026-05-05 |
 | `docs/DEPLOY.md` | Vercel + Railway deploy paths, env wiring, Node 22.x | 2026-05-05 |
-| `docs/ENGINE.md` | 85 workflows + 16 cron routes + 52 worker fetchers + ~85 env vars | 2026-05-05 |
+| `docs/ENGINE.md` | 85 workflows + 16 cron routes + 51 worker fetchers + ~85 env vars | 2026-05-05 |
 | `docs/INGESTION.md` | Scraper cadence, dual-write helper, Redis-as-truth | 2026-05-05 |
 | `docs/OPERATOR.md` | Operator situational awareness (single source of truth) | 2026-05-05 |
 | `docs/RUNBOOK-internal-agent-token-rotation.md` | Internal agent token rotation | 2026-05-05 |
@@ -494,7 +494,7 @@ below distill its critical gaps so they can be tracked here.
 
 Current ground truth at 2026-05-05: 85 `.github/workflows/*.yml` files (per
 `docs/_generated/engine.json`, derived from filesystem), 16 cron API routes
-under `src/app/api/cron/`, 52 worker fetchers in the sister Railway worker
+under `src/app/api/cron/`, 51 worker fetchers in the sister Railway worker
 (`apps/trendingrepo-worker/`), and ~85 env vars. Re-derive with
 `npm run engine:derive`. See `docs/ENGINE.md` (now `status: living`) for the
 human-readable narrative; `docs/_generated/engine.md` for the auto-derived

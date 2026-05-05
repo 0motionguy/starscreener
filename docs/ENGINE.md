@@ -10,7 +10,7 @@ Last derived from filesystem on 2026-05-05. Direct re-derivation:
 
 - Workflows: `Glob .github/workflows/*.yml` (count = 85)
 - Cron API routes: `Glob src/app/api/cron/**/route.ts` (count = 16)
-- Worker fetchers: `apps/trendingrepo-worker/src/registry.ts` (52 active in `FETCHERS[]`; stubs left in tree but excluded from registry)
+- Worker fetchers: `apps/trendingrepo-worker/src/registry.ts` (44 active in `FETCHERS[]`; 7 stubs left in tree but excluded from registry; 51 total per `npm run engine:derive`)
 - Env vars: `.env.example` + `src/lib/env.ts` + `process.env.*` greps in `scripts/` and `apps/trendingrepo-worker/src/`
 
 This file is the canonical engine map. Every gain/loss of a workflow,
@@ -148,7 +148,7 @@ them on a schedule today.
 
 ---
 
-## 3. Worker (apps/trendingrepo-worker/) - 52 active fetchers
+## 3. Worker (apps/trendingrepo-worker/) - 44 active fetchers (51 total in tree)
 
 Source: `apps/trendingrepo-worker/src/registry.ts` (`FETCHERS[]`) +
 each fetcher's `index.ts`. Schedules are 5-field UTC cron strings used
@@ -156,9 +156,11 @@ by `croner` in `src/schedule.ts`. Every fetcher writes to the
 `ss:data:v1:<name>` Redis key via `src/lib/redis.ts`.
 
 `_template`, `huggingface`, `github`, `mcp-so`, `mcp-servers-repo`,
-`github-events`, `ai-blogs` exist as files under `src/fetchers/` but are
-not in the active `FETCHERS[]` registry export (see
-`registry.ts` comments: stubs left in tree as documentation of intent).
+`github-events`, `ai-blogs`, `arxiv` exist as files under
+`src/fetchers/` but are not in the active `FETCHERS[]` registry export
+(see `registry.ts` comments: stubs left in tree as documentation of
+intent). `agent-commerce/` exists as a data-only directory (no
+`index.ts`).
 
 | Fetcher | Schedule (UTC) | Output Redis key | Notes |
 |---|---|---|---|

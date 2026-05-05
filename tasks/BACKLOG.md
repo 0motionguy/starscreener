@@ -648,6 +648,7 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
 - [ ] **SCORING.md full rewrite** â€” document v3 8-source consensus + Kimi K2.6 AI Analyst (refs `apps/trendingrepo-worker/src/fetchers/consensus-trending/{types.ts,scoring.ts}`)
 - [ ] **Phase 1.0.D verification sweep** â€” drift-audit `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`, `docs/runbooks/*` (5 files), `docs/protocols/*` (5 files), `docs/RUNBOOK-secret-rotation.md`, `docs/DESIGN_SYSTEM.md`; mark living/snapshot/needs-rewrite
 - [ ] **docs/DESIGN_SYSTEM.md rewrite** â€” file documents V3 only and references missing `docs/V2_HANDOFF.md` + `docs/HANDOFF_2026-04-27_V3.md`; replacement: `design/v4/DESIGN_SYSTEM.md` (canonical V4/CORPUS doc). Either redirect with a one-line stub or delete and update inbound links
+- [x] Phase 4 part 3 — scripts/ Redis-key sweep — DONE 2026-05-05 (3 migrations: scripts/enrich-arxiv.mjs x2 + scripts/audit-redis-file-drift.mjs x1; exported `keys` shim from scripts/_data-store-write.mjs; check-redis-keys.mjs now scans scripts/).
 
 ### orphan cron routes
 - [x] Delete orphan cron route `src/app/api/cron/news-auto-recover/route.ts` — DELETED 2026-05-05.

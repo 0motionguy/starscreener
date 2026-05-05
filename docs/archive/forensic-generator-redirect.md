@@ -86,3 +86,30 @@ rejects writes to `docs/forensic/` and rewrites the path to
    write to `docs/forensic/`.
 4. Verify by running one agent dispatch and confirming the new file lands under
    `docs/archive/forensic/<today>/`.
+
+## Phase 2 follow-up (2026-05-05)
+
+Closed out by AGN-1606 sub-agent. Three-pronged redirect:
+
+- **Scripts patched** to write under `docs/archive/forensic/<YYYY-MM-DD>/`:
+  - `scripts/agn792-aiso-scan.mjs` (line 9 — outDir)
+  - `scripts/aiso-monthly-regression-watcher.mjs` (line 14 area — FORENSIC_DIR
+    became per-run `forensicDir(startedAt)`)
+- **Skill template strengthened.** `.claude/skills/project/forensic-prune/SKILL.md`
+  now declares `docs/archive/forensic/<YYYY-MM-DD>/` as the canonical output path
+  for any forensic write — script-generated OR ad-hoc agent-written. Future
+  dispatches that quote this skill will land in the right place.
+- **Gitignore safety net.** `.gitignore` now contains `/docs/forensic/`. Any
+  parallel-agent sweep that ignores the skill template still won't pollute the
+  repo — the writes stay on disk only and never get committed.
+
+After Phase 1.1, commit `2724ae58` ("docs(forensic+ops): land 2026-05-05
+productivity reviews + AISO scans + worker churn") had re-added 78 files into
+`docs/forensic/` because the orchestrator commit-sweep (`git add docs/`) caught
+ad-hoc agent writes that bypassed Phase 1.1's archive. AGN-1606 moved those
+89 in-flight files (78 originally tracked + 11 fresh untracked) back to
+`docs/archive/forensic-2026-05-pre/` via `git mv -f`. 13 had filename collisions
+with the original archive snapshot — the in-flight (newer) version wins because
+those agents had appended new content during Phase 1.1+.
+
+`docs/forensic/` is now empty and removed from disk.

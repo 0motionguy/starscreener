@@ -28,6 +28,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Secrets scan (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          # Required by the action, not used for repository writes.
+          GITHUB_TOKEN: ${{ github.token }}
+          # Fail CI when leaked material is present in the workspace.
+          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: "false"
+          GITLEAKS_COMMAND: detect
+          GITLEAKS_ARGS: --source . --no-git --redact --verbose --exit-code 1
+
       # Node 22 matches engines.node in package.json. The project uses Next
       # 15 + React 19 + Vitest 2 — all expect Node 20+ at minimum.
       - name: Setup Node 22
@@ -39,31 +49,51 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Restore Next.js build cache
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.ts', 'src/**/*.tsx', 'next.config.ts') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
+            ${{ runner.os }}-nextjs-
+
       # Step 1: typecheck. Strict tsc --noEmit. Fails fast on type drift
       # before we burn time on tests.
       - name: Typecheck
+        env:
+          # AGN-665: keep CI telemetry isolated from production /admin/keys.
+          GITHUB_POOL_NAMESPACE: test
         run: npm run typecheck
 
       # Step 2: 5 chained CI guards (tokens, err-message echoes, zod on
       # mutating routes, route runtime declared, error envelope shape).
       # See package.json scripts.lint:guards.
       - name: Lint guards
+        env:
+          GITHUB_POOL_NAMESPACE: test
         run: npm run lint:guards
 
       # Step 3: V3 token-budget guard. Snapshots V1 alias-name counts in
       # scripts/_v3-token-baseline.json and fails when any pattern grows.
       # Prevents regression of the V3 design sweep.
       - name: V3 token budget
+        env:
+          GITHUB_POOL_NAMESPACE: test
         run: node scripts/check-v3-token-budget.mjs
 
       # Step 4: 93 vitest tests (hooks, components, lib).
       - name: Vitest (hooks/components/lib)
+        env:
+          GITHUB_POOL_NAMESPACE: test
         run: npm run test:hooks
 
       # Step 5: existing node:test + tsx --test suites (scrapers, pipeline,
       # twitter collector, tools, portal). Same set developers run with
       # `npm test`.
       - name: Node test suite
+        env:
+          GITHUB_POOL_NAMESPACE: test
         run: npm test
 
       # Step 6: Playwright. Requires a built + running production server.
@@ -77,30 +107,15 @@ jobs:
         run: node scripts/seed-e2e-repos.mjs
 
       - name: Build (production)
+        env:
+          GITHUB_POOL_NAMESPACE: test
         run: npm run build
 
-      - name: Bundle size check (T3.3 — warn at >300 KB per client chunk)
-        # Catches accidental client-side bundling of heavy libs. Annotation-
-        # only; never fails the build. Tighten threshold or fail-on-overage
-        # once the bundle stabilizes.
-        shell: bash
-        run: |
-          THRESHOLD_BYTES=$((300 * 1024))
-          oversized=0
-          while IFS= read -r f; do
-            [ -z "$f" ] && continue
-            size=$(stat -c '%s' "$f" 2>/dev/null || stat -f '%z' "$f")
-            if [ "$size" -gt "$THRESHOLD_BYTES" ]; then
-              echo "::warning file=$f::Client chunk $f is $((size/1024)) KB (>300 KB threshold)"
-              oversized=$((oversized + 1))
-            fi
-          done < <(find .next/static/chunks -name "*.js" 2>/dev/null)
-          if [ "$oversized" -eq 0 ]; then
-            echo "Bundle size check OK — all client chunks under 300 KB"
-          else
-            echo "Bundle size: $oversized client chunk(s) exceed 300 KB (warning, not failing)"
-          fi
-
+      - name: Per-route bundle budget (baseline + 10%)
+        # Enforced gate for per-route client bundle drift. Uses
+        # bundle-budgets.json baselines and fails when any route exceeds
+        # baseline * 1.10.
+        run: node scripts/check-bundle-budgets.mjs
       # Background next start on port 3023 (the project's canonical port —
       # matches scripts.start, scripts.dev, and the playwright config
       # default). Wait until the port answers before we kick off the test

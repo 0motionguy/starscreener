@@ -49,6 +49,7 @@ const OUT_PATH = resolve(DATA_DIR, "mcp-liveness.json");
 const CONCURRENCY = 50;
 const PING_TIMEOUT_MS = 5_000;
 const ROLLING_WINDOW_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+const BUFFER_TTL_SECONDS = 8 * 24 * 60 * 60; // keep 7d window + 1d grace
 const NAMESPACE = "ss:data:v1";
 const USER_AGENT = "TrendingRepo-MCP-Liveness/1.0 (+https://trendingrepo.com)";
 
@@ -80,7 +81,10 @@ async function getRedisClient() {
       async get(key) {
         return client.get(key);
       },
-      async set(key, value) {
+      async set(key, value, opts = undefined) {
+        if (opts?.ex && Number.isFinite(opts.ex) && opts.ex > 0) {
+          return client.set(key, value, "EX", Math.trunc(opts.ex));
+        }
         return client.set(key, value);
       },
       async quit() {
@@ -101,8 +105,8 @@ async function getRedisClient() {
       async get(key) {
         return client.get(key);
       },
-      async set(key, value) {
-        return client.set(key, value);
+      async set(key, value, opts = undefined) {
+        return client.set(key, value, opts);
       },
       async quit() {
         /* no-op for REST client */
@@ -386,7 +390,11 @@ async function main() {
     const merged = pruneOldPings([...prevPings, newPing], nowMs);
 
     try {
-      await redis.set(bufKey, JSON.stringify({ pings: merged, updatedAt: fetchedAt }));
+      await redis.set(
+        bufKey,
+        JSON.stringify({ pings: merged, updatedAt: fetchedAt }),
+        { ex: BUFFER_TTL_SECONDS },
+      );
     } catch (err) {
       log(`buffer write failed for ${slug}: ${err?.message ?? err}`);
     }

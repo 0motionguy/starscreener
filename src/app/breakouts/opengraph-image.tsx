@@ -21,10 +21,17 @@ import {
 } from "@/lib/og-primitives";
 
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 export const alt = "TrendingRepo — Cross-Signal Breakouts";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+const IMAGE_RESPONSE_OPTIONS = {
+  ...size,
+  headers: {
+    "cache-control": "public, s-maxage=300, stale-while-revalidate=3600",
+  },
+};
 
 const NAME_MAX = 36;
 
@@ -244,6 +251,6 @@ export default async function BreakoutsOGImage() {
         </div>
       </CardFrame>
     ),
-    { ...size, headers: OG_CACHE_HEADERS },
+    IMAGE_RESPONSE_OPTIONS,
   );
 }

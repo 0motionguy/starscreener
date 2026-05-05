@@ -4,10 +4,12 @@ import { notFound } from "next/navigation";
 
 import {
   getConsensusTrendingItems,
+  getConsensusTrendingMeta,
   refreshConsensusTrendingFromStore,
   type ConsensusItem,
   type ConsensusExternalSource,
 } from "@/lib/consensus-trending";
+import { evaluateConsensusCoverage } from "@/lib/consensus-coverage";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import {
   getConsensusItemReport,
@@ -119,6 +121,11 @@ export default async function ConsensusDetailPage({ params }: PageProps) {
     (i) => i.fullName.toLowerCase() === fullName.toLowerCase(),
   );
   if (!item) notFound();
+  const meta = getConsensusTrendingMeta();
+  const coverage = evaluateConsensusCoverage({
+    itemCount: meta.itemCount,
+    sourceStats: meta.sourceStats,
+  });
 
   const report = getConsensusItemReport(item.fullName);
   const verdict = report?.verdict ?? "weak";
@@ -172,19 +179,28 @@ export default async function ConsensusDetailPage({ params }: PageProps) {
         }
       />
 
-      {!report ? (
+      {!report || coverage.starved ? (
         <VerdictRibbon
           tone="amber"
           stamp={{
             eyebrow: "// ANALYST",
-            headline: "PENDING",
-            sub: "runs hourly · top 14 only",
+            headline: coverage.starved ? "GATED" : "PENDING",
+            sub: coverage.starved ? "source coverage below threshold" : "runs hourly · top 14 only",
           }}
           text={
             <>
-              No AI Analyst report yet for <b>{item.fullName}</b>. Reports are generated for the
-              top 14 consensus picks each hour. Stats below come from the consensus engine
-              directly.
+              {coverage.starved ? (
+                <>
+                  Analyst output is hidden for <b>{item.fullName}</b> because consensus source
+                  coverage is below minimum reliability thresholds.
+                </>
+              ) : (
+                <>
+                  No AI Analyst report yet for <b>{item.fullName}</b>. Reports are generated for
+                  the top 14 consensus picks each hour. Stats below come from the consensus engine
+                  directly.
+                </>
+              )}
             </>
           }
         />

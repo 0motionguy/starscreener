@@ -35,10 +35,14 @@ test.describe("compare", () => {
     // Both repo names — they get echoed by the profile grid columns and
     // also by the embedded CompareClient chart legend, so we just look
     // for any occurrence anywhere on the page.
-    await expect(page.getByText(/vercel\/next\.js/i).first()).toBeVisible({
+    await expect(
+      page.getByText(/vercel(?:\/|--)next(?:\.|-)js/i).first(),
+    ).toBeVisible({
       timeout: 15_000,
     });
-    await expect(page.getByText(/facebook\/react/i).first()).toBeVisible({
+    await expect(
+      page.getByText(/facebook(?:\/|--)react/i).first(),
+    ).toBeVisible({
       timeout: 15_000,
     });
 

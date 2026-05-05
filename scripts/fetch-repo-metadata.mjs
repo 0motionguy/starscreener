@@ -24,6 +24,97 @@ const BATCH_SIZE = Math.max(
   Math.min(50, Number.parseInt(process.env.REPO_METADATA_BATCH_SIZE ?? "25", 10) || 25),
 );
 
+const REPO_CATEGORY_VALUES = ["mcp", "skill", "agent", "library"];
+
+function hasTopic(topics, needle) {
+  return topics.some((t) => String(t || "").toLowerCase() === needle);
+}
+
+function looksLikeMcpManifestText(raw) {
+  if (!raw || typeof raw !== "string") return false;
+  const lower = raw.toLowerCase();
+  return (
+    lower.includes("modelcontextprotocol") ||
+    lower.includes('"mcp"') ||
+    lower.includes('"mcpserver"') ||
+    lower.includes('"mcp_server"')
+  );
+}
+
+function includesMcpSdk(pkgText) {
+  if (!pkgText || typeof pkgText !== "string") return false;
+  try {
+    const parsed = JSON.parse(pkgText);
+    const deps = {
+      ...(parsed?.dependencies ?? {}),
+      ...(parsed?.devDependencies ?? {}),
+      ...(parsed?.peerDependencies ?? {}),
+      ...(parsed?.optionalDependencies ?? {}),
+    };
+    return Object.prototype.hasOwnProperty.call(
+      deps,
+      "@modelcontextprotocol/sdk",
+    );
+  } catch {
+    return false;
+  }
+}
+
+function classifyRepoCategory(node, topics, repoName) {
+  const nameLower = String(repoName || "").toLowerCase();
+
+  const hasSkillMd = Boolean(node.skillMd?.byteSize > 0);
+  const hasAgentsMd = Boolean(node.agentsMd?.byteSize > 0);
+  const hasMcpJson = Boolean(node.mcpJson?.byteSize > 0);
+  const hasSkillsDir = Boolean(node.skillsDir?.entries?.length > 0);
+  const hasAgentsDir = Boolean(node.agentsDir?.entries?.length > 0);
+  const hasPersonasDir = Boolean(node.personasDir?.entries?.length > 0);
+  const hasManifestMcp = looksLikeMcpManifestText(node.manifestJson?.text ?? "");
+  const hasMcpSdk = includesMcpSdk(node.packageJson?.text ?? "");
+  const hasMcpNamePattern =
+    nameLower.startsWith("mcp-") || nameLower.endsWith("-mcp");
+
+  const mcpScore =
+    (hasTopic(topics, "mcp-server") ? 0.35 : 0) +
+    (hasMcpSdk ? 0.35 : 0) +
+    (hasMcpJson || hasManifestMcp ? 0.2 : 0) +
+    (hasMcpNamePattern ? 0.1 : 0);
+
+  const skillScore =
+    (hasSkillMd ? 0.45 : 0) +
+    (hasSkillsDir ? 0.35 : 0) +
+    (hasTopic(topics, "claude-skills") || hasTopic(topics, "agent-skills")
+      ? 0.2
+      : 0);
+
+  const agentScore =
+    (hasAgentsMd ? 0.45 : 0) +
+    (hasAgentsDir || hasPersonasDir ? 0.35 : 0) +
+    (hasTopic(topics, "claude-code") ||
+    hasTopic(topics, "claude-agents") ||
+    hasTopic(topics, "agentic")
+      ? 0.2
+      : 0);
+
+  const scored = [
+    { category: "mcp", score: mcpScore },
+    { category: "skill", score: skillScore },
+    { category: "agent", score: agentScore },
+  ].sort((a, b) => b.score - a.score);
+
+  if (scored[0].score <= 0) {
+    return {
+      category: "library",
+      confidence: 0.7,
+    };
+  }
+
+  return {
+    category: scored[0].category,
+    confidence: Math.max(0, Math.min(1, Number(scored[0].score.toFixed(2)))),
+  };
+}
+
 async function readJson(file, fallback) {
   try {
     return JSON.parse(await readFile(file, "utf8"));
@@ -144,6 +235,53 @@ function buildBatchQuery(batch) {
         isArchived
         isDisabled
         isFork
+        skillMd: object(expression: "HEAD:SKILL.md") {
+          ... on Blob {
+            byteSize
+          }
+        }
+        skillsDir: object(expression: "HEAD:skills") {
+          ... on Tree {
+            entries {
+              name
+            }
+          }
+        }
+        agentsMd: object(expression: "HEAD:AGENTS.md") {
+          ... on Blob {
+            byteSize
+          }
+        }
+        agentsDir: object(expression: "HEAD:agents") {
+          ... on Tree {
+            entries {
+              name
+            }
+          }
+        }
+        personasDir: object(expression: "HEAD:personas") {
+          ... on Tree {
+            entries {
+              name
+            }
+          }
+        }
+        mcpJson: object(expression: "HEAD:mcp.json") {
+          ... on Blob {
+            byteSize
+          }
+        }
+        manifestJson: object(expression: "HEAD:manifest.json") {
+          ... on Blob {
+            byteSize
+            text
+          }
+        }
+        packageJson: object(expression: "HEAD:package.json") {
+          ... on Blob {
+            text
+          }
+        }
       }`);
   });
 
@@ -186,6 +324,11 @@ function normalizeRepo(node, requestedFullName, fetchedAt) {
   const topics = node.repositoryTopics?.nodes
     ?.map((entry) => entry?.topic?.name)
     .filter(Boolean) ?? [];
+  const category = classifyRepoCategory(
+    node,
+    topics,
+    node.name ?? requestedName,
+  );
 
   return {
     githubId: node.databaseId ?? null,
@@ -208,6 +351,10 @@ function normalizeRepo(node, requestedFullName, fetchedAt) {
     archived: Boolean(node.isArchived),
     disabled: Boolean(node.isDisabled),
     fork: Boolean(node.isFork),
+    repoCategory: REPO_CATEGORY_VALUES.includes(category.category)
+      ? category.category
+      : "library",
+    repoCategoryConfidence: category.confidence,
     fetchedAt,
   };
 }
@@ -302,6 +449,18 @@ async function main() {
   // without waiting for a deploy. Throws if Redis is configured but
   // unreachable — workflow goes red, operator notices.
   const result = await writeDataStore("repo-metadata", payload);
+
+  for (const item of items) {
+    const { owner, name } = splitFullName(item.fullName);
+    await writeDataStore(`repo:${owner}:${name}:category`, {
+      category: item.repoCategory ?? "library",
+      confidence:
+        typeof item.repoCategoryConfidence === "number"
+          ? item.repoCategoryConfidence
+          : 0.7,
+      fetchedAt,
+    });
+  }
 
   console.log(
     `wrote ${OUT_FILE} (${items.length}/${fullNames.length} repos, ${failures.length} failures) [redis: ${result.source}]`,

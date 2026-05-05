@@ -375,6 +375,8 @@ export default async function CategoryDetailPage({
                       key={repo.fullName}
                       fullName={repo.fullName}
                       description={repo.description?.trim() || undefined}
+                      mentions24h={repo.mentionCount24h}
+                      delta24h={repo.starsDelta24h}
                       language={
                         repo.language
                           ? repo.language.toUpperCase()

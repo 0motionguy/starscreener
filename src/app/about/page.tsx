@@ -60,11 +60,11 @@ export default function AboutPage() {
           <li>An llms.txt index for AI crawlers, with a full variant covering the entire site map.</li>
         </ul>
 
-        <h2 style={{ fontSize: "24px", fontWeight: 500, letterSpacing: "-0.02em", marginTop: "40px", marginBottom: "12px" }}>
+        <h2 id="contact" style={{ fontSize: "24px", fontWeight: 500, letterSpacing: "-0.02em", marginTop: "40px", marginBottom: "12px" }}>
           Contact
         </h2>
         <p style={{ fontSize: "16px", lineHeight: 1.6, color: "var(--v4-ink-300)" }}>
-          Reach the team on <Link href="https://github.com/0motionguy/starscreener">GitHub</Link>, <Link href="https://x.com/0motionguy">X / Twitter</Link>, or via the <Link href="/submit">submission form</Link> for repo nominations. For partnerships and press, see the contact details on the company LinkedIn page linked in the footer.
+          Reach the team on <Link href="https://github.com/0motionguy/starscreener">GitHub</Link>, <Link href="https://x.com/0motionguy">X / Twitter</Link>, <Link href="https://agnt.newsroom">AGNT Newsroom</Link>, or via the <Link href="/submit">submission form</Link> for repo nominations. For partnerships and press, see the contact details on the company LinkedIn page linked in the footer.
         </p>
       </article>
     </main>

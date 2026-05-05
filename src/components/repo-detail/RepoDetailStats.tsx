@@ -23,6 +23,7 @@ import { formatNumber, getRelativeTime } from "@/lib/utils";
 
 interface RepoDetailStatsProps {
   repo: Repo;
+  updatedAt?: string | null;
 }
 
 function formatDelta(n: number): string {
@@ -36,7 +37,16 @@ function deltaTone(n: number): "up" | "down" | "default" {
   return "default";
 }
 
-export function RepoDetailStats({ repo }: RepoDetailStatsProps): JSX.Element {
+function freshnessTone(isoDate: string): "fresh" | "stale" | "normal" {
+  const then = new Date(isoDate).getTime();
+  if (!Number.isFinite(then)) return "normal";
+  const ageMinutes = (Date.now() - then) / 60_000;
+  if (ageMinutes <= 30) return "fresh";
+  if (ageMinutes > 60) return "stale";
+  return "normal";
+}
+
+export function RepoDetailStats({ repo, updatedAt }: RepoDetailStatsProps): JSX.Element {
   const lastReleaseValue = repo.lastReleaseAt
     ? getRelativeTime(repo.lastReleaseAt)
     : "—";
@@ -75,14 +85,21 @@ export function RepoDetailStats({ repo }: RepoDetailStatsProps): JSX.Element {
           {"// STATS · SNAPSHOT"}
         </span>
         <span
-          className="v2-stat shrink-0 tabular-nums"
+          className="v2-stat shrink-0 tabular-nums inline-flex items-center gap-2"
           style={{ color: "var(--v2-ink-300)" }}
           title="Momentum score (0-100)"
         >
-          MOMENTUM{" "}
-          <span style={{ color: "var(--v2-acc)" }}>
-            {repo.momentumScore.toFixed(1)}
+          <span>
+            MOMENTUM{" "}
+            <span style={{ color: "var(--v2-acc)" }}>
+              {repo.momentumScore.toFixed(1)}
+            </span>
           </span>
+          {updatedAt ? (
+            <span className={`freshness-tag freshness-tag--${freshnessTone(updatedAt)}`}>
+              Updated {getRelativeTime(updatedAt)}
+            </span>
+          ) : null}
         </span>
       </div>
 

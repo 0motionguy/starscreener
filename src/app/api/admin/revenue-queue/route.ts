@@ -1,6 +1,7 @@
 // Admin moderation endpoint for revenue submissions.
 //
-// GET  — list all submissions (pending + history). Requires CRON_SECRET bearer.
+// GET  — list all submissions (pending + history). Requires admin auth
+//        (ADMIN_TOKEN bearer or ss_admin cookie via verifyAdminAuth()).
 // POST — { id: string, action: "approve" | "reject", moderationNote?: string }
 //        flips status in the JSONL. Approved rows are picked up by
 //        src/lib/revenue-overlays.ts's self-reported / trustmrr-link loaders
@@ -11,6 +12,7 @@ import { z } from "zod";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
 import { serverError } from "@/lib/api/error-response";
+import { AdminRecoverableError } from "@/lib/errors";
 import { parseBody } from "@/lib/api/parse-body";
 import {
   listRevenueSubmissions,
@@ -81,7 +83,14 @@ export async function GET(request: NextRequest) {
       publicSubmissions: records.map(toPublicRevenueSubmission),
     });
   } catch (err) {
-    return serverError(err, { scope: "[admin/revenue-queue:GET]" });
+    const wrapped = new AdminRecoverableError(
+      "admin revenue-queue list failed",
+      {
+        scope: "api/admin/revenue-queue:GET",
+        message: err instanceof Error ? err.message : String(err),
+      },
+    );
+    return serverError(wrapped, { scope: "[admin/revenue-queue:GET]" });
   }
 }
 
@@ -103,7 +112,15 @@ export async function POST(request: NextRequest) {
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     const status = message.includes("not found") ? 404 : 500;
-    return serverError(err, {
+    const wrapped = new AdminRecoverableError(
+      "admin revenue-queue mutation failed",
+      {
+        scope: "api/admin/revenue-queue:POST",
+        message,
+        status,
+      },
+    );
+    return serverError(wrapped, {
       scope: "[admin/revenue-queue:POST]",
       publicMessage: status === 404 ? "submission not found" : "server error",
       status,

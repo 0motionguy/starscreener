@@ -17,9 +17,8 @@
 //
 // Rate-limiting (POST): per-IP token bucket, 1 request / 60s. Keyed on the
 // first address in `x-forwarded-for` falling back to the socket address.
-// Memory-local — intentional: a single Vercel Lambda handles bursts from a
-// client cooldown, and a distributed limit isn't needed for a per-profile
-// refresh button.
+// Enforced via the shared rate-limit store (Upstash when configured, memory
+// fallback otherwise) so limits hold across serverless instances.
 //
 // Auth: none. The button is a visible, idempotent-ish affordance on a
 // public profile page. The per-IP cooldown + the client-side 60s button
@@ -43,6 +42,8 @@ import type {
   AisoToolsDimension,
   AisoToolsScan,
 } from "@/lib/aiso-tools";
+import { getClientIp } from "@/lib/api/client-ip";
+import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 
 export const runtime = "nodejs";
 
@@ -94,51 +95,11 @@ function topDimensions(
 }
 
 // ---------------------------------------------------------------------------
-// Rate limiting (per-IP, in-memory)
+// Rate limiting (per-IP, shared store with memory fallback)
 // ---------------------------------------------------------------------------
 
 const RATE_LIMIT_MS = 60_000;
-const rateLimitMap = new Map<string, number>();
-
-function clientIp(request: NextRequest): string {
-  const xff = request.headers.get("x-forwarded-for");
-  if (xff) {
-    const first = xff.split(",")[0]?.trim();
-    if (first) return first;
-  }
-  const real = request.headers.get("x-real-ip");
-  if (real) return real;
-  return "unknown";
-}
-
-function pruneRateLimit(now: number): void {
-  // Prevent unbounded growth — drop entries older than two windows.
-  if (rateLimitMap.size < 1024) return;
-  const cutoff = now - RATE_LIMIT_MS * 2;
-  for (const [key, last] of rateLimitMap.entries()) {
-    if (last < cutoff) rateLimitMap.delete(key);
-  }
-}
-
-function checkRateLimit(ip: string): { ok: true } | { ok: false; retryAfterMs: number } {
-  const now = Date.now();
-  const last = rateLimitMap.get(ip);
-  if (last !== undefined && now - last < RATE_LIMIT_MS) {
-    return { ok: false, retryAfterMs: RATE_LIMIT_MS - (now - last) };
-  }
-  rateLimitMap.set(ip, now);
-  pruneRateLimit(now);
-  return { ok: true };
-}
-
-// Test-only escape hatch — Next.js forbids extra named exports in route
-// files, so we publish the reset hook on `globalThis` under a symbol key.
-// Tests import the route then call `(globalThis as any)[AISO_TEST_RESET]()`
-// without polluting the route's public type surface.
-const AISO_TEST_RESET = Symbol.for("trendingrepo.aiso.test.reset");
-(globalThis as unknown as Record<symbol, () => void>)[AISO_TEST_RESET] = () => {
-  rateLimitMap.clear();
-};
+const RATE_LIMIT_MAX_REQUESTS = 1;
 
 // ---------------------------------------------------------------------------
 // Rescan queue
@@ -249,15 +210,18 @@ export async function POST(
     );
   }
 
-  const ip = clientIp(request);
-  const rl = checkRateLimit(ip);
-  if (!rl.ok) {
-    const retryAfterSec = Math.max(1, Math.ceil(rl.retryAfterMs / 1000));
+  const ip = getClientIp(request);
+  const limit = await checkRateLimitAsync(request, {
+    windowMs: RATE_LIMIT_MS,
+    maxRequests: RATE_LIMIT_MAX_REQUESTS,
+  });
+  if (!limit.allowed) {
+    const retryAfterSec = Math.max(1, Math.ceil(limit.retryAfterMs / 1000));
     return NextResponse.json(
       {
         ok: false,
         error: "Rate limited — one rescan per 60s per IP",
-        retryAfterMs: rl.retryAfterMs,
+        retryAfterMs: limit.retryAfterMs,
       },
       {
         status: 429,

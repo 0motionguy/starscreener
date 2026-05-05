@@ -7,7 +7,7 @@ import { appendFile, writeFile, mkdir, readdir, readFile } from "node:fs/promise
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
-import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { readDataStore, writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 
 const PERIODS = ["past_24_hours", "past_week", "past_month"];
@@ -16,6 +16,7 @@ const TRENDS_PAUSE_MS = 1500;
 const COLLECTIONS_PAUSE_MS = 400;
 const COLLECTION_RANKING_PERIOD = "past_28_days";
 const COLLECTION_RANKING_METRICS = ["stars", "issues"];
+const OUTAGE_CACHE_TTL_SECONDS = 7 * 24 * 60 * 60;
 const TRENDS_URL = "https://api.ossinsight.io/v1/trends/repos/";
 const HOT_COLLECTIONS_URL = "https://api.ossinsight.io/v1/collections/hot/";
 
@@ -175,7 +176,8 @@ async function main() {
   let totalCollectionRankingRows = 0;
 
   if (fetchTrendBuckets) {
-    const buckets = {};
+    try {
+      const buckets = {};
 
     for (const period of PERIODS) {
       buckets[period] = {};
@@ -200,18 +202,6 @@ async function main() {
       rows: hotCollections,
     };
 
-    await mkdir(dirname(TRENDS_OUT), { recursive: true });
-    await writeFile(
-      TRENDS_OUT,
-      JSON.stringify(trendsPayload, null, 2) + "\n",
-      "utf8",
-    );
-    await writeFile(
-      HOT_COLLECTIONS_OUT,
-      JSON.stringify(hotCollectionsPayload, null, 2) + "\n",
-      "utf8",
-    );
-
     // T3.4: lite/fast-path slice for first paint. The default homepage
     // view is past_24_hours / All — one bucket out of 15. Serving just
     // that bucket as a separate file drops first-paint payload from
@@ -229,21 +219,43 @@ async function main() {
       // Pointer back to the full grid for clients that follow links.
       fullPath: "/data/trending.json",
     };
-    await writeFile(
-      TRENDS_LITE_OUT,
-      JSON.stringify(trendsLitePayload, null, 2) + "\n",
-      "utf8",
-    );
-
-    // Dual-write: also push to data-store so live readers see fresh data
-    // without waiting for a deploy. Throws if Redis is configured but
-    // unreachable — workflow goes red, operator notices.
-    const trendsRedis = await writeDataStore("trending", trendsPayload);
-    const trendsLiteRedis = await writeDataStore(
-      "trending-lite",
-      trendsLitePayload,
-    );
-    const hotRedis = await writeDataStore("hot-collections", hotCollectionsPayload);
+    await mkdir(dirname(TRENDS_OUT), { recursive: true });
+    let trendsRedis;
+    let trendsLiteRedis;
+    let hotRedis;
+    try {
+      trendsRedis = await writeDataStore("trending", trendsPayload);
+      trendsLiteRedis = await writeDataStore(
+        "trending-lite",
+        trendsLitePayload,
+      );
+      hotRedis = await writeDataStore("hot-collections", hotCollectionsPayload);
+    } catch {
+      trendsRedis = { source: "skipped", writtenAt: fetchedAt };
+      trendsLiteRedis = { source: "skipped", writtenAt: fetchedAt };
+      hotRedis = { source: "skipped", writtenAt: fetchedAt };
+    }
+    if (
+      trendsRedis.source !== "redis" ||
+      trendsLiteRedis.source !== "redis" ||
+      hotRedis.source !== "redis"
+    ) {
+      await writeFile(
+        TRENDS_OUT,
+        JSON.stringify(trendsPayload, null, 2) + "\n",
+        "utf8",
+      );
+      await writeFile(
+        HOT_COLLECTIONS_OUT,
+        JSON.stringify(hotCollectionsPayload, null, 2) + "\n",
+        "utf8",
+      );
+      await writeFile(
+        TRENDS_LITE_OUT,
+        JSON.stringify(trendsLitePayload, null, 2) + "\n",
+        "utf8",
+      );
+    }
     traceEvent.writes.push(
       {
         key: "trending",
@@ -274,14 +286,29 @@ async function main() {
     console.log(
       `wrote ${TRENDS_LITE_OUT} (${liteRows.length} rows · ${TRENDS_LITE_PERIOD}/${TRENDS_LITE_LANGUAGE}) [redis: ${trendsLiteRedis.source}]`,
     );
-    console.log(
-      `wrote ${HOT_COLLECTIONS_OUT} (${hotCollections.length} rows) [redis: ${hotRedis.source}]`,
-    );
+      console.log(
+        `wrote ${HOT_COLLECTIONS_OUT} (${hotCollections.length} rows) [redis: ${hotRedis.source}]`,
+      );
+    } catch (trendErr) {
+      const fallbackKeys = [];
+      for (const key of ["trending", "trending-lite", "hot-collections"]) {
+        if (await keepCachedSnapshotAlive(key, traceEvent)) fallbackKeys.push(key);
+      }
+      if (fallbackKeys.length === 0) {
+        throw trendErr;
+      }
+      traceEvent.mode.trendBucketsFallback = "outage-cache-keepalive";
+      traceEvent.mode.trendBucketsFallbackKeys = fallbackKeys;
+      console.warn(
+        `[outage-fallback] OSS Insight fetch failed, kept cached Redis snapshots alive (${fallbackKeys.join(", ")}, ttl=${OUTAGE_CACHE_TTL_SECONDS}s): ${trendErr.message ?? trendErr}`,
+      );
+    }
   }
 
   if (fetchCollectionRankings) {
-    const collectionRefs = await loadCollectionRefs();
-    const collectionRankings = {};
+    try {
+      const collectionRefs = await loadCollectionRefs();
+      const collectionRankings = {};
 
     for (const collection of collectionRefs) {
       const metrics = {};
@@ -304,16 +331,22 @@ async function main() {
     };
 
     await mkdir(dirname(TRENDS_OUT), { recursive: true });
-    await writeFile(
-      COLLECTION_RANKINGS_OUT,
-      JSON.stringify(collectionRankingsPayload, null, 2) + "\n",
-      "utf8",
-    );
-
-    const rankingsRedis = await writeDataStore(
-      "collection-rankings",
-      collectionRankingsPayload,
-    );
+    let rankingsRedis;
+    try {
+      rankingsRedis = await writeDataStore(
+        "collection-rankings",
+        collectionRankingsPayload,
+      );
+    } catch {
+      rankingsRedis = { source: "skipped", writtenAt: fetchedAt };
+    }
+    if (rankingsRedis.source !== "redis") {
+      await writeFile(
+        COLLECTION_RANKINGS_OUT,
+        JSON.stringify(collectionRankingsPayload, null, 2) + "\n",
+        "utf8",
+      );
+    }
     traceEvent.writes.push({
       key: "collection-rankings",
       file: "data/collection-rankings.json",
@@ -322,12 +355,40 @@ async function main() {
       rows: totalCollectionRankingRows,
     });
 
-    console.log(
-      `wrote ${COLLECTION_RANKINGS_OUT} (${totalCollectionRankingRows} rows across ${collectionRefs.length} collections x ${COLLECTION_RANKING_METRICS.length} metrics) [redis: ${rankingsRedis.source}]`,
-    );
+      console.log(
+        `wrote ${COLLECTION_RANKINGS_OUT} (${totalCollectionRankingRows} rows across ${collectionRefs.length} collections x ${COLLECTION_RANKING_METRICS.length} metrics) [redis: ${rankingsRedis.source}]`,
+      );
+    } catch (rankErr) {
+      const keptAlive = await keepCachedSnapshotAlive("collection-rankings", traceEvent);
+      if (!keptAlive) {
+        throw rankErr;
+      }
+      traceEvent.mode.collectionRankingsFallback = "outage-cache-keepalive";
+      console.warn(
+        `[outage-fallback] collection rankings fetch failed, kept cached Redis snapshot alive (ttl=${OUTAGE_CACHE_TTL_SECONDS}s): ${rankErr.message ?? rankErr}`,
+      );
+    }
   }
 
   await appendDualWriteTrace(traceEvent);
+}
+
+async function keepCachedSnapshotAlive(key, traceEvent) {
+  const cached = await readDataStore(key);
+  if (!cached || typeof cached !== "object") return false;
+
+  const redisWrite = await writeDataStore(key, cached, {
+    ttlSeconds: OUTAGE_CACHE_TTL_SECONDS,
+    stampPerRecord: false,
+  });
+  traceEvent.writes.push({
+    key,
+    mode: "outage-cache-keepalive",
+    redisSource: redisWrite.source,
+    writtenAt: redisWrite.writtenAt,
+    ttlSeconds: OUTAGE_CACHE_TTL_SECONDS,
+  });
+  return true;
 }
 
 const startedAt = Date.now();

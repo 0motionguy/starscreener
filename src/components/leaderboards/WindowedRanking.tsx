@@ -11,6 +11,7 @@
 
 import { useState } from "react";
 import { RankRow } from "@/components/ui/RankRow";
+import { EntityLogo } from "@/components/ui/EntityLogo";
 
 export type RankWindow = "24h" | "7d" | "30d";
 
@@ -88,15 +89,13 @@ export function WindowedRanking({
               first={index === 0}
               avatar={
                 row.avatarSrc ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
+                  <EntityLogo
                     className="av"
-                    src={row.avatarSrc}
+                    src={row.avatarSrc ?? null}
+                    name={typeof row.title === "string" ? row.title : row.avatarText}
                     alt=""
-                    loading="lazy"
-                    width={32}
-                    height={32}
-                    style={{ objectFit: "cover" }}
+                    size={32}
+                    shape="circle"
                   />
                 ) : (
                   <span className="av">{row.avatarText}</span>

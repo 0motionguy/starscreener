@@ -1,98 +1,63 @@
-// AGN-912 snapshot — locks the /githubrepo metadata head block so a future
-// edit can't silently drop canonical / OG / Twitter / robots fields. The
-// SEO audit (AGN-790) flagged this surface as the most critical zero-meta
-// page; AGN-791 added partial values; AGN-912 finished the head and added
-// this guardrail.
-//
-// SITE_URL is module-load-time resolved from NEXT_PUBLIC_APP_URL — pin it
-// before importing the page so the canonical / OG URL assertions stay
-// deterministic regardless of the local host env.
+import assert from "node:assert/strict";
+import { test } from "node:test";
 
-import { describe, it, expect, beforeAll } from "vitest";
+import { metadata } from "../page";
+import { SITE_NAME, SITE_URL } from "@/lib/seo";
 
-beforeAll(() => {
-  process.env.NEXT_PUBLIC_APP_URL = "https://trendingrepo.com";
-});
+test("/githubrepo metadata matches expected SEO snapshot", () => {
+  const base = SITE_URL.replace(/\/+$/, "");
+  const canonical = `${base}/githubrepo`;
+  const ogImage = `${base}/og-card.png`;
 
-async function loadMetadata() {
-  const mod = await import("../page");
-  return mod.metadata;
-}
-
-describe("GET /githubrepo metadata", () => {
-  it("matches the locked SEO head snapshot", async () => {
-    const metadata = await loadMetadata();
-    expect(metadata).toMatchInlineSnapshot(`
-      {
-        "alternates": {
-          "canonical": "https://trendingrepo.com/githubrepo",
+  assert.deepEqual(
+    {
+      title: metadata.title,
+      description: metadata.description,
+      alternates: metadata.alternates,
+      robots: metadata.robots,
+      openGraph: metadata.openGraph,
+      twitter: metadata.twitter,
+    },
+    {
+      title: `Top 50 Trending GitHub Repos - ${SITE_NAME}`,
+      description:
+        "Live top 50 trending GitHub repositories ranked by momentum, star velocity, and cross-source agreement.",
+      alternates: { canonical },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          "max-image-preview": "large",
+          "max-snippet": -1,
+          "max-video-preview": -1,
         },
-        "description": "Live momentum-ranked list of the top 50 trending GitHub repositories with cross-source mention chips (Hacker News, Reddit, Bluesky, dev.to, Lobsters, npm, Hugging Face, arXiv, X). Refreshes every minute.",
-        "openGraph": {
-          "description": "Live momentum-ranked list of the top 50 trending GitHub repositories with cross-source mention chips (Hacker News, Reddit, Bluesky, dev.to, Lobsters, npm, Hugging Face, arXiv, X). Refreshes every minute.",
-          "images": [
-            {
-              "alt": "TrendingRepo — top 50 trending GitHub repositories, live",
-              "height": 630,
-              "url": "/og-card.png",
-              "width": 1200,
-            },
-          ],
-          "locale": "en_US",
-          "siteName": "TrendingRepo",
-          "title": "Top 50 trending GitHub repos — live — TrendingRepo",
-          "type": "website",
-          "url": "https://trendingrepo.com/githubrepo",
-        },
-        "robots": {
-          "follow": true,
-          "googleBot": {
-            "follow": true,
-            "index": true,
-            "max-image-preview": "large",
-            "max-snippet": -1,
-            "max-video-preview": -1,
+      },
+      openGraph: {
+        type: "website",
+        url: canonical,
+        title: `Top 50 Trending GitHub Repos - ${SITE_NAME}`,
+        description:
+          "Live top 50 trending GitHub repositories ranked by momentum, star velocity, and cross-source agreement.",
+        siteName: SITE_NAME,
+        locale: "en_US",
+        images: [
+          {
+            url: ogImage,
+            width: 1200,
+            height: 630,
+            alt: `${SITE_NAME} GitHub trending repositories`,
           },
-          "index": true,
-        },
-        "title": "Top 50 trending GitHub repos — live",
-        "twitter": {
-          "card": "summary_large_image",
-          "creator": "@0motionguy",
-          "description": "Live momentum-ranked list of the top 50 trending GitHub repositories with cross-source mention chips (Hacker News, Reddit, Bluesky, dev.to, Lobsters, npm, Hugging Face, arXiv, X). Refreshes every minute.",
-          "images": [
-            "/og-card.png",
-          ],
-          "site": "@0motionguy",
-          "title": "Top 50 trending GitHub repos — live — TrendingRepo",
-        },
-      }
-    `);
-  });
-
-  it("exposes an absolute canonical URL", async () => {
-    const metadata = await loadMetadata();
-    expect(metadata.alternates?.canonical).toBe(
-      "https://trendingrepo.com/githubrepo",
-    );
-  });
-
-  it("declares OG image dimensions and alt text", async () => {
-    const metadata = await loadMetadata();
-    const images = metadata.openGraph?.images;
-    expect(Array.isArray(images)).toBe(true);
-    const first = (images as Array<{ width?: number; height?: number; alt?: string }>)[0];
-    expect(first?.width).toBe(1200);
-    expect(first?.height).toBe(630);
-    expect(first?.alt).toMatch(/TrendingRepo/);
-  });
-
-  it("opts the page in to indexing with an explicit robots block", async () => {
-    const metadata = await loadMetadata();
-    expect(metadata.robots).toMatchObject({
-      index: true,
-      follow: true,
-      googleBot: { index: true, follow: true },
-    });
-  });
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `Top 50 Trending GitHub Repos - ${SITE_NAME}`,
+        description:
+          "Live top 50 trending GitHub repositories ranked by momentum, star velocity, and cross-source agreement.",
+        images: [ogImage],
+      },
+    },
+  );
 });

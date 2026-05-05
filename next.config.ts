@@ -1,7 +1,31 @@
 import type { NextConfig } from "next";
 import bundleAnalyzer from "@next/bundle-analyzer";
 import { withSentryConfig } from "@sentry/nextjs";
+import { buildReportOnlyCsp, buildStarterCsp } from "./src/lib/security/csp-starter";
 import pkg from "./package.json";
+
+function buildSentryCspReportUri(): string | null {
+  const dsn = process.env.SENTRY_DSN ?? process.env.NEXT_PUBLIC_SENTRY_DSN;
+  if (!dsn) return null;
+
+  try {
+    const parsed = new URL(dsn);
+    const projectId = parsed.pathname.replace(/^\/+/, "").split("/")[0];
+    if (!projectId || !parsed.username) return null;
+    return `${parsed.protocol}//${parsed.host}/api/${projectId}/security/?sentry_key=${parsed.username}`;
+  } catch {
+    return null;
+  }
+}
+
+function toOrigin(value: string | undefined): string | null {
+  if (!value) return null;
+  try {
+    return new URL(value).origin;
+  } catch {
+    return null;
+  }
+}
 
 // Bundle-size visualization: `npm run analyze` sets ANALYZE=true and runs a
 // production build, dumping interactive HTML reports to .next/analyze/.
@@ -59,6 +83,10 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "abs.twimg.com" },
       { protocol: "https", hostname: "unavatar.io" },
       { protocol: "https", hostname: "www.google.com" },
+      { protocol: "https", hostname: "t0.gstatic.com" },
+      { protocol: "https", hostname: "t1.gstatic.com" },
+      { protocol: "https", hostname: "t2.gstatic.com" },
+      { protocol: "https", hostname: "t3.gstatic.com" },
       { protocol: "https", hostname: "ph-files.imgix.net" },
       // Hugging Face — platform mark + author/org avatars (CDN). Used by
       // /huggingface/{models,datasets,spaces} via EntityLogo (raw <img>),
@@ -93,6 +121,64 @@ const nextConfig: NextConfig = {
   },
   poweredByHeader: false,
   compress: true,
+  async headers() {
+    const isProduction = process.env.NODE_ENV === "production";
+    const sentryReportUri = buildSentryCspReportUri();
+    const sentryOrigin = toOrigin(
+      process.env.SENTRY_DSN ?? process.env.NEXT_PUBLIC_SENTRY_DSN,
+    );
+    const posthogOrigin = toOrigin(process.env.NEXT_PUBLIC_POSTHOG_HOST);
+    const csp = buildStarterCsp({
+      posthogHost: posthogOrigin,
+      sentryOrigin,
+      sentryReportUri,
+    });
+    const cspReportOnly = buildReportOnlyCsp({
+      posthogHost: posthogOrigin,
+      sentryOrigin,
+      sentryReportUri,
+    });
+
+    const baseHeaders = [
+      { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "X-Frame-Options", value: "DENY" },
+      { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+      { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+      { key: "Cross-Origin-Resource-Policy", value: "same-site" },
+    ];
+
+    if (!isProduction) {
+      return [
+        {
+          source: "/s/:path*",
+          headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
+        },
+        { source: "/:path*", headers: baseHeaders },
+      ];
+    }
+
+    return [
+      {
+        source: "/s/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
+      },
+      {
+        source: "/:path*",
+        headers: [
+          ...baseHeaders,
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
+          { key: "Content-Security-Policy", value: csp },
+          ...(sentryReportUri
+            ? [{ key: "Content-Security-Policy-Report-Only", value: cspReportOnly }]
+            : []),
+        ],
+      },
+    ];
+  },
   // src/lib/data-store.ts lazily loads either `@upstash/redis` (REST) or
   // `ioredis` (TCP — Railway native Redis) for the Redis tier, plus Node
   // `fs` for the file-fallback tier. Several reader libs are transitively

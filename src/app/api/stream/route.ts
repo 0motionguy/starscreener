@@ -20,6 +20,7 @@
 //   - Connection closes cleanly on client disconnect via AbortSignal
 
 import { NextRequest } from "next/server";
+import { errorEnvelope } from "@/lib/api/error-response";
 import {
   onPipelineEvent,
   subscriberCount,
@@ -69,11 +70,12 @@ export async function GET(req: NextRequest): Promise<Response> {
   // clients fall back to polling rather than reconnect-flapping.
   if (process.env.VERCEL) {
     return new Response(
-      JSON.stringify({
-        ok: false,
-        error: "SSE not supported on Vercel — deploy to Railway/Fly/self-host",
-        code: "SSE_UNAVAILABLE_ON_VERCEL",
-      }),
+      JSON.stringify(
+        errorEnvelope(
+          "SSE not supported on Vercel — deploy to Railway/Fly/self-host",
+          "SSE_UNAVAILABLE_ON_VERCEL",
+        ),
+      ),
       {
         status: 501,
         headers: { "Content-Type": "application/json; charset=utf-8" },

@@ -7071,3 +7071,21 @@ body::before {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* AGN-924 — /compare mobile fixes (QUE-21 / F5 + F1).
+   F5: tool grid overflows below ~640px because the existing 767px breakpoint
+   keeps two columns until that point on some viewports; force single-column
+   earlier and clamp content. F1: long repo names in PageHead can break the
+   layout on 390px viewports — allow word-break on H1 and lede. Scoped to
+   .compare-page so we don't touch unrelated pages. */
+@media (max-width: 640px) {
+  .compare-page .tool-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .compare-page .page-head h1,
+  .compare-page .page-head .lede {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+}

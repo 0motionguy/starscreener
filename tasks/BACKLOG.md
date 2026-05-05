@@ -35,6 +35,12 @@ Recommended follow-up: same as CURRENT-SPRINT — a meaningful drift-audit needs
 - [ ] VPS migration (owner: CTO). Done when migration decision is documented as ship/no-ship with risk, cost, and rollback criteria. Target sprint: Sprint 6 (optional).
 
 ## Discovered during current work
+- 2026-05-05 AGN-1769 [Sprint 1 audit] Blocked-issue unblock-owner coverage matrix refresh (PM triage heartbeat):
+  - Wake scope acknowledged: AGN-1769 assigned for blocked-issue unblock-owner coverage matrix refresh.
+  - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+  - Freshness preflight at `2026-05-05T15:10:44+08:00`: localhost `http://localhost:3023` is reachable (not missing), but product is stale/degraded (`npm run freshness:check` failed with `GET /api/cron/freshness/state -> HTTP 500`).
+  - [ ] AGN-1769 blocked-owner coverage continuity follow-through (owner: PM triage). Done when blocked-issue rows keep one unblock owner + one unblock action + binary done-state wording, and freshness preflight exits 0 with localhost reachable and no blocking non-green rows.
+    Dependencies: platform/backend owner restores `/api/cron/freshness/state` to HTTP 200 and publishes rerun evidence; CTO/platform posts Vercel `SENTRY_DSN` readiness evidence used by blocked-issue close criteria.
 - 2026-05-05 AGN-781 [AISO-GAP-20] E2E test: full paid-tier checkout flow (PM blocker-cause reclassification):
   - Human reroute trigger: board comment `1d755fea-13c6-44fd-afa5-3e9bbb9cb206` asked Sprint Triage to re-read thread and reclassify blocker cause.
   - Mandatory opening re-run completed (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/archive/forensic-2026-05-pre/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).

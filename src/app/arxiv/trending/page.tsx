@@ -130,7 +130,7 @@ function formatClock(iso: string | undefined): string {
 export default async function ArxivTrendingPage({
   searchParams,
 }: {
-  searchParams?: ArxivSearchParams | Promise<ArxivSearchParams>;
+  searchParams?: Promise<ArxivSearchParams>;
 }) {
   const sp = searchParams ? await searchParams : undefined;
   const mentionsOnly =

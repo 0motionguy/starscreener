@@ -1,7 +1,95 @@
 {
-  "fetchedAt": "2026-05-04T05:03:19.822Z",
+  "fetchedAt": "2026-05-05T06:29:36.270Z",
   "windowDays": 7,
-  "scannedStories": 75,
-  "mentions": {},
-  "leaderboard": []
+  "scannedStories": 78,
+  "mentions": {
+    "kyegomez/OpenMythos": {
+      "count7d": 1,
+      "scoreSum7d": 6,
+      "topStory": {
+        "shortId": "zyjkpd",
+        "title": "OpenMythos: A theoretical reconstruction of the Claude Mythos architecture, built from first principles using the available research literature",
+        "score": 6,
+        "url": "https://github.com/kyegomez/OpenMythos",
+        "commentsUrl": "https://lobste.rs/s/zyjkpd/openmythos_theoretical_reconstruction",
+        "hoursSincePosted": 11.295277777777779
+      },
+      "stories": [
+        {
+          "shortId": "zyjkpd",
+          "title": "OpenMythos: A theoretical reconstruction of the Claude Mythos architecture, built from first principles using the available research literature",
+          "url": "https://github.com/kyegomez/OpenMythos",
+          "commentsUrl": "https://lobste.rs/s/zyjkpd/openmythos_theoretical_reconstruction",
+          "by": "",
+          "score": 6,
+          "commentCount": 0,
+          "createdUtc": 1777921913,
+          "ageHours": 11.295277777777779,
+          "trendingScore": 0.12376707495839882,
+          "tags": [
+            "ai",
+            "reversing"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "kyegomez/OpenMythos",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "erweixin/RaTeX": {
+      "count7d": 1,
+      "scoreSum7d": 1,
+      "topStory": {
+        "shortId": "qdfbsp",
+        "title": "RaTeX: LaTeX math renderer in Rust",
+        "score": 1,
+        "url": "https://github.com/erweixin/RaTeX",
+        "commentsUrl": "https://lobste.rs/s/qdfbsp/ratex_latex_math_renderer_rust",
+        "hoursSincePosted": 25.398055555555555
+      },
+      "stories": [
+        {
+          "shortId": "qdfbsp",
+          "title": "RaTeX: LaTeX math renderer in Rust",
+          "url": "https://github.com/erweixin/RaTeX",
+          "commentsUrl": "https://lobste.rs/s/qdfbsp/ratex_latex_math_renderer_rust",
+          "by": "",
+          "score": 1,
+          "commentCount": 0,
+          "createdUtc": 1777871143,
+          "ageHours": 25.398055555555555,
+          "trendingScore": 0.006973011589958491,
+          "tags": [
+            "rust",
+            "vibecoding"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "erweixin/RaTeX",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "leaderboard": [
+    {
+      "fullName": "kyegomez/OpenMythos",
+      "count7d": 1,
+      "scoreSum7d": 6
+    },
+    {
+      "fullName": "erweixin/RaTeX",
+      "count7d": 1,
+      "scoreSum7d": 1
+    }
+  ]
 }

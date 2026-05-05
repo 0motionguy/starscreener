@@ -26,6 +26,27 @@ Status: IN PROGRESS - Phase 1.5 blocked on Vercel Sentry DSN
 Started: 2026-05-03
 Target completion: 2026-05-10
 
+## AGN-752 [GAP-AUDIT-16] Resource hints (preconnect/dns-prefetch) (PM dependency triage heartbeat, 2026-05-05)
+- Wake/comment acknowledgment: recovery triage comment `98bf5672-c186-4597-9d14-cd91b1855b82` confirms AGN-752 is re-queued for assignee execution after prior adapter usage interruption.
+- Dependency boundary reaffirmed: AGN-752 remains blocked by dependency `AGN-992` and is triage-only this heartbeat; implementation work is not treated as unblocked.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness preflight at `2026-05-05`: `npm run freshness:check` failed with `GET http://localhost:3023/api/health?soft=1 -> HTTP 500`, so localhost is reachable but product is stale/degraded for verification.
+- Control-plane write blocker: `PAPERCLIP_API_URL=http://192.168.192.1:3100` is unreachable from this runtime (`Unable to connect to the remote server`), preventing issue-thread comment and terminal PATCH persistence.
+- Owner: PM triage.
+- Blocked on: AGN-992 owner to recover/close dependency and platform owner to restore Paperclip API reachability for this lane.
+- Needs: dependency owner posts explicit AGN-992 unblock evidence; platform owner restores connectivity to `192.168.192.1:3100`; then reassignee executes resource-hints implementation acceptance.
+- Done when: AGN-992 is cleared, control plane reachable for terminal PATCH, and implementation owner lands host ranking + preconnect/dns-prefetch + Lighthouse handshake evidence.
+
+## AGN-1769 [Sprint 1 audit] Blocked-issue unblock-owner coverage matrix refresh (PM triage heartbeat, 2026-05-05)
+- Wake scope acknowledged: AGN-1769 assigned for blocked-issue unblock-owner coverage matrix refresh.
+- Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).
+- Freshness preflight at `2026-05-05T15:10:44+08:00`: localhost `http://localhost:3023` is reachable (not missing), but product is stale/degraded (`npm run freshness:check` failed: `GET /api/cron/freshness/state -> HTTP 500 Internal Server Error`).
+- Coverage-matrix decision: blocked-issue rows remain triage-only with explicit unblock owner and unblock action; no blocked issue is treated as unblocked without dependency-clear evidence.
+- Owner: PM triage.
+- Blocked on: platform/backend owner for `/api/cron/freshness/state` recovery to HTTP 200 and CTO/platform owner for Vercel `SENTRY_DSN` readiness evidence used across blocked-issue close criteria.
+- Needs: platform/backend owner restores freshness endpoint behavior and posts rerun proof; CTO/platform posts Sentry readiness canary evidence; PM reruns coverage matrix refresh after both unblock proofs are posted.
+- Done when: blocked-issue coverage matrix entries each show one unblock owner + one unblock action + one binary done-state line, and freshness preflight exits 0 with localhost reachable and no blocking non-green rows.
+
 ## AGN-1244 [Sprint 1 audit] Bridge blocked-issue unblock-owner coverage audit (PM blocker-cause reclassification, 2026-05-05)
 - Reclassification trigger: board comment `be436f2b-5124-4964-9b36-2b2df27518ab` requested Sprint Triage to re-read thread and clarify blocker cause.
 - Mandatory opening bundle re-verified (`CLAUDE.md`, `docs/ENGINE.md`, `docs/SITE-WIREMAP.md`, `docs/archive/AUDIT-2026-05-04.md`, `docs/forensic/00-INDEX.md`, `tasks/CURRENT-SPRINT.md`, `tasks/BACKLOG.md`).

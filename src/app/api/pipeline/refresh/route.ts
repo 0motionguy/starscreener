@@ -64,7 +64,7 @@ export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<RefreshResponse | RefreshErrorResponse>> {
   const parsed = await parseBody(request, RefreshBodySchema, { allowEmpty: true });
-  if (!parsed.ok) return parsed.response;
+  if (!parsed.ok) return parsed.response as NextResponse<RefreshErrorResponse>;
 
   // Per-IP gate.
   const limit = await checkRateLimitAsync(request, {

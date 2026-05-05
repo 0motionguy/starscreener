@@ -23,6 +23,22 @@
 //   ss:data:v1:<snapshotSlug>:<YYYY-MM-DD>  — daily snapshot payloads
 //                                             (hotness, mcp-usage, skill-*).
 //   ss:meta:v1:<snapshotSlug>:<YYYY-MM-DD>  — daily snapshot meta sidecar.
+//   ss:data:v1:deltas:snapshot:<epochSec>   — deltas fetcher per-tick
+//                                             trending snapshot (35d TTL).
+//   ss:data:v1:deltas:snapshot-index        — deltas fetcher snapshot
+//                                             index (sorted ring).
+//   pool:github:tokens:<label>              — worker-side per-token shared
+//                                             quota state (remaining/reset/
+//                                             quarantine). Note: worker's
+//                                             shape is flat — the main app
+//                                             uses `pool:github:tokens:<ns>:
+//                                             <label>` with a namespace
+//                                             segment. Unifying that is a
+//                                             separate Redis migration.
+//   tr:etag:<url>                           — HTTP ETag header cache
+//                                             (lib/http.ts).
+//   tr:etag-body:<url>                      — HTTP ETag body cache
+//                                             (lib/http.ts).
 //   tr:healthcheck                          — Railway TCP-level liveness
 //                                             ping (server.ts).
 //
@@ -57,6 +73,40 @@ export const keys = {
     `${SS}:data:${DATA_VERSION}:${snapshotSlug}:${date}`,
   dailySnapshotMeta: (snapshotSlug: string, date: string) =>
     `${SS}:meta:${META_VERSION}:${snapshotSlug}:${date}`,
+
+  // ---------------------------------------------------------------------
+  // GitHub PAT pool — worker-published per-token state for cross-lane
+  // quota coordination with the main app. The worker's key shape is
+  // FLAT (no `<ns>` segment) — divergent from the main app's
+  // `pool:github:tokens:<ns>:<label>`. Don't "fix" that here; it's a
+  // separate Redis migration with dual-read/dual-write transition cost.
+  // ---------------------------------------------------------------------
+  pool: {
+    github: {
+      tokenState: (label: string) => `pool:github:tokens:${label}`,
+    },
+  },
+
+  // ---------------------------------------------------------------------
+  // Deltas fetcher — rolling per-tick trending snapshots used to compute
+  // 1h/24h/7d/30d star deltas without git history. Snapshot TTL is 35d
+  // (matches the longest window). Index is a single sorted ring capped
+  // at MAX_SNAPSHOTS in deltas/index.ts.
+  // ---------------------------------------------------------------------
+  deltas: {
+    snapshot: (epochSec: number) => `${SS}:data:${DATA_VERSION}:deltas:snapshot:${epochSec}`,
+    snapshotIndex: () => `${SS}:data:${DATA_VERSION}:deltas:snapshot-index`,
+  },
+
+  // ---------------------------------------------------------------------
+  // HTTP ETag cache (lib/http.ts) — keyed by the request URL. 7d TTL.
+  // The `tr:` namespace is worker-only; the Next.js app never reads
+  // these.
+  // ---------------------------------------------------------------------
+  http: {
+    etag: (url: string) => `tr:etag:${url}`,
+    etagBody: (url: string) => `tr:etag-body:${url}`,
+  },
 
   // ---------------------------------------------------------------------
   // Worker-local liveness probe written by server.ts during /health

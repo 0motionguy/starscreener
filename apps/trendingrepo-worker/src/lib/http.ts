@@ -1,6 +1,7 @@
 import { Agent, fetch as undiciFetch } from 'undici';
 import type { HttpClient, HttpOptions, RedisHandle } from './types.js';
 import { parseRateLimitHeaders, recordRateLimit } from './util/github-token-pool.js';
+import { keys } from './redis-keys.js';
 
 const DEFAULT_AGENT = new Agent({
   connectTimeout: 10_000,
@@ -11,8 +12,6 @@ const DEFAULT_AGENT = new Agent({
   pipelining: 0,
 });
 
-const ETAG_KEY_PREFIX = 'tr:etag:';
-const ETAG_BODY_PREFIX = 'tr:etag-body:';
 const ETAG_TTL_SECONDS = 7 * 24 * 60 * 60;
 
 export interface HttpClientDeps {
@@ -55,7 +54,7 @@ async function fetchWithRetry(
 
   let priorEtag: string | null = null;
   if (useCache && deps.redis) {
-    priorEtag = await deps.redis.get(ETAG_KEY_PREFIX + url);
+    priorEtag = await deps.redis.get(keys.http.etag(url));
   }
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
@@ -87,7 +86,7 @@ async function fetchWithRetry(
     }
 
     if (res.status === 304 && priorEtag && deps.redis) {
-      const cachedBody = await deps.redis.get(ETAG_BODY_PREFIX + url);
+      const cachedBody = await deps.redis.get(keys.http.etagBody(url));
       if (cachedBody !== null) {
         return { body: cachedBody, etag: priorEtag, cached: true };
       }
@@ -120,8 +119,8 @@ async function fetchWithRetry(
     const newEtag = res.headers.get('etag') ?? undefined;
     if (useCache && newEtag && deps.redis) {
       await Promise.all([
-        deps.redis.set(ETAG_KEY_PREFIX + url, newEtag, { ex: ETAG_TTL_SECONDS }),
-        deps.redis.set(ETAG_BODY_PREFIX + url, body, { ex: ETAG_TTL_SECONDS }),
+        deps.redis.set(keys.http.etag(url), newEtag, { ex: ETAG_TTL_SECONDS }),
+        deps.redis.set(keys.http.etagBody(url), body, { ex: ETAG_TTL_SECONDS }),
       ]);
     }
     publishGithubRateLimit(url, headers, res.headers);

@@ -1,4 +1,10 @@
-# AGN-401 release validation — Kubernetes probe hardening guard
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
+# AGN-401 release validation - Kubernetes probe hardening guard
 
 Date: 2026-05-05  
 Issue: AGN-401 (`[Audit-08 T6] Kubernetes probe hardening`)

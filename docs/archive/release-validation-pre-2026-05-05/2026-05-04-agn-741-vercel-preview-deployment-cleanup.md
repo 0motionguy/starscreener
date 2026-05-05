@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-741 Vercel preview-deployment cleanup (2026-05-04)
 
 ## Scope

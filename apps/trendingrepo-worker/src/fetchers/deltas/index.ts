@@ -30,11 +30,11 @@ import type {
   RunResult,
 } from '../../lib/types.js';
 import { writeDataStore } from '../../lib/redis.js';
+import { keys } from '../../lib/redis-keys.js';
 
-const TRENDING_KEY = 'ss:data:v1:trending';
-const TRENDING_META_KEY = 'ss:meta:v1:trending';
-const SNAPSHOT_PREFIX = 'ss:data:v1:deltas:snapshot:';
-const SNAPSHOT_INDEX_KEY = 'ss:data:v1:deltas:snapshot-index';
+const TRENDING_KEY = keys.payload('trending');
+const TRENDING_META_KEY = keys.meta('trending');
+const SNAPSHOT_INDEX_KEY = keys.deltas.snapshotIndex();
 const SNAPSHOT_TTL_SECONDS = 35 * 24 * 60 * 60; // 35 days
 const MAX_SNAPSHOTS = 64; // bounded ring; ~one per hour x ~3 days = plenty
 
@@ -216,7 +216,7 @@ const fetcher: Fetcher = {
     //    back at a later tick when this `currentTs` becomes "1h ago" /
     //    "24h ago" / etc. The snapshot key is `prefix + currentTs` so
     //    multiple ticks per second don't clobber each other.
-    const snapshotKey = `${SNAPSHOT_PREFIX}${currentTs}`;
+    const snapshotKey = keys.deltas.snapshot(currentTs);
     await redis.set(snapshotKey, JSON.stringify(currentJson), {
       ex: SNAPSHOT_TTL_SECONDS,
     });

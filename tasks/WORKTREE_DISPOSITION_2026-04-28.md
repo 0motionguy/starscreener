@@ -1,4 +1,9 @@
-﻿# Worktree Disposition Report — 2026-04-28
+﻿---
+status: archive
+last-touched: 2026-04-28
+---
+
+# Worktree Disposition Report — 2026-04-28
 
 ## TL;DR Summary
 - **HOLD-AND-COMMIT: 6 worktrees** (3 Phase 3.x features + builder + scorer + merge-wip)

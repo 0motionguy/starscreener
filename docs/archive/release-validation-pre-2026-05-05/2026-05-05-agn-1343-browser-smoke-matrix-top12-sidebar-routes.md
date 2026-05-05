@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-1343 Browser Smoke Matrix for Top 12 Sidebar Routes (2026-05-05)
 
 Issue: `AGN-1343`  

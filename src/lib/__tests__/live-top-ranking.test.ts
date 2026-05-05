@@ -12,6 +12,8 @@ function repo(partial: Partial<Repo> & Pick<Repo, "id" | "fullName">): Repo {
     fullName: partial.fullName,
     description: "",
     url: `https://github.com/${partial.fullName}`,
+    ownerAvatarUrl: "",
+    topics: [],
     stars: 10_000,
     forks: 100,
     starsDelta24h: partial.starsDelta24h ?? 0,
@@ -22,6 +24,7 @@ function repo(partial: Partial<Repo> & Pick<Repo, "id" | "fullName">): Repo {
     trendScore30d: 0,
     momentumScore: partial.momentumScore ?? 0,
     rank: 0,
+    categoryRank: 0,
     language: "TypeScript",
     categoryId: "devtools",
     contributors: 1,
@@ -33,9 +36,11 @@ function repo(partial: Partial<Repo> & Pick<Repo, "id" | "fullName">): Repo {
     movementStatus: "stable",
     sparklineData: [],
     createdAt: new Date().toISOString(),
-    lastCommitAt: null,
-    lastReleaseAt: null,
-  };
+    // Repo declares these as string; null is valid in fixtures (cast).
+    lastCommitAt: null as unknown as string,
+    lastReleaseAt: null as unknown as string,
+    lastReleaseTag: null as unknown as string,
+  } as Repo;
 }
 
 test("compareLiveTopTrending ranks by TRENDING (24h trend score) before momentum", () => {

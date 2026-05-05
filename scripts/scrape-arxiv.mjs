@@ -49,6 +49,7 @@ const OUT_PATH = resolve(DATA_DIR, "arxiv-recent.json");
 const ARXIV_CATEGORIES = ["cs.AI", "cs.CL", "cs.LG", "cs.CV", "cs.MA", "stat.ML"];
 const DEFAULT_MAX_RESULTS = 100;
 const DEFAULT_TIMEOUT_MS = 45_000;
+const RSS_TIMEOUT_MS = 30_000;
 const MAX_RESULTS = parseBoundedIntegerEnv(
   "ARXIV_MAX_RESULTS",
   DEFAULT_MAX_RESULTS,
@@ -208,6 +209,141 @@ function splitEntries(xml) {
   return out;
 }
 
+function splitRssItems(xml) {
+  const out = [];
+  const re = /<item\b[\s\S]*?<\/item>/gi;
+  let m;
+  while ((m = re.exec(xml)) !== null) {
+    out.push(m[0]);
+  }
+  return out;
+}
+
+function stripDescriptionPrefix(description) {
+  return description
+    .replace(/^arXiv:\S+\s+Announce Type:\s+\S+\s+Abstract:\s*/i, "")
+    .trim();
+}
+
+function extractRssArxivId(itemXml, link) {
+  const guid = pickTag(itemXml, "guid");
+  const fromLink = link.match(/arxiv\.org\/abs\/([^?\s]+)/i)?.[1];
+  if (fromLink) return fromLink;
+  const fromGuid = guid.match(/oai:arXiv\.org:(\S+)/i)?.[1];
+  return fromGuid ?? "";
+}
+
+function pickRssCategories(xml, fallbackCategory) {
+  const re = /<category(?:\s[^>]*)?>([\s\S]*?)<\/category>/gi;
+  const out = [];
+  let m;
+  while ((m = re.exec(xml)) !== null) {
+    const category = decodeXmlText(m[1]);
+    if (category) out.push(category);
+  }
+  return out.length > 0 ? Array.from(new Set(out)) : [fallbackCategory];
+}
+
+function parseRssItem(itemXml, fallbackCategory, tracked) {
+  const title = pickTag(itemXml, "title");
+  const link = pickTag(itemXml, "link");
+  const arxivId = extractRssArxivId(itemXml, link);
+  if (!arxivId) return null;
+
+  const summary = stripDescriptionPrefix(pickTag(itemXml, "description"));
+  const pubDate = pickTag(itemXml, "pubDate");
+  const authors = pickAllTags(itemXml, "dc:creator").slice(0, 50);
+  const categories = pickRssCategories(itemXml, fallbackCategory);
+
+  const blob = `${title}\n${summary}`;
+  const repoHits = extractGithubRepoFullNames(blob, tracked);
+  const linkedRepos = Array.from(repoHits, (lower) => ({
+    fullName: tracked.get(lower) ?? lower,
+    matchType: "abstract",
+    confidence: 1.0,
+  }));
+
+  const publishedMs = pubDate ? Date.parse(pubDate) : NaN;
+
+  return {
+    arxivId,
+    title: title.slice(0, 500),
+    summary: summary.slice(0, 2000),
+    authors,
+    categories,
+    primaryCategory: categories[0] ?? null,
+    absUrl: link || `https://arxiv.org/abs/${arxivId}`,
+    pdfUrl: `https://arxiv.org/pdf/${arxivId}.pdf`,
+    publishedAt: Number.isFinite(publishedMs)
+      ? new Date(publishedMs).toISOString()
+      : null,
+    updatedAt: null,
+    linkedRepos,
+  };
+}
+
+async function fetchArxivAtomXml() {
+  let xml = "";
+  const RETRY_STATUSES = new Set([429, 500, 502, 503, 504]);
+  const ATTEMPTS = 3;
+  for (let attempt = 1; attempt <= ATTEMPTS; attempt += 1) {
+    const res = await fetchWithTimeout(ENDPOINT, {
+      headers: {
+        "User-Agent": USER_AGENT,
+        Accept: "application/atom+xml, application/xml",
+      },
+      timeoutMs: FETCH_TIMEOUT_MS,
+    });
+    if (res.ok) {
+      xml = await res.text();
+      break;
+    }
+    if (!RETRY_STATUSES.has(res.status) || attempt === ATTEMPTS) {
+      throw new Error(`arXiv API HTTP ${res.status} ${res.statusText}`);
+    }
+    const retryAfterMs =
+      parseRetryAfterMs(res.headers.get("retry-after")) ?? 3_000 * attempt;
+    log(`arXiv ${res.status} - retry ${attempt}/${ATTEMPTS - 1} in ${retryAfterMs}ms`);
+    await sleep(retryAfterMs);
+  }
+  return xml;
+}
+
+async function fetchArxivRssPapers(tracked) {
+  const byId = new Map();
+  for (const category of ARXIV_CATEGORIES) {
+    const url = `https://rss.arxiv.org/rss/${category}`;
+    const res = await fetchWithTimeout(url, {
+      headers: {
+        "User-Agent": USER_AGENT,
+        Accept: "application/rss+xml, application/xml, text/xml",
+      },
+      timeoutMs: RSS_TIMEOUT_MS,
+    });
+    if (!res.ok) {
+      log(`RSS ${category} HTTP ${res.status} ${res.statusText}`);
+      continue;
+    }
+    const xml = await res.text();
+    let parsed = 0;
+    for (const itemXml of splitRssItems(xml)) {
+      const paper = parseRssItem(itemXml, category, tracked);
+      if (!paper || byId.has(paper.arxivId)) continue;
+      byId.set(paper.arxivId, paper);
+      parsed += 1;
+    }
+    log(`RSS ${category}: ${parsed} new papers`);
+    await sleep(1_000);
+  }
+  return Array.from(byId.values())
+    .sort((a, b) => {
+      const ta = a.publishedAt ? Date.parse(a.publishedAt) : 0;
+      const tb = b.publishedAt ? Date.parse(b.publishedAt) : 0;
+      return tb - ta;
+    })
+    .slice(0, MAX_RESULTS);
+}
+
 async function main() {
   // tracked-repos load is best-effort: when no trending.json exists yet
   // (fresh checkout, fresh Vercel build), we still want to record papers,
@@ -229,42 +365,27 @@ async function main() {
   // arXiv occasionally 429s; their TOS asks for 3s between requests, so we
   // retry up to 3 times honoring Retry-After when set.
   log(`query max_results=${MAX_RESULTS} timeout_ms=${FETCH_TIMEOUT_MS}`);
-  let xml = "";
-  const RETRY_STATUSES = new Set([429, 500, 502, 503, 504]);
-  const ATTEMPTS = 3;
-  for (let attempt = 1; attempt <= ATTEMPTS; attempt += 1) {
-    const res = await fetchWithTimeout(ENDPOINT, {
-      headers: {
-        "User-Agent": USER_AGENT,
-        Accept: "application/atom+xml, application/xml",
-      },
-      timeoutMs: FETCH_TIMEOUT_MS,
-    });
-    if (res.ok) {
-      xml = await res.text();
-      break;
+  let sourceLabel = `export.arxiv.org/api/query (${ARXIV_CATEGORIES.join(" + ")})`;
+  let papers = [];
+  try {
+    const xml = await fetchArxivAtomXml();
+    if (!xml) {
+      throw new Error("arXiv API returned empty body after retries");
     }
-    if (!RETRY_STATUSES.has(res.status) || attempt === ATTEMPTS) {
-      throw new Error(`arXiv API HTTP ${res.status} ${res.statusText}`);
+
+    const entries = splitEntries(xml);
+    if (entries.length === 0) {
+      throw new Error("no <entry> blocks in arXiv response - API shape changed?");
     }
-    const retryAfterMs =
-      parseRetryAfterMs(res.headers.get("retry-after")) ?? 3_000 * attempt;
-    log(`arXiv ${res.status} — retry ${attempt}/${ATTEMPTS - 1} in ${retryAfterMs}ms`);
-    await sleep(retryAfterMs);
-  }
-  if (!xml) {
-    throw new Error("arXiv API returned empty body after retries");
-  }
 
-  const entries = splitEntries(xml);
-  if (entries.length === 0) {
-    throw new Error("no <entry> blocks in arXiv response — API shape changed?");
-  }
-
-  const papers = [];
-  for (const entry of entries) {
-    const norm = parseEntry(entry, tracked);
-    if (norm) papers.push(norm);
+    for (const entry of entries) {
+      const norm = parseEntry(entry, tracked);
+      if (norm) papers.push(norm);
+    }
+  } catch (err) {
+    log(`API path failed (${err.message ?? err}); trying rss.arxiv.org fallback`);
+    sourceLabel = `rss.arxiv.org/rss (${ARXIV_CATEGORIES.join(" + ")})`;
+    papers = await fetchArxivRssPapers(tracked);
   }
 
   if (papers.length === 0) {
@@ -275,7 +396,7 @@ async function main() {
 
   const payload = {
     fetchedAt,
-    source: `export.arxiv.org/api/query (${ARXIV_CATEGORIES.join(" + ")})`,
+    source: sourceLabel,
     count: papers.length,
     linkedRepoCount: linkedCount,
     papers,

@@ -106,6 +106,16 @@ export interface DataStore {
   write<T>(key: string, value: T, opts?: DataWriteOptions): Promise<void>;
   /** Last-write timestamp from Redis without fetching the payload. */
   writtenAt(key: string): Promise<string | null>;
+  /**
+   * Batched `writtenAt` — issues ONE Redis pipeline (MGET on payload keys
+   * + MGET on meta keys = 2 round trips total) instead of N parallel GETs.
+   * Returns a Map<slug, ISO timestamp | null>. Same eviction-race guard
+   * as the single-key path: only trusts meta when the payload key exists.
+   * Falls back to per-key `writtenAt` when the underlying Redis client
+   * doesn't expose `mget`. Used by `/api/worker/health` to scale with
+   * fleet size without N+1 round trips. (AGN-468)
+   */
+  writtenAtMany(keys: ReadonlyArray<string>): Promise<Map<string, string | null>>;
   /** Test/admin — drop a key from every tier. */
   reset(key: string): Promise<void>;
   /**
@@ -211,6 +221,14 @@ export interface RedisClientLike {
     opts?: { ex?: number; nx?: boolean },
   ): Promise<unknown>;
   del(...keys: string[]): Promise<number>;
+  /**
+   * Optional batch GET. When implemented, the data-store collapses N+1
+   * single-key reads (e.g. fleet health probe over 30+ slugs) into one
+   * Redis round trip. Result MUST be in the same order as `keys`, with
+   * `null` for misses. Implementations that don't support pipelining
+   * should leave this undefined; callers fall back to per-key `get`.
+   */
+  mget?(...keys: string[]): Promise<(unknown)[]>;
   close?(): Promise<void> | void;
 }
 
@@ -255,6 +273,24 @@ class DefaultDataStore implements DataStore {
   private readonly env: EnvLike;
   private readonly onError: (err: unknown, op: "read" | "write") => void;
   private warnedRedisError = false;
+  /**
+   * Per-key in-flight read coalescing (AGN-671).
+   *
+   * When multiple concurrent callers ask for the same key (e.g. SSR for
+   * /trending fans out to several reader modules in the same Lambda invocation,
+   * or `Promise.all([store.read("trending"), store.read("trending"), ...])`),
+   * collapse them into ONE upstream Redis round-trip. The first caller seeds
+   * the map with a Promise that resolves to a frozen `DataReadResult`; every
+   * subsequent caller awaits that same Promise and gets a per-caller copy
+   * (so callers can't mutate each other's `data` reference).
+   *
+   * Cleared in `finally` so a settled promise never leaks. Entries are NOT
+   * cached between separate read() invocations — that would defeat the
+   * point of the three-tier freshness contract. Coalescing only spans the
+   * window from the first `read(key)` call until its Redis/file/memory
+   * resolution settles.
+   */
+  private readonly inflightReads = new Map<string, Promise<DataReadResult<unknown>>>();
 
   constructor(opts: {
     redis: RedisClientLike | null;
@@ -278,6 +314,32 @@ class DefaultDataStore implements DataStore {
   }
 
   async read<T>(key: string): Promise<DataReadResult<T>> {
+    // Anti-stampede single-flight (AGN-671): if a read for this key is
+    // already in flight, await its promise instead of issuing a duplicate
+    // Redis round-trip. Returns a per-caller shallow copy so concurrent
+    // readers can't accidentally mutate each other's view (the underlying
+    // `data` reference is shared, which is fine for our public-data
+    // invariant, see MemoryCache jsdoc).
+    const normalizedKey = normalizeKeyOrThrow(key);
+    const existing = this.inflightReads.get(normalizedKey);
+    if (existing) {
+      const shared = await existing;
+      return { ...(shared as DataReadResult<T>) };
+    }
+
+    const promise = this.readUncoalesced<T>(key) as Promise<
+      DataReadResult<unknown>
+    >;
+    this.inflightReads.set(normalizedKey, promise);
+    try {
+      const result = (await promise) as DataReadResult<T>;
+      return { ...result };
+    } finally {
+      this.inflightReads.delete(normalizedKey);
+    }
+  }
+
+  private async readUncoalesced<T>(key: string): Promise<DataReadResult<T>> {
     // ---- Tier 1: Redis -------------------------------------------------------
     if (this.redis) {
       try {
@@ -289,6 +351,8 @@ class DefaultDataStore implements DataStore {
           const data = parsePayload<T>(rawPayload);
           if (data !== null) {
             const writtenAt = parseWrittenAt(rawMeta);
+            // Missing/invalid meta means we cannot compute recency; report an
+            // explicit non-fresh sentinel age to avoid ageMs:0 false positives.
             const ageMs = writtenAt
               ? Math.max(0, Date.now() - new Date(writtenAt).getTime())
               : Number.MAX_SAFE_INTEGER;
@@ -437,6 +501,69 @@ class DefaultDataStore implements DataStore {
     if (stat) return new Date(stat.mtimeMs).toISOString();
     const cached = this.memory.get(key);
     return cached?.writtenAt ?? null;
+  }
+
+  async writtenAtMany(
+    keys: ReadonlyArray<string>,
+  ): Promise<Map<string, string | null>> {
+    const out = new Map<string, string | null>();
+    if (keys.length === 0) return out;
+
+    // Deduplicate while preserving insertion order — guards against
+    // accidentally double-MGET'ing if a caller hands us duplicate slugs.
+    const uniqueKeys = Array.from(new Set(keys));
+
+    // Fast path: Redis with mget. ONE pipeline call (2 MGETs in flight
+    // concurrently) instead of N×2 individual GETs over the wire.
+    if (this.redis && typeof this.redis.mget === "function") {
+      try {
+        const payloadKeys = uniqueKeys.map(payloadKey);
+        const metaKeys = uniqueKeys.map(metaKey);
+        const [payloadValues, metaValues] = await Promise.all([
+          this.redis.mget(...payloadKeys),
+          this.redis.mget(...metaKeys),
+        ]);
+
+        for (let i = 0; i < uniqueKeys.length; i += 1) {
+          const slug = uniqueKeys[i];
+          const rawPayload = payloadValues[i];
+          const rawMeta = metaValues[i];
+          // Same eviction-race guard as single-key writtenAt(): only
+          // trust the meta timestamp when the payload key still exists.
+          if (rawPayload === null || rawPayload === undefined) {
+            out.set(slug, null);
+            continue;
+          }
+          out.set(slug, parseWrittenAt(rawMeta));
+        }
+
+        // Backfill caller-original (possibly duplicate) keys.
+        const result = new Map<string, string | null>();
+        for (const key of keys) {
+          result.set(key, out.get(key) ?? null);
+        }
+        return result;
+      } catch (err) {
+        this.onError(err, "read");
+        // Fall through to per-key fallback below.
+      }
+    }
+
+    // Slow path: client without mget, or mget failed. Per-key
+    // writtenAt() in parallel — preserves correctness, costs N round
+    // trips. The fast path above is what makes the route scale.
+    const entries = await Promise.all(
+      uniqueKeys.map(async (key) => {
+        const ts = await this.writtenAt(key).catch(() => null);
+        return [key, ts] as const;
+      }),
+    );
+    const lookup = new Map(entries);
+    const result = new Map<string, string | null>();
+    for (const key of keys) {
+      result.set(key, lookup.get(key) ?? null);
+    }
+    return result;
   }
 
   async reset(key: string): Promise<void> {
@@ -723,6 +850,13 @@ function defaultRedisFactory(url: string, token?: string): RedisClientLike {
       return c.set(key, value);
     },
     del: (...keys) => client.del(...keys),
+    // ioredis MGET returns (string | null)[]. Forward as-is — data-store's
+    // batch path checks for null/undefined per slot. Empty key list short-
+    // circuits to avoid the "ERR wrong number of arguments for 'mget'".
+    mget: async (...keys) => {
+      if (keys.length === 0) return [];
+      return (await client.mget(...keys)) as unknown[];
+    },
     close: async () => {
       try {
         await client.quit();

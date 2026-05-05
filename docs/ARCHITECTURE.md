@@ -1,3 +1,9 @@
+---
+status: living
+last-verified: 2026-05-05
+verified-by: claude (drift audit, 3 Explore agents — 27/27 claims verified against current code)
+---
+
 # ARCHITECTURE.md - STARSCREENER system overview
 
 Last updated: 2026-05-04

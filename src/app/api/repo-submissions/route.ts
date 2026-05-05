@@ -3,6 +3,7 @@ import { z } from "zod";
 import * as Sentry from "@sentry/nextjs";
 
 import { verifyCronAuth } from "@/lib/api/auth";
+import { enforceMutationSameOrigin } from "@/lib/api/mutation-origin-guard";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import { parseBody } from "@/lib/api/parse-body";
 import { verifyTurnstileToken } from "@/lib/api/turnstile";
@@ -91,6 +92,9 @@ export async function POST(
 ): Promise<
   NextResponse<RepoSubmissionsCreateResponse | RepoSubmissionsErrorResponse>
 > {
+  const guard = enforceMutationSameOrigin(request);
+  if (!guard.ok) return guard.response as NextResponse<RepoSubmissionsErrorResponse>;
+
   const rate = await checkRateLimitAsync(
     scopedByIp(request, "repo-submissions"),
     REPO_SUBMIT_RATE_LIMIT,

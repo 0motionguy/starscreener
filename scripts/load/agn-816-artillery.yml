@@ -1,0 +1,27 @@
+config:
+  target: "{{ $processEnvironment.STAGING_URL }}"
+  phases:
+    - duration: 300
+      arrivalRate: 10
+      rampTo: 1000
+      name: "ramp_10_to_1000_rps_5m"
+  defaults:
+    headers:
+      user-agent: "paperclip-sre-artillery/agn-816"
+  ensure:
+    maxErrorRate: 1
+  plugins:
+    metrics-by-endpoint: {}
+
+scenarios:
+  - name: "required-routes"
+    weight: 100
+    flow:
+      - get:
+          url: "/"
+      - get:
+          url: "/githubrepo"
+      - get:
+          url: "/repo/vercel/next.js"
+      - get:
+          url: "/api/repos/vercel/next.js?v=2"

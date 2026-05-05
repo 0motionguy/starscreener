@@ -242,18 +242,53 @@ const fetcher: Fetcher = {
         return a.fullName.localeCompare(b.fullName);
       });
 
-    const allPostsOut = allPosts
+    let allPostsOut = allPosts
       .slice()
       .sort((a, b) => {
         if (b.createdUtc !== a.createdUtc) return b.createdUtc - a.createdUtc;
         return b.score - a.score;
       });
-    const topPosts = allPosts
+    let topPosts = allPosts
       .slice()
       .sort((a, b) => b.trendingScore - a.trendingScore)
       .slice(0, 100);
 
+    // AGN-370: read the prior reddit-mentions payload to build an
+    // engagement floor. If this run fell back to RSS Atom every post
+    // carries score=0/numComments=0 — without this protection we'd
+    // overwrite Redis with all-zero engagement and /reddit goes dark.
+    const previousMentions = await readDataStore<{
+      allPosts?: NormalizedPost[];
+      topPosts?: NormalizedPost[];
+      mentions?: Record<string, { posts?: NormalizedPost[] }>;
+    }>('reddit-mentions');
+    const engagementFloor = buildEngagementFloor(previousMentions ?? null);
+    if (engagementFloor.size > 0) {
+      allPostsOut = applyEngagementFloor(allPostsOut, engagementFloor);
+      topPosts = applyEngagementFloor(topPosts, engagementFloor);
+      for (const bucket of Object.values(mentionsOut)) {
+        bucket.posts = applyEngagementFloor(bucket.posts, engagementFloor);
+        // Re-derive upvotes7d from the floored posts so the leaderboard
+        // does not regress when fallback-mode wiped scores.
+        bucket.upvotes7d = bucket.posts.reduce((s, p) => s + (p.score ?? 0), 0);
+      }
+    }
+
     const runtime = getRedditFetchRuntime();
+    const fallbackZeroEngagement =
+      runtime.fallbackUsed === true &&
+      allPostsOut.length > 0 &&
+      allPostsOut.every((p) => (p.score ?? 0) === 0 && (p.numComments ?? 0) === 0);
+    if (fallbackZeroEngagement) {
+      ctx.log.warn(
+        {
+          oauthFailures: runtime.oauthFailures,
+          activeMode: runtime.activeMode,
+          totalPosts: allPostsOut.length,
+        },
+        'reddit: RSS-Atom fallback returned all-zero engagement; engagement floor preserved prior values where possible (AGN-370)',
+      );
+    }
     const payload = {
       fetchedAt,
       cold: mentions.size === 0,
@@ -324,8 +359,17 @@ interface RedditAllPostsPayload {
  * Merge prior all-posts with this run's, dedupe by id (newer wins), drop
  * anything older than the 7d cutoff. Mirrors the script's mergeAllPosts
  * behavior so consumers see historical depth across runs.
+ *
+ * AGN-370 (2026-05-04): when JSON fetch falls back to RSS Atom (UA pool
+ * 401-quarantined / OAuth fail), the Atom parser hard-codes
+ * score=0/num_comments=0 because Atom does not carry those fields. Naive
+ * "current wins" lets those zeros stomp real engagement values from the
+ * previous run, which surfaces as /reddit showing 0 upvotes / 0 comments
+ * everywhere (root cause for AGN-370 / AGN-529). We now take max() of
+ * score and numComments per id so a fallback-mode run can never erase
+ * known-good engagement; the next JSON-mode run still updates upward.
  */
-function mergeAllPostsPayload(
+export function mergeAllPostsPayload(
   previous: NormalizedPost[],
   current: NormalizedPost[],
   cutoffSec: number,
@@ -336,15 +380,93 @@ function mergeAllPostsPayload(
     if (typeof p.createdUtc !== 'number' || p.createdUtc < cutoffSec) continue;
     byId.set(p.id, p);
   }
-  // Current overrides previous for any matching id (latest score/comments).
+  // Current overrides previous for any matching id, EXCEPT engagement
+  // fields which monotonically grow on a 7d window — we keep max so a
+  // fallback-mode run carrying score=0/numComments=0 can't erase real
+  // values written by a healthy prior run.
   for (const p of current) {
     if (!p || typeof p.id !== 'string') continue;
     if (typeof p.createdUtc !== 'number' || p.createdUtc < cutoffSec) continue;
-    byId.set(p.id, p);
+    const prev = byId.get(p.id);
+    if (prev) {
+      byId.set(p.id, {
+        ...p,
+        score: Math.max(prev.score ?? 0, p.score ?? 0),
+        numComments: Math.max(prev.numComments ?? 0, p.numComments ?? 0),
+      });
+    } else {
+      byId.set(p.id, p);
+    }
   }
   return Array.from(byId.values()).sort((a, b) => {
     if (b.createdUtc !== a.createdUtc) return b.createdUtc - a.createdUtc;
     return b.score - a.score;
+  });
+}
+
+/**
+ * AGN-370: build a lookup of best-known engagement (max score / max
+ * numComments) keyed by post id, drawing from the previous reddit-mentions
+ * payload's allPosts + topPosts + per-mention posts. Used to preserve
+ * engagement when the current run came back with all-zeros (RSS Atom
+ * fallback).
+ */
+export function buildEngagementFloor(
+  previous:
+    | {
+        allPosts?: NormalizedPost[];
+        topPosts?: NormalizedPost[];
+        mentions?: Record<string, { posts?: NormalizedPost[] }>;
+      }
+    | null
+    | undefined,
+): Map<string, { score: number; numComments: number }> {
+  const floor = new Map<string, { score: number; numComments: number }>();
+  const consume = (posts: NormalizedPost[] | undefined): void => {
+    if (!Array.isArray(posts)) return;
+    for (const p of posts) {
+      if (!p || typeof p.id !== 'string') continue;
+      const cur = floor.get(p.id) ?? { score: 0, numComments: 0 };
+      const score = Math.max(cur.score, Number.isFinite(p.score) ? p.score : 0);
+      const numComments = Math.max(
+        cur.numComments,
+        Number.isFinite(p.numComments) ? p.numComments : 0,
+      );
+      floor.set(p.id, { score, numComments });
+    }
+  };
+  if (!previous) return floor;
+  consume(previous.allPosts);
+  consume(previous.topPosts);
+  if (previous.mentions) {
+    for (const m of Object.values(previous.mentions)) {
+      consume(m?.posts);
+    }
+  }
+  return floor;
+}
+
+/**
+ * AGN-370: apply the engagement floor so each post carries
+ * `max(currentScore, prevScore)` and same for numComments. The
+ * reddit-mentions payload is NOT merged across runs (only
+ * reddit-all-posts is), so without this protection a fallback run
+ * silently overwrites Redis with an all-zero engagement payload.
+ */
+export function applyEngagementFloor(
+  posts: NormalizedPost[],
+  floor: Map<string, { score: number; numComments: number }>,
+): NormalizedPost[] {
+  if (floor.size === 0) return posts;
+  return posts.map((p) => {
+    const prev = floor.get(p.id);
+    if (!prev) return p;
+    const curScore = Number.isFinite(p.score) ? p.score : 0;
+    const curComments = Number.isFinite(p.numComments) ? p.numComments : 0;
+    const score = Math.max(prev.score, curScore);
+    const numComments = Math.max(prev.numComments, curComments);
+    if (score === curScore && numComments === curComments) return p;
+    return { ...p, score, numComments };
   });
 }
 

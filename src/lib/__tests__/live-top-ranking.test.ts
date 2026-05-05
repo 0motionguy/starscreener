@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { compareLiveTopTrending } from "@/lib/live-top-ranking";
+import {
+  MENTION_WEIGHT,
+  compareLiveTopTrending,
+  liveRowTrendingScore,
+} from "@/lib/live-top-ranking";
 import type { Repo } from "@/lib/types";
 
 function repo(partial: Partial<Repo> & Pick<Repo, "id" | "fullName">): Repo {
@@ -96,5 +100,35 @@ test("compareLiveTopTrending ties break on absolute 24h delta, then mentions", (
     sorted.map((item) => item.id),
     ["c", "b", "a"],
   );
+});
+
+// AGN-524: client-side fallback used by LiveTopTable.getSortValue when
+// `sortKey === "rank"`. Must be TRENDING (abs Δ + mentions × weight),
+// not MOMENTUM (% growth). Bug screenshot showed +85 (327%) ranked above
+// +162 (0%) — exactly the inversion this asserts against.
+test("liveRowTrendingScore — absolute Δstars/24h dominates over % growth", () => {
+  const tinyHighPct = { starsDelta24h: 85, mentionCount24h: 0 };
+  const bigLowPct = { starsDelta24h: 162, mentionCount24h: 0 };
+  assert.ok(
+    liveRowTrendingScore(bigLowPct) > liveRowTrendingScore(tinyHighPct),
+    "warp-style abs delta must beat text-to-cad-style % delta",
+  );
+});
+
+test("liveRowTrendingScore — mentions add MENTION_WEIGHT stars-of-attention each", () => {
+  const noMentions = { starsDelta24h: 50, mentionCount24h: 0 };
+  const withMentions = { starsDelta24h: 50, mentionCount24h: 4 };
+  assert.equal(
+    liveRowTrendingScore(withMentions) - liveRowTrendingScore(noMentions),
+    4 * MENTION_WEIGHT,
+  );
+});
+
+test("liveRowTrendingScore — bursty %-only repo loses to a moderate-Δ repo with community signal", () => {
+  // 50 star repo, +30 in 24h = +60% momentum but tiny absolute volume.
+  const bursty = { starsDelta24h: 30, mentionCount24h: 0 };
+  // 10k star repo, +60 in 24h = 0% momentum, but 5 mentions across sources.
+  const established = { starsDelta24h: 60, mentionCount24h: 5 };
+  assert.ok(liveRowTrendingScore(established) > liveRowTrendingScore(bursty));
 });
 

@@ -1,3 +1,9 @@
+---
+status: living
+last-verified: 2026-05-05
+verified-by: claude (drift audit — Nitter provider, 4-query bundle, ingest auth, leaderboard routes all verified; this doc is correct, the stale claim is in CLAUDE.md which has been corrected to match)
+---
+
 # Twitter/X Signal Layer
 
 ## A. System overview

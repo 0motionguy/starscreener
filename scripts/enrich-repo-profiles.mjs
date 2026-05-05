@@ -9,6 +9,8 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { execFile as execFileCb } from "node:child_process";
+import { promisify } from "node:util";
 import {
   HttpStatusError,
   fetchJsonWithRetry,
@@ -16,6 +18,7 @@ import {
   sleep,
 } from "./_fetch-json.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+const execFile = promisify(execFileCb);
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -194,6 +197,165 @@ function futureIso(days) {
 
 function truncateError(error) {
   return String(error?.message ?? error).replace(/\s+/g, " ").trim().slice(0, 500);
+}
+
+function parseFrontmatter(markdown) {
+  const m = String(markdown ?? "").match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+  if (!m) return { frontmatter: {}, body: String(markdown ?? "") };
+  const frontmatter = {};
+  const lines = String(m[1] ?? "").split(/\r?\n/);
+  for (const line of lines) {
+    const idx = line.indexOf(":");
+    if (idx <= 0) continue;
+    const key = line.slice(0, idx).trim();
+    const raw = line.slice(idx + 1).trim();
+    if (!key) continue;
+    if (raw.startsWith("[") && raw.endsWith("]")) {
+      frontmatter[key] = raw
+        .slice(1, -1)
+        .split(",")
+        .map((v) => v.trim().replace(/^["']|["']$/g, ""))
+        .filter(Boolean);
+    } else {
+      frontmatter[key] = raw.replace(/^["']|["']$/g, "");
+    }
+  }
+  return { frontmatter, body: String(m[2] ?? "") };
+}
+
+function parseSkillManifest(text) {
+  const { frontmatter, body } = parseFrontmatter(text);
+  const name = typeof frontmatter.name === "string" ? frontmatter.name.trim() : "";
+  if (!name) throw new Error("skill manifest missing name");
+  return {
+    name,
+    description: typeof frontmatter.description === "string" ? frontmatter.description.trim() : undefined,
+    version: typeof frontmatter.version === "string" ? frontmatter.version.trim() : undefined,
+    body,
+  };
+}
+
+function parseAgentManifest(text) {
+  const { frontmatter, body } = parseFrontmatter(text);
+  const role = typeof frontmatter.role === "string" ? frontmatter.role.trim() : "";
+  if (!role) throw new Error("agent manifest missing role");
+  const capabilities = Array.isArray(frontmatter.capabilities)
+    ? frontmatter.capabilities.filter((v) => typeof v === "string")
+    : [];
+  const tools = Array.isArray(frontmatter.tools)
+    ? frontmatter.tools.filter((v) => typeof v === "string")
+    : [];
+  return { role, capabilities, tools, body };
+}
+
+function parseMcpManifest(text) {
+  const parsed = JSON.parse(text);
+  const name = typeof parsed?.name === "string" ? parsed.name.trim() : "";
+  const version = typeof parsed?.version === "string" ? parsed.version.trim() : "";
+  if (!name || !version) throw new Error("mcp manifest missing name/version");
+  const tools = Array.isArray(parsed.tools) ? parsed.tools.filter((t) => t && typeof t.name === "string") : [];
+  const resources = Array.isArray(parsed.resources) ? parsed.resources : [];
+  return { name, version, tools, resources };
+}
+
+async function fetchRepoFileViaGh(fullName, path) {
+  try {
+    const { stdout } = await execFile(
+      "gh",
+      ["api", `repos/${fullName}/contents/${path}`],
+      { maxBuffer: 1024 * 1024 * 4 },
+    );
+    const payload = JSON.parse(stdout);
+    if (!payload?.content || payload?.encoding !== "base64") return null;
+    const content = Buffer.from(String(payload.content).replace(/\n/g, ""), "base64").toString("utf8");
+    return content;
+  } catch {
+    return null;
+  }
+}
+
+async function collectRepoManifestProfile(fullName) {
+  const [owner, repo] = String(fullName).split("/");
+  if (!owner || !repo) return { manifest: null, manifestErrors: [] };
+
+  const manifestErrors = [];
+  let skill = null;
+  let agent = null;
+  let mcp = null;
+
+  const skillText =
+    (await fetchRepoFileViaGh(fullName, "SKILL.md")) ??
+    (await fetchRepoFileViaGh(fullName, ".well-known/skill.md"));
+  if (skillText) {
+    try {
+      skill = parseSkillManifest(skillText);
+    } catch (err) {
+      manifestErrors.push(`skill: ${truncateError(err)}`);
+    }
+  }
+
+  const agentText =
+    (await fetchRepoFileViaGh(fullName, "AGENT.md")) ??
+    (await fetchRepoFileViaGh(fullName, "AGENTS.md")) ??
+    (await fetchRepoFileViaGh(fullName, ".well-known/agent.md"));
+  if (agentText) {
+    try {
+      agent = parseAgentManifest(agentText);
+    } catch (err) {
+      manifestErrors.push(`agent: ${truncateError(err)}`);
+    }
+  }
+
+  const mcpText =
+    (await fetchRepoFileViaGh(fullName, "manifest.json")) ??
+    (await fetchRepoFileViaGh(fullName, "mcp.json")) ??
+    (await fetchRepoFileViaGh(fullName, ".well-known/webmcp.json"));
+  if (mcpText) {
+    try {
+      mcp = parseMcpManifest(mcpText);
+    } catch (err) {
+      manifestErrors.push(`mcp: ${truncateError(err)}`);
+    }
+  }
+
+  const key = `repo:${owner.toLowerCase()}:${repo.toLowerCase()}:manifest`;
+  const payload = {
+    fetchedAt: new Date().toISOString(),
+    repo: fullName,
+    skill,
+    agent,
+    mcp,
+    manifestErrors,
+  };
+  await writeDataStore(key, payload, { ttlSeconds: 0 });
+
+  return {
+    manifest: {
+      skill: skill
+        ? {
+            name: skill.name,
+            description: skill.description,
+            version: skill.version,
+          }
+        : null,
+      agent: agent
+        ? {
+            role: agent.role,
+            capabilities: agent.capabilities,
+            tools: agent.tools,
+          }
+        : null,
+      mcp: mcp
+        ? {
+            name: mcp.name,
+            version: mcp.version,
+            toolsCount: mcp.tools.length,
+            resourcesCount: mcp.resources.length,
+          }
+        : null,
+    },
+    manifestErrors,
+  };
 }
 
 function normalizeRepoKey(fullName) {
@@ -802,9 +964,22 @@ async function main() {
         npmPackages: npmPackages.map((pkg) => pkg.name),
         productHuntLaunchId: phLaunch?.id ?? null,
       },
+      manifest: existing?.manifest ?? null,
+      manifestErrors: Array.isArray(existing?.manifestErrors) ? existing.manifestErrors : [],
       aisoScan: existing?.aisoScan ?? null,
       error: null,
     };
+
+    try {
+      const manifestProfile = await collectRepoManifestProfile(candidate.fullName);
+      baseProfile.manifest = manifestProfile.manifest;
+      baseProfile.manifestErrors = manifestProfile.manifestErrors;
+    } catch (err) {
+      baseProfile.manifestErrors = [
+        ...(baseProfile.manifestErrors ?? []),
+        `manifest_ingest: ${truncateError(err)}`,
+      ];
+    }
 
     if (!websiteUrl) {
       selection.noWebsite += 1;

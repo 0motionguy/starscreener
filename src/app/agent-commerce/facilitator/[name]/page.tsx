@@ -11,45 +11,20 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
+import {
+  getBaseX402Onchain,
+  refreshBaseX402OnchainFromStore,
+} from "@/lib/base-x402-onchain";
+import {
+  getSolanaX402Onchain,
+  refreshSolanaX402OnchainFromStore,
+} from "@/lib/solana-x402-onchain";
 
 interface PageProps {
   params: Promise<{ name: string }>;
 }
 
 type ChainKey = "base" | "solana";
-
-interface BaseSample {
-  facilitator: string;
-  txHash: string;
-  from?: string;
-  to?: string;
-  timestamp: string;
-  blockNumber?: number;
-}
-
-interface SolSample {
-  facilitator: string;
-  txSig: string;
-  from?: string | null;
-  to?: string | null;
-  blockTime: string | null;
-  slot?: number | null;
-}
-
-interface OnchainShape<TSample> {
-  fetchedAt?: string;
-  totalSettlements?: number;
-  byFacilitator?: Record<
-    string,
-    { addressCount: number; totalTxs: number; x402Settlements: number }
-  >;
-  byDay?: Record<
-    string,
-    { txs: number; byFacilitator: Record<string, number> }
-  >;
-  samples?: TSample[];
-  facilitatorAddresses?: Record<string, string[]>;
-}
 
 const FAC_COLOR: Record<string, string> = {
   Coinbase: "#3b82f6",
@@ -62,22 +37,6 @@ const CHAIN_COLOR: Record<ChainKey, string> = {
   base: "#3b82f6",
   solana: "#22d3ee",
 };
-
-function readChain<TSample>(file: string): OnchainShape<TSample> | null {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const fs = require("fs") as typeof import("fs");
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const path = require("path") as typeof import("path");
-  try {
-    const raw = fs.readFileSync(
-      path.resolve(process.cwd(), `.data/${file}`),
-      "utf8",
-    );
-    return JSON.parse(raw) as OnchainShape<TSample>;
-  } catch {
-    return null;
-  }
-}
 
 export async function generateMetadata({
   params,
@@ -93,8 +52,12 @@ export async function generateMetadata({
 export default async function FacilitatorDrilldownPage({ params }: PageProps) {
   const { name } = await params;
 
-  const base = readChain<BaseSample>("base-x402-onchain.json");
-  const sol = readChain<SolSample>("solana-x402-onchain.json");
+  await Promise.all([
+    refreshBaseX402OnchainFromStore(),
+    refreshSolanaX402OnchainFromStore(),
+  ]);
+  const base = getBaseX402Onchain();
+  const sol = getSolanaX402Onchain();
 
   const baseFac = base?.byFacilitator?.[name] ?? null;
   const solFac = sol?.byFacilitator?.[name] ?? null;

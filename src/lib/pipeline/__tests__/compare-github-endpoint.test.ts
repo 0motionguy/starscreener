@@ -28,6 +28,7 @@ process.env.STARSCREENER_PERSIST = "false";
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { getDataStore } from "@/lib/data-store";
 
 // Fake slugs so the test neither hits real repos nor depends on GitHub
 // uptime. `fetchCompareBundle` will 404 and bake `error: "not_found"`
@@ -49,6 +50,43 @@ interface GithubEnvelope {
   code?: string;
 }
 
+function normalizeRepo(repo: string): string {
+  return repo.trim().toLowerCase();
+}
+
+function cacheKeyForRepos(repos: string[]): string {
+  const canonical = Array.from(new Set(repos.map(normalizeRepo))).sort();
+  return `compare-github:${canonical.map((r) => r.replace("/", "__")).join("--")}`;
+}
+
+async function seedCompareGithubCache(repos: string[]): Promise<void> {
+  const store = getDataStore();
+  const canonical = Array.from(new Set(repos.map(normalizeRepo))).sort();
+  await store.write(
+    cacheKeyForRepos(repos),
+    canonical.map((fullName) => ({
+      fullName,
+      ok: false,
+      error: "seeded_test_bundle",
+      repo: null,
+      starsSeries: [],
+      dailyStars: 0,
+      weeklyStars: 0,
+      monthlyStars: 0,
+      starVelocity: 0,
+      commitActivity: [],
+      contributors: [],
+      releases: [],
+      openIssues: 0,
+      openPulls: 0,
+      openDiscussions: null,
+      watchersCount: 0,
+      subscribersCount: 0,
+    })),
+    { ttlSeconds: 3600 },
+  );
+}
+
 // ---------------------------------------------------------------------------
 // 200 path
 // ---------------------------------------------------------------------------
@@ -59,6 +97,7 @@ test(
   // is committed; give the suite a generous ceiling to absorb that.
   { timeout: 45_000 },
   async () => {
+    await seedCompareGithubCache([FAKE_A, FAKE_B]);
     const res = await invokeRoute(
       `?repos=${encodeURIComponent(`${FAKE_A},${FAKE_B}`)}`,
     );
@@ -135,6 +174,7 @@ test(
   "Cache-Control header: 5-min edge / 1-hour SWR on the 200 response",
   { timeout: 45_000 },
   async () => {
+    await seedCompareGithubCache([FAKE_A]);
     const res = await invokeRoute(
       `?repos=${encodeURIComponent(FAKE_A)}`,
     );
@@ -143,5 +183,32 @@ test(
     assert.ok(cc, "Cache-Control header must be set");
     assert.match(cc!, /s-maxage=300/);
     assert.match(cc!, /stale-while-revalidate=3600/);
+  },
+);
+
+test("307 redirect to canonical sorted repos order", async () => {
+  const res = await invokeRoute(
+    `?repos=${encodeURIComponent("z/b,a/c")}`,
+  );
+  assert.equal(res.status, 307);
+  const location = res.headers.get("location");
+  assert.ok(location, "location header must be set");
+  const redirected = new URL(location!);
+  assert.equal(redirected.searchParams.get("repos"), "a/c,z/b");
+});
+
+test(
+  "429 on 11th request within 5 minutes from same IP",
+  async () => {
+    await seedCompareGithubCache([FAKE_A]);
+    let last: Response | null = null;
+    for (let i = 0; i < 11; i += 1) {
+      last = await invokeRoute(`?repos=${encodeURIComponent(FAKE_A)}`);
+    }
+    assert.ok(last, "expected a response");
+    assert.equal(last!.status, 429);
+    const body = (await last!.json()) as GithubEnvelope;
+    assert.equal(body.ok, false);
+    assert.equal(body.code, "rate_limited");
   },
 );

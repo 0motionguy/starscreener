@@ -24,6 +24,7 @@ import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { absoluteUrl } from "@/lib/seo";
 
 const PH_RED = "#DA552F";
 
@@ -47,6 +48,21 @@ export const metadata: Metadata = {
   title: "TrendingRepo — ProductHunt Launches",
   description:
     "Daily ProductHunt launches scored by votes/comments, cross-linked to GitHub repos when the maker mentions one.",
+  alternates: { canonical: absoluteUrl("/producthunt") },
+  openGraph: {
+    title: "Trending Product Hunt Launches - TrendingRepo",
+    description:
+      "Daily ProductHunt launches scored by votes/comments, cross-linked to GitHub repos when the maker mentions one.",
+    url: absoluteUrl("/producthunt"),
+    images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trending Product Hunt Launches - TrendingRepo",
+    description:
+      "Daily ProductHunt launches scored by votes/comments, cross-linked to GitHub repos when the maker mentions one.",
+    images: [absoluteUrl("/og-card.png")],
+  },
 };
 
 // ---------------------------------------------------------------------------
@@ -364,7 +380,7 @@ function NameTagline({ launch }: { launch: Launch }) {
           className="hidden mt-0.5 inline-flex items-center gap-1 text-[10px] font-mono text-text-tertiary hover:text-functional transition-colors"
           title={
             stars !== undefined
-              ? `${launch.githubUrl.replace(/^https?:\/\/github\.com\//, "")} · ${stars.toLocaleString("en-US")}★`
+              ? `${launch.githubUrl.replace(/^https?:\/\/github\.com\//, "")} · ${stars.toLocaleString("en-US")} stars`
               : launch.githubUrl
           }
         >
@@ -373,7 +389,7 @@ function NameTagline({ launch }: { launch: Launch }) {
             {launch.githubUrl.replace(/^https?:\/\/github\.com\//, "")}
           </span>
           {stars !== undefined ? (
-            <span className="text-text-muted">· {stars.toLocaleString("en-US")}★</span>
+            <span className="text-text-muted">· {stars.toLocaleString("en-US")} stars</span>
           ) : null}
         </a>
       ) : null}

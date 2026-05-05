@@ -77,6 +77,10 @@ export function toastAlertDeleted() {
   sonnerToast.info("Alert deleted");
 }
 
+export function toastAlertMarkedRead() {
+  sonnerToast.success("Alert marked as read");
+}
+
 export function toastAlertError(msg: string) {
   sonnerToast.error(msg);
 }

@@ -35,6 +35,7 @@ import * as Sentry from "@sentry/nextjs";
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { parseBody } from "@/lib/api/parse-body";
 import { getDataStore } from "@/lib/data-store";
+import { redactSensitiveText } from "@/lib/log-redaction";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -192,9 +193,11 @@ export async function POST(
     Sentry.captureException(err, {
       tags: { route: "api/pipeline/deltas", repo, window },
     });
-    const message = err instanceof Error ? err.message : String(err);
+    const rawMessage = err instanceof Error ? err.message : String(err);
+    const message = redactSensitiveText(rawMessage);
+    console.error("[pipeline:deltas] handler failed", { repo, window, message });
     return NextResponse.json(
-      { ok: false, error: message },
+      { ok: false, error: "server error" },
       { status: 500 },
     );
   }

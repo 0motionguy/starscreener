@@ -55,6 +55,7 @@
 // commit.
 
 import { NextRequest, NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 import { z } from "zod";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
@@ -326,6 +327,15 @@ export async function POST(request: NextRequest) {
     );
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
+    Sentry.captureException(err, {
+      tags: {
+        route: "api:cron:aiso-drain",
+      },
+      extra: {
+        limit,
+        dryRun,
+      },
+    });
     console.error("[api:cron:aiso-drain] drain failed", err);
     return NextResponse.json(
       { ok: false as const, error: message },

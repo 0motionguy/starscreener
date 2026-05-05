@@ -1,0 +1,85 @@
+name: SRE - Route Cost Attribution Verify
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sre-route-cost-attribution-verify
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BASE_URL: ${{ vars.APP_BASE_URL || 'https://trendingrepo.com' }}
+      ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+    steps:
+      - name: Probe /admin/costs and /api/admin/costs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .tmp/route-cost
+
+          curl_common=(--max-time 25 --retry 1 --retry-delay 1 --silent --show-error)
+
+          # Page probe (HTML)
+          page_code="$(curl "${curl_common[@]}" -o .tmp/route-cost/admin-costs.html -w "%{http_code}" "$BASE_URL/admin/costs")"
+          echo "$page_code" > .tmp/route-cost/admin-costs.http
+
+          # API probe (JSON) - token optional so we can capture auth posture explicitly.
+          if [[ -n "${ADMIN_TOKEN:-}" ]]; then
+            api_code="$(curl "${curl_common[@]}" \
+              -H "Authorization: Bearer $ADMIN_TOKEN" \
+              -o .tmp/route-cost/api-admin-costs.json \
+              -w "%{http_code}" \
+              "$BASE_URL/api/admin/costs")"
+          else
+            api_code="$(curl "${curl_common[@]}" \
+              -o .tmp/route-cost/api-admin-costs.json \
+              -w "%{http_code}" \
+              "$BASE_URL/api/admin/costs")"
+          fi
+          echo "$api_code" > .tmp/route-cost/api-admin-costs.http
+
+          page_ok=false
+          api_ok=false
+
+          # Accept either "Top 10 Cost Routes" or "top-10" wording in page payload.
+          if [[ "$page_code" == "200" ]] && grep -E -i "Top 10 Cost Routes|top-10|route cost" .tmp/route-cost/admin-costs.html >/dev/null 2>&1; then
+            page_ok=true
+          fi
+
+          # API acceptance: HTTP 200 + expected keys in JSON response.
+          if [[ "$api_code" == "200" ]] && grep -E '"routes"|"topRoutes"|"invocations"|"estimatedCost"' .tmp/route-cost/api-admin-costs.json >/dev/null 2>&1; then
+            api_ok=true
+          fi
+
+          cat > .tmp/route-cost/result.json <<JSON
+          {
+            "checkedAt": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+            "baseUrl": "$BASE_URL",
+            "adminCosts": { "http": "$page_code", "ok": $page_ok },
+            "apiAdminCosts": { "http": "$api_code", "ok": $api_ok },
+            "adminTokenProvided": $([[ -n "${ADMIN_TOKEN:-}" ]] && echo true || echo false)
+          }
+          JSON
+
+          cat .tmp/route-cost/result.json
+
+          if [[ "$page_ok" != "true" || "$api_ok" != "true" ]]; then
+            echo "::error::AGN-853 verification failed: route-cost page/API contract missing or non-200."
+            exit 1
+          fi
+
+      - name: Upload verification artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sre-route-cost-attribution-verify
+          path: .tmp/route-cost
+          retention-days: 14

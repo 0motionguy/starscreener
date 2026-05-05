@@ -11,8 +11,9 @@
 //           `unreadAlerts` count for that user.
 
 import { NextRequest, NextResponse } from "next/server";
-import { errorEnvelope } from "@/lib/api/error-response";
+import { serverError } from "@/lib/api/error-response";
 import { buildSidebarData } from "@/lib/sidebar-data";
+import { resolveBuildSidebarData } from "./_test-hooks";
 
 // Re-export the wire types so existing import paths keep working.
 export type {
@@ -31,7 +32,7 @@ export async function GET(request: NextRequest) {
     const includeAllRepos = request.nextUrl.searchParams.get("full") === "1";
     // Cap by default to keep payload latency under control for mobile drawer
     // fetches. Clients that need the full map can opt in with `?full=1`.
-    const data = await buildSidebarData({
+    const data = await resolveBuildSidebarData(buildSidebarData)({
       userId,
       reposByIdTopN: includeAllRepos ? undefined : 300,
       onTiming: (name, durationMs) => {
@@ -48,7 +49,6 @@ export async function GET(request: NextRequest) {
       headers: { "Content-Type": "application/json; charset=utf-8" },
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json(errorEnvelope(message), { status: 500 });
+    return serverError(err, { scope: "[pipeline/sidebar-data]" });
   }
 }

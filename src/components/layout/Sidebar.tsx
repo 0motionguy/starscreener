@@ -37,6 +37,11 @@ import type {
   SidebarDataResponse,
 } from "@/lib/sidebar-data";
 import type { SidebarWatchlistPreviewRepo } from "./SidebarWatchlistPreview";
+import {
+  getRecentViewedReposEvent,
+  readRecentViewedRepos,
+} from "@/lib/recent-viewed-repos";
+import type { SidebarRecentViewedPreviewRepo } from "./SidebarRecentViewedPreview";
 
 // ---------------------------------------------------------------------------
 // LaunchpadStrip — 3-tile shortcut row, V2-styled.
@@ -233,6 +238,47 @@ export function useWatchlistPreview(
   }, [watchlist, reposById]);
 }
 
+export function useRecentViewedPreview(
+  reposById: Record<string, SidebarDataRepo> | undefined,
+): SidebarRecentViewedPreviewRepo[] {
+  const [recentIds, setRecentIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    const refresh = () => {
+      try {
+        const items = readRecentViewedRepos(window.localStorage);
+        setRecentIds(items.map((item) => item.repoId));
+      } catch {
+        setRecentIds([]);
+      }
+    };
+    refresh();
+    const onStorage = (event: StorageEvent) => {
+      if (!event.key || event.key === "trendingrepo-recent-viewed-repos") {
+        refresh();
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    window.addEventListener(getRecentViewedReposEvent(), refresh);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener(getRecentViewedReposEvent(), refresh);
+    };
+  }, []);
+
+  return useMemo(() => {
+    if (!reposById) return [];
+    const out: SidebarRecentViewedPreviewRepo[] = [];
+    for (const id of recentIds) {
+      const repo = reposById[id];
+      if (!repo) continue;
+      out.push(repo);
+      if (out.length >= 5) break;
+    }
+    return out;
+  }, [recentIds, reposById]);
+}
+
 // ---------------------------------------------------------------------------
 // Sidebar root
 // ---------------------------------------------------------------------------
@@ -244,6 +290,7 @@ export function Sidebar({
 } = {}) {
   const data = useSidebarData(initialData);
   const watchlistPreview = useWatchlistPreview(data?.reposById);
+  const recentViewedPreview = useRecentViewedPreview(data?.reposById);
 
   // Width is driven by the parent `.app-shell` grid column (280px full /
   // 56px focused). We render the same chrome at both widths and let the
@@ -260,6 +307,7 @@ export function Sidebar({
           metaCounts={data.metaCounts}
           availableLanguages={data.availableLanguages}
           watchlistPreview={watchlistPreview}
+          recentViewedPreview={recentViewedPreview}
           unreadAlerts={data.unreadAlerts}
           sourceCounts={data.sourceCounts}
           trendingReposCount={data.trendingReposCount}

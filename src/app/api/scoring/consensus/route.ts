@@ -12,6 +12,7 @@ import {
   refreshConsensusTrendingFromStore,
   type ConsensusItem,
 } from "@/lib/consensus-trending";
+import { evaluateConsensusCoverage } from "@/lib/consensus-coverage";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -35,6 +36,7 @@ interface FailureBody {
   ok: false;
   source: "missing";
   message: string;
+  reasons?: string[];
 }
 
 function parseLimit(raw: string | null): number {
@@ -76,6 +78,22 @@ export async function GET(req: NextRequest): Promise<NextResponse<SuccessBody | 
         ok: false,
         source: "missing",
         message: `consensus-trending stale: ${meta.ageSeconds}s old (budget ${STALE_AFTER_SECONDS}s)`,
+      } satisfies FailureBody,
+      { status: 503 },
+    );
+  }
+
+  const coverage = evaluateConsensusCoverage({
+    itemCount: meta.itemCount,
+    sourceStats: meta.sourceStats,
+  });
+  if (coverage.starved) {
+    return NextResponse.json(
+      {
+        ok: false,
+        source: "missing",
+        message: "consensus source coverage is starved; payload gated",
+        reasons: coverage.reasons,
       } satisfies FailureBody,
       { status: 503 },
     );

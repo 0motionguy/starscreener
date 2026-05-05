@@ -1,0 +1,38 @@
+[
+  {
+    "target": "prod",
+    "url": "https://trendingrepo.com/submit",
+    "status": 200,
+    "title": "Drop Your Repo — TrendingRepo",
+    "fields": {
+      "hasRepo": 1,
+      "hasWhy": 1,
+      "hasContact": 1,
+      "hasShare": 2,
+      "hasSubmit": 1,
+      "hasBack": 1,
+      "hasSignals": 1,
+      "hasRecent": 1
+    }
+  },
+  {
+    "target": "local",
+    "url": "http://localhost:3023/submit",
+    "status": 200,
+    "title": "Drop Your Repo — TrendingRepo",
+    "fields": {
+      "hasRepo": 1,
+      "hasWhy": 1,
+      "hasContact": 1,
+      "hasShare": 2,
+      "hasSubmit": 1,
+      "hasBack": 1,
+      "hasSignals": 1,
+      "hasRecent": 1
+    }
+  },
+  {
+    "target": "local-submit-attempt",
+    "turnstileErrorVisible": true
+  }
+]

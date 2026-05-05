@@ -137,6 +137,7 @@ export default async function PredictPage() {
   await refreshTrendingFromStore();
   const repos = getDerivedRepos();
   const forecasts = pickForecasts(repos, FORECAST_LIMIT);
+  const hasRepoData = repos.length > 0;
 
   const computedAt = new Date().toISOString();
   const computedAgo = getRelativeTime(computedAt);
@@ -187,12 +188,17 @@ export default async function PredictPage() {
               80% band {formatNumber(topForecast.prediction.lowP10)}–
               {formatNumber(topForecast.prediction.highP90)}).
             </>
-          ) : (
+          ) : hasRepoData ? (
             <>
               No forecasts available — repos in the current trending payload
               don&apos;t have enough sparkline history to project. The model
               needs at least 14 days of star data per repo before it will
               forecast.
+            </>
+          ) : (
+            <>
+              No trending repository data is loaded right now, so forecasts are
+              temporarily unavailable. Check back after the next data refresh.
             </>
           )
         }
@@ -237,7 +243,7 @@ export default async function PredictPage() {
               <b>{breakoutCount}</b> repos · 30-day horizon · 80% band
             </>
           ) : (
-            <>insufficient sparkline data</>
+            <>{hasRepoData ? "insufficient sparkline data" : "no trending data loaded"}</>
           )
         }
       />
@@ -294,14 +300,23 @@ export default async function PredictPage() {
           ))}
         </div>
       ) : (
-        <p className="text-sm text-text-tertiary">
-          No repos in the current trending window have enough star history to
-          forecast. Check back after the next collector run, or pick a repo
-          manually from the{" "}
-          <Link className="link" href="/compare">
-            compare tool
-          </Link>
-          .
+        <p className="text-sm text-text-tertiary" data-testid="predict-empty-state">
+          {hasRepoData ? (
+            <>
+              No repos in the current trending window have enough star history
+              to forecast. Check back after the next collector run, or pick a
+              repo manually from the{" "}
+              <Link className="link" href="/compare">
+                compare tool
+              </Link>
+              .
+            </>
+          ) : (
+            <>
+              No repos are available in the current trending payload. Forecasts
+              will appear automatically once ingest refreshes this window.
+            </>
+          )}
         </p>
       )}
 

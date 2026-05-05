@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Home, Eye, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ROUTES } from "@/lib/constants";
@@ -27,6 +27,7 @@ const TABS: { href: string; label: string; icon: typeof Home }[] = [
 
 export function MobileNav() {
   const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <nav
@@ -51,6 +52,9 @@ export function MobileNav() {
             <Link
               key={href}
               href={href}
+              onMouseEnter={() => router.prefetch(href)}
+              onFocus={() => router.prefetch(href)}
+              onTouchStart={() => router.prefetch(href)}
               className={cn(
                 "relative flex-1 flex flex-col items-center justify-center gap-1.5",
                 "transition-colors",

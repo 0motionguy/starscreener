@@ -13,6 +13,7 @@ import { z } from "zod";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
 import { serverError } from "@/lib/api/error-response";
+import { AdminRecoverableError } from "@/lib/errors";
 import { parseBody } from "@/lib/api/parse-body";
 import { getDataStore } from "@/lib/data-store";
 import { runRepoIntakeForSubmission } from "@/lib/repo-intake";
@@ -100,7 +101,14 @@ export async function GET(
     const data = await loadPromoted();
     return NextResponse.json({ ok: true, data });
   } catch (err) {
-    return serverError<AdminErrorResponse>(err, {
+    const wrapped = new AdminRecoverableError(
+      "admin unknown-mentions read failed",
+      {
+        scope: "api/admin/unknown-mentions:GET",
+        message: err instanceof Error ? err.message : String(err),
+      },
+    );
+    return serverError<AdminErrorResponse>(wrapped, {
       scope: "[admin/unknown-mentions:GET]",
     });
   }
@@ -142,9 +150,18 @@ export async function POST(
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     const status = message.includes("repo must be") ? 400 : 500;
-    return serverError<AdminErrorResponse>(err, {
+    const wrapped = new AdminRecoverableError(
+      "admin unknown-mentions promote failed",
+      {
+        scope: "api/admin/unknown-mentions:POST",
+        message,
+        status,
+      },
+    );
+    return serverError<AdminErrorResponse>(wrapped, {
       scope: "[admin/unknown-mentions:POST]",
-      publicMessage: status === 400 ? message : "promote failed",
+      publicMessage:
+        status === 400 ? "invalid repo format; expected owner/repo" : "promote failed",
       status,
     });
   }

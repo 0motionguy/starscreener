@@ -15,6 +15,7 @@
 // W5-CATWINDOW (categories/page.tsx) precedent for the tab strip.
 
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import { getSkillsSignalData } from "@/lib/ecosystem-leaderboards";
@@ -28,9 +29,10 @@ import { refreshLobstersMentionsFromStore } from "@/lib/lobsters";
 import { refreshNpmFromStore } from "@/lib/npm";
 import { refreshHfModelsFromStore } from "@/lib/huggingface";
 import { refreshArxivFromStore } from "@/lib/arxiv";
-import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { absoluteUrl, safeJsonLd, SITE_NAME, SITE_URL } from "@/lib/seo";
 import { formatNumber } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
+import { preloadTopLcpImages } from "@/lib/lcp-preload";
 
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
@@ -50,6 +52,7 @@ export const revalidate = 60;
 
 const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 const TOP_N = 20;
+const PAGE_SIZE = 50;
 const REFRESH_TIMEOUT_MS = 4000;
 const DESCRIPTION =
   "Top Claude / Codex / agent skills merged from skills.sh, GitHub, Smithery, lobehub, and skillsmp.";
@@ -68,6 +71,37 @@ const WINDOW_LABEL: Record<SortWindow, string> = {
 function parseSortWindow(value: string | string[] | undefined): SortWindow {
   const v = Array.isArray(value) ? value[0] : value;
   return SORT_WINDOWS.includes(v as SortWindow) ? (v as SortWindow) : "24h";
+}
+
+function parsePage(value: string | string[] | undefined): number {
+  const v = Array.isArray(value) ? value[0] : value;
+  const n = Number.parseInt(v ?? "1", 10);
+  if (!Number.isFinite(n) || n < 1) return 1;
+  return n;
+}
+
+function buildPageNumberItems(
+  currentPage: number,
+  totalPages: number,
+): Array<number | "..."> {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
+
+  const pages = new Set<number>([1, 2, totalPages - 1, totalPages]);
+  for (let p = currentPage - 1; p <= currentPage + 1; p += 1) {
+    if (p >= 1 && p <= totalPages) pages.add(p);
+  }
+
+  const sorted = Array.from(pages).sort((a, b) => a - b);
+  const out: Array<number | "..."> = [];
+  for (let i = 0; i < sorted.length; i += 1) {
+    const value = sorted[i];
+    const prev = sorted[i - 1];
+    if (i > 0 && value - prev > 1) out.push("...");
+    out.push(value);
+  }
+  return out;
 }
 
 /**
@@ -124,16 +158,25 @@ export const metadata: Metadata = {
     title: `Trending Skills - ${SITE_NAME}`,
     description: DESCRIPTION,
     url: absoluteUrl("/skills"),
+    type: "website",
+    images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Trending Skills - ${SITE_NAME}`,
+    description: DESCRIPTION,
+    images: [absoluteUrl("/og-card.png")],
   },
 };
 
 interface SkillsPageProps {
-  searchParams?: Promise<{ window?: string | string[] }>;
+  searchParams?: Promise<{ window?: string | string[]; page?: string | string[] }>;
 }
 
 export default async function SkillsPage({ searchParams }: SkillsPageProps) {
   const params = (await searchParams) ?? {};
   const sortWindow = parseSortWindow(params.window);
+  const requestedPage = parsePage(params.page);
 
   // BUG-FIX 2026-05-03: rehydrate the in-memory caches `getDerivedRepos()`
   // depends on. Without these refreshes, `linked` repo lookups returned
@@ -193,7 +236,7 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
   // populated, sort by the window delta (descending). Otherwise fall back
   // to the static signalScore ordering. Items missing delta-data sink below
   // items that have it so a cold deploy doesn't bury warmed rows.
-  const topByScore = [...items]
+  const rankedByScore = [...items]
     .sort((a, b) => {
       if (haveWindowedData) {
         const da = deltaByItem.get(a.id);
@@ -203,8 +246,14 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
         if (db !== undefined && da === undefined) return 1;
       }
       return b.signalScore - a.signalScore;
-    })
-    .slice(0, TOP_N);
+    });
+  const topByScore = rankedByScore.slice(0, TOP_N);
+
+  const totalPages = Math.max(1, Math.ceil(items.length / PAGE_SIZE));
+  const page = Math.min(requestedPage, totalPages);
+  const pageStart = (page - 1) * PAGE_SIZE;
+  const pageRows = rankedByScore.slice(pageStart, pageStart + PAGE_SIZE);
+  preloadTopLcpImages(pageRows.slice(0, 3).map((item) => item.logoUrl));
 
   // Top by stars — leaderboard tile in the KPI band.
   const topByStars = [...items]
@@ -349,8 +398,8 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
         title="Top skills"
         meta={
           <>
-            <b>{items.length}</b> · sortable · stars Δ + installs Δ · sort{" "}
-            <b>{WINDOW_LABEL[sortWindow]}</b>
+            <b>{items.length}</b> · page <b>{page}</b>/<b>{totalPages}</b> ·
+            50/page · stars Δ + installs Δ · sort <b>{WINDOW_LABEL[sortWindow]}</b>
           </>
         }
       />
@@ -399,7 +448,7 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
       </nav>
 
       {(() => {
-        const skillRows: SkillRow[] = items.map((item) => {
+        const skillRows: SkillRow[] = pageRows.map((item) => {
           const key =
             (item.linkedRepo ?? fullNameFromUrl(item.url))?.toLowerCase() ?? null;
           const uniqueRepo =
@@ -445,6 +494,62 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
           sortWindow === "24h" ? "s24" : sortWindow === "30d" ? "s30" : "s7";
         return <SkillsTopTable rows={skillRows} defaultSortKey={sortKey} />;
       })()}
+      {totalPages > 1 ? (
+        <nav
+          aria-label="Skills pagination"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 8,
+            padding: "12px 0 24px",
+            fontFamily: "var(--font-geist-mono), monospace",
+            fontSize: 11,
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+          }}
+        >
+          {page > 1 ? (
+            <Link href={buildSkillsHref(sortWindow, page - 1)}>← Prev</Link>
+          ) : (
+            <span style={{ opacity: 0.4 }}>← Prev</span>
+          )}
+          {buildPageNumberItems(page, totalPages).map((item, idx) =>
+            item === "..." ? (
+              <span key={`dots-${idx}`} style={{ color: "var(--v4-ink-400)" }}>
+                ...
+              </span>
+            ) : (
+              <Link
+                key={`page-${item}`}
+                href={buildSkillsHref(sortWindow, item)}
+                aria-current={item === page ? "page" : undefined}
+                style={{
+                  padding: "2px 6px",
+                  borderRadius: 2,
+                  border: `1px solid ${
+                    item === page ? "var(--v4-acc)" : "var(--v4-line-200)"
+                  }`,
+                  background:
+                    item === page
+                      ? "color-mix(in oklab, var(--v4-acc) 14%, transparent)"
+                      : "transparent",
+                  color:
+                    item === page ? "var(--v4-ink-000)" : "var(--v4-ink-300)",
+                  textDecoration: "none",
+                }}
+              >
+                {item}
+              </Link>
+            ),
+          )}
+          {page < totalPages ? (
+            <Link href={buildSkillsHref(sortWindow, page + 1)}>Next →</Link>
+          ) : (
+            <span style={{ opacity: 0.4 }}>Next →</span>
+          )}
+        </nav>
+      ) : null}
 
       <SectionHead
         num="// 02"
@@ -601,6 +706,24 @@ export default async function SkillsPage({ searchParams }: SkillsPageProps) {
           No derivative repo citations recorded yet.
         </p>
       )}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLd({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "Trending Skills",
+            url: absoluteUrl("/skills"),
+            description: DESCRIPTION,
+            isPartOf: {
+              "@type": "WebSite",
+              name: SITE_NAME,
+              url: SITE_URL,
+            },
+          }),
+        }}
+      />
     </main>
   );
 }
@@ -612,14 +735,13 @@ interface SkillAvatarProps {
 
 function SkillAvatar({ logoUrl, fallback }: SkillAvatarProps) {
   if (logoUrl) {
-    // eslint-disable-next-line @next/next/no-img-element
     return (
-      <img
+      <Image
         src={logoUrl}
         alt=""
         width={28}
         height={28}
-        loading="lazy"
+        unoptimized
         style={{
           width: 28,
           height: 28,
@@ -651,5 +773,13 @@ function SkillAvatar({ logoUrl, fallback }: SkillAvatarProps) {
       {text}
     </span>
   );
+}
+
+function buildSkillsHref(sortWindow: SortWindow, page: number): string {
+  const params = new URLSearchParams();
+  if (sortWindow !== "24h") params.set("window", sortWindow);
+  if (page > 1) params.set("page", String(page));
+  const query = params.toString();
+  return query.length > 0 ? `/skills?${query}` : "/skills";
 }
 

@@ -26,6 +26,8 @@ import { repoLogoUrl } from "@/lib/logos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { TrendingMentionsSection } from "@/components/news/TrendingMentionsSection";
+import { absoluteUrl } from "@/lib/seo";
 
 // ISR (5min) so the page picks up hourly Redis refreshes from
 // scrape-trending.yml. `force-static` was baking whatever data was
@@ -38,17 +40,19 @@ export const metadata: Metadata = {
   title: "Trending on Hacker News",
   description:
     "Top Hacker News stories by velocity-weighted trending score (Firebase top-500 plus Algolia 7-day GitHub-mention sweep). Live HN signal terminal.",
-  alternates: { canonical: "/hackernews/trending" },
+  alternates: { canonical: absoluteUrl("/hackernews/trending") },
   openGraph: {
     title: "Trending on Hacker News — TrendingRepo",
     description: "HN top 50 by velocity-weighted score with linked-repo overlap.",
-    url: "/hackernews/trending",
+    url: absoluteUrl("/hackernews/trending"),
     type: "website",
+    images: [{ url: absoluteUrl("/og-card.png"), width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Trending on Hacker News — TrendingRepo",
     description: "HN top 50 by velocity-weighted score with linked-repo overlap.",
+    images: [absoluteUrl("/og-card.png")],
   },
 };
 
@@ -149,7 +153,12 @@ export default async function HackerNewsTrendingPage() {
           />
         }
         listEyebrow="Story feed · 24h / 7d / 30d window"
-        list={<WindowedHnFeed allStories={allStories} />}
+        list={
+          <div className="space-y-4">
+            <TrendingMentionsSection source="hackernews" accent={HN_ORANGE} />
+            <WindowedHnFeed allStories={allStories} />
+          </div>
+        }
       />
     </main>
   );

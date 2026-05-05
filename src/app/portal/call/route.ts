@@ -13,34 +13,91 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { verifyInternalAgentAuth } from "@/lib/api/auth";
+import { getClientIp } from "@/lib/api/client-ip";
 import { pipeline } from "@/lib/pipeline/pipeline";
+import { normalizeHttpOrigin } from "@/lib/security/trusted-url";
 import { dispatchCall } from "@/portal/dispatcher";
 import { consumeToken } from "@/portal/rate-limit";
+
+const DEV_ALLOWED_ORIGINS = ["http://localhost:3023", "http://127.0.0.1:3023"];
 
 function clientKey(req: NextRequest): string {
   const apiKey = req.headers.get("x-api-key");
   if (apiKey) return `k:${apiKey}`;
-  const fwd = req.headers.get("x-forwarded-for");
-  if (fwd) return `ip:${fwd.split(",")[0].trim()}`;
-  return "ip:unknown";
+  return `ip:${getClientIp(req)}`;
+}
+
+function getAllowedOrigins(): Set<string> {
+  const values = [
+    process.env.TRENDINGREPO_PUBLIC_URL,
+    process.env.STARSCREENER_PUBLIC_URL,
+    process.env.NEXT_PUBLIC_SITE_URL,
+    process.env.PORTAL_CORS_ALLOWED_ORIGINS,
+  ]
+    .filter((value): value is string => typeof value === "string" && value.trim().length > 0)
+    .flatMap((value) => value.split(","))
+    .map((value) => normalizeHttpOrigin(value))
+    .filter((value): value is string => value !== null);
+
+  if (process.env.NODE_ENV !== "production") {
+    for (const fallback of DEV_ALLOWED_ORIGINS) {
+      const normalized = normalizeHttpOrigin(fallback);
+      if (normalized) values.push(normalized);
+    }
+  }
+
+  return new Set(values);
+}
+
+function requestOrigin(req: NextRequest): string | null {
+  const value = req.headers.get("origin");
+  if (!value) return null;
+  return normalizeHttpOrigin(value);
+}
+
+function isOriginAllowed(req: NextRequest): boolean {
+  const origin = requestOrigin(req);
+  if (!origin) return false;
+  return getAllowedOrigins().has(origin);
+}
+
+function hasDisallowedOrigin(req: NextRequest): boolean {
+  const origin = requestOrigin(req);
+  if (!origin) return false;
+  return !getAllowedOrigins().has(origin);
 }
 
 function corsHeaders(req: NextRequest): HeadersInit {
-  const origin = req.headers.get("origin") ?? "*";
+  const origin = requestOrigin(req);
   return {
     "Content-Type": "application/json; charset=utf-8",
-    "Access-Control-Allow-Origin": origin,
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, X-API-Key",
     "Vary": "Origin",
+    ...(origin && isOriginAllowed(req)
+      ? { "Access-Control-Allow-Origin": origin }
+      : {}),
   };
 }
 
 export function OPTIONS(req: NextRequest): Response {
+  if (hasDisallowedOrigin(req)) {
+    return NextResponse.json(
+      { ok: false, error: "origin not allowed", code: "CORS_DENIED" },
+      { status: 403, headers: corsHeaders(req) },
+    );
+  }
   return new Response(null, { status: 204, headers: corsHeaders(req) });
 }
 
 export async function POST(req: NextRequest): Promise<Response> {
+  if (hasDisallowedOrigin(req)) {
+    return NextResponse.json(
+      { ok: false, error: "origin not allowed", code: "CORS_DENIED" },
+      { status: 403, headers: corsHeaders(req) },
+    );
+  }
+
   const authed = req.headers.get("x-api-key") !== null;
   const gate = consumeToken(clientKey(req), authed);
   if (!gate.ok) {

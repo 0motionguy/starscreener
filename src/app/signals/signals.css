@@ -29,10 +29,16 @@
   }
 }
 
-/* Phone: full-width single-column. */
+/* Phone: force true single-column for page-level rows.
+ * Target direct `.grid` children of `.signals-page` only, so inner
+ * component grids keep their own layout rules. */
 @media (max-width: 640px) {
-  .signals-page .grid {
-    grid-template-columns: 1fr;
+  .signals-page > .grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .signals-page > .grid > * {
+    grid-column: 1 / -1 !important;
+    min-width: 0;
   }
 }
 

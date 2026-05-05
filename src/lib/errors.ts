@@ -17,6 +17,7 @@ export type EngineErrorSource =
   | "rate-limit"
   | "auth"
   | "admin"
+  | "subdomain-takeover"
   | "ops-alert"
   | "data-store"
   | "github"
@@ -67,6 +68,21 @@ export class AdminQuarantineError extends EngineError {
 export class AdminFatalError extends EngineError {
   readonly category = "fatal" as const;
   readonly source = "admin" as const;
+}
+
+export class SubdomainTakeoverRecoverableError extends EngineError {
+  readonly category = "recoverable" as const;
+  readonly source = "subdomain-takeover" as const;
+}
+
+export class SubdomainTakeoverQuarantineError extends EngineError {
+  readonly category = "quarantine" as const;
+  readonly source = "subdomain-takeover" as const;
+}
+
+export class SubdomainTakeoverFatalError extends EngineError {
+  readonly category = "fatal" as const;
+  readonly source = "subdomain-takeover" as const;
 }
 
 export class OpsAlertFatalError extends EngineError {
@@ -275,4 +291,26 @@ export function engineErrorTags(error: unknown): Record<string, string> {
     source: error.source,
     category: error.category,
   };
+}
+
+export function engineErrorSentryContext(
+  error: unknown,
+  baseTags: Record<string, string> = {},
+  baseExtra: Record<string, unknown> = {},
+): {
+  tags: Record<string, string>;
+  extra: Record<string, unknown>;
+} {
+  const tags = {
+    ...baseTags,
+    ...engineErrorTags(error),
+  };
+  const extra = {
+    ...baseExtra,
+  };
+  if (error instanceof EngineError) {
+    extra.engine_error_name = error.name;
+    extra.engine_error_metadata = error.metadata;
+  }
+  return { tags, extra };
 }

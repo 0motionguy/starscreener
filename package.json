@@ -99,6 +99,7 @@
     "snapshot:top10-sparklines": "tsx --env-file-if-exists=.env.local scripts/snapshot-top10-sparklines.ts",
     "snapshot:consensus": "tsx --env-file-if-exists=.env.local scripts/snapshot-consensus.ts",
     "compute:consensus": "tsx --env-file-if-exists=.env.local scripts/compute-consensus.ts",
+    "build:why-narratives": "tsx --env-file-if-exists=.env.local scripts/build-why-narratives.ts",
     "enrich:profiles": "node scripts/enrich-repo-profiles.mjs",
     "enrich:profiles:top": "node scripts/enrich-repo-profiles.mjs --mode top",
     "enrich:profiles:catchup": "node scripts/enrich-repo-profiles.mjs --mode catchup",

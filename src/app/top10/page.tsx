@@ -35,6 +35,8 @@ import { RankRow } from "@/components/ui/RankRow";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { LetterAvatar } from "@/components/shared/LetterAvatar";
 import { Sparkline } from "@/components/shared/Sparkline";
+import { WhyBadge } from "@/components/repo/WhyBadge";
+import { getWhyNarrative, type WhyNarrative } from "@/lib/why-narrative";
 
 // ISR — 10-minute cadence matches the V4 leaderboard surfaces. Underlying
 // readers refresh every 6 hours via cron; tighter cache wastes work
@@ -149,6 +151,21 @@ export default async function Top10RootPage() {
   const hottestTag =
     [...tagCounts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "—";
 
+  // Per-row why-narrative lookup. Reads the persisted 24h cache populated
+  // by scripts/build-why-narratives.mjs; falls back to live synthesis when
+  // the cache is cold so the badge always renders. Issued in parallel —
+  // each call is a single Redis get + cheap synth fallback. AGN-791.
+  const whyByFullName = new Map<string, WhyNarrative | null>();
+  const whyEntries = await Promise.all(
+    topItems.map(async (item) => {
+      const repo = repoByFullName.get(item.slug);
+      if (!item.owner) return [item.slug, null] as const;
+      const why = await getWhyNarrative(item.owner, item.title, repo ?? null);
+      return [item.slug, why] as const;
+    }),
+  );
+  for (const [k, v] of whyEntries) whyByFullName.set(k, v);
+
   // Computed-ago label for the verdict ribbon.
   const computedAt = new Date().toISOString();
   const computedAgo = getRelativeTime(computedAt);
@@ -254,9 +271,10 @@ export default async function Top10RootPage() {
         ) : (
           topItems.map((item, i) => {
             const sourceRepo = repoByFullName.get(item.slug);
+            const why = whyByFullName.get(item.slug) ?? null;
             return (
+            <div key={item.slug}>
             <RankRow
-              key={item.slug}
               rank={item.rank}
               avatar={
                 sourceRepo?.ownerAvatarUrl ? (
@@ -324,6 +342,20 @@ export default async function Top10RootPage() {
               href={item.href}
               first={i === 0}
             />
+            {why ? (
+              <div
+                style={{
+                  padding: "0 14px 10px 14px",
+                  borderBottom:
+                    i < topItems.length - 1
+                      ? "1px solid var(--v4-line-200)"
+                      : "none",
+                }}
+              >
+                <WhyBadge narrative={why} variant="compact" />
+              </div>
+            ) : null}
+            </div>
             );
           })
         )}

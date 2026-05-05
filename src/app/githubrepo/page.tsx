@@ -5,6 +5,8 @@
 // with category tabs. No consensus / breakout / featured / bubble map / FAQ /
 // JSON-LD — just the list. Same data wiring as `/` so cards stay consistent.
 
+import type { Metadata } from "next";
+import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { lastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
 import { refreshRedditMentionsFromStore } from "@/lib/reddit-data";
@@ -29,6 +31,29 @@ import { CATEGORIES } from "@/lib/constants";
 import type { Repo } from "@/lib/types";
 
 export const revalidate = 60;
+
+const TITLE = `Trending GitHub Repos — ${SITE_NAME}`;
+const DESCRIPTION =
+  "Read-only deep-dive of every GitHub repo we track: live momentum stats, category facets, and the LiveTopTable in isolation.";
+
+export const metadata: Metadata = {
+  title: TITLE,
+  description: DESCRIPTION,
+  keywords: ["GitHub trending", "trending repos", "live GitHub momentum"],
+  alternates: { canonical: absoluteUrl("/githubrepo") },
+  openGraph: {
+    type: "website",
+    url: absoluteUrl("/githubrepo"),
+    title: TITLE,
+    description: DESCRIPTION,
+    siteName: SITE_NAME,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
+};
 
 const compactNumber = new Intl.NumberFormat("en-US", {
   notation: "compact",

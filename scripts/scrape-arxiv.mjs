@@ -46,15 +46,38 @@ const TRENDING_IN = resolve(DATA_DIR, "trending.json");
 const RECENT_IN = resolve(DATA_DIR, "recent-repos.json");
 const OUT_PATH = resolve(DATA_DIR, "arxiv-recent.json");
 
+const ARXIV_CATEGORIES = ["cs.AI", "cs.CL", "cs.LG", "cs.CV", "cs.MA", "stat.ML"];
+const DEFAULT_MAX_RESULTS = 100;
+const DEFAULT_TIMEOUT_MS = 45_000;
+const MAX_RESULTS = parseBoundedIntegerEnv(
+  "ARXIV_MAX_RESULTS",
+  DEFAULT_MAX_RESULTS,
+  1,
+  1000,
+);
+const FETCH_TIMEOUT_MS = parseBoundedIntegerEnv(
+  "ARXIV_TIMEOUT_MS",
+  DEFAULT_TIMEOUT_MS,
+  5_000,
+  120_000,
+);
 const ENDPOINT =
   "https://export.arxiv.org/api/query?" +
-  "search_query=cat:cs.AI+OR+cat:cs.CL+OR+cat:cs.LG+OR+cat:cs.CV+OR+cat:cs.MA+OR+cat:stat.ML" +
-  "&sortBy=submittedDate&sortOrder=descending&max_results=1000";
+  `search_query=${ARXIV_CATEGORIES.map((category) => `cat:${category}`).join("+OR+")}` +
+  `&sortBy=submittedDate&sortOrder=descending&max_results=${MAX_RESULTS}`;
 
 const USER_AGENT = "TrendingRepo/1.0 (+https://trendingrepo.com)";
 
 function log(msg) {
   console.log(`[arxiv] ${msg}`);
+}
+
+function parseBoundedIntegerEnv(name, fallback, min, max) {
+  const raw = process.env[name];
+  if (!raw || raw.trim().length === 0) return fallback;
+  const parsed = Number.parseInt(raw, 10);
+  if (!Number.isFinite(parsed)) return fallback;
+  return Math.min(max, Math.max(min, parsed));
 }
 
 // XML-decode the small handful of entities we expect in arXiv text fields.
@@ -205,6 +228,7 @@ async function main() {
 
   // arXiv occasionally 429s; their TOS asks for 3s between requests, so we
   // retry up to 3 times honoring Retry-After when set.
+  log(`query max_results=${MAX_RESULTS} timeout_ms=${FETCH_TIMEOUT_MS}`);
   let xml = "";
   const RETRY_STATUSES = new Set([429, 500, 502, 503, 504]);
   const ATTEMPTS = 3;
@@ -214,7 +238,7 @@ async function main() {
         "User-Agent": USER_AGENT,
         Accept: "application/atom+xml, application/xml",
       },
-      timeoutMs: 30_000,
+      timeoutMs: FETCH_TIMEOUT_MS,
     });
     if (res.ok) {
       xml = await res.text();
@@ -251,7 +275,7 @@ async function main() {
 
   const payload = {
     fetchedAt,
-    source: "export.arxiv.org/api/query (cs.AI + cs.CL + cs.LG)",
+    source: `export.arxiv.org/api/query (${ARXIV_CATEGORIES.join(" + ")})`,
     count: papers.length,
     linkedRepoCount: linkedCount,
     papers,

@@ -7,6 +7,15 @@ import * as Sentry from "@sentry/nextjs";
 // error hook is exported below. See `sentry.{server,edge,client}.config.ts`
 // for the actual initialization, which fires when SENTRY_DSN is set at runtime.
 
+// AGN-70 / AGN-803: operator-friendly soft-warn at module load if Sentry is
+// unconfigured in a real production runtime. NO-OP in dev/test/preview to
+// avoid log spam — Vercel preview deployments often legitimately skip Sentry.
+if (process.env.NODE_ENV === "production" && !process.env.SENTRY_DSN) {
+  console.warn(
+    "[sentry] SENTRY_DSN missing in production runtime — error reporting disabled. AGN-70: set in Vercel env vars.",
+  );
+}
+
 export const onRequestError = Sentry.captureRequestError;
 
 let startupLogged = false;

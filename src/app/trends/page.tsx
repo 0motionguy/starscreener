@@ -16,7 +16,7 @@ import Link from "next/link";
 
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
-import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { absoluteUrl, safeJsonLd, SITE_NAME } from "@/lib/seo";
 
 // ISR — 30min cadence matches /signals. The page has no live data so the
 // revalidation budget is irrelevant from a freshness standpoint, but we
@@ -106,8 +106,51 @@ const SOURCES: SourceCard[] = [
 ];
 
 export default function TrendsPage() {
+  // AGN-803 (H4) — JSON-LD WebPage schema. Declares /trends as a structured
+  // aggregator hub: BreadcrumbList anchors it under Home, and an ItemList
+  // mainEntity enumerates the six per-source trending terminals so crawlers
+  // can pick them up as related URLs from the index page itself.
+  const trendsLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: `Trends — ${SITE_NAME}`,
+    description: TRENDS_DESCRIPTION,
+    url: absoluteUrl("/trends"),
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: absoluteUrl("/"),
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Trends",
+          item: absoluteUrl("/trends"),
+        },
+      ],
+    },
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: SOURCES.length,
+      itemListElement: SOURCES.map((src, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: src.name,
+        url: absoluteUrl(src.href),
+      })),
+    },
+  };
+
   return (
     <main className="home-surface">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(trendsLd) }}
+      />
       <PageHead
         crumb={
           <>

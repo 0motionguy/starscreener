@@ -14,6 +14,7 @@ import { NpmBadge } from "@/components/npm/NpmBadge";
 import { getNpmPackagesForRepo } from "@/lib/npm";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoDisplayLogoUrl } from "@/lib/logos";
+import { RepoCardHoverPreview } from "@/components/feed/RepoCardHoverPreview";
 
 interface RepoCardProps {
   repo: Repo;
@@ -27,6 +28,12 @@ export function RepoCard({ repo, index = 0, showRank = false }: RepoCardProps) {
     repo.stars > 0 ? (repo.starsDelta7d / repo.stars) * 100 : 0;
 
   return (
+    <RepoCardHoverPreview
+      owner={repo.owner}
+      name={repo.name}
+      fullName={repo.fullName}
+      ownerAvatarUrl={repo.ownerAvatarUrl ?? null}
+    >
     <Link
       href={`/repo/${repo.owner}/${repo.name}`}
       className={cn(
@@ -87,5 +94,6 @@ export function RepoCard({ repo, index = 0, showRank = false }: RepoCardProps) {
         </div>
       </div>
     </Link>
+    </RepoCardHoverPreview>
   );
 }

@@ -28,6 +28,7 @@ import {
 import { MobileDrawerLazy } from "@/components/layout/MobileDrawerLazy";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { BrowserAlertBridge } from "@/components/alerts/BrowserAlertBridge";
+import { CookieConsentBanner } from "@/components/consent/CookieConsentBanner";
 import { DesignSystemProvider } from "@/components/v3";
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
@@ -230,6 +231,7 @@ export default async function RootLayout({
               <MobileNav />
               <BrowserAlertBridge />
               <ToasterLazy />
+              <CookieConsentBanner />
               </DesignSystemProvider>
             </StoreProvider>
           </PostHogProvider>

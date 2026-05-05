@@ -1,11 +1,29 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import posthog from "posthog-js";
 import { PostHogProvider as PHProvider } from "posthog-js/react";
+import { CONSENT_CHANGED_EVENT, readConsent } from "@/lib/consent";
 
+// Lazily initialise posthog-js only after the user has accepted
+// analytics via the consent banner (AGN-840). Before consent we
+// never call posthog.init, so no network calls or cookies are set.
+// Re-runs on the consent-changed event so accepting the banner
+// fires the SDK without a page reload.
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
+  const [hasConsent, setHasConsent] = useState(false);
+
   useEffect(() => {
+    function syncConsent() {
+      setHasConsent(readConsent()?.analytics === true);
+    }
+    syncConsent();
+    window.addEventListener(CONSENT_CHANGED_EVENT, syncConsent);
+    return () => window.removeEventListener(CONSENT_CHANGED_EVENT, syncConsent);
+  }, []);
+
+  useEffect(() => {
+    if (!hasConsent) return;
     const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
     if (!key) return;
     if (posthog.__loaded) return;
@@ -26,7 +44,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
         if (process.env.NODE_ENV === "development") ph.debug();
       },
     });
-  }, []);
+  }, [hasConsent]);
 
   return <PHProvider client={posthog}>{children}</PHProvider>;
 }

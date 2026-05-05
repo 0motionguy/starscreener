@@ -1,3 +1,9 @@
+---
+status: snapshot
+audit-date: 2026-05-05
+reason: hardcoded "215/215 pass" test count likely stale; all file paths and scripts still valid
+---
+
 # Phase 8 — Production Deploy Runbook
 
 All prior phases are complete and verified locally. Phase 8 actions require human auth (Vercel, DNS, npm) so they are staged here rather than run in CI.
@@ -5,7 +11,7 @@ All prior phases are complete and verified locally. Phase 8 actions require huma
 ## Pre-flight (run from a clean working tree)
 
 ```bash
-cd C:/Users/mirko/OneDrive/Desktop/STARSCREENER
+# Run from the repo root (the STARSCREENER working copy on this host).
 git status                          # expect: clean, on main
 npm test                            # expect: 215/215 pass
 npm run typecheck                   # expect: clean
@@ -93,7 +99,7 @@ npx -y trendingrepo-mcp --help       # or wire into claude_desktop_config.json
 ## Step 4 — Tag the release
 
 ```bash
-cd C:/Users/mirko/OneDrive/Desktop/STARSCREENER
+# Run from the repo root.
 git tag -a v0.1.0-portal -m "Portal v0.1 + MCP + Agent Skills — first agent-native adopter"
 git push origin main v0.1.0-portal
 ```

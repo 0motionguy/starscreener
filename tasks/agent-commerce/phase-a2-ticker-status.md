@@ -1,3 +1,11 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: snapshot
+audit-date: 2026-04-30
+reason: Phase A2 ticker verification; one-shot
+---
+
 # Agent Commerce Ticker Integration Status
 
 **Phase:** A2 Verification

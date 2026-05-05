@@ -93,7 +93,7 @@ Add an entry to `claude_desktop_config.json`:
   "mcpServers": {
     "trendingrepo": {
       "command": "node",
-      "args": ["C:/Users/mirko/OneDrive/Desktop/STARSCREENER/mcp/dist/server.js"],
+      "args": ["<absolute-path-to-STARSCREENER>/mcp/dist/server.js"],
       "env": {
         "TRENDINGREPO_API_URL": "http://localhost:3023"
       }

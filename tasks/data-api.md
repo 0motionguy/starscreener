@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # StarScreener Data Terminal API — Plan
 
 **Goal (user words):** "ultra reliable data terminal API to make money with."

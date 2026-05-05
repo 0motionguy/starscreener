@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # Portal v0.1 integration
 
 TrendingRepo speaks the [Portal v0.1 protocol](https://visitportal.dev) so any LLM client with a Portal visitor SDK can discover and call TrendingRepo's tools without installation.
@@ -77,8 +83,9 @@ The upstream spec ships a conformance runner. From this repo:
 npm run dev                                       # http://localhost:3023
 
 # 2. Run the upstream runner (requires visitportal.dev checked out).
+#    Set $VISITPORTAL_DEV to the local path of that sibling checkout.
 npm run portal:conformance                        # or:
-tsx C:/Users/mirko/OneDrive/Desktop/visitportal.dev/packages/spec/conformance/runner.ts \
+tsx "$VISITPORTAL_DEV/packages/spec/conformance/runner.ts" \
     http://localhost:3023/portal
 ```
 

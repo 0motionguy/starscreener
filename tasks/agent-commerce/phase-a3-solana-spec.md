@@ -1,3 +1,9 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # Phase A3 — Solana x402 Facilitator Indexer Spec
 
 Mirror of [scripts/fetch-base-x402-onchain.mjs](../../scripts/fetch-base-x402-onchain.mjs) for the Solana side of the x402 ecosystem. Output: `.data/solana-x402-onchain.json`. Address book sourced from `Merit-Systems/x402scan` (path: `packages/external/facilitators/src/facilitators/*.ts`, branch `main`, fetched 2026-04-30).

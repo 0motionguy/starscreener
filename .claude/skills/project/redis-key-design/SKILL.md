@@ -19,8 +19,9 @@ Trigger phrases:
 
 ## The contract
 
-1. ALL keys are built via helpers in `src/lib/redis/keys.ts` (lands in Phase 4).
+1. ALL keys are built via helpers in `src/lib/redis/keys.ts` (Wave 1 / Wave 4 landed).
    Inline string keys (e.g. `redis.get("ss:data:v1:foo")`) are a code smell -- flag them.
+   `npm run lint:redis-keys` enforces this; do not bypass.
 2. Namespace prefix is `ss:data:v1:`. Bumping `v1` is a migration, not a rename.
 3. Slug is `kebab-case` and matches the route segment under `src/app/api/cron/<slug>/`
    AND the file under `data/<slug>.json` AND the data-store write call.

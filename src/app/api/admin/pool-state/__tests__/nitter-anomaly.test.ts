@@ -55,6 +55,8 @@ test("buildAnomalies: raises RED when Nitter quorum is lost even with fresh chec
     health: "GREEN",
     rows: [],
     rateLimitedLastHour: 0,
+    rateLimitedLast30Min: 0,
+    requestsLast30Min: 0,
   };
   const twitter: AdminPoolStateResponse["twitter"] = {
     apify: {

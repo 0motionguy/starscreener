@@ -1,3 +1,5 @@
+import { sanitizeTelemetryValue } from "@/lib/log-redaction";
+
 export abstract class EngineError extends Error {
   abstract readonly category: EngineErrorCategory;
   abstract readonly source: EngineErrorSource;
@@ -322,7 +324,7 @@ export function engineErrorSentryContext(
   };
   if (error instanceof EngineError) {
     extra.engine_error_name = error.name;
-    extra.engine_error_metadata = error.metadata;
+    extra.engine_error_metadata = sanitizeTelemetryValue(error.metadata);
   }
   return { tags, extra };
 }

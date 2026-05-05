@@ -11,7 +11,11 @@
 // formula stays source-of-truth in one place (src/lib/seo.ts).
 
 import { getDerivedRepos } from "@/lib/derived-repos";
-import { getRepoDeltaWindowValue, lastFetchedAt } from "@/lib/trending";
+import {
+  getLastFetchedAt,
+  getRepoDeltaWindowValue,
+  refreshTrendingFromStore,
+} from "@/lib/trending";
 import {
   getSkillsSignalData,
   getMcpSignalData,
@@ -702,6 +706,8 @@ function FeaturedCard({
 }
 
 export default async function HomePage() {
+  await refreshTrendingFromStore();
+
   const repos = getDerivedRepos();
   // Pull skills + mcp ecosystem signals so the front page can surface
   // their respective top movers alongside repo gainers. Both
@@ -852,6 +858,7 @@ export default async function HomePage() {
       .sort((a, b) => b.count - a.count)
       .slice(0, 6);
   })();
+  const lastFetchedAt = getLastFetchedAt();
   const refreshed = new Date(lastFetchedAt);
   const refreshedTime = refreshed.toISOString().slice(11, 19);
   const total24h = repos.reduce(

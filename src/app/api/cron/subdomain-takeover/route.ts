@@ -3,6 +3,7 @@
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { SubdomainTakeoverFatalError, engineErrorSentryContext } from "@/lib/errors";
 import { runSubdomainTakeoverScan } from "@/lib/security/subdomain-takeover";
+// lint-allow: no-parsebody — no-body cron trigger; route reads no request payload.
 
 export const runtime = "nodejs";
 

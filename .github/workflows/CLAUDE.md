@@ -1,9 +1,22 @@
+---
+last-verified: 2026-05-05
+verified-by: claude
+status: living
+---
+
 # GitHub Actions workflow conventions
 
-Collectors run from GitHub Actions, not Vercel. Vercel's serverless
-filesystem is read-only / ephemeral; any "api"-mode write vanishes
-when the lambda dies. Reference: `collect-twitter.yml`,
-`scrape-trending.yml`.
+88 workflows under `.github/workflows/*.yml`. Collectors run from
+GitHub Actions, not Vercel. Vercel's serverless filesystem is read-only
+/ ephemeral; any "api"-mode write vanishes when the lambda dies.
+Reference: `collect-twitter.yml`, `scrape-trending.yml`.
+
+## Cron stagger (Wave 6)
+
+Cron-driven workflows MUST stagger their `schedule.cron:` minute fields.
+Don't cluster at `0 * * * *` — the GitHub PAT pool and Redis write
+window can't absorb 88 workflows firing on the hour. Pick an offset
+that's coprime with neighbors in the same data lane.
 
 ## Collector mode — `direct`, never `api`
 

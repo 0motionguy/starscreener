@@ -31,7 +31,9 @@ Trigger phrases:
    slug table in `tasks/data-api.md`.
 2. Create the route at `src/app/api/cron/<slug>/route.ts`.
    - `export const runtime = "nodejs"` (NOT edge -- collectors need fs/crypto).
-   - First line of `GET`/`POST`: `await verifyCronAuth(req)`. Return 401 envelope on fail.
+   - First two lines of `GET`/`POST`:
+     `const deny = authFailureResponse(verifyCronAuth(request));`
+     `if (deny) return deny;` (both imports from `@/lib/api/auth`).
    - Wrap fetch + transform in try/catch; on success call
      `writeDataStore("<slug>", payload)` AND mirror to `data/<slug>.json` during transition.
    - Return JSON envelope: `{ ok: true, slug, count, durationMs }`.

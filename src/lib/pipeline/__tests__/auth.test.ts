@@ -153,7 +153,8 @@ test("authFailureResponse: unauthorized → 401", async () => {
   assert.equal(r!.status, 401);
   const body = await r!.json();
   assert.equal(body.ok, false);
-  assert.equal(body.reason, "unauthorized");
+  assert.equal(body.error, "unauthorized");
+  assert.equal(body.code, "UNAUTHORIZED");
 });
 
 test("authFailureResponse: not_configured → 503", async () => {
@@ -162,7 +163,8 @@ test("authFailureResponse: not_configured → 503", async () => {
   assert.equal(r!.status, 503);
   const body = await r!.json();
   assert.equal(body.ok, false);
-  assert.match(body.reason, /not configured/);
+  assert.match(body.error, /not configured/);
+  assert.equal(body.code, "NOT_CONFIGURED");
 });
 
 // ---------------------------------------------------------------------------
@@ -232,7 +234,8 @@ test("adminAuthFailureResponse: not_configured names ADMIN_TOKEN", async () => {
   assert.ok(r !== null);
   assert.equal(r!.status, 503);
   const body = await r!.json();
-  assert.match(body.reason, /ADMIN_TOKEN/);
+  assert.match(body.error, /ADMIN_TOKEN/);
+  assert.equal(body.code, "NOT_CONFIGURED");
 });
 
 // ---------------------------------------------------------------------------
@@ -621,3 +624,5 @@ test("alerts GET: prod + USER_TOKEN match → 200 (userId derived from token, NO
     },
   );
 });
+
+

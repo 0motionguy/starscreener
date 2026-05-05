@@ -10,9 +10,9 @@ status: living
 
 **Purpose:** every Claude Code session can read this file and instantly know the current state of the engine, what is shipping, and what is broken. Refreshed by `/loop` autonomous runs and by hand. **Source of truth for the audit-2026-05-04 follow-up.**
 
-Last refreshed: 2026-05-05 (Phase 1.0 docs-drift verification pass)
+Last refreshed: 2026-05-05 (Phase 1 docs restructure — full session, post-Wave 6 + pre-existing fixes)
 
-> **Current state:** PR #93 (audit-2026-05-04 stop-the-bleeding, 24 commits) merged as commit `0b3a477d`; follow-up PRs #96/#97/#99 also merged. For the latest pass, see the "2026-05-05 - Phase 1 docs restructure" section below.
+> **Current state:** PR #93 (audit-2026-05-04 stop-the-bleeding, 24 commits) merged as commit `0b3a477d`; follow-up PRs #96/#97/#99 also merged. For the latest pass, see the "2026-05-05 - Phase 1 docs restructure (full session)" section below. Next-session entry: `tasks/HANDOFF-2026-05-05-EOD.md`.
 
 ---
 
@@ -20,7 +20,7 @@ Last refreshed: 2026-05-05 (Phase 1.0 docs-drift verification pass)
 
 ```
                       â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-                      â”‚  GitHub Actions (85 workflows)                â”‚
+                      â”‚  GitHub Actions (88 workflows)                â”‚
                       â”‚   - 22 data-pushing scrapers (cron'd)         â”‚
                       â”‚   - 5 snapshot/archival jobs (daily)          â”‚
                       â”‚   - 8 cron-* app/API health probes            â”‚
@@ -236,24 +236,30 @@ Last refreshed: 2026-05-05 (Phase 1.0 docs-drift verification pass)
 
 ---
 
-## 2026-05-05 â€” Phase 1 docs restructure
+## 2026-05-05 — Phase 1 docs restructure (full session)
 
-- `docs/INDEX.md` is now the canonical front door (862 md files indexed).
-- `docs/ENGINE.md`, `docs/DATABASE.md`, `docs/SCORING.md` rewritten from
-  current code (the v1/v2/v3 snapshots they replaced were 26%-undercount on
-  workflows + describing deprecated scoring).
-- `src/lib/redis/keys.ts` registry centralizes Redis key construction.
-- 5 path-scoped CLAUDE.md files added (`src/app/api/cron/`, `src/lib/`,
-  `src/lib/redis/`, `apps/trendingrepo-worker/`, `.github/workflows/`).
-- 3 project subagents + 5 project skills added under `.claude/`.
-- 4 guard scripts + 2 CI workflows wired (docs-freshness, doc-links,
-  redis-keys, engine-inventory-refresh).
-- 379 forensic auto-reports archived to `docs/archive/forensic-2026-05-pre/`.
+9 commits today (`bot/marco/AGN-803`, all pushed to origin):
+- 8b845df6 Phase 1.0.D verification sweep
+- e4737757 ENGINE/DATABASE/SCORING rewrites + 4 guards + 2 CI workflows
+- 4ae6b74f Wave 2 polish (12 agents)
+- 48a5e1c3 Wave 3 (12 agents): ADR defer, cron deletes, generator patch
+- e4030e21 INDEX refresh + next-wave plan
+- d0876c51 Wave 4 (15 agents): A1-A5, B2-B4, C2-C4, D1-D3, E1-E6
+- d5a29fa6 Wave 5 (12 agents): F3 OpenAPI gen + ADRs 0004/0005/0006
+- 42ee8569 Wave 6: cron stagger (10->8) + generator frontmatter
+- c38fd335 Pre-existing fixes: typecheck + Next config + JSX + nextUrl
 
-Deferred (see `tasks/BACKLOG.md`):
-- 30 broken internal doc-links (ongoing fix sweep)
-- 2 orphan cron routes flagged
-- Sprint/backlog reconciliation against Paperclip API
+Net deltas:
+- 88 GH Actions workflows, 14 cron routes, 44 active worker fetchers
+- 5 guard scripts + 4 CI workflows wired
+- 9 path-scoped CLAUDE.md
+- 3 new ADRs (0004 supersede 0001, 0005 commit policy, 0006 namespace plan)
+- Cron schedule staggered (Mon 06:00 collision 10 -> 6)
+- 4 dead worker stubs deleted
+- Forensic generator FULLY root-caused + patched
+- Repo health: 5/5 guards green, 0 broken links, 0 frontmatter violations
+
+Next session entry: `tasks/HANDOFF-2026-05-05-EOD.md`
 
 ---
 
@@ -341,7 +347,7 @@ Hackathons, Launch â€” no route, no data, intentional
 - `docs/INDEX.md` â€” canonical front-door doc index (862 md files classified by trust level) [Phase 1 docs restructure, 2026-05-05]
 - This file (`docs/OPERATOR.md`) â€” situational awareness
 - `CLAUDE.md` â€” project conventions, anti-patterns
-- `docs/ENGINE.md` â€” deeper engine map (85 workflows + every key) [rewritten from current code 2026-05-05]
+- `docs/ENGINE.md` â€” deeper engine map (88 workflows + every key) [rewritten from current code 2026-05-05]
 - `docs/SITE-WIREMAP.md` â€” top-down route â†’ collector trace
 - `docs/AUDIT-2026-05-04.md` â€” full audit (deferred external blockers)
 

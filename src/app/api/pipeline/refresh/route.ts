@@ -22,9 +22,11 @@
 // job is to make the UI feel fresh after a user action.
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import { serverError } from "@/lib/api/error-response";
+import { parseBody } from "@/lib/api/parse-body";
 
 export const runtime = "nodejs";
 
@@ -56,10 +58,14 @@ let lastFinishedAt = 0;
 // instance (memory fallback when UPSTASH_REDIS_REST_* env is unset).
 const PER_IP_WINDOW_MS = 60_000;
 const PER_IP_MAX_REQUESTS = 1;
+const RefreshBodySchema = z.object({}).strict();
 
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<RefreshResponse | RefreshErrorResponse>> {
+  const parsed = await parseBody(request, RefreshBodySchema, { allowEmpty: true });
+  if (!parsed.ok) return parsed.response;
+
   // Per-IP gate.
   const limit = await checkRateLimitAsync(request, {
     windowMs: PER_IP_WINDOW_MS,

@@ -11,9 +11,10 @@
 // (`0 */6 * * *`) and the crunchbase fetcher (`0 */6 * * *`).
 //
 // Reliability:
-//   - APIFY_API_TOKEN is the preferred source. With it unset we go straight
-//     to the Nitter RSS fallback. Missing token plus empty fallback is a
-//     producer failure, not a fake-fresh empty payload.
+//   - APIFY_API_TOKEN gates the whole fetcher. With it unset we publish an
+//     empty payload (so the slug exists in Redis and the consumer doesn't
+//     fall back to "missing") and log a clear skip reason. This matches
+//     funding-news's "graceful degradation" stance — we never blank the slug.
 //   - Per-actor-run timeout = 5 min. The actor has its own internal max
 //     items cap; we only need ~7 days of activity per run.
 //   - Network errors during the actor run propagate up — the worker scheduler
@@ -235,51 +236,46 @@ export async function runTweetScraper(
 
 export async function scrapeTwitterFor(
   query: string,
-  token?: string,
+  token: string,
 ): Promise<TweetLike[]> {
-  let apifyError: unknown = new Error('APIFY_API_TOKEN unset');
   try {
-    if (token) {
-      return await runTweetScraper(token, {
-        searchTerms: [query],
-        maxItems: MAX_TWEETS_PER_QUERY,
-        sort: 'Latest',
-        tweetLanguage: 'en',
-      });
-    }
-  } catch (error) {
-    apifyError = error;
-  }
-
-  const nitterErrors: string[] = [];
-  for (const baseUrl of NITTER_INSTANCES) {
-    try {
-      const rssUrl = `${baseUrl}/search/rss?q=${encodeURIComponent(query)}`;
-      const response = await fetchWithTimeout(rssUrl, {
-        timeoutMs: 20_000,
-        headers: {
-          Accept: 'application/rss+xml, application/xml, text/xml',
-          'User-Agent': 'trendingrepo-x-funding-fallback/1.0 (+https://trendingrepo.com)',
-        },
-      });
-      if (!response.ok) {
-        nitterErrors.push(`${baseUrl}: HTTP ${response.status}`);
-        continue;
+    return await runTweetScraper(token, {
+      searchTerms: [query],
+      maxItems: MAX_TWEETS_PER_QUERY,
+      sort: 'Latest',
+      tweetLanguage: 'en',
+    });
+  } catch (apifyError) {
+    const nitterErrors: string[] = [];
+    for (const baseUrl of NITTER_INSTANCES) {
+      try {
+        const rssUrl = `${baseUrl}/search/rss?q=${encodeURIComponent(query)}`;
+        const response = await fetchWithTimeout(rssUrl, {
+          timeoutMs: 20_000,
+          headers: {
+            Accept: 'application/rss+xml, application/xml, text/xml',
+            'User-Agent': 'trendingrepo-x-funding-fallback/1.0 (+https://trendingrepo.com)',
+          },
+        });
+        if (!response.ok) {
+          nitterErrors.push(`${baseUrl}: HTTP ${response.status}`);
+          continue;
+        }
+        const xml = await response.text();
+        return parseNitterRssToTweets(xml);
+      } catch (error) {
+        nitterErrors.push(
+          `${baseUrl}: ${error instanceof Error ? error.message : String(error)}`,
+        );
       }
-      const xml = await response.text();
-      return parseNitterRssToTweets(xml);
-    } catch (error) {
-      nitterErrors.push(
-        `${baseUrl}: ${error instanceof Error ? error.message : String(error)}`,
-      );
     }
-  }
 
-  const apifyMessage =
-    apifyError instanceof Error ? apifyError.message : String(apifyError);
-  throw new Error(
-    `twitter-all-sources-failed apify=${apifyMessage} nitter=${nitterErrors.join(' | ')}`,
-  );
+    const apifyMessage =
+      apifyError instanceof Error ? apifyError.message : String(apifyError);
+    throw new Error(
+      `twitter-all-sources-failed apify=${apifyMessage} nitter=${nitterErrors.join(' | ')}`,
+    );
+  }
 }
 
 function parseNitterRssToTweets(xml: string): TweetLike[] {
@@ -353,13 +349,31 @@ const fetcher: Fetcher = {
     const discoveredAt = new Date().toISOString();
     const token = process.env.APIFY_API_TOKEN?.trim();
 
+    if (!token) {
+      // No Apify credentials → publish an empty payload so the slug exists
+      // and downstream readers see a fresh `fetchedAt` without falling back
+      // to the "missing" tier.
+      const payload: FundingNewsXPayload = {
+        fetchedAt: discoveredAt,
+        source: 'x-funding-hashtags',
+        windowDays: WINDOW_DAYS,
+        signals: [],
+        requiresApifyToken: true,
+      };
+      const result = await writeDataStore('funding-news-x', payload);
+      ctx.log.warn(
+        { redisSource: result.source },
+        'x-funding skipped: APIFY_API_TOKEN unset (slug published empty)',
+      );
+      return done(startedAt, 0, result.source === 'redis');
+    }
+
     const allSignals: FundingSignal[] = [];
     const seenIds = new Set<string>();
     const failedQueries: string[] = [];
-    let totalTweetsSeen = 0;
 
     for (const query of X_FUNDING_QUERIES) {
-      ctx.log.info({ query, provider: token ? 'apify+nitter' : 'nitter' }, 'x-funding query');
+      ctx.log.info({ query }, 'x-funding apify run');
       let tweets: TweetLike[] = [];
       try {
         tweets = await scrapeTwitterFor(query, token);
@@ -372,7 +386,6 @@ const fetcher: Fetcher = {
         continue;
       }
 
-      totalTweetsSeen += tweets.length;
       let kept = 0;
       for (const tweet of tweets) {
         const signal = tweetToSignal(tweet, discoveredAt);
@@ -394,20 +407,12 @@ const fetcher: Fetcher = {
       return (Number.isFinite(tb) ? tb : 0) - (Number.isFinite(ta) ? ta : 0);
     });
 
-    if (totalTweetsSeen === 0) {
-      throw new Error(
-        token
-          ? 'x-funding upstream returned zero tweets across all queries'
-          : 'x-funding fallback returned zero tweets and APIFY_API_TOKEN is unset',
-      );
-    }
-
     const payload: FundingNewsXPayload = {
       fetchedAt: discoveredAt,
       source: 'x-funding-hashtags',
       windowDays: WINDOW_DAYS,
       signals: allSignals,
-      requiresApifyToken: !token,
+      requiresApifyToken: false,
     };
     const result = await writeDataStore('funding-news-x', payload);
     ctx.log.info(

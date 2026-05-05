@@ -8,6 +8,8 @@
 // adapter so developers can exercise the pipeline end-to-end offline.
 
 import { NextRequest, NextResponse } from "next/server";
+import { readFileSync, writeFileSync } from "fs";
+import { resolve } from "path";
 import * as Sentry from "@sentry/nextjs";
 import { pipeline } from "@/lib/pipeline/pipeline";
 import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
@@ -17,6 +19,19 @@ import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import { getGitHubTokenPool } from "@/lib/github-token-pool";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { trendScoreForTimeRange } from "@/lib/filters";
+
+const REDDIT_MENTIONS_PATH = resolve(process.cwd(), "data", "reddit-mentions.json");
+
+function touchRedditFetchedAt(isoTimestamp: string): void {
+  let doc: Record<string, unknown> = {};
+  try {
+    doc = JSON.parse(readFileSync(REDDIT_MENTIONS_PATH, "utf8")) as Record<string, unknown>;
+  } catch {
+    // file absent or corrupt — start from scratch
+  }
+  doc.fetchedAt = isoTimestamp;
+  writeFileSync(REDDIT_MENTIONS_PATH, JSON.stringify(doc, null, 2) + "\n", "utf8");
+}
 
 export const runtime = "nodejs";
 // Batch ingest fans out 50 repos × multiple social adapters and then runs
@@ -225,6 +240,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       console.log(
         `[pipeline:ingest] social adapters summary repos=${fullNames.length}${autoDiscovered ? " auto" : ""} ${summary}`,
       );
+      const redditMentions = socialAdapters.counters["reddit-public-json"]?.mentions ?? 0;
+      if (redditMentions > 0) {
+        try {
+          touchRedditFetchedAt(new Date().toISOString());
+        } catch (err) {
+          console.warn("[ingest] failed to update reddit freshness:", err);
+        }
+      }
     }
 
     const shouldRecompute = recomputeAfter ?? true;

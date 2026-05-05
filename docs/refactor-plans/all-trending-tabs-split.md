@@ -3,7 +3,7 @@
 ## Scope
 - Target: `src/components/reddit-trending/AllTrendingTabs.tsx` (current 918 LOC)
 - Goal: reduce coupling and improve module depth without changing behavior for `/reddit/trending`.
-- Constraint: plan-only artifact, coordinated with H1 pagination/SSR workstream ([K3-P2-7](/AGN/issues/K3-P2-7)).
+- Constraint: plan-only artifact, coordinated with H1 pagination/SSR workstream (`K3-P2-7`).
 
 ## Architectural diagnosis
 

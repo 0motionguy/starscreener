@@ -11,7 +11,7 @@ sessions (2026-04-26 → 2026-04-27). When a workflow surprised someone,
 it lands here so the next session doesn't re-hit the trap.
 
 For the higher-level architecture see [`ARCHITECTURE.md`](./ARCHITECTURE.md);
-for the audit closure roll-up see [`AUDIT_HANDOFF.md`](./AUDIT_HANDOFF.md).
+for the audit closure roll-up see [`AUDIT_HANDOFF.md`](./archive/AUDIT_HANDOFF.md).
 
 ---
 

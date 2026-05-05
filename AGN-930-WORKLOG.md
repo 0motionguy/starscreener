@@ -1,3 +1,9 @@
+---
+status: worklog
+ticket: AGN-930
+last-touched: 2026-05-05
+---
+
 # AGN-930 — Font loading audit (`preload` + `display: swap`)
 
 ## Scope

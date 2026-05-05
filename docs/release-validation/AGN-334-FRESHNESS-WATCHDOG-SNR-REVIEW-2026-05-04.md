@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-334 SRE freshness watchdog signal-to-noise review (2026-05-04)
 
 Timestamp (local): 2026-05-04T19:25:27+08:00

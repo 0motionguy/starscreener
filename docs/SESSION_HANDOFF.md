@@ -12,7 +12,7 @@
 
 **Operator runbook**: [docs/RUNBOOK.md](./RUNBOOK.md) — auto-commit semantics, command index, CI guards reference, persistence discipline.
 
-**Original audit doc**: [TECH_DEBT_AUDIT.md](../TECH_DEBT_AUDIT.md). **Original handoff** that started everything: [docs/AUDIT_HANDOFF.md](./AUDIT_HANDOFF.md).
+**Original audit doc**: [TECH_DEBT_AUDIT.md](../TECH_DEBT_AUDIT.md). **Original handoff** that started everything: [docs/AUDIT_HANDOFF.md](./archive/AUDIT_HANDOFF.md).
 
 ### CI guards (5, all wired into `npm run lint:guards`)
 
@@ -41,7 +41,7 @@ The following primitives exist; extend them, don't fork:
 | [src/lib/api/parse-body.ts](../src/lib/api/parse-body.ts) | `parseBody(req, ZodSchema, { allowEmpty? })` for any mutating route. `allowEmpty: true` for cron triggers that send `Content-Length: 0`. |
 | [src/lib/api/error-response.ts](../src/lib/api/error-response.ts) | `serverError(err, { scope })` for 5xx. `errorEnvelope(message, code?)` for 4xx. Canonical body shape: `{ ok: false, error: string, code?: string }`. |
 | [src/lib/api/cache.ts](../src/lib/api/cache.ts) | `READ_FAST_HEADERS` / `READ_MEDIUM_HEADERS` / `READ_SLOW_HEADERS` / `READ_HEAVY_HEADERS`. Pick by cron cadence. |
-| [src/lib/admin/scan-sources.ts](../src/lib/admin/scan-sources.ts) | `SCAN_SOURCES` whitelist + script paths. |
+| `src/lib/admin/scan-sources.ts` | `SCAN_SOURCES` whitelist + script paths. |
 | [src/lib/stripe/idempotency.ts](../src/lib/stripe/idempotency.ts) | `acquireStripeEventLock(redis, eventId)` Redis-SETNX idempotency. |
 | [src/components/shared/ErrorBoundary.tsx](../src/components/shared/ErrorBoundary.tsx) | V2-styled boundary; wrap heavy canvases / chart mounts. |
 | [src/lib/derived-repos/sparkline.ts](../src/lib/derived-repos/sparkline.ts) | `synthesizeSparkline` + `synthesizeRecentRepoSparkline`. |

@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-635 Disaster Recovery Runbook Verification - Full Restore from Backup (2026-05-04)
 
 Timestamp (Asia/Makassar): 2026-05-04T23:05:38+08:00

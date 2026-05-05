@@ -1,6 +1,6 @@
 # Tech-Debt Audit — Final Closure Report
 
-End-of-day 2026-04-27 (continuation of [`AUDIT_HANDOFF.md`](./AUDIT_HANDOFF.md)).
+End-of-day 2026-04-27 (continuation of [`AUDIT_HANDOFF.md`](./archive/AUDIT_HANDOFF.md)).
 
 <!-- BADGE_DATA: closed=71 total=87 critical_open=0 -->
 <!-- ^ Single source of truth for the README badges. Edit when the audit is

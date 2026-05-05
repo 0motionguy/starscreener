@@ -1,3 +1,9 @@
+---
+status: coverage-report
+ticket: AGN-795
+last-touched: 2026-05-05
+---
+
 # AGN-795 Coverage Report
 
 Date: 2026-05-05

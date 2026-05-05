@@ -1,3 +1,9 @@
+---
+status: worklog
+ticket: AGN-924
+last-touched: 2026-05-05
+---
+
 # AGN-924 Worklog (2026-05-05)
 
 ## Scope

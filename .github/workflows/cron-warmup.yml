@@ -1,0 +1,36 @@
+name: Warm Vercel routes
+on:
+  schedule:
+    # 08:00–22:00 UTC, every 5 min
+    - cron: '*/5 8-21 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  warmup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        route:
+          - /
+          - /githubrepo
+          - /signals
+          - /compare
+          - /top10
+          - /reddit/trending
+          - /hackernews/trending
+          - /lobsters
+          - /devto
+          - /bluesky
+          - /twitter
+          - /skills
+    steps:
+      - name: Hit ${{ matrix.route }}
+        run: |
+          curl -s -o /dev/null -w "%{http_code} %{time_total}s ${{ matrix.route }}\n" \
+            "https://trendingrepo.com${{ matrix.route }}" \
+            -H "User-Agent: TrendingRepo-Warmup-Cron"

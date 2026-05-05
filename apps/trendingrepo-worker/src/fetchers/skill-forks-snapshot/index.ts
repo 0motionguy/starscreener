@@ -19,10 +19,10 @@
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { writeDataStore, readDataStore, getRedis } from '../../lib/redis.js';
+import { keys } from '../../lib/redis-keys.js';
 
 const SNAPSHOT_TTL_SECONDS = 8 * 24 * 60 * 60; // 8d (one extra day for read-tolerance)
 const ROLLING_DAYS = 7;
-const NAMESPACE = 'ss:data:v1';
 
 interface RosterSkillItem {
   slug?: string;

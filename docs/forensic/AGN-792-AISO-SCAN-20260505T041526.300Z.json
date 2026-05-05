@@ -1,0 +1,49 @@
+{
+  "capturedAt": "2026-05-05T04:15:26.300Z",
+  "targetUrl": "https://trendingrepo.com",
+  "request": {
+    "method": "POST",
+    "url": "https://aiso.tools/api/scan",
+    "payload": {
+      "url": "https://trendingrepo.com"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "access-control-allow-headers": "accept, content-type, x-aiso-source, x-aiso-project, x-aiso-project-url",
+      "access-control-allow-methods": "GET, POST, OPTIONS",
+      "access-control-allow-origin": "*",
+      "access-control-max-age": "86400",
+      "cache-control": "public, max-age=0, must-revalidate",
+      "content-encoding": "br",
+      "content-type": "application/json",
+      "date": "Tue, 05 May 2026 04:15:28 GMT",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "server": "Vercel",
+      "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+      "transfer-encoding": "chunked",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "x-brand": "aiso",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY",
+      "x-matched-path": "/api/scan",
+      "x-request-id": "3a4a196e-9007-4959-a859-9848780df622",
+      "x-vercel-cache": "MISS",
+      "x-vercel-enable-rewrite-caching": "1",
+      "x-vercel-id": "sin1::sin1::kzw94-1777954527318-8c0125ff8b3d"
+    },
+    "body": {
+      "scanId": "f3058017-7df2-42d7-8c0b-99c13348d1ee",
+      "status": "queued",
+      "mode": "homepage",
+      "resultUrl": "https://aiso.tools/scan/f3058017-7df2-42d7-8c0b-99c13348d1ee",
+      "source": "web",
+      "projectName": null,
+      "projectUrl": null
+    },
+    "retryAfterSeconds": null,
+    "nextRetryAt": null
+  }
+}

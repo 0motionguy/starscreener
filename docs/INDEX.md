@@ -86,18 +86,37 @@ Recommendation: AGN-* worklogs at root are temporary. Sweep into
 ## Living docs (kept current; safe to trust)
 
 These have `status: living` frontmatter and were drift-audited 2026-05-05.
+Count: 27 (per `node scripts/check-docs-freshness.mjs`).
 
 | Path | Topic | Last verified |
 |---|---|---|
 | `docs/INDEX.md` | this file | 2026-05-05 |
+| `docs/API.md` | Public API surface | 2026-05-05 |
 | `docs/ARCHITECTURE.md` | Redis 3-tier read order, namespaces, compute lanes, error categories | 2026-05-05 |
 | `docs/DEPLOY.md` | Vercel + Railway deploy paths, env wiring, Node 22.x | 2026-05-05 |
+| `docs/ENGINE.md` | 83 workflows + 16 cron routes + 44 worker fetchers + ~85 env vars | 2026-05-05 |
 | `docs/INGESTION.md` | Scraper cadence, dual-write helper, Redis-as-truth | 2026-05-05 |
 | `docs/OPERATOR.md` | Operator situational awareness (single source of truth) | 2026-05-05 |
+| `docs/RUNBOOK-internal-agent-token-rotation.md` | Internal agent token rotation | 2026-05-05 |
 | `docs/SITE-WIREMAP.md` | Every route -> data -> collector -> external API | 2026-05-05 |
 | `docs/SOURCE_DISCOVERY.md` | Query families and discovery slices for new sources | 2026-05-05 |
 | `docs/TWITTER_SIGNAL_LAYER.md` | Apify provider, 4-query bundle, ingest auth, leaderboards | 2026-05-05 |
-| `docs/API.md` | Public API surface | 2026-05-05 |
+| `docs/perf/AGN-852-heap-snapshot-drill-2026-05-04.md` | Heap snapshot drill (AGN-852) | 2026-05-05 |
+| `docs/protocols/mcp.md` | MCP integration protocol | 2026-05-05 |
+| `docs/protocols/portal.md` | Portal protocol | 2026-05-05 |
+| `docs/protocols/skills.md` | Skills protocol | 2026-05-05 |
+| `docs/runbook-aiso-operator-checklist.md` | AISO operator checklist | 2026-05-05 |
+| `docs/runbook-heap-leak.md` | Heap leak (AGN-852 / OBS-7) | 2026-05-05 |
+| `docs/runbook-redis-oom.md` | Redis OOM / writes failing | 2026-05-05 |
+| `docs/runbook-scrape-trending-stuck.md` | scrape-trending stuck | 2026-05-05 |
+| `docs/runbook-stripe-secret-rotation.md` | Stripe webhook secret rotation | 2026-05-05 |
+| `docs/runbooks/apify-down.md` | Twitter signal stop -- Apify provider down | 2026-05-05 |
+| `docs/runbooks/github-pool-exhausted.md` | Token pool exhausted recovery (canonical) | 2026-05-05 |
+| `docs/runbooks/redis-full.md` | Redis full / write failure | 2026-05-05 |
+| `docs/runbooks/rollback.md` | General rollback procedure | 2026-05-05 |
+| `docs/runbooks/vercel-deploy-failing.md` | Vercel deploy failing | 2026-05-05 |
+| `docs/security/encryption-at-rest.md` | Encryption at rest | 2026-05-05 |
+| `docs/security/x-forwarded-for-trust-contract.md` | X-Forwarded-For trust contract | 2026-05-05 |
 
 ---
 
@@ -105,27 +124,72 @@ These have `status: living` frontmatter and were drift-audited 2026-05-05.
 
 These were accurate at audit-date but may have drifted. Do not cite as current
 state. Rewrites tracked under `tasks/BACKLOG.md` "Phase 1 Follow-Up Rewrites".
+Count: 11 with `status: snapshot` frontmatter (per freshness check). The
+ENGINE/DATABASE/SCORING entries called out in the original 2026-05-02 audit
+have since been split: ENGINE rewritten to living (2026-05-05); DATABASE +
+SCORING remain snapshot pending Phase 1.5 follow-up rewrite.
 
 | Path | Topic | Audit date | Reason / known drift |
 |---|---|---|---|
-| `docs/ENGINE.md` | 62 workflows + crons + pool architecture | 2026-05-02 | Workflow undercount vs. current 83+ files |
-| `docs/DATABASE.md` | Database schema and Redis namespaces | snapshot | Predates Phase 4 Redis-as-truth |
-| `docs/SCORING.md` | Scoring algorithms and weights | snapshot | Predates consensus v3 (2026-04-30) |
-| `docs/RUNBOOK.md` | Catch-all operator runbook (legacy) | needs-verification | Mostly superseded by `docs/runbooks/` and `docs/OPERATOR.md` |
-| `docs/REPO-OVERVIEW.md` | One-page repo overview | needs-verification | Pre-restructure; verify before citing |
-| `docs/STORYBOOK_COMPONENT_LIBRARY.md` | Storybook setup and components | needs-verification | -- |
-| `docs/DESIGN_SYSTEM.md` | Design system reference | needs-verification | Superseded by V3? See refactor-plans |
-| `docs/DESIGN_SYSTEM_V3.md` | Design system V3 reference | needs-verification | Confirm canonical vs. `docs/DESIGN_SYSTEM.md` |
-| `docs/BUNDLE.md` | Bundle size baseline + heavy modules | snapshot | -- |
-| `docs/CORS-POLICY.md` | CORS policy | needs-verification | -- |
-| `docs/KEY-ROTATION.md` | Production secret rotation runbook | needs-verification | Cross-reference with `docs/RUNBOOK-secret-rotation.md` |
-| `docs/slo.md` | SLO + error budget policy | needs-verification | -- |
-| `docs/regression-map.md` | Regression map | needs-verification | -- |
-| `docs/seo-route-class-policy.md` | Per-route-class SEO policy (AGN-915) | snapshot | -- |
-| `docs/sergio-pluggable-protocol.md` | AISO-fix protocol (AGN-797) | snapshot | -- |
-| `docs/aiso-free-scan-contract.md` | AISO free scanner contract | living | Body says "Verified 2026-05-05"; missing frontmatter |
-| `docs/openapi.yaml` | OpenAPI spec (canonical) | 2026-05-05 | Frontmatter set |
-| `docs/openapi.json` | OpenAPI spec (regenerated artifact) | n/a | Build output |
+| `docs/DATABASE.md` | Database schema and Redis namespaces | 2026-05-05 | Predates Redis-as-primary + Supabase data-lake (ADR 0001) |
+| `docs/SCORING.md` | Scoring algorithms and weights | 2026-05-05 | Describes deprecated v1/v2; current is 8-source v3 + Kimi K2.6 (PR #52) |
+| `docs/RUNBOOK.md` | Catch-all operator runbook (legacy) | 2026-05-05 | Largely superseded by `docs/OPERATOR.md` + `docs/runbooks/` |
+| `docs/RUNBOOK-secret-rotation.md` | Quarterly secret rotation runbook | 2026-05-05 | References non-existent `src/lib/cron-auth.ts`; ProductHunt cron drift |
+| `docs/runbook-github-pool-exhausted.md` | Duplicate of canonical | 2026-05-05 | Duplicate of `docs/runbooks/github-pool-exhausted.md`; canonicalize |
+| `docs/protocols/DEPLOY_RUNBOOK.md` | Deploy runbook protocol | 2026-05-05 | Hardcoded "215/215 pass" likely stale; paths still valid |
+| `docs/protocols/PAPERCLIP-AGENT-ONBOARDING-CHECKLIST.md` | Paperclip agent onboarding | 2026-05-05 | Step 2 omits `docs/INDEX.md` + `docs/OPERATOR.md` from session-open list |
+| `docs/perf/2026-05-04-bundle-report.md` | Bundle report 2026-05-04 | 2026-05-04 | -- |
+| `docs/perf/AGN-150-api-route-profile-2026-05-04.md` | API route profile (AGN-150) | 2026-05-04 | -- |
+| `docs/perf/AGN-191-api-route-investigation-2026-05-04.md` | API route investigation (AGN-191) | 2026-05-04 | -- |
+| `docs/perf/agn-926-proof-2026-05-05.md` | AGN-926 proof | 2026-05-05 | -- |
+
+### Other dated reference docs (unlabeled / needs-verification)
+
+These docs predate the Phase 1 frontmatter sweep. Treat as snapshot-equivalent
+until labeled. Phase 1.5 will classify or rewrite.
+
+| Path | Topic | Reason / known drift |
+|---|---|---|
+| `docs/REPO-OVERVIEW.md` | One-page repo overview | Pre-restructure; verify before citing |
+| `docs/STORYBOOK_COMPONENT_LIBRARY.md` | Storybook setup and components | -- |
+| `docs/DESIGN_SYSTEM_V3.md` | Design system V3 reference | Superseded by `design/v4/DESIGN_SYSTEM.md` (living) |
+| `docs/BUNDLE.md` | Bundle size baseline + heavy modules | -- |
+| `docs/CORS-POLICY.md` | CORS policy | -- |
+| `docs/KEY-ROTATION.md` | Production secret rotation runbook | Cross-reference with `docs/RUNBOOK-secret-rotation.md` |
+| `docs/slo.md` | SLO + error budget policy | -- |
+| `docs/regression-map.md` | Regression map | -- |
+| `docs/seo-route-class-policy.md` | Per-route-class SEO policy (AGN-915) | -- |
+| `docs/sergio-pluggable-protocol.md` | AISO-fix protocol (AGN-797) | -- |
+| `docs/aiso-free-scan-contract.md` | AISO free scanner contract | Body says "Verified 2026-05-05"; missing frontmatter |
+| `docs/openapi.yaml` | OpenAPI spec (canonical) | Frontmatter set 2026-05-05 |
+| `docs/openapi.json` | OpenAPI spec (regenerated artifact) | Build output |
+
+---
+
+## Pointer / redirect docs (status: pointer)
+
+These files exist only to redirect inbound links to the canonical doc. Do not
+add content here -- update the target instead.
+
+| Path | Redirects to |
+|---|---|
+| `docs/DESIGN_SYSTEM.md` | `design/v4/DESIGN_SYSTEM.md` |
+| `docs/RUNBOOK.md` | `docs/OPERATOR.md` |
+| `docs/runbook-github-pool-exhausted.md` | `docs/runbooks/github-pool-exhausted.md` |
+
+---
+
+## Generated docs (do not hand-edit)
+
+These are produced by `scripts/derive-engine-inventory.mjs` and
+`scripts/check-internal-doc-links.mjs`. Refresh via `npm run engine:derive`
+(or the weekly `engine-inventory-refresh.yml` workflow) -- do not edit by hand.
+
+| Path | Producer | Refresh command |
+|---|---|---|
+| `docs/_generated/engine.json` | `scripts/derive-engine-inventory.mjs` | `npm run engine:derive` |
+| `docs/_generated/engine.md` | `scripts/derive-engine-inventory.mjs` | `npm run engine:derive` |
+| `docs/_generated/broken-links.md` | `scripts/check-internal-doc-links.mjs` | `node scripts/check-internal-doc-links.mjs` |
 
 ---
 
@@ -417,15 +481,16 @@ below distill its critical gaps so they can be tracked here.
 | P1.2 | Build comprehensive `docs/INDEX.md` | done | this file |
 | P1.3 | Sweep root AGN-* worklogs into `docs/archive/worklogs/` | open | `tasks/BACKLOG.md` |
 | P1.4 | Rationalize loose `docs/runbook-*` files into `docs/runbooks/` | open | `tasks/BACKLOG.md` |
-| P1.5 | Rewrite snapshot docs (`ENGINE.md`, `DATABASE.md`, `SCORING.md`) to living | open | `tasks/BACKLOG.md` |
+| P1.5 | Rewrite snapshot docs (`ENGINE.md`, `DATABASE.md`, `SCORING.md`) to living | partial | ENGINE rewritten 2026-05-05 (commit `e4737757`); DATABASE + SCORING still snapshot |
 
 ---
 
 ## Workflow inventory
 
-See `docs/ENGINE.md` (snapshot -- needs rewrite per BACKLOG) for the legacy
-inventory. Current ground truth at audit-2026-05-04: 62 `.github/workflows/*.yml`
-files, 62 active workflows from `gh workflow list --limit 100`, plus 19 cron
-routes under `src/app/api/cron/` and a sister Railway worker registering 42
-fetchers (`apps/trendingrepo-worker/`). Phase 1.5 will refresh `ENGINE.md`
-to match current `.github/workflows/` and stamp it living.
+Current ground truth at 2026-05-05: 83 `.github/workflows/*.yml` files (per
+`docs/_generated/engine.json`, derived from filesystem), 16 cron API routes
+under `src/app/api/cron/`, 44 worker fetchers in the sister Railway worker
+(`apps/trendingrepo-worker/`), and ~85 env vars. Re-derive with
+`npm run engine:derive`. See `docs/ENGINE.md` (now `status: living`) for the
+human-readable narrative; `docs/_generated/engine.md` for the auto-derived
+digest.

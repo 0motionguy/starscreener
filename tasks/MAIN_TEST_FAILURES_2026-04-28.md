@@ -1,3 +1,8 @@
+---
+status: archive
+last-touched: 2026-04-28
+---
+
 # Pre-existing main-side test failures — 2026-04-28
 
 Beyond the reddit-shared.test.mjs bugs that PR #23 fixed, main has **8 additional test failures** that surface in the `Typecheck, guards, tests, build, e2e` job. Confirmed on PR #23's CI run (957 pass / 8 fail) — a docs-only branch off main + reddit fix, so these are inherent to main itself.

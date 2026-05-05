@@ -1,4 +1,10 @@
-# Bundle Report — 2026-05-04 (AGN-927)
+---
+status: snapshot
+audit-date: 2026-05-05
+reason: One-shot bundle analyzer run dated 2026-05-04; transient artifacts and snapshot-derived top-modules table.
+---
+
+# Bundle Report ï¿½ 2026-05-04 (AGN-927)
 
 ## Command + status
 - Command run: `npm run analyze` (executed 2026-05-05 local)

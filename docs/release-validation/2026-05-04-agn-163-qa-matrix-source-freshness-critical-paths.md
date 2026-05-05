@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-163 QA Checklist Matrix - Source Freshness Critical Paths (2026-05-04)
 
 ## Scope

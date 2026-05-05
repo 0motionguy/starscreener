@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-627 [SPEED-10] Vercel deploy minutes - gzip + brotli compression policy verify
 
 Date: 2026-05-04

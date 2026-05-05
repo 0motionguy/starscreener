@@ -1,3 +1,9 @@
+---
+status: archive
+audit-date: 2026-05-05
+reason: dated release-validation heartbeat artifact
+---
+
 # AGN-201: Freshness gate 500 on localhost:3023 root-cause packet (2026-05-04)
 
 ## Scope

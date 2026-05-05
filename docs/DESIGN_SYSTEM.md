@@ -15,7 +15,7 @@ The older `--v2-*` names still appear in code; they are aliased to V3 in
 palette automatically. Do not introduce new `--v2-*` references.
 
 This is the onboarding reference. The migration narrative lives in
-[V2_HANDOFF.md](./V2_HANDOFF.md). The token vocabulary is defined in
+[V2_HANDOFF.md](./archive/V2_HANDOFF.md). The token vocabulary is defined in
 [`src/app/globals.css:222-292`](../src/app/globals.css).
 
 ## Token vocabulary
@@ -226,5 +226,5 @@ If you see this in a diff, replace it with the V3 form.
   — terminal-bar header, snapshot card, bars body, hero feature card.
 - Canonical chip:
   [`src/components/shared/CategoryPill.tsx`](../src/components/shared/CategoryPill.tsx).
-- Migration narrative & history: [`docs/V2_HANDOFF.md`](./V2_HANDOFF.md),
-  [`docs/HANDOFF_2026-04-27_V3.md`](./HANDOFF_2026-04-27_V3.md).
+- Migration narrative & history: [`docs/V2_HANDOFF.md`](./archive/V2_HANDOFF.md),
+  [`docs/HANDOFF_2026-04-27_V3.md`](./archive/HANDOFF_2026-04-27_V3.md).

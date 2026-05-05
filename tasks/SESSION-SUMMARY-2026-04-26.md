@@ -32,7 +32,7 @@
    - 3 Dev.to keys — dev.to/settings/extensions → regenerate
    - 2 PH client secrets — producthunt.com/v2/oauth/applications → regenerate
 2. **Get 3 Reddit OAuth apps** when account blocker clears (operator said "next days") — same pool pattern as Dev.to/PH
-3. **Decide on worker consolidation** — see [tasks/phase-3-worker-consolidation.md](phase-3-worker-consolidation.md)
+3. **Decide on worker consolidation** — see `tasks/phase-3-worker-consolidation.md`
 
 ## Architecture state after this session
 
@@ -78,9 +78,9 @@
 - [CLAUDE.md](../CLAUDE.md) — codebase conventions (kept current)
 - [tasks/data-api.md](data-api.md) — Phase 1B + Railway provisioning + Upstash story
 - [tasks/workflow-strip-rollout.md](workflow-strip-rollout.md) — Phase 1B activation steps
-- [tasks/phase-3-source-coverage.md](phase-3-source-coverage.md) — Phase 3 plan (pre-consolidation)
-- [tasks/phase-3-worker-consolidation.md](phase-3-worker-consolidation.md) — RECOMMENDED Phase 3 path (worker)
-- [tasks/phase-4-monetization.md](phase-4-monetization.md) — Phase 4 plan
+- `tasks/phase-3-source-coverage.md` — Phase 3 plan (pre-consolidation)
+- `tasks/phase-3-worker-consolidation.md` — RECOMMENDED Phase 3 path (worker)
+- `tasks/phase-4-monetization.md` — Phase 4 plan
 - [starscreener-inspection/MOAT.md](../starscreener-inspection/MOAT.md) — competitive moat (verified 2026-04-18)
 - [starscreener-inspection/SOURCES.md](../starscreener-inspection/SOURCES.md) — full source matrix
 - [src/lib/data-store.ts](../src/lib/data-store.ts) — three-tier read pattern reference
@@ -103,6 +103,6 @@
 | 1B | Decouple data from deploys via Redis | ✅ DONE |
 | 2 | Reliability (token pool, persisted mentions, circuit breakers) | ✅ DONE |
 | 2.5 | Workflow strip (pending merge of PR #10) | 🟡 ready, awaits merge |
-| 3 | Source coverage — recommended via [worker consolidation](phase-3-worker-consolidation.md) | 📋 planned, fresh session |
+| 3 | Source coverage — recommended via worker consolidation (`tasks/phase-3-worker-consolidation.md`) | 📋 planned, fresh session |
 | 3.2 | ClickHouse historical depth | 📋 planned, separate workstream |
 | 4 | Monetization (API keys, Stripe metering, status page, docs site) | 📋 planned, fresh session |

@@ -268,6 +268,27 @@ If the user says "go" or "continue", consider checking PR #93 status first â€
 
 ---
 
+## 2026-05-05 â€” Phase 1 docs restructure
+
+- `docs/INDEX.md` is now the canonical front door (862 md files indexed).
+- `docs/ENGINE.md`, `docs/DATABASE.md`, `docs/SCORING.md` rewritten from
+  current code (the v1/v2/v3 snapshots they replaced were 26%-undercount on
+  workflows + describing deprecated scoring).
+- `src/lib/redis/keys.ts` registry centralizes Redis key construction.
+- 5 path-scoped CLAUDE.md files added (`src/app/api/cron/`, `src/lib/`,
+  `src/lib/redis/`, `apps/trendingrepo-worker/`, `.github/workflows/`).
+- 3 project subagents + 5 project skills added under `.claude/`.
+- 4 guard scripts + 2 CI workflows wired (docs-freshness, doc-links,
+  redis-keys, engine-inventory-refresh).
+- 379 forensic auto-reports archived to `docs/archive/forensic-2026-05-pre/`.
+
+Deferred (see `tasks/BACKLOG.md`):
+- 30 broken internal doc-links (ongoing fix sweep)
+- 2 orphan cron routes flagged
+- Sprint/backlog reconciliation against Paperclip API
+
+---
+
 ## Audit 2026-05-04 â€” what shipped vs what remains
 
 ### âœ… Shipped (PR #93, 28+ commits)
@@ -349,9 +370,10 @@ Hackathons, Launch â€” no route, no data, intentional
 ## Critical files
 
 ### Where to look first
+- `docs/INDEX.md` â€” canonical front-door doc index (862 md files classified by trust level) [Phase 1 docs restructure, 2026-05-05]
 - This file (`docs/OPERATOR.md`) â€” situational awareness
 - `CLAUDE.md` â€” project conventions, anti-patterns
-- `docs/ENGINE.md` â€” deeper engine map (83 workflows + every key) [snapshot 2026-05-02 â€” see drift report]
+- `docs/ENGINE.md` â€” deeper engine map (83 workflows + every key) [rewritten from current code 2026-05-05]
 - `docs/SITE-WIREMAP.md` â€” top-down route â†’ collector trace
 - `docs/AUDIT-2026-05-04.md` â€” full audit (deferred external blockers)
 

@@ -55,16 +55,16 @@ The package metadata in `cli/package.json` and `mcp/package.json` is renamed to 
 
 ### Cron / scrape user-agent re-registration
 
-- [ ] **Reddit**: the outbound User-Agent strings in `scripts/_*-shared.mjs` were updated from `StarScreener/0.1` → `TrendingRepo/0.2`. Reddit specifically requires the registered UA per [starscreener-inspection/sources.json:205](starscreener-inspection/sources.json). Confirm with the Reddit account owner / app registration that the new UA pattern is recognized before the next cron cycle. Expect 403/429 noise on Reddit until then.
+- [ ] **Reddit**: the outbound User-Agent strings in `scripts/_*-shared.mjs` were updated from `StarScreener/0.1` → `TrendingRepo/0.2`. Reddit specifically requires the registered UA per [starscreener-inspection/sources.json:205](../starscreener-inspection/sources.json). Confirm with the Reddit account owner / app registration that the new UA pattern is recognized before the next cron cycle. Expect 403/429 noise on Reddit until then.
 
 ### Stripe (DEFERRED but logged here)
 
-- [ ] Stripe **product display names** were updated to "TrendingRepo Pro" / "TrendingRepo Team" in [scripts/seed-stripe-products.mjs](scripts/seed-stripe-products.mjs). Run that script against test mode first to verify, then prod. Existing customer subscriptions will see the new name on next invoice.
+- [ ] Stripe **product display names** were updated to "TrendingRepo Pro" / "TrendingRepo Team" in `scripts/seed-stripe-products.mjs`. Run that script against test mode first to verify, then prod. Existing customer subscriptions will see the new name on next invoice.
 - [ ] **DO NOT YET MIGRATE** the Stripe `metadata.starscreener_tier` key. Existing customer records key off this. Plan a separate dual-write migration ticket: introduce `metadata.trendingrepo_tier`, dual-write for one billing cycle, then read from the new key, then remove the old.
 
 ### Email DNS (DEFERRED)
 
-- [ ] **Do NOT change** the From: header `alerts@alerts.starscreener.dev` in [src/lib/email/resend-client.ts:37](src/lib/email/resend-client.ts) until DNS reputation for `alerts.trendingrepo.com` has been warmed. Track this as a separate ticket. The 15 DNS records documented in [starscreener-inspection/RESEND_WARMING.md](starscreener-inspection/RESEND_WARMING.md) need equivalents on `trendingrepo.com` first.
+- [ ] **Do NOT change** the From: header `alerts@alerts.starscreener.dev` in [src/lib/email/resend-client.ts:37](../src/lib/email/resend-client.ts) until DNS reputation for `alerts.trendingrepo.com` has been warmed. Track this as a separate ticket. The 15 DNS records documented in [starscreener-inspection/RESEND_WARMING.md](../starscreener-inspection/RESEND_WARMING.md) need equivalents on `trendingrepo.com` first.
 - The breakout-alert email body link DID get updated to `https://trendingrepo.com` (canonical), so new alerts already point at the new domain — only the From: header stays on the warmed sender domain.
 
 ### GitHub repo rename (DEFERRED)

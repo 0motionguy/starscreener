@@ -5,9 +5,8 @@
 import type { Redis as IORedisType } from 'ioredis';
 import type { RedisHandle } from './types.js';
 import { loadEnv } from './env.js';
+import { keys } from './redis-keys.js';
 
-const NAMESPACE = 'ss:data:v1';
-const META_NAMESPACE = 'ss:meta:v1';
 const INVALID_KEY_LITERALS = new Set(['null', 'undefined']);
 
 let cachedHandle: RedisHandle | null = null;
@@ -169,8 +168,8 @@ export async function writeDataStore(
     : writtenAt;
 
   await Promise.all([
-    handle.set(`${NAMESPACE}:${normalizedKey}`, payload, setOpts),
-    handle.set(`${META_NAMESPACE}:${normalizedKey}`, metaValue, setOpts),
+    handle.set(keys.payload(normalizedKey), payload, setOpts),
+    handle.set(keys.meta(normalizedKey), metaValue, setOpts),
   ]);
   return { source: 'redis', writtenAt };
 }
@@ -189,7 +188,7 @@ export async function readDataStore<T = unknown>(key: string): Promise<T | null>
   if (!normalizedKey || INVALID_KEY_LITERALS.has(normalizedKey)) return null;
   const handle = await getRedis();
   if (!handle) return null;
-  const raw = await handle.get(`${NAMESPACE}:${normalizedKey}`);
+  const raw = await handle.get(keys.payload(normalizedKey));
   if (raw === null) return null;
   try {
     return JSON.parse(raw) as T;

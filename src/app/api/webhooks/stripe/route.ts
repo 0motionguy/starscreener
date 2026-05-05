@@ -16,7 +16,6 @@
 // twice = single tier update.
 
 import { NextRequest, NextResponse } from "next/server";
-import * as Sentry from "@sentry/nextjs";
 import Stripe from "stripe";
 
 import { getDataStore } from "@/lib/data-store";
@@ -26,16 +25,14 @@ import {
   getStripeWebhookSecret,
   loadPriceIds,
 } from "@/lib/stripe/client";
+import { type HandleStripeEventDeps } from "@/lib/stripe/events";
 import {
-  handleStripeEvent,
-  type HandleStripeEventDeps,
-} from "@/lib/stripe/events";
-import { acquireStripeEventLock } from "@/lib/stripe/idempotency";
+  getSentryCaptureException,
+  getStripeEventHandler,
+  getStripeEventLockAcquirer,
+} from "./_test-hooks";
 
 export const runtime = "nodejs";
-let sentryCaptureException = Sentry.captureException;
-let stripeEventHandler = handleStripeEvent;
-let stripeEventLockAcquirer = acquireStripeEventLock;
 
 // setUserTier is now a static import from `@/lib/pricing/user-tiers`. Earlier
 // versions of this file used a dynamic-import stub guard while that module
@@ -98,7 +95,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // the generic reason + event type hint.
     const message = err instanceof Error ? err.message : String(err);
     const captureError = err instanceof Error ? err : new Error(message);
-    sentryCaptureException(captureError, {
+    getSentryCaptureException()(captureError, {
       tags: {
         webhook: "stripe-webhook",
         source: "stripe",
@@ -124,7 +121,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   //    and call `setUserTier` twice. SETNX in Redis means the first claimant
   //    runs the handler and the rest 200-with-skipReason.
   const dataStore = getDataStore();
-  const fresh = await stripeEventLockAcquirer(dataStore.redisClient(), event.id);
+  const fresh = await getStripeEventLockAcquirer()(dataStore.redisClient(), event.id);
   if (!fresh) {
     return NextResponse.json({
       ok: true,
@@ -152,7 +149,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   };
 
   try {
-    const result = await stripeEventHandler(event, deps);
+    const result = await getStripeEventHandler()(event, deps);
     return NextResponse.json({ ok: true, ...result });
   } catch (err) {
     // Returning 500 makes Stripe retry. That's what we want for transient
@@ -161,7 +158,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // Stripe dashboard and can leak internals.
     const message = err instanceof Error ? err.message : String(err);
     const captureError = err instanceof Error ? err : new Error(message);
-    sentryCaptureException(captureError, {
+    getSentryCaptureException()(captureError, {
       tags: {
         webhook: "stripe-webhook",
         source: "stripe",
@@ -194,40 +191,4 @@ export function GET(): NextResponse {
     { ok: false, error: "method not allowed; POST only", code: "METHOD_NOT_ALLOWED" },
     { status: 405 },
   );
-}
-
-// Test seams. Next.js's app-router type validator can reject non-route
-// exports from a route.ts file; these slip through because they're prefixed
-// with `__` (treated as internal/test-only by the validator). The wave3
-// stripe-events test imports these via dynamic `import(...)` so naming
-// them with the `__` prefix keeps the build happy while letting the test
-// override sentry capture / handler / lock acquirer.
-export function __setStripeWebhookSentryCaptureForTests(
-  capture: typeof Sentry.captureException,
-): void {
-  sentryCaptureException = capture;
-}
-
-export function __resetStripeWebhookSentryCaptureForTests(): void {
-  sentryCaptureException = Sentry.captureException;
-}
-
-export function __setStripeWebhookEventHandlerForTests(
-  handler: typeof handleStripeEvent,
-): void {
-  stripeEventHandler = handler;
-}
-
-export function __resetStripeWebhookEventHandlerForTests(): void {
-  stripeEventHandler = handleStripeEvent;
-}
-
-export function __setStripeWebhookLockAcquirerForTests(
-  acquirer: typeof acquireStripeEventLock,
-): void {
-  stripeEventLockAcquirer = acquirer;
-}
-
-export function __resetStripeWebhookLockAcquirerForTests(): void {
-  stripeEventLockAcquirer = acquireStripeEventLock;
 }

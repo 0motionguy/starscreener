@@ -9,7 +9,9 @@ import { isHotRepo, trendScoreForTimeRange } from "@/lib/filters";
 import {
   getDerivedRepoById,
   getDerivedRepos,
+  getDerivedReposRaw,
 } from "@/lib/derived-repos";
+import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
 import { refreshTrendingFromStore } from "@/lib/trending";
 import { refreshRecentReposFromStore } from "@/lib/recent-repos";
 import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
@@ -299,6 +301,7 @@ export async function GET(request: NextRequest) {
     100,
   );
   const offset = Math.max(Number(searchParams.get("offset")) || 0, 0);
+  const noDiversityParam = searchParams.get("nodiversity") === "1";
 
   // Strict param validation: unknown sort/filter/period/tag return 400
   // rather than silently defaulting, so typos and stale bookmarks surface
@@ -340,10 +343,15 @@ export async function GET(request: NextRequest) {
   const period: TrendWindow = periodParam as TrendWindow;
   const filter: TrendFilter = filterParam as TrendFilter;
 
+  if (noDiversityParam) {
+    const deny = adminAuthFailureResponse(verifyAdminAuth(request));
+    if (deny) return deny;
+  }
+
   // P9: read from committed JSON rather than the in-memory repoStore —
   // the store is empty on cold Vercel Lambdas, so the previous
   // pipeline.getTopMovers / getCategoryMovers path served 0 repos in prod.
-  const all = getDerivedRepos();
+  const all = noDiversityParam ? getDerivedReposRaw() : getDerivedRepos();
 
   // Scope to category (if requested), then apply the filter preset.
   let candidates: Repo[] = category
@@ -382,6 +390,7 @@ export async function GET(request: NextRequest) {
         offset,
         period: periodParam,
         filter: filterParam,
+        nodiversity: noDiversityParam,
       },
     },
     {

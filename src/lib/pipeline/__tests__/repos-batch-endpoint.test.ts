@@ -5,6 +5,7 @@ ensurePipelineRepoJsonlFixture();
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { NextRequest } from "next/server";
 
 const KNOWN = "vercel/next.js";
 const UNKNOWN = "this-owner-definitely/does-not-exist-xyz-9999";
@@ -12,7 +13,7 @@ const UNKNOWN = "this-owner-definitely/does-not-exist-xyz-9999";
 async function invokeRoute(query: string): Promise<Response> {
   const { GET } = await import("../../../app/api/repos/batch/route");
   const url = `http://localhost/api/repos/batch${query}`;
-  const req = new Request(url);
+  const req = new NextRequest(url);
   return GET(req as never);
 }
 

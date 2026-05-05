@@ -226,6 +226,12 @@ export function SourceFilterBar({
   const isAllOn = active.size === ALL_KEYS.size;
   const topics = allTopics();
 
+  // AGN-609 — show a "Clear filters" chip when any of source/window/topic
+  // has been narrowed away from defaults. Click → /signals (drops every
+  // query param at once). Cheaper for the user than tapping each chip.
+  const hasActiveFilter =
+    !isAllOn || timeWindow !== DEFAULT_WINDOW || topic !== null;
+
   return (
     <div
       style={{
@@ -383,9 +389,26 @@ export function SourceFilterBar({
         );
       })}
 
+      {hasActiveFilter && (
+        <Link
+          href="/signals"
+          prefetch={false}
+          className="signals-chip signals-chip-clear"
+          aria-label="Clear all filters"
+          title="Clear all filters"
+          style={{
+            marginLeft: "auto",
+            color: "var(--color-text-default)",
+            borderColor: "var(--color-border-strong, var(--color-border-default))",
+          }}
+        >
+          ✕ CLEAR
+        </Link>
+      )}
+
       <span
         style={{
-          marginLeft: "auto",
+          marginLeft: hasActiveFilter ? 0 : "auto",
           fontSize: 9.5,
           letterSpacing: "0.16em",
           color: "var(--color-text-subtle)",

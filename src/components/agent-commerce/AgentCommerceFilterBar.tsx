@@ -75,7 +75,24 @@ function toggleProtocol(
 }
 
 export function AgentCommerceFilterBar(props: FilterBarProps) {
-  const { category, protocols, pricing, portalReady, baseQuery } = props;
+  const { category, protocols, pricing, portalReady, query, baseQuery } = props;
+
+  // AGN-609 — show a "Clear filters" chip when any narrowing param is set.
+  // Preserve the search `q` (search is its own input, not part of the
+  // filter chip set) but drop every category/protocol/pricing/portal toggle
+  // in one click.
+  const hasActiveFilter =
+    category !== null ||
+    protocols.size > 0 ||
+    pricing !== null ||
+    portalReady;
+
+  const clearHref = (() => {
+    const next = new URLSearchParams();
+    if (query) next.set("q", query);
+    const qs = next.toString();
+    return qs ? `/agent-commerce?${qs}` : "/agent-commerce";
+  })();
 
   return (
     <div className="ac-filterbar">
@@ -138,6 +155,19 @@ export function AgentCommerceFilterBar(props: FilterBarProps) {
           Portal Ready
         </Link>
       </div>
+
+      {hasActiveFilter && (
+        <div className="ac-fb-group" style={{ marginLeft: "auto" }}>
+          <Link
+            className="ac-chip ac-chip-clear is-on"
+            href={clearHref}
+            aria-label="Clear all filters"
+            title="Clear all filters"
+          >
+            ✕ Clear
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

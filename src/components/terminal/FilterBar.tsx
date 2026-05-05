@@ -8,6 +8,9 @@
 // re-renders the interactive sub-bars.
 
 import { useEffect, useState } from "react";
+import { X } from "lucide-react";
+import { useFilterStore } from "@/lib/store";
+import { cn } from "@/lib/utils";
 import type { FilterBarVariant, MetaCounts } from "@/lib/types";
 
 import { StatsBarClient, type StatsBarStats } from "./StatsBarClient";
@@ -45,6 +48,32 @@ export function FilterBar({ variant = "full" }: FilterBarProps) {
   const [counts, setCounts] = useState<MetaCounts>(EMPTY_COUNTS);
   const [stats, setStats] = useState<StatsBarStats | null>(null);
 
+  // AGN-609 — surface a "Clear filters" chip whenever any transient
+  // narrative filter diverges from defaults. Only the bits that actually
+  // shape the visible list are tracked here; layout prefs (density, view
+  // mode, columns) are user preferences, not "filters".
+  const timeRange = useFilterStore((s) => s.timeRange);
+  const activeMetaFilter = useFilterStore((s) => s.activeMetaFilter);
+  const activeTag = useFilterStore((s) => s.activeTag);
+  const activeTab = useFilterStore((s) => s.activeTab);
+  const category = useFilterStore((s) => s.category);
+  const languages = useFilterStore((s) => s.languages);
+  const starsRange = useFilterStore((s) => s.starsRange);
+  const minMomentum = useFilterStore((s) => s.minMomentum);
+  const onlyWatched = useFilterStore((s) => s.onlyWatched);
+  const resetFilters = useFilterStore((s) => s.resetFilters);
+
+  const hasActiveFilter =
+    timeRange !== "7d" ||
+    activeMetaFilter !== null ||
+    activeTag !== null ||
+    activeTab !== "trending" ||
+    category !== null ||
+    languages.length > 0 ||
+    starsRange !== null ||
+    minMomentum > 0 ||
+    onlyWatched;
+
   useEffect(() => {
     if (cfg.showMetas) {
       fetch("/api/pipeline/meta-counts")
@@ -79,6 +108,29 @@ export function FilterBar({ variant = "full" }: FilterBarProps) {
           {cfg.showStats && stats && <StatsBarClient stats={stats} />}
 
           <div className="ml-auto flex items-center gap-3 shrink-0">
+            {hasActiveFilter && (
+              <button
+                type="button"
+                onClick={() => resetFilters()}
+                aria-label="Clear all filters"
+                title="Clear all filters"
+                className={cn(
+                  "v2-mono inline-flex items-center gap-1.5 px-2.5 py-1",
+                  "transition-colors duration-150 focus-visible:outline-none",
+                )}
+                style={{
+                  fontSize: 10,
+                  borderRadius: 2,
+                  border: "1px solid var(--v2-acc)",
+                  background: "var(--v2-acc-soft)",
+                  color: "var(--v2-acc)",
+                }}
+              >
+                <X size={11} aria-hidden="true" strokeWidth={2} />
+                CLEAR
+              </button>
+            )}
+
             {cfg.showTabs && <TabBar />}
 
             {cfg.showTime && (

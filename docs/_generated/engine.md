@@ -1,0 +1,222 @@
+# Engine inventory - auto-generated 2026-05-05T05:09:28.821Z
+
+## Workflows (83)
+
+| file | name | cron | triggers |
+| --- | --- | --- | --- |
+| aiso-self-scan.yml | aiso-self-scan | `17 3 1 * *` | schedule, workflow_dispatch |
+| audit-freshness.yml | Audit - source freshness | `8 * * * *` | schedule, workflow_dispatch |
+| backfill-meta.yml | Backfill orphan meta keys | - | workflow_dispatch |
+| check-nitter.yml | nitter-health-check | `0 4 * * *` | schedule, workflow_dispatch |
+| ci.yml | CI | - | pull_request, push, workflow_dispatch |
+| cleanup-stale-previews.yml | Cleanup Stale Vercel Previews | `23 2 * * 1` | schedule, workflow_dispatch |
+| collect-funding.yml | Collect Funding Signals | `0 */6 * * *` | schedule, workflow_dispatch |
+| collect-twitter.yml | Collect Twitter Signals | `0 */3 * * *` | schedule, workflow_dispatch |
+| conventional-commits.yml | Conventional Commits | - | pull_request, workflow_dispatch |
+| cron-agent-commerce.yml | Refresh agent-commerce pipeline | `31 4 * * *` | schedule, workflow_dispatch |
+| cron-aiso-drain.yml | Cron - AISO drain | `3,33 * * * *` | schedule, workflow_dispatch |
+| cron-digest-weekly.yml | Cron - weekly digest email | `0 14 * * 5` | schedule, workflow_dispatch |
+| cron-freshness-check.yml | Cron - freshness check | `*/15 * * * *` | schedule, workflow_dispatch |
+| cron-github-pool-budget.yml | Cron - github pool budget | `*/5 * * * *` | schedule, workflow_dispatch |
+| cron-llm.yml | Cron - LLM telemetry | `10 * * * *`<br>`15 2 * * *` | schedule, workflow_dispatch |
+| cron-mcp-usage-rotate.yml | Cron - MCP usage log rotation | `0 3 1 * *` | schedule, workflow_dispatch |
+| cron-pipeline-cleanup.yml | Cron - pipeline cleanup | `12 4 * * *` | schedule, workflow_dispatch |
+| cron-pipeline-ingest.yml | Cron - pipeline ingest | `15 */2 * * *` | schedule, workflow_dispatch |
+| cron-pipeline-persist.yml | Cron - pipeline persist | `30 */6 * * *` | schedule, workflow_dispatch |
+| cron-pipeline-rebuild.yml | Cron - pipeline rebuild | `0 5 * * 0` | schedule, workflow_dispatch |
+| cron-predictions.yml | Cron - predictions | `0 6 * * *` | schedule, workflow_dispatch |
+| cron-subdomain-takeover.yml | cron-subdomain-takeover | `0 3 * * 1` | schedule, workflow_dispatch |
+| cron-twitter-outbound.yml | Cron — Twitter outbound | `0 14 * * *`<br>`0 16 * * 5` | schedule, workflow_dispatch |
+| cron-warmup.yml | Warm Vercel routes | `*/5 8-21 * * *` | schedule, workflow_dispatch |
+| cron-webhooks-flush.yml | Cron - webhooks flush + scan | `5,35 * * * *` | schedule, workflow_dispatch |
+| docs-freshness.yml | docs-freshness | `0 13 * * 1` | pull_request, schedule, workflow_dispatch |
+| enrich-arxiv.yml | Enrich arXiv signals | `13 */12 * * *` | schedule, workflow_dispatch |
+| enrich-repo-profiles.yml | Refresh repo profiles | `41 * * * *` | schedule, workflow_dispatch |
+| health-watch.yml | Source health watch | `*/30 * * * *` | schedule, workflow_dispatch |
+| pa11y-ci.yml | pa11y-ci | - | pull_request, workflow_dispatch |
+| ping-mcp-liveness.yml | Ping MCP liveness | `47 */6 * * *` | schedule, workflow_dispatch |
+| post-deploy-smoke.yml | Post-deploy smoke | - | push, workflow_dispatch |
+| probe-reddit.yml | Probe Reddit endpoints (diagnostic) | - | workflow_dispatch |
+| promote-unknown-mentions.yml | Promote unknown mentions | `30 4 * * *` | schedule, workflow_dispatch |
+| refresh-collection-rankings.yml | Refresh collection rankings | `17 */6 * * *` | schedule, workflow_dispatch |
+| refresh-hotness-snapshot.yml | Refresh hotness snapshot | `25 3 * * *` | schedule, workflow_dispatch |
+| refresh-mcp-dependents.yml | Refresh MCP dependents | `53 4 * * *` | schedule, workflow_dispatch |
+| refresh-mcp-smithery-rank.yml | Refresh MCP Smithery rank | `11 3 * * *` | schedule, workflow_dispatch |
+| refresh-mcp-usage-snapshot.yml | Refresh MCP usage snapshot | `30 3 * * *` | schedule, workflow_dispatch |
+| refresh-npm-downloads.yml | Refresh npm downloads | `23 */6 * * *` | schedule, workflow_dispatch |
+| refresh-pypi-downloads.yml | Refresh pypi downloads | `37 */6 * * *` | schedule, workflow_dispatch |
+| refresh-reddit-baselines.yml | Refresh Reddit baselines | `17 3 * * 1` | schedule, workflow_dispatch |
+| refresh-skill-claude.yml | Refresh skill claude (anthropics + community SKILL.md) | `12 3 * * *` | schedule, workflow_dispatch |
+| refresh-skill-derivatives.yml | Refresh skill derivative counts | `7 */12 * * *` | schedule, workflow_dispatch |
+| refresh-skill-forks-snapshot.yml | Refresh skill forks snapshot | `13 3 * * *` | schedule, workflow_dispatch |
+| refresh-skill-install-snapshot.yml | Refresh skill install snapshot | `0 3 * * *` | schedule, workflow_dispatch |
+| refresh-skill-lobehub.yml | Refresh skill lobehub | `45 */12 * * *` | schedule, workflow_dispatch |
+| refresh-skill-skillsmp.yml | Refresh skill skillsmp (1M+ catalog) | `5 3 * * *` | schedule, workflow_dispatch |
+| refresh-skill-smithery.yml | Refresh skill smithery | `30 3 * * *` | schedule, workflow_dispatch |
+| refresh-star-activity.yml | Refresh star activity | `17 3 * * *` | schedule, workflow_dispatch |
+| release-cdn-purge-and-targeted-refresh.yml | Release - CDN Purge + Targeted Refresh | - | deployment_status, workflow_dispatch, workflow_run |
+| run-shadow-scoring.yml | Run shadow scoring | `0 2 * * *` | schedule, workflow_dispatch |
+| scrape-arxiv.yml | Refresh arXiv signals | `43 */3 * * *` | schedule, workflow_dispatch |
+| scrape-awesome-skills.yml | Refresh awesome-skills index | `23 4 * * *` | schedule, workflow_dispatch |
+| scrape-bluesky.yml | Refresh Bluesky signals | `17 * * * *` | schedule, workflow_dispatch |
+| scrape-claude-rss.yml | Refresh Claude (Anthropic) news | `22 7 * * *` | schedule, workflow_dispatch |
+| scrape-devto.yml | Refresh dev.to signals | `18 */6 * * *` | schedule, workflow_dispatch |
+| scrape-huggingface-datasets.yml | Refresh HuggingFace dataset signals | `25 */6 * * *` | schedule, workflow_dispatch |
+| scrape-huggingface-spaces.yml | Refresh HuggingFace space signals | `35 */6 * * *` | schedule, workflow_dispatch |
+| scrape-huggingface.yml | Refresh HuggingFace signals | `13 */6 * * *` | schedule, workflow_dispatch |
+| scrape-lobsters.yml | Refresh Lobsters signals | `37 * * * *` | schedule, workflow_dispatch |
+| scrape-npm.yml | Refresh npm package telemetry | `17 9 * * *` | schedule, workflow_dispatch |
+| scrape-openai-rss.yml | Refresh OpenAI news | `47 7 * * *` | schedule, workflow_dispatch |
+| scrape-producthunt.yml | Refresh ProductHunt launches | `22 11,15,19,23 * * *` | schedule, workflow_dispatch |
+| scrape-trending.yml | Refresh fast discovery | `7,27,47 * * * *` | schedule, workflow_dispatch |
+| secrets-scan.yml | Secrets Scan (gitleaks) | - | pull_request, push, workflow_dispatch |
+| sentry-fix-bot.yml | sentry-fix-bot | - | issues |
+| seo-policy.yml | SEO Policy Guard | - | pull_request, push, workflow_dispatch |
+| snapshot-consensus.yml | Snapshot /consensus daily | `55 23 * * *` | schedule, workflow_dispatch |
+| snapshot-top10-sparklines.yml | Snapshot /top10 sparklines daily | `50 23 * * *` | schedule, workflow_dispatch |
+| snapshot-top10.yml | Snapshot /top10 daily | `55 23 * * *` | schedule, workflow_dispatch |
+| source-outage-backfill.yml | Source outage backfill | - | workflow_dispatch |
+| sources-auto-recover.yml | Sources auto-recover | `*/30 * * * *` | schedule, workflow_dispatch |
+| sre-actions-visibility.yml | SRE - Actions Visibility Snapshot | `*/15 * * * *` | schedule, workflow_dispatch |
+| sre-cron-secret-rotation-guard.yml | SRE - CRON_SECRET Rotation Guard | `0 9 * * *` | schedule, workflow_dispatch |
+| sre-k8s-probe-guard.yml | SRE - Kubernetes probe guard | - | pull_request, push, workflow_dispatch |
+| sre-redis-restore-drill.yml | SRE Redis Restore Drill | `20 3 * * 1` | schedule, workflow_dispatch |
+| sre-route-cost-attribution-verify.yml | SRE - Route Cost Attribution Verify | `17 */6 * * *` | schedule, workflow_dispatch |
+| sweep-staleness.yml | Sweep staleness | `32 2 * * *` | schedule, workflow_dispatch |
+| sync-trustmrr.yml | Sync TrustMRR revenue overlays | `27 2 * * *`<br>`27 0,1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 * * *` | schedule, workflow_dispatch |
+| trendingrepo-worker.yml | trendingrepo-worker | - | pull_request, push, workflow_dispatch |
+| trivy-worker-image.yml | trivy-worker-image | - | pull_request, push, workflow_dispatch |
+| uptime-monitor.yml | Uptime monitor (every 5 minutes) | `*/5 * * * *` | schedule, workflow_dispatch |
+
+## Cron routes (16)
+
+| path | auth |
+| --- | --- |
+| src/app/api/cron/aiso-drain/route.ts | verifyCronAuth |
+| src/app/api/cron/digest/weekly/route.ts | verifyCronAuth |
+| src/app/api/cron/freshness/state/route.ts | verifyCronAuth |
+| src/app/api/cron/github-pool-budget/route.ts | verifyCronAuth |
+| src/app/api/cron/llm/aggregate/route.ts | verifyCronAuth |
+| src/app/api/cron/llm/sync-models/route.ts | verifyCronAuth |
+| src/app/api/cron/mcp/rotate-usage/route.ts | verifyCronAuth |
+| src/app/api/cron/news-auto-recover/route.ts | verifyCronAuth |
+| src/app/api/cron/predictions/calibrate/route.ts | verifyCronAuth |
+| src/app/api/cron/predictions/route.ts | verifyCronAuth |
+| src/app/api/cron/sources-auto-recover/route.ts | verifyCronAuth |
+| src/app/api/cron/subdomain-takeover/route.ts | verifyCronAuth |
+| src/app/api/cron/twitter-daily/route.ts | verifyCronAuth |
+| src/app/api/cron/twitter-weekly-recap/route.ts | verifyCronAuth |
+| src/app/api/cron/webhooks/flush/route.ts | verifyCronAuth |
+| src/app/api/cron/webhooks/scan/route.ts | verifyCronAuth |
+
+## Worker fetchers (51)
+
+- ai-blogs
+- arxiv
+- bluesky
+- claude-skills
+- collection-rankings
+- consensus-analyst
+- consensus-trending
+- crunchbase
+- deltas
+- devto
+- engagement-composite
+- funding-news
+- github
+- github-events
+- glama
+- hackernews
+- hn-pulse
+- hotness-snapshot
+- huggingface
+- lobehub-skills
+- lobsters
+- manual-repos
+- mcp-registry-official
+- mcp-servers-repo
+- mcp-smithery-rank
+- mcp-so
+- mcp-usage-snapshot
+- npm-dependents
+- npm-downloads
+- npm-packages
+- oss-trending
+- producthunt
+- pulsemcp
+- pypi-downloads
+- recent-repos
+- reddit
+- reddit-baselines
+- repo-metadata
+- repo-profiles
+- revenue-benchmarks
+- revenue-manual-matches
+- skill-derivatives
+- skill-forks-snapshot
+- skill-install-snapshot
+- skills-sh
+- skillsmp
+- smithery
+- smithery-skills
+- trendshift-daily
+- trustmrr
+- x-funding
+
+## Env vars (55)
+
+- `ADMIN_IP_BLOCKLIST`
+- `ADMIN_PASSWORD`
+- `ADMIN_TOKEN`
+- `ADMIN_TOTP_SECRET`
+- `ADMIN_USERNAME`
+- `AISOTOOLS_API_URL`
+- `AISO_API_URL`
+- `AISO_SCAN_PROTOCOL`
+- `AISO_SCAN_RESULT_PATH_TEMPLATE`
+- `AISO_SCAN_STATUS_PATH_TEMPLATE`
+- `AISO_SCAN_SUBMIT_PATH`
+- `AISO_TOOLS_API_URL`
+- `CRON_SECRET`
+- `DATABASE_URL`
+- `DIGEST_ENABLED`
+- `DIGEST_USER_EMAILS_JSON`
+- `EMAIL_FROM`
+- `GH_TOKEN_POOL`
+- `GITHUB_PAT_PROD`
+- `GITHUB_PAT_TEST`
+- `GITHUB_TOKEN`
+- `GITHUB_TOKEN_POOL`
+- `INTERNAL_AGENT_TOKENS_JSON`
+- `NEXTAUTH_SECRET`
+- `NEXTAUTH_URL`
+- `NEXT_PUBLIC_APP_URL`
+- `NEXT_PUBLIC_POSTHOG_HOST`
+- `NEXT_PUBLIC_POSTHOG_KEY`
+- `NEXT_PUBLIC_SENTRY_DSN`
+- `NEXT_PUBLIC_TURNSTILE_SITE_KEY`
+- `NODE_ENV`
+- `OPS_ALERT_WEBHOOK`
+- `PORTAL_CORS_ALLOWED_ORIGINS`
+- `POSTHOG_API_KEY`
+- `POSTHOG_HOST`
+- `POSTHOG_KEY`
+- `REDIS_URL`
+- `RESEND_API_KEY`
+- `SENTRY_AUTH_TOKEN`
+- `SENTRY_DSN`
+- `SENTRY_ORG`
+- `SENTRY_PROJECT`
+- `SESSION_SECRET`
+- `STARSCREENER_DATA_DIR`
+- `STARSCREENER_PERSIST`
+- `SUBDOMAIN_TAKEOVER_TARGETS_JSON`
+- `TRENDINGREPO_AISO_AUTO_SCAN`
+- `TRENDINGREPO_ALLOW_MISSING_ENV`
+- `TRENDINGREPO_ALLOW_MOCK`
+- `TRENDINGREPO_DATA_DIR`
+- `TRENDINGREPO_PERSIST`
+- `TRUSTMRR_API_KEY`
+- `TURNSTILE_SECRET_KEY`
+- `UPSTASH_REDIS_REST_TOKEN`
+- `UPSTASH_REDIS_REST_URL`

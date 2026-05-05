@@ -1,0 +1,1073 @@
+{
+  "generated_at": "2026-05-05T05:09:28.821Z",
+  "workflows": [
+    {
+      "file": "aiso-self-scan.yml",
+      "name": "aiso-self-scan",
+      "crons": [
+        "17 3 1 * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "audit-freshness.yml",
+      "name": "Audit - source freshness",
+      "crons": [
+        "8 * * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "backfill-meta.yml",
+      "name": "Backfill orphan meta keys",
+      "crons": [],
+      "triggers": [
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "check-nitter.yml",
+      "name": "nitter-health-check",
+      "crons": [
+        "0 4 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "ci.yml",
+      "name": "CI",
+      "crons": [],
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "cleanup-stale-previews.yml",
+      "name": "Cleanup Stale Vercel Previews",
+      "crons": [
+        "23 2 * * 1"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "collect-funding.yml",
+      "name": "Collect Funding Signals",
+      "crons": [
+        "0 */6 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "collect-twitter.yml",
+      "name": "Collect Twitter Signals",
+      "crons": [
+        "0 */3 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "conventional-commits.yml",
+      "name": "Conventional Commits",
+      "crons": [],
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "cron-agent-commerce.yml",
+      "name": "Refresh agent-commerce pipeline",
+      "crons": [
+        "31 4 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "cron-aiso-drain.yml",
+      "name": "Cron - AISO drain",
+      "crons": [
+        "3,33 * * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "cron-digest-weekly.yml",
+      "name": "Cron - weekly digest email",
+      "crons": [
+        "0 14 * * 5"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "cron-freshness-check.yml",
+      "name": "Cron - freshness check",
+      "crons": [
+        "*/15 * * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "cron-github-pool-budget.yml",
+      "name": "Cron - github pool budget",
+      "crons": [
+        "*/5 * * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "cron-llm.yml",
+      "name": "Cron - LLM telemetry",
+      "crons": [
+        "10 * * * *",
+        "15 2 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "cron-mcp-usage-rotate.yml",
+      "name": "Cron - MCP usage log rotation",
+      "crons": [
+        "0 3 1 * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "cron-pipeline-cleanup.yml",
+      "name": "Cron - pipeline cleanup",
+      "crons": [
+        "12 4 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "cron-pipeline-ingest.yml",
+      "name": "Cron - pipeline ingest",
+      "crons": [
+        "15 */2 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "cron-pipeline-persist.yml",
+      "name": "Cron - pipeline persist",
+      "crons": [
+        "30 */6 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "cron-pipeline-rebuild.yml",
+      "name": "Cron - pipeline rebuild",
+      "crons": [
+        "0 5 * * 0"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "cron-predictions.yml",
+      "name": "Cron - predictions",
+      "crons": [
+        "0 6 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "cron-subdomain-takeover.yml",
+      "name": "cron-subdomain-takeover",
+      "crons": [
+        "0 3 * * 1"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "cron-twitter-outbound.yml",
+      "name": "Cron — Twitter outbound",
+      "crons": [
+        "0 14 * * *",
+        "0 16 * * 5"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "cron-warmup.yml",
+      "name": "Warm Vercel routes",
+      "crons": [
+        "*/5 8-21 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "cron-webhooks-flush.yml",
+      "name": "Cron - webhooks flush + scan",
+      "crons": [
+        "5,35 * * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "docs-freshness.yml",
+      "name": "docs-freshness",
+      "crons": [
+        "0 13 * * 1"
+      ],
+      "triggers": [
+        "pull_request",
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "enrich-arxiv.yml",
+      "name": "Enrich arXiv signals",
+      "crons": [
+        "13 */12 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "enrich-repo-profiles.yml",
+      "name": "Refresh repo profiles",
+      "crons": [
+        "41 * * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "health-watch.yml",
+      "name": "Source health watch",
+      "crons": [
+        "*/30 * * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "pa11y-ci.yml",
+      "name": "pa11y-ci",
+      "crons": [],
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "ping-mcp-liveness.yml",
+      "name": "Ping MCP liveness",
+      "crons": [
+        "47 */6 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "post-deploy-smoke.yml",
+      "name": "Post-deploy smoke",
+      "crons": [],
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "probe-reddit.yml",
+      "name": "Probe Reddit endpoints (diagnostic)",
+      "crons": [],
+      "triggers": [
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "promote-unknown-mentions.yml",
+      "name": "Promote unknown mentions",
+      "crons": [
+        "30 4 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "refresh-collection-rankings.yml",
+      "name": "Refresh collection rankings",
+      "crons": [
+        "17 */6 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "refresh-hotness-snapshot.yml",
+      "name": "Refresh hotness snapshot",
+      "crons": [
+        "25 3 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "refresh-mcp-dependents.yml",
+      "name": "Refresh MCP dependents",
+      "crons": [
+        "53 4 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "refresh-mcp-smithery-rank.yml",
+      "name": "Refresh MCP Smithery rank",
+      "crons": [
+        "11 3 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "refresh-mcp-usage-snapshot.yml",
+      "name": "Refresh MCP usage snapshot",
+      "crons": [
+        "30 3 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "refresh-npm-downloads.yml",
+      "name": "Refresh npm downloads",
+      "crons": [
+        "23 */6 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "refresh-pypi-downloads.yml",
+      "name": "Refresh pypi downloads",
+      "crons": [
+        "37 */6 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "refresh-reddit-baselines.yml",
+      "name": "Refresh Reddit baselines",
+      "crons": [
+        "17 3 * * 1"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "refresh-skill-claude.yml",
+      "name": "Refresh skill claude (anthropics + community SKILL.md)",
+      "crons": [
+        "12 3 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "refresh-skill-derivatives.yml",
+      "name": "Refresh skill derivative counts",
+      "crons": [
+        "7 */12 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "refresh-skill-forks-snapshot.yml",
+      "name": "Refresh skill forks snapshot",
+      "crons": [
+        "13 3 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "refresh-skill-install-snapshot.yml",
+      "name": "Refresh skill install snapshot",
+      "crons": [
+        "0 3 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "refresh-skill-lobehub.yml",
+      "name": "Refresh skill lobehub",
+      "crons": [
+        "45 */12 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "refresh-skill-skillsmp.yml",
+      "name": "Refresh skill skillsmp (1M+ catalog)",
+      "crons": [
+        "5 3 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "refresh-skill-smithery.yml",
+      "name": "Refresh skill smithery",
+      "crons": [
+        "30 3 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "refresh-star-activity.yml",
+      "name": "Refresh star activity",
+      "crons": [
+        "17 3 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "release-cdn-purge-and-targeted-refresh.yml",
+      "name": "Release - CDN Purge + Targeted Refresh",
+      "crons": [],
+      "triggers": [
+        "deployment_status",
+        "workflow_dispatch",
+        "workflow_run"
+      ]
+    },
+    {
+      "file": "run-shadow-scoring.yml",
+      "name": "Run shadow scoring",
+      "crons": [
+        "0 2 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "scrape-arxiv.yml",
+      "name": "Refresh arXiv signals",
+      "crons": [
+        "43 */3 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "scrape-awesome-skills.yml",
+      "name": "Refresh awesome-skills index",
+      "crons": [
+        "23 4 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "scrape-bluesky.yml",
+      "name": "Refresh Bluesky signals",
+      "crons": [
+        "17 * * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "scrape-claude-rss.yml",
+      "name": "Refresh Claude (Anthropic) news",
+      "crons": [
+        "22 7 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "scrape-devto.yml",
+      "name": "Refresh dev.to signals",
+      "crons": [
+        "18 */6 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "scrape-huggingface-datasets.yml",
+      "name": "Refresh HuggingFace dataset signals",
+      "crons": [
+        "25 */6 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "scrape-huggingface-spaces.yml",
+      "name": "Refresh HuggingFace space signals",
+      "crons": [
+        "35 */6 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "scrape-huggingface.yml",
+      "name": "Refresh HuggingFace signals",
+      "crons": [
+        "13 */6 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "scrape-lobsters.yml",
+      "name": "Refresh Lobsters signals",
+      "crons": [
+        "37 * * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "scrape-npm.yml",
+      "name": "Refresh npm package telemetry",
+      "crons": [
+        "17 9 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "scrape-openai-rss.yml",
+      "name": "Refresh OpenAI news",
+      "crons": [
+        "47 7 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "scrape-producthunt.yml",
+      "name": "Refresh ProductHunt launches",
+      "crons": [
+        "22 11,15,19,23 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "scrape-trending.yml",
+      "name": "Refresh fast discovery",
+      "crons": [
+        "7,27,47 * * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "secrets-scan.yml",
+      "name": "Secrets Scan (gitleaks)",
+      "crons": [],
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "sentry-fix-bot.yml",
+      "name": "sentry-fix-bot",
+      "crons": [],
+      "triggers": [
+        "issues"
+      ]
+    },
+    {
+      "file": "seo-policy.yml",
+      "name": "SEO Policy Guard",
+      "crons": [],
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "snapshot-consensus.yml",
+      "name": "Snapshot /consensus daily",
+      "crons": [
+        "55 23 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "snapshot-top10-sparklines.yml",
+      "name": "Snapshot /top10 sparklines daily",
+      "crons": [
+        "50 23 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "snapshot-top10.yml",
+      "name": "Snapshot /top10 daily",
+      "crons": [
+        "55 23 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "source-outage-backfill.yml",
+      "name": "Source outage backfill",
+      "crons": [],
+      "triggers": [
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "sources-auto-recover.yml",
+      "name": "Sources auto-recover",
+      "crons": [
+        "*/30 * * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "sre-actions-visibility.yml",
+      "name": "SRE - Actions Visibility Snapshot",
+      "crons": [
+        "*/15 * * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "sre-cron-secret-rotation-guard.yml",
+      "name": "SRE - CRON_SECRET Rotation Guard",
+      "crons": [
+        "0 9 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "sre-k8s-probe-guard.yml",
+      "name": "SRE - Kubernetes probe guard",
+      "crons": [],
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "sre-redis-restore-drill.yml",
+      "name": "SRE Redis Restore Drill",
+      "crons": [
+        "20 3 * * 1"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "sre-route-cost-attribution-verify.yml",
+      "name": "SRE - Route Cost Attribution Verify",
+      "crons": [
+        "17 */6 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "sweep-staleness.yml",
+      "name": "Sweep staleness",
+      "crons": [
+        "32 2 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "sync-trustmrr.yml",
+      "name": "Sync TrustMRR revenue overlays",
+      "crons": [
+        "27 2 * * *",
+        "27 0,1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "trendingrepo-worker.yml",
+      "name": "trendingrepo-worker",
+      "crons": [],
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "trivy-worker-image.yml",
+      "name": "trivy-worker-image",
+      "crons": [],
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ]
+    },
+    {
+      "file": "uptime-monitor.yml",
+      "name": "Uptime monitor (every 5 minutes)",
+      "crons": [
+        "*/5 * * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ]
+    }
+  ],
+  "cron_routes": [
+    {
+      "path": "src/app/api/cron/aiso-drain/route.ts",
+      "auth": "verifyCronAuth"
+    },
+    {
+      "path": "src/app/api/cron/digest/weekly/route.ts",
+      "auth": "verifyCronAuth"
+    },
+    {
+      "path": "src/app/api/cron/freshness/state/route.ts",
+      "auth": "verifyCronAuth"
+    },
+    {
+      "path": "src/app/api/cron/github-pool-budget/route.ts",
+      "auth": "verifyCronAuth"
+    },
+    {
+      "path": "src/app/api/cron/llm/aggregate/route.ts",
+      "auth": "verifyCronAuth"
+    },
+    {
+      "path": "src/app/api/cron/llm/sync-models/route.ts",
+      "auth": "verifyCronAuth"
+    },
+    {
+      "path": "src/app/api/cron/mcp/rotate-usage/route.ts",
+      "auth": "verifyCronAuth"
+    },
+    {
+      "path": "src/app/api/cron/news-auto-recover/route.ts",
+      "auth": "verifyCronAuth"
+    },
+    {
+      "path": "src/app/api/cron/predictions/calibrate/route.ts",
+      "auth": "verifyCronAuth"
+    },
+    {
+      "path": "src/app/api/cron/predictions/route.ts",
+      "auth": "verifyCronAuth"
+    },
+    {
+      "path": "src/app/api/cron/sources-auto-recover/route.ts",
+      "auth": "verifyCronAuth"
+    },
+    {
+      "path": "src/app/api/cron/subdomain-takeover/route.ts",
+      "auth": "verifyCronAuth"
+    },
+    {
+      "path": "src/app/api/cron/twitter-daily/route.ts",
+      "auth": "verifyCronAuth"
+    },
+    {
+      "path": "src/app/api/cron/twitter-weekly-recap/route.ts",
+      "auth": "verifyCronAuth"
+    },
+    {
+      "path": "src/app/api/cron/webhooks/flush/route.ts",
+      "auth": "verifyCronAuth"
+    },
+    {
+      "path": "src/app/api/cron/webhooks/scan/route.ts",
+      "auth": "verifyCronAuth"
+    }
+  ],
+  "worker_fetchers": [
+    "ai-blogs",
+    "arxiv",
+    "bluesky",
+    "claude-skills",
+    "collection-rankings",
+    "consensus-analyst",
+    "consensus-trending",
+    "crunchbase",
+    "deltas",
+    "devto",
+    "engagement-composite",
+    "funding-news",
+    "github",
+    "github-events",
+    "glama",
+    "hackernews",
+    "hn-pulse",
+    "hotness-snapshot",
+    "huggingface",
+    "lobehub-skills",
+    "lobsters",
+    "manual-repos",
+    "mcp-registry-official",
+    "mcp-servers-repo",
+    "mcp-smithery-rank",
+    "mcp-so",
+    "mcp-usage-snapshot",
+    "npm-dependents",
+    "npm-downloads",
+    "npm-packages",
+    "oss-trending",
+    "producthunt",
+    "pulsemcp",
+    "pypi-downloads",
+    "recent-repos",
+    "reddit",
+    "reddit-baselines",
+    "repo-metadata",
+    "repo-profiles",
+    "revenue-benchmarks",
+    "revenue-manual-matches",
+    "skill-derivatives",
+    "skill-forks-snapshot",
+    "skill-install-snapshot",
+    "skills-sh",
+    "skillsmp",
+    "smithery",
+    "smithery-skills",
+    "trendshift-daily",
+    "trustmrr",
+    "x-funding"
+  ],
+  "env_vars": [
+    "ADMIN_IP_BLOCKLIST",
+    "ADMIN_PASSWORD",
+    "ADMIN_TOKEN",
+    "ADMIN_TOTP_SECRET",
+    "ADMIN_USERNAME",
+    "AISOTOOLS_API_URL",
+    "AISO_API_URL",
+    "AISO_SCAN_PROTOCOL",
+    "AISO_SCAN_RESULT_PATH_TEMPLATE",
+    "AISO_SCAN_STATUS_PATH_TEMPLATE",
+    "AISO_SCAN_SUBMIT_PATH",
+    "AISO_TOOLS_API_URL",
+    "CRON_SECRET",
+    "DATABASE_URL",
+    "DIGEST_ENABLED",
+    "DIGEST_USER_EMAILS_JSON",
+    "EMAIL_FROM",
+    "GH_TOKEN_POOL",
+    "GITHUB_PAT_PROD",
+    "GITHUB_PAT_TEST",
+    "GITHUB_TOKEN",
+    "GITHUB_TOKEN_POOL",
+    "INTERNAL_AGENT_TOKENS_JSON",
+    "NEXTAUTH_SECRET",
+    "NEXTAUTH_URL",
+    "NEXT_PUBLIC_APP_URL",
+    "NEXT_PUBLIC_POSTHOG_HOST",
+    "NEXT_PUBLIC_POSTHOG_KEY",
+    "NEXT_PUBLIC_SENTRY_DSN",
+    "NEXT_PUBLIC_TURNSTILE_SITE_KEY",
+    "NODE_ENV",
+    "OPS_ALERT_WEBHOOK",
+    "PORTAL_CORS_ALLOWED_ORIGINS",
+    "POSTHOG_API_KEY",
+    "POSTHOG_HOST",
+    "POSTHOG_KEY",
+    "REDIS_URL",
+    "RESEND_API_KEY",
+    "SENTRY_AUTH_TOKEN",
+    "SENTRY_DSN",
+    "SENTRY_ORG",
+    "SENTRY_PROJECT",
+    "SESSION_SECRET",
+    "STARSCREENER_DATA_DIR",
+    "STARSCREENER_PERSIST",
+    "SUBDOMAIN_TAKEOVER_TARGETS_JSON",
+    "TRENDINGREPO_AISO_AUTO_SCAN",
+    "TRENDINGREPO_ALLOW_MISSING_ENV",
+    "TRENDINGREPO_ALLOW_MOCK",
+    "TRENDINGREPO_DATA_DIR",
+    "TRENDINGREPO_PERSIST",
+    "TRUSTMRR_API_KEY",
+    "TURNSTILE_SECRET_KEY",
+    "UPSTASH_REDIS_REST_TOKEN",
+    "UPSTASH_REDIS_REST_URL"
+  ]
+}

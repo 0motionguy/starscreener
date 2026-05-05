@@ -37,6 +37,7 @@
     "build": "cross-env NODE_PATH=node_modules next build",
     "postbuild": "node scripts/sanitize-next-traces.mjs",
     "analyze": "cross-env ANALYZE=true NODE_PATH=node_modules next build",
+    "bundle:check": "node scripts/check-bundle-budget.mjs",
     "start": "cross-env NODE_PATH=node_modules next start -p 3023",
     "lint": "eslint",
     "lint:tokens": "node scripts/check-no-legacy-tokens.mjs",

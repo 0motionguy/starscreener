@@ -297,6 +297,45 @@ export async function listRecentBriefs(limit = 7): Promise<RepoBriefRef[]> {
     .slice(0, Math.max(1, Math.floor(limit)));
 }
 
-// Back-compat aliases for in-flight branches.
+export function listRepoBriefRefs(): RepoBriefRef[] {
+  const dir = briefDir();
+  if (!existsSync(dir)) return [];
+
+  const refs: RepoBriefRef[] = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (!entry.isFile() || !entry.name.endsWith(".md") || entry.name === ".gitkeep") {
+      continue;
+    }
+
+    const stem = entry.name.slice(0, -3);
+    const sep = stem.indexOf("-");
+    if (sep <= 0 || sep >= stem.length - 1) {
+      continue;
+    }
+
+    const owner = stem.slice(0, sep);
+    const name = stem.slice(sep + 1);
+    if (!isValidSlugPart(owner) || !isValidSlugPart(name)) {
+      continue;
+    }
+
+    const brief = parseRepoBriefFromFile(owner, name);
+    if (!brief) {
+      continue;
+    }
+
+    const filePath = briefPath(owner, name);
+    const stat = statSync(filePath);
+    refs.push({
+      owner,
+      name,
+      writtenAt: brief.written_at,
+      updatedAt: stat.mtime,
+    });
+  }
+
+  return refs.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
+}
+
+// Back-compat alias for in-flight branches.
 export const getRepoBrief = getBrief;
-export const listRepoBriefRefs = () => [] as RepoBriefRef[];

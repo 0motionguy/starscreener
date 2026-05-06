@@ -1,16 +1,23 @@
-name: Commit data files with retry
+name: Commit data files via PR + auto-merge
 description: |
   Stage an explicit allowlist of paths, short-circuit if there is no diff,
-  commit, then push to origin/main with exponential backoff + jitter to
-  survive the cross-workflow git-push race documented in AUDIT-2026-05-04.
+  commit on a unique data-bot branch, push that branch, open a PR against
+  main, and enable auto-merge (squash + delete-branch). The PR merges
+  automatically once the required "Typecheck, guards, tests, build, e2e"
+  status check passes.
 
-  Why this exists: 14+ data-writing workflows commit to main, each with
-  its own concurrency.group. When 5+ workflows commit in the same minute,
-  the legacy 3×2s retry loop ran out of attempts. This action centralises
-  the retry policy so every data-writing workflow shares the same backoff
-  curve, and a future tweak only touches one file.
+  Why this exists (AGN-858 / AGN-861): main is a protected branch — direct
+  `git push origin main` from a workflow returns GH006. The previous
+  pull-rebase-push retry loop (6× exponential backoff) failed identically
+  on every attempt because the protection rule, not transient ref drift,
+  was the blocker. Switching to PR + auto-merge respects the protection
+  rule without requiring operator-side rule edits.
 
   Path allowlist is required (CLAUDE.md anti-pattern: never `git add -A`).
+  Calling workflows must declare:
+      permissions:
+        contents: write
+        pull-requests: write
 
 inputs:
   paths:
@@ -27,10 +34,17 @@ inputs:
     description: git config user.email
     required: false
     default: bot@trendingrepo.local
-  max-attempts:
-    description: How many pull-rebase-push attempts before giving up.
+  branch-prefix:
+    description: |
+      Prefix for the auto-generated data-bot branch. The full branch name
+      is "<branch-prefix>/<workflow-slug>-<run-id>-<run-attempt>".
+      Override only if collisions appear; the default is fine.
     required: false
-    default: "6"
+    default: "data"
+  pr-label:
+    description: Label applied to the auto-generated PR (must already exist on the repo, or be empty).
+    required: false
+    default: "automation"
   ignore-missing:
     description: |
       When "true", missing paths in the allowlist are silently skipped
@@ -42,16 +56,19 @@ inputs:
 
 outputs:
   committed:
-    description: "true if a commit was created and pushed; false on no-diff."
+    description: "true if a commit + PR was created; false on no-diff."
     value: ${{ steps.do-commit.outputs.committed }}
   files_changed:
     description: "Number of paths in the commit (0 when no commit)."
     value: ${{ steps.do-commit.outputs.files_changed }}
+  pr_url:
+    description: "URL of the auto-generated PR (empty when no commit)."
+    value: ${{ steps.do-commit.outputs.pr_url }}
 
 runs:
   using: composite
   steps:
-    - name: Commit and push with backoff
+    - name: Commit and open auto-merge PR
       id: do-commit
       shell: bash
       env:
@@ -59,8 +76,15 @@ runs:
         INPUT_MESSAGE: ${{ inputs.message }}
         INPUT_ACTOR_NAME: ${{ inputs.actor-name }}
         INPUT_ACTOR_EMAIL: ${{ inputs.actor-email }}
-        INPUT_MAX_ATTEMPTS: ${{ inputs.max-attempts }}
+        INPUT_BRANCH_PREFIX: ${{ inputs.branch-prefix }}
+        INPUT_PR_LABEL: ${{ inputs.pr-label }}
         INPUT_IGNORE_MISSING: ${{ inputs.ignore-missing }}
+        WORKFLOW_NAME: ${{ github.workflow }}
+        RUN_ID: ${{ github.run_id }}
+        RUN_ATTEMPT: ${{ github.run_attempt }}
+        # `gh` reads GH_TOKEN automatically; the calling workflow MUST
+        # declare permissions: { contents: write, pull-requests: write }.
+        GH_TOKEN: ${{ github.token }}
       run: |
         set -euo pipefail
         git config user.name  "$INPUT_ACTOR_NAME"
@@ -83,28 +107,69 @@ runs:
           echo "no changes - skipping commit"
           echo "committed=false" >> "$GITHUB_OUTPUT"
           echo "files_changed=0" >> "$GITHUB_OUTPUT"
+          echo "pr_url=" >> "$GITHUB_OUTPUT"
           exit 0
         fi
 
         FILES_CHANGED=$(git diff --staged --name-only | wc -l | tr -d ' ')
         git commit -m "$INPUT_MESSAGE"
 
-        max="$INPUT_MAX_ATTEMPTS"
-        for ((i=1; i<=max; i++)); do
-          if git pull --rebase --autostash origin main && git push; then
-            echo "pushed on attempt $i"
-            echo "committed=true" >> "$GITHUB_OUTPUT"
-            echo "files_changed=${FILES_CHANGED}" >> "$GITHUB_OUTPUT"
-            exit 0
+        # Build a unique branch name. Workflow name → lowercase slug
+        # ([a-z0-9-] only). run-id + run-attempt guarantee uniqueness
+        # across reruns so we never collide with a prior open PR.
+        SLUG=$(printf '%s' "$WORKFLOW_NAME" \
+          | tr '[:upper:]' '[:lower:]' \
+          | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//')
+        if [[ -z "$SLUG" ]]; then SLUG="data-bot"; fi
+        BRANCH="${INPUT_BRANCH_PREFIX}/${SLUG}-${RUN_ID}-${RUN_ATTEMPT}"
+        echo "data-bot branch: $BRANCH"
+
+        # Push the commit to the data-bot branch (force-with-lease in case
+        # of a rerun colliding on the same name — should not happen given
+        # run-attempt suffix, but cheap insurance).
+        git push --force-with-lease origin "HEAD:refs/heads/${BRANCH}"
+
+        # Open the PR. Body intentionally minimal — automation noise stays
+        # out of the activity feed but operators can click through to the
+        # run for full logs.
+        RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}"
+        PR_BODY=$(printf 'Automated data refresh from `%s`.\n\n- Files changed: %s\n- Run: %s\n\nAuto-merge enabled — merges once required status checks pass.\n' \
+          "$WORKFLOW_NAME" "$FILES_CHANGED" "$RUN_URL")
+
+        PR_CREATE_ARGS=(
+          --base main
+          --head "$BRANCH"
+          --title "$INPUT_MESSAGE"
+          --body "$PR_BODY"
+        )
+        if [[ -n "$INPUT_PR_LABEL" ]]; then
+          PR_CREATE_ARGS+=(--label "$INPUT_PR_LABEL")
+        fi
+
+        # `gh pr create` returns the PR URL on stdout. If the repo has
+        # "Allow GitHub Actions to create and approve pull requests"
+        # disabled (default for new repos), this fails with a GraphQL
+        # permission error. The data branch is ALREADY pushed at this
+        # point, so the data is durable — surface the failure as a
+        # warning and let the operator open the PR manually rather than
+        # failing the whole job (AGN-803 follow-up to AGN-858/861).
+        if PR_URL=$(gh pr create "${PR_CREATE_ARGS[@]}" 2>&1); then
+          echo "opened PR: $PR_URL"
+          # Enable auto-merge (squash, delete branch on merge). The PR
+          # will sit until the required "Typecheck, guards, tests,
+          # build, e2e" status check reports success, then merge
+          # automatically. If auto-merge isn't enabled at the repo
+          # level, this errors out and the PR stays open for human
+          # merge — surface that as a warning rather than failing the
+          # data-collection job.
+          if ! gh pr merge --auto --squash --delete-branch "$PR_URL"; then
+            echo "::warning::gh pr merge --auto failed for ${PR_URL} — PR is open but not set to auto-merge. Operator must enable repo-level auto-merge or merge manually."
           fi
-          if (( i == max )); then break; fi
-          # Exponential backoff capped at 60s, plus 1-5s jitter to break herds.
-          base=$((2 ** (i - 1) * 2))
-          if (( base > 60 )); then base=60; fi
-          jitter=$(( (RANDOM % 5) + 1 ))
-          sleep_s=$(( base + jitter ))
-          echo "push attempt $i failed; sleeping ${sleep_s}s before retry"
-          sleep "$sleep_s"
-        done
-        echo "push failed after $max attempts"
-        exit 1
+        else
+          echo "::warning::gh pr create failed for ${BRANCH}: ${PR_URL}. Data branch is pushed but no PR was opened. Operator must enable Settings → Actions → General → Workflow permissions → 'Allow GitHub Actions to create and approve pull requests', or open the PR manually from ${BRANCH}."
+          PR_URL=""
+        fi
+
+        echo "committed=true" >> "$GITHUB_OUTPUT"
+        echo "files_changed=${FILES_CHANGED}" >> "$GITHUB_OUTPUT"
+        echo "pr_url=${PR_URL}" >> "$GITHUB_OUTPUT"

@@ -29,6 +29,7 @@ on:
 
 permissions:
   contents: write  # needed to commit the .cron-health-status flip-file
+  pull-requests: write
 
 concurrency:
   group: cron-freshness-check

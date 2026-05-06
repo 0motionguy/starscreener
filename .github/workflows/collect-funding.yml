@@ -16,6 +16,7 @@ on:
 # final push gets `403 denied to github-actions[bot]`.
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   collect:

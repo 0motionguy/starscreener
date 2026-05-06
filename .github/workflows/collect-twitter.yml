@@ -27,6 +27,7 @@ on:
 # persist — we must write locally in GH Actions and commit, same as funding.
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   collect:

@@ -1,9 +1,59 @@
 {
-  "fetchedAt": "2026-05-03T12:54:31.542Z",
+  "fetchedAt": "2026-05-06T10:04:35.381Z",
   "source": "openai",
   "feedUrl": "https://openai.com/news/rss.xml",
   "error": null,
   "items": [
+    {
+      "id": "https://openai.com/index/gpt-5-5-instant",
+      "title": "GPT-5.5 Instant: smarter, clearer, and more personalized",
+      "url": "https://openai.com/index/gpt-5-5-instant",
+      "summary": "GPT-5.5 Instant updates ChatGPT’s default model with smarter, more accurate answers, reduced hallucinations, and improved personalization controls.",
+      "publishedAt": "2026-05-05T10:00:00.000Z",
+      "author": "",
+      "source": "openai",
+      "category": "MODEL"
+    },
+    {
+      "id": "https://openai.com/index/gpt-5-5-instant-system-card",
+      "title": "GPT-5.5 Instant System Card",
+      "url": "https://openai.com/index/gpt-5-5-instant-system-card",
+      "summary": "",
+      "publishedAt": "2026-05-05T10:00:00.000Z",
+      "author": "",
+      "source": "openai",
+      "category": "MODEL"
+    },
+    {
+      "id": "https://openai.com/index/new-ways-to-buy-chatgpt-ads",
+      "title": "New ways to buy ChatGPT ads",
+      "url": "https://openai.com/index/new-ways-to-buy-chatgpt-ads",
+      "summary": "OpenAI expands ChatGPT ads with a beta self-serve Ads Manager, CPC bidding, and enhanced measurement tools—built to protect privacy and keep conversations separate from ads.",
+      "publishedAt": "2026-05-05T00:00:00.000Z",
+      "author": "",
+      "source": "openai",
+      "category": "POST"
+    },
+    {
+      "id": "https://openai.com/index/openai-pwc-finance-collaboration",
+      "title": "OpenAI and PwC collaborate to reimagine the office of the CFO",
+      "url": "https://openai.com/index/openai-pwc-finance-collaboration",
+      "summary": "OpenAI and PwC are partnering to help enterprises use AI agents to automate finance workflows, improve forecasting, strengthen controls, and modernize the CFO function.",
+      "publishedAt": "2026-05-04T21:00:00.000Z",
+      "author": "",
+      "source": "openai",
+      "category": "PLATFORM"
+    },
+    {
+      "id": "https://openai.com/index/delivering-low-latency-voice-ai-at-scale",
+      "title": "How OpenAI delivers low-latency voice AI at scale",
+      "url": "https://openai.com/index/delivering-low-latency-voice-ai-at-scale",
+      "summary": "How OpenAI rebuilt its WebRTC stack to power real-time Voice AI with low latency, global scale, and seamless conversational turn-taking.",
+      "publishedAt": "2026-05-04T00:00:00.000Z",
+      "author": "",
+      "source": "openai",
+      "category": "POST"
+    },
     {
       "id": "https://openai.com/index/advanced-account-security",
       "title": "Introducing Advanced Account Security",
@@ -115,16 +165,6 @@
       "category": "POST"
     },
     {
-      "id": "https://openai.com/index/introducing-gpt-5-5",
-      "title": "Introducing GPT-5.5",
-      "url": "https://openai.com/index/introducing-gpt-5-5",
-      "summary": "Introducing GPT-5.5, our smartest model yet—faster, more capable, and built for complex tasks like coding, research, and data analysis across tools.",
-      "publishedAt": "2026-04-23T11:00:00.000Z",
-      "author": "",
-      "source": "openai",
-      "category": "MODEL"
-    },
-    {
       "id": "https://openai.com/index/gpt-5-5-system-card",
       "title": "GPT-5.5 System Card",
       "url": "https://openai.com/index/gpt-5-5-system-card",
@@ -135,10 +175,20 @@
       "category": "MODEL"
     },
     {
-      "id": "https://openai.com/academy/what-is-codex",
-      "title": "What is Codex?",
-      "url": "https://openai.com/academy/what-is-codex",
-      "summary": "Learn how Codex helps you go beyond chat by automating tasks, connecting tools, and producing real outputs like docs and dashboards.",
+      "id": "https://openai.com/index/introducing-gpt-5-5",
+      "title": "Introducing GPT-5.5",
+      "url": "https://openai.com/index/introducing-gpt-5-5",
+      "summary": "Introducing GPT-5.5, our smartest model yet—faster, more capable, and built for complex tasks like coding, research, and data analysis across tools.",
+      "publishedAt": "2026-04-23T11:00:00.000Z",
+      "author": "",
+      "source": "openai",
+      "category": "MODEL"
+    },
+    {
+      "id": "https://openai.com/academy/codex-automations",
+      "title": "Automations",
+      "url": "https://openai.com/academy/codex-automations",
+      "summary": "Learn how to automate tasks in Codex using schedules and triggers to create reports, summaries, and recurring workflows without manual effort.",
       "publishedAt": "2026-04-23T10:00:00.000Z",
       "author": "",
       "source": "openai",
@@ -195,10 +245,10 @@
       "category": "POST"
     },
     {
-      "id": "https://openai.com/academy/codex-automations",
-      "title": "Automations",
-      "url": "https://openai.com/academy/codex-automations",
-      "summary": "Learn how to automate tasks in Codex using schedules and triggers to create reports, summaries, and recurring workflows without manual effort.",
+      "id": "https://openai.com/academy/what-is-codex",
+      "title": "What is Codex?",
+      "url": "https://openai.com/academy/what-is-codex",
+      "summary": "Learn how Codex helps you go beyond chat by automating tasks, connecting tools, and producing real outputs like docs and dashboards.",
       "publishedAt": "2026-04-23T10:00:00.000Z",
       "author": "",
       "source": "openai",
@@ -250,56 +300,6 @@
       "url": "https://openai.com/index/introducing-workspace-agents-in-chatgpt",
       "summary": "Workspace agents in ChatGPT are Codex-powered agents that automate complex workflows, run in the cloud, and help teams scale work across tools securely.",
       "publishedAt": "2026-04-22T10:00:00.000Z",
-      "author": "",
-      "source": "openai",
-      "category": "POST"
-    },
-    {
-      "id": "https://openai.com/index/introducing-openai-privacy-filter",
-      "title": "Introducing OpenAI Privacy Filter",
-      "url": "https://openai.com/index/introducing-openai-privacy-filter",
-      "summary": "OpenAI Privacy Filter is an open-weight model for detecting and redacting personally identifiable information (PII) in text with state-of-the-art accuracy",
-      "publishedAt": "2026-04-22T00:00:00.000Z",
-      "author": "",
-      "source": "openai",
-      "category": "POST"
-    },
-    {
-      "id": "https://openai.com/index/introducing-chatgpt-images-2-0",
-      "title": "Introducing ChatGPT Images 2.0",
-      "url": "https://openai.com/index/introducing-chatgpt-images-2-0",
-      "summary": "ChatGPT Images 2.0 introduces a state-of-the-art image generation model with improved text rendering, multilingual support, and advanced visual reasoning.",
-      "publishedAt": "2026-04-21T12:00:00.000Z",
-      "author": "",
-      "source": "openai",
-      "category": "POST"
-    },
-    {
-      "id": "https://openai.com/index/scaling-codex-to-enterprises-worldwide",
-      "title": "Scaling Codex to enterprises worldwide",
-      "url": "https://openai.com/index/scaling-codex-to-enterprises-worldwide",
-      "summary": "OpenAI launches Codex Labs, partners with with Accenture, PwC, Infosys, and others to help enterprises deploy and scale Codex across the software development lifecycle, and hits 4M Codex WAU.",
-      "publishedAt": "2026-04-21T00:00:00.000Z",
-      "author": "",
-      "source": "openai",
-      "category": "POST"
-    },
-    {
-      "id": "https://openai.com/index/hyatt-advances-ai-with-chatgpt-enterprise",
-      "title": "OpenAI helps Hyatt advance AI among colleagues",
-      "url": "https://openai.com/index/hyatt-advances-ai-with-chatgpt-enterprise",
-      "summary": "Hyatt deploys ChatGPT Enterprise across its global workforce, using GPT-5.4 and Codex to improve productivity, operations, and guest experiences.",
-      "publishedAt": "2026-04-20T00:00:00.000Z",
-      "author": "",
-      "source": "openai",
-      "category": "MODEL"
-    },
-    {
-      "id": "https://openai.com/index/codex-for-almost-everything",
-      "title": "Codex for (almost) everything",
-      "url": "https://openai.com/index/codex-for-almost-everything",
-      "summary": "The updated Codex app for macOS and Windows adds computer use, in-app browsing, image generation, memory, and plugins to accelerate developer workflows.",
-      "publishedAt": "2026-04-16T10:00:00.000Z",
       "author": "",
       "source": "openai",
       "category": "POST"

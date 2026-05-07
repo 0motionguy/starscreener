@@ -34,14 +34,30 @@ export const metadata: Metadata = {
 
 const SOURCE_LABELS: Record<string, string> = {
   techcrunch: "TechCrunch",
+  "techcrunch-venture": "TC · Venture",
   venturebeat: "VentureBeat",
   sifted: "Sifted",
   telegram: "Telegram",
   twitter: "X / Twitter",
+  x: "X / Twitter",
   reddit: "Reddit",
   submit: "Submitted",
   yc: "YC",
   newsapi: "NewsAPI",
+  "crunchbase-venture": "Crunchbase News",
+  "crunchbase-startups": "Crunchbase · Startups",
+  alleywatch: "AlleyWatch",
+  finsmes: "FinSMEs",
+  techfundingnews: "Tech Funding News",
+  techeu: "Tech.eu",
+  pymnts: "PYMNTS",
+  arstechnica: "Ars Technica",
+  bbc: "BBC Tech",
+  wired: "Wired",
+  geekwire: "GeekWire",
+  techstartups: "TechStartups",
+  "eu-startups": "EU-Startups",
+  siliconcanals: "Silicon Canals",
 };
 
 const ROUND_LABELS: Record<string, FundingStage | string> = {

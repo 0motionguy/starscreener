@@ -165,17 +165,73 @@ export async function refreshFundingNewsFromStore(): Promise<RefreshResult> {
     try {
       const { getDataStore } = await import("./data-store");
       const store = getDataStore();
-      const result = await store.read<unknown>("funding-news");
-      if (result.data && result.source !== "missing") {
-        const next = normalizeFile(result.data);
-        // Swap the cache. Use a synthetic signature so loadCache() returns
-        // this entry until either (a) the on-disk file mtime changes — in
-        // which case loadCache() rebuilds from disk — or (b) the next
-        // refresh swaps in another Redis payload.
-        cache = { signature: `redis:${result.writtenAt ?? Date.now()}`, file: next };
+      // Fan out to all three funding slugs the worker publishes:
+      //   funding-news            — TechCrunch / VentureBeat / Sifted / Tech.eu / Pymnts / Wired / BBC / Ars
+      //   funding-news-crunchbase — Crunchbase News + AlleyWatch + FinSMEs + TechFundingNews + TC Venture
+      //   funding-news-x          — Apify Twitter funding-hashtag scraper
+      // Pre-fix the page only read the first slug, so Crunchbase + Twitter
+      // were collected and stored in Redis but never surfaced. Merge with
+      // sourceUrl-keyed dedupe so cross-published articles collapse.
+      const [main, crunch, x] = await Promise.allSettled([
+        store.read<unknown>("funding-news"),
+        store.read<unknown>("funding-news-crunchbase"),
+        store.read<unknown>("funding-news-x"),
+      ]);
+
+      const byKey = new Map<string, FundingSignal>();
+      let freshestFetchedAt = "";
+      let freshestSource: RefreshResult["source"] = "missing";
+      let freshestAgeMs = Number.POSITIVE_INFINITY;
+      let maxWindowDays = 0;
+
+      const ingest = (
+        settled: PromiseSettledResult<Awaited<ReturnType<typeof store.read>>>,
+      ) => {
+        if (settled.status !== "fulfilled") return;
+        const r = settled.value;
+        if (!r.data || r.source === "missing") return;
+        const file = normalizeFile(r.data);
+        if (file.windowDays > maxWindowDays) maxWindowDays = file.windowDays;
+        if (file.fetchedAt && file.fetchedAt > freshestFetchedAt) {
+          freshestFetchedAt = file.fetchedAt;
+          freshestSource = r.source;
+          freshestAgeMs = r.ageMs;
+        }
+        for (const signal of file.signals) {
+          // Prefer sourceUrl as the dedupe key. Fall back to id when the
+          // signal lacks a URL (some seed signals do). Lowercased so
+          // protocol/case differences don't split the same article.
+          const rawKey = (signal.sourceUrl || signal.id || "").toLowerCase();
+          if (!rawKey || byKey.has(rawKey)) continue;
+          byKey.set(rawKey, signal);
+        }
+      };
+
+      ingest(main);
+      ingest(crunch);
+      ingest(x);
+
+      if (byKey.size > 0) {
+        const merged: FundingNewsFile = {
+          fetchedAt: freshestFetchedAt || EPOCH_ZERO,
+          source: "merged-funding-slugs",
+          windowDays: maxWindowDays || 7,
+          signals: Array.from(byKey.values()).sort((a, b) => {
+            const ta = Date.parse(a.publishedAt);
+            const tb = Date.parse(b.publishedAt);
+            return (Number.isFinite(tb) ? tb : 0) - (Number.isFinite(ta) ? ta : 0);
+          }),
+        };
+        cache = {
+          signature: `redis-merged:${freshestFetchedAt || Date.now()}`,
+          file: merged,
+        };
       }
       lastRefreshMs = Date.now();
-      return { source: result.source, ageMs: result.ageMs };
+      return {
+        source: freshestSource,
+        ageMs: Number.isFinite(freshestAgeMs) ? freshestAgeMs : 0,
+      };
     } catch {
       lastRefreshMs = Date.now();
       return { source: "missing", ageMs: 0 };

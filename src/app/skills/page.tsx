@@ -54,6 +54,19 @@ const REFRESH_TIMEOUT_MS = 4000;
 const DESCRIPTION =
   "Top Claude / Codex / agent skills merged from skills.sh, GitHub, Smithery, lobehub, and skillsmp.";
 
+// Scoped polish for the most-cited card grid: hover affordance + tighter
+// typography hierarchy. Kept inline so the page owns its visual treatment
+// without adding to globals.css (shared component territory).
+const SKILLS_CARD_CSS = `
+.skills-cited-card{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--v4-line-200);border-radius:3px;background:var(--v4-bg-050);font-family:var(--font-geist-mono),monospace;font-size:11px;color:var(--v4-ink-200);text-decoration:none;transition:border-color .12s ease,background .12s ease,transform .12s ease}
+.skills-cited-card:hover{border-color:var(--v4-acc);background:var(--v4-bg-100);transform:translateY(-1px)}
+.skills-cited-card__title{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--v4-ink-100);font-weight:500;letter-spacing:.01em}
+.skills-cited-card__sub{display:block;color:var(--v4-ink-400);font-size:10px;margin-top:2px;text-transform:uppercase;letter-spacing:.04em}
+.skills-cited-card__count{display:flex;flex-direction:column;align-items:flex-end;line-height:1.1}
+.skills-cited-card__count b{color:var(--v4-amber);font-weight:600;font-size:13px}
+.skills-cited-card__count-label{color:var(--v4-ink-400);font-size:9px;text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+`;
+
 function fullNameFromUrl(url: string | null | undefined): string | null {
   if (typeof url !== "string") return null;
   const m = url.match(/github\.com\/([^/?#]+)\/([^/?#]+)/i);
@@ -181,6 +194,7 @@ export default async function SkillsPage() {
 
   return (
     <main className="home-surface">
+      <style>{SKILLS_CARD_CSS}</style>
       <MarkVisited routeKey="skills" count={items.length} />
       <PageHead
         crumb={
@@ -308,19 +322,7 @@ export default async function SkillsPage() {
           };
         });
         if (skillRows.length === 0) {
-          return (
-            <p
-              style={{
-                fontFamily: "var(--font-geist-mono), monospace",
-                fontSize: 12,
-                color: "var(--v4-ink-300)",
-                padding: "24px 0",
-              }}
-            >
-              No skills leaderboard rows have landed yet. Waiting for upstream
-              fetchers to populate Redis.
-            </p>
-          );
+          return <ColdState message="No skills leaderboard rows have landed yet. Waiting for upstream fetchers to populate Redis." />;
         }
         return <SkillsTopTable rows={skillRows} />;
       })()}
@@ -391,16 +393,7 @@ export default async function SkillsPage() {
           })}
         </section>
       ) : (
-        <p
-          style={{
-            fontFamily: "var(--font-geist-mono), monospace",
-            fontSize: 12,
-            color: "var(--v4-ink-300)",
-            padding: "24px 0",
-          }}
-        >
-          No skills created or pushed in the last 7 days.
-        </p>
+        <ColdState message="No skills created or pushed in the last 7 days." />
       )}
 
       <SectionHead num="// 03" title="Most-cited skills" as="h3" />
@@ -418,69 +411,50 @@ export default async function SkillsPage() {
         >
           {mostCited.slice(0, 12).map((item) => (
             <li key={item.id}>
-              <Link
-                href={`/skills/${encodeSkillSlug(item.id)}`}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "8px 10px",
-                  border: "1px solid var(--v4-line-200)",
-                  borderRadius: 3,
-                  background: "var(--v4-bg-050)",
-                  fontFamily: "var(--font-geist-mono), monospace",
-                  fontSize: 11,
-                  color: "var(--v4-ink-200)",
-                  textDecoration: "none",
-                }}
-              >
+              <Link href={`/skills/${encodeSkillSlug(item.id)}`} className="skills-cited-card">
                 <span style={{ flex: 1, minWidth: 0 }}>
-                  <span
-                    style={{
-                      display: "block",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      color: "var(--v4-ink-100)",
-                    }}
-                  >
-                    {item.title}
-                  </span>
-                  <span
-                    style={{
-                      display: "block",
-                      color: "var(--v4-ink-400)",
-                      fontSize: 10,
-                    }}
-                  >
+                  <span className="skills-cited-card__title">{item.title}</span>
+                  <span className="skills-cited-card__sub">
                     {item.author ?? item.sourceLabel}
                   </span>
                 </span>
-                <span
-                  style={{
-                    color: "var(--v4-amber)",
-                    fontWeight: 600,
-                  }}
-                >
-                  {formatNumber(item.derivativeRepoCount ?? 0)}
+                <span className="skills-cited-card__count">
+                  <b>{formatNumber(item.derivativeRepoCount ?? 0)}</b>
+                  <span className="skills-cited-card__count-label">cited</span>
                 </span>
               </Link>
             </li>
           ))}
         </ul>
       ) : (
-        <p
-          style={{
-            fontFamily: "var(--font-geist-mono), monospace",
-            fontSize: 12,
-            color: "var(--v4-ink-300)",
-            padding: "12px 0",
-          }}
-        >
-          No derivative repo citations recorded yet.
-        </p>
+        <ColdState message="No derivative repo citations recorded yet." compact />
       )}
     </main>
+  );
+}
+
+interface ColdStateProps {
+  message: string;
+  compact?: boolean;
+}
+
+function ColdState({ message, compact = false }: ColdStateProps) {
+  return (
+    <div
+      style={{
+        fontFamily: "var(--font-geist-mono), monospace",
+        fontSize: 12,
+        color: "var(--v4-ink-300)",
+        border: "1px dashed var(--v4-line-200)",
+        borderRadius: 4,
+        padding: compact ? "12px 14px" : "20px 16px",
+        background: "var(--v4-bg-050)",
+        marginBottom: compact ? 12 : 16,
+      }}
+    >
+      <span style={{ color: "var(--v4-ink-400)" }}>// </span>
+      {message}
+    </div>
   );
 }
 

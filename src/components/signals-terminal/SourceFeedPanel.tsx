@@ -14,8 +14,6 @@ import type { SourceKey } from "@/lib/signals/types";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { SourceMark, SOURCE_BRAND_COLOR } from "./SourceMark";
 
-type Variant = "list" | "tweet" | "rss";
-
 export interface ListItem {
   id: string;
   title: string;
@@ -56,6 +54,17 @@ type FeedItems =
   | { variant: "tweet"; items: TweetItem[] }
   | { variant: "rss"; items: RssArticleItem[] };
 
+const SOURCE_PANEL_LABEL: Record<SourceKey, string> = {
+  hn: "Hacker News",
+  github: "GitHub",
+  x: "X",
+  reddit: "Reddit",
+  bluesky: "Bluesky",
+  devto: "Dev.to",
+  claude: "Claude RSS",
+  openai: "OpenAI RSS",
+};
+
 export interface SourceFeedPanelProps {
   source: SourceKey;
   title: string;
@@ -75,13 +84,17 @@ export function SourceFeedPanel({
   footerLabel,
   feed,
 }: SourceFeedPanelProps) {
+  const isCold = feed.items.length === 0;
+
   return (
     <Card variant="panel" className="signals-panel">
       <CardHeader
         right={
           <>
             <span style={{ fontVariantNumeric: "tabular-nums" }}>{countLabel}</span>
-            <span className="live">LIVE</span>
+            <span className={isCold ? "signals-source-cold" : "live"}>
+              {isCold ? "COLD" : "LIVE"}
+            </span>
           </>
         }
       >
@@ -109,12 +122,14 @@ export function SourceFeedPanel({
       </CardHeader>
 
       <div className="ds-card-body" style={{ padding: 0 }}>
-        {feed.variant === "list" ? <ListFeed items={feed.items} /> : null}
+        {feed.variant === "list" ? (
+          <ListFeed items={feed.items} source={source} freshLabel={freshLabel} />
+        ) : null}
         {feed.variant === "tweet" ? (
-          <TweetFeed items={feed.items} source={source} />
+          <TweetFeed items={feed.items} source={source} freshLabel={freshLabel} />
         ) : null}
         {feed.variant === "rss" ? (
-          <RssFeed items={feed.items} source={source} />
+          <RssFeed items={feed.items} source={source} freshLabel={freshLabel} />
         ) : null}
       </div>
 
@@ -194,11 +209,21 @@ function FeedRowLink({
   );
 }
 
-function ListFeed({ items }: { items: ListItem[] }) {
-  if (items.length === 0) return <EmptyMessage />;
+function ListFeed({
+  items,
+  source,
+  freshLabel,
+}: {
+  items: ListItem[];
+  source: SourceKey;
+  freshLabel: string;
+}) {
+  if (items.length === 0) {
+    return <EmptyMessage source={source} freshLabel={freshLabel} noun="items" />;
+  }
   return (
     <>
-      {items.slice(0, 7).map((it, i) => (
+      {items.slice(0, 5).map((it, i) => (
         <FeedRowLink
           key={it.id}
           href={it.href}
@@ -206,15 +231,16 @@ function ListFeed({ items }: { items: ListItem[] }) {
           className={`feed-row ${i === 0 ? "first" : ""}`}
         >
           <div
+            className={i === 0 ? "signals-feed-hero" : undefined}
             style={{
               display: "grid",
-              gridTemplateColumns: "22px 1fr 60px",
-              gap: 8,
-              padding: "8px 12px",
+              gridTemplateColumns: i === 0 ? "28px 1fr 68px" : "22px 1fr 60px",
+              gap: i === 0 ? 10 : 8,
+              padding: i === 0 ? "12px 12px 13px" : "8px 12px",
               alignItems: "flex-start",
             }}
           >
-            <div className="rk" style={{ paddingTop: 1, fontSize: 10 }}>
+            <div className="rk" style={{ paddingTop: 1, fontSize: i === 0 ? 11 : 10 }}>
               {String(i + 1).padStart(2, "0")}
             </div>
             <div style={{ minWidth: 0 }}>
@@ -226,9 +252,9 @@ function ListFeed({ items }: { items: ListItem[] }) {
                   WebkitLineClamp: 2,
                   WebkitBoxOrient: "vertical",
                   overflow: "hidden",
-                  fontSize: 12,
+                  fontSize: i === 0 ? 14 : 12,
                   fontFamily: "var(--font-sans)",
-                  lineHeight: 1.35,
+                  lineHeight: i === 0 ? 1.28 : 1.35,
                 }}
               >
                 {it.title}
@@ -249,6 +275,9 @@ function ListFeed({ items }: { items: ListItem[] }) {
                   {it.attribution}
                 </span>
                 <span>· {it.age}</span>
+                {i === 0 ? (
+                  <span className="signals-feed-proof">lead signal</span>
+                ) : null}
               </div>
             </div>
             <div
@@ -283,8 +312,18 @@ function ListFeed({ items }: { items: ListItem[] }) {
   );
 }
 
-function TweetFeed({ items, source }: { items: TweetItem[]; source: SourceKey }) {
-  if (items.length === 0) return <EmptyMessage />;
+function TweetFeed({
+  items,
+  source,
+  freshLabel,
+}: {
+  items: TweetItem[];
+  source: SourceKey;
+  freshLabel: string;
+}) {
+  if (items.length === 0) {
+    return <EmptyMessage source={source} freshLabel={freshLabel} noun="posts" />;
+  }
   return (
     <>
       {items.slice(0, 5).map((t) => (
@@ -409,8 +448,18 @@ function TweetFeed({ items, source }: { items: TweetItem[]; source: SourceKey })
   );
 }
 
-function RssFeed({ items, source }: { items: RssArticleItem[]; source: SourceKey }) {
-  if (items.length === 0) return <EmptyMessage />;
+function RssFeed({
+  items,
+  source,
+  freshLabel,
+}: {
+  items: RssArticleItem[];
+  source: SourceKey;
+  freshLabel: string;
+}) {
+  if (items.length === 0) {
+    return <EmptyMessage source={source} freshLabel={freshLabel} noun="posts" />;
+  }
   return (
     <>
       {items.slice(0, 4).map((a) => (
@@ -502,7 +551,21 @@ function RssFeed({ items, source }: { items: RssArticleItem[]; source: SourceKey
   );
 }
 
-function EmptyMessage() {
+function EmptyMessage({
+  source,
+  freshLabel,
+  noun,
+}: {
+  source: SourceKey;
+  freshLabel: string;
+  noun: string;
+}) {
+  const age = freshLabel
+    .replace(/^updated\s+/i, "")
+    .replace(/\s+ago$/i, "");
+  const coldText =
+    age === "no data yet" ? "collector has no timestamp" : `${age} cold`;
+
   return (
     <div
       style={{
@@ -512,9 +575,29 @@ function EmptyMessage() {
         fontFamily: "var(--font-mono)",
         letterSpacing: "0.10em",
         textAlign: "center",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 9,
       }}
     >
-      no recent items — collector warming up
+      <span
+        aria-hidden
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: 18,
+          height: 18,
+          borderRadius: 3,
+          background: `color-mix(in srgb, ${SOURCE_BRAND_COLOR[source]} 18%, transparent)`,
+          border: `1px solid color-mix(in srgb, ${SOURCE_BRAND_COLOR[source]} 45%, transparent)`,
+          color: SOURCE_BRAND_COLOR[source],
+        }}
+      >
+        <SourceMark source={source} size={11} monochrome />
+      </span>
+      {SOURCE_PANEL_LABEL[source]} - no recent {noun} · {coldText}
     </div>
   );
 }

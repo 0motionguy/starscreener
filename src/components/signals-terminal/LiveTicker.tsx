@@ -2,6 +2,7 @@
 
 import type { CSSProperties } from "react";
 import type { SourceKey } from "@/lib/signals/types";
+import { SourceMark, SOURCE_BRAND_COLOR } from "./SourceMark";
 
 export interface TickerItem {
   source: SourceKey;
@@ -10,17 +11,6 @@ export interface TickerItem {
   value: string;
   down?: boolean;
 }
-
-const SRC_COLOR: Record<SourceKey, string> = {
-  hn: "var(--source-hackernews)",
-  github: "var(--source-github)",
-  x: "var(--source-x)",
-  reddit: "var(--source-reddit)",
-  bluesky: "var(--source-bluesky)",
-  devto: "var(--source-dev)",
-  claude: "var(--source-claude)",
-  openai: "var(--source-openai)",
-};
 
 export interface LiveTickerProps {
   items: TickerItem[];
@@ -103,16 +93,23 @@ export function LiveTicker({ items }: LiveTickerProps) {
                   gap: "6px",
                 }}
               >
-                <i
+                <span
                   aria-hidden
                   style={{
-                    width: "5px",
-                    height: "5px",
-                    borderRadius: "99px",
-                    background: SRC_COLOR[t.source],
+                    width: "14px",
+                    height: "14px",
+                    borderRadius: "3px",
+                    background: `color-mix(in srgb, ${SOURCE_BRAND_COLOR[t.source]} 18%, transparent)`,
+                    border: `1px solid color-mix(in srgb, ${SOURCE_BRAND_COLOR[t.source]} 45%, transparent)`,
+                    color: SOURCE_BRAND_COLOR[t.source],
                     flex: "none",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
-                />
+                >
+                  <SourceMark source={t.source} size={9} monochrome />
+                </span>
                 <b
                   style={{
                     color: "var(--color-text-default)",

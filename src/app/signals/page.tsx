@@ -63,7 +63,7 @@ import {
   twitterToSignalItems,
   rssToSignalItems,
 } from "@/lib/signals/build-items";
-import { buildConsensus } from "@/lib/signals/consensus";
+import { buildConsensus, type ConsensusStory } from "@/lib/signals/consensus";
 import { buildVolume } from "@/lib/signals/volume";
 import { buildTagMomentum } from "@/lib/signals/tag-momentum";
 import type { SignalItem, SourceKey } from "@/lib/signals/types";
@@ -74,7 +74,10 @@ import {
   type TickerItem,
 } from "@/components/signals-terminal/LiveTicker";
 import { KpiStrip } from "@/components/signals-terminal/KpiStrip";
-import { VolumeAreaChart } from "@/components/signals-terminal/VolumeAreaChart";
+import {
+  VolumeAreaChart,
+  type VolumeAnnotation,
+} from "@/components/signals-terminal/VolumeAreaChart";
 import { ConsensusRadar } from "@/components/signals-terminal/ConsensusRadar";
 import {
   SourceFeedPanel,
@@ -228,16 +231,31 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
   // a filtered view of items; per-source feed panels always render their
   // own native data regardless of the URL filter.
   const nowMs = Date.now();
-  const cutoffMs = nowMs - lookbackHours * 3_600_000;
-  const windowTopicItems = items.filter(
+  const topicItems = items.filter(
+    (it) => activeTopic === null || matchesTopic(it, activeTopic),
+  );
+  const currentCutoffMs = nowMs - lookbackHours * 3_600_000;
+  const hasCurrentWindowData = topicItems.some(
+    (it) => it.postedAtMs > 0 && it.postedAtMs >= currentCutoffMs,
+  );
+  const latestItemMs = topicItems.reduce(
+    (latest, it) => Math.max(latest, it.postedAtMs || 0),
+    0,
+  );
+  const useLatestAvailableWindow = !hasCurrentWindowData && latestItemMs > 0;
+  const synthesisNowMs = useLatestAvailableWindow ? latestItemMs + 60_000 : nowMs;
+  const synthesisCutoffMs = synthesisNowMs - lookbackHours * 3_600_000;
+  const synthesisWindowLabel = useLatestAvailableWindow
+    ? `latest ${activeWindowLabel}`
+    : activeWindowLabel;
+  const windowTopicItems = topicItems.filter(
     (it) =>
       // Items missing a usable timestamp (some GitHub trending rows) are
-      // kept so they don't disappear on shorter windows. They cluster at
-      // the dataset's fetchedAt which lives inside any reasonable window.
-      (it.postedAtMs === 0 || it.postedAtMs >= cutoffMs) &&
-      // Topic filter is inclusive — null = all topics, otherwise the
-      // item must hit at least one of the topic's keyword patterns.
-      (activeTopic === null || matchesTopic(it, activeTopic)),
+      // kept so they don't disappear on shorter windows. Timestamped rows
+      // are evaluated against either the real current window or, when local
+      // data is stale, the latest real window available in the dataset.
+      it.postedAtMs === 0 ||
+      (it.postedAtMs >= synthesisCutoffMs && it.postedAtMs <= synthesisNowMs),
   );
 
   const filteredItems = windowTopicItems.filter(
@@ -245,10 +263,16 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       activeSourceFilter.has(it.source),
   );
 
-  const sourceWindowVolume = buildVolume(windowTopicItems, { nowMs, lookbackHours });
-  const volume = buildVolume(filteredItems, { nowMs, lookbackHours });
+  const sourceWindowVolume = buildVolume(windowTopicItems, {
+    nowMs: synthesisNowMs,
+    lookbackHours,
+  });
+  const volume = buildVolume(filteredItems, {
+    nowMs: synthesisNowMs,
+    lookbackHours,
+  });
   const tagMomentum = buildTagMomentum(filteredItems, {
-    nowMs,
+    nowMs: synthesisNowMs,
     topN: 12,
     lookbackHours,
   });
@@ -263,7 +287,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
   const RADAR_LIMIT = 5;
   const minStrongSources = Math.min(3, activeSourceFilter.size);
   const strongConsensus = buildConsensus(filteredItems, {
-    nowMs,
+    nowMs: synthesisNowMs,
     minSources: minStrongSources,
     limit: RADAR_LIMIT,
     lookbackHours,
@@ -272,13 +296,18 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
   let consensus = strongConsensus;
   if (consensus.length < RADAR_LIMIT) {
     const nearConsensus = buildConsensus(filteredItems, {
-      nowMs,
+      nowMs: synthesisNowMs,
       minSources: 1,
       limit: RADAR_LIMIT * 2,
       lookbackHours,
     }).filter((s) => !strongConsensus.some((c) => c.key === s.key));
     consensus = [...strongConsensus, ...nearConsensus].slice(0, RADAR_LIMIT);
   }
+  const volumeAnnotations = buildVolumeAnnotations(
+    strongConsensus.length > 0 ? strongConsensus : consensus,
+    synthesisNowMs,
+    lookbackHours,
+  );
 
   // ── KPI calculations -------------------------------------------------------
   const activeSources = (Object.entries(volume.perSource) as [SourceKey, number][])
@@ -458,8 +487,8 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
             <b>SIGNAL</b> · TERMINAL · /SIGNALS
           </>
         }
-        h1="The newsroom for AI & dev tooling."
-        lede="Eight sources, one editorial layer. Cross-source consensus surfaces the stories that matter — everything else stays one click away."
+        h1="What 8 feeds agree on right now."
+        lede="Cross-source consensus, tag momentum, and native source feeds in one editorial terminal. The synthesis layer narrows with filters; each source panel stays grounded in its own data."
         clock={
           <Suspense fallback={null}>
             <LiveClock initialIso={new Date().toISOString()} />
@@ -473,6 +502,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
         topic={activeTopic}
         sourceCounts={sourceWindowVolume.perSource}
         totalSignals={volume.totalItems}
+        windowLabelOverride={synthesisWindowLabel}
       />
 
       <div style={{ marginBottom: 10 }}>
@@ -486,32 +516,37 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
           topTagCount={tagMomentum.topTag?.count ?? null}
           consensusCount={consensusCount}
           freshnessLabel={freshnessLabel}
-          windowLabel={activeWindowLabel}
+          windowLabel={synthesisWindowLabel}
         />
       </div>
 
-      {/* Row 1: Volume chart + Consensus radar */}
-      <div className="grid">
-        <div className="col-7">
-          <VolumeAreaChart
-            buckets={volume.buckets}
-            totalItems={volume.totalItems}
-            changePct={volume.changePct}
-            peakHour={volume.peakHour}
-            peakTotal={volume.peakTotal}
-            quietHour={volume.quietHour}
-            quietTotal={volume.quietTotal}
-            dominantSource={volume.dominantSource}
-            dominantPct={dominantPct}
-          />
-        </div>
-        <div className="col-5">
-          <ConsensusRadar
-            stories={consensus}
-            totalActive={consensusCount}
-          />
-        </div>
-      </div>
+      <SectionHead
+        num="// 01"
+        title="Consensus brief"
+        meta={`${consensusCount} strong · ${Math.max(0, consensus.length - consensusCount)} near`}
+      />
+      <ConsensusRadar
+        stories={consensus}
+        totalActive={consensusCount}
+      />
+
+      <SectionHead
+        num="// 02"
+        title="Signal volume · annotated"
+        meta={`${volumeAnnotations.length} live markers`}
+      />
+      <VolumeAreaChart
+        buckets={volume.buckets}
+        totalItems={volume.totalItems}
+        changePct={volume.changePct}
+        peakHour={volume.peakHour}
+        peakTotal={volume.peakTotal}
+        quietHour={volume.quietHour}
+        quietTotal={volume.quietTotal}
+        dominantSource={volume.dominantSource}
+        dominantPct={dominantPct}
+        annotations={volumeAnnotations}
+      />
 
       <SectionHead
         num="// 03"
@@ -634,6 +669,69 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
 // (same API). Kept as a comment trail so future edits remember this page
 // previously had a private inline copy.
 // ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+// Build chart annotations from live consensus stories, capped 3
+// ---------------------------------------------------------------------------
+
+function buildVolumeAnnotations(
+  stories: ConsensusStory[],
+  nowMs: number,
+  lookbackHours: number,
+): VolumeAnnotation[] {
+  const cutoffMs = nowMs - lookbackHours * 3_600_000;
+  const out: VolumeAnnotation[] = [];
+
+  for (const story of stories) {
+    const byHour = new Map<
+      number,
+      { count: number; sources: Set<SourceKey>; latestMs: number }
+    >();
+
+    for (const item of story.items) {
+      if (!item.postedAtMs || item.postedAtMs < cutoffMs || item.postedAtMs > nowMs) {
+        continue;
+      }
+      const hour = new Date(item.postedAtMs).getUTCHours();
+      const bucket =
+        byHour.get(hour) ?? { count: 0, sources: new Set<SourceKey>(), latestMs: 0 };
+      bucket.count += 1;
+      bucket.sources.add(item.source);
+      bucket.latestMs = Math.max(bucket.latestMs, item.postedAtMs);
+      byHour.set(hour, bucket);
+    }
+
+    let bestHour: number | null = null;
+    let bestCount = -1;
+    let bestSourceCount = -1;
+    let bestLatest = 0;
+    for (const [hour, bucket] of byHour) {
+      if (
+        bucket.count > bestCount ||
+        (bucket.count === bestCount && bucket.sources.size > bestSourceCount) ||
+        (bucket.count === bestCount &&
+          bucket.sources.size === bestSourceCount &&
+          bucket.latestMs > bestLatest)
+      ) {
+        bestHour = hour;
+        bestCount = bucket.count;
+        bestSourceCount = bucket.sources.size;
+        bestLatest = bucket.latestMs;
+      }
+    }
+
+    if (bestHour === null) continue;
+    out.push({
+      hour: bestHour,
+      label: story.linkedRepo ?? story.title,
+      sourceCount: story.sources.length,
+      delta: story.delta,
+      source: story.lead.source,
+    });
+  }
+
+  return out.slice(0, 3);
+}
 
 // ---------------------------------------------------------------------------
 // Build ticker — most-recent items across all sources, capped 24

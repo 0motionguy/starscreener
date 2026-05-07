@@ -61,14 +61,14 @@ export function TagMomentumHeatmap({ rows }: TagMomentumHeatmapProps) {
           </>
         }
       >
-        <span>{"// HEATMAP / MENTIONS PER HOUR"}</span>
+        <span>{"// TAG MOMENTUM / 24H HEATMAP"}</span>
         <span
           style={{
             color: "var(--color-text-subtle)",
             marginLeft: 8,
           }}
         >
-          / INTENSITY = SHARE OF SIGNAL VOLUME
+          / MENTIONS BY HOUR
         </span>
       </CardHeader>
 
@@ -149,6 +149,10 @@ export function TagMomentumHeatmap({ rows }: TagMomentumHeatmapProps) {
                   {i % 4 === 0 ? String(i).padStart(2, "0") : ""}
                 </div>
               ))}
+            </div>
+            <div className="signals-heatmap-caption">
+              Brighter = more mentions. Read left to right as 24h ago to now.
+              Vertical neighbors compete for the same conversation.
             </div>
           </>
         )}

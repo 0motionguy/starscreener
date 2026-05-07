@@ -156,6 +156,15 @@ export interface VolumeAreaChartProps {
   quietTotal: number;
   dominantSource: SourceKey;
   dominantPct: number;
+  annotations?: VolumeAnnotation[];
+}
+
+export interface VolumeAnnotation {
+  hour: number;
+  label: string;
+  sourceCount: number;
+  delta: number;
+  source: SourceKey;
 }
 
 export function VolumeAreaChart({
@@ -168,6 +177,7 @@ export function VolumeAreaChart({
   quietTotal,
   dominantSource,
   dominantPct,
+  annotations = [],
 }: VolumeAreaChartProps) {
   const lowerTotals = buckets.map(() => 0);
   const maxTotal = Math.max(1, peakTotal, ...buckets.map((b) => b.total));
@@ -179,6 +189,7 @@ export function VolumeAreaChart({
   const yTicks = [0, 0.25, 0.5, 0.75, 1];
   const xTicks = buckets.filter((_, index) => index % 4 === 0);
   const totalLinePath = buildTotalLine(buckets, maxTotal);
+  const visibleAnnotations = annotations.slice(0, 3);
 
   const deltaText =
     changePct === null ? "Δ N/A" : `Δ ${changePct >= 0 ? "+" : ""}${changePct.toFixed(1)}%`;
@@ -216,9 +227,9 @@ export function VolumeAreaChart({
           </>
         }
       >
-        <span>{"// 01 SIGNAL VOLUME"}</span>
+        <span>{"// SIGNAL VOLUME"}</span>
         <span style={{ color: "var(--color-text-subtle)", marginLeft: "8px" }}>
-          · STACKED · 24H · BY SOURCE
+          · STACKED · ANNOTATED · BY SOURCE
         </span>
       </CardHeader>
 
@@ -327,6 +338,76 @@ export function VolumeAreaChart({
               </text>
             </g>
           ) : null}
+
+          {visibleAnnotations.map((annotation, index) => {
+            const bucketIndex = Math.max(
+              0,
+              buckets.findIndex((bucket) => bucket.hour === annotation.hour),
+            );
+            const bucket = buckets[bucketIndex] ?? buckets[0];
+            const x = xFor(bucketIndex, buckets.length);
+            const y = yFor(bucket?.total ?? 0, maxTotal);
+            const textX = PAD.left + 12;
+            const textY = PAD.top + 22 + index * 28;
+            const label =
+              annotation.label.length > 42
+                ? `${annotation.label.slice(0, 39)}...`
+                : annotation.label;
+
+            return (
+              <g key={`${annotation.hour}-${annotation.label}-${index}`}>
+                <line
+                  x1={x}
+                  x2={x}
+                  y1={PAD.top}
+                  y2={PAD.top + PLOT_H}
+                  stroke={SOURCE_BRAND_COLOR[annotation.source]}
+                  strokeOpacity="0.55"
+                  strokeDasharray="2 5"
+                  vectorEffect="non-scaling-stroke"
+                />
+                <circle
+                  cx={x}
+                  cy={y}
+                  r="4"
+                  fill="var(--color-bg-shell)"
+                  stroke={SOURCE_BRAND_COLOR[annotation.source]}
+                  strokeWidth="1.5"
+                  vectorEffect="non-scaling-stroke"
+                />
+                <rect
+                  x={textX - 5}
+                  y={textY - 13}
+                  width="192"
+                  height="24"
+                  rx="2"
+                  fill="rgba(8,10,14,0.84)"
+                  stroke={SOURCE_BRAND_COLOR[annotation.source]}
+                  strokeOpacity="0.38"
+                  vectorEffect="non-scaling-stroke"
+                />
+                <text
+                  x={textX}
+                  y={textY - 2}
+                  fill="var(--color-text-default)"
+                  fontFamily="var(--font-mono)"
+                  fontSize="9"
+                  letterSpacing="0.8"
+                >
+                  {formatHour(annotation.hour)} - {annotation.sourceCount} SRC
+                </text>
+                <text
+                  x={textX}
+                  y={textY + 8}
+                  fill="var(--color-text-subtle)"
+                  fontFamily="var(--font-sans)"
+                  fontSize="8.5"
+                >
+                  {label}
+                </text>
+              </g>
+            );
+          })}
 
           {xTicks.map((bucket, index) => (
             <text

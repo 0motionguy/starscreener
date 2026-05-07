@@ -40,6 +40,48 @@ function buildSparkPath(
   };
 }
 
+function formatUtcTime(ms: number | null): string {
+  if (!ms) return "unknown";
+  const d = new Date(ms);
+  return `${String(d.getUTCHours()).padStart(2, "0")}:${String(
+    d.getUTCMinutes(),
+  ).padStart(2, "0")} UTC`;
+}
+
+function formatAgeFromMs(ms: number | null): string {
+  if (!ms) return "no timestamp";
+  const ageMs = Date.now() - ms;
+  if (!Number.isFinite(ageMs) || ageMs < 0) return "just now";
+  const min = Math.floor(ageMs / 60_000);
+  if (min < 60) return `${min}m ago`;
+  const hr = Math.floor(min / 60);
+  if (hr < 48) return `${hr}h ago`;
+  return `${Math.floor(hr / 24)}d ago`;
+}
+
+function firstSeenMs(story: ConsensusStory): number | null {
+  let first: number | null = null;
+  for (const item of story.items) {
+    if (!item.postedAtMs) continue;
+    first = first === null ? item.postedAtMs : Math.min(first, item.postedAtMs);
+  }
+  return first;
+}
+
+function consensusReachedMs(story: ConsensusStory): number | null {
+  const sorted = story.items
+    .filter((item) => item.postedAtMs > 0)
+    .slice()
+    .sort((a, b) => a.postedAtMs - b.postedAtMs);
+  const seen = new Set<string>();
+  const target = Math.min(3, story.sources.length);
+  for (const item of sorted) {
+    seen.add(item.source);
+    if (seen.size >= target) return item.postedAtMs;
+  }
+  return sorted.at(-1)?.postedAtMs ?? null;
+}
+
 export interface ConsensusRadarProps {
   stories: ConsensusStory[];
   totalActive: number;
@@ -64,9 +106,9 @@ export function ConsensusRadar({ stories, totalActive }: ConsensusRadarProps) {
       : "· STORIES IN 3+ SOURCES";
 
   return (
-    <Card variant="panel" className="signals-panel">
+    <Card variant="panel" className="signals-panel signals-consensus-card">
       <CardHeader showCorner right={<span>{headerRight}</span>}>
-        <span>{"// 02 CONSENSUS RADAR"}</span>
+        <span>{"// CONSENSUS RADAR"}</span>
         <span style={{ color: "var(--color-text-subtle)", marginLeft: "8px" }}>
           {subtitle}
         </span>
@@ -124,6 +166,14 @@ export function ConsensusRadar({ stories, totalActive }: ConsensusRadarProps) {
             // Near-consensus rows (< 3 sources) are dimmed so the eye still
             // groups them apart from real cross-source consensus.
             const isWeak = story.sources.length < 3;
+            const firstSeen = firstSeenMs(story);
+            const reachedAt = consensusReachedMs(story);
+            const timingLabel =
+              story.sources.length >= 3
+                ? `first ${formatUtcTime(firstSeen)} · consensus ${formatAgeFromMs(
+                    reachedAt,
+                  )}`
+                : `first ${formatUtcTime(firstSeen)} · ${story.sources.length}-source near`;
             const wrapperStyle: React.CSSProperties = {
               display: "flex",
               flexDirection: "column",
@@ -134,7 +184,7 @@ export function ConsensusRadar({ stories, totalActive }: ConsensusRadarProps) {
               isInternal ? (
                 <Link
                   href={href}
-                  className={`cons-row ${isTop ? "first" : ""}`}
+                  className={`cons-row signals-consensus-row ${isTop ? "first" : ""}`}
                   style={wrapperStyle}
                 >
                   {children}
@@ -144,7 +194,7 @@ export function ConsensusRadar({ stories, totalActive }: ConsensusRadarProps) {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`cons-row ${isTop ? "first" : ""}`}
+                  className={`cons-row signals-consensus-row ${isTop ? "first" : ""}`}
                   style={wrapperStyle}
                 >
                   {children}
@@ -276,6 +326,7 @@ export function ConsensusRadar({ stories, totalActive }: ConsensusRadarProps) {
                       </span>
                     ) : null}
                   </div>
+                  <span className="signals-consensus-time">{timingLabel}</span>
                   <svg
                     className="spark-mini"
                     viewBox={`0 0 ${W} ${H}`}

@@ -207,6 +207,8 @@ export interface SourceFilterBarProps {
   sourceCounts: Record<SourceKey, number>;
   /** Total signals across the active sources/window/topic, shown on the right. */
   totalSignals: number;
+  /** Optional display label when local data falls back to the latest real window. */
+  windowLabelOverride?: string;
 }
 
 function formatChipCount(value: number): string {
@@ -222,9 +224,11 @@ export function SourceFilterBar({
   topic,
   sourceCounts,
   totalSignals,
+  windowLabelOverride,
 }: SourceFilterBarProps) {
   const isAllOn = active.size === ALL_KEYS.size;
   const topics = allTopics();
+  const displayWindowLabel = windowLabelOverride ?? windowLabel(timeWindow);
 
   return (
     <div
@@ -393,7 +397,10 @@ export function SourceFilterBar({
           fontFamily: "var(--font-mono)",
         }}
       >
-        {totalSignals.toLocaleString("en-US")} signals · {windowLabel(timeWindow)}
+        {totalSignals.toLocaleString("en-US")} signals · {displayWindowLabel}
+      </span>
+      <span className="signals-filter-note">
+        Affects volume, consensus, and heatmap. Per-source feeds always show native data.
       </span>
     </div>
   );

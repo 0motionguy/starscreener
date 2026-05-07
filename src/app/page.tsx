@@ -18,6 +18,8 @@ import {
   type EcosystemLeaderboardItem,
 } from "@/lib/ecosystem-leaderboards";
 import { BubbleMap } from "@/components/terminal/BubbleMap";
+import { EChart } from "@/components/charts/EChart";
+import { CHART_TOKENS } from "@/lib/charts/theme";
 import { HomeEmptyState } from "@/components/home/HomeEmptyState";
 import { FunnelMount } from "@/components/analytics/FunnelMount";
 import { Card, CardHeader } from "@/components/ui/Card";
@@ -287,28 +289,6 @@ function sparkPath(values: number[], width: number, height: number): string {
     .map((value, index) => {
       const x = (index / Math.max(1, points.length - 1)) * (width - 2) + 1;
       const y = height - 2 - ((value - min) / span) * (height - 4);
-      return `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
-    })
-    .join(" ");
-}
-
-// Same as sparkPath but with externally-supplied min/max so multiple lines
-// drawn into one SVG share a Y axis instead of self-normalising.
-function scaledSparkPath(
-  values: number[],
-  width: number,
-  height: number,
-  vMin: number,
-  vMax: number,
-  padX = 4,
-  padY = 10,
-): string {
-  if (values.length < 2) return "";
-  const span = vMax - vMin || 1;
-  return values
-    .map((value, index) => {
-      const x = padX + (index / (values.length - 1)) * (width - 2 * padX);
-      const y = height - padY - ((value - vMin) / span) * (height - 2 * padY);
       return `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
     })
     .join(" ");
@@ -955,36 +935,80 @@ export default async function HomePage() {
               "var(--sig-amber)",
               "var(--sig-red)",
             ];
-            const indexAllValues = indexLeaders
-              .flatMap((r) => (r.sparklineData.length > 0 ? r.sparklineData : [0]));
-            const vMin = indexAllValues.length ? Math.min(...indexAllValues) : 0;
-            const vMax = indexAllValues.length ? Math.max(...indexAllValues) : 1;
+            // Aggregate top-5 leader trajectories into a single TR-100 Index
+            // line. Each repo's sparklineData is 30 daily star buckets; sum
+            // across leaders per bucket for the index value.
+            const indexLength = Math.max(
+              0,
+              ...indexLeaders.map((r) => r.sparklineData.length),
+            );
+            const indexSeries: number[] = Array.from(
+              { length: indexLength },
+              (_, i) =>
+                indexLeaders.reduce(
+                  (acc, r) => acc + (r.sparklineData[i] ?? 0),
+                  0,
+                ),
+            );
+            const indexOption =
+              indexSeries.length >= 2
+                ? {
+                    animationDuration: 0,
+                    grid: {
+                      top: 12,
+                      right: 16,
+                      bottom: 24,
+                      left: 16,
+                      containLabel: false,
+                    },
+                    xAxis: {
+                      type: "category" as const,
+                      show: false,
+                      boundaryGap: false,
+                      data: indexSeries.map((_, i) => String(i)),
+                    },
+                    yAxis: {
+                      type: "value" as const,
+                      show: false,
+                      scale: true,
+                    },
+                    tooltip: { show: false },
+                    series: [
+                      {
+                        type: "line" as const,
+                        name: "TR-100 Index",
+                        data: indexSeries,
+                        showSymbol: false,
+                        smooth: false,
+                        lineStyle: { width: 2, color: CHART_TOKENS.accent },
+                        areaStyle: {
+                          color: {
+                            type: "linear" as const,
+                            x: 0,
+                            y: 0,
+                            x2: 0,
+                            y2: 1,
+                            colorStops: [
+                              { offset: 0, color: "rgba(255, 107, 53, 0.32)" },
+                              { offset: 1, color: "rgba(255, 107, 53, 0)" },
+                            ],
+                          },
+                        },
+                        animationDuration: 0,
+                      },
+                    ],
+                  }
+                : null;
             return (
               <>
                 <div className="chart-wrap">
-                  <svg
-                    viewBox="0 0 1100 280"
-                    preserveAspectRatio="none"
-                    aria-label="TrendingRepo top-5 leader trajectories, last 30 days"
-                  >
-                    <defs>
-                      <pattern id="tr100-grid" width="110" height="56" patternUnits="userSpaceOnUse">
-                        <path d="M110 0 H0 V56" fill="none" stroke="var(--line-100)" strokeWidth="1" />
-                      </pattern>
-                    </defs>
-                    <rect width="1100" height="280" fill="url(#tr100-grid)" opacity="0.5" />
-                    {indexLeaders.map((repo, i) => (
-                      <path
-                        key={repo.id}
-                        d={scaledSparkPath(repo.sparklineData, 1100, 280, vMin, vMax)}
-                        fill="none"
-                        stroke={indexColors[i % indexColors.length]}
-                        strokeWidth={i === 0 ? 2.4 : 1.8}
-                        strokeOpacity={i === 0 ? 1 : 0.78}
-                        vectorEffect="non-scaling-stroke"
-                      />
-                    ))}
-                  </svg>
+                  {indexOption ? (
+                    <EChart
+                      option={indexOption}
+                      height={280}
+                      ariaLabel="TrendingRepo top-5 leader index, last 30 days"
+                    />
+                  ) : null}
                 </div>
                 <div className="chart-legend-row">
                   {indexLeaders.map((repo, i) => (

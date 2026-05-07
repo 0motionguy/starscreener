@@ -46,6 +46,7 @@ jobs:
       - name: Commit if changed
         uses: ./.github/actions/git-commit-data
         with:
+          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
           message: "chore(data): refresh ProductHunt launches ${{ steps.ts.outputs.value }}"
           paths: |
             data/producthunt-launches.json

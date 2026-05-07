@@ -47,6 +47,7 @@ jobs:
       - name: Commit if changed
         uses: ./.github/actions/git-commit-data
         with:
+          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
           actor-email: "bot@trendingrepo.com"
           message: "chore(data): refresh mcp liveness ${{ steps.ts.outputs.value }}"
           paths: |

@@ -25,6 +25,7 @@ jobs:
       - name: Commit nitter status update
         uses: ./.github/actions/git-commit-data
         with:
+          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
           message: "chore: nitter health update"
           paths: |
             config/nitter-instances.json

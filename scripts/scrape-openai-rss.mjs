@@ -12,6 +12,7 @@ import { fileURLToPath } from "node:url";
 import { fetchFeed } from "./_rss-shared.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
+import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(__dirname, "..", "data", "openai-rss.json");
@@ -70,8 +71,13 @@ async function main() {
   await closeDataStore();
 }
 
+// Move 1 / Phase 4: runAsRegisteredSource wraps main() purely for
+// instrumentation — collection logic untouched.
 const startedAt = Date.now();
-main()
+runAsRegisteredSource({
+  sourceId: "openai-rss",
+  run: main,
+})
   .then(async () => {
     try {
       await writeSourceMetaFromOutcome({

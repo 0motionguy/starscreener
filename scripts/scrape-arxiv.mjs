@@ -39,6 +39,7 @@ import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
+import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -288,8 +289,13 @@ const isDirectRun = invokedPath
   : false;
 
 if (isDirectRun) {
+  // Move 1 / Phase 4: runAsRegisteredSource wraps main() purely for
+  // instrumentation — collection logic untouched.
   const startedAt = Date.now();
-  main()
+  runAsRegisteredSource({
+    sourceId: "arxiv",
+    run: main,
+  })
     .then(async () => {
       try {
         await writeSourceMetaFromOutcome({

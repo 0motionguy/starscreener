@@ -1,8 +1,45 @@
 {
-  "fetchedAt": "2026-05-07T13:17:50.536Z",
+  "fetchedAt": "2026-05-07T18:10:48.699Z",
   "windowDays": 7,
   "scannedStories": 78,
   "mentions": {
+    "jj-vcs/jj": {
+      "count7d": 1,
+      "scoreSum7d": 6,
+      "topStory": {
+        "shortId": "h1srjn",
+        "title": "jj v0.41.0 is out",
+        "score": 6,
+        "url": "https://github.com/jj-vcs/jj/releases/tag/v0.41.0",
+        "commentsUrl": "https://lobste.rs/s/h1srjn/jj_v0_41_0_is_out",
+        "hoursSincePosted": 1.5808333333333333
+      },
+      "stories": [
+        {
+          "shortId": "h1srjn",
+          "title": "jj v0.41.0 is out",
+          "url": "https://github.com/jj-vcs/jj/releases/tag/v0.41.0",
+          "commentsUrl": "https://lobste.rs/s/h1srjn/jj_v0_41_0_is_out",
+          "by": "",
+          "score": 6,
+          "commentCount": 0,
+          "createdUtc": 1778171757,
+          "ageHours": 1.5808333333333333,
+          "trendingScore": 0.885472522466044,
+          "tags": [
+            "release"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "jj-vcs/jj",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "withastro/flue": {
       "count7d": 1,
       "scoreSum7d": 1,
@@ -12,7 +49,7 @@
         "score": 1,
         "url": "https://github.com/withastro/flue",
         "commentsUrl": "https://lobste.rs/s/ki7kqi/agent_harness_framework",
-        "hoursSincePosted": 7.185555555555555
+        "hoursSincePosted": 12.068333333333333
       },
       "stories": [
         {
@@ -22,12 +59,12 @@
           "commentsUrl": "https://lobste.rs/s/ki7kqi/agent_harness_framework",
           "by": "",
           "score": 1,
-          "commentCount": 0,
+          "commentCount": 3,
           "createdUtc": 1778134002,
-          "ageHours": 7.185555555555555,
-          "trendingScore": 0.035920457359900515,
+          "ageHours": 12.068333333333333,
+          "trendingScore": 0.018951169901140513,
           "tags": [
-            "ai"
+            "vibecoding"
           ],
           "description": "",
           "linkedRepos": [
@@ -42,6 +79,11 @@
     }
   },
   "leaderboard": [
+    {
+      "fullName": "jj-vcs/jj",
+      "count7d": 1,
+      "scoreSum7d": 6
+    },
     {
       "fullName": "withastro/flue",
       "count7d": 1,

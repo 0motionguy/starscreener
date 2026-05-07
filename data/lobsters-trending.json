@@ -1,19 +1,37 @@
 {
-  "fetchedAt": "2026-05-07T18:10:48.699Z",
+  "fetchedAt": "2026-05-07T20:05:07.051Z",
   "windowHours": 72,
   "scannedTotal": 78,
   "stories": [
+    {
+      "shortId": "lu4efg",
+      "title": "Dirty Frag: Universal Linux LPE",
+      "url": "https://www.openwall.com/lists/oss-security/2026/05/07/8",
+      "commentsUrl": "https://lobste.rs/s/lu4efg/dirty_frag_universal_linux_lpe",
+      "by": "",
+      "score": 7,
+      "commentCount": 4,
+      "createdUtc": 1778180815,
+      "ageHours": 0.97,
+      "trendingScore": 1.3676134586867397,
+      "tags": [
+        "linux",
+        "security"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
     {
       "shortId": "h1srjn",
       "title": "jj v0.41.0 is out",
       "url": "https://github.com/jj-vcs/jj/releases/tag/v0.41.0",
       "commentsUrl": "https://lobste.rs/s/h1srjn/jj_v0_41_0_is_out",
       "by": "",
-      "score": 6,
-      "commentCount": 0,
+      "score": 17,
+      "commentCount": 8,
       "createdUtc": 1778171757,
-      "ageHours": 1.5808333333333333,
-      "trendingScore": 0.885472522466044,
+      "ageHours": 3.486111111111111,
+      "trendingScore": 1.322976173111301,
       "tags": [
         "release"
       ],
@@ -32,14 +50,15 @@
       "url": "https://hacks.mozilla.org/2026/05/behind-the-scenes-hardening-firefox/",
       "commentsUrl": "https://lobste.rs/s/7zppv1/behind_scenes_hardening_firefox_with",
       "by": "",
-      "score": 7,
-      "commentCount": 0,
+      "score": 14,
+      "commentCount": 2,
       "createdUtc": 1778170184,
-      "ageHours": 2.017777777777778,
-      "trendingScore": 0.8691989068717694,
+      "ageHours": 3.9230555555555555,
+      "trendingScore": 0.9712014596846996,
       "tags": [
         "browsers",
-        "security"
+        "security",
+        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -104,11 +123,11 @@
       "url": "https://lwn.net/Articles/1063993/",
       "commentsUrl": "https://lobste.rs/s/azajfp/php_license_change_is_imminent",
       "by": "",
-      "score": 18,
-      "commentCount": 1,
+      "score": 26,
+      "commentCount": 4,
       "createdUtc": 1778151407,
-      "ageHours": 7.233611111111111,
-      "trendingScore": 0.6415272902212932,
+      "ageHours": 9.13888888888889,
+      "trendingScore": 0.6993757026356578,
       "tags": [
         "law",
         "php"
@@ -122,15 +141,51 @@
       "url": "https://stripe.dev/blog/formatting-an-entire-25-million-line-codebase-overnight-the-rubyfmt-story",
       "commentsUrl": "https://lobste.rs/s/pv9i7j/formatting_entire_25_million_line",
       "by": "",
-      "score": 2,
+      "score": 6,
       "commentCount": 0,
       "createdUtc": 1778176415,
-      "ageHours": 0.28694444444444445,
-      "trendingScore": 0.5782911868310041,
+      "ageHours": 2.192222222222222,
+      "trendingScore": 0.6990122822483567,
       "tags": [
         "ruby"
       ],
       "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "zys8hd",
+      "title": "Mojo v1.0.0b1",
+      "url": "https://mojolang.org/releases/v1.0.0b1",
+      "commentsUrl": "https://lobste.rs/s/zys8hd/mojo_v1_0_0b1",
+      "by": "",
+      "score": 3,
+      "commentCount": 0,
+      "createdUtc": 1778181825,
+      "ageHours": 0.6894444444444444,
+      "trendingScore": 0.6801855295750374,
+      "tags": [
+        "ai",
+        "plt",
+        "release"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "kkzpdd",
+      "title": "Ploopy Bean - external trackpoint",
+      "url": "https://ploopy.co/bean/",
+      "commentsUrl": "https://lobste.rs/s/kkzpdd/ploopy_bean_external_trackpoint",
+      "by": "",
+      "score": 6,
+      "commentCount": 1,
+      "createdUtc": 1778174641,
+      "ageHours": 2.685,
+      "trendingScore": 0.5916799564972346,
+      "tags": [
+        "hardware"
+      ],
+      "description": "<p>AFAIU this is a wired device even if promotional images seem to suggest different.</p>\n",
       "linkedRepos": []
     },
     {
@@ -166,23 +221,6 @@
         "devops",
         "release",
         "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "kkzpdd",
-      "title": "Ploopy Bean - external trackpoint",
-      "url": "https://ploopy.co/bean/",
-      "commentsUrl": "https://lobste.rs/s/kkzpdd/ploopy_bean_external_trackpoint",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1778174641,
-      "ageHours": 0.7797222222222222,
-      "trendingScore": 0.43154679657612005,
-      "tags": [
-        "hardware"
       ],
       "description": "",
       "linkedRepos": []
@@ -234,6 +272,40 @@
       "trendingScore": 0.3249793932462241,
       "tags": [
         "osdev"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "8dpdxy",
+      "title": "The agent principal-agent problem",
+      "url": "https://crawshaw.io/blog/agent-principal-agent",
+      "commentsUrl": "https://lobste.rs/s/8dpdxy/agent_principal_agent_problem",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1778183717,
+      "ageHours": 0.1638888888888889,
+      "trendingScore": 0.31415759576832186,
+      "tags": [
+        "vibecoding"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "dpu6ym",
+      "title": "Building Transit Tracker",
+      "url": "https://blog.horner.tj/building-transit-tracker/",
+      "commentsUrl": "https://lobste.rs/s/dpu6ym/building_transit_tracker",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1778183566,
+      "ageHours": 0.20583333333333334,
+      "trendingScore": 0.3052396571803227,
+      "tags": [
+        "hardware"
       ],
       "description": "",
       "linkedRepos": []
@@ -364,6 +436,23 @@
       "linkedRepos": []
     },
     {
+      "shortId": "lmymmr",
+      "title": "Affordances of a screenless writing interface",
+      "url": "https://jamesg.blog/2026/05/07/affordances-of-a-screenless-writing-interface",
+      "commentsUrl": "https://lobste.rs/s/lmymmr/affordances_screenless_writing",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1778180715,
+      "ageHours": 0.9977777777777778,
+      "trendingScore": 0.19266412132807648,
+      "tags": [
+        "a11y"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "pzx24l",
       "title": "iPhone dumbphone",
       "url": "https://stopa.io/post/297",
@@ -446,6 +535,24 @@
       "tags": [
         "c++",
         "performance"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "r8v2bx",
+      "title": "jlearn: Machine Learning Library in J",
+      "url": "https://github.com/jonghough/jlearn",
+      "commentsUrl": "https://lobste.rs/s/r8v2bx/jlearn_machine_learning_library_j",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1778178316,
+      "ageHours": 1.6641666666666666,
+      "trendingScore": 0.1425729614533363,
+      "tags": [
+        "ai",
+        "apl"
       ],
       "description": "",
       "linkedRepos": []
@@ -786,590 +893,6 @@
         "vibecoding"
       ],
       "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "1mecju",
-      "title": "A new filesystem for pidfds (2024)",
-      "url": "https://lwn.net/Articles/963749/",
-      "commentsUrl": "https://lobste.rs/s/1mecju/new_filesystem_for_pidfds_2024",
-      "by": "",
-      "score": 13,
-      "commentCount": 5,
-      "createdUtc": 1778057113,
-      "ageHours": 33.42638888888889,
-      "trendingScore": 0.061652831028634815,
-      "tags": [
-        "linux"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "lwjndk",
-      "title": "Plastic Flowers to Protect the Hive",
-      "url": "https://phildini.dev/slopsquatting-for-good",
-      "commentsUrl": "https://lobste.rs/s/lwjndk/plastic_flowers_protect_hive",
-      "by": "",
-      "score": 6,
-      "commentCount": 5,
-      "createdUtc": 1778105079,
-      "ageHours": 20.1025,
-      "trendingScore": 0.05774164489333474,
-      "tags": [
-        "nodejs",
-        "python",
-        "security",
-        "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "4wsk2b",
-      "title": "Arguments parsing in Guile",
-      "url": "https://fishinthecalculator.me/blog/arguments-parsing-in-guile.html",
-      "commentsUrl": "https://lobste.rs/s/4wsk2b/arguments_parsing_guile",
-      "by": "",
-      "score": 8,
-      "commentCount": 2,
-      "createdUtc": 1778086119,
-      "ageHours": 25.36916666666667,
-      "trendingScore": 0.055872438429489746,
-      "tags": [
-        "lisp"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "qynufo",
-      "title": "Comparing the Z80 and 6502 to Their Relatives",
-      "url": "https://bumbershootsoft.wordpress.com/2026/05/02/comparing-the-z80-and-6502-to-their-relatives/",
-      "commentsUrl": "https://lobste.rs/s/qynufo/comparing_z80_6502_their_relatives",
-      "by": "",
-      "score": 19,
-      "commentCount": 5,
-      "createdUtc": 1778002808,
-      "ageHours": 48.51111111111111,
-      "trendingScore": 0.05292650520863226,
-      "tags": [
-        "hardware",
-        "retrocomputing"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "nmnmnq",
-      "title": "Nondeterminism's not the problem",
-      "url": "https://isaacvando.com/nondeterminisms-not-the-problem",
-      "commentsUrl": "https://lobste.rs/s/nmnmnq/nondeterminism_s_not_problem",
-      "by": "",
-      "score": 29,
-      "commentCount": 21,
-      "createdUtc": 1777927113,
-      "ageHours": 69.5375,
-      "trendingScore": 0.04792888871721298,
-      "tags": [
-        "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "yjjtpk",
-      "title": "Hardware-assisted Arm VMs for s390",
-      "url": "https://lwn.net/SubscriberLink/1069954/989b1d8343bfe078/",
-      "commentsUrl": "https://lobste.rs/s/yjjtpk/hardware_assisted_arm_vms_for_s390",
-      "by": "",
-      "score": 7,
-      "commentCount": 0,
-      "createdUtc": 1778080707,
-      "ageHours": 26.8725,
-      "trendingScore": 0.04512024560403339,
-      "tags": [
-        "linux",
-        "virtualization"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "418jcl",
-      "title": "VRL Log Splitting | FlowG v0.55.0",
-      "url": "https://flowg.cloud/blog/vrl-log-splitting",
-      "commentsUrl": "https://lobste.rs/s/418jcl/vrl_log_splitting_flowg_v0_55_0",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1778154515,
-      "ageHours": 6.370277777777778,
-      "trendingScore": 0.0412943081010369,
-      "tags": [
-        "devops",
-        "release",
-        "show"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "zsaxnu",
-      "title": "Canvas-ing the Web",
-      "url": "https://meyerweb.com/eric/thoughts/2026/04/27/canvas-ing-the-web/",
-      "commentsUrl": "https://lobste.rs/s/zsaxnu/canvas_ing_web",
-      "by": "",
-      "score": 6,
-      "commentCount": 0,
-      "createdUtc": 1778083611,
-      "ageHours": 26.065833333333334,
-      "trendingScore": 0.04035379074187888,
-      "tags": [
-        "browsers",
-        "web"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "lmmkb5",
-      "title": "A new hash table for the Lwan web server",
-      "url": "https://tia.mat.br/posts/2026/05/06/a-new-hash-table-for-lwan.html",
-      "commentsUrl": "https://lobste.rs/s/lmmkb5/new_hash_table_for_lwan_web_server",
-      "by": "",
-      "score": 3,
-      "commentCount": 5,
-      "createdUtc": 1778116356,
-      "ageHours": 16.97,
-      "trendingScore": 0.03630949915433864,
-      "tags": [
-        "c",
-        "programming"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "t9esuf",
-      "title": "1000 third parties could have stolen RIPE NCC session tokens - by design",
-      "url": "https://mxsasha.eu/posts/ripe-ncc-sso-cookie-exposure/",
-      "commentsUrl": "https://lobste.rs/s/t9esuf/1000_third_parties_could_have_stolen_ripe",
-      "by": "",
-      "score": 6,
-      "commentCount": 1,
-      "createdUtc": 1778065713,
-      "ageHours": 31.0375,
-      "trendingScore": 0.031596609745883464,
-      "tags": [
-        "security"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "n3kom0",
-      "title": "setting up a Sun Ray server on OpenIndiana Hipster 2025.10",
-      "url": "https://catstret.ch/202605/srss-hipster202510/",
-      "commentsUrl": "https://lobste.rs/s/n3kom0/setting_up_sun_ray_server_on_openindiana",
-      "by": "",
-      "score": 6,
-      "commentCount": 1,
-      "createdUtc": 1778064823,
-      "ageHours": 31.28472222222222,
-      "trendingScore": 0.031245238570661686,
-      "tags": [
-        "unix"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "itgi3u",
-      "title": "Why Did Thomas Harriot Invent Binary?",
-      "url": "https://link.springer.com/article/10.1007/s00283-023-10271-9",
-      "commentsUrl": "https://lobste.rs/s/itgi3u/why_did_thomas_harriot_invent_binary",
-      "by": "",
-      "score": 5,
-      "commentCount": 0,
-      "createdUtc": 1778078334,
-      "ageHours": 27.531666666666666,
-      "trendingScore": 0.031155739768903498,
-      "tags": [
-        "historical",
-        "math"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "krsvp7",
-      "title": "ProgramBench: Can we really rebuild huge binaries from scratch?",
-      "url": "https://programbench.com/",
-      "commentsUrl": "https://lobste.rs/s/krsvp7/programbench_can_we_really_rebuild_huge",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1778142243,
-      "ageHours": 9.779166666666667,
-      "trendingScore": 0.024735924680224723,
-      "tags": [
-        "programming",
-        "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "ivh29f",
-      "title": "A behavioral notion of subtyping (1994)",
-      "url": "https://www.cs.cmu.edu/~wing/publications/LiskovWing94.pdf",
-      "commentsUrl": "https://lobste.rs/s/ivh29f/behavioral_notion_subtyping_1994",
-      "by": "",
-      "score": 3,
-      "commentCount": 0,
-      "createdUtc": 1778090959,
-      "ageHours": 24.024722222222223,
-      "trendingScore": 0.022596548112570263,
-      "tags": [
-        "pdf",
-        "plt"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "2h8ben",
-      "title": "Appearing Productive in The Workplace",
-      "url": "https://nooneshappy.com/article/appearing-productive-in-the-workplace/",
-      "commentsUrl": "https://lobste.rs/s/2h8ben/appearing_productive_workplace",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1778137004,
-      "ageHours": 11.234444444444444,
-      "trendingScore": 0.02077023580853282,
-      "tags": [
-        "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "zf3ee7",
-      "title": "The Faster You Go, the Wronger You Get",
-      "url": "https://hagakure.substack.com/p/the-bottleneck-was-understanding",
-      "commentsUrl": "https://lobste.rs/s/zf3ee7/faster_you_go_wronger_you_get",
-      "by": "",
-      "score": 4,
-      "commentCount": 0,
-      "createdUtc": 1778060040,
-      "ageHours": 32.61333333333334,
-      "trendingScore": 0.019642413722525176,
-      "tags": [
-        "practices",
-        "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "hjzfk9",
-      "title": "The Boring Internet",
-      "url": "https://terrygodier.com/the-boring-internet",
-      "commentsUrl": "https://lobste.rs/s/hjzfk9/boring_internet",
-      "by": "",
-      "score": 7,
-      "commentCount": 4,
-      "createdUtc": 1778002508,
-      "ageHours": 48.59444444444444,
-      "trendingScore": 0.01945108325817018,
-      "tags": [
-        "culture"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "ki7kqi",
-      "title": "The Agent Harness Framework",
-      "url": "https://github.com/withastro/flue",
-      "commentsUrl": "https://lobste.rs/s/ki7kqi/agent_harness_framework",
-      "by": "",
-      "score": 1,
-      "commentCount": 3,
-      "createdUtc": 1778134002,
-      "ageHours": 12.068333333333333,
-      "trendingScore": 0.018951169901140513,
-      "tags": [
-        "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": [
-        {
-          "fullName": "withastro/flue",
-          "matchType": "url",
-          "confidence": 1
-        }
-      ]
-    },
-    {
-      "shortId": "ebv5qy",
-      "title": "An exploitable integer overflow in Lix (CVE-2026-44028)",
-      "url": "https://lix.systems/blog/2026-05-05-lix-unsigned-integer-overflow/",
-      "commentsUrl": "https://lobste.rs/s/ebv5qy/exploitable_integer_overflow_lix_cve",
-      "by": "",
-      "score": 6,
-      "commentCount": 1,
-      "createdUtc": 1777999473,
-      "ageHours": 49.4375,
-      "trendingScore": 0.016264153764294527,
-      "tags": [
-        "nix",
-        "security"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "bn3t8g",
-      "title": "What even is a pidfd anyway?",
-      "url": "https://www.corsix.org/content/what-is-a-pidfd",
-      "commentsUrl": "https://lobste.rs/s/bn3t8g/what_even_is_pidfd_anyway",
-      "by": "",
-      "score": 3,
-      "commentCount": 4,
-      "createdUtc": 1778057786,
-      "ageHours": 33.239444444444445,
-      "trendingScore": 0.014340941859667678,
-      "tags": [
-        "linux"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "c1qedl",
-      "title": "DigiCert Revokes Certificates After Support Portal Hack",
-      "url": "https://www.securityweek.com/digicert-revokes-certificates-after-support-portal-hack/",
-      "commentsUrl": "https://lobste.rs/s/c1qedl/digicert_revokes_certificates_after",
-      "by": "",
-      "score": 4,
-      "commentCount": 0,
-      "createdUtc": 1778000927,
-      "ageHours": 49.033611111111114,
-      "trendingScore": 0.01097174086040972,
-      "tags": [
-        "security"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "usy3fd",
-      "title": "The Event Made Visible: Event-Based Modelling and Reifications in Turtle 1.2",
-      "url": "https://ontologist.substack.com/p/the-event-made-visible",
-      "commentsUrl": "https://lobste.rs/s/usy3fd/event_made_visible_event_based_modelling",
-      "by": "",
-      "score": 1,
-      "commentCount": 1,
-      "createdUtc": 1778107760,
-      "ageHours": 19.357777777777777,
-      "trendingScore": 0.010131317012279657,
-      "tags": [
-        "logiclangs"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "ahrvs4",
-      "title": "One more pidfdfs surprise",
-      "url": "https://lwn.net/Articles/976125/",
-      "commentsUrl": "https://lobste.rs/s/ahrvs4/one_more_pidfdfs_surprise",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1778057134,
-      "ageHours": 33.42055555555555,
-      "trendingScore": 0.009487394132190753,
-      "tags": [
-        "linux"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "uyb7pb",
-      "title": "Race-free process creation in the GNU C Library (2023)",
-      "url": "https://lwn.net/Articles/943022/",
-      "commentsUrl": "https://lobste.rs/s/uyb7pb/race_free_process_creation_gnu_c_library",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1778056710,
-      "ageHours": 33.538333333333334,
-      "trendingScore": 0.009440269895530642,
-      "tags": [
-        "linux"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "zgxivj",
-      "title": "Slices, Maps, and Channels",
-      "url": "https://internals-for-interns.com/posts/go-runtime-slices-maps-channels/",
-      "commentsUrl": "https://lobste.rs/s/zgxivj/slices_maps_channels",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1778055996,
-      "ageHours": 33.736666666666665,
-      "trendingScore": 0.009361790835260734,
-      "tags": [
-        "go"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "78htxr",
-      "title": "Working was the beginning (Part two of Ant)",
-      "url": "https://themackabu.dev/blog/ant-part-two",
-      "commentsUrl": "https://lobste.rs/s/78htxr/working_was_beginning_part_two_ant",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1778051630,
-      "ageHours": 34.949444444444445,
-      "trendingScore": 0.008904676085431959,
-      "tags": [
-        "javascript"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "jhwbzf",
-      "title": "Why every organization should make it easy to report security flaws",
-      "url": "https://this.weekinsecurity.com/why-every-organization-should-make-it-easy-to-report-security-flaws/",
-      "commentsUrl": "https://lobste.rs/s/jhwbzf/why_every_organization_should_make_it",
-      "by": "",
-      "score": 3,
-      "commentCount": 0,
-      "createdUtc": 1778001060,
-      "ageHours": 48.99666666666667,
-      "trendingScore": 0.008237749280034845,
-      "tags": [
-        "practices",
-        "security"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "ofl0q5",
-      "title": "Implementing a tiny CPU rasterizer",
-      "url": "https://lisyarus.github.io/blog/posts/implementing-a-tiny-cpu-rasterizer.html",
-      "commentsUrl": "https://lobste.rs/s/ofl0q5/implementing_tiny_cpu_rasterizer",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1778093150,
-      "ageHours": 23.41611111111111,
-      "trendingScore": 0.007804343018589995,
-      "tags": [
-        "graphics"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "xtvhxz",
-      "title": "Using Tokio for CPU-Bound Tasks (Works Really Well) - YouTube",
-      "url": "https://www.youtube.com/watch?v=FeqRdDG1Y7g",
-      "commentsUrl": "https://lobste.rs/s/xtvhxz/using_tokio_for_cpu_bound_tasks_works",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1778018914,
-      "ageHours": 44.03722222222222,
-      "trendingScore": 0.006402746810976935,
-      "tags": [
-        "rust",
-        "video"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "zxf2ng",
-      "title": "CleanShot’s onboarding via settings",
-      "url": "https://unsung.aresluna.org/cleanshots-onboarding-via-settings/",
-      "commentsUrl": "https://lobste.rs/s/zxf2ng/cleanshot_s_onboarding_via_settings",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1778062574,
-      "ageHours": 31.909444444444443,
-      "trendingScore": 0.005064294910577648,
-      "tags": [
-        "design"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "nrhe9w",
-      "title": "Gitea Runner 1.0.0 is released",
-      "url": "https://blog.gitea.com/release-of-runner-1.0.0",
-      "commentsUrl": "https://lobste.rs/s/nrhe9w/gitea_runner_1_0_0_is_released",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1778047727,
-      "ageHours": 36.033611111111114,
-      "trendingScore": 0.004263327128044478,
-      "tags": [
-        "vcs"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "amarqf",
-      "title": "Learning, but with Errors",
-      "url": "https://keymaterial.net/2023/09/01/learning-but-with-errors/",
-      "commentsUrl": "https://lobste.rs/s/amarqf/learning_with_errors",
-      "by": "",
-      "score": 1,
-      "commentCount": 1,
-      "createdUtc": 1778039767,
-      "ageHours": 38.24472222222222,
-      "trendingScore": 0.003916846921807943,
-      "tags": [
-        "cryptography"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "cvmqdt",
-      "title": "CVE-2026-31431: Copy Fail vs. rootless containers",
-      "url": "https://www.dragonsreach.it/2026/05/04/cve-2026-31431-copy-fail-rootless-containers/",
-      "commentsUrl": "https://lobste.rs/s/cvmqdt/cve_2026_31431_copy_fail_vs_rootless",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1778022493,
-      "ageHours": 43.043055555555554,
-      "trendingScore": 0.003307944651430141,
-      "tags": [
-        "linux",
-        "security"
-      ],
-      "description": "<p>Yesterday I shared here my own report on trying out Copy Fail with rootless containers. Someone else also published an article on this, but going a lot deeper into the implementation details of the exploit and its interaction with the kernel.</p>\n",
       "linkedRepos": []
     }
   ]

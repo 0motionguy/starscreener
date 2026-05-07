@@ -39,6 +39,12 @@ export interface PageHeadProps {
   crumb?: ReactNode;
   /** H1 — sans 30px, weight 500, leading 1.05, ink-000. */
   h1?: ReactNode;
+  /**
+   * Optional brand/source logo rendered to the left of the H1 (32x32 by
+   * convention). Used by source feeds (Lobsters, Dev.to, HN, Reddit, etc.)
+   * to anchor the header with the canonical brand mark.
+   */
+  logo?: ReactNode;
   /** Lede paragraph — sans 13px, leading 1.5, ink-300, max-width 640. */
   lede?: ReactNode;
   /**
@@ -56,6 +62,7 @@ export interface PageHeadProps {
 export function PageHead({
   crumb,
   h1,
+  logo,
   lede,
   clock,
   noBorder = false,
@@ -72,7 +79,18 @@ export function PageHead({
     >
       <div className="v4-page-head__main">
         {crumb ? <div className="v4-page-head__crumb">{crumb}</div> : null}
-        {h1 ? <h1 className="v4-page-head__h1">{h1}</h1> : null}
+        {h1 ? (
+          logo ? (
+            <h1 className="v4-page-head__h1 v4-page-head__h1--with-logo">
+              <span className="v4-page-head__logo" aria-hidden="true">
+                {logo}
+              </span>
+              <span>{h1}</span>
+            </h1>
+          ) : (
+            <h1 className="v4-page-head__h1">{h1}</h1>
+          )
+        ) : null}
         {lede ? <p className="v4-page-head__lede">{lede}</p> : null}
         {children}
       </div>

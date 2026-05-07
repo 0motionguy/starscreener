@@ -21,6 +21,7 @@ import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFe
 import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoLogoUrl } from "@/lib/logos";
+import { LobstersIcon } from "@/components/brand/BrandIcons";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -70,6 +71,7 @@ export default async function LobstersPage() {
               <b>LOBSTERS</b> · TERMINAL · /LOBSTERS
             </>
           }
+          logo={<LobstersIcon size={32} />}
           title="Lobsters · top stories"
           lede="Stories ranked by recent score velocity, cross-linked to GitHub repos. The Lobsters firehose runs every cron tick and keeps the rolling 24h list fresh."
         />
@@ -91,6 +93,7 @@ export default async function LobstersPage() {
             <b>LOBSTERS</b> · TERMINAL · /LOBSTERS
           </>
         }
+        logo={<LobstersIcon size={32} />}
         title="Lobsters · top stories"
         lede="Stories ranked by recent score velocity, cross-linked to GitHub repos. The Lobsters firehose runs every cron tick and keeps the rolling 24h list fresh."
         clock={
@@ -138,11 +141,17 @@ export default async function LobstersPage() {
           <div
             className={
               leaderboard.length > 0
-                ? "grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6"
+                ? "grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-6"
                 : ""
             }
           >
-            <WindowedStoryFeed allStories={allStories} />
+            {/* min-w-0 keeps the table column shrinkable. Tailwind grid
+                items default to min-width: auto, which prevents shrinking
+                when the table inside is wider than the column allows —
+                that was collapsing the story column to ~0px on /lobsters. */}
+            <div className="min-w-0">
+              <WindowedStoryFeed allStories={allStories} />
+            </div>
             {leaderboard.length > 0 ? (
               <Leaderboard entries={leaderboard.slice(0, 15)} />
             ) : null}

@@ -21,6 +21,7 @@ import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFe
 import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { userLogoUrl, resolveLogoUrl } from "@/lib/logos";
+import { DevtoIcon } from "@/components/brand/BrandIcons";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -86,6 +87,7 @@ export default async function DevtoPage() {
               <b>DEV.TO</b> · TERMINAL · /DEVTO
             </>
           }
+          logo={<DevtoIcon size={32} />}
           title="dev.to · top articles"
           lede="Long-form developer writing ranked by velocity score (reactions × time decay), with a sidebar leaderboard of cross-linked tracked repos."
         />
@@ -107,6 +109,7 @@ export default async function DevtoPage() {
             <b>DEV.TO</b> · TERMINAL · /DEVTO
           </>
         }
+        logo={<DevtoIcon size={32} />}
         title="dev.to · top articles"
         lede="Long-form developer writing ranked by velocity score (reactions × time decay), with a sidebar leaderboard of cross-linked tracked repos."
         clock={
@@ -150,8 +153,11 @@ export default async function DevtoPage() {
         }
         listEyebrow="Article feed · 24h / 7d / 30d window · repo leaderboard"
         list={
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-6">
-            <section>
+          <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_360px] gap-6">
+            {/* min-w-0 keeps the table column shrinkable. Without it, the
+                inner table forces the grid track to its content width,
+                collapsing the rest of the layout. */}
+            <section className="min-w-0">
               <WindowedArticlesFeed
                 allArticles={trendingFile.articles}
                 fetchedAt={trendingFile.fetchedAt}

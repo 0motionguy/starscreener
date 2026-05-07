@@ -47,6 +47,9 @@ next-env.d.ts
 !/.data/twitter-repo-signals.jsonl
 !/.data/twitter-scans.jsonl
 !/.data/twitter-ingestion-audit.jsonl
+!/.data/trending-dual-write-trace.jsonl
+!/.data/aiso-rescan-queue.jsonl
+!/.data/mcp-usage.jsonl
 
 # local Claude Code workspace (agent prompts, skills, settings)
 /.claude/

@@ -1,4 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "ignoreCommand": "bash scripts/vercel-skip-data-only.sh"
+  "ignoreCommand": "bash scripts/vercel-skip-data-only.sh",
+  "crons": [
+    { "path": "/api/cron/referrals/qualify", "schedule": "0 * * * *" }
+  ]
 }

@@ -360,7 +360,7 @@ export default async function McpDetailPage({ params }: PageProps) {
               letterSpacing: "0.08em",
             }}
           >
-            // No description published yet.
+            {"// No description published yet."}
           </p>
         )}
         {lastReleaseAt ? (
@@ -376,7 +376,10 @@ export default async function McpDetailPage({ params }: PageProps) {
               letterSpacing: "0.08em",
             }}
           >
-            <span>// LAST RELEASE · {formatAge(lastReleaseAt)}</span>
+            <span>
+              {"// LAST RELEASE · "}
+              {formatAge(lastReleaseAt)}
+            </span>
             {isNewThisWeek ? (
               <span
                 style={{
@@ -399,7 +402,7 @@ export default async function McpDetailPage({ params }: PageProps) {
         title={`Tools${tools.length > 0 ? ` · ${tools.length}` : ""}`}
         meta={
           tools.length > 0 ? undefined : (
-            <span style={{ color: "var(--v4-ink-400)" }}>// MANIFEST PENDING</span>
+            <span style={{ color: "var(--v4-ink-400)" }}>{"// MANIFEST PENDING"}</span>
           )
         }
       />
@@ -453,7 +456,7 @@ export default async function McpDetailPage({ params }: PageProps) {
               letterSpacing: "0.08em",
             }}
           >
-            // Tool list pending — manifest hasn&apos;t been pinged yet.
+            {"// Tool list pending — manifest hasn't been pinged yet."}
           </p>
         </div>
       )}
@@ -491,7 +494,8 @@ export default async function McpDetailPage({ params }: PageProps) {
               letterSpacing: "0.08em",
             }}
           >
-            // RUN VIA {mcp?.packageRegistry === "npm" ? "NPX" : "UVX"}
+            {"// RUN VIA "}
+            {mcp?.packageRegistry === "npm" ? "NPX" : "UVX"}
           </div>
           <pre
             style={{
@@ -521,7 +525,7 @@ export default async function McpDetailPage({ params }: PageProps) {
               letterSpacing: "0.08em",
             }}
           >
-            // No package registered.
+            {"// No package registered."}
           </p>
         </div>
       )}

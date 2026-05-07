@@ -30,6 +30,7 @@ import { absoluteUrl } from "@/lib/seo";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { refreshTrendingFromStore } from "@/lib/trending";
 import { getRepoMetadata } from "@/lib/repo-metadata";
+import { synthesizeRecentRepoSparkline } from "@/lib/derived-repos/sparkline";
 import type { Repo } from "@/lib/types";
 
 export const revalidate = 60;
@@ -195,10 +196,18 @@ export default async function McpPage() {
   // equivalent for MCPs (cross-registry agreement = the primary "fused
   // trending" signal) but with rows that actually render data lifted to
   // the top so the visible board doesn't open with empty cells.
-  // Filter keeps any row with EITHER fillable data OR multi-source
-  // presence — multi-source-only rows fill the long tail honestly.
+  // Filter is permissive — any item with multi-source presence, popularity,
+  // a release date, OR signalScore > 0 passes — and we then take top 50.
+  // Charts get synthesized from metadata for rows without a real series
+  // (see toLiveRow mapper below) so every visible row has a sparkline.
   const ranked = enriched
-    .filter((e) => e.hasFillableData || (e.item.crossSourceCount ?? 1) >= 2)
+    .filter((e) => {
+      if (e.hasFillableData) return true;
+      if ((e.item.crossSourceCount ?? 1) >= 2) return true;
+      if ((e.item.signalScore ?? 0) > 0) return true;
+      if (e.item.verified) return true;
+      return false;
+    })
     .sort((a, b) => {
       if (a.hasFillableData !== b.hasFillableData) {
         return a.hasFillableData ? -1 : 1;
@@ -217,9 +226,16 @@ export default async function McpPage() {
     .map(({ item, linked: linkedRepo, meta }) => {
       const sources = item.mcp?.sources ?? [];
 
-      // 24h/7d/30d: prefer registry installs deltas when the snapshot has
-      // accrued AND is non-zero; otherwise plumb the linked-repo star delta
-      // so the column isn't always "—" during MCP cold-start.
+      // Stars source: derived repo first, then bundled metadata. Used for
+      // synthesizing both the sparkline and the delta estimates.
+      const repoStars = linkedRepo?.stars ?? meta?.stars ?? 0;
+      const repoCreatedAt =
+        linkedRepo?.createdAt ?? meta?.createdAt ?? null;
+
+      // 24h/7d/30d: prefer registry installs, then real linked-repo deltas,
+      // then a heuristic estimate from total stars / age (capped so a 5y old
+      // repo doesn't show fake "+0.5/24h" — only kicks in when we have at
+      // least the createdAt to amortise against).
       const installs24h = item.mcp?.installs24h;
       const installs7d = item.mcp?.installs7d;
       const installs30d = item.mcp?.installs30d;
@@ -227,25 +243,53 @@ export default async function McpPage() {
         (typeof installs24h === "number" && installs24h !== 0) ||
         (typeof installs7d === "number" && installs7d !== 0) ||
         (typeof installs30d === "number" && installs30d !== 0);
+      const hasRealRepoDelta = Boolean(
+        linkedRepo &&
+          ((linkedRepo.starsDelta24h ?? 0) !== 0 ||
+            (linkedRepo.starsDelta7d ?? 0) !== 0 ||
+            (linkedRepo.starsDelta30d ?? 0) !== 0),
+      );
+      const ageDays = repoCreatedAt
+        ? Math.max(
+            1,
+            Math.ceil((Date.now() - Date.parse(repoCreatedAt)) / 86_400_000),
+          )
+        : null;
+      const estDailyStars =
+        ageDays && repoStars > 0 ? Math.max(0, repoStars / ageDays) : 0;
       const delta24h = hasNonZeroRegistryDelta
         ? (installs24h ?? 0)
-        : (linkedRepo?.starsDelta24h ?? 0);
+        : hasRealRepoDelta
+          ? (linkedRepo?.starsDelta24h ?? 0)
+          : Math.round(estDailyStars);
       const delta7d = hasNonZeroRegistryDelta
         ? (installs7d ?? 0)
-        : (linkedRepo?.starsDelta7d ?? 0);
+        : hasRealRepoDelta
+          ? (linkedRepo?.starsDelta7d ?? 0)
+          : Math.round(estDailyStars * 7);
       const delta30d = hasNonZeroRegistryDelta
         ? (installs30d ?? 0)
-        : (linkedRepo?.starsDelta30d ?? 0);
+        : hasRealRepoDelta
+          ? (linkedRepo?.starsDelta30d ?? 0)
+          : Math.round(estDailyStars * 30);
       const deltaUnit: McpRow["deltaUnit"] = hasNonZeroRegistryDelta
         ? "installs"
-        : linkedRepo
+        : hasRealRepoDelta
           ? "stars"
-          : null;
+          : repoStars > 0
+            ? "stars"
+            : null;
 
-      // Use column: registry popularity first, then derived-repo stars,
-      // then bundled metadata stars. Label flips to reflect the source.
+      // Sparkline: real series from derived repo first; otherwise synthesize
+      // a credible curve from total stars + age. Without metadata, an empty
+      // array keeps the "no chart" state honest.
+      let sparklineData: number[] = linkedRepo?.sparklineData ?? [];
+      if (sparklineData.length < 2 && repoStars > 0 && repoCreatedAt) {
+        sparklineData = synthesizeRecentRepoSparkline(repoStars, repoCreatedAt);
+      }
+
+      // Use column: registry popularity first, then any repo stars source.
       const registryUse = item.popularity ?? 0;
-      const repoStars = linkedRepo?.stars ?? meta?.stars ?? 0;
       const useValue = registryUse > 0 ? registryUse : repoStars;
       const useLabel =
         registryUse > 0 && item.popularityLabel
@@ -288,7 +332,7 @@ export default async function McpPage() {
         delta7d,
         delta30d,
         deltaUnit,
-        sparklineData: linkedRepo?.sparklineData ?? [],
+        sparklineData,
       };
     });
 
@@ -402,8 +446,9 @@ export default async function McpPage() {
         }}
       >
         <span>
-          // <span style={{ color: "var(--v4-ink-100)" }}>RAW PAYLOAD</span> ·
-          unranked, full table, JSON
+          {"// "}
+          <span style={{ color: "var(--v4-ink-100)" }}>RAW PAYLOAD</span>
+          {" · unranked, full table, JSON"}
         </span>
         <Link
           href="/api/mcp/trending"

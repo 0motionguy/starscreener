@@ -371,7 +371,7 @@ export default async function SkillsPage() {
           };
         });
         if (skillRows.length === 0) {
-          return <SkillsEmpty>// no leaderboard rows yet · waiting for upstream fetchers</SkillsEmpty>;
+          return <SkillsEmpty>{"// no leaderboard rows yet · waiting for upstream fetchers"}</SkillsEmpty>;
         }
         return <SkillsTopTable rows={skillRows} />;
       })()}
@@ -442,7 +442,7 @@ export default async function SkillsPage() {
           })}
         </section>
       ) : (
-        <SkillsEmpty>// no skills created or pushed in the last 7 days</SkillsEmpty>
+        <SkillsEmpty>{"// no skills created or pushed in the last 7 days"}</SkillsEmpty>
       )}
 
       <SectionHead
@@ -515,7 +515,7 @@ export default async function SkillsPage() {
           ))}
         </ul>
       ) : (
-        <SkillsEmpty>// no derivative repo citations recorded yet</SkillsEmpty>
+        <SkillsEmpty>{"// no derivative repo citations recorded yet"}</SkillsEmpty>
       )}
 
       <FooterBar

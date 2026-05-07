@@ -74,8 +74,11 @@ function componentFor(row: ConsensusSourceInput, fallbackRank: number): Consensu
 function upsertRows(
   candidates: Map<string, Candidate>,
   source: ConsensusSource,
-  rows: ConsensusSourceInput[],
+  rows: ConsensusSourceInput[] | undefined,
 ): void {
+  // Defensive: stale tests + future callers may not populate every
+  // EXTERNAL_SOURCES key. Treat missing as empty.
+  if (!rows) return;
   rows.forEach((row, idx) => {
     const fullName = normalizeFullName(row.fullName);
     if (!fullName) return;

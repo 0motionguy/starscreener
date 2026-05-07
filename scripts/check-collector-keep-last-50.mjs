@@ -59,6 +59,14 @@ const ALLOW = new Map([
     "scripts/scrape-sec-form-d.mjs",
     "SEC EDGAR full-period sweep; resets each run by design.",
   ],
+  [
+    "scripts/scrape-npm-daily.mjs",
+    "JSONL append-only with (package,date) dedup; never truncates so satisfies the rule's spirit naturally.",
+  ],
+  [
+    "scripts/collect-twitter-signals.ts",
+    "JSONL-backbone (.data/twitter-*.jsonl is append-only via flushTwitterPersist); Redis is a read-only mirror. The 'only 16 fresh' user-facing outage is freshness, tracked separately in RESCUE-2026-05-08-HANDOVER outstanding #2 (Apify run history) — not a cache-emptying class of bug.",
+  ],
 ]);
 
 const COLLECTOR_GLOBS = [

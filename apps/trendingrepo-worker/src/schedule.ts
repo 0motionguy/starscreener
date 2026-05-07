@@ -16,6 +16,12 @@ import { FETCHERS } from './registry.js';
 import { runFetcher } from './run.js';
 import { getLogger } from './lib/log.js';
 import { captureException } from './lib/sentry.js';
+import {
+  applyOverrides,
+  loadOverrides,
+  startOverrideRefresh,
+  summarizeOverrides,
+} from './platform/overrides.js';
 
 export interface ScheduledJobStatus {
   name: string;
@@ -31,11 +37,32 @@ export interface Scheduler {
   status(): ScheduledJobStatus[];
 }
 
-export function startScheduler(): Scheduler {
+export async function startScheduler(): Promise<Scheduler> {
   const log = getLogger();
   const jobs: Array<{ name: string; schedule: string; cron: Cron }> = [];
 
-  for (const fetcher of FETCHERS) {
+  // Move 1, Phase 2 — apply runtime source overrides at boot. Loader is
+  // tolerant: DB outage falls back to .cache/source-overrides.json, missing
+  // cache falls back to "all sources active". Never refuses to start. After
+  // boot, refresh every 60s in the background so a paused fetcher stops
+  // ticking within ~1 minute of the DB row landing.
+  const overrides = await loadOverrides();
+  const filtered = applyOverrides(FETCHERS, overrides);
+  const skipped = FETCHERS.filter((f) => !filtered.includes(f));
+  const summary = summarizeOverrides(overrides);
+  log.info(
+    {
+      registered: FETCHERS.length,
+      activated: filtered.length,
+      skipped: skipped.length,
+      skippedNames: skipped.map((f) => f.name),
+      overrides: summary,
+    },
+    'source overrides applied to fetcher registry',
+  );
+  startOverrideRefresh();
+
+  for (const fetcher of filtered) {
     const cron = new Cron(
       fetcher.schedule,
       {

@@ -1,46 +1,130 @@
 {
-  "fetchedAt": "2026-05-07T16:34:25.864Z",
+  "fetchedAt": "2026-05-07T17:59:45.164Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
-    "caamer20/Telegram-Drive": {
-      "count7d": 1,
-      "likesSum7d": 1,
+    "antirez/ds4": {
+      "count7d": 4,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 2,
       "topPost": {
-        "uri": "at://did:plc:japxn32izumctww4fytbiutb/app.bsky.feed.post/3mlbmnic5ds2l",
-        "cid": "bafyreigoiczuz3mfhw7pxsydeizj53bumllam5laynpwmcgbxq7467fcrq",
-        "bskyUrl": "https://bsky.app/profile/radiosuperb.bsky.social/post/3mlbmnic5ds2l",
-        "text": "github.com/caamer20/Tel...",
+        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlbqlhfkuc2l",
+        "cid": "bafyreiaeux3fswcoyvvjj7sls33mhqrpfjwmehgbuip65rfz7un3bymuii",
+        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mlbqlhfkuc2l",
+        "text": "DeepSeek 4 Flash local inference engine for Metal https://github.com/antirez/ds4",
         "author": {
-          "handle": "radiosuperb.bsky.social",
-          "displayName": "Marc ON4AAX #HAMR #DX #ax25 #MultiLingual #TheOutpost #TSF"
+          "handle": "hnbot.gsuscs.xyz",
+          "displayName": "HackerNews Compilator"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-07T16:20:00.115Z",
+        "createdAt": "2026-05-07T17:30:27.031Z",
         "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:japxn32izumctww4fytbiutb/app.bsky.feed.post/3mlbmnic5ds2l",
-          "cid": "bafyreigoiczuz3mfhw7pxsydeizj53bumllam5laynpwmcgbxq7467fcrq",
-          "bskyUrl": "https://bsky.app/profile/radiosuperb.bsky.social/post/3mlbmnic5ds2l",
-          "text": "github.com/caamer20/Tel...",
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlbqlhfkuc2l",
+          "cid": "bafyreiaeux3fswcoyvvjj7sls33mhqrpfjwmehgbuip65rfz7un3bymuii",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mlbqlhfkuc2l",
+          "text": "DeepSeek 4 Flash local inference engine for Metal https://github.com/antirez/ds4",
           "author": {
-            "handle": "radiosuperb.bsky.social",
-            "displayName": "Marc ON4AAX #HAMR #DX #ax25 #MultiLingual #TheOutpost #TSF"
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
           },
-          "likeCount": 1,
+          "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-07T16:20:00.115Z",
-          "createdUtc": 1778170800,
+          "createdAt": "2026-05-07T17:30:27.031Z",
+          "createdUtc": 1778175027,
           "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mlbqizn2ro2g",
+          "cid": "bafyreiegf6g2jbzxsvncg36pdxk7wgseohtibop67gklbnm3ygqwk77rae",
+          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mlbqizn2ro2g",
+          "text": "📰 DeepSeek 4 Flash local inference engine for Metal announced by Antirez, offering faster and more efficient local inference capabilities for Metal devices. 🔗 https://github.com/antirez/ds4 #Tech #Dev",
+          "author": {
+            "handle": "sagalinked.bsky.social",
+            "displayName": "SagaLinked"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T17:29:02.050507+00:00",
+          "createdUtc": 1778174942,
+          "ageHours": 0.51,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlbqchsvtj24",
+          "cid": "bafyreidkvybgvemqaxb6ly2lmsoqhqboegjppktxujprjg7cruxwfsvi74",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlbqchsvtj24",
+          "text": "DeepSeek 4 Flash local inference engine for Metal https://github.com/antirez/ds4 (https://news.ycombinator.com/item?id=48050751)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T17:25:24.728Z",
+          "createdUtc": 1778174724,
+          "ageHours": 0.57,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jsfg7sujuks7vs5hgcstpspo/app.bsky.feed.post/3mlbp6obyys2p",
+          "cid": "bafyreieq4lnafbot7kgrijd53ke7kzvkbhvlelhqfhc6t72rzsk6mjc4h4",
+          "bskyUrl": "https://bsky.app/profile/stuartpb.com/post/3mlbp6obyys2p",
+          "text": "huh, so @antirez.bsky.social, you're saying the computer helped you design a faster computer? github.com/antirez/ds4",
+          "author": {
+            "handle": "stuartpb.com",
+            "displayName": "Stuart P. Bentley"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 2,
+          "createdAt": "2026-05-07T17:05:24.308Z",
+          "createdUtc": 1778173524,
+          "ageHours": 0.91,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -48,184 +132,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "caamer20/Telegram-Drive",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "wojtczyk/trust": {
-      "count7d": 2,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:4jc47bajks6dxssouzov4at3/app.bsky.feed.post/3mlbjzqrfcs2o",
-        "cid": "bafyreibnkne52pm6ggfhha2oyzjeqlyelsrz23qcyifo5crnwdtg2xstpi",
-        "bskyUrl": "https://bsky.app/profile/bobarnson.com/post/3mlbjzqrfcs2o",
-        "text": "Now this is the kind of thing that could convince me to get deeper into Rust: github.com/wojtczyk/trust",
-        "author": {
-          "handle": "bobarnson.com",
-          "displayName": "Bob Arnson"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T15:33:10.432Z",
-        "hoursSincePosted": 1.02
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:4jc47bajks6dxssouzov4at3/app.bsky.feed.post/3mlbjzqrfcs2o",
-          "cid": "bafyreibnkne52pm6ggfhha2oyzjeqlyelsrz23qcyifo5crnwdtg2xstpi",
-          "bskyUrl": "https://bsky.app/profile/bobarnson.com/post/3mlbjzqrfcs2o",
-          "text": "Now this is the kind of thing that could convince me to get deeper into Rust: github.com/wojtczyk/trust",
-          "author": {
-            "handle": "bobarnson.com",
-            "displayName": "Bob Arnson"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T15:33:10.432Z",
-          "createdUtc": 1778167990,
-          "ageHours": 1.02,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "wojtczyk/trust",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlbic3uwt52r",
-          "cid": "bafyreihoq42mqfdw2emewcddlfs7din6nz4bhvsrcicsgvqj4lpsfiuwv4",
-          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlbic3uwt52r",
-          "text": "Show HN: Trust – Coding Rust like it's 1989 (github.com) Discussion | Main Link",
-          "author": {
-            "handle": "newsycombinatorbot.bsky.social",
-            "displayName": "Hacker News Bot"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T15:02:02.983874Z",
-          "createdUtc": 1778166122,
-          "ageHours": 1.54,
-          "trendingScore": 0,
-          "content_tags": [],
-          "value_score": 0,
-          "linkedRepos": [
-            {
-              "fullName": "wojtczyk/trust",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "Fission-AI/OpenSpec": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:j2eyvpqveck2eqb7mp7bymrl/app.bsky.feed.post/3mlbijap7lo2u",
-        "cid": "bafyreig5qvp4z2bcm4yxgjxku5u4ebrmtb5l5wgm3hltqrajsslk4hjspa",
-        "bskyUrl": "https://bsky.app/profile/tysongern.bsky.social/post/3mlbijap7lo2u",
-        "text": "A change too big for a single prompt is more manageable when expressed as a sequence of smaller specs an agent can work through. The specs stay in the repo as a record of intentlong after the diff lands. Lately I've enjoyed using OpenSpec to manage my specs. github.com/Fission-AI/O...",
-        "author": {
-          "handle": "tysongern.bsky.social",
-          "displayName": "Tyson Gern, PhD"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T15:06:02.250Z",
-        "hoursSincePosted": 1.47
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:j2eyvpqveck2eqb7mp7bymrl/app.bsky.feed.post/3mlbijap7lo2u",
-          "cid": "bafyreig5qvp4z2bcm4yxgjxku5u4ebrmtb5l5wgm3hltqrajsslk4hjspa",
-          "bskyUrl": "https://bsky.app/profile/tysongern.bsky.social/post/3mlbijap7lo2u",
-          "text": "A change too big for a single prompt is more manageable when expressed as a sequence of smaller specs an agent can work through. The specs stay in the repo as a record of intentlong after the diff lands. Lately I've enjoyed using OpenSpec to manage my specs. github.com/Fission-AI/O...",
-          "author": {
-            "handle": "tysongern.bsky.social",
-            "displayName": "Tyson Gern, PhD"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T15:06:02.250Z",
-          "createdUtc": 1778166362,
-          "ageHours": 1.47,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Fission-AI/OpenSpec",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "antithesishq/bombadil": {
-      "count7d": 1,
-      "likesSum7d": 3,
-      "repostsSum7d": 1,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:okv3gl4lwcm5vyqb5bkyyz2q/app.bsky.feed.post/3mlbf5wynoc2u",
-        "cid": "bafyreib4v5ipj3hk6ekjlznys3addmons2rnttyfk7svwmpap5nsj27wqy",
-        "bskyUrl": "https://bsky.app/profile/wickstrom.tech/post/3mlbf5wynoc2u",
-        "text": "bombadil-ltl is now dependency free (only `std`), and might be published to crates.io eventually: github.com/antithesishq... This enables other runtime monitoring use cases, like one contributor who used it in a game! I also want to build a new ltl-visualizer with it.",
-        "author": {
-          "handle": "wickstrom.tech",
-          "displayName": "Oskar Wickström"
-        },
-        "likeCount": 3,
-        "repostCount": 1,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T14:06:02.470Z",
-        "hoursSincePosted": 2.47
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:okv3gl4lwcm5vyqb5bkyyz2q/app.bsky.feed.post/3mlbf5wynoc2u",
-          "cid": "bafyreib4v5ipj3hk6ekjlznys3addmons2rnttyfk7svwmpap5nsj27wqy",
-          "bskyUrl": "https://bsky.app/profile/wickstrom.tech/post/3mlbf5wynoc2u",
-          "text": "bombadil-ltl is now dependency free (only `std`), and might be published to crates.io eventually: github.com/antithesishq... This enables other runtime monitoring use cases, like one contributor who used it in a game! I also want to build a new ltl-visualizer with it.",
-          "author": {
-            "handle": "wickstrom.tech",
-            "displayName": "Oskar Wickström"
-          },
-          "likeCount": 3,
-          "repostCount": 1,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T14:06:02.470Z",
-          "createdUtc": 1778162762,
-          "ageHours": 2.47,
-          "trendingScore": 5,
-          "content_tags": [],
-          "value_score": 0,
-          "linkedRepos": [
-            {
-              "fullName": "antithesishq/bombadil",
+              "fullName": "antirez/ds4",
               "matchType": "url",
               "confidence": 1
             }
@@ -235,42 +142,126 @@
     }
   },
   "mentionsByRepoId": {
-    "caamer20--telegram-drive": {
-      "count7d": 1,
-      "likesSum7d": 1,
+    "antirez--ds4": {
+      "count7d": 4,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 2,
       "topPost": {
-        "uri": "at://did:plc:japxn32izumctww4fytbiutb/app.bsky.feed.post/3mlbmnic5ds2l",
-        "cid": "bafyreigoiczuz3mfhw7pxsydeizj53bumllam5laynpwmcgbxq7467fcrq",
-        "bskyUrl": "https://bsky.app/profile/radiosuperb.bsky.social/post/3mlbmnic5ds2l",
-        "text": "github.com/caamer20/Tel...",
+        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlbqlhfkuc2l",
+        "cid": "bafyreiaeux3fswcoyvvjj7sls33mhqrpfjwmehgbuip65rfz7un3bymuii",
+        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mlbqlhfkuc2l",
+        "text": "DeepSeek 4 Flash local inference engine for Metal https://github.com/antirez/ds4",
         "author": {
-          "handle": "radiosuperb.bsky.social",
-          "displayName": "Marc ON4AAX #HAMR #DX #ax25 #MultiLingual #TheOutpost #TSF"
+          "handle": "hnbot.gsuscs.xyz",
+          "displayName": "HackerNews Compilator"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-07T16:20:00.115Z",
+        "createdAt": "2026-05-07T17:30:27.031Z",
         "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:japxn32izumctww4fytbiutb/app.bsky.feed.post/3mlbmnic5ds2l",
-          "cid": "bafyreigoiczuz3mfhw7pxsydeizj53bumllam5laynpwmcgbxq7467fcrq",
-          "bskyUrl": "https://bsky.app/profile/radiosuperb.bsky.social/post/3mlbmnic5ds2l",
-          "text": "github.com/caamer20/Tel...",
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlbqlhfkuc2l",
+          "cid": "bafyreiaeux3fswcoyvvjj7sls33mhqrpfjwmehgbuip65rfz7un3bymuii",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mlbqlhfkuc2l",
+          "text": "DeepSeek 4 Flash local inference engine for Metal https://github.com/antirez/ds4",
           "author": {
-            "handle": "radiosuperb.bsky.social",
-            "displayName": "Marc ON4AAX #HAMR #DX #ax25 #MultiLingual #TheOutpost #TSF"
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
           },
-          "likeCount": 1,
+          "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-07T16:20:00.115Z",
-          "createdUtc": 1778170800,
+          "createdAt": "2026-05-07T17:30:27.031Z",
+          "createdUtc": 1778175027,
           "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mlbqizn2ro2g",
+          "cid": "bafyreiegf6g2jbzxsvncg36pdxk7wgseohtibop67gklbnm3ygqwk77rae",
+          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mlbqizn2ro2g",
+          "text": "📰 DeepSeek 4 Flash local inference engine for Metal announced by Antirez, offering faster and more efficient local inference capabilities for Metal devices. 🔗 https://github.com/antirez/ds4 #Tech #Dev",
+          "author": {
+            "handle": "sagalinked.bsky.social",
+            "displayName": "SagaLinked"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T17:29:02.050507+00:00",
+          "createdUtc": 1778174942,
+          "ageHours": 0.51,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlbqchsvtj24",
+          "cid": "bafyreidkvybgvemqaxb6ly2lmsoqhqboegjppktxujprjg7cruxwfsvi74",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlbqchsvtj24",
+          "text": "DeepSeek 4 Flash local inference engine for Metal https://github.com/antirez/ds4 (https://news.ycombinator.com/item?id=48050751)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T17:25:24.728Z",
+          "createdUtc": 1778174724,
+          "ageHours": 0.57,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jsfg7sujuks7vs5hgcstpspo/app.bsky.feed.post/3mlbp6obyys2p",
+          "cid": "bafyreieq4lnafbot7kgrijd53ke7kzvkbhvlelhqfhc6t72rzsk6mjc4h4",
+          "bskyUrl": "https://bsky.app/profile/stuartpb.com/post/3mlbp6obyys2p",
+          "text": "huh, so @antirez.bsky.social, you're saying the computer helped you design a faster computer? github.com/antirez/ds4",
+          "author": {
+            "handle": "stuartpb.com",
+            "displayName": "Stuart P. Bentley"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 2,
+          "createdAt": "2026-05-07T17:05:24.308Z",
+          "createdUtc": 1778173524,
+          "ageHours": 0.91,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -278,184 +269,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "caamer20/Telegram-Drive",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "wojtczyk--trust": {
-      "count7d": 2,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:4jc47bajks6dxssouzov4at3/app.bsky.feed.post/3mlbjzqrfcs2o",
-        "cid": "bafyreibnkne52pm6ggfhha2oyzjeqlyelsrz23qcyifo5crnwdtg2xstpi",
-        "bskyUrl": "https://bsky.app/profile/bobarnson.com/post/3mlbjzqrfcs2o",
-        "text": "Now this is the kind of thing that could convince me to get deeper into Rust: github.com/wojtczyk/trust",
-        "author": {
-          "handle": "bobarnson.com",
-          "displayName": "Bob Arnson"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T15:33:10.432Z",
-        "hoursSincePosted": 1.02
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:4jc47bajks6dxssouzov4at3/app.bsky.feed.post/3mlbjzqrfcs2o",
-          "cid": "bafyreibnkne52pm6ggfhha2oyzjeqlyelsrz23qcyifo5crnwdtg2xstpi",
-          "bskyUrl": "https://bsky.app/profile/bobarnson.com/post/3mlbjzqrfcs2o",
-          "text": "Now this is the kind of thing that could convince me to get deeper into Rust: github.com/wojtczyk/trust",
-          "author": {
-            "handle": "bobarnson.com",
-            "displayName": "Bob Arnson"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T15:33:10.432Z",
-          "createdUtc": 1778167990,
-          "ageHours": 1.02,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "wojtczyk/trust",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlbic3uwt52r",
-          "cid": "bafyreihoq42mqfdw2emewcddlfs7din6nz4bhvsrcicsgvqj4lpsfiuwv4",
-          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlbic3uwt52r",
-          "text": "Show HN: Trust – Coding Rust like it's 1989 (github.com) Discussion | Main Link",
-          "author": {
-            "handle": "newsycombinatorbot.bsky.social",
-            "displayName": "Hacker News Bot"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T15:02:02.983874Z",
-          "createdUtc": 1778166122,
-          "ageHours": 1.54,
-          "trendingScore": 0,
-          "content_tags": [],
-          "value_score": 0,
-          "linkedRepos": [
-            {
-              "fullName": "wojtczyk/trust",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "fission-ai--openspec": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:j2eyvpqveck2eqb7mp7bymrl/app.bsky.feed.post/3mlbijap7lo2u",
-        "cid": "bafyreig5qvp4z2bcm4yxgjxku5u4ebrmtb5l5wgm3hltqrajsslk4hjspa",
-        "bskyUrl": "https://bsky.app/profile/tysongern.bsky.social/post/3mlbijap7lo2u",
-        "text": "A change too big for a single prompt is more manageable when expressed as a sequence of smaller specs an agent can work through. The specs stay in the repo as a record of intentlong after the diff lands. Lately I've enjoyed using OpenSpec to manage my specs. github.com/Fission-AI/O...",
-        "author": {
-          "handle": "tysongern.bsky.social",
-          "displayName": "Tyson Gern, PhD"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T15:06:02.250Z",
-        "hoursSincePosted": 1.47
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:j2eyvpqveck2eqb7mp7bymrl/app.bsky.feed.post/3mlbijap7lo2u",
-          "cid": "bafyreig5qvp4z2bcm4yxgjxku5u4ebrmtb5l5wgm3hltqrajsslk4hjspa",
-          "bskyUrl": "https://bsky.app/profile/tysongern.bsky.social/post/3mlbijap7lo2u",
-          "text": "A change too big for a single prompt is more manageable when expressed as a sequence of smaller specs an agent can work through. The specs stay in the repo as a record of intentlong after the diff lands. Lately I've enjoyed using OpenSpec to manage my specs. github.com/Fission-AI/O...",
-          "author": {
-            "handle": "tysongern.bsky.social",
-            "displayName": "Tyson Gern, PhD"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T15:06:02.250Z",
-          "createdUtc": 1778166362,
-          "ageHours": 1.47,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "Fission-AI/OpenSpec",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "antithesishq--bombadil": {
-      "count7d": 1,
-      "likesSum7d": 3,
-      "repostsSum7d": 1,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:okv3gl4lwcm5vyqb5bkyyz2q/app.bsky.feed.post/3mlbf5wynoc2u",
-        "cid": "bafyreib4v5ipj3hk6ekjlznys3addmons2rnttyfk7svwmpap5nsj27wqy",
-        "bskyUrl": "https://bsky.app/profile/wickstrom.tech/post/3mlbf5wynoc2u",
-        "text": "bombadil-ltl is now dependency free (only `std`), and might be published to crates.io eventually: github.com/antithesishq... This enables other runtime monitoring use cases, like one contributor who used it in a game! I also want to build a new ltl-visualizer with it.",
-        "author": {
-          "handle": "wickstrom.tech",
-          "displayName": "Oskar Wickström"
-        },
-        "likeCount": 3,
-        "repostCount": 1,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T14:06:02.470Z",
-        "hoursSincePosted": 2.47
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:okv3gl4lwcm5vyqb5bkyyz2q/app.bsky.feed.post/3mlbf5wynoc2u",
-          "cid": "bafyreib4v5ipj3hk6ekjlznys3addmons2rnttyfk7svwmpap5nsj27wqy",
-          "bskyUrl": "https://bsky.app/profile/wickstrom.tech/post/3mlbf5wynoc2u",
-          "text": "bombadil-ltl is now dependency free (only `std`), and might be published to crates.io eventually: github.com/antithesishq... This enables other runtime monitoring use cases, like one contributor who used it in a game! I also want to build a new ltl-visualizer with it.",
-          "author": {
-            "handle": "wickstrom.tech",
-            "displayName": "Oskar Wickström"
-          },
-          "likeCount": 3,
-          "repostCount": 1,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T14:06:02.470Z",
-          "createdUtc": 1778162762,
-          "ageHours": 2.47,
-          "trendingScore": 5,
-          "content_tags": [],
-          "value_score": 0,
-          "linkedRepos": [
-            {
-              "fullName": "antithesishq/bombadil",
+              "fullName": "antirez/ds4",
               "matchType": "url",
               "confidence": 1
             }
@@ -466,23 +280,8 @@
   },
   "leaderboard": [
     {
-      "fullName": "antithesishq/bombadil",
-      "count7d": 1,
-      "likesSum7d": 3
-    },
-    {
-      "fullName": "caamer20/Telegram-Drive",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "wojtczyk/trust",
-      "count7d": 2,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "Fission-AI/OpenSpec",
-      "count7d": 1,
+      "fullName": "antirez/ds4",
+      "count7d": 4,
       "likesSum7d": 0
     }
   ]

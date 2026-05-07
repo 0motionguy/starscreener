@@ -25,7 +25,6 @@ test("buildManifest returns a v0.1-valid manifest with every registered tool", (
     "get_idea",
     "list_ideas",
     "maintainer_profile",
-    "predict_repo",
     "react_to",
     "search_repos",
     "submit_idea",

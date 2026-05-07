@@ -6,6 +6,18 @@
 # When previous SHA missing (first deploy / forked repo / preview), default to building.
 set -euo pipefail
 
+branch="${VERCEL_GIT_COMMIT_REF:-}"
+
+# Hard skip for data-bot branches — they only ever touch data/** by construction.
+# Skipping unconditionally beats the SHA fallback because shallow clones
+# routinely hide the previous SHA and would otherwise default to building.
+case "$branch" in
+  data/*)
+    echo "[ignoreCommand] data-bot branch ($branch) — skipping build unconditionally"
+    exit 0
+    ;;
+esac
+
 prev="${VERCEL_GIT_PREVIOUS_SHA:-}"
 if [ -z "$prev" ]; then
   echo "[ignoreCommand] no VERCEL_GIT_PREVIOUS_SHA — building"

@@ -31,10 +31,10 @@ export interface EChartSparklineProps {
    * `var(--token)` reference. Defaults to brand accent (Liquid Lava).
    */
   color?: string;
-  /** Default 84. */
-  width?: number;
-  /** Default 28. */
-  height?: number;
+  /** Default 84. Accepts a number (px) or any CSS length string ("100%"). */
+  width?: number | string;
+  /** Default 28. Accepts a number (px) or any CSS length string. */
+  height?: number | string;
   /** When true, fills the area under the line with a fading gradient. */
   area?: boolean;
   /**
@@ -210,9 +210,16 @@ export function EChartSparkline({
   return (
     <div
       className={className}
-      style={{ width, height, display: "inline-block" }}
+      style={{
+        width,
+        height,
+        // When width is a CSS length string ("100%") we want the wrapper to
+        // be a block so the chart can stretch the parent flex/grid cell.
+        // Numeric widths keep the inline-block behaviour callers expect.
+        display: typeof width === "string" ? "block" : "inline-block",
+      }}
     >
-      <EChart option={option} width={width} height={height} />
+      <EChart option={option} width="100%" height="100%" />
     </div>
   );
 }

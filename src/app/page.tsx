@@ -450,7 +450,13 @@ function ConsensusRow({ repo, index }: { repo: Repo; index: number }) {
             </span>
           ))}
         </span>
-        <Sparkline values={repo.sparklineData} className="spark-mini" />
+        <Sparkline
+          values={repo.sparklineData}
+          className="spark-mini"
+          width="100%"
+          height={22}
+          tooltipLabel="stars"
+        />
       </div>
     </a>
   );
@@ -459,8 +465,16 @@ function ConsensusRow({ repo, index }: { repo: Repo; index: number }) {
 function BreakoutRow({ repo, index }: { repo: Repo; index: number }) {
   const baseline = Math.max(1, repo.starsDelta7d / 7);
   const velocityRatio = repo.starsDelta24h / baseline;
-  const velocity = Math.min(100, Math.round(velocityRatio * 18));
   const pct = percentDelta(repo.starsDelta24h, repo.stars);
+  // Spark color encodes direction — green for accelerating, cyan for stable
+  // (1.0–1.5x), red for declining. Visually richer than the previous flat
+  // green CSS bar that lied about declines.
+  const sparkColor =
+    velocityRatio < 1
+      ? "var(--sig-red)"
+      : velocityRatio > 1.5
+        ? "var(--sig-green)"
+        : "var(--sig-cyan)";
   return (
     <a className={`brk-row ${index === 0 ? "first" : ""}`} href={`/repo/${repo.owner}/${repo.name}`}>
       <span className="rk">{String(index + 1).padStart(2, "0")}</span>
@@ -475,7 +489,14 @@ function BreakoutRow({ repo, index }: { repo: Repo; index: number }) {
         <span className="meta">{categoryLabel(repo)} / {repo.movementStatus.replace("_", " ")}</span>
       </span>
       <span className="vel">
-        <span className="bar"><i style={{ width: `${velocity}%` }} /></span>
+        <Sparkline
+          values={repo.sparklineData}
+          className="brk-spark"
+          width={108}
+          height={26}
+          color={sparkColor}
+          tooltipLabel="stars"
+        />
         <span className="lbl">{velocityRatio.toFixed(1)}x 7d avg</span>
       </span>
       <span className="delta">

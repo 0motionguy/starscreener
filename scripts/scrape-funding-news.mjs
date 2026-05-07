@@ -46,7 +46,12 @@ const RSS_FEEDS = {
   pymnts: "https://www.pymnts.com/feed/",
   bbc: "https://feeds.bbci.co.uk/news/technology/rss.xml",
   wired: "https://www.wired.com/feed/",
-
+  // Mirrors the worker fetcher (apps/trendingrepo-worker/src/fetchers/funding-news/index.ts)
+  // so the GitHub Actions cron picks up the same 4 niche outlets.
+  geekwire: "https://www.geekwire.com/category/topic/funding/feed/",
+  "eu-startups": "https://www.eu-startups.com/feed/",
+  siliconcanals: "https://siliconcanals.com/feed/",
+  techstartups: "https://techstartups.com/feed/",
 };
 
 // ---------------------------------------------------------------------------

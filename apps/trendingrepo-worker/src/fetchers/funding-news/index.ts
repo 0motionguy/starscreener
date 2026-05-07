@@ -40,6 +40,16 @@ const RSS_FEEDS: Record<string, string> = {
   pymnts: 'https://www.pymnts.com/feed/',
   bbc: 'https://feeds.bbci.co.uk/news/technology/rss.xml',
   wired: 'https://www.wired.com/feed/',
+  // Phase-3.4 expansion: 4 niche outlets with high funding-headline density.
+  // GeekWire's category feed is funding-only ("/category/topic/funding/"),
+  // EU-Startups runs daily round-up posts, Silicon Canals tracks European
+  // VC, and TechStartups concentrates on small-cap rounds the bigger
+  // outlets skip. Each feeder retries once on 5xx; a flaky source can't
+  // blank the slug.
+  geekwire: 'https://www.geekwire.com/category/topic/funding/feed/',
+  'eu-startups': 'https://www.eu-startups.com/feed/',
+  siliconcanals: 'https://siliconcanals.com/feed/',
+  techstartups: 'https://techstartups.com/feed/',
 };
 
 const FUNDING_KEYWORDS =

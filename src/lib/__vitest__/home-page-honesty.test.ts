@@ -15,10 +15,10 @@ describe("home page data honesty", () => {
     expect(source).not.toContain("sparkline: buildSyntheticSparkline");
   });
 
-  it("keeps the landing consensus panel larger than three rows", () => {
+  it("caps the landing consensus panel at three rows", () => {
     const match = source.match(/const consensusRepos =[\s\S]*?\.slice\(0, (\d+)\);/);
 
     expect(match).not.toBeNull();
-    expect(Number(match?.[1])).toBeGreaterThanOrEqual(8);
+    expect(Number(match?.[1])).toBe(3);
   });
 });

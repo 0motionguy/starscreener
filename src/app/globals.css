@@ -2710,19 +2710,27 @@ body::before {
 
 .feat-card .spark-feat {
   width: 100%;
-  height: 36px;
-}
-
-.feat-card.sec .spark-feat {
-  height: 30px;
+  /*
+   * Height now passed as an inline style on the EChartSparkline wrapper
+   * (56 for hero, 44 for secondary) so the canvas wrapper and the visible
+   * chart agree on size — the prior `height: 36px` here was ignored
+   * because the wrapper's default inline `style={{ height: 28 }}` won
+   * specificity and clipped the chart.
+   */
+  display: block;
 }
 
 .feat-card .stats {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
+  /*
+   * Two columns now (was 4): stars + 24h growth. Drops mentions / sources
+   * which were truncating to "MENT..." / "SOUR..." at the column widths
+   * the 5-up grid produces and added noise without much signal.
+   */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
   margin-top: auto;
-  padding-top: 9px;
+  padding-top: 10px;
   border-top: 1px solid var(--line-200);
 }
 

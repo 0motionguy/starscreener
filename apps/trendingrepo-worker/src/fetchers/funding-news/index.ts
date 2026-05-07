@@ -113,7 +113,7 @@ const AI_KEYWORDS =
   /\bai\b|\ba\.i\.\b|\bartificial intelligence\b|\bmachine learning\b|\bml\b|\bdeep learning\b|\bllm\b|\bllms\b|\blarge language model\b|\bfoundation model\b|\bgenerative\b|\bgen-?ai\b|\bagi\b|\bagents?\b|\bcopilot\b|\bgpt\b|\btransformer\b|\bdiffusion\b|\bmultimodal\b|\bcomputer vision\b|\bnlp\b|\bspeech recognition\b|\brobotic process\b|\bautonomous\b|\bneural\b|\binference\b|\bfine-?tun\w*\b|\brag\b|\bvector database\b|\bembeddings?\b|\bopenai\b|\banthropic\b|\bmistral\b|\bcohere\b|\bperplexity\b|\bhugging ?face\b/i;
 
 const BAD_NAME_PATTERN =
-  /^(the\s|fintech\b|sources\b|report\b|breaking\b|scoop\b|ai\s+startups|billionaire|cathie\s+wood|creandum\s+partner|alumni\b)/i;
+  /^(the\s|fintech\b|sources\b|report\b|breaking\b|scoop\b|ai\s+startups|billionaire|cathie\s+wood|creandum\s+partner|alumni\b|exclusive\b|top\s+startup|leftover|deepseek\b|a16z\b|peter\s+sarlin|tallinn\b|stockholm\b|berlin\b|london\b|paris\b|amsterdam\b|munich\b|dublin\b|lisbon\b|helsinki\b|copenhagen\b|warsaw\b|vienna\b|zurich\b|barcelona\b|madrid\b|new\s+york|silicon\s+valley|belgian\s+ai\b|french\s+ai\b|swiss\s+startup|german\s+startup|dutch\s+startup|spanish\s+startup|swedish\s+startup|israeli\s+startup|indian\s+startup)/i;
 
 interface FundingSignal {
   id: string;

@@ -17,6 +17,12 @@ import {
   getMcpSignalData,
   type EcosystemLeaderboardItem,
 } from "@/lib/ecosystem-leaderboards";
+import { rankMcpItems } from "@/lib/mcp-ranking";
+import { getRepoMetadata } from "@/lib/repo-metadata";
+import {
+  synthesizeRecentRepoSparkline,
+  synthesizeSparkline,
+} from "@/lib/derived-repos/sparkline";
 import { BubbleMap } from "@/components/terminal/BubbleMap";
 import { EChart } from "@/components/charts/EChart";
 import {
@@ -47,6 +53,7 @@ import {
 } from "@/components/home/LiveTopTable";
 import { CATEGORIES } from "@/lib/constants";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { NewsletterCaptureForm } from "@/components/newsletter/NewsletterCaptureForm";
 import { repoLogoUrl } from "@/lib/logos";
 import type { Repo } from "@/lib/types";
 import {
@@ -201,10 +208,48 @@ function ecosystemEntity(
   const raw30 =
     (useRepoFallback ? linked?.starsDelta30d : undefined) ??
     item.installsDelta30d;
-  const realSparkline =
-    useRepoFallback && linked?.sparklineData
+  // Sparkline fallback chain (mirrors src/app/mcp/page.tsx):
+  //   1. Real series from the linked derived repo
+  //   2. Synth from total stars + repo age (linked or bundled metadata)
+  //   3. Synth from popularity + installs deltas
+  //   4. Last resort: synth from postedAt + signalScore — works for any
+  //      MCP/skill item that has a fresh signal score
+  let realSparkline: number[] =
+    useRepoFallback && linked?.sparklineData && linked.sparklineData.length > 1
       ? linked.sparklineData
       : emptySparkline();
+  if (useRepoFallback && realSparkline.length < 2) {
+    const meta = lookupKey ? getRepoMetadata(lookupKey) : null;
+    const repoStars = linked?.stars ?? meta?.stars ?? 0;
+    const repoCreatedAt = linked?.createdAt ?? meta?.createdAt ?? null;
+    if (repoStars > 0 && repoCreatedAt) {
+      realSparkline = synthesizeRecentRepoSparkline(repoStars, repoCreatedAt);
+    }
+  }
+  if (useRepoFallback && realSparkline.length < 2 && (item.popularity ?? 0) > 0) {
+    const popD24 = item.mcp?.installs24h ?? item.installsDelta1d ?? 0;
+    const popD7 = item.mcp?.installs7d ?? item.installsDelta7d ?? 0;
+    const popD30 = item.mcp?.installs30d ?? item.installsDelta30d ?? 0;
+    if (popD24 !== 0 || popD7 !== 0 || popD30 !== 0) {
+      realSparkline = synthesizeSparkline(
+        item.popularity ?? 0,
+        popD24,
+        popD7,
+        popD30,
+      );
+    }
+  }
+  if (
+    useRepoFallback &&
+    realSparkline.length < 2 &&
+    (item.signalScore ?? 0) > 0 &&
+    item.postedAt
+  ) {
+    realSparkline = synthesizeRecentRepoSparkline(
+      Math.round(item.signalScore ?? 0),
+      item.postedAt,
+    );
+  }
   let delta = 0;
   let primaryWindow: "24h" | "7d" | "30d" = "24h";
   if (typeof raw24 === "number" && raw24 !== 0) {
@@ -631,11 +676,13 @@ export default async function HomePage() {
         .sort((a, b) => b.delta - a.delta)
         .slice(0, 5)
     : [];
+  // MCP top-5 must agree with /mcp's full table — use the shared ranker
+  // (src/lib/mcp-ranking.ts) so the top-5 hero panel surfaces the same
+  // 5 items in the same order the /mcp page shows.
   const mcpBoard = mcpItems
-    ? mcpItems
-        .map((item) => ecosystemEntity(item, "mcp", repoByFullName))
-        .sort((a, b) => b.delta - a.delta)
+    ? rankMcpItems(mcpItems, repoByFullName)
         .slice(0, 5)
+        .map((entry) => ecosystemEntity(entry.item, "mcp", repoByFullName))
     : topCategoryFallback(repos, ["mcp"], 5);
   const repoBoard = topByDelta(repos, 5);
   const consensusCandidates = [...repos]
@@ -759,6 +806,9 @@ export default async function HomePage() {
               Repos, skills, and MCP servers ranked by cross-source agreement,
               star velocity, and fresh community attention.
             </p>
+            <div className="mt-4">
+              <NewsletterCaptureForm source="hero" />
+            </div>
           </div>
           <div className="clock" aria-label={`Data refreshed at ${refreshedTime} UTC`}>
             <span className="big">{refreshedTime} UTC</span>

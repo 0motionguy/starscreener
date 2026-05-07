@@ -40,6 +40,8 @@ export function MomentumHeadline({ repos, lastFetchedAt }: MomentumHeadlineProps
     <div
       className="v2-mono flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] text-[color:var(--v2-ink-300)]"
       aria-label="Live pipeline status"
+      role="status"
+      aria-live="polite"
     >
       <span
         aria-hidden="true"

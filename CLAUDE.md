@@ -63,6 +63,7 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - Verify Redis data-store: `npm run verify:data-store` (requires `REDIS_URL` for Railway, OR `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` for Upstash)
 
 ## Where to Look First
+- **2x2 swarm operating contract (read on every swarm session start)** → [docs/SWARM-2x2.md](docs/SWARM-2x2.md) — worktree-per-agent topology, 8-rule contract, port assignments, ship runbook. Loaded by every Claude / Codex agent in the parallel topology.
 - **Operator situational-awareness doc (start here)** → [docs/OPERATOR.md](docs/OPERATOR.md) — TL;DR for a fresh session, current production state, audit-2026-05-04 followup status, hourly+minute workflow rotation, image-coverage map, what-shipped-vs-open. Operator-only — never linked from any public route. Refreshed at the end of every "go" wave.
 - **Engine map (62 workflows + every API key + every cron + pool architecture)** → [docs/ENGINE.md](docs/ENGINE.md) — read FIRST when you need to know what runs where, on what cadence, with which keys. Refreshed 2026-05-02.
 - **Site wire map (every route → its data → collector → external API)** → [docs/SITE-WIREMAP.md](docs/SITE-WIREMAP.md) — top-down menu walk. Use when a page is broken to trace it back to the failing collector. Refreshed 2026-05-02.
@@ -84,6 +85,13 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 - **Parallel-session merges silently steal staged work.** When 4 agents work the same workspace concurrently, `git add` + `git commit` interleave: agent A's `git add file-a` lands in agent B's `git commit` and vice versa. Survival pattern: always `git add <SPECIFIC-FILE>` (NEVER `git add -A` or `git add .`), and `git commit -m "wip(...)"` IMMEDIATELY after each Write so the commit boundary is durable. Staging is shared mutable state; commits are durable history. Learned 2026-05-02 across 4 parallel agent dispatch.
 - **Audit premises must be verified before believing.** The 2026-05-01 ultra audit claimed 3 P0s lived on `feat/v4-alert-rules`; verification (`grep ThemeToggle src/components/layout/Header.tsx` etc.) showed they were never on any branch — they had to be implemented fresh. M6: memory is suspect — recalled facts are hypotheses until verified. Cherry-pick plans built on un-verified branch state will fail; always grep `main` for the markers BEFORE planning the cherry-pick.
 
+## Multi-Agent Setup (2x2 swarm)
+- Repo lives at `C:\dev\trendingrepo` (off OneDrive — CSS edits and `.next` cache are no longer at risk of silent revert).
+- 4 swarm worktrees under `C:\dev\trendingrepo-wt\{tl,tr,bl,br}` map to branches `bot/swarm-{tl,tr}-claude` and `bot/swarm-{bl,br}-codex`. Ports 3023/3024/3025/3026.
+- Every push from a swarm branch creates a Vercel Preview at `starscreener-git-bot-swarm-<slug>.vercel.app` — that's the visual-proof surface.
+- Full operating contract: [docs/SWARM-2x2.md](docs/SWARM-2x2.md). Read it before doing anything in a swarm worktree.
+
 ## References
 - Plans: `~/.claude/plans/`
-- Memory: `~/.claude/projects/c--Users-mirko-OneDrive-Desktop-STARSCREENER/memory/MEMORY.md`
+- Memory: `~/.claude/projects/c--dev-trendingrepo/memory/MEMORY.md` (post-2026-05-06 cutover; the historical key `c--Users-mirko-OneDrive-Desktop-STARSCREENER` retains pre-move notes)
+- Windows perf hardening (deferred sprint): [tasks/perf-windows-tuning.md](tasks/perf-windows-tuning.md)

@@ -21,6 +21,7 @@ import { extractGithubRepoFullNames, extractUnknownRepoCandidates } from "./_git
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
+import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(__dirname, "..");
@@ -699,8 +700,13 @@ function extractCompanyNameFromArticle(text, currentName) {
 
 // Guard so tests can import without auto-running
 if (process.argv[1] && process.argv[1].includes("scrape-funding-news")) {
+  // Move 1 / Phase 7: runAsRegisteredSource wraps main() purely for
+  // instrumentation — collection logic untouched.
   const startedAt = Date.now();
-  main()
+  runAsRegisteredSource({
+    sourceId: "funding-news",
+    run: main,
+  })
     .then(async () => {
       try {
         await writeSourceMetaFromOutcome({

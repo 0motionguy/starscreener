@@ -21,6 +21,7 @@ import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
+import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 import { fetchJsonWithRetry, HttpStatusError, sleep } from "./_fetch-json.mjs";
 import { extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
@@ -600,8 +601,14 @@ const isDirectRun =
 
 if (isDirectRun) {
   // T2.6: metadata sidecar — distinguishes outage from quiet day.
+  // Move 1 / Phase 7: runAsRegisteredSource wraps main() purely for
+  // instrumentation. sources.json id is "npm-packages" (the package's
+  // primary_output_keys) — distinct from the snapshot-style "npm-daily" row.
   const startedAt = Date.now();
-  main()
+  runAsRegisteredSource({
+    sourceId: "npm-packages",
+    run: main,
+  })
     .then(async () => {
       try {
         await writeSourceMetaFromOutcome({

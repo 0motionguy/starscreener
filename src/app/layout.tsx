@@ -30,6 +30,7 @@ import { MobileNav } from "@/components/layout/MobileNav";
 import { BrowserAlertBridge } from "@/components/alerts/BrowserAlertBridge";
 import { GlobalShortcuts } from "@/components/layout/GlobalShortcuts";
 import { DesignSystemProvider } from "@/components/v3";
+import { ClerkProvider } from "@clerk/nextjs";
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
 import "@/components/tier-list/tier-list.css";
@@ -169,6 +170,12 @@ export default async function RootLayout({
   }
 
   return (
+    // ClerkProvider wraps <html> per Clerk Next 15 docs. It exposes
+    // `useUser()` / `useAuth()` to every descendant client component,
+    // including the framer-motion-backed MobileDrawerLazy (verified
+    // compat: ClerkProvider is a plain React context, dynamic({ssr:false})
+    // descendants re-hydrate inside it without issue).
+    <ClerkProvider>
     <html
       lang="en"
       className={`${geist.variable} ${geistMono.variable} ${spaceGrotesk.variable}`}
@@ -237,5 +244,6 @@ export default async function RootLayout({
         </ThemeProvider>
       </body>
     </html>
+    </ClerkProvider>
   );
 }

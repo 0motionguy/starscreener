@@ -9,11 +9,9 @@
 //
 // Section ordering:
 //   00  page-head (title + clock + freshness)
-//   --  KPI strip (6-up MetricGrid)
-//   01  Cross-source agreement (top 3 consensus repos)
-//   02  Breaking out (top 5 by 24h vs 7d-baseline velocity)
-//   03  Live / top 50 (RankTabs: Trending / OSS / TrendShift / Momentum)
-//   04  Categories / 24h share (top-4 ChartStats)
+//   --  KPI strip (4-up MetricGrid)
+//   01  Live / top 50 (RankTabs: Trending / Curated / Engagement / Momentum)
+//   02  Categories / 24h share (top-4 ChartStats)
 //   --  FooterBar
 //
 // Inline JSON-LD (CollectionPage + ItemList + BreadcrumbList) anchors this
@@ -176,107 +174,6 @@ function Sparkline({
   ...rest
 }: EChartSparklineProps) {
   return <EChartSparkline color={color} className={className} {...rest} />;
-}
-
-// ---------------------------------------------------------------------------
-// Consensus + breakout row renderers — JSX shape matches the home page so
-// the existing global CSS (`cons-row`, `brk-row` in src/app/globals.css)
-// styles them without a separate stylesheet here.
-// ---------------------------------------------------------------------------
-
-const SOURCE_ICONS: ReadonlyArray<{
-  key: string;
-  label: string;
-  Icon: (props: { size?: number; className?: string }) => React.ReactElement;
-}> = [
-  { key: "gh", label: "GitHub", Icon: GithubIcon },
-  { key: "hn", label: "Hacker News", Icon: HackerNewsIcon },
-  { key: "r", label: "Reddit", Icon: RedditIcon },
-  { key: "b", label: "Bluesky", Icon: BlueskyIcon },
-  { key: "d", label: "dev.to", Icon: DevtoIcon },
-];
-
-function ConsensusRow({ repo, index }: { repo: Repo; index: number }) {
-  const channels = Math.max(1, sourceCount(repo));
-  return (
-    <a
-      className={`cons-row ${index === 0 ? "first" : ""}`}
-      href={`/repo/${repo.owner}/${repo.name}`}
-    >
-      <div className="cons-top">
-        <span className="rk">{String(index + 1).padStart(2, "0")}</span>
-        <EntityLogo
-          src={repoLogoUrl(repo.fullName, 64)}
-          name={repo.fullName}
-          size={28}
-          className="cons-av"
-        />
-        <span className="nm">
-          <span className="h">{repo.fullName}</span>
-          <span className="meta">
-            <span className="tag">{categoryLabel(repo)}</span>
-            {channels} sources
-          </span>
-        </span>
-        <span className="delta">
-          {formatDelta(repo.starsDelta24h)}
-          <span className="lbl">24h</span>
-        </span>
-      </div>
-      <div className="cons-bot">
-        <span className="srcs" aria-label={`${channels} sources firing`}>
-          {SOURCE_ICONS.slice(0, channels).map(({ key, label, Icon }) => (
-            <span
-              key={key}
-              className={`sd sd-${key}`}
-              title={label}
-              aria-label={label}
-            >
-              <Icon size={16} />
-            </span>
-          ))}
-        </span>
-        <Sparkline values={repo.sparklineData} className="spark-mini" />
-      </div>
-    </a>
-  );
-}
-
-function BreakoutRow({ repo, index }: { repo: Repo; index: number }) {
-  const baseline = Math.max(1, repo.starsDelta7d / 7);
-  const velocityRatio = repo.starsDelta24h / baseline;
-  const velocity = Math.min(100, Math.round(velocityRatio * 18));
-  const pct = percentDelta(repo.starsDelta24h, repo.stars);
-  return (
-    <a
-      className={`brk-row ${index === 0 ? "first" : ""}`}
-      href={`/repo/${repo.owner}/${repo.name}`}
-    >
-      <span className="rk">{String(index + 1).padStart(2, "0")}</span>
-      <EntityLogo
-        src={repoLogoUrl(repo.fullName, 64)}
-        name={repo.fullName}
-        size={28}
-        className="brk-av"
-      />
-      <span className="nm">
-        <span className="h">{repo.fullName}</span>
-        <span className="meta">
-          {categoryLabel(repo)} / {repo.movementStatus.replace("_", " ")}
-        </span>
-      </span>
-      <span className="vel">
-        <span className="bar">
-          <i style={{ width: `${velocity}%` }} />
-        </span>
-        <span className="lbl">{velocityRatio.toFixed(1)}x 7d avg</span>
-      </span>
-      <span className="delta">
-        {formatDelta(repo.starsDelta24h)}
-        {pct !== null ? <span className="pct">+{pct}%</span> : null}
-      </span>
-    </a>
-  );
 }
 
 // ---------------------------------------------------------------------------
@@ -592,9 +489,9 @@ export default async function GithubRepoPage() {
   };
   const trendshiftFetchedAt = getTrendshiftFetchedAt();
   const sourceMetaByMode: Record<RankMode, string> = {
-    trending: `OSS Insight + TrendShift / fused`,
-    oss: `OSS Insight / ${ageLabel(lastFetchedAt, "live")}`,
-    trendshift: `TrendShift / ${ageLabel(trendshiftFetchedAt, trendshiftFetchedAt ? "live" : "no data yet")}`,
+    trending: `Curated + Engagement / fused`,
+    oss: `Curated / ${ageLabel(lastFetchedAt, "live")}`,
+    trendshift: `Engagement / ${ageLabel(trendshiftFetchedAt, trendshiftFetchedAt ? "live" : "no data yet")}`,
     momentum: `our composite / ${ageLabel(lastFetchedAt, "live")}`,
   };
 
@@ -614,12 +511,6 @@ export default async function GithubRepoPage() {
     (sum, repo) => sum + Math.max(0, repo.starsDelta7d),
     0,
   );
-  const breakoutCount = repos.filter(
-    (r) => r.movementStatus === "rising" || r.movementStatus === "hot",
-  ).length;
-  const consensusCount = repos.filter(
-    (r) => (r.crossSignalScore ?? 0) >= 2,
-  ).length;
   const categoryDeltaTable = CATEGORIES.map((category) => ({
     id: category.id,
     label: category.shortName,
@@ -631,24 +522,6 @@ export default async function GithubRepoPage() {
     .filter((c) => c.count > 0)
     .sort((a, b) => b.delta - a.delta);
   const topCategory = categoryDeltaTable[0];
-
-  // --- Section 01 input: top 3 by cross-source signal score.
-  const consensusRepos = [...repos]
-    .sort(
-      (a, b) =>
-        (b.crossSignalScore ?? sourceCount(b)) -
-        (a.crossSignalScore ?? sourceCount(a)),
-    )
-    .slice(0, 3);
-
-  // --- Section 02 input: top 5 by 24h velocity vs 7d-baseline ratio.
-  const breakoutRepos = [...repos]
-    .sort((a, b) => {
-      const aBase = Math.max(1, a.starsDelta7d / 7);
-      const bBase = Math.max(1, b.starsDelta7d / 7);
-      return b.starsDelta24h / bBase - a.starsDelta24h / aBase;
-    })
-    .slice(0, 5);
 
   // Top 20 of the visible 50 — keeps the structured-data payload bounded
   // while still giving crawlers a meaningful ItemList to anchor against.
@@ -730,9 +603,9 @@ export default async function GithubRepoPage() {
             </div>
             <h1>Top 50 trending GitHub repos — right now.</h1>
             <p className="lede">
-              Default ranking is <b>OSS Insight + TrendShift</b> fused via
-              Reciprocal Rank Fusion. Switch tabs for either source raw, or
-              our composite Momentum score.
+              Default ranking fuses our <b>Curated</b> + <b>Engagement</b>
+              feeds. Switch tabs for either source raw, or our composite
+              Momentum score.
             </p>
           </div>
           <div
@@ -765,18 +638,6 @@ export default async function GithubRepoPage() {
             sub="rolling window"
           />
           <Metric
-            label="consensus"
-            value={consensusCount}
-            sub="multi-source"
-            tone="consensus"
-          />
-          <Metric
-            label="breakouts"
-            value={breakoutCount}
-            sub="velocity spike"
-            tone="accent"
-          />
-          <Metric
             label="top category"
             value={topCategory?.label ?? "n/a"}
             sub="momentum leader"
@@ -785,60 +646,6 @@ export default async function GithubRepoPage() {
 
         <SectionHead
           num="// 01"
-          title="Cross-source agreement / top 3"
-          meta={
-            <>
-              <b>{consensusCount}</b> / multi-source repos
-            </>
-          }
-        />
-        <Card>
-          <CardHeader
-            right={<span className="live">LIVE</span>}
-            showCorner
-          >
-            {"// Consensus / 24h"}
-          </CardHeader>
-          <div className="panel-body">
-            {consensusRepos.length > 0 ? (
-              consensusRepos.map((repo, index) => (
-                <ConsensusRow key={repo.id} repo={repo} index={index} />
-              ))
-            ) : (
-              <div className="hero-panel-empty">waiting for live rows</div>
-            )}
-          </div>
-        </Card>
-
-        <SectionHead
-          num="// 02"
-          title="Breaking out / 24h vs 7d baseline"
-          meta={
-            <>
-              <b>{breakoutCount}</b> / above baseline
-            </>
-          }
-        />
-        <Card>
-          <CardHeader
-            right={<span className="positive">accelerating</span>}
-            showCorner
-          >
-            {"// Breakout / velocity rank"}
-          </CardHeader>
-          <div className="panel-body">
-            {breakoutRepos.length > 0 ? (
-              breakoutRepos.map((repo, index) => (
-                <BreakoutRow key={repo.id} repo={repo} index={index} />
-              ))
-            ) : (
-              <div className="hero-panel-empty">waiting for live rows</div>
-            )}
-          </div>
-        </Card>
-
-        <SectionHead
-          num="// 03"
           title="Live / top 50"
           meta={
             <>
@@ -855,7 +662,7 @@ export default async function GithubRepoPage() {
         </Card>
 
         <SectionHead
-          num="// 04"
+          num="// 02"
           title="Categories / 24h share"
           meta={
             <>

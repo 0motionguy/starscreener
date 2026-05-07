@@ -316,6 +316,7 @@ export default async function TwitterPage({
               <b>X</b> · TERMINAL · /TWITTER
             </>
           }
+          logo={<XIcon size={32} monochrome />}
           title="X · top tweets"
           lede="TrendingRepo-ranked repositories with real X/Twitter mentions in the last 24 hours, sourced from the Apify tweet-scraper pipeline."
           clock={
@@ -329,8 +330,8 @@ export default async function TwitterPage({
               />
             </>
           }
+          list={<ColdState activeTab={activeTab} />}
         />
-        <ColdState activeTab={activeTab} />
       </main>
     );
   }
@@ -357,6 +358,7 @@ export default async function TwitterPage({
             <b>X</b> · TERMINAL · /TWITTER
           </>
         }
+        logo={<XIcon size={32} monochrome />}
         title="X · top tweets"
         lede="TrendingRepo-ranked repositories with real X/Twitter mentions in the last 24 hours, sourced from the Apify tweet-scraper pipeline."
         clock={
@@ -403,19 +405,31 @@ export default async function TwitterPage({
           />
         }
         listEyebrow={
-          activeTab === "global"
-            ? "Tweet feed · global X score"
-            : "Tweet feed · trending repos with X mentions"
+          <span
+            className="v2-mono"
+            style={{
+              display: "inline-block",
+              marginBottom: "var(--v4-space-3)",
+              color: "var(--v4-ink-400)",
+              fontSize: "var(--v4-text-10)",
+              letterSpacing: "var(--v4-track-20)",
+              textTransform: "uppercase",
+            }}
+          >
+            {activeTab === "global"
+              ? "// Tweet feed · global X score"
+              : "// Tweet feed · trending repos with X mentions"}
+          </span>
         }
         list={
-          <>
+          <div className="min-w-0">
             <TwitterTabNav
               activeTab={activeTab}
               trendingCount={trendingRows.length}
               globalCount={globalRows.length}
             />
             <TwitterLeaderboardTable rows={rows} activeTab={activeTab} />
-          </>
+          </div>
         }
       />
     </main>

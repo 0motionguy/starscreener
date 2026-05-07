@@ -238,3 +238,118 @@ export function compactNumber(n: number): string {
   if (abs >= 1_000) return `${(n / 1_000).toFixed(1)}k`;
   return n.toLocaleString("en-US");
 }
+
+/* ---------------------------------------------------------------------------
+ * Named OG shell aliases — used by `/api/og/referral/[handle]`. They are
+ * thin re-exports of the existing CardFrame/Wordmark/AccentStrip primitives
+ * with explicit roles ("frame", "header", "footer") so the referral route
+ * reads top-down and so future cards can adopt the same vocabulary without
+ * having to remember which legacy name maps to which slot.
+ *
+ * `CardFrame` already provides the dark-bg + bottom-accent shell that every
+ * card uses, so OgFrame is a re-export with an aspect-aware default
+ * (1200×630 — the symmetric Twitter `summary_large_image` size used for
+ * link unfurls). OgHeader/OgFooter are tiny layout wrappers that pin the
+ * StarMark + handle/url to consistent positions; they keep the new code
+ * surgical without touching `star-activity` (which builds its own header
+ * inline because of its richer layout requirements).
+ * ------------------------------------------------------------------------- */
+
+interface OgFrameProps {
+  width?: number;
+  height?: number;
+  padding?: string;
+  children: ReactNode;
+}
+
+/**
+ * Top-level shell for a 1200×630 dark-gradient OG card. The existing
+ * `CardFrame` already lays out the dark bg + bottom accent strip; OgFrame
+ * is a friendlier-named alias that defaults its padding to a comfortable
+ * 64px gutter for the share-card layout.
+ */
+export function OgFrame({
+  padding = "56px 72px 64px 72px",
+  children,
+}: OgFrameProps): ReactElement {
+  return <CardFrame padding={padding}>{children}</CardFrame>;
+}
+
+interface OgHeaderProps {
+  /** Optional secondary line shown to the right of the wordmark (handle). */
+  handle?: string;
+  /** Override the wordmark label (defaults to TrendingRepo). */
+  label?: string;
+}
+
+/**
+ * Header strip for OG cards: brand wordmark on the left, optional handle
+ * (`@mirko`) on the right in monospace. Renders as a 100%-width flex row
+ * sized to leave room for the body composition below.
+ */
+export function OgHeader({
+  handle,
+  label,
+}: OgHeaderProps = {}): ReactElement {
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: "100%",
+      }}
+    >
+      <Wordmark fontSize={32} label={label} />
+      {handle ? (
+        <span
+          style={{
+            display: "flex",
+            fontFamily: "monospace",
+            fontSize: 22,
+            color: OG_COLORS.textTertiary,
+            letterSpacing: 0.6,
+          }}
+        >
+          {`@${handle}`}
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+interface OgFooterProps {
+  /** URL surfaced on the left, typically `trendingrepo.com?ref=<code>`. */
+  url: string;
+  /** Right-side tagline; defaults to the project's site tagline. */
+  tagline?: string;
+}
+
+/**
+ * Footer strip — URL + tagline, sat at the bottom of an OgFrame via
+ * `marginTop: "auto"`. Placed before the AccentStrip injected by CardFrame
+ * so the strip sits underneath the text band.
+ */
+export function OgFooter({
+  url,
+  tagline = "The trend map for open source",
+}: OgFooterProps): ReactElement {
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginTop: "auto",
+        width: "100%",
+        fontFamily: "monospace",
+        fontSize: 20,
+        color: OG_COLORS.textTertiary,
+        letterSpacing: 0.5,
+      }}
+    >
+      <span style={{ display: "flex" }}>{url}</span>
+      <span style={{ display: "flex" }}>{tagline}</span>
+    </div>
+  );
+}

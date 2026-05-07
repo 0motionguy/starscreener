@@ -61,6 +61,73 @@ The TrendingRepo Next.js dev server must be reachable at that URL for the tools 
 | `get_categories`     | `{}`                                                                                    | Categories with repoCount + avgMomentum                           |
 | `get_category_repos` | `{ categoryId, limit?, window? }`                                                       | Repos in one category                                             |
 
+## Authenticated tools
+
+These tools require user authentication and return data scoped to the authenticated user. The MCP server forwards the configured token to the TrendingRepo Next.js app as `Authorization: Bearer <token>`; the app is the single source of truth for token validation.
+
+**Auth options:**
+
+- **Clerk session JWT** — pass a Clerk session token. Useful for browser-side MCP clients that already hold a session.
+- **Personal MCP token** — issue at [`/you/alerts`](https://trendingrepo.com/you/alerts) (settings panel). Format: `whmcp_<32 hex>`. Stored hashed (SHA-256) on the server; plaintext is shown once on creation.
+
+**How to pass it:** set the token in your MCP client's `env` block as `TRENDINGREPO_USER_TOKEN` (legacy alias `STARSCREENER_USER_TOKEN` is still accepted). The server reads it once at construction and attaches it to every authenticated tool call.
+
+### `list_my_alerts`
+
+Returns the authenticated user's most recent alert events.
+
+| Field           | Type                                  | Notes                                                                                 |
+| --------------- | ------------------------------------- | ------------------------------------------------------------------------------------- |
+| `limit`         | number, 1-100, default 50             | Max events per page.                                                                  |
+| `before`        | ISO datetime, optional                | Return events fired strictly before this timestamp. Use the previous `nextCursor` to paginate older. |
+
+**Returns** the wire shape from `GET /api/me/alert-events`:
+
+```json
+{
+  "ok": true,
+  "events": [
+    {
+      "id": "uuid",
+      "ruleId": "uuid",
+      "profileId": "uuid",
+      "firedAt": "2026-05-07T10:11:12.000Z",
+      "entityType": "repo",
+      "entityId": "vercel/next.js",
+      "payload": { "title": "...", "body": "...", "url": "...", "ruleSnapshot": { "...": "..." } },
+      "deliveryChannel": "email",
+      "deliveryStatus": "sent",
+      "dedupedKey": "...",
+      "sentAt": "2026-05-07T10:11:13.000Z",
+      "attempts": 1,
+      "error": null
+    }
+  ],
+  "nextCursor": "2026-05-07T10:11:12.000Z"
+}
+```
+
+`nextCursor` is `null` when fewer than `limit` rows came back (end of feed); otherwise it is the ISO timestamp of the last event in the page — pass it back as `before` on the next call.
+
+### Claude Code / Claude Desktop config (authenticated)
+
+```json
+{
+  "mcpServers": {
+    "trendingrepo": {
+      "command": "node",
+      "args": ["<absolute-path-to-trendingrepo>/mcp/dist/server.js"],
+      "env": {
+        "TRENDINGREPO_API_URL": "https://trendingrepo.com",
+        "TRENDINGREPO_USER_TOKEN": "whmcp_..."
+      }
+    }
+  }
+}
+```
+
+The token is also forwarded as `x-user-token` for usage metering (existing behaviour). It is never logged, and the constructor refuses to attach it to non-https base URLs except loopback (SCR-12).
+
 Every result is `{ content: [{ type: "text", text: "<pretty JSON>" }] }`. Parse the `text` field to get the structured data.
 
 The three Portal-canonical tools (`top_gainers`, `search_repos`, `maintainer_profile`) are also callable over HTTP at `POST /portal/call` per the Portal v0.1 spec, so a drive-by LLM visitor sees identical behaviour to an installed MCP client.

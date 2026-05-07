@@ -416,6 +416,104 @@ server.registerTool(
     ),
 );
 
+// ---------------------------------------------------------------------------
+// Authenticated tools — scoped to the calling user's profile.
+//
+// `list_my_alerts` reads the caller's recent alert_events. Auth is delegated
+// to the Next.js endpoint at /api/me/alert-events: this stdio MCP server
+// forwards `Authorization: Bearer <token>` and the upstream route resolves
+// the token to a profile (Clerk session JWT OR a `whmcp_<32 hex>` personal
+// MCP token issued from /you/alerts). We never decrypt, hash, or peek at
+// the token here — keeping all auth at the HTTP boundary lets the MCP
+// package stay standalone (zero @clerk/backend / drizzle dependency).
+//
+// Token source on stdio: `TRENDINGREPO_USER_TOKEN` (legacy alias
+// `STARSCREENER_USER_TOKEN`) in the MCP client's `env` block. See README
+// "Authenticated tools" for the Claude Desktop / Claude Code config.
+// ---------------------------------------------------------------------------
+
+server.registerTool(
+  "list_my_alerts",
+  {
+    title: "List my alert events",
+    description:
+      "Return the authenticated user's recent alert events from " +
+      "TrendingRepo. Auth is required — pass either a Clerk session JWT " +
+      "or a personal MCP token (whmcp_<32 hex>, issued at /you/alerts) " +
+      "via `TRENDINGREPO_USER_TOKEN` in the MCP client's env block. " +
+      "Returns `{ ok, events: AlertEvent[], nextCursor: string | null }` " +
+      "where `nextCursor` is an ISO timestamp suitable as `before` on the " +
+      "next call. Read-only: this tool only SELECTs.",
+    inputSchema: {
+      limit: z
+        .number()
+        .int()
+        .min(1)
+        .max(100)
+        .optional()
+        .describe("Max events to return (1-100). Default 50."),
+      before: z.iso
+        .datetime()
+        .optional()
+        .describe(
+          "ISO datetime — return events fired strictly before this " +
+            "timestamp. Pass the previous response's `nextCursor` here " +
+            "to paginate older events.",
+        ),
+    },
+    annotations: { readOnlyHint: true, idempotentHint: true },
+  },
+  async ({ limit, before }) =>
+    withMetering("list_my_alerts", () =>
+      run(async () => {
+        const userToken = client.getUserToken();
+        if (!userToken) {
+          throw new Error(
+            "list_my_alerts requires authentication. Set " +
+              "TRENDINGREPO_USER_TOKEN in your MCP client's env block " +
+              "(Clerk session JWT or whmcp_ token from /you/alerts).",
+          );
+        }
+        const qs = new URLSearchParams();
+        if (limit !== undefined) qs.set("limit", String(limit));
+        if (before !== undefined) qs.set("before", before);
+        const query = qs.toString();
+        const url = `${client.getBaseUrl()}/api/me/alert-events${
+          query.length > 0 ? `?${query}` : ""
+        }`;
+        const res = await globalThis.fetch(url, {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            // Forward the user token as a Bearer credential. The upstream
+            // route is the single source of truth for auth — it accepts
+            // both Clerk session JWTs and `whmcp_` tokens.
+            authorization: `Bearer ${userToken}`,
+          },
+        });
+        const text = await res.text();
+        if (!res.ok) {
+          // Upstream `requireUser()` redirects on a missing session, which
+          // surfaces as a non-2xx (302) here. Treat any non-2xx as auth/
+          // upstream failure and bubble the body so the LLM can see why.
+          throw new Error(
+            `list_my_alerts upstream ${res.status}: ${text.slice(0, 500)}`,
+          );
+        }
+        if (!text) return { ok: true, events: [], nextCursor: null };
+        try {
+          return JSON.parse(text);
+        } catch (err) {
+          throw new Error(
+            `list_my_alerts: invalid JSON from /api/me/alert-events: ${
+              (err as Error).message
+            }`,
+          );
+        }
+      }),
+    ),
+);
+
 server.registerTool(
   "compare_repos",
   {

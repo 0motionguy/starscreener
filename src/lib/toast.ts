@@ -70,7 +70,7 @@ export function toastRefreshError() {
 }
 
 export function toastAlertCreated() {
-  sonnerToast.success("Alert created");
+  sonnerToast.success("Alert rule created");
 }
 
 export function toastAlertDeleted() {
@@ -79,4 +79,16 @@ export function toastAlertDeleted() {
 
 export function toastAlertError(msg: string) {
   sonnerToast.error(msg);
+}
+
+export function toastRuleSaved() {
+  sonnerToast.success("Saved");
+}
+
+export function toastWebhookSecretCopied() {
+  sonnerToast.success("Secret copied to clipboard");
+}
+
+export function toastInviteSent() {
+  sonnerToast.success("Invite link copied");
 }

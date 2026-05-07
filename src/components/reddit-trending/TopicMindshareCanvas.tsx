@@ -1,15 +1,19 @@
 "use client";
 
-// Client physics renderer for the topic mindshare map. Forked from
-// BubbleMapCanvas but text-centered: cells show a topic phrase (up to 3
-// words) and an upvote count, no avatars. Click a cell → add ?topic=X to
-// URL so the feed below filters to posts containing that phrase.
+// Client renderer for the topic mindshare map — migrated from a custom
+// physics-bubble canvas to ECharts treemap (charts pilot, 2026-05-07).
+//
+// Cells are trending TOPICS (n-gram phrases) extracted from post titles,
+// sized by sum of trendingScore, colored by baseline tier.
+// Click a cell → set ?topic=<phrase> on the URL so the feed filters.
 
 import { useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import type { EChartsCoreOption } from "echarts/core";
+import { EChart } from "@/components/charts/EChart";
 import { formatNumber } from "@/lib/utils";
+import { CHART_TOKENS } from "@/lib/charts/theme";
 import type { BaselineTier } from "@/lib/reddit-baselines";
-import { usePhysicsBubbles } from "@/hooks/usePhysicsBubbles";
 
 export type TopicWindowKey = "24h" | "7d";
 
@@ -50,6 +54,45 @@ const TIER_LEGEND: Array<{ tier: BaselineTier; label: string; color: string }> =
   { tier: "no-baseline", label: "No baseline", color: "var(--v3-tier-dormant-fill)" },
 ];
 
+interface TreemapDatum {
+  name: string;
+  value: number;
+  seed?: TopicSeed;
+  itemStyle?: {
+    color?: string;
+    borderColor?: string;
+    borderWidth?: number;
+    gapWidth?: number;
+  };
+  label?: {
+    show?: boolean;
+    color?: string;
+    fontSize?: number;
+    formatter?: string;
+  };
+}
+
+function buildTopicTreemap(seeds: TopicSeed[]): TreemapDatum[] {
+  return seeds.map((s) => ({
+    name: s.phrase,
+    // Cell area = upvote total (matches the prior bubble-size encoding).
+    value: Math.max(1, s.upvotes),
+    seed: s,
+    itemStyle: {
+      color: s.fill,
+      borderColor: s.stroke,
+      borderWidth: 1.5,
+      gapWidth: 1,
+    },
+    label: {
+      show: true,
+      color: s.textColor,
+      fontSize: 11,
+      formatter: `{name|${s.phrase}}\n{val|▲ ${formatNumber(s.upvotes)}}`,
+    },
+  }));
+}
+
 export function TopicMindshareCanvas({
   windows,
   width,
@@ -78,122 +121,133 @@ export function TopicMindshareCanvas({
     })).filter((e) => e.count > 0);
   }, [seeds]);
 
-  // Physics + pointer wiring lives in usePhysicsBubbles (UI-04). Click
-  // toggles the ?topic=<phrase> URL param; clicking the active topic clears it.
-  const {
-    svgRef,
-    groupRefs,
-    draggingId,
-    handlePointerDown,
-    handlePointerMove,
-    handlePointerUp,
-  } = usePhysicsBubbles<TopicSeed>({
-    seeds,
-    width,
-    height,
-    onClick: (seed) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (activeTopic === seed.phrase) {
-        params.delete("topic");
-      } else {
-        params.set("topic", seed.phrase);
-      }
-      const qs = params.toString();
-      router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
-    },
-  });
-
-  const bubbleElements = useMemo(() => {
-    return seeds.map((s) => {
-      const upvoteLabel = `▲ ${formatNumber(s.upvotes)}`;
-      const showPhrase = s.r >= 26;
-      const phraseFontSize = Math.max(9, Math.min(14, s.r * 0.18));
-      const upvoteFontSize = Math.max(10, Math.min(18, s.r * 0.22));
-      const maxPhraseChars = Math.max(8, Math.min(22, Math.round(s.r / 3.2)));
-      const shortPhrase =
-        s.phrase.length > maxPhraseChars
-          ? `${s.phrase.slice(0, maxPhraseChars - 1)}…`
-          : s.phrase;
-      const isDragging = draggingId === s.id;
-      const isActive = activeTopic === s.phrase;
-
-      return (
-        <g
-          key={s.id}
-          ref={(el) => {
-            groupRefs.current[s.id] = el;
-          }}
-          transform={`translate(${s.cx} ${s.cy})`}
-          onPointerDown={(e) => {
-            e.preventDefault();
-            handlePointerDown(e, s.id);
-          }}
-          style={{
-            cursor: isDragging ? "grabbing" : "pointer",
-            touchAction: "none",
-          }}
-          aria-label={`Topic "${s.phrase}" — ${s.upvotes} upvotes across ${s.postCount} posts (click to filter feed)`}
-        >
-          <circle r={Math.max(s.r, 22)} fill="transparent" />
-          <circle
-            r={s.r + (isDragging || isActive ? 10 : 4)}
-            fill={s.glow}
-            style={{ transition: "r 180ms ease-out" }}
-          />
-          <circle
-            r={s.r}
-            fill={`url(#tgrad-${s.id})`}
-            stroke={isActive ? "var(--v3-ink-000)" : s.stroke}
-            strokeWidth={isActive ? 2.5 : isDragging ? 2.25 : 1.5}
-            style={{
-              transition: "stroke-width 120ms ease-out",
-              filter: isDragging
-                ? "drop-shadow(0 6px 18px rgba(34,197,94,0.35))"
-                : undefined,
-            }}
-          />
-          {showPhrase && (
-            <text
-              x={0}
-              y={-s.r * 0.12}
-              textAnchor="middle"
-              fill={s.textColor}
-              fontSize={phraseFontSize}
-              fontWeight={600}
-              style={{
+  const option = useMemo<EChartsCoreOption>(() => {
+    const data = buildTopicTreemap(seeds);
+    return {
+      animationDuration: 0,
+      animationDurationUpdate: 0,
+      backgroundColor: "transparent",
+      tooltip: {
+        confine: true,
+        backgroundColor: CHART_TOKENS.bgCanvas,
+        borderColor: CHART_TOKENS.borderDefault,
+        borderWidth: 1,
+        padding: [8, 10],
+        textStyle: {
+          color: CHART_TOKENS.textDefault,
+          fontSize: 11,
+          fontFamily: "var(--font-mono)",
+        },
+        extraCssText: "letter-spacing: 0.04em; box-shadow: none;",
+        formatter: (params: unknown) => {
+          const p = params as { data?: TreemapDatum };
+          const s = p.data?.seed;
+          if (!s) return "";
+          return [
+            `<div style="font-family:var(--font-mono);font-size:12px;font-weight:600;color:${CHART_TOKENS.textDefault}">${s.phrase}</div>`,
+            `<div style="font-family:var(--font-mono);font-size:11px;color:${CHART_TOKENS.textSubtle};margin-top:3px">▲ ${formatNumber(s.upvotes)} upvotes · ${s.postCount} posts</div>`,
+            s.dominantSub
+              ? `<div style="font-family:var(--font-mono);font-size:10px;color:${CHART_TOKENS.textFaint};margin-top:2px">mostly r/${s.dominantSub}</div>`
+              : "",
+            `<div style="font-family:var(--font-mono);font-size:10px;color:${CHART_TOKENS.textFaint};margin-top:6px;border-top:1px solid ${CHART_TOKENS.borderSubtle};padding-top:4px">click to filter feed</div>`,
+          ].join("");
+        },
+      },
+      series: [
+        {
+          type: "treemap",
+          width: "100%",
+          height: "100%",
+          left: 0,
+          top: 0,
+          right: 0,
+          bottom: 0,
+          roam: false,
+          nodeClick: false,
+          breadcrumb: { show: false },
+          squareRatio: 1,
+          label: {
+            show: true,
+            position: "insideTopLeft",
+            distance: 6,
+            color: CHART_TOKENS.textDefault,
+            fontFamily: "var(--font-mono)",
+            fontSize: 11,
+            rich: {
+              name: {
+                color: CHART_TOKENS.textDefault,
+                fontSize: 11,
+                fontWeight: 600,
                 fontFamily: "var(--font-mono)",
-                letterSpacing: "-0.01em",
-                pointerEvents: "none",
-                userSelect: "none",
-              }}
-            >
-              {shortPhrase}
-            </text>
-          )}
-          <text
-            x={0}
-            y={showPhrase ? s.r * 0.32 : s.r * 0.1}
-            textAnchor="middle"
-            fill={s.textColor}
-            fontSize={upvoteFontSize}
-            fontWeight={700}
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontVariantNumeric: "tabular-nums",
-              pointerEvents: "none",
-              userSelect: "none",
-            }}
-          >
-            {upvoteLabel}
-          </text>
-        </g>
-      );
+                lineHeight: 14,
+              },
+              val: {
+                color: CHART_TOKENS.textSubtle,
+                fontSize: 10,
+                fontFamily: "var(--font-mono)",
+                lineHeight: 12,
+              },
+            },
+          },
+          upperLabel: { show: false },
+          itemStyle: {
+            borderColor: CHART_TOKENS.borderSubtle,
+            borderWidth: 1,
+            gapWidth: 2,
+          },
+          emphasis: {
+            itemStyle: {
+              borderColor: CHART_TOKENS.textDefault,
+              borderWidth: 1.5,
+            },
+            label: { show: true },
+          },
+          select: {
+            itemStyle: {
+              borderColor: CHART_TOKENS.accent,
+              borderWidth: 2.5,
+            },
+          },
+          selectedMode: "single",
+          levels: [
+            {
+              itemStyle: {
+                borderColor: CHART_TOKENS.borderSubtle,
+                borderWidth: 1,
+                gapWidth: 2,
+              },
+            },
+          ],
+          data,
+        },
+      ],
+    };
+  }, [seeds]);
+
+  const handleReady = (instance: import("echarts/core").ECharts) => {
+    instance.off("click");
+    instance.on("click", (params: unknown) => {
+      const p = params as {
+        data?: TreemapDatum;
+        seriesType?: string;
+      };
+      if (p.seriesType !== "treemap") return;
+      const seed = p.data?.seed;
+      if (!seed) return;
+      const params2 = new URLSearchParams(searchParams.toString());
+      if (activeTopic === seed.phrase) {
+        params2.delete("topic");
+      } else {
+        params2.set("topic", seed.phrase);
+      }
+      const qs = params2.toString();
+      router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
     });
-  }, [seeds, draggingId, activeTopic, handlePointerDown]);
+  };
 
   return (
     <section
-      aria-label="Topic mindshare map — drag to rearrange, click to filter feed"
+      aria-label="Topic mindshare map — click a cell to filter feed"
       className="relative mb-4 v2-card/60 overflow-hidden"
     >
       <div
@@ -251,38 +305,13 @@ export function TopicMindshareCanvas({
           ))}
         </div>
       )}
-      <svg
-        ref={svgRef}
-        viewBox={`0 0 ${width} ${height}`}
-        width="100%"
+      <div
         role="img"
         aria-label={`${seeds.length} trending topics by upvote mindshare`}
-        className="block select-none"
-        style={{
-          aspectRatio: `${width} / ${height}`,
-          touchAction: "none",
-        }}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
-        onPointerLeave={handlePointerUp}
+        style={{ aspectRatio: `${width} / ${height}` }}
       >
-        <defs>
-          {seeds.map((s) => (
-            <radialGradient
-              key={`tg-${s.id}`}
-              id={`tgrad-${s.id}`}
-              cx="35%"
-              cy="30%"
-              r="75%"
-            >
-              <stop offset="0%" stopColor={s.fill} stopOpacity={0.35} />
-              <stop offset="100%" stopColor={s.fill} stopOpacity={0.12} />
-            </radialGradient>
-          ))}
-        </defs>
-        {bubbleElements}
-      </svg>
+        <EChart option={option} width="100%" height="100%" onReady={handleReady} />
+      </div>
     </section>
   );
 }

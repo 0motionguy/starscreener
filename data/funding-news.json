@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-07T12:17:04.783Z",
+  "fetchedAt": "2026-05-07T13:10:45.465Z",
   "source": "funding-news-scraper",
   "windowDays": 21,
   "signals": [
@@ -10,7 +10,7 @@
       "sourceUrl": "https://tech.eu/2026/05/07/healthtech-10-companies-that-raised-the-most-in-2025/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-05-07T11:00:00.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "M\r\n\r\nOura Health",
         "companyWebsite": "https://nekohealth.com",
@@ -51,7 +51,7 @@
       "sourceUrl": "https://tech.eu/2026/05/07/codewords-raises-9m-to-bring-proactive-ai-agents-to-businesses/",
       "sourcePlatform": "techeu",
       "publishedAt": "2026-05-07T07:00:00.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "CodeWords",
         "companyWebsite": "https://codewords.ai",
@@ -84,7 +84,7 @@
       "sourceUrl": "https://www.eu-startups.com/2026/05/frances-opsmill-raises-e11-9-million-to-help-enterprises-prepare-infrastructure-data-for-ai-and-automation/",
       "sourcePlatform": "eu-startups",
       "publishedAt": "2026-05-07T05:05:26.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "France",
         "companyWebsite": "https://eu-startups.com",
@@ -124,7 +124,7 @@
       "sourceUrl": "https://arstechnica.com/ai/2026/05/anthropic-raises-claude-code-usage-limits-credits-new-deal-with-spacex/",
       "sourcePlatform": "arstechnica",
       "publishedAt": "2026-05-06T22:09:14.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "Anthropic",
         "companyWebsite": "https://anthropic.com",
@@ -149,7 +149,7 @@
       "sourceUrl": "https://techcrunch.com/2026/05/06/ethos-raises-22-75m-from-a16z-for-its-expert-network-with-voice-onboarding/",
       "sourcePlatform": "techcrunch-ai",
       "publishedAt": "2026-05-06T15:00:00.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "Ethos",
         "companyWebsite": "https://agent.askethos.com",
@@ -181,7 +181,7 @@
       "sourceUrl": "https://techstartups.com/2026/05/06/tessera-labs-raises-60m-led-by-andreessen-horowitz-to-transform-erp-systems-with-ai/",
       "sourcePlatform": "techstartups",
       "publishedAt": "2026-05-06T14:54:37.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "Tessera Labs",
         "companyWebsite": "https://tesseralabs.ai",
@@ -214,7 +214,7 @@
       "sourceUrl": "https://techstartups.com/2026/05/06/refibuy-raises-13-6m-to-help-e-commerce-brands-surface-in-ai-driven-shopping/",
       "sourcePlatform": "techstartups",
       "publishedAt": "2026-05-06T12:52:01.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "ReFiBuy",
         "companyWebsite": "https://refibuy.ai",
@@ -241,37 +241,13 @@
       ]
     },
     {
-      "id": "the-decoder.com-b4ce7fee",
-      "headline": "Anthropic commits $200 billion to Google Cloud over five years",
-      "description": "According to a report by The Information, Anthropic has committed to spending roughly $200 billion on Google Cloud over the next five years - more than 40 percent of Google's entire cloud backlog. Together with OpenAI, the two money-losing startups account for roughly half of the $2 trillion in committed cloud revenue at Amazon, Microsoft, Google, and Oracle. Whether the 20- to 30-fold revenue growth both companies are projecting by 2029 will justify these numbers remains an open question. The article Anthropic commits $200 billion to Google Cloud over five years appeared first on The Decoder .",
-      "sourceUrl": "https://the-decoder.com/anthropic-commits-200-billion-to-google-cloud-over-five-years/",
-      "sourcePlatform": "the-decoder",
-      "publishedAt": "2026-05-06T12:45:12.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
-      "extracted": {
-        "companyName": "Anthropic",
-        "companyWebsite": "https://anthropic.com",
-        "companyLogoUrl": "https://github.com/anthropics.png",
-        "amount": 200,
-        "amountDisplay": "$200",
-        "currency": "USD",
-        "roundType": "growth",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai"
-      ]
-    },
-    {
       "id": "techcrunch.com-92e3225c",
       "headline": "Altara secures $7M to bridge the data gap that’s slowing down physical sciences",
       "description": "Altara’s AI aims to diagnose failures and help speed up R&D by unifying data siloed across spreadsheets and legacy systems.",
       "sourceUrl": "https://techcrunch.com/2026/05/05/altara-secures-7m-to-bridge-the-data-gap-thats-slowing-down-physical-sciences/",
       "sourcePlatform": "techcrunch",
       "publishedAt": "2026-05-05T22:57:41.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "Altara",
         "companyWebsite": "https://altara.co",
@@ -303,7 +279,7 @@
       "sourceUrl": "https://techstartups.com/2026/05/05/moment-energy-raises-40m-to-turn-used-ev-batteries-into-power-for-ai-data-centers/",
       "sourcePlatform": "techstartups",
       "publishedAt": "2026-05-05T14:33:58.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "Moment Energy",
         "companyWebsite": "https://momentenergy.com",
@@ -342,7 +318,7 @@
       "sourceUrl": "https://techstartups.com/2026/05/05/peter-thiel-backed-panthalassa-raises-140m-to-build-wave-powered-floating-ai-data-centers/",
       "sourcePlatform": "techstartups",
       "publishedAt": "2026-05-05T13:55:56.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "Peter Thiel-backed Panthalassa",
         "companyWebsite": null,
@@ -374,7 +350,7 @@
       "sourceUrl": "https://www.eu-startups.com/2026/05/waiv-robotics-emerges-from-stealth-with-e6-4-million-to-develop-autonomous-uav-landing-infrastructure/",
       "sourcePlatform": "eu-startups",
       "publishedAt": "2026-05-05T12:00:17.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "WaiV Robotics",
         "companyWebsite": "https://waivrobotics.com",
@@ -399,7 +375,7 @@
       "sourceUrl": "https://sifted.eu/articles/y-combinator-alum-moritz-raises-9m/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-05-05T10:08:41.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "Y Combinator alum Moritz",
         "companyWebsite": null,
@@ -423,7 +399,7 @@
       "sourceUrl": "https://sifted.eu/articles/lithosquare-critical-metals-fundraise/",
       "sourcePlatform": "sifted",
       "publishedAt": "2026-05-05T05:00:00.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "Lithosquare",
         "companyWebsite": null,
@@ -447,7 +423,7 @@
       "sourceUrl": "https://www.artificialintelligence-news.com/news/physical-ai-governance-autonomous-systems/",
       "sourcePlatform": "ai-news",
       "publishedAt": "2026-05-04T11:00:00.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "Physical AI",
         "companyWebsite": "https://artificialintelligence-news.com",
@@ -472,7 +448,7 @@
       "sourceUrl": "https://www.artificialintelligence-news.com/news/sap-how-enterprise-ai-governance-secures-profit-margins/",
       "sourcePlatform": "ai-news",
       "publishedAt": "2026-05-01T13:05:37.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "SAP",
         "companyWebsite": "https://artificialintelligence-news.com",
@@ -499,7 +475,7 @@
       "sourceUrl": "https://www.artificialintelligence-news.com/news/big-tech-ai-infrastructure-spending-q1-2026-results/",
       "sourcePlatform": "ai-news",
       "publishedAt": "2026-04-30T10:00:00.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "Big Tech",
         "companyWebsite": "https://artificialintelligence-news.com",
@@ -531,7 +507,7 @@
       "sourceUrl": "https://aibusiness.com/robotics/scout-ai-raises-100m-build-ai-brain-autonomous-warfare",
       "sourcePlatform": "ai-business",
       "publishedAt": "2026-04-29T16:05:17.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "Scout AI",
         "companyWebsite": null,
@@ -556,7 +532,7 @@
       "sourceUrl": "https://aibusiness.com/generative-ai/record-1-1b-seed-funding-reinforcement-learning-startup",
       "sourcePlatform": "ai-business",
       "publishedAt": "2026-04-28T13:16:56.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "Record",
         "companyWebsite": null,
@@ -578,7 +554,7 @@
       "sourceUrl": "https://aibusiness.com/agentic-ai/china-moves-block-meta-s-2b-acquisition-ai-startup",
       "sourcePlatform": "ai-business",
       "publishedAt": "2026-04-27T14:51:31.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "China Moves",
         "companyWebsite": null,
@@ -602,7 +578,7 @@
       "sourceUrl": "https://aibusiness.com/generative-ai/uk-launches-675-million-fund-ai-startups",
       "sourcePlatform": "ai-business",
       "publishedAt": "2026-04-20T12:47:45.000Z",
-      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "discoveredAt": "2026-05-07T13:10:45.465Z",
       "extracted": {
         "companyName": "UK Launches",
         "companyWebsite": null,
@@ -664,7 +640,7 @@
         "saas",
         "devtools"
       ],
-      "discoveredAt": "2026-05-07T12:17:04.783Z"
+      "discoveredAt": "2026-05-07T13:10:45.465Z"
     },
     {
       "id": "seed-coreweave-series-c-2026",
@@ -710,7 +686,7 @@
         "hardware",
         "saas"
       ],
-      "discoveredAt": "2026-05-07T12:17:04.783Z"
+      "discoveredAt": "2026-05-07T13:10:45.465Z"
     },
     {
       "id": "seed-cognition-series-a-2026",
@@ -749,7 +725,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-05-07T12:17:04.783Z"
+      "discoveredAt": "2026-05-07T13:10:45.465Z"
     },
     {
       "id": "seed-anduril-series-f-2026",
@@ -794,7 +770,7 @@
         "defense",
         "ai"
       ],
-      "discoveredAt": "2026-05-07T12:17:04.783Z"
+      "discoveredAt": "2026-05-07T13:10:45.465Z"
     },
     {
       "id": "seed-sambanova-series-e-2026",
@@ -839,7 +815,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-05-07T12:17:04.783Z"
+      "discoveredAt": "2026-05-07T13:10:45.465Z"
     },
     {
       "id": "seed-poolside-series-a-2026",
@@ -878,7 +854,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-05-07T12:17:04.783Z"
+      "discoveredAt": "2026-05-07T13:10:45.465Z"
     },
     {
       "id": "seed-hebbia-series-b-2026",
@@ -917,7 +893,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-07T12:17:04.783Z"
+      "discoveredAt": "2026-05-07T13:10:45.465Z"
     },
     {
       "id": "seed-together-series-a-2026",
@@ -956,7 +932,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-07T12:17:04.783Z"
+      "discoveredAt": "2026-05-07T13:10:45.465Z"
     },
     {
       "id": "seed-sierra-series-b-2026",
@@ -995,7 +971,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-07T12:17:04.783Z"
+      "discoveredAt": "2026-05-07T13:10:45.465Z"
     },
     {
       "id": "seed-glean-series-d-2026",
@@ -1034,7 +1010,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-07T12:17:04.783Z"
+      "discoveredAt": "2026-05-07T13:10:45.465Z"
     },
     {
       "id": "seed-groq-series-d-2026",
@@ -1073,7 +1049,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-05-07T12:17:04.783Z"
+      "discoveredAt": "2026-05-07T13:10:45.465Z"
     },
     {
       "id": "seed-mistral-series-b-2026",
@@ -1118,7 +1094,7 @@
         "ai",
         "europe"
       ],
-      "discoveredAt": "2026-05-07T12:17:04.783Z"
+      "discoveredAt": "2026-05-07T13:10:45.465Z"
     },
     {
       "id": "seed-adept-series-b-2026",
@@ -1157,7 +1133,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-07T12:17:04.783Z"
+      "discoveredAt": "2026-05-07T13:10:45.465Z"
     },
     {
       "id": "seed-elevenlabs-series-c-2026",
@@ -1201,7 +1177,7 @@
       "tags": [
         "ai"
       ],
-      "discoveredAt": "2026-05-07T12:17:04.783Z"
+      "discoveredAt": "2026-05-07T13:10:45.465Z"
     },
     {
       "id": "seed-scale-series-f-2026",
@@ -1246,7 +1222,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-07T12:17:04.783Z"
+      "discoveredAt": "2026-05-07T13:10:45.465Z"
     },
     {
       "id": "seed-perplexity-series-c-2026",
@@ -1291,7 +1267,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-07T12:17:04.783Z"
+      "discoveredAt": "2026-05-07T13:10:45.465Z"
     }
   ]
 }

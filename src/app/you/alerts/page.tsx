@@ -14,7 +14,11 @@ import type { Metadata } from "next";
 import { desc, eq } from "drizzle-orm";
 
 import { db } from "@/lib/db/client";
-import { alertRules } from "@/lib/db/schema/alerts";
+import {
+  alertRules,
+  type AlertCadence,
+  type AlertRuleType,
+} from "@/lib/db/schema/alerts";
 import { requireUser } from "@/lib/auth/server";
 
 import { AlertRuleList } from "./_components/AlertRuleList";
@@ -48,12 +52,16 @@ export default async function YouAlertsPage() {
 
   // Serialize Drizzle row shape → JSON-safe shape for client islands.
   // Date fields become ISO strings; jsonb passes through unchanged.
+  // ruleType/cadence are stored as `text` in the schema (not pg-enum) so
+  // Drizzle's inferred type is `string`; we narrow back to the enum at the
+  // serialization boundary — Lane 1's POST handler validates against the
+  // same enums on insert, so any deviation is a writer-side bug.
   const serializedRules: SerializedAlertRule[] = rows.map((r) => ({
     id: r.id,
     name: r.name,
-    ruleType: r.ruleType,
+    ruleType: r.ruleType as AlertRuleType,
     ruleConfig: r.ruleConfig as Record<string, unknown>,
-    cadence: r.cadence,
+    cadence: r.cadence as AlertCadence,
     webhookUrl: r.webhookUrl,
     quietHours: r.quietHours as
       | { startMin: number; endMin: number }

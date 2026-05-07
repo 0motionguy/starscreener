@@ -14,12 +14,20 @@ import * as echarts from "echarts/core";
 // Note: there is no separate AreaChart in ECharts — an "area" is a LineChart
 // series with `areaStyle` set. The Line/Bar/Scatter trio covers every chart
 // type used on the dashboard today.
-import { BarChart, HeatmapChart, LineChart, ScatterChart, TreemapChart } from "echarts/charts";
+import {
+  BarChart,
+  HeatmapChart,
+  LineChart,
+  RadarChart,
+  ScatterChart,
+  TreemapChart,
+} from "echarts/charts";
 import {
   DataZoomComponent,
   GridComponent,
   LegendComponent,
   MarkLineComponent,
+  RadarComponent,
   TitleComponent,
   TooltipComponent,
   VisualMapComponent,
@@ -33,6 +41,7 @@ echarts.use([
   ScatterChart,
   HeatmapChart,
   TreemapChart,
+  RadarChart,
   // Components
   GridComponent,
   TooltipComponent,
@@ -41,6 +50,7 @@ echarts.use([
   DataZoomComponent,
   VisualMapComponent,
   MarkLineComponent,
+  RadarComponent,
   // Renderer — Canvas for perf; ECharts also ships SVG if needed
   CanvasRenderer,
 ]);

@@ -323,7 +323,11 @@ export default async function McpPage() {
         ]}
       />
 
-      <LiveMcpTable rows={mcpRows} categories={categories} />
+      {mcpRows.length > 0 ? (
+        <LiveMcpTable rows={mcpRows} categories={categories} />
+      ) : (
+        <McpColdState />
+      )}
 
       <p className="text-[11px] text-text-tertiary mt-4">
         Want the full table?{" "}
@@ -331,5 +335,43 @@ export default async function McpPage() {
         payload.
       </p>
     </main>
+  );
+}
+
+// Cold-state slot — rendered when no MCP row carries a real signal yet
+// (no installs delta, release date, verified vendor, or linked trending
+// repo). Mirrors the dashed slate used on /producthunt so the page
+// never collapses to just headers + KPI band on a cold snapshot.
+function McpColdState() {
+  return (
+    <section
+      style={{
+        padding: 32,
+        background: "var(--v4-bg-025)",
+        border: "1px dashed var(--v4-line-100)",
+        borderRadius: 2,
+      }}
+    >
+      <h2
+        className="v2-mono"
+        style={{
+          color: "var(--v4-acc)",
+          fontSize: 18,
+          fontWeight: 700,
+          textTransform: "uppercase",
+          letterSpacing: "0.18em",
+        }}
+      >
+        {"// mcp registries warming up"}
+      </h2>
+      <p
+        style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}
+      >
+        Smithery, Glama, PulseMCP and Anthropic Official have been pinged but
+        no row has an installs delta, release date, verified vendor or linked
+        trending repo yet. Daily snapshots accrue on each scrape — check back
+        in 30 minutes.
+      </p>
+    </section>
   );
 }

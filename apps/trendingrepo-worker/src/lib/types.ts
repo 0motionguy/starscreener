@@ -1,5 +1,6 @@
 import type { Logger } from 'pino';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SourceContract } from '../platform/source-contract.js';
 
 export type TrendingItemType =
   | 'skill'
@@ -131,6 +132,19 @@ export interface FetcherContext {
   dryRun: boolean;
   since: Date;
   signalRunComplete: (counts: RunResult) => Promise<void>;
+  /**
+   * Static `SourceContract` row for this fetcher, looked up at run time from
+   * `SOURCE_CONTRACTS[]`. Optional because:
+   *   1. `runFetcher()` may be invoked from contexts that don't pre-populate
+   *      it (one-shot CLI debug, ad-hoc test mocks).
+   *   2. A registered fetcher may be missing a contract row during the
+   *      migration window — runFetcher logs a Sentry warning and continues
+   *      rather than crashing the whole cron tick.
+   * Move 3 will read `contract.freshness_budget_ms` and
+   * `contract.cost_signal_metric` for enforcement; Phase 3 only surfaces it
+   * for diagnostics + run-summary logging.
+   */
+  contract?: SourceContract;
 }
 
 export interface Fetcher {

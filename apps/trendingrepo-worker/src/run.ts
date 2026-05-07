@@ -9,13 +9,15 @@
 // Errors are reported to Sentry + logged, then re-thrown so the caller
 // (CLI / scheduler) can decide how to respond.
 
-import { captureException } from './lib/sentry.js';
+import { captureException, captureMessage } from './lib/sentry.js';
 import { getLogger } from './lib/log.js';
 import { getRedis, setCurrentFetcherName } from './lib/redis.js';
 import { getDb } from './lib/db.js';
 import { createHttpClient } from './lib/http.js';
 import type { Fetcher, FetcherContext, RedisHandle, RunResult } from './lib/types.js';
 import { recordRun } from './server.js';
+import { getContract } from './platform/contracts.js';
+import { emitRunSummary } from './platform/run-summary.js';
 
 export interface RunOptions {
   dryRun?: boolean;
@@ -34,6 +36,7 @@ export async function runFetcher(
   const log = getLogger();
   const dryRun = opts.dryRun === true;
   const startedAt = new Date().toISOString();
+  const t0 = Date.now();
 
   if (fetcher.requiresFirecrawl && !process.env.FIRECRAWL_API_KEY) {
     log.warn(
@@ -41,6 +44,22 @@ export async function runFetcher(
       'fetcher requires FIRECRAWL_API_KEY but env is empty - skipping',
     );
     return emptyResult(fetcher.name, startedAt);
+  }
+
+  // Move 1, Phase 3 — bind static SourceContract at run time. Used for
+  // diagnostics today (run-summary line + ctx availability), freshness/cost
+  // enforcement in Move 3. Missing-contract for an active fetcher is a
+  // soft warning: log + Sentry, never crash the cron tick.
+  const contract = getContract(fetcher.name);
+  if (!contract) {
+    log.warn(
+      { fetcher: fetcher.name },
+      'fetcher has no SOURCE_CONTRACTS entry — diagnostics will be partial',
+    );
+    captureMessage(
+      `fetcher missing source contract: ${fetcher.name}`,
+      'warning',
+    );
   }
 
   // Set the writer-provenance slot so any writeDataStore() call inside the
@@ -89,6 +108,7 @@ export async function runFetcher(
       signalRunComplete: async () => {
         recordRun();
       },
+      contract,
     };
 
     log.info(
@@ -122,10 +142,26 @@ export async function runFetcher(
       );
     }
     recordRun();
+    emitRunSummary({
+      sourceId: fetcher.name,
+      status: 'ok',
+      durationMs: Date.now() - t0,
+      recordsIn: result.itemsSeen,
+      recordsOut: result.itemsUpserted,
+      contract,
+    });
     return result;
   } catch (err) {
     captureException(err, { fetcher: fetcher.name });
     log.error({ err: (err as Error).message, fetcher: fetcher.name }, 'fetcher failed');
+    emitRunSummary({
+      sourceId: fetcher.name,
+      status: 'err',
+      durationMs: Date.now() - t0,
+      recordsIn: 0,
+      recordsOut: 0,
+      contract,
+    });
     throw err;
   } finally {
     setCurrentFetcherName(null);

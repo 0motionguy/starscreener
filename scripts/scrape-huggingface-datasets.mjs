@@ -32,6 +32,7 @@ import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { runAsRegisteredSource } from "./_source-script-runner.mjs";
+import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 import {
   loadHuggingfaceTokens,
   pickToken,
@@ -121,11 +122,27 @@ async function main() {
   // Trending order from HF is already meaningful; preserve it as `rank`.
   const ranked = datasets.map((d, i) => ({ rank: i + 1, ...d }));
 
+  // Keep-last-50 cache merge per docs/INGESTION.md (2026-05-08): never empty
+  // the cache on API failure / empty upstream. Merge by id, sort by
+  // trendingScore desc, keep top N. Strip stale `rank` from existing entries
+  // before merging, then re-rank the merged result.
+  const existingEnvelope = await loadExistingJson(OUT_PATH, { datasets: [] });
+  const existingDatasets = Array.isArray(existingEnvelope?.datasets)
+    ? existingEnvelope.datasets.map(({ rank: _r, ...rest }) => rest)
+    : [];
+  const thisRunDatasets = ranked.map(({ rank: _r, ...rest }) => rest);
+  const merged = mergeAndKeepLastN(existingDatasets, thisRunDatasets, {
+    idKey: "id",
+    scoreKey: "trendingScore",
+    keepN: 50,
+  });
+  const mergedRanked = merged.map((d, i) => ({ rank: i + 1, ...d }));
+
   const payload = {
     fetchedAt,
     source: "huggingface.co/api/datasets (default sort = trending)",
-    count: ranked.length,
-    datasets: ranked,
+    count: mergedRanked.length,
+    datasets: mergedRanked,
   };
 
   await mkdir(DATA_DIR, { recursive: true });

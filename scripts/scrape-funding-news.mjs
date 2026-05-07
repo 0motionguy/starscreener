@@ -15,6 +15,7 @@ import { readFile, writeFile, mkdir } from "fs/promises";
 import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
 import pLimit from "p-limit";
+import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 import { fetchWithTimeout, sleep } from "./_fetch-json.mjs";
 import { fetchArticleData } from "./_funding-article.mjs";
 import { extractGithubRepoFullNames, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
@@ -755,11 +756,27 @@ async function main() {
     return (Number.isFinite(tb) ? tb : 0) - (Number.isFinite(ta) ? ta : 0);
   });
 
+  // Keep-last-50 cache merge — never empty the cache on API failure / empty
+  // upstream. Only applied to the canonical OUT_PATH; preview/test outputs
+  // (--output=...) write the raw run untouched.
+  let mergedSignals = allSignals;
+  if (outputPath === OUT_PATH) {
+    const existingPayload = await loadExistingJson(OUT_PATH, { signals: [] });
+    const existingSignals = Array.isArray(existingPayload?.signals)
+      ? existingPayload.signals
+      : [];
+    mergedSignals = mergeAndKeepLastN(existingSignals, allSignals, {
+      idKey: "id",
+      scoreKey: "publishedAt",
+      keepN: 50,
+    });
+  }
+
   const payload = {
     fetchedAt: discoveredAt,
     source: "funding-news-scraper",
     windowDays: WINDOW_DAYS,
-    signals: allSignals,
+    signals: mergedSignals,
   };
 
   await mkdir(DATA_DIR, { recursive: true });

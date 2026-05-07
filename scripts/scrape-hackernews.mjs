@@ -40,6 +40,7 @@ import {
 } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 
 function slugIdFromFullName(fullName) {
   return String(fullName)
@@ -483,10 +484,30 @@ async function main() {
   }
 
   await mkdir(DATA_DIR, { recursive: true });
-  await writeFile(TRENDING_OUT, JSON.stringify(trendingPayload, null, 2) + "\n", "utf8");
-  await writeFile(MENTIONS_OUT, JSON.stringify(mentionsPayload, null, 2) + "\n", "utf8");
-  const trendingRedis = await writeDataStore("hackernews-trending", trendingPayload);
-  const mentionsRedis = await writeDataStore("hackernews-repo-mentions", mentionsPayload);
+
+  // Keep-last-50 merge per docs/INGESTION.md (2026-05-08).
+  // Trending: merge stories[] by id, sort by trendingScore desc, createdUtc tiebreak.
+  const existingTrending = await loadExistingJson(TRENDING_OUT, { stories: [] });
+  const mergedTrendingStories = mergeAndKeepLastN(
+    Array.isArray(existingTrending?.stories) ? existingTrending.stories : [],
+    trendingPayload.stories,
+    { idKey: "id", scoreKey: "trendingScore", recencyKey: "createdUtc" },
+  );
+  const trendingPayloadFinal = { ...trendingPayload, stories: mergedTrendingStories };
+
+  // Mentions: merge leaderboard[] by fullName, sort by scoreSum7d desc, count7d tiebreak.
+  const existingMentions = await loadExistingJson(MENTIONS_OUT, { leaderboard: [] });
+  const mergedLeaderboard = mergeAndKeepLastN(
+    Array.isArray(existingMentions?.leaderboard) ? existingMentions.leaderboard : [],
+    mentionsPayload.leaderboard,
+    { idKey: "fullName", scoreKey: "scoreSum7d", recencyKey: "count7d" },
+  );
+  const mentionsPayloadFinal = { ...mentionsPayload, leaderboard: mergedLeaderboard };
+
+  await writeFile(TRENDING_OUT, JSON.stringify(trendingPayloadFinal, null, 2) + "\n", "utf8");
+  await writeFile(MENTIONS_OUT, JSON.stringify(mentionsPayloadFinal, null, 2) + "\n", "utf8");
+  const trendingRedis = await writeDataStore("hackernews-trending", trendingPayloadFinal);
+  const mentionsRedis = await writeDataStore("hackernews-repo-mentions", mentionsPayloadFinal);
 
   log("");
   log(`wrote ${TRENDING_OUT} [redis: ${trendingRedis.source}]`);

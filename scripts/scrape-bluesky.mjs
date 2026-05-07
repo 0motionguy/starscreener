@@ -54,6 +54,7 @@ import {
 } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 
 // F3 unknown-mentions accumulator — per-run Set populated inside the
 // extractRepoMentions wrapper. Flushed via appendUnknownMentions at end
@@ -474,18 +475,77 @@ async function main() {
   };
 
   await mkdir(DATA_DIR, { recursive: true });
+
+  // Keep-last-50 merge per docs/INGESTION.md "RULE: Keep-last-50 cache".
+  // mentions: wrapped { mentions: { "owner/name": { ..., posts: [] } } } —
+  // merge per-repo bucket so empty upstream / API failure can't shrink any
+  // single repo's history below the floor.
+  const existingMentionsDoc = await loadExistingJson(MENTIONS_OUT, { mentions: {} });
+  const existingBuckets =
+    existingMentionsDoc && typeof existingMentionsDoc === "object" && existingMentionsDoc.mentions
+      ? existingMentionsDoc.mentions
+      : {};
+  const mergedMentions = {};
+  const allRepoKeys = new Set([
+    ...Object.keys(existingBuckets),
+    ...Object.keys(mentionsPayload.mentions ?? {}),
+  ]);
+  for (const repoKey of allRepoKeys) {
+    const oldBucket = existingBuckets[repoKey] ?? {};
+    const newBucket = mentionsPayload.mentions?.[repoKey] ?? {};
+    const oldPosts = Array.isArray(oldBucket.posts) ? oldBucket.posts : [];
+    const newPosts = Array.isArray(newBucket.posts) ? newBucket.posts : [];
+    const mergedPosts = mergeAndKeepLastN(oldPosts, newPosts, {
+      idKey: "uri",
+      scoreKey: "likeCount",
+      recencyKey: "createdUtc",
+      keepN: 50,
+    });
+    // Prefer this run's bucket totals when present (they reflect the 7d window
+    // re-bucketing); fall back to old bucket if the repo wasn't seen this run.
+    const baseBucket = Object.keys(newBucket).length ? newBucket : oldBucket;
+    mergedMentions[repoKey] = { ...baseBucket, posts: mergedPosts };
+  }
+  const mergedMentionsPayload = {
+    ...mentionsPayload,
+    mentions: mergedMentions,
+    mentionsByRepoId: Object.fromEntries(
+      Object.entries(mergedMentions).map(([fullName, value]) => [
+        slugIdFromFullName(fullName),
+        value,
+      ]),
+    ),
+  };
+
+  // trending: wrapped { posts: [...] } flat array — merge top-level.
+  const existingTrendingDoc = await loadExistingJson(TRENDING_OUT, { posts: [] });
+  const existingTrendingPosts = Array.isArray(existingTrendingDoc?.posts)
+    ? existingTrendingDoc.posts
+    : [];
+  const mergedTrendingPosts = mergeAndKeepLastN(
+    existingTrendingPosts,
+    trendingPayload.posts ?? [],
+    {
+      idKey: "uri",
+      scoreKey: "trendingScore",
+      recencyKey: "createdUtc",
+      keepN: 50,
+    },
+  );
+  const mergedTrendingPayload = { ...trendingPayload, posts: mergedTrendingPosts };
+
   await writeFile(
     MENTIONS_OUT,
-    JSON.stringify(mentionsPayload, null, 2) + "\n",
+    JSON.stringify(mergedMentionsPayload, null, 2) + "\n",
     "utf8",
   );
   await writeFile(
     TRENDING_OUT,
-    JSON.stringify(trendingPayload, null, 2) + "\n",
+    JSON.stringify(mergedTrendingPayload, null, 2) + "\n",
     "utf8",
   );
-  const mentionsRedis = await writeDataStore("bluesky-mentions", mentionsPayload);
-  const trendingRedis = await writeDataStore("bluesky-trending", trendingPayload);
+  const mentionsRedis = await writeDataStore("bluesky-mentions", mergedMentionsPayload);
+  const trendingRedis = await writeDataStore("bluesky-trending", mergedTrendingPayload);
 
   log("");
   log(`wrote ${MENTIONS_OUT} [redis: ${mentionsRedis.source}]`);

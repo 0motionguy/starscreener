@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
+import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 
 const PERIODS = ["past_24_hours", "past_week", "past_month"];
 const LANGUAGES = ["All", "Python", "TypeScript", "Rust", "Go"];
@@ -191,13 +192,43 @@ async function main() {
     hotCollections = await fetchHotCollections();
     console.log(`ok  hot collections - ${hotCollections.length} rows`);
 
+    // Keep-last-N cache merge (docs/INGESTION.md): never empty cache on
+    // empty upstream / API failure. Merge leaf bucket arrays independently.
+    const existingTrends = await loadExistingJson(TRENDS_OUT, { buckets: {} });
+    const existingBuckets = existingTrends?.buckets ?? {};
+    const mergedBuckets = {};
+    for (const period of PERIODS) {
+      mergedBuckets[period] = {};
+      for (const language of LANGUAGES) {
+        const prev = existingBuckets?.[period]?.[language] ?? [];
+        const next = buckets[period][language] ?? [];
+        mergedBuckets[period][language] = mergeAndKeepLastN(prev, next, {
+          idKey: "repo_id",
+          scoreKey: "total_score",
+          keepN: 100,
+        });
+      }
+    }
+
+    // hot-collections rows are (collection x repo) pairs — `id` repeats per
+    // collection. Inject a composite key for dedupe; strip after merge.
+    const decorate = (rows) =>
+      (rows ?? []).map((r) => ({ ...r, _ck: `${r.id}:${r.repoId}` }));
+    const undecorate = ({ _ck, ...rest }) => rest;
+    const existingHot = await loadExistingJson(HOT_COLLECTIONS_OUT, { rows: [] });
+    const mergedHotRows = mergeAndKeepLastN(
+      decorate(existingHot?.rows),
+      decorate(hotCollections),
+      { idKey: "_ck", scoreKey: "repos", keepN: 100 },
+    ).map(undecorate);
+
     const trendsPayload = {
       fetchedAt,
-      buckets,
+      buckets: mergedBuckets,
     };
     const hotCollectionsPayload = {
       fetchedAt,
-      rows: hotCollections,
+      rows: mergedHotRows,
     };
 
     await mkdir(dirname(TRENDS_OUT), { recursive: true });
@@ -219,8 +250,15 @@ async function main() {
     // hydrates the full grid lazily when the user switches filters.
     // Falls through cleanly if the bucket isn't present (e.g. a future
     // PERIODS/LANGUAGES change without updating the lite constants).
-    const liteRows =
-      buckets[TRENDS_LITE_PERIOD]?.[TRENDS_LITE_LANGUAGE] ?? [];
+    // Lite slice mirrors the merged grid so cache survival applies here too.
+    const liteFreshRows =
+      mergedBuckets[TRENDS_LITE_PERIOD]?.[TRENDS_LITE_LANGUAGE] ?? [];
+    const existingLite = await loadExistingJson(TRENDS_LITE_OUT, { rows: [] });
+    const liteRows = mergeAndKeepLastN(
+      existingLite?.rows ?? [],
+      liteFreshRows,
+      { idKey: "repo_id", scoreKey: "total_score", keepN: 100 },
+    );
     const trendsLitePayload = {
       fetchedAt,
       period: TRENDS_LITE_PERIOD,
@@ -297,10 +335,29 @@ async function main() {
       collectionRankings[String(collection.id)] = metrics;
     }
 
+    // Keep-last-N merge per (collection, metric) leaf array.
+    const existingRankings = await loadExistingJson(COLLECTION_RANKINGS_OUT, {
+      collections: {},
+    });
+    const existingCollections = existingRankings?.collections ?? {};
+    const mergedCollections = {};
+    for (const [colId, metrics] of Object.entries(collectionRankings)) {
+      mergedCollections[colId] = {};
+      for (const metric of COLLECTION_RANKING_METRICS) {
+        const prev = existingCollections?.[colId]?.[metric] ?? [];
+        const next = metrics?.[metric] ?? [];
+        mergedCollections[colId][metric] = mergeAndKeepLastN(prev, next, {
+          idKey: "repoId",
+          scoreKey: "currentPeriodGrowth",
+          keepN: 100,
+        });
+      }
+    }
+
     const collectionRankingsPayload = {
       fetchedAt,
       period: COLLECTION_RANKING_PERIOD,
-      collections: collectionRankings,
+      collections: mergedCollections,
     };
 
     await mkdir(dirname(TRENDS_OUT), { recursive: true });

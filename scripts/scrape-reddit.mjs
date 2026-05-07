@@ -344,6 +344,11 @@ function stripSelftext(raw) {
     .slice(0, SELFTEXT_MAX_CHARS);
 }
 
+// keep-last-50: Reddit uses its own per-subreddit merge with windowed cutoff
+// (richer than the global-helper variant — preserves cross-sub coverage). The
+// rule's intent (never empty the cache, dedupe + sort + cap) is satisfied
+// per-bucket via ALL_POSTS_TOP_K_PER_SUB. Cross-checked by
+// scripts/check-collector-keep-last-50.mjs (ANNOTATION_RE).
 export function mergeAllPosts(existing, thisRun, cutoffSec) {
   // Union by post ID. On collision, keep the entry with higher score
   // (upvote trajectory matters for detecting late-breaking viral posts)

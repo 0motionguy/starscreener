@@ -5,7 +5,6 @@ import Link from "next/link";
 import { ROUTES } from "@/lib/constants";
 import { SearchBar } from "@/components/shared/SearchBar";
 import { HamburgerButton } from "@/components/layout/HamburgerButton";
-import "./header.css";
 
 // Same shape as Sidebar.tsx's useUserSession — duplicated here so the
 // Header can hide/show the profile chip independently of the rail.
@@ -88,7 +87,11 @@ export function Header() {
       </Link>
 
       <div className="search-wrap">
-        <SearchBar placeholder="search repos..." fullWidth />
+        <SearchBar placeholder="search repos, skills, MCPs…" fullWidth />
+        <span className="key" aria-hidden="true">
+          <kbd>{'⌘'}</kbd>
+          <kbd>K</kbd>
+        </span>
       </div>
 
       <div className="topbar-actions">

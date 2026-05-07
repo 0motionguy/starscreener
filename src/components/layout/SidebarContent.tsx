@@ -24,7 +24,7 @@
  *   - `default` — neutral total for cumulative inventories.
  *   - `accent`  — purple pill for the user's own counts.
  */
-import { startTransition, type ReactNode } from "react";
+import { startTransition, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useFreshCount } from "@/lib/use-fresh-count";
@@ -76,7 +76,6 @@ import { SidebarRecentViewedRepos } from "./SidebarRecentViewedRepos";
 import { SidebarFooter } from "./SidebarFooter";
 import { cn } from "@/lib/utils";
 import { CursorRail } from "@/components/v3";
-import "./sidebar-nav.css";
 
 const RedditSidebarIcon: SidebarIconComponent = (p) => (
   <RedditIcon {...p} monochrome />
@@ -131,14 +130,23 @@ interface V2SectionProps {
   rightSlot?: ReactNode;
   maxHeightPx?: number;
   /**
+   * Stable identifier for the group, used by the collapse state map and as
+   * a `data-group-id` attribute hook. Required when the group is collapsible.
+   */
+  groupId?: string;
+  /**
    * Group activity pip state.
    *   undefined → orange "waiting" pip (default)
    *   'live'    → animated green pip (group is fresh / actively updating)
    *   'stale'   → flat gray pip (no recent activity)
    *
-   * Drag handle + chevron are visual-only for now (TODO: wire reorder/collapse).
+   * Drag handle stays visual-only (TODO: wire reorder).
    */
   pipState?: PipState;
+  /** Whether the group is currently collapsed (children hidden). */
+  collapsed?: boolean;
+  /** Click handler for the chevron — toggles collapsed state in the parent. */
+  onToggleCollapse?: () => void;
 }
 
 function V2Section({
@@ -146,12 +154,19 @@ function V2Section({
   children,
   rightSlot,
   maxHeightPx,
+  groupId,
   pipState,
+  collapsed,
+  onToggleCollapse,
 }: V2SectionProps) {
   const pipClass = cn("grp-pip", pipState === "live" && "live", pipState === "stale" && "stale");
+  const isCollapsed = !!collapsed;
   return (
-    <section className="sb-group group">
-      <div className="sb-grp-label group-label">
+    <section
+      className={cn("sb-group", isCollapsed && "collapsed")}
+      data-group-id={groupId}
+    >
+      <div className="sb-grp-label">
         <span className={pipClass} aria-hidden="true" />
         <span className="grp-name">{`// ${label}`}</span>
         <span className="grp-line" aria-hidden="true" />
@@ -166,7 +181,20 @@ function V2Section({
               <circle cx="8" cy="9" r="0.9" />
             </svg>
           </span>
-          <span className="grp-chev" title="Collapse" aria-hidden="true">
+          <span
+            className="grp-chev"
+            onClick={onToggleCollapse}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onToggleCollapse?.();
+              }
+            }}
+            role="button"
+            aria-label={isCollapsed ? "Expand group" : "Collapse group"}
+            aria-expanded={!isCollapsed}
+            tabIndex={0}
+          >
             <svg
               viewBox="0 0 12 12"
               fill="none"
@@ -260,7 +288,7 @@ function V2NavRow({
   const isActive = active && !disabled;
 
   const className = cn(
-    "sb-nav nav relative w-full",
+    "sb-nav relative w-full",
     isActive && "active",
     disabled && "cursor-not-allowed opacity-60",
   );
@@ -349,6 +377,10 @@ export function SidebarContent({
   const watchCount = useWatchlistStore((s) => s.repos.length);
   const compareCount = useCompareStore((s) => s.repos.length);
 
+  const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({});
+  const toggleGroup = (id: string) =>
+    setCollapsedGroups((s) => ({ ...s, [id]: !s[id] }));
+
   function goToAgentRepos() {
     prepareAgentReposView();
     onClose?.();
@@ -404,7 +436,13 @@ export function SidebarContent({
 
       <CursorRail className="flex-1 overflow-y-auto scrollbar-hide">
         {/* TREND TERMINAL */}
-        <V2Section label="TREND TERMINAL" pipState="live">
+        <V2Section
+          label="TREND TERMINAL"
+          groupId="trend"
+          pipState="live"
+          collapsed={collapsedGroups["trend"]}
+          onToggleCollapse={() => toggleGroup("trend")}
+        >
           <FreshCountNavRow
             routeKey="trendingRepos"
             currentCount={trendingReposCount ?? 0}
@@ -456,7 +494,13 @@ export function SidebarContent({
         </V2Section>
 
         {/* SIGNAL TERMINAL */}
-        <V2Section label="SIGNAL TERMINAL" pipState="live">
+        <V2Section
+          label="SIGNAL TERMINAL"
+          groupId="signal"
+          pipState="live"
+          collapsed={collapsedGroups["signal"]}
+          onToggleCollapse={() => toggleGroup("signal")}
+        >
           <V2NavRow
             href="/signals"
             icon={Activity}
@@ -538,7 +582,13 @@ export function SidebarContent({
         </V2Section>
 
         {/* LLM / PACK TERMINAL */}
-        <V2Section label="LLM / PACK TERMINAL" pipState="live">
+        <V2Section
+          label="LLM / PACK TERMINAL"
+          groupId="llm-pack"
+          pipState="live"
+          collapsed={collapsedGroups["llm-pack"]}
+          onToggleCollapse={() => toggleGroup("llm-pack")}
+        >
           <V2NavRow
             href="/npm"
             icon={Package}
@@ -565,7 +615,12 @@ export function SidebarContent({
         </V2Section>
 
         {/* LAUNCH TERMINAL */}
-        <V2Section label="LAUNCH TERMINAL" pipState="live">
+        <V2Section
+          label="LAUNCH TERMINAL"
+          groupId="launch"
+          collapsed={collapsedGroups["launch"]}
+          onToggleCollapse={() => toggleGroup("launch")}
+        >
           <V2NavRow
             href="/funding"
             icon={DollarSign}
@@ -620,7 +675,13 @@ export function SidebarContent({
         </V2Section>
 
         {/* RESEARCH TERMINAL */}
-        <V2Section label="RESEARCH TERMINAL" pipState="stale">
+        <V2Section
+          label="RESEARCH TERMINAL"
+          groupId="research"
+          pipState="stale"
+          collapsed={collapsedGroups["research"]}
+          onToggleCollapse={() => toggleGroup("research")}
+        >
           <FreshCountNavRow
             routeKey="arxivPapers"
             currentCount={sourceCounts?.arxivPapers ?? 0}
@@ -646,7 +707,13 @@ export function SidebarContent({
         </V2Section>
 
         {/* EXPLORE */}
-        <V2Section label="EXPLORE" pipState="live">
+        <V2Section
+          label="EXPLORE"
+          groupId="explore"
+          pipState="live"
+          collapsed={collapsedGroups["explore"]}
+          onToggleCollapse={() => toggleGroup("explore")}
+        >
           <V2NavRow
             href="/digest"
             icon={CalendarDays}
@@ -676,7 +743,12 @@ export function SidebarContent({
         </V2Section>
 
         {/* TOOLS */}
-        <V2Section label="TOOLS" pipState="live">
+        <V2Section
+          label="TOOLS"
+          groupId="tools"
+          collapsed={collapsedGroups["tools"]}
+          onToggleCollapse={() => toggleGroup("tools")}
+        >
           <V2NavRow
             href="/watchlist"
             icon={Eye}

@@ -1,310 +1,244 @@
-/* ============================================================
-   Sidebar nav — terminal-styled groups + rows
-   Mockup-aligned styles for .sb-group / .sb-grp-label / .sb-nav
-   ============================================================ */
+/* ============================================================================
+   sidebar-nav.css — Group labels + nav rows + delta variants + 6 keyframes.
+   Loaded from src/app/layout.tsx (after globals.css). Matches 2026-05-08 mockup.
+   ============================================================================ */
 
-/* Group container ---------------------------------------------------- */
-.sb-group {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  padding: 4px 8px 6px;
-  margin-bottom: 2px;
+/* ---- groups ------------------------------------------------------------- */
+.sb-group{
+  padding: 10px 0 4px;
+  transition: padding 0.25s;
 }
-
-/* Group label row: pip + name + line + tools ------------------------- */
-.sb-grp-label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 4px 4px 2px;
-  font-family: var(--v4-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
-  font-size: 9px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink-400, rgba(255, 255, 255, 0.45));
-  user-select: none;
+.sb-group + .sb-group{
+  border-top: 1px solid var(--line-200);
+  margin-top: 6px;
+  padding-top: 12px;
 }
-
-/* Pip — 6px circle, default orange (waiting), live (green animated), stale (gray) */
-.grp-pip {
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: var(--acc, #ff9d3a);
-  box-shadow: 0 0 6px rgba(255, 157, 58, 0.45);
-  flex: 0 0 auto;
+.sb-group.collapsed{
+  padding-bottom: 0;
 }
-.grp-pip.live {
-  background: var(--sig-green, #6ce672);
-  box-shadow: 0 0 6px rgba(108, 230, 114, 0.55);
-  animation: livePip 2.4s ease-in-out infinite;
-}
-.grp-pip.stale {
-  background: var(--ink-400, rgba(255, 255, 255, 0.35));
-  box-shadow: none;
+.sb-group.collapsed .sb-nav{
+  height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  border-left-width: 0;
 }
 
-@keyframes livePip {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50%      { opacity: 1;   transform: scale(1.18); }
-}
-
-/* Group name — the mono `// LABEL` text */
-.grp-name {
-  flex: 0 0 auto;
-  white-space: nowrap;
-}
-
-/* The thin separator line that fills the rest of the row */
-.grp-line {
-  flex: 1 1 auto;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    var(--ink-500, rgba(255, 255, 255, 0.08)),
-    transparent 80%
-  );
-  margin: 0 2px;
-  min-width: 8px;
-}
-
-/* Trailing tools cluster (drag handle + chevron) --------------------- */
-.grp-tools {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  flex: 0 0 auto;
-  opacity: 0.55;
-  transition: opacity 120ms ease;
-}
-.sb-group:hover .grp-tools { opacity: 1; }
-
-.grp-drag,
-.grp-chev {
-  width: 14px;
-  height: 14px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--ink-400, rgba(255, 255, 255, 0.45));
-  cursor: pointer;
-  border-radius: 2px;
-}
-.grp-drag svg,
-.grp-chev svg {
-  width: 10px;
-  height: 10px;
-}
-.grp-drag:hover,
-.grp-chev:hover {
-  color: var(--ink-100, rgba(255, 255, 255, 0.92));
-  background: var(--bg-100, rgba(255, 255, 255, 0.05));
-}
-.grp-drag { cursor: grab; }
-.grp-drag:active { cursor: grabbing; }
-
-/* ============================================================
-   Nav row — .sb-nav
-   ============================================================ */
-.sb-nav {
-  position: relative;
+.sb-grp-label{
   display: flex;
   align-items: center;
   gap: 8px;
-  width: 100%;
-  padding: 5px 8px;
-  font-family: var(--v4-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
-  font-size: 10.5px;
-  letter-spacing: 0.16em;
+  padding: 0 12px 8px 16px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.20em;
+  color: var(--ink-300);
   text-transform: uppercase;
-  color: var(--ink-200, rgba(255, 255, 255, 0.78));
-  background: transparent;
-  border: 0;
-  border-radius: 4px;
   cursor: pointer;
-  text-align: left;
-  transition: background 120ms ease, color 120ms ease;
+  user-select: none;
 }
-
-.sb-nav:hover {
-  background: var(--bg-100, rgba(255, 255, 255, 0.04));
-  color: var(--ink-000, #fff);
+.sb-grp-label .grp-pip{
+  flex: none;
+  width: 5px;
+  height: 5px;
+  background: var(--acc);
+  display: block;
+  box-shadow: 0 0 8px var(--acc-glow);
+  transition: background 0.2s;
 }
-
-/* Active row: bracket + sweep + accent color */
-.sb-nav.active {
-  color: var(--ink-000, #fff);
-  background: linear-gradient(
-    90deg,
-    rgba(255, 157, 58, 0.12),
-    rgba(255, 157, 58, 0.02) 70%,
-    transparent
-  );
+.sb-grp-label .grp-pip.stale{
+  background: var(--ink-500);
+  box-shadow: none;
 }
-.sb-nav.active::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 4px;
-  bottom: 4px;
-  width: 2px;
-  background: var(--acc, #ff9d3a);
-  border-radius: 2px;
-  animation: activePulse 2.6s ease-in-out infinite;
+.sb-grp-label .grp-pip.live{
+  background: var(--sig-green);
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+  animation: livePip 1.6s ease-in-out infinite;
 }
-.sb-nav.active::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 157, 58, 0.06) 50%,
-    transparent
-  );
-  animation: rowSweep 4.2s linear infinite;
-  border-radius: 4px;
+@keyframes livePip{
+  0%, 100% { box-shadow: 0 0 8px rgba(34, 197, 94, 0.5); }
+  50%      { box-shadow: 0 0 14px rgba(34, 197, 94, 0.85); }
 }
-
-@keyframes activePulse {
-  0%, 100% { opacity: 0.55; }
-  50%      { opacity: 1; }
-}
-@keyframes rowSweep {
-  0%   { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-/* Icon slot ---------------------------------------------------------- */
-.sb-nav .ic {
-  flex: 0 0 auto;
-  display: inline-flex;
+.sb-grp-label .grp-name{ flex: none; }
+.sb-grp-label .grp-line{ flex: 1; height: 1px; background: var(--line-200); }
+.sb-grp-label .grp-tools{ display: flex; gap: 6px; align-items: center; }
+.sb-grp-label .grp-drag,
+.sb-grp-label .grp-chev{
+  display: flex;
   align-items: center;
   justify-content: center;
+  width: 14px;
+  height: 14px;
+  color: var(--ink-400);
+  cursor: pointer;
+  transition: color 0.15s, transform 0.25s;
+}
+.sb-grp-label .grp-drag{ cursor: grab; }
+.sb-grp-label .grp-drag:active{ cursor: grabbing; }
+.sb-grp-label .grp-drag:hover,
+.sb-grp-label .grp-chev:hover{ color: var(--acc); }
+.sb-group.collapsed .grp-chev{ transform: rotate(-90deg); }
+.sb-grp-label .grp-drag svg,
+.sb-grp-label .grp-chev svg{ width: 11px; height: 11px; }
+
+/* ---- nav rows ----------------------------------------------------------- */
+.sb-nav{
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 8px 14px 8px 16px;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.10em;
+  color: var(--ink-200);
+  text-transform: uppercase;
+  border-left: 2px solid transparent;
+  text-decoration: none;
+  transition: color 0.15s, background 0.15s, border-color 0.15s, padding 0.25s, height 0.25s, opacity 0.2s;
+}
+.sb-nav .ic{
+  flex: none;
   width: 16px;
   height: 16px;
-  color: var(--ink-300, rgba(255, 255, 255, 0.6));
+  color: var(--ink-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s, transform 0.15s;
 }
-.sb-nav.active .ic { color: var(--acc, #ff9d3a); }
-
-/* Label slot --------------------------------------------------------- */
-.sb-nav .lbl {
-  flex: 1 1 auto;
+.sb-nav .ic svg{ width: 15px; height: 15px; }
+.sb-nav .lbl{
+  flex: 1;
   min-width: 0;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-/* Entity word — the trailing accent-colored noun (e.g. "Repos") */
-.sb-nav .ent {
-  font-style: normal;
-  color: var(--acc, #ff9d3a);
-  margin-left: 4px;
-}
-.sb-nav.active .ent { color: var(--acc, #ff9d3a); }
-
-/* Hotkey hint -------------------------------------------------------- */
-.sb-nav .hk {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 14px;
-  height: 14px;
-  padding: 0 3px;
-  font-size: 8.5px;
-  font-family: var(--v4-mono, ui-monospace, monospace);
-  color: var(--ink-400, rgba(255, 255, 255, 0.45));
-  background: var(--bg-100, rgba(255, 255, 255, 0.04));
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 2px;
-  letter-spacing: 0;
-}
-
-/* Delta / badge slot ------------------------------------------------- */
-.sb-nav .delta {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 18px;
-  padding: 1px 6px;
-  font-family: var(--v4-mono, ui-monospace, monospace);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  border-radius: 3px;
-  font-variant-numeric: tabular-nums;
-  background: var(--bg-100, rgba(255, 255, 255, 0.05));
-  color: var(--ink-300, rgba(255, 255, 255, 0.6));
-  text-transform: uppercase;
   white-space: nowrap;
 }
 
-/* up — green delta (+N) */
-.sb-nav .delta.up {
-  background: rgba(108, 230, 114, 0.14);
-  color: var(--sig-green, #6ce672);
-  animation: tickFlash 1.2s ease-out 1;
+.sb-nav:hover{
+  color: var(--ink-000);
+  background: linear-gradient(90deg, rgba(255, 107, 53, 0.04), transparent 80%);
+}
+.sb-nav:hover .ic{
+  color: var(--ink-100);
+  transform: translateX(1px);
 }
 
-/* hot — orange (accent) */
-.sb-nav .delta.hot {
-  background: rgba(255, 157, 58, 0.14);
-  color: var(--acc, #ff9d3a);
-  animation: hotBlink 2.6s ease-in-out infinite;
+.sb-nav.active{
+  color: var(--ink-000);
+  border-left-color: var(--acc);
+  background: linear-gradient(90deg, var(--acc-soft), transparent 80%);
+}
+.sb-nav.active .ic{ color: var(--acc); }
+.sb-nav.active::before{
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--acc);
+  box-shadow: 0 0 10px var(--acc-glow);
+  animation: activePulse 2.4s ease-in-out infinite;
+  z-index: 2;
+}
+@keyframes activePulse{
+  0%, 100% { box-shadow: 0 0 10px var(--acc-glow); }
+  50%      { box-shadow: 0 0 18px var(--acc); }
 }
 
-/* neutral — gray (default cumulative) */
-.sb-nav .delta.neutral {
-  background: var(--bg-100, rgba(255, 255, 255, 0.05));
-  color: var(--ink-300, rgba(255, 255, 255, 0.6));
-}
-
-/* new — orange "NEW" pill (pulsing) */
-.sb-nav .delta.new {
-  background: rgba(255, 157, 58, 0.18);
-  color: var(--acc, #ff9d3a);
-  border: 1px solid rgba(255, 157, 58, 0.28);
-  animation: newPulse 2s ease-in-out infinite;
-}
-
-/* tag — uppercase metadata (e.g. ALL, x402) */
-.sb-nav .delta.tag {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--ink-200, rgba(255, 255, 255, 0.78));
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  letter-spacing: 0.12em;
-}
-
-/* keyframes for delta variants */
-@keyframes tickFlash {
-  0%   { background: rgba(108, 230, 114, 0.42); }
-  100% { background: rgba(108, 230, 114, 0.14); }
-}
-@keyframes hotBlink {
-  0%, 100% { opacity: 0.85; }
-  50%      { opacity: 1; box-shadow: 0 0 0 1px rgba(255, 157, 58, 0.18); }
-}
-@keyframes newPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 157, 58, 0.30); }
-  50%      { box-shadow: 0 0 0 3px rgba(255, 157, 58, 0); }
-}
-
-/* Disabled state ----------------------------------------------------- */
-.sb-nav[aria-disabled="true"],
-.sb-nav.disabled {
-  opacity: 0.45;
+.sb-nav.disabled{
+  color: var(--ink-500);
   cursor: not-allowed;
 }
-.sb-nav[aria-disabled="true"]:hover,
-.sb-nav.disabled:hover {
+.sb-nav.disabled .ic{ color: var(--ink-500); }
+.sb-nav.disabled:hover{
   background: transparent;
-  color: var(--ink-200, rgba(255, 255, 255, 0.78));
+  color: var(--ink-500);
+}
+
+/* ---- entity-type accent word ('Trending Repos' → 'Repos' is accent) ----- */
+.sb-nav .ent{
+  font-style: normal;
+  color: var(--acc);
+  opacity: 0.85;
+}
+.sb-nav:hover .ent{ opacity: 1; }
+
+/* ---- active-row sweeping highlight on label ---------------------------- */
+.sb-nav.active .lbl{
+  position: relative;
+  overflow: hidden;
+}
+.sb-nav.active .lbl::after{
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -30%;
+  width: 30%;
+  background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.18), transparent);
+  animation: rowSweep 3.2s linear infinite;
+  pointer-events: none;
+}
+@keyframes rowSweep{
+  0%   { left: -30%; }
+  100% { left: 130%; }
+}
+
+/* ---- delta variants ----------------------------------------------------- */
+.delta{
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  flex: none;
+  font-weight: 600;
+  min-width: 30px;
+  text-align: right;
+}
+.delta.up{
+  color: var(--sig-green);
+  text-shadow: 0 0 8px rgba(34, 197, 94, 0.45);
+}
+.delta.up::before{ content: '+'; }
+.delta.hot{
+  color: var(--acc);
+  text-shadow: 0 0 10px rgba(255, 107, 53, 0.55);
+  animation: hotBlink 2s ease-in-out infinite;
+}
+@keyframes hotBlink{
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.7; }
+}
+.delta.neutral{ color: var(--ink-400); }
+.delta.new{
+  color: var(--acc);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  font-size: 9px;
+  padding: 2px 5px;
+  border: 1px solid var(--acc);
+  background: rgba(255, 107, 53, 0.10);
+  border-radius: 2px;
+  animation: newPulse 1.8s ease-in-out infinite;
+}
+@keyframes newPulse{
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.5); }
+  50%      { box-shadow: 0 0 0 4px rgba(255, 107, 53, 0); }
+}
+.delta.tag{
+  color: var(--ink-300);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+}
+
+/* ---- one-shot tick flash on count change (toggle .tick class via JS) --- */
+.delta.tick{ animation: tickFlash 0.55s ease-out; }
+@keyframes tickFlash{
+  0%   { transform: scale(1.18); filter: brightness(1.6); }
+  100% { transform: scale(1);    filter: brightness(1); }
 }

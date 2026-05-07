@@ -4661,232 +4661,8 @@ body::before {
   background: var(--bg-025);
 }
 
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: var(--v4-topbar-height);
-  gap: 8px;
-  padding: 0 10px;
-  border-bottom: 1px solid var(--v4-line-200);
-  background: var(--v4-bg-025);
-}
-
-@media (min-width: 768px) {
-  .topbar {
-    gap: 14px;
-    padding: 0 14px;
-  }
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  min-width: 0;
-}
-
-@media (min-width: 768px) {
-  .brand {
-    gap: 10px;
-    min-width: var(--v4-sidebar-width);
-  }
-}
-
-.brand-mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  flex-shrink: 0;
-  border: 1px solid color-mix(in srgb, var(--v4-acc) 35%, transparent);
-  background: color-mix(in srgb, var(--v4-acc) 12%, transparent);
-  border-radius: 6px;
-  box-shadow: none;
-}
-
-@media (min-width: 768px) {
-  .brand-mark {
-    width: 24px;
-    height: 24px;
-  }
-}
-
-/* Circle logo modifier — when the mark is the self-contained
-   trendingrepo-circle-orange.svg (orange disc + dark star), drop the
-   surrounding tinted-orange box; the SVG already carries its own
-   background. Slightly larger to assert the brand presence. */
-.brand-mark-circle {
-  width: 28px;
-  height: 28px;
-  border: none;
-  background: transparent;
-  border-radius: 50%;
-  overflow: hidden;
-}
-
-@media (min-width: 768px) {
-  .brand-mark-circle {
-    width: 30px;
-    height: 30px;
-  }
-}
-
-.brand-name {
-  color: var(--v4-ink-100);
-  font-size: 11px;
-  font-weight: var(--font-weight-bold);
-  letter-spacing: var(--tracking-wide);
-  min-width: 0;
-}
-
-@media (min-width: 768px) {
-  .brand-name {
-    font-size: var(--font-size-4xl);
-  }
-}
-
-.brand-sub {
-  color: var(--v4-ink-400);
-  font-size: var(--font-size-sm);
-  letter-spacing: var(--tracking-ui);
-  line-height: 1.2;
-}
-
-.brand-beta {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 7px;
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--v4-acc) 45%, transparent);
-  background: color-mix(in srgb, var(--v4-acc) 14%, transparent);
-  color: var(--v4-acc);
-  font-family: var(--v4-mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  line-height: 1;
-}
-
-.topbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-left: auto;
-}
-
-@media (max-width: 767px) {
-  .topbar-actions .pill {
-    height: 32px;
-    padding: 0 8px;
-    gap: 4px;
-    font-size: 10px;
-  }
-}
-
-.sidebar {
-  position: sticky;
-  top: var(--v4-topbar-height);
-  height: calc(100vh - var(--v4-topbar-height));
-  padding: 10px 0 24px;
-  overflow: auto;
-  border-right: 1px solid var(--v4-line-200);
-  background: var(--v4-bg-025);
-  font-family: var(--v4-mono);
-}
-
-.sidebar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-  background: var(--v4-line-200);
-}
-
-.sidebar .group {
-  margin-top: 4px;
-  padding: 14px 0 4px;
-  border-top: 1px solid var(--v4-line-200);
-}
-
-.sidebar .group:first-child {
-  margin-top: 0;
-  padding-top: 6px;
-  border-top: none;
-}
-
-.sidebar .group-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 16px 8px;
-  color: var(--v4-ink-400);
-  font-size: var(--font-size-sm);
-  letter-spacing: var(--tracking-ui);
-  text-transform: uppercase;
-}
-
-.sidebar .group-label::before {
-  content: "";
-  display: block;
-  flex: none;
-  width: 4px;
-  height: 4px;
-  background: var(--acc);
-}
-
-.sidebar .group-label::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--line-200);
-}
-
-.sidebar .nav {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 30px;
-  padding: 7px 16px;
-  border-left: 2px solid transparent;
-  color: var(--ink-200);
-  font-size: var(--font-size-xl);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.sidebar .nav .ic {
-  display: inline-flex;
-  width: 14px;
-  color: var(--ink-300);
-}
-
-.sidebar .nav:hover {
-  color: var(--ink-000);
-}
-
-.sidebar .nav:hover .ic {
-  color: var(--ink-100);
-}
-
-.sidebar .nav.active {
-  border-left-color: var(--acc);
-  background: linear-gradient(90deg, var(--acc-soft), transparent 80%);
-  color: var(--ink-000);
-}
-
-.sidebar .nav.active .ic {
-  color: var(--acc);
-}
-
-.sidebar .nav .badge {
-  margin-left: auto;
-}
+/* Legacy V2 .topbar / .brand-* / .topbar-actions / .sidebar chrome rules
+   removed — superseded by component CSS (header.css, sidebar-*.css). */
 
 .ds-metric-grid,
 .kpi-strip,
@@ -5899,7 +5675,6 @@ body::before {
 }
 
 .ds-button-primary,
-.pill.cta,
 .share-actions .b.acc,
 .sh-toolbar .ico-btn.acc {
   background: var(--acc);
@@ -5909,7 +5684,6 @@ body::before {
 }
 
 .ds-button-primary:hover,
-.pill.cta:hover,
 .share-actions .b.acc:hover,
 .sh-toolbar .ico-btn.acc:hover {
   background: var(--acc-hover);
@@ -7298,4 +7072,14 @@ body::before {
   .ac-detail-grid {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+/* Lane10 rescue — token override.
+   Verified against spec: --acc, --acc-hover, --acc-soft, --acc-glow,
+   --bg-000/025/050/100, --line-200/300/400, --ink-000/100/200/300/400/500,
+   --sig-green all match the existing :root values via cascade aliases.
+   Only --mono had a different stack (Geist + JetBrains via @font-face),
+   so we re-pin it here to the lane10 spec. */
+:root {
+  --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
 }

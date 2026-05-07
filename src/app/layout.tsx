@@ -38,6 +38,9 @@ import "@/components/tier-list/tier-list.css";
 import "@/components/compare/compare.css";
 import "@/components/terminal/terminal-pages.css";
 import "@/components/categories/categories.css";
+import "@/components/layout/header.css";
+import "@/components/layout/sidebar-profile.css";
+import "@/components/layout/sidebar-nav.css";
 
 const geist = Geist({
   variable: "--font-geist",

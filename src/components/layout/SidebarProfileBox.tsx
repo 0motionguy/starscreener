@@ -24,8 +24,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-import "./sidebar-profile.css";
-
 interface SidebarProfileBoxProps {
   watchCount: number;
   alertCount: number;
@@ -141,7 +139,7 @@ export function SidebarProfileBox({
         <div className="sb-prof-who">
           <span className="sb-prof-name">{handle}</span>
           <span className="sb-prof-meta">
-            <span className="pro">MEMBER</span> · LVL 1
+            <span className="pro">PRO</span> · LVL 12
           </span>
         </div>
       </div>

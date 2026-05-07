@@ -46,13 +46,31 @@ const RSS_FEEDS = {
   pymnts: "https://www.pymnts.com/feed/",
   bbc: "https://feeds.bbci.co.uk/news/technology/rss.xml",
   wired: "https://www.wired.com/feed/",
-  // Mirrors the worker fetcher (apps/trendingrepo-worker/src/fetchers/funding-news/index.ts)
-  // so the GitHub Actions cron picks up the same 4 niche outlets.
   geekwire: "https://www.geekwire.com/category/topic/funding/feed/",
   "eu-startups": "https://www.eu-startups.com/feed/",
   siliconcanals: "https://siliconcanals.com/feed/",
   techstartups: "https://techstartups.com/feed/",
+  // AI-tagged category feeds — every item is already AI by publisher
+  // classification. Combined with FUNDING_KEYWORDS = pure AI-funding.
+  "techcrunch-ai": "https://techcrunch.com/category/artificial-intelligence/feed/",
+  "venturebeat-ai": "https://venturebeat.com/category/ai/feed/",
+  "ai-news": "https://www.artificialintelligence-news.com/feed/",
+  "ai-business": "https://aibusiness.com/rss.xml",
 };
+
+// AI-tagged sources skip the AI-keyword gate (publisher already classified).
+const AI_TAGGED_SOURCES = new Set([
+  "techcrunch-ai",
+  "venturebeat-ai",
+  "ai-news",
+  "ai-business",
+]);
+
+// AI-funding-only mode: non-AI-tagged feeds must show an AI marker in
+// headline OR description before passing. Mirrors the worker fetcher's
+// AI_KEYWORDS regex — keep the two in sync.
+const AI_KEYWORDS_RE =
+  /\bai\b|\ba\.i\.\b|\bartificial intelligence\b|\bmachine learning\b|\bml\b|\bdeep learning\b|\bllm\b|\bllms\b|\blarge language model\b|\bfoundation model\b|\bgenerative\b|\bgen-?ai\b|\bagi\b|\bagents?\b|\bcopilot\b|\bgpt\b|\btransformer\b|\bdiffusion\b|\bmultimodal\b|\bcomputer vision\b|\bnlp\b|\bspeech recognition\b|\brobotic process\b|\bautonomous\b|\bneural\b|\binference\b|\bfine-?tun\w*\b|\brag\b|\bvector database\b|\bembeddings?\b|\bopenai\b|\banthropic\b|\bmistral\b|\bcohere\b|\bperplexity\b|\bhugging ?face\b/i;
 
 // ---------------------------------------------------------------------------
 // RSS parsing (lightweight regex — same pattern as Twitter collector)
@@ -511,6 +529,14 @@ async function main() {
         /\braises?\b|\braised\b|\bsecures?\b|\bsecured\b|\bfunding\b|\binvestment\b|\bround\b|\bmillion\b|\bbillion\b|\bacquired\b|\bacquisition\b/i;
       if (!fundingKeywords.test(item.headline)) {
         continue;
+      }
+      // AI-funding-only gate — non-AI-tagged feeds must additionally show
+      // an AI marker in headline or description.
+      if (!AI_TAGGED_SOURCES.has(sourceName)) {
+        const haystack = `${item.headline} ${item.description ?? ""}`;
+        if (!AI_KEYWORDS_RE.test(haystack)) {
+          continue;
+        }
       }
 
       const id = createSignalId(item.headline, item.sourceUrl);

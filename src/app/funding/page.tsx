@@ -58,6 +58,10 @@ const SOURCE_LABELS: Record<string, string> = {
   techstartups: "TechStartups",
   "eu-startups": "EU-Startups",
   siliconcanals: "Silicon Canals",
+  "techcrunch-ai": "TC · AI",
+  "venturebeat-ai": "VB · AI",
+  "ai-news": "AI News",
+  "ai-business": "AI Business",
 };
 
 const ROUND_LABELS: Record<string, FundingStage | string> = {

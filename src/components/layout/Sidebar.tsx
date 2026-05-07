@@ -29,6 +29,7 @@ import type { LucideIcon } from "lucide-react";
 import { useWatchlistStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { SidebarContent } from "./SidebarContent";
+import { SidebarProfileBox } from "./SidebarProfileBox";
 import { SidebarSkeleton } from "./SidebarSkeleton";
 import type {
   SidebarDataRepo,
@@ -284,6 +285,7 @@ export function Sidebar({
 } = {}) {
   const data = useSidebarData(initialData);
   const watchlistPreview = useWatchlistPreview(data?.reposById);
+  const watchCount = useWatchlistStore((s) => s.repos.length);
 
   // Width is driven by the parent `.app-shell` grid column (280px full /
   // 56px focused). We render the same chrome at both widths and let the
@@ -292,7 +294,11 @@ export function Sidebar({
     <aside
       className="sidebar hidden w-full overflow-hidden md:flex md:flex-col"
     >
-      <LaunchpadStrip />
+      <SidebarProfileBox
+        watchCount={watchCount}
+        alertCount={data?.unreadAlerts ?? 0}
+        dropCount={0}
+      />
       {data ? (
         <SidebarContent
           categoryStats={data.categoryStats}

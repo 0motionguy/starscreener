@@ -76,6 +76,7 @@ import { SidebarRecentViewedRepos } from "./SidebarRecentViewedRepos";
 import { SidebarFooter } from "./SidebarFooter";
 import { cn } from "@/lib/utils";
 import { CursorRail } from "@/components/v3";
+import "./sidebar-nav.css";
 
 const RedditSidebarIcon: SidebarIconComponent = (p) => (
   <RedditIcon {...p} monochrome />
@@ -122,26 +123,64 @@ function deltaChip(n: number): string {
   return `+${compactCount(n)}`;
 }
 
+type PipState = "live" | "stale" | undefined;
+
 interface V2SectionProps {
   label: string;
   children: ReactNode;
   rightSlot?: ReactNode;
   maxHeightPx?: number;
+  /**
+   * Group activity pip state.
+   *   undefined → orange "waiting" pip (default)
+   *   'live'    → animated green pip (group is fresh / actively updating)
+   *   'stale'   → flat gray pip (no recent activity)
+   *
+   * Drag handle + chevron are visual-only for now (TODO: wire reorder/collapse).
+   */
+  pipState?: PipState;
 }
 
-function V2Section({ label, children, rightSlot, maxHeightPx }: V2SectionProps) {
+function V2Section({
+  label,
+  children,
+  rightSlot,
+  maxHeightPx,
+  pipState,
+}: V2SectionProps) {
+  const pipClass = cn("grp-pip", pipState === "live" && "live", pipState === "stale" && "stale");
   return (
-    <section className="group">
-      <div className="group-label">
-        <span
-          className="font-mono"
-          style={{ color: "var(--ink-400)", fontSize: 9 }}
-        >
-          {`// ${label}`}
+    <section className="sb-group group">
+      <div className="sb-grp-label group-label">
+        <span className={pipClass} aria-hidden="true" />
+        <span className="grp-name">{`// ${label}`}</span>
+        <span className="grp-line" aria-hidden="true" />
+        <span className="grp-tools">
+          <span className="grp-drag" title="Drag to reorder" aria-hidden="true">
+            <svg viewBox="0 0 12 12" fill="currentColor">
+              <circle cx="4" cy="3" r="0.9" />
+              <circle cx="8" cy="3" r="0.9" />
+              <circle cx="4" cy="6" r="0.9" />
+              <circle cx="8" cy="6" r="0.9" />
+              <circle cx="4" cy="9" r="0.9" />
+              <circle cx="8" cy="9" r="0.9" />
+            </svg>
+          </span>
+          <span className="grp-chev" title="Collapse" aria-hidden="true">
+            <svg
+              viewBox="0 0 12 12"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            >
+              <path d="M3 4.5 L6 7.5 L9 4.5" />
+            </svg>
+          </span>
+          {rightSlot ? (
+            <span className="flex items-center">{rightSlot}</span>
+          ) : null}
         </span>
-        {rightSlot ? (
-          <span className="flex items-center">{rightSlot}</span>
-        ) : null}
       </div>
       <div
         className={cn(
@@ -169,6 +208,45 @@ interface V2NavRowProps {
   disabled?: boolean;
 }
 
+type DeltaTone = "up" | "hot" | "neutral" | "new" | "tag";
+
+/** Map the legacy V2 BadgeTone palette to the mockup's .delta variants. */
+function toneToDelta(tone: BadgeTone, badge: string | number | undefined): DeltaTone {
+  // Surface the "NEW" pill for any badge whose visible text is exactly "New"/"NEW".
+  if (typeof badge === "string" && /^new$/i.test(badge.trim())) return "new";
+  // ALL / x402 / Soon — uppercase metadata reads as a tag.
+  if (typeof badge === "string" && /^[A-Z0-9]+$/.test(badge) && badge.length <= 5) {
+    return "tag";
+  }
+  switch (tone) {
+    case "delta":
+      return "up";
+    case "accent":
+    case "danger":
+      return "hot";
+    case "default":
+    default:
+      return "neutral";
+  }
+}
+
+/**
+ * Split a label like "Trending Repos" into a base ("Trending") + an entity
+ * fragment ("Repos") wrapped in <em class="ent">. Returns the original label
+ * unchanged when the pattern doesn't match.
+ */
+function renderLabel(label: string): ReactNode {
+  const trendingMatch = /^Trending\s+(.+)$/.exec(label);
+  if (trendingMatch) {
+    return (
+      <>
+        Trending <em className="ent">{trendingMatch[1]}</em>
+      </>
+    );
+  }
+  return label;
+}
+
 function V2NavRow({
   href,
   onClick,
@@ -182,45 +260,31 @@ function V2NavRow({
   const isActive = active && !disabled;
 
   const className = cn(
-    "nav relative w-full",
+    "sb-nav nav relative w-full",
     isActive && "active",
     disabled && "cursor-not-allowed opacity-60",
   );
 
-  const style: React.CSSProperties = {
-    color: disabled
-      ? "var(--ink-500)"
-      : isActive
-        ? "var(--ink-000)"
-        : "var(--ink-200)",
-  };
+  const hasBadge = badge !== undefined && badge !== null && badge !== "";
+  const deltaTone = hasBadge ? toneToDelta(badgeTone, badge) : "neutral";
 
   const content = (
     <>
-      <span
-        className="ic"
-        style={{
-          color: disabled
-            ? "var(--ink-500)"
-            : isActive
-              ? "var(--acc)"
-              : "var(--ink-300)",
-        }}
-      >
+      <span className="ic">
         <Icon size={14} />
       </span>
-      <span className="flex-1 truncate text-left tracking-[0.16em]">
-        {label}
+      <span className="lbl flex-1 truncate text-left tracking-[0.16em]">
+        {renderLabel(label)}
       </span>
-      {badge !== undefined && badge !== null && badge !== "" && (
-        <V2Chip value={badge} tone={badgeTone} />
+      {hasBadge && (
+        <span className={cn("delta", deltaTone)}>{badge}</span>
       )}
     </>
   );
 
   if (disabled) {
     return (
-      <div aria-disabled="true" className={className} style={style}>
+      <div aria-disabled="true" className={className}>
         {content}
       </div>
     );
@@ -228,14 +292,14 @@ function V2NavRow({
 
   if (href) {
     return (
-      <Link href={href} className={className} style={style}>
+      <Link href={href} className={className}>
         {content}
       </Link>
     );
   }
 
   return (
-    <button type="button" onClick={onClick} className={className} style={style}>
+    <button type="button" onClick={onClick} className={className}>
       {content}
     </button>
   );
@@ -269,35 +333,6 @@ function FreshCountNavRow({
       : undefined;
   const badgeTone: BadgeTone = fresh.hasFresh ? "delta" : "default";
   return <V2NavRow {...rest} badge={badge} badgeTone={badgeTone} />;
-}
-
-function V2Chip({
-  value,
-  tone = "default",
-}: {
-  value: string | number;
-  tone?: BadgeTone;
-}) {
-  const palette =
-    tone === "accent"
-      ? { bg: "var(--acc-soft)", color: "var(--acc)" }
-      : tone === "danger"
-        ? { bg: "rgba(255, 77, 77, 0.14)", color: "var(--sig-red)" }
-        : tone === "delta"
-          ? { bg: "var(--money-soft)", color: "var(--sig-green)" }
-          : { bg: "var(--bg-100)", color: "var(--ink-300)" };
-
-  return (
-    <span
-      className="badge shrink-0 tabular-nums"
-      style={{
-        background: palette.bg,
-        color: palette.color,
-      }}
-    >
-      {value}
-    </span>
-  );
 }
 
 export function SidebarContent({
@@ -369,7 +404,7 @@ export function SidebarContent({
 
       <CursorRail className="flex-1 overflow-y-auto scrollbar-hide">
         {/* TREND TERMINAL */}
-        <V2Section label="TREND TERMINAL">
+        <V2Section label="TREND TERMINAL" pipState="live">
           <FreshCountNavRow
             routeKey="trendingRepos"
             currentCount={trendingReposCount ?? 0}
@@ -421,7 +456,7 @@ export function SidebarContent({
         </V2Section>
 
         {/* SIGNAL TERMINAL */}
-        <V2Section label="SIGNAL TERMINAL">
+        <V2Section label="SIGNAL TERMINAL" pipState="live">
           <V2NavRow
             href="/signals"
             icon={Activity}
@@ -503,7 +538,7 @@ export function SidebarContent({
         </V2Section>
 
         {/* LLM / PACK TERMINAL */}
-        <V2Section label="LLM / PACK TERMINAL">
+        <V2Section label="LLM / PACK TERMINAL" pipState="live">
           <V2NavRow
             href="/npm"
             icon={Package}
@@ -530,7 +565,7 @@ export function SidebarContent({
         </V2Section>
 
         {/* LAUNCH TERMINAL */}
-        <V2Section label="LAUNCH TERMINAL">
+        <V2Section label="LAUNCH TERMINAL" pipState="live">
           <V2NavRow
             href="/funding"
             icon={DollarSign}
@@ -585,7 +620,7 @@ export function SidebarContent({
         </V2Section>
 
         {/* RESEARCH TERMINAL */}
-        <V2Section label="RESEARCH TERMINAL">
+        <V2Section label="RESEARCH TERMINAL" pipState="stale">
           <FreshCountNavRow
             routeKey="arxivPapers"
             currentCount={sourceCounts?.arxivPapers ?? 0}
@@ -611,7 +646,7 @@ export function SidebarContent({
         </V2Section>
 
         {/* EXPLORE */}
-        <V2Section label="EXPLORE">
+        <V2Section label="EXPLORE" pipState="live">
           <V2NavRow
             href="/digest"
             icon={CalendarDays}
@@ -641,7 +676,7 @@ export function SidebarContent({
         </V2Section>
 
         {/* TOOLS */}
-        <V2Section label="TOOLS">
+        <V2Section label="TOOLS" pipState="live">
           <V2NavRow
             href="/watchlist"
             icon={Eye}

@@ -1,0 +1,310 @@
+/* ============================================================
+   Sidebar nav — terminal-styled groups + rows
+   Mockup-aligned styles for .sb-group / .sb-grp-label / .sb-nav
+   ============================================================ */
+
+/* Group container ---------------------------------------------------- */
+.sb-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 4px 8px 6px;
+  margin-bottom: 2px;
+}
+
+/* Group label row: pip + name + line + tools ------------------------- */
+.sb-grp-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 4px 4px 2px;
+  font-family: var(--v4-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-400, rgba(255, 255, 255, 0.45));
+  user-select: none;
+}
+
+/* Pip — 6px circle, default orange (waiting), live (green animated), stale (gray) */
+.grp-pip {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--acc, #ff9d3a);
+  box-shadow: 0 0 6px rgba(255, 157, 58, 0.45);
+  flex: 0 0 auto;
+}
+.grp-pip.live {
+  background: var(--sig-green, #6ce672);
+  box-shadow: 0 0 6px rgba(108, 230, 114, 0.55);
+  animation: livePip 2.4s ease-in-out infinite;
+}
+.grp-pip.stale {
+  background: var(--ink-400, rgba(255, 255, 255, 0.35));
+  box-shadow: none;
+}
+
+@keyframes livePip {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.18); }
+}
+
+/* Group name — the mono `// LABEL` text */
+.grp-name {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+/* The thin separator line that fills the rest of the row */
+.grp-line {
+  flex: 1 1 auto;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--ink-500, rgba(255, 255, 255, 0.08)),
+    transparent 80%
+  );
+  margin: 0 2px;
+  min-width: 8px;
+}
+
+/* Trailing tools cluster (drag handle + chevron) --------------------- */
+.grp-tools {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+  opacity: 0.55;
+  transition: opacity 120ms ease;
+}
+.sb-group:hover .grp-tools { opacity: 1; }
+
+.grp-drag,
+.grp-chev {
+  width: 14px;
+  height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-400, rgba(255, 255, 255, 0.45));
+  cursor: pointer;
+  border-radius: 2px;
+}
+.grp-drag svg,
+.grp-chev svg {
+  width: 10px;
+  height: 10px;
+}
+.grp-drag:hover,
+.grp-chev:hover {
+  color: var(--ink-100, rgba(255, 255, 255, 0.92));
+  background: var(--bg-100, rgba(255, 255, 255, 0.05));
+}
+.grp-drag { cursor: grab; }
+.grp-drag:active { cursor: grabbing; }
+
+/* ============================================================
+   Nav row — .sb-nav
+   ============================================================ */
+.sb-nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 5px 8px;
+  font-family: var(--v4-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-200, rgba(255, 255, 255, 0.78));
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.sb-nav:hover {
+  background: var(--bg-100, rgba(255, 255, 255, 0.04));
+  color: var(--ink-000, #fff);
+}
+
+/* Active row: bracket + sweep + accent color */
+.sb-nav.active {
+  color: var(--ink-000, #fff);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 157, 58, 0.12),
+    rgba(255, 157, 58, 0.02) 70%,
+    transparent
+  );
+}
+.sb-nav.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--acc, #ff9d3a);
+  border-radius: 2px;
+  animation: activePulse 2.6s ease-in-out infinite;
+}
+.sb-nav.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 157, 58, 0.06) 50%,
+    transparent
+  );
+  animation: rowSweep 4.2s linear infinite;
+  border-radius: 4px;
+}
+
+@keyframes activePulse {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+@keyframes rowSweep {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Icon slot ---------------------------------------------------------- */
+.sb-nav .ic {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: var(--ink-300, rgba(255, 255, 255, 0.6));
+}
+.sb-nav.active .ic { color: var(--acc, #ff9d3a); }
+
+/* Label slot --------------------------------------------------------- */
+.sb-nav .lbl {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Entity word — the trailing accent-colored noun (e.g. "Repos") */
+.sb-nav .ent {
+  font-style: normal;
+  color: var(--acc, #ff9d3a);
+  margin-left: 4px;
+}
+.sb-nav.active .ent { color: var(--acc, #ff9d3a); }
+
+/* Hotkey hint -------------------------------------------------------- */
+.sb-nav .hk {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  font-size: 8.5px;
+  font-family: var(--v4-mono, ui-monospace, monospace);
+  color: var(--ink-400, rgba(255, 255, 255, 0.45));
+  background: var(--bg-100, rgba(255, 255, 255, 0.04));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  letter-spacing: 0;
+}
+
+/* Delta / badge slot ------------------------------------------------- */
+.sb-nav .delta {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  padding: 1px 6px;
+  font-family: var(--v4-mono, ui-monospace, monospace);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  border-radius: 3px;
+  font-variant-numeric: tabular-nums;
+  background: var(--bg-100, rgba(255, 255, 255, 0.05));
+  color: var(--ink-300, rgba(255, 255, 255, 0.6));
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* up — green delta (+N) */
+.sb-nav .delta.up {
+  background: rgba(108, 230, 114, 0.14);
+  color: var(--sig-green, #6ce672);
+  animation: tickFlash 1.2s ease-out 1;
+}
+
+/* hot — orange (accent) */
+.sb-nav .delta.hot {
+  background: rgba(255, 157, 58, 0.14);
+  color: var(--acc, #ff9d3a);
+  animation: hotBlink 2.6s ease-in-out infinite;
+}
+
+/* neutral — gray (default cumulative) */
+.sb-nav .delta.neutral {
+  background: var(--bg-100, rgba(255, 255, 255, 0.05));
+  color: var(--ink-300, rgba(255, 255, 255, 0.6));
+}
+
+/* new — orange "NEW" pill (pulsing) */
+.sb-nav .delta.new {
+  background: rgba(255, 157, 58, 0.18);
+  color: var(--acc, #ff9d3a);
+  border: 1px solid rgba(255, 157, 58, 0.28);
+  animation: newPulse 2s ease-in-out infinite;
+}
+
+/* tag — uppercase metadata (e.g. ALL, x402) */
+.sb-nav .delta.tag {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ink-200, rgba(255, 255, 255, 0.78));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  letter-spacing: 0.12em;
+}
+
+/* keyframes for delta variants */
+@keyframes tickFlash {
+  0%   { background: rgba(108, 230, 114, 0.42); }
+  100% { background: rgba(108, 230, 114, 0.14); }
+}
+@keyframes hotBlink {
+  0%, 100% { opacity: 0.85; }
+  50%      { opacity: 1; box-shadow: 0 0 0 1px rgba(255, 157, 58, 0.18); }
+}
+@keyframes newPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 157, 58, 0.30); }
+  50%      { box-shadow: 0 0 0 3px rgba(255, 157, 58, 0); }
+}
+
+/* Disabled state ----------------------------------------------------- */
+.sb-nav[aria-disabled="true"],
+.sb-nav.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.sb-nav[aria-disabled="true"]:hover,
+.sb-nav.disabled:hover {
+  background: transparent;
+  color: var(--ink-200, rgba(255, 255, 255, 0.78));
+}

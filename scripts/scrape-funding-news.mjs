@@ -560,9 +560,13 @@ async function main() {
       const extracted = extractFunding(item.headline, item.description);
       const tags = extractTags(item.headline, item.description);
 
-      // Skip low-quality extractions
+      // Skip low-quality extractions. Pattern mirrors worker fetcher
+      // (apps/trendingrepo-worker/src/fetchers/funding-news/index.ts) —
+      // keep both regexes in sync. 2026-05-07 expansion: city names +
+      // "Belgian AI startup ..." style adjectival false-positives that
+      // the regex was pulling out of EU-Startups headlines.
       if (extracted) {
-        const badNames = /^(the\s|fintech\b|sources\b|report\b|breaking\b|scoop\b|ai\s+startups|billionaire|cathie\s+wood|creandum\s+partner|alumni\b)/i;
+        const badNames = /^(the\s|fintech\b|sources\b|report\b|breaking\b|scoop\b|ai\s+startups|billionaire|cathie\s+wood|creandum\s+partner|alumni\b|exclusive\b|top\s+startup|leftover|deepseek\b|a16z\b|peter\s+sarlin|tallinn\b|stockholm\b|berlin\b|london\b|paris\b|amsterdam\b|munich\b|dublin\b|lisbon\b|helsinki\b|copenhagen\b|warsaw\b|vienna\b|zurich\b|barcelona\b|madrid\b|new\s+york|silicon\s+valley|belgian\s+ai\b|french\s+ai\b|swiss\s+startup|german\s+startup|dutch\s+startup|spanish\s+startup|swedish\s+startup|israeli\s+startup|indian\s+startup)/i;
         if (badNames.test(extracted.companyName)) {
           continue;
         }

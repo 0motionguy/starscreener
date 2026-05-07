@@ -21,6 +21,7 @@ import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { MoverRow, type FundingStage } from "@/components/funding/MoverRow";
 import { WindowedFundingBoard } from "@/components/funding/WindowedFundingBoard";
 import { companyLogoUrl } from "@/lib/logos";
+import { resolveLogoUrl } from "@/lib/logo-url";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 export const revalidate = 60;
@@ -226,11 +227,23 @@ export default async function FundingPage() {
         // AUDIT-2026-05-04: closes the funding-page no-images gap.
         // Route extractor logo inputs through the shared sanitizer so legacy
         // Clearbit URLs do not leak direct third-party image failures into UI.
+        //
+        // 2026-05-07: when neither companyLogoUrl nor companyWebsite is
+        // present (~37% of signals — extractor pulled "Tallinn" / "Top
+        // Startup" / author names as the company), fall through to the
+        // source-article's favicon so every row still renders something
+        // visual instead of EntityLogo's hash-coloured monogram tile.
         const explicit =
           signal.extracted?.companyLogoUrl ??
           signal.extracted?.companyWebsite ??
           null;
-        const logoUrl = companyLogoUrl(explicit);
+        const logoUrl =
+          companyLogoUrl(explicit) ??
+          resolveLogoUrl(
+            signal.sourceUrl,
+            signal.extracted?.companyName ?? null,
+            64,
+          );
         return (
           <MoverRow
             key={signal.id}

@@ -203,18 +203,23 @@ describe("CapitalFlowChart", () => {
     const { container } = render(
       <CapitalFlowChart points={points} sectors={sectors} />,
     );
-    const svg = container.querySelector("svg.v4-capital-flow");
-    expect(svg).not.toBeNull();
-    expect(svg?.querySelectorAll("path[fill*='var']").length).toBe(2);
+    // Post-migration: chart now renders into <div.v4-capital-flow> with an
+    // ECharts canvas mounted client-side. JSDOM doesn't run ECharts' canvas
+    // init, so we assert the wrapper + that the empty-state branch did NOT
+    // fire (presence of the populated chart container).
+    const wrapper = container.querySelector("div.v4-capital-flow");
+    expect(wrapper).not.toBeNull();
+    expect(container.textContent ?? "").not.toContain("No capital flow data");
   });
 
   it("renders an empty state when given no data", () => {
     const { container } = render(
       <CapitalFlowChart points={[]} sectors={sectors} />,
     );
-    const svg = container.querySelector("svg.v4-capital-flow");
-    expect(svg).not.toBeNull();
-    expect(svg?.querySelectorAll("path").length).toBe(0);
+    const wrapper = container.querySelector("div.v4-capital-flow");
+    expect(wrapper).not.toBeNull();
+    // Empty-state branch renders a placeholder div, not the chart canvas.
+    expect(wrapper?.querySelector("canvas")).toBeNull();
   });
 
   it("renders the spike marker when spike prop is set", () => {

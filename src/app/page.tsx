@@ -320,13 +320,26 @@ function formatPct(delta: number, base: number): string | null {
   return `${pct >= 0 ? "+" : ""}${pct}%`;
 }
 
+function stableSparkGradientId(
+  values: number[],
+  color: string,
+  className: string,
+  width: number,
+  height: number,
+): string {
+  const seed = `${className}|${color}|${width}x${height}|${values.join(",")}`;
+  let hash = 5381;
+  for (let i = 0; i < seed.length; i += 1) {
+    hash = ((hash << 5) + hash) ^ seed.charCodeAt(i);
+  }
+  return `sg-${(hash >>> 0).toString(36)}`;
+}
+
 // Vercel/Linear/Stripe-style mini sparkline:
 //   1. area path, vertical alpha-gradient fill
 //   2. crisp 1.5px stroke on top
 //   3. end-point dot with halo glow
-// Implemented as pure inline SVG — no extra deps, scales with viewBox.
-let __sparkGradId = 0;
-
+// Implemented as pure inline SVG - no extra deps, scales with viewBox.
 function Sparkline({
   values,
   color = "var(--sig-green)",
@@ -343,9 +356,7 @@ function Sparkline({
   height?: number;
 }) {
   const d = sparkPath(values, width, height);
-  // Stable per-instance id avoids gradient cross-talk when many spark SVGs
-  // are mounted in the same DOM (Hero panels, live table, etc.).
-  const gradId = `sg-${(__sparkGradId = (__sparkGradId + 1) % 1_000_000)}`;
+  const gradId = stableSparkGradientId(values, color, className, width, height);
 
   // Compute end-point coords for the trailing dot.
   const points = values.length > 1 ? values : [1, 1];
@@ -558,7 +569,8 @@ function ConsensusRow({ repo, index }: { repo: Repo; index: number }) {
 
 function BreakoutRow({ repo, index }: { repo: Repo; index: number }) {
   const baseline = Math.max(1, repo.starsDelta7d / 7);
-  const velocity = Math.min(100, Math.round((repo.starsDelta24h / baseline) * 18));
+  const velocityRatio = repo.starsDelta24h / baseline;
+  const velocity = Math.min(100, Math.round(velocityRatio * 18));
   const pct = percentDelta(repo.starsDelta24h, repo.stars);
   return (
     <a className={`brk-row ${index === 0 ? "first" : ""}`} href={`/repo/${repo.owner}/${repo.name}`}>
@@ -575,7 +587,7 @@ function BreakoutRow({ repo, index }: { repo: Repo; index: number }) {
       </span>
       <span className="vel">
         <span className="bar"><i style={{ width: `${velocity}%` }} /></span>
-        <span className="lbl">{velocity}% vel</span>
+        <span className="lbl">{velocityRatio.toFixed(1)}x 7d avg</span>
       </span>
       <span className="delta">
         {formatDelta(repo.starsDelta24h)}
@@ -710,13 +722,13 @@ export default async function HomePage() {
         .slice(0, 5)
     : topCategoryFallback(repos, ["mcp"], 5);
   const repoBoard = topByDelta(repos, 5);
-  const consensusRepos = [...repos]
+  const consensusCandidates = [...repos]
     .sort(
       (a, b) =>
         (b.crossSignalScore ?? sourceCount(b)) -
         (a.crossSignalScore ?? sourceCount(a)),
-    )
-    .slice(0, 8);
+    );
+  const consensusRepos = consensusCandidates.slice(0, 3);
   const breakoutRepos = [...repos]
     .sort((a, b) => {
       const aBase = Math.max(1, a.starsDelta7d / 7);
@@ -793,6 +805,11 @@ export default async function HomePage() {
   })();
   const refreshed = new Date(lastFetchedAt);
   const refreshedTime = refreshed.toISOString().slice(11, 19);
+  const temporalCoverageStart = new Date(
+    refreshed.getTime() - 365 * 24 * 3600 * 1000,
+  )
+    .toISOString()
+    .slice(0, 10);
   const total24h = repos.reduce(
     (sum, repo) => sum + Math.max(0, repo.starsDelta24h),
     0,
@@ -821,9 +838,9 @@ export default async function HomePage() {
             <div className="crumb">
               <b>TREND</b> / TERMINAL / FRONT PAGE
             </div>
-            <h1>What&apos;s moving in open source - right now.</h1>
+            <h1>One live ranking for open-source breakouts.</h1>
             <p className="lede">
-              Live repo, skill, and MCP momentum ranked by source agreement,
+              Repos, skills, and MCP servers ranked by cross-source agreement,
               star velocity, and fresh community attention.
             </p>
           </div>
@@ -838,12 +855,12 @@ export default async function HomePage() {
         </h1>
 
         <MetricGrid columns={6}>
-          <Metric label="tracked repos" value={formatCompact(repos.length)} sub="derived feed" />
-          <Metric label="24h stars" value={formatCompact(total24h)} delta="+ live" tone="positive" />
-          <Metric label="7d stars" value={formatCompact(total7d)} sub="rolling window" />
-          <Metric label="consensus" value={consensusRepos.length} sub="multi-source" tone="consensus" />
-          <Metric label="breakouts" value={breakoutRepos.length} sub="velocity spike" tone="accent" />
-          <Metric label="top category" value={topCategory?.label ?? "n/a"} sub="momentum leader" />
+          <Metric label="coverage" value={formatCompact(repos.length)} sub="tracked repos" />
+          <Metric label="stars today" value={formatCompact(total24h)} delta="+ live" tone="positive" />
+          <Metric label="weekly stars" value={formatCompact(total7d)} sub="7d window" />
+          <Metric label="consensus now" value={consensusRepos.length} sub="top multi-source" tone="consensus" />
+          <Metric label="breakouts now" value={breakoutRepos.length} sub="above baseline" tone="accent" />
+          <Metric label="top category" value={topCategory?.label ?? "n/a"} sub="leader" />
         </MetricGrid>
 
         <SectionHead
@@ -864,8 +881,8 @@ export default async function HomePage() {
         />
         <div className="grid">
           <Card className="col-6">
-            <CardHeader right={<span>{consensusRepos.length} active</span>} showCorner>
-              {"// Consensus"}
+            <CardHeader right={<span>{consensusRepos.length} picked</span>} showCorner>
+              {"// Consensus / top 3"}
             </CardHeader>
             <div className="panel-body">
               {consensusRepos.map((repo, index) => (
@@ -1276,11 +1293,7 @@ export default async function HomePage() {
                 contentUrl: absoluteUrl("/sitemap.xml"),
               },
             ],
-            temporalCoverage: `${new Date(
-              Date.now() - 365 * 24 * 3600 * 1000,
-            )
-              .toISOString()
-              .slice(0, 10)}/..`,
+            temporalCoverage: `${temporalCoverageStart}/..`,
             dateModified: lastFetchedAt,
           }),
         }}

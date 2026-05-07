@@ -15,10 +15,15 @@ describe("home page data honesty", () => {
     expect(source).not.toContain("sparkline: buildSyntheticSparkline");
   });
 
-  it("keeps the landing consensus panel larger than three rows", () => {
+  it("caps the landing consensus panel at three rows", () => {
     const match = source.match(/const consensusRepos =[\s\S]*?\.slice\(0, (\d+)\);/);
 
     expect(match).not.toBeNull();
-    expect(Number(match?.[1])).toBeGreaterThanOrEqual(8);
+    expect(Number(match?.[1])).toBe(3);
+  });
+
+  it("does not use render-order counters or wall-clock dates in homepage HTML", () => {
+    expect(source).not.toContain("__sparkGradId");
+    expect(source).not.toContain("Date.now() - 365");
   });
 });

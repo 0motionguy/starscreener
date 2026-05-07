@@ -69,6 +69,58 @@ export interface DataReadResult<T> {
   writtenAt?: string;
 }
 
+// ---------------------------------------------------------------------------
+// Move 3 P2a — freshness-enforced read result
+//
+// `readDataStoreWithFreshness()` returns this shape. It is intentionally
+// distinct from `DataReadResult<T>` (above) because:
+//   1. The legacy `read()` API contracts `data: T | null` and a 4-value
+//      source union (`'redis' | 'file' | 'memory' | 'missing'`). Many call
+//      sites depend on those exact semantics — changing them would cascade
+//      through every refresh hook.
+//   2. The freshness path needs a STRUCTURED `meta` object (writtenAt as a
+//      number + provenance fields) rather than an opaque ISO string, so
+//      consumers can reason about age in numeric units and surface
+//      writer/runId/commit in degraded-banner UI.
+//   3. The freshness path narrows `source` to the 3 tiers that actually
+//      serve a payload. Total miss is still represented (data=null,
+//      source='memory' with degraded=true) so the helper preserves the
+//      no-throw guarantee.
+//
+// Phase 2a is JUST the type extension + the helper below; consumer-route
+// wiring lands in Move 3 P3.
+// ---------------------------------------------------------------------------
+
+export interface FreshnessMeta {
+  /** Epoch ms of the last successful write. */
+  writtenAt: number;
+  /** Optional writer slug — collector script name, fetcher id, etc. */
+  writer?: string;
+  /** Optional CI / workflow run id that produced this value. */
+  runId?: string;
+  /** Optional commit SHA the writer was running against. */
+  commit?: string;
+}
+
+export interface FreshnessAwareResult<T> {
+  /**
+   * The payload. May be null only when every tier missed; in that case
+   * `degraded` is true and `meta` is null. Consumers that need a non-null
+   * payload should narrow on `data !== null`.
+   */
+  data: T | null;
+  /** Structured provenance, or null when no tier produced a value. */
+  meta: FreshnessMeta | null;
+  /**
+   * True when the data is past the per-source freshness budget OR fell back
+   * from Redis (i.e. served from file/memory). Fail-safe: also true when
+   * the meta timestamp is missing (we can't prove freshness).
+   */
+  degraded: boolean;
+  /** Which tier served this read. Narrowed vs. legacy DataSource. */
+  source: "redis" | "file" | "memory";
+}
+
 export interface DataWriteOptions {
   /** Also write the JSON to disk under data/<key>.json. Used by collectors. */
   mirrorToFile?: boolean;
@@ -499,6 +551,67 @@ function safeStat(path: string): { mtimeMs: number } | null {
   }
 }
 
+/**
+ * Move 3 P2a — parse the structured provenance meta blob.
+ *
+ * Mirrors the back-compat matrix in `parseWrittenAt()` but returns the full
+ * `{ writtenAt: number, writer?, runId?, commit? }` shape used by the
+ * freshness-aware reader. Returns null when the meta is missing or
+ * un-parseable.
+ *
+ * Inputs (per writer history):
+ *   - bare ISO string (legacy writers, pre-2026-05-04 audit)
+ *   - JSON-encoded `{ writtenAt: ISO, writer?, runId?, commit? }` (current)
+ *   - already-parsed object (Upstash auto-decode)
+ */
+function parseFreshnessMeta(raw: unknown): FreshnessMeta | null {
+  if (raw === null || raw === undefined) return null;
+
+  if (typeof raw === "string" && raw.length > 0) {
+    if (raw[0] === "{") {
+      try {
+        const parsed = JSON.parse(raw) as Record<string, unknown>;
+        return objectToFreshnessMeta(parsed);
+      } catch {
+        // Fall through to bare-ISO interpretation.
+      }
+    }
+    const ts = Date.parse(raw);
+    if (Number.isFinite(ts)) {
+      return { writtenAt: ts };
+    }
+    return null;
+  }
+
+  if (typeof raw === "object") {
+    return objectToFreshnessMeta(raw as Record<string, unknown>);
+  }
+
+  return null;
+}
+
+function objectToFreshnessMeta(
+  obj: Record<string, unknown>,
+): FreshnessMeta | null {
+  const writtenAtRaw = obj.writtenAt;
+  let writtenAt: number | null = null;
+  if (typeof writtenAtRaw === "string" && writtenAtRaw.length > 0) {
+    const parsed = Date.parse(writtenAtRaw);
+    if (Number.isFinite(parsed)) writtenAt = parsed;
+  } else if (
+    typeof writtenAtRaw === "number" &&
+    Number.isFinite(writtenAtRaw)
+  ) {
+    writtenAt = writtenAtRaw;
+  }
+  if (writtenAt === null) return null;
+  const meta: FreshnessMeta = { writtenAt };
+  if (typeof obj.writer === "string") meta.writer = obj.writer;
+  if (typeof obj.runId === "string") meta.runId = obj.runId;
+  if (typeof obj.commit === "string") meta.commit = obj.commit;
+  return meta;
+}
+
 // ---------------------------------------------------------------------------
 // Factory
 // ---------------------------------------------------------------------------
@@ -692,4 +805,100 @@ export async function closeDataStore(): Promise<void> {
 export function _resetDataStoreForTests(): void {
   singleton = null;
   warnedAboutFileFallback = false;
+}
+
+// ---------------------------------------------------------------------------
+// Move 3 P2a — freshness-enforced read helper
+//
+// This is intentionally additive: it does NOT replace `getDataStore().read()`.
+// Phase 2a just adds the type + helper; consumer routes get rewired in P3.
+//
+// Behaviour:
+//   1. Performs the standard 3-tier read via the existing data store.
+//   2. On a Redis hit, also fetches the structured meta blob to surface
+//      writer/runId/commit provenance.
+//   3. Computes `degraded`:
+//        - true when source !== 'redis' (stale tier)
+//        - true when meta is missing (fail-safe — can't prove freshness)
+//        - true when (now - meta.writtenAt) > freshnessBudgetMs
+//        - otherwise false
+//   4. Never throws; total miss returns data=null, source='memory',
+//      degraded=true so callers can render an empty/degraded state.
+// ---------------------------------------------------------------------------
+
+/**
+ * Read a payload through the data-store with per-source freshness enforcement.
+ *
+ * @param slug                The data-store key (matches `id` in
+ *                            apps/trendingrepo-worker/src/platform/sources.json).
+ * @param freshnessBudgetMs   Per-source freshness budget; sourced from
+ *                            sources.json[id].freshness_budget_ms. Pass the
+ *                            exact value — DO NOT inline a literal at the
+ *                            call site (P3 will centralise lookup).
+ * @param store               Optional store override (defaults to the
+ *                            singleton). Tests pass a fake here.
+ */
+export async function readDataStoreWithFreshness<T>(
+  slug: string,
+  freshnessBudgetMs: number,
+  store: DataStore = getDataStore(),
+): Promise<FreshnessAwareResult<T>> {
+  const result = await store.read<T>(slug);
+
+  // Total miss — nothing in any tier. Fail-safe to degraded so callers
+  // render a degraded state and never rely on stale empty data.
+  if (result.source === "missing") {
+    return {
+      data: null,
+      meta: null,
+      degraded: true,
+      source: "memory",
+    };
+  }
+
+  // Resolve structured meta. For Redis hits we read the meta key directly so
+  // we capture writer/runId/commit. For file/memory we synthesise from the
+  // ISO `writtenAt` the legacy reader already returned (mtime / cache stamp).
+  let meta: FreshnessMeta | null = null;
+  if (result.source === "redis") {
+    meta = await readRedisMeta(slug, store);
+    if (!meta && result.writtenAt) {
+      const ts = Date.parse(result.writtenAt);
+      if (Number.isFinite(ts)) meta = { writtenAt: ts };
+    }
+  } else if (result.writtenAt) {
+    const ts = Date.parse(result.writtenAt);
+    if (Number.isFinite(ts)) meta = { writtenAt: ts };
+  }
+
+  const isFreshTier = result.source === "redis";
+  const ageMs = meta ? Date.now() - meta.writtenAt : Number.POSITIVE_INFINITY;
+  const overBudget = ageMs > freshnessBudgetMs;
+  const metaMissing = meta === null;
+
+  return {
+    data: result.data,
+    meta,
+    degraded: !isFreshTier || metaMissing || overBudget,
+    source: result.source,
+  };
+}
+
+/**
+ * Read the structured meta blob for `slug` from Redis, if available. Returns
+ * null on Redis miss / Redis disabled / parse failure — callers should treat
+ * null as "freshness unknowable" (i.e. degraded).
+ */
+async function readRedisMeta(
+  slug: string,
+  store: DataStore,
+): Promise<FreshnessMeta | null> {
+  const client = store.redisClient();
+  if (!client) return null;
+  try {
+    const raw = await client.get(metaKey(slug));
+    return parseFreshnessMeta(raw);
+  } catch {
+    return null;
+  }
 }

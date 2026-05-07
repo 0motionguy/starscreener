@@ -823,7 +823,7 @@ export default async function HomePage() {
               <b>TREND</b> / TERMINAL / FRONT PAGE
             </div>
             <h1>One live ranking for open-source breakouts.</h1>
-            <p className="lede">
+            <p className="lede" style={{ maxWidth: "62ch" }}>
               Repos, skills, and MCP servers ranked by cross-source agreement,
               star velocity, and fresh community attention.
             </p>

@@ -152,7 +152,10 @@ export default async function AgentReposPage() {
     delta: repos
       .filter((repo) => repo.categoryId === category.id)
       .reduce((sum, repo) => sum + Math.max(0, repo.starsDelta24h), 0),
-  })).sort((a, b) => b.delta - a.delta)[0];
+  }))
+    .filter((c) => c.delta > 0)
+    .sort((a, b) => b.delta - a.delta)[0];
+  const hasRepos = repos.length > 0;
 
   return (
     <>
@@ -186,8 +189,8 @@ export default async function AgentReposPage() {
           <Metric
             label="24h stars"
             value={formatCompact(total24h)}
-            delta="+ live"
-            tone="positive"
+            delta={total24h > 0 ? "+ live" : undefined}
+            tone={total24h > 0 ? "positive" : undefined}
           />
           <Metric
             label="7d stars"
@@ -223,7 +226,39 @@ export default async function AgentReposPage() {
           }
         />
         <Card>
-          <LiveTopTable rows={liveTableRows} categories={liveCategories} />
+          {hasRepos ? (
+            <LiveTopTable rows={liveTableRows} categories={liveCategories} />
+          ) : (
+            <div
+              style={{
+                border: "1px dashed var(--v4-line-200)",
+                borderRadius: 4,
+                padding: "40px 24px",
+                textAlign: "center",
+                background: "var(--v4-bg-050)",
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  fontSize: 11,
+                  color: "var(--v4-ink-300)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
+                  margin: "0 0 8px",
+                }}
+              >
+                {"// NO AGENT REPOS YET"}
+              </p>
+              <h3 style={{ fontSize: 18, fontWeight: 600, color: "var(--v4-ink-050)", margin: "0 0 6px" }}>
+                Curated agent set is hydrating.
+              </h3>
+              <p style={{ fontSize: 13, color: "var(--v4-ink-200)", margin: 0 }}>
+                Up to {AGENT_REPO_TARGET_COUNT} runtimes, frameworks &amp;
+                orchestrators land here on the next collector pass.
+              </p>
+            </div>
+          )}
         </Card>
       </main>
 

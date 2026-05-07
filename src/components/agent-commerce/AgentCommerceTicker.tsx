@@ -19,20 +19,26 @@ export interface AgentCommerceTickerItem {
   down?: boolean;
 }
 
+// Token-aware kind colors. Token-up/down use the canonical positive/negative
+// rails so the ticker matches the rest of the dashboard. github / x402 / social
+// stay in the warm/violet ramp because they are not directional p&l signals.
 const KIND_COLOR: Record<TickerKind, string> = {
-  "token-up": "#34d399",
-  "token-down": "#f87171",
-  "github-push": "#fbbf24",
-  "x402-new": "#f59e0b",
-  social: "#a78bfa",
+  "token-up": "var(--color-positive)",
+  "token-down": "var(--color-negative)",
+  "github-push": "var(--color-warning)",
+  "x402-new": "var(--color-accent)",
+  social: "var(--color-violet)",
 };
 
+// Glyph map: ASCII-safe so it survives any encoding round-trip.
+// Triangles for directional, star for github push, x402 for new endpoints,
+// hash for social. No emoji — terminal feel.
 const KIND_GLYPH: Record<TickerKind, ReactNode> = {
-  "token-up": "?",
-  "token-down": "?",
-  "github-push": <BrandStar size={10} className="text-[var(--v4-amber)]" />,
+  "token-up": "▲", // ▲
+  "token-down": "▼", // ▼
+  "github-push": <BrandStar size={10} className="text-[var(--color-warning)]" />,
   "x402-new": "x402",
-  social: "�",
+  social: "#",
 };
 
 export function AgentCommerceTicker({
@@ -43,67 +49,18 @@ export function AgentCommerceTicker({
   const doubled = items.length > 0 ? [...items, ...items] : [];
 
   return (
-    <div
-      style={{
-        margin: "10px 0 14px",
-        border: "1px solid var(--color-border-default)",
-        background: "var(--color-bg-shell)",
-        overflow: "hidden",
-        height: "36px",
-        display: "flex",
-        alignItems: "center",
-        position: "relative",
-      }}
-    >
-      <div
-        style={{
-          flex: "none",
-          height: "100%",
-          padding: "0 14px",
-          background: "var(--color-accent)",
-          color: "var(--color-bg-canvas)",
-          fontSize: "10.5px",
-          letterSpacing: "0.20em",
-          fontWeight: 700,
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-          textTransform: "uppercase",
-          fontFamily: "var(--font-mono, ui-monospace)",
-        }}
-      >
-        <i
-          aria-hidden
-          style={{
-            width: "6px",
-            height: "6px",
-            borderRadius: "99px",
-            background: "var(--color-bg-canvas)",
-            animation: "ac-ticker-pulse 1.4s ease-in-out infinite",
-          }}
-        />
-        LIVE � AGENT COMMERCE
+    <div className="ac-ticker">
+      <div className="ac-ticker-stamp">
+        <i aria-hidden className="ac-ticker-pulse" />
+        <span>LIVE / AGENT COMMERCE</span>
       </div>
-      <div
-        style={{
-          flex: 1,
-          minWidth: 0,
-          overflow: "hidden",
-          fontSize: "11px",
-          letterSpacing: "0.04em",
-          color: "var(--color-text-subtle)",
-          fontFamily: "var(--font-mono, ui-monospace)",
-        }}
-      >
+      <div className="ac-ticker-track">
         {doubled.length > 0 ? (
           <div
+            className="ac-ticker-stream"
             style={
               {
-                display: "flex",
-                gap: "24px",
-                padding: "0 24px",
-                whiteSpace: "nowrap",
-                animation: "ac-ticker-scroll 80s linear infinite",
+                animationDuration: "60s",
               } as CSSProperties
             }
           >
@@ -111,43 +68,23 @@ export function AgentCommerceTicker({
               <a
                 key={`${t.kind}-${i}-${t.text}`}
                 href={t.href}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  textDecoration: "none",
-                  color: "inherit",
-                }}
+                className="ac-ticker-item"
+                style={
+                  {
+                    "--tk-color": KIND_COLOR[t.kind],
+                  } as CSSProperties
+                }
               >
-                <i
-                  aria-hidden
-                  style={{
-                    width: "5px",
-                    height: "5px",
-                    borderRadius: "99px",
-                    background: KIND_COLOR[t.kind],
-                    flex: "none",
-                  }}
-                />
-                <b
-                  style={{
-                    color: KIND_COLOR[t.kind],
-                    fontWeight: 700,
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "4px",
-                  }}
-                >
-                  {KIND_GLYPH[t.kind]} {t.label}
+                <i aria-hidden className="ac-ticker-dot" />
+                <b className="ac-ticker-label">
+                  <span className="ac-ticker-glyph" aria-hidden>
+                    {KIND_GLYPH[t.kind]}
+                  </span>
+                  {t.label}
                 </b>
-                <span style={{ color: "var(--color-text-default)" }}>
-                  {t.text}
-                </span>
+                <span className="ac-ticker-text">{t.text}</span>
                 <em
-                  style={{
-                    fontStyle: "normal",
-                    color: t.down ? "#f87171" : "#34d399",
-                  }}
+                  className={`ac-ticker-value ${t.down ? "is-down" : "is-up"}`}
                 >
                   {t.value}
                 </em>
@@ -155,26 +92,11 @@ export function AgentCommerceTicker({
             ))}
           </div>
         ) : (
-          <div
-            style={{
-              padding: "0 24px",
-              color: "var(--color-text-faint)",
-            }}
-          >
-            no recent agent-commerce signals - collectors warming up
+          <div className="ac-ticker-empty">
+            no recent agent-commerce signals — collectors warming up
           </div>
         )}
       </div>
-      <style>{`
-        @keyframes ac-ticker-scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        @keyframes ac-ticker-pulse {
-          0%, 100% { opacity: 0.4; }
-          50% { opacity: 1; }
-        }
-      `}</style>
     </div>
   );
 }

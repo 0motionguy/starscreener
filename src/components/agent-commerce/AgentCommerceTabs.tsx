@@ -50,24 +50,35 @@ function buildTabHref(base: URLSearchParams, tab: AgentCommerceTab): string {
 export function AgentCommerceTabs({ active, counts, baseQuery }: TabsProps) {
   return (
     <nav className="ac-tabs" aria-label="Agent Commerce sections">
-      {TABS.map((tab) => {
-        const isActive = tab === active;
-        const count = counts?.[tab];
-        return (
-          <Link
-            key={tab}
-            href={buildTabHref(baseQuery, tab)}
-            className={`ac-tab ${isActive ? "is-active" : ""}`}
-            aria-current={isActive ? "page" : undefined}
-          >
-            <span className="ac-tab-num">{TAB_GLYPHS[tab]}</span>
-            <span className="ac-tab-label">{TAB_LABELS[tab]}</span>
-            {typeof count === "number" ? (
-              <span className="ac-tab-count">{count}</span>
-            ) : null}
-          </Link>
-        );
-      })}
+      <span className="ac-tabs-rail" aria-hidden>
+        {"// sections"}
+      </span>
+      <div className="ac-tabs-list" role="tablist">
+        {TABS.map((tab) => {
+          const isActive = tab === active;
+          const count = counts?.[tab];
+          return (
+            <Link
+              key={tab}
+              href={buildTabHref(baseQuery, tab)}
+              className={`ac-tab ${isActive ? "is-active" : ""}`}
+              aria-current={isActive ? "page" : undefined}
+              role="tab"
+              aria-selected={isActive}
+            >
+              <span className="ac-tab-num" aria-hidden>
+                {TAB_GLYPHS[tab]}
+              </span>
+              <span className="ac-tab-label">{TAB_LABELS[tab]}</span>
+              {typeof count === "number" ? (
+                <span className="ac-tab-count" aria-label={`${count} entries`}>
+                  {count}
+                </span>
+              ) : null}
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 }

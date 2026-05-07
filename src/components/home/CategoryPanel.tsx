@@ -26,7 +26,7 @@
 //     ))}
 //   </CategoryPanel>
 
-import type { ReactNode } from "react";
+import { Children, type ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -49,6 +49,8 @@ export interface CategoryPanelProps {
   live?: boolean;
   foot?: CategoryPanelFoot;
   className?: string;
+  /** Message to render when `children` is empty. */
+  emptyState?: ReactNode;
   /** RankRow children stack. */
   children: ReactNode;
 }
@@ -60,8 +62,10 @@ export function CategoryPanel({
   live = true,
   foot,
   className,
+  emptyState = "No data yet — check back shortly.",
   children,
 }: CategoryPanelProps) {
+  const hasChildren = Children.count(children) > 0;
   return (
     <section className={cn("v4-cat-panel", className)}>
       <header className="v4-cat-panel__head">
@@ -82,7 +86,24 @@ export function CategoryPanel({
           </span>
         ) : null}
       </header>
-      <div className="v4-cat-panel__body">{children}</div>
+      <div className="v4-cat-panel__body">
+        {hasChildren ? (
+          children
+        ) : (
+          <div
+            className="v4-cat-panel__empty"
+            style={{
+              padding: "24px 12px",
+              textAlign: "center",
+              color: "var(--v4-ink-400)",
+              fontSize: "0.875rem",
+            }}
+            role="status"
+          >
+            {emptyState}
+          </div>
+        )}
+      </div>
       {foot ? (
         <footer className="v4-cat-panel__foot">
           {foot.left ? <span>{foot.left}</span> : <span />}

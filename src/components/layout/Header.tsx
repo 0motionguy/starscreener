@@ -15,13 +15,13 @@ export function Header() {
           <HamburgerButton />
           <Link
             href={ROUTES.HOME}
-            className="group flex min-w-0 flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded"
+            className="group flex min-w-0 flex-col rounded transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
             aria-label="TrendingRepo home"
           >
             <span className="flex min-w-0 items-center gap-1.5 sm:gap-2.5">
               <span
                 aria-hidden
-                className="brand-mark"
+                className="brand-mark transition-transform group-hover:-rotate-6"
               >
                 <Image
                   src="/brand/trendingrepo-mark.svg"

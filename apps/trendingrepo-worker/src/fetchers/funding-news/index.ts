@@ -53,6 +53,27 @@ const RSS_FEEDS: Record<string, string> = {
   'venturebeat-ai': 'https://venturebeat.com/category/ai/feed/',
   'ai-news': 'https://www.artificialintelligence-news.com/feed/',
   'ai-business': 'https://aibusiness.com/rss.xml',
+  // Wave-2 AI-tagged additions (2026-05-07): high-frequency, funding-dense
+  // outlets that fill geographic + editorial gaps in the pool above.
+  //
+  //   the-decoder    pure AI news, daily, German+English editorial team —
+  //                  catches European AI rounds the US-centric outlets miss
+  //   marktechpost   daily AI research+industry, frequent funding posts;
+  //                  one of the most prolific AI funding posters
+  //   unite-ai       AI products + funding, US-tilted; covers consumer AI
+  //                  rounds the others skip
+  //   analytics-india India / APAC AI scene — biggest current geographic
+  //                  gap; daily posts, ~30% funding-related
+  //   mit-tech-review-ai  premium AI editorial; lower volume but high
+  //                  signal-to-noise on serious rounds
+  //   synced         Asia-Pacific AI research+industry; complements
+  //                  analytics-india with a research/lab-tilt
+  'the-decoder': 'https://the-decoder.com/feed/',
+  marktechpost: 'https://www.marktechpost.com/feed/',
+  'unite-ai': 'https://www.unite.ai/feed/',
+  'analytics-india': 'https://analyticsindiamag.com/feed/',
+  'mit-tech-review-ai': 'https://www.technologyreview.com/topic/artificial-intelligence/feed',
+  synced: 'https://syncedreview.com/feed/',
 };
 
 /**
@@ -66,6 +87,12 @@ const AI_TAGGED_SOURCES = new Set<string>([
   'venturebeat-ai',
   'ai-news',
   'ai-business',
+  'the-decoder',
+  'marktechpost',
+  'unite-ai',
+  'analytics-india',
+  'mit-tech-review-ai',
+  'synced',
 ]);
 
 const FUNDING_KEYWORDS =

@@ -56,6 +56,14 @@ const RSS_FEEDS = {
   "venturebeat-ai": "https://venturebeat.com/category/ai/feed/",
   "ai-news": "https://www.artificialintelligence-news.com/feed/",
   "ai-business": "https://aibusiness.com/rss.xml",
+  // Wave-2 AI-tagged additions (2026-05-07): see worker fetcher for
+  // selection rationale (geographic + editorial gap fillers).
+  "the-decoder": "https://the-decoder.com/feed/",
+  marktechpost: "https://www.marktechpost.com/feed/",
+  "unite-ai": "https://www.unite.ai/feed/",
+  "analytics-india": "https://analyticsindiamag.com/feed/",
+  "mit-tech-review-ai": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
+  synced: "https://syncedreview.com/feed/",
 };
 
 // AI-tagged sources skip the AI-keyword gate (publisher already classified).
@@ -64,6 +72,12 @@ const AI_TAGGED_SOURCES = new Set([
   "venturebeat-ai",
   "ai-news",
   "ai-business",
+  "the-decoder",
+  "marktechpost",
+  "unite-ai",
+  "analytics-india",
+  "mit-tech-review-ai",
+  "synced",
 ]);
 
 // AI-funding-only mode: non-AI-tagged feeds must show an AI marker in

@@ -62,6 +62,12 @@ const SOURCE_LABELS: Record<string, string> = {
   "venturebeat-ai": "VB · AI",
   "ai-news": "AI News",
   "ai-business": "AI Business",
+  "the-decoder": "The Decoder",
+  marktechpost: "MarkTechPost",
+  "unite-ai": "Unite.AI",
+  "analytics-india": "Analytics India",
+  "mit-tech-review-ai": "MIT TR · AI",
+  synced: "Synced",
 };
 
 const ROUND_LABELS: Record<string, FundingStage | string> = {

@@ -29,7 +29,7 @@ jobs:
         with:
           node-version: '22'
       - run: npm ci
-      - run: npm run scrape:funding -- --sources ${{ github.event.inputs.sources || 'techcrunch,venturebeat,sifted,arstechnica,techeu,pymnts,bbc,wired,geekwire,eu-startups,siliconcanals,techstartups,techcrunch-ai,venturebeat-ai,ai-news,ai-business' }} --enrich ${{ github.event.inputs.dry_run == 'true' && '--output .tmp/funding-preview.json' || '' }}
+      - run: npm run scrape:funding -- --sources ${{ github.event.inputs.sources || 'techcrunch,venturebeat,sifted,arstechnica,techeu,pymnts,bbc,wired,geekwire,eu-startups,siliconcanals,techstartups,techcrunch-ai,venturebeat-ai,ai-news,ai-business,the-decoder,marktechpost,unite-ai,analytics-india,mit-tech-review-ai,synced' }} --enrich ${{ github.event.inputs.dry_run == 'true' && '--output .tmp/funding-preview.json' || '' }}
       - if: github.event.inputs.dry_run != 'true'
         name: Commit if changed
         uses: ./.github/actions/git-commit-data

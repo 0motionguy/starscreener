@@ -80,7 +80,9 @@ export function Header() {
             <span className="brand-beta">BETA</span>
           </div>
           <div className="brand-sub">
-            // <b>OPEN SOURCE</b> · LIVE
+            {"// "}
+            <b>OPEN SOURCE</b>
+            {" · LIVE"}
           </div>
         </div>
       </Link>

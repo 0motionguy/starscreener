@@ -165,7 +165,18 @@ function sparkEnd(
   return { x, y };
 }
 
-let __ltSparkGrad = 0;
+function stableLiveSparkGradientId(
+  rowId: string,
+  values: number[],
+  stroke: string,
+): string {
+  const seed = `${rowId}|${stroke}|${values.join(",")}`;
+  let hash = 5381;
+  for (let i = 0; i < seed.length; i += 1) {
+    hash = ((hash << 5) + hash) ^ seed.charCodeAt(i);
+  }
+  return `lts-${(hash >>> 0).toString(36)}`;
+}
 
 function compareNumeric(a: number, b: number, dir: SortDir): number {
   return dir === "asc" ? a - b : b - a;
@@ -514,7 +525,11 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
                       const d = sparkPath(row.sparklineData, 72, 24);
                       const end = sparkEnd(row.sparklineData, 72, 24);
                       const areaPath = `${d} L71,23 L1,23 Z`;
-                      const gid = `lts-${(__ltSparkGrad = (__ltSparkGrad + 1) % 1_000_000)}`;
+                      const gid = stableLiveSparkGradientId(
+                        row.id,
+                        row.sparklineData,
+                        stroke,
+                      );
                       return (
                         <svg
                           className="spark-row"

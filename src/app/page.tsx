@@ -320,13 +320,26 @@ function formatPct(delta: number, base: number): string | null {
   return `${pct >= 0 ? "+" : ""}${pct}%`;
 }
 
+function stableSparkGradientId(
+  values: number[],
+  color: string,
+  className: string,
+  width: number,
+  height: number,
+): string {
+  const seed = `${className}|${color}|${width}x${height}|${values.join(",")}`;
+  let hash = 5381;
+  for (let i = 0; i < seed.length; i += 1) {
+    hash = ((hash << 5) + hash) ^ seed.charCodeAt(i);
+  }
+  return `sg-${(hash >>> 0).toString(36)}`;
+}
+
 // Vercel/Linear/Stripe-style mini sparkline:
 //   1. area path, vertical alpha-gradient fill
 //   2. crisp 1.5px stroke on top
 //   3. end-point dot with halo glow
-// Implemented as pure inline SVG — no extra deps, scales with viewBox.
-let __sparkGradId = 0;
-
+// Implemented as pure inline SVG - no extra deps, scales with viewBox.
 function Sparkline({
   values,
   color = "var(--sig-green)",
@@ -343,9 +356,7 @@ function Sparkline({
   height?: number;
 }) {
   const d = sparkPath(values, width, height);
-  // Stable per-instance id avoids gradient cross-talk when many spark SVGs
-  // are mounted in the same DOM (Hero panels, live table, etc.).
-  const gradId = `sg-${(__sparkGradId = (__sparkGradId + 1) % 1_000_000)}`;
+  const gradId = stableSparkGradientId(values, color, className, width, height);
 
   // Compute end-point coords for the trailing dot.
   const points = values.length > 1 ? values : [1, 1];
@@ -794,6 +805,11 @@ export default async function HomePage() {
   })();
   const refreshed = new Date(lastFetchedAt);
   const refreshedTime = refreshed.toISOString().slice(11, 19);
+  const temporalCoverageStart = new Date(
+    refreshed.getTime() - 365 * 24 * 3600 * 1000,
+  )
+    .toISOString()
+    .slice(0, 10);
   const total24h = repos.reduce(
     (sum, repo) => sum + Math.max(0, repo.starsDelta24h),
     0,
@@ -1277,11 +1293,7 @@ export default async function HomePage() {
                 contentUrl: absoluteUrl("/sitemap.xml"),
               },
             ],
-            temporalCoverage: `${new Date(
-              Date.now() - 365 * 24 * 3600 * 1000,
-            )
-              .toISOString()
-              .slice(0, 10)}/..`,
+            temporalCoverage: `${temporalCoverageStart}/..`,
             dateModified: lastFetchedAt,
           }),
         }}

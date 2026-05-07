@@ -19,6 +19,15 @@ import type { JSX, ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { eq, sql } from "drizzle-orm";
+
+import { db } from "@/lib/db/client";
+import { profiles } from "@/lib/db/schema/profiles";
+import {
+  referralMilestones,
+  REFERRAL_MILESTONE_KEYS,
+  type ReferralMilestoneKey,
+} from "@/lib/db/schema/referrals";
 import { getProfile, type Profile } from "@/lib/profile";
 import {
   countReactions,
@@ -97,13 +106,16 @@ export default async function UserProfilePage({
     notFound();
   }
 
-  // Pull profile aggregate + GitHub passport in parallel. Both are cheap on
-  // warm Lambdas (each has its own ISR/dedupe layer).
-  const [profile, ghProfile] = await Promise.all([
+  // Pull profile aggregate + GitHub passport + earned milestones in parallel.
+  // The milestone lookup is best-effort: when the DB env isn't configured
+  // (dev without DATABASE_URL) it resolves to an empty Set so the page
+  // renders cleanly without badges.
+  const [profile, ghProfile, reachedMilestones] = await Promise.all([
     getProfile(handle),
     GH_LOGIN_PATTERN.test(handle)
       ? fetchGithubUserProfile(handle)
       : Promise.resolve(null),
+    fetchReachedMilestones(handle),
   ]);
 
   // Per-idea reaction counts (server-rendered so first paint shows real
@@ -139,6 +151,7 @@ export default async function UserProfilePage({
             handle={handle}
             profile={profile}
             ghProfile={ghProfile}
+            reachedMilestones={reachedMilestones}
           />
         }
         clock={
@@ -280,10 +293,12 @@ function UserIdentity({
   handle,
   profile,
   ghProfile,
+  reachedMilestones,
 }: {
   handle: string;
   profile: Profile;
   ghProfile: GithubUserProfile | null;
+  reachedMilestones: Set<ReferralMilestoneKey>;
 }): JSX.Element {
   const avatar = ghProfile?.avatarUrl ?? profileLogoUrl(handle, 56);
   const displayName =
@@ -395,6 +410,7 @@ function UserIdentity({
             <span style={{ color: "var(--v4-ink-400)" }}>○ INACTIVE</span>
           )}
         </div>
+        <BadgeChips reached={reachedMilestones} />
         <div style={{ display: "flex", gap: 8, marginTop: 12, flexWrap: "wrap" }}>
           {ghProfile ? (
             <a
@@ -883,4 +899,79 @@ function RailCard({
 function normalizeBlogUrl(raw: string): string {
   if (/^https?:\/\//i.test(raw)) return raw;
   return `https://${raw}`;
+}
+
+// --- Referral milestone badges -------------------------------------------
+
+const MILESTONE_LABELS: Record<ReferralMilestoneKey, { label: string; tip: string }> = {
+  connector: { label: "CONNECTOR", tip: "Earned by inviting 1 friend" },
+  operator:  { label: "OPERATOR",  tip: "Earned by inviting 5 friends" },
+  founder:   { label: "FOUNDER",   tip: "Earned by inviting 25 friends" },
+};
+
+/**
+ * Look up earned milestone keys for a handle. Joins on `profiles.handle`
+ * (case-insensitive). Returns an empty Set on any failure (DB not
+ * configured, no row, query error) so the page still renders.
+ */
+async function fetchReachedMilestones(
+  handle: string,
+): Promise<Set<ReferralMilestoneKey>> {
+  if (!process.env.DATABASE_URL) return new Set();
+  try {
+    const rows = await db
+      .select({ milestoneKey: referralMilestones.milestoneKey })
+      .from(referralMilestones)
+      .innerJoin(profiles, eq(referralMilestones.profileId, profiles.id))
+      .where(sql`lower(${profiles.handle}) = ${handle.toLowerCase()}`);
+    return new Set(
+      rows
+        .map((r) => r.milestoneKey)
+        .filter((k): k is ReferralMilestoneKey =>
+          (REFERRAL_MILESTONE_KEYS as readonly string[]).includes(k),
+        ),
+    );
+  } catch {
+    return new Set();
+  }
+}
+
+function BadgeChips({
+  reached,
+}: {
+  reached: Set<ReferralMilestoneKey>;
+}): JSX.Element {
+  return (
+    <div
+      role="list"
+      aria-label="Referral milestones"
+      style={{ display: "flex", gap: 6, marginTop: 10, flexWrap: "wrap" }}
+    >
+      {REFERRAL_MILESTONE_KEYS.map((key) => {
+        const earned = reached.has(key);
+        const meta = MILESTONE_LABELS[key];
+        return (
+          <span
+            key={key}
+            role="listitem"
+            title={meta.tip}
+            aria-label={`${meta.label} ${earned ? "earned" : "locked"}`}
+            style={{
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 10,
+              padding: "3px 8px",
+              border: `1px solid ${earned ? "var(--v4-acc)" : "var(--v4-line-200)"}`,
+              borderRadius: 2,
+              color: earned ? "var(--v4-acc)" : "var(--v4-ink-400)",
+              background: earned ? "var(--v4-bg-050)" : "var(--v4-bg-025)",
+              letterSpacing: "0.08em",
+              opacity: earned ? 1 : 0.6,
+            }}
+          >
+            {meta.label}
+          </span>
+        );
+      })}
+    </div>
+  );
 }

@@ -133,6 +133,12 @@ function formatPct(pct: number): string {
   return `${sign}${rendered}%`;
 }
 
+function confidenceColor(conf: number): string {
+  if (conf >= 70) return "var(--v4-money, #6ee7b7)";
+  if (conf >= 50) return "var(--v4-amber, #fbbf24)";
+  return "var(--v4-muted, #94a3b8)";
+}
+
 export default async function PredictPage() {
   await refreshTrendingFromStore();
   const repos = getDerivedRepos();
@@ -288,21 +294,45 @@ export default async function PredictPage() {
               delta={{
                 value: formatPct(f.deltaPct),
                 direction: "up",
-                label: `${f.confidence}% conf`,
+                label: (
+                  <span
+                    title={`Confidence: ${f.confidence}% — blends sparkline depth, daily-delta volatility, and horizon length`}
+                    style={{
+                      color: confidenceColor(f.confidence),
+                      fontVariantNumeric: "tabular-nums",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {f.confidence}% conf
+                  </span>
+                ),
               }}
             />
           ))}
         </div>
       ) : (
-        <p className="text-sm text-text-tertiary">
-          No repos in the current trending window have enough star history to
-          forecast. Check back after the next collector run, or pick a repo
-          manually from the{" "}
-          <Link className="link" href="/compare">
-            compare tool
-          </Link>
-          .
-        </p>
+        <div
+          className="v4-prose"
+          style={{
+            border: "1px dashed var(--v4-border, rgba(148,163,184,0.25))",
+            padding: "1.25rem 1.5rem",
+            borderRadius: 6,
+            background: "var(--v4-panel, rgba(15,23,42,0.4))",
+          }}
+        >
+          <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: "0.75rem", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--v4-muted, #94a3b8)" }}>
+            // NO_FORECASTS · awaiting sparkline depth
+          </p>
+          <p style={{ marginTop: "0.5rem" }}>
+            No repos in the current trending window have enough star history to
+            forecast (need ≥14 days). Check back after the next collector run,
+            or pick a repo manually from the{" "}
+            <Link className="link" href="/compare">
+              compare tool
+            </Link>
+            .
+          </p>
+        </div>
       )}
 
       <SectionHead

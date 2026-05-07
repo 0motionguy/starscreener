@@ -29,6 +29,10 @@ import type {
   SerializedProfilePrefs,
 } from "./_components/types";
 
+// Drizzle DB query — must render at request time. Without DATABASE_URL
+// set, prerender throws from db/client.ts.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Watchlist alerts — TrendingRepo",
   description:

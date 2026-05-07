@@ -210,6 +210,22 @@ export function BlueskyIcon({ size = 16, className, monochrome }: IconProps) {
 }
 
 /**
+ * Hugging Face — official smiling-face mark (simple-icons "huggingface").
+ * Canonical fill: #FFD21E (HF brand yellow).
+ */
+export function HuggingFaceIcon({ size = 16, className, monochrome }: IconProps) {
+  const fill = monochrome ? "currentColor" : "#FFD21E";
+  return (
+    <svg {...svgRoot(size, className)}>
+      <path
+        fill={fill}
+        d="M12.043 0C5.408 0 .03 5.378.03 12.014c0 1.31.213 2.567.6 3.748l-.6 5.84a1.06 1.06 0 0 0 1.218 1.157l5.74-1.052a11.96 11.96 0 0 0 5.054 1.122c6.635 0 12.013-5.379 12.013-12.013S18.677 0 12.043 0zm-.012 4.336a4.96 4.96 0 0 1 4.96 4.96 4.96 4.96 0 0 1-4.96 4.96 4.96 4.96 0 0 1-4.96-4.96 4.96 4.96 0 0 1 4.96-4.96zm-3.226 7.748a.532.532 0 0 0-.504.708 3.85 3.85 0 0 0 3.658 2.598 3.85 3.85 0 0 0 3.659-2.598.532.532 0 0 0-.504-.708H8.805zm.694.97h6.086a2.83 2.83 0 0 1-3.043 1.928 2.83 2.83 0 0 1-3.043-1.928zM9.31 7.42a.97.97 0 0 0-.97.97.97.97 0 0 0 .97.97.97.97 0 0 0 .97-.97.97.97 0 0 0-.97-.97zm5.474 0a.97.97 0 0 0-.97.97.97.97 0 0 0 .97.97.97.97 0 0 0 .97-.97.97.97 0 0 0-.97-.97z"
+      />
+    </svg>
+  );
+}
+
+/**
  * Dev.to — official mark (simple-icons "devdotto").
  * Canonical fill: #0A0A0A.
  */

@@ -109,10 +109,10 @@ function generateWebhookSecret(): { plaintext: string; storedHash: string } {
 
 /**
  * Verify a plaintext webhook secret against the stored `<salt>:<hash>`.
- * Currently unused but exported in spirit — keeps the helper colocated
- * with the generator for future rotate flows.
+ * Module-internal (Next 15 forbids non-handler exports from route.ts —
+ * promote to @/lib/* if a future rotate flow needs to import it).
  */
-export function verifyWebhookSecret(plaintext: string, stored: string): boolean {
+function verifyWebhookSecret(plaintext: string, stored: string): boolean {
   const [saltHex, hashHex] = stored.split(":");
   if (!saltHex || !hashHex) return false;
   try {

@@ -25,10 +25,12 @@ import { huggingFaceLogoUrl, huggingFaceAuthorLogoUrl } from "@/lib/logos";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
+import { PageHead } from "@/components/ui/PageHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { MarkVisited } from "@/components/layout/MarkVisited";
 import { HfNavTabs } from "@/components/huggingface/HfNavTabs";
+import { HuggingFaceIcon } from "@/components/brand/BrandIcons";
 
 const HF_ACCENT_BAR = "#FFD21E"; // HF brand yellow
 
@@ -80,13 +82,18 @@ export default async function HuggingFaceDatasetsPage() {
       <main className="home-surface">
         <MarkVisited routeKey="hfDatasets" count={allDatasets.length} />
         <SourceFeedTemplate
-          crumb={
-            <>
-              <b>HF</b> · TERMINAL · /HUGGINGFACE · DATASETS
-            </>
+          head={
+            <PageHead
+              crumb={
+                <>
+                  <b>HF</b> · TERMINAL · /HUGGINGFACE · DATASETS
+                </>
+              }
+              h1="Hugging Face · datasets"
+              logo={<HuggingFaceIcon size={32} />}
+              lede="Top datasets ranked by domain-scored momentum. Weekly downloads + recency drive ranking through hfDatasetScorer + computeCrossDomainMomentum."
+            />
           }
-          title="Hugging Face · datasets"
-          lede="Top datasets ranked by domain-scored momentum. Weekly downloads + recency drive ranking through hfDatasetScorer + computeCrossDomainMomentum."
           tabBar={<HfNavTabs activeHref="/huggingface/datasets" />}
         />
         <ColdState />
@@ -110,19 +117,24 @@ export default async function HuggingFaceDatasetsPage() {
     <main className="home-surface">
       <MarkVisited routeKey="hfDatasets" count={allDatasets.length} />
       <SourceFeedTemplate
-        crumb={
-          <>
-            <b>HF</b> · TERMINAL · /HUGGINGFACE · DATASETS
-          </>
-        }
-        title="Hugging Face · datasets"
-        lede="Top datasets ranked by domain-scored momentum. Weekly downloads + recency drive ranking through hfDatasetScorer + computeCrossDomainMomentum."
-        clock={
-          <>
-            <span className="big">{formatClock(file.fetchedAt)}</span>
-            <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="FRESH · 3H" />
-          </>
+        head={
+          <PageHead
+            crumb={
+              <>
+                <b>HF</b> · TERMINAL · /HUGGINGFACE · DATASETS
+              </>
+            }
+            h1="Hugging Face · datasets"
+            logo={<HuggingFaceIcon size={32} />}
+            lede="Top datasets ranked by domain-scored momentum. Weekly downloads + recency drive ranking through hfDatasetScorer + computeCrossDomainMomentum."
+            clock={
+              <>
+                <span className="big">{formatClock(file.fetchedAt)}</span>
+                <span className="muted">UTC · SCRAPED</span>
+                <LiveDot label="FRESH · 3H" />
+              </>
+            }
+          />
         }
         snapshot={
           <KpiBand

@@ -27,6 +27,7 @@
 import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
@@ -244,7 +245,23 @@ async function main() {
   }
 
   // Trending order from HF is already meaningful; preserve it as `rank`.
-  const ranked = models.map((m, i) => ({ rank: i + 1, ...m }));
+  const thisRunModels = models.map((m, i) => ({ rank: i + 1, ...m }));
+
+  // Keep-last-50 cache merge per docs/INGESTION.md (2026-05-08). Load prior
+  // snapshot's models, union by id, sort by trendingScore desc, slice with
+  // floor of min(keepN, existing.length) so an empty/failed upstream never
+  // shrinks the cache. keepN=1000 matches the API's listing size.
+  const existingPayload = await loadExistingJson(OUT_PATH, { models: [] });
+  const existingModels = Array.isArray(existingPayload?.models)
+    ? existingPayload.models
+    : [];
+  const mergedModels = mergeAndKeepLastN(existingModels, thisRunModels, {
+    idKey: "id",
+    scoreKey: "trendingScore",
+    recencyKey: "lastModified",
+    keepN: 1000,
+  });
+  const ranked = mergedModels.map((m, i) => ({ ...m, rank: i + 1 }));
 
   const payload = {
     fetchedAt,

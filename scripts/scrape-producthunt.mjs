@@ -41,6 +41,7 @@ import {
   recentRepoRows,
 } from "./_tracked-repos.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -454,10 +455,24 @@ async function main() {
     return b.createdAt.localeCompare(a.createdAt);
   });
 
+  const existingPayload = await loadExistingJson(OUT_PATH, {
+    lastFetchedAt: null,
+    windowDays: WINDOW_DAYS,
+    launches: [],
+  });
+  const existingLaunches = Array.isArray(existingPayload?.launches)
+    ? existingPayload.launches
+    : [];
+  const mergedLaunches = mergeAndKeepLastN(existingLaunches, launches, {
+    idKey: "id",
+    scoreKey: "votesCount",
+    recencyKey: "createdAt",
+  });
+
   const payload = {
     lastFetchedAt: new Date().toISOString(),
     windowDays: WINDOW_DAYS,
-    launches,
+    launches: mergedLaunches,
   };
 
   await mkdir(DATA_DIR, { recursive: true });

@@ -34,6 +34,7 @@ import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { runAsRegisteredSource } from "./_source-script-runner.mjs";
+import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -232,11 +233,26 @@ async function main() {
   // Trending order from HF is already meaningful; preserve it as `rank`.
   const ranked = spaces.map((s, i) => ({ rank: i + 1, ...s }));
 
+  // Keep-last-50 cache merge per docs/INGESTION.md (2026-05-08 rule).
+  // Survives empty-upstream / API failure by floor=min(keepN, existing).
+  // Merge on the `spaces` array (id="id", score="trendingScore"); re-rank
+  // after merge so positional `rank` matches the post-merge order.
+  const existingPayload = await loadExistingJson(OUT_PATH, { spaces: [] });
+  const existingSpaces = Array.isArray(existingPayload?.spaces)
+    ? existingPayload.spaces
+    : [];
+  const mergedSpaces = mergeAndKeepLastN(existingSpaces, ranked, {
+    idKey: "id",
+    scoreKey: "trendingScore",
+    recencyKey: "likes",
+    keepN: 50,
+  }).map((s, i) => ({ ...s, rank: i + 1 }));
+
   const payload = {
     fetchedAt,
     source: "huggingface.co/api/spaces (default sort = trending)",
-    count: ranked.length,
-    spaces: ranked,
+    count: mergedSpaces.length,
+    spaces: mergedSpaces,
   };
 
   await mkdir(DATA_DIR, { recursive: true });
@@ -272,7 +288,7 @@ if (isDirectRun) {
         });
       } catch (metaErr) {
         console.error(
-          "[meta] huggingface-spaces.json write failed:",
+          "[meta] huggingface-spaces.json error-write failed:",
           metaErr,
         );
       }

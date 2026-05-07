@@ -223,6 +223,23 @@ function EnrichmentBanner() {
 // Feed table
 // ---------------------------------------------------------------------------
 
+// Pull a usable favicon for a paper's outbound URL. arxiv.org is the
+// universal fallback when the paper has no linked GitHub repo — gives
+// every row a stable on-brand mark instead of EntityLogo's per-title
+// monogram tile (orange/yellow/cyan blocks looked random on a dense feed).
+function paperFaviconUrl(rawUrl: string | undefined, size = 32): string | null {
+  if (!rawUrl) return null;
+  try {
+    const u = new URL(rawUrl);
+    const host = u.hostname.toLowerCase();
+    if (!host) return null;
+    const sz = Math.max(16, Math.min(128, Math.round(size)));
+    return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(host)}&sz=${sz}`;
+  } catch {
+    return null;
+  }
+}
+
 function ArxivPaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
   const columns: FeedColumn<ArxivPaperTrending>[] = [
     {
@@ -243,14 +260,17 @@ function ArxivPaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
       header: "Paper",
       render: (p) => {
         const linkedRepo = p.linkedRepos?.[0]?.fullName ?? null;
-        // AUDIT-2026-05-04: arxiv rows had no logo column; closes the
-        // "non-repo entities have no first-class images" gap. Show linked
-        // repo owner's avatar when present, otherwise EntityLogo's
-        // monogram fallback (deterministic hue derived from the title).
+        // Logo priority: linked GitHub repo logo → paper-host favicon
+        // (arxiv.org for the canonical case, journal hosts for any future
+        // non-arxiv backfills). Falls through to EntityLogo's monogram
+        // only when both lookups produce nothing.
+        const logoSrc = linkedRepo
+          ? repoLogoUrl(linkedRepo)
+          : paperFaviconUrl(p.absUrl, 32);
         return (
           <div className="flex min-w-0 items-start gap-2">
             <EntityLogo
-              src={linkedRepo ? repoLogoUrl(linkedRepo) : null}
+              src={logoSrc}
               name={linkedRepo ?? p.title}
               size={20}
               shape="square"

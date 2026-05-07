@@ -21,6 +21,9 @@ test("touchDailyAggregates refreshes all LLM daily aggregate payloads", async ()
     async write<T>(key: string, value: T) {
       writes.set(key, value);
     },
+    async readMany<T>(keys: string[]) {
+      return Promise.all(keys.map((k) => this.read<T>(k)));
+    },
     async writtenAt() {
       return null;
     },

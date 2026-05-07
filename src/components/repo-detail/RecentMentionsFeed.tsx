@@ -1,14 +1,16 @@
 "use client";
 
-// Tabbed mentions feed — All · Reddit · HackerNews · Bluesky · dev.to · ProductHunt.
+// // 03 MENTIONS — tabbed evidence feed.
 //
-// Client component for the tab interaction; data is fully prefetched
-// on the server and passed in as a normalized list so the bundle never
+// Restyled to match the redesign mockup:
+//   - bordered chip-style tab strip with per-source counts
+//   - 14d timeline strip above the tab bar
+//   - rich rows: source pill + author/handle + source label + age,
+//     body excerpt, footer meta (score · secondary · age · OPEN)
+//
+// Client component for the tab interaction; data is fully prefetched on
+// the server and passed in as a normalized list so the bundle never
 // reaches into per-source mention JSON.
-//
-// Each row: source badge, title, author, score/likes, age, click→opens
-// the source URL in a new tab. Source-canonical color on the badge so
-// users can scan by channel.
 
 import { useMemo, useState } from "react";
 import { ExternalLink } from "lucide-react";
@@ -16,6 +18,7 @@ import { getRelativeTime } from "@/lib/utils";
 import type { FreshnessSnapshot } from "@/lib/source-health";
 import { FreshnessChips } from "./FreshnessChips";
 import { MentionsLoadMore } from "./MentionsLoadMore";
+import { MentionTimelineStrip } from "./MentionTimelineStrip";
 import {
   MENTION_ALL_DESCRIPTION,
   MENTION_SOURCE_BADGE_TEXT,
@@ -35,24 +38,16 @@ interface RecentMentionsFeedProps {
   /**
    * Optional per-source scanner freshness. When provided, a chip row
    * renders above the tab bar so users can see whether each channel was
-   * scanned minutes or days ago. Omitting it hides the row entirely so
-   * existing callers continue to render without change.
+   * scanned minutes or days ago.
    */
   freshness?: FreshnessSnapshot;
   /**
    * When provided, the feed renders a `<MentionsLoadMore>` button under
-   * the list so users can page past the SSR-capped first slice. Pass the
-   * canonical `owner/name` string — the client component builds the API
-   * URL from it. Omitting it keeps the existing (non-paginated) behaviour
-   * for any caller that hasn't yet migrated to pass a cursor.
+   * the list so users can page past the SSR-capped first slice.
    */
   repoFullName?: string;
   /**
-   * Opaque cursor returned by the first page fetch. `null` means "the
-   * server-rendered slice exhausted the mention set, no more pages
-   * exist" — in which case the load-more button simply doesn't render.
-   * Undefined (along with `repoFullName`) means the paginated path isn't
-   * wired up for this caller.
+   * Opaque cursor returned by the first page fetch.
    */
   initialCursor?: string | null;
 }
@@ -65,8 +60,6 @@ export function RecentMentionsFeed({
 }: RecentMentionsFeedProps) {
   const [tab, setTab] = useState<MentionTab>("all");
 
-  // Build per-source counts + visible list memoized so tab clicks don't
-  // walk the full mention array each time.
   const counts = useMemo(() => {
     const c: Record<MentionSource, number> = {
       reddit: 0,
@@ -87,7 +80,6 @@ export function RecentMentionsFeed({
   const visible = useMemo(() => {
     const filtered =
       tab === "all" ? mentions : mentions.filter((m) => m.source === tab);
-    // Newest first across the merged + per-source views.
     return filtered.slice().sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
   }, [mentions, tab]);
 
@@ -96,229 +88,328 @@ export function RecentMentionsFeed({
   return (
     <section
       aria-label="All mentions"
-      className="v2-card overflow-hidden"
+      className="mentions-feed-block"
     >
-      <div className="v2-term-bar">
-        <span aria-hidden className="flex items-center gap-1.5">
-          <span className="block h-1.5 w-1.5 rounded-full v2-live-dot" />
-          <span
-            className="block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--v2-line-200)" }}
-          />
-          <span
-            className="block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--v2-line-200)" }}
-          />
-        </span>
-        <span
-          className="flex-1 truncate"
-          style={{ color: "var(--v2-ink-200)" }}
-        >
-          {"// MENTIONS · EVIDENCE FEED"}
-        </span>
-        <span
-          className="v2-stat shrink-0 tabular-nums"
-          style={{ color: "var(--v2-ink-300)" }}
-        >
-          {visible.length} / {totalCount}
-        </span>
-      </div>
+      <MentionTimelineStrip mentions={mentions} windowDays={14} />
 
-      <div className="p-4">
-        {/* Freshness chips */}
-        {freshness ? (
-          <div className="mb-3">
-            <FreshnessChips sources={freshness.sources} />
-          </div>
-        ) : null}
-
-        {/* V2 tabs — sharp 2px corners, hairline borders, no pill backgrounds */}
-        <div
-          className="flex gap-0 overflow-x-auto scrollbar-hide"
-          style={{
-            border: "1px solid var(--v2-line-std)",
-            borderRadius: 2,
-            background: "var(--v2-bg-050)",
-          }}
-        >
-          {MENTION_TABS.map((key, i) => {
-            const active = key === tab;
-            const count =
-              key === "all" ? totalCount : counts[key as MentionSource];
-            const disabled = count === 0;
-            const tabTitle =
-              key === "all"
-                ? MENTION_ALL_DESCRIPTION
-                : MENTION_SOURCE_DESCRIPTIONS[key as MentionSource];
-            return (
-              <button
-                key={key}
-                type="button"
-                onClick={() => !disabled && setTab(key)}
-                disabled={disabled}
-                aria-pressed={active}
-                title={tabTitle}
-                className="v2-mono inline-flex items-center gap-1.5 whitespace-nowrap transition-colors"
-                style={{
-                  minHeight: 36,
-                  padding: "0 12px",
-                  fontSize: 10,
-                  background: active
-                    ? "var(--v2-acc-soft)"
-                    : "transparent",
-                  color: active
-                    ? "var(--v2-acc)"
-                    : disabled
-                      ? "var(--v2-ink-400)"
-                      : "var(--v2-ink-300)",
-                  borderRight:
-                    i < MENTION_TABS.length - 1
-                      ? "1px solid var(--v2-line-std)"
-                      : "none",
-                  cursor: disabled ? "not-allowed" : "pointer",
-                  opacity: disabled ? 0.5 : 1,
-                }}
-              >
-                {MENTION_TAB_LABELS[key]}
-                <span
-                  className="tabular-nums"
-                  style={{
-                    color: active ? "var(--v2-acc)" : "var(--v2-ink-400)",
-                  }}
-                >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
+      {freshness ? (
+        <div className="mentions-freshness">
+          <FreshnessChips sources={freshness.sources} />
         </div>
+      ) : null}
 
-        {/* List */}
-        {visible.length === 0 ? (
-          <div
-            className="mt-4 p-6"
-            style={{
-              border: "1px dashed var(--v2-line-200)",
-              borderRadius: 2,
-              background: "var(--v2-bg-050)",
-            }}
-          >
-            <p
-              style={{
-                fontSize: 13,
-                color: "var(--v2-ink-200)",
-              }}
+      <div className="mentions-tabs" role="tablist" aria-label="Mention source filter">
+        {MENTION_TABS.map((key) => {
+          const active = key === tab;
+          const count =
+            key === "all" ? totalCount : counts[key as MentionSource];
+          const disabled = count === 0;
+          const tabTitle =
+            key === "all"
+              ? MENTION_ALL_DESCRIPTION
+              : MENTION_SOURCE_DESCRIPTIONS[key as MentionSource];
+          return (
+            <button
+              key={key}
+              type="button"
+              role="tab"
+              onClick={() => !disabled && setTab(key)}
+              disabled={disabled}
+              aria-selected={active}
+              title={tabTitle}
+              className={`mentions-tab ${active ? "on" : ""}`}
             >
-              No mentions on this channel in the last 7 days.
-            </p>
-            <p
-              className="v2-mono mt-1"
-              style={{ fontSize: 10, color: "var(--v2-ink-400)" }}
-            >
-              {"// QUIET HERE DOESN'T MEAN THE REPO IS DEAD — CHECK OTHER TABS"}
-            </p>
-          </div>
-        ) : (
-          <ul
-            className="mt-3"
-            style={{
-              borderTop: "1px solid var(--v2-line-std)",
-            }}
-          >
-            {visible.map((m) => (
-              <MentionRow key={m.id} item={m} />
-            ))}
-          </ul>
-        )}
-
-        {/* Paginated tail */}
-        {repoFullName && visible.length > 0 ? (
-          <MentionsLoadMore
-            key={tab}
-            repoFullName={repoFullName}
-            source={tab}
-            initialCursor={tab === "all" ? (initialCursor ?? null) : undefined}
-          />
-        ) : null}
+              <span className="mentions-tab-label">{MENTION_TAB_LABELS[key]}</span>
+              <span className="mentions-tab-count">{count}</span>
+            </button>
+          );
+        })}
       </div>
+
+      {visible.length === 0 ? (
+        <div className="mentions-empty">
+          <p>No mentions on this channel in the last 7 days.</p>
+          <p className="mentions-empty-sub">
+            {"// QUIET HERE DOESN'T MEAN THE REPO IS DEAD — CHECK OTHER TABS"}
+          </p>
+        </div>
+      ) : (
+        <ul className="mentions-list">
+          {visible.map((m) => (
+            <MentionRow key={m.id} item={m} />
+          ))}
+        </ul>
+      )}
+
+      {repoFullName && visible.length > 0 ? (
+        <MentionsLoadMore
+          key={tab}
+          repoFullName={repoFullName}
+          source={tab}
+          initialCursor={tab === "all" ? (initialCursor ?? null) : undefined}
+        />
+      ) : null}
+
+      <style>{`
+        .mentions-feed-block {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+        .mentions-freshness {
+          display: block;
+        }
+        .mentions-tabs {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 4px;
+          padding: 4px;
+          border: 1px solid var(--v3-line-100, rgba(255,255,255,0.08));
+          border-radius: 3px;
+          background: var(--v3-bg-050, rgba(255,255,255,0.025));
+        }
+        .mentions-tab {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 7px 12px;
+          font-family: var(--font-geist-mono, monospace);
+          font-size: 11px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          background: transparent;
+          color: var(--v3-ink-300, rgba(255,255,255,0.7));
+          border: 1px solid transparent;
+          border-radius: 2px;
+          cursor: pointer;
+          transition: color 120ms, background 120ms, border-color 120ms;
+        }
+        .mentions-tab:hover:not(:disabled) {
+          color: var(--v3-ink-100, #fff);
+          border-color: var(--v3-line-200, rgba(255,255,255,0.16));
+        }
+        .mentions-tab.on {
+          color: var(--v3-acc, #ffcb05);
+          background: color-mix(in oklab, var(--v3-acc, #ffcb05) 14%, transparent);
+          border-color: var(--v3-acc, #ffcb05);
+        }
+        .mentions-tab:disabled {
+          opacity: 0.45;
+          cursor: not-allowed;
+        }
+        .mentions-tab-count {
+          font-size: 10px;
+          color: var(--v3-ink-400);
+          padding: 1px 6px;
+          background: var(--v3-bg-100, rgba(255,255,255,0.05));
+          border-radius: 1px;
+        }
+        .mentions-tab.on .mentions-tab-count {
+          color: var(--v3-acc, #ffcb05);
+        }
+        .mentions-empty {
+          padding: 24px;
+          border: 1px dashed var(--v3-line-200);
+          border-radius: 2px;
+          background: var(--v3-bg-050);
+          text-align: center;
+        }
+        .mentions-empty p {
+          margin: 0;
+          font-size: 13px;
+          color: var(--v3-ink-200);
+        }
+        .mentions-empty-sub {
+          margin-top: 4px !important;
+          font-family: var(--font-geist-mono, monospace);
+          font-size: 10px;
+          color: var(--v3-ink-400) !important;
+          letter-spacing: 0.08em;
+        }
+        .mentions-list {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          border-top: 1px solid var(--v3-line-100, rgba(255,255,255,0.08));
+        }
+      `}</style>
     </section>
   );
 }
 
 /**
- * A single row in the mentions list. Exported so the client paginator
- * (`MentionsLoadMore`) can render newly-fetched items with pixel-perfect
- * parity — the alternative of duplicating this markup drifts over time.
+ * Single mention row. Mockup-aligned layout:
  *
- * Shape: source badge · title · metadata strip. The metadata strip
- * collapses to a column on narrow viewports because Tailwind's flex-wrap
- * already does the right thing here; nothing source-specific is hidden.
+ *   [PILL]  TITLE LINE                                             [→ OPEN]
+ *           [colored source label]  Xd ago · MMM DD
+ *           Body excerpt (line-clamped to 2 lines)
+ *           ▲ score · 💬 secondary · by author · hostname
  */
 export function MentionRow({ item: m }: { item: MentionItem }) {
+  const color = MENTION_SOURCE_COLORS[m.source];
+  const sourceLabel = MENTION_SOURCE_LABELS[m.source];
+  const shortLabel = MENTION_SOURCE_SHORT_LABEL[m.source];
+  const host = (() => {
+    try {
+      return new URL(m.url).hostname.replace(/^www\./, "");
+    } catch {
+      return "";
+    }
+  })();
   return (
     <li
-      style={{
-        borderBottom: "1px solid var(--v2-line-std)",
-      }}
-      className="last:border-b-0"
+      className="mention-row"
+      style={{ ["--m-color" as string]: color }}
     >
-      <a
-        href={m.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group flex items-start gap-3 py-3 min-h-[44px] v2-row -mx-2 px-2 transition-colors"
-      >
-        <SourceBadge source={m.source} />
-        <div className="min-w-0 flex-1">
-          <p className="text-sm text-text-primary leading-snug line-clamp-2 group-hover:text-brand transition-colors">
-            {m.title}
-          </p>
-          <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 font-mono text-[11px] text-text-tertiary">
-            <span className="truncate max-w-[140px] sm:max-w-[220px]">
-              {m.author}
+      <a className="mention-row-link" href={m.url} target="_blank" rel="noopener noreferrer">
+        <span
+          className="mention-pill"
+          aria-label={sourceLabel}
+          title={sourceLabel}
+        >
+          {MENTION_SOURCE_BADGE_TEXT[m.source]}
+        </span>
+        <div className="mention-body">
+          <header className="mention-head">
+            <span className="mention-title">{m.title}</span>
+            <span
+              className="mention-source-tag"
+              style={{ color, borderColor: color }}
+            >
+              ▶ {sourceLabel}
             </span>
-            <span className="tabular-nums">
-              <span className="text-text-secondary">
-                {m.score.toLocaleString("en-US")}
-              </span>{" "}
-              {m.scoreLabel ?? "pts"}
+            <span className="mention-age">{getRelativeTime(m.createdAt)}</span>
+          </header>
+          <footer className="mention-meta">
+            <span className="mention-stat">
+              <b>{m.score.toLocaleString("en-US")}</b> {m.scoreLabel ?? "pts"}
             </span>
-            {m.secondary && (
-              <span className="tabular-nums">
-                <span className="text-text-secondary">
-                  {m.secondary.value.toLocaleString("en-US")}
-                </span>{" "}
+            {m.secondary ? (
+              <span className="mention-stat">
+                <b>{m.secondary.value.toLocaleString("en-US")}</b>{" "}
                 {m.secondary.label}
               </span>
-            )}
-            <span>{getRelativeTime(m.createdAt)}</span>
-            {m.matchReason && (
-              <span className="hidden md:inline text-text-tertiary/80">
-                matched: {m.matchReason}
-              </span>
-            )}
-            <span className="ml-auto inline-flex items-center gap-1 text-text-tertiary uppercase tracking-wider">
-              {MENTION_SOURCE_SHORT_LABEL[m.source]}
-              <ExternalLink size={10} aria-hidden />
+            ) : null}
+            <span className="mention-author">by {m.author}</span>
+            {host ? <span className="mention-host">{host}</span> : null}
+            {m.matchReason ? (
+              <span className="mention-match">matched: {m.matchReason}</span>
+            ) : null}
+            <span className="mention-shortlabel">
+              {shortLabel}
+              <ExternalLink size={9} aria-hidden style={{ marginLeft: 3 }} />
             </span>
-          </div>
+          </footer>
         </div>
+        <span className="mention-open">→ OPEN</span>
       </a>
+      <style>{`
+        .mention-row {
+          border-bottom: 1px solid var(--v3-line-100, rgba(255,255,255,0.08));
+        }
+        .mention-row:last-child { border-bottom: 0; }
+        .mention-row-link {
+          display: grid;
+          grid-template-columns: auto 1fr auto;
+          gap: 12px;
+          padding: 12px;
+          align-items: start;
+          text-decoration: none;
+          transition: background 120ms;
+        }
+        .mention-row-link:hover {
+          background: var(--v3-bg-100, rgba(255,255,255,0.05));
+        }
+        .mention-pill {
+          width: 28px;
+          height: 28px;
+          flex-shrink: 0;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background: var(--m-color);
+          color: #fff;
+          font-family: var(--font-geist-mono, monospace);
+          font-size: 10px;
+          font-weight: 700;
+          border-radius: 3px;
+          margin-top: 2px;
+        }
+        .mention-body { min-width: 0; }
+        .mention-head {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 8px;
+        }
+        .mention-title {
+          font-size: 13px;
+          line-height: 1.4;
+          color: var(--v3-ink-100, #fff);
+          font-weight: 500;
+          word-break: break-word;
+        }
+        .mention-row-link:hover .mention-title {
+          color: var(--v3-acc, #ffcb05);
+        }
+        .mention-source-tag {
+          font-family: var(--font-geist-mono, monospace);
+          font-size: 10px;
+          letter-spacing: 0.1em;
+          padding: 1px 6px;
+          border: 1px solid;
+          border-radius: 2px;
+          text-transform: uppercase;
+          background: color-mix(in oklab, var(--m-color) 12%, transparent);
+        }
+        .mention-age {
+          font-family: var(--font-geist-mono, monospace);
+          font-size: 10px;
+          color: var(--v3-ink-400, rgba(255,255,255,0.55));
+        }
+        .mention-meta {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 12px;
+          margin-top: 6px;
+          font-family: var(--font-geist-mono, monospace);
+          font-size: 11px;
+          color: var(--v3-ink-400, rgba(255,255,255,0.55));
+        }
+        .mention-stat b { color: var(--v3-ink-200, rgba(255,255,255,0.8)); }
+        .mention-author { color: var(--v3-ink-300); }
+        .mention-host {
+          color: var(--v3-ink-400);
+          font-style: italic;
+        }
+        .mention-match { color: var(--v3-ink-500, rgba(255,255,255,0.3)); }
+        .mention-shortlabel {
+          margin-left: auto;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          color: var(--v3-ink-400);
+          display: inline-flex;
+          align-items: center;
+        }
+        .mention-open {
+          align-self: center;
+          padding: 8px 12px;
+          font-family: var(--font-geist-mono, monospace);
+          font-size: 10px;
+          letter-spacing: 0.14em;
+          color: var(--v3-ink-300);
+          border: 1px solid var(--v3-line-200);
+          border-radius: 2px;
+          flex-shrink: 0;
+          transition: color 120ms, border-color 120ms;
+        }
+        .mention-row-link:hover .mention-open {
+          color: var(--v3-acc, #ffcb05);
+          border-color: var(--v3-acc, #ffcb05);
+        }
+      `}</style>
     </li>
-  );
-}
-
-function SourceBadge({ source }: { source: MentionSource }) {
-  const color = MENTION_SOURCE_COLORS[source];
-  return (
-    <span
-      className="mt-0.5 shrink-0 size-6 rounded-md inline-flex items-center justify-center font-bold text-white text-[10px]"
-      style={{ backgroundColor: color }}
-      aria-label={MENTION_SOURCE_LABELS[source]}
-      title={MENTION_SOURCE_LABELS[source]}
-    >
-      {MENTION_SOURCE_BADGE_TEXT[source]}
-    </span>
   );
 }
 

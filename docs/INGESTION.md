@@ -1,5 +1,44 @@
 # TrendingRepo Ingestion — Operator Guide
 
+## RULE: Keep-last-50 cache (2026-05-08)
+
+**Collectors MUST NEVER delete cached data.** When a scraper writes its
+output JSON file, the merge step is:
+
+1. Read existing `data/<source>-trending.json` (or equivalent).
+2. Fetch new batch from upstream API.
+3. Union the new + existing rows, deduplicate by `id`.
+4. Sort by score / recency.
+5. Write back the **top 50** (configurable per source via a constant).
+6. Never write fewer than `min(50, existing.length)` entries — even on
+   API failure, rate limit, or empty upstream response.
+
+**Why:** the dev surface (and prod) should always show *something* —
+last-50 cached — even when collectors fail or upstream zeros out
+fields. Today's `/reddit/trending` "0 0" outage and `/twitter` "only
+16" rendering both happened because the affected scrapers wrote
+fewer entries than the page filter required, leaving rendered cold
+states. Keep-last-50 means user surfaces gracefully degrade to
+slightly-stale rather than empty.
+
+**Enforcement:** lint guard `scripts/check-collector-keep-last-50.mjs`
+(to be added) fails if a scraper's write step zeros / shrinks the
+file unconditionally. Each scraper should expose a `KEEP_LAST_N`
+constant near the top of the file.
+
+**Affected scripts** (must follow this rule):
+- `scripts/scrape-reddit.mjs`
+- `scripts/scrape-hackernews.mjs`
+- `scripts/scrape-bluesky.mjs`
+- `scripts/scrape-producthunt.mjs`
+- `scripts/scrape-devto.mjs`
+- `scripts/scrape-lobsters.mjs`
+- `scripts/scrape-trending.mjs`
+- `scripts/scrape-funding-news.mjs`
+- `scripts/scrape-huggingface*.mjs`
+- The Apify Twitter wrapper (collector workflow at
+  `.github/workflows/collect-twitter.yml`)
+
 ## Ingestion
 
 TrendingRepo pulls a trending-repo universe from OSS Insight and computes

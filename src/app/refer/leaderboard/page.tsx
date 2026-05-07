@@ -10,6 +10,7 @@
 // `profiles.public_leaderboard_optin = true`. Empty state = nobody opted
 // in yet, with a hint pointing the visitor to /you/refer.
 
+import Link from "next/link";
 import type { Metadata } from "next";
 import { count, desc, eq, isNotNull, sql } from "drizzle-orm";
 
@@ -17,7 +18,11 @@ import { db } from "@/lib/db/client";
 import { profiles } from "@/lib/db/schema/profiles";
 import { referrals } from "@/lib/db/schema/referrals";
 
-export const revalidate = 600;
+// Drizzle DB query — must run at request time. Was `revalidate = 600`
+// (10-min ISR) but prod build prerenders ISR pages and drizzle's
+// db client throws during prerender if DATABASE_URL is unset (and
+// without DATABASE_URL the cache would be useless anyway).
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Top Referrers — TrendingRepo",
@@ -104,12 +109,12 @@ export default async function ReferLeaderboardPage() {
           }}
         >
           Nobody has opted in yet. Be the first — head to{" "}
-          <a
+          <Link
             href="/you/refer"
             style={{ color: "var(--v4-acc)", textDecoration: "underline" }}
           >
             /you/refer
-          </a>{" "}
+          </Link>{" "}
           to get your link and toggle public leaderboard on.
         </div>
       ) : (
@@ -204,6 +209,7 @@ export default async function ReferLeaderboardPage() {
                         <img
                           src={row.avatarUrl}
                           alt={`@${row.handle}`}
+                          loading="lazy"
                           width={24}
                           height={24}
                           style={{

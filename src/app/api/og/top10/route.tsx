@@ -65,6 +65,12 @@ import {
   type Top10Item,
   type Top10Window,
 } from "@/lib/top10/types";
+import {
+  isValidThemeId,
+  TOP10_THEMES,
+  type ThemeColors,
+  type Top10ThemeId,
+} from "@/lib/top10/themes";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -92,74 +98,19 @@ const TITLE_BY_CATEGORY: Record<Top10Category, string> = {
 };
 
 // ---------------------------------------------------------------------------
-// Themes — three selectable palettes for share-card downloads.
+// Themes — palette registry lives in src/lib/top10/themes.ts (also consumed
+// by the on-page ThemePicker so both surfaces agree pixel-for-pixel). The
+// local Theme alias is the id union; THEMES is the colors-only map.
 // ---------------------------------------------------------------------------
 
-type Theme = "dark" | "light" | "mono";
+type Theme = Top10ThemeId;
 
-type ThemeColors = {
-  bg: string;
-  textPrimary: string;
-  textTertiary: string;
-  brand: string;          // accent strip + date label + corner ticks + header star
-  up: string;             // LIVE dot + score text
-  // Top-3 rail colors (4th onward uses railRest)
-  rail1: string;
-  rail2: string;
-  rail3: string;
-  railRest: string;       // dim rail for ranks 4+
-  rankRest: string;       // rank number color for ranks 4+
-  accentStrip: string;    // bottom 8px strip
-};
-
-const THEMES: Record<Theme, ThemeColors> = {
-  // Current operator-terminal card. Do not touch.
-  dark: {
-    bg: "#151419",
-    textPrimary: "#FBFBFB",
-    textTertiary: "#878787",
-    brand: "#F56E0F",
-    up: "#22C55E",
-    rail1: "#ffd24d",
-    rail2: "#c0c5cc",
-    rail3: "#cd7f32",
-    railRest: "rgba(255,255,255,0.10)",
-    rankRest: "rgba(255,255,255,0.45)",
-    accentStrip: "#F56E0F",
-  },
-  // High-contrast ivory card for LinkedIn / docs. Brand orange retained as accent.
-  light: {
-    bg: "#fafaf7",
-    textPrimary: "#0c0d10",
-    textTertiary: "#525a63",
-    brand: "#F56E0F",
-    up: "#15803d",
-    rail1: "#d4a017", // muted gold reads better on ivory
-    rail2: "#9aa1ab",
-    rail3: "#a8702a",
-    railRest: "rgba(12,13,16,0.12)",
-    rankRest: "rgba(12,13,16,0.42)",
-    accentStrip: "#F56E0F",
-  },
-  // Brutalist print-zine. Pure greyscale + a single green for liveness.
-  mono: {
-    bg: "#000000",
-    textPrimary: "#f5f5f5",
-    textTertiary: "#9a9a9a",
-    brand: "#f5f5f5",       // ink-tone accents (no orange)
-    up: "#b8ff7a",          // green dot ONLY for liveness signal
-    rail1: "#ffffff",
-    rail2: "#b8b8b8",
-    rail3: "#6e6e6e",
-    railRest: "rgba(245,245,245,0.10)",
-    rankRest: "rgba(245,245,245,0.45)",
-    accentStrip: "#f5f5f5", // ink strip, not orange
-  },
-};
+const THEMES: Record<Theme, ThemeColors> = Object.fromEntries(
+  Object.entries(TOP10_THEMES).map(([id, meta]) => [id, meta.colors]),
+) as Record<Theme, ThemeColors>;
 
 function parseTheme(value: string | null): Theme {
-  if (value === "light" || value === "mono" || value === "dark") return value;
-  return "dark";
+  return isValidThemeId(value) ? value : "dark";
 }
 
 // ---------------------------------------------------------------------------

@@ -56,6 +56,7 @@ import {
   type CreateRuleInput,
 } from "./alerts/rule-management";
 import { deliverAlertsViaEmail } from "../email/deliver";
+import { fanOutToUserRouter } from "./user-alert-fanout";
 import { withRecomputeLock } from "./locks";
 
 import {
@@ -414,6 +415,7 @@ function phaseAlerts(
           }),
         );
       });
+    fanOutToUserRouter(firedEvents, repoLookup);
   }
 
   return firedEvents;
@@ -567,6 +569,7 @@ function recomputeRepo(repoId: string): RecomputeSummary {
           }),
         );
       });
+    fanOutToUserRouter(fired, repoLookup);
   }
 
   return {

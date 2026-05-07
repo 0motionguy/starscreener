@@ -48,6 +48,7 @@ import {
 } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 
 // F3 unknown-mentions accumulator — per-run Set populated inside the
 // extractRepoMentions wrapper. Flushed at end of main() so the lake
@@ -411,6 +412,18 @@ async function main() {
 
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(MENTIONS_OUT, JSON.stringify(mentionsPayload, null, 2) + "\n", "utf8");
+  // Keep-last-50 merge for trending articles (per docs/INGESTION.md 2026-05-08).
+  // Envelope object preserved; only the `articles` array is merged.
+  const existingTrending = await loadExistingJson(TRENDING_OUT, null);
+  const existingArticles = Array.isArray(existingTrending?.articles)
+    ? existingTrending.articles
+    : [];
+  trendingPayload.articles = mergeAndKeepLastN(existingArticles, trendingPayload.articles, {
+    idKey: "id",
+    scoreKey: "trendingScore",
+    recencyKey: "publishedAt",
+    keepN: TRENDING_KEEP,
+  });
   await writeFile(TRENDING_OUT, JSON.stringify(trendingPayload, null, 2) + "\n", "utf8");
   const mentionsRedis = await writeDataStore("devto-mentions", mentionsPayload);
   const trendingRedis = await writeDataStore("devto-trending", trendingPayload);

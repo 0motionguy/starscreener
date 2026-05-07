@@ -24,7 +24,7 @@
  *   - `default` — neutral total for cumulative inventories.
  *   - `accent`  — purple pill for the user's own counts.
  */
-import { startTransition, type ReactNode } from "react";
+import { startTransition, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useFreshCount } from "@/lib/use-fresh-count";
@@ -122,26 +122,93 @@ function deltaChip(n: number): string {
   return `+${compactCount(n)}`;
 }
 
+type PipState = "live" | "stale" | undefined;
+
 interface V2SectionProps {
   label: string;
   children: ReactNode;
   rightSlot?: ReactNode;
   maxHeightPx?: number;
+  /**
+   * Stable identifier for the group, used by the collapse state map and as
+   * a `data-group-id` attribute hook. Required when the group is collapsible.
+   */
+  groupId?: string;
+  /**
+   * Group activity pip state.
+   *   undefined → orange "waiting" pip (default)
+   *   'live'    → animated green pip (group is fresh / actively updating)
+   *   'stale'   → flat gray pip (no recent activity)
+   *
+   * Drag handle stays visual-only (TODO: wire reorder).
+   */
+  pipState?: PipState;
+  /** Whether the group is currently collapsed (children hidden). */
+  collapsed?: boolean;
+  /** Click handler for the chevron — toggles collapsed state in the parent. */
+  onToggleCollapse?: () => void;
 }
 
-function V2Section({ label, children, rightSlot, maxHeightPx }: V2SectionProps) {
+function V2Section({
+  label,
+  children,
+  rightSlot,
+  maxHeightPx,
+  groupId,
+  pipState,
+  collapsed,
+  onToggleCollapse,
+}: V2SectionProps) {
+  const pipClass = cn("grp-pip", pipState === "live" && "live", pipState === "stale" && "stale");
+  const isCollapsed = !!collapsed;
   return (
-    <section className="group">
-      <div className="group-label">
-        <span
-          className="font-mono"
-          style={{ color: "var(--ink-400)", fontSize: 9 }}
-        >
-          {`// ${label}`}
+    <section
+      className={cn("sb-group", isCollapsed && "collapsed")}
+      data-group-id={groupId}
+    >
+      <div className="sb-grp-label">
+        <span className={pipClass} aria-hidden="true" />
+        <span className="grp-name">{`// ${label}`}</span>
+        <span className="grp-line" aria-hidden="true" />
+        <span className="grp-tools">
+          <span className="grp-drag" title="Drag to reorder" aria-hidden="true">
+            <svg viewBox="0 0 12 12" fill="currentColor">
+              <circle cx="4" cy="3" r="0.9" />
+              <circle cx="8" cy="3" r="0.9" />
+              <circle cx="4" cy="6" r="0.9" />
+              <circle cx="8" cy="6" r="0.9" />
+              <circle cx="4" cy="9" r="0.9" />
+              <circle cx="8" cy="9" r="0.9" />
+            </svg>
+          </span>
+          <span
+            className="grp-chev"
+            onClick={onToggleCollapse}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onToggleCollapse?.();
+              }
+            }}
+            role="button"
+            aria-label={isCollapsed ? "Expand group" : "Collapse group"}
+            aria-expanded={!isCollapsed}
+            tabIndex={0}
+          >
+            <svg
+              viewBox="0 0 12 12"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            >
+              <path d="M3 4.5 L6 7.5 L9 4.5" />
+            </svg>
+          </span>
+          {rightSlot ? (
+            <span className="flex items-center">{rightSlot}</span>
+          ) : null}
         </span>
-        {rightSlot ? (
-          <span className="flex items-center">{rightSlot}</span>
-        ) : null}
       </div>
       <div
         className={cn(
@@ -169,6 +236,45 @@ interface V2NavRowProps {
   disabled?: boolean;
 }
 
+type DeltaTone = "up" | "hot" | "neutral" | "new" | "tag";
+
+/** Map the legacy V2 BadgeTone palette to the mockup's .delta variants. */
+function toneToDelta(tone: BadgeTone, badge: string | number | undefined): DeltaTone {
+  // Surface the "NEW" pill for any badge whose visible text is exactly "New"/"NEW".
+  if (typeof badge === "string" && /^new$/i.test(badge.trim())) return "new";
+  // ALL / x402 / Soon — uppercase metadata reads as a tag.
+  if (typeof badge === "string" && /^[A-Z0-9]+$/.test(badge) && badge.length <= 5) {
+    return "tag";
+  }
+  switch (tone) {
+    case "delta":
+      return "up";
+    case "accent":
+    case "danger":
+      return "hot";
+    case "default":
+    default:
+      return "neutral";
+  }
+}
+
+/**
+ * Split a label like "Trending Repos" into a base ("Trending") + an entity
+ * fragment ("Repos") wrapped in <em class="ent">. Returns the original label
+ * unchanged when the pattern doesn't match.
+ */
+function renderLabel(label: string): ReactNode {
+  const trendingMatch = /^Trending\s+(.+)$/.exec(label);
+  if (trendingMatch) {
+    return (
+      <>
+        Trending <em className="ent">{trendingMatch[1]}</em>
+      </>
+    );
+  }
+  return label;
+}
+
 function V2NavRow({
   href,
   onClick,
@@ -182,45 +288,31 @@ function V2NavRow({
   const isActive = active && !disabled;
 
   const className = cn(
-    "nav relative w-full",
+    "sb-nav relative w-full",
     isActive && "active",
     disabled && "cursor-not-allowed opacity-60",
   );
 
-  const style: React.CSSProperties = {
-    color: disabled
-      ? "var(--ink-500)"
-      : isActive
-        ? "var(--ink-000)"
-        : "var(--ink-200)",
-  };
+  const hasBadge = badge !== undefined && badge !== null && badge !== "";
+  const deltaTone = hasBadge ? toneToDelta(badgeTone, badge) : "neutral";
 
   const content = (
     <>
-      <span
-        className="ic"
-        style={{
-          color: disabled
-            ? "var(--ink-500)"
-            : isActive
-              ? "var(--acc)"
-              : "var(--ink-300)",
-        }}
-      >
+      <span className="ic">
         <Icon size={14} />
       </span>
-      <span className="flex-1 truncate text-left tracking-[0.16em]">
-        {label}
+      <span className="lbl flex-1 truncate text-left tracking-[0.16em]">
+        {renderLabel(label)}
       </span>
-      {badge !== undefined && badge !== null && badge !== "" && (
-        <V2Chip value={badge} tone={badgeTone} />
+      {hasBadge && (
+        <span className={cn("delta", deltaTone)}>{badge}</span>
       )}
     </>
   );
 
   if (disabled) {
     return (
-      <div aria-disabled="true" className={className} style={style}>
+      <div aria-disabled="true" className={className}>
         {content}
       </div>
     );
@@ -228,14 +320,14 @@ function V2NavRow({
 
   if (href) {
     return (
-      <Link href={href} className={className} style={style}>
+      <Link href={href} className={className}>
         {content}
       </Link>
     );
   }
 
   return (
-    <button type="button" onClick={onClick} className={className} style={style}>
+    <button type="button" onClick={onClick} className={className}>
       {content}
     </button>
   );
@@ -271,35 +363,6 @@ function FreshCountNavRow({
   return <V2NavRow {...rest} badge={badge} badgeTone={badgeTone} />;
 }
 
-function V2Chip({
-  value,
-  tone = "default",
-}: {
-  value: string | number;
-  tone?: BadgeTone;
-}) {
-  const palette =
-    tone === "accent"
-      ? { bg: "var(--acc-soft)", color: "var(--acc)" }
-      : tone === "danger"
-        ? { bg: "rgba(255, 77, 77, 0.14)", color: "var(--sig-red)" }
-        : tone === "delta"
-          ? { bg: "var(--money-soft)", color: "var(--sig-green)" }
-          : { bg: "var(--bg-100)", color: "var(--ink-300)" };
-
-  return (
-    <span
-      className="badge shrink-0 tabular-nums"
-      style={{
-        background: palette.bg,
-        color: palette.color,
-      }}
-    >
-      {value}
-    </span>
-  );
-}
-
 export function SidebarContent({
   metaCounts,
   watchlistPreview,
@@ -313,6 +376,10 @@ export function SidebarContent({
 
   const watchCount = useWatchlistStore((s) => s.repos.length);
   const compareCount = useCompareStore((s) => s.repos.length);
+
+  const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({});
+  const toggleGroup = (id: string) =>
+    setCollapsedGroups((s) => ({ ...s, [id]: !s[id] }));
 
   function goToAgentRepos() {
     prepareAgentReposView();
@@ -369,7 +436,13 @@ export function SidebarContent({
 
       <CursorRail className="flex-1 overflow-y-auto scrollbar-hide">
         {/* TREND TERMINAL */}
-        <V2Section label="TREND TERMINAL">
+        <V2Section
+          label="TREND TERMINAL"
+          groupId="trend"
+          pipState="live"
+          collapsed={collapsedGroups["trend"]}
+          onToggleCollapse={() => toggleGroup("trend")}
+        >
           <FreshCountNavRow
             routeKey="trendingRepos"
             currentCount={trendingReposCount ?? 0}
@@ -421,7 +494,13 @@ export function SidebarContent({
         </V2Section>
 
         {/* SIGNAL TERMINAL */}
-        <V2Section label="SIGNAL TERMINAL">
+        <V2Section
+          label="SIGNAL TERMINAL"
+          groupId="signal"
+          pipState="live"
+          collapsed={collapsedGroups["signal"]}
+          onToggleCollapse={() => toggleGroup("signal")}
+        >
           <V2NavRow
             href="/signals"
             icon={Activity}
@@ -503,7 +582,13 @@ export function SidebarContent({
         </V2Section>
 
         {/* LLM / PACK TERMINAL */}
-        <V2Section label="LLM / PACK TERMINAL">
+        <V2Section
+          label="LLM / PACK TERMINAL"
+          groupId="llm-pack"
+          pipState="live"
+          collapsed={collapsedGroups["llm-pack"]}
+          onToggleCollapse={() => toggleGroup("llm-pack")}
+        >
           <V2NavRow
             href="/npm"
             icon={Package}
@@ -530,7 +615,12 @@ export function SidebarContent({
         </V2Section>
 
         {/* LAUNCH TERMINAL */}
-        <V2Section label="LAUNCH TERMINAL">
+        <V2Section
+          label="LAUNCH TERMINAL"
+          groupId="launch"
+          collapsed={collapsedGroups["launch"]}
+          onToggleCollapse={() => toggleGroup("launch")}
+        >
           <V2NavRow
             href="/funding"
             icon={DollarSign}
@@ -585,7 +675,13 @@ export function SidebarContent({
         </V2Section>
 
         {/* RESEARCH TERMINAL */}
-        <V2Section label="RESEARCH TERMINAL">
+        <V2Section
+          label="RESEARCH TERMINAL"
+          groupId="research"
+          pipState="stale"
+          collapsed={collapsedGroups["research"]}
+          onToggleCollapse={() => toggleGroup("research")}
+        >
           <FreshCountNavRow
             routeKey="arxivPapers"
             currentCount={sourceCounts?.arxivPapers ?? 0}
@@ -611,7 +707,13 @@ export function SidebarContent({
         </V2Section>
 
         {/* EXPLORE */}
-        <V2Section label="EXPLORE">
+        <V2Section
+          label="EXPLORE"
+          groupId="explore"
+          pipState="live"
+          collapsed={collapsedGroups["explore"]}
+          onToggleCollapse={() => toggleGroup("explore")}
+        >
           <V2NavRow
             href="/digest"
             icon={CalendarDays}
@@ -641,7 +743,12 @@ export function SidebarContent({
         </V2Section>
 
         {/* TOOLS */}
-        <V2Section label="TOOLS">
+        <V2Section
+          label="TOOLS"
+          groupId="tools"
+          collapsed={collapsedGroups["tools"]}
+          onToggleCollapse={() => toggleGroup("tools")}
+        >
           <V2NavRow
             href="/watchlist"
             icon={Eye}

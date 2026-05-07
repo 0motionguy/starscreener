@@ -11,6 +11,7 @@ import {
   FileText,
   Package,
   DollarSign,
+  Globe,
 } from "lucide-react";
 import { BrandStar } from "@/components/shared/BrandStar";
 
@@ -61,7 +62,8 @@ type LiveSourceKey =
   | "hf"
   | "arxiv"
   | "ph"
-  | "fund";
+  | "fund"
+  | "tavily";
 
 interface LiveRow {
   id: string;
@@ -102,6 +104,7 @@ const NpmIcon: IconCmp = (p) => <Package {...p} />;
 const HfIcon: IconCmp = (p) => <Brain {...p} />;
 const ArxivIcon: IconCmp = (p) => <FileText {...p} />;
 const FundingIcon: IconCmp = (p) => <DollarSign {...p} />;
+const GlobeIcon: IconCmp = (p) => <Globe {...p} />;
 const GithubMono: IconCmp = (p) => <GithubIcon {...p} monochrome />;
 const XMono: IconCmp = (p) => <XIcon {...p} monochrome />;
 const RedditMono: IconCmp = (p) => <RedditIcon {...p} monochrome />;
@@ -124,6 +127,7 @@ const ROW_SOURCE_ICONS = [
   { key: "hf", label: "HuggingFace", Icon: HfIcon },
   { key: "arxiv", label: "arXiv", Icon: ArxivIcon },
   { key: "fund", label: "Funding news", Icon: FundingIcon },
+  { key: "tavily", label: "Web search", Icon: GlobeIcon },
 ] as const satisfies ReadonlyArray<{
   key: LiveSourceKey;
   label: string;

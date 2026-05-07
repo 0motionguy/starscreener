@@ -30,7 +30,8 @@ export type SocialPlatform =
   | "npm"
   | "huggingface"
   | "arxiv"
-  | "funding";
+  | "funding"
+  | "tavily";
 
 /** Per-source 24h/7d mention counts attached to every Repo. */
 export interface RepoMentionsPerSource {

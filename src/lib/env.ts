@@ -68,9 +68,28 @@ const EnvSchema = z.object({
 
   // ── Future: auth + db + alerts delivery (stubbed for now) ──────────────
   DATABASE_URL: z.string().optional(),
+  // Drizzle-kit migrations require an unpooled connection (Supavisor's
+  // transaction-mode pooler doesn't expose `LISTEN`/`pg_advisory_lock`).
+  // Set DIRECT_URL to the :5432 connection string; runtime queries keep
+  // hitting DATABASE_URL via the :6543 pooler.
+  DIRECT_URL: z.string().optional(),
   RESEND_API_KEY: z.string().optional(),
   NEXTAUTH_SECRET: z.string().optional(),
   NEXTAUTH_URL: z.string().url().optional(),
+
+  // ── Clerk (auth provider) ──────────────────────────────────────────────
+  // pk_test_… for dev, pk_live_… for prod. Public — exposed to the browser.
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().optional(),
+  // sk_test_… for dev, sk_live_… for prod. Server-only — never expose.
+  CLERK_SECRET_KEY: z.string().optional(),
+  // whsec_… from Clerk dashboard webhook config. Used by svix verify in
+  // src/app/api/webhooks/clerk/route.ts for user.created / .updated / .deleted.
+  CLERK_WEBHOOK_SIGNING_SECRET: z.string().optional(),
+  // 32-byte base64 key-encryption-key for webhook payload at-rest.
+  // Generate: node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+  WEBHOOK_SECRET_KEK: z.string().optional(),
+  // Discord invite shown when a referrer hits the Founder milestone.
+  FOUNDER_DISCORD_INVITE: z.string().url().optional(),
 
   // ── Weekly digest cron ─────────────────────────────────────────────────
   // See `src/app/api/cron/digest/weekly/route.ts`. Master opt-in gate —

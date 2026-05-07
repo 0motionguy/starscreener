@@ -16,15 +16,12 @@
 // exposing it on `CanonicalRepoProfile` once, and consuming the slice
 // here — this page no longer stitches per-source loaders directly.
 
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import { fetchGitHubRepoLive } from "@/lib/github-live";
-import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME, safeJsonLd } from "@/lib/seo";
-import { BrandStar } from "@/components/shared/BrandStar";
 import { buildRepoPageSchemas } from "@/lib/seo-repo-schemas";
 import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
 // Data-store refresh hooks. The repo detail page consumes signal data from
@@ -64,11 +61,14 @@ import type { MentionItem } from "@/components/repo-detail/MentionMeta";
 import { RepoSignalSnapshot } from "@/components/repo-detail/RepoSignalSnapshot";
 import { ProjectSurfaceMap } from "@/components/repo-detail/ProjectSurfaceMap";
 import { NpmAdoptionPanel } from "@/components/repo-detail/NpmAdoptionPanel";
-import { RepoActionRow } from "@/components/repo-detail/RepoActionRow";
 import { MarkRepoViewed } from "@/components/repo-detail/MarkRepoViewed";
 import { FunnelMount } from "@/components/analytics/FunnelMount";
-import { TrackedExternalLink } from "@/components/analytics/TrackedExternalLink";
 import { ObjectReactions } from "@/components/reactions/ObjectReactions";
+import { RepoIdHero } from "@/components/repo-detail/RepoIdHero";
+import { StarHistoryBlock } from "@/components/repo-detail/StarHistoryBlock";
+import { OrganizationCard } from "@/components/repo-detail/OrganizationCard";
+import { refreshStarActivityFromStore } from "@/lib/star-activity";
+import { SectionHead } from "@/components/ui/SectionHead";
 import {
   countReactions,
   listReactionsForObject,
@@ -81,7 +81,6 @@ import { getWhyNarrative } from "@/lib/why-narrative";
 import { FundingPanel } from "@/components/repo-detail/FundingPanel";
 import { RelatedReposPanel } from "@/components/repo-detail/RelatedReposPanel";
 import { RelatedIdeasPanel } from "@/components/repo-detail/RelatedIdeasPanel";
-import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 // ISR over force-dynamic: the 12+ refresh hooks above each share the
 // data-store's 30s rate-limit + dedupe, so calling them on every request
@@ -185,6 +184,9 @@ export default async function RepoDetailPage({ params }: PageProps) {
 
   // Refresh every data-store-backed cache the canonical profile + render
   // surfaces will read. All in parallel; each is cheap on warm Lambdas.
+  // The star-activity refresh is per-repo (one Redis key per repo) — kept
+  // alongside the global refreshes here so the inline 90-day chart on the
+  // new layout always sees the freshest snapshot.
   await Promise.all([
     refreshRepoMetadataFromStore(),
     refreshNpmFromStore(),
@@ -200,6 +202,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
     refreshLobstersMentionsFromStore(),
     refreshLobstersTrendingFromStore(),
     refreshProducthuntLaunchesFromStore(),
+    refreshStarActivityFromStore(`${owner}/${name}`),
   ]);
 
   // Single canonical call replaces the fifteen-loader stitch that used to
@@ -239,7 +242,32 @@ export default async function RepoDetailPage({ params }: PageProps) {
   // mentions JSON. Kept as a direct call because this is pure rendering
   // data that doesn't need to live on the canonical profile.
   const markers = buildMentionMarkers(repo.fullName, 30);
-  const lastRefresh = getRelativeTime(new Date().toISOString());
+
+  // Quick surface count for the metric strip's "SURFACE" cell. Mirrors the
+  // ProjectSurfaceMap.tsx logic (GitHub · Website · Docs · npm · PRODUCTHUNT
+  // · Paper/Model) but stays sync — the full ProjectSurfaceMap component
+  // does its own async resolution for the actual cards. This count is just
+  // the headline metric.
+  const surfaceTotal = 6;
+  const npmHomepages = (profile.npm.packages ?? [])
+    .map((p) => p.homepage)
+    .filter((h): h is string => Boolean(h));
+  const hasWebsite = Boolean(
+    profile.productHunt?.website ||
+      npmHomepages.find((u) => !/github\.com/i.test(u)),
+  );
+  const hasNpm = (profile.npm.packages ?? []).length > 0;
+  const hasProductHunt = Boolean(profile.productHunt);
+  const hasPaperModel = Boolean(
+    (repo.linkedArxivIds && repo.linkedArxivIds.length > 0) ||
+      (repo.linkedHfModels && repo.linkedHfModels.length > 0),
+  );
+  const surfaceCount =
+    1 /* github */ +
+    (hasWebsite ? 1 : 0) +
+    (hasNpm ? 1 : 0) +
+    (hasProductHunt ? 1 : 0) +
+    (hasPaperModel ? 1 : 0);
 
   // JSON-LD entity graph for the repo page. Replaces the previous hand-rolled
   // SoftwareSourceCode + BreadcrumbList pair with a richer set:
@@ -272,219 +300,225 @@ export default async function RepoDetailPage({ params }: PageProps) {
         />
       ))}
 
-      <main className="home-surface repo-detail-page">
-        <section className="id-strip">
-          <div className="id-avatar">{repo.name.slice(0, 1).toLowerCase()}</div>
-          <div className="id-meta">
-            <div className="crumb">
-              <b>Repo</b>
-              <span className="sep">·</span>
-              <span>rank #{repo.rank}</span>
-              <span className="sep">·</span>
-              <span className="firing">{repo.channelsFiring ?? 0}/5 firing</span>
-              {repo.language ? (
-                <>
-                  <span className="sep">·</span>
-                  <span>{repo.language}</span>
-                </>
-              ) : null}
-            </div>
-            <h1>
-              <span className="owner">{repo.owner} /</span> {repo.name}
-              <TrackedExternalLink
-                step="github_click"
-                flow="discover-repo"
-                trackProps={{ repo: repo.fullName, position: "header" }}
-                href={repo.url || `https://github.com/${repo.fullName}`}
-                className="ext"
-                aria-label={`Open ${repo.fullName} on GitHub`}
-              >
-                ↗
-              </TrackedExternalLink>
-            </h1>
-            {repo.description ? <p className="desc">{repo.description}</p> : null}
-            <div className="row">
-              {repo.language ? <span className="lang">{repo.language}</span> : null}
-              {(repo.topics ?? []).slice(0, 5).map((topic) => (
-                <span key={topic} className="topic">
-                  {topic}
-                </span>
-              ))}
-              <span className="stat">
-                <span className="lbl"><BrandStar size={11} /></span>
-                <b>{formatNumber(repo.stars)}</b>
-              </span>
-              <span className="stat">
-                <span className="lbl">⑂</span>
-                {formatNumber(repo.forks)}
-              </span>
-              <span className="stat">
-                <span className="lbl">●</span>
-                refreshed {lastRefresh}
-              </span>
-              <FreshnessBadge source="mcp" lastUpdatedAt={profile.fetchedAt} />
-            </div>
-          </div>
-          <div className="id-actions">
-            <Link href={`/repo/${repo.owner}/${repo.name}/star-activity`} className="btn">
-              Star activity
-            </Link>
-            <TrackedExternalLink
-              step="github_click"
-              flow="discover-repo"
-              trackProps={{ repo: repo.fullName, position: "id_actions" }}
-              href={repo.url || `https://github.com/${repo.fullName}`}
-              className="btn gh"
-            >
-              GitHub ↗
-            </TrackedExternalLink>
-          </div>
-        </section>
+      <main className="home-surface repo-detail-page repo-detail-redesign">
+        {/* Mockup-aligned hero block: eyebrow + head + verdict band +
+            channel chips + 5-up metric strip. Replaces the legacy
+            id-strip + repo-verdict + RepoActionRow stack. */}
+        <RepoIdHero
+          repo={repo}
+          fetchedAt={profile.fetchedAt}
+          surfaceCount={surfaceCount}
+          surfaceTotal={surfaceTotal}
+        />
 
-        <section className="repo-verdict">
-          <div className="v-rank">
-            <span className="lbl">Rank</span>
-            <span className="num">#{repo.rank}</span>
-            <span className="sub">{repo.language ?? "all repos"}</span>
+        {/* Tracking notice for repos that just got pulled in via the
+            live-fetch fallback. Sits below the hero so users see the
+            "why every chip is empty" explainer right after the verdict. */}
+        {isLiveFetched ? (
+          <div
+            className="repo-detail-tracking-banner"
+            role="status"
+            aria-live="polite"
+          >
+            Tracking just started for{" "}
+            <strong>{repo.fullName}</strong>. Cross-source signals
+            (mentions, momentum, deltas) will populate on the next collector
+            tick — usually within an hour.
           </div>
-          <div className="v-score">
-            <span className="lbl">Cross-signal</span>
-            <span>
-              <span className="big">{(repo.crossSignalScore ?? 0).toFixed(2)}</span>
-              <span className="max"> / 5.0</span>
-            </span>
-            <div className="gauge" aria-hidden="true">
-              {Array.from({ length: 5 }).map((_, index) => (
-                <i
-                  key={index}
-                  className={index < (repo.channelsFiring ?? 0) ? "on" : "dim"}
-                />
-              ))}
-            </div>
-            <span className="meta">
-              <b>{repo.channelsFiring ?? 0} / 5</b> channels firing
-            </span>
-          </div>
-          <p className="v-text">
-            <b>{repo.fullName}</b> is ranked by live GitHub momentum and
-            cross-source evidence. It moved{" "}
-            <span className={repo.starsDelta24h >= 0 ? "hl-money" : "hl-red"}>
-              {repo.starsDelta24h >= 0 ? "+" : ""}
-              {formatNumber(repo.starsDelta24h)} stars
-            </span>{" "}
-            in 24h with momentum score{" "}
-            <span className="hl">{repo.momentumScore.toFixed(1)}</span>.
-          </p>
-          <div className="v-spark">
-            <span className="lbl">30d stars</span>
-            <span className={repo.starsDelta30d >= 0 ? "pct" : "pct dn"}>
-              {repo.starsDelta30d >= 0 ? "+" : ""}
-              {formatNumber(repo.starsDelta30d)}
-            </span>
-          </div>
-        </section>
+        ) : null}
 
-        <div className="repo-detail-stack">
-          {/* Completeness strip — audit finding #1 trust fix.
-              Answers "how much of this profile is actually populated?"
-              before the user scrolls through modules that might be empty
-              because the pipeline hasn't scanned that source yet vs because
-              nothing exists. */}
-          {isLiveFetched ? (
-            <div
-              className="repo-detail-tracking-banner"
-              role="status"
-              aria-live="polite"
-            >
-              Tracking just started for{" "}
-              <strong>{repo.fullName}</strong>. Cross-source signals
-              (mentions, momentum, deltas) will populate on the next collector
-              tick — usually within an hour.
-            </div>
-          ) : null}
-          <CompletenessStrip repo={repo} />
-          <MarkRepoViewed owner={repo.owner} name={repo.name} />
-          <FunnelMount
-            step="repo_view"
-            flow="discover-repo"
-            properties={{ repo: repo.fullName }}
-          />
-          <RepoActionRow repo={repo} />
-          <ObjectReactions
-            objectType="repo"
-            objectId={repo.fullName}
-            initialCounts={initialReactionCounts}
-          />
-          {/*
-            Signal-first layout: "Why Trending" answers the user's first
-            question (why should I care?) above the quantitative snapshot.
-            Renders null when no reasons are available for this repo.
-          */}
-          <WhyBadge narrative={whyNarrative} variant="full" />
-          <WhyTrending reasons={profile.reasons} />
-          <RepoSignalSnapshot
+        {/* Invisible analytics + reaction widgets. Kept here so they
+            still fire on this surface. */}
+        <MarkRepoViewed owner={repo.owner} name={repo.name} />
+        <FunnelMount
+          step="repo_view"
+          flow="discover-repo"
+          properties={{ repo: repo.fullName }}
+        />
+        <ObjectReactions
+          objectType="repo"
+          objectId={repo.fullName}
+          initialCounts={initialReactionCounts}
+        />
+
+        {/* // 01 BREAKDOWN — cross-signal per-channel + project surface map.
+            Two-column on wide viewports; stacked on narrow. */}
+        <SectionHead
+          num="// 01"
+          title="Breakdown"
+          meta={<>Cross-signal &amp; surface map</>}
+        />
+        <div className="repo-detail-split">
+          <CrossSignalBreakdown repo={repo} />
+          <ProjectSurfaceMap
             repo={repo}
-            mentions={mentions}
             npmPackages={profile.npm.packages}
             productHuntLaunch={profile.productHunt}
           />
+        </div>
 
-          <RepoRevenuePanel
-            verified={profile.revenue.verified}
-            selfReported={profile.revenue.selfReported}
-            trustmrrClaim={profile.revenue.trustmrrClaim}
-          />
-          <FundingPanel events={profile.funding} />
+        {/* // 02 GROWTH — 90-day star history + bottom stats strip. The
+            inline chart is intentionally read-only; the full-toggles
+            sub-route at /star-activity is reachable via the inline
+            "full chart →" link. */}
+        <SectionHead
+          num="// 02"
+          title="Growth"
+          meta={<>Stars · 90 day · cumulative</>}
+        />
+        <StarHistoryBlock repo={repo} />
 
-          <div className="repo-detail-two-col">
-            <RepoDetailStatsStrip repo={repo} updatedAt={profile.fetchedAt} />
-            <RepoDetailStats repo={repo} />
-          </div>
+        {/* // 03 MENTIONS — tabbed evidence feed with 14d timeline strip.
+            User explicitly flagged this as "very important" in the redesign
+            brief; sits directly below the stars chart so the connection
+            between a star spike and the post that drove it is one scroll. */}
+        <SectionHead
+          num="// 03"
+          title="Mentions"
+          meta={<>14d window · {mentions.length} total</>}
+        />
+        <RecentMentionsFeed
+          mentions={mentions}
+          freshness={profile.freshness}
+          repoFullName={repo.fullName}
+          initialCursor={profile.mentions.nextCursor}
+        />
 
-          <NpmAdoptionPanel
-            packages={profile.npm.packages}
-            dailyDownloads={profile.npm.dailyDownloads}
-            dependentsByPackage={profile.npm.dependents}
-          />
+        {/* // 04 CONTEXT — owner organization + 6 vector-similar repos. */}
+        <SectionHead
+          num="// 04"
+          title="Context"
+          meta={<>Organization · related repos</>}
+        />
+        <div className="repo-detail-split">
+          <OrganizationCard owner={repo.owner} />
+          <RelatedReposPanel items={profile.related} />
+        </div>
 
-          <div className="repo-detail-split">
-            <ProjectSurfaceMap
+        {/* // 05 DEEP DIVE — kept for the panels not surfaced in the
+            mockup (Why-Trending, Revenue, Funding, NpmAdoption, ideas,
+            Twitter signal, completeness, full chart). Collapsed by
+            default so the main flow stays clean. */}
+        <details className="repo-deep-dive">
+          <summary>
+            <span className="rdd-num">{"// 05"}</span>
+            <span className="rdd-title">Deep dive</span>
+            <span className="rdd-meta">expanded panels · {[
+              profile.reasons?.length ? "why" : null,
+              profile.revenue ? "revenue" : null,
+              profile.funding?.length ? "funding" : null,
+              (profile.npm.packages ?? []).length ? "npm" : null,
+              profile.ideas?.length ? "ideas" : null,
+              profile.twitter ? "x" : null,
+            ].filter(Boolean).join(" · ") || "auxiliary"}</span>
+          </summary>
+          <div className="rdd-stack">
+            <CompletenessStrip repo={repo} />
+            <WhyBadge narrative={whyNarrative} variant="full" />
+            <WhyTrending reasons={profile.reasons} />
+            <RepoSignalSnapshot
               repo={repo}
+              mentions={mentions}
               npmPackages={profile.npm.packages}
               productHuntLaunch={profile.productHunt}
             />
-            <CrossSignalBreakdown repo={repo} />
-          </div>
-
-          <RecentMentionsFeed
-            mentions={mentions}
-            freshness={profile.freshness}
-            repoFullName={repo.fullName}
-            initialCursor={profile.mentions.nextCursor}
-          />
-          <RelatedReposPanel items={profile.related} />
-          <RelatedIdeasPanel items={profile.ideas} />
-          <ErrorBoundary>
-            <RepoDetailChartLazy repo={repo} markers={markers} />
-          </ErrorBoundary>
-          <Link
-            href={`/repo/${repo.owner}/${repo.name}/star-activity`}
-            className="block rounded-card border border-border-primary bg-bg-secondary px-4 py-3 hover:bg-bg-tertiary transition-colors"
-          >
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <div className="text-[10px] font-mono uppercase tracking-[0.14em] text-text-tertiary">
-                  {"// STAR ACTIVITY · FULL HISTORY"}
-                </div>
-                <div className="text-sm text-text-secondary mt-1">
-                  Open the dedicated chart with toggles + share card.
-                </div>
-              </div>
-              <span className="text-text-tertiary font-mono">→</span>
+            <RepoRevenuePanel
+              verified={profile.revenue.verified}
+              selfReported={profile.revenue.selfReported}
+              trustmrrClaim={profile.revenue.trustmrrClaim}
+            />
+            <FundingPanel events={profile.funding} />
+            <div className="repo-detail-two-col">
+              <RepoDetailStatsStrip
+                repo={repo}
+                updatedAt={profile.fetchedAt}
+              />
+              <RepoDetailStats repo={repo} />
             </div>
-          </Link>
-          {profile.twitter ? <TwitterSignalPanel panel={profile.twitter} /> : null}
-        </div>
+            <NpmAdoptionPanel
+              packages={profile.npm.packages}
+              dailyDownloads={profile.npm.dailyDownloads}
+              dependentsByPackage={profile.npm.dependents}
+            />
+            <RelatedIdeasPanel items={profile.ideas} />
+            <ErrorBoundary>
+              <RepoDetailChartLazy repo={repo} markers={markers} />
+            </ErrorBoundary>
+            {profile.twitter ? (
+              <TwitterSignalPanel panel={profile.twitter} />
+            ) : null}
+          </div>
+        </details>
+        <style>{`
+          .repo-detail-redesign {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+          }
+          .repo-detail-split {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 12px;
+          }
+          @media (max-width: 980px) {
+            .repo-detail-split { grid-template-columns: 1fr; }
+          }
+          .repo-deep-dive {
+            margin-top: 8px;
+            border: 1px solid var(--v3-line-100, rgba(255,255,255,0.08));
+            border-radius: 3px;
+            background: var(--v3-bg-050, rgba(255,255,255,0.025));
+          }
+          .repo-deep-dive > summary {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            font-family: var(--font-geist-mono, monospace);
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--v3-ink-300, rgba(255,255,255,0.7));
+            list-style: none;
+          }
+          .repo-deep-dive > summary::-webkit-details-marker { display: none; }
+          .repo-deep-dive > summary::before {
+            content: "▶";
+            display: inline-block;
+            font-size: 9px;
+            color: var(--v3-ink-400);
+            transition: transform 120ms;
+          }
+          .repo-deep-dive[open] > summary::before { transform: rotate(90deg); }
+          .repo-deep-dive .rdd-num {
+            color: var(--v3-acc, #ffcb05);
+            font-weight: 700;
+          }
+          .repo-deep-dive .rdd-title { color: var(--v3-ink-100, #fff); }
+          .repo-deep-dive .rdd-meta {
+            margin-left: auto;
+            color: var(--v3-ink-400);
+            letter-spacing: 0.06em;
+            text-transform: lowercase;
+            font-size: 10px;
+          }
+          .rdd-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 12px 14px 16px;
+            border-top: 1px solid var(--v3-line-100);
+          }
+          .repo-detail-tracking-banner {
+            padding: 10px 14px;
+            border: 1px solid var(--v3-acc, #ffcb05);
+            border-radius: 3px;
+            background: color-mix(in oklab, var(--v3-acc, #ffcb05) 14%, transparent);
+            color: var(--v3-ink-100, #fff);
+            font-size: 12px;
+          }
+        `}</style>
       </main>
     </>
   );

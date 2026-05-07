@@ -30,10 +30,13 @@ import {
 } from "@/lib/top10/builders";
 import {
   CATEGORY_META,
+  METRIC_FRIENDLY_BLURB,
+  METRIC_FRIENDLY_LABEL,
   TOP10_CATEGORIES,
   TOP10_METRICS,
   TOP10_THEMES,
   TOP10_WINDOWS,
+  WINDOW_FRIENDLY_LABEL,
   type CategoryMeta,
   type RepoSliceLite,
   type Top10Bundle,
@@ -44,9 +47,10 @@ import {
   type Top10Theme,
   type Top10Window,
 } from "@/lib/top10/types";
+import { TOP10_THEMES_ORDERED } from "@/lib/top10/themes";
 import { absoluteUrl } from "@/lib/seo";
 import { toast } from "@/lib/toast";
-import { buildShareToXUrl } from "@/lib/twitter/outbound/share";
+import { SHARE_PLATFORMS } from "@/lib/top10/share-intents";
 
 interface Top10PageProps {
   payload: Top10Payload;
@@ -57,25 +61,20 @@ interface Top10PageProps {
 
 type ShareAspect = "h" | "sq" | "v" | "yt";
 
+// Aspect labels lead with the destination platform — creators pick by where
+// they're posting, not by pixel dimensions. Pixel size stays as a sub-label
+// for the rare power-user who cares.
 const ASPECT_LABEL: Record<ShareAspect, { label: string; px: string }> = {
-  h: { label: "X / TW", px: "1200×675" },
-  sq: { label: "SQUARE", px: "1080×1080" },
-  v: { label: "IG STORY", px: "1080×1350" },
-  yt: { label: "YT", px: "1280×720" },
+  h: { label: "X post", px: "1200×675" },
+  sq: { label: "Square", px: "1080×1080" },
+  v: { label: "Story", px: "1080×1350" },
+  yt: { label: "YouTube", px: "1280×720" },
 };
 
-const METRIC_LABEL: Record<Top10Metric, string> = {
-  "cross-signal": "CROSS-SIGNAL",
-  stars: "STARS",
-  mentions: "MENTIONS",
-  velocity: "VELOCITY",
-};
-
-const THEME_LABEL: Record<Top10Theme, { label: string; swatch: string }> = {
-  dark: { label: "DARK", swatch: "#08090a" },
-  light: { label: "LIGHT", swatch: "#fafaf7" },
-  mono: { label: "MONO", swatch: "#1a1a1a" },
-};
+// Friendly metric labels (replaces uppercase "CROSS-SIGNAL" / "VELOCITY")
+// pulled from the shared map so categoryTabs / filterRow / search-card meta
+// all read the same surface text.
+const METRIC_LABEL = METRIC_FRIENDLY_LABEL;
 
 // ---------------------------------------------------------------------------
 // URL sync — read once at mount, push back on every state change. Using
@@ -290,13 +289,12 @@ function PageHead() {
     <header className="page-head">
       <div>
         <div className="crumb">
-          <b>Tool · 05</b> / top 10 · shareable rankings
+          <b>Top 10</b> · community share tool
         </div>
-        <h1>Top 10 — every category, ready to ship.</h1>
+        <h1>This week&rsquo;s top 10 in AI.</h1>
         <p className="lede">
-          Pick a category, snapshot a chart, and post it. Every ranking renders
-          to four social formats in your brand. Updated every 6 hours from the
-          corpus.
+          Snapshot a ranking. Post it. Every category renders to four social
+          formats in your brand colors. Updated every 6 hours.
         </p>
       </div>
       <SnapshotsLink />
@@ -319,7 +317,7 @@ function SnapshotsLink() {
       href={`/top10/${yesterday}`}
       className="pill"
     >
-      ⟲ YESTERDAY · {yesterday}
+      ← Yesterday&rsquo;s top 10
     </Link>
   );
 }
@@ -327,15 +325,13 @@ function SnapshotsLink() {
 function RefreshClock() {
   // 6h cadence matches the upstream collector cron. We show a live countdown
   // pinned to the next 6h boundary in the user's local clock so they see
-  // motion and can predict the next refresh. Re-renders once a second; cheap
-  // for a single Date.now() + format. SSR fallback: render a static "~ 6H 00M"
-  // so the markup is stable, then the client effect swaps in the live ticker.
-  const [text, setText] = useState("~ 6H · 00M");
+  // motion and can predict the next refresh. Re-renders every 30s; cheap.
+  // SSR fallback: a static "~6h 0m" so the markup is stable, then the client
+  // effect swaps in the live ticker.
+  const [text, setText] = useState("~6h 0m");
   useEffect(() => {
     const tick = () => {
       const now = new Date();
-      // Pin to wall-clock 6h boundaries (00 / 06 / 12 / 18) so the surface
-      // matches what the cron actually does — not "6h from now."
       const nextBoundary = new Date(now);
       const h = now.getUTCHours();
       const targetHour = Math.ceil((h + 1) / 6) * 6;
@@ -344,20 +340,18 @@ function RefreshClock() {
       const totalMin = Math.max(0, Math.floor(ms / 60000));
       const hh = Math.floor(totalMin / 60);
       const mm = totalMin % 60;
-      setText(`${hh.toString().padStart(2, "0")}H · ${mm.toString().padStart(2, "0")}M`);
+      // Friendly "23h 14m" instead of operator-feel "23H · 14M"
+      const hLabel = hh > 0 ? `${hh}h ` : "";
+      setText(`${hLabel}${mm}m`);
     };
     tick();
     const id = setInterval(tick, 30_000);
     return () => clearInterval(id);
   }, []);
   return (
-    <div
-      className="clock tabular-nums"
-    >
-      <span className="big">
-        {text}
-      </span>
-      UNTIL NEXT REFRESH
+    <div className="clock tabular-nums" title="Data refreshes every 6 hours">
+      <span className="big">{text}</span>
+      until next refresh
     </div>
   );
 }
@@ -382,6 +376,8 @@ function CategoryTabs({ active, counts, meta, onPick }: CategoryTabsProps) {
         background: "var(--v3-bg-025, #0b0d0f)",
         padding: 6,
       }}
+      role="tablist"
+      aria-label="Top 10 categories"
     >
       {TOP10_CATEGORIES.map((c) => {
         const m = meta[c];
@@ -391,35 +387,38 @@ function CategoryTabs({ active, counts, meta, onPick }: CategoryTabsProps) {
             key={c}
             type="button"
             onClick={() => onPick(c)}
-            className="v2-mono"
+            role="tab"
+            aria-selected={on}
+            title={m.blurb}
             style={{
-              height: 38,
-              padding: "0 14px",
+              height: 40,
+              padding: "0 16px",
               border: on
                 ? "1px solid var(--v2-acc, #f56e0f)"
                 : "1px solid transparent",
               background: on ? "var(--v2-acc, #f56e0f)" : "transparent",
-              color: on ? "#1a0a04" : "var(--v3-ink-300, #84909b)",
-              fontSize: 10.5,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
+              color: on ? "#1a0a04" : "var(--v3-ink-200, #b8c0c8)",
+              fontSize: 13,
+              letterSpacing: "0.005em",
               display: "inline-flex",
               alignItems: "center",
               gap: 9,
               cursor: "pointer",
-              fontWeight: on ? 700 : 400,
+              fontWeight: on ? 600 : 500,
               flex: "none",
             }}
           >
-            <span style={{ fontSize: 14, lineHeight: 1 }}>{m.emoji}</span>
+            <span style={{ fontSize: 15, lineHeight: 1 }}>{m.emoji}</span>
             {m.label}
             <span
               className="tabular-nums"
               style={{
-                fontSize: 9,
-                color: on ? "rgba(0,0,0,0.45)" : "var(--v3-ink-400, #909caa)",
+                fontSize: 10.5,
+                color: on ? "rgba(0,0,0,0.55)" : "var(--v3-ink-400, #909caa)",
                 background: on ? "rgba(0,0,0,0.18)" : "var(--v3-bg-100, #151a20)",
                 padding: "2px 7px",
+                borderRadius: 2,
+                fontWeight: 600,
               }}
             >
               {counts[c]}
@@ -463,12 +462,12 @@ function RankingPanel({
       }}
     >
       <PanelHead
-        title={`// TOP 10 · ${category.toUpperCase()}`}
-        subtitle={`· LIVE · ${windowLabel(window).toUpperCase()} WINDOW`}
+        title={`Top 10 · ${capitalize(category)}`}
+        subtitle={`live · ${windowLabel(window)} window`}
         right={
           totalCount > 0
-            ? `${totalCount} ENTRIES`
-            : "WAITING FOR FRESH DATA"
+            ? `${totalCount} ${totalCount === 1 ? "entry" : "entries"}`
+            : "Waiting for fresh data"
         }
       />
       <FilterRow
@@ -508,12 +507,11 @@ function PanelHead({
 }) {
   return (
     <div
-      className="v2-mono flex items-center gap-2 px-3 py-2"
+      className="flex items-center gap-2 px-3 py-2.5"
       style={{
         borderBottom: "1px solid var(--v3-line-200, #29323b)",
-        fontSize: 10,
-        letterSpacing: "0.20em",
-        textTransform: "uppercase",
+        fontSize: 13,
+        letterSpacing: "0.005em",
         color: "var(--v3-ink-300, #84909b)",
         background:
           "linear-gradient(180deg, var(--v3-bg-050, #101418), var(--v3-bg-025, #0b0d0f))",
@@ -528,6 +526,8 @@ function PanelHead({
         style={{
           marginLeft: "auto",
           color: "var(--v3-sig-green, #22c55e)",
+          fontSize: 12,
+          fontWeight: 500,
         }}
       >
         {right}
@@ -610,15 +610,16 @@ function FilterRow({
         background: "var(--v3-bg-050, #101418)",
       }}
     >
-      <ChipLabel>WINDOW</ChipLabel>
+      <ChipLabel>Time</ChipLabel>
       {TOP10_WINDOWS.map((w) => (
         <Chip
           key={w}
           on={w === window}
           disabled={!supportedW.has(w)}
           onClick={() => supportedW.has(w) && onWindow(w)}
+          title={!supportedW.has(w) ? `${WINDOW_FRIENDLY_LABEL[w]} not available for this category` : undefined}
         >
-          {w === "ytd" ? "YTD" : w.toUpperCase()}
+          {WINDOW_FRIENDLY_LABEL[w]}
         </Chip>
       ))}
       <span
@@ -629,13 +630,18 @@ function FilterRow({
           margin: "0 4px",
         }}
       />
-      <ChipLabel>METRIC</ChipLabel>
+      <ChipLabel>Sort by</ChipLabel>
       {TOP10_METRICS.map((m) => (
         <Chip
           key={m}
           on={m === metric}
           disabled={!supportedM.has(m)}
           onClick={() => supportedM.has(m) && onMetric(m)}
+          title={
+            !supportedM.has(m)
+              ? `${METRIC_LABEL[m]} not available for this category`
+              : METRIC_FRIENDLY_BLURB[m]
+          }
         >
           {METRIC_LABEL[m]}
         </Chip>
@@ -647,13 +653,12 @@ function FilterRow({
 function ChipLabel({ children }: { children: React.ReactNode }) {
   return (
     <span
-      className="v2-mono"
       style={{
-        fontSize: 9,
-        letterSpacing: "0.18em",
+        fontSize: 12,
+        letterSpacing: "0.01em",
         color: "var(--v3-ink-400, #909caa)",
-        textTransform: "uppercase",
-        marginRight: 4,
+        marginRight: 6,
+        fontWeight: 500,
       }}
     >
       {children}
@@ -666,20 +671,22 @@ function Chip({
   on,
   disabled,
   onClick,
+  title,
 }: {
   children: React.ReactNode;
   on?: boolean;
   disabled?: boolean;
   onClick?: () => void;
+  title?: string;
 }) {
   return (
     <button
       type="button"
       onClick={disabled ? undefined : onClick}
-      className="v2-mono"
+      title={title}
       style={{
-        height: 24,
-        padding: "0 9px",
+        height: 26,
+        padding: "0 11px",
         border: on
           ? "1px solid var(--v3-ink-100, #eef0f2)"
           : "1px solid var(--v3-line-300, #3a444f)",
@@ -690,12 +697,11 @@ function Chip({
           ? "#08090a"
           : disabled
             ? "var(--v3-ink-400, #909caa)"
-            : "var(--v3-ink-300, #84909b)",
-        fontSize: 9.5,
-        letterSpacing: "0.14em",
-        textTransform: "uppercase",
+            : "var(--v3-ink-200, #b8c0c8)",
+        fontSize: 12,
+        letterSpacing: "0.01em",
         cursor: disabled ? "not-allowed" : "pointer",
-        fontWeight: on ? 700 : 400,
+        fontWeight: on ? 600 : 500,
         opacity: disabled ? 0.55 : 1,
       }}
     >
@@ -873,31 +879,31 @@ function Badge({ kind }: { kind: Top10Item["badges"][number] }) {
     { label: string; bg: string; color: string; border: string }
   > = {
     FIRING_5: {
-      label: "5/5 FIRING",
+      label: "🔥 On fire",
       bg: "rgba(34,197,94,0.14)",
       color: "var(--v3-sig-green, #22c55e)",
       border: "rgba(34,197,94,0.4)",
     },
     FIRING_4: {
-      label: "4/5 FIRING",
+      label: "🔥 Hot",
       bg: "rgba(34,197,94,0.10)",
       color: "var(--v3-sig-green, #22c55e)",
       border: "rgba(34,197,94,0.35)",
     },
     FIRING_3: {
-      label: "3/5 FIRING",
+      label: "Warm",
       bg: "transparent",
       color: "var(--v3-ink-300, #84909b)",
       border: "var(--v3-line-300, #3a444f)",
     },
     NEW: {
-      label: "NEW ENTRY",
+      label: "New",
       bg: "var(--v2-acc-soft, rgba(245,110,15,0.14))",
       color: "var(--v2-acc, #f56e0f)",
       border: "rgba(245,110,15,0.4)",
     },
     HOT: {
-      label: "HOT",
+      label: "Breakout",
       bg: "rgba(255,77,77,0.14)",
       color: "var(--v3-sig-red, #ff4d4d)",
       border: "rgba(255,77,77,0.4)",
@@ -1014,16 +1020,14 @@ function Delta({
 function EmptyRows() {
   return (
     <div
-      className="v2-mono"
       style={{
-        padding: "24px 14px",
+        padding: "32px 14px",
         textAlign: "center",
         color: "var(--v3-ink-400, #909caa)",
-        fontSize: 11,
-        letterSpacing: "0.14em",
+        fontSize: 13,
       }}
     >
-      {"// no entries yet — check back after the next refresh"}
+      Nothing here yet — check back after the next refresh.
     </div>
   );
 }
@@ -1084,12 +1088,11 @@ function RankingMetaStrip({ meta }: { meta: Top10Bundle["meta"] }) {
           }}
         >
           <div
-            className="v2-mono"
             style={{
-              fontSize: 9,
-              letterSpacing: "0.20em",
+              fontSize: 11,
+              letterSpacing: "0.005em",
               color: "var(--v3-ink-400, #909caa)",
-              textTransform: "uppercase",
+              fontWeight: 500,
             }}
           >
             {c.lbl}
@@ -1172,11 +1175,22 @@ function ShareStack({
   const pngUrl = `/api/og/top10?${ogParams}`;
   const absImageUrl = absoluteUrl(pngUrl);
 
-  const intentUrl = buildShareToXUrl({
-    text: tweetText(category, window),
-    url: utmPageUrl,
-    via: ["TrendingRepo"],
-  });
+  // One UTM-tagged page URL per platform — utm_medium differs by platform so
+  // analytics can attribute returning traffic to the right channel. Built
+  // once per render and passed into ShareActions which iterates SHARE_PLATFORMS.
+  const platformIntents = useMemo(() => {
+    const text = tweetText(category, window);
+    const title = `Top 10 ${CATEGORY_META[category].label.toLowerCase()} — ${windowLabel(window)}`;
+    return SHARE_PLATFORMS.map((p) => ({
+      ...p,
+      href: p.build({
+        url: withUtm(absPageUrl, category, p.utmMedium),
+        text,
+        title,
+        via: p.id === "x" ? "TrendingRepo" : undefined,
+      }),
+    }));
+  }, [category, window, absPageUrl]);
 
   async function copy(text: string, label: string) {
     try {
@@ -1194,12 +1208,11 @@ function ShareStack({
     >
       <ShareExportPanel>
         <div
-          className="v2-mono flex items-center gap-2 px-3 py-2"
+          className="flex items-center gap-2 px-3 py-2.5"
           style={{
             borderBottom: "1px solid var(--v3-line-200, #29323b)",
-            fontSize: 10,
-            letterSpacing: "0.20em",
-            textTransform: "uppercase",
+            fontSize: 13,
+            letterSpacing: "0.005em",
             color: "var(--v3-ink-300, #84909b)",
             background:
               "linear-gradient(180deg, var(--v3-bg-050, #101418), var(--v3-bg-025, #0b0d0f))",
@@ -1207,15 +1220,17 @@ function ShareStack({
         >
           <CornerDots />
           <span style={{ color: "var(--v3-ink-100, #eef0f2)", fontWeight: 600 }}>
-            {"// SHARE"}
+            Share this ranking
           </span>
           <span
             style={{
               marginLeft: "auto",
               color: "var(--v3-sig-green, #22c55e)",
+              fontSize: 12,
+              fontWeight: 500,
             }}
           >
-            PNG · BRANDED
+            Ready to post
           </span>
         </div>
 
@@ -1232,7 +1247,7 @@ function ShareStack({
 
         <ShareActions
           pngUrl={pngUrl}
-          intentUrl={intentUrl}
+          platforms={platformIntents}
           shareUrl={utmPageUrl}
           aspect={aspect}
           category={category}
@@ -1267,69 +1282,78 @@ function ThemePicker({
   return (
     <div
       style={{
-        display: "grid",
-        gridTemplateColumns: "auto repeat(3, 1fr)",
-        gap: 4,
-        padding: "0 10px 10px 10px",
-        alignItems: "center",
+        padding: "0 10px 12px 10px",
       }}
     >
-      <span
-        className="v2-mono"
+      <div
         style={{
-          fontSize: 9,
-          letterSpacing: "0.18em",
+          fontSize: 12,
+          letterSpacing: "0.01em",
           color: "var(--v3-ink-400, #909caa)",
-          textTransform: "uppercase",
-          paddingRight: 8,
+          fontWeight: 500,
+          marginBottom: 8,
         }}
       >
-        THEME
-      </span>
-      {TOP10_THEMES.map((t) => {
-        const meta = THEME_LABEL[t];
-        const on = t === theme;
-        return (
-          <button
-            key={t}
-            type="button"
-            onClick={() => onTheme(t)}
-            className="v2-mono"
-            style={{
-              height: 32,
-              border: on
-                ? "1px solid var(--v2-acc, #f56e0f)"
-                : "1px solid var(--v3-line-300, #3a444f)",
-              background: on
-                ? "var(--v2-acc-soft, rgba(245,110,15,0.14))"
-                : "var(--v3-bg-050, #101418)",
-              color: on ? "var(--v2-acc, #f56e0f)" : "var(--v3-ink-300, #84909b)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 6,
-              fontSize: 9.5,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              cursor: "pointer",
-              fontWeight: on ? 700 : 400,
-            }}
-          >
-            <span
-              aria-hidden
+        Theme
+      </div>
+      <div
+        role="radiogroup"
+        aria-label="Card theme"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(5, 1fr)",
+          gap: 4,
+        }}
+      >
+        {TOP10_THEMES_ORDERED.map((meta) => {
+          const on = meta.id === theme;
+          return (
+            <button
+              key={meta.id}
+              type="button"
+              role="radio"
+              aria-checked={on}
+              onClick={() => onTheme(meta.id)}
+              title={meta.blurb}
               style={{
-                width: 10,
-                height: 10,
-                borderRadius: 2,
-                background: meta.swatch,
-                border: "1px solid rgba(255,255,255,0.15)",
-                display: "block",
+                height: 36,
+                border: on
+                  ? "1px solid var(--v2-acc, #f56e0f)"
+                  : "1px solid var(--v3-line-300, #3a444f)",
+                background: on
+                  ? "var(--v2-acc-soft, rgba(245,110,15,0.14))"
+                  : "var(--v3-bg-050, #101418)",
+                color: on
+                  ? "var(--v2-acc, #f56e0f)"
+                  : "var(--v3-ink-200, #b8c0c8)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 3,
+                fontSize: 10.5,
+                letterSpacing: "0.005em",
+                cursor: "pointer",
+                fontWeight: on ? 600 : 500,
+                padding: "4px 2px",
               }}
-            />
-            {meta.label}
-          </button>
-        );
-      })}
+            >
+              <span
+                aria-hidden
+                style={{
+                  width: 18,
+                  height: 6,
+                  borderRadius: 1,
+                  background: `linear-gradient(90deg, ${meta.colors.bg} 0%, ${meta.colors.bg} 50%, ${meta.colors.brand} 50%, ${meta.colors.brand} 100%)`,
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  display: "block",
+                }}
+              />
+              <span style={{ whiteSpace: "nowrap" }}>{meta.label}</span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -1414,10 +1438,17 @@ function CardPreview({
   );
 }
 
+interface PlatformIntent {
+  id: string;
+  label: string;
+  glyph: string;
+  href: string;
+}
+
 function ShareActions({
   pngUrl,
   shareUrl,
-  intentUrl,
+  platforms,
   aspect,
   category,
   theme,
@@ -1425,7 +1456,7 @@ function ShareActions({
 }: {
   pngUrl: string;
   shareUrl: string;
-  intentUrl: string;
+  platforms: PlatformIntent[];
   aspect: ShareAspect;
   category: Top10Category;
   theme: Top10Theme;
@@ -1433,11 +1464,14 @@ function ShareActions({
 }) {
   const themeSuffix = theme === "dark" ? "" : `-${theme}`;
   const filename = `top10-${category}-${aspect}${themeSuffix}-${todayStamp()}.png`;
+  // Each share row is `1fr` per button; copy-link sits alongside platform
+  // buttons. Total cols = 1 (copy) + platforms.length. Grid auto-balances.
+  const secondaryCols = `repeat(${platforms.length + 1}, minmax(0, 1fr))`;
   return (
     <div
       style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
+        display: "flex",
+        flexDirection: "column",
         gap: 6,
         padding: 10,
         borderTop: "1px solid var(--v3-line-200, #29323b)",
@@ -1446,64 +1480,79 @@ function ShareActions({
       <a
         href={pngUrl}
         download={filename}
-        className="v2-mono"
+        title={`Download ${ASPECT_LABEL[aspect].px} PNG`}
         style={{
-          gridColumn: "1 / -1",
-          height: 36,
+          height: 42,
           border: "1px solid var(--v2-acc, #f56e0f)",
           background: "var(--v2-acc, #f56e0f)",
           color: "#1a0a04",
-          fontSize: 11,
-          letterSpacing: "0.14em",
-          textTransform: "uppercase",
+          fontSize: 13,
+          letterSpacing: "0.005em",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          gap: 8,
+          fontWeight: 600,
+          textDecoration: "none",
+        }}
+      >
+        Download image
+        <span style={{ opacity: 0.7, fontSize: 11, fontWeight: 500 }}>
+          {ASPECT_LABEL[aspect].px}
+        </span>
+      </a>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: secondaryCols,
           gap: 6,
-          fontWeight: 700,
-          textDecoration: "none",
         }}
       >
-        ↓ DOWNLOAD PNG · {ASPECT_LABEL[aspect].px}
-      </a>
-      <button
-        type="button"
-        onClick={() => void onCopy(shareUrl, "Link copied to clipboard")}
-        className="v2-mono"
-        style={{
-          height: 34,
-          border: "1px solid var(--v3-line-300, #3a444f)",
-          background: "var(--v3-bg-050, #101418)",
-          color: "var(--v3-ink-100, #eef0f2)",
-          fontSize: 10.5,
-          letterSpacing: "0.14em",
-          textTransform: "uppercase",
-          cursor: "pointer",
-        }}
-      >
-        ⎘ COPY LINK
-      </button>
-      <a
-        href={intentUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="v2-mono"
-        style={{
-          height: 34,
-          border: "1px solid var(--v3-line-300, #3a444f)",
-          background: "var(--v3-bg-050, #101418)",
-          color: "var(--v3-ink-100, #eef0f2)",
-          fontSize: 10.5,
-          letterSpacing: "0.14em",
-          textTransform: "uppercase",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          textDecoration: "none",
-        }}
-      >
-        𝕏 POST
-      </a>
+        <button
+          type="button"
+          onClick={() => void onCopy(shareUrl, "Link copied to clipboard")}
+          title="Copy a shareable link to this exact ranking"
+          style={{
+            height: 36,
+            border: "1px solid var(--v3-line-300, #3a444f)",
+            background: "var(--v3-bg-050, #101418)",
+            color: "var(--v3-ink-100, #eef0f2)",
+            fontSize: 12.5,
+            letterSpacing: "0.005em",
+            cursor: "pointer",
+            fontWeight: 500,
+          }}
+        >
+          Copy link
+        </button>
+        {platforms.map((p) => (
+          <a
+            key={p.id}
+            href={p.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={p.label}
+            aria-label={p.label}
+            style={{
+              height: 36,
+              border: "1px solid var(--v3-line-300, #3a444f)",
+              background: "var(--v3-bg-050, #101418)",
+              color: "var(--v3-ink-100, #eef0f2)",
+              fontSize: 12.5,
+              letterSpacing: "0.005em",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              textDecoration: "none",
+              gap: 6,
+              fontWeight: 500,
+            }}
+          >
+            <span aria-hidden style={{ fontSize: 14 }}>{p.glyph}</span>
+            {p.label}
+          </a>
+        ))}
+      </div>
     </div>
   );
 }
@@ -1517,10 +1566,10 @@ function ShareMeta({
 }) {
   return (
     <ShareMetaBlock>
-      <MetaRow label="PERMALINK" value={permalink} />
-      <MetaRow label="EMBED" value={embedSrc} />
+      <MetaRow label="Permalink" value={permalink} />
+      <MetaRow label="Embed" value={embedSrc} />
       <MetaRow
-        label="UTM"
+        label="Tracking"
         value="?utm_source=top10&utm_medium=share"
         readOnly
       />
@@ -1614,22 +1663,20 @@ function Mini({
       <div className="h">
         <span className="em">{meta.emoji}</span>
         <span className="nm">
-          TOP 10 · {meta.label}
+          Top 10 · {meta.label}
         </span>
-        <span className="ct">
-          {windowLabel(bundle.window).toUpperCase()}
-        </span>
+        <span className="ct">{windowLabel(bundle.window)}</span>
       </div>
       {top5.length === 0 ? (
         <div
-          className="v2-mono"
           style={{
-            fontSize: 11,
+            fontSize: 12.5,
             color: "var(--v3-ink-400, #909caa)",
             padding: "10px 0",
+            fontStyle: "italic",
           }}
         >
-          {"// empty"}
+          Nothing here yet — refreshing soon.
         </div>
       ) : (
         <ol
@@ -1678,16 +1725,15 @@ function Mini({
         </ol>
       )}
       <div
-        className="v2-mono"
         style={{
-          marginTop: 8,
-          fontSize: 9,
-          letterSpacing: "0.16em",
+          marginTop: 10,
+          fontSize: 12,
+          letterSpacing: "0.005em",
           color: "var(--v2-acc, #f56e0f)",
-          textTransform: "uppercase",
+          fontWeight: 600,
         }}
       >
-        ↗ OPEN FULL · SHARE
+        Open & share →
       </div>
     </button>
   );
@@ -1698,7 +1744,12 @@ function Mini({
 // ---------------------------------------------------------------------------
 
 function windowLabel(w: Top10Window): string {
-  return w === "ytd" ? "YTD" : w;
+  return WINDOW_FRIENDLY_LABEL[w];
+}
+
+function capitalize(s: string): string {
+  if (!s) return s;
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 function todayStamp(): string {
@@ -1720,20 +1771,30 @@ function buildPagePath(
 
 function tweetText(category: Top10Category, window: Top10Window): string {
   const m = CATEGORY_META[category];
-  return `Top 10 ${m.label} — ${windowLabel(window).toUpperCase()} window · via @TrendingRepo`;
+  const label = m.label.toLowerCase();
+  const win = windowLabel(window);
+  return `The top 10 ${label} — ${win}\n\nvia @TrendingRepo`;
 }
 
 /**
  * Append UTM tracking params to an outbound share URL. Caller passes the
  * absolute page URL (so the params land on /top10, not the current page) and
- * we tag source=top10, medium=share, campaign=<category>. Existing params on
- * the URL are preserved.
+ * we tag source=top10, medium=<channel>, campaign=<category>. Existing params
+ * on the URL are preserved.
+ *
+ * `medium` defaults to "share" for the generic copy-link case. Per-platform
+ * callers (X, Reddit, etc.) pass the platform's utmMedium so analytics can
+ * see which channel converts.
  */
-function withUtm(absUrl: string, category: Top10Category): string {
+function withUtm(
+  absUrl: string,
+  category: Top10Category,
+  medium = "share",
+): string {
   try {
     const u = new URL(absUrl);
     u.searchParams.set("utm_source", "top10");
-    u.searchParams.set("utm_medium", "share");
+    u.searchParams.set("utm_medium", medium);
     u.searchParams.set("utm_campaign", category);
     return u.toString();
   } catch {

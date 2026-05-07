@@ -53,6 +53,7 @@ function emptyPerSource(): Record<SocialPlatform, RepoMentionsPerSource> {
     github:      { count24h: 0, count7d: 0 },
     producthunt: { count24h: 0, count7d: 0 },
     funding:     { count24h: 0, count7d: 0 },
+    tavily:      { count24h: 0, count7d: 0 },
   };
 }
 
@@ -350,8 +351,8 @@ export function decorateWithMentionsRollup(repos: Repo[]): Repo[] {
     const detail = getCrossSourceDetail(r.fullName);
     if (detail?.perSource) {
       for (const [channel, bucket] of Object.entries(detail.perSource)) {
-        if (!bucket || channel === "tavily") continue;
-        const c = channel as Exclude<typeof channel, "tavily"> & SocialPlatform;
+        if (!bucket) continue;
+        const c = channel as SocialPlatform;
         const sweep7d = bucket.count7d ?? 0;
         if (sweep7d > (perSource[c]?.count7d ?? 0)) {
           perSource[c] = {

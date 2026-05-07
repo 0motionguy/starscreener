@@ -1,0 +1,152 @@
+/* ============================================================================
+   sidebar-profile.css — Profile box at top of sidebar (avatar + stats + access).
+   Loaded from src/app/layout.tsx (after globals.css). Matches 2026-05-08 mockup.
+   ============================================================================ */
+
+.sb-profile{
+  margin: 8px 12px 14px;
+  border: 1px solid var(--line-300);
+  background: linear-gradient(160deg, rgba(255, 107, 53, 0.06), var(--bg-050) 60%);
+  position: relative;
+}
+.sb-profile::before{
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 8px;
+  height: 8px;
+  border-top: 1px solid var(--acc);
+  border-left: 1px solid var(--acc);
+}
+.sb-profile::after{
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 8px;
+  height: 8px;
+  border-bottom: 1px solid var(--acc);
+  border-right: 1px solid var(--acc);
+}
+
+.sb-prof-head{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line-200);
+}
+
+.sb-prof-av{
+  width: 32px;
+  height: 32px;
+  flex: none;
+  background: #0d0f12;
+  border: 1px solid var(--line-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--acc);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  position: relative;
+}
+.sb-prof-av::after{
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 99px;
+  background: var(--sig-green);
+  border: 2px solid var(--bg-050);
+}
+
+.sb-prof-who{
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  line-height: 1;
+}
+.sb-prof-name{
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink-100);
+  letter-spacing: 0.04em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sb-prof-meta{
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.18em;
+  color: var(--ink-400);
+  text-transform: uppercase;
+}
+.sb-prof-meta .pro{
+  color: var(--acc);
+}
+
+.sb-prof-stats{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid var(--line-200);
+}
+.sb-prof-stats > div{
+  padding: 7px 8px;
+  border-right: 1px solid var(--line-200);
+  text-align: center;
+}
+.sb-prof-stats > div:last-child{
+  border-right: none;
+}
+.sb-prof-stats .v{
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-000);
+}
+.sb-prof-stats .l{
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  color: var(--ink-400);
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+
+.sb-access{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.sb-access .a{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 9px 4px;
+  border-right: 1px solid var(--line-200);
+  cursor: pointer;
+  color: var(--ink-300);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.15s, background 0.15s;
+}
+.sb-access .a:last-child{
+  border-right: none;
+}
+.sb-access .a:hover{
+  color: var(--acc);
+  background: var(--acc-soft);
+}
+.sb-access .a svg{
+  width: 14px;
+  height: 14px;
+}

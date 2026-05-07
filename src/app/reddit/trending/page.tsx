@@ -24,6 +24,7 @@ import {
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { RedditIcon } from "@/components/brand/BrandIcons";
 
 export const revalidate = 300;
 
@@ -95,15 +96,25 @@ export default async function RedditTrendingPage() {
   // data on the next render once the in-flight read resolves.
   if (allPostsCold || posts.length === 0) {
     const fallback = loadBundledFallback();
-    if (fallback.posts.length > 0) {
-      posts = fallback.posts;
+    // Mirror the data-store filter: skip dead posts (score=0 AND
+    // numComments=0) so the SSR fallback path can't reintroduce the
+    // 3781-row noise list that getAllScoredPosts() already strips.
+    const livePosts = fallback.posts.filter(
+      (p) => (p.score ?? 0) > 0 || (p.numComments ?? 0) > 0,
+    );
+    if (livePosts.length > 0) {
+      posts = livePosts;
       // Derive the full stats payload from the bundled posts so the KPI band
       // shows the same numbers users would see when Redis is healthy.
       // Previously this short-circuited breakouts24h/topicsSurfaced to 0,
       // which read as "0 freshness" alongside the recovered post list.
-      stats = buildAllPostsStats(fallback.posts);
+      stats = buildAllPostsStats(livePosts);
       allPostsFetchedAt = fallback.lastFetchedAt || allPostsFetchedAt;
       allPostsCold = false;
+    } else {
+      // Nothing has engagement in either Redis or bundled JSON — render
+      // the cold state instead of an empty grid below.
+      allPostsCold = true;
     }
   }
 
@@ -117,6 +128,7 @@ export default async function RedditTrendingPage() {
             </>
           }
           title="Reddit · top posts"
+          logo={<RedditIcon size={32} />}
           lede="7-day rolling firehose across the tracked subreddits, scored by velocity-weighted upvotes and cross-linked to GitHub repos."
         />
         <ColdState />
@@ -136,6 +148,7 @@ export default async function RedditTrendingPage() {
           </>
         }
         title="Reddit · top posts"
+        logo={<RedditIcon size={32} />}
         lede="7-day rolling firehose across the tracked subreddits, scored by velocity-weighted upvotes and cross-linked to GitHub repos."
         clock={
           <>

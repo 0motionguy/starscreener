@@ -40,6 +40,7 @@ import { extractAllRepoMentions, extractUnknownRepoCandidates } from "./_github-
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
+import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -277,10 +278,42 @@ async function main() {
   };
 
   await mkdir(DATA_DIR, { recursive: true });
-  await writeFile(TRENDING_OUT, JSON.stringify(trendingPayload, null, 2) + "\n", "utf8");
-  await writeFile(MENTIONS_OUT, JSON.stringify(mentionsPayload, null, 2) + "\n", "utf8");
-  const trendingRedis = await writeDataStore("lobsters-trending", trendingPayload);
-  const mentionsRedis = await writeDataStore("lobsters-mentions", mentionsPayload);
+
+  // keep-last-50: merge trending stories with prior run (per docs/INGESTION.md)
+  const prevTrending = await loadExistingJson(TRENDING_OUT, { stories: [] });
+  const mergedTrendingStories = mergeAndKeepLastN(
+    Array.isArray(prevTrending?.stories) ? prevTrending.stories : [],
+    trendingStories,
+    { idKey: "shortId", scoreKey: "trendingScore", recencyKey: "createdUtc", keepN: 50 },
+  );
+  const trendingPayloadMerged = { ...trendingPayload, stories: mergedTrendingStories };
+
+  // keep-last-50: merge mentions leaderboard + rebuild repo-keyed bucket map
+  const prevMentions = await loadExistingJson(MENTIONS_OUT, { mentions: {}, leaderboard: [] });
+  const prevLeaderboard = Array.isArray(prevMentions?.leaderboard) ? prevMentions.leaderboard : [];
+  const prevMentionsMap = (prevMentions && typeof prevMentions.mentions === "object" && prevMentions.mentions) || {};
+  const mergedLeaderboard = mergeAndKeepLastN(prevLeaderboard, leaderboard, {
+    idKey: "fullName",
+    scoreKey: "scoreSum7d",
+    recencyKey: "count7d",
+    keepN: 50,
+  });
+  const mergedMentionsMap = {};
+  for (const row of mergedLeaderboard) {
+    const full = row?.fullName;
+    if (!full) continue;
+    mergedMentionsMap[full] = mentions[full] ?? prevMentionsMap[full] ?? row;
+  }
+  const mentionsPayloadMerged = {
+    ...mentionsPayload,
+    mentions: mergedMentionsMap,
+    leaderboard: mergedLeaderboard,
+  };
+
+  await writeFile(TRENDING_OUT, JSON.stringify(trendingPayloadMerged, null, 2) + "\n", "utf8");
+  await writeFile(MENTIONS_OUT, JSON.stringify(mentionsPayloadMerged, null, 2) + "\n", "utf8");
+  const trendingRedis = await writeDataStore("lobsters-trending", trendingPayloadMerged);
+  const mentionsRedis = await writeDataStore("lobsters-mentions", mentionsPayloadMerged);
 
   log("");
   log(`wrote ${TRENDING_OUT} [redis: ${trendingRedis.source}]`);

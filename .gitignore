@@ -120,3 +120,6 @@ awesome-codex-skills/
 
 # local agent vector DB (per-machine runtime state, regenerated automatically)
 /ruvector.db
+
+# clerk configuration (can include secrets)
+/.clerk/

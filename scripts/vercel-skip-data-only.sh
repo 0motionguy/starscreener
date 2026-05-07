@@ -2,77 +2,86 @@
 # Vercel ignoreCommand: skip build if only data/** or .data/** files changed.
 # Exit 0 = skip build. Exit 1 = build.
 #
-# Vercel sets VERCEL_GIT_COMMIT_REF (branch) + VERCEL_GIT_PREVIOUS_SHA (last
-# deployed SHA). Fresh data-bot PR branches often have no previous deployment
-# SHA, so fall back to a merge-base diff against the default branch before
-# deciding to build.
+# Vercel sets VERCEL_GIT_COMMIT_REF (branch) + VERCEL_GIT_PREVIOUS_SHA (last deployed SHA).
+# When previous SHA missing (first deploy / forked repo / preview), default to building.
 set -euo pipefail
 
-DATA_PATH_RE='^(data/|\.data/)'
+branch="${VERCEL_GIT_COMMIT_REF:-}"
 
-classify_changed_paths() {
-  local base="$1"
-  local label="$2"
-  local changed
-  local non_data
-
-  changed=$(git diff --name-only "$base" HEAD || true)
-  if [ -z "$changed" ]; then
-    echo "[ignoreCommand] no diff vs $label - skipping"
+# Hard skip for data-bot branches AND ship/home-polish (local-preview branch).
+# Both produce many small commits that should not each fire a preview build.
+case "$branch" in
+  data/*)
+    echo "[ignoreCommand] data-bot branch ($branch) — skipping build unconditionally"
     exit 0
-  fi
-
-  non_data=$(echo "$changed" | grep -vE "$DATA_PATH_RE" || true)
-  if [ -z "$non_data" ]; then
-    echo "[ignoreCommand] data-only change detected vs $label - skipping build"
-    echo "$changed" | head -10 | sed 's/^/  - /'
+    ;;
+  ship/home-polish)
+    echo "[ignoreCommand] ship/home-polish (local-preview branch) — skipping build"
     exit 0
-  fi
+    ;;
+esac
 
-  echo "[ignoreCommand] non-data paths changed vs $label - building"
-  echo "$non_data" | head -10 | sed 's/^/  - /'
+prev_raw="${VERCEL_GIT_PREVIOUS_SHA:-}"
+head_sha=$(git rev-parse HEAD 2>/dev/null || echo "")
+
+echo "[ignoreCommand] branch=$branch head=${head_sha:0:8} prev=${prev_raw:0:8}"
+
+if [ -z "$prev_raw" ]; then
+  echo "[ignoreCommand] no VERCEL_GIT_PREVIOUS_SHA — building"
   exit 1
-}
-
-fetch_branch() {
-  local branch="$1"
-  [ -z "$branch" ] && return 0
-  git fetch --no-tags --depth=200 origin \
-    "+refs/heads/${branch}:refs/remotes/origin/${branch}" >/dev/null 2>&1 || true
-}
-
-prev="${VERCEL_GIT_PREVIOUS_SHA:-}"
-if [ -n "$prev" ]; then
-  # Compare current commit to last deployed when Vercel provides it.
-  commit_ref="${VERCEL_GIT_COMMIT_REF:-}"
-  fetch_branch "$commit_ref"
-
-  if git rev-parse --verify "$prev" >/dev/null 2>&1; then
-    classify_changed_paths "$prev" "$prev"
-  fi
-
-  echo "[ignoreCommand] previous SHA $prev not in local history; falling back to branch base"
 fi
 
-default_branch="${VERCEL_GIT_REPO_DEFAULT_BRANCH:-main}"
-commit_ref="${VERCEL_GIT_COMMIT_REF:-}"
+# Make the prev SHA fetchable + resolvable. Vercel passes a full SHA, but
+# the shallow clone may not have it — we have to fetch first BEFORE
+# attempting `git rev-parse --verify` (otherwise verify fails and we
+# correctly fall through to build, but we'd miss the chance to do a
+# proper diff if fetch would have succeeded).
+git fetch --depth=50 origin "$prev_raw" 2>/dev/null || true
 
-# First preview deploys for data-bot PR branches usually have no previous SHA.
-# Diff against the default branch instead, matching the GitHub data-only gates.
-if [ -n "$commit_ref" ] && [ "$commit_ref" != "$default_branch" ]; then
-  fetch_branch "$default_branch"
-  if git rev-parse --verify "origin/${default_branch}" >/dev/null 2>&1; then
-    merge_base=$(git merge-base "origin/${default_branch}" HEAD 2>/dev/null || true)
-    if [ -n "$merge_base" ]; then
-      classify_changed_paths "$merge_base" "origin/${default_branch}...HEAD"
-    fi
-  fi
+# Now resolve to a full SHA. If verify fails, we don't have the commit
+# locally — build to be safe (this is the right behavior; we cannot
+# decide skip-vs-build without seeing the diff).
+if ! prev=$(git rev-parse --verify "$prev_raw" 2>/dev/null); then
+  echo "[ignoreCommand] previous SHA $prev_raw not in history (shallow clone) — building"
+  exit 1
 fi
 
-# Last-resort main/default-branch fallback for a shallow first production deploy.
-if git rev-parse --verify HEAD^ >/dev/null 2>&1; then
-  classify_changed_paths "HEAD^" "HEAD^"
+# Defensive: Vercel sometimes sets PREVIOUS_SHA == current HEAD on the
+# first deploy of a new branch (or when the deploy queue is racing). Treat
+# that as no prior deploy → build, never skip. Compare on the FULL SHAs
+# (rev-parse normalized both sides).
+if [ -n "$head_sha" ] && [ "$prev" = "$head_sha" ]; then
+  echo "[ignoreCommand] prev SHA == HEAD (first deploy of branch) — building"
+  exit 1
 fi
 
-echo "[ignoreCommand] no reliable comparison base found - building"
+# CRITICAL: do NOT swallow git diff failure with `|| true`. If diff fails
+# (e.g. shallow clone is missing the tree we need), treat that as
+# "uncertain" → BUILD. The previous version silently set $changed to empty
+# and then the empty-diff branch below skipped — producing the "every
+# build cancelled" outage on 2026-05-08 when Vercel's shallow clone
+# couldn't compute a usable diff.
+diff_status=0
+changed=$(git diff --name-only "$prev" HEAD 2>&1) || diff_status=$?
+if [ "$diff_status" -ne 0 ]; then
+  echo "[ignoreCommand] git diff failed (exit=$diff_status) — building. Output:"
+  echo "$changed" | head -5 | sed 's/^/  /'
+  exit 1
+fi
+
+if [ -z "$changed" ]; then
+  echo "[ignoreCommand] no diff vs $prev — skipping (genuinely identical trees)"
+  exit 0
+fi
+
+non_data=$(echo "$changed" | grep -vE '^(data/|\.data/)' || true)
+
+if [ -z "$non_data" ]; then
+  echo "[ignoreCommand] data-only change detected — skipping build"
+  echo "$changed" | head -10 | sed 's/^/  - /'
+  exit 0
+fi
+
+echo "[ignoreCommand] non-data paths changed — building"
+echo "$non_data" | head -10 | sed 's/^/  - /'
 exit 1

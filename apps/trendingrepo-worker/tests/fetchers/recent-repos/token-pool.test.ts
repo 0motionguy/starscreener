@@ -43,6 +43,44 @@ afterEach(() => {
 });
 
 describe('recent-repos GitHub authentication', () => {
+  it('prefers pool PATs over legacy GITHUB_TOKEN singleton fallback', async () => {
+    vi.resetModules();
+    process.env.GITHUB_TOKEN = 'singleton-token';
+    process.env.GH_TOKEN_POOL = 'pool-token-alpha, pool-token-bravo, pool-token-alpha';
+    delete process.env.GITHUB_TOKEN_POOL;
+
+    const {
+      getGithubTokens,
+      pickGithubToken,
+      _resetGithubTokenPoolForTests,
+    } = await import('../../../src/lib/util/github-token-pool.js');
+
+    _resetGithubTokenPoolForTests();
+
+    expect(getGithubTokens()).toEqual(['pool-token-alpha', 'pool-token-bravo']);
+    expect(pickGithubToken()).toBe('pool-token-alpha');
+    expect(pickGithubToken()).toBe('pool-token-bravo');
+    expect(pickGithubToken()).toBe('pool-token-alpha');
+  });
+
+  it('uses legacy GITHUB_TOKEN only when no pool PATs are configured', async () => {
+    vi.resetModules();
+    process.env.GITHUB_TOKEN = 'singleton-token';
+    delete process.env.GH_TOKEN_POOL;
+    delete process.env.GITHUB_TOKEN_POOL;
+
+    const {
+      getGithubTokens,
+      pickGithubToken,
+      _resetGithubTokenPoolForTests,
+    } = await import('../../../src/lib/util/github-token-pool.js');
+
+    _resetGithubTokenPoolForTests();
+
+    expect(getGithubTokens()).toEqual(['singleton-token']);
+    expect(pickGithubToken()).toBe('singleton-token');
+  });
+
   it('uses the worker GitHub token pool instead of legacy GH_PAT', async () => {
     vi.resetModules();
     process.env.NODE_ENV = 'test';

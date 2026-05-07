@@ -108,6 +108,16 @@ export interface RedisHandle {
   set(key: string, value: string, opts?: { ex?: number }): Promise<void>;
   del(key: string): Promise<void>;
   quit(): Promise<void>;
+  /**
+   * Redis Streams XADD. Optional — only the LLM usage-recorder uses it,
+   * and it tolerates handles where xadd is missing (treats as "no
+   * telemetry" mode). Both ioredis and Upstash REST clients implement it.
+   */
+  xadd?(
+    stream: string,
+    fields: Record<string, string>,
+    opts?: { maxlenApprox?: number },
+  ): Promise<string | null>;
 }
 
 export interface HttpOptions {

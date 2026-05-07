@@ -149,21 +149,22 @@ export async function flushLlmEvents(): Promise<void> {
 
   state.flushing = (async (): Promise<void> => {
     const handle = await getRedis();
-    if (!handle) {
-      // Redis not configured — drop. We could retain in-memory but the
-      // intent of "no Redis = no telemetry" is fine for v1.
+    if (!handle || typeof handle.xadd !== 'function') {
+      // Redis not configured (or its handle doesn't expose xadd) — drop.
+      // The "no Redis = no telemetry" trade is fine for v1.
       return;
     }
+    const xadd = handle.xadd.bind(handle);
     try {
       for (const event of eventsBatch) {
-        await handle.xadd(
+        await xadd(
           LLM_EVENTS_STREAM,
           { e: JSON.stringify(event) },
           { maxlenApprox: LLM_EVENTS_MAXLEN },
         );
       }
       for (const meta of genMetaBatch) {
-        await handle.xadd(
+        await xadd(
           LLM_GEN_META_STREAM,
           { e: JSON.stringify(meta) },
           { maxlenApprox: LLM_EVENTS_MAXLEN },

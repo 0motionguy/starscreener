@@ -22,8 +22,6 @@ const ROUTES: CronRouteCase[] = [
   { name: "llm-sync-models", path: "/api/cron/llm/sync-models", method: "GET", modulePath: "@/app/api/cron/llm/sync-models/route" },
   { name: "mcp-rotate-usage", path: "/api/cron/mcp/rotate-usage", method: "POST", modulePath: "@/app/api/cron/mcp/rotate-usage/route" },
   { name: "news-auto-recover", path: "/api/cron/news-auto-recover", method: "POST", modulePath: "@/app/api/cron/news-auto-recover/route" },
-  { name: "predictions", path: "/api/cron/predictions", method: "POST", modulePath: "@/app/api/cron/predictions/route" },
-  { name: "predictions-calibrate", path: "/api/cron/predictions/calibrate", method: "POST", modulePath: "@/app/api/cron/predictions/calibrate/route" },
   { name: "twitter-daily", path: "/api/cron/twitter-daily", method: "POST", modulePath: "@/app/api/cron/twitter-daily/route" },
   { name: "twitter-weekly-recap", path: "/api/cron/twitter-weekly-recap", method: "POST", modulePath: "@/app/api/cron/twitter-weekly-recap/route" },
   { name: "webhooks-flush", path: "/api/cron/webhooks/flush", method: "POST", modulePath: "@/app/api/cron/webhooks/flush/route" },

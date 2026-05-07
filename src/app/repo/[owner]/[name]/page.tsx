@@ -21,6 +21,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
+import { fetchGitHubRepoLive } from "@/lib/github-live";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { absoluteUrl, SITE_NAME, safeJsonLd } from "@/lib/seo";
 import { BrandStar } from "@/components/shared/BrandStar";
@@ -57,9 +58,7 @@ import { ErrorBoundary } from "@/components/shared/ErrorBoundary";
 import { buildMentionMarkers } from "@/components/repo-detail/MentionMarkers";
 import { CrossSignalBreakdown } from "@/components/repo-detail/CrossSignalBreakdown";
 import { RecentMentionsFeed } from "@/components/repo-detail/RecentMentionsFeed";
-// CompletenessStrip is a work-in-progress component parked in a local
-// stash; re-import once it lands on main and CanonicalRepoProfile
-// exposes the `completeness` field.
+import { CompletenessStrip } from "@/components/repo-detail/CompletenessStrip";
 import { toMentionItem } from "@/components/repo-detail/MentionMeta";
 import type { MentionItem } from "@/components/repo-detail/MentionMeta";
 import { RepoSignalSnapshot } from "@/components/repo-detail/RepoSignalSnapshot";
@@ -81,7 +80,6 @@ import { WhyBadge } from "@/components/repo/WhyBadge";
 import { getWhyNarrative } from "@/lib/why-narrative";
 import { FundingPanel } from "@/components/repo-detail/FundingPanel";
 import { RelatedReposPanel } from "@/components/repo-detail/RelatedReposPanel";
-import { PredictionSnapshot } from "@/components/repo-detail/PredictionSnapshot";
 import { RelatedIdeasPanel } from "@/components/repo-detail/RelatedIdeasPanel";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
@@ -170,12 +168,19 @@ export default async function RepoDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  // Existence check short-circuits before any heavier assembly work. The
-  // canonical assembler also runs this check but calling it here keeps the
-  // 404 path on the metadata loader symmetrical with the page loader.
-  const baseRepo = getDerivedRepoByFullName(`${owner}/${name}`);
+  // Existence check — try our curated derived set first, then fall back to a
+  // live GitHub fetch for repos we haven't picked up via trending /
+  // manual-repos / pipeline JSONL yet. Live-fetched repos render the same
+  // detail layout but show empty cross-source signals (since none of our
+  // collectors have scanned them yet) and surface a "tracking started"
+  // banner so users understand why every chip is empty.
+  const fullName = `${owner}/${name}`;
+  let baseRepo = getDerivedRepoByFullName(fullName);
+  let isLiveFetched = false;
   if (!baseRepo) {
-    notFound();
+    baseRepo = await fetchGitHubRepoLive(owner, name);
+    if (!baseRepo) notFound();
+    isLiveFetched = true;
   }
 
   // Refresh every data-store-backed cache the canonical profile + render
@@ -199,8 +204,13 @@ export default async function RepoDetailPage({ params }: PageProps) {
 
   // Single canonical call replaces the fifteen-loader stitch that used to
   // live here. Every surface consumes a slice of `profile`, so any future
-  // signal migration only has to touch `buildCanonicalRepoProfile`.
-  const profile = await buildCanonicalRepoProfile(baseRepo.fullName);
+  // signal migration only has to touch `buildCanonicalRepoProfile`. For
+  // live-fetched repos we pass the synthesized base repo as an override so
+  // the profile builder bypasses its derived-store lookup.
+  const profile = await buildCanonicalRepoProfile(
+    baseRepo.fullName,
+    isLiveFetched ? baseRepo : undefined,
+  );
   if (!profile) {
     notFound();
   }
@@ -380,7 +390,19 @@ export default async function RepoDetailPage({ params }: PageProps) {
               before the user scrolls through modules that might be empty
               because the pipeline hasn't scanned that source yet vs because
               nothing exists. */}
-          {/* <CompletenessStrip> WIP — re-enable once merged from stash. */}
+          {isLiveFetched ? (
+            <div
+              className="repo-detail-tracking-banner"
+              role="status"
+              aria-live="polite"
+            >
+              Tracking just started for{" "}
+              <strong>{repo.fullName}</strong>. Cross-source signals
+              (mentions, momentum, deltas) will populate on the next collector
+              tick — usually within an hour.
+            </div>
+          ) : null}
+          <CompletenessStrip repo={repo} />
           <MarkRepoViewed owner={repo.owner} name={repo.name} />
           <FunnelMount
             step="repo_view"
@@ -400,10 +422,6 @@ export default async function RepoDetailPage({ params }: PageProps) {
           */}
           <WhyBadge narrative={whyNarrative} variant="full" />
           <WhyTrending reasons={profile.reasons} />
-          <PredictionSnapshot
-            prediction={profile.prediction}
-            currentStars={repo.stars}
-          />
           <RepoSignalSnapshot
             repo={repo}
             mentions={mentions}

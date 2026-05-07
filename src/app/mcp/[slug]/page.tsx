@@ -6,9 +6,10 @@
 //
 // Layout (ProfileTemplate slots):
 //   identity   — MCP name + author + tags + install command
-//   kpiBand    — Stars · Forks (or Tools) · Tools count · Mentions
-//   mainPanels — README/description + tools list + mentions
-//   rightRail  — install instructions + related signals
+//   verdict    — signal-score stamp + registry consensus highlights
+//   kpiBand    — Stars · Downloads 7d · Tools · Registries
+//   mainPanels — Overview (// 01) + Tools (// 02) + Downloads chart (// 03)
+//   rightRail  — Install (// IN) + Sources (// SO) + Related (// RE)
 
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -16,14 +17,18 @@ import type { Metadata } from "next";
 
 import {
   getMcpDetailBySlug,
+  readMcpDownloadsHistory,
   readMcpManifestTools,
 } from "@/lib/mcp-detail";
+import { getMcpSignalData } from "@/lib/ecosystem-leaderboards";
 import type { EcosystemLeaderboardItem } from "@/lib/ecosystem-leaderboards";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 import { ProfileTemplate } from "@/components/templates/ProfileTemplate";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
+import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
+import McpDownloadsSparklineLazy from "./_components/McpDownloadsSparklineLazy";
 
 // ISR mirrors the /mcp index page's revalidate cadence.
 export const revalidate = 1800;
@@ -166,6 +171,10 @@ function hostnameOf(url: string): string | null {
   }
 }
 
+function slugForMcp(item: EcosystemLeaderboardItem): string {
+  return encodeURIComponent((item.id ?? "").toLowerCase());
+}
+
 // ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
@@ -180,6 +189,34 @@ export default async function McpDetailPage({ params }: PageProps) {
   // Manifest tool list. Today the pinger writes only a count, so the read
   // returns [] for every server. The page renders a placeholder when empty.
   const tools = await readMcpManifestTools(item.id);
+
+  // Downloads history — populated only when the rolling-buffer fetcher is
+  // online. Cold-start path: returns null and the chart panel is omitted.
+  const downloadsHistory = mcp?.packageName
+    ? await readMcpDownloadsHistory(mcp.packageName)
+    : null;
+
+  // Related MCPs from the same vendor or sharing tags. Ranked by registry
+  // consensus → popularity. Cap at 6 so the rail card stays terse.
+  const allMcp = await getMcpSignalData();
+  const tagSet = new Set((item.tags ?? []).map((t) => t.toLowerCase()));
+  const related = allMcp.board.items
+    .filter((other) => {
+      if (other.id === item.id) return false;
+      if (item.vendor && other.vendor === item.vendor) return true;
+      if (item.author && other.author === item.author) return true;
+      if (tagSet.size > 0) {
+        return (other.tags ?? []).some((t) => tagSet.has(t.toLowerCase()));
+      }
+      return false;
+    })
+    .sort((a, b) => {
+      if ((b.crossSourceCount ?? 1) !== (a.crossSourceCount ?? 1)) {
+        return (b.crossSourceCount ?? 1) - (a.crossSourceCount ?? 1);
+      }
+      return (b.popularity ?? 0) - (a.popularity ?? 0);
+    })
+    .slice(0, 6);
 
   const installCommand = buildInstallCommand(item);
   const sourceLinks = buildSourceLinks(item);
@@ -198,6 +235,22 @@ export default async function McpDetailPage({ params }: PageProps) {
   const toolCount = mcp?.toolCount ?? tools.length;
   const downloads7d = mcp?.downloadsCombined7d ?? null;
   const author = item.vendor ?? item.author ?? item.linkedRepo ?? "MCP server";
+  const sourcesArr = mcp?.sources ?? [];
+
+  // VerdictRibbon tone — green for verified or 4-registry consensus, orange
+  // by default, amber when only one registry lists this MCP (low confidence).
+  const verdictTone: "acc" | "money" | "amber" =
+    item.verified || (item.crossSourceCount ?? 1) >= 3
+      ? "money"
+      : (item.crossSourceCount ?? 1) <= 1
+        ? "amber"
+        : "acc";
+  const consensusLabel =
+    (item.crossSourceCount ?? 1) >= 3
+      ? "strong consensus"
+      : (item.crossSourceCount ?? 1) === 2
+        ? "two-source"
+        : "single-source";
 
   const identity = (
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -215,11 +268,19 @@ export default async function McpDetailPage({ params }: PageProps) {
         <p className="v4-page-head__lede">{item.description}</p>
       ) : null}
       {(item.tags ?? []).length > 0 ? (
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 4 }}>
+        <div
+          style={{
+            display: "flex",
+            gap: 6,
+            flexWrap: "wrap",
+            marginTop: 4,
+          }}
+        >
           {item.tags.slice(0, 8).map((tag) => (
             <span
               key={tag}
               style={{
+                fontFamily: "var(--font-geist-mono), monospace",
                 fontSize: 10,
                 padding: "2px 6px",
                 border: "1px solid var(--v4-line-200)",
@@ -232,21 +293,6 @@ export default async function McpDetailPage({ params }: PageProps) {
             </span>
           ))}
         </div>
-      ) : null}
-      {installCommand ? (
-        <pre
-          style={{
-            marginTop: 8,
-            padding: "8px 10px",
-            background: "var(--v4-bg-100)",
-            border: "1px solid var(--v4-line-200)",
-            color: "var(--v4-ink-100)",
-            fontSize: 12,
-            overflowX: "auto",
-          }}
-        >
-          <code>{installCommand}</code>
-        </pre>
       ) : null}
     </div>
   );
@@ -288,76 +334,93 @@ export default async function McpDetailPage({ params }: PageProps) {
   );
 
   const mainPanels = (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-      <section
-        style={{
-          padding: 16,
-          border: "1px solid var(--v4-line-200)",
-          background: "var(--v4-bg-025)",
-        }}
-      >
-        <SectionHead num="// 01" title="Overview" />
+    <>
+      <SectionHead num="// 01" title="Overview" />
+      <div className="v4-collection-rail-card">
         {item.description ? (
-          <p style={{ color: "var(--v4-ink-200)", lineHeight: 1.6 }}>
+          <p
+            style={{
+              margin: 0,
+              fontFamily: "var(--font-geist-sans), sans-serif",
+              fontSize: 14,
+              color: "var(--v4-ink-200)",
+              lineHeight: 1.55,
+            }}
+          >
             {item.description}
           </p>
         ) : (
-          <p style={{ color: "var(--v4-ink-400)", fontStyle: "italic" }}>
-            No description published yet.
+          <p
+            style={{
+              margin: 0,
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 11,
+              color: "var(--v4-ink-400)",
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+            }}
+          >
+            {"// No description published yet."}
           </p>
         )}
         {lastReleaseAt ? (
-          <p
+          <div
             style={{
-              marginTop: 12,
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 11,
               color: "var(--v4-ink-300)",
-              fontSize: 12,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
             }}
           >
-            Last release {formatAge(lastReleaseAt)}
+            <span>
+              {"// LAST RELEASE · "}
+              {formatAge(lastReleaseAt)}
+            </span>
             {isNewThisWeek ? (
               <span
                 style={{
-                  marginLeft: 8,
                   padding: "1px 6px",
                   border: "1px solid var(--v4-acc)",
                   color: "var(--v4-acc)",
                   fontSize: 10,
-                  textTransform: "uppercase",
                   letterSpacing: "0.14em",
                 }}
               >
-                new
+                NEW
               </span>
             ) : null}
-          </p>
+          </div>
         ) : null}
-      </section>
+      </div>
 
-      <section
-        style={{
-          padding: 16,
-          border: "1px solid var(--v4-line-200)",
-          background: "var(--v4-bg-025)",
-        }}
-      >
-        <SectionHead
-          num="// 02"
-          title={`Tools${tools.length > 0 ? ` · ${tools.length}` : ""}`}
-        />
-        {tools.length > 0 ? (
-          <ul style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {tools.map((tool) => (
-              <li
-                key={tool.name}
+      <SectionHead
+        num="// 02"
+        title={`Tools${tools.length > 0 ? ` · ${tools.length}` : ""}`}
+        meta={
+          tools.length > 0 ? undefined : (
+            <span style={{ color: "var(--v4-ink-400)" }}>{"// MANIFEST PENDING"}</span>
+          )
+        }
+      />
+      {tools.length > 0 ? (
+        <ul className="v4-collection-rail-list">
+          {tools.map((tool) => (
+            <li key={tool.name} className="v4-collection-rail-list__item">
+              <div
                 style={{
-                  paddingBottom: 8,
-                  borderBottom: "1px solid var(--v4-line-200)",
+                  padding: "10px 14px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 4,
                 }}
               >
                 <span
                   style={{
-                    fontFamily: "var(--v4-mono)",
+                    fontFamily: "var(--font-geist-mono), monospace",
                     color: "var(--v4-ink-100)",
                     fontSize: 13,
                   }}
@@ -367,131 +430,220 @@ export default async function McpDetailPage({ params }: PageProps) {
                 {tool.description ? (
                   <p
                     style={{
-                      marginTop: 2,
+                      margin: 0,
+                      fontFamily: "var(--font-geist-sans), sans-serif",
                       color: "var(--v4-ink-300)",
                       fontSize: 12,
+                      lineHeight: 1.5,
                     }}
                   >
                     {tool.description}
                   </p>
                 ) : null}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p style={{ color: "var(--v4-ink-400)", fontStyle: "italic" }}>
-            Tool list pending — manifest hasn&apos;t been pinged yet.
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div className="v4-collection-rail-card">
+          <p
+            style={{
+              margin: 0,
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 11,
+              color: "var(--v4-ink-400)",
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+            }}
+          >
+            {"// Tool list pending — manifest hasn't been pinged yet."}
           </p>
-        )}
-      </section>
+        </div>
+      )}
 
-      <section
-        style={{
-          padding: 16,
-          border: "1px solid var(--v4-line-200)",
-          background: "var(--v4-bg-025)",
-        }}
-      >
-        <SectionHead num="// 03" title="Recent mentions" />
-        <p style={{ color: "var(--v4-ink-400)", fontStyle: "italic" }}>
-          Coming soon — cross-platform MCP mention tracking is on the
-          roadmap. Today&apos;s mentions corpus indexes repos, not MCPs.
-        </p>
-      </section>
-    </div>
+      {downloadsHistory && downloadsHistory.length > 0 ? (
+        <>
+          <SectionHead
+            num="// 03"
+            title="Downloads · 7d"
+            meta={
+              <>
+                npm + pypi · <b>{compactNumber(downloads7d)}</b>
+              </>
+            }
+          />
+          <div className="v4-collection-rail-card" style={{ padding: 14 }}>
+            <McpDownloadsSparklineLazy points={downloadsHistory} />
+          </div>
+        </>
+      ) : null}
+    </>
   );
 
   const rightRail = (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-      <section
-        style={{
-          padding: 16,
-          border: "1px solid var(--v4-line-200)",
-          background: "var(--v4-bg-025)",
-        }}
-      >
-        <SectionHead num="// IN" title="Install" as="h3" />
-        {installCommand ? (
-          <>
-            <p
-              style={{
-                color: "var(--v4-ink-300)",
-                fontSize: 12,
-                marginBottom: 8,
-              }}
-            >
-              Run via {mcp?.packageRegistry === "npm" ? "npx" : "uvx"}:
-            </p>
-            <pre
-              style={{
-                padding: "8px 10px",
-                background: "var(--v4-bg-100)",
-                border: "1px solid var(--v4-line-200)",
-                color: "var(--v4-ink-100)",
-                fontSize: 12,
-                overflowX: "auto",
-              }}
-            >
-              <code>{installCommand}</code>
-            </pre>
-          </>
-        ) : (
-          <p style={{ color: "var(--v4-ink-400)", fontStyle: "italic" }}>
-            No package registered.
+    <>
+      <SectionHead num="// IN" title="Install" as="h3" />
+      {installCommand ? (
+        <div className="v4-collection-rail-card">
+          <div
+            style={{
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 10,
+              color: "var(--v4-ink-400)",
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+            }}
+          >
+            {"// RUN VIA "}
+            {mcp?.packageRegistry === "npm" ? "NPX" : "UVX"}
+          </div>
+          <pre
+            style={{
+              margin: 0,
+              padding: "8px 10px",
+              background: "var(--v4-bg-100)",
+              border: "1px solid var(--v4-line-200)",
+              color: "var(--v4-ink-100)",
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 12,
+              lineHeight: 1.4,
+              overflowX: "auto",
+            }}
+          >
+            <code>{installCommand}</code>
+          </pre>
+        </div>
+      ) : (
+        <div className="v4-collection-rail-card">
+          <p
+            style={{
+              margin: 0,
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 11,
+              color: "var(--v4-ink-400)",
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+            }}
+          >
+            {"// No package registered."}
           </p>
-        )}
-      </section>
+        </div>
+      )}
 
-      <section
-        style={{
-          padding: 16,
-          border: "1px solid var(--v4-line-200)",
-          background: "var(--v4-bg-025)",
-        }}
-      >
-        <SectionHead num="// SO" title="Sources" as="h3" />
-        <ul style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          {sourceLinks.map((link) => (
-            <li key={`${link.label}-${link.href}`}>
-              <a
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
+      <SectionHead num="// SO" title="Sources" as="h3" />
+      <ul className="v4-collection-rail-list">
+        {sourceLinks.map((link) => (
+          <li key={`${link.label}-${link.href}`} className="v4-collection-rail-list__item">
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="v4-collection-rail-list__link"
+            >
+              <span style={{ color: "var(--v4-ink-200)" }}>{link.label}</span>
+              <span style={{ color: "var(--v4-acc)" }}>↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <SectionHead num="// RG" title="Registries" as="h3" />
+      <div className="v4-collection-rail-card">
+        <div className="v4-collection-rail-card__row">
+          <span className="v4-collection-rail-card__label">Listed in</span>
+          <span className="v4-collection-rail-card__value">
+            {item.crossSourceCount ?? 0} of 4
+          </span>
+        </div>
+        {sourcesArr.length > 0 ? (
+          <div
+            style={{
+              display: "flex",
+              gap: 4,
+              flexWrap: "wrap",
+              marginTop: 4,
+            }}
+          >
+            {sourcesArr.map((src) => (
+              <span
+                key={src}
                 style={{
-                  color: "var(--v4-acc)",
-                  fontSize: 12,
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  fontSize: 9,
+                  padding: "1px 6px",
+                  border: "1px solid var(--v4-line-200)",
+                  background: "var(--v4-bg-100)",
+                  color: "var(--v4-ink-200)",
                   textTransform: "uppercase",
                   letterSpacing: "0.14em",
                 }}
               >
-                {link.label} →
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
+                {src}
+              </span>
+            ))}
+          </div>
+        ) : null}
+        {item.verified ? (
+          <div className="v4-collection-rail-card__row">
+            <span className="v4-collection-rail-card__label">Status</span>
+            <span
+              className="v4-collection-rail-card__value"
+              style={{ color: "var(--v4-money)" }}
+            >
+              ✓ verified
+            </span>
+          </div>
+        ) : null}
+      </div>
 
-      <section
+      {related.length > 0 ? (
+        <>
+          <SectionHead num="// RE" title="Related" as="h3" />
+          <ul className="v4-collection-rail-list">
+            {related.map((other) => (
+              <li
+                key={other.id}
+                className="v4-collection-rail-list__item"
+              >
+                <Link
+                  href={`/mcp/${slugForMcp(other)}`}
+                  className="v4-collection-rail-list__link"
+                >
+                  <span
+                    style={{
+                      color: "var(--v4-ink-200)",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {other.title}
+                  </span>
+                  <span className="v4-collection-rail-list__count">
+                    {other.crossSourceCount ?? 1}×
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null}
+
+      <SectionHead num="// BACK" title="All MCP" as="h3" />
+      <Link
+        href="/mcp"
         style={{
-          padding: 16,
-          border: "1px solid var(--v4-line-200)",
-          background: "var(--v4-bg-025)",
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 11,
+          color: "var(--v4-acc)",
+          textTransform: "uppercase",
+          letterSpacing: "0.14em",
+          textDecoration: "none",
         }}
       >
-        <SectionHead num="// RE" title="Related" as="h3" />
-        <Link
-          href="/mcp"
-          style={{
-            color: "var(--v4-acc)",
-            fontSize: 12,
-            textTransform: "uppercase",
-            letterSpacing: "0.14em",
-          }}
-        >
-          ← All MCP servers
-        </Link>
-      </section>
-    </div>
+        ← /mcp leaderboard
+      </Link>
+    </>
   );
 
   return (
@@ -508,6 +660,46 @@ export default async function McpDetailPage({ params }: PageProps) {
             <span className="big">{compactNumber(stars)}</span>
             <span className="muted">STARS</span>
           </>
+        }
+        verdict={
+          <VerdictRibbon
+            tone={verdictTone}
+            stamp={{
+              eyebrow: "// MCP",
+              headline: `${item.crossSourceCount ?? 0} REGISTRIES`,
+              sub: `${consensusLabel} · rank #${item.rank ?? "—"}`,
+            }}
+            text={
+              <>
+                <b>{item.title}</b>
+                {item.vendor ? (
+                  <>
+                    {" by "}
+                    <span style={{ color: "var(--v4-ink-100)" }}>
+                      {item.vendor}
+                    </span>
+                  </>
+                ) : null}{" "}
+                — listed in{" "}
+                <span style={{ color: "var(--v4-acc)" }}>
+                  {item.crossSourceCount ?? 0} registr
+                  {(item.crossSourceCount ?? 0) === 1 ? "y" : "ies"}
+                </span>
+                {downloads7d ? (
+                  <>
+                    {" with "}
+                    <span style={{ color: "var(--v4-money)" }}>
+                      {compactNumber(downloads7d)}
+                    </span>{" "}
+                    downloads · 7d
+                  </>
+                ) : null}
+                {isNewThisWeek ? <> · shipped this week.</> : "."}
+              </>
+            }
+            actionHref={item.url}
+            actionLabel="OPEN ↗"
+          />
         }
         kpiBand={kpiBand}
         mainPanels={mainPanels}

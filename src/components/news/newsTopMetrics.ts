@@ -708,13 +708,10 @@ export function buildDevtoHeaderFromArticles(
     .sort((a, b) => (b.reactionsCount ?? 0) - (a.reactionsCount ?? 0))
     .slice(0, 3);
   const heroStories: NewsHeroStory[] = topArticles.map((a) => {
-    const authorAvatar =
-      (a.author as { profile_image?: string | null } | null)?.profile_image ??
-      (a.author as { profile_image_90?: string | null } | null)?.profile_image_90 ??
-      null;
-    const userPng = a.author?.username
-      ? `https://dev.to/${encodeURIComponent(a.author.username)}.png`
-      : null;
+    // Worker normalises author avatars to camelCase `profileImage`; the
+    // earlier snake_case reads always returned undefined and pushed every
+    // hero through `dev.to/<user>.png`, which is CORB-blocked in prod.
+    const authorAvatar = a.author?.profileImage ?? null;
     return {
       title: a.title,
       href: a.url,
@@ -727,7 +724,6 @@ export function buildDevtoHeaderFromArticles(
         : null,
       logoUrl:
         userLogoUrl(authorAvatar) ??
-        userPng ??
         resolveLogoUrl(a.url ?? null, a.title, 64),
       logoName: a.author?.username ?? a.title,
     };

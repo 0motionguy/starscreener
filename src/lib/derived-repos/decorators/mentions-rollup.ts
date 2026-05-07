@@ -11,9 +11,7 @@
 //     twitter, reddit, hackernews, bluesky, devto, lobsters
 //   read-from-data-file (we walk the bundled JSON, attribute by linked-repo
 //   field, and bucket by timestamp into 24h / 7d windows):
-//     npm, huggingface, arxiv
-//   not yet wired (no per-repo attribution data flow):
-//     producthunt — surfaced via repo.producthunt; not summed here yet
+//     npm, huggingface, arxiv, producthunt
 //
 // The decorator is pure + memoizes the npm/hf/arxiv index by data-version
 // so it pays the bucketization cost once per cold-Lambda warm.
@@ -33,6 +31,9 @@ import { getLobstersMentions } from "../../lobsters";
 import { getNpmPackages } from "../../npm";
 import { getHfTrendingFile } from "../../huggingface";
 import { getArxivRecentFile } from "../../arxiv";
+import { getAllPhLaunches } from "../../producthunt";
+import { getFundingEventsForRepo } from "../../funding/repo-events";
+import { getCrossSourceDetail } from "../../cross-source-mentions";
 
 const HOUR_MS = 60 * 60 * 1000;
 const WINDOW_24H_MS = 24 * HOUR_MS;
@@ -51,11 +52,26 @@ function emptyPerSource(): Record<SocialPlatform, RepoMentionsPerSource> {
     arxiv:       { count24h: 0, count7d: 0 },
     github:      { count24h: 0, count7d: 0 },
     producthunt: { count24h: 0, count7d: 0 },
+    funding:     { count24h: 0, count7d: 0 },
   };
 }
 
 interface BucketIndex {
   perRepo: Map<string, RepoMentionsPerSource>;
+  /**
+   * Optional secondary index keyed by repo NAME only (last path segment of
+   * fullName). Used as fallback when sources can't reliably attribute by
+   * full owner/name — HF model orgs frequently don't match GitHub orgs
+   * (`microsoft-research/transformers` HF id ≠ `huggingface/transformers`
+   * GH repo). The decorator only consults this when the primary lookup
+   * misses, so common-case full-match repos still win without ambiguity.
+   *
+   * `byName` is built unique: any name whose entries fan across multiple
+   * full-name keys is dropped, since a name-only hit there would risk
+   * false-positive attribution (two repos called "agent" each get the
+   * other's mentions).
+   */
+  byName?: Map<string, RepoMentionsPerSource>;
 }
 
 function buildBucketIndex<T>(
@@ -85,6 +101,39 @@ function buildBucketIndex<T>(
   return { perRepo };
 }
 
+/**
+ * Build a name-only fallback index from a per-fullName index. Drops names
+ * whose mentions span multiple distinct fullNames (ambiguous → unsafe to
+ * attribute). The returned map is keyed by the lowercase last path segment
+ * of the source key (e.g. "transformers" from "huggingface/transformers").
+ */
+function buildNameOnlyFallback(
+  perRepo: Map<string, RepoMentionsPerSource>,
+): Map<string, RepoMentionsPerSource> {
+  // First pass: count distinct fullNames per name.
+  const fullNamesByName = new Map<string, Set<string>>();
+  for (const fullKey of perRepo.keys()) {
+    const slash = fullKey.lastIndexOf("/");
+    const name = slash >= 0 ? fullKey.slice(slash + 1) : fullKey;
+    if (!name) continue;
+    let set = fullNamesByName.get(name);
+    if (!set) {
+      set = new Set();
+      fullNamesByName.set(name, set);
+    }
+    set.add(fullKey);
+  }
+  // Second pass: only emit name → entry when unambiguous (one fullName per name).
+  const byName = new Map<string, RepoMentionsPerSource>();
+  for (const [name, set] of fullNamesByName) {
+    if (set.size !== 1) continue;
+    const onlyFull = set.values().next().value as string;
+    const entry = perRepo.get(onlyFull);
+    if (entry) byName.set(name, entry);
+  }
+  return byName;
+}
+
 // ---------------------------------------------------------------------------
 // NPM / HF / arXiv index — built once per cold start (memoized by file
 // reference identity). Each index keys per-repo counts by lowercase
@@ -94,6 +143,7 @@ function buildBucketIndex<T>(
 let _npmIndex: { token: unknown; index: BucketIndex } | null = null;
 let _hfIndex: { token: unknown; index: BucketIndex } | null = null;
 let _arxivIndex: { token: unknown; index: BucketIndex } | null = null;
+let _phIndex: { token: unknown; index: BucketIndex } | null = null;
 
 function npmIndex(nowMs: number): BucketIndex {
   const packages = getNpmPackages();
@@ -111,21 +161,43 @@ function npmIndex(nowMs: number): BucketIndex {
 function hfIndex(nowMs: number): BucketIndex {
   // HF entries don't expose a stable `linkedRepo` mapping in the bundled
   // file, so we attribute by HF id (`owner/name`) matching the GitHub
-  // `owner/name` directly — weak but the only honest signal cold-path can
-  // rely on without the cross-domain join. Repos that ship under the same
-  // org/name on both surfaces (huggingface/transformers ↔ github
-  // huggingface/transformers, ggerganov/llama.cpp ↔ ggerganov/llama-cpp)
-  // pick this up; everything else stays at 0.
+  // `owner/name` directly. That's a low recall signal — HF orgs (deepseek-ai,
+  // openai, mistralai) often differ from the GitHub org publishing the
+  // canonical SDK. We layer a NAME-only fallback (last path segment) so a
+  // GitHub repo `huggingface/transformers` can pick up HF model counts even
+  // when the model id is `bert-base-uncased` style. Ambiguous names —
+  // those that fan across multiple HF orgs in the bucket — are dropped from
+  // the fallback to keep false-positives off.
   const file = getHfTrendingFile();
   const models = file?.models ?? [];
   if (_hfIndex && _hfIndex.token === models) return _hfIndex.index;
-  const index = buildBucketIndex(
+  const base = buildBucketIndex(
     models,
     (m) => (m.id ? m.id.toLowerCase() : null),
     (m) => m.lastModified ?? m.createdAt ?? null,
     nowMs,
   );
+  const index: BucketIndex = {
+    perRepo: base.perRepo,
+    byName: buildNameOnlyFallback(base.perRepo),
+  };
   _hfIndex = { token: models, index };
+  return index;
+}
+
+function phIndex(nowMs: number): BucketIndex {
+  // ProductHunt launches come tagged with linkedRepo (owner/name) when the
+  // scraper resolved a github URL; un-resolved launches still ship in the
+  // file but skip here. Bucket by createdAt — a launch is one mention.
+  const launches = getAllPhLaunches();
+  if (_phIndex && _phIndex.token === launches) return _phIndex.index;
+  const index = buildBucketIndex(
+    launches,
+    (l) => (l.linkedRepo ? l.linkedRepo.toLowerCase() : null),
+    (l) => l.createdAt,
+    nowMs,
+  );
+  _phIndex = { token: launches, index };
   return index;
 }
 
@@ -145,12 +217,20 @@ function arxivIndex(nowMs: number): BucketIndex {
       fanout.push({ key: link.fullName.toLowerCase(), ts: p.publishedAt });
     }
   }
-  const index = buildBucketIndex(
+  const base = buildBucketIndex(
     fanout,
     (r) => r.key,
     (r) => r.ts,
     nowMs,
   );
+  // Name-only fallback for arXiv too — papers that cite "transformers" but
+  // attribute it to the wrong owner/name slug should still credit
+  // `huggingface/transformers` when the name is unambiguous. Same dedup
+  // strategy as hfIndex.
+  const index: BucketIndex = {
+    perRepo: base.perRepo,
+    byName: buildNameOnlyFallback(base.perRepo),
+  };
   _arxivIndex = { token: papers, index };
   return index;
 }
@@ -164,6 +244,7 @@ export function decorateWithMentionsRollup(repos: Repo[]): Repo[] {
   const npm = npmIndex(nowMs);
   const hf = hfIndex(nowMs);
   const arxiv = arxivIndex(nowMs);
+  const ph = phIndex(nowMs);
 
   return repos.map((r) => {
     const perSource = emptyPerSource();
@@ -218,14 +299,68 @@ export function decorateWithMentionsRollup(repos: Repo[]): Repo[] {
       };
     }
 
+    const lowerName = r.name.toLowerCase();
+
     const npmEntry = npm.perRepo.get(lowerFull);
     if (npmEntry) perSource.npm = npmEntry;
 
-    const hfEntry = hf.perRepo.get(lowerFull);
+    // HF + arXiv: try full owner/name first, then fall back to repo NAME
+    // alone when the (precomputed, ambiguity-free) name index has a hit.
+    // This recovers attribution for cases where HF orgs / arXiv link slugs
+    // diverge from the GitHub org but the project name matches.
+    const hfEntry =
+      hf.perRepo.get(lowerFull) ?? hf.byName?.get(lowerName) ?? null;
     if (hfEntry) perSource.huggingface = hfEntry;
 
-    const arxivEntry = arxiv.perRepo.get(lowerFull);
+    const arxivEntry =
+      arxiv.perRepo.get(lowerFull) ?? arxiv.byName?.get(lowerName) ?? null;
     if (arxivEntry) perSource.arxiv = arxivEntry;
+
+    const phEntry = ph.perRepo.get(lowerFull);
+    if (phEntry) perSource.producthunt = phEntry;
+
+    // Funding events are joined to repos via the curated alias registry
+    // (data/funding-aliases.json). The matcher is memoized internally so
+    // calling it once per repo per render is cheap. Each event's
+    // publishedAt is bucketed into the 24h / 7d windows.
+    const fundingEvents = getFundingEventsForRepo(r.fullName);
+    if (fundingEvents.length > 0) {
+      let f24 = 0;
+      let f7 = 0;
+      for (const ev of fundingEvents) {
+        const ms = Date.parse(ev.signal.publishedAt);
+        if (!Number.isFinite(ms)) continue;
+        const age = nowMs - ms;
+        if (age < 0 || age > WINDOW_7D_MS) continue;
+        f7 += 1;
+        if (age <= WINDOW_24H_MS) f24 += 1;
+      }
+      perSource.funding = { count24h: f24, count7d: f7 };
+    }
+
+    // Attach cross-source-sweep detail if available, AND boost the per-source
+    // 7d counts using sweep data when it's higher. The sweep is repo-first
+    // (per-channel query for THIS repo) where the source-first loaders are
+    // source-first (scan the channel feed, attribute to whatever appears) —
+    // they catch different things and the sweep typically finds 5-10x more.
+    // Taking max() per channel lets the UI (CompletenessStrip, LiveTopTable
+    // chips, /githubrepo channel pills) reflect the broader coverage without
+    // changing any consumer code. count24h is left untouched because the
+    // sweep records 7d events only.
+    const detail = getCrossSourceDetail(r.fullName);
+    if (detail?.perSource) {
+      for (const [channel, bucket] of Object.entries(detail.perSource)) {
+        if (!bucket || channel === "tavily") continue;
+        const c = channel as Exclude<typeof channel, "tavily"> & SocialPlatform;
+        const sweep7d = bucket.count7d ?? 0;
+        if (sweep7d > (perSource[c]?.count7d ?? 0)) {
+          perSource[c] = {
+            count24h: perSource[c]?.count24h ?? 0,
+            count7d: sweep7d,
+          };
+        }
+      }
+    }
 
     let total24h = 0;
     let total7d = 0;
@@ -234,7 +369,10 @@ export function decorateWithMentionsRollup(repos: Repo[]): Repo[] {
       total7d += v.count7d;
     }
 
-    const rollup: RepoMentionsRollup = { total24h, total7d, perSource };
+    const rollup: RepoMentionsRollup = detail
+      ? { total24h, total7d, perSource, detail }
+      : { total24h, total7d, perSource };
+
     return {
       ...r,
       mentions: rollup,
@@ -248,4 +386,5 @@ export function __resetMentionsRollupMemoForTests(): void {
   _npmIndex = null;
   _hfIndex = null;
   _arxivIndex = null;
+  _phIndex = null;
 }

@@ -1,20 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import {
-  Line,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  LabelList,
-  ResponsiveContainer,
-  ComposedChart,
-} from "recharts";
+// Compare-page multi-series line chart — migrated from Recharts ComposedChart
+// to the shared Apache ECharts wrapper. Theme-aware (5 visual treatments) and
+// metric-aware (stars / velocity / mindshare). Renders one ECharts canvas at
+// each breakpoint so we can keep the desktop / mobile layout differences
+// (label sizes, grid margins, glow strokes) without smashing them together.
+
+import { useMemo, useState } from "react";
+import type { EChartsCoreOption } from "echarts/core";
 import type { Repo } from "@/lib/types";
 import { ChartShell } from "@/components/ui/ChartShell";
+import { EChart } from "@/components/charts/EChart";
+import { CHART_TOKENS } from "@/lib/charts/theme";
 import {
   computeMindshareSeries,
   computeVelocitySeries,
@@ -31,6 +28,7 @@ import {
   CHART_THEME_OPTIONS,
   getThemeConfig,
   type ChartTheme,
+  type ThemeConfig,
 } from "./themes";
 
 interface CompareChartProps {
@@ -100,7 +98,7 @@ function lookupPayload(
 }
 
 function logFloor(value: number, scale: StarActivityScale): number {
-  // Recharts' log scale fails on 0/negative — clamp to 1 only when in log mode.
+  // ECharts log axis fails on 0/negative — clamp to 1 only when in log mode.
   return scale === "log" ? Math.max(1, value) : value;
 }
 
@@ -222,125 +220,309 @@ function formatEndLabelValue(
   return formatNumber(display);
 }
 
-interface EndLabelProps {
-  shortName: string;
-  color: string;
-  metric: StarActivityMetric;
-  lastIndex: number;
-  /** Compact = mobile breakpoint, smaller font + only the value (no name). */
-  compact?: boolean;
-}
-
-/**
- * Recharts LabelList content renderer that draws each series' label off
- * the right edge of the chart, but ONLY at the last data point. The line
- * colour carries through so the reader can map label → series without
- * scanning the legend.
- */
-function makeEndLabel({
-  shortName,
-  color,
-  metric,
-  lastIndex,
-  compact = false,
-}: EndLabelProps) {
-  return function EndOfLineLabel(rawProps: unknown) {
-    const props = rawProps as {
-      x?: number;
-      y?: number;
-      index?: number;
-      value?: number;
-      payload?: SeriesPoint;
-    };
-    if (props.index !== lastIndex) return null;
-    if (typeof props.x !== "number" || typeof props.y !== "number") return null;
-    const display = props.payload?.display ?? props.value ?? 0;
-    const valueText = formatEndLabelValue(display, metric);
-    const nameSize = compact ? 10 : 11;
-    const valueSize = compact ? 9 : 10;
-    return (
-      <g>
-        {!compact && (
-          <text
-            x={props.x + 6}
-            y={props.y - 6}
-            fill={color}
-            fontSize={nameSize}
-            fontFamily="var(--font-geist-mono), monospace"
-            fontWeight={600}
-            textAnchor="start"
-            dominantBaseline="middle"
-          >
-            {shortName}
-          </text>
-        )}
-        <text
-          x={props.x + 6}
-          y={props.y + (compact ? 0 : 8)}
-          fill={color}
-          opacity={0.75}
-          fontSize={valueSize}
-          fontFamily="var(--font-geist-mono), monospace"
-          textAnchor="start"
-          dominantBaseline="middle"
-        >
-          {valueText}
-        </text>
-      </g>
-    );
-  };
-}
-
 function shortNameOf(fullName: string): string {
   const parts = fullName.split("/");
   return parts[1] ?? fullName;
 }
 
-interface CustomTooltipProps {
-  active?: boolean;
-  payload?: Array<{
-    dataKey: string;
-    value: number;
-    color: string;
-    name: string;
-    payload?: SeriesPoint;
-  }>;
-  label?: number;
-  mode: StarActivityMode;
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
-function ChartTooltip({ active, payload, label, mode }: CustomTooltipProps) {
-  if (!active || !payload?.length || label === undefined) return null;
+interface BuildOptionInput {
+  series: RepoSeries[];
+  palette: readonly string[];
+  themeConfig: ThemeConfig;
+  metric: StarActivityMetric;
+  mode: StarActivityMode;
+  effectiveScale: StarActivityScale;
+  compact: boolean;
+}
 
-  const heading =
-    mode === "timeline"
-      ? formatTimelineTick(label)
-      : new Date(label).toISOString().slice(0, 10);
+/**
+ * Build a single ECharts option from the selected series + theme. Compact
+ * mode = mobile breakpoint: smaller fonts, narrower y-axis, drop the series
+ * name from the end-of-line label.
+ */
+function buildOption({
+  series,
+  palette,
+  themeConfig,
+  metric,
+  mode,
+  effectiveScale,
+  compact,
+}: BuildOptionInput): EChartsCoreOption {
+  const axisFontSize = compact ? 9 : themeConfig.light ? 12 : 10;
+  const axisColor = themeConfig.axisColor;
+  const axisFontWeight = themeConfig.light ? 600 : 400;
 
-  return (
-    <div className="v2-card px-3 py-2 shadow-card">
-      <p className="text-xs text-text-tertiary font-mono mb-1.5">{heading}</p>
-      {payload.map((entry) => {
-        // Prefer the original star count from the data point payload over the
-        // y value (which may be log-transformed when scale=log).
-        const stars = entry.payload?.stars ?? entry.value;
-        return (
-          <div key={entry.dataKey} className="flex items-center gap-2 text-sm">
-            <span
-              className="size-2 rounded-full shrink-0"
-              style={{ backgroundColor: entry.color }}
-            />
-            <span className="text-text-secondary truncate max-w-[120px]">
-              {entry.name}
-            </span>
-            <span className="font-mono font-bold text-text-primary ml-auto">
-              {formatNumber(stars)}
-            </span>
+  const yTickFormatter = (v: number) => {
+    if (metric === "velocity") {
+      const sign = v >= 0 ? "+" : "";
+      return `${sign}${formatNumber(Math.round(v))}/d`;
+    }
+    if (metric === "mindshare") return `${v.toFixed(0)}%`;
+    return formatNumber(v);
+  };
+
+  const xAxis = {
+    type: "value" as const,
+    axisLine: { show: false, lineStyle: { color: "var(--v3-line-200)" } },
+    axisTick: { show: false },
+    axisLabel: {
+      color: axisColor,
+      fontSize: axisFontSize,
+      fontFamily: "var(--font-geist-mono), monospace",
+      fontWeight: axisFontWeight,
+      // ECharts auto-spaces value-axis ticks; we just format the value.
+      formatter: (value: number) =>
+        mode === "timeline"
+          ? formatTimelineTick(value)
+          : formatDateTick(value),
+      hideOverlap: true,
+    },
+    splitLine: { show: false },
+    scale: true,
+  };
+
+  const splitLineColor = themeConfig.light ? "#1f1f1f" : "var(--v3-line-200)";
+  const splitLineOpacity = themeConfig.light ? 0.15 : 0.35;
+
+  const yAxis = {
+    type: effectiveScale === "log" ? ("log" as const) : ("value" as const),
+    // logBase only used when type === "log" — ECharts ignores it otherwise.
+    logBase: 10,
+    min: effectiveScale === "log" ? 1 : undefined,
+    axisLine: { show: false },
+    axisTick: { show: false },
+    axisLabel: {
+      color: axisColor,
+      fontSize: axisFontSize,
+      fontFamily: "var(--font-geist-mono), monospace",
+      fontWeight: axisFontWeight,
+      formatter: yTickFormatter,
+    },
+    splitLine:
+      themeConfig.gridDensity === "none"
+        ? { show: false }
+        : {
+            show: true,
+            lineStyle: {
+              color: splitLineColor,
+              type: "dashed" as const,
+              opacity: splitLineOpacity,
+            },
+          },
+  };
+
+  // End-of-line labels: ECharts can place a label on the last point via a
+  // data-level `label` override. We only set it on the final point so the
+  // line stays clean.
+  const buildLineData = (s: RepoSeries) => {
+    const lastIdx = s.data.length - 1;
+    return s.data.map((pt, i) => {
+      const base = {
+        value: [pt.x, pt.y] as [number, number],
+        // Keep raw display + stars on the data point so the tooltip can
+        // surface the unmodified number even when log-scaled.
+        display: pt.display,
+        stars: pt.stars,
+      };
+      if (i !== lastIdx) return base;
+      const labelText = compact
+        ? formatEndLabelValue(pt.display, metric)
+        : `${shortNameOf(s.fullName)}\n${formatEndLabelValue(pt.display, metric)}`;
+      return {
+        ...base,
+        label: {
+          show: true,
+          position: "right" as const,
+          formatter: labelText,
+          color: paletteColor(palette, s),
+          fontSize: compact ? 9 : 10,
+          fontFamily: "var(--font-geist-mono), monospace",
+          lineHeight: compact ? 11 : 13,
+          align: "left" as const,
+        },
+      };
+    });
+  };
+
+  // Area fills — render BEFORE the lines via z so the stroke sits on top.
+  const areaSeries = themeConfig.areaFill
+    ? series.map((s, i) => ({
+        type: "line" as const,
+        name: `${s.fullName} area`,
+        showSymbol: false,
+        data: s.data.map((pt) => [pt.x, pt.y] as [number, number]),
+        lineStyle: { width: 0, color: "transparent" },
+        areaStyle: {
+          color: palette[i],
+          opacity: themeConfig.areaFillOpacity,
+        },
+        z: 1,
+        silent: true,
+        animationDuration: 0,
+      }))
+    : [];
+
+  // Outer-glow stroke pass (neon / crt themes).
+  const glowWidth = compact
+    ? Math.max(2, themeConfig.outerGlowWidth - 2)
+    : themeConfig.outerGlowWidth;
+  const glowSeries = themeConfig.outerGlow
+    ? series.map((s, i) => ({
+        type: "line" as const,
+        name: `${s.fullName} glow`,
+        showSymbol: false,
+        data: s.data.map((pt) => [pt.x, pt.y] as [number, number]),
+        lineStyle: {
+          width: glowWidth,
+          color: palette[i],
+          opacity: themeConfig.outerGlowOpacity,
+        },
+        z: 2,
+        silent: true,
+        animationDuration: 0,
+      }))
+    : [];
+
+  const strokeWidth = compact
+    ? Math.max(1, themeConfig.strokeWidth - 0.5)
+    : themeConfig.strokeWidth;
+
+  const lineSeries = series.map((s, i) => ({
+    type: "line" as const,
+    name: s.fullName,
+    showSymbol: false,
+    data: buildLineData(s),
+    lineStyle: { width: strokeWidth, color: palette[i] },
+    itemStyle: { color: palette[i] },
+    emphasis: {
+      itemStyle: {
+        color: palette[i],
+        borderColor: CHART_TOKENS.bgRaised,
+        borderWidth: 0,
+      },
+    },
+    z: 5,
+    animationDuration: 0,
+  }));
+
+  return {
+    grid: compact
+      ? { top: 28, right: 56, bottom: 28, left: 44, containLabel: false }
+      : { top: 28, right: 80, bottom: 32, left: 64, containLabel: false },
+    legend: {
+      show: true,
+      top: 0,
+      left: "left" as const,
+      itemWidth: compact ? 6 : 8,
+      itemHeight: compact ? 6 : 8,
+      icon: "circle" as const,
+      data: series.map((s) => s.fullName),
+      textStyle: {
+        color: themeConfig.light ? "#1f1f1f" : CHART_TOKENS.textSubtle,
+        fontSize: compact ? 10 : 12,
+      },
+    },
+    xAxis,
+    yAxis,
+    tooltip: {
+      trigger: "axis" as const,
+      backgroundColor: CHART_TOKENS.bgCanvas,
+      borderColor: CHART_TOKENS.borderDefault,
+      borderWidth: 1,
+      textStyle: {
+        color: CHART_TOKENS.textDefault,
+        fontSize: 11,
+        fontFamily: "var(--font-geist-mono), monospace",
+      },
+      extraCssText: "box-shadow: none;",
+      axisPointer: {
+        type: "line" as const,
+        lineStyle: {
+          color: CHART_TOKENS.borderDefault,
+          type: "dashed" as const,
+          width: 1,
+        },
+      },
+      formatter: (params: unknown) => {
+        const list = Array.isArray(params)
+          ? (params as Array<TooltipParam>)
+          : [params as TooltipParam];
+        if (list.length === 0) return "";
+        // Filter out the helper area / glow series so the tooltip shows
+        // only the real lines.
+        const real = list.filter((p) => {
+          const seriesName = p.seriesName ?? "";
+          return !seriesName.endsWith(" area") && !seriesName.endsWith(" glow");
+        });
+        if (real.length === 0) return "";
+        const axisValue = real[0].axisValue;
+        const heading =
+          mode === "timeline"
+            ? formatTimelineTick(axisValue)
+            : new Date(axisValue).toISOString().slice(0, 10);
+        const rows = real
+          .map((p) => {
+            const stars =
+              p.data && typeof p.data === "object" && "stars" in p.data
+                ? (p.data as { stars: number }).stars
+                : (Array.isArray(p.data) ? p.data[1] : p.value) ?? 0;
+            return `
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
+                <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${p.color};flex-shrink:0;"></span>
+                <span style="color:${CHART_TOKENS.textSubtle};max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(p.seriesName ?? "")}</span>
+                <span style="margin-left:auto;color:${CHART_TOKENS.textDefault};font-weight:600;font-variant-numeric:tabular-nums;">${formatNumber(stars as number)}</span>
+              </div>`;
+          })
+          .join("");
+        return `
+          <div style="min-width:180px;">
+            <div style="font-size:11px;color:${CHART_TOKENS.textFaint};margin-bottom:6px;">${heading}</div>
+            ${rows}
           </div>
-        );
-      })}
-    </div>
-  );
+        `;
+      },
+    },
+    series: [...areaSeries, ...glowSeries, ...lineSeries],
+  };
+}
+
+interface TooltipParam {
+  seriesName?: string;
+  color: string;
+  axisValue: number;
+  value?: number | unknown[];
+  data?: unknown;
+}
+
+function paletteColor(
+  palette: readonly string[],
+  s: RepoSeries,
+): string {
+  // The palette index is decided by the caller (the .map above) — but we
+  // need it again inside buildLineData. The series list is passed in the
+  // same order, so we recover the index by reference equality.
+  // (Calling code: series.forEach((s, i) => ... palette[i]).)
+  // To stay simple we just look it up via a Map captured on first use.
+  const idx = paletteIndexCache.get(s);
+  if (idx === undefined) return palette[0];
+  return palette[idx];
+}
+
+// Module-scoped cache: filled in `assignPaletteIndices` before option builds.
+const paletteIndexCache = new WeakMap<RepoSeries, number>();
+
+function assignPaletteIndices(series: RepoSeries[]) {
+  series.forEach((s, i) => paletteIndexCache.set(s, i));
 }
 
 interface ToggleButtonProps {
@@ -447,72 +629,58 @@ export function CompareChart({
     if (themeProp === undefined) setInternalTheme(t);
   };
 
-  // Single-repo callers (e.g. /repo/[owner]/[name]/star-activity) render the
-  // same chart with one series; the prior `repos.length < 2` guard belonged
-  // to /compare's empty-state UX which is now handled by CompareClient itself.
-  if (repos.length === 0) return null;
-
-  const series = buildAllSeries(repos, payloads, mode, scale, window, metric);
-  const anyFromPayload = series.some((s) => s.fromPayload);
-
-  // Sparseness check — only meaningful for the legacy sparkline path.
-  // Repos with payloads always have something useful to draw, even if short.
-  const sparseRepos = repos.filter(
-    (r, i) => !series[i].fromPayload && !hasHistory(r.sparklineData),
-  );
-  const allSparse = sparseRepos.length === repos.length;
-
-  const xAxisProps = {
-    type: "number" as const,
-    dataKey: "x",
-    domain: ["dataMin", "dataMax"] as ["dataMin", "dataMax"],
-    tickFormatter:
-      mode === "timeline"
-        ? (v: number) => formatTimelineTick(v)
-        : (v: number) => formatDateTick(v),
-    tickLine: false,
-    axisLine: { stroke: "var(--v3-line-200)" },
-  };
-
-  // Y-axis tick formatter swaps per metric — STARS shows compacted counts,
-  // VELOCITY shows "+N/d" and MINDSHARE shows "N%" so the reader doesn't
-  // confuse a 4.2% mindshare with 4 stars.
-  const yTickFormatter = (v: number) => {
-    if (metric === "velocity") {
-      const sign = v >= 0 ? "+" : "";
-      return `${sign}${formatNumber(Math.round(v))}/d`;
-    }
-    if (metric === "mindshare") {
-      return `${v.toFixed(0)}%`;
-    }
-    return formatNumber(v);
-  };
-
   // MINDSHARE is a percentage 0..100 — log scale doesn't make sense and
   // would distort the read. Force-disable for that metric.
   const effectiveScale: StarActivityScale =
     metric === "mindshare" ? "lin" : scale;
 
-  const yAxisProps = {
-    tick: {
-      fontSize: 10,
-      fill: "var(--v3-ink-400)",
-      fontFamily: "var(--font-geist-mono), monospace",
-      letterSpacing: "0.12em",
-    },
-    tickLine: false,
-    axisLine: false,
-    tickFormatter: yTickFormatter,
-    width: 64,
-    scale:
-      effectiveScale === "log" ? ("log" as const) : ("auto" as const),
-    // Recharts requires an explicit numeric domain for log scales.
-    domain:
-      effectiveScale === "log"
-        ? ([1, "dataMax"] as [number, "dataMax"])
-        : (["auto", "auto"] as ["auto", "auto"]),
-    allowDataOverflow: effectiveScale === "log",
-  };
+  const series = useMemo(
+    () => buildAllSeries(repos, payloads, mode, scale, window, metric),
+    [repos, payloads, mode, scale, window, metric],
+  );
+
+  // Refresh palette-index cache whenever the series array identity changes,
+  // so end-of-line labels grab the right colour.
+  assignPaletteIndices(series);
+
+  const anyFromPayload = series.some((s) => s.fromPayload);
+  const sparseRepos = repos.filter(
+    (r, i) => !series[i].fromPayload && !hasHistory(r.sparklineData),
+  );
+  const allSparse = sparseRepos.length === repos.length;
+
+  const desktopOption = useMemo(
+    () =>
+      buildOption({
+        series,
+        palette,
+        themeConfig,
+        metric,
+        mode,
+        effectiveScale,
+        compact: false,
+      }),
+    [series, palette, themeConfig, metric, mode, effectiveScale],
+  );
+
+  const compactOption = useMemo(
+    () =>
+      buildOption({
+        series,
+        palette,
+        themeConfig,
+        metric,
+        mode,
+        effectiveScale,
+        compact: true,
+      }),
+    [series, palette, themeConfig, metric, mode, effectiveScale],
+  );
+
+  // Single-repo callers (e.g. /repo/[owner]/[name]/star-activity) render the
+  // same chart with one series; the prior `repos.length < 2` guard belonged
+  // to /compare's empty-state UX which is now handled by CompareClient itself.
+  if (repos.length === 0) return null;
 
   const title = anyFromPayload ? "Star Activity" : "Star Activity (30 days)";
 
@@ -609,112 +777,11 @@ export function CompareChart({
               style={{ backgroundImage: themeConfig.overlayPattern }}
             />
           )}
-          <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart margin={{ top: 8, right: 12, bottom: 4, left: 4 }}>
-              {themeConfig.gridDensity !== "none" && (
-                <CartesianGrid
-                  strokeDasharray={themeConfig.gridDash}
-                  stroke={themeConfig.light ? "#1f1f1f" : "var(--v3-line-200)"}
-                  opacity={themeConfig.light ? 0.15 : 0.35}
-                  vertical={false}
-                />
-              )}
-              <XAxis
-                {...xAxisProps}
-                tick={{
-                  fontSize: themeConfig.light ? 12 : 10,
-                  fill: themeConfig.axisColor,
-                  fontFamily: "var(--font-geist-mono), monospace",
-                  letterSpacing: "0.12em",
-                  fontWeight: themeConfig.light ? 600 : 400,
-                }}
-              />
-              <YAxis
-                {...yAxisProps}
-                tick={{
-                  ...yAxisProps.tick,
-                  fill: themeConfig.axisColor,
-                  fontWeight: themeConfig.light ? 600 : 400,
-                }}
-              />
-              <Tooltip content={<ChartTooltip mode={mode} />} />
-              <Legend
-                verticalAlign="top"
-                height={28}
-                iconType="circle"
-                iconSize={8}
-                formatter={(value: string) => (
-                  <span
-                    className="text-xs"
-                    style={{
-                      color: themeConfig.light ? "#1f1f1f" : "var(--color-text-secondary)",
-                    }}
-                  >
-                    {value}
-                  </span>
-                )}
-              />
-              {/* Area fills (gradient theme) — render BEFORE the lines so the
-                  stroke sits on top of the fill. */}
-              {themeConfig.areaFill &&
-                series.map((s, i) => (
-                  <Area
-                    key={`area-${s.repoId}`}
-                    data={s.data}
-                    type="monotone"
-                    dataKey="y"
-                    fill={palette[i]}
-                    fillOpacity={themeConfig.areaFillOpacity}
-                    stroke="none"
-                    isAnimationActive={false}
-                    legendType="none"
-                  />
-                ))}
-              {/* Outer-glow stroke pass (neon / crt) — wider + low opacity. */}
-              {themeConfig.outerGlow &&
-                series.map((s, i) => (
-                  <Line
-                    key={`glow-${s.repoId}`}
-                    data={s.data}
-                    type="monotone"
-                    dataKey="y"
-                    stroke={palette[i]}
-                    strokeWidth={themeConfig.outerGlowWidth}
-                    strokeOpacity={themeConfig.outerGlowOpacity}
-                    dot={false}
-                    activeDot={false}
-                    isAnimationActive={false}
-                    legendType="none"
-                  />
-                ))}
-              {series.map((s, i) => (
-                <Line
-                  key={s.repoId}
-                  data={s.data}
-                  type="monotone"
-                  dataKey="y"
-                  name={s.fullName}
-                  stroke={palette[i]}
-                  strokeWidth={themeConfig.strokeWidth}
-                  dot={false}
-                  activeDot={{ r: 4, strokeWidth: 0 }}
-                  isAnimationActive={false}
-                >
-                  {s.data.length > 0 && (
-                    <LabelList
-                      dataKey="y"
-                      content={makeEndLabel({
-                        shortName: shortNameOf(s.fullName),
-                        color: palette[i],
-                        metric,
-                        lastIndex: s.data.length - 1,
-                      })}
-                    />
-                  )}
-                </Line>
-              ))}
-            </ComposedChart>
-          </ResponsiveContainer>
+          <EChart
+            option={desktopOption}
+            height="100%"
+            ariaLabel={`${title} (desktop)`}
+          />
         </div>
       )}
 
@@ -727,111 +794,11 @@ export function CompareChart({
               style={{ backgroundImage: themeConfig.overlayPattern }}
             />
           )}
-          <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart margin={{ top: 8, right: 8, bottom: 4, left: 0 }}>
-              {themeConfig.gridDensity !== "none" && (
-                <CartesianGrid
-                  strokeDasharray={themeConfig.gridDash}
-                  stroke={themeConfig.light ? "#1f1f1f" : "var(--v3-line-200)"}
-                  opacity={themeConfig.light ? 0.15 : 0.35}
-                  vertical={false}
-                />
-              )}
-              <XAxis
-                {...xAxisProps}
-                tick={{
-                  fontSize: 9,
-                  fill: themeConfig.axisColor,
-                  fontFamily: "var(--font-geist-mono), monospace",
-                }}
-              />
-              <YAxis
-                {...yAxisProps}
-                tick={{
-                  ...yAxisProps.tick,
-                  fontSize: 9,
-                  fill: themeConfig.axisColor,
-                }}
-                width={44}
-              />
-              <Tooltip content={<ChartTooltip mode={mode} />} />
-              <Legend
-                verticalAlign="top"
-                height={24}
-                iconType="circle"
-                iconSize={6}
-                formatter={(value: string) => (
-                  <span
-                    className="text-[10px]"
-                    style={{
-                      color: themeConfig.light
-                        ? "#1f1f1f"
-                        : "var(--color-text-secondary)",
-                    }}
-                  >
-                    {value}
-                  </span>
-                )}
-              />
-              {themeConfig.areaFill &&
-                series.map((s, i) => (
-                  <Area
-                    key={`area-${s.repoId}`}
-                    data={s.data}
-                    type="monotone"
-                    dataKey="y"
-                    fill={palette[i]}
-                    fillOpacity={themeConfig.areaFillOpacity}
-                    stroke="none"
-                    isAnimationActive={false}
-                    legendType="none"
-                  />
-                ))}
-              {themeConfig.outerGlow &&
-                series.map((s, i) => (
-                  <Line
-                    key={`glow-${s.repoId}`}
-                    data={s.data}
-                    type="monotone"
-                    dataKey="y"
-                    stroke={palette[i]}
-                    strokeWidth={Math.max(2, themeConfig.outerGlowWidth - 2)}
-                    strokeOpacity={themeConfig.outerGlowOpacity}
-                    dot={false}
-                    activeDot={false}
-                    isAnimationActive={false}
-                    legendType="none"
-                  />
-                ))}
-              {series.map((s, i) => (
-                <Line
-                  key={s.repoId}
-                  data={s.data}
-                  type="monotone"
-                  dataKey="y"
-                  name={s.fullName}
-                  stroke={palette[i]}
-                  strokeWidth={Math.max(1, themeConfig.strokeWidth - 0.5)}
-                  dot={false}
-                  activeDot={{ r: 3, strokeWidth: 0 }}
-                  isAnimationActive={false}
-                >
-                  {s.data.length > 0 && (
-                    <LabelList
-                      dataKey="y"
-                      content={makeEndLabel({
-                        shortName: shortNameOf(s.fullName),
-                        color: palette[i],
-                        metric,
-                        lastIndex: s.data.length - 1,
-                        compact: true,
-                      })}
-                    />
-                  )}
-                </Line>
-              ))}
-            </ComposedChart>
-          </ResponsiveContainer>
+          <EChart
+            option={compactOption}
+            height="100%"
+            ariaLabel={`${title} (mobile)`}
+          />
         </div>
       )}
     </ChartShell>

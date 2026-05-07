@@ -100,6 +100,7 @@ import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 // migration shape other Phase 2 worktrees will follow.
 import { PageHead } from "@/components/ui/PageHead";
 import { SectionHead } from "@/components/ui/SectionHead";
+import { FooterBar } from "@/components/ui/FooterBar";
 
 import "./signals.css";
 
@@ -490,6 +491,11 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
         />
       </div>
 
+      <SectionHead
+        num="// 01"
+        title="Cross-source synthesis"
+        meta={<><b>Volume</b> / consensus / {activeWindowLabel}</>}
+      />
       {/* Row 1: Volume chart + Consensus radar */}
       <div className="grid">
         <div className="col-7">
@@ -514,9 +520,9 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       </div>
 
       <SectionHead
-        num="// 03"
+        num="// 02"
         title="Primary feeds"
-        meta="4 · sorted by velocity"
+        meta={<><b>4</b> / sorted by velocity</>}
       />
       <div className="grid">
         <div className="col-3">
@@ -566,9 +572,9 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       </div>
 
       <SectionHead
-        num="// 04"
+        num="// 03"
         title="Secondary & editorial"
-        meta="4 · curated"
+        meta={<><b>4</b> / curated</>}
       />
       <div className="grid">
         <div className="col-3">
@@ -618,13 +624,23 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       </div>
 
       <SectionHead
-        num="// 05"
-        title="Tag momentum · 24h heatmap"
-        meta={`${tagMomentum.rows.length} tags · hourly buckets`}
+        num="// 04"
+        title="Tag momentum / 24h heatmap"
+        meta={<><b>{tagMomentum.rows.length}</b> tags / hourly buckets</>}
       />
       <TagMomentumHeatmap rows={tagMomentum.rows} />
 
+      <SectionHead
+        num="// 05"
+        title="Live wire / 24h ticker"
+        meta={<><b>{tickerItems.length}</b> recent / cross-source</>}
+      />
       <LiveTicker items={tickerItems} />
+
+      <FooterBar
+        meta={`// SIGNALS / newsroom / serial ${items.length}`}
+        actions={`DATA / ${freshnessLabel} · ${activeWindowLabel}`}
+      />
     </main>
   );
 }

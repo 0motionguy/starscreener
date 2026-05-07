@@ -1,0 +1,143 @@
+name: Sweep cross-source mentions
+
+# Per-repo mentions sweep across all 8 channels (Twitter, Reddit, HN,
+# Bluesky, dev.to, Lobsters, ProductHunt, Tavily web search). Closes the
+# source-first blind spot — the existing 88 collectors scan one source for
+# whatever mentions appear, but never iterate the top-trending list and
+# ask each channel "show me mentions of repo X". This sweep does that.
+#
+# Two cron lanes:
+#   - 0 */6 * * *    every 6h, top 50  (~3-4 min wall, 4 workers)
+#   - 15 5 * * *     daily 05:15 UTC, top 200 (~13 min wall)
+#
+# Optional inputs (workflow_dispatch):
+#   queue   path to profile-completion-queue.json — sweep prioritizes
+#           audit-flagged repos instead of pure top-N by rank
+#   dry_run "true" → run adapters but skip JSONL append + Redis write
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+    - cron: "15 5 * * *"
+  workflow_dispatch:
+    inputs:
+      top:
+        description: "top-N repos to sweep"
+        required: false
+        default: "50"
+        type: string
+      queue:
+        description: "queue file (skips top-N selection)"
+        required: false
+        default: ""
+        type: string
+      source_only:
+        description: "restrict to one channel (twitter|reddit|hackernews|bluesky|devto|lobsters|producthunt|tavily)"
+        required: false
+        default: ""
+        type: string
+      dry_run:
+        description: "dry-run (no writes)"
+        required: false
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: sweep-cross-source-mentions
+  cancel-in-progress: false
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Resolve sweep parameters
+        id: params
+        run: |
+          # Schedule lane: 0 */6 → top 50; 15 5 → top 200. Manual dispatch
+          # uses the input. Default fallback = 50.
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "top=${{ github.event.inputs.top || '50' }}" >> "$GITHUB_OUTPUT"
+            echo "queue=${{ github.event.inputs.queue }}" >> "$GITHUB_OUTPUT"
+            echo "source_only=${{ github.event.inputs.source_only }}" >> "$GITHUB_OUTPUT"
+            echo "dry_run=${{ github.event.inputs.dry_run || 'false' }}" >> "$GITHUB_OUTPUT"
+          elif [[ "${{ github.event.schedule }}" == "15 5 * * *" ]]; then
+            echo "top=200" >> "$GITHUB_OUTPUT"
+            echo "queue=" >> "$GITHUB_OUTPUT"
+            echo "source_only=" >> "$GITHUB_OUTPUT"
+            echo "dry_run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "top=50" >> "$GITHUB_OUTPUT"
+            echo "queue=" >> "$GITHUB_OUTPUT"
+            echo "source_only=" >> "$GITHUB_OUTPUT"
+            echo "dry_run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run cross-source sweep
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          GITHUB_WORKFLOW: ${{ github.workflow }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_SHA: ${{ github.sha }}
+          # Per-channel auth — each is optional; the channel disables itself
+          # when its credential is missing (logged as a one-line warn at
+          # sweep start, not a failure).
+          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
+          PRODUCTHUNT_API_TOKEN: ${{ secrets.PRODUCTHUNT_API_TOKEN }}
+        run: |
+          ARGS=(--top "${{ steps.params.outputs.top }}")
+          if [[ -n "${{ steps.params.outputs.queue }}" ]]; then
+            ARGS+=(--queue "${{ steps.params.outputs.queue }}")
+          fi
+          if [[ -n "${{ steps.params.outputs.source_only }}" ]]; then
+            ARGS+=(--source-only "${{ steps.params.outputs.source_only }}")
+          fi
+          if [[ "${{ steps.params.outputs.dry_run }}" == "true" ]]; then
+            ARGS+=(--dry-run)
+          fi
+          npx tsx scripts/sweep-cross-source-mentions.ts "${ARGS[@]}"
+
+      - name: Compute commit timestamp
+        if: steps.params.outputs.dry_run != 'true'
+        id: ts
+        run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
+      - name: Commit if changed
+        if: steps.params.outputs.dry_run != 'true'
+        uses: ./.github/actions/git-commit-data
+        with:
+          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
+          actor-email: "bot@trendingrepo.com"
+          message: "chore(data): cross-source mentions sweep ${{ steps.ts.outputs.value }}"
+          ignore-missing: "true"
+          paths: |
+            data/repo-mentions-detail.jsonl
+            data/repo-mentions-detail-rollup.json
+            data/_meta/cross-source-mentions.json

@@ -29,7 +29,8 @@ export type SocialPlatform =
   | "lobsters"
   | "npm"
   | "huggingface"
-  | "arxiv";
+  | "arxiv"
+  | "funding";
 
 /** Per-source 24h/7d mention counts attached to every Repo. */
 export interface RepoMentionsPerSource {
@@ -41,11 +42,55 @@ export interface RepoMentionsPerSource {
  * Unified mention rollup. `total24h` / `total7d` are simple sums across
  * `perSource` so both stay in sync. `perSource` is keyed by every
  * `SocialPlatform` value so consumers can iterate without missing-key checks.
+ *
+ * `detail` is an optional per-source rollup of the actual mention objects
+ * (URL, title, author, engagement) produced by the cross-source mentions
+ * sweep. Only present when the sweep has run; absent on cold-start. The
+ * counts on `perSource` continue to come from the source-first loaders
+ * unchanged — `detail` only adds richer metadata for UI surfaces that need
+ * it (e.g. "show me the top 5 blog posts mentioning this repo").
  */
 export interface RepoMentionsRollup {
   total24h: number;
   total7d: number;
   perSource: Record<SocialPlatform, RepoMentionsPerSource>;
+  detail?: CrossSourceDetailRollup;
+}
+
+/**
+ * Channels covered by the cross-source mentions sweep. Subset of
+ * `SocialPlatform` (the count-only platforms like `npm` / `huggingface` /
+ * `arxiv` / `funding` / `github` are out of scope — those aren't mention
+ * sources in the same sense) plus `tavily` for general web search.
+ */
+export type CrossSourceChannel =
+  | "twitter"
+  | "reddit"
+  | "hackernews"
+  | "bluesky"
+  | "devto"
+  | "lobsters"
+  | "producthunt"
+  | "tavily";
+
+export interface CrossSourceMentionDetail {
+  source: CrossSourceChannel;
+  url: string;
+  title: string;
+  text: string;
+  author: string | null;
+  engagement: { score?: number; comments?: number; reactions?: number };
+  observedAt: string;
+}
+
+export interface CrossSourceDetailPerSource {
+  count7d: number;
+  top: CrossSourceMentionDetail[];
+}
+
+export interface CrossSourceDetailRollup {
+  totalMentions7d: number;
+  perSource: Partial<Record<CrossSourceChannel, CrossSourceDetailPerSource>>;
 }
 
 export type Sentiment = "positive" | "neutral" | "negative";

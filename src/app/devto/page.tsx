@@ -20,7 +20,7 @@ import { repoFullNameToHref } from "@/lib/hackernews";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { userLogoUrl, resolveLogoUrl } from "@/lib/logos";
+import { userLogoUrl } from "@/lib/logos";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -29,7 +29,16 @@ import { LiveDot } from "@/components/ui/LiveDot";
 
 const DEVTO_BLUE = "#6699ff";
 
-export const dynamic = "force-static";
+// No `dynamic` export — reading `searchParams` already opts the route out
+// of static rendering in Next 15. `force-dynamic` would clash with the root
+// layout's MobileDrawerLazy (dynamic-with-ssr:false).
+
+type Win = "24h" | "7d" | "30d";
+
+function parseWin(raw: string | string[] | undefined): Win {
+  const v = Array.isArray(raw) ? raw[0] : raw;
+  return v === "24h" || v === "30d" ? v : "7d";
+}
 
 export const metadata: Metadata = {
   title: "Trending on Dev.to",
@@ -64,7 +73,13 @@ function formatClock(iso: string | undefined): string {
   return new Date(iso).toISOString().slice(11, 19);
 }
 
-export default async function DevtoPage() {
+export default async function DevtoPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ win?: string | string[] }>;
+}) {
+  const { win: winParam } = await searchParams;
+  const win = parseWin(winParam);
   await Promise.all([
     refreshDevtoTrendingFromStore(),
     refreshDevtoMentionsFromStore(),
@@ -155,6 +170,7 @@ export default async function DevtoPage() {
               <WindowedArticlesFeed
                 allArticles={trendingFile.articles}
                 fetchedAt={trendingFile.fetchedAt}
+                activeWindow={win}
               />
             </section>
             <aside className="hidden md:block">
@@ -181,27 +197,31 @@ export default async function DevtoPage() {
 function WindowedArticlesFeed({
   allArticles,
   fetchedAt,
+  activeWindow,
 }: {
   allArticles: DevtoArticle[];
   fetchedAt: string | undefined;
+  activeWindow: Win;
 }) {
   const HOUR_MS = 3_600_000;
   const nowMs = Date.now();
-  const sortByScore = (list: DevtoArticle[]) =>
-    list
-      .slice()
-      .sort((a, b) => (b.trendingScore ?? 0) - (a.trendingScore ?? 0))
-      .slice(0, 50);
-  const inWindow = (windowMs: number) =>
-    sortByScore(
-      allArticles.filter((a) => {
-        const t = Date.parse(a.publishedAt);
-        return Number.isFinite(t) && nowMs - t <= windowMs;
-      }),
-    );
-  const w24h = inWindow(24 * HOUR_MS);
-  const w7d = inWindow(7 * 24 * HOUR_MS);
-  const w30d = inWindow(30 * 24 * HOUR_MS);
+  const filterWindow = (windowMs: number) =>
+    allArticles.filter((a) => {
+      const t = Date.parse(a.publishedAt);
+      return Number.isFinite(t) && nowMs - t <= windowMs;
+    });
+  // Cheap pre-filter for tab-strip counts (no row sort, no row render).
+  const f24h = filterWindow(24 * HOUR_MS);
+  const f7d = filterWindow(7 * 24 * HOUR_MS);
+  const f30d = filterWindow(30 * 24 * HOUR_MS);
+
+  // Active-window sort + cap. Only this set is rendered server-side.
+  const activeFiltered =
+    activeWindow === "24h" ? f24h : activeWindow === "30d" ? f30d : f7d;
+  const activeArticles = activeFiltered
+    .slice()
+    .sort((a, b) => (b.trendingScore ?? 0) - (a.trendingScore ?? 0))
+    .slice(0, 50);
 
   // Compute scrape-lag context so the 24h-empty case isn't a silent
   // dead-end. Pick the freshest window with rows so the hint is actionable.
@@ -218,10 +238,10 @@ function WindowedArticlesFeed({
           ? `${Math.round(scrapeAgeH)}h ago`
           : `${Math.round(scrapeAgeH / 24)}d ago`;
   const fallbackWin: "7d" | "30d" | null =
-    w7d.length > 0 ? "7d" : w30d.length > 0 ? "30d" : null;
-  const emptyHint = (win: "24h" | "7d" | "30d") => {
+    f7d.length > 0 ? "7d" : f30d.length > 0 ? "30d" : null;
+  const emptyHint = () => {
     const parts = [`Last scrape ${scrapeAgeLabel}.`];
-    if (fallbackWin && fallbackWin !== win) {
+    if (fallbackWin && fallbackWin !== activeWindow) {
       parts.push(`Try the ${fallbackWin} window — currently rendering data.`);
     } else {
       parts.push("Cron refreshes every 3h — fresh articles land soon.");
@@ -230,19 +250,13 @@ function WindowedArticlesFeed({
   };
   return (
     <WindowedFeedTable
-      count24h={w24h.length}
-      count7d={w7d.length}
-      count30d={w30d.length}
-      table24h={
-        <ArticlesFeed articles={w24h} emptySubtitle={emptyHint("24h")} />
+      count24h={Math.min(f24h.length, 50)}
+      count7d={Math.min(f7d.length, 50)}
+      count30d={Math.min(f30d.length, 50)}
+      activeWindow={activeWindow}
+      tableActive={
+        <ArticlesFeed articles={activeArticles} emptySubtitle={emptyHint()} />
       }
-      table7d={
-        <ArticlesFeed articles={w7d} emptySubtitle={emptyHint("7d")} />
-      }
-      table30d={
-        <ArticlesFeed articles={w30d} emptySubtitle={emptyHint("30d")} />
-      }
-      defaultWindow="7d"
     />
   );
 }
@@ -276,28 +290,16 @@ function ArticlesFeed({
       render: (a) => (
         <div className="flex min-w-0 items-center gap-2">
           <EntityLogo
-            // AUDIT-2026-05-04: dropped the `https://dev.to/<user>.png`
-            // fallback — that URL returns CORB-blocked redirects in
-            // production (ERR_BLOCKED_BY_ORB observed in audit Playwright
-            // pass). Falls straight through to the favicon service when
-            // the captured profile_image* fields are missing; EntityLogo
-            // renders a monogram if everything resolves to null.
-            src={
-              userLogoUrl(
-                (
-                  a.author as {
-                    profile_image?: string | null;
-                    profile_image_90?: string | null;
-                  } | null
-                )?.profile_image ??
-                  (
-                    a.author as {
-                      profile_image_90?: string | null;
-                    } | null
-                  )?.profile_image_90 ??
-                  null,
-              ) ?? resolveLogoUrl(a.url ?? null, a.title, 64)
-            }
+            // The worker normalises dev.to's raw `profile_image_90` /
+            // `profile_image` fields into a single `profileImage` URL
+            // (apps/trendingrepo-worker/src/fetchers/devto/index.ts:119)
+            // so that's the only field present on disk. Reading the
+            // snake_case fields here returned undefined for every row,
+            // collapsing every author avatar to the dev.to favicon.
+            // Dropped the `https://dev.to/<user>.png` fallback because it
+            // returns CORB-blocked redirects in prod; EntityLogo's
+            // monogram tile is the no-image fallback.
+            src={userLogoUrl(a.author?.profileImage ?? null)}
             name={a.author?.username ?? a.title}
             size={20}
             shape="circle"

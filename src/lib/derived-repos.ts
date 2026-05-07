@@ -37,6 +37,7 @@ import { decorateWithProductHunt } from "./derived-repos/decorators/producthunt"
 import { decorateWithTwitter } from "./derived-repos/decorators/twitter";
 import { getRedditDataVersion } from "./reddit-data";
 import { getTwitterSignalsDataVersion } from "./twitter";
+import { getCrossSourceMentionsDataVersion } from "./cross-source-mentions";
 import {
   __resetPipelineReposCacheForTests,
   getPipelineRepos,
@@ -87,7 +88,7 @@ function computeCacheKey(): string {
   if (_cacheKeyComputed && now - _cacheKeyComputedAtMs < CACHE_KEY_FLOOR_MS) {
     return _cacheKeyComputed;
   }
-  _cacheKeyComputed = `${getRedditDataVersion()}:${getManualReposDataVersion()}:${getTwitterSignalsDataVersion()}:${getPipelineReposDataVersion()}`;
+  _cacheKeyComputed = `${getRedditDataVersion()}:${getManualReposDataVersion()}:${getTwitterSignalsDataVersion()}:${getPipelineReposDataVersion()}:${getCrossSourceMentionsDataVersion()}`;
   _cacheKeyComputedAtMs = now;
   return _cacheKeyComputed;
 }

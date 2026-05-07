@@ -1667,6 +1667,76 @@ body::before {
   max-width: 1400px;
 }
 
+/* "Tracking just started" banner for live-fetched repos. */
+.repo-detail-tracking-banner {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--accent, #ffaa00) 28%, transparent);
+  background: color-mix(in srgb, var(--accent, #ffaa00) 8%, transparent);
+  color: var(--fg, rgba(255, 255, 255, 0.92));
+  font-size: 13px;
+  line-height: 1.5;
+}
+.repo-detail-tracking-banner strong {
+  font-weight: 600;
+  color: var(--accent, #ffaa00);
+}
+
+/* CompletenessStrip — coverage chip row above the mention feed. */
+.completeness-strip {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+  border-radius: 8px;
+  background: var(--surface-1, rgba(255, 255, 255, 0.02));
+}
+.completeness-strip-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.completeness-strip-label {
+  color: var(--fg-muted, rgba(255, 255, 255, 0.55));
+}
+.completeness-strip-count {
+  color: var(--fg, rgba(255, 255, 255, 0.85));
+  font-variant-numeric: tabular-nums;
+}
+.completeness-strip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.completeness-strip-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+  background: transparent;
+  color: var(--fg-muted, rgba(255, 255, 255, 0.35));
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  transition: opacity 120ms;
+  opacity: 0.4;
+}
+.completeness-strip-chip.is-active {
+  color: var(--fg, rgba(255, 255, 255, 0.95));
+  border-color: var(--border-active, rgba(255, 255, 255, 0.18));
+  background: var(--surface-2, rgba(255, 255, 255, 0.04));
+  opacity: 1;
+}
+.completeness-strip-count-num {
+  font-weight: 500;
+}
+
 .repo-detail-two-col,
 .repo-detail-split {
   display: grid;
@@ -2476,12 +2546,12 @@ body::before {
 .cons-bot .spark-mini {
   flex: 1;
   min-width: 0;
-  height: 18px;
+  height: 22px;
 }
 
 .brk-row {
   display: grid;
-  grid-template-columns: 24px 28px minmax(0, 1fr) 78px 80px;
+  grid-template-columns: 24px 28px minmax(0, 1fr) 116px 80px;
   align-items: center;
   gap: 8px;
   padding: 9px 12px;
@@ -2507,18 +2577,15 @@ body::before {
   gap: 2px;
 }
 
-.brk-row .bar {
-  position: relative;
-  overflow: hidden;
-  width: 74px;
-  height: 6px;
-  background: var(--bg-200);
-}
-
-.brk-row .bar i {
-  position: absolute;
-  inset: 0 auto 0 0;
-  background: var(--sig-green);
+/*
+ * .brk-row .bar / .bar i — legacy CSS velocity bar. Replaced with a real
+ * <Sparkline className="brk-spark" /> showing the 7d star series. Selectors
+ * kept here as a no-op safety net in case any older snapshot of the row
+ * still references them; safe to delete in a follow-up cleanup.
+ */
+.brk-row .brk-spark {
+  width: 108px;
+  height: 26px;
 }
 
 .brk-row .lbl {
@@ -2830,24 +2897,38 @@ body::before {
 
 .tbl-rich td.metric-num {
   font-family: var(--font-mono);
-  font-size: var(--font-size-lg);
+  /* Numeric cells (24h / 7d / 30d deltas, forks, mentions count)
+     bumped from --font-size-lg (10px) to 12px so the metrics read
+     comfortably without dwarfing the headline stars cell (14px). */
+  font-size: 12px;
   font-weight: var(--font-weight-semibold);
 }
 
 .tbl-rich td.stars-num {
   color: var(--ink-000);
+  /* Stars cell is the headline metric on each row — bumped up from
+     the table default (--font-size-lg = 10px) so the count reads at
+     a glance. Stays tabular-nums so columns line up. */
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .tbl-rich .stars-main {
   display: inline-flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 6px;
+  /* Tighter gap so the star+number read as one unit instead of two
+     separate elements. */
+  gap: 4px;
   color: inherit;
 }
 
 .tbl-rich .stars-main svg {
-  color: currentColor;
+  /* Star icon inherits its `style="color: var(--acc)"` from the
+     React render so it paints in TrendingRepo orange — overriding
+     the cell's --ink-000 colour. */
+  flex-shrink: 0;
 }
 
 .tbl-rich .rk-cell {
@@ -2919,7 +3000,9 @@ body::before {
   display: block;
   margin-top: 2px;
   color: var(--ink-400);
-  font-size: var(--font-size-sm);
+  /* Percentage line under each delta — bumped to 10px so it reads
+     under the now-12px delta number without being lost. */
+  font-size: 10px;
   letter-spacing: var(--tracking-wide);
 }
 
@@ -3026,6 +3109,50 @@ body::before {
   border-radius: 50%;
   background: var(--sig-green);
   box-shadow: 0 0 6px var(--sig-green);
+}
+
+.skills-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 14px 12px;
+  border-top: 1px solid var(--v4-line-200);
+  background: var(--v4-bg-050);
+  font-family: var(--font-mono, monospace);
+  font-size: var(--font-size-sm);
+  color: var(--ink-300);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-ui);
+}
+
+.skills-pager-btn {
+  appearance: none;
+  background: var(--v4-bg-100);
+  color: var(--ink-100);
+  border: 1px solid var(--v4-line-300);
+  border-radius: 3px;
+  padding: 6px 14px;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease;
+}
+
+.skills-pager-btn:hover:not(:disabled) {
+  border-color: var(--v4-acc);
+  color: var(--v4-acc);
+}
+
+.skills-pager-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.skills-pager-meta b {
+  color: var(--ink-100);
+  font-weight: var(--font-weight-semibold);
 }
 
 .tbl-rich th.sortable {
@@ -3160,7 +3287,10 @@ body::before {
   display: inline-block;
   color: var(--ink-300);
   font-family: var(--font-mono);
-  font-size: var(--font-size-sm);
+  /* Mention count number (the digit next to the source chips) bumped
+     to 12px to match the other numeric cells — was 9px (--font-size-sm),
+     looked tiny next to the new 14px stars and 12px deltas. */
+  font-size: 12px;
   font-variant-numeric: tabular-nums;
   vertical-align: middle;
 }
@@ -3485,14 +3615,61 @@ body::before {
 
 .sd-gh {
   background: #c8d3df;
+  color: #0a0a0a;
 }
 
 .sd-hf {
   background: var(--sig-amber);
+  color: #0a0a0a;
 }
 
 .sd-x {
   background: var(--sig-blue);
+  color: #0a0a0a;
+}
+
+/* Every other source key gets its canonical brand colour as the chip bg
+   so the monochrome glyph (rendered in `color`) reads at 20×20. Pre-fix
+   the .sd-d / .sd-lobsters / .sd-b / .sd-r / .sd-hn / .sd-ph / .sd-fund /
+   .sd-npm / .sd-arxiv chips were transparent + the icon used the brand
+   fill — dev.to's #0A0A0A and Lobsters' #AC130D were unreadable on the
+   dark row bg, while the rest fought visually. This locks every chip to
+   one consistent treatment: brand bg + dark glyph. */
+.sd-r {
+  background: #ff4500;
+  color: #0a0a0a;
+}
+.sd-hn {
+  background: #ff6600;
+  color: #0a0a0a;
+}
+.sd-b {
+  background: #0085ff;
+  color: #ffffff;
+}
+.sd-d {
+  background: #3ad6c5;
+  color: #0a0a0a;
+}
+.sd-lobsters {
+  background: #ac130d;
+  color: #ffffff;
+}
+.sd-ph {
+  background: #da552f;
+  color: #ffffff;
+}
+.sd-npm {
+  background: #cb3837;
+  color: #ffffff;
+}
+.sd-arxiv {
+  background: #b31b1b;
+  color: #ffffff;
+}
+.sd-fund {
+  background: var(--sig-green, #22c55e);
+  color: #0a0a0a;
 }
 
 .filter-bar {

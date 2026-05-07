@@ -57,8 +57,24 @@ import { getHnMentions } from "../hackernews";
 import { getBlueskyMentions } from "../bluesky";
 import { getDevtoMentions } from "../devto";
 import { getTwitterSignalSync } from "../twitter";
+import { getCrossSourceDetail } from "../cross-source-mentions";
 
 const REDDIT_WINDOW_MS = 48 * 60 * 60 * 1000;
+
+// Read the per-channel 7d count from the cross-source sweep rollup, when
+// it's present. The sweep runs per-repo (Apify Tier-1 query bundle, HN
+// Algolia loose search, Reddit fulltext, Bluesky AT proto, Tavily web)
+// and typically finds 5-10× more hits than the source-first feed-scan
+// loaders. Cross-signal components below take max(sourceFirst, sweep) so
+// the channelsFiring indicator + crossSignalScore reflect both pipelines
+// without losing the source-first signal where it's better.
+function sweepCount(
+  fullName: string,
+  channel: "twitter" | "reddit" | "hackernews" | "bluesky" | "devto" | "lobsters" | "producthunt" | "tavily",
+): number {
+  const detail = getCrossSourceDetail(fullName);
+  return detail?.perSource?.[channel]?.count7d ?? 0;
+}
 
 function githubComponent(status: MovementStatus | undefined): number {
   if (status === "breakout") return 1.0;
@@ -81,38 +97,40 @@ function redditRawScore(fullName: string, nowMs: number): number {
 
 function hnComponent(fullName: string): number {
   const m = getHnMentions(fullName);
-  if (!m) return 0;
-  if (m.everHitFrontPage) return 1.0;
-  if (m.count7d >= 3) return 0.7;
-  if (m.count7d >= 1) return 0.4;
+  const sourceFirstCount = m?.count7d ?? 0;
+  const count = Math.max(sourceFirstCount, sweepCount(fullName, "hackernews"));
+  if (m?.everHitFrontPage) return 1.0;
+  if (count >= 3) return 0.7;
+  if (count >= 1) return 0.4;
   return 0;
 }
 
 function blueskyComponent(fullName: string): number {
   const m = getBlueskyMentions(fullName);
-  if (!m) return 0;
-  if (m.count7d >= 5) return 1.0;
-  if (m.count7d >= 2) return 0.7;
-  if (m.count7d >= 1) return 0.4;
+  const count = Math.max(m?.count7d ?? 0, sweepCount(fullName, "bluesky"));
+  if (count >= 5) return 1.0;
+  if (count >= 2) return 0.7;
+  if (count >= 1) return 0.4;
   return 0;
 }
 
 function devtoComponent(fullName: string): number {
   const m = getDevtoMentions(fullName);
-  if (!m) return 0;
-  if (m.count7d >= 3) return 1.0;
-  if (m.count7d >= 2) return 0.7;
-  if (m.count7d >= 1) return 0.4;
+  const count = Math.max(m?.count7d ?? 0, sweepCount(fullName, "devto"));
+  if (count >= 3) return 1.0;
+  if (count >= 2) return 0.7;
+  if (count >= 1) return 0.4;
   return 0;
 }
 
 function twitterComponent(fullName: string): number {
   const s = getTwitterSignalSync(fullName);
-  if (!s) return 0;
-  const c = s.metrics.mentionCount24h ?? 0;
-  if (c >= 10) return 1.0;
-  if (c >= 3) return 0.7;
-  if (c >= 1) return 0.4;
+  const sourceFirstCount = s?.metrics.mentionCount24h ?? 0;
+  // Twitter sweep records 7d events; use as floor for the threshold check.
+  const count = Math.max(sourceFirstCount, sweepCount(fullName, "twitter"));
+  if (count >= 10) return 1.0;
+  if (count >= 3) return 0.7;
+  if (count >= 1) return 0.4;
   return 0;
 }
 
@@ -138,7 +156,15 @@ export function attachCrossSignal(
   return repos.map((repo, i) => {
     const redditMention = getRedditMentions(repo.fullName);
     const gh = githubComponent(repo.movementStatus);
-    const rd = maxReddit > 0 ? redditRaw[i] / maxReddit : 0;
+    // Reddit: prefer source-first trending-score sum; fall back to sweep
+    // count7d when source-first has no posts but the sweep found mentions.
+    // The fallback maps count7d to the same 0/0.4/0.7/1.0 scale as the
+    // other channels, so a sweep-only repo shows as "firing" instead of 0.
+    const sweepReddit = sweepCount(repo.fullName, "reddit");
+    let rd = maxReddit > 0 ? redditRaw[i] / maxReddit : 0;
+    if (rd === 0 && sweepReddit > 0) {
+      rd = sweepReddit >= 5 ? 1.0 : sweepReddit >= 2 ? 0.7 : 0.4;
+    }
     const hn = hnComponent(repo.fullName);
     const bs = blueskyComponent(repo.fullName);
     const dv = devtoComponent(repo.fullName);

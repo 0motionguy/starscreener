@@ -1,6 +1,8 @@
 // Agent Commerce — pure server-rendered badge primitives.
 //
 // Used by the card + detail page. No client state.
+// Visual language: square corners (terminal feel), unified padding, design-token
+// colors (no bespoke hex), uppercase mono labels.
 
 import type {
   AgentCommerceBadges,
@@ -28,7 +30,11 @@ const PROTOCOL_LABELS: Record<AgentCommerceProtocol, string> = {
   grpc: "gRPC",
 };
 
-export function ProtocolBadge({ protocol }: { protocol: AgentCommerceProtocol }) {
+export function ProtocolBadge({
+  protocol,
+}: {
+  protocol: AgentCommerceProtocol;
+}) {
   return (
     <span className={`ac-proto ${PROTOCOL_TONES[protocol]}`}>
       {PROTOCOL_LABELS[protocol]}
@@ -36,7 +42,11 @@ export function ProtocolBadge({ protocol }: { protocol: AgentCommerceProtocol })
   );
 }
 
-export function ProtocolList({ protocols }: { protocols: AgentCommerceProtocol[] }) {
+export function ProtocolList({
+  protocols,
+}: {
+  protocols: AgentCommerceProtocol[];
+}) {
   if (protocols.length === 0) return null;
   return (
     <div className="ac-proto-row">
@@ -65,7 +75,7 @@ export function PricingBadge({ pricing }: { pricing: AgentCommercePricing }) {
         : "tone-free";
   return (
     <span className={`ac-price ${tone}`}>
-      {label}
+      <span className="ac-price-label">{label}</span>
       {pricing.value ? <em className="ac-price-val">{pricing.value}</em> : null}
     </span>
   );
@@ -73,18 +83,35 @@ export function PricingBadge({ pricing }: { pricing: AgentCommercePricing }) {
 
 export function CapabilityChips({ capabilities }: { capabilities: string[] }) {
   if (capabilities.length === 0) return null;
+  const visible = capabilities.slice(0, 6);
+  const overflow = capabilities.length - visible.length;
   return (
     <div className="ac-caps">
-      {capabilities.slice(0, 6).map((cap) => (
+      {visible.map((cap) => (
         <span key={cap} className="ac-cap">
           {cap}
         </span>
       ))}
+      {overflow > 0 ? (
+        <span className="ac-cap ac-cap-more" title={capabilities.slice(6).join(", ")}>
+          +{overflow}
+        </span>
+      ) : null}
     </div>
   );
 }
 
 export function StatusBadges({ badges }: { badges: AgentCommerceBadges }) {
+  // Hide the row entirely when there are no flags rather than rendering an
+  // empty container (which used to leave a 4px gap and look broken on cold
+  // entries).
+  const hasAny =
+    badges.x402Enabled ||
+    badges.portalReady ||
+    badges.mcpServer ||
+    badges.agentActionable ||
+    badges.verified;
+  if (!hasAny) return null;
   return (
     <div className="ac-flags">
       {badges.x402Enabled ? (
@@ -93,7 +120,10 @@ export function StatusBadges({ badges }: { badges: AgentCommerceBadges }) {
         </span>
       ) : null}
       {badges.portalReady ? (
-        <span className="ac-flag ac-flag-portal" title="Portal v0.1 manifest validated">
+        <span
+          className="ac-flag ac-flag-portal"
+          title="Portal v0.1 manifest validated"
+        >
           Portal Ready
         </span>
       ) : null}
@@ -103,7 +133,10 @@ export function StatusBadges({ badges }: { badges: AgentCommerceBadges }) {
         </span>
       ) : null}
       {badges.agentActionable ? (
-        <span className="ac-flag ac-flag-act" title="Agent-callable surface present">
+        <span
+          className="ac-flag ac-flag-act"
+          title="Agent-callable surface present"
+        >
           Agent Actionable
         </span>
       ) : null}
@@ -117,12 +150,24 @@ export function StatusBadges({ badges }: { badges: AgentCommerceBadges }) {
 }
 
 export function ScoreBar({ score }: { score: number }) {
-  const width = Math.max(2, Math.min(100, score));
-  const tone = score >= 70 ? "high" : score >= 40 ? "mid" : "low";
+  const clamped = Math.max(0, Math.min(100, score));
+  const width = Math.max(2, clamped);
+  // Tier thresholds map to canonical tokens — high uses Functional Green
+  // (the semantic "active/positive/stable" rail), mid uses warning amber,
+  // low uses subtle text (still legible — the previous --color-text-faint
+  // was nearly invisible against the raised card surface).
+  const tone = clamped >= 70 ? "high" : clamped >= 40 ? "mid" : "low";
   return (
-    <span className={`ac-score-bar tone-${tone}`} aria-label={`Score ${score}`}>
-      <em style={{ width: `${width}%` }} />
-      <strong>{score}</strong>
+    <span
+      className={`ac-score-bar tone-${tone}`}
+      aria-label={`Composite score ${clamped}`}
+      role="meter"
+      aria-valuenow={clamped}
+      aria-valuemin={0}
+      aria-valuemax={100}
+    >
+      <em className="ac-score-fill" style={{ width: `${width}%` }} />
+      <strong className="ac-score-num">{clamped}</strong>
     </span>
   );
 }

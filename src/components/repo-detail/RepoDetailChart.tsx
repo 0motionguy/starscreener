@@ -6,22 +6,18 @@
 //   * optional per-mention dots for high-density days (compact overlay)
 // Causality question ("did mentions spike BEFORE stars or AFTER?") becomes
 // visible by putting both series on the same calendar x-axis.
+//
+// Migrated from Recharts ComposedChart to Apache ECharts (canvas-rendered)
+// for perf headroom and a dual-axis API that doesn't fight us. The shared
+// <EChart> wrapper handles SSR + theme + resize.
 
 import { useCallback, useMemo, useState } from "react";
-import {
-  Area,
-  Bar,
-  CartesianGrid,
-  ComposedChart,
-  ResponsiveContainer,
-  Scatter,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import type { EChartsCoreOption, ECharts } from "echarts/core";
 
 import type { Repo, TimeRange } from "@/lib/types";
 import { ChartShell } from "@/components/ui/ChartShell";
+import { EChart } from "@/components/charts/EChart";
+import { CHART_TOKENS } from "@/lib/charts/theme";
 import { cn, formatNumber } from "@/lib/utils";
 import {
   MENTION_PLATFORM_COLORS,
@@ -63,6 +59,12 @@ interface SignalPoint {
   counts: SignalCounts;
 }
 
+interface ScatterDot {
+  ts: number;
+  stars: number;
+  marker: MentionMarker;
+}
+
 function emptyCounts(): SignalCounts {
   return {
     hn: 0,
@@ -99,8 +101,6 @@ function buildStarsPerDay(
   const scaled = cumulative.map((v) => Math.round(v * scale));
 
   if (scaled.length >= days) return scaled.slice(scaled.length - days);
-  // Left-pad with the first known value (or totalStars if series is empty) so
-  // the plotted line still covers the full window cleanly.
   const pad = new Array<number>(days - scaled.length).fill(
     scaled[0] ?? totalStars,
   );
@@ -110,10 +110,6 @@ function buildStarsPerDay(
 /**
  * Roll per-mention markers up into a per-day stacked-count series and align
  * stars on the same UTC day buckets.
- *
- * Note: on the 24h and 7d tabs the bucket size is still 1 day, so the mention
- * bars can look sparse or empty — daily granularity is the smallest the
- * ingestion cadence guarantees. See comment in the TIME_TABS handler.
  */
 function buildSignalSeries(
   sparkline: number[],
@@ -154,12 +150,6 @@ function buildSignalSeries(
   return points;
 }
 
-interface ScatterPoint {
-  ts: number;
-  stars: number;
-  marker: MentionMarker;
-}
-
 function starsAtBucket(series: SignalPoint[], ts: number): number | null {
   if (series.length === 0) return null;
   const bucket = startOfDayUtc(ts);
@@ -175,187 +165,114 @@ function truncate(text: string, max = 80): string {
   return `${trimmed.slice(0, max - 1).trimEnd()}...`;
 }
 
-interface SignalTooltipPayloadEntry {
-  payload?: SignalPoint;
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
-function SignalTooltip({
-  active,
-  payload,
-  starsDeltaByTs,
-}: {
-  active?: boolean;
-  payload?: ReadonlyArray<SignalTooltipPayloadEntry>;
-  starsDeltaByTs: Map<number, number>;
-}) {
-  if (!active || !payload || payload.length === 0) return null;
-  const point = payload[0]?.payload;
-  if (!point) return null;
+interface AxisTooltipParam {
+  seriesType: string;
+  axisValue: number;
+}
 
+interface ItemTooltipParam {
+  seriesType: string;
+  data: { value: [number, number]; marker: MentionMarker };
+}
+
+type TooltipParam = AxisTooltipParam | ItemTooltipParam;
+
+function renderSignalTooltipHtml(
+  point: SignalPoint,
+  starsDelta: number,
+): string {
   const dateLabel = new Date(point.ts).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
     timeZone: "UTC",
   });
-  const delta = starsDeltaByTs.get(point.ts) ?? 0;
   const deltaLabel =
-    delta === 0 ? "±0" : delta > 0 ? `+${formatNumber(delta)}` : `-${formatNumber(Math.abs(delta))}`;
+    starsDelta === 0
+      ? "±0"
+      : starsDelta > 0
+        ? `+${formatNumber(starsDelta)}`
+        : `-${formatNumber(Math.abs(starsDelta))}`;
   const deltaColor =
-    delta > 0
-      ? "var(--color-up)"
-      : delta < 0
-        ? "var(--color-down)"
-        : "var(--color-text-tertiary)";
+    starsDelta > 0
+      ? CHART_TOKENS.positive
+      : starsDelta < 0
+        ? CHART_TOKENS.negative
+        : CHART_TOKENS.textFaint;
 
-  const activeSources = SIGNAL_SOURCES.filter((src) => point.counts[src] > 0);
+  const activeSources = SIGNAL_SOURCES.filter(
+    (src) => point.counts[src] > 0,
+  );
+  const sourceRows = activeSources
+    .map(
+      (src) => `
+      <li style="display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:10px;font-family:var(--font-mono),monospace;">
+        <span style="display:inline-flex;align-items:center;gap:6px;color:${CHART_TOKENS.textSubtle};">
+          <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${MENTION_PLATFORM_COLORS[src]};${src === "devto" ? `border:1px solid #fff;` : ""}"></span>
+          ${MENTION_PLATFORM_LABELS[src]}
+        </span>
+        <span style="color:${CHART_TOKENS.textDefault};font-variant-numeric:tabular-nums;">${point.counts[src]}</span>
+      </li>`,
+    )
+    .join("");
 
-  return (
-    <div className="v2-card px-3 py-2 min-w-[200px]">
-      <p className="text-[11px] font-mono text-text-tertiary mb-1.5">
-        {dateLabel}
-      </p>
-      <div className="flex items-center justify-between gap-4 mb-1">
-        <span className="text-[11px] text-text-secondary inline-flex items-center gap-1.5">
-          <span className="size-1.5 rounded-full bg-up" aria-hidden />
+  return `
+    <div style="min-width:200px;font-family:var(--font-mono),monospace;">
+      <div style="font-size:11px;color:${CHART_TOKENS.textFaint};margin-bottom:6px;">${dateLabel}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:4px;">
+        <span style="font-size:11px;color:${CHART_TOKENS.textSubtle};display:inline-flex;align-items:center;gap:6px;">
+          <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${CHART_TOKENS.positive};"></span>
           Stars
         </span>
-        <span className="font-mono text-xs text-text-primary tabular-nums">
-          {formatNumber(point.stars)}{" "}
-          <span
-            className="text-[10px]"
-            style={{ color: deltaColor }}
-          >
-            {deltaLabel}
-          </span>
+        <span style="font-size:12px;color:${CHART_TOKENS.textDefault};font-variant-numeric:tabular-nums;">
+          ${formatNumber(point.stars)} <span style="font-size:10px;color:${deltaColor};">${deltaLabel}</span>
         </span>
       </div>
-      <div className="mt-1.5 pt-1.5 border-t border-border-primary">
-        <div className="flex items-center justify-between gap-4 mb-1">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-text-tertiary">
-            Mentions
-          </span>
-          <span className="font-mono text-xs text-text-primary tabular-nums">
-            {point.total}
-          </span>
+      <div style="margin-top:6px;padding-top:6px;border-top:1px solid ${CHART_TOKENS.borderDefault};">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:4px;">
+          <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:${CHART_TOKENS.textFaint};">Mentions</span>
+          <span style="font-size:12px;color:${CHART_TOKENS.textDefault};font-variant-numeric:tabular-nums;">${point.total}</span>
         </div>
-        {activeSources.length === 0 ? (
-          <p className="text-[10px] font-mono text-text-tertiary italic">
-            no mentions this day
-          </p>
-        ) : (
-          <ul className="space-y-0.5">
-            {activeSources.map((src) => (
-              <li
-                key={src}
-                className="flex items-center justify-between gap-3 text-[10px] font-mono"
-              >
-                <span className="inline-flex items-center gap-1.5 text-text-secondary">
-                  <span
-                    className="size-1.5 rounded-full"
-                    style={{ backgroundColor: MENTION_PLATFORM_COLORS[src] }}
-                    aria-hidden
-                  />
-                  {MENTION_PLATFORM_LABELS[src]}
-                </span>
-                <span className="text-text-primary tabular-nums">
-                  {point.counts[src]}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
+        ${
+          activeSources.length === 0
+            ? `<div style="font-size:10px;color:${CHART_TOKENS.textFaint};font-style:italic;">no mentions this day</div>`
+            : `<ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px;">${sourceRows}</ul>`
+        }
       </div>
     </div>
-  );
+  `;
 }
 
-interface MarkerTooltipPayloadEntry {
-  payload?: ScatterPoint;
-}
-
-function MarkerTooltip({
-  active,
-  payload,
-}: {
-  active?: boolean;
-  payload?: ReadonlyArray<MarkerTooltipPayloadEntry>;
-}) {
-  if (!active || !payload || payload.length === 0) return null;
-  const point = payload[0]?.payload;
-  if (!point) return null;
-  const marker = point.marker;
+function renderMarkerTooltipHtml(marker: MentionMarker): string {
   const date = new Date(marker.xValue).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
   });
-  return (
-    <div className="v2-card px-3 py-2 max-w-[280px]">
-      <div className="flex items-center justify-between gap-3 mb-1">
-        <span
-          className="inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider"
-          style={{ color: marker.color }}
-        >
-          <span
-            className="size-2 rounded-full"
-            style={{
-              backgroundColor: marker.color,
-              border: marker.stroke ? `1px solid ${marker.stroke}` : undefined,
-            }}
-            aria-hidden
-          />
-          {marker.platformLabel}
+  return `
+    <div style="max-width:280px;font-family:var(--font-mono),monospace;">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:4px;">
+        <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:${marker.color};display:inline-flex;align-items:center;gap:6px;">
+          <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${marker.color};${marker.stroke ? `border:1px solid ${marker.stroke};` : ""}"></span>
+          ${escapeHtml(marker.platformLabel)}
         </span>
-        <span className="text-[10px] font-mono text-text-tertiary tabular-nums">
-          {date}
-        </span>
+        <span style="font-size:10px;color:${CHART_TOKENS.textFaint};font-variant-numeric:tabular-nums;">${date}</span>
       </div>
-      <p className="text-[12px] text-text-primary leading-snug mb-1">
-        {truncate(marker.title, 80)}
-      </p>
-      <div className="flex items-center justify-between text-[11px] font-mono text-text-tertiary tabular-nums">
-        <span className="truncate">{marker.author}</span>
-        <span>
-          <span className="text-text-secondary">
-            {formatNumber(marker.score)}
-          </span>{" "}
-          {marker.scoreLabel}
-        </span>
+      <p style="font-size:12px;color:${CHART_TOKENS.textDefault};line-height:1.35;margin:0 0 4px;">${escapeHtml(truncate(marker.title, 80))}</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:${CHART_TOKENS.textFaint};font-variant-numeric:tabular-nums;">
+        <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px;">${escapeHtml(marker.author)}</span>
+        <span><span style="color:${CHART_TOKENS.textSubtle};">${formatNumber(marker.score)}</span> ${escapeHtml(marker.scoreLabel)}</span>
       </div>
     </div>
-  );
-}
-
-function MarkerShape(props: {
-  cx?: number;
-  cy?: number;
-  payload?: ScatterPoint;
-}) {
-  const { cx, cy, payload } = props;
-  if (cx == null || cy == null || !payload) return null;
-  const marker = payload.marker;
-  return (
-    <g
-      onClick={(event) => {
-        event.stopPropagation();
-        if (marker.url && typeof window !== "undefined") {
-          window.open(marker.url, "_blank", "noopener,noreferrer");
-        }
-      }}
-      style={{ cursor: marker.url ? "pointer" : "default" }}
-      role={marker.url ? "link" : undefined}
-      aria-label={`${marker.platformLabel} mention: ${marker.title}`}
-    >
-      <circle
-        cx={cx}
-        cy={cy}
-        r={4}
-        fill={marker.color}
-        stroke={marker.stroke ?? "var(--color-bg-card)"}
-        strokeWidth={1.5}
-      />
-    </g>
-  );
+  `;
 }
 
 export function RepoDetailChart({
@@ -385,8 +302,6 @@ export function RepoDetailChart({
   const xMin = signalSeries[0]?.ts ?? nowMs - periodDays * DAY_MS;
   const xMax = signalSeries[signalSeries.length - 1]?.ts ?? nowMs;
 
-  // Per-bucket stars delta (today's stars - yesterday's stars) for the
-  // tooltip, computed once.
   const starsDeltaByTs = useMemo(() => {
     const out = new Map<number, number>();
     for (let i = 0; i < signalSeries.length; i++) {
@@ -397,36 +312,6 @@ export function RepoDetailChart({
     return out;
   }, [signalSeries]);
 
-  // Stable Tooltip content callback. Inlining `content={(props) => ...}`
-  // forced Recharts to remount the tooltip every render because the prop
-  // identity changed; useCallback keyed on starsDeltaByTs preserves the
-  // reference between hovers. (Recharts TooltipProps typing per UI-16.)
-  const renderTooltipContent = useCallback(
-    (props: {
-      active?: boolean;
-      payload?: ReadonlyArray<{ payload?: unknown }>;
-    }) => {
-      const payload = props.payload;
-      const first = payload?.[0]?.payload;
-      if (first && typeof first === "object" && "marker" in first) {
-        return (
-          <MarkerTooltip
-            active={props.active}
-            payload={payload as ReadonlyArray<MarkerTooltipPayloadEntry>}
-          />
-        );
-      }
-      return (
-        <SignalTooltip
-          active={props.active}
-          payload={payload as ReadonlyArray<SignalTooltipPayloadEntry>}
-          starsDeltaByTs={starsDeltaByTs}
-        />
-      );
-    },
-    [starsDeltaByTs],
-  );
-
   const visibleMarkers = useMemo(
     () =>
       markers.filter(
@@ -435,16 +320,14 @@ export function RepoDetailChart({
     [markers, xMin, xMax],
   );
 
-  // Optional per-mention dot overlay: only render dots on days that already
-  // carry >=2 mentions (i.e., high-density). On sparse days the stacked bar
-  // is enough; keeps the chart legible.
-  const densityOverlay = useMemo<ScatterPoint[]>(() => {
+  // Optional per-mention dot overlay: only render on days carrying ≥2 mentions.
+  const densityOverlay = useMemo<ScatterDot[]>(() => {
     const highDensityBuckets = new Set<number>();
     for (const point of signalSeries) {
       if (point.total >= 2) highDensityBuckets.add(point.ts);
     }
     if (highDensityBuckets.size === 0) return [];
-    const out: ScatterPoint[] = [];
+    const out: ScatterDot[] = [];
     for (const marker of visibleMarkers) {
       const bucket = startOfDayUtc(marker.xValue);
       if (!highDensityBuckets.has(bucket)) continue;
@@ -454,22 +337,13 @@ export function RepoDetailChart({
     return out;
   }, [signalSeries, visibleMarkers, repo.stars]);
 
-  const dotsByPlatform = useMemo(() => {
-    const map = new Map<MentionPlatform, ScatterPoint[]>();
-    for (const point of densityOverlay) {
-      const bucket = map.get(point.marker.platform);
-      if (bucket) bucket.push(point);
-      else map.set(point.marker.platform, [point]);
-    }
-    return map;
-  }, [densityOverlay]);
-
   const seriesDelta =
     signalSeries.length > 1
       ? signalSeries[signalSeries.length - 1].stars - signalSeries[0].stars
       : repo.starsDelta7d;
   const positive = seriesDelta >= 0;
-  const lineColor = positive ? "var(--color-up)" : "var(--color-down)";
+  const lineColor = positive ? CHART_TOKENS.positive : CHART_TOKENS.negative;
+  const lineColorRgb = positive ? "34, 197, 94" : "255, 77, 77";
 
   const isSparse =
     signalSeries.length < 2 ||
@@ -477,10 +351,7 @@ export function RepoDetailChart({
 
   const totalMentions = visibleMarkers.length;
 
-  // Right Y-axis (mention bars) max: cap so bars live in ~bottom 30% of the
-  // canvas. We pass an explicit domain of [0, cap] where cap = 3.3x the
-  // busiest day; recharts renders the bar heights against that scale, which
-  // visually compresses them.
+  // Right Y-axis cap so bars live in roughly the bottom 30% of the canvas.
   const maxDailyMentions = Math.max(1, ...signalSeries.map((p) => p.total));
   const rightAxisMax = Math.max(4, Math.ceil(maxDailyMentions * 3.3));
 
@@ -493,6 +364,203 @@ export function RepoDetailChart({
     }
     return SIGNAL_SOURCES.filter((src) => present.has(src));
   }, [signalSeries]);
+
+  const option = useMemo<EChartsCoreOption | null>(() => {
+    if (isSparse) return null;
+
+    // Stars area series — `[ts, stars]` tuples on the time axis.
+    const starsData = signalSeries.map(
+      (p) => [p.ts, p.stars] as [number, number],
+    );
+
+    // One stacked-bar series per source. ECharts requires same-length arrays,
+    // so we fill every bucket even if zero (will render as no bar).
+    const stackSeries = SIGNAL_SOURCES.map((src, idx) => ({
+      type: "bar" as const,
+      yAxisIndex: 1,
+      stack: "mentions",
+      name: MENTION_PLATFORM_LABELS[src],
+      barMaxWidth: 14,
+      data: signalSeries.map((p) => [p.ts, p.counts[src]] as [number, number]),
+      itemStyle: {
+        color: MENTION_PLATFORM_COLORS[src],
+        borderColor: src === "devto" ? "#ffffff" : undefined,
+        borderWidth: src === "devto" ? 0.5 : 0,
+        borderRadius:
+          idx === SIGNAL_SOURCES.length - 1
+            ? ([2, 2, 0, 0] as [number, number, number, number])
+            : 0,
+      },
+    }));
+
+    // Per-platform scatter overlay for high-density buckets. Each dot carries
+    // its marker so the tooltip can render the full mention metadata.
+    const dotsByPlatform = new Map<MentionPlatform, ScatterDot[]>();
+    for (const dot of densityOverlay) {
+      const arr = dotsByPlatform.get(dot.marker.platform) ?? [];
+      arr.push(dot);
+      dotsByPlatform.set(dot.marker.platform, arr);
+    }
+    const scatterSeries = Array.from(dotsByPlatform.entries()).map(
+      ([platform, dots]) => ({
+        type: "scatter" as const,
+        yAxisIndex: 0,
+        name: `${MENTION_PLATFORM_LABELS[platform]} dots`,
+        symbolSize: 8,
+        data: dots.map((d) => ({
+          value: [d.ts, d.stars] as [number, number],
+          marker: d.marker,
+        })),
+        itemStyle: {
+          color: dots[0]?.marker.color ?? CHART_TOKENS.accent,
+          borderColor:
+            dots[0]?.marker.stroke ?? CHART_TOKENS.bgRaised,
+          borderWidth: 1.5,
+        },
+      }),
+    );
+
+    return {
+      grid: { top: 12, right: 36, bottom: 28, left: 60, containLabel: false },
+      xAxis: {
+        type: "time",
+        min: xMin,
+        max: xMax,
+        axisLabel: {
+          color: CHART_TOKENS.textFaint,
+          fontSize: 10,
+          formatter: (value: number) =>
+            new Date(value)
+              .toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                timeZone: "UTC",
+              })
+              .toUpperCase(),
+          hideOverlap: true,
+          margin: 12,
+        },
+      },
+      yAxis: [
+        {
+          type: "value",
+          position: "left",
+          axisLabel: {
+            color: CHART_TOKENS.textFaint,
+            fontSize: 10,
+            formatter: (value: number) => formatNumber(value),
+          },
+          splitLine: {
+            lineStyle: { color: CHART_TOKENS.borderSubtle, type: "dashed" },
+          },
+        },
+        {
+          type: "value",
+          position: "right",
+          min: 0,
+          max: rightAxisMax,
+          interval: maxDailyMentions,
+          axisLabel: {
+            color: CHART_TOKENS.textFaint,
+            fontSize: 10,
+            formatter: (value: number) => (value === 0 ? "" : String(value)),
+          },
+          splitLine: { show: false },
+        },
+      ],
+      tooltip: {
+        trigger: "axis",
+        axisPointer: {
+          type: "line",
+          lineStyle: {
+            color: CHART_TOKENS.borderDefault,
+            type: "dashed",
+            width: 1,
+          },
+        },
+        formatter: (params: TooltipParam | TooltipParam[]) => {
+          const list = Array.isArray(params) ? params : [params];
+          // Marker dot under cursor wins — show the rich link tooltip.
+          const scatterHit = list.find(
+            (p): p is ItemTooltipParam =>
+              p.seriesType === "scatter" && "data" in p && Boolean(p.data?.marker),
+          );
+          if (scatterHit) {
+            return renderMarkerTooltipHtml(scatterHit.data.marker);
+          }
+          // Otherwise fall back to the daily aggregate from the bucket.
+          const ts =
+            (list[0] as AxisTooltipParam | undefined)?.axisValue ?? null;
+          if (ts === null) return "";
+          const point = signalSeries.find((p) => p.ts === ts);
+          if (!point) return "";
+          const delta = starsDeltaByTs.get(point.ts) ?? 0;
+          return renderSignalTooltipHtml(point, delta);
+        },
+      },
+      series: [
+        // Stacked mention bars (under the stars line).
+        ...stackSeries,
+        // Stars area on top.
+        {
+          type: "line",
+          yAxisIndex: 0,
+          name: "Stars",
+          showSymbol: false,
+          data: starsData,
+          lineStyle: { width: 2, color: lineColor },
+          emphasis: {
+            itemStyle: {
+              color: lineColor,
+              borderColor: CHART_TOKENS.bgRaised,
+              borderWidth: 2,
+            },
+          },
+          areaStyle: {
+            color: {
+              type: "linear",
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                { offset: 0, color: `rgba(${lineColorRgb}, 0.30)` },
+                { offset: 1, color: `rgba(${lineColorRgb}, 0)` },
+              ],
+            },
+          },
+          z: 5,
+          animationDuration: 0,
+        },
+        // Per-mention scatter overlay (above the area).
+        ...scatterSeries,
+      ],
+    };
+  }, [
+    isSparse,
+    signalSeries,
+    densityOverlay,
+    starsDeltaByTs,
+    xMin,
+    xMax,
+    rightAxisMax,
+    maxDailyMentions,
+    lineColor,
+    lineColorRgb,
+  ]);
+
+  // Click handler: open the marker URL in a new tab when a scatter dot is
+  // clicked. Wired via onReady → instance.on("click").
+  const onReady = useCallback((instance: ECharts) => {
+    instance.on("click", (params: { seriesType?: string; data?: unknown }) => {
+      if (params.seriesType !== "scatter" || !params.data) return;
+      const data = params.data as { marker?: MentionMarker };
+      const url = data.marker?.url;
+      if (url && typeof window !== "undefined") {
+        window.open(url, "_blank", "noopener,noreferrer");
+      }
+    });
+  }, []);
 
   return (
     <ChartShell
@@ -545,178 +613,14 @@ export function RepoDetailChart({
 
       <div className="chart-wrap h-[180px] w-full sm:h-[220px] xl:h-[260px]">
         <div className="h-full w-full">
-          {isSparse ? (
+          {option === null ? (
             <div className="h-full w-full flex items-center justify-center">
               <p className="text-xs font-mono text-text-tertiary">
                 Collecting star history...
               </p>
             </div>
           ) : (
-            <ResponsiveContainer width="100%" height="100%">
-              <ComposedChart
-                data={signalSeries}
-                margin={{ top: 10, right: 12, bottom: 8, left: 4 }}
-                barCategoryGap="20%"
-              >
-                <defs>
-                  <linearGradient
-                    id="repo-detail-stars-grad"
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                    <stop offset="0%" stopColor={lineColor} stopOpacity={0.3} />
-                    <stop
-                      offset="100%"
-                      stopColor={lineColor}
-                      stopOpacity={0}
-                    />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid
-                  stroke="var(--v3-line-200)"
-                  strokeOpacity={0.35}
-                  vertical={false}
-                />
-                <XAxis
-                  type="number"
-                  dataKey="ts"
-                  domain={[xMin, xMax]}
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{
-                    fill: "var(--v3-ink-400)",
-                    fontSize: 10,
-                    fontFamily: "var(--font-geist-mono), monospace",
-                    letterSpacing: "0.12em",
-                  }}
-                  interval="preserveStartEnd"
-                  minTickGap={24}
-                  tickCount={periodDays <= 7 ? periodDays : 6}
-                  tickFormatter={(value: number) =>
-                    new Date(value).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      timeZone: "UTC",
-                    })
-                  }
-                  dy={8}
-                  scale="time"
-                />
-                <YAxis
-                  yAxisId="left"
-                  type="number"
-                  dataKey="stars"
-                  domain={["auto", "auto"]}
-                  axisLine={false}
-                  tickLine={false}
-                  tickCount={5}
-                  tick={{
-                    fill: "var(--v3-ink-400)",
-                    fontSize: 10,
-                    fontFamily: "var(--font-geist-mono), monospace",
-                    letterSpacing: "0.12em",
-                  }}
-                  tickFormatter={(value: number) => formatNumber(value)}
-                  width={54}
-                />
-                <YAxis
-                  yAxisId="right"
-                  orientation="right"
-                  type="number"
-                  domain={[0, rightAxisMax]}
-                  allowDecimals={false}
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{
-                    fill: "var(--v3-ink-400)",
-                    fontSize: 10,
-                    fontFamily: "var(--font-geist-mono), monospace",
-                    letterSpacing: "0.12em",
-                  }}
-                  tickFormatter={(value: number) =>
-                    value === 0 ? "" : String(value)
-                  }
-                  width={28}
-                  // Ticks only in the visible range (bars live in bottom ~30%)
-                  ticks={[0, Math.ceil(maxDailyMentions)].filter(
-                    (v, i, a) => a.indexOf(v) === i,
-                  )}
-                />
-                <Tooltip
-                  // Recharts ships TooltipProps but its ContentType callback
-                  // receives a partial subset that doesn't expose `payload`
-                  // directly — keeping the localized `as` narrowing in
-                  // renderTooltipContent above. Tracked under audit UI-16.
-                  content={renderTooltipContent as never}
-                  cursor={{
-                    stroke: "var(--v3-line-300)",
-                    strokeDasharray: "4 4",
-                    strokeOpacity: 0.6,
-                  }}
-                />
-
-                {/* Stacked mention bars (one <Bar> per source) - bottom layer */}
-                {SIGNAL_SOURCES.map((src, idx) => (
-                  <Bar
-                    key={src}
-                    yAxisId="right"
-                    // Recharts supports dot-notation string dataKeys for nested
-                    // fields. The fn-form `(p) => p.counts[src]` was un-cacheable
-                    // in Recharts' fast path; the string form lets Recharts
-                    // memoize the per-bar accessor (UI-14).
-                    dataKey={`counts.${src}`}
-                    name={MENTION_PLATFORM_LABELS[src]}
-                    stackId="mentions"
-                    fill={MENTION_PLATFORM_COLORS[src]}
-                    stroke={src === "devto" ? "#ffffff" : undefined}
-                    strokeWidth={src === "devto" ? 0.5 : 0}
-                    // Only round the topmost visible stack segment; recharts
-                    // handles this automatically when radius is set on the
-                    // last bar of the stack.
-                    radius={
-                      idx === SIGNAL_SOURCES.length - 1 ? [2, 2, 0, 0] : 0
-                    }
-                    isAnimationActive={false}
-                    maxBarSize={14}
-                  />
-                ))}
-
-                {/* Stars area (top layer) */}
-                <Area
-                  yAxisId="left"
-                  type="monotone"
-                  dataKey="stars"
-                  name="Stars"
-                  stroke={lineColor}
-                  strokeWidth={2}
-                  fill="url(#repo-detail-stars-grad)"
-                  dot={false}
-                  activeDot={{
-                    r: 4,
-                    fill: lineColor,
-                    stroke: "var(--color-bg-card)",
-                    strokeWidth: 2,
-                  }}
-                  isAnimationActive={false}
-                />
-
-                {/* Optional compact per-mention dot overlay for high-density days */}
-                {Array.from(dotsByPlatform.entries()).map(
-                  ([platform, points]) => (
-                    <Scatter
-                      yAxisId="left"
-                      key={platform}
-                      name={MENTION_PLATFORM_LABELS[platform]}
-                      data={points}
-                      shape={MarkerShape}
-                      isAnimationActive={false}
-                    />
-                  ),
-                )}
-              </ComposedChart>
-            </ResponsiveContainer>
+            <EChart option={option} height="100%" onReady={onReady} />
           )}
         </div>
       </div>

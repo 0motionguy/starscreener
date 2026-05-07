@@ -26,6 +26,7 @@ import { ProfileTemplate } from "@/components/templates/ProfileTemplate";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
+import { FooterBar } from "@/components/ui/FooterBar";
 
 import { decodeSkillSlug, encodeSkillSlug } from "../_slug";
 
@@ -111,12 +112,22 @@ export default async function SkillDetailPage({ params }: PageProps) {
   const cited = skill.derivativeRepoCount ?? 0;
   const forks = skill.forks ?? 0;
 
+  // Crumb: prefer the human-readable owner / slug fragment over the
+  // base64url-encoded route param (which renders as 16 chars of noise).
+  // Falls back to the title when neither author nor linkedRepo are set.
+  const crumbTrail = (
+    skill.linkedRepo ??
+    (skill.author ? `${skill.author}/${skill.title}` : skill.title)
+  )
+    .toUpperCase()
+    .slice(0, 48);
+
   return (
     <main className="home-surface">
       <ProfileTemplate
         crumb={
           <>
-            <b>SKILL</b> · TERMINAL · /SKILLS/{slug.slice(0, 16).toUpperCase()}
+            <b>SKILL</b> · TERMINAL · /SKILLS / {crumbTrail}
           </>
         }
         identity={
@@ -415,6 +426,16 @@ export default async function SkillDetailPage({ params }: PageProps) {
                 No related skills.
               </p>
             )}
+          </>
+        }
+      />
+
+      <FooterBar
+        meta={`// SKILL / ${skill.sourceLabel} / rank #${skill.rank}`}
+        actions={
+          <>
+            SCORE / <b>{skill.signalScore}</b>/100 ·{" "}
+            {skill.crossSourceCount} REGISTRIES
           </>
         }
       />

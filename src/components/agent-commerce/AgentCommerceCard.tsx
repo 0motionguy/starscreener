@@ -40,19 +40,23 @@ function getInitials(name: string): string {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
-function getGradient(name: string): string {
-  const gradients = [
-    "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
-    "linear-gradient(135deg, #10b981 0%, #047857 100%)",
-    "linear-gradient(135deg, #f472b6 0%, #db2777 100%)",
-    "linear-gradient(135deg, #f59e0b 0%, #b45309 100%)",
-    "linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)",
-    "linear-gradient(135deg, #06b6d4 0%, #0e7490 100%)",
-    "linear-gradient(135deg, #f97316 0%, #c2410c 100%)",
-  ];
+// Deterministic accent slot from name. We use the rotating chart-series ramp
+// (tokens that already match the dashboard) instead of bespoke pastel
+// gradients — keeps every card on-palette and removes random hue noise.
+const LOGO_TONES = [
+  "var(--color-accent)",
+  "var(--color-positive)",
+  "var(--color-blue)",
+  "var(--color-violet)",
+  "var(--color-warning)",
+  "var(--color-cyan)",
+  "var(--color-pink)",
+] as const;
+
+function getLogoTone(name: string): string {
   let hash = 0;
   for (const ch of name) hash = (hash * 31 + ch.charCodeAt(0)) >>> 0;
-  return gradients[hash % gradients.length];
+  return LOGO_TONES[hash % LOGO_TONES.length];
 }
 
 function primaryHref(item: AgentCommerceItem): string {
@@ -67,6 +71,7 @@ function primaryHref(item: AgentCommerceItem): string {
 export function AgentCommerceCard({ item }: { item: AgentCommerceItem }) {
   const detailHref = `/agent-commerce/${item.slug}`;
   const externalHref = primaryHref(item);
+  const logoTone = getLogoTone(item.name);
 
   return (
     <article className="ac-card">
@@ -74,18 +79,24 @@ export function AgentCommerceCard({ item }: { item: AgentCommerceItem }) {
         <div
           className="ac-logo"
           aria-hidden="true"
-          style={{ background: getGradient(item.name) }}
+          style={{ color: logoTone }}
         >
-          {getInitials(item.name)}
+          <span className="ac-logo-mark">{getInitials(item.name)}</span>
         </div>
         <div className="ac-card-title">
           <Link href={detailHref} className="ac-card-name">
             {item.name}
           </Link>
           <div className="ac-card-meta">
-            <span className="ac-meta-kind">{KIND_LABELS[item.kind] ?? item.kind}</span>
-            <span className="ac-meta-dot">·</span>
-            <span className="ac-meta-cat">{CATEGORY_LABELS[item.category] ?? item.category}</span>
+            <span className="ac-meta-kind">
+              {KIND_LABELS[item.kind] ?? item.kind}
+            </span>
+            <span className="ac-meta-dot" aria-hidden>
+              ·
+            </span>
+            <span className="ac-meta-cat">
+              {CATEGORY_LABELS[item.category] ?? item.category}
+            </span>
           </div>
         </div>
         <div className="ac-card-score">
@@ -112,9 +123,9 @@ export function AgentCommerceCard({ item }: { item: AgentCommerceItem }) {
               href={externalHref}
               target="_blank"
               rel="noreferrer"
-              className="ac-link"
+              className="ac-link ac-link-ext"
             >
-              Visit ↗
+              Visit <span aria-hidden>↗</span>
             </a>
           ) : null}
         </div>

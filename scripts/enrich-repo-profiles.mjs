@@ -113,6 +113,57 @@ function parseIncludes() {
     .filter((value) => value.includes("/"));
 }
 
+// Stale-queue guard: a queue file older than this is ignored — we fall
+// back to the existing top-N selection. Matches the cadence of the
+// completion-check workflow (*/30 min) with a 4x safety margin.
+const QUEUE_MAX_AGE_MS = 2 * 60 * 60 * 1000;
+
+/**
+ * Read profile-completion-queue.json (when --queue or
+ * PROFILE_ENRICH_QUEUE_FILE is set) and return the list of fullNames whose
+ * recommendedAction is enrich-eligible ("enrich" or "both"), already sorted
+ * by priority desc. Returns [] when no queue file is configured, the file is
+ * missing, or the queue is stale (>2h old) — we never block the existing
+ * top-N path on a stale queue.
+ */
+async function parseQueueFile() {
+  const queuePath = optionString("queue", "PROFILE_ENRICH_QUEUE_FILE", "");
+  if (!queuePath) return [];
+  let raw;
+  try {
+    raw = await readFile(queuePath, "utf8");
+  } catch (err) {
+    if (err?.code === "ENOENT") {
+      console.warn(`[enrich] queue file not found: ${queuePath} — falling back to top-N selection`);
+      return [];
+    }
+    throw err;
+  }
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch (err) {
+    console.warn(`[enrich] queue file invalid JSON: ${queuePath} — falling back to top-N (${err.message})`);
+    return [];
+  }
+  const generatedAt = Date.parse(parsed?.generatedAt ?? "");
+  if (Number.isFinite(generatedAt) && Date.now() - generatedAt > QUEUE_MAX_AGE_MS) {
+    console.warn(
+      `[enrich] queue file ${queuePath} is stale (generatedAt=${parsed.generatedAt}) — falling back to top-N`,
+    );
+    return [];
+  }
+  const incomplete = Array.isArray(parsed?.incomplete) ? parsed.incomplete : [];
+  return incomplete
+    .filter(
+      (entry) =>
+        entry?.fullName?.includes("/") &&
+        (entry.recommendedAction === "enrich" || entry.recommendedAction === "both"),
+    )
+    .sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0))
+    .map((entry) => entry.fullName);
+}
+
 function parseScanOverrides() {
   const map = new Map();
   const raw = optionString("scan-overrides", "PROFILE_ENRICH_SCAN_ID_OVERRIDES", "");
@@ -229,12 +280,17 @@ function profileNeedsRefresh(profile) {
 }
 
 function candidateSort(a, b) {
-  const priority = (candidate) =>
-    candidate.selectedFrom === "manual_include"
-      ? 0
-      : candidate.rank != null
-        ? 1
-        : 2;
+  const priority = (candidate) => {
+    // completion_queue and manual_include both rank above trending — operator
+    // intent + audit-driven repos must run before the rank-only top-N tail.
+    if (
+      candidate.selectedFrom === "manual_include" ||
+      candidate.selectedFrom === "completion_queue"
+    ) {
+      return 0;
+    }
+    return candidate.rank != null ? 1 : 2;
+  };
   const ap = priority(a);
   const bp = priority(b);
   if (ap !== bp) return ap - bp;
@@ -249,11 +305,27 @@ function candidateSort(a, b) {
   return a.fullName.localeCompare(b.fullName);
 }
 
-function collectCandidates(trendingFile, metadataByRepo, profilesByRepo) {
+function collectCandidates(trendingFile, metadataByRepo, profilesByRepo, queueRepos = []) {
   const rankMap = buildTrendingRankMap(trendingFile);
   const includeRepos = parseIncludes();
   const seen = new Set();
   const out = [];
+
+  // 1. completion-queue entries first — already pre-sorted by priority desc
+  //    in parseQueueFile(). Highest precedence so the audit feedback loop
+  //    runs before the static --include and trending top-N pipelines.
+  for (const fullName of queueRepos) {
+    const key = normalizeRepoKey(fullName);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push({
+      fullName,
+      rank: rankMap.get(key) ?? null,
+      selectedFrom: "completion_queue",
+      metadata: metadataByRepo.get(key) ?? null,
+      existing: profilesByRepo.get(key) ?? null,
+    });
+  }
 
   for (const fullName of includeRepos) {
     const key = normalizeRepoKey(fullName);
@@ -623,18 +695,25 @@ async function main() {
   const phByRepo = buildProductHuntIndex(phFile);
   const npmByRepo = buildNpmIndex(npmFile, npmManualFile);
   const scanOverrides = parseScanOverrides();
+  const queueRepos = await parseQueueFile();
   const profilesByRepo = new Map(
     (existingFile.profiles ?? []).map((profile) => [
       normalizeRepoKey(profile.fullName),
       profile,
     ]),
   );
-  const candidates = collectCandidates(trendingFile, metadataByRepo, profilesByRepo);
+  const candidates = collectCandidates(
+    trendingFile,
+    metadataByRepo,
+    profilesByRepo,
+    queueRepos,
+  );
   const aisoBaseUrl = await resolveAisoBaseUrl();
   const selection = {
     source: MODE,
     limit: LIMIT,
     maxScans: MAX_SCANS,
+    fromQueue: queueRepos.length,
     scanned: 0,
     queued: 0,
     noWebsite: 0,
@@ -644,7 +723,7 @@ async function main() {
   let aisoRateLimited = false;
 
   console.log(
-    `repo profiles: mode=${MODE} candidates=${candidates.length} maxScans=${MAX_SCANS} aiso=${AISO_ENABLED ? aisoBaseUrl : "disabled"}`,
+    `repo profiles: mode=${MODE} candidates=${candidates.length} fromQueue=${queueRepos.length} maxScans=${MAX_SCANS} aiso=${AISO_ENABLED ? aisoBaseUrl : "disabled"}`,
   );
 
   for (const candidate of candidates) {

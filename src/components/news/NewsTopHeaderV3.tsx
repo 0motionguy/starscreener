@@ -15,6 +15,7 @@
 
 import Link from "next/link";
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { NewsHeaderSparkline } from "./NewsHeaderSparkline";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -538,7 +539,7 @@ function SnapshotBody({
 
         {card.spark && card.spark.length > 1 ? (
           <div className="mt-1 flex items-end gap-3">
-            <Sparkline values={card.spark} accent={accent} />
+            <NewsHeaderSparkline values={card.spark} accent={accent} />
             {card.sparkTrend ? (
               <div
                 className="v2-mono text-right shrink-0 text-[9.5px] tracking-[0.10em]"
@@ -596,49 +597,11 @@ function SnapshotBody({
 }
 
 // ---------------------------------------------------------------------------
-// Compact-v1 visual atoms — sparkline, delta pill, footer strip,
-// minute heatmap, hourly distribution.
+// Compact-v1 visual atoms — delta pill, footer strip, minute heatmap,
+// hourly distribution. (Sparkline lives in NewsHeaderSparkline.tsx so the
+// chart can use the shared <EChart> wrapper without forcing this whole
+// file to be a client component.)
 // ---------------------------------------------------------------------------
-
-function Sparkline({ values, accent }: { values: number[]; accent: string }) {
-  if (values.length === 0) return null;
-  const w = 200;
-  const h = 38;
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const range = max - min || 1;
-  const stepX = w / Math.max(1, values.length - 1);
-  const points = values.map((v, i) => {
-    const x = i * stepX;
-    const y = h - 2 - ((v - min) / range) * (h - 6);
-    return `${x.toFixed(1)},${y.toFixed(1)}`;
-  });
-  const linePath = `M${points.join(" L")}`;
-  const areaPath = `${linePath} L${w},${h} L0,${h} Z`;
-  const lastIdx = values.length - 1;
-  const lastX = lastIdx * stepX;
-  const lastY = h - 2 - ((values[lastIdx] - min) / range) * (h - 6);
-  const gradId = `v3spark-${Math.abs(values.reduce((s, v) => s + v, 0)) || 0}`;
-  return (
-    <svg
-      viewBox={`0 0 ${w} ${h}`}
-      preserveAspectRatio="none"
-      className="flex-1"
-      style={{ width: "100%", height: 38, display: "block" }}
-      aria-hidden
-    >
-      <defs>
-        <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={accent} stopOpacity="0.45" />
-          <stop offset="100%" stopColor={accent} stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <path d={areaPath} fill={`url(#${gradId})`} />
-      <path d={linePath} fill="none" stroke={accent} strokeWidth={1.5} />
-      <circle cx={lastX} cy={lastY} r={2.4} fill="var(--v3-ink-000)" />
-    </svg>
-  );
-}
 
 function DeltaPill({
   delta,

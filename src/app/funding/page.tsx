@@ -34,14 +34,40 @@ export const metadata: Metadata = {
 
 const SOURCE_LABELS: Record<string, string> = {
   techcrunch: "TechCrunch",
+  "techcrunch-venture": "TC · Venture",
   venturebeat: "VentureBeat",
   sifted: "Sifted",
   telegram: "Telegram",
   twitter: "X / Twitter",
+  x: "X / Twitter",
   reddit: "Reddit",
   submit: "Submitted",
   yc: "YC",
   newsapi: "NewsAPI",
+  "crunchbase-venture": "Crunchbase News",
+  "crunchbase-startups": "Crunchbase · Startups",
+  alleywatch: "AlleyWatch",
+  finsmes: "FinSMEs",
+  techfundingnews: "Tech Funding News",
+  techeu: "Tech.eu",
+  pymnts: "PYMNTS",
+  arstechnica: "Ars Technica",
+  bbc: "BBC Tech",
+  wired: "Wired",
+  geekwire: "GeekWire",
+  techstartups: "TechStartups",
+  "eu-startups": "EU-Startups",
+  siliconcanals: "Silicon Canals",
+  "techcrunch-ai": "TC · AI",
+  "venturebeat-ai": "VB · AI",
+  "ai-news": "AI News",
+  "ai-business": "AI Business",
+  "the-decoder": "The Decoder",
+  marktechpost: "MarkTechPost",
+  "unite-ai": "Unite.AI",
+  "analytics-india": "Analytics India",
+  "mit-tech-review-ai": "MIT TR · AI",
+  synced: "Synced",
 };
 
 const ROUND_LABELS: Record<string, FundingStage | string> = {
@@ -250,18 +276,64 @@ export default async function FundingPage() {
         }
       />
 
+      <KpiBand
+        className="kpi-band"
+        cells={[
+          {
+            label: "CAPITAL",
+            value: money(totalAmount),
+            sub: `${file.windowDays}d parsed total`,
+            tone: "money",
+            pip: "var(--v4-money)",
+          },
+          {
+            label: "MEGA",
+            value: megaRounds,
+            sub: "$100M+ rounds",
+            tone: "acc",
+            pip: "var(--v4-acc)",
+          },
+          {
+            label: "THIS WEEK",
+            value: stats.thisWeekCount,
+            sub: "fresh items",
+            tone: "acc",
+            pip: "var(--v4-blue)",
+          },
+          {
+            label: "EXTRACTED",
+            value: extracted,
+            sub: `of ${signals.length} signals`,
+            tone: "money",
+            pip: "var(--v4-money)",
+          },
+          {
+            label: "CONFIDENCE",
+            value: highConfidence,
+            sub: `${mediumConfidence} medium`,
+            tone: "amber",
+            pip: "var(--v4-amber)",
+          },
+          {
+            label: "SOURCES",
+            value: sources.length,
+            sub: "feeds firing",
+            pip: "var(--v4-ink-300)",
+          },
+        ]}
+      />
+
       <VerdictRibbon
         tone="money"
         stamp={{
           eyebrow: "// CAPITAL RADAR",
-          headline: money(totalAmount),
+          headline: `${megaRounds} mega · ${extracted} extracted`,
           sub: `${file.windowDays}d window · computed ${computed} UTC`,
         }}
         text={
           <>
-            <b>{signals.length} funding signals</b> are in the current window.{" "}
-            <span style={{ color: "var(--v4-violet)" }}>{extracted} extracted rounds</span>{" "}
-            include{" "}
+            <b>{signals.length} funding signals</b> in the current window —{" "}
+            <span style={{ color: "var(--v4-money)" }}>{money(totalAmount)} parsed</span> across{" "}
             <span style={{ color: "var(--v4-amber)" }}>{megaRounds} mega rounds</span> and{" "}
             <span style={{ color: "var(--v4-money)" }}>
               {highConfidence} high-confidence
@@ -273,101 +345,44 @@ export default async function FundingPage() {
         actionLabel="RSS →"
       />
 
-      <KpiBand
-        className="kpi-band"
-        cells={[
-          {
-            label: "SIGNALS",
-            value: signals.length,
-            sub: "tracked",
-            pip: "var(--v4-ink-300)",
-          },
-          {
-            label: "EXTRACTED",
-            value: extracted,
-            sub: "structured",
-            tone: "money",
-            pip: "var(--v4-money)",
-          },
-          {
-            label: "CAPITAL",
-            value: money(totalAmount),
-            sub: "parsed total",
-            tone: "money",
-            pip: "var(--v4-money)",
-          },
-          {
-            label: "THIS WEEK",
-            value: stats.thisWeekCount,
-            sub: "fresh items",
-            tone: "acc",
-            pip: "var(--v4-blue)",
-          },
-          {
-            label: "MEGA",
-            value: megaRounds,
-            sub: "$100M+",
-            tone: "acc",
-            pip: "var(--v4-acc)",
-          },
-          {
-            label: "CONFIDENCE",
-            value: highConfidence,
-            sub: `${mediumConfidence} medium`,
-            tone: "amber",
-            pip: "var(--v4-amber)",
-          },
-        ]}
-      />
-
-      <div className="src-strip funding-sources">
-        {sources.length > 0 ? (
-          sources.map((source, index) => (
-            <div className="src-cell" key={source.source}>
-              <div className="src-top">
-                <span className={`sd sd-f${(index % 6) + 1}`}>
-                  {sourceName(source.source).slice(0, 2).toUpperCase()}
-                </span>
-                <span className="nm">{sourceName(source.source)}</span>
-                <span className="wt">{source.count}</span>
-              </div>
-              <div className="ct">{source.count}</div>
-              <div className="meta">signals</div>
-              <span className="bar">
-                <i style={{ width: `${Math.max(8, (source.count / Math.max(1, signals.length)) * 100)}%` }} />
-              </span>
-            </div>
-          ))
-        ) : (
-          <div className="src-cell">
-            <div className="src-top">
-              <span className="sd sd-f1">--</span>
-              <span className="nm">No source data</span>
-              <span className="wt">0</span>
-            </div>
-            <div className="ct">0</div>
-            <div className="meta">waiting</div>
-            <span className="bar"><i style={{ width: "4%" }} /></span>
-          </div>
-        )}
-      </div>
-
       {signals.length === 0 ? (
         <EmptyState cold={cold} />
       ) : (
         <>
+          {/* // 01 — Top rounds windowed board. Lead with the row-level
+              detail (the user's actual jobs-to-be-done: "who just raised
+              and how much"). The aggregate chart is a derivative view and
+              moves to // 02. */}
           <SectionHead
             num="// 01"
-            title="Capital movement"
+            title="Top rounds"
             meta={
               <>
-                <b>{topRounds.length}</b> · largest rounds
+                <b>biggest</b> · 24h / 7d / 30d
+              </>
+            }
+          />
+          <WindowedFundingBoard
+            rows24h={rounds24h}
+            rows7d={rounds7d}
+            rows30d={rounds30d}
+            defaultWindow="7d"
+          />
+
+          {/* // 02 — Aggregate volume + source mix. Round volume bars are
+              all-time (within window), source mix shows feed distribution. */}
+          <SectionHead
+            num="// 02"
+            title="Volume & source mix"
+            meta={
+              <>
+                <b>{topRounds.length}</b> · all-time · {sources.length} feeds
               </>
             }
           />
           <div className="grid">
             <Card className="col-8 funding-chart">
-              <CardHeader showCorner right={<span>{money(totalAmount)} parsed</span>}>
+              <CardHeader showCorner right={<span>{money(totalAmount)} parsed · all-time</span>}>
                 Round volume
               </CardHeader>
               <CardBody>
@@ -408,37 +423,23 @@ export default async function FundingPage() {
             </Card>
           </div>
 
-          <SectionHead
-            num="// 02"
-            title="Top rounds"
-            meta={
-              <>
-                <b>biggest</b> · 24h / 7d / 30d
-              </>
-            }
-          />
-          <WindowedFundingBoard
-            rows24h={rounds24h}
-            rows7d={rounds7d}
-            rows30d={rounds30d}
-            defaultWindow="7d"
-          />
-
+          {/* // 03 — Recent tape + sector tags. News tape now uses all 8
+              latest items (was wasting half the column at .slice(0,4)). */}
           <SectionHead
             num="// 03"
             title="Recent signals"
             meta={
               <>
-                <b>{recent.length}</b> · latest
+                <b>{recent.length}</b> · latest tape
               </>
             }
           />
           <div className="grid">
-            <Card className="col-6">
+            <Card className="col-8">
               <CardHeader showCorner right={<span>latest feed</span>}>
                 News tape
               </CardHeader>
-              {recent.slice(0, 4).map((signal, index) => (
+              {recent.map((signal, index) => (
                 <Link
                   key={signal.id}
                   href={signal.sourceUrl}
@@ -458,7 +459,7 @@ export default async function FundingPage() {
                 </Link>
               ))}
             </Card>
-            <Card className="col-6">
+            <Card className="col-4">
               <CardHeader showCorner right={<span>tags</span>}>
                 Sector tags
               </CardHeader>

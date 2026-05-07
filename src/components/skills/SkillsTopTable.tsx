@@ -231,6 +231,8 @@ function ActionCell({
   );
 }
 
+const PAGE_SIZE = 50;
+
 export function SkillsTopTable({
   rows,
   defaultSortKey = "stars",
@@ -238,6 +240,9 @@ export function SkillsTopTable({
   const [sortKey, setSortKey] = useState<SortKey>(defaultSortKey);
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [filter, setFilter] = useState<"all" | "cited">("all");
+  // Pagination — 50/page is what users actually scan. The pre-fix table
+  // dumped all ~1.8k rows into the DOM which dominated TTI.
+  const [page, setPage] = useState(0);
 
   const handleSort = (key: SortKey) => {
     if (key === sortKey) {
@@ -246,6 +251,12 @@ export function SkillsTopTable({
       setSortKey(key);
       setSortDir("desc");
     }
+    setPage(0);
+  };
+
+  const handleFilter = (next: "all" | "cited") => {
+    setFilter(next);
+    setPage(0);
   };
 
   const counts = useMemo(
@@ -256,7 +267,7 @@ export function SkillsTopTable({
     [rows],
   );
 
-  const visible = useMemo(() => {
+  const sorted = useMemo(() => {
     const filtered = rows.filter((r) => {
       if (filter === "cited") return r.cited > 0;
       return true;
@@ -265,6 +276,15 @@ export function SkillsTopTable({
       compareNumeric(getSortValue(a, sortKey), getSortValue(b, sortKey), sortDir),
     );
   }, [rows, sortKey, sortDir, filter]);
+
+  const pageCount = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
+  const safePage = Math.min(page, pageCount - 1);
+  const visible = useMemo(() => {
+    const start = safePage * PAGE_SIZE;
+    return sorted.slice(start, start + PAGE_SIZE);
+  }, [sorted, safePage]);
+  const rangeStart = sorted.length === 0 ? 0 : safePage * PAGE_SIZE + 1;
+  const rangeEnd = Math.min(sorted.length, (safePage + 1) * PAGE_SIZE);
 
   return (
     <div className="live-top">
@@ -279,14 +299,14 @@ export function SkillsTopTable({
             key={k}
             type="button"
             className={`fchip ${filter === k ? "on" : ""}`}
-            onClick={() => setFilter(k)}
+            onClick={() => handleFilter(k)}
           >
             {label} <span className="ct">{ct}</span>
           </button>
         ))}
         <span className="live-top-spacer" />
         <span className="live-top-meta">
-          showing <b>{visible.length}</b> / {rows.length}
+          showing <b>{rangeStart}-{rangeEnd}</b> / {sorted.length}
           <span className="live-pip">live</span>
         </span>
       </div>
@@ -438,6 +458,32 @@ export function SkillsTopTable({
           </tbody>
         </table>
       </div>
+
+      {pageCount > 1 ? (
+        <nav className="skills-pager" aria-label="Skills pagination">
+          <button
+            type="button"
+            className="skills-pager-btn"
+            onClick={() => setPage((p) => Math.max(0, p - 1))}
+            disabled={safePage === 0}
+            aria-label="Previous page"
+          >
+            ← prev
+          </button>
+          <span className="skills-pager-meta">
+            page <b>{safePage + 1}</b> / {pageCount}
+          </span>
+          <button
+            type="button"
+            className="skills-pager-btn"
+            onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
+            disabled={safePage >= pageCount - 1}
+            aria-label="Next page"
+          >
+            next →
+          </button>
+        </nav>
+      ) : null}
     </div>
   );
 }

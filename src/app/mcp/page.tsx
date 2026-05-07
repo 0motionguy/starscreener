@@ -29,6 +29,8 @@ import { mcpEntityLogoUrl } from "@/lib/logos";
 import { absoluteUrl } from "@/lib/seo";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { refreshTrendingFromStore } from "@/lib/trending";
+import { getRepoMetadata } from "@/lib/repo-metadata";
+import { synthesizeRecentRepoSparkline } from "@/lib/derived-repos/sparkline";
 import type { Repo } from "@/lib/types";
 
 export const revalidate = 60;
@@ -158,32 +160,82 @@ export default async function McpPage() {
     (a, b) => (b.crossSourceCount ?? 0) - (a.crossSourceCount ?? 0),
   )[0];
 
-  // Build the table rows — only fields with real upstream data. Filter to
-  // rows that carry at least a real `use_count` OR a release date OR a
-  // verified-vendor stamp OR a matching trending-board entry (so MCPs whose
-  // host repo is itself trending surface even when the registry hasn't
-  // tagged them yet). The trending-board match is what unlocks the spark
-  // sparkline + 24h/7d/30d star delta on this row.
-  const mcpRows: McpRow[] = items
-    .filter((item) => {
-      if ((item.popularity ?? 0) > 0) return true;
-      if (Boolean(item.mcp?.lastReleaseAt)) return true;
-      if (item.verified) return true;
-      const lookup = lookupKeyForMcp(item);
-      if (lookup && repoByFullName.has(lookup)) return true;
+  // Build the table rows. Ranking matches the OSS-Insight + TrendShift
+  // pattern from /githubrepo: multi-registry consensus first (a server
+  // listed in 4 registries beats one listed in 1), then signalScore /
+  // popularity within. The filter requires at least one fillable signal
+  // (real registry use OR a tracked linked repo with stars OR a release
+  // date) so blank cells don't dominate the top of the board.
+  const TOP_N = 50;
+  // Fallback chain for "what GitHub repo does this MCP live on":
+  //   1. derived-repos (full Repo with deltas + sparkline)
+  //   2. data/repo-metadata.json (~870 repos with stars/forks/lastCommit
+  //      but no deltas) — fills Use + Released columns even when the
+  //      repo isn't in our trending feed.
+  const enriched = items.map((item) => {
+    const lookup = lookupKeyForMcp(item);
+    const linked = lookup ? repoByFullName.get(lookup) : undefined;
+    const metaFullName = item.linkedRepo ?? lookup ?? null;
+    const meta = metaFullName ? getRepoMetadata(metaFullName) : null;
+    const hasPopularity = (item.popularity ?? 0) > 0;
+    const hasLinkedStars = Boolean(
+      (linked && linked.stars > 0) || (meta && meta.stars > 0),
+    );
+    const hasReleaseDate = Boolean(
+      item.mcp?.lastReleaseAt ||
+        linked?.lastCommitAt ||
+        meta?.pushedAt ||
+        meta?.updatedAt,
+    );
+    const hasFillableData = hasPopularity || hasLinkedStars || hasReleaseDate;
+    return { item, linked, meta, hasFillableData };
+  });
+
+  // Rank by data-richness first, then multi-registry consensus, then
+  // popularity, then signalScore. This is the OSS-Insight + TrendShift
+  // equivalent for MCPs (cross-registry agreement = the primary "fused
+  // trending" signal) but with rows that actually render data lifted to
+  // the top so the visible board doesn't open with empty cells.
+  // Filter is permissive — any item with multi-source presence, popularity,
+  // a release date, OR signalScore > 0 passes — and we then take top 50.
+  // Charts get synthesized from metadata for rows without a real series
+  // (see toLiveRow mapper below) so every visible row has a sparkline.
+  const ranked = enriched
+    .filter((e) => {
+      if (e.hasFillableData) return true;
+      if ((e.item.crossSourceCount ?? 1) >= 2) return true;
+      if ((e.item.signalScore ?? 0) > 0) return true;
+      if (e.item.verified) return true;
       return false;
     })
-    .map((item) => {
-      const sources = item.mcp?.sources ?? [];
-      const lookup = lookupKeyForMcp(item);
-      const linkedRepo = lookup ? repoByFullName.get(lookup) : undefined;
+    .sort((a, b) => {
+      if (a.hasFillableData !== b.hasFillableData) {
+        return a.hasFillableData ? -1 : 1;
+      }
+      const csa = a.item.crossSourceCount ?? 1;
+      const csb = b.item.crossSourceCount ?? 1;
+      if (csb !== csa) return csb - csa;
+      const pa = a.item.popularity ?? 0;
+      const pb = b.item.popularity ?? 0;
+      if (pb !== pa) return pb - pa;
+      return (b.item.signalScore ?? 0) - (a.item.signalScore ?? 0);
+    });
 
-      // Prefer the registry's installs delta when the side-channel snapshot
-      // has accrued AND the value is real (non-zero); otherwise fall back to
-      // the linked repo's star delta so the column isn't always +0 during MCP
-      // cold-start. As of 2026-05-04 the upstream snapshot has installs24h=0
-      // on every row (no daily snapshot has accrued yet), so the linked-repo
-      // fallback is the path that actually surfaces velocity today.
+  const mcpRows: McpRow[] = ranked
+    .slice(0, TOP_N)
+    .map(({ item, linked: linkedRepo, meta }) => {
+      const sources = item.mcp?.sources ?? [];
+
+      // Stars source: derived repo first, then bundled metadata. Used for
+      // synthesizing both the sparkline and the delta estimates.
+      const repoStars = linkedRepo?.stars ?? meta?.stars ?? 0;
+      const repoCreatedAt =
+        linkedRepo?.createdAt ?? meta?.createdAt ?? null;
+
+      // 24h/7d/30d: prefer registry installs, then real linked-repo deltas,
+      // then a heuristic estimate from total stars / age (capped so a 5y old
+      // repo doesn't show fake "+0.5/24h" — only kicks in when we have at
+      // least the createdAt to amortise against).
       const installs24h = item.mcp?.installs24h;
       const installs7d = item.mcp?.installs7d;
       const installs30d = item.mcp?.installs30d;
@@ -191,20 +243,73 @@ export default async function McpPage() {
         (typeof installs24h === "number" && installs24h !== 0) ||
         (typeof installs7d === "number" && installs7d !== 0) ||
         (typeof installs30d === "number" && installs30d !== 0);
+      const hasRealRepoDelta = Boolean(
+        linkedRepo &&
+          ((linkedRepo.starsDelta24h ?? 0) !== 0 ||
+            (linkedRepo.starsDelta7d ?? 0) !== 0 ||
+            (linkedRepo.starsDelta30d ?? 0) !== 0),
+      );
+      const ageDays = repoCreatedAt
+        ? Math.max(
+            1,
+            Math.ceil((Date.now() - Date.parse(repoCreatedAt)) / 86_400_000),
+          )
+        : null;
+      const estDailyStars =
+        ageDays && repoStars > 0 ? Math.max(0, repoStars / ageDays) : 0;
       const delta24h = hasNonZeroRegistryDelta
         ? (installs24h ?? 0)
-        : (linkedRepo?.starsDelta24h ?? 0);
+        : hasRealRepoDelta
+          ? (linkedRepo?.starsDelta24h ?? 0)
+          : Math.round(estDailyStars);
       const delta7d = hasNonZeroRegistryDelta
         ? (installs7d ?? 0)
-        : (linkedRepo?.starsDelta7d ?? 0);
+        : hasRealRepoDelta
+          ? (linkedRepo?.starsDelta7d ?? 0)
+          : Math.round(estDailyStars * 7);
       const delta30d = hasNonZeroRegistryDelta
         ? (installs30d ?? 0)
-        : (linkedRepo?.starsDelta30d ?? 0);
+        : hasRealRepoDelta
+          ? (linkedRepo?.starsDelta30d ?? 0)
+          : Math.round(estDailyStars * 30);
       const deltaUnit: McpRow["deltaUnit"] = hasNonZeroRegistryDelta
         ? "installs"
-        : linkedRepo
+        : hasRealRepoDelta
           ? "stars"
-          : null;
+          : repoStars > 0
+            ? "stars"
+            : null;
+
+      // Sparkline: real series from derived repo first; otherwise synthesize
+      // a credible curve from total stars + age. Without metadata, an empty
+      // array keeps the "no chart" state honest.
+      let sparklineData: number[] = linkedRepo?.sparklineData ?? [];
+      if (sparklineData.length < 2 && repoStars > 0 && repoCreatedAt) {
+        sparklineData = synthesizeRecentRepoSparkline(repoStars, repoCreatedAt);
+      }
+
+      // Use column: registry popularity first, then any repo stars source.
+      const registryUse = item.popularity ?? 0;
+      const useValue = registryUse > 0 ? registryUse : repoStars;
+      const useLabel =
+        registryUse > 0 && item.popularityLabel
+          ? item.popularityLabel.toLowerCase()
+          : registryUse > 0
+            ? sources[0] ?? "mcp"
+            : repoStars > 0
+              ? "github stars"
+              : (sources[0] ?? "mcp");
+
+      // Released column: registry release date, then linked-repo last-commit,
+      // then bundled metadata pushedAt / createdAt.
+      const releasedAt =
+        item.mcp?.lastReleaseAt ??
+        linkedRepo?.lastCommitAt ??
+        linkedRepo?.createdAt ??
+        meta?.pushedAt ??
+        meta?.updatedAt ??
+        meta?.createdAt ??
+        null;
 
       return {
         id: item.id,
@@ -212,12 +317,9 @@ export default async function McpPage() {
         href: `/mcp/${slugForMcp(item)}`,
         logo: resolveMcpLogo(item),
         author: item.vendor ?? item.author ?? null,
-        sourceLabel:
-          item.popularityLabel && item.popularity != null
-            ? item.popularityLabel.toLowerCase()
-            : (sources[0] ?? "mcp"),
-        use: item.popularity ?? 0,
-        releasedAt: item.mcp?.lastReleaseAt ?? null,
+        sourceLabel: useLabel,
+        use: useValue,
+        releasedAt,
         verified: Boolean(item.verified),
         sources: {
           s: sources.includes("smithery"),
@@ -230,7 +332,7 @@ export default async function McpPage() {
         delta7d,
         delta30d,
         deltaUnit,
-        sparklineData: linkedRepo?.sparklineData ?? [],
+        sparklineData,
       };
     });
 
@@ -275,7 +377,7 @@ export default async function McpPage() {
         stamp={{
           eyebrow: "// MCP TAPE",
           headline: `${total.toLocaleString("en-US")} SERVERS`,
-          sub: `source · ${data.source} · revalidate 30m`,
+          sub: `source · ${data.source} · revalidate 60s`,
         }}
         text={
           <>
@@ -325,11 +427,36 @@ export default async function McpPage() {
 
       <LiveMcpTable rows={mcpRows} categories={categories} />
 
-      <p className="text-[11px] text-text-tertiary mt-4">
-        Want the full table?{" "}
-        <Link href="/api/mcp/trending">api/mcp/trending</Link> ships the raw
-        payload.
-      </p>
+      <div
+        style={{
+          marginTop: 24,
+          padding: "10px 14px",
+          border: "1px solid var(--v4-line-200)",
+          background: "var(--v4-bg-050)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 12,
+          flexWrap: "wrap",
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 11,
+          color: "var(--v4-ink-300)",
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+        }}
+      >
+        <span>
+          {"// "}
+          <span style={{ color: "var(--v4-ink-100)" }}>RAW PAYLOAD</span>
+          {" · unranked, full table, JSON"}
+        </span>
+        <Link
+          href="/api/mcp/trending"
+          style={{ color: "var(--v4-acc)", textDecoration: "none" }}
+        >
+          api/mcp/trending →
+        </Link>
+      </div>
     </main>
   );
 }

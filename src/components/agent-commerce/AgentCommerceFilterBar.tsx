@@ -74,13 +74,37 @@ function toggleProtocol(
   return withParam(base, "protocol", value || null);
 }
 
+// Count active filters so the bar can show a "clear all" affordance and so we
+// can collapse the sidebar rail label when the user has scoped the surface.
+function countActive(props: FilterBarProps): number {
+  let n = 0;
+  if (props.category) n++;
+  n += props.protocols.size;
+  if (props.pricing) n++;
+  if (props.portalReady) n++;
+  if (props.query) n++;
+  return n;
+}
+
+function clearAllHref(base: URLSearchParams): string {
+  const next = new URLSearchParams(base);
+  next.delete("cat");
+  next.delete("protocol");
+  next.delete("pricing");
+  next.delete("portalready");
+  next.delete("q");
+  const qs = next.toString();
+  return qs ? `/agent-commerce?${qs}` : "/agent-commerce";
+}
+
 export function AgentCommerceFilterBar(props: FilterBarProps) {
   const { category, protocols, pricing, portalReady, baseQuery } = props;
+  const activeCount = countActive(props);
 
   return (
-    <div className="ac-filterbar">
+    <div className="ac-filterbar" role="group" aria-label="Filters">
       <div className="ac-fb-group">
-        <span className="ac-fb-lbl">category</span>
+        <span className="ac-fb-lbl">{"// category"}</span>
         <Link
           className={`ac-chip ${category === null ? "is-on" : ""}`}
           href={withParam(baseQuery, "cat", null)}
@@ -99,12 +123,13 @@ export function AgentCommerceFilterBar(props: FilterBarProps) {
       </div>
 
       <div className="ac-fb-group">
-        <span className="ac-fb-lbl">protocol</span>
+        <span className="ac-fb-lbl">{"// protocol"}</span>
         {PROTOCOLS.map((p) => (
           <Link
             key={p}
-            className={`ac-chip ${protocols.has(p) ? "is-on" : ""}`}
+            className={`ac-chip ac-chip-proto ${protocols.has(p) ? "is-on" : ""}`}
             href={toggleProtocol(baseQuery, protocols, p)}
+            data-proto={p}
           >
             {PROTOCOL_LABELS[p]}
           </Link>
@@ -112,7 +137,7 @@ export function AgentCommerceFilterBar(props: FilterBarProps) {
       </div>
 
       <div className="ac-fb-group">
-        <span className="ac-fb-lbl">pricing</span>
+        <span className="ac-fb-lbl">{"// pricing"}</span>
         <Link
           className={`ac-chip ${pricing === null ? "is-on" : ""}`}
           href={withParam(baseQuery, "pricing", null)}
@@ -130,13 +155,24 @@ export function AgentCommerceFilterBar(props: FilterBarProps) {
         ))}
       </div>
 
-      <div className="ac-fb-group">
+      <div className="ac-fb-group ac-fb-group-flag">
         <Link
-          className={`ac-chip ${portalReady ? "is-on" : ""}`}
+          className={`ac-chip ac-chip-flag ${portalReady ? "is-on" : ""}`}
           href={withParam(baseQuery, "portalready", portalReady ? null : "1")}
+          aria-pressed={portalReady}
         >
+          <span className="ac-chip-dot" aria-hidden />
           Portal Ready
         </Link>
+        {activeCount > 0 ? (
+          <Link
+            href={clearAllHref(baseQuery)}
+            className="ac-fb-clear"
+            aria-label={`Clear ${activeCount} active filters`}
+          >
+            clear ({activeCount})
+          </Link>
+        ) : null}
       </div>
     </div>
   );

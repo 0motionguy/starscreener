@@ -183,6 +183,7 @@ interface FilterState {
   setVisibleColumns: (ids: ColumnId[]) => void;
   resetColumnsToDefault: () => void;
   setSort: (col: ColumnId, dir: SortDirection) => void;
+  prepareAgentReposView: () => void;
   toggleSortDirection: () => void;
   setLanguages: (ls: string[]) => void;
   toggleLanguage: (lang: string) => void;
@@ -307,6 +308,29 @@ export const useFilterStore = create<FilterState>()(
         set({ visibleColumns: [...DEFAULT_VISIBLE_COLUMNS] }),
 
       setSort: (col, dir) => set({ sortColumn: col, sortDirection: dir }),
+
+      prepareAgentReposView: () =>
+        set((s) => {
+          if (
+            s.activeTag === null &&
+            s.activeMetaFilter === null &&
+            s.activeTab === "trending" &&
+            s.timeRange === "7d" &&
+            s.sortColumn === "stars" &&
+            s.sortDirection === "desc"
+          ) {
+            return s;
+          }
+
+          return {
+            activeTag: null,
+            activeMetaFilter: null,
+            activeTab: "trending",
+            timeRange: "7d",
+            sortColumn: "stars",
+            sortDirection: "desc",
+          };
+        }),
 
       toggleSortDirection: () =>
         set((s) => ({

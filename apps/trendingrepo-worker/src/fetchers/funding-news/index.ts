@@ -40,10 +40,77 @@ const RSS_FEEDS: Record<string, string> = {
   pymnts: 'https://www.pymnts.com/feed/',
   bbc: 'https://feeds.bbci.co.uk/news/technology/rss.xml',
   wired: 'https://www.wired.com/feed/',
+  geekwire: 'https://www.geekwire.com/category/topic/funding/feed/',
+  'eu-startups': 'https://www.eu-startups.com/feed/',
+  siliconcanals: 'https://siliconcanals.com/feed/',
+  techstartups: 'https://techstartups.com/feed/',
+  // AI-tagged category feeds — every item is already classified as AI
+  // by the publisher, so the AI_KEYWORDS gate below is bypassed for these
+  // (see AI_TAGGED_SOURCES). Combined with the existing FUNDING_KEYWORDS
+  // filter, these feeds emit pure AI-funding signals with near-zero
+  // false-positive rate.
+  'techcrunch-ai': 'https://techcrunch.com/category/artificial-intelligence/feed/',
+  'venturebeat-ai': 'https://venturebeat.com/category/ai/feed/',
+  'ai-news': 'https://www.artificialintelligence-news.com/feed/',
+  'ai-business': 'https://aibusiness.com/rss.xml',
+  // Wave-2 AI-tagged additions (2026-05-07): high-frequency, funding-dense
+  // outlets that fill geographic + editorial gaps in the pool above.
+  //
+  //   the-decoder    pure AI news, daily, German+English editorial team —
+  //                  catches European AI rounds the US-centric outlets miss
+  //   marktechpost   daily AI research+industry, frequent funding posts;
+  //                  one of the most prolific AI funding posters
+  //   unite-ai       AI products + funding, US-tilted; covers consumer AI
+  //                  rounds the others skip
+  //   analytics-india India / APAC AI scene — biggest current geographic
+  //                  gap; daily posts, ~30% funding-related
+  //   mit-tech-review-ai  premium AI editorial; lower volume but high
+  //                  signal-to-noise on serious rounds
+  //   synced         Asia-Pacific AI research+industry; complements
+  //                  analytics-india with a research/lab-tilt
+  'the-decoder': 'https://the-decoder.com/feed/',
+  marktechpost: 'https://www.marktechpost.com/feed/',
+  'unite-ai': 'https://www.unite.ai/feed/',
+  'analytics-india': 'https://analyticsindiamag.com/feed/',
+  'mit-tech-review-ai': 'https://www.technologyreview.com/topic/artificial-intelligence/feed',
+  synced: 'https://syncedreview.com/feed/',
 };
+
+/**
+ * Sources whose category/tag is already AI — any item here is by-definition
+ * AI-related, so we skip the AI_KEYWORDS check and only require the
+ * FUNDING_KEYWORDS filter. These are the highest-precision feeds in the
+ * pool because the publisher has already done the AI classification.
+ */
+const AI_TAGGED_SOURCES = new Set<string>([
+  'techcrunch-ai',
+  'venturebeat-ai',
+  'ai-news',
+  'ai-business',
+  'the-decoder',
+  'marktechpost',
+  'unite-ai',
+  'analytics-india',
+  'mit-tech-review-ai',
+  'synced',
+]);
 
 const FUNDING_KEYWORDS =
   /\braises?\b|\braised\b|\bsecures?\b|\bsecured\b|\bfunding\b|\binvestment\b|\bround\b|\bmillion\b|\bbillion\b|\bacquired\b|\bacquisition\b/i;
+
+/**
+ * AI-funding gate. Operator scope is AI funding only — non-AI rounds add
+ * noise without value. Applied to non-AI-tagged feeds (techcrunch /startups,
+ * venturebeat main, sifted, etc.) so general feeds still produce signals,
+ * but only on AI-relevant items. Headline + description are concatenated
+ * before testing so an item titled "Acme raises $40M" with body
+ * "to scale its LLM platform" still passes. Word boundaries on multi-letter
+ * abbreviations ("ai", "ml", "llm") avoid the obvious false positives
+ * ("retail", "skill", "william"). "GenAI", "AGI", "AGENT", "RAG", "fine-tune"
+ * cover the second-order vocabulary that doesn't include the literal "AI".
+ */
+const AI_KEYWORDS =
+  /\bai\b|\ba\.i\.\b|\bartificial intelligence\b|\bmachine learning\b|\bml\b|\bdeep learning\b|\bllm\b|\bllms\b|\blarge language model\b|\bfoundation model\b|\bgenerative\b|\bgen-?ai\b|\bagi\b|\bagents?\b|\bcopilot\b|\bgpt\b|\btransformer\b|\bdiffusion\b|\bmultimodal\b|\bcomputer vision\b|\bnlp\b|\bspeech recognition\b|\brobotic process\b|\bautonomous\b|\bneural\b|\binference\b|\bfine-?tun\w*\b|\brag\b|\bvector database\b|\bembeddings?\b|\bopenai\b|\banthropic\b|\bmistral\b|\bcohere\b|\bperplexity\b|\bhugging ?face\b/i;
 
 const BAD_NAME_PATTERN =
   /^(the\s|fintech\b|sources\b|report\b|breaking\b|scoop\b|ai\s+startups|billionaire|cathie\s+wood|creandum\s+partner|alumni\b)/i;
@@ -142,6 +209,14 @@ const fetcher: Fetcher = {
         const itemDate = Date.parse(item.publishedAt);
         if (Number.isFinite(itemDate) && Date.now() - itemDate > MAX_AGE_MS) continue;
         if (!FUNDING_KEYWORDS.test(item.headline)) continue;
+        // AI-funding-only mode: non-AI-tagged feeds (general tech/startup
+        // feeds) must additionally show an AI marker in the headline OR
+        // description. AI-tagged feeds (techcrunch-ai etc.) bypass since
+        // the publisher already classified them.
+        if (!AI_TAGGED_SOURCES.has(sourceName)) {
+          const haystack = `${item.headline} ${item.description ?? ''}`;
+          if (!AI_KEYWORDS.test(haystack)) continue;
+        }
         const id = createSignalId(item.headline, item.sourceUrl);
         if (seenIds.has(id)) continue;
         seenIds.add(id);

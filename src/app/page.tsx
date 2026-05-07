@@ -18,6 +18,13 @@ import {
   type EcosystemLeaderboardItem,
 } from "@/lib/ecosystem-leaderboards";
 import { BubbleMap } from "@/components/terminal/BubbleMap";
+import { EChart } from "@/components/charts/EChart";
+import {
+  EChartSparkline,
+  type EChartSparklineProps,
+} from "@/components/charts/EChartSparkline";
+import { EChartSparkmatrix } from "@/components/charts/EChartSparkmatrix";
+import { CHART_TOKENS } from "@/lib/charts/theme";
 import { HomeEmptyState } from "@/components/home/HomeEmptyState";
 import { FunnelMount } from "@/components/analytics/FunnelMount";
 import { Card, CardHeader } from "@/components/ui/Card";
@@ -278,142 +285,25 @@ function topCategoryFallback(
   return topByDelta(filtered.length > 0 ? filtered : repos, limit);
 }
 
-function sparkPath(values: number[], width: number, height: number): string {
-  const points = values.length > 1 ? values : [1, 1];
-  const max = Math.max(...points);
-  const min = Math.min(...points);
-  const span = max - min || 1;
-  return points
-    .map((value, index) => {
-      const x = (index / Math.max(1, points.length - 1)) * (width - 2) + 1;
-      const y = height - 2 - ((value - min) / span) * (height - 4);
-      return `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
-    })
-    .join(" ");
-}
-
-// Same as sparkPath but with externally-supplied min/max so multiple lines
-// drawn into one SVG share a Y axis instead of self-normalising.
-function scaledSparkPath(
-  values: number[],
-  width: number,
-  height: number,
-  vMin: number,
-  vMax: number,
-  padX = 4,
-  padY = 10,
-): string {
-  if (values.length < 2) return "";
-  const span = vMax - vMin || 1;
-  return values
-    .map((value, index) => {
-      const x = padX + (index / (values.length - 1)) * (width - 2 * padX);
-      const y = height - padY - ((value - vMin) / span) * (height - 2 * padY);
-      return `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
-    })
-    .join(" ");
-}
-
 function formatPct(delta: number, base: number): string | null {
   const pct = percentDelta(delta, base);
   if (pct === null) return null;
   return `${pct >= 0 ? "+" : ""}${pct}%`;
 }
 
-function stableSparkGradientId(
-  values: number[],
-  color: string,
-  className: string,
-  width: number,
-  height: number,
-): string {
-  const seed = `${className}|${color}|${width}x${height}|${values.join(",")}`;
-  let hash = 5381;
-  for (let i = 0; i < seed.length; i += 1) {
-    hash = ((hash << 5) + hash) ^ seed.charCodeAt(i);
-  }
-  return `sg-${(hash >>> 0).toString(36)}`;
-}
-
-// Vercel/Linear/Stripe-style mini sparkline:
-//   1. area path, vertical alpha-gradient fill
-//   2. crisp 1.5px stroke on top
-//   3. end-point dot with halo glow
-// Implemented as pure inline SVG - no extra deps, scales with viewBox.
+// Mini sparkline: backed by ECharts canvas via the shared EChartSparkline
+// wrapper. Replaces the prior inline-SVG version (sparkPath +
+// stableSparkGradientId + 3 helper math walks). Bigger default size (84×28
+// vs 72×24), animated draw on first paint, hover tooltip, smoother canvas
+// anti-aliased line. Wrapper preserves the old prop defaults so call sites
+// don't shift colour: `var(--sig-green)` → resolves to functional green
+// inside the wrapper, `spark` className keeps the existing CSS hooks.
 function Sparkline({
-  values,
   color = "var(--sig-green)",
   className = "spark",
-  area = true,
-  width = 72,
-  height = 24,
-}: {
-  values: number[];
-  color?: string;
-  className?: string;
-  area?: boolean;
-  width?: number;
-  height?: number;
-}) {
-  const d = sparkPath(values, width, height);
-  const gradId = stableSparkGradientId(values, color, className, width, height);
-
-  // Compute end-point coords for the trailing dot.
-  const points = values.length > 1 ? values : [1, 1];
-  const max = Math.max(...points);
-  const min = Math.min(...points);
-  const span = max - min || 1;
-  const lastIdx = points.length - 1;
-  const lastVal = points[lastIdx];
-  const endX =
-    (lastIdx / Math.max(1, points.length - 1)) * (width - 2) + 1;
-  const endY = height - 2 - ((lastVal - min) / span) * (height - 4);
-
-  const lastX = (width - 1).toFixed(1);
-  const firstX = "1";
-  const baseY = (height - 1).toFixed(1);
-  const areaPath = `${d} L${lastX},${baseY} L${firstX},${baseY} Z`;
-
-  return (
-    <svg
-      className={className}
-      viewBox={`0 0 ${width} ${height}`}
-      preserveAspectRatio="none"
-    >
-      <defs>
-        <linearGradient id={gradId} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.42" />
-          <stop offset="60%" stopColor={color} stopOpacity="0.12" />
-          <stop offset="100%" stopColor={color} stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      {area ? <path d={areaPath} fill={`url(#${gradId})`} /> : null}
-      <path
-        d={d}
-        fill="none"
-        stroke={color}
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-        vectorEffect="non-scaling-stroke"
-      />
-      {/* Halo + dot at the trailing point — the visual cue from
-          Vercel/TradingView mini-charts. */}
-      <circle
-        cx={endX}
-        cy={endY}
-        r="3"
-        fill={color}
-        opacity="0.22"
-      />
-      <circle
-        cx={endX}
-        cy={endY}
-        r="1.6"
-        fill={color}
-      />
-    </svg>
-  );
+  ...rest
+}: EChartSparklineProps) {
+  return <EChartSparkline color={color} className={className} {...rest} />;
 }
 
 function EntityHeroRow({
@@ -561,7 +451,14 @@ function ConsensusRow({ repo, index }: { repo: Repo; index: number }) {
             </span>
           ))}
         </span>
-        <Sparkline values={repo.sparklineData} className="spark-mini" />
+        <EChartSparkmatrix
+          values={repo.sparklineData}
+          className="spark-mini cons-matrix"
+          width="100%"
+          height={22}
+          color="var(--sig-green)"
+          tooltipLabel="stars"
+        />
       </div>
     </a>
   );
@@ -570,8 +467,16 @@ function ConsensusRow({ repo, index }: { repo: Repo; index: number }) {
 function BreakoutRow({ repo, index }: { repo: Repo; index: number }) {
   const baseline = Math.max(1, repo.starsDelta7d / 7);
   const velocityRatio = repo.starsDelta24h / baseline;
-  const velocity = Math.min(100, Math.round(velocityRatio * 18));
   const pct = percentDelta(repo.starsDelta24h, repo.stars);
+  // Spark color encodes direction — green for accelerating, cyan for stable
+  // (1.0–1.5x), red for declining. Visually richer than the previous flat
+  // green CSS bar that lied about declines.
+  const sparkColor =
+    velocityRatio < 1
+      ? "var(--sig-red)"
+      : velocityRatio > 1.5
+        ? "var(--sig-green)"
+        : "var(--sig-cyan)";
   return (
     <a className={`brk-row ${index === 0 ? "first" : ""}`} href={`/repo/${repo.owner}/${repo.name}`}>
       <span className="rk">{String(index + 1).padStart(2, "0")}</span>
@@ -586,7 +491,14 @@ function BreakoutRow({ repo, index }: { repo: Repo; index: number }) {
         <span className="meta">{categoryLabel(repo)} / {repo.movementStatus.replace("_", " ")}</span>
       </span>
       <span className="vel">
-        <span className="bar"><i style={{ width: `${velocity}%` }} /></span>
+        <Sparkline
+          values={repo.sparklineData}
+          className="brk-spark"
+          width={108}
+          height={26}
+          color={sparkColor}
+          tooltipLabel="stars"
+        />
         <span className="lbl">{velocityRatio.toFixed(1)}x 7d avg</span>
       </span>
       <span className="delta">
@@ -955,36 +867,80 @@ export default async function HomePage() {
               "var(--sig-amber)",
               "var(--sig-red)",
             ];
-            const indexAllValues = indexLeaders
-              .flatMap((r) => (r.sparklineData.length > 0 ? r.sparklineData : [0]));
-            const vMin = indexAllValues.length ? Math.min(...indexAllValues) : 0;
-            const vMax = indexAllValues.length ? Math.max(...indexAllValues) : 1;
+            // Aggregate top-5 leader trajectories into a single TR-100 Index
+            // line. Each repo's sparklineData is 30 daily star buckets; sum
+            // across leaders per bucket for the index value.
+            const indexLength = Math.max(
+              0,
+              ...indexLeaders.map((r) => r.sparklineData.length),
+            );
+            const indexSeries: number[] = Array.from(
+              { length: indexLength },
+              (_, i) =>
+                indexLeaders.reduce(
+                  (acc, r) => acc + (r.sparklineData[i] ?? 0),
+                  0,
+                ),
+            );
+            const indexOption =
+              indexSeries.length >= 2
+                ? {
+                    animationDuration: 0,
+                    grid: {
+                      top: 12,
+                      right: 16,
+                      bottom: 24,
+                      left: 16,
+                      containLabel: false,
+                    },
+                    xAxis: {
+                      type: "category" as const,
+                      show: false,
+                      boundaryGap: false,
+                      data: indexSeries.map((_, i) => String(i)),
+                    },
+                    yAxis: {
+                      type: "value" as const,
+                      show: false,
+                      scale: true,
+                    },
+                    tooltip: { show: false },
+                    series: [
+                      {
+                        type: "line" as const,
+                        name: "TR-100 Index",
+                        data: indexSeries,
+                        showSymbol: false,
+                        smooth: false,
+                        lineStyle: { width: 2, color: CHART_TOKENS.accent },
+                        areaStyle: {
+                          color: {
+                            type: "linear" as const,
+                            x: 0,
+                            y: 0,
+                            x2: 0,
+                            y2: 1,
+                            colorStops: [
+                              { offset: 0, color: "rgba(255, 107, 53, 0.32)" },
+                              { offset: 1, color: "rgba(255, 107, 53, 0)" },
+                            ],
+                          },
+                        },
+                        animationDuration: 0,
+                      },
+                    ],
+                  }
+                : null;
             return (
               <>
                 <div className="chart-wrap">
-                  <svg
-                    viewBox="0 0 1100 280"
-                    preserveAspectRatio="none"
-                    aria-label="TrendingRepo top-5 leader trajectories, last 30 days"
-                  >
-                    <defs>
-                      <pattern id="tr100-grid" width="110" height="56" patternUnits="userSpaceOnUse">
-                        <path d="M110 0 H0 V56" fill="none" stroke="var(--line-100)" strokeWidth="1" />
-                      </pattern>
-                    </defs>
-                    <rect width="1100" height="280" fill="url(#tr100-grid)" opacity="0.5" />
-                    {indexLeaders.map((repo, i) => (
-                      <path
-                        key={repo.id}
-                        d={scaledSparkPath(repo.sparklineData, 1100, 280, vMin, vMax)}
-                        fill="none"
-                        stroke={indexColors[i % indexColors.length]}
-                        strokeWidth={i === 0 ? 2.4 : 1.8}
-                        strokeOpacity={i === 0 ? 1 : 0.78}
-                        vectorEffect="non-scaling-stroke"
-                      />
-                    ))}
-                  </svg>
+                  {indexOption ? (
+                    <EChart
+                      option={indexOption}
+                      height={280}
+                      ariaLabel="TrendingRepo top-5 leader index, last 30 days"
+                    />
+                  ) : null}
                 </div>
                 <div className="chart-legend-row">
                   {indexLeaders.map((repo, i) => (

@@ -8,7 +8,7 @@ status: living
 
 Last derived from filesystem on 2026-05-05. Direct re-derivation:
 
-- Workflows: `Glob .github/workflows/*.yml` (count = 88)
+- Workflows: `Glob .github/workflows/*.yml` (count = 90)
 - Cron API routes: `Glob src/app/api/cron/**/route.ts` (count = 14)
 - Worker fetchers: `apps/trendingrepo-worker/src/registry.ts` (44 active in `FETCHERS[]`, all imported and exported; 4 prior stub directories — `huggingface`, `github`, `mcp-so`, `mcp-servers-repo` — deleted 2026-05-05. 3 implementations exist on disk but are not yet wired: `ai-blogs`, `arxiv`, `github-events`. `agent-commerce/` is data-only.)
 - Env vars: `.env.example` + `src/lib/env.ts` + `process.env.*` greps in `scripts/` and `apps/trendingrepo-worker/src/`
@@ -19,7 +19,7 @@ commit.
 
 ---
 
-## 1. GH Actions (.github/workflows/*.yml) - 85 files
+## 1. GH Actions (.github/workflows/*.yml) - 87 files
 
 Source: `Grep -E "^name:|cron:" .github/workflows/<file>.yml`. Only
 `schedule.cron` triggers + the workflow's primary `run:` line are shown.
@@ -31,6 +31,7 @@ Workflows with multiple cron entries list each.
 | audit-freshness.yml | Audit - source freshness | `8 * * * *` (hourly :08) | `node scripts/audit-freshness.mjs` - reads every `data/_meta/*.json`, fails if any source past freshness budget |
 | backfill-meta.yml | Backfill orphan meta keys | `workflow_dispatch` only | `node scripts/backfill-meta.mjs` |
 | check-nitter.yml | nitter-health-check | `0 4 * * *` | `node scripts/check-nitter-health.mjs` |
+| check-profile-completion.yml | Profile completion check | `*/30 * * * *` | `tsx scripts/check-profile-completion.ts --mode top` - audits top-100 repo profiles, writes `data/profile-completion-queue.json` consumed by `enrich-repo-profiles.yml` and `sweep-cross-source-mentions.yml` |
 | ci.yml | CI | `push`, `pull_request`, `workflow_dispatch` | `npm run typecheck`, `lint:guards`, `check-v3-token-budget`, `test:hooks` |
 | cleanup-stale-previews.yml | Cleanup Stale Vercel Previews | `23 2 * * 1` (Mon 02:23) | Deletes stale Vercel preview deployments via Vercel API |
 | collect-funding.yml | Collect Funding Signals | `0 */6 * * *` | `npm run scrape:funding` (techcrunch, venturebeat, sifted) + `scrape:funding:crunchbase` |
@@ -105,6 +106,7 @@ Workflows with multiple cron entries list each.
 | sre-k8s-probe-guard.yml | SRE - Kubernetes probe guard | `push`, `pull_request`, `workflow_dispatch` | k8s probe lint |
 | sre-redis-restore-drill.yml | SRE Redis Restore Drill | `20 3 * * 1` (Mon 03:20) + dispatch | weekly Redis restore drill |
 | sre-route-cost-attribution-verify.yml | SRE - Route Cost Attribution Verify | `17 */6 * * *` + dispatch | route-cost attribution verify (admin-token gated) |
+| sweep-cross-source-mentions.yml | Sweep cross-source mentions | `0 */6 * * *` (top-50) and `15 5 * * *` (top-200) | `tsx scripts/sweep-cross-source-mentions.ts` - per-repo mentions sweep across 8 channels (twitter, reddit, hackernews, bluesky, devto, lobsters, producthunt, tavily web search). Closes the source-first blind spot left by the existing 88 source-scanners. Writes `data/repo-mentions-detail.jsonl` (raw) + `data/repo-mentions-detail-rollup.json` (top 5 per source per repo, 7d window). Honors `--queue data/profile-completion-queue.json` for audit-driven priority. |
 | sweep-staleness.yml | Sweep staleness | `32 2 * * *` | `node scripts/sweep-staleness.mjs` |
 | sync-trustmrr.yml | Sync TrustMRR revenue overlays | `27 2 * * *` and `27 0,1,3..23 * * *` (hourly minus 02:27 incremental, daily 02:27 full) | `node scripts/sync-trustmrr.mjs` + `compute-revenue-benchmarks.mjs` |
 | trendingrepo-worker.yml | trendingrepo-worker | `push`, `pull_request`, `workflow_dispatch` | typecheck + build for the Railway worker |
@@ -232,6 +234,7 @@ workflow are listed. Internal utility scripts (`_*.mjs`, `audit-*`, `check-*`,
 | scripts/backfill-meta.mjs | backfill-meta.yml (dispatch) |
 | scripts/check-docs-freshness.mjs | docs-freshness.yml |
 | scripts/check-nitter-health.mjs | check-nitter.yml |
+| scripts/check-profile-completion.ts | check-profile-completion.yml |
 | scripts/check-source-health.mjs | health-watch.yml |
 | scripts/check-v3-token-budget.mjs | ci.yml |
 | scripts/compute-reddit-baselines.mjs | refresh-reddit-baselines.yml |
@@ -260,6 +263,7 @@ workflow are listed. Internal utility scripts (`_*.mjs`, `audit-*`, `check-*`,
 | scripts/scrape-trending.mjs | scrape-trending.yml + refresh-collection-rankings.yml (`--only-collection-rankings`) |
 | scripts/seo-policy-lint.mjs | seo-policy.yml |
 | scripts/source-outage-backfill.mjs | source-outage-backfill.yml (dispatch) |
+| scripts/sweep-cross-source-mentions.ts (+ scripts/_cross-source-search.mjs) | sweep-cross-source-mentions.yml |
 | scripts/sweep-staleness.mjs | sweep-staleness.yml |
 | scripts/sync-trustmrr.mjs | sync-trustmrr.yml |
 | scripts/collect-twitter-signals.ts (via `npm run collect:twitter`) | collect-twitter.yml |
@@ -314,6 +318,7 @@ Boot guard in `env.ts:142-164`: production throws unless
 | Var | Used by | Source surface |
 |---|---|---|
 | `APIFY_API_TOKEN`, `APIFY_TWITTER_ACTOR`, `APIFY_PROXY_GROUPS`, `APIFY_PROXY_COUNTRY` | `scripts/_apify-*` + worker | Twitter `apidojo~tweet-scraper`, optional Reddit residential proxy |
+| `TAVILY_API_KEY` | `scripts/_cross-source-search.mjs` (sweep) | web-search channel for sweep-cross-source-mentions; 1000/mo free tier |
 | `BLUESKY_HANDLE`, `BLUESKY_APP_PASSWORD` | scripts + worker bluesky fetcher | bot account |
 | `DEVTO_API_KEY`, `DEVTO_API_KEYS` | `scripts/_devto-shared.mjs` + worker devto fetcher | round-robin pool |
 | `PRODUCTHUNT_TOKEN`, `PRODUCTHUNT_TOKENS` | `scripts/scrape-producthunt.mjs` (`loadProducthuntTokens`) + worker | round-robin pool |

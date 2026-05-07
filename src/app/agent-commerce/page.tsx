@@ -8,6 +8,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
+import { FooterBar } from "@/components/ui/FooterBar";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
 import { BrandStar } from "@/components/shared/BrandStar";
 import { AgentCommerceCard } from "@/components/agent-commerce/AgentCommerceCard";
@@ -587,6 +588,7 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
   }
 
   return (
+    <>
     <main className="home-surface agent-commerce-page">
       <section className="page-head">
         <div>
@@ -658,135 +660,6 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
         </div>
       ) : (
         <>
-          {/* ========== 00 — ACTIVITY PULSE ========== */}
-          <div className="sec-head">
-            <span className="sec-num">{"// 00"}</span>
-            <h2 className="sec-title">Activity pulse</h2>
-            <span className="sec-meta">
-              12-week trend · <b>{stats.totalItems}</b> tracked
-            </span>
-          </div>
-          <div className="grid">
-            <Card className="col-8">
-              <CardHeader
-                showCorner
-                right={
-                  <span style={{ color: "#34d399" }}>
-                    +{stats.thisWeekCount} this week
-                  </span>
-                }
-              >
-                Entities tracked
-              </CardHeader>
-              <CardBody>
-                <div style={{ padding: "10px 14px 6px" }}>
-                  <div style={{ color: "#34d399" }}>
-                    <Sparkline
-                      data={activitySeries}
-                      width={520}
-                      height={64}
-                      color="#34d399"
-                      fillOpacity={0.18}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      marginTop: 6,
-                      fontFamily: "var(--font-mono, ui-monospace)",
-                      fontSize: 10,
-                      color: "var(--color-text-faint)",
-                      letterSpacing: "0.06em",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    <span>12w ago</span>
-                    <span>8w</span>
-                    <span>4w</span>
-                    <span>now</span>
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
-            <Card className="col-4">
-              <CardHeader showCorner right={<span>protocol pulse</span>}>
-                Protocol-active
-              </CardHeader>
-              <CardBody>
-                {[
-                  {
-                    label: "x402",
-                    n: stats.x402EnabledCount,
-                    color: "#f59e0b",
-                  },
-                  {
-                    label: "MCP",
-                    n: stats.mcpServerCount,
-                    color: "#22d3ee",
-                  },
-                  {
-                    label: "Portal",
-                    n: stats.portalReadyCount,
-                    color: "#34d399",
-                  },
-                  {
-                    label: "Actionable",
-                    n: stats.agentActionableCount,
-                    color: "#a78bfa",
-                  },
-                ].map((row) => {
-                  const seed = `pulse:${row.label}:${row.n}`;
-                  const data = synthSparkline(seed, 12).map(
-                    (v, i, arr) => v * (0.7 + (i / arr.length) * 0.3),
-                  );
-                  return (
-                    <div
-                      key={row.label}
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "60px minmax(0, 1fr) 36px",
-                        alignItems: "center",
-                        gap: 10,
-                        padding: "6px 12px",
-                        borderBottom: "1px solid var(--color-border-subtle)",
-                      }}
-                    >
-                      <span
-                        style={{
-                          color: row.color,
-                          fontFamily: "var(--font-mono, ui-monospace)",
-                          fontSize: 11,
-                          fontWeight: 700,
-                        }}
-                      >
-                        {row.label}
-                      </span>
-                      <span style={{ color: row.color }}>
-                        <Sparkline
-                          data={data}
-                          color={row.color}
-                          width={120}
-                          height={20}
-                        />
-                      </span>
-                      <span
-                        style={{
-                          textAlign: "right",
-                          fontFamily: "var(--font-mono, ui-monospace)",
-                          fontWeight: 700,
-                          color: "var(--color-text-default)",
-                        }}
-                      >
-                        {row.n}
-                      </span>
-                    </div>
-                  );
-                })}
-              </CardBody>
-            </Card>
-          </div>
-
           {/* ========== 01 — COMPOSITE MOVERS BOARD ========== */}
           <div className="sec-head">
             <span className="sec-num">{"// 01"}</span>
@@ -1020,9 +893,138 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             })}
           </section>
 
-          {/* ========== 02 — DISTRIBUTIONS ========== */}
+          {/* ========== 02 — ACTIVITY PULSE ========== */}
           <div className="sec-head">
             <span className="sec-num">{"// 02"}</span>
+            <h2 className="sec-title">Activity pulse</h2>
+            <span className="sec-meta">
+              12-week trend · <b>{stats.totalItems}</b> tracked
+            </span>
+          </div>
+          <div className="grid">
+            <Card className="col-8">
+              <CardHeader
+                showCorner
+                right={
+                  <span style={{ color: "#34d399" }}>
+                    +{stats.thisWeekCount} this week
+                  </span>
+                }
+              >
+                Entities tracked
+              </CardHeader>
+              <CardBody>
+                <div style={{ padding: "10px 14px 6px" }}>
+                  <div style={{ color: "#34d399" }}>
+                    <Sparkline
+                      data={activitySeries}
+                      width={520}
+                      height={64}
+                      color="#34d399"
+                      fillOpacity={0.18}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginTop: 6,
+                      fontFamily: "var(--font-mono, ui-monospace)",
+                      fontSize: 10,
+                      color: "var(--color-text-faint)",
+                      letterSpacing: "0.06em",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    <span>12w ago</span>
+                    <span>8w</span>
+                    <span>4w</span>
+                    <span>now</span>
+                  </div>
+                </div>
+              </CardBody>
+            </Card>
+            <Card className="col-4">
+              <CardHeader showCorner right={<span>protocol pulse</span>}>
+                Protocol-active
+              </CardHeader>
+              <CardBody>
+                {[
+                  {
+                    label: "x402",
+                    n: stats.x402EnabledCount,
+                    color: "#f59e0b",
+                  },
+                  {
+                    label: "MCP",
+                    n: stats.mcpServerCount,
+                    color: "#22d3ee",
+                  },
+                  {
+                    label: "Portal",
+                    n: stats.portalReadyCount,
+                    color: "#34d399",
+                  },
+                  {
+                    label: "Actionable",
+                    n: stats.agentActionableCount,
+                    color: "#a78bfa",
+                  },
+                ].map((row) => {
+                  const seed = `pulse:${row.label}:${row.n}`;
+                  const data = synthSparkline(seed, 12).map(
+                    (v, i, arr) => v * (0.7 + (i / arr.length) * 0.3),
+                  );
+                  return (
+                    <div
+                      key={row.label}
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "60px minmax(0, 1fr) 36px",
+                        alignItems: "center",
+                        gap: 10,
+                        padding: "6px 12px",
+                        borderBottom: "1px solid var(--color-border-subtle)",
+                      }}
+                    >
+                      <span
+                        style={{
+                          color: row.color,
+                          fontFamily: "var(--font-mono, ui-monospace)",
+                          fontSize: 11,
+                          fontWeight: 700,
+                        }}
+                      >
+                        {row.label}
+                      </span>
+                      <span style={{ color: row.color }}>
+                        <Sparkline
+                          data={data}
+                          color={row.color}
+                          width={120}
+                          height={20}
+                        />
+                      </span>
+                      <span
+                        style={{
+                          textAlign: "right",
+                          fontFamily: "var(--font-mono, ui-monospace)",
+                          fontWeight: 700,
+                          color: "var(--color-text-default)",
+                        }}
+                      >
+                        {row.n}
+                      </span>
+                    </div>
+                  );
+                })}
+              </CardBody>
+            </Card>
+          </div>
+
+          {/* ========== 03 — SCORE DISTRIBUTION ========== */}
+          <div className="sec-head">
+            <span className="sec-num">{"// 03"}</span>
             <h2 className="sec-title">Score distribution</h2>
             <span className="sec-meta">
               avg <b>{stats.averageComposite}</b> · top <b>{stats.topComposite}</b>
@@ -1103,9 +1105,9 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             </Card>
           </div>
 
-          {/* ========== 03 — PROTOCOL + KIND MIX ========== */}
+          {/* ========== 04 — PROTOCOL + KIND MIX ========== */}
           <div className="sec-head">
-            <span className="sec-num">{"// 03"}</span>
+            <span className="sec-num">{"// 04"}</span>
             <h2 className="sec-title">Protocol &amp; kind mix</h2>
             <span className="sec-meta">
               <b>{Object.keys(stats.byProtocol).length}</b> protocols ·{" "}
@@ -1183,9 +1185,9 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             </Card>
           </div>
 
-          {/* ========== 04 — PRICING + FLAGS ========== */}
+          {/* ========== 05 — PRICING + FLAGS ========== */}
           <div className="sec-head">
-            <span className="sec-num">{"// 04"}</span>
+            <span className="sec-num">{"// 05"}</span>
             <h2 className="sec-title">Pricing &amp; readiness</h2>
             <span className="sec-meta">
               <b>{stats.x402EnabledCount + stats.portalReadyCount}</b> agent-native flags
@@ -1245,11 +1247,11 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             </Card>
           </div>
 
-          {/* ========== 04b — TOKEN ECONOMY (CoinGecko) ========== */}
+          {/* ========== 06 — TOKEN ECONOMY (CoinGecko) ========== */}
           {tokenItems.length > 0 ? (
             <>
               <div className="sec-head">
-                <span className="sec-num">{"// 04b"}</span>
+                <span className="sec-num">{"// 06"}</span>
                 <h2 className="sec-title">Agent token economy</h2>
                 <span className="sec-meta">
                   <b>{tokenItems.length}</b> tokens · combined mcap{" "}
@@ -1383,7 +1385,7 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             </>
           ) : null}
 
-          {/* ========== 04bx — CROSS-CHAIN COMBINED TOTALS ========== */}
+          {/* ========== CROSS-CHAIN BANNER (sub-section, no number) ========== */}
           {(() => {
             const base = getBaseX402Onchain();
             const sol = getSolanaX402Onchain();
@@ -1461,7 +1463,7 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             );
           })()}
 
-          {/* ========== 04c — ON-CHAIN x402 SETTLEMENTS (Base) ========== */}
+          {/* ========== 07 — ON-CHAIN x402 SETTLEMENTS (Base) ========== */}
           {(() => {
             // Source: scripts/fetch-base-x402-onchain.mjs → .data/base-x402-onchain.json
             // (free Blockscout v2 + Merit-Systems/x402scan address book)
@@ -1490,8 +1492,8 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             return (
               <>
                 <div className="sec-head">
-                  <span className="sec-num">{"// 04c"}</span>
-                  <h2 className="sec-title">On-chain x402 settlements</h2>
+                  <span className="sec-num">{"// 07"}</span>
+                  <h2 className="sec-title">On-chain x402 settlements · Base</h2>
                   <span className="sec-meta">
                     Base · <b>{total.toLocaleString("en-US")}</b> settlements ·{" "}
                     <b>{Object.keys(onchain.byFacilitator ?? {}).length}</b>{" "}
@@ -1684,7 +1686,7 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             );
           })()}
 
-          {/* ========== 04c-sol — ON-CHAIN x402 SETTLEMENTS (Solana) ========== */}
+          {/* ========== 08 — ON-CHAIN x402 SETTLEMENTS (Solana) ========== */}
           {(() => {
             // Source: scripts/fetch-solana-x402-onchain.mjs → .data/solana-x402-onchain.json
             // (free Solana RPC + Merit-Systems/x402scan address book)
@@ -1723,8 +1725,8 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             return (
               <>
                 <div className="sec-head">
-                  <span className="sec-num">{"// 04c-sol"}</span>
-                  <h2 className="sec-title">On-chain x402 settlements</h2>
+                  <span className="sec-num">{"// 08"}</span>
+                  <h2 className="sec-title">On-chain x402 settlements · Solana</h2>
                   <span className="sec-meta">
                     Solana · <b>{total.toLocaleString("en-US")}</b> settlements ·{" "}
                     <b>{Object.keys(onchain.byFacilitator ?? {}).length}</b>{" "}
@@ -1919,7 +1921,7 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             );
           })()}
 
-          {/* ========== 04d — HISTORICAL VOLUME (Dune) ========== */}
+          {/* ========== 09 — HISTORICAL VOLUME (Dune) ========== */}
           {(() => {
             // Source: scripts/fetch-dune-x402.mjs → .data/dune-x402-volume.json
             // Rendered only when the JSON exists. Run the fetcher once a saved
@@ -1958,7 +1960,7 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             return (
               <>
                 <div className="sec-head">
-                  <span className="sec-num">{"// 04d"}</span>
+                  <span className="sec-num">{"// 09"}</span>
                   <h2 className="sec-title">x402 historical volume</h2>
                   <span className="sec-meta">
                     Base · <b>{fmtUsd(totalVol)}</b> over{" "}
@@ -2083,11 +2085,11 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             );
           })()}
 
-          {/* ========== 05 — CAPABILITY CLOUD ========== */}
+          {/* ========== 10 — CAPABILITY CLOUD ========== */}
           {topCapabilities.length > 0 ? (
             <>
               <div className="sec-head">
-                <span className="sec-num">{"// 05"}</span>
+                <span className="sec-num">{"// 10"}</span>
                 <h2 className="sec-title">Capability frequency</h2>
                 <span className="sec-meta">
                   <b>{capCounts.size}</b> distinct capabilities
@@ -2124,11 +2126,11 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             </>
           ) : null}
 
-          {/* ========== 06 — OPPORTUNITIES (when on tab) ========== */}
+          {/* ========== 11 — OPPORTUNITIES (when on tab) ========== */}
           {filter.tab === "opportunities" && opportunities.length > 0 ? (
             <>
               <div className="sec-head">
-                <span className="sec-num">{"// 06"}</span>
+                <span className="sec-num">{"// 11"}</span>
                 <h2 className="sec-title">Build opportunities</h2>
                 <span className="sec-meta">
                   <b>{opportunities.length}</b> / generated from gaps
@@ -2161,9 +2163,9 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             </>
           ) : null}
 
-          {/* ========== 06 — CATEGORY LEADERBOARDS ========== */}
+          {/* ========== 12 — CATEGORY LEADERBOARDS ========== */}
           <div className="sec-head">
-            <span className="sec-num">{"// 06"}</span>
+            <span className="sec-num">{"// 12"}</span>
             <h2 className="sec-title">Sector leaderboards</h2>
             <span className="sec-meta">
               top 5 / sector · sparklines synthetic until history lands
@@ -2264,13 +2266,11 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
             </Card>
           </div>
 
-          {/* ========== 07 — BROWSE (compact card grid) ========== */}
+          {/* ========== 13 — BROWSE (compact card grid) ========== */}
           {totalRendered > 0 ? (
             <>
               <div className="sec-head">
-                <span className="sec-num">
-                  {filter.tab === "opportunities" ? "// 07" : "// 06"}
-                </span>
+                <span className="sec-num">{"// 13"}</span>
                 <h2 className="sec-title">
                   Browse {filter.tab === "overview" ? "all" : filter.tab}
                 </h2>
@@ -2296,5 +2296,10 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
         </>
       )}
     </main>
+    <FooterBar
+      meta={`// AGENT-COMMERCE / m2m-radar / serial ${stats.totalItems}`}
+      actions={`DATA / ${computed} UTC`}
+    />
+    </>
   );
 }

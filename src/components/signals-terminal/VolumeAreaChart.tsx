@@ -2,35 +2,56 @@
 
 // Stacked area chart + per-source rail for the cross-source signal volume
 // panel. Receives 24 hourly buckets from src/lib/signals/volume.ts and
-// renders each source as its own coloured area without a charting runtime.
+// renders each source as its own coloured area.
 //
-// The rail below the chart exists because one source (Reddit, typically)
-// can dominate ~95% of total volume and visually crush the other 7 areas
-// into an invisible strip. The rail surfaces every source's individual
-// shape, count, and within-window momentum so no source is hidden.
+// The main 24h chart is migrated to the shared <EChart> wrapper (canvas-
+// rendered ECharts) — same brand colours, same total silhouette, same peak
+// marker, but tree-shaken with the rest of the dashboard.
+//
+// The rail BELOW the chart stays as inline SVG: 8 mini sparklines is a row
+// of presentational glyphs, not a chart — spinning up an ECharts instance
+// per source would burn an order of magnitude more memory for no gain. The
+// rail exists because one source (Reddit, typically) can dominate ~95% of
+// total volume and visually crush the other 7 areas; the rail surfaces
+// every source's individual shape, count, and within-window momentum so
+// no source is hidden.
+//
+// External props are unchanged from the SVG version (1:1 contract).
+
+import { useMemo } from "react";
+import type { EChartsCoreOption } from "echarts/core";
 
 import { Card, CardHeader } from "@/components/ui/Card";
 import { ChartStat, ChartStats, ChartWrap } from "@/components/ui/ChartShell";
+import { EChart } from "@/components/charts/EChart";
+import { CHART_TOKENS } from "@/lib/charts/theme";
 import type { HourBucket } from "@/lib/signals/volume";
 import type { SourceKey } from "@/lib/signals/types";
 import { SourceMark, SOURCE_BRAND_COLOR } from "./SourceMark";
 
 type VolumeSourceKey = Exclude<keyof HourBucket, "hour" | "total">;
 
+// SOURCES: stack order (bottom → top) and tooltip order. The colour values
+// here are the *display* colours used by the inline rail; the ECharts series
+// uses CHART_TOKENS for canvas-safe literals (CSS custom properties don't
+// survive the canvas rendering boundary — see comment in theme.ts).
 const SOURCES: Array<{
   key: VolumeSourceKey;
   src: SourceKey;
   label: string;
-  color: string;
+  /** CSS variable for DOM rendering (rail). */
+  cssVar: string;
+  /** Literal hex for canvas (ECharts). */
+  hex: string;
 }> = [
-  { key: "hn",      src: "hn",      label: "HN",      color: "var(--source-hackernews)" },
-  { key: "github",  src: "github",  label: "GitHub",  color: "var(--source-github)" },
-  { key: "x",       src: "x",       label: "X",       color: "var(--source-x)" },
-  { key: "reddit",  src: "reddit",  label: "Reddit",  color: "var(--source-reddit)" },
-  { key: "bluesky", src: "bluesky", label: "Bluesky", color: "var(--source-bluesky)" },
-  { key: "devto",   src: "devto",   label: "Dev.to",  color: "var(--source-dev)" },
-  { key: "claude",  src: "claude",  label: "Claude",  color: "var(--source-claude)" },
-  { key: "openai",  src: "openai",  label: "OpenAI",  color: "var(--source-openai)" },
+  { key: "hn",      src: "hn",      label: "HN",      cssVar: "var(--source-hackernews)", hex: "#ff6600" },
+  { key: "github",  src: "github",  label: "GitHub",  cssVar: "var(--source-github)",     hex: "#f0f6fc" },
+  { key: "x",       src: "x",       label: "X",       cssVar: "var(--source-x)",          hex: "#1d9bf0" },
+  { key: "reddit",  src: "reddit",  label: "Reddit",  cssVar: "var(--source-reddit)",     hex: "#ff4500" },
+  { key: "bluesky", src: "bluesky", label: "Bluesky", cssVar: "var(--source-bluesky)",    hex: "#0085ff" },
+  { key: "devto",   src: "devto",   label: "Dev.to",  cssVar: "var(--source-dev)",        hex: "#000000" },
+  { key: "claude",  src: "claude",  label: "Claude",  cssVar: "var(--source-claude)",     hex: "#cc785c" },
+  { key: "openai",  src: "openai",  label: "OpenAI",  cssVar: "var(--source-openai)",     hex: "#10a37f" },
 ];
 
 const SOURCE_NAMES: Record<SourceKey, string> = {
@@ -53,54 +74,6 @@ function compactNumber(n: number): string {
   if (n < 10_000) return `${(n / 1000).toFixed(1)}k`;
   if (n < 1_000_000) return `${Math.round(n / 1000)}k`;
   return `${(n / 1_000_000).toFixed(1)}M`;
-}
-
-const CHART_W = 720;
-const CHART_H = 220;
-const PAD = { top: 10, right: 14, bottom: 26, left: 38 };
-const PLOT_W = CHART_W - PAD.left - PAD.right;
-const PLOT_H = CHART_H - PAD.top - PAD.bottom;
-
-function xFor(index: number, count: number): number {
-  if (count <= 1) return PAD.left;
-  return PAD.left + (index / (count - 1)) * PLOT_W;
-}
-
-function yFor(value: number, max: number): number {
-  if (max <= 0) return PAD.top + PLOT_H;
-  return PAD.top + PLOT_H - (value / max) * PLOT_H;
-}
-
-function buildAreaPath(
-  buckets: HourBucket[],
-  key: VolumeSourceKey,
-  lowerTotals: number[],
-  maxTotal: number,
-): string {
-  const top: string[] = [];
-  const bottom: string[] = [];
-
-  buckets.forEach((bucket, index) => {
-    const x = xFor(index, buckets.length);
-    const lower = lowerTotals[index] ?? 0;
-    const upper = lower + bucket[key];
-    lowerTotals[index] = upper;
-    top.push(`${x.toFixed(1)},${yFor(upper, maxTotal).toFixed(1)}`);
-    bottom.push(`${x.toFixed(1)},${yFor(lower, maxTotal).toFixed(1)}`);
-  });
-
-  return `M ${top.join(" L ")} L ${bottom.reverse().join(" L ")} Z`;
-}
-
-function buildTotalLine(buckets: HourBucket[], maxTotal: number): string {
-  if (buckets.length === 0) return "";
-  return buckets
-    .map((b, i) => {
-      const x = xFor(i, buckets.length);
-      const y = yFor(b.total, maxTotal);
-      return `${i === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
-    })
-    .join(" ");
 }
 
 // Mini-sparkline (rail row) — 24 hourly counts → small SVG path.
@@ -146,6 +119,14 @@ function momentumPct(values: number[]): number | null {
   return Math.round(((second - first) / first) * 100);
 }
 
+interface AxisTooltipParam {
+  axisValue: string;
+  seriesName: string;
+  value: number;
+  color: string;
+  seriesIndex: number;
+}
+
 export interface VolumeAreaChartProps {
   buckets: HourBucket[];
   totalItems: number;
@@ -169,17 +150,6 @@ export function VolumeAreaChart({
   dominantSource,
   dominantPct,
 }: VolumeAreaChartProps) {
-  const lowerTotals = buckets.map(() => 0);
-  const maxTotal = Math.max(1, peakTotal, ...buckets.map((b) => b.total));
-  const peakIndex = Math.max(
-    0,
-    buckets.findIndex((bucket) => bucket.hour === peakHour),
-  );
-  const peakX = xFor(peakIndex, buckets.length);
-  const yTicks = [0, 0.25, 0.5, 0.75, 1];
-  const xTicks = buckets.filter((_, index) => index % 4 === 0);
-  const totalLinePath = buildTotalLine(buckets, maxTotal);
-
   const deltaText =
     changePct === null ? "Δ N/A" : `Δ ${changePct >= 0 ? "+" : ""}${changePct.toFixed(1)}%`;
 
@@ -196,7 +166,6 @@ export function VolumeAreaChart({
   });
 
   // Derived indicators.
-  // Hourly velocity = signals/hour at peak (already in peakTotal).
   // Source spread = how many sources contributed > 5% of the total.
   const sourceSpread = totalItems > 0
     ? railRows.filter((r) => r.total / totalItems > 0.05).length
@@ -204,6 +173,180 @@ export function VolumeAreaChart({
   // Window-wide momentum (sum of all sources) — same first-vs-second-half logic.
   const totals = buckets.map((b) => b.total);
   const overallMomentum = momentumPct(totals);
+
+  // ECharts option for the main 24h stacked area. Memoised on the bucket
+  // array reference; <EChart> uses notMerge=true so a fresh option fully
+  // replaces prior series state.
+  const option = useMemo<EChartsCoreOption | null>(() => {
+    if (buckets.length === 0) return null;
+
+    const hourLabels = buckets.map((b) => formatHour(b.hour));
+    const peakLabel = formatHour(peakHour);
+
+    const stackSeries = SOURCES.map((s) => ({
+      type: "line" as const,
+      name: s.label,
+      stack: "volume",
+      smooth: false,
+      symbol: "none" as const,
+      sampling: "lttb" as const,
+      data: buckets.map((b) => b[s.key]),
+      lineStyle: { width: 1, color: s.hex },
+      itemStyle: { color: s.hex },
+      areaStyle: {
+        color: {
+          type: "linear" as const,
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [
+            { offset: 0, color: hexWithAlpha(s.hex, 0.85) },
+            { offset: 1, color: hexWithAlpha(s.hex, 0.35) },
+          ],
+        },
+      },
+      emphasis: { focus: "series" as const },
+      animationDuration: 0,
+    }));
+
+    // Total silhouette — keeps the overall shape visible even when one
+    // source dominates 95% of volume. Not stacked; rendered above the areas.
+    const totalSeries = {
+      type: "line" as const,
+      name: "Total",
+      smooth: false,
+      symbol: "none" as const,
+      data: buckets.map((b) => b.total),
+      lineStyle: { width: 1.4, color: CHART_TOKENS.textDefault, opacity: 0.85 },
+      itemStyle: { color: CHART_TOKENS.textDefault },
+      areaStyle: undefined,
+      // Total is presented via the silhouette line only; tooltip shows it
+      // explicitly so we hide the legend mark.
+      tooltip: { show: false },
+      z: 10,
+      animationDuration: 0,
+    };
+
+    return {
+      animationDuration: 0,
+      grid: { top: 16, right: 14, bottom: 28, left: 44, containLabel: false },
+      xAxis: {
+        type: "category",
+        data: hourLabels,
+        boundaryGap: false,
+        axisLine: { show: false },
+        axisTick: { show: false },
+        axisLabel: {
+          color: CHART_TOKENS.textSubtle,
+          fontSize: 10,
+          interval: 3,
+          formatter: (value: string) => value.toUpperCase(),
+        },
+      },
+      yAxis: {
+        type: "value",
+        min: 0,
+        axisLabel: {
+          color: CHART_TOKENS.textSubtle,
+          fontSize: 10,
+          formatter: (value: number) => String(Math.round(value)),
+        },
+        splitLine: {
+          show: true,
+          lineStyle: { color: "rgba(255,255,255,0.06)", type: "solid" },
+        },
+      },
+      tooltip: {
+        trigger: "axis",
+        axisPointer: {
+          type: "line",
+          lineStyle: {
+            color: CHART_TOKENS.borderDefault,
+            type: "dashed",
+            width: 1,
+          },
+        },
+        formatter: (params: AxisTooltipParam | AxisTooltipParam[]) => {
+          const list = Array.isArray(params) ? params : [params];
+          if (list.length === 0) return "";
+          const hourLabel = list[0].axisValue;
+          // Sum visible series (excluding the Total silhouette) to get the
+          // bucket total. Walk SOURCES in stack order so the tooltip rows
+          // match the legend.
+          const sourceRows = SOURCES.map((s, idx) => {
+            const param = list.find((p) => p.seriesIndex === idx);
+            const count = param ? Math.round(param.value) : 0;
+            if (count === 0) return null;
+            return `
+              <li style="display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:10px;font-family:var(--font-mono),monospace;">
+                <span style="display:inline-flex;align-items:center;gap:6px;color:${CHART_TOKENS.textSubtle};">
+                  <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${s.hex};${s.key === "devto" ? "border:1px solid #fff;" : ""}"></span>
+                  ${s.label}
+                </span>
+                <span style="color:${CHART_TOKENS.textDefault};font-variant-numeric:tabular-nums;">${count}</span>
+              </li>`;
+          }).filter(Boolean);
+          const total = SOURCES.reduce((acc, _, idx) => {
+            const param = list.find((p) => p.seriesIndex === idx);
+            return acc + (param ? Math.round(param.value) : 0);
+          }, 0);
+          return `
+            <div style="min-width:180px;font-family:var(--font-mono),monospace;">
+              <div style="font-size:11px;color:${CHART_TOKENS.textFaint};margin-bottom:6px;">${hourLabel} UTC</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid ${CHART_TOKENS.borderDefault};">
+                <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:${CHART_TOKENS.textFaint};">Total</span>
+                <span style="font-size:12px;color:${CHART_TOKENS.textDefault};font-variant-numeric:tabular-nums;">${total}</span>
+              </div>
+              ${
+                sourceRows.length === 0
+                  ? `<div style="font-size:10px;color:${CHART_TOKENS.textFaint};font-style:italic;">no signals this hour</div>`
+                  : `<ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px;">${sourceRows.join("")}</ul>`
+              }
+            </div>
+          `;
+        },
+      },
+      series: [
+        ...stackSeries,
+        totalSeries,
+        // Peak hour marker — drawn as a dashed vertical line via a zero-data
+        // line series carrying a markLine. ECharts has no top-level markLine,
+        // so we attach to a hidden series.
+        ...(peakTotal > 0
+          ? [
+              {
+                type: "line" as const,
+                name: "Peak",
+                data: [],
+                tooltip: { show: false },
+                markLine: {
+                  silent: true,
+                  symbol: "none",
+                  lineStyle: {
+                    color: CHART_TOKENS.accent,
+                    type: "dashed" as const,
+                    opacity: 0.75,
+                    width: 1,
+                  },
+                  label: {
+                    formatter: `PEAK ${peakTotal}`,
+                    color: CHART_TOKENS.accent,
+                    fontFamily: 'var(--font-mono, ui-monospace, monospace)',
+                    fontSize: 10,
+                    position: "insideEndTop" as const,
+                    distance: 6,
+                  },
+                  data: [{ xAxis: peakLabel }],
+                  animationDuration: 0,
+                },
+                animationDuration: 0,
+              },
+            ]
+          : []),
+      ],
+    };
+  }, [buckets, peakHour, peakTotal]);
 
   return (
     <Card variant="panel" className="signals-panel">
@@ -223,125 +366,13 @@ export function VolumeAreaChart({
       </CardHeader>
 
       <ChartWrap variant="chart" style={{ minHeight: 220 }}>
-        <svg
-          role="img"
-          aria-label="24 hour signal volume stacked by source"
-          viewBox={`0 0 ${CHART_W} ${CHART_H}`}
-          preserveAspectRatio="none"
-          style={{ display: "block", width: "100%", height: 220 }}
-        >
-          <defs>
-            {SOURCES.map((s) => (
-              <linearGradient
-                key={s.key}
-                id={`vol-grad-${s.key}`}
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
-              >
-                <stop offset="0%" stopColor={s.color} stopOpacity={0.85} />
-                <stop offset="100%" stopColor={s.color} stopOpacity={0.35} />
-              </linearGradient>
-            ))}
-          </defs>
-
-          {yTicks.map((tick) => {
-            const y = yFor(maxTotal * tick, maxTotal);
-            return (
-              <g key={tick}>
-                <line
-                  x1={PAD.left}
-                  x2={CHART_W - PAD.right}
-                  y1={y}
-                  y2={y}
-                  stroke="rgba(255,255,255,0.06)"
-                />
-                <text
-                  x={PAD.left - 8}
-                  y={y + 3}
-                  textAnchor="end"
-                  fill="var(--color-text-subtle)"
-                  fontFamily="var(--font-mono)"
-                  fontSize="10"
-                >
-                  {Math.round(maxTotal * tick)}
-                </text>
-              </g>
-            );
-          })}
-
-          <line
-            x1={PAD.left}
-            x2={CHART_W - PAD.right}
-            y1={PAD.top + PLOT_H}
-            y2={PAD.top + PLOT_H}
-            stroke="var(--color-border-subtle)"
+        {option ? (
+          <EChart
+            option={option}
+            height={220}
+            ariaLabel="24 hour signal volume stacked by source"
           />
-
-          {SOURCES.map((s) => (
-            <path
-              key={s.key}
-              d={buildAreaPath(buckets, s.key, lowerTotals, maxTotal)}
-              fill={`url(#vol-grad-${s.key})`}
-              stroke={s.color}
-              strokeWidth="1"
-              vectorEffect="non-scaling-stroke"
-            />
-          ))}
-
-          {/* Total silhouette on top of the stack — keeps the overall shape
-              visible even when one source dominates 95% of volume. */}
-          {totalLinePath ? (
-            <path
-              d={totalLinePath}
-              fill="none"
-              stroke="var(--color-text-default)"
-              strokeWidth="1.4"
-              strokeOpacity="0.85"
-              vectorEffect="non-scaling-stroke"
-            />
-          ) : null}
-
-          {peakTotal > 0 ? (
-            <g>
-              <line
-                x1={peakX}
-                x2={peakX}
-                y1={PAD.top}
-                y2={PAD.top + PLOT_H}
-                stroke="var(--color-accent)"
-                strokeOpacity="0.75"
-                strokeDasharray="3 4"
-                vectorEffect="non-scaling-stroke"
-              />
-              <text
-                x={Math.min(CHART_W - PAD.right - 4, peakX + 8)}
-                y={PAD.top + 14}
-                fill="var(--color-accent)"
-                fontFamily="var(--font-mono)"
-                fontSize="10"
-                letterSpacing="1.2"
-              >
-                PEAK {peakTotal}
-              </text>
-            </g>
-          ) : null}
-
-          {xTicks.map((bucket, index) => (
-            <text
-              key={bucket.hour}
-              x={xFor(index * 4, buckets.length)}
-              y={CHART_H - 8}
-              textAnchor="middle"
-              fill="var(--color-text-subtle)"
-              fontFamily="var(--font-mono)"
-              fontSize="10"
-            >
-              {formatHour(bucket.hour)}
-            </text>
-          ))}
-        </svg>
+        ) : null}
       </ChartWrap>
 
       {/* Per-source rail — every source surfaces its own shape, count, and
@@ -473,6 +504,26 @@ export function VolumeAreaChart({
       <span style={{ display: "none" }}>{totalItems}</span>
     </Card>
   );
+}
+
+/** Convert #rrggbb / #rgb to rgba(r,g,b,alpha). Falls back to the input
+ *  string if it doesn't parse so callers (canvas) still get *something*
+ *  drawable instead of a blank fill. */
+function hexWithAlpha(hex: string, alpha: number): string {
+  const cleaned = hex.replace("#", "");
+  if (cleaned.length === 3) {
+    const r = parseInt(cleaned[0] + cleaned[0], 16);
+    const g = parseInt(cleaned[1] + cleaned[1], 16);
+    const b = parseInt(cleaned[2] + cleaned[2], 16);
+    return `rgba(${r},${g},${b},${alpha})`;
+  }
+  if (cleaned.length === 6) {
+    const r = parseInt(cleaned.slice(0, 2), 16);
+    const g = parseInt(cleaned.slice(2, 4), 16);
+    const b = parseInt(cleaned.slice(4, 6), 16);
+    return `rgba(${r},${g},${b},${alpha})`;
+  }
+  return hex;
 }
 
 export default VolumeAreaChart;

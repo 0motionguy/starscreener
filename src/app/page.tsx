@@ -23,6 +23,7 @@ import {
   EChartSparkline,
   type EChartSparklineProps,
 } from "@/components/charts/EChartSparkline";
+import { EChartSparkmatrix } from "@/components/charts/EChartSparkmatrix";
 import { CHART_TOKENS } from "@/lib/charts/theme";
 import { HomeEmptyState } from "@/components/home/HomeEmptyState";
 import { FunnelMount } from "@/components/analytics/FunnelMount";
@@ -450,11 +451,12 @@ function ConsensusRow({ repo, index }: { repo: Repo; index: number }) {
             </span>
           ))}
         </span>
-        <Sparkline
+        <EChartSparkmatrix
           values={repo.sparklineData}
-          className="spark-mini"
+          className="spark-mini cons-matrix"
           width="100%"
           height={22}
+          color="var(--sig-green)"
           tooltipLabel="stars"
         />
       </div>

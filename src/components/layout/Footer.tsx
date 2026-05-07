@@ -51,6 +51,7 @@ export function Footer() {
           className="text-xs"
           style={{ color: "var(--v4-ink-400)" }}
         >
+          <span aria-hidden="true">&copy; {new Date().getFullYear()}</span>{" "}
           <span
             className="font-mono font-medium"
             style={{ color: "var(--v4-ink-300)" }}

@@ -1,31 +1,87 @@
 {
-  "fetchedAt": "2026-05-07T21:16:24.200Z",
+  "fetchedAt": "2026-05-07T22:32:04.195Z",
   "windowDays": 7,
   "scannedPosts": 199,
   "searchQuery": "github.com",
   "pagesFetched": 2,
   "mentions": {
     "antirez/ds4": {
-      "count7d": 3,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mlbus6iaw22s",
-        "cid": "bafyreigv3wkgwuu6tm6mwhymp6glamm4d375twmjwjnw6pvdw6mkaga62e",
-        "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mlbus6iaw22s",
-        "text": "DeepSeek 4 Flash local inference engine for Metal https://github.com/antirez/ds4 https://news.ycombinator.com/item?id=48050751",
+        "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mlc7sxx6cc2g",
+        "cid": "bafyreialbxuknxhyo644m4ufofcd3lv4eigljyzlxydlnbg7ka4ssc5pqy",
+        "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mlc7sxx6cc2g",
+        "text": "DeepSeek 4 Flash local inference engine for Metal https://github.com/antirez/ds4 [comments] [223 points]",
         "author": {
-          "handle": "hn100.atproto.rocks",
-          "displayName": "Hacker News 100"
+          "handle": "hnfeed.bsky.social",
+          "displayName": "Hacker News Bot"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-07T18:45:47.444638+00:00",
-        "hoursSincePosted": 1.18
+        "createdAt": "2026-05-07T22:03:05.326Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mlc7sxx6cc2g",
+          "cid": "bafyreialbxuknxhyo644m4ufofcd3lv4eigljyzlxydlnbg7ka4ssc5pqy",
+          "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mlc7sxx6cc2g",
+          "text": "DeepSeek 4 Flash local inference engine for Metal https://github.com/antirez/ds4 [comments] [223 points]",
+          "author": {
+            "handle": "hnfeed.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T22:03:05.326Z",
+          "createdUtc": 1778191385,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:tnfqyyktoyszfco5lcxnyiax/app.bsky.feed.post/3mlc5ltkiew2x",
+          "cid": "bafyreicndtjvmynkkien6emdv3cx4h6mw422brtlyryjafcis3ntkba5sy",
+          "bskyUrl": "https://bsky.app/profile/newsyc200.bsky.social/post/3mlc5ltkiew2x",
+          "text": "DeepSeek 4 Flash local inference engine for Metal https://github.com/antirez/ds4 (http://news.ycombinator.com/item?id=48050751)",
+          "author": {
+            "handle": "newsyc200.bsky.social",
+            "displayName": "Hacker News 200 Points"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T00:23:18+03:00",
+          "createdUtc": 1778188998,
+          "ageHours": 1.15,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mlbus6iaw22s",
           "cid": "bafyreigv3wkgwuu6tm6mwhymp6glamm4d375twmjwjnw6pvdw6mkaga62e",
@@ -224,23 +280,23 @@
     },
     "wojtczyk/trust": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mlbvtao4m22q",
-        "cid": "bafyreia4vmttjtkoqujnokm6vmbmnpqm53ktt3l66ajmhu54qrsqgzvjoa",
-        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mlbvtao4m22q",
-        "text": "📰 Trust: A Rust library that aims to provide a modern and safe alternative to C-style memory management, offering features like automatic memory management and type safety similar to languages from the 1980s. 🔗 https://github.com/wojtczyk/trust #Tech #Dev",
+        "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mlc7oktsxu25",
+        "cid": "bafyreig7hfc4a5uy2ilmrysabo2bghmpqpw2ykpntlt53owvrwoom77vvy",
+        "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mlc7oktsxu25",
+        "text": "Show HN: TRUST – Coding Rust like it's 1989 https://github.com/wojtczyk/trust https://news.ycombinator.com/item?id=48045939",
         "author": {
-          "handle": "sagalinked.bsky.social",
-          "displayName": "SagaLinked"
+          "handle": "hn100.atproto.rocks",
+          "displayName": "Hacker News 100"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-07T19:04:14.025299+00:00",
-        "hoursSincePosted": 0.87
+        "createdAt": "2026-05-07T22:00:37.354512+00:00",
+        "hoursSincePosted": 0.52
       },
       "posts": [
         {
@@ -259,6 +315,34 @@
           "createdUtc": 1778180654,
           "ageHours": 0.87,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wojtczyk/trust",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mlc7oktsxu25",
+          "cid": "bafyreig7hfc4a5uy2ilmrysabo2bghmpqpw2ykpntlt53owvrwoom77vvy",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mlc7oktsxu25",
+          "text": "Show HN: TRUST – Coding Rust like it's 1989 https://github.com/wojtczyk/trust https://news.ycombinator.com/item?id=48045939",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T22:00:37.354512+00:00",
+          "createdUtc": 1778191237,
+          "ageHours": 0.52,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -376,10 +460,10 @@
       ]
     },
     "V4bel/dirtyfrag": {
-      "count7d": 13,
-      "likesSum7d": 13,
-      "repostsSum7d": 17,
-      "repliesSum7d": 3,
+      "count7d": 11,
+      "likesSum7d": 19,
+      "repostsSum7d": 9,
+      "repliesSum7d": 6,
       "topPost": {
         "uri": "at://did:plc:m6kttxx5lbaw2dcilfezwxjj/app.bsky.feed.post/3mlc2qbtq222h",
         "cid": "bafyreig4gcnzcw7lftvgrogldome3cnyuykp6koit5tw3va5q6b6dektja",
@@ -389,11 +473,11 @@
           "handle": "lea-linux.org",
           "displayName": "Léαlinux 🐧"
         },
-        "likeCount": 6,
-        "repostCount": 5,
+        "likeCount": 9,
+        "repostCount": 8,
         "replyCount": 2,
         "createdAt": "2026-05-07T20:32:06.400Z",
-        "hoursSincePosted": 0.74
+        "hoursSincePosted": 2
       },
       "posts": [
         {
@@ -405,13 +489,13 @@
             "handle": "lea-linux.org",
             "displayName": "Léαlinux 🐧"
           },
-          "likeCount": 6,
-          "repostCount": 5,
+          "likeCount": 9,
+          "repostCount": 8,
           "replyCount": 2,
           "createdAt": "2026-05-07T20:32:06.400Z",
           "createdUtc": 1778185926,
-          "ageHours": 0.74,
-          "trendingScore": 17,
+          "ageHours": 2,
+          "trendingScore": 26,
           "content_tags": [
             "has-github-repo",
             "is-meme"
@@ -454,6 +538,91 @@
           ]
         },
         {
+          "uri": "at://did:plc:qhghuat33julr2bm7xcdwm4x/app.bsky.feed.post/3mlc73t2f3k2a",
+          "cid": "bafyreicu7gyijtuaqsqoilxolrfcqjet7d7ra5nksk7zalqku3uprymujm",
+          "bskyUrl": "https://bsky.app/profile/dervishe.eurosky.social/post/3mlc73t2f3k2a",
+          "text": "Apparemment c'est une des clauses de l'accord autour de l'embargo qui aurait été violée. github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "dervishe.eurosky.social",
+            "displayName": "dervishe the grey"
+          },
+          "likeCount": 3,
+          "repostCount": 1,
+          "replyCount": 2,
+          "createdAt": "2026-05-07T21:50:08.510Z",
+          "createdUtc": 1778190608,
+          "ageHours": 0.7,
+          "trendingScore": 6,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:xwhsmuozq3mlsp56dyd7copv/app.bsky.feed.post/3mlcaxjztrc2z",
+          "cid": "bafyreieu6xsbtg3ofkgetifp7jbjevqd2k5kz4fag2arfut4gswgo3lwdm",
+          "bskyUrl": "https://bsky.app/profile/paizuri.moe/post/3mlcaxjztrc2z",
+          "text": "github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "paizuri.moe",
+            "displayName": "the artist formerly known as 'a slug'"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-07T22:23:32.321Z",
+          "createdUtc": 1778192612,
+          "ageHours": 0.5,
+          "trendingScore": 2.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:h5czsk3wdeclz5s4kmpa6atx/app.bsky.feed.post/3mlc6lnhhg22u",
+          "cid": "bafyreica5tbkasy4no2bl4keccrhdksxysqnjx3d2xazqyeyevjfoi3itq",
+          "bskyUrl": "https://bsky.app/profile/istathar.space/post/3mlc6lnhhg22u",
+          "text": "Well they did say this was going to keep happening. #linux security embargo broken so meet Ditry Frag github.com/V4bel/dirtyf... You had an entire week since the last one, don't complain.",
+          "author": {
+            "handle": "istathar.space",
+            "displayName": "Andrew Cowie"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T21:41:05.775Z",
+          "createdUtc": 1778190065,
+          "ageHours": 0.85,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:osg2vzhifd2tjfsvfwua7scy/app.bsky.feed.post/3mlbzv3ypdk2k",
           "cid": "bafyreihried7iiupuvo5rvtl7cwfnsyleoocd4moaluabb6wzrikb2wgxm",
           "bskyUrl": "https://bsky.app/profile/symbo1ics.bsky.social/post/3mlbzv3ypdk2k",
@@ -469,6 +638,92 @@
           "createdUtc": 1778185014,
           "ageHours": 0.99,
           "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ppreelaji6iuzlzql6ymqqgy/app.bsky.feed.post/3mlc6m7w7pk2t",
+          "cid": "bafyreifro5zbc55i2vqmkhjz24ba4uionf72vo6wi6dcanw235y66oyjfq",
+          "bskyUrl": "https://bsky.app/profile/ulveon.net/post/3mlc6m7w7pk2t",
+          "text": "It seems there is another massive Linux local privilege escalation vulnerability: github.com/V4bel/dirtyf... Around December 2025, I posted a piece on why I think software being open source is necessary but not sufficient for them to be declared secure and trustworthy: ulveon.net/p/2025-12-03...",
+          "author": {
+            "handle": "ulveon.net",
+            "displayName": "ulveon.net (on Bluesky)"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-07T21:41:25.134Z",
+          "createdUtc": 1778190085,
+          "ageHours": 0.84,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:yponupcdcg6q4l7dlwr6wkzm/app.bsky.feed.post/3mlc4wla44c2i",
+          "cid": "bafyreibsbha27onmwj64hfldx5kp3cjv5dpnem3jo4yb56lhfyirfpxk5q",
+          "bskyUrl": "https://bsky.app/profile/i6t.nl/post/3mlc4wla44c2i",
+          "text": "Boom, new \"here we go again\" serious #Linux security issue. Just when you recovered from 'Copy Fail'... now there's #DirtyFrag. 🤪 What's so bad? No fix available yet and universally applicable. Exploit dropped prior to embargo end date. 🧨 lwn.net/Articles/107... github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "i6t.nl",
+            "displayName": "Gert van Dijk"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T21:11:25.053Z",
+          "createdUtc": 1778188285,
+          "ageHours": 1.34,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:xjyn3zewlare37jzlvo5ubsr/app.bsky.feed.post/3mlc2mhxfmh2t",
+          "cid": "bafyreiezfk6kaizey2nhu6m2bi6kcbjkfkkmtxeqandvgeu3jqxws234nq",
+          "bskyUrl": "https://bsky.app/profile/icedream.tech/post/3mlc2mhxfmh2t",
+          "text": "github.com/V4bel/dirtyf... another root escalation on modern Linux distros... has no CVE yet, no fix/patch, embargo was broken early. #security #linux",
+          "author": {
+            "handle": "icedream.tech",
+            "displayName": "carl://icedream"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T20:29:57.917Z",
+          "createdUtc": 1778185797,
+          "ageHours": 2.04,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -511,26 +766,82 @@
           ]
         },
         {
-          "uri": "at://did:plc:yponupcdcg6q4l7dlwr6wkzm/app.bsky.feed.post/3mlc4wla44c2i",
-          "cid": "bafyreibsbha27onmwj64hfldx5kp3cjv5dpnem3jo4yb56lhfyirfpxk5q",
-          "bskyUrl": "https://bsky.app/profile/i6t.nl/post/3mlc4wla44c2i",
-          "text": "Boom, new \"here we go again\" serious #Linux security issue. Just when you recovered from 'Copy Fail'... now there's #DirtyFrag. 🤪 What's so bad? No fix available yet and universally applicable. Exploit dropped prior to embargo end date. 🧨 lwn.net/Articles/107... github.com/V4bel/dirtyf...",
+          "uri": "at://did:plc:wcgycoeslhmctooi72zjrgp7/app.bsky.feed.post/3mlcaipyw46j2",
+          "cid": "bafyreih2itwhnrel2ird23ca4pv53hhxicijqkogp2jk2hlj4o527fwrc4",
+          "bskyUrl": "https://bsky.app/profile/enoent.ravenation.club.ap.brid.gy/post/3mlcaipyw46j2",
+          "text": "https://github.com/V4bel/dirtyfrag *sigh* how do I get into goat farming?",
           "author": {
-            "handle": "i6t.nl",
-            "displayName": "Gert van Dijk"
+            "handle": "enoent.ravenation.club.ap.brid.gy",
+            "displayName": "ENOENT"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-07T21:11:25.053Z",
-          "createdUtc": 1778188285,
+          "createdAt": "2026-05-07T22:15:07.000Z",
+          "createdUtc": 1778192107,
           "ageHours": 0.5,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
-            "is-announcement"
+            "is-question"
           ],
-          "value_score": 2,
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:sxnjbmjk4l23p67itsd3udhm/app.bsky.feed.post/3mlc6gmnborz2",
+          "cid": "bafyreievuzjwju4rsjxthxpc363bhzq2voongniwq2eklnqvrkyo2sijky",
+          "bskyUrl": "https://bsky.app/profile/sean.scoat.es.ap.brid.gy/post/3mlc6gmnborz2",
+          "text": "Another one (probably used LLM tools, but it doesn't explicitly say so here). This is going to get much worse before it gets better. https://github.com/V4bel/dirtyfrag",
+          "author": {
+            "handle": "sean.scoat.es.ap.brid.gy",
+            "displayName": "Sean Coates"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T21:38:01.000Z",
+          "createdUtc": 1778189881,
+          "ageHours": 0.9,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:oyvef664k7zwyyiodkqw2ktm/app.bsky.feed.post/3mlc6dbdqn22f",
+          "cid": "bafyreihwqwn3br5pwcl7nskw6hfv6ge5dsovnkdj6w3uqjrl2wbztkmd4y",
+          "bskyUrl": "https://bsky.app/profile/zro.bsky.social/post/3mlc6dbdqn22f",
+          "text": "New linux local privilege escalation 0-day dropped. github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "zro.bsky.social",
+            "displayName": "infinite zero"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T21:36:24.631Z",
+          "createdUtc": 1778189784,
+          "ageHours": 0.93,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "linkedRepos": [
             {
               "fullName": "V4bel/dirtyfrag",
@@ -553,35 +864,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-07T20:57:23.572Z",
           "createdUtc": 1778187443,
-          "ageHours": 0.5,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:xjyn3zewlare37jzlvo5ubsr/app.bsky.feed.post/3mlc2mhxfmh2t",
-          "cid": "bafyreiezfk6kaizey2nhu6m2bi6kcbjkfkkmtxeqandvgeu3jqxws234nq",
-          "bskyUrl": "https://bsky.app/profile/icedream.tech/post/3mlc2mhxfmh2t",
-          "text": "github.com/V4bel/dirtyf... another root escalation on modern Linux distros... has no CVE yet, no fix/patch, embargo was broken early. #security #linux",
-          "author": {
-            "handle": "icedream.tech",
-            "displayName": "carl://icedream"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T20:29:57.917Z",
-          "createdUtc": 1778185797,
-          "ageHours": 0.77,
+          "ageHours": 1.58,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -785,7 +1068,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-07T20:56:45.000Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.59
       },
       "posts": [
         {
@@ -802,7 +1085,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-07T20:56:45.000Z",
           "createdUtc": 1778187405,
-          "ageHours": 0.5,
+          "ageHours": 1.59,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -820,7 +1103,7 @@
     },
     "withastro/flue": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -832,11 +1115,11 @@
           "handle": "chrisshort.net",
           "displayName": "Chris Short"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-07T20:54:25.000Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.63
       },
       "posts": [
         {
@@ -848,13 +1131,13 @@
             "handle": "chrisshort.net",
             "displayName": "Chris Short"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-07T20:54:25.000Z",
           "createdUtc": 1778187265,
-          "ageHours": 0.5,
-          "trendingScore": 0,
+          "ageHours": 1.63,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -919,30 +1202,137 @@
           ]
         }
       ]
-    }
-  },
-  "mentionsByRepoId": {
-    "antirez--ds4": {
-      "count7d": 3,
+    },
+    "SaladDay/cc-switch-cli": {
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mlbus6iaw22s",
-        "cid": "bafyreigv3wkgwuu6tm6mwhymp6glamm4d375twmjwjnw6pvdw6mkaga62e",
-        "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mlbus6iaw22s",
-        "text": "DeepSeek 4 Flash local inference engine for Metal https://github.com/antirez/ds4 https://news.ycombinator.com/item?id=48050751",
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlc7q3trvh23",
+        "cid": "bafyreigfqqw6dv37ft2daxolnaff5gr2mb2pcqmiyzcmjug36wndmmkiqm",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlc7q3trvh23",
+        "text": "SaladDay / cc-switch-cli: ⭐️ A cross-platform CLI All-in-One assistant tool for Claude Code, Codex & Gemini CLI. ★2439 https://github.com/SaladDay/cc-switch-cli",
         "author": {
-          "handle": "hn100.atproto.rocks",
-          "displayName": "Hacker News 100"
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-07T18:45:47.444638+00:00",
-        "hoursSincePosted": 1.18
+        "createdAt": "2026-05-07T22:01:28.688461Z",
+        "hoursSincePosted": 0.51
       },
       "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlc7q3trvh23",
+          "cid": "bafyreigfqqw6dv37ft2daxolnaff5gr2mb2pcqmiyzcmjug36wndmmkiqm",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlc7q3trvh23",
+          "text": "SaladDay / cc-switch-cli: ⭐️ A cross-platform CLI All-in-One assistant tool for Claude Code, Codex & Gemini CLI. ★2439 https://github.com/SaladDay/cc-switch-cli",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T22:01:28.688461Z",
+          "createdUtc": 1778191288,
+          "ageHours": 0.51,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "SaladDay/cc-switch-cli",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "mentionsByRepoId": {
+    "antirez--ds4": {
+      "count7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mlc7sxx6cc2g",
+        "cid": "bafyreialbxuknxhyo644m4ufofcd3lv4eigljyzlxydlnbg7ka4ssc5pqy",
+        "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mlc7sxx6cc2g",
+        "text": "DeepSeek 4 Flash local inference engine for Metal https://github.com/antirez/ds4 [comments] [223 points]",
+        "author": {
+          "handle": "hnfeed.bsky.social",
+          "displayName": "Hacker News Bot"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-07T22:03:05.326Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mlc7sxx6cc2g",
+          "cid": "bafyreialbxuknxhyo644m4ufofcd3lv4eigljyzlxydlnbg7ka4ssc5pqy",
+          "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mlc7sxx6cc2g",
+          "text": "DeepSeek 4 Flash local inference engine for Metal https://github.com/antirez/ds4 [comments] [223 points]",
+          "author": {
+            "handle": "hnfeed.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T22:03:05.326Z",
+          "createdUtc": 1778191385,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:tnfqyyktoyszfco5lcxnyiax/app.bsky.feed.post/3mlc5ltkiew2x",
+          "cid": "bafyreicndtjvmynkkien6emdv3cx4h6mw422brtlyryjafcis3ntkba5sy",
+          "bskyUrl": "https://bsky.app/profile/newsyc200.bsky.social/post/3mlc5ltkiew2x",
+          "text": "DeepSeek 4 Flash local inference engine for Metal https://github.com/antirez/ds4 (http://news.ycombinator.com/item?id=48050751)",
+          "author": {
+            "handle": "newsyc200.bsky.social",
+            "displayName": "Hacker News 200 Points"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T00:23:18+03:00",
+          "createdUtc": 1778188998,
+          "ageHours": 1.15,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "antirez/ds4",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mlbus6iaw22s",
           "cid": "bafyreigv3wkgwuu6tm6mwhymp6glamm4d375twmjwjnw6pvdw6mkaga62e",
@@ -1141,23 +1531,23 @@
     },
     "wojtczyk--trust": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3mlbvtao4m22q",
-        "cid": "bafyreia4vmttjtkoqujnokm6vmbmnpqm53ktt3l66ajmhu54qrsqgzvjoa",
-        "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3mlbvtao4m22q",
-        "text": "📰 Trust: A Rust library that aims to provide a modern and safe alternative to C-style memory management, offering features like automatic memory management and type safety similar to languages from the 1980s. 🔗 https://github.com/wojtczyk/trust #Tech #Dev",
+        "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mlc7oktsxu25",
+        "cid": "bafyreig7hfc4a5uy2ilmrysabo2bghmpqpw2ykpntlt53owvrwoom77vvy",
+        "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mlc7oktsxu25",
+        "text": "Show HN: TRUST – Coding Rust like it's 1989 https://github.com/wojtczyk/trust https://news.ycombinator.com/item?id=48045939",
         "author": {
-          "handle": "sagalinked.bsky.social",
-          "displayName": "SagaLinked"
+          "handle": "hn100.atproto.rocks",
+          "displayName": "Hacker News 100"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-07T19:04:14.025299+00:00",
-        "hoursSincePosted": 0.87
+        "createdAt": "2026-05-07T22:00:37.354512+00:00",
+        "hoursSincePosted": 0.52
       },
       "posts": [
         {
@@ -1176,6 +1566,34 @@
           "createdUtc": 1778180654,
           "ageHours": 0.87,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wojtczyk/trust",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mlc7oktsxu25",
+          "cid": "bafyreig7hfc4a5uy2ilmrysabo2bghmpqpw2ykpntlt53owvrwoom77vvy",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mlc7oktsxu25",
+          "text": "Show HN: TRUST – Coding Rust like it's 1989 https://github.com/wojtczyk/trust https://news.ycombinator.com/item?id=48045939",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T22:00:37.354512+00:00",
+          "createdUtc": 1778191237,
+          "ageHours": 0.52,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -1293,10 +1711,10 @@
       ]
     },
     "v4bel--dirtyfrag": {
-      "count7d": 13,
-      "likesSum7d": 13,
-      "repostsSum7d": 17,
-      "repliesSum7d": 3,
+      "count7d": 11,
+      "likesSum7d": 19,
+      "repostsSum7d": 9,
+      "repliesSum7d": 6,
       "topPost": {
         "uri": "at://did:plc:m6kttxx5lbaw2dcilfezwxjj/app.bsky.feed.post/3mlc2qbtq222h",
         "cid": "bafyreig4gcnzcw7lftvgrogldome3cnyuykp6koit5tw3va5q6b6dektja",
@@ -1306,11 +1724,11 @@
           "handle": "lea-linux.org",
           "displayName": "Léαlinux 🐧"
         },
-        "likeCount": 6,
-        "repostCount": 5,
+        "likeCount": 9,
+        "repostCount": 8,
         "replyCount": 2,
         "createdAt": "2026-05-07T20:32:06.400Z",
-        "hoursSincePosted": 0.74
+        "hoursSincePosted": 2
       },
       "posts": [
         {
@@ -1322,13 +1740,13 @@
             "handle": "lea-linux.org",
             "displayName": "Léαlinux 🐧"
           },
-          "likeCount": 6,
-          "repostCount": 5,
+          "likeCount": 9,
+          "repostCount": 8,
           "replyCount": 2,
           "createdAt": "2026-05-07T20:32:06.400Z",
           "createdUtc": 1778185926,
-          "ageHours": 0.74,
-          "trendingScore": 17,
+          "ageHours": 2,
+          "trendingScore": 26,
           "content_tags": [
             "has-github-repo",
             "is-meme"
@@ -1371,6 +1789,91 @@
           ]
         },
         {
+          "uri": "at://did:plc:qhghuat33julr2bm7xcdwm4x/app.bsky.feed.post/3mlc73t2f3k2a",
+          "cid": "bafyreicu7gyijtuaqsqoilxolrfcqjet7d7ra5nksk7zalqku3uprymujm",
+          "bskyUrl": "https://bsky.app/profile/dervishe.eurosky.social/post/3mlc73t2f3k2a",
+          "text": "Apparemment c'est une des clauses de l'accord autour de l'embargo qui aurait été violée. github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "dervishe.eurosky.social",
+            "displayName": "dervishe the grey"
+          },
+          "likeCount": 3,
+          "repostCount": 1,
+          "replyCount": 2,
+          "createdAt": "2026-05-07T21:50:08.510Z",
+          "createdUtc": 1778190608,
+          "ageHours": 0.7,
+          "trendingScore": 6,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:xwhsmuozq3mlsp56dyd7copv/app.bsky.feed.post/3mlcaxjztrc2z",
+          "cid": "bafyreieu6xsbtg3ofkgetifp7jbjevqd2k5kz4fag2arfut4gswgo3lwdm",
+          "bskyUrl": "https://bsky.app/profile/paizuri.moe/post/3mlcaxjztrc2z",
+          "text": "github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "paizuri.moe",
+            "displayName": "the artist formerly known as 'a slug'"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-07T22:23:32.321Z",
+          "createdUtc": 1778192612,
+          "ageHours": 0.5,
+          "trendingScore": 2.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:h5czsk3wdeclz5s4kmpa6atx/app.bsky.feed.post/3mlc6lnhhg22u",
+          "cid": "bafyreica5tbkasy4no2bl4keccrhdksxysqnjx3d2xazqyeyevjfoi3itq",
+          "bskyUrl": "https://bsky.app/profile/istathar.space/post/3mlc6lnhhg22u",
+          "text": "Well they did say this was going to keep happening. #linux security embargo broken so meet Ditry Frag github.com/V4bel/dirtyf... You had an entire week since the last one, don't complain.",
+          "author": {
+            "handle": "istathar.space",
+            "displayName": "Andrew Cowie"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T21:41:05.775Z",
+          "createdUtc": 1778190065,
+          "ageHours": 0.85,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:osg2vzhifd2tjfsvfwua7scy/app.bsky.feed.post/3mlbzv3ypdk2k",
           "cid": "bafyreihried7iiupuvo5rvtl7cwfnsyleoocd4moaluabb6wzrikb2wgxm",
           "bskyUrl": "https://bsky.app/profile/symbo1ics.bsky.social/post/3mlbzv3ypdk2k",
@@ -1386,6 +1889,92 @@
           "createdUtc": 1778185014,
           "ageHours": 0.99,
           "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ppreelaji6iuzlzql6ymqqgy/app.bsky.feed.post/3mlc6m7w7pk2t",
+          "cid": "bafyreifro5zbc55i2vqmkhjz24ba4uionf72vo6wi6dcanw235y66oyjfq",
+          "bskyUrl": "https://bsky.app/profile/ulveon.net/post/3mlc6m7w7pk2t",
+          "text": "It seems there is another massive Linux local privilege escalation vulnerability: github.com/V4bel/dirtyf... Around December 2025, I posted a piece on why I think software being open source is necessary but not sufficient for them to be declared secure and trustworthy: ulveon.net/p/2025-12-03...",
+          "author": {
+            "handle": "ulveon.net",
+            "displayName": "ulveon.net (on Bluesky)"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-07T21:41:25.134Z",
+          "createdUtc": 1778190085,
+          "ageHours": 0.84,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:yponupcdcg6q4l7dlwr6wkzm/app.bsky.feed.post/3mlc4wla44c2i",
+          "cid": "bafyreibsbha27onmwj64hfldx5kp3cjv5dpnem3jo4yb56lhfyirfpxk5q",
+          "bskyUrl": "https://bsky.app/profile/i6t.nl/post/3mlc4wla44c2i",
+          "text": "Boom, new \"here we go again\" serious #Linux security issue. Just when you recovered from 'Copy Fail'... now there's #DirtyFrag. 🤪 What's so bad? No fix available yet and universally applicable. Exploit dropped prior to embargo end date. 🧨 lwn.net/Articles/107... github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "i6t.nl",
+            "displayName": "Gert van Dijk"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T21:11:25.053Z",
+          "createdUtc": 1778188285,
+          "ageHours": 1.34,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:xjyn3zewlare37jzlvo5ubsr/app.bsky.feed.post/3mlc2mhxfmh2t",
+          "cid": "bafyreiezfk6kaizey2nhu6m2bi6kcbjkfkkmtxeqandvgeu3jqxws234nq",
+          "bskyUrl": "https://bsky.app/profile/icedream.tech/post/3mlc2mhxfmh2t",
+          "text": "github.com/V4bel/dirtyf... another root escalation on modern Linux distros... has no CVE yet, no fix/patch, embargo was broken early. #security #linux",
+          "author": {
+            "handle": "icedream.tech",
+            "displayName": "carl://icedream"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T20:29:57.917Z",
+          "createdUtc": 1778185797,
+          "ageHours": 2.04,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -1428,26 +2017,82 @@
           ]
         },
         {
-          "uri": "at://did:plc:yponupcdcg6q4l7dlwr6wkzm/app.bsky.feed.post/3mlc4wla44c2i",
-          "cid": "bafyreibsbha27onmwj64hfldx5kp3cjv5dpnem3jo4yb56lhfyirfpxk5q",
-          "bskyUrl": "https://bsky.app/profile/i6t.nl/post/3mlc4wla44c2i",
-          "text": "Boom, new \"here we go again\" serious #Linux security issue. Just when you recovered from 'Copy Fail'... now there's #DirtyFrag. 🤪 What's so bad? No fix available yet and universally applicable. Exploit dropped prior to embargo end date. 🧨 lwn.net/Articles/107... github.com/V4bel/dirtyf...",
+          "uri": "at://did:plc:wcgycoeslhmctooi72zjrgp7/app.bsky.feed.post/3mlcaipyw46j2",
+          "cid": "bafyreih2itwhnrel2ird23ca4pv53hhxicijqkogp2jk2hlj4o527fwrc4",
+          "bskyUrl": "https://bsky.app/profile/enoent.ravenation.club.ap.brid.gy/post/3mlcaipyw46j2",
+          "text": "https://github.com/V4bel/dirtyfrag *sigh* how do I get into goat farming?",
           "author": {
-            "handle": "i6t.nl",
-            "displayName": "Gert van Dijk"
+            "handle": "enoent.ravenation.club.ap.brid.gy",
+            "displayName": "ENOENT"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-07T21:11:25.053Z",
-          "createdUtc": 1778188285,
+          "createdAt": "2026-05-07T22:15:07.000Z",
+          "createdUtc": 1778192107,
           "ageHours": 0.5,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
-            "is-announcement"
+            "is-question"
           ],
-          "value_score": 2,
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:sxnjbmjk4l23p67itsd3udhm/app.bsky.feed.post/3mlc6gmnborz2",
+          "cid": "bafyreievuzjwju4rsjxthxpc363bhzq2voongniwq2eklnqvrkyo2sijky",
+          "bskyUrl": "https://bsky.app/profile/sean.scoat.es.ap.brid.gy/post/3mlc6gmnborz2",
+          "text": "Another one (probably used LLM tools, but it doesn't explicitly say so here). This is going to get much worse before it gets better. https://github.com/V4bel/dirtyfrag",
+          "author": {
+            "handle": "sean.scoat.es.ap.brid.gy",
+            "displayName": "Sean Coates"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T21:38:01.000Z",
+          "createdUtc": 1778189881,
+          "ageHours": 0.9,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:oyvef664k7zwyyiodkqw2ktm/app.bsky.feed.post/3mlc6dbdqn22f",
+          "cid": "bafyreihwqwn3br5pwcl7nskw6hfv6ge5dsovnkdj6w3uqjrl2wbztkmd4y",
+          "bskyUrl": "https://bsky.app/profile/zro.bsky.social/post/3mlc6dbdqn22f",
+          "text": "New linux local privilege escalation 0-day dropped. github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "zro.bsky.social",
+            "displayName": "infinite zero"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T21:36:24.631Z",
+          "createdUtc": 1778189784,
+          "ageHours": 0.93,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "linkedRepos": [
             {
               "fullName": "V4bel/dirtyfrag",
@@ -1470,35 +2115,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-07T20:57:23.572Z",
           "createdUtc": 1778187443,
-          "ageHours": 0.5,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:xjyn3zewlare37jzlvo5ubsr/app.bsky.feed.post/3mlc2mhxfmh2t",
-          "cid": "bafyreiezfk6kaizey2nhu6m2bi6kcbjkfkkmtxeqandvgeu3jqxws234nq",
-          "bskyUrl": "https://bsky.app/profile/icedream.tech/post/3mlc2mhxfmh2t",
-          "text": "github.com/V4bel/dirtyf... another root escalation on modern Linux distros... has no CVE yet, no fix/patch, embargo was broken early. #security #linux",
-          "author": {
-            "handle": "icedream.tech",
-            "displayName": "carl://icedream"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T20:29:57.917Z",
-          "createdUtc": 1778185797,
-          "ageHours": 0.77,
+          "ageHours": 1.58,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1702,7 +2319,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-07T20:56:45.000Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.59
       },
       "posts": [
         {
@@ -1719,7 +2336,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-07T20:56:45.000Z",
           "createdUtc": 1778187405,
-          "ageHours": 0.5,
+          "ageHours": 1.59,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -1737,7 +2354,7 @@
     },
     "withastro--flue": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -1749,11 +2366,11 @@
           "handle": "chrisshort.net",
           "displayName": "Chris Short"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-07T20:54:25.000Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.63
       },
       "posts": [
         {
@@ -1765,13 +2382,13 @@
             "handle": "chrisshort.net",
             "displayName": "Chris Short"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-07T20:54:25.000Z",
           "createdUtc": 1778187265,
-          "ageHours": 0.5,
-          "trendingScore": 0,
+          "ageHours": 1.63,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -1836,18 +2453,74 @@
           ]
         }
       ]
+    },
+    "saladday--cc-switch-cli": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlc7q3trvh23",
+        "cid": "bafyreigfqqw6dv37ft2daxolnaff5gr2mb2pcqmiyzcmjug36wndmmkiqm",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlc7q3trvh23",
+        "text": "SaladDay / cc-switch-cli: ⭐️ A cross-platform CLI All-in-One assistant tool for Claude Code, Codex & Gemini CLI. ★2439 https://github.com/SaladDay/cc-switch-cli",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-07T22:01:28.688461Z",
+        "hoursSincePosted": 0.51
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlc7q3trvh23",
+          "cid": "bafyreigfqqw6dv37ft2daxolnaff5gr2mb2pcqmiyzcmjug36wndmmkiqm",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlc7q3trvh23",
+          "text": "SaladDay / cc-switch-cli: ⭐️ A cross-platform CLI All-in-One assistant tool for Claude Code, Codex & Gemini CLI. ★2439 https://github.com/SaladDay/cc-switch-cli",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T22:01:28.688461Z",
+          "createdUtc": 1778191288,
+          "ageHours": 0.51,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "SaladDay/cc-switch-cli",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "V4bel/dirtyfrag",
-      "count7d": 13,
-      "likesSum7d": 13
+      "count7d": 11,
+      "likesSum7d": 19
     },
     {
-      "fullName": "mattpocock/skills",
+      "fullName": "withastro/flue",
       "count7d": 1,
-      "likesSum7d": 2
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "antirez/ds4",
+      "count7d": 2,
+      "likesSum7d": 0
     },
     {
       "fullName": "chenglou/pretext",
@@ -1855,7 +2528,12 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "withastro/flue",
+      "fullName": "SaladDay/cc-switch-cli",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "wojtczyk/trust",
       "count7d": 1,
       "likesSum7d": 0
     }

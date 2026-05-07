@@ -63,6 +63,9 @@ export interface FundingInvestorRef {
   name: string;
   isKnown: boolean;
   confidence: "high" | "medium" | "low";
+  /** Logo URL for known investors (Clearbit or GitHub avatar). Optional —
+   *  only set when enrichInvestors() matched a canonical KNOWN_INVESTORS entry. */
+  logoUrl?: string;
 }
 
 /** Investor reference (Phase 2). */

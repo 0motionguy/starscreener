@@ -131,15 +131,10 @@ function LaunchpadStrip() {
             title={tile.description}
             className={cn(
               "launchpad-tile relative flex h-12 flex-col items-center justify-center gap-0.5",
-              "text-[11px] font-semibold tracking-wide transition-colors duration-150",
+              "text-[11px] font-semibold tracking-wide",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1",
+              active && "is-active",
             )}
-            style={{
-              background: active ? "var(--v4-acc-soft)" : "var(--v4-bg-050)",
-              border: `1px solid ${active ? "var(--v4-acc)" : "var(--v4-line-200)"}`,
-              color: active ? "var(--v4-acc)" : "var(--v4-ink-100)",
-              borderRadius: 8,
-            }}
           >
             <Icon className="h-4 w-4" strokeWidth={2.25} aria-hidden />
             <span className="text-[10px] uppercase tracking-[0.18em]">{tile.label}</span>
@@ -153,15 +148,10 @@ function LaunchpadStrip() {
           title="Your profile"
           className={cn(
             "launchpad-tile relative flex h-12 flex-col items-center justify-center gap-0.5",
-            "text-[11px] font-semibold tracking-wide transition-colors duration-150",
+            "text-[11px] font-semibold tracking-wide",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1",
+            pathname.startsWith("/u/") && "is-active",
           )}
-          style={{
-            background: pathname.startsWith("/u/") ? "var(--v4-acc-soft)" : "var(--v4-bg-050)",
-            border: `1px solid ${pathname.startsWith("/u/") ? "var(--v4-acc)" : "var(--v4-line-200)"}`,
-            color: "var(--v4-ink-100)",
-            borderRadius: 8,
-          }}
         >
           <UserRound className="h-4 w-4" strokeWidth={2.25} aria-hidden />
           <span className="text-[10px] uppercase tracking-[0.18em]">{shortHandle(userId)}</span>

@@ -511,3 +511,93 @@ test("buildTwitterCollectorPayload rejects phrase matches without developer cont
     "developer_context",
   ]);
 });
+
+test("buildTwitterCollectorPayload rejects ambiguous Paperclip phrase noise", () => {
+  const paperclipCandidate: TwitterScanCandidate = {
+    priorityRank: 1,
+    priorityScore: 100,
+    priorityReason: "test",
+    lastScannedAt: null,
+    repo: {
+      repoId: "paperclipai--paperclip",
+      githubFullName: "paperclipai/paperclip",
+      githubUrl: "https://github.com/paperclipai/paperclip",
+      repoName: "paperclip",
+      ownerName: "paperclipai",
+      homepageUrl: "https://paperclip.ing",
+      docsUrl: null,
+      packageNames: [],
+      aliases: ["paperclip"],
+      description: "Ticket-based multi-agent orchestrator",
+    },
+  };
+  const paperclipPhraseQuery: TwitterQuery = {
+    queryText: "\"Paperclip\"",
+    queryType: "project_name",
+    tier: 2,
+    confidenceWeight: 0.84,
+    enabled: true,
+    rationale: "Quoted project name",
+  };
+  const paperclipSlugQuery: TwitterQuery = {
+    queryText: "paperclipai/paperclip",
+    queryType: "repo_slug",
+    tier: 1,
+    confidenceWeight: 1,
+    enabled: true,
+    rationale: "Exact GitHub repo slug",
+  };
+  const postsByQuery = new Map([
+    [
+      paperclipPhraseQuery.queryText,
+      [
+        {
+          postId: "1891234567811",
+          postUrl: "https://x.com/dev/status/1891234567811",
+          authorHandle: "dev",
+          postedAt: "2026-04-22T11:30:00.000Z",
+          text: "I am comparing agent hierarchies and Paperclip as a concept.",
+          likes: 8,
+          reposts: 1,
+          replies: 0,
+          quotes: 0,
+        },
+      ],
+    ],
+    [
+      paperclipSlugQuery.queryText,
+      [
+        {
+          postId: "1891234567812",
+          postUrl: "https://x.com/dev/status/1891234567812",
+          authorHandle: "dev",
+          postedAt: "2026-04-22T11:29:00.000Z",
+          text: "paperclipai/paperclip is the ticket-based multi-agent orchestrator I am testing.",
+          likes: 12,
+          reposts: 2,
+          replies: 0,
+          quotes: 0,
+        },
+      ],
+    ],
+  ]);
+
+  const payload = buildTwitterCollectorPayload(
+    paperclipCandidate,
+    [paperclipPhraseQuery, paperclipSlugQuery],
+    postsByQuery,
+    {
+      agentName: "test-twitter-collector",
+      agentVersion: "0.0.0",
+      runId: "test-run",
+      triggeredBy: "scheduled_refresh",
+      windowHours: 24,
+      postsPerRepo: 10,
+      now: new Date("2026-04-22T12:00:00.000Z"),
+    },
+  );
+
+  assert.equal(payload.posts.length, 1);
+  assert.equal(payload.posts[0]?.postId, "1891234567812");
+  assert.equal(payload.posts[0]?.matchedBy, "repo_slug");
+});

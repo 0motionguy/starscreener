@@ -58,3 +58,36 @@ test("buildTwitterQueryBundle disables generic tier-3 fallback aliases", () => {
   assert.ok(aliasQueries.length >= 1);
   assert.ok(aliasQueries.every((query) => query.enabled === false));
 });
+
+test("buildTwitterQueryBundle suppresses ambiguous bare Paperclip phrases", () => {
+  const queries = buildTwitterQueryBundle(
+    makeRepo({
+      repoId: "paperclipai--paperclip",
+      githubFullName: "paperclipai/paperclip",
+      githubUrl: "https://github.com/paperclipai/paperclip",
+      repoName: "paperclip",
+      ownerName: "paperclipai",
+      homepageUrl: "https://paperclip.ing",
+      docsUrl: null,
+      packageNames: [],
+      aliases: ["paperclip"],
+    }),
+  );
+
+  assert.ok(
+    queries.some(
+      (query) =>
+        query.queryType === "repo_slug" &&
+        query.queryText === "paperclipai/paperclip" &&
+        query.enabled,
+    ),
+  );
+  assert.ok(
+    queries.every(
+      (query) =>
+        query.queryText !== "\"Paperclip\"" &&
+        query.queryText !== "\"paperclip\"" &&
+        !(query.queryType === "alias" && query.enabled),
+    ),
+  );
+});

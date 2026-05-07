@@ -121,10 +121,141 @@ const AI_NAME_HINT_RE =
 const BAD_NAME_PATTERN =
   /\b(series|fund|capital|partners|management|advisors|trust|holdings|acquisition|acquisitions|insider|nonpublic|pe |private equity|hedge|asset management|family office|spv)\b|^(hii|gaingels|bip|nv |ac )\s|\s+(i{1,3}v?|[0-9]{1,4}|[a-z])\s*(llc|lp|inc|corp)?\s*$/i;
 
-const SLEEP_MS_BETWEEN_REQUESTS = 120;
+// Politeness ceiling. SEC publishes a 10 req/s cap; we sit well under
+// it. Bumped 120 → 150ms after observing intermittent 5xx during
+// burst windows. Detail fetches use a separate per-request sleep.
+const SLEEP_MS_BETWEEN_REQUESTS = 150;
+const SLEEP_MS_BETWEEN_DETAIL_FETCHES = 100;
+
+// Retry tuning. EDGAR returns 5xx during indexing windows and the
+// network occasionally hiccups. 3 attempts with backoff is enough to
+// ride out 99% of transient failures without hammering the host.
+const MAX_FETCH_ATTEMPTS = 3;
+const RETRY_BACKOFF_MS = [200, 800];
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
+}
+
+/**
+ * Fetch with bounded retries. Retries on 5xx and network errors only —
+ * 4xx fails fast (404 means the doc isn't there, no point retrying).
+ * Returns the Response on success, throws on permanent failure.
+ */
+async function fetchWithRetry(url, options, label) {
+  let lastErr = null;
+  for (let attempt = 1; attempt <= MAX_FETCH_ATTEMPTS; attempt++) {
+    try {
+      const res = await fetch(url, options);
+      if (res.ok) return res;
+      // 4xx is permanent — don't retry.
+      if (res.status >= 400 && res.status < 500) {
+        throw new Error(`${label} ${res.status} ${res.statusText}`);
+      }
+      lastErr = new Error(`${label} ${res.status} ${res.statusText}`);
+    } catch (err) {
+      lastErr = err;
+    }
+    if (attempt < MAX_FETCH_ATTEMPTS) {
+      const backoff = RETRY_BACKOFF_MS[attempt - 1] ?? 1000;
+      await sleep(backoff);
+    }
+  }
+  throw lastErr ?? new Error(`${label} failed after ${MAX_FETCH_ATTEMPTS} attempts`);
+}
+
+/**
+ * Format USD amount for display. 5_200_000 → "$5.2M", 850_000 → "$850K",
+ * 25_000_000_000 → "$25B". Mirrors the convention used elsewhere on the
+ * funding page.
+ */
+function formatAmountDisplay(amount) {
+  if (typeof amount !== "number" || !Number.isFinite(amount) || amount <= 0) {
+    return "Undisclosed";
+  }
+  if (amount >= 1_000_000_000) {
+    const v = amount / 1_000_000_000;
+    return `$${v % 1 === 0 ? v.toFixed(0) : v.toFixed(1)}B`;
+  }
+  if (amount >= 1_000_000) {
+    const v = amount / 1_000_000;
+    return `$${v % 1 === 0 ? v.toFixed(0) : v.toFixed(1)}M`;
+  }
+  if (amount >= 1_000) {
+    const v = amount / 1_000;
+    return `$${v % 1 === 0 ? v.toFixed(0) : v.toFixed(0)}K`;
+  }
+  return `$${amount}`;
+}
+
+/**
+ * Pluck the inner text of the first matching tag (case-insensitive).
+ * Form D primary_doc.xml is small (typically <50KB) and well-formed
+ * but we avoid pulling in an XML parser dep. Regex is sufficient
+ * for the leaf fields we need.
+ */
+function pluckTag(xml, tag) {
+  const re = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, "i");
+  const match = xml.match(re);
+  if (!match) return null;
+  const inner = match[1].trim();
+  return inner.length > 0 ? inner : null;
+}
+
+/**
+ * Detect fund-type filings from the parsed primary_doc.xml. Drops:
+ *   - industryGroupType containing "Fund" (Pooled Investment Fund,
+ *     Hedge Fund, Other Investment Fund, etc.)
+ *   - filings carrying an <investmentFundInfo> block
+ *   - isPooledInvestmentFundType=true on typesOfSecuritiesOffered
+ * This is the defensive belt to BAD_NAME_PATTERN's suspenders.
+ */
+function isFundFiling(xml) {
+  const industry = pluckTag(xml, "industryGroupType");
+  if (industry && /\bfund\b/i.test(industry)) return true;
+  if (/<investmentFundInfo[\s>]/i.test(xml)) return true;
+  if (/<isPooledInvestmentFundType>\s*true\s*<\/isPooledInvestmentFundType>/i.test(xml)) {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Fetch + parse a single Form D filing's primary_doc.xml. Returns
+ * { amount, industryGroup, isFund } on success, null on permanent
+ * failure (the filing is dropped; the rest of the run continues).
+ */
+async function fetchFilingDetail(primaryDocUrl) {
+  if (!primaryDocUrl) return null;
+  let xml;
+  try {
+    const res = await fetchWithRetry(
+      primaryDocUrl,
+      {
+        headers: {
+          "User-Agent": USER_AGENT,
+          Accept: "application/xml,text/xml,*/*",
+        },
+      },
+      `[sec-form-d] detail`,
+    );
+    xml = await res.text();
+  } catch (err) {
+    console.warn(
+      `[sec-form-d] detail fetch failed for ${primaryDocUrl}: ${err.message}`,
+    );
+    return null;
+  }
+
+  const isFund = isFundFiling(xml);
+  const industryGroup = pluckTag(xml, "industryGroupType");
+  const amountRaw = pluckTag(xml, "totalOfferingAmount");
+  let amount = null;
+  if (amountRaw) {
+    const n = Number(amountRaw);
+    if (Number.isFinite(n) && n > 0) amount = n;
+  }
+  return { amount, industryGroup, isFund };
 }
 
 function isoDateNDaysAgo(n) {
@@ -146,17 +277,16 @@ async function fetchSearch(query, startdt, enddt) {
   url.searchParams.set("enddt", enddt);
   url.searchParams.set("hits", String(MAX_HITS_PER_QUERY));
 
-  const res = await fetch(url, {
-    headers: {
-      "User-Agent": USER_AGENT,
-      Accept: "application/json",
+  const res = await fetchWithRetry(
+    url,
+    {
+      headers: {
+        "User-Agent": USER_AGENT,
+        Accept: "application/json",
+      },
     },
-  });
-  if (!res.ok) {
-    throw new Error(
-      `[sec-form-d] search ${query} failed: ${res.status} ${res.statusText}`,
-    );
-  }
+    `[sec-form-d] search ${query}`,
+  );
   const json = await res.json();
   return json?.hits?.hits ?? [];
 }

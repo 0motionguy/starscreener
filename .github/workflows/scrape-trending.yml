@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 concurrency:
   group: data-refresh
@@ -108,16 +107,9 @@ jobs:
       - name: Commit if changed
         uses: ./.github/actions/git-commit-data
         with:
-          # Pass DATA_BOT_TOKEN so the auto-PR triggers required status
-          # checks (workflow_run / pull_request). GITHUB_TOKEN-authored
-          # PRs are suppressed by GitHub, which strands them at branch
-          # protection. Empty/unset secret falls back to GITHUB_TOKEN
-          # inside the action — see docs/DATA-BOT-PAT-SETUP.md.
-          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
           message: "chore(data): refresh fast discovery snapshots ${{ steps.ts.outputs.value }}"
           paths: |
             data/trending.json
-            data/trending-lite.json
             data/deltas.json
             data/hot-collections.json
             data/recent-repos.json

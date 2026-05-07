@@ -23,8 +23,30 @@
 //                                          single-repo probe (debug)
 //   npm run sweep:mentions -- --source-only tavily
 //                                          isolate one channel for verification
+//   npm run sweep:mentions -- --mode catchup
+//                                          full-corpus reconciliation (daily 05:15 lane);
+//                                          ignores --top, sweeps every trending entry,
+//                                          forces JSONL compaction.
+//   npm run sweep:mentions -- --compact  also compact JSONL to last 7d this run.
+//
+// Production behavior:
+//   - Per-rank Twitter depth: top-10 → 50 tweets/query, top-50 → 30,
+//     top-200 → 20, tail → 10. Saves Apify cost while keeping signal-rich
+//     repos well-covered.
+//   - Cross-run URL dedup: scans recent JSONL lines and skips events whose
+//     URL was already recorded in the last ~10k entries.
+//   - lastSweptAt write-back: when --queue used, the queue file is updated
+//     with scanRunAt for every repo actually swept (anti-oscillation).
+//   - JSONL compaction: 7-day retention enforced when --compact, --mode catchup,
+//     or GITHUB_EVENT_SCHEDULE=="15 5 * * *" (the daily lane).
 
-import { appendFile, mkdir, readFile, writeFile } from "node:fs/promises";
+import {
+  appendFile,
+  mkdir,
+  readFile,
+  rename,
+  writeFile,
+} from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -95,6 +117,8 @@ interface SweepEvent extends Mention {
 // CLI
 // ---------------------------------------------------------------------------
 
+type SweepMode = "top" | "catchup";
+
 interface Options {
   top: number;
   skip: number;
@@ -104,12 +128,15 @@ interface Options {
   concurrency: number;
   dryRun: boolean;
   verbose: boolean;
+  mode: SweepMode;
+  compact: boolean;
 }
 
 function usage(): string {
   return [
     "usage: npm run sweep:mentions -- [--top N] [--queue path] [--repo owner/name]",
-    "                                  [--source-only ch] [--concurrency N] [--dry-run]",
+    "                                  [--source-only ch] [--concurrency N] [--mode top|catchup]",
+    "                                  [--compact] [--dry-run]",
     "",
     "  --top N            number of top-trending repos to sweep (default 50)",
     "  --skip N           skip the first N trending entries (e.g. --skip 50 --top 50 = ranks 51-100)",
@@ -117,6 +144,9 @@ function usage(): string {
     "  --repo owner/name  sweep one specific repo (overrides --top / --queue)",
     "  --source-only ch   restrict to one of: " + SUPPORTED_SOURCES.join(", "),
     "  --concurrency N    parallel repo workers (default 4)",
+    "  --mode m           sweep mode: top (default) or catchup (full-corpus reconciliation;",
+    "                     ignores --top, used by daily 05:15 lane; forces JSONL compaction)",
+    "  --compact          rewrite repo-mentions-detail.jsonl to last 7d after run",
     "  --dry-run          run adapters but do not write JSONL / Redis",
   ].join("\n");
 }
@@ -136,6 +166,8 @@ function parseArgs(argv: string[]): Options {
   let concurrency = 4;
   let dryRun = false;
   let verbose = false;
+  let mode: SweepMode = "top";
+  let compact = false;
 
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
@@ -146,6 +178,8 @@ function parseArgs(argv: string[]): Options {
       dryRun = true;
     } else if (arg === "--verbose" || arg === "-v") {
       verbose = true;
+    } else if (arg === "--compact") {
+      compact = true;
     } else if (arg === "--top") {
       top = positiveInt(argv[++i], "--top");
     } else if (arg.startsWith("--top=")) {
@@ -170,6 +204,10 @@ function parseArgs(argv: string[]): Options {
       concurrency = positiveInt(argv[++i], "--concurrency");
     } else if (arg.startsWith("--concurrency=")) {
       concurrency = positiveInt(arg.slice(14), "--concurrency");
+    } else if (arg === "--mode") {
+      mode = parseMode(argv[++i]);
+    } else if (arg.startsWith("--mode=")) {
+      mode = parseMode(arg.slice(7));
     } else {
       failUsage(`unknown argument: ${arg}`);
     }
@@ -177,7 +215,23 @@ function parseArgs(argv: string[]): Options {
   if (sourceOnly && !SUPPORTED_SOURCES.includes(sourceOnly)) {
     failUsage(`--source-only must be one of: ${SUPPORTED_SOURCES.join(", ")}`);
   }
-  return { top, skip, repo, queue, sourceOnly, concurrency, dryRun, verbose };
+  return {
+    top,
+    skip,
+    repo,
+    queue,
+    sourceOnly,
+    concurrency,
+    dryRun,
+    verbose,
+    mode,
+    compact,
+  };
+}
+
+function parseMode(raw: string | undefined): SweepMode {
+  if (raw === "top" || raw === "catchup") return raw;
+  failUsage(`--mode must be top|catchup, got ${raw ?? "<missing>"}`);
 }
 
 function positiveInt(raw: string | undefined, name: string): number {
@@ -373,6 +427,33 @@ async function loadTrendingTopN(
   return out;
 }
 
+// Catchup-mode loader — full corpus, no slice. Used by the daily 05:15 lane
+// for one-shot reconciliation across every trending repo. Concurrency cap
+// in main() still bounds wall-clock; this just removes the rank ceiling.
+async function loadTrendingAll(
+  metadata: Map<string, MetadataItem>,
+  packages: Map<string, string[]>,
+): Promise<RepoInput[]> {
+  const data = await readJson<{
+    buckets?: { past_24_hours?: { All?: TrendingRow[] } };
+  }>(TRENDING_FILE, { buckets: {} });
+  const rows = data.buckets?.past_24_hours?.All ?? [];
+  const out: RepoInput[] = [];
+  const seen = new Set<string>();
+  let absoluteRank = 0;
+  for (const row of rows) {
+    if (!row?.repo_name?.includes("/")) continue;
+    const key = row.repo_name.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    absoluteRank += 1;
+    const repo = repoFromTrending(row, metadata, packages, absoluteRank);
+    if (!repo) continue;
+    out.push(repo);
+  }
+  return out;
+}
+
 // ---------------------------------------------------------------------------
 // Twitter query bundle adapter
 // ---------------------------------------------------------------------------
@@ -417,7 +498,12 @@ async function runRepo(repo: RepoInput, ctx: SweepContext): Promise<Mention[]> {
 
   if (should("twitter") && ctx.apifyToken) {
     const queries = buildTwitterQueriesForRepo(repo);
-    tasks.push(searchTwitter(repo, queries, { token: ctx.apifyToken }));
+    tasks.push(
+      searchTwitter(repo, queries, {
+        token: ctx.apifyToken,
+        tweetsPerQuery: tweetsPerQueryForRank(repo.rank),
+      }),
+    );
   }
   if (should("reddit")) tasks.push(searchReddit(repo));
   if (should("hackernews")) tasks.push(searchHackerNews(repo));
@@ -525,6 +611,172 @@ async function tryBlueskySession(): Promise<{ accessJwt: string } | null> {
 }
 
 // ---------------------------------------------------------------------------
+// Per-rank Twitter depth — top repos earn deeper Apify pulls.
+// ---------------------------------------------------------------------------
+//
+// Apify run-sync billing is per-tweet. Top-10 trending repos generate the
+// bulk of the cross-source signal (and Twitter is by far the most expensive
+// channel), so spending more there is correct. Long-tail repos at rank 200+
+// rarely yield more than a couple tweets per Tier-1 query — capping at 10
+// keeps the daily lane affordable without losing material recall.
+function tweetsPerQueryForRank(rank: number | null): number {
+  if (rank === null || !Number.isFinite(rank)) return 20;
+  if (rank <= 10) return 50;
+  if (rank <= 50) return 30;
+  if (rank <= 200) return 20;
+  return 10;
+}
+
+// ---------------------------------------------------------------------------
+// JSONL housekeeping — cross-run dedup + 7-day compaction.
+// ---------------------------------------------------------------------------
+
+const RECENT_URL_TAIL_LINES = 10_000;
+const COMPACTION_WINDOW_DAYS = 7;
+
+// Load the URLs already present in roughly the last N lines of the JSONL
+// so we can suppress duplicates from prior sweeps (different scanRunId,
+// same canonical URL). Reading the entire 9MB+ file once at start is fine —
+// 14k lines parses in ~50ms — but cap to RECENT_URL_TAIL_LINES to keep
+// memory bounded once the file grows.
+async function loadRecentUrlSet(jsonlPath: string): Promise<Set<string>> {
+  const set = new Set<string>();
+  let raw: string;
+  try {
+    raw = await readFile(jsonlPath, "utf8");
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException)?.code === "ENOENT") return set;
+    throw err;
+  }
+  const lines = raw.split("\n");
+  // Drop trailing empty (file always ends with newline) before slicing.
+  while (lines.length > 0 && lines[lines.length - 1] === "") lines.pop();
+  const tail = lines.slice(Math.max(0, lines.length - RECENT_URL_TAIL_LINES));
+  for (const line of tail) {
+    if (!line) continue;
+    try {
+      const obj = JSON.parse(line) as { url?: unknown };
+      if (typeof obj.url === "string" && obj.url) set.add(obj.url);
+    } catch {
+      // Skip malformed lines — a corrupt tail shouldn't block the sweep.
+    }
+  }
+  return set;
+}
+
+// Atomically rewrite the JSONL keeping only events with observedAt within
+// the last 7 days. Uses temp-file-then-rename so an interrupted run leaves
+// the original file intact. Returns { kept, dropped } for logging.
+async function compactJsonl(
+  jsonlPath: string,
+  windowDays: number,
+): Promise<{ kept: number; dropped: number }> {
+  let raw: string;
+  try {
+    raw = await readFile(jsonlPath, "utf8");
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException)?.code === "ENOENT") {
+      return { kept: 0, dropped: 0 };
+    }
+    throw err;
+  }
+  const cutoff = Date.now() - windowDays * 24 * 3600 * 1000;
+  const lines = raw.split("\n");
+  let kept = 0;
+  let dropped = 0;
+  const out: string[] = [];
+  for (const line of lines) {
+    if (!line) continue;
+    let observedAt: unknown;
+    try {
+      observedAt = (JSON.parse(line) as { observedAt?: unknown }).observedAt;
+    } catch {
+      // Drop malformed lines — they'd silently corrupt downstream readers.
+      dropped += 1;
+      continue;
+    }
+    const ts = typeof observedAt === "string" ? Date.parse(observedAt) : NaN;
+    if (Number.isFinite(ts) && ts >= cutoff) {
+      out.push(line);
+      kept += 1;
+    } else {
+      dropped += 1;
+    }
+  }
+  // Always end with a trailing newline so subsequent appendFile() lines start
+  // on their own row.
+  const body = out.length > 0 ? out.join("\n") + "\n" : "";
+  const tmpPath = `${jsonlPath}.tmp-${process.pid}`;
+  await writeFile(tmpPath, body, "utf8");
+  await rename(tmpPath, jsonlPath);
+  return { kept, dropped };
+}
+
+function shouldCompact(opts: Options): boolean {
+  if (opts.compact) return true;
+  if (opts.mode === "catchup") return true;
+  // Daily 05:15 lane — workflow exposes the schedule via env var when run as
+  // a cron action. The sweep workflow YAML branches on this same string.
+  if (process.env.GITHUB_EVENT_SCHEDULE === "15 5 * * *") return true;
+  return false;
+}
+
+// ---------------------------------------------------------------------------
+// Queue write-back — anti-oscillation half of the lastSweptAt contract.
+// ---------------------------------------------------------------------------
+
+interface QueueFile {
+  generatedAt?: string;
+  version?: number;
+  mode?: string;
+  totalChecked?: number;
+  thresholdScore?: number;
+  incomplete?: QueueEntry[];
+  summary?: unknown;
+}
+
+// Re-read the queue file, stamp lastSweptAt = scanRunAt for every fullName
+// in `sweptFullNames`, and write back. Skips the write entirely if nothing
+// matched (defensive — same effect, no churn) or if the file vanished mid-run.
+async function writeQueueLastSweptAt(
+  queuePath: string,
+  sweptFullNames: Set<string>,
+  scanRunAt: string,
+): Promise<{ updated: number }> {
+  if (sweptFullNames.size === 0) return { updated: 0 };
+  let raw: string;
+  try {
+    raw = await readFile(queuePath, "utf8");
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException)?.code === "ENOENT") {
+      console.warn(`[sweep] queue ${queuePath} vanished before write-back — skipping`);
+      return { updated: 0 };
+    }
+    throw err;
+  }
+  let parsed: QueueFile;
+  try {
+    parsed = JSON.parse(raw) as QueueFile;
+  } catch (err) {
+    console.warn(
+      `[sweep] queue ${queuePath} unreadable for write-back: ${err instanceof Error ? err.message : err}`,
+    );
+    return { updated: 0 };
+  }
+  let updated = 0;
+  const incomplete = parsed.incomplete ?? [];
+  for (const entry of incomplete) {
+    if (sweptFullNames.has(entry.fullName)) {
+      entry.lastSweptAt = scanRunAt;
+      updated += 1;
+    }
+  }
+  parsed.incomplete = incomplete;
+  await writeFile(queuePath, JSON.stringify(parsed, null, 2) + "\n", "utf8");
+  return { updated };
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
@@ -543,7 +795,7 @@ async function main(): Promise<void> {
   const metadata = buildMetadataIndex(metadataFile.items ?? []);
   const packages = buildPackageIndex(npmFile.packages ?? []);
 
-  // Resolve target repos: --repo > --queue > top-N trending.
+  // Resolve target repos: --repo > --queue > top-N trending (or catchup → full).
   let repos: RepoInput[] = [];
   if (opts.repo) {
     const r = repoFromFullName(opts.repo, metadata, packages, "manual");
@@ -555,6 +807,9 @@ async function main(): Promise<void> {
       console.warn(`[sweep] queue empty / stale — falling back to trending top-${opts.top}`);
       repos = await loadTrendingTopN(opts.top, opts.skip, metadata, packages);
     }
+  } else if (opts.mode === "catchup") {
+    repos = await loadTrendingAll(metadata, packages);
+    console.log(`[sweep] catchup mode: full corpus, ${repos.length} repos (--top/--skip ignored)`);
   } else {
     repos = await loadTrendingTopN(opts.top, opts.skip, metadata, packages);
   }
@@ -630,10 +885,30 @@ async function main(): Promise<void> {
     return;
   }
 
-  // Append raw events to JSONL.
-  if (allEvents.length > 0) {
+  // Cross-run URL dedup — drop events whose URL already lives in the recent
+  // tail of the JSONL. Keeps successive sweeps (every 6h) from re-recording
+  // the same tweet/post each time. Rollup still benefits because the dedup
+  // preserves the FIRST-seen entry on disk; subsequent runs become no-ops
+  // for unchanged URLs.
+  const seenUrls = await loadRecentUrlSet(DETAIL_JSONL);
+  let dedupSkipped = 0;
+  const eventsToWrite: SweepEvent[] = [];
+  for (const ev of allEvents) {
+    if (ev.url && seenUrls.has(ev.url)) {
+      dedupSkipped += 1;
+      continue;
+    }
+    if (ev.url) seenUrls.add(ev.url);
+    eventsToWrite.push(ev);
+  }
+  console.log(
+    `[sweep] dedup: skipped=${dedupSkipped} (${allEvents.length} candidates → ${eventsToWrite.length} new)`,
+  );
+
+  // Append raw events to JSONL (post-dedup).
+  if (eventsToWrite.length > 0) {
     await mkdir(dirname(DETAIL_JSONL), { recursive: true });
-    const lines = allEvents.map((e) => JSON.stringify(e)).join("\n") + "\n";
+    const lines = eventsToWrite.map((e) => JSON.stringify(e)).join("\n") + "\n";
     await appendFile(DETAIL_JSONL, lines, "utf8");
   }
 
@@ -643,12 +918,39 @@ async function main(): Promise<void> {
   // prior entry (same fullName), preserving rest. Per-source freshness
   // within a repo is the latest run's view, which matches the JSONL's
   // append-only semantics.
+  //
+  // Rollup uses the FULL allEvents list (not eventsToWrite) — the rollup is
+  // a snapshot, not a delta, so we want every event observed this run to
+  // contribute to top-5 ranking even if its URL is already on disk.
   const rollup = buildRollup(allEvents, scanRunId);
   const previous = await readJson<{ repos?: Record<string, unknown> }>(ROLLUP_FILE, { repos: {} });
   const mergedRepos = { ...(previous.repos ?? {}), ...rollup.repos };
   const mergedRollup = { ...rollup, repos: mergedRepos };
   await writeFile(ROLLUP_FILE, JSON.stringify(mergedRollup, null, 2) + "\n", "utf8");
   const redisResult = await writeDataStore("repo-mentions-detail-rollup", mergedRollup);
+
+  // lastSweptAt write-back — anti-oscillation half of the queue contract.
+  // Stamp every fullName actually swept this run so the next queue load
+  // skips them until ANTI_OSC_HOURS has elapsed.
+  let queueUpdated = 0;
+  if (opts.queue) {
+    const sweptFullNames = new Set(repos.map((r) => r.fullName));
+    const scanRunAt = new Date().toISOString();
+    const result = await writeQueueLastSweptAt(opts.queue, sweptFullNames, scanRunAt);
+    queueUpdated = result.updated;
+    console.log(`[sweep] queue write-back: updated lastSweptAt for ${queueUpdated} entries in ${opts.queue}`);
+  }
+
+  // JSONL compaction — 7-day retention. Triggered by --compact, --mode catchup,
+  // or the daily 05:15 lane. Rewrites atomically (temp + rename) so a crash
+  // mid-run can't truncate the on-disk log.
+  let compaction: { kept: number; dropped: number } | null = null;
+  if (shouldCompact(opts)) {
+    compaction = await compactJsonl(DETAIL_JSONL, COMPACTION_WINDOW_DAYS);
+    console.log(
+      `[sweep] compaction: kept=${compaction.kept} dropped=${compaction.dropped} (window=${COMPACTION_WINDOW_DAYS}d)`,
+    );
+  }
 
   await writeSourceMetaFromOutcome({
     source: "cross-source-mentions",
@@ -661,7 +963,17 @@ async function main(): Promise<void> {
       repos: repos.length,
       perChannel: perChannelCount,
       sourceOnly: opts.sourceOnly,
-      mode: opts.queue ? "queue" : opts.repo ? "single-repo" : "top-trending",
+      mode:
+        opts.queue
+          ? "queue"
+          : opts.repo
+            ? "single-repo"
+            : opts.mode === "catchup"
+              ? "catchup"
+              : "top-trending",
+      dedupSkipped,
+      queueUpdated,
+      compaction,
     },
   });
 

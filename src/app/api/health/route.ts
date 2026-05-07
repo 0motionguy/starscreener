@@ -54,15 +54,6 @@ export const runtime = "nodejs";
 
 const RANKINGS_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
 const COVERAGE_WARN_PCT = 50;
-const SOFT_HEALTH_CACHE_TTL_MS = 15_000;
-
-let cachedSoftHealth:
-  | {
-      body: HealthBody | PublicHealthBody;
-      status: number;
-      expiresAt: number;
-    }
-  | null = null;
 
 type HealthStatus = "ok" | "stale" | "error";
 
@@ -181,54 +172,26 @@ function ageMs(iso: string | null): number | null {
   return Date.now() - ts;
 }
 
-async function settleWithin<T>(
-  promise: Promise<T>,
-  timeoutMs: number,
-): Promise<PromiseSettledResult<T>> {
-  try {
-    const value = await Promise.race([
-      promise,
-      new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error("refresh timeout")), timeoutMs);
-      }),
-    ]);
-    return { status: "fulfilled", value };
-  } catch (reason) {
-    return { status: "rejected", reason };
-  }
-}
-
 export async function GET(
   request: NextRequest,
 ): Promise<NextResponse<HealthBody | PublicHealthBody>> {
   const wantsDetail = request.nextUrl.searchParams.get("detail") === "1";
   const includeDetail = wantsDetail && canViewDetail(request);
-  const soft = request.nextUrl.searchParams.get("soft") === "1";
-  const canUseSoftCache = soft && !includeDetail;
-  if (canUseSoftCache && cachedSoftHealth && cachedSoftHealth.expiresAt > Date.now()) {
-    return NextResponse.json(cachedSoftHealth.body, { status: cachedSoftHealth.status });
-  }
 
   try {
+    const soft = request.nextUrl.searchParams.get("soft") === "1";
+
     // Refresh in-memory caches from the data-store so per-source freshness
     // reflects the live Redis payload, not the bundled JSON snapshot. Each
     // refresh call internally rate-limits to 1 read per source per 30s.
-    // Mixed return types (some refresh helpers return RefreshResult, others
-    // void). Coerce to Promise<unknown> so settleWithin's generic T resolves
-    // uniformly; we only consume `status` from the settled result.
-    const refreshTasks: Promise<unknown>[] = [
+    const refreshResults = await Promise.allSettled([
       refreshTrendingFromStore(),
       refreshHotCollectionsFromStore(),
       refreshRecentReposFromStore(),
       refreshRepoMetadataFromStore(),
       refreshCollectionRankingsFromStore(),
       refreshScannerSourceHealthFromStore(),
-    ];
-    const refreshResults = soft
-      ? await Promise.all(
-          refreshTasks.map((task) => settleWithin(task, 150)),
-        )
-      : await Promise.allSettled(refreshTasks);
+    ]);
     const refreshFailureCount = refreshResults.filter(
       (result) => result.status === "rejected",
     ).length;
@@ -240,17 +203,8 @@ export async function GET(
     const repoMetadataFetchedAt = getRepoMetadataFetchedAt();
     const collectionRankingsFetchedAt = getCollectionRankingsFetchedAt();
 
-    let sources: ReturnType<typeof getScannerSourceHealth> = [];
-    let degradedSources: string[] = [];
-    try {
-      sources = getScannerSourceHealth();
-      degradedSources = getDegradedScannerSources().map((source) => source.id);
-    } catch {
-      // getScannerSourceHealth / getDegradedScannerSources can throw when the
-      // scanner store is uninitialised after a soft-mode 150ms timeout.  Fall
-      // back to empty arrays so the outer try can still build the 503 body
-      // instead of letting a TypeError escape to a 500.
-    }
+    const sources = getScannerSourceHealth();
+    const degradedSources = getDegradedScannerSources().map((source) => source.id);
     const sourceById = new Map<ScannerSourceHealth["id"], ScannerSourceHealth>(
       sources.map((source) => [source.id, source]),
     );
@@ -420,36 +374,19 @@ export async function GET(
       delete minimal.repoMetadata;
     }
 
-    const status = anyStale && !soft ? 503 : 200;
-    if (canUseSoftCache) {
-      cachedSoftHealth = {
-        body,
-        status,
-        expiresAt: Date.now() + SOFT_HEALTH_CACHE_TTL_MS,
-      };
-    }
-
-    return NextResponse.json(body, { status });
+    return NextResponse.json(body, { status: anyStale && !soft ? 503 : 200 });
   } catch (err) {
     console.error("[api:health] failed", err);
     const message = err instanceof Error ? err.message : String(err);
     if (!includeDetail) {
-      const fallbackBody: PublicHealthBody = {
-        status: "error",
-        sourceStatus: "degraded",
-        lastFetchedAt: getLastFetchedAt() ?? null,
-        computedAt: getDeltasComputedAt() ?? null,
-        error: "health check failed",
-      };
-      if (canUseSoftCache) {
-        cachedSoftHealth = {
-          body: fallbackBody,
-          status: 503,
-          expiresAt: Date.now() + SOFT_HEALTH_CACHE_TTL_MS,
-        };
-      }
       return NextResponse.json(
-        fallbackBody,
+        {
+          status: "error",
+          sourceStatus: "degraded",
+          lastFetchedAt: getLastFetchedAt() ?? null,
+          computedAt: getDeltasComputedAt() ?? null,
+          error: "health check failed",
+        },
         { status: 503 },
       );
     }

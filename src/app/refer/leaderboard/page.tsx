@@ -204,6 +204,7 @@ export default async function ReferLeaderboardPage() {
                         <img
                           src={row.avatarUrl}
                           alt={`@${row.handle}`}
+                          loading="lazy"
                           width={24}
                           height={24}
                           style={{

@@ -21,6 +21,7 @@ import { db } from "@/lib/db/client";
 import { profiles } from "@/lib/db/schema/profiles";
 import { referralCodes, referrals } from "@/lib/db/schema/referrals";
 import { reserveHandleFromClerk } from "@/lib/auth/handle";
+import { errorEnvelope } from "@/lib/api/error-response";
 import { deriveCode } from "@/lib/referrals/code";
 import { verifyRefCookie } from "@/lib/referrals/cookie";
 import {
@@ -29,6 +30,7 @@ import {
   hashReferralIp,
 } from "@/lib/referrals/fraud";
 
+// lint-allow: no-parsebody - Clerk/Svix webhook needs raw text() for HMAC signature verification.
 // Force Node runtime — svix uses Node crypto, not the Edge subset.
 export const runtime = "nodejs";
 // Webhooks are pure I/O, never cached.
@@ -82,7 +84,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   if (!secret) {
     console.error("[clerk-webhook] CLERK_WEBHOOK_SIGNING_SECRET not set");
     return NextResponse.json(
-      { error: "webhook_not_configured" },
+      errorEnvelope("webhook_not_configured"),
       { status: 503 },
     );
   }
@@ -93,7 +95,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const svixSignature = req.headers.get("svix-signature");
   if (!svixId || !svixTimestamp || !svixSignature) {
     return NextResponse.json(
-      { error: "missing_svix_headers" },
+      errorEnvelope("missing_svix_headers"),
       { status: 400 },
     );
   }
@@ -111,7 +113,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     }) as ClerkWebhookEvent;
   } catch (err) {
     console.warn("[clerk-webhook] signature verification failed", err);
-    return NextResponse.json({ error: "invalid_signature" }, { status: 401 });
+    return NextResponse.json(errorEnvelope("invalid_signature"), { status: 401 });
   }
 
   try {
@@ -133,7 +135,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("[clerk-webhook] handler error", event.type, err);
-    return NextResponse.json({ error: "handler_failed" }, { status: 500 });
+    return NextResponse.json(errorEnvelope("handler_failed"), { status: 500 });
   }
 }
 

@@ -23,12 +23,39 @@
 // with a 15s timeout to bound the sweep wall-clock.
 
 import { searchAlgoliaStories } from "./_hn-shared.mjs";
+import { getCachedTavily, setCachedTavily } from "./_tavily-cache.mjs";
 
 const FETCH_TIMEOUT_MS = 15_000;
 const TEXT_TRUNCATE = 500;
 
 const UA =
   "TrendingRepo/0.2 (+https://github.com/0motionguy/starscreener; cross-source-sweep)";
+
+// Per-channel kill switches. Set SWEEP_DISABLE_<CHANNEL>=1 to short-circuit
+// an adapter without redeploying — useful when the Apify Twitter actor goes
+// wonky, Reddit starts 429ing the world, or Tavily hits its budget.
+function isChannelDisabled(channel) {
+  return process.env[`SWEEP_DISABLE_${channel.toUpperCase()}`] === "1";
+}
+
+// Apify per-tweet cost map by actor handle prefix. Used by `searchTwitter`
+// to log a $-cost line every run so we can track spend without checking
+// the Apify console. Numbers are USD, sourced from actor pages 2026-05;
+// re-verify before flipping defaults. Default $0.0005/tweet (conservative).
+const COST_PER_TWEET = {
+  "xquik~": 0.00015,
+  "apidojo~tweet-scraper": 0.0004,
+  "apidojo~twitter-scraper-lite": 0.0004,
+  "get-leads~": 0.0002,
+};
+const DEFAULT_COST_PER_TWEET = 0.0005;
+
+function costPerTweetFor(actorId) {
+  for (const [prefix, cost] of Object.entries(COST_PER_TWEET)) {
+    if (actorId.startsWith(prefix)) return cost;
+  }
+  return DEFAULT_COST_PER_TWEET;
+}
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -110,6 +137,7 @@ function isDistinctiveName(name) {
 }
 
 export async function searchHackerNews(repo) {
+  if (isChannelDisabled("hackernews")) return emptyResult("hackernews", "disabled via env");
   const since = Math.floor(Date.now() / 1000) - SEVEN_DAYS_S;
   const seen = new Map(); // objectID → hit
   const queries = [
@@ -154,7 +182,59 @@ export async function searchHackerNews(repo) {
 // per query and dedup by post ID.
 // ---------------------------------------------------------------------------
 
+// Reddit fetcher that honors `Retry-After` on 429. One retry, capped at 30s.
+// Returns `null` when both attempts fail or 429 — caller treats as "skip
+// this query" and continues with the next.
+async function fetchRedditWithBackoff(url, repo) {
+  const headers = { "User-Agent": UA, Accept: "application/json" };
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+    let res;
+    try {
+      res = await fetch(url, { headers, signal: controller.signal });
+    } catch (err) {
+      clearTimeout(timer);
+      if (process.env.SWEEP_VERBOSE) {
+        console.warn(`[xs:reddit] ${repo.fullName} fetch error: ${err instanceof Error ? err.message : err}`);
+      }
+      return null;
+    }
+    clearTimeout(timer);
+    if (res.ok) {
+      try {
+        return await res.json();
+      } catch (err) {
+        if (process.env.SWEEP_VERBOSE) {
+          console.warn(`[xs:reddit] ${repo.fullName} json parse: ${err instanceof Error ? err.message : err}`);
+        }
+        return null;
+      }
+    }
+    if (res.status === 429 && attempt === 0) {
+      // Parse Retry-After (seconds, per RFC). Cap at 30s; values that
+      // can't be parsed default to 5s. Then retry once.
+      const raw = res.headers.get("retry-after");
+      const seconds = raw ? Number(raw) : NaN;
+      const waitMs = Math.min(
+        Number.isFinite(seconds) && seconds > 0 ? seconds * 1000 : 5_000,
+        30_000,
+      );
+      console.warn(`[xs:reddit] ${repo.fullName} 429 — backing off ${waitMs}ms then retrying once`);
+      await new Promise((r) => setTimeout(r, waitMs));
+      continue;
+    }
+    if (process.env.SWEEP_VERBOSE) {
+      console.warn(`[xs:reddit] ${repo.fullName} HTTP ${res.status}`);
+    }
+    return null;
+  }
+  // Two 429s — give up on this query.
+  return null;
+}
+
 export async function searchReddit(repo) {
+  if (isChannelDisabled("reddit")) return emptyResult("reddit", "disabled via env");
   // Public Reddit JSON works without OAuth at low volume; a per-repo lookup
   // is well within the unauthenticated budget. OAuth is optional.
   const queries = [
@@ -168,17 +248,8 @@ export async function searchReddit(repo) {
   try {
     for (const q of queries) {
       const url = `https://old.reddit.com/search.json?q=${encodeURIComponent(q)}&sort=new&t=week&limit=50`;
-      let data;
-      try {
-        data = await fetchJson(url, { headers: { "User-Agent": UA } });
-      } catch (err) {
-        // Reddit 429s are common when running many queries — log + continue
-        // so we still aggregate what we got from earlier queries.
-        if (process.env.SWEEP_VERBOSE) {
-          console.warn(`[xs:reddit] ${repo.fullName} query "${q}" failed: ${err instanceof Error ? err.message : err}`);
-        }
-        continue;
-      }
+      const data = await fetchRedditWithBackoff(url, repo);
+      if (!data) continue; // 429 / parse / network — skip query, keep going
       const children = data?.data?.children ?? [];
       for (const c of children) {
         const d = c.data ?? {};
@@ -210,6 +281,7 @@ export async function searchReddit(repo) {
 // ---------------------------------------------------------------------------
 
 export async function searchBluesky(repo, session) {
+  if (isChannelDisabled("bluesky")) return emptyResult("bluesky", "disabled via env");
   if (!session?.accessJwt) return emptyResult("bluesky", "no session — set BLUESKY_HANDLE/BLUESKY_APP_PASSWORD");
   const headers = {
     Authorization: `Bearer ${session.accessJwt}`,
@@ -261,10 +333,24 @@ export async function searchBluesky(repo, session) {
 // ---------------------------------------------------------------------------
 
 export async function searchDevto(repo) {
+  if (isChannelDisabled("devto")) return emptyResult("devto", "disabled via env");
   // Public, unauthenticated search endpoint that powers dev.to's UI.
+  // The endpoint is occasionally slow + flaky (5+ "operation aborted" timeouts
+  // on top-100 sweep). Bumped per-call timeout to 25s and added one retry on
+  // AbortError or HTTP 5xx with a 1s gap.
   const url = `https://dev.to/search/feed_content?per_page=30&class_name=Article&search_fields=body_text&q=${encodeURIComponent(repo.fullName)}`;
+  let data;
   try {
-    const data = await fetchJson(url);
+    try {
+      data = await fetchJson(url, { timeoutMs: 25_000 });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      const isAbort = err?.name === "AbortError" || msg.includes("aborted");
+      const is5xx = /HTTP 5\d\d/.test(msg);
+      if (!isAbort && !is5xx) throw err;
+      await new Promise((r) => setTimeout(r, 1_000));
+      data = await fetchJson(url, { timeoutMs: 25_000 });
+    }
     const articles = data?.result ?? [];
     return articles.map((a) => ({
       source: "devto",
@@ -290,6 +376,7 @@ export async function searchDevto(repo) {
 // ---------------------------------------------------------------------------
 
 export async function searchLobsters(repo, snapshot) {
+  if (isChannelDisabled("lobsters")) return emptyResult("lobsters", "disabled via env");
   if (!snapshot) return emptyResult("lobsters", "no snapshot loaded");
   const haystack = `${repo.fullName} github.com/${repo.fullName}`.toLowerCase();
   const stories = Array.isArray(snapshot.stories) ? snapshot.stories : [];
@@ -318,6 +405,7 @@ export async function searchLobsters(repo, snapshot) {
 // ---------------------------------------------------------------------------
 
 export async function searchProductHunt(repo, snapshot) {
+  if (isChannelDisabled("producthunt")) return emptyResult("producthunt", "disabled via env");
   if (!snapshot) return emptyResult("producthunt", "no snapshot loaded");
   const launches = Array.isArray(snapshot.launches) ? snapshot.launches : [];
   const fullLower = repo.fullName.toLowerCase();
@@ -346,10 +434,22 @@ export async function searchProductHunt(repo, snapshot) {
 // ---------------------------------------------------------------------------
 
 export async function searchTavily(repo, apiKey) {
+  if (isChannelDisabled("tavily")) return emptyResult("tavily", "disabled via env");
   if (!apiKey) return emptyResult("tavily", "TAVILY_API_KEY not set");
+
+  // Cache key is the canonical repo query — same `"owner/name" github`
+  // string the API sees. 24h TTL (see _tavily-cache.mjs). Cache hit returns
+  // the previously-mapped Mention[] verbatim and skips the API call.
+  const cacheKey = `"${repo.fullName}" github`;
+  const cached = await getCachedTavily(repo, cacheKey);
+  if (cached) {
+    console.log(`[xs:tavily] cache hit ${repo.fullName}`);
+    return cached;
+  }
+
   const body = {
     api_key: apiKey,
-    query: `"${repo.fullName}" github`,
+    query: cacheKey,
     search_depth: "basic",
     time_range: "week",
     max_results: 10,
@@ -363,7 +463,7 @@ export async function searchTavily(repo, apiKey) {
       body: JSON.stringify(body),
     });
     const results = Array.isArray(data?.results) ? data.results : [];
-    return results
+    const mentions = results
       .filter((r) => {
         // Tavily often returns the repo's own GitHub page — exclude it
         // as a self-mention; we want third-party blog/article coverage.
@@ -382,6 +482,10 @@ export async function searchTavily(repo, apiKey) {
         },
         observedAt: r.published_date ?? nowIso(),
       }));
+    // Cache even an empty array — a "no results" answer is also worth
+    // caching for 24h to skip the API hit on the next sweep.
+    await setCachedTavily(repo, cacheKey, mentions);
+    return mentions;
   } catch (err) {
     logFailure("tavily", repo, err);
     return [];
@@ -396,23 +500,61 @@ export async function searchTavily(repo, apiKey) {
 // buildTwitterQueryBundle in src/lib/twitter/query-bundle.ts) plus an Apify
 // token. Stays optional: when APIFY_API_TOKEN is missing we return [] and
 // log nothing (the sweep is a quiet no-op for Twitter on local dev).
+//
+// Cost telemetry: every successful call logs
+//   [xs:twitter:cost] $X.XXXX ($per-tweet × N tweets) actor=<id>
+// The orchestrator can `grep` for that line to sum per-run spend without
+// changing the return signature (still Mention[]).
 
 export async function searchTwitter(repo, queryStrings, opts = {}) {
+  if (isChannelDisabled("twitter")) return emptyResult("twitter", "disabled via env");
   const token = opts.token ?? process.env.APIFY_API_TOKEN;
   if (!token) return emptyResult("twitter", "APIFY_API_TOKEN not set");
   if (!Array.isArray(queryStrings) || queryStrings.length === 0) return [];
 
-  const actorId = opts.actorId ?? "apidojo~tweet-scraper";
+  // Actor handle is configurable so we can swap implementations without
+  // touching code. Apify Twitter scraper price ladder (per 1k tweets,
+  // verified 2026-05; check the actor page before committing to a plan):
+  //
+  //   xquik~x-tweet-scraper                 ~$0.15 — cheapest tested
+  //   get-leads~all-in-one-x-scraper        ~$0.20
+  //   kaitoeasyapi~twitter-x-data-...       ~$0.25
+  //   automation-lab~twitter-scraper        ~$0.31 (pay-per-event)
+  //   apidojo~tweet-scraper                 ~$0.40 — current default
+  //   apidojo~twitter-scraper-lite          ~$0.40 — same vendor lite variant
+  //
+  // All accept the same minimal input (`searchTerms` + `maxItems`); the
+  // body below also passes `sort` / `tweetLanguage` for the apidojo style
+  // and `queryType` / `lang` for the xquik style so either picks up its
+  // preferred keys.
+  //
+  // Override per-call with opts.actorId or globally with APIFY_TWITTER_ACTOR.
+  // Switching default apidojo → xquik on the top-100 × 4-queries × 4-sweeps
+  // schedule is ≈$300/mo Apify savings; validate output schema parity in
+  // the sample data before flipping production default.
+  const rawActor =
+    opts.actorId ??
+    process.env.APIFY_TWITTER_ACTOR ??
+    "apidojo~tweet-scraper";
+  // Apify accepts both `owner/name` and `owner~name`; the URL path uses ~.
+  const actorId = rawActor.replace("/", "~");
   const tweetsPerQuery = opts.tweetsPerQuery ?? 25;
   // Apify run-sync endpoint blocks until the actor finishes — fine for
   // small per-repo runs but we cap with a generous 60s per request to
   // avoid pinning the worker on a hung actor.
   const url = `https://api.apify.com/v2/acts/${encodeURIComponent(actorId)}/run-sync-get-dataset-items?token=${encodeURIComponent(token)}`;
+  // Body uses the union of input keys — each actor reads what it knows:
+  //   apidojo:    searchTerms, maxItems, sort, tweetLanguage
+  //   xquik:      searchTerms, maxItems, queryType, lang
+  //   automation-lab + others: searchTerms, maxItems, sort
+  // Sending all keys keeps this adapter actor-agnostic.
   const body = {
     searchTerms: queryStrings,
     maxItems: tweetsPerQuery * queryStrings.length,
     sort: "Latest",
+    queryType: "Latest",
     tweetLanguage: "en",
+    lang: "en",
   };
   try {
     const items = await fetchJson(url, {
@@ -422,6 +564,14 @@ export async function searchTwitter(repo, queryStrings, opts = {}) {
       timeoutMs: 60_000,
     });
     if (!Array.isArray(items)) return [];
+    // Cost meter: estimate spend = tweetsReturned × per-tweet rate. Logged
+    // before mapping so it appears even if the map is empty. Orchestrator
+    // can grep `[xs:twitter:cost]` for run-level spend totals.
+    const perTweet = costPerTweetFor(actorId);
+    const costUsd = items.length * perTweet;
+    console.log(
+      `[xs:twitter:cost] $${costUsd.toFixed(4)} ($${perTweet} × ${items.length}) actor=${actorId}`,
+    );
     return items.map((t) => {
       const author = t.author?.userName ?? t.author?.handle ?? t.username ?? null;
       const tweetUrl =

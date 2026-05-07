@@ -272,7 +272,7 @@ if (isDirectRun) {
         });
       } catch (metaErr) {
         console.error(
-          "[meta] huggingface-spaces.json write failed:",
+          "[meta] huggingface-spaces.json error-write failed:",
           metaErr,
         );
       }

@@ -332,6 +332,28 @@
   line-height: var(--v4-leading-105);
 }
 
+/* Source-feed variant — H1 with a 32x32 brand logo anchored at the start. */
+.v4-page-head__h1--with-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--v4-space-4);
+}
+
+.v4-page-head__logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+}
+
+.v4-page-head__logo > svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 .v4-page-head__lede {
   margin: var(--v4-space-3) 0 0;
   color: var(--v4-ink-300);

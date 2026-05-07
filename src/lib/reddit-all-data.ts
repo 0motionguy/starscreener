@@ -111,7 +111,14 @@ export function getAllPostsFetchedAt(): string | null {
 }
 
 export function getAllScoredPosts(): RedditAllPost[] {
-  return getAllPostsFile().posts ?? [];
+  const all = getAllPostsFile().posts ?? [];
+  // Filter dead posts: when score=0 AND numComments=0 the collector
+  // failed to enrich the row (typical when the Reddit listing API was
+  // rate-limited mid-scan). Surfacing them at the top of /reddit/trending
+  // makes the feed read as broken to visitors. Drop them at the data
+  // boundary so every consumer (page, KPI band, tabs) sees the same
+  // engagement-positive set.
+  return all.filter((p) => (p.score ?? 0) > 0 || (p.numComments ?? 0) > 0);
 }
 
 export function getAllPostsStats(nowMs: number = Date.now()): AllPostsStats {

@@ -79,6 +79,11 @@ function makeStubStore(): DataStore {
       // swallow — the route writes a deltas:<repo>:<window> entry that we
       // don't assert against here.
     },
+    async readMany<T>(keys: string[]): Promise<DataReadResult<T>[]> {
+      const out: DataReadResult<T>[] = [];
+      for (const k of keys) out.push(await this.read<T>(k));
+      return out;
+    },
     async writtenAt() {
       return null;
     },

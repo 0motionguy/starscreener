@@ -42,6 +42,7 @@ import {
   mintUnsubToken,
 } from "@/lib/newsletter/tokens";
 
+// lint-allow: no-parsebody - body is Zod safeParsed here to preserve anti-enumeration response semantics.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 

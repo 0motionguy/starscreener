@@ -6,13 +6,17 @@
 
 import { MessageSquare } from "lucide-react";
 import type { RepoMention } from "@/lib/pipeline/types";
-import type { SocialPlatform } from "@/lib/types";
+
+type RecentMentionPlatform = RepoMention["platform"] | "tavily";
+type RecentMention = Omit<RepoMention, "platform"> & {
+  platform: RecentMentionPlatform;
+};
 
 interface MentionsRecentCompactProps {
-  mentions: RepoMention[];
+  mentions: RecentMention[];
 }
 
-const PLATFORM_LABEL: Record<SocialPlatform, string> = {
+const PLATFORM_LABEL: Record<RecentMentionPlatform, string> = {
   reddit: "reddit",
   hackernews: "hn",
   bluesky: "bsky",
@@ -25,6 +29,7 @@ const PLATFORM_LABEL: Record<SocialPlatform, string> = {
   huggingface: "hf",
   arxiv: "arxiv",
   funding: "fund",
+  tavily: "web",
 };
 
 function formatAge(iso: string): string {

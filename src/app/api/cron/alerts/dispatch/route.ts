@@ -15,6 +15,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { verifyCronAuth } from "@/lib/api/auth";
 import { dispatchPendingAlerts } from "@/lib/alerts/dispatcher";
 
+// lint-allow: no-parsebody - no-body cron endpoint; verifyCronAuth is the trust boundary.
 // Force Node runtime — postgres-js + crypto.subtle interop relies on it.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

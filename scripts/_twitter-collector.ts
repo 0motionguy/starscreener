@@ -165,6 +165,10 @@ const GENERIC_PROJECT_CUES = new Set([
   "web",
 ]);
 
+const AMBIGUOUS_SINGLE_WORD_PROJECT_CUES = new Set([
+  "paperclip",
+]);
+
 const DEVELOPER_CONTEXT_CUES = new Set([
   "agent",
   "agents",
@@ -263,7 +267,21 @@ function phraseVisibleInText(text: string, phrase: string): boolean {
 function isDistinctiveProjectCue(phrase: string): boolean {
   const tokens = normalizePhraseForText(phrase).split(" ").filter(Boolean);
   if (tokens.length === 0) return false;
+  if (
+    tokens.length === 1 &&
+    AMBIGUOUS_SINGLE_WORD_PROJECT_CUES.has(tokens[0] ?? "")
+  ) {
+    return false;
+  }
   return tokens.some((token) => token.length >= 4 && !GENERIC_PROJECT_CUES.has(token));
+}
+
+function isAmbiguousSingleWordProjectCue(phrase: string): boolean {
+  const tokens = normalizePhraseForText(phrase).split(" ").filter(Boolean);
+  return (
+    tokens.length === 1 &&
+    AMBIGUOUS_SINGLE_WORD_PROJECT_CUES.has(tokens[0] ?? "")
+  );
 }
 
 function hasDeveloperContext(text: string): boolean {
@@ -715,6 +733,15 @@ function shouldRejectWeakPhraseMatch(
   if (match.confidence !== "medium" || match.matchedBy !== "phrase") return false;
 
   const context = new Set(match.supportingContext);
+  const sourceCue = stripQueryQuotes(query.queryText);
+  if (
+    isAmbiguousSingleWordProjectCue(sourceCue) ||
+    isAmbiguousSingleWordProjectCue(repo.repoName) ||
+    (repo.aliases ?? []).some(isAmbiguousSingleWordProjectCue)
+  ) {
+    return true;
+  }
+
   if (
     context.has("repo_slug") ||
     context.has("github_url") ||

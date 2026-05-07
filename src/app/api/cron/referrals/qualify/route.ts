@@ -52,6 +52,7 @@ import { renderMilestoneEmail } from "@/lib/email/templates/referral-milestone";
 import { BLOCKING_FRAUD_FLAGS } from "@/lib/referrals/fraud";
 import { evaluateMilestones } from "@/lib/referrals/milestones";
 
+// lint-allow: no-parsebody - no-body cron endpoint; verifyCronAuth is the trust boundary.
 // Force Node runtime — postgres-js + node:crypto interop relies on it.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

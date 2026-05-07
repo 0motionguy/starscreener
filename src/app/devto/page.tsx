@@ -123,7 +123,7 @@ export default async function DevtoPage({
           </>
         }
         title="dev.to · top articles"
-        lede="Long-form developer writing ranked by velocity score (reactions × time decay), with a sidebar leaderboard of cross-linked tracked repos."
+        lede="Long-form developer writing ranked by velocity score (reactions × time decay)."
         clock={
           <>
             <span className="big">{formatClock(trendingFile.fetchedAt)}</span>
@@ -163,23 +163,13 @@ export default async function DevtoPage({
             ]}
           />
         }
-        listEyebrow="Article feed · 24h / 7d / 30d window · repo leaderboard"
+        listEyebrow="Article feed · 24h / 7d / 30d window"
         list={
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-6">
-            <section>
-              <WindowedArticlesFeed
-                allArticles={trendingFile.articles}
-                fetchedAt={trendingFile.fetchedAt}
-                activeWindow={win}
-              />
-            </section>
-            <aside className="hidden md:block">
-              <Leaderboard
-                entries={leaderboard.slice(0, 15)}
-                totalRepos={reposLinked}
-              />
-            </aside>
-          </div>
+          <WindowedArticlesFeed
+            allArticles={trendingFile.articles}
+            fetchedAt={trendingFile.fetchedAt}
+            activeWindow={win}
+          />
         }
       />
     </main>

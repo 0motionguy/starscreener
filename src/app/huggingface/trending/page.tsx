@@ -23,10 +23,12 @@ import { huggingFaceLogoUrl, huggingFaceAuthorLogoUrl } from "@/lib/logos";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
+import { PageHead } from "@/components/ui/PageHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { MarkVisited } from "@/components/layout/MarkVisited";
 import { HfNavTabs } from "@/components/huggingface/HfNavTabs";
+import { HuggingFaceIcon } from "@/components/brand/BrandIcons";
 
 // HF "yellow" — no `--v4-src-hf` token exists; hardcoded once on the pip,
 // rest of the page stays tokenized via var(--v4-*).
@@ -89,13 +91,18 @@ export default async function HuggingFaceTrendingPage() {
       <main className="home-surface">
         <MarkVisited routeKey="hfModels" count={allModels.length} />
         <SourceFeedTemplate
-          crumb={
-            <>
-              <b>HF</b> · TERMINAL · /HUGGINGFACE
-            </>
+          head={
+            <PageHead
+              crumb={
+                <>
+                  <b>HF</b> · TERMINAL · /HUGGINGFACE
+                </>
+              }
+              h1="Hugging Face · trending"
+              logo={<HuggingFaceIcon size={32} />}
+              lede="Top models ranked by domain-scored momentum (weeklyDownloads + recency). Snapshot pulled from the public trending feed and re-scored against the cross-domain percentile."
+            />
           }
-          title="Hugging Face · trending"
-          lede="Top models ranked by domain-scored momentum (weeklyDownloads + recency). Snapshot pulled from the public trending feed and re-scored against the cross-domain percentile."
           tabBar={<HfNavTabs activeHref="/huggingface/trending" />}
         />
         <ColdState />
@@ -120,19 +127,24 @@ export default async function HuggingFaceTrendingPage() {
     <main className="home-surface">
       <MarkVisited routeKey="hfModels" count={allModels.length} />
       <SourceFeedTemplate
-        crumb={
-          <>
-            <b>HF</b> · TERMINAL · /HUGGINGFACE
-          </>
-        }
-        title="Hugging Face · trending"
-        lede="Top models ranked by domain-scored momentum (weeklyDownloads + recency). Snapshot pulled from the public trending feed and re-scored against the cross-domain percentile."
-        clock={
-          <>
-            <span className="big">{formatClock(file.fetchedAt)}</span>
-            <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="FRESH · 3H" />
-          </>
+        head={
+          <PageHead
+            crumb={
+              <>
+                <b>HF</b> · TERMINAL · /HUGGINGFACE
+              </>
+            }
+            h1="Hugging Face · trending"
+            logo={<HuggingFaceIcon size={32} />}
+            lede="Top models ranked by domain-scored momentum (weeklyDownloads + recency). Snapshot pulled from the public trending feed and re-scored against the cross-domain percentile."
+            clock={
+              <>
+                <span className="big">{formatClock(file.fetchedAt)}</span>
+                <span className="muted">UTC · SCRAPED</span>
+                <LiveDot label="FRESH · 3H" />
+              </>
+            }
+          />
         }
         snapshot={
           <KpiBand

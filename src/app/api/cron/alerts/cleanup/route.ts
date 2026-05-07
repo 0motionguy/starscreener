@@ -10,6 +10,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { lt } from "drizzle-orm";
 
 import { verifyCronAuth } from "@/lib/api/auth";
+import { errorEnvelope } from "@/lib/api/error-response";
 import {
   pruneOldAlertEvents,
   resetDailyFireCounts,
@@ -17,6 +18,7 @@ import {
 import { db } from "@/lib/db/client";
 import { alertDeliveryLog } from "@/lib/db/schema/alerts";
 
+// lint-allow: no-parsebody - no-body cron endpoint; verifyCronAuth is the trust boundary.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -24,7 +26,7 @@ async function handle(req: NextRequest): Promise<NextResponse> {
   const verdict = verifyCronAuth(req);
   if (verdict.kind !== "ok") {
     const status = verdict.kind === "not_configured" ? 503 : 401;
-    return NextResponse.json({ error: verdict.kind }, { status });
+    return NextResponse.json(errorEnvelope(verdict.kind), { status });
   }
   const start = Date.now();
   try {

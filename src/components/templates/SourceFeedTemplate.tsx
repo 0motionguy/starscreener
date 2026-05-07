@@ -57,6 +57,13 @@ export interface SourceFeedTemplateProps {
   crumb?: ReactNode;
   /** H1 — sans 30px, ink-000. */
   title?: ReactNode;
+  /**
+   * Optional 32x32 brand logo rendered to the left of the H1. Forwarded to
+   * PageHead's `logo` slot — used by source feeds (Lobsters, Dev.to, HN,
+   * Reddit, Bluesky, ProductHunt) to anchor the header with the canonical
+   * brand mark.
+   */
+  logo?: ReactNode;
   /** Lede paragraph below H1. */
   lede?: ReactNode;
   /** Right-aligned clock / actions slot inside PageHead. */
@@ -113,6 +120,7 @@ export interface SourceFeedTemplateProps {
 export function SourceFeedTemplate({
   crumb,
   title,
+  logo,
   lede,
   clock,
   head,
@@ -132,7 +140,13 @@ export function SourceFeedTemplate({
     <div className={cn("v4-source-feed-template", className)}>
       <div className={cn("v4-source-feed-template__head", classNames?.head)}>
         {head ?? (
-          <PageHead crumb={crumb} h1={title} lede={lede} clock={clock} />
+          <PageHead
+            crumb={crumb}
+            h1={title}
+            logo={logo}
+            lede={lede}
+            clock={clock}
+          />
         )}
       </div>
 

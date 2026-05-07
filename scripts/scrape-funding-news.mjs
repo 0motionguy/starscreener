@@ -46,45 +46,8 @@ const RSS_FEEDS = {
   pymnts: "https://www.pymnts.com/feed/",
   bbc: "https://feeds.bbci.co.uk/news/technology/rss.xml",
   wired: "https://www.wired.com/feed/",
-  geekwire: "https://www.geekwire.com/category/topic/funding/feed/",
-  "eu-startups": "https://www.eu-startups.com/feed/",
-  siliconcanals: "https://siliconcanals.com/feed/",
-  techstartups: "https://techstartups.com/feed/",
-  // AI-tagged category feeds — every item is already AI by publisher
-  // classification. Combined with FUNDING_KEYWORDS = pure AI-funding.
-  "techcrunch-ai": "https://techcrunch.com/category/artificial-intelligence/feed/",
-  "venturebeat-ai": "https://venturebeat.com/category/ai/feed/",
-  "ai-news": "https://www.artificialintelligence-news.com/feed/",
-  "ai-business": "https://aibusiness.com/rss.xml",
-  // Wave-2 AI-tagged additions (2026-05-07): see worker fetcher for
-  // selection rationale (geographic + editorial gap fillers).
-  "the-decoder": "https://the-decoder.com/feed/",
-  marktechpost: "https://www.marktechpost.com/feed/",
-  "unite-ai": "https://www.unite.ai/feed/",
-  "analytics-india": "https://analyticsindiamag.com/feed/",
-  "mit-tech-review-ai": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
-  synced: "https://syncedreview.com/feed/",
+
 };
-
-// AI-tagged sources skip the AI-keyword gate (publisher already classified).
-const AI_TAGGED_SOURCES = new Set([
-  "techcrunch-ai",
-  "venturebeat-ai",
-  "ai-news",
-  "ai-business",
-  "the-decoder",
-  "marktechpost",
-  "unite-ai",
-  "analytics-india",
-  "mit-tech-review-ai",
-  "synced",
-]);
-
-// AI-funding-only mode: non-AI-tagged feeds must show an AI marker in
-// headline OR description before passing. Mirrors the worker fetcher's
-// AI_KEYWORDS regex — keep the two in sync.
-const AI_KEYWORDS_RE =
-  /\bai\b|\ba\.i\.\b|\bartificial intelligence\b|\bmachine learning\b|\bml\b|\bdeep learning\b|\bllm\b|\bllms\b|\blarge language model\b|\bfoundation model\b|\bgenerative\b|\bgen-?ai\b|\bagi\b|\bagents?\b|\bcopilot\b|\bgpt\b|\btransformer\b|\bdiffusion\b|\bmultimodal\b|\bcomputer vision\b|\bnlp\b|\bspeech recognition\b|\brobotic process\b|\bautonomous\b|\bneural\b|\binference\b|\bfine-?tun\w*\b|\brag\b|\bvector database\b|\bembeddings?\b|\bopenai\b|\banthropic\b|\bmistral\b|\bcohere\b|\bperplexity\b|\bhugging ?face\b/i;
 
 // ---------------------------------------------------------------------------
 // RSS parsing (lightweight regex — same pattern as Twitter collector)
@@ -544,14 +507,6 @@ async function main() {
       if (!fundingKeywords.test(item.headline)) {
         continue;
       }
-      // AI-funding-only gate — non-AI-tagged feeds must additionally show
-      // an AI marker in headline or description.
-      if (!AI_TAGGED_SOURCES.has(sourceName)) {
-        const haystack = `${item.headline} ${item.description ?? ""}`;
-        if (!AI_KEYWORDS_RE.test(haystack)) {
-          continue;
-        }
-      }
 
       const id = createSignalId(item.headline, item.sourceUrl);
       if (seenIds.has(id)) continue;
@@ -560,13 +515,9 @@ async function main() {
       const extracted = extractFunding(item.headline, item.description);
       const tags = extractTags(item.headline, item.description);
 
-      // Skip low-quality extractions. Pattern mirrors worker fetcher
-      // (apps/trendingrepo-worker/src/fetchers/funding-news/index.ts) —
-      // keep both regexes in sync. 2026-05-07 expansion: city names +
-      // "Belgian AI startup ..." style adjectival false-positives that
-      // the regex was pulling out of EU-Startups headlines.
+      // Skip low-quality extractions
       if (extracted) {
-        const badNames = /^(the\s|fintech\b|sources\b|report\b|breaking\b|scoop\b|ai\s+startups|billionaire|cathie\s+wood|creandum\s+partner|alumni\b|exclusive\b|top\s+startup|leftover|deepseek\b|a16z\b|peter\s+sarlin|tallinn\b|stockholm\b|berlin\b|london\b|paris\b|amsterdam\b|munich\b|dublin\b|lisbon\b|helsinki\b|copenhagen\b|warsaw\b|vienna\b|zurich\b|barcelona\b|madrid\b|new\s+york|silicon\s+valley|belgian\s+ai\b|french\s+ai\b|swiss\s+startup|german\s+startup|dutch\s+startup|spanish\s+startup|swedish\s+startup|israeli\s+startup|indian\s+startup)/i;
+        const badNames = /^(the\s|fintech\b|sources\b|report\b|breaking\b|scoop\b|ai\s+startups|billionaire|cathie\s+wood|creandum\s+partner|alumni\b)/i;
         if (badNames.test(extracted.companyName)) {
           continue;
         }

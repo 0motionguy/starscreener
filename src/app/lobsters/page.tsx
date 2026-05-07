@@ -71,18 +71,55 @@ const LOBSTERS_L_TILE_STYLE: CSSProperties = {
   border: "1px solid rgba(172, 19, 13, 0.55)",
 };
 
+// Pull a usable favicon for a story's source URL. Google's s2/favicons
+// endpoint is the cheapest CDN-cached source — no auth, generous rate
+// limit, returns a transparent PNG when the domain has no published
+// favicon (lets EntityLogo's monogram fall through). Skips lobste.rs
+// itself so self-referential stories don't get a tiny lobster mark.
+function sourceFaviconUrl(rawUrl: string | undefined, size = 32): string | null {
+  if (!rawUrl) return null;
+  try {
+    const u = new URL(rawUrl);
+    const host = u.hostname.toLowerCase();
+    if (!host || host === "lobste.rs" || host === "www.lobste.rs") return null;
+    const sz = Math.max(16, Math.min(128, Math.round(size)));
+    return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(host)}&sz=${sz}`;
+  } catch {
+    return null;
+  }
+}
+
 function LobstersLogoCell({
   linkedRepo,
+  sourceUrl,
   storyTitle,
 }: {
   linkedRepo: string | undefined;
+  sourceUrl: string | undefined;
   storyTitle: string;
 }) {
+  // Priority: linked GitHub repo logo → source-domain favicon → red "L".
+  // Linked-repo wins because it carries cross-source signal value;
+  // domain favicon is the next-best brand cue when the story has a real
+  // outbound URL. Stories with neither (lobste.rs self-posts) fall back
+  // to the consistent on-brand red L tile.
   if (linkedRepo) {
     return (
       <EntityLogo
         src={repoLogoUrl(linkedRepo)}
         name={linkedRepo}
+        size={20}
+        shape="square"
+        alt=""
+      />
+    );
+  }
+  const favicon = sourceFaviconUrl(sourceUrl, 32);
+  if (favicon) {
+    return (
+      <EntityLogo
+        src={favicon}
+        name={storyTitle}
         size={20}
         shape="square"
         alt=""
@@ -177,7 +214,7 @@ export default async function LobstersPage({
           </>
         }
         title="Lobsters · top stories"
-        lede="Stories ranked by recent score velocity, cross-linked to GitHub repos. The Lobsters firehose runs every cron tick and keeps the rolling 24h list fresh."
+        lede="Stories ranked by recent score velocity. The Lobsters firehose runs every cron tick and keeps the rolling 24h list fresh."
         clock={
           <>
             <span className="big">{formatClock(file.fetchedAt)}</span>
@@ -218,21 +255,8 @@ export default async function LobstersPage({
             ]}
           />
         }
-        listEyebrow="Story feed · 24h / 7d / 30d window · repo leaderboard"
-        list={
-          <div
-            className={
-              leaderboard.length > 0
-                ? "grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6"
-                : ""
-            }
-          >
-            <WindowedStoryFeed allStories={allStories} activeWindow={win} />
-            {leaderboard.length > 0 ? (
-              <Leaderboard entries={leaderboard.slice(0, 15)} />
-            ) : null}
-          </div>
-        }
+        listEyebrow="Story feed · 24h / 7d / 30d window"
+        list={<WindowedStoryFeed allStories={allStories} activeWindow={win} />}
       />
     </main>
   );
@@ -313,6 +337,7 @@ function StoryFeed({ stories }: { stories: LobstersStory[] }) {
           <div className="flex min-w-0 items-center gap-2">
             <LobstersLogoCell
               linkedRepo={linkedRepo}
+              sourceUrl={story.url}
               storyTitle={story.title}
             />
             <a

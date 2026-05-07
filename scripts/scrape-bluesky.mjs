@@ -29,6 +29,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import "./_load-env.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
+import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 import {
   createSession,
   searchPostsAllPages,
@@ -517,8 +518,14 @@ const isDirectRun = invokedPath
 if (isDirectRun) {
   // T2.6: same metadata-sidecar pattern as scrape-hackernews — lets the
   // SRE freshness probe distinguish Bluesky outage from a quiet day.
+  // Move 1 / Phase 4: collection logic untouched; runAsRegisteredSource
+  // wraps the existing main() so the run emits a [run-summary] line and
+  // stays auditable against apps/trendingrepo-worker/src/platform/sources.json.
   const startedAt = Date.now();
-  main()
+  runAsRegisteredSource({
+    sourceId: "bluesky",
+    run: main,
+  })
     .then(async () => {
       try {
         await writeSourceMetaFromOutcome({

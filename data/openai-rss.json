@@ -1,35 +1,15 @@
 {
-  "fetchedAt": "2026-05-07T10:09:36.227Z",
+  "fetchedAt": "2026-05-07T16:35:10.236Z",
   "source": "openai",
   "feedUrl": "https://openai.com/news/rss.xml",
   "error": null,
   "items": [
     {
-      "id": "https://openai.com/index/introducing-chatgpt-futures-class-of-2026",
-      "title": "Introducing ChatGPT Futures: Class of 2026",
-      "url": "https://openai.com/index/introducing-chatgpt-futures-class-of-2026",
-      "summary": "Meet the ChatGPT Futures Class of 2026—26 student innovators using AI to build, research, and drive real-world impact. Discover how this generation is redefining learning, creativity, and opportunity with ChatGPT.",
-      "publishedAt": "2026-05-06T00:00:00.000Z",
-      "author": "",
-      "source": "openai",
-      "category": "POST"
-    },
-    {
-      "id": "https://openai.com/index/introducing-b2b-signals",
-      "title": "How frontier enterprises are building an AI advantage",
-      "url": "https://openai.com/index/introducing-b2b-signals",
-      "summary": "OpenAI’s B2B Signals research shows how frontier enterprises deepen AI adoption, scale Codex-powered agentic workflows, and build durable competitive advantage.",
-      "publishedAt": "2026-05-06T00:00:00.000Z",
-      "author": "",
-      "source": "openai",
-      "category": "POST"
-    },
-    {
-      "id": "https://openai.com/index/uber",
-      "title": "Uber uses OpenAI to help people earn smarter and book faster",
-      "url": "https://openai.com/index/uber",
-      "summary": "Uber uses OpenAI to power AI assistants and voice features that help drivers earn smarter and riders book faster across a global real-time marketplace.",
-      "publishedAt": "2026-05-06T00:00:00.000Z",
+      "id": "https://openai.com/index/parloa",
+      "title": "Parloa builds service agents customers want to talk to",
+      "url": "https://openai.com/index/parloa",
+      "summary": "Parloa leverages OpenAI models to power scalable, voice-driven AI customer service agents, enabling enterprises to design, simulate, and deploy reliable, real-time interactions.",
+      "publishedAt": "2026-05-07T11:00:00.000Z",
       "author": "",
       "source": "openai",
       "category": "POST"
@@ -45,11 +25,31 @@
       "category": "PLATFORM"
     },
     {
-      "id": "https://openai.com/index/mrc-supercomputer-networking",
-      "title": "Unlocking large scale AI training networks with MRC (Multipath Reliable Connection)",
-      "url": "https://openai.com/index/mrc-supercomputer-networking",
-      "summary": "OpenAI introduces MRC (Multipath Reliable Connection), a new supercomputer networking protocol released via OCP to improve resilience and performance in large-scale AI training clusters.",
-      "publishedAt": "2026-05-05T10:00:00.000Z",
+      "id": "https://openai.com/index/uber",
+      "title": "Uber uses OpenAI to help people earn smarter and book faster",
+      "url": "https://openai.com/index/uber",
+      "summary": "Uber uses OpenAI to power AI assistants and voice features that help drivers earn smarter and riders book faster across a global real-time marketplace.",
+      "publishedAt": "2026-05-06T00:00:00.000Z",
+      "author": "",
+      "source": "openai",
+      "category": "POST"
+    },
+    {
+      "id": "https://openai.com/index/introducing-b2b-signals",
+      "title": "How frontier firms are pulling ahead",
+      "url": "https://openai.com/index/introducing-b2b-signals",
+      "summary": "OpenAI’s B2B Signals research shows how frontier enterprises deepen AI adoption, scale Codex-powered agentic workflows, and build durable competitive advantage.",
+      "publishedAt": "2026-05-06T00:00:00.000Z",
+      "author": "",
+      "source": "openai",
+      "category": "POST"
+    },
+    {
+      "id": "https://openai.com/index/introducing-chatgpt-futures-class-of-2026",
+      "title": "Introducing ChatGPT Futures: Class of 2026",
+      "url": "https://openai.com/index/introducing-chatgpt-futures-class-of-2026",
+      "summary": "Meet the ChatGPT Futures Class of 2026—26 student innovators using AI to build, research, and drive real-world impact. Discover how this generation is redefining learning, creativity, and opportunity with ChatGPT.",
+      "publishedAt": "2026-05-06T00:00:00.000Z",
       "author": "",
       "source": "openai",
       "category": "POST"
@@ -63,6 +63,16 @@
       "author": "",
       "source": "openai",
       "category": "MODEL"
+    },
+    {
+      "id": "https://openai.com/index/mrc-supercomputer-networking",
+      "title": "Unlocking large scale AI training networks with MRC (Multipath Reliable Connection)",
+      "url": "https://openai.com/index/mrc-supercomputer-networking",
+      "summary": "OpenAI introduces MRC (Multipath Reliable Connection), a new supercomputer networking protocol released via OCP to improve resilience and performance in large-scale AI training clusters.",
+      "publishedAt": "2026-05-05T10:00:00.000Z",
+      "author": "",
+      "source": "openai",
+      "category": "POST"
     },
     {
       "id": "https://openai.com/index/gpt-5-5-instant-system-card",
@@ -215,16 +225,6 @@
       "category": "POST"
     },
     {
-      "id": "https://openai.com/index/introducing-gpt-5-5",
-      "title": "Introducing GPT-5.5",
-      "url": "https://openai.com/index/introducing-gpt-5-5",
-      "summary": "Introducing GPT-5.5, our smartest model yet—faster, more capable, and built for complex tasks like coding, research, and data analysis across tools.",
-      "publishedAt": "2026-04-23T11:00:00.000Z",
-      "author": "",
-      "source": "openai",
-      "category": "MODEL"
-    },
-    {
       "id": "https://openai.com/index/gpt-5-5-system-card",
       "title": "GPT-5.5 System Card",
       "url": "https://openai.com/index/gpt-5-5-system-card",
@@ -235,30 +235,20 @@
       "category": "MODEL"
     },
     {
+      "id": "https://openai.com/index/introducing-gpt-5-5",
+      "title": "Introducing GPT-5.5",
+      "url": "https://openai.com/index/introducing-gpt-5-5",
+      "summary": "Introducing GPT-5.5, our smartest model yet—faster, more capable, and built for complex tasks like coding, research, and data analysis across tools.",
+      "publishedAt": "2026-04-23T11:00:00.000Z",
+      "author": "",
+      "source": "openai",
+      "category": "MODEL"
+    },
+    {
       "id": "https://openai.com/academy/top-10-use-cases-codex-for-work",
       "title": "Top 10 uses for Codex at work",
       "url": "https://openai.com/academy/top-10-use-cases-codex-for-work",
       "summary": "Explore 10 practical Codex use cases to automate tasks, create deliverables, and turn real inputs into outputs across tools, files, and workflows.",
-      "publishedAt": "2026-04-23T10:00:00.000Z",
-      "author": "",
-      "source": "openai",
-      "category": "POST"
-    },
-    {
-      "id": "https://openai.com/academy/what-is-codex",
-      "title": "What is Codex?",
-      "url": "https://openai.com/academy/what-is-codex",
-      "summary": "Learn how Codex helps you go beyond chat by automating tasks, connecting tools, and producing real outputs like docs and dashboards.",
-      "publishedAt": "2026-04-23T10:00:00.000Z",
-      "author": "",
-      "source": "openai",
-      "category": "POST"
-    },
-    {
-      "id": "https://openai.com/academy/codex-automations",
-      "title": "Automations",
-      "url": "https://openai.com/academy/codex-automations",
-      "summary": "Learn how to automate tasks in Codex using schedules and triggers to create reports, summaries, and recurring workflows without manual effort.",
       "publishedAt": "2026-04-23T10:00:00.000Z",
       "author": "",
       "source": "openai",
@@ -299,6 +289,16 @@
       "title": "Plugins and skills",
       "url": "https://openai.com/academy/codex-plugins-and-skills",
       "summary": "Learn how to use Codex plugins and skills to connect tools, access data, and follow repeatable workflows to automate tasks and improve results.",
+      "publishedAt": "2026-04-23T10:00:00.000Z",
+      "author": "",
+      "source": "openai",
+      "category": "POST"
+    },
+    {
+      "id": "https://openai.com/academy/codex-automations",
+      "title": "Automations",
+      "url": "https://openai.com/academy/codex-automations",
+      "summary": "Learn how to automate tasks in Codex using schedules and triggers to create reports, summaries, and recurring workflows without manual effort.",
       "publishedAt": "2026-04-23T10:00:00.000Z",
       "author": "",
       "source": "openai",

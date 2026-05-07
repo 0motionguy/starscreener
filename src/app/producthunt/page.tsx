@@ -10,6 +10,7 @@ import type { Metadata } from "next";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import Link from "next/link";
 import { MessageSquare, ChevronUp } from "lucide-react";
+import { ProductHuntIcon } from "@/components/brand/BrandIcons";
 import { LaunchLinkIcons } from "@/components/producthunt/LaunchLinkIcons";
 import {
   getAiLaunches,
@@ -115,10 +116,11 @@ export default async function ProductHuntPage({
               <b>PH</b> · TERMINAL · /PRODUCTHUNT
             </>
           }
+          logo={<ProductHuntIcon size={32} />}
           title="ProductHunt · launches"
           lede="Top launches in the last 7 days, ordered by votes desc. AI tab filters to llm / agent / mcp / skill / rag adjacent products; All tab shows the full PH feed."
+          list={<ColdState />}
         />
-        <ColdState />
       </main>
     );
   }
@@ -142,6 +144,7 @@ export default async function ProductHuntPage({
             <b>PH</b> · TERMINAL · /PRODUCTHUNT
           </>
         }
+        logo={<ProductHuntIcon size={32} />}
         title={`ProductHunt · ${activeTab === "ai" ? "AI launches" : "all launches"}`}
         lede="Top launches in the last 7 days, ordered by votes desc. AI tab filters to llm / agent / mcp / skill / rag adjacent products; All tab shows the full PH feed."
         clock={
@@ -183,9 +186,23 @@ export default async function ProductHuntPage({
             ]}
           />
         }
-        listEyebrow={`Launch feed · top 50 by votes (${activeTab === "ai" ? "AI" : "ALL"})`}
+        listEyebrow={
+          <span
+            className="v2-mono"
+            style={{
+              display: "inline-block",
+              marginBottom: "var(--v4-space-3)",
+              color: "var(--v4-ink-400)",
+              fontSize: "var(--v4-text-10)",
+              letterSpacing: "var(--v4-track-20)",
+              textTransform: "uppercase",
+            }}
+          >
+            {`// Launch feed · top 50 by votes (${activeTab === "ai" ? "AI" : "ALL"})`}
+          </span>
+        }
         list={
-          <>
+          <div className="min-w-0">
             <div className="mb-4">
               <TabNav active={activeTab} aiCount={ai7d.length} allCount={all7d.length} />
             </div>
@@ -197,7 +214,7 @@ export default async function ProductHuntPage({
             ) : (
               <EmptyState tab={activeTab} />
             )}
-          </>
+          </div>
         }
       />
     </main>
@@ -210,7 +227,7 @@ export default async function ProductHuntPage({
 
 function LaunchFeed({ launches }: { launches: Launch[] }) {
   return (
-    <section className="border border-border-primary rounded-md bg-bg-secondary overflow-hidden">
+    <section className="min-w-0 border border-border-primary rounded-md bg-bg-secondary overflow-hidden">
       {/* Header row — desktop columns. Mobile hides thumbnail + comments. */}
       <div className="hidden md:grid grid-cols-[40px_60px_minmax(0,1fr)_72px_80px_60px_80px] gap-3 items-center px-3 h-9 border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
         <div>#</div>
@@ -395,7 +412,7 @@ function CrossLinkedReposPanel({ launches }: { launches: Launch[] }) {
   if (rows.length === 0) return null;
 
   return (
-    <section className="mt-6 border border-border-primary rounded-md bg-bg-secondary overflow-hidden">
+    <section className="min-w-0 mt-6 border border-border-primary rounded-md bg-bg-secondary overflow-hidden">
       <div className="px-3 h-9 flex items-center border-b border-border-primary text-[10px] uppercase tracking-wider text-text-tertiary">
         CROSS-LINKED REPOS ({rows.length})
         <span className="ml-2 text-text-tertiary/70 normal-case tracking-normal">

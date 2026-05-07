@@ -68,7 +68,13 @@ export function EChart({
   }, []);
 
   // Push option changes; notMerge=true so removed series actually disappear.
+  // Guard against null/undefined options — callers like RepoDetailChart gate
+  // JSX rendering on a sparse-data flag, but a dependency-array race can
+  // still hand us a null option after the canvas has already mounted.
+  // ECharts setOption(null) throws "option must be an object" and surfaces
+  // as a route-level 500 during hydration.
   useEffect(() => {
+    if (!option) return;
     instanceRef.current?.setOption(option, { notMerge: true, lazyUpdate: true });
   }, [option]);
 

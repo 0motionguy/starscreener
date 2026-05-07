@@ -8,6 +8,10 @@ name: CI
 on:
   pull_request:
     branches: [main]
+    # Data-only PRs still need this workflow to create the branch-protected
+    # "Typecheck, guards, tests, build, e2e" context. The gate job below
+    # classifies the diff and fast-passes when only data paths changed; the
+    # lightweight `data-pr-validate` workflow does the JSON/security checks.
   push:
     branches: [main]
   workflow_dispatch:
@@ -20,50 +24,118 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  classify:
+    name: Classify PR paths
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      data_only: ${{ steps.paths.outputs.data_only }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Classify changed paths
+        id: paths
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "data_only=false" >> "$GITHUB_OUTPUT"
+            echo "not a pull_request event; full CI required"
+            exit 0
+          fi
+
+          base="origin/${{ github.base_ref }}"
+          git fetch --no-tags --prune origin "${{ github.base_ref }}"
+
+          mapfile -t changed < <(git diff --name-only "$base...HEAD" || true)
+          if [ "${#changed[@]}" -eq 0 ]; then
+            echo "data_only=false" >> "$GITHUB_OUTPUT"
+            echo "no changed paths detected; full CI required"
+            exit 0
+          fi
+
+          data_count=0
+          non_data_count=0
+          for f in "${changed[@]}"; do
+            case "$f" in
+              data/*|.data/*)
+                data_count=$((data_count + 1))
+                ;;
+              *)
+                non_data_count=$((non_data_count + 1))
+                ;;
+            esac
+          done
+
+          if [ "$data_count" -gt 0 ] && [ "$non_data_count" -eq 0 ]; then
+            echo "data_only=true" >> "$GITHUB_OUTPUT"
+            echo "data-only PR: $data_count path(s)"
+          else
+            echo "data_only=false" >> "$GITHUB_OUTPUT"
+            echo "full CI required: $data_count data path(s), $non_data_count non-data path(s)"
+          fi
+
   gate:
     name: Typecheck, guards, tests, build, e2e
+    needs: classify
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
+      - name: Data-only fast path
+        if: needs.classify.outputs.data_only == 'true'
+        run: echo "Data-only PR; full CI is intentionally skipped after data-pr-validate handles JSON/path checks."
+
       - name: Checkout
+        if: needs.classify.outputs.data_only != 'true'
         uses: actions/checkout@v4
 
       # Node 22 matches engines.node in package.json. The project uses Next
       # 15 + React 19 + Vitest 2 — all expect Node 20+ at minimum.
       - name: Setup Node 22
+        if: needs.classify.outputs.data_only != 'true'
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
+        if: needs.classify.outputs.data_only != 'true'
         run: npm ci
 
       # Step 1: typecheck. Strict tsc --noEmit. Fails fast on type drift
       # before we burn time on tests.
       - name: Typecheck
+        if: needs.classify.outputs.data_only != 'true'
         run: npm run typecheck
 
       # Step 2: 5 chained CI guards (tokens, err-message echoes, zod on
       # mutating routes, route runtime declared, error envelope shape).
       # See package.json scripts.lint:guards.
       - name: Lint guards
+        if: needs.classify.outputs.data_only != 'true'
         run: npm run lint:guards
 
       # Step 3: V3 token-budget guard. Snapshots V1 alias-name counts in
       # scripts/_v3-token-baseline.json and fails when any pattern grows.
       # Prevents regression of the V3 design sweep.
       - name: V3 token budget
+        if: needs.classify.outputs.data_only != 'true'
         run: node scripts/check-v3-token-budget.mjs
 
       # Step 4: 93 vitest tests (hooks, components, lib).
       - name: Vitest (hooks/components/lib)
+        if: needs.classify.outputs.data_only != 'true'
         run: npm run test:hooks
 
       # Step 5: existing node:test + tsx --test suites (scrapers, pipeline,
       # twitter collector, tools, portal). Same set developers run with
       # `npm test`.
       - name: Node test suite
+        if: needs.classify.outputs.data_only != 'true'
         run: npm test
 
       # Step 6: Playwright. Requires a built + running production server.
@@ -71,15 +143,19 @@ jobs:
       # playwright.config.ts on the first hit per route — production builds
       # serve every page sub-second, which is what the timeout assumes.
       - name: Install Playwright (chromium)
+        if: needs.classify.outputs.data_only != 'true'
         run: npx playwright install --with-deps chromium
 
       - name: Seed Playwright repo fixtures
+        if: needs.classify.outputs.data_only != 'true'
         run: node scripts/seed-e2e-repos.mjs
 
       - name: Build (production)
+        if: needs.classify.outputs.data_only != 'true'
         run: npm run build
 
       - name: Bundle size check (T3.3 — warn at >300 KB per client chunk)
+        if: needs.classify.outputs.data_only != 'true'
         # Catches accidental client-side bundling of heavy libs. Annotation-
         # only; never fails the build. Tighten threshold or fail-on-overage
         # once the bundle stabilizes.
@@ -106,6 +182,7 @@ jobs:
       # default). Wait until the port answers before we kick off the test
       # run; gives the runtime up to 60s to come up.
       - name: Start production server
+        if: needs.classify.outputs.data_only != 'true'
         env:
           # Smoke harness has no GITHUB_TOKEN / CRON_SECRET — env.ts's
           # production fail-closed would 500 every page request without
@@ -130,6 +207,7 @@ jobs:
       # the config skips its built-in webServer block and assumes the
       # server is already running (which it is, from the previous step).
       - name: Playwright smokes
+        if: needs.classify.outputs.data_only != 'true'
         env:
           STARSCREENER_BASE_URL: http://localhost:3023
         # Gate the functional smoke specs. The visual screenshot suite under
@@ -138,7 +216,7 @@ jobs:
         run: npm run test:e2e -- --reporter=line --grep-invert "V3 visual surfaces"
 
       - name: Stop production server
-        if: always()
+        if: always() && needs.classify.outputs.data_only != 'true'
         run: |
           if [ -f .next-pid ]; then
             kill "$(cat .next-pid)" 2>/dev/null || true
@@ -151,6 +229,8 @@ jobs:
   # gate job above.
   mcp-build:
     name: MCP server build
+    needs: classify
+    if: needs.classify.outputs.data_only != 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

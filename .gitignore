@@ -47,6 +47,9 @@ next-env.d.ts
 !/.data/twitter-repo-signals.jsonl
 !/.data/twitter-scans.jsonl
 !/.data/twitter-ingestion-audit.jsonl
+!/.data/trending-dual-write-trace.jsonl
+!/.data/aiso-rescan-queue.jsonl
+!/.data/mcp-usage.jsonl
 
 # local Claude Code workspace (agent prompts, skills, settings)
 /.claude/
@@ -99,3 +102,21 @@ awesome-codex-skills/
 
 # storybook static build output (built artifact, not source)
 /storybook-static/
+
+# operator scratch — non-dot-prefixed shapes (existing .tmp_* / .tmp-* patterns miss these)
+/tmp_*.json
+/tmp-*.log
+/tmp-*.err.log
+/tmp-*.out.log
+
+# QA freshness probe run dumps
+/qa-freshness-*.json
+
+# Stryker mutation HTML reports (config stays committed)
+/reports/
+
+# generated Storybook static output rendered into docs
+/docs/storybook/
+
+# local agent vector DB (per-machine runtime state, regenerated automatically)
+/ruvector.db

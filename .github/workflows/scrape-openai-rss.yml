@@ -45,6 +45,7 @@ jobs:
       - name: Commit if changed
         uses: ./.github/actions/git-commit-data
         with:
+          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
           message: "chore(data): refresh OpenAI news ${{ steps.ts.outputs.value }}"
           paths: |
             data/openai-rss.json

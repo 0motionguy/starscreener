@@ -48,6 +48,7 @@ jobs:
       - name: Commit if changed
         uses: ./.github/actions/git-commit-data
         with:
+          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
           message: "chore(data): refresh dev.to signals ${{ steps.ts.outputs.value }}"
           paths: |
             data/devto-mentions.json

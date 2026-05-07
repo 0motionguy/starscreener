@@ -53,6 +53,20 @@ inputs:
       output every run). Default false: missing paths fail loud.
     required: false
     default: "false"
+  gh-token:
+    description: |
+      Token used for `git push` and `gh pr create` / `gh pr merge`.
+      Defaults to the workflow-provided GITHUB_TOKEN. To allow the
+      auto-generated PR to trigger required status checks
+      (workflow_run / pull_request), pass a fine-grained PAT or
+      GitHub App token via a repo secret — GitHub deliberately
+      suppresses workflow triggers for actions performed by
+      GITHUB_TOKEN to prevent infinite loops, which leaves data
+      PRs stuck waiting for branch-protection checks that will
+      never run. Empty string falls back to GITHUB_TOKEN.
+      See docs/DATA-BOT-PAT-SETUP.md.
+    required: false
+    default: ${{ github.token }}
 
 outputs:
   committed:
@@ -84,7 +98,11 @@ runs:
         RUN_ATTEMPT: ${{ github.run_attempt }}
         # `gh` reads GH_TOKEN automatically; the calling workflow MUST
         # declare permissions: { contents: write, pull-requests: write }.
-        GH_TOKEN: ${{ github.token }}
+        # The `|| github.token` fallback handles a workflow that wires
+        # `gh-token: ${{ secrets.DATA_BOT_TOKEN }}` while the secret is
+        # unset on a fork or pre-rollout repo — empty string would
+        # otherwise unauthenticate `gh` entirely.
+        GH_TOKEN: ${{ inputs.gh-token != '' && inputs.gh-token || github.token }}
       run: |
         set -euo pipefail
         git config user.name  "$INPUT_ACTOR_NAME"
@@ -127,7 +145,20 @@ runs:
         # Push the commit to the data-bot branch (force-with-lease in case
         # of a rerun colliding on the same name — should not happen given
         # run-attempt suffix, but cheap insurance).
-        git push --force-with-lease origin "HEAD:refs/heads/${BRANCH}"
+        #
+        # Push to an explicit token-embedded URL rather than reusing the
+        # remote configured by actions/checkout (which is bound to
+        # GITHUB_TOKEN via http.extraheader). When GH_TOKEN is a PAT or
+        # GitHub App token, the resulting push is attributed to that
+        # identity, which lets workflow_run / pull_request triggers fire
+        # on the auto-generated data PR — GITHUB_TOKEN-authored events
+        # are deliberately suppressed by GitHub to prevent infinite
+        # loops, which leaves data PRs stuck waiting for required status
+        # checks that never run. (AGN-861 follow-up: 30+ data PRs stalled.)
+        # The `-c http.extraheader=` empties the checkout-configured
+        # header so the URL credential is the one git actually sends.
+        PUSH_URL="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+        git -c http.extraheader= push --force-with-lease "$PUSH_URL" "HEAD:refs/heads/${BRANCH}"
 
         # Open the PR. Body intentionally minimal — automation noise stays
         # out of the activity feed but operators can click through to the

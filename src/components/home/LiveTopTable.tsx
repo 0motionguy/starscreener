@@ -34,6 +34,7 @@ import {
   toastWatchRemoved,
 } from "@/lib/toast";
 import { EntityLogo } from "@/components/ui/EntityLogo";
+import { EChartSparkline } from "@/components/charts/EChartSparkline";
 import { FreshnessChip } from "@/components/shared/FreshnessChip";
 import { repoLogoUrl } from "@/lib/logos";
 import { useViewportPrefetch } from "@/hooks/useViewportPrefetch";
@@ -90,22 +91,35 @@ interface LiveRow {
 }
 
 // Wrap brand icons to swallow extra lucide props (className, strokeWidth) the
-// shared icon-component shape passes through.
+// shared icon-component shape passes through, AND force `monochrome` so the
+// icon glyph is drawn in `currentColor` (set by the .sd-* chip CSS) instead
+// of its canonical brand fill. Without this, dev.to (#0A0A0A) is invisible
+// on the dark row bg, Lobsters' inset cutout disappears at chip scale, and
+// the assorted brand colours fight for attention. Monochrome glyphs +
+// brand-coloured chip backgrounds keep every chip legible at 20×20.
 type IconCmp = (props: { size?: number; className?: string }) => React.ReactElement;
 const NpmIcon: IconCmp = (p) => <Package {...p} />;
 const HfIcon: IconCmp = (p) => <Brain {...p} />;
 const ArxivIcon: IconCmp = (p) => <FileText {...p} />;
 const FundingIcon: IconCmp = (p) => <DollarSign {...p} />;
+const GithubMono: IconCmp = (p) => <GithubIcon {...p} monochrome />;
+const XMono: IconCmp = (p) => <XIcon {...p} monochrome />;
+const RedditMono: IconCmp = (p) => <RedditIcon {...p} monochrome />;
+const HnMono: IconCmp = (p) => <HackerNewsIcon {...p} monochrome />;
+const BlueskyMono: IconCmp = (p) => <BlueskyIcon {...p} monochrome />;
+const DevtoMono: IconCmp = (p) => <DevtoIcon {...p} monochrome />;
+const LobstersMono: IconCmp = (p) => <LobstersIcon {...p} monochrome />;
+const PhMono: IconCmp = (p) => <ProductHuntIcon {...p} monochrome />;
 
 const ROW_SOURCE_ICONS = [
-  { key: "gh", label: "GitHub", Icon: GithubIcon as IconCmp },
-  { key: "x", label: "X / Twitter", Icon: XIcon as IconCmp },
-  { key: "r", label: "Reddit", Icon: RedditIcon as IconCmp },
-  { key: "hn", label: "Hacker News", Icon: HackerNewsIcon as IconCmp },
-  { key: "b", label: "Bluesky", Icon: BlueskyIcon as IconCmp },
-  { key: "d", label: "dev.to", Icon: DevtoIcon as IconCmp },
-  { key: "lobsters", label: "Lobsters", Icon: LobstersIcon as IconCmp },
-  { key: "ph", label: "Product Hunt", Icon: ProductHuntIcon as IconCmp },
+  { key: "gh", label: "GitHub", Icon: GithubMono },
+  { key: "x", label: "X / Twitter", Icon: XMono },
+  { key: "r", label: "Reddit", Icon: RedditMono },
+  { key: "hn", label: "Hacker News", Icon: HnMono },
+  { key: "b", label: "Bluesky", Icon: BlueskyMono },
+  { key: "d", label: "dev.to", Icon: DevtoMono },
+  { key: "lobsters", label: "Lobsters", Icon: LobstersMono },
+  { key: "ph", label: "Product Hunt", Icon: PhMono },
   { key: "npm", label: "npm", Icon: NpmIcon },
   { key: "hf", label: "HuggingFace", Icon: HfIcon },
   { key: "arxiv", label: "arXiv", Icon: ArxivIcon },
@@ -155,49 +169,9 @@ function formatPct(delta: number, base: number): string | null {
   return `${sign}${pct}%`;
 }
 
-function sparkPath(values: number[], width: number, height: number): string {
-  const points = values.length > 1 ? values : [1, 1];
-  const max = Math.max(...points);
-  const min = Math.min(...points);
-  const span = max - min || 1;
-  return points
-    .map((value, index) => {
-      const x = (index / Math.max(1, points.length - 1)) * (width - 2) + 1;
-      const y = height - 2 - ((value - min) / span) * (height - 4);
-      return `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
-    })
-    .join(" ");
-}
-
-// End-point coords used for the trailing dot in the area-fill spark.
-function sparkEnd(
-  values: number[],
-  width: number,
-  height: number,
-): { x: number; y: number } {
-  const points = values.length > 1 ? values : [1, 1];
-  const max = Math.max(...points);
-  const min = Math.min(...points);
-  const span = max - min || 1;
-  const lastIdx = points.length - 1;
-  const lastVal = points[lastIdx];
-  const x = (lastIdx / Math.max(1, points.length - 1)) * (width - 2) + 1;
-  const y = height - 2 - ((lastVal - min) / span) * (height - 4);
-  return { x, y };
-}
-
-function stableLiveSparkGradientId(
-  rowId: string,
-  values: number[],
-  stroke: string,
-): string {
-  const seed = `${rowId}|${stroke}|${values.join(",")}`;
-  let hash = 5381;
-  for (let i = 0; i < seed.length; i += 1) {
-    hash = ((hash << 5) + hash) ^ seed.charCodeAt(i);
-  }
-  return `lts-${(hash >>> 0).toString(36)}`;
-}
+// sparkline rendering moved to <EChartSparkline /> — the inline-SVG
+// sparkPath / sparkEnd / stableLiveSparkGradientId helpers were dropped
+// when the sparkline column swapped to ECharts canvas.
 
 function compareNumeric(a: number, b: number, dir: SortDir): number {
   return dir === "asc" ? a - b : b - a;
@@ -494,25 +468,26 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
                   </td>
                   <td className="mentions-cell">
                     <span className="mentions-pills" aria-label="Source mentions">
-                      {ROW_SOURCE_ICONS.map(({ key, label, Icon }) => {
+                      {ROW_SOURCE_ICONS.flatMap(({ key, label, Icon }) => {
                         const count = row.sources[key] ?? 0;
-                        const fired = count > 0;
-                        // Tooltip window matches the page-side mapping
-                        // (count7d for non-github sources). Keeps tooltip
-                        // honest now that chips fire on weekly signal.
-                        const tooltip = fired
-                          ? `${label}: ${count} mention${count === 1 ? "" : "s"} (7d)`
-                          : `${label}: no mentions`;
-                        return (
+                        // Skip sources with zero matches entirely — pre-fix
+                        // every row rendered all 12 source slots with the
+                        // empty ones greyed out, which made every row look
+                        // mostly-cold even when 4-5 chips were firing.
+                        // Showing only the matched chips makes coverage
+                        // legible at a glance.
+                        if (count <= 0) return [];
+                        const tooltip = `${label}: ${count} mention${count === 1 ? "" : "s"} (7d)`;
+                        return [
                           <span
                             key={key}
-                            className={`sd sd-${key} ${fired ? "on" : "off"}`}
+                            className={`sd sd-${key} on`}
                             title={tooltip}
                             aria-label={tooltip}
                           >
                             <Icon size={14} />
-                          </span>
-                        );
+                          </span>,
+                        ];
                       })}
                     </span>
                     <span className="mentions-count">
@@ -538,76 +513,16 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
                     {pct30 ? <small className="pct">{pct30}</small> : null}
                   </td>
                   <td className="ch">
-                    {(() => {
-                      const stroke =
+                    <EChartSparkline
+                      values={row.sparklineData}
+                      className="spark-row"
+                      color={
                         row.starsDelta24h < 0
                           ? "var(--sig-red)"
-                          : "var(--sig-green)";
-                      const d = sparkPath(row.sparklineData, 72, 24);
-                      const end = sparkEnd(row.sparklineData, 72, 24);
-                      const areaPath = `${d} L71,23 L1,23 Z`;
-                      const gid = stableLiveSparkGradientId(
-                        row.id,
-                        row.sparklineData,
-                        stroke,
-                      );
-                      return (
-                        <svg
-                          className="spark-row"
-                          viewBox="0 0 72 24"
-                          preserveAspectRatio="none"
-                        >
-                          <defs>
-                            <linearGradient
-                              id={gid}
-                              x1="0"
-                              x2="0"
-                              y1="0"
-                              y2="1"
-                            >
-                              <stop
-                                offset="0%"
-                                stopColor={stroke}
-                                stopOpacity="0.42"
-                              />
-                              <stop
-                                offset="60%"
-                                stopColor={stroke}
-                                stopOpacity="0.12"
-                              />
-                              <stop
-                                offset="100%"
-                                stopColor={stroke}
-                                stopOpacity="0"
-                              />
-                            </linearGradient>
-                          </defs>
-                          <path d={areaPath} fill={`url(#${gid})`} />
-                          <path
-                            d={d}
-                            fill="none"
-                            stroke={stroke}
-                            strokeWidth="1.6"
-                            strokeLinejoin="round"
-                            strokeLinecap="round"
-                            vectorEffect="non-scaling-stroke"
-                          />
-                          <circle
-                            cx={end.x}
-                            cy={end.y}
-                            r="3"
-                            fill={stroke}
-                            opacity="0.22"
-                          />
-                          <circle
-                            cx={end.x}
-                            cy={end.y}
-                            r="1.6"
-                            fill={stroke}
-                          />
-                        </svg>
-                      );
-                    })()}
+                          : "var(--sig-green)"
+                      }
+                      tooltipLabel="stars"
+                    />
                   </td>
                   <td className="num metric-num">{formatCompact(row.forks)}</td>
                   <ActionCell

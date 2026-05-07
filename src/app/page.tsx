@@ -19,6 +19,10 @@ import {
 } from "@/lib/ecosystem-leaderboards";
 import { BubbleMap } from "@/components/terminal/BubbleMap";
 import { EChart } from "@/components/charts/EChart";
+import {
+  EChartSparkline,
+  type EChartSparklineProps,
+} from "@/components/charts/EChartSparkline";
 import { CHART_TOKENS } from "@/lib/charts/theme";
 import { HomeEmptyState } from "@/components/home/HomeEmptyState";
 import { FunnelMount } from "@/components/analytics/FunnelMount";
@@ -280,120 +284,25 @@ function topCategoryFallback(
   return topByDelta(filtered.length > 0 ? filtered : repos, limit);
 }
 
-function sparkPath(values: number[], width: number, height: number): string {
-  const points = values.length > 1 ? values : [1, 1];
-  const max = Math.max(...points);
-  const min = Math.min(...points);
-  const span = max - min || 1;
-  return points
-    .map((value, index) => {
-      const x = (index / Math.max(1, points.length - 1)) * (width - 2) + 1;
-      const y = height - 2 - ((value - min) / span) * (height - 4);
-      return `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
-    })
-    .join(" ");
-}
-
 function formatPct(delta: number, base: number): string | null {
   const pct = percentDelta(delta, base);
   if (pct === null) return null;
   return `${pct >= 0 ? "+" : ""}${pct}%`;
 }
 
-function stableSparkGradientId(
-  values: number[],
-  color: string,
-  className: string,
-  width: number,
-  height: number,
-): string {
-  const seed = `${className}|${color}|${width}x${height}|${values.join(",")}`;
-  let hash = 5381;
-  for (let i = 0; i < seed.length; i += 1) {
-    hash = ((hash << 5) + hash) ^ seed.charCodeAt(i);
-  }
-  return `sg-${(hash >>> 0).toString(36)}`;
-}
-
-// Vercel/Linear/Stripe-style mini sparkline:
-//   1. area path, vertical alpha-gradient fill
-//   2. crisp 1.5px stroke on top
-//   3. end-point dot with halo glow
-// Implemented as pure inline SVG - no extra deps, scales with viewBox.
+// Mini sparkline: backed by ECharts canvas via the shared EChartSparkline
+// wrapper. Replaces the prior inline-SVG version (sparkPath +
+// stableSparkGradientId + 3 helper math walks). Bigger default size (84×28
+// vs 72×24), animated draw on first paint, hover tooltip, smoother canvas
+// anti-aliased line. Wrapper preserves the old prop defaults so call sites
+// don't shift colour: `var(--sig-green)` → resolves to functional green
+// inside the wrapper, `spark` className keeps the existing CSS hooks.
 function Sparkline({
-  values,
   color = "var(--sig-green)",
   className = "spark",
-  area = true,
-  width = 72,
-  height = 24,
-}: {
-  values: number[];
-  color?: string;
-  className?: string;
-  area?: boolean;
-  width?: number;
-  height?: number;
-}) {
-  const d = sparkPath(values, width, height);
-  const gradId = stableSparkGradientId(values, color, className, width, height);
-
-  // Compute end-point coords for the trailing dot.
-  const points = values.length > 1 ? values : [1, 1];
-  const max = Math.max(...points);
-  const min = Math.min(...points);
-  const span = max - min || 1;
-  const lastIdx = points.length - 1;
-  const lastVal = points[lastIdx];
-  const endX =
-    (lastIdx / Math.max(1, points.length - 1)) * (width - 2) + 1;
-  const endY = height - 2 - ((lastVal - min) / span) * (height - 4);
-
-  const lastX = (width - 1).toFixed(1);
-  const firstX = "1";
-  const baseY = (height - 1).toFixed(1);
-  const areaPath = `${d} L${lastX},${baseY} L${firstX},${baseY} Z`;
-
-  return (
-    <svg
-      className={className}
-      viewBox={`0 0 ${width} ${height}`}
-      preserveAspectRatio="none"
-    >
-      <defs>
-        <linearGradient id={gradId} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.42" />
-          <stop offset="60%" stopColor={color} stopOpacity="0.12" />
-          <stop offset="100%" stopColor={color} stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      {area ? <path d={areaPath} fill={`url(#${gradId})`} /> : null}
-      <path
-        d={d}
-        fill="none"
-        stroke={color}
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-        vectorEffect="non-scaling-stroke"
-      />
-      {/* Halo + dot at the trailing point — the visual cue from
-          Vercel/TradingView mini-charts. */}
-      <circle
-        cx={endX}
-        cy={endY}
-        r="3"
-        fill={color}
-        opacity="0.22"
-      />
-      <circle
-        cx={endX}
-        cy={endY}
-        r="1.6"
-        fill={color}
-      />
-    </svg>
-  );
+  ...rest
+}: EChartSparklineProps) {
+  return <EChartSparkline color={color} className={className} {...rest} />;
 }
 
 function EntityHeroRow({

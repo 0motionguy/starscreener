@@ -22,6 +22,10 @@
 // OG / Twitter / robots so rich-result tooling has a complete head block.
 
 import type { Metadata } from "next";
+import {
+  EChartSparkline,
+  type EChartSparklineProps,
+} from "@/components/charts/EChartSparkline";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import {
   getTrending,
@@ -159,100 +163,19 @@ function sourceCount(repo: Repo): number {
 }
 
 // ---------------------------------------------------------------------------
-// Sparkline — same Vercel/Linear-style mini line as the home page, inlined
-// here so this surface stays self-contained and doesn't drag the home file
-// into a shared component move (which is out-of-scope for this polish pass).
+// Sparkline — backed by the shared <EChartSparkline> wrapper. Was a
+// duplicate of the inline-SVG sparkline in src/app/page.tsx; both moved
+// to ECharts canvas in this PR for a visible visual upgrade (animated
+// draw on first paint, hover tooltip, slightly larger 84×28 default).
+// Wrapper preserves the old prop defaults so call sites don't shift.
 // ---------------------------------------------------------------------------
 
-function sparkPath(values: number[], width: number, height: number): string {
-  const points = values.length > 1 ? values : [1, 1];
-  const max = Math.max(...points);
-  const min = Math.min(...points);
-  const span = max - min || 1;
-  return points
-    .map((value, index) => {
-      const x = (index / Math.max(1, points.length - 1)) * (width - 2) + 1;
-      const y = height - 2 - ((value - min) / span) * (height - 4);
-      return `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
-    })
-    .join(" ");
-}
-
-function stableSparkGradientId(
-  values: number[],
-  color: string,
-  className: string,
-  width: number,
-  height: number,
-): string {
-  const seed = `${className}|${color}|${width}x${height}|${values.join(",")}`;
-  let hash = 5381;
-  for (let i = 0; i < seed.length; i += 1) {
-    hash = ((hash << 5) + hash) ^ seed.charCodeAt(i);
-  }
-  return `gh-sg-${(hash >>> 0).toString(36)}`;
-}
-
 function Sparkline({
-  values,
   color = "var(--sig-green)",
   className = "spark",
-  area = true,
-  width = 72,
-  height = 24,
-}: {
-  values: number[];
-  color?: string;
-  className?: string;
-  area?: boolean;
-  width?: number;
-  height?: number;
-}) {
-  const d = sparkPath(values, width, height);
-  const gradId = stableSparkGradientId(values, color, className, width, height);
-
-  const points = values.length > 1 ? values : [1, 1];
-  const max = Math.max(...points);
-  const min = Math.min(...points);
-  const span = max - min || 1;
-  const lastIdx = points.length - 1;
-  const lastVal = points[lastIdx];
-  const endX =
-    (lastIdx / Math.max(1, points.length - 1)) * (width - 2) + 1;
-  const endY = height - 2 - ((lastVal - min) / span) * (height - 4);
-
-  const lastX = (width - 1).toFixed(1);
-  const firstX = "1";
-  const baseY = (height - 1).toFixed(1);
-  const areaPath = `${d} L${lastX},${baseY} L${firstX},${baseY} Z`;
-
-  return (
-    <svg
-      className={className}
-      viewBox={`0 0 ${width} ${height}`}
-      preserveAspectRatio="none"
-    >
-      <defs>
-        <linearGradient id={gradId} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.42" />
-          <stop offset="60%" stopColor={color} stopOpacity="0.12" />
-          <stop offset="100%" stopColor={color} stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      {area ? <path d={areaPath} fill={`url(#${gradId})`} /> : null}
-      <path
-        d={d}
-        fill="none"
-        stroke={color}
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-        vectorEffect="non-scaling-stroke"
-      />
-      <circle cx={endX} cy={endY} r="3" fill={color} opacity="0.22" />
-      <circle cx={endX} cy={endY} r="1.6" fill={color} />
-    </svg>
-  );
+  ...rest
+}: EChartSparklineProps) {
+  return <EChartSparkline color={color} className={className} {...rest} />;
 }
 
 // ---------------------------------------------------------------------------

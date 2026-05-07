@@ -1,434 +1,46 @@
 {
-  "fetchedAt": "2026-05-07T07:20:23.212Z",
+  "fetchedAt": "2026-05-07T10:35:50.759Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
-    "fendouai/CodexSaver": {
-      "count7d": 1,
-      "likesSum7d": 0,
+    "openai/codex": {
+      "count7d": 2,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lvoh6kgyhsm7s52ppqm2wgoq/app.bsky.feed.post/3mlaodepy7op2",
-        "cid": "bafyreia3loelxcyacxjlfb2p2da4fgpkzebeyblk3gxua27uvurrkj5avm",
-        "bskyUrl": "https://bsky.app/profile/deepseek.activitypub.awakari.com.ap.brid.gy/post/3mlaodepy7op2",
-        "text": "CodexSaver Make Codex cheaper without making it dumber with DeepSeek Article URL: https://github.com/fendouai/CodexSaver Comments URL: https://news.ycombinator.com/item?id=48046231 Points: 1 # Comm... Origin | Interest | Match",
-        "author": {
-          "handle": "deepseek.activitypub.awakari.com.ap.brid.gy",
-          "displayName": "deepseek"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T06:49:16.000Z",
-        "hoursSincePosted": 0.52
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:lvoh6kgyhsm7s52ppqm2wgoq/app.bsky.feed.post/3mlaodepy7op2",
-          "cid": "bafyreia3loelxcyacxjlfb2p2da4fgpkzebeyblk3gxua27uvurrkj5avm",
-          "bskyUrl": "https://bsky.app/profile/deepseek.activitypub.awakari.com.ap.brid.gy/post/3mlaodepy7op2",
-          "text": "CodexSaver Make Codex cheaper without making it dumber with DeepSeek Article URL: https://github.com/fendouai/CodexSaver Comments URL: https://news.ycombinator.com/item?id=48046231 Points: 1 # Comm... Origin | Interest | Match",
-          "author": {
-            "handle": "deepseek.activitypub.awakari.com.ap.brid.gy",
-            "displayName": "deepseek"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T06:49:16.000Z",
-          "createdUtc": 1778136556,
-          "ageHours": 0.52,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "fendouai/CodexSaver",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "niri-wm/niri": {
-      "count7d": 1,
-      "likesSum7d": 6,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:p7uix7mresfq4nfzxp3klgfa/app.bsky.feed.post/3mlalbeu4a22j",
-        "cid": "bafyreigsgh3apmpd6cjavwsbkq7d4mgmq2p5g2k7ql625yqub5gaznf3am",
-        "bskyUrl": "https://bsky.app/profile/justingarrison.com/post/3mlalbeu4a22j",
-        "text": "Niri window manager works really well on small screens github.com/niri-wm/niri",
-        "author": {
-          "handle": "justingarrison.com",
-          "displayName": "Justin Garrison"
-        },
-        "likeCount": 6,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T06:22:40.354Z",
-        "hoursSincePosted": 0.96
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:p7uix7mresfq4nfzxp3klgfa/app.bsky.feed.post/3mlalbeu4a22j",
-          "cid": "bafyreigsgh3apmpd6cjavwsbkq7d4mgmq2p5g2k7ql625yqub5gaznf3am",
-          "bskyUrl": "https://bsky.app/profile/justingarrison.com/post/3mlalbeu4a22j",
-          "text": "Niri window manager works really well on small screens github.com/niri-wm/niri",
-          "author": {
-            "handle": "justingarrison.com",
-            "displayName": "Justin Garrison"
-          },
-          "likeCount": 6,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T06:22:40.354Z",
-          "createdUtc": 1778134960,
-          "ageHours": 0.96,
-          "trendingScore": 6,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "niri-wm/niri",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "endevco/aube": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3mlaizmjhb62k",
-        "cid": "bafyreicikrpmnth7u4vdqt2ctly6ejoxp5jngqxch24w5k2bpwehf3bvya",
-        "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3mlaizmjhb62k",
-        "text": "見てる: \"general rolling feedback · endevco/aube · Discussion #345\" https://github.com/endevco/aube/discussions/345",
-        "author": {
-          "handle": "azu.bsky.social",
-          "displayName": "azu"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T05:42:32.014Z",
-        "hoursSincePosted": 1.63
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3mlaizmjhb62k",
-          "cid": "bafyreicikrpmnth7u4vdqt2ctly6ejoxp5jngqxch24w5k2bpwehf3bvya",
-          "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3mlaizmjhb62k",
-          "text": "見てる: \"general rolling feedback · endevco/aube · Discussion #345\" https://github.com/endevco/aube/discussions/345",
-          "author": {
-            "handle": "azu.bsky.social",
-            "displayName": "azu"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T05:42:32.014Z",
-          "createdUtc": 1778132552,
-          "ageHours": 1.63,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "endevco/aube",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "olivier-ls/php-fts": {
-      "count7d": 4,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mlai2wtaao2f",
-        "cid": "bafyreid5eqwacsp6umxsyscioz7bek6qze5ygudxiuemsaqfgrgqbsrzxa",
-        "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mlai2wtaao2f",
-        "text": "Show HN: PHP-fts – Full-text search engine in pure PHP, no extensions https://github.com/olivier-ls/php-fts (https://news.ycombinator.com/item?id=48041316)",
-        "author": {
-          "handle": "betterhn50.e-work.xyz",
-          "displayName": "Hacker News 50"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T05:25:22.353Z",
-        "hoursSincePosted": 1.92
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mlai2wtaao2f",
-          "cid": "bafyreid5eqwacsp6umxsyscioz7bek6qze5ygudxiuemsaqfgrgqbsrzxa",
-          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mlai2wtaao2f",
-          "text": "Show HN: PHP-fts – Full-text search engine in pure PHP, no extensions https://github.com/olivier-ls/php-fts (https://news.ycombinator.com/item?id=48041316)",
-          "author": {
-            "handle": "betterhn50.e-work.xyz",
-            "displayName": "Hacker News 50"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T05:25:22.353Z",
-          "createdUtc": 1778131522,
-          "ageHours": 1.92,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "olivier-ls/php-fts",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3ml7ulwler72a",
-          "cid": "bafyreihejp2a37yzrh6tmj6u6633rn4yaqrz4lqinrv576ivsdcorwl2py",
-          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3ml7ulwler72a",
-          "text": "Show HN: PHP-fts – Full-text search engine in pure PHP, no extensions https://github.com/olivier-ls/php-fts (https://news.ycombinator.com/item?id=48041316)",
-          "author": {
-            "handle": "betterhn20.e-work.xyz",
-            "displayName": "Hacker News 20"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-06T23:36:57.650Z",
-          "createdUtc": 1778110617,
-          "ageHours": 7.72,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "olivier-ls/php-fts",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3ml7s42cpr32j",
-          "cid": "bafyreigvpkursojkivy6nzejgdlqsztuongymn2xpwerqvkkqkpj5cgqca",
-          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3ml7s42cpr32j",
-          "text": "📰 PHP-fts is a full-text search engine written in pure PHP without requiring any extensions, offering an alternative to traditional database-based solutions for text indexing and searching. 🔗 https://github.com/olivier-ls/php-fts #Tech #Dev",
-          "author": {
-            "handle": "sagalinked.bsky.social",
-            "displayName": "SagaLinked"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-06T22:51:55.879300+00:00",
-          "createdUtc": 1778107915,
-          "ageHours": 8.47,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "olivier-ls/php-fts",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3ml7r5sala62z",
-          "cid": "bafyreih3wp5tyfcirkcd6kzmbwuanttow77jjc5ohwxddevgb6jh7knvku",
-          "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3ml7r5sala62z",
-          "text": "Show HN: PHP-fts – Full-text search engine in pure PHP, no extensions https://github.com/olivier-ls/php-fts",
-          "author": {
-            "handle": "mm-hacker-news.bsky.social",
-            "displayName": "Hacker News"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-06T22:35:22.488Z",
-          "createdUtc": 1778106922,
-          "ageHours": 8.75,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "olivier-ls/php-fts",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "lightseekorg/tokenspeed": {
-      "count7d": 1,
-      "likesSum7d": 10,
-      "repostsSum7d": 1,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:cq4gg3odxz2pzmkx2fuac3u3/app.bsky.feed.post/3mlaf3ykwcc2d",
-        "cid": "bafyreidcwkzrppeqjfnlalsk5zq655k3ekdgxfc6bmhmzwop4ybwd6lkh4",
-        "bskyUrl": "https://bsky.app/profile/sungkim.bsky.social/post/3mlaf3ykwcc2d",
-        "text": "LightSeek's TokenSpeed, a speed-of-light LLM inference engine - TensorRT LLM level performance - vLLM level usability - Built by a lean and mission-driven team in two months - MIT license, open-source Blog: lightseek.org/blog/lightse... Repo: github.com/lightseekorg...",
-        "author": {
-          "handle": "sungkim.bsky.social",
-          "displayName": "Sung Kim"
-        },
-        "likeCount": 10,
-        "repostCount": 1,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T04:32:17.269Z",
-        "hoursSincePosted": 2.8
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:cq4gg3odxz2pzmkx2fuac3u3/app.bsky.feed.post/3mlaf3ykwcc2d",
-          "cid": "bafyreidcwkzrppeqjfnlalsk5zq655k3ekdgxfc6bmhmzwop4ybwd6lkh4",
-          "bskyUrl": "https://bsky.app/profile/sungkim.bsky.social/post/3mlaf3ykwcc2d",
-          "text": "LightSeek's TokenSpeed, a speed-of-light LLM inference engine - TensorRT LLM level performance - vLLM level usability - Built by a lean and mission-driven team in two months - MIT license, open-source Blog: lightseek.org/blog/lightse... Repo: github.com/lightseekorg...",
-          "author": {
-            "handle": "sungkim.bsky.social",
-            "displayName": "Sung Kim"
-          },
-          "likeCount": 10,
-          "repostCount": 1,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T04:32:17.269Z",
-          "createdUtc": 1778128337,
-          "ageHours": 2.8,
-          "trendingScore": 12,
-          "content_tags": [],
-          "value_score": 0,
-          "linkedRepos": [
-            {
-              "fullName": "lightseekorg/tokenspeed",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "ultraworkers/claw-code": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:nsgjbd6zsolbmdmuzpvhfxll/app.bsky.feed.post/3mlaewefqym24",
-        "cid": "bafyreiaip663qplvj67yrsnzdy3h2nknodu7i3muckfstle54ortqcd5wm",
-        "bskyUrl": "https://bsky.app/profile/yorozuya-build.bsky.social/post/3mlaewefqym24",
-        "text": "GitHubで超ヤバいリポジトリを発見した🔥 「claw-code」ってRust製のコーディングツールがついにロック解除されて公開されたんだけど、なんと史上最速で★19万超え。それだけで只者じゃないのわかる。 oh-my-codexで作られてて、とにかく動作が爆速らしい。ソロ開発だと「遅いツールに時間を奪われる」のが地味にストレスだから、Rust製の速さは普通に刺さる。 一人で全部回してる身としては、こういうの早めにキャッチしておきたい。 #GitHub #buildinpublic #個人開発 https://github.com/ultraworkers/claw-code",
-        "author": {
-          "handle": "yorozuya-build.bsky.social",
-          "displayName": "よろず屋builds"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T04:29:08.097409Z",
-        "hoursSincePosted": 2.85
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:nsgjbd6zsolbmdmuzpvhfxll/app.bsky.feed.post/3mlaewefqym24",
-          "cid": "bafyreiaip663qplvj67yrsnzdy3h2nknodu7i3muckfstle54ortqcd5wm",
-          "bskyUrl": "https://bsky.app/profile/yorozuya-build.bsky.social/post/3mlaewefqym24",
-          "text": "GitHubで超ヤバいリポジトリを発見した🔥 「claw-code」ってRust製のコーディングツールがついにロック解除されて公開されたんだけど、なんと史上最速で★19万超え。それだけで只者じゃないのわかる。 oh-my-codexで作られてて、とにかく動作が爆速らしい。ソロ開発だと「遅いツールに時間を奪われる」のが地味にストレスだから、Rust製の速さは普通に刺さる。 一人で全部回してる身としては、こういうの早めにキャッチしておきたい。 #GitHub #buildinpublic #個人開発 https://github.com/ultraworkers/claw-code",
-          "author": {
-            "handle": "yorozuya-build.bsky.social",
-            "displayName": "よろず屋builds"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T04:29:08.097409Z",
-          "createdUtc": 1778128148,
-          "ageHours": 2.85,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ultraworkers/claw-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "msitarzewski/agency-agents": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 1,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:djmypdmssd52r3oakrgmjovz/app.bsky.feed.post/3mlaan6udan24",
-        "cid": "bafyreid2aamtc6q3yzztghnoll5z3kbcrr6je3nh3lxqyekvo2ebywvau4",
-        "bskyUrl": "https://bsky.app/profile/mel-echosphere.bsky.social/post/3mlaan6udan24",
-        "text": "「144体のAIエージェントで丸ごと1社」。スター9万超。エンジニア/デザイナー/マーケ、全12部門、スクリプト2本で導入完了——確認してきた。💎 https://x.com/so_ainsight/status/2050772093575544918 https://github.com/msitarzewski/agency-agents このエージェント、セッションまたいで記憶してるか？🍒 #AIAgent",
+        "uri": "at://did:plc:s5qeaz4t4ccdu3p5vfqkf7n7/app.bsky.feed.post/3mlayj7kzvs2b",
+        "cid": "bafyreiecdbx2h5wsr7rg4ie4rzzgum25h2co7lpzsl5zplbmhpcgxfhfdy",
+        "bskyUrl": "https://bsky.app/profile/latte.bsky.plasmatrap.com/post/3mlayj7kzvs2b",
+        "text": "github.com/openai/codex... seems they're looking into raising it to 1M? for now it is indeed at 400k",
         "author": {
-          "handle": "mel-echosphere.bsky.social",
-          "displayName": "メル"
+          "handle": "latte.bsky.plasmatrap.com",
+          "displayName": "Latte macchiato"
         },
-        "likeCount": 0,
-        "repostCount": 1,
+        "likeCount": 2,
+        "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-07T03:12:25.426Z",
-        "hoursSincePosted": 4.13
+        "createdAt": "2026-05-07T10:19:41.916Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:djmypdmssd52r3oakrgmjovz/app.bsky.feed.post/3mlaan6udan24",
-          "cid": "bafyreid2aamtc6q3yzztghnoll5z3kbcrr6je3nh3lxqyekvo2ebywvau4",
-          "bskyUrl": "https://bsky.app/profile/mel-echosphere.bsky.social/post/3mlaan6udan24",
-          "text": "「144体のAIエージェントで丸ごと1社」。スター9万超。エンジニア/デザイナー/マーケ、全12部門、スクリプト2本で導入完了——確認してきた。💎 https://x.com/so_ainsight/status/2050772093575544918 https://github.com/msitarzewski/agency-agents このエージェント、セッションまたいで記憶してるか？🍒 #AIAgent",
+          "uri": "at://did:plc:s5qeaz4t4ccdu3p5vfqkf7n7/app.bsky.feed.post/3mlayj7kzvs2b",
+          "cid": "bafyreiecdbx2h5wsr7rg4ie4rzzgum25h2co7lpzsl5zplbmhpcgxfhfdy",
+          "bskyUrl": "https://bsky.app/profile/latte.bsky.plasmatrap.com/post/3mlayj7kzvs2b",
+          "text": "github.com/openai/codex... seems they're looking into raising it to 1M? for now it is indeed at 400k",
           "author": {
-            "handle": "mel-echosphere.bsky.social",
-            "displayName": "メル"
+            "handle": "latte.bsky.plasmatrap.com",
+            "displayName": "Latte macchiato"
           },
-          "likeCount": 0,
-          "repostCount": 1,
+          "likeCount": 2,
+          "repostCount": 0,
           "replyCount": 1,
-          "createdAt": "2026-05-07T03:12:25.426Z",
-          "createdUtc": 1778123545,
-          "ageHours": 4.13,
+          "createdAt": "2026-05-07T10:19:41.916Z",
+          "createdUtc": 1778149181,
+          "ageHours": 0.5,
           "trendingScore": 2.5,
           "content_tags": [
             "has-github-repo"
@@ -436,7 +48,35 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "msitarzewski/agency-agents",
+              "fullName": "openai/codex",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:pxlvz26yno5eh5cxyl76x6yr/app.bsky.feed.post/3mlasinsnes2l",
+          "cid": "bafyreih7utda2oo6pejhmdvkvbl7uhofe7qdr3qosqksspuurhk7tkwkuq",
+          "bskyUrl": "https://bsky.app/profile/rickywilhelmson.bsky.social/post/3mlasinsnes2l",
+          "text": "I cannot help it. The system prompt to OPENAI's coding assistant Codex reads like something the Human Resources department would draft for advertising a new position: Psychological councel for the IT department. github.com/openai/codex...",
+          "author": {
+            "handle": "rickywilhelmson.bsky.social",
+            "displayName": "Ricky Wilhelmson - Writing the next chapter ..."
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T08:32:00.836Z",
+          "createdUtc": 1778142720,
+          "ageHours": 2.06,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
               "matchType": "url",
               "confidence": 1
             }
@@ -444,103 +84,50 @@
         }
       ]
     },
-    "anthropics/claude-code": {
+    "code-yeongyu/oh-my-openagent": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mla4vqrpuk2b",
-        "cid": "bafyreibxp5nmncqtq4ze4cxlvippamitcaja763xfsygzbbvjjh44bn2eu",
-        "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mla4vqrpuk2b",
-        "text": "Claude Code 2.1.132 release change log github.com/anthropics/c...",
+        "uri": "at://did:plc:yhs6y3ipiwx3lytdwytxnh6n/app.bsky.feed.post/3mlaygp2e3o2l",
+        "cid": "bafyreiainaqwnuhchtzhupsmjhixybstjlhdgujdu6ac3wnpiil2txj3he",
+        "bskyUrl": "https://bsky.app/profile/noizbuster.bsky.social/post/3mlaygp2e3o2l",
+        "text": "Oh-My-Opencode(OpenAgent) v4가 릴리즈 되었습니다. github.com/code-yeongyu...",
         "author": {
-          "handle": "georgesl.bsky.social",
-          "displayName": "George"
+          "handle": "noizbuster.bsky.social",
+          "displayName": "NoizBuster"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-07T02:05:37.843Z",
-        "hoursSincePosted": 5.25
+        "createdAt": "2026-05-07T10:18:16.109Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mla4vqrpuk2b",
-          "cid": "bafyreibxp5nmncqtq4ze4cxlvippamitcaja763xfsygzbbvjjh44bn2eu",
-          "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mla4vqrpuk2b",
-          "text": "Claude Code 2.1.132 release change log github.com/anthropics/c...",
+          "uri": "at://did:plc:yhs6y3ipiwx3lytdwytxnh6n/app.bsky.feed.post/3mlaygp2e3o2l",
+          "cid": "bafyreiainaqwnuhchtzhupsmjhixybstjlhdgujdu6ac3wnpiil2txj3he",
+          "bskyUrl": "https://bsky.app/profile/noizbuster.bsky.social/post/3mlaygp2e3o2l",
+          "text": "Oh-My-Opencode(OpenAgent) v4가 릴리즈 되었습니다. github.com/code-yeongyu...",
           "author": {
-            "handle": "georgesl.bsky.social",
-            "displayName": "George"
+            "handle": "noizbuster.bsky.social",
+            "displayName": "NoizBuster"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-07T02:05:37.843Z",
-          "createdUtc": 1778119537,
-          "ageHours": 5.25,
+          "createdAt": "2026-05-07T10:18:16.109Z",
+          "createdUtc": 1778149096,
+          "ageHours": 0.5,
           "trendingScore": 0,
           "content_tags": [
-            "has-github-repo",
-            "has-md-file"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "gofsnotify/fsnotify": {
-      "count7d": 1,
-      "likesSum7d": 5,
-      "repostsSum7d": 2,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:gzowlbihobkbxpmqownbh3we/app.bsky.feed.post/3mla4bfzexk2t",
-        "cid": "bafyreiamvaa3cb7krgvigyo5trr4tukjhrnsljohtia56yj3xcu7dbdjgi",
-        "bskyUrl": "https://bsky.app/profile/ymotongpoo.com/post/3mla4bfzexk2t",
-        "text": "How stupid this guy is: github.com/arp242. This guy kicked out all other maintainers of github.com/fsnotify/fsn... that is commonly used to check the file status: this is a highjack. A couple of ex-maintainers forked the original started their own version here: github.com/gofsnotify/f...",
-        "author": {
-          "handle": "ymotongpoo.com",
-          "displayName": "Yoshi Yamaguchi"
-        },
-        "likeCount": 5,
-        "repostCount": 2,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T01:54:15.470Z",
-        "hoursSincePosted": 5.44
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:gzowlbihobkbxpmqownbh3we/app.bsky.feed.post/3mla4bfzexk2t",
-          "cid": "bafyreiamvaa3cb7krgvigyo5trr4tukjhrnsljohtia56yj3xcu7dbdjgi",
-          "bskyUrl": "https://bsky.app/profile/ymotongpoo.com/post/3mla4bfzexk2t",
-          "text": "How stupid this guy is: github.com/arp242. This guy kicked out all other maintainers of github.com/fsnotify/fsn... that is commonly used to check the file status: this is a highjack. A couple of ex-maintainers forked the original started their own version here: github.com/gofsnotify/f...",
-          "author": {
-            "handle": "ymotongpoo.com",
-            "displayName": "Yoshi Yamaguchi"
-          },
-          "likeCount": 5,
-          "repostCount": 2,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T01:54:15.470Z",
-          "createdUtc": 1778118855,
-          "ageHours": 5.44,
-          "trendingScore": 9,
-          "content_tags": [
-            "has-github-repo",
-            "is-question"
+            "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "gofsnotify/fsnotify",
+              "fullName": "code-yeongyu/oh-my-openagent",
               "matchType": "url",
               "confidence": 1
             }
@@ -548,149 +135,42 @@
         }
       ]
     },
-    "openai/openai-agents-python": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3ml7zpbffp52u",
-        "cid": "bafyreidq4fhnw7rs35rjgmb22ebotlofxlb7kf4fq7bwuoltzv5ei4nhsm",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3ml7zpbffp52u",
-        "text": "🟠 OpenAI Agents Python 0.16.0 changes the default model to GPT-5.4-mini OpenAI's Agents Python SDK v0.16.0 now defaults unset agents and runs to gpt-5.4-mini instead of gpt-4.1. https://github.com/openai/openai-agents-python/releases/tag/v0.16.0 #AI #AgentWyre",
-        "author": {
-          "handle": "agentwyre.ai"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T01:08:18.400521+00:00",
-        "hoursSincePosted": 6.2
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3ml7zpbffp52u",
-          "cid": "bafyreidq4fhnw7rs35rjgmb22ebotlofxlb7kf4fq7bwuoltzv5ei4nhsm",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3ml7zpbffp52u",
-          "text": "🟠 OpenAI Agents Python 0.16.0 changes the default model to GPT-5.4-mini OpenAI's Agents Python SDK v0.16.0 now defaults unset agents and runs to gpt-5.4-mini instead of gpt-4.1. https://github.com/openai/openai-agents-python/releases/tag/v0.16.0 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T01:08:18.400521+00:00",
-          "createdUtc": 1778116098,
-          "ageHours": 6.2,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo",
-            "has-agent",
-            "is-announcement"
-          ],
-          "value_score": 3,
-          "linkedRepos": [
-            {
-              "fullName": "openai/openai-agents-python",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "charmbracelet/crush": {
+    "wojtczyk/trust": {
       "count7d": 3,
-      "likesSum7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:krxbvxvis5skq7jj6eot23ul/app.bsky.feed.post/3ml7yg4qxqk2e",
-        "cid": "bafyreiewuuwfcshkprls474yvlnwpbrmzyytnkycuncn4x64opqkwuzpay",
-        "bskyUrl": "https://bsky.app/profile/dunkirk.sh/post/3ml7yg4qxqk2e",
-        "text": "and another link github.com/charmbracele...",
+        "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlaxykztau2a",
+        "cid": "bafyreihhghjsgti2ashrsqfhda6ydhyxlezbfvdth5vj4qmqdp2zvjewji",
+        "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlaxykztau2a",
+        "text": "Show HN: Trust – Coding Rust like it's 1989 https://github.com/wojtczyk/trust (https://news.ycombinator.com/item?id=48045939)",
         "author": {
-          "handle": "dunkirk.sh",
-          "displayName": "kieran klukas 🧭"
+          "handle": "betterhn20.e-work.xyz",
+          "displayName": "Hacker News 20"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-07T00:45:18.562Z",
-        "hoursSincePosted": 6.58
+        "createdAt": "2026-05-07T10:10:22.550Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:krxbvxvis5skq7jj6eot23ul/app.bsky.feed.post/3ml7yg4qxqk2e",
-          "cid": "bafyreiewuuwfcshkprls474yvlnwpbrmzyytnkycuncn4x64opqkwuzpay",
-          "bskyUrl": "https://bsky.app/profile/dunkirk.sh/post/3ml7yg4qxqk2e",
-          "text": "and another link github.com/charmbracele...",
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlaxykztau2a",
+          "cid": "bafyreihhghjsgti2ashrsqfhda6ydhyxlezbfvdth5vj4qmqdp2zvjewji",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlaxykztau2a",
+          "text": "Show HN: Trust – Coding Rust like it's 1989 https://github.com/wojtczyk/trust (https://news.ycombinator.com/item?id=48045939)",
           "author": {
-            "handle": "dunkirk.sh",
-            "displayName": "kieran klukas 🧭"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T00:45:18.562Z",
-          "createdUtc": 1778114718,
-          "ageHours": 6.58,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "charmbracelet/crush",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:krxbvxvis5skq7jj6eot23ul/app.bsky.feed.post/3ml7xtpo3a22e",
-          "cid": "bafyreigiip7abrxykiihbc4l6n6tezqhics3cevhf4szsvn7og5pulqeem",
-          "bskyUrl": "https://bsky.app/profile/dunkirk.sh/post/3ml7xtpo3a22e",
-          "text": "and a link one more time github.com/charmbracele...",
-          "author": {
-            "handle": "dunkirk.sh",
-            "displayName": "kieran klukas 🧭"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-07T00:35:00.857Z",
-          "createdUtc": 1778114100,
-          "ageHours": 6.76,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "charmbracelet/crush",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:krxbvxvis5skq7jj6eot23ul/app.bsky.feed.post/3ml7xg4l52c2e",
-          "cid": "bafyreigs2gy2qqedmq2bxncendg3w4bju3msgyyzv6tdrypuwmbmkb7fyi",
-          "bskyUrl": "https://bsky.app/profile/dunkirk.sh/post/3ml7xg4l52c2e",
-          "text": "github.com/charmbracele...",
-          "author": {
-            "handle": "dunkirk.sh",
-            "displayName": "kieran klukas 🧭"
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-07T00:27:24.630Z",
-          "createdUtc": 1778113644,
-          "ageHours": 6.88,
+          "createdAt": "2026-05-07T10:10:22.550Z",
+          "createdUtc": 1778148622,
+          "ageHours": 0.5,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -698,58 +178,63 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "charmbracelet/crush",
+              "fullName": "wojtczyk/trust",
               "matchType": "url",
               "confidence": 1
             }
           ]
-        }
-      ]
-    },
-    "krakenfx/kraken-cli": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3ml7vwglbwm2z",
-        "cid": "bafyreiah5dzsjpzyealt2z2t47yytl4oxgqgrpdp73iegovjatljjizvam",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3ml7vwglbwm2z",
-        "text": "krakenfx / kraken-cli: The first AI-native CLI for trading crypto, stocks, forex, and derivatives. ★581 https://github.com/krakenfx/kraken-cli",
-        "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
         },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T00:00:44.374739Z",
-        "hoursSincePosted": 7.33
-      },
-      "posts": [
         {
-          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3ml7vwglbwm2z",
-          "cid": "bafyreiah5dzsjpzyealt2z2t47yytl4oxgqgrpdp73iegovjatljjizvam",
-          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3ml7vwglbwm2z",
-          "text": "krakenfx / kraken-cli: The first AI-native CLI for trading crypto, stocks, forex, and derivatives. ★581 https://github.com/krakenfx/kraken-cli",
+          "uri": "at://did:plc:jhnixfn6lg3jspsjsyt2cfpw/app.bsky.feed.post/3mlaussxfad52",
+          "cid": "bafyreig6xgd2v3qjbi6pvfqg4tehaqvghryy3llu4fifb243h2b7w2hdtq",
+          "bskyUrl": "https://bsky.app/profile/mxk.hachyderm.io.ap.brid.gy/post/3mlaussxfad52",
+          "text": "Are you programming in #Rust and missing the usability of #TurboPascal? If so, this is the IDE for you! https://github.com/wojtczyk/trust",
           "author": {
-            "handle": "rusttrending.bsky.social",
-            "displayName": "RustTrending"
+            "handle": "mxk.hachyderm.io.ap.brid.gy",
+            "displayName": "mxk"
           },
-          "likeCount": 1,
+          "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-07T00:00:44.374739Z",
-          "createdUtc": 1778112044,
-          "ageHours": 7.33,
-          "trendingScore": 1,
+          "createdAt": "2026-05-07T09:12:37.000Z",
+          "createdUtc": 1778145157,
+          "ageHours": 1.39,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "krakenfx/kraken-cli",
+              "fullName": "wojtczyk/trust",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlau3j7akc2l",
+          "cid": "bafyreic76anfc2o5u6kzqufz2znaycf6djrtkkxptob6he67zdogqojpwm",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mlau3j7akc2l",
+          "text": "Show HN: Trust – Coding Rust like it's 1989 https://github.com/wojtczyk/trust",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T09:00:27.278Z",
+          "createdUtc": 1778144427,
+          "ageHours": 1.59,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wojtczyk/trust",
               "matchType": "url",
               "confidence": 1
             }
@@ -757,16 +242,16 @@
         }
       ]
     },
-    "unmta/emailmd": {
+    "hkdb/aerion": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3ml7tkfyc662t",
-        "cid": "bafyreiefhq2q62rs2zyh75wtr3u4xer4tm4j4iqeuiftnjqeqeg5apakgm",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3ml7tkfyc662t",
-        "text": "https://github.com/unmta/emailmd",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlavir5xz622",
+        "cid": "bafyreibtk2bxcnk6e43qmjkothq6xhpbyeygq42uzjbcp26bfelrghx3x4",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlavir5xz622",
+        "text": "https://github.com/hkdb/aerion",
         "author": {
           "handle": "tom-doerr.bsky.social",
           "displayName": "Tom Dörr "
@@ -774,15 +259,15 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-06T23:18:13Z",
-        "hoursSincePosted": 8.04
+        "createdAt": "2026-05-07T09:25:45Z",
+        "hoursSincePosted": 1.17
       },
       "posts": [
         {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3ml7tkfyc662t",
-          "cid": "bafyreiefhq2q62rs2zyh75wtr3u4xer4tm4j4iqeuiftnjqeqeg5apakgm",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3ml7tkfyc662t",
-          "text": "https://github.com/unmta/emailmd",
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlavir5xz622",
+          "cid": "bafyreibtk2bxcnk6e43qmjkothq6xhpbyeygq42uzjbcp26bfelrghx3x4",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlavir5xz622",
+          "text": "https://github.com/hkdb/aerion",
           "author": {
             "handle": "tom-doerr.bsky.social",
             "displayName": "Tom Dörr "
@@ -790,9 +275,9 @@
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-06T23:18:13Z",
-          "createdUtc": 1778109493,
-          "ageHours": 8.04,
+          "createdAt": "2026-05-07T09:25:45Z",
+          "createdUtc": 1778145945,
+          "ageHours": 1.17,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -800,7 +285,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "unmta/emailmd",
+              "fullName": "hkdb/aerion",
               "matchType": "url",
               "confidence": 1
             }
@@ -808,70 +293,68 @@
         }
       ]
     },
-    "modem-dev/hunk": {
-      "count7d": 3,
-      "likesSum7d": 2,
+    "crosspoint-reader/crosspoint-reader": {
+      "count7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3ml7tj4e6ab2n",
-        "cid": "bafyreicpbe6nxlt7o7byxa6kv552zp2g4cct4pxhx2so7y6mun2pr4fzl4",
-        "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3ml7tj4e6ab2n",
-        "text": "ターミナル上で動くdiffビューア。 AIエージェントのコメントをdiffにインラインで表示する機能、splitとstackedのレイアウト、ファイルやGitの変更を監視して自動更新するwatchモードを持つ。 `hunk diff`/`hunk show`コマンドやGitの… \"\" https://github.com/modem-dev/hunk",
+        "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlau752qjj2r",
+        "cid": "bafyreibs3qsdop2iaflpzghumqmrbsmecevrqruktefv5gby76qy6hu7xq",
+        "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlau752qjj2r",
+        "text": "Community firmware for the Xteink X4 e-paper reader (github.com) Discussion | Main Link",
         "author": {
-          "handle": "azu.bsky.social",
-          "displayName": "azu"
+          "handle": "newsycombinatorbot.bsky.social",
+          "displayName": "Hacker News Bot"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-06T23:17:29.362Z",
-        "hoursSincePosted": 8.05
+        "createdAt": "2026-05-07T09:02:28.751917Z",
+        "hoursSincePosted": 1.56
       },
       "posts": [
         {
-          "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3ml7tj4e6ab2n",
-          "cid": "bafyreicpbe6nxlt7o7byxa6kv552zp2g4cct4pxhx2so7y6mun2pr4fzl4",
-          "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3ml7tj4e6ab2n",
-          "text": "ターミナル上で動くdiffビューア。 AIエージェントのコメントをdiffにインラインで表示する機能、splitとstackedのレイアウト、ファイルやGitの変更を監視して自動更新するwatchモードを持つ。 `hunk diff`/`hunk show`コマンドやGitの… \"\" https://github.com/modem-dev/hunk",
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlau752qjj2r",
+          "cid": "bafyreibs3qsdop2iaflpzghumqmrbsmecevrqruktefv5gby76qy6hu7xq",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlau752qjj2r",
+          "text": "Community firmware for the Xteink X4 e-paper reader (github.com) Discussion | Main Link",
           "author": {
-            "handle": "azu.bsky.social",
-            "displayName": "azu"
+            "handle": "newsycombinatorbot.bsky.social",
+            "displayName": "Hacker News Bot"
           },
-          "likeCount": 2,
+          "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-06T23:17:29.362Z",
-          "createdUtc": 1778109449,
-          "ageHours": 8.05,
-          "trendingScore": 2,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
+          "createdAt": "2026-05-07T09:02:28.751917Z",
+          "createdUtc": 1778144548,
+          "ageHours": 1.56,
+          "trendingScore": 0,
+          "content_tags": [],
+          "value_score": 0,
           "linkedRepos": [
             {
-              "fullName": "modem-dev/hunk",
+              "fullName": "crosspoint-reader/crosspoint-reader",
               "matchType": "url",
               "confidence": 1
             }
           ]
         },
         {
-          "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3ml7tei7r562c",
-          "cid": "bafyreif2utm737ssprmn7o2ln2jtf32vjqlezyfkc3y4vgrok7vqkze33q",
-          "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3ml7tei7r562c",
-          "text": "これが欲しいかもしれない \"Support replying to inline agent comments and route replies back to the agent · Issue #115 · modem-dev/hunk\" https://github.com/modem-dev/hunk/issues/115",
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mlau3bgd5a24",
+          "cid": "bafyreibgcksqzhg7sy5gik6jkvsmwcqjdluvdlknfmdqcr7em2u4u7ovbi",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mlau3bgd5a24",
+          "text": "Community firmware for the Xteink X4 e-paper reader https://github.com/crosspoint-reader/crosspoint-reader https://news.ycombinator.com/item?id=48021901",
           "author": {
-            "handle": "azu.bsky.social",
-            "displayName": "azu"
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-06T23:14:54.033Z",
-          "createdUtc": 1778109294,
-          "ageHours": 8.09,
+          "createdAt": "2026-05-07T09:00:19.034570+00:00",
+          "createdUtc": 1778144419,
+          "ageHours": 1.59,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -879,27 +362,50 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "modem-dev/hunk",
+              "fullName": "crosspoint-reader/crosspoint-reader",
               "matchType": "url",
               "confidence": 1
             }
           ]
+        }
+      ]
+    },
+    "VoltAgent/awesome-design-md": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlaraxg22w2z",
+        "cid": "bafyreiejnslvefrfp2titqaehjzsgzvgogs6ynsnilfm35q6iamdg7qr4q",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlaraxg22w2z",
+        "text": "https://github.com/VoltAgent/awesome-design-md",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-07T08:09:48Z",
+        "hoursSincePosted": 2.43
+      },
+      "posts": [
         {
-          "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3ml7t55zpwx2p",
-          "cid": "bafyreigm2l2o3exyv5ljrh5pizb2xps476gh3agzbg46vixwpso3lwyq2e",
-          "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3ml7t55zpwx2p",
-          "text": "見てる: \"modem-dev/hunk: Review-first terminal diff viewer for agentic coders\" https://github.com/modem-dev/hunk",
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlaraxg22w2z",
+          "cid": "bafyreiejnslvefrfp2titqaehjzsgzvgogs6ynsnilfm35q6iamdg7qr4q",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlaraxg22w2z",
+          "text": "https://github.com/VoltAgent/awesome-design-md",
           "author": {
-            "handle": "azu.bsky.social",
-            "displayName": "azu"
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-06T23:10:48.494Z",
-          "createdUtc": 1778109048,
-          "ageHours": 8.16,
+          "createdAt": "2026-05-07T08:09:48Z",
+          "createdUtc": 1778141388,
+          "ageHours": 2.43,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -907,7 +413,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "modem-dev/hunk",
+              "fullName": "VoltAgent/awesome-design-md",
               "matchType": "url",
               "confidence": 1
             }
@@ -917,430 +423,42 @@
     }
   },
   "mentionsByRepoId": {
-    "fendouai--codexsaver": {
-      "count7d": 1,
-      "likesSum7d": 0,
+    "openai--codex": {
+      "count7d": 2,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lvoh6kgyhsm7s52ppqm2wgoq/app.bsky.feed.post/3mlaodepy7op2",
-        "cid": "bafyreia3loelxcyacxjlfb2p2da4fgpkzebeyblk3gxua27uvurrkj5avm",
-        "bskyUrl": "https://bsky.app/profile/deepseek.activitypub.awakari.com.ap.brid.gy/post/3mlaodepy7op2",
-        "text": "CodexSaver Make Codex cheaper without making it dumber with DeepSeek Article URL: https://github.com/fendouai/CodexSaver Comments URL: https://news.ycombinator.com/item?id=48046231 Points: 1 # Comm... Origin | Interest | Match",
-        "author": {
-          "handle": "deepseek.activitypub.awakari.com.ap.brid.gy",
-          "displayName": "deepseek"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T06:49:16.000Z",
-        "hoursSincePosted": 0.52
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:lvoh6kgyhsm7s52ppqm2wgoq/app.bsky.feed.post/3mlaodepy7op2",
-          "cid": "bafyreia3loelxcyacxjlfb2p2da4fgpkzebeyblk3gxua27uvurrkj5avm",
-          "bskyUrl": "https://bsky.app/profile/deepseek.activitypub.awakari.com.ap.brid.gy/post/3mlaodepy7op2",
-          "text": "CodexSaver Make Codex cheaper without making it dumber with DeepSeek Article URL: https://github.com/fendouai/CodexSaver Comments URL: https://news.ycombinator.com/item?id=48046231 Points: 1 # Comm... Origin | Interest | Match",
-          "author": {
-            "handle": "deepseek.activitypub.awakari.com.ap.brid.gy",
-            "displayName": "deepseek"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T06:49:16.000Z",
-          "createdUtc": 1778136556,
-          "ageHours": 0.52,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "fendouai/CodexSaver",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "niri-wm--niri": {
-      "count7d": 1,
-      "likesSum7d": 6,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:p7uix7mresfq4nfzxp3klgfa/app.bsky.feed.post/3mlalbeu4a22j",
-        "cid": "bafyreigsgh3apmpd6cjavwsbkq7d4mgmq2p5g2k7ql625yqub5gaznf3am",
-        "bskyUrl": "https://bsky.app/profile/justingarrison.com/post/3mlalbeu4a22j",
-        "text": "Niri window manager works really well on small screens github.com/niri-wm/niri",
-        "author": {
-          "handle": "justingarrison.com",
-          "displayName": "Justin Garrison"
-        },
-        "likeCount": 6,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T06:22:40.354Z",
-        "hoursSincePosted": 0.96
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:p7uix7mresfq4nfzxp3klgfa/app.bsky.feed.post/3mlalbeu4a22j",
-          "cid": "bafyreigsgh3apmpd6cjavwsbkq7d4mgmq2p5g2k7ql625yqub5gaznf3am",
-          "bskyUrl": "https://bsky.app/profile/justingarrison.com/post/3mlalbeu4a22j",
-          "text": "Niri window manager works really well on small screens github.com/niri-wm/niri",
-          "author": {
-            "handle": "justingarrison.com",
-            "displayName": "Justin Garrison"
-          },
-          "likeCount": 6,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T06:22:40.354Z",
-          "createdUtc": 1778134960,
-          "ageHours": 0.96,
-          "trendingScore": 6,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "niri-wm/niri",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "endevco--aube": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3mlaizmjhb62k",
-        "cid": "bafyreicikrpmnth7u4vdqt2ctly6ejoxp5jngqxch24w5k2bpwehf3bvya",
-        "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3mlaizmjhb62k",
-        "text": "見てる: \"general rolling feedback · endevco/aube · Discussion #345\" https://github.com/endevco/aube/discussions/345",
-        "author": {
-          "handle": "azu.bsky.social",
-          "displayName": "azu"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T05:42:32.014Z",
-        "hoursSincePosted": 1.63
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3mlaizmjhb62k",
-          "cid": "bafyreicikrpmnth7u4vdqt2ctly6ejoxp5jngqxch24w5k2bpwehf3bvya",
-          "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3mlaizmjhb62k",
-          "text": "見てる: \"general rolling feedback · endevco/aube · Discussion #345\" https://github.com/endevco/aube/discussions/345",
-          "author": {
-            "handle": "azu.bsky.social",
-            "displayName": "azu"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T05:42:32.014Z",
-          "createdUtc": 1778132552,
-          "ageHours": 1.63,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "endevco/aube",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "olivier-ls--php-fts": {
-      "count7d": 4,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mlai2wtaao2f",
-        "cid": "bafyreid5eqwacsp6umxsyscioz7bek6qze5ygudxiuemsaqfgrgqbsrzxa",
-        "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mlai2wtaao2f",
-        "text": "Show HN: PHP-fts – Full-text search engine in pure PHP, no extensions https://github.com/olivier-ls/php-fts (https://news.ycombinator.com/item?id=48041316)",
-        "author": {
-          "handle": "betterhn50.e-work.xyz",
-          "displayName": "Hacker News 50"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T05:25:22.353Z",
-        "hoursSincePosted": 1.92
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mlai2wtaao2f",
-          "cid": "bafyreid5eqwacsp6umxsyscioz7bek6qze5ygudxiuemsaqfgrgqbsrzxa",
-          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mlai2wtaao2f",
-          "text": "Show HN: PHP-fts – Full-text search engine in pure PHP, no extensions https://github.com/olivier-ls/php-fts (https://news.ycombinator.com/item?id=48041316)",
-          "author": {
-            "handle": "betterhn50.e-work.xyz",
-            "displayName": "Hacker News 50"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T05:25:22.353Z",
-          "createdUtc": 1778131522,
-          "ageHours": 1.92,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "olivier-ls/php-fts",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3ml7ulwler72a",
-          "cid": "bafyreihejp2a37yzrh6tmj6u6633rn4yaqrz4lqinrv576ivsdcorwl2py",
-          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3ml7ulwler72a",
-          "text": "Show HN: PHP-fts – Full-text search engine in pure PHP, no extensions https://github.com/olivier-ls/php-fts (https://news.ycombinator.com/item?id=48041316)",
-          "author": {
-            "handle": "betterhn20.e-work.xyz",
-            "displayName": "Hacker News 20"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-06T23:36:57.650Z",
-          "createdUtc": 1778110617,
-          "ageHours": 7.72,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "olivier-ls/php-fts",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:35ik6jgzsfh66jv5xrvcq6ke/app.bsky.feed.post/3ml7s42cpr32j",
-          "cid": "bafyreigvpkursojkivy6nzejgdlqsztuongymn2xpwerqvkkqkpj5cgqca",
-          "bskyUrl": "https://bsky.app/profile/sagalinked.bsky.social/post/3ml7s42cpr32j",
-          "text": "📰 PHP-fts is a full-text search engine written in pure PHP without requiring any extensions, offering an alternative to traditional database-based solutions for text indexing and searching. 🔗 https://github.com/olivier-ls/php-fts #Tech #Dev",
-          "author": {
-            "handle": "sagalinked.bsky.social",
-            "displayName": "SagaLinked"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-06T22:51:55.879300+00:00",
-          "createdUtc": 1778107915,
-          "ageHours": 8.47,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "olivier-ls/php-fts",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:a56dbiks5wmzacs5hsdsxw55/app.bsky.feed.post/3ml7r5sala62z",
-          "cid": "bafyreih3wp5tyfcirkcd6kzmbwuanttow77jjc5ohwxddevgb6jh7knvku",
-          "bskyUrl": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3ml7r5sala62z",
-          "text": "Show HN: PHP-fts – Full-text search engine in pure PHP, no extensions https://github.com/olivier-ls/php-fts",
-          "author": {
-            "handle": "mm-hacker-news.bsky.social",
-            "displayName": "Hacker News"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-06T22:35:22.488Z",
-          "createdUtc": 1778106922,
-          "ageHours": 8.75,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "olivier-ls/php-fts",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "lightseekorg--tokenspeed": {
-      "count7d": 1,
-      "likesSum7d": 10,
-      "repostsSum7d": 1,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:cq4gg3odxz2pzmkx2fuac3u3/app.bsky.feed.post/3mlaf3ykwcc2d",
-        "cid": "bafyreidcwkzrppeqjfnlalsk5zq655k3ekdgxfc6bmhmzwop4ybwd6lkh4",
-        "bskyUrl": "https://bsky.app/profile/sungkim.bsky.social/post/3mlaf3ykwcc2d",
-        "text": "LightSeek's TokenSpeed, a speed-of-light LLM inference engine - TensorRT LLM level performance - vLLM level usability - Built by a lean and mission-driven team in two months - MIT license, open-source Blog: lightseek.org/blog/lightse... Repo: github.com/lightseekorg...",
-        "author": {
-          "handle": "sungkim.bsky.social",
-          "displayName": "Sung Kim"
-        },
-        "likeCount": 10,
-        "repostCount": 1,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T04:32:17.269Z",
-        "hoursSincePosted": 2.8
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:cq4gg3odxz2pzmkx2fuac3u3/app.bsky.feed.post/3mlaf3ykwcc2d",
-          "cid": "bafyreidcwkzrppeqjfnlalsk5zq655k3ekdgxfc6bmhmzwop4ybwd6lkh4",
-          "bskyUrl": "https://bsky.app/profile/sungkim.bsky.social/post/3mlaf3ykwcc2d",
-          "text": "LightSeek's TokenSpeed, a speed-of-light LLM inference engine - TensorRT LLM level performance - vLLM level usability - Built by a lean and mission-driven team in two months - MIT license, open-source Blog: lightseek.org/blog/lightse... Repo: github.com/lightseekorg...",
-          "author": {
-            "handle": "sungkim.bsky.social",
-            "displayName": "Sung Kim"
-          },
-          "likeCount": 10,
-          "repostCount": 1,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T04:32:17.269Z",
-          "createdUtc": 1778128337,
-          "ageHours": 2.8,
-          "trendingScore": 12,
-          "content_tags": [],
-          "value_score": 0,
-          "linkedRepos": [
-            {
-              "fullName": "lightseekorg/tokenspeed",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "ultraworkers--claw-code": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:nsgjbd6zsolbmdmuzpvhfxll/app.bsky.feed.post/3mlaewefqym24",
-        "cid": "bafyreiaip663qplvj67yrsnzdy3h2nknodu7i3muckfstle54ortqcd5wm",
-        "bskyUrl": "https://bsky.app/profile/yorozuya-build.bsky.social/post/3mlaewefqym24",
-        "text": "GitHubで超ヤバいリポジトリを発見した🔥 「claw-code」ってRust製のコーディングツールがついにロック解除されて公開されたんだけど、なんと史上最速で★19万超え。それだけで只者じゃないのわかる。 oh-my-codexで作られてて、とにかく動作が爆速らしい。ソロ開発だと「遅いツールに時間を奪われる」のが地味にストレスだから、Rust製の速さは普通に刺さる。 一人で全部回してる身としては、こういうの早めにキャッチしておきたい。 #GitHub #buildinpublic #個人開発 https://github.com/ultraworkers/claw-code",
-        "author": {
-          "handle": "yorozuya-build.bsky.social",
-          "displayName": "よろず屋builds"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T04:29:08.097409Z",
-        "hoursSincePosted": 2.85
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:nsgjbd6zsolbmdmuzpvhfxll/app.bsky.feed.post/3mlaewefqym24",
-          "cid": "bafyreiaip663qplvj67yrsnzdy3h2nknodu7i3muckfstle54ortqcd5wm",
-          "bskyUrl": "https://bsky.app/profile/yorozuya-build.bsky.social/post/3mlaewefqym24",
-          "text": "GitHubで超ヤバいリポジトリを発見した🔥 「claw-code」ってRust製のコーディングツールがついにロック解除されて公開されたんだけど、なんと史上最速で★19万超え。それだけで只者じゃないのわかる。 oh-my-codexで作られてて、とにかく動作が爆速らしい。ソロ開発だと「遅いツールに時間を奪われる」のが地味にストレスだから、Rust製の速さは普通に刺さる。 一人で全部回してる身としては、こういうの早めにキャッチしておきたい。 #GitHub #buildinpublic #個人開発 https://github.com/ultraworkers/claw-code",
-          "author": {
-            "handle": "yorozuya-build.bsky.social",
-            "displayName": "よろず屋builds"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T04:29:08.097409Z",
-          "createdUtc": 1778128148,
-          "ageHours": 2.85,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "ultraworkers/claw-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "msitarzewski--agency-agents": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 1,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:djmypdmssd52r3oakrgmjovz/app.bsky.feed.post/3mlaan6udan24",
-        "cid": "bafyreid2aamtc6q3yzztghnoll5z3kbcrr6je3nh3lxqyekvo2ebywvau4",
-        "bskyUrl": "https://bsky.app/profile/mel-echosphere.bsky.social/post/3mlaan6udan24",
-        "text": "「144体のAIエージェントで丸ごと1社」。スター9万超。エンジニア/デザイナー/マーケ、全12部門、スクリプト2本で導入完了——確認してきた。💎 https://x.com/so_ainsight/status/2050772093575544918 https://github.com/msitarzewski/agency-agents このエージェント、セッションまたいで記憶してるか？🍒 #AIAgent",
+        "uri": "at://did:plc:s5qeaz4t4ccdu3p5vfqkf7n7/app.bsky.feed.post/3mlayj7kzvs2b",
+        "cid": "bafyreiecdbx2h5wsr7rg4ie4rzzgum25h2co7lpzsl5zplbmhpcgxfhfdy",
+        "bskyUrl": "https://bsky.app/profile/latte.bsky.plasmatrap.com/post/3mlayj7kzvs2b",
+        "text": "github.com/openai/codex... seems they're looking into raising it to 1M? for now it is indeed at 400k",
         "author": {
-          "handle": "mel-echosphere.bsky.social",
-          "displayName": "メル"
+          "handle": "latte.bsky.plasmatrap.com",
+          "displayName": "Latte macchiato"
         },
-        "likeCount": 0,
-        "repostCount": 1,
+        "likeCount": 2,
+        "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-07T03:12:25.426Z",
-        "hoursSincePosted": 4.13
+        "createdAt": "2026-05-07T10:19:41.916Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:djmypdmssd52r3oakrgmjovz/app.bsky.feed.post/3mlaan6udan24",
-          "cid": "bafyreid2aamtc6q3yzztghnoll5z3kbcrr6je3nh3lxqyekvo2ebywvau4",
-          "bskyUrl": "https://bsky.app/profile/mel-echosphere.bsky.social/post/3mlaan6udan24",
-          "text": "「144体のAIエージェントで丸ごと1社」。スター9万超。エンジニア/デザイナー/マーケ、全12部門、スクリプト2本で導入完了——確認してきた。💎 https://x.com/so_ainsight/status/2050772093575544918 https://github.com/msitarzewski/agency-agents このエージェント、セッションまたいで記憶してるか？🍒 #AIAgent",
+          "uri": "at://did:plc:s5qeaz4t4ccdu3p5vfqkf7n7/app.bsky.feed.post/3mlayj7kzvs2b",
+          "cid": "bafyreiecdbx2h5wsr7rg4ie4rzzgum25h2co7lpzsl5zplbmhpcgxfhfdy",
+          "bskyUrl": "https://bsky.app/profile/latte.bsky.plasmatrap.com/post/3mlayj7kzvs2b",
+          "text": "github.com/openai/codex... seems they're looking into raising it to 1M? for now it is indeed at 400k",
           "author": {
-            "handle": "mel-echosphere.bsky.social",
-            "displayName": "メル"
+            "handle": "latte.bsky.plasmatrap.com",
+            "displayName": "Latte macchiato"
           },
-          "likeCount": 0,
-          "repostCount": 1,
+          "likeCount": 2,
+          "repostCount": 0,
           "replyCount": 1,
-          "createdAt": "2026-05-07T03:12:25.426Z",
-          "createdUtc": 1778123545,
-          "ageHours": 4.13,
+          "createdAt": "2026-05-07T10:19:41.916Z",
+          "createdUtc": 1778149181,
+          "ageHours": 0.5,
           "trendingScore": 2.5,
           "content_tags": [
             "has-github-repo"
@@ -1348,7 +466,35 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "msitarzewski/agency-agents",
+              "fullName": "openai/codex",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:pxlvz26yno5eh5cxyl76x6yr/app.bsky.feed.post/3mlasinsnes2l",
+          "cid": "bafyreih7utda2oo6pejhmdvkvbl7uhofe7qdr3qosqksspuurhk7tkwkuq",
+          "bskyUrl": "https://bsky.app/profile/rickywilhelmson.bsky.social/post/3mlasinsnes2l",
+          "text": "I cannot help it. The system prompt to OPENAI's coding assistant Codex reads like something the Human Resources department would draft for advertising a new position: Psychological councel for the IT department. github.com/openai/codex...",
+          "author": {
+            "handle": "rickywilhelmson.bsky.social",
+            "displayName": "Ricky Wilhelmson - Writing the next chapter ..."
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T08:32:00.836Z",
+          "createdUtc": 1778142720,
+          "ageHours": 2.06,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
               "matchType": "url",
               "confidence": 1
             }
@@ -1356,103 +502,50 @@
         }
       ]
     },
-    "anthropics--claude-code": {
+    "code-yeongyu--oh-my-openagent": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mla4vqrpuk2b",
-        "cid": "bafyreibxp5nmncqtq4ze4cxlvippamitcaja763xfsygzbbvjjh44bn2eu",
-        "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mla4vqrpuk2b",
-        "text": "Claude Code 2.1.132 release change log github.com/anthropics/c...",
+        "uri": "at://did:plc:yhs6y3ipiwx3lytdwytxnh6n/app.bsky.feed.post/3mlaygp2e3o2l",
+        "cid": "bafyreiainaqwnuhchtzhupsmjhixybstjlhdgujdu6ac3wnpiil2txj3he",
+        "bskyUrl": "https://bsky.app/profile/noizbuster.bsky.social/post/3mlaygp2e3o2l",
+        "text": "Oh-My-Opencode(OpenAgent) v4가 릴리즈 되었습니다. github.com/code-yeongyu...",
         "author": {
-          "handle": "georgesl.bsky.social",
-          "displayName": "George"
+          "handle": "noizbuster.bsky.social",
+          "displayName": "NoizBuster"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-07T02:05:37.843Z",
-        "hoursSincePosted": 5.25
+        "createdAt": "2026-05-07T10:18:16.109Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:jl5xc6vsmnmo4lhbvzb43ykc/app.bsky.feed.post/3mla4vqrpuk2b",
-          "cid": "bafyreibxp5nmncqtq4ze4cxlvippamitcaja763xfsygzbbvjjh44bn2eu",
-          "bskyUrl": "https://bsky.app/profile/georgesl.bsky.social/post/3mla4vqrpuk2b",
-          "text": "Claude Code 2.1.132 release change log github.com/anthropics/c...",
+          "uri": "at://did:plc:yhs6y3ipiwx3lytdwytxnh6n/app.bsky.feed.post/3mlaygp2e3o2l",
+          "cid": "bafyreiainaqwnuhchtzhupsmjhixybstjlhdgujdu6ac3wnpiil2txj3he",
+          "bskyUrl": "https://bsky.app/profile/noizbuster.bsky.social/post/3mlaygp2e3o2l",
+          "text": "Oh-My-Opencode(OpenAgent) v4가 릴리즈 되었습니다. github.com/code-yeongyu...",
           "author": {
-            "handle": "georgesl.bsky.social",
-            "displayName": "George"
+            "handle": "noizbuster.bsky.social",
+            "displayName": "NoizBuster"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-07T02:05:37.843Z",
-          "createdUtc": 1778119537,
-          "ageHours": 5.25,
+          "createdAt": "2026-05-07T10:18:16.109Z",
+          "createdUtc": 1778149096,
+          "ageHours": 0.5,
           "trendingScore": 0,
           "content_tags": [
-            "has-github-repo",
-            "has-md-file"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "gofsnotify--fsnotify": {
-      "count7d": 1,
-      "likesSum7d": 5,
-      "repostsSum7d": 2,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:gzowlbihobkbxpmqownbh3we/app.bsky.feed.post/3mla4bfzexk2t",
-        "cid": "bafyreiamvaa3cb7krgvigyo5trr4tukjhrnsljohtia56yj3xcu7dbdjgi",
-        "bskyUrl": "https://bsky.app/profile/ymotongpoo.com/post/3mla4bfzexk2t",
-        "text": "How stupid this guy is: github.com/arp242. This guy kicked out all other maintainers of github.com/fsnotify/fsn... that is commonly used to check the file status: this is a highjack. A couple of ex-maintainers forked the original started their own version here: github.com/gofsnotify/f...",
-        "author": {
-          "handle": "ymotongpoo.com",
-          "displayName": "Yoshi Yamaguchi"
-        },
-        "likeCount": 5,
-        "repostCount": 2,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T01:54:15.470Z",
-        "hoursSincePosted": 5.44
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:gzowlbihobkbxpmqownbh3we/app.bsky.feed.post/3mla4bfzexk2t",
-          "cid": "bafyreiamvaa3cb7krgvigyo5trr4tukjhrnsljohtia56yj3xcu7dbdjgi",
-          "bskyUrl": "https://bsky.app/profile/ymotongpoo.com/post/3mla4bfzexk2t",
-          "text": "How stupid this guy is: github.com/arp242. This guy kicked out all other maintainers of github.com/fsnotify/fsn... that is commonly used to check the file status: this is a highjack. A couple of ex-maintainers forked the original started their own version here: github.com/gofsnotify/f...",
-          "author": {
-            "handle": "ymotongpoo.com",
-            "displayName": "Yoshi Yamaguchi"
-          },
-          "likeCount": 5,
-          "repostCount": 2,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T01:54:15.470Z",
-          "createdUtc": 1778118855,
-          "ageHours": 5.44,
-          "trendingScore": 9,
-          "content_tags": [
-            "has-github-repo",
-            "is-question"
+            "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "gofsnotify/fsnotify",
+              "fullName": "code-yeongyu/oh-my-openagent",
               "matchType": "url",
               "confidence": 1
             }
@@ -1460,149 +553,42 @@
         }
       ]
     },
-    "openai--openai-agents-python": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3ml7zpbffp52u",
-        "cid": "bafyreidq4fhnw7rs35rjgmb22ebotlofxlb7kf4fq7bwuoltzv5ei4nhsm",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3ml7zpbffp52u",
-        "text": "🟠 OpenAI Agents Python 0.16.0 changes the default model to GPT-5.4-mini OpenAI's Agents Python SDK v0.16.0 now defaults unset agents and runs to gpt-5.4-mini instead of gpt-4.1. https://github.com/openai/openai-agents-python/releases/tag/v0.16.0 #AI #AgentWyre",
-        "author": {
-          "handle": "agentwyre.ai"
-        },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T01:08:18.400521+00:00",
-        "hoursSincePosted": 6.2
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3ml7zpbffp52u",
-          "cid": "bafyreidq4fhnw7rs35rjgmb22ebotlofxlb7kf4fq7bwuoltzv5ei4nhsm",
-          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3ml7zpbffp52u",
-          "text": "🟠 OpenAI Agents Python 0.16.0 changes the default model to GPT-5.4-mini OpenAI's Agents Python SDK v0.16.0 now defaults unset agents and runs to gpt-5.4-mini instead of gpt-4.1. https://github.com/openai/openai-agents-python/releases/tag/v0.16.0 #AI #AgentWyre",
-          "author": {
-            "handle": "agentwyre.ai"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T01:08:18.400521+00:00",
-          "createdUtc": 1778116098,
-          "ageHours": 6.2,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo",
-            "has-agent",
-            "is-announcement"
-          ],
-          "value_score": 3,
-          "linkedRepos": [
-            {
-              "fullName": "openai/openai-agents-python",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "charmbracelet--crush": {
+    "wojtczyk--trust": {
       "count7d": 3,
-      "likesSum7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:krxbvxvis5skq7jj6eot23ul/app.bsky.feed.post/3ml7yg4qxqk2e",
-        "cid": "bafyreiewuuwfcshkprls474yvlnwpbrmzyytnkycuncn4x64opqkwuzpay",
-        "bskyUrl": "https://bsky.app/profile/dunkirk.sh/post/3ml7yg4qxqk2e",
-        "text": "and another link github.com/charmbracele...",
+        "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlaxykztau2a",
+        "cid": "bafyreihhghjsgti2ashrsqfhda6ydhyxlezbfvdth5vj4qmqdp2zvjewji",
+        "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlaxykztau2a",
+        "text": "Show HN: Trust – Coding Rust like it's 1989 https://github.com/wojtczyk/trust (https://news.ycombinator.com/item?id=48045939)",
         "author": {
-          "handle": "dunkirk.sh",
-          "displayName": "kieran klukas 🧭"
+          "handle": "betterhn20.e-work.xyz",
+          "displayName": "Hacker News 20"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-07T00:45:18.562Z",
-        "hoursSincePosted": 6.58
+        "createdAt": "2026-05-07T10:10:22.550Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:krxbvxvis5skq7jj6eot23ul/app.bsky.feed.post/3ml7yg4qxqk2e",
-          "cid": "bafyreiewuuwfcshkprls474yvlnwpbrmzyytnkycuncn4x64opqkwuzpay",
-          "bskyUrl": "https://bsky.app/profile/dunkirk.sh/post/3ml7yg4qxqk2e",
-          "text": "and another link github.com/charmbracele...",
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlaxykztau2a",
+          "cid": "bafyreihhghjsgti2ashrsqfhda6ydhyxlezbfvdth5vj4qmqdp2zvjewji",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlaxykztau2a",
+          "text": "Show HN: Trust – Coding Rust like it's 1989 https://github.com/wojtczyk/trust (https://news.ycombinator.com/item?id=48045939)",
           "author": {
-            "handle": "dunkirk.sh",
-            "displayName": "kieran klukas 🧭"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T00:45:18.562Z",
-          "createdUtc": 1778114718,
-          "ageHours": 6.58,
-          "trendingScore": 1,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "charmbracelet/crush",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:krxbvxvis5skq7jj6eot23ul/app.bsky.feed.post/3ml7xtpo3a22e",
-          "cid": "bafyreigiip7abrxykiihbc4l6n6tezqhics3cevhf4szsvn7og5pulqeem",
-          "bskyUrl": "https://bsky.app/profile/dunkirk.sh/post/3ml7xtpo3a22e",
-          "text": "and a link one more time github.com/charmbracele...",
-          "author": {
-            "handle": "dunkirk.sh",
-            "displayName": "kieran klukas 🧭"
-          },
-          "likeCount": 1,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-07T00:35:00.857Z",
-          "createdUtc": 1778114100,
-          "ageHours": 6.76,
-          "trendingScore": 1.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "charmbracelet/crush",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:krxbvxvis5skq7jj6eot23ul/app.bsky.feed.post/3ml7xg4l52c2e",
-          "cid": "bafyreigs2gy2qqedmq2bxncendg3w4bju3msgyyzv6tdrypuwmbmkb7fyi",
-          "bskyUrl": "https://bsky.app/profile/dunkirk.sh/post/3ml7xg4l52c2e",
-          "text": "github.com/charmbracele...",
-          "author": {
-            "handle": "dunkirk.sh",
-            "displayName": "kieran klukas 🧭"
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-07T00:27:24.630Z",
-          "createdUtc": 1778113644,
-          "ageHours": 6.88,
+          "createdAt": "2026-05-07T10:10:22.550Z",
+          "createdUtc": 1778148622,
+          "ageHours": 0.5,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1610,58 +596,63 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "charmbracelet/crush",
+              "fullName": "wojtczyk/trust",
               "matchType": "url",
               "confidence": 1
             }
           ]
-        }
-      ]
-    },
-    "krakenfx--kraken-cli": {
-      "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
-      "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3ml7vwglbwm2z",
-        "cid": "bafyreiah5dzsjpzyealt2z2t47yytl4oxgqgrpdp73iegovjatljjizvam",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3ml7vwglbwm2z",
-        "text": "krakenfx / kraken-cli: The first AI-native CLI for trading crypto, stocks, forex, and derivatives. ★581 https://github.com/krakenfx/kraken-cli",
-        "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
         },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T00:00:44.374739Z",
-        "hoursSincePosted": 7.33
-      },
-      "posts": [
         {
-          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3ml7vwglbwm2z",
-          "cid": "bafyreiah5dzsjpzyealt2z2t47yytl4oxgqgrpdp73iegovjatljjizvam",
-          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3ml7vwglbwm2z",
-          "text": "krakenfx / kraken-cli: The first AI-native CLI for trading crypto, stocks, forex, and derivatives. ★581 https://github.com/krakenfx/kraken-cli",
+          "uri": "at://did:plc:jhnixfn6lg3jspsjsyt2cfpw/app.bsky.feed.post/3mlaussxfad52",
+          "cid": "bafyreig6xgd2v3qjbi6pvfqg4tehaqvghryy3llu4fifb243h2b7w2hdtq",
+          "bskyUrl": "https://bsky.app/profile/mxk.hachyderm.io.ap.brid.gy/post/3mlaussxfad52",
+          "text": "Are you programming in #Rust and missing the usability of #TurboPascal? If so, this is the IDE for you! https://github.com/wojtczyk/trust",
           "author": {
-            "handle": "rusttrending.bsky.social",
-            "displayName": "RustTrending"
+            "handle": "mxk.hachyderm.io.ap.brid.gy",
+            "displayName": "mxk"
           },
-          "likeCount": 1,
+          "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-07T00:00:44.374739Z",
-          "createdUtc": 1778112044,
-          "ageHours": 7.33,
-          "trendingScore": 1,
+          "createdAt": "2026-05-07T09:12:37.000Z",
+          "createdUtc": 1778145157,
+          "ageHours": 1.39,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "krakenfx/kraken-cli",
+              "fullName": "wojtczyk/trust",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlau3j7akc2l",
+          "cid": "bafyreic76anfc2o5u6kzqufz2znaycf6djrtkkxptob6he67zdogqojpwm",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mlau3j7akc2l",
+          "text": "Show HN: Trust – Coding Rust like it's 1989 https://github.com/wojtczyk/trust",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T09:00:27.278Z",
+          "createdUtc": 1778144427,
+          "ageHours": 1.59,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wojtczyk/trust",
               "matchType": "url",
               "confidence": 1
             }
@@ -1669,16 +660,16 @@
         }
       ]
     },
-    "unmta--emailmd": {
+    "hkdb--aerion": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3ml7tkfyc662t",
-        "cid": "bafyreiefhq2q62rs2zyh75wtr3u4xer4tm4j4iqeuiftnjqeqeg5apakgm",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3ml7tkfyc662t",
-        "text": "https://github.com/unmta/emailmd",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlavir5xz622",
+        "cid": "bafyreibtk2bxcnk6e43qmjkothq6xhpbyeygq42uzjbcp26bfelrghx3x4",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlavir5xz622",
+        "text": "https://github.com/hkdb/aerion",
         "author": {
           "handle": "tom-doerr.bsky.social",
           "displayName": "Tom Dörr "
@@ -1686,15 +677,15 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-06T23:18:13Z",
-        "hoursSincePosted": 8.04
+        "createdAt": "2026-05-07T09:25:45Z",
+        "hoursSincePosted": 1.17
       },
       "posts": [
         {
-          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3ml7tkfyc662t",
-          "cid": "bafyreiefhq2q62rs2zyh75wtr3u4xer4tm4j4iqeuiftnjqeqeg5apakgm",
-          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3ml7tkfyc662t",
-          "text": "https://github.com/unmta/emailmd",
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlavir5xz622",
+          "cid": "bafyreibtk2bxcnk6e43qmjkothq6xhpbyeygq42uzjbcp26bfelrghx3x4",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlavir5xz622",
+          "text": "https://github.com/hkdb/aerion",
           "author": {
             "handle": "tom-doerr.bsky.social",
             "displayName": "Tom Dörr "
@@ -1702,9 +693,9 @@
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-06T23:18:13Z",
-          "createdUtc": 1778109493,
-          "ageHours": 8.04,
+          "createdAt": "2026-05-07T09:25:45Z",
+          "createdUtc": 1778145945,
+          "ageHours": 1.17,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1712,7 +703,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "unmta/emailmd",
+              "fullName": "hkdb/aerion",
               "matchType": "url",
               "confidence": 1
             }
@@ -1720,70 +711,68 @@
         }
       ]
     },
-    "modem-dev--hunk": {
-      "count7d": 3,
-      "likesSum7d": 2,
+    "crosspoint-reader--crosspoint-reader": {
+      "count7d": 2,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3ml7tj4e6ab2n",
-        "cid": "bafyreicpbe6nxlt7o7byxa6kv552zp2g4cct4pxhx2so7y6mun2pr4fzl4",
-        "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3ml7tj4e6ab2n",
-        "text": "ターミナル上で動くdiffビューア。 AIエージェントのコメントをdiffにインラインで表示する機能、splitとstackedのレイアウト、ファイルやGitの変更を監視して自動更新するwatchモードを持つ。 `hunk diff`/`hunk show`コマンドやGitの… \"\" https://github.com/modem-dev/hunk",
+        "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlau752qjj2r",
+        "cid": "bafyreibs3qsdop2iaflpzghumqmrbsmecevrqruktefv5gby76qy6hu7xq",
+        "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlau752qjj2r",
+        "text": "Community firmware for the Xteink X4 e-paper reader (github.com) Discussion | Main Link",
         "author": {
-          "handle": "azu.bsky.social",
-          "displayName": "azu"
+          "handle": "newsycombinatorbot.bsky.social",
+          "displayName": "Hacker News Bot"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-06T23:17:29.362Z",
-        "hoursSincePosted": 8.05
+        "createdAt": "2026-05-07T09:02:28.751917Z",
+        "hoursSincePosted": 1.56
       },
       "posts": [
         {
-          "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3ml7tj4e6ab2n",
-          "cid": "bafyreicpbe6nxlt7o7byxa6kv552zp2g4cct4pxhx2so7y6mun2pr4fzl4",
-          "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3ml7tj4e6ab2n",
-          "text": "ターミナル上で動くdiffビューア。 AIエージェントのコメントをdiffにインラインで表示する機能、splitとstackedのレイアウト、ファイルやGitの変更を監視して自動更新するwatchモードを持つ。 `hunk diff`/`hunk show`コマンドやGitの… \"\" https://github.com/modem-dev/hunk",
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlau752qjj2r",
+          "cid": "bafyreibs3qsdop2iaflpzghumqmrbsmecevrqruktefv5gby76qy6hu7xq",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlau752qjj2r",
+          "text": "Community firmware for the Xteink X4 e-paper reader (github.com) Discussion | Main Link",
           "author": {
-            "handle": "azu.bsky.social",
-            "displayName": "azu"
+            "handle": "newsycombinatorbot.bsky.social",
+            "displayName": "Hacker News Bot"
           },
-          "likeCount": 2,
+          "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-06T23:17:29.362Z",
-          "createdUtc": 1778109449,
-          "ageHours": 8.05,
-          "trendingScore": 2,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
+          "createdAt": "2026-05-07T09:02:28.751917Z",
+          "createdUtc": 1778144548,
+          "ageHours": 1.56,
+          "trendingScore": 0,
+          "content_tags": [],
+          "value_score": 0,
           "linkedRepos": [
             {
-              "fullName": "modem-dev/hunk",
+              "fullName": "crosspoint-reader/crosspoint-reader",
               "matchType": "url",
               "confidence": 1
             }
           ]
         },
         {
-          "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3ml7tei7r562c",
-          "cid": "bafyreif2utm737ssprmn7o2ln2jtf32vjqlezyfkc3y4vgrok7vqkze33q",
-          "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3ml7tei7r562c",
-          "text": "これが欲しいかもしれない \"Support replying to inline agent comments and route replies back to the agent · Issue #115 · modem-dev/hunk\" https://github.com/modem-dev/hunk/issues/115",
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mlau3bgd5a24",
+          "cid": "bafyreibgcksqzhg7sy5gik6jkvsmwcqjdluvdlknfmdqcr7em2u4u7ovbi",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mlau3bgd5a24",
+          "text": "Community firmware for the Xteink X4 e-paper reader https://github.com/crosspoint-reader/crosspoint-reader https://news.ycombinator.com/item?id=48021901",
           "author": {
-            "handle": "azu.bsky.social",
-            "displayName": "azu"
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-06T23:14:54.033Z",
-          "createdUtc": 1778109294,
-          "ageHours": 8.09,
+          "createdAt": "2026-05-07T09:00:19.034570+00:00",
+          "createdUtc": 1778144419,
+          "ageHours": 1.59,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1791,27 +780,50 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "modem-dev/hunk",
+              "fullName": "crosspoint-reader/crosspoint-reader",
               "matchType": "url",
               "confidence": 1
             }
           ]
+        }
+      ]
+    },
+    "voltagent--awesome-design-md": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlaraxg22w2z",
+        "cid": "bafyreiejnslvefrfp2titqaehjzsgzvgogs6ynsnilfm35q6iamdg7qr4q",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlaraxg22w2z",
+        "text": "https://github.com/VoltAgent/awesome-design-md",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-07T08:09:48Z",
+        "hoursSincePosted": 2.43
+      },
+      "posts": [
         {
-          "uri": "at://did:plc:niluiwex7fsnjak2wxs4j47y/app.bsky.feed.post/3ml7t55zpwx2p",
-          "cid": "bafyreigm2l2o3exyv5ljrh5pizb2xps476gh3agzbg46vixwpso3lwyq2e",
-          "bskyUrl": "https://bsky.app/profile/azu.bsky.social/post/3ml7t55zpwx2p",
-          "text": "見てる: \"modem-dev/hunk: Review-first terminal diff viewer for agentic coders\" https://github.com/modem-dev/hunk",
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlaraxg22w2z",
+          "cid": "bafyreiejnslvefrfp2titqaehjzsgzvgogs6ynsnilfm35q6iamdg7qr4q",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlaraxg22w2z",
+          "text": "https://github.com/VoltAgent/awesome-design-md",
           "author": {
-            "handle": "azu.bsky.social",
-            "displayName": "azu"
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-06T23:10:48.494Z",
-          "createdUtc": 1778109048,
-          "ageHours": 8.16,
+          "createdAt": "2026-05-07T08:09:48Z",
+          "createdUtc": 1778141388,
+          "ageHours": 2.43,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1819,7 +831,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "modem-dev/hunk",
+              "fullName": "VoltAgent/awesome-design-md",
               "matchType": "url",
               "confidence": 1
             }
@@ -1830,72 +842,32 @@
   },
   "leaderboard": [
     {
-      "fullName": "lightseekorg/tokenspeed",
-      "count7d": 1,
-      "likesSum7d": 10
+      "fullName": "openai/codex",
+      "count7d": 2,
+      "likesSum7d": 3
     },
     {
-      "fullName": "niri-wm/niri",
-      "count7d": 1,
-      "likesSum7d": 6
-    },
-    {
-      "fullName": "gofsnotify/fsnotify",
-      "count7d": 1,
-      "likesSum7d": 5
-    },
-    {
-      "fullName": "charmbracelet/crush",
+      "fullName": "wojtczyk/trust",
       "count7d": 3,
-      "likesSum7d": 2
+      "likesSum7d": 0
     },
     {
-      "fullName": "modem-dev/hunk",
-      "count7d": 3,
-      "likesSum7d": 2
+      "fullName": "crosspoint-reader/crosspoint-reader",
+      "count7d": 2,
+      "likesSum7d": 0
     },
     {
-      "fullName": "olivier-ls/php-fts",
-      "count7d": 4,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "krakenfx/kraken-cli",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "openai/openai-agents-python",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "anthropics/claude-code",
+      "fullName": "code-yeongyu/oh-my-openagent",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "endevco/aube",
+      "fullName": "hkdb/aerion",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "fendouai/CodexSaver",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "msitarzewski/agency-agents",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "ultraworkers/claw-code",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "unmta/emailmd",
+      "fullName": "VoltAgent/awesome-design-md",
       "count7d": 1,
       "likesSum7d": 0
     }

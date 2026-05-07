@@ -8,6 +8,12 @@ name: CI
 on:
   pull_request:
     branches: [main]
+    # Data-only PRs (cron-driven auto-bot) skip the full e2e suite and run
+    # the lightweight `data-pr-validate` workflow instead. Code PRs still
+    # run this gate. See .github/workflows/data-pr-validate.yml.
+    paths-ignore:
+      - 'data/**'
+      - '.data/**'
   push:
     branches: [main]
   workflow_dispatch:

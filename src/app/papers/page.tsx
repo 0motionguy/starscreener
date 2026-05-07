@@ -72,6 +72,24 @@ function formatClock(iso: string | undefined): string {
   return new Date(iso).toISOString().slice(11, 19);
 }
 
+function formatPublishedAt(iso: string | undefined): string {
+  if (!iso) return "—";
+  const t = Date.parse(iso);
+  if (!Number.isFinite(t)) return "—";
+  return new Date(t).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+function truncateAbstract(s: string | undefined, max = 180): string {
+  if (!s) return "";
+  const clean = s.replace(/\s+/g, " ").trim();
+  if (clean.length <= max) return clean;
+  return `${clean.slice(0, max).trimEnd()}…`;
+}
+
 export default async function PapersPage() {
   await refreshArxivFromStore();
   const file = getArxivRecentFile();
@@ -192,8 +210,9 @@ function PaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
       header: "Paper",
       render: (p) => {
         const linkedRepo = p.linkedRepos?.[0]?.fullName ?? null;
+        const abstract = truncateAbstract(p.summary);
         return (
-          <div className="flex min-w-0 flex-col gap-0.5">
+          <div className="flex min-w-0 flex-col gap-1 py-1">
             <a
               href={p.absUrl}
               target="_blank"
@@ -205,18 +224,23 @@ function PaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
               {p.title}
             </a>
             <span
-              className="truncate text-[10.5px]"
+              className="flex items-center gap-2 truncate text-[10.5px]"
               style={{ color: "var(--v4-ink-400)" }}
-              title={p.authors?.join(", ")}
             >
-              {formatAuthors(p.authors ?? [])}
+              <span className="truncate" title={p.authors?.join(", ")}>
+                {formatAuthors(p.authors ?? [])}
+              </span>
+              <span style={{ color: "var(--v4-ink-500)" }}>·</span>
+              <span className="font-mono tabular-nums shrink-0" title={p.publishedAt}>
+                {formatPublishedAt(p.publishedAt)}
+              </span>
               {linkedRepo ? (
                 <span
-                  className="v2-mono ml-2 px-1.5 py-0.5 text-[9px] tracking-[0.14em] uppercase"
+                  className="v2-mono shrink-0 px-1.5 py-0.5 text-[9px] tracking-[0.14em] uppercase"
                   style={{
-                    border: "1px solid var(--v4-line-200)",
-                    background: "var(--v4-bg-100)",
-                    color: "var(--v4-ink-300)",
+                    border: "1px solid var(--v4-violet)",
+                    background: "color-mix(in srgb, var(--v4-violet) 8%, transparent)",
+                    color: "var(--v4-violet)",
                     borderRadius: 2,
                   }}
                   title={`Linked repo: ${linkedRepo}`}
@@ -225,6 +249,15 @@ function PaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
                 </span>
               ) : null}
             </span>
+            {abstract ? (
+              <p
+                className="line-clamp-2 text-[11.5px] leading-snug"
+                style={{ color: "var(--v4-ink-300)" }}
+                title={p.summary}
+              >
+                {abstract}
+              </p>
+            ) : null}
           </div>
         );
       },
@@ -290,6 +323,7 @@ function PaperFeed({ papers }: { papers: ArxivPaperTrending[] }) {
         <span
           className="font-mono text-[12px] tabular-nums"
           style={{ color: "var(--v4-ink-400)" }}
+          title={`Published ${formatPublishedAt(p.publishedAt)}`}
         >
           {formatAgeDays(p.daysSincePublished)}
         </span>
@@ -367,7 +401,7 @@ function ColdState() {
           letterSpacing: "0.18em",
         }}
       >
-        {"// no data yet"}
+        {"// arXiv feed warming up"}
       </h2>
       <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
         The arXiv scraper hasn&apos;t run yet. Run{" "}

@@ -32,7 +32,7 @@ jobs:
         with:
           node-version: '22'
       - run: npm ci
-      - run: npm run scrape:funding -- --sources ${{ github.event.inputs.sources || 'techcrunch,venturebeat,sifted,arstechnica,techeu,pymnts,bbc,wired,geekwire,eu-startups,siliconcanals,techstartups,techcrunch-ai,venturebeat-ai,ai-news,ai-business,the-decoder,marktechpost,unite-ai,analytics-india,mit-tech-review-ai,synced' }} --enrich ${{ github.event.inputs.dry_run == 'true' && '--output .tmp/funding-preview.json' || '' }}
+      - run: npm run scrape:funding -- --sources ${{ github.event.inputs.sources || 'techcrunch,venturebeat,sifted,arstechnica,techeu,pymnts,bbc,wired,geekwire,eu-startups,siliconcanals,techstartups,techcrunch-ai,venturebeat-ai,ai-news,ai-business,the-decoder,marktechpost,unite-ai,analytics-india,mit-tech-review-ai,synced,prnewswire-vc,newcomer,ai-snake-oil,generative-value,import-ai' }} --enrich ${{ github.event.inputs.dry_run == 'true' && '--output .tmp/funding-preview.json' || '' }}
       # SEC Form D filings — every US private round files within 15 days,
       # EDGAR full-text search filters to AI-mentioning filings only.
       # Continues on error so a flaky EDGAR doesn't blank the funding-news

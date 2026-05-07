@@ -67,18 +67,33 @@ export default function ContactPage() {
         <ul style={{ paddingLeft: "20px", lineHeight: 1.7, color: "var(--v4-ink-300)", marginBottom: "16px" }}>
           <li>
             GitHub issues:{" "}
-            <Link href="https://github.com/0motionguy/starscreener/issues">
+            <a
+              href="https://github.com/0motionguy/starscreener/issues"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               github.com/0motionguy/starscreener/issues
-            </Link>
+            </a>
           </li>
           <li>
-            X / Twitter: <Link href="https://x.com/0motionguy">@0motionguy</Link>
+            X / Twitter:{" "}
+            <a
+              href="https://x.com/0motionguy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              @0motionguy
+            </a>
           </li>
           <li>
             LinkedIn:{" "}
-            <Link href="https://www.linkedin.com/company/trendingrepo">
+            <a
+              href="https://www.linkedin.com/company/trendingrepo"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               linkedin.com/company/trendingrepo
-            </Link>
+            </a>
           </li>
           <li>
             Repo nominations: use the <Link href="/submit">submission form</Link>.

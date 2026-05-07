@@ -64,7 +64,23 @@ export default function AboutPage() {
           Contact
         </h2>
         <p style={{ fontSize: "16px", lineHeight: 1.6, color: "var(--v4-ink-300)" }}>
-          Reach the team on <Link href="https://github.com/0motionguy/starscreener">GitHub</Link>, <Link href="https://x.com/0motionguy">X / Twitter</Link>, or via the <Link href="/submit">submission form</Link> for repo nominations. For partnerships and press, see the contact details on the company LinkedIn page linked in the footer.
+          Reach the team on{" "}
+          <a
+            href="https://github.com/0motionguy/starscreener"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
+          ,{" "}
+          <a
+            href="https://x.com/0motionguy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            X / Twitter
+          </a>
+          , or via the <Link href="/submit">submission form</Link> for repo nominations. For partnerships and press, see the contact details on the company LinkedIn page linked in the footer.
         </p>
       </article>
     </main>

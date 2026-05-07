@@ -22,6 +22,7 @@ import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { runAsRegisteredSource } from "./_source-script-runner.mjs";
+import { enrichInvestors } from "./_enrich-investors.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(__dirname, "..");
@@ -450,6 +451,62 @@ function extractTags(headline, description) {
   return tags;
 }
 
+// Mirror of extractInvestorsFromText() in the worker / frontend extractors.
+// Pulls candidate names from "led by X", "from Y", "backed by Z" cues.
+// First char allows A-Z, a-z, digits — covers "a16z", "8VC", proper nouns.
+const INVESTOR_CUE_PATTERNS = [
+  /(?:led|co-led)\s+by\s+([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|\bin\b|\bto\b|\bfor\b|\bat\b|$)/g,
+  /(?:backed|backing|funded|supported)\s+(?:by\s+|from\s+)([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|\bin\b|\bto\b|\bfor\b|\bat\b|$)/g,
+  /investors?\s+(?:include|included|are|were)\s+([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|$)/g,
+  /(?:participated|joined)\s+(?:by|in)\s+([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|$)/g,
+  /(?:money|funding|investment)\s+from\s+([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|$)/g,
+  /\bfrom\s+([A-Za-z0-9][A-Za-z0-9&.'’-]+(?:\s+[A-Z][A-Za-z0-9&.'’-]+){0,3})\b(?=\s+for|\s+to|\s+at|\s+as|\s*[.,;])/g,
+  /participation\s+from\s+([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\bwith\b|\band\s+(?:no\b|other\b|undisclosed))/g,
+];
+const INVESTOR_TRAILING_NOISE = /\b(?:and|with|along|together|as|in|on|at|for|from|to|the)$/i;
+const INVESTOR_NAME_STOP_WORDS_LOCAL = new Set([
+  "the", "a", "an", "this", "that", "it", "company", "startup", "firm",
+  "fund", "previous", "existing", "new", "several", "multiple", "various",
+  "other", "investors", "backers", "funders", "including", "among", "such",
+  "shareholders", "current", "former", "undisclosed", "yesterday", "today",
+  "last", "year", "month", "week",
+]);
+
+function cleanInvestorCandidate(raw) {
+  let s = String(raw ?? "").replace(/\s+/g, " ").trim();
+  for (let i = 0; i < 3; i += 1) {
+    const m = s.match(/\s+(\S+)$/);
+    if (m && INVESTOR_TRAILING_NOISE.test(m[1] ?? "")) {
+      s = s.slice(0, s.length - (m[1] ?? "").length).trim();
+    } else {
+      break;
+    }
+  }
+  if (s.length < 2) return null;
+  if (INVESTOR_NAME_STOP_WORDS_LOCAL.has(s.toLowerCase())) return null;
+  return s;
+}
+
+function extractInvestorsFromText(text) {
+  const found = [];
+  const seen = new Set();
+  for (const pattern of INVESTOR_CUE_PATTERNS) {
+    for (const match of text.matchAll(pattern)) {
+      const raw = match[1] ?? "";
+      const parts = raw.split(/\s*(?:,|\band\b|\bwith\b)\s*/i);
+      for (const part of parts) {
+        const cleaned = cleanInvestorCandidate(part);
+        if (!cleaned) continue;
+        const key = cleaned.toLowerCase();
+        if (seen.has(key)) continue;
+        seen.add(key);
+        found.push(cleaned);
+      }
+    }
+  }
+  return found;
+}
+
 function extractFunding(headline, description) {
   const combined = `${headline} ${description}`;
   const companyName = extractCompanyName(headline);
@@ -467,6 +524,9 @@ function extractFunding(headline, description) {
   const companyLogoUrl = getKnownCompanyLogoUrl(companyName);
   const companyWebsite = getKnownCompanyDomain(companyName) ? `https://${getKnownCompanyDomain(companyName)}` : null;
 
+  const investors = extractInvestorsFromText(combined);
+  const investorsEnriched = enrichInvestors(investors);
+
   return {
     companyName: companyName ?? "Unknown",
     companyWebsite,
@@ -475,8 +535,8 @@ function extractFunding(headline, description) {
     amountDisplay: amount?.display ?? "Undisclosed",
     currency: "USD",
     roundType: roundType ?? "undisclosed",
-    investors: [],
-    investorsEnriched: [],
+    investors,
+    investorsEnriched,
     confidence,
   };
 }
@@ -649,7 +709,11 @@ async function main() {
             }
           }
 
-          // Update investors if found
+          // Update investors if found. Article extraction emits a richer
+          // shape ({ name, isKnown, confidence }) — we merge by lowercased
+          // raw name into the dedupe set, then rebuild investorsEnriched
+          // wholesale via enrichInvestors() so canonical names + logo URLs
+          // come from the shared known-investors database.
           if (result.investors.length > 0) {
             const existingNames = new Set(
               signal.extracted.investors.map((n) => n.toLowerCase()),
@@ -657,14 +721,12 @@ async function main() {
             for (const inv of result.investors) {
               if (!existingNames.has(inv.name.toLowerCase())) {
                 signal.extracted.investors.push(inv.name);
-                signal.extracted.investorsEnriched.push({
-                  name: inv.name,
-                  isKnown: inv.isKnown,
-                  confidence: inv.confidence,
-                });
                 existingNames.add(inv.name.toLowerCase());
               }
             }
+            signal.extracted.investorsEnriched = enrichInvestors(
+              signal.extracted.investors,
+            );
           }
 
           // Better company name from article if current one looks weak

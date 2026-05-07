@@ -124,3 +124,24 @@ export function getFetcher(name: string): Fetcher | undefined {
 export function listFetcherNames(): string[] {
   return FETCHERS.map((f) => f.name);
 }
+
+// Move 1, Phase 1 — SOURCE_CONTRACTS array.
+//
+// `sources.json` is the source registry. Each row is asserted to satisfy the
+// SourceContract type via the `as` cast through the unknown bridge, then
+// re-typed as readonly so callers cannot mutate. JSON imports widen string
+// literals (e.g. `"active"` → `string`), so a direct `satisfies` clause
+// cannot narrow the unions — Phase 1 deliverable C
+// (`scripts/verify-source-contract.mjs`) is the runtime gate that catches
+// shape drift, paired with `npm run render:source-audit` which fails loudly
+// on missing fields. Move 1 implementation step 4 wires
+// `npm run registry-check` into CI so PRs that delete a row without prior
+// `state: 'deprecated'` are blocked. See:
+//   - apps/trendingrepo-worker/src/platform/source-contract.ts (the type)
+//   - apps/trendingrepo-worker/src/platform/sources.json     (the data)
+//   - docs/SOURCE-REGISTRY-PROPOSAL.md (Move 1 implementation proposal)
+import sourcesData from './platform/sources.json' with { type: 'json' };
+import type { SourceContract } from './platform/source-contract.js';
+export const SOURCE_CONTRACTS: readonly SourceContract[] =
+  sourcesData as readonly SourceContract[];
+

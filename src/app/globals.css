@@ -3028,6 +3028,50 @@ body::before {
   box-shadow: 0 0 6px var(--sig-green);
 }
 
+.skills-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 14px 12px;
+  border-top: 1px solid var(--v4-line-200);
+  background: var(--v4-bg-050);
+  font-family: var(--font-mono, monospace);
+  font-size: var(--font-size-sm);
+  color: var(--ink-300);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-ui);
+}
+
+.skills-pager-btn {
+  appearance: none;
+  background: var(--v4-bg-100);
+  color: var(--ink-100);
+  border: 1px solid var(--v4-line-300);
+  border-radius: 3px;
+  padding: 6px 14px;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease;
+}
+
+.skills-pager-btn:hover:not(:disabled) {
+  border-color: var(--v4-acc);
+  color: var(--v4-acc);
+}
+
+.skills-pager-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.skills-pager-meta b {
+  color: var(--ink-100);
+  font-weight: var(--font-weight-semibold);
+}
+
 .tbl-rich th.sortable {
   padding: 0;
 }

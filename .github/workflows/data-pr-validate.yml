@@ -1,0 +1,112 @@
+name: data-pr-validate
+
+# Lightweight gate for data-only PRs (cron-driven auto-bot writes under
+# data/** and .data/**). The full e2e suite in ci.yml is skipped for these
+# paths via paths-ignore; this workflow takes its place as the required
+# status check on data PRs. Two real validations:
+#   1. Every changed JSON / JSONL file parses cleanly.
+#   2. PR touches ONLY data/** or .data/** — rejects any attempt to
+#      smuggle code changes through the data path filter.
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'data/**'
+      - '.data/**'
+
+permissions:
+  contents: read
+
+# Cancel superseded runs on the same PR ref to avoid burning minutes.
+concurrency:
+  group: data-pr-validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate data PR
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Need history so `git diff origin/main...HEAD` works.
+          fetch-depth: 0
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validate every changed JSON parses
+        shell: bash
+        run: |
+          set -euo pipefail
+          # NUL-delimited so paths with spaces / unusual chars stay intact.
+          mapfile -d '' changed < <(git diff -z --name-only --diff-filter=AM origin/main...HEAD -- 'data/**/*.json' '.data/**/*.json' '.data/**/*.jsonl' || true)
+          if [ "${#changed[@]}" -eq 0 ]; then
+            echo "No JSON / JSONL changes in data paths -- skipping validation"
+            exit 0
+          fi
+          echo "Validating ${#changed[@]} changed file(s)"
+          fail=0
+          for f in "${changed[@]}"; do
+            [ -z "$f" ] && continue
+            if [ ! -f "$f" ]; then
+              # Renamed / deleted in HEAD — skip.
+              continue
+            fi
+            case "$f" in
+              *.jsonl)
+                # JSONL: each non-blank line must parse as JSON. Stream the
+                # whole file into node once (cheaper than node-per-line).
+                if ! node -e '
+                  const fs = require("fs");
+                  const path = process.argv[1];
+                  const lines = fs.readFileSync(path, "utf8").split(/\r?\n/);
+                  let n = 0;
+                  for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i];
+                    if (line.trim() === "") continue;
+                    try { JSON.parse(line); n++; }
+                    catch (e) {
+                      console.error("INVALID " + path + ":" + (i + 1) + " -- " + e.message);
+                      process.exit(1);
+                    }
+                  }
+                  console.log("ok " + path + " (" + n + " line(s))");
+                ' "$f"; then
+                  fail=1
+                fi
+                ;;
+              *.json)
+                if ! node -e '
+                  const fs = require("fs");
+                  const path = process.argv[1];
+                  try { JSON.parse(fs.readFileSync(path, "utf8")); console.log("ok " + path); }
+                  catch (e) { console.error("INVALID " + path + " -- " + e.message); process.exit(1); }
+                ' "$f"; then
+                  fail=1
+                fi
+                ;;
+            esac
+          done
+          if [ "$fail" -ne 0 ]; then
+            echo "::error::One or more JSON / JSONL files failed to parse"
+            exit 1
+          fi
+
+      - name: Confirm only data paths changed (security check)
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Anything that is NOT under data/** or .data/** is a code change
+          # smuggled through the data-PR path filter -- reject it.
+          non_data=$(git diff --name-only origin/main...HEAD -- ':!data/**' ':!.data/**' || true)
+          if [ -n "$non_data" ]; then
+            echo "::error::Data PR contains non-data changes -- rejecting:"
+            echo "$non_data"
+            exit 1
+          fi
+          echo "ok PR touches only data/** and .data/**"

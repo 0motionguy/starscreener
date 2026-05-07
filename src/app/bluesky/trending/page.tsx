@@ -24,6 +24,7 @@ import { repoLogoUrl, userLogoUrl } from "@/lib/logos";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
+import { BlueskyIcon } from "@/components/brand/BrandIcons";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 
@@ -85,6 +86,7 @@ export default async function BlueskyTrendingPage() {
               <b>BLUESKY</b> · TERMINAL · /BLUESKY/TRENDING
             </>
           }
+          logo={<BlueskyIcon size={32} />}
           title="Bluesky · top posts"
           lede="Posts merged across curated AI query families (agents, LLMs, coding agents, MCP, workflow), scored by engagement and cross-linked to GitHub repos."
         />
@@ -109,6 +111,7 @@ export default async function BlueskyTrendingPage() {
             <b>BLUESKY</b> · TERMINAL · /BLUESKY/TRENDING
           </>
         }
+        logo={<BlueskyIcon size={32} />}
         title="Bluesky · top posts"
         lede="Posts merged across curated AI query families (agents, LLMs, coding agents, MCP, workflow), scored by engagement and cross-linked to GitHub repos."
         clock={

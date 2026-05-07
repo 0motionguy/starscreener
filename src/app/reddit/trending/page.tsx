@@ -22,6 +22,7 @@ import {
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
+import { RedditIcon } from "@/components/brand/BrandIcons";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 
@@ -126,6 +127,7 @@ export default async function RedditTrendingPage() {
               <b>REDDIT</b> · TERMINAL · /REDDIT/TRENDING
             </>
           }
+          logo={<RedditIcon size={32} />}
           title="Reddit · top posts"
           lede="7-day rolling firehose across the tracked subreddits, scored by velocity-weighted upvotes and cross-linked to GitHub repos."
         />
@@ -145,6 +147,7 @@ export default async function RedditTrendingPage() {
             <b>REDDIT</b> · TERMINAL · /REDDIT/TRENDING
           </>
         }
+        logo={<RedditIcon size={32} />}
         title="Reddit · top posts"
         lede="7-day rolling firehose across the tracked subreddits, scored by velocity-weighted upvotes and cross-linked to GitHub repos."
         clock={

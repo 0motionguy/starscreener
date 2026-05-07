@@ -21,6 +21,7 @@ import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFe
 import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoLogoUrl } from "@/lib/logos";
+import { HackerNewsIcon } from "@/components/brand/BrandIcons";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -85,6 +86,7 @@ export default async function HackerNewsTrendingPage() {
               <b>HN</b> · TERMINAL · /HACKERNEWS
             </>
           }
+          logo={<HackerNewsIcon size={32} />}
           title="Hacker News · trending"
           lede="Top stories ranked by velocity-weighted trending score. Firebase top-500 cross-checked with the 7-day Algolia GitHub-mention sweep, deduped, scored."
         />
@@ -107,6 +109,7 @@ export default async function HackerNewsTrendingPage() {
             <b>HN</b> · TERMINAL · /HACKERNEWS
           </>
         }
+        logo={<HackerNewsIcon size={32} />}
         title="Hacker News · trending"
         lede="Top stories ranked by velocity-weighted trending score. Firebase top-500 cross-checked with the 7-day Algolia GitHub-mention sweep, deduped, scored."
         clock={

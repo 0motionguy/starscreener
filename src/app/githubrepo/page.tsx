@@ -1,9 +1,10 @@
-// /githubrepo — isolated trending-repos surface.
+// /githubrepo — top 50 by Trendshift + OSS Insight consensus.
 //
-// Strips the home page down to its three load-bearing pieces: the page-head
-// (title + refreshed clock), the 6-up MetricGrid stats, and the LiveTopTable
-// with category tabs. No consensus / breakout / featured / bubble map / FAQ —
-// just the list. Same data wiring as `/` so cards stay consistent.
+// 2026-05-07: dropped getDerivedRepos / momentumScore / crossSignalScore.
+// User constraint: "use either Trendshift or OSS Insight both for ranker".
+// We render the UNION of the two upstream lists, deduped by `owner/name`,
+// ranked by minimum-position-across-sources (smallest wins). Repos that
+// appear in BOTH lists float to the top and get a "consensus" badge.
 //
 // Inline JSON-LD (CollectionPage + ItemList + BreadcrumbList) anchors this
 // surface in structured data so crawlers don't fall back to the parent
@@ -11,41 +12,30 @@
 // OG / Twitter / robots so rich-result tooling has a complete head block.
 
 import type { Metadata } from "next";
-import { getDerivedRepos } from "@/lib/derived-repos";
-import { lastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
-import { refreshRedditMentionsFromStore } from "@/lib/reddit-data";
-import { refreshHackernewsMentionsFromStore } from "@/lib/hackernews";
-import { refreshBlueskyMentionsFromStore } from "@/lib/bluesky";
-import { refreshDevtoMentionsFromStore } from "@/lib/devto";
-import { refreshLobstersMentionsFromStore } from "@/lib/lobsters";
-import { refreshNpmFromStore } from "@/lib/npm";
-import { refreshHfModelsFromStore } from "@/lib/huggingface";
-import { refreshArxivFromStore } from "@/lib/arxiv";
 import { Card } from "@/components/ui/Card";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
 import { FooterBar } from "@/components/ui/FooterBar";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { MarkVisited } from "@/components/layout/MarkVisited";
+import { EntityLogo } from "@/components/ui/EntityLogo";
+import { repoLogoUrl } from "@/lib/logos";
 import {
-  LiveTopTable,
-  type CategoryFacet,
-  type LiveRow,
-} from "@/components/home/LiveTopTable";
-import { CATEGORIES } from "@/lib/constants";
+  getGithubTrendingConsensus,
+  type ConsensusRow,
+} from "@/lib/github-trending-consensus";
 import {
   SITE_NAME,
   SITE_URL,
   absoluteUrl,
   safeJsonLd,
 } from "@/lib/seo";
-import type { Repo } from "@/lib/types";
 
 export const revalidate = 60;
 
 const PAGE_PATH = "/githubrepo";
 const PAGE_TITLE = "Top 50 trending GitHub repos — live";
 const PAGE_DESCRIPTION =
-  "Live momentum-ranked list of the top 50 trending GitHub repositories with cross-source mention chips (Hacker News, Reddit, Bluesky, dev.to, Lobsters, npm, Hugging Face, arXiv, X). Refreshes every minute.";
+  "Top 50 trending GitHub repos ranked by Trendshift + OSS Insight — the two upstreams with the strongest daily signal. Each row shows where it placed on each source. Repos appearing on both float to the top.";
 const PAGE_OG_TITLE = `${PAGE_TITLE} — ${SITE_NAME}`;
 
 export const metadata: Metadata = {
@@ -98,119 +88,60 @@ function formatCompact(value: number): string {
   return compactNumber.format(Math.max(0, Math.round(value))).toLowerCase();
 }
 
-const CATEGORY_LABELS = new Map(CATEGORIES.map((c) => [c.id, c.shortName]));
+function attributionLabel(row: ConsensusRow): string {
+  const parts: string[] = [];
+  if (row.trendshiftRank !== null) parts.push(`Trendshift #${row.trendshiftRank}`);
+  if (row.ossRank !== null) parts.push(`OSS Insight #${row.ossRank}`);
+  return parts.join(" · ");
+}
 
-function categoryLabel(repo: Repo): string {
-  return CATEGORY_LABELS.get(repo.categoryId) ?? repo.language ?? "Repo";
+function refreshedClock(iso: string | null): string {
+  if (!iso) return "--:--:--";
+  return iso.slice(11, 19);
+}
+
+function pickRefreshedAt(
+  trendshift: string | null,
+  oss: string | null,
+): string | null {
+  // Most-recent of the two timestamps so the clock reflects whichever
+  // upstream landed last.
+  if (!trendshift) return oss;
+  if (!oss) return trendshift;
+  return trendshift > oss ? trendshift : oss;
 }
 
 export default async function GithubRepoPage() {
-  // Keep the LiveTopTable mention badges tied to the latest data-store
-  // payloads instead of stale bundled snapshots.
-  await Promise.all([
-    refreshTrendingFromStore(),
-    refreshRedditMentionsFromStore(),
-    refreshHackernewsMentionsFromStore(),
-    refreshBlueskyMentionsFromStore(),
-    refreshDevtoMentionsFromStore(),
-    refreshLobstersMentionsFromStore(),
-    refreshNpmFromStore(),
-    refreshHfModelsFromStore(),
-    refreshArxivFromStore(),
-  ]);
-
-  const repos = getDerivedRepos();
-
-  const liveRows = [...repos]
-    .sort((a, b) => b.momentumScore - a.momentumScore)
-    .slice(0, 50);
-  const liveTableRows: LiveRow[] = liveRows.map((repo) => {
-    const ps = repo.mentions?.perSource;
-    return {
-      id: repo.id,
-      fullName: repo.fullName,
-      owner: repo.owner,
-      name: repo.name,
-      href: `/repo/${repo.owner}/${repo.name}`,
-      categoryId: repo.categoryId,
-      categoryLabel: categoryLabel(repo),
-      language: repo.language ?? null,
-      stars: repo.stars,
-      starsDelta24h: repo.starsDelta24h,
-      starsDelta7d: repo.starsDelta7d,
-      starsDelta30d: repo.starsDelta30d,
-      forks: repo.forks,
-      sparklineData: repo.sparklineData,
-      momentumScore: repo.momentumScore,
-      mentionCount24h: repo.mentionCount24h ?? 0,
-      // Chip on/off uses the wider 7d window so slow-cadence sources
-      // (lobsters / npm / hf / arxiv / devto) actually fire on the row.
-      // 24h is too narrow for most non-twitter signals — the result was
-      // "8 chip slots, only github + twitter colored." Falls back to the
-      // 24h count when 7d is missing.
-      sources: {
-        gh: 1,
-        hn: ps?.hackernews.count7d ?? ps?.hackernews.count24h ?? 0,
-        r: ps?.reddit.count7d ?? ps?.reddit.count24h ?? 0,
-        b: ps?.bluesky.count7d ?? ps?.bluesky.count24h ?? 0,
-        d: ps?.devto.count7d ?? ps?.devto.count24h ?? 0,
-        lobsters: ps?.lobsters.count7d ?? ps?.lobsters.count24h ?? 0,
-        x: ps?.twitter.count7d ?? ps?.twitter.count24h ?? 0,
-        npm: ps?.npm.count7d ?? ps?.npm.count24h ?? 0,
-        hf: ps?.huggingface.count7d ?? ps?.huggingface.count24h ?? 0,
-        arxiv: ps?.arxiv.count7d ?? ps?.arxiv.count24h ?? 0,
-      },
-    };
-  });
-  const liveCategories: CategoryFacet[] = (() => {
-    const counts = new Map<string, number>();
-    for (const row of liveTableRows) {
-      counts.set(row.categoryId, (counts.get(row.categoryId) ?? 0) + 1);
-    }
-    return CATEGORIES.map((category) => ({
-      id: category.id,
-      label: category.shortName,
-      count: counts.get(category.id) ?? 0,
-    }))
-      .filter((category) => category.count > 0)
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 6);
-  })();
-
-  const refreshed = new Date(lastFetchedAt);
-  const refreshedTime = refreshed.toISOString().slice(11, 19);
-  const total24h = repos.reduce(
-    (sum, repo) => sum + Math.max(0, repo.starsDelta24h),
-    0,
+  const consensus = await getGithubTrendingConsensus(50);
+  const rows = consensus.rows;
+  const refreshedIso = pickRefreshedAt(
+    consensus.trendshiftFetchedAt,
+    consensus.ossFetchedAt,
   );
-  const total7d = repos.reduce(
-    (sum, repo) => sum + Math.max(0, repo.starsDelta7d),
-    0,
-  );
-  const breakoutCount = repos.filter(
-    (r) => r.movementStatus === "rising" || r.movementStatus === "hot",
+  const refreshedTime = refreshedClock(refreshedIso);
+
+  const consensusCount = rows.filter((r) => r.sourceCount === 2).length;
+  const trendshiftOnly = rows.filter(
+    (r) => r.trendshiftRank !== null && r.ossRank === null,
   ).length;
-  const consensusCount = repos.filter(
-    (r) => (r.crossSignalScore ?? 0) >= 2,
+  const ossOnly = rows.filter(
+    (r) => r.ossRank !== null && r.trendshiftRank === null,
   ).length;
-  const topCategory = CATEGORIES.map((category) => ({
-    label: category.shortName,
-    delta: repos
-      .filter((repo) => repo.categoryId === category.id)
-      .reduce((sum, repo) => sum + Math.max(0, repo.starsDelta24h), 0),
-  })).sort((a, b) => b.delta - a.delta)[0];
 
   // Top 20 of the visible 50 — keeps the structured-data payload bounded
   // while still giving crawlers a meaningful ItemList to anchor against.
-  const itemListTop = liveRows.slice(0, 20);
+  const itemListTop = rows.slice(0, 20);
   const pageUrl = absoluteUrl(PAGE_PATH);
+
+  // Banner copy adapts when only one upstream has data, so users know why
+  // attribution chips are one-sided.
+  const onlyTrendshift = consensus.ossCount === 0 && consensus.trendshiftCount > 0;
+  const onlyOss = consensus.trendshiftCount === 0 && consensus.ossCount > 0;
+  const noData = consensus.trendshiftCount === 0 && consensus.ossCount === 0;
 
   return (
     <>
-      <MarkVisited routeKey="trendingRepos" count={repos.length} />
-      {/* CollectionPage + ItemList JSON-LD — declares this page is a
-          curated list of trending GitHub repos and enumerates the top 20
-          so structured-data rich results can pick them up. */}
+      <MarkVisited routeKey="trendingRepos" count={rows.length} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -227,23 +158,21 @@ export default async function GithubRepoPage() {
               name: SITE_NAME,
               url: SITE_URL,
             },
-            dateModified: new Date(lastFetchedAt).toISOString(),
+            dateModified: refreshedIso ?? new Date().toISOString(),
             mainEntity: {
               "@type": "ItemList",
               numberOfItems: itemListTop.length,
-              itemListOrder: "https://schema.org/ItemListOrderDescending",
-              itemListElement: itemListTop.map((repo, i) => ({
+              itemListOrder: "https://schema.org/ItemListOrderAscending",
+              itemListElement: itemListTop.map((row, i) => ({
                 "@type": "ListItem",
                 position: i + 1,
-                url: absoluteUrl(`/repo/${repo.owner}/${repo.name}`),
-                name: repo.fullName,
+                url: absoluteUrl(`/repo/${row.owner}/${row.name}`),
+                name: row.fullName,
               })),
             },
           }),
         }}
       />
-      {/* BreadcrumbList JSON-LD — Home -> GitHub repos so crawlers can
-          attach this surface to the canonical home anchor. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -273,11 +202,12 @@ export default async function GithubRepoPage() {
             <div className="crumb">
               <b>TREND</b> / TERMINAL / GITHUB REPOS
             </div>
-            <h1>Top 50 trending GitHub repos — right now.</h1>
+            <h1>Top 50 trending GitHub repos — Trendshift + OSS Insight.</h1>
             <p className="lede">
-              The same momentum-ranked list you see on the front page, isolated
-              with stats and category tabs. No consensus / breakouts / featured
-              / charts — just the table.
+              Two upstreams, one ranked union. Repos on both lists float to the
+              top by smallest min-rank; ties break on sum-of-ranks. We do not
+              compute our own score on this page — only what Trendshift and OSS
+              Insight already published.
             </p>
           </div>
           <div
@@ -288,45 +218,43 @@ export default async function GithubRepoPage() {
           </div>
         </section>
 
-        <MetricGrid columns={6}>
+        <MetricGrid columns={4}>
           <Metric
-            label="tracked repos"
-            value={formatCompact(repos.length)}
-            sub="derived feed"
+            label="union size"
+            value={formatCompact(consensus.unionCount)}
+            sub="ranked output"
           />
           <Metric
-            label="24h stars"
-            value={formatCompact(total24h)}
-            delta="+ live"
-            tone="positive"
-          />
-          <Metric
-            label="7d stars"
-            value={formatCompact(total7d)}
-            sub="rolling window"
-          />
-          <Metric
-            label="consensus"
+            label="on both"
             value={consensusCount}
-            sub="multi-source"
+            sub="trendshift + OSS"
             tone="consensus"
           />
           <Metric
-            label="breakouts"
-            value={breakoutCount}
-            sub="velocity spike"
-            tone="accent"
+            label="trendshift list"
+            value={formatCompact(consensus.trendshiftCount)}
+            sub="daily top 100"
           />
           <Metric
-            label="top category"
-            value={topCategory?.label ?? "n/a"}
-            sub="momentum leader"
+            label="OSS Insight list"
+            value={formatCompact(consensus.ossCount)}
+            sub="past 24h / All"
           />
         </MetricGrid>
 
+        {(onlyTrendshift || onlyOss || noData) && (
+          <Card className="rank-banner">
+            {noData
+              ? "Both upstreams returned empty payloads — falling back to the cached snapshot. Check the worker health board."
+              : onlyTrendshift
+              ? "Showing Trendshift only — OSS Insight payload was empty for this refresh."
+              : `Showing OSS Insight only — Trendshift payload was empty for this refresh.`}
+          </Card>
+        )}
+
         <SectionHead
           num="// 01"
-          title="Live / top 50"
+          title={`Top ${rows.length} / consensus union`}
           meta={
             <>
               <b>{refreshedTime}</b> / refreshed
@@ -334,12 +262,183 @@ export default async function GithubRepoPage() {
           }
         />
         <Card>
-          <LiveTopTable rows={liveTableRows} categories={liveCategories} />
+          <table className="ds-table consensus-table">
+            <thead>
+              <tr>
+                <th scope="col" style={{ width: "3rem" }}>
+                  #
+                </th>
+                <th scope="col">Repo</th>
+                <th scope="col" style={{ width: "12rem" }}>
+                  Sources
+                </th>
+                <th
+                  scope="col"
+                  style={{ width: "6rem", textAlign: "right" }}
+                >
+                  Stars
+                </th>
+                <th scope="col" style={{ width: "8rem" }}>
+                  Language
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={5}
+                    style={{ padding: "1.5rem", textAlign: "center", opacity: 0.7 }}
+                  >
+                    No upstream data yet. Both Trendshift and OSS Insight are
+                    cold — try again in a few minutes.
+                  </td>
+                </tr>
+              ) : (
+                rows.map((row, i) => {
+                  const consensusRow = row.sourceCount === 2;
+                  const logoUrl = repoLogoUrl(row.fullName, 28);
+                  return (
+                    <tr
+                      key={row.fullName}
+                      data-consensus={consensusRow ? "true" : "false"}
+                    >
+                      <td style={{ fontVariantNumeric: "tabular-nums" }}>
+                        {i + 1}
+                      </td>
+                      <td>
+                        <a
+                          href={`/repo/${row.owner}/${row.name}`}
+                          className="repo-link"
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "0.6rem",
+                          }}
+                        >
+                          <EntityLogo
+                            src={logoUrl}
+                            name={row.fullName}
+                            size={28}
+                          />
+                          <span style={{ display: "inline-flex", flexDirection: "column" }}>
+                            <span style={{ fontWeight: 600 }}>{row.fullName}</span>
+                            {row.description && (
+                              <span
+                                style={{
+                                  fontSize: "0.78rem",
+                                  opacity: 0.7,
+                                  maxWidth: "44ch",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  whiteSpace: "nowrap",
+                                }}
+                              >
+                                {row.description}
+                              </span>
+                            )}
+                          </span>
+                        </a>
+                      </td>
+                      <td>
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "0.4rem",
+                            flexWrap: "wrap",
+                            alignItems: "center",
+                          }}
+                        >
+                          {row.trendshiftRank !== null && (
+                            <span
+                              className="src-chip"
+                              title={`Trendshift daily rank #${row.trendshiftRank}`}
+                              style={{
+                                padding: "0.15rem 0.45rem",
+                                borderRadius: "0.3rem",
+                                fontSize: "0.72rem",
+                                background: "rgba(120, 120, 255, 0.12)",
+                                border: "1px solid rgba(120, 120, 255, 0.35)",
+                              }}
+                            >
+                              Trendshift #{row.trendshiftRank}
+                            </span>
+                          )}
+                          {row.ossRank !== null && (
+                            <span
+                              className="src-chip"
+                              title={`OSS Insight past_24_hours rank #${row.ossRank}`}
+                              style={{
+                                padding: "0.15rem 0.45rem",
+                                borderRadius: "0.3rem",
+                                fontSize: "0.72rem",
+                                background: "rgba(120, 200, 120, 0.12)",
+                                border: "1px solid rgba(120, 200, 120, 0.35)",
+                              }}
+                            >
+                              OSS Insight #{row.ossRank}
+                            </span>
+                          )}
+                          {consensusRow && (
+                            <span
+                              className="src-chip"
+                              aria-label="Appears on both Trendshift and OSS Insight"
+                              title="Appears on both Trendshift and OSS Insight"
+                              style={{
+                                padding: "0.15rem 0.45rem",
+                                borderRadius: "0.3rem",
+                                fontSize: "0.72rem",
+                                fontWeight: 600,
+                                background: "rgba(255, 200, 80, 0.18)",
+                                border: "1px solid rgba(255, 200, 80, 0.5)",
+                              }}
+                            >
+                              consensus
+                            </span>
+                          )}
+                          {attributionLabel(row) && (
+                            <span className="sr-only">
+                              {attributionLabel(row)}
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                      <td
+                        style={{
+                          textAlign: "right",
+                          fontVariantNumeric: "tabular-nums",
+                        }}
+                      >
+                        {row.stars !== null ? formatCompact(row.stars) : "--"}
+                      </td>
+                      <td style={{ opacity: 0.85 }}>{row.language ?? "--"}</td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
         </Card>
+
+        <p
+          className="rank-fineprint"
+          style={{
+            marginTop: "1rem",
+            fontSize: "0.78rem",
+            opacity: 0.7,
+            maxWidth: "60ch",
+          }}
+        >
+          Trendshift list: {consensus.trendshiftCount} repos. OSS Insight list:{" "}
+          {consensus.ossCount} repos. Consensus union after dedupe:{" "}
+          {consensus.unionCount}. Showing top {rows.length}. Repos on both
+          ({consensusCount}) sort first; trendshift-only ({trendshiftOnly}) and
+          OSS-only ({ossOnly}) interleave by their own ranks.
+        </p>
       </div>
 
       <FooterBar
-        meta={`// TRENDINGREPO / githubrepo / serial ${repos.length}`}
+        meta={`// TRENDINGREPO / githubrepo / serial ${rows.length}`}
         actions={`DATA / ${refreshedTime} UTC`}
       />
     </>

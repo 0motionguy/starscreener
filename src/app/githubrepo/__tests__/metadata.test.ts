@@ -27,9 +27,9 @@ describe("GET /githubrepo metadata", () => {
         "alternates": {
           "canonical": "https://trendingrepo.com/githubrepo",
         },
-        "description": "Live momentum-ranked list of the top 50 trending GitHub repositories with cross-source mention chips (Hacker News, Reddit, Bluesky, dev.to, Lobsters, npm, Hugging Face, arXiv, X). Refreshes every minute.",
+        "description": "Top 50 trending GitHub repos ranked by Trendshift + OSS Insight — the two upstreams with the strongest daily signal. Each row shows where it placed on each source. Repos appearing on both float to the top.",
         "openGraph": {
-          "description": "Live momentum-ranked list of the top 50 trending GitHub repositories with cross-source mention chips (Hacker News, Reddit, Bluesky, dev.to, Lobsters, npm, Hugging Face, arXiv, X). Refreshes every minute.",
+          "description": "Top 50 trending GitHub repos ranked by Trendshift + OSS Insight — the two upstreams with the strongest daily signal. Each row shows where it placed on each source. Repos appearing on both float to the top.",
           "images": [
             {
               "alt": "TrendingRepo — top 50 trending GitHub repositories, live",
@@ -59,7 +59,7 @@ describe("GET /githubrepo metadata", () => {
         "twitter": {
           "card": "summary_large_image",
           "creator": "@0motionguy",
-          "description": "Live momentum-ranked list of the top 50 trending GitHub repositories with cross-source mention chips (Hacker News, Reddit, Bluesky, dev.to, Lobsters, npm, Hugging Face, arXiv, X). Refreshes every minute.",
+          "description": "Top 50 trending GitHub repos ranked by Trendshift + OSS Insight — the two upstreams with the strongest daily signal. Each row shows where it placed on each source. Repos appearing on both float to the top.",
           "images": [
             "/og-card.png",
           ],

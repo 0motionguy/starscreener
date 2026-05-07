@@ -6,6 +6,24 @@
 # When previous SHA missing (first deploy / forked repo / preview), default to building.
 set -euo pipefail
 
+branch="${VERCEL_GIT_COMMIT_REF:-}"
+
+# Hard skip for data-bot branches AND the ship/home-polish integration
+# branch — both produce many small commits that should not each fire a
+# preview build. Local dev (port 3025) is the canonical preview surface
+# for ship/home-polish; Vercel previews are reserved for actual feature
+# branches and main.
+case "$branch" in
+  data/*)
+    echo "[ignoreCommand] data-bot branch ($branch) — skipping build unconditionally"
+    exit 0
+    ;;
+  ship/home-polish)
+    echo "[ignoreCommand] ship/home-polish (local-preview branch) — skipping build"
+    exit 0
+    ;;
+esac
+
 prev="${VERCEL_GIT_PREVIOUS_SHA:-}"
 if [ -z "$prev" ]; then
   echo "[ignoreCommand] no VERCEL_GIT_PREVIOUS_SHA — building"

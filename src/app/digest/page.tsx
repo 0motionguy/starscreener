@@ -95,39 +95,38 @@ export default async function DigestIndexPage() {
 
       {onlyToday ? (
         <section
-          className="panel"
           style={{
-            padding: "20px 24px",
+            padding: 32,
+            background: "var(--v4-bg-025)",
+            border: "1px dashed var(--v4-line-100)",
+            borderRadius: 2,
             display: "flex",
             flexDirection: "column",
             gap: 16,
           }}
         >
-          <div>
-            <p style={{ color: "var(--v4-ink-100)", fontWeight: 600, marginBottom: 4 }}>
-              Daily digests start today.
-            </p>
-            <p style={{ color: "var(--v4-ink-300)", fontSize: 13 }}>
-              Check back tomorrow for the first archive — every day from now on
-              produces a new permanent URL.
-            </p>
-          </div>
+          <h2
+            className="v2-mono"
+            style={{
+              color: "var(--v4-acc)",
+              fontSize: 18,
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.18em",
+              margin: 0,
+            }}
+          >
+            {"// archive begins today"}
+          </h2>
+          <p style={{ maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)", margin: 0 }}>
+            Every day from now on produces a permanent URL. Today&apos;s snapshot
+            is live — historical entries fill in as the daily collector runs.
+          </p>
           {sorted[0] ? (
             <Link
               href={`/digest/${sorted[0]}`}
-              style={{
-                alignSelf: "flex-start",
-                display: "inline-flex",
-                alignItems: "center",
-                padding: "8px 16px",
-                background: "var(--v4-acc)",
-                color: "var(--v4-ink-000)",
-                fontFamily: "var(--v4-mono)",
-                fontSize: 11,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                fontWeight: 600,
-              }}
+              className="v2-btn v2-btn-primary"
+              style={{ alignSelf: "flex-start" }}
             >
               View today&apos;s digest →
             </Link>
@@ -163,10 +162,10 @@ export default async function DigestIndexPage() {
                   href={`/digest/${date}`}
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "120px 1fr auto",
+                    gridTemplateColumns: "140px 1fr auto",
                     alignItems: "center",
                     gap: 16,
-                    padding: "12px 16px",
+                    padding: "14px 16px",
                     color: "var(--v4-ink-100)",
                     transition: "background-color var(--v4-duration-fast) var(--v4-ease)",
                   }}
@@ -175,9 +174,11 @@ export default async function DigestIndexPage() {
                   <span
                     style={{
                       fontFamily: "var(--v4-mono)",
-                      fontSize: 13,
+                      fontSize: 15,
+                      fontWeight: 600,
                       fontVariantNumeric: "tabular-nums",
-                      color: "var(--v4-ink-100)",
+                      color: "var(--v4-ink-000)",
+                      letterSpacing: "0.02em",
                     }}
                   >
                     {date}

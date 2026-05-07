@@ -81,19 +81,52 @@ function logFailure(source, repo, err) {
 }
 
 // ---------------------------------------------------------------------------
-// HackerNews — Algolia search-by-query, last 7d
+// HackerNews — Algolia search-by-query, last 7d.
+//
+// Search strategy: 3 progressive queries to maximize recall.
+//   1. URL match  — "github.com/owner/name" — catches Show HN / link posts
+//   2. Slug match — "owner/name" loose       — catches discussion threads
+//   3. Name match — "name" alone             — catches casual mentions
+//                   (only when name is distinctive, ≥5 chars + not generic)
+// Results deduped by objectID. Loose (unquoted) queries — Algolia's exact-
+// phrase search misses too many casual mentions like "I'm using <name>".
 // ---------------------------------------------------------------------------
 
 const SEVEN_DAYS_S = 7 * 24 * 60 * 60;
 
+const HN_GENERIC_NAMES = new Set([
+  "skills", "core", "api", "cli", "agent", "agents", "bot", "framework",
+  "code", "app", "apps", "sdk", "lib", "tools", "ui", "model", "models",
+  "client", "server", "data", "docs", "engine", "kit", "plugin", "project",
+  "service", "utils", "web", "playground", "demo", "starter", "template",
+]);
+
+function isDistinctiveName(name) {
+  if (typeof name !== "string") return false;
+  const lower = name.trim().toLowerCase();
+  if (lower.length < 5) return false;
+  if (HN_GENERIC_NAMES.has(lower)) return false;
+  return true;
+}
+
 export async function searchHackerNews(repo) {
   const since = Math.floor(Date.now() / 1000) - SEVEN_DAYS_S;
+  const seen = new Map(); // objectID → hit
+  const queries = [
+    `github.com/${repo.fullName}`,
+    `${repo.owner}/${repo.name}`,
+  ];
+  if (isDistinctiveName(repo.name)) {
+    queries.push(repo.name);
+  }
   try {
-    const stories = await searchAlgoliaStories({
-      query: `"${repo.fullName}"`,
-      since,
-    });
-    return (stories ?? []).map((s) => ({
+    for (const query of queries) {
+      const stories = await searchAlgoliaStories({ query, since });
+      for (const s of stories ?? []) {
+        if (!seen.has(s.objectID)) seen.set(s.objectID, s);
+      }
+    }
+    return Array.from(seen.values()).map((s) => ({
       source: "hackernews",
       fullName: repo.fullName,
       url: s.url || `https://news.ycombinator.com/item?id=${s.objectID}`,
@@ -113,33 +146,59 @@ export async function searchHackerNews(repo) {
 }
 
 // ---------------------------------------------------------------------------
-// Reddit — public search JSON, last 7d, sort=new
+// Reddit — public search JSON, last 7d, sort=new.
+//
+// Search strategy: same progressive widening as HN — drop quotes for loose
+// match, fall back to name-only when the name is distinctive. Reddit's
+// full-text indexer is even noisier than Algolia, so we cap result count
+// per query and dedup by post ID.
 // ---------------------------------------------------------------------------
 
 export async function searchReddit(repo) {
   // Public Reddit JSON works without OAuth at low volume; a per-repo lookup
   // is well within the unauthenticated budget. OAuth is optional.
-  const q = encodeURIComponent(`"${repo.fullName}" OR "github.com/${repo.fullName}"`);
-  const url = `https://old.reddit.com/search.json?q=${q}&sort=new&t=week&limit=50`;
+  const queries = [
+    `github.com/${repo.fullName}`,
+    `${repo.owner}/${repo.name}`,
+  ];
+  if (isDistinctiveName(repo.name)) {
+    queries.push(repo.name);
+  }
+  const seen = new Map(); // post id → mention
   try {
-    const data = await fetchJson(url, { headers: { "User-Agent": UA } });
-    const children = data?.data?.children ?? [];
-    return children.map((c) => {
-      const d = c.data ?? {};
-      return {
-        source: "reddit",
-        fullName: repo.fullName,
-        url: d.permalink ? `https://www.reddit.com${d.permalink}` : d.url ?? "",
-        title: truncate(d.title ?? "", 200),
-        text: truncate(d.selftext ?? "", TEXT_TRUNCATE),
-        author: d.author ?? null,
-        engagement: {
-          score: d.score ?? 0,
-          comments: d.num_comments ?? 0,
-        },
-        observedAt: isoFromUnix(d.created_utc),
-      };
-    });
+    for (const q of queries) {
+      const url = `https://old.reddit.com/search.json?q=${encodeURIComponent(q)}&sort=new&t=week&limit=50`;
+      let data;
+      try {
+        data = await fetchJson(url, { headers: { "User-Agent": UA } });
+      } catch (err) {
+        // Reddit 429s are common when running many queries — log + continue
+        // so we still aggregate what we got from earlier queries.
+        if (process.env.SWEEP_VERBOSE) {
+          console.warn(`[xs:reddit] ${repo.fullName} query "${q}" failed: ${err instanceof Error ? err.message : err}`);
+        }
+        continue;
+      }
+      const children = data?.data?.children ?? [];
+      for (const c of children) {
+        const d = c.data ?? {};
+        if (!d.id || seen.has(d.id)) continue;
+        seen.set(d.id, {
+          source: "reddit",
+          fullName: repo.fullName,
+          url: d.permalink ? `https://www.reddit.com${d.permalink}` : d.url ?? "",
+          title: truncate(d.title ?? "", 200),
+          text: truncate(d.selftext ?? "", TEXT_TRUNCATE),
+          author: d.author ?? null,
+          engagement: {
+            score: d.score ?? 0,
+            comments: d.num_comments ?? 0,
+          },
+          observedAt: isoFromUnix(d.created_utc),
+        });
+      }
+    }
+    return Array.from(seen.values());
   } catch (err) {
     logFailure("reddit", repo, err);
     return [];

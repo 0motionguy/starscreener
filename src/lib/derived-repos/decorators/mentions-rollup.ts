@@ -338,6 +338,30 @@ export function decorateWithMentionsRollup(repos: Repo[]): Repo[] {
       perSource.funding = { count24h: f24, count7d: f7 };
     }
 
+    // Attach cross-source-sweep detail if available, AND boost the per-source
+    // 7d counts using sweep data when it's higher. The sweep is repo-first
+    // (per-channel query for THIS repo) where the source-first loaders are
+    // source-first (scan the channel feed, attribute to whatever appears) —
+    // they catch different things and the sweep typically finds 5-10x more.
+    // Taking max() per channel lets the UI (CompletenessStrip, LiveTopTable
+    // chips, /githubrepo channel pills) reflect the broader coverage without
+    // changing any consumer code. count24h is left untouched because the
+    // sweep records 7d events only.
+    const detail = getCrossSourceDetail(r.fullName);
+    if (detail?.perSource) {
+      for (const [channel, bucket] of Object.entries(detail.perSource)) {
+        if (!bucket || channel === "tavily") continue;
+        const c = channel as Exclude<typeof channel, "tavily"> & SocialPlatform;
+        const sweep7d = bucket.count7d ?? 0;
+        if (sweep7d > (perSource[c]?.count7d ?? 0)) {
+          perSource[c] = {
+            count24h: perSource[c]?.count24h ?? 0,
+            count7d: sweep7d,
+          };
+        }
+      }
+    }
+
     let total24h = 0;
     let total7d = 0;
     for (const v of Object.values(perSource)) {
@@ -345,12 +369,6 @@ export function decorateWithMentionsRollup(repos: Repo[]): Repo[] {
       total7d += v.count7d;
     }
 
-    // Attach cross-source-sweep detail if available. Additive — does not
-    // affect counts on `perSource` / `total24h` / `total7d`. UI consumers
-    // that want the actual mention objects (URL, author, engagement) read
-    // `mentions.detail.perSource[channel].top[]`; counts-only consumers
-    // ignore it.
-    const detail = getCrossSourceDetail(r.fullName);
     const rollup: RepoMentionsRollup = detail
       ? { total24h, total7d, perSource, detail }
       : { total24h, total7d, perSource };

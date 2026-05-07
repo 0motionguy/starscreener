@@ -97,6 +97,7 @@ interface SweepEvent extends Mention {
 
 interface Options {
   top: number;
+  skip: number;
   repo: string | null;
   queue: string | null;
   sourceOnly: string | null;
@@ -111,6 +112,7 @@ function usage(): string {
     "                                  [--source-only ch] [--concurrency N] [--dry-run]",
     "",
     "  --top N            number of top-trending repos to sweep (default 50)",
+    "  --skip N           skip the first N trending entries (e.g. --skip 50 --top 50 = ranks 51-100)",
     "  --queue path       consume profile-completion-queue.json instead of top-N",
     "  --repo owner/name  sweep one specific repo (overrides --top / --queue)",
     "  --source-only ch   restrict to one of: " + SUPPORTED_SOURCES.join(", "),
@@ -127,6 +129,7 @@ function failUsage(message: string): never {
 
 function parseArgs(argv: string[]): Options {
   let top = 50;
+  let skip = 0;
   let repo: string | null = null;
   let queue: string | null = null;
   let sourceOnly: string | null = null;
@@ -147,6 +150,10 @@ function parseArgs(argv: string[]): Options {
       top = positiveInt(argv[++i], "--top");
     } else if (arg.startsWith("--top=")) {
       top = positiveInt(arg.slice(6), "--top");
+    } else if (arg === "--skip") {
+      skip = nonNegativeInt(argv[++i], "--skip");
+    } else if (arg.startsWith("--skip=")) {
+      skip = nonNegativeInt(arg.slice(7), "--skip");
     } else if (arg === "--repo") {
       repo = requireString(argv[++i], "--repo");
     } else if (arg.startsWith("--repo=")) {
@@ -170,7 +177,7 @@ function parseArgs(argv: string[]): Options {
   if (sourceOnly && !SUPPORTED_SOURCES.includes(sourceOnly)) {
     failUsage(`--source-only must be one of: ${SUPPORTED_SOURCES.join(", ")}`);
   }
-  return { top, repo, queue, sourceOnly, concurrency, dryRun, verbose };
+  return { top, skip, repo, queue, sourceOnly, concurrency, dryRun, verbose };
 }
 
 function positiveInt(raw: string | undefined, name: string): number {
@@ -178,6 +185,15 @@ function positiveInt(raw: string | undefined, name: string): number {
   const n = Number(raw);
   if (!Number.isFinite(n) || n < 1 || !Number.isInteger(n)) {
     failUsage(`${name} must be a positive integer, got ${raw}`);
+  }
+  return n;
+}
+
+function nonNegativeInt(raw: string | undefined, name: string): number {
+  if (!raw) failUsage(`${name} requires a value`);
+  const n = Number(raw);
+  if (!Number.isFinite(n) || n < 0 || !Number.isInteger(n)) {
+    failUsage(`${name} must be a non-negative integer, got ${raw}`);
   }
   return n;
 }
@@ -331,6 +347,7 @@ async function loadQueueRepos(
 
 async function loadTrendingTopN(
   topN: number,
+  skip: number,
   metadata: Map<string, MetadataItem>,
   packages: Map<string, string[]>,
 ): Promise<RepoInput[]> {
@@ -340,12 +357,15 @@ async function loadTrendingTopN(
   const rows = data.buckets?.past_24_hours?.All ?? [];
   const out: RepoInput[] = [];
   const seen = new Set<string>();
+  let absoluteRank = 0;
   for (const row of rows) {
     if (!row?.repo_name?.includes("/")) continue;
     const key = row.repo_name.toLowerCase();
     if (seen.has(key)) continue;
     seen.add(key);
-    const repo = repoFromTrending(row, metadata, packages, out.length + 1);
+    absoluteRank += 1;
+    if (absoluteRank <= skip) continue;
+    const repo = repoFromTrending(row, metadata, packages, absoluteRank);
     if (!repo) continue;
     out.push(repo);
     if (out.length >= topN) break;
@@ -533,10 +553,10 @@ async function main(): Promise<void> {
     repos = await loadQueueRepos(opts.queue, metadata, packages, opts.top);
     if (repos.length === 0) {
       console.warn(`[sweep] queue empty / stale — falling back to trending top-${opts.top}`);
-      repos = await loadTrendingTopN(opts.top, metadata, packages);
+      repos = await loadTrendingTopN(opts.top, opts.skip, metadata, packages);
     }
   } else {
-    repos = await loadTrendingTopN(opts.top, metadata, packages);
+    repos = await loadTrendingTopN(opts.top, opts.skip, metadata, packages);
   }
 
   if (repos.length === 0) {
@@ -617,10 +637,18 @@ async function main(): Promise<void> {
     await appendFile(DETAIL_JSONL, lines, "utf8");
   }
 
-  // Build + write rollup (always, even when 0 events, to keep the file fresh).
+  // Build + write rollup. Merge with existing on-disk rollup so successive
+  // runs (e.g. --top 50, then --skip 50 --top 50) accumulate coverage
+  // instead of overwriting prior repos. New repos in this run replace any
+  // prior entry (same fullName), preserving rest. Per-source freshness
+  // within a repo is the latest run's view, which matches the JSONL's
+  // append-only semantics.
   const rollup = buildRollup(allEvents, scanRunId);
-  await writeFile(ROLLUP_FILE, JSON.stringify(rollup, null, 2) + "\n", "utf8");
-  const redisResult = await writeDataStore("repo-mentions-detail-rollup", rollup);
+  const previous = await readJson<{ repos?: Record<string, unknown> }>(ROLLUP_FILE, { repos: {} });
+  const mergedRepos = { ...(previous.repos ?? {}), ...rollup.repos };
+  const mergedRollup = { ...rollup, repos: mergedRepos };
+  await writeFile(ROLLUP_FILE, JSON.stringify(mergedRollup, null, 2) + "\n", "utf8");
+  const redisResult = await writeDataStore("repo-mentions-detail-rollup", mergedRollup);
 
   await writeSourceMetaFromOutcome({
     source: "cross-source-mentions",

@@ -30,10 +30,7 @@ import { absoluteUrl } from "@/lib/seo";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { refreshTrendingFromStore } from "@/lib/trending";
 import { getRepoMetadata } from "@/lib/repo-metadata";
-import {
-  synthesizeRecentRepoSparkline,
-  synthesizeSparkline,
-} from "@/lib/derived-repos/sparkline";
+import { synthesizeRecentRepoSparkline } from "@/lib/derived-repos/sparkline";
 import type { Repo } from "@/lib/types";
 
 export const revalidate = 60;
@@ -190,77 +187,19 @@ export default async function McpPage() {
         meta?.pushedAt ||
         meta?.updatedAt,
     );
-    // hasInstallsDeltas = item-level install deltas exist on the row even
-    // without a linked repo. We can synthesize a curve from popularity +
-    // those deltas via synthesizeSparkline.
-    const hasInstallsDeltas = Boolean(
-      hasPopularity &&
-        ((item.installsDelta1d ?? 0) !== 0 ||
-          (item.installsDelta7d ?? 0) !== 0 ||
-          (item.installsDelta30d ?? 0) !== 0 ||
-          (item.mcp?.installs24h ?? 0) !== 0 ||
-          (item.mcp?.installs7d ?? 0) !== 0 ||
-          (item.mcp?.installs30d ?? 0) !== 0),
-    );
-    // hasChartData = we can render a non-empty sparkline (real from derived,
-    // synthesized from stars + createdAt, or synthesized from popularity +
-    // installsDelta). Used to lift chart-able rows to the top of the board.
-    const hasRealSparkline = Boolean(
-      linked?.sparklineData && linked.sparklineData.length > 1,
-    );
-    const repoStars = linked?.stars ?? meta?.stars ?? 0;
-    const repoCreatedAt = linked?.createdAt ?? meta?.createdAt ?? null;
-    const hasSynthFromStars = repoStars > 0 && Boolean(repoCreatedAt);
-    const hasChartData =
-      hasRealSparkline || hasSynthFromStars || hasInstallsDeltas;
-    const hasFillableData =
-      hasPopularity || hasLinkedStars || hasReleaseDate || hasInstallsDeltas;
-    return { item, linked, meta, hasFillableData, hasChartData };
+    const hasFillableData = hasPopularity || hasLinkedStars || hasReleaseDate;
+    return { item, linked, meta, hasFillableData };
   });
 
-  // Trending score — the primary rank. Pre-fix the sort led with
-  // `hasChartData` + `hasFillableData`, which lifted prettier-but-quiet
-  // rows over genuinely active ones (e.g. open-code-review with use=21
-  // outranked domain-check with use=271 + +5 weekly installs). The new
-  // score weights install velocity heavy (24h heaviest, 30d lightest),
-  // log-scales popularity so absolute counts can't fully dominate, and
-  // adds small kickers for cross-registry presence + signalScore. Visual
-  // polish flags drop to last-resort tiebreakers, so every top-N row is
-  // there because it's *actually* moving.
-  function trendingScore(e: (typeof enriched)[number]): number {
-    const item = e.item;
-    const linked = e.linked;
-    // Prefer registry-reported install velocity (item.mcp.installs*),
-    // fall back to top-level installsDelta*, then to the linked repo's
-    // star deltas — same priority chain the row renderer uses for the
-    // 24h/7d/30d columns, so the score lines up with what users see.
-    const i24 = Math.max(
-      item.mcp?.installs24h ?? 0,
-      item.installsDelta1d ?? 0,
-      linked?.starsDelta24h ?? 0,
-    );
-    const i7 = Math.max(
-      item.mcp?.installs7d ?? 0,
-      item.installsDelta7d ?? 0,
-      linked?.starsDelta7d ?? 0,
-    );
-    const i30 = Math.max(
-      item.mcp?.installs30d ?? 0,
-      item.installsDelta30d ?? 0,
-      linked?.starsDelta30d ?? 0,
-    );
-    const velocity = i24 * 5 + i7 * 1 + i30 * 0.2;
-    const popularityFloor = Math.log1p(item.popularity ?? 0) * 2;
-    const crossKicker = Math.max(0, (item.crossSourceCount ?? 1) - 1) * 1.5;
-    const signal = item.signalScore ?? 0;
-    return velocity + popularityFloor + crossKicker + signal;
-  }
-
-  // Filter is permissive — any item with multi-source presence,
-  // popularity, a release date, OR signalScore > 0 passes — then we
-  // take top 50 by trendingScore. Charts get synthesized from metadata
-  // for rows without a real series (see toLiveRow mapper below) so
-  // every visible row still has a sparkline.
+  // Rank by data-richness first, then multi-registry consensus, then
+  // popularity, then signalScore. This is the OSS-Insight + TrendShift
+  // equivalent for MCPs (cross-registry agreement = the primary "fused
+  // trending" signal) but with rows that actually render data lifted to
+  // the top so the visible board doesn't open with empty cells.
+  // Filter is permissive — any item with multi-source presence, popularity,
+  // a release date, OR signalScore > 0 passes — and we then take top 50.
+  // Charts get synthesized from metadata for rows without a real series
+  // (see toLiveRow mapper below) so every visible row has a sparkline.
   const ranked = enriched
     .filter((e) => {
       if (e.hasFillableData) return true;
@@ -270,18 +209,16 @@ export default async function McpPage() {
       return false;
     })
     .sort((a, b) => {
-      const sa = trendingScore(a);
-      const sb = trendingScore(b);
-      if (sb !== sa) return sb - sa;
-      // Tiebreakers: chart-able + fillable rows surface first so the
-      // visible board doesn't open with empty cells when scores match.
-      if (a.hasChartData !== b.hasChartData) {
-        return a.hasChartData ? -1 : 1;
-      }
       if (a.hasFillableData !== b.hasFillableData) {
         return a.hasFillableData ? -1 : 1;
       }
-      return 0;
+      const csa = a.item.crossSourceCount ?? 1;
+      const csb = b.item.crossSourceCount ?? 1;
+      if (csb !== csa) return csb - csa;
+      const pa = a.item.popularity ?? 0;
+      const pb = b.item.popularity ?? 0;
+      if (pb !== pa) return pb - pa;
+      return (b.item.signalScore ?? 0) - (a.item.signalScore ?? 0);
     });
 
   const mcpRows: McpRow[] = ranked
@@ -343,43 +280,12 @@ export default async function McpPage() {
             ? "stars"
             : null;
 
-      // Sparkline fallback chain:
-      //   1. Real series from the linked derived repo
-      //   2. Synthesize from total stars + repo age (linked or metadata)
-      //   3. Synthesize from popularity + installs-deltas
-      //   4. Last resort: synthesize from postedAt + signalScore so every
-      //      visible row gets a curve. The shape is "discovery age vs
-      //      current signal" — not a stars/installs claim, but visually
-      //      honest about how long an MCP has been on our radar.
+      // Sparkline: real series from derived repo first; otherwise synthesize
+      // a credible curve from total stars + age. Without metadata, an empty
+      // array keeps the "no chart" state honest.
       let sparklineData: number[] = linkedRepo?.sparklineData ?? [];
       if (sparklineData.length < 2 && repoStars > 0 && repoCreatedAt) {
         sparklineData = synthesizeRecentRepoSparkline(repoStars, repoCreatedAt);
-      }
-      if (sparklineData.length < 2 && (item.popularity ?? 0) > 0) {
-        const popD24 =
-          item.mcp?.installs24h ?? item.installsDelta1d ?? 0;
-        const popD7 =
-          item.mcp?.installs7d ?? item.installsDelta7d ?? 0;
-        const popD30 =
-          item.mcp?.installs30d ?? item.installsDelta30d ?? 0;
-        if (popD24 !== 0 || popD7 !== 0 || popD30 !== 0) {
-          sparklineData = synthesizeSparkline(
-            item.popularity ?? 0,
-            popD24,
-            popD7,
-            popD30,
-          );
-        }
-      }
-      if (
-        sparklineData.length < 2 &&
-        (item.signalScore ?? 0) > 0 &&
-        item.postedAt
-      ) {
-        sparklineData = synthesizeRecentRepoSparkline(
-          Math.round(item.signalScore ?? 0),
-          item.postedAt,
-        );
       }
 
       // Use column: registry popularity first, then any repo stars source.

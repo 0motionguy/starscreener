@@ -37,6 +37,7 @@ import { SectionHead } from "@/components/ui/SectionHead";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { RankRow } from "@/components/ui/RankRow";
+import { FooterBar } from "@/components/ui/FooterBar";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { MarkVisited } from "@/components/layout/MarkVisited";
 import {
@@ -51,12 +52,18 @@ export const revalidate = 60;
 const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 const TOP_N = 20;
 const REFRESH_TIMEOUT_MS = 4000;
+// Cap how many "trending" skills we ship to the client. Pre-fix the page
+// rendered all ~1.8k items in one giant table (5 MB HTML, ~3s warm SSR).
+// 200 trending across 4 paginated pages of 50 is what users actually scan.
+const TRENDING_CAP = 200;
+// Per-repo cap so one collection (openclaw/openclaw, anthropics/skills,
+// pytorch/pytorch — each contains 10-15+ child SKILL.md files) can't take
+// every top slot. 3 lets the strongest skills from a collection stay visible
+// without monopolising the leaderboard.
+const PER_AUTHOR_CAP = 3;
 const DESCRIPTION =
   "Top Claude / Codex / agent skills merged from skills.sh, GitHub, Smithery, lobehub, and skillsmp.";
 
-// Scoped polish for the most-cited card grid: hover affordance + tighter
-// typography hierarchy. Kept inline so the page owns its visual treatment
-// without adding to globals.css (shared component territory).
 const SKILLS_CARD_CSS = `
 .skills-cited-card{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--v4-line-200);border-radius:3px;background:var(--v4-bg-050);font-family:var(--font-geist-mono),monospace;font-size:11px;color:var(--v4-ink-200);text-decoration:none;transition:border-color .12s ease,background .12s ease,transform .12s ease}
 .skills-cited-card:hover{border-color:var(--v4-acc);background:var(--v4-bg-100);transform:translateY(-1px)}
@@ -72,6 +79,32 @@ function fullNameFromUrl(url: string | null | undefined): string | null {
   const m = url.match(/github\.com\/([^/?#]+)\/([^/?#]+)/i);
   if (!m) return null;
   return `${m[1]}/${m[2].replace(/\.git$/i, "")}`.toLowerCase();
+}
+
+/**
+ * Author-cap helper. Walks `items` in input order and keeps at most
+ * `capPerAuthor` per `linkedRepo` (fallback `author`). Keeping the input
+ * order means the caller's sort (signalScore desc, hotness desc, etc.)
+ * survives — we just thin the long-tail of duplicates from one collection.
+ *
+ * Items with no linkedRepo + no author are passed through uncapped (each
+ * one is treated as its own bucket via the unique `id` fallback).
+ */
+function capPerAuthor<T extends { linkedRepo: string | null; author: string | null; id: string }>(
+  items: ReadonlyArray<T>,
+  capPerAuthor: number,
+): T[] {
+  const counts = new Map<string, number>();
+  const out: T[] = [];
+  for (const item of items) {
+    const author = (item.linkedRepo ?? item.author ?? "").toLowerCase();
+    const bucket = author || item.id; // unauthored → own bucket
+    const seen = counts.get(bucket) ?? 0;
+    if (seen >= capPerAuthor) continue;
+    counts.set(bucket, seen + 1);
+    out.push(item);
+  }
+  return out;
 }
 
 async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T | null> {
@@ -137,12 +170,26 @@ export default async function SkillsPage() {
     linkedRepoCounts.set(key, (linkedRepoCounts.get(key) ?? 0) + 1);
   }
 
-  // Top — primary leaderboard, ordered by static signalScore. AGN-536:
-  // window-delta re-ranking was removed alongside the unpopulated 24h/7d/30d
-  // columns; signalScore is the only ordering that has data on every row.
-  const topByScore = [...items]
-    .sort((a, b) => b.signalScore - a.signalScore)
-    .slice(0, TOP_N);
+  // Trending leaderboard — multi-registry consensus first, then signalScore.
+  // Mirrors the OSS-Insight + TrendShift fusion on /githubrepo: skills
+  // listed in 5/5 registries beat ones listed in 1/5. Within ties,
+  // signalScore (which already fuses popularity + freshness + citations)
+  // breaks. Then thin out repeat collections (per-author cap) so one repo
+  // can't take 13/20 slots, hard-cap at TRENDING_CAP.
+  const sortedByScore = [...items].sort((a, b) => {
+    const csa = a.crossSourceCount ?? 1;
+    const csb = b.crossSourceCount ?? 1;
+    if (csb !== csa) return csb - csa;
+    return b.signalScore - a.signalScore;
+  });
+  const trendingItems = capPerAuthor(sortedByScore, PER_AUTHOR_CAP).slice(
+    0,
+    TRENDING_CAP,
+  );
+
+  // KPI/verdict-ribbon stamp uses the diversified top-N (avoids reporting
+  // an "avg signal" inflated by 13 near-identical sibling skills).
+  const topByScore = trendingItems.slice(0, TOP_N);
 
   // Top by stars — leaderboard tile in the KPI band.
   const topByStars = [...items]
@@ -158,23 +205,31 @@ export default async function SkillsPage() {
   });
 
   // Most-cited (derivative repo count >= 1) — used for KPI + right rail.
-  const mostCited = [...items]
-    .filter((it) => (it.derivativeRepoCount ?? 0) > 0)
-    .sort(
-      (a, b) =>
-        (b.derivativeRepoCount ?? 0) - (a.derivativeRepoCount ?? 0) ||
-        b.signalScore - a.signalScore,
-    );
+  // Author-capped so the right-rail tile doesn't render 12 sibling skills
+  // from the same collection.
+  const mostCited = capPerAuthor(
+    [...items]
+      .filter((it) => (it.derivativeRepoCount ?? 0) > 0)
+      .sort(
+        (a, b) =>
+          (b.derivativeRepoCount ?? 0) - (a.derivativeRepoCount ?? 0) ||
+          b.signalScore - a.signalScore,
+      ),
+    PER_AUTHOR_CAP,
+  );
 
-  // Breakout slice — new-this-week sorted by Δhotness fallback to absolute hotness.
-  const breakout = [...newRecent]
-    .sort((a, b) => {
+  // Breakout slice — new-this-week sorted by Δhotness fallback to absolute
+  // hotness. Author-capped before the slice so a single repo's burst of new
+  // child skills doesn't fill all 10 breakout rows.
+  const breakout = capPerAuthor(
+    [...newRecent].sort((a, b) => {
       const aDelta = (a.hotness ?? 0) - (a.hotnessPrev7d ?? a.hotness ?? 0);
       const bDelta = (b.hotness ?? 0) - (b.hotnessPrev7d ?? b.hotness ?? 0);
       if (aDelta !== bDelta) return bDelta - aDelta;
       return (b.hotness ?? b.signalScore) - (a.hotness ?? a.signalScore);
-    })
-    .slice(0, 10);
+    }),
+    PER_AUTHOR_CAP,
+  ).slice(0, 10);
 
   // Average accuracy proxy = average signal score across the top 20 (used as
   // the verdict ribbon stamp). Not a true accuracy metric — the leaderboard
@@ -288,28 +343,33 @@ export default async function SkillsPage() {
         title="Top skills"
         meta={
           <>
-            <b>{items.length}</b> · sortable
+            top <b>{trendingItems.length}</b> of {formatNumber(items.length)} ·
+            max {PER_AUTHOR_CAP}/repo
           </>
         }
       />
 
       {(() => {
-        const skillRows: SkillRow[] = items.map((item) => {
+        const skillRows: SkillRow[] = trendingItems.map((item) => {
           const key =
             (item.linkedRepo ?? fullNameFromUrl(item.url))?.toLowerCase() ?? null;
-          const uniqueRepo =
-            key !== null && (linkedRepoCounts.get(key) ?? 0) === 1;
-          const linked = uniqueRepo && key ? (repoByFullName.get(key) ?? null) : null;
+          // Plumb linked-repo data through whether the skill is the only
+          // child of that repo or one of several siblings. Per-author cap
+          // already keeps the visible roster diverse; siblings sharing the
+          // same parent's star delta is acceptable noise vs the prior
+          // "fill the column with —" UX.
+          const linked = key ? (repoByFullName.get(key) ?? null) : null;
+          const stars =
+            typeof item.popularity === "number" && item.popularity > 0
+              ? item.popularity
+              : (linked?.stars ?? 0);
           return {
             id: item.id,
             title: item.title,
             author: item.author ?? null,
             href: `/skills/${encodeSkillSlug(item.id)}`,
             logoUrl: item.logoUrl ?? null,
-            stars:
-              typeof item.popularity === "number"
-                ? item.popularity
-                : (linked?.stars ?? 0),
+            stars,
             starsDelta24h: linked?.starsDelta24h ?? null,
             starsDelta7d: linked?.starsDelta7d ?? null,
             starsDelta30d: linked?.starsDelta30d ?? null,
@@ -322,7 +382,7 @@ export default async function SkillsPage() {
           };
         });
         if (skillRows.length === 0) {
-          return <ColdState message="No skills leaderboard rows have landed yet. Waiting for upstream fetchers to populate Redis." />;
+          return <SkillsEmpty>{"// no leaderboard rows yet · waiting for upstream fetchers"}</SkillsEmpty>;
         }
         return <SkillsTopTable rows={skillRows} />;
       })()}
@@ -393,10 +453,21 @@ export default async function SkillsPage() {
           })}
         </section>
       ) : (
-        <ColdState message="No skills created or pushed in the last 7 days." />
+        <SkillsEmpty>{"// no skills created or pushed in the last 7 days"}</SkillsEmpty>
       )}
 
-      <SectionHead num="// 03" title="Most-cited skills" as="h3" />
+      <SectionHead
+        num="// 03"
+        title="Most-cited skills"
+        as="h3"
+        meta={
+          citedCount > 0 ? (
+            <>
+              <b>{formatNumber(Math.min(citedCount, 12))}</b> · derivatives
+            </>
+          ) : undefined
+        }
+      />
       {mostCited.length > 0 ? (
         <ul
           style={{
@@ -411,7 +482,10 @@ export default async function SkillsPage() {
         >
           {mostCited.slice(0, 12).map((item) => (
             <li key={item.id}>
-              <Link href={`/skills/${encodeSkillSlug(item.id)}`} className="skills-cited-card">
+              <Link
+                href={`/skills/${encodeSkillSlug(item.id)}`}
+                className="skills-cited-card"
+              >
                 <span style={{ flex: 1, minWidth: 0 }}>
                   <span className="skills-cited-card__title">{item.title}</span>
                   <span className="skills-cited-card__sub">
@@ -427,18 +501,31 @@ export default async function SkillsPage() {
           ))}
         </ul>
       ) : (
-        <ColdState message="No derivative repo citations recorded yet." compact />
+        <SkillsEmpty>{"// no derivative repo citations recorded yet"}</SkillsEmpty>
       )}
+
+      <FooterBar
+        meta={`// SKILLS / leaderboard / serial ${formatNumber(items.length)}`}
+        actions={
+          <>
+            DATA / 5 REGISTRIES · top {topByScore.length} · cap {PER_AUTHOR_CAP}/repo
+          </>
+        }
+      />
     </main>
   );
 }
 
-interface ColdStateProps {
-  message: string;
-  compact?: boolean;
+interface SkillsEmptyProps {
+  children: React.ReactNode;
 }
 
-function ColdState({ message, compact = false }: ColdStateProps) {
+/**
+ * Mono-caps empty-state row that matches the terminal-dashboard voice used on
+ * the home page (e.g. "waiting for live rows", "// no series"). Replaces ad-hoc
+ * inline-styled <p> blocks so every dead-state copy reads the same shape.
+ */
+function SkillsEmpty({ children }: SkillsEmptyProps) {
   return (
     <div
       style={{
@@ -447,13 +534,13 @@ function ColdState({ message, compact = false }: ColdStateProps) {
         color: "var(--v4-ink-300)",
         border: "1px dashed var(--v4-line-200)",
         borderRadius: 4,
-        padding: compact ? "12px 14px" : "20px 16px",
+        padding: "20px 16px",
         background: "var(--v4-bg-050)",
-        marginBottom: compact ? 12 : 16,
+        marginBottom: 16,
       }}
     >
       <span style={{ color: "var(--v4-ink-400)" }}>{"// "}</span>
-      {message}
+      {children}
     </div>
   );
 }
@@ -465,8 +552,8 @@ interface SkillAvatarProps {
 
 function SkillAvatar({ logoUrl, fallback }: SkillAvatarProps) {
   if (logoUrl) {
-    // eslint-disable-next-line @next/next/no-img-element
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={logoUrl}
         alt=""
@@ -505,4 +592,3 @@ function SkillAvatar({ logoUrl, fallback }: SkillAvatarProps) {
     </span>
   );
 }
-

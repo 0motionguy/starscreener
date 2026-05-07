@@ -67,7 +67,7 @@ function compactNumber(value: number | null | undefined): string {
 }
 
 function money(value: number | null | undefined): string {
-  if (!Number.isFinite(value ?? NaN) || !value) return "$0";
+  if (!Number.isFinite(value ?? NaN) || !value) return "—";
   return `$${compactNumber(value)}`;
 }
 
@@ -81,9 +81,15 @@ function formatClock(value: string): string {
 function formatAge(value: string): string {
   const t = Date.parse(value);
   if (!Number.isFinite(t)) return "unknown";
-  const hours = Math.max(0, Math.floor((Date.now() - t) / 3_600_000));
+  const diffMs = Math.max(0, Date.now() - t);
+  const minutes = Math.floor(diffMs / 60_000);
+  if (minutes < 1) return "just now";
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
   if (hours < 24) return `${hours}h ago`;
-  return `${Math.floor(hours / 24)}d ago`;
+  const days = Math.floor(hours / 24);
+  if (days < 30) return `${days}d ago`;
+  return `${Math.floor(days / 30)}mo ago`;
 }
 
 function sourceName(source: string): string {
@@ -159,10 +165,27 @@ function sourceRows(signals: FundingSignal[]) {
 
 function EmptyState({ cold }: { cold: boolean }) {
   return (
-    <Card className="p-8 text-sm" style={{ color: "var(--v4-ink-300)" }}>
-      {cold
-        ? "Funding data has not landed yet. Run the scraper to populate the radar."
-        : "The scraper ran but found no funding-related headlines in the current window."}
+    <Card className="p-8 text-center">
+      <div
+        aria-hidden
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: 32,
+          letterSpacing: "0.04em",
+          color: "var(--sig-green)",
+          marginBottom: 8,
+        }}
+      >
+        {cold ? "// COLD START" : "// NO HITS"}
+      </div>
+      <div style={{ color: "var(--v4-ink-100)", fontSize: 15, marginBottom: 6 }}>
+        {cold ? "Funding radar is warming up." : "Window scanned · zero rounds matched."}
+      </div>
+      <div style={{ color: "var(--v4-ink-300)", fontSize: 13 }}>
+        {cold
+          ? "Scraper has not landed yet. New rounds will appear within the next cycle."
+          : "Try again in a few hours — rounds drop irregularly across TechCrunch, VentureBeat, Sifted."}
+      </div>
     </Card>
   );
 }

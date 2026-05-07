@@ -10,6 +10,7 @@ import {
   Brain,
   FileText,
   Package,
+  DollarSign,
 } from "lucide-react";
 import { BrandStar } from "@/components/shared/BrandStar";
 
@@ -21,6 +22,7 @@ import {
   DevtoIcon,
   LobstersIcon,
   XIcon,
+  ProductHuntIcon,
 } from "@/components/brand/BrandIcons";
 import { RankStarMark } from "@/components/brand/RankStarMark";
 import { useCompareStore, useWatchlistStore } from "@/lib/store";
@@ -56,7 +58,9 @@ type LiveSourceKey =
   | "x"
   | "npm"
   | "hf"
-  | "arxiv";
+  | "arxiv"
+  | "ph"
+  | "fund";
 
 interface LiveRow {
   id: string;
@@ -91,6 +95,7 @@ type IconCmp = (props: { size?: number; className?: string }) => React.ReactElem
 const NpmIcon: IconCmp = (p) => <Package {...p} />;
 const HfIcon: IconCmp = (p) => <Brain {...p} />;
 const ArxivIcon: IconCmp = (p) => <FileText {...p} />;
+const FundingIcon: IconCmp = (p) => <DollarSign {...p} />;
 
 const ROW_SOURCE_ICONS = [
   { key: "gh", label: "GitHub", Icon: GithubIcon as IconCmp },
@@ -100,9 +105,11 @@ const ROW_SOURCE_ICONS = [
   { key: "b", label: "Bluesky", Icon: BlueskyIcon as IconCmp },
   { key: "d", label: "dev.to", Icon: DevtoIcon as IconCmp },
   { key: "lobsters", label: "Lobsters", Icon: LobstersIcon as IconCmp },
+  { key: "ph", label: "Product Hunt", Icon: ProductHuntIcon as IconCmp },
   { key: "npm", label: "npm", Icon: NpmIcon },
   { key: "hf", label: "HuggingFace", Icon: HfIcon },
   { key: "arxiv", label: "arXiv", Icon: ArxivIcon },
+  { key: "fund", label: "Funding news", Icon: FundingIcon },
 ] as const satisfies ReadonlyArray<{
   key: LiveSourceKey;
   label: string;
@@ -130,8 +137,22 @@ function formatDelta(value: number): string {
 
 function formatPct(delta: number, base: number): string | null {
   if (base <= 0 || delta === 0) return null;
-  const pct = Math.round((delta / Math.max(1, base - delta)) * 100);
-  return `${pct >= 0 ? "+" : ""}${pct}%`;
+  const raw = (delta / Math.max(1, base - delta)) * 100;
+  // For tiny deltas (e.g. +45 stars on a 25k repo = 0.18%) Math.round drops
+  // to 0 and we render "+0%" which looks broken. Use one decimal place when
+  // the magnitude is below 1, integer otherwise. Floor-toward-zero on the
+  // integer cast so "+0.4%" stays "+0.4%" instead of getting double-rounded.
+  const sign = raw >= 0 ? "+" : "";
+  if (Math.abs(raw) < 1) {
+    const oneDecimal = Math.round(raw * 10) / 10;
+    if (oneDecimal === 0) {
+      // Even 1dp rounds to zero — surface a '<0.1%' marker rather than 0.
+      return raw > 0 ? "+<0.1%" : "-<0.1%";
+    }
+    return `${sign}${oneDecimal.toFixed(1)}%`;
+  }
+  const pct = Math.round(raw);
+  return `${sign}${pct}%`;
 }
 
 function sparkPath(values: number[], width: number, height: number): string {

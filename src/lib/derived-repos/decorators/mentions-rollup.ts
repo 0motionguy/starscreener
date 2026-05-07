@@ -11,9 +11,7 @@
 //     twitter, reddit, hackernews, bluesky, devto, lobsters
 //   read-from-data-file (we walk the bundled JSON, attribute by linked-repo
 //   field, and bucket by timestamp into 24h / 7d windows):
-//     npm, huggingface, arxiv
-//   not yet wired (no per-repo attribution data flow):
-//     producthunt — surfaced via repo.producthunt; not summed here yet
+//     npm, huggingface, arxiv, producthunt
 //
 // The decorator is pure + memoizes the npm/hf/arxiv index by data-version
 // so it pays the bucketization cost once per cold-Lambda warm.
@@ -33,6 +31,7 @@ import { getLobstersMentions } from "../../lobsters";
 import { getNpmPackages } from "../../npm";
 import { getHfTrendingFile } from "../../huggingface";
 import { getArxivRecentFile } from "../../arxiv";
+import { getAllPhLaunches } from "../../producthunt";
 
 const HOUR_MS = 60 * 60 * 1000;
 const WINDOW_24H_MS = 24 * HOUR_MS;
@@ -94,6 +93,7 @@ function buildBucketIndex<T>(
 let _npmIndex: { token: unknown; index: BucketIndex } | null = null;
 let _hfIndex: { token: unknown; index: BucketIndex } | null = null;
 let _arxivIndex: { token: unknown; index: BucketIndex } | null = null;
+let _phIndex: { token: unknown; index: BucketIndex } | null = null;
 
 function npmIndex(nowMs: number): BucketIndex {
   const packages = getNpmPackages();
@@ -126,6 +126,22 @@ function hfIndex(nowMs: number): BucketIndex {
     nowMs,
   );
   _hfIndex = { token: models, index };
+  return index;
+}
+
+function phIndex(nowMs: number): BucketIndex {
+  // ProductHunt launches come tagged with linkedRepo (owner/name) when the
+  // scraper resolved a github URL; un-resolved launches still ship in the
+  // file but skip here. Bucket by createdAt — a launch is one mention.
+  const launches = getAllPhLaunches();
+  if (_phIndex && _phIndex.token === launches) return _phIndex.index;
+  const index = buildBucketIndex(
+    launches,
+    (l) => (l.linkedRepo ? l.linkedRepo.toLowerCase() : null),
+    (l) => l.createdAt,
+    nowMs,
+  );
+  _phIndex = { token: launches, index };
   return index;
 }
 
@@ -164,6 +180,7 @@ export function decorateWithMentionsRollup(repos: Repo[]): Repo[] {
   const npm = npmIndex(nowMs);
   const hf = hfIndex(nowMs);
   const arxiv = arxivIndex(nowMs);
+  const ph = phIndex(nowMs);
 
   return repos.map((r) => {
     const perSource = emptyPerSource();
@@ -227,6 +244,9 @@ export function decorateWithMentionsRollup(repos: Repo[]): Repo[] {
     const arxivEntry = arxiv.perRepo.get(lowerFull);
     if (arxivEntry) perSource.arxiv = arxivEntry;
 
+    const phEntry = ph.perRepo.get(lowerFull);
+    if (phEntry) perSource.producthunt = phEntry;
+
     let total24h = 0;
     let total7d = 0;
     for (const v of Object.values(perSource)) {
@@ -248,4 +268,5 @@ export function __resetMentionsRollupMemoForTests(): void {
   _npmIndex = null;
   _hfIndex = null;
   _arxivIndex = null;
+  _phIndex = null;
 }

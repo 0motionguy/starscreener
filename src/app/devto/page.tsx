@@ -20,7 +20,7 @@ import { repoFullNameToHref } from "@/lib/hackernews";
 import { TerminalFeedTable, type FeedColumn } from "@/components/feed/TerminalFeedTable";
 import { WindowedFeedTable } from "@/components/feed/WindowedFeedTable";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { userLogoUrl, resolveLogoUrl } from "@/lib/logos";
+import { userLogoUrl } from "@/lib/logos";
 
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
@@ -276,28 +276,16 @@ function ArticlesFeed({
       render: (a) => (
         <div className="flex min-w-0 items-center gap-2">
           <EntityLogo
-            // AUDIT-2026-05-04: dropped the `https://dev.to/<user>.png`
-            // fallback — that URL returns CORB-blocked redirects in
-            // production (ERR_BLOCKED_BY_ORB observed in audit Playwright
-            // pass). Falls straight through to the favicon service when
-            // the captured profile_image* fields are missing; EntityLogo
-            // renders a monogram if everything resolves to null.
-            src={
-              userLogoUrl(
-                (
-                  a.author as {
-                    profile_image?: string | null;
-                    profile_image_90?: string | null;
-                  } | null
-                )?.profile_image ??
-                  (
-                    a.author as {
-                      profile_image_90?: string | null;
-                    } | null
-                  )?.profile_image_90 ??
-                  null,
-              ) ?? resolveLogoUrl(a.url ?? null, a.title, 64)
-            }
+            // The worker normalises dev.to's raw `profile_image_90` /
+            // `profile_image` fields into a single `profileImage` URL
+            // (apps/trendingrepo-worker/src/fetchers/devto/index.ts:119)
+            // so that's the only field present on disk. Reading the
+            // snake_case fields here returned undefined for every row,
+            // collapsing every author avatar to the dev.to favicon.
+            // Dropped the `https://dev.to/<user>.png` fallback because it
+            // returns CORB-blocked redirects in prod; EntityLogo's
+            // monogram tile is the no-image fallback.
+            src={userLogoUrl(a.author?.profileImage ?? null)}
             name={a.author?.username ?? a.title}
             size={20}
             shape="circle"

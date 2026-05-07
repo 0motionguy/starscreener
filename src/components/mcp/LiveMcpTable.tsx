@@ -213,7 +213,11 @@ function SortHeader({
 }
 
 export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
-  const [sortKey, setSortKey] = useState<SortKey>("use");
+  // Default to "rank" so the table honors the page-level ranking (which
+  // sorts by multi-registry consensus -> popularity -> signalScore). The
+  // "rank" sort returns a constant from getSortValue, so visible array
+  // order matches the input order. Click any column header to re-sort.
+  const [sortKey, setSortKey] = useState<SortKey>("rank");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [activeCat, setActiveCat] = useState<string | null>(null);
 

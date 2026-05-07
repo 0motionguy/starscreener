@@ -107,7 +107,11 @@ export function NewsletterCaptureForm({
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-1.5 max-w-md">
-      <div className="flex items-stretch gap-2">
+      {/* suppressHydrationWarning: password managers (LastPass, 1Password,
+          Bitwarden) inject a sibling icon root next to the email <input>
+          which triggers a hydration mismatch on every render — the warning
+          is benign noise. The form itself stays controlled by React. */}
+      <div className="flex items-stretch gap-2" suppressHydrationWarning>
         <input
           type="email"
           required

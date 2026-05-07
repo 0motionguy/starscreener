@@ -31,12 +31,14 @@
 //     durationMs, dryRun }
 
 import { NextRequest, NextResponse } from "next/server";
+import { and, isNotNull, isNull } from "drizzle-orm";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
 import {
   buildWeeklyDigests,
   loadUserEmailMapFromEnv,
   collectAlertsByUser,
+  pickTopBreakouts,
   type DigestUserEmailMap,
 } from "@/lib/pipeline/alerts/weekly-digest";
 import { pipeline } from "@/lib/pipeline/pipeline";
@@ -47,6 +49,10 @@ import {
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { getEmailProvider, resolveEmailFrom } from "@/lib/email/send";
 import { renderDigestEmail } from "@/lib/email/render-digest";
+import { renderNewsletterDigestEmail } from "@/lib/email/templates/newsletter-digest";
+import { mintUnsubToken } from "@/lib/newsletter/tokens";
+import { db } from "@/lib/db/client";
+import { newsletterSubscribers } from "@/lib/db/schema/newsletter";
 
 export const runtime = "nodejs";
 
@@ -75,8 +81,34 @@ interface DigestCronResponse {
   sent: number;
   skippedUsers: number;
   errors: Array<{ userId: string; error: string }>;
+  /** Anonymous newsletter fan-out counters (see step 4 below). */
+  newsletter: {
+    attempted: number;
+    sent: number;
+    errors: Array<{ email: string; error: string }>;
+  };
   dryRun: boolean;
   durationMs: number;
+}
+
+/**
+ * Split an array into fixed-size batches. Used to throttle the newsletter
+ * fan-out under Resend's 10-rps cap (we use 8 to leave headroom).
+ */
+function chunkArray<T>(items: T[], size: number): T[][] {
+  if (size <= 0) return [items];
+  const out: T[][] = [];
+  for (let i = 0; i < items.length; i += size) {
+    out.push(items.slice(i, i + size));
+  }
+  return out;
+}
+
+function getBaseUrl(request: NextRequest): string {
+  const env = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (env && env.length > 0) return env.replace(/\/+$/, "");
+  const url = new URL(request.url);
+  return `${url.protocol}//${url.host}`;
 }
 
 export async function POST(
@@ -94,6 +126,7 @@ export async function POST(
         sent: 0,
         skippedUsers: 0,
         errors: [],
+        newsletter: { attempted: 0, sent: 0, errors: [] },
         dryRun: false,
         durationMs: 0,
       },
@@ -169,6 +202,84 @@ export async function POST(
       }
     }
 
+    // 4. Anonymous newsletter fan-out. Same top-breakouts payload as the
+    //    operator-scope digest but PUBLIC ONLY — no per-user rule events
+    //    leak into newsletter-subscriber emails. Filtered to confirmed-
+    //    AND-not-unsubscribed rows (double-opt-in is non-negotiable).
+    const baseUrl = getBaseUrl(request);
+    const newsletterErrors: Array<{ email: string; error: string }> = [];
+    let newsletterSent = 0;
+    let newsletterAttempted = 0;
+
+    try {
+      const subs = await db
+        .select({ email: newsletterSubscribers.email })
+        .from(newsletterSubscribers)
+        .where(
+          and(
+            isNotNull(newsletterSubscribers.confirmedAt),
+            isNull(newsletterSubscribers.unsubscribedAt),
+          ),
+        );
+
+      const topBreakoutsForNewsletter = pickTopBreakouts(repos, 10).map((r) => ({
+        fullName: r.fullName,
+        description: r.description ?? null,
+        score: r.momentumScore,
+        url: `${baseUrl}/repo/${r.owner}/${r.name}`,
+      }));
+
+      newsletterAttempted = subs.length;
+
+      // Resend caps at 10 rps; chunk at 8 with Promise.allSettled per batch
+      // so a single failure doesn't drag the rest of the batch down.
+      const batches = chunkArray(subs, 8);
+      for (const batch of batches) {
+        if (dryRun) continue;
+        const results = await Promise.allSettled(
+          batch.map(async (sub) => {
+            const unsubscribeUrl = `${baseUrl}/api/newsletter/unsubscribe?t=${encodeURIComponent(
+              mintUnsubToken(sub.email),
+            )}`;
+            const { subject, html, text } = renderNewsletterDigestEmail({
+              email: sub.email,
+              topBreakouts: topBreakoutsForNewsletter,
+              unsubscribeUrl,
+            });
+            const sendResult = await provider.send({
+              to: sub.email,
+              from,
+              subject,
+              html,
+              text,
+            });
+            if (!sendResult.ok) {
+              throw new Error(sendResult.error);
+            }
+            return sub.email;
+          }),
+        );
+        for (let i = 0; i < results.length; i++) {
+          const r = results[i];
+          const email = batch[i].email;
+          if (r.status === "fulfilled") {
+            newsletterSent += 1;
+          } else {
+            const reason =
+              r.reason instanceof Error ? r.reason.message : String(r.reason);
+            newsletterErrors.push({ email, error: reason });
+          }
+        }
+      }
+    } catch (err) {
+      // Don't fail the whole digest if the newsletter fan-out chokes (e.g.
+      // DB outage). Log + push a single aggregate error so the response
+      // surfaces it.
+      console.error("[api:cron:digest:weekly] newsletter fan-out failed", err);
+      const message = err instanceof Error ? err.message : String(err);
+      newsletterErrors.push({ email: "<aggregate>", error: message });
+    }
+
     return NextResponse.json(
       {
         ok: true,
@@ -176,6 +287,11 @@ export async function POST(
         sent: dryRun ? 0 : sent,
         skippedUsers,
         errors,
+        newsletter: {
+          attempted: newsletterAttempted,
+          sent: dryRun ? 0 : newsletterSent,
+          errors: newsletterErrors,
+        },
         dryRun,
         durationMs: Date.now() - startedAt,
       },

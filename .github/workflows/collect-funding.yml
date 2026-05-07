@@ -51,7 +51,6 @@ jobs:
             data/funding-news.json
             data/_meta/funding-news.json
             data/funding-news-sec.json
-            data/_meta/funding-news-sec.json
             data/unknown-mentions.jsonl
       - if: failure()
         uses: actions/upload-artifact@v4

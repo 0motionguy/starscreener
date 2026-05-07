@@ -41,6 +41,8 @@ import { refreshLobstersMentionsFromStore } from "@/lib/lobsters";
 import { refreshNpmFromStore } from "@/lib/npm";
 import { refreshHfModelsFromStore } from "@/lib/huggingface";
 import { refreshArxivFromStore } from "@/lib/arxiv";
+import { refreshProducthuntLaunchesFromStore } from "@/lib/producthunt";
+import { refreshFundingNewsFromStore } from "@/lib/funding-news";
 import { getRepoMetadata } from "@/lib/repo-metadata";
 import { slugToId } from "@/lib/utils";
 import { Card, CardHeader } from "@/components/ui/Card";
@@ -377,7 +379,13 @@ function toLiveRow(repo: Repo, rankScore: number): LiveRow {
     starsDelta7d: repo.starsDelta7d,
     starsDelta30d: repo.starsDelta30d,
     forks: repo.forks,
-    sparklineData: repo.sparklineData,
+    // Default to [] when the repo's sparkline collector hasn't run yet.
+    // LiveTopTable's inline Sparkline derefs `values.length` and `values.map`,
+    // both of which throw on undefined and bubble up as a route 500 during
+    // hydration. The cold-start path (which can hit on a fresh dev server
+    // before any collectors have populated trending.json) was the most
+    // likely culprit for the transient 500 we saw on /repo/* and /githubrepo.
+    sparklineData: repo.sparklineData ?? [],
     // The "Rank" column in LiveTopTable sorts by this field desc — overload
     // it per active mode so the table's own rank-sort matches the ordering
     // the parent passed in.
@@ -578,6 +586,8 @@ export default async function GithubRepoPage() {
     refreshNpmFromStore(),
     refreshHfModelsFromStore(),
     refreshArxivFromStore(),
+    refreshProducthuntLaunchesFromStore(),
+    refreshFundingNewsFromStore(),
   ]);
 
   const repos = getDerivedRepos();

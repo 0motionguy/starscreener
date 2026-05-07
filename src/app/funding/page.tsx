@@ -69,6 +69,7 @@ const SOURCE_LABELS: Record<string, string> = {
   "analytics-india": "Analytics India",
   "mit-tech-review-ai": "MIT TR · AI",
   synced: "Synced",
+  "sec-form-d": "SEC Form D",
 };
 
 const ROUND_LABELS: Record<string, FundingStage | string> = {

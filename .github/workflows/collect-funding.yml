@@ -1,7 +1,10 @@
 name: Collect Funding Signals
 on:
   schedule:
-    - cron: '0 */6 * * *'
+    # 2h cadence (was 6h). 24h-fresh KPI was sparse on the old schedule
+    # because RSS sources rarely produce funding-keyword headlines on
+    # every 6h tick — 2h gives us 12 chances per day instead of 4.
+    - cron: '0 */2 * * *'
   workflow_dispatch:
     inputs:
       sources:
@@ -30,6 +33,12 @@ jobs:
           node-version: '22'
       - run: npm ci
       - run: npm run scrape:funding -- --sources ${{ github.event.inputs.sources || 'techcrunch,venturebeat,sifted,arstechnica,techeu,pymnts,bbc,wired,geekwire,eu-startups,siliconcanals,techstartups,techcrunch-ai,venturebeat-ai,ai-news,ai-business,the-decoder,marktechpost,unite-ai,analytics-india,mit-tech-review-ai,synced' }} --enrich ${{ github.event.inputs.dry_run == 'true' && '--output .tmp/funding-preview.json' || '' }}
+      # SEC Form D filings — every US private round files within 15 days,
+      # EDGAR full-text search filters to AI-mentioning filings only.
+      # Continues on error so a flaky EDGAR doesn't blank the funding-news
+      # commit step.
+      - run: npm run scrape:sec-form-d ${{ github.event.inputs.dry_run == 'true' && '-- --output=.tmp/sec-form-d-preview.json' || '' }}
+        continue-on-error: true
       - if: github.event.inputs.dry_run != 'true'
         name: Commit if changed
         uses: ./.github/actions/git-commit-data
@@ -41,6 +50,8 @@ jobs:
           paths: |
             data/funding-news.json
             data/_meta/funding-news.json
+            data/funding-news-sec.json
+            data/_meta/funding-news-sec.json
             data/unknown-mentions.jsonl
       - if: failure()
         uses: actions/upload-artifact@v4

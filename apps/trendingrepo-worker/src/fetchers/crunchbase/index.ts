@@ -109,9 +109,10 @@ export function buildSignalsFromItems(
 
 const fetcher: Fetcher = {
   name: 'crunchbase',
-  // Every 6h on the hour. Matches the main funding-news cadence; both feeds
-  // produce independent slugs so concurrent runs are safe.
-  schedule: '0 */6 * * *',
+  // Every 2h on the hour. Matches the main funding-news cadence (tightened
+  // 2026-05-07 from 6h to densify the 24h-fresh KPI). Both feeds produce
+  // independent slugs so concurrent runs are safe.
+  schedule: '0 */2 * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
 

@@ -64,6 +64,17 @@ const RSS_FEEDS = {
   "analytics-india": "https://analyticsindiamag.com/feed/",
   "mit-tech-review-ai": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
   synced: "https://syncedreview.com/feed/",
+  // Wave-3 (2026-05-07): see worker fetcher for selection rationale.
+  // BusinessWire was originally in this batch but the public RSS endpoint
+  // was deactivated by the publisher (verified 2026-05-07) — dropped.
+  "prnewswire-vc":
+    "https://www.prnewswire.com/rss/financial-services-latest-news/venture-capital-funding-list.rss",
+  newcomer: "https://www.newcomer.co/feed",
+  // ai-snake-oil moved to normaltech.ai; we point at the new canonical URL
+  // so the request doesn't depend on the publisher keeping the 301.
+  "ai-snake-oil": "https://www.normaltech.ai/feed",
+  "generative-value": "https://www.generativevalue.com/feed",
+  "import-ai": "https://importai.substack.com/feed",
 };
 
 // AI-tagged sources skip the AI-keyword gate (publisher already classified).
@@ -78,6 +89,10 @@ const AI_TAGGED_SOURCES = new Set([
   "analytics-india",
   "mit-tech-review-ai",
   "synced",
+  "newcomer",
+  "ai-snake-oil",
+  "generative-value",
+  "import-ai",
 ]);
 
 // AI-funding-only mode: non-AI-tagged feeds must show an AI marker in

@@ -17,6 +17,7 @@ import { PostHogProvider } from "@/components/providers/PostHogProvider";
 import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
+import ClerkRefHandoff from "@/components/auth/ClerkRefHandoff";
 import {
   buildSidebarData,
   type SidebarDataResponse,
@@ -228,6 +229,7 @@ export default async function RootLayout({
           <PostHogProvider>
             <StoreProvider>
               <DesignSystemProvider>
+              <ClerkRefHandoff />
               <Header />
               <MobileDrawerLazy />
               <AppShell>

@@ -124,7 +124,26 @@ export function Header() {
               <div className="av">{avatarInitials(userId)}</div>
             </Link>
           </>
-        ) : null}
+        ) : (
+          <>
+            <span className="tb-div" aria-hidden="true"></span>
+            <Link
+              href="/sign-in"
+              className="btn-signin focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded"
+              title="Sign in"
+            >
+              Sign in
+            </Link>
+            <Link
+              href="/sign-up"
+              className="btn-signup focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:rounded"
+              title="Sign up"
+            >
+              <span>Sign up</span>
+              <span className="arr" aria-hidden="true">-&gt;</span>
+            </Link>
+          </>
+        )}
       </div>
     </header>
   );

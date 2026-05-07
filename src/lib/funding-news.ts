@@ -176,11 +176,16 @@ export async function refreshFundingNewsFromStore(): Promise<RefreshResult> {
       //                             (every US private round, 15-day filing window — ground truth)
       // Pre-fix the page only read the first slug. Merge with sourceUrl-keyed
       // dedupe so cross-published articles collapse.
-      const [main, crunch, x, sec] = await Promise.allSettled([
-        store.read<unknown>("funding-news"),
-        store.read<unknown>("funding-news-crunchbase"),
-        store.read<unknown>("funding-news-x"),
-        store.read<unknown>("funding-news-sec"),
+      //
+      // readMany() collapses the four reads into a single Redis MGET round
+      // trip (4 × ~30ms → 1 × ~30ms on a cold Lambda). Each slug still
+      // cascades Redis → file → memory independently, so partial Redis
+      // misses don't poison the merge.
+      const [main, crunch, x, sec] = await store.readMany<unknown>([
+        "funding-news",
+        "funding-news-crunchbase",
+        "funding-news-x",
+        "funding-news-sec",
       ]);
 
       const byKey = new Map<string, FundingSignal>();
@@ -190,10 +195,8 @@ export async function refreshFundingNewsFromStore(): Promise<RefreshResult> {
       let maxWindowDays = 0;
 
       const ingest = (
-        settled: PromiseSettledResult<Awaited<ReturnType<typeof store.read>>>,
+        r: Awaited<ReturnType<typeof store.read>>,
       ) => {
-        if (settled.status !== "fulfilled") return;
-        const r = settled.value;
         if (!r.data || r.source === "missing") return;
         const file = normalizeFile(r.data);
         if (file.windowDays > maxWindowDays) maxWindowDays = file.windowDays;

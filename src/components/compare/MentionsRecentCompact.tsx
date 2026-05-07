@@ -24,6 +24,7 @@ const PLATFORM_LABEL: Record<SocialPlatform, string> = {
   npm: "npm",
   huggingface: "hf",
   arxiv: "arxiv",
+  funding: "fund",
 };
 
 function formatAge(iso: string): string {

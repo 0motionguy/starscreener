@@ -22,6 +22,7 @@ import { writeFile, mkdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
+import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 import {
   fetchTopStoryIds,
   fetchItemsBatched,
@@ -509,8 +510,13 @@ if (isDirectRun) {
   // The wrapper times the run + classifies the outcome (ok / empty /
   // network_error / partial) and never throws — its failure must not
   // mask the underlying scrape error.
+  // Move 1 / Phase 7: runAsRegisteredSource wraps main() purely for
+  // instrumentation — collection logic untouched.
   const startedAt = Date.now();
-  main()
+  runAsRegisteredSource({
+    sourceId: "hackernews",
+    run: main,
+  })
     .then(async () => {
       try {
         await writeSourceMetaFromOutcome({

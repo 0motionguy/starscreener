@@ -34,6 +34,7 @@ import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
+import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 import { extractAllRepoMentions, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
@@ -295,8 +296,13 @@ const isDirectRun = invokedPath
 
 if (isDirectRun) {
   // T2.6: metadata sidecar — distinguishes outage from quiet day.
+  // Move 1 / Phase 7: runAsRegisteredSource wraps main() purely for
+  // instrumentation — collection logic untouched.
   const startedAt = Date.now();
-  main()
+  runAsRegisteredSource({
+    sourceId: "lobsters",
+    run: main,
+  })
     .then(async () => {
       try {
         await writeSourceMetaFromOutcome({

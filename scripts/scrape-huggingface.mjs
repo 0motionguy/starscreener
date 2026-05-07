@@ -32,6 +32,7 @@ import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
+import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 import {
   loadHuggingfaceTokens,
   pickToken,
@@ -271,8 +272,15 @@ if (isDirectRun) {
   // the event loop alive and the workflow hangs for hours, getting cancelled
   // by the next cron tick — the bug that emptied huggingface-{datasets,
   // spaces}.json (B6 root cause).
+  // Move 1 / Phase 7: runAsRegisteredSource wraps main() purely for
+  // instrumentation. The script's slug in sources.json is
+  // "huggingface-models-script" (the worker fetcher slug "huggingface" is a
+  // separate intent-only stub) — see decision_pending in sources.json.
   const startedAt = Date.now();
-  main()
+  runAsRegisteredSource({
+    sourceId: "huggingface-models-script",
+    run: main,
+  })
     .then(async () => {
       try {
         await writeSourceMetaFromOutcome({

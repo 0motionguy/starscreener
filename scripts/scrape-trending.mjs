@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
+import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 
 const PERIODS = ["past_24_hours", "past_week", "past_month"];
 const LANGUAGES = ["All", "Python", "TypeScript", "Rust", "Go"];
@@ -330,8 +331,13 @@ async function main() {
   await appendDualWriteTrace(traceEvent);
 }
 
+// Move 1 / Phase 7: runAsRegisteredSource wraps main() purely for
+// instrumentation — collection logic untouched.
 const startedAt = Date.now();
-main()
+runAsRegisteredSource({
+  sourceId: "trending",
+  run: main,
+})
   .then(async () => {
     try {
       await writeSourceMetaFromOutcome({

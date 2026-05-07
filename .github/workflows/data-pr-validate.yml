@@ -1,18 +1,17 @@
 name: data-pr-validate
 
 # Lightweight gate for data-only PRs (cron-driven auto-bot writes under
-# data/** and .data/**). The full e2e suite in ci.yml is skipped for these
-# paths via paths-ignore; this workflow takes its place as the required
-# status check on data PRs. Two real validations:
+# data/** and .data/**). Branch protection also requires this status on code
+# PRs, so the workflow runs for every PR and fast-passes when no data changed.
+# The full e2e suite in ci.yml fast-passes only for data-only PRs; this
+# workflow provides the JSON/path security checks for that data path. Two real
+# validations:
 #   1. Every changed JSON / JSONL file parses cleanly.
-#   2. PR touches ONLY data/** or .data/** — rejects any attempt to
-#      smuggle code changes through the data path filter.
+#   2. Data-only PRs touch ONLY data/** or .data/** — rejects any attempt to
+#      smuggle code changes through the data fast path.
 on:
   pull_request:
     branches: [main]
-    paths:
-      - 'data/**'
-      - '.data/**'
 
 permissions:
   contents: read
@@ -101,12 +100,40 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          # Anything that is NOT under data/** or .data/** is a code change
-          # smuggled through the data-PR path filter -- reject it.
+          mapfile -t changed < <(git diff --name-only origin/main...HEAD || true)
+          if [ "${#changed[@]}" -eq 0 ]; then
+            echo "No changed paths detected -- full CI handles this PR"
+            exit 0
+          fi
+
+          data_count=0
+          non_data_count=0
+          for f in "${changed[@]}"; do
+            case "$f" in
+              data/*|.data/*)
+                data_count=$((data_count + 1))
+                ;;
+              *)
+                non_data_count=$((non_data_count + 1))
+                ;;
+            esac
+          done
+
+          if [ "$data_count" -eq 0 ]; then
+            echo "No data paths changed -- data validation not applicable"
+            exit 0
+          fi
+
+          if [ "$non_data_count" -eq 0 ]; then
+            echo "ok data-only PR touches only data/** and .data/**"
+            exit 0
+          fi
+
+          # Mixed code+data PRs take the full CI path; this workflow only
+          # validates any changed data payloads so the required status exists.
+          echo "Mixed PR: $data_count data path(s), $non_data_count non-data path(s); full CI handles code changes"
           non_data=$(git diff --name-only origin/main...HEAD -- ':!data/**' ':!.data/**' || true)
           if [ -n "$non_data" ]; then
-            echo "::error::Data PR contains non-data changes -- rejecting:"
+            echo "Non-data changed paths:"
             echo "$non_data"
-            exit 1
           fi
-          echo "ok PR touches only data/** and .data/**"

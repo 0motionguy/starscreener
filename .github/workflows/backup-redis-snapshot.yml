@@ -98,35 +98,35 @@ jobs:
             > objects.json
 
           python - <<'PY'
-import datetime
-import json
-import os
-import subprocess
+          import datetime
+          import json
+          import os
+          import subprocess
 
-bucket = os.environ["R2_BUCKET"]
-cutoff = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=30)
+          bucket = os.environ["R2_BUCKET"]
+          cutoff = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=30)
 
-with open("objects.json", "r", encoding="utf-8") as f:
-    payload = json.load(f)
+          with open("objects.json", "r", encoding="utf-8") as f:
+              payload = json.load(f)
 
-endpoint = os.environ.get("ENDPOINT_URL", "").strip()
+          endpoint = os.environ.get("ENDPOINT_URL", "").strip()
 
-for obj in payload.get("Contents", []):
-    key = obj["Key"]
-    last_modified = datetime.datetime.fromisoformat(obj["LastModified"].replace("Z", "+00:00"))
-    if last_modified >= cutoff:
-      continue
-    cmd = ["aws"]
-    if endpoint:
-      cmd.extend(["--endpoint-url", endpoint])
-    cmd.extend([
-      "s3api", "delete-object",
-      "--bucket", bucket,
-      "--key", key,
-    ])
-    subprocess.run(cmd, check=True)
-    print(f"Deleted expired backup: {key}")
-PY
+          for obj in payload.get("Contents", []):
+              key = obj["Key"]
+              last_modified = datetime.datetime.fromisoformat(obj["LastModified"].replace("Z", "+00:00"))
+              if last_modified >= cutoff:
+                  continue
+              cmd = ["aws"]
+              if endpoint:
+                  cmd.extend(["--endpoint-url", endpoint])
+              cmd.extend([
+                  "s3api", "delete-object",
+                  "--bucket", bucket,
+                  "--key", key,
+              ])
+              subprocess.run(cmd, check=True)
+              print(f"Deleted expired backup: {key}")
+          PY
 
       - name: Upload run artifact metadata
         uses: actions/upload-artifact@v4

@@ -191,6 +191,7 @@ function Box({
         background: "linear-gradient(180deg, var(--v3-bg-050), var(--v3-bg-000))",
         border: "1px solid var(--v3-line-200)",
         borderRadius: 2,
+        ["--v3-tribox-accent" as string]: accent,
       }}
     >
       <CornerMarkers accent={accent} />
@@ -266,7 +267,7 @@ function Box({
               >
                 <RowLink
                   {...linkProps}
-                  className="flex items-center gap-2 px-3 py-2"
+                  className="flex items-center gap-2 px-3 py-2 transition-colors hover:bg-[color:var(--v3-tribox-accent)]/10 focus-visible:bg-[color:var(--v3-tribox-accent)]/10 focus-visible:outline-none"
                 >
                   <span
                     className="font-mono text-[10px] tabular-nums shrink-0"

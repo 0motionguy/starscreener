@@ -29,8 +29,11 @@ export const TOP10_METRICS = [
 ] as const;
 export type Top10Metric = (typeof TOP10_METRICS)[number];
 
-export const TOP10_THEMES = ["dark", "light", "mono"] as const;
-export type Top10Theme = (typeof TOP10_THEMES)[number];
+// Theme registry now lives in themes.ts (single source of truth shared with
+// the OG renderer). We re-export the id union here so existing call sites
+// that import `Top10Theme` from types.ts keep working unchanged.
+export { TOP10_THEME_IDS as TOP10_THEMES } from "./themes";
+export type { Top10ThemeId as Top10Theme } from "./themes";
 
 export type Top10Badge = "FIRING_5" | "FIRING_4" | "FIRING_3" | "NEW" | "HOT";
 
@@ -128,6 +131,9 @@ export interface CategoryMeta {
   id: Top10Category;
   label: string;
   emoji: string;
+  /** Plain-English description shown in tooltips + onboarding. Targets a
+   *  non-technical reader (the community share-tool audience). */
+  blurb: string;
   /** Window that the tab defaults to when first opened. */
   defaultWindow: Top10Window;
   /** Sort/metric primary used by the share card. */
@@ -139,6 +145,7 @@ export const CATEGORY_META: Record<Top10Category, CategoryMeta> = {
     id: "repos",
     label: "Repos",
     emoji: "★",
+    blurb: "GitHub repos with the strongest cross-platform buzz this week.",
     defaultWindow: "7d",
     defaultMetric: "cross-signal",
   },
@@ -146,6 +153,7 @@ export const CATEGORY_META: Record<Top10Category, CategoryMeta> = {
     id: "llms",
     label: "LLMs",
     emoji: "◎",
+    blurb: "AI models trending on Hugging Face right now.",
     defaultWindow: "7d",
     defaultMetric: "velocity",
   },
@@ -153,6 +161,7 @@ export const CATEGORY_META: Record<Top10Category, CategoryMeta> = {
     id: "agents",
     label: "Agents",
     emoji: "◆",
+    blurb: "Autonomous AI agents and frameworks people are starring.",
     defaultWindow: "7d",
     defaultMetric: "cross-signal",
   },
@@ -160,6 +169,7 @@ export const CATEGORY_META: Record<Top10Category, CategoryMeta> = {
     id: "mcps",
     label: "MCPs",
     emoji: "▲",
+    blurb: "Model Context Protocol servers shipping the most.",
     defaultWindow: "7d",
     defaultMetric: "velocity",
   },
@@ -167,13 +177,15 @@ export const CATEGORY_META: Record<Top10Category, CategoryMeta> = {
     id: "skills",
     label: "Skills",
     emoji: "✦",
+    blurb: "Claude Skills and prompt packs everyone's installing.",
     defaultWindow: "7d",
     defaultMetric: "velocity",
   },
   movers: {
     id: "movers",
-    label: "Movers",
+    label: "Biggest jumps",
     emoji: "⚡",
+    blurb: "Repos with the biggest 24-hour star jumps.",
     defaultWindow: "24h",
     defaultMetric: "velocity",
   },
@@ -181,6 +193,7 @@ export const CATEGORY_META: Record<Top10Category, CategoryMeta> = {
     id: "news",
     label: "News",
     emoji: "■",
+    blurb: "Stories trending on Hacker News, Bluesky, dev.to, Lobsters, and ProductHunt.",
     defaultWindow: "24h",
     defaultMetric: "mentions",
   },
@@ -188,7 +201,41 @@ export const CATEGORY_META: Record<Top10Category, CategoryMeta> = {
     id: "funding",
     label: "Funding",
     emoji: "◉",
+    blurb: "Biggest AI funding rounds and SEC filings this week.",
     defaultWindow: "7d",
     defaultMetric: "stars",
   },
 };
+
+// ---------------------------------------------------------------------------
+// Friendly label maps — the share-tool audience is creators, not data folks.
+// "CROSS-SIGNAL" / "VELOCITY" / "MENTIONS" are internal jargon; these maps
+// replace them in app chrome. The share-card image keeps internal terms
+// because that's brand identity (mono uppercase looks intentional there).
+// ---------------------------------------------------------------------------
+
+export const METRIC_FRIENDLY_LABEL: Record<Top10Metric, string> = {
+  "cross-signal": "Smart score",
+  stars: "Stars",
+  mentions: "Buzz",
+  velocity: "Trending",
+};
+
+export const METRIC_FRIENDLY_BLURB: Record<Top10Metric, string> = {
+  "cross-signal":
+    "Combines stars, mentions, and trending speed into one signal. Default ranking.",
+  stars: "Total GitHub stars in the time range.",
+  mentions: "How often it's mentioned across HN, Reddit, Bluesky, dev.to.",
+  velocity: "How fast it's gaining attention right now.",
+};
+
+export const WINDOW_FRIENDLY_LABEL: Record<Top10Window, string> = {
+  "24h": "24h",
+  "7d": "7 days",
+  "30d": "30 days",
+  ytd: "Year",
+};
+
+// Theme labels live alongside palette colors in src/lib/top10/themes.ts —
+// the single source of truth shared by the OG renderer and the on-page
+// ThemePicker. Read TOP10_THEMES[id].label / .blurb when surfacing copy.

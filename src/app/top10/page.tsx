@@ -1,167 +1,164 @@
-// TrendingRepo — /top10 (LIVE)
+// /top10 — community sharing tool (live).
 //
-// Community share tool. Renders the full operator-terminal Top 10 surface
-// (CategoryTabs · ranking panel · ShareStack · MoreGrid) via the Top10Page
-// client component, with all eight category bundles composed server-side
-// from the live data-store readers. Mirrors scripts/snapshot-top10.ts so
-// the live route and the cron snapshot stay byte-identical at fetch time.
+// Server component. Builds the full 8-category Top10Payload via the shared
+// `buildLiveTop10Payload()` helper (mirrors the daily snapshot script's logic
+// so live and frozen views stay in lock-step), then hands it to the rich
+// client renderer at `<Top10Page />`.
 //
-// Repo-derived categories (REPOS / AGENTS / MOVERS) ship a 80-row repoSlice
-// alongside the SSR payload, which lets the client recompute window/metric
-// switches without a round-trip.
+// The previous version of this route rendered a V4 leaderboard surface
+// (PageHead + VerdictRibbon + KpiBand + RankRow). It was replaced once the
+// /top10 surface became the public community-share entry point — the rich
+// category tabs + share-card preview UI is now the canonical /top10 view.
+// The V4 leaderboard's data inputs are absorbed by the same payload here.
 //
-// Frozen historical views live at /top10/[date] and pass repoSlice=[] (no
-// client-side recompute on a frozen view).
+// ISR — 60s cadence. The underlying refresh hooks are rate-limited at 30s
+// internally, so a true rebuild only happens once a minute even on a hot
+// route. The cron snapshot at 23:55 UTC writes the day's frozen Top10Payload
+// for /top10/[date] regardless.
 
 import type { Metadata } from "next";
 
-import { getDerivedRepos } from "@/lib/derived-repos";
-import {
-  getHfModelsTrending,
-  refreshHfModelsFromStore,
-} from "@/lib/huggingface";
-import {
-  getSkillsSignalData,
-  getMcpSignalData,
-} from "@/lib/ecosystem-leaderboards";
-import {
-  getHnTopStories,
-  refreshHackernewsTrendingFromStore,
-} from "@/lib/hackernews-trending";
-import {
-  getBlueskyTopPosts,
-  refreshBlueskyTrendingFromStore,
-} from "@/lib/bluesky-trending";
-import {
-  getDevtoTopArticles,
-  refreshDevtoTrendingFromStore,
-} from "@/lib/devto-trending";
-import {
-  getLobstersTopStories,
-  refreshLobstersTrendingFromStore,
-} from "@/lib/lobsters-trending";
-import {
-  getRecentLaunches,
-  refreshProducthuntLaunchesFromStore,
-} from "@/lib/producthunt";
-import {
-  getFundingSignalsThisWeek,
-  refreshFundingNewsFromStore,
-} from "@/lib/funding-news";
-import {
-  buildAgentTop10,
-  buildFundingTop10,
-  buildLlmTop10,
-  buildMcpTop10,
-  buildMoversTop10,
-  buildNewsTop10,
-  buildRepoTop10,
-  buildSkillsTop10,
-  emptyBundle,
-  reposToSlice,
-} from "@/lib/top10/builders";
-import { CATEGORY_META, type Top10Payload } from "@/lib/top10/types";
-
 import { SITE_NAME, absoluteUrl } from "@/lib/seo";
+import { buildLiveTop10Payload } from "@/lib/top10/live-payload";
+import {
+  CATEGORY_META,
+  TOP10_CATEGORIES,
+  TOP10_WINDOWS,
+  type Top10Category,
+  type Top10Window,
+} from "@/lib/top10/types";
+import { isValidThemeId } from "@/lib/top10/themes";
 import { Top10Page } from "@/components/top10/Top10Page";
 import { FunnelMount } from "@/components/analytics/FunnelMount";
 
-// 60s ISR: page re-renders against fresh Redis at most every minute. The
-// refresh hooks at the top of the route handler dedupe within a 30s window,
-// so a true cold-render only happens after the cache expires.
 export const revalidate = 60;
 
-const TITLE = `Top 10 — ${SITE_NAME}`;
-const DESCRIPTION =
-  "Top 10 across eight surfaces — repos, agents, movers, LLMs, MCPs, skills, news, funding. Built to share: tap X to post, copy a permalink, or grab the embed.";
-const OG_IMAGE = absoluteUrl("/api/og/top10?cat=repos&window=7d&aspect=h");
+interface Top10SearchParams {
+  cat?: string;
+  w?: string;
+  aspect?: string;
+  theme?: string;
+  m?: string;
+  /** Brand-pack short id (V1+ — Redis-resolved override). */
+  b?: string;
+}
 
-export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
-  alternates: { canonical: absoluteUrl("/top10") },
-  openGraph: {
-    type: "website",
-    url: absoluteUrl("/top10"),
-    title: TITLE,
-    description: DESCRIPTION,
-    siteName: SITE_NAME,
-    images: [
-      {
-        url: OG_IMAGE,
-        width: 1200,
-        height: 675,
-        alt: "TrendingRepo — Top 10 across eight surfaces",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: TITLE,
-    description: DESCRIPTION,
-    images: [OG_IMAGE],
-  },
-};
+// ---------------------------------------------------------------------------
+// Param sanitization — every share URL is user-shaped, so parse defensively.
+// Unknown values fall back to category defaults so a copy/paste typo never
+// renders a broken page.
+// ---------------------------------------------------------------------------
+
+function pickCategory(v: string | undefined): Top10Category {
+  if (v && (TOP10_CATEGORIES as readonly string[]).includes(v)) {
+    return v as Top10Category;
+  }
+  return "repos";
+}
+
+function pickWindow(v: string | undefined, fallback: Top10Window): Top10Window {
+  if (v && (TOP10_WINDOWS as readonly string[]).includes(v)) {
+    return v as Top10Window;
+  }
+  return fallback;
+}
+
+function pickAspect(v: string | undefined): "h" | "sq" | "v" | "yt" {
+  return v === "sq" || v === "v" || v === "yt" ? v : "h";
+}
+
+function pickTheme(v: string | undefined): string {
+  return isValidThemeId(v) ? v : "dark";
+}
+
+// ---------------------------------------------------------------------------
+// Dynamic metadata — every share URL unfurls with its own card. Without this,
+// every X / Reddit / Slack / Discord paste of /top10?cat=funding&theme=sunset
+// would show the same default repos+dark card. This is the single most
+// important change for cross-platform unfurling.
+// ---------------------------------------------------------------------------
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<Top10SearchParams>;
+}): Promise<Metadata> {
+  const sp = await searchParams;
+  const category = pickCategory(sp.cat);
+  const meta = CATEGORY_META[category];
+  const window = pickWindow(sp.w, meta.defaultWindow);
+  const aspect = pickAspect(sp.aspect);
+  const theme = pickTheme(sp.theme);
+
+  // OG image carries the same params the user is viewing — so the link
+  // unfurl shows what they're sharing, not a generic default.
+  const ogParams = new URLSearchParams();
+  ogParams.set("cat", category);
+  ogParams.set("window", window);
+  ogParams.set("aspect", aspect);
+  if (theme !== "dark") ogParams.set("theme", theme);
+  if (sp.b) ogParams.set("b", sp.b);
+  const ogImage = absoluteUrl(`/api/og/top10?${ogParams.toString()}`);
+
+  // Canonical strips UTM but preserves view-defining params so
+  // social-media canonicalizers don't fold every share-tagged copy back to
+  // the bare /top10 (which would render the wrong category).
+  const canonicalParams = new URLSearchParams();
+  if (category !== "repos") canonicalParams.set("cat", category);
+  if (window !== meta.defaultWindow) canonicalParams.set("w", window);
+  if (theme !== "dark") canonicalParams.set("theme", theme);
+  if (sp.b) canonicalParams.set("b", sp.b);
+  const canonicalQs = canonicalParams.toString();
+  const canonical = canonicalQs
+    ? absoluteUrl(`/top10?${canonicalQs}`)
+    : absoluteUrl("/top10");
+
+  // Title + description per category — better unfurl than a single static
+  // string. Reads natural when posted alongside the image.
+  const title = `Top 10 ${meta.label.toLowerCase()} this ${
+    window === "24h" ? "day" : window === "7d" ? "week" : window === "30d" ? "month" : "year"
+  } — ${SITE_NAME}`;
+  const description = meta.blurb;
+
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      type: "website",
+      url: canonical,
+      title,
+      description,
+      siteName: SITE_NAME,
+      images: [
+        {
+          url: ogImage,
+          // Width/height per aspect so unfurlers crop correctly.
+          width:
+            aspect === "h" ? 1200
+            : aspect === "sq" ? 1080
+            : aspect === "v" ? 1080
+            : 1280,
+          height:
+            aspect === "h" ? 675
+            : aspect === "sq" ? 1080
+            : aspect === "v" ? 1350
+            : 720,
+          alt: `${SITE_NAME} — ${title}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
+  };
+}
 
 export default async function Top10RootPage() {
-  // Hydrate the in-memory cache from Redis before reading. Without this the
-  // cold-start lambda would render whatever bundled JSON was baked into the
-  // deploy. Per CLAUDE.md "Critical Conventions" rule. Parallel + allSettled
-  // so a single source outage doesn't block the page.
-  await Promise.allSettled([
-    refreshHfModelsFromStore(),
-    refreshHackernewsTrendingFromStore(),
-    refreshBlueskyTrendingFromStore(),
-    refreshDevtoTrendingFromStore(),
-    refreshLobstersTrendingFromStore(),
-    refreshProducthuntLaunchesFromStore(),
-    refreshFundingNewsFromStore(),
-  ]);
-
-  const repos = getDerivedRepos();
-  const hfModels = getHfModelsTrending(40);
-  const hn = getHnTopStories(40);
-  const bsky = getBlueskyTopPosts(40);
-  const devto = getDevtoTopArticles(40);
-  const lobsters = getLobstersTopStories(40);
-  const ph = getRecentLaunches(7, 40);
-  const funding = getFundingSignalsThisWeek();
-
-  // Skills / MCP signal boards are async I/O — settle in parallel so a slow
-  // call on one doesn't block the other.
-  const [skillsRes, mcpRes] = await Promise.allSettled([
-    getSkillsSignalData(),
-    getMcpSignalData(),
-  ]);
-  const skillsBoard =
-    skillsRes.status === "fulfilled" ? skillsRes.value.combined : null;
-  const mcpBoard = mcpRes.status === "fulfilled" ? mcpRes.value.board : null;
-
-  // Compose the payload exactly as scripts/snapshot-top10.ts does so the live
-  // route and the frozen snapshot are byte-identical at fetch time.
-  const payload: Top10Payload = {
-    repos: repos.length > 0 ? buildRepoTop10(repos, "7d") : emptyBundle("7d"),
-    llms:
-      hfModels.length > 0 ? buildLlmTop10(hfModels, "7d") : emptyBundle("7d"),
-    agents: repos.length > 0 ? buildAgentTop10(repos, "7d") : emptyBundle("7d"),
-    mcps: buildMcpTop10(mcpBoard, "7d"),
-    skills: buildSkillsTop10(skillsBoard, "7d"),
-    movers:
-      repos.length > 0 ? buildMoversTop10(repos, "24h") : emptyBundle("24h"),
-    news: buildNewsTop10({
-      hn,
-      bluesky: bsky,
-      devto,
-      lobsters,
-      producthunt: ph,
-    }),
-    funding:
-      funding.length > 0 ? buildFundingTop10(funding) : emptyBundle("7d"),
-  };
-
-  // 80-row slice for client-side window/metric recompute on REPOS / AGENTS /
-  // MOVERS. Frozen route ships [] because frozen views don't recompute.
-  const repoSlice = reposToSlice(repos, 80);
+  const { payload, repoSlice } = await buildLiveTop10Payload();
 
   return (
     <>

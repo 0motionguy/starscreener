@@ -280,6 +280,10 @@ export default function WatchlistPage() {
 
   return (
     <main className="home-surface watchlist-page">
+      <style>{`
+        .watchlist-page .wl-row{transition:transform .12s ease,box-shadow .12s ease,border-color .12s ease;}
+        .watchlist-page .wl-row:hover{transform:translateY(-1px);box-shadow:0 0 0 1px var(--v4-acc) inset;border-color:var(--v4-acc);}
+      `}</style>
       <ProfileTemplate
         crumb={
           <>
@@ -435,25 +439,26 @@ export default function WatchlistPage() {
                 }}
               >
                 {watchedRepos.map(({ item, repo }) => (
-                  <RelatedRepoCard
-                    key={item.repoId}
-                    fullName={repo.fullName}
-                    description={repo.description ?? undefined}
-                    language={
-                      repo.language
-                        ? repo.language.toUpperCase()
-                        : undefined
-                    }
-                    stars={formatNumber(repo.stars)}
-                    similarity={
-                      repo.starsDelta24h !== 0
-                        ? `${repo.starsDelta24h > 0 ? "+" : ""}${formatNumber(
-                            repo.starsDelta24h,
-                          )} 24H`
-                        : "STABLE"
-                    }
-                    href={`/repo/${repo.owner}/${repo.name}`}
-                  />
+                  <div key={item.repoId} className="wl-row">
+                    <RelatedRepoCard
+                      fullName={repo.fullName}
+                      description={repo.description ?? undefined}
+                      language={
+                        repo.language
+                          ? repo.language.toUpperCase()
+                          : undefined
+                      }
+                      stars={formatNumber(repo.stars)}
+                      similarity={
+                        repo.starsDelta24h !== 0
+                          ? `${repo.starsDelta24h > 0 ? "+" : ""}${formatNumber(
+                              repo.starsDelta24h,
+                            )} 24H`
+                          : "STABLE"
+                      }
+                      href={`/repo/${repo.owner}/${repo.name}`}
+                    />
+                  </div>
                 ))}
               </div>
             )}
@@ -659,7 +664,7 @@ function EmptyTrackedState() {
           marginBottom: 6,
         }}
       >
-        No repos saved yet
+        Drop a repo to start tracking
       </h3>
       <p
         style={{
@@ -689,7 +694,7 @@ function EmptyTrackedState() {
           fontWeight: 600,
         }}
       >
-        Browse trending repos →
+        Drop a repo →
       </Link>
 
       {/* Top-3 trending suggestion strip (AC: 'suggestion (top 3 trending)') */}

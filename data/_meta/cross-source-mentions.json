@@ -1,21 +1,21 @@
 {
   "source": "cross-source-mentions",
   "reason": "ok",
-  "ts": "2026-05-07T11:27:43.720Z",
-  "count": 7370,
-  "durationMs": 283834,
+  "ts": "2026-05-07T19:48:34.315Z",
+  "count": 3928,
+  "durationMs": 193757,
   "extra": {
-    "scanRunId": "sweep-2026-05-07T11:22:58.945Z",
-    "repos": 100,
+    "scanRunId": "sweep-2026-05-07T19:45:18.113Z",
+    "repos": 50,
     "perChannel": {
-      "twitter": 4372,
-      "reddit": 933,
-      "bluesky": 477,
-      "tavily": 709,
-      "hackernews": 878,
-      "lobsters": 1
+      "twitter": 3087,
+      "hackernews": 566,
+      "bluesky": 275
     },
     "sourceOnly": null,
-    "mode": "top-trending"
+    "mode": "top-trending",
+    "dedupSkipped": 3058,
+    "queueUpdated": 0,
+    "compaction": null
   }
 }

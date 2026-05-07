@@ -108,6 +108,8 @@
     "check:profile-completion": "tsx --env-file-if-exists=.env.local scripts/check-profile-completion.ts",
     "check:profile-completion:top": "tsx --env-file-if-exists=.env.local scripts/check-profile-completion.ts --mode top",
     "check:profile-completion:catchup": "tsx --env-file-if-exists=.env.local scripts/check-profile-completion.ts --mode catchup",
+    "sweep:mentions": "tsx --env-file-if-exists=.env.local scripts/sweep-cross-source-mentions.ts",
+    "sweep:mentions:dry": "tsx --env-file-if-exists=.env.local scripts/sweep-cross-source-mentions.ts --dry-run --top 5",
     "compute:reddit-baselines": "node scripts/compute-reddit-baselines.mjs",
     "discover:recent": "node scripts/discover-recent-repos.mjs",
     "fetch:metadata": "node scripts/fetch-repo-metadata.mjs",

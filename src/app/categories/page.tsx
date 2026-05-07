@@ -274,13 +274,36 @@ export default async function CategoriesPage({
         })}
       </nav>
 
+      {/* Polish: scoped hover affordance + responsive 2-col mobile stack.
+          Inline styles can't express :hover or @media so we drop a small
+          scoped block here keyed off the grid id. */}
+      <style>{`
+        #categories-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+        #categories-grid .v4-category-card { position: relative; }
+        #categories-grid .v4-category-card::after {
+          content: ""; position: absolute; inset: 0; border-radius: 4px;
+          box-shadow: 0 0 0 0 transparent; pointer-events: none;
+          transition: box-shadow 140ms ease;
+        }
+        #categories-grid .v4-category-card:hover {
+          background: var(--v4-bg-200) !important;
+          border-color: var(--v4-acc) !important;
+        }
+        #categories-grid .v4-category-card:hover::after {
+          box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--v4-acc) 30%, transparent);
+        }
+        @media (max-width: 640px) {
+          #categories-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 8px !important; }
+          #categories-grid .v4-category-card { padding: 10px !important; }
+        }
+      `}</style>
       <section
         id="categories-grid"
         className="v4-categories-grid"
         aria-label="Categories"
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
           gap: 12,
           padding: "12px 0",
         }}
@@ -295,6 +318,7 @@ export default async function CategoriesPage({
             <Link
               key={cat.id}
               href={`/categories/${cat.id}`}
+              className="v4-category-card"
               style={{
                 display: "flex",
                 flexDirection: "column",

@@ -28,13 +28,23 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
-export const dynamic = "force-static";
+// No `dynamic` export — reading `searchParams` already opts the route out
+// of static rendering in Next 15, which is enough for `?win=` to drive the
+// active table on each render. `force-dynamic` would clash with the root
+// layout's MobileDrawerLazy (dynamic-with-ssr:false).
 
 export const metadata: Metadata = {
   title: "TrendingRepo — Lobsters Trending",
   description:
     "Lobsters stories ranked by recent score velocity and cross-linked to tracked GitHub repositories.",
 };
+
+type Win = "24h" | "7d" | "30d";
+
+function parseWin(raw: string | string[] | undefined): Win {
+  const v = Array.isArray(raw) ? raw[0] : raw;
+  return v === "24h" || v === "30d" ? v : "7d";
+}
 
 const LOBSTERS_RED = "#ac130d";
 
@@ -120,7 +130,13 @@ function formatClock(iso: string | undefined): string {
   return new Date(iso).toISOString().slice(11, 19);
 }
 
-export default async function LobstersPage() {
+export default async function LobstersPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ win?: string | string[] }>;
+}) {
+  const { win: winParam } = await searchParams;
+  const win = parseWin(winParam);
   await Promise.all([
     refreshLobstersTrendingFromStore(),
     refreshLobstersMentionsFromStore(),
@@ -211,7 +227,7 @@ export default async function LobstersPage() {
                 : ""
             }
           >
-            <WindowedStoryFeed allStories={allStories} />
+            <WindowedStoryFeed allStories={allStories} activeWindow={win} />
             {leaderboard.length > 0 ? (
               <Leaderboard entries={leaderboard.slice(0, 15)} />
             ) : null}
@@ -223,37 +239,49 @@ export default async function LobstersPage() {
 }
 
 // AUDIT-2026-05-04 follow-up: 24h / 7d / 30d toggle on the story feed.
-// All stories carry `ageHours`, so we filter server-side into three
-// windows and let the client toggle which to render.
-function WindowedStoryFeed({ allStories }: { allStories: LobstersStory[] }) {
+// Active-only mode (2026-05-07): the page reads `?win=` from searchParams
+// and renders ONLY the active window's table — the other two windows pay
+// nothing on the wire. Counts for all three are still computed cheaply so
+// the tab strip can show the row totals.
+function WindowedStoryFeed({
+  allStories,
+  activeWindow,
+}: {
+  allStories: LobstersStory[];
+  activeWindow: Win;
+}) {
   // Sort by trending velocity, then thin per-tag bursts (cap 6 per first
   // tag) BEFORE the 50-row cut so the visible feed is diverse — without
   // the cap, "vibecoding" alone takes 13 of the 50 slots in the 7d window.
-  const sortByScore = (list: LobstersStory[]) =>
+  const sortAndCap = (list: LobstersStory[]) =>
     capPerTag(
       list
         .slice()
         .sort((a, b) => (b.trendingScore ?? 0) - (a.trendingScore ?? 0)),
       6,
     ).slice(0, 50);
-  const inWindow = (max: number) =>
-    sortByScore(
-      allStories.filter(
-        (s) => s.ageHours !== undefined && s.ageHours <= max,
-      ),
-    );
-  const w24h = inWindow(24);
-  const w7d = inWindow(7 * 24);
-  const w30d = inWindow(30 * 24);
+  const filterWindow = (max: number) =>
+    allStories.filter((s) => s.ageHours !== undefined && s.ageHours <= max);
+
+  // Pre-filter all 3 windows for the count badges (cheap — no row render).
+  const f24h = filterWindow(24);
+  const f7d = filterWindow(7 * 24);
+  const f30d = filterWindow(30 * 24);
+
+  // Only sort + render the active window's stories.
+  const activeFiltered =
+    activeWindow === "24h" ? f24h : activeWindow === "30d" ? f30d : f7d;
+  const activeStories = sortAndCap(activeFiltered);
+
+  // Counts shown in the tab strip — pre-cap counts so the user sees the
+  // raw window size, not the post-cap 50-row floor.
   return (
     <WindowedFeedTable
-      count24h={w24h.length}
-      count7d={w7d.length}
-      count30d={w30d.length}
-      table24h={<StoryFeed stories={w24h} />}
-      table7d={<StoryFeed stories={w7d} />}
-      table30d={<StoryFeed stories={w30d} />}
-      defaultWindow="7d"
+      count24h={Math.min(f24h.length, 50)}
+      count7d={Math.min(f7d.length, 50)}
+      count30d={Math.min(f30d.length, 50)}
+      activeWindow={activeWindow}
+      tableActive={<StoryFeed stories={activeStories} />}
     />
   );
 }

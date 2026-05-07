@@ -103,21 +103,22 @@ export default async function ResearchPage() {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <section>
-              <h2 className="text-sm font-bold uppercase tracking-wider text-accent-green mb-3">
-                {"// huggingface trending"}
+              <h2 className="flex items-baseline gap-2 text-sm font-bold uppercase tracking-wider text-accent-green mb-3 pb-2 border-b border-border-primary/60">
+                <span>{"// huggingface trending"}</span>
+                <span className="text-text-tertiary font-normal normal-case">{hfModels.length} models</span>
               </h2>
               <ul className="space-y-2">
                 {hfModels.map((m) => (
                   <li
                     key={m.id}
-                    className="rounded-md border border-border-primary bg-bg-secondary/40 p-3 hover:border-accent-green/50 transition-colors"
+                    className="group rounded-md border border-border-primary bg-bg-secondary/40 p-3 transition-all duration-150 hover:border-accent-green/50 hover:bg-bg-secondary/70 hover:-translate-y-px hover:shadow-[0_2px_8px_-2px_rgba(0,255,128,0.15)]"
                   >
                     <div className="flex items-baseline justify-between gap-2 flex-wrap">
                       <a
                         href={m.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm font-bold text-text-primary hover:text-accent-green truncate"
+                        className="text-sm font-bold text-text-primary group-hover:text-accent-green truncate"
                       >
                         <span className="text-text-tertiary mr-2">#{m.rank}</span>
                         {m.id}
@@ -126,7 +127,7 @@ export default async function ResearchPage() {
                         score {formatNum(m.trendingScore)}
                       </span>
                     </div>
-                    <div className="mt-1 flex items-center gap-3 text-xs text-text-secondary">
+                    <div className="mt-1 flex items-center gap-2 text-xs text-text-secondary flex-wrap">
                       <span className="flex items-center gap-1">
                         <Download className="w-3 h-3" /> {formatNum(m.downloads)}
                       </span>
@@ -134,7 +135,7 @@ export default async function ResearchPage() {
                         <Heart className="w-3 h-3" /> {formatNum(m.likes)}
                       </span>
                       {m.pipelineTag && (
-                        <span className="text-accent-green">{m.pipelineTag}</span>
+                        <span className="px-1.5 py-0.5 rounded bg-accent-green/10 text-accent-green">{m.pipelineTag}</span>
                       )}
                     </div>
                   </li>
@@ -143,24 +144,30 @@ export default async function ResearchPage() {
             </section>
 
             <section>
-              <h2 className="text-sm font-bold uppercase tracking-wider text-accent-green mb-3">
-                {"// arxiv recent (cs.ai/cl/lg)"}
+              <h2 className="flex items-baseline gap-2 text-sm font-bold uppercase tracking-wider text-accent-green mb-3 pb-2 border-b border-border-primary/60">
+                <span>{"// arxiv recent (cs.ai/cl/lg)"}</span>
+                <span className="text-text-tertiary font-normal normal-case">{papers.length} papers · {linkedPapers} linked</span>
               </h2>
               <ul className="space-y-2">
                 {papers.map((p) => (
                   <li
                     key={p.arxivId}
-                    className="rounded-md border border-border-primary bg-bg-secondary/40 p-3 hover:border-accent-green/50 transition-colors"
+                    className="group rounded-md border border-border-primary bg-bg-secondary/40 p-3 transition-all duration-150 hover:border-accent-green/50 hover:bg-bg-secondary/70 hover:-translate-y-px hover:shadow-[0_2px_8px_-2px_rgba(0,255,128,0.15)]"
                   >
                     <div className="flex items-baseline justify-between gap-2">
                       <a
                         href={p.absUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm font-bold text-text-primary hover:text-accent-green leading-snug"
+                        className="text-sm font-bold text-text-primary group-hover:text-accent-green leading-snug"
                       >
                         {p.title}
                       </a>
+                      {p.linkedRepos.length > 0 && (
+                        <span className="shrink-0 text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-accent-green/10 text-accent-green">
+                          {p.linkedRepos.length}× repo
+                        </span>
+                      )}
                     </div>
                     <div className="mt-1 flex items-center gap-3 text-xs text-text-secondary flex-wrap">
                       <span className="text-text-tertiary">{p.arxivId}</span>
@@ -225,16 +232,16 @@ export default async function ResearchPage() {
 
 function ColdState() {
   return (
-    <section className="rounded-md border border-dashed border-border-primary bg-bg-secondary/40 p-8">
-      <div className="flex items-center gap-3 mb-4">
-        <Microscope className="w-5 h-5 text-accent-green shrink-0" />
-        <h2 className="text-lg font-bold uppercase tracking-wider text-accent-green">
-          {"// cold start"}
-        </h2>
+    <section className="rounded-md border border-dashed border-accent-green/30 bg-bg-secondary/40 p-10 text-center">
+      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-green/10 mb-4">
+        <Microscope className="w-6 h-6 text-accent-green" />
       </div>
-      <p className="text-sm text-text-secondary">
-        No research signals in the cache yet. The collectors run every 3h via
-        GitHub Actions; the next run will populate this page.
+      <h2 className="text-lg font-bold uppercase tracking-wider text-accent-green mb-2">
+        {"// awaiting signal"}
+      </h2>
+      <p className="text-sm text-text-secondary max-w-md mx-auto">
+        No research signals in the cache yet. Collectors run every 3h via
+        GitHub Actions — the next sweep will populate HF models and arXiv papers here.
       </p>
     </section>
   );

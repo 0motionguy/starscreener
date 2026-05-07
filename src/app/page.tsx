@@ -528,7 +528,6 @@ function FeaturedCard({
       : index === 0
         ? "var(--acc)"
         : "var(--sig-cyan)";
-  const mentionsLabel = entity.kind === "repo" ? "mentions" : "installs 7d";
   const pctText = entity.pct !== null ? `${entity.pct >= 0 ? "+" : ""}${entity.pct}%` : null;
   return (
     <a className={`feat-card ${index === 0 ? "hero" : "sec"}`} href={entity.href}>
@@ -545,7 +544,20 @@ function FeaturedCard({
         <EntityLogo src={entity.logoUrl} name={entity.name} size={28} />
         <h3 className="title">{entity.name}</h3>
       </div>
-      <Sparkline values={entity.sparkline} className="spark-feat" color={sparkColor} />
+      {/*
+        Pass explicit width="100%" + height to override the EChartSparkline
+        wrapper's default 84×28 inline-style — without these props the chart
+        rendered at 84px wide and the bottom got clipped by the .spark-feat
+        height: 36 / 30 CSS rule (inline style beats class on width).
+      */}
+      <Sparkline
+        values={entity.sparkline}
+        className="spark-feat"
+        color={sparkColor}
+        width="100%"
+        height={index === 0 ? 56 : 44}
+        tooltipLabel={entity.stars ? "stars" : "score"}
+      />
       <div className="stats">
         <span>
           <b>{entity.stars ? formatCompact(entity.stars) : formatCompact(entity.score)}</b>
@@ -553,15 +565,7 @@ function FeaturedCard({
         </span>
         <span>
           <b className={entity.delta < 0 ? "dn" : "up"}>{formatDelta(entity.delta)}</b>
-          <i>24h{pctText ? ` · ${pctText}` : ""}</i>
-        </span>
-        <span>
-          <b>{formatCompact(entity.mentions ?? 0)}</b>
-          <i>{mentionsLabel}</i>
-        </span>
-        <span>
-          <b>{entity.channels ?? 1}</b>
-          <i>sources</i>
+          <i>{pctText ? `24h · ${pctText}` : "24h growth"}</i>
         </span>
       </div>
     </a>

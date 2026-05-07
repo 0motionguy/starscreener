@@ -40,7 +40,7 @@
 .brand-sub{ font-family:var(--mono); font-size:9px; color:var(--ink-400); letter-spacing:0.20em; text-transform:uppercase; }
 .brand-sub b{ color:var(--acc); font-weight:500; }
 
-.search-wrap{ flex:1; max-width:640px; position:relative; }
+.search-wrap{ flex:1; max-width:640px; position:relative; display:flex; align-items:center; }
 .search{
   height:38px; border:1px solid var(--line-300); background:var(--bg-000);
   display:flex; align-items:center; gap:10px; padding:0 12px 0 14px;
@@ -59,9 +59,13 @@
   padding:0; height:100%;
 }
 .search input::placeholder{ color:var(--ink-400); }
-.search .key{ display:flex; gap:3px; flex:none; }
-.search .key kbd{ font-family:var(--mono); font-size:9px; letter-spacing:0.06em; color:var(--ink-300);
+/* The kbd indicator is a sibling of <SearchBar> inside .search-wrap; positioned
+   absolutely so it overlays the right edge of the search frame, matching the
+   mockup's .search > .key visual placement without restructuring SearchBar. */
+.search-wrap .key{ position:absolute; right:12px; top:50%; transform:translateY(-50%); display:flex; gap:3px; pointer-events:none; z-index:1; }
+.search-wrap .key kbd{ font-family:var(--mono); font-size:9px; font-weight:600; letter-spacing:0.06em; color:var(--ink-300);
   padding:2px 5px; border:1px solid var(--line-300); background:var(--bg-050); border-radius:2px; line-height:1; }
+@media (max-width: 640px){ .search-wrap .key{ display:none; } }
 
 .topbar-shimmer{ position:absolute; left:0; right:0; bottom:-1px; height:1px; pointer-events:none; overflow:hidden; z-index:2; }
 .topbar-shimmer::before{ content:''; position:absolute; left:-25%; width:25%; height:100%;

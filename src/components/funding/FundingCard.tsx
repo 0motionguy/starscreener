@@ -157,9 +157,17 @@ function getGradient(name: string) {
 }
 
 function getInitials(name: string): string {
-  const words = name.trim().split(/\s+/);
-  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
-  return (words[0][0] + words[words.length - 1][0]).toUpperCase();
+  const trimmed = (name ?? "").trim();
+  if (!trimmed) return "—";
+  const words = trimmed.split(/\s+/);
+  if (words.length === 1) {
+    const w = words[0];
+    return (w.length >= 2 ? w.slice(0, 2) : w).toUpperCase();
+  }
+  const first = words[0][0] ?? "";
+  const last = words[words.length - 1][0] ?? "";
+  const out = (first + last).toUpperCase();
+  return out || "—";
 }
 
 /**
@@ -210,11 +218,14 @@ function CompanyLogo({
 
   return (
     <div
-      className="shrink-0 rounded-lg flex items-center justify-center text-sm font-bold text-white shadow-sm"
+      className="shrink-0 flex items-center justify-center text-sm font-bold text-white"
       style={{
         width: size,
         height: size,
         background: getGradient(name),
+        borderRadius: 2,
+        border: "1px solid var(--v4-line-200)",
+        letterSpacing: "0.02em",
       }}
     >
       {initials}
@@ -361,23 +372,34 @@ export function FundingCard({ signal }: FundingCardProps) {
         {hasExtraction && ext.amount !== null ? (
           <div className="shrink-0 text-right">
             <div
-              className="text-[10px] uppercase tracking-wider"
-              style={{ color: "var(--v4-ink-300)" }}
+              className="text-[9px] uppercase"
+              style={{
+                color: "var(--v4-ink-400)",
+                letterSpacing: "0.18em",
+                fontFamily: "var(--v4-mono)",
+              }}
             >
               Raised
             </div>
             <div
               className="text-2xl font-black leading-tight"
-              style={{ color: "var(--v4-money)" }}
+              style={{
+                color: "var(--v4-money)",
+                fontFamily: "var(--v4-mono)",
+                fontVariantNumeric: "tabular-nums",
+              }}
             >
               {ext.amountDisplay}
             </div>
-            <div className="mt-0.5">
+            <div className="mt-1">
               <span
-                className="inline-flex items-center rounded px-1.5 py-px text-[10px] uppercase tracking-wider"
+                className="inline-flex items-center px-1.5 py-px text-[9px] uppercase"
                 style={{
-                  border: "1px solid var(--v4-line-200)",
-                  color: "var(--v4-ink-300)",
+                  border: "1px solid var(--v4-line-300)",
+                  color: "var(--v4-ink-200)",
+                  letterSpacing: "0.16em",
+                  fontFamily: "var(--v4-mono)",
+                  borderRadius: 1,
                 }}
               >
                 {roundTypeLabel(ext.roundType)}
@@ -387,14 +409,21 @@ export function FundingCard({ signal }: FundingCardProps) {
         ) : (
           <div className="shrink-0 text-right">
             <div
-              className="text-[10px] uppercase tracking-wider"
-              style={{ color: "var(--v4-ink-300)" }}
+              className="text-[9px] uppercase"
+              style={{
+                color: "var(--v4-ink-400)",
+                letterSpacing: "0.18em",
+                fontFamily: "var(--v4-mono)",
+              }}
             >
               Raised
             </div>
             <div
               className="text-lg font-bold"
-              style={{ color: "var(--v4-ink-300)" }}
+              style={{
+                color: "var(--v4-ink-400)",
+                fontFamily: "var(--v4-mono)",
+              }}
             >
               —
             </div>

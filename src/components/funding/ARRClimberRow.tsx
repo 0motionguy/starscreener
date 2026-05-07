@@ -11,6 +11,11 @@
 //
 // `momPct` is the percentage value (e.g. 18 for "+18%"). Bar width is
 // normalized client-side by the parent — pass `barPct` to control fill.
+//
+// 2026-05-07 polish (A3): negative-MoM rows now also paint the fill bar
+// red (was always money-green even on declines, which read like a stable
+// climber and undermined the visual signal). Title attribute added so
+// truncated names show on hover.
 
 import { cn } from "@/lib/utils";
 
@@ -40,7 +45,8 @@ export function ARRClimberRow({
   className,
 }: ARRClimberRowProps) {
   const Tag = href ? "a" : "div";
-  const fillPct = barPct ?? Math.min(100, Math.max(0, momPct));
+  const fillPct = barPct ?? Math.min(100, Math.max(0, Math.abs(momPct)));
+  const isDown = momPct < 0;
   return (
     <Tag
       {...(href ? { href } : {})}
@@ -49,17 +55,18 @@ export function ARRClimberRow({
         first && "v4-arr-row--first",
         className,
       )}
+      title={`${name} — ${arr} ARR · ${momPct >= 0 ? "+" : ""}${momPct}% MoM`}
     >
       <span className="v4-arr-row__rank">
         {String(rank).padStart(2, "0")}
       </span>
       <div className="v4-arr-row__body">
-        <div className="v4-arr-row__name">{name}</div>
+        <div className="v4-arr-row__name" title={name}>{name}</div>
         {meta ? <div className="v4-arr-row__meta">{meta}</div> : null}
       </div>
       <div className="v4-arr-row__stats">
         <div className="v4-arr-row__arr">
-          <span>{arr}</span>
+          <span style={{ fontVariantNumeric: "tabular-nums" }}>{arr}</span>
           <span className="v4-arr-row__lbl">ARR</span>
         </div>
         <div
@@ -71,10 +78,15 @@ export function ARRClimberRow({
           aria-valuemax={100}
           aria-label={`${momPct}% MoM`}
         >
-          <i style={{ width: `${fillPct}%` }} />
+          <i
+            style={{
+              width: `${fillPct}%`,
+              background: isDown ? "var(--v4-red)" : "var(--v4-money)",
+            }}
+          />
         </div>
         <div className={cn("v4-arr-row__pct", momPct < 0 && "v4-arr-row__pct--down")}>
-          <span>
+          <span style={{ fontVariantNumeric: "tabular-nums" }}>
             {momPct >= 0 ? "+" : ""}
             {momPct}%
           </span>

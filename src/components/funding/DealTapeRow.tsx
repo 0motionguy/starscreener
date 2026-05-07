@@ -8,6 +8,10 @@
 //
 // `fresh` adds a green-tint highlight + makes the timestamp green for items
 // in the most recent batch. Mockup convention: 3 most recent items per scan.
+//
+// 2026-05-07 polish (A3): tabular-nums on amount + timestamp so columns
+// align across rows; tooltip via `title` on the row when `titleText` is
+// passed so truncated rows still expose full context on hover.
 
 import type { ReactNode } from "react";
 
@@ -27,6 +31,10 @@ export interface DealTapeRowProps {
   fresh?: boolean;
   href?: string;
   className?: string;
+  /** Plain-string version of the title used for the hover tooltip when the
+      ReactNode title contains formatting. A3 polish so truncated rows still
+      surface full context on hover. */
+  titleText?: string;
 }
 
 export function DealTapeRow({
@@ -39,14 +47,18 @@ export function DealTapeRow({
   fresh = false,
   href,
   className,
+  titleText,
 }: DealTapeRowProps) {
   const Tag = href ? "a" : "div";
   return (
     <Tag
       {...(href ? { href } : {})}
       className={cn("v4-tape-row", fresh && "v4-tape-row--fresh", className)}
+      title={titleText}
     >
-      <div className="v4-tape-row__ts">{ts}</div>
+      <div className="v4-tape-row__ts" style={{ fontVariantNumeric: "tabular-nums" }}>
+        {ts}
+      </div>
       <div className="v4-tape-row__body">
         <div className="v4-tape-row__title">{title}</div>
         {desc ? <div className="v4-tape-row__desc">{desc}</div> : null}
@@ -59,7 +71,12 @@ export function DealTapeRow({
           </div>
         )}
       </div>
-      <div className="v4-tape-row__amt">{amount}</div>
+      <div
+        className="v4-tape-row__amt"
+        style={{ fontVariantNumeric: "tabular-nums" }}
+      >
+        {amount}
+      </div>
     </Tag>
   );
 }

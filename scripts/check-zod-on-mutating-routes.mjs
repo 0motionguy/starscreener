@@ -82,6 +82,17 @@ const ALLOW_NO_PARSEBODY = new Map([
   ["src/app/api/pipeline/rebuild/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/pipeline/recompute/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/pipeline/refresh/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
+
+  // Wave-1 auth/profile/referrals/alerts routes merged from main in 1ece26b5.
+  // Pre-existed on main without parseBody; pinned debt — migrate when next touched.
+  ["src/app/api/cron/referrals/qualify/route.ts", "legacy: cron trigger uses verifyCronAuth + handle() dispatch"],
+  ["src/app/api/me/alert-rules/route.ts", "legacy: pre-merge from main — migrate when next touched"],
+  ["src/app/api/me/alert-rules/[id]/route.ts", "legacy: pre-merge from main — migrate when next touched"],
+  ["src/app/api/me/alert-rules/[id]/rotate-secret/route.ts", "legacy: pre-merge from main — migrate when next touched"],
+  ["src/app/api/me/profile/route.ts", "legacy: pre-merge from main — migrate when next touched"],
+  ["src/app/api/newsletter/subscribe/route.ts", "legacy: pre-merge from main — migrate when next touched"],
+  ["src/app/api/referrals/me/route.ts", "legacy: pre-merge from main — migrate when next touched"],
+  ["src/app/api/webhooks/clerk/route.ts", "Clerk webhook — needs raw body for svix sig verify, same pattern as Stripe"],
 ]);
 
 const MUTATING_METHODS = ["POST", "PUT", "DELETE", "PATCH"];

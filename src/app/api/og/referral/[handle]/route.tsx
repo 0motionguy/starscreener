@@ -241,7 +241,7 @@ function ReferralCard({ data }: { data: ReferralOgData }) {
             maxWidth: 980,
           }}
         >
-          See what's breaking out on GitHub, Hacker News, Bluesky, Product
+          See what&apos;s breaking out on GitHub, Hacker News, Bluesky, Product
           Hunt, dev.to, and more — one live terminal for every signal.
         </div>
       </div>

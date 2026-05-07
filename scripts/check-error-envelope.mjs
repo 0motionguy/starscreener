@@ -37,6 +37,10 @@ const ALLOW = new Map([
     "src/app/api/repos/[owner]/[name]/route.ts",
     "v1 legacy shape — kept byte-stable for pinned MCP/CLI consumers (APP-17 sunset tracker).",
   ],
+  [
+    "src/app/api/webhooks/clerk/route.ts",
+    "Clerk webhook — bare {error} responses to svix; merged from main in 1ece26b5 — pinned debt.",
+  ],
 ]);
 
 async function* walkRoutes(dir) {

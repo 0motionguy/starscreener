@@ -447,7 +447,7 @@ export default function ReferClient(props: ReferClientProps) {
         >
           A referral qualifies once the friend you invited returns 24h+ after
           signing up. Self-invites, same-Clerk-user duplicates, and
-          recently-flagged accounts don't count toward badges.
+          recently-flagged accounts don&apos;t count toward badges.
         </p>
       </div>
     </main>

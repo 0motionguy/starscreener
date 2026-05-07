@@ -452,7 +452,7 @@ function ColdState({ message, compact = false }: ColdStateProps) {
         marginBottom: compact ? 12 : 16,
       }}
     >
-      <span style={{ color: "var(--v4-ink-400)" }}>// </span>
+      <span style={{ color: "var(--v4-ink-400)" }}>{"// "}</span>
       {message}
     </div>
   );

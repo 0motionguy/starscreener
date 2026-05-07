@@ -10,6 +10,7 @@
 // `profiles.public_leaderboard_optin = true`. Empty state = nobody opted
 // in yet, with a hint pointing the visitor to /you/refer.
 
+import Link from "next/link";
 import type { Metadata } from "next";
 import { count, desc, eq, isNotNull, sql } from "drizzle-orm";
 
@@ -104,12 +105,12 @@ export default async function ReferLeaderboardPage() {
           }}
         >
           Nobody has opted in yet. Be the first — head to{" "}
-          <a
+          <Link
             href="/you/refer"
             style={{ color: "var(--v4-acc)", textDecoration: "underline" }}
           >
             /you/refer
-          </a>{" "}
+          </Link>{" "}
           to get your link and toggle public leaderboard on.
         </div>
       ) : (
@@ -204,6 +205,7 @@ export default async function ReferLeaderboardPage() {
                         <img
                           src={row.avatarUrl}
                           alt={`@${row.handle}`}
+                          loading="lazy"
                           width={24}
                           height={24}
                           style={{

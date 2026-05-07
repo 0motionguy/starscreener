@@ -145,7 +145,7 @@ function createSignalId(headline: string, sourceUrl: string): string {
 
 const fetcher: Fetcher = {
   name: 'funding-news',
-  schedule: '0 */6 * * *', // matches collect-funding.yml
+  schedule: '0 */2 * * *', // matches collect-funding.yml (tightened 2026-05-07)
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
 

@@ -165,17 +165,22 @@ export async function refreshFundingNewsFromStore(): Promise<RefreshResult> {
     try {
       const { getDataStore } = await import("./data-store");
       const store = getDataStore();
-      // Fan out to all three funding slugs the worker publishes:
+      // Fan out to the four funding slugs the publishing pipeline produces:
       //   funding-news            — TechCrunch / VentureBeat / Sifted / Tech.eu / Pymnts / Wired / BBC / Ars
+      //                             + AI-tagged feeds (TC-AI / VB-AI / AI News / AI Business / The Decoder /
+      //                                Marktechpost / Unite.AI / Analytics India / MIT TR AI / Synced)
+      //                             + niche outlets (GeekWire / EU-Startups / Silicon Canals / TechStartups)
       //   funding-news-crunchbase — Crunchbase News + AlleyWatch + FinSMEs + TechFundingNews + TC Venture
       //   funding-news-x          — Apify Twitter funding-hashtag scraper
-      // Pre-fix the page only read the first slug, so Crunchbase + Twitter
-      // were collected and stored in Redis but never surfaced. Merge with
-      // sourceUrl-keyed dedupe so cross-published articles collapse.
-      const [main, crunch, x] = await Promise.allSettled([
+      //   funding-news-sec        — SEC EDGAR Form D filings, AI-keyword filtered
+      //                             (every US private round, 15-day filing window — ground truth)
+      // Pre-fix the page only read the first slug. Merge with sourceUrl-keyed
+      // dedupe so cross-published articles collapse.
+      const [main, crunch, x, sec] = await Promise.allSettled([
         store.read<unknown>("funding-news"),
         store.read<unknown>("funding-news-crunchbase"),
         store.read<unknown>("funding-news-x"),
+        store.read<unknown>("funding-news-sec"),
       ]);
 
       const byKey = new Map<string, FundingSignal>();
@@ -210,6 +215,7 @@ export async function refreshFundingNewsFromStore(): Promise<RefreshResult> {
       ingest(main);
       ingest(crunch);
       ingest(x);
+      ingest(sec);
 
       if (byKey.size > 0) {
         const merged: FundingNewsFile = {

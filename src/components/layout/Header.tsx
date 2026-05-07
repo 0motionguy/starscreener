@@ -19,16 +19,13 @@ export function Header() {
             aria-label="TrendingRepo home"
           >
             <span className="flex min-w-0 items-center gap-1.5 sm:gap-2.5">
-              <span
-                aria-hidden
-                className="brand-mark"
-              >
+              <span aria-hidden className="brand-mark brand-mark-circle">
                 <Image
-                  src="/brand/trendingrepo-mark.svg"
+                  src="/brand/trendingrepo-circle-orange.svg"
                   alt=""
-                  width={18}
-                  height={18}
-                  className="block size-[18px] shrink-0"
+                  width={28}
+                  height={28}
+                  className="block size-full shrink-0"
                   priority
                 />
               </span>
@@ -44,9 +41,9 @@ export function Header() {
             <span
               aria-hidden="true"
               className="brand-sub mt-0.5 hidden leading-none sm:inline"
-              style={{ paddingLeft: "calc(24px + 0.625rem)" }}
+              style={{ paddingLeft: "calc(28px + 0.625rem)" }}
             >
-              {"// TRENDINGREPO / TREND MAP FOR OPEN SOURCE"}
+              {"// CATCH BREAKOUTS BEFORE THEY GO MAINSTREAM"}
             </span>
           </Link>
         </div>

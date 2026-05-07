@@ -24,12 +24,10 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Plug, Terminal } from "lucide-react";
+import { Plug, Terminal, UserRound } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useWatchlistStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
-import { APP_VERSION } from "@/lib/app-meta";
-import { SystemMark } from "@/components/v3";
 import { SidebarContent } from "./SidebarContent";
 import { SidebarSkeleton } from "./SidebarSkeleton";
 import type {
@@ -39,32 +37,87 @@ import type {
 import type { SidebarWatchlistPreviewRepo } from "./SidebarWatchlistPreview";
 
 // ---------------------------------------------------------------------------
-// LaunchpadStrip — 3-tile shortcut row, V2-styled.
+// LaunchpadStrip — prominent CLI / MCP entry tiles + conditional user slot.
+//
+// Width adapts:
+//   • Anonymous (no session)  →   2-up grid, full-width CLI + MCP tiles.
+//   • Logged-in user          →   3-up grid; the third tile is the user
+//                                  profile (handle + avatar) linking to
+//                                  /u/<handle>. We DO NOT render a "YOU"
+//                                  placeholder for anonymous users —
+//                                  per design, the user is invisible
+//                                  until they're actually registered.
+//
+// Session check uses the public `/api/auth/session` endpoint (auto-issued
+// `ss_user` cookie). One fetch on mount, cached in component state.
 // ---------------------------------------------------------------------------
 
 interface LaunchpadTile {
   href: string;
   icon: LucideIcon;
   label: string;
+  description: string;
   matchPrefix?: string; // active when pathname startsWith this
 }
 
 const LAUNCHPAD_TILES: LaunchpadTile[] = [
   {
+    href: "/cli",
+    icon: Terminal,
+    label: "CLI",
+    description: "ss in your terminal",
+    matchPrefix: "/cli",
+  },
+  {
     href: "/portal/docs",
     icon: Plug,
     label: "MCP",
+    description: "agents + IDEs",
     matchPrefix: "/portal/docs",
   },
-  { href: "/cli", icon: Terminal, label: "CLI", matchPrefix: "/cli" },
 ];
+
+function useUserSession(): { loaded: boolean; userId: string | null } {
+  const [state, setState] = useState<{ loaded: boolean; userId: string | null }>(
+    { loaded: false, userId: null },
+  );
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/auth/session", { credentials: "include" })
+      .then((r) => (r.ok ? r.json() : { ok: false }))
+      .then((data: { ok?: boolean; userId?: string }) => {
+        if (cancelled) return;
+        setState({
+          loaded: true,
+          userId: data?.ok && data.userId ? data.userId : null,
+        });
+      })
+      .catch(() => {
+        if (!cancelled) setState({ loaded: true, userId: null });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+  return state;
+}
+
+function shortHandle(userId: string): string {
+  // Public user IDs look like `a_xxx` (anon) or `u_xxx` (email-derived).
+  // We trim the prefix and shorten so the chip stays readable in the rail.
+  const trimmed = userId.replace(/^[au]_/, "");
+  return trimmed.slice(0, 6).toUpperCase();
+}
 
 function LaunchpadStrip() {
   const pathname = usePathname() ?? "/";
+  const { userId } = useUserSession();
+  const showProfile = Boolean(userId);
+  const cols = showProfile ? "grid-cols-3" : "grid-cols-2";
   return (
     <nav
       aria-label="Launchpad"
-      className="group grid grid-cols-2 gap-1.5 px-3 pb-3 pt-2"
+      className={cn("group grid gap-1.5 px-3 pb-3 pt-3", cols)}
     >
       {LAUNCHPAD_TILES.map((tile) => {
         const active = pathname === tile.href
@@ -74,49 +127,47 @@ function LaunchpadStrip() {
           <Link
             key={tile.href}
             href={tile.href}
-            aria-label={tile.label}
+            aria-label={`${tile.label} — ${tile.description}`}
+            title={tile.description}
             className={cn(
-              "nav relative flex h-8 items-center justify-center gap-1.5 px-1",
-              "text-[10px] transition-colors duration-150",
+              "launchpad-tile relative flex h-12 flex-col items-center justify-center gap-0.5",
+              "text-[11px] font-semibold tracking-wide transition-colors duration-150",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1",
             )}
             style={{
               background: active ? "var(--v4-acc-soft)" : "var(--v4-bg-050)",
               border: `1px solid ${active ? "var(--v4-acc)" : "var(--v4-line-200)"}`,
-              color: active ? "var(--v4-acc)" : "var(--v4-ink-200)",
+              color: active ? "var(--v4-acc)" : "var(--v4-ink-100)",
+              borderRadius: 8,
             }}
           >
-            <Icon className="w-3.5 h-3.5" strokeWidth={2} aria-hidden />
-            <span>{tile.label}</span>
+            <Icon className="h-4 w-4" strokeWidth={2.25} aria-hidden />
+            <span className="text-[10px] uppercase tracking-[0.18em]">{tile.label}</span>
           </Link>
         );
       })}
+      {showProfile && userId ? (
+        <Link
+          href={`/u/${userId}`}
+          aria-label="Your profile"
+          title="Your profile"
+          className={cn(
+            "launchpad-tile relative flex h-12 flex-col items-center justify-center gap-0.5",
+            "text-[11px] font-semibold tracking-wide transition-colors duration-150",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1",
+          )}
+          style={{
+            background: pathname.startsWith("/u/") ? "var(--v4-acc-soft)" : "var(--v4-bg-050)",
+            border: `1px solid ${pathname.startsWith("/u/") ? "var(--v4-acc)" : "var(--v4-line-200)"}`,
+            color: "var(--v4-ink-100)",
+            borderRadius: 8,
+          }}
+        >
+          <UserRound className="h-4 w-4" strokeWidth={2.25} aria-hidden />
+          <span className="text-[10px] uppercase tracking-[0.18em]">{shortHandle(userId)}</span>
+        </Link>
+      ) : null}
     </nav>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Top status block — system identity (`// TRENDINGREPO` + version).
-// ---------------------------------------------------------------------------
-
-function SidebarStatusHeader() {
-  return (
-    <div
-      className="group flex shrink-0 items-center justify-between px-3 pb-2 pt-3"
-    >
-      <span
-        className="group-label inline-flex items-center gap-2"
-        style={{ color: "var(--v4-ink-300)", fontSize: 10 }}
-      >
-        <SystemMark size={12} />
-        {"// TRENDINGREPO"}
-      </span>
-      <span
-        className="font-mono tabular-nums"
-        style={{ color: "var(--v4-ink-300)", fontSize: 9 }}
-      >
-        v{APP_VERSION}
-      </span>
-    </div>
   );
 }
 
@@ -251,7 +302,6 @@ export function Sidebar({
     <aside
       className="sidebar hidden w-full overflow-hidden md:flex md:flex-col"
     >
-      <SidebarStatusHeader />
       <LaunchpadStrip />
       {data ? (
         <SidebarContent

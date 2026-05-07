@@ -4712,6 +4712,26 @@ body::before {
   }
 }
 
+/* Circle logo modifier — when the mark is the self-contained
+   trendingrepo-circle-orange.svg (orange disc + dark star), drop the
+   surrounding tinted-orange box; the SVG already carries its own
+   background. Slightly larger to assert the brand presence. */
+.brand-mark-circle {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .brand-mark-circle {
+    width: 30px;
+    height: 30px;
+  }
+}
+
 .brand-name {
   color: var(--v4-ink-100);
   font-size: 11px;

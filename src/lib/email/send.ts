@@ -70,3 +70,19 @@ export function resolveEmailFrom(): string {
   if (configured && configured.length > 0) return configured;
   return "TrendingRepo Digest <digest@localhost>";
 }
+
+/**
+ * Convenience wrapper: pick the active provider, default the `from`
+ * address, send. Used by the alert dispatcher (one email per claimed
+ * alert event); throws on send failure so the caller's metrics +
+ * retry logic see it.
+ */
+export async function sendEmail(
+  msg: Omit<EmailMessage, "from"> & { from?: string },
+): Promise<EmailSendResult> {
+  const provider = getEmailProvider();
+  return provider.send({
+    ...msg,
+    from: msg.from ?? resolveEmailFrom(),
+  });
+}

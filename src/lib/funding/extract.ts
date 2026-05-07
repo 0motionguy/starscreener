@@ -306,13 +306,18 @@ export function extractTags(headline: string, description: string): string[] {
 // purpose — false positives here pollute the page, so anything ambiguous
 // stays out of the raw list.
 
+// First character: A-Z covers proper-noun firms, a-z covers lowercase
+// abbreviations like "a16z", digits cover "8VC". We rely on the trailing
+// word-boundary set + cleanInvestorCandidate stop-words to reject noise.
 const INVESTOR_CUE_PATTERNS: RegExp[] = [
-  /(?:led|co-led)\s+by\s+([A-Z][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|\bin\b|\bto\b|\bfor\b|\bat\b|$)/g,
-  /(?:backed|funded|supported)\s+by\s+([A-Z][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|\bin\b|\bto\b|\bfor\b|\bat\b|$)/g,
-  /investors?\s+(?:include|included|are|were)\s+([A-Z][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|$)/g,
-  /(?:participated|joined)\s+(?:by|in)\s+([A-Z][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|$)/g,
-  /(?:money|funding|investment)\s+from\s+([A-Z][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|$)/g,
-  /\bfrom\s+([A-Z][A-Za-z0-9&.'’-]+(?:\s+[A-Z][A-Za-z0-9&.'’-]+){0,3})\b(?=\s+for|\s+to|\s+at|\s+as|\s*[.,;])/g,
+  /(?:led|co-led)\s+by\s+([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|\bin\b|\bto\b|\bfor\b|\bat\b|$)/g,
+  /(?:backed|backing|funded|supported)\s+(?:by\s+|from\s+)([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|\bin\b|\bto\b|\bfor\b|\bat\b|$)/g,
+  /investors?\s+(?:include|included|are|were)\s+([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|$)/g,
+  /(?:participated|joined)\s+(?:by|in)\s+([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|$)/g,
+  /(?:money|funding|investment)\s+from\s+([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|$)/g,
+  /\bfrom\s+([A-Za-z0-9][A-Za-z0-9&.'’-]+(?:\s+[A-Z][A-Za-z0-9&.'’-]+){0,3})\b(?=\s+for|\s+to|\s+at|\s+as|\s*[.,;])/g,
+  // Participation cue: "with participation from X (and|,) Y"
+  /participation\s+from\s+([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\bwith\b|\band\s+(?:no\b|other\b|undisclosed))/g,
 ];
 
 const INVESTOR_TRAILING_NOISE = /\b(?:and|with|along|together|as|in|on|at|for|from|to|the)$/i;
@@ -327,7 +332,6 @@ const INVESTOR_NAME_STOP_WORDS = new Set([
 
 function cleanInvestorCandidate(raw: string): string | null {
   let s = raw.replace(/\s+/g, " ").trim();
-  // Strip trailing noise tokens iteratively (e.g. "Sequoia and").
   for (let i = 0; i < 3; i += 1) {
     const m = s.match(/\s+(\S+)$/);
     if (m && INVESTOR_TRAILING_NOISE.test(m[1])) {
@@ -347,7 +351,6 @@ export function extractInvestorsFromText(text: string): string[] {
   for (const pattern of INVESTOR_CUE_PATTERNS) {
     for (const match of text.matchAll(pattern)) {
       const raw = match[1] ?? "";
-      // Split on "," / "and" / "with" — multi-investor phrases.
       const parts = raw.split(/\s*(?:,|\band\b|\bwith\b)\s*/i);
       for (const part of parts) {
         const cleaned = cleanInvestorCandidate(part);

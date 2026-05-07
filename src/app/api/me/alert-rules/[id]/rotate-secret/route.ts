@@ -15,7 +15,6 @@ import { requireUser } from "@/lib/auth/server";
 import { db } from "@/lib/db/client";
 import { alertRules } from "@/lib/db/schema/alerts";
 
-// lint-allow: no-parsebody - no-body mutation; rule id and ownership are the only inputs.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 

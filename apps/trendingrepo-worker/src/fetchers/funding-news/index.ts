@@ -74,6 +74,25 @@ const RSS_FEEDS: Record<string, string> = {
   'analytics-india': 'https://analyticsindiamag.com/feed/',
   'mit-tech-review-ai': 'https://www.technologyreview.com/topic/artificial-intelligence/feed',
   synced: 'https://syncedreview.com/feed/',
+  // Wave-3 (2026-05-07): press-release wire + 4 VC/AI substacks. PR wire
+  // catches official rounds *before* journalists pick them up. The four
+  // substacks are publisher-classified AI editorial — they bypass the
+  // AI_KEYWORDS gate via AI_TAGGED_SOURCES below.
+  //
+  //   prnewswire-vc      PR Newswire venture-capital category — official
+  //                       rounds hit the wire 6-24h before press coverage.
+  //                       Non-AI-tagged (broad VC), gated via AI_KEYWORDS.
+  //   newcomer            Eric Newcomer (ex-Bloomberg/Information) — VC scoops.
+  //   ai-snake-oil        Arvind Narayanan (Princeton) — site renamed to
+  //                       normaltech.ai; canonical URL points there directly.
+  //   generative-value    AI/SaaS company analysis substack.
+  //   import-ai           Jack Clark (Anthropic co-founder) — weekly AI digest.
+  'prnewswire-vc':
+    'https://www.prnewswire.com/rss/financial-services-latest-news/venture-capital-funding-list.rss',
+  newcomer: 'https://www.newcomer.co/feed',
+  'ai-snake-oil': 'https://www.normaltech.ai/feed',
+  'generative-value': 'https://www.generativevalue.com/feed',
+  'import-ai': 'https://importai.substack.com/feed',
 };
 
 /**
@@ -93,6 +112,10 @@ const AI_TAGGED_SOURCES = new Set<string>([
   'analytics-india',
   'mit-tech-review-ai',
   'synced',
+  'newcomer',
+  'ai-snake-oil',
+  'generative-value',
+  'import-ai',
 ]);
 
 const FUNDING_KEYWORDS =

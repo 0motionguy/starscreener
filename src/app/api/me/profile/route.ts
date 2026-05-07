@@ -17,7 +17,6 @@ import { db } from "@/lib/db/client";
 import { profiles, type Profile } from "@/lib/db/schema/profiles";
 import { patchProfilePrefsSchema } from "@/lib/api/alert-rules/schemas";
 
-// lint-allow: no-parsebody - PATCH body is Zod safeParsed here to preserve the route-specific error envelope.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 

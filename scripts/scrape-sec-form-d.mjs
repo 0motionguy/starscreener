@@ -31,8 +31,8 @@
  *     sourceUrl       EDGAR filing detail URL
  *     sourcePlatform  "sec-form-d"
  *     publishedAt     filing date (ISO)
- *     extracted       { companyName, ... amount=null }
- *     tags            ["sec", "form-d", "ai"]
+ *     extracted       { companyName, amount, amountDisplay, ... }
+ *     tags            ["sec", "form-d", "ai", ...]
  *
  * AI FILTERING
  *   Uses the same AI_KEYWORDS regex as the worker fetcher so the gate
@@ -42,6 +42,14 @@
  *   The latter is implicit since we drive the fetch from
  *   `q=artificial+intelligence&forms=D` — every hit already mentions
  *   "artificial intelligence" somewhere in the filing.
+ *
+ * AMOUNT EXTRACTION
+ *   For each surviving search hit we fetch the filing's primary_doc.xml
+ *   and parse <offeringSalesAmounts><totalOfferingAmount>. We also pull
+ *   <industryGroupType> as a tag and use its "Pooled Investment Fund" /
+ *   <investmentFundInfo> markers as a defensive belt to BAD_NAME_PATTERN —
+ *   any filing identified as a fund by the XML is dropped even if the
+ *   issuer name slipped past the regex.
  */
 
 import { resolve } from "path";
@@ -128,8 +136,9 @@ const SLEEP_MS_BETWEEN_REQUESTS = 150;
 const SLEEP_MS_BETWEEN_DETAIL_FETCHES = 100;
 
 // Retry tuning. EDGAR returns 5xx during indexing windows and the
-// network occasionally hiccups. 3 attempts with backoff is enough to
-// ride out 99% of transient failures without hammering the host.
+// network occasionally hiccups. 3 attempts (1 try + 2 retries) with
+// exponential backoff is enough to ride out 99% of transient failures
+// without hammering the host.
 const MAX_FETCH_ATTEMPTS = 3;
 const RETRY_BACKOFF_MS = [200, 800];
 
@@ -183,7 +192,7 @@ function formatAmountDisplay(amount) {
   }
   if (amount >= 1_000) {
     const v = amount / 1_000;
-    return `$${v % 1 === 0 ? v.toFixed(0) : v.toFixed(0)}K`;
+    return `$${v.toFixed(0)}K`;
   }
   return `$${amount}`;
 }
@@ -208,7 +217,7 @@ function pluckTag(xml, tag) {
  *     Hedge Fund, Other Investment Fund, etc.)
  *   - filings carrying an <investmentFundInfo> block
  *   - isPooledInvestmentFundType=true on typesOfSecuritiesOffered
- * This is the defensive belt to BAD_NAME_PATTERN's suspenders.
+ * Defensive belt to BAD_NAME_PATTERN's suspenders.
  */
 function isFundFiling(xml) {
   const industry = pluckTag(xml, "industryGroupType");
@@ -336,8 +345,8 @@ async function main() {
   );
 
   const seenAdsh = new Set();
-  const signals = [];
-
+  // First pass: collect search hits across all queries, dedup by accession.
+  const candidates = [];
   for (const query of QUERIES) {
     let hits = [];
     try {
@@ -364,48 +373,87 @@ async function main() {
       if (isLikelyFund(issuerName)) continue;
 
       const fileDate = hit?._source?.file_date ?? null;
-      const publishedAt = fileDate
-        ? new Date(`${fileDate}T00:00:00Z`).toISOString()
-        : new Date().toISOString();
-
       const ciks = hit?._source?.ciks ?? [];
       const cik = Array.isArray(ciks) ? ciks[0] : null;
 
-      const sourceUrl =
-        buildFilingUrl(cik, adsh) ?? `https://www.sec.gov/cgi-bin/browse-edgar`;
-      const primaryDocUrl = buildPrimaryDocUrl(cik, adsh);
-
-      // Score the AI confidence: explicit name hint = high, query-only
-      // match = medium. We stamp this on extracted.confidence so the
-      // page can sort name-confirmed AI rounds to the top.
-      const nameHints = passesAiHint(issuerName);
-      const confidence = nameHints ? "high" : "medium";
-
-      signals.push({
-        id: `sec-form-d-${adsh}`,
-        headline: `${issuerName} filed Form D`,
-        description: `SEC Form D — private offering disclosure (full filing: ${primaryDocUrl ?? "n/a"})`,
-        sourceUrl,
-        sourcePlatform: "sec-form-d",
-        publishedAt,
-        discoveredAt: new Date().toISOString(),
-        extracted: {
-          companyName: issuerName,
-          companyWebsite: null,
-          companyLogoUrl: null,
-          amount: null,
-          amountDisplay: "Undisclosed",
-          currency: "USD",
-          roundType: "undisclosed",
-          investors: [],
-          investorsEnriched: [],
-          confidence,
-        },
-        tags: ["sec", "form-d", "ai", confidence === "high" ? "ai-confirmed" : "ai-keyword"],
-      });
+      candidates.push({ adsh, issuerName, fileDate, cik });
     }
     await sleep(SLEEP_MS_BETWEEN_REQUESTS);
   }
+  console.log(
+    `[sec-form-d] ${candidates.length} candidates after name-pattern filter; fetching detail`,
+  );
+
+  // Second pass: fetch primary_doc.xml for each candidate to extract
+  // dollar amount + reject fund-type filings the name regex missed.
+  const signals = [];
+  let droppedAsFund = 0;
+  let amountResolved = 0;
+  for (const { adsh, issuerName, fileDate, cik } of candidates) {
+    const sourceUrl =
+      buildFilingUrl(cik, adsh) ?? `https://www.sec.gov/cgi-bin/browse-edgar`;
+    const primaryDocUrl = buildPrimaryDocUrl(cik, adsh);
+
+    const detail = await fetchFilingDetail(primaryDocUrl);
+    await sleep(SLEEP_MS_BETWEEN_DETAIL_FETCHES);
+
+    // If the XML says it's a fund, drop — even if BAD_NAME_PATTERN
+    // missed it. industryGroupType is the canonical signal.
+    if (detail?.isFund) {
+      droppedAsFund += 1;
+      continue;
+    }
+
+    const amount = detail?.amount ?? null;
+    const amountDisplay = formatAmountDisplay(amount);
+    if (amount !== null) amountResolved += 1;
+
+    const publishedAt = fileDate
+      ? new Date(`${fileDate}T00:00:00Z`).toISOString()
+      : new Date().toISOString();
+
+    // Confidence: name-hint AND amount = high; just one = medium;
+    // neither = low. Form D doesn't expose round type so we leave
+    // that "undisclosed".
+    const nameHints = passesAiHint(issuerName);
+    let confidence;
+    if (nameHints && amount !== null) confidence = "high";
+    else if (nameHints || amount !== null) confidence = "medium";
+    else confidence = "low";
+
+    const tags = ["sec", "form-d", "ai"];
+    tags.push(nameHints ? "ai-confirmed" : "ai-keyword");
+    if (detail?.industryGroup) {
+      tags.push(`industry:${detail.industryGroup.toLowerCase().replace(/\s+/g, "-")}`);
+    }
+
+    signals.push({
+      id: `sec-form-d-${adsh}`,
+      headline: `${issuerName} filed Form D`,
+      description: `SEC Form D — private offering disclosure (full filing: ${primaryDocUrl ?? "n/a"})`,
+      sourceUrl,
+      sourcePlatform: "sec-form-d",
+      publishedAt,
+      discoveredAt: new Date().toISOString(),
+      extracted: {
+        companyName: issuerName,
+        companyWebsite: null,
+        companyLogoUrl: null,
+        amount,
+        amountDisplay,
+        currency: "USD",
+        roundType: "undisclosed",
+        investors: [],
+        investorsEnriched: [],
+        confidence,
+        industryGroup: detail?.industryGroup ?? null,
+      },
+      tags,
+    });
+  }
+  console.log(
+    `[sec-form-d] detail pass: ${amountResolved}/${signals.length} signals with amount, ${droppedAsFund} dropped as funds`,
+  );
 
   signals.sort((a, b) => {
     const ta = Date.parse(a.publishedAt);

@@ -28,7 +28,6 @@ import {
 } from "@/lib/db/schema/referrals";
 import { deriveCode } from "@/lib/referrals/code";
 
-// lint-allow: no-parsebody - PATCH body is Zod safeParsed here to preserve the route-specific error envelope.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 

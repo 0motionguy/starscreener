@@ -69,6 +69,11 @@ const SOURCE_LABELS: Record<string, string> = {
   "analytics-india": "Analytics India",
   "mit-tech-review-ai": "MIT TR · AI",
   synced: "Synced",
+  "prnewswire-vc": "PR Newswire VC",
+  newcomer: "Newcomer",
+  "ai-snake-oil": "AI Snake Oil",
+  "generative-value": "Generative Value",
+  "import-ai": "Import AI",
   "sec-form-d": "SEC Form D",
 };
 

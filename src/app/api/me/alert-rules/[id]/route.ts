@@ -20,7 +20,6 @@ import { db } from "@/lib/db/client";
 import { alertRules, type AlertRule } from "@/lib/db/schema/alerts";
 import { patchAlertRuleSchema } from "@/lib/api/alert-rules/schemas";
 
-// lint-allow: no-parsebody - PATCH body is Zod safeParsed here to preserve the route-specific error envelope.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 

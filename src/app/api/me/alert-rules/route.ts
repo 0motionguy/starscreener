@@ -33,7 +33,6 @@ import {
   createAlertRuleSchema,
 } from "@/lib/api/alert-rules/schemas";
 
-// lint-allow: no-parsebody - body is Zod safeParsed here to preserve the route-specific error envelope.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 

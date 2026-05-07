@@ -2,6 +2,8 @@
 // scripts/scrape-funding-news.mjs. Detects company name, $ amount, round
 // type, and tags from a headline + description string. No HTTP, no I/O.
 
+import { enrichInvestors } from './enrich-investors.js';
+
 const ROUND_PATTERNS: { type: string; patterns: RegExp[] }[] = [
   { type: 'pre-seed', patterns: [/\bpre[-\s]?seed\b/i, /\bpreseed\b/i] },
   { type: 'seed', patterns: [/\bseed\b/i] },
@@ -203,7 +205,12 @@ export interface FundingExtraction {
   currency: string;
   roundType: string;
   investors: string[];
-  investorsEnriched: Array<{ name: string; isKnown: boolean; confidence: 'high' | 'medium' | 'low' }>;
+  investorsEnriched: Array<{
+    name: string;
+    isKnown: boolean;
+    confidence: 'high' | 'medium' | 'low';
+    logoUrl?: string;
+  }>;
   confidence: 'none' | 'low' | 'medium' | 'high';
 }
 
@@ -271,6 +278,68 @@ export function getKnownCompanyDomain(companyName: string | null | undefined): s
   return info?.domain ?? null;
 }
 
+// Investor cue patterns — pull candidate names from headline + description.
+// Mirrors the same set used by the legacy `_funding-article.mjs` pass and
+// the frontend `extractInvestorsFromText`. Output names then go through
+// enrichInvestors() so canonical / known-VC handling is consistent.
+// First character: A-Z for proper-noun firms, a-z for lowercase
+// abbreviations like "a16z", digits cover "8VC". cleanInvestorCandidate
+// + INVESTOR_NAME_STOP_WORDS reject noise that slips through.
+const INVESTOR_CUE_PATTERNS: RegExp[] = [
+  /(?:led|co-led)\s+by\s+([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|\bin\b|\bto\b|\bfor\b|\bat\b|$)/g,
+  /(?:backed|backing|funded|supported)\s+(?:by\s+|from\s+)([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|\bin\b|\bto\b|\bfor\b|\bat\b|$)/g,
+  /investors?\s+(?:include|included|are|were)\s+([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|$)/g,
+  /(?:participated|joined)\s+(?:by|in)\s+([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|$)/g,
+  /(?:money|funding|investment)\s+from\s+([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\band\b|\bwith\b|$)/g,
+  /\bfrom\s+([A-Za-z0-9][A-Za-z0-9&.'’-]+(?:\s+[A-Z][A-Za-z0-9&.'’-]+){0,3})\b(?=\s+for|\s+to|\s+at|\s+as|\s*[.,;])/g,
+  /participation\s+from\s+([A-Za-z0-9][A-Za-z0-9&.\s'’-]+?)(?:,|;|\.|\bwith\b|\band\s+(?:no\b|other\b|undisclosed))/g,
+];
+
+const INVESTOR_TRAILING_NOISE = /\b(?:and|with|along|together|as|in|on|at|for|from|to|the)$/i;
+
+const INVESTOR_NAME_STOP_WORDS = new Set<string>([
+  'the', 'a', 'an', 'this', 'that', 'it', 'company', 'startup', 'firm',
+  'fund', 'previous', 'existing', 'new', 'several', 'multiple', 'various',
+  'other', 'investors', 'backers', 'funders', 'including', 'among', 'such',
+  'shareholders', 'current', 'former', 'undisclosed', 'yesterday', 'today',
+  'last', 'year', 'month', 'week',
+]);
+
+function cleanInvestorCandidate(raw: string): string | null {
+  let s = raw.replace(/\s+/g, ' ').trim();
+  for (let i = 0; i < 3; i += 1) {
+    const m = s.match(/\s+(\S+)$/);
+    if (m && INVESTOR_TRAILING_NOISE.test(m[1] ?? '')) {
+      s = s.slice(0, s.length - (m[1] ?? '').length).trim();
+    } else {
+      break;
+    }
+  }
+  if (s.length < 2) return null;
+  if (INVESTOR_NAME_STOP_WORDS.has(s.toLowerCase())) return null;
+  return s;
+}
+
+export function extractInvestorsFromText(text: string): string[] {
+  const found: string[] = [];
+  const seen = new Set<string>();
+  for (const pattern of INVESTOR_CUE_PATTERNS) {
+    for (const match of text.matchAll(pattern)) {
+      const raw = match[1] ?? '';
+      const parts = raw.split(/\s*(?:,|\band\b|\bwith\b)\s*/i);
+      for (const part of parts) {
+        const cleaned = cleanInvestorCandidate(part);
+        if (!cleaned) continue;
+        const key = cleaned.toLowerCase();
+        if (seen.has(key)) continue;
+        seen.add(key);
+        found.push(cleaned);
+      }
+    }
+  }
+  return found;
+}
+
 export function extractFunding(headline: string, description: string): FundingExtraction | null {
   const combined = `${headline} ${description}`;
   const companyName = extractCompanyName(headline);
@@ -288,6 +357,9 @@ export function extractFunding(headline: string, description: string): FundingEx
   const knownDomain = getKnownCompanyDomain(companyName);
   const companyWebsite = knownDomain ? `https://${knownDomain}` : null;
 
+  const investors = extractInvestorsFromText(combined);
+  const investorsEnriched = enrichInvestors(investors);
+
   return {
     companyName: companyName ?? 'Unknown',
     companyWebsite,
@@ -296,8 +368,8 @@ export function extractFunding(headline: string, description: string): FundingEx
     amountDisplay: amount?.display ?? 'Undisclosed',
     currency: 'USD',
     roundType: roundType ?? 'undisclosed',
-    investors: [],
-    investorsEnriched: [],
+    investors,
+    investorsEnriched,
     confidence,
   };
 }

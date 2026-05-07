@@ -127,6 +127,7 @@ jobs:
         id: commit-step
         uses: ./.github/actions/git-commit-data
         with:
+          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
           message: "data(agent-commerce): refresh pipeline ${{ steps.ts.outputs.value }}"
           ignore-missing: "true"
           paths: |

@@ -91,6 +91,7 @@ jobs:
           HUSKY: "0"
         uses: ./.github/actions/git-commit-data
         with:
+          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
           message: "chore(data): refresh twitter signals ${{ steps.ts.outputs.value }}"
           paths: |
             .data/twitter-repo-signals.jsonl

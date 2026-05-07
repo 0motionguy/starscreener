@@ -44,6 +44,7 @@ jobs:
       - name: Commit report if changed
         uses: ./.github/actions/git-commit-data
         with:
+          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
           message: "chore(data): refresh scoring shadow report ${{ steps.ts.outputs.value }}"
           paths: |
             data/scoring-shadow-report.json

@@ -2,6 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "ignoreCommand": "bash scripts/vercel-skip-data-only.sh",
   "crons": [
+    { "path": "/api/cron/alerts/dispatch", "schedule": "* * * * *" },
+    { "path": "/api/cron/alerts/cleanup", "schedule": "5 0 * * *" },
     { "path": "/api/cron/referrals/qualify", "schedule": "0 * * * *" }
   ]
 }

@@ -198,10 +198,21 @@ export default function MindSharePage() {
       </div>
 
       {rows.length === 0 && (
-        <div className="mt-6 rounded-card border border-border-primary bg-bg-secondary px-4 py-6 text-sm text-text-tertiary text-center font-mono">
-          {"// no repos firing on 2+ channels right now — check back after the next scrape"}
+        <div className="mt-6 rounded-card border border-border-primary bg-bg-secondary px-6 py-10 text-center">
+          <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-text-tertiary">
+            {"// VERDICT"}
+          </div>
+          <div className="mt-2 text-base font-semibold text-text-primary">
+            Quiet across the network
+          </div>
+          <p className="mt-2 text-sm text-text-secondary max-w-md mx-auto">
+            No repos are firing on 2+ channels right now. The next scrape lands
+            within the hour — check back then for fresh cross-source attention.
+          </p>
         </div>
       )}
+
+      {rows.length > 0 && <MentionLeaderboard rows={rows} />}
 
       {rows.length > 0 && (
         <div className="mt-4">
@@ -224,6 +235,36 @@ export default function MindSharePage() {
         </div>
       )}
     </main>
+  );
+}
+
+function MentionLeaderboard({ rows }: { rows: BubbleRow[] }) {
+  const top = [...rows]
+    .sort((a, b) => b.totalShare - a.totalShare || b.score - a.score)
+    .slice(0, 10);
+  return (
+    <div className="mt-4 rounded-card border border-border-primary bg-bg-secondary">
+      <div className="px-3 py-2 text-[10px] font-mono uppercase tracking-[0.18em] text-text-tertiary border-b border-border-primary">
+        {"// TOP MENTIONS · 24H · PER CHANNEL"}
+      </div>
+      <ul className="divide-y divide-border-primary">
+        {top.map((r, i) => (
+          <li key={r.id} className="flex items-center gap-3 px-3 py-2 text-sm hover:bg-bg-tertiary/40 transition-colors">
+            <span className="w-6 font-mono text-xs text-text-tertiary tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+            <a href={`/repo/${r.owner}/${r.name}`} className="flex-1 min-w-0 truncate font-medium text-text-primary hover:underline">{r.fullName}</a>
+            <div className="hidden sm:flex items-center gap-2 font-mono text-[11px] tabular-nums">
+              {CHANNELS.map((c) => (
+                <span key={c} title={`${CHANNEL_LABELS[c]} · ${r.shares[c]} mentions / 24h`} className={r.firing[c] ? "text-text-primary" : "text-text-tertiary/60"}>
+                  <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full mr-1 align-middle" style={{ backgroundColor: CHANNEL_COLORS[c] }} />
+                  {r.shares[c]}
+                </span>
+              ))}
+            </div>
+            <span className="font-mono text-xs tabular-nums text-text-secondary w-12 text-right">{r.totalShare}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 

@@ -1,35 +1,8 @@
 {
-  "fetchedAt": "2026-05-07T13:11:25.928Z",
+  "fetchedAt": "2026-05-07T14:11:06.929Z",
   "source": "sec-form-d-edgar",
   "windowDays": 30,
   "signals": [
-    {
-      "id": "sec-form-d-0001231919-26-000445",
-      "headline": "BROWN NEXTGEN DENSITY AI LLC filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2103813/000123191926000445/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2103813&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-05-05T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
-      "extracted": {
-        "companyName": "BROWN NEXTGEN DENSITY AI LLC",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed"
-      ]
-    },
     {
       "id": "sec-form-d-0002130453-26-000001",
       "headline": "Sielo Robotics Inc. filed Form D",
@@ -37,24 +10,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130453&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-05T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:24.815Z",
+      "discoveredAt": "2026-05-07T14:11:06.328Z",
       "extracted": {
         "companyName": "Sielo Robotics Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 732000,
+        "amountDisplay": "$732K",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -64,24 +39,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2133307&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-04T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:03.631Z",
       "extracted": {
         "companyName": "AI Commerce Solutions, Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 100000,
+        "amountDisplay": "$100K",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Business Services"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:business-services"
       ]
     },
     {
@@ -91,24 +68,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1858523&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-01T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:03.501Z",
       "extracted": {
         "companyName": "Persefoni AI Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 4349962,
+        "amountDisplay": "$4.3M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -118,24 +97,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1675769&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-01T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:04.511Z",
       "extracted": {
         "companyName": "Shield AI Inc",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 591806870,
+        "amountDisplay": "$591.8M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -145,7 +126,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2110922&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-05-01T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:24.815Z",
+      "discoveredAt": "2026-05-07T14:11:06.034Z",
       "extracted": {
         "companyName": "Haply Robotics inc.",
         "companyWebsite": null,
@@ -156,13 +137,15 @@
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "medium",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -172,24 +155,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2080868&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-30T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:24.815Z",
+      "discoveredAt": "2026-05-07T14:11:06.199Z",
       "extracted": {
         "companyName": "Luminous Robotics, Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 2000000,
+        "amountDisplay": "$2M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -199,24 +184,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130551&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-30T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:24.815Z",
+      "discoveredAt": "2026-05-07T14:11:06.649Z",
       "extracted": {
         "companyName": "Digital Intelligence Robotics Ltd",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 5000000,
+        "amountDisplay": "$5M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -226,24 +213,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2131995&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-28T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:03.010Z",
       "extracted": {
         "companyName": "Custodia AI, Inc",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 7201042,
+        "amountDisplay": "$7.2M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -253,24 +242,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1289047&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-24T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:02.227Z",
       "extracted": {
         "companyName": "AI Technology Group Inc. (AIPG)",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 4000000,
+        "amountDisplay": "$4M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other"
       ]
     },
     {
@@ -280,78 +271,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2131424&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-23T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:00.825Z",
       "extracted": {
         "companyName": "CoverX AI, Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 2000000,
+        "amountDisplay": "$2M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002131523-26-000001",
-      "headline": "PIN OAK TACTICAL SOLUTIONS MASTER, LP filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2131523/000213152326000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2131523&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-04-23T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
-      "extracted": {
-        "companyName": "PIN OAK TACTICAL SOLUTIONS MASTER, LP",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "medium"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-keyword"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002130942-26-000001",
-      "headline": "OurCrowd (Investment in G-new OpenAI) L.P. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2130942/000213094226000001/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130942&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-04-23T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:20.302Z",
-      "extracted": {
-        "companyName": "OurCrowd (Investment in G-new OpenAI) L.P.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -361,51 +300,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2128700&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-22T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:10:59.774Z",
       "extracted": {
         "companyName": "HOSTED AI INC",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 18673998,
+        "amountDisplay": "$18.7M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002009535-26-000002",
-      "headline": "LIONHEART AI I, L.P. filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2009535/000200953526000002/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2009535&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-04-22T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
-      "extracted": {
-        "companyName": "LIONHEART AI I, L.P.",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -415,51 +329,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2125104&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-22T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:04.225Z",
       "extracted": {
         "companyName": "Outhad AI, Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 210000,
+        "amountDisplay": "$210K",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
-      ]
-    },
-    {
-      "id": "sec-form-d-0001953007-26-000003",
-      "headline": "Blue AI Long Short, LP filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/1953007/000195300726000003/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1953007&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-04-21T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
-      "extracted": {
-        "companyName": "Blue AI Long Short, LP",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -469,51 +358,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2092677&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-21T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:00.216Z",
       "extracted": {
         "companyName": "Hickory AI, Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 5000000,
+        "amountDisplay": "$5M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Business Services"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
-      ]
-    },
-    {
-      "id": "sec-form-d-0001470831-26-000398",
-      "headline": "LCV SUNO AI LLC filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2131074/000147083126000398/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2131074&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-04-21T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
-      "extracted": {
-        "companyName": "LCV SUNO AI LLC",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:business-services"
       ]
     },
     {
@@ -523,24 +387,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130373&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-21T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:24.815Z",
+      "discoveredAt": "2026-05-07T14:11:05.536Z",
       "extracted": {
         "companyName": "Loki Robotics, Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 11824995,
+        "amountDisplay": "$11.8M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -550,24 +416,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2065345&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-21T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:25.808Z",
+      "discoveredAt": "2026-05-07T14:11:06.928Z",
       "extracted": {
         "companyName": "Autonomous Cyber, Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 6000000,
+        "amountDisplay": "$6M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -577,24 +445,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2084004&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-20T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:03.766Z",
       "extracted": {
         "companyName": "Ciphero AI Technologies, Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 3250000,
+        "amountDisplay": "$3.3M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -604,24 +474,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130551&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-20T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:24.815Z",
+      "discoveredAt": "2026-05-07T14:11:05.353Z",
       "extracted": {
         "companyName": "Digital Intelligence Robotics Ltd",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 5000000,
+        "amountDisplay": "$5M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -631,24 +503,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130106&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-17T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:00.981Z",
       "extracted": {
         "companyName": "Undeniable Health AI Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 500000,
+        "amountDisplay": "$500K",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -658,24 +532,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2128992&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-17T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:01.448Z",
       "extracted": {
         "companyName": "HIDENN-AI, Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 1500000,
+        "amountDisplay": "$1.5M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -685,7 +561,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2068933&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-16T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:02.730Z",
       "extracted": {
         "companyName": "DEGIMA AI, Inc.",
         "companyWebsite": null,
@@ -696,13 +572,15 @@
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "medium",
+        "industryGroup": "Computers"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:computers"
       ]
     },
     {
@@ -712,24 +590,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2129901&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-15T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:00.505Z",
       "extracted": {
         "companyName": "Evro AI Pty Ltd",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 351677,
+        "amountDisplay": "$352K",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -739,7 +619,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2109716&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-15T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:00.641Z",
       "extracted": {
         "companyName": "MergeIt AI Corp.",
         "companyWebsite": null,
@@ -750,13 +630,15 @@
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "medium",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -766,24 +648,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2128362&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-15T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:03.914Z",
       "extracted": {
         "companyName": "Gelu AI, Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 2000000,
+        "amountDisplay": "$2M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -793,24 +677,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1765647&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-15T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:04.830Z",
       "extracted": {
         "companyName": "Beacon Biosignals, Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 103280711,
+        "amountDisplay": "$103.3M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "medium"
+        "confidence": "medium",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-keyword"
+        "ai-keyword",
+        "industry:other-technology"
       ]
     },
     {
@@ -820,24 +706,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2005725&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-14T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.685Z",
+      "discoveredAt": "2026-05-07T14:10:59.607Z",
       "extracted": {
         "companyName": "FINSTER AI, INC.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 34500000,
+        "amountDisplay": "$34.5M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -847,24 +735,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2126666&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-14T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:01.586Z",
       "extracted": {
         "companyName": "Hacktron AI Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 2927102,
+        "amountDisplay": "$2.9M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -874,51 +764,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2123873&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-14T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:02.874Z",
       "extracted": {
         "companyName": "Enclave AI Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 6500000,
+        "amountDisplay": "$6.5M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Computers"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
-      ]
-    },
-    {
-      "id": "sec-form-d-0001104659-26-043134",
-      "headline": "Elemental AI Growth XII LLC filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2127355/000110465926043134/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2127355&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-04-14T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
-      "extracted": {
-        "companyName": "Elemental AI Growth XII LLC",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:computers"
       ]
     },
     {
@@ -928,7 +793,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2128781&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-13T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:01.758Z",
       "extracted": {
         "companyName": "HomeHero AI, Inc.",
         "companyWebsite": null,
@@ -939,13 +804,15 @@
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "medium",
+        "industryGroup": "Other Real Estate"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-real-estate"
       ]
     },
     {
@@ -955,24 +822,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2128909&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-13T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:24.815Z",
+      "discoveredAt": "2026-05-07T14:11:06.462Z",
       "extracted": {
         "companyName": "Feather Robotics Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 6015385,
+        "amountDisplay": "$6.0M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -982,24 +851,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2128824&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-10T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:02.421Z",
       "extracted": {
         "companyName": "Kenny AI LLC",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 70000000,
+        "amountDisplay": "$70M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -1009,24 +880,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2109967&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-09T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:10:59.927Z",
       "extracted": {
         "companyName": "MachGen AI, Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 10000000,
+        "amountDisplay": "$10M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -1036,24 +909,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1729819&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-09T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:24.815Z",
+      "discoveredAt": "2026-05-07T14:11:05.670Z",
       "extracted": {
         "companyName": "NEXTSTEP ROBOTICS, INC.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 3000000,
+        "amountDisplay": "$3M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -1063,7 +938,7 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2021333&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-09T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:24.815Z",
+      "discoveredAt": "2026-05-07T14:11:05.819Z",
       "extracted": {
         "companyName": "Apricity Robotics Inc.",
         "companyWebsite": null,
@@ -1074,13 +949,15 @@
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "medium",
+        "industryGroup": "Other Health Care"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-health-care"
       ]
     },
     {
@@ -1090,24 +967,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1409269&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-09T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:24.815Z",
+      "discoveredAt": "2026-05-07T14:11:06.787Z",
       "extracted": {
         "companyName": "Venus Concept Inc. (VERO)",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 1500000,
+        "amountDisplay": "$1.5M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "medium"
+        "confidence": "medium",
+        "industryGroup": "Other Health Care"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-keyword"
+        "ai-keyword",
+        "industry:other-health-care"
       ]
     },
     {
@@ -1117,24 +996,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2032339&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-08T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:02.055Z",
       "extracted": {
         "companyName": "Dendritic Health AI, Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 1000000,
+        "amountDisplay": "$1M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -1144,51 +1025,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2002855&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-08T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:04.057Z",
       "extracted": {
         "companyName": "WORTH AI INC.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 29999997,
+        "amountDisplay": "$30.0M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
-      ]
-    },
-    {
-      "id": "sec-form-d-0002051803-26-000003",
-      "headline": "Stripes VII, LP filed Form D",
-      "description": "SEC Form D — private offering disclosure (full filing: https://www.sec.gov/Archives/edgar/data/2051803/000205180326000003/primary_doc.xml)",
-      "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2051803&type=D&dateb=&owner=include&count=40",
-      "sourcePlatform": "sec-form-d",
-      "publishedAt": "2026-04-08T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
-      "extracted": {
-        "companyName": "Stripes VII, LP",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "medium"
-      },
-      "tags": [
-        "sec",
-        "form-d",
-        "ai",
-        "ai-keyword"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -1198,24 +1054,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2126813&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-07T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:01.127Z",
       "extracted": {
         "companyName": "Substance AI Inc.",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 2000000,
+        "amountDisplay": "$2M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Insurance"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:insurance"
       ]
     },
     {
@@ -1225,24 +1083,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2123770&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-07T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:01.295Z",
       "extracted": {
         "companyName": "RoadRunner AI LLC",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 500000,
+        "amountDisplay": "$500K",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Other Technology"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:other-technology"
       ]
     },
     {
@@ -1252,24 +1112,26 @@
       "sourceUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2101390&type=D&dateb=&owner=include&count=40",
       "sourcePlatform": "sec-form-d",
       "publishedAt": "2026-04-07T00:00:00.000Z",
-      "discoveredAt": "2026-05-07T13:11:13.686Z",
+      "discoveredAt": "2026-05-07T14:11:01.910Z",
       "extracted": {
         "companyName": "AmTru AI Inference Ventures, LLC",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": null,
-        "amountDisplay": "Undisclosed",
+        "amount": 11400000,
+        "amountDisplay": "$11.4M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
-        "confidence": "high"
+        "confidence": "high",
+        "industryGroup": "Investment Banking"
       },
       "tags": [
         "sec",
         "form-d",
         "ai",
-        "ai-confirmed"
+        "ai-confirmed",
+        "industry:investment-banking"
       ]
     }
   ]

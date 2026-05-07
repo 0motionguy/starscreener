@@ -3,6 +3,8 @@ import { loadEnv } from './lib/env.js';
 import { getDb, pingDb } from './lib/db.js';
 import { getRedis } from './lib/redis.js';
 import { getLogger } from './lib/log.js';
+import { FETCHERS, SOURCE_CONTRACTS } from './registry.js';
+import { findGhostOverrides, getCachedOverrides } from './platform/overrides.js';
 
 interface HealthState {
   ok: boolean;
@@ -10,6 +12,12 @@ interface HealthState {
   redis: boolean;
   lastCheckAt: string;
   lastRunAt: string | null;
+  /**
+   * Override source_ids that no longer correspond to any registered fetcher
+   * AND no longer correspond to a static contract row. Empty in the green
+   * state. Reaper job (Move 1 step 4) consumes this to archive stale rows.
+   */
+  ghost_overrides: string[];
 }
 
 let cached: HealthState | null = null;
@@ -45,12 +53,14 @@ async function refreshHealth(): Promise<HealthState> {
   } catch (err) {
     log.warn(`healthcheck redis: ${(err as Error).message}`);
   }
+  const ghostOverrides = findGhostOverrides(FETCHERS, getCachedOverrides(), SOURCE_CONTRACTS);
   const state: HealthState = {
     ok: dbOk && redisOk,
     db: dbOk,
     redis: redisOk,
     lastCheckAt: new Date().toISOString(),
     lastRunAt: cached?.lastRunAt ?? null,
+    ghost_overrides: ghostOverrides,
   };
   cached = state;
   return state;

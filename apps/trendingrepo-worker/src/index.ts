@@ -42,7 +42,7 @@ async function main(argv: string[]): Promise<number> {
 
   if (cronMode) {
     const server = startHealthServer();
-    const scheduler = startScheduler();
+    const scheduler = await startScheduler();
     installShutdownHandlers({
       server,
       onClose: async () => {

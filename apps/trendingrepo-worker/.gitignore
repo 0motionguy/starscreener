@@ -19,3 +19,7 @@ supabase/.temp/
 # logs / scratch
 *.log
 .tmp/
+
+# source-overrides on-disk cache (last-known-good snapshot of the
+# Supabase source_overrides table; written by platform/overrides.ts).
+.cache/

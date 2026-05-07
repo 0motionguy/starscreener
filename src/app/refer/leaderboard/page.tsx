@@ -18,7 +18,11 @@ import { db } from "@/lib/db/client";
 import { profiles } from "@/lib/db/schema/profiles";
 import { referrals } from "@/lib/db/schema/referrals";
 
-export const revalidate = 600;
+// Drizzle DB query — must run at request time. Was `revalidate = 600`
+// (10-min ISR) but prod build prerenders ISR pages and drizzle's
+// db client throws during prerender if DATABASE_URL is unset (and
+// without DATABASE_URL the cache would be useless anyway).
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Top Referrers — TrendingRepo",

@@ -52,10 +52,10 @@ import { IdeaCard } from "@/components/ideas/IdeaCard";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 import type { Repo } from "@/lib/types";
 
-// ISR with 10-min revalidate. Public profile, no cookies/headers, each
-// handle gets its own ISR cache entry. Activity (ideas, reactions) updates
-// on the cron cadence — 10 min freshness is plenty for a public profile.
-export const revalidate = 600;
+// Drizzle DB query — must render at request time. Was `revalidate = 600`
+// (10-min ISR) but prod build prerenders ISR pages and drizzle's db
+// client throws during prerender if DATABASE_URL is unset.
+export const dynamic = "force-dynamic";
 
 // Loose handle validation — same character set as the idea authorHandle
 // intake. URLs that don't match this can't be valid identifiers, so they

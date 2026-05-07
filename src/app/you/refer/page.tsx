@@ -28,6 +28,10 @@ import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 import ReferClient from "./ReferClient";
 
+// Drizzle DB query — must render at request time. Without DATABASE_URL
+// set, prerender throws from db/client.ts.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: `Invite friends — ${SITE_NAME}`,
   description:

@@ -1,45 +1,134 @@
 {
-  "fetchedAt": "2026-05-04T02:01:38.084Z",
+  "fetchedAt": "2026-05-07T12:17:04.783Z",
   "source": "funding-news-scraper",
   "windowDays": 21,
   "signals": [
     {
-      "id": "www.pymnts.com-5968367f",
-      "headline": "GameStop Makes $55 Billion Bid to Acquire eBay",
-      "description": "GameStop says it has made a $55 billion proposal to acquire eBay. The video game retailer announced Sunday (May 3) it had submitted a nonbinding proposal to acquire 100% of the online marketplace. Following closing, GameStop CEO Ryan Cohen would serve as chief executive of the new combined company. In its letter to eBay, […] The post GameStop Makes $55 Billion Bid to Acquire eBay appeared first on PYMNTS.com .",
-      "sourceUrl": "https://www.pymnts.com/acquisitions/2026/gamestop-eyes-ebay-acquisition-to-become-100-billion-company/",
-      "sourcePlatform": "pymnts",
-      "publishedAt": "2026-05-03T20:44:32.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
+      "id": "tech.eu-46a7970b",
+      "headline": "Healthtech: 10 companies that raised the most in 2025",
+      "description": "In 2025, Europe’s healthtech ecosystem showed strong fundingmomentum, with capital concentrated in large rounds across biotech, medtech,digital health, and AI-enabled healthcare. The biggest deals cam...",
+      "sourceUrl": "https://tech.eu/2026/05/07/healthtech-10-companies-that-raised-the-most-in-2025/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-05-07T11:00:00.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
       "extracted": {
-        "companyName": "GameStop Makes",
-        "companyWebsite": "https://gamestop.com",
-        "companyLogoUrl": "https://logo.clearbit.com/gamestop.com",
-        "amount": 55,
-        "amountDisplay": "$55",
+        "companyName": "M\r\n\r\nOura Health",
+        "companyWebsite": "https://nekohealth.com",
+        "companyLogoUrl": "https://logo.clearbit.com/nekohealth.com",
+        "amount": null,
+        "amountDisplay": "Undisclosed",
         "currency": "USD",
         "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "medium"
+        "investors": [
+          "a mix of large growth rounds",
+          "Thrive Capital"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "a mix of large growth rounds",
+            "isKnown": false,
+            "confidence": "medium"
+          },
+          {
+            "name": "Thrive Capital",
+            "isKnown": true,
+            "confidence": "high"
+          }
+        ],
+        "confidence": "low"
       },
       "tags": [
         "ai",
-        "consumer"
+        "healthcare",
+        "europe",
+        "hardware"
       ]
     },
     {
-      "id": "sifted.eu-31b651a6",
-      "headline": "How leftover fish skins landed this founder a billion-dollar exit: ‘My philosophy has always been to have fun’",
-      "description": "",
-      "sourceUrl": "https://sifted.eu/articles/kerecis-iceland-innovation-week-interview/",
-      "sourcePlatform": "sifted",
-      "publishedAt": "2026-05-01T05:00:30.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
+      "id": "tech.eu-3c114a36",
+      "headline": "CodeWords raises $9M to bring proactive AI agents to businesses",
+      "description": "London-basedCodeWords, an AI automation platform, has raised $9 million in a seed round ledby Visionaries, with participation from firstminute capital, Sequel, andIllusian. The round also included a g...",
+      "sourceUrl": "https://tech.eu/2026/05/07/codewords-raises-9m-to-bring-proactive-ai-agents-to-businesses/",
+      "sourcePlatform": "techeu",
+      "publishedAt": "2026-05-07T07:00:00.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
       "extracted": {
-        "companyName": "How",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
+        "companyName": "CodeWords",
+        "companyWebsite": "https://codewords.ai",
+        "companyLogoUrl": "https://logo.clearbit.com/codewords.ai",
+        "amount": 9000000,
+        "amountDisplay": "$9M",
+        "currency": "USD",
+        "roundType": "seed",
+        "investors": [
+          "Visionaries"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Visionaries",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai",
+        "europe"
+      ]
+    },
+    {
+      "id": "www.eu-startups.com-97493f6e",
+      "headline": "France’s OpsMill raises €11.9 million to help enterprises prepare infrastructure data for AI and automation",
+      "description": "OpsMill, a Paris-based infrastructure data management company, has raised €11.9 million ($14 million) in Series A funding to grow its engineering and product teams and continue developing data-centric AIOps solutions. The round was led by IRIS with participation from BGV and existing investors Serena and Partech. The company aims to transform fragmented IT data into […] The post France’s OpsMill raises €11.9 million to help enterprises prepare infrastructure data for AI and automation appeared first on EU-Startups .",
+      "sourceUrl": "https://www.eu-startups.com/2026/05/frances-opsmill-raises-e11-9-million-to-help-enterprises-prepare-infrastructure-data-for-ai-and-automation/",
+      "sourcePlatform": "eu-startups",
+      "publishedAt": "2026-05-07T05:05:26.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "extracted": {
+        "companyName": "France",
+        "companyWebsite": "https://eu-startups.com",
+        "companyLogoUrl": "https://logo.clearbit.com/eu-startups.com",
+        "amount": 11900000,
+        "amountDisplay": "$11.9M",
+        "currency": "USD",
+        "roundType": "series-a",
+        "investors": [
+          "IRIS",
+          "Balderton for its AI offensive security engineering platform March 10"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "IRIS",
+            "isKnown": false,
+            "confidence": "medium"
+          },
+          {
+            "name": "Balderton for its AI offensive security engineering platform March 10",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai",
+        "europe",
+        "saas"
+      ]
+    },
+    {
+      "id": "arstechnica.com-1927d9ff",
+      "headline": "Anthropic raises Claude Code usage limits, credits new deal with SpaceX",
+      "description": "",
+      "sourceUrl": "https://arstechnica.com/ai/2026/05/anthropic-raises-claude-code-usage-limits-credits-new-deal-with-spacex/",
+      "sourcePlatform": "arstechnica",
+      "publishedAt": "2026-05-06T22:09:14.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "extracted": {
+        "companyName": "Anthropic",
+        "companyWebsite": "https://anthropic.com",
+        "companyLogoUrl": "https://logo.clearbit.com/anthropic.com",
         "amount": null,
         "amountDisplay": "Undisclosed",
         "currency": "USD",
@@ -48,86 +137,70 @@
         "investorsEnriched": [],
         "confidence": "low"
       },
-      "tags": []
-    },
-    {
-      "id": "techcrunch.com-1ecefe8e",
-      "headline": "Y Combinator alum Skio sells for $105M cash, only raised $8M, founder says",
-      "description": "Subscription billing fintech Skio sold to its competitor Recharge in what was a healthy exit, according to its founder and former CEO.",
-      "sourceUrl": "https://techcrunch.com/2026/04/30/y-combinator-alum-skio-sells-for-105m-cash-only-raised-8m-founder-says/",
-      "sourcePlatform": "techcrunch",
-      "publishedAt": "2026-04-30T23:58:52.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
-      "extracted": {
-        "companyName": "Y Combinator",
-        "companyWebsite": "https://ycombinator.com",
-        "companyLogoUrl": "https://logo.clearbit.com/ycombinator.com",
-        "amount": 105000000,
-        "amountDisplay": "$105M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "medium"
-      },
-      "tags": [
-        "ai",
-        "fintech",
-        "healthcare"
-      ]
-    },
-    {
-      "id": "techcrunch.com-ed232fb9",
-      "headline": "SpaceX backer 137 Ventures raises $700M for two growth-stage funds",
-      "description": "VC firm 137 Ventures has raised over $700 million to back growth-stage startups. Its portfolio includes SpaceX, Anduril, Hadrian.",
-      "sourceUrl": "https://techcrunch.com/2026/04/30/spacex-backer-137-ventures-raises-700m-for-two-growth-stage-funds/",
-      "sourcePlatform": "techcrunch",
-      "publishedAt": "2026-04-30T15:29:49.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
-      "extracted": {
-        "companyName": "SpaceX backer 137 Ventures",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 700000000,
-        "amountDisplay": "$700M",
-        "currency": "USD",
-        "roundType": "growth",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
       "tags": [
         "ai",
         "defense"
       ]
     },
     {
-      "id": "tech.eu-8e756c56",
-      "headline": "Featherless.ai secures $20M to expand serverless platform for open-source AI",
-      "description": "Featherless.ai, a platform for running open-source AI, has secured $20 million in Series A funding to give enterprises a new path to AI independence. The round was co-led by AMD Ventures and Airbus V...",
-      "sourceUrl": "https://tech.eu/2026/04/30/featherlessai-secures-20m-to-expand-serverless-platform-for-open-source-ai/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-30T15:00:00.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
+      "id": "techcrunch.com-71f8cbf1",
+      "headline": "Ethos raises $22.75M from a16z for its expert network with voice onboarding",
+      "description": "Ethos says it is onboarding 35,000 experts per week.",
+      "sourceUrl": "https://techcrunch.com/2026/05/06/ethos-raises-22-75m-from-a16z-for-its-expert-network-with-voice-onboarding/",
+      "sourcePlatform": "techcrunch-ai",
+      "publishedAt": "2026-05-06T15:00:00.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
       "extracted": {
-        "companyName": "Featherless.ai",
-        "companyWebsite": "https://featherless.ai",
-        "companyLogoUrl": "https://logo.clearbit.com/featherless.ai",
-        "amount": 20000000,
-        "amountDisplay": "$20M",
+        "companyName": "Ethos",
+        "companyWebsite": "https://agent.askethos.com",
+        "companyLogoUrl": "https://logo.clearbit.com/agent.askethos.com",
+        "amount": 22750000,
+        "amountDisplay": "$22.8M",
         "currency": "USD",
-        "roundType": "series-a",
+        "roundType": "undisclosed",
         "investors": [
-          "AMD Ventures"
+          "a16z"
         ],
         "investorsEnriched": [
           {
-            "name": "AMD Ventures",
-            "isKnown": false,
-            "confidence": "medium"
+            "name": "a16z",
+            "isKnown": true,
+            "confidence": "high"
           }
         ],
-        "confidence": "high"
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techstartups.com-2f715877",
+      "headline": "Tessera Labs raises $60M led by Andreessen Horowitz to transform ERP systems with AI",
+      "description": "Enterprise software has a reputation for moving at a glacial pace. Multi-year ERP projects, ballooning budgets, and missed timelines have long been accepted as the cost of doing business. Tessera Labs is making a direct bet that this model is […] The post Tessera Labs raises $60M led by Andreessen Horowitz to transform ERP systems with AI first appeared on Tech Startups .",
+      "sourceUrl": "https://techstartups.com/2026/05/06/tessera-labs-raises-60m-led-by-andreessen-horowitz-to-transform-erp-systems-with-ai/",
+      "sourcePlatform": "techstartups",
+      "publishedAt": "2026-05-06T14:54:37.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "extracted": {
+        "companyName": "Tessera Labs",
+        "companyWebsite": "https://tesseralabs.ai",
+        "companyLogoUrl": "https://logo.clearbit.com/tesseralabs.ai",
+        "amount": 60000000,
+        "amountDisplay": "$60M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Andreessen Horowitz"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Andreessen Horowitz",
+            "isKnown": true,
+            "confidence": "high"
+          }
+        ],
+        "confidence": "medium"
       },
       "tags": [
         "ai",
@@ -135,31 +208,183 @@
       ]
     },
     {
-      "id": "tech.eu-db2b13c9",
-      "headline": "Mosaic SoC raises $3.8M pre-seed to build low-power perception chips for spatial computing",
-      "description": "Mosaic SoC, which builds dedicated perception chips that bring spatial intelligence to energy-constrained devices, has raised a $3.8 million Pre-Seed round led by Founderful with participation from Ki...",
-      "sourceUrl": "https://tech.eu/2026/04/30/mosaic-soc-raises-38m-pre-seed-to-build-low-power-perception-chips-for-spatial-computing/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-30T09:47:00.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
+      "id": "techstartups.com-c616c39e",
+      "headline": "ReFiBuy raises $13.6M to help e-commerce brands surface in AI-driven shopping",
+      "description": "A quiet shift is underway in online retail. Fewer shoppers are starting their journey on traditional search pages. More are turning to AI assistants that recommend what to buy, compare options, and increasingly make decisions on their behalf. That shift […] The post ReFiBuy raises $13.6M to help e-commerce brands surface in AI-driven shopping first appeared on Tech Startups .",
+      "sourceUrl": "https://techstartups.com/2026/05/06/refibuy-raises-13-6m-to-help-e-commerce-brands-surface-in-ai-driven-shopping/",
+      "sourcePlatform": "techstartups",
+      "publishedAt": "2026-05-06T12:52:01.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
       "extracted": {
-        "companyName": "Mosaic SoC",
-        "companyWebsite": "https://mosaic-soc.com",
-        "companyLogoUrl": "https://logo.clearbit.com/mosaic-soc.com",
-        "amount": 3800000,
-        "amountDisplay": "$3.8M",
+        "companyName": "ReFiBuy",
+        "companyWebsite": "https://refibuy.ai",
+        "companyLogoUrl": "https://logo.clearbit.com/refibuy.ai",
+        "amount": 13600000,
+        "amountDisplay": "$13.6M",
         "currency": "USD",
-        "roundType": "pre-seed",
+        "roundType": "undisclosed",
         "investors": [
-          "Founderful"
+          "NewRoad Capital Partners"
         ],
         "investorsEnriched": [
           {
-            "name": "Founderful",
+            "name": "NewRoad Capital Partners",
             "isKnown": false,
             "confidence": "medium"
           }
         ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "consumer"
+      ]
+    },
+    {
+      "id": "the-decoder.com-b4ce7fee",
+      "headline": "Anthropic commits $200 billion to Google Cloud over five years",
+      "description": "According to a report by The Information, Anthropic has committed to spending roughly $200 billion on Google Cloud over the next five years - more than 40 percent of Google's entire cloud backlog. Together with OpenAI, the two money-losing startups account for roughly half of the $2 trillion in committed cloud revenue at Amazon, Microsoft, Google, and Oracle. Whether the 20- to 30-fold revenue growth both companies are projecting by 2029 will justify these numbers remains an open question. The article Anthropic commits $200 billion to Google Cloud over five years appeared first on The Decoder .",
+      "sourceUrl": "https://the-decoder.com/anthropic-commits-200-billion-to-google-cloud-over-five-years/",
+      "sourcePlatform": "the-decoder",
+      "publishedAt": "2026-05-06T12:45:12.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "extracted": {
+        "companyName": "Anthropic",
+        "companyWebsite": "https://anthropic.com",
+        "companyLogoUrl": "https://github.com/anthropics.png",
+        "amount": 200,
+        "amountDisplay": "$200",
+        "currency": "USD",
+        "roundType": "growth",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techcrunch.com-92e3225c",
+      "headline": "Altara secures $7M to bridge the data gap that’s slowing down physical sciences",
+      "description": "Altara’s AI aims to diagnose failures and help speed up R&D by unifying data siloed across spreadsheets and legacy systems.",
+      "sourceUrl": "https://techcrunch.com/2026/05/05/altara-secures-7m-to-bridge-the-data-gap-thats-slowing-down-physical-sciences/",
+      "sourcePlatform": "techcrunch",
+      "publishedAt": "2026-05-05T22:57:41.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "extracted": {
+        "companyName": "Altara",
+        "companyWebsite": "https://altara.co",
+        "companyLogoUrl": "https://logo.clearbit.com/altara.co",
+        "amount": 7000000,
+        "amountDisplay": "$7M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Greylock"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Greylock",
+            "isKnown": true,
+            "confidence": "high"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techstartups.com-a9c35c1f",
+      "headline": "Moment Energy raises $40M to turn used EV batteries into power for AI data centers",
+      "description": "The rush to build AI is starting to hit a physical limit. It is not chips or models this time. It is electricity. Across the U.S. and Canada, data centers are drawing more power than grids were built to handle. New […] The post Moment Energy raises $40M to turn used EV batteries into power for AI data centers first appeared on Tech Startups .",
+      "sourceUrl": "https://techstartups.com/2026/05/05/moment-energy-raises-40m-to-turn-used-ev-batteries-into-power-for-ai-data-centers/",
+      "sourcePlatform": "techstartups",
+      "publishedAt": "2026-05-05T14:33:58.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "extracted": {
+        "companyName": "Moment Energy",
+        "companyWebsite": "https://momentenergy.com",
+        "companyLogoUrl": "https://logo.clearbit.com/momentenergy.com",
+        "amount": 40000000,
+        "amountDisplay": "$40M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Evok Innovations",
+          "betting that this is more than a niche"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Evok Innovations",
+            "isKnown": false,
+            "confidence": "medium"
+          },
+          {
+            "name": "betting that this is more than a niche",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "hardware"
+      ]
+    },
+    {
+      "id": "techstartups.com-9de9b8db",
+      "headline": "Peter Thiel-backed Panthalassa raises $140M to build wave-powered floating AI data centers",
+      "description": "The race to build bigger AI models is running into a hard limit: power. A single training run can burn through as much electricity as thousands of homes, and new data centers are getting stuck in years-long queues for grid […] The post Peter Thiel-backed Panthalassa raises $140M to build wave-powered floating AI data centers first appeared on Tech Startups .",
+      "sourceUrl": "https://techstartups.com/2026/05/05/peter-thiel-backed-panthalassa-raises-140m-to-build-wave-powered-floating-ai-data-centers/",
+      "sourcePlatform": "techstartups",
+      "publishedAt": "2026-05-05T13:55:56.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "extracted": {
+        "companyName": "Peter Thiel-backed Panthalassa",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 140000000,
+        "amountDisplay": "$140M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "Peter Thiel"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "Peter Thiel",
+            "isKnown": false,
+            "confidence": "medium"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "www.eu-startups.com-c78c857f",
+      "headline": "WaiV Robotics emerges from stealth with €6.4 million to develop autonomous UAV landing infrastructure",
+      "description": "WaiV Robotics, a British maritime autonomous infrastructure developer, has raised €6.4 million ($7.5 million) in Seed funding as it emerges from stealth in order to introduce their fully automatic landing and takeoff platform designed to enable reliable VTOL (vertical take-off and landing) drone operations even in high sea states. “For drones to become a reliable part of […] The post WaiV Robotics emerges from stealth with €6.4 million to develop autonomous UAV landing infrastructure appeared first on EU-Startups .",
+      "sourceUrl": "https://www.eu-startups.com/2026/05/waiv-robotics-emerges-from-stealth-with-e6-4-million-to-develop-autonomous-uav-landing-infrastructure/",
+      "sourcePlatform": "eu-startups",
+      "publishedAt": "2026-05-05T12:00:17.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "extracted": {
+        "companyName": "WaiV Robotics",
+        "companyWebsite": "https://waivrobotics.com",
+        "companyLogoUrl": "https://logo.clearbit.com/waivrobotics.com",
+        "amount": 6400000,
+        "amountDisplay": "$6.4M",
+        "currency": "USD",
+        "roundType": "seed",
+        "investors": [],
+        "investorsEnriched": [],
         "confidence": "high"
       },
       "tags": [
@@ -168,207 +393,127 @@
       ]
     },
     {
-      "id": "tech.eu-6725a987",
-      "headline": "Spiral Hydrogen raises €3.4M to build green hydrogen pilot in Rotterdam",
-      "description": "Estonian-Dutch deeptech startup Spiral Hydrogen has raised€2.7 million in pre-seed funding to advance its bubble-free electrolysistechnology, with backing from byFounders, Norrsken Evolve, and Superan...",
-      "sourceUrl": "https://tech.eu/2026/04/30/spiral-hydrogen-raises-eur27m-to-build-green-hydrogen-pilot-in-rotterdam/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-30T08:30:00.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
+      "id": "sifted.eu-f713f065",
+      "headline": "Y Combinator alum Moritz raises $9m to build a law firm supercharged with AI",
+      "description": "",
+      "sourceUrl": "https://sifted.eu/articles/y-combinator-alum-moritz-raises-9m/",
+      "sourcePlatform": "sifted",
+      "publishedAt": "2026-05-05T10:08:41.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
       "extracted": {
-        "companyName": "Spiral Hydrogen",
-        "companyWebsite": "https://spiralhydrogen.com",
-        "companyLogoUrl": "https://logo.clearbit.com/spiralhydrogen.com",
-        "amount": 3400000,
-        "amountDisplay": "$3.4M",
-        "currency": "USD",
-        "roundType": "pre-seed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai",
-        "climate"
-      ]
-    },
-    {
-      "id": "tech.eu-9841a536",
-      "headline": "Software: 10 companies that raised the most in 2025",
-      "description": "In 2025, Europe’s software ecosystem raised €8.1 billion andgrew more focused, selective, and AI-driven. While overall funding remainedbelow peak levels, capital concentrated around a smaller number o...",
-      "sourceUrl": "https://tech.eu/2026/04/30/software-10-companies-that-raised-the-most-in-2025/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-30T08:30:00.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
-      "extracted": {
-        "companyName": "Software",
+        "companyName": "Y Combinator alum Moritz",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": 8100000000,
-        "amountDisplay": "$8.1B",
+        "amount": 9000000,
+        "amountDisplay": "$9M",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [],
         "investorsEnriched": [],
         "confidence": "medium"
-      },
-      "tags": [
-        "ai",
-        "europe"
-      ]
-    },
-    {
-      "id": "tech.eu-98eae4d",
-      "headline": "Rocsys launches first multi-bay hands-free robotaxi charger, raises a $13M Series A extension",
-      "description": "Hands-free EV charging company Rocsys has introduced the Rocsys M1, ahands-free charging solution designed specifically for robotaxi depotoperations. The system is positioned as the first system capab...",
-      "sourceUrl": "https://tech.eu/2026/04/30/rocsys-launches-first-multi-bay-hands-free-robotaxi-charger-raises-13m-series-a-extension/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-30T07:15:00.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
-      "extracted": {
-        "companyName": "Rocsys",
-        "companyWebsite": "https://rocsys.com",
-        "companyLogoUrl": "https://logo.clearbit.com/rocsys.com",
-        "amount": 13000000,
-        "amountDisplay": "$13M",
-        "currency": "USD",
-        "roundType": "series-a",
-        "investors": [
-          "Capricorn Partners"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Capricorn Partners",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
-        "confidence": "high"
       },
       "tags": [
         "ai"
       ]
     },
     {
-      "id": "tech.eu-aad5d6ca",
-      "headline": "Online Oceans raises £4M to scale autonomous fleets for maritime security",
-      "description": "UK-based maritime defencestartup Online Oceans has raised £4 million in funding to scale its autonomoussurface vessels and fleet software platform. The round was led by Seraphim Space, with participat...",
-      "sourceUrl": "https://tech.eu/2026/04/30/online-oceans-raises-ps4m-to-scale-autonomous-fleets-for-maritime-security/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-30T07:00:00.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
+      "id": "sifted.eu-f6961d57",
+      "headline": "Lithosquare raises $25m to discover critical metals with AI",
+      "description": "",
+      "sourceUrl": "https://sifted.eu/articles/lithosquare-critical-metals-fundraise/",
+      "sourcePlatform": "sifted",
+      "publishedAt": "2026-05-05T05:00:00.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
       "extracted": {
-        "companyName": "Online Oceans",
-        "companyWebsite": "https://onlineoceans.com",
-        "companyLogoUrl": "https://logo.clearbit.com/onlineoceans.com",
-        "amount": 4000000,
-        "amountDisplay": "$4M",
+        "companyName": "Lithosquare",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 25000000,
+        "amountDisplay": "$25M",
         "currency": "USD",
         "roundType": "undisclosed",
-        "investors": [
-          "Seraphim Space"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Seraphim Space",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
+        "investors": [],
+        "investorsEnriched": [],
         "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "www.artificialintelligence-news.com-f7d616d2",
+      "headline": "Physical AI raises governance questions for autonomous systems",
+      "description": "Governance around Physical AI is becoming harder as autonomous AI systems move into robots, sensors, and industrial equipment. The issue is not only whether AI agents can complete tasks. It is how their actions are tested, monitored, and stopped when they interact with real-world systems. Industrial robotics already provides a large base for that discussion. […] The post Physical AI raises governance questions for autonomous systems appeared first on AI News .",
+      "sourceUrl": "https://www.artificialintelligence-news.com/news/physical-ai-governance-autonomous-systems/",
+      "sourcePlatform": "ai-news",
+      "publishedAt": "2026-05-04T11:00:00.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "extracted": {
+        "companyName": "Physical AI",
+        "companyWebsite": "https://artificialintelligence-news.com",
+        "companyLogoUrl": "https://logo.clearbit.com/artificialintelligence-news.com",
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "low"
+      },
+      "tags": [
+        "ai",
+        "hardware"
+      ]
+    },
+    {
+      "id": "www.artificialintelligence-news.com-d143737a",
+      "headline": "SAP: How enterprise AI governance secures profit margins",
+      "description": "According to SAP, enterprise AI governance secures profit margins by replacing statistical guesses with deterministic control. Ask a consumer-grade model to count the words in a document, and it will often miss the mark by ten percent. Manos Raptopoulos, Global President of Customer Success Europe, APAC, Middle East & Africa at SAP, observes that the […] The post SAP: How enterprise AI governance secures profit margins appeared first on AI News .",
+      "sourceUrl": "https://www.artificialintelligence-news.com/news/sap-how-enterprise-ai-governance-secures-profit-margins/",
+      "sourcePlatform": "ai-news",
+      "publishedAt": "2026-05-01T13:05:37.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "extracted": {
+        "companyName": "SAP",
+        "companyWebsite": "https://artificialintelligence-news.com",
+        "companyLogoUrl": "https://logo.clearbit.com/artificialintelligence-news.com",
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "low"
       },
       "tags": [
         "ai",
         "europe",
-        "defense"
+        "saas",
+        "consumer"
       ]
     },
     {
-      "id": "tech.eu-bba907b0",
-      "headline": "ManaMind secures $1.5M to develop autonomous testing for gaming",
-      "description": "London-based ManaMind has raised $1.5 million in a pre-seed funding round to advance its AI-driven game testingplatform. The round was led by Sure Valley Ventures, with participation fromEWOR, Ascensi...",
-      "sourceUrl": "https://tech.eu/2026/04/30/manamind-secures-15m-to-develop-autonomous-testing-for-gaming/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-30T06:30:00.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
+      "id": "www.artificialintelligence-news.com-99b5fb62",
+      "headline": "Big Tech just proved AI infrastructure spending works. Then it raised the bill anyway",
+      "description": "Every cloud beat. Every capex forecast rose. That is the two-sentence summary of the biggest earnings day of 2026, and it tells you almost everything you need to know about where Big Tech’s AI infrastructure spending actually stands right now. Microsoft, Alphabet, Meta, and Amazon collectively committed somewhere between US$630 billion and US$650 billion in […] The post Big Tech just proved AI infrastructure spending works. Then it raised the bill anyway appeared first on AI News .",
+      "sourceUrl": "https://www.artificialintelligence-news.com/news/big-tech-ai-infrastructure-spending-q1-2026-results/",
+      "sourcePlatform": "ai-news",
+      "publishedAt": "2026-04-30T10:00:00.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
       "extracted": {
-        "companyName": "ManaMind",
-        "companyWebsite": "https://manamind.ai",
-        "companyLogoUrl": "https://logo.clearbit.com/manamind.ai",
-        "amount": 1500000,
-        "amountDisplay": "$1.5M",
-        "currency": "USD",
-        "roundType": "pre-seed",
-        "investors": [
-          "Sure Valley Ventures"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Sure Valley Ventures",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai",
-        "europe"
-      ]
-    },
-    {
-      "id": "sifted.eu-57281563",
-      "headline": "Exclusive: Groove Quantum raises €16m to ramp up chip production",
-      "description": "",
-      "sourceUrl": "https://sifted.eu/articles/groove-quantum-16m-seed/",
-      "sourcePlatform": "sifted",
-      "publishedAt": "2026-04-30T05:00:09.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
-      "extracted": {
-        "companyName": "Exclusive",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 16000000,
-        "amountDisplay": "$16M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [],
-        "investorsEnriched": [],
-        "confidence": "medium"
-      },
-      "tags": [
-        "ai",
-        "hardware"
-      ]
-    },
-    {
-      "id": "techcrunch.com-bb00a867",
-      "headline": "Parallel Web Systems hits $2B valuation five months after its last big raise",
-      "description": "The AI agent-tool startup founded by former Twitter CEO Parag Agrawal has raised $100 million, led by Sequoia, months after raising a previous $100 million.",
-      "sourceUrl": "https://techcrunch.com/2026/04/29/parallel-web-systems-hits-2b-valuation-five-months-after-its-last-big-raise/",
-      "sourcePlatform": "techcrunch",
-      "publishedAt": "2026-04-29T18:33:05.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
-      "extracted": {
-        "companyName": "Parallel Web Systems",
-        "companyWebsite": "https://parallel.ai",
-        "companyLogoUrl": "https://logo.clearbit.com/parallel.ai",
-        "amount": 100,
-        "amountDisplay": "$100",
+        "companyName": "Big Tech",
+        "companyWebsite": "https://artificialintelligence-news.com",
+        "companyLogoUrl": "https://logo.clearbit.com/artificialintelligence-news.com",
+        "amount": 650,
+        "amountDisplay": "$650",
         "currency": "USD",
         "roundType": "undisclosed",
         "investors": [
-          "Sequoia",
-          "Kleiner"
+          "actually watching was Azure"
         ],
         "investorsEnriched": [
           {
-            "name": "Sequoia",
-            "isKnown": true,
-            "confidence": "high"
-          },
-          {
-            "name": "Kleiner",
+            "name": "actually watching was Azure",
             "isKnown": false,
             "confidence": "medium"
           }
@@ -380,181 +525,44 @@
       ]
     },
     {
-      "id": "techcrunch.com-cf80a204",
-      "headline": "Firestorm Labs raises $82M to take drone factories into the field",
-      "description": "A defense startup just raised $82 million to put drone factories inside shipping containers and bring manufacturing to the front lines.",
-      "sourceUrl": "https://techcrunch.com/2026/04/29/firestorm-labs-raises-82m-to-take-drone-factories-into-the-field/",
-      "sourcePlatform": "techcrunch",
-      "publishedAt": "2026-04-29T13:10:57.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
+      "id": "aibusiness.com-4d97b518",
+      "headline": "Scout AI Raises $100M to Build ‘AI Brain' for Autonomous Warfare",
+      "description": "The fund raise comes as the White House pushes AI dominance across industries, including defense.",
+      "sourceUrl": "https://aibusiness.com/robotics/scout-ai-raises-100m-build-ai-brain-autonomous-warfare",
+      "sourcePlatform": "ai-business",
+      "publishedAt": "2026-04-29T16:05:17.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
       "extracted": {
-        "companyName": "Firestorm Labs",
-        "companyWebsite": "https://launchfirestorm.com",
-        "companyLogoUrl": "https://logo.clearbit.com/launchfirestorm.com",
-        "amount": 82000000,
-        "amountDisplay": "$82M",
+        "companyName": "Scout AI",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 100000000,
+        "amountDisplay": "$100M",
         "currency": "USD",
         "roundType": "undisclosed",
-        "investors": [
-          "Washington Harbour Partners"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Washington Harbour Partners",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
+        "investors": [],
+        "investorsEnriched": [],
         "confidence": "medium"
       },
       "tags": [
         "ai",
-        "hardware",
         "defense"
       ]
     },
     {
-      "id": "tech.eu-a94c0e42",
-      "headline": "Cleo Labs secures €1.5M to scale AI-driven product compliance globally",
-      "description": "Cleo Labs, a Paris-based company specialising inproduct regulatory compliance, has raised €1.5 million in a funding round toaccelerate the development of its AI-powered platform for internationalcompl...",
-      "sourceUrl": "https://tech.eu/2026/04/29/cleo-labs-secures-eur15m-to-scale-ai-driven-product-compliance-globally/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-29T10:00:00.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
+      "id": "aibusiness.com-3d607496",
+      "headline": "Record $1.1B Seed Funding for Reinforcement Learning Startup",
+      "description": "The vendor’s goal is achieving superintelligence.",
+      "sourceUrl": "https://aibusiness.com/generative-ai/record-1-1b-seed-funding-reinforcement-learning-startup",
+      "sourcePlatform": "ai-business",
+      "publishedAt": "2026-04-28T13:16:56.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
       "extracted": {
-        "companyName": "Cleo Labs",
-        "companyWebsite": "https://cleolabs.co",
-        "companyLogoUrl": "https://logo.clearbit.com/cleolabs.co",
-        "amount": 1500000,
-        "amountDisplay": "$1.5M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [
-          "Larry Berger"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Larry Berger",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
-        "confidence": "medium"
-      },
-      "tags": [
-        "ai",
-        "europe"
-      ]
-    },
-    {
-      "id": "tech.eu-e3de257a",
-      "headline": "All3 raises $25M to boost construction productivity with robotics and AI",
-      "description": "All3, acompany developing a robotic platform for construction, has raised $25 millionin a seed funding round led by RTP Global, with significant participation fromSuperSeed and additional backing from...",
-      "sourceUrl": "https://tech.eu/2026/04/29/all3-raises-25m-to-boost-construction-productivity-with-robotics-and-ai/",
-      "sourcePlatform": "techeu",
-      "publishedAt": "2026-04-29T08:00:00.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
-      "extracted": {
-        "companyName": "All3",
-        "companyWebsite": "https://all3.com",
-        "companyLogoUrl": "https://logo.clearbit.com/all3.com",
-        "amount": 25000000,
-        "amountDisplay": "$25M",
-        "currency": "USD",
-        "roundType": "seed",
-        "investors": [
-          "RTP Global"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "RTP Global",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
-        "confidence": "high"
-      },
-      "tags": [
-        "ai",
-        "hardware"
-      ]
-    },
-    {
-      "id": "sifted.eu-f9120429",
-      "headline": "E-bike startup Forest secures £40m Series B funding round",
-      "description": "",
-      "sourceUrl": "https://sifted.eu/articles/e-bike-startup-forest-secures-40m-series-b-funding-round/",
-      "sourcePlatform": "sifted",
-      "publishedAt": "2026-04-28T10:06:29.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
-      "extracted": {
-        "companyName": "E-bike startup Forest",
+        "companyName": "Record",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": 40000000,
-        "amountDisplay": "$40M",
-        "currency": "USD",
-        "roundType": "series-b",
-        "investors": [
-          "existing backers including B8 Venture Partners"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "existing backers including B8 Venture Partners",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
-        "confidence": "high"
-      },
-      "tags": []
-    },
-    {
-      "id": "sifted.eu-998c7593",
-      "headline": "Redpine Raises €6.8m to give AI agents access to non-public data",
-      "description": "",
-      "sourceUrl": "https://sifted.eu/articles/redpine-raises-e6-8m-to-give-ai-agents-access-to-non-public-data/",
-      "sourcePlatform": "sifted",
-      "publishedAt": "2026-04-28T05:00:55.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
-      "extracted": {
-        "companyName": "Redpine",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 6800000,
-        "amountDisplay": "$6.8M",
-        "currency": "USD",
-        "roundType": "undisclosed",
-        "investors": [
-          "NordicNinja"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "NordicNinja",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
-        "confidence": "medium"
-      },
-      "tags": [
-        "ai"
-      ]
-    },
-    {
-      "id": "sifted.eu-7dbb0c19",
-      "headline": "Voi founder backs app store-dodging startup Zellify in €3.1m seed round",
-      "description": "",
-      "sourceUrl": "https://sifted.eu/articles/zellify-funding-round-seed-project-europe/",
-      "sourcePlatform": "sifted",
-      "publishedAt": "2026-04-28T05:00:06.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
-      "extracted": {
-        "companyName": "Voi",
-        "companyWebsite": null,
-        "companyLogoUrl": null,
-        "amount": 3100000,
-        "amountDisplay": "$3.1M",
+        "amount": 1100000000,
+        "amountDisplay": "$1.1B",
         "currency": "USD",
         "roundType": "seed",
         "investors": [],
@@ -564,36 +572,52 @@
       "tags": []
     },
     {
-      "id": "techcrunch.com-685ca042",
-      "headline": "India’s Snabbit closes $56M round as investor interest in on-demand home services heats up",
-      "description": "Snabbit now processes over 40,000 daily jobs and has cut costs sharply as it expands across cities and services.",
-      "sourceUrl": "https://techcrunch.com/2026/04/27/indias-snabbit-closes-56m-round-as-investor-interest-heats-up-in-on-demand-home-services/",
-      "sourcePlatform": "techcrunch",
-      "publishedAt": "2026-04-28T03:30:00.000Z",
-      "discoveredAt": "2026-05-04T02:01:38.084Z",
+      "id": "aibusiness.com-9abf25f",
+      "headline": "China Moves to Block Meta’s $2B Acquisition of AI Startup",
+      "description": "The development comes amid continued tension over AI between the U.S. and China.",
+      "sourceUrl": "https://aibusiness.com/agentic-ai/china-moves-block-meta-s-2b-acquisition-ai-startup",
+      "sourcePlatform": "ai-business",
+      "publishedAt": "2026-04-27T14:51:31.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
       "extracted": {
-        "companyName": "India",
+        "companyName": "China Moves",
         "companyWebsite": null,
         "companyLogoUrl": null,
-        "amount": 56000000,
-        "amountDisplay": "$56M",
+        "amount": 2000000000,
+        "amountDisplay": "$2B",
+        "currency": "USD",
+        "roundType": "acquisition",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "aibusiness.com-71abde4b",
+      "headline": "UK Launches $675 Million Fund for AI Startups",
+      "description": "The government capital program joins other sovereign AI financial initiatives around the world.",
+      "sourceUrl": "https://aibusiness.com/generative-ai/uk-launches-675-million-fund-ai-startups",
+      "sourcePlatform": "ai-business",
+      "publishedAt": "2026-04-20T12:47:45.000Z",
+      "discoveredAt": "2026-05-07T12:17:04.783Z",
+      "extracted": {
+        "companyName": "UK Launches",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 675,
+        "amountDisplay": "$675",
         "currency": "USD",
         "roundType": "undisclosed",
-        "investors": [
-          "Susquehanna Venture Capital"
-        ],
-        "investorsEnriched": [
-          {
-            "name": "Susquehanna Venture Capital",
-            "isKnown": false,
-            "confidence": "medium"
-          }
-        ],
+        "investors": [],
+        "investorsEnriched": [],
         "confidence": "medium"
       },
       "tags": [
         "ai",
-        "india"
+        "europe"
       ]
     },
     {
@@ -640,7 +664,7 @@
         "saas",
         "devtools"
       ],
-      "discoveredAt": "2026-05-04T02:01:38.084Z"
+      "discoveredAt": "2026-05-07T12:17:04.783Z"
     },
     {
       "id": "seed-coreweave-series-c-2026",
@@ -686,7 +710,7 @@
         "hardware",
         "saas"
       ],
-      "discoveredAt": "2026-05-04T02:01:38.084Z"
+      "discoveredAt": "2026-05-07T12:17:04.783Z"
     },
     {
       "id": "seed-cognition-series-a-2026",
@@ -725,7 +749,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-05-04T02:01:38.084Z"
+      "discoveredAt": "2026-05-07T12:17:04.783Z"
     },
     {
       "id": "seed-anduril-series-f-2026",
@@ -770,7 +794,7 @@
         "defense",
         "ai"
       ],
-      "discoveredAt": "2026-05-04T02:01:38.084Z"
+      "discoveredAt": "2026-05-07T12:17:04.783Z"
     },
     {
       "id": "seed-sambanova-series-e-2026",
@@ -815,7 +839,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-05-04T02:01:38.084Z"
+      "discoveredAt": "2026-05-07T12:17:04.783Z"
     },
     {
       "id": "seed-poolside-series-a-2026",
@@ -854,7 +878,7 @@
         "ai",
         "devtools"
       ],
-      "discoveredAt": "2026-05-04T02:01:38.084Z"
+      "discoveredAt": "2026-05-07T12:17:04.783Z"
     },
     {
       "id": "seed-hebbia-series-b-2026",
@@ -893,7 +917,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-04T02:01:38.084Z"
+      "discoveredAt": "2026-05-07T12:17:04.783Z"
     },
     {
       "id": "seed-together-series-a-2026",
@@ -932,7 +956,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-04T02:01:38.084Z"
+      "discoveredAt": "2026-05-07T12:17:04.783Z"
     },
     {
       "id": "seed-sierra-series-b-2026",
@@ -971,7 +995,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-04T02:01:38.084Z"
+      "discoveredAt": "2026-05-07T12:17:04.783Z"
     },
     {
       "id": "seed-glean-series-d-2026",
@@ -1010,7 +1034,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-04T02:01:38.084Z"
+      "discoveredAt": "2026-05-07T12:17:04.783Z"
     },
     {
       "id": "seed-groq-series-d-2026",
@@ -1049,7 +1073,7 @@
         "ai",
         "hardware"
       ],
-      "discoveredAt": "2026-05-04T02:01:38.084Z"
+      "discoveredAt": "2026-05-07T12:17:04.783Z"
     },
     {
       "id": "seed-mistral-series-b-2026",
@@ -1094,7 +1118,7 @@
         "ai",
         "europe"
       ],
-      "discoveredAt": "2026-05-04T02:01:38.084Z"
+      "discoveredAt": "2026-05-07T12:17:04.783Z"
     },
     {
       "id": "seed-adept-series-b-2026",
@@ -1133,7 +1157,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-04T02:01:38.084Z"
+      "discoveredAt": "2026-05-07T12:17:04.783Z"
     },
     {
       "id": "seed-elevenlabs-series-c-2026",
@@ -1177,7 +1201,7 @@
       "tags": [
         "ai"
       ],
-      "discoveredAt": "2026-05-04T02:01:38.084Z"
+      "discoveredAt": "2026-05-07T12:17:04.783Z"
     },
     {
       "id": "seed-scale-series-f-2026",
@@ -1222,7 +1246,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-04T02:01:38.084Z"
+      "discoveredAt": "2026-05-07T12:17:04.783Z"
     },
     {
       "id": "seed-perplexity-series-c-2026",
@@ -1267,7 +1291,7 @@
         "ai",
         "saas"
       ],
-      "discoveredAt": "2026-05-04T02:01:38.084Z"
+      "discoveredAt": "2026-05-07T12:17:04.783Z"
     }
   ]
 }

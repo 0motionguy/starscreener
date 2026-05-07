@@ -61,9 +61,11 @@ interface TooltipEntry {
 function IndexTooltip({
   active,
   payload,
+  baseline,
 }: {
   active?: boolean;
   payload?: ReadonlyArray<TooltipEntry>;
+  baseline: number;
 }) {
   if (!active || !payload || payload.length === 0) return null;
   const point = payload[0]?.payload;
@@ -74,6 +76,10 @@ function IndexTooltip({
     year: "numeric",
     timeZone: "UTC",
   });
+  const pct = baseline > 0 ? ((point.value - baseline) / baseline) * 100 : 0;
+  const pctSign = pct >= 0 ? "+" : "";
+  const pctColor =
+    pct >= 0 ? "var(--acc, #ff6a00)" : "var(--ink-400, #8a8a8a)";
   return (
     <div
       style={{
@@ -93,6 +99,13 @@ function IndexTooltip({
         <span style={{ textTransform: "uppercase" }}>Index</span>
         <span style={{ fontVariantNumeric: "tabular-nums" }}>
           {formatCompact(point.value)}
+        </span>
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginTop: 2 }}>
+        <span style={{ color: "var(--ink-400, #8a8a8a)", textTransform: "uppercase" }}>vs start</span>
+        <span style={{ fontVariantNumeric: "tabular-nums", color: pctColor }}>
+          {pctSign}
+          {pct.toFixed(1)}%
         </span>
       </div>
     </div>
@@ -130,6 +143,7 @@ export function Tr100IndexChart({ points }: Props) {
 
   const min = Math.min(...data.map((p) => p.value));
   const max = Math.max(...data.map((p) => p.value));
+  const baseline = data[0]?.value ?? 0;
   // Pad domain by ~3 % top/bottom so the line never kisses the chart edge.
   const span = Math.max(1, max - min);
   const yMin = Math.max(0, Math.floor(min - span * 0.03));
@@ -189,7 +203,11 @@ export function Tr100IndexChart({ points }: Props) {
             }}
           />
           <Tooltip
-            content={IndexTooltip as never}
+            content={
+              ((props: { active?: boolean; payload?: ReadonlyArray<TooltipEntry> }) => (
+                <IndexTooltip {...props} baseline={baseline} />
+              )) as never
+            }
             cursor={{
               stroke: "var(--line-300, #2a2a2a)",
               strokeDasharray: "2 4",

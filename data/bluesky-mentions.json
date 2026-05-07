@@ -1,46 +1,100 @@
 {
-  "fetchedAt": "2026-05-07T13:04:04.188Z",
+  "fetchedAt": "2026-05-07T15:39:20.263Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
     "wojtczyk/trust": {
-      "count7d": 1,
+      "count7d": 3,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mlba3xarrl2f",
-        "cid": "bafyreiefyklu4s2yavcmhoy23uatcqcwf3su76a3ky6ideigvs6n4g7i6m",
-        "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mlba3xarrl2f",
-        "text": "Show HN: Trust – Coding Rust like it's 1989 https://github.com/wojtczyk/trust (https://news.ycombinator.com/item?id=48045939)",
+        "uri": "at://did:plc:4jc47bajks6dxssouzov4at3/app.bsky.feed.post/3mlbjzqrfcs2o",
+        "cid": "bafyreibnkne52pm6ggfhha2oyzjeqlyelsrz23qcyifo5crnwdtg2xstpi",
+        "bskyUrl": "https://bsky.app/profile/bobarnson.com/post/3mlbjzqrfcs2o",
+        "text": "Now this is the kind of thing that could convince me to get deeper into Rust: github.com/wojtczyk/trust",
         "author": {
-          "handle": "betterhn50.e-work.xyz",
-          "displayName": "Hacker News 50"
+          "handle": "bobarnson.com",
+          "displayName": "Bob Arnson"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-07T12:35:26.111Z",
+        "createdAt": "2026-05-07T15:33:10.432Z",
         "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mlba3xarrl2f",
-          "cid": "bafyreiefyklu4s2yavcmhoy23uatcqcwf3su76a3ky6ideigvs6n4g7i6m",
-          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mlba3xarrl2f",
-          "text": "Show HN: Trust – Coding Rust like it's 1989 https://github.com/wojtczyk/trust (https://news.ycombinator.com/item?id=48045939)",
+          "uri": "at://did:plc:4jc47bajks6dxssouzov4at3/app.bsky.feed.post/3mlbjzqrfcs2o",
+          "cid": "bafyreibnkne52pm6ggfhha2oyzjeqlyelsrz23qcyifo5crnwdtg2xstpi",
+          "bskyUrl": "https://bsky.app/profile/bobarnson.com/post/3mlbjzqrfcs2o",
+          "text": "Now this is the kind of thing that could convince me to get deeper into Rust: github.com/wojtczyk/trust",
           "author": {
-            "handle": "betterhn50.e-work.xyz",
-            "displayName": "Hacker News 50"
+            "handle": "bobarnson.com",
+            "displayName": "Bob Arnson"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-07T12:35:26.111Z",
-          "createdUtc": 1778157326,
+          "createdAt": "2026-05-07T15:33:10.432Z",
+          "createdUtc": 1778167990,
           "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wojtczyk/trust",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlbic3uwt52r",
+          "cid": "bafyreihoq42mqfdw2emewcddlfs7din6nz4bhvsrcicsgvqj4lpsfiuwv4",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlbic3uwt52r",
+          "text": "Show HN: Trust – Coding Rust like it's 1989 (github.com) Discussion | Main Link",
+          "author": {
+            "handle": "newsycombinatorbot.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T15:02:02.983874Z",
+          "createdUtc": 1778166122,
+          "ageHours": 0.62,
+          "trendingScore": 0,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "wojtczyk/trust",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jp2uly2rmc3vrwrry5bbs2tm/app.bsky.feed.post/3mlbeckz2wk2v",
+          "cid": "bafyreie4ep3dt6ypc76q6lqso4ufv5nimmyjzwe7azlgmvkrwrsya52zyq",
+          "bskyUrl": "https://bsky.app/profile/vga.eurosky.social/post/3mlbeckz2wk2v",
+          "text": "No nyt github.com/wojtczyk/trust #rust",
+          "author": {
+            "handle": "vga.eurosky.social",
+            "displayName": "Vesa Kaihlavirta"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T13:50:43.930Z",
+          "createdUtc": 1778161843,
+          "ageHours": 1.81,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -56,93 +110,42 @@
         }
       ]
     },
-    "TauricResearch/TradingAgents": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:tsoxawbdtpzzr54pdbquw3zo/app.bsky.feed.post/3mlb7gqf4722s",
-        "cid": "bafyreigxujvb4k2jvvi4fzzhmrieclbh6zbvos7qyv4trp6fzhrptfna6i",
-        "bskyUrl": "https://bsky.app/profile/mayankvora.bsky.social/post/3mlb7gqf4722s",
-        "text": "Repo link: github.com/TauricResear...",
-        "author": {
-          "handle": "mayankvora.bsky.social",
-          "displayName": "MadAIMan"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-07T12:23:35.063Z",
-        "hoursSincePosted": 0.67
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:tsoxawbdtpzzr54pdbquw3zo/app.bsky.feed.post/3mlb7gqf4722s",
-          "cid": "bafyreigxujvb4k2jvvi4fzzhmrieclbh6zbvos7qyv4trp6fzhrptfna6i",
-          "bskyUrl": "https://bsky.app/profile/mayankvora.bsky.social/post/3mlb7gqf4722s",
-          "text": "Repo link: github.com/TauricResear...",
-          "author": {
-            "handle": "mayankvora.bsky.social",
-            "displayName": "MadAIMan"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-07T12:23:35.063Z",
-          "createdUtc": 1778156615,
-          "ageHours": 0.67,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "TauricResearch/TradingAgents",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "gitroomhq/postiz-app": {
+    "Fission-AI/OpenSpec": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:kvle2en7cfxritycs4hzm43x/app.bsky.feed.post/3mlb2sxvihe2k",
-        "cid": "bafyreiful33jjeewrb2bofhv66qa2n4ne5aaa6cjsii5rya2dtjszlto4e",
-        "bskyUrl": "https://bsky.app/profile/josusanz.bsky.social/post/3mlb2sxvihe2k",
-        "text": "Puedes levantarlo en local con Docker en minutos y empezar a estudiar cómo está construido. Lo tengo catalogado en aprende.software como referencia de arquitectura para proyectos de social media. github.com/gitroomhq/p...",
+        "uri": "at://did:plc:j2eyvpqveck2eqb7mp7bymrl/app.bsky.feed.post/3mlbijap7lo2u",
+        "cid": "bafyreig5qvp4z2bcm4yxgjxku5u4ebrmtb5l5wgm3hltqrajsslk4hjspa",
+        "bskyUrl": "https://bsky.app/profile/tysongern.bsky.social/post/3mlbijap7lo2u",
+        "text": "A change too big for a single prompt is more manageable when expressed as a sequence of smaller specs an agent can work through. The specs stay in the repo as a record of intentlong after the diff lands. Lately I've enjoyed using OpenSpec to manage my specs. github.com/Fission-AI/O...",
         "author": {
-          "handle": "josusanz.bsky.social",
-          "displayName": "Josu Sanz"
+          "handle": "tysongern.bsky.social",
+          "displayName": "Tyson Gern, PhD"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-07T11:00:56.822433Z",
-        "hoursSincePosted": 2.05
+        "createdAt": "2026-05-07T15:06:02.250Z",
+        "hoursSincePosted": 0.56
       },
       "posts": [
         {
-          "uri": "at://did:plc:kvle2en7cfxritycs4hzm43x/app.bsky.feed.post/3mlb2sxvihe2k",
-          "cid": "bafyreiful33jjeewrb2bofhv66qa2n4ne5aaa6cjsii5rya2dtjszlto4e",
-          "bskyUrl": "https://bsky.app/profile/josusanz.bsky.social/post/3mlb2sxvihe2k",
-          "text": "Puedes levantarlo en local con Docker en minutos y empezar a estudiar cómo está construido. Lo tengo catalogado en aprende.software como referencia de arquitectura para proyectos de social media. github.com/gitroomhq/p...",
+          "uri": "at://did:plc:j2eyvpqveck2eqb7mp7bymrl/app.bsky.feed.post/3mlbijap7lo2u",
+          "cid": "bafyreig5qvp4z2bcm4yxgjxku5u4ebrmtb5l5wgm3hltqrajsslk4hjspa",
+          "bskyUrl": "https://bsky.app/profile/tysongern.bsky.social/post/3mlbijap7lo2u",
+          "text": "A change too big for a single prompt is more manageable when expressed as a sequence of smaller specs an agent can work through. The specs stay in the repo as a record of intentlong after the diff lands. Lately I've enjoyed using OpenSpec to manage my specs. github.com/Fission-AI/O...",
           "author": {
-            "handle": "josusanz.bsky.social",
-            "displayName": "Josu Sanz"
+            "handle": "tysongern.bsky.social",
+            "displayName": "Tyson Gern, PhD"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-07T11:00:56.822433Z",
-          "createdUtc": 1778151656,
-          "ageHours": 2.05,
+          "createdAt": "2026-05-07T15:06:02.250Z",
+          "createdUtc": 1778166362,
+          "ageHours": 0.56,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -150,7 +153,159 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "gitroomhq/postiz-app",
+              "fullName": "Fission-AI/OpenSpec",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "antithesishq/bombadil": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 1,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:okv3gl4lwcm5vyqb5bkyyz2q/app.bsky.feed.post/3mlbf5wynoc2u",
+        "cid": "bafyreib4v5ipj3hk6ekjlznys3addmons2rnttyfk7svwmpap5nsj27wqy",
+        "bskyUrl": "https://bsky.app/profile/wickstrom.tech/post/3mlbf5wynoc2u",
+        "text": "bombadil-ltl is now dependency free (only `std`), and might be published to crates.io eventually: github.com/antithesishq... This enables other runtime monitoring use cases, like one contributor who used it in a game! I also want to build a new ltl-visualizer with it.",
+        "author": {
+          "handle": "wickstrom.tech",
+          "displayName": "Oskar Wickström"
+        },
+        "likeCount": 2,
+        "repostCount": 1,
+        "replyCount": 0,
+        "createdAt": "2026-05-07T14:06:02.470Z",
+        "hoursSincePosted": 1.56
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:okv3gl4lwcm5vyqb5bkyyz2q/app.bsky.feed.post/3mlbf5wynoc2u",
+          "cid": "bafyreib4v5ipj3hk6ekjlznys3addmons2rnttyfk7svwmpap5nsj27wqy",
+          "bskyUrl": "https://bsky.app/profile/wickstrom.tech/post/3mlbf5wynoc2u",
+          "text": "bombadil-ltl is now dependency free (only `std`), and might be published to crates.io eventually: github.com/antithesishq... This enables other runtime monitoring use cases, like one contributor who used it in a game! I also want to build a new ltl-visualizer with it.",
+          "author": {
+            "handle": "wickstrom.tech",
+            "displayName": "Oskar Wickström"
+          },
+          "likeCount": 2,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T14:06:02.470Z",
+          "createdUtc": 1778162762,
+          "ageHours": 1.56,
+          "trendingScore": 4,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "antithesishq/bombadil",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "jj-vcs/jj": {
+      "count7d": 1,
+      "likesSum7d": 47,
+      "repostsSum7d": 12,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:r7xcwfouzmwigjxjobxo7y4k/app.bsky.feed.post/3mlbdup6cnk2t",
+        "cid": "bafyreiea424xpu7the6e6whfdqe6qzk3ilibu5koqrav5ohiejaw52vz4m",
+        "bskyUrl": "https://bsky.app/profile/jj-vcs.dev/post/3mlbdup6cnk2t",
+        "text": "jj 0.41.0 is out! Jujutsu is a Git-compatible version control system that is both simple and powerful. We have some awesome quality of life features highlighted below! github.com/jj-vcs/jj/re...",
+        "author": {
+          "handle": "jj-vcs.dev",
+          "displayName": "Jujutsu VCS"
+        },
+        "likeCount": 47,
+        "repostCount": 12,
+        "replyCount": 1,
+        "createdAt": "2026-05-07T13:42:58.534Z",
+        "hoursSincePosted": 1.94
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:r7xcwfouzmwigjxjobxo7y4k/app.bsky.feed.post/3mlbdup6cnk2t",
+          "cid": "bafyreiea424xpu7the6e6whfdqe6qzk3ilibu5koqrav5ohiejaw52vz4m",
+          "bskyUrl": "https://bsky.app/profile/jj-vcs.dev/post/3mlbdup6cnk2t",
+          "text": "jj 0.41.0 is out! Jujutsu is a Git-compatible version control system that is both simple and powerful. We have some awesome quality of life features highlighted below! github.com/jj-vcs/jj/re...",
+          "author": {
+            "handle": "jj-vcs.dev",
+            "displayName": "Jujutsu VCS"
+          },
+          "likeCount": 47,
+          "repostCount": 12,
+          "replyCount": 1,
+          "createdAt": "2026-05-07T13:42:58.534Z",
+          "createdUtc": 1778161378,
+          "ageHours": 1.94,
+          "trendingScore": 71.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "jj-vcs/jj",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "NousResearch/hermes-agent": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:4jzmmjsrhntvjz3llgmn5fon/app.bsky.feed.post/3mlbbvd357k2f",
+        "cid": "bafyreigojomfdm2ko4boyajjdpa7ylu7bewdpnfmdkikoqrlhstwk56pve",
+        "bskyUrl": "https://bsky.app/profile/lightpanda.bsky.social/post/3mlbbvd357k2f",
+        "text": "Lightpanda is now a browser backend in Hermes by Nous Research. Open source autonomous agent. Open source browser built for machines. It had to be done. Set Lightpanda as default with automatic Chrome fallback. github.com/NousResearch...",
+        "author": {
+          "handle": "lightpanda.bsky.social",
+          "displayName": "Lightpanda"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-07T13:07:31.918Z",
+        "hoursSincePosted": 2.53
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4jzmmjsrhntvjz3llgmn5fon/app.bsky.feed.post/3mlbbvd357k2f",
+          "cid": "bafyreigojomfdm2ko4boyajjdpa7ylu7bewdpnfmdkikoqrlhstwk56pve",
+          "bskyUrl": "https://bsky.app/profile/lightpanda.bsky.social/post/3mlbbvd357k2f",
+          "text": "Lightpanda is now a browser backend in Hermes by Nous Research. Open source autonomous agent. Open source browser built for machines. It had to be done. Set Lightpanda as default with automatic Chrome fallback. github.com/NousResearch...",
+          "author": {
+            "handle": "lightpanda.bsky.social",
+            "displayName": "Lightpanda"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T13:07:31.918Z",
+          "createdUtc": 1778159251,
+          "ageHours": 2.53,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
               "matchType": "url",
               "confidence": 1
             }
@@ -161,41 +316,95 @@
   },
   "mentionsByRepoId": {
     "wojtczyk--trust": {
-      "count7d": 1,
+      "count7d": 3,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mlba3xarrl2f",
-        "cid": "bafyreiefyklu4s2yavcmhoy23uatcqcwf3su76a3ky6ideigvs6n4g7i6m",
-        "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mlba3xarrl2f",
-        "text": "Show HN: Trust – Coding Rust like it's 1989 https://github.com/wojtczyk/trust (https://news.ycombinator.com/item?id=48045939)",
+        "uri": "at://did:plc:4jc47bajks6dxssouzov4at3/app.bsky.feed.post/3mlbjzqrfcs2o",
+        "cid": "bafyreibnkne52pm6ggfhha2oyzjeqlyelsrz23qcyifo5crnwdtg2xstpi",
+        "bskyUrl": "https://bsky.app/profile/bobarnson.com/post/3mlbjzqrfcs2o",
+        "text": "Now this is the kind of thing that could convince me to get deeper into Rust: github.com/wojtczyk/trust",
         "author": {
-          "handle": "betterhn50.e-work.xyz",
-          "displayName": "Hacker News 50"
+          "handle": "bobarnson.com",
+          "displayName": "Bob Arnson"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-07T12:35:26.111Z",
+        "createdAt": "2026-05-07T15:33:10.432Z",
         "hoursSincePosted": 0.5
       },
       "posts": [
         {
-          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mlba3xarrl2f",
-          "cid": "bafyreiefyklu4s2yavcmhoy23uatcqcwf3su76a3ky6ideigvs6n4g7i6m",
-          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mlba3xarrl2f",
-          "text": "Show HN: Trust – Coding Rust like it's 1989 https://github.com/wojtczyk/trust (https://news.ycombinator.com/item?id=48045939)",
+          "uri": "at://did:plc:4jc47bajks6dxssouzov4at3/app.bsky.feed.post/3mlbjzqrfcs2o",
+          "cid": "bafyreibnkne52pm6ggfhha2oyzjeqlyelsrz23qcyifo5crnwdtg2xstpi",
+          "bskyUrl": "https://bsky.app/profile/bobarnson.com/post/3mlbjzqrfcs2o",
+          "text": "Now this is the kind of thing that could convince me to get deeper into Rust: github.com/wojtczyk/trust",
           "author": {
-            "handle": "betterhn50.e-work.xyz",
-            "displayName": "Hacker News 50"
+            "handle": "bobarnson.com",
+            "displayName": "Bob Arnson"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-07T12:35:26.111Z",
-          "createdUtc": 1778157326,
+          "createdAt": "2026-05-07T15:33:10.432Z",
+          "createdUtc": 1778167990,
           "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wojtczyk/trust",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlbic3uwt52r",
+          "cid": "bafyreihoq42mqfdw2emewcddlfs7din6nz4bhvsrcicsgvqj4lpsfiuwv4",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlbic3uwt52r",
+          "text": "Show HN: Trust – Coding Rust like it's 1989 (github.com) Discussion | Main Link",
+          "author": {
+            "handle": "newsycombinatorbot.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T15:02:02.983874Z",
+          "createdUtc": 1778166122,
+          "ageHours": 0.62,
+          "trendingScore": 0,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "wojtczyk/trust",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jp2uly2rmc3vrwrry5bbs2tm/app.bsky.feed.post/3mlbeckz2wk2v",
+          "cid": "bafyreie4ep3dt6ypc76q6lqso4ufv5nimmyjzwe7azlgmvkrwrsya52zyq",
+          "bskyUrl": "https://bsky.app/profile/vga.eurosky.social/post/3mlbeckz2wk2v",
+          "text": "No nyt github.com/wojtczyk/trust #rust",
+          "author": {
+            "handle": "vga.eurosky.social",
+            "displayName": "Vesa Kaihlavirta"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T13:50:43.930Z",
+          "createdUtc": 1778161843,
+          "ageHours": 1.81,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -211,93 +420,42 @@
         }
       ]
     },
-    "tauricresearch--tradingagents": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
-      "topPost": {
-        "uri": "at://did:plc:tsoxawbdtpzzr54pdbquw3zo/app.bsky.feed.post/3mlb7gqf4722s",
-        "cid": "bafyreigxujvb4k2jvvi4fzzhmrieclbh6zbvos7qyv4trp6fzhrptfna6i",
-        "bskyUrl": "https://bsky.app/profile/mayankvora.bsky.social/post/3mlb7gqf4722s",
-        "text": "Repo link: github.com/TauricResear...",
-        "author": {
-          "handle": "mayankvora.bsky.social",
-          "displayName": "MadAIMan"
-        },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-07T12:23:35.063Z",
-        "hoursSincePosted": 0.67
-      },
-      "posts": [
-        {
-          "uri": "at://did:plc:tsoxawbdtpzzr54pdbquw3zo/app.bsky.feed.post/3mlb7gqf4722s",
-          "cid": "bafyreigxujvb4k2jvvi4fzzhmrieclbh6zbvos7qyv4trp6fzhrptfna6i",
-          "bskyUrl": "https://bsky.app/profile/mayankvora.bsky.social/post/3mlb7gqf4722s",
-          "text": "Repo link: github.com/TauricResear...",
-          "author": {
-            "handle": "mayankvora.bsky.social",
-            "displayName": "MadAIMan"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-07T12:23:35.063Z",
-          "createdUtc": 1778156615,
-          "ageHours": 0.67,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "TauricResearch/TradingAgents",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
-    "gitroomhq--postiz-app": {
+    "fission-ai--openspec": {
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:kvle2en7cfxritycs4hzm43x/app.bsky.feed.post/3mlb2sxvihe2k",
-        "cid": "bafyreiful33jjeewrb2bofhv66qa2n4ne5aaa6cjsii5rya2dtjszlto4e",
-        "bskyUrl": "https://bsky.app/profile/josusanz.bsky.social/post/3mlb2sxvihe2k",
-        "text": "Puedes levantarlo en local con Docker en minutos y empezar a estudiar cómo está construido. Lo tengo catalogado en aprende.software como referencia de arquitectura para proyectos de social media. github.com/gitroomhq/p...",
+        "uri": "at://did:plc:j2eyvpqveck2eqb7mp7bymrl/app.bsky.feed.post/3mlbijap7lo2u",
+        "cid": "bafyreig5qvp4z2bcm4yxgjxku5u4ebrmtb5l5wgm3hltqrajsslk4hjspa",
+        "bskyUrl": "https://bsky.app/profile/tysongern.bsky.social/post/3mlbijap7lo2u",
+        "text": "A change too big for a single prompt is more manageable when expressed as a sequence of smaller specs an agent can work through. The specs stay in the repo as a record of intentlong after the diff lands. Lately I've enjoyed using OpenSpec to manage my specs. github.com/Fission-AI/O...",
         "author": {
-          "handle": "josusanz.bsky.social",
-          "displayName": "Josu Sanz"
+          "handle": "tysongern.bsky.social",
+          "displayName": "Tyson Gern, PhD"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-07T11:00:56.822433Z",
-        "hoursSincePosted": 2.05
+        "createdAt": "2026-05-07T15:06:02.250Z",
+        "hoursSincePosted": 0.56
       },
       "posts": [
         {
-          "uri": "at://did:plc:kvle2en7cfxritycs4hzm43x/app.bsky.feed.post/3mlb2sxvihe2k",
-          "cid": "bafyreiful33jjeewrb2bofhv66qa2n4ne5aaa6cjsii5rya2dtjszlto4e",
-          "bskyUrl": "https://bsky.app/profile/josusanz.bsky.social/post/3mlb2sxvihe2k",
-          "text": "Puedes levantarlo en local con Docker en minutos y empezar a estudiar cómo está construido. Lo tengo catalogado en aprende.software como referencia de arquitectura para proyectos de social media. github.com/gitroomhq/p...",
+          "uri": "at://did:plc:j2eyvpqveck2eqb7mp7bymrl/app.bsky.feed.post/3mlbijap7lo2u",
+          "cid": "bafyreig5qvp4z2bcm4yxgjxku5u4ebrmtb5l5wgm3hltqrajsslk4hjspa",
+          "bskyUrl": "https://bsky.app/profile/tysongern.bsky.social/post/3mlbijap7lo2u",
+          "text": "A change too big for a single prompt is more manageable when expressed as a sequence of smaller specs an agent can work through. The specs stay in the repo as a record of intentlong after the diff lands. Lately I've enjoyed using OpenSpec to manage my specs. github.com/Fission-AI/O...",
           "author": {
-            "handle": "josusanz.bsky.social",
-            "displayName": "Josu Sanz"
+            "handle": "tysongern.bsky.social",
+            "displayName": "Tyson Gern, PhD"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-07T11:00:56.822433Z",
-          "createdUtc": 1778151656,
-          "ageHours": 2.05,
+          "createdAt": "2026-05-07T15:06:02.250Z",
+          "createdUtc": 1778166362,
+          "ageHours": 0.56,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -305,7 +463,159 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "gitroomhq/postiz-app",
+              "fullName": "Fission-AI/OpenSpec",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "antithesishq--bombadil": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 1,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:okv3gl4lwcm5vyqb5bkyyz2q/app.bsky.feed.post/3mlbf5wynoc2u",
+        "cid": "bafyreib4v5ipj3hk6ekjlznys3addmons2rnttyfk7svwmpap5nsj27wqy",
+        "bskyUrl": "https://bsky.app/profile/wickstrom.tech/post/3mlbf5wynoc2u",
+        "text": "bombadil-ltl is now dependency free (only `std`), and might be published to crates.io eventually: github.com/antithesishq... This enables other runtime monitoring use cases, like one contributor who used it in a game! I also want to build a new ltl-visualizer with it.",
+        "author": {
+          "handle": "wickstrom.tech",
+          "displayName": "Oskar Wickström"
+        },
+        "likeCount": 2,
+        "repostCount": 1,
+        "replyCount": 0,
+        "createdAt": "2026-05-07T14:06:02.470Z",
+        "hoursSincePosted": 1.56
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:okv3gl4lwcm5vyqb5bkyyz2q/app.bsky.feed.post/3mlbf5wynoc2u",
+          "cid": "bafyreib4v5ipj3hk6ekjlznys3addmons2rnttyfk7svwmpap5nsj27wqy",
+          "bskyUrl": "https://bsky.app/profile/wickstrom.tech/post/3mlbf5wynoc2u",
+          "text": "bombadil-ltl is now dependency free (only `std`), and might be published to crates.io eventually: github.com/antithesishq... This enables other runtime monitoring use cases, like one contributor who used it in a game! I also want to build a new ltl-visualizer with it.",
+          "author": {
+            "handle": "wickstrom.tech",
+            "displayName": "Oskar Wickström"
+          },
+          "likeCount": 2,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T14:06:02.470Z",
+          "createdUtc": 1778162762,
+          "ageHours": 1.56,
+          "trendingScore": 4,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "antithesishq/bombadil",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "jj-vcs--jj": {
+      "count7d": 1,
+      "likesSum7d": 47,
+      "repostsSum7d": 12,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:r7xcwfouzmwigjxjobxo7y4k/app.bsky.feed.post/3mlbdup6cnk2t",
+        "cid": "bafyreiea424xpu7the6e6whfdqe6qzk3ilibu5koqrav5ohiejaw52vz4m",
+        "bskyUrl": "https://bsky.app/profile/jj-vcs.dev/post/3mlbdup6cnk2t",
+        "text": "jj 0.41.0 is out! Jujutsu is a Git-compatible version control system that is both simple and powerful. We have some awesome quality of life features highlighted below! github.com/jj-vcs/jj/re...",
+        "author": {
+          "handle": "jj-vcs.dev",
+          "displayName": "Jujutsu VCS"
+        },
+        "likeCount": 47,
+        "repostCount": 12,
+        "replyCount": 1,
+        "createdAt": "2026-05-07T13:42:58.534Z",
+        "hoursSincePosted": 1.94
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:r7xcwfouzmwigjxjobxo7y4k/app.bsky.feed.post/3mlbdup6cnk2t",
+          "cid": "bafyreiea424xpu7the6e6whfdqe6qzk3ilibu5koqrav5ohiejaw52vz4m",
+          "bskyUrl": "https://bsky.app/profile/jj-vcs.dev/post/3mlbdup6cnk2t",
+          "text": "jj 0.41.0 is out! Jujutsu is a Git-compatible version control system that is both simple and powerful. We have some awesome quality of life features highlighted below! github.com/jj-vcs/jj/re...",
+          "author": {
+            "handle": "jj-vcs.dev",
+            "displayName": "Jujutsu VCS"
+          },
+          "likeCount": 47,
+          "repostCount": 12,
+          "replyCount": 1,
+          "createdAt": "2026-05-07T13:42:58.534Z",
+          "createdUtc": 1778161378,
+          "ageHours": 1.94,
+          "trendingScore": 71.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "jj-vcs/jj",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "nousresearch--hermes-agent": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:4jzmmjsrhntvjz3llgmn5fon/app.bsky.feed.post/3mlbbvd357k2f",
+        "cid": "bafyreigojomfdm2ko4boyajjdpa7ylu7bewdpnfmdkikoqrlhstwk56pve",
+        "bskyUrl": "https://bsky.app/profile/lightpanda.bsky.social/post/3mlbbvd357k2f",
+        "text": "Lightpanda is now a browser backend in Hermes by Nous Research. Open source autonomous agent. Open source browser built for machines. It had to be done. Set Lightpanda as default with automatic Chrome fallback. github.com/NousResearch...",
+        "author": {
+          "handle": "lightpanda.bsky.social",
+          "displayName": "Lightpanda"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-07T13:07:31.918Z",
+        "hoursSincePosted": 2.53
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4jzmmjsrhntvjz3llgmn5fon/app.bsky.feed.post/3mlbbvd357k2f",
+          "cid": "bafyreigojomfdm2ko4boyajjdpa7ylu7bewdpnfmdkikoqrlhstwk56pve",
+          "bskyUrl": "https://bsky.app/profile/lightpanda.bsky.social/post/3mlbbvd357k2f",
+          "text": "Lightpanda is now a browser backend in Hermes by Nous Research. Open source autonomous agent. Open source browser built for machines. It had to be done. Set Lightpanda as default with automatic Chrome fallback. github.com/NousResearch...",
+          "author": {
+            "handle": "lightpanda.bsky.social",
+            "displayName": "Lightpanda"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-07T13:07:31.918Z",
+          "createdUtc": 1778159251,
+          "ageHours": 2.53,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
               "matchType": "url",
               "confidence": 1
             }
@@ -316,17 +626,27 @@
   },
   "leaderboard": [
     {
-      "fullName": "gitroomhq/postiz-app",
+      "fullName": "jj-vcs/jj",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 47
     },
     {
-      "fullName": "TauricResearch/TradingAgents",
+      "fullName": "antithesishq/bombadil",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 2
     },
     {
       "fullName": "wojtczyk/trust",
+      "count7d": 3,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "Fission-AI/OpenSpec",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "NousResearch/hermes-agent",
       "count7d": 1,
       "likesSum7d": 0
     }

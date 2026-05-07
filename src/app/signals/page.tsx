@@ -129,7 +129,7 @@ export const metadata: Metadata = {
 // ---------------------------------------------------------------------------
 
 function ageLabel(iso: string | null | undefined): string {
-  if (!iso) return "no data yet";
+  if (!iso) return "awaiting signal";
   const ms = Date.now() - Date.parse(iso);
   if (!Number.isFinite(ms) || ms < 0) return "just now";
   const sec = Math.floor(ms / 1000);
@@ -451,7 +451,10 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
 
   // ── Render ----------------------------------------------------------------
   return (
-    <main className="signals-page" style={{ padding: "14px 16px 60px" }}>
+    <main
+      className="signals-page"
+      style={{ padding: "14px clamp(12px, 3vw, 16px) 60px" }}
+    >
       <PageHead
         crumb={
           <>
@@ -490,7 +493,11 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
         />
       </div>
 
-      {/* Row 1: Volume chart + Consensus radar */}
+      <SectionHead
+        num="// 02"
+        title="Cross-source synthesis"
+        meta={`${activeWindowLabel} · ${volume.totalItems} signals`}
+      />
       <div className="grid">
         <div className="col-7">
           <VolumeAreaChart
@@ -516,7 +523,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       <SectionHead
         num="// 03"
         title="Primary feeds"
-        meta="4 · sorted by velocity"
+        meta={<>4 panels · sorted by <b>velocity</b></>}
       />
       <div className="grid">
         <div className="col-3">
@@ -568,7 +575,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       <SectionHead
         num="// 04"
         title="Secondary & editorial"
-        meta="4 · curated"
+        meta={<>4 panels · <b>curated</b></>}
       />
       <div className="grid">
         <div className="col-3">

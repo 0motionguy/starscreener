@@ -14,6 +14,7 @@ import {
   FileText,
   Package,
   DollarSign,
+  Globe,
 } from "lucide-react";
 
 import {
@@ -38,6 +39,7 @@ const NpmIcon: IconCmp = (p) => <Package {...p} />;
 const HfIcon: IconCmp = (p) => <Brain {...p} />;
 const ArxivIcon: IconCmp = (p) => <FileText {...p} />;
 const FundingIcon: IconCmp = (p) => <DollarSign {...p} />;
+const GlobeIcon: IconCmp = (p) => <Globe {...p} />;
 const XMono: IconCmp = (p) => <XIcon {...p} monochrome />;
 const RedditMono: IconCmp = (p) => <RedditIcon {...p} monochrome />;
 const HnMono: IconCmp = (p) => <HackerNewsIcon {...p} monochrome />;
@@ -65,11 +67,12 @@ const SOURCES: ReadonlyArray<SourceDef> = [
   { platform: "huggingface", label: "HF", Icon: HfIcon },
   { platform: "arxiv", label: "arXiv", Icon: ArxivIcon },
   { platform: "funding", label: "Funding", Icon: FundingIcon },
+  { platform: "tavily", label: "Web", Icon: GlobeIcon },
 ];
 
 export function CompletenessStrip({ repo }: { repo: Repo }) {
   const ps = repo.mentions?.perSource;
-  // Total active sources (count7d > 0) — the headline "X / 11 sources fired".
+  // Total active sources (count7d > 0) — the headline "X / 13 sources fired".
   const total = SOURCES.length + 1; // +1 for the always-active GitHub source
   const active =
     1 +

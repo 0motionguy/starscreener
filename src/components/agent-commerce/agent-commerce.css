@@ -442,6 +442,22 @@
   }
 }
 
+/* Footer line shown below the card grid when the matching set is larger
+   than the rendered cap (60). Clarifies "you're seeing the top N of M
+   total — tighten filters to narrow" so users don't think the page is
+   truncating arbitrarily. */
+.ac-grid-more {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border: 1px dashed var(--color-line-200, rgba(255, 255, 255, 0.08));
+  border-radius: 2px;
+  background: var(--color-bg-025, rgba(255, 255, 255, 0.02));
+  color: var(--color-fg-muted, rgba(255, 255, 255, 0.55));
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
 @media (min-width: 1280px) {
   .ac-grid {
     grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
@@ -527,6 +543,19 @@
   color: currentColor;
 }
 
+/* `--entity` modifier — used when a real brand image / favicon is rendered
+   inside via <EntityLogo />. Strips the parent's border + bg + ::before
+   tint so the image doesn't get double-framed; falls through to
+   EntityLogo's own monogram tile when the image fails to load. */
+.ac-logo--entity {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+.ac-logo--entity::before {
+  display: none;
+}
+
 .ac-card-title {
   min-width: 0;
 }
@@ -603,20 +632,32 @@
   line-height: 1.4;
 }
 
+/* Protocol pills get the same tinted-bg treatment as the status flags
+   (`.ac-flag-*` below) so the two badge rows on each card read as one
+   visual system. Pre-fix: protocols were outline-only while flags were
+   filled — every card looked half-broken. */
 .ac-proto.tone-x402 {
   color: var(--color-warning);
+  background: var(--color-warning-bg, rgba(255, 181, 71, 0.10));
+  border-color: rgba(255, 181, 71, 0.25);
 }
 
 .ac-proto.tone-mcp {
   color: var(--color-cyan);
+  background: rgba(58, 214, 197, 0.10);
+  border-color: rgba(58, 214, 197, 0.25);
 }
 
 .ac-proto.tone-a2a {
   color: var(--color-pink);
+  background: rgba(244, 114, 182, 0.10);
+  border-color: rgba(244, 114, 182, 0.25);
 }
 
 .ac-proto.tone-http {
   color: var(--color-text-subtle);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.10);
 }
 
 /* ── Status flags ─────────────────────────────────────────────────────── */

@@ -745,6 +745,7 @@ export default async function HomePage() {
         npm: ps?.npm.count7d ?? ps?.npm.count24h ?? 0,
         hf: ps?.huggingface.count7d ?? ps?.huggingface.count24h ?? 0,
         arxiv: ps?.arxiv.count7d ?? ps?.arxiv.count24h ?? 0,
+        tavily: ps?.tavily.count7d ?? ps?.tavily.count24h ?? 0,
       },
       // AGN-450: per-row freshness. The home feed is fetched as a single
       // snapshot (lastFetchedAt), so every row inherits that timestamp

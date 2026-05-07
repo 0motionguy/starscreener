@@ -146,15 +146,39 @@ export function deltaForNpmWindow(pkg: NpmPackageRow, window: NpmWindow): number
   return pkg.delta30d ?? 0;
 }
 
+// Filter / floor thresholds for getTopNpmPackages.
+//
+// We surface "single-dev packages with momentum", not all-time download
+// leaders. Without a 30d cap, the feed gets dominated by platform packages
+// (next, openai, @anthropic-ai/sdk, @expo/cli, @react-navigation/*, ...) whose
+// raw volume swamps any actual breakout in the rank.
+//
+// 18M / 30d (~600k/day) drops the platform-class giants the user called out
+// (codex 54M, anthropic-sdk 64M, openai 79M, expo/cli 18.2M, all of next.js)
+// while still admitting genuine dev-tool packages once the discovery sweep
+// surfaces them. Floor of 500 dl/24h kills meaningless % spikes from packages
+// that went 1 → 5 downloads.
+const NPM_PLATFORM_DL30D_CEILING = 18_000_000;
+const NPM_NOISE_FLOOR_DL24H = 500;
+
 export function getTopNpmPackages(
   window: NpmWindow = "24h",
   limit?: number,
 ): NpmPackageRow[] {
-  const rows = getNpmPackages();
+  const rows = getNpmPackages().filter((pkg) => {
+    // Must link back to a GitHub repo (the whole point of /npm).
+    if (!pkg.linkedRepo) return false;
+    // Drop platform/giant packages — we want NEW/SMALL momentum, not leaders.
+    if ((pkg.downloads30d ?? 0) >= NPM_PLATFORM_DL30D_CEILING) return false;
+    // Floor — nuke meaningless % spikes from very-low-volume packages.
+    if ((pkg.downloads24h ?? 0) < NPM_NOISE_FLOOR_DL24H) return false;
+    return true;
+  });
 
+  // Rank by % growth in the active window (descending), with absolute delta
+  // as tiebreaker. This puts real % momentum at the top instead of letting
+  // absolute download volume conflate the signal.
   rows.sort((a, b) => {
-    const byMetric = metricForNpmWindow(b, window) - metricForNpmWindow(a, window);
-    if (byMetric !== 0) return byMetric;
     const byPct =
       (deltaPctForNpmWindow(b, window) ?? 0) -
       (deltaPctForNpmWindow(a, window) ?? 0);

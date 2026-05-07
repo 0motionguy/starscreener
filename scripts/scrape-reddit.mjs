@@ -81,7 +81,12 @@ const ALL_POSTS_OUT = resolve(DATA_DIR, "reddit-all-posts.json");
 // ---------------------------------------------------------------------------
 
 const POSTS_PER_SUB = 100;
-const WINDOW_DAYS = 7;
+// Tightened 2026-05-08 from 7d → 3d. The RSS-fallback regression (silent
+// score=0 posts when REDDIT_CLIENT_ID is unset) had been padding the cache
+// with stale dead posts; 3d sheds them faster and matches /reddit/trending's
+// effective signal window. The 7d setting is preserved on the all-posts
+// pruning path via filterEngagementOrFresh — see mergeAllPosts.
+const WINDOW_DAYS = 3;
 const WINDOW_SECONDS = WINDOW_DAYS * 24 * 60 * 60;
 const RATE_LIMIT_BACKOFF_MS = 65000;
 
@@ -390,10 +395,36 @@ export function mergeAllPosts(existing, thisRun, cutoffSec) {
     }
   }
 
+  // Cleanse existing-cache pollution from the RSS-fallback regression
+  // (2026-05-08): drop posts where score=0 AND numComments=0 AND age > 1h.
+  // The 1h grace period preserves legit brand-new posts that haven't
+  // gained engagement yet. Older zero-zero rows are RSS-fallback artifacts
+  // that pollute the cache and starve /reddit/trending. New ingest already
+  // skips _source==="rss-atom" up-front; this cleans the historical cache
+  // on first merge after the fix.
+  const ENGAGEMENT_GRACE_SEC = 60 * 60;
+  const nowSec = Math.floor(Date.now() / 1000);
+  let prunedZeroEngagement = 0;
+  const engagedById = new Map();
+  for (const [id, p] of byId) {
+    const score = Number.isFinite(p.score) ? p.score : 0;
+    const numComments = Number.isFinite(p.numComments) ? p.numComments : 0;
+    if (score > 0 || numComments > 0) {
+      engagedById.set(id, p);
+      continue;
+    }
+    const ageSec = nowSec - (p.createdUtc ?? 0);
+    if (ageSec < ENGAGEMENT_GRACE_SEC) {
+      engagedById.set(id, p);
+      continue;
+    }
+    prunedZeroEngagement += 1;
+  }
+
   // Per-sub top-K cap by trendingScore. Keeps the file size bounded at
   // steady state regardless of how many runs have accumulated.
   const bySub = new Map();
-  for (const p of byId.values()) {
+  for (const p of engagedById.values()) {
     const bucket = bySub.get(p.subreddit) ?? [];
     bucket.push(p);
     bySub.set(p.subreddit, bucket);
@@ -412,6 +443,7 @@ export function mergeAllPosts(existing, thisRun, cutoffSec) {
   return {
     posts: kept,
     prunedOverflow,
+    prunedZeroEngagement,
     prunedOld: Math.max(
       0,
       existing.length -
@@ -751,6 +783,14 @@ async function main() {
   log(`tracked repos: ${tracked.size}`);
   log(`repo alias matchers: ${aliasMatchers.length}`);
   log(`auth mode: ${getRedditAuthMode()}`);
+  if (getRedditAuthMode() !== "oauth") {
+    log(
+      "WARN  REDDIT_CLIENT_ID/REDDIT_CLIENT_SECRET unset → public-json/RSS " +
+        "fallback. /new.json listing URLs route through RSS which does not " +
+        "expose score / num_comments — fetched posts will be filtered out " +
+        "to avoid polluting the cache. Set OAuth creds to ingest engagement.",
+    );
+  }
   log(
     baselineCount === 0
       ? `baselines: cold (run \`npm run compute:reddit-baselines\` for per-sub normalization)`
@@ -774,9 +814,20 @@ async function main() {
       const posts = await fetchSubredditNew(sub);
       scannedTotal += posts.length;
       let hitsInSub = 0;
+      let rssFallbackSkipped = 0;
       for (const p of posts) {
         if (typeof p.created_utc !== "number") continue;
         if (p.created_utc < cutoff) continue;
+        // Drop RSS-Atom fallback rows: parseRedditAtomFeed hardcodes
+        // score=0/num_comments=0 because the RSS feed doesn't expose them.
+        // These posts pollute the cache with all-zero engagement and starve
+        // /reddit/trending. The fix at the source is OAuth (set
+        // REDDIT_CLIENT_ID/REDDIT_CLIENT_SECRET); this filter is the
+        // defensive line. See _reddit-shared.mjs:434 + RESCUE handover.
+        if (p._source === "rss-atom") {
+          rssFallbackSkipped += 1;
+          continue;
+        }
         const rawTitle = String(p.title ?? "");
         const rawSelftext = String(p.selftext ?? "");
         const rawUrl = String(p.url ?? "");
@@ -876,7 +927,10 @@ async function main() {
         }
         allPosts.push(normalized);
       }
-      log(`ok  r/${sub} — ${posts.length} posts, ${hitsInSub} repo hits`);
+      const rssNote = rssFallbackSkipped > 0
+        ? ` (${rssFallbackSkipped} dropped: rss-atom fallback, no engagement signal)`
+        : "";
+      log(`ok  r/${sub} — ${posts.length} posts, ${hitsInSub} repo hits${rssNote}`);
     } catch (err) {
       errors += 1;
       log(`err r/${sub} — ${err.message}`);
@@ -975,12 +1029,12 @@ async function main() {
     await loadExistingAllPosts(),
     aliasMatchers,
   );
-  const { posts: mergedAllPosts, prunedOverflow } = mergeAllPosts(
-    existingAllPosts,
-    allPostsFlat,
-    cutoff,
-  );
-  // Old-posts pruned = prior-run entries that fell out of the 7d window
+  const {
+    posts: mergedAllPosts,
+    prunedOverflow,
+    prunedZeroEngagement,
+  } = mergeAllPosts(existingAllPosts, allPostsFlat, cutoff);
+  // Old-posts pruned = prior-run entries that fell out of the window
   // on THIS run. Computed as the set diff of prior IDs vs retained IDs.
   const retainedIds = new Set(mergedAllPosts.map((p) => p.id));
   let prunedOld = 0;
@@ -994,6 +1048,7 @@ async function main() {
     totalPosts: mergedAllPosts.length,
     prunedOldPosts: prunedOld,
     prunedOverflowPosts: prunedOverflow,
+    prunedZeroEngagementPosts: prunedZeroEngagement,
     posts: mergedAllPosts,
   };
   await writeFile(
@@ -1016,7 +1071,7 @@ async function main() {
   );
   log(`wrote ${ALL_POSTS_OUT} [redis: ${allPostsRedis.source}]`);
   log(
-    `  all posts: ${mergedAllPosts.length} total · pruned: ${prunedOld} old + ${prunedOverflow} overflow`,
+    `  all posts: ${mergedAllPosts.length} total · pruned: ${prunedOld} old + ${prunedOverflow} overflow + ${prunedZeroEngagement} zero-engagement`,
   );
 
   if (errors === SUBREDDITS.length) {

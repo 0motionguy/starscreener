@@ -64,16 +64,6 @@ const PER_AUTHOR_CAP = 3;
 const DESCRIPTION =
   "Top Claude / Codex / agent skills merged from skills.sh, GitHub, Smithery, lobehub, and skillsmp.";
 
-const SKILLS_CARD_CSS = `
-.skills-cited-card{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--v4-line-200);border-radius:3px;background:var(--v4-bg-050);font-family:var(--font-geist-mono),monospace;font-size:11px;color:var(--v4-ink-200);text-decoration:none;transition:border-color .12s ease,background .12s ease,transform .12s ease}
-.skills-cited-card:hover{border-color:var(--v4-acc);background:var(--v4-bg-100);transform:translateY(-1px)}
-.skills-cited-card__title{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--v4-ink-100);font-weight:500;letter-spacing:.01em}
-.skills-cited-card__sub{display:block;color:var(--v4-ink-400);font-size:10px;margin-top:2px;text-transform:uppercase;letter-spacing:.04em}
-.skills-cited-card__count{display:flex;flex-direction:column;align-items:flex-end;line-height:1.1}
-.skills-cited-card__count b{color:var(--v4-amber);font-weight:600;font-size:13px}
-.skills-cited-card__count-label{color:var(--v4-ink-400);font-size:9px;text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
-`;
-
 function fullNameFromUrl(url: string | null | undefined): string | null {
   if (typeof url !== "string") return null;
   const m = url.match(/github\.com\/([^/?#]+)\/([^/?#]+)/i);
@@ -249,7 +239,6 @@ export default async function SkillsPage() {
 
   return (
     <main className="home-surface">
-      <style>{SKILLS_CARD_CSS}</style>
       <MarkVisited routeKey="skills" count={items.length} />
       <PageHead
         crumb={
@@ -481,20 +470,45 @@ export default async function SkillsPage() {
           }}
         >
           {mostCited.slice(0, 12).map((item) => (
-            <li key={item.id}>
+            <li key={item.id} className="v4-collection-rail-list__item">
               <Link
                 href={`/skills/${encodeSkillSlug(item.id)}`}
-                className="skills-cited-card"
+                className="v4-collection-rail-list__link"
+                style={{
+                  border: "1px solid var(--v4-line-200)",
+                  borderRadius: 3,
+                  background: "var(--v4-bg-050)",
+                }}
               >
                 <span style={{ flex: 1, minWidth: 0 }}>
-                  <span className="skills-cited-card__title">{item.title}</span>
-                  <span className="skills-cited-card__sub">
+                  <span
+                    style={{
+                      display: "block",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      color: "var(--v4-ink-100)",
+                    }}
+                  >
+                    {item.title}
+                  </span>
+                  <span
+                    style={{
+                      display: "block",
+                      color: "var(--v4-ink-400)",
+                      fontSize: 10,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.06em",
+                    }}
+                  >
                     {item.author ?? item.sourceLabel}
                   </span>
                 </span>
-                <span className="skills-cited-card__count">
-                  <b>{formatNumber(item.derivativeRepoCount ?? 0)}</b>
-                  <span className="skills-cited-card__count-label">cited</span>
+                <span
+                  className="v4-collection-rail-list__count"
+                  style={{ color: "var(--v4-amber)", fontWeight: 600 }}
+                >
+                  {formatNumber(item.derivativeRepoCount ?? 0)}
                 </span>
               </Link>
             </li>
@@ -527,21 +541,19 @@ interface SkillsEmptyProps {
  */
 function SkillsEmpty({ children }: SkillsEmptyProps) {
   return (
-    <div
+    <p
       style={{
         fontFamily: "var(--font-geist-mono), monospace",
-        fontSize: 12,
+        fontSize: 11,
         color: "var(--v4-ink-300)",
-        border: "1px dashed var(--v4-line-200)",
-        borderRadius: 4,
-        padding: "20px 16px",
-        background: "var(--v4-bg-050)",
-        marginBottom: 16,
+        textTransform: "uppercase",
+        letterSpacing: "0.08em",
+        padding: "16px 0",
+        margin: 0,
       }}
     >
-      <span style={{ color: "var(--v4-ink-400)" }}>{"// "}</span>
       {children}
-    </div>
+    </p>
   );
 }
 
@@ -552,8 +564,8 @@ interface SkillAvatarProps {
 
 function SkillAvatar({ logoUrl, fallback }: SkillAvatarProps) {
   if (logoUrl) {
+    // eslint-disable-next-line @next/next/no-img-element
     return (
-      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={logoUrl}
         alt=""
@@ -592,3 +604,4 @@ function SkillAvatar({ logoUrl, fallback }: SkillAvatarProps) {
     </span>
   );
 }
+

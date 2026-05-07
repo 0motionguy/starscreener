@@ -34,7 +34,6 @@ import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
 import "@/components/tier-list/tier-list.css";
 import "@/components/compare/compare.css";
-import "@/components/predict/predict.css";
 import "@/components/terminal/terminal-pages.css";
 import "@/components/categories/categories.css";
 

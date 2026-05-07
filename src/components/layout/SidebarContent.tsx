@@ -24,7 +24,7 @@
  *   - `default` — neutral total for cumulative inventories.
  *   - `accent`  — purple pill for the user's own counts.
  */
-import { type ReactNode } from "react";
+import { startTransition, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useFreshCount } from "@/lib/use-fresh-count";
@@ -44,7 +44,6 @@ import {
   GraduationCap,
   Library,
   Lightbulb,
-  Network,
   Package,
   Plug,
   Radar,
@@ -310,25 +309,19 @@ export function SidebarContent({
 }: SidebarContentProps) {
   const router = useRouter();
   const pathname = usePathname() ?? "/";
-  const setActiveMetaFilter = useFilterStore((s) => s.setActiveMetaFilter);
-  const setActiveTag = useFilterStore((s) => s.setActiveTag);
-  const setActiveTab = useFilterStore((s) => s.setActiveTab);
-  const setSort = useFilterStore((s) => s.setSort);
-  const setTimeRange = useFilterStore((s) => s.setTimeRange);
+  const prepareAgentReposView = useFilterStore((s) => s.prepareAgentReposView);
 
   const watchCount = useWatchlistStore((s) => s.repos.length);
   const compareCount = useCompareStore((s) => s.repos.length);
 
   function goToAgentRepos() {
-    setActiveTag(null);
-    setActiveMetaFilter(null);
-    setActiveTab("trending");
-    setTimeRange("7d");
-    setSort("stars", "desc");
-    if (pathname !== "/agent-repos") {
-      router.push("/agent-repos");
-    }
+    prepareAgentReposView();
     onClose?.();
+    if (pathname !== "/agent-repos") {
+      startTransition(() => {
+        router.push("/agent-repos");
+      });
+    }
   }
 
   return (
@@ -674,14 +667,6 @@ export function SidebarContent({
             }
           />
           <V2NavRow
-            href="/mindshare"
-            icon={Network}
-            label="MindShare"
-            badge="New"
-            badgeTone="accent"
-            active={pathname === "/mindshare"}
-          />
-          <V2NavRow
             href="/top10"
             icon={BarChart3}
             label="Top 10"
@@ -709,4 +694,3 @@ export function SidebarContent({
     </div>
   );
 }
-

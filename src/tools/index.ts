@@ -49,12 +49,6 @@ import {
   topReactionsTool,
 } from "./top-reactions";
 import {
-  PREDICT_REPO_DESCRIPTION,
-  PREDICT_REPO_INPUT_SCHEMA,
-  PREDICT_REPO_PORTAL_PARAMS,
-  predictRepoTool,
-} from "./predict-repo";
-import {
   SUBMIT_IDEA_DESCRIPTION,
   SUBMIT_IDEA_INPUT_SCHEMA,
   SUBMIT_IDEA_PORTAL_PARAMS,
@@ -145,13 +139,6 @@ export const TOOLS: ReadonlyArray<ToolDefinition> = [
     handler: topReactionsTool,
   },
   {
-    name: "predict_repo",
-    description: PREDICT_REPO_DESCRIPTION,
-    portalParams: PREDICT_REPO_PORTAL_PARAMS,
-    inputSchema: PREDICT_REPO_INPUT_SCHEMA,
-    handler: predictRepoTool,
-  },
-  {
     name: "submit_idea",
     description: SUBMIT_IDEA_DESCRIPTION,
     portalParams: SUBMIT_IDEA_PORTAL_PARAMS,
@@ -185,6 +172,5 @@ export { maintainerProfile } from "./maintainer-profile";
 export { listIdeasTool } from "./list-ideas";
 export { getIdeaTool } from "./get-idea";
 export { topReactionsTool } from "./top-reactions";
-export { predictRepoTool } from "./predict-repo";
 export { submitIdeaTool } from "./submit-idea";
 export { reactToTool } from "./react-to";

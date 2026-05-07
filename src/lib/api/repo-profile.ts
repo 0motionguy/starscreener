@@ -26,10 +26,6 @@ import {
   type RelatedRepoItem,
 } from "@/lib/repo-related";
 import {
-  getPredictionForRepo,
-  type PredictionItem,
-} from "@/lib/repo-predictions";
-import {
   getIdeasForRepo,
   type IdeaItem,
 } from "@/lib/repo-ideas";
@@ -129,8 +125,6 @@ export interface CanonicalRepoProfile {
   revenue: CanonicalRepoProfileRevenue;
   funding: RepoFundingEvent[];
   related: RelatedRepoItem[];
-  /** Latest prediction matching the 30d horizon bias; null when no prediction. */
-  prediction: PredictionItem | null;
   /** Ideas targeting this repo; capped at 5, sorted by createdAt desc. */
   ideas: IdeaItem[];
 }
@@ -450,8 +444,17 @@ function synthesizeArxivMentions(
  */
 export async function buildCanonicalRepoProfile(
   fullName: string,
+  /**
+   * Optional override used by the detail-page live-fetch fallback. When the
+   * caller has already synthesized a `Repo` from the GitHub API for an
+   * uncurated repo, pass it here to bypass the derived-store lookup. The
+   * profile assembly still runs against whatever cross-source data is
+   * available — it'll mostly be empty, which the page surfaces with a
+   * "tracking just started" banner.
+   */
+  baseRepoOverride?: Repo,
 ): Promise<CanonicalRepoProfile | null> {
-  const repo = getDerivedRepoByFullName(fullName);
+  const repo = baseRepoOverride ?? getDerivedRepoByFullName(fullName);
   if (!repo) return null;
 
   // Pull fresh repo-profiles + revenue-overlays payloads from the data-store
@@ -500,7 +503,6 @@ export async function buildCanonicalRepoProfile(
   const related = getRelatedReposFor(repo.fullName);
   const productHunt = getLaunchForRepo(repo.fullName);
   const funding = getFundingEventsForRepo(repo.fullName);
-  const prediction = getPredictionForRepo(repo.fullName);
   const ideas = getIdeasForRepo(repo.fullName);
 
   // Revenue trio — verified and trustmrrClaim are mutually exclusive by
@@ -609,7 +611,6 @@ export async function buildCanonicalRepoProfile(
     },
     funding,
     related,
-    prediction,
     ideas,
   };
 }

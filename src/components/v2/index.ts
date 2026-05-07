@@ -10,4 +10,3 @@ export { ConvictionBar } from "./ConvictionBar";
 export { VelocitySpark, VelocitySparkMini } from "./VelocitySpark";
 export { ReactionBar } from "./ReactionBar";
 export { ConfidenceGauge } from "./ConfidenceGauge";
-export { ForecastSparkline } from "./ForecastSparkline";

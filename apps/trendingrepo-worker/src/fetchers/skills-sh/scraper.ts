@@ -250,12 +250,9 @@ export function mergeRowsAcrossViews(
     for (const row of rows) {
       const existing = merged.get(row.source_id);
       if (!existing) {
-        const next = { ...row, agents: [...row.agents] };
-        applyViewRank(next, row);
-        merged.set(row.source_id, next);
+        merged.set(row.source_id, { ...row, agents: [...row.agents] });
         continue;
       }
-      applyViewRank(existing, row);
       const seen = new Set(existing.agents);
       for (const a of row.agents) seen.add(a);
       existing.agents = Array.from(seen);
@@ -265,17 +262,6 @@ export function mergeRowsAcrossViews(
     }
   }
   return Array.from(merged.values());
-}
-
-function applyViewRank(target: SkillRow, row: SkillRow): void {
-  if (!Number.isFinite(row.rank) || row.rank <= 0) return;
-  if (row.view === 'all-time') {
-    target.rankAllTime = target.rankAllTime ?? row.rank;
-  } else if (row.view === 'trending') {
-    target.rank24h = target.rank24h ?? row.rank;
-  } else if (row.view === 'hot') {
-    target.rankHot = target.rankHot ?? row.rank;
-  }
 }
 
 async function runWithConcurrency<T>(

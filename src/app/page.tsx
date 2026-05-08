@@ -52,6 +52,7 @@ import {
   type CategoryFacet,
 } from "@/components/home/LiveTopTable";
 import { CATEGORIES } from "@/lib/constants";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { NewsletterCaptureForm } from "@/components/newsletter/NewsletterCaptureForm";
 import { repoLogoUrl } from "@/lib/logos";
 import type { Repo } from "@/lib/types";
@@ -207,18 +208,17 @@ function ecosystemEntity(
   const raw30 =
     (useRepoFallback ? linked?.starsDelta30d : undefined) ??
     item.installsDelta30d;
-  // Sparkline fallback chain. MCP rows stay aligned with /mcp: no fake charts
-  // when source windows are missing from the current payload.
+  // Sparkline fallback chain (mirrors src/app/mcp/page.tsx):
   //   1. Real series from the linked derived repo
   //   2. Synth from total stars + repo age (linked or bundled metadata)
   //   3. Synth from popularity + installs deltas
   //   4. Last resort: synth from postedAt + signalScore — works for any
-  //      skill item that has a fresh signal score
+  //      MCP/skill item that has a fresh signal score
   let realSparkline: number[] =
     useRepoFallback && linked?.sparklineData && linked.sparklineData.length > 1
       ? linked.sparklineData
       : emptySparkline();
-  if (kind === "skill" && useRepoFallback && realSparkline.length < 2) {
+  if (useRepoFallback && realSparkline.length < 2) {
     const meta = lookupKey ? getRepoMetadata(lookupKey) : null;
     const repoStars = linked?.stars ?? meta?.stars ?? 0;
     const repoCreatedAt = linked?.createdAt ?? meta?.createdAt ?? null;
@@ -226,12 +226,7 @@ function ecosystemEntity(
       realSparkline = synthesizeRecentRepoSparkline(repoStars, repoCreatedAt);
     }
   }
-  if (
-    kind === "skill" &&
-    useRepoFallback &&
-    realSparkline.length < 2 &&
-    (item.popularity ?? 0) > 0
-  ) {
+  if (useRepoFallback && realSparkline.length < 2 && (item.popularity ?? 0) > 0) {
     const popD24 = item.mcp?.installs24h ?? item.installsDelta1d ?? 0;
     const popD7 = item.mcp?.installs7d ?? item.installsDelta7d ?? 0;
     const popD30 = item.mcp?.installs30d ?? item.installsDelta30d ?? 0;
@@ -245,7 +240,6 @@ function ecosystemEntity(
     }
   }
   if (
-    kind === "skill" &&
     useRepoFallback &&
     realSparkline.length < 2 &&
     (item.signalScore ?? 0) > 0 &&
@@ -334,6 +328,12 @@ function topCategoryFallback(
   const wanted = new Set(categoryIds);
   const filtered = repos.filter((repo) => wanted.has(repo.categoryId));
   return topByDelta(filtered.length > 0 ? filtered : repos, limit);
+}
+
+function formatPct(delta: number, base: number): string | null {
+  const pct = percentDelta(delta, base);
+  if (pct === null) return null;
+  return `${pct >= 0 ? "+" : ""}${pct}%`;
 }
 
 // Mini sparkline: backed by ECharts canvas via the shared EChartSparkline

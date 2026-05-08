@@ -52,7 +52,7 @@ export interface SkillRow {
 
 interface SkillsTopTableProps {
   rows: SkillRow[];
-  /** Default sort preserves server-side trending order. */
+  /** Default sort = absolute stars (delta-based defaults removed in AGN-536). */
   defaultSortKey?: SortKey;
 }
 
@@ -95,11 +95,7 @@ function sparkEnd(
   return { x, y };
 }
 
-function sparkGradientId(rowId: string, index: number): string {
-  const stable = rowId.replace(/[^a-zA-Z0-9_-]/g, "-").slice(0, 72);
-  return `sks-${stable || "row"}-${index}`;
-}
-
+let __sgrad = 0;
 
 function getSortValue(row: SkillRow, key: SortKey): number {
   switch (key) {
@@ -109,8 +105,7 @@ function getSortValue(row: SkillRow, key: SortKey): number {
       return row.cited;
     case "rank":
     default:
-      // Stable sort preserves server-provided order.
-      return 0;
+      return row.stars;
   }
 }
 
@@ -240,7 +235,7 @@ const PAGE_SIZE = 50;
 
 export function SkillsTopTable({
   rows,
-  defaultSortKey = "rank",
+  defaultSortKey = "stars",
 }: SkillsTopTableProps) {
   const [sortKey, setSortKey] = useState<SortKey>(defaultSortKey);
   const [sortDir, setSortDir] = useState<SortDir>("desc");
@@ -271,18 +266,16 @@ export function SkillsTopTable({
     }),
     [rows],
   );
-  const showCited = counts.cited > 0;
-  const activeFilter = showCited ? filter : "all";
 
   const sorted = useMemo(() => {
     const filtered = rows.filter((r) => {
-      if (activeFilter === "cited") return r.cited > 0;
+      if (filter === "cited") return r.cited > 0;
       return true;
     });
     return [...filtered].sort((a, b) =>
       compareNumeric(getSortValue(a, sortKey), getSortValue(b, sortKey), sortDir),
     );
-  }, [rows, sortKey, sortDir, activeFilter]);
+  }, [rows, sortKey, sortDir, filter]);
 
   const pageCount = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
   const safePage = Math.min(page, pageCount - 1);
@@ -297,17 +290,15 @@ export function SkillsTopTable({
     <div className="live-top">
       <div className="live-top-filters" role="toolbar" aria-label="Filter skills">
         {(
-          showCited
-            ? ([
-                ["all", "All", counts.all],
-                ["cited", "Cited", counts.cited],
-              ] as const)
-            : ([["all", "All", counts.all]] as const)
+          [
+            ["all", "All", counts.all],
+            ["cited", "Cited", counts.cited],
+          ] as const
         ).map(([k, label, ct]) => (
           <button
             key={k}
             type="button"
-            className={`fchip ${activeFilter === k ? "on" : ""}`}
+            className={`fchip ${filter === k ? "on" : ""}`}
             onClick={() => handleFilter(k)}
           >
             {label} <span className="ct">{ct}</span>
@@ -316,7 +307,7 @@ export function SkillsTopTable({
         <span className="live-top-spacer" />
         <span className="live-top-meta">
           showing <b>{rangeStart}-{rangeEnd}</b> / {sorted.length}
-          <span className="live-pip">ranked</span>
+          <span className="live-pip">live</span>
         </span>
       </div>
 
@@ -334,21 +325,18 @@ export function SkillsTopTable({
                 onClick={handleSort}
               />
               <th className="ch">Chart</th>
-              {showCited ? (
-                <SortHeader
-                  label="Cited"
-                  sortKey="cited"
-                  active={sortKey === "cited"}
-                  dir={sortDir}
-                  onClick={handleSort}
-                />
-              ) : null}
+              <SortHeader
+                label="Cited"
+                sortKey="cited"
+                active={sortKey === "cited"}
+                dir={sortDir}
+                onClick={handleSort}
+              />
               <th className="actions-h" aria-label="Actions" />
             </tr>
           </thead>
           <tbody>
             {visible.map((row, idx) => {
-              const absoluteRank = safePage * PAGE_SIZE + idx + 1;
               const stroke =
                 (row.starsDelta24h ?? 0) < 0
                   ? "var(--sig-red)"
@@ -357,25 +345,25 @@ export function SkillsTopTable({
               const d = sparkPath(row.sparklineData, 72, 24);
               const end = sparkEnd(row.sparklineData, 72, 24);
               const areaPath = `${d} L71,23 L1,23 Z`;
-              const gid = sparkGradientId(row.id, idx);
+              const gid = `sks-${(__sgrad = (__sgrad + 1) % 1_000_000)}`;
               const rankCls =
-                absoluteRank === 1
+                idx === 0
                   ? "rk-1"
-                  : absoluteRank === 2
+                  : idx === 1
                     ? "rk-2"
-                    : absoluteRank === 3
+                    : idx === 2
                       ? "rk-3"
                       : "";
               return (
                 <tr key={row.id} className="live-row">
                   <td className={`rk-cell ${rankCls}`}>
-                    {absoluteRank <= 3 ? (
+                    {idx < 3 ? (
                       <span className="crown" aria-hidden>
                         <RankStarMark />
                       </span>
                     ) : null}
                     <span className="rk-n">
-                      #{String(absoluteRank).padStart(2, "0")}
+                      #{String(idx + 1).padStart(2, "0")}
                     </span>
                   </td>
                   <td>
@@ -449,11 +437,9 @@ export function SkillsTopTable({
                       <span className="muted">NO SERIES</span>
                     )}
                   </td>
-                  {showCited ? (
-                    <td className="num">
-                      {row.cited > 0 ? formatCompact(row.cited) : "—"}
-                    </td>
-                  ) : null}
+                  <td className="num">
+                    {row.cited > 0 ? formatCompact(row.cited) : "—"}
+                  </td>
                   <ActionCell
                     trackingId={row.trackingId}
                     name={row.title}
@@ -464,7 +450,7 @@ export function SkillsTopTable({
             })}
             {visible.length === 0 ? (
               <tr>
-                <td colSpan={showCited ? 6 : 5} className="live-empty">
+                <td colSpan={6} className="live-empty">
                   No skills match this filter.
                 </td>
               </tr>

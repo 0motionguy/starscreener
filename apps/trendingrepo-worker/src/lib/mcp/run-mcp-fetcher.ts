@@ -1,6 +1,5 @@
 import { upsertAsset, writeMetric } from '../db.js';
 import { publishLeaderboard } from '../publish.js';
-import { loadEnv } from '../env.js';
 import { detectVendor } from './vendor-detect.js';
 import { resolveLogo } from './logo-resolver.js';
 import { mergeAndUpsert } from './merger.js';
@@ -51,11 +50,11 @@ export async function runMcpFetcher(opts: RunMcpFetcherOpts): Promise<RunResult>
     return finish(fetcherName, startedAt, itemsSeen, itemsUpserted, metricsWritten, false, errors);
   }
 
-  const concurrency = positiveInt(loadEnv().MCP_PROCESS_CONCURRENCY, 6);
-  const results = await mapWithConcurrency(normalized, concurrency, async (n) => {
+  for (const n of normalized) {
     try {
       const vendor = detectVendor(n);
       const merge = await mergeAndUpsert(ctx.db, n, vendor);
+      itemsUpserted += 1;
 
       const logo = resolveLogo(vendor.vendor_slug);
       if (logo) {
@@ -86,24 +85,14 @@ export async function runMcpFetcher(opts: RunMcpFetcherOpts): Promise<RunResult>
         ...(n.github_stars !== null ? { stars_total: n.github_stars } : {}),
         raw: { source: n.source, popularity_signal: n.popularity_signal },
       });
-      return { itemsUpserted: 1, metricsWritten: 1, errors: [] as RunResult['errors'] };
+      metricsWritten += 1;
     } catch (err) {
-      return {
-        itemsUpserted: 0,
-        metricsWritten: 0,
-        errors: [{
-          stage: 'process' as const,
-          message: (err as Error).message,
-          itemSourceId: n.source_id,
-        }],
-      };
+      errors.push({
+        stage: 'process',
+        message: (err as Error).message,
+        itemSourceId: n.source_id,
+      });
     }
-  });
-
-  for (const r of results) {
-    itemsUpserted += r.itemsUpserted;
-    metricsWritten += r.metricsWritten;
-    errors.push(...r.errors);
   }
 
   // AUDIT-2026-05-04 followup: surface per-item upsert failures so a
@@ -149,36 +138,6 @@ export async function runMcpFetcher(opts: RunMcpFetcherOpts): Promise<RunResult>
   );
 
   return finish(fetcherName, startedAt, itemsSeen, itemsUpserted, metricsWritten, redisPublished, errors);
-}
-
-async function mapWithConcurrency<T, R>(
-  items: ReadonlyArray<T>,
-  concurrency: number,
-  task: (item: T) => Promise<R>,
-): Promise<R[]> {
-  const out: R[] = new Array(items.length);
-  let cursor = 0;
-  const workers = Array.from(
-    { length: Math.min(concurrency, Math.max(1, items.length)) },
-    async () => {
-      while (cursor < items.length) {
-        const index = cursor;
-        cursor += 1;
-        const item = items[index];
-        if (item === undefined) continue;
-        out[index] = await task(item);
-      }
-    },
-  );
-  await Promise.all(workers);
-  return out;
-}
-
-function positiveInt(raw: string | undefined, fallback: number): number {
-  if (!raw) return fallback;
-  const parsed = Number.parseInt(raw, 10);
-  if (!Number.isFinite(parsed) || parsed <= 0) return fallback;
-  return Math.min(parsed, 16);
 }
 
 function finish(

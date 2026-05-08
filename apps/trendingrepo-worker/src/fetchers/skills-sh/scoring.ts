@@ -64,8 +64,8 @@ export interface ScoredSkill extends SkillRow {
 /** Convenience: score a SkillRow given a maxRank computed across the batch. */
 export function scoreRow(row: SkillRow, maxRank: number, lastPushed: Date | null): ScoredSkill {
   const installs = row.installs ?? 0;
-  const rankAllTime = row.rankAllTime ?? (row.view === 'all-time' ? row.rank : null);
-  const rank24h = row.rank24h ?? (row.view === 'trending' ? row.rank : null);
+  const rankAllTime = row.view === 'all-time' ? row.rank : null;
+  const rank24h = row.view === 'trending' ? row.rank : null;
   const trending_score = compositeScore({
     installs,
     agents: row.agents,

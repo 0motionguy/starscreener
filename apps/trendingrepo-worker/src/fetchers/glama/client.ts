@@ -3,9 +3,8 @@ import type { HttpClient } from '../../lib/types.js';
 import type { McpServerNormalized, SecurityGrade } from '../../lib/mcp/types.js';
 
 const BASE = 'https://glama.ai/api/mcp/v1';
-const DEFAULT_PAGE_LIMIT = 100;
-const DEFAULT_MAX_PAGES = 12;
-const DEFAULT_BUDGET_MS = 180_000;
+const PAGE_LIMIT = 100;
+const MAX_PAGES = 50;
 
 // Glama exposes a server-listing endpoint (`/servers`) that returns the
 // metadata captured below, plus a separate ranking endpoint that surfaces
@@ -68,12 +67,6 @@ export interface GlamaMetrics {
   popularity_30d?: number;
 }
 
-export interface GlamaFetchOptions {
-  pageLimit?: number;
-  maxPages?: number;
-  budgetMs?: number;
-}
-
 interface ListResponse {
   servers?: GlamaServerEntry[];
   pageInfo?: { endCursor?: string | null; hasNextPage?: boolean };
@@ -83,51 +76,27 @@ export async function fetchAllGlama(
   http: HttpClient,
   log: Logger,
   apiKey?: string,
-  opts: GlamaFetchOptions = {},
 ): Promise<McpServerNormalized[]> {
   const out: McpServerNormalized[] = [];
   const headers: Record<string, string> = {};
   if (apiKey) headers.authorization = `Bearer ${apiKey}`;
-  const pageLimit = clampInt(opts.pageLimit, 1, 100, DEFAULT_PAGE_LIMIT);
-  const maxPages = clampInt(opts.maxPages, 1, 50, DEFAULT_MAX_PAGES);
-  const budgetMs = clampInt(opts.budgetMs, 30_000, 600_000, DEFAULT_BUDGET_MS);
-  const started = Date.now();
 
   let cursor: string | null = null;
-  for (let page = 0; page < maxPages; page += 1) {
-    if (Date.now() - started > budgetMs) {
-      log.warn({ count: out.length, page, budgetMs }, 'glama fetch budget exhausted');
-      break;
-    }
+  for (let page = 0; page < MAX_PAGES; page += 1) {
     const url: string =
-      `${BASE}/servers?first=${pageLimit}` + (cursor ? `&after=${encodeURIComponent(cursor)}` : '');
-    const { data }: { data: ListResponse } = await http.json<ListResponse>(url, {
-      headers,
-      timeoutMs: 12_000,
-      maxRetries: 1,
-    });
+      `${BASE}/servers?first=${PAGE_LIMIT}` + (cursor ? `&after=${encodeURIComponent(cursor)}` : '');
+    const { data }: { data: ListResponse } = await http.json<ListResponse>(url, { headers, timeoutMs: 20_000 });
     const servers = data.servers ?? [];
     for (const s of servers) {
       const norm = normalizeGlama(s);
       if (norm) out.push(norm);
     }
-    log.info({ page: page + 1, rows: servers.length, total: out.length }, 'glama page fetched');
     if (!data.pageInfo?.hasNextPage) break;
     cursor = data.pageInfo?.endCursor ?? null;
     if (!cursor || servers.length === 0) break;
   }
   log.debug({ count: out.length }, 'glama fetch complete');
   return out;
-}
-
-function clampInt(
-  raw: number | undefined,
-  min: number,
-  max: number,
-  fallback: number,
-): number {
-  if (!Number.isFinite(raw)) return fallback;
-  return Math.max(min, Math.min(max, Math.floor(raw as number)));
 }
 
 export function normalizeGlama(s: GlamaServerEntry): McpServerNormalized | null {

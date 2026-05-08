@@ -10,9 +10,9 @@
 
 import Link from "next/link";
 import type { JSX } from "react";
-import { EChart } from "@/components/charts/EChart";
 import { ChartStat, ChartStats } from "@/components/ui/ChartShell";
-import { CHART_TOKENS } from "@/lib/charts/theme";
+import { StarHistoryChart } from "@/components/repo-detail/StarHistoryChart";
+import { CHART_TOKENS } from "@/lib/charts/theme/tokens";
 import {
   getStarActivity,
   type StarActivityPoint,
@@ -162,9 +162,8 @@ export function StarHistoryBlock({ repo }: StarHistoryBlockProps): JSX.Element {
       </header>
       <div className="shb-chart">
         {option ? (
-          <EChart
+          <StarHistoryChart
             option={option}
-            height={280}
             ariaLabel={`${repo.fullName} cumulative stars over the last ${WINDOW_DAYS} days`}
           />
         ) : (

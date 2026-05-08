@@ -116,6 +116,22 @@ describe('scoreRow', () => {
     expect(out.velocity).toBeNull();
   });
 
+  it('uses preserved per-view ranks from merged skills.sh rows', () => {
+    const out = scoreRow(
+      {
+        ...baseRow,
+        rank: 50,
+        rankAllTime: 50,
+        rank24h: 20,
+      },
+      100,
+      null,
+    );
+
+    expect(out.velocity).toBeCloseTo(0.3, 6);
+    expect(out.trending_score).toBeGreaterThan(scoreRow(baseRow, 100, null).trending_score);
+  });
+
   it('produces a finite score and propagates the base row fields', () => {
     const out = scoreRow(baseRow, 100, null);
     expect(Number.isFinite(out.trending_score)).toBe(true);

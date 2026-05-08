@@ -12,7 +12,7 @@ import type {
 } from "./pipeline/scoring/domain/types";
 
 export type EcosystemLeaderboardKind = "skill" | "mcp";
-export type SkillBoardId = "skills-sh" | "github";
+export type SkillBoardId = "skills-sh" | "github" | "skillsmp" | "lobehub" | "smithery";
 
 /**
  * Rollback flag for the new scorer signals shipped in this wave.
@@ -93,6 +93,10 @@ export interface McpDisplayFields {
   visitors4w: number | null;
   /** Lifetime use / activation counter — smithery / glama. */
   useCount: number | null;
+  /** Source quality score when a registry publishes one, scaled 0..100. */
+  qualityScore: number | null;
+  /** Source security grade when available. */
+  securityGrade: "A" | "B" | "C" | "F" | null;
   /**
    * Per-registry source tags from the merger's `raw.sources` array. Each
    * entry is one of "official" (Anthropic), "smithery", "glama",
@@ -111,6 +115,12 @@ export interface EcosystemLeaderboardItem {
   url: string;
   author: string | null;
   rank: number;
+  /** Source-native rank before any cross-source re-ranking. Lower is better. */
+  sourceTrendRank?: number | null;
+  /** Source-native trend score when the upstream feed publishes one. */
+  sourceTrendScore?: number | null;
+  /** Source-native velocity when the upstream feed publishes one. */
+  sourceVelocity?: number | null;
   description: string | null;
   topic: string;
   tags: string[];
@@ -670,7 +680,7 @@ function adaptExtraSkillRow(raw: unknown): Record<string, unknown> | null {
 function coerceExtraSkillsBoard(
   result: DataReadResult<unknown>,
   key: string,
-  label: string,
+  label: SkillBoardId,
   sideChannels: SkillSideChannels,
 ): EcosystemBoard {
   const obj = asRecord(result.data);
@@ -678,12 +688,12 @@ function coerceExtraSkillsBoard(
   const rows = Array.isArray(obj?.items) ? obj.items : [];
   const pairs = rows
     .map((row, idx) =>
-      coerceGithubSkillItem(adaptExtraSkillRow(row) ?? row, idx + 1),
+      coerceGithubSkillItem(adaptExtraSkillRow(row) ?? row, idx + 1, label, label),
     )
     .filter((p): p is { item: EcosystemLeaderboardItem; raw: Record<string, unknown> } => p !== null);
   const items = applySkillMomentum(pairs, sideChannels);
   return {
-    id: "github",
+    id: label,
     kind: "skill",
     label,
     key,
@@ -763,8 +773,12 @@ export async function getSkillsSignalData(): Promise<SkillsSignalData> {
     .sort((a, b) => b.signalScore - a.signalScore)
     .map((item, idx) => ({ ...item, rank: idx + 1 }));
 
+  const skillsmpSeen = Math.max(
+    skillsmp.items.length,
+    asNumber(skillsmp.meta?.total) ?? 0,
+  );
   const totalSeen =
-    (asNumber(skillsmp.meta?.total) ?? skillsmp.items.length) +
+    skillsmpSeen +
     skillsSh.items.length +
     github.items.length +
     lobehub.items.length +
@@ -1026,6 +1040,9 @@ function coerceSkillsShItem(
       url,
       author: linkedRepo,
       rank: asNumber(item.rank) ?? fallbackRank,
+      sourceTrendRank: asNumber(item.rank24h) ?? asNumber(item.rank) ?? fallbackRank,
+      sourceTrendScore: asNumber(item.trending_score),
+      sourceVelocity: asNumber(item.velocity),
       description: asString(item.description),
       topic: view ? view.replace("-", " ") : "skills.sh",
       tags,
@@ -1055,6 +1072,8 @@ function coerceSkillsShItem(
 function coerceGithubSkillItem(
   raw: unknown,
   fallbackRank: number,
+  sourceLabel = "GitHub topics",
+  topic = "GitHub",
 ): { item: EcosystemLeaderboardItem; raw: Record<string, unknown> } | null {
   const item = asRecord(raw);
   if (!item) return null;
@@ -1077,8 +1096,9 @@ function coerceGithubSkillItem(
       url,
       author: asString(item.author) ?? fullName.split("/")[0] ?? null,
       rank: asNumber(item.rank) ?? fallbackRank,
+      sourceTrendRank: asNumber(item.rank) ?? fallbackRank,
       description: asString(item.description),
-      topic: "GitHub",
+      topic,
       tags: asStringArray(item.source_topics).slice(0, 4),
       agents: [],
       linkedRepo: fullName,
@@ -1087,7 +1107,7 @@ function coerceGithubSkillItem(
       // Placeholder — overwritten by applySkillMomentum below.
       signalScore: 0,
       postedAt: asString(item.pushed_at) ?? asString(item.created_at),
-      sourceLabel: "GitHub topics",
+      sourceLabel,
       vendor: null,
       // Always derivable here — `fullName` is always "owner/repo" for the
       // GitHub topic feed, so the GitHub owner avatar is the right logo.
@@ -1339,15 +1359,26 @@ function buildMcpDisplayFields(args: {
     }
   }
 
-  // Per-registry source tags. The merger writes `raw.sources` as an array
-  // like ["official", "smithery", "glama"]. Some publish payloads carry it
-  // at the top level; older snapshots don't, in which case we leave it []
-  // and the UI falls back to the `crossSourceCount` digit + `verified` bit.
-  const rawSources = Array.isArray(raw.sources)
+  const payloadRaw = asRecord(raw.raw);
+
+  // Per-registry source tags. The worker publishes them under top-level
+  // `raw.sources` on the leaderboard item. Older/internal shapes may carry
+  // them at the current object level, so check both before falling back.
+  const sourceList = Array.isArray(raw.sources)
     ? (raw.sources as unknown[])
-        .map((s) => asString(s)?.toLowerCase())
-        .filter((s): s is string => Boolean(s))
-    : [];
+    : Array.isArray(payloadRaw?.sources)
+      ? (payloadRaw.sources as unknown[])
+      : [];
+  const rawSources = sourceList
+    .map((s) => asString(s)?.toLowerCase())
+    .filter((s): s is string => Boolean(s));
+
+  const rawGrade =
+    asString(raw.security_grade) ?? asString(payloadRaw?.security_grade);
+  const securityGrade =
+    rawGrade === "A" || rawGrade === "B" || rawGrade === "C" || rawGrade === "F"
+      ? rawGrade
+      : null;
 
   // Q3 escalation: surface absolute snapshots so the Weekly DL cell can
   // gracefully fall back when no per-registry 7d delta is available.
@@ -1412,6 +1443,9 @@ function buildMcpDisplayFields(args: {
     installs30d,
     visitors4w,
     useCount,
+    qualityScore:
+      asNumber(raw.quality_score) ?? asNumber(payloadRaw?.quality_score) ?? null,
+    securityGrade,
     sources: rawSources,
   };
 }
@@ -1481,10 +1515,26 @@ function applySkillMomentum(
       asString(p.raw.created_at) ?? asString(p.raw.createdAt) ?? null;
     const lastRefreshedAt = asString(p.raw.lastRefreshedAt) ?? null;
     const momentum = r ? Math.round(r.momentum) : 0;
+    const sourceTrendRank =
+      asNumber(p.raw.rank24h) ??
+      asNumber(p.raw.rank) ??
+      p.item.sourceTrendRank ??
+      p.item.rank ??
+      null;
+    const sourceTrendScore =
+      asNumber(p.raw.trending_score) ??
+      asNumber(p.raw.score) ??
+      p.item.sourceTrendScore ??
+      null;
+    const sourceVelocity =
+      asNumber(p.raw.velocity) ?? p.item.sourceVelocity ?? null;
     return {
       ...p.item,
       signalScore: Math.max(1, Math.min(100, momentum)),
       rank: p.item.rank || i + 1,
+      sourceTrendRank,
+      sourceTrendScore,
+      sourceVelocity,
       forks: rawForks,
       forks7dAgo: rawForks7dAgo,
       forkVelocity7d,

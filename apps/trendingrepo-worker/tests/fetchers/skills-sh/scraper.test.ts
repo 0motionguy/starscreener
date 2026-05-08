@@ -136,6 +136,24 @@ describe('mergeRowsAcrossViews', () => {
     const merged = mergeRowsAcrossViews({ 'all-time': [r1], trending: [r2] });
     expect(merged[0]?.installs).toBe(4242);
   });
+
+  it('preserves per-view ranks for velocity scoring', () => {
+    const allTime = { ...row('all-time', 'a', 'b', 'c', []), rank: 50 };
+    const trending = { ...row('trending', 'a', 'b', 'c', []), rank: 20 };
+    const hot = { ...row('hot', 'a', 'b', 'c', []), rank: 9 };
+
+    const merged = mergeRowsAcrossViews({
+      'all-time': [allTime],
+      trending: [trending],
+      hot: [hot],
+    });
+
+    expect(merged).toHaveLength(1);
+    expect(merged[0]?.view).toBe('all-time');
+    expect(merged[0]?.rankAllTime).toBe(50);
+    expect(merged[0]?.rank24h).toBe(20);
+    expect(merged[0]?.rankHot).toBe(9);
+  });
 });
 
 describe('scrapeSkillsSh', () => {

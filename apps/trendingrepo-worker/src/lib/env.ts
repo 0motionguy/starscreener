@@ -4,6 +4,8 @@ const envSchema = z
   .object({
     SUPABASE_URL: z.string().url().optional(),
     SUPABASE_SERVICE_ROLE: z.string().min(20).optional(),
+    SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
+    SUPABASE_SECRET_KEY: z.string().optional(),
 
     REDIS_URL: z.string().url().optional(),
     UPSTASH_REDIS_REST_URL: z.string().url().optional(),
@@ -48,6 +50,10 @@ const envSchema = z
     NPM_DOWNLOAD_END_DATE: z.string().optional(),
     PROFILE_ENRICH_LIMIT: z.string().optional(),
     REPO_METADATA_BATCH_SIZE: z.string().optional(),
+    GLAMA_MAX_PAGES: z.string().optional(),
+    GLAMA_PAGE_LIMIT: z.string().optional(),
+    GLAMA_BUDGET_MS: z.string().optional(),
+    MCP_PROCESS_CONCURRENCY: z.string().optional(),
 
     // Tier 2 producer config (manual-repos + revenue-manual-matches read
     // operator-curated JSON from raw.githubusercontent — these override the
@@ -98,6 +104,10 @@ export function loadEnv(): WorkerEnv {
   for (const [k, v] of Object.entries(process.env)) {
     cleaned[k] = v === '' ? undefined : v;
   }
+  cleaned.SUPABASE_SERVICE_ROLE =
+    cleaned.SUPABASE_SERVICE_ROLE ??
+    cleaned.SUPABASE_SERVICE_ROLE_KEY ??
+    cleaned.SUPABASE_SECRET_KEY;
   const parsed = envSchema.safeParse(cleaned);
   if (!parsed.success) {
     const issues = parsed.error.issues.map((i) => `  - ${i.path.join('.')}: ${i.message}`).join('\n');

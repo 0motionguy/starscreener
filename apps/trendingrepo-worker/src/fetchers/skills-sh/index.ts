@@ -1,11 +1,8 @@
 // skills.sh fetcher entry. Single registry registration that internally
-// dispatches between three views (All Time / Trending 24h / Hot 4h) based
-// on the current UTC hour. See plan: ~/.claude/plans/skills-sh-fetcher-plan.md
-//
-//   schedule        '15 */2 * * *'   - every 2h at :15 UTC
-//   hour 04         All Time + Trending + Hot - daily anchor + 4h window
-//   hours 02,06,10,14,18,22  Trending + Hot
-//   hours 00,08,12,16,20     Hot only
+// fetches all three views (All Time / Trending 24h / Hot 4h) every run.
+// The old staggered cadence made the published key shrink to a hot-only
+// subset during some cron ticks, which broke /skills totals and source-rank
+// velocity. A three-view direct scrape is cheap and keeps the payload stable.
 //
 // Publishes the union-of-views to ss:data:v1:trending-skill-sh. The
 // already-shipped claude-skills fetcher writes to ss:data:v1:trending-skill
@@ -51,13 +48,39 @@ const fetcher: Fetcher = {
       );
     }
 
-    const { rows, perView, errors } = await scrapeSkillsSh(
+    let { rows, perView, errors } = await scrapeSkillsSh(
       { firecrawl, http: ctx.http, log: ctx.log, fetchedAt: startedAt },
       // detailDepth is intentionally 0 here - the SKILL.md enrichment pass
       // is a Phase 3 concern that needs GH_TOKEN_POOL throttling. Keep the
       // primary scrape lean and let a follow-up cron do enrichment.
-      { detailDepth: 0 },
+      { detailDepth: 0, views: ['all-time', 'trending', 'hot'] },
     );
+
+    if (rows.length === 0) {
+      ctx.log.warn(
+        { perView, errors: errors.length },
+        'skills-sh selected views returned zero rows - retrying full sweep before publish',
+      );
+      const retry = await scrapeSkillsSh(
+        { firecrawl, http: ctx.http, log: ctx.log, fetchedAt: startedAt },
+        { detailDepth: 0, views: ['all-time', 'trending', 'hot'] },
+      );
+      rows = retry.rows;
+      perView = retry.perView;
+      errors = [...errors, ...retry.errors];
+    }
+
+    if (rows.length === 0) {
+      const emptyError = {
+        stage: 'scrape-empty',
+        message: 'skills.sh returned zero rows after full sweep; preserving previous Redis payload',
+      };
+      ctx.log.error(
+        { perView, errors: errors.length },
+        emptyError.message,
+      );
+      return done(startedAt, 0, false, [...errors, emptyError]);
+    }
 
     const maxRank = Math.max(1, ...rows.map((r) => r.rank));
     const scored: SkillScored[] = rows

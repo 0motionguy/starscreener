@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-08T08:00:01.688Z",
+  "fetchedAt": "2026-05-08T09:56:37.820Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -572,24 +572,24 @@
       ]
     },
     "V4bel/dirtyfrag": {
-      "count7d": 17,
-      "likesSum7d": 14,
-      "repostsSum7d": 3,
-      "repliesSum7d": 6,
+      "count7d": 5,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:pwgvh5ffgbi44ovj25koc45y/app.bsky.feed.post/3mlcuxjxcak2i",
-        "cid": "bafyreidbzkxj7rhcknwbypcsiynah52yydjw3apd5viarirl7gmmikp3ye",
-        "bskyUrl": "https://bsky.app/profile/keevitaja.com/post/3mlcuxjxcak2i",
-        "text": "täitsa puccis. see exploit toimibki 😱 proovisin manjaro peal. github.com/V4bel/dirtyf...",
+        "uri": "at://did:plc:5ldyzked4fj2y2qpusrqs62r/app.bsky.feed.post/3mldhefir3wi2",
+        "cid": "bafyreifbz546y4tlxlm2ba7xhrtmqkburnzqhcplec2ioujh7yrsvu3irq",
+        "bskyUrl": "https://bsky.app/profile/kravietz.agora.echelon.pl.ap.brid.gy/post/3mldhefir3wi2",
+        "text": "Any wonderful Friday starts from a #Linux kernel zero-day #exploit published 😍 https://github.com/V4bel/dirtyfrag The bad news is that there’s no kernel patches from upstream because the exploit has been released outside of responsible disclosure. Another bad news is that it _does_ work on […]",
         "author": {
-          "handle": "keevitaja.com",
-          "displayName": "Tanel Tammik"
+          "handle": "kravietz.agora.echelon.pl.ap.brid.gy",
+          "displayName": "kravietz 🦇"
         },
-        "likeCount": 6,
-        "repostCount": 1,
-        "replyCount": 3,
-        "createdAt": "2026-05-08T04:21:27.072Z",
-        "hoursSincePosted": 3.64
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T09:34:29.903Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -1253,6 +1253,147 @@
           ]
         },
         {
+          "uri": "at://did:plc:5ldyzked4fj2y2qpusrqs62r/app.bsky.feed.post/3mldhefir3wi2",
+          "cid": "bafyreifbz546y4tlxlm2ba7xhrtmqkburnzqhcplec2ioujh7yrsvu3irq",
+          "bskyUrl": "https://bsky.app/profile/kravietz.agora.echelon.pl.ap.brid.gy/post/3mldhefir3wi2",
+          "text": "Any wonderful Friday starts from a #Linux kernel zero-day #exploit published 😍 https://github.com/V4bel/dirtyfrag The bad news is that there’s no kernel patches from upstream because the exploit has been released outside of responsible disclosure. Another bad news is that it _does_ work on […]",
+          "author": {
+            "handle": "kravietz.agora.echelon.pl.ap.brid.gy",
+            "displayName": "kravietz 🦇"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T09:34:29.903Z",
+          "createdUtc": 1778232869,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:p7wowj4icwdwsp7awzr6x252/app.bsky.feed.post/3mldexja7rs2a",
+          "cid": "bafyreiev3tkyu2clt7bs5eh7wge3icw7yguapgw5bf5wlyvl34x373vaee",
+          "bskyUrl": "https://bsky.app/profile/sadservers.com/post/3mldexja7rs2a",
+          "text": "Dirty Frag: another 0-day Linux vulnerability of the privilege escalation type (any user becoming root). github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "sadservers.com",
+            "displayName": "SadServers"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T09:07:46.188Z",
+          "createdUtc": 1778231266,
+          "ageHours": 0.81,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:zwoydxjl7xcnbno5icalkec4/app.bsky.feed.post/3mldeoye3322z",
+          "cid": "bafyreieb7eelmwv35rbwwfeskn3pnejytqabyfcnh6pgmh734qt75brcpi",
+          "bskyUrl": "https://bsky.app/profile/charlesn.bsky.social/post/3mldeoye3322z",
+          "text": "C'est reparti: github.com/V4bel/dirtyf... Un jour férié, avec 3 modules à désactiver: esp4, esp6 et rxrpc",
+          "author": {
+            "handle": "charlesn.bsky.social",
+            "displayName": "Nicolas Charles"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T09:03:00.052Z",
+          "createdUtc": 1778230980,
+          "ageHours": 0.89,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:gemypy4r3e7ph6gdegwbohah/app.bsky.feed.post/3mldectv42k2d",
+          "cid": "bafyreiah65nxs3mt6ciu37z5yavuzhwicaddzmbv46uaei4cwsjixbumie",
+          "bskyUrl": "https://bsky.app/profile/mynameisv.bsky.social/post/3mldectv42k2d",
+          "text": "Vendredi férié et vous voulez passer un bon week-end ? Ne lisez pas la suite 😅. 💥 DirtyFrag 💥 Élévation locale de privilège Linux, basé sur la même classe de vuln que CopyFail. ❌ Pas de correctif (mais un contournement) ❌ Pas de CVE PoC : github.com/V4bel/dirtyf... Et bon week-end hein 😢",
+          "author": {
+            "handle": "mynameisv.bsky.social",
+            "displayName": "Mynameisv"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T08:56:12.715Z",
+          "createdUtc": 1778230572,
+          "ageHours": 1.01,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vevngu5t7a2zqvdftysxv26d/app.bsky.feed.post/3mlde4qvzo22y",
+          "cid": "bafyreiejum6lwcz3mzekx75ir6imes4hrt2sdi2mbezok6mwn4k4wmzdiq",
+          "bskyUrl": "https://bsky.app/profile/ytroncal.bsky.social/post/3mlde4qvzo22y",
+          "text": "Dirty Frag: a zero-day universal Linux LPE www.it-connect.fr/dirty-frag-c... github.com/V4bel/dirtyf... lwn.net/Articles/107...",
+          "author": {
+            "handle": "ytroncal.bsky.social",
+            "displayName": "ytroncal"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T08:52:48.273Z",
+          "createdUtc": 1778230368,
+          "ageHours": 1.06,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:fcdesbdnws5644bho3lemkir/app.bsky.feed.post/3mldapzlins27",
           "cid": "bafyreiccmnqdo35byrrsoltmlel7jfl7jccmtbvlucobjmzbgvpfkwjase",
           "bskyUrl": "https://bsky.app/profile/alionka0.bsky.social/post/3mldapzlins27",
@@ -1863,91 +2004,6 @@
           "createdUtc": 1778184436,
           "ageHours": 1.15,
           "trendingScore": 16,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:qiw3b7ssshlymgsln7uvefcc/app.bsky.feed.post/3mlbzllkrr3j2",
-          "cid": "bafyreidih2mbiyispvf7y6lw5mc5tpgrubfpsznqkd4kod3xrdx6hfspt4",
-          "bskyUrl": "https://bsky.app/profile/linux.activitypub.awakari.com.ap.brid.gy/post/3mlbzllkrr3j2",
-          "text": "Dirty Frag: Universal Linux LPE Article URL: https://github.com/V4bel/dirtyfrag/tree/master Comments URL: https://news.ycombinator.com/item?id=48054068 Points: 1 # Comments: 0 Origin | Interest | Match",
-          "author": {
-            "handle": "linux.activitypub.awakari.com.ap.brid.gy",
-            "displayName": "linux"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T19:56:44.000Z",
-          "createdUtc": 1778183804,
-          "ageHours": 1.33,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-question"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:ndtxy6z27wqczj2ighw32elt/app.bsky.feed.post/3mlbygdr7xbu2",
-          "cid": "bafyreick4eewy53n2i4lib7mr7zcvlcb4akekrwby4ldskl4apuyns4myy",
-          "bskyUrl": "https://bsky.app/profile/jianmin.defcon.social.ap.brid.gy/post/3mlbygdr7xbu2",
-          "text": "Another day, another Linux LPE and container escape: https://github.com/V4bel/dirtyfrag",
-          "author": {
-            "handle": "jianmin.defcon.social.ap.brid.gy",
-            "displayName": "Ben"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-07T19:50:42.000Z",
-          "createdUtc": 1778183442,
-          "ageHours": 1.43,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:vtkgfcofnaxnxl6moce4esaj/app.bsky.feed.post/3mlby26hzo6u2",
-          "cid": "bafyreibk3unf3amu6aaxdr5wdng23wqmlusrp3dnmzsiviji3mzx2kofwq",
-          "bskyUrl": "https://bsky.app/profile/jrt.infosec.exchange.ap.brid.gy/post/3mlby26hzo6u2",
-          "text": "Another #Linux LPE: https://github.com/V4bel/dirtyfrag/ #DirtyFrag",
-          "author": {
-            "handle": "jrt.infosec.exchange.ap.brid.gy",
-            "displayName": "JRT"
-          },
-          "likeCount": 0,
-          "repostCount": 2,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T19:43:51.000Z",
-          "createdUtc": 1778183031,
-          "ageHours": 1.54,
-          "trendingScore": 4,
           "content_tags": [
             "has-github-repo"
           ],
@@ -3323,6 +3379,57 @@
           ]
         }
       ]
+    },
+    "openai/openai-agents-python": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mldeyropl32g",
+        "cid": "bafyreiehrtpnhh2ujm2fbakhrofsgb6iv7pfl3qt2nughlkfykbgz4q2ju",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mldeyropl32g",
+        "text": "🟠 OpenAI Agents Python v0.17.0 switches RealtimeAgent defaults to gpt-realtime-2 and tightens sandbox file boundaries OpenAI shipped openai-agents-python v0.17.0 with two workflow-relevant changes: RealtimeAgent... https://github.com/openai/openai-agents-python/releases/tag/v0.17.0 #AI #AgentWyre",
+        "author": {
+          "handle": "agentwyre.ai"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T09:08:27.861074+00:00",
+        "hoursSincePosted": 0.8
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mldeyropl32g",
+          "cid": "bafyreiehrtpnhh2ujm2fbakhrofsgb6iv7pfl3qt2nughlkfykbgz4q2ju",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mldeyropl32g",
+          "text": "🟠 OpenAI Agents Python v0.17.0 switches RealtimeAgent defaults to gpt-realtime-2 and tightens sandbox file boundaries OpenAI shipped openai-agents-python v0.17.0 with two workflow-relevant changes: RealtimeAgent... https://github.com/openai/openai-agents-python/releases/tag/v0.17.0 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T09:08:27.861074+00:00",
+          "createdUtc": 1778231307,
+          "ageHours": 0.8,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent",
+            "is-announcement"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "mentionsByRepoId": {
@@ -3893,24 +4000,24 @@
       ]
     },
     "v4bel--dirtyfrag": {
-      "count7d": 17,
-      "likesSum7d": 14,
-      "repostsSum7d": 3,
-      "repliesSum7d": 6,
+      "count7d": 5,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:pwgvh5ffgbi44ovj25koc45y/app.bsky.feed.post/3mlcuxjxcak2i",
-        "cid": "bafyreidbzkxj7rhcknwbypcsiynah52yydjw3apd5viarirl7gmmikp3ye",
-        "bskyUrl": "https://bsky.app/profile/keevitaja.com/post/3mlcuxjxcak2i",
-        "text": "täitsa puccis. see exploit toimibki 😱 proovisin manjaro peal. github.com/V4bel/dirtyf...",
+        "uri": "at://did:plc:5ldyzked4fj2y2qpusrqs62r/app.bsky.feed.post/3mldhefir3wi2",
+        "cid": "bafyreifbz546y4tlxlm2ba7xhrtmqkburnzqhcplec2ioujh7yrsvu3irq",
+        "bskyUrl": "https://bsky.app/profile/kravietz.agora.echelon.pl.ap.brid.gy/post/3mldhefir3wi2",
+        "text": "Any wonderful Friday starts from a #Linux kernel zero-day #exploit published 😍 https://github.com/V4bel/dirtyfrag The bad news is that there’s no kernel patches from upstream because the exploit has been released outside of responsible disclosure. Another bad news is that it _does_ work on […]",
         "author": {
-          "handle": "keevitaja.com",
-          "displayName": "Tanel Tammik"
+          "handle": "kravietz.agora.echelon.pl.ap.brid.gy",
+          "displayName": "kravietz 🦇"
         },
-        "likeCount": 6,
-        "repostCount": 1,
-        "replyCount": 3,
-        "createdAt": "2026-05-08T04:21:27.072Z",
-        "hoursSincePosted": 3.64
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T09:34:29.903Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -4574,6 +4681,147 @@
           ]
         },
         {
+          "uri": "at://did:plc:5ldyzked4fj2y2qpusrqs62r/app.bsky.feed.post/3mldhefir3wi2",
+          "cid": "bafyreifbz546y4tlxlm2ba7xhrtmqkburnzqhcplec2ioujh7yrsvu3irq",
+          "bskyUrl": "https://bsky.app/profile/kravietz.agora.echelon.pl.ap.brid.gy/post/3mldhefir3wi2",
+          "text": "Any wonderful Friday starts from a #Linux kernel zero-day #exploit published 😍 https://github.com/V4bel/dirtyfrag The bad news is that there’s no kernel patches from upstream because the exploit has been released outside of responsible disclosure. Another bad news is that it _does_ work on […]",
+          "author": {
+            "handle": "kravietz.agora.echelon.pl.ap.brid.gy",
+            "displayName": "kravietz 🦇"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T09:34:29.903Z",
+          "createdUtc": 1778232869,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:p7wowj4icwdwsp7awzr6x252/app.bsky.feed.post/3mldexja7rs2a",
+          "cid": "bafyreiev3tkyu2clt7bs5eh7wge3icw7yguapgw5bf5wlyvl34x373vaee",
+          "bskyUrl": "https://bsky.app/profile/sadservers.com/post/3mldexja7rs2a",
+          "text": "Dirty Frag: another 0-day Linux vulnerability of the privilege escalation type (any user becoming root). github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "sadservers.com",
+            "displayName": "SadServers"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T09:07:46.188Z",
+          "createdUtc": 1778231266,
+          "ageHours": 0.81,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:zwoydxjl7xcnbno5icalkec4/app.bsky.feed.post/3mldeoye3322z",
+          "cid": "bafyreieb7eelmwv35rbwwfeskn3pnejytqabyfcnh6pgmh734qt75brcpi",
+          "bskyUrl": "https://bsky.app/profile/charlesn.bsky.social/post/3mldeoye3322z",
+          "text": "C'est reparti: github.com/V4bel/dirtyf... Un jour férié, avec 3 modules à désactiver: esp4, esp6 et rxrpc",
+          "author": {
+            "handle": "charlesn.bsky.social",
+            "displayName": "Nicolas Charles"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T09:03:00.052Z",
+          "createdUtc": 1778230980,
+          "ageHours": 0.89,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:gemypy4r3e7ph6gdegwbohah/app.bsky.feed.post/3mldectv42k2d",
+          "cid": "bafyreiah65nxs3mt6ciu37z5yavuzhwicaddzmbv46uaei4cwsjixbumie",
+          "bskyUrl": "https://bsky.app/profile/mynameisv.bsky.social/post/3mldectv42k2d",
+          "text": "Vendredi férié et vous voulez passer un bon week-end ? Ne lisez pas la suite 😅. 💥 DirtyFrag 💥 Élévation locale de privilège Linux, basé sur la même classe de vuln que CopyFail. ❌ Pas de correctif (mais un contournement) ❌ Pas de CVE PoC : github.com/V4bel/dirtyf... Et bon week-end hein 😢",
+          "author": {
+            "handle": "mynameisv.bsky.social",
+            "displayName": "Mynameisv"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T08:56:12.715Z",
+          "createdUtc": 1778230572,
+          "ageHours": 1.01,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vevngu5t7a2zqvdftysxv26d/app.bsky.feed.post/3mlde4qvzo22y",
+          "cid": "bafyreiejum6lwcz3mzekx75ir6imes4hrt2sdi2mbezok6mwn4k4wmzdiq",
+          "bskyUrl": "https://bsky.app/profile/ytroncal.bsky.social/post/3mlde4qvzo22y",
+          "text": "Dirty Frag: a zero-day universal Linux LPE www.it-connect.fr/dirty-frag-c... github.com/V4bel/dirtyf... lwn.net/Articles/107...",
+          "author": {
+            "handle": "ytroncal.bsky.social",
+            "displayName": "ytroncal"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T08:52:48.273Z",
+          "createdUtc": 1778230368,
+          "ageHours": 1.06,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:fcdesbdnws5644bho3lemkir/app.bsky.feed.post/3mldapzlins27",
           "cid": "bafyreiccmnqdo35byrrsoltmlel7jfl7jccmtbvlucobjmzbgvpfkwjase",
           "bskyUrl": "https://bsky.app/profile/alionka0.bsky.social/post/3mldapzlins27",
@@ -5184,91 +5432,6 @@
           "createdUtc": 1778184436,
           "ageHours": 1.15,
           "trendingScore": 16,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:qiw3b7ssshlymgsln7uvefcc/app.bsky.feed.post/3mlbzllkrr3j2",
-          "cid": "bafyreidih2mbiyispvf7y6lw5mc5tpgrubfpsznqkd4kod3xrdx6hfspt4",
-          "bskyUrl": "https://bsky.app/profile/linux.activitypub.awakari.com.ap.brid.gy/post/3mlbzllkrr3j2",
-          "text": "Dirty Frag: Universal Linux LPE Article URL: https://github.com/V4bel/dirtyfrag/tree/master Comments URL: https://news.ycombinator.com/item?id=48054068 Points: 1 # Comments: 0 Origin | Interest | Match",
-          "author": {
-            "handle": "linux.activitypub.awakari.com.ap.brid.gy",
-            "displayName": "linux"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T19:56:44.000Z",
-          "createdUtc": 1778183804,
-          "ageHours": 1.33,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-question"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:ndtxy6z27wqczj2ighw32elt/app.bsky.feed.post/3mlbygdr7xbu2",
-          "cid": "bafyreick4eewy53n2i4lib7mr7zcvlcb4akekrwby4ldskl4apuyns4myy",
-          "bskyUrl": "https://bsky.app/profile/jianmin.defcon.social.ap.brid.gy/post/3mlbygdr7xbu2",
-          "text": "Another day, another Linux LPE and container escape: https://github.com/V4bel/dirtyfrag",
-          "author": {
-            "handle": "jianmin.defcon.social.ap.brid.gy",
-            "displayName": "Ben"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-07T19:50:42.000Z",
-          "createdUtc": 1778183442,
-          "ageHours": 1.43,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:vtkgfcofnaxnxl6moce4esaj/app.bsky.feed.post/3mlby26hzo6u2",
-          "cid": "bafyreibk3unf3amu6aaxdr5wdng23wqmlusrp3dnmzsiviji3mzx2kofwq",
-          "bskyUrl": "https://bsky.app/profile/jrt.infosec.exchange.ap.brid.gy/post/3mlby26hzo6u2",
-          "text": "Another #Linux LPE: https://github.com/V4bel/dirtyfrag/ #DirtyFrag",
-          "author": {
-            "handle": "jrt.infosec.exchange.ap.brid.gy",
-            "displayName": "JRT"
-          },
-          "likeCount": 0,
-          "repostCount": 2,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T19:43:51.000Z",
-          "createdUtc": 1778183031,
-          "ageHours": 1.54,
-          "trendingScore": 4,
           "content_tags": [
             "has-github-repo"
           ],
@@ -6644,86 +6807,67 @@
           ]
         }
       ]
+    },
+    "openai--openai-agents-python": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mldeyropl32g",
+        "cid": "bafyreiehrtpnhh2ujm2fbakhrofsgb6iv7pfl3qt2nughlkfykbgz4q2ju",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mldeyropl32g",
+        "text": "🟠 OpenAI Agents Python v0.17.0 switches RealtimeAgent defaults to gpt-realtime-2 and tightens sandbox file boundaries OpenAI shipped openai-agents-python v0.17.0 with two workflow-relevant changes: RealtimeAgent... https://github.com/openai/openai-agents-python/releases/tag/v0.17.0 #AI #AgentWyre",
+        "author": {
+          "handle": "agentwyre.ai"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T09:08:27.861074+00:00",
+        "hoursSincePosted": 0.8
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mldeyropl32g",
+          "cid": "bafyreiehrtpnhh2ujm2fbakhrofsgb6iv7pfl3qt2nughlkfykbgz4q2ju",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mldeyropl32g",
+          "text": "🟠 OpenAI Agents Python v0.17.0 switches RealtimeAgent defaults to gpt-realtime-2 and tightens sandbox file boundaries OpenAI shipped openai-agents-python v0.17.0 with two workflow-relevant changes: RealtimeAgent... https://github.com/openai/openai-agents-python/releases/tag/v0.17.0 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T09:08:27.861074+00:00",
+          "createdUtc": 1778231307,
+          "ageHours": 0.8,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent",
+            "is-announcement"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "V4bel/dirtyfrag",
-      "count7d": 17,
-      "likesSum7d": 14
-    },
-    {
-      "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
-      "count7d": 6,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "cjpais/Handy",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "chenhg5/cc-connect",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "JuliusBrussee/caveman",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "p-e-w/heretic",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "D4Vinci/Scrapling",
-      "count7d": 1,
+      "count7d": 5,
       "likesSum7d": 0
     },
     {
-      "fullName": "forrestchang/andrej-karpathy-skills",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "garrytan/gbrain",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "garrytan/gstack",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "k2-fsa/OmniVoice",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "max-sixty/worktrunk",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "msitarzewski/agency-agents",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "nikopueringer/CorridorKey",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "VectifyAI/PageIndex",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "withastro/flue",
+      "fullName": "openai/openai-agents-python",
       "count7d": 1,
       "likesSum7d": 0
     }

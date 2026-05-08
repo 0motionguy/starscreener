@@ -1,74 +1,35 @@
 // CACHE CONTRACT
-// kind:        ISR (per-querystring variant)
+// kind:        ISR (single public shell)
 // revalidate:  3600 (1 hour)
 // audience:    public
-// freshness:   comparison data refreshed by data-store; URL state changes drive cache key
+// freshness:   comparison data refreshed by data-store; URL state hydrates client-side
 // invalidates: n/a
 
 // StarScreener - Compare page.
 
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 
 import { CompareProfileGrid } from "@/components/compare/CompareProfileGrid";
 import { CompareClient } from "@/components/compare/CompareClient";
-import { CompareWaveTop } from "@/components/compare/CompareWaveTop";
-import { ShareBar } from "@/components/share/ShareBar";
-import { absoluteUrl } from "@/lib/seo";
 import {
-  buildAbsoluteShareImageUrl,
-  decodeStarActivityUrl,
-  encodeStarActivityUrl,
-} from "@/lib/star-activity-url";
+  CompareSelectedCount,
+  CompareShareBarClient,
+} from "@/components/compare/CompareShareBarClient";
+import { CompareWaveTop } from "@/components/compare/CompareWaveTop";
 
 export const revalidate = 3600;
+export const dynamic = "force-static";
 
-interface ComparePageProps {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}
+export const metadata: Metadata = {
+  title: "Compare Repos - TrendingRepo",
+  description:
+    "Compare repository momentum, stars, funding, mentions, and GitHub activity side by side.",
+  alternates: { canonical: "/compare" },
+};
 
-export async function generateMetadata({
-  searchParams,
-}: ComparePageProps): Promise<Metadata> {
-  const raw = await searchParams;
-  const sp = new URLSearchParams();
-  for (const [k, v] of Object.entries(raw)) {
-    if (typeof v === "string") sp.set(k, v);
-  }
-  const state = decodeStarActivityUrl(sp);
-  if (state.repos.length === 0) return {};
-
-  const canonical = absoluteUrl(encodeStarActivityUrl(state, "/compare"));
-  const imageUrl = buildAbsoluteShareImageUrl({ ...state, aspect: "h" });
-
-  return {
-    alternates: { canonical },
-    openGraph: {
-      url: canonical,
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 675,
-          alt: `Star activity of ${state.repos.join(", ")}`,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      images: [imageUrl],
-    },
-  };
-}
-
-export default async function ComparePage({ searchParams }: ComparePageProps) {
-  const raw = await searchParams;
-  const sp = new URLSearchParams();
-  for (const [k, v] of Object.entries(raw)) {
-    if (typeof v === "string") sp.set(k, v);
-  }
-  const shareState = decodeStarActivityUrl(sp);
-
+export default function ComparePage() {
   return (
     <main className="home-surface tools-page compare-page">
       <section className="page-head">
@@ -82,7 +43,11 @@ export default async function ComparePage({ searchParams }: ComparePageProps) {
           </p>
         </div>
         <div className="clock">
-          <span className="big">{shareState.repos.length || 0}</span>
+          <span className="big">
+            <Suspense fallback={0}>
+              <CompareSelectedCount />
+            </Suspense>
+          </span>
           <span className="live">series selected</span>
         </div>
       </section>
@@ -135,7 +100,9 @@ export default async function ComparePage({ searchParams }: ComparePageProps) {
       </section>
 
       <CompareWaveTop />
-      <CompareProfileGrid initialFullNames={shareState.repos} />
+      <Suspense fallback={null}>
+        <CompareProfileGrid />
+      </Suspense>
 
       <section
         aria-label="Code activity side-by-side"
@@ -144,12 +111,14 @@ export default async function ComparePage({ searchParams }: ComparePageProps) {
         <div className="panel-head">
           <span className="key">{"// CODE ACTIVITY SIDE-BY-SIDE"}</span>
           <span className="right">
-            <span>{shareState.repos.length >= 2 ? "shareable" : "select 2+"}</span>
+            <span>select 2+</span>
           </span>
         </div>
         <div className="panel-body">
-          <CompareClient embedded initialFullNames={shareState.repos} />
-          {shareState.repos.length >= 2 && <ShareBar state={shareState} />}
+          <Suspense fallback={null}>
+            <CompareClient embedded />
+            <CompareShareBarClient />
+          </Suspense>
         </div>
       </section>
     </main>

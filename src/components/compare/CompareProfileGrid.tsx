@@ -132,18 +132,21 @@ export function CompareProfileGrid({
   // first render. Intentionally runs only once per mount so the user can
   // still remove pills after landing via a URL.
   const reposQuery = searchParams?.get("repos") ?? "";
+  const urlFullNames = useMemo(
+    () =>
+      reposQuery
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .slice(0, MAX_SLOTS),
+    [reposQuery],
+  );
   useEffect(() => {
     if (!hasHydrated) return;
-    if (!reposQuery) return;
-    const parsed = reposQuery
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean)
-      .slice(0, MAX_SLOTS);
-    if (parsed.length === 0) return;
+    if (urlFullNames.length === 0) return;
     // Overwrite only if the URL disagrees with the persisted selection —
     // avoids clobbering existing pills when the user navigates back.
-    const asIds = parsed.map((fn) => slugToId(fn));
+    const asIds = urlFullNames.map((fn) => slugToId(fn));
     const sameAsStore =
       asIds.length === repoIds.length &&
       asIds.every((id, i) => id === repoIds[i]);
@@ -151,7 +154,7 @@ export function CompareProfileGrid({
     clearAll();
     for (const id of asIds) addRepo(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasHydrated, reposQuery]);
+  }, [hasHydrated, urlFullNames]);
 
   // --- Zustand persist gate -------------------------------------------
   useEffect(() => {
@@ -173,11 +176,11 @@ export function CompareProfileGrid({
   // gets fed into resolveCompareFullNames below.
 
   const initialFullNameOverridesById = useMemo(() => {
-    const pairs = initialFullNames
+    const pairs = [...initialFullNames, ...urlFullNames]
       .map((fullName) => [slugToId(fullName), fullName] as const)
       .filter((entry): entry is readonly [string, string] => Boolean(entry[0] && entry[1]));
     return Object.fromEntries(pairs);
-  }, [initialFullNames]);
+  }, [initialFullNames, urlFullNames]);
 
   const selectedFullNames = useMemo(
     () =>

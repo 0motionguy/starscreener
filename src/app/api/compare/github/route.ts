@@ -28,6 +28,10 @@ import {
   fetchCompareBundles,
   type CompareRepoBundle,
 } from "@/lib/github-compare";
+import {
+  resolveBatch,
+  type RepoMentions,
+} from "@/lib/repo-mentions.server";
 
 export const runtime = "nodejs";
 
@@ -39,6 +43,14 @@ interface CompareGithubOkBody {
   ok: true;
   fetchedAt: string;
   bundles: CompareRepoBundle[];
+  /**
+   * Resolved HN/Bsky/Lobsters/PH mentions per fullName (lowercase).
+   * Server-resolved here so the client compare grid can render mention
+   * badges without leaking the underlying ~500 KB of static-data JSON
+   * into the client bundle (RepoBannerCard is a transitive client
+   * component via CompareClient).
+   */
+  mentionsByFullName: Record<string, RepoMentions>;
 }
 
 interface CompareGithubErrBody {
@@ -84,10 +96,12 @@ export async function GET(request: NextRequest) {
 
   try {
     const bundles = await fetchCompareBundles(repos);
+    const mentionsByFullName = resolveBatch(bundles.map((b) => b.fullName));
     const body: CompareGithubOkBody = {
       ok: true,
       fetchedAt: new Date().toISOString(),
       bundles,
+      mentionsByFullName,
     };
     return NextResponse.json(body, {
       status: 200,

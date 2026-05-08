@@ -3,7 +3,7 @@
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
 import { ChartShell, ChartStat, ChartStats, ChartWrap } from "@/components/ui/ChartShell";
 import type { DailyByModelRow, DailySummaryRow } from "@/lib/llm/types";
-import { CostStackedChart } from "./UsageCharts";
+import { CostStackedChartLazy as CostStackedChart } from "./UsageChartsLazy";
 
 interface Props {
   summary: DailySummaryRow[];

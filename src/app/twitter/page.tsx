@@ -26,10 +26,13 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { MarkVisited } from "@/components/layout/MarkVisited";
+import { TwitterTabSwitcher } from "./TwitterTabSwitcher";
 
 const X_BLUE = "var(--v4-src-x)";
+const TABLE_LIMIT = 50;
 
 export const revalidate = 300;
+export const dynamic = "force-static";
 
 export const metadata: Metadata = {
   title: "Trending Repos on X",
@@ -40,6 +43,8 @@ export const metadata: Metadata = {
 
 type TwitterTab = "trending" | "global";
 
+// Kept for old querystring links during the client-tab migration.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function parseTwitterTab(raw: string | string[] | undefined): TwitterTab {
   const candidate = Array.isArray(raw) ? raw[0] : raw;
   // Default = "global" (sorted by finalTwitterScore). The previous default
@@ -221,6 +226,8 @@ function MentionAuthorBubbles({
   );
 }
 
+// Kept for reference while the page uses client-side tabs to preserve ISR.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function TwitterTabNav({
   activeTab,
   trendingCount,
@@ -289,22 +296,15 @@ function formatSignedNumber(value: number): string {
   return value > 0 ? `+${formatNumber(value)}` : formatNumber(value);
 }
 
-export default async function TwitterPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ tab?: string | string[] }>;
-}) {
-  const { tab: rawTab } = await searchParams;
-  const activeTab = parseTwitterTab(rawTab);
-
+export default async function TwitterPage() {
   const [trendingRows, globalRows, stats] = await Promise.all([
-    getTwitterTrendingRepoLeaderboard(200),
-    getTwitterLeaderboard(200),
+    getTwitterTrendingRepoLeaderboard(TABLE_LIMIT),
+    getTwitterLeaderboard(TABLE_LIMIT),
     getTwitterOverviewStats(),
   ]);
-  const rows = activeTab === "global" ? globalRows : trendingRows;
+  const rows = globalRows;
 
-  const cold = rows.length === 0;
+  const cold = globalRows.length === 0 && trendingRows.length === 0;
 
   if (cold) {
     return (
@@ -330,7 +330,7 @@ export default async function TwitterPage({
             </>
           }
         />
-        <ColdState activeTab={activeTab} />
+        <ColdState activeTab="global" />
       </main>
     );
   }
@@ -402,20 +402,22 @@ export default async function TwitterPage({
             ]}
           />
         }
-        listEyebrow={
-          activeTab === "global"
-            ? "Tweet feed · global X score"
-            : "Tweet feed · trending repos with X mentions"
-        }
+        listEyebrow="Tweet feed - global X score / repo momentum"
+        key="twitter-feed"
         list={
-          <>
-            <TwitterTabNav
-              activeTab={activeTab}
-              trendingCount={trendingRows.length}
-              globalCount={globalRows.length}
-            />
-            <TwitterLeaderboardTable rows={rows} activeTab={activeTab} />
-          </>
+          <TwitterTabSwitcher
+            globalCount={globalRows.length}
+            trendingCount={trendingRows.length}
+            globalTable={
+              <TwitterLeaderboardTable rows={rows} activeTab="global" />
+            }
+            trendingTable={
+              <TwitterLeaderboardTable
+                rows={trendingRows}
+                activeTab="trending"
+              />
+            }
+          />
         }
       />
     </main>

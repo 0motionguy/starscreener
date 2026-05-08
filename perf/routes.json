@@ -5,7 +5,7 @@
   "globalDefaults": {
     "ttfbBudgetMs": { "cached": 800, "uncached": 1500 },
     "transferBudgetKb": 90,
-    "firstLoadJsBudgetKb": 900
+    "firstLoadJsBudgetKb": 400
   },
   "routes": [
     {
@@ -14,7 +14,7 @@
       "revalidateSeconds": 1800,
       "ttfbBudgetMs": { "cached": 600, "uncached": 1500 },
       "transferBudgetKb": 130,
-      "firstLoadJsBudgetKb": 1100,
+      "firstLoadJsBudgetKb": 650,
       "warmupOnDeploy": true,
       "warmupCadence": "*/5 8-21 * * *",
       "owner": "home"
@@ -24,7 +24,7 @@
       "policy": "isr",
       "revalidateSeconds": 600,
       "transferBudgetKb": 90,
-      "firstLoadJsBudgetKb": 1100,
+      "firstLoadJsBudgetKb": 650,
       "warmupOnDeploy": true,
       "owner": "lists"
     },
@@ -82,7 +82,7 @@
       "policy": "isr",
       "revalidateSeconds": 300,
       "transferBudgetKb": 90,
-      "firstLoadJsBudgetKb": 1100,
+      "firstLoadJsBudgetKb": 650,
       "warmupOnDeploy": true
     },
     {
@@ -90,7 +90,7 @@
       "policy": "isr",
       "revalidateSeconds": 1800,
       "transferBudgetKb": 100,
-      "firstLoadJsBudgetKb": 1100,
+      "firstLoadJsBudgetKb": 650,
       "warmupOnDeploy": true,
       "owner": "signals-terminal"
     },
@@ -106,7 +106,7 @@
       "policy": "isr",
       "revalidateSeconds": 3600,
       "transferBudgetKb": 90,
-      "firstLoadJsBudgetKb": 1100,
+      "firstLoadJsBudgetKb": 650,
       "warmupOnDeploy": true,
       "owner": "compare"
     },
@@ -190,7 +190,7 @@
       "policy": "isr",
       "revalidateSeconds": 300,
       "transferBudgetKb": 130,
-      "firstLoadJsBudgetKb": 1100,
+      "firstLoadJsBudgetKb": 650,
       "warmupOnDeploy": true,
       "owner": "repo-detail-canary",
       "_note": "canary probe for /repo/[owner]/[name] dynamic segment; one entry per template, not per slug"

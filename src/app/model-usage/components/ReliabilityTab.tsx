@@ -4,7 +4,7 @@ import { Card, CardBody, CardHeader } from "@/components/ui/Card";
 import { ChartShell, ChartStat, ChartStats, ChartWrap } from "@/components/ui/ChartShell";
 import type { ModelRollup } from "@/lib/llm/derive";
 import type { DailySummaryRow } from "@/lib/llm/types";
-import { ReliabilityAreaChart } from "./UsageCharts";
+import { ReliabilityAreaChartLazy as ReliabilityAreaChart } from "./UsageChartsLazy";
 
 interface Props {
   summary: DailySummaryRow[];

@@ -24,6 +24,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import {
   CircleDot,
@@ -47,6 +48,7 @@ import {
   resolveCompareFullNames,
 } from "@/lib/compare-selection";
 import type { CompareRepoBundle } from "@/lib/github-compare";
+import type { RepoMentions } from "@/components/repo-signals/RepoMentionBadges";
 import type { Repo } from "@/lib/types";
 import { cn, slugToId } from "@/lib/utils";
 import { COMPARE_PALETTE, COMPARE_MAX_SLOTS } from "./palette";
@@ -149,8 +151,15 @@ export function CompareClient({
   initialFullNames = [],
 }: CompareClientProps = {}) {
   const repoIds = useCompareStore((s) => s.repos);
+  const searchParams = useSearchParams();
   const [bundles, setBundles] = useState<CompareRepoBundle[]>([]);
   const [bundlesLoading, setBundlesLoading] = useState(false);
+  // Server-resolved mention map keyed by lowercase fullName. Populated by
+  // /api/compare/github so RepoBannerCard can render HN/Bsky/Lobsters/PH
+  // badges without leaking ~500 KB of static-data JSON into this client chunk.
+  const [mentionsByFullName, setMentionsByFullName] = useState<
+    Record<string, RepoMentions>
+  >({});
   const [hasHydrated, setHasHydrated] = useState(false);
   // UI-06: shared `/api/repos` fetcher with cross-component dedup.
   // Replaces a private fetch + Repo[] state that mirrored
@@ -225,8 +234,12 @@ export function CompareClient({
           { signal: controller.signal },
         );
         if (!res.ok) throw new Error(`status ${res.status}`);
-        const data = (await res.json()) as { bundles?: CompareRepoBundle[] };
+        const data = (await res.json()) as {
+          bundles?: CompareRepoBundle[];
+          mentionsByFullName?: Record<string, RepoMentions>;
+        };
         setBundles(Array.isArray(data.bundles) ? data.bundles : []);
+        setMentionsByFullName(data.mentionsByFullName ?? {});
       } catch (err) {
         if ((err as { name?: string }).name === "AbortError") return;
         console.error("[compare] /api/compare/github failed", err);
@@ -248,12 +261,23 @@ export function CompareClient({
     return map;
   }, [bundles]);
 
+  const reposQuery = searchParams?.get("repos") ?? "";
+  const urlFullNames = useMemo(
+    () =>
+      reposQuery
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .slice(0, MAX_SLOTS),
+    [reposQuery],
+  );
+
   const initialFullNameOverridesById = useMemo(() => {
-    const pairs = initialFullNames
+    const pairs = [...initialFullNames, ...urlFullNames]
       .map((fullName) => [slugToId(fullName), fullName] as const)
       .filter((entry): entry is readonly [string, string] => Boolean(entry[0] && entry[1]));
     return Object.fromEntries(pairs);
-  }, [initialFullNames]);
+  }, [initialFullNames, urlFullNames]);
 
   const selectedFullNames = useMemo(
     () =>
@@ -336,6 +360,7 @@ export function CompareClient({
                     key={bundle.fullName || `b-${i}`}
                     bundle={bundle}
                     accentColor={PALETTE[i] ?? PALETTE[0]}
+                    mentions={mentionsByFullName[bundle.fullName?.toLowerCase() ?? ""]}
                   />
                 ))}
             {!isLoading &&

@@ -12,6 +12,7 @@
 // just gives operators a route-based fallback.
 
 import { SignIn } from "@clerk/nextjs";
+import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 
 export const metadata = {
   title: "Sign in",
@@ -21,9 +22,22 @@ export const metadata = {
 // Clerk's component handles auth flow + theme via ClerkProvider context in
 // root layout. No appearance overrides needed; theme inherits from provider.
 export default function Page() {
+  const clerkPublishableKey = getClerkPublishableKey();
+
   return (
     <div className="flex min-h-[calc(100vh-64px)] items-center justify-center px-4 py-12">
-      <SignIn />
+      {clerkPublishableKey ? <SignIn /> : <AuthUnavailable action="sign in" />}
+    </div>
+  );
+}
+
+function AuthUnavailable({ action }: { action: string }) {
+  return (
+    <div className="max-w-md rounded border border-white/10 bg-black/30 p-6 text-center">
+      <h1 className="text-lg font-semibold">Auth unavailable</h1>
+      <p className="mt-2 text-sm text-white/70">
+        Clerk is not configured for this environment, so {action} is disabled.
+      </p>
     </div>
   );
 }

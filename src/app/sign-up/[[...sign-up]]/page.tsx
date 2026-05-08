@@ -18,6 +18,7 @@
 //   server-side).
 
 import { SignUp } from "@clerk/nextjs";
+import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 
 export const metadata = {
   title: "Sign up",
@@ -25,9 +26,22 @@ export const metadata = {
 };
 
 export default function Page() {
+  const clerkPublishableKey = getClerkPublishableKey();
+
   return (
     <div className="flex min-h-[calc(100vh-64px)] items-center justify-center px-4 py-12">
-      <SignUp />
+      {clerkPublishableKey ? <SignUp /> : <AuthUnavailable action="sign up" />}
+    </div>
+  );
+}
+
+function AuthUnavailable({ action }: { action: string }) {
+  return (
+    <div className="max-w-md rounded border border-white/10 bg-black/30 p-6 text-center">
+      <h1 className="text-lg font-semibold">Auth unavailable</h1>
+      <p className="mt-2 text-sm text-white/70">
+        Clerk is not configured for this environment, so {action} is disabled.
+      </p>
     </div>
   );
 }

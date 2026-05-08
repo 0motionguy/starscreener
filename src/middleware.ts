@@ -21,6 +21,7 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse, type NextRequest } from "next/server";
 
+import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 import { signRefCookie } from "@/lib/referrals/cookie";
 
 const TR_REF_COOKIE = "tr_ref";
@@ -29,8 +30,10 @@ const REF_CODE_PATTERN = /^[A-Za-z0-9_-]{3,32}$/;
 const CRAWLER_UA_PATTERN =
   /(bot|crawler|spider|slurp|facebookexternalhit|preview|googlebot|bingbot|yandex|duckduckbot|baiduspider|applebot|whatsapp|telegrambot|discordbot|twitterbot|linkedinbot)/i;
 
-// Routes that require an authenticated Clerk session. Hitting these
-// signed-out triggers Clerk's redirect to /sign-in.
+// Routes that require an authenticated Clerk session. Hitting these signed-out
+// triggers Clerk's redirect to /sign-in when Clerk is configured. In local/CI
+// smoke environments without Clerk config, we redirect to the hosted sign-in
+// route ourselves so public pages can still boot.
 const isProtectedRoute = createRouteMatcher([
   "/you(.*)",
   "/api/me/(.*)",
@@ -83,7 +86,30 @@ async function setRefCookieIfNeeded(req: NextRequest, res: NextResponse) {
   }
 }
 
-export default clerkMiddleware(async (auth, req) => {
+function redirectToSignIn(req: NextRequest): NextResponse {
+  const signInUrl = req.nextUrl.clone();
+  signInUrl.pathname = "/sign-in";
+  signInUrl.searchParams.set(
+    "redirect_url",
+    req.nextUrl.pathname + req.nextUrl.search,
+  );
+  return NextResponse.redirect(signInUrl);
+}
+
+async function middlewareWithoutClerk(
+  req: NextRequest,
+): Promise<NextResponse | undefined> {
+  const url = req.nextUrl;
+  if (isBypassed(url.pathname)) return;
+
+  const res = isProtectedRoute(req)
+    ? redirectToSignIn(req)
+    : NextResponse.next();
+  await setRefCookieIfNeeded(req, res);
+  return res;
+}
+
+const middlewareWithClerk = clerkMiddleware(async (auth, req) => {
   const url = req.nextUrl;
 
   // 1. Bypass list — return immediately, never wrap in Clerk's session
@@ -103,6 +129,10 @@ export default clerkMiddleware(async (auth, req) => {
 
   return res;
 });
+
+export default getClerkPublishableKey()
+  ? middlewareWithClerk
+  : middlewareWithoutClerk;
 
 export const config = {
   // Default Clerk matcher — exclude Next internals + static files. Same

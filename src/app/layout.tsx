@@ -31,6 +31,7 @@ import { MobileNav } from "@/components/layout/MobileNav";
 import { BrowserAlertBridge } from "@/components/alerts/BrowserAlertBridge";
 import { GlobalShortcuts } from "@/components/layout/GlobalShortcuts";
 import { DesignSystemProvider } from "@/components/v3";
+import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 import { ClerkProvider } from "@clerk/nextjs";
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
@@ -156,6 +157,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const clerkPublishableKey = getClerkPublishableKey();
+
   // Build the desktop sidebar payload server-side and pass it to <Sidebar>
   // as initialData. Eliminates the post-hydration fetch + skeleton flash
   // that used to delay every desktop page paint. Cap reposById at top-200
@@ -173,13 +176,10 @@ export default async function RootLayout({
     initialSidebarData = null;
   }
 
-  return (
-    // ClerkProvider wraps <html> per Clerk Next 15 docs. It exposes
-    // `useUser()` / `useAuth()` to every descendant client component,
-    // including the framer-motion-backed MobileDrawerLazy (verified
-    // compat: ClerkProvider is a plain React context, dynamic({ssr:false})
-    // descendants re-hydrate inside it without issue).
-    <ClerkProvider>
+  const shell = (
+    // Wrapped by ClerkProvider below when auth is configured. Keeping the
+    // shell standalone lets CI/local builds prerender public pages without
+    // a Clerk publishable key.
     <html
       lang="en"
       className={`${geist.variable} ${geistMono.variable} ${spaceGrotesk.variable}`}
@@ -249,6 +249,13 @@ export default async function RootLayout({
         </ThemeProvider>
       </body>
     </html>
+  );
+
+  if (!clerkPublishableKey) return shell;
+
+  return (
+    <ClerkProvider publishableKey={clerkPublishableKey}>
+      {shell}
     </ClerkProvider>
   );
 }

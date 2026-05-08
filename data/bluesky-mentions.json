@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-08T16:47:00.168Z",
+  "fetchedAt": "2026-05-08T18:46:07.237Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -3259,15 +3259,15 @@
       ]
     },
     "JuliusBrussee/caveman": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:web:kopper.d.on-t.work/app.bsky.feed.post/3mldzsyjoq22b",
-        "cid": "bafyreialcg7dw4kfi5fpr6ruyyseuds47ywvjzmwnoolwwy4papudganxy",
-        "bskyUrl": "https://bsky.app/profile/w.on-t.work/post/3mldzsyjoq22b",
-        "text": "github.com/JuliusBrussee/caveman... why is this only for llms why arent we ALL doing this",
+        "uri": "at://did:web:kopper.d.on-t.work/app.bsky.feed.post/3mlef4mokjc2b",
+        "cid": "bafyreiaj5j3iskmqbywk2kgqcpdl2cfxncdd44huv3wassyjb5kfzy4aoq",
+        "bskyUrl": "https://bsky.app/profile/w.on-t.work/post/3mlef4mokjc2b",
+        "text": "the github.com/JuliusBrussee/caveman i posted a bit ago is also interesting in token efficiency, but it means the model won't be sycophantic to the user so the silicon valley tech bros probably won't be a big fan of that",
         "author": {
           "handle": "w.on-t.work",
           "displayName": "kopper"
@@ -3275,8 +3275,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-08T15:21:02.891Z",
-        "hoursSincePosted": 1.43
+        "createdAt": "2026-05-08T18:43:17.243Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -3308,6 +3308,34 @@
           ]
         },
         {
+          "uri": "at://did:web:kopper.d.on-t.work/app.bsky.feed.post/3mlef4mokjc2b",
+          "cid": "bafyreiaj5j3iskmqbywk2kgqcpdl2cfxncdd44huv3wassyjb5kfzy4aoq",
+          "bskyUrl": "https://bsky.app/profile/w.on-t.work/post/3mlef4mokjc2b",
+          "text": "the github.com/JuliusBrussee/caveman i posted a bit ago is also interesting in token efficiency, but it means the model won't be sycophantic to the user so the silicon valley tech bros probably won't be a big fan of that",
+          "author": {
+            "handle": "w.on-t.work",
+            "displayName": "kopper"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T18:43:17.243Z",
+          "createdUtc": 1778265797,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:web:kopper.d.on-t.work/app.bsky.feed.post/3mldzsyjoq22b",
           "cid": "bafyreialcg7dw4kfi5fpr6ruyyseuds47ywvjzmwnoolwwy4papudganxy",
           "bskyUrl": "https://bsky.app/profile/w.on-t.work/post/3mldzsyjoq22b",
@@ -3321,7 +3349,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T15:21:02.891Z",
           "createdUtc": 1778253662,
-          "ageHours": 1.43,
+          "ageHours": 3.42,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -3560,7 +3588,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-08T16:06:20.660913Z",
-        "hoursSincePosted": 0.68
+        "hoursSincePosted": 2.66
       },
       "posts": [
         {
@@ -3577,7 +3605,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-08T16:06:20.660913Z",
           "createdUtc": 1778256380,
-          "ageHours": 0.68,
+          "ageHours": 2.66,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo",
@@ -3587,6 +3615,108 @@
           "linkedRepos": [
             {
               "fullName": "rorkai/App-Store-Connect-CLI",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "endevco/aube": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:tdmtjuun6izioooysayver2h/app.bsky.feed.post/3mlediofaxs2l",
+        "cid": "bafyreibmjalmmerlqt54o3fw5uvpgvjltihzyvgipxchkcztmhn3gjkb7m",
+        "bskyUrl": "https://bsky.app/profile/wizaman.net/post/3mlediofaxs2l",
+        "text": "github.com/endevco/aube mise作者によるnpm代替ツールがあるらしい。ロックファイルが各ツールでまちまちなのも吸収するっぽいな。pnpmもそこがネックだしなぁ。十分に枯れてくれないと乗っかれないけど。",
+        "author": {
+          "handle": "wizaman.net",
+          "displayName": "ウィザまん(wizaman)"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T18:14:14.273Z",
+        "hoursSincePosted": 0.53
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:tdmtjuun6izioooysayver2h/app.bsky.feed.post/3mlediofaxs2l",
+          "cid": "bafyreibmjalmmerlqt54o3fw5uvpgvjltihzyvgipxchkcztmhn3gjkb7m",
+          "bskyUrl": "https://bsky.app/profile/wizaman.net/post/3mlediofaxs2l",
+          "text": "github.com/endevco/aube mise作者によるnpm代替ツールがあるらしい。ロックファイルが各ツールでまちまちなのも吸収するっぽいな。pnpmもそこがネックだしなぁ。十分に枯れてくれないと乗っかれないけど。",
+          "author": {
+            "handle": "wizaman.net",
+            "displayName": "ウィザまん(wizaman)"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T18:14:14.273Z",
+          "createdUtc": 1778264054,
+          "ageHours": 0.53,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "endevco/aube",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "modem-dev/hunk": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mleb4j3jkv2i",
+        "cid": "bafyreib2ywogn3zjxdwnk4436k3hblronesljfpretibxdchbftbjnlvsa",
+        "bskyUrl": "https://bsky.app/profile/chrisshort.net/post/3mleb4j3jkv2i",
+        "text": "modem-dev/hunk: Review-first terminal diff viewer for agentic coders #devopsish github.com/modem-dev...",
+        "author": {
+          "handle": "chrisshort.net",
+          "displayName": "Chris Short"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T17:31:38.000Z",
+        "hoursSincePosted": 1.24
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mleb4j3jkv2i",
+          "cid": "bafyreib2ywogn3zjxdwnk4436k3hblronesljfpretibxdchbftbjnlvsa",
+          "bskyUrl": "https://bsky.app/profile/chrisshort.net/post/3mleb4j3jkv2i",
+          "text": "modem-dev/hunk: Review-first terminal diff viewer for agentic coders #devopsish github.com/modem-dev...",
+          "author": {
+            "handle": "chrisshort.net",
+            "displayName": "Chris Short"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T17:31:38.000Z",
+          "createdUtc": 1778261498,
+          "ageHours": 1.24,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "modem-dev/hunk",
               "matchType": "url",
               "confidence": 1
             }
@@ -6850,15 +6980,15 @@
       ]
     },
     "juliusbrussee--caveman": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:web:kopper.d.on-t.work/app.bsky.feed.post/3mldzsyjoq22b",
-        "cid": "bafyreialcg7dw4kfi5fpr6ruyyseuds47ywvjzmwnoolwwy4papudganxy",
-        "bskyUrl": "https://bsky.app/profile/w.on-t.work/post/3mldzsyjoq22b",
-        "text": "github.com/JuliusBrussee/caveman... why is this only for llms why arent we ALL doing this",
+        "uri": "at://did:web:kopper.d.on-t.work/app.bsky.feed.post/3mlef4mokjc2b",
+        "cid": "bafyreiaj5j3iskmqbywk2kgqcpdl2cfxncdd44huv3wassyjb5kfzy4aoq",
+        "bskyUrl": "https://bsky.app/profile/w.on-t.work/post/3mlef4mokjc2b",
+        "text": "the github.com/JuliusBrussee/caveman i posted a bit ago is also interesting in token efficiency, but it means the model won't be sycophantic to the user so the silicon valley tech bros probably won't be a big fan of that",
         "author": {
           "handle": "w.on-t.work",
           "displayName": "kopper"
@@ -6866,8 +6996,8 @@
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-08T15:21:02.891Z",
-        "hoursSincePosted": 1.43
+        "createdAt": "2026-05-08T18:43:17.243Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -6899,6 +7029,34 @@
           ]
         },
         {
+          "uri": "at://did:web:kopper.d.on-t.work/app.bsky.feed.post/3mlef4mokjc2b",
+          "cid": "bafyreiaj5j3iskmqbywk2kgqcpdl2cfxncdd44huv3wassyjb5kfzy4aoq",
+          "bskyUrl": "https://bsky.app/profile/w.on-t.work/post/3mlef4mokjc2b",
+          "text": "the github.com/JuliusBrussee/caveman i posted a bit ago is also interesting in token efficiency, but it means the model won't be sycophantic to the user so the silicon valley tech bros probably won't be a big fan of that",
+          "author": {
+            "handle": "w.on-t.work",
+            "displayName": "kopper"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T18:43:17.243Z",
+          "createdUtc": 1778265797,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:web:kopper.d.on-t.work/app.bsky.feed.post/3mldzsyjoq22b",
           "cid": "bafyreialcg7dw4kfi5fpr6ruyyseuds47ywvjzmwnoolwwy4papudganxy",
           "bskyUrl": "https://bsky.app/profile/w.on-t.work/post/3mldzsyjoq22b",
@@ -6912,7 +7070,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T15:21:02.891Z",
           "createdUtc": 1778253662,
-          "ageHours": 1.43,
+          "ageHours": 3.42,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -7151,7 +7309,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-08T16:06:20.660913Z",
-        "hoursSincePosted": 0.68
+        "hoursSincePosted": 2.66
       },
       "posts": [
         {
@@ -7168,7 +7326,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-08T16:06:20.660913Z",
           "createdUtc": 1778256380,
-          "ageHours": 0.68,
+          "ageHours": 2.66,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo",
@@ -7184,11 +7342,123 @@
           ]
         }
       ]
+    },
+    "endevco--aube": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:tdmtjuun6izioooysayver2h/app.bsky.feed.post/3mlediofaxs2l",
+        "cid": "bafyreibmjalmmerlqt54o3fw5uvpgvjltihzyvgipxchkcztmhn3gjkb7m",
+        "bskyUrl": "https://bsky.app/profile/wizaman.net/post/3mlediofaxs2l",
+        "text": "github.com/endevco/aube mise作者によるnpm代替ツールがあるらしい。ロックファイルが各ツールでまちまちなのも吸収するっぽいな。pnpmもそこがネックだしなぁ。十分に枯れてくれないと乗っかれないけど。",
+        "author": {
+          "handle": "wizaman.net",
+          "displayName": "ウィザまん(wizaman)"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T18:14:14.273Z",
+        "hoursSincePosted": 0.53
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:tdmtjuun6izioooysayver2h/app.bsky.feed.post/3mlediofaxs2l",
+          "cid": "bafyreibmjalmmerlqt54o3fw5uvpgvjltihzyvgipxchkcztmhn3gjkb7m",
+          "bskyUrl": "https://bsky.app/profile/wizaman.net/post/3mlediofaxs2l",
+          "text": "github.com/endevco/aube mise作者によるnpm代替ツールがあるらしい。ロックファイルが各ツールでまちまちなのも吸収するっぽいな。pnpmもそこがネックだしなぁ。十分に枯れてくれないと乗っかれないけど。",
+          "author": {
+            "handle": "wizaman.net",
+            "displayName": "ウィザまん(wizaman)"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T18:14:14.273Z",
+          "createdUtc": 1778264054,
+          "ageHours": 0.53,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "endevco/aube",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "modem-dev--hunk": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mleb4j3jkv2i",
+        "cid": "bafyreib2ywogn3zjxdwnk4436k3hblronesljfpretibxdchbftbjnlvsa",
+        "bskyUrl": "https://bsky.app/profile/chrisshort.net/post/3mleb4j3jkv2i",
+        "text": "modem-dev/hunk: Review-first terminal diff viewer for agentic coders #devopsish github.com/modem-dev...",
+        "author": {
+          "handle": "chrisshort.net",
+          "displayName": "Chris Short"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T17:31:38.000Z",
+        "hoursSincePosted": 1.24
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mleb4j3jkv2i",
+          "cid": "bafyreib2ywogn3zjxdwnk4436k3hblronesljfpretibxdchbftbjnlvsa",
+          "bskyUrl": "https://bsky.app/profile/chrisshort.net/post/3mleb4j3jkv2i",
+          "text": "modem-dev/hunk: Review-first terminal diff viewer for agentic coders #devopsish github.com/modem-dev...",
+          "author": {
+            "handle": "chrisshort.net",
+            "displayName": "Chris Short"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T17:31:38.000Z",
+          "createdUtc": 1778261498,
+          "ageHours": 1.24,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "modem-dev/hunk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "JuliusBrussee/caveman",
+      "count7d": 2,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "endevco/aube",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "modem-dev/hunk",
       "count7d": 1,
       "likesSum7d": 0
     },

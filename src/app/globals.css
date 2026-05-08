@@ -7083,3 +7083,21 @@ body::before {
 :root {
   --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
 }
+
+/* ---------------------------------------------------------------------------
+   Chart skeleton — placeholder rendered by *Lazy.tsx wrappers while the
+   ECharts bundle hydrates. Sized to match each chart's eventual height to
+   avoid CLS; pulses subtly so the reserved space reads as "loading" instead
+   of "broken". Backed by --v4-bg-050 (defined in components/ui/v4.css) with
+   an rgba fallback for the rare path where v4 tokens are not yet loaded.
+   --------------------------------------------------------------------------- */
+.chart-skeleton {
+  background: var(--v4-bg-050, rgba(255, 255, 255, 0.04));
+  border-radius: 4px;
+  animation: chart-skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes chart-skeleton-pulse {
+  0%, 100% { opacity: 0.6; }
+  50%      { opacity: 0.85; }
+}

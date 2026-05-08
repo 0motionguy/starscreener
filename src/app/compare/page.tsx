@@ -1,3 +1,10 @@
+// CACHE CONTRACT
+// kind:        ISR (per-querystring variant)
+// revalidate:  3600 (1 hour)
+// audience:    public
+// freshness:   comparison data refreshed by data-store; URL state changes drive cache key
+// invalidates: n/a
+
 // StarScreener - Compare page.
 
 import type { Metadata } from "next";
@@ -14,7 +21,7 @@ import {
   encodeStarActivityUrl,
 } from "@/lib/star-activity-url";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 interface ComparePageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;

@@ -1,3 +1,10 @@
+// CACHE CONTRACT
+// kind:        ISR
+// revalidate:  1800 (30 min)
+// audience:    public
+// freshness:   cross-source signals refreshed by GH Actions cron workflows (scrape-*.yml); page reads cached snapshots
+// invalidates: n/a
+
 // /signals — V3 cross-source newsroom terminal.
 //
 // Replaces the older 5-source tabs shell. This page renders eight source
@@ -74,15 +81,15 @@ import {
   type TickerItem,
 } from "@/components/signals-terminal/LiveTicker";
 import { KpiStrip } from "@/components/signals-terminal/KpiStrip";
-import { VolumeAreaChart } from "@/components/signals-terminal/VolumeAreaChart";
-import { ConsensusRadar } from "@/components/signals-terminal/ConsensusRadar";
+import { VolumeAreaChartLazy } from "@/components/signals-terminal/VolumeAreaChartLazy";
+import { ConsensusRadarLazy } from "@/components/signals-terminal/ConsensusRadarLazy";
 import {
   SourceFeedPanel,
   type ListItem,
   type TweetItem,
   type RssArticleItem,
 } from "@/components/signals-terminal/SourceFeedPanel";
-import { TagMomentumHeatmap } from "@/components/signals-terminal/TagMomentumHeatmap";
+import { TagMomentumHeatmapLazy } from "@/components/signals-terminal/TagMomentumHeatmapLazy";
 import {
   SourceFilterBar,
   parseActiveSources,
@@ -92,8 +99,6 @@ import {
   windowLabel,
 } from "@/components/signals-terminal/SourceFilterBar";
 import { matchesTopic } from "@/lib/signals/topics";
-
-import { triggerScanIfStale } from "@/lib/news/auto-rescrape";
 
 // V4 (CORPUS) primitives — page chrome.
 // /signals is the proof-of-concept consumer; this is the canonical
@@ -149,17 +154,6 @@ function compactNumber(n: number): string {
   return `${(n / 1_000_000).toFixed(1)}M`;
 }
 
-function safeTrigger(
-  source: Parameters<typeof triggerScanIfStale>[0],
-  ts: string | null | undefined,
-) {
-  try {
-    void triggerScanIfStale(source, ts);
-  } catch {
-    // best-effort
-  }
-}
-
 // ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
@@ -205,12 +199,6 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
   const twBuzz = getTopTwitterBuzz(20);
   const twPosts = getTopTwitterPosts(20);
   const twLatestAt = getTwitterLatestUpdatedAt();
-
-  // ── Auto-rescrape stale sources (best-effort) -----------------------------
-  safeTrigger("hackernews", hnFetchedAt || null);
-  safeTrigger("reddit", getRedditFetchedAt());
-  safeTrigger("bluesky", blueskyFetchedAt);
-  safeTrigger("devto", devtoFetchedAt || null);
 
   // ── Build SignalItem[] across all 8 sources -------------------------------
   const items: SignalItem[] = [
@@ -499,7 +487,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       {/* Row 1: Volume chart + Consensus radar */}
       <div className="grid">
         <div className="col-7">
-          <VolumeAreaChart
+          <VolumeAreaChartLazy
             buckets={volume.buckets}
             totalItems={volume.totalItems}
             changePct={volume.changePct}
@@ -512,7 +500,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
           />
         </div>
         <div className="col-5">
-          <ConsensusRadar
+          <ConsensusRadarLazy
             stories={consensus}
             totalActive={consensusCount}
           />
@@ -628,7 +616,7 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
         title="Tag momentum / 24h heatmap"
         meta={<><b>{tagMomentum.rows.length}</b> tags / hourly buckets</>}
       />
-      <TagMomentumHeatmap rows={tagMomentum.rows} />
+      <TagMomentumHeatmapLazy rows={tagMomentum.rows} />
 
       <SectionHead
         num="// 05"

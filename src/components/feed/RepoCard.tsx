@@ -9,7 +9,10 @@ import { CategoryPill } from "@/components/shared/CategoryPill";
 import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
 import { BrandStar } from "@/components/shared/BrandStar";
-import { RepoMentionBadges } from "@/components/repo-signals/RepoMentionBadges";
+import {
+  RepoMentionBadges,
+  type RepoMentions,
+} from "@/components/repo-signals/RepoMentionBadges";
 import { NpmBadge } from "@/components/npm/NpmBadge";
 import { getNpmPackagesForRepo } from "@/lib/npm";
 import { EntityLogo } from "@/components/ui/EntityLogo";
@@ -19,9 +22,21 @@ interface RepoCardProps {
   repo: Repo;
   index?: number;
   showRank?: boolean;
+  /**
+   * Resolved cross-channel mentions, computed server-side via
+   * `resolveBatch` from `@/lib/repo-mentions.server`. Required by the
+   * mention badges; when omitted, badges render as nulls because the
+   * underlying data loaders are server-only.
+   */
+  mentions?: RepoMentions;
 }
 
-export function RepoCard({ repo, index = 0, showRank = false }: RepoCardProps) {
+export function RepoCard({
+  repo,
+  index = 0,
+  showRank = false,
+  mentions,
+}: RepoCardProps) {
   const isHot = repo.movementStatus === "hot";
   const deltaPercent =
     repo.stars > 0 ? (repo.starsDelta7d / repo.stars) * 100 : 0;
@@ -53,7 +68,7 @@ export function RepoCard({ repo, index = 0, showRank = false }: RepoCardProps) {
         <span className="font-semibold text-text-primary truncate text-sm">
           {repo.fullName}
         </span>
-        <RepoMentionBadges repo={repo} size="sm" includeLongTail />
+        <RepoMentionBadges repo={repo} mentions={mentions} size="sm" includeLongTail />
         <NpmBadge packages={getNpmPackagesForRepo(repo.fullName)} size="sm" />
         <div className="ml-auto shrink-0">
           <CategoryPill categoryId={repo.categoryId} size="sm" />

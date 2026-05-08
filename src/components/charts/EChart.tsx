@@ -16,7 +16,7 @@
 
 import { useEffect, useRef } from "react";
 import type { EChartsCoreOption, ECharts } from "echarts/core";
-import { TR_DARK_THEME, echarts } from "@/lib/charts/theme";
+import { TR_DARK_THEME, echarts } from "@/lib/charts/theme/core";
 
 export interface EChartProps {
   option: EChartsCoreOption;

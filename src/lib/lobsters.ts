@@ -9,6 +9,13 @@
 // IMPORTANT: Lobsters has no official API. We treat the feed as
 // best-effort — if a scrape fails the cold-seed kicks in, `lobstersCold`
 // flips true, badges render null, and the homepage keeps serving.
+//
+// `server-only` guard: this module statically imports a bundled JSON
+// snapshot. Client components must consume mentions via
+// `repo-mentions.server` and pass them as props — see
+// RepoMentionBadges. Importing this file from any client module fails
+// the build at typecheck time.
+import "server-only";
 
 import lobstersMentionsData from "../../data/lobsters-mentions.json";
 import {

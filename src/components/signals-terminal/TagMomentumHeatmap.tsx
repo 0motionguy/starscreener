@@ -19,8 +19,9 @@ import type { EChartsCoreOption } from "echarts/core";
 
 import type { TagRow } from "@/lib/signals/tag-momentum";
 import { Card, CardHeader } from "@/components/ui/Card";
+import "@/lib/charts/theme/full";
 import { EChart } from "@/components/charts/EChart";
-import { CHART_TOKENS } from "@/lib/charts/theme";
+import { CHART_TOKENS } from "@/lib/charts/theme/tokens";
 
 export interface TagMomentumHeatmapProps {
   rows: TagRow[];

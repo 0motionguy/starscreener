@@ -16,8 +16,9 @@ import type { EChartsCoreOption, ECharts } from "echarts/core";
 
 import type { Repo, TimeRange } from "@/lib/types";
 import { ChartShell } from "@/components/ui/ChartShell";
+import "@/lib/charts/theme/full";
 import { EChart } from "@/components/charts/EChart";
-import { CHART_TOKENS } from "@/lib/charts/theme";
+import { CHART_TOKENS } from "@/lib/charts/theme/tokens";
 import { cn, formatNumber } from "@/lib/utils";
 import {
   MENTION_PLATFORM_COLORS,

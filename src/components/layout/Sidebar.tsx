@@ -26,14 +26,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Plug, Terminal, UserRound } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
 import { useWatchlistStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { SidebarContent } from "./SidebarContent";
 import { SidebarProfileBox } from "./SidebarProfileBox";
 import { SidebarSkeleton } from "./SidebarSkeleton";
+import { useSidebarOverlayStore } from "./SidebarUserOverlayBridge";
 import type {
   SidebarDataRepo,
   SidebarDataResponse,
+  SidebarShellResponse,
 } from "@/lib/sidebar-data";
 import type { SidebarWatchlistPreviewRepo } from "./SidebarWatchlistPreview";
 
@@ -78,11 +81,22 @@ const LAUNCHPAD_TILES: LaunchpadTile[] = [
   },
 ];
 
-function useUserSession(): { loaded: boolean; userId: string | null } {
+function useUserSession({
+  enabled,
+}: {
+  enabled: boolean;
+}): { loaded: boolean; userId: string | null } {
   const [state, setState] = useState<{ loaded: boolean; userId: string | null }>(
     { loaded: false, userId: null },
   );
   useEffect(() => {
+    if (!enabled) {
+      // Clerk says anonymous → never hit `/api/auth/session`. The launchpad
+      // strip stays in 2-up "no profile tile" mode without paying for the
+      // round-trip on every anonymous page render.
+      setState({ loaded: true, userId: null });
+      return;
+    }
     let cancelled = false;
     fetch("/api/auth/session", { credentials: "include" })
       .then((r) => (r.ok ? r.json() : { ok: false }))
@@ -99,7 +113,7 @@ function useUserSession(): { loaded: boolean; userId: string | null } {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [enabled]);
   return state;
 }
 
@@ -110,9 +124,35 @@ function shortHandle(userId: string): string {
   return trimmed.slice(0, 6).toUpperCase();
 }
 
+const CLERK_PUBLIC_KEY_PRESENT = Boolean(
+  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+);
+
+// useUser() hard-throws outside <ClerkProvider />. The layout skips the
+// provider when Clerk isn't configured (CI builds, anonymous previews),
+// so we have two hook trees: one that calls useUser() (Clerk present)
+// and one that hard-codes anonymous (Clerk absent). The branch is chosen
+// by a module-level constant so React's hook order stays stable per
+// component instance.
+function useClerkSignedIn(): { isLoaded: boolean; isSignedIn: boolean } {
+  const { isLoaded, isSignedIn } = useUser();
+  return { isLoaded, isSignedIn: Boolean(isSignedIn) };
+}
+function useAnonymousSignedIn(): { isLoaded: boolean; isSignedIn: boolean } {
+  return { isLoaded: true, isSignedIn: false };
+}
+const useSignedInSafe = CLERK_PUBLIC_KEY_PRESENT
+  ? useClerkSignedIn
+  : useAnonymousSignedIn;
+
+// Kept while the launchpad placement is reworked; do not render it from the
+// hot sidebar path until the auth/session fetch stays off anonymous pages.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function LaunchpadStrip() {
   const pathname = usePathname() ?? "/";
-  const { userId } = useUserSession();
+  const { isLoaded, isSignedIn } = useSignedInSafe();
+  const sessionEnabled = isLoaded && Boolean(isSignedIn);
+  const { userId } = useUserSession({ enabled: sessionEnabled });
   const showProfile = Boolean(userId);
   const cols = showProfile ? "grid-cols-3" : "grid-cols-2";
   return (
@@ -171,6 +211,11 @@ export interface SidebarData {
   metaCounts: SidebarDataResponse["metaCounts"];
   availableLanguages: SidebarDataResponse["availableLanguages"];
   reposById: Record<string, SidebarDataRepo>;
+  /**
+   * Always 0 when seeded from a shell payload (the overlay store is the
+   * source of truth post-split). Kept on the type for back-compat with
+   * the MobileDrawer which still consumes the legacy combined payload.
+   */
   unreadAlerts: number;
   sourceCounts: SidebarDataResponse["sourceCounts"];
   trendingReposCount: number;
@@ -281,13 +326,25 @@ export function useWatchlistPreview(
 const COMPACT_STORAGE_KEY = "sidebar.compact";
 
 export function Sidebar({
-  initialData,
+  initialShell,
 }: {
-  initialData?: SidebarDataResponse | null;
+  initialShell?: SidebarShellResponse | null;
 } = {}) {
-  const data = useSidebarData(initialData);
+  // Bridge the new shell payload (no `unreadAlerts`) into the existing
+  // hook contract. The hook expects a `SidebarDataResponse`-shaped seed;
+  // we synthesise `unreadAlerts: 0` here because the overlay store is the
+  // real source of truth post-split.
+  const seedFromShell: SidebarDataResponse | null = useMemo(
+    () => (initialShell ? { ...initialShell, unreadAlerts: 0 } : null),
+    [initialShell],
+  );
+  const data = useSidebarData(seedFromShell);
   const watchlistPreview = useWatchlistPreview(data?.reposById);
   const watchCount = useWatchlistStore((s) => s.repos.length);
+  // Per-user overlay (unread-alert count) lives in a transient Zustand
+  // store fed by `<SidebarUserOverlayBridge />` after the Clerk session
+  // resolves. Anonymous viewers see 0.
+  const unreadAlerts = useSidebarOverlayStore((s) => s.unreadAlerts);
 
   // Compact mode — user-toggled vertical density preference. Persisted in
   // localStorage. Hydration-gated to avoid SSR mismatch: the server always
@@ -328,7 +385,7 @@ export function Sidebar({
     >
       <SidebarProfileBox
         watchCount={watchCount}
-        alertCount={data?.unreadAlerts ?? 0}
+        alertCount={unreadAlerts}
         dropCount={0}
       />
       {data ? (
@@ -337,7 +394,7 @@ export function Sidebar({
           metaCounts={data.metaCounts}
           availableLanguages={data.availableLanguages}
           watchlistPreview={watchlistPreview}
-          unreadAlerts={data.unreadAlerts}
+          unreadAlerts={unreadAlerts}
           sourceCounts={data.sourceCounts}
           trendingReposCount={data.trendingReposCount}
           compact={compact}

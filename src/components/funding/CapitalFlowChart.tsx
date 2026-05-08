@@ -30,8 +30,9 @@ import { useMemo } from "react";
 import type { EChartsCoreOption } from "echarts/core";
 
 import { cn } from "@/lib/utils";
+import "@/lib/charts/theme/full";
 import { EChart } from "@/components/charts/EChart";
-import { CHART_TOKENS, CHART_PALETTE } from "@/lib/charts/theme";
+import { CHART_TOKENS, CHART_PALETTE } from "@/lib/charts/theme/tokens";
 
 export interface CapitalFlowSector {
   key: string;

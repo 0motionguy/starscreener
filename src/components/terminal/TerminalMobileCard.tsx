@@ -38,7 +38,10 @@ import { DeltaBadge } from "@/components/shared/DeltaBadge";
 import { MomentumBadge } from "@/components/shared/MomentumBadge";
 import { RankBadge } from "@/components/shared/RankBadge";
 import { Sparkline } from "@/components/shared/Sparkline";
-import { RepoMentionBadges } from "@/components/repo-signals/RepoMentionBadges";
+import {
+  RepoMentionBadges,
+  type RepoMentions,
+} from "@/components/repo-signals/RepoMentionBadges";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { BrandStar } from "@/components/shared/BrandStar";
 import { repoDisplayLogoUrl } from "@/lib/logos";
@@ -48,6 +51,13 @@ interface TerminalMobileCardProps {
   displayRank: number;
   expanded: boolean;
   onToggleExpand: () => void;
+  /**
+   * Resolved cross-channel mentions for this repo. Computed server-side
+   * via `resolveBatch` from `@/lib/repo-mentions.server` and threaded
+   * down. Optional — when omitted, badges render as nulls since the
+   * underlying data loaders are server-only.
+   */
+  mentions?: RepoMentions;
 }
 
 export function TerminalMobileCard({
@@ -55,6 +65,7 @@ export function TerminalMobileCard({
   displayRank,
   expanded,
   onToggleExpand,
+  mentions,
 }: TerminalMobileCardProps) {
   const router = useRouter();
 
@@ -121,6 +132,7 @@ export function TerminalMobileCard({
         </span>
         <RepoMentionBadges
           repo={repo}
+          mentions={mentions}
           size="sm"
           includeLongTail={false}
           className="max-w-full overflow-hidden"

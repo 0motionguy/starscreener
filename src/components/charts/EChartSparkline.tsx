@@ -18,8 +18,9 @@
 import { useMemo } from "react";
 import type { EChartsCoreOption } from "echarts/core";
 
+import "@/lib/charts/theme/sparkline";
 import { EChart } from "./EChart";
-import { CHART_TOKENS } from "@/lib/charts/theme";
+import { CHART_TOKENS } from "@/lib/charts/theme/tokens";
 
 export interface EChartSparklineProps {
   /** Numeric series. Two-or-more points required to render a line. */

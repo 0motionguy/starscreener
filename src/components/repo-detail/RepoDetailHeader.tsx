@@ -14,9 +14,7 @@ import { HnBadge } from "@/components/hackernews/HnBadge";
 import { BskyBadge } from "@/components/bluesky/BskyBadge";
 import { DevtoBadge } from "@/components/devto/DevtoBadge";
 import { PhBadge } from "@/components/producthunt/PhBadge";
-import { getHnMentions } from "@/lib/hackernews";
-import { getBlueskyMentions } from "@/lib/bluesky";
-import { getLaunchForRepo } from "@/lib/producthunt";
+import { resolveRepoMentions } from "@/lib/repo-mentions.server";
 import { getRepoMetadata } from "@/lib/repo-metadata";
 import type { TwitterRepoRowBadge } from "@/lib/twitter/types";
 import { XSignalBadge } from "@/components/twitter/XSignalBadge";
@@ -35,9 +33,10 @@ export function RepoDetailHeader({
   twitterBadge = null,
 }: RepoDetailHeaderProps): JSX.Element {
   const meta = getRepoMetadata(repo.fullName);
-  const hnMention = getHnMentions(repo.fullName);
-  const bskyMention = getBlueskyMentions(repo.fullName);
-  const phLaunch = getLaunchForRepo(repo.fullName);
+  const mentions = resolveRepoMentions(repo.fullName);
+  const hnMention = mentions.hn;
+  const bskyMention = mentions.bluesky;
+  const phLaunch = mentions.ph;
   const devtoMention = repo.devto ?? null;
 
   const topics = (repo.topics ?? []).slice(0, MAX_TOPICS);

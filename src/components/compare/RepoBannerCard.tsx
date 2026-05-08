@@ -11,11 +11,9 @@ import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { StatIcon } from "./StatIcon";
 import { BrandStar } from "@/components/shared/BrandStar";
 import { HnBadge } from "@/components/hackernews/HnBadge";
-import { getHnMentions } from "@/lib/hackernews";
 import { BskyBadge } from "@/components/bluesky/BskyBadge";
-import { getBlueskyMentions } from "@/lib/bluesky";
 import { PhBadge } from "@/components/producthunt/PhBadge";
-import { getLaunchForRepo } from "@/lib/producthunt";
+import type { RepoMentions } from "@/components/repo-signals/RepoMentionBadges";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoDisplayLogoUrl } from "@/lib/logos";
 
@@ -24,6 +22,13 @@ interface RepoBannerCardProps {
   /** Series color hex used for the left accent strip. Alias: accentColor. */
   accent?: string;
   accentColor?: string;
+  /**
+   * Resolved mention data from the server. When omitted, all badges are
+   * hidden — RepoBannerCard is a transitive client component (mounted by
+   * CompareClient.tsx) so it must not import the server-only resolver
+   * directly. The compare page is responsible for resolving + threading.
+   */
+  mentions?: RepoMentions;
 }
 
 const MAX_TOPICS = 4;
@@ -35,6 +40,7 @@ export function RepoBannerCard({
   bundle,
   accent,
   accentColor,
+  mentions,
 }: RepoBannerCardProps): JSX.Element {
   const accentStripe = accent ?? accentColor ?? "var(--color-brand)";
 
@@ -59,9 +65,9 @@ export function RepoBannerCard({
 
   const latest = bundle.latestRelease;
   const topics = bundle.topics?.slice(0, MAX_TOPICS) ?? [];
-  const hnMention = getHnMentions(bundle.fullName);
-  const bskyMention = getBlueskyMentions(bundle.fullName);
-  const phLaunch = getLaunchForRepo(bundle.fullName);
+  const hnMention = mentions?.hn ?? null;
+  const bskyMention = mentions?.bluesky ?? null;
+  const phLaunch = mentions?.ph ?? null;
   return (
     <div
       className="v2-card relative overflow-hidden p-4"

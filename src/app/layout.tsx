@@ -19,19 +19,22 @@ import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
 import ClerkRefHandoff from "@/components/auth/ClerkRefHandoff";
 import {
-  buildSidebarData,
-  type SidebarDataResponse,
+  getPublicSidebarShell,
+  type SidebarShellResponse,
 } from "@/lib/sidebar-data";
 // MobileDrawer is deferred via a thin client wrapper so framer-motion (the
 // drawer's biggest dep, ~30 kB gzipped) lands in its own chunk instead of
 // the shared bundle. The win propagates to every route. The wrapper file
 // exists because Server Components can't pass ssr:false to next/dynamic.
 import { MobileDrawerLazy } from "@/components/layout/MobileDrawerLazy";
-import { MobileNav } from "@/components/layout/MobileNav";
+import { MobileNavLazy } from "@/components/layout/MobileNavLazy";
+import { SidebarUserOverlayBridge } from "@/components/layout/SidebarUserOverlayBridge";
 import { BrowserAlertBridge } from "@/components/alerts/BrowserAlertBridge";
 import { GlobalShortcuts } from "@/components/layout/GlobalShortcuts";
+import { IdleMount } from "@/components/util/IdleMount";
 import { DesignSystemProvider } from "@/components/v3";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
+import { clerkAppearance } from "@/lib/auth/clerk-appearance";
 import { ClerkProvider } from "@clerk/nextjs";
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
@@ -157,21 +160,27 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Build the desktop sidebar payload server-side and pass it to <Sidebar>
-  // as initialData. Eliminates the post-hydration fetch + skeleton flash
-  // that used to delay every desktop page paint. Cap reposById at top-200
-  // by momentum: the layout inlines this payload into every page's RSC
-  // stream (mobile included, even though the sidebar is desktop-only).
-  // The mobile-drawer API path stays uncapped for backward compat — that
-  // fetch only fires on user-tap and isn't on any critical path. Wrapped
-  // in try/catch so a transient pipeline / data-store hiccup doesn't take
-  // the whole site down — if it fails we pass null and Sidebar falls back
-  // to its existing client-fetch path.
-  let initialSidebarData: SidebarDataResponse | null = null;
+  // Build the PUBLIC desktop sidebar shell server-side and pass it to
+  // <Sidebar> as initialShell. The shell is anonymous-safe: it does NOT
+  // call `pipeline.ensureReady()` (the bootstrap warmup did that exactly
+  // once at server start) and does NOT carry any user-keyed fields.
+  // Per-user data (`unreadAlerts`) lands client-side via
+  // <SidebarUserOverlayBridge />, gated on Clerk's session.
+  //
+  // Cap reposById at top-150 by momentum: the layout inlines this
+  // payload into every page's RSC stream (mobile included, even though
+  // the sidebar is desktop-only). 150 still covers virtually every
+  // watchlist's 5-item preview and trims ~25% off the previous 200-cap
+  // payload. The mobile-drawer API path stays uncapped for backward
+  // compat — that fetch only fires on user-tap and isn't on any
+  // critical path. Wrapped in try/catch so a transient pipeline /
+  // data-store hiccup doesn't take the whole site down — if it fails we
+  // pass null and Sidebar falls back to its existing client-fetch path.
+  let initialSidebarShell: SidebarShellResponse | null = null;
   try {
-    initialSidebarData = await buildSidebarData({ reposByIdTopN: 200 });
+    initialSidebarShell = await getPublicSidebarShell({ reposByIdTopN: 150 });
   } catch {
-    initialSidebarData = null;
+    initialSidebarShell = null;
   }
 
   const clerkPublishableKey = getClerkPublishableKey();
@@ -232,16 +241,28 @@ export default async function RootLayout({
           <PostHogProvider>
             <StoreProvider>
               <DesignSystemProvider>
-              <ClerkRefHandoff />
+              <IdleMount>
+                <ClerkRefHandoff />
+              </IdleMount>
               <Header />
               <MobileDrawerLazy />
               <AppShell>
-                <Sidebar initialData={initialSidebarData} />
+                <Sidebar initialShell={initialSidebarShell} />
                 <main id="main-content" className="app-main">{children}</main>
               </AppShell>
-              <MobileNav />
-              <BrowserAlertBridge />
-              <GlobalShortcuts />
+              {/*
+                Mounted unconditionally — the bridge is smart enough to
+                render nothing for anonymous viewers and only fires the
+                overlay fetch once a Clerk session resolves.
+              */}
+              <SidebarUserOverlayBridge />
+              <MobileNavLazy />
+              <IdleMount>
+                <BrowserAlertBridge />
+              </IdleMount>
+              <IdleMount>
+                <GlobalShortcuts />
+              </IdleMount>
               <ToasterLazy />
               </DesignSystemProvider>
             </StoreProvider>
@@ -254,6 +275,11 @@ export default async function RootLayout({
   if (!clerkPublishableKey) return shell;
 
   return (
-    <ClerkProvider publishableKey={clerkPublishableKey}>{shell}</ClerkProvider>
+    <ClerkProvider
+      publishableKey={clerkPublishableKey}
+      appearance={clerkAppearance}
+    >
+      {shell}
+    </ClerkProvider>
   );
 }

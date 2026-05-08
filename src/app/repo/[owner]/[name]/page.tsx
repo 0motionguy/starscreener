@@ -1,5 +1,13 @@
 // /repo/[owner]/[name] — modernized repo detail page.
 //
+// CACHE CONTRACT
+// kind:        ISR
+// revalidate:  300 (5 min) for known repos
+// audience:    public
+// freshness:   known repos: 5min behind cron-driven snapshot;
+//              unknown repos: 30min ISR via /api/internal/github/live-repo
+// invalidates: n/a
+//
 // Mostly a server component that composes:
 //   1. RepoDetailHeader  — identity + badges + cross-signal score callout
 //   2. RepoActionRow     — Watch / Compare / open on GitHub (client)
@@ -15,13 +23,19 @@
 // assembler (`buildCanonicalRepoProfile`). Adding a new signal means
 // exposing it on `CanonicalRepoProfile` once, and consuming the slice
 // here — this page no longer stitches per-source loaders directly.
+//
+// Cold-miss path (repo not in our derived set): we no longer call
+// fetchGitHubRepoLive() inline. Instead we fetch the bounded internal API
+// at /api/internal/github/live-repo, which has its own SWR cache and a
+// 1.5s upstream timeout. That keeps page TTFB independent of GitHub's
+// latency and shares the CDN cache across cold-miss visitors.
 
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import type { Repo } from "@/lib/types";
 
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
-import { fetchGitHubRepoLive } from "@/lib/github-live";
-import { absoluteUrl, SITE_NAME, safeJsonLd } from "@/lib/seo";
+import { absoluteUrl, SITE_NAME, safeJsonLd, SITE_URL } from "@/lib/seo";
 import { buildRepoPageSchemas } from "@/lib/seo-repo-schemas";
 import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
 // Data-store refresh hooks. The repo detail page consumes signal data from
@@ -91,6 +105,29 @@ import { RelatedIdeasPanel } from "@/components/repo-detail/RelatedIdeasPanel";
 export const revalidate = 300;
 
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
+
+// Base-URL resolver for the inner internal-API fetch. Order of preference:
+//   1. VERCEL_URL — auto-injected on every Vercel deployment (preview +
+//      prod). It's the host without scheme, so we prepend https://.
+//   2. SITE_URL from @/lib/seo — uses NEXT_PUBLIC_APP_URL when set.
+//   3. http://localhost:<PORT> — local dev fallback. PORT is 3023 per the
+//      project's dev-server config.
+// We compute this once at module load, NOT inside the page component, so
+// it doesn't trip Next 15's dynamic-rendering opt-in.
+const INTERNAL_API_BASE: string = (() => {
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  if (SITE_URL && !SITE_URL.includes("trendingrepo.com")) return SITE_URL;
+  // SITE_URL defaults to https://trendingrepo.com which would be wrong for
+  // local dev. Use it only when explicitly overridden via NEXT_PUBLIC_APP_URL.
+  if (process.env.NEXT_PUBLIC_APP_URL) return SITE_URL;
+  const port = process.env.PORT ?? "3023";
+  return `http://localhost:${port}`;
+})();
+
+function buildLiveRepoApiUrl(owner: string, name: string): string {
+  const params = new URLSearchParams({ owner, name });
+  return `${INTERNAL_API_BASE}/api/internal/github/live-repo?${params.toString()}`;
+}
 
 interface PageProps {
   params: Promise<{ owner: string; name: string }>;
@@ -167,43 +204,74 @@ export default async function RepoDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  // Existence check — try our curated derived set first, then fall back to a
-  // live GitHub fetch for repos we haven't picked up via trending /
-  // manual-repos / pipeline JSONL yet. Live-fetched repos render the same
-  // detail layout but show empty cross-source signals (since none of our
-  // collectors have scanned them yet) and surface a "tracking started"
-  // banner so users understand why every chip is empty.
+  // Existence check — try our curated derived set first, then fall back to
+  // the bounded internal API at /api/internal/github/live-repo for repos we
+  // haven't picked up via trending / manual-repos / pipeline JSONL yet.
+  // Live-fetched repos render the same detail layout but show empty
+  // cross-source signals (since none of our collectors have scanned them
+  // yet) and surface a "tracking started" banner so users understand why
+  // every chip is empty.
+  //
+  // The internal API has its own SWR cache (300s/3600s) and a 1.5s upstream
+  // timeout — page TTFB is no longer hostage to GitHub's latency.
   const fullName = `${owner}/${name}`;
-  let baseRepo = getDerivedRepoByFullName(fullName);
+  const derivedBase = getDerivedRepoByFullName(fullName);
+  let baseRepo: Repo;
   let isLiveFetched = false;
-  if (!baseRepo) {
-    baseRepo = await fetchGitHubRepoLive(owner, name);
-    if (!baseRepo) notFound();
+  if (derivedBase) {
+    baseRepo = derivedBase;
+    // Refresh every data-store-backed cache the canonical profile + render
+    // surfaces will read. All in parallel; each is cheap on warm Lambdas.
+    // The star-activity refresh is per-repo (one Redis key per repo) — kept
+    // alongside the global refreshes here so the inline 90-day chart on the
+    // new layout always sees the freshest snapshot.
+    //
+    // Skipped for live-fetched repos: those caches are empty by definition
+    // (no collector has scanned the repo yet), so the fan-out wastes ~700ms
+    // of Lambda time per cold miss for nothing.
+    await Promise.all([
+      refreshRepoMetadataFromStore(),
+      refreshNpmFromStore(),
+      refreshRedditMentionsFromStore(),
+      refreshRedditAllPostsFromStore(),
+      refreshRedditBaselinesFromStore(),
+      refreshHackernewsMentionsFromStore(),
+      refreshHackernewsTrendingFromStore(),
+      refreshBlueskyMentionsFromStore(),
+      refreshBlueskyTrendingFromStore(),
+      refreshDevtoMentionsFromStore(),
+      refreshDevtoTrendingFromStore(),
+      refreshLobstersMentionsFromStore(),
+      refreshLobstersTrendingFromStore(),
+      refreshProducthuntLaunchesFromStore(),
+      refreshStarActivityFromStore(`${owner}/${name}`),
+    ]);
+  } else {
     isLiveFetched = true;
+    // Fetch from the bounded internal API. Next dedupes inner fetches on
+    // the server, so two concurrent cold-miss requests for the same
+    // (owner, name) collapse into one upstream call. revalidate:1800
+    // overrides the default 300s on the inner cache so unknown-repo pages
+    // share an even longer SWR window across visitors.
+    let res: Response;
+    try {
+      res = await fetch(buildLiveRepoApiUrl(owner, name), {
+        next: { revalidate: 1800 },
+      });
+    } catch (err) {
+      console.warn("[repo-detail] internal live-repo fetch threw", err);
+      notFound();
+    }
+    if (!res.ok) {
+      // 404 → repo doesn't exist on GitHub. 503 → upstream timeout / 5xx.
+      // Both fall through to notFound for now; we don't have a partial-error
+      // surface for "GitHub timed out trying to fetch this repo".
+      notFound();
+    }
+    baseRepo = (await res.json()) as Repo;
+    // No fan-out: data-store caches are empty for repos our collectors
+    // haven't seen yet. Save the ~700ms worth of refresh roundtrips.
   }
-
-  // Refresh every data-store-backed cache the canonical profile + render
-  // surfaces will read. All in parallel; each is cheap on warm Lambdas.
-  // The star-activity refresh is per-repo (one Redis key per repo) — kept
-  // alongside the global refreshes here so the inline 90-day chart on the
-  // new layout always sees the freshest snapshot.
-  await Promise.all([
-    refreshRepoMetadataFromStore(),
-    refreshNpmFromStore(),
-    refreshRedditMentionsFromStore(),
-    refreshRedditAllPostsFromStore(),
-    refreshRedditBaselinesFromStore(),
-    refreshHackernewsMentionsFromStore(),
-    refreshHackernewsTrendingFromStore(),
-    refreshBlueskyMentionsFromStore(),
-    refreshBlueskyTrendingFromStore(),
-    refreshDevtoMentionsFromStore(),
-    refreshDevtoTrendingFromStore(),
-    refreshLobstersMentionsFromStore(),
-    refreshLobstersTrendingFromStore(),
-    refreshProducthuntLaunchesFromStore(),
-    refreshStarActivityFromStore(`${owner}/${name}`),
-  ]);
 
   // Single canonical call replaces the fifteen-loader stitch that used to
   // live here. Every surface consumes a slice of `profile`, so any future

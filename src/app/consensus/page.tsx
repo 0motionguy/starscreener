@@ -12,7 +12,7 @@ import {
   refreshConsensusVerdictsFromStore,
 } from "@/lib/consensus-verdicts";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
-import { AgreementMatrix } from "@/components/consensus/AgreementMatrix";
+import { AgreementMatrixLazy } from "@/components/consensus/AgreementMatrixLazy";
 import { ConsensusBoard } from "@/components/consensus/ConsensusBoard";
 import { DailyVerdictPanel } from "@/components/consensus/DailyVerdictPanel";
 import { SourceStrip } from "@/components/consensus/SourceStrip";
@@ -363,7 +363,7 @@ export default async function ConsensusPage() {
             </span>
             <span className="right">click any band row · open detail</span>
           </div>
-          <AgreementMatrix items={items} />
+          <AgreementMatrixLazy items={items} />
         </section>
 
         <div className="col-4">

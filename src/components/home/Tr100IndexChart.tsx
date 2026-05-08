@@ -18,8 +18,9 @@
 
 import { useMemo } from "react";
 import type { EChartsCoreOption } from "echarts/core";
+import "@/lib/charts/theme/sparkline";
 import { EChart } from "@/components/charts/EChart";
-import { CHART_TOKENS } from "@/lib/charts/theme";
+import { CHART_TOKENS } from "@/lib/charts/theme/tokens";
 
 export interface Tr100Point {
   /** UTC ms timestamp at start of day. */

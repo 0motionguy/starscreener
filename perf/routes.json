@@ -1,0 +1,208 @@
+{
+  "$schema": "./routes.schema.json",
+  "version": 1,
+  "_doc": "Single source of truth for public-route cache policy + perf budgets. Every src/app/**/page.tsx not under admin|api|alerts|sign-in|sign-up|submit|embed|design-lab|portal|watchlist|you|refer|brief|s should appear here, or be ignored via perf/.perfignore. Used by scripts/perf-routes.mjs (cache+TTFB+transfer asserter), scripts/perf-bundle.mjs (route JS budget + forbidden-import detector), scripts/check-routes-config.mjs (completeness lint), and .github/workflows/cron-warmup.yml (warmup matrix).",
+  "globalDefaults": {
+    "ttfbBudgetMs": { "cached": 800, "uncached": 1500 },
+    "transferBudgetKb": 90,
+    "firstLoadJsBudgetKb": 900
+  },
+  "routes": [
+    {
+      "route": "/",
+      "policy": "isr",
+      "revalidateSeconds": 1800,
+      "ttfbBudgetMs": { "cached": 600, "uncached": 1500 },
+      "transferBudgetKb": 130,
+      "firstLoadJsBudgetKb": 1100,
+      "warmupOnDeploy": true,
+      "warmupCadence": "*/5 8-21 * * *",
+      "owner": "home"
+    },
+    {
+      "route": "/githubrepo",
+      "policy": "isr",
+      "revalidateSeconds": 600,
+      "transferBudgetKb": 90,
+      "firstLoadJsBudgetKb": 1100,
+      "warmupOnDeploy": true,
+      "owner": "lists"
+    },
+    {
+      "route": "/skills",
+      "policy": "isr",
+      "revalidateSeconds": 600,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/mcp",
+      "policy": "isr",
+      "revalidateSeconds": 600,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/reddit/trending",
+      "policy": "isr",
+      "revalidateSeconds": 600,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/hackernews/trending",
+      "policy": "isr",
+      "revalidateSeconds": 600,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/lobsters",
+      "policy": "isr",
+      "revalidateSeconds": 300,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/devto",
+      "policy": "isr",
+      "revalidateSeconds": 300,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/bluesky/trending",
+      "policy": "isr",
+      "revalidateSeconds": 600,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/twitter",
+      "policy": "isr",
+      "revalidateSeconds": 300,
+      "transferBudgetKb": 90,
+      "firstLoadJsBudgetKb": 1100,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/signals",
+      "policy": "isr",
+      "revalidateSeconds": 1800,
+      "transferBudgetKb": 100,
+      "firstLoadJsBudgetKb": 1100,
+      "warmupOnDeploy": true,
+      "owner": "signals-terminal"
+    },
+    {
+      "route": "/top10",
+      "policy": "isr",
+      "revalidateSeconds": 600,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/compare",
+      "policy": "isr",
+      "revalidateSeconds": 3600,
+      "transferBudgetKb": 90,
+      "firstLoadJsBudgetKb": 1100,
+      "warmupOnDeploy": true,
+      "owner": "compare"
+    },
+    {
+      "route": "/funding",
+      "policy": "isr",
+      "revalidateSeconds": 900,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/revenue",
+      "policy": "isr",
+      "revalidateSeconds": 900,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/arxiv/trending",
+      "policy": "isr",
+      "revalidateSeconds": 900,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/producthunt",
+      "policy": "isr",
+      "revalidateSeconds": 900,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/huggingface",
+      "policy": "isr",
+      "revalidateSeconds": 900,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/npm",
+      "policy": "isr",
+      "revalidateSeconds": 900,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/breakouts",
+      "policy": "isr",
+      "revalidateSeconds": 600,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/categories",
+      "policy": "isr",
+      "revalidateSeconds": 1800,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/methodology",
+      "policy": "static",
+      "transferBudgetKb": 60,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/research",
+      "policy": "static",
+      "transferBudgetKb": 60,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/tools/revenue-estimate",
+      "policy": "isr",
+      "revalidateSeconds": 86400,
+      "transferBudgetKb": 90,
+      "warmupOnDeploy": true
+    },
+    {
+      "route": "/repo/0motionguy/starscreener",
+      "policy": "isr",
+      "revalidateSeconds": 300,
+      "transferBudgetKb": 130,
+      "firstLoadJsBudgetKb": 1100,
+      "warmupOnDeploy": true,
+      "owner": "repo-detail-canary",
+      "_note": "canary probe for /repo/[owner]/[name] dynamic segment; one entry per template, not per slug"
+    },
+    {
+      "route": "/api/health?soft=1",
+      "policy": "dynamic-public",
+      "expectsDynamic": true,
+      "reason": "health probe must reflect live state; cron-freshness-check polls this every 15 min",
+      "ttfbBudgetMs": { "cached": 400, "uncached": 600 },
+      "transferBudgetKb": 5,
+      "warmupOnDeploy": false
+    }
+  ]
+}

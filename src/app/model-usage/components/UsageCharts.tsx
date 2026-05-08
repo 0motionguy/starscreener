@@ -9,8 +9,9 @@
 import { useMemo } from "react";
 import type { EChartsCoreOption } from "echarts/core";
 
+import "@/lib/charts/theme/full";
 import { EChart } from "@/components/charts/EChart";
-import { CHART_TOKENS } from "@/lib/charts/theme";
+import { CHART_TOKENS } from "@/lib/charts/theme/tokens";
 
 interface DayPoint {
   day: string;

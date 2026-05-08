@@ -3,12 +3,12 @@
 // Replaces the legacy `id-strip` + `repo-verdict` blocks with a single,
 // mockup-aligned block:
 //
-//   1. EYEBROW ROW   REPO · RANK #N · X/5 FIRING · LANG
+//   1. EYEBROW ROW   REPO · RANK #N · X/6 FIRING · LANG
 //   2. HEAD          [avatar] owner / name ↗      [WATCH] [COMPARE] [OPEN ON GITHUB]
 //                    description
 //                    [language] [topic chips]  ★ stars  ⑂ forks  contribs  · 23h ago
-//   3. VERDICT BAND  [rank card] [cross-signal 0.X/5.0 + gauge] [prose] [30D delta]
-//   4. CHANNEL CHIPS GitHub · HN · Reddit · Bluesky · Dev.to (5-up)
+//   3. VERDICT BAND  [rank card] [cross-signal 0.X/6.0 + gauge] [prose] [30D delta]
+//   4. CHANNEL CHIPS GitHub · HN · Reddit · Bluesky · Dev.to · X (6-up)
 //   5. METRIC STRIP  STARS · FORKS · CONTRIBS · MOMENTUM · SURFACE  (5-up)
 //
 // All children are pre-existing components or the new ones in this folder.
@@ -39,6 +39,8 @@ interface NarrativePart {
   /** Optional emphasis class for tinted phrasing. */
   tone?: "positive" | "neutral" | "negative" | "muted";
 }
+
+const CHANNEL_TOTAL = 6;
 
 function buildNarrative(repo: Repo): NarrativePart[] {
   const ps = repo.mentions?.perSource;
@@ -89,6 +91,9 @@ function buildNarrative(repo: Repo): NarrativePart[] {
   if (status?.devto && (ps?.devto.count7d ?? 0) > 0) {
     fired.push(`dev.to writeups (${ps?.devto.count7d} articles / 7d)`);
   }
+  if (status?.twitter && (ps?.twitter.count24h ?? 0) > 0) {
+    fired.push(`X posts (${ps?.twitter.count24h} / 24h)`);
+  }
   if (fired.length > 0) {
     const joined =
       fired.length === 1
@@ -100,7 +105,7 @@ function buildNarrative(repo: Repo): NarrativePart[] {
   }
 
   // Quiet-channel callout — only when we have anything to compare against.
-  if (channelsFiring > 0 && channelsFiring < 5) {
+  if (channelsFiring > 0 && channelsFiring < CHANNEL_TOTAL) {
     const quiet: string[] = [];
     if (status && !status.reddit) quiet.push("Reddit");
     if (status && !status.bluesky) quiet.push("Bluesky");
@@ -154,7 +159,7 @@ export function RepoIdHero({
         </span>
         <span className="rid-sep">·</span>
         <span className={channelsFiring >= 2 ? "rid-firing" : "rid-firing dim"}>
-          {channelsFiring}/5 firing
+          {channelsFiring}/{CHANNEL_TOTAL} firing
         </span>
         {repo.language ? (
           <>
@@ -233,15 +238,15 @@ export function RepoIdHero({
           <span className="rv-label">Cross-signal</span>
           <span>
             <span className="rv-big">{crossSignal.toFixed(2)}</span>
-            <span className="rv-max"> / 5.0</span>
+            <span className="rv-max"> / {CHANNEL_TOTAL}.0</span>
           </span>
           <div className="rv-gauge" aria-hidden>
-            {Array.from({ length: 5 }).map((_, i) => (
+            {Array.from({ length: CHANNEL_TOTAL }).map((_, i) => (
               <i key={i} className={i < channelsFiring ? "on" : "dim"} />
             ))}
           </div>
           <span className="rv-meta">
-            <b>{channelsFiring} / 5</b> channels firing · {sd24 >= 0 ? "+" : ""}
+            <b>{channelsFiring} / {CHANNEL_TOTAL}</b> channels firing · {sd24 >= 0 ? "+" : ""}
             {formatNumber(sd24)} 24h
           </span>
         </div>

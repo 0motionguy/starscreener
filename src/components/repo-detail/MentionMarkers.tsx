@@ -1,26 +1,22 @@
 // Cross-channel mention markers for the repo detail Stars chart.
+//
+// Server-only — pulls the full mention/post arrays from the bundled JSON
+// loaders, so this lives behind the `repo-mentions.server` boundary.
+// Callers must be RSC / route handlers; never imported from "use client".
 
-import {
-  getHnMentions,
-  type HnStory,
-} from "@/lib/hackernews";
+import { type HnStory } from "@/lib/hackernews";
 import {
   type RedditPost,
   redditPostHref,
 } from "@/lib/reddit";
 import { getRedditMentions } from "@/lib/reddit-data";
-import {
-  getBlueskyMentions,
-  type BskyPost,
-} from "@/lib/bluesky";
+import { type BskyPost } from "@/lib/bluesky";
 import {
   getDevtoMentions,
   type DevtoArticle,
 } from "@/lib/devto";
-import {
-  getLaunchForRepo,
-  type Launch,
-} from "@/lib/producthunt";
+import { type Launch } from "@/lib/producthunt";
+import { resolveRepoMentions } from "@/lib/repo-mentions.server";
 import {
   MENTION_PLATFORM_COLORS,
   MENTION_PLATFORM_LABELS,
@@ -120,19 +116,21 @@ export function buildMentionMarkers(
   const out: MentionMarker[] = [];
   const cutoff = Date.now() - windowDays * 86_400_000;
 
-  const hn = getHnMentions(fullName);
+  const mentions = resolveRepoMentions(fullName);
+
+  const hn = mentions.hn;
   if (hn) for (const story of hn.stories) out.push(fromHnStory(story));
 
   const reddit = getRedditMentions(fullName);
   if (reddit) for (const post of reddit.posts) out.push(fromRedditPost(post));
 
-  const bluesky = getBlueskyMentions(fullName);
+  const bluesky = mentions.bluesky;
   if (bluesky) for (const post of bluesky.posts) out.push(fromBskyPost(post));
 
   const devto = getDevtoMentions(fullName);
   if (devto) for (const article of devto.articles) out.push(fromDevtoArticle(article));
 
-  const launch = getLaunchForRepo(fullName);
+  const launch = mentions.ph;
   if (launch) out.push(fromPhLaunch(launch));
 
   return out

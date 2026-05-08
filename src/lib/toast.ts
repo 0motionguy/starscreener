@@ -3,27 +3,37 @@
 // Thin wrapper over `sonner` so the rest of the app imports a single
 // surface. Keeps message wording consistent (watch/compare/share) and
 // makes it trivial to swap transports later.
+//
+// All primitives accept an optional `ExternalToast` options bag (sonner's
+// own type) so callers can pass `id`, `description`, `action`, etc. Each
+// helper merges a sensible default duration (longer for errors, infinite
+// for `loading` until the caller dismisses).
 
-import { toast as sonnerToast } from "sonner";
+import { toast as sonnerToast, type ExternalToast } from "sonner";
 
 /* ---------------------------------------------------------------------------
  * Primitive helpers
  * ------------------------------------------------------------------------- */
 
-export const toast = {
-  success(message: string) {
-    sonnerToast.success(message);
-  },
-  error(message: string) {
-    sonnerToast.error(message);
-  },
-  info(message: string) {
-    sonnerToast.info(message);
-  },
-  message(message: string) {
-    sonnerToast(message);
-  },
+const baseStyle: ExternalToast = {
+  duration: 4000,
 };
+
+export const toast = {
+  success: (message: string, opts?: ExternalToast) =>
+    sonnerToast.success(message, { ...baseStyle, ...opts }),
+  error: (message: string, opts?: ExternalToast) =>
+    sonnerToast.error(message, { ...baseStyle, duration: 6000, ...opts }),
+  info: (message: string, opts?: ExternalToast) =>
+    sonnerToast.info(message, { ...baseStyle, ...opts }),
+  message: (message: string, opts?: ExternalToast) =>
+    sonnerToast(message, { ...baseStyle, ...opts }),
+  loading: (message: string, opts?: ExternalToast) =>
+    sonnerToast.loading(message, { ...baseStyle, duration: Infinity, ...opts }),
+  dismiss: (id?: string | number) => sonnerToast.dismiss(id),
+};
+
+export type { ExternalToast };
 
 /* ---------------------------------------------------------------------------
  * Domain-specific helpers

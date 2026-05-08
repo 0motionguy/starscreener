@@ -1,0 +1,48 @@
+# Pages allowed to lack a perf budget for now.
+#
+# Each line is either an exact route ("/about") or a prefix glob ending in `*`
+# ("/admin*"). Lines starting with `#` are comments. Top-level auth/admin/utility
+# prefixes are already excluded by scripts/check-routes-config.mjs; this file is
+# for one-off public pages we haven't budgeted yet.
+#
+# Goal: every route here should eventually graduate into perf/routes.json or
+# be retired. New entries require a comment explaining the deferral.
+
+# Static marketing / docs
+/about
+/contact
+/pricing
+/privacy
+/terms
+
+# Lower-traffic public lists (TODO: add budgets after PR3 ships)
+/papers
+/reddit
+/top
+/tierlist
+/agent-commerce
+/agent-repos
+/commer
+/tools
+/tools/star-history
+/tools/treemap
+/submit
+/submit/revenue
+/model-usage
+/search
+/trends
+
+# Dynamic-segment children of routes that have a canary entry
+/repo/[owner]/[name]/star-activity
+/skills/[slug]
+/mcp/[slug]
+/categories/[slug]
+/top10/[date]
+
+# Sub-namespaces under existing top-level public routes
+/funding/_health
+/funding/sec
+/huggingface/models
+/huggingface/spaces
+/huggingface/datasets
+/huggingface/trending

@@ -1,5 +1,13 @@
 // /repo/[owner]/[name] — modernized repo detail page.
 //
+// CACHE CONTRACT
+// kind:        ISR
+// revalidate:  300 (5 min) for hot tracked repos and on-demand repo pages
+// audience:    public
+// freshness:   tracked repos: 5min behind cron-driven snapshot;
+//              unknown repos: 5min page ISR + Redis-cached live GitHub identity
+// invalidates: n/a
+//
 // Mostly a server component that composes:
 //   1. RepoDetailHeader  — identity + badges + cross-signal score callout
 //   2. RepoActionRow     — Watch / Compare / open on GitHub (client)
@@ -15,15 +23,21 @@
 // assembler (`buildCanonicalRepoProfile`). Adding a new signal means
 // exposing it on `CanonicalRepoProfile` once, and consuming the slice
 // here — this page no longer stitches per-source loaders directly.
+//
+// Cold-miss path (repo not in our derived set): we call the shared bounded
+// live GitHub resolver used by /api/internal/github/live-repo. It keeps the
+// same Redis cache and 1.5s upstream timeout without self-fetching the app
+// through a guessed host/port.
 
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import type { Repo } from "@/lib/types";
 
-import { getDerivedRepoByFullName } from "@/lib/derived-repos";
-import { fetchGitHubRepoLive } from "@/lib/github-live";
+import { getDerivedRepoByFullName, getDerivedRepos } from "@/lib/derived-repos";
 import { absoluteUrl, SITE_NAME, safeJsonLd } from "@/lib/seo";
 import { buildRepoPageSchemas } from "@/lib/seo-repo-schemas";
 import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
+import { fetchGitHubRepoLiveWithinBudget } from "@/lib/github-live";
 // Data-store refresh hooks. The repo detail page consumes signal data from
 // many sources; we refresh all of them in parallel before the canonical
 // assembler runs so the post-refresh getters see the freshest cache.
@@ -89,11 +103,27 @@ import { RelatedIdeasPanel } from "@/components/repo-detail/RelatedIdeasPanel";
 // Each (owner, name) tuple gets its own ISR cache entry on first hit;
 // stale-while-revalidate handles long-tail repos cheaply.
 export const revalidate = 300;
+export const dynamicParams = true;
 
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
+const STATIC_REPO_DETAIL_LIMIT = 50;
+
+function isGithubUrl(url: string): boolean {
+  return /github\.com/i.test(url);
+}
+
+function isDocsSurfaceUrl(url: string): boolean {
+  return /docs|readme|documentation/i.test(url);
+}
 
 interface PageProps {
   params: Promise<{ owner: string; name: string }>;
+}
+
+export function generateStaticParams(): Array<{ owner: string; name: string }> {
+  return getDerivedRepos()
+    .slice(0, STATIC_REPO_DETAIL_LIMIT)
+    .map((repo) => ({ owner: repo.owner, name: repo.name }));
 }
 
 export async function generateMetadata({
@@ -113,11 +143,26 @@ export async function generateMetadata({
   const canonical = absoluteUrl(`/repo/${owner}/${name}`);
 
   if (!repo) {
+    const title = `${owner}/${name} — ${SITE_NAME}`;
+    const description =
+      `Live GitHub repo profile for ${owner}/${name}. Cross-source signals populate after the next collector tick.`;
     return {
-      title: `Repo Not Found — ${SITE_NAME}`,
-      description: `We don't have ${owner}/${name} in the momentum terminal yet.`,
+      title,
+      description,
       alternates: { canonical },
       robots: { index: false, follow: true },
+      openGraph: {
+        type: "website",
+        url: canonical,
+        title,
+        description,
+        siteName: SITE_NAME,
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+      },
     };
   }
 
@@ -167,43 +212,66 @@ export default async function RepoDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  // Existence check — try our curated derived set first, then fall back to a
-  // live GitHub fetch for repos we haven't picked up via trending /
-  // manual-repos / pipeline JSONL yet. Live-fetched repos render the same
-  // detail layout but show empty cross-source signals (since none of our
-  // collectors have scanned them yet) and surface a "tracking started"
-  // banner so users understand why every chip is empty.
+  // Existence check — try our curated derived set first, then fall back to
+  // the bounded internal API at /api/internal/github/live-repo for repos we
+  // haven't picked up via trending / manual-repos / pipeline JSONL yet.
+  // Live-fetched repos render the same detail layout but show empty
+  // cross-source signals (since none of our collectors have scanned them
+  // yet) and surface a "tracking started" banner so users understand why
+  // every chip is empty.
+  //
+  // The internal API has its own SWR cache (300s/3600s) and a 1.5s upstream
+  // timeout — page TTFB is no longer hostage to GitHub's latency.
   const fullName = `${owner}/${name}`;
-  let baseRepo = getDerivedRepoByFullName(fullName);
+  const derivedBase = getDerivedRepoByFullName(fullName);
+  let baseRepo: Repo;
   let isLiveFetched = false;
-  if (!baseRepo) {
-    baseRepo = await fetchGitHubRepoLive(owner, name);
-    if (!baseRepo) notFound();
+  if (derivedBase) {
+    baseRepo = derivedBase;
+    // Refresh every data-store-backed cache the canonical profile + render
+    // surfaces will read. All in parallel; each is cheap on warm Lambdas.
+    // The star-activity refresh is per-repo (one Redis key per repo) — kept
+    // alongside the global refreshes here so the inline 90-day chart on the
+    // new layout always sees the freshest snapshot.
+    //
+    // Skipped for live-fetched repos: those caches are empty by definition
+    // (no collector has scanned the repo yet), so the fan-out wastes ~700ms
+    // of Lambda time per cold miss for nothing.
+    await Promise.all([
+      refreshRepoMetadataFromStore(),
+      refreshNpmFromStore(),
+      refreshRedditMentionsFromStore(),
+      refreshRedditAllPostsFromStore(),
+      refreshRedditBaselinesFromStore(),
+      refreshHackernewsMentionsFromStore(),
+      refreshHackernewsTrendingFromStore(),
+      refreshBlueskyMentionsFromStore(),
+      refreshBlueskyTrendingFromStore(),
+      refreshDevtoMentionsFromStore(),
+      refreshDevtoTrendingFromStore(),
+      refreshLobstersMentionsFromStore(),
+      refreshLobstersTrendingFromStore(),
+      refreshProducthuntLaunchesFromStore(),
+      refreshStarActivityFromStore(`${owner}/${name}`),
+    ]);
+  } else {
     isLiveFetched = true;
+    // Resolve through the same bounded helper as the internal API route.
+    // This keeps the Redis-backed GitHub metadata cache but avoids a fragile
+    // same-app HTTP call to a guessed host/port during server rendering.
+    try {
+      const liveRepo = await fetchGitHubRepoLiveWithinBudget(owner, name);
+      if (!liveRepo) {
+        notFound();
+      }
+      baseRepo = liveRepo;
+    } catch (err) {
+      console.warn("[repo-detail] live repo resolver failed", err);
+      notFound();
+    }
+    // No fan-out: data-store caches are empty for repos our collectors
+    // haven't seen yet. Save the ~700ms worth of refresh roundtrips.
   }
-
-  // Refresh every data-store-backed cache the canonical profile + render
-  // surfaces will read. All in parallel; each is cheap on warm Lambdas.
-  // The star-activity refresh is per-repo (one Redis key per repo) — kept
-  // alongside the global refreshes here so the inline 90-day chart on the
-  // new layout always sees the freshest snapshot.
-  await Promise.all([
-    refreshRepoMetadataFromStore(),
-    refreshNpmFromStore(),
-    refreshRedditMentionsFromStore(),
-    refreshRedditAllPostsFromStore(),
-    refreshRedditBaselinesFromStore(),
-    refreshHackernewsMentionsFromStore(),
-    refreshHackernewsTrendingFromStore(),
-    refreshBlueskyMentionsFromStore(),
-    refreshBlueskyTrendingFromStore(),
-    refreshDevtoMentionsFromStore(),
-    refreshDevtoTrendingFromStore(),
-    refreshLobstersMentionsFromStore(),
-    refreshLobstersTrendingFromStore(),
-    refreshProducthuntLaunchesFromStore(),
-    refreshStarActivityFromStore(`${owner}/${name}`),
-  ]);
 
   // Single canonical call replaces the fifteen-loader stitch that used to
   // live here. Every surface consumes a slice of `profile`, so any future
@@ -252,9 +320,10 @@ export default async function RepoDetailPage({ params }: PageProps) {
   const npmHomepages = (profile.npm.packages ?? [])
     .map((p) => p.homepage)
     .filter((h): h is string => Boolean(h));
+  const hasDocs = npmHomepages.some(isDocsSurfaceUrl);
   const hasWebsite = Boolean(
     profile.productHunt?.website ||
-      npmHomepages.find((u) => !/github\.com/i.test(u)),
+      npmHomepages.find((u) => !isGithubUrl(u) && !isDocsSurfaceUrl(u)),
   );
   const hasNpm = (profile.npm.packages ?? []).length > 0;
   const hasProductHunt = Boolean(profile.productHunt);
@@ -265,6 +334,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
   const surfaceCount =
     1 /* github */ +
     (hasWebsite ? 1 : 0) +
+    (hasDocs ? 1 : 0) +
     (hasNpm ? 1 : 0) +
     (hasProductHunt ? 1 : 0) +
     (hasPaperModel ? 1 : 0);
@@ -327,6 +397,17 @@ export default async function RepoDetailPage({ params }: PageProps) {
           </div>
         ) : null}
 
+        <div className="repo-profile-topline">
+          <CompletenessStrip repo={repo} />
+          <WhyBadge narrative={whyNarrative} variant="full" />
+          <RepoSignalSnapshot
+            repo={repo}
+            mentions={mentions}
+            npmPackages={profile.npm.packages}
+            productHuntLaunch={profile.productHunt}
+          />
+        </div>
+
         {/* Invisible analytics + reaction widgets. Kept here so they
             still fire on this surface. */}
         <MarkRepoViewed owner={repo.owner} name={repo.name} />
@@ -366,7 +447,9 @@ export default async function RepoDetailPage({ params }: PageProps) {
           title="Growth"
           meta={<>Stars · 90 day · cumulative</>}
         />
-        <StarHistoryBlock repo={repo} />
+        <ErrorBoundary resetKey={`star-history:${repo.fullName}`}>
+          <StarHistoryBlock repo={repo} />
+        </ErrorBoundary>
 
         {/* // 03 MENTIONS — tabbed evidence feed with 14d timeline strip.
             User explicitly flagged this as "very important" in the redesign
@@ -377,12 +460,14 @@ export default async function RepoDetailPage({ params }: PageProps) {
           title="Mentions"
           meta={<>14d window · {mentions.length} total</>}
         />
-        <RecentMentionsFeed
-          mentions={mentions}
-          freshness={profile.freshness}
-          repoFullName={repo.fullName}
-          initialCursor={profile.mentions.nextCursor}
-        />
+        <ErrorBoundary resetKey={`mentions:${repo.fullName}`}>
+          <RecentMentionsFeed
+            mentions={mentions}
+            freshness={profile.freshness}
+            repoFullName={repo.fullName}
+            initialCursor={profile.mentions.nextCursor}
+          />
+        </ErrorBoundary>
 
         {/* // 04 CONTEXT — owner organization + 6 vector-similar repos. */}
         <SectionHead
@@ -413,15 +498,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
             ].filter(Boolean).join(" · ") || "auxiliary"}</span>
           </summary>
           <div className="rdd-stack">
-            <CompletenessStrip repo={repo} />
-            <WhyBadge narrative={whyNarrative} variant="full" />
             <WhyTrending reasons={profile.reasons} />
-            <RepoSignalSnapshot
-              repo={repo}
-              mentions={mentions}
-              npmPackages={profile.npm.packages}
-              productHuntLaunch={profile.productHunt}
-            />
             <RepoRevenuePanel
               verified={profile.revenue.verified}
               selfReported={profile.revenue.selfReported}
@@ -458,6 +535,11 @@ export default async function RepoDetailPage({ params }: PageProps) {
           .repo-detail-split {
             display: grid;
             grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 12px;
+          }
+          .repo-profile-topline {
+            display: flex;
+            flex-direction: column;
             gap: 12px;
           }
           @media (max-width: 980px) {

@@ -35,11 +35,10 @@ import {
   toastWatchRemoved,
 } from "@/lib/toast";
 import { EntityLogo } from "@/components/ui/EntityLogo";
-import { EChartSparkline } from "@/components/charts/EChartSparkline";
+import { SvgSparkline } from "@/components/charts/SvgSparkline";
 import { FreshnessChip } from "@/components/shared/FreshnessChip";
 import { repoLogoUrl } from "@/lib/logos";
 import { useViewportPrefetch } from "@/hooks/useViewportPrefetch";
-import type { Repo } from "@/lib/types";
 
 type SortKey = "rank" | "stars" | "d24" | "d7" | "d30" | "forks" | "mentions";
 type SortDir = "asc" | "desc";
@@ -173,9 +172,10 @@ function formatPct(delta: number, base: number): string | null {
   return `${sign}${pct}%`;
 }
 
-// sparkline rendering moved to <EChartSparkline /> — the inline-SVG
-// sparkPath / sparkEnd / stableLiveSparkGradientId helpers were dropped
-// when the sparkline column swapped to ECharts canvas.
+// sparkline rendering uses <SvgSparkline /> — a tiny inline-SVG component
+// (~25 LOC, no deps). Was previously <EChartSparkline> but instantiating
+// ECharts canvas + ResizeObserver per row was overkill for a 7-segment
+// polyline and pulled the 150+ KB ECharts chunk into the home critical path.
 
 function compareNumeric(a: number, b: number, dir: SortDir): number {
   return dir === "asc" ? a - b : b - a;
@@ -517,15 +517,14 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
                     {pct30 ? <small className="pct">{pct30}</small> : null}
                   </td>
                   <td className="ch">
-                    <EChartSparkline
+                    <SvgSparkline
                       values={row.sparklineData}
                       className="spark-row"
-                      color={
+                      stroke={
                         row.starsDelta24h < 0
                           ? "var(--sig-red)"
                           : "var(--sig-green)"
                       }
-                      tooltipLabel="stars"
                     />
                   </td>
                   <td className="num metric-num">{formatCompact(row.forks)}</td>

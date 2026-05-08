@@ -51,7 +51,7 @@ Workflows with multiple cron entries list each.
 | cron-predictions.yml | Cron - predictions | `0 6 * * *` | POST `/api/cron/predictions` |
 | cron-subdomain-takeover.yml | Cron - subdomain takeover scan | `0 3 * * 1` (Mon 03:00) | POST `/api/cron/subdomain-takeover` |
 | cron-twitter-outbound.yml | Cron - Twitter outbound | `0 14 * * *` and `0 16 * * 5` | POST `/api/cron/twitter-daily` (daily) or `/api/cron/twitter-weekly-recap` (Fri) |
-| cron-warmup.yml | Warm Vercel routes | `*/5 8-21 * * *` | curl warm pings to hot routes |
+| cron-warmup.yml | Warm Vercel routes (25 public routes) | `*/5 8-21 * * *` | matrix probe via `node scripts/probe-route.mjs`, summarized into `cron-warmup-summary` artifact (30d retention). Captures status, TTFB, transfer size, `cache-control`, `x-vercel-cache`, `x-vercel-id`, `age`. Restored 2026-05-08 from `a4ea0628`. |
 | cron-webhooks-flush.yml | Cron - webhooks flush + scan | `5,35 * * * *` | POST `/api/cron/webhooks/scan` then `/api/cron/webhooks/flush` |
 | docs-freshness.yml | docs-freshness | `0 13 * * 1` (Mon 13:00) + PR | `node scripts/check-docs-freshness.mjs` |
 | enrich-arxiv.yml | Enrich arXiv signals | `13 */12 * * *` | `node scripts/enrich-arxiv.mjs` |

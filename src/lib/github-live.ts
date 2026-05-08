@@ -20,6 +20,7 @@ import { githubFetch } from "./github-fetch";
 
 const LIVE_REPO_KEY_PREFIX = "ss:live-repo:v1:";
 const LIVE_REPO_TTL_SECONDS = 60 * 60; // 1h
+export const LIVE_REPO_UPSTREAM_TIMEOUT_MS = 1500;
 
 interface GitHubRepoApiResponse {
   full_name: string;
@@ -163,4 +164,30 @@ export async function fetchGitHubRepoLive(
     console.warn("[github-live] cache write failed", err);
   }
   return repo;
+}
+
+/**
+ * Bounded live resolver for cold-miss repo detail renders and the internal
+ * API route. The underlying GitHub fetch/cache write may continue after the
+ * timeout, but callers stop waiting so a slow upstream cannot hold the page.
+ */
+export async function fetchGitHubRepoLiveWithinBudget(
+  owner: string,
+  name: string,
+  timeoutMs = LIVE_REPO_UPSTREAM_TIMEOUT_MS,
+): Promise<Repo | null> {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      fetchGitHubRepoLive(owner, name),
+      new Promise<never>((_, reject) => {
+        timeoutId = setTimeout(
+          () => reject(new Error("github-live timeout")),
+          timeoutMs,
+        );
+      }),
+    ]);
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
+  }
 }

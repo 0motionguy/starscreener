@@ -81,12 +81,13 @@ const ALL_POSTS_OUT = resolve(DATA_DIR, "reddit-all-posts.json");
 // ---------------------------------------------------------------------------
 
 const POSTS_PER_SUB = 100;
-// Tightened 2026-05-08 from 7d → 3d. The RSS-fallback regression (silent
-// score=0 posts when REDDIT_CLIENT_ID is unset) had been padding the cache
-// with stale dead posts; 3d sheds them faster and matches /reddit/trending's
-// effective signal window. The 7d setting is preserved on the all-posts
-// pruning path via filterEngagementOrFresh — see mergeAllPosts.
-const WINDOW_DAYS = 3;
+// Restored 2026-05-08 from 3d → 7d. The 3d tightening combined with the
+// RSS-fallback zero-engagement filter (1h grace, see ENGAGEMENT_GRACE_SEC
+// below) zeroed the dataset: every post arrived score=0 from RSS and aged
+// past the 1h grace before any subsequent run could re-fetch it with real
+// engagement. 7d window + 24h grace lets us keep RSS posts visible until
+// either OAuth lands (A5) or a follow-up run picks them up with real scores.
+const WINDOW_DAYS = 7;
 const WINDOW_SECONDS = WINDOW_DAYS * 24 * 60 * 60;
 const RATE_LIMIT_BACKOFF_MS = 65000;
 
@@ -395,14 +396,15 @@ export function mergeAllPosts(existing, thisRun, cutoffSec) {
     }
   }
 
-  // Cleanse existing-cache pollution from the RSS-fallback regression
-  // (2026-05-08): drop posts where score=0 AND numComments=0 AND age > 1h.
-  // The 1h grace period preserves legit brand-new posts that haven't
-  // gained engagement yet. Older zero-zero rows are RSS-fallback artifacts
-  // that pollute the cache and starve /reddit/trending. New ingest already
-  // skips _source==="rss-atom" up-front; this cleans the historical cache
-  // on first merge after the fix.
-  const ENGAGEMENT_GRACE_SEC = 60 * 60;
+  // Engagement filter: drop posts where score=0 AND numComments=0 AND
+  // age > grace window. Loosened 2026-05-08 from 1h to 24h: RSS-fallback
+  // returns score=0 forever (RSS doesn't expose that field), so the 1h
+  // grace was draining the cache to zero. 24h gives /reddit/trending
+  // visible data until OAuth (A5) restores real engagement scores. Once
+  // OAuth lands and posts arrive with real engagement, this can re-tighten
+  // back to 1h or be removed entirely (real posts that get zero engagement
+  // for 24h are genuinely dead).
+  const ENGAGEMENT_GRACE_SEC = 24 * 60 * 60;
   const nowSec = Math.floor(Date.now() / 1000);
   let prunedZeroEngagement = 0;
   const engagedById = new Map();

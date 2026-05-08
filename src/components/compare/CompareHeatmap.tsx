@@ -5,8 +5,9 @@ import type { JSX } from "react";
 import Image from "next/image";
 import type { EChartsCoreOption } from "echarts/core";
 import type { CompareRepoBundle } from "@/lib/github-compare";
+import "@/lib/charts/theme/full";
 import { EChart } from "@/components/charts/EChart";
-import { CHART_TOKENS } from "@/lib/charts/theme";
+import { CHART_TOKENS } from "@/lib/charts/theme/tokens";
 
 interface CompareHeatmapProps {
   bundles: CompareRepoBundle[];
@@ -14,7 +15,6 @@ interface CompareHeatmapProps {
 }
 
 const WEEKS = 52;
-const DAYS = 7;
 const ROW_HEIGHT = 110;
 
 const BUCKET_ALPHAS = [0.2, 0.4, 0.65, 0.95] as const;
@@ -63,14 +63,6 @@ function bucketThresholds(max: number): [number, number, number, number] {
     Math.max(3, Math.ceil(max * 0.5)),
     Math.max(4, Math.ceil(max * 0.75)),
   ];
-}
-
-function pickBucket(count: number, t: [number, number, number, number]): number {
-  if (count <= 0) return 0;
-  if (count >= t[3]) return 4;
-  if (count >= t[2]) return 3;
-  if (count >= t[1]) return 2;
-  return 1;
 }
 
 function buildRow(bundle: CompareRepoBundle, accent: string): RowModel {

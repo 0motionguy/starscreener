@@ -1,14 +1,29 @@
 // Shared sidebar-data builder.
 //
+// Two-tier split (the rendering critical-path optimisation that the layout
+// depends on):
+//
+//   * `getPublicSidebarShell()` — public, anonymous-safe payload. Holds
+//     categories, sourceCounts, language list, the (capped) repo map, and
+//     `trendingReposCount`. NO `pipeline.ensureReady()`, NO user-keyed
+//     data. Cheap enough to inline in the root layout's RSC stream on
+//     every render.
+//   * `getUserSidebarOverlay({ userId })` — per-user overlay containing
+//     just `unreadAlerts`. Fetched client-side via `/api/pipeline/sidebar-overlay`
+//     by the bridge component, only when Clerk says the viewer is signed in.
+//   * `buildSidebarData()` — back-compat wrapper composing the two. Kept
+//     so the deprecated `/api/pipeline/sidebar-data` shape (used by the
+//     mobile drawer) keeps working until it migrates to the split.
+//
 // Single source of truth for the payload the desktop <Sidebar> and the
 // mobile <MobileDrawer> both render. Lives in src/lib so two callers can
 // reach it:
-//   1. Root layout (src/app/layout.tsx) — calls this server-side and
-//      passes the result into <Sidebar initialData={...} />, eliminating
-//      the post-hydration fetch on every desktop page navigation.
-//   2. /api/pipeline/sidebar-data — still exposed so MobileDrawer can
-//      fetch lazily when the user opens the drawer (fetch never lands on
-//      the critical path because the drawer is dynamic'd with ssr:false).
+//   1. Root layout (src/app/layout.tsx) — calls `getPublicSidebarShell`
+//      server-side and passes the result into <Sidebar initialShell={...} />,
+//      eliminating the post-hydration fetch on every desktop page navigation.
+//   2. /api/pipeline/sidebar-data — kept for the mobile drawer; the user-
+//      keyed overlay support has been removed (overlay now has its own
+//      private/no-store route).
 
 import { pipeline } from "@/lib/pipeline/pipeline";
 import {
@@ -39,16 +54,37 @@ export interface SidebarDataRepo {
   starsDelta24hMissing?: boolean;
 }
 
-export interface SidebarDataResponse {
+/**
+ * Public, anonymous-safe shell. No pipeline.ensureReady(), no user-keyed
+ * fields. Safe to render into every page's RSC stream on every render.
+ */
+export interface SidebarShellResponse {
   categoryStats: CategoryStats[];
   metaCounts: MetaCounts;
   availableLanguages: string[];
   reposById: Record<string, SidebarDataRepo>;
-  unreadAlerts: number;
   sourceCounts: SidebarSourceCounts;
   trendingReposCount: number;
   generatedAt: string;
 }
+
+/**
+ * Per-user overlay. Only the fields that depend on `userId`. Fetched
+ * client-side via a private no-store route, only when the viewer is
+ * signed in.
+ */
+export interface SidebarOverlayResponse {
+  unreadAlerts: number;
+}
+
+/**
+ * Back-compat composite of shell + overlay. Returned by the legacy
+ * /api/pipeline/sidebar-data route (mobile drawer) when no `userId`
+ * was passed.
+ */
+export interface SidebarDataResponse
+  extends SidebarShellResponse,
+    SidebarOverlayResponse {}
 
 export interface BuildSidebarDataOptions {
   userId?: string;
@@ -61,17 +97,27 @@ export interface BuildSidebarDataOptions {
    * (user-driven, off the critical path). The root layout MUST cap — it
    * inlines the payload into every page's RSC stream including mobile,
    * where the sidebar is hidden behind `md:flex` and the bytes would never
-   * paint a pixel. Top-200 covers virtually every watchlist (the only
+   * paint a pixel. Top-150 covers virtually every watchlist (the only
    * consumer of this map is the 5-item watchlist preview).
    */
   reposByIdTopN?: number;
   onTiming?: (name: string, durationMs: number) => void;
 }
 
-export async function buildSidebarData(
-  opts: BuildSidebarDataOptions = {},
-): Promise<SidebarDataResponse> {
-  const { userId, reposByIdTopN, onTiming } = opts;
+export type GetPublicSidebarShellOptions = Pick<
+  BuildSidebarDataOptions,
+  "reposByIdTopN" | "onTiming"
+>;
+
+/**
+ * Build the public sidebar shell. Anonymous-safe; does NOT call
+ * `pipeline.ensureReady()` or read alert state. Cheap enough to inline
+ * in the layout RSC stream on every render.
+ */
+export async function getPublicSidebarShell(
+  opts: GetPublicSidebarShellOptions = {},
+): Promise<SidebarShellResponse> {
+  const { reposByIdTopN, onTiming } = opts;
   const timed = <T>(name: string, fn: () => T): T => {
     const start = performance.now();
     const out = fn();
@@ -120,17 +166,6 @@ export async function buildSidebarData(
     }
   });
 
-  // Unread alerts — optional, keyed by userId. Default to 0 when absent
-  // or when the pipeline isn't ready.
-  let unreadAlerts = 0;
-  try {
-    await timedAsync("pipeline.ensureReady", () => pipeline.ensureReady());
-    const events = timed("pipeline.getAlerts", () => pipeline.getAlerts(userId));
-    unreadAlerts = events.filter((e) => e.readAt === null).length;
-  } catch {
-    unreadAlerts = 0;
-  }
-
   // Per-source counts for the sidebar count badges. Degrade to zeros on
   // cold data-store / read error so the sidebar still renders.
   let sourceCounts: SidebarSourceCounts;
@@ -147,9 +182,47 @@ export async function buildSidebarData(
     metaCounts,
     availableLanguages,
     reposById,
-    unreadAlerts,
     sourceCounts,
     trendingReposCount: repos.length,
     generatedAt: new Date().toISOString(),
   };
+}
+
+/**
+ * Per-user overlay. Returns just `{ unreadAlerts }`. Does NOT call
+ * `pipeline.ensureReady()` — the bootstrap warmup runs that exactly once
+ * at server start (`src/lib/bootstrap.ts`); subsequent calls find the
+ * pipeline ready. If the warmup is still in flight when this runs we
+ * gracefully degrade to `unreadAlerts: 0` rather than blocking.
+ */
+export async function getUserSidebarOverlay({
+  userId,
+}: {
+  userId: string;
+}): Promise<SidebarOverlayResponse> {
+  try {
+    const events = pipeline.getAlerts(userId);
+    return { unreadAlerts: events.filter((e) => e.readAt === null).length };
+  } catch {
+    return { unreadAlerts: 0 };
+  }
+}
+
+/**
+ * Back-compat wrapper. Composes the public shell with an optional user
+ * overlay. Defaults `unreadAlerts` to 0 when no `userId` is supplied.
+ *
+ * @deprecated Prefer `getPublicSidebarShell()` for SSR + the dedicated
+ * `/api/pipeline/sidebar-overlay` route for per-user data. This wrapper
+ * stays as the source for the legacy `/api/pipeline/sidebar-data` route
+ * (mobile drawer) until that consumer migrates.
+ */
+export async function buildSidebarData(
+  opts: BuildSidebarDataOptions = {},
+): Promise<SidebarDataResponse> {
+  const { userId, ...shellOpts } = opts;
+  const shell = await getPublicSidebarShell(shellOpts);
+  if (!userId) return { ...shell, unreadAlerts: 0 };
+  const overlay = await getUserSidebarOverlay({ userId });
+  return { ...shell, ...overlay };
 }

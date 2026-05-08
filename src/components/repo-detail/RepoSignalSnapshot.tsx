@@ -86,11 +86,11 @@ export function RepoSignalSnapshot({
     {
       label: "Cross-signal",
       value: (repo.crossSignalScore ?? 0).toFixed(2),
-      detail: `${repo.channelsFiring ?? 0}/5 channels firing`,
+      detail: `${repo.channelsFiring ?? 0}/6 channels firing`,
       icon: Activity,
       tone: (repo.channelsFiring ?? 0) >= 2 ? "up" : "default",
       explainer:
-        "Cross-signal score (0-5): weighted sum of GitHub + Reddit + HN + Bluesky + dev.to components, each 0-1. 5.0 = strong signal across >=4 channels in 7d. 4.0 = strong on >=3. 3.0 = strong on >=2. 2.0+ = active on 1+. Below 1.0 = low or no cross-channel activity.",
+        "Cross-signal score (0-6): weighted sum of GitHub + Reddit + HN + Bluesky + dev.to + X components, each 0-1. 6.0 = strong signal across >=5 channels in 7d. 5.0 = strong on >=4. 4.0 = strong on >=3. 3.0+ = active on 2+. Below 1.0 = low or no cross-channel activity.",
     },
     {
       label: "Package adoption",

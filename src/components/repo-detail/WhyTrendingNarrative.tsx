@@ -70,7 +70,7 @@ export function WhyTrendingNarrative({
   ) {
     const channels = repo.channelsFiring ?? 0;
     sentences.push(
-      `Cross-signal score of ${repo.crossSignalScore.toFixed(1)}/5.0 with ${channels} channel${channels === 1 ? "" : "s"} firing — momentum is showing up across multiple platforms, not just one.`,
+      `Cross-signal score of ${repo.crossSignalScore.toFixed(1)}/6.0 with ${channels} channel${channels === 1 ? "" : "s"} firing — momentum is showing up across multiple platforms, not just one.`,
     );
   }
 

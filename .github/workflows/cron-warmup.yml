@@ -1,0 +1,102 @@
+name: Warm Vercel routes
+on:
+  schedule:
+    # 08:00–22:00 UTC, every 5 min — keeps the EU/US working-hours window hot.
+    # Outside this window traffic is sparse enough that a cold-on-first-hit is acceptable.
+    - cron: '*/5 8-21 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  warmup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        route:
+          # Original 12 (kept)
+          - /
+          - /githubrepo
+          - /signals
+          - /compare
+          - /top10
+          - /reddit/trending
+          - /hackernews/trending
+          - /lobsters
+          - /devto
+          - /bluesky
+          - /twitter
+          - /skills
+          # Added 2026-05-08 — public routes that should be cache-friendly post-PR3
+          - /mcp
+          - /funding
+          - /revenue
+          - /arxiv/trending
+          - /producthunt
+          - /huggingface
+          - /npm
+          - /breakouts
+          - /categories
+          - /methodology
+          - /research
+          - /tools/revenue-estimate
+          # Canonical hot repo-detail probe (PR3f exit criterion)
+          - /repo/0motionguy/starscreener
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Probe ${{ matrix.route }}
+        id: probe
+        run: |
+          mkdir -p .perf
+          # Sanitize route for filename (replace / with __)
+          SLUG=$(echo "${{ matrix.route }}" | sed 's|/|__|g')
+          node scripts/probe-route.mjs \
+            --base=https://trendingrepo.com \
+            --route="${{ matrix.route }}" \
+            --user-agent="TrendingRepo-Warmup-Cron" \
+            --out=".perf/probe${SLUG}.json"
+          cat ".perf/probe${SLUG}.json"
+      - name: Upload route probe
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: warmup-probes-${{ strategy.job-index }}
+          path: .perf/probe*.json
+          retention-days: 14
+
+  summarize:
+    needs: warmup
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: .perf/raw
+          pattern: warmup-probes-*
+          merge-multiple: true
+      - name: Merge probes
+        run: |
+          mkdir -p .perf
+          if ls .perf/raw/probe*.json >/dev/null 2>&1; then
+            jq -s '{ runAt: now | todate, results: . }' .perf/raw/probe*.json \
+              > .perf/cron-warmup-summary.json
+            echo "Summary:"
+            jq '.results | map({ route, status, ttfbMs, vercelCache, cacheControl }) | sort_by(.route)' \
+              .perf/cron-warmup-summary.json
+          else
+            echo "No probe outputs found." >&2
+            exit 1
+          fi
+      - name: Upload summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: cron-warmup-summary
+          path: .perf/cron-warmup-summary.json
+          retention-days: 30

@@ -31,6 +31,22 @@ test.describe("repo detail", () => {
     await expect(eyebrow).toBeVisible();
     await expect(eyebrow).toContainText(/Repo/i);
     await expect(eyebrow).toContainText(/Rank/i);
+    await expect(eyebrow).toContainText(/\/6 firing/i);
+
+    await expect(hero.locator(".channel-chip")).toHaveCount(6);
+
+    const snapshot = page.locator('section[aria-label="Signal snapshot"]').first();
+    await expect(snapshot).toBeVisible();
+    const profileBeforeDeepDive = await page.evaluate(() => {
+      const profile = document.querySelector('section[aria-label="Signal snapshot"]');
+      const deepDive = document.querySelector(".repo-deep-dive");
+      if (!profile || !deepDive) return false;
+      return Boolean(
+        profile.compareDocumentPosition(deepDive) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      );
+    });
+    expect(profileBeforeDeepDive).toBe(true);
 
     // Body chrome - at least one repo-detail body split mounts.
     const body = page.locator(".repo-detail-split").first();

@@ -1,4 +1,11 @@
 // TrendingRepo - single-repo Star Activity sub-route.
+//
+// CACHE CONTRACT
+// kind:        ISR
+// revalidate:  300 (5 min)
+// audience:    public
+// freshness:   star activity granularity is daily — 5min cache is invisible
+// invalidates: n/a
 
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -17,7 +24,7 @@ import { slugToId } from "@/lib/utils";
 
 import { StarActivityClient } from "./StarActivityClient";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 const SLUG_PART = /^[A-Za-z0-9._-]+$/;
 

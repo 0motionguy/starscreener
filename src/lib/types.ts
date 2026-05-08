@@ -198,16 +198,16 @@ export interface Repo {
   collectionNames?: string[];
 
   /**
-   * Five-channel cross-signal score. Sum of github + reddit + HN + Bluesky
-   * + dev.to components, each 0-1 normalized. Range: 0-5.0. Higher = repo
+   * Six-channel cross-signal score. Sum of github + reddit + HN + Bluesky
+   * + dev.to + Twitter/X components, each 0-1 normalized. Range: 0-6.0. Higher = repo
    * firing across more channels with stronger signal. Computed at
    * derived-repos assembly time, after movement classification + scoring.
    */
   crossSignalScore?: number;
 
   /**
-   * Number of cross-signal channels firing (component > 0). Range: 0-5.
-   * Drives the 5-dot indicator and the "Cross-Signal Breakouts" filter.
+   * Number of cross-signal channels firing (component > 0). Range: 0-6.
+   * Drives the 6-dot indicator and the "Cross-Signal Breakouts" filter.
    */
   channelsFiring?: number;
 

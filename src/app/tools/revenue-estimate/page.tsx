@@ -1,3 +1,10 @@
+// CACHE CONTRACT
+// kind:        ISR
+// revalidate:  86400 (24h)
+// audience:    public
+// freshness:   benchmarks rotate on deploy + once per day
+// invalidates: n/a (deploy-pinned data)
+
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -20,7 +27,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/tools/revenue-estimate" },
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 function formatClock(value: string | null): string {
   if (!value) return "warming";

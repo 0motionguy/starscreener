@@ -20,7 +20,23 @@
 
 "use client";
 
-import posthog from "posthog-js";
+import type { PostHog } from "posthog-js";
+
+/**
+ * Runtime accessor for the PostHog SDK. The SDK is dynamically loaded by
+ * `<PostHogProvider>` (idle / first-interaction) and exposed on
+ * `window.posthog` once initialised. We never eagerly import `posthog-js`
+ * here — that would defeat the lazy-load and pull ~50kb gzip into every
+ * client bundle that calls `captureFunnelStep`.
+ *
+ * Returns `null` while the SDK is dormant (server-render, before idle,
+ * or when `NEXT_PUBLIC_POSTHOG_KEY` is unset and the provider bailed).
+ */
+function getPosthog(): PostHog | null {
+  if (typeof window === "undefined") return null;
+  const ph = (window as unknown as { posthog?: PostHog }).posthog;
+  return ph?.__loaded ? ph : null;
+}
 
 /**
  * Canonical funnel identifiers. Keep this list authoritative — the
@@ -72,13 +88,13 @@ interface FunnelStepProps {
  *   - PostHog SDK was never initialised (NEXT_PUBLIC_POSTHOG_KEY unset)
  */
 export function captureFunnelStep(props: FunnelStepProps): void {
-  if (typeof window === "undefined") return;
   try {
-    // posthog.__loaded is set by posthog-js once init() resolves.
-    // Skipping when the SDK is dormant avoids accidental queueing in
-    // preview / local-dev builds without analytics provisioned.
-    if (!posthog.__loaded) return;
-    posthog.capture("funnel_step", props);
+    // getPosthog() short-circuits to null on the server, before the
+    // lazy-loaded SDK has finished initialising, or when the provider
+    // bailed out (NEXT_PUBLIC_POSTHOG_KEY unset). Skipping when the
+    // SDK is dormant avoids accidental queueing in preview / local-dev
+    // builds without analytics provisioned.
+    getPosthog()?.capture("funnel_step", props);
   } catch {
     // Analytics must never throw upstream.
   }

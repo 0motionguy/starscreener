@@ -114,7 +114,7 @@ export function synthesizeWhy(repo: Repo): WhyNarrative {
   ) {
     return {
       text: clamp(
-        `Trending across ${repo.channelsFiring} channels with a cross-signal score of ${repo.crossSignalScore.toFixed(1)}/5.0 — broad reach beyond GitHub.`,
+        `Trending across ${repo.channelsFiring} channels with a cross-signal score of ${repo.crossSignalScore.toFixed(1)}/6.0 — broad reach beyond GitHub.`,
       ),
       signal: "cross-signal",
       generatedAt,

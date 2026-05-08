@@ -23,8 +23,9 @@ import type { EChartsCoreOption } from "echarts/core";
 
 import { Card, CardHeader } from "@/components/ui/Card";
 import { ChartStat, ChartStats, ChartWrap } from "@/components/ui/ChartShell";
+import "@/lib/charts/theme/sparkline";
 import { EChart } from "@/components/charts/EChart";
-import { CHART_TOKENS } from "@/lib/charts/theme";
+import { CHART_TOKENS } from "@/lib/charts/theme/tokens";
 import type { HourBucket } from "@/lib/signals/volume";
 import type { SourceKey } from "@/lib/signals/types";
 import { SourceMark, SOURCE_BRAND_COLOR } from "./SourceMark";

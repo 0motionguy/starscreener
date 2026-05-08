@@ -3,6 +3,13 @@
 // Long-form developer writing surface. Top 50 articles by velocity score
 // + repo leaderboard sidebar (≥md). Single-source from data/devto-* files
 // produced by scripts/scrape-devto.mjs.
+//
+// CACHE CONTRACT
+// kind:        ISR (single public route)
+// revalidate:  300 (5 min)
+// audience:    public
+// freshness:   DevTo articles refreshed by GH Actions cron; cron cadence governs freshness, not page cache
+// invalidates: n/a
 
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -26,19 +33,17 @@ import { userLogoUrl } from "@/lib/logos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { EmptyState } from "@/components/ui/EmptyState";
 
 const DEVTO_BLUE = "#6699ff";
 
-// No `dynamic` export — reading `searchParams` already opts the route out
-// of static rendering in Next 15. `force-dynamic` would clash with the root
-// layout's MobileDrawerLazy (dynamic-with-ssr:false).
+export const revalidate = 300;
+export const dynamic = "force-static";
+
+// The window switcher is client-side so the page remains one ISR cache entry.
+// Do not read searchParams here; that opts this public page into no-store.
 
 type Win = "24h" | "7d" | "30d";
-
-function parseWin(raw: string | string[] | undefined): Win {
-  const v = Array.isArray(raw) ? raw[0] : raw;
-  return v === "24h" || v === "30d" ? v : "7d";
-}
 
 export const metadata: Metadata = {
   title: "Trending on Dev.to",
@@ -73,13 +78,7 @@ function formatClock(iso: string | undefined): string {
   return new Date(iso).toISOString().slice(11, 19);
 }
 
-export default async function DevtoPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ win?: string | string[] }>;
-}) {
-  const { win: winParam } = await searchParams;
-  const win = parseWin(winParam);
+export default async function DevtoPage() {
   await Promise.all([
     refreshDevtoTrendingFromStore(),
     refreshDevtoMentionsFromStore(),
@@ -104,7 +103,18 @@ export default async function DevtoPage({
           title="dev.to · top articles"
           lede="Long-form developer writing ranked by velocity score (reactions × time decay), with a sidebar leaderboard of cross-linked tracked repos."
         />
-        <ColdState />
+        <EmptyState
+          variant="no-data"
+          source="devto"
+          lastSuccessAt={trendingFile.fetchedAt}
+          hint={
+            <>
+              Run <code>npm run scrape:devto</code> from local to populate{" "}
+              <code>data/devto-mentions.json</code> and{" "}
+              <code>data/devto-trending.json</code>.
+            </>
+          }
+        />
       </main>
     );
   }
@@ -168,7 +178,6 @@ export default async function DevtoPage({
           <WindowedArticlesFeed
             allArticles={trendingFile.articles}
             fetchedAt={trendingFile.fetchedAt}
-            activeWindow={win}
           />
         }
       />
@@ -187,11 +196,9 @@ export default async function DevtoPage({
 function WindowedArticlesFeed({
   allArticles,
   fetchedAt,
-  activeWindow,
 }: {
   allArticles: DevtoArticle[];
   fetchedAt: string | undefined;
-  activeWindow: Win;
 }) {
   const HOUR_MS = 3_600_000;
   const nowMs = Date.now();
@@ -205,13 +212,15 @@ function WindowedArticlesFeed({
   const f7d = filterWindow(7 * 24 * HOUR_MS);
   const f30d = filterWindow(30 * 24 * HOUR_MS);
 
-  // Active-window sort + cap. Only this set is rendered server-side.
-  const activeFiltered =
-    activeWindow === "24h" ? f24h : activeWindow === "30d" ? f30d : f7d;
-  const activeArticles = activeFiltered
-    .slice()
-    .sort((a, b) => (b.trendingScore ?? 0) - (a.trendingScore ?? 0))
-    .slice(0, 50);
+  const sortAndCap = (list: DevtoArticle[]) =>
+    list
+      .slice()
+      .sort((a, b) => (b.trendingScore ?? 0) - (a.trendingScore ?? 0))
+      .slice(0, 50);
+
+  const articles24h = sortAndCap(f24h);
+  const articles7d = sortAndCap(f7d);
+  const articles30d = sortAndCap(f30d);
 
   // Compute scrape-lag context so the 24h-empty case isn't a silent
   // dead-end. Pick the freshest window with rows so the hint is actionable.
@@ -229,7 +238,7 @@ function WindowedArticlesFeed({
           : `${Math.round(scrapeAgeH / 24)}d ago`;
   const fallbackWin: "7d" | "30d" | null =
     f7d.length > 0 ? "7d" : f30d.length > 0 ? "30d" : null;
-  const emptyHint = () => {
+  const emptyHint = (activeWindow: Win) => {
     const parts = [`Last scrape ${scrapeAgeLabel}.`];
     if (fallbackWin && fallbackWin !== activeWindow) {
       parts.push(`Try the ${fallbackWin} window — currently rendering data.`);
@@ -243,9 +252,15 @@ function WindowedArticlesFeed({
       count24h={Math.min(f24h.length, 50)}
       count7d={Math.min(f7d.length, 50)}
       count30d={Math.min(f30d.length, 50)}
-      activeWindow={activeWindow}
-      tableActive={
-        <ArticlesFeed articles={activeArticles} emptySubtitle={emptyHint()} />
+      defaultWindow="7d"
+      table24h={
+        <ArticlesFeed articles={articles24h} emptySubtitle={emptyHint("24h")} />
+      }
+      table7d={
+        <ArticlesFeed articles={articles7d} emptySubtitle={emptyHint("7d")} />
+      }
+      table30d={
+        <ArticlesFeed articles={articles30d} emptySubtitle={emptyHint("30d")} />
       }
     />
   );
@@ -400,6 +415,9 @@ function ArticlesFeed({
   );
 }
 
+// Kept for a possible right-rail restoration; the current page renders the
+// lighter single-table shell to keep the route cacheable and cheap.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function Leaderboard({
   entries,
   totalRepos,
@@ -521,41 +539,6 @@ function Leaderboard({
         })}
       </ul>
     </div>
-  );
-}
-
-function ColdState() {
-  return (
-    <section
-      style={{
-        padding: 32,
-        background: "var(--v4-bg-025)",
-        border: "1px dashed var(--v4-line-100)",
-        borderRadius: 2,
-      }}
-    >
-      <h2
-        className="v2-mono"
-        style={{
-          color: DEVTO_BLUE,
-          fontSize: 18,
-          fontWeight: 700,
-          textTransform: "uppercase",
-          letterSpacing: "0.18em",
-        }}
-      >
-        {"// no dev.to data yet"}
-      </h2>
-      <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
-        The dev.to scraper hasn&apos;t produced data yet. Run{" "}
-        <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:devto</code>{" "}
-        locally to populate{" "}
-        <code style={{ color: "var(--v4-ink-100)" }}>data/devto-mentions.json</code>{" "}
-        and{" "}
-        <code style={{ color: "var(--v4-ink-100)" }}>data/devto-trending.json</code>,
-        then refresh this page.
-      </p>
-    </section>
   );
 }
 

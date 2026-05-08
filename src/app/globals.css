@@ -7083,3 +7083,79 @@ body::before {
 :root {
   --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
 }
+
+/* ---------------------------------------------------------------------------
+   Chart skeleton — placeholder rendered by *Lazy.tsx wrappers while the
+   ECharts bundle hydrates. Sized to match each chart's eventual height to
+   avoid CLS; pulses subtly so the reserved space reads as "loading" instead
+   of "broken". Backed by --v4-bg-050 (defined in components/ui/v4.css) with
+   an rgba fallback for the rare path where v4 tokens are not yet loaded.
+   --------------------------------------------------------------------------- */
+.chart-skeleton {
+  background: var(--v4-bg-050, rgba(255, 255, 255, 0.04));
+  border-radius: 4px;
+  animation: chart-skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes chart-skeleton-pulse {
+  0%, 100% { opacity: 0.6; }
+  50%      { opacity: 0.85; }
+}
+
+/* ---------------------------------------------------------------------------
+   Source-provider color tokens (Lane E3).
+   Used by SourceBadge / SourcePip / source-color chips. Each value names a
+   foreground hue per provider so charts and pills stay legible across
+   light + dark themes. Background equivalents reuse the canvas surface +
+   alpha; consumers can do `color-mix(in srgb, var(--src-apify-fg) 14%, transparent)`
+   when they need a tinted bg.
+   --------------------------------------------------------------------------- */
+:root {
+  --src-apify-fg: #f97316;
+  --src-nitter-fg: #a78bfa;
+  --src-web-fg:    #6b7280;
+  --src-oauth-fg:  #22c55e;
+  --src-rss-fg:    #eab308;
+}
+
+/* ---------------------------------------------------------------------------
+   Zebra row striping for tables. Pair with `<table class="tr-zebra">` (or
+   the v3/Table component which applies it by default). The hover row gets
+   a 2px accent border-left to read as "selected-on-scroll".
+   --------------------------------------------------------------------------- */
+.tr-zebra > tbody > tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+.tr-zebra > tbody > tr:hover {
+  background: var(--color-bg-tertiary, rgba(255, 255, 255, 0.04));
+  border-left: 2px solid var(--v4-acc);
+}
+
+/* Sticky table header — wrap the table in a scroll container to activate. */
+.tr-table-sticky thead th {
+  position: sticky;
+  top: 0;
+  background: var(--color-bg-secondary);
+  z-index: 1;
+}
+
+/* ---------------------------------------------------------------------------
+   Interactive-state baseline for shared utility components.
+   Hover/active/focus polish that feed pages should inherit without each
+   one re-defining its own ring color. Scoped to elements that carry the
+   `tr-interactive` class so we never override Tailwind defaults globally.
+   --------------------------------------------------------------------------- */
+.tr-interactive {
+  transition: background-color 150ms ease, border-color 150ms ease,
+    color 150ms ease, transform 150ms ease;
+}
+.tr-interactive:hover {
+  background: var(--color-bg-card-hover);
+}
+.tr-interactive:active {
+  transform: translateY(1px);
+}
+.tr-interactive:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--v4-acc);
+}

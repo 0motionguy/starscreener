@@ -15,8 +15,9 @@
 import { useMemo } from "react";
 import type { EChartsCoreOption } from "echarts/core";
 
+import "@/lib/charts/theme/full";
 import { EChart } from "./EChart";
-import { CHART_TOKENS } from "@/lib/charts/theme";
+import { CHART_TOKENS } from "@/lib/charts/theme/tokens";
 
 export interface EChartSparkmatrixProps {
   /** Numeric series — typically per-day star delta or per-day count. */

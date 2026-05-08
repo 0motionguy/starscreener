@@ -10,6 +10,13 @@
 //
 // Mirrors the API surface of src/lib/reddit.ts: case-insensitive repo
 // lookup, canonical repo route helper.
+//
+// `server-only` guard: this module statically imports a ~70 KB bundled
+// JSON snapshot. Client components must consume mentions via
+// `repo-mentions.server` and pass them as props — see
+// RepoMentionBadges. Importing this file from any client module fails
+// the build at typecheck time.
+import "server-only";
 
 import hnMentionsData from "../../data/hackernews-repo-mentions.json";
 import {

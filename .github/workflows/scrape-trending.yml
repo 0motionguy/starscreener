@@ -131,3 +131,13 @@ jobs:
             data/_meta/trending.json
             data/unknown-mentions.jsonl
             .data/trending-dual-write-trace.jsonl
+
+      - name: Reddit zero-data health check
+        # Fails the workflow loudly when reddit-all-posts.json comes back
+        # with posts:[] — the silent-zero failure mode is what let a
+        # 2-day Reddit outage hide behind a green check earlier this
+        # sprint. `if: always()` so the check still runs even if the
+        # commit step skipped (no diff) or any prior step failed.
+        if: always()
+        run: |
+          node -e "const d=require('./data/reddit-all-posts.json'); const n=d.posts?.length ?? 0; console.log('reddit posts:', n); if (n < 1) { console.error('ERROR: posts:[] — check collector logs and OAuth secrets'); process.exit(2); }"

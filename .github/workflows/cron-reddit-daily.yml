@@ -1,0 +1,100 @@
+name: Cron - Reddit daily redundancy
+
+# Daily 06:13 UTC redundancy run for the Reddit scraper, separate from the
+# 20-min fast-discovery loop in `scrape-trending.yml`. Two reasons for the
+# extra job:
+#   1. If the fast loop's Reddit step has been silently 0-ing for hours
+#      (OAuth token expired, secrets unset, upstream 429), this guarantees
+#      a fresh top-of-day pull from a clean job context.
+#   2. The morning-warm-up flow (see docs/DEV-PERF-PLAYBOOK.md) lets
+#      operators land warm data on their laptops; this is the server-side
+#      mirror so production isn't dependent on a human running the script.
+#
+# Cadence: 06:13 UTC daily. Off the :00-mark per global cron-jitter
+# guidance (avoids the GitHub Actions :00 stampede).
+#
+# Secrets used (all optional — collector falls back to public-JSON path
+# when missing, so an under-provisioned repo still ships):
+#   REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET, REDDIT_USER_AGENT,
+#   REDDIT_USER_AGENTS, REDIS_URL, DATA_BOT_TOKEN.
+
+on:
+  schedule:
+    - cron: "13 6 * * *"  # 06:13 UTC daily
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  # Share the data-refresh group so this never races the fast-discovery
+  # loop on a commit. cancel-in-progress: false — we'd rather skip than
+  # cancel the in-flight commit.
+  group: data-refresh
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        # `--prefer-offline --no-audit --no-fund` matches the lean install
+        # used elsewhere in cron jobs. `_data-store-write.mjs` dynamically
+        # imports `ioredis` when REDIS_URL is set, so node_modules must be
+        # present.
+        run: npm ci --prefer-offline --no-audit --no-fund
+
+      - name: Refresh Reddit mentions
+        # NOT `continue-on-error: true`. Mirrors the fast-loop step in
+        # scrape-trending.yml — if the script fails, we want red, not
+        # green-with-stale-data. The script itself is tolerant: missing
+        # OAuth secrets → public-JSON fallback path, not a hard error.
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+          REDDIT_USER_AGENTS: ${{ secrets.REDDIT_USER_AGENTS }}
+        run: npm run scrape:reddit
+
+      - name: Compute commit timestamp
+        id: ts
+        run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
+      - name: Commit if changed
+        # Reuses the same composite action as scrape-trending.yml so the
+        # commit-and-PR dance (data-bot branch + auto-merge against main)
+        # respects branch protection — direct push to main returns GH006.
+        uses: ./.github/actions/git-commit-data
+        with:
+          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
+          message: "chore(data): reddit daily redundancy ${{ steps.ts.outputs.value }}"
+          paths: |
+            data/reddit-all-posts.json
+            data/reddit-mentions.json
+            data/_meta/reddit.json
+          # ignore-missing: some cron-prep states don't write _meta yet —
+          # don't fail the job over a missing optional sidecar file.
+          ignore-missing: "true"
+
+      - name: Reddit zero-data health check
+        # Fails the workflow loudly when posts:[] comes back empty, which
+        # is how a silently-broken collector slips past the green check.
+        # Runs even when the commit step short-circuits (no diff) — the
+        # zero-data symptom is independent of whether the file changed.
+        if: always()
+        run: |
+          node -e "const d=require('./data/reddit-all-posts.json'); const n=d.posts?.length ?? 0; console.log('reddit posts:', n); if (n < 1) { console.error('ERROR: posts:[] — check collector logs and OAuth secrets'); process.exit(2); }"

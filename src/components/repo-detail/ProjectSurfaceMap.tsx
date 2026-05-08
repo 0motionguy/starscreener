@@ -70,6 +70,10 @@ function isGithubUrl(url: string | null | undefined): boolean {
   return Boolean(url && /github\.com/i.test(url));
 }
 
+function isDocsUrl(url: string | null | undefined): boolean {
+  return Boolean(url && /docs|readme|documentation/i.test(url));
+}
+
 function cleanUrl(url: string | null | undefined): string | null {
   if (!url) return null;
   const trimmed = url.trim();
@@ -161,12 +165,11 @@ export async function ProjectSurfaceMap({
   const npmHomepages = npmPackages
     .map((pkg) => cleanUrl(pkg.homepage))
     .filter((url): url is string => Boolean(url));
-  const docsUrl =
-    npmHomepages.find((url) => /docs|readme|documentation/i.test(url)) ?? null;
+  const docsUrl = npmHomepages.find(isDocsUrl) ?? null;
   const discoveredWebsiteUrl =
     cleanUrl(productHuntLaunch?.website) ??
     cleanUrl(metadata?.homepageUrl) ??
-    npmHomepages.find((url) => !isGithubUrl(url)) ??
+    npmHomepages.find((url) => !isGithubUrl(url) && !isDocsUrl(url)) ??
     null;
   const githubHomepageUrl = profile?.websiteUrl || discoveredWebsiteUrl
     ? null
@@ -176,28 +179,36 @@ export async function ProjectSurfaceMap({
     .slice()
     .sort((a, b) => b.downloads7d - a.downloads7d)[0];
   const aisoScan = profile?.aisoScan ?? null;
+  const aisoDimensions =
+    aisoScan && Array.isArray(aisoScan.dimensions) ? aisoScan.dimensions : [];
+  const aisoPromptTests =
+    aisoScan && Array.isArray(aisoScan.promptTests)
+      ? aisoScan.promptTests
+      : [];
+  const aisoIssues =
+    aisoScan && Array.isArray(aisoScan.issues) ? aisoScan.issues : [];
   const aisoUiStatus = deriveAisoUiStatus(aisoScan, profile?.status);
   const aisoHighScore =
     aisoScan && aisoScan.score != null && aisoScan.score > 70;
   const aisoTopDimensions = aisoScan
-    ? [...aisoScan.dimensions]
+    ? [...aisoDimensions]
         .sort((a, b) => pctOfWeight(b) - pctOfWeight(a))
         .slice(0, 3)
     : [];
   const [aisoOwner, aisoName] = repo.fullName.split("/");
   const agentDimension = aisoScan
-    ? getDimension(aisoScan.dimensions, "agent_readiness")
+    ? getDimension(aisoDimensions, "agent_readiness")
     : null;
   const crawlerDimension = aisoScan
-    ? getDimension(aisoScan.dimensions, "crawler", "ai_discovery")
+    ? getDimension(aisoDimensions, "crawler", "ai_discovery")
     : null;
   const schemaDimension = aisoScan
-    ? getDimension(aisoScan.dimensions, "schema", "structured_data")
+    ? getDimension(aisoDimensions, "schema", "structured_data")
     : null;
   const llmsDimension = aisoScan
-    ? getDimension(aisoScan.dimensions, "llmstxt", "ai_discovery")
+    ? getDimension(aisoDimensions, "llmstxt", "ai_discovery")
     : null;
-  const engines = aisoScan ? engineStats(aisoScan.promptTests) : [];
+  const engines = aisoScan ? engineStats(aisoPromptTests) : [];
 
   const surfaces: Surface[] = [
     {
@@ -810,9 +821,9 @@ export async function ProjectSurfaceMap({
             </div>
           )}
 
-          {aisoScan.issues.length > 0 && (
+          {aisoIssues.length > 0 && (
             <ul className="mt-3 space-y-1.5">
-              {aisoScan.issues.slice(0, 3).map((issue) => (
+              {aisoIssues.slice(0, 3).map((issue) => (
                 <li
                   key={`${issue.severity}-${issue.title}`}
                   className="text-[11px] leading-snug"

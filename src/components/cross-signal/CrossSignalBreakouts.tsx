@@ -15,7 +15,7 @@ import type { Repo } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
 import { ChannelDots } from "./ChannelDots";
 import { HnBadge } from "@/components/hackernews/HnBadge";
-import { getHnMentions } from "@/lib/hackernews";
+import { resolveRepoMentions } from "@/lib/repo-mentions.server";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { repoDisplayLogoUrl } from "@/lib/logos";
 import { BrandStar } from "@/components/shared/BrandStar";
@@ -74,7 +74,7 @@ export function CrossSignalBreakouts({
 
       <ol className="divide-y divide-border-primary/40">
         {candidates.map((repo, i) => {
-          const hnMention = getHnMentions(repo.fullName);
+          const hnMention = resolveRepoMentions(repo.fullName).hn;
           const delta24 = repo.starsDelta24h;
           const deltaClass =
             delta24 > 0

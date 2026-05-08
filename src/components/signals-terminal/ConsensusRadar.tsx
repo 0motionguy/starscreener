@@ -21,8 +21,9 @@ import type { EChartsCoreOption } from "echarts/core";
 import type { ConsensusStory } from "@/lib/signals/consensus";
 import type { SourceKey } from "@/lib/signals/types";
 import { Card, CardHeader } from "@/components/ui/Card";
+import "@/lib/charts/theme/full";
 import { EChart } from "@/components/charts/EChart";
-import { CHART_PALETTE, CHART_TOKENS } from "@/lib/charts/theme";
+import { CHART_PALETTE, CHART_TOKENS } from "@/lib/charts/theme/tokens";
 
 // Axis order matches the cross-source filter rail above this panel so the
 // eye lands on the same slot for the same source between widgets.

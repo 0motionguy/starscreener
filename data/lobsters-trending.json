@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-08T15:12:55.578Z",
+  "fetchedAt": "2026-05-08T16:53:38.251Z",
   "windowHours": 72,
-  "scannedTotal": 78,
+  "scannedTotal": 77,
   "stories": [
     {
       "shortId": "znlkib",
@@ -9,11 +9,11 @@
       "url": "https://blainsmith.com/articles/just-fucking-use-go/",
       "commentsUrl": "https://lobste.rs/s/znlkib/just_fucking_use_go",
       "by": "",
-      "score": 33,
-      "commentCount": 25,
+      "score": 57,
+      "commentCount": 60,
       "createdUtc": 1778245108,
-      "ageHours": 2.2408333333333332,
-      "trendingScore": 3.7786540517114564,
+      "ageHours": 3.9194444444444443,
+      "trendingScore": 3.9577962461440155,
       "tags": [
         "go"
       ],
@@ -259,6 +259,60 @@
       "linkedRepos": []
     },
     {
+      "shortId": "q5bds7",
+      "title": "Stop MITM on the first SSH connection, on any VPS or cloud provider",
+      "url": "https://www.joachimschipper.nl/Stop%20MITM%20on%20the%20first%20SSH%20connection,%20on%20any%20VPS%20or%20cloud%20provider.html",
+      "commentsUrl": "https://lobste.rs/s/q5bds7/stop_mitm_on_first_ssh_connection_on_any",
+      "by": "",
+      "score": 12,
+      "commentCount": 4,
+      "createdUtc": 1778239571,
+      "ageHours": 5.4575,
+      "trendingScore": 0.5892388225306919,
+      "tags": [
+        "cryptography",
+        "devops",
+        "security"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "c8cv7a",
+      "title": "The `Sync` bound nobody asked for",
+      "url": "https://verrchu.github.io/blog/1-the-sync-bound-nobody-asked-for/",
+      "commentsUrl": "https://lobste.rs/s/c8cv7a/sync_bound_nobody_asked_for",
+      "by": "",
+      "score": 4,
+      "commentCount": 2,
+      "createdUtc": 1778253175,
+      "ageHours": 1.678611111111111,
+      "trendingScore": 0.5669361810229828,
+      "tags": [
+        "rust"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "fsueos",
+      "title": "Serving a Website on a Raspberry Pi Zero Running Entirely in RAM",
+      "url": "https://btxx.org/posts/memory/",
+      "commentsUrl": "https://lobste.rs/s/fsueos/serving_website_on_raspberry_pi_zero",
+      "by": "",
+      "score": 6,
+      "commentCount": 2,
+      "createdUtc": 1778248531,
+      "ageHours": 2.968611111111111,
+      "trendingScore": 0.5417497767828786,
+      "tags": [
+        "networking",
+        "web"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "mhzcfc",
       "title": "What are you doing this weekend?",
       "url": "",
@@ -290,43 +344,6 @@
       "tags": [
         "css",
         "design"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "q5bds7",
-      "title": "Stop MITM on the first SSH connection, on any VPS or cloud provider",
-      "url": "https://www.joachimschipper.nl/Stop%20MITM%20on%20the%20first%20SSH%20connection,%20on%20any%20VPS%20or%20cloud%20provider.html",
-      "commentsUrl": "https://lobste.rs/s/q5bds7/stop_mitm_on_first_ssh_connection_on_any",
-      "by": "",
-      "score": 7,
-      "commentCount": 4,
-      "createdUtc": 1778239571,
-      "ageHours": 3.778888888888889,
-      "trendingScore": 0.5038851083009716,
-      "tags": [
-        "cryptography",
-        "devops",
-        "security"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "fsueos",
-      "title": "Serving a Website on a Raspberry Pi Zero Running Entirely in RAM",
-      "url": "https://btxx.org/posts/memory/",
-      "commentsUrl": "https://lobste.rs/s/fsueos/serving_website_on_raspberry_pi_zero",
-      "by": "",
-      "score": 3,
-      "commentCount": 0,
-      "createdUtc": 1778248531,
-      "ageHours": 1.29,
-      "trendingScore": 0.502721440504533,
-      "tags": [
-        "networking",
-        "web"
       ],
       "description": "",
       "linkedRepos": []
@@ -490,23 +507,6 @@
       "trendingScore": 0.3665002637905066,
       "tags": [
         "web"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "c8cv7a",
-      "title": "The `Sync` bound nobody asked for",
-      "url": "https://verrchu.github.io/blog/1-the-sync-bound-nobody-asked-for/",
-      "commentsUrl": "https://lobste.rs/s/c8cv7a/sync_bound_nobody_asked_for",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1778253175,
-      "ageHours": 0.0002777777777777778,
-      "trendingScore": 0.35347974642249447,
-      "tags": [
-        "rust"
       ],
       "description": "",
       "linkedRepos": []

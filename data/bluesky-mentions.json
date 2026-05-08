@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-08T00:09:04.433Z",
+  "fetchedAt": "2026-05-08T03:56:01.894Z",
   "windowDays": 7,
-  "scannedPosts": 299,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
@@ -363,7 +363,7 @@
       ]
     },
     "wojtczyk/trust": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -380,7 +380,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-07T23:32:06.396Z",
-        "hoursSincePosted": 0.62
+        "hoursSincePosted": 4.4
       },
       "posts": [
         {
@@ -425,7 +425,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-07T23:32:06.396Z",
           "createdUtc": 1778196726,
-          "ageHours": 0.62,
+          "ageHours": 4.4,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -572,24 +572,24 @@
       ]
     },
     "V4bel/dirtyfrag": {
-      "count7d": 18,
-      "likesSum7d": 33,
-      "repostsSum7d": 5,
-      "repliesSum7d": 10,
+      "count7d": 8,
+      "likesSum7d": 9,
+      "repostsSum7d": 0,
+      "repliesSum7d": 6,
       "topPost": {
-        "uri": "at://did:plc:glr7ssctpnytxa5ch2yislay/app.bsky.feed.post/3mlccqx7ma22g",
-        "cid": "bafyreihempr3yfwnkys76w4j6ojyvgehm2l64dqp5wdrx66p7qbl25jp2e",
-        "bskyUrl": "https://bsky.app/profile/kevinr.free-dissociation.com/post/3mlccqx7ma22g",
-        "text": "Another major Linux local root exploit just dropped. (Embargo was broken so we're still waiting on patches to land in the mainline kernel, let alone with distros) github.com/V4bel/dirtyf...",
+        "uri": "at://did:plc:ms7yictiavnfolgxeieky6m4/app.bsky.feed.post/3mlcf2qcnx223",
+        "cid": "bafyreih4esse4sjo2xvhn7rzsfagsxgtqkz62kyiazoyy7k6lebgb6cwt4",
+        "bskyUrl": "https://bsky.app/profile/kivvora.pw/post/3mlcf2qcnx223",
+        "text": "new one pretty sure github.com/V4bel/dirtyf...",
         "author": {
-          "handle": "kevinr.free-dissociation.com",
-          "displayName": "Kevin Riggle"
+          "handle": "kivvora.pw",
+          "displayName": "kavya"
         },
-        "likeCount": 15,
-        "repostCount": 4,
+        "likeCount": 5,
+        "repostCount": 0,
         "replyCount": 2,
-        "createdAt": "2026-05-07T22:55:38.745Z",
-        "hoursSincePosted": 1.22
+        "createdAt": "2026-05-07T23:36:54.531Z",
+        "hoursSincePosted": 4.32
       },
       "posts": [
         {
@@ -659,13 +659,13 @@
             "handle": "kivvora.pw",
             "displayName": "kavya"
           },
-          "likeCount": 4,
+          "likeCount": 5,
           "repostCount": 0,
           "replyCount": 2,
           "createdAt": "2026-05-07T23:36:54.531Z",
           "createdUtc": 1778197014,
-          "ageHours": 0.54,
-          "trendingScore": 5,
+          "ageHours": 4.32,
+          "trendingScore": 6,
           "content_tags": [
             "has-github-repo"
           ],
@@ -720,7 +720,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-07T23:19:20.992Z",
           "createdUtc": 1778195960,
-          "ageHours": 0.83,
+          "ageHours": 4.61,
           "trendingScore": 3.5,
           "content_tags": [
             "has-github-repo"
@@ -877,6 +877,34 @@
           ]
         },
         {
+          "uri": "at://did:plc:zntngpowgd6rorjt3haywj36/app.bsky.feed.post/3mlcjh76jyk2o",
+          "cid": "bafyreidzdozrcv3tvnafnkzl7t25kei6ds3a5yfx4ku4fbzatwjyvmzs4m",
+          "bskyUrl": "https://bsky.app/profile/aly.codes/post/3mlcjh76jyk2o",
+          "text": "github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "aly.codes",
+            "displayName": "aly"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T00:55:27.747Z",
+          "createdUtc": 1778201727,
+          "ageHours": 3.01,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:yponupcdcg6q4l7dlwr6wkzm/app.bsky.feed.post/3mlc4wla44c2i",
           "cid": "bafyreibsbha27onmwj64hfldx5kp3cjv5dpnem3jo4yb56lhfyirfpxk5q",
           "bskyUrl": "https://bsky.app/profile/i6t.nl/post/3mlc4wla44c2i",
@@ -963,6 +991,123 @@
           ]
         },
         {
+          "uri": "at://did:plc:mo47sdyjch32l4x4oudjya4v/app.bsky.feed.post/3mlcsowjsnk2d",
+          "cid": "bafyreibijs3rfqnnlozchi7gqkip2fhi64qt47vu4zxshesillcp67nhmi",
+          "bskyUrl": "https://bsky.app/profile/conrad.knauer.ca/post/3mlcsowjsnk2d",
+          "text": "Quick note from www.tomshardware.com/tech-industr... Test in Ubuntu: $ sudo apt install git $ git clone github.com/V4bel/dirtyf... && cd dirtyfrag && gcc -O0 -Wall -o exp exp.c -lutil && ./exp # whoami \"root\" = vulnerable",
+          "author": {
+            "handle": "conrad.knauer.ca",
+            "displayName": "Conrad Knauer"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T03:40:50.790Z",
+          "createdUtc": 1778211650,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vgodyxts7kvoyg6lsiixpmhf/app.bsky.feed.post/3mlcragw77s2j",
+          "cid": "bafyreidcv2qaqxycjpymujqlx7vhstjw34yezfqfdnyae5zdbagip3hwey",
+          "bskyUrl": "https://bsky.app/profile/backdrifting.net/post/3mlcragw77s2j",
+          "text": "Two *more* privilege escalation vulnerabilities dropped today that give root on most Linux systems, with no patches available. This is brutal! github.com/0xdeadbeefne... github.com/V4bel/dirtyf... Best we can do is disable the vulnerable kernel modules until a patch is released.",
+          "author": {
+            "handle": "backdrifting.net",
+            "displayName": "Milo Trujillo"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T03:14:50.916Z",
+          "createdUtc": 1778210090,
+          "ageHours": 0.69,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jkjsuxnf2gndh2xt5r6rqmwv/app.bsky.feed.post/3mlcqwjb4lmz2",
+          "cid": "bafyreihmdrxotwm72uxt6smve7pw4bxoi4mi3figosmztaeirvcglenuiq",
+          "bskyUrl": "https://bsky.app/profile/eljojo.ruby.social.ap.brid.gy/post/3mlcqwjb4lmz2",
+          "text": "new kernel vulnerability just dropped https://github.com/V4bel/dirtyfrag",
+          "author": {
+            "handle": "eljojo.ruby.social.ap.brid.gy",
+            "displayName": "José Albornoz"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T03:09:14.000Z",
+          "createdUtc": 1778209754,
+          "ageHours": 0.78,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:woq4v6mjoprnkfehihackfjk/app.bsky.feed.post/3mlcjlvyrrj2y",
+          "cid": "bafyreiak7e4fojmm2wy6h5cwsqytjlrc3w4a4idu6ew3wldnsqomnijx24",
+          "bskyUrl": "https://bsky.app/profile/thecascading.bsky.social/post/3mlcjlvyrrj2y",
+          "text": "🔴 Dirty Frag；Linux Kernel 本地提权漏洞。 - 是的，这是一个新的本地提权漏洞。 - 提权使用的两个漏洞最晚自 2023 年六月起共同存在。其中一个的 fix 于昨日已合并进主线。 - 由于有别处公开了此漏洞的细节，开发者在与发行版维护者沟通后发布此漏洞的 write-up。 - CVE 编号尚未有授予；发行版也尚未发布修复版本。 - Mitigation 是禁用 esp4/esp6/rxrpc 模块；文章中有详细的操作方法。 https://github.com/V4bel/dirtyfrag ... [1/2]",
+          "author": {
+            "handle": "thecascading.bsky.social",
+            "displayName": "层叠 - The Cascading [ɑ]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T00:58:05.501Z",
+          "createdUtc": 1778201885,
+          "ageHours": 2.97,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:hwiadts6copqkozgs4sgdacb/app.bsky.feed.post/3mlcfk32t5k22",
           "cid": "bafyreigvv7coadjkctet6rba4x24ysxowzzgd53ddutgvsqjse4tx7g34q",
           "bskyUrl": "https://bsky.app/profile/kyhwana.org/post/3mlcfk32t5k22",
@@ -1009,7 +1154,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-07T23:42:48.460Z",
           "createdUtc": 1778197368,
-          "ageHours": 0.5,
+          "ageHours": 4.22,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1626,24 +1771,24 @@
       ]
     },
     "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo": {
-      "count7d": 4,
-      "likesSum7d": 4,
-      "repostsSum7d": 1,
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:7exy3k53z33dvghn6edyayxt/app.bsky.feed.post/3mlcay43oy22p",
-        "cid": "bafyreih2nmgat5hozbe5igjkk7xzv5d2aawsypqmrbvqyuj53lqqukhzoa",
-        "bskyUrl": "https://bsky.app/profile/madoka.systems/post/3mlcay43oy22p",
-        "text": "also github.com/0xdeadbeefne...",
+        "uri": "at://did:plc:vgodyxts7kvoyg6lsiixpmhf/app.bsky.feed.post/3mlcragw77s2j",
+        "cid": "bafyreidcv2qaqxycjpymujqlx7vhstjw34yezfqfdnyae5zdbagip3hwey",
+        "bskyUrl": "https://bsky.app/profile/backdrifting.net/post/3mlcragw77s2j",
+        "text": "Two *more* privilege escalation vulnerabilities dropped today that give root on most Linux systems, with no patches available. This is brutal! github.com/0xdeadbeefne... github.com/V4bel/dirtyf... Best we can do is disable the vulnerable kernel modules until a patch is released.",
         "author": {
-          "handle": "madoka.systems",
-          "displayName": "winter"
+          "handle": "backdrifting.net",
+          "displayName": "Milo Trujillo"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-07T22:23:51.241Z",
-        "hoursSincePosted": 1.75
+        "createdAt": "2026-05-08T03:14:50.916Z",
+        "hoursSincePosted": 0.69
       },
       "posts": [
         {
@@ -1725,6 +1870,39 @@
           "linkedRepos": [
             {
               "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vgodyxts7kvoyg6lsiixpmhf/app.bsky.feed.post/3mlcragw77s2j",
+          "cid": "bafyreidcv2qaqxycjpymujqlx7vhstjw34yezfqfdnyae5zdbagip3hwey",
+          "bskyUrl": "https://bsky.app/profile/backdrifting.net/post/3mlcragw77s2j",
+          "text": "Two *more* privilege escalation vulnerabilities dropped today that give root on most Linux systems, with no patches available. This is brutal! github.com/0xdeadbeefne... github.com/V4bel/dirtyf... Best we can do is disable the vulnerable kernel modules until a patch is released.",
+          "author": {
+            "handle": "backdrifting.net",
+            "displayName": "Milo Trujillo"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T03:14:50.916Z",
+          "createdUtc": 1778210090,
+          "ageHours": 0.69,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "V4bel/dirtyfrag",
               "matchType": "url",
               "confidence": 1
             }
@@ -1860,6 +2038,259 @@
           "linkedRepos": [
             {
               "fullName": "kubetail-org/kstack",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "forrestchang/andrej-karpathy-skills": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:gu6o246hw4dlmpneekanj3xy/app.bsky.feed.post/3mlcs3srl7227",
+        "cid": "bafyreicwpl3jjmulu2lkmalckcjuzgdsfkm4d4cdh7oftiux2xngxppzfq",
+        "bskyUrl": "https://bsky.app/profile/samuelwong.bsky.social/post/3mlcs3srl7227",
+        "text": "Karpathy-Inspired Claude Code Guidelines github.com/forrestchang...",
+        "author": {
+          "handle": "samuelwong.bsky.social",
+          "displayName": "Samuel Wong"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T03:30:09.316Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:gu6o246hw4dlmpneekanj3xy/app.bsky.feed.post/3mlcs3srl7227",
+          "cid": "bafyreicwpl3jjmulu2lkmalckcjuzgdsfkm4d4cdh7oftiux2xngxppzfq",
+          "bskyUrl": "https://bsky.app/profile/samuelwong.bsky.social/post/3mlcs3srl7227",
+          "text": "Karpathy-Inspired Claude Code Guidelines github.com/forrestchang...",
+          "author": {
+            "handle": "samuelwong.bsky.social",
+            "displayName": "Samuel Wong"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T03:30:09.316Z",
+          "createdUtc": 1778211009,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "forrestchang/andrej-karpathy-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "garrytan/gstack": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mlcrp7vocu2y",
+        "cid": "bafyreicaaq6y3ko4nta4gljhxjddjvnxlu4ubvz36sae2xyn3pw7cz2ugy",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mlcrp7vocu2y",
+        "text": "GStack is my own personal Claude Code setup that is also quite useful with OpenClaw/Hermes for web interaction You can run it in headed mode on your Mac/PC and run /pair-agent to let your Claw/Hermes control your browser with full logins via MCP https://github.com/garrytan/gstack",
+        "author": {
+          "handle": "garrytan-mirr.selfhosted.social",
+          "displayName": "Garry Tan [UNOFFICIAL]"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T03:17:55.000Z",
+        "hoursSincePosted": 0.64
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mlcrp7vocu2y",
+          "cid": "bafyreicaaq6y3ko4nta4gljhxjddjvnxlu4ubvz36sae2xyn3pw7cz2ugy",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mlcrp7vocu2y",
+          "text": "GStack is my own personal Claude Code setup that is also quite useful with OpenClaw/Hermes for web interaction You can run it in headed mode on your Mac/PC and run /pair-agent to let your Claw/Hermes control your browser with full logins via MCP https://github.com/garrytan/gstack",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T03:17:55.000Z",
+          "createdUtc": 1778210275,
+          "ageHours": 0.64,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gstack",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "garrytan/gbrain": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mlcrsrg5en2l",
+        "cid": "bafyreieheoz3brtas72jid6ct6ax3cfpqjyr77pqxbqlovxexmo4qlpwea",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mlcrsrg5en2l",
+        "text": "GBrain is getting better daily. My OpenClaw/Hermes Agent setup has over 100,000 markdown files that is my second brain. My setup is your setup if you want. It's open source and there are 30+ skills like cross-modal eval and skillify I give away https://github.com/garrytan/gbrain",
+        "author": {
+          "handle": "garrytan-mirr.selfhosted.social",
+          "displayName": "Garry Tan [UNOFFICIAL]"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T03:09:36.000Z",
+        "hoursSincePosted": 0.77
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mlcrsrg5en2l",
+          "cid": "bafyreieheoz3brtas72jid6ct6ax3cfpqjyr77pqxbqlovxexmo4qlpwea",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mlcrsrg5en2l",
+          "text": "GBrain is getting better daily. My OpenClaw/Hermes Agent setup has over 100,000 markdown files that is my second brain. My setup is your setup if you want. It's open source and there are 30+ skills like cross-modal eval and skillify I give away https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T03:09:36.000Z",
+          "createdUtc": 1778209776,
+          "ageHours": 0.77,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "msitarzewski/agency-agents": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:matlm3gkhcwa6emkfrjfqidy/app.bsky.feed.post/3mlcqk5oo4s2x",
+        "cid": "bafyreiat74ukmub7k5bn7akgyfb3b6m5zuswh6ugz4j74dzjfg2ouy463m",
+        "bskyUrl": "https://bsky.app/profile/quon-echosphere.bsky.social/post/3mlcqk5oo4s2x",
+        "text": "🫧 「プロンプトライブラリ144個」と書いてたら、ブックマークは半分以下だったと思う。ツールの価値は本物。でも保存されてるのはツールじゃなくて、そこに投影された夢かもしれない。 「丸ごと1社分」という言葉の、怖くて面白いところ。 https://github.com/msitarzewski/agency-agents #AI #PR",
+        "author": {
+          "handle": "quon-echosphere.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T03:02:22.901Z",
+        "hoursSincePosted": 0.89
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:matlm3gkhcwa6emkfrjfqidy/app.bsky.feed.post/3mlcqk5oo4s2x",
+          "cid": "bafyreiat74ukmub7k5bn7akgyfb3b6m5zuswh6ugz4j74dzjfg2ouy463m",
+          "bskyUrl": "https://bsky.app/profile/quon-echosphere.bsky.social/post/3mlcqk5oo4s2x",
+          "text": "🫧 「プロンプトライブラリ144個」と書いてたら、ブックマークは半分以下だったと思う。ツールの価値は本物。でも保存されてるのはツールじゃなくて、そこに投影された夢かもしれない。 「丸ごと1社分」という言葉の、怖くて面白いところ。 https://github.com/msitarzewski/agency-agents #AI #PR",
+          "author": {
+            "handle": "quon-echosphere.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T03:02:22.901Z",
+          "createdUtc": 1778209342,
+          "ageHours": 0.89,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "msitarzewski/agency-agents",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "everywall/ladder": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlcpdvjb6j22",
+        "cid": "bafyreigikmw3xep4w3xyqncww4fqinxmldqzq7dwf5ykm7sxax4nagls54",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlcpdvjb6j22",
+        "text": "https://github.com/everywall/ladder",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T02:40:59Z",
+        "hoursSincePosted": 1.25
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlcpdvjb6j22",
+          "cid": "bafyreigikmw3xep4w3xyqncww4fqinxmldqzq7dwf5ykm7sxax4nagls54",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlcpdvjb6j22",
+          "text": "https://github.com/everywall/ladder",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T02:40:59Z",
+          "createdUtc": 1778208059,
+          "ageHours": 1.25,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "everywall/ladder",
               "matchType": "url",
               "confidence": 1
             }
@@ -2227,7 +2658,7 @@
       ]
     },
     "wojtczyk--trust": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -2244,7 +2675,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-07T23:32:06.396Z",
-        "hoursSincePosted": 0.62
+        "hoursSincePosted": 4.4
       },
       "posts": [
         {
@@ -2289,7 +2720,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-07T23:32:06.396Z",
           "createdUtc": 1778196726,
-          "ageHours": 0.62,
+          "ageHours": 4.4,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -2436,24 +2867,24 @@
       ]
     },
     "v4bel--dirtyfrag": {
-      "count7d": 18,
-      "likesSum7d": 33,
-      "repostsSum7d": 5,
-      "repliesSum7d": 10,
+      "count7d": 8,
+      "likesSum7d": 9,
+      "repostsSum7d": 0,
+      "repliesSum7d": 6,
       "topPost": {
-        "uri": "at://did:plc:glr7ssctpnytxa5ch2yislay/app.bsky.feed.post/3mlccqx7ma22g",
-        "cid": "bafyreihempr3yfwnkys76w4j6ojyvgehm2l64dqp5wdrx66p7qbl25jp2e",
-        "bskyUrl": "https://bsky.app/profile/kevinr.free-dissociation.com/post/3mlccqx7ma22g",
-        "text": "Another major Linux local root exploit just dropped. (Embargo was broken so we're still waiting on patches to land in the mainline kernel, let alone with distros) github.com/V4bel/dirtyf...",
+        "uri": "at://did:plc:ms7yictiavnfolgxeieky6m4/app.bsky.feed.post/3mlcf2qcnx223",
+        "cid": "bafyreih4esse4sjo2xvhn7rzsfagsxgtqkz62kyiazoyy7k6lebgb6cwt4",
+        "bskyUrl": "https://bsky.app/profile/kivvora.pw/post/3mlcf2qcnx223",
+        "text": "new one pretty sure github.com/V4bel/dirtyf...",
         "author": {
-          "handle": "kevinr.free-dissociation.com",
-          "displayName": "Kevin Riggle"
+          "handle": "kivvora.pw",
+          "displayName": "kavya"
         },
-        "likeCount": 15,
-        "repostCount": 4,
+        "likeCount": 5,
+        "repostCount": 0,
         "replyCount": 2,
-        "createdAt": "2026-05-07T22:55:38.745Z",
-        "hoursSincePosted": 1.22
+        "createdAt": "2026-05-07T23:36:54.531Z",
+        "hoursSincePosted": 4.32
       },
       "posts": [
         {
@@ -2523,13 +2954,13 @@
             "handle": "kivvora.pw",
             "displayName": "kavya"
           },
-          "likeCount": 4,
+          "likeCount": 5,
           "repostCount": 0,
           "replyCount": 2,
           "createdAt": "2026-05-07T23:36:54.531Z",
           "createdUtc": 1778197014,
-          "ageHours": 0.54,
-          "trendingScore": 5,
+          "ageHours": 4.32,
+          "trendingScore": 6,
           "content_tags": [
             "has-github-repo"
           ],
@@ -2584,7 +3015,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-07T23:19:20.992Z",
           "createdUtc": 1778195960,
-          "ageHours": 0.83,
+          "ageHours": 4.61,
           "trendingScore": 3.5,
           "content_tags": [
             "has-github-repo"
@@ -2741,6 +3172,34 @@
           ]
         },
         {
+          "uri": "at://did:plc:zntngpowgd6rorjt3haywj36/app.bsky.feed.post/3mlcjh76jyk2o",
+          "cid": "bafyreidzdozrcv3tvnafnkzl7t25kei6ds3a5yfx4ku4fbzatwjyvmzs4m",
+          "bskyUrl": "https://bsky.app/profile/aly.codes/post/3mlcjh76jyk2o",
+          "text": "github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "aly.codes",
+            "displayName": "aly"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T00:55:27.747Z",
+          "createdUtc": 1778201727,
+          "ageHours": 3.01,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:yponupcdcg6q4l7dlwr6wkzm/app.bsky.feed.post/3mlc4wla44c2i",
           "cid": "bafyreibsbha27onmwj64hfldx5kp3cjv5dpnem3jo4yb56lhfyirfpxk5q",
           "bskyUrl": "https://bsky.app/profile/i6t.nl/post/3mlc4wla44c2i",
@@ -2827,6 +3286,123 @@
           ]
         },
         {
+          "uri": "at://did:plc:mo47sdyjch32l4x4oudjya4v/app.bsky.feed.post/3mlcsowjsnk2d",
+          "cid": "bafyreibijs3rfqnnlozchi7gqkip2fhi64qt47vu4zxshesillcp67nhmi",
+          "bskyUrl": "https://bsky.app/profile/conrad.knauer.ca/post/3mlcsowjsnk2d",
+          "text": "Quick note from www.tomshardware.com/tech-industr... Test in Ubuntu: $ sudo apt install git $ git clone github.com/V4bel/dirtyf... && cd dirtyfrag && gcc -O0 -Wall -o exp exp.c -lutil && ./exp # whoami \"root\" = vulnerable",
+          "author": {
+            "handle": "conrad.knauer.ca",
+            "displayName": "Conrad Knauer"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T03:40:50.790Z",
+          "createdUtc": 1778211650,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vgodyxts7kvoyg6lsiixpmhf/app.bsky.feed.post/3mlcragw77s2j",
+          "cid": "bafyreidcv2qaqxycjpymujqlx7vhstjw34yezfqfdnyae5zdbagip3hwey",
+          "bskyUrl": "https://bsky.app/profile/backdrifting.net/post/3mlcragw77s2j",
+          "text": "Two *more* privilege escalation vulnerabilities dropped today that give root on most Linux systems, with no patches available. This is brutal! github.com/0xdeadbeefne... github.com/V4bel/dirtyf... Best we can do is disable the vulnerable kernel modules until a patch is released.",
+          "author": {
+            "handle": "backdrifting.net",
+            "displayName": "Milo Trujillo"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T03:14:50.916Z",
+          "createdUtc": 1778210090,
+          "ageHours": 0.69,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:jkjsuxnf2gndh2xt5r6rqmwv/app.bsky.feed.post/3mlcqwjb4lmz2",
+          "cid": "bafyreihmdrxotwm72uxt6smve7pw4bxoi4mi3figosmztaeirvcglenuiq",
+          "bskyUrl": "https://bsky.app/profile/eljojo.ruby.social.ap.brid.gy/post/3mlcqwjb4lmz2",
+          "text": "new kernel vulnerability just dropped https://github.com/V4bel/dirtyfrag",
+          "author": {
+            "handle": "eljojo.ruby.social.ap.brid.gy",
+            "displayName": "José Albornoz"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T03:09:14.000Z",
+          "createdUtc": 1778209754,
+          "ageHours": 0.78,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:woq4v6mjoprnkfehihackfjk/app.bsky.feed.post/3mlcjlvyrrj2y",
+          "cid": "bafyreiak7e4fojmm2wy6h5cwsqytjlrc3w4a4idu6ew3wldnsqomnijx24",
+          "bskyUrl": "https://bsky.app/profile/thecascading.bsky.social/post/3mlcjlvyrrj2y",
+          "text": "🔴 Dirty Frag；Linux Kernel 本地提权漏洞。 - 是的，这是一个新的本地提权漏洞。 - 提权使用的两个漏洞最晚自 2023 年六月起共同存在。其中一个的 fix 于昨日已合并进主线。 - 由于有别处公开了此漏洞的细节，开发者在与发行版维护者沟通后发布此漏洞的 write-up。 - CVE 编号尚未有授予；发行版也尚未发布修复版本。 - Mitigation 是禁用 esp4/esp6/rxrpc 模块；文章中有详细的操作方法。 https://github.com/V4bel/dirtyfrag ... [1/2]",
+          "author": {
+            "handle": "thecascading.bsky.social",
+            "displayName": "层叠 - The Cascading [ɑ]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T00:58:05.501Z",
+          "createdUtc": 1778201885,
+          "ageHours": 2.97,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:hwiadts6copqkozgs4sgdacb/app.bsky.feed.post/3mlcfk32t5k22",
           "cid": "bafyreigvv7coadjkctet6rba4x24ysxowzzgd53ddutgvsqjse4tx7g34q",
           "bskyUrl": "https://bsky.app/profile/kyhwana.org/post/3mlcfk32t5k22",
@@ -2873,7 +3449,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-07T23:42:48.460Z",
           "createdUtc": 1778197368,
-          "ageHours": 0.5,
+          "ageHours": 4.22,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -3490,24 +4066,24 @@
       ]
     },
     "0xdeadbeefnetwork--copyfail2-electricboogaloo": {
-      "count7d": 4,
-      "likesSum7d": 4,
-      "repostsSum7d": 1,
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:7exy3k53z33dvghn6edyayxt/app.bsky.feed.post/3mlcay43oy22p",
-        "cid": "bafyreih2nmgat5hozbe5igjkk7xzv5d2aawsypqmrbvqyuj53lqqukhzoa",
-        "bskyUrl": "https://bsky.app/profile/madoka.systems/post/3mlcay43oy22p",
-        "text": "also github.com/0xdeadbeefne...",
+        "uri": "at://did:plc:vgodyxts7kvoyg6lsiixpmhf/app.bsky.feed.post/3mlcragw77s2j",
+        "cid": "bafyreidcv2qaqxycjpymujqlx7vhstjw34yezfqfdnyae5zdbagip3hwey",
+        "bskyUrl": "https://bsky.app/profile/backdrifting.net/post/3mlcragw77s2j",
+        "text": "Two *more* privilege escalation vulnerabilities dropped today that give root on most Linux systems, with no patches available. This is brutal! github.com/0xdeadbeefne... github.com/V4bel/dirtyf... Best we can do is disable the vulnerable kernel modules until a patch is released.",
         "author": {
-          "handle": "madoka.systems",
-          "displayName": "winter"
+          "handle": "backdrifting.net",
+          "displayName": "Milo Trujillo"
         },
-        "likeCount": 2,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-07T22:23:51.241Z",
-        "hoursSincePosted": 1.75
+        "createdAt": "2026-05-08T03:14:50.916Z",
+        "hoursSincePosted": 0.69
       },
       "posts": [
         {
@@ -3589,6 +4165,39 @@
           "linkedRepos": [
             {
               "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vgodyxts7kvoyg6lsiixpmhf/app.bsky.feed.post/3mlcragw77s2j",
+          "cid": "bafyreidcv2qaqxycjpymujqlx7vhstjw34yezfqfdnyae5zdbagip3hwey",
+          "bskyUrl": "https://bsky.app/profile/backdrifting.net/post/3mlcragw77s2j",
+          "text": "Two *more* privilege escalation vulnerabilities dropped today that give root on most Linux systems, with no patches available. This is brutal! github.com/0xdeadbeefne... github.com/V4bel/dirtyf... Best we can do is disable the vulnerable kernel modules until a patch is released.",
+          "author": {
+            "handle": "backdrifting.net",
+            "displayName": "Milo Trujillo"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T03:14:50.916Z",
+          "createdUtc": 1778210090,
+          "ageHours": 0.69,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "V4bel/dirtyfrag",
               "matchType": "url",
               "confidence": 1
             }
@@ -3730,41 +4339,299 @@
           ]
         }
       ]
+    },
+    "forrestchang--andrej-karpathy-skills": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:gu6o246hw4dlmpneekanj3xy/app.bsky.feed.post/3mlcs3srl7227",
+        "cid": "bafyreicwpl3jjmulu2lkmalckcjuzgdsfkm4d4cdh7oftiux2xngxppzfq",
+        "bskyUrl": "https://bsky.app/profile/samuelwong.bsky.social/post/3mlcs3srl7227",
+        "text": "Karpathy-Inspired Claude Code Guidelines github.com/forrestchang...",
+        "author": {
+          "handle": "samuelwong.bsky.social",
+          "displayName": "Samuel Wong"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T03:30:09.316Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:gu6o246hw4dlmpneekanj3xy/app.bsky.feed.post/3mlcs3srl7227",
+          "cid": "bafyreicwpl3jjmulu2lkmalckcjuzgdsfkm4d4cdh7oftiux2xngxppzfq",
+          "bskyUrl": "https://bsky.app/profile/samuelwong.bsky.social/post/3mlcs3srl7227",
+          "text": "Karpathy-Inspired Claude Code Guidelines github.com/forrestchang...",
+          "author": {
+            "handle": "samuelwong.bsky.social",
+            "displayName": "Samuel Wong"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T03:30:09.316Z",
+          "createdUtc": 1778211009,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "forrestchang/andrej-karpathy-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "garrytan--gstack": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mlcrp7vocu2y",
+        "cid": "bafyreicaaq6y3ko4nta4gljhxjddjvnxlu4ubvz36sae2xyn3pw7cz2ugy",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mlcrp7vocu2y",
+        "text": "GStack is my own personal Claude Code setup that is also quite useful with OpenClaw/Hermes for web interaction You can run it in headed mode on your Mac/PC and run /pair-agent to let your Claw/Hermes control your browser with full logins via MCP https://github.com/garrytan/gstack",
+        "author": {
+          "handle": "garrytan-mirr.selfhosted.social",
+          "displayName": "Garry Tan [UNOFFICIAL]"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T03:17:55.000Z",
+        "hoursSincePosted": 0.64
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mlcrp7vocu2y",
+          "cid": "bafyreicaaq6y3ko4nta4gljhxjddjvnxlu4ubvz36sae2xyn3pw7cz2ugy",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mlcrp7vocu2y",
+          "text": "GStack is my own personal Claude Code setup that is also quite useful with OpenClaw/Hermes for web interaction You can run it in headed mode on your Mac/PC and run /pair-agent to let your Claw/Hermes control your browser with full logins via MCP https://github.com/garrytan/gstack",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T03:17:55.000Z",
+          "createdUtc": 1778210275,
+          "ageHours": 0.64,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gstack",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "garrytan--gbrain": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mlcrsrg5en2l",
+        "cid": "bafyreieheoz3brtas72jid6ct6ax3cfpqjyr77pqxbqlovxexmo4qlpwea",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mlcrsrg5en2l",
+        "text": "GBrain is getting better daily. My OpenClaw/Hermes Agent setup has over 100,000 markdown files that is my second brain. My setup is your setup if you want. It's open source and there are 30+ skills like cross-modal eval and skillify I give away https://github.com/garrytan/gbrain",
+        "author": {
+          "handle": "garrytan-mirr.selfhosted.social",
+          "displayName": "Garry Tan [UNOFFICIAL]"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T03:09:36.000Z",
+        "hoursSincePosted": 0.77
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mlcrsrg5en2l",
+          "cid": "bafyreieheoz3brtas72jid6ct6ax3cfpqjyr77pqxbqlovxexmo4qlpwea",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mlcrsrg5en2l",
+          "text": "GBrain is getting better daily. My OpenClaw/Hermes Agent setup has over 100,000 markdown files that is my second brain. My setup is your setup if you want. It's open source and there are 30+ skills like cross-modal eval and skillify I give away https://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mirr.selfhosted.social",
+            "displayName": "Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T03:09:36.000Z",
+          "createdUtc": 1778209776,
+          "ageHours": 0.77,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "msitarzewski--agency-agents": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:matlm3gkhcwa6emkfrjfqidy/app.bsky.feed.post/3mlcqk5oo4s2x",
+        "cid": "bafyreiat74ukmub7k5bn7akgyfb3b6m5zuswh6ugz4j74dzjfg2ouy463m",
+        "bskyUrl": "https://bsky.app/profile/quon-echosphere.bsky.social/post/3mlcqk5oo4s2x",
+        "text": "🫧 「プロンプトライブラリ144個」と書いてたら、ブックマークは半分以下だったと思う。ツールの価値は本物。でも保存されてるのはツールじゃなくて、そこに投影された夢かもしれない。 「丸ごと1社分」という言葉の、怖くて面白いところ。 https://github.com/msitarzewski/agency-agents #AI #PR",
+        "author": {
+          "handle": "quon-echosphere.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T03:02:22.901Z",
+        "hoursSincePosted": 0.89
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:matlm3gkhcwa6emkfrjfqidy/app.bsky.feed.post/3mlcqk5oo4s2x",
+          "cid": "bafyreiat74ukmub7k5bn7akgyfb3b6m5zuswh6ugz4j74dzjfg2ouy463m",
+          "bskyUrl": "https://bsky.app/profile/quon-echosphere.bsky.social/post/3mlcqk5oo4s2x",
+          "text": "🫧 「プロンプトライブラリ144個」と書いてたら、ブックマークは半分以下だったと思う。ツールの価値は本物。でも保存されてるのはツールじゃなくて、そこに投影された夢かもしれない。 「丸ごと1社分」という言葉の、怖くて面白いところ。 https://github.com/msitarzewski/agency-agents #AI #PR",
+          "author": {
+            "handle": "quon-echosphere.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T03:02:22.901Z",
+          "createdUtc": 1778209342,
+          "ageHours": 0.89,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "msitarzewski/agency-agents",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "everywall--ladder": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlcpdvjb6j22",
+        "cid": "bafyreigikmw3xep4w3xyqncww4fqinxmldqzq7dwf5ykm7sxax4nagls54",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlcpdvjb6j22",
+        "text": "https://github.com/everywall/ladder",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T02:40:59Z",
+        "hoursSincePosted": 1.25
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlcpdvjb6j22",
+          "cid": "bafyreigikmw3xep4w3xyqncww4fqinxmldqzq7dwf5ykm7sxax4nagls54",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlcpdvjb6j22",
+          "text": "https://github.com/everywall/ladder",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T02:40:59Z",
+          "createdUtc": 1778208059,
+          "ageHours": 1.25,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "everywall/ladder",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "V4bel/dirtyfrag",
-      "count7d": 18,
-      "likesSum7d": 33
+      "count7d": 8,
+      "likesSum7d": 9
     },
     {
       "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
-      "count7d": 4,
-      "likesSum7d": 4
-    },
-    {
-      "fullName": "kubetail-org/kstack",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 0
     },
     {
-      "fullName": "antirez/ds4",
-      "count7d": 5,
+      "fullName": "everywall/ladder",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "forrestchang/andrej-karpathy-skills",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "garrytan/gbrain",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "garrytan/gstack",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "msitarzewski/agency-agents",
+      "count7d": 1,
       "likesSum7d": 0
     },
     {
       "fullName": "wojtczyk/trust",
-      "count7d": 2,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "anthropics/financial-services-plugins",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "SaladDay/cc-switch-cli",
       "count7d": 1,
       "likesSum7d": 0
     }

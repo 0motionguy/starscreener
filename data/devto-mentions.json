@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-07T19:48:43.229Z",
+  "fetchedAt": "2026-05-08T03:34:25.583Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1296,
+  "scannedArticles": 1288,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -192,12 +192,12 @@
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 11,
     "tag-mcp-top-7d": 100,
-    "tag-rag-top-7d": 79,
+    "tag-rag-top-7d": 88,
     "tag-promptengineering-top-7d": 34,
     "tag-workflow-top-7d": 28,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
-    "tag-cli-top-7d": 91,
+    "tag-cli-top-7d": 85,
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 100,
     "tag-langchain-top-7d": 56,
@@ -216,7 +216,7 @@
         "author": "ruarfff",
         "reactions": 24,
         "comments": 0,
-        "hoursSincePosted": 53,
+        "hoursSincePosted": 60.7,
         "readingTime": 11
       },
       "articles": [
@@ -237,7 +237,7 @@
           "tags": [
             "githubcopilot"
           ],
-          "trendingScore": 0.63,
+          "trendingScore": 0.55,
           "linkedRepos": [
             {
               "fullName": "gastownhall/gastown",
@@ -248,7 +248,7 @@
       ]
     },
     "BerriAI/litellm": {
-      "count7d": 3,
+      "count7d": 2,
       "reactionsSum7d": 50,
       "commentsSum7d": 0,
       "topArticle": {
@@ -258,7 +258,7 @@
         "author": "xbill",
         "reactions": 29,
         "comments": 0,
-        "hoursSincePosted": 54.5,
+        "hoursSincePosted": 62.3,
         "readingTime": 9
       },
       "articles": [
@@ -282,7 +282,7 @@
             "python",
             "agents"
           ],
-          "trendingScore": 0.78,
+          "trendingScore": 0.68,
           "linkedRepos": [
             {
               "fullName": "BerriAI/litellm",
@@ -310,35 +310,7 @@
             "googleadk",
             "gemini"
           ],
-          "trendingScore": 0.95,
-          "linkedRepos": [
-            {
-              "fullName": "BerriAI/litellm",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3627481,
-          "title": "Stop tuning one model. Route per workload.",
-          "description": "\"What's the best model?\" used to be a meaningful question. Today it has the wrong shape.  The useful...",
-          "url": "https://dev.to/tokenhub_dev/stop-tuning-one-model-route-per-workload-2aah",
-          "author": {
-            "username": "tokenhub_dev",
-            "name": "TokenHub",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3898502%2F6f13da76-8606-4490-b57e-067e230f3c22.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-07T13:49:58Z",
-          "tags": [
-            "ai",
-            "openai",
-            "deepseek",
-            "programming"
-          ],
-          "trendingScore": 0,
+          "trendingScore": 0.75,
           "linkedRepos": [
             {
               "fullName": "BerriAI/litellm",
@@ -350,16 +322,16 @@
     },
     "microsoft/typescript-go": {
       "count7d": 1,
-      "reactionsSum7d": 16,
+      "reactionsSum7d": 17,
       "commentsSum7d": 5,
       "topArticle": {
         "id": 3604313,
         "title": "AI Deleted My Tests and Said 'All Tests Pass' — A Horror Story from Porting 'typia' from TypeScript to Go",
         "url": "https://dev.to/samchon/ai-deleted-my-tests-and-said-all-tests-pass-a-horror-story-from-porting-typia-from-typescript-2bmf",
         "author": "samchon",
-        "reactions": 16,
+        "reactions": 17,
         "comments": 5,
-        "hoursSincePosted": 101.4,
+        "hoursSincePosted": 109.2,
         "readingTime": 10
       },
       "articles": [
@@ -373,7 +345,7 @@
             "name": "Jeongho Nam",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F901175%2Fd1a551cd-f5ae-4d4f-8dea-e5edec30b8d1.jpeg"
           },
-          "reactionsCount": 16,
+          "reactionsCount": 17,
           "commentsCount": 5,
           "readingTime": 10,
           "publishedAt": "2026-05-03T14:22:03Z",
@@ -383,7 +355,7 @@
             "typescript",
             "go"
           ],
-          "trendingScore": 0.28,
+          "trendingScore": 0.29,
           "linkedRepos": [
             {
               "fullName": "microsoft/typescript-go",
@@ -394,8 +366,8 @@
       ]
     },
     "NousResearch/hermes-agent": {
-      "count7d": 2,
-      "reactionsSum7d": 11,
+      "count7d": 1,
+      "reactionsSum7d": 10,
       "commentsSum7d": 1,
       "topArticle": {
         "id": 3599794,
@@ -404,7 +376,7 @@
         "author": "evanlin",
         "reactions": 10,
         "comments": 1,
-        "hoursSincePosted": 127.8,
+        "hoursSincePosted": 135.5,
         "readingTime": 3
       },
       "articles": [
@@ -428,62 +400,10 @@
             "googlecloud",
             "tutorial"
           ],
-          "trendingScore": 0.09,
+          "trendingScore": 0.08,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3592932,
-          "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-          "description": "How a tiny extension turns LLM coding agents from goldfish into elephants — and slashes token costs by 95-99% per session.",
-          "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-          "author": {
-            "username": "k1lgor",
-            "name": "k1lgor",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F711641%2F5f47c98a-5e7a-453e-a9d0-5ad3eed8c20d.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T17:29:43Z",
-          "tags": [
-            "ai",
-            "llm",
-            "typescript",
-            "pi"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/VibeVoice",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "Yeachan-Heo/oh-my-codex",
-              "location": "body"
-            },
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "MemPalace/mempalace",
-              "location": "body"
-            },
-            {
-              "fullName": "safishamsi/graphify",
               "location": "body"
             }
           ]
@@ -501,7 +421,7 @@
         "author": "danielsogl",
         "reactions": 10,
         "comments": 2,
-        "hoursSincePosted": 153.2,
+        "hoursSincePosted": 160.9,
         "readingTime": 13
       },
       "articles": [
@@ -525,7 +445,7 @@
             "angular",
             "ngrx"
           ],
-          "trendingScore": 0.08,
+          "trendingScore": 0.07,
           "linkedRepos": [
             {
               "fullName": "anthropics/skills",
@@ -566,15 +486,15 @@
     "HexmosTech/git-lrc": {
       "count7d": 4,
       "reactionsSum7d": 51,
-      "commentsSum7d": 2,
+      "commentsSum7d": 3,
       "topArticle": {
         "id": 3606533,
         "title": "Shared Page Cache in SQLite: Smarter Memory, Less Redundant Work",
         "url": "https://dev.to/lovestaco/shared-page-cache-in-sqlite-smarter-memory-less-redundant-work-58a6",
         "author": "lovestaco",
         "reactions": 20,
-        "comments": 0,
-        "hoursSincePosted": 7.1,
+        "comments": 1,
+        "hoursSincePosted": 14.9,
         "readingTime": 3
       },
       "articles": [
@@ -589,7 +509,7 @@
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
           },
           "reactionsCount": 20,
-          "commentsCount": 0,
+          "commentsCount": 1,
           "readingTime": 3,
           "publishedAt": "2026-05-07T12:40:15Z",
           "tags": [
@@ -598,7 +518,7 @@
             "database",
             "architecture"
           ],
-          "trendingScore": 3.64,
+          "trendingScore": 1.92,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -625,7 +545,7 @@
             "softwareengineering",
             "agenticengineering"
           ],
-          "trendingScore": 0.69,
+          "trendingScore": 0.55,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -653,7 +573,7 @@
             "design",
             "discuss"
           ],
-          "trendingScore": 0.17,
+          "trendingScore": 0.15,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -681,7 +601,7 @@
             "productivity",
             "beginners"
           ],
-          "trendingScore": 2.93,
+          "trendingScore": 0.42,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -702,7 +622,7 @@
         "author": "manveer_chawla_64a7283d5a",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 147,
+        "hoursSincePosted": 154.7,
         "readingTime": 21
       },
       "articles": [
@@ -735,69 +655,29 @@
           ]
         },
         {
-          "id": 3627450,
-          "title": "Claude Code Was Broken for 6 Weeks. AMD Caught It in 6,852 Sessions Before Anthropic Did.",
-          "description": "For six weeks, you thought you were writing your prompts wrong.  You could feel Claude Code messing...",
-          "url": "https://dev.to/rentierdigital/claude-code-was-broken-for-6-weeks-amd-caught-it-in-6852-sessions-before-anthropic-did-7i5",
+          "id": 3629461,
+          "title": "Atomic's Ralph Loop: a deterministic, plan, orchestrate review for long-running, ambiguous work",
+          "description": "Geoffrey Huntley's original Ralph essay introduced a primitive I keep coming back to: a coding agent...",
+          "url": "https://dev.to/mixture-of-experts/atomics-ralph-loop-a-deterministic-plan-orchestrate-review-for-long-running-ambiguous-work-1bb",
           "author": {
-            "username": "rentierdigital",
-            "name": "Phil Rentier Digital",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3440667%2F4dff0ac3-f0f2-42bf-b066-14c2ba847691.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 9,
-          "publishedAt": "2026-05-07T13:41:10Z",
-          "tags": [
-            "ai",
-            "programming",
-            "claude",
-            "aitools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3594085,
-          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
-          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-          "author": {
-            "username": "jun0-ds",
-            "name": "Jun0",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
+            "username": "mixture-of-experts",
+            "name": "Mixture of Experts",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3916862%2F03b63012-0632-4c84-b324-269b51e29ad6.jpg"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T03:13:10Z",
+          "readingTime": 6,
+          "publishedAt": "2026-05-07T22:52:30Z",
           "tags": [
             "ai",
-            "claudecode",
-            "agents",
-            "productivity"
+            "programming",
+            "opensource",
+            "agents"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            },
-            {
               "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "gsd-build/gsd-2",
               "location": "body"
             }
           ]
@@ -917,11 +797,39 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3627450,
+          "title": "Claude Code Was Broken for 6 Weeks. AMD Caught It in 6,852 Sessions Before Anthropic Did.",
+          "description": "For six weeks, you thought you were writing your prompts wrong.  You could feel Claude Code messing...",
+          "url": "https://dev.to/rentierdigital/claude-code-was-broken-for-6-weeks-amd-caught-it-in-6852-sessions-before-anthropic-did-7i5",
+          "author": {
+            "username": "rentierdigital",
+            "name": "Phil Rentier Digital",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3440667%2F4dff0ac3-f0f2-42bf-b066-14c2ba847691.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 9,
+          "publishedAt": "2026-05-07T13:41:10Z",
+          "tags": [
+            "ai",
+            "programming",
+            "claude",
+            "aitools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
     "openclaw/openclaw": {
-      "count7d": 1,
+      "count7d": 2,
       "reactionsSum7d": 9,
       "commentsSum7d": 2,
       "topArticle": {
@@ -931,7 +839,7 @@
         "author": "nevermiss",
         "reactions": 9,
         "comments": 2,
-        "hoursSincePosted": 139.6,
+        "hoursSincePosted": 147.4,
         "readingTime": 11
       },
       "articles": [
@@ -962,52 +870,52 @@
               "location": "body"
             }
           ]
-        }
-      ]
-    },
-    "openai/codex": {
-      "count7d": 6,
-      "reactionsSum7d": 5,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3594094,
-        "title": "Slash commands: no more meaningless commits",
-        "url": "https://dev.to/guilherme44/slash-commands-no-more-meaningless-commits-38ae",
-        "author": "guilherme44",
-        "reactions": 2,
-        "comments": 0,
-        "hoursSincePosted": 160.5,
-        "readingTime": 5
-      },
-      "articles": [
+        },
         {
-          "id": 3594094,
-          "title": "Slash commands: no more meaningless commits",
-          "description": "One of the things I've been using the most since I started with Claude Code is slash commands. And...",
-          "url": "https://dev.to/guilherme44/slash-commands-no-more-meaningless-commits-38ae",
+          "id": 3629584,
+          "title": "Slaying the Gemma Beast: How We Fixed Local AI and Shipped Search",
+          "description": "Two days ago, Gemma 4 couldn't finish a feature. Today it built one, pushed it to GitHub, and it's...",
+          "url": "https://dev.to/carryologist/slaying-the-gemma-beast-how-we-fixed-local-ai-and-shipped-search-3hbe",
           "author": {
-            "username": "guilherme44",
-            "name": "Guilherme Yamakawa de Oliveira",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F30816%2F90a4981b-417b-4d41-ac2c-4be6e1433b90.jpg"
+            "username": "carryologist",
+            "name": "Rob",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3884903%2Ff7cf0bfd-0b92-4dca-9095-683af23a19e3.png"
           },
-          "reactionsCount": 2,
+          "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-01T03:18:51Z",
+          "readingTime": 13,
+          "publishedAt": "2026-05-07T23:34:22Z",
           "tags": [
-            "claudecode",
-            "opencode",
-            "productivity",
-            "tooling"
+            "ai",
+            "llm",
+            "benchmark",
+            "homelab"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "openai/codex",
+              "fullName": "openclaw/openclaw",
               "location": "body"
             }
           ]
-        },
+        }
+      ]
+    },
+    "openai/codex": {
+      "count7d": 4,
+      "reactionsSum7d": 2,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3627864,
+        "title": "Building a Fully Offline AI Coding Assistant with Gemma 4, No Cloud Required 🤖",
+        "url": "https://dev.to/mamoor_ahmad/building-a-fully-offline-ai-coding-assistant-with-gemma-4-no-cloud-required-37op",
+        "author": "mamoor_ahmad",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 12.1,
+        "readingTime": 7
+      },
+      "articles": [
         {
           "id": 3627864,
           "title": "Building a Fully Offline AI Coding Assistant with Gemma 4, No Cloud Required 🤖",
@@ -1027,34 +935,6 @@
             "opensource",
             "ai",
             "webdev"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3594108,
-          "title": "[PT-BR] Slash commands: chega de commits sem sentido",
-          "description": "Uma das coisas que mais uso desde que comecei com o Claude Code são os slash commands. E um que acho...",
-          "url": "https://dev.to/guilherme44/pt-br-slash-commands-chega-de-commits-sem-sentido-1ooa",
-          "author": {
-            "username": "guilherme44",
-            "name": "Guilherme Yamakawa de Oliveira",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F30816%2F90a4981b-417b-4d41-ac2c-4be6e1433b90.jpg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-01T03:27:22Z",
-          "tags": [
-            "claudecode",
-            "opencode",
-            "productivity",
-            "tooling"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -1161,7 +1041,7 @@
         "author": "wonderlab",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 90.9,
+        "hoursSincePosted": 98.6,
         "readingTime": 3
       },
       "articles": [
@@ -1195,8 +1075,372 @@
         }
       ]
     },
+    "vercel-labs/skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3617729,
+        "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
+        "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
+        "author": "cdelgado70",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 50.6,
+        "readingTime": 21
+      },
+      "articles": [
+        {
+          "id": 3617729,
+          "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
+          "description": "Post 1 of 2. This post walks through the discovery ceiling in Anthropic's Agent Skills standard, the...",
+          "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
+          "author": {
+            "username": "cdelgado70",
+            "name": "C. Delgado",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 21,
+          "publishedAt": "2026-05-06T00:55:44Z",
+          "tags": [
+            "ai",
+            "claude",
+            "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "vercel-labs/skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "addyosmani/agent-skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3623847,
+        "title": "One Open Source Project a Day (No. 58): Agent Skills - Injecting Senior Engineer Discipline into AI Coding Agents",
+        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-58-agent-skills-injecting-senior-engineer-discipline-into-ai-1od2",
+        "author": "wonderlab",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 24.8,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3623847,
+          "title": "One Open Source Project a Day (No. 58): Agent Skills - Injecting Senior Engineer Discipline into AI Coding Agents",
+          "description": "Introduction    \"AI agents are only as good as the workflows they follow.\"   This is the...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-58-agent-skills-injecting-senior-engineer-discipline-into-ai-1od2",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-07T02:49:00Z",
+          "tags": [
+            "opensource",
+            "agentskills",
+            "claude",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "garrytan/gbrain": {
+      "count7d": 1,
+      "reactionsSum7d": 5,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3630098,
+        "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
+        "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
+        "author": "_4f268336f6580845cdc475",
+        "reactions": 5,
+        "comments": 0,
+        "hoursSincePosted": 1,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3630098,
+          "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
+          "description": "RAG brings books to the exam. Knowledge Engineering teaches Agents to study. Memory architecture...",
+          "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
+          "author": {
+            "username": "_4f268336f6580845cdc475",
+            "name": "Charles Wu",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805236%2Fc2ca81a3-8882-48ac-9ce7-046a056995ab.jpg"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-08T02:35:02Z",
+          "tags": [
+            "ai",
+            "machinelearning",
+            "rag",
+            "agents"
+          ],
+          "trendingScore": 3.53,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "jarrodwatts/claude-hud": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3595258,
+        "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
+        "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
+        "author": "lizhaopengcn",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 161.8,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3595258,
+          "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
+          "description": "给 Claude Code 做了一套四行树形状态栏，一份给 bare claude 走 OpenRouter，一份给 ccr code 走本地代理。记录颜色、图标、进度条的打磨过程，以及两条链路数据源差异带来的坑。",
+          "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
+          "author": {
+            "username": "lizhaopengcn",
+            "name": "lizhaopeng-cn",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3895162%2F3d029651-5359-4fda-92b7-87a7171460f8.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-01T09:46:29Z",
+          "tags": [
+            "claude",
+            "claudecode",
+            "ccr",
+            "devtools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "jarrodwatts/claude-hud",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "Fission-AI/OpenSpec": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3608735,
+        "title": "Cómo integrar OpenSpec con Claude Code paso a paso",
+        "url": "https://dev.to/bezael/como-integrar-openspec-con-claude-code-paso-a-paso-5ej3",
+        "author": "bezael",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 87.5,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3608735,
+          "title": "Cómo integrar OpenSpec con Claude Code paso a paso",
+          "description": "OpenSpec añade especificaciones versionadas a tu proyecto para que Claude Code nunca pierda el contexto. Tutorial completo con demo real.",
+          "url": "https://dev.to/bezael/como-integrar-openspec-con-claude-code-paso-a-paso-5ej3",
+          "author": {
+            "username": "bezael",
+            "name": "Bezael Pérez",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F69894%2F8c8240fd-1dd9-4fbe-8277-26c618359d1b.jpg"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-04T12:05:26Z",
+          "tags": [
+            "claudecode",
+            "openspec",
+            "ai",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "Fission-AI/OpenSpec",
+              "location": "tag"
+            }
+          ]
+        }
+      ]
+    },
+    "thedotmack/claude-mem": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3629755,
+        "title": "After the Skill Vault: 3 More Hidden Token Sinks in Claude Code",
+        "url": "https://dev.to/pponali/after-the-skill-vault-3-more-hidden-token-sinks-in-claude-code-32ek",
+        "author": "pponali",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 2.8,
+        "readingTime": 5
+      },
+      "articles": [
+        {
+          "id": 3629755,
+          "title": "After the Skill Vault: 3 More Hidden Token Sinks in Claude Code",
+          "description": "After cutting Claude Code tokens by 96% with the Skill Vault, I went looking for what was still eating tokens. Three more sinks, ~5K saved per session, zero capability lost.",
+          "url": "https://dev.to/pponali/after-the-skill-vault-3-more-hidden-token-sinks-in-claude-code-32ek",
+          "author": {
+            "username": "pponali",
+            "name": "pponali",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1238066%2F98aafa2c-caaf-4488-9c96-f143321b4acb.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-05-08T00:48:13Z",
+          "tags": [
+            "ai",
+            "productivity",
+            "claudecode",
+            "tutorial"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "thedotmack/claude-mem",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "rtk-ai/rtk": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3598530,
+        "title": "PreToolUse Hooks Are a Tiny State Machine: The Four Exit Codes That Actually Matter",
+        "url": "https://dev.to/agentkit/pretooluse-hooks-are-a-tiny-state-machine-the-four-exit-codes-that-actually-matter-2bg3",
+        "author": "agentkit",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 142.4,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3598530,
+          "title": "PreToolUse Hooks Are a Tiny State Machine: The Four Exit Codes That Actually Matter",
+          "description": "Production teams need more from PreToolUse hooks than tutorials show. The four exit codes that actually decide whether your hook is safe in production.",
+          "url": "https://dev.to/agentkit/pretooluse-hooks-are-a-tiny-state-machine-the-four-exit-codes-that-actually-matter-2bg3",
+          "author": {
+            "username": "agentkit",
+            "name": "AgentKit",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3836301%2F97b1a04a-6836-4c3d-abd0-be0c97d58d56.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-02T05:07:28Z",
+          "tags": [
+            "claudecode",
+            "devtools",
+            "ai",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "rtk-ai/rtk",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "alexgreensh/token-optimizer": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3621477,
+        "title": "94% of My Claude Code Tokens Went to the Wrong Model. So I Stopped Paying Opus to Do Haiku's Job.",
+        "url": "https://dev.to/rentierdigital/94-of-my-claude-code-tokens-went-to-the-wrong-model-so-i-stopped-paying-opus-to-do-haikus-job-152l",
+        "author": "rentierdigital",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 37.9,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3621477,
+          "title": "94% of My Claude Code Tokens Went to the Wrong Model. So I Stopped Paying Opus to Do Haiku's Job.",
+          "description": "You feel like you have done everything right with Claude Code. Hooks installed. CLAUDE.md curated to...",
+          "url": "https://dev.to/rentierdigital/94-of-my-claude-code-tokens-went-to-the-wrong-model-so-i-stopped-paying-opus-to-do-haikus-job-152l",
+          "author": {
+            "username": "rentierdigital",
+            "name": "Phil Rentier Digital",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3440667%2F4dff0ac3-f0f2-42bf-b066-14c2ba847691.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-06T13:41:11Z",
+          "tags": [
+            "ai",
+            "programming",
+            "claudecode",
+            "aitools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "alexgreensh/token-optimizer",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "obra/superpowers": {
-      "count7d": 6,
+      "count7d": 5,
       "reactionsSum7d": 3,
       "commentsSum7d": 0,
       "topArticle": {
@@ -1206,7 +1450,7 @@
         "author": "ikramar",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 78.8,
+        "hoursSincePosted": 86.5,
         "readingTime": 7
       },
       "articles": [
@@ -1266,46 +1510,6 @@
           "linkedRepos": [
             {
               "fullName": "obra/superpowers",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3594085,
-          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
-          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-          "author": {
-            "username": "jun0-ds",
-            "name": "Jun0",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T03:13:10Z",
-          "tags": [
-            "ai",
-            "claudecode",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "gsd-build/gsd-2",
               "location": "body"
             }
           ]
@@ -1444,446 +1648,6 @@
         }
       ]
     },
-    "forrestchang/andrej-karpathy-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3594085,
-        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-        "author": "jun0-ds",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 160.6,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3594085,
-          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
-          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-          "author": {
-            "username": "jun0-ds",
-            "name": "Jun0",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T03:13:10Z",
-          "tags": [
-            "ai",
-            "claudecode",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "gsd-build/gsd-2",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "gsd-build/gsd-2": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3594085,
-        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-        "author": "jun0-ds",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 160.6,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3594085,
-          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
-          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-          "author": {
-            "username": "jun0-ds",
-            "name": "Jun0",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T03:13:10Z",
-          "tags": [
-            "ai",
-            "claudecode",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "gsd-build/gsd-2",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "vercel-labs/skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3617729,
-        "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
-        "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
-        "author": "cdelgado70",
-        "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 42.9,
-        "readingTime": 21
-      },
-      "articles": [
-        {
-          "id": 3617729,
-          "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
-          "description": "Post 1 of 2. This post walks through the discovery ceiling in Anthropic's Agent Skills standard, the...",
-          "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
-          "author": {
-            "username": "cdelgado70",
-            "name": "C. Delgado",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 21,
-          "publishedAt": "2026-05-06T00:55:44Z",
-          "tags": [
-            "ai",
-            "claude",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "vercel-labs/skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "jarrodwatts/claude-hud": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3595258,
-        "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
-        "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
-        "author": "lizhaopengcn",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 154,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3595258,
-          "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
-          "description": "给 Claude Code 做了一套四行树形状态栏，一份给 bare claude 走 OpenRouter，一份给 ccr code 走本地代理。记录颜色、图标、进度条的打磨过程，以及两条链路数据源差异带来的坑。",
-          "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
-          "author": {
-            "username": "lizhaopengcn",
-            "name": "lizhaopeng-cn",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3895162%2F3d029651-5359-4fda-92b7-87a7171460f8.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T09:46:29Z",
-          "tags": [
-            "claude",
-            "claudecode",
-            "ccr",
-            "devtools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "jarrodwatts/claude-hud",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "Fission-AI/OpenSpec": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3608735,
-        "title": "Cómo integrar OpenSpec con Claude Code paso a paso",
-        "url": "https://dev.to/bezael/como-integrar-openspec-con-claude-code-paso-a-paso-5ej3",
-        "author": "bezael",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 79.7,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3608735,
-          "title": "Cómo integrar OpenSpec con Claude Code paso a paso",
-          "description": "OpenSpec añade especificaciones versionadas a tu proyecto para que Claude Code nunca pierda el contexto. Tutorial completo con demo real.",
-          "url": "https://dev.to/bezael/como-integrar-openspec-con-claude-code-paso-a-paso-5ej3",
-          "author": {
-            "username": "bezael",
-            "name": "Bezael Pérez",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F69894%2F8c8240fd-1dd9-4fbe-8277-26c618359d1b.jpg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-04T12:05:26Z",
-          "tags": [
-            "claudecode",
-            "openspec",
-            "ai",
-            "programming"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "Fission-AI/OpenSpec",
-              "location": "tag"
-            }
-          ]
-        }
-      ]
-    },
-    "rtk-ai/rtk": {
-      "count7d": 2,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592932,
-        "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-        "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-        "author": "k1lgor",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 170.3,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3592932,
-          "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-          "description": "How a tiny extension turns LLM coding agents from goldfish into elephants — and slashes token costs by 95-99% per session.",
-          "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-          "author": {
-            "username": "k1lgor",
-            "name": "k1lgor",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F711641%2F5f47c98a-5e7a-453e-a9d0-5ad3eed8c20d.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T17:29:43Z",
-          "tags": [
-            "ai",
-            "llm",
-            "typescript",
-            "pi"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/VibeVoice",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "Yeachan-Heo/oh-my-codex",
-              "location": "body"
-            },
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "MemPalace/mempalace",
-              "location": "body"
-            },
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3598530,
-          "title": "PreToolUse Hooks Are a Tiny State Machine: The Four Exit Codes That Actually Matter",
-          "description": "Production teams need more from PreToolUse hooks than tutorials show. The four exit codes that actually decide whether your hook is safe in production.",
-          "url": "https://dev.to/agentkit/pretooluse-hooks-are-a-tiny-state-machine-the-four-exit-codes-that-actually-matter-2bg3",
-          "author": {
-            "username": "agentkit",
-            "name": "AgentKit",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3836301%2F97b1a04a-6836-4c3d-abd0-be0c97d58d56.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-05-02T05:07:28Z",
-          "tags": [
-            "claudecode",
-            "devtools",
-            "ai",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "alexgreensh/token-optimizer": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3621477,
-        "title": "94% of My Claude Code Tokens Went to the Wrong Model. So I Stopped Paying Opus to Do Haiku's Job.",
-        "url": "https://dev.to/rentierdigital/94-of-my-claude-code-tokens-went-to-the-wrong-model-so-i-stopped-paying-opus-to-do-haikus-job-152l",
-        "author": "rentierdigital",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 30.1,
-        "readingTime": 11
-      },
-      "articles": [
-        {
-          "id": 3621477,
-          "title": "94% of My Claude Code Tokens Went to the Wrong Model. So I Stopped Paying Opus to Do Haiku's Job.",
-          "description": "You feel like you have done everything right with Claude Code. Hooks installed. CLAUDE.md curated to...",
-          "url": "https://dev.to/rentierdigital/94-of-my-claude-code-tokens-went-to-the-wrong-model-so-i-stopped-paying-opus-to-do-haikus-job-152l",
-          "author": {
-            "username": "rentierdigital",
-            "name": "Phil Rentier Digital",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3440667%2F4dff0ac3-f0f2-42bf-b066-14c2ba847691.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-05-06T13:41:11Z",
-          "tags": [
-            "ai",
-            "programming",
-            "claudecode",
-            "aitools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "alexgreensh/token-optimizer",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "JuliusBrussee/caveman": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3614786,
-        "title": "Caveman Review: The Claude Code Skill That Cuts 65% of Tokens",
-        "url": "https://dev.to/andrew-ooo/caveman-review-the-claude-code-skill-that-cuts-65-of-tokens-2boe",
-        "author": "andrew-ooo",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 56.6,
-        "readingTime": 10
-      },
-      "articles": [
-        {
-          "id": 3614786,
-          "title": "Caveman Review: The Claude Code Skill That Cuts 65% of Tokens",
-          "description": "Originally published on andrew.ooo — visit the original for any updates, code snippets that aged...",
-          "url": "https://dev.to/andrew-ooo/caveman-review-the-claude-code-skill-that-cuts-65-of-tokens-2boe",
-          "author": {
-            "username": "andrew-ooo",
-            "name": "Andrew",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3775252%2Ff6bbe8a2-ee0c-41f7-9468-c85f0b00ca95.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-05T11:11:31Z",
-          "tags": [
-            "caveman",
-            "claudecode",
-            "claudeskills",
-            "tokenoptimization"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
-              "location": "tag"
-            }
-          ]
-        }
-      ]
-    },
     "EveryInc/compound-engineering-plugin": {
       "count7d": 1,
       "reactionsSum7d": 2,
@@ -1895,7 +1659,7 @@
         "author": "ikramar",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 78.8,
+        "hoursSincePosted": 86.5,
         "readingTime": 7
       },
       "articles": [
@@ -1933,96 +1697,6 @@
         }
       ]
     },
-    "github/spec-kit": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3628702,
-        "title": "I shipped a 20-feature DevOps tool solo in 60 days using Claude Code — the unfiltered breakdown",
-        "url": "https://dev.to/benjy33000/i-shipped-a-20-feature-devops-tool-solo-in-60-days-using-claude-code-the-unfiltered-breakdown-3mb3",
-        "author": "benjy33000",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 1,
-        "readingTime": 12
-      },
-      "articles": [
-        {
-          "id": 3628702,
-          "title": "I shipped a 20-feature DevOps tool solo in 60 days using Claude Code — the unfiltered breakdown",
-          "description": "TL;DR — I built Maintenant, a 20-feature monitoring tool (Docker + Kubernetes + endpoints + certs +...",
-          "url": "https://dev.to/benjy33000/i-shipped-a-20-feature-devops-tool-solo-in-60-days-using-claude-code-the-unfiltered-breakdown-3mb3",
-          "author": {
-            "username": "benjy33000",
-            "name": "Benjamin Touchard",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1740181%2F3f1038da-05fb-410f-832b-0bd4c2f84fc9.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 12,
-          "publishedAt": "2026-05-07T18:50:15Z",
-          "tags": [
-            "ai",
-            "devops",
-            "opensource",
-            "claude"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/spec-kit",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "addyosmani/agent-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3623847,
-        "title": "One Open Source Project a Day (No. 58): Agent Skills - Injecting Senior Engineer Discipline into AI Coding Agents",
-        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-58-agent-skills-injecting-senior-engineer-discipline-into-ai-1od2",
-        "author": "wonderlab",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 17,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3623847,
-          "title": "One Open Source Project a Day (No. 58): Agent Skills - Injecting Senior Engineer Discipline into AI Coding Agents",
-          "description": "Introduction    \"AI agents are only as good as the workflows they follow.\"   This is the...",
-          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-58-agent-skills-injecting-senior-engineer-discipline-into-ai-1od2",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-07T02:49:00Z",
-          "tags": [
-            "opensource",
-            "agentskills",
-            "claude",
-            "agents"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "addyosmani/agent-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "abhigyanpatwari/GitNexus": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2034,7 +1708,7 @@
         "author": "nike-17",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 98.2,
+        "hoursSincePosted": 106,
         "readingTime": 6
       },
       "articles": [
@@ -2068,6 +1742,124 @@
         }
       ]
     },
+    "github/spec-kit": {
+      "count7d": 2,
+      "reactionsSum7d": 2,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3601601,
+        "title": "AGENTS.md, SKILL.md, DESIGN.md: How AI Instructions Split into Three Layers",
+        "url": "https://dev.to/aws-builders/agentsmd-skillmd-designmd-how-ai-instructions-split-into-three-layers-d0g",
+        "author": "ikenyal",
+        "reactions": 2,
+        "comments": 0,
+        "hoursSincePosted": 126,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3601601,
+          "title": "AGENTS.md, SKILL.md, DESIGN.md: How AI Instructions Split into Three Layers",
+          "description": "In April 2026, Google Labs released a spec called DESIGN.md. It's a design system specification...",
+          "url": "https://dev.to/aws-builders/agentsmd-skillmd-designmd-how-ai-instructions-split-into-three-layers-d0g",
+          "author": {
+            "username": "ikenyal",
+            "name": "Kento IKEDA",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F634239%2Fefa867e9-b872-436c-a450-2c5115bd4394.jpg"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-02T21:35:11Z",
+          "tags": [
+            "ai",
+            "claude",
+            "agents",
+            "designsystem"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3628702,
+          "title": "I shipped a 20-feature DevOps tool solo in 60 days using Claude Code — the unfiltered breakdown",
+          "description": "TL;DR — I built Maintenant, a 20-feature monitoring tool (Docker + Kubernetes + endpoints + certs +...",
+          "url": "https://dev.to/benjy33000/i-shipped-a-20-feature-devops-tool-solo-in-60-days-using-claude-code-the-unfiltered-breakdown-3mb3",
+          "author": {
+            "username": "benjy33000",
+            "name": "Benjamin Touchard",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1740181%2F3f1038da-05fb-410f-832b-0bd4c2f84fc9.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 12,
+          "publishedAt": "2026-05-07T18:50:15Z",
+          "tags": [
+            "ai",
+            "devops",
+            "opensource",
+            "claude"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "maximhq/bifrost": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3619350,
+        "title": "Using an MCP Gateway with Claude Code: A Practical Guide",
+        "url": "https://dev.to/nakul_tk/using-an-mcp-gateway-with-claude-code-a-practical-guide-31dc",
+        "author": "nakul_tk",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 43.7,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3619350,
+          "title": "Using an MCP Gateway with Claude Code: A Practical Guide",
+          "description": "Learn how to integrate an MCP gateway with Claude Code to consolidate tool access, enforce governance...",
+          "url": "https://dev.to/nakul_tk/using-an-mcp-gateway-with-claude-code-a-practical-guide-31dc",
+          "author": {
+            "username": "nakul_tk",
+            "name": "Nakul T Krishnan",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3778279%2F1c2dabcf-9bf5-4a37-a76b-9d7475175411.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 6,
+          "publishedAt": "2026-05-06T07:52:25Z",
+          "tags": [
+            "ai",
+            "mcp",
+            "claude",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "mattpocock/skills": {
       "count7d": 3,
       "reactionsSum7d": 0,
@@ -2079,7 +1871,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 136.3,
+        "hoursSincePosted": 144.1,
         "readingTime": 3
       },
       "articles": [
@@ -2228,7 +2020,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 136.3,
+        "hoursSincePosted": 144.1,
         "readingTime": 3
       },
       "articles": [
@@ -2405,7 +2197,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 158.6,
+        "hoursSincePosted": 166.3,
         "readingTime": 10
       },
       "articles": [
@@ -2470,7 +2262,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 158.6,
+        "hoursSincePosted": 166.3,
         "readingTime": 10
       },
       "articles": [
@@ -2615,7 +2407,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 158.6,
+        "hoursSincePosted": 166.3,
         "readingTime": 10
       },
       "articles": [
@@ -2728,7 +2520,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 112,
+        "hoursSincePosted": 119.8,
         "readingTime": 11
       },
       "articles": [
@@ -2766,349 +2558,21 @@
         }
       ]
     },
-    "microsoft/VibeVoice": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592932,
-        "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-        "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-        "author": "k1lgor",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 170.3,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3592932,
-          "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-          "description": "How a tiny extension turns LLM coding agents from goldfish into elephants — and slashes token costs by 95-99% per session.",
-          "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-          "author": {
-            "username": "k1lgor",
-            "name": "k1lgor",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F711641%2F5f47c98a-5e7a-453e-a9d0-5ad3eed8c20d.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T17:29:43Z",
-          "tags": [
-            "ai",
-            "llm",
-            "typescript",
-            "pi"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/VibeVoice",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "Yeachan-Heo/oh-my-codex",
-              "location": "body"
-            },
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "MemPalace/mempalace",
-              "location": "body"
-            },
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "thedotmack/claude-mem": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592932,
-        "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-        "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-        "author": "k1lgor",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 170.3,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3592932,
-          "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-          "description": "How a tiny extension turns LLM coding agents from goldfish into elephants — and slashes token costs by 95-99% per session.",
-          "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-          "author": {
-            "username": "k1lgor",
-            "name": "k1lgor",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F711641%2F5f47c98a-5e7a-453e-a9d0-5ad3eed8c20d.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T17:29:43Z",
-          "tags": [
-            "ai",
-            "llm",
-            "typescript",
-            "pi"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/VibeVoice",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "Yeachan-Heo/oh-my-codex",
-              "location": "body"
-            },
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "MemPalace/mempalace",
-              "location": "body"
-            },
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "Yeachan-Heo/oh-my-codex": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592932,
-        "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-        "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-        "author": "k1lgor",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 170.3,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3592932,
-          "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-          "description": "How a tiny extension turns LLM coding agents from goldfish into elephants — and slashes token costs by 95-99% per session.",
-          "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-          "author": {
-            "username": "k1lgor",
-            "name": "k1lgor",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F711641%2F5f47c98a-5e7a-453e-a9d0-5ad3eed8c20d.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T17:29:43Z",
-          "tags": [
-            "ai",
-            "llm",
-            "typescript",
-            "pi"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/VibeVoice",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "Yeachan-Heo/oh-my-codex",
-              "location": "body"
-            },
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "MemPalace/mempalace",
-              "location": "body"
-            },
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "MemPalace/mempalace": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592932,
-        "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-        "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-        "author": "k1lgor",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 170.3,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3592932,
-          "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-          "description": "How a tiny extension turns LLM coding agents from goldfish into elephants — and slashes token costs by 95-99% per session.",
-          "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-          "author": {
-            "username": "k1lgor",
-            "name": "k1lgor",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F711641%2F5f47c98a-5e7a-453e-a9d0-5ad3eed8c20d.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T17:29:43Z",
-          "tags": [
-            "ai",
-            "llm",
-            "typescript",
-            "pi"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/VibeVoice",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "Yeachan-Heo/oh-my-codex",
-              "location": "body"
-            },
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "MemPalace/mempalace",
-              "location": "body"
-            },
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "safishamsi/graphify": {
-      "count7d": 2,
-      "reactionsSum7d": 1,
+      "count7d": 1,
+      "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3592932,
-        "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-        "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-        "author": "k1lgor",
-        "reactions": 1,
+        "id": 3623097,
+        "title": "The Token Tax Problem: How I Built a Super Memory Layer for AI Coding Assistants using LLM Wiki",
+        "url": "https://dev.to/parupati/the-token-tax-problem-how-i-built-a-super-memory-layer-for-ai-coding-assistants-using-llm-wiki-3c5g",
+        "author": "parupati",
+        "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 170.3,
-        "readingTime": 7
+        "hoursSincePosted": 29.9,
+        "readingTime": 6
       },
       "articles": [
-        {
-          "id": 3592932,
-          "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-          "description": "How a tiny extension turns LLM coding agents from goldfish into elephants — and slashes token costs by 95-99% per session.",
-          "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-          "author": {
-            "username": "k1lgor",
-            "name": "k1lgor",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F711641%2F5f47c98a-5e7a-453e-a9d0-5ad3eed8c20d.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T17:29:43Z",
-          "tags": [
-            "ai",
-            "llm",
-            "typescript",
-            "pi"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/VibeVoice",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "Yeachan-Heo/oh-my-codex",
-              "location": "body"
-            },
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "MemPalace/mempalace",
-              "location": "body"
-            },
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "body"
-            }
-          ]
-        },
         {
           "id": 3623097,
           "title": "The Token Tax Problem: How I Built a Super Memory Layer for AI Coding Assistants using LLM Wiki",
@@ -3150,7 +2614,7 @@
         "author": "johalputt",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 170.7,
+        "hoursSincePosted": 178.5,
         "readingTime": 15
       },
       "articles": [
@@ -3195,7 +2659,7 @@
         "author": "cloakhq",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 9.1,
+        "hoursSincePosted": 16.8,
         "readingTime": 3
       },
       "articles": [
@@ -3240,7 +2704,7 @@
         "author": "architeg",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 3.1,
+        "hoursSincePosted": 10.9,
         "readingTime": 10
       },
       "articles": [
@@ -3285,7 +2749,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 158.7,
+        "hoursSincePosted": 166.4,
         "readingTime": 12
       },
       "articles": [
@@ -3350,7 +2814,7 @@
         "author": "mohit5upadhyay",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 0.7,
+        "hoursSincePosted": 8.5,
         "readingTime": 6
       },
       "articles": [
@@ -3374,7 +2838,7 @@
             "workflowautomation",
             "opensource"
           ],
-          "trendingScore": 5,
+          "trendingScore": 0.41,
           "linkedRepos": [
             {
               "fullName": "open-metadata/OpenMetadata",
@@ -3395,7 +2859,7 @@
         "author": "yashksaini",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 13,
+        "hoursSincePosted": 20.8,
         "readingTime": 5
       },
       "articles": [
@@ -3419,7 +2883,7 @@
             "opensource",
             "backend"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "Tracer-Cloud/opensre",
@@ -3440,7 +2904,7 @@
         "author": "sebakubisz",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 130.1,
+        "hoursSincePosted": 137.8,
         "readingTime": 14
       },
       "articles": [
@@ -3489,7 +2953,7 @@
         "author": "sebakubisz",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 130.1,
+        "hoursSincePosted": 137.8,
         "readingTime": 14
       },
       "articles": [
@@ -3526,51 +2990,6 @@
           ]
         }
       ]
-    },
-    "Mininglamp-AI/Mano-P": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3619887,
-        "title": "Full-Stack On-Device GUI Agent — Mano-P Model + Cider + AFK, All Open Source",
-        "url": "https://dev.to/mininglamp/full-stack-on-device-gui-agent-mano-p-model-cider-afk-all-open-source-1gaa",
-        "author": "mininglamp",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 32.7,
-        "readingTime": 4
-      },
-      "articles": [
-        {
-          "id": 3619887,
-          "title": "Full-Stack On-Device GUI Agent — Mano-P Model + Cider + AFK, All Open Source",
-          "description": "Full-Stack On-Device GUI Agent — Mano-P Model + Cider + AFK, All Open Source           ...",
-          "url": "https://dev.to/mininglamp/full-stack-on-device-gui-agent-mano-p-model-cider-afk-all-open-source-1gaa",
-          "author": {
-            "username": "mininglamp",
-            "name": "Mininglamp",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3846168%2F6a138840-d665-4ba6-aedf-1b5c492035c4.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-06T11:06:58Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "machinelearning",
-            "apple"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "Mininglamp-AI/Mano-P",
-              "location": "body"
-            }
-          ]
-        }
-      ]
     }
   },
   "mentionsByRepoId": {
@@ -3585,7 +3004,7 @@
         "author": "ruarfff",
         "reactions": 24,
         "comments": 0,
-        "hoursSincePosted": 53,
+        "hoursSincePosted": 60.7,
         "readingTime": 11
       },
       "articles": [
@@ -3606,7 +3025,7 @@
           "tags": [
             "githubcopilot"
           ],
-          "trendingScore": 0.63,
+          "trendingScore": 0.55,
           "linkedRepos": [
             {
               "fullName": "gastownhall/gastown",
@@ -3617,7 +3036,7 @@
       ]
     },
     "berriai--litellm": {
-      "count7d": 3,
+      "count7d": 2,
       "reactionsSum7d": 50,
       "commentsSum7d": 0,
       "topArticle": {
@@ -3627,7 +3046,7 @@
         "author": "xbill",
         "reactions": 29,
         "comments": 0,
-        "hoursSincePosted": 54.5,
+        "hoursSincePosted": 62.3,
         "readingTime": 9
       },
       "articles": [
@@ -3651,7 +3070,7 @@
             "python",
             "agents"
           ],
-          "trendingScore": 0.78,
+          "trendingScore": 0.68,
           "linkedRepos": [
             {
               "fullName": "BerriAI/litellm",
@@ -3679,35 +3098,7 @@
             "googleadk",
             "gemini"
           ],
-          "trendingScore": 0.95,
-          "linkedRepos": [
-            {
-              "fullName": "BerriAI/litellm",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3627481,
-          "title": "Stop tuning one model. Route per workload.",
-          "description": "\"What's the best model?\" used to be a meaningful question. Today it has the wrong shape.  The useful...",
-          "url": "https://dev.to/tokenhub_dev/stop-tuning-one-model-route-per-workload-2aah",
-          "author": {
-            "username": "tokenhub_dev",
-            "name": "TokenHub",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3898502%2F6f13da76-8606-4490-b57e-067e230f3c22.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-07T13:49:58Z",
-          "tags": [
-            "ai",
-            "openai",
-            "deepseek",
-            "programming"
-          ],
-          "trendingScore": 0,
+          "trendingScore": 0.75,
           "linkedRepos": [
             {
               "fullName": "BerriAI/litellm",
@@ -3719,16 +3110,16 @@
     },
     "microsoft--typescript-go": {
       "count7d": 1,
-      "reactionsSum7d": 16,
+      "reactionsSum7d": 17,
       "commentsSum7d": 5,
       "topArticle": {
         "id": 3604313,
         "title": "AI Deleted My Tests and Said 'All Tests Pass' — A Horror Story from Porting 'typia' from TypeScript to Go",
         "url": "https://dev.to/samchon/ai-deleted-my-tests-and-said-all-tests-pass-a-horror-story-from-porting-typia-from-typescript-2bmf",
         "author": "samchon",
-        "reactions": 16,
+        "reactions": 17,
         "comments": 5,
-        "hoursSincePosted": 101.4,
+        "hoursSincePosted": 109.2,
         "readingTime": 10
       },
       "articles": [
@@ -3742,7 +3133,7 @@
             "name": "Jeongho Nam",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F901175%2Fd1a551cd-f5ae-4d4f-8dea-e5edec30b8d1.jpeg"
           },
-          "reactionsCount": 16,
+          "reactionsCount": 17,
           "commentsCount": 5,
           "readingTime": 10,
           "publishedAt": "2026-05-03T14:22:03Z",
@@ -3752,7 +3143,7 @@
             "typescript",
             "go"
           ],
-          "trendingScore": 0.28,
+          "trendingScore": 0.29,
           "linkedRepos": [
             {
               "fullName": "microsoft/typescript-go",
@@ -3763,8 +3154,8 @@
       ]
     },
     "nousresearch--hermes-agent": {
-      "count7d": 2,
-      "reactionsSum7d": 11,
+      "count7d": 1,
+      "reactionsSum7d": 10,
       "commentsSum7d": 1,
       "topArticle": {
         "id": 3599794,
@@ -3773,7 +3164,7 @@
         "author": "evanlin",
         "reactions": 10,
         "comments": 1,
-        "hoursSincePosted": 127.8,
+        "hoursSincePosted": 135.5,
         "readingTime": 3
       },
       "articles": [
@@ -3797,62 +3188,10 @@
             "googlecloud",
             "tutorial"
           ],
-          "trendingScore": 0.09,
+          "trendingScore": 0.08,
           "linkedRepos": [
             {
               "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3592932,
-          "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-          "description": "How a tiny extension turns LLM coding agents from goldfish into elephants — and slashes token costs by 95-99% per session.",
-          "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-          "author": {
-            "username": "k1lgor",
-            "name": "k1lgor",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F711641%2F5f47c98a-5e7a-453e-a9d0-5ad3eed8c20d.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T17:29:43Z",
-          "tags": [
-            "ai",
-            "llm",
-            "typescript",
-            "pi"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/VibeVoice",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "Yeachan-Heo/oh-my-codex",
-              "location": "body"
-            },
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "MemPalace/mempalace",
-              "location": "body"
-            },
-            {
-              "fullName": "safishamsi/graphify",
               "location": "body"
             }
           ]
@@ -3870,7 +3209,7 @@
         "author": "danielsogl",
         "reactions": 10,
         "comments": 2,
-        "hoursSincePosted": 153.2,
+        "hoursSincePosted": 160.9,
         "readingTime": 13
       },
       "articles": [
@@ -3894,7 +3233,7 @@
             "angular",
             "ngrx"
           ],
-          "trendingScore": 0.08,
+          "trendingScore": 0.07,
           "linkedRepos": [
             {
               "fullName": "anthropics/skills",
@@ -3935,15 +3274,15 @@
     "hexmostech--git-lrc": {
       "count7d": 4,
       "reactionsSum7d": 51,
-      "commentsSum7d": 2,
+      "commentsSum7d": 3,
       "topArticle": {
         "id": 3606533,
         "title": "Shared Page Cache in SQLite: Smarter Memory, Less Redundant Work",
         "url": "https://dev.to/lovestaco/shared-page-cache-in-sqlite-smarter-memory-less-redundant-work-58a6",
         "author": "lovestaco",
         "reactions": 20,
-        "comments": 0,
-        "hoursSincePosted": 7.1,
+        "comments": 1,
+        "hoursSincePosted": 14.9,
         "readingTime": 3
       },
       "articles": [
@@ -3958,7 +3297,7 @@
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
           },
           "reactionsCount": 20,
-          "commentsCount": 0,
+          "commentsCount": 1,
           "readingTime": 3,
           "publishedAt": "2026-05-07T12:40:15Z",
           "tags": [
@@ -3967,7 +3306,7 @@
             "database",
             "architecture"
           ],
-          "trendingScore": 3.64,
+          "trendingScore": 1.92,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -3994,7 +3333,7 @@
             "softwareengineering",
             "agenticengineering"
           ],
-          "trendingScore": 0.69,
+          "trendingScore": 0.55,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -4022,7 +3361,7 @@
             "design",
             "discuss"
           ],
-          "trendingScore": 0.17,
+          "trendingScore": 0.15,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -4050,7 +3389,7 @@
             "productivity",
             "beginners"
           ],
-          "trendingScore": 2.93,
+          "trendingScore": 0.42,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -4071,7 +3410,7 @@
         "author": "manveer_chawla_64a7283d5a",
         "reactions": 4,
         "comments": 0,
-        "hoursSincePosted": 147,
+        "hoursSincePosted": 154.7,
         "readingTime": 21
       },
       "articles": [
@@ -4104,69 +3443,29 @@
           ]
         },
         {
-          "id": 3627450,
-          "title": "Claude Code Was Broken for 6 Weeks. AMD Caught It in 6,852 Sessions Before Anthropic Did.",
-          "description": "For six weeks, you thought you were writing your prompts wrong.  You could feel Claude Code messing...",
-          "url": "https://dev.to/rentierdigital/claude-code-was-broken-for-6-weeks-amd-caught-it-in-6852-sessions-before-anthropic-did-7i5",
+          "id": 3629461,
+          "title": "Atomic's Ralph Loop: a deterministic, plan, orchestrate review for long-running, ambiguous work",
+          "description": "Geoffrey Huntley's original Ralph essay introduced a primitive I keep coming back to: a coding agent...",
+          "url": "https://dev.to/mixture-of-experts/atomics-ralph-loop-a-deterministic-plan-orchestrate-review-for-long-running-ambiguous-work-1bb",
           "author": {
-            "username": "rentierdigital",
-            "name": "Phil Rentier Digital",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3440667%2F4dff0ac3-f0f2-42bf-b066-14c2ba847691.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 9,
-          "publishedAt": "2026-05-07T13:41:10Z",
-          "tags": [
-            "ai",
-            "programming",
-            "claude",
-            "aitools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3594085,
-          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
-          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-          "author": {
-            "username": "jun0-ds",
-            "name": "Jun0",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
+            "username": "mixture-of-experts",
+            "name": "Mixture of Experts",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3916862%2F03b63012-0632-4c84-b324-269b51e29ad6.jpg"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T03:13:10Z",
+          "readingTime": 6,
+          "publishedAt": "2026-05-07T22:52:30Z",
           "tags": [
             "ai",
-            "claudecode",
-            "agents",
-            "productivity"
+            "programming",
+            "opensource",
+            "agents"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            },
-            {
               "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "gsd-build/gsd-2",
               "location": "body"
             }
           ]
@@ -4286,11 +3585,39 @@
               "location": "body"
             }
           ]
+        },
+        {
+          "id": 3627450,
+          "title": "Claude Code Was Broken for 6 Weeks. AMD Caught It in 6,852 Sessions Before Anthropic Did.",
+          "description": "For six weeks, you thought you were writing your prompts wrong.  You could feel Claude Code messing...",
+          "url": "https://dev.to/rentierdigital/claude-code-was-broken-for-6-weeks-amd-caught-it-in-6852-sessions-before-anthropic-did-7i5",
+          "author": {
+            "username": "rentierdigital",
+            "name": "Phil Rentier Digital",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3440667%2F4dff0ac3-f0f2-42bf-b066-14c2ba847691.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 9,
+          "publishedAt": "2026-05-07T13:41:10Z",
+          "tags": [
+            "ai",
+            "programming",
+            "claude",
+            "aitools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
         }
       ]
     },
     "openclaw--openclaw": {
-      "count7d": 1,
+      "count7d": 2,
       "reactionsSum7d": 9,
       "commentsSum7d": 2,
       "topArticle": {
@@ -4300,7 +3627,7 @@
         "author": "nevermiss",
         "reactions": 9,
         "comments": 2,
-        "hoursSincePosted": 139.6,
+        "hoursSincePosted": 147.4,
         "readingTime": 11
       },
       "articles": [
@@ -4331,52 +3658,52 @@
               "location": "body"
             }
           ]
-        }
-      ]
-    },
-    "openai--codex": {
-      "count7d": 6,
-      "reactionsSum7d": 5,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3594094,
-        "title": "Slash commands: no more meaningless commits",
-        "url": "https://dev.to/guilherme44/slash-commands-no-more-meaningless-commits-38ae",
-        "author": "guilherme44",
-        "reactions": 2,
-        "comments": 0,
-        "hoursSincePosted": 160.5,
-        "readingTime": 5
-      },
-      "articles": [
+        },
         {
-          "id": 3594094,
-          "title": "Slash commands: no more meaningless commits",
-          "description": "One of the things I've been using the most since I started with Claude Code is slash commands. And...",
-          "url": "https://dev.to/guilherme44/slash-commands-no-more-meaningless-commits-38ae",
+          "id": 3629584,
+          "title": "Slaying the Gemma Beast: How We Fixed Local AI and Shipped Search",
+          "description": "Two days ago, Gemma 4 couldn't finish a feature. Today it built one, pushed it to GitHub, and it's...",
+          "url": "https://dev.to/carryologist/slaying-the-gemma-beast-how-we-fixed-local-ai-and-shipped-search-3hbe",
           "author": {
-            "username": "guilherme44",
-            "name": "Guilherme Yamakawa de Oliveira",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F30816%2F90a4981b-417b-4d41-ac2c-4be6e1433b90.jpg"
+            "username": "carryologist",
+            "name": "Rob",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3884903%2Ff7cf0bfd-0b92-4dca-9095-683af23a19e3.png"
           },
-          "reactionsCount": 2,
+          "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-01T03:18:51Z",
+          "readingTime": 13,
+          "publishedAt": "2026-05-07T23:34:22Z",
           "tags": [
-            "claudecode",
-            "opencode",
-            "productivity",
-            "tooling"
+            "ai",
+            "llm",
+            "benchmark",
+            "homelab"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "openai/codex",
+              "fullName": "openclaw/openclaw",
               "location": "body"
             }
           ]
-        },
+        }
+      ]
+    },
+    "openai--codex": {
+      "count7d": 4,
+      "reactionsSum7d": 2,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3627864,
+        "title": "Building a Fully Offline AI Coding Assistant with Gemma 4, No Cloud Required 🤖",
+        "url": "https://dev.to/mamoor_ahmad/building-a-fully-offline-ai-coding-assistant-with-gemma-4-no-cloud-required-37op",
+        "author": "mamoor_ahmad",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 12.1,
+        "readingTime": 7
+      },
+      "articles": [
         {
           "id": 3627864,
           "title": "Building a Fully Offline AI Coding Assistant with Gemma 4, No Cloud Required 🤖",
@@ -4396,34 +3723,6 @@
             "opensource",
             "ai",
             "webdev"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3594108,
-          "title": "[PT-BR] Slash commands: chega de commits sem sentido",
-          "description": "Uma das coisas que mais uso desde que comecei com o Claude Code são os slash commands. E um que acho...",
-          "url": "https://dev.to/guilherme44/pt-br-slash-commands-chega-de-commits-sem-sentido-1ooa",
-          "author": {
-            "username": "guilherme44",
-            "name": "Guilherme Yamakawa de Oliveira",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F30816%2F90a4981b-417b-4d41-ac2c-4be6e1433b90.jpg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-01T03:27:22Z",
-          "tags": [
-            "claudecode",
-            "opencode",
-            "productivity",
-            "tooling"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -4530,7 +3829,7 @@
         "author": "wonderlab",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 90.9,
+        "hoursSincePosted": 98.6,
         "readingTime": 3
       },
       "articles": [
@@ -4564,8 +3863,372 @@
         }
       ]
     },
+    "vercel-labs--skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3617729,
+        "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
+        "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
+        "author": "cdelgado70",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 50.6,
+        "readingTime": 21
+      },
+      "articles": [
+        {
+          "id": 3617729,
+          "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
+          "description": "Post 1 of 2. This post walks through the discovery ceiling in Anthropic's Agent Skills standard, the...",
+          "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
+          "author": {
+            "username": "cdelgado70",
+            "name": "C. Delgado",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 21,
+          "publishedAt": "2026-05-06T00:55:44Z",
+          "tags": [
+            "ai",
+            "claude",
+            "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "vercel-labs/skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "addyosmani--agent-skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3623847,
+        "title": "One Open Source Project a Day (No. 58): Agent Skills - Injecting Senior Engineer Discipline into AI Coding Agents",
+        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-58-agent-skills-injecting-senior-engineer-discipline-into-ai-1od2",
+        "author": "wonderlab",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 24.8,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3623847,
+          "title": "One Open Source Project a Day (No. 58): Agent Skills - Injecting Senior Engineer Discipline into AI Coding Agents",
+          "description": "Introduction    \"AI agents are only as good as the workflows they follow.\"   This is the...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-58-agent-skills-injecting-senior-engineer-discipline-into-ai-1od2",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-07T02:49:00Z",
+          "tags": [
+            "opensource",
+            "agentskills",
+            "claude",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "garrytan--gbrain": {
+      "count7d": 1,
+      "reactionsSum7d": 5,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3630098,
+        "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
+        "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
+        "author": "_4f268336f6580845cdc475",
+        "reactions": 5,
+        "comments": 0,
+        "hoursSincePosted": 1,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3630098,
+          "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
+          "description": "RAG brings books to the exam. Knowledge Engineering teaches Agents to study. Memory architecture...",
+          "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
+          "author": {
+            "username": "_4f268336f6580845cdc475",
+            "name": "Charles Wu",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805236%2Fc2ca81a3-8882-48ac-9ce7-046a056995ab.jpg"
+          },
+          "reactionsCount": 5,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-08T02:35:02Z",
+          "tags": [
+            "ai",
+            "machinelearning",
+            "rag",
+            "agents"
+          ],
+          "trendingScore": 3.53,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "jarrodwatts--claude-hud": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3595258,
+        "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
+        "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
+        "author": "lizhaopengcn",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 161.8,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3595258,
+          "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
+          "description": "给 Claude Code 做了一套四行树形状态栏，一份给 bare claude 走 OpenRouter，一份给 ccr code 走本地代理。记录颜色、图标、进度条的打磨过程，以及两条链路数据源差异带来的坑。",
+          "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
+          "author": {
+            "username": "lizhaopengcn",
+            "name": "lizhaopeng-cn",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3895162%2F3d029651-5359-4fda-92b7-87a7171460f8.jpeg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-01T09:46:29Z",
+          "tags": [
+            "claude",
+            "claudecode",
+            "ccr",
+            "devtools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "jarrodwatts/claude-hud",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "fission-ai--openspec": {
+      "count7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3608735,
+        "title": "Cómo integrar OpenSpec con Claude Code paso a paso",
+        "url": "https://dev.to/bezael/como-integrar-openspec-con-claude-code-paso-a-paso-5ej3",
+        "author": "bezael",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 87.5,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3608735,
+          "title": "Cómo integrar OpenSpec con Claude Code paso a paso",
+          "description": "OpenSpec añade especificaciones versionadas a tu proyecto para que Claude Code nunca pierda el contexto. Tutorial completo con demo real.",
+          "url": "https://dev.to/bezael/como-integrar-openspec-con-claude-code-paso-a-paso-5ej3",
+          "author": {
+            "username": "bezael",
+            "name": "Bezael Pérez",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F69894%2F8c8240fd-1dd9-4fbe-8277-26c618359d1b.jpg"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-04T12:05:26Z",
+          "tags": [
+            "claudecode",
+            "openspec",
+            "ai",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "Fission-AI/OpenSpec",
+              "location": "tag"
+            }
+          ]
+        }
+      ]
+    },
+    "thedotmack--claude-mem": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3629755,
+        "title": "After the Skill Vault: 3 More Hidden Token Sinks in Claude Code",
+        "url": "https://dev.to/pponali/after-the-skill-vault-3-more-hidden-token-sinks-in-claude-code-32ek",
+        "author": "pponali",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 2.8,
+        "readingTime": 5
+      },
+      "articles": [
+        {
+          "id": 3629755,
+          "title": "After the Skill Vault: 3 More Hidden Token Sinks in Claude Code",
+          "description": "After cutting Claude Code tokens by 96% with the Skill Vault, I went looking for what was still eating tokens. Three more sinks, ~5K saved per session, zero capability lost.",
+          "url": "https://dev.to/pponali/after-the-skill-vault-3-more-hidden-token-sinks-in-claude-code-32ek",
+          "author": {
+            "username": "pponali",
+            "name": "pponali",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1238066%2F98aafa2c-caaf-4488-9c96-f143321b4acb.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-05-08T00:48:13Z",
+          "tags": [
+            "ai",
+            "productivity",
+            "claudecode",
+            "tutorial"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "thedotmack/claude-mem",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "rtk-ai--rtk": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3598530,
+        "title": "PreToolUse Hooks Are a Tiny State Machine: The Four Exit Codes That Actually Matter",
+        "url": "https://dev.to/agentkit/pretooluse-hooks-are-a-tiny-state-machine-the-four-exit-codes-that-actually-matter-2bg3",
+        "author": "agentkit",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 142.4,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3598530,
+          "title": "PreToolUse Hooks Are a Tiny State Machine: The Four Exit Codes That Actually Matter",
+          "description": "Production teams need more from PreToolUse hooks than tutorials show. The four exit codes that actually decide whether your hook is safe in production.",
+          "url": "https://dev.to/agentkit/pretooluse-hooks-are-a-tiny-state-machine-the-four-exit-codes-that-actually-matter-2bg3",
+          "author": {
+            "username": "agentkit",
+            "name": "AgentKit",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3836301%2F97b1a04a-6836-4c3d-abd0-be0c97d58d56.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-02T05:07:28Z",
+          "tags": [
+            "claudecode",
+            "devtools",
+            "ai",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "rtk-ai/rtk",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "alexgreensh--token-optimizer": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3621477,
+        "title": "94% of My Claude Code Tokens Went to the Wrong Model. So I Stopped Paying Opus to Do Haiku's Job.",
+        "url": "https://dev.to/rentierdigital/94-of-my-claude-code-tokens-went-to-the-wrong-model-so-i-stopped-paying-opus-to-do-haikus-job-152l",
+        "author": "rentierdigital",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 37.9,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3621477,
+          "title": "94% of My Claude Code Tokens Went to the Wrong Model. So I Stopped Paying Opus to Do Haiku's Job.",
+          "description": "You feel like you have done everything right with Claude Code. Hooks installed. CLAUDE.md curated to...",
+          "url": "https://dev.to/rentierdigital/94-of-my-claude-code-tokens-went-to-the-wrong-model-so-i-stopped-paying-opus-to-do-haikus-job-152l",
+          "author": {
+            "username": "rentierdigital",
+            "name": "Phil Rentier Digital",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3440667%2F4dff0ac3-f0f2-42bf-b066-14c2ba847691.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-06T13:41:11Z",
+          "tags": [
+            "ai",
+            "programming",
+            "claudecode",
+            "aitools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "alexgreensh/token-optimizer",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "obra--superpowers": {
-      "count7d": 6,
+      "count7d": 5,
       "reactionsSum7d": 3,
       "commentsSum7d": 0,
       "topArticle": {
@@ -4575,7 +4238,7 @@
         "author": "ikramar",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 78.8,
+        "hoursSincePosted": 86.5,
         "readingTime": 7
       },
       "articles": [
@@ -4635,46 +4298,6 @@
           "linkedRepos": [
             {
               "fullName": "obra/superpowers",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3594085,
-          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
-          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-          "author": {
-            "username": "jun0-ds",
-            "name": "Jun0",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T03:13:10Z",
-          "tags": [
-            "ai",
-            "claudecode",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "gsd-build/gsd-2",
               "location": "body"
             }
           ]
@@ -4813,446 +4436,6 @@
         }
       ]
     },
-    "forrestchang--andrej-karpathy-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3594085,
-        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-        "author": "jun0-ds",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 160.6,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3594085,
-          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
-          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-          "author": {
-            "username": "jun0-ds",
-            "name": "Jun0",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T03:13:10Z",
-          "tags": [
-            "ai",
-            "claudecode",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "gsd-build/gsd-2",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "gsd-build--gsd-2": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3594085,
-        "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-        "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-        "author": "jun0-ds",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 160.6,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3594085,
-          "title": "Your AI is confident. Your AI is wrong. You shipped it anyway.",
-          "description": "A confession   I told Claude to write tests first. Claude said \"understood.\" Then Claude...",
-          "url": "https://dev.to/jun0-ds/your-ai-is-confident-your-ai-is-wrong-you-shipped-it-anyway-37i7",
-          "author": {
-            "username": "jun0-ds",
-            "name": "Jun0",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3850354%2Fb0c4c5b1-dd46-426f-8ca0-8a3aa4354132.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T03:13:10Z",
-          "tags": [
-            "ai",
-            "claudecode",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "forrestchang/andrej-karpathy-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "gsd-build/gsd-2",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "vercel-labs--skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3617729,
-        "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
-        "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
-        "author": "cdelgado70",
-        "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 42.9,
-        "readingTime": 21
-      },
-      "articles": [
-        {
-          "id": 3617729,
-          "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
-          "description": "Post 1 of 2. This post walks through the discovery ceiling in Anthropic's Agent Skills standard, the...",
-          "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
-          "author": {
-            "username": "cdelgado70",
-            "name": "C. Delgado",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 21,
-          "publishedAt": "2026-05-06T00:55:44Z",
-          "tags": [
-            "ai",
-            "claude",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "vercel-labs/skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "jarrodwatts--claude-hud": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3595258,
-        "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
-        "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
-        "author": "lizhaopengcn",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 154,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3595258,
-          "title": "Claude Code 状态栏统一布局，两条数据链路：OpenRouter 直连 vs CCR 代理",
-          "description": "给 Claude Code 做了一套四行树形状态栏，一份给 bare claude 走 OpenRouter，一份给 ccr code 走本地代理。记录颜色、图标、进度条的打磨过程，以及两条链路数据源差异带来的坑。",
-          "url": "https://dev.to/lizhaopengcn/claude-code-zhuang-tai-lan-tong-bu-ju-liang-tiao-shu-ju-lian-lu-openrouter-zhi-lian-vs-ccr-dai-li-1id2",
-          "author": {
-            "username": "lizhaopengcn",
-            "name": "lizhaopeng-cn",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3895162%2F3d029651-5359-4fda-92b7-87a7171460f8.jpeg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-01T09:46:29Z",
-          "tags": [
-            "claude",
-            "claudecode",
-            "ccr",
-            "devtools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "jarrodwatts/claude-hud",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "fission-ai--openspec": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3608735,
-        "title": "Cómo integrar OpenSpec con Claude Code paso a paso",
-        "url": "https://dev.to/bezael/como-integrar-openspec-con-claude-code-paso-a-paso-5ej3",
-        "author": "bezael",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 79.7,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3608735,
-          "title": "Cómo integrar OpenSpec con Claude Code paso a paso",
-          "description": "OpenSpec añade especificaciones versionadas a tu proyecto para que Claude Code nunca pierda el contexto. Tutorial completo con demo real.",
-          "url": "https://dev.to/bezael/como-integrar-openspec-con-claude-code-paso-a-paso-5ej3",
-          "author": {
-            "username": "bezael",
-            "name": "Bezael Pérez",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F69894%2F8c8240fd-1dd9-4fbe-8277-26c618359d1b.jpg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-04T12:05:26Z",
-          "tags": [
-            "claudecode",
-            "openspec",
-            "ai",
-            "programming"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "Fission-AI/OpenSpec",
-              "location": "tag"
-            }
-          ]
-        }
-      ]
-    },
-    "rtk-ai--rtk": {
-      "count7d": 2,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592932,
-        "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-        "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-        "author": "k1lgor",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 170.3,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3592932,
-          "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-          "description": "How a tiny extension turns LLM coding agents from goldfish into elephants — and slashes token costs by 95-99% per session.",
-          "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-          "author": {
-            "username": "k1lgor",
-            "name": "k1lgor",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F711641%2F5f47c98a-5e7a-453e-a9d0-5ad3eed8c20d.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T17:29:43Z",
-          "tags": [
-            "ai",
-            "llm",
-            "typescript",
-            "pi"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/VibeVoice",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "Yeachan-Heo/oh-my-codex",
-              "location": "body"
-            },
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "MemPalace/mempalace",
-              "location": "body"
-            },
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3598530,
-          "title": "PreToolUse Hooks Are a Tiny State Machine: The Four Exit Codes That Actually Matter",
-          "description": "Production teams need more from PreToolUse hooks than tutorials show. The four exit codes that actually decide whether your hook is safe in production.",
-          "url": "https://dev.to/agentkit/pretooluse-hooks-are-a-tiny-state-machine-the-four-exit-codes-that-actually-matter-2bg3",
-          "author": {
-            "username": "agentkit",
-            "name": "AgentKit",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3836301%2F97b1a04a-6836-4c3d-abd0-be0c97d58d56.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-05-02T05:07:28Z",
-          "tags": [
-            "claudecode",
-            "devtools",
-            "ai",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "alexgreensh--token-optimizer": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3621477,
-        "title": "94% of My Claude Code Tokens Went to the Wrong Model. So I Stopped Paying Opus to Do Haiku's Job.",
-        "url": "https://dev.to/rentierdigital/94-of-my-claude-code-tokens-went-to-the-wrong-model-so-i-stopped-paying-opus-to-do-haikus-job-152l",
-        "author": "rentierdigital",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 30.1,
-        "readingTime": 11
-      },
-      "articles": [
-        {
-          "id": 3621477,
-          "title": "94% of My Claude Code Tokens Went to the Wrong Model. So I Stopped Paying Opus to Do Haiku's Job.",
-          "description": "You feel like you have done everything right with Claude Code. Hooks installed. CLAUDE.md curated to...",
-          "url": "https://dev.to/rentierdigital/94-of-my-claude-code-tokens-went-to-the-wrong-model-so-i-stopped-paying-opus-to-do-haikus-job-152l",
-          "author": {
-            "username": "rentierdigital",
-            "name": "Phil Rentier Digital",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3440667%2F4dff0ac3-f0f2-42bf-b066-14c2ba847691.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-05-06T13:41:11Z",
-          "tags": [
-            "ai",
-            "programming",
-            "claudecode",
-            "aitools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "alexgreensh/token-optimizer",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "juliusbrussee--caveman": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3614786,
-        "title": "Caveman Review: The Claude Code Skill That Cuts 65% of Tokens",
-        "url": "https://dev.to/andrew-ooo/caveman-review-the-claude-code-skill-that-cuts-65-of-tokens-2boe",
-        "author": "andrew-ooo",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 56.6,
-        "readingTime": 10
-      },
-      "articles": [
-        {
-          "id": 3614786,
-          "title": "Caveman Review: The Claude Code Skill That Cuts 65% of Tokens",
-          "description": "Originally published on andrew.ooo — visit the original for any updates, code snippets that aged...",
-          "url": "https://dev.to/andrew-ooo/caveman-review-the-claude-code-skill-that-cuts-65-of-tokens-2boe",
-          "author": {
-            "username": "andrew-ooo",
-            "name": "Andrew",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3775252%2Ff6bbe8a2-ee0c-41f7-9468-c85f0b00ca95.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-05T11:11:31Z",
-          "tags": [
-            "caveman",
-            "claudecode",
-            "claudeskills",
-            "tokenoptimization"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
-              "location": "tag"
-            }
-          ]
-        }
-      ]
-    },
     "everyinc--compound-engineering-plugin": {
       "count7d": 1,
       "reactionsSum7d": 2,
@@ -5264,7 +4447,7 @@
         "author": "ikramar",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 78.8,
+        "hoursSincePosted": 86.5,
         "readingTime": 7
       },
       "articles": [
@@ -5302,96 +4485,6 @@
         }
       ]
     },
-    "github--spec-kit": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3628702,
-        "title": "I shipped a 20-feature DevOps tool solo in 60 days using Claude Code — the unfiltered breakdown",
-        "url": "https://dev.to/benjy33000/i-shipped-a-20-feature-devops-tool-solo-in-60-days-using-claude-code-the-unfiltered-breakdown-3mb3",
-        "author": "benjy33000",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 1,
-        "readingTime": 12
-      },
-      "articles": [
-        {
-          "id": 3628702,
-          "title": "I shipped a 20-feature DevOps tool solo in 60 days using Claude Code — the unfiltered breakdown",
-          "description": "TL;DR — I built Maintenant, a 20-feature monitoring tool (Docker + Kubernetes + endpoints + certs +...",
-          "url": "https://dev.to/benjy33000/i-shipped-a-20-feature-devops-tool-solo-in-60-days-using-claude-code-the-unfiltered-breakdown-3mb3",
-          "author": {
-            "username": "benjy33000",
-            "name": "Benjamin Touchard",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1740181%2F3f1038da-05fb-410f-832b-0bd4c2f84fc9.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 12,
-          "publishedAt": "2026-05-07T18:50:15Z",
-          "tags": [
-            "ai",
-            "devops",
-            "opensource",
-            "claude"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "github/spec-kit",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "addyosmani--agent-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3623847,
-        "title": "One Open Source Project a Day (No. 58): Agent Skills - Injecting Senior Engineer Discipline into AI Coding Agents",
-        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-58-agent-skills-injecting-senior-engineer-discipline-into-ai-1od2",
-        "author": "wonderlab",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 17,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3623847,
-          "title": "One Open Source Project a Day (No. 58): Agent Skills - Injecting Senior Engineer Discipline into AI Coding Agents",
-          "description": "Introduction    \"AI agents are only as good as the workflows they follow.\"   This is the...",
-          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-58-agent-skills-injecting-senior-engineer-discipline-into-ai-1od2",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-07T02:49:00Z",
-          "tags": [
-            "opensource",
-            "agentskills",
-            "claude",
-            "agents"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "addyosmani/agent-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "abhigyanpatwari--gitnexus": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -5403,7 +4496,7 @@
         "author": "nike-17",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 98.2,
+        "hoursSincePosted": 106,
         "readingTime": 6
       },
       "articles": [
@@ -5437,6 +4530,124 @@
         }
       ]
     },
+    "github--spec-kit": {
+      "count7d": 2,
+      "reactionsSum7d": 2,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3601601,
+        "title": "AGENTS.md, SKILL.md, DESIGN.md: How AI Instructions Split into Three Layers",
+        "url": "https://dev.to/aws-builders/agentsmd-skillmd-designmd-how-ai-instructions-split-into-three-layers-d0g",
+        "author": "ikenyal",
+        "reactions": 2,
+        "comments": 0,
+        "hoursSincePosted": 126,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3601601,
+          "title": "AGENTS.md, SKILL.md, DESIGN.md: How AI Instructions Split into Three Layers",
+          "description": "In April 2026, Google Labs released a spec called DESIGN.md. It's a design system specification...",
+          "url": "https://dev.to/aws-builders/agentsmd-skillmd-designmd-how-ai-instructions-split-into-three-layers-d0g",
+          "author": {
+            "username": "ikenyal",
+            "name": "Kento IKEDA",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F634239%2Fefa867e9-b872-436c-a450-2c5115bd4394.jpg"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-02T21:35:11Z",
+          "tags": [
+            "ai",
+            "claude",
+            "agents",
+            "designsystem"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3628702,
+          "title": "I shipped a 20-feature DevOps tool solo in 60 days using Claude Code — the unfiltered breakdown",
+          "description": "TL;DR — I built Maintenant, a 20-feature monitoring tool (Docker + Kubernetes + endpoints + certs +...",
+          "url": "https://dev.to/benjy33000/i-shipped-a-20-feature-devops-tool-solo-in-60-days-using-claude-code-the-unfiltered-breakdown-3mb3",
+          "author": {
+            "username": "benjy33000",
+            "name": "Benjamin Touchard",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1740181%2F3f1038da-05fb-410f-832b-0bd4c2f84fc9.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 12,
+          "publishedAt": "2026-05-07T18:50:15Z",
+          "tags": [
+            "ai",
+            "devops",
+            "opensource",
+            "claude"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "maximhq--bifrost": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3619350,
+        "title": "Using an MCP Gateway with Claude Code: A Practical Guide",
+        "url": "https://dev.to/nakul_tk/using-an-mcp-gateway-with-claude-code-a-practical-guide-31dc",
+        "author": "nakul_tk",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 43.7,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3619350,
+          "title": "Using an MCP Gateway with Claude Code: A Practical Guide",
+          "description": "Learn how to integrate an MCP gateway with Claude Code to consolidate tool access, enforce governance...",
+          "url": "https://dev.to/nakul_tk/using-an-mcp-gateway-with-claude-code-a-practical-guide-31dc",
+          "author": {
+            "username": "nakul_tk",
+            "name": "Nakul T Krishnan",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3778279%2F1c2dabcf-9bf5-4a37-a76b-9d7475175411.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 6,
+          "publishedAt": "2026-05-06T07:52:25Z",
+          "tags": [
+            "ai",
+            "mcp",
+            "claude",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "maximhq/bifrost",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "mattpocock--skills": {
       "count7d": 3,
       "reactionsSum7d": 0,
@@ -5448,7 +4659,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 136.3,
+        "hoursSincePosted": 144.1,
         "readingTime": 3
       },
       "articles": [
@@ -5597,7 +4808,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 136.3,
+        "hoursSincePosted": 144.1,
         "readingTime": 3
       },
       "articles": [
@@ -5774,7 +4985,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 158.6,
+        "hoursSincePosted": 166.3,
         "readingTime": 10
       },
       "articles": [
@@ -5839,7 +5050,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 158.6,
+        "hoursSincePosted": 166.3,
         "readingTime": 10
       },
       "articles": [
@@ -5984,7 +5195,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 158.6,
+        "hoursSincePosted": 166.3,
         "readingTime": 10
       },
       "articles": [
@@ -6097,7 +5308,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 112,
+        "hoursSincePosted": 119.8,
         "readingTime": 11
       },
       "articles": [
@@ -6135,349 +5346,21 @@
         }
       ]
     },
-    "microsoft--vibevoice": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592932,
-        "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-        "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-        "author": "k1lgor",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 170.3,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3592932,
-          "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-          "description": "How a tiny extension turns LLM coding agents from goldfish into elephants — and slashes token costs by 95-99% per session.",
-          "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-          "author": {
-            "username": "k1lgor",
-            "name": "k1lgor",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F711641%2F5f47c98a-5e7a-453e-a9d0-5ad3eed8c20d.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T17:29:43Z",
-          "tags": [
-            "ai",
-            "llm",
-            "typescript",
-            "pi"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/VibeVoice",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "Yeachan-Heo/oh-my-codex",
-              "location": "body"
-            },
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "MemPalace/mempalace",
-              "location": "body"
-            },
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "thedotmack--claude-mem": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592932,
-        "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-        "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-        "author": "k1lgor",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 170.3,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3592932,
-          "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-          "description": "How a tiny extension turns LLM coding agents from goldfish into elephants — and slashes token costs by 95-99% per session.",
-          "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-          "author": {
-            "username": "k1lgor",
-            "name": "k1lgor",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F711641%2F5f47c98a-5e7a-453e-a9d0-5ad3eed8c20d.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T17:29:43Z",
-          "tags": [
-            "ai",
-            "llm",
-            "typescript",
-            "pi"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/VibeVoice",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "Yeachan-Heo/oh-my-codex",
-              "location": "body"
-            },
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "MemPalace/mempalace",
-              "location": "body"
-            },
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "yeachan-heo--oh-my-codex": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592932,
-        "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-        "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-        "author": "k1lgor",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 170.3,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3592932,
-          "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-          "description": "How a tiny extension turns LLM coding agents from goldfish into elephants — and slashes token costs by 95-99% per session.",
-          "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-          "author": {
-            "username": "k1lgor",
-            "name": "k1lgor",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F711641%2F5f47c98a-5e7a-453e-a9d0-5ad3eed8c20d.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T17:29:43Z",
-          "tags": [
-            "ai",
-            "llm",
-            "typescript",
-            "pi"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/VibeVoice",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "Yeachan-Heo/oh-my-codex",
-              "location": "body"
-            },
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "MemPalace/mempalace",
-              "location": "body"
-            },
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "mempalace--mempalace": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3592932,
-        "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-        "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-        "author": "k1lgor",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 170.3,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3592932,
-          "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-          "description": "How a tiny extension turns LLM coding agents from goldfish into elephants — and slashes token costs by 95-99% per session.",
-          "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-          "author": {
-            "username": "k1lgor",
-            "name": "k1lgor",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F711641%2F5f47c98a-5e7a-453e-a9d0-5ad3eed8c20d.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T17:29:43Z",
-          "tags": [
-            "ai",
-            "llm",
-            "typescript",
-            "pi"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/VibeVoice",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "Yeachan-Heo/oh-my-codex",
-              "location": "body"
-            },
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "MemPalace/mempalace",
-              "location": "body"
-            },
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "safishamsi--graphify": {
-      "count7d": 2,
-      "reactionsSum7d": 1,
+      "count7d": 1,
+      "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3592932,
-        "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-        "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-        "author": "k1lgor",
-        "reactions": 1,
+        "id": 3623097,
+        "title": "The Token Tax Problem: How I Built a Super Memory Layer for AI Coding Assistants using LLM Wiki",
+        "url": "https://dev.to/parupati/the-token-tax-problem-how-i-built-a-super-memory-layer-for-ai-coding-assistants-using-llm-wiki-3c5g",
+        "author": "parupati",
+        "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 170.3,
-        "readingTime": 7
+        "hoursSincePosted": 29.9,
+        "readingTime": 6
       },
       "articles": [
-        {
-          "id": 3592932,
-          "title": "I Taught My AI Assistant to Remember (And Saved 99% of Its Brain)",
-          "description": "How a tiny extension turns LLM coding agents from goldfish into elephants — and slashes token costs by 95-99% per session.",
-          "url": "https://dev.to/k1lgor/i-taught-my-ai-assistant-to-remember-and-saved-99-of-its-brain-4n7l",
-          "author": {
-            "username": "k1lgor",
-            "name": "k1lgor",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F711641%2F5f47c98a-5e7a-453e-a9d0-5ad3eed8c20d.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-04-30T17:29:43Z",
-          "tags": [
-            "ai",
-            "llm",
-            "typescript",
-            "pi"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "microsoft/VibeVoice",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            },
-            {
-              "fullName": "Yeachan-Heo/oh-my-codex",
-              "location": "body"
-            },
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "MemPalace/mempalace",
-              "location": "body"
-            },
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "body"
-            }
-          ]
-        },
         {
           "id": 3623097,
           "title": "The Token Tax Problem: How I Built a Super Memory Layer for AI Coding Assistants using LLM Wiki",
@@ -6519,7 +5402,7 @@
         "author": "johalputt",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 170.7,
+        "hoursSincePosted": 178.5,
         "readingTime": 15
       },
       "articles": [
@@ -6564,7 +5447,7 @@
         "author": "cloakhq",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 9.1,
+        "hoursSincePosted": 16.8,
         "readingTime": 3
       },
       "articles": [
@@ -6609,7 +5492,7 @@
         "author": "architeg",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 3.1,
+        "hoursSincePosted": 10.9,
         "readingTime": 10
       },
       "articles": [
@@ -6654,7 +5537,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 158.7,
+        "hoursSincePosted": 166.4,
         "readingTime": 12
       },
       "articles": [
@@ -6719,7 +5602,7 @@
         "author": "mohit5upadhyay",
         "reactions": 5,
         "comments": 0,
-        "hoursSincePosted": 0.7,
+        "hoursSincePosted": 8.5,
         "readingTime": 6
       },
       "articles": [
@@ -6743,7 +5626,7 @@
             "workflowautomation",
             "opensource"
           ],
-          "trendingScore": 5,
+          "trendingScore": 0.41,
           "linkedRepos": [
             {
               "fullName": "open-metadata/OpenMetadata",
@@ -6764,7 +5647,7 @@
         "author": "yashksaini",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 13,
+        "hoursSincePosted": 20.8,
         "readingTime": 5
       },
       "articles": [
@@ -6788,7 +5671,7 @@
             "opensource",
             "backend"
           ],
-          "trendingScore": 0.05,
+          "trendingScore": 0.03,
           "linkedRepos": [
             {
               "fullName": "Tracer-Cloud/opensre",
@@ -6809,7 +5692,7 @@
         "author": "sebakubisz",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 130.1,
+        "hoursSincePosted": 137.8,
         "readingTime": 14
       },
       "articles": [
@@ -6858,7 +5741,7 @@
         "author": "sebakubisz",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 130.1,
+        "hoursSincePosted": 137.8,
         "readingTime": 14
       },
       "articles": [
@@ -6895,51 +5778,6 @@
           ]
         }
       ]
-    },
-    "mininglamp-ai--mano-p": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3619887,
-        "title": "Full-Stack On-Device GUI Agent — Mano-P Model + Cider + AFK, All Open Source",
-        "url": "https://dev.to/mininglamp/full-stack-on-device-gui-agent-mano-p-model-cider-afk-all-open-source-1gaa",
-        "author": "mininglamp",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 32.7,
-        "readingTime": 4
-      },
-      "articles": [
-        {
-          "id": 3619887,
-          "title": "Full-Stack On-Device GUI Agent — Mano-P Model + Cider + AFK, All Open Source",
-          "description": "Full-Stack On-Device GUI Agent — Mano-P Model + Cider + AFK, All Open Source           ...",
-          "url": "https://dev.to/mininglamp/full-stack-on-device-gui-agent-mano-p-model-cider-afk-all-open-source-1gaa",
-          "author": {
-            "username": "mininglamp",
-            "name": "Mininglamp",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3846168%2F6a138840-d665-4ba6-aedf-1b5c492035c4.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-06T11:06:58Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "machinelearning",
-            "apple"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "Mininglamp-AI/Mano-P",
-              "location": "body"
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
@@ -6950,7 +5788,7 @@
     },
     {
       "fullName": "BerriAI/litellm",
-      "count7d": 3,
+      "count7d": 2,
       "reactionsSum7d": 50
     },
     {
@@ -6961,7 +5799,7 @@
     {
       "fullName": "microsoft/typescript-go",
       "count7d": 1,
-      "reactionsSum7d": 16
+      "reactionsSum7d": 17
     },
     {
       "fullName": "anthropics/skills",
@@ -6970,17 +5808,17 @@
     },
     {
       "fullName": "NousResearch/hermes-agent",
-      "count7d": 2,
-      "reactionsSum7d": 11
+      "count7d": 1,
+      "reactionsSum7d": 10
     },
     {
       "fullName": "openclaw/openclaw",
-      "count7d": 1,
+      "count7d": 2,
       "reactionsSum7d": 9
     },
     {
-      "fullName": "openai/codex",
-      "count7d": 6,
+      "fullName": "garrytan/gbrain",
+      "count7d": 1,
       "reactionsSum7d": 5
     },
     {
@@ -6995,8 +5833,18 @@
     },
     {
       "fullName": "obra/superpowers",
-      "count7d": 6,
+      "count7d": 5,
       "reactionsSum7d": 3
+    },
+    {
+      "fullName": "openai/codex",
+      "count7d": 4,
+      "reactionsSum7d": 2
+    },
+    {
+      "fullName": "github/spec-kit",
+      "count7d": 2,
+      "reactionsSum7d": 2
     },
     {
       "fullName": "EveryInc/compound-engineering-plugin",
@@ -7024,37 +5872,7 @@
       "reactionsSum7d": 2
     },
     {
-      "fullName": "rtk-ai/rtk",
-      "count7d": 2,
-      "reactionsSum7d": 1
-    },
-    {
-      "fullName": "safishamsi/graphify",
-      "count7d": 2,
-      "reactionsSum7d": 1
-    },
-    {
       "fullName": "Fission-AI/OpenSpec",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
-      "fullName": "MemPalace/mempalace",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
-      "fullName": "microsoft/VibeVoice",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
-      "fullName": "thedotmack/claude-mem",
-      "count7d": 1,
-      "reactionsSum7d": 1
-    },
-    {
-      "fullName": "Yeachan-Heo/oh-my-codex",
       "count7d": 1,
       "reactionsSum7d": 1
     },
@@ -7114,27 +5932,7 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "forrestchang/andrej-karpathy-skills",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "github/spec-kit",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "gsd-build/gsd-2",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
       "fullName": "jarrodwatts/claude-hud",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "JuliusBrussee/caveman",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -7144,12 +5942,27 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "Mininglamp-AI/Mano-P",
+      "fullName": "maximhq/bifrost",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "rtk-ai/rtk",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "safishamsi/graphify",
       "count7d": 1,
       "reactionsSum7d": 0
     },
     {
       "fullName": "SaladDay/cc-switch-cli",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "thedotmack/claude-mem",
       "count7d": 1,
       "reactionsSum7d": 0
     },

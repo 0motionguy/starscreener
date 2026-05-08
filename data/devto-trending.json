@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-08T03:34:25.583Z",
+  "fetchedAt": "2026-05-08T07:49:09.957Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1288,
+  "scannedArticles": 1295,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 27,
+    "global-rising": 25,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -192,19 +192,41 @@
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 11,
     "tag-mcp-top-7d": 100,
-    "tag-rag-top-7d": 88,
+    "tag-rag-top-7d": 93,
     "tag-promptengineering-top-7d": 34,
     "tag-workflow-top-7d": 28,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
     "tag-cli-top-7d": 85,
     "tag-tooling-top-7d": 100,
-    "tag-devtools-top-7d": 100,
-    "tag-langchain-top-7d": 56,
+    "tag-devtools-top-7d": 92,
+    "tag-langchain-top-7d": 50,
     "tag-n8n-top-7d": 23,
     "tag-opensource-top-7d": 100
   },
   "articles": [
+    {
+      "id": 3592285,
+      "title": "Join the Gemma 4 Challenge: $3,000 prize pool for TEN winners!",
+      "description": "Local AI is having a moment, and we want you to be part of it!  Running through May 24, the Gemma 4...",
+      "url": "https://dev.to/devteam/join-the-gemma-4-challenge-3000-prize-pool-for-ten-winners-23in",
+      "author": {
+        "username": "jess",
+        "name": "Jess Lee",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F264%2Fb75f6edf-df7b-406e-a56b-43facafb352c.jpg"
+      },
+      "reactionsCount": 237,
+      "commentsCount": 23,
+      "readingTime": 5,
+      "publishedAt": "2026-05-06T22:44:16Z",
+      "tags": [
+        "devchallenge",
+        "gemmachallenge",
+        "gemma"
+      ],
+      "trendingScore": 56.14,
+      "linkedRepos": []
+    },
     {
       "id": 3627978,
       "title": "Congrats to the Google Cloud NEXT '26 Writing Challenge Winners!",
@@ -225,28 +247,6 @@
         "googlecloud"
       ],
       "trendingScore": 53.52,
-      "linkedRepos": []
-    },
-    {
-      "id": 3592285,
-      "title": "Join the Gemma 4 Challenge: $3,000 prize pool for TEN winners!",
-      "description": "Local AI is having a moment, and we want you to be part of it!  Running through May 24, the Gemma 4...",
-      "url": "https://dev.to/devteam/join-the-gemma-4-challenge-3000-prize-pool-for-ten-winners-23in",
-      "author": {
-        "username": "jess",
-        "name": "Jess Lee",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F264%2Fb75f6edf-df7b-406e-a56b-43facafb352c.jpg"
-      },
-      "reactionsCount": 200,
-      "commentsCount": 20,
-      "readingTime": 5,
-      "publishedAt": "2026-05-06T22:44:16Z",
-      "tags": [
-        "devchallenge",
-        "gemmachallenge",
-        "gemma"
-      ],
-      "trendingScore": 47.88,
       "linkedRepos": []
     },
     {
@@ -315,6 +315,29 @@
         "discuss"
       ],
       "trendingScore": 34.7,
+      "linkedRepos": []
+    },
+    {
+      "id": 3629085,
+      "title": "Congrats to the OpenClaw Challenge Winners!",
+      "description": "The results are in! We are thrilled to announce the winners of the OpenClaw Challenge.  Over the past...",
+      "url": "https://dev.to/devteam/congrats-to-the-openclaw-challenge-winners-1lha",
+      "author": {
+        "username": "jess",
+        "name": "Jess Lee",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F264%2Fb75f6edf-df7b-406e-a56b-43facafb352c.jpg"
+      },
+      "reactionsCount": 52,
+      "commentsCount": 14,
+      "readingTime": 3,
+      "publishedAt": "2026-05-07T21:27:14Z",
+      "tags": [
+        "devchallenge",
+        "openclawchallenge",
+        "openclaw",
+        "ai"
+      ],
+      "trendingScore": 20.66,
       "linkedRepos": []
     },
     {
@@ -495,29 +518,6 @@
         "productivity"
       ],
       "trendingScore": 9.12,
-      "linkedRepos": []
-    },
-    {
-      "id": 3629085,
-      "title": "Congrats to the OpenClaw Challenge Winners!",
-      "description": "The results are in! We are thrilled to announce the winners of the OpenClaw Challenge.  Over the past...",
-      "url": "https://dev.to/devteam/congrats-to-the-openclaw-challenge-winners-1lha",
-      "author": {
-        "username": "jess",
-        "name": "Jess Lee",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F264%2Fb75f6edf-df7b-406e-a56b-43facafb352c.jpg"
-      },
-      "reactionsCount": 26,
-      "commentsCount": 4,
-      "readingTime": 3,
-      "publishedAt": "2026-05-07T21:27:14Z",
-      "tags": [
-        "devchallenge",
-        "openclawchallenge",
-        "openclaw",
-        "ai"
-      ],
-      "trendingScore": 8.42,
       "linkedRepos": []
     },
     {
@@ -1626,6 +1626,29 @@
       ]
     },
     {
+      "id": 3609658,
+      "title": "[Google Cloud Next '26 Recap #3] Anthropic's Vision for \"After Software\"",
+      "description": "This is the third post in my Google Cloud Next '26 (Las Vegas) recap series.  You can find the...",
+      "url": "https://dev.to/gde/google-cloud-next-26-recap-3-anthropics-vision-for-after-software-2cj6",
+      "author": {
+        "username": "koichim2",
+        "name": "koichim2",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3718744%2F5485a4c2-17e8-42d7-9244-d7438ac6ff1e.png"
+      },
+      "reactionsCount": 46,
+      "commentsCount": 1,
+      "readingTime": 5,
+      "publishedAt": "2026-05-04T15:00:22Z",
+      "tags": [
+        "googlecloud",
+        "googlecloudnext",
+        "claude",
+        "agents"
+      ],
+      "trendingScore": 0.95,
+      "linkedRepos": []
+    },
+    {
       "id": 3615867,
       "title": "Wormhole4j v0.3.0: Supports Multi-threaded Concurrency",
       "description": "Introduction   Wormhole4j is a Java implementation of the Wormhole index, an ordered...",
@@ -2185,6 +2208,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3588747,
+      "title": "Architect A Personalized Multi-Agent System with Long-Term Memory",
+      "description": "In support of our mission to accelerate the developer journey on Google Cloud, we built Dev Signal —...",
+      "url": "https://dev.to/googleai/architect-a-personalized-multi-agent-system-with-long-term-memory-3o15",
+      "author": {
+        "username": "shirmeirlador",
+        "name": "Shir Meir Lador",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3596246%2F7fba9a43-cbe3-4af2-adff-1871187ffbf8.jpeg"
+      },
+      "reactionsCount": 7,
+      "commentsCount": 1,
+      "readingTime": 9,
+      "publishedAt": "2026-05-07T21:01:06Z",
+      "tags": [
+        "ai",
+        "googlecloud",
+        "agents",
+        "mcp"
+      ],
+      "trendingScore": 0.6,
+      "linkedRepos": []
+    },
+    {
       "id": 3602860,
       "title": "I Accidentally Wrote a Filesystem Driver. For a Browser. 🤔",
       "description": "Staring at a bug report that makes no sense.   Data gone. No error. No warning. No stack...",
@@ -2203,29 +2249,6 @@
         "javascript",
         "mobile",
         "webdev"
-      ],
-      "trendingScore": 0.59,
-      "linkedRepos": []
-    },
-    {
-      "id": 3588747,
-      "title": "Architect A Personalized Multi-Agent System with Long-Term Memory",
-      "description": "In support of our mission to accelerate the developer journey on Google Cloud, we built Dev Signal —...",
-      "url": "https://dev.to/googleai/architect-a-personalized-multi-agent-system-with-long-term-memory-3o15",
-      "author": {
-        "username": "shirmeirlador",
-        "name": "Shir Meir Lador",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3596246%2F7fba9a43-cbe3-4af2-adff-1871187ffbf8.jpeg"
-      },
-      "reactionsCount": 5,
-      "commentsCount": 1,
-      "readingTime": 9,
-      "publishedAt": "2026-05-07T21:01:06Z",
-      "tags": [
-        "ai",
-        "googlecloud",
-        "agents",
-        "mcp"
       ],
       "trendingScore": 0.59,
       "linkedRepos": []
@@ -2320,6 +2343,29 @@
         "agents"
       ],
       "trendingScore": 0.54,
+      "linkedRepos": []
+    },
+    {
+      "id": 3609522,
+      "title": "Every Developer's Git Log is a Crime Scene - A 7-Stage Investigation",
+      "description": "I have a Master's in Computer Science.  I have built production apps that real humans use with their...",
+      "url": "https://dev.to/iampraveen/every-developers-git-log-is-a-crime-scene-a-7-stage-investigation-3k44",
+      "author": {
+        "username": "iampraveen",
+        "name": "Praveen Rajamani",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2566801%2F3cd6c6be-4327-41a8-b198-eddda5912540.jpg"
+      },
+      "reactionsCount": 10,
+      "commentsCount": 0,
+      "readingTime": 5,
+      "publishedAt": "2026-05-07T12:51:35Z",
+      "tags": [
+        "git",
+        "programming",
+        "discuss",
+        "jokes"
+      ],
+      "trendingScore": 0.53,
       "linkedRepos": []
     },
     {
@@ -2478,52 +2524,6 @@
         "beginners"
       ],
       "trendingScore": 0.46,
-      "linkedRepos": []
-    },
-    {
-      "id": 3622522,
-      "title": "Chatbots Are Dead. Long Live Agents: My Take on the Last 10 Days in Tech",
-      "description": "TL;DR: GPT‑5.5 and Google’s Remy just pushed us from “AI that replies” to “AI that runs workflows.”...",
-      "url": "https://dev.to/keerthana_696356/chatbots-are-dead-long-live-agents-my-take-on-the-last-10-days-in-tech-4ln8",
-      "author": {
-        "username": "keerthana_696356",
-        "name": "Keerthana ",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3647946%2F794284ef-4d9f-44ed-b7b9-c47d71ed0857.png"
-      },
-      "reactionsCount": 8,
-      "commentsCount": 2,
-      "readingTime": 4,
-      "publishedAt": "2026-05-06T18:23:34Z",
-      "tags": [
-        "ai",
-        "webdev",
-        "productivity",
-        "futuretech"
-      ],
-      "trendingScore": 0.43,
-      "linkedRepos": []
-    },
-    {
-      "id": 3593561,
-      "title": "How I built the fastest color manipulation library in TypeScript and the optimization techniques I learned",
-      "description": "Introduction   In 2025, I started building a color manipulation library called colordx. The...",
-      "url": "https://dev.to/dkryaklin/how-i-built-the-fastest-color-manipulation-library-in-typescript-and-the-optimization-techniques-i-56al",
-      "author": {
-        "username": "dkryaklin",
-        "name": "Dmitry Kryaklin",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F836641%2Feeaaebf3-f13c-42ea-b647-a0432752451e.jpeg"
-      },
-      "reactionsCount": 24,
-      "commentsCount": 10,
-      "readingTime": 5,
-      "publishedAt": "2026-04-30T21:40:00Z",
-      "tags": [
-        "webdev",
-        "programming",
-        "javascript",
-        "opensource"
-      ],
-      "trendingScore": 0.41,
       "linkedRepos": []
     }
   ]

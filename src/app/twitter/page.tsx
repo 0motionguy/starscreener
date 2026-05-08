@@ -10,7 +10,10 @@ import type { Metadata } from "next";
 import { Globe } from "lucide-react";
 import { GithubIcon, XIcon } from "@/components/brand/BrandIcons";
 import { formatNumber } from "@/lib/utils";
-import type { TwitterLeaderboardRow } from "@/lib/twitter/types";
+import type {
+  TwitterLeaderboardRow,
+  TwitterMentionAuthorBubble,
+} from "@/lib/twitter/types";
 import {
   getTwitterLeaderboard,
   getTwitterOverviewStats,
@@ -23,12 +26,6 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { MarkVisited } from "@/components/layout/MarkVisited";
 import { TwitterTabSwitcher } from "./TwitterTabSwitcher";
-// Phase 5.2 SSR diet: avatar bubbles moved to a client island so the
-// avatar URL (≈120 bytes × 5 authors × 200 rows × RSC double-encoding =
-// ~10-20 MB) no longer travels through SSR HTML or the RSC payload. The
-// island reconstructs the unavatar.io URL from the handle on hydration
-// and lazy-loads via <img loading="lazy">.
-import { MentionAuthorBubbles } from "./MentionAuthorBubbles";
 import { InventoryBand } from "@/components/ui/InventoryBand";
 import { buildTwitterInventoryStats } from "@/components/ui/inventory-stats";
 
@@ -70,8 +67,46 @@ function formatClock(iso: string | undefined | null): string {
   return new Date(iso).toISOString().slice(11, 19);
 }
 
-// Author-bubble tones + initial helper moved to ./MentionAuthorBubbles
-// alongside the client island (Phase 5.2 SSR diet — see import note).
+const AUTHOR_BUBBLE_TONES = [
+  {
+    backgroundColor: "rgba(122, 167, 255, 0.16)",
+    borderColor: "rgba(122, 167, 255, 0.36)",
+    color: "#bcd2ff",
+  },
+  {
+    backgroundColor: "rgba(16, 185, 129, 0.16)",
+    borderColor: "rgba(16, 185, 129, 0.36)",
+    color: "#8df3c9",
+  },
+  {
+    backgroundColor: "rgba(244, 114, 182, 0.16)",
+    borderColor: "rgba(244, 114, 182, 0.36)",
+    color: "#f9b4d9",
+  },
+  {
+    backgroundColor: "rgba(251, 191, 36, 0.16)",
+    borderColor: "rgba(251, 191, 36, 0.36)",
+    color: "#f5d778",
+  },
+  {
+    backgroundColor: "rgba(168, 85, 247, 0.16)",
+    borderColor: "rgba(168, 85, 247, 0.36)",
+    color: "#dbb8ff",
+  },
+] as const;
+
+function getAuthorBubbleTone(handle: string) {
+  let hash = 0;
+  for (const char of handle) {
+    hash = (hash * 33 + char.charCodeAt(0)) >>> 0;
+  }
+  return AUTHOR_BUBBLE_TONES[hash % AUTHOR_BUBBLE_TONES.length];
+}
+
+function getAuthorInitial(handle: string): string {
+  const normalized = handle.replace(/^@+/, "").trim();
+  return normalized.charAt(0).toUpperCase() || "X";
+}
 
 function getProjectWebsiteUrl(row: TwitterLeaderboardRow): string | null {
   return row.homepageUrl ?? row.docsUrl ?? null;
@@ -144,11 +179,59 @@ function RepoActionLinks({ row }: { row: TwitterLeaderboardRow }) {
   );
 }
 
-// MentionAuthorBubbles now lives in ./MentionAuthorBubbles (client island).
-// Phase 5.2 SSR diet: shipping the avatar URL through SSR/RSC was
-// blowing the /twitter payload up to ~20 MB at 200 rows. The client now
-// derives the unavatar.io URL from the handle and lazy-loads via
-// <img loading="lazy"> so the URL never round-trips through HTML.
+function MentionAuthorBubbles({
+  authors,
+}: {
+  authors: TwitterMentionAuthorBubble[];
+}) {
+  if (authors.length === 0) {
+    return <span className="text-[10px] text-text-tertiary">--</span>;
+  }
+
+  return (
+    <div className="inline-flex items-center justify-center">
+      {authors.slice(0, 5).map((author, index) => {
+        const tone = getAuthorBubbleTone(author.authorHandle);
+        const avatarUrl = author.avatarUrl ?? null;
+        const initial = getAuthorInitial(author.authorHandle);
+
+        return (
+          <Link
+            key={`${author.profileUrl}:${author.postUrl}`}
+            href={author.postUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${
+              index === 0 ? "" : "-ml-1.5"
+            } relative inline-flex h-5 w-5 items-center justify-center overflow-hidden rounded-full border text-[9px] font-semibold uppercase ring-1 ring-bg-secondary transition-transform hover:z-10 hover:-translate-y-0.5`}
+            style={tone}
+            aria-label={`Open top X mention from @${author.authorHandle}`}
+            title={`@${author.authorHandle} - ${formatNumber(author.engagement)} engagement`}
+          >
+            {/* Initial sits behind the image so it shows through when unavatar.io
+                rate-limits us (429) or the avatar URL otherwise fails to load.
+                Without this, broken-image placeholders rendered as empty
+                colored circles in production. */}
+            <span aria-hidden className="absolute inset-0 flex items-center justify-center">
+              {initial}
+            </span>
+            {avatarUrl ? (
+              <Image
+                src={avatarUrl}
+                alt=""
+                width={20}
+                height={20}
+                unoptimized
+                loading="lazy"
+                className="relative h-full w-full object-cover"
+              />
+            ) : null}
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
 
 // Kept for reference while the page uses client-side tabs to preserve ISR.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

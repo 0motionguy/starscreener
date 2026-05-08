@@ -3,6 +3,7 @@ last-verified: 2026-05-05
 verified-by: claude
 status: needs-verification
 audit-note: per-line drift-check deferred; commit-grep cross-reference attached
+handover-2026-05-09: see tasks/HANDOVER-2026-05-09-push-wave.md — runbook EXECUTED 2026-05-09 ~01:30 (Indonesia). Phase 5 wave (5 commits) + durability fix + WIP wave-2 (Path B, 26 files) all LIVE on origin/main HEAD `b8312812`. Production verified between waves. Two open bugs (P0 /repo/* 500 — pre-existing, P1 /api/mcp/trending 404 — new). See post-execution addendum + tasks/HANDOVER-2026-05-09-MORNING.md.
 ---
 
 # CURRENT SPRINT — Sprint 1: Pool Verification + Source Activation

@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-08T22:43:15.156Z",
+  "fetchedAt": "2026-05-08T23:44:18.141Z",
   "windowDays": 7,
-  "scannedAlgoliaHits": 772,
+  "scannedAlgoliaHits": 775,
   "scannedFirebaseItems": 500,
   "mentions": {
     "jj-vcs/jj": {
@@ -12,7 +12,7 @@
         "title": "Jj v0.41.0 Is Out",
         "score": 3,
         "url": "https://github.com/jj-vcs/jj/releases/tag/v0.41.0",
-        "hoursSincePosted": 11.8
+        "hoursSincePosted": 12.82
       },
       "everHitFrontPage": false,
       "stories": [
@@ -24,9 +24,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778237719,
-          "ageHours": 11.8,
-          "velocity": 0.25,
-          "trendingScore": 0.12,
+          "ageHours": 12.82,
+          "velocity": 0.23,
+          "trendingScore": 0.11,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -51,7 +51,7 @@
         "title": "Claude Code with Bedrock broken again",
         "score": 6,
         "url": "https://github.com/anthropics/claude-code/issues/56595",
-        "hoursSincePosted": 54.27
+        "hoursSincePosted": 55.29
       },
       "everHitFrontPage": false,
       "stories": [
@@ -63,7 +63,7 @@
           "score": 6,
           "descendants": 1,
           "createdUtc": 1778084816,
-          "ageHours": 54.27,
+          "ageHours": 55.29,
           "velocity": 0.11,
           "trendingScore": 0.09,
           "everHitFrontPage": false,
@@ -88,7 +88,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777963444,
-          "ageHours": 87.99,
+          "ageHours": 89,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -107,29 +107,29 @@
         }
       ]
     },
-    "chrishayuk/larql": {
+    "DenisSergeevitch/UFO-USA": {
       "count7d": 1,
-      "scoreSum7d": 3,
+      "scoreSum7d": 2,
       "topStory": {
-        "id": 48055133,
-        "title": "Larql: Run attention locally, FFN on another machine",
-        "score": 3,
-        "url": "https://github.com/chrishayuk/larql",
-        "hoursSincePosted": 25.5
+        "id": 48065911,
+        "title": "Markdown archive for the public war.gov UFO/PURSUE Release 01 files",
+        "score": 2,
+        "url": "https://github.com/DenisSergeevitch/UFO-USA",
+        "hoursSincePosted": 6.62
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 48055133,
-          "title": "Larql: Run attention locally, FFN on another machine",
-          "url": "https://github.com/chrishayuk/larql",
-          "by": "modinfo",
-          "score": 3,
+          "id": 48065911,
+          "title": "Markdown archive for the public war.gov UFO/PURSUE Release 01 files",
+          "url": "https://github.com/DenisSergeevitch/UFO-USA",
+          "by": "SweetSoftPillow",
+          "score": 2,
           "descendants": 0,
-          "createdUtc": 1778188394,
-          "ageHours": 25.5,
-          "velocity": 0.12,
-          "trendingScore": 0.06,
+          "createdUtc": 1778260012,
+          "ageHours": 6.62,
+          "velocity": 0.3,
+          "trendingScore": 0.09,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -138,7 +138,7 @@
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "chrishayuk/larql",
+              "fullName": "DenisSergeevitch/UFO-USA",
               "matchType": "url",
               "confidence": 1
             }
@@ -154,7 +154,7 @@
         "title": "Hunk: Review-first terminal diff viewer for agentic coders",
         "score": 4,
         "url": "https://github.com/modem-dev/hunk",
-        "hoursSincePosted": 46.32
+        "hoursSincePosted": 47.34
       },
       "everHitFrontPage": false,
       "stories": [
@@ -166,8 +166,8 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778113445,
-          "ageHours": 46.32,
-          "velocity": 0.09,
+          "ageHours": 47.34,
+          "velocity": 0.08,
           "trendingScore": 0.05,
           "everHitFrontPage": false,
           "content_tags": [
@@ -185,6 +185,45 @@
         }
       ]
     },
+    "chrishayuk/larql": {
+      "count7d": 1,
+      "scoreSum7d": 3,
+      "topStory": {
+        "id": 48055133,
+        "title": "Larql: Run attention locally, FFN on another machine",
+        "score": 3,
+        "url": "https://github.com/chrishayuk/larql",
+        "hoursSincePosted": 26.52
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48055133,
+          "title": "Larql: Run attention locally, FFN on another machine",
+          "url": "https://github.com/chrishayuk/larql",
+          "by": "modinfo",
+          "score": 3,
+          "descendants": 0,
+          "createdUtc": 1778188394,
+          "ageHours": 26.52,
+          "velocity": 0.11,
+          "trendingScore": 0.05,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "chrishayuk/larql",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "VectifyAI/OpenKB": {
       "count7d": 2,
       "scoreSum7d": 4,
@@ -193,7 +232,7 @@
         "title": "OpenKB: A Vectorless Knowledge Base for Long Documents",
         "score": 2,
         "url": "https://github.com/VectifyAI/OpenKB",
-        "hoursSincePosted": 11.37
+        "hoursSincePosted": 12.39
       },
       "everHitFrontPage": false,
       "stories": [
@@ -205,8 +244,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778239251,
-          "ageHours": 11.37,
-          "velocity": 0.18,
+          "ageHours": 12.39,
+          "velocity": 0.16,
           "trendingScore": 0.05,
           "everHitFrontPage": false,
           "content_tags": [
@@ -230,7 +269,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778069636,
-          "ageHours": 58.49,
+          "ageHours": 59.51,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -257,7 +296,7 @@
         "title": "notebooklm-py makes Claude interact with NotebookLM",
         "score": 4,
         "url": "https://github.com/teng-lin/notebooklm-py",
-        "hoursSincePosted": 60.68
+        "hoursSincePosted": 61.69
       },
       "everHitFrontPage": false,
       "stories": [
@@ -269,8 +308,8 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778061763,
-          "ageHours": 60.68,
-          "velocity": 0.07,
+          "ageHours": 61.69,
+          "velocity": 0.06,
           "trendingScore": 0.04,
           "everHitFrontPage": false,
           "content_tags": [
@@ -296,7 +335,7 @@
         "title": "Open Agents from Vercel is now open source",
         "score": 2,
         "url": "https://github.com/vercel-labs/open-agents",
-        "hoursSincePosted": 60.79
+        "hoursSincePosted": 61.81
       },
       "everHitFrontPage": false,
       "stories": [
@@ -308,7 +347,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778061338,
-          "ageHours": 60.79,
+          "ageHours": 61.81,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -327,45 +366,6 @@
         }
       ]
     },
-    "DenisSergeevitch/UFO-USA": {
-      "count7d": 1,
-      "scoreSum7d": 1,
-      "topStory": {
-        "id": 48065911,
-        "title": "Markdown archive for the public war.gov UFO/PURSUE Release 01 files",
-        "score": 1,
-        "url": "https://github.com/DenisSergeevitch/UFO-USA",
-        "hoursSincePosted": 5.61
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48065911,
-          "title": "Markdown archive for the public war.gov UFO/PURSUE Release 01 files",
-          "url": "https://github.com/DenisSergeevitch/UFO-USA",
-          "by": "SweetSoftPillow",
-          "score": 1,
-          "descendants": 0,
-          "createdUtc": 1778260012,
-          "ageHours": 5.61,
-          "velocity": 0.18,
-          "trendingScore": 0,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "DenisSergeevitch/UFO-USA",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "lahfir/agent-desktop": {
       "count7d": 1,
       "scoreSum7d": 98,
@@ -374,7 +374,7 @@
         "title": "Show HN: Agent-desktop – Native desktop automation CLI for AI agents",
         "score": 98,
         "url": "https://github.com/lahfir/agent-desktop",
-        "hoursSincePosted": 164.41
+        "hoursSincePosted": 165.43
       },
       "everHitFrontPage": false,
       "stories": [
@@ -386,9 +386,9 @@
           "score": 98,
           "descendants": 43,
           "createdUtc": 1777688304,
-          "ageHours": 164.41,
-          "velocity": 0.6,
-          "trendingScore": 6.33,
+          "ageHours": 165.43,
+          "velocity": 0.59,
+          "trendingScore": 6.23,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -415,7 +415,7 @@
         "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
         "score": 675,
         "url": "https://github.com/aattaran/deepclaude",
-        "hoursSincePosted": 120.5
+        "hoursSincePosted": 121.52
       },
       "everHitFrontPage": false,
       "stories": [
@@ -427,9 +427,9 @@
           "score": 675,
           "descendants": 280,
           "createdUtc": 1777846400,
-          "ageHours": 120.5,
-          "velocity": 5.6,
-          "trendingScore": 459.48,
+          "ageHours": 121.52,
+          "velocity": 5.55,
+          "trendingScore": 455.38,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -454,7 +454,7 @@
         "title": "Community firmware for the Xteink X4 e-paper reader",
         "score": 151,
         "url": "https://github.com/crosspoint-reader/crosspoint-reader",
-        "hoursSincePosted": 81.78
+        "hoursSincePosted": 82.8
       },
       "everHitFrontPage": false,
       "stories": [
@@ -466,9 +466,9 @@
           "score": 151,
           "descendants": 63,
           "createdUtc": 1777985776,
-          "ageHours": 81.78,
-          "velocity": 1.85,
-          "trendingScore": 29.43,
+          "ageHours": 82.8,
+          "velocity": 1.82,
+          "trendingScore": 28.95,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -493,7 +493,7 @@
         "title": "Radar: Local-first Kubernetes UI in a single Go binary",
         "score": 15,
         "url": "https://github.com/skyhook-io/radar",
-        "hoursSincePosted": 135.2
+        "hoursSincePosted": 136.22
       },
       "everHitFrontPage": false,
       "stories": [
@@ -505,7 +505,7 @@
           "score": 15,
           "descendants": 8,
           "createdUtc": 1777793479,
-          "ageHours": 135.2,
+          "ageHours": 136.22,
           "velocity": 0.11,
           "trendingScore": 0.23,
           "everHitFrontPage": false,
@@ -532,7 +532,7 @@
         "title": "Shelley: Mobile-friendly, web-based, multi-modal, single-user coding agent",
         "score": 11,
         "url": "https://github.com/boldsoftware/shelley",
-        "hoursSincePosted": 96.5
+        "hoursSincePosted": 97.51
       },
       "everHitFrontPage": false,
       "stories": [
@@ -544,7 +544,7 @@
           "score": 11,
           "descendants": 1,
           "createdUtc": 1777932812,
-          "ageHours": 96.5,
+          "ageHours": 97.51,
           "velocity": 0.11,
           "trendingScore": 0.13,
           "everHitFrontPage": false,
@@ -571,7 +571,7 @@
         "title": "Brush a Bash/POSIX-compatible shell written in the Rust",
         "score": 5,
         "url": "https://github.com/reubeno/brush/releases/tag/brush-shell-v0.4.0",
-        "hoursSincePosted": 124.24
+        "hoursSincePosted": 125.26
       },
       "everHitFrontPage": false,
       "stories": [
@@ -583,7 +583,7 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1777832939,
-          "ageHours": 124.24,
+          "ageHours": 125.26,
           "velocity": 0.04,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -610,7 +610,7 @@
         "title": "Show HN: My OSINT dashboard with 60+ feeds now has a pseudonymous P2P comms",
         "score": 5,
         "url": "https://github.com/BigBodyCobain/Shadowbroker/tree/main",
-        "hoursSincePosted": 128.31
+        "hoursSincePosted": 129.33
       },
       "everHitFrontPage": false,
       "stories": [
@@ -622,7 +622,7 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1777818271,
-          "ageHours": 128.31,
+          "ageHours": 129.33,
           "velocity": 0.04,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -650,7 +650,7 @@
         "title": "Thoth v3.20.0 – Full Linux Support, MiniMax Integration, Reliability Upgrades",
         "score": 4,
         "url": "https://github.com/siddsachar/Thoth",
-        "hoursSincePosted": 78.51
+        "hoursSincePosted": 79.53
       },
       "everHitFrontPage": false,
       "stories": [
@@ -662,7 +662,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1777997567,
-          "ageHours": 78.51,
+          "ageHours": 79.53,
           "velocity": 0.05,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -689,7 +689,7 @@
         "title": "AgentOS: A portable open-source operating system for agents",
         "score": 3,
         "url": "https://github.com/rivet-dev/agent-os",
-        "hoursSincePosted": 79.94
+        "hoursSincePosted": 80.96
       },
       "everHitFrontPage": false,
       "stories": [
@@ -701,7 +701,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1777992417,
-          "ageHours": 79.94,
+          "ageHours": 80.96,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -728,7 +728,7 @@
         "title": "Open source desktop app for studying online courses",
         "score": 3,
         "url": "https://github.com/tonhowtf/omniget",
-        "hoursSincePosted": 124.54
+        "hoursSincePosted": 125.56
       },
       "everHitFrontPage": false,
       "stories": [
@@ -740,7 +740,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1777831850,
-          "ageHours": 124.54,
+          "ageHours": 125.56,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -767,7 +767,7 @@
         "title": "Has anyone tried using Hyperframes?",
         "score": 2,
         "url": "https://github.com/heygen-com/hyperframes",
-        "hoursSincePosted": 135.48
+        "hoursSincePosted": 136.49
       },
       "everHitFrontPage": false,
       "stories": [
@@ -779,7 +779,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1777792478,
-          "ageHours": 135.48,
+          "ageHours": 136.49,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -807,7 +807,7 @@
         "title": "Memoir – Git for AI agent memory, with a Claude Code plugin",
         "score": 2,
         "url": "https://github.com/zhangfengcdt/memoir",
-        "hoursSincePosted": 78.81
+        "hoursSincePosted": 79.82
       },
       "everHitFrontPage": false,
       "stories": [
@@ -819,7 +819,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777996494,
-          "ageHours": 78.81,
+          "ageHours": 79.82,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -847,7 +847,7 @@
         "title": "Pake: Webpage to desktop app in one command using rust",
         "score": 2,
         "url": "https://github.com/tw93/Pake",
-        "hoursSincePosted": 114.14
+        "hoursSincePosted": 115.15
       },
       "everHitFrontPage": false,
       "stories": [
@@ -859,7 +859,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777869303,
-          "ageHours": 114.14,
+          "ageHours": 115.15,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -886,7 +886,7 @@
         "title": "ProteinView",
         "score": 2,
         "url": "https://github.com/001TMF/ProteinView",
-        "hoursSincePosted": 119.01
+        "hoursSincePosted": 120.03
       },
       "everHitFrontPage": false,
       "stories": [
@@ -898,7 +898,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777851759,
-          "ageHours": 119.01,
+          "ageHours": 120.03,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -925,7 +925,7 @@
         "title": "Withastro/flue: The sandbox agent framework",
         "score": 2,
         "url": "https://github.com/withastro/flue",
-        "hoursSincePosted": 164.14
+        "hoursSincePosted": 165.16
       },
       "everHitFrontPage": false,
       "stories": [
@@ -937,7 +937,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777689287,
-          "ageHours": 164.14,
+          "ageHours": 165.16,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -965,7 +965,7 @@
         "title": "PageIndex: Vectorless, Reasoning-Based RAG",
         "score": 1,
         "url": "https://github.com/VectifyAI/PageIndex",
-        "hoursSincePosted": 79.18
+        "hoursSincePosted": 80.2
       },
       "everHitFrontPage": false,
       "stories": [
@@ -977,7 +977,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777995148,
-          "ageHours": 79.18,
+          "ageHours": 80.2,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1004,7 +1004,7 @@
         "title": "Yazi – Fast Terminal File Manager",
         "score": 1,
         "url": "https://github.com/sxyazi/yazi",
-        "hoursSincePosted": 87.48
+        "hoursSincePosted": 88.5
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1016,7 +1016,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777965256,
-          "ageHours": 87.48,
+          "ageHours": 88.5,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1045,7 +1045,7 @@
         "title": "Jj v0.41.0 Is Out",
         "score": 3,
         "url": "https://github.com/jj-vcs/jj/releases/tag/v0.41.0",
-        "hoursSincePosted": 11.8
+        "hoursSincePosted": 12.82
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1057,9 +1057,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778237719,
-          "ageHours": 11.8,
-          "velocity": 0.25,
-          "trendingScore": 0.12,
+          "ageHours": 12.82,
+          "velocity": 0.23,
+          "trendingScore": 0.11,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1084,7 +1084,7 @@
         "title": "Claude Code with Bedrock broken again",
         "score": 6,
         "url": "https://github.com/anthropics/claude-code/issues/56595",
-        "hoursSincePosted": 54.27
+        "hoursSincePosted": 55.29
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1096,7 +1096,7 @@
           "score": 6,
           "descendants": 1,
           "createdUtc": 1778084816,
-          "ageHours": 54.27,
+          "ageHours": 55.29,
           "velocity": 0.11,
           "trendingScore": 0.09,
           "everHitFrontPage": false,
@@ -1121,7 +1121,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777963444,
-          "ageHours": 87.99,
+          "ageHours": 89,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1140,29 +1140,29 @@
         }
       ]
     },
-    "chrishayuk--larql": {
+    "denissergeevitch--ufo-usa": {
       "count7d": 1,
-      "scoreSum7d": 3,
+      "scoreSum7d": 2,
       "topStory": {
-        "id": 48055133,
-        "title": "Larql: Run attention locally, FFN on another machine",
-        "score": 3,
-        "url": "https://github.com/chrishayuk/larql",
-        "hoursSincePosted": 25.5
+        "id": 48065911,
+        "title": "Markdown archive for the public war.gov UFO/PURSUE Release 01 files",
+        "score": 2,
+        "url": "https://github.com/DenisSergeevitch/UFO-USA",
+        "hoursSincePosted": 6.62
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 48055133,
-          "title": "Larql: Run attention locally, FFN on another machine",
-          "url": "https://github.com/chrishayuk/larql",
-          "by": "modinfo",
-          "score": 3,
+          "id": 48065911,
+          "title": "Markdown archive for the public war.gov UFO/PURSUE Release 01 files",
+          "url": "https://github.com/DenisSergeevitch/UFO-USA",
+          "by": "SweetSoftPillow",
+          "score": 2,
           "descendants": 0,
-          "createdUtc": 1778188394,
-          "ageHours": 25.5,
-          "velocity": 0.12,
-          "trendingScore": 0.06,
+          "createdUtc": 1778260012,
+          "ageHours": 6.62,
+          "velocity": 0.3,
+          "trendingScore": 0.09,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1171,7 +1171,7 @@
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "chrishayuk/larql",
+              "fullName": "DenisSergeevitch/UFO-USA",
               "matchType": "url",
               "confidence": 1
             }
@@ -1187,7 +1187,7 @@
         "title": "Hunk: Review-first terminal diff viewer for agentic coders",
         "score": 4,
         "url": "https://github.com/modem-dev/hunk",
-        "hoursSincePosted": 46.32
+        "hoursSincePosted": 47.34
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1199,8 +1199,8 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778113445,
-          "ageHours": 46.32,
-          "velocity": 0.09,
+          "ageHours": 47.34,
+          "velocity": 0.08,
           "trendingScore": 0.05,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1218,6 +1218,45 @@
         }
       ]
     },
+    "chrishayuk--larql": {
+      "count7d": 1,
+      "scoreSum7d": 3,
+      "topStory": {
+        "id": 48055133,
+        "title": "Larql: Run attention locally, FFN on another machine",
+        "score": 3,
+        "url": "https://github.com/chrishayuk/larql",
+        "hoursSincePosted": 26.52
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48055133,
+          "title": "Larql: Run attention locally, FFN on another machine",
+          "url": "https://github.com/chrishayuk/larql",
+          "by": "modinfo",
+          "score": 3,
+          "descendants": 0,
+          "createdUtc": 1778188394,
+          "ageHours": 26.52,
+          "velocity": 0.11,
+          "trendingScore": 0.05,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "chrishayuk/larql",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "vectifyai--openkb": {
       "count7d": 2,
       "scoreSum7d": 4,
@@ -1226,7 +1265,7 @@
         "title": "OpenKB: A Vectorless Knowledge Base for Long Documents",
         "score": 2,
         "url": "https://github.com/VectifyAI/OpenKB",
-        "hoursSincePosted": 11.37
+        "hoursSincePosted": 12.39
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1238,8 +1277,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778239251,
-          "ageHours": 11.37,
-          "velocity": 0.18,
+          "ageHours": 12.39,
+          "velocity": 0.16,
           "trendingScore": 0.05,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1263,7 +1302,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778069636,
-          "ageHours": 58.49,
+          "ageHours": 59.51,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1290,7 +1329,7 @@
         "title": "notebooklm-py makes Claude interact with NotebookLM",
         "score": 4,
         "url": "https://github.com/teng-lin/notebooklm-py",
-        "hoursSincePosted": 60.68
+        "hoursSincePosted": 61.69
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1302,8 +1341,8 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778061763,
-          "ageHours": 60.68,
-          "velocity": 0.07,
+          "ageHours": 61.69,
+          "velocity": 0.06,
           "trendingScore": 0.04,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1329,7 +1368,7 @@
         "title": "Open Agents from Vercel is now open source",
         "score": 2,
         "url": "https://github.com/vercel-labs/open-agents",
-        "hoursSincePosted": 60.79
+        "hoursSincePosted": 61.81
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1341,7 +1380,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778061338,
-          "ageHours": 60.79,
+          "ageHours": 61.81,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1360,45 +1399,6 @@
         }
       ]
     },
-    "denissergeevitch--ufo-usa": {
-      "count7d": 1,
-      "scoreSum7d": 1,
-      "topStory": {
-        "id": 48065911,
-        "title": "Markdown archive for the public war.gov UFO/PURSUE Release 01 files",
-        "score": 1,
-        "url": "https://github.com/DenisSergeevitch/UFO-USA",
-        "hoursSincePosted": 5.61
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48065911,
-          "title": "Markdown archive for the public war.gov UFO/PURSUE Release 01 files",
-          "url": "https://github.com/DenisSergeevitch/UFO-USA",
-          "by": "SweetSoftPillow",
-          "score": 1,
-          "descendants": 0,
-          "createdUtc": 1778260012,
-          "ageHours": 5.61,
-          "velocity": 0.18,
-          "trendingScore": 0,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "storyText": "",
-          "linkedRepos": [
-            {
-              "fullName": "DenisSergeevitch/UFO-USA",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "lahfir--agent-desktop": {
       "count7d": 1,
       "scoreSum7d": 98,
@@ -1407,7 +1407,7 @@
         "title": "Show HN: Agent-desktop – Native desktop automation CLI for AI agents",
         "score": 98,
         "url": "https://github.com/lahfir/agent-desktop",
-        "hoursSincePosted": 164.41
+        "hoursSincePosted": 165.43
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1419,9 +1419,9 @@
           "score": 98,
           "descendants": 43,
           "createdUtc": 1777688304,
-          "ageHours": 164.41,
-          "velocity": 0.6,
-          "trendingScore": 6.33,
+          "ageHours": 165.43,
+          "velocity": 0.59,
+          "trendingScore": 6.23,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -1448,7 +1448,7 @@
         "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
         "score": 675,
         "url": "https://github.com/aattaran/deepclaude",
-        "hoursSincePosted": 120.5
+        "hoursSincePosted": 121.52
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1460,9 +1460,9 @@
           "score": 675,
           "descendants": 280,
           "createdUtc": 1777846400,
-          "ageHours": 120.5,
-          "velocity": 5.6,
-          "trendingScore": 459.48,
+          "ageHours": 121.52,
+          "velocity": 5.55,
+          "trendingScore": 455.38,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1487,7 +1487,7 @@
         "title": "Community firmware for the Xteink X4 e-paper reader",
         "score": 151,
         "url": "https://github.com/crosspoint-reader/crosspoint-reader",
-        "hoursSincePosted": 81.78
+        "hoursSincePosted": 82.8
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1499,9 +1499,9 @@
           "score": 151,
           "descendants": 63,
           "createdUtc": 1777985776,
-          "ageHours": 81.78,
-          "velocity": 1.85,
-          "trendingScore": 29.43,
+          "ageHours": 82.8,
+          "velocity": 1.82,
+          "trendingScore": 28.95,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1526,7 +1526,7 @@
         "title": "Radar: Local-first Kubernetes UI in a single Go binary",
         "score": 15,
         "url": "https://github.com/skyhook-io/radar",
-        "hoursSincePosted": 135.2
+        "hoursSincePosted": 136.22
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1538,7 +1538,7 @@
           "score": 15,
           "descendants": 8,
           "createdUtc": 1777793479,
-          "ageHours": 135.2,
+          "ageHours": 136.22,
           "velocity": 0.11,
           "trendingScore": 0.23,
           "everHitFrontPage": false,
@@ -1565,7 +1565,7 @@
         "title": "Shelley: Mobile-friendly, web-based, multi-modal, single-user coding agent",
         "score": 11,
         "url": "https://github.com/boldsoftware/shelley",
-        "hoursSincePosted": 96.5
+        "hoursSincePosted": 97.51
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1577,7 +1577,7 @@
           "score": 11,
           "descendants": 1,
           "createdUtc": 1777932812,
-          "ageHours": 96.5,
+          "ageHours": 97.51,
           "velocity": 0.11,
           "trendingScore": 0.13,
           "everHitFrontPage": false,
@@ -1604,7 +1604,7 @@
         "title": "Brush a Bash/POSIX-compatible shell written in the Rust",
         "score": 5,
         "url": "https://github.com/reubeno/brush/releases/tag/brush-shell-v0.4.0",
-        "hoursSincePosted": 124.24
+        "hoursSincePosted": 125.26
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1616,7 +1616,7 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1777832939,
-          "ageHours": 124.24,
+          "ageHours": 125.26,
           "velocity": 0.04,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -1643,7 +1643,7 @@
         "title": "Show HN: My OSINT dashboard with 60+ feeds now has a pseudonymous P2P comms",
         "score": 5,
         "url": "https://github.com/BigBodyCobain/Shadowbroker/tree/main",
-        "hoursSincePosted": 128.31
+        "hoursSincePosted": 129.33
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1655,7 +1655,7 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1777818271,
-          "ageHours": 128.31,
+          "ageHours": 129.33,
           "velocity": 0.04,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -1683,7 +1683,7 @@
         "title": "Thoth v3.20.0 – Full Linux Support, MiniMax Integration, Reliability Upgrades",
         "score": 4,
         "url": "https://github.com/siddsachar/Thoth",
-        "hoursSincePosted": 78.51
+        "hoursSincePosted": 79.53
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1695,7 +1695,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1777997567,
-          "ageHours": 78.51,
+          "ageHours": 79.53,
           "velocity": 0.05,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -1722,7 +1722,7 @@
         "title": "AgentOS: A portable open-source operating system for agents",
         "score": 3,
         "url": "https://github.com/rivet-dev/agent-os",
-        "hoursSincePosted": 79.94
+        "hoursSincePosted": 80.96
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1734,7 +1734,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1777992417,
-          "ageHours": 79.94,
+          "ageHours": 80.96,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1761,7 +1761,7 @@
         "title": "Open source desktop app for studying online courses",
         "score": 3,
         "url": "https://github.com/tonhowtf/omniget",
-        "hoursSincePosted": 124.54
+        "hoursSincePosted": 125.56
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1773,7 +1773,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1777831850,
-          "ageHours": 124.54,
+          "ageHours": 125.56,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1800,7 +1800,7 @@
         "title": "Has anyone tried using Hyperframes?",
         "score": 2,
         "url": "https://github.com/heygen-com/hyperframes",
-        "hoursSincePosted": 135.48
+        "hoursSincePosted": 136.49
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1812,7 +1812,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1777792478,
-          "ageHours": 135.48,
+          "ageHours": 136.49,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1840,7 +1840,7 @@
         "title": "Memoir – Git for AI agent memory, with a Claude Code plugin",
         "score": 2,
         "url": "https://github.com/zhangfengcdt/memoir",
-        "hoursSincePosted": 78.81
+        "hoursSincePosted": 79.82
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1852,7 +1852,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777996494,
-          "ageHours": 78.81,
+          "ageHours": 79.82,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1880,7 +1880,7 @@
         "title": "Pake: Webpage to desktop app in one command using rust",
         "score": 2,
         "url": "https://github.com/tw93/Pake",
-        "hoursSincePosted": 114.14
+        "hoursSincePosted": 115.15
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1892,7 +1892,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777869303,
-          "ageHours": 114.14,
+          "ageHours": 115.15,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1919,7 +1919,7 @@
         "title": "ProteinView",
         "score": 2,
         "url": "https://github.com/001TMF/ProteinView",
-        "hoursSincePosted": 119.01
+        "hoursSincePosted": 120.03
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1931,7 +1931,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777851759,
-          "ageHours": 119.01,
+          "ageHours": 120.03,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1958,7 +1958,7 @@
         "title": "Withastro/flue: The sandbox agent framework",
         "score": 2,
         "url": "https://github.com/withastro/flue",
-        "hoursSincePosted": 164.14
+        "hoursSincePosted": 165.16
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1970,7 +1970,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777689287,
-          "ageHours": 164.14,
+          "ageHours": 165.16,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1998,7 +1998,7 @@
         "title": "PageIndex: Vectorless, Reasoning-Based RAG",
         "score": 1,
         "url": "https://github.com/VectifyAI/PageIndex",
-        "hoursSincePosted": 79.18
+        "hoursSincePosted": 80.2
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2010,7 +2010,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777995148,
-          "ageHours": 79.18,
+          "ageHours": 80.2,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2037,7 +2037,7 @@
         "title": "Yazi – Fast Terminal File Manager",
         "score": 1,
         "url": "https://github.com/sxyazi/yazi",
-        "hoursSincePosted": 87.48
+        "hoursSincePosted": 88.5
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2049,7 +2049,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777965256,
-          "ageHours": 87.48,
+          "ageHours": 88.5,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2256,6 +2256,11 @@
       "scoreSum7d": 2
     },
     {
+      "fullName": "DenisSergeevitch/UFO-USA",
+      "count7d": 1,
+      "scoreSum7d": 2
+    },
+    {
       "fullName": "fendouai/CodexSaver",
       "count7d": 1,
       "scoreSum7d": 1
@@ -2267,11 +2272,6 @@
     },
     {
       "fullName": "VectifyAI/PageIndex",
-      "count7d": 1,
-      "scoreSum7d": 1
-    },
-    {
-      "fullName": "DenisSergeevitch/UFO-USA",
       "count7d": 1,
       "scoreSum7d": 1
     }

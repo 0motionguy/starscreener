@@ -157,15 +157,16 @@ async function alertOps(
       "ops alert blocked: OPS_ALERT_WEBHOOK missing",
       { event, source: "twitter", metadata },
     );
-    sentryCaptureException(blocked, {
+    sentryCaptureMessage("OPS_ALERT_WEBHOOK missing for twitter ops alert", {
       level: "warning",
       tags: {
         pool: "twitter",
         alert: "ops-alert-blocked",
         upstream_source: "twitter",
         ...engineErrorTags(blocked),
+        source: "twitter",
       },
-      extra: { event, metadata },
+      extra: { event, metadata, error: blocked.message },
     });
     return;
   }

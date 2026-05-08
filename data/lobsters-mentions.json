@@ -1,18 +1,18 @@
 {
-  "fetchedAt": "2026-05-07T23:31:25.345Z",
+  "fetchedAt": "2026-05-08T01:19:59.352Z",
   "windowDays": 7,
   "scannedStories": 78,
   "mentions": {
     "jj-vcs/jj": {
       "count7d": 1,
-      "scoreSum7d": 36,
+      "scoreSum7d": 42,
       "topStory": {
         "shortId": "h1srjn",
         "title": "jj v0.41.0 is out",
-        "score": 36,
+        "score": 42,
         "url": "https://github.com/jj-vcs/jj/releases/tag/v0.41.0",
         "commentsUrl": "https://lobste.rs/s/h1srjn/jj_v0_41_0_is_out",
-        "hoursSincePosted": 6.924444444444444
+        "hoursSincePosted": 8.733888888888888
       },
       "stories": [
         {
@@ -21,11 +21,11 @@
           "url": "https://github.com/jj-vcs/jj/releases/tag/v0.41.0",
           "commentsUrl": "https://lobste.rs/s/h1srjn/jj_v0_41_0_is_out",
           "by": "",
-          "score": 36,
+          "score": 42,
           "commentCount": 15,
           "createdUtc": 1778171757,
-          "ageHours": 6.924444444444444,
-          "trendingScore": 1.350301391566494,
+          "ageHours": 8.733888888888888,
+          "trendingScore": 1.1943005912090212,
           "tags": [
             "release",
             "vcs"
@@ -34,6 +34,43 @@
           "linkedRepos": [
             {
               "fullName": "jj-vcs/jj",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "shortId": "n4fmkx",
+        "title": "Copy Fail 2: Electric Boogaloo",
+        "score": 2,
+        "url": "https://github.com/0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+        "commentsUrl": "https://lobste.rs/s/n4fmkx/copy_fail_2_electric_boogaloo",
+        "hoursSincePosted": 0.8872222222222222
+      },
+      "stories": [
+        {
+          "shortId": "n4fmkx",
+          "title": "Copy Fail 2: Electric Boogaloo",
+          "url": "https://github.com/0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+          "commentsUrl": "https://lobste.rs/s/n4fmkx/copy_fail_2_electric_boogaloo",
+          "by": "",
+          "score": 2,
+          "commentCount": 0,
+          "createdUtc": 1778200005,
+          "ageHours": 0.8872222222222222,
+          "trendingScore": 0.4076708680344273,
+          "tags": [
+            "security"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
               "matchType": "url",
               "confidence": 1
             }
@@ -50,7 +87,7 @@
         "score": 1,
         "url": "https://github.com/withastro/flue",
         "commentsUrl": "https://lobste.rs/s/ki7kqi/agent_harness_framework",
-        "hoursSincePosted": 17.411944444444444
+        "hoursSincePosted": 19.22138888888889
       },
       "stories": [
         {
@@ -62,8 +99,8 @@
           "score": 1,
           "commentCount": 3,
           "createdUtc": 1778134002,
-          "ageHours": 17.411944444444444,
-          "trendingScore": 0.011692205515622165,
+          "ageHours": 19.22138888888889,
+          "trendingScore": 0.010229144036807612,
           "tags": [
             "vibecoding"
           ],
@@ -83,7 +120,12 @@
     {
       "fullName": "jj-vcs/jj",
       "count7d": 1,
-      "scoreSum7d": 36
+      "scoreSum7d": 42
+    },
+    {
+      "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+      "count7d": 1,
+      "scoreSum7d": 2
     },
     {
       "fullName": "withastro/flue",

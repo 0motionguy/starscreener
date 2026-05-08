@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-08T11:47:18.672Z",
+  "fetchedAt": "2026-05-08T14:18:22.549Z",
   "windowDays": 7,
   "scannedPosts": 199,
   "searchQuery": "github.com",
@@ -572,24 +572,24 @@
       ]
     },
     "V4bel/dirtyfrag": {
-      "count7d": 7,
+      "count7d": 3,
       "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:zc7octf6bttrhodctstrafeo/app.bsky.feed.post/3mldi2dgsg22n",
-        "cid": "bafyreia4sik5j56q26pk7rsf5voxkk2xin7rtpatqd6l5rzx6rgp3atxwm",
-        "bskyUrl": "https://bsky.app/profile/ajlanes.bsky.social/post/3mldi2dgsg22n",
-        "text": "\"You're joking. Not another one?\" - Brenda from Bristol who now spends her time patching Linux boxes. github.com/V4bel/dirtyf...",
+        "uri": "at://did:plc:xbzd6e3xcqseas3lilfc2wof/app.bsky.feed.post/3mldqz22xpc2v",
+        "cid": "bafyreieku5kbuuei2epdfarqo4vwac54zqb7qd5k4waiupiqrrjwuc55ii",
+        "bskyUrl": "https://bsky.app/profile/nicileaks.eu/post/3mldqz22xpc2v",
+        "text": "eieieieiEI github.com/V4bel/dirtyf...",
         "author": {
-          "handle": "ajlanes.bsky.social",
-          "displayName": "Alexandra Lanes"
+          "handle": "nicileaks.eu",
+          "displayName": "Nic 🚩"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-08T10:03:02.000Z",
-        "hoursSincePosted": 1.74
+        "replyCount": 1,
+        "createdAt": "2026-05-08T12:43:22.297Z",
+        "hoursSincePosted": 1.58
       },
       "posts": [
         {
@@ -811,6 +811,34 @@
             "has-md-file"
           ],
           "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:xbzd6e3xcqseas3lilfc2wof/app.bsky.feed.post/3mldqz22xpc2v",
+          "cid": "bafyreieku5kbuuei2epdfarqo4vwac54zqb7qd5k4waiupiqrrjwuc55ii",
+          "bskyUrl": "https://bsky.app/profile/nicileaks.eu/post/3mldqz22xpc2v",
+          "text": "eieieieiEI github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "nicileaks.eu",
+            "displayName": "Nic 🚩"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T12:43:22.297Z",
+          "createdUtc": 1778244202,
+          "ageHours": 1.58,
+          "trendingScore": 2.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "linkedRepos": [
             {
               "fullName": "V4bel/dirtyfrag",
@@ -1295,6 +1323,64 @@
           "createdUtc": 1778185566,
           "ageHours": 0.84,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:wtsistmni3x2iikjz4wrok57/app.bsky.feed.post/3mldrfthtak25",
+          "cid": "bafyreiduj6z723zfnbedy4v53lsb3ur2ze7ybij5med3aqaqoqhvswwblq",
+          "bskyUrl": "https://bsky.app/profile/slouchingtiger.bsky.social/post/3mldrfthtak25",
+          "text": "The \"Dirty Frag\" vulnerability class, first discovered and reported by Hyunwoo Kim (@v4bel), can obtain root privileges on major Linux distributions by chaining the xfrm-ESP Page-Cache Write vulnerability and the RxRPC Page-Cache Write vulnerability. github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "slouchingtiger.bsky.social",
+            "displayName": "SlouchingTiger"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T12:50:31.587Z",
+          "createdUtc": 1778244631,
+          "ageHours": 1.46,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e264yj4jq3ncws7spmddbcos/app.bsky.feed.post/3mldp6wnuvmb2",
+          "cid": "bafyreia4dfarjghprrzxrke5lrgjjrfragf4izprcujisj67dk4qnqv4r4",
+          "bskyUrl": "https://bsky.app/profile/ajuvo.chaos.social.ap.brid.gy/post/3mldp6wnuvmb2",
+          "text": "oh https://github.com/V4bel/dirtyfrag/blob/master/README.md",
+          "author": {
+            "handle": "ajuvo.chaos.social.ap.brid.gy",
+            "displayName": "ajuvo ✔"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T12:08:05.000Z",
+          "createdUtc": 1778242085,
+          "ageHours": 2.17,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "has-md-file"
@@ -1930,90 +2016,6 @@
               "confidence": 1
             }
           ]
-        },
-        {
-          "uri": "at://did:plc:oyvef664k7zwyyiodkqw2ktm/app.bsky.feed.post/3mlc6dbdqn22f",
-          "cid": "bafyreihwqwn3br5pwcl7nskw6hfv6ge5dsovnkdj6w3uqjrl2wbztkmd4y",
-          "bskyUrl": "https://bsky.app/profile/zro.bsky.social/post/3mlc6dbdqn22f",
-          "text": "New linux local privilege escalation 0-day dropped. github.com/V4bel/dirtyf...",
-          "author": {
-            "handle": "zro.bsky.social",
-            "displayName": "infinite zero"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T21:36:24.631Z",
-          "createdUtc": 1778189784,
-          "ageHours": 2.54,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:3nnwwpngxa7ox2ebk6t64dbd/app.bsky.feed.post/3mlc45iq4ds2w",
-          "cid": "bafyreihwbiyuke7cjqbaycqejsj46yht7l4urvwutefsedbc3v4hsqzlei",
-          "bskyUrl": "https://bsky.app/profile/aprosdoketon.bsky.social/post/3mlc45iq4ds2w",
-          "text": "github.com/V4bel/dirtyf...",
-          "author": {
-            "handle": "aprosdoketon.bsky.social",
-            "displayName": "борщ з ананасами"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T20:57:23.572Z",
-          "createdUtc": 1778187443,
-          "ageHours": 3.19,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:ujq4ipqmwds4aj4zuo2ogiyb/app.bsky.feed.post/3mlc2ljagg22w",
-          "cid": "bafyreidpokh36dqp5l6utbdmnxgiv6qtmfxvd5dtnrw6rpu36aragskf6q",
-          "bskyUrl": "https://bsky.app/profile/dontevenask.me/post/3mlc2ljagg22w",
-          "text": "Another argument to go live in the mountains just dropped github.com/V4bel/dirtyf...",
-          "author": {
-            "handle": "dontevenask.me",
-            "displayName": "Child Wielding Needle"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T20:29:26.384Z",
-          "createdUtc": 1778185766,
-          "ageHours": 0.78,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
         }
       ]
     },
@@ -2250,24 +2252,24 @@
       ]
     },
     "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo": {
-      "count7d": 6,
-      "likesSum7d": 2,
-      "repostsSum7d": 1,
-      "repliesSum7d": 2,
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:mgflc2hwqonaafnbb3xok6re/app.bsky.feed.post/3mlctsiim6mg2",
-        "cid": "bafyreihk5aoezghy2pvys7n2dgl4vo5h4mmgmrup4gitdu7u66j7pu6cdi",
-        "bskyUrl": "https://bsky.app/profile/sodiboo.gaysex.cloud/post/3mlctsiim6mg2",
-        "text": "are these the same vulnerability? https://github.com/V4bel/dirtyfrag/ https://github.com/0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+        "uri": "at://did:plc:5lj4n3nkq7by6vmdxltlt2fy/app.bsky.feed.post/3mlds7lznwc2a",
+        "cid": "bafyreifw5zamb4x2nmgipbbqsng4y5fmoua4hdlqqkegpj4c733v6fopla",
+        "bskyUrl": "https://bsky.app/profile/lcheylus.bsky.social/post/3mlds7lznwc2a",
+        "text": "2/ Un random tier en scrutant les fix du kernel Linux a compris qu'il y avait une nouvelle faille, a codé un PoC et publié son write-up sur GitHub (github.com/0xdeadbeefne...) sans informer personne, ne se renseigner en privé.",
         "author": {
-          "handle": "sodiboo.gaysex.cloud",
-          "displayName": "sodiboo :pride_heart:"
+          "handle": "lcheylus.bsky.social",
+          "displayName": "Laurent Cheylus"
         },
-        "likeCount": 1,
-        "repostCount": 1,
-        "replyCount": 0,
-        "createdAt": "2026-05-08T04:00:40.377Z",
-        "hoursSincePosted": 3.99
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-08T13:04:50.579Z",
+        "hoursSincePosted": 1.23
       },
       "posts": [
         {
@@ -2408,6 +2410,34 @@
           "createdUtc": 1778191481,
           "ageHours": 2.07,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:5lj4n3nkq7by6vmdxltlt2fy/app.bsky.feed.post/3mlds7lznwc2a",
+          "cid": "bafyreifw5zamb4x2nmgipbbqsng4y5fmoua4hdlqqkegpj4c733v6fopla",
+          "bskyUrl": "https://bsky.app/profile/lcheylus.bsky.social/post/3mlds7lznwc2a",
+          "text": "2/ Un random tier en scrutant les fix du kernel Linux a compris qu'il y avait une nouvelle faille, a codé un PoC et publié son write-up sur GitHub (github.com/0xdeadbeefne...) sans informer personne, ne se renseigner en privé.",
+          "author": {
+            "handle": "lcheylus.bsky.social",
+            "displayName": "Laurent Cheylus"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T13:04:50.579Z",
+          "createdUtc": 1778245490,
+          "ageHours": 1.23,
+          "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -4052,24 +4082,24 @@
       ]
     },
     "v4bel--dirtyfrag": {
-      "count7d": 7,
+      "count7d": 3,
       "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:zc7octf6bttrhodctstrafeo/app.bsky.feed.post/3mldi2dgsg22n",
-        "cid": "bafyreia4sik5j56q26pk7rsf5voxkk2xin7rtpatqd6l5rzx6rgp3atxwm",
-        "bskyUrl": "https://bsky.app/profile/ajlanes.bsky.social/post/3mldi2dgsg22n",
-        "text": "\"You're joking. Not another one?\" - Brenda from Bristol who now spends her time patching Linux boxes. github.com/V4bel/dirtyf...",
+        "uri": "at://did:plc:xbzd6e3xcqseas3lilfc2wof/app.bsky.feed.post/3mldqz22xpc2v",
+        "cid": "bafyreieku5kbuuei2epdfarqo4vwac54zqb7qd5k4waiupiqrrjwuc55ii",
+        "bskyUrl": "https://bsky.app/profile/nicileaks.eu/post/3mldqz22xpc2v",
+        "text": "eieieieiEI github.com/V4bel/dirtyf...",
         "author": {
-          "handle": "ajlanes.bsky.social",
-          "displayName": "Alexandra Lanes"
+          "handle": "nicileaks.eu",
+          "displayName": "Nic 🚩"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-08T10:03:02.000Z",
-        "hoursSincePosted": 1.74
+        "replyCount": 1,
+        "createdAt": "2026-05-08T12:43:22.297Z",
+        "hoursSincePosted": 1.58
       },
       "posts": [
         {
@@ -4291,6 +4321,34 @@
             "has-md-file"
           ],
           "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:xbzd6e3xcqseas3lilfc2wof/app.bsky.feed.post/3mldqz22xpc2v",
+          "cid": "bafyreieku5kbuuei2epdfarqo4vwac54zqb7qd5k4waiupiqrrjwuc55ii",
+          "bskyUrl": "https://bsky.app/profile/nicileaks.eu/post/3mldqz22xpc2v",
+          "text": "eieieieiEI github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "nicileaks.eu",
+            "displayName": "Nic 🚩"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T12:43:22.297Z",
+          "createdUtc": 1778244202,
+          "ageHours": 1.58,
+          "trendingScore": 2.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "linkedRepos": [
             {
               "fullName": "V4bel/dirtyfrag",
@@ -4775,6 +4833,64 @@
           "createdUtc": 1778185566,
           "ageHours": 0.84,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:wtsistmni3x2iikjz4wrok57/app.bsky.feed.post/3mldrfthtak25",
+          "cid": "bafyreiduj6z723zfnbedy4v53lsb3ur2ze7ybij5med3aqaqoqhvswwblq",
+          "bskyUrl": "https://bsky.app/profile/slouchingtiger.bsky.social/post/3mldrfthtak25",
+          "text": "The \"Dirty Frag\" vulnerability class, first discovered and reported by Hyunwoo Kim (@v4bel), can obtain root privileges on major Linux distributions by chaining the xfrm-ESP Page-Cache Write vulnerability and the RxRPC Page-Cache Write vulnerability. github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "slouchingtiger.bsky.social",
+            "displayName": "SlouchingTiger"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T12:50:31.587Z",
+          "createdUtc": 1778244631,
+          "ageHours": 1.46,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e264yj4jq3ncws7spmddbcos/app.bsky.feed.post/3mldp6wnuvmb2",
+          "cid": "bafyreia4dfarjghprrzxrke5lrgjjrfragf4izprcujisj67dk4qnqv4r4",
+          "bskyUrl": "https://bsky.app/profile/ajuvo.chaos.social.ap.brid.gy/post/3mldp6wnuvmb2",
+          "text": "oh https://github.com/V4bel/dirtyfrag/blob/master/README.md",
+          "author": {
+            "handle": "ajuvo.chaos.social.ap.brid.gy",
+            "displayName": "ajuvo ✔"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T12:08:05.000Z",
+          "createdUtc": 1778242085,
+          "ageHours": 2.17,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "has-md-file"
@@ -5410,90 +5526,6 @@
               "confidence": 1
             }
           ]
-        },
-        {
-          "uri": "at://did:plc:oyvef664k7zwyyiodkqw2ktm/app.bsky.feed.post/3mlc6dbdqn22f",
-          "cid": "bafyreihwqwn3br5pwcl7nskw6hfv6ge5dsovnkdj6w3uqjrl2wbztkmd4y",
-          "bskyUrl": "https://bsky.app/profile/zro.bsky.social/post/3mlc6dbdqn22f",
-          "text": "New linux local privilege escalation 0-day dropped. github.com/V4bel/dirtyf...",
-          "author": {
-            "handle": "zro.bsky.social",
-            "displayName": "infinite zero"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T21:36:24.631Z",
-          "createdUtc": 1778189784,
-          "ageHours": 2.54,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:3nnwwpngxa7ox2ebk6t64dbd/app.bsky.feed.post/3mlc45iq4ds2w",
-          "cid": "bafyreihwbiyuke7cjqbaycqejsj46yht7l4urvwutefsedbc3v4hsqzlei",
-          "bskyUrl": "https://bsky.app/profile/aprosdoketon.bsky.social/post/3mlc45iq4ds2w",
-          "text": "github.com/V4bel/dirtyf...",
-          "author": {
-            "handle": "aprosdoketon.bsky.social",
-            "displayName": "борщ з ананасами"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T20:57:23.572Z",
-          "createdUtc": 1778187443,
-          "ageHours": 3.19,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:ujq4ipqmwds4aj4zuo2ogiyb/app.bsky.feed.post/3mlc2ljagg22w",
-          "cid": "bafyreidpokh36dqp5l6utbdmnxgiv6qtmfxvd5dtnrw6rpu36aragskf6q",
-          "bskyUrl": "https://bsky.app/profile/dontevenask.me/post/3mlc2ljagg22w",
-          "text": "Another argument to go live in the mountains just dropped github.com/V4bel/dirtyf...",
-          "author": {
-            "handle": "dontevenask.me",
-            "displayName": "Child Wielding Needle"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T20:29:26.384Z",
-          "createdUtc": 1778185766,
-          "ageHours": 0.78,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
         }
       ]
     },
@@ -5730,24 +5762,24 @@
       ]
     },
     "0xdeadbeefnetwork--copyfail2-electricboogaloo": {
-      "count7d": 6,
-      "likesSum7d": 2,
-      "repostsSum7d": 1,
-      "repliesSum7d": 2,
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:mgflc2hwqonaafnbb3xok6re/app.bsky.feed.post/3mlctsiim6mg2",
-        "cid": "bafyreihk5aoezghy2pvys7n2dgl4vo5h4mmgmrup4gitdu7u66j7pu6cdi",
-        "bskyUrl": "https://bsky.app/profile/sodiboo.gaysex.cloud/post/3mlctsiim6mg2",
-        "text": "are these the same vulnerability? https://github.com/V4bel/dirtyfrag/ https://github.com/0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+        "uri": "at://did:plc:5lj4n3nkq7by6vmdxltlt2fy/app.bsky.feed.post/3mlds7lznwc2a",
+        "cid": "bafyreifw5zamb4x2nmgipbbqsng4y5fmoua4hdlqqkegpj4c733v6fopla",
+        "bskyUrl": "https://bsky.app/profile/lcheylus.bsky.social/post/3mlds7lznwc2a",
+        "text": "2/ Un random tier en scrutant les fix du kernel Linux a compris qu'il y avait une nouvelle faille, a codé un PoC et publié son write-up sur GitHub (github.com/0xdeadbeefne...) sans informer personne, ne se renseigner en privé.",
         "author": {
-          "handle": "sodiboo.gaysex.cloud",
-          "displayName": "sodiboo :pride_heart:"
+          "handle": "lcheylus.bsky.social",
+          "displayName": "Laurent Cheylus"
         },
-        "likeCount": 1,
-        "repostCount": 1,
-        "replyCount": 0,
-        "createdAt": "2026-05-08T04:00:40.377Z",
-        "hoursSincePosted": 3.99
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-08T13:04:50.579Z",
+        "hoursSincePosted": 1.23
       },
       "posts": [
         {
@@ -5888,6 +5920,34 @@
           "createdUtc": 1778191481,
           "ageHours": 2.07,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:5lj4n3nkq7by6vmdxltlt2fy/app.bsky.feed.post/3mlds7lznwc2a",
+          "cid": "bafyreifw5zamb4x2nmgipbbqsng4y5fmoua4hdlqqkegpj4c733v6fopla",
+          "bskyUrl": "https://bsky.app/profile/lcheylus.bsky.social/post/3mlds7lznwc2a",
+          "text": "2/ Un random tier en scrutant les fix du kernel Linux a compris qu'il y avait une nouvelle faille, a codé un PoC et publié son write-up sur GitHub (github.com/0xdeadbeefne...) sans informer personne, ne se renseigner en privé.",
+          "author": {
+            "handle": "lcheylus.bsky.social",
+            "displayName": "Laurent Cheylus"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T13:04:50.579Z",
+          "createdUtc": 1778245490,
+          "ageHours": 1.23,
+          "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -6967,16 +7027,11 @@
   "leaderboard": [
     {
       "fullName": "V4bel/dirtyfrag",
-      "count7d": 7,
+      "count7d": 3,
       "likesSum7d": 2
     },
     {
-      "fullName": "openai/openai-agents-python",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "soxoj/maigret",
+      "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
       "count7d": 1,
       "likesSum7d": 0
     }

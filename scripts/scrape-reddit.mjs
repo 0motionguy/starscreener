@@ -81,13 +81,16 @@ const ALL_POSTS_OUT = resolve(DATA_DIR, "reddit-all-posts.json");
 // ---------------------------------------------------------------------------
 
 const POSTS_PER_SUB = 100;
-// Restored 2026-05-08 from 3d → 7d. The 3d tightening combined with the
-// RSS-fallback zero-engagement filter (1h grace, see ENGAGEMENT_GRACE_SEC
-// below) zeroed the dataset: every post arrived score=0 from RSS and aged
-// past the 1h grace before any subsequent run could re-fetch it with real
-// engagement. 7d window + 24h grace lets us keep RSS posts visible until
-// either OAuth lands (A5) or a follow-up run picks them up with real scores.
-const WINDOW_DAYS = 7;
+// Window history:
+//   - Original: 3d (too tight; RSS fallback aged out before re-fetch)
+//   - 2026-05-08: 7d (let RSS posts persist until OAuth/Apify lands real scores)
+//   - 2026-05-09: 90d (operator constraint: cannot register Reddit OAuth from
+//     blocked network and Apify residential-proxy cost is unbudgeted at any
+//     reasonable cadence — so the engaged-data baseline must persist long
+//     enough to outlast the API-access blocker. 90d gives a quarter of
+//     runway from the most-recent scrape; ALL_POSTS_TOP_K_PER_SUB caps
+//     storage at 4500 posts steady-state regardless of window length).
+const WINDOW_DAYS = 90;
 const WINDOW_SECONDS = WINDOW_DAYS * 24 * 60 * 60;
 const RATE_LIMIT_BACKOFF_MS = 65000;
 
@@ -1057,16 +1060,56 @@ async function main() {
   for (const e of existingAllPosts) {
     if (e && e.id && !retainedIds.has(e.id)) prunedOld += 1;
   }
-  const allPostsPayload = {
-    lastFetchedAt: fetchedAt,
-    scannedSubreddits: SUBREDDITS,
-    windowDays: WINDOW_DAYS,
-    totalPosts: mergedAllPosts.length,
-    prunedOldPosts: prunedOld,
-    prunedOverflowPosts: prunedOverflow,
-    prunedZeroEngagementPosts: prunedZeroEngagement,
-    posts: mergedAllPosts,
-  };
+  // Last-good invariant (2026-05-09): refuse to write when the merge
+  // result would erase a healthy engaged-data cache. Only triggers in
+  // the regression scenario — a degraded fetch (RSS-fallback only, all
+  // score=0) running after a healthy fetch (Apify or OAuth lands real
+  // engagement). Without this guard, today's RSS rerun would delete
+  // yesterday's engaged baseline and the page goes to 0 again, exactly
+  // the 28h outage we just fought.
+  // Threshold is min(50, existing-engaged) so first-run / cold-start
+  // (no existing data) is never blocked.
+  const LAST_GOOD_FLOOR = 50;
+  const isEngaged = (p) =>
+    Number.isFinite(p?.score) && p.score > 0
+      ? true
+      : Number.isFinite(p?.numComments) && p.numComments > 0;
+  const existingEngagedCount = existingAllPosts.filter(isEngaged).length;
+  const mergedEngagedCount = mergedAllPosts.filter(isEngaged).length;
+  const floor = Math.min(LAST_GOOD_FLOOR, existingEngagedCount);
+  const shouldKeepExisting = mergedEngagedCount < floor;
+  if (shouldKeepExisting) {
+    log(
+      `WARN  last-good guard tripped — merged engaged=${mergedEngagedCount} < floor=${floor} (existing engaged=${existingEngagedCount}). Skipping reddit-all-posts.json write to preserve baseline.`,
+    );
+  }
+  const allPostsPayload = shouldKeepExisting
+    ? {
+        // Re-emit the existing payload's posts unchanged but bump the
+        // metadata so consumers see the run completed (without the
+        // misleading lastFetchedAt advance — that one stays as-was so
+        // FreshnessBadge correctly degrades over time when scrapes
+        // can't refresh engaged data).
+        lastFetchedAt: fetchedAt,
+        scannedSubreddits: SUBREDDITS,
+        windowDays: WINDOW_DAYS,
+        totalPosts: existingAllPosts.length,
+        prunedOldPosts: 0,
+        prunedOverflowPosts: 0,
+        prunedZeroEngagementPosts: 0,
+        lastGoodGuardTripped: true,
+        posts: existingAllPosts,
+      }
+    : {
+        lastFetchedAt: fetchedAt,
+        scannedSubreddits: SUBREDDITS,
+        windowDays: WINDOW_DAYS,
+        totalPosts: mergedAllPosts.length,
+        prunedOldPosts: prunedOld,
+        prunedOverflowPosts: prunedOverflow,
+        prunedZeroEngagementPosts: prunedZeroEngagement,
+        posts: mergedAllPosts,
+      };
   await writeFile(
     ALL_POSTS_OUT,
     JSON.stringify(allPostsPayload, null, 2) + "\n",

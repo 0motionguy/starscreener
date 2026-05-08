@@ -204,7 +204,7 @@ export function CrossSignalBreakdown({
       <div className="p-4">
 
       {/* Scoring rubric — collapsed by default so the card stays compact.
-          Users who want to know how 0.80 / 5.0 was derived click the
+          Users who want to know how 0.80 / 6.0 was derived click the
           summary to reveal the full tier table. Zero-JS (<details>). */}
       <div className="mb-3">
         <RubricPopover summary="How is this scored?">

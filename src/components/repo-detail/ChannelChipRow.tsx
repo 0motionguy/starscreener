@@ -1,7 +1,7 @@
-// 5-up channel chip row for the repo-detail hero.
+// 6-up channel chip row for the repo-detail hero.
 //
 // Renders one chip per channel (GitHub / HackerNews / Reddit / Bluesky /
-// dev.to) with the canonical brand color, primary 24h metric, FIRING / QUIET
+// dev.to / X) with the canonical brand color, primary 24h metric, FIRING / QUIET
 // status pill, and a mini sparkline. Reads exclusively from the in-memory
 // Repo (channelStatus, mentions.perSource, starsDelta24h, sparklineData) so
 // no extra fetches happen here.
@@ -23,12 +23,19 @@ import {
   RedditIcon,
   BlueskyIcon,
   DevtoIcon,
+  XIcon,
 } from "@/components/brand/BrandIcons";
 import { Sparkline } from "@/components/shared/Sparkline";
 import { formatNumber } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
 
-type ChannelKey = "github" | "hackernews" | "reddit" | "bluesky" | "devto";
+type ChannelKey =
+  | "github"
+  | "hackernews"
+  | "reddit"
+  | "bluesky"
+  | "devto"
+  | "twitter";
 
 interface ChannelDef {
   key: ChannelKey;
@@ -43,6 +50,7 @@ const CHANNELS: ReadonlyArray<ChannelDef> = [
   { key: "reddit", label: "Reddit", icon: RedditIcon, color: "#ff4500" },
   { key: "bluesky", label: "Bluesky", icon: BlueskyIcon, color: "#0085FF" },
   { key: "devto", label: "Dev.to", icon: DevtoIcon, color: "#0a0a0a" },
+  { key: "twitter", label: "X", icon: XIcon, color: "#1d9bf0" },
 ];
 
 interface ChannelChipRowProps {
@@ -85,6 +93,7 @@ function deriveChip(repo: Repo, key: ChannelKey): ChipData {
     reddit: "reddit",
     bluesky: "bluesky",
     devto: "devto",
+    twitter: "twitter",
   };
   const psKey = sourceMap[key];
   const c24 = ps?.[psKey]?.count24h ?? 0;
@@ -94,6 +103,7 @@ function deriveChip(repo: Repo, key: ChannelKey): ChipData {
     (key === "reddit" && status?.reddit === true) ||
     (key === "bluesky" && status?.bluesky === true) ||
     (key === "devto" && status?.devto === true) ||
+    (key === "twitter" && status?.twitter === true) ||
     c24 > 0;
 
   // Synthetic 7-point spark: rises toward the count7d total.
@@ -154,7 +164,7 @@ export function ChannelChipRow({ repo }: ChannelChipRowProps): JSX.Element {
       <style>{`
         .channel-chip-row {
           display: grid;
-          grid-template-columns: repeat(5, minmax(0, 1fr));
+          grid-template-columns: repeat(6, minmax(0, 1fr));
           gap: 8px;
         }
         @media (max-width: 720px) {

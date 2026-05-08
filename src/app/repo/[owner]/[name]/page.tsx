@@ -2,10 +2,10 @@
 //
 // CACHE CONTRACT
 // kind:        ISR
-// revalidate:  300 (5 min) for known repos
+// revalidate:  300 (5 min) for hot tracked repos and on-demand repo pages
 // audience:    public
-// freshness:   known repos: 5min behind cron-driven snapshot;
-//              unknown repos: 30min ISR via /api/internal/github/live-repo
+// freshness:   tracked repos: 5min behind cron-driven snapshot;
+//              unknown repos: 5min page ISR + Redis-cached live GitHub identity
 // invalidates: n/a
 //
 // Mostly a server component that composes:
@@ -24,20 +24,20 @@
 // exposing it on `CanonicalRepoProfile` once, and consuming the slice
 // here — this page no longer stitches per-source loaders directly.
 //
-// Cold-miss path (repo not in our derived set): we no longer call
-// fetchGitHubRepoLive() inline. Instead we fetch the bounded internal API
-// at /api/internal/github/live-repo, which has its own SWR cache and a
-// 1.5s upstream timeout. That keeps page TTFB independent of GitHub's
-// latency and shares the CDN cache across cold-miss visitors.
+// Cold-miss path (repo not in our derived set): we call the shared bounded
+// live GitHub resolver used by /api/internal/github/live-repo. It keeps the
+// same Redis cache and 1.5s upstream timeout without self-fetching the app
+// through a guessed host/port.
 
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import type { Repo } from "@/lib/types";
 
-import { getDerivedRepoByFullName } from "@/lib/derived-repos";
-import { absoluteUrl, SITE_NAME, safeJsonLd, SITE_URL } from "@/lib/seo";
+import { getDerivedRepoByFullName, getDerivedRepos } from "@/lib/derived-repos";
+import { absoluteUrl, SITE_NAME, safeJsonLd } from "@/lib/seo";
 import { buildRepoPageSchemas } from "@/lib/seo-repo-schemas";
 import { buildCanonicalRepoProfile } from "@/lib/api/repo-profile";
+import { fetchGitHubRepoLiveWithinBudget } from "@/lib/github-live";
 // Data-store refresh hooks. The repo detail page consumes signal data from
 // many sources; we refresh all of them in parallel before the canonical
 // assembler runs so the post-refresh getters see the freshest cache.
@@ -103,34 +103,27 @@ import { RelatedIdeasPanel } from "@/components/repo-detail/RelatedIdeasPanel";
 // Each (owner, name) tuple gets its own ISR cache entry on first hit;
 // stale-while-revalidate handles long-tail repos cheaply.
 export const revalidate = 300;
+export const dynamicParams = true;
 
 const SLUG_PART_PATTERN = /^[A-Za-z0-9._-]+$/;
+const STATIC_REPO_DETAIL_LIMIT = 50;
 
-// Base-URL resolver for the inner internal-API fetch. Order of preference:
-//   1. VERCEL_URL — auto-injected on every Vercel deployment (preview +
-//      prod). It's the host without scheme, so we prepend https://.
-//   2. SITE_URL from @/lib/seo — uses NEXT_PUBLIC_APP_URL when set.
-//   3. http://localhost:<PORT> — local dev fallback. PORT is 3023 per the
-//      project's dev-server config.
-// We compute this once at module load, NOT inside the page component, so
-// it doesn't trip Next 15's dynamic-rendering opt-in.
-const INTERNAL_API_BASE: string = (() => {
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
-  if (SITE_URL && !SITE_URL.includes("trendingrepo.com")) return SITE_URL;
-  // SITE_URL defaults to https://trendingrepo.com which would be wrong for
-  // local dev. Use it only when explicitly overridden via NEXT_PUBLIC_APP_URL.
-  if (process.env.NEXT_PUBLIC_APP_URL) return SITE_URL;
-  const port = process.env.PORT ?? "3023";
-  return `http://localhost:${port}`;
-})();
+function isGithubUrl(url: string): boolean {
+  return /github\.com/i.test(url);
+}
 
-function buildLiveRepoApiUrl(owner: string, name: string): string {
-  const params = new URLSearchParams({ owner, name });
-  return `${INTERNAL_API_BASE}/api/internal/github/live-repo?${params.toString()}`;
+function isDocsSurfaceUrl(url: string): boolean {
+  return /docs|readme|documentation/i.test(url);
 }
 
 interface PageProps {
   params: Promise<{ owner: string; name: string }>;
+}
+
+export function generateStaticParams(): Array<{ owner: string; name: string }> {
+  return getDerivedRepos()
+    .slice(0, STATIC_REPO_DETAIL_LIMIT)
+    .map((repo) => ({ owner: repo.owner, name: repo.name }));
 }
 
 export async function generateMetadata({
@@ -150,11 +143,26 @@ export async function generateMetadata({
   const canonical = absoluteUrl(`/repo/${owner}/${name}`);
 
   if (!repo) {
+    const title = `${owner}/${name} — ${SITE_NAME}`;
+    const description =
+      `Live GitHub repo profile for ${owner}/${name}. Cross-source signals populate after the next collector tick.`;
     return {
-      title: `Repo Not Found — ${SITE_NAME}`,
-      description: `We don't have ${owner}/${name} in the momentum terminal yet.`,
+      title,
+      description,
       alternates: { canonical },
       robots: { index: false, follow: true },
+      openGraph: {
+        type: "website",
+        url: canonical,
+        title,
+        description,
+        siteName: SITE_NAME,
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+      },
     };
   }
 
@@ -248,27 +256,19 @@ export default async function RepoDetailPage({ params }: PageProps) {
     ]);
   } else {
     isLiveFetched = true;
-    // Fetch from the bounded internal API. Next dedupes inner fetches on
-    // the server, so two concurrent cold-miss requests for the same
-    // (owner, name) collapse into one upstream call. revalidate:1800
-    // overrides the default 300s on the inner cache so unknown-repo pages
-    // share an even longer SWR window across visitors.
-    let res: Response;
+    // Resolve through the same bounded helper as the internal API route.
+    // This keeps the Redis-backed GitHub metadata cache but avoids a fragile
+    // same-app HTTP call to a guessed host/port during server rendering.
     try {
-      res = await fetch(buildLiveRepoApiUrl(owner, name), {
-        next: { revalidate: 1800 },
-      });
+      const liveRepo = await fetchGitHubRepoLiveWithinBudget(owner, name);
+      if (!liveRepo) {
+        notFound();
+      }
+      baseRepo = liveRepo;
     } catch (err) {
-      console.warn("[repo-detail] internal live-repo fetch threw", err);
+      console.warn("[repo-detail] live repo resolver failed", err);
       notFound();
     }
-    if (!res.ok) {
-      // 404 → repo doesn't exist on GitHub. 503 → upstream timeout / 5xx.
-      // Both fall through to notFound for now; we don't have a partial-error
-      // surface for "GitHub timed out trying to fetch this repo".
-      notFound();
-    }
-    baseRepo = (await res.json()) as Repo;
     // No fan-out: data-store caches are empty for repos our collectors
     // haven't seen yet. Save the ~700ms worth of refresh roundtrips.
   }
@@ -320,9 +320,10 @@ export default async function RepoDetailPage({ params }: PageProps) {
   const npmHomepages = (profile.npm.packages ?? [])
     .map((p) => p.homepage)
     .filter((h): h is string => Boolean(h));
+  const hasDocs = npmHomepages.some(isDocsSurfaceUrl);
   const hasWebsite = Boolean(
     profile.productHunt?.website ||
-      npmHomepages.find((u) => !/github\.com/i.test(u)),
+      npmHomepages.find((u) => !isGithubUrl(u) && !isDocsSurfaceUrl(u)),
   );
   const hasNpm = (profile.npm.packages ?? []).length > 0;
   const hasProductHunt = Boolean(profile.productHunt);
@@ -333,6 +334,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
   const surfaceCount =
     1 /* github */ +
     (hasWebsite ? 1 : 0) +
+    (hasDocs ? 1 : 0) +
     (hasNpm ? 1 : 0) +
     (hasProductHunt ? 1 : 0) +
     (hasPaperModel ? 1 : 0);
@@ -395,6 +397,17 @@ export default async function RepoDetailPage({ params }: PageProps) {
           </div>
         ) : null}
 
+        <div className="repo-profile-topline">
+          <CompletenessStrip repo={repo} />
+          <WhyBadge narrative={whyNarrative} variant="full" />
+          <RepoSignalSnapshot
+            repo={repo}
+            mentions={mentions}
+            npmPackages={profile.npm.packages}
+            productHuntLaunch={profile.productHunt}
+          />
+        </div>
+
         {/* Invisible analytics + reaction widgets. Kept here so they
             still fire on this surface. */}
         <MarkRepoViewed owner={repo.owner} name={repo.name} />
@@ -434,7 +447,9 @@ export default async function RepoDetailPage({ params }: PageProps) {
           title="Growth"
           meta={<>Stars · 90 day · cumulative</>}
         />
-        <StarHistoryBlock repo={repo} />
+        <ErrorBoundary resetKey={`star-history:${repo.fullName}`}>
+          <StarHistoryBlock repo={repo} />
+        </ErrorBoundary>
 
         {/* // 03 MENTIONS — tabbed evidence feed with 14d timeline strip.
             User explicitly flagged this as "very important" in the redesign
@@ -445,12 +460,14 @@ export default async function RepoDetailPage({ params }: PageProps) {
           title="Mentions"
           meta={<>14d window · {mentions.length} total</>}
         />
-        <RecentMentionsFeed
-          mentions={mentions}
-          freshness={profile.freshness}
-          repoFullName={repo.fullName}
-          initialCursor={profile.mentions.nextCursor}
-        />
+        <ErrorBoundary resetKey={`mentions:${repo.fullName}`}>
+          <RecentMentionsFeed
+            mentions={mentions}
+            freshness={profile.freshness}
+            repoFullName={repo.fullName}
+            initialCursor={profile.mentions.nextCursor}
+          />
+        </ErrorBoundary>
 
         {/* // 04 CONTEXT — owner organization + 6 vector-similar repos. */}
         <SectionHead
@@ -481,15 +498,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
             ].filter(Boolean).join(" · ") || "auxiliary"}</span>
           </summary>
           <div className="rdd-stack">
-            <CompletenessStrip repo={repo} />
-            <WhyBadge narrative={whyNarrative} variant="full" />
             <WhyTrending reasons={profile.reasons} />
-            <RepoSignalSnapshot
-              repo={repo}
-              mentions={mentions}
-              npmPackages={profile.npm.packages}
-              productHuntLaunch={profile.productHunt}
-            />
             <RepoRevenuePanel
               verified={profile.revenue.verified}
               selfReported={profile.revenue.selfReported}
@@ -526,6 +535,11 @@ export default async function RepoDetailPage({ params }: PageProps) {
           .repo-detail-split {
             display: grid;
             grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 12px;
+          }
+          .repo-profile-topline {
+            display: flex;
+            flex-direction: column;
             gap: 12px;
           }
           @media (max-width: 980px) {

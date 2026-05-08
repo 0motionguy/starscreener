@@ -13,14 +13,15 @@
 //   instead of stalling for 10+ seconds.
 
 import { NextRequest, NextResponse } from "next/server";
-import { fetchGitHubRepoLive } from "@/lib/github-live";
+import {
+  fetchGitHubRepoLiveWithinBudget,
+  LIVE_REPO_UPSTREAM_TIMEOUT_MS,
+} from "@/lib/github-live";
 import { READ_SLOW_HEADERS } from "@/lib/api/cache";
 import { errorEnvelope } from "@/lib/api/error-response";
 
 export const runtime = "nodejs";
 export const revalidate = 300;
-
-const UPSTREAM_TIMEOUT_MS = 1500;
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
@@ -34,20 +35,11 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // Bound the upstream GitHub call. fetchGitHubRepoLive doesn't accept an
-    // AbortSignal (its underlying githubFetch wrapper handles its own pool
-    // accounting), so we race the call against a timer and let whichever
-    // resolves first decide. The fetch keeps going in the background but
-    // we stop waiting after UPSTREAM_TIMEOUT_MS.
-    const repo = await Promise.race([
-      fetchGitHubRepoLive(owner, name),
-      new Promise<never>((_, reject) =>
-        setTimeout(
-          () => reject(new Error("github-live timeout")),
-          UPSTREAM_TIMEOUT_MS,
-        ),
-      ),
-    ]);
+    const repo = await fetchGitHubRepoLiveWithinBudget(
+      owner,
+      name,
+      LIVE_REPO_UPSTREAM_TIMEOUT_MS,
+    );
     if (!repo) {
       return NextResponse.json(
         errorEnvelope("not found", "NOT_FOUND"),

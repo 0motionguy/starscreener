@@ -87,7 +87,7 @@ function buildOption(
     yAxis: {
       type: "value" as const,
       scale: true,
-      axisLabel: { formatter: (v: number) => formatNumber(v) },
+      axisLabel: { formatter: "{value}" },
     },
     series: [
       {

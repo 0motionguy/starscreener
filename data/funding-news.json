@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-07T14:10:05.313Z",
+  "fetchedAt": "2026-05-08T09:25:25.225Z",
   "source": "funding-news-scraper",
   "windowDays": 21,
   "signals": [
@@ -1445,6 +1445,165 @@
         "saas"
       ],
       "discoveredAt": "2026-05-07T14:10:05.313Z"
+    },
+    {
+      "id": "www.prnewswire.com-87d3f64",
+      "headline": "Robo.ai Announces Acquisition of Data Processing and Compression Technology Company Neurovia, Building Data Infrastructure for the Machine Economy",
+      "description": "DUBAI, UAE, May 8, 2026 /PRNewswire/ -- Robo.ai Inc. (NASDAQ: AIIO) (the \"Company\" or \"Robo.ai\") today announced an agreement to acquire 100% of the equity interest in Neurovia AI Limited (\"Neurovia\"), a technology company specializing in data processing and compression, for a total...",
+      "sourceUrl": "https://www.prnewswire.com/news-releases/roboai-announces-acquisition-of-data-processing-and-compression-technology-company-neurovia-building-data-infrastructure-for-the-machine-economy-302766695.html",
+      "sourcePlatform": "prnewswire-vc",
+      "publishedAt": "2026-05-08T09:00:00.000Z",
+      "discoveredAt": "2026-05-08T09:25:25.225Z",
+      "extracted": {
+        "companyName": "Robo.ai",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "acquisition",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "www.eu-startups.com-14fe4a86",
+      "headline": "UK semiconductor startup Quinas Technology secures investment approval from Malta Government Venture Capital",
+      "description": "Quinas Technology, a London-based DeepTech semiconductor startup developing memory technologies for AI, data centres, edge computing and advanced digital systems, has secured investment approval from Malta Government Venture Capital (MGVC). On 7 May 2026, the MGVC approved the investment under its co-investment framework to support the growth of the UK-based company. The funding, the amount […] The post UK semiconductor startup Quinas Technology secures investment approval from Malta Government Venture Capital appeared first on EU-Startups .",
+      "sourceUrl": "https://www.eu-startups.com/2026/05/uk-semiconductor-startup-quinas-technology-secures-investment-approval-from-malta-government-venture-capital/",
+      "sourcePlatform": "eu-startups",
+      "publishedAt": "2026-05-08T06:15:20.000Z",
+      "discoveredAt": "2026-05-08T09:25:25.225Z",
+      "extracted": {
+        "companyName": "UK semiconductor startup Quinas Technology",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "growth",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "europe",
+        "hardware"
+      ]
+    },
+    {
+      "id": "techcrunch.com-1b31d479",
+      "headline": "Kodiak AI raises $100M at a steep discount, sending its stock tumbling 37%",
+      "description": "The company made a series of other announcements during earnings, including a new commercial contract, a pilot program in Canada, and a collaboration.",
+      "sourceUrl": "https://techcrunch.com/2026/05/07/kodiak-ai-raises-100m-at-a-steep-discount-sending-its-stock-tumbling-37/",
+      "sourcePlatform": "techcrunch",
+      "publishedAt": "2026-05-07T21:49:24.000Z",
+      "discoveredAt": "2026-05-08T09:25:25.225Z",
+      "extracted": {
+        "companyName": "Kodiak AI",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 100000000,
+        "amountDisplay": "$100M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "willing to back  but not at its current market price"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "willing to back  but not at its current market price",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techstartups.com-b1cdd35c",
+      "headline": "Lambda raises $1B to expand gigawatt-scale AI factories for the superintelligence race",
+      "description": "The AI infrastructure boom is creating a new class of winners, and Lambda is now raising billions to scale its lead. The AI cloud startup said Thursday it secured a $1 billion syndicated senior secured credit facility to scale its fleet […] The post Lambda raises $1B to expand gigawatt-scale AI factories for the superintelligence race first appeared on Tech Startups .",
+      "sourceUrl": "https://techstartups.com/2026/05/07/lambda-raises-1b-to-expand-gigawatt-scale-ai-factories-for-the-superintelligence-race/",
+      "sourcePlatform": "techstartups",
+      "publishedAt": "2026-05-07T14:47:40.000Z",
+      "discoveredAt": "2026-05-08T09:25:25.225Z",
+      "extracted": {
+        "companyName": "Lambda",
+        "companyWebsite": "https://lambda.ai",
+        "companyLogoUrl": "https://logo.clearbit.com/lambda.ai",
+        "amount": 1000000000,
+        "amountDisplay": "$1B",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "J.P"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "J.P",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techcrunch.com-9b45d254",
+      "headline": "China’s Moonshot AI raises $2B at $20B valuation as demand for open source AI skyrockets",
+      "description": "Moonshot's annualized recurring revenue topped $200 million in April, driven by rapid growth in paid subscriptions and API usage.",
+      "sourceUrl": "https://techcrunch.com/2026/05/07/chinas-moonshot-ai-raises-2b-at-20b-valuation-as-demand-for-open-source-ai-skyrockets/",
+      "sourcePlatform": "techcrunch",
+      "publishedAt": "2026-05-07T13:44:25.000Z",
+      "discoveredAt": "2026-05-08T09:25:25.225Z",
+      "extracted": {
+        "companyName": "China",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 2000000000,
+        "amountDisplay": "$2B",
+        "currency": "USD",
+        "roundType": "growth",
+        "investors": [
+          "taking notice",
+          "round",
+          "which advised some investors who"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "taking notice",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "First Round Capital",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/firstround.com"
+          },
+          {
+            "name": "which advised some investors who",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai"
+      ]
     }
   ]
 }

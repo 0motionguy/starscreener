@@ -22,6 +22,12 @@ export interface RedditLinkedRepoMatch {
 export interface RedditAllPost extends RedditPost {
   selftext?: string;
   linkedRepos?: RedditLinkedRepoMatch[];
+  // Phase 5.3: parallel sort key for shadow A/B against the existing
+  // velocity * baselineRatio * log10(score) formula in scrape-reddit.mjs.
+  // Populated by the collector in Phase 5.3-followup; reads MUST treat
+  // missing values as "not yet computed" and fall back to the existing
+  // sort. See src/lib/trending-score.ts:redditHotScore.
+  redditHotScore?: number;
 }
 
 export interface RedditAllPostsFile {

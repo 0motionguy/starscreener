@@ -1,13 +1,26 @@
 {
-  "generatedAt": "2026-05-07T07:25:57.291Z",
-  "totalUnknownMentions": 69082,
-  "distinctRepos": 8539,
+  "generatedAt": "2026-05-08T06:17:07.597Z",
+  "totalUnknownMentions": 82004,
+  "distinctRepos": 10139,
   "minSources": 1,
   "topN": 200,
   "rows": [
     {
+      "fullName": "vercel/next.js",
+      "totalCount": 41,
+      "sourceCount": 4,
+      "sources": [
+        "bluesky",
+        "devto",
+        "hackernews",
+        "npm"
+      ],
+      "firstSeenAt": "2026-05-01T10:45:39.581Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
       "fullName": "hmbown/deepseek-tui",
-      "totalCount": 9,
+      "totalCount": 31,
       "sourceCount": 4,
       "sources": [
         "bluesky",
@@ -16,7 +29,33 @@
         "reddit"
       ],
       "firstSeenAt": "2026-05-01T17:15:27.672Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "kolapsis/maintenant",
+      "totalCount": 29,
+      "sourceCount": 4,
+      "sources": [
+        "bluesky",
+        "devto",
+        "hackernews",
+        "lobsters"
+      ],
+      "firstSeenAt": "2026-05-01T17:15:27.672Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "ggml-org/llama.cpp",
+      "totalCount": 18,
+      "sourceCount": 4,
+      "sources": [
+        "bluesky",
+        "devto",
+        "hackernews",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-07T10:14:50.031Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
       "fullName": "bruin-data/dac",
@@ -31,8 +70,44 @@
       "lastSeenAt": "2026-05-04T11:26:27.665Z"
     },
     {
+      "fullName": "waybarrios/opencode-power-pack",
+      "totalCount": 81,
+      "sourceCount": 3,
+      "sources": [
+        "bluesky",
+        "hackernews",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T13:47:49.694Z",
+      "lastSeenAt": "2026-05-07T10:35:59.089Z"
+    },
+    {
+      "fullName": "microsoft/vscode",
+      "totalCount": 79,
+      "sourceCount": 3,
+      "sources": [
+        "bluesky",
+        "devto",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T13:40:47.050Z",
+      "lastSeenAt": "2026-05-08T06:11:19.000Z"
+    },
+    {
+      "fullName": "ninjahawk/hollow-agentos",
+      "totalCount": 66,
+      "sourceCount": 3,
+      "sources": [
+        "bluesky",
+        "hackernews",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T13:47:49.694Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
       "fullName": "higangssh/homebutler",
-      "totalCount": 63,
+      "totalCount": 66,
       "sourceCount": 3,
       "sources": [
         "awesome-skills",
@@ -40,11 +115,11 @@
         "hackernews"
       ],
       "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "lastSeenAt": "2026-05-07T12:21:38.823Z"
     },
     {
       "fullName": "sambigeara/pollen",
-      "totalCount": 62,
+      "totalCount": 65,
       "sourceCount": 3,
       "sources": [
         "bluesky",
@@ -52,7 +127,19 @@
         "hackernews"
       ],
       "firstSeenAt": "2026-05-01T13:48:24.488Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "lastSeenAt": "2026-05-07T12:21:38.823Z"
+    },
+    {
+      "fullName": "kanwas-ai/kanwas",
+      "totalCount": 63,
+      "sourceCount": 3,
+      "sources": [
+        "bluesky",
+        "hackernews",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T11:34:16.788Z",
+      "lastSeenAt": "2026-05-07T12:21:38.823Z"
     },
     {
       "fullName": "google-gemini/gemini-cli",
@@ -67,32 +154,20 @@
       "lastSeenAt": "2026-05-07T04:54:14.999Z"
     },
     {
-      "fullName": "kanwas-ai/kanwas",
-      "totalCount": 60,
-      "sourceCount": 3,
-      "sources": [
-        "bluesky",
-        "hackernews",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-01T11:34:16.788Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "microsoft/vscode",
-      "totalCount": 57,
+      "fullName": "manankharwar/fusioncore",
+      "totalCount": 58,
       "sourceCount": 3,
       "sources": [
         "bluesky",
         "devto",
         "hackernews"
       ],
-      "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-07T07:20:32.729Z"
+      "firstSeenAt": "2026-05-01T13:48:24.488Z",
+      "lastSeenAt": "2026-05-07T21:45:14.561Z"
     },
     {
       "fullName": "sifter-ai/sifter",
-      "totalCount": 51,
+      "totalCount": 55,
       "sourceCount": 3,
       "sources": [
         "awesome-skills",
@@ -100,71 +175,11 @@
         "reddit"
       ],
       "firstSeenAt": "2026-05-01T13:47:49.694Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "manankharwar/fusioncore",
-      "totalCount": 50,
-      "sourceCount": 3,
-      "sources": [
-        "bluesky",
-        "devto",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T13:48:24.488Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "ninjahawk/hollow-agentos",
-      "totalCount": 50,
-      "sourceCount": 3,
-      "sources": [
-        "bluesky",
-        "hackernews",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-01T13:47:49.694Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "useknockout/api",
-      "totalCount": 46,
-      "sourceCount": 3,
-      "sources": [
-        "bluesky",
-        "hackernews",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-01T13:48:24.488Z",
-      "lastSeenAt": "2026-05-07T04:53:38.982Z"
-    },
-    {
-      "fullName": "minio/minio",
-      "totalCount": 45,
-      "sourceCount": 3,
-      "sources": [
-        "bluesky",
-        "devto",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T13:48:24.488Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "ollama/ollama",
-      "totalCount": 40,
-      "sourceCount": 3,
-      "sources": [
-        "bluesky",
-        "devto",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-07T04:53:38.982Z"
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
     },
     {
       "fullName": "shadcn-ui/ui",
-      "totalCount": 38,
+      "totalCount": 53,
       "sourceCount": 3,
       "sources": [
         "bluesky",
@@ -172,11 +187,59 @@
         "hackernews"
       ],
       "firstSeenAt": "2026-05-02T09:42:50.173Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "minio/minio",
+      "totalCount": 49,
+      "sourceCount": 3,
+      "sources": [
+        "bluesky",
+        "devto",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T13:48:24.488Z",
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
+    },
+    {
+      "fullName": "emarkou/grokfeed",
+      "totalCount": 49,
+      "sourceCount": 3,
+      "sources": [
+        "devto",
+        "hackernews",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T13:48:24.488Z",
+      "lastSeenAt": "2026-05-07T14:30:15.363Z"
+    },
+    {
+      "fullName": "useknockout/api",
+      "totalCount": 48,
+      "sourceCount": 3,
+      "sources": [
+        "bluesky",
+        "hackernews",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T13:48:24.488Z",
+      "lastSeenAt": "2026-05-07T10:14:50.031Z"
+    },
+    {
+      "fullName": "ollama/ollama",
+      "totalCount": 45,
+      "sourceCount": 3,
+      "sources": [
+        "bluesky",
+        "devto",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T13:40:47.050Z",
+      "lastSeenAt": "2026-05-07T17:18:37.561Z"
     },
     {
       "fullName": "bring-shrubbery/ml-sharp-web",
-      "totalCount": 25,
+      "totalCount": 36,
       "sourceCount": 3,
       "sources": [
         "bluesky",
@@ -184,23 +247,47 @@
         "hackernews"
       ],
       "firstSeenAt": "2026-05-03T10:35:18.415Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
-      "fullName": "vercel/next.js",
-      "totalCount": 23,
+      "fullName": "lalitshankarch/rvcore",
+      "totalCount": 32,
       "sourceCount": 3,
       "sources": [
-        "devto",
+        "bluesky",
         "hackernews",
-        "npm"
+        "lobsters"
       ],
-      "firstSeenAt": "2026-05-01T10:45:39.581Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-03T12:07:37.368Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "oven-sh/bun",
+      "totalCount": 30,
+      "sourceCount": 3,
+      "sources": [
+        "bluesky",
+        "hackernews",
+        "lobsters"
+      ],
+      "firstSeenAt": "2026-05-02T03:53:18.691Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "scosman/cursed_browser",
+      "totalCount": 28,
+      "sourceCount": 3,
+      "sources": [
+        "bluesky",
+        "hackernews",
+        "lobsters"
+      ],
+      "firstSeenAt": "2026-05-07T04:54:14.999Z",
+      "lastSeenAt": "2026-05-08T06:11:19.000Z"
     },
     {
       "fullName": "vercel/ai",
-      "totalCount": 22,
+      "totalCount": 27,
       "sourceCount": 3,
       "sources": [
         "bluesky",
@@ -208,11 +295,23 @@
         "npm"
       ],
       "firstSeenAt": "2026-05-01T10:45:39.581Z",
-      "lastSeenAt": "2026-05-07T07:20:32.729Z"
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
+    },
+    {
+      "fullName": "snyk/agent-scan",
+      "totalCount": 26,
+      "sourceCount": 3,
+      "sources": [
+        "bluesky",
+        "devto",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-03T18:13:43.732Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
       "fullName": "zed-industries/zed",
-      "totalCount": 21,
+      "totalCount": 25,
       "sourceCount": 3,
       "sources": [
         "awesome-skills",
@@ -220,7 +319,19 @@
         "devto"
       ],
       "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
+    },
+    {
+      "fullName": "vllm-project/vllm",
+      "totalCount": 23,
+      "sourceCount": 3,
+      "sources": [
+        "bluesky",
+        "devto",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T19:21:26.285Z",
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
     },
     {
       "fullName": "skyhook-io/radar",
@@ -235,32 +346,8 @@
       "lastSeenAt": "2026-05-04T00:13:30.621Z"
     },
     {
-      "fullName": "kolapsis/maintenant",
-      "totalCount": 16,
-      "sourceCount": 3,
-      "sources": [
-        "bluesky",
-        "hackernews",
-        "lobsters"
-      ],
-      "firstSeenAt": "2026-05-01T17:15:27.672Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "vllm-project/vllm",
-      "totalCount": 14,
-      "sourceCount": 3,
-      "sources": [
-        "bluesky",
-        "devto",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-01T19:21:26.285Z",
-      "lastSeenAt": "2026-05-07T04:53:38.982Z"
-    },
-    {
       "fullName": "redis/redis",
-      "totalCount": 5,
+      "totalCount": 16,
       "sourceCount": 3,
       "sources": [
         "bluesky",
@@ -268,11 +355,47 @@
         "hackernews"
       ],
       "firstSeenAt": "2026-05-03T08:09:15.267Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "leaningtech/browsercode",
+      "totalCount": 13,
+      "sourceCount": 3,
+      "sources": [
+        "bluesky",
+        "hackernews",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T13:47:49.694Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "facebook/react",
+      "totalCount": 12,
+      "sourceCount": 3,
+      "sources": [
+        "devto",
+        "hackernews",
+        "npm"
+      ],
+      "firstSeenAt": "2026-05-01T10:45:39.581Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "nvlabs/cuda-oxide",
+      "totalCount": 9,
+      "sourceCount": 3,
+      "sources": [
+        "bluesky",
+        "hackernews",
+        "lobsters"
+      ],
+      "firstSeenAt": "2026-05-07T21:45:14.561Z",
+      "lastSeenAt": "2026-05-08T06:11:19.000Z"
     },
     {
       "fullName": "aattaran/deepclaude",
-      "totalCount": 3,
+      "totalCount": 5,
       "sourceCount": 3,
       "sources": [
         "bluesky",
@@ -280,29 +403,40 @@
         "reddit"
       ],
       "firstSeenAt": "2026-05-03T23:05:44.779Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "lastSeenAt": "2026-05-07T07:40:15.618Z"
     },
     {
       "fullName": "translate-tools/transly",
-      "totalCount": 91,
+      "totalCount": 102,
       "sourceCount": 2,
       "sources": [
         "bluesky",
         "hackernews"
       ],
       "firstSeenAt": "2026-05-01T04:20:17.293Z",
-      "lastSeenAt": "2026-05-07T07:20:32.729Z"
+      "lastSeenAt": "2026-05-08T06:11:19.000Z"
     },
     {
-      "fullName": "openmoss/moss-audio",
-      "totalCount": 90,
+      "fullName": "opensensenova/sensenova-u1",
+      "totalCount": 101,
       "sourceCount": 2,
       "sources": [
         "hackernews",
         "reddit"
       ],
       "firstSeenAt": "2026-05-01T13:47:49.694Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "openmoss/moss-audio",
+      "totalCount": 94,
+      "sourceCount": 2,
+      "sources": [
+        "hackernews",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T13:47:49.694Z",
+      "lastSeenAt": "2026-05-07T15:15:06.916Z"
     },
     {
       "fullName": "gfernandf/agent-skills",
@@ -360,48 +494,70 @@
       "lastSeenAt": "2026-05-04T11:26:27.665Z"
     },
     {
-      "fullName": "opensensenova/sensenova-u1",
-      "totalCount": 88,
-      "sourceCount": 2,
-      "sources": [
-        "hackernews",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-01T13:47:49.694Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "waybarrios/opencode-power-pack",
-      "totalCount": 80,
-      "sourceCount": 2,
-      "sources": [
-        "hackernews",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-01T13:47:49.694Z",
-      "lastSeenAt": "2026-05-04T11:26:27.665Z"
-    },
-    {
-      "fullName": "jegly/box",
-      "totalCount": 74,
-      "sourceCount": 2,
-      "sources": [
-        "hackernews",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-01T13:48:24.488Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
       "fullName": "luce-org/lucebox-hub",
-      "totalCount": 72,
+      "totalCount": 83,
       "sourceCount": 2,
       "sources": [
         "hackernews",
         "reddit"
       ],
       "firstSeenAt": "2026-05-01T15:36:14.012Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "cubiczan/consensus-hardening-protocol",
+      "totalCount": 79,
+      "sourceCount": 2,
+      "sources": [
+        "hackernews",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T21:16:46.793Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "nexu-io/open-design",
+      "totalCount": 78,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-02T13:50:45.195Z",
+      "lastSeenAt": "2026-05-08T06:11:19.000Z"
+    },
+    {
+      "fullName": "jegly/box",
+      "totalCount": 78,
+      "sourceCount": 2,
+      "sources": [
+        "hackernews",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T13:48:24.488Z",
+      "lastSeenAt": "2026-05-07T15:15:06.916Z"
+    },
+    {
+      "fullName": "minishlab/semble",
+      "totalCount": 70,
+      "sourceCount": 2,
+      "sources": [
+        "devto",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T13:40:47.050Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "samplexbro/agentsmesh",
+      "totalCount": 70,
+      "sourceCount": 2,
+      "sources": [
+        "devto",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T13:40:47.050Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
       "fullName": "pnpm/pacquet",
@@ -415,70 +571,202 @@
       "lastSeenAt": "2026-05-04T11:06:19.016Z"
     },
     {
-      "fullName": "cubiczan/consensus-hardening-protocol",
+      "fullName": "bh3r1th/llm-evidence-gated-generation",
       "totalCount": 68,
       "sourceCount": 2,
       "sources": [
-        "hackernews",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-01T21:16:46.793Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "bh3r1th/llm-evidence-gated-generation",
-      "totalCount": 60,
-      "sourceCount": 2,
-      "sources": [
         "devto",
         "reddit"
       ],
       "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-07T04:53:38.982Z"
+      "lastSeenAt": "2026-05-07T19:50:24.370Z"
     },
     {
-      "fullName": "run-llama/llama_index",
-      "totalCount": 60,
+      "fullName": "microsoft/lib0xc",
+      "totalCount": 65,
       "sourceCount": 2,
       "sources": [
-        "devto",
-        "reddit"
+        "bluesky",
+        "hackernews"
       ],
-      "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-07T04:53:38.982Z"
+      "firstSeenAt": "2026-05-01T19:52:26.619Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "whohas/whohas",
+      "totalCount": 65,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T15:17:55.542Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
       "fullName": "jigjoy-ai/mozaik",
-      "totalCount": 59,
+      "totalCount": 65,
       "sourceCount": 2,
       "sources": [
         "devto",
         "hackernews"
       ],
       "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
     },
     {
-      "fullName": "minishlab/semble",
-      "totalCount": 59,
+      "fullName": "run-llama/llama_index",
+      "totalCount": 65,
       "sourceCount": 2,
       "sources": [
         "devto",
-        "hackernews"
+        "reddit"
       ],
       "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
     },
     {
-      "fullName": "samplexbro/agentsmesh",
-      "totalCount": 59,
+      "fullName": "k-dense-ai/claude-scientific-skills",
+      "totalCount": 62,
+      "sourceCount": 2,
+      "sources": [
+        "awesome-skills",
+        "bluesky"
+      ],
+      "firstSeenAt": "2026-05-01T04:20:17.293Z",
+      "lastSeenAt": "2026-05-08T06:11:19.000Z"
+    },
+    {
+      "fullName": "intel/auto-round",
+      "totalCount": 62,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T13:48:24.488Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "onyks-os/transparenttorproxy",
+      "totalCount": 62,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T11:34:16.788Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "gc-victor/supersimple",
+      "totalCount": 61,
+      "sourceCount": 2,
+      "sources": [
+        "hackernews",
+        "lobsters"
+      ],
+      "firstSeenAt": "2026-05-01T07:51:01.444Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "mozilla/standards-positions",
+      "totalCount": 60,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T04:20:17.293Z",
+      "lastSeenAt": "2026-05-08T06:11:19.000Z"
+    },
+    {
+      "fullName": "calebwin/gitgres",
+      "totalCount": 60,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T13:48:24.488Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "endi1/fabrica",
+      "totalCount": 60,
+      "sourceCount": 2,
+      "sources": [
+        "hackernews",
+        "lobsters"
+      ],
+      "firstSeenAt": "2026-05-02T20:07:39.483Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "leox255/loopsy",
+      "totalCount": 60,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T13:48:24.488Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "shouvik12/trooper",
+      "totalCount": 60,
       "sourceCount": 2,
       "sources": [
         "devto",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T13:47:49.694Z",
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
+    },
+    {
+      "fullName": "dotcl/dotcl",
+      "totalCount": 60,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
         "hackernews"
       ],
-      "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-01T13:48:24.488Z",
+      "lastSeenAt": "2026-05-07T15:15:06.916Z"
+    },
+    {
+      "fullName": "entireio/git-sync",
+      "totalCount": 59,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T13:48:24.488Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "swatto/node-fastcgi",
+      "totalCount": 59,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T11:34:16.788Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "kernalix7/winpodx",
+      "totalCount": 59,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T04:20:17.293Z",
+      "lastSeenAt": "2026-05-08T01:31:05.817Z"
     },
     {
       "fullName": "exospherehost/failproofai",
@@ -490,6 +778,28 @@
       ],
       "firstSeenAt": "2026-05-01T13:48:24.488Z",
       "lastSeenAt": "2026-05-04T11:06:19.016Z"
+    },
+    {
+      "fullName": "pilcrowonpaper/basic-example.auth.pilcrowonpaper.com",
+      "totalCount": 58,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T14:05:07.423Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "deepseek-ai/thinking-with-visual-primitives",
+      "totalCount": 58,
+      "sourceCount": 2,
+      "sources": [
+        "hackernews",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T13:47:49.694Z",
+      "lastSeenAt": "2026-05-07T12:21:38.823Z"
     },
     {
       "fullName": "yarmoluk/ckg-benchmark",
@@ -547,7 +857,29 @@
       "lastSeenAt": "2026-05-04T11:06:19.016Z"
     },
     {
-      "fullName": "mozilla/standards-positions",
+      "fullName": "luthiraa/talos-v2",
+      "totalCount": 57,
+      "sourceCount": 2,
+      "sources": [
+        "hackernews",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-02T18:11:48.677Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "maziarzamani/bouncy",
+      "totalCount": 57,
+      "sourceCount": 2,
+      "sources": [
+        "hackernews",
+        "producthunt"
+      ],
+      "firstSeenAt": "2026-05-01T13:48:24.488Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "ryanhcode/sable",
       "totalCount": 57,
       "sourceCount": 2,
       "sources": [
@@ -555,29 +887,40 @@
         "hackernews"
       ],
       "firstSeenAt": "2026-05-01T04:20:17.293Z",
-      "lastSeenAt": "2026-05-07T07:20:32.729Z"
+      "lastSeenAt": "2026-05-08T01:31:05.817Z"
     },
     {
-      "fullName": "nexu-io/open-design",
+      "fullName": "darrylmorley/whatcable",
       "totalCount": 56,
       "sourceCount": 2,
       "sources": [
         "bluesky",
         "hackernews"
       ],
-      "firstSeenAt": "2026-05-02T13:50:45.195Z",
-      "lastSeenAt": "2026-05-07T07:20:32.729Z"
+      "firstSeenAt": "2026-05-01T09:59:04.902Z",
+      "lastSeenAt": "2026-05-08T06:11:19.000Z"
     },
     {
-      "fullName": "dotcl/dotcl",
+      "fullName": "alexellis/k3sup",
       "totalCount": 56,
       "sourceCount": 2,
       "sources": [
         "bluesky",
         "hackernews"
       ],
-      "firstSeenAt": "2026-05-01T13:48:24.488Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-01T15:36:48.177Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "vitejs/vite",
+      "totalCount": 56,
+      "sourceCount": 2,
+      "sources": [
+        "hackernews",
+        "npm"
+      ],
+      "firstSeenAt": "2026-05-01T10:45:39.581Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
       "fullName": "dog-qiuqiu/invincat",
@@ -591,37 +934,26 @@
       "lastSeenAt": "2026-05-04T11:06:19.016Z"
     },
     {
-      "fullName": "deepseek-ai/thinking-with-visual-primitives",
+      "fullName": "ps5-linux/ps5-linux-loader",
       "totalCount": 55,
       "sourceCount": 2,
       "sources": [
-        "hackernews",
-        "reddit"
+        "bluesky",
+        "hackernews"
       ],
-      "firstSeenAt": "2026-05-01T13:47:49.694Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-01T04:20:17.293Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
-      "fullName": "microsoft/lib0xc",
+      "fullName": "rancher/k3k",
       "totalCount": 54,
       "sourceCount": 2,
       "sources": [
         "bluesky",
         "hackernews"
       ],
-      "firstSeenAt": "2026-05-01T19:52:26.619Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "whohas/whohas",
-      "totalCount": 54,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T15:17:55.542Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-02T04:02:25.023Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
       "fullName": "kristiandupont/txtfold",
@@ -635,48 +967,103 @@
       "lastSeenAt": "2026-05-04T04:20:11.156Z"
     },
     {
-      "fullName": "k-dense-ai/claude-scientific-skills",
-      "totalCount": 51,
+      "fullName": "ifixai-ai/diagnostic",
+      "totalCount": 53,
       "sourceCount": 2,
       "sources": [
-        "awesome-skills",
-        "bluesky"
+        "hackernews",
+        "reddit"
       ],
-      "firstSeenAt": "2026-05-01T04:20:17.293Z",
-      "lastSeenAt": "2026-05-07T07:20:32.729Z"
+      "firstSeenAt": "2026-05-01T19:51:52.672Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
-      "fullName": "intel/auto-round",
-      "totalCount": 51,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T13:48:24.488Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "onyks-os/transparenttorproxy",
-      "totalCount": 51,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T11:34:16.788Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "shouvik12/trooper",
-      "totalCount": 51,
+      "fullName": "aurite-ai/agent-verifier",
+      "totalCount": 53,
       "sourceCount": 2,
       "sources": [
         "devto",
         "reddit"
       ],
       "firstSeenAt": "2026-05-01T13:47:49.694Z",
-      "lastSeenAt": "2026-05-07T04:53:38.982Z"
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
+    },
+    {
+      "fullName": "tgies/copy-fail-c",
+      "totalCount": 53,
+      "sourceCount": 2,
+      "sources": [
+        "devto",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T13:48:24.488Z",
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
+    },
+    {
+      "fullName": "systalyze/utilyze",
+      "totalCount": 53,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T13:48:24.488Z",
+      "lastSeenAt": "2026-05-07T17:19:14.533Z"
+    },
+    {
+      "fullName": "drcathicks/learning-opportunities",
+      "totalCount": 52,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T13:48:24.488Z",
+      "lastSeenAt": "2026-05-08T06:11:19.000Z"
+    },
+    {
+      "fullName": "mxgmn/wavefunctioncollapse",
+      "totalCount": 52,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T13:48:24.488Z",
+      "lastSeenAt": "2026-05-07T10:15:25.931Z"
+    },
+    {
+      "fullName": "cashapp/hermit",
+      "totalCount": 51,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-02T03:53:18.691Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "upenn/web-scroll-video",
+      "totalCount": 51,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-02T04:02:25.023Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "xodn348/destiny",
+      "totalCount": 51,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T21:09:38.219Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
       "fullName": "becarpenter/book6",
@@ -690,26 +1077,114 @@
       "lastSeenAt": "2026-05-04T11:06:19.016Z"
     },
     {
-      "fullName": "gc-victor/supersimple",
+      "fullName": "cloudflare/workers-sdk",
       "totalCount": 50,
       "sourceCount": 2,
       "sources": [
         "hackernews",
-        "lobsters"
+        "npm"
       ],
-      "firstSeenAt": "2026-05-01T07:51:01.444Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-01T10:45:39.581Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
-      "fullName": "mxgmn/wavefunctioncollapse",
+      "fullName": "troglobit/uget",
       "totalCount": 50,
       "sourceCount": 2,
       "sources": [
         "bluesky",
         "hackernews"
       ],
+      "firstSeenAt": "2026-05-02T00:15:48.713Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "codybontecou/isome",
+      "totalCount": 50,
+      "sourceCount": 2,
+      "sources": [
+        "devto",
+        "hackernews"
+      ],
       "firstSeenAt": "2026-05-01T13:48:24.488Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "lastSeenAt": "2026-05-07T12:21:38.823Z"
+    },
+    {
+      "fullName": "argoproj/argo-cd",
+      "totalCount": 49,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-02T03:53:18.691Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "exocija/zetalib",
+      "totalCount": 49,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T17:37:39.354Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "federico-busato/modern-cpp-programming",
+      "totalCount": 49,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-02T17:16:19.580Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "insaneinfinity/balistic",
+      "totalCount": 49,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-02T08:08:25.290Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "kiamehr5/kmri",
+      "totalCount": 49,
+      "sourceCount": 2,
+      "sources": [
+        "hackernews",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-03T10:34:44.583Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "openmixerproject/openx32",
+      "totalCount": 49,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-02T03:53:18.691Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "ejentum/eval",
+      "totalCount": 49,
+      "sourceCount": 2,
+      "sources": [
+        "devto",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T13:40:47.050Z",
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
     },
     {
       "fullName": "chernistry/bernstein",
@@ -721,50 +1196,6 @@
       ],
       "firstSeenAt": "2026-05-01T04:20:17.293Z",
       "lastSeenAt": "2026-05-07T07:20:32.729Z"
-    },
-    {
-      "fullName": "calebwin/gitgres",
-      "totalCount": 49,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T13:48:24.488Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "endi1/fabrica",
-      "totalCount": 49,
-      "sourceCount": 2,
-      "sources": [
-        "hackernews",
-        "lobsters"
-      ],
-      "firstSeenAt": "2026-05-02T20:07:39.483Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "kernalix7/winpodx",
-      "totalCount": 49,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T04:20:17.293Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "leox255/loopsy",
-      "totalCount": 49,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T13:48:24.488Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
     },
     {
       "fullName": "cline/cline",
@@ -811,37 +1242,15 @@
       "lastSeenAt": "2026-05-04T11:06:19.016Z"
     },
     {
-      "fullName": "entireio/git-sync",
+      "fullName": "gebruder/wirken",
       "totalCount": 48,
       "sourceCount": 2,
       "sources": [
         "bluesky",
         "hackernews"
       ],
-      "firstSeenAt": "2026-05-01T13:48:24.488Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "swatto/node-fastcgi",
-      "totalCount": 48,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T11:34:16.788Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "systalyze/utilyze",
-      "totalCount": 48,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T13:48:24.488Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-02T04:02:25.023Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
       "fullName": "cauchy221/alignment-whack-a-mole-code",
@@ -866,7 +1275,18 @@
       "lastSeenAt": "2026-05-04T11:06:19.016Z"
     },
     {
-      "fullName": "codybontecou/isome",
+      "fullName": "facebook/pyrefly",
+      "totalCount": 47,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-02T17:16:19.580Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "sudarshan8417/tfdrift",
       "totalCount": 47,
       "sourceCount": 2,
       "sources": [
@@ -874,40 +1294,7 @@
         "hackernews"
       ],
       "firstSeenAt": "2026-05-01T13:48:24.488Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "pilcrowonpaper/basic-example.auth.pilcrowonpaper.com",
-      "totalCount": 47,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T14:05:07.423Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "ryanhcode/sable",
-      "totalCount": 47,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T04:20:17.293Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "emarkou/grokfeed",
-      "totalCount": 47,
-      "sourceCount": 2,
-      "sources": [
-        "hackernews",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-01T13:48:24.488Z",
-      "lastSeenAt": "2026-05-04T11:26:27.665Z"
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
     },
     {
       "fullName": "bookstackapp/bookstack",
@@ -976,28 +1363,6 @@
       "lastSeenAt": "2026-05-04T11:06:19.016Z"
     },
     {
-      "fullName": "luthiraa/talos-v2",
-      "totalCount": 46,
-      "sourceCount": 2,
-      "sources": [
-        "hackernews",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-02T18:11:48.677Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "maziarzamani/bouncy",
-      "totalCount": 46,
-      "sourceCount": 2,
-      "sources": [
-        "hackernews",
-        "producthunt"
-      ],
-      "firstSeenAt": "2026-05-01T13:48:24.488Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
       "fullName": "asimovinc/asimov-v1",
       "totalCount": 46,
       "sourceCount": 2,
@@ -1031,17 +1396,6 @@
       "lastSeenAt": "2026-05-04T11:06:19.016Z"
     },
     {
-      "fullName": "ps5-linux/ps5-linux-loader",
-      "totalCount": 46,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T04:20:17.293Z",
-      "lastSeenAt": "2026-05-04T11:06:19.016Z"
-    },
-    {
       "fullName": "wubjak/wallasapi",
       "totalCount": 46,
       "sourceCount": 2,
@@ -1053,15 +1407,48 @@
       "lastSeenAt": "2026-05-04T11:06:19.016Z"
     },
     {
-      "fullName": "alexellis/k3sup",
+      "fullName": "benhatsor/rollup-dts-bundler",
       "totalCount": 45,
       "sourceCount": 2,
       "sources": [
         "bluesky",
         "hackernews"
       ],
-      "firstSeenAt": "2026-05-01T15:36:48.177Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-02T13:58:12.542Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "mlc-ai/web-llm",
+      "totalCount": 45,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-02T11:17:51.493Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "st-hannibal/arknet",
+      "totalCount": 45,
+      "sourceCount": 2,
+      "sources": [
+        "hackernews",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-03T09:05:22.589Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "dashersw/gea",
+      "totalCount": 45,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T13:48:24.488Z",
+      "lastSeenAt": "2026-05-07T17:59:53.371Z"
     },
     {
       "fullName": "electricant/adblock-rust-manager",
@@ -1086,17 +1473,6 @@
       "lastSeenAt": "2026-05-04T11:06:19.016Z"
     },
     {
-      "fullName": "sudarshan8417/tfdrift",
-      "totalCount": 45,
-      "sourceCount": 2,
-      "sources": [
-        "devto",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T13:48:24.488Z",
-      "lastSeenAt": "2026-05-04T11:06:19.016Z"
-    },
-    {
       "fullName": "wemake-services/django-modern-rest",
       "totalCount": 45,
       "sourceCount": 2,
@@ -1108,202 +1484,92 @@
       "lastSeenAt": "2026-05-04T11:06:19.016Z"
     },
     {
-      "fullName": "vitejs/vite",
+      "fullName": "qlni/nodemind",
       "totalCount": 44,
       "sourceCount": 2,
       "sources": [
         "hackernews",
-        "npm"
+        "reddit"
       ],
-      "firstSeenAt": "2026-05-01T10:45:39.581Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "darrylmorley/whatcable",
-      "totalCount": 43,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T09:59:04.902Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-03T06:15:18.005Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
       "fullName": "microsoft/edit",
-      "totalCount": 43,
+      "totalCount": 44,
       "sourceCount": 2,
       "sources": [
         "bluesky",
         "hackernews"
       ],
       "firstSeenAt": "2026-05-01T04:20:17.293Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "lastSeenAt": "2026-05-07T07:40:15.618Z"
     },
     {
-      "fullName": "rancher/k3k",
-      "totalCount": 43,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-02T04:02:25.023Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "ifixai-ai/diagnostic",
+      "fullName": "light-heart-labs/mmbt-messy-model-bench-tests",
       "totalCount": 42,
       "sourceCount": 2,
       "sources": [
         "hackernews",
         "reddit"
       ],
-      "firstSeenAt": "2026-05-01T19:51:52.672Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-03T04:20:52.369Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
-      "fullName": "drcathicks/learning-opportunities",
-      "totalCount": 41,
+      "fullName": "lucemia/trading-agents-plugin",
+      "totalCount": 42,
       "sourceCount": 2,
       "sources": [
         "bluesky",
         "hackernews"
       ],
-      "firstSeenAt": "2026-05-01T13:48:24.488Z",
-      "lastSeenAt": "2026-05-07T07:20:32.729Z"
+      "firstSeenAt": "2026-05-02T16:10:15.985Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
-      "fullName": "ejentum/eval",
-      "totalCount": 41,
-      "sourceCount": 2,
-      "sources": [
-        "devto",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-07T04:53:38.982Z"
-    },
-    {
-      "fullName": "cashapp/hermit",
-      "totalCount": 40,
+      "fullName": "mahimairaja/voiceai",
+      "totalCount": 42,
       "sourceCount": 2,
       "sources": [
         "bluesky",
         "hackernews"
       ],
-      "firstSeenAt": "2026-05-02T03:53:18.691Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "upenn/web-scroll-video",
-      "totalCount": 40,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-02T04:02:25.023Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "xodn348/destiny",
-      "totalCount": 40,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T21:09:38.219Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "troglobit/uget",
-      "totalCount": 39,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-02T00:15:48.713Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-02T22:09:31.853Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
       "fullName": "heymrun/heym",
-      "totalCount": 39,
+      "totalCount": 41,
       "sourceCount": 2,
       "sources": [
         "devto",
         "reddit"
       ],
       "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
     },
     {
-      "fullName": "argoproj/argo-cd",
-      "totalCount": 38,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-02T03:53:18.691Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "cloudflare/workers-sdk",
+      "fullName": "boxlite-ai/boxlite",
       "totalCount": 38,
       "sourceCount": 2,
       "sources": [
         "hackernews",
-        "npm"
+        "reddit"
       ],
-      "firstSeenAt": "2026-05-01T10:45:39.581Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-03T09:05:56.174Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
-      "fullName": "exocija/zetalib",
+      "fullName": "facebookresearch/tuna-2",
       "totalCount": 38,
       "sourceCount": 2,
       "sources": [
         "bluesky",
         "hackernews"
       ],
-      "firstSeenAt": "2026-05-01T17:37:39.354Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "federico-busato/modern-cpp-programming",
-      "totalCount": 38,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-02T17:16:19.580Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "insaneinfinity/balistic",
-      "totalCount": 38,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-02T08:08:25.290Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "openmixerproject/openx32",
-      "totalCount": 38,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-02T03:53:18.691Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-01T23:09:58.018Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
       "fullName": "kindrat86/mcp-deal-flow-signal",
@@ -1317,6 +1583,17 @@
       "lastSeenAt": "2026-05-04T11:26:27.665Z"
     },
     {
+      "fullName": "somratpro/hugging8n",
+      "totalCount": 37,
+      "sourceCount": 2,
+      "sources": [
+        "devto",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T13:47:49.694Z",
+      "lastSeenAt": "2026-05-07T19:50:24.370Z"
+    },
+    {
       "fullName": "ricardoaponte/sensiblejs",
       "totalCount": 37,
       "sourceCount": 2,
@@ -1328,70 +1605,81 @@
       "lastSeenAt": "2026-05-03T17:18:08.752Z"
     },
     {
-      "fullName": "facebook/pyrefly",
+      "fullName": "p32929/rotato",
       "totalCount": 36,
       "sourceCount": 2,
       "sources": [
         "bluesky",
         "hackernews"
       ],
-      "firstSeenAt": "2026-05-02T17:16:19.580Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-02T21:10:06.425Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
-      "fullName": "benhatsor/rollup-dts-bundler",
-      "totalCount": 34,
+      "fullName": "vektor-memory/vex",
+      "totalCount": 36,
       "sourceCount": 2,
       "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-02T13:58:12.542Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "mlc-ai/web-llm",
-      "totalCount": 34,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-02T11:17:51.493Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "st-hannibal/arknet",
-      "totalCount": 34,
-      "sourceCount": 2,
-      "sources": [
-        "hackernews",
+        "devto",
         "reddit"
       ],
-      "firstSeenAt": "2026-05-03T09:05:22.589Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-02T03:28:11.836Z",
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
     },
     {
-      "fullName": "kiamehr5/kmri",
-      "totalCount": 33,
+      "fullName": "h4ckf0r0day/obscura",
+      "totalCount": 34,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T04:20:17.293Z",
+      "lastSeenAt": "2026-05-08T06:11:19.000Z"
+    },
+    {
+      "fullName": "fazhq/faz",
+      "totalCount": 34,
       "sourceCount": 2,
       "sources": [
         "hackernews",
         "reddit"
       ],
       "firstSeenAt": "2026-05-03T10:34:44.583Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
-      "fullName": "qlni/nodemind",
+      "fullName": "raiyanyahya/kit",
+      "totalCount": 34,
+      "sourceCount": 2,
+      "sources": [
+        "devto",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-03T09:05:56.174Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "matheus-git/systemd-manager-tui",
       "totalCount": 33,
       "sourceCount": 2,
       "sources": [
-        "hackernews",
-        "reddit"
+        "bluesky",
+        "hackernews"
       ],
-      "firstSeenAt": "2026-05-03T06:15:18.005Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-03T11:59:33.442Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "nethack/nethack",
+      "totalCount": 33,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "lobsters"
+      ],
+      "firstSeenAt": "2026-05-02T19:19:35.263Z",
+      "lastSeenAt": "2026-05-07T19:56:33.964Z"
     },
     {
       "fullName": "devnen/qwen3.6-windows-server",
@@ -1416,59 +1704,59 @@
       "lastSeenAt": "2026-05-03T00:10:29.768Z"
     },
     {
-      "fullName": "nethack/nethack",
+      "fullName": "juanallo/six-hats-skill",
       "totalCount": 32,
       "sourceCount": 2,
       "sources": [
-        "bluesky",
-        "lobsters"
+        "hackernews",
+        "reddit"
       ],
-      "firstSeenAt": "2026-05-02T19:19:35.263Z",
-      "lastSeenAt": "2026-05-04T12:12:01.516Z"
+      "firstSeenAt": "2026-05-01T22:14:48.620Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
-      "fullName": "vektor-memory/vex",
+      "fullName": "ankitvirdi4/react-native-llm-meter",
       "totalCount": 32,
       "sourceCount": 2,
       "sources": [
         "devto",
         "reddit"
       ],
-      "firstSeenAt": "2026-05-02T03:28:11.836Z",
-      "lastSeenAt": "2026-05-04T11:26:27.665Z"
+      "firstSeenAt": "2026-05-02T13:57:39.634Z",
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
     },
     {
-      "fullName": "light-heart-labs/mmbt-messy-model-bench-tests",
+      "fullName": "lifthrasiir/wah",
       "totalCount": 31,
       "sourceCount": 2,
       "sources": [
-        "hackernews",
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-03T10:35:18.415Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "wrtnlabs/autobe",
+      "totalCount": 31,
+      "sourceCount": 2,
+      "sources": [
+        "devto",
         "reddit"
       ],
-      "firstSeenAt": "2026-05-03T04:20:52.369Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-01T13:40:47.050Z",
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
     },
     {
-      "fullName": "lucemia/trading-agents-plugin",
-      "totalCount": 31,
+      "fullName": "0xhimanshu/governor",
+      "totalCount": 30,
       "sourceCount": 2,
       "sources": [
         "bluesky",
         "hackernews"
       ],
-      "firstSeenAt": "2026-05-02T16:10:15.985Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "mahimairaja/voiceai",
-      "totalCount": 31,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-02T22:09:31.853Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-02T04:02:25.023Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
       "fullName": "donnyb369/mcp-spine",
@@ -1482,59 +1770,125 @@
       "lastSeenAt": "2026-05-02T21:10:06.425Z"
     },
     {
-      "fullName": "ankitvirdi4/react-native-llm-meter",
+      "fullName": "ibz-04/quaynor",
       "totalCount": 29,
-      "sourceCount": 2,
-      "sources": [
-        "devto",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-02T13:57:39.634Z",
-      "lastSeenAt": "2026-05-04T11:26:27.665Z"
-    },
-    {
-      "fullName": "boxlite-ai/boxlite",
-      "totalCount": 27,
       "sourceCount": 2,
       "sources": [
         "hackernews",
         "reddit"
       ],
-      "firstSeenAt": "2026-05-03T09:05:56.174Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-03T17:17:34.365Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
-      "fullName": "facebookresearch/tuna-2",
-      "totalCount": 27,
+      "fullName": "samchon/ttsc",
+      "totalCount": 29,
+      "sourceCount": 2,
+      "sources": [
+        "devto",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-02T03:28:11.836Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "langchain-ai/langchain",
+      "totalCount": 29,
       "sourceCount": 2,
       "sources": [
         "bluesky",
-        "hackernews"
+        "devto"
       ],
-      "firstSeenAt": "2026-05-01T23:09:58.018Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-01T13:40:47.050Z",
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
     },
     {
-      "fullName": "wrtnlabs/autobe",
-      "totalCount": 27,
+      "fullName": "n8n-io/n8n",
+      "totalCount": 28,
       "sourceCount": 2,
       "sources": [
         "devto",
         "reddit"
       ],
       "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-04T11:26:27.665Z"
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
     },
     {
-      "fullName": "p32929/rotato",
+      "fullName": "noonghunna/club-3090",
+      "totalCount": 27,
+      "sourceCount": 2,
+      "sources": [
+        "hackernews",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T13:47:49.694Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "raine/claude-code-proxy",
+      "totalCount": 27,
+      "sourceCount": 2,
+      "sources": [
+        "hackernews",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-03T06:50:23.685Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "langchain-ai/langchainjs",
+      "totalCount": 27,
+      "sourceCount": 2,
+      "sources": [
+        "devto",
+        "npm"
+      ],
+      "firstSeenAt": "2026-05-01T10:45:39.581Z",
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
+    },
+    {
+      "fullName": "lobstertrap/tank-os",
+      "totalCount": 26,
+      "sourceCount": 2,
+      "sources": [
+        "devto",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T13:40:47.050Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "rochus-keller/oberonsystem3native",
+      "totalCount": 26,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "hackernews"
+      ],
+      "firstSeenAt": "2026-05-01T15:17:55.542Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "kiliczsh/llmconfig",
       "totalCount": 25,
       "sourceCount": 2,
       "sources": [
         "bluesky",
         "hackernews"
       ],
-      "firstSeenAt": "2026-05-02T21:10:06.425Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-03T16:10:32.204Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "msdllcpapers/triton-sigmoid",
+      "totalCount": 25,
+      "sourceCount": 2,
+      "sources": [
+        "arxiv",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T04:40:35.838Z",
+      "lastSeenAt": "2026-05-07T17:18:37.561Z"
     },
     {
       "fullName": "geostratum/lithotheque-edge-models",
@@ -1559,6 +1913,17 @@
       "lastSeenAt": "2026-05-04T03:44:37.370Z"
     },
     {
+      "fullName": "dhruv-anand-aintech/continue-later-skill",
+      "totalCount": 24,
+      "sourceCount": 2,
+      "sources": [
+        "devto",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T13:47:49.694Z",
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
+    },
+    {
       "fullName": "torrix-ai/install",
       "totalCount": 24,
       "sourceCount": 2,
@@ -1570,59 +1935,103 @@
       "lastSeenAt": "2026-05-04T03:44:37.370Z"
     },
     {
-      "fullName": "langchain-ai/langchain",
+      "fullName": "anthropics/anthropic-sdk-typescript",
       "totalCount": 23,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "matheus-git/systemd-manager-tui",
-      "totalCount": 22,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-03T11:59:33.442Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "langchain-ai/langchainjs",
-      "totalCount": 22,
       "sourceCount": 2,
       "sources": [
         "devto",
         "npm"
       ],
       "firstSeenAt": "2026-05-01T10:45:39.581Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
     },
     {
-      "fullName": "h4ckf0r0day/obscura",
+      "fullName": "mage0535/hermes-memory-installer",
+      "totalCount": 22,
+      "sourceCount": 2,
+      "sources": [
+        "devto",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-01T13:47:49.694Z",
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
+    },
+    {
+      "fullName": "robertnowell/skill-tree",
+      "totalCount": 22,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "devto"
+      ],
+      "firstSeenAt": "2026-05-01T13:40:47.050Z",
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
+    },
+    {
+      "fullName": "whiteknightonhorse/apibase",
+      "totalCount": 22,
+      "sourceCount": 2,
+      "sources": [
+        "awesome-skills",
+        "devto"
+      ],
+      "firstSeenAt": "2026-05-01T07:09:35.838Z",
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
+    },
+    {
+      "fullName": "ricardodominguez/talkie-coder",
       "totalCount": 21,
       "sourceCount": 2,
       "sources": [
         "bluesky",
         "hackernews"
       ],
-      "firstSeenAt": "2026-05-01T04:20:17.293Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-02T22:00:55.606Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
-      "fullName": "juanallo/six-hats-skill",
+      "fullName": "wiaahmarketplace/typerion-oss",
       "totalCount": 21,
       "sourceCount": 2,
       "sources": [
-        "hackernews",
-        "reddit"
+        "devto",
+        "hackernews"
       ],
-      "firstSeenAt": "2026-05-01T22:14:48.620Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-03T19:37:20.625Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "mermaid-js/mermaid",
+      "totalCount": 21,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "devto"
+      ],
+      "firstSeenAt": "2026-05-01T13:40:47.050Z",
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
+    },
+    {
+      "fullName": "torvalds/linux",
+      "totalCount": 21,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "devto"
+      ],
+      "firstSeenAt": "2026-05-01T11:34:16.788Z",
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
+    },
+    {
+      "fullName": "masondelan/selvedge",
+      "totalCount": 21,
+      "sourceCount": 2,
+      "sources": [
+        "awesome-skills",
+        "devto"
+      ],
+      "firstSeenAt": "2026-05-01T07:09:35.838Z",
+      "lastSeenAt": "2026-05-07T19:50:24.370Z"
     },
     {
       "fullName": "bupt-reasoning-lab/neocorrag",
@@ -1636,26 +2045,15 @@
       "lastSeenAt": "2026-05-04T04:32:35.982Z"
     },
     {
-      "fullName": "lifthrasiir/wah",
+      "fullName": "woct0rdho/mathstudio-apk-modernized",
       "totalCount": 20,
       "sourceCount": 2,
       "sources": [
         "bluesky",
         "hackernews"
       ],
-      "firstSeenAt": "2026-05-03T10:35:18.415Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "msdllcpapers/triton-sigmoid",
-      "totalCount": 20,
-      "sourceCount": 2,
-      "sources": [
-        "arxiv",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-01T04:40:35.838Z",
-      "lastSeenAt": "2026-05-07T04:53:38.982Z"
+      "firstSeenAt": "2026-05-03T06:15:18.005Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
       "fullName": "trycua/cua",
@@ -1669,17 +2067,6 @@
       "lastSeenAt": "2026-05-04T11:06:19.016Z"
     },
     {
-      "fullName": "dhruv-anand-aintech/continue-later-skill",
-      "totalCount": 20,
-      "sourceCount": 2,
-      "sources": [
-        "devto",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-01T13:47:49.694Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
       "fullName": "lahfir/agent-desktop",
       "totalCount": 20,
       "sourceCount": 2,
@@ -1691,37 +2078,48 @@
       "lastSeenAt": "2026-05-03T00:10:29.768Z"
     },
     {
-      "fullName": "0xhimanshu/governor",
+      "fullName": "synqratech/omega-walls",
       "totalCount": 19,
       "sourceCount": 2,
       "sources": [
         "bluesky",
-        "hackernews"
+        "devto"
       ],
-      "firstSeenAt": "2026-05-02T04:02:25.023Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-01T13:40:47.050Z",
+      "lastSeenAt": "2026-05-08T03:35:56.533Z"
     },
     {
-      "fullName": "raiyanyahya/kit",
+      "fullName": "ingero-io/ingero",
       "totalCount": 19,
       "sourceCount": 2,
       "sources": [
-        "devto",
-        "hackernews"
+        "awesome-skills",
+        "devto"
       ],
-      "firstSeenAt": "2026-05-03T09:05:56.174Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-01T07:09:35.838Z",
+      "lastSeenAt": "2026-05-07T19:50:24.370Z"
     },
     {
-      "fullName": "n8n-io/n8n",
+      "fullName": "wrtnlabs/autobe-examples",
       "totalCount": 19,
       "sourceCount": 2,
       "sources": [
         "devto",
         "reddit"
       ],
-      "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-07T04:53:38.982Z"
+      "firstSeenAt": "2026-05-03T12:55:48.502Z",
+      "lastSeenAt": "2026-05-07T14:30:15.363Z"
+    },
+    {
+      "fullName": "logly/mureo",
+      "totalCount": 19,
+      "sourceCount": 2,
+      "sources": [
+        "awesome-skills",
+        "devto"
+      ],
+      "firstSeenAt": "2026-05-01T07:09:35.838Z",
+      "lastSeenAt": "2026-05-07T08:44:17.194Z"
     },
     {
       "fullName": "woheller69/freedroidwarn",
@@ -1735,26 +2133,48 @@
       "lastSeenAt": "2026-05-04T03:44:37.370Z"
     },
     {
-      "fullName": "fazhq/faz",
+      "fullName": "manav8498/shadow",
       "totalCount": 18,
       "sourceCount": 2,
       "sources": [
         "hackernews",
         "reddit"
       ],
-      "firstSeenAt": "2026-05-03T10:34:44.583Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
+      "firstSeenAt": "2026-05-07T04:53:38.982Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
     },
     {
-      "fullName": "anthropics/anthropic-sdk-typescript",
+      "fullName": "manupareekk/generative-ui-browser",
       "totalCount": 18,
       "sourceCount": 2,
       "sources": [
-        "devto",
-        "npm"
+        "hackernews",
+        "reddit"
       ],
-      "firstSeenAt": "2026-05-01T10:45:39.581Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
+      "firstSeenAt": "2026-05-07T04:53:38.982Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "shark-auth/shark",
+      "totalCount": 18,
+      "sourceCount": 2,
+      "sources": [
+        "hackernews",
+        "reddit"
+      ],
+      "firstSeenAt": "2026-05-07T04:53:38.982Z",
+      "lastSeenAt": "2026-05-08T04:35:37.145Z"
+    },
+    {
+      "fullName": "robertnowell/konid-language-learning",
+      "totalCount": 18,
+      "sourceCount": 2,
+      "sources": [
+        "bluesky",
+        "devto"
+      ],
+      "firstSeenAt": "2026-05-01T13:40:47.050Z",
+      "lastSeenAt": "2026-05-07T19:50:24.370Z"
     },
     {
       "fullName": "continuedev/continue",
@@ -1812,39 +2232,6 @@
       "lastSeenAt": "2026-05-04T03:44:37.370Z"
     },
     {
-      "fullName": "ingero-io/ingero",
-      "totalCount": 18,
-      "sourceCount": 2,
-      "sources": [
-        "awesome-skills",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "logly/mureo",
-      "totalCount": 18,
-      "sourceCount": 2,
-      "sources": [
-        "awesome-skills",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "masondelan/selvedge",
-      "totalCount": 18,
-      "sourceCount": 2,
-      "sources": [
-        "awesome-skills",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
       "fullName": "mastra-ai/mastra",
       "totalCount": 18,
       "sourceCount": 2,
@@ -1854,380 +2241,6 @@
       ],
       "firstSeenAt": "2026-05-01T07:09:35.838Z",
       "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "mohamedabdallah-14/unslop",
-      "totalCount": 18,
-      "sourceCount": 2,
-      "sources": [
-        "awesome-skills",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "nameetp/pdfmux",
-      "totalCount": 18,
-      "sourceCount": 2,
-      "sources": [
-        "awesome-skills",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "robertnowell/skill-tree",
-      "totalCount": 18,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "sbroenne/mcp-server-excel",
-      "totalCount": 18,
-      "sourceCount": 2,
-      "sources": [
-        "awesome-skills",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "sidclawhq/platform",
-      "totalCount": 18,
-      "sourceCount": 2,
-      "sources": [
-        "awesome-skills",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "sonarsource/sonarqube-mcp-server",
-      "totalCount": 18,
-      "sourceCount": 2,
-      "sources": [
-        "awesome-skills",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "thestack-ai/waypath",
-      "totalCount": 18,
-      "sourceCount": 2,
-      "sources": [
-        "awesome-skills",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "travisvn/awesome-claude-skills",
-      "totalCount": 18,
-      "sourceCount": 2,
-      "sources": [
-        "awesome-skills",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "whiteknightonhorse/apibase",
-      "totalCount": 18,
-      "sourceCount": 2,
-      "sources": [
-        "awesome-skills",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "lalitshankarch/rvcore",
-      "totalCount": 17,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-03T12:07:37.368Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "wrtnlabs/autobe-examples",
-      "totalCount": 17,
-      "sourceCount": 2,
-      "sources": [
-        "devto",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-03T12:55:48.502Z",
-      "lastSeenAt": "2026-05-04T11:26:27.665Z"
-    },
-    {
-      "fullName": "mermaid-js/mermaid",
-      "totalCount": 17,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "sapph1re/findata-mcp",
-      "totalCount": 17,
-      "sourceCount": 2,
-      "sources": [
-        "awesome-skills",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-03T19:09:18.649Z"
-    },
-    {
-      "fullName": "sapph1re/mcp-billing-gateway-sdk",
-      "totalCount": 17,
-      "sourceCount": 2,
-      "sources": [
-        "awesome-skills",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-03T19:09:18.649Z"
-    },
-    {
-      "fullName": "noonghunna/club-3090",
-      "totalCount": 16,
-      "sourceCount": 2,
-      "sources": [
-        "hackernews",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-01T13:47:49.694Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "raine/claude-code-proxy",
-      "totalCount": 16,
-      "sourceCount": 2,
-      "sources": [
-        "hackernews",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-03T06:50:23.685Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "floci-io/floci",
-      "totalCount": 16,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T09:59:04.902Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "robertnowell/konid-language-learning",
-      "totalCount": 16,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-03T19:09:18.649Z"
-    },
-    {
-      "fullName": "synqratech/omega-walls",
-      "totalCount": 15,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-07T07:20:32.729Z"
-    },
-    {
-      "fullName": "lobstertrap/tank-os",
-      "totalCount": 15,
-      "sourceCount": 2,
-      "sources": [
-        "devto",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "rochus-keller/oberonsystem3native",
-      "totalCount": 15,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T15:17:55.542Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "tverney/mcp-agent-memory",
-      "totalCount": 15,
-      "sourceCount": 2,
-      "sources": [
-        "awesome-skills",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T13:40:47.050Z",
-      "lastSeenAt": "2026-05-03T19:09:18.649Z"
-    },
-    {
-      "fullName": "kiliczsh/llmconfig",
-      "totalCount": 14,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-03T16:10:32.204Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "oven-sh/bun",
-      "totalCount": 14,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-02T03:53:18.691Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "samchon/ttsc",
-      "totalCount": 14,
-      "sourceCount": 2,
-      "sources": [
-        "devto",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-02T03:28:11.836Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "ibz-04/quaynor",
-      "totalCount": 13,
-      "sourceCount": 2,
-      "sources": [
-        "hackernews",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-03T17:17:34.365Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
-    },
-    {
-      "fullName": "dmae97/oh-my-kimichan",
-      "totalCount": 13,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T15:17:55.542Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "google-labs-code/design.md",
-      "totalCount": 13,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-02T17:08:35.398Z",
-      "lastSeenAt": "2026-05-03T11:59:33.442Z"
-    },
-    {
-      "fullName": "0xmassi/webclaw",
-      "totalCount": 12,
-      "sourceCount": 2,
-      "sources": [
-        "awesome-skills",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-04T11:26:27.665Z"
-    },
-    {
-      "fullName": "robertnowell/klein-blue",
-      "totalCount": 12,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T17:15:27.672Z",
-      "lastSeenAt": "2026-05-04T03:44:37.370Z"
-    },
-    {
-      "fullName": "janaraj/tnl",
-      "totalCount": 12,
-      "sourceCount": 2,
-      "sources": [
-        "awesome-skills",
-        "reddit"
-      ],
-      "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-03T12:54:15.579Z"
-    },
-    {
-      "fullName": "stacklok/toolhive",
-      "totalCount": 12,
-      "sourceCount": 2,
-      "sources": [
-        "awesome-skills",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T07:09:35.838Z",
-      "lastSeenAt": "2026-05-03T12:54:15.579Z"
-    },
-    {
-      "fullName": "iliaal/php_clickhouse",
-      "totalCount": 12,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "devto"
-      ],
-      "firstSeenAt": "2026-05-01T04:20:17.293Z",
-      "lastSeenAt": "2026-05-02T13:25:46.475Z"
-    },
-    {
-      "fullName": "crosspoint-reader/crosspoint-reader",
-      "totalCount": 11,
-      "sourceCount": 2,
-      "sources": [
-        "bluesky",
-        "hackernews"
-      ],
-      "firstSeenAt": "2026-05-01T04:20:17.293Z",
-      "lastSeenAt": "2026-05-07T04:54:14.999Z"
     }
   ]
 }

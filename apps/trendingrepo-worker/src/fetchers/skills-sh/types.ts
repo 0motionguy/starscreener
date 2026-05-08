@@ -17,6 +17,12 @@ export interface SkillRow {
   /** Agent slugs from the per-row compatibility icons. */
   agents: string[];
   view: SkillView;
+  /** Rank from the all-time skills.sh board, preserved after multi-view merge. */
+  rankAllTime?: number | null;
+  /** Rank from the 24h/trending skills.sh board, preserved after multi-view merge. */
+  rank24h?: number | null;
+  /** Rank from the hot skills.sh board, preserved after multi-view merge. */
+  rankHot?: number | null;
   fetchedAt: string;
 }
 

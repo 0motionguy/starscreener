@@ -26,7 +26,16 @@ import { ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { RankStarMark } from "@/components/brand/RankStarMark";
 
-type SortKey = "rank" | "use" | "released" | "d24" | "d7" | "d30";
+type SortKey =
+  | "rank"
+  | "trend"
+  | "hotness"
+  | "momentum"
+  | "use"
+  | "released"
+  | "d24"
+  | "d7"
+  | "d30";
 type SortDir = "asc" | "desc";
 
 export interface McpRow {
@@ -37,6 +46,12 @@ export interface McpRow {
   author: string | null;
   sourceLabel: string;
   use: number;
+  trend: number;
+  trendSourceLabel: string;
+  trendLabel: string;
+  hotness: number;
+  momentum: number;
+  qualityLabel: string | null;
   releasedAt: string | null;
   verified: boolean;
   sources: { s: boolean; g: boolean; p: boolean; o: boolean };
@@ -88,6 +103,7 @@ export interface CategoryFacet {
 interface LiveMcpTableProps {
   rows: McpRow[];
   categories: CategoryFacet[];
+  totalCount?: number;
 }
 
 // Per-registry monogram color. Inline-styled inside the existing `.sd`
@@ -111,12 +127,6 @@ function formatCompact(value: number): string {
 function formatDelta(value: number): string {
   const abs = formatCompact(Math.abs(value));
   return `${value >= 0 ? "+" : "-"}${abs}`;
-}
-
-function formatPct(delta: number, base: number): string | null {
-  if (base <= 0 || delta === 0) return null;
-  const pct = Math.round((delta / Math.max(1, base - delta)) * 100);
-  return `${pct >= 0 ? "+" : ""}${pct}%`;
 }
 
 function sparkPath(values: number[], width: number, height: number): string {
@@ -149,10 +159,11 @@ function sparkEnd(
   return { x, y };
 }
 
-// Stable per-instance id avoids gradient cross-talk when many spark SVGs
-// are mounted in the same DOM. Incremented for each render — same pattern
-// as `__ltSparkGrad` in src/components/home/LiveTopTable.tsx.
-let __mcpSparkGradId = 0;
+function sparkGradientId(rowId: string, index: number): string {
+  const stable = rowId.replace(/[^a-zA-Z0-9_-]/g, "-").slice(0, 72);
+  return `mcps-${stable || "row"}-${index}`;
+}
+
 
 function compareNumeric(a: number, b: number, dir: SortDir): number {
   return dir === "asc" ? a - b : b - a;
@@ -162,6 +173,12 @@ function getSortValue(row: McpRow, key: SortKey): number {
   switch (key) {
     case "use":
       return row.use;
+    case "trend":
+      return row.trend;
+    case "hotness":
+      return row.hotness;
+    case "momentum":
+      return row.momentum;
     case "d24":
       return row.delta24h;
     case "d7":
@@ -212,7 +229,7 @@ function SortHeader({
   );
 }
 
-export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
+export function LiveMcpTable({ rows, categories, totalCount }: LiveMcpTableProps) {
   // Default to "rank" so the table honors the page-level ranking (which
   // sorts by multi-registry consensus -> popularity -> signalScore). The
   // "rank" sort returns a constant from getSortValue, so visible array
@@ -220,6 +237,14 @@ export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
   const [sortKey, setSortKey] = useState<SortKey>("rank");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [activeCat, setActiveCat] = useState<string | null>(null);
+  const rowsWithVelocity = rows.filter(
+    (row) => row.delta24h !== 0 || row.delta7d !== 0 || row.delta30d !== 0,
+  ).length;
+  const rowsWithCharts = rows.filter((row) => row.sparklineData.length > 1).length;
+  const showVelocityColumns = rowsWithVelocity >= 3;
+  const showChartColumn = rowsWithCharts >= 3;
+  const emptyColSpan = 9 + (showVelocityColumns ? 3 : 0) + (showChartColumn ? 1 : 0);
+  const trackedCount = totalCount ?? rows.length;
 
   const handleSort = (key: SortKey) => {
     if (key === sortKey) {
@@ -257,7 +282,7 @@ export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
           className={`fchip ${activeCat === null ? "on" : ""}`}
           onClick={() => setActiveCat(null)}
         >
-          All <span className="ct">{rows.length}</span>
+          {trackedCount > rows.length ? "Top" : "All"} <span className="ct">{rows.length}</span>
         </button>
         {categories.map((c) => (
           <button
@@ -271,8 +296,9 @@ export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
         ))}
         <span className="live-top-spacer" />
         <span className="live-top-meta">
-          showing <b>{visible.length}</b> / {rows.length}
-          <span className="live-pip">live</span>
+          showing <b>{visible.length}</b> / {rows.length} loaded
+          {trackedCount > rows.length ? <> · {trackedCount} tracked</> : null}
+          <span className="live-pip">ranked</span>
         </span>
       </div>
 
@@ -283,37 +309,63 @@ export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
               <th className="rk-h">#</th>
               <th>MCP</th>
               <th className="mentions-h">Registries</th>
+              <th className="num">Algo</th>
               <SortHeader
-                label="Use"
+                label="Trend"
+                sortKey="trend"
+                active={sortKey === "trend"}
+                dir={sortDir}
+                onClick={handleSort}
+              />
+              <SortHeader
+                label="Hot"
+                sortKey="hotness"
+                active={sortKey === "hotness"}
+                dir={sortDir}
+                onClick={handleSort}
+              />
+              <SortHeader
+                label="Momentum"
+                sortKey="momentum"
+                active={sortKey === "momentum"}
+                dir={sortDir}
+                onClick={handleSort}
+              />
+              <SortHeader
+                label="Signal"
                 sortKey="use"
                 active={sortKey === "use"}
                 dir={sortDir}
                 onClick={handleSort}
               />
+              {showVelocityColumns ? (
+                <>
+                  <SortHeader
+                    label="24h"
+                    sortKey="d24"
+                    active={sortKey === "d24"}
+                    dir={sortDir}
+                    onClick={handleSort}
+                  />
+                  <SortHeader
+                    label="7d"
+                    sortKey="d7"
+                    active={sortKey === "d7"}
+                    dir={sortDir}
+                    onClick={handleSort}
+                  />
+                  <SortHeader
+                    label="30d"
+                    sortKey="d30"
+                    active={sortKey === "d30"}
+                    dir={sortDir}
+                    onClick={handleSort}
+                  />
+                </>
+              ) : null}
+              {showChartColumn ? <th className="ch">Chart</th> : null}
               <SortHeader
-                label="24h"
-                sortKey="d24"
-                active={sortKey === "d24"}
-                dir={sortDir}
-                onClick={handleSort}
-              />
-              <SortHeader
-                label="7d"
-                sortKey="d7"
-                active={sortKey === "d7"}
-                dir={sortDir}
-                onClick={handleSort}
-              />
-              <SortHeader
-                label="30d"
-                sortKey="d30"
-                active={sortKey === "d30"}
-                dir={sortDir}
-                onClick={handleSort}
-              />
-              <th className="ch">Chart</th>
-              <SortHeader
-                label="Released"
+                label="Seen"
                 sortKey="released"
                 active={sortKey === "released"}
                 dir={sortDir}
@@ -337,6 +389,9 @@ export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
                   : row.deltaUnit === "installs"
                     ? "Registry installs delta"
                     : "No delta data yet";
+              const hasKnownSourcePills = SOURCE_PILLS.some(
+                ({ key }) => row.sources[key],
+              );
               return (
                 <tr key={row.id} className="live-row">
                   <td className={`rk-cell ${rankCls}`}>
@@ -381,145 +436,188 @@ export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
                     </a>
                   </td>
                   <td className="mentions-cell">
-                    <span
-                      className="mentions-pills"
-                      aria-label="Registry presence"
-                    >
-                      {SOURCE_PILLS.map(({ key, label, letter, color }) => {
-                        const fired = row.sources[key];
-                        return (
-                          <span
-                            key={key}
-                            className={`sd ${fired ? "on" : "off"}`}
-                            title={`${label}: ${fired ? "listed" : "not listed"}`}
-                            aria-label={`${label} ${fired ? "listed" : "not listed"}`}
-                            style={{
-                              fontFamily:
-                                "var(--font-geist-mono), monospace",
-                              fontSize: 9,
-                              fontWeight: 700,
-                              letterSpacing: 0,
-                              color: fired ? "#fff" : "var(--v4-ink-400)",
-                              background: fired ? color : "transparent",
-                              border: fired
-                                ? `1px solid ${color}`
-                                : "1px solid var(--v4-line-200)",
-                            }}
-                          >
-                            {letter}
-                          </span>
-                        );
-                      })}
-                    </span>
+                    {hasKnownSourcePills ? (
+                      <span
+                        className="mentions-pills"
+                        aria-label="Registry presence"
+                      >
+                        {SOURCE_PILLS.filter(({ key }) => row.sources[key]).map(({ key, label, letter, color }) => {
+                          const fired = row.sources[key];
+                          return (
+                            <span
+                              key={key}
+                              className={`sd ${fired ? "on" : "off"}`}
+                              title={`${label}: ${fired ? "listed" : "not listed"}`}
+                              aria-label={`${label} ${fired ? "listed" : "not listed"}`}
+                              style={{
+                                fontFamily:
+                                  "var(--font-geist-mono), monospace",
+                                fontSize: 9,
+                                fontWeight: 700,
+                                letterSpacing: 0,
+                                color: fired ? "#fff" : "var(--v4-ink-400)",
+                                background: fired ? color : "transparent",
+                                border: fired
+                                  ? `1px solid ${color}`
+                                  : "1px solid var(--v4-line-200)",
+                              }}
+                            >
+                              {letter}
+                            </span>
+                          );
+                        })}
+                      </span>
+                    ) : null}
                     <span className="mentions-count">
                       {row.crossSourceCount}×
                     </span>
                   </td>
                   <td className="num">
-                    {row.use > 0 ? formatCompact(row.use) : "—"}
+                    <span
+                      title={row.trendLabel}
+                      style={{
+                        color: "var(--v4-ink-200)",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.08em",
+                        fontSize: 11,
+                      }}
+                    >
+                      {row.trendSourceLabel}
+                    </span>
                   </td>
-                  <td
-                    className={`num metric-num ${
-                      row.delta24h < 0 ? "dn" : row.delta24h > 0 ? "up" : ""
-                    }`}
-                    title={unitTitle}
-                  >
-                    {row.delta24h !== 0 ? formatDelta(row.delta24h) : "—"}
+                  <td className="num" title={row.trendLabel}>
+                    {row.trend > 0 ? formatCompact(row.trend) : "—"}
                   </td>
-                  <td
-                    className={`num metric-num ${
-                      row.delta7d < 0 ? "dn" : row.delta7d > 0 ? "up" : ""
-                    }`}
-                    title={unitTitle}
-                  >
-                    {row.delta7d !== 0 ? formatDelta(row.delta7d) : "—"}
+                  <td className="num">{row.hotness > 0 ? row.hotness : "—"}</td>
+                  <td className="num">
+                    {row.momentum > 0 ? row.momentum : "—"}
                   </td>
-                  <td
-                    className={`num metric-num ${
-                      row.delta30d < 0 ? "dn" : row.delta30d > 0 ? "up" : ""
-                    }`}
-                    title={unitTitle}
-                  >
-                    {row.delta30d !== 0 ? formatDelta(row.delta30d) : "—"}
+                  <td className="num" title={row.sourceLabel}>
+                    {row.use > 0
+                      ? formatCompact(row.use)
+                      : row.qualityLabel
+                        ? row.qualityLabel
+                        : "—"}
                   </td>
-                  <td className="ch">
-                    {row.sparklineData.length > 1
-                      ? (() => {
-                          const stroke =
-                            row.delta24h < 0
-                              ? "var(--sig-red)"
-                              : "var(--sig-green)";
-                          const d = sparkPath(row.sparklineData, 72, 24);
-                          const end = sparkEnd(row.sparklineData, 72, 24);
-                          const areaPath = `${d} L71,23 L1,23 Z`;
-                          const gid = `mcps-${(__mcpSparkGradId =
-                            (__mcpSparkGradId + 1) % 1_000_000)}`;
-                          return (
-                            <svg
-                              className="spark-row"
-                              viewBox="0 0 72 24"
-                              preserveAspectRatio="none"
-                            >
-                              <defs>
-                                <linearGradient
-                                  id={gid}
-                                  x1="0"
-                                  x2="0"
-                                  y1="0"
-                                  y2="1"
-                                >
-                                  <stop
-                                    offset="0%"
-                                    stopColor={stroke}
-                                    stopOpacity="0.42"
-                                  />
-                                  <stop
-                                    offset="60%"
-                                    stopColor={stroke}
-                                    stopOpacity="0.12"
-                                  />
-                                  <stop
-                                    offset="100%"
-                                    stopColor={stroke}
-                                    stopOpacity="0"
-                                  />
-                                </linearGradient>
-                              </defs>
-                              <path d={areaPath} fill={`url(#${gid})`} />
-                              <path
-                                d={d}
-                                fill="none"
-                                stroke={stroke}
-                                strokeWidth="1.6"
-                                strokeLinejoin="round"
-                                strokeLinecap="round"
-                                vectorEffect="non-scaling-stroke"
-                              />
-                              <circle
-                                cx={end.x}
-                                cy={end.y}
-                                r="3"
-                                fill={stroke}
-                                opacity="0.22"
-                              />
-                              <circle
-                                cx={end.x}
-                                cy={end.y}
-                                r="1.6"
-                                fill={stroke}
-                              />
-                            </svg>
-                          );
-                        })()
-                      : null}
-                  </td>
+                  {showVelocityColumns ? (
+                    <>
+                      <td
+                        className={`num metric-num ${
+                          row.delta24h < 0
+                            ? "dn"
+                            : row.delta24h > 0
+                              ? "up"
+                              : ""
+                        }`}
+                        title={unitTitle}
+                      >
+                        {row.delta24h !== 0 ? formatDelta(row.delta24h) : "—"}
+                      </td>
+                      <td
+                        className={`num metric-num ${
+                          row.delta7d < 0
+                            ? "dn"
+                            : row.delta7d > 0
+                              ? "up"
+                              : ""
+                        }`}
+                        title={unitTitle}
+                      >
+                        {row.delta7d !== 0 ? formatDelta(row.delta7d) : "—"}
+                      </td>
+                      <td
+                        className={`num metric-num ${
+                          row.delta30d < 0
+                            ? "dn"
+                            : row.delta30d > 0
+                              ? "up"
+                              : ""
+                        }`}
+                        title={unitTitle}
+                      >
+                        {row.delta30d !== 0 ? formatDelta(row.delta30d) : "—"}
+                      </td>
+                    </>
+                  ) : null}
+                  {showChartColumn ? (
+                    <td className="ch">
+                      {row.sparklineData.length > 1
+                        ? (() => {
+                            const stroke =
+                              row.delta24h < 0
+                                ? "var(--sig-red)"
+                                : "var(--sig-green)";
+                            const d = sparkPath(row.sparklineData, 72, 24);
+                            const end = sparkEnd(row.sparklineData, 72, 24);
+                            const areaPath = `${d} L71,23 L1,23 Z`;
+                            const gid = sparkGradientId(row.id, index);
+                            return (
+                              <svg
+                                className="spark-row"
+                                viewBox="0 0 72 24"
+                                preserveAspectRatio="none"
+                              >
+                                <defs>
+                                  <linearGradient
+                                    id={gid}
+                                    x1="0"
+                                    x2="0"
+                                    y1="0"
+                                    y2="1"
+                                  >
+                                    <stop
+                                      offset="0%"
+                                      stopColor={stroke}
+                                      stopOpacity="0.42"
+                                    />
+                                    <stop
+                                      offset="60%"
+                                      stopColor={stroke}
+                                      stopOpacity="0.12"
+                                    />
+                                    <stop
+                                      offset="100%"
+                                      stopColor={stroke}
+                                      stopOpacity="0"
+                                    />
+                                  </linearGradient>
+                                </defs>
+                                <path d={areaPath} fill={`url(#${gid})`} />
+                                <path
+                                  d={d}
+                                  fill="none"
+                                  stroke={stroke}
+                                  strokeWidth="1.6"
+                                  strokeLinejoin="round"
+                                  strokeLinecap="round"
+                                  vectorEffect="non-scaling-stroke"
+                                />
+                                <circle
+                                  cx={end.x}
+                                  cy={end.y}
+                                  r="3"
+                                  fill={stroke}
+                                  opacity="0.22"
+                                />
+                                <circle
+                                  cx={end.x}
+                                  cy={end.y}
+                                  r="1.6"
+                                  fill={stroke}
+                                />
+                              </svg>
+                            );
+                          })()
+                        : null}
+                    </td>
+                  ) : null}
                   <td className="num">{formatAge(row.releasedAt)}</td>
                 </tr>
               );
             })}
             {visible.length === 0 ? (
               <tr>
-                <td colSpan={9} className="live-empty">
+                <td colSpan={emptyColSpan} className="live-empty">
                   No MCP servers match this filter.
                 </td>
               </tr>

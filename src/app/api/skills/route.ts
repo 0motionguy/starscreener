@@ -1,84 +1,87 @@
-// Public read endpoint for the trending-skill leaderboard the worker
-// publishes to ss:data:v1:trending-skill. 6h cron => 12h staleness budget
-// covers one missed tick (worker restart, network blip) before we 503.
-//
-// Mirrors the shape of /api/worker/pulse so the frontend can poll both
-// endpoints with the same client code.
+// GET /api/skills
+// Public read endpoint for the same five-source skills board rendered by /skills.
 
-import { NextResponse } from "next/server";
-import { getDataStore } from "@/lib/data-store";
+import { NextResponse, type NextRequest } from "next/server";
+
+import { READ_MEDIUM_HEADERS } from "@/lib/api/cache";
+import { getSkillsSignalData } from "@/lib/ecosystem-leaderboards";
+import { rankSkillItems } from "@/lib/skill-ranking";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-interface SkillsPayload {
-  fetchedAt: string;
-  windowItems: number;
-  sources: {
-    githubTotalSeen: number;
-    topics: string[];
-  };
-  items: Array<{
-    rank: number;
-    full_name: string;
-    slug: string;
-    title: string;
-    description: string;
-    url: string;
-    author: string;
-    avatar_url: string;
-    language: string | null;
-    topics: string[];
-    stars: number;
-    forks: number;
-    pushed_at: string;
-    created_at: string;
-    source_topics: string[];
-    score: number;
-  }>;
+const STALE_AFTER_SECONDS = 12 * 3600;
+const DEFAULT_LIMIT = 100;
+const MAX_LIMIT = 1000;
+
+function parseLimit(request: NextRequest, total: number): number {
+  const raw = request.nextUrl.searchParams.get("limit");
+  if (!raw) return Math.min(DEFAULT_LIMIT, total);
+  const parsed = Number.parseInt(raw, 10);
+  if (!Number.isFinite(parsed) || parsed <= 0) return Math.min(DEFAULT_LIMIT, total);
+  return Math.min(parsed, total, MAX_LIMIT);
 }
 
-const STALE_AFTER_SECONDS = 12 * 3600;
-const TOP_PREVIEW = 10;
+export async function GET(request: NextRequest) {
+  const data = await getSkillsSignalData();
+  const items = rankSkillItems(data.combined.items);
 
-export async function GET() {
-  const store = getDataStore();
-  const result = await store.read<SkillsPayload>("trending-skill");
-
-  if (!result.data) {
+  if (items.length === 0) {
     return NextResponse.json(
       {
         ok: false,
-        source: result.source,
-        message: "trending-skill key not found in any data-store tier",
+        source: data.source,
+        message: "No skills rows found across skills.sh, GitHub, skillsmp, lobehub, or smithery.",
       },
-      { status: 503 },
+      { status: 503, headers: READ_MEDIUM_HEADERS },
     );
   }
 
-  const ageSeconds = Math.round(result.ageMs / 1000);
+  const ageSeconds = Math.round(data.ageMs / 1000);
   const stale = ageSeconds > STALE_AFTER_SECONDS;
+  const limit = parseLimit(request, items.length);
+  const rows = items.slice(0, limit).map((s, index) => ({
+    rank: index + 1,
+    id: s.id,
+    title: s.title,
+    url: s.url,
+    author: s.author,
+    linkedRepo: s.linkedRepo,
+    sourceLabel: s.sourceLabel,
+    sourceTrendRank: s.sourceTrendRank ?? null,
+    sourceTrendScore: s.sourceTrendScore ?? null,
+    sourceVelocity: s.sourceVelocity ?? null,
+    signalScore: s.signalScore,
+    hotness: s.hotness ?? null,
+    popularity: s.popularity,
+    popularityLabel: s.popularityLabel,
+    derivativeRepoCount: s.derivativeRepoCount ?? 0,
+    lastPushedAt: s.lastPushedAt ?? null,
+    createdAt: s.createdAt ?? null,
+    tags: s.tags,
+  }));
 
   return NextResponse.json(
     {
       ok: !stale,
-      source: result.source,
-      fresh: result.fresh,
-      writtenAt: result.writtenAt ?? null,
+      source: data.source,
+      fetchedAt: data.combined.fetchedAt,
       ageSeconds,
-      items: result.data.windowItems,
-      sources: result.data.sources,
-      top: result.data.items.slice(0, TOP_PREVIEW).map((s) => ({
-        rank: s.rank,
-        full_name: s.full_name,
-        title: s.title,
-        url: s.url,
-        author: s.author,
-        stars: s.stars,
-        score: s.score,
-        source_topics: s.source_topics,
-      })),
+      total: items.length,
+      returned: rows.length,
+      sources: {
+        skillsSh: data.skillsSh.items.length,
+        github: data.github.items.length,
+        skillsmp: data.combined.meta.skillsmp ?? null,
+        lobehub: data.combined.meta.lobehub ?? null,
+        smithery: data.combined.meta.smithery ?? null,
+        totalSeen: data.combined.meta.total ?? null,
+      },
+      rankedBy:
+        "source-published trend score, source rank, pipeline signal, hotness movement, cross-source agreement, derivative citations",
+      top: rows.slice(0, 10),
+      items: rows,
     },
-    { status: stale ? 503 : 200 },
+    { status: stale ? 503 : 200, headers: READ_MEDIUM_HEADERS },
   );
 }

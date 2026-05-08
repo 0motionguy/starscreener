@@ -2,7 +2,7 @@
 //
 // Migrated off the legacy SignalSourcePage + SkillsTerminalTable chrome to
 // V4 primitives: PageHead + VerdictRibbon + KpiBand + SectionHead + RankRow.
-// Two main sections — `// 01 Top skills` (signal-score leaderboard) and
+// Two main sections — `// 01 Top skills` (trend-ranked leaderboard) and
 // `// 02 New / breakout` (recent + Δhotness pickup). Right rail surfaces
 // the Most-cited list and worker keys.
 //
@@ -17,8 +17,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { getSkillsSignalData } from "@/lib/ecosystem-leaderboards";
+import {
+  getSkillsSignalData,
+} from "@/lib/ecosystem-leaderboards";
 import { getDerivedRepos } from "@/lib/derived-repos";
+import {
+  synthesizeRecentRepoSparkline,
+  synthesizeSparkline,
+} from "@/lib/derived-repos/sparkline";
 import { refreshTrendingFromStore } from "@/lib/trending";
 import { refreshRedditMentionsFromStore } from "@/lib/reddit-data";
 import { refreshHackernewsMentionsFromStore } from "@/lib/hackernews";
@@ -28,6 +34,8 @@ import { refreshLobstersMentionsFromStore } from "@/lib/lobsters";
 import { refreshNpmFromStore } from "@/lib/npm";
 import { refreshHfModelsFromStore } from "@/lib/huggingface";
 import { refreshArxivFromStore } from "@/lib/arxiv";
+import { getRepoMetadata } from "@/lib/repo-metadata";
+import { skillTrendRank } from "@/lib/skill-ranking";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { formatNumber } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
@@ -160,31 +168,22 @@ export default async function SkillsPage() {
     linkedRepoCounts.set(key, (linkedRepoCounts.get(key) ?? 0) + 1);
   }
 
-  // Trending leaderboard — multi-registry consensus first, then signalScore.
-  // Mirrors the OSS-Insight + TrendShift fusion on /githubrepo: skills
-  // listed in 5/5 registries beat ones listed in 1/5. Within ties,
-  // signalScore (which already fuses popularity + freshness + citations)
-  // breaks. Then thin out repeat collections (per-author cap) so one repo
-  // can't take 13/20 slots, hard-cap at TRENDING_CAP.
-  const sortedByScore = [...items].sort((a, b) => {
-    const csa = a.crossSourceCount ?? 1;
-    const csb = b.crossSourceCount ?? 1;
-    if (csb !== csa) return csb - csa;
+  // Trending leaderboard — proper skill trend rank, not absolute stars.
+  // The rank starts with pipeline signalScore, then adds small boosts for
+  // fresh hotness movement, cross-registry agreement, and downstream citations.
+  // Then thin out repeat collections (per-author cap) so one repo cannot take
+  // 13/20 slots, hard-cap at TRENDING_CAP.
+  const sortedByTrend = [...items].sort((a, b) => {
+    const rankDiff = skillTrendRank(b) - skillTrendRank(a);
+    if (rankDiff !== 0) return rankDiff;
     return b.signalScore - a.signalScore;
   });
-  const trendingItems = capPerAuthor(sortedByScore, PER_AUTHOR_CAP).slice(
+  const trendingItems = capPerAuthor(sortedByTrend, PER_AUTHOR_CAP).slice(
     0,
     TRENDING_CAP,
   );
 
-  // KPI/verdict-ribbon stamp uses the diversified top-N (avoids reporting
-  // an "avg signal" inflated by 13 near-identical sibling skills).
-  const topByScore = trendingItems.slice(0, TOP_N);
-
-  // Top by stars — leaderboard tile in the KPI band.
-  const topByStars = [...items]
-    .filter((it) => typeof it.popularity === "number" && it.popularity! > 0)
-    .sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0))[0];
+  const topTrending = trendingItems.slice(0, TOP_N);
 
   // New in last 7 days — by createdAt fallback to lastPushedAt.
   const newRecent = items.filter((it) => {
@@ -221,18 +220,6 @@ export default async function SkillsPage() {
     PER_AUTHOR_CAP,
   ).slice(0, 10);
 
-  // Average accuracy proxy = average signal score across the top 20 (used as
-  // the verdict ribbon stamp). Not a true accuracy metric — the leaderboard
-  // doesn't have one — but mirrors the V4 verdict-ribbon stamp slot used on
-  // /consensus. Cold-start safe: fallback to 0.
-  const avgScore =
-    topByScore.length > 0
-      ? Math.round(
-          topByScore.reduce((acc, it) => acc + it.signalScore, 0) /
-            topByScore.length,
-        )
-      : 0;
-
   const totalLabel = formatNumber(items.length);
   const newCount = newRecent.length;
   const citedCount = mostCited.length;
@@ -247,7 +234,7 @@ export default async function SkillsPage() {
           </>
         }
         h1="Top AI agent skills, ranked across five registries."
-        lede="A live leaderboard merging skills.sh, GitHub topic feeds, Smithery, lobehub, and skillsmp into one signal-scored list. Ranked by combined popularity, freshness, and derivative-repo citations."
+        lede="A live leaderboard merging skills.sh, GitHub topic feeds, Smithery, lobehub, and skillsmp into one trend-ranked list. Ranked by popularity, freshness, and derivative-repo citations."
         clock={
           <>
             <span className="big">{totalLabel}</span>
@@ -261,7 +248,7 @@ export default async function SkillsPage() {
         tone="acc"
         stamp={{
           eyebrow: "// SKILLS BOARD",
-          headline: `${avgScore}/100 avg signal · top ${topByScore.length}`,
+          headline: `top ${topTrending.length} trending`,
           sub: `${data.skillsSh.items.length} skills.sh · ${data.github.items.length} github · ${citedCount} cited`,
         }}
         text={
@@ -278,11 +265,11 @@ export default async function SkillsPage() {
             <span style={{ color: "var(--v4-acc)" }}>
               {citedCount} cited by downstream repos
             </span>
-            {topByScore[0] ? (
+            {topTrending[0] ? (
               <>
                 {" · "}top pick{" "}
                 <span style={{ color: "var(--v4-ink-100)" }}>
-                  {topByScore[0].title}
+                  {topTrending[0].title}
                 </span>
               </>
             ) : null}
@@ -302,11 +289,9 @@ export default async function SkillsPage() {
             pip: "var(--v4-ink-300)",
           },
           {
-            label: "Top by stars",
-            value: topByStars
-              ? formatNumber(topByStars.popularity ?? 0)
-              : "—",
-            sub: topByStars ? topByStars.title : "no popularity data",
+            label: "Top trending",
+            value: topTrending[0] ? "#1" : "—",
+            sub: topTrending[0] ? topTrending[0].title : "no trend data",
             tone: "money",
             pip: "var(--v4-money)",
           },
@@ -348,10 +333,43 @@ export default async function SkillsPage() {
           // same parent's star delta is acceptable noise vs the prior
           // "fill the column with —" UX.
           const linked = key ? (repoByFullName.get(key) ?? null) : null;
+          const meta = key ? getRepoMetadata(key) : null;
           const stars =
             typeof item.popularity === "number" && item.popularity > 0
               ? item.popularity
               : (linked?.stars ?? 0);
+          const repoStars = linked?.stars ?? meta?.stars ?? stars;
+          const repoCreatedAt =
+            linked?.createdAt ??
+            meta?.createdAt ??
+            item.createdAt ??
+            item.lastPushedAt ??
+            null;
+          const install24h = item.installsDelta1d ?? 0;
+          const install7d = item.installsDelta7d ?? 0;
+          const install30d = item.installsDelta30d ?? 0;
+          let sparklineData: number[] = linked?.sparklineData ?? [];
+          if (sparklineData.length < 2 && repoStars > 0 && repoCreatedAt) {
+            sparklineData = synthesizeRecentRepoSparkline(repoStars, repoCreatedAt);
+          }
+          if (sparklineData.length < 2 && stars > 0) {
+            const d24 = install24h || linked?.starsDelta24h || 0;
+            const d7 = install7d || linked?.starsDelta7d || 0;
+            const d30 = install30d || linked?.starsDelta30d || 0;
+            if (d24 !== 0 || d7 !== 0 || d30 !== 0) {
+              sparklineData = synthesizeSparkline(stars, d24, d7, d30);
+            }
+          }
+          if (
+            sparklineData.length < 2 &&
+            item.postedAt &&
+            (item.hotness ?? item.signalScore) > 0
+          ) {
+            sparklineData = synthesizeRecentRepoSparkline(
+              Math.round(item.hotness ?? item.signalScore),
+              item.postedAt,
+            );
+          }
           return {
             id: item.id,
             title: item.title,
@@ -362,11 +380,11 @@ export default async function SkillsPage() {
             starsDelta24h: linked?.starsDelta24h ?? null,
             starsDelta7d: linked?.starsDelta7d ?? null,
             starsDelta30d: linked?.starsDelta30d ?? null,
-            installsDelta24h: item.installsDelta1d ?? null,
-            installsDelta7d: item.installsDelta7d ?? null,
-            installsDelta30d: item.installsDelta30d ?? null,
+            installsDelta24h: install24h || null,
+            installsDelta7d: install7d || null,
+            installsDelta30d: install30d || null,
             cited: item.derivativeRepoCount ?? 0,
-            sparklineData: linked?.sparklineData ?? [],
+            sparklineData,
             trackingId: linked?.id ?? `skill:${item.id}`,
           };
         });
@@ -522,7 +540,7 @@ export default async function SkillsPage() {
         meta={`// SKILLS / leaderboard / serial ${formatNumber(items.length)}`}
         actions={
           <>
-            DATA / 5 REGISTRIES · top {topByScore.length} · cap {PER_AUTHOR_CAP}/repo
+            DATA / 5 REGISTRIES · top {topTrending.length} · cap {PER_AUTHOR_CAP}/repo
           </>
         }
       />
@@ -564,8 +582,8 @@ interface SkillAvatarProps {
 
 function SkillAvatar({ logoUrl, fallback }: SkillAvatarProps) {
   if (logoUrl) {
-    // eslint-disable-next-line @next/next/no-img-element
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={logoUrl}
         alt=""
@@ -604,4 +622,3 @@ function SkillAvatar({ logoUrl, fallback }: SkillAvatarProps) {
     </span>
   );
 }
-

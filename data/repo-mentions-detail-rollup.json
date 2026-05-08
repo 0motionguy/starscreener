@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-08T07:05:22.030Z",
-  "scanRunId": "sweep-2026-05-08T07:00:11.623Z",
+  "computedAt": "2026-05-08T07:47:47.067Z",
+  "scanRunId": "sweep-2026-05-08T07:45:11.600Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -21,7 +21,7 @@
                 "score": 0,
                 "comments": 0
               },
-              "observedAt": "2026-05-08T07:00:23.928Z"
+              "observedAt": "2026-05-08T07:45:20.042Z"
             }
           ]
         },
@@ -237,10 +237,10 @@
     },
     "D4Vinci/Scrapling": {
       "fullName": "D4Vinci/Scrapling",
-      "totalMentions7d": 80,
+      "totalMentions7d": 75,
       "perSource": {
         "twitter": {
-          "count7d": 45,
+          "count7d": 46,
           "top": [
             {
               "source": "twitter",
@@ -310,7 +310,7 @@
           ]
         },
         "hackernews": {
-          "count7d": 34,
+          "count7d": 28,
           "top": [
             {
               "source": "hackernews",
@@ -320,7 +320,7 @@
               "text": "",
               "author": "berlianta",
               "engagement": {
-                "score": 281,
+                "score": 284,
                 "comments": 122
               },
               "observedAt": "2026-05-07T15:02:20.000Z"
@@ -401,10 +401,10 @@
     },
     "anthropics/financial-services-plugins": {
       "fullName": "anthropics/financial-services-plugins",
-      "totalMentions7d": 95,
+      "totalMentions7d": 75,
       "perSource": {
         "twitter": {
-          "count7d": 94,
+          "count7d": 74,
           "top": [
             {
               "source": "twitter",
@@ -414,10 +414,23 @@
               "text": "New for financial services: ready-to-run Claude agent templates for building pitches, conducting valuation reviews, closing the books at month-end, and more. Install them as plugins in Cowork and Claude Code, or use our cookbooks to run them in production as Managed Agents. https://t.co/Nzj4Feaaz2",
               "author": "claudeai",
               "engagement": {
-                "score": 36931,
+                "score": 36937,
                 "comments": 867
               },
               "observedAt": "Tue May 05 15:05:16 +0000 2026"
+            },
+            {
+              "source": "twitter",
+              "fullName": "anthropics/financial-services-plugins",
+              "url": "https://x.com/coinspot/status/2052631280785989820",
+              "title": "CoinSpot has secured an Australian Financial Services Licence to support the launch of new, innovative payment products. Another step forward in our goal of making crypto simpler and safe to use. http",
+              "text": "CoinSpot has secured an Australian Financial Services Licence to support the launch of new, innovative payment products. Another step forward in our goal of making crypto simpler and safe to use. https://t.co/W0WqXpwWGE",
+              "author": "coinspot",
+              "engagement": {
+                "score": 144,
+                "comments": 17
+              },
+              "observedAt": "Fri May 08 06:06:48 +0000 2026"
             },
             {
               "source": "twitter",
@@ -435,19 +448,6 @@
             {
               "source": "twitter",
               "fullName": "anthropics/financial-services-plugins",
-              "url": "https://x.com/JayShams/status/2052579269969076664",
-              "title": "A couple of months ago, I wrote about how Jeffrey Epstein pitched his financial services to Mort Zuckerman following a dinner with them, Ehud Barak, Woody Allen, and others. I think I just found a pho",
-              "text": "A couple of months ago, I wrote about how Jeffrey Epstein pitched his financial services to Mort Zuckerman following a dinner with them, Ehud Barak, Woody Allen, and others. I think I just found a photo of that dinner. https://t.co/nLarSCzxtv",
-              "author": "JayShams",
-              "engagement": {
-                "score": 110,
-                "comments": 2
-              },
-              "observedAt": "Fri May 08 02:40:07 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "anthropics/financial-services-plugins",
               "url": "https://x.com/cyrilXBT/status/2051933050880356857",
               "title": "ANTHROPIC JUST AUTOMATED THE MOST EXPENSIVE WORK IN FINANCIAL SERVICES. Ready-to-run Claude agent templates for: Building pitches. Conducting valuation reviews. Closing the books at month-end. Install",
               "text": "ANTHROPIC JUST AUTOMATED THE MOST EXPENSIVE WORK IN FINANCIAL SERVICES. Ready-to-run Claude agent templates for: Building pitches. Conducting valuation reviews. Closing the books at month-end. Install them as plugins in Cowork and Claude Code. Or run them in production as Managed Agents. Think about what that actually means. The work that junior analysts, associates, and financial consultants spend 60% of their time on just became a one-click install. Pitch decks that take associates 12 hours to",
@@ -461,15 +461,15 @@
             {
               "source": "twitter",
               "fullName": "anthropics/financial-services-plugins",
-              "url": "https://x.com/coinspot/status/2052631280785989820",
-              "title": "CoinSpot has secured an Australian Financial Services Licence to support the launch of new, innovative payment products. Another step forward in our goal of making crypto simpler and safe to use. http",
-              "text": "CoinSpot has secured an Australian Financial Services Licence to support the launch of new, innovative payment products. Another step forward in our goal of making crypto simpler and safe to use. https://t.co/W0WqXpwWGE",
-              "author": "coinspot",
+              "url": "https://x.com/0xchromium/status/2052031995967090806",
+              "title": "5 updates from Claude that you didn't notice: > Agent templates for financial services: Recently new Claude agent templates were added for building pitches, conducting valuation reviews, and closing t",
+              "text": "5 updates from Claude that you didn't notice: > Agent templates for financial services: Recently new Claude agent templates were added for building pitches, conducting valuation reviews, and closing the books at month end You can install them as plugins in Cowork and Claude Code or run them as managed agents > Memory for Managed Agents: Agents can now learn from every session and remember context across conversations, memories are stored as filee This literally makes working with agents easier, ",
+              "author": "0xchromium",
               "engagement": {
-                "score": 101,
-                "comments": 12
+                "score": 37,
+                "comments": 6
               },
-              "observedAt": "Fri May 08 06:06:48 +0000 2026"
+              "observedAt": "Wed May 06 14:25:27 +0000 2026"
             }
           ]
         },
@@ -644,7 +644,7 @@
                 "score": 0,
                 "comments": 0
               },
-              "observedAt": "2026-05-08T07:00:56.524Z"
+              "observedAt": "2026-05-08T07:45:32.377Z"
             }
           ]
         }
@@ -652,10 +652,10 @@
     },
     "ruvnet/ruflo": {
       "fullName": "ruvnet/ruflo",
-      "totalMentions7d": 20,
+      "totalMentions7d": 21,
       "perSource": {
         "twitter": {
-          "count7d": 13,
+          "count7d": 14,
           "top": [
             {
               "source": "twitter",
@@ -686,6 +686,19 @@
             {
               "source": "twitter",
               "fullName": "ruvnet/ruflo",
+              "url": "https://x.com/ebartan/status/2052644946725732670",
+              "title": "⭐ My 6 new GitHub stars today (08 May 2026): 1. huggingface/smolagents (⭐27k) 2. OpenHands/OpenHands (⭐72k) 3. ruvnet/ruflo (⭐46k) 4. strukto-ai/mirage (⭐1k) 5. rohitg00/agentmemory (⭐2k) ...and 1 mor",
+              "text": "⭐ My 6 new GitHub stars today (08 May 2026): 1. huggingface/smolagents (⭐27k) 2. OpenHands/OpenHands (⭐72k) 3. ruvnet/ruflo (⭐46k) 4. strukto-ai/mirage (⭐1k) 5. rohitg00/agentmemory (⭐2k) ...and 1 more #GitHub #OpenSource #DevTools",
+              "author": "ebartan",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "Fri May 08 07:01:06 +0000 2026"
+            },
+            {
+              "source": "twitter",
+              "fullName": "ruvnet/ruflo",
               "url": "https://x.com/anjanab_/status/2051989254239027694",
               "title": "Check out ruvnet/ruflo on GitHub. It's an agent orchestration platform for Claude, lets you deploy multi-agent swarms for workflows. Got 39.8k stars. Good for anyone into AI agent automation and RAG i",
               "text": "Check out ruvnet/ruflo on GitHub. It's an agent orchestration platform for Claude, lets you deploy multi-agent swarms for workflows. Got 39.8k stars. Good for anyone into AI agent automation and RAG integration.",
@@ -695,19 +708,6 @@
                 "comments": 0
               },
               "observedAt": "Wed May 06 11:35:36 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "ruvnet/ruflo",
-              "url": "https://x.com/albe_sf/status/2051981240987713892",
-              "title": "ruvnet/ruflo: leading agent orchestration platform for Claude hit trending. enables multi-agent swarms, autonomous workflows. native Claude Code integration is critical for production agentic systems.",
-              "text": "ruvnet/ruflo: leading agent orchestration platform for Claude hit trending. enables multi-agent swarms, autonomous workflows. native Claude Code integration is critical for production agentic systems. https://t.co/JOmdykBQjv",
-              "author": "albe_sf",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "Wed May 06 11:03:46 +0000 2026"
             },
             {
               "source": "twitter",
@@ -816,7 +816,7 @@
     },
     "multica-ai/multica": {
       "fullName": "multica-ai/multica",
-      "totalMentions7d": 110,
+      "totalMentions7d": 95,
       "perSource": {
         "twitter": {
           "count7d": 10,
@@ -889,7 +889,7 @@
           ]
         },
         "hackernews": {
-          "count7d": 100,
+          "count7d": 85,
           "top": [
             {
               "source": "hackernews",
@@ -920,6 +920,19 @@
             {
               "source": "hackernews",
               "fullName": "multica-ai/multica",
+              "url": "https://draxinar.github.io/articles/2026-05-01-uodemo-reverse-engineering.html",
+              "title": "Reverse-engineering the 1998 Ultima Online demo server",
+              "text": "",
+              "author": "notsentient",
+              "engagement": {
+                "score": 243,
+                "comments": 66
+              },
+              "observedAt": "2026-05-06T06:31:29.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "multica-ai/multica",
               "url": "https://www.strix.ai/blog/how-strix-found-zero-auth-vulnerability-dod-backed-startup",
               "title": "Securing a DoD contractor: Finding a multi-tenant authorization vulnerability",
               "text": "",
@@ -942,19 +955,6 @@
                 "comments": 31
               },
               "observedAt": "2026-05-05T17:52:31.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "multica-ai/multica",
-              "url": "https://news.ycombinator.com/item?id=48023496",
-              "title": "Show HN: Airbyte Agents – context for agents across multiple data sources",
-              "text": "I’m Michel, co-founder and CEO of Airbyte (<a href=\"https:&#x2F;&#x2F;airbyte.com&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;airbyte.com&#x2F;</a>). We’ve spent the last six years building data connectors. Today we&#x27;re launching Airbyte Agents (<a href=\"https:&#x2F;&#x2F;docs.airbyte.com&#x2F;ai-agents&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;docs.airbyte.com&#x2F;ai-agents&#x2F;</a>), a unified data layer for agents to discover information and take action across operational systems.<p>Here’s a ",
-              "author": "mtricot",
-              "engagement": {
-                "score": 145,
-                "comments": 45
-              },
-              "observedAt": "2026-05-05T15:03:18.000Z"
             }
           ]
         }
@@ -1069,7 +1069,7 @@
               "text": "Robots and drones need to know where they are. See how the GEODNET RTK Network is laying the foundation for Physical AI and an autonomous future. https://t.co/kLtk3Oa5FX",
               "author": "GEODNET",
               "engagement": {
-                "score": 74,
+                "score": 75,
                 "comments": 1
               },
               "observedAt": "Fri May 01 16:35:37 +0000 2026"
@@ -1082,7 +1082,7 @@
               "text": "Robots and drones need to know where they are. See how the GEODNET RTK Network is laying the foundation for Physical AI and an autonomous future. https://t.co/kLtk3Oa5FX",
               "author": "GEODNET",
               "engagement": {
-                "score": 74,
+                "score": 75,
                 "comments": 1
               },
               "observedAt": "Fri May 01 16:35:37 +0000 2026"
@@ -1218,7 +1218,7 @@
                 "score": 0,
                 "comments": 0
               },
-              "observedAt": "2026-05-08T07:01:03.176Z"
+              "observedAt": "2026-05-08T07:45:39.836Z"
             },
             {
               "source": "twitter",
@@ -1231,7 +1231,7 @@
                 "score": 0,
                 "comments": 0
               },
-              "observedAt": "2026-05-08T07:01:03.176Z"
+              "observedAt": "2026-05-08T07:45:39.836Z"
             }
           ]
         }
@@ -1255,7 +1255,7 @@
                 "score": 0,
                 "comments": 0
               },
-              "observedAt": "2026-05-08T07:01:24.459Z"
+              "observedAt": "2026-05-08T07:45:51.856Z"
             },
             {
               "source": "twitter",
@@ -1268,7 +1268,7 @@
                 "score": 0,
                 "comments": 0
               },
-              "observedAt": "2026-05-08T07:01:24.459Z"
+              "observedAt": "2026-05-08T07:45:51.856Z"
             },
             {
               "source": "twitter",
@@ -1281,7 +1281,7 @@
                 "score": 0,
                 "comments": 0
               },
-              "observedAt": "2026-05-08T07:01:24.459Z"
+              "observedAt": "2026-05-08T07:45:51.856Z"
             }
           ]
         }
@@ -1302,7 +1302,7 @@
               "text": "💥 z-lab just dropped their official DFlash drafter for Gemma 4 26B ♠ and it delivers 3.4x faster inference with block diffusion speculative decoding 🔹 Official drafter from the DFlash paper authors themselves 🔹 Gemma 4 26B A4B — 26B total params but only 4B active per token 🔹 Mean acceptance length of 7.83 — draft model guesses 8 tokens per step 🔹 Works with both vLLM and SGLang 🔹 Fully open source on HuggingFace right now 🔥 Full installation and demo below 👇",
               "author": "fahdmirza",
               "engagement": {
-                "score": 64,
+                "score": 68,
                 "comments": 4
               },
               "observedAt": "Thu May 07 20:47:36 +0000 2026"
@@ -1372,8 +1372,8 @@
               "text": "",
               "author": "tamnd",
               "engagement": {
-                "score": 358,
-                "comments": 99
+                "score": 364,
+                "comments": 101
               },
               "observedAt": "2026-05-07T15:40:24.000Z"
             },
@@ -1466,75 +1466,75 @@
     },
     "freestylefly/awesome-gpt-image-2": {
       "fullName": "freestylefly/awesome-gpt-image-2",
-      "totalMentions7d": 24,
+      "totalMentions7d": 90,
       "perSource": {
         "twitter": {
-          "count7d": 24,
+          "count7d": 90,
           "top": [
             {
               "source": "twitter",
               "fullName": "freestylefly/awesome-gpt-image-2",
-              "url": "https://x.com/Gdgtify/status/2051288232613351571",
-              "title": "GPT Image 2 is awesome for science infographics. It's amazing how much detail you can add. Prompt: instructions> [SUBJECT]=Coronavirus. A hyper-realistic 3D zoom-sequence infographic generated from a ",
-              "text": "GPT Image 2 is awesome for science infographics. It's amazing how much detail you can add. Prompt: instructions> [SUBJECT]=Coronavirus. A hyper-realistic 3D zoom-sequence infographic generated from a single input: [SUBJECT]. The system auto-detects scale layers from atomic/subcomponent to full contextual view. Layout Structure (CRITICAL) 6–8 circular or hexagonal frames arranged in expanding sequence Innermost frame = smallest detectable detail; outermost = full subject in environment Frames con",
-              "author": "Gdgtify",
+              "url": "https://x.com/frametheory058/status/2051863048949035404",
+              "title": "You Can Now Generate Animated Cinematic Character designs with GPT IMAGE2 on ChatGPT Prompt 👇🏻 https://t.co/gdaYjVpkW8",
+              "text": "You Can Now Generate Animated Cinematic Character designs with GPT IMAGE2 on ChatGPT Prompt 👇🏻 https://t.co/gdaYjVpkW8",
+              "author": "frametheory058",
               "engagement": {
-                "score": 73,
-                "comments": 4
+                "score": 697,
+                "comments": 43
               },
-              "observedAt": "Mon May 04 13:10:00 +0000 2026"
+              "observedAt": "Wed May 06 03:14:07 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "freestylefly/awesome-gpt-image-2",
-              "url": "https://x.com/BubbleBrain/status/2052036785434440171",
-              "title": "baby-like headgear is awesome. realism by gpt image 2 ---prompt--- Photorealistic candid street snapshot, Japanese train station concourse during rush hour, wide horizontal 4:3 frame, taken with a sma",
-              "text": "baby-like headgear is awesome. realism by gpt image 2 ---prompt--- Photorealistic candid street snapshot, Japanese train station concourse during rush hour, wide horizontal 4:3 frame, taken with a smartphone camera, natural imperfect composition, slight motion blur, realistic everyday atmosphere. A fictional young adult East Asian woman standing near the ticket gates, wearing a soft romantic white outfit: delicate lace bonnet headscarf tied under the chin, semi-sheer white puff-sleeve blouse dre",
-              "author": "BubbleBrain",
+              "url": "https://x.com/FellMentKE/status/2052414229916082609",
+              "title": "Hailuo AI is completely breaking the cost structure. Seedance 2.0 pricing is insanely low, way beyond expectations. Plus access to GPT Image2 + Banana2 & Pro, and even unlimited image generation. Top-",
+              "text": "Hailuo AI is completely breaking the cost structure. Seedance 2.0 pricing is insanely low, way beyond expectations. Plus access to GPT Image2 + Banana2 & Pro, and even unlimited image generation. Top-tier video + image models all in one place. This is honestly the best time to learn AI.",
+              "author": "FellMentKE",
               "engagement": {
-                "score": 44,
+                "score": 220,
+                "comments": 36
+              },
+              "observedAt": "Thu May 07 15:44:19 +0000 2026"
+            },
+            {
+              "source": "twitter",
+              "fullName": "freestylefly/awesome-gpt-image-2",
+              "url": "https://x.com/Diana_Osire/status/2052441457412518028",
+              "title": "AI tools are getting cheaper while the quality keeps getting crazier. Hailuo AI just dropped Seedance 2.0 pricing and it genuinely changes the game for creators. You now get access to high-end video g",
+              "text": "AI tools are getting cheaper while the quality keeps getting crazier. Hailuo AI just dropped Seedance 2.0 pricing and it genuinely changes the game for creators. You now get access to high-end video generation, GPT Image2, Banana2 + Pro, plus unlimited image creation… all under one platform. This is the era where anyone can build cinematic content without a Hollywood budget.",
+              "author": "Diana_Osire",
+              "engagement": {
+                "score": 132,
                 "comments": 1
               },
-              "observedAt": "Wed May 06 14:44:29 +0000 2026"
+              "observedAt": "Thu May 07 17:32:30 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "freestylefly/awesome-gpt-image-2",
-              "url": "https://x.com/GlitterPixely/status/2050541728218722538",
-              "title": "Nano Banana 2 ➜ GPT Image 2 ➜ Seedance 2.0 ➜ Topaz Labs Starlight Precise 2.5 Special thanks to the folks at @topazlabs for being so awesome 🩷",
-              "text": "Nano Banana 2 ➜ GPT Image 2 ➜ Seedance 2.0 ➜ Topaz Labs Starlight Precise 2.5 Special thanks to the folks at @topazlabs for being so awesome 🩷",
-              "author": "GlitterPixely",
+              "url": "https://x.com/Mayz1169/status/2052228488883822995",
+              "title": "Made with GPT image2 on @renoiseai Use this prompt: Generate a collectible holographic laser foil trading card style digital art original illustration — a tarot card face design intended as a print-re",
+              "text": "Made with GPT image2 on @renoiseai Use this prompt: Generate a collectible holographic laser foil trading card style digital art original illustration — a tarot card face design intended as a print-ready file for card production. The illustration style should blend Alphonse Mucha's Art Nouveau aesthetic with modern high-detail anime heavy painting . Visual characteristics include: extremely intricate decorative details, strong contrast between light and shadow, and a jewel-like crystalline lumin",
+              "author": "Mayz1169",
               "engagement": {
-                "score": 18,
-                "comments": 0
+                "score": 114,
+                "comments": 7
               },
-              "observedAt": "Sat May 02 11:43:39 +0000 2026"
+              "observedAt": "Thu May 07 03:26:14 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "freestylefly/awesome-gpt-image-2",
-              "url": "https://x.com/BrentLynch/status/2050969280083296721",
-              "title": "Awesome workflow, I have been messing around with GPT Image 2 and and the trade offs of lots of context and minimized context. I played around with your image to try and resolve the issue with the str",
-              "text": "Awesome workflow, I have been messing around with GPT Image 2 and and the trade offs of lots of context and minimized context. I played around with your image to try and resolve the issue with the strikes not landing. I took your image back into GPT Image 2. Probably could work on it more (the targeting is pretty funny showing up :) but for a quick and dirty experiment has some promise maybe?. \"Take this reference sheet and simplify it to 8 shots and show actual impacts for each blow.\" show me a",
-              "author": "BrentLynch",
+              "url": "https://x.com/frametheory058/status/2052379020554305870",
+              "title": "Turning iconic anime characters into ultra-cinematic live-action posters. Created with GPT IMAGE2 on ChatGPT. Prompt 👇🏻 https://t.co/q51nKi8eU4",
+              "text": "Turning iconic anime characters into ultra-cinematic live-action posters. Created with GPT IMAGE2 on ChatGPT. Prompt 👇🏻 https://t.co/q51nKi8eU4",
+              "author": "frametheory058",
               "engagement": {
-                "score": 9,
-                "comments": 1
+                "score": 101,
+                "comments": 25
               },
-              "observedAt": "Sun May 03 16:02:36 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "freestylefly/awesome-gpt-image-2",
-              "url": "https://x.com/NyaiiBubu/status/2051606687552098344",
-              "title": "Awesome ultra real photos. I used the same prompt with Grok Imagine, GPT Image 2 and Nano Banana Pro 🤩 https://t.co/lFgJOKQ6nN",
-              "text": "Awesome ultra real photos. I used the same prompt with Grok Imagine, GPT Image 2 and Nano Banana Pro 🤩 https://t.co/lFgJOKQ6nN",
-              "author": "NyaiiBubu",
-              "engagement": {
-                "score": 7,
-                "comments": 2
-              },
-              "observedAt": "Tue May 05 10:15:25 +0000 2026"
+              "observedAt": "Thu May 07 13:24:24 +0000 2026"
             }
           ]
         }
@@ -1590,7 +1590,7 @@
     },
     "Thysrael/Horizon": {
       "fullName": "Thysrael/Horizon",
-      "totalMentions7d": 11,
+      "totalMentions7d": 12,
       "perSource": {
         "twitter": {
           "count7d": 1,
@@ -1606,12 +1606,12 @@
                 "score": 0,
                 "comments": 0
               },
-              "observedAt": "2026-05-08T07:01:40.217Z"
+              "observedAt": "2026-05-08T07:46:12.969Z"
             }
           ]
         },
         "hackernews": {
-          "count7d": 10,
+          "count7d": 11,
           "top": [
             {
               "source": "hackernews",
@@ -1668,15 +1668,15 @@
             {
               "source": "hackernews",
               "fullName": "Thysrael/Horizon",
-              "url": "https://www.neutboom.com",
-              "title": "Show HN: Loxai.tech and Neutboom – Gen AI's frontier of individuality",
-              "text": "Hi- I hope you’re all having a good day so far! I&#x27;m not sure where to post this but I do have two things for you guys today, related to the AI space: individuality and a new era to AI! So: - LLM wrappers are crumbling- these businesses will not survive as foundational models begin to offer the functionalities consumers have been seeking. This maybe represents a failure in interpretation of individuality as horizontal growth (these startups didn&#x27;t last too long...), which brings up the ",
-              "author": "audreyfei",
+              "url": "https://www.longevity-tools.com/male-hormones-interpreter",
+              "title": "Show HN: I built Male Hormone Lab Interpreter that does what LLMs can't",
+              "text": "Hi,<p>My name is Zsolt. I build clinical tools for labs and longevity clinics, and I release some of them as free public tools.<p>The Male Hormone Lab Interpreter unique feature is that it visualizes the testosterone production and feedback pathway on HPG axis to identify the true root cause of hormonal imbalances. All hormones are interpreted based on optimal ranges. This is something LLMs still struggles with.<p>The only difference between public and clinical ones is that the clinical suggest ",
+              "author": "zsolt224",
               "engagement": {
-                "score": 1,
+                "score": 2,
                 "comments": 0
               },
-              "observedAt": "2026-05-08T02:50:10.000Z"
+              "observedAt": "2026-05-02T09:12:39.000Z"
             }
           ]
         }
@@ -1684,75 +1684,75 @@
     },
     "AIDC-AI/Pixelle-Video": {
       "fullName": "AIDC-AI/Pixelle-Video",
-      "totalMentions7d": 29,
+      "totalMentions7d": 55,
       "perSource": {
         "twitter": {
-          "count7d": 28,
+          "count7d": 54,
           "top": [
             {
               "source": "twitter",
               "fullName": "AIDC-AI/Pixelle-Video",
-              "url": "https://x.com/ItsStariza/status/2052642393728450923",
-              "title": "Truly disappointed that at the world’s biggest music festival, which is all about celebrating CULTURE and ART, a fan fav artist has chosen AI GENERATED STAGING for his performance… First he was accuse",
-              "text": "Truly disappointed that at the world’s biggest music festival, which is all about celebrating CULTURE and ART, a fan fav artist has chosen AI GENERATED STAGING for his performance… First he was accused of using Gen-AI in his music video (which he never debunked), and now this?? https://t.co/3yIHzqXTH9",
-              "author": "ItsStariza",
+              "url": "https://x.com/aitrendz_xyz/status/2052645802758070672",
+              "title": "Grok @imagine is one of the best AI models out there Main things I like about @grok are strong prompt adherence, fast generation and the possibility of 10–15 second video creation The output is great ",
+              "text": "Grok @imagine is one of the best AI models out there Main things I like about @grok are strong prompt adherence, fast generation and the possibility of 10–15 second video creation The output is great and it takes just a few seconds to go from a prompt to your image/video Try it today for free! #ad",
+              "author": "aitrendz_xyz",
+              "engagement": {
+                "score": 8,
+                "comments": 2
+              },
+              "observedAt": "Fri May 08 07:04:30 +0000 2026"
+            },
+            {
+              "source": "twitter",
+              "fullName": "AIDC-AI/Pixelle-Video",
+              "url": "https://x.com/i_am_gustakh/status/2052647034482737409",
+              "title": "We know that you paid for this tweet, the video was not AI generated. Give us one reason why Arshdeep edited his video later and also almost cropped Chahal out of the whole video. The duration of the ",
+              "text": "We know that you paid for this tweet, the video was not AI generated. Give us one reason why Arshdeep edited his video later and also almost cropped Chahal out of the whole video. The duration of the video was 16:56 minutes before, and now it is 16:01 minutes after editing the Chahal part.",
+              "author": "i_am_gustakh",
+              "engagement": {
+                "score": 6,
+                "comments": 1
+              },
+              "observedAt": "Fri May 08 07:09:24 +0000 2026"
+            },
+            {
+              "source": "twitter",
+              "fullName": "AIDC-AI/Pixelle-Video",
+              "url": "https://x.com/rice55867/status/2052648203062042985",
+              "title": "@anxientkana Upcoming video title \"Wuwa caught using ai again\" https://t.co/sHZ1EJGjZ8",
+              "text": "@anxientkana Upcoming video title \"Wuwa caught using ai again\" https://t.co/sHZ1EJGjZ8",
+              "author": "rice55867",
+              "engagement": {
+                "score": 3,
+                "comments": 1
+              },
+              "observedAt": "Fri May 08 07:14:02 +0000 2026"
+            },
+            {
+              "source": "twitter",
+              "fullName": "AIDC-AI/Pixelle-Video",
+              "url": "https://x.com/0xbeinginvested/status/2052652241144730062",
+              "title": "-> This girl isn't real but -> brands are still paying her -> $500-$1,500 per 1 video. -> And no, this isn't a deepfake -> or a one-off render, -> she's a fully consistent AI -> UGC creator that ships",
+              "text": "-> This girl isn't real but -> brands are still paying her -> $500-$1,500 per 1 video. -> And no, this isn't a deepfake -> or a one-off render, -> she's a fully consistent AI -> UGC creator that ships -> unlimited videos on demand. -> Built once in a node-based -> generation tool, locked into -> the same face across every -> shot, dropped into any scene, -> holding any product, recording -> \"morning routine\" or \"first impression\" -> review a brand needs. -> Skincare brand needs a -> 30 second te",
+              "author": "0xbeinginvested",
               "engagement": {
                 "score": 2,
                 "comments": 0
               },
-              "observedAt": "Fri May 08 06:50:57 +0000 2026"
+              "observedAt": "Fri May 08 07:30:05 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "AIDC-AI/Pixelle-Video",
-              "url": "https://x.com/jonnyricola/status/2052644695063564371",
-              "title": "Watch this video, see me teach Ai SuperGrok, Gemini3, test my logic research on any expert so we can gain power over our minds to oppose Instinctual Bias authority, right now denies you power to choos",
-              "text": "Watch this video, see me teach Ai SuperGrok, Gemini3, test my logic research on any expert so we can gain power over our minds to oppose Instinctual Bias authority, right now denies you power to choose even to prevent legalized corruption, USING BINARY TESTS for any expert. perjury risk cuts through the fog. https://t.co/cL9JK4vma2 https://t.co/gmo6BGQ2Jj mine w/URL -213x grok session list https://t.co/gM6n7hUcwt To @UUtah @PresidentUofU - 213x grok session URLS w/UAC4H active truth platform & 1",
-              "author": "jonnyricola",
+              "url": "https://x.com/NyaiiBubu/status/2052651484903624947",
+              "title": "With the same prompt I also try on Google Flow and Dola Seedance. Flow looks playful with only 8 seconds clip, Dola with 10s clip the native music is so tiktok vibe. Maybe I will try my first affiliat",
+              "text": "With the same prompt I also try on Google Flow and Dola Seedance. Flow looks playful with only 8 seconds clip, Dola with 10s clip the native music is so tiktok vibe. Maybe I will try my first affiliate AI video at Shopee or Tiktok haha.. https://t.co/Pe4qusmvVP",
+              "author": "NyaiiBubu",
               "engagement": {
-                "score": 1,
-                "comments": 0
+                "score": 2,
+                "comments": 1
               },
-              "observedAt": "Fri May 08 07:00:06 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "AIDC-AI/Pixelle-Video",
-              "url": "https://x.com/NotUnHackable/status/2051924987167019197",
-              "title": "Pixelle-Video is a fully automated AI short video engine, give it a topic and it researches, scripts, generates footage, adds voiceover and renders a finished video with zero manual steps https://t.co",
-              "text": "Pixelle-Video is a fully automated AI short video engine, give it a topic and it researches, scripts, generates footage, adds voiceover and renders a finished video with zero manual steps https://t.co/EnszkNIrKD",
-              "author": "NotUnHackable",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "Wed May 06 07:20:14 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "AIDC-AI/Pixelle-Video",
-              "url": "https://x.com/NotUnHackable/status/2051924987167019197",
-              "title": "Pixelle-Video is a fully automated AI short video engine, give it a topic and it researches, scripts, generates footage, adds voiceover and renders a finished video with zero manual steps https://t.co",
-              "text": "Pixelle-Video is a fully automated AI short video engine, give it a topic and it researches, scripts, generates footage, adds voiceover and renders a finished video with zero manual steps https://t.co/EnszkNIrKD",
-              "author": "NotUnHackable",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "Wed May 06 07:20:14 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "AIDC-AI/Pixelle-Video",
-              "url": "https://x.com/SteveKlinko/status/2052644812550013287",
-              "title": "Click here: https://t.co/qELuQHroqu (Music Video) to learn the difference between Conscious Evolution and Intelligent Design. #ArtificialIntelligence #Knowledge #AI #Philosophy #Mind #MachineLearning ",
-              "text": "Click here: https://t.co/qELuQHroqu (Music Video) to learn the difference between Conscious Evolution and Intelligent Design. #ArtificialIntelligence #Knowledge #AI #Philosophy #Mind #MachineLearning #Consciousness #Engineering",
-              "author": "SteveKlinko",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "Fri May 08 07:00:34 +0000 2026"
+              "observedAt": "Fri May 08 07:27:05 +0000 2026"
             }
           ]
         },
@@ -1791,7 +1791,7 @@
               "text": "The Warp team uses a lot of Skills to speed up our workflow, so we open-sourced them. &gt; npx skills add warpdotdev/oz-skills Includes Skills for SEO and accessibility auditing, documentation writing, DevOps tasks like terraform configuration, and more. https://t.co/jr5c9ex3Jd",
               "author": "warpdotdev",
               "engagement": {
-                "score": 692,
+                "score": 693,
                 "comments": 7
               },
               "observedAt": "Tue May 05 20:58:15 +0000 2026"
@@ -1804,7 +1804,7 @@
               "text": "The Warp team uses a lot of Skills to speed up our workflow, so we open-sourced them. &gt; npx skills add warpdotdev/oz-skills Includes Skills for SEO and accessibility auditing, documentation writing, DevOps tasks like terraform configuration, and more. https://t.co/jr5c9ex3Jd",
               "author": "warpdotdev",
               "engagement": {
-                "score": 692,
+                "score": 693,
                 "comments": 7
               },
               "observedAt": "Tue May 05 20:58:15 +0000 2026"
@@ -1867,67 +1867,67 @@
             {
               "source": "twitter",
               "fullName": "browser-use/browser-harness",
-              "url": "https://x.com/heimaNetwork/status/2052632524082536820",
-              "title": "As autonomous agents become more integrated into our workflows, most systems still assume a human in the loop. That doesn’t scale when agents are expected to operate independently. ⚙️ AgentKeys suppor",
-              "text": "As autonomous agents become more integrated into our workflows, most systems still assume a human in the loop. That doesn’t scale when agents are expected to operate independently. ⚙️ AgentKeys supports auto provisioning. For example, agents with browser control can create GitHub accounts, provision OpenRouter keys, and generate fresh credentials on their own, without manual setup. Credential creation no longer has to depend entirely on humans. 🔐",
-              "author": "heimaNetwork",
+              "url": "https://x.com/Kriptolooo/status/2052645032662888748",
+              "title": "The digital landscape shouldn't feel like a borrowed space filled with fragmented tools and privacy compromises. @TheARCTERMINAL Imagine a seamless cognitive extension that lives where you do, integra",
+              "text": "The digital landscape shouldn't feel like a borrowed space filled with fragmented tools and privacy compromises. @TheARCTERMINAL Imagine a seamless cognitive extension that lives where you do, integrating your unique workflow into a unified browser experience without ever sacrificing data integrity. This ecosystem moves beyond the limitations of standard assistants by prioritizing absolute user autonomy and persistent memory, ensuring that every interaction strengthens a private world tailored s",
+              "author": "Kriptolooo",
               "engagement": {
-                "score": 16,
-                "comments": 0
+                "score": 33,
+                "comments": 33
               },
-              "observedAt": "Fri May 08 06:11:44 +0000 2026"
+              "observedAt": "Fri May 08 07:01:26 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "browser-use/browser-harness",
-              "url": "https://x.com/codewith55/status/2052635159518917085",
-              "title": "Be honest, which browser do you use the most https://t.co/WyBHBrbqn2",
-              "text": "Be honest, which browser do you use the most https://t.co/WyBHBrbqn2",
-              "author": "codewith55",
+              "url": "https://x.com/neil_xbt/status/2052648444628730036",
+              "title": "Most browser debugging requires your full attention! Codex just changed that. The new Chrome plugin in the Codex app lets the agent test web apps, gather context across multiple tabs, and use DevTools",
+              "text": "Most browser debugging requires your full attention! Codex just changed that. The new Chrome plugin in the Codex app lets the agent test web apps, gather context across multiple tabs, and use DevTools in parallel, all without taking over your browser or blocking your workflow. The developers running this today are doing browser dev work without doing browser dev work. https://t.co/iwGVSicRLc",
+              "author": "neil_xbt",
               "engagement": {
-                "score": 6,
-                "comments": 4
+                "score": 29,
+                "comments": 2
               },
-              "observedAt": "Fri May 08 06:22:12 +0000 2026"
+              "observedAt": "Fri May 08 07:15:00 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "browser-use/browser-harness",
-              "url": "https://x.com/codewith55/status/2052635159518917085",
-              "title": "Be honest, which browser do you use the most https://t.co/WyBHBrbqn2",
-              "text": "Be honest, which browser do you use the most https://t.co/WyBHBrbqn2",
-              "author": "codewith55",
+              "url": "https://x.com/neil_xbt/status/2052648444628730036",
+              "title": "Most browser debugging requires your full attention! Codex just changed that. The new Chrome plugin in the Codex app lets the agent test web apps, gather context across multiple tabs, and use DevTools",
+              "text": "Most browser debugging requires your full attention! Codex just changed that. The new Chrome plugin in the Codex app lets the agent test web apps, gather context across multiple tabs, and use DevTools in parallel, all without taking over your browser or blocking your workflow. The developers running this today are doing browser dev work without doing browser dev work. https://t.co/iwGVSicRLc",
+              "author": "neil_xbt",
               "engagement": {
-                "score": 6,
-                "comments": 4
+                "score": 29,
+                "comments": 2
               },
-              "observedAt": "Fri May 08 06:22:12 +0000 2026"
+              "observedAt": "Fri May 08 07:15:00 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "browser-use/browser-harness",
-              "url": "https://x.com/Phu_Prosperity8/status/2052637565724098937",
-              "title": "GM CT Intelligence without security is incomplete. @TheARCTERMINAL is building the AI-native Operating System for Web3. It runs directly in your browser and combines wallets, onchain data, DeFi tools,",
-              "text": "GM CT Intelligence without security is incomplete. @TheARCTERMINAL is building the AI-native Operating System for Web3. It runs directly in your browser and combines wallets, onchain data, DeFi tools, and autonomous AI agents (ANIMA) into one unified, sovereign workspace. You can research, analyze, plan, and execute complex strategies across chains all while keeping full control and privacy. From intent to onchain action, ARC makes Web3 feel truly intelligent. But the smartest system is only as ",
-              "author": "Phu_Prosperity8",
+              "url": "https://x.com/mrdoob/status/2052641998998474778",
+              "title": "Built a minimal browser with devtools while traveling around Kyushu for Golden Week 🤓 https://t.co/SBx09aFIrN",
+              "text": "Built a minimal browser with devtools while traveling around Kyushu for Golden Week 🤓 https://t.co/SBx09aFIrN",
+              "author": "mrdoob",
               "engagement": {
-                "score": 5,
+                "score": 13,
                 "comments": 3
               },
-              "observedAt": "Fri May 08 06:31:46 +0000 2026"
+              "observedAt": "Fri May 08 06:49:23 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "browser-use/browser-harness",
-              "url": "https://x.com/frawg_spawn/status/2052640174434300179",
-              "title": "Opened my browser and saw one of those random celebrity headlines and was struck with a vision https://t.co/zlwxmS437A",
-              "text": "Opened my browser and saw one of those random celebrity headlines and was struck with a vision https://t.co/zlwxmS437A",
-              "author": "frawg_spawn",
+              "url": "https://x.com/hatem_0xal/status/2052649181349654662",
+              "title": "integrating arc terminal with web3 activities through an ai powered agent browser feels like a natural next step, everything connects more smoothly in one flow. @TheARCTERMINAL makes the experience fe",
+              "text": "integrating arc terminal with web3 activities through an ai powered agent browser feels like a natural next step, everything connects more smoothly in one flow. @TheARCTERMINAL makes the experience feel more unified and easy to follow. https://t.co/tuZ2aPMUk6",
+              "author": "hatem_0xal",
               "engagement": {
-                "score": 4,
-                "comments": 0
+                "score": 10,
+                "comments": 10
               },
-              "observedAt": "Fri May 08 06:42:08 +0000 2026"
+              "observedAt": "Fri May 08 07:17:55 +0000 2026"
             }
           ]
         }
@@ -1935,11 +1935,24 @@
     },
     "virattt/dexter": {
       "fullName": "virattt/dexter",
-      "totalMentions7d": 55,
+      "totalMentions7d": 57,
       "perSource": {
         "twitter": {
-          "count7d": 5,
+          "count7d": 7,
           "top": [
+            {
+              "source": "twitter",
+              "fullName": "virattt/dexter",
+              "url": "https://x.com/WhileSleeping_/status/2052070023284342991",
+              "title": "The wildcard feature: WhatsApp integration. Message yourself on WhatsApp. Dexter answers. AAPL, NVDA, MSFT data is free to start. bun install &amp;&amp; bun start 👉 https://t.co/i13GvR9p9T @virattt",
+              "text": "The wildcard feature: WhatsApp integration. Message yourself on WhatsApp. Dexter answers. AAPL, NVDA, MSFT data is free to start. bun install &amp;&amp; bun start 👉 https://t.co/i13GvR9p9T @virattt",
+              "author": "WhileSleeping_",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "Wed May 06 16:56:33 +0000 2026"
+            },
             {
               "source": "twitter",
               "fullName": "virattt/dexter",
@@ -1982,28 +1995,15 @@
             {
               "source": "twitter",
               "fullName": "virattt/dexter",
-              "url": "https://x.com/pappasimois/status/2050809763169202430",
-              "title": "Hey @virattt - I built a Rust desktop app for VIX/commodity regime monitoring and vendored Dexter into it as the embedded research agent. @51folds_ai synthesizes Dexter chats into Bayesian model hypot",
-              "text": "Hey @virattt - I built a Rust desktop app for VIX/commodity regime monitoring and vendored Dexter into it as the embedded research agent. @51folds_ai synthesizes Dexter chats into Bayesian model hypotheses. Wanted to give you a heads-up before putting up on GH and would be happy to invite you to the project prior.",
-              "author": "pappasimois",
+              "url": "https://x.com/mrluiscalderon/status/2051937039965122904",
+              "title": "4/ virattt/dexter Deep financial research agent. Action: Watch how finance workflows become agent-native research loops. https://t.co/PonwJGkXXL https://t.co/oE20btmmlI",
+              "text": "4/ virattt/dexter Deep financial research agent. Action: Watch how finance workflows become agent-native research loops. https://t.co/PonwJGkXXL https://t.co/oE20btmmlI",
+              "author": "mrluiscalderon",
               "engagement": {
                 "score": 0,
                 "comments": 1
               },
-              "observedAt": "Sun May 03 05:28:44 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "virattt/dexter",
-              "url": "https://x.com/252clubb/status/2050575651317395647",
-              "title": "@virattt Dexter better?",
-              "text": "@virattt Dexter better?",
-              "author": "252clubb",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "Sat May 02 13:58:27 +0000 2026"
+              "observedAt": "Wed May 06 08:08:08 +0000 2026"
             }
           ]
         },
@@ -2188,75 +2188,75 @@
     },
     "ComposioHQ/awesome-codex-skills": {
       "fullName": "ComposioHQ/awesome-codex-skills",
-      "totalMentions7d": 60,
+      "totalMentions7d": 30,
       "perSource": {
         "twitter": {
-          "count7d": 60,
+          "count7d": 30,
           "top": [
             {
               "source": "twitter",
               "fullName": "ComposioHQ/awesome-codex-skills",
-              "url": "https://x.com/DeanEllta/status/2052334079584936203",
-              "title": "Dean never officially took karate, but when combined with his taekwondo skills, he's certainly a quick learner. This awesome piece was a gift from @elleci42 and art by @TonyDunkel. Thank you both agai",
-              "text": "Dean never officially took karate, but when combined with his taekwondo skills, he's certainly a quick learner. This awesome piece was a gift from @elleci42 and art by @TonyDunkel. Thank you both again! https://t.co/TX7Qg7fFef",
-              "author": "DeanEllta",
+              "url": "https://x.com/DeryaTR_/status/2052579197353410956",
+              "title": "Built this Codex app, GPT-5.5 Vibe Coding site, with Codex for myself. It's a learning site &amp; repo for vibe coding, including prompt libraries, skills/plugin guides, subagent use, design templates",
+              "text": "Built this Codex app, GPT-5.5 Vibe Coding site, with Codex for myself. It's a learning site &amp; repo for vibe coding, including prompt libraries, skills/plugin guides, subagent use, design templates, &amp; more. I thought I should share it with other Codexers: https://t.co/Zd9jsZ298q https://t.co/PQp3NNecEh",
+              "author": "DeryaTR_",
               "engagement": {
-                "score": 424,
-                "comments": 5
+                "score": 50,
+                "comments": 2
               },
-              "observedAt": "Thu May 07 10:25:49 +0000 2026"
+              "observedAt": "Fri May 08 02:39:50 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "ComposioHQ/awesome-codex-skills",
-              "url": "https://x.com/doodlestein/status/2052461090857001371",
-              "title": "The combination of Codex goal mode, my ntm orchestration tool, and all my new \"super skills\" (like /reality-check-for-project and /simplify-and-refactor-code-isomorphically) have led to another explos",
-              "text": "The combination of Codex goal mode, my ntm orchestration tool, and all my new \"super skills\" (like /reality-check-for-project and /simplify-and-refactor-code-isomorphically) have led to another explosion in my useful output just in the last week or two. The acceleration is nuts! https://t.co/inOLSFawsU",
-              "author": "doodlestein",
+              "url": "https://x.com/farmingtonfast/status/2052570648795652341",
+              "title": "What a great way to wrap up Farmington Girls Basketball Camp! 🏀 We’re so proud of all the hard work, energy, and positive attitudes these girls brought each day. It was awesome watching them improve ",
+              "text": "What a great way to wrap up Farmington Girls Basketball Camp! 🏀 We’re so proud of all the hard work, energy, and positive attitudes these girls brought each day. It was awesome watching them improve their skills, compete, and have fun together. Thank you to everyone who came out and made this camp such a success! ❤️🖤 #FarmingtonFast #GirlsHoops",
+              "author": "farmingtonfast",
               "engagement": {
-                "score": 131,
-                "comments": 19
+                "score": 6,
+                "comments": 0
               },
-              "observedAt": "Thu May 07 18:50:31 +0000 2026"
+              "observedAt": "Fri May 08 02:05:52 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "ComposioHQ/awesome-codex-skills",
-              "url": "https://x.com/DhravyaShah/status/2052131320273473918",
-              "title": "here's an awesome coding workflow i found: i was tired of giving claude/codex the right places to look in the docs and also tired of waiting for it to explore through shit ton of files to give me an a",
-              "text": "here's an awesome coding workflow i found: i was tired of giving claude/codex the right places to look in the docs and also tired of waiting for it to explore through shit ton of files to give me an answer.... consuming tons of tokens and time i ALSO dont want to have shit ton of unnecessary files. so, i use webpull with SMFS - i just pull an entire website into a 'docs' folder, and then let the agent figure things out. 90% of the times, it WILL one shot find the answer. and then i can unmount i",
-              "author": "DhravyaShah",
+              "url": "https://x.com/aacanzonetta/status/2052527358234488990",
+              "title": "@ScuffCatvt It would be so awesome if the Vorgh* finally get a figure as the T'au Titan unit (it would be funny to have a not-Godzilla among the not-Gundams) *Kaiju-sized auxiliary described in the Co",
+              "text": "@ScuffCatvt It would be so awesome if the Vorgh* finally get a figure as the T'au Titan unit (it would be funny to have a not-Godzilla among the not-Gundams) *Kaiju-sized auxiliary described in the Codex as large and tough enough to grapple super heavy combat walkers https://t.co/NfssZv4S50",
+              "author": "aacanzonetta",
               "engagement": {
-                "score": 122,
-                "comments": 9
+                "score": 5,
+                "comments": 0
               },
-              "observedAt": "Wed May 06 21:00:08 +0000 2026"
+              "observedAt": "Thu May 07 23:13:50 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "ComposioHQ/awesome-codex-skills",
-              "url": "https://x.com/airmainengineer/status/2052473844883964106",
-              "title": "Awesome landing skills with retracted landing gears 🛬 https://t.co/zbZTsEKmWx",
-              "text": "Awesome landing skills with retracted landing gears 🛬 https://t.co/zbZTsEKmWx",
-              "author": "airmainengineer",
+              "url": "https://x.com/billyjhowell/status/2052554793025982666",
+              "title": "I am 3-D printing NYC onto a grid, one block at a time with a custom app Codex &amp; Claude built me. I did my first 3-D print ever two weeks ago… The future is awesome. https://t.co/IXpkjmYDOp",
+              "text": "I am 3-D printing NYC onto a grid, one block at a time with a custom app Codex &amp; Claude built me. I did my first 3-D print ever two weeks ago… The future is awesome. https://t.co/IXpkjmYDOp",
+              "author": "billyjhowell",
               "engagement": {
-                "score": 92,
-                "comments": 4
+                "score": 4,
+                "comments": 2
               },
-              "observedAt": "Thu May 07 19:41:12 +0000 2026"
+              "observedAt": "Fri May 08 01:02:51 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "ComposioHQ/awesome-codex-skills",
-              "url": "https://x.com/thymikee/status/2052410107644756419",
-              "title": "In 𝚊𝚐𝚎𝚗𝚝-𝚍𝚎𝚟𝚒𝚌𝚎 v0.14 we completely reworked our skills: simpler instructions through 𝚑𝚎𝚕𝚙 command. But how did we know it’s better? We added tests with skillgym. Started at 41.7–54.2% ",
-              "text": "In 𝚊𝚐𝚎𝚗𝚝-𝚍𝚎𝚟𝚒𝚌𝚎 v0.14 we completely reworked our skills: simpler instructions through 𝚑𝚎𝚕𝚙 command. But how did we know it’s better? We added tests with skillgym. Started at 41.7–54.2% passing on cheap models, and Codex got it to 100% while adding more cases. https://t.co/ryhrmO7ytA",
-              "author": "thymikee",
+              "url": "https://x.com/Alex_dp_13/status/2052553023709130969",
+              "title": "Had an amazing time being able to show my skills and talk to some awesome coaches at both sessions of the Central Bucks showcase. I’m extremely grateful for the opportunity! @CBEastFootball @ArtisticM",
+              "text": "Had an amazing time being able to show my skills and talk to some awesome coaches at both sessions of the Central Bucks showcase. I’m extremely grateful for the opportunity! @CBEastFootball @ArtisticMayhem1 Thanks for the videos @Frank98074341 https://t.co/buW9lFFiP4",
+              "author": "Alex_dp_13",
               "engagement": {
-                "score": 49,
-                "comments": 4
+                "score": 4,
+                "comments": 0
               },
-              "observedAt": "Thu May 07 15:27:56 +0000 2026"
+              "observedAt": "Fri May 08 00:55:50 +0000 2026"
             }
           ]
         }
@@ -2335,10 +2335,10 @@
     },
     "docusealco/docuseal": {
       "fullName": "docusealco/docuseal",
-      "totalMentions7d": 3,
+      "totalMentions7d": 5,
       "perSource": {
         "twitter": {
-          "count7d": 2,
+          "count7d": 4,
           "top": [
             {
               "source": "twitter",
@@ -2365,6 +2365,32 @@
                 "comments": 0
               },
               "observedAt": "Thu May 07 10:04:36 +0000 2026"
+            },
+            {
+              "source": "twitter",
+              "fullName": "docusealco/docuseal",
+              "url": "https://x.com/Alacritic_Super/status/2052654167249097199",
+              "title": "Most companies still pay absurd SaaS fees just to sign PDFs. Per-user pricing. Per-envelope pricing. Vendor lock-in. That model is collapsing. → DocuSeal (docusealco) This is an open-source, self-host",
+              "text": "Most companies still pay absurd SaaS fees just to sign PDFs. Per-user pricing. Per-envelope pricing. Vendor lock-in. That model is collapsing. → DocuSeal (docusealco) This is an open-source, self-hostable e-signature platform built as a real DocuSign alternative. Not a toy OSS clone. 👉 Production-grade document signing infra Core capabilities ↓ • PDF form builder (WYSIWYG) • Multi-party signing workflows • Legally binding eSignatures • Audit trails + verification Infra stack ↓ • Self-host via D",
+              "author": "Alacritic_Super",
+              "engagement": {
+                "score": 0,
+                "comments": 1
+              },
+              "observedAt": "Fri May 08 07:37:44 +0000 2026"
+            },
+            {
+              "source": "twitter",
+              "fullName": "docusealco/docuseal",
+              "url": "https://x.com/Alacritic_Super/status/2052654167249097199",
+              "title": "Most companies still pay absurd SaaS fees just to sign PDFs. Per-user pricing. Per-envelope pricing. Vendor lock-in. That model is collapsing. → DocuSeal (docusealco) This is an open-source, self-host",
+              "text": "Most companies still pay absurd SaaS fees just to sign PDFs. Per-user pricing. Per-envelope pricing. Vendor lock-in. That model is collapsing. → DocuSeal (docusealco) This is an open-source, self-hostable e-signature platform built as a real DocuSign alternative. Not a toy OSS clone. 👉 Production-grade document signing infra Core capabilities ↓ • PDF form builder (WYSIWYG) • Multi-party signing workflows • Legally binding eSignatures • Audit trails + verification Infra stack ↓ • Self-host via D",
+              "author": "Alacritic_Super",
+              "engagement": {
+                "score": 0,
+                "comments": 1
+              },
+              "observedAt": "Fri May 08 07:37:44 +0000 2026"
             }
           ]
         },
@@ -2797,10 +2823,10 @@
     },
     "cheahjs/free-llm-api-resources": {
       "fullName": "cheahjs/free-llm-api-resources",
-      "totalMentions7d": 39,
+      "totalMentions7d": 28,
       "perSource": {
         "twitter": {
-          "count7d": 39,
+          "count7d": 28,
           "top": [
             {
               "source": "twitter",
@@ -2810,7 +2836,7 @@
               "text": "A list of free llm inference resources accessible via api. https://t.co/S2n2OLDgQu",
               "author": "GithubProjects",
               "engagement": {
-                "score": 65,
+                "score": 68,
                 "comments": 1
               },
               "observedAt": "Thu May 07 16:30:16 +0000 2026"
@@ -2823,7 +2849,7 @@
               "text": "A list of free llm inference resources accessible via api. https://t.co/S2n2OLDgQu",
               "author": "GithubProjects",
               "engagement": {
-                "score": 65,
+                "score": 68,
                 "comments": 1
               },
               "observedAt": "Thu May 07 16:30:16 +0000 2026"
@@ -2862,8 +2888,8 @@
               "text": "Someone just compiled every free LLM API in one place. GPT-5, Claude, Gemini 3 Flash, DeepSeek R1, Llama 4, Qwen 3.. all accessible for free through providers like Groq, Cerebras, OpenRouter, Google AI Studio, and GitHub Models. 100% Open Source.￼ https://t.co/F5ykCZQiHf",
               "author": "Amank1412",
               "engagement": {
-                "score": 22,
-                "comments": 5
+                "score": 23,
+                "comments": 6
               },
               "observedAt": "Wed May 06 18:34:07 +0000 2026"
             }
@@ -2936,10 +2962,10 @@
     },
     "InsForge/InsForge": {
       "fullName": "InsForge/InsForge",
-      "totalMentions7d": 59,
+      "totalMentions7d": 58,
       "perSource": {
         "twitter": {
-          "count7d": 59,
+          "count7d": 58,
           "top": [
             {
               "source": "twitter",
@@ -3020,15 +3046,15 @@
             {
               "source": "twitter",
               "fullName": "openai/symphony",
-              "url": "https://x.com/steipete/status/2052144503595716790",
-              "title": "closed source, open source, nothing can stop codex. https://t.co/Zua5EeYkOw",
-              "text": "closed source, open source, nothing can stop codex. https://t.co/Zua5EeYkOw",
-              "author": "steipete",
+              "url": "https://x.com/jasonzhou1993/status/2050524139132445055",
+              "title": "OpenAI Symphony is actually great You can 5x Coding agent outcome with it + Good codebase harness Played with it past few days and here is my setup: - Playwright CLI - Boot skill - WORKFLOW.md ... Bro",
+              "text": "OpenAI Symphony is actually great You can 5x Coding agent outcome with it + Good codebase harness Played with it past few days and here is my setup: - Playwright CLI - Boot skill - WORKFLOW.md ... Broken it down in 12 mins below so you can do the same 👇 https://t.co/5VTSmHCjHv",
+              "author": "jasonzhou1993",
               "engagement": {
-                "score": 1086,
-                "comments": 70
+                "score": 577,
+                "comments": 24
               },
-              "observedAt": "Wed May 06 21:52:31 +0000 2026"
+              "observedAt": "Sat May 02 10:33:46 +0000 2026"
             },
             {
               "source": "twitter",
@@ -3038,7 +3064,7 @@
               "text": "Introducing Goal Buddy! Goal Buddy prepares a goal.md and state file for the Codex /goal command. Extend goals into GitHub, Slack, Linear, or however you want. ⭐️ 148 Stars from teams at Shopify, Tencent, Zendesk, and more! Open source + Extendable. https://t.co/jR5nFEG4Lf",
               "author": "tolibear_",
               "engagement": {
-                "score": 263,
+                "score": 265,
                 "comments": 19
               },
               "observedAt": "Thu May 07 15:08:50 +0000 2026"
@@ -3072,15 +3098,15 @@
             {
               "source": "twitter",
               "fullName": "openai/symphony",
-              "url": "https://x.com/DataChaz/status/2052078189367947674",
-              "title": "The open-source community is INSANE 🤯 ICYMI Claude Code routines dropped days ago, and this guy's already shipped a clone. it's called Multica Autopilot: Now you can run routines entirely locally usi",
-              "text": "The open-source community is INSANE 🤯 ICYMI Claude Code routines dropped days ago, and this guy's already shipped a clone. it's called Multica Autopilot: Now you can run routines entirely locally using whatever agent you want (Opencode, Codex, Hermes, OpenClaw etc). repo in 🧵↓",
-              "author": "DataChaz",
+              "url": "https://x.com/btibor91/status/2051031732384854396",
+              "title": "OpenAI and Anthropic news roundup (Week 18, 2026) OpenAI open-sourced Symphony spec for Codex orchestration, published \"Our principles\" post, announced amended Microsoft partnership, achieved FedRAMP ",
+              "text": "OpenAI and Anthropic news roundup (Week 18, 2026) OpenAI open-sourced Symphony spec for Codex orchestration, published \"Our principles\" post, announced amended Microsoft partnership, achieved FedRAMP Moderate authorization, posted commitment to community safety, brought OpenAI models, Codex, and Managed Agents to AWS, shared cybersecurity action plan, posted Stargate compute infrastructure update, published \"Where the goblins came from\" post, posted Auto-review write-up for Codex, introduced Adv",
+              "author": "btibor91",
               "engagement": {
-                "score": 60,
-                "comments": 12
+                "score": 53,
+                "comments": 2
               },
-              "observedAt": "Wed May 06 17:29:00 +0000 2026"
+              "observedAt": "Sun May 03 20:10:45 +0000 2026"
             }
           ]
         },
@@ -3314,49 +3340,10 @@
               "text": "That's a wrap on Code with Claude San Francisco! Clawd had an amazing time, and we hope you did too. And if you couldn't make it; we saved everyone some free stickers! Grab a pack before they're gone https://t.co/44jNKiJpcE https://t.co/xx5wbmOOnr",
               "author": "EricWise597590",
               "engagement": {
-                "score": 22,
-                "comments": 52
+                "score": 23,
+                "comments": 51
               },
               "observedAt": "Fri May 08 05:08:13 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "Alishahryar1/free-claude-code",
-              "url": "https://x.com/RoundtableSpace/status/2052640894973784416",
-              "title": "THIS GUY BUILT A FULL JARVIS HQ WITH CLAUDE CODE THAT RUNS HIS ENTIRE DAY FROM A SINGLE CLAP https://t.co/QliIMam4Ms",
-              "text": "THIS GUY BUILT A FULL JARVIS HQ WITH CLAUDE CODE THAT RUNS HIS ENTIRE DAY FROM A SINGLE CLAP https://t.co/QliIMam4Ms",
-              "author": "RoundtableSpace",
-              "engagement": {
-                "score": 14,
-                "comments": 1
-              },
-              "observedAt": "Fri May 08 06:45:00 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "Alishahryar1/free-claude-code",
-              "url": "https://x.com/mikenevermiss/status/2052642152417464821",
-              "title": "putting out an article that explains what many people don’t know about claude code but X nerfs it at 200 views 🥀🥀🥀 (i am not okay) https://t.co/P6hCXrUOc6",
-              "text": "putting out an article that explains what many people don’t know about claude code but X nerfs it at 200 views 🥀🥀🥀 (i am not okay) https://t.co/P6hCXrUOc6",
-              "author": "mikenevermiss",
-              "engagement": {
-                "score": 10,
-                "comments": 3
-              },
-              "observedAt": "Fri May 08 06:50:00 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "Alishahryar1/free-claude-code",
-              "url": "https://x.com/rahulbais136/status/2052642850886791235",
-              "title": "GOODBYE $500,000 McKinsey consultants forever. Claude just replaced 6 weeks of strategy analysis into 8 minutes completely free. Here are 12 prompts to go from completely clueless to completely boardr",
-              "text": "GOODBYE $500,000 McKinsey consultants forever. Claude just replaced 6 weeks of strategy analysis into 8 minutes completely free. Here are 12 prompts to go from completely clueless to completely boardroom-ready in every business decision: 👇 Top designers are already using this. Bookmark this thread 🔖",
-              "author": "rahulbais136",
-              "engagement": {
-                "score": 9,
-                "comments": 1
-              },
-              "observedAt": "Fri May 08 06:52:46 +0000 2026"
             },
             {
               "source": "twitter",
@@ -3366,10 +3353,49 @@
               "text": "I found a free Claude Code skill that makes AI-generated text completely undetectable. It took me 3 minutes to set up. And once you have it, its hard to ignore! Here's the step-by-step: https://t.co/suxK8WrY1m",
               "author": "heyrimsha",
               "engagement": {
-                "score": 5,
-                "comments": 2
+                "score": 10,
+                "comments": 4
               },
               "observedAt": "Fri May 08 06:39:50 +0000 2026"
+            },
+            {
+              "source": "twitter",
+              "fullName": "Alishahryar1/free-claude-code",
+              "url": "https://x.com/AntonioWallahi/status/2052646814252196058",
+              "title": "WE GO LIVE ‼️ Let’s resume live Bets now 💥 Join Now &amp; Deposit a Huge Stake we move together Link — https://t.co/Elymg2f4jo Promo Code : ANTOH Join FREE VIP WHATSAPP : https://t.co/0URogoM7SU",
+              "text": "WE GO LIVE ‼️ Let’s resume live Bets now 💥 Join Now &amp; Deposit a Huge Stake we move together Link — https://t.co/Elymg2f4jo Promo Code : ANTOH Join FREE VIP WHATSAPP : https://t.co/0URogoM7SU",
+              "author": "AntonioWallahi",
+              "engagement": {
+                "score": 8,
+                "comments": 0
+              },
+              "observedAt": "Fri May 08 07:08:31 +0000 2026"
+            },
+            {
+              "source": "twitter",
+              "fullName": "Alishahryar1/free-claude-code",
+              "url": "https://x.com/VeveVideo/status/2052646971538804898",
+              "title": "Set your reminders! Yoda arrives in digital format on VeVe, for the first time! 👉Drop time: May 9. 8 AM PT. 👉Experience using AR to place your yoda anywhere! 👉 Claim a free Star Wars collectible by",
+              "text": "Set your reminders! Yoda arrives in digital format on VeVe, for the first time! 👉Drop time: May 9. 8 AM PT. 👉Experience using AR to place your yoda anywhere! 👉 Claim a free Star Wars collectible by using the QR code at the end of the video! #starwars #veve #maythe4th #disney",
+              "author": "VeveVideo",
+              "engagement": {
+                "score": 7,
+                "comments": 0
+              },
+              "observedAt": "Fri May 08 07:09:09 +0000 2026"
+            },
+            {
+              "source": "twitter",
+              "fullName": "Alishahryar1/free-claude-code",
+              "url": "https://x.com/musicaudiostory/status/2052654017184976947",
+              "title": "📚 Join @StorytimewithAC at Free Storytime for Little Readers at #EalingBookFestival tomorrow morning! 📍 The Dominion Centre 📅 Sat 9th May 🕘 10 - 10:45 🚂 Southall 💰 Free to Attend - Booking requi",
+              "text": "📚 Join @StorytimewithAC at Free Storytime for Little Readers at #EalingBookFestival tomorrow morning! 📍 The Dominion Centre 📅 Sat 9th May 🕘 10 - 10:45 🚂 Southall 💰 Free to Attend - Booking required Book Tickets: https://t.co/GtUdNJk2fa Or scan the QR Code below... 😉 https://t.co/sJElzjKYDg",
+              "author": "musicaudiostory",
+              "engagement": {
+                "score": 6,
+                "comments": 0
+              },
+              "observedAt": "Fri May 08 07:37:08 +0000 2026"
             }
           ]
         },
@@ -3395,11 +3421,24 @@
     },
     "LearningCircuit/local-deep-research": {
       "fullName": "LearningCircuit/local-deep-research",
-      "totalMentions7d": 60,
+      "totalMentions7d": 26,
       "perSource": {
         "twitter": {
-          "count7d": 60,
+          "count7d": 26,
           "top": [
+            {
+              "source": "twitter",
+              "fullName": "LearningCircuit/local-deep-research",
+              "url": "https://x.com/minchoi/status/2050290896382353432",
+              "title": "Google just leaked COSMO... &gt; Local Gemini Nano &gt; Screen access &gt; Voice match &gt; Recall &gt; Browser agent &gt; Deep research Then it vanished. Android is becoming an AI agent👀 https://t.c",
+              "text": "Google just leaked COSMO... &gt; Local Gemini Nano &gt; Screen access &gt; Voice match &gt; Recall &gt; Browser agent &gt; Deep research Then it vanished. Android is becoming an AI agent👀 https://t.co/3VC3IQE8CE",
+              "author": "minchoi",
+              "engagement": {
+                "score": 852,
+                "comments": 120
+              },
+              "observedAt": "Fri May 01 19:06:56 +0000 2026"
+            },
             {
               "source": "twitter",
               "fullName": "LearningCircuit/local-deep-research",
@@ -3408,7 +3447,7 @@
               "text": "You can now run deep research on your laptop without OpenAI. Most AI research tools send your queries to the cloud. Your data leaves the machine the moment you hit search. Local Deep Research flips that model entirely. It's an open-source assistant that runs fully on your device. Ask a complex question and it searches the web, academic papers, and your private documents at once. The system synthesizes everything into a cited report. It hits ~95% on the SimpleQA benchmark. That matches state-of-t",
               "author": "AlphaSignalAI",
               "engagement": {
-                "score": 33,
+                "score": 36,
                 "comments": 2
               },
               "observedAt": "Thu May 07 12:01:33 +0000 2026"
@@ -3425,19 +3464,6 @@
                 "comments": 3
               },
               "observedAt": "Tue May 05 17:55:19 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "LearningCircuit/local-deep-research",
-              "url": "https://x.com/MossAI_Official/status/2052616873515389273",
-              "title": "This repo turns messy financial research into one agent. It’s an autonomous agent for deep financial research that gathers context, reasons through information, and turns messy market data into a clea",
-              "text": "This repo turns messy financial research into one agent. It’s an autonomous agent for deep financial research that gathers context, reasons through information, and turns messy market data into a clearer thesis. 24K stars on GitHub and still climbing. It focuses on one of the most skipped parts of trading: doing the homework before the trade. But most traders don’t want to build the full research stack. You just need the agent running. That’s the point of Moss. Describe what you want, deploy it ",
-              "author": "MossAI_Official",
-              "engagement": {
-                "score": 16,
-                "comments": 3
-              },
-              "observedAt": "Fri May 08 05:09:33 +0000 2026"
             },
             {
               "source": "twitter",
@@ -3560,23 +3586,23 @@
               "text": "1. Open Gemini / Grok / GPT Image 2.0 2. Upload your photo 3. Copy the prompt 4. Generate 9 viral prompts 🧵 👇 (Part 11) https://t.co/wfRFa1wiWs",
               "author": "AiWithTariq",
               "engagement": {
-                "score": 43,
-                "comments": 15
+                "score": 59,
+                "comments": 17
               },
               "observedAt": "Fri May 08 05:47:45 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "YouMind-OpenLab/awesome-gpt-image-2",
-              "url": "https://x.com/AiWithTariq/status/2052626488013545525",
-              "title": "1. Open Gemini / Grok / GPT Image 2.0 2. Upload your photo 3. Copy the prompt 4. Generate 9 viral prompts 🧵 👇 (Part 11) https://t.co/wfRFa1wiWs",
-              "text": "1. Open Gemini / Grok / GPT Image 2.0 2. Upload your photo 3. Copy the prompt 4. Generate 9 viral prompts 🧵 👇 (Part 11) https://t.co/wfRFa1wiWs",
-              "author": "AiWithTariq",
+              "url": "https://x.com/AmControo/status/2052651491387646013",
+              "title": "Remote Al jobs this week - voice, vision, evaluation design, and domain expertise 1. Image Annotation Expert — Mercor Remote (Worldwide) — $30/hr https://t.co/r5x7S0aG1i Answer precise visual reasonin",
+              "text": "Remote Al jobs this week - voice, vision, evaluation design, and domain expertise 1. Image Annotation Expert — Mercor Remote (Worldwide) — $30/hr https://t.co/r5x7S0aG1i Answer precise visual reasoning questions grounded in real images and diagrams. 2. QA Specialist – Audio Annotation & Diarization — Turing Remote (Worldwide) https://t.co/AVKV5UQkza Final-line quality review on group conversation recordings & transcription accuracy",
+              "author": "AmControo",
               "engagement": {
-                "score": 43,
-                "comments": 15
+                "score": 48,
+                "comments": 1
               },
-              "observedAt": "Fri May 08 05:47:45 +0000 2026"
+              "observedAt": "Fri May 08 07:27:06 +0000 2026"
             },
             {
               "source": "twitter",
@@ -3586,36 +3612,36 @@
               "text": "GPT IMAGE 2 on ChatGpt Prompt; Ultra-realistic cinematic social media promo artwork of the same man from the reference image appearing both inside the X/Twitter profile and outside the phone screen in real life, maintaining identical face, hairstyle, beard, glasses, clothing, and expression. A premium black smartphone placed diagonally on a dark wooden desk displaying his own futuristic X/Twitter profile page with glowing neon accents and “DM FOR COLLABS” banner. The same person is emerging out ",
               "author": "sha_zdiii",
               "engagement": {
-                "score": 35,
-                "comments": 30
+                "score": 48,
+                "comments": 37
               },
               "observedAt": "Fri May 08 05:32:13 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "YouMind-OpenLab/awesome-gpt-image-2",
-              "url": "https://x.com/sha_zdiii/status/2052622577949171729",
-              "title": "GPT IMAGE 2 on ChatGpt Prompt; Ultra-realistic cinematic social media promo artwork of the same man from the reference image appearing both inside the X/Twitter profile and outside the phone screen in",
-              "text": "GPT IMAGE 2 on ChatGpt Prompt; Ultra-realistic cinematic social media promo artwork of the same man from the reference image appearing both inside the X/Twitter profile and outside the phone screen in real life, maintaining identical face, hairstyle, beard, glasses, clothing, and expression. A premium black smartphone placed diagonally on a dark wooden desk displaying his own futuristic X/Twitter profile page with glowing neon accents and “DM FOR COLLABS” banner. The same person is emerging out ",
-              "author": "sha_zdiii",
+              "url": "https://x.com/2xnmore/status/2052644673106358521",
+              "title": "Voice AI just crossed a line most people are not ready for. GPT-Realtime-2 does not transcribe your words and respond. It reasons while you speak. That is a completely different product. GPT-5-class i",
+              "text": "Voice AI just crossed a line most people are not ready for. GPT-Realtime-2 does not transcribe your words and respond. It reasons while you speak. That is a completely different product. GPT-5-class intelligence running inside a live conversation means voice agents can now handle objections, solve complex problems, and adapt in real time, without a single pause. OpenAI shipped three models at once: - GPT-Realtime-2 for reasoning - GPT-Realtime-Translate for 70+ languages - GPT-Realtime-Whisper f",
+              "author": "2xnmore",
               "engagement": {
-                "score": 35,
-                "comments": 30
+                "score": 32,
+                "comments": 2
               },
-              "observedAt": "Fri May 08 05:32:13 +0000 2026"
+              "observedAt": "Fri May 08 07:00:01 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "YouMind-OpenLab/awesome-gpt-image-2",
-              "url": "https://x.com/john_my07/status/2052618158515822983",
-              "title": "Life of a Turkish girl created using GPT Image 2 and Seedance 2.0 on @yapper_so Prompt: Create a cinematic lifestyle short-film video featuring a beautiful young Turkish woman living a calm, elegant, ",
-              "text": "Life of a Turkish girl created using GPT Image 2 and Seedance 2.0 on @yapper_so Prompt: Create a cinematic lifestyle short-film video featuring a beautiful young Turkish woman living a calm, elegant, modern everyday life in Istanbul. The tone should feel warm, authentic, intimate, and culturally grounded — like a premium fashion-commercial mixed with a realistic daily-life documentary. Style & Mood: • Natural cinematic realism • Soft golden lighting and realistic indoor daylight • Calm, peaceful",
-              "author": "john_my07",
+              "url": "https://x.com/Xaroon_x/status/2052632102026567923",
+              "title": "Made with GPT Image 2. Prompt: Create a minimalist Harajuku-inspired fashion poster featuring a stylish Malay man leaning confidently on a black motorcycle. He wears a black suit with a bold color-blo",
+              "text": "Made with GPT Image 2. Prompt: Create a minimalist Harajuku-inspired fashion poster featuring a stylish Malay man leaning confidently on a black motorcycle. He wears a black suit with a bold color-block shirt, masculine pose, clean modern hairstyle, luxury street-fashion vibe. Background filled with abstract geometric color-block shapes in blue, red, orange, and cream tones. Large bold vertical typography on the right side spelling “ZarOon” from top to bottom using modern sans-serif font.",
+              "author": "Xaroon_x",
               "engagement": {
-                "score": 26,
-                "comments": 18
+                "score": 31,
+                "comments": 19
               },
-              "observedAt": "Fri May 08 05:14:39 +0000 2026"
+              "observedAt": "Fri May 08 06:10:03 +0000 2026"
             }
           ]
         }
@@ -3694,10 +3720,10 @@
     },
     "shareAI-lab/learn-claude-code": {
       "fullName": "shareAI-lab/learn-claude-code",
-      "totalMentions7d": 21,
+      "totalMentions7d": 50,
       "perSource": {
         "twitter": {
-          "count7d": 21,
+          "count7d": 50,
           "top": [
             {
               "source": "twitter",
@@ -3707,7 +3733,7 @@
               "text": "Learn Claude Code- https://t.co/TBTRGp9uq1 https://t.co/ryMAT99xmr",
               "author": "tut_ml",
               "engagement": {
-                "score": 194,
+                "score": 197,
                 "comments": 1
               },
               "observedAt": "Thu May 07 12:43:46 +0000 2026"
@@ -3720,7 +3746,7 @@
               "text": "I don't know Metal — so I built a shader editor Honestly, I tried to learn Metal and it was just too hard for me. Every shader effect I've shipped so far, I asked Claude Code to write it. That works fine — until I want to customize something. Change the colors, tweak the animation, adjust the shape. Then I'm back asking Claude over and over, and sometimes it goes in completely the wrong direction. Wastes hours. So I built this website. The idea is simple: when I have an effect I like, I can just",
               "author": "sucodeee",
               "engagement": {
-                "score": 88,
+                "score": 89,
                 "comments": 6
               },
               "observedAt": "Thu May 07 14:02:56 +0000 2026"
@@ -3741,28 +3767,28 @@
             {
               "source": "twitter",
               "fullName": "shareAI-lab/learn-claude-code",
-              "url": "https://x.com/kirillk_web3/status/2052555834488676674",
-              "title": "CANCEL your Thursday night plans. Learn how to use Claude Code for FREE this weekend. 27 minutes. zero cost. full access. no subscription needed. This guide teaches more about Claude Code than most pa",
-              "text": "CANCEL your Thursday night plans. Learn how to use Claude Code for FREE this weekend. 27 minutes. zero cost. full access. no subscription needed. This guide teaches more about Claude Code than most paid tutorials do in hours. Save this before the weekend disappears. People are building entire apps and charging clients $5,000 to $20,000 using Claude Code. And they’re not paying $200/month to do it. Full walkthrough. Free access. Real workflows. Zero prior knowledge needed. by Nick Saraev. Watch i",
-              "author": "kirillk_web3",
+              "url": "https://x.com/PauAkiraStorm/status/2052024214945763498",
+              "title": "You don’t need to learn coding anymore. You need to learn how to collaborate with AI. Here’s how to start using Claude Code in 30 minutes 👇 https://t.co/6OuCFudOTB",
+              "text": "You don’t need to learn coding anymore. You need to learn how to collaborate with AI. Here’s how to start using Claude Code in 30 minutes 👇 https://t.co/6OuCFudOTB",
+              "author": "PauAkiraStorm",
               "engagement": {
-                "score": 8,
-                "comments": 0
+                "score": 18,
+                "comments": 14
               },
-              "observedAt": "Fri May 08 01:07:00 +0000 2026"
+              "observedAt": "Wed May 06 13:54:32 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "shareAI-lab/learn-claude-code",
-              "url": "https://x.com/john_cogs/status/2052372480145133863",
-              "title": "New from @dnsmichi: learn how to leverage Claude Code and GitLab to ship things faster. At the end of the day, it's about delivering value to customers and this tutorial shows you a few different ways",
-              "text": "New from @dnsmichi: learn how to leverage Claude Code and GitLab to ship things faster. At the end of the day, it's about delivering value to customers and this tutorial shows you a few different ways to do it. Enjoy. https://t.co/izojqaYyZx",
-              "author": "john_cogs",
+              "url": "https://x.com/KrackedDevs/status/2052023763437486350",
+              "title": "The creator of Claude Code teaches more about vibe-coding in 28 minutes than most tutorials do in days. Save this &amp; learn it - it'll change your life forever https://t.co/vGNW4YkP7e",
+              "text": "The creator of Claude Code teaches more about vibe-coding in 28 minutes than most tutorials do in days. Save this &amp; learn it - it'll change your life forever https://t.co/vGNW4YkP7e",
+              "author": "KrackedDevs",
               "engagement": {
-                "score": 8,
-                "comments": 0
+                "score": 15,
+                "comments": 1
               },
-              "observedAt": "Thu May 07 12:58:25 +0000 2026"
+              "observedAt": "Wed May 06 13:52:44 +0000 2026"
             }
           ]
         }
@@ -3770,7 +3796,7 @@
     },
     "Fission-AI/OpenSpec": {
       "fullName": "Fission-AI/OpenSpec",
-      "totalMentions7d": 10,
+      "totalMentions7d": 8,
       "perSource": {
         "twitter": {
           "count7d": 4,
@@ -3830,21 +3856,8 @@
           ]
         },
         "hackernews": {
-          "count7d": 6,
+          "count7d": 4,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "Fission-AI/OpenSpec",
-              "url": "https://snewpapers.com/",
-              "title": "Show HN: Large Scale Article Extract of Newspapers 1730s-1960s",
-              "text": "Hello HN, over the past 7 months I&#x27;ve spent nearly 3,000 hours on building SNEWPAPERS, the first historical newpaper archive with full-text extractions, nearly perfect OCR, a vast categorization taxonomy and of course with semantic and agentic search capabilities.<p>Problem: I wanted to search through newspaper archives, but when I tried every service only lets you search for keywords and dates, and gives you back raw images of the papers, and too many of them with no context. A sea of nois",
-              "author": "brettnbutter",
-              "engagement": {
-                "score": 55,
-                "comments": 20
-              },
-              "observedAt": "2026-05-02T08:42:45.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "Fission-AI/OpenSpec",
@@ -3887,15 +3900,15 @@
             {
               "source": "hackernews",
               "fullName": "Fission-AI/OpenSpec",
-              "url": "https://github.com/OpenSenseNova/SenseNova-U1",
-              "title": "SenseNova-U1 – Open-source unified understanding+generation model with no VAE",
-              "text": "",
-              "author": "DanielWen666",
+              "url": "https://www.neutboom.com",
+              "title": "Show HN: Loxai.tech and Neutboom – Gen AI's frontier of individuality",
+              "text": "Hi- I hope you’re all having a good day so far! I&#x27;m not sure where to post this but I do have two things for you guys today, related to the AI space: individuality and a new era to AI! So: - LLM wrappers are crumbling- these businesses will not survive as foundational models begin to offer the functionalities consumers have been seeking. This maybe represents a failure in interpretation of individuality as horizontal growth (these startups didn&#x27;t last too long...), which brings up the ",
+              "author": "audreyfei",
               "engagement": {
-                "score": 2,
+                "score": 1,
                 "comments": 0
               },
-              "observedAt": "2026-05-01T14:56:20.000Z"
+              "observedAt": "2026-05-08T02:50:10.000Z"
             }
           ]
         }
@@ -3924,54 +3937,54 @@
             {
               "source": "twitter",
               "fullName": "router-for-me/CLIProxyAPI",
-              "url": "https://x.com/moore_joyc57098/status/2052644669138575592",
-              "title": "\"Simple formula for gains: Follow @natashaajade1 → Watch their stocks rise daily → Collect profits. Works for me!😥🏁 TSLA PLTR AMD #InterestRates #Robotics $PLUG $SOUN https://t.co/CK4flp7cfj",
-              "text": "\"Simple formula for gains: Follow @natashaajade1 → Watch their stocks rise daily → Collect profits. Works for me!😥🏁 TSLA PLTR AMD #InterestRates #Robotics $PLUG $SOUN https://t.co/CK4flp7cfj",
-              "author": "moore_joyc57098",
+              "url": "https://x.com/norris_cal50665/status/2052655826255647026",
+              "title": "Boost your portfolio with daily gains. Hunting for skyrocketing stocks? @movver’s high-yield picks keep me profitable every day.😛👾↪🥄 stock NVDA AAOI #StockAnalysis #Investing $NOW $ARM https://t.co",
+              "text": "Boost your portfolio with daily gains. Hunting for skyrocketing stocks? @movver’s high-yield picks keep me profitable every day.😛👾↪🥄 stock NVDA AAOI #StockAnalysis #Investing $NOW $ARM https://t.co/SY1xfIEjA5",
+              "author": "norris_cal50665",
               "engagement": {
-                "score": 15,
+                "score": 18,
                 "comments": 9
               },
-              "observedAt": "Fri May 08 07:00:00 +0000 2026"
+              "observedAt": "Fri May 08 07:44:20 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "router-for-me/CLIProxyAPI",
-              "url": "https://x.com/dereck_hyles/status/2052644716223545852",
-              "title": "I'm so sorry, anon :( I understand that there're still people who like Sebastian (I do too) but I'm a bit torn about the merch I have cuz: 1. I wouldn't want to sell anything related to a game with a ",
-              "text": "I'm so sorry, anon :( I understand that there're still people who like Sebastian (I do too) but I'm a bit torn about the merch I have cuz: 1. I wouldn't want to sell anything related to a game with a (let's say) questionable creator 2. I don't want people to attack me for it https://t.co/3VdYW1JEKr",
-              "author": "dereck_hyles",
+              "url": "https://x.com/DarrenBank32077/status/2052655855460643187",
+              "title": "I know a stock recommendation analyst @V_Swing, and following him for two weeks earned me $28,700. His stock picks are very stable and worth🚱😳 stock AI AMD #AAPL #ASTS $SNAP $SPY https://t.co/BASrwV",
+              "text": "I know a stock recommendation analyst @V_Swing, and following him for two weeks earned me $28,700. His stock picks are very stable and worth🚱😳 stock AI AMD #AAPL #ASTS $SNAP $SPY https://t.co/BASrwVShMm",
+              "author": "DarrenBank32077",
               "engagement": {
-                "score": 2,
-                "comments": 1
+                "score": 12,
+                "comments": 6
               },
-              "observedAt": "Fri May 08 07:00:11 +0000 2026"
+              "observedAt": "Fri May 08 07:44:27 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "router-for-me/CLIProxyAPI",
-              "url": "https://x.com/joanne59178/status/2052546032114770272",
-              "title": "@retiredPhlADA CoNcast was badgering me for months to give me a new gateway at no extra cost to me. I finally got it &amp; hooked it up. I returned the old router with a UPS prepaid label I printed. S",
-              "text": "@retiredPhlADA CoNcast was badgering me for months to give me a new gateway at no extra cost to me. I finally got it &amp; hooked it up. I returned the old router with a UPS prepaid label I printed. Since yesterday, when I try to access my email, I get a 'bad gateway' screen. They suck so bad.",
-              "author": "joanne59178",
-              "engagement": {
-                "score": 2,
-                "comments": 1
-              },
-              "observedAt": "Fri May 08 00:28:03 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "router-for-me/CLIProxyAPI",
-              "url": "https://x.com/ManasS8360/status/2052486625264116003",
-              "title": "For me The best folder structure of a react project with tanstack router and redux https://t.co/3n2NidNNhq",
-              "text": "For me The best folder structure of a react project with tanstack router and redux https://t.co/3n2NidNNhq",
-              "author": "ManasS8360",
+              "url": "https://x.com/igbocnn2455/status/2052656286936764433",
+              "title": "Just in: \"Nigerians please come and help me and my mother\" - Nigeeian Lady crles out for help after their neighbour in Jattu, Edo State allegedly blocked the road they have been using to access their ",
+              "text": "Just in: \"Nigerians please come and help me and my mother\" - Nigeeian Lady crles out for help after their neighbour in Jattu, Edo State allegedly blocked the road they have been using to access their house for years, as she revealed that her family members now use a ladder to enter and exit the house.",
+              "author": "igbocnn2455",
               "engagement": {
                 "score": 2,
                 "comments": 0
               },
-              "observedAt": "Thu May 07 20:31:59 +0000 2026"
+              "observedAt": "Fri May 08 07:46:09 +0000 2026"
+            },
+            {
+              "source": "twitter",
+              "fullName": "router-for-me/CLIProxyAPI",
+              "url": "https://x.com/marillion13/status/2052655934040613145",
+              "title": "At least I wanted to upload 1 time thirty REAL dog screenshots for today, no more posting on Quora, on X &amp; Bluesky in 2 - 4 packs. After 6 other pics. I do not take screenshots of AI generated pic",
+              "text": "At least I wanted to upload 1 time thirty REAL dog screenshots for today, no more posting on Quora, on X &amp; Bluesky in 2 - 4 packs. After 6 other pics. I do not take screenshots of AI generated pics, photoshop is okay for me, those pics´re of REAL dogs. https://t.co/cq0lgTjkyO",
+              "author": "marillion13",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "Fri May 08 07:44:45 +0000 2026"
             }
           ]
         }
@@ -3987,67 +4000,67 @@
             {
               "source": "twitter",
               "fullName": "HKUDS/Vibe-Trading",
-              "url": "https://x.com/BlomieB/status/2052636718164021621",
-              "title": "Everyone talks about infrastructure, but very few people talk about distribution. A project can have amazing tech and still fail if users cannot access it easily. That is why @QwertiAI ’s model stands",
-              "text": "Everyone talks about infrastructure, but very few people talk about distribution. A project can have amazing tech and still fail if users cannot access it easily. That is why @QwertiAI ’s model stands out. They are building what they call an AI-powered distribution layer for crypto. Instead of users hunting across different platforms, chains, wallets, and bridges, Qwerti brings everything into one simplified experience. This includes: ➥ Multichain swaps ➥ Fiat onboarding ➥ Embedded smart wallets",
-              "author": "BlomieB",
+              "url": "https://x.com/BidaTech_Ai/status/2052651726067658961",
+              "title": "The future of trading isn’t built on intuition alone but it’s built on systems. 🤖📊 Inside BidaTech AI’s “AI Control Room,” real-time market data is transformed into structured execution through stra",
+              "text": "The future of trading isn’t built on intuition alone but it’s built on systems. 🤖📊 Inside BidaTech AI’s “AI Control Room,” real-time market data is transformed into structured execution through strategy intelligence, low-latency infrastructure, and disciplined risk control. ⚙️ From data collection to execution and adaptive risk management, every layer is engineered to turn market complexity into scalable Alpha. 🚀 Because in modern markets, the edge belongs to the smartest system not the faste",
+              "author": "BidaTech_Ai",
               "engagement": {
-                "score": 94,
-                "comments": 40
+                "score": 120,
+                "comments": 0
               },
-              "observedAt": "Fri May 08 06:28:24 +0000 2026"
+              "observedAt": "Fri May 08 07:28:02 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "HKUDS/Vibe-Trading",
-              "url": "https://x.com/BitcoinChina_/status/2052632503710531883",
-              "title": "฿itcoin China New Listing @DiamondHandsTON Trading pair $DIAMOND /TON View more details: https://t.co/wxwRB34ojW Follow the project in the link to jointly build a strong community https://t.co/SicwDYo",
-              "text": "฿itcoin China New Listing @DiamondHandsTON Trading pair $DIAMOND /TON View more details: https://t.co/wxwRB34ojW Follow the project in the link to jointly build a strong community https://t.co/SicwDYoLF6",
-              "author": "BitcoinChina_",
+              "url": "https://x.com/Benzempire2021/status/2052647838371217572",
+              "title": "Happy Friday to the ends 👥 @Hyre_agent trading live on @QwertiAI is actually a crazy smart move when you think about it 👀⚡ Because this isn’t just another token listing ✅ It’s AI powered DeFi intell",
+              "text": "Happy Friday to the ends 👥 @Hyre_agent trading live on @QwertiAI is actually a crazy smart move when you think about it 👀⚡ Because this isn’t just another token listing ✅ It’s AI powered DeFi intelligence meeting a platform built to make trading feel effortless 🤝 $HYRE focuses on turning complex onchain data into usable trading insights through AI interpretation. $Qwerti handles the other side: 👉 fast execution 👉 smart routing 👉 low fee swaps across chains (https://t.co/oa1X2AsOC5) So now ",
+              "author": "Benzempire2021",
               "engagement": {
-                "score": 83,
-                "comments": 3
+                "score": 59,
+                "comments": 46
               },
-              "observedAt": "Fri May 08 06:11:39 +0000 2026"
+              "observedAt": "Fri May 08 07:12:35 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "HKUDS/Vibe-Trading",
-              "url": "https://x.com/Natalia77351991/status/2052636776481628187",
-              "title": "April was not quiet for @monad 5 months old and already moving like a full ecosystem: tokenized stocks, RWAs, cbBTC liquidity, payments, mobile trading, AI, BTC assets, builder programs and new DeFi l",
-              "text": "April was not quiet for @monad 5 months old and already moving like a full ecosystem: tokenized stocks, RWAs, cbBTC liquidity, payments, mobile trading, AI, BTC assets, builder programs and new DeFi launches. April was acceleration season. 🧵👇 https://t.co/MSW8389soH",
-              "author": "Natalia77351991",
+              "url": "https://x.com/DavidHosts/status/2052650384666071498",
+              "title": "🚀 Join OneAIChain Before Public Expansion OneAIChain combines AI + blockchain technology to provide automated crypto trading infrastructure for its members. Simply: • Create your account • Activate a",
+              "text": "🚀 Join OneAIChain Before Public Expansion OneAIChain combines AI + blockchain technology to provide automated crypto trading infrastructure for its members. Simply: • Create your account • Activate a membership • Access AI-powered trading automation • Join the OneAIChain ecosystem early Early users position themselves ahead of the next phase of ecosystem growth and platform expansion. 🎁 1000 USDT Giveaway — 1 Winner 🏆 🎁 100 USDT Giveaway — 10 Winner 🏆 ✅ RT ✅ Register using my link ✅ Drop pr",
+              "author": "DavidHosts",
               "engagement": {
-                "score": 36,
-                "comments": 38
+                "score": 43,
+                "comments": 16
               },
-              "observedAt": "Fri May 08 06:28:38 +0000 2026"
+              "observedAt": "Fri May 08 07:22:42 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "HKUDS/Vibe-Trading",
-              "url": "https://x.com/JoanPearso29729/status/2052644633273143480",
-              "title": "By following @VeronicaManzAlb for two weeks, I earned $23,900. His stock picks are excellent, and returns are stable.🧨🎰👩💘 stock investing AI #RXT #Trading $AAOI $DataCenter https://t.co/LoUfRpY6jn",
-              "text": "By following @VeronicaManzAlb for two weeks, I earned $23,900. His stock picks are excellent, and returns are stable.🧨🎰👩💘 stock investing AI #RXT #Trading $AAOI $DataCenter https://t.co/LoUfRpY6jn",
-              "author": "JoanPearso29729",
+              "url": "https://x.com/MathotCath68521/status/2052655020596924913",
+              "title": "I followed @IsmailAhmed4494, and in two weeks I made $24,900. His stock picks have amazing growth and are excellent.🔽🎬⚫📍 USStocks trading PYPL#Stocks #INTC $AAPL $AI https://t.co/HOm1oILukc",
+              "text": "I followed @IsmailAhmed4494, and in two weeks I made $24,900. His stock picks have amazing growth and are excellent.🔽🎬⚫📍 USStocks trading PYPL#Stocks #INTC $AAPL $AI https://t.co/HOm1oILukc",
+              "author": "MathotCath68521",
               "engagement": {
                 "score": 18,
                 "comments": 9
               },
-              "observedAt": "Fri May 08 06:59:51 +0000 2026"
+              "observedAt": "Fri May 08 07:41:08 +0000 2026"
             },
             {
               "source": "twitter",
               "fullName": "HKUDS/Vibe-Trading",
-              "url": "https://x.com/walton_ada68618/status/2052642995967787511",
-              "title": "By following @IsmailAhmed4494 for two weeks, I earned $23,900. His stock picks are excellent, and returns are stable.😱🦔🌓 USStocks trading PYPL#AAPL #Fed $LCID $AI https://t.co/gNWF8H0V3E",
-              "text": "By following @IsmailAhmed4494 for two weeks, I earned $23,900. His stock picks are excellent, and returns are stable.😱🦔🌓 USStocks trading PYPL#AAPL #Fed $LCID $AI https://t.co/gNWF8H0V3E",
-              "author": "walton_ada68618",
+              "url": "https://x.com/DannyRoss63266/status/2052654829332549924",
+              "title": "I followed @IsmailAhmed4494, and in two weeks I made $31,700. His stock picks are excellent and worth following.🧱🙆🕐🧢😣 USStocks trading PYPL#PennyStocks #stockmarket $AI $ARM https://t.co/qRcLuVSS",
+              "text": "I followed @IsmailAhmed4494, and in two weeks I made $31,700. His stock picks are excellent and worth following.🧱🙆🕐🧢😣 USStocks trading PYPL#PennyStocks #stockmarket $AI $ARM https://t.co/qRcLuVSS0l",
+              "author": "DannyRoss63266",
               "engagement": {
                 "score": 18,
                 "comments": 9
               },
-              "observedAt": "Fri May 08 06:53:21 +0000 2026"
+              "observedAt": "Fri May 08 07:40:22 +0000 2026"
             }
           ]
         }
@@ -4068,8 +4081,8 @@
               "text": "Claude is used by 11 million people every day. I've created a guide with the 100 real skills that separate the pros from the amateurs: → Writing, Automation, Business, Productivity, Programming, AI and Prompting, E-commerce, Finance, and Research FREE for 24 hours only! Just: 1. → Like this post 2. → Comment \"SKILLS\" 3. → Follow me to receive a DM.",
               "author": "nahidulislam404",
               "engagement": {
-                "score": 2373,
-                "comments": 1410
+                "score": 2807,
+                "comments": 1680
               },
               "observedAt": "Thu May 07 10:25:03 +0000 2026"
             },
@@ -4081,10 +4094,23 @@
               "text": "Top 20 Free AI Tools You Need in 2026↓ 1. Productivity & Work GetStudyPal – Learn anything 10x faster - https://t.co/ymuQqg93hr Perplexity – Research PDF AI – Chat with PDF Google Gemini – Research 2. Writing & Study ChatGPT – AI Writing Grammarly – Grammar and Editing Quillbot – Paraphrasing Notion AI – Writing, summarization & task organization 3. Audio, Voice & Music Music Arena - Find the best AI music models ElevenLabs – AI Voice Generation & Cloning Natural Readers – Text to Speech Suno – ",
               "author": "ginacostag_",
               "engagement": {
-                "score": 48,
+                "score": 51,
                 "comments": 3
               },
               "observedAt": "Thu May 07 18:48:56 +0000 2026"
+            },
+            {
+              "source": "twitter",
+              "fullName": "Leey21/awesome-ai-research-writing",
+              "url": "https://x.com/Prince1253432/status/2052641032291209355",
+              "title": "Claude is used by 11 million people every day. I've created a guide with the 100 real skills that separate the pros from the amateurs: → Writing, Automation, Business, Productivity, Programming, AI an",
+              "text": "Claude is used by 11 million people every day. I've created a guide with the 100 real skills that separate the pros from the amateurs: → Writing, Automation, Business, Productivity, Programming, AI and Prompting, E-commerce, Finance, and Research FREE for 24 hours only! https://t.co/w2YSwcB3DY",
+              "author": "Prince1253432",
+              "engagement": {
+                "score": 26,
+                "comments": 7
+              },
+              "observedAt": "Fri May 08 06:45:32 +0000 2026"
             },
             {
               "source": "twitter",
@@ -4094,7 +4120,7 @@
               "text": "Awesome to see this published, lots of overlap with what I've also been thinking about at Reciprocal re mutualism (eg, https://t.co/Frng7xzcEK). Curious where you see AI well-being/consciousness research fitting in? The equation is agnostic on w(i) but the identity-engineering thesis seems to live or die on it.",
               "author": "camhberg",
               "engagement": {
-                "score": 15,
+                "score": 16,
                 "comments": 0
               },
               "observedAt": "Thu May 07 18:14:52 +0000 2026"
@@ -4111,19 +4137,6 @@
                 "comments": 6
               },
               "observedAt": "Fri May 08 02:52:39 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "Leey21/awesome-ai-research-writing",
-              "url": "https://x.com/PeaceLoveMusicG/status/2052339686429827530",
-              "title": "Just saw that Menlo Research has put a complete humanoid on GitHub. CAD, electronics, software, BOM. CERN-OHL-S-2.0 hardware license, GPL-2.0 software. $15K target. Linux moment for AI embodiment, or ",
-              "text": "Just saw that Menlo Research has put a complete humanoid on GitHub. CAD, electronics, software, BOM. CERN-OHL-S-2.0 hardware license, GPL-2.0 software. $15K target. Linux moment for AI embodiment, or just curiosity? Writing about it tomorrow. https://t.co/n2rLAg0LTX",
-              "author": "PeaceLoveMusicG",
-              "engagement": {
-                "score": 11,
-                "comments": 0
-              },
-              "observedAt": "Thu May 07 10:48:06 +0000 2026"
             }
           ]
         }
@@ -4131,10 +4144,10 @@
     },
     "pbakaus/impeccable": {
       "fullName": "pbakaus/impeccable",
-      "totalMentions7d": 35,
+      "totalMentions7d": 36,
       "perSource": {
         "twitter": {
-          "count7d": 35,
+          "count7d": 36,
           "top": [
             {
               "source": "twitter",
@@ -4317,7 +4330,7 @@
               "author": "Anon84",
               "engagement": {
                 "score": 573,
-                "comments": 399
+                "comments": 400
               },
               "observedAt": "2026-05-04T10:46:15.000Z"
             },
@@ -4534,10 +4547,10 @@
     },
     "bwya77/vscode-dark-islands": {
       "fullName": "bwya77/vscode-dark-islands",
-      "totalMentions7d": 34,
+      "totalMentions7d": 35,
       "perSource": {
         "twitter": {
-          "count7d": 32,
+          "count7d": 33,
           "top": [
             {
               "source": "twitter",
@@ -4560,8 +4573,8 @@
               "text": "Malaysia's demographics are fascinating Original population looks African (dark skin, frizzy hair). Malay majority comes in from Indonesian islands. During British colonial era, Indians &amp; Chinese come. Now everybody immigrates to Malaysia with their visa programs. https://t.co/xYqFyrpyNp",
               "author": "Molson_Hart",
               "engagement": {
-                "score": 919,
-                "comments": 72
+                "score": 923,
+                "comments": 73
               },
               "observedAt": "Thu May 07 02:23:52 +0000 2026"
             },

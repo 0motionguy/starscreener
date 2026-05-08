@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-08T21:31:24.766Z",
+  "fetchedAt": "2026-05-08T23:12:10.441Z",
   "windowDays": 7,
-  "scannedPosts": 198,
+  "scannedPosts": 298,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -524,23 +524,51 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:4hc77f3czkmxklrgsfelzb3z/app.bsky.feed.post/3mlbtmz74k22u",
-        "cid": "bafyreidyk6e6e3sa46x6mhu3oaxc6qprqxoqy6abjblptqf55ber6juwhe",
-        "bskyUrl": "https://bsky.app/profile/jmuk.org/post/3mlbtmz74k22u",
-        "text": "そして新バージョンがリリースされたので無事 jj file search は正規表現も受け取れるようになりました。 jj grep エイリアスも設定しておこうっと github.com/jj-vcs/jj/re...",
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mleqagbmn623",
+        "cid": "bafyreihvd3myzysk5lepcyb5zl4nzmr4pli6yjywvzgof43sbopklafjpy",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mleqagbmn623",
+        "text": "jj-vcs / jj: A Git-compatible VCS that is both simple and powerful ★28661 https://github.com/jj-vcs/jj",
         "author": {
-          "handle": "jmuk.org",
-          "displayName": "Jun Mukai"
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-07T18:25:00.479Z",
-        "hoursSincePosted": 1.52
+        "replyCount": 0,
+        "createdAt": "2026-05-08T22:02:15.847520Z",
+        "hoursSincePosted": 1.17
       },
       "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mleqagbmn623",
+          "cid": "bafyreihvd3myzysk5lepcyb5zl4nzmr4pli6yjywvzgof43sbopklafjpy",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mleqagbmn623",
+          "text": "jj-vcs / jj: A Git-compatible VCS that is both simple and powerful ★28661 https://github.com/jj-vcs/jj",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T22:02:15.847520Z",
+          "createdUtc": 1778277735,
+          "ageHours": 1.17,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "jj-vcs/jj",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:4hc77f3czkmxklrgsfelzb3z/app.bsky.feed.post/3mlbtmz74k22u",
           "cid": "bafyreidyk6e6e3sa46x6mhu3oaxc6qprqxoqy6abjblptqf55ber6juwhe",
@@ -3259,7 +3287,7 @@
       ]
     },
     "JuliusBrussee/caveman": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -3276,7 +3304,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T18:43:17.243Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 4.48
       },
       "posts": [
         {
@@ -3321,7 +3349,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T18:43:17.243Z",
           "createdUtc": 1778265797,
-          "ageHours": 0.5,
+          "ageHours": 4.48,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -3742,7 +3770,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T20:14:42.000Z",
-        "hoursSincePosted": 1.28
+        "hoursSincePosted": 2.96
       },
       "posts": [
         {
@@ -3759,7 +3787,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T20:14:42.000Z",
           "createdUtc": 1778271282,
-          "ageHours": 1.28,
+          "ageHours": 2.96,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -3793,7 +3821,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T19:03:48.031421+00:00",
-        "hoursSincePosted": 2.46
+        "hoursSincePosted": 4.14
       },
       "posts": [
         {
@@ -3810,7 +3838,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T19:03:48.031421+00:00",
           "createdUtc": 1778267028,
-          "ageHours": 2.46,
+          "ageHours": 4.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -3839,7 +3867,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T19:02:03.739352+00:00",
           "createdUtc": 1778266923,
-          "ageHours": 2.49,
+          "ageHours": 4.17,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -3874,7 +3902,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T19:02:07.929743Z",
-        "hoursSincePosted": 2.49
+        "hoursSincePosted": 4.17
       },
       "posts": [
         {
@@ -3891,7 +3919,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T19:02:07.929743Z",
           "createdUtc": 1778266927,
-          "ageHours": 2.49,
+          "ageHours": 4.17,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -3925,7 +3953,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T21:30:49Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.69
       },
       "posts": [
         {
@@ -3942,7 +3970,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T21:30:49Z",
           "createdUtc": 1778275849,
-          "ageHours": 0.5,
+          "ageHours": 1.69,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -3976,7 +4004,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T21:03:58.525Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.14
       },
       "posts": [
         {
@@ -3993,7 +4021,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T21:03:58.525Z",
           "createdUtc": 1778274238,
-          "ageHours": 0.5,
+          "ageHours": 2.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -4530,23 +4558,51 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:4hc77f3czkmxklrgsfelzb3z/app.bsky.feed.post/3mlbtmz74k22u",
-        "cid": "bafyreidyk6e6e3sa46x6mhu3oaxc6qprqxoqy6abjblptqf55ber6juwhe",
-        "bskyUrl": "https://bsky.app/profile/jmuk.org/post/3mlbtmz74k22u",
-        "text": "そして新バージョンがリリースされたので無事 jj file search は正規表現も受け取れるようになりました。 jj grep エイリアスも設定しておこうっと github.com/jj-vcs/jj/re...",
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mleqagbmn623",
+        "cid": "bafyreihvd3myzysk5lepcyb5zl4nzmr4pli6yjywvzgof43sbopklafjpy",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mleqagbmn623",
+        "text": "jj-vcs / jj: A Git-compatible VCS that is both simple and powerful ★28661 https://github.com/jj-vcs/jj",
         "author": {
-          "handle": "jmuk.org",
-          "displayName": "Jun Mukai"
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-07T18:25:00.479Z",
-        "hoursSincePosted": 1.52
+        "replyCount": 0,
+        "createdAt": "2026-05-08T22:02:15.847520Z",
+        "hoursSincePosted": 1.17
       },
       "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mleqagbmn623",
+          "cid": "bafyreihvd3myzysk5lepcyb5zl4nzmr4pli6yjywvzgof43sbopklafjpy",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mleqagbmn623",
+          "text": "jj-vcs / jj: A Git-compatible VCS that is both simple and powerful ★28661 https://github.com/jj-vcs/jj",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T22:02:15.847520Z",
+          "createdUtc": 1778277735,
+          "ageHours": 1.17,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "jj-vcs/jj",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:4hc77f3czkmxklrgsfelzb3z/app.bsky.feed.post/3mlbtmz74k22u",
           "cid": "bafyreidyk6e6e3sa46x6mhu3oaxc6qprqxoqy6abjblptqf55ber6juwhe",
@@ -7265,7 +7321,7 @@
       ]
     },
     "juliusbrussee--caveman": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -7282,7 +7338,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T18:43:17.243Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 4.48
       },
       "posts": [
         {
@@ -7327,7 +7383,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T18:43:17.243Z",
           "createdUtc": 1778265797,
-          "ageHours": 0.5,
+          "ageHours": 4.48,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -7748,7 +7804,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T20:14:42.000Z",
-        "hoursSincePosted": 1.28
+        "hoursSincePosted": 2.96
       },
       "posts": [
         {
@@ -7765,7 +7821,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T20:14:42.000Z",
           "createdUtc": 1778271282,
-          "ageHours": 1.28,
+          "ageHours": 2.96,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -7799,7 +7855,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T19:03:48.031421+00:00",
-        "hoursSincePosted": 2.46
+        "hoursSincePosted": 4.14
       },
       "posts": [
         {
@@ -7816,7 +7872,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T19:03:48.031421+00:00",
           "createdUtc": 1778267028,
-          "ageHours": 2.46,
+          "ageHours": 4.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -7845,7 +7901,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T19:02:03.739352+00:00",
           "createdUtc": 1778266923,
-          "ageHours": 2.49,
+          "ageHours": 4.17,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -7880,7 +7936,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T19:02:07.929743Z",
-        "hoursSincePosted": 2.49
+        "hoursSincePosted": 4.17
       },
       "posts": [
         {
@@ -7897,7 +7953,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T19:02:07.929743Z",
           "createdUtc": 1778266927,
-          "ageHours": 2.49,
+          "ageHours": 4.17,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -7931,7 +7987,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T21:30:49Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.69
       },
       "posts": [
         {
@@ -7948,7 +8004,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T21:30:49Z",
           "createdUtc": 1778275849,
-          "ageHours": 0.5,
+          "ageHours": 1.69,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -7982,7 +8038,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T21:03:58.525Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.14
       },
       "posts": [
         {
@@ -7999,7 +8055,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T21:03:58.525Z",
           "createdUtc": 1778274238,
-          "ageHours": 0.5,
+          "ageHours": 2.14,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -8020,6 +8076,16 @@
     {
       "fullName": "addyosmani/agent-skills",
       "count7d": 2,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "jj-vcs/jj",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "JuliusBrussee/caveman",
+      "count7d": 1,
       "likesSum7d": 0
     },
     {

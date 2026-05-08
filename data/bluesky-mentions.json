@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-08T20:17:39.905Z",
+  "fetchedAt": "2026-05-08T21:31:24.766Z",
   "windowDays": 7,
-  "scannedPosts": 98,
+  "scannedPosts": 198,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 2,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -3742,7 +3742,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T20:14:42.000Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.28
       },
       "posts": [
         {
@@ -3759,7 +3759,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T20:14:42.000Z",
           "createdUtc": 1778271282,
-          "ageHours": 0.5,
+          "ageHours": 1.28,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -3793,7 +3793,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T19:03:48.031421+00:00",
-        "hoursSincePosted": 1.23
+        "hoursSincePosted": 2.46
       },
       "posts": [
         {
@@ -3810,7 +3810,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T19:03:48.031421+00:00",
           "createdUtc": 1778267028,
-          "ageHours": 1.23,
+          "ageHours": 2.46,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -3839,7 +3839,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T19:02:03.739352+00:00",
           "createdUtc": 1778266923,
-          "ageHours": 1.26,
+          "ageHours": 2.49,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -3874,7 +3874,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T19:02:07.929743Z",
-        "hoursSincePosted": 1.26
+        "hoursSincePosted": 2.49
       },
       "posts": [
         {
@@ -3891,7 +3891,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T19:02:07.929743Z",
           "createdUtc": 1778266927,
-          "ageHours": 1.26,
+          "ageHours": 2.49,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -3900,6 +3900,108 @@
           "linkedRepos": [
             {
               "fullName": "junhoyeo/tokscale",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "yvgude/lean-ctx": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mleoi7gqj52t",
+        "cid": "bafyreibvmoan2ba5a6td2y4croejtszf6immyniioptzofaoo35yxegssu",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mleoi7gqj52t",
+        "text": "https://github.com/yvgude/lean-ctx",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T21:30:49Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mleoi7gqj52t",
+          "cid": "bafyreibvmoan2ba5a6td2y4croejtszf6immyniioptzofaoo35yxegssu",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mleoi7gqj52t",
+          "text": "https://github.com/yvgude/lean-ctx",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T21:30:49Z",
+          "createdUtc": 1778275849,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "yvgude/lean-ctx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "openai/codex": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:cb34r4htgqlkp7adfyee56je/app.bsky.feed.post/3mlemy6tvmc26",
+        "cid": "bafyreidgi7zalgzxj7mtunq4u5skjrsbotaxglyjxineruy2xudnnvsqxy",
+        "bskyUrl": "https://bsky.app/profile/eregon.me/post/3mlemy6tvmc26",
+        "text": "I installed the Codex extension in VSCode, the result is it corrupts (!) my git repository when using VSCode as the git editor (EDITOR='code -w'). Filed github.com/openai/codex..., was a pain to figure it out.",
+        "author": {
+          "handle": "eregon.me",
+          "displayName": "Benoit Daloze"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T21:03:58.525Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:cb34r4htgqlkp7adfyee56je/app.bsky.feed.post/3mlemy6tvmc26",
+          "cid": "bafyreidgi7zalgzxj7mtunq4u5skjrsbotaxglyjxineruy2xudnnvsqxy",
+          "bskyUrl": "https://bsky.app/profile/eregon.me/post/3mlemy6tvmc26",
+          "text": "I installed the Codex extension in VSCode, the result is it corrupts (!) my git repository when using VSCode as the git editor (EDITOR='code -w'). Filed github.com/openai/codex..., was a pain to figure it out.",
+          "author": {
+            "handle": "eregon.me",
+            "displayName": "Benoit Daloze"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T21:03:58.525Z",
+          "createdUtc": 1778274238,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
               "matchType": "url",
               "confidence": 1
             }
@@ -7646,7 +7748,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T20:14:42.000Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.28
       },
       "posts": [
         {
@@ -7663,7 +7765,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T20:14:42.000Z",
           "createdUtc": 1778271282,
-          "ageHours": 0.5,
+          "ageHours": 1.28,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -7697,7 +7799,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T19:03:48.031421+00:00",
-        "hoursSincePosted": 1.23
+        "hoursSincePosted": 2.46
       },
       "posts": [
         {
@@ -7714,7 +7816,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T19:03:48.031421+00:00",
           "createdUtc": 1778267028,
-          "ageHours": 1.23,
+          "ageHours": 2.46,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -7743,7 +7845,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T19:02:03.739352+00:00",
           "createdUtc": 1778266923,
-          "ageHours": 1.26,
+          "ageHours": 2.49,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -7778,7 +7880,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T19:02:07.929743Z",
-        "hoursSincePosted": 1.26
+        "hoursSincePosted": 2.49
       },
       "posts": [
         {
@@ -7795,7 +7897,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T19:02:07.929743Z",
           "createdUtc": 1778266927,
-          "ageHours": 1.26,
+          "ageHours": 2.49,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -7804,6 +7906,108 @@
           "linkedRepos": [
             {
               "fullName": "junhoyeo/tokscale",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "yvgude--lean-ctx": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mleoi7gqj52t",
+        "cid": "bafyreibvmoan2ba5a6td2y4croejtszf6immyniioptzofaoo35yxegssu",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mleoi7gqj52t",
+        "text": "https://github.com/yvgude/lean-ctx",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T21:30:49Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mleoi7gqj52t",
+          "cid": "bafyreibvmoan2ba5a6td2y4croejtszf6immyniioptzofaoo35yxegssu",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mleoi7gqj52t",
+          "text": "https://github.com/yvgude/lean-ctx",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T21:30:49Z",
+          "createdUtc": 1778275849,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "yvgude/lean-ctx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "openai--codex": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:cb34r4htgqlkp7adfyee56je/app.bsky.feed.post/3mlemy6tvmc26",
+        "cid": "bafyreidgi7zalgzxj7mtunq4u5skjrsbotaxglyjxineruy2xudnnvsqxy",
+        "bskyUrl": "https://bsky.app/profile/eregon.me/post/3mlemy6tvmc26",
+        "text": "I installed the Codex extension in VSCode, the result is it corrupts (!) my git repository when using VSCode as the git editor (EDITOR='code -w'). Filed github.com/openai/codex..., was a pain to figure it out.",
+        "author": {
+          "handle": "eregon.me",
+          "displayName": "Benoit Daloze"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T21:03:58.525Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:cb34r4htgqlkp7adfyee56je/app.bsky.feed.post/3mlemy6tvmc26",
+          "cid": "bafyreidgi7zalgzxj7mtunq4u5skjrsbotaxglyjxineruy2xudnnvsqxy",
+          "bskyUrl": "https://bsky.app/profile/eregon.me/post/3mlemy6tvmc26",
+          "text": "I installed the Codex extension in VSCode, the result is it corrupts (!) my git repository when using VSCode as the git editor (EDITOR='code -w'). Filed github.com/openai/codex..., was a pain to figure it out.",
+          "author": {
+            "handle": "eregon.me",
+            "displayName": "Benoit Daloze"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T21:03:58.525Z",
+          "createdUtc": 1778274238,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
               "matchType": "url",
               "confidence": 1
             }
@@ -7825,6 +8029,16 @@
     },
     {
       "fullName": "niri-wm/niri",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "openai/codex",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "yvgude/lean-ctx",
       "count7d": 1,
       "likesSum7d": 0
     }

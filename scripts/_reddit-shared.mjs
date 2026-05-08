@@ -524,14 +524,38 @@ export async function fetchRedditJson(url, { fetchImpl = fetch } = {}) {
     fetchRuntime.activeMode = "public-json";
     fetchRuntime.publicRequests += 1;
     try {
-      // Listing URLs (/r/X/new.json) hit Reddit's edge IP block from GH
-      // Actions. The RSS variant of the same listing returns 200 and
-      // unauthenticated content. Detect listing URLs and route them through
-      // the Atom-feed parser; everything else (e.g. /r/X/about.json) keeps
-      // the original JSON path so callers that need fields RSS doesn't expose
-      // still degrade gracefully when they 403.
-      const rssUrl = rewriteToRss(url);
-      if (rssUrl !== url) {
+      // 2026-05-08: JSON-first, RSS only on 403. The previous logic routed
+      // EVERY listing URL (/r/X/new.json) straight to /r/X/new/.rss
+      // because the original engineer assumed GH Actions egress IPs always
+      // got 403'd on the JSON path. That assumption was load-bearing AND
+      // wrong — the JSON endpoint works for unauthenticated requests with
+      // a custom user-agent (Reddit's 2026 limit is ~10 req/min unauth,
+      // plenty for our 45 subs at 5s pacing). The RSS fallback hardcoded
+      // score=0/num_comments=0 because the Atom feed doesn't expose
+      // engagement, so the cache filled with zero-engagement rows and
+      // /reddit/trending rendered "TRENDING" over visibly dead data.
+      // Try JSON first; only fall back to RSS when JSON is genuinely
+      // blocked (403). All other errors propagate so we don't mask
+      // network/timeout issues with a degraded payload.
+      try {
+        return await fetchJsonWithRetry(rewriteToOldReddit(url), {
+          headers: publicHeaders,
+          attempts: 2,
+          retryDelayMs: 1000,
+          timeoutMs: 15_000,
+          fetchImpl,
+        });
+      } catch (jsonErr) {
+        const jsonStatus =
+          typeof jsonErr?.status === "number" ? jsonErr.status : null;
+        // 403 on a listing URL is the legacy "GH Actions egress blocked"
+        // signal — fall back to RSS so the run still produces SOMETHING.
+        // Anything else propagates: 429 means we're rate-limited (caller
+        // backs off), network/timeout means we should retry the run, etc.
+        if (jsonStatus !== 403) throw jsonErr;
+        const rssUrl = rewriteToRss(url);
+        if (rssUrl === url) throw jsonErr;
+        fetchRuntime.activeMode = "rss-atom";
         const subMatch = url.match(SUBREDDIT_FROM_PATH_RE);
         const fallbackSub = subMatch?.[1] ?? "";
         const rssText = await fetchTextWithRetry(rssUrl, {
@@ -546,14 +570,6 @@ export async function fetchRedditJson(url, { fetchImpl = fetch } = {}) {
         });
         return parseRedditAtomFeed(rssText, fallbackSub);
       }
-
-      return fetchJsonWithRetry(rewriteToOldReddit(url), {
-        headers: publicHeaders,
-        attempts: 2,
-        retryDelayMs: 1000,
-        timeoutMs: 15_000,
-        fetchImpl,
-      });
     } catch (err) {
       const status = typeof err?.status === "number" ? err.status : null;
       if (status === 429) {

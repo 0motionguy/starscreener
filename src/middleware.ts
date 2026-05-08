@@ -21,6 +21,7 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse, type NextRequest } from "next/server";
 
+import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 import { signRefCookie } from "@/lib/referrals/cookie";
 
 const TR_REF_COOKIE = "tr_ref";
@@ -83,7 +84,34 @@ async function setRefCookieIfNeeded(req: NextRequest, res: NextResponse) {
   }
 }
 
-export default clerkMiddleware(async (auth, req) => {
+function redirectToSignIn(req: NextRequest): NextResponse {
+  const signInUrl = req.nextUrl.clone();
+  signInUrl.pathname = "/sign-in";
+  signInUrl.searchParams.set(
+    "redirect_url",
+    req.nextUrl.pathname + req.nextUrl.search,
+  );
+  return NextResponse.redirect(signInUrl);
+}
+
+// Clerk-less fallback for environments without a publishable key
+// (CI, fresh local checkouts). Public routes still render; protected
+// routes redirect to /sign-in (which itself renders the "auth unavailable"
+// degraded surface).
+async function middlewareWithoutClerk(
+  req: NextRequest,
+): Promise<NextResponse | undefined> {
+  const url = req.nextUrl;
+  if (isBypassed(url.pathname)) return;
+
+  const res = isProtectedRoute(req)
+    ? redirectToSignIn(req)
+    : NextResponse.next();
+  await setRefCookieIfNeeded(req, res);
+  return res;
+}
+
+const middlewareWithClerk = clerkMiddleware(async (auth, req) => {
   const url = req.nextUrl;
 
   // 1. Bypass list — return immediately, never wrap in Clerk's session
@@ -103,6 +131,10 @@ export default clerkMiddleware(async (auth, req) => {
 
   return res;
 });
+
+export default getClerkPublishableKey()
+  ? middlewareWithClerk
+  : middlewareWithoutClerk;
 
 export const config = {
   // Default Clerk matcher — exclude Next internals + static files. Same

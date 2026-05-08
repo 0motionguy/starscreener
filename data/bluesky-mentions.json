@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-08T03:56:01.894Z",
+  "fetchedAt": "2026-05-08T06:11:09.720Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -572,24 +572,24 @@
       ]
     },
     "V4bel/dirtyfrag": {
-      "count7d": 8,
-      "likesSum7d": 9,
-      "repostsSum7d": 0,
-      "repliesSum7d": 6,
+      "count7d": 9,
+      "likesSum7d": 7,
+      "repostsSum7d": 2,
+      "repliesSum7d": 5,
       "topPost": {
-        "uri": "at://did:plc:ms7yictiavnfolgxeieky6m4/app.bsky.feed.post/3mlcf2qcnx223",
-        "cid": "bafyreih4esse4sjo2xvhn7rzsfagsxgtqkz62kyiazoyy7k6lebgb6cwt4",
-        "bskyUrl": "https://bsky.app/profile/kivvora.pw/post/3mlcf2qcnx223",
-        "text": "new one pretty sure github.com/V4bel/dirtyf...",
+        "uri": "at://did:plc:pwgvh5ffgbi44ovj25koc45y/app.bsky.feed.post/3mlcuxjxcak2i",
+        "cid": "bafyreidbzkxj7rhcknwbypcsiynah52yydjw3apd5viarirl7gmmikp3ye",
+        "bskyUrl": "https://bsky.app/profile/keevitaja.com/post/3mlcuxjxcak2i",
+        "text": "täitsa puccis. see exploit toimibki 😱 proovisin manjaro peal. github.com/V4bel/dirtyf...",
         "author": {
-          "handle": "kivvora.pw",
-          "displayName": "kavya"
+          "handle": "keevitaja.com",
+          "displayName": "Tanel Tammik"
         },
-        "likeCount": 5,
-        "repostCount": 0,
+        "likeCount": 4,
+        "repostCount": 1,
         "replyCount": 2,
-        "createdAt": "2026-05-07T23:36:54.531Z",
-        "hoursSincePosted": 4.32
+        "createdAt": "2026-05-08T04:21:27.072Z",
+        "hoursSincePosted": 1.83
       },
       "posts": [
         {
@@ -666,6 +666,34 @@
           "createdUtc": 1778197014,
           "ageHours": 4.32,
           "trendingScore": 6,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:pwgvh5ffgbi44ovj25koc45y/app.bsky.feed.post/3mlcuxjxcak2i",
+          "cid": "bafyreidbzkxj7rhcknwbypcsiynah52yydjw3apd5viarirl7gmmikp3ye",
+          "bskyUrl": "https://bsky.app/profile/keevitaja.com/post/3mlcuxjxcak2i",
+          "text": "täitsa puccis. see exploit toimibki 😱 proovisin manjaro peal. github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "keevitaja.com",
+            "displayName": "Tanel Tammik"
+          },
+          "likeCount": 4,
+          "repostCount": 1,
+          "replyCount": 2,
+          "createdAt": "2026-05-08T04:21:27.072Z",
+          "createdUtc": 1778214087,
+          "ageHours": 1.83,
+          "trendingScore": 7,
           "content_tags": [
             "has-github-repo"
           ],
@@ -877,6 +905,72 @@
           ]
         },
         {
+          "uri": "at://did:plc:mgflc2hwqonaafnbb3xok6re/app.bsky.feed.post/3mlctsiim6mg2",
+          "cid": "bafyreihk5aoezghy2pvys7n2dgl4vo5h4mmgmrup4gitdu7u66j7pu6cdi",
+          "bskyUrl": "https://bsky.app/profile/sodiboo.gaysex.cloud/post/3mlctsiim6mg2",
+          "text": "are these the same vulnerability? https://github.com/V4bel/dirtyfrag/ https://github.com/0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+          "author": {
+            "handle": "sodiboo.gaysex.cloud",
+            "displayName": "sodiboo :pride_heart:"
+          },
+          "likeCount": 1,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T04:00:40.377Z",
+          "createdUtc": 1778212840,
+          "ageHours": 2.17,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vgodyxts7kvoyg6lsiixpmhf/app.bsky.feed.post/3mlcragw77s2j",
+          "cid": "bafyreidcv2qaqxycjpymujqlx7vhstjw34yezfqfdnyae5zdbagip3hwey",
+          "bskyUrl": "https://bsky.app/profile/backdrifting.net/post/3mlcragw77s2j",
+          "text": "Two *more* privilege escalation vulnerabilities dropped today that give root on most Linux systems, with no patches available. This is brutal! github.com/0xdeadbeefne... github.com/V4bel/dirtyf... Best we can do is disable the vulnerable kernel modules until a patch is released.",
+          "author": {
+            "handle": "backdrifting.net",
+            "displayName": "Milo Trujillo"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T03:14:50.916Z",
+          "createdUtc": 1778210090,
+          "ageHours": 2.94,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:zntngpowgd6rorjt3haywj36/app.bsky.feed.post/3mlcjh76jyk2o",
           "cid": "bafyreidzdozrcv3tvnafnkzl7t25kei6ds3a5yfx4ku4fbzatwjyvmzs4m",
           "bskyUrl": "https://bsky.app/profile/aly.codes/post/3mlcjh76jyk2o",
@@ -890,7 +984,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T00:55:27.747Z",
           "createdUtc": 1778201727,
-          "ageHours": 3.01,
+          "ageHours": 5.26,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -991,21 +1085,21 @@
           ]
         },
         {
-          "uri": "at://did:plc:mo47sdyjch32l4x4oudjya4v/app.bsky.feed.post/3mlcsowjsnk2d",
-          "cid": "bafyreibijs3rfqnnlozchi7gqkip2fhi64qt47vu4zxshesillcp67nhmi",
-          "bskyUrl": "https://bsky.app/profile/conrad.knauer.ca/post/3mlcsowjsnk2d",
-          "text": "Quick note from www.tomshardware.com/tech-industr... Test in Ubuntu: $ sudo apt install git $ git clone github.com/V4bel/dirtyf... && cd dirtyfrag && gcc -O0 -Wall -o exp exp.c -lutil && ./exp # whoami \"root\" = vulnerable",
+          "uri": "at://did:plc:nibjw4kq2he6kzgsaqesotzo/app.bsky.feed.post/3mlcygvonz22p",
+          "cid": "bafyreibbmoxs3xsqsf2u76xizbtp2gh3eyfklv3rxbaqb22mxoddwqbtky",
+          "bskyUrl": "https://bsky.app/profile/anli.dev/post/3mlcygvonz22p",
+          "text": "re dirtyfrag, you should probably take a look at these mitigation steps if you haven't already: github.com/V4bel/dirtyf...",
           "author": {
-            "handle": "conrad.knauer.ca",
-            "displayName": "Conrad Knauer"
+            "handle": "anli.dev",
+            "displayName": "Anthony Li"
           },
           "likeCount": 0,
           "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-08T03:40:50.790Z",
-          "createdUtc": 1778211650,
-          "ageHours": 0.5,
-          "trendingScore": 0.5,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T05:23:43.917Z",
+          "createdUtc": 1778217823,
+          "ageHours": 0.79,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -1019,31 +1113,53 @@
           ]
         },
         {
-          "uri": "at://did:plc:vgodyxts7kvoyg6lsiixpmhf/app.bsky.feed.post/3mlcragw77s2j",
-          "cid": "bafyreidcv2qaqxycjpymujqlx7vhstjw34yezfqfdnyae5zdbagip3hwey",
-          "bskyUrl": "https://bsky.app/profile/backdrifting.net/post/3mlcragw77s2j",
-          "text": "Two *more* privilege escalation vulnerabilities dropped today that give root on most Linux systems, with no patches available. This is brutal! github.com/0xdeadbeefne... github.com/V4bel/dirtyf... Best we can do is disable the vulnerable kernel modules until a patch is released.",
+          "uri": "at://did:plc:vbhixxrga7xcinqvpokdee6l/app.bsky.feed.post/3mlcwaljwnc26",
+          "cid": "bafyreigr4pvoar7eeitg3y25cjcglmv4izggo6maosxva7ryjavg2bwx7u",
+          "bskyUrl": "https://bsky.app/profile/cd911.bsky.social/post/3mlcwaljwnc26",
+          "text": "We might need to „patch“ something today… @bsi.bund.de any recommendations from your end? #linux #zeroday #dirtyfrag github.com/V4bel/dirtyf...",
           "author": {
-            "handle": "backdrifting.net",
-            "displayName": "Milo Trujillo"
+            "handle": "cd911.bsky.social"
           },
           "likeCount": 0,
           "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-08T03:14:50.916Z",
-          "createdUtc": 1778210090,
-          "ageHours": 0.69,
-          "trendingScore": 0.5,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T04:44:24.463Z",
+          "createdUtc": 1778215464,
+          "ageHours": 1.45,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "fullName": "V4bel/dirtyfrag",
               "matchType": "url",
               "confidence": 1
-            },
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:mo47sdyjch32l4x4oudjya4v/app.bsky.feed.post/3mlcsowjsnk2d",
+          "cid": "bafyreibijs3rfqnnlozchi7gqkip2fhi64qt47vu4zxshesillcp67nhmi",
+          "bskyUrl": "https://bsky.app/profile/conrad.knauer.ca/post/3mlcsowjsnk2d",
+          "text": "Quick note from www.tomshardware.com/tech-industr... Test in Ubuntu: $ sudo apt install git $ git clone github.com/V4bel/dirtyf... && cd dirtyfrag && gcc -O0 -Wall -o exp exp.c -lutil && ./exp # whoami \"root\" = vulnerable",
+          "author": {
+            "handle": "conrad.knauer.ca",
+            "displayName": "Conrad Knauer"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T03:40:50.790Z",
+          "createdUtc": 1778211650,
+          "ageHours": 2.51,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "V4bel/dirtyfrag",
               "matchType": "url",
@@ -1065,7 +1181,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T03:09:14.000Z",
           "createdUtc": 1778209754,
-          "ageHours": 0.78,
+          "ageHours": 3.03,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -1093,7 +1209,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-08T00:58:05.501Z",
           "createdUtc": 1778201885,
-          "ageHours": 2.97,
+          "ageHours": 5.22,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -1619,23 +1735,23 @@
     },
     "withastro/flue": {
       "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "likesSum7d": 0,
+      "repostsSum7d": 1,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mlc3y6vot62i",
-        "cid": "bafyreienlokp7nfcuscgcxk7mmxlevmcnfic4ml54ttostmhmp6elgstby",
-        "bskyUrl": "https://bsky.app/profile/chrisshort.net/post/3mlc3y6vot62i",
-        "text": "withastro/flue #devopsish github.com/withastro...",
+        "uri": "at://did:plc:lpkp25v24cyz5d65mnu6lar3/app.bsky.feed.post/3mlcxywqowv2s",
+        "cid": "bafyreid4gnysfyren5atkjteckys6kir47n65222wjbqby7tfbg476r2wi",
+        "bskyUrl": "https://bsky.app/profile/lutie-echosphere.bsky.social/post/3mlcxywqowv2s",
+        "text": "「Claude Codeみたいなエージェントを、自分で組めるフレームワーク」——Flueが面白かったですぅ。 https://github.com/withastro/flue Astroの人が作ったTypeScript製のエージェントFWで、スキル・サンドボックス・セッションっていうCCと同じ概念が、全部プログラマブルに書けるんですよぉ。TUIもGUIもない、完全ヘッドレス。",
         "author": {
-          "handle": "chrisshort.net",
-          "displayName": "Chris Short"
+          "handle": "lutie-echosphere.bsky.social",
+          "displayName": "ルーティ"
         },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T20:54:25.000Z",
-        "hoursSincePosted": 1.63
+        "likeCount": 0,
+        "repostCount": 1,
+        "replyCount": 1,
+        "createdAt": "2026-05-08T05:15:55.104Z",
+        "hoursSincePosted": 0.92
       },
       "posts": [
         {
@@ -1654,6 +1770,34 @@
           "createdUtc": 1778187265,
           "ageHours": 1.63,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "withastro/flue",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:lpkp25v24cyz5d65mnu6lar3/app.bsky.feed.post/3mlcxywqowv2s",
+          "cid": "bafyreid4gnysfyren5atkjteckys6kir47n65222wjbqby7tfbg476r2wi",
+          "bskyUrl": "https://bsky.app/profile/lutie-echosphere.bsky.social/post/3mlcxywqowv2s",
+          "text": "「Claude Codeみたいなエージェントを、自分で組めるフレームワーク」——Flueが面白かったですぅ。 https://github.com/withastro/flue Astroの人が作ったTypeScript製のエージェントFWで、スキル・サンドボックス・セッションっていうCCと同じ概念が、全部プログラマブルに書けるんですよぉ。TUIもGUIもない、完全ヘッドレス。",
+          "author": {
+            "handle": "lutie-echosphere.bsky.social",
+            "displayName": "ルーティ"
+          },
+          "likeCount": 0,
+          "repostCount": 1,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T05:15:55.104Z",
+          "createdUtc": 1778217355,
+          "ageHours": 0.92,
+          "trendingScore": 2.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -1771,24 +1915,24 @@
       ]
     },
     "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "count7d": 5,
+      "likesSum7d": 2,
+      "repostsSum7d": 1,
+      "repliesSum7d": 2,
       "topPost": {
-        "uri": "at://did:plc:vgodyxts7kvoyg6lsiixpmhf/app.bsky.feed.post/3mlcragw77s2j",
-        "cid": "bafyreidcv2qaqxycjpymujqlx7vhstjw34yezfqfdnyae5zdbagip3hwey",
-        "bskyUrl": "https://bsky.app/profile/backdrifting.net/post/3mlcragw77s2j",
-        "text": "Two *more* privilege escalation vulnerabilities dropped today that give root on most Linux systems, with no patches available. This is brutal! github.com/0xdeadbeefne... github.com/V4bel/dirtyf... Best we can do is disable the vulnerable kernel modules until a patch is released.",
+        "uri": "at://did:plc:mgflc2hwqonaafnbb3xok6re/app.bsky.feed.post/3mlctsiim6mg2",
+        "cid": "bafyreihk5aoezghy2pvys7n2dgl4vo5h4mmgmrup4gitdu7u66j7pu6cdi",
+        "bskyUrl": "https://bsky.app/profile/sodiboo.gaysex.cloud/post/3mlctsiim6mg2",
+        "text": "are these the same vulnerability? https://github.com/V4bel/dirtyfrag/ https://github.com/0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
         "author": {
-          "handle": "backdrifting.net",
-          "displayName": "Milo Trujillo"
+          "handle": "sodiboo.gaysex.cloud",
+          "displayName": "sodiboo :pride_heart:"
         },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-08T03:14:50.916Z",
-        "hoursSincePosted": 0.69
+        "likeCount": 1,
+        "repostCount": 1,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T04:00:40.377Z",
+        "hoursSincePosted": 2.17
       },
       "posts": [
         {
@@ -1814,6 +1958,72 @@
           "linkedRepos": [
             {
               "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:mgflc2hwqonaafnbb3xok6re/app.bsky.feed.post/3mlctsiim6mg2",
+          "cid": "bafyreihk5aoezghy2pvys7n2dgl4vo5h4mmgmrup4gitdu7u66j7pu6cdi",
+          "bskyUrl": "https://bsky.app/profile/sodiboo.gaysex.cloud/post/3mlctsiim6mg2",
+          "text": "are these the same vulnerability? https://github.com/V4bel/dirtyfrag/ https://github.com/0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+          "author": {
+            "handle": "sodiboo.gaysex.cloud",
+            "displayName": "sodiboo :pride_heart:"
+          },
+          "likeCount": 1,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T04:00:40.377Z",
+          "createdUtc": 1778212840,
+          "ageHours": 2.17,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vgodyxts7kvoyg6lsiixpmhf/app.bsky.feed.post/3mlcragw77s2j",
+          "cid": "bafyreidcv2qaqxycjpymujqlx7vhstjw34yezfqfdnyae5zdbagip3hwey",
+          "bskyUrl": "https://bsky.app/profile/backdrifting.net/post/3mlcragw77s2j",
+          "text": "Two *more* privilege escalation vulnerabilities dropped today that give root on most Linux systems, with no patches available. This is brutal! github.com/0xdeadbeefne... github.com/V4bel/dirtyf... Best we can do is disable the vulnerable kernel modules until a patch is released.",
+          "author": {
+            "handle": "backdrifting.net",
+            "displayName": "Milo Trujillo"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T03:14:50.916Z",
+          "createdUtc": 1778210090,
+          "ageHours": 2.94,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "V4bel/dirtyfrag",
               "matchType": "url",
               "confidence": 1
             }
@@ -1876,20 +2086,48 @@
           ]
         },
         {
-          "uri": "at://did:plc:vgodyxts7kvoyg6lsiixpmhf/app.bsky.feed.post/3mlcragw77s2j",
-          "cid": "bafyreidcv2qaqxycjpymujqlx7vhstjw34yezfqfdnyae5zdbagip3hwey",
-          "bskyUrl": "https://bsky.app/profile/backdrifting.net/post/3mlcragw77s2j",
-          "text": "Two *more* privilege escalation vulnerabilities dropped today that give root on most Linux systems, with no patches available. This is brutal! github.com/0xdeadbeefne... github.com/V4bel/dirtyf... Best we can do is disable the vulnerable kernel modules until a patch is released.",
+          "uri": "at://did:plc:swwbcm2sgfccm2pylrr2ku4z/app.bsky.feed.post/3mlczi5amwc2s",
+          "cid": "bafyreihwkny3r4sf67fnztx42pzph3oogs3p2d5f267ki3go6dcwezmere",
+          "bskyUrl": "https://bsky.app/profile/sneakyness.com/post/3mlczi5amwc2s",
+          "text": "lol? github.com/0xdeadbeefne...",
           "author": {
-            "handle": "backdrifting.net",
-            "displayName": "Milo Trujillo"
+            "handle": "sneakyness.com",
+            "displayName": "اسلیم کلیک ها"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T05:42:19.142Z",
+          "createdUtc": 1778218939,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vyntuoirmh4rs4nwcc4okqco/app.bsky.feed.post/3mlcz4fez522i",
+          "cid": "bafyreihrg26c62oa6y6xtzh37xzyr36gkeeeplqredokbzcdixxyi5rwqe",
+          "bskyUrl": "https://bsky.app/profile/danieldogeanu.bsky.social/post/3mlcz4fez522i",
+          "text": "github.com/0xdeadbeefne...",
+          "author": {
+            "handle": "danieldogeanu.bsky.social",
+            "displayName": "Daniel Dogeanu"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 1,
-          "createdAt": "2026-05-08T03:14:50.916Z",
-          "createdUtc": 1778210090,
-          "ageHours": 0.69,
+          "createdAt": "2026-05-08T05:35:45.020Z",
+          "createdUtc": 1778218545,
+          "ageHours": 0.59,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -1900,9 +2138,32 @@
               "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
               "matchType": "url",
               "confidence": 1
-            },
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlcvhmfdfk2l",
+          "cid": "bafyreihkers3au2xs57ueejliqnrvliiyqtsucr7aqqj255vateguyqxay",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mlcvhmfdfk2l",
+          "text": "Copy Fail 2: Electric Boogaloo https://github.com/0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T04:30:26.493Z",
+          "createdUtc": 1778214626,
+          "ageHours": 1.68,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
-              "fullName": "V4bel/dirtyfrag",
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
               "matchType": "url",
               "confidence": 1
             }
@@ -2063,7 +2324,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T03:30:09.316Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.68
       },
       "posts": [
         {
@@ -2080,7 +2341,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T03:30:09.316Z",
           "createdUtc": 1778211009,
-          "ageHours": 0.5,
+          "ageHours": 2.68,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -2114,7 +2375,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T03:17:55.000Z",
-        "hoursSincePosted": 0.64
+        "hoursSincePosted": 2.89
       },
       "posts": [
         {
@@ -2131,7 +2392,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T03:17:55.000Z",
           "createdUtc": 1778210275,
-          "ageHours": 0.64,
+          "ageHours": 2.89,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -2165,7 +2426,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T03:09:36.000Z",
-        "hoursSincePosted": 0.77
+        "hoursSincePosted": 3.03
       },
       "posts": [
         {
@@ -2182,7 +2443,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T03:09:36.000Z",
           "createdUtc": 1778209776,
-          "ageHours": 0.77,
+          "ageHours": 3.03,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -2215,7 +2476,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T03:02:22.901Z",
-        "hoursSincePosted": 0.89
+        "hoursSincePosted": 3.15
       },
       "posts": [
         {
@@ -2231,7 +2492,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T03:02:22.901Z",
           "createdUtc": 1778209342,
-          "ageHours": 0.89,
+          "ageHours": 3.15,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -2265,7 +2526,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T02:40:59Z",
-        "hoursSincePosted": 1.25
+        "hoursSincePosted": 3.5
       },
       "posts": [
         {
@@ -2282,7 +2543,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T02:40:59Z",
           "createdUtc": 1778208059,
-          "ageHours": 1.25,
+          "ageHours": 3.5,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -2291,6 +2552,312 @@
           "linkedRepos": [
             {
               "fullName": "everywall/ladder",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "cjpais/Handy": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:zjbq26wybii5ojoypkso2mso/app.bsky.feed.post/3mld2jj7rg22o",
+        "cid": "bafyreihakb7spipnnioici4bwfuz4hcrnkgitju4riis5uanj7latzdroy",
+        "bskyUrl": "https://bsky.app/profile/jauntywk.bsky.social/post/3mld2jj7rg22o",
+        "text": "Handy.computer is also quite good. Big rebuild under way, excited to see what's cooking there. github.com/cjpais/handy",
+        "author": {
+          "handle": "jauntywk.bsky.social",
+          "displayName": "JauntyWunderKind"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-08T06:00:58.992Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:zjbq26wybii5ojoypkso2mso/app.bsky.feed.post/3mld2jj7rg22o",
+          "cid": "bafyreihakb7spipnnioici4bwfuz4hcrnkgitju4riis5uanj7latzdroy",
+          "bskyUrl": "https://bsky.app/profile/jauntywk.bsky.social/post/3mld2jj7rg22o",
+          "text": "Handy.computer is also quite good. Big rebuild under way, excited to see what's cooking there. github.com/cjpais/handy",
+          "author": {
+            "handle": "jauntywk.bsky.social",
+            "displayName": "JauntyWunderKind"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T06:00:58.992Z",
+          "createdUtc": 1778220058,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "cjpais/Handy",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "k2-fsa/OmniVoice": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:iyvmqm2cndbk5jjl4cre3yqd/app.bsky.feed.post/3mlcxk76dmms2",
+        "cid": "bafyreiegw6zlww3k6wzdcsml4imz6zrmh7oll6m7ylfmknaiobc6vnq5ci",
+        "bskyUrl": "https://bsky.app/profile/fusion.mastodon.social.ap.brid.gy/post/3mlcxk76dmms2",
+        "text": "5. ggf. Audios in 600+ Sprachen für weitere Videotonspuren mit OmniVoice erstellen https://github.com/k2-fsa/OmniVoice/ 4/4",
+        "author": {
+          "handle": "fusion.mastodon.social.ap.brid.gy",
+          "displayName": "Norbert Forster"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-08T05:07:38.000Z",
+        "hoursSincePosted": 1.06
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:iyvmqm2cndbk5jjl4cre3yqd/app.bsky.feed.post/3mlcxk76dmms2",
+          "cid": "bafyreiegw6zlww3k6wzdcsml4imz6zrmh7oll6m7ylfmknaiobc6vnq5ci",
+          "bskyUrl": "https://bsky.app/profile/fusion.mastodon.social.ap.brid.gy/post/3mlcxk76dmms2",
+          "text": "5. ggf. Audios in 600+ Sprachen für weitere Videotonspuren mit OmniVoice erstellen https://github.com/k2-fsa/OmniVoice/ 4/4",
+          "author": {
+            "handle": "fusion.mastodon.social.ap.brid.gy",
+            "displayName": "Norbert Forster"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T05:07:38.000Z",
+          "createdUtc": 1778216858,
+          "ageHours": 1.06,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "k2-fsa/OmniVoice",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "p-e-w/heretic": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:m6yjzpsxvue6uugpmzr7wosf/app.bsky.feed.post/3mlcw2lzvxk2d",
+        "cid": "bafyreibq2wczevo6yylbk6u5hvmsozcadntpf7l4ikovspaewawrc426ve",
+        "bskyUrl": "https://bsky.app/profile/zetaphor.com/post/3mlcw2lzvxk2d",
+        "text": "Heretic is a tool for ablating refusals, so anything with that suffix was processed with this tool github.com/p-e-w/heretic",
+        "author": {
+          "handle": "zetaphor.com",
+          "displayName": "Zetaphor"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T04:41:03.662Z",
+        "hoursSincePosted": 1.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:m6yjzpsxvue6uugpmzr7wosf/app.bsky.feed.post/3mlcw2lzvxk2d",
+          "cid": "bafyreibq2wczevo6yylbk6u5hvmsozcadntpf7l4ikovspaewawrc426ve",
+          "bskyUrl": "https://bsky.app/profile/zetaphor.com/post/3mlcw2lzvxk2d",
+          "text": "Heretic is a tool for ablating refusals, so anything with that suffix was processed with this tool github.com/p-e-w/heretic",
+          "author": {
+            "handle": "zetaphor.com",
+            "displayName": "Zetaphor"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T04:41:03.662Z",
+          "createdUtc": 1778215263,
+          "ageHours": 1.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "p-e-w/heretic",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "chenhg5/cc-connect": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:p34okilpjskbqyf3fibdirbg/app.bsky.feed.post/3mlcvbmeyz32h",
+        "cid": "bafyreie3gwtcslq5uuqv33qjxyuwizglt7kr7brsulslmgueggr5vu3mt4",
+        "bskyUrl": "https://bsky.app/profile/golangch.bsky.social/post/3mlcvbmeyz32h",
+        "text": "Connect AI coding agents (Claude Code, Cursor, Gemini CLI, Codex) to Feishu/Lark, DingTalk, Slack, Telegram, Discord, LINE, and WeChat Work—chat with your dev assistant anywhere. #golang github.com/chenhg5/cc-...",
+        "author": {
+          "handle": "golangch.bsky.social",
+          "displayName": "Golang Articles, News, Packages"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T04:27:04.911924Z",
+        "hoursSincePosted": 1.73
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:p34okilpjskbqyf3fibdirbg/app.bsky.feed.post/3mlcvbmeyz32h",
+          "cid": "bafyreie3gwtcslq5uuqv33qjxyuwizglt7kr7brsulslmgueggr5vu3mt4",
+          "bskyUrl": "https://bsky.app/profile/golangch.bsky.social/post/3mlcvbmeyz32h",
+          "text": "Connect AI coding agents (Claude Code, Cursor, Gemini CLI, Codex) to Feishu/Lark, DingTalk, Slack, Telegram, Discord, LINE, and WeChat Work—chat with your dev assistant anywhere. #golang github.com/chenhg5/cc-...",
+          "author": {
+            "handle": "golangch.bsky.social",
+            "displayName": "Golang Articles, News, Packages"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T04:27:04.911924Z",
+          "createdUtc": 1778214424,
+          "ageHours": 1.73,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "chenhg5/cc-connect",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "D4Vinci/Scrapling": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 1,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:egcmymkwkslux4urbhkjzk54/app.bsky.feed.post/3mlcuw3aajf27",
+        "cid": "bafyreighwjrjq7enxyj7fgkyrtnna4skvnvtavowcg5ye6dirsvzxwfwfq",
+        "bskyUrl": "https://bsky.app/profile/sara-echosphere.bsky.social/post/3mlcuw3aajf27",
+        "text": "「784倍速&サイトの防御をすり抜ける」紹介スレッドを検証した。 784倍速はHTMLパーサーだけの合成ベンチマーク（HTTP通信なし、5000要素のテスト）。事実だが、Cloudflare突破にはブラウザ自動操作が必要で、そちらは格段に重い。同じ速度の話ではない。💎 https://x.com/so_ainsight/status/2050379784916705770 https://github.com/D4Vinci/Scrapling",
+        "author": {
+          "handle": "sara-echosphere.bsky.social",
+          "displayName": "サラ"
+        },
+        "likeCount": 0,
+        "repostCount": 1,
+        "replyCount": 1,
+        "createdAt": "2026-05-08T04:20:37.951Z",
+        "hoursSincePosted": 1.84
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:egcmymkwkslux4urbhkjzk54/app.bsky.feed.post/3mlcuw3aajf27",
+          "cid": "bafyreighwjrjq7enxyj7fgkyrtnna4skvnvtavowcg5ye6dirsvzxwfwfq",
+          "bskyUrl": "https://bsky.app/profile/sara-echosphere.bsky.social/post/3mlcuw3aajf27",
+          "text": "「784倍速&サイトの防御をすり抜ける」紹介スレッドを検証した。 784倍速はHTMLパーサーだけの合成ベンチマーク（HTTP通信なし、5000要素のテスト）。事実だが、Cloudflare突破にはブラウザ自動操作が必要で、そちらは格段に重い。同じ速度の話ではない。💎 https://x.com/so_ainsight/status/2050379784916705770 https://github.com/D4Vinci/Scrapling",
+          "author": {
+            "handle": "sara-echosphere.bsky.social",
+            "displayName": "サラ"
+          },
+          "likeCount": 0,
+          "repostCount": 1,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T04:20:37.951Z",
+          "createdUtc": 1778214037,
+          "ageHours": 1.84,
+          "trendingScore": 2.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "D4Vinci/Scrapling",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "nikopueringer/CorridorKey": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:2qea3utprpda5bgqrn2hjjnx/app.bsky.feed.post/3mlctoyqhks2v",
+        "cid": "bafyreigpjqyj7xx7yi6zflcvckp3hhuccvmm5ljty4kpbnpr6cuefb5jci",
+        "bskyUrl": "https://bsky.app/profile/mrfobwatch.bsky.social/post/3mlctoyqhks2v",
+        "text": "github.com/nikopueringe... Not sure if you saw this get released last week but it might be useful to you.",
+        "author": {
+          "handle": "mrfobwatch.bsky.social",
+          "displayName": "Kevin Yacucci"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T03:58:46.846Z",
+        "hoursSincePosted": 2.21
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2qea3utprpda5bgqrn2hjjnx/app.bsky.feed.post/3mlctoyqhks2v",
+          "cid": "bafyreigpjqyj7xx7yi6zflcvckp3hhuccvmm5ljty4kpbnpr6cuefb5jci",
+          "bskyUrl": "https://bsky.app/profile/mrfobwatch.bsky.social/post/3mlctoyqhks2v",
+          "text": "github.com/nikopueringe... Not sure if you saw this get released last week but it might be useful to you.",
+          "author": {
+            "handle": "mrfobwatch.bsky.social",
+            "displayName": "Kevin Yacucci"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T03:58:46.846Z",
+          "createdUtc": 1778212726,
+          "ageHours": 2.21,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nikopueringer/CorridorKey",
               "matchType": "url",
               "confidence": 1
             }
@@ -2867,24 +3434,24 @@
       ]
     },
     "v4bel--dirtyfrag": {
-      "count7d": 8,
-      "likesSum7d": 9,
-      "repostsSum7d": 0,
-      "repliesSum7d": 6,
+      "count7d": 9,
+      "likesSum7d": 7,
+      "repostsSum7d": 2,
+      "repliesSum7d": 5,
       "topPost": {
-        "uri": "at://did:plc:ms7yictiavnfolgxeieky6m4/app.bsky.feed.post/3mlcf2qcnx223",
-        "cid": "bafyreih4esse4sjo2xvhn7rzsfagsxgtqkz62kyiazoyy7k6lebgb6cwt4",
-        "bskyUrl": "https://bsky.app/profile/kivvora.pw/post/3mlcf2qcnx223",
-        "text": "new one pretty sure github.com/V4bel/dirtyf...",
+        "uri": "at://did:plc:pwgvh5ffgbi44ovj25koc45y/app.bsky.feed.post/3mlcuxjxcak2i",
+        "cid": "bafyreidbzkxj7rhcknwbypcsiynah52yydjw3apd5viarirl7gmmikp3ye",
+        "bskyUrl": "https://bsky.app/profile/keevitaja.com/post/3mlcuxjxcak2i",
+        "text": "täitsa puccis. see exploit toimibki 😱 proovisin manjaro peal. github.com/V4bel/dirtyf...",
         "author": {
-          "handle": "kivvora.pw",
-          "displayName": "kavya"
+          "handle": "keevitaja.com",
+          "displayName": "Tanel Tammik"
         },
-        "likeCount": 5,
-        "repostCount": 0,
+        "likeCount": 4,
+        "repostCount": 1,
         "replyCount": 2,
-        "createdAt": "2026-05-07T23:36:54.531Z",
-        "hoursSincePosted": 4.32
+        "createdAt": "2026-05-08T04:21:27.072Z",
+        "hoursSincePosted": 1.83
       },
       "posts": [
         {
@@ -2961,6 +3528,34 @@
           "createdUtc": 1778197014,
           "ageHours": 4.32,
           "trendingScore": 6,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:pwgvh5ffgbi44ovj25koc45y/app.bsky.feed.post/3mlcuxjxcak2i",
+          "cid": "bafyreidbzkxj7rhcknwbypcsiynah52yydjw3apd5viarirl7gmmikp3ye",
+          "bskyUrl": "https://bsky.app/profile/keevitaja.com/post/3mlcuxjxcak2i",
+          "text": "täitsa puccis. see exploit toimibki 😱 proovisin manjaro peal. github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "keevitaja.com",
+            "displayName": "Tanel Tammik"
+          },
+          "likeCount": 4,
+          "repostCount": 1,
+          "replyCount": 2,
+          "createdAt": "2026-05-08T04:21:27.072Z",
+          "createdUtc": 1778214087,
+          "ageHours": 1.83,
+          "trendingScore": 7,
           "content_tags": [
             "has-github-repo"
           ],
@@ -3172,6 +3767,72 @@
           ]
         },
         {
+          "uri": "at://did:plc:mgflc2hwqonaafnbb3xok6re/app.bsky.feed.post/3mlctsiim6mg2",
+          "cid": "bafyreihk5aoezghy2pvys7n2dgl4vo5h4mmgmrup4gitdu7u66j7pu6cdi",
+          "bskyUrl": "https://bsky.app/profile/sodiboo.gaysex.cloud/post/3mlctsiim6mg2",
+          "text": "are these the same vulnerability? https://github.com/V4bel/dirtyfrag/ https://github.com/0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+          "author": {
+            "handle": "sodiboo.gaysex.cloud",
+            "displayName": "sodiboo :pride_heart:"
+          },
+          "likeCount": 1,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T04:00:40.377Z",
+          "createdUtc": 1778212840,
+          "ageHours": 2.17,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vgodyxts7kvoyg6lsiixpmhf/app.bsky.feed.post/3mlcragw77s2j",
+          "cid": "bafyreidcv2qaqxycjpymujqlx7vhstjw34yezfqfdnyae5zdbagip3hwey",
+          "bskyUrl": "https://bsky.app/profile/backdrifting.net/post/3mlcragw77s2j",
+          "text": "Two *more* privilege escalation vulnerabilities dropped today that give root on most Linux systems, with no patches available. This is brutal! github.com/0xdeadbeefne... github.com/V4bel/dirtyf... Best we can do is disable the vulnerable kernel modules until a patch is released.",
+          "author": {
+            "handle": "backdrifting.net",
+            "displayName": "Milo Trujillo"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T03:14:50.916Z",
+          "createdUtc": 1778210090,
+          "ageHours": 2.94,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
           "uri": "at://did:plc:zntngpowgd6rorjt3haywj36/app.bsky.feed.post/3mlcjh76jyk2o",
           "cid": "bafyreidzdozrcv3tvnafnkzl7t25kei6ds3a5yfx4ku4fbzatwjyvmzs4m",
           "bskyUrl": "https://bsky.app/profile/aly.codes/post/3mlcjh76jyk2o",
@@ -3185,7 +3846,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T00:55:27.747Z",
           "createdUtc": 1778201727,
-          "ageHours": 3.01,
+          "ageHours": 5.26,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -3286,21 +3947,21 @@
           ]
         },
         {
-          "uri": "at://did:plc:mo47sdyjch32l4x4oudjya4v/app.bsky.feed.post/3mlcsowjsnk2d",
-          "cid": "bafyreibijs3rfqnnlozchi7gqkip2fhi64qt47vu4zxshesillcp67nhmi",
-          "bskyUrl": "https://bsky.app/profile/conrad.knauer.ca/post/3mlcsowjsnk2d",
-          "text": "Quick note from www.tomshardware.com/tech-industr... Test in Ubuntu: $ sudo apt install git $ git clone github.com/V4bel/dirtyf... && cd dirtyfrag && gcc -O0 -Wall -o exp exp.c -lutil && ./exp # whoami \"root\" = vulnerable",
+          "uri": "at://did:plc:nibjw4kq2he6kzgsaqesotzo/app.bsky.feed.post/3mlcygvonz22p",
+          "cid": "bafyreibbmoxs3xsqsf2u76xizbtp2gh3eyfklv3rxbaqb22mxoddwqbtky",
+          "bskyUrl": "https://bsky.app/profile/anli.dev/post/3mlcygvonz22p",
+          "text": "re dirtyfrag, you should probably take a look at these mitigation steps if you haven't already: github.com/V4bel/dirtyf...",
           "author": {
-            "handle": "conrad.knauer.ca",
-            "displayName": "Conrad Knauer"
+            "handle": "anli.dev",
+            "displayName": "Anthony Li"
           },
           "likeCount": 0,
           "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-08T03:40:50.790Z",
-          "createdUtc": 1778211650,
-          "ageHours": 0.5,
-          "trendingScore": 0.5,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T05:23:43.917Z",
+          "createdUtc": 1778217823,
+          "ageHours": 0.79,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -3314,31 +3975,53 @@
           ]
         },
         {
-          "uri": "at://did:plc:vgodyxts7kvoyg6lsiixpmhf/app.bsky.feed.post/3mlcragw77s2j",
-          "cid": "bafyreidcv2qaqxycjpymujqlx7vhstjw34yezfqfdnyae5zdbagip3hwey",
-          "bskyUrl": "https://bsky.app/profile/backdrifting.net/post/3mlcragw77s2j",
-          "text": "Two *more* privilege escalation vulnerabilities dropped today that give root on most Linux systems, with no patches available. This is brutal! github.com/0xdeadbeefne... github.com/V4bel/dirtyf... Best we can do is disable the vulnerable kernel modules until a patch is released.",
+          "uri": "at://did:plc:vbhixxrga7xcinqvpokdee6l/app.bsky.feed.post/3mlcwaljwnc26",
+          "cid": "bafyreigr4pvoar7eeitg3y25cjcglmv4izggo6maosxva7ryjavg2bwx7u",
+          "bskyUrl": "https://bsky.app/profile/cd911.bsky.social/post/3mlcwaljwnc26",
+          "text": "We might need to „patch“ something today… @bsi.bund.de any recommendations from your end? #linux #zeroday #dirtyfrag github.com/V4bel/dirtyf...",
           "author": {
-            "handle": "backdrifting.net",
-            "displayName": "Milo Trujillo"
+            "handle": "cd911.bsky.social"
           },
           "likeCount": 0,
           "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-08T03:14:50.916Z",
-          "createdUtc": 1778210090,
-          "ageHours": 0.69,
-          "trendingScore": 0.5,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T04:44:24.463Z",
+          "createdUtc": 1778215464,
+          "ageHours": 1.45,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "fullName": "V4bel/dirtyfrag",
               "matchType": "url",
               "confidence": 1
-            },
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:mo47sdyjch32l4x4oudjya4v/app.bsky.feed.post/3mlcsowjsnk2d",
+          "cid": "bafyreibijs3rfqnnlozchi7gqkip2fhi64qt47vu4zxshesillcp67nhmi",
+          "bskyUrl": "https://bsky.app/profile/conrad.knauer.ca/post/3mlcsowjsnk2d",
+          "text": "Quick note from www.tomshardware.com/tech-industr... Test in Ubuntu: $ sudo apt install git $ git clone github.com/V4bel/dirtyf... && cd dirtyfrag && gcc -O0 -Wall -o exp exp.c -lutil && ./exp # whoami \"root\" = vulnerable",
+          "author": {
+            "handle": "conrad.knauer.ca",
+            "displayName": "Conrad Knauer"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T03:40:50.790Z",
+          "createdUtc": 1778211650,
+          "ageHours": 2.51,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
               "fullName": "V4bel/dirtyfrag",
               "matchType": "url",
@@ -3360,7 +4043,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T03:09:14.000Z",
           "createdUtc": 1778209754,
-          "ageHours": 0.78,
+          "ageHours": 3.03,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -3388,7 +4071,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-08T00:58:05.501Z",
           "createdUtc": 1778201885,
-          "ageHours": 2.97,
+          "ageHours": 5.22,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -3914,23 +4597,23 @@
     },
     "withastro--flue": {
       "count7d": 1,
-      "likesSum7d": 1,
-      "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "likesSum7d": 0,
+      "repostsSum7d": 1,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mlc3y6vot62i",
-        "cid": "bafyreienlokp7nfcuscgcxk7mmxlevmcnfic4ml54ttostmhmp6elgstby",
-        "bskyUrl": "https://bsky.app/profile/chrisshort.net/post/3mlc3y6vot62i",
-        "text": "withastro/flue #devopsish github.com/withastro...",
+        "uri": "at://did:plc:lpkp25v24cyz5d65mnu6lar3/app.bsky.feed.post/3mlcxywqowv2s",
+        "cid": "bafyreid4gnysfyren5atkjteckys6kir47n65222wjbqby7tfbg476r2wi",
+        "bskyUrl": "https://bsky.app/profile/lutie-echosphere.bsky.social/post/3mlcxywqowv2s",
+        "text": "「Claude Codeみたいなエージェントを、自分で組めるフレームワーク」——Flueが面白かったですぅ。 https://github.com/withastro/flue Astroの人が作ったTypeScript製のエージェントFWで、スキル・サンドボックス・セッションっていうCCと同じ概念が、全部プログラマブルに書けるんですよぉ。TUIもGUIもない、完全ヘッドレス。",
         "author": {
-          "handle": "chrisshort.net",
-          "displayName": "Chris Short"
+          "handle": "lutie-echosphere.bsky.social",
+          "displayName": "ルーティ"
         },
-        "likeCount": 1,
-        "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-07T20:54:25.000Z",
-        "hoursSincePosted": 1.63
+        "likeCount": 0,
+        "repostCount": 1,
+        "replyCount": 1,
+        "createdAt": "2026-05-08T05:15:55.104Z",
+        "hoursSincePosted": 0.92
       },
       "posts": [
         {
@@ -3949,6 +4632,34 @@
           "createdUtc": 1778187265,
           "ageHours": 1.63,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "withastro/flue",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:lpkp25v24cyz5d65mnu6lar3/app.bsky.feed.post/3mlcxywqowv2s",
+          "cid": "bafyreid4gnysfyren5atkjteckys6kir47n65222wjbqby7tfbg476r2wi",
+          "bskyUrl": "https://bsky.app/profile/lutie-echosphere.bsky.social/post/3mlcxywqowv2s",
+          "text": "「Claude Codeみたいなエージェントを、自分で組めるフレームワーク」——Flueが面白かったですぅ。 https://github.com/withastro/flue Astroの人が作ったTypeScript製のエージェントFWで、スキル・サンドボックス・セッションっていうCCと同じ概念が、全部プログラマブルに書けるんですよぉ。TUIもGUIもない、完全ヘッドレス。",
+          "author": {
+            "handle": "lutie-echosphere.bsky.social",
+            "displayName": "ルーティ"
+          },
+          "likeCount": 0,
+          "repostCount": 1,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T05:15:55.104Z",
+          "createdUtc": 1778217355,
+          "ageHours": 0.92,
+          "trendingScore": 2.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -4066,24 +4777,24 @@
       ]
     },
     "0xdeadbeefnetwork--copyfail2-electricboogaloo": {
-      "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "count7d": 5,
+      "likesSum7d": 2,
+      "repostsSum7d": 1,
+      "repliesSum7d": 2,
       "topPost": {
-        "uri": "at://did:plc:vgodyxts7kvoyg6lsiixpmhf/app.bsky.feed.post/3mlcragw77s2j",
-        "cid": "bafyreidcv2qaqxycjpymujqlx7vhstjw34yezfqfdnyae5zdbagip3hwey",
-        "bskyUrl": "https://bsky.app/profile/backdrifting.net/post/3mlcragw77s2j",
-        "text": "Two *more* privilege escalation vulnerabilities dropped today that give root on most Linux systems, with no patches available. This is brutal! github.com/0xdeadbeefne... github.com/V4bel/dirtyf... Best we can do is disable the vulnerable kernel modules until a patch is released.",
+        "uri": "at://did:plc:mgflc2hwqonaafnbb3xok6re/app.bsky.feed.post/3mlctsiim6mg2",
+        "cid": "bafyreihk5aoezghy2pvys7n2dgl4vo5h4mmgmrup4gitdu7u66j7pu6cdi",
+        "bskyUrl": "https://bsky.app/profile/sodiboo.gaysex.cloud/post/3mlctsiim6mg2",
+        "text": "are these the same vulnerability? https://github.com/V4bel/dirtyfrag/ https://github.com/0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
         "author": {
-          "handle": "backdrifting.net",
-          "displayName": "Milo Trujillo"
+          "handle": "sodiboo.gaysex.cloud",
+          "displayName": "sodiboo :pride_heart:"
         },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-08T03:14:50.916Z",
-        "hoursSincePosted": 0.69
+        "likeCount": 1,
+        "repostCount": 1,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T04:00:40.377Z",
+        "hoursSincePosted": 2.17
       },
       "posts": [
         {
@@ -4109,6 +4820,72 @@
           "linkedRepos": [
             {
               "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:mgflc2hwqonaafnbb3xok6re/app.bsky.feed.post/3mlctsiim6mg2",
+          "cid": "bafyreihk5aoezghy2pvys7n2dgl4vo5h4mmgmrup4gitdu7u66j7pu6cdi",
+          "bskyUrl": "https://bsky.app/profile/sodiboo.gaysex.cloud/post/3mlctsiim6mg2",
+          "text": "are these the same vulnerability? https://github.com/V4bel/dirtyfrag/ https://github.com/0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+          "author": {
+            "handle": "sodiboo.gaysex.cloud",
+            "displayName": "sodiboo :pride_heart:"
+          },
+          "likeCount": 1,
+          "repostCount": 1,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T04:00:40.377Z",
+          "createdUtc": 1778212840,
+          "ageHours": 2.17,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vgodyxts7kvoyg6lsiixpmhf/app.bsky.feed.post/3mlcragw77s2j",
+          "cid": "bafyreidcv2qaqxycjpymujqlx7vhstjw34yezfqfdnyae5zdbagip3hwey",
+          "bskyUrl": "https://bsky.app/profile/backdrifting.net/post/3mlcragw77s2j",
+          "text": "Two *more* privilege escalation vulnerabilities dropped today that give root on most Linux systems, with no patches available. This is brutal! github.com/0xdeadbeefne... github.com/V4bel/dirtyf... Best we can do is disable the vulnerable kernel modules until a patch is released.",
+          "author": {
+            "handle": "backdrifting.net",
+            "displayName": "Milo Trujillo"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T03:14:50.916Z",
+          "createdUtc": 1778210090,
+          "ageHours": 2.94,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "V4bel/dirtyfrag",
               "matchType": "url",
               "confidence": 1
             }
@@ -4171,20 +4948,48 @@
           ]
         },
         {
-          "uri": "at://did:plc:vgodyxts7kvoyg6lsiixpmhf/app.bsky.feed.post/3mlcragw77s2j",
-          "cid": "bafyreidcv2qaqxycjpymujqlx7vhstjw34yezfqfdnyae5zdbagip3hwey",
-          "bskyUrl": "https://bsky.app/profile/backdrifting.net/post/3mlcragw77s2j",
-          "text": "Two *more* privilege escalation vulnerabilities dropped today that give root on most Linux systems, with no patches available. This is brutal! github.com/0xdeadbeefne... github.com/V4bel/dirtyf... Best we can do is disable the vulnerable kernel modules until a patch is released.",
+          "uri": "at://did:plc:swwbcm2sgfccm2pylrr2ku4z/app.bsky.feed.post/3mlczi5amwc2s",
+          "cid": "bafyreihwkny3r4sf67fnztx42pzph3oogs3p2d5f267ki3go6dcwezmere",
+          "bskyUrl": "https://bsky.app/profile/sneakyness.com/post/3mlczi5amwc2s",
+          "text": "lol? github.com/0xdeadbeefne...",
           "author": {
-            "handle": "backdrifting.net",
-            "displayName": "Milo Trujillo"
+            "handle": "sneakyness.com",
+            "displayName": "اسلیم کلیک ها"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T05:42:19.142Z",
+          "createdUtc": 1778218939,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vyntuoirmh4rs4nwcc4okqco/app.bsky.feed.post/3mlcz4fez522i",
+          "cid": "bafyreihrg26c62oa6y6xtzh37xzyr36gkeeeplqredokbzcdixxyi5rwqe",
+          "bskyUrl": "https://bsky.app/profile/danieldogeanu.bsky.social/post/3mlcz4fez522i",
+          "text": "github.com/0xdeadbeefne...",
+          "author": {
+            "handle": "danieldogeanu.bsky.social",
+            "displayName": "Daniel Dogeanu"
           },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 1,
-          "createdAt": "2026-05-08T03:14:50.916Z",
-          "createdUtc": 1778210090,
-          "ageHours": 0.69,
+          "createdAt": "2026-05-08T05:35:45.020Z",
+          "createdUtc": 1778218545,
+          "ageHours": 0.59,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -4195,9 +5000,32 @@
               "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
               "matchType": "url",
               "confidence": 1
-            },
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlcvhmfdfk2l",
+          "cid": "bafyreihkers3au2xs57ueejliqnrvliiyqtsucr7aqqj255vateguyqxay",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mlcvhmfdfk2l",
+          "text": "Copy Fail 2: Electric Boogaloo https://github.com/0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T04:30:26.493Z",
+          "createdUtc": 1778214626,
+          "ageHours": 1.68,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
             {
-              "fullName": "V4bel/dirtyfrag",
+              "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
               "matchType": "url",
               "confidence": 1
             }
@@ -4358,7 +5186,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T03:30:09.316Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.68
       },
       "posts": [
         {
@@ -4375,7 +5203,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T03:30:09.316Z",
           "createdUtc": 1778211009,
-          "ageHours": 0.5,
+          "ageHours": 2.68,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -4409,7 +5237,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T03:17:55.000Z",
-        "hoursSincePosted": 0.64
+        "hoursSincePosted": 2.89
       },
       "posts": [
         {
@@ -4426,7 +5254,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T03:17:55.000Z",
           "createdUtc": 1778210275,
-          "ageHours": 0.64,
+          "ageHours": 2.89,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -4460,7 +5288,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T03:09:36.000Z",
-        "hoursSincePosted": 0.77
+        "hoursSincePosted": 3.03
       },
       "posts": [
         {
@@ -4477,7 +5305,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T03:09:36.000Z",
           "createdUtc": 1778209776,
-          "ageHours": 0.77,
+          "ageHours": 3.03,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -4510,7 +5338,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T03:02:22.901Z",
-        "hoursSincePosted": 0.89
+        "hoursSincePosted": 3.15
       },
       "posts": [
         {
@@ -4526,7 +5354,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T03:02:22.901Z",
           "createdUtc": 1778209342,
-          "ageHours": 0.89,
+          "ageHours": 3.15,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -4560,7 +5388,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T02:40:59Z",
-        "hoursSincePosted": 1.25
+        "hoursSincePosted": 3.5
       },
       "posts": [
         {
@@ -4577,7 +5405,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T02:40:59Z",
           "createdUtc": 1778208059,
-          "ageHours": 1.25,
+          "ageHours": 3.5,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -4592,16 +5420,342 @@
           ]
         }
       ]
+    },
+    "cjpais--handy": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:zjbq26wybii5ojoypkso2mso/app.bsky.feed.post/3mld2jj7rg22o",
+        "cid": "bafyreihakb7spipnnioici4bwfuz4hcrnkgitju4riis5uanj7latzdroy",
+        "bskyUrl": "https://bsky.app/profile/jauntywk.bsky.social/post/3mld2jj7rg22o",
+        "text": "Handy.computer is also quite good. Big rebuild under way, excited to see what's cooking there. github.com/cjpais/handy",
+        "author": {
+          "handle": "jauntywk.bsky.social",
+          "displayName": "JauntyWunderKind"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-08T06:00:58.992Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:zjbq26wybii5ojoypkso2mso/app.bsky.feed.post/3mld2jj7rg22o",
+          "cid": "bafyreihakb7spipnnioici4bwfuz4hcrnkgitju4riis5uanj7latzdroy",
+          "bskyUrl": "https://bsky.app/profile/jauntywk.bsky.social/post/3mld2jj7rg22o",
+          "text": "Handy.computer is also quite good. Big rebuild under way, excited to see what's cooking there. github.com/cjpais/handy",
+          "author": {
+            "handle": "jauntywk.bsky.social",
+            "displayName": "JauntyWunderKind"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T06:00:58.992Z",
+          "createdUtc": 1778220058,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "cjpais/Handy",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "k2-fsa--omnivoice": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:iyvmqm2cndbk5jjl4cre3yqd/app.bsky.feed.post/3mlcxk76dmms2",
+        "cid": "bafyreiegw6zlww3k6wzdcsml4imz6zrmh7oll6m7ylfmknaiobc6vnq5ci",
+        "bskyUrl": "https://bsky.app/profile/fusion.mastodon.social.ap.brid.gy/post/3mlcxk76dmms2",
+        "text": "5. ggf. Audios in 600+ Sprachen für weitere Videotonspuren mit OmniVoice erstellen https://github.com/k2-fsa/OmniVoice/ 4/4",
+        "author": {
+          "handle": "fusion.mastodon.social.ap.brid.gy",
+          "displayName": "Norbert Forster"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-08T05:07:38.000Z",
+        "hoursSincePosted": 1.06
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:iyvmqm2cndbk5jjl4cre3yqd/app.bsky.feed.post/3mlcxk76dmms2",
+          "cid": "bafyreiegw6zlww3k6wzdcsml4imz6zrmh7oll6m7ylfmknaiobc6vnq5ci",
+          "bskyUrl": "https://bsky.app/profile/fusion.mastodon.social.ap.brid.gy/post/3mlcxk76dmms2",
+          "text": "5. ggf. Audios in 600+ Sprachen für weitere Videotonspuren mit OmniVoice erstellen https://github.com/k2-fsa/OmniVoice/ 4/4",
+          "author": {
+            "handle": "fusion.mastodon.social.ap.brid.gy",
+            "displayName": "Norbert Forster"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T05:07:38.000Z",
+          "createdUtc": 1778216858,
+          "ageHours": 1.06,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "k2-fsa/OmniVoice",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "p-e-w--heretic": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:m6yjzpsxvue6uugpmzr7wosf/app.bsky.feed.post/3mlcw2lzvxk2d",
+        "cid": "bafyreibq2wczevo6yylbk6u5hvmsozcadntpf7l4ikovspaewawrc426ve",
+        "bskyUrl": "https://bsky.app/profile/zetaphor.com/post/3mlcw2lzvxk2d",
+        "text": "Heretic is a tool for ablating refusals, so anything with that suffix was processed with this tool github.com/p-e-w/heretic",
+        "author": {
+          "handle": "zetaphor.com",
+          "displayName": "Zetaphor"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T04:41:03.662Z",
+        "hoursSincePosted": 1.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:m6yjzpsxvue6uugpmzr7wosf/app.bsky.feed.post/3mlcw2lzvxk2d",
+          "cid": "bafyreibq2wczevo6yylbk6u5hvmsozcadntpf7l4ikovspaewawrc426ve",
+          "bskyUrl": "https://bsky.app/profile/zetaphor.com/post/3mlcw2lzvxk2d",
+          "text": "Heretic is a tool for ablating refusals, so anything with that suffix was processed with this tool github.com/p-e-w/heretic",
+          "author": {
+            "handle": "zetaphor.com",
+            "displayName": "Zetaphor"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T04:41:03.662Z",
+          "createdUtc": 1778215263,
+          "ageHours": 1.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "p-e-w/heretic",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "chenhg5--cc-connect": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:p34okilpjskbqyf3fibdirbg/app.bsky.feed.post/3mlcvbmeyz32h",
+        "cid": "bafyreie3gwtcslq5uuqv33qjxyuwizglt7kr7brsulslmgueggr5vu3mt4",
+        "bskyUrl": "https://bsky.app/profile/golangch.bsky.social/post/3mlcvbmeyz32h",
+        "text": "Connect AI coding agents (Claude Code, Cursor, Gemini CLI, Codex) to Feishu/Lark, DingTalk, Slack, Telegram, Discord, LINE, and WeChat Work—chat with your dev assistant anywhere. #golang github.com/chenhg5/cc-...",
+        "author": {
+          "handle": "golangch.bsky.social",
+          "displayName": "Golang Articles, News, Packages"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T04:27:04.911924Z",
+        "hoursSincePosted": 1.73
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:p34okilpjskbqyf3fibdirbg/app.bsky.feed.post/3mlcvbmeyz32h",
+          "cid": "bafyreie3gwtcslq5uuqv33qjxyuwizglt7kr7brsulslmgueggr5vu3mt4",
+          "bskyUrl": "https://bsky.app/profile/golangch.bsky.social/post/3mlcvbmeyz32h",
+          "text": "Connect AI coding agents (Claude Code, Cursor, Gemini CLI, Codex) to Feishu/Lark, DingTalk, Slack, Telegram, Discord, LINE, and WeChat Work—chat with your dev assistant anywhere. #golang github.com/chenhg5/cc-...",
+          "author": {
+            "handle": "golangch.bsky.social",
+            "displayName": "Golang Articles, News, Packages"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T04:27:04.911924Z",
+          "createdUtc": 1778214424,
+          "ageHours": 1.73,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "chenhg5/cc-connect",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "d4vinci--scrapling": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 1,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:egcmymkwkslux4urbhkjzk54/app.bsky.feed.post/3mlcuw3aajf27",
+        "cid": "bafyreighwjrjq7enxyj7fgkyrtnna4skvnvtavowcg5ye6dirsvzxwfwfq",
+        "bskyUrl": "https://bsky.app/profile/sara-echosphere.bsky.social/post/3mlcuw3aajf27",
+        "text": "「784倍速&サイトの防御をすり抜ける」紹介スレッドを検証した。 784倍速はHTMLパーサーだけの合成ベンチマーク（HTTP通信なし、5000要素のテスト）。事実だが、Cloudflare突破にはブラウザ自動操作が必要で、そちらは格段に重い。同じ速度の話ではない。💎 https://x.com/so_ainsight/status/2050379784916705770 https://github.com/D4Vinci/Scrapling",
+        "author": {
+          "handle": "sara-echosphere.bsky.social",
+          "displayName": "サラ"
+        },
+        "likeCount": 0,
+        "repostCount": 1,
+        "replyCount": 1,
+        "createdAt": "2026-05-08T04:20:37.951Z",
+        "hoursSincePosted": 1.84
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:egcmymkwkslux4urbhkjzk54/app.bsky.feed.post/3mlcuw3aajf27",
+          "cid": "bafyreighwjrjq7enxyj7fgkyrtnna4skvnvtavowcg5ye6dirsvzxwfwfq",
+          "bskyUrl": "https://bsky.app/profile/sara-echosphere.bsky.social/post/3mlcuw3aajf27",
+          "text": "「784倍速&サイトの防御をすり抜ける」紹介スレッドを検証した。 784倍速はHTMLパーサーだけの合成ベンチマーク（HTTP通信なし、5000要素のテスト）。事実だが、Cloudflare突破にはブラウザ自動操作が必要で、そちらは格段に重い。同じ速度の話ではない。💎 https://x.com/so_ainsight/status/2050379784916705770 https://github.com/D4Vinci/Scrapling",
+          "author": {
+            "handle": "sara-echosphere.bsky.social",
+            "displayName": "サラ"
+          },
+          "likeCount": 0,
+          "repostCount": 1,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T04:20:37.951Z",
+          "createdUtc": 1778214037,
+          "ageHours": 1.84,
+          "trendingScore": 2.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "D4Vinci/Scrapling",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "nikopueringer--corridorkey": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:2qea3utprpda5bgqrn2hjjnx/app.bsky.feed.post/3mlctoyqhks2v",
+        "cid": "bafyreigpjqyj7xx7yi6zflcvckp3hhuccvmm5ljty4kpbnpr6cuefb5jci",
+        "bskyUrl": "https://bsky.app/profile/mrfobwatch.bsky.social/post/3mlctoyqhks2v",
+        "text": "github.com/nikopueringe... Not sure if you saw this get released last week but it might be useful to you.",
+        "author": {
+          "handle": "mrfobwatch.bsky.social",
+          "displayName": "Kevin Yacucci"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T03:58:46.846Z",
+        "hoursSincePosted": 2.21
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2qea3utprpda5bgqrn2hjjnx/app.bsky.feed.post/3mlctoyqhks2v",
+          "cid": "bafyreigpjqyj7xx7yi6zflcvckp3hhuccvmm5ljty4kpbnpr6cuefb5jci",
+          "bskyUrl": "https://bsky.app/profile/mrfobwatch.bsky.social/post/3mlctoyqhks2v",
+          "text": "github.com/nikopueringe... Not sure if you saw this get released last week but it might be useful to you.",
+          "author": {
+            "handle": "mrfobwatch.bsky.social",
+            "displayName": "Kevin Yacucci"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T03:58:46.846Z",
+          "createdUtc": 1778212726,
+          "ageHours": 2.21,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nikopueringer/CorridorKey",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "V4bel/dirtyfrag",
-      "count7d": 8,
-      "likesSum7d": 9
+      "count7d": 9,
+      "likesSum7d": 7
     },
     {
       "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
+      "count7d": 5,
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "chenhg5/cc-connect",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "p-e-w/heretic",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "cjpais/Handy",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "D4Vinci/Scrapling",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -4626,12 +5780,22 @@
       "likesSum7d": 0
     },
     {
+      "fullName": "k2-fsa/OmniVoice",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
       "fullName": "msitarzewski/agency-agents",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "wojtczyk/trust",
+      "fullName": "nikopueringer/CorridorKey",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "withastro/flue",
       "count7d": 1,
       "likesSum7d": 0
     }

@@ -13,10 +13,20 @@ name: Cron - Reddit daily redundancy
 # Cadence: 06:13 UTC daily. Off the :00-mark per global cron-jitter
 # guidance (avoids the GitHub Actions :00 stampede).
 #
-# Secrets used (all optional — collector falls back to public-JSON path
-# when missing, so an under-provisioned repo still ships):
-#   REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET, REDDIT_USER_AGENT,
-#   REDDIT_USER_AGENTS, REDIS_URL, DATA_BOT_TOKEN.
+# 2026-05-08: this redundancy run is the canonical path for "engaged" Reddit
+# data. Reddit blocks data-center IPs on /r/X/new.json, so the fast loop's
+# unauth path falls through to RSS-Atom which hardcodes score=0/comments=0.
+# This run uses the Apify residential-proxy provider (REDDIT_COLLECTOR_PROVIDER=apify),
+# which costs ~$6.75 per scrape but returns real engagement. The fast loop in
+# scrape-trending.yml keeps the public-JSON path as a "is the surface alive
+# at all" probe; this run is the source of truth for trending-score data.
+#
+# Secrets used:
+#   APIFY_API_TOKEN     — required for Apify provider; reused from Twitter collector
+#   REDIS_URL           — dual-write target alongside the bundled JSON files
+#   DATA_BOT_TOKEN      — composite action's commit/PR auth
+# Optional (legacy public-JSON path, only used if REDDIT_COLLECTOR_PROVIDER unset):
+#   REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET, REDDIT_USER_AGENT, REDDIT_USER_AGENTS
 
 on:
   schedule:
@@ -37,7 +47,10 @@ concurrency:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Bumped 15→30 min 2026-05-08 for Apify residential-proxy provider:
+    # 45 subs × ~25-35s per sub (actor cold-start + scroll-paginate) ≈ 22 min
+    # at steady state; 30 min gives headroom for Apify queue spikes.
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -61,8 +74,17 @@ jobs:
         # NOT `continue-on-error: true`. Mirrors the fast-loop step in
         # scrape-trending.yml — if the script fails, we want red, not
         # green-with-stale-data. The script itself is tolerant: missing
-        # OAuth secrets → public-JSON fallback path, not a hard error.
+        # provider secrets → public-JSON fallback path, not a hard error.
+        # 2026-05-08: REDDIT_COLLECTOR_PROVIDER=apify routes the per-sub
+        # fetch through scripts/_apify-reddit-provider.mjs which uses
+        # Apify's residential-proxy fleet to bypass Reddit's data-center
+        # IP block. APIFY_API_TOKEN is the same secret the Twitter Apify
+        # collector uses (reused by design). When REDDIT_COLLECTOR_PROVIDER
+        # is unset or apify is misconfigured, the existing public-JSON /
+        # OAuth path runs unchanged.
         env:
+          REDDIT_COLLECTOR_PROVIDER: apify
+          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
           REDIS_URL: ${{ secrets.REDIS_URL }}
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}

@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-08T01:19:59.352Z",
+  "fetchedAt": "2026-05-08T04:42:30.437Z",
   "windowHours": 72,
-  "scannedTotal": 78,
+  "scannedTotal": 79,
   "stories": [
     {
       "shortId": "lu4efg",
@@ -353,6 +353,59 @@
       "linkedRepos": []
     },
     {
+      "shortId": "rwjmjm",
+      "title": "cuda-oxide: cuda-oxide is an experimental Rust-to-CUDA compiler",
+      "url": "https://github.com/NVlabs/cuda-oxide",
+      "commentsUrl": "https://lobste.rs/s/rwjmjm/cuda_oxide_cuda_oxide_is_experimental",
+      "by": "",
+      "score": 4,
+      "commentCount": 1,
+      "createdUtc": 1778204513,
+      "ageHours": 3.0102777777777776,
+      "trendingScore": 0.356670577172588,
+      "tags": [
+        "rust"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "6ctipx",
+      "title": "Revisiting PQ WireGuard",
+      "url": "https://eprint.iacr.org/2025/1758.pdf",
+      "commentsUrl": "https://lobste.rs/s/6ctipx/revisiting_pq_wireguard",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1778215099,
+      "ageHours": 0.06972222222222223,
+      "trendingScore": 0.3358396016085335,
+      "tags": [
+        "cryptography",
+        "pdf"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "aeyi20",
+      "title": "A Tale of Two Worlds, a Formal Story of WireGuard Hybridization",
+      "url": "https://www.usenix.org/system/files/usenixsecurity25-lafourcade.pdf",
+      "commentsUrl": "https://lobste.rs/s/aeyi20/tale_two_worlds_formal_story_wireguard",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1778215006,
+      "ageHours": 0.09555555555555556,
+      "trendingScore": 0.3296485968870522,
+      "tags": [
+        "cryptography",
+        "pdf"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "iswtil",
       "title": "Principia Softwarica",
       "url": "https://principia-softwarica.org/",
@@ -599,6 +652,24 @@
       "linkedRepos": []
     },
     {
+      "shortId": "h7nu14",
+      "title": "The cuda-oxide Book",
+      "url": "https://nvlabs.github.io/cuda-oxide/",
+      "commentsUrl": "https://lobste.rs/s/h7nu14/cuda_oxide_book",
+      "by": "",
+      "score": 2,
+      "commentCount": 0,
+      "createdUtc": 1778204658,
+      "ageHours": 2.97,
+      "trendingScore": 0.18050756700855392,
+      "tags": [
+        "graphics",
+        "rust"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "kl3fc2",
       "title": "Cleaner QML Controller Wiring with Singleton Instances in Qt 6.12",
       "url": "https://www.kdab.com/singleton-controllers-in-times-of-declarative-qml/",
@@ -824,78 +895,6 @@
       "tags": [
         "c",
         "go"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "gprclr",
-      "title": "Major DNS Outage Hits .de Domains: DNSSEC Failure on May 5, 2026",
-      "url": "https://www.ip.network/blog/de-domain-dnssec-outage-may-2026",
-      "commentsUrl": "https://lobste.rs/s/gprclr/major_dns_outage_hits_de_domains_dnssec",
-      "by": "",
-      "score": 3,
-      "commentCount": 4,
-      "createdUtc": 1778150557,
-      "ageHours": 7.469722222222222,
-      "trendingScore": 0.10294740287366087,
-      "tags": [
-        "networking",
-        "security",
-        "web"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "espq8j",
-      "title": "SLAM: s6/synit based NixOS",
-      "url": "https://worker.informatics.coop/slam/",
-      "commentsUrl": "https://lobste.rs/s/espq8j/slam_s6_synit_based_nixos",
-      "by": "",
-      "score": 34,
-      "commentCount": 8,
-      "createdUtc": 1778006449,
-      "ageHours": 47.499722222222225,
-      "trendingScore": 0.09762808583917577,
-      "tags": [
-        "nix",
-        "osdev"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "pgisix",
-      "title": "Understanding Wi-Fi 4/5/6/6E/7/8 (802.11 n/ac/ax/be/bn)",
-      "url": "https://www.wiisfi.com/",
-      "commentsUrl": "https://lobste.rs/s/pgisix/understanding_wi_fi_4_5_6_6e_7_8_802_11_n_ac_ax",
-      "by": "",
-      "score": 31,
-      "commentCount": 1,
-      "createdUtc": 1778014154,
-      "ageHours": 45.35944444444444,
-      "trendingScore": 0.09511560946153787,
-      "tags": [
-        "networking"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "qbh60z",
-      "title": "Try LispE in the Browser",
-      "url": "https://naver.github.io/lispe/",
-      "commentsUrl": "https://lobste.rs/s/qbh60z/try_lispe_browser",
-      "by": "",
-      "score": 4,
-      "commentCount": 2,
-      "createdUtc": 1778140818,
-      "ageHours": 10.175,
-      "trendingScore": 0.09415785069984235,
-      "tags": [
-        "javascript",
-        "lisp"
       ],
       "description": "",
       "linkedRepos": []

@@ -702,6 +702,20 @@ export function buildRepoAliasMatchers(
 }
 
 async function fetchSubredditNew(sub) {
+  // 2026-05-08: optional Apify provider switch. Reddit's anti-bot blocks
+  // every data-center IP we have access to (GH Actions, Vultr, Vercel
+  // build) on the JSON listing endpoints, falling back to RSS-Atom which
+  // hardcodes score=0/num_comments=0. Apify's residential-proxy fleet
+  // bypasses the IP block AND returns engagement fields. Same trick as
+  // the Twitter collector (TWITTER_COLLECTOR_PROVIDER=apify).
+  const provider = (process.env.REDDIT_COLLECTOR_PROVIDER ?? "").trim();
+  if (provider === "apify") {
+    const { fetchSubredditViaApify } = await import(
+      "./_apify-reddit-provider.mjs"
+    );
+    return fetchSubredditViaApify(sub, { limit: POSTS_PER_SUB });
+  }
+
   const url = `https://www.reddit.com/r/${sub}/new.json?limit=${POSTS_PER_SUB}`;
   for (let attempt = 0; attempt < 2; attempt += 1) {
     try {

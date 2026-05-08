@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-07T14:10:05.313Z",
+  "fetchedAt": "2026-05-08T17:21:36.639Z",
   "source": "funding-news-scraper",
   "windowDays": 21,
   "signals": [
@@ -1445,6 +1445,346 @@
         "saas"
       ],
       "discoveredAt": "2026-05-07T14:10:05.313Z"
+    },
+    {
+      "id": "the-decoder.com-fa0a28f",
+      "headline": "SoftBank reportedly slashes OpenAI-backed loan from $10 billion to $6 billion as lenders balk at private AI valuations",
+      "description": "SoftBank has reduced a loan secured by OpenAI shares from 10 to around 6 billion dollars. Lenders are apparently reluctant to reliably assess the value of an unlisted company like OpenAI. The article SoftBank reportedly slashes OpenAI-backed loan from $10 billion to $6 billion as lenders balk at private AI valuations appeared first on The Decoder .",
+      "sourceUrl": "https://the-decoder.com/softbank-reportedly-slashes-openai-backed-loan-from-10-billion-to-6-billion-as-lenders-balk-at-private-ai-valuations/",
+      "sourcePlatform": "the-decoder",
+      "publishedAt": "2026-05-08T16:26:58.000Z",
+      "discoveredAt": "2026-05-08T17:21:36.639Z",
+      "extracted": {
+        "companyName": "SoftBank",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 6000000000,
+        "amountDisplay": "$6B",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "10"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "10",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techstartups.com-1ccc8054",
+      "headline": "SoftBank cuts planned $10B OpenAI-backed loan after lenders raise valuation concerns",
+      "description": "SoftBank’s massive bet on OpenAI is running into a problem that has begun to shadow the AI boom: how do lenders assign a reliable valuation to a private company worth hundreds of billions of dollars on paper? The Japanese investment […] The post SoftBank cuts planned $10B OpenAI-backed loan after lenders raise valuation concerns first appeared on Tech Startups .",
+      "sourceUrl": "https://techstartups.com/2026/05/08/softbank-cuts-planned-10b-openai-backed-loan-after-lenders-raise-valuation-concerns/",
+      "sourcePlatform": "techstartups",
+      "publishedAt": "2026-05-08T14:59:58.000Z",
+      "discoveredAt": "2026-05-08T17:21:36.639Z",
+      "extracted": {
+        "companyName": "SoftBank",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 10000000000,
+        "amountDisplay": "$10B",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "its stake",
+          "its OpenAI stake after facing hesitation from some creditors"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "its stake",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "its OpenAI stake after facing hesitation from some creditors",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "www.pymnts.com-4ab5bfb3",
+      "headline": "Anthropic Valuation Could Eclipse OpenAI in $50 Billion Funding Round",
+      "description": "Anthropic is considering a funding round in which it would raise as much as $50 billion and be valued at $900 billion, the Financial Times reported Thursday (May 7), citing unnamed sources. The company is weighing the move as it fields inbound investment offers and as potential investors “are ready to throw any dollar […] The post Anthropic Valuation Could Eclipse OpenAI in $50 Billion Funding Round appeared first on PYMNTS.com .",
+      "sourceUrl": "https://www.pymnts.com/news/artificial-intelligence/2026/anthropic-valuation-could-eclipse-openai-50-billion-dollar-funding-round/",
+      "sourcePlatform": "pymnts",
+      "publishedAt": "2026-05-08T14:42:26.000Z",
+      "discoveredAt": "2026-05-08T17:21:36.639Z",
+      "extracted": {
+        "companyName": "Anthropic Valuation Could",
+        "companyWebsite": "https://anthropic.com",
+        "companyLogoUrl": "https://logo.clearbit.com/anthropic.com",
+        "amount": 900,
+        "amountDisplay": "$900",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "venturebeat.com-c2ab8838",
+      "headline": "5% GPU utilization: The $401 billion AI infrastructure problem enterprises can't keep ignoring",
+      "description": "For the last 24 months, one narrative justified every over-provisioned data center and bloated IT budget: the GPU scramble. Silicon was the new oil, and H100s traded like contraband. Reserve capacity now or your enterprise would be left behind. The bill is now due, and the CFO is paying attention. Gartner estimates AI infrastructure is adding $401 billion in new spending this year . Real-world audits tell a darker story: average GPU utilization in the enterprise is stuck at 5% . That utilization floor is driven by a self-reinforcing procurement loop that makes idle GPUs nearly impossible to release. What makes this shift more urgent is the CapEx reality now hitting enterprise balance sheets. Many organizations locked in GPU capacity under traditional three- to five-year depreciation cycles, with the hyperscalers being at five years. That means the infrastructure purchased during the peak of the “GPU scramble” is now a fixed cost, regardless of how much it is actually used. As those assets age, the question is no longer whether the investment was justified. It’s whether it can be made productive. Underutilized GPUs are not just idle resources, they are depreciating assets that must now generate measurable return. This is forcing a shift in mindset: from acquiring capacity to maximizing the economic output of what is already deployed. The scramble was a sideshow For the \"Tier 1\" enterprise — the Intuits, Mastercards, and Pfizers of the world — access was rarely the true bottleneck. Leveraging deep-pocketed relationships with AWS, Azure, and GCP, these organizations secured capacity reservations that sat idle while internal teams struggled with data gravity, governance, and architectural immaturity. The industry narrative of \"scarcity\" served as a convenient smokescreen for this inefficiency. While the headlines focused on supply chain delays, the internal reality was a massive productivity gap. Organizations were activity-rich (buying chips) but output-poor (generating near-zero useful tokens). At 5% utilization, the math simply doesn't work. For every dollar spent on silicon, 95 cents is essentially a donation to a cloud provider’s bottom line. In any other department, a 95% waste metric would be a firing offense; in AI infrastructure, it was just called \"preparedness.\" The Q1 tracker: A market in pivot VentureBeat’s Q1 2026 AI Infrastructure & Compute Market Tracker confirms that the panic phase has officially broken. The tracker is directional rather than statistically definitive — January surveyed 53 qualified respondents, February 39 — but the pattern across both waves is consistent. When we asked IT decision-makers what actually drives their provider choices today, the results show a market in rapid pivot: The access collapse: “Access to GPUs/availability” factor dropped from 20.8% to 15.4% in a single quarter — from primary concern to secondary in 90 days. The pragmatic pivot: “Integration with existing cloud and data stacks” held steady as the top priority at roughly 43% across both waves, while security and compliance requirements surged from 41.5% to 48.7% — nearly closing the gap with integration. The TCO mandate: “Cost per inference/TCO (total cost of ownership)” as a top priority jumped from 34% to 41% in a single quarter, overtaking performance as the dominant procurement lens. The era of the blank check is dead. Inference is where AI becomes a line item. Training and even fine-tuning were a tactical project; inference is a strategic business model. For most enterprises, the unit economics of that model are currently unsustainable. During the initial pilot phase, flat-fee licenses and bundled token deals allowed for architectural waste. Teams built long-context agents and complex retrieval pipelines because tokens were effectively a sunk cost. As the industry moves toward usage-based pricing in 2026, those same architectures have become liabilities. When metered billing is applied to an infrastructure stack that sits idle 95% of the time, the cost per useful token becomes a line-item emergency the moment a project moves into production. From activity to productivity The shift highlighted in our Q1 data represents more than just a budget correction; it is a fundamental change in how the success of an AI leader is measured. For the last two years, success was about “securing” the stack. In the efficiency era, success is “squeezing” the stack. This is why cost optimization platforms saw the largest planned budget increase in our survey, becoming a top-tier priority as organizations realize that buying more GPUs is often the wrong answer. Increasingly IT users are asking how to stop paying for GPUs they aren't using. They are moving away from measuring GPU activity (how many chips are powered on) and toward GPU productivity (how many useful tokens are generated per dollar spent). The luxury of underutilization is now a liability. The next act of the enterprise AI play is more about finding a way to make the silicon you already have pay for itself. Owning the mint: The choice between token consumer and producer As organizations move from proof-of-concept to production, the focus is shifting away from the latest GPU and toward the architecture of token generation. In this new economic reality, every enterprise must decide its role in the token economy: will you be a token consumer, paying a permanent tax to a model provider, or a token producer, owning the infrastructure and the unit economics that come with it? This choice is not just about cost; it is about how an organization decides to handle complexity. Owning inference infrastructure means overcoming KV cache persistence, understanding the storage architecture, knowing what are tolerable latency guarantees, and addressing power constraints. It also introduces real-world enterprise limitations, power availability, data center footprint, and operational complexity, that directly impact how far and how fast AI can scale. At the core of this challenge is KV cache economics. Storing context in GPU memory delivers performance but comes at a premium, limiting concurrency and driving up cost per token. Offloading KV cache to shared NVMe-based storage can improve reuse and reduce prefill overhead, but introduces tradeoffs in latency and system design. As NVMe costs rise and GPU memory remains scarce, organizations are forced to balance performance against efficiency. For a token producer, managing these tradeoffs, across memory, storage, power, and operations, is simply the cost of doing business at scale. For others, the overhead remains too high, requiring a different path. The specialized cloud pivot VentureBeat’s Q1 tracker shows that the market is already voting on this strategy. The top strategic direction for enterprises is now to move more workloads to specialized AI clouds, a category that grew from 30.2% to 35.9% in our latest survey. These providers — including Coreweave, Lambda, and Crusoe — are evolving. While they initially gained ground by serving model builders and training-heavy workloads, their revenue mix is changing rapidly. Today, training represents roughly 70% of their business volume, but inference customers now make up 30%. We expect that ratio to flip by the end of 2026 as the long tail of enterprise inference begins to scale. These specialized providers are gaining strategic attention because they are not just selling GPU access. They are selling the removal of infrastructure friction. They optimize the full stack — storage, networking, and scheduling — around inference-first economics rather than general-purpose cloud operations. For an organization aiming to be a token producer, these environments offer a more efficient factory floor than traditional hyperscalers. The rise of managed inference For organizations that realize they cannot efficiently build or manage their own inference factories, a different trend is emerging. Our survey found that the intention to evaluate inference outsourcing and managed LLM providers jumped from 13.2% to 23.1% in a single quarter. This nearly 10-percentage-point increase represents a realization that building inference infrastructure internally often creates hidden costs. Providers like Baseten, Anyscale, FireworksAI, and Together AI offer predictable pricing and service-level agreements without requiring the customer to become experts in vLLM tuning or distributed GPU scheduling. In this model, the enterprise remains a token consumer, but one that is actively looking to price away the complexity of the stack. They are learning that managing inference internally is only viable if they have the volume to justify the operational burden. Simplifying the hybrid stack The choice to be a producer is also being made easier by a new layer of hybrid-cloud AI platforms. Solutions from Red Hat, Nutanix, and Broadcom are designed to operationalize open-source inference infrastructure without forcing every company to become a systems integrator. The challenge is that modern inference depends on complex open-source components like vLLM, Triton, and Kubernetes. These systems rely on a rapidly evolving stack, with vLLM for high-throughput serving, Triton for model orchestration, and Ray for distributed execution, each powerful on its own, but complex to integrate, tune, and operate at scale. For most enterprises, the challenge isn’t access to these tools, it’s stitching them together into a reliable, production-grade inference pipeline. The promise of these newer platforms is portability: the ability to build an inference stack once and deploy it anywhere, whether in a hyperscaler, a specialized cloud, or an on-premises data center. Our Q1 2026 AI Infrastructure & Compute Market Tracker confirms that interest in these DIY-but-managed stacks is growing, jumping from 11.3% in January to 17.9% in February, alongside provider adoption, with a steady rise in organizations leaning into open source. This flexibility matters because enterprise AI will not be centralized in one place. Inference workloads will be distributed based on where data lives, how sensitive it is, and where the cost of running it is lowest. The winner in the next phase of the token economy will not be the platform that forces standardization through restriction. It will be the one that delivers standardization through portability, allowing enterprises to switch between being consumers and producers as their needs evolve. The architecture of efficiency: The technical levers of productivity Fixing the 5% utilization wall requires more than just better software; it requires a structural overhaul of the efficiency stack. Many organizations are discovering that high activity is not the same as high productivity. A cluster can run at full tilt but remain economically inefficient if time-to-first-token is too high or if inference requests spend too much time in prefill. Inference economics are determined by how much useful output a cluster generates per unit of cost. This requires a shift from measuring GPU activity — simply having the chips powered on — to measuring GPU productivity. Achieving that productivity depends on three technical levers: the network, the memory, and the storage stack. Networking: The cost of waiting The network is the often-ignored backbone of inference economics. In a distributed environment, the speed at which data moves between compute nodes and storage determines whether a GPU is actually working or merely waiting. RDMA (Remote Direct Memory Access) has become the non-negotiable standard for this move. By allowing data to bypass the CPU and move directly between memory and the GPU, RDMA eliminates the latency spikes that traditional network architectures introduce. In practical terms, an RDMA-enabled architecture can increase the output per GPU by a factor of ten for concurrent workloads. Without this level of networking, an enterprise is effectively paying a \"waiting tax\" on every chip in the rack. As model context windows expand and multi-node orchestration becomes the norm, the network determines whether a cluster is a high-speed factory or a bottlenecked warehouse. Solving the memory tax: Shared KV cache As models become larger and context windows expand toward the millions of tokens, the cost of repeatedly rebuilding the prompt state has become unsustainable. Large language models rely on key-value (KV) caches to maintain context during a session. Traditionally, these are stored in local GPU memory, which is both expensive and limited. This creates a \"memory tax\" that crushes unit economics as concurrency rises. To solve this, the industry is moving toward persistent shared KV cache architectures. By storing the cache centrally on high-performance storage rather than redundantly across multiple GPU nodes, organizations can reduce prefill overhead and improve context reuse. Newer architectures are already proving this out. The VAST Data AI Operating System, running on VAST C-nodes using Nvidia BlueField-4 DPUs, allows for pod-scale shared KV cache that collapses legacy storage tiers. Similarly, the HPE Alletra Storage MP X10000 — the first object-based platform to achieve Nvidia-Certified Storage validation — is designed specifically to feed data to inference resources without the coordination tax that causes bottlenecks at scale. WEKA.io is another provider in this space. The compression edge Beyond the physical hardware, new algorithmic contributions are redefining what is possible in inference memory. Google’s recent presentation of TurboQuant at ICLR 2026 demonstrates the scale of this shift. TurboQuant provides up to a 6x compression level for the KV cache with zero accuracy loss. Techniques like these allow for building large vector indices with minimal memory footprints and near-zero preprocessing time. For the enterprise, this means more concurrent users on the same hardware estate without the \"rebuild storms\" that typically cause latency spikes. The caveat: compression standards remain contested — no open-source consensus has emerged, and the space is shaping up as a proprietary stack war between Google and Nvidia. Storage as a financial decision Storage is no longer just a backend decision; it is a financial one. Platforms like Dell PowerScale are now delivering up to 19x faster time-to-first-token compared to traditional approaches, according to Dell. By separating high-performance shared storage and memory-intensive data access from scarce GPU resources, these platforms allow inference to scale more efficiently. When a storage layer can keep GPU-intensive workloads continuously fed with data, it prevents expensive resources from sitting idle. In the efficiency era, the goal is to drive the 5% utilization wall upward by ensuring that every cycle is spent on token generation, not on data movement. But as the stack becomes more efficient, the perimeter becomes more porous. High-productivity tokens are worthless if the data powering them cannot be trusted. Sovereignty and the agentic future: Building the trust foundation The final barrier to achieving return on AI is not a technical bottleneck, but a trust bottleneck. As enterprise AI shifts from simple chatbots to autonomous agents, the risk profile changes. Agents require deep access to internal systems and intellectual property to be useful. Without a sovereign architecture, that access creates a liability that most organizations are not equipped to manage. VentureBeat research into the state of AI governance reveals a stark disconnect . While many organizations believe they have secured their AI environments, 72% of enterprises admit they do not have the level of control and security they think they do. This governance mirage is particularly dangerous as agentic systems move into production. In the last 12 months, 88% of executives reported security incidents related to AI agents. Sovereignty as an architecture principle Data sovereignty is often treated as a geographic or regulatory checkbox. For the strategic enterprise, it must be treated as a core architecture principle. It is about maintaining control, lineage, and explainability over the data that powers an agentic workflow. This requires a new approach to data maturity, modeled on the traditional medallion architecture. In this framework, data moves through layers of usability and trust — from raw ingestion at the bronze level to refined gold and, eventually, platinum-quality operational data. AI inference must follow this same discipline. Agentic systems do not just need available context; they need trusted context. Providing the wrong data to an agent, or exposing sensitive intellectual property to a non-sovereign endpoint, creates both business and regulatory risk. Compartmentalization must be designed into the stack from the start. Organizations need to know which models and agents can access specific data layers, under what conditions, and with what lineage attached. Bringing the AI to the data The fundamental question for the agentic future is whether to bring the data to the AI or the AI to the data. For highly sensitive workloads, moving data to a centralized model endpoint is often the wrong answer. The move toward private AI — where inference happens closer to where trusted data resides — is gaining momentum. This architecture uses sovereign clouds, private environments, or governed enterprise platforms to keep the data perimeter intact. This is where the choice to be a token producer becomes a security advantage. By owning the inference stack, an enterprise can enforce governance and lineage at the infrastructure layer. It ensures that the intellectual property used to ground an agent never leaves the organization's control. The next platform war The battle for AI dominance will not be decided by who owns the largest GPU clusters. It will be won by the companies with the best inference economics and the most trusted data foundation. The organizations that win the efficiency era will be those that deliver the lowest cost per useful token and the fastest path to production. They will be the ones that have moved past the hoarding hangover to focus on productive output. Achieving return on AI requires a shift in mindset. It means moving from a culture of securing the stack to a culture of squeezing the stack. It requires architectural rigor, a focus on token-level ROI and a commitment to sovereignty. When an organization can generate its own tokens efficiently and securely, AI moves from a science project to an economically repeatable business advantage. That is how ROI becomes real. That is where the next generation of enterprise advantage will be built. Rob Strechay is a Contributing VentureBeat analyst and principal at Smuget Consulting, a research and advisory firm focused on data infrastructure and AI systems. Disclosure: Smuget Consulting engages or has engaged in research, consulting, and advisory services with many technology companies, which can include those mentioned in this article. Analysis and opinions expressed herein are specific to the analyst individually, and data and other information that might have been provided for validation, not those of VentureBeat as a whole.",
+      "sourceUrl": "https://venturebeat.com/infrastructure/5-gpu-utilization-the-401-billion-ai-infrastructure-problem-enterprises-cant-keep-ignoring",
+      "sourcePlatform": "venturebeat",
+      "publishedAt": "2026-05-08T13:00:00.000Z",
+      "discoveredAt": "2026-05-08T17:21:36.639Z",
+      "extracted": {
+        "companyName": "Unknown",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 401,
+        "amountDisplay": "$401",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "20",
+          "41",
+          "proof-of-concept",
+          "30",
+          "13",
+          "Red Hat",
+          "11"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "20",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "41",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "proof-of-concept",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "30",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "13",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "Red Hat",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "11",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "low"
+      },
+      "tags": [
+        "ai",
+        "fintech",
+        "hardware",
+        "saas",
+        "consumer",
+        "defense"
+      ]
+    },
+    {
+      "id": "techstartups.com-8eb7fa41",
+      "headline": "Anthropic eyes $1 trillion valuation in new funding round as revenue surges, FT reports",
+      "description": "Anthropic is weighing a massive fundraising round that could push its valuation close to $1 trillion, according to a report from the Financial Times. The number would have sounded unrealistic even a year ago for the San Francisco startup behind […] The post Anthropic eyes $1 trillion valuation in new funding round as revenue surges, FT reports first appeared on Tech Startups .",
+      "sourceUrl": "https://techstartups.com/2026/05/08/anthropic-eyes-1-trillion-valuation-in-new-funding-round-as-revenue-surges-ft-reports/",
+      "sourcePlatform": "techstartups",
+      "publishedAt": "2026-05-08T11:53:59.000Z",
+      "discoveredAt": "2026-05-08T17:21:36.639Z",
+      "extracted": {
+        "companyName": "Anthropic",
+        "companyWebsite": "https://anthropic.com",
+        "companyLogoUrl": "https://github.com/anthropics.png",
+        "amount": 1,
+        "amountDisplay": "$1",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "the Financial Times",
+          "no longer betting on the broad AI hype"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "the Financial Times",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "no longer betting on the broad AI hype",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "www.eu-startups.com-14fe4a86",
+      "headline": "UK semiconductor startup Quinas Technology secures investment approval from Malta Government Venture Capital",
+      "description": "Quinas Technology, a London-based DeepTech semiconductor startup developing memory technologies for AI, data centres, edge computing and advanced digital systems, has secured investment approval from Malta Government Venture Capital (MGVC). On 7 May 2026, the MGVC approved the investment under its co-investment framework to support the growth of the UK-based company. The funding, the amount […] The post UK semiconductor startup Quinas Technology secures investment approval from Malta Government Venture Capital appeared first on EU-Startups .",
+      "sourceUrl": "https://www.eu-startups.com/2026/05/uk-semiconductor-startup-quinas-technology-secures-investment-approval-from-malta-government-venture-capital/",
+      "sourcePlatform": "eu-startups",
+      "publishedAt": "2026-05-08T06:15:20.000Z",
+      "discoveredAt": "2026-05-08T17:21:36.639Z",
+      "extracted": {
+        "companyName": "UK semiconductor startup Quinas Technology",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": null,
+        "amountDisplay": "Undisclosed",
+        "currency": "USD",
+        "roundType": "growth",
+        "investors": [],
+        "investorsEnriched": [],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai",
+        "europe",
+        "hardware"
+      ]
+    },
+    {
+      "id": "techcrunch.com-1b31d479",
+      "headline": "Kodiak AI raises $100M at a steep discount, sending its stock tumbling 37%",
+      "description": "The company made a series of other announcements during earnings, including a new commercial contract, a pilot program in Canada, and a collaboration.",
+      "sourceUrl": "https://techcrunch.com/2026/05/07/kodiak-ai-raises-100m-at-a-steep-discount-sending-its-stock-tumbling-37/",
+      "sourcePlatform": "techcrunch",
+      "publishedAt": "2026-05-07T21:49:24.000Z",
+      "discoveredAt": "2026-05-08T17:21:36.639Z",
+      "extracted": {
+        "companyName": "Kodiak AI",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 100000000,
+        "amountDisplay": "$100M",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "willing to back  but not at its current market price"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "willing to back  but not at its current market price",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techstartups.com-b1cdd35c",
+      "headline": "Lambda raises $1B to expand gigawatt-scale AI factories for the superintelligence race",
+      "description": "The AI infrastructure boom is creating a new class of winners, and Lambda is now raising billions to scale its lead. The AI cloud startup said Thursday it secured a $1 billion syndicated senior secured credit facility to scale its fleet […] The post Lambda raises $1B to expand gigawatt-scale AI factories for the superintelligence race first appeared on Tech Startups .",
+      "sourceUrl": "https://techstartups.com/2026/05/07/lambda-raises-1b-to-expand-gigawatt-scale-ai-factories-for-the-superintelligence-race/",
+      "sourcePlatform": "techstartups",
+      "publishedAt": "2026-05-07T14:47:40.000Z",
+      "discoveredAt": "2026-05-08T17:21:36.639Z",
+      "extracted": {
+        "companyName": "Lambda",
+        "companyWebsite": "https://lambda.ai",
+        "companyLogoUrl": "https://logo.clearbit.com/lambda.ai",
+        "amount": 1000000000,
+        "amountDisplay": "$1B",
+        "currency": "USD",
+        "roundType": "undisclosed",
+        "investors": [
+          "J.P"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "J.P",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "medium"
+      },
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "id": "techcrunch.com-9b45d254",
+      "headline": "China’s Moonshot AI raises $2B at $20B valuation as demand for open source AI skyrockets",
+      "description": "Moonshot's annualized recurring revenue topped $200 million in April, driven by rapid growth in paid subscriptions and API usage.",
+      "sourceUrl": "https://techcrunch.com/2026/05/07/chinas-moonshot-ai-raises-2b-at-20b-valuation-as-demand-for-open-source-ai-skyrockets/",
+      "sourcePlatform": "techcrunch",
+      "publishedAt": "2026-05-07T13:44:25.000Z",
+      "discoveredAt": "2026-05-08T17:21:36.639Z",
+      "extracted": {
+        "companyName": "China",
+        "companyWebsite": null,
+        "companyLogoUrl": null,
+        "amount": 2000000000,
+        "amountDisplay": "$2B",
+        "currency": "USD",
+        "roundType": "growth",
+        "investors": [
+          "taking notice",
+          "round",
+          "which advised some investors who"
+        ],
+        "investorsEnriched": [
+          {
+            "name": "taking notice",
+            "isKnown": false,
+            "confidence": "low"
+          },
+          {
+            "name": "First Round Capital",
+            "isKnown": true,
+            "confidence": "high",
+            "logoUrl": "https://logo.clearbit.com/firstround.com"
+          },
+          {
+            "name": "which advised some investors who",
+            "isKnown": false,
+            "confidence": "low"
+          }
+        ],
+        "confidence": "high"
+      },
+      "tags": [
+        "ai"
+      ]
     }
   ]
 }

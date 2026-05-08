@@ -374,9 +374,9 @@ export default async function TwitterPage() {
           <KpiBand
             cells={[
               {
-                label: "TRACKED",
+                label: "TWEETS",
                 value: trackedTweets.toLocaleString("en-US"),
-                sub: "tweets 24h",
+                sub: "observed · 24h",
                 pip: "var(--v4-src-x)",
               },
               {
@@ -394,9 +394,9 @@ export default async function TwitterPage() {
                 pip: "var(--v4-money)",
               },
               {
-                label: "GH-LINKED",
+                label: "FRESH NOW",
                 value: rows.length.toLocaleString("en-US"),
-                sub: "repos with buzz",
+                sub: "repos · last 24h",
                 pip: "var(--v4-blue)",
               },
             ]}

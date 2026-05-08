@@ -870,14 +870,25 @@ function toTwitterLeaderboardRow(
 // the SAME repo on top for 10 days because the dominant pre-2026-04-23
 // signals had high finalTwitterScore values that frozen-in-time.
 //
-// Filter signals whose `updatedAt` is older than this threshold. 48h gives
-// 2× the 3h cron cadence of headroom while ensuring "trending now" actually
-// reflects last-day activity, not historical buzz. Tests use fixed past
-// timestamps (2026-04-22) so the filter is disabled when we detect we're
-// running under the test runner. NODE_ENV alone isn't reliable because
-// `tsx --test` doesn't set it; we also sniff npm_lifecycle_event and the
-// well-known node-test-runner channel-fd presence.
-const TWITTER_FRESHNESS_THRESHOLD_MS = 48 * 60 * 60 * 1000;
+// Filter signals whose `updatedAt` is older than this threshold. Lowered
+// 2026-05-08 from 48h → 24h (env-tunable via TWITTER_FRESHNESS_THRESHOLD_HOURS)
+// after observing that 386 of 409 stored signals were stale, leaving only
+// 23 fresh repos visible while the underlying data had thousands of tweets.
+// 24h covers 8× the 3h cron cadence — generous, but tight enough that a
+// "trending now" signal is genuinely recent. Stale signals are no longer
+// dropped silently; the new <StaleCollapse> on /twitter shows them in a
+// collapsed section so operators can see the whole inventory. Tests use
+// fixed past timestamps (2026-04-22) so the filter is disabled when we
+// detect we're running under the test runner. NODE_ENV alone isn't
+// reliable because `tsx --test` doesn't set it; we also sniff
+// npm_lifecycle_event and the well-known node-test-runner channel-fd
+// presence.
+const TWITTER_FRESHNESS_THRESHOLD_HOURS = (() => {
+  const raw = process.env.TWITTER_FRESHNESS_THRESHOLD_HOURS;
+  const parsed = raw ? Number.parseInt(raw, 10) : NaN;
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 24;
+})();
+const TWITTER_FRESHNESS_THRESHOLD_MS = TWITTER_FRESHNESS_THRESHOLD_HOURS * 60 * 60 * 1000;
 const TWITTER_FRESHNESS_FILTER_ENABLED = (() => {
   if (process.env.NODE_ENV === "test") return false;
   if (process.env.NODE_ENV === "production") return true;

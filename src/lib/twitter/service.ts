@@ -464,15 +464,10 @@ function buildTopMentionAuthorsFromPreviews(
   return Array.from(authors.values());
 }
 
-function hydrateMentionAuthorAvatars(
-  authors: TwitterMentionAuthorBubble[],
-): TwitterMentionAuthorBubble[] {
-  return authors.map((author) => ({
-    ...author,
-    avatarUrl:
-      author.avatarUrl ?? getFallbackTwitterAvatarUrl(author.authorHandle),
-  }));
-}
+// Phase 5.2 SSR diet: hydrateMentionAuthorAvatars used to fan out the
+// unavatar.io fallback URL for each leaderboard row at SSR time. Removed
+// because the URL now gets reconstructed client-side from authorHandle
+// (see toTwitterLeaderboardRow + ./MentionAuthorBubbles client island).
 
 function compareScansByCompletedAtDesc(
   a: TwitterScanRecord,
@@ -832,10 +827,25 @@ function toTwitterLeaderboardRow(
   signal: TwitterRepoSignal,
   trendingRepo?: Repo,
 ): TwitterLeaderboardRow {
-  const topMentionAuthors =
+  // Phase 5.2 SSR diet: strip avatarUrl from leaderboard rows. Each row
+  // shipped 5 authors × ~120 byte unavatar.io URL × RSC double-serialization
+  // ≈ 50-100 KB per row × 200 rows = 10-20 MB on the wire. The client-side
+  // <MentionAuthorBubbles> derives the avatar URL from the handle on
+  // hydration and lazy-loads via <img loading="lazy">, so the URL string
+  // never has to round-trip through SSR HTML or RSC payload. Initial
+  // letter renders immediately as the always-visible fallback (and as
+  // backstop when unavatar.io 429s).
+  const sourceAuthors =
     signal.topMentionAuthors && signal.topMentionAuthors.length > 0
-      ? hydrateMentionAuthorAvatars(signal.topMentionAuthors)
+      ? signal.topMentionAuthors
       : buildTopMentionAuthorsFromPreviews(signal.topPosts);
+  const topMentionAuthors = sourceAuthors.map((author) => ({
+    authorHandle: author.authorHandle,
+    avatarUrl: null,
+    profileUrl: author.profileUrl,
+    postUrl: author.postUrl,
+    engagement: author.engagement,
+  }));
 
   return {
     repoId: signal.repoId,

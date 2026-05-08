@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-08T16:53:38.251Z",
+  "fetchedAt": "2026-05-08T18:54:24.606Z",
   "windowHours": 72,
   "scannedTotal": 77,
   "stories": [
@@ -150,6 +150,24 @@
       "linkedRepos": []
     },
     {
+      "shortId": "fsueos",
+      "title": "Serving a Website on a Raspberry Pi Zero Running Entirely in RAM",
+      "url": "https://btxx.org/posts/memory/",
+      "commentsUrl": "https://lobste.rs/s/fsueos/serving_website_on_raspberry_pi_zero",
+      "by": "",
+      "score": 14,
+      "commentCount": 2,
+      "createdUtc": 1778248531,
+      "ageHours": 4.981388888888889,
+      "trendingScore": 0.7589537129670794,
+      "tags": [
+        "networking",
+        "web"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "szi49u",
       "title": "AI Slop is Killing Online Communities",
       "url": "https://rmoff.net/2026/05/06/ai-slop-is-killing-online-communities/",
@@ -259,6 +277,24 @@
       "linkedRepos": []
     },
     {
+      "shortId": "eabrz3",
+      "title": "What We Lost the Last Time Code Got Cheap",
+      "url": "https://www.poppastring.com/blog/what-we-lost-the-last-time-code-got-cheap",
+      "commentsUrl": "https://lobste.rs/s/eabrz3/what_we_lost_last_time_code_got_cheap",
+      "by": "",
+      "score": 5,
+      "commentCount": 1,
+      "createdUtc": 1778259325,
+      "ageHours": 1.9830555555555556,
+      "trendingScore": 0.6289924874635645,
+      "tags": [
+        "ai",
+        "practices"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "q5bds7",
       "title": "Stop MITM on the first SSH connection, on any VPS or cloud provider",
       "url": "https://www.joachimschipper.nl/Stop%20MITM%20on%20the%20first%20SSH%20connection,%20on%20any%20VPS%20or%20cloud%20provider.html",
@@ -290,24 +326,6 @@
       "trendingScore": 0.5669361810229828,
       "tags": [
         "rust"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "fsueos",
-      "title": "Serving a Website on a Raspberry Pi Zero Running Entirely in RAM",
-      "url": "https://btxx.org/posts/memory/",
-      "commentsUrl": "https://lobste.rs/s/fsueos/serving_website_on_raspberry_pi_zero",
-      "by": "",
-      "score": 6,
-      "commentCount": 2,
-      "createdUtc": 1778248531,
-      "ageHours": 2.968611111111111,
-      "trendingScore": 0.5417497767828786,
-      "tags": [
-        "networking",
-        "web"
       ],
       "description": "",
       "linkedRepos": []
@@ -634,6 +652,41 @@
       "linkedRepos": []
     },
     {
+      "shortId": "m77efo",
+      "title": "Getting peak TOPS on a Ryzen AI 7 350 NPU",
+      "url": "https://destevez.net/2026/05/getting-peak-tops-on-a-ryzen-ai-7-350-npu/",
+      "commentsUrl": "https://lobste.rs/s/m77efo/getting_peak_tops_on_ryzen_ai_7_350_npu",
+      "by": "",
+      "score": 8,
+      "commentCount": 0,
+      "createdUtc": 1778241644,
+      "ageHours": 6.894444444444445,
+      "trendingScore": 0.30158639554355554,
+      "tags": [
+        "hardware",
+        "performance"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "jfe19u",
+      "title": "Rooting a VMC2040 security camera",
+      "url": "https://www.marcusfolkesson.se/blog/arlo-vmc2040-part1/",
+      "commentsUrl": "https://lobste.rs/s/jfe19u/rooting_vmc2040_security_camera",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1778265589,
+      "ageHours": 0.24305555555555555,
+      "trendingScore": 0.29767334974644205,
+      "tags": [
+        "reversing"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "h7nu14",
       "title": "The cuda-oxide Book",
       "url": "https://nvlabs.github.io/cuda-oxide/",
@@ -740,24 +793,6 @@
       "linkedRepos": []
     },
     {
-      "shortId": "m77efo",
-      "title": "Getting peak TOPS on a Ryzen AI 7 350 NPU",
-      "url": "https://destevez.net/2026/05/getting-peak-tops-on-a-ryzen-ai-7-350-npu/",
-      "commentsUrl": "https://lobste.rs/s/m77efo/getting_peak_tops_on_ryzen_ai_7_350_npu",
-      "by": "",
-      "score": 3,
-      "commentCount": 0,
-      "createdUtc": 1778241644,
-      "ageHours": 3.2030555555555558,
-      "trendingScore": 0.2527746746523055,
-      "tags": [
-        "hardware",
-        "performance"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
       "shortId": "o1p8ee",
       "title": "Potential Consequences of Using Postgres as a Job Queue",
       "url": "http://richyen.com/postgres/2026/05/04/postgres_job_queue.html",
@@ -857,42 +892,6 @@
       "ageHours": 0.8383333333333334,
       "trendingScore": 0.20912449423291501,
       "tags": [
-        "web"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "fhtu3c",
-      "title": "Library dependency version specifiers aren't for fixing vulnerabilities",
-      "url": "https://sethmlarson.dev/library-version-specifiers-not-for-vulnerabilities",
-      "commentsUrl": "https://lobste.rs/s/fhtu3c/library_dependency_version_specifiers",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1778186528,
-      "ageHours": 0.8477777777777777,
-      "trendingScore": 0.20808503836073683,
-      "tags": [
-        "practices"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "at9lwa",
-      "title": "Google’s Prompt API",
-      "url": "https://wil.to/posts/googles-prompt-api/",
-      "commentsUrl": "https://lobste.rs/s/at9lwa/google_s_prompt_api",
-      "by": "",
-      "score": 19,
-      "commentCount": 2,
-      "createdUtc": 1778111114,
-      "ageHours": 18.426111111111112,
-      "trendingScore": 0.20581407236515953,
-      "tags": [
-        "ai",
-        "javascript",
         "web"
       ],
       "description": "",

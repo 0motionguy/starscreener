@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-08T18:54:24.606Z",
+  "fetchedAt": "2026-05-08T20:36:07.049Z",
   "windowHours": 72,
-  "scannedTotal": 77,
+  "scannedTotal": 78,
   "stories": [
     {
       "shortId": "znlkib",
@@ -362,6 +362,23 @@
       "tags": [
         "css",
         "design"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "0xnfql",
+      "title": "Vulnerability Garden: A growing list of named vulnerabilities, attack techniques and exploits",
+      "url": "https://vulnerability.garden/",
+      "commentsUrl": "https://lobste.rs/s/0xnfql/vulnerability_garden_growing_list_named",
+      "by": "",
+      "score": 2,
+      "commentCount": 0,
+      "createdUtc": 1778270688,
+      "ageHours": 0.5219444444444444,
+      "trendingScore": 0.49937491492159314,
+      "tags": [
+        "security"
       ],
       "description": "",
       "linkedRepos": []
@@ -740,6 +757,23 @@
       "linkedRepos": []
     },
     {
+      "shortId": "w2nz01",
+      "title": "NixOS and Secrets",
+      "url": "https://isabelroses.com/blog/nixos-and-secrets/",
+      "commentsUrl": "https://lobste.rs/s/w2nz01/nixos_secrets",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1778271195,
+      "ageHours": 0.3811111111111111,
+      "trendingScore": 0.2721638924902796,
+      "tags": [
+        "nix"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "jvvtif",
       "title": "Open weights are quietly closing up - and that's a problem",
       "url": "https://martinalderson.com/posts/open-weights-are-quietly-closing-up/",
@@ -752,6 +786,24 @@
       "trendingScore": 0.2699287373455149,
       "tags": [
         "ai"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "aihm8v",
+      "title": "AF_ALG page-cache cross-container pivot: Part I",
+      "url": "https://www.linkedin.com/pulse/afalg-page-cache-cross-container-pivot-part-i-massimiliano-oldani-jgfyf",
+      "commentsUrl": "https://lobste.rs/s/aihm8v/af_alg_page_cache_cross_container_pivot",
+      "by": "",
+      "score": 1,
+      "commentCount": 0,
+      "createdUtc": 1778271065,
+      "ageHours": 0.4172222222222222,
+      "trendingScore": 0.2660879040990658,
+      "tags": [
+        "linux",
+        "security"
       ],
       "description": "",
       "linkedRepos": []
@@ -829,70 +881,19 @@
       "linkedRepos": []
     },
     {
-      "shortId": "9p226o",
-      "title": "WebSphere DataPower XML Accelerator XA35 (2006)",
-      "url": "https://public.dhe.ibm.com/software/integration/datapower/library/DataPower_datasheet.pdf",
-      "commentsUrl": "https://lobste.rs/s/9p226o/websphere_datapower_xml_accelerator",
+      "shortId": "etndj6",
+      "title": "AISLE Finds 21-Year-Old FreeBSD RCE Hidden in dhclient",
+      "url": "https://aisle.com/blog/aisle-discovers-cve-2026-42511-a-21-year-old-freebsd-remote-command-execution-vulnerability",
+      "commentsUrl": "https://lobste.rs/s/etndj6/aisle_finds_21_year_old_freebsd_rce_hidden",
       "by": "",
       "score": 1,
       "commentCount": 0,
-      "createdUtc": 1778187384,
-      "ageHours": 0.61,
-      "trendingScore": 0.2371587971609858,
+      "createdUtc": 1778270590,
+      "ageHours": 0.5491666666666667,
+      "trendingScore": 0.24569858400863775,
       "tags": [
-        "hardware",
-        "pdf"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "435bmi",
-      "title": "Vibe coding and agentic engineering are getting closer than I’d like",
-      "url": "https://simonwillison.net/2026/May/6/vibe-coding-and-agentic-engineering/",
-      "commentsUrl": "https://lobste.rs/s/435bmi/vibe_coding_agentic_engineering_are",
-      "by": "",
-      "score": 29,
-      "commentCount": 7,
-      "createdUtc": 1778090238,
-      "ageHours": 24.225,
-      "trendingScore": 0.21593585101751764,
-      "tags": [
-        "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "e0gfkg",
-      "title": "On The Enshittification of Audre Lorde: \"The Master's Tools\" in Tech Discourse",
-      "url": "https://tarakiyee.com/on-the-enshittification-of-audre-lorde-the-masters-tools-in-tech-discourse/",
-      "commentsUrl": "https://lobste.rs/s/e0gfkg/on_enshittification_audre_lorde_master_s",
-      "by": "",
-      "score": 3,
-      "commentCount": 0,
-      "createdUtc": 1778163671,
-      "ageHours": 3.8269444444444445,
-      "trendingScore": 0.2132848159781902,
-      "tags": [
-        "culture"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "o6fdba",
-      "title": "Just Fucking Use React",
-      "url": "https://justfuckingusereact.com",
-      "commentsUrl": "https://lobste.rs/s/o6fdba/just_fucking_use_react",
-      "by": "",
-      "score": 1,
-      "commentCount": 2,
-      "createdUtc": 1778227647,
-      "ageHours": 0.8383333333333334,
-      "trendingScore": 0.20912449423291501,
-      "tags": [
-        "web"
+        "freebsd",
+        "security"
       ],
       "description": "",
       "linkedRepos": []

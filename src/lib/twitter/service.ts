@@ -916,12 +916,9 @@ export async function getTwitterLeaderboard(
   // was invalidated on every ingest, so the hit rate was ~0%. Sort over
   // an in-memory list of <500 signals is sub-millisecond.
   const nowMs = Date.now();
-  return twitterStore
+  const ranked = twitterStore
     .listRepoSignals()
-    .filter(
-      (signal) =>
-        signal.metrics.mentionCount24h > 0 && isSignalFresh(signal, nowMs),
-    )
+    .filter((signal) => signal.metrics.mentionCount24h > 0)
     .sort((a, b) => {
       if (b.score.finalTwitterScore !== a.score.finalTwitterScore) {
         return b.score.finalTwitterScore - a.score.finalTwitterScore;
@@ -930,7 +927,20 @@ export async function getTwitterLeaderboard(
         return b.metrics.mentionCount24h - a.metrics.mentionCount24h;
       }
       return b.metrics.uniqueAuthors24h - a.metrics.uniqueAuthors24h;
-    })
+    });
+
+  // Graceful degradation (2026-05-08): prefer fresh-window rows, but
+  // top up with the most-recent stale rows when the fresh count falls
+  // below `limit`. Operator feedback was: "never less than 50 — older
+  // data is better than empty page". Order preserved: fresh first
+  // (sorted by score), then stale (sorted by score) as fillers.
+  const fresh = ranked.filter((s) => isSignalFresh(s, nowMs));
+  const result =
+    fresh.length >= limit
+      ? fresh
+      : [...fresh, ...ranked.filter((s) => !isSignalFresh(s, nowMs))];
+
+  return result
     .slice(0, Math.max(0, limit))
     .map((signal) => toTwitterLeaderboardRow(signal));
 }
@@ -941,12 +951,17 @@ export async function getTwitterTrendingRepoLeaderboard(
   await ensureTwitterReady();
 
   // LIB-02: cache dropped (see getTwitterLeaderboard rationale).
-  // P0 2026-05-03: drop signals older than 48h (see isSignalFresh rationale).
+  // 2026-05-08: graceful-degrade freshness — collect fresh rows in trending
+  // order first, then fill with stale rows up to `limit` (mirrors the
+  // top-up pattern in getTwitterLeaderboard). Operator feedback: never
+  // fewer than what the cache holds.
   const nowMs = Date.now();
-  const rows: TwitterLeaderboardRow[] = [];
-  const seenRepoIds = new Set<string>();
   const cappedLimit = Math.max(0, limit);
-  if (cappedLimit === 0) return rows;
+  if (cappedLimit === 0) return [];
+
+  const seenRepoIds = new Set<string>();
+  const fresh: { signal: TwitterRepoSignal; repo: Repo }[] = [];
+  const stale: { signal: TwitterRepoSignal; repo: Repo }[] = [];
 
   for (const repo of getDerivedRepos()) {
     const signal =
@@ -954,16 +969,17 @@ export async function getTwitterTrendingRepoLeaderboard(
       twitterStore.getRepoSignalByFullName(repo.fullName);
 
     if (!signal || signal.metrics.mentionCount24h <= 0) continue;
-    if (!isSignalFresh(signal, nowMs)) continue;
     if (seenRepoIds.has(signal.repoId)) continue;
-
-    rows.push(toTwitterLeaderboardRow(signal, repo));
     seenRepoIds.add(signal.repoId);
 
-    if (rows.length >= cappedLimit) break;
+    (isSignalFresh(signal, nowMs) ? fresh : stale).push({ signal, repo });
+    if (fresh.length >= cappedLimit) break;
   }
 
-  return rows;
+  const ranked = fresh.length >= cappedLimit ? fresh : [...fresh, ...stale];
+  return ranked
+    .slice(0, cappedLimit)
+    .map(({ signal, repo }) => toTwitterLeaderboardRow(signal, repo));
 }
 
 export async function getTwitterScanCandidates(

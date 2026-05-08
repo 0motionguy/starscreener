@@ -99,12 +99,15 @@ export default async function RedditTrendingPage() {
   // data on the next render once the in-flight read resolves.
   if (allPostsCold || posts.length === 0) {
     const fallback = loadBundledFallback();
-    // Mirror the data-store filter: skip dead posts (score=0 AND
-    // numComments=0) so the SSR fallback path can't reintroduce the
-    // 3781-row noise list that getAllScoredPosts() already strips.
-    const livePosts = fallback.posts.filter(
+    // Prefer engagement-positive posts; degrade to all-bundled when the
+    // file is full of zero-engagement RSS-fallback rows. Older/zero-score
+    // data is strictly better than the cold state for an operator-facing
+    // surface — feedback (2026-05-08) was: "never less than what we have".
+    const engagedFallback = fallback.posts.filter(
       (p) => (p.score ?? 0) > 0 || (p.numComments ?? 0) > 0,
     );
+    const livePosts =
+      engagedFallback.length > 0 ? engagedFallback : fallback.posts;
     if (livePosts.length > 0) {
       posts = livePosts;
       // Derive the full stats payload from the bundled posts so the KPI band
@@ -115,8 +118,8 @@ export default async function RedditTrendingPage() {
       allPostsFetchedAt = fallback.lastFetchedAt || allPostsFetchedAt;
       allPostsCold = false;
     } else {
-      // Nothing has engagement in either Redis or bundled JSON — render
-      // the cold state instead of an empty grid below.
+      // Bundled file is genuinely empty (first deploy, missing file). The
+      // cold state is the truthful render here.
       allPostsCold = true;
     }
   }

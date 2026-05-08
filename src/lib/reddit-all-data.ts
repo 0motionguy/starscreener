@@ -112,13 +112,18 @@ export function getAllPostsFetchedAt(): string | null {
 
 export function getAllScoredPosts(): RedditAllPost[] {
   const all = getAllPostsFile().posts ?? [];
-  // Filter dead posts: when score=0 AND numComments=0 the collector
-  // failed to enrich the row (typical when the Reddit listing API was
-  // rate-limited mid-scan). Surfacing them at the top of /reddit/trending
-  // makes the feed read as broken to visitors. Drop them at the data
-  // boundary so every consumer (page, KPI band, tabs) sees the same
-  // engagement-positive set.
-  return all.filter((p) => (p.score ?? 0) > 0 || (p.numComments ?? 0) > 0);
+  // Prefer engagement-positive posts when available — score=0 AND
+  // numComments=0 typically means the collector failed to enrich
+  // (Reddit listing rate-limited or RSS-Atom fallback hardcodes zero).
+  const engaged = all.filter(
+    (p) => (p.score ?? 0) > 0 || (p.numComments ?? 0) > 0,
+  );
+  // Graceful degradation (2026-05-08): when ALL posts are zero-engagement
+  // (a full RSS-fallback run), render the degraded set anyway. Showing
+  // titles+subs+links with stub scores is strictly better than handing
+  // the page nothing and having the surface render "Collector unreachable"
+  // — operator-facing feedback was clear: never fewer than what's cached.
+  return engaged.length > 0 ? engaged : all;
 }
 
 export function getAllPostsStats(nowMs: number = Date.now()): AllPostsStats {

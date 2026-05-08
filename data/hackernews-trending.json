@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-08T21:46:43.990Z",
+  "fetchedAt": "2026-05-08T22:43:15.156Z",
   "windowHours": 72,
-  "scannedTotal": 1273,
+  "scannedTotal": 1272,
   "firebaseCount": 500,
-  "algoliaCount": 773,
+  "algoliaCount": 772,
   "stories": [
     {
       "id": 48062117,
@@ -386,6 +386,23 @@
       "linkedRepos": []
     },
     {
+      "id": 48037336,
+      "title": "Rumors of my death are slightly exaggerated",
+      "url": "",
+      "by": "CliffStoll",
+      "score": 1419,
+      "descendants": 220,
+      "createdUtc": 1778081091,
+      "ageHours": 55.31,
+      "velocity": 25.66,
+      "trendingScore": 1860.24,
+      "everHitFrontPage": true,
+      "content_tags": [],
+      "value_score": 0,
+      "storyText": "AI hallucinations are getting ambitious. A couple people recently emailed, asking whether the Klein bottle business was still operating after my death. “Huh?” I thought. “I ain’t dead yet.” After some digging, I discovered the source: an AI-generated review of The Cuckoo’s Egg circulating on Facebook. Alongside the usual synthetic praise and fabricated details, it confidently announced that I had died in May 2024. Apparently AI has now advanced to the point where it can kill people off before th",
+      "linkedRepos": []
+    },
+    {
       "id": 48031261,
       "title": "StarFighter 16-Inch",
       "url": "https://us.starlabs.systems/pages/starfighter",
@@ -403,6 +420,23 @@
       "linkedRepos": []
     },
     {
+      "id": 48067119,
+      "title": "Google broke reCAPTCHA for de-googled Android users",
+      "url": "https://reclaimthenet.org/google-broke-recaptcha-for-de-googled-android-users",
+      "by": "anonymousiam",
+      "score": 301,
+      "descendants": 85,
+      "createdUtc": 1778265958,
+      "ageHours": 3.95,
+      "velocity": 76.11,
+      "trendingScore": 1792.12,
+      "everHitFrontPage": true,
+      "content_tags": [],
+      "value_score": 0,
+      "storyText": "Related: Google Cloud fraud defense, the next evolution of reCAPTCHA - https://news.ycombinator.com/item?id=48039362 also: Google Cloud Fraud Defence is just WEI repackaged - https://news.ycombinator.com/item?id=48063199",
+      "linkedRepos": []
+    },
+    {
       "id": 48031684,
       "title": "Agents can now create Cloudflare accounts, buy domains, and deploy",
       "url": "https://blog.cloudflare.com/agents-stripe-projects/",
@@ -417,23 +451,6 @@
       "content_tags": [],
       "value_score": 0,
       "storyText": "",
-      "linkedRepos": []
-    },
-    {
-      "id": 48037336,
-      "title": "Rumors of my death are slightly exaggerated",
-      "url": "",
-      "by": "CliffStoll",
-      "score": 1355,
-      "descendants": 215,
-      "createdUtc": 1778081091,
-      "ageHours": 54.36,
-      "velocity": 24.92,
-      "trendingScore": 1756.08,
-      "everHitFrontPage": true,
-      "content_tags": [],
-      "value_score": 0,
-      "storyText": "AI hallucinations are getting ambitious. A couple people recently emailed, asking whether the Klein bottle business was still operating after my death. “Huh?” I thought. “I ain’t dead yet.” After some digging, I discovered the source: an AI-generated review of The Cuckoo’s Egg circulating on Facebook. Alongside the usual synthetic praise and fabricated details, it confidently announced that I had died in May 2024. Apparently AI has now advanced to the point where it can kill people off before th",
       "linkedRepos": []
     },
     {
@@ -728,41 +745,41 @@
       "linkedRepos": []
     },
     {
+      "id": 48060054,
+      "title": "Ask HN: We just had an actual UUID v4 collision...",
+      "url": "",
+      "by": "mittermayr",
+      "score": 264,
+      "descendants": 224,
+      "createdUtc": 1778227034,
+      "ageHours": 14.77,
+      "velocity": 17.88,
+      "trendingScore": 1013.18,
+      "everHitFrontPage": false,
+      "content_tags": [
+        "is-ask-hn"
+      ],
+      "value_score": 2,
+      "storyText": "I know what you're thinking... and I still can't believe it, but... This morning, our database flagged a duplicate UUID (v4). I checked, thinking it may have been a double-insert bug or something, but no. The original UUID was from a record added in 2025 (about a year ago), and today the system inserted a new document with a fresh UUIDv4 and it came up with the exact same one: b6133fd6-70fe-4fe3-bed6-8ca8fc9386cd We're using this: https://www.npmjs.com/package/uuid I thought this is technically ",
+      "linkedRepos": []
+    },
+    {
       "id": 48066169,
       "title": "Apple, Intel have reached preliminary chip-making deal",
       "url": "https://www.reuters.com/business/apple-intel-have-reached-preliminary-chip-making-deal-wsj-reports-2026-05-08/",
       "by": "scrlk",
-      "score": 147,
-      "descendants": 92,
+      "score": 175,
+      "descendants": 123,
       "createdUtc": 1778261121,
-      "ageHours": 3.33,
-      "velocity": 44.14,
-      "trendingScore": 975.79,
+      "ageHours": 5.3,
+      "velocity": 33.03,
+      "trendingScore": 985.36,
       "everHitFrontPage": true,
       "content_tags": [
         "is-news"
       ],
       "value_score": 1,
       "storyText": "",
-      "linkedRepos": []
-    },
-    {
-      "id": 48060054,
-      "title": "Ask HN: We just had an actual UUID v4 collision...",
-      "url": "",
-      "by": "mittermayr",
-      "score": 245,
-      "descendants": 220,
-      "createdUtc": 1778227034,
-      "ageHours": 13.82,
-      "velocity": 17.72,
-      "trendingScore": 973.73,
-      "everHitFrontPage": true,
-      "content_tags": [
-        "is-ask-hn"
-      ],
-      "value_score": 2,
-      "storyText": "I know what you're thinking... and I still can't believe it, but... This morning, our database flagged a duplicate UUID (v4). I checked, thinking it may have been a double-insert bug or something, but no. The original UUID was from a record added in 2025 (about a year ago), and today the system inserted a new document with a fresh UUIDv4 and it came up with the exact same one: b6133fd6-70fe-4fe3-bed6-8ca8fc9386cd We're using this: https://www.npmjs.com/package/uuid I thought this is technically ",
       "linkedRepos": []
     },
     {
@@ -848,23 +865,6 @@
       "content_tags": [
         "is-question"
       ],
-      "value_score": 0,
-      "storyText": "",
-      "linkedRepos": []
-    },
-    {
-      "id": 48024859,
-      "title": "Computer Use is 45x more expensive than structured APIs",
-      "url": "https://reflex.dev/blog/computer-use-is-45x-more-expensive-than-structured-apis/",
-      "by": "palashawas",
-      "score": 484,
-      "descendants": 263,
-      "createdUtc": 1777998888,
-      "ageHours": 48.73,
-      "velocity": 9.93,
-      "trendingScore": 727.83,
-      "everHitFrontPage": false,
-      "content_tags": [],
       "value_score": 0,
       "storyText": "",
       "linkedRepos": []

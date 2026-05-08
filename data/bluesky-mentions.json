@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-08T18:46:07.237Z",
+  "fetchedAt": "2026-05-08T20:17:39.905Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 98,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -3717,6 +3717,189 @@
           "linkedRepos": [
             {
               "fullName": "modem-dev/hunk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "niri-wm/niri": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mleka3rry72h",
+        "cid": "bafyreibyb55h655h52jl2j5r2ahpxeqnqhdnd56qi7bbqk3oi6onhyvrwy",
+        "bskyUrl": "https://bsky.app/profile/chrisshort.net/post/3mleka3rry72h",
+        "text": "niri-wm/niri #devopsish github.com/niri-wm/niri",
+        "author": {
+          "handle": "chrisshort.net",
+          "displayName": "Chris Short"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T20:14:42.000Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mleka3rry72h",
+          "cid": "bafyreibyb55h655h52jl2j5r2ahpxeqnqhdnd56qi7bbqk3oi6onhyvrwy",
+          "bskyUrl": "https://bsky.app/profile/chrisshort.net/post/3mleka3rry72h",
+          "text": "niri-wm/niri #devopsish github.com/niri-wm/niri",
+          "author": {
+            "handle": "chrisshort.net",
+            "displayName": "Chris Short"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T20:14:42.000Z",
+          "createdUtc": 1778271282,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "addyosmani/agent-skills": {
+      "count7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:ac6sljohjyzyh4ssziui7dqh/app.bsky.feed.post/3mlegbci36q2s",
+        "cid": "bafyreigwndijhimj2oljewxau4p3gfjg655hl2dksiz4hbugf5arp2yv6q",
+        "bskyUrl": "https://bsky.app/profile/samwise-goose.bsky.social/post/3mlegbci36q2s",
+        "text": "Addy Osmani's agent-sk repo is exploding with 1,794 stars today! Production-grade AI coding agent skills - exactly what the community needs. This is the future of #AI #OpenSource #Tech development. https://github.com/addyosmani/agent-skills",
+        "author": {
+          "handle": "samwise-goose.bsky.social",
+          "displayName": "Samwise Gosling"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T19:03:48.031421+00:00",
+        "hoursSincePosted": 1.23
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ac6sljohjyzyh4ssziui7dqh/app.bsky.feed.post/3mlegbci36q2s",
+          "cid": "bafyreigwndijhimj2oljewxau4p3gfjg655hl2dksiz4hbugf5arp2yv6q",
+          "bskyUrl": "https://bsky.app/profile/samwise-goose.bsky.social/post/3mlegbci36q2s",
+          "text": "Addy Osmani's agent-sk repo is exploding with 1,794 stars today! Production-grade AI coding agent skills - exactly what the community needs. This is the future of #AI #OpenSource #Tech development. https://github.com/addyosmani/agent-skills",
+          "author": {
+            "handle": "samwise-goose.bsky.social",
+            "displayName": "Samwise Gosling"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T19:03:48.031421+00:00",
+          "createdUtc": 1778267028,
+          "ageHours": 1.23,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-skill"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "addyosmani/agent-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ac6sljohjyzyh4ssziui7dqh/app.bsky.feed.post/3mleg66zc732a",
+          "cid": "bafyreigcwdstji342xqxks2upwgsxktgnmkzrpbq3me7kqpyn4ybcp4hsy",
+          "bskyUrl": "https://bsky.app/profile/samwise-goose.bsky.social/post/3mleg66zc732a",
+          "text": "Addy Osmani's agent-sk repo is exploding with 1,794 stars today! Production-grade AI coding agent skills - exactly what the community needs. This is the future of #AI #OpenSource #Tech development. https://github.com/addyosmani/agent-skills",
+          "author": {
+            "handle": "samwise-goose.bsky.social",
+            "displayName": "Samwise Gosling"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T19:02:03.739352+00:00",
+          "createdUtc": 1778266923,
+          "ageHours": 1.26,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-skill"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "addyosmani/agent-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "junhoyeo/tokscale": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mleg6czxgc2n",
+        "cid": "bafyreihram5s2cfh7h5oldbf3gdqachnhaf6es5esvavi37kxc3lcsvemi",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mleg6czxgc2n",
+        "text": "junhoyeo / tokscale: 🛰️ A CLI tool for tracking token usage from OpenCode, Claude Code, 🦞OpenClaw (Clawdbot/Moltbot), Pi, Codex, Gemini, Cursor, AmpCode, Factory Droid, Kimi, and more! • 🏅Global Leaderboard + 2D/3D Contributions Graph ★2729 https://github.com/junhoyeo/tokscale",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T19:02:07.929743Z",
+        "hoursSincePosted": 1.26
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mleg6czxgc2n",
+          "cid": "bafyreihram5s2cfh7h5oldbf3gdqachnhaf6es5esvavi37kxc3lcsvemi",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mleg6czxgc2n",
+          "text": "junhoyeo / tokscale: 🛰️ A CLI tool for tracking token usage from OpenCode, Claude Code, 🦞OpenClaw (Clawdbot/Moltbot), Pi, Codex, Gemini, Cursor, AmpCode, Factory Droid, Kimi, and more! • 🏅Global Leaderboard + 2D/3D Contributions Graph ★2729 https://github.com/junhoyeo/tokscale",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T19:02:07.929743Z",
+          "createdUtc": 1778266927,
+          "ageHours": 1.26,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "junhoyeo/tokscale",
               "matchType": "url",
               "confidence": 1
             }
@@ -7444,26 +7627,204 @@
           ]
         }
       ]
+    },
+    "niri-wm--niri": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mleka3rry72h",
+        "cid": "bafyreibyb55h655h52jl2j5r2ahpxeqnqhdnd56qi7bbqk3oi6onhyvrwy",
+        "bskyUrl": "https://bsky.app/profile/chrisshort.net/post/3mleka3rry72h",
+        "text": "niri-wm/niri #devopsish github.com/niri-wm/niri",
+        "author": {
+          "handle": "chrisshort.net",
+          "displayName": "Chris Short"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T20:14:42.000Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mleka3rry72h",
+          "cid": "bafyreibyb55h655h52jl2j5r2ahpxeqnqhdnd56qi7bbqk3oi6onhyvrwy",
+          "bskyUrl": "https://bsky.app/profile/chrisshort.net/post/3mleka3rry72h",
+          "text": "niri-wm/niri #devopsish github.com/niri-wm/niri",
+          "author": {
+            "handle": "chrisshort.net",
+            "displayName": "Chris Short"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T20:14:42.000Z",
+          "createdUtc": 1778271282,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "niri-wm/niri",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "addyosmani--agent-skills": {
+      "count7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:ac6sljohjyzyh4ssziui7dqh/app.bsky.feed.post/3mlegbci36q2s",
+        "cid": "bafyreigwndijhimj2oljewxau4p3gfjg655hl2dksiz4hbugf5arp2yv6q",
+        "bskyUrl": "https://bsky.app/profile/samwise-goose.bsky.social/post/3mlegbci36q2s",
+        "text": "Addy Osmani's agent-sk repo is exploding with 1,794 stars today! Production-grade AI coding agent skills - exactly what the community needs. This is the future of #AI #OpenSource #Tech development. https://github.com/addyosmani/agent-skills",
+        "author": {
+          "handle": "samwise-goose.bsky.social",
+          "displayName": "Samwise Gosling"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T19:03:48.031421+00:00",
+        "hoursSincePosted": 1.23
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ac6sljohjyzyh4ssziui7dqh/app.bsky.feed.post/3mlegbci36q2s",
+          "cid": "bafyreigwndijhimj2oljewxau4p3gfjg655hl2dksiz4hbugf5arp2yv6q",
+          "bskyUrl": "https://bsky.app/profile/samwise-goose.bsky.social/post/3mlegbci36q2s",
+          "text": "Addy Osmani's agent-sk repo is exploding with 1,794 stars today! Production-grade AI coding agent skills - exactly what the community needs. This is the future of #AI #OpenSource #Tech development. https://github.com/addyosmani/agent-skills",
+          "author": {
+            "handle": "samwise-goose.bsky.social",
+            "displayName": "Samwise Gosling"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T19:03:48.031421+00:00",
+          "createdUtc": 1778267028,
+          "ageHours": 1.23,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-skill"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "addyosmani/agent-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ac6sljohjyzyh4ssziui7dqh/app.bsky.feed.post/3mleg66zc732a",
+          "cid": "bafyreigcwdstji342xqxks2upwgsxktgnmkzrpbq3me7kqpyn4ybcp4hsy",
+          "bskyUrl": "https://bsky.app/profile/samwise-goose.bsky.social/post/3mleg66zc732a",
+          "text": "Addy Osmani's agent-sk repo is exploding with 1,794 stars today! Production-grade AI coding agent skills - exactly what the community needs. This is the future of #AI #OpenSource #Tech development. https://github.com/addyosmani/agent-skills",
+          "author": {
+            "handle": "samwise-goose.bsky.social",
+            "displayName": "Samwise Gosling"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T19:02:03.739352+00:00",
+          "createdUtc": 1778266923,
+          "ageHours": 1.26,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-skill"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "addyosmani/agent-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "junhoyeo--tokscale": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mleg6czxgc2n",
+        "cid": "bafyreihram5s2cfh7h5oldbf3gdqachnhaf6es5esvavi37kxc3lcsvemi",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mleg6czxgc2n",
+        "text": "junhoyeo / tokscale: 🛰️ A CLI tool for tracking token usage from OpenCode, Claude Code, 🦞OpenClaw (Clawdbot/Moltbot), Pi, Codex, Gemini, Cursor, AmpCode, Factory Droid, Kimi, and more! • 🏅Global Leaderboard + 2D/3D Contributions Graph ★2729 https://github.com/junhoyeo/tokscale",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T19:02:07.929743Z",
+        "hoursSincePosted": 1.26
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mleg6czxgc2n",
+          "cid": "bafyreihram5s2cfh7h5oldbf3gdqachnhaf6es5esvavi37kxc3lcsvemi",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mleg6czxgc2n",
+          "text": "junhoyeo / tokscale: 🛰️ A CLI tool for tracking token usage from OpenCode, Claude Code, 🦞OpenClaw (Clawdbot/Moltbot), Pi, Codex, Gemini, Cursor, AmpCode, Factory Droid, Kimi, and more! • 🏅Global Leaderboard + 2D/3D Contributions Graph ★2729 https://github.com/junhoyeo/tokscale",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T19:02:07.929743Z",
+          "createdUtc": 1778266927,
+          "ageHours": 1.26,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "junhoyeo/tokscale",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "JuliusBrussee/caveman",
+      "fullName": "addyosmani/agent-skills",
       "count7d": 2,
       "likesSum7d": 0
     },
     {
-      "fullName": "endevco/aube",
+      "fullName": "junhoyeo/tokscale",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "modem-dev/hunk",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "rorkai/App-Store-Connect-CLI",
+      "fullName": "niri-wm/niri",
       "count7d": 1,
       "likesSum7d": 0
     }

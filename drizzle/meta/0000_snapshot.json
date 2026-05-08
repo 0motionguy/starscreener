@@ -1,12 +1,12 @@
 {
-  "id": "3e7ec414-285b-4f57-9a08-a43f80631723",
+  "id": "a81a395c-9390-4b50-bab3-d41b7b4f3448",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.alert_delivery_log": {
+    "tr.alert_delivery_log": {
       "name": "alert_delivery_log",
-      "schema": "",
+      "schema": "tr",
       "columns": {
         "rule_id": {
           "name": "rule_id",
@@ -84,6 +84,7 @@
           "name": "alert_delivery_log_rule_id_alert_rules_id_fk",
           "tableFrom": "alert_delivery_log",
           "tableTo": "alert_rules",
+          "schemaTo": "tr",
           "columnsFrom": [
             "rule_id"
           ],
@@ -100,9 +101,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.alert_events": {
+    "tr.alert_events": {
       "name": "alert_events",
-      "schema": "",
+      "schema": "tr",
       "columns": {
         "id": {
           "name": "id",
@@ -279,6 +280,7 @@
           "name": "alert_events_rule_id_alert_rules_id_fk",
           "tableFrom": "alert_events",
           "tableTo": "alert_rules",
+          "schemaTo": "tr",
           "columnsFrom": [
             "rule_id"
           ],
@@ -292,6 +294,7 @@
           "name": "alert_events_profile_id_profiles_id_fk",
           "tableFrom": "alert_events",
           "tableTo": "profiles",
+          "schemaTo": "tr",
           "columnsFrom": [
             "profile_id"
           ],
@@ -308,9 +311,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.alert_rules": {
+    "tr.alert_rules": {
       "name": "alert_rules",
-      "schema": "",
+      "schema": "tr",
       "columns": {
         "id": {
           "name": "id",
@@ -480,6 +483,7 @@
           "name": "alert_rules_profile_id_profiles_id_fk",
           "tableFrom": "alert_rules",
           "tableTo": "profiles",
+          "schemaTo": "tr",
           "columnsFrom": [
             "profile_id"
           ],
@@ -493,6 +497,7 @@
           "name": "alert_rules_watchlist_id_watchlists_id_fk",
           "tableFrom": "alert_rules",
           "tableTo": "watchlists",
+          "schemaTo": "tr",
           "columnsFrom": [
             "watchlist_id"
           ],
@@ -509,9 +514,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.profiles": {
+    "tr.profiles": {
       "name": "profiles",
-      "schema": "",
+      "schema": "tr",
       "columns": {
         "id": {
           "name": "id",
@@ -720,9 +725,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.watchlist_items": {
+    "tr.watchlist_items": {
       "name": "watchlist_items",
-      "schema": "",
+      "schema": "tr",
       "columns": {
         "id": {
           "name": "id",
@@ -800,6 +805,7 @@
           "name": "watchlist_items_watchlist_id_watchlists_id_fk",
           "tableFrom": "watchlist_items",
           "tableTo": "watchlists",
+          "schemaTo": "tr",
           "columnsFrom": [
             "watchlist_id"
           ],
@@ -816,9 +822,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.watchlists": {
+    "tr.watchlists": {
       "name": "watchlists",
-      "schema": "",
+      "schema": "tr",
       "columns": {
         "id": {
           "name": "id",
@@ -877,6 +883,7 @@
           "name": "watchlists_profile_id_profiles_id_fk",
           "tableFrom": "watchlists",
           "tableTo": "profiles",
+          "schemaTo": "tr",
           "columnsFrom": [
             "profile_id"
           ],
@@ -893,9 +900,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.newsletter_subscribers": {
+    "tr.newsletter_subscribers": {
       "name": "newsletter_subscribers",
-      "schema": "",
+      "schema": "tr",
       "columns": {
         "id": {
           "name": "id",
@@ -987,9 +994,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.referral_codes": {
+    "tr.referral_codes": {
       "name": "referral_codes",
-      "schema": "",
+      "schema": "tr",
       "columns": {
         "id": {
           "name": "id",
@@ -1070,6 +1077,7 @@
           "name": "referral_codes_profile_id_profiles_id_fk",
           "tableFrom": "referral_codes",
           "tableTo": "profiles",
+          "schemaTo": "tr",
           "columnsFrom": [
             "profile_id"
           ],
@@ -1086,9 +1094,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.referral_milestones": {
+    "tr.referral_milestones": {
       "name": "referral_milestones",
-      "schema": "",
+      "schema": "tr",
       "columns": {
         "id": {
           "name": "id",
@@ -1160,6 +1168,7 @@
           "name": "referral_milestones_profile_id_profiles_id_fk",
           "tableFrom": "referral_milestones",
           "tableTo": "profiles",
+          "schemaTo": "tr",
           "columnsFrom": [
             "profile_id"
           ],
@@ -1176,9 +1185,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.referrals": {
+    "tr.referrals": {
       "name": "referrals",
-      "schema": "",
+      "schema": "tr",
       "columns": {
         "id": {
           "name": "id",
@@ -1275,7 +1284,7 @@
             }
           ],
           "isUnique": true,
-          "where": "\"referrals\".\"referred_profile_id\" IS NOT NULL",
+          "where": "\"tr\".\"referrals\".\"referred_profile_id\" IS NOT NULL",
           "concurrently": false,
           "method": "btree",
           "with": {}
@@ -1343,6 +1352,7 @@
           "name": "referrals_referrer_profile_id_profiles_id_fk",
           "tableFrom": "referrals",
           "tableTo": "profiles",
+          "schemaTo": "tr",
           "columnsFrom": [
             "referrer_profile_id"
           ],
@@ -1356,6 +1366,7 @@
           "name": "referrals_referred_profile_id_profiles_id_fk",
           "tableFrom": "referrals",
           "tableTo": "profiles",
+          "schemaTo": "tr",
           "columnsFrom": [
             "referred_profile_id"
           ],
@@ -1374,7 +1385,9 @@
     }
   },
   "enums": {},
-  "schemas": {},
+  "schemas": {
+    "tr": "tr"
+  },
   "sequences": {},
   "roles": {},
   "policies": {},

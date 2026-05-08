@@ -22,20 +22,20 @@
 import { sql } from "drizzle-orm";
 import {
   index,
-  pgTable,
   text,
   timestamp,
   uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
 
+import { tr } from "./_schema";
 import { profiles } from "./profiles";
 
 // ---------------------------------------------------------------------------
 // referral_codes — one row per profile, immutable after creation.
 // ---------------------------------------------------------------------------
 
-export const referralCodes = pgTable(
+export const referralCodes = tr.table(
   "referral_codes",
   {
     id: uuid("id").primaryKey().defaultRandom(),
@@ -64,7 +64,7 @@ export type NewReferralCode = typeof referralCodes.$inferInsert;
 // is null at click time, populated at signup time.
 // ---------------------------------------------------------------------------
 
-export const referrals = pgTable(
+export const referrals = tr.table(
   "referrals",
   {
     id: uuid("id").primaryKey().defaultRandom(),
@@ -141,7 +141,7 @@ export type ReferralFraudBlockingFlag =
 // milestone-reached email + role/badge updates.
 // ---------------------------------------------------------------------------
 
-export const referralMilestones = pgTable(
+export const referralMilestones = tr.table(
   "referral_milestones",
   {
     id: uuid("id").primaryKey().defaultRandom(),

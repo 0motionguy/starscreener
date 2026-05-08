@@ -108,6 +108,13 @@ export interface SidebarContentProps {
   /** Total trending repos count (the big "Trending Repos" badge). */
   trendingReposCount?: number;
   onClose?: () => void;
+  /**
+   * Compact-density flag forwarded to the footer toggle. Visual side
+   * effect (CSS rules under `.sidebar.compact`) is applied on the parent
+   * `<aside>`; this component only owns the toggle button.
+   */
+  compact?: boolean;
+  onToggleCompact?: () => void;
 }
 
 function compactCount(n: number): string {
@@ -369,6 +376,8 @@ export function SidebarContent({
   sourceCounts,
   trendingReposCount,
   onClose,
+  compact,
+  onToggleCompact,
 }: SidebarContentProps) {
   const router = useRouter();
   const pathname = usePathname() ?? "/";
@@ -797,7 +806,7 @@ export function SidebarContent({
         </V2Section>
       </CursorRail>
 
-      <SidebarFooter />
+      <SidebarFooter compact={compact} onToggleCompact={onToggleCompact} />
     </div>
   );
 }

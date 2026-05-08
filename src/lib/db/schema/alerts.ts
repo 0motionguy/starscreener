@@ -24,13 +24,13 @@ import {
   index,
   integer,
   jsonb,
-  pgTable,
   text,
   timestamp,
   uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
 
+import { tr } from "./_schema";
 import { profiles } from "./profiles";
 import { watchlists } from "./watchlists";
 
@@ -39,7 +39,7 @@ import { watchlists } from "./watchlists";
 // insert time; the limit is a sanity ceiling, not a paywall).
 // ---------------------------------------------------------------------------
 
-export const alertRules = pgTable(
+export const alertRules = tr.table(
   "alert_rules",
   {
     id: uuid("id").primaryKey().defaultRandom(),
@@ -99,7 +99,7 @@ export type NewAlertRule = typeof alertRules.$inferInsert;
 // (just queryable via the MCP `list_my_alerts` tool).
 // ---------------------------------------------------------------------------
 
-export const alertEvents = pgTable(
+export const alertEvents = tr.table(
   "alert_events",
   {
     id: uuid("id").primaryKey().defaultRandom(),
@@ -159,7 +159,7 @@ export type NewAlertEvent = typeof alertEvents.$inferInsert;
 // expired rows so the table doesn't grow unbounded.
 // ---------------------------------------------------------------------------
 
-export const alertDeliveryLog = pgTable(
+export const alertDeliveryLog = tr.table(
   "alert_delivery_log",
   {
     ruleId: uuid("rule_id")

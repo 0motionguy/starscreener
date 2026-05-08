@@ -50,10 +50,17 @@ jobs:
 
       - name: Collect Twitter signals
         env:
-          # Apify tweet-scraper actor runs on residential IPs and returns clean
-          # JSON — sidesteps Twitter's 2026 x-client-transaction-id anti-bot
-          # that silently breaks the cookie-based web provider.
-          TWITTER_COLLECTOR_PROVIDER: ${{ vars.TWITTER_COLLECTOR_PROVIDER || 'apify' }}
+          # Provider default flipped to `nitter` 2026-05-08 after the Apify
+          # `apidojo/tweet-scraper` actor returned 0 posts on every query for
+          # the prior ~2 weeks (last run with non-empty payload was
+          # 2026-04-23; latest scheduled runs all show postsSeen: 0 across
+          # 25 repos × 4 queries). Local probe with provider=nitter on the
+          # same repos returned 19-20 posts/query, confirming the upstream
+          # scraping path is intact and the issue is Apify-side (quota,
+          # actor change, or X anti-bot blocking the residential IPs).
+          # Override with `vars.TWITTER_COLLECTOR_PROVIDER` if the operator
+          # restores Apify access.
+          TWITTER_COLLECTOR_PROVIDER: ${{ vars.TWITTER_COLLECTOR_PROVIDER || 'nitter' }}
           # "direct" writes to .data/twitter-*.jsonl locally (so we can commit
           # them back to main). "api" would POST to Vercel's ingest endpoint,
           # but Vercel's filesystem is read-only / ephemeral so the writes

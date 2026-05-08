@@ -26,14 +26,15 @@ import {
   index,
   integer,
   jsonb,
-  pgTable,
   text,
   timestamp,
   uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
 
-export const profiles = pgTable(
+import { tr } from "./_schema";
+
+export const profiles = tr.table(
   "profiles",
   {
     id: uuid("id").primaryKey().defaultRandom(),

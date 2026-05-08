@@ -27,6 +27,7 @@ const GENERIC_TERMS = new Set([
   "library",
   "model",
   "models",
+  "paperclip",
   "plugin",
   "skill",
   "skills",

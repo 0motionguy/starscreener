@@ -1036,3 +1036,14 @@ Result: acceptance-criteria lint delta pass is PASS (2/2). Sprint close-readines
 - Done when: AGN-58 linkage notes across sprint/backlog include only live AGN-58 children (or explicitly tagged exceptions with board decision) and each row retains one owner + binary done-state wording + explicit action/dependency text.
 
 - 2026-05-05 AGN-436 [P0 ops] deploy-storm ownership triage heartbeat: latest board comment requested Sprint Triage to resolve "no active implementation owner." Mandatory opening bundle re-verified; `npm run freshness:check` at 2026-05-05T05:56:24.688Z reached localhost:3023 (not missing) but product is stale/degraded (`blocking_non_green=18`, `Sentry: MISSING`). PM decision: escalate to CTO to assign AGN-436 to one named backend engineer (file scope `scripts/_data-store-write.mjs`). Execution blocker: Paperclip API endpoint `http://192.168.192.1:3100` unreachable from this runner (curl/TCP connect failed), so issue comment + terminal status PATCH could not be persisted this heartbeat. Unblock owner: platform/network owner for Paperclip API reachability; after restore, PM must immediately post AGN-436 evidence comment and PATCH terminal `blocked` with CTO assignment request.
+
+## 2026-05-08 — P0 surface rollout (Phase 1 complete, Phase 5 backlog)
+
+- Phase 1 surface fixes shipped across five commits: `2a6a03f4` graceful-degrade chrome (last-good cache + degraded badge); `057f13f2` Phase 1 surface honesty pass (replace hardcoded "FRESH · 1H" / "FEED LIVE" labels with FreshnessBadge wired to actual `lastFetchedAt`); `0f93e603` JSON-first Reddit collector pivot (write `data/reddit-trending.json` ahead of `.data/*.jsonl`); `24da52f5` Apify provider for Reddit (residential-proxy actor `trudax/reddit-scraper-lite` reusing `APIFY_API_TOKEN`); `e49a7253` cron activation flag.
+- Production status verified: Twitter surface = 500 rows (Apify `apidojo~tweet-scraper`); Reddit surface = 3,625 rows; FreshnessBadge wired on all 12 audited signal routes; zero (0) hardcoded LiveDot leaks remain.
+- Apify-Reddit collector code is LIVE on `main`; activation gated on cron run `25564536581` (`cron-reddit-daily.yml`) currently in flight. After green run, flip `REDDIT_COLLECTOR_PROVIDER=apify` on the workflow runner; OAuth registration is unreachable for this operator (see memory `project_reddit_apify_pivot.md`).
+- Phase 5 backlog (deferred, in priority order):
+  - Server-side redirect for empty trending-now (avoid client-side flash on cold cache).
+  - SSR diet: Twitter payload 20MB → ~5MB by stripping avatar URLs from server bundle and lazy-hydrating images on client mount.
+  - Reddit-hot formula shadow A/B in `src/lib/trending-score.ts` (compare current weight against Reddit-style `score / (age_hours + 2)^1.5`).
+  - Last-good cache invariant: collectors MUST refuse to overwrite existing payload when new batch < `min(50, existing.length)` (extends 2026-05-08 keep-last-50 rule).

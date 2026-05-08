@@ -30,6 +30,11 @@ export default defineConfig({
   dbCredentials: {
     url: directUrl ?? "postgres://placeholder@localhost/placeholder",
   },
+  // Only introspect / manage tables under the `tr` schema. The shared
+  // agnt-prod database has unrelated `public.*` tables owned by other
+  // products (e.g. `public.referrals`); without this filter, drizzle-kit
+  // would try to drop them on every push.
+  schemaFilter: ["tr"],
   strict: true,
   verbose: true,
 });

@@ -11,16 +11,16 @@
 
 import {
   index,
-  pgTable,
   text,
   timestamp,
   uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
 
+import { tr } from "./_schema";
 import { profiles } from "./profiles";
 
-export const watchlists = pgTable(
+export const watchlists = tr.table(
   "watchlists",
   {
     id: uuid("id").primaryKey().defaultRandom(),
@@ -40,7 +40,7 @@ export const watchlists = pgTable(
   ],
 );
 
-export const watchlistItems = pgTable(
+export const watchlistItems = tr.table(
   "watchlist_items",
   {
     id: uuid("id").primaryKey().defaultRandom(),

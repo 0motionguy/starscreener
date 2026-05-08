@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-08T08:00:01.688Z",
+  "fetchedAt": "2026-05-08T11:47:18.672Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 199,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 2,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -572,24 +572,24 @@
       ]
     },
     "V4bel/dirtyfrag": {
-      "count7d": 17,
-      "likesSum7d": 14,
-      "repostsSum7d": 3,
-      "repliesSum7d": 6,
+      "count7d": 7,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:pwgvh5ffgbi44ovj25koc45y/app.bsky.feed.post/3mlcuxjxcak2i",
-        "cid": "bafyreidbzkxj7rhcknwbypcsiynah52yydjw3apd5viarirl7gmmikp3ye",
-        "bskyUrl": "https://bsky.app/profile/keevitaja.com/post/3mlcuxjxcak2i",
-        "text": "täitsa puccis. see exploit toimibki 😱 proovisin manjaro peal. github.com/V4bel/dirtyf...",
+        "uri": "at://did:plc:zc7octf6bttrhodctstrafeo/app.bsky.feed.post/3mldi2dgsg22n",
+        "cid": "bafyreia4sik5j56q26pk7rsf5voxkk2xin7rtpatqd6l5rzx6rgp3atxwm",
+        "bskyUrl": "https://bsky.app/profile/ajlanes.bsky.social/post/3mldi2dgsg22n",
+        "text": "\"You're joking. Not another one?\" - Brenda from Bristol who now spends her time patching Linux boxes. github.com/V4bel/dirtyf...",
         "author": {
-          "handle": "keevitaja.com",
-          "displayName": "Tanel Tammik"
+          "handle": "ajlanes.bsky.social",
+          "displayName": "Alexandra Lanes"
         },
-        "likeCount": 6,
-        "repostCount": 1,
-        "replyCount": 3,
-        "createdAt": "2026-05-08T04:21:27.072Z",
-        "hoursSincePosted": 3.64
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T10:03:02.000Z",
+        "hoursSincePosted": 1.74
       },
       "posts": [
         {
@@ -892,6 +892,62 @@
           "createdUtc": 1778185014,
           "ageHours": 0.99,
           "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:zc7octf6bttrhodctstrafeo/app.bsky.feed.post/3mldi2dgsg22n",
+          "cid": "bafyreia4sik5j56q26pk7rsf5voxkk2xin7rtpatqd6l5rzx6rgp3atxwm",
+          "bskyUrl": "https://bsky.app/profile/ajlanes.bsky.social/post/3mldi2dgsg22n",
+          "text": "\"You're joking. Not another one?\" - Brenda from Bristol who now spends her time patching Linux boxes. github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "ajlanes.bsky.social",
+            "displayName": "Alexandra Lanes"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T10:03:02.000Z",
+          "createdUtc": 1778234582,
+          "ageHours": 1.74,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:gemypy4r3e7ph6gdegwbohah/app.bsky.feed.post/3mldectv42k2d",
+          "cid": "bafyreiah65nxs3mt6ciu37z5yavuzhwicaddzmbv46uaei4cwsjixbumie",
+          "bskyUrl": "https://bsky.app/profile/mynameisv.bsky.social/post/3mldectv42k2d",
+          "text": "Vendredi férié et vous voulez passer un bon week-end ? Ne lisez pas la suite 😅. 💥 DirtyFrag 💥 Élévation locale de privilège Linux, basé sur la même classe de vuln que CopyFail. ❌ Pas de correctif (mais un contournement) ❌ Pas de CVE PoC : github.com/V4bel/dirtyf... Et bon week-end hein 😢",
+          "author": {
+            "handle": "mynameisv.bsky.social",
+            "displayName": "Mynameisv"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T08:56:12.715Z",
+          "createdUtc": 1778230572,
+          "ageHours": 2.85,
+          "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -1244,6 +1300,147 @@
             "has-md-file"
           ],
           "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:7dqkzhnjvhxthnojqwgmvj2h/app.bsky.feed.post/3mldjxakfzc23",
+          "cid": "bafyreiecqica36ho3j3jds73b45xrjf4d5srldwaqiye53iad7ngdn6y5m",
+          "bskyUrl": "https://bsky.app/profile/drknrdy.com/post/3mldjxakfzc23",
+          "text": "Another week, another get-root vulnerability in Linux except this one doesn't have any patches for it. There is mitigation though so if you have any linux around get onto it now. (Doesn't seem to work on my Raspberry Pis though so arm64 may be ok. x64 definitely is not.) github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "drknrdy.com",
+            "displayName": "Drk Nrdy 🏳️‍🌈🏳️‍⚧️🔜 Basket."
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T10:37:05.793Z",
+          "createdUtc": 1778236625,
+          "ageHours": 1.17,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:5ldyzked4fj2y2qpusrqs62r/app.bsky.feed.post/3mldhefir3wi2",
+          "cid": "bafyreifbz546y4tlxlm2ba7xhrtmqkburnzqhcplec2ioujh7yrsvu3irq",
+          "bskyUrl": "https://bsky.app/profile/kravietz.agora.echelon.pl.ap.brid.gy/post/3mldhefir3wi2",
+          "text": "Any wonderful Friday starts from a #Linux kernel zero-day #exploit published 😍 https://github.com/V4bel/dirtyfrag The bad news is that there’s no kernel patches from upstream because the exploit has been released outside of responsible disclosure. Another bad news is that it _does_ work on […]",
+          "author": {
+            "handle": "kravietz.agora.echelon.pl.ap.brid.gy",
+            "displayName": "kravietz 🦇"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T09:34:29.903Z",
+          "createdUtc": 1778232869,
+          "ageHours": 2.21,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:p7wowj4icwdwsp7awzr6x252/app.bsky.feed.post/3mldexja7rs2a",
+          "cid": "bafyreiev3tkyu2clt7bs5eh7wge3icw7yguapgw5bf5wlyvl34x373vaee",
+          "bskyUrl": "https://bsky.app/profile/sadservers.com/post/3mldexja7rs2a",
+          "text": "Dirty Frag: another 0-day Linux vulnerability of the privilege escalation type (any user becoming root). github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "sadservers.com",
+            "displayName": "SadServers"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T09:07:46.188Z",
+          "createdUtc": 1778231266,
+          "ageHours": 2.66,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:zwoydxjl7xcnbno5icalkec4/app.bsky.feed.post/3mldeoye3322z",
+          "cid": "bafyreieb7eelmwv35rbwwfeskn3pnejytqabyfcnh6pgmh734qt75brcpi",
+          "bskyUrl": "https://bsky.app/profile/charlesn.bsky.social/post/3mldeoye3322z",
+          "text": "C'est reparti: github.com/V4bel/dirtyf... Un jour férié, avec 3 modules à désactiver: esp4, esp6 et rxrpc",
+          "author": {
+            "handle": "charlesn.bsky.social",
+            "displayName": "Nicolas Charles"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T09:03:00.052Z",
+          "createdUtc": 1778230980,
+          "ageHours": 2.74,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vevngu5t7a2zqvdftysxv26d/app.bsky.feed.post/3mlde4qvzo22y",
+          "cid": "bafyreiejum6lwcz3mzekx75ir6imes4hrt2sdi2mbezok6mwn4k4wmzdiq",
+          "bskyUrl": "https://bsky.app/profile/ytroncal.bsky.social/post/3mlde4qvzo22y",
+          "text": "Dirty Frag: a zero-day universal Linux LPE www.it-connect.fr/dirty-frag-c... github.com/V4bel/dirtyf... lwn.net/Articles/107...",
+          "author": {
+            "handle": "ytroncal.bsky.social",
+            "displayName": "ytroncal"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T08:52:48.273Z",
+          "createdUtc": 1778230368,
+          "ageHours": 2.91,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "linkedRepos": [
             {
               "fullName": "V4bel/dirtyfrag",
@@ -1806,148 +2003,6 @@
           "createdUtc": 1778185766,
           "ageHours": 0.78,
           "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:rgtosft6nskq6or2za33scm5/app.bsky.feed.post/3mlc2y5zw3aj2",
-          "cid": "bafyreibplvrhkx2skhpnb3fh6gxklw5a5rgspcozhex3w5is2az2ypgyta",
-          "bskyUrl": "https://bsky.app/profile/adlerweb.social.adlerweb.info.ap.brid.gy/post/3mlc2y5zw3aj2",
-          "text": "Es gibt wohl mal wieder eine LPE im #linux kernel: #DirtyFrag. POC läuft zumindest mal auf nem Testsystem mit älterem Kernel. https://github.com/V4bel/dirtyfrag/blob/master/assets/write-up.md",
-          "author": {
-            "handle": "adlerweb.social.adlerweb.info.ap.brid.gy",
-            "displayName": "adlerweb // BitBastelei"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T20:19:05.000Z",
-          "createdUtc": 1778185145,
-          "ageHours": 0.96,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "has-md-file"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:vw4stp47mkitgdxrannolwls/app.bsky.feed.post/3mlbztdkr4rv2",
-          "cid": "bafyreiggnn2d4742wtn6wxoj3jcpxd2tgeq5kqmbqlm3v6ujw3fr2wg75q",
-          "bskyUrl": "https://bsky.app/profile/jschauma.mstdn.social.ap.brid.gy/post/3mlbztdkr4rv2",
-          "text": "Oh FFS. #DirtyFrag https://github.com/V4bel/dirtyfrag/blob/master/assets/write-up.md \"Because the embargo has now been broken, no patches or CVEs exist for these vulnerabilities.\" https://www.openwall.com/lists/oss-security/2026/05/07/8 Well, just put that CopyFail incident work on rinse and […]",
-          "author": {
-            "handle": "jschauma.mstdn.social.ap.brid.gy",
-            "displayName": "Jan Schaumann"
-          },
-          "likeCount": 0,
-          "repostCount": 8,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T20:07:16.000Z",
-          "createdUtc": 1778184436,
-          "ageHours": 1.15,
-          "trendingScore": 16,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:qiw3b7ssshlymgsln7uvefcc/app.bsky.feed.post/3mlbzllkrr3j2",
-          "cid": "bafyreidih2mbiyispvf7y6lw5mc5tpgrubfpsznqkd4kod3xrdx6hfspt4",
-          "bskyUrl": "https://bsky.app/profile/linux.activitypub.awakari.com.ap.brid.gy/post/3mlbzllkrr3j2",
-          "text": "Dirty Frag: Universal Linux LPE Article URL: https://github.com/V4bel/dirtyfrag/tree/master Comments URL: https://news.ycombinator.com/item?id=48054068 Points: 1 # Comments: 0 Origin | Interest | Match",
-          "author": {
-            "handle": "linux.activitypub.awakari.com.ap.brid.gy",
-            "displayName": "linux"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T19:56:44.000Z",
-          "createdUtc": 1778183804,
-          "ageHours": 1.33,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-question"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:ndtxy6z27wqczj2ighw32elt/app.bsky.feed.post/3mlbygdr7xbu2",
-          "cid": "bafyreick4eewy53n2i4lib7mr7zcvlcb4akekrwby4ldskl4apuyns4myy",
-          "bskyUrl": "https://bsky.app/profile/jianmin.defcon.social.ap.brid.gy/post/3mlbygdr7xbu2",
-          "text": "Another day, another Linux LPE and container escape: https://github.com/V4bel/dirtyfrag",
-          "author": {
-            "handle": "jianmin.defcon.social.ap.brid.gy",
-            "displayName": "Ben"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-07T19:50:42.000Z",
-          "createdUtc": 1778183442,
-          "ageHours": 1.43,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:vtkgfcofnaxnxl6moce4esaj/app.bsky.feed.post/3mlby26hzo6u2",
-          "cid": "bafyreibk3unf3amu6aaxdr5wdng23wqmlusrp3dnmzsiviji3mzx2kofwq",
-          "bskyUrl": "https://bsky.app/profile/jrt.infosec.exchange.ap.brid.gy/post/3mlby26hzo6u2",
-          "text": "Another #Linux LPE: https://github.com/V4bel/dirtyfrag/ #DirtyFrag",
-          "author": {
-            "handle": "jrt.infosec.exchange.ap.brid.gy",
-            "displayName": "JRT"
-          },
-          "likeCount": 0,
-          "repostCount": 2,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T19:43:51.000Z",
-          "createdUtc": 1778183031,
-          "ageHours": 1.54,
-          "trendingScore": 4,
           "content_tags": [
             "has-github-repo"
           ],
@@ -3323,6 +3378,110 @@
           ]
         }
       ]
+    },
+    "soxoj/maigret": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:3n2ontx7zq73sosiovo6m72t/app.bsky.feed.post/3mldldvidwuf2",
+        "cid": "bafyreifkrky3vgctotafq7hiu5qe7xkj43xgedhsq5eya7k6m5le7wrlvu",
+        "bskyUrl": "https://bsky.app/profile/david.larlet.fr.ap.brid.gy/post/3mldldvidwuf2",
+        "text": "https://github.com/soxoj/maigret fonctionne un peu trop bien mais ça permet ensuite de faire le ménage plus facilement 🤷 ``` brew install cairo pkg-config uv run --with maigret maigret <username> ``` Le meilleur moment c'était il y a 10… bon OK pas à chaque semaine 🤐",
+        "author": {
+          "handle": "david.larlet.fr.ap.brid.gy",
+          "displayName": "David Larlet"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T11:01:16.000Z",
+        "hoursSincePosted": 0.77
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:3n2ontx7zq73sosiovo6m72t/app.bsky.feed.post/3mldldvidwuf2",
+          "cid": "bafyreifkrky3vgctotafq7hiu5qe7xkj43xgedhsq5eya7k6m5le7wrlvu",
+          "bskyUrl": "https://bsky.app/profile/david.larlet.fr.ap.brid.gy/post/3mldldvidwuf2",
+          "text": "https://github.com/soxoj/maigret fonctionne un peu trop bien mais ça permet ensuite de faire le ménage plus facilement 🤷 ``` brew install cairo pkg-config uv run --with maigret maigret <username> ``` Le meilleur moment c'était il y a 10… bon OK pas à chaque semaine 🤐",
+          "author": {
+            "handle": "david.larlet.fr.ap.brid.gy",
+            "displayName": "David Larlet"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T11:01:16.000Z",
+          "createdUtc": 1778238076,
+          "ageHours": 0.77,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-code-block",
+            "has-cli"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "soxoj/maigret",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "openai/openai-agents-python": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mldeyropl32g",
+        "cid": "bafyreiehrtpnhh2ujm2fbakhrofsgb6iv7pfl3qt2nughlkfykbgz4q2ju",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mldeyropl32g",
+        "text": "🟠 OpenAI Agents Python v0.17.0 switches RealtimeAgent defaults to gpt-realtime-2 and tightens sandbox file boundaries OpenAI shipped openai-agents-python v0.17.0 with two workflow-relevant changes: RealtimeAgent... https://github.com/openai/openai-agents-python/releases/tag/v0.17.0 #AI #AgentWyre",
+        "author": {
+          "handle": "agentwyre.ai"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T09:08:27.861074+00:00",
+        "hoursSincePosted": 2.65
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mldeyropl32g",
+          "cid": "bafyreiehrtpnhh2ujm2fbakhrofsgb6iv7pfl3qt2nughlkfykbgz4q2ju",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mldeyropl32g",
+          "text": "🟠 OpenAI Agents Python v0.17.0 switches RealtimeAgent defaults to gpt-realtime-2 and tightens sandbox file boundaries OpenAI shipped openai-agents-python v0.17.0 with two workflow-relevant changes: RealtimeAgent... https://github.com/openai/openai-agents-python/releases/tag/v0.17.0 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T09:08:27.861074+00:00",
+          "createdUtc": 1778231307,
+          "ageHours": 2.65,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent",
+            "is-announcement"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "mentionsByRepoId": {
@@ -3893,24 +4052,24 @@
       ]
     },
     "v4bel--dirtyfrag": {
-      "count7d": 17,
-      "likesSum7d": 14,
-      "repostsSum7d": 3,
-      "repliesSum7d": 6,
+      "count7d": 7,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:pwgvh5ffgbi44ovj25koc45y/app.bsky.feed.post/3mlcuxjxcak2i",
-        "cid": "bafyreidbzkxj7rhcknwbypcsiynah52yydjw3apd5viarirl7gmmikp3ye",
-        "bskyUrl": "https://bsky.app/profile/keevitaja.com/post/3mlcuxjxcak2i",
-        "text": "täitsa puccis. see exploit toimibki 😱 proovisin manjaro peal. github.com/V4bel/dirtyf...",
+        "uri": "at://did:plc:zc7octf6bttrhodctstrafeo/app.bsky.feed.post/3mldi2dgsg22n",
+        "cid": "bafyreia4sik5j56q26pk7rsf5voxkk2xin7rtpatqd6l5rzx6rgp3atxwm",
+        "bskyUrl": "https://bsky.app/profile/ajlanes.bsky.social/post/3mldi2dgsg22n",
+        "text": "\"You're joking. Not another one?\" - Brenda from Bristol who now spends her time patching Linux boxes. github.com/V4bel/dirtyf...",
         "author": {
-          "handle": "keevitaja.com",
-          "displayName": "Tanel Tammik"
+          "handle": "ajlanes.bsky.social",
+          "displayName": "Alexandra Lanes"
         },
-        "likeCount": 6,
-        "repostCount": 1,
-        "replyCount": 3,
-        "createdAt": "2026-05-08T04:21:27.072Z",
-        "hoursSincePosted": 3.64
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T10:03:02.000Z",
+        "hoursSincePosted": 1.74
       },
       "posts": [
         {
@@ -4213,6 +4372,62 @@
           "createdUtc": 1778185014,
           "ageHours": 0.99,
           "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:zc7octf6bttrhodctstrafeo/app.bsky.feed.post/3mldi2dgsg22n",
+          "cid": "bafyreia4sik5j56q26pk7rsf5voxkk2xin7rtpatqd6l5rzx6rgp3atxwm",
+          "bskyUrl": "https://bsky.app/profile/ajlanes.bsky.social/post/3mldi2dgsg22n",
+          "text": "\"You're joking. Not another one?\" - Brenda from Bristol who now spends her time patching Linux boxes. github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "ajlanes.bsky.social",
+            "displayName": "Alexandra Lanes"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T10:03:02.000Z",
+          "createdUtc": 1778234582,
+          "ageHours": 1.74,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:gemypy4r3e7ph6gdegwbohah/app.bsky.feed.post/3mldectv42k2d",
+          "cid": "bafyreiah65nxs3mt6ciu37z5yavuzhwicaddzmbv46uaei4cwsjixbumie",
+          "bskyUrl": "https://bsky.app/profile/mynameisv.bsky.social/post/3mldectv42k2d",
+          "text": "Vendredi férié et vous voulez passer un bon week-end ? Ne lisez pas la suite 😅. 💥 DirtyFrag 💥 Élévation locale de privilège Linux, basé sur la même classe de vuln que CopyFail. ❌ Pas de correctif (mais un contournement) ❌ Pas de CVE PoC : github.com/V4bel/dirtyf... Et bon week-end hein 😢",
+          "author": {
+            "handle": "mynameisv.bsky.social",
+            "displayName": "Mynameisv"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-08T08:56:12.715Z",
+          "createdUtc": 1778230572,
+          "ageHours": 2.85,
+          "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -4565,6 +4780,147 @@
             "has-md-file"
           ],
           "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:7dqkzhnjvhxthnojqwgmvj2h/app.bsky.feed.post/3mldjxakfzc23",
+          "cid": "bafyreiecqica36ho3j3jds73b45xrjf4d5srldwaqiye53iad7ngdn6y5m",
+          "bskyUrl": "https://bsky.app/profile/drknrdy.com/post/3mldjxakfzc23",
+          "text": "Another week, another get-root vulnerability in Linux except this one doesn't have any patches for it. There is mitigation though so if you have any linux around get onto it now. (Doesn't seem to work on my Raspberry Pis though so arm64 may be ok. x64 definitely is not.) github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "drknrdy.com",
+            "displayName": "Drk Nrdy 🏳️‍🌈🏳️‍⚧️🔜 Basket."
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T10:37:05.793Z",
+          "createdUtc": 1778236625,
+          "ageHours": 1.17,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:5ldyzked4fj2y2qpusrqs62r/app.bsky.feed.post/3mldhefir3wi2",
+          "cid": "bafyreifbz546y4tlxlm2ba7xhrtmqkburnzqhcplec2ioujh7yrsvu3irq",
+          "bskyUrl": "https://bsky.app/profile/kravietz.agora.echelon.pl.ap.brid.gy/post/3mldhefir3wi2",
+          "text": "Any wonderful Friday starts from a #Linux kernel zero-day #exploit published 😍 https://github.com/V4bel/dirtyfrag The bad news is that there’s no kernel patches from upstream because the exploit has been released outside of responsible disclosure. Another bad news is that it _does_ work on […]",
+          "author": {
+            "handle": "kravietz.agora.echelon.pl.ap.brid.gy",
+            "displayName": "kravietz 🦇"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T09:34:29.903Z",
+          "createdUtc": 1778232869,
+          "ageHours": 2.21,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:p7wowj4icwdwsp7awzr6x252/app.bsky.feed.post/3mldexja7rs2a",
+          "cid": "bafyreiev3tkyu2clt7bs5eh7wge3icw7yguapgw5bf5wlyvl34x373vaee",
+          "bskyUrl": "https://bsky.app/profile/sadservers.com/post/3mldexja7rs2a",
+          "text": "Dirty Frag: another 0-day Linux vulnerability of the privilege escalation type (any user becoming root). github.com/V4bel/dirtyf...",
+          "author": {
+            "handle": "sadservers.com",
+            "displayName": "SadServers"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T09:07:46.188Z",
+          "createdUtc": 1778231266,
+          "ageHours": 2.66,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:zwoydxjl7xcnbno5icalkec4/app.bsky.feed.post/3mldeoye3322z",
+          "cid": "bafyreieb7eelmwv35rbwwfeskn3pnejytqabyfcnh6pgmh734qt75brcpi",
+          "bskyUrl": "https://bsky.app/profile/charlesn.bsky.social/post/3mldeoye3322z",
+          "text": "C'est reparti: github.com/V4bel/dirtyf... Un jour férié, avec 3 modules à désactiver: esp4, esp6 et rxrpc",
+          "author": {
+            "handle": "charlesn.bsky.social",
+            "displayName": "Nicolas Charles"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T09:03:00.052Z",
+          "createdUtc": 1778230980,
+          "ageHours": 2.74,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "V4bel/dirtyfrag",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:vevngu5t7a2zqvdftysxv26d/app.bsky.feed.post/3mlde4qvzo22y",
+          "cid": "bafyreiejum6lwcz3mzekx75ir6imes4hrt2sdi2mbezok6mwn4k4wmzdiq",
+          "bskyUrl": "https://bsky.app/profile/ytroncal.bsky.social/post/3mlde4qvzo22y",
+          "text": "Dirty Frag: a zero-day universal Linux LPE www.it-connect.fr/dirty-frag-c... github.com/V4bel/dirtyf... lwn.net/Articles/107...",
+          "author": {
+            "handle": "ytroncal.bsky.social",
+            "displayName": "ytroncal"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T08:52:48.273Z",
+          "createdUtc": 1778230368,
+          "ageHours": 2.91,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "linkedRepos": [
             {
               "fullName": "V4bel/dirtyfrag",
@@ -5127,148 +5483,6 @@
           "createdUtc": 1778185766,
           "ageHours": 0.78,
           "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:rgtosft6nskq6or2za33scm5/app.bsky.feed.post/3mlc2y5zw3aj2",
-          "cid": "bafyreibplvrhkx2skhpnb3fh6gxklw5a5rgspcozhex3w5is2az2ypgyta",
-          "bskyUrl": "https://bsky.app/profile/adlerweb.social.adlerweb.info.ap.brid.gy/post/3mlc2y5zw3aj2",
-          "text": "Es gibt wohl mal wieder eine LPE im #linux kernel: #DirtyFrag. POC läuft zumindest mal auf nem Testsystem mit älterem Kernel. https://github.com/V4bel/dirtyfrag/blob/master/assets/write-up.md",
-          "author": {
-            "handle": "adlerweb.social.adlerweb.info.ap.brid.gy",
-            "displayName": "adlerweb // BitBastelei"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T20:19:05.000Z",
-          "createdUtc": 1778185145,
-          "ageHours": 0.96,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "has-md-file"
-          ],
-          "value_score": 2,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:vw4stp47mkitgdxrannolwls/app.bsky.feed.post/3mlbztdkr4rv2",
-          "cid": "bafyreiggnn2d4742wtn6wxoj3jcpxd2tgeq5kqmbqlm3v6ujw3fr2wg75q",
-          "bskyUrl": "https://bsky.app/profile/jschauma.mstdn.social.ap.brid.gy/post/3mlbztdkr4rv2",
-          "text": "Oh FFS. #DirtyFrag https://github.com/V4bel/dirtyfrag/blob/master/assets/write-up.md \"Because the embargo has now been broken, no patches or CVEs exist for these vulnerabilities.\" https://www.openwall.com/lists/oss-security/2026/05/07/8 Well, just put that CopyFail incident work on rinse and […]",
-          "author": {
-            "handle": "jschauma.mstdn.social.ap.brid.gy",
-            "displayName": "Jan Schaumann"
-          },
-          "likeCount": 0,
-          "repostCount": 8,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T20:07:16.000Z",
-          "createdUtc": 1778184436,
-          "ageHours": 1.15,
-          "trendingScore": 16,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:qiw3b7ssshlymgsln7uvefcc/app.bsky.feed.post/3mlbzllkrr3j2",
-          "cid": "bafyreidih2mbiyispvf7y6lw5mc5tpgrubfpsznqkd4kod3xrdx6hfspt4",
-          "bskyUrl": "https://bsky.app/profile/linux.activitypub.awakari.com.ap.brid.gy/post/3mlbzllkrr3j2",
-          "text": "Dirty Frag: Universal Linux LPE Article URL: https://github.com/V4bel/dirtyfrag/tree/master Comments URL: https://news.ycombinator.com/item?id=48054068 Points: 1 # Comments: 0 Origin | Interest | Match",
-          "author": {
-            "handle": "linux.activitypub.awakari.com.ap.brid.gy",
-            "displayName": "linux"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T19:56:44.000Z",
-          "createdUtc": 1778183804,
-          "ageHours": 1.33,
-          "trendingScore": 0,
-          "content_tags": [
-            "has-github-repo",
-            "is-question"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:ndtxy6z27wqczj2ighw32elt/app.bsky.feed.post/3mlbygdr7xbu2",
-          "cid": "bafyreick4eewy53n2i4lib7mr7zcvlcb4akekrwby4ldskl4apuyns4myy",
-          "bskyUrl": "https://bsky.app/profile/jianmin.defcon.social.ap.brid.gy/post/3mlbygdr7xbu2",
-          "text": "Another day, another Linux LPE and container escape: https://github.com/V4bel/dirtyfrag",
-          "author": {
-            "handle": "jianmin.defcon.social.ap.brid.gy",
-            "displayName": "Ben"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-07T19:50:42.000Z",
-          "createdUtc": 1778183442,
-          "ageHours": 1.43,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo"
-          ],
-          "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "V4bel/dirtyfrag",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:vtkgfcofnaxnxl6moce4esaj/app.bsky.feed.post/3mlby26hzo6u2",
-          "cid": "bafyreibk3unf3amu6aaxdr5wdng23wqmlusrp3dnmzsiviji3mzx2kofwq",
-          "bskyUrl": "https://bsky.app/profile/jrt.infosec.exchange.ap.brid.gy/post/3mlby26hzo6u2",
-          "text": "Another #Linux LPE: https://github.com/V4bel/dirtyfrag/ #DirtyFrag",
-          "author": {
-            "handle": "jrt.infosec.exchange.ap.brid.gy",
-            "displayName": "JRT"
-          },
-          "likeCount": 0,
-          "repostCount": 2,
-          "replyCount": 0,
-          "createdAt": "2026-05-07T19:43:51.000Z",
-          "createdUtc": 1778183031,
-          "ageHours": 1.54,
-          "trendingScore": 4,
           "content_tags": [
             "has-github-repo"
           ],
@@ -6644,86 +6858,125 @@
           ]
         }
       ]
+    },
+    "soxoj--maigret": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:3n2ontx7zq73sosiovo6m72t/app.bsky.feed.post/3mldldvidwuf2",
+        "cid": "bafyreifkrky3vgctotafq7hiu5qe7xkj43xgedhsq5eya7k6m5le7wrlvu",
+        "bskyUrl": "https://bsky.app/profile/david.larlet.fr.ap.brid.gy/post/3mldldvidwuf2",
+        "text": "https://github.com/soxoj/maigret fonctionne un peu trop bien mais ça permet ensuite de faire le ménage plus facilement 🤷 ``` brew install cairo pkg-config uv run --with maigret maigret <username> ``` Le meilleur moment c'était il y a 10… bon OK pas à chaque semaine 🤐",
+        "author": {
+          "handle": "david.larlet.fr.ap.brid.gy",
+          "displayName": "David Larlet"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T11:01:16.000Z",
+        "hoursSincePosted": 0.77
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:3n2ontx7zq73sosiovo6m72t/app.bsky.feed.post/3mldldvidwuf2",
+          "cid": "bafyreifkrky3vgctotafq7hiu5qe7xkj43xgedhsq5eya7k6m5le7wrlvu",
+          "bskyUrl": "https://bsky.app/profile/david.larlet.fr.ap.brid.gy/post/3mldldvidwuf2",
+          "text": "https://github.com/soxoj/maigret fonctionne un peu trop bien mais ça permet ensuite de faire le ménage plus facilement 🤷 ``` brew install cairo pkg-config uv run --with maigret maigret <username> ``` Le meilleur moment c'était il y a 10… bon OK pas à chaque semaine 🤐",
+          "author": {
+            "handle": "david.larlet.fr.ap.brid.gy",
+            "displayName": "David Larlet"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T11:01:16.000Z",
+          "createdUtc": 1778238076,
+          "ageHours": 0.77,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-code-block",
+            "has-cli"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "soxoj/maigret",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "openai--openai-agents-python": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mldeyropl32g",
+        "cid": "bafyreiehrtpnhh2ujm2fbakhrofsgb6iv7pfl3qt2nughlkfykbgz4q2ju",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mldeyropl32g",
+        "text": "🟠 OpenAI Agents Python v0.17.0 switches RealtimeAgent defaults to gpt-realtime-2 and tightens sandbox file boundaries OpenAI shipped openai-agents-python v0.17.0 with two workflow-relevant changes: RealtimeAgent... https://github.com/openai/openai-agents-python/releases/tag/v0.17.0 #AI #AgentWyre",
+        "author": {
+          "handle": "agentwyre.ai"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T09:08:27.861074+00:00",
+        "hoursSincePosted": 2.65
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mldeyropl32g",
+          "cid": "bafyreiehrtpnhh2ujm2fbakhrofsgb6iv7pfl3qt2nughlkfykbgz4q2ju",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mldeyropl32g",
+          "text": "🟠 OpenAI Agents Python v0.17.0 switches RealtimeAgent defaults to gpt-realtime-2 and tightens sandbox file boundaries OpenAI shipped openai-agents-python v0.17.0 with two workflow-relevant changes: RealtimeAgent... https://github.com/openai/openai-agents-python/releases/tag/v0.17.0 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T09:08:27.861074+00:00",
+          "createdUtc": 1778231307,
+          "ageHours": 2.65,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent",
+            "is-announcement"
+          ],
+          "value_score": 3,
+          "linkedRepos": [
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "V4bel/dirtyfrag",
-      "count7d": 17,
-      "likesSum7d": 14
-    },
-    {
-      "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
-      "count7d": 6,
+      "count7d": 7,
       "likesSum7d": 2
     },
     {
-      "fullName": "cjpais/Handy",
-      "count7d": 1,
-      "likesSum7d": 2
-    },
-    {
-      "fullName": "chenhg5/cc-connect",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "JuliusBrussee/caveman",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "p-e-w/heretic",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "D4Vinci/Scrapling",
+      "fullName": "openai/openai-agents-python",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "forrestchang/andrej-karpathy-skills",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "garrytan/gbrain",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "garrytan/gstack",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "k2-fsa/OmniVoice",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "max-sixty/worktrunk",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "msitarzewski/agency-agents",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "nikopueringer/CorridorKey",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "VectifyAI/PageIndex",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "withastro/flue",
+      "fullName": "soxoj/maigret",
       "count7d": 1,
       "likesSum7d": 0
     }

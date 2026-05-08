@@ -242,3 +242,23 @@
   0%   { transform: scale(1.18); filter: brightness(1.6); }
   100% { transform: scale(1);    filter: brightness(1); }
 }
+
+/* ---- compact density (user toggle, persisted as sidebar.compact=1) ----- */
+/* Reduces vertical density across rows + group spacing without changing
+   width or hiding any content. Triggered by `.sidebar.compact` on the
+   outer <aside>. */
+.sidebar.compact .sb-group{
+  padding: 6px 0 2px;
+}
+.sidebar.compact .sb-group + .sb-group{
+  margin-top: 3px;
+  padding-top: 7px;
+}
+.sidebar.compact .sb-grp-label{
+  padding-bottom: 4px;
+  font-size: 8px;
+}
+.sidebar.compact .sb-nav{
+  padding-top: 4px;
+  padding-bottom: 4px;
+}

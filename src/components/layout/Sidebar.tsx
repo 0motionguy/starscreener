@@ -278,6 +278,8 @@ export function useWatchlistPreview(
 // Sidebar root
 // ---------------------------------------------------------------------------
 
+const COMPACT_STORAGE_KEY = "sidebar.compact";
+
 export function Sidebar({
   initialData,
 }: {
@@ -287,12 +289,42 @@ export function Sidebar({
   const watchlistPreview = useWatchlistPreview(data?.reposById);
   const watchCount = useWatchlistStore((s) => s.repos.length);
 
+  // Compact mode — user-toggled vertical density preference. Persisted in
+  // localStorage. Hydration-gated to avoid SSR mismatch: the server always
+  // renders at default density; the client flips to the persisted value
+  // after mount.
+  const [compact, setCompact] = useState(false);
+  useEffect(() => {
+    try {
+      if (window.localStorage.getItem(COMPACT_STORAGE_KEY) === "1") {
+        setCompact(true);
+      }
+    } catch {
+      // localStorage may be unavailable (private browsing, quota); default
+      // off is the right behaviour.
+    }
+  }, []);
+  const toggleCompact = () => {
+    setCompact((prev) => {
+      const next = !prev;
+      try {
+        window.localStorage.setItem(COMPACT_STORAGE_KEY, next ? "1" : "0");
+      } catch {
+        // see above
+      }
+      return next;
+    });
+  };
+
   // Width is driven by the parent `.app-shell` grid column (280px full /
   // 56px focused). We render the same chrome at both widths and let the
   // outer aside clip overflow when the column is narrow.
   return (
     <aside
-      className="sidebar hidden w-full overflow-hidden md:flex md:flex-col"
+      className={cn(
+        "sidebar hidden w-full overflow-hidden md:flex md:flex-col",
+        compact && "compact",
+      )}
     >
       <SidebarProfileBox
         watchCount={watchCount}
@@ -308,6 +340,8 @@ export function Sidebar({
           unreadAlerts={data.unreadAlerts}
           sourceCounts={data.sourceCounts}
           trendingReposCount={data.trendingReposCount}
+          compact={compact}
+          onToggleCompact={toggleCompact}
         />
       ) : (
         <SidebarSkeleton />

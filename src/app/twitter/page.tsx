@@ -23,7 +23,6 @@ import {
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
-import { LiveDot } from "@/components/ui/LiveDot";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { MarkVisited } from "@/components/layout/MarkVisited";
 import { TwitterTabSwitcher } from "./TwitterTabSwitcher";
@@ -31,7 +30,13 @@ import { InventoryBand } from "@/components/ui/InventoryBand";
 import { buildTwitterInventoryStats } from "@/components/ui/inventory-stats";
 
 const X_BLUE = "var(--v4-src-x)";
-const TABLE_LIMIT = 50;
+// Lifted 2026-05-08 from 50 → 200 per operator feedback ("show as much as
+// we have"). 200 rows × ~600 byte DOM ≈ 120 KB rendered with content-
+// visibility on the row <li>; well under the budget that would warrant a
+// real virtualization library. The adaptive fresh→stale top-up in
+// src/lib/twitter/service.ts:910 keeps the surface populated when fresh-
+// window signals fall below the cap.
+const TABLE_LIMIT = 200;
 
 export const revalidate = 300;
 export const dynamic = "force-static";
@@ -324,7 +329,11 @@ export default async function TwitterPage() {
             <>
               <span className="big">{formatClock(stats.lastScannedAt)}</span>
               <span className="muted">UTC · SCRAPED</span>
-              <LiveDot label="FEED LIVE" />
+              {/* Honest freshness chrome: badge driven by lastScannedAt age
+                  via classifyFreshness(). The hardcoded `<LiveDot label="FEED
+                  LIVE" />` here was a brand-killer when stats.lastScannedAt
+                  was hours stale — green dot saying "LIVE" over delayed data
+                  is worse than admitting the delay. */}
               <FreshnessBadge
                 source="twitter"
                 lastUpdatedAt={stats.lastScannedAt ?? null}
@@ -380,7 +389,10 @@ export default async function TwitterPage() {
           <>
             <span className="big">{formatClock(stats.lastScannedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="FEED LIVE" />
+            {/* Honest freshness chrome — same rationale as the cold-state
+                branch above. FreshnessBadge encodes age via classifyFreshness;
+                the previous LiveDot was a hardcoded green pulse regardless
+                of how stale lastScannedAt actually was. */}
             <FreshnessBadge
               source="twitter"
               lastUpdatedAt={stats.lastScannedAt ?? null}

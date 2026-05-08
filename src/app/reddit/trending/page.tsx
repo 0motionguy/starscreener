@@ -23,7 +23,7 @@ import {
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
-import { LiveDot } from "@/components/ui/LiveDot";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { InventoryBand } from "@/components/ui/InventoryBand";
 import { buildRedditInventoryStats } from "@/components/ui/inventory-stats";
@@ -189,7 +189,15 @@ export default async function RedditTrendingPage() {
           <>
             <span className="big">{formatClock(allPostsFetchedAt ?? undefined)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="FRESH · 1H" />
+            {/* Honest freshness chrome (2026-05-08): badge color driven by
+                allPostsFetchedAt age via classifyFreshness(). The previous
+                hardcoded `FRESH · 1H` was a lie when the collector was 28h
+                behind — green dot over stale data is brand-killing for a
+                product literally named TrendingRepo. */}
+            <FreshnessBadge
+              source="reddit"
+              lastUpdatedAt={allPostsFetchedAt ?? null}
+            />
           </>
         }
         snapshot={

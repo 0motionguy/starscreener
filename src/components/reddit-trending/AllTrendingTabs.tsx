@@ -11,7 +11,7 @@
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import { Flame, TrendingUp, Users } from "lucide-react";
@@ -223,12 +223,19 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
       effectiveShowAll,
     );
     switch (activeTab) {
-      case "trending-now":
-        return sortTrendingNow(filterByWindow(chipFiltered, 24, nowMs)).slice(0, 50);
+      case "trending-now": {
+        // Progressive window: when the 24h slice is thin (collector behind,
+        // dataset is older than the cutoff) fall through to 7d so the tab
+        // never strands the user on an empty view. Mirrors the fresh→stale
+        // top-up pattern in src/lib/twitter/service.ts:910.
+        let pool = filterByWindow(chipFiltered, 24, nowMs);
+        if (pool.length < 20) pool = filterByWindow(chipFiltered, 168, nowMs);
+        return sortTrendingNow(pool).slice(0, 200);
+      }
       case "hot-7d":
-        return sortHot7d(filterByWindow(chipFiltered, 168, nowMs)).slice(0, 50);
+        return sortHot7d(filterByWindow(chipFiltered, 168, nowMs)).slice(0, 200);
       case "hot-30d":
-        return sortHot7d(filterByWindow(chipFiltered, 30 * 24, nowMs)).slice(0, 50);
+        return sortHot7d(filterByWindow(chipFiltered, 30 * 24, nowMs)).slice(0, 200);
       case "by-subreddit":
         return filterByWindow(chipFiltered, 168, nowMs);
     }
@@ -282,6 +289,27 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
       "by-subreddit": filterByWindow(chipFiltered, 168, nowMs).length,
     };
   }, [topicFiltered, activeChips, effectiveShowAll, nowMs]);
+
+  // Auto-redirect when the active tab is empty AND another tab has data.
+  // Brutal but kind: never strand the user on an empty surface when
+  // /reddit/trending has 3,774+ rows distributed across the 7d/30d windows.
+  // EmptyWindow already computes the suggestion below; this just makes
+  // following the suggestion automatic. router.replace (not push) so the
+  // back button doesn't ping-pong between empty + suggestion.
+  const emptyAutoRedirectTarget = useMemo(() => {
+    if (filtered.length > 0) return null;
+    const next = TAB_IDS.find((t) => t !== activeTab && tabCounts[t] > 0);
+    if (!next) return null;
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", next);
+    return `${pathname}?${params.toString()}`;
+  }, [filtered.length, activeTab, tabCounts, pathname, searchParams]);
+
+  useEffect(() => {
+    if (emptyAutoRedirectTarget) {
+      router.replace(emptyAutoRedirectTarget, { scroll: false });
+    }
+  }, [emptyAutoRedirectTarget, router]);
 
   return (
     <section>

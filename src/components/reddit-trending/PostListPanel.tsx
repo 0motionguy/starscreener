@@ -60,6 +60,14 @@ function PostRow({ post: p, velocityP90, velocityStats, onSubClick }: PostRowPro
       transition={
         reduceMotion ? { duration: 0 } : { duration: 0.15, ease: "easeOut" }
       }
+      // Cheap virtualization (2026-05-08): off-screen rows skip layout/paint
+      // via content-visibility. ~80% of the perf win of react-window with
+      // zero deps and full SSR compatibility. contain-intrinsic-size reserves
+      // 160px so the scrollbar geometry stays correct before rows hydrate.
+      style={{
+        contentVisibility: "auto",
+        containIntrinsicSize: "0 160px",
+      }}
       className={cn(
         "group relative block border border-border-primary rounded-xl bg-bg-card shadow-card p-4 sm:p-5",
         "transition-[border-color,box-shadow,background-color] duration-200",

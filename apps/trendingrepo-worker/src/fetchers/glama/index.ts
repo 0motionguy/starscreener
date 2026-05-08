@@ -18,12 +18,7 @@ const fetcher: Fetcher = {
       ctx,
       fetcherName: 'glama',
       startedAt,
-      fetch: () =>
-        fetchAllGlama(ctx.http, ctx.log, env.GLAMA_API_KEY, {
-          maxPages: positiveInt(env.GLAMA_MAX_PAGES),
-          pageLimit: positiveInt(env.GLAMA_PAGE_LIMIT),
-          budgetMs: positiveInt(env.GLAMA_BUDGET_MS),
-        }),
+      fetch: () => fetchAllGlama(ctx.http, ctx.log, env.GLAMA_API_KEY),
     });
   },
 };
@@ -41,10 +36,4 @@ function empty(name: string, startedAt: string): RunResult {
     redisPublished: false,
     errors: [],
   };
-}
-
-function positiveInt(raw: string | undefined): number | undefined {
-  if (!raw) return undefined;
-  const parsed = Number.parseInt(raw, 10);
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
 }

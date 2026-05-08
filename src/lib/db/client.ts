@@ -41,6 +41,10 @@ function buildPooled(): DbInstance {
     );
   }
   const sql = postgres(url, {
+    // Supabase pooler enforces SSL; postgres-js doesn't infer it from the
+    // URL when sslmode= isn't present. Without this, every query throws
+    // `(ESSLREQUIRED) SSL connection is required for user: postgres`.
+    ssl: "require",
     // Supavisor transaction mode forbids prepared statements (each
     // statement may land on a different backend). Keep the warning quiet
     // and rely on Drizzle's parameter binding for safety.
@@ -64,6 +68,7 @@ function buildDirect(): DbInstance {
     );
   }
   const sql = postgres(url, {
+    ssl: "require",
     prepare: true, // unpooled = real session, prepared statements work
     max: 1,
     idle_timeout: 5,

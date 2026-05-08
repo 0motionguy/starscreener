@@ -27,6 +27,8 @@ import { LiveDot } from "@/components/ui/LiveDot";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { MarkVisited } from "@/components/layout/MarkVisited";
 import { TwitterTabSwitcher } from "./TwitterTabSwitcher";
+import { InventoryBand } from "@/components/ui/InventoryBand";
+import { buildTwitterInventoryStats } from "@/components/ui/inventory-stats";
 
 const X_BLUE = "var(--v4-src-x)";
 const TABLE_LIMIT = 50;
@@ -348,9 +350,24 @@ export default async function TwitterPage() {
     }
   }
 
+  // Visible data inventory — closes the "23 of 6,000" confusion gap.
+  // freshNow = currently-rendered rows (post 24h-freshness filter);
+  // staleCount = repos with prior signals that aged out of the window;
+  // reposEverSeen = lifetime distinct repos with any twitter signal.
+  const freshNow = rows.length;
+  const reposEverSeen = stats.reposWithMentions;
+  const staleCount = Math.max(0, reposEverSeen - freshNow);
+  const inventoryStats = buildTwitterInventoryStats({
+    totalMentions24h: trackedTweets,
+    reposEverSeen,
+    freshNow,
+    staleCount,
+  });
+
   return (
     <main className="home-surface">
       <MarkVisited routeKey="twitter" count={stats.reposWithMentions} />
+      <InventoryBand source="twitter" stats={inventoryStats} className="mx-auto max-w-[1200px] mt-4" />
       <SourceFeedTemplate
         crumb={
           <>

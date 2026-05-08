@@ -24,6 +24,9 @@ import {
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { InventoryBand } from "@/components/ui/InventoryBand";
+import { buildRedditInventoryStats } from "@/components/ui/inventory-stats";
 import { RedditIcon } from "@/components/brand/BrandIcons";
 
 export const revalidate = 300;
@@ -119,6 +122,10 @@ export default async function RedditTrendingPage() {
   }
 
   if (allPostsCold) {
+    // Pick the most useful variant: if we know when the last successful scrape
+    // landed, treat it as a collector outage; otherwise it's a "no data yet"
+    // first-scan state.
+    const variant = allPostsFetchedAt ? "source-down" : "no-data";
     return (
       <main className="home-surface">
         <SourceFeedTemplate
@@ -131,7 +138,17 @@ export default async function RedditTrendingPage() {
           logo={<RedditIcon size={32} />}
           lede="7-day rolling firehose across the tracked subreddits, scored by velocity-weighted upvotes and cross-linked to GitHub repos."
         />
-        <ColdState />
+        <EmptyState
+          variant={variant}
+          source="reddit"
+          lastSuccessAt={allPostsFetchedAt ?? undefined}
+          hint={
+            <>
+              Run <code>npm run scrape:reddit</code> from local to backfill{" "}
+              <code>data/reddit-all-posts.json</code>, then refresh.
+            </>
+          }
+        />
       </main>
     );
   }
@@ -139,8 +156,23 @@ export default async function RedditTrendingPage() {
   const topScore = posts.reduce((m, p) => Math.max(m, p.score ?? 0), 0);
   const subredditCount = new Set(posts.map((p) => p.subreddit).filter(Boolean)).size;
 
+  // Visible data inventory — shows the engagement vs zero-engagement breakdown
+  // explicitly so /reddit/trending operators see why some posts are hidden
+  // (RSS fallback returns score=0 / numComments=0 until OAuth lands).
+  const postsWithEngagement = posts.filter(
+    (p) => (p.score ?? 0) > 0 || (p.numComments ?? 0) > 0,
+  ).length;
+  const postsZeroEngagement = Math.max(0, stats.totalPosts - postsWithEngagement);
+  const redditInventoryStats = buildRedditInventoryStats({
+    postsCollected: stats.totalPosts,
+    subredditsScanned: subredditCount,
+    postsWithEngagement,
+    postsZeroEngagement,
+  });
+
   return (
     <main className="home-surface">
+      <InventoryBand source="reddit" stats={redditInventoryStats} className="mx-auto max-w-[1200px] mt-4" />
       <SourceFeedTemplate
         crumb={
           <>
@@ -214,38 +246,5 @@ function FeedSkeleton() {
     >
       Loading feed...
     </div>
-  );
-}
-
-function ColdState() {
-  return (
-    <section
-      style={{
-        padding: 32,
-        background: "var(--v4-bg-025)",
-        border: "1px dashed var(--v4-line-100)",
-        borderRadius: 2,
-      }}
-    >
-      <h2
-        className="v2-mono"
-        style={{
-          color: "var(--v4-src-reddit)",
-          fontSize: 18,
-          fontWeight: 700,
-          textTransform: "uppercase",
-          letterSpacing: "0.18em",
-        }}
-      >
-        {"// no data yet"}
-      </h2>
-      <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
-        The Reddit scraper has not run yet. Run{" "}
-        <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:reddit</code>{" "}
-        locally to populate{" "}
-        <code style={{ color: "var(--v4-ink-100)" }}>data/reddit-all-posts.json</code>,
-        then refresh this page.
-      </p>
-    </section>
   );
 }

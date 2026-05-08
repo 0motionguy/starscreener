@@ -87,13 +87,47 @@ jobs:
           TWITTER_COLLECTOR_RUN_ID: "gh-actions-${{ github.run_id }}-${{ github.run_attempt }}"
         run: npm run collect:twitter
 
+      # Third-tier fallback: when Apify is dead AND Nitter fails (instances
+      # 503ing or returning empty), retry with the cookies-backed web provider
+      # (`TwitterWebProvider` at scripts/collect-twitter-signals.ts:821). Only
+      # fires if the operator has populated TWITTER_FALLBACK_COOKIES — empty
+      # secret short-circuits via `env != ''` so we don't waste a run trying
+      # to log in with no creds. Wired 2026-05-08 per forensic audit:
+      # Nitter has been default since 2026-05-08 and we need a recovery path
+      # for Nitter outages without manual intervention.
+      - name: Web-provider fallback (cookies-gated)
+        id: web_fallback
+        if: failure() && env.TWITTER_FALLBACK_COOKIES != ''
+        env:
+          TWITTER_COLLECTOR_PROVIDER: web
+          TWITTER_COLLECTOR_MODE: ${{ github.event.inputs.mode || 'direct' }}
+          TWITTER_COLLECTOR_LIMIT: ${{ github.event.inputs.limit || '25' }}
+          TWITTER_COLLECTOR_QUERIES_PER_REPO: ${{ vars.TWITTER_COLLECTOR_QUERIES_PER_REPO || '4' }}
+          TWITTER_COLLECTOR_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          TWITTER_COLLECTOR_REPOS: ${{ github.event.inputs.repos || '' }}
+          TWITTER_COLLECTOR_BASE_URL: ${{ vars.TRENDINGREPO_URL || vars.STARSCREENER_URL || 'https://trendingrepo.com' }}
+          INTERNAL_AGENT_TOKEN: ${{ secrets.INTERNAL_AGENT_TOKEN }}
+          TWITTER_FALLBACK_COOKIES: ${{ secrets.TWITTER_FALLBACK_COOKIES }}
+          TWITTER_WEB_ACCOUNTS_JSON: ${{ secrets.TWITTER_WEB_ACCOUNTS_JSON }}
+          TWITTER_GRAPHQL_SEARCH_QUERY_ID: ${{ vars.TWITTER_GRAPHQL_SEARCH_QUERY_ID }}
+          TWITTER_COLLECTOR_RUN_ID: "gh-actions-${{ github.run_id }}-${{ github.run_attempt }}-webfb"
+        run: npm run collect:twitter -- --provider web
+
       - name: Compute commit timestamp
-        if: github.event.inputs.dry_run != 'true'
+        # Run commit pipeline if either the primary collector succeeded OR
+        # the web-provider fallback succeeded. `always() && !cancelled()` lets
+        # us evaluate after a failed primary step; the success-OR-fallback
+        # check ensures we only commit when one of the two produced data.
+        if: |
+          always() && !cancelled() && github.event.inputs.dry_run != 'true' &&
+          (success() || steps.web_fallback.outcome == 'success')
         id: ts
         run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
 
       - name: Commit updated twitter signals
-        if: github.event.inputs.dry_run != 'true'
+        if: |
+          always() && !cancelled() && github.event.inputs.dry_run != 'true' &&
+          (success() || steps.web_fallback.outcome == 'success')
         env:
           HUSKY: "0"
         uses: ./.github/actions/git-commit-data
@@ -105,6 +139,48 @@ jobs:
             .data/twitter-scans.jsonl
             .data/twitter-ingestion-audit.jsonl
             data/unknown-mentions.jsonl
+
+      - name: Twitter signal-count health monitor
+        if: always()
+        run: |
+          SIGNAL_FILE=".data/twitter-repo-signals.jsonl"
+          CHECKPOINT_FILE="data/.twitter-signal-count"
+
+          if [ ! -f "$SIGNAL_FILE" ]; then
+            echo "::warning::$SIGNAL_FILE not found — skipping monitor"
+            exit 0
+          fi
+
+          CURRENT=$(wc -l < "$SIGNAL_FILE" | tr -d ' ')
+          PREVIOUS=0
+          if [ -f "$CHECKPOINT_FILE" ]; then
+            PREVIOUS=$(cat "$CHECKPOINT_FILE" | tr -d '[:space:]')
+          fi
+
+          echo "Twitter signal count: $CURRENT (was $PREVIOUS)"
+
+          if [ "$PREVIOUS" -gt 0 ]; then
+            THRESHOLD=$(( PREVIOUS * 90 / 100 ))
+            if [ "$CURRENT" -lt "$THRESHOLD" ]; then
+              echo "::error::Signal count dropped from $PREVIOUS to $CURRENT (>10% drop). Apify or Nitter likely failing."
+              exit 2
+            fi
+          fi
+
+          # Update checkpoint for next run (if current count is reasonable)
+          if [ "$CURRENT" -gt 0 ]; then
+            echo "$CURRENT" > "$CHECKPOINT_FILE"
+          fi
+
+      - name: Commit health checkpoint
+        if: success()
+        run: |
+          if [ -n "$(git status --porcelain data/.twitter-signal-count)" ]; then
+            git add data/.twitter-signal-count
+            git -c user.name="github-actions[bot]" -c user.email="github-actions[bot]@users.noreply.github.com" \
+              commit -m "ci(twitter): update signal-count checkpoint"
+            git push
+          fi
 
       - name: Upload collector output
         if: failure()

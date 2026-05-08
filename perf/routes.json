@@ -186,14 +186,24 @@
       "warmupOnDeploy": true
     },
     {
-      "route": "/repo/0motionguy/starscreener",
+      "route": "/repo/vercel/next.js",
       "policy": "isr",
       "revalidateSeconds": 300,
       "transferBudgetKb": 130,
       "firstLoadJsBudgetKb": 650,
       "warmupOnDeploy": true,
       "owner": "repo-detail-canary",
-      "_note": "canary probe for /repo/[owner]/[name] dynamic segment; one entry per template, not per slug"
+      "_note": "tracked-repo canary for /repo/[owner]/[name] dynamic segment"
+    },
+    {
+      "route": "/repo/sindresorhus/ky",
+      "policy": "isr",
+      "revalidateSeconds": 300,
+      "transferBudgetKb": 130,
+      "firstLoadJsBudgetKb": 650,
+      "warmupOnDeploy": false,
+      "owner": "repo-detail-live-fallback",
+      "_note": "existing GitHub repo outside the persisted derived set; guards the live cold-miss fallback"
     },
     {
       "route": "/api/health?soft=1",

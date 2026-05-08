@@ -9,6 +9,39 @@ Practical reference for editing public pages without regressing cache behavior, 
 - A public page is **never** allowed to return `private, no-store` unless its config entry has `expectsDynamic: true` with a `reason`.
 - Freshness gates (`npm run freshness:check`) take precedence over cache wins. If a perf change risks degrading source freshness, surface it; do not ship.
 
+## Morning warm-up flow
+
+Run on your laptop when you start the day, then 1-3× more during the workday.
+
+```bash
+npm run collect:all          # one-shot: reddit + hn + bsky + devto + lobsters + ph + twitter
+# or per-source:
+npm run scrape:reddit
+npm run scrape:hn
+npm run scrape:bsky
+npm run collect:twitter
+```
+
+Each scrape:
+
+1. Fetches fresh signals from the upstream source
+2. Writes to `data/<source>*.json` (and `.data/*.jsonl` append-only)
+3. (If Redis env set) writes to the data store
+
+Apify is **catch-up only** — it fills gaps the primary paths miss, not the daily refresh dependency. Nitter is the active Twitter provider as of 2026-05-08.
+
+After local runs, `git add data/<files> .data/<files> && git commit -m "data: morning warm-up YYYY-MM-DD" && git push` to land them in production. (`collect:all --push` does this in one shot.)
+
+### Debug a single source
+
+When a surface comes back empty (`/reddit/trending` shows "0 0", `/twitter` is empty), run the collector locally with extra logging before re-checking the workflow:
+
+```bash
+npm run scrape:reddit:verbose   # REDDIT_VERBOSE=1 — prints OAuth state, per-sub fetch counts, prune reasons
+```
+
+If the collector returns posts locally but the workflow shows zeros, the failure is in the GitHub Actions environment (missing secrets, runner IP banned, etc.) — check the workflow run log for the `Reddit zero-data health check` step (added 2026-05-08), which fails loud with `posts:[]` instead of letting an empty file slip past the green check.
+
 ## Quick perf check
 
 ```bash

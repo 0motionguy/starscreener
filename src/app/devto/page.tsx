@@ -33,6 +33,7 @@ import { userLogoUrl } from "@/lib/logos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
 import { LiveDot } from "@/components/ui/LiveDot";
+import { EmptyState } from "@/components/ui/EmptyState";
 
 const DEVTO_BLUE = "#6699ff";
 
@@ -102,7 +103,18 @@ export default async function DevtoPage() {
           title="dev.to · top articles"
           lede="Long-form developer writing ranked by velocity score (reactions × time decay), with a sidebar leaderboard of cross-linked tracked repos."
         />
-        <ColdState />
+        <EmptyState
+          variant="no-data"
+          source="devto"
+          lastSuccessAt={trendingFile.fetchedAt}
+          hint={
+            <>
+              Run <code>npm run scrape:devto</code> from local to populate{" "}
+              <code>data/devto-mentions.json</code> and{" "}
+              <code>data/devto-trending.json</code>.
+            </>
+          }
+        />
       </main>
     );
   }
@@ -527,41 +539,6 @@ function Leaderboard({
         })}
       </ul>
     </div>
-  );
-}
-
-function ColdState() {
-  return (
-    <section
-      style={{
-        padding: 32,
-        background: "var(--v4-bg-025)",
-        border: "1px dashed var(--v4-line-100)",
-        borderRadius: 2,
-      }}
-    >
-      <h2
-        className="v2-mono"
-        style={{
-          color: DEVTO_BLUE,
-          fontSize: 18,
-          fontWeight: 700,
-          textTransform: "uppercase",
-          letterSpacing: "0.18em",
-        }}
-      >
-        {"// no dev.to data yet"}
-      </h2>
-      <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
-        The dev.to scraper hasn&apos;t produced data yet. Run{" "}
-        <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:devto</code>{" "}
-        locally to populate{" "}
-        <code style={{ color: "var(--v4-ink-100)" }}>data/devto-mentions.json</code>{" "}
-        and{" "}
-        <code style={{ color: "var(--v4-ink-100)" }}>data/devto-trending.json</code>,
-        then refresh this page.
-      </p>
-    </section>
   );
 }
 

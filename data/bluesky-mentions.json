@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-09T15:15:19.341Z",
+  "fetchedAt": "2026-05-09T16:11:32.513Z",
   "windowDays": 7,
   "scannedPosts": 99,
   "searchQuery": "github.com",
@@ -5068,24 +5068,24 @@
       ]
     },
     "obra/superpowers": {
-      "count7d": 2,
-      "likesSum7d": 7,
+      "count7d": 1,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 2,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:zkdjneg7kggym7ujme65drbh/app.bsky.feed.post/3mlgfp5q7wk2e",
-        "cid": "bafyreifhxstfee5msdwo6i6e257uamcu3rxs3qyq2mrloti3pcqwvs2lpm",
-        "bskyUrl": "https://bsky.app/profile/blank.org/post/3mlgfp5q7wk2e",
-        "text": "If you haven’t already, you should take a look at github.com/obra/superpo...",
+        "uri": "at://did:plc:q5bte2vz2qva5cyg2hhzfsbd/app.bsky.feed.post/3mlggw6ltuk2n",
+        "cid": "bafyreiget4nfqsgswk6dqj6jwpzdgdupx6jsb5ygja6lvbb5qlonufebim",
+        "bskyUrl": "https://bsky.app/profile/arthur.clune.org/post/3mlggw6ltuk2n",
+        "text": "There's entire frameworks for this now (github.com/obra/superpo...) and they work well. And the Mythos security stuff isn't better fuzzing - see hacks.mozilla.org/2026/05/behi... It finding bug chains, which fuzzing tools can't",
         "author": {
-          "handle": "blank.org",
-          "displayName": "Doctor Memory"
+          "handle": "arthur.clune.org",
+          "displayName": "Arthur Clune"
         },
-        "likeCount": 6,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-09T13:58:58.650Z",
-        "hoursSincePosted": 1.27
+        "createdAt": "2026-05-09T14:20:48.179Z",
+        "hoursSincePosted": 1.85
       },
       "posts": [
         {
@@ -5130,7 +5130,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-09T14:20:48.179Z",
           "createdUtc": 1778336448,
-          "ageHours": 0.91,
+          "ageHours": 1.85,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -5242,6 +5242,108 @@
           "linkedRepos": [
             {
               "fullName": "vercel-labs/agent-browser",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "lightningpixel/modly": {
+      "count7d": 1,
+      "likesSum7d": 3,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlgkaigogi2z",
+        "cid": "bafyreierknayr3yhnymvfiezv5t64u5m2qgcf6ajyw7wmssjcxtikg23e4",
+        "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlgkaigogi2z",
+        "text": "Turn ANY photo into a 3D model 100% offline Awesome tool https://github.com/lightningpixel/modly #opensource #threed #threejs #local #selfhosted #3d",
+        "author": {
+          "handle": "adityamitra.bsky.social",
+          "displayName": "Aditya Mitra"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T15:20:14.791Z",
+        "hoursSincePosted": 0.86
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlgkaigogi2z",
+          "cid": "bafyreierknayr3yhnymvfiezv5t64u5m2qgcf6ajyw7wmssjcxtikg23e4",
+          "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlgkaigogi2z",
+          "text": "Turn ANY photo into a 3D model 100% offline Awesome tool https://github.com/lightningpixel/modly #opensource #threed #threejs #local #selfhosted #3d",
+          "author": {
+            "handle": "adityamitra.bsky.social",
+            "displayName": "Aditya Mitra"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T15:20:14.791Z",
+          "createdUtc": 1778340014,
+          "ageHours": 0.86,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "lightningpixel/modly",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "MemoriLabs/Memori": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlgk6fgudn2o",
+        "cid": "bafyreiclttthd3553cpu63k3ncaomlgdgn3463rywctc34r45cofepojyq",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlgk6fgudn2o",
+        "text": "https://github.com/MemoriLabs/Memori",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T15:19:04Z",
+        "hoursSincePosted": 0.87
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlgk6fgudn2o",
+          "cid": "bafyreiclttthd3553cpu63k3ncaomlgdgn3463rywctc34r45cofepojyq",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlgk6fgudn2o",
+          "text": "https://github.com/MemoriLabs/Memori",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T15:19:04Z",
+          "createdUtc": 1778339944,
+          "ageHours": 0.87,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "MemoriLabs/Memori",
               "matchType": "url",
               "confidence": 1
             }
@@ -10314,24 +10416,24 @@
       ]
     },
     "obra--superpowers": {
-      "count7d": 2,
-      "likesSum7d": 7,
+      "count7d": 1,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 2,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:zkdjneg7kggym7ujme65drbh/app.bsky.feed.post/3mlgfp5q7wk2e",
-        "cid": "bafyreifhxstfee5msdwo6i6e257uamcu3rxs3qyq2mrloti3pcqwvs2lpm",
-        "bskyUrl": "https://bsky.app/profile/blank.org/post/3mlgfp5q7wk2e",
-        "text": "If you haven’t already, you should take a look at github.com/obra/superpo...",
+        "uri": "at://did:plc:q5bte2vz2qva5cyg2hhzfsbd/app.bsky.feed.post/3mlggw6ltuk2n",
+        "cid": "bafyreiget4nfqsgswk6dqj6jwpzdgdupx6jsb5ygja6lvbb5qlonufebim",
+        "bskyUrl": "https://bsky.app/profile/arthur.clune.org/post/3mlggw6ltuk2n",
+        "text": "There's entire frameworks for this now (github.com/obra/superpo...) and they work well. And the Mythos security stuff isn't better fuzzing - see hacks.mozilla.org/2026/05/behi... It finding bug chains, which fuzzing tools can't",
         "author": {
-          "handle": "blank.org",
-          "displayName": "Doctor Memory"
+          "handle": "arthur.clune.org",
+          "displayName": "Arthur Clune"
         },
-        "likeCount": 6,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-09T13:58:58.650Z",
-        "hoursSincePosted": 1.27
+        "createdAt": "2026-05-09T14:20:48.179Z",
+        "hoursSincePosted": 1.85
       },
       "posts": [
         {
@@ -10376,7 +10478,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-09T14:20:48.179Z",
           "createdUtc": 1778336448,
-          "ageHours": 0.91,
+          "ageHours": 1.85,
           "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
@@ -10494,28 +10596,125 @@
           ]
         }
       ]
+    },
+    "lightningpixel--modly": {
+      "count7d": 1,
+      "likesSum7d": 3,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlgkaigogi2z",
+        "cid": "bafyreierknayr3yhnymvfiezv5t64u5m2qgcf6ajyw7wmssjcxtikg23e4",
+        "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlgkaigogi2z",
+        "text": "Turn ANY photo into a 3D model 100% offline Awesome tool https://github.com/lightningpixel/modly #opensource #threed #threejs #local #selfhosted #3d",
+        "author": {
+          "handle": "adityamitra.bsky.social",
+          "displayName": "Aditya Mitra"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T15:20:14.791Z",
+        "hoursSincePosted": 0.86
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlgkaigogi2z",
+          "cid": "bafyreierknayr3yhnymvfiezv5t64u5m2qgcf6ajyw7wmssjcxtikg23e4",
+          "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlgkaigogi2z",
+          "text": "Turn ANY photo into a 3D model 100% offline Awesome tool https://github.com/lightningpixel/modly #opensource #threed #threejs #local #selfhosted #3d",
+          "author": {
+            "handle": "adityamitra.bsky.social",
+            "displayName": "Aditya Mitra"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T15:20:14.791Z",
+          "createdUtc": 1778340014,
+          "ageHours": 0.86,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "lightningpixel/modly",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "memorilabs--memori": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlgk6fgudn2o",
+        "cid": "bafyreiclttthd3553cpu63k3ncaomlgdgn3463rywctc34r45cofepojyq",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlgk6fgudn2o",
+        "text": "https://github.com/MemoriLabs/Memori",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T15:19:04Z",
+        "hoursSincePosted": 0.87
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlgk6fgudn2o",
+          "cid": "bafyreiclttthd3553cpu63k3ncaomlgdgn3463rywctc34r45cofepojyq",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlgk6fgudn2o",
+          "text": "https://github.com/MemoriLabs/Memori",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T15:19:04Z",
+          "createdUtc": 1778339944,
+          "ageHours": 0.87,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "MemoriLabs/Memori",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "obra/superpowers",
-      "count7d": 2,
-      "likesSum7d": 7
-    },
-    {
-      "fullName": "romainsimon/paperasse",
-      "count7d": 1,
-      "likesSum7d": 4
-    },
-    {
-      "fullName": "kepano/obsidian-skills",
+      "fullName": "lightningpixel/modly",
       "count7d": 1,
       "likesSum7d": 3
     },
     {
-      "fullName": "vercel-labs/agent-browser",
+      "fullName": "obra/superpowers",
       "count7d": 1,
-      "likesSum7d": 2
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "MemoriLabs/Memori",
+      "count7d": 1,
+      "likesSum7d": 0
     }
   ]
 }

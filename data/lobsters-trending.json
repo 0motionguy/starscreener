@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-09T04:55:02.381Z",
+  "fetchedAt": "2026-05-09T07:26:30.925Z",
   "windowHours": 72,
-  "scannedTotal": 77,
+  "scannedTotal": 76,
   "stories": [
     {
       "shortId": "znlkib",
@@ -77,6 +77,23 @@
           "confidence": 1
         }
       ]
+    },
+    {
+      "shortId": "auxtwd",
+      "title": "Steering Zig Fmt",
+      "url": "https://matklad.github.io/2026/05/08/steering-zig-fmt.html",
+      "commentsUrl": "https://lobste.rs/s/auxtwd/steering_zig_fmt",
+      "by": "",
+      "score": 11,
+      "commentCount": 2,
+      "createdUtc": 1778304064,
+      "ageHours": 2.0905555555555555,
+      "trendingScore": 1.3295945984479924,
+      "tags": [
+        "zig"
+      ],
+      "description": "<p>I really like the idea of accounting for newline + numbers per line! Any other similar features people have noticed and liked in other language formatters?</p>\n",
+      "linkedRepos": []
     },
     {
       "shortId": "bnfm0h",
@@ -492,6 +509,24 @@
       "linkedRepos": []
     },
     {
+      "shortId": "rrelxd",
+      "title": "I learned something about GPUs today",
+      "url": "https://foon.uk/blackshift-sand-bug/",
+      "commentsUrl": "https://lobste.rs/s/rrelxd/i_learned_something_about_gpus_today",
+      "by": "",
+      "score": 18,
+      "commentCount": 1,
+      "createdUtc": 1778275728,
+      "ageHours": 9.961666666666666,
+      "trendingScore": 0.43509587041186937,
+      "tags": [
+        "debugging",
+        "graphics"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "dpu6ym",
       "title": "Building Transit Tracker",
       "url": "https://blog.horner.tj/building-transit-tracker/",
@@ -596,24 +631,6 @@
       "trendingScore": 0.3886894925764916,
       "tags": [
         "plt"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "rrelxd",
-      "title": "I learned something about GPUs today",
-      "url": "https://foon.uk/blackshift-sand-bug/",
-      "commentsUrl": "https://lobste.rs/s/rrelxd/i_learned_something_about_gpus_today",
-      "by": "",
-      "score": 11,
-      "commentCount": 1,
-      "createdUtc": 1778275728,
-      "ageHours": 7.437222222222222,
-      "trendingScore": 0.3794254104742587,
-      "tags": [
-        "debugging",
-        "graphics"
       ],
       "description": "",
       "linkedRepos": []
@@ -867,36 +884,19 @@
       "linkedRepos": []
     },
     {
-      "shortId": "5swwi0",
-      "title": "The surprisingly complex journey to text-selectable client-side generated PDFs",
-      "url": "https://sdocs.dev/blogs/journey-to-pdf-generation",
-      "commentsUrl": "https://lobste.rs/s/5swwi0/surprisingly_complex_journey_text",
+      "shortId": "thvzt6",
+      "title": "killswitch: per-function short-circuit mitigation primitive",
+      "url": "https://lwn.net/ml/all/20260507070547.2268452-1-sashal@kernel.org/",
+      "commentsUrl": "https://lobste.rs/s/thvzt6/killswitch_per_function_short_circuit",
       "by": "",
       "score": 2,
       "commentCount": 0,
-      "createdUtc": 1778247071,
-      "ageHours": 1.6955555555555555,
-      "trendingScore": 0.2815207381142888,
+      "createdUtc": 1778305575,
+      "ageHours": 1.6708333333333334,
+      "trendingScore": 0.2843694877129512,
       "tags": [
-        "graphics"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "qye4pa",
-      "title": "One Monolith, Many Teams: Growing an Org",
-      "url": "https://www.youtube.com/watch?v=02r5xP2BgNk",
-      "commentsUrl": "https://lobste.rs/s/qye4pa/one_monolith_many_teams_growing_org",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1778188327,
-      "ageHours": 0.34805555555555556,
-      "trendingScore": 0.2779312928867143,
-      "tags": [
-        "elixir",
-        "video"
+        "linux",
+        "security"
       ],
       "description": "",
       "linkedRepos": []

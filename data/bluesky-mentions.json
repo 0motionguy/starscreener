@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-09T12:03:37.226Z",
+  "fetchedAt": "2026-05-09T13:55:00.783Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 199,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 2,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -4718,7 +4718,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-09T11:14:48Z",
-        "hoursSincePosted": 0.81
+        "hoursSincePosted": 2.67
       },
       "posts": [
         {
@@ -4735,7 +4735,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-09T11:14:48Z",
           "createdUtc": 1778325288,
-          "ageHours": 0.81,
+          "ageHours": 2.67,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -4769,7 +4769,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-09T10:44:18Z",
-        "hoursSincePosted": 1.32
+        "hoursSincePosted": 3.18
       },
       "posts": [
         {
@@ -4786,7 +4786,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-09T10:44:18Z",
           "createdUtc": 1778323458,
-          "ageHours": 1.32,
+          "ageHours": 3.18,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -4795,6 +4795,271 @@
           "linkedRepos": [
             {
               "fullName": "HKUDS/Vibe-Trading",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "kepano/obsidian-skills": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:4pklmqyj4mew3wftz7edg4fy/app.bsky.feed.post/3mlgfg75ssk2z",
+        "cid": "bafyreicu6mbislgscbtn2b35qvezy7uucxerwrsxk4eqsoz2gdm4z4paue",
+        "bskyUrl": "https://bsky.app/profile/stephango.com/post/3mlgfg75ssk2z",
+        "text": "I already made a skill for it! It's the Defuddle skill. Defuddle is the library I made for Web Clipper to turn webpages to markdown. github.com/kepano/obsid...",
+        "author": {
+          "handle": "stephango.com",
+          "displayName": "kepano"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T13:53:58.155Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4pklmqyj4mew3wftz7edg4fy/app.bsky.feed.post/3mlgfg75ssk2z",
+          "cid": "bafyreicu6mbislgscbtn2b35qvezy7uucxerwrsxk4eqsoz2gdm4z4paue",
+          "bskyUrl": "https://bsky.app/profile/stephango.com/post/3mlgfg75ssk2z",
+          "text": "I already made a skill for it! It's the Defuddle skill. Defuddle is the library I made for Web Clipper to turn webpages to markdown. github.com/kepano/obsid...",
+          "author": {
+            "handle": "stephango.com",
+            "displayName": "kepano"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T13:53:58.155Z",
+          "createdUtc": 1778334838,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kepano/obsidian-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "googleworkspace/cli": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:e6n7jxtu2qrhwvp3j6ib6sq6/app.bsky.feed.post/3mlgd5cn3us2p",
+        "cid": "bafyreierbte7lglio3c3jik4ily22ktgzfnszcmfaenrpvc6kcuozvpr7y",
+        "bskyUrl": "https://bsky.app/profile/proptermalone.bsky.social/post/3mlgd5cn3us2p",
+        "text": "not Gemini CLI, this thing github.com/googleworksp...",
+        "author": {
+          "handle": "proptermalone.bsky.social",
+          "displayName": "post malone ergo propter malone"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T13:13:12.328Z",
+        "hoursSincePosted": 0.7
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:e6n7jxtu2qrhwvp3j6ib6sq6/app.bsky.feed.post/3mlgd5cn3us2p",
+          "cid": "bafyreierbte7lglio3c3jik4ily22ktgzfnszcmfaenrpvc6kcuozvpr7y",
+          "bskyUrl": "https://bsky.app/profile/proptermalone.bsky.social/post/3mlgd5cn3us2p",
+          "text": "not Gemini CLI, this thing github.com/googleworksp...",
+          "author": {
+            "handle": "proptermalone.bsky.social",
+            "displayName": "post malone ergo propter malone"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T13:13:12.328Z",
+          "createdUtc": 1778332392,
+          "ageHours": 0.7,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "googleworkspace/cli",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tinyhumansai/openhuman": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlgcko56m627",
+        "cid": "bafyreif3eyfu2whwiktp2eebknufdqjhyjhx5qzvkod4lrzq7dvclth2fe",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlgcko56m627",
+        "text": "tinyhumansai / openhuman: Your Personal AI super intelligence. Private, Simple and extremely powerful. ★450 https://github.com/tinyhumansai/openhuman",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T13:02:46.728307Z",
+        "hoursSincePosted": 0.87
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlgcko56m627",
+          "cid": "bafyreif3eyfu2whwiktp2eebknufdqjhyjhx5qzvkod4lrzq7dvclth2fe",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlgcko56m627",
+          "text": "tinyhumansai / openhuman: Your Personal AI super intelligence. Private, Simple and extremely powerful. ★450 https://github.com/tinyhumansai/openhuman",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T13:02:46.728307Z",
+          "createdUtc": 1778331766,
+          "ageHours": 0.87,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "multica-ai/multica": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlgcjim5g52s",
+        "cid": "bafyreiepkhrxx5wi4scmj6tla52hmke2mci3ladopmtwlob2yaj2q2bjei",
+        "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlgcjim5g52s",
+        "text": "🚀 GitHub Intelligence Drop multica (TypeScript • 🟢) ⭐ 26.5K → https://github.com/multica-ai/multica impeccable (JavaScript • 🟢) ⭐ 26.5K → https://github.com/pbakaus/impeccable ⚡ Only signal. Zero noise.",
+        "author": {
+          "handle": "githubfeed.bsky.social",
+          "displayName": "VritraSec • GitHub Feed"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T13:02:07.422158+00:00",
+        "hoursSincePosted": 0.88
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlgcjim5g52s",
+          "cid": "bafyreiepkhrxx5wi4scmj6tla52hmke2mci3ladopmtwlob2yaj2q2bjei",
+          "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlgcjim5g52s",
+          "text": "🚀 GitHub Intelligence Drop multica (TypeScript • 🟢) ⭐ 26.5K → https://github.com/multica-ai/multica impeccable (JavaScript • 🟢) ⭐ 26.5K → https://github.com/pbakaus/impeccable ⚡ Only signal. Zero noise.",
+          "author": {
+            "handle": "githubfeed.bsky.social",
+            "displayName": "VritraSec • GitHub Feed"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T13:02:07.422158+00:00",
+          "createdUtc": 1778331727,
+          "ageHours": 0.88,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "multica-ai/multica",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "pbakaus/impeccable",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "pbakaus/impeccable": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlgcjim5g52s",
+        "cid": "bafyreiepkhrxx5wi4scmj6tla52hmke2mci3ladopmtwlob2yaj2q2bjei",
+        "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlgcjim5g52s",
+        "text": "🚀 GitHub Intelligence Drop multica (TypeScript • 🟢) ⭐ 26.5K → https://github.com/multica-ai/multica impeccable (JavaScript • 🟢) ⭐ 26.5K → https://github.com/pbakaus/impeccable ⚡ Only signal. Zero noise.",
+        "author": {
+          "handle": "githubfeed.bsky.social",
+          "displayName": "VritraSec • GitHub Feed"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T13:02:07.422158+00:00",
+        "hoursSincePosted": 0.88
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlgcjim5g52s",
+          "cid": "bafyreiepkhrxx5wi4scmj6tla52hmke2mci3ladopmtwlob2yaj2q2bjei",
+          "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlgcjim5g52s",
+          "text": "🚀 GitHub Intelligence Drop multica (TypeScript • 🟢) ⭐ 26.5K → https://github.com/multica-ai/multica impeccable (JavaScript • 🟢) ⭐ 26.5K → https://github.com/pbakaus/impeccable ⚡ Only signal. Zero noise.",
+          "author": {
+            "handle": "githubfeed.bsky.social",
+            "displayName": "VritraSec • GitHub Feed"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T13:02:07.422158+00:00",
+          "createdUtc": 1778331727,
+          "ageHours": 0.88,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "multica-ai/multica",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "pbakaus/impeccable",
               "matchType": "url",
               "confidence": 1
             }
@@ -9517,7 +9782,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-09T11:14:48Z",
-        "hoursSincePosted": 0.81
+        "hoursSincePosted": 2.67
       },
       "posts": [
         {
@@ -9534,7 +9799,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-09T11:14:48Z",
           "createdUtc": 1778325288,
-          "ageHours": 0.81,
+          "ageHours": 2.67,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -9568,7 +9833,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-09T10:44:18Z",
-        "hoursSincePosted": 1.32
+        "hoursSincePosted": 3.18
       },
       "posts": [
         {
@@ -9585,7 +9850,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-09T10:44:18Z",
           "createdUtc": 1778323458,
-          "ageHours": 1.32,
+          "ageHours": 3.18,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -9600,23 +9865,288 @@
           ]
         }
       ]
+    },
+    "kepano--obsidian-skills": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:4pklmqyj4mew3wftz7edg4fy/app.bsky.feed.post/3mlgfg75ssk2z",
+        "cid": "bafyreicu6mbislgscbtn2b35qvezy7uucxerwrsxk4eqsoz2gdm4z4paue",
+        "bskyUrl": "https://bsky.app/profile/stephango.com/post/3mlgfg75ssk2z",
+        "text": "I already made a skill for it! It's the Defuddle skill. Defuddle is the library I made for Web Clipper to turn webpages to markdown. github.com/kepano/obsid...",
+        "author": {
+          "handle": "stephango.com",
+          "displayName": "kepano"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T13:53:58.155Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4pklmqyj4mew3wftz7edg4fy/app.bsky.feed.post/3mlgfg75ssk2z",
+          "cid": "bafyreicu6mbislgscbtn2b35qvezy7uucxerwrsxk4eqsoz2gdm4z4paue",
+          "bskyUrl": "https://bsky.app/profile/stephango.com/post/3mlgfg75ssk2z",
+          "text": "I already made a skill for it! It's the Defuddle skill. Defuddle is the library I made for Web Clipper to turn webpages to markdown. github.com/kepano/obsid...",
+          "author": {
+            "handle": "stephango.com",
+            "displayName": "kepano"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T13:53:58.155Z",
+          "createdUtc": 1778334838,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kepano/obsidian-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "googleworkspace--cli": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:e6n7jxtu2qrhwvp3j6ib6sq6/app.bsky.feed.post/3mlgd5cn3us2p",
+        "cid": "bafyreierbte7lglio3c3jik4ily22ktgzfnszcmfaenrpvc6kcuozvpr7y",
+        "bskyUrl": "https://bsky.app/profile/proptermalone.bsky.social/post/3mlgd5cn3us2p",
+        "text": "not Gemini CLI, this thing github.com/googleworksp...",
+        "author": {
+          "handle": "proptermalone.bsky.social",
+          "displayName": "post malone ergo propter malone"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T13:13:12.328Z",
+        "hoursSincePosted": 0.7
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:e6n7jxtu2qrhwvp3j6ib6sq6/app.bsky.feed.post/3mlgd5cn3us2p",
+          "cid": "bafyreierbte7lglio3c3jik4ily22ktgzfnszcmfaenrpvc6kcuozvpr7y",
+          "bskyUrl": "https://bsky.app/profile/proptermalone.bsky.social/post/3mlgd5cn3us2p",
+          "text": "not Gemini CLI, this thing github.com/googleworksp...",
+          "author": {
+            "handle": "proptermalone.bsky.social",
+            "displayName": "post malone ergo propter malone"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T13:13:12.328Z",
+          "createdUtc": 1778332392,
+          "ageHours": 0.7,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "googleworkspace/cli",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tinyhumansai--openhuman": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlgcko56m627",
+        "cid": "bafyreif3eyfu2whwiktp2eebknufdqjhyjhx5qzvkod4lrzq7dvclth2fe",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlgcko56m627",
+        "text": "tinyhumansai / openhuman: Your Personal AI super intelligence. Private, Simple and extremely powerful. ★450 https://github.com/tinyhumansai/openhuman",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T13:02:46.728307Z",
+        "hoursSincePosted": 0.87
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlgcko56m627",
+          "cid": "bafyreif3eyfu2whwiktp2eebknufdqjhyjhx5qzvkod4lrzq7dvclth2fe",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlgcko56m627",
+          "text": "tinyhumansai / openhuman: Your Personal AI super intelligence. Private, Simple and extremely powerful. ★450 https://github.com/tinyhumansai/openhuman",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T13:02:46.728307Z",
+          "createdUtc": 1778331766,
+          "ageHours": 0.87,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tinyhumansai/openhuman",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "multica-ai--multica": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlgcjim5g52s",
+        "cid": "bafyreiepkhrxx5wi4scmj6tla52hmke2mci3ladopmtwlob2yaj2q2bjei",
+        "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlgcjim5g52s",
+        "text": "🚀 GitHub Intelligence Drop multica (TypeScript • 🟢) ⭐ 26.5K → https://github.com/multica-ai/multica impeccable (JavaScript • 🟢) ⭐ 26.5K → https://github.com/pbakaus/impeccable ⚡ Only signal. Zero noise.",
+        "author": {
+          "handle": "githubfeed.bsky.social",
+          "displayName": "VritraSec • GitHub Feed"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T13:02:07.422158+00:00",
+        "hoursSincePosted": 0.88
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlgcjim5g52s",
+          "cid": "bafyreiepkhrxx5wi4scmj6tla52hmke2mci3ladopmtwlob2yaj2q2bjei",
+          "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlgcjim5g52s",
+          "text": "🚀 GitHub Intelligence Drop multica (TypeScript • 🟢) ⭐ 26.5K → https://github.com/multica-ai/multica impeccable (JavaScript • 🟢) ⭐ 26.5K → https://github.com/pbakaus/impeccable ⚡ Only signal. Zero noise.",
+          "author": {
+            "handle": "githubfeed.bsky.social",
+            "displayName": "VritraSec • GitHub Feed"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T13:02:07.422158+00:00",
+          "createdUtc": 1778331727,
+          "ageHours": 0.88,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "multica-ai/multica",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "pbakaus/impeccable",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "pbakaus--impeccable": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlgcjim5g52s",
+        "cid": "bafyreiepkhrxx5wi4scmj6tla52hmke2mci3ladopmtwlob2yaj2q2bjei",
+        "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlgcjim5g52s",
+        "text": "🚀 GitHub Intelligence Drop multica (TypeScript • 🟢) ⭐ 26.5K → https://github.com/multica-ai/multica impeccable (JavaScript • 🟢) ⭐ 26.5K → https://github.com/pbakaus/impeccable ⚡ Only signal. Zero noise.",
+        "author": {
+          "handle": "githubfeed.bsky.social",
+          "displayName": "VritraSec • GitHub Feed"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T13:02:07.422158+00:00",
+        "hoursSincePosted": 0.88
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:talzg3laasdcy4cq3l5t3bg4/app.bsky.feed.post/3mlgcjim5g52s",
+          "cid": "bafyreiepkhrxx5wi4scmj6tla52hmke2mci3ladopmtwlob2yaj2q2bjei",
+          "bskyUrl": "https://bsky.app/profile/githubfeed.bsky.social/post/3mlgcjim5g52s",
+          "text": "🚀 GitHub Intelligence Drop multica (TypeScript • 🟢) ⭐ 26.5K → https://github.com/multica-ai/multica impeccable (JavaScript • 🟢) ⭐ 26.5K → https://github.com/pbakaus/impeccable ⚡ Only signal. Zero noise.",
+          "author": {
+            "handle": "githubfeed.bsky.social",
+            "displayName": "VritraSec • GitHub Feed"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T13:02:07.422158+00:00",
+          "createdUtc": 1778331727,
+          "ageHours": 0.88,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "multica-ai/multica",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "pbakaus/impeccable",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "vercel-labs/zero-native",
-      "count7d": 1,
-      "likesSum7d": 3
-    },
-    {
-      "fullName": "emdash-cms/emdash",
+      "fullName": "googleworkspace/cli",
       "count7d": 1,
       "likesSum7d": 2
     },
     {
-      "fullName": "openai/codex",
-      "count7d": 2,
-      "likesSum7d": 0
+      "fullName": "multica-ai/multica",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "pbakaus/impeccable",
+      "count7d": 1,
+      "likesSum7d": 1
     },
     {
       "fullName": "HKUDS/Vibe-Trading",
@@ -9624,7 +10154,17 @@
       "likesSum7d": 0
     },
     {
+      "fullName": "kepano/obsidian-skills",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
       "fullName": "safishamsi/graphify",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "tinyhumansai/openhuman",
       "count7d": 1,
       "likesSum7d": 0
     }

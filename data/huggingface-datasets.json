@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-09T13:56:14.343Z",
+  "fetchedAt": "2026-05-09T19:37:46.893Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -36,6 +36,42 @@
     },
     {
       "rank": 2,
+      "id": "ADSKAILab/Zero-To-CAD-1m",
+      "author": "ADSKAILab",
+      "url": "https://huggingface.co/datasets/ADSKAILab/Zero-To-CAD-1m",
+      "downloads": 10333,
+      "likes": 57,
+      "trendingScore": 42,
+      "tags": [
+        "task_categories:text-to-3d",
+        "task_categories:image-to-3d",
+        "language:en",
+        "language:code",
+        "license:apache-2.0",
+        "size_categories:100K<n<1M",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2604.24479",
+        "region:us",
+        "CAD",
+        "CadQuery",
+        "synthetic-data",
+        "construction-sequence",
+        "parametric-CAD",
+        "3D-generation",
+        "agentic-AI",
+        "code-generation"
+      ],
+      "createdAt": "2026-04-11T16:07:48.000Z",
+      "lastModified": "2026-05-03T14:11:21.000Z"
+    },
+    {
+      "rank": 3,
       "id": "nvidia/Nemotron-Personas-Korea",
       "author": "nvidia",
       "url": "https://huggingface.co/datasets/nvidia/Nemotron-Personas-Korea",
@@ -65,42 +101,6 @@
       ],
       "createdAt": "2026-04-20T21:07:49.000Z",
       "lastModified": "2026-04-23T07:42:48.000Z"
-    },
-    {
-      "rank": 3,
-      "id": "ADSKAILab/Zero-To-CAD-1m",
-      "author": "ADSKAILab",
-      "url": "https://huggingface.co/datasets/ADSKAILab/Zero-To-CAD-1m",
-      "downloads": 10333,
-      "likes": 54,
-      "trendingScore": 39,
-      "tags": [
-        "task_categories:text-to-3d",
-        "task_categories:image-to-3d",
-        "language:en",
-        "language:code",
-        "license:apache-2.0",
-        "size_categories:100K<n<1M",
-        "format:parquet",
-        "modality:tabular",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2604.24479",
-        "region:us",
-        "CAD",
-        "CadQuery",
-        "synthetic-data",
-        "construction-sequence",
-        "parametric-CAD",
-        "3D-generation",
-        "agentic-AI",
-        "code-generation"
-      ],
-      "createdAt": "2026-04-11T16:07:48.000Z",
-      "lastModified": "2026-05-03T14:11:21.000Z"
     },
     {
       "rank": 4,
@@ -457,35 +457,12 @@
     },
     {
       "rank": 15,
-      "id": "SWE-bench/SWE-bench_Verified",
-      "author": "SWE-bench",
-      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
-      "downloads": 81705,
-      "likes": 75,
-      "trendingScore": 18,
-      "tags": [
-        "benchmark:official",
-        "benchmark:eval-yaml",
-        "size_categories:n<1K",
-        "format:parquet",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us"
-      ],
-      "createdAt": "2025-04-29T20:42:32.000Z",
-      "lastModified": "2026-02-27T20:36:38.000Z"
-    },
-    {
-      "rank": 16,
       "id": "r0b0tlab/deepseek-hermes-reasoning-traces",
       "author": "r0b0tlab",
       "url": "https://huggingface.co/datasets/r0b0tlab/deepseek-hermes-reasoning-traces",
       "downloads": 725,
-      "likes": 18,
-      "trendingScore": 18,
+      "likes": 19,
+      "trendingScore": 19,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -512,6 +489,29 @@
       ],
       "createdAt": "2026-05-03T14:43:24.000Z",
       "lastModified": "2026-05-04T00:18:27.000Z"
+    },
+    {
+      "rank": 16,
+      "id": "SWE-bench/SWE-bench_Verified",
+      "author": "SWE-bench",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "downloads": 81705,
+      "likes": 75,
+      "trendingScore": 18,
+      "tags": [
+        "benchmark:official",
+        "benchmark:eval-yaml",
+        "size_categories:n<1K",
+        "format:parquet",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us"
+      ],
+      "createdAt": "2025-04-29T20:42:32.000Z",
+      "lastModified": "2026-02-27T20:36:38.000Z"
     },
     {
       "rank": 17,
@@ -621,8 +621,8 @@
       "author": "AlicanKiraz0",
       "url": "https://huggingface.co/datasets/AlicanKiraz0/Cybersecurity-Dataset-Fenrir-v2.1",
       "downloads": 8100,
-      "likes": 78,
-      "trendingScore": 14,
+      "likes": 79,
+      "trendingScore": 15,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -762,7 +762,7 @@
       "author": "HuggingFaceFW",
       "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu",
       "downloads": 543099,
-      "likes": 1063,
+      "likes": 1064,
       "trendingScore": 14,
       "tags": [
         "task_categories:text-generation",
@@ -830,6 +830,7 @@
         "library:pandas",
         "library:polars",
         "library:mlcroissant",
+        "arxiv:2605.06235",
         "region:us",
         "retrieval",
         "reasoning",
@@ -837,7 +838,7 @@
         "oblique-queries"
       ],
       "createdAt": "2026-05-06T00:10:36.000Z",
-      "lastModified": "2026-05-08T13:06:56.000Z"
+      "lastModified": "2026-05-09T18:30:15.000Z"
     },
     {
       "rank": 27,
@@ -1331,8 +1332,8 @@
       "author": "HuggingFaceFW",
       "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb",
       "downloads": 414474,
-      "likes": 2783,
-      "trendingScore": 7,
+      "likes": 2784,
+      "trendingScore": 8,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -1351,6 +1352,38 @@
     },
     {
       "rank": 46,
+      "id": "jingyaogong/minimind-o_dataset",
+      "author": "jingyaogong",
+      "url": "https://huggingface.co/datasets/jingyaogong/minimind-o_dataset",
+      "downloads": 214,
+      "likes": 8,
+      "trendingScore": 8,
+      "tags": [
+        "language:zh",
+        "language:en",
+        "license:apache-2.0",
+        "license:gpl-3.0",
+        "size_categories:1M<n<10M",
+        "format:parquet",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2605.03937",
+        "region:us",
+        "omni",
+        "multimodal",
+        "text-to-speech",
+        "audio-to-audio",
+        "image-to-text",
+        "minimind"
+      ],
+      "createdAt": "2026-05-01T03:17:32.000Z",
+      "lastModified": "2026-05-06T12:39:40.000Z"
+    },
+    {
+      "rank": 47,
       "id": "nvidia/PhysicalAI-SmartSpaces",
       "author": "nvidia",
       "url": "https://huggingface.co/datasets/nvidia/PhysicalAI-SmartSpaces",
@@ -1366,7 +1399,7 @@
       "lastModified": "2026-04-30T18:31:22.000Z"
     },
     {
-      "rank": 47,
+      "rank": 48,
       "id": "NeuroMM/NeuroMM-2026",
       "author": "NeuroMM",
       "url": "https://huggingface.co/datasets/NeuroMM/NeuroMM-2026",
@@ -1387,7 +1420,7 @@
       "lastModified": "2026-05-01T12:44:32.000Z"
     },
     {
-      "rank": 48,
+      "rank": 49,
       "id": "allenai/c4",
       "author": "allenai",
       "url": "https://huggingface.co/datasets/allenai/c4",
@@ -1430,7 +1463,7 @@
       "lastModified": "2024-01-09T19:14:03.000Z"
     },
     {
-      "rank": 49,
+      "rank": 50,
       "id": "ChrisHayduk/nanofold-public",
       "author": "ChrisHayduk",
       "url": "https://huggingface.co/datasets/ChrisHayduk/nanofold-public",
@@ -1460,34 +1493,6 @@
       ],
       "createdAt": "2026-05-01T03:03:20.000Z",
       "lastModified": "2026-05-01T04:11:19.000Z"
-    },
-    {
-      "rank": 50,
-      "id": "besimple-ai/voice-code-bench",
-      "author": "besimple-ai",
-      "url": "https://huggingface.co/datasets/besimple-ai/voice-code-bench",
-      "downloads": 444,
-      "likes": 8,
-      "trendingScore": 7,
-      "tags": [
-        "task_categories:automatic-speech-recognition",
-        "language:en",
-        "license:mit",
-        "size_categories:n<1K",
-        "format:audiofolder",
-        "modality:audio",
-        "library:datasets",
-        "library:mlcroissant",
-        "region:us",
-        "speech-to-text",
-        "automatic-speech-recognition",
-        "benchmark",
-        "technical-speech",
-        "entity-extraction",
-        "voice-code"
-      ],
-      "createdAt": "2026-04-29T20:32:53.000Z",
-      "lastModified": "2026-05-03T05:09:30.000Z"
     }
   ]
 }

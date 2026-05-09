@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-09T11:11:30.437Z",
+  "fetchedAt": "2026-05-09T12:04:15.720Z",
   "windowHours": 72,
-  "scannedTotal": 1262,
+  "scannedTotal": 1258,
   "firebaseCount": 500,
-  "algoliaCount": 762,
+  "algoliaCount": 758,
   "stories": [
     {
       "id": 48062117,
@@ -116,12 +116,12 @@
       "title": "Google broke reCAPTCHA for de-googled Android users",
       "url": "https://reclaimthenet.org/google-broke-recaptcha-for-de-googled-android-users",
       "by": "anonymousiam",
-      "score": 1085,
-      "descendants": 374,
+      "score": 1120,
+      "descendants": 385,
       "createdUtc": 1778265958,
-      "ageHours": 16.43,
-      "velocity": 66.06,
-      "trendingScore": 7699.99,
+      "ageHours": 17.3,
+      "velocity": 64.72,
+      "trendingScore": 7795.14,
       "everHitFrontPage": true,
       "content_tags": [],
       "value_score": 0,
@@ -316,6 +316,42 @@
       "linkedRepos": []
     },
     {
+      "id": 48071262,
+      "title": "A recent experience with ChatGPT 5.5 Pro",
+      "url": "https://gowers.wordpress.com/2026/05/08/a-recent-experience-with-chatgpt-5-5-pro/",
+      "by": "_alternator_",
+      "score": 377,
+      "descendants": 213,
+      "createdUtc": 1778294502,
+      "ageHours": 9.38,
+      "velocity": 40.21,
+      "trendingScore": 2310.16,
+      "everHitFrontPage": true,
+      "content_tags": [
+        "is-announcement"
+      ],
+      "value_score": 1,
+      "storyText": "https://twitter.com/wtgowers/status/2052830948685676605 https://xcancel.com/wtgowers/status/2052830948685676605",
+      "linkedRepos": []
+    },
+    {
+      "id": 48072190,
+      "title": "EU calls VPNs \"a loophole that needs closing\" in age verification push",
+      "url": "https://cyberinsider.com/eu-calls-vpns-a-loophole-that-needs-closing-in-age-verification-push/",
+      "by": "muse900",
+      "score": 269,
+      "descendants": 201,
+      "createdUtc": 1778305932,
+      "ageHours": 6.2,
+      "velocity": 43.38,
+      "trendingScore": 2224,
+      "everHitFrontPage": false,
+      "content_tags": [],
+      "value_score": 0,
+      "storyText": "",
+      "linkedRepos": []
+    },
+    {
       "id": 48049208,
       "title": "Child marriages plunged when girls stayed in school in Nigeria",
       "url": "https://www.nature.com/articles/d41586-026-00720-8",
@@ -366,42 +402,6 @@
       "content_tags": [],
       "value_score": 0,
       "storyText": "AI hallucinations are getting ambitious. A couple people recently emailed, asking whether the Klein bottle business was still operating after my death. “Huh?” I thought. “I ain’t dead yet.” After some digging, I discovered the source: an AI-generated review of The Cuckoo’s Egg circulating on Facebook. Alongside the usual synthetic praise and fabricated details, it confidently announced that I had died in May 2024. Apparently AI has now advanced to the point where it can kill people off before th",
-      "linkedRepos": []
-    },
-    {
-      "id": 48071262,
-      "title": "A recent experience with ChatGPT 5.5 Pro",
-      "url": "https://gowers.wordpress.com/2026/05/08/a-recent-experience-with-chatgpt-5-5-pro/",
-      "by": "_alternator_",
-      "score": 339,
-      "descendants": 189,
-      "createdUtc": 1778294502,
-      "ageHours": 8.5,
-      "velocity": 39.9,
-      "trendingScore": 2009,
-      "everHitFrontPage": true,
-      "content_tags": [
-        "is-announcement"
-      ],
-      "value_score": 1,
-      "storyText": "https://twitter.com/wtgowers/status/2052830948685676605 https://xcancel.com/wtgowers/status/2052830948685676605",
-      "linkedRepos": []
-    },
-    {
-      "id": 48072190,
-      "title": "EU calls VPNs \"a loophole that needs closing\" in age verification push",
-      "url": "https://cyberinsider.com/eu-calls-vpns-a-loophole-that-needs-closing-in-age-verification-push/",
-      "by": "muse900",
-      "score": 243,
-      "descendants": 173,
-      "createdUtc": 1778305932,
-      "ageHours": 5.32,
-      "velocity": 45.66,
-      "trendingScore": 1993.36,
-      "everHitFrontPage": true,
-      "content_tags": [],
-      "value_score": 0,
-      "storyText": "",
       "linkedRepos": []
     },
     {
@@ -679,6 +679,23 @@
       "linkedRepos": []
     },
     {
+      "id": 48061884,
+      "title": "David Attenborough's 100th Birthday",
+      "url": "https://www.bbc.com/news/articles/cp3pww9g0p5o",
+      "by": "defrost",
+      "score": 687,
+      "descendants": 137,
+      "createdUtc": 1778241806,
+      "ageHours": 24.01,
+      "velocity": 28.61,
+      "trendingScore": 1193.13,
+      "everHitFrontPage": true,
+      "content_tags": [],
+      "value_score": 0,
+      "storyText": "",
+      "linkedRepos": []
+    },
+    {
       "id": 48052371,
       "title": "Brazil's Pix payment system faces pressure from Visa and Mastercard",
       "url": "https://www.elciudadano.com/en/brazils-pix-payment-system-faces-pressure-from-visa-and-mastercard/04/04/",
@@ -763,23 +780,6 @@
       ],
       "value_score": 2,
       "storyText": "I know what you're thinking... and I still can't believe it, but... This morning, our database flagged a duplicate UUID (v4). I checked, thinking it may have been a double-insert bug or something, but no. The original UUID was from a record added in 2025 (about a year ago), and today the system inserted a new document with a fresh UUIDv4 and it came up with the exact same one: b6133fd6-70fe-4fe3-bed6-8ca8fc9386cd We're using this: https://www.npmjs.com/package/uuid I thought this is technically ",
-      "linkedRepos": []
-    },
-    {
-      "id": 48061884,
-      "title": "David Attenborough's 100th Birthday",
-      "url": "https://www.bbc.com/news/articles/cp3pww9g0p5o",
-      "by": "defrost",
-      "score": 661,
-      "descendants": 131,
-      "createdUtc": 1778241806,
-      "ageHours": 23.13,
-      "velocity": 28.57,
-      "trendingScore": 1136.08,
-      "everHitFrontPage": true,
-      "content_tags": [],
-      "value_score": 0,
-      "storyText": "",
       "linkedRepos": []
     },
     {

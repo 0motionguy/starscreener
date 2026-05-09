@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-09T03:58:16.588Z",
+  "fetchedAt": "2026-05-09T06:28:24.128Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -4088,7 +4088,7 @@
     },
     "anthropics/claude-code": {
       "count7d": 1,
-      "likesSum7d": 3,
+      "likesSum7d": 5,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -4100,11 +4100,11 @@
           "handle": "lizthegrey.com",
           "displayName": "Liz Fong-Jones (方禮真)"
         },
-        "likeCount": 3,
+        "likeCount": 5,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-09T03:17:01.466Z",
-        "hoursSincePosted": 0.69
+        "hoursSincePosted": 3.19
       },
       "posts": [
         {
@@ -4116,13 +4116,13 @@
             "handle": "lizthegrey.com",
             "displayName": "Liz Fong-Jones (方禮真)"
           },
-          "likeCount": 3,
+          "likeCount": 5,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-09T03:17:01.466Z",
           "createdUtc": 1778296621,
-          "ageHours": 0.69,
-          "trendingScore": 3,
+          "ageHours": 3.19,
+          "trendingScore": 5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -4155,7 +4155,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-09T03:06:37Z",
-        "hoursSincePosted": 0.86
+        "hoursSincePosted": 3.36
       },
       "posts": [
         {
@@ -4172,7 +4172,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-09T03:06:37Z",
           "createdUtc": 1778295997,
-          "ageHours": 0.86,
+          "ageHours": 3.36,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -4189,8 +4189,8 @@
       ]
     },
     "vercel-labs/zero-native": {
-      "count7d": 1,
-      "likesSum7d": 1,
+      "count7d": 2,
+      "likesSum7d": 6,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -4202,11 +4202,11 @@
           "handle": "sungkim.bsky.social",
           "displayName": "Sung Kim"
         },
-        "likeCount": 1,
+        "likeCount": 5,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-09T02:08:15.112Z",
-        "hoursSincePosted": 1.83
+        "hoursSincePosted": 4.34
       },
       "posts": [
         {
@@ -4218,12 +4218,40 @@
             "handle": "sungkim.bsky.social",
             "displayName": "Sung Kim"
           },
-          "likeCount": 1,
+          "likeCount": 5,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-09T02:08:15.112Z",
           "createdUtc": 1778292495,
-          "ageHours": 1.83,
+          "ageHours": 4.34,
+          "trendingScore": 5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "vercel-labs/zero-native",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:37si73y66ra5xzyni65poniw/app.bsky.feed.post/3mlfho4brqs2l",
+          "cid": "bafyreif2yrlx2uzgv4wajjuvoodagggvxske3r4klutevcmjxlwdna2tjy",
+          "bskyUrl": "https://bsky.app/profile/aungkyawhein.com/post/3mlfho4brqs2l",
+          "text": "This is interesting, a lightweight electron competitor! github.com/vercel-labs/...",
+          "author": {
+            "handle": "aungkyawhein.com",
+            "displayName": "Aung Kyaw Hein"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T05:01:31.319Z",
+          "createdUtc": 1778302891,
+          "ageHours": 1.45,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -4257,7 +4285,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-09T00:34:07Z",
-        "hoursSincePosted": 3.4
+        "hoursSincePosted": 5.9
       },
       "posts": [
         {
@@ -4274,7 +4302,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-09T00:34:07Z",
           "createdUtc": 1778286847,
-          "ageHours": 3.4,
+          "ageHours": 5.9,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -4283,6 +4311,57 @@
           "linkedRepos": [
             {
               "fullName": "elementalsouls/Claude-OSINT",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Runnin4ik/dpi-detector": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlfkmtdgqb2q",
+        "cid": "bafyreidnuv5dqnkszc6tdykd744cvzdwbsvbgqlo4j6pydzzej2wjm7zge",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlfkmtdgqb2q",
+        "text": "https://github.com/Runnin4ik/dpi-detector",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T05:54:29Z",
+        "hoursSincePosted": 0.57
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlfkmtdgqb2q",
+          "cid": "bafyreidnuv5dqnkszc6tdykd744cvzdwbsvbgqlo4j6pydzzej2wjm7zge",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlfkmtdgqb2q",
+          "text": "https://github.com/Runnin4ik/dpi-detector",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T05:54:29Z",
+          "createdUtc": 1778306069,
+          "ageHours": 0.57,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Runnin4ik/dpi-detector",
               "matchType": "url",
               "confidence": 1
             }
@@ -8375,7 +8454,7 @@
     },
     "anthropics--claude-code": {
       "count7d": 1,
-      "likesSum7d": 3,
+      "likesSum7d": 5,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -8387,11 +8466,11 @@
           "handle": "lizthegrey.com",
           "displayName": "Liz Fong-Jones (方禮真)"
         },
-        "likeCount": 3,
+        "likeCount": 5,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-09T03:17:01.466Z",
-        "hoursSincePosted": 0.69
+        "hoursSincePosted": 3.19
       },
       "posts": [
         {
@@ -8403,13 +8482,13 @@
             "handle": "lizthegrey.com",
             "displayName": "Liz Fong-Jones (方禮真)"
           },
-          "likeCount": 3,
+          "likeCount": 5,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-09T03:17:01.466Z",
           "createdUtc": 1778296621,
-          "ageHours": 0.69,
-          "trendingScore": 3,
+          "ageHours": 3.19,
+          "trendingScore": 5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -8442,7 +8521,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-09T03:06:37Z",
-        "hoursSincePosted": 0.86
+        "hoursSincePosted": 3.36
       },
       "posts": [
         {
@@ -8459,7 +8538,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-09T03:06:37Z",
           "createdUtc": 1778295997,
-          "ageHours": 0.86,
+          "ageHours": 3.36,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -8476,8 +8555,8 @@
       ]
     },
     "vercel-labs--zero-native": {
-      "count7d": 1,
-      "likesSum7d": 1,
+      "count7d": 2,
+      "likesSum7d": 6,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -8489,11 +8568,11 @@
           "handle": "sungkim.bsky.social",
           "displayName": "Sung Kim"
         },
-        "likeCount": 1,
+        "likeCount": 5,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-09T02:08:15.112Z",
-        "hoursSincePosted": 1.83
+        "hoursSincePosted": 4.34
       },
       "posts": [
         {
@@ -8505,12 +8584,40 @@
             "handle": "sungkim.bsky.social",
             "displayName": "Sung Kim"
           },
-          "likeCount": 1,
+          "likeCount": 5,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-09T02:08:15.112Z",
           "createdUtc": 1778292495,
-          "ageHours": 1.83,
+          "ageHours": 4.34,
+          "trendingScore": 5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "vercel-labs/zero-native",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:37si73y66ra5xzyni65poniw/app.bsky.feed.post/3mlfho4brqs2l",
+          "cid": "bafyreif2yrlx2uzgv4wajjuvoodagggvxske3r4klutevcmjxlwdna2tjy",
+          "bskyUrl": "https://bsky.app/profile/aungkyawhein.com/post/3mlfho4brqs2l",
+          "text": "This is interesting, a lightweight electron competitor! github.com/vercel-labs/...",
+          "author": {
+            "handle": "aungkyawhein.com",
+            "displayName": "Aung Kyaw Hein"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T05:01:31.319Z",
+          "createdUtc": 1778302891,
+          "ageHours": 1.45,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -8544,7 +8651,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-09T00:34:07Z",
-        "hoursSincePosted": 3.4
+        "hoursSincePosted": 5.9
       },
       "posts": [
         {
@@ -8561,7 +8668,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-09T00:34:07Z",
           "createdUtc": 1778286847,
-          "ageHours": 3.4,
+          "ageHours": 5.9,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -8576,18 +8683,69 @@
           ]
         }
       ]
+    },
+    "runnin4ik--dpi-detector": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlfkmtdgqb2q",
+        "cid": "bafyreidnuv5dqnkszc6tdykd744cvzdwbsvbgqlo4j6pydzzej2wjm7zge",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlfkmtdgqb2q",
+        "text": "https://github.com/Runnin4ik/dpi-detector",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T05:54:29Z",
+        "hoursSincePosted": 0.57
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlfkmtdgqb2q",
+          "cid": "bafyreidnuv5dqnkszc6tdykd744cvzdwbsvbgqlo4j6pydzzej2wjm7zge",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlfkmtdgqb2q",
+          "text": "https://github.com/Runnin4ik/dpi-detector",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T05:54:29Z",
+          "createdUtc": 1778306069,
+          "ageHours": 0.57,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Runnin4ik/dpi-detector",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "anthropics/claude-code",
-      "count7d": 1,
-      "likesSum7d": 3
+      "fullName": "vercel-labs/zero-native",
+      "count7d": 2,
+      "likesSum7d": 6
     },
     {
-      "fullName": "vercel-labs/zero-native",
+      "fullName": "anthropics/claude-code",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 5
     },
     {
       "fullName": "Einsia/OpenChronicle",
@@ -8600,17 +8758,7 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "jj-vcs/jj",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "yvgude/lean-ctx",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "z-lab/dflash",
+      "fullName": "Runnin4ik/dpi-detector",
       "count7d": 1,
       "likesSum7d": 0
     }

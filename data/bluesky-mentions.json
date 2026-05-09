@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-09T00:11:24.137Z",
+  "fetchedAt": "2026-05-09T03:58:16.588Z",
   "windowDays": 7,
-  "scannedPosts": 298,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
@@ -538,7 +538,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T22:02:15.847520Z",
-        "hoursSincePosted": 2.15
+        "hoursSincePosted": 5.93
       },
       "posts": [
         {
@@ -555,7 +555,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T22:02:15.847520Z",
           "createdUtc": 1778277735,
-          "ageHours": 2.15,
+          "ageHours": 5.93,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -3953,7 +3953,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T21:30:49Z",
-        "hoursSincePosted": 2.68
+        "hoursSincePosted": 6.46
       },
       "posts": [
         {
@@ -3970,7 +3970,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T21:30:49Z",
           "createdUtc": 1778275849,
-          "ageHours": 2.68,
+          "ageHours": 6.46,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -4054,7 +4054,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T23:16:41.823Z",
-        "hoursSincePosted": 0.91
+        "hoursSincePosted": 4.69
       },
       "posts": [
         {
@@ -4070,7 +4070,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T23:16:41.823Z",
           "createdUtc": 1778282201,
-          "ageHours": 0.91,
+          "ageHours": 4.69,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -4079,6 +4079,210 @@
           "linkedRepos": [
             {
               "fullName": "z-lab/dflash",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics/claude-code": {
+      "count7d": 1,
+      "likesSum7d": 3,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:i4tfenpfog244rxry5uz4vtk/app.bsky.feed.post/3mlfbtav2gk2q",
+        "cid": "bafyreid5ornx2bchqxnlazfews2wkrhbkiodfunl4mrtbzz3lcrhbdqdaq",
+        "bskyUrl": "https://bsky.app/profile/lizthegrey.com/post/3mlfbtav2gk2q",
+        "text": "For posterity: I asked @anthropic.com what was happening with the 5m cache TTL issue. Here's what their response was: github.com/anthropics/c... I view the matter as resolved, and think the tooling is now in place for devs to be able to control TTL going forward.",
+        "author": {
+          "handle": "lizthegrey.com",
+          "displayName": "Liz Fong-Jones (方禮真)"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T03:17:01.466Z",
+        "hoursSincePosted": 0.69
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:i4tfenpfog244rxry5uz4vtk/app.bsky.feed.post/3mlfbtav2gk2q",
+          "cid": "bafyreid5ornx2bchqxnlazfews2wkrhbkiodfunl4mrtbzz3lcrhbdqdaq",
+          "bskyUrl": "https://bsky.app/profile/lizthegrey.com/post/3mlfbtav2gk2q",
+          "text": "For posterity: I asked @anthropic.com what was happening with the 5m cache TTL issue. Here's what their response was: github.com/anthropics/c... I view the matter as resolved, and think the tooling is now in place for devs to be able to control TTL going forward.",
+          "author": {
+            "handle": "lizthegrey.com",
+            "displayName": "Liz Fong-Jones (方禮真)"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T03:17:01.466Z",
+          "createdUtc": 1778296621,
+          "ageHours": 0.69,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Einsia/OpenChronicle": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlfbaoggw32t",
+        "cid": "bafyreieelr2apkzxyjd42wlimwgavcaqnjq4vt5m6abvof5xcsrjbronqm",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlfbaoggw32t",
+        "text": "https://github.com/Einsia/OpenChronicle",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T03:06:37Z",
+        "hoursSincePosted": 0.86
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlfbaoggw32t",
+          "cid": "bafyreieelr2apkzxyjd42wlimwgavcaqnjq4vt5m6abvof5xcsrjbronqm",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlfbaoggw32t",
+          "text": "https://github.com/Einsia/OpenChronicle",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T03:06:37Z",
+          "createdUtc": 1778295997,
+          "ageHours": 0.86,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Einsia/OpenChronicle",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "vercel-labs/zero-native": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:cq4gg3odxz2pzmkx2fuac3u3/app.bsky.feed.post/3mlf5ybopu22q",
+        "cid": "bafyreifvliy5japcfj6bu6363pm6az2pxvce2ze3dtof7ypo7s4zc6rdtm",
+        "bskyUrl": "https://bsky.app/profile/sungkim.bsky.social/post/3mlf5ybopu22q",
+        "text": "zero-native is a Zig desktop app shell for modern web frontends. Use the platform WebView when you want the smallest possible app, or bundle Chromium through CEF when rendering consistency matters. github.com/vercel-labs/...",
+        "author": {
+          "handle": "sungkim.bsky.social",
+          "displayName": "Sung Kim"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T02:08:15.112Z",
+        "hoursSincePosted": 1.83
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:cq4gg3odxz2pzmkx2fuac3u3/app.bsky.feed.post/3mlf5ybopu22q",
+          "cid": "bafyreifvliy5japcfj6bu6363pm6az2pxvce2ze3dtof7ypo7s4zc6rdtm",
+          "bskyUrl": "https://bsky.app/profile/sungkim.bsky.social/post/3mlf5ybopu22q",
+          "text": "zero-native is a Zig desktop app shell for modern web frontends. Use the platform WebView when you want the smallest possible app, or bundle Chromium through CEF when rendering consistency matters. github.com/vercel-labs/...",
+          "author": {
+            "handle": "sungkim.bsky.social",
+            "displayName": "Sung Kim"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T02:08:15.112Z",
+          "createdUtc": 1778292495,
+          "ageHours": 1.83,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "vercel-labs/zero-native",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "elementalsouls/Claude-OSINT": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mleypxyw4t2s",
+        "cid": "bafyreids5lpxdlhoxtknsaxot6uxvpanr3jmk4d3svlskgp56epprauptq",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mleypxyw4t2s",
+        "text": "https://github.com/elementalsouls/Claude-OSINT",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T00:34:07Z",
+        "hoursSincePosted": 3.4
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mleypxyw4t2s",
+          "cid": "bafyreids5lpxdlhoxtknsaxot6uxvpanr3jmk4d3svlskgp56epprauptq",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mleypxyw4t2s",
+          "text": "https://github.com/elementalsouls/Claude-OSINT",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T00:34:07Z",
+          "createdUtc": 1778286847,
+          "ageHours": 3.4,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "elementalsouls/Claude-OSINT",
               "matchType": "url",
               "confidence": 1
             }
@@ -4621,7 +4825,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T22:02:15.847520Z",
-        "hoursSincePosted": 2.15
+        "hoursSincePosted": 5.93
       },
       "posts": [
         {
@@ -4638,7 +4842,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T22:02:15.847520Z",
           "createdUtc": 1778277735,
-          "ageHours": 2.15,
+          "ageHours": 5.93,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -8036,7 +8240,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T21:30:49Z",
-        "hoursSincePosted": 2.68
+        "hoursSincePosted": 6.46
       },
       "posts": [
         {
@@ -8053,7 +8257,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T21:30:49Z",
           "createdUtc": 1778275849,
-          "ageHours": 2.68,
+          "ageHours": 6.46,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -8137,7 +8341,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T23:16:41.823Z",
-        "hoursSincePosted": 0.91
+        "hoursSincePosted": 4.69
       },
       "posts": [
         {
@@ -8153,7 +8357,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T23:16:41.823Z",
           "createdUtc": 1778282201,
-          "ageHours": 0.91,
+          "ageHours": 4.69,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -8168,21 +8372,235 @@
           ]
         }
       ]
+    },
+    "anthropics--claude-code": {
+      "count7d": 1,
+      "likesSum7d": 3,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:i4tfenpfog244rxry5uz4vtk/app.bsky.feed.post/3mlfbtav2gk2q",
+        "cid": "bafyreid5ornx2bchqxnlazfews2wkrhbkiodfunl4mrtbzz3lcrhbdqdaq",
+        "bskyUrl": "https://bsky.app/profile/lizthegrey.com/post/3mlfbtav2gk2q",
+        "text": "For posterity: I asked @anthropic.com what was happening with the 5m cache TTL issue. Here's what their response was: github.com/anthropics/c... I view the matter as resolved, and think the tooling is now in place for devs to be able to control TTL going forward.",
+        "author": {
+          "handle": "lizthegrey.com",
+          "displayName": "Liz Fong-Jones (方禮真)"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T03:17:01.466Z",
+        "hoursSincePosted": 0.69
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:i4tfenpfog244rxry5uz4vtk/app.bsky.feed.post/3mlfbtav2gk2q",
+          "cid": "bafyreid5ornx2bchqxnlazfews2wkrhbkiodfunl4mrtbzz3lcrhbdqdaq",
+          "bskyUrl": "https://bsky.app/profile/lizthegrey.com/post/3mlfbtav2gk2q",
+          "text": "For posterity: I asked @anthropic.com what was happening with the 5m cache TTL issue. Here's what their response was: github.com/anthropics/c... I view the matter as resolved, and think the tooling is now in place for devs to be able to control TTL going forward.",
+          "author": {
+            "handle": "lizthegrey.com",
+            "displayName": "Liz Fong-Jones (方禮真)"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T03:17:01.466Z",
+          "createdUtc": 1778296621,
+          "ageHours": 0.69,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "einsia--openchronicle": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlfbaoggw32t",
+        "cid": "bafyreieelr2apkzxyjd42wlimwgavcaqnjq4vt5m6abvof5xcsrjbronqm",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlfbaoggw32t",
+        "text": "https://github.com/Einsia/OpenChronicle",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T03:06:37Z",
+        "hoursSincePosted": 0.86
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlfbaoggw32t",
+          "cid": "bafyreieelr2apkzxyjd42wlimwgavcaqnjq4vt5m6abvof5xcsrjbronqm",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlfbaoggw32t",
+          "text": "https://github.com/Einsia/OpenChronicle",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T03:06:37Z",
+          "createdUtc": 1778295997,
+          "ageHours": 0.86,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Einsia/OpenChronicle",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "vercel-labs--zero-native": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:cq4gg3odxz2pzmkx2fuac3u3/app.bsky.feed.post/3mlf5ybopu22q",
+        "cid": "bafyreifvliy5japcfj6bu6363pm6az2pxvce2ze3dtof7ypo7s4zc6rdtm",
+        "bskyUrl": "https://bsky.app/profile/sungkim.bsky.social/post/3mlf5ybopu22q",
+        "text": "zero-native is a Zig desktop app shell for modern web frontends. Use the platform WebView when you want the smallest possible app, or bundle Chromium through CEF when rendering consistency matters. github.com/vercel-labs/...",
+        "author": {
+          "handle": "sungkim.bsky.social",
+          "displayName": "Sung Kim"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T02:08:15.112Z",
+        "hoursSincePosted": 1.83
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:cq4gg3odxz2pzmkx2fuac3u3/app.bsky.feed.post/3mlf5ybopu22q",
+          "cid": "bafyreifvliy5japcfj6bu6363pm6az2pxvce2ze3dtof7ypo7s4zc6rdtm",
+          "bskyUrl": "https://bsky.app/profile/sungkim.bsky.social/post/3mlf5ybopu22q",
+          "text": "zero-native is a Zig desktop app shell for modern web frontends. Use the platform WebView when you want the smallest possible app, or bundle Chromium through CEF when rendering consistency matters. github.com/vercel-labs/...",
+          "author": {
+            "handle": "sungkim.bsky.social",
+            "displayName": "Sung Kim"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T02:08:15.112Z",
+          "createdUtc": 1778292495,
+          "ageHours": 1.83,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "vercel-labs/zero-native",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "elementalsouls--claude-osint": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mleypxyw4t2s",
+        "cid": "bafyreids5lpxdlhoxtknsaxot6uxvpanr3jmk4d3svlskgp56epprauptq",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mleypxyw4t2s",
+        "text": "https://github.com/elementalsouls/Claude-OSINT",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T00:34:07Z",
+        "hoursSincePosted": 3.4
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mleypxyw4t2s",
+          "cid": "bafyreids5lpxdlhoxtknsaxot6uxvpanr3jmk4d3svlskgp56epprauptq",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mleypxyw4t2s",
+          "text": "https://github.com/elementalsouls/Claude-OSINT",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T00:34:07Z",
+          "createdUtc": 1778286847,
+          "ageHours": 3.4,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "elementalsouls/Claude-OSINT",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
+      "fullName": "anthropics/claude-code",
+      "count7d": 1,
+      "likesSum7d": 3
+    },
+    {
+      "fullName": "vercel-labs/zero-native",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "Einsia/OpenChronicle",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "elementalsouls/Claude-OSINT",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
       "fullName": "jj-vcs/jj",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "niri-wm/niri",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "openai/codex",
       "count7d": 1,
       "likesSum7d": 0
     },

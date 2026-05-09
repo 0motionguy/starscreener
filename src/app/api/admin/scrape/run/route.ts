@@ -23,6 +23,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -210,28 +211,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const deny = adminAuthFailureResponse(verifyAdminAuth(request));
   if (deny) return deny;
 
-  let raw: unknown;
-  try {
-    raw = await request.json();
-  } catch {
-    return NextResponse.json(
-      { ok: false, error: "body must be valid JSON" },
-      { status: 400, headers: { "Cache-Control": "private, no-store" } },
-    );
-  }
-
-  const parsed = Body.safeParse(raw);
-  if (!parsed.success) {
-    return NextResponse.json(
-      {
-        ok: false,
-        error: "invalid body",
-        details: parsed.error.flatten(),
-        allowed: ["all", ...COLLECTORS],
-      },
-      { status: 400, headers: { "Cache-Control": "private, no-store" } },
-    );
-  }
+  const parsed = await parseBody(request, Body);
+  if (!parsed.ok) return parsed.response;
 
   await fs.mkdir(LOG_DIR, { recursive: true });
 

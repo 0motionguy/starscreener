@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-09T07:26:30.925Z",
+  "fetchedAt": "2026-05-09T09:01:28.620Z",
   "windowHours": 72,
-  "scannedTotal": 76,
+  "scannedTotal": 75,
   "stories": [
     {
       "shortId": "znlkib",
@@ -162,6 +162,23 @@
       "trendingScore": 0.8175603382650809,
       "tags": [
         "ruby"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "viodre",
+      "title": "Chrome’s AI features may be hogging 4GB of your computer storage",
+      "url": "https://www.theverge.com/tech/924933/google-chrome-4gb-gemini-nano-ai-features",
+      "commentsUrl": "https://lobste.rs/s/viodre/chrome_s_ai_features_may_be_hogging_4gb",
+      "by": "",
+      "score": 4,
+      "commentCount": 0,
+      "createdUtc": 1778313789,
+      "ageHours": 0.9719444444444445,
+      "trendingScore": 0.7807265726963775,
+      "tags": [
+        "browsers"
       ],
       "description": "",
       "linkedRepos": []
@@ -514,11 +531,11 @@
       "url": "https://foon.uk/blackshift-sand-bug/",
       "commentsUrl": "https://lobste.rs/s/rrelxd/i_learned_something_about_gpus_today",
       "by": "",
-      "score": 18,
-      "commentCount": 1,
+      "score": 22,
+      "commentCount": 2,
       "createdUtc": 1778275728,
-      "ageHours": 9.961666666666666,
-      "trendingScore": 0.43509587041186937,
+      "ageHours": 11.544444444444444,
+      "trendingScore": 0.4413477191742815,
       "tags": [
         "debugging",
         "graphics"
@@ -582,6 +599,24 @@
           "confidence": 1
         }
       ]
+    },
+    {
+      "shortId": "epmnhp",
+      "title": "Inflorescence – A cross-platform native GUI for Pijul",
+      "url": "https://nest.pijul.com/tzemanovic/inflorescence",
+      "commentsUrl": "https://lobste.rs/s/epmnhp/inflorescence_cross_platform_native_gui",
+      "by": "",
+      "score": 2,
+      "commentCount": 1,
+      "createdUtc": 1778314005,
+      "ageHours": 0.9119444444444444,
+      "trendingScore": 0.40249025344804873,
+      "tags": [
+        "release",
+        "vcs"
+      ],
+      "description": "",
+      "linkedRepos": []
     },
     {
       "shortId": "3kjqec",
@@ -686,6 +721,24 @@
       "tags": [
         "cryptography",
         "pdf"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "thvzt6",
+      "title": "killswitch: per-function short-circuit mitigation primitive",
+      "url": "https://lwn.net/ml/all/20260507070547.2268452-1-sashal@kernel.org/",
+      "commentsUrl": "https://lobste.rs/s/thvzt6/killswitch_per_function_short_circuit",
+      "by": "",
+      "score": 4,
+      "commentCount": 0,
+      "createdUtc": 1778305575,
+      "ageHours": 3.2536111111111112,
+      "trendingScore": 0.33217971537660373,
+      "tags": [
+        "linux",
+        "security"
       ],
       "description": "",
       "linkedRepos": []
@@ -844,59 +897,6 @@
         "c++",
         "clojure",
         "lisp"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "jfe19u",
-      "title": "Rooting a VMC2040 security camera",
-      "url": "https://www.marcusfolkesson.se/blog/arlo-vmc2040-part1/",
-      "commentsUrl": "https://lobste.rs/s/jfe19u/rooting_vmc2040_security_camera",
-      "by": "",
-      "score": 1,
-      "commentCount": 0,
-      "createdUtc": 1778265589,
-      "ageHours": 0.24305555555555555,
-      "trendingScore": 0.29767334974644205,
-      "tags": [
-        "reversing"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "h7nu14",
-      "title": "The cuda-oxide Book",
-      "url": "https://nvlabs.github.io/cuda-oxide/",
-      "commentsUrl": "https://lobste.rs/s/h7nu14/cuda_oxide_book",
-      "by": "",
-      "score": 8,
-      "commentCount": 0,
-      "createdUtc": 1778204658,
-      "ageHours": 7.224166666666667,
-      "trendingScore": 0.28556125035958413,
-      "tags": [
-        "graphics",
-        "rust"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "thvzt6",
-      "title": "killswitch: per-function short-circuit mitigation primitive",
-      "url": "https://lwn.net/ml/all/20260507070547.2268452-1-sashal@kernel.org/",
-      "commentsUrl": "https://lobste.rs/s/thvzt6/killswitch_per_function_short_circuit",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1778305575,
-      "ageHours": 1.6708333333333334,
-      "trendingScore": 0.2843694877129512,
-      "tags": [
-        "linux",
-        "security"
       ],
       "description": "",
       "linkedRepos": []

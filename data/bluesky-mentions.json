@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-09T17:14:25.913Z",
+  "fetchedAt": "2026-05-09T19:35:59.139Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -5369,7 +5369,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-09T16:33:43.683Z",
-        "hoursSincePosted": 0.68
+        "hoursSincePosted": 3.04
       },
       "posts": [
         {
@@ -5386,7 +5386,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-09T16:33:43.683Z",
           "createdUtc": 1778344423,
-          "ageHours": 0.68,
+          "ageHours": 3.04,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -5395,6 +5395,109 @@
           "linkedRepos": [
             {
               "fullName": "jundot/omlx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "nickvasilescu/hermes-desktop-os1": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mlgwkesqgh27",
+        "cid": "bafyreigng2gyipb6p3jsqebqljavqr4jl6423afsplgzidkhbrrxlthvzy",
+        "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mlgwkesqgh27",
+        "text": "When AI agent orchestration moves from the browser to the desktop, it's a sign: serious devs want native power, not just convenience. https://github.com/nickvasilescu/hermes-desktop-os1 https://www.projectnothing.ai/from-the-feed?ref=signal",
+        "author": {
+          "handle": "projectnothing.bsky.social",
+          "displayName": "Project Nothing"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T19:00:24.815Z",
+        "hoursSincePosted": 0.59
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mlgwkesqgh27",
+          "cid": "bafyreigng2gyipb6p3jsqebqljavqr4jl6423afsplgzidkhbrrxlthvzy",
+          "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mlgwkesqgh27",
+          "text": "When AI agent orchestration moves from the browser to the desktop, it's a sign: serious devs want native power, not just convenience. https://github.com/nickvasilescu/hermes-desktop-os1 https://www.projectnothing.ai/from-the-feed?ref=signal",
+          "author": {
+            "handle": "projectnothing.bsky.social",
+            "displayName": "Project Nothing"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T19:00:24.815Z",
+          "createdUtc": 1778353224,
+          "ageHours": 0.59,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "nickvasilescu/hermes-desktop-os1",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ModernRelay/omnigraph": {
+      "count7d": 1,
+      "likesSum7d": 3,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:ugljhmq2v7mccy324ctj4bbr/app.bsky.feed.post/3mlgskxet5s25",
+        "cid": "bafyreidizipo3h2vizzael3qlfj7jrlf3q66hbiyntmuffqqwi2e5ntkae",
+        "bskyUrl": "https://bsky.app/profile/jmcastagnetto.bsky.social/post/3mlgskxet5s25",
+        "text": "#TIL about a #graph #knowledge engine that supports versioning #git style: #Omnigraph github.com/ModernRelay/... #OpenSource #Rustlang #ApacheArrow",
+        "author": {
+          "handle": "jmcastagnetto.bsky.social",
+          "displayName": "Jesus Castagnetto 🇵🇪 (@jmcastagnetto@mastodon.social)"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T17:49:16.412Z",
+        "hoursSincePosted": 1.78
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ugljhmq2v7mccy324ctj4bbr/app.bsky.feed.post/3mlgskxet5s25",
+          "cid": "bafyreidizipo3h2vizzael3qlfj7jrlf3q66hbiyntmuffqqwi2e5ntkae",
+          "bskyUrl": "https://bsky.app/profile/jmcastagnetto.bsky.social/post/3mlgskxet5s25",
+          "text": "#TIL about a #graph #knowledge engine that supports versioning #git style: #Omnigraph github.com/ModernRelay/... #OpenSource #Rustlang #ApacheArrow",
+          "author": {
+            "handle": "jmcastagnetto.bsky.social",
+            "displayName": "Jesus Castagnetto 🇵🇪 (@jmcastagnetto@mastodon.social)"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T17:49:16.412Z",
+          "createdUtc": 1778348956,
+          "ageHours": 1.78,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ModernRelay/omnigraph",
               "matchType": "url",
               "confidence": 1
             }
@@ -10768,7 +10871,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-09T16:33:43.683Z",
-        "hoursSincePosted": 0.68
+        "hoursSincePosted": 3.04
       },
       "posts": [
         {
@@ -10785,7 +10888,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-09T16:33:43.683Z",
           "createdUtc": 1778344423,
-          "ageHours": 0.68,
+          "ageHours": 3.04,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -10800,18 +10903,116 @@
           ]
         }
       ]
+    },
+    "nickvasilescu--hermes-desktop-os1": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mlgwkesqgh27",
+        "cid": "bafyreigng2gyipb6p3jsqebqljavqr4jl6423afsplgzidkhbrrxlthvzy",
+        "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mlgwkesqgh27",
+        "text": "When AI agent orchestration moves from the browser to the desktop, it's a sign: serious devs want native power, not just convenience. https://github.com/nickvasilescu/hermes-desktop-os1 https://www.projectnothing.ai/from-the-feed?ref=signal",
+        "author": {
+          "handle": "projectnothing.bsky.social",
+          "displayName": "Project Nothing"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T19:00:24.815Z",
+        "hoursSincePosted": 0.59
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:a2anbsoy6odyey6geqvld42l/app.bsky.feed.post/3mlgwkesqgh27",
+          "cid": "bafyreigng2gyipb6p3jsqebqljavqr4jl6423afsplgzidkhbrrxlthvzy",
+          "bskyUrl": "https://bsky.app/profile/projectnothing.bsky.social/post/3mlgwkesqgh27",
+          "text": "When AI agent orchestration moves from the browser to the desktop, it's a sign: serious devs want native power, not just convenience. https://github.com/nickvasilescu/hermes-desktop-os1 https://www.projectnothing.ai/from-the-feed?ref=signal",
+          "author": {
+            "handle": "projectnothing.bsky.social",
+            "displayName": "Project Nothing"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T19:00:24.815Z",
+          "createdUtc": 1778353224,
+          "ageHours": 0.59,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "nickvasilescu/hermes-desktop-os1",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "modernrelay--omnigraph": {
+      "count7d": 1,
+      "likesSum7d": 3,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:ugljhmq2v7mccy324ctj4bbr/app.bsky.feed.post/3mlgskxet5s25",
+        "cid": "bafyreidizipo3h2vizzael3qlfj7jrlf3q66hbiyntmuffqqwi2e5ntkae",
+        "bskyUrl": "https://bsky.app/profile/jmcastagnetto.bsky.social/post/3mlgskxet5s25",
+        "text": "#TIL about a #graph #knowledge engine that supports versioning #git style: #Omnigraph github.com/ModernRelay/... #OpenSource #Rustlang #ApacheArrow",
+        "author": {
+          "handle": "jmcastagnetto.bsky.social",
+          "displayName": "Jesus Castagnetto 🇵🇪 (@jmcastagnetto@mastodon.social)"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T17:49:16.412Z",
+        "hoursSincePosted": 1.78
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ugljhmq2v7mccy324ctj4bbr/app.bsky.feed.post/3mlgskxet5s25",
+          "cid": "bafyreidizipo3h2vizzael3qlfj7jrlf3q66hbiyntmuffqqwi2e5ntkae",
+          "bskyUrl": "https://bsky.app/profile/jmcastagnetto.bsky.social/post/3mlgskxet5s25",
+          "text": "#TIL about a #graph #knowledge engine that supports versioning #git style: #Omnigraph github.com/ModernRelay/... #OpenSource #Rustlang #ApacheArrow",
+          "author": {
+            "handle": "jmcastagnetto.bsky.social",
+            "displayName": "Jesus Castagnetto 🇵🇪 (@jmcastagnetto@mastodon.social)"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T17:49:16.412Z",
+          "createdUtc": 1778348956,
+          "ageHours": 1.78,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ModernRelay/omnigraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "lightningpixel/modly",
+      "fullName": "ModernRelay/omnigraph",
       "count7d": 1,
       "likesSum7d": 3
-    },
-    {
-      "fullName": "obra/superpowers",
-      "count7d": 1,
-      "likesSum7d": 1
     },
     {
       "fullName": "jundot/omlx",
@@ -10819,7 +11020,7 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "MemoriLabs/Memori",
+      "fullName": "nickvasilescu/hermes-desktop-os1",
       "count7d": 1,
       "likesSum7d": 0
     }

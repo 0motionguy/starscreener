@@ -1,9 +1,88 @@
 {
-  "fetchedAt": "2026-05-09T11:11:30.437Z",
+  "fetchedAt": "2026-05-09T13:51:02.694Z",
   "windowDays": 7,
-  "scannedAlgoliaHits": 762,
+  "scannedAlgoliaHits": 759,
   "scannedFirebaseItems": 500,
   "mentions": {
+    "chojs23/concord": {
+      "count7d": 1,
+      "scoreSum7d": 5,
+      "topStory": {
+        "id": 48074027,
+        "title": "Show HN: Concord – Feature rich TUI for discord",
+        "score": 5,
+        "url": "https://github.com/chojs23/concord",
+        "hoursSincePosted": 2.48
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48074027,
+          "title": "Show HN: Concord – Feature rich TUI for discord",
+          "url": "https://github.com/chojs23/concord",
+          "by": "jpellamo",
+          "score": 5,
+          "descendants": 1,
+          "createdUtc": 1778325750,
+          "ageHours": 2.48,
+          "velocity": 2.02,
+          "trendingScore": 1.55,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "Concord is TUI client for discord with discord like layout (Servers / Channels / Messages / Members), vim keys, inline image previews via Kitty/iTerm2/Sixel, reactions, polls, threads, forums, and more!(except voice calls, will be implemented) Sits at ~20–40 MB idle. Concord is built with ratatui and crossterm. Here are features: - Login by token, email/password or QR code from the mobile app - Discord like layout : Servers / Channels / Messages / Members - Vim-style keys (hjkl, g/G, Ctrl+d/Ctrl",
+          "linkedRepos": [
+            {
+              "fullName": "chojs23/concord",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Tracer-Cloud/opensre": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48074902,
+        "title": "Open SRE",
+        "score": 2,
+        "url": "https://github.com/Tracer-Cloud/opensre",
+        "hoursSincePosted": 0.5
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48074902,
+          "title": "Open SRE",
+          "url": "https://github.com/Tracer-Cloud/opensre",
+          "by": "lum1104",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1778334079,
+          "ageHours": 0.5,
+          "velocity": 4,
+          "trendingScore": 1.2,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "Tracer-Cloud/opensre",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "anthropics/claude-code": {
       "count7d": 2,
       "scoreSum7d": 8,
@@ -12,7 +91,7 @@
         "title": "Claude Code with Bedrock broken again",
         "score": 6,
         "url": "https://github.com/anthropics/claude-code/issues/56595",
-        "hoursSincePosted": 66.74
+        "hoursSincePosted": 69.4
       },
       "everHitFrontPage": false,
       "stories": [
@@ -24,7 +103,7 @@
           "score": 6,
           "descendants": 1,
           "createdUtc": 1778084816,
-          "ageHours": 66.74,
+          "ageHours": 69.4,
           "velocity": 0.09,
           "trendingScore": 0.08,
           "everHitFrontPage": false,
@@ -49,7 +128,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777963444,
-          "ageHours": 100.46,
+          "ageHours": 103.12,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -76,7 +155,7 @@
         "title": "Jj v0.41.0 Is Out",
         "score": 3,
         "url": "https://github.com/jj-vcs/jj/releases/tag/v0.41.0",
-        "hoursSincePosted": 24.27
+        "hoursSincePosted": 26.93
       },
       "everHitFrontPage": false,
       "stories": [
@@ -88,9 +167,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778237719,
-          "ageHours": 24.27,
-          "velocity": 0.12,
-          "trendingScore": 0.06,
+          "ageHours": 26.93,
+          "velocity": 0.11,
+          "trendingScore": 0.05,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -115,7 +194,7 @@
         "title": "Hunk: Review-first terminal diff viewer for agentic coders",
         "score": 4,
         "url": "https://github.com/modem-dev/hunk",
-        "hoursSincePosted": 58.79
+        "hoursSincePosted": 61.45
       },
       "everHitFrontPage": false,
       "stories": [
@@ -127,7 +206,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778113445,
-          "ageHours": 58.79,
+          "ageHours": 61.45,
           "velocity": 0.07,
           "trendingScore": 0.04,
           "everHitFrontPage": false,
@@ -154,7 +233,7 @@
         "title": "Larql: Run attention locally, FFN on another machine",
         "score": 3,
         "url": "https://github.com/chrishayuk/larql",
-        "hoursSincePosted": 37.97
+        "hoursSincePosted": 40.63
       },
       "everHitFrontPage": false,
       "stories": [
@@ -166,9 +245,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778188394,
-          "ageHours": 37.97,
-          "velocity": 0.08,
-          "trendingScore": 0.04,
+          "ageHours": 40.63,
+          "velocity": 0.07,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -193,7 +272,7 @@
         "title": "Markdown archive for the public war.gov UFO/PURSUE Release 01 files",
         "score": 2,
         "url": "https://github.com/DenisSergeevitch/UFO-USA",
-        "hoursSincePosted": 18.08
+        "hoursSincePosted": 20.74
       },
       "everHitFrontPage": false,
       "stories": [
@@ -205,8 +284,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778260012,
-          "ageHours": 18.08,
-          "velocity": 0.11,
+          "ageHours": 20.74,
+          "velocity": 0.1,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
@@ -232,7 +311,7 @@
         "title": "OpenKB: A Vectorless Knowledge Base for Long Documents",
         "score": 2,
         "url": "https://github.com/VectifyAI/OpenKB",
-        "hoursSincePosted": 23.84
+        "hoursSincePosted": 26.5
       },
       "everHitFrontPage": false,
       "stories": [
@@ -244,7 +323,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778239251,
-          "ageHours": 23.84,
+          "ageHours": 26.5,
           "velocity": 0.08,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -269,7 +348,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778069636,
-          "ageHours": 70.96,
+          "ageHours": 73.62,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -296,7 +375,7 @@
         "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
         "score": 676,
         "url": "https://github.com/aattaran/deepclaude",
-        "hoursSincePosted": 132.97
+        "hoursSincePosted": 135.63
       },
       "everHitFrontPage": false,
       "stories": [
@@ -308,9 +387,9 @@
           "score": 676,
           "descendants": 280,
           "createdUtc": 1777846400,
-          "ageHours": 132.97,
-          "velocity": 5.08,
-          "trendingScore": 416.91,
+          "ageHours": 135.63,
+          "velocity": 4.98,
+          "trendingScore": 408.7,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -335,7 +414,7 @@
         "title": "Radar: Local-first Kubernetes UI in a single Go binary",
         "score": 15,
         "url": "https://github.com/skyhook-io/radar",
-        "hoursSincePosted": 147.67
+        "hoursSincePosted": 150.33
       },
       "everHitFrontPage": false,
       "stories": [
@@ -347,7 +426,7 @@
           "score": 15,
           "descendants": 8,
           "createdUtc": 1777793479,
-          "ageHours": 147.67,
+          "ageHours": 150.33,
           "velocity": 0.1,
           "trendingScore": 0.21,
           "everHitFrontPage": false,
@@ -374,7 +453,7 @@
         "title": "Shelley: Mobile-friendly, web-based, multi-modal, single-user coding agent",
         "score": 11,
         "url": "https://github.com/boldsoftware/shelley",
-        "hoursSincePosted": 108.97
+        "hoursSincePosted": 111.63
       },
       "everHitFrontPage": false,
       "stories": [
@@ -386,7 +465,7 @@
           "score": 11,
           "descendants": 1,
           "createdUtc": 1777932812,
-          "ageHours": 108.97,
+          "ageHours": 111.63,
           "velocity": 0.1,
           "trendingScore": 0.11,
           "everHitFrontPage": false,
@@ -413,7 +492,7 @@
         "title": "Brush a Bash/POSIX-compatible shell written in the Rust",
         "score": 5,
         "url": "https://github.com/reubeno/brush/releases/tag/brush-shell-v0.4.0",
-        "hoursSincePosted": 136.71
+        "hoursSincePosted": 139.37
       },
       "everHitFrontPage": false,
       "stories": [
@@ -425,7 +504,7 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1777832939,
-          "ageHours": 136.71,
+          "ageHours": 139.37,
           "velocity": 0.04,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -452,7 +531,7 @@
         "title": "Show HN: My OSINT dashboard with 60+ feeds now has a pseudonymous P2P comms",
         "score": 5,
         "url": "https://github.com/BigBodyCobain/Shadowbroker/tree/main",
-        "hoursSincePosted": 140.78
+        "hoursSincePosted": 143.44
       },
       "everHitFrontPage": false,
       "stories": [
@@ -464,9 +543,9 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1777818271,
-          "ageHours": 140.78,
-          "velocity": 0.04,
-          "trendingScore": 0.03,
+          "ageHours": 143.44,
+          "velocity": 0.03,
+          "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -492,7 +571,7 @@
         "title": "notebooklm-py makes Claude interact with NotebookLM",
         "score": 4,
         "url": "https://github.com/teng-lin/notebooklm-py",
-        "hoursSincePosted": 73.15
+        "hoursSincePosted": 75.81
       },
       "everHitFrontPage": false,
       "stories": [
@@ -504,7 +583,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778061763,
-          "ageHours": 73.15,
+          "ageHours": 75.81,
           "velocity": 0.05,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -531,7 +610,7 @@
         "title": "Thoth v3.20.0 – Full Linux Support, MiniMax Integration, Reliability Upgrades",
         "score": 4,
         "url": "https://github.com/siddsachar/Thoth",
-        "hoursSincePosted": 90.98
+        "hoursSincePosted": 93.64
       },
       "everHitFrontPage": false,
       "stories": [
@@ -543,7 +622,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1777997567,
-          "ageHours": 90.98,
+          "ageHours": 93.64,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -570,7 +649,7 @@
         "title": "AgentOS: A portable open-source operating system for agents",
         "score": 3,
         "url": "https://github.com/rivet-dev/agent-os",
-        "hoursSincePosted": 92.41
+        "hoursSincePosted": 95.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -582,7 +661,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1777992417,
-          "ageHours": 92.41,
+          "ageHours": 95.07,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -609,7 +688,7 @@
         "title": "Open source desktop app for studying online courses",
         "score": 3,
         "url": "https://github.com/tonhowtf/omniget",
-        "hoursSincePosted": 137.01
+        "hoursSincePosted": 139.67
       },
       "everHitFrontPage": false,
       "stories": [
@@ -621,7 +700,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1777831850,
-          "ageHours": 137.01,
+          "ageHours": 139.67,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -648,7 +727,7 @@
         "title": "Has anyone tried using Hyperframes?",
         "score": 2,
         "url": "https://github.com/heygen-com/hyperframes",
-        "hoursSincePosted": 147.95
+        "hoursSincePosted": 150.61
       },
       "everHitFrontPage": false,
       "stories": [
@@ -660,7 +739,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1777792478,
-          "ageHours": 147.95,
+          "ageHours": 150.61,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -688,7 +767,7 @@
         "title": "Open Agents from Vercel is now open source",
         "score": 2,
         "url": "https://github.com/vercel-labs/open-agents",
-        "hoursSincePosted": 73.26
+        "hoursSincePosted": 75.92
       },
       "everHitFrontPage": false,
       "stories": [
@@ -700,7 +779,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778061338,
-          "ageHours": 73.26,
+          "ageHours": 75.92,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -727,7 +806,7 @@
         "title": "Pake: Webpage to desktop app in one command using rust",
         "score": 2,
         "url": "https://github.com/tw93/Pake",
-        "hoursSincePosted": 126.61
+        "hoursSincePosted": 129.27
       },
       "everHitFrontPage": false,
       "stories": [
@@ -739,7 +818,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777869303,
-          "ageHours": 126.61,
+          "ageHours": 129.27,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -766,7 +845,7 @@
         "title": "PageIndex: Vectorless, Reasoning-Based RAG",
         "score": 1,
         "url": "https://github.com/VectifyAI/PageIndex",
-        "hoursSincePosted": 91.65
+        "hoursSincePosted": 94.31
       },
       "everHitFrontPage": false,
       "stories": [
@@ -778,7 +857,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777995148,
-          "ageHours": 91.65,
+          "ageHours": 94.31,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -805,7 +884,7 @@
         "title": "Yazi – Fast Terminal File Manager",
         "score": 1,
         "url": "https://github.com/sxyazi/yazi",
-        "hoursSincePosted": 99.95
+        "hoursSincePosted": 102.61
       },
       "everHitFrontPage": false,
       "stories": [
@@ -817,7 +896,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777965256,
-          "ageHours": 99.95,
+          "ageHours": 102.61,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -838,6 +917,85 @@
     }
   },
   "mentionsByRepoId": {
+    "chojs23--concord": {
+      "count7d": 1,
+      "scoreSum7d": 5,
+      "topStory": {
+        "id": 48074027,
+        "title": "Show HN: Concord – Feature rich TUI for discord",
+        "score": 5,
+        "url": "https://github.com/chojs23/concord",
+        "hoursSincePosted": 2.48
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48074027,
+          "title": "Show HN: Concord – Feature rich TUI for discord",
+          "url": "https://github.com/chojs23/concord",
+          "by": "jpellamo",
+          "score": 5,
+          "descendants": 1,
+          "createdUtc": 1778325750,
+          "ageHours": 2.48,
+          "velocity": 2.02,
+          "trendingScore": 1.55,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "Concord is TUI client for discord with discord like layout (Servers / Channels / Messages / Members), vim keys, inline image previews via Kitty/iTerm2/Sixel, reactions, polls, threads, forums, and more!(except voice calls, will be implemented) Sits at ~20–40 MB idle. Concord is built with ratatui and crossterm. Here are features: - Login by token, email/password or QR code from the mobile app - Discord like layout : Servers / Channels / Messages / Members - Vim-style keys (hjkl, g/G, Ctrl+d/Ctrl",
+          "linkedRepos": [
+            {
+              "fullName": "chojs23/concord",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tracer-cloud--opensre": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "id": 48074902,
+        "title": "Open SRE",
+        "score": 2,
+        "url": "https://github.com/Tracer-Cloud/opensre",
+        "hoursSincePosted": 0.5
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48074902,
+          "title": "Open SRE",
+          "url": "https://github.com/Tracer-Cloud/opensre",
+          "by": "lum1104",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1778334079,
+          "ageHours": 0.5,
+          "velocity": 4,
+          "trendingScore": 1.2,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "Tracer-Cloud/opensre",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "anthropics--claude-code": {
       "count7d": 2,
       "scoreSum7d": 8,
@@ -846,7 +1004,7 @@
         "title": "Claude Code with Bedrock broken again",
         "score": 6,
         "url": "https://github.com/anthropics/claude-code/issues/56595",
-        "hoursSincePosted": 66.74
+        "hoursSincePosted": 69.4
       },
       "everHitFrontPage": false,
       "stories": [
@@ -858,7 +1016,7 @@
           "score": 6,
           "descendants": 1,
           "createdUtc": 1778084816,
-          "ageHours": 66.74,
+          "ageHours": 69.4,
           "velocity": 0.09,
           "trendingScore": 0.08,
           "everHitFrontPage": false,
@@ -883,7 +1041,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777963444,
-          "ageHours": 100.46,
+          "ageHours": 103.12,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -910,7 +1068,7 @@
         "title": "Jj v0.41.0 Is Out",
         "score": 3,
         "url": "https://github.com/jj-vcs/jj/releases/tag/v0.41.0",
-        "hoursSincePosted": 24.27
+        "hoursSincePosted": 26.93
       },
       "everHitFrontPage": false,
       "stories": [
@@ -922,9 +1080,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778237719,
-          "ageHours": 24.27,
-          "velocity": 0.12,
-          "trendingScore": 0.06,
+          "ageHours": 26.93,
+          "velocity": 0.11,
+          "trendingScore": 0.05,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -949,7 +1107,7 @@
         "title": "Hunk: Review-first terminal diff viewer for agentic coders",
         "score": 4,
         "url": "https://github.com/modem-dev/hunk",
-        "hoursSincePosted": 58.79
+        "hoursSincePosted": 61.45
       },
       "everHitFrontPage": false,
       "stories": [
@@ -961,7 +1119,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778113445,
-          "ageHours": 58.79,
+          "ageHours": 61.45,
           "velocity": 0.07,
           "trendingScore": 0.04,
           "everHitFrontPage": false,
@@ -988,7 +1146,7 @@
         "title": "Larql: Run attention locally, FFN on another machine",
         "score": 3,
         "url": "https://github.com/chrishayuk/larql",
-        "hoursSincePosted": 37.97
+        "hoursSincePosted": 40.63
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1000,9 +1158,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778188394,
-          "ageHours": 37.97,
-          "velocity": 0.08,
-          "trendingScore": 0.04,
+          "ageHours": 40.63,
+          "velocity": 0.07,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1027,7 +1185,7 @@
         "title": "Markdown archive for the public war.gov UFO/PURSUE Release 01 files",
         "score": 2,
         "url": "https://github.com/DenisSergeevitch/UFO-USA",
-        "hoursSincePosted": 18.08
+        "hoursSincePosted": 20.74
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1039,8 +1197,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778260012,
-          "ageHours": 18.08,
-          "velocity": 0.11,
+          "ageHours": 20.74,
+          "velocity": 0.1,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1066,7 +1224,7 @@
         "title": "OpenKB: A Vectorless Knowledge Base for Long Documents",
         "score": 2,
         "url": "https://github.com/VectifyAI/OpenKB",
-        "hoursSincePosted": 23.84
+        "hoursSincePosted": 26.5
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1078,7 +1236,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778239251,
-          "ageHours": 23.84,
+          "ageHours": 26.5,
           "velocity": 0.08,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1103,7 +1261,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778069636,
-          "ageHours": 70.96,
+          "ageHours": 73.62,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1130,7 +1288,7 @@
         "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
         "score": 676,
         "url": "https://github.com/aattaran/deepclaude",
-        "hoursSincePosted": 132.97
+        "hoursSincePosted": 135.63
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1142,9 +1300,9 @@
           "score": 676,
           "descendants": 280,
           "createdUtc": 1777846400,
-          "ageHours": 132.97,
-          "velocity": 5.08,
-          "trendingScore": 416.91,
+          "ageHours": 135.63,
+          "velocity": 4.98,
+          "trendingScore": 408.7,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1169,7 +1327,7 @@
         "title": "Radar: Local-first Kubernetes UI in a single Go binary",
         "score": 15,
         "url": "https://github.com/skyhook-io/radar",
-        "hoursSincePosted": 147.67
+        "hoursSincePosted": 150.33
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1181,7 +1339,7 @@
           "score": 15,
           "descendants": 8,
           "createdUtc": 1777793479,
-          "ageHours": 147.67,
+          "ageHours": 150.33,
           "velocity": 0.1,
           "trendingScore": 0.21,
           "everHitFrontPage": false,
@@ -1208,7 +1366,7 @@
         "title": "Shelley: Mobile-friendly, web-based, multi-modal, single-user coding agent",
         "score": 11,
         "url": "https://github.com/boldsoftware/shelley",
-        "hoursSincePosted": 108.97
+        "hoursSincePosted": 111.63
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1220,7 +1378,7 @@
           "score": 11,
           "descendants": 1,
           "createdUtc": 1777932812,
-          "ageHours": 108.97,
+          "ageHours": 111.63,
           "velocity": 0.1,
           "trendingScore": 0.11,
           "everHitFrontPage": false,
@@ -1247,7 +1405,7 @@
         "title": "Brush a Bash/POSIX-compatible shell written in the Rust",
         "score": 5,
         "url": "https://github.com/reubeno/brush/releases/tag/brush-shell-v0.4.0",
-        "hoursSincePosted": 136.71
+        "hoursSincePosted": 139.37
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1259,7 +1417,7 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1777832939,
-          "ageHours": 136.71,
+          "ageHours": 139.37,
           "velocity": 0.04,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -1286,7 +1444,7 @@
         "title": "Show HN: My OSINT dashboard with 60+ feeds now has a pseudonymous P2P comms",
         "score": 5,
         "url": "https://github.com/BigBodyCobain/Shadowbroker/tree/main",
-        "hoursSincePosted": 140.78
+        "hoursSincePosted": 143.44
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1298,9 +1456,9 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1777818271,
-          "ageHours": 140.78,
-          "velocity": 0.04,
-          "trendingScore": 0.03,
+          "ageHours": 143.44,
+          "velocity": 0.03,
+          "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -1326,7 +1484,7 @@
         "title": "notebooklm-py makes Claude interact with NotebookLM",
         "score": 4,
         "url": "https://github.com/teng-lin/notebooklm-py",
-        "hoursSincePosted": 73.15
+        "hoursSincePosted": 75.81
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1338,7 +1496,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778061763,
-          "ageHours": 73.15,
+          "ageHours": 75.81,
           "velocity": 0.05,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -1365,7 +1523,7 @@
         "title": "Thoth v3.20.0 – Full Linux Support, MiniMax Integration, Reliability Upgrades",
         "score": 4,
         "url": "https://github.com/siddsachar/Thoth",
-        "hoursSincePosted": 90.98
+        "hoursSincePosted": 93.64
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1377,7 +1535,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1777997567,
-          "ageHours": 90.98,
+          "ageHours": 93.64,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1404,7 +1562,7 @@
         "title": "AgentOS: A portable open-source operating system for agents",
         "score": 3,
         "url": "https://github.com/rivet-dev/agent-os",
-        "hoursSincePosted": 92.41
+        "hoursSincePosted": 95.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1416,7 +1574,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1777992417,
-          "ageHours": 92.41,
+          "ageHours": 95.07,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1443,7 +1601,7 @@
         "title": "Open source desktop app for studying online courses",
         "score": 3,
         "url": "https://github.com/tonhowtf/omniget",
-        "hoursSincePosted": 137.01
+        "hoursSincePosted": 139.67
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1455,7 +1613,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1777831850,
-          "ageHours": 137.01,
+          "ageHours": 139.67,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1482,7 +1640,7 @@
         "title": "Has anyone tried using Hyperframes?",
         "score": 2,
         "url": "https://github.com/heygen-com/hyperframes",
-        "hoursSincePosted": 147.95
+        "hoursSincePosted": 150.61
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1494,7 +1652,7 @@
           "score": 2,
           "descendants": 1,
           "createdUtc": 1777792478,
-          "ageHours": 147.95,
+          "ageHours": 150.61,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1522,7 +1680,7 @@
         "title": "Open Agents from Vercel is now open source",
         "score": 2,
         "url": "https://github.com/vercel-labs/open-agents",
-        "hoursSincePosted": 73.26
+        "hoursSincePosted": 75.92
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1534,7 +1692,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778061338,
-          "ageHours": 73.26,
+          "ageHours": 75.92,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1561,7 +1719,7 @@
         "title": "Pake: Webpage to desktop app in one command using rust",
         "score": 2,
         "url": "https://github.com/tw93/Pake",
-        "hoursSincePosted": 126.61
+        "hoursSincePosted": 129.27
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1573,7 +1731,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777869303,
-          "ageHours": 126.61,
+          "ageHours": 129.27,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1600,7 +1758,7 @@
         "title": "PageIndex: Vectorless, Reasoning-Based RAG",
         "score": 1,
         "url": "https://github.com/VectifyAI/PageIndex",
-        "hoursSincePosted": 91.65
+        "hoursSincePosted": 94.31
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1612,7 +1770,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777995148,
-          "ageHours": 91.65,
+          "ageHours": 94.31,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1639,7 +1797,7 @@
         "title": "Yazi – Fast Terminal File Manager",
         "score": 1,
         "url": "https://github.com/sxyazi/yazi",
-        "hoursSincePosted": 99.95
+        "hoursSincePosted": 102.61
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1651,7 +1809,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777965256,
-          "ageHours": 99.95,
+          "ageHours": 102.61,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1768,6 +1926,11 @@
       "scoreSum7d": 5
     },
     {
+      "fullName": "chojs23/concord",
+      "count7d": 1,
+      "scoreSum7d": 5
+    },
+    {
       "fullName": "VectifyAI/OpenKB",
       "count7d": 2,
       "scoreSum7d": 4
@@ -1859,6 +2022,11 @@
     },
     {
       "fullName": "DenisSergeevitch/UFO-USA",
+      "count7d": 1,
+      "scoreSum7d": 2
+    },
+    {
+      "fullName": "Tracer-Cloud/opensre",
       "count7d": 1,
       "scoreSum7d": 2
     },

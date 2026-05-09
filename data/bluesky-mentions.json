@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-09T10:18:10.461Z",
+  "fetchedAt": "2026-05-09T12:03:37.226Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -4081,26 +4081,54 @@
       ]
     },
     "openai/codex": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:pmslgq4ha2zzyssgi537nw7g/app.bsky.feed.post/3mlfz4kf5zs2f",
-        "cid": "bafyreiamkaqg25pve3cnn4fhsc2avk4t6amzqe57dln7cwludnk24v5zfe",
-        "bskyUrl": "https://bsky.app/profile/kazukim.bsky.social/post/3mlfz4kf5zs2f",
-        "text": "github.com/openai/codex... トークン足りてなくて、頻繁にreasoning effort 切り替えるようになったのでショートカットほしい",
+        "uri": "at://did:plc:fveyynlevhhdhzu2etyjdncr/app.bsky.feed.post/3mlfzod4osc2e",
+        "cid": "bafyreiby4hkhhlbtfmbz65huetl76bz2zlml3duysdqv7yuo6vqn5vykie",
+        "bskyUrl": "https://bsky.app/profile/tomoyuki-mikami.bsky.social/post/3mlfzod4osc2e",
+        "text": "とか言ってたら `codex remote-control` コマンド追加されている。 github.com/openai/codex... まだモバイルアプリ側のUIが露出してないから多分使えない。次のアップデートあたりで来るだろうか。",
         "author": {
-          "handle": "kazukim.bsky.social",
-          "displayName": "Kazuki Matsuo"
+          "handle": "tomoyuki-mikami.bsky.social",
+          "displayName": "mika"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-09T10:13:49.484Z",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-05-09T10:23:45.846Z",
+        "hoursSincePosted": 1.66
       },
       "posts": [
+        {
+          "uri": "at://did:plc:fveyynlevhhdhzu2etyjdncr/app.bsky.feed.post/3mlfzod4osc2e",
+          "cid": "bafyreiby4hkhhlbtfmbz65huetl76bz2zlml3duysdqv7yuo6vqn5vykie",
+          "bskyUrl": "https://bsky.app/profile/tomoyuki-mikami.bsky.social/post/3mlfzod4osc2e",
+          "text": "とか言ってたら `codex remote-control` コマンド追加されている。 github.com/openai/codex... まだモバイルアプリ側のUIが露出してないから多分使えない。次のアップデートあたりで来るだろうか。",
+          "author": {
+            "handle": "tomoyuki-mikami.bsky.social",
+            "displayName": "mika"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T10:23:45.846Z",
+          "createdUtc": 1778322225,
+          "ageHours": 1.66,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:pmslgq4ha2zzyssgi537nw7g/app.bsky.feed.post/3mlfz4kf5zs2f",
           "cid": "bafyreiamkaqg25pve3cnn4fhsc2avk4t6amzqe57dln7cwludnk24v5zfe",
@@ -4115,7 +4143,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-09T10:13:49.484Z",
           "createdUtc": 1778321629,
-          "ageHours": 0.5,
+          "ageHours": 1.83,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -4312,9 +4340,9 @@
     },
     "vercel-labs/zero-native": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 3,
       "repostsSum7d": 1,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlfxa5fygx2p",
         "cid": "bafyreihdghe6siyq3avr236pd2exjhdvbndkmdpbjz23coy3z3bpq4moge",
@@ -4324,11 +4352,11 @@
           "handle": "camilleroux.com",
           "displayName": "Camille Roux"
         },
-        "likeCount": 1,
+        "likeCount": 3,
         "repostCount": 1,
-        "replyCount": 0,
+        "replyCount": 1,
         "createdAt": "2026-05-09T11:40:02+02:00",
-        "hoursSincePosted": 0.64
+        "hoursSincePosted": 2.39
       },
       "posts": [
         {
@@ -4368,13 +4396,13 @@
             "handle": "camilleroux.com",
             "displayName": "Camille Roux"
           },
-          "likeCount": 1,
+          "likeCount": 3,
           "repostCount": 1,
-          "replyCount": 0,
+          "replyCount": 1,
           "createdAt": "2026-05-09T11:40:02+02:00",
           "createdUtc": 1778319602,
-          "ageHours": 0.64,
-          "trendingScore": 3,
+          "ageHours": 2.39,
+          "trendingScore": 5.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -4623,7 +4651,7 @@
     },
     "emdash-cms/emdash": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -4635,11 +4663,11 @@
           "handle": "mk.gg",
           "displayName": "Matt Kane"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-09T09:53:52.030Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.16
       },
       "posts": [
         {
@@ -4651,13 +4679,13 @@
             "handle": "mk.gg",
             "displayName": "Matt Kane"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-09T09:53:52.030Z",
           "createdUtc": 1778320432,
-          "ageHours": 0.5,
-          "trendingScore": 1,
+          "ageHours": 2.16,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
           ],
@@ -4665,6 +4693,108 @@
           "linkedRepos": [
             {
               "fullName": "emdash-cms/emdash",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "safishamsi/graphify": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlg4jmdnpk2t",
+        "cid": "bafyreiaezokuiu3ggmhg36xcqqkuk4vzul2z2kj7zw7okgyvt5xzm67imy",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlg4jmdnpk2t",
+        "text": "https://github.com/safishamsi/graphify",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T11:14:48Z",
+        "hoursSincePosted": 0.81
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlg4jmdnpk2t",
+          "cid": "bafyreiaezokuiu3ggmhg36xcqqkuk4vzul2z2kj7zw7okgyvt5xzm67imy",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlg4jmdnpk2t",
+          "text": "https://github.com/safishamsi/graphify",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T11:14:48Z",
+          "createdUtc": 1778325288,
+          "ageHours": 0.81,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "safishamsi/graphify",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "HKUDS/Vibe-Trading": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlg2t3c4fn2t",
+        "cid": "bafyreigcj5bukwzrgond4nyhv6ekaqo6uhoqqcybhlf75r2thnxuyf5t6m",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlg2t3c4fn2t",
+        "text": "https://github.com/HKUDS/Vibe-Trading",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T10:44:18Z",
+        "hoursSincePosted": 1.32
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlg2t3c4fn2t",
+          "cid": "bafyreigcj5bukwzrgond4nyhv6ekaqo6uhoqqcybhlf75r2thnxuyf5t6m",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlg2t3c4fn2t",
+          "text": "https://github.com/HKUDS/Vibe-Trading",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T10:44:18Z",
+          "createdUtc": 1778323458,
+          "ageHours": 1.32,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "HKUDS/Vibe-Trading",
               "matchType": "url",
               "confidence": 1
             }
@@ -8750,26 +8880,54 @@
       ]
     },
     "openai--codex": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:pmslgq4ha2zzyssgi537nw7g/app.bsky.feed.post/3mlfz4kf5zs2f",
-        "cid": "bafyreiamkaqg25pve3cnn4fhsc2avk4t6amzqe57dln7cwludnk24v5zfe",
-        "bskyUrl": "https://bsky.app/profile/kazukim.bsky.social/post/3mlfz4kf5zs2f",
-        "text": "github.com/openai/codex... トークン足りてなくて、頻繁にreasoning effort 切り替えるようになったのでショートカットほしい",
+        "uri": "at://did:plc:fveyynlevhhdhzu2etyjdncr/app.bsky.feed.post/3mlfzod4osc2e",
+        "cid": "bafyreiby4hkhhlbtfmbz65huetl76bz2zlml3duysdqv7yuo6vqn5vykie",
+        "bskyUrl": "https://bsky.app/profile/tomoyuki-mikami.bsky.social/post/3mlfzod4osc2e",
+        "text": "とか言ってたら `codex remote-control` コマンド追加されている。 github.com/openai/codex... まだモバイルアプリ側のUIが露出してないから多分使えない。次のアップデートあたりで来るだろうか。",
         "author": {
-          "handle": "kazukim.bsky.social",
-          "displayName": "Kazuki Matsuo"
+          "handle": "tomoyuki-mikami.bsky.social",
+          "displayName": "mika"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-09T10:13:49.484Z",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-05-09T10:23:45.846Z",
+        "hoursSincePosted": 1.66
       },
       "posts": [
+        {
+          "uri": "at://did:plc:fveyynlevhhdhzu2etyjdncr/app.bsky.feed.post/3mlfzod4osc2e",
+          "cid": "bafyreiby4hkhhlbtfmbz65huetl76bz2zlml3duysdqv7yuo6vqn5vykie",
+          "bskyUrl": "https://bsky.app/profile/tomoyuki-mikami.bsky.social/post/3mlfzod4osc2e",
+          "text": "とか言ってたら `codex remote-control` コマンド追加されている。 github.com/openai/codex... まだモバイルアプリ側のUIが露出してないから多分使えない。次のアップデートあたりで来るだろうか。",
+          "author": {
+            "handle": "tomoyuki-mikami.bsky.social",
+            "displayName": "mika"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T10:23:45.846Z",
+          "createdUtc": 1778322225,
+          "ageHours": 1.66,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:pmslgq4ha2zzyssgi537nw7g/app.bsky.feed.post/3mlfz4kf5zs2f",
           "cid": "bafyreiamkaqg25pve3cnn4fhsc2avk4t6amzqe57dln7cwludnk24v5zfe",
@@ -8784,7 +8942,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-09T10:13:49.484Z",
           "createdUtc": 1778321629,
-          "ageHours": 0.5,
+          "ageHours": 1.83,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -8981,9 +9139,9 @@
     },
     "vercel-labs--zero-native": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 3,
       "repostsSum7d": 1,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlfxa5fygx2p",
         "cid": "bafyreihdghe6siyq3avr236pd2exjhdvbndkmdpbjz23coy3z3bpq4moge",
@@ -8993,11 +9151,11 @@
           "handle": "camilleroux.com",
           "displayName": "Camille Roux"
         },
-        "likeCount": 1,
+        "likeCount": 3,
         "repostCount": 1,
-        "replyCount": 0,
+        "replyCount": 1,
         "createdAt": "2026-05-09T11:40:02+02:00",
-        "hoursSincePosted": 0.64
+        "hoursSincePosted": 2.39
       },
       "posts": [
         {
@@ -9037,13 +9195,13 @@
             "handle": "camilleroux.com",
             "displayName": "Camille Roux"
           },
-          "likeCount": 1,
+          "likeCount": 3,
           "repostCount": 1,
-          "replyCount": 0,
+          "replyCount": 1,
           "createdAt": "2026-05-09T11:40:02+02:00",
           "createdUtc": 1778319602,
-          "ageHours": 0.64,
-          "trendingScore": 3,
+          "ageHours": 2.39,
+          "trendingScore": 5.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -9292,7 +9450,7 @@
     },
     "emdash-cms--emdash": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -9304,11 +9462,11 @@
           "handle": "mk.gg",
           "displayName": "Matt Kane"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-09T09:53:52.030Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.16
       },
       "posts": [
         {
@@ -9320,13 +9478,13 @@
             "handle": "mk.gg",
             "displayName": "Matt Kane"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-09T09:53:52.030Z",
           "createdUtc": 1778320432,
-          "ageHours": 0.5,
-          "trendingScore": 1,
+          "ageHours": 2.16,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
           ],
@@ -9340,31 +9498,133 @@
           ]
         }
       ]
+    },
+    "safishamsi--graphify": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlg4jmdnpk2t",
+        "cid": "bafyreiaezokuiu3ggmhg36xcqqkuk4vzul2z2kj7zw7okgyvt5xzm67imy",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlg4jmdnpk2t",
+        "text": "https://github.com/safishamsi/graphify",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T11:14:48Z",
+        "hoursSincePosted": 0.81
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlg4jmdnpk2t",
+          "cid": "bafyreiaezokuiu3ggmhg36xcqqkuk4vzul2z2kj7zw7okgyvt5xzm67imy",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlg4jmdnpk2t",
+          "text": "https://github.com/safishamsi/graphify",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T11:14:48Z",
+          "createdUtc": 1778325288,
+          "ageHours": 0.81,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "safishamsi/graphify",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "hkuds--vibe-trading": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlg2t3c4fn2t",
+        "cid": "bafyreigcj5bukwzrgond4nyhv6ekaqo6uhoqqcybhlf75r2thnxuyf5t6m",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlg2t3c4fn2t",
+        "text": "https://github.com/HKUDS/Vibe-Trading",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T10:44:18Z",
+        "hoursSincePosted": 1.32
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlg2t3c4fn2t",
+          "cid": "bafyreigcj5bukwzrgond4nyhv6ekaqo6uhoqqcybhlf75r2thnxuyf5t6m",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlg2t3c4fn2t",
+          "text": "https://github.com/HKUDS/Vibe-Trading",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T10:44:18Z",
+          "createdUtc": 1778323458,
+          "ageHours": 1.32,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "HKUDS/Vibe-Trading",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "emdash-cms/emdash",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
       "fullName": "vercel-labs/zero-native",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 3
     },
     {
-      "fullName": "forrestchang/andrej-karpathy-skills",
+      "fullName": "emdash-cms/emdash",
       "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "JuliusBrussee/caveman",
-      "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 2
     },
     {
       "fullName": "openai/codex",
+      "count7d": 2,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "HKUDS/Vibe-Trading",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "safishamsi/graphify",
       "count7d": 1,
       "likesSum7d": 0
     }

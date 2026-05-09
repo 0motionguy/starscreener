@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-09T03:34:29.979Z",
+  "fetchedAt": "2026-05-09T08:03:25.809Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1278,
+  "scannedArticles": 1295,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 25,
+    "global-rising": 23,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -192,15 +192,15 @@
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 11,
     "tag-mcp-top-7d": 100,
-    "tag-rag-top-7d": 83,
+    "tag-rag-top-7d": 81,
     "tag-promptengineering-top-7d": 39,
-    "tag-workflow-top-7d": 28,
+    "tag-workflow-top-7d": 38,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
     "tag-cli-top-7d": 83,
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 92,
-    "tag-langchain-top-7d": 50,
+    "tag-langchain-top-7d": 49,
     "tag-n8n-top-7d": 25,
     "tag-opensource-top-7d": 100
   },
@@ -484,8 +484,8 @@
         "name": "Klaudia Grzondziel",
         "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3860723%2F17664281-c5ce-4e9b-9f01-8999849fc88d.jpg"
       },
-      "reactionsCount": 43,
-      "commentsCount": 20,
+      "reactionsCount": 51,
+      "commentsCount": 21,
       "readingTime": 5,
       "publishedAt": "2026-05-08T11:13:31Z",
       "tags": [
@@ -494,7 +494,7 @@
         "discuss",
         "jokes"
       ],
-      "trendingScore": 12.89,
+      "trendingScore": 12.96,
       "linkedRepos": []
     },
     {
@@ -1467,6 +1467,34 @@
       ],
       "trendingScore": 2.23,
       "linkedRepos": []
+    },
+    {
+      "id": 3638185,
+      "title": "I got tired of babysitting my Hermes Agent, so I'm hosting one for you",
+      "description": "If you've spent any time with Hermes Agent, you already know the feeling. The agent is good....",
+      "url": "https://dev.to/sivarampg/i-got-tired-of-babysitting-my-hermes-agent-so-im-hosting-one-for-you-1m0",
+      "author": {
+        "username": "sivarampg",
+        "name": "Sivaram",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1177780%2Fdec94b05-f103-4186-84b9-f614b42f2e85.jpg"
+      },
+      "reactionsCount": 6,
+      "commentsCount": 0,
+      "readingTime": 4,
+      "publishedAt": "2026-05-09T05:53:12Z",
+      "tags": [
+        "ai",
+        "agents",
+        "opensource",
+        "productivity"
+      ],
+      "trendingScore": 2.15,
+      "linkedRepos": [
+        {
+          "fullName": "NousResearch/hermes-agent",
+          "location": "body"
+        }
+      ]
     },
     {
       "id": 3623932,
@@ -2506,31 +2534,6 @@
       ],
       "trendingScore": 0.71,
       "linkedRepos": []
-    },
-    {
-      "id": 3615692,
-      "title": "Copilot Squad",
-      "description": "There are two sections to this. In the first section, I discuss what squad is, why it might be useful...",
-      "url": "https://dev.to/ruarfff/copilot-squad-4nda",
-      "author": {
-        "username": "ruarfff",
-        "name": "Ruairí O'Brien",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F17966%2Fe2df42ea-cd08-4877-9866-ff2b1c6bb453.png"
-      },
-      "reactionsCount": 24,
-      "commentsCount": 0,
-      "readingTime": 11,
-      "publishedAt": "2026-05-05T14:49:33Z",
-      "tags": [
-        "githubcopilot"
-      ],
-      "trendingScore": 0.7,
-      "linkedRepos": [
-        {
-          "fullName": "gastownhall/gastown",
-          "location": "body"
-        }
-      ]
     }
   ]
 }

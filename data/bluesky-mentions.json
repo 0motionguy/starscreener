@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-09T13:55:00.783Z",
+  "fetchedAt": "2026-05-09T15:15:19.341Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -4804,8 +4804,8 @@
     },
     "kepano/obsidian-skills": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
+      "likesSum7d": 3,
+      "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
         "uri": "at://did:plc:4pklmqyj4mew3wftz7edg4fy/app.bsky.feed.post/3mlgfg75ssk2z",
@@ -4816,11 +4816,11 @@
           "handle": "stephango.com",
           "displayName": "kepano"
         },
-        "likeCount": 0,
-        "repostCount": 0,
+        "likeCount": 3,
+        "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-09T13:53:58.155Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.36
       },
       "posts": [
         {
@@ -4832,13 +4832,13 @@
             "handle": "stephango.com",
             "displayName": "kepano"
           },
-          "likeCount": 0,
-          "repostCount": 0,
+          "likeCount": 3,
+          "repostCount": 1,
           "replyCount": 0,
           "createdAt": "2026-05-09T13:53:58.155Z",
           "createdUtc": 1778334838,
-          "ageHours": 0.5,
-          "trendingScore": 0,
+          "ageHours": 1.36,
+          "trendingScore": 5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -5060,6 +5060,188 @@
             },
             {
               "fullName": "pbakaus/impeccable",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "obra/superpowers": {
+      "count7d": 2,
+      "likesSum7d": 7,
+      "repostsSum7d": 0,
+      "repliesSum7d": 2,
+      "topPost": {
+        "uri": "at://did:plc:zkdjneg7kggym7ujme65drbh/app.bsky.feed.post/3mlgfp5q7wk2e",
+        "cid": "bafyreifhxstfee5msdwo6i6e257uamcu3rxs3qyq2mrloti3pcqwvs2lpm",
+        "bskyUrl": "https://bsky.app/profile/blank.org/post/3mlgfp5q7wk2e",
+        "text": "If you haven’t already, you should take a look at github.com/obra/superpo...",
+        "author": {
+          "handle": "blank.org",
+          "displayName": "Doctor Memory"
+        },
+        "likeCount": 6,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-09T13:58:58.650Z",
+        "hoursSincePosted": 1.27
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:zkdjneg7kggym7ujme65drbh/app.bsky.feed.post/3mlgfp5q7wk2e",
+          "cid": "bafyreifhxstfee5msdwo6i6e257uamcu3rxs3qyq2mrloti3pcqwvs2lpm",
+          "bskyUrl": "https://bsky.app/profile/blank.org/post/3mlgfp5q7wk2e",
+          "text": "If you haven’t already, you should take a look at github.com/obra/superpo...",
+          "author": {
+            "handle": "blank.org",
+            "displayName": "Doctor Memory"
+          },
+          "likeCount": 6,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-09T13:58:58.650Z",
+          "createdUtc": 1778335138,
+          "ageHours": 1.27,
+          "trendingScore": 6.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:q5bte2vz2qva5cyg2hhzfsbd/app.bsky.feed.post/3mlggw6ltuk2n",
+          "cid": "bafyreiget4nfqsgswk6dqj6jwpzdgdupx6jsb5ygja6lvbb5qlonufebim",
+          "bskyUrl": "https://bsky.app/profile/arthur.clune.org/post/3mlggw6ltuk2n",
+          "text": "There's entire frameworks for this now (github.com/obra/superpo...) and they work well. And the Mythos security stuff isn't better fuzzing - see hacks.mozilla.org/2026/05/behi... It finding bug chains, which fuzzing tools can't",
+          "author": {
+            "handle": "arthur.clune.org",
+            "displayName": "Arthur Clune"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-09T14:20:48.179Z",
+          "createdUtc": 1778336448,
+          "ageHours": 0.91,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "romainsimon/paperasse": {
+      "count7d": 1,
+      "likesSum7d": 4,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:g3tbzu5tcz4evra4mf5wa67c/app.bsky.feed.post/3mlgfxt4f222z",
+        "cid": "bafyreierawgeoounexlerefxkdxvdjnw4tblqbgf3ibicjw5adwguodhfy",
+        "bskyUrl": "https://bsky.app/profile/eventuallycoding.com/post/3mlgfxt4f222z",
+        "text": "Mais non, des skills controleur fiscal, reporting reglementaire, compta, et commissaire aux comptes github.com/romainsimon/... ! Ca fait rêver non ?",
+        "author": {
+          "handle": "eventuallycoding.com",
+          "displayName": "Hugo Lassiège"
+        },
+        "likeCount": 4,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T14:03:49.505Z",
+        "hoursSincePosted": 1.19
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:g3tbzu5tcz4evra4mf5wa67c/app.bsky.feed.post/3mlgfxt4f222z",
+          "cid": "bafyreierawgeoounexlerefxkdxvdjnw4tblqbgf3ibicjw5adwguodhfy",
+          "bskyUrl": "https://bsky.app/profile/eventuallycoding.com/post/3mlgfxt4f222z",
+          "text": "Mais non, des skills controleur fiscal, reporting reglementaire, compta, et commissaire aux comptes github.com/romainsimon/... ! Ca fait rêver non ?",
+          "author": {
+            "handle": "eventuallycoding.com",
+            "displayName": "Hugo Lassiège"
+          },
+          "likeCount": 4,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T14:03:49.505Z",
+          "createdUtc": 1778335429,
+          "ageHours": 1.19,
+          "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "romainsimon/paperasse",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "vercel-labs/agent-browser": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlgfw3ladp2l",
+        "cid": "bafyreifqirvfqzv4i7mytnirinjl4i6bgnk62gs37okuzowjtz3mozpi5u",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlgfw3ladp2l",
+        "text": "vercel-labs / agent-browser: Browser automation CLI for AI agents ★32340 https://github.com/vercel-labs/agent-browser",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T14:02:51.147199Z",
+        "hoursSincePosted": 1.21
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlgfw3ladp2l",
+          "cid": "bafyreifqirvfqzv4i7mytnirinjl4i6bgnk62gs37okuzowjtz3mozpi5u",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlgfw3ladp2l",
+          "text": "vercel-labs / agent-browser: Browser automation CLI for AI agents ★32340 https://github.com/vercel-labs/agent-browser",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T14:02:51.147199Z",
+          "createdUtc": 1778335371,
+          "ageHours": 1.21,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "vercel-labs/agent-browser",
               "matchType": "url",
               "confidence": 1
             }
@@ -9868,8 +10050,8 @@
     },
     "kepano--obsidian-skills": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
+      "likesSum7d": 3,
+      "repostsSum7d": 1,
       "repliesSum7d": 0,
       "topPost": {
         "uri": "at://did:plc:4pklmqyj4mew3wftz7edg4fy/app.bsky.feed.post/3mlgfg75ssk2z",
@@ -9880,11 +10062,11 @@
           "handle": "stephango.com",
           "displayName": "kepano"
         },
-        "likeCount": 0,
-        "repostCount": 0,
+        "likeCount": 3,
+        "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-09T13:53:58.155Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.36
       },
       "posts": [
         {
@@ -9896,13 +10078,13 @@
             "handle": "stephango.com",
             "displayName": "kepano"
           },
-          "likeCount": 0,
-          "repostCount": 0,
+          "likeCount": 3,
+          "repostCount": 1,
           "replyCount": 0,
           "createdAt": "2026-05-09T13:53:58.155Z",
           "createdUtc": 1778334838,
-          "ageHours": 0.5,
-          "trendingScore": 0,
+          "ageHours": 1.36,
+          "trendingScore": 5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -10130,43 +10312,210 @@
           ]
         }
       ]
+    },
+    "obra--superpowers": {
+      "count7d": 2,
+      "likesSum7d": 7,
+      "repostsSum7d": 0,
+      "repliesSum7d": 2,
+      "topPost": {
+        "uri": "at://did:plc:zkdjneg7kggym7ujme65drbh/app.bsky.feed.post/3mlgfp5q7wk2e",
+        "cid": "bafyreifhxstfee5msdwo6i6e257uamcu3rxs3qyq2mrloti3pcqwvs2lpm",
+        "bskyUrl": "https://bsky.app/profile/blank.org/post/3mlgfp5q7wk2e",
+        "text": "If you haven’t already, you should take a look at github.com/obra/superpo...",
+        "author": {
+          "handle": "blank.org",
+          "displayName": "Doctor Memory"
+        },
+        "likeCount": 6,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-09T13:58:58.650Z",
+        "hoursSincePosted": 1.27
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:zkdjneg7kggym7ujme65drbh/app.bsky.feed.post/3mlgfp5q7wk2e",
+          "cid": "bafyreifhxstfee5msdwo6i6e257uamcu3rxs3qyq2mrloti3pcqwvs2lpm",
+          "bskyUrl": "https://bsky.app/profile/blank.org/post/3mlgfp5q7wk2e",
+          "text": "If you haven’t already, you should take a look at github.com/obra/superpo...",
+          "author": {
+            "handle": "blank.org",
+            "displayName": "Doctor Memory"
+          },
+          "likeCount": 6,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-09T13:58:58.650Z",
+          "createdUtc": 1778335138,
+          "ageHours": 1.27,
+          "trendingScore": 6.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:q5bte2vz2qva5cyg2hhzfsbd/app.bsky.feed.post/3mlggw6ltuk2n",
+          "cid": "bafyreiget4nfqsgswk6dqj6jwpzdgdupx6jsb5ygja6lvbb5qlonufebim",
+          "bskyUrl": "https://bsky.app/profile/arthur.clune.org/post/3mlggw6ltuk2n",
+          "text": "There's entire frameworks for this now (github.com/obra/superpo...) and they work well. And the Mythos security stuff isn't better fuzzing - see hacks.mozilla.org/2026/05/behi... It finding bug chains, which fuzzing tools can't",
+          "author": {
+            "handle": "arthur.clune.org",
+            "displayName": "Arthur Clune"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-09T14:20:48.179Z",
+          "createdUtc": 1778336448,
+          "ageHours": 0.91,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "romainsimon--paperasse": {
+      "count7d": 1,
+      "likesSum7d": 4,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:g3tbzu5tcz4evra4mf5wa67c/app.bsky.feed.post/3mlgfxt4f222z",
+        "cid": "bafyreierawgeoounexlerefxkdxvdjnw4tblqbgf3ibicjw5adwguodhfy",
+        "bskyUrl": "https://bsky.app/profile/eventuallycoding.com/post/3mlgfxt4f222z",
+        "text": "Mais non, des skills controleur fiscal, reporting reglementaire, compta, et commissaire aux comptes github.com/romainsimon/... ! Ca fait rêver non ?",
+        "author": {
+          "handle": "eventuallycoding.com",
+          "displayName": "Hugo Lassiège"
+        },
+        "likeCount": 4,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T14:03:49.505Z",
+        "hoursSincePosted": 1.19
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:g3tbzu5tcz4evra4mf5wa67c/app.bsky.feed.post/3mlgfxt4f222z",
+          "cid": "bafyreierawgeoounexlerefxkdxvdjnw4tblqbgf3ibicjw5adwguodhfy",
+          "bskyUrl": "https://bsky.app/profile/eventuallycoding.com/post/3mlgfxt4f222z",
+          "text": "Mais non, des skills controleur fiscal, reporting reglementaire, compta, et commissaire aux comptes github.com/romainsimon/... ! Ca fait rêver non ?",
+          "author": {
+            "handle": "eventuallycoding.com",
+            "displayName": "Hugo Lassiège"
+          },
+          "likeCount": 4,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T14:03:49.505Z",
+          "createdUtc": 1778335429,
+          "ageHours": 1.19,
+          "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "romainsimon/paperasse",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "vercel-labs--agent-browser": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlgfw3ladp2l",
+        "cid": "bafyreifqirvfqzv4i7mytnirinjl4i6bgnk62gs37okuzowjtz3mozpi5u",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlgfw3ladp2l",
+        "text": "vercel-labs / agent-browser: Browser automation CLI for AI agents ★32340 https://github.com/vercel-labs/agent-browser",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T14:02:51.147199Z",
+        "hoursSincePosted": 1.21
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlgfw3ladp2l",
+          "cid": "bafyreifqirvfqzv4i7mytnirinjl4i6bgnk62gs37okuzowjtz3mozpi5u",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlgfw3ladp2l",
+          "text": "vercel-labs / agent-browser: Browser automation CLI for AI agents ★32340 https://github.com/vercel-labs/agent-browser",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T14:02:51.147199Z",
+          "createdUtc": 1778335371,
+          "ageHours": 1.21,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "vercel-labs/agent-browser",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "googleworkspace/cli",
-      "count7d": 1,
-      "likesSum7d": 2
+      "fullName": "obra/superpowers",
+      "count7d": 2,
+      "likesSum7d": 7
     },
     {
-      "fullName": "multica-ai/multica",
+      "fullName": "romainsimon/paperasse",
       "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "pbakaus/impeccable",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "HKUDS/Vibe-Trading",
-      "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 4
     },
     {
       "fullName": "kepano/obsidian-skills",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 3
     },
     {
-      "fullName": "safishamsi/graphify",
+      "fullName": "vercel-labs/agent-browser",
       "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "tinyhumansai/openhuman",
-      "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 2
     }
   ]
 }

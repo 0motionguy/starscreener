@@ -22,11 +22,6 @@
  * and the inner content overflows-hidden when narrow.
  */
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Plug, Terminal, UserRound } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
-import { useUser } from "@clerk/nextjs";
 import { useWatchlistStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { SidebarContent } from "./SidebarContent";
@@ -40,167 +35,12 @@ import type {
 } from "@/lib/sidebar-data";
 import type { SidebarWatchlistPreviewRepo } from "./SidebarWatchlistPreview";
 
-// ---------------------------------------------------------------------------
-// LaunchpadStrip — prominent CLI / MCP entry tiles + conditional user slot.
-//
-// Width adapts:
-//   • Anonymous (no session)  →   2-up grid, full-width CLI + MCP tiles.
-//   • Logged-in user          →   3-up grid; the third tile is the user
-//                                  profile (handle + avatar) linking to
-//                                  /u/<handle>. We DO NOT render a "YOU"
-//                                  placeholder for anonymous users —
-//                                  per design, the user is invisible
-//                                  until they're actually registered.
-//
-// Session check uses the public `/api/auth/session` endpoint (auto-issued
-// `ss_user` cookie). One fetch on mount, cached in component state.
-// ---------------------------------------------------------------------------
-
-interface LaunchpadTile {
-  href: string;
-  icon: LucideIcon;
-  label: string;
-  description: string;
-  matchPrefix?: string; // active when pathname startsWith this
-}
-
-const LAUNCHPAD_TILES: LaunchpadTile[] = [
-  {
-    href: "/cli",
-    icon: Terminal,
-    label: "CLI",
-    description: "ss in your terminal",
-    matchPrefix: "/cli",
-  },
-  {
-    href: "/portal/docs",
-    icon: Plug,
-    label: "MCP",
-    description: "agents + IDEs",
-    matchPrefix: "/portal/docs",
-  },
-];
-
-function useUserSession({
-  enabled,
-}: {
-  enabled: boolean;
-}): { loaded: boolean; userId: string | null } {
-  const [state, setState] = useState<{ loaded: boolean; userId: string | null }>(
-    { loaded: false, userId: null },
-  );
-  useEffect(() => {
-    if (!enabled) {
-      // Clerk says anonymous → never hit `/api/auth/session`. The launchpad
-      // strip stays in 2-up "no profile tile" mode without paying for the
-      // round-trip on every anonymous page render.
-      setState({ loaded: true, userId: null });
-      return;
-    }
-    let cancelled = false;
-    fetch("/api/auth/session", { credentials: "include" })
-      .then((r) => (r.ok ? r.json() : { ok: false }))
-      .then((data: { ok?: boolean; userId?: string }) => {
-        if (cancelled) return;
-        setState({
-          loaded: true,
-          userId: data?.ok && data.userId ? data.userId : null,
-        });
-      })
-      .catch(() => {
-        if (!cancelled) setState({ loaded: true, userId: null });
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [enabled]);
-  return state;
-}
-
-function shortHandle(userId: string): string {
-  // Public user IDs look like `a_xxx` (anon) or `u_xxx` (email-derived).
-  // We trim the prefix and shorten so the chip stays readable in the rail.
-  const trimmed = userId.replace(/^[au]_/, "");
-  return trimmed.slice(0, 6).toUpperCase();
-}
-
-const CLERK_PUBLIC_KEY_PRESENT = Boolean(
-  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
-);
-
-// useUser() hard-throws outside <ClerkProvider />. The layout skips the
-// provider when Clerk isn't configured (CI builds, anonymous previews),
-// so we have two hook trees: one that calls useUser() (Clerk present)
-// and one that hard-codes anonymous (Clerk absent). The branch is chosen
-// by a module-level constant so React's hook order stays stable per
-// component instance.
-function useClerkSignedIn(): { isLoaded: boolean; isSignedIn: boolean } {
-  const { isLoaded, isSignedIn } = useUser();
-  return { isLoaded, isSignedIn: Boolean(isSignedIn) };
-}
-function useAnonymousSignedIn(): { isLoaded: boolean; isSignedIn: boolean } {
-  return { isLoaded: true, isSignedIn: false };
-}
-const useSignedInSafe = CLERK_PUBLIC_KEY_PRESENT
-  ? useClerkSignedIn
-  : useAnonymousSignedIn;
-
-// Kept while the launchpad placement is reworked; do not render it from the
-// hot sidebar path until the auth/session fetch stays off anonymous pages.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function LaunchpadStrip() {
-  const pathname = usePathname() ?? "/";
-  const { isLoaded, isSignedIn } = useSignedInSafe();
-  const sessionEnabled = isLoaded && Boolean(isSignedIn);
-  const { userId } = useUserSession({ enabled: sessionEnabled });
-  const showProfile = Boolean(userId);
-  const cols = showProfile ? "grid-cols-3" : "grid-cols-2";
-  return (
-    <nav
-      aria-label="Launchpad"
-      className={cn("group grid gap-1.5 px-3 pb-3 pt-3", cols)}
-    >
-      {LAUNCHPAD_TILES.map((tile) => {
-        const active = pathname === tile.href
-          || (tile.matchPrefix && pathname.startsWith(tile.matchPrefix));
-        const Icon = tile.icon;
-        return (
-          <Link
-            key={tile.href}
-            href={tile.href}
-            aria-label={`${tile.label} — ${tile.description}`}
-            title={tile.description}
-            className={cn(
-              "launchpad-tile relative flex h-12 flex-col items-center justify-center gap-0.5",
-              "text-[11px] font-semibold tracking-wide",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1",
-              active && "is-active",
-            )}
-          >
-            <Icon className="h-4 w-4" strokeWidth={2.25} aria-hidden />
-            <span className="text-[10px] uppercase tracking-[0.18em]">{tile.label}</span>
-          </Link>
-        );
-      })}
-      {showProfile && userId ? (
-        <Link
-          href={`/u/${userId}`}
-          aria-label="Your profile"
-          title="Your profile"
-          className={cn(
-            "launchpad-tile relative flex h-12 flex-col items-center justify-center gap-0.5",
-            "text-[11px] font-semibold tracking-wide",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1",
-            pathname.startsWith("/u/") && "is-active",
-          )}
-        >
-          <UserRound className="h-4 w-4" strokeWidth={2.25} aria-hidden />
-          <span className="text-[10px] uppercase tracking-[0.18em]">{shortHandle(userId)}</span>
-        </Link>
-      ) : null}
-    </nav>
-  );
-}
+// LaunchpadStrip (CLI/MCP/profile tiles) was removed 2026-05-09 — the
+// component had been carrying an `@eslint-disable no-unused-vars` marker for
+// weeks and was never rendered from the sidebar. Profile entry now lives
+// solely in <SidebarProfileBox /> below. If the launchpad placement returns,
+// re-introduce the helpers + LaunchpadTile interface alongside the new
+// render site (history available via `git log --diff-filter=D -- Sidebar.tsx`).
 
 // ---------------------------------------------------------------------------
 // Data fetch hook — shared by Sidebar + MobileDrawer

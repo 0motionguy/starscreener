@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-09T13:28:29.479Z",
+  "fetchedAt": "2026-05-09T19:11:36.043Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1278,
+  "scannedArticles": 1281,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 20,
+    "global-rising": 17,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -197,9 +197,9 @@
     "tag-workflow-top-7d": 38,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
-    "tag-cli-top-7d": 84,
+    "tag-cli-top-7d": 85,
     "tag-tooling-top-7d": 100,
-    "tag-devtools-top-7d": 91,
+    "tag-devtools-top-7d": 88,
     "tag-langchain-top-7d": 49,
     "tag-n8n-top-7d": 25,
     "tag-opensource-top-7d": 100
@@ -507,8 +507,8 @@
         "name": "Aryan Choudhary",
         "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2353063%2F6614279b-75f1-4ca9-b9e5-251daa207f14.png"
       },
-      "reactionsCount": 99,
-      "commentsCount": 37,
+      "reactionsCount": 104,
+      "commentsCount": 38,
       "readingTime": 4,
       "publishedAt": "2026-05-06T06:28:42Z",
       "tags": [
@@ -517,7 +517,7 @@
         "development",
         "workplace"
       ],
-      "trendingScore": 11.75,
+      "trendingScore": 11.89,
       "linkedRepos": []
     },
     {
@@ -541,6 +541,29 @@
         "softwareengineering"
       ],
       "trendingScore": 11.32,
+      "linkedRepos": []
+    },
+    {
+      "id": 3640966,
+      "title": "We Broke Our App Into 50 Microservices. Then We Put It Back Together — And Cut Costs by 90%",
+      "description": "Hanzla BaigFollow             Front-end dev &amp; Founder...",
+      "url": "https://dev.to/hanzla/we-broke-our-app-into-50-microservices-then-we-put-it-back-together-and-cut-costs-by-90-2imk",
+      "author": {
+        "username": "hanzla",
+        "name": "Hanzla Baig",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3615540%2F4e60e18a-f0e5-4db0-8a73-0f3701aff062.png"
+      },
+      "reactionsCount": 30,
+      "commentsCount": 0,
+      "readingTime": 12,
+      "publishedAt": "2026-05-09T15:08:01Z",
+      "tags": [
+        "microservices",
+        "webdev",
+        "programming",
+        "javascript"
+      ],
+      "trendingScore": 10.92,
       "linkedRepos": []
     },
     {
@@ -1466,6 +1489,29 @@
         "tutorial"
       ],
       "trendingScore": 2.23,
+      "linkedRepos": []
+    },
+    {
+      "id": 3641309,
+      "title": "Build an MCP Server in Node.js & TypeScript: A Practical HazelJS Tutorial",
+      "description": "Expose your existing TypeScript classes to Cursor, Claude Desktop, and any other Model Context...",
+      "url": "https://dev.to/arslan_mecom/build-an-mcp-server-in-nodejs-typescript-a-practical-hazeljs-tutorial-3n75",
+      "author": {
+        "username": "arslan_mecom",
+        "name": "Muhammad Arslan",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F190316%2Fad30cf50-acfe-4d0d-8b24-bdca053ac380.jpg"
+      },
+      "reactionsCount": 6,
+      "commentsCount": 0,
+      "readingTime": 14,
+      "publishedAt": "2026-05-09T17:02:16Z",
+      "tags": [
+        "mcp",
+        "node",
+        "tutorial",
+        "typescript"
+      ],
+      "trendingScore": 2.17,
       "linkedRepos": []
     },
     {
@@ -2446,6 +2492,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3639898,
+      "title": "How to Find the Postgres Indexes Your Planner Never Picks (I Found 20 of 51)",
+      "description": "Postgres tells you how many times each index was scanned. It can't tell you which one the planner picked for your slow query. I built a 3-file analyzer — and the first run found 20 of 51 indexes never used, 78% of my index disk wasted.",
+      "url": "https://dev.to/alimafana/postgres-tells-you-your-query-was-slow-not-which-index-was-wasted-171g",
+      "author": {
+        "username": "alimafana",
+        "name": "Ali Afana ",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3867337%2F127296a6-3820-4b0a-b9e3-1b1274eccdf6.jpg"
+      },
+      "reactionsCount": 6,
+      "commentsCount": 2,
+      "readingTime": 10,
+      "publishedAt": "2026-05-09T11:45:42Z",
+      "tags": [
+        "postgres",
+        "database",
+        "performance",
+        "sql"
+      ],
+      "trendingScore": 0.75,
+      "linkedRepos": []
+    },
+    {
       "id": 3617121,
       "title": "The Fairness Problem Behind AI Games on Blockchain",
       "description": "At first, an AI horse racing game sounds almost simple.  Create digital horses. Give them unique...",
@@ -2466,73 +2535,6 @@
         "web3"
       ],
       "trendingScore": 0.74,
-      "linkedRepos": []
-    },
-    {
-      "id": 3617361,
-      "title": "There will still be art in software",
-      "description": "Originally published on josnun.com    Larger groups gaining access to tools and capabilities that...",
-      "url": "https://dev.to/josnun/there-will-still-be-art-in-software-388g",
-      "author": {
-        "username": "josnun",
-        "name": "Josiah Nunemaker",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F223798%2F3d9bf7e0-9191-478b-b3e0-8ad07f17bd92.jpg"
-      },
-      "reactionsCount": 22,
-      "commentsCount": 0,
-      "readingTime": 3,
-      "publishedAt": "2026-05-05T21:47:47Z",
-      "tags": [
-        "ai",
-        "uidesign"
-      ],
-      "trendingScore": 0.73,
-      "linkedRepos": []
-    },
-    {
-      "id": 3604041,
-      "title": "Migrating from Astro 5 to Astro 6: A Real-World Breakdown 📖",
-      "description": "I have been meaning to upgrade my personal site to Astro 6 for a while. The release notes sat in my...",
-      "url": "https://dev.to/harshil1712/migrating-from-astro-5-to-astro-6-a-real-world-breakdown-2d0c",
-      "author": {
-        "username": "harshil1712",
-        "name": "Harshil Agrawal",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F124095%2Fa2c1f992-7929-49c3-bb84-25d458aa7d41.png"
-      },
-      "reactionsCount": 40,
-      "commentsCount": 1,
-      "readingTime": 9,
-      "publishedAt": "2026-05-03T13:05:28Z",
-      "tags": [
-        "ai",
-        "devjournal",
-        "javascript",
-        "webdev"
-      ],
-      "trendingScore": 0.72,
-      "linkedRepos": []
-    },
-    {
-      "id": 3628872,
-      "title": "How to Authorize AI Agents Using Token Exchange Open Standards",
-      "description": "Your agents have too much access   You have a coding agent. It needs to call an API, so you...",
-      "url": "https://dev.to/kimmaida/how-to-authorize-ai-agents-using-token-exchange-open-standards-288d",
-      "author": {
-        "username": "kimmaida",
-        "name": "Kim Maida",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F142453%2F2079a3c4-b091-425f-96b8-e4c68439ac29.png"
-      },
-      "reactionsCount": 6,
-      "commentsCount": 2,
-      "readingTime": 9,
-      "publishedAt": "2026-05-07T19:41:53Z",
-      "tags": [
-        "agents",
-        "ai",
-        "api",
-        "security"
-      ],
-      "trendingScore": 0.71,
       "linkedRepos": []
     }
   ]

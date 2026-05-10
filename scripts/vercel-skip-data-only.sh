@@ -10,15 +10,16 @@ set -euo pipefail
 branch="${VERCEL_GIT_COMMIT_REF:-}"
 vercel_env="${VERCEL_ENV:-}"
 
-# Emergency brake for billing spikes:
-# Set VERCEL_PREVIEW_BUILD_MODE=off in Project Settings -> Environment Variables
-# for Preview only. Production still uses the normal diff-based gate.
+# Preview cost brake:
+# Preview builds are skipped by default. Set VERCEL_PREVIEW_BUILD_MODE=runtime
+# for Preview when a project temporarily needs real Vercel preview builds.
+# Production still uses the normal diff-based gate.
 if [ "${VERCEL_FORCE_BUILD:-}" = "1" ]; then
   echo "[ignoreCommand] VERCEL_FORCE_BUILD=1 - building"
   exit 1
 fi
-if [ "$vercel_env" = "preview" ] && [ "${VERCEL_PREVIEW_BUILD_MODE:-runtime}" = "off" ]; then
-  echo "[ignoreCommand] preview builds disabled by VERCEL_PREVIEW_BUILD_MODE=off - skipping"
+if [ "$vercel_env" = "preview" ] && [ "${VERCEL_PREVIEW_BUILD_MODE:-off}" != "runtime" ]; then
+  echo "[ignoreCommand] preview build disabled by default - set VERCEL_PREVIEW_BUILD_MODE=runtime to build"
   exit 0
 fi
 

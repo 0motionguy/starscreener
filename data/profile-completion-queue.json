@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-10T20:38:52.884Z",
+  "generatedAt": "2026-05-10T21:39:47.099Z",
   "version": 1,
   "mode": "top",
   "totalChecked": 100,
@@ -1692,7 +1692,7 @@
     },
     {
       "fullName": "adysec/cve-2026-31431",
-      "rank": 97,
+      "rank": 96,
       "completenessScore": 45,
       "breakdown": {
         "required": 25,
@@ -1720,38 +1720,7 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "both",
-      "priority": 958,
-      "lastSweptAt": null
-    },
-    {
-      "fullName": "hyperion-cs/dpi-checkers",
-      "rank": 93,
-      "completenessScore": 53,
-      "breakdown": {
-        "required": 30,
-        "coverage": 0,
-        "deltas": 13,
-        "enrichment": 10
-      },
-      "missingFields": [],
-      "underScannedSources": [
-        "twitter",
-        "reddit",
-        "hackernews",
-        "bluesky",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 0,
-      "staleDeltas": true,
-      "hasEnrichmentSnapshot": true,
-      "recommendedAction": "sweep",
-      "priority": 954,
+      "priority": 959,
       "lastSweptAt": null
     },
     {
@@ -1817,7 +1786,7 @@
     },
     {
       "fullName": "HKUDS/AI-Trader",
-      "rank": 94,
+      "rank": 93,
       "completenessScore": 66,
       "breakdown": {
         "required": 25,
@@ -1844,12 +1813,42 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": true,
       "recommendedAction": "both",
-      "priority": 940,
+      "priority": 941,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "iOfficeAI/OfficeCLI",
+      "rank": 100,
+      "completenessScore": 59,
+      "breakdown": {
+        "required": 30,
+        "coverage": 6,
+        "deltas": 13,
+        "enrichment": 10
+      },
+      "missingFields": [],
+      "underScannedSources": [
+        "twitter",
+        "reddit",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 1,
+      "staleDeltas": true,
+      "hasEnrichmentSnapshot": true,
+      "recommendedAction": "sweep",
+      "priority": 941,
       "lastSweptAt": null
     },
     {
       "fullName": "AnInsomniacy/motrix-next",
-      "rank": 96,
+      "rank": 95,
       "completenessScore": 66,
       "breakdown": {
         "required": 25,
@@ -1876,12 +1875,12 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": true,
       "recommendedAction": "both",
-      "priority": 938,
+      "priority": 939,
       "lastSweptAt": null
     },
     {
       "fullName": "datawhalechina/easy-vibe",
-      "rank": 100,
+      "rank": 99,
       "completenessScore": 64,
       "breakdown": {
         "required": 30,
@@ -1906,7 +1905,7 @@
       "staleDeltas": true,
       "hasEnrichmentSnapshot": true,
       "recommendedAction": "sweep",
-      "priority": 936,
+      "priority": 937,
       "lastSweptAt": null
     }
   ],
@@ -1920,8 +1919,8 @@
     "p10Score": 45,
     "p50Score": 56,
     "channelsFiringHistogram": {
-      "0": 12,
-      "1": 39,
+      "0": 11,
+      "1": 40,
       "2": 8,
       "3": 2,
       "4": 0,

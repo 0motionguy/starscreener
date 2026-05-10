@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-10T16:31:42.345Z",
+  "fetchedAt": "2026-05-10T17:31:13.895Z",
   "windowHours": 72,
-  "scannedTotal": 79,
+  "scannedTotal": 78,
   "stories": [
     {
       "shortId": "znlkib",
@@ -44,11 +44,11 @@
       "url": "https://lists.debian.org/debian-devel-announce/2026/05/msg00001.html",
       "commentsUrl": "https://lobste.rs/s/q0bvq9/debian_must_ship_reproducible_packages",
       "by": "",
-      "score": 29,
+      "score": 40,
       "commentCount": 0,
       "createdUtc": 1778418775,
-      "ageHours": 3.3130555555555556,
-      "trendingScore": 2.36799871428342,
+      "ageHours": 4.305,
+      "trendingScore": 2.526575933175344,
       "tags": [
         "linux"
       ],
@@ -113,6 +113,24 @@
       ]
     },
     {
+      "shortId": "xb2edj",
+      "title": "Replacing a 3 GB SQLite database with a 10 MB FST (finite state transducer) binary",
+      "url": "https://til.andrew-quinn.me/posts/replacing-a-3-gb-sqlite-database-with-a-7-mb-fst-finite-state-trandsucer-binary/",
+      "commentsUrl": "https://lobste.rs/s/xb2edj/replacing_3_gb_sqlite_database_with_10_mb",
+      "by": "",
+      "score": 30,
+      "commentCount": 3,
+      "createdUtc": 1778413350,
+      "ageHours": 5.811944444444444,
+      "trendingScore": 1.3739867213539652,
+      "tags": [
+        "performance",
+        "rust"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "ho7nqt",
       "title": "On forking the Web",
       "url": "https://dillo-browser.org/lab/web-fork/",
@@ -125,24 +143,6 @@
       "trendingScore": 1.369912477389986,
       "tags": [
         "web"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "xb2edj",
-      "title": "Replacing a 3 GB SQLite database with a 10 MB FST (finite state transducer) binary",
-      "url": "https://til.andrew-quinn.me/posts/replacing-a-3-gb-sqlite-database-with-a-7-mb-fst-finite-state-trandsucer-binary/",
-      "commentsUrl": "https://lobste.rs/s/xb2edj/replacing_3_gb_sqlite_database_with_10_mb",
-      "by": "",
-      "score": 24,
-      "commentCount": 3,
-      "createdUtc": 1778413350,
-      "ageHours": 4.82,
-      "trendingScore": 1.3475183244589153,
-      "tags": [
-        "performance",
-        "rust"
       ],
       "description": "",
       "linkedRepos": []
@@ -178,6 +178,23 @@
       "tags": [
         "networking",
         "security"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "b6fyzj",
+      "title": "So you've installed `fzf`. Now what? (2023)",
+      "url": "https://andrew-quinn.me/fzf/",
+      "commentsUrl": "https://lobste.rs/s/b6fyzj/so_you_ve_installed_fzf_now_what_2023",
+      "by": "",
+      "score": 11,
+      "commentCount": 0,
+      "createdUtc": 1778424911,
+      "ageHours": 2.6005555555555557,
+      "trendingScore": 1.1147494476958622,
+      "tags": [
+        "programming"
       ],
       "description": "",
       "linkedRepos": []
@@ -290,23 +307,6 @@
       "linkedRepos": []
     },
     {
-      "shortId": "b6fyzj",
-      "title": "So you've installed `fzf`. Now what? (2023)",
-      "url": "https://andrew-quinn.me/fzf/",
-      "commentsUrl": "https://lobste.rs/s/b6fyzj/so_you_ve_installed_fzf_now_what_2023",
-      "by": "",
-      "score": 6,
-      "commentCount": 0,
-      "createdUtc": 1778424911,
-      "ageHours": 1.6086111111111112,
-      "trendingScore": 0.8752681542282645,
-      "tags": [
-        "programming"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
       "shortId": "pv9i7j",
       "title": "Formatting an entire 25 million line codebase overnight: the rubyfmt story",
       "url": "https://stripe.dev/blog/formatting-an-entire-25-million-line-codebase-overnight-the-rubyfmt-story",
@@ -391,6 +391,24 @@
         "vibecoding"
       ],
       "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "oenret",
+      "title": "The Intolerable Hypocrisy of Cyberlibertarianism",
+      "url": "https://matduggan.com/the-intolerable-hypocrisy-of-cyberlibertarianism/",
+      "commentsUrl": "https://lobste.rs/s/oenret/intolerable_hypocrisy",
+      "by": "",
+      "score": 20,
+      "commentCount": 1,
+      "createdUtc": 1778408782,
+      "ageHours": 7.0808333333333335,
+      "trendingScore": 0.7308721921583969,
+      "tags": [
+        "culture",
+        "rant"
+      ],
+      "description": "<p>A response to Langdon Winner's 1997 essay \"Cyberlibertarian Myths\nand The Prospects for Community\"</p>\n",
       "linkedRepos": []
     },
     {
@@ -482,24 +500,6 @@
         "programming"
       ],
       "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "oenret",
-      "title": "The Intolerable Hypocrisy of Cyberlibertarianism",
-      "url": "https://matduggan.com/the-intolerable-hypocrisy-of-cyberlibertarianism/",
-      "commentsUrl": "https://lobste.rs/s/oenret/intolerable_hypocrisy",
-      "by": "",
-      "score": 5,
-      "commentCount": 0,
-      "createdUtc": 1778408782,
-      "ageHours": 1.7491666666666668,
-      "trendingScore": 0.6887599465526609,
-      "tags": [
-        "culture",
-        "rant"
-      ],
-      "description": "<p>A response to Langdon Winner's 1997 essay \"Cyberlibertarian Myths\nand The Prospects for Community\"</p>\n",
       "linkedRepos": []
     },
     {
@@ -699,6 +699,24 @@
       "linkedRepos": []
     },
     {
+      "shortId": "kabx8f",
+      "title": "A recent experience with ChatGPT 5.5 Pro",
+      "url": "https://gowers.wordpress.com/2026/05/08/a-recent-experience-with-chatgpt-5-5-pro/",
+      "commentsUrl": "https://lobste.rs/s/kabx8f/recent_experience_with_chatgpt_5_5_pro",
+      "by": "",
+      "score": 5,
+      "commentCount": 1,
+      "createdUtc": 1778425279,
+      "ageHours": 2.4983333333333335,
+      "trendingScore": 0.5240739260998911,
+      "tags": [
+        "math",
+        "vibecoding"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "bybg7e",
       "title": "9p file server daemon for UNIX-like systems",
       "url": "https://kamid.omarpolo.com/",
@@ -783,24 +801,6 @@
       "tags": [
         "css",
         "design"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "kabx8f",
-      "title": "A recent experience with ChatGPT 5.5 Pro",
-      "url": "https://gowers.wordpress.com/2026/05/08/a-recent-experience-with-chatgpt-5-5-pro/",
-      "commentsUrl": "https://lobste.rs/s/kabx8f/recent_experience_with_chatgpt_5_5_pro",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1778425279,
-      "ageHours": 0.5269444444444444,
-      "trendingScore": 0.4978934978802966,
-      "tags": [
-        "math",
-        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []

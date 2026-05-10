@@ -11,7 +11,12 @@ import { resolve, dirname } from "path";
 import { writeDataStore } from "./_data-store-write.mjs";
 
 const OUT_PATH = resolve(process.cwd(), ".data/solana-x402-onchain.json");
-const RPC_ENDPOINTS = (process.env.SOLANA_RPC_URL ?? "https://api.mainnet-beta.solana.com")
+// Use `||` not `??`: GH Actions sets unset secret env to empty string,
+// and `??` only catches null/undefined — empty string falls through and
+// produces RPC_ENDPOINTS=[] which fails every RPC call with "Failed to
+// parse URL from undefined". Confirmed broken in the daily cron since
+// before the file ever made it into git history.
+const RPC_ENDPOINTS = (process.env.SOLANA_RPC_URL || "https://api.mainnet-beta.solana.com")
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);

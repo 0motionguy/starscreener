@@ -37,28 +37,42 @@ interface LeaderboardRow {
 }
 
 async function getTopReferrers(): Promise<LeaderboardRow[]> {
-  const rows = await db
-    .select({
-      handle: profiles.handle,
-      avatarUrl: profiles.avatarUrl,
-      displayName: profiles.displayName,
-      referralCount: count(referrals.id).mapWith(Number),
-    })
-    .from(referrals)
-    .innerJoin(profiles, eq(profiles.id, referrals.referrerProfileId))
-    .where(
-      sql`${isNotNull(referrals.qualifiedAt)} AND ${profiles.publicLeaderboardOptin} = true`,
-    )
-    .groupBy(profiles.id, profiles.handle, profiles.avatarUrl, profiles.displayName)
-    .orderBy(desc(count(referrals.id)))
-    .limit(50);
+  // Wrap the Drizzle query in try/catch — when DATABASE_URL is missing or
+  // the Supabase pooler is unreachable (dev without `.env.local`, prod
+  // with stale secret, transient network), the db client throws and
+  // crashes the page (digest 1521999500 observed 2026-05-10). The page
+  // already renders an empty-state for `rows.length === 0`, so degrading
+  // to "no referrers yet" is strictly better than the error boundary.
+  try {
+    const rows = await db
+      .select({
+        handle: profiles.handle,
+        avatarUrl: profiles.avatarUrl,
+        displayName: profiles.displayName,
+        referralCount: count(referrals.id).mapWith(Number),
+      })
+      .from(referrals)
+      .innerJoin(profiles, eq(profiles.id, referrals.referrerProfileId))
+      .where(
+        sql`${isNotNull(referrals.qualifiedAt)} AND ${profiles.publicLeaderboardOptin} = true`,
+      )
+      .groupBy(profiles.id, profiles.handle, profiles.avatarUrl, profiles.displayName)
+      .orderBy(desc(count(referrals.id)))
+      .limit(50);
 
-  return rows.map((row) => ({
-    handle: row.handle,
-    avatarUrl: row.avatarUrl,
-    displayName: row.displayName,
-    referralCount: row.referralCount,
-  }));
+    return rows.map((row) => ({
+      handle: row.handle,
+      avatarUrl: row.avatarUrl,
+      displayName: row.displayName,
+      referralCount: row.referralCount,
+    }));
+  } catch (err) {
+    console.warn(
+      "[refer/leaderboard] DB query failed, rendering empty state:",
+      err instanceof Error ? err.message : err,
+    );
+    return [];
+  }
 }
 
 export default async function ReferLeaderboardPage() {

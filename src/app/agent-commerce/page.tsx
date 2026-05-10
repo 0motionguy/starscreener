@@ -553,36 +553,35 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
       down: true,
     });
   }
-  const freshGithub = all
-    .filter(
-      (i): i is AgentCommerceItem & {
-        live: { pushedAt: string; stars: number };
-      } =>
-        Boolean(
-          i.live?.pushedAt &&
-            typeof i.live.stars === "number" &&
-            i.live.stars > 50,
-        ),
-    )
-    .slice()
-    .sort(
-      (a, b) =>
-        new Date(b.live.pushedAt).getTime() -
-        new Date(a.live.pushedAt).getTime(),
-    )
+  // Defensive: only keep items with a *parseable* ISO pushedAt. Prod has
+  // surfaced rows with malformed/non-string pushedAt values (digest 571787114
+  // observed 2026-05-10) which slip past the existence check and crash the
+  // sort with a NaN comparator. Computing the timestamp once + filtering on
+  // Number.isFinite eliminates that path.
+  type FreshGithubRow = {
+    item: AgentCommerceItem;
+    ts: number;
+    stars: number;
+  };
+  const freshGithub: FreshGithubRow[] = all
+    .map<FreshGithubRow | null>((i) => {
+      const pushedAt = i.live?.pushedAt;
+      const stars = i.live?.stars;
+      if (typeof pushedAt !== "string" || typeof stars !== "number") return null;
+      const ts = new Date(pushedAt).getTime();
+      if (!Number.isFinite(ts) || stars <= 50) return null;
+      return { item: i, ts, stars };
+    })
+    .filter((row): row is FreshGithubRow => row !== null)
+    .sort((a, b) => b.ts - a.ts)
     .slice(0, 4);
-  for (const item of freshGithub) {
-    const days = Math.max(
-      0,
-      Math.floor(
-        (Date.now() - new Date(item.live.pushedAt).getTime()) / 86_400_000,
-      ),
-    );
+  for (const { item, ts, stars } of freshGithub) {
+    const days = Math.max(0, Math.floor((Date.now() - ts) / 86_400_000));
     tickerItems.push({
       kind: "github-push",
       href: `/agent-commerce/${item.slug}`,
       label: item.name,
-      text: `★${item.live.stars.toLocaleString("en-US")}`,
+      text: `★${stars.toLocaleString("en-US")}`,
       value: days === 0 ? "today" : `${days}d ago`,
     });
   }

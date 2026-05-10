@@ -742,6 +742,17 @@ function coerceExtraSkillsBoard(
 
 export async function getSkillsSignalData(): Promise<SkillsSignalData> {
   const store = getDataStore();
+  // Same resilience pattern as getMcpSignalData — any one of these 13 reads
+  // throwing (Redis flaky, schema drift, fetcher dead) used to crash the
+  // page. Per-loader catch keeps the empty fallback that coerce* + side-
+  // channel merge already accept.
+  const skillFallbacks = emptySkillSideChannels();
+  const emptyRead: DataReadResult<unknown> = {
+    data: null,
+    source: "missing",
+    ageMs: Number.POSITIVE_INFINITY,
+    fresh: false,
+  };
   const [
     skillsShRaw,
     githubRaw,
@@ -757,19 +768,22 @@ export async function getSkillsSignalData(): Promise<SkillsSignalData> {
     hotnessPrevSkill,
     hotnessPrevSkillsSh,
   ] = await Promise.all([
-    store.read<unknown>(SKILLS_SH_KEY),
-    store.read<unknown>(GITHUB_SKILLS_KEY),
-    store.read<unknown>(SKILLSMP_KEY),
-    store.read<unknown>(LOBEHUB_SKILLS_KEY),
-    store.read<unknown>(SMITHERY_SKILLS_KEY),
-    loadAwesomeSkillsIndex(),
-    loadSkillDerivatives(),
-    loadSkillInstallsPrev7d(),
-    loadSkillInstallsPrev1d(),
-    loadSkillInstallsPrev30d(),
-    loadSkillForksPrev7d(),
-    loadHotnessPrev7d("trending-skill"),
-    loadHotnessPrev7d("trending-skill-sh"),
+    store.read<unknown>(SKILLS_SH_KEY).catch(() => emptyRead),
+    store.read<unknown>(GITHUB_SKILLS_KEY).catch(() => emptyRead),
+    store.read<unknown>(SKILLSMP_KEY).catch(() => emptyRead),
+    store.read<unknown>(LOBEHUB_SKILLS_KEY).catch(() => emptyRead),
+    store.read<unknown>(SMITHERY_SKILLS_KEY).catch(() => emptyRead),
+    loadAwesomeSkillsIndex().catch(() => skillFallbacks.awesomeIndex),
+    loadSkillDerivatives().catch(() => ({
+      counts: skillFallbacks.derivatives,
+      meta: skillFallbacks.derivativesMeta,
+    })),
+    loadSkillInstallsPrev7d().catch(() => skillFallbacks.installsPrev7d),
+    loadSkillInstallsPrev1d().catch(() => skillFallbacks.installsPrev1d),
+    loadSkillInstallsPrev30d().catch(() => skillFallbacks.installsPrev30d),
+    loadSkillForksPrev7d().catch(() => skillFallbacks.forksPrev7d),
+    loadHotnessPrev7d("trending-skill").catch(() => skillFallbacks.hotnessPrev7d),
+    loadHotnessPrev7d("trending-skill-sh").catch(() => skillFallbacks.hotnessPrev7d),
   ]);
   // Merge both skill-domain snapshots into one map. First-write-wins on id
   // collision (same id present in both feeds is rare; either snapshot is
@@ -859,6 +873,19 @@ export async function getSkillsSignalData(): Promise<SkillsSignalData> {
 
 export async function getMcpSignalData(): Promise<McpSignalData> {
   const store = getDataStore();
+  // Side-channel loaders are best-effort enrichment, not load-bearing. If
+  // any one rejects (Redis flaky, malformed cached payload, schema drift),
+  // the page must still render the primary MCP board. The per-loader catch
+  // returns the same empty shape the coerce* functions already accept, so
+  // a partial outage degrades gracefully instead of crashing the page.
+  // Production /mcp digest (broken 2026-05-10) traced to this Promise.all.
+  const fallbacks = emptyMcpSideChannels();
+  const emptyRead: DataReadResult<unknown> = {
+    data: null,
+    source: "missing",
+    ageMs: Number.POSITIVE_INFINITY,
+    fresh: false,
+  };
   const [
     raw,
     livenessSummary,
@@ -870,15 +897,15 @@ export async function getMcpSignalData(): Promise<McpSignalData> {
     usagePrev7d,
     usagePrev30d,
   ] = await Promise.all([
-    store.read<unknown>(MCP_KEY),
-    loadMcpLivenessSummary(),
-    loadMcpDownloadsSummary(),
-    loadMcpDependentsSummary(),
-    loadMcpSmitheryRankSummary(),
-    loadHotnessPrev7d("trending-mcp"),
-    loadMcpUsageSnapshot(1),
-    loadMcpUsageSnapshot(7),
-    loadMcpUsageSnapshot(30),
+    store.read<unknown>(MCP_KEY).catch(() => emptyRead),
+    loadMcpLivenessSummary().catch(() => fallbacks.livenessSummary),
+    loadMcpDownloadsSummary().catch(() => fallbacks.downloadsSummary),
+    loadMcpDependentsSummary().catch(() => fallbacks.dependentsSummary),
+    loadMcpSmitheryRankSummary().catch(() => fallbacks.smitheryRankSummary),
+    loadHotnessPrev7d("trending-mcp").catch(() => fallbacks.hotnessPrev7d),
+    loadMcpUsageSnapshot(1).catch(() => fallbacks.usagePrev1d),
+    loadMcpUsageSnapshot(7).catch(() => fallbacks.usagePrev7d),
+    loadMcpUsageSnapshot(30).catch(() => fallbacks.usagePrev30d),
   ]);
   const sideChannels: McpSideChannels = {
     livenessSummary,

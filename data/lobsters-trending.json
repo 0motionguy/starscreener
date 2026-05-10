@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-10T12:11:19.134Z",
+  "fetchedAt": "2026-05-10T14:02:17.036Z",
   "windowHours": 72,
-  "scannedTotal": 80,
+  "scannedTotal": 81,
   "stories": [
     {
       "shortId": "znlkib",
@@ -130,6 +130,23 @@
       "linkedRepos": []
     },
     {
+      "shortId": "q0bvq9",
+      "title": "Debian must ship reproducible packages",
+      "url": "https://lists.debian.org/debian-devel-announce/2026/05/msg00001.html",
+      "commentsUrl": "https://lobste.rs/s/q0bvq9/debian_must_ship_reproducible_packages",
+      "by": "",
+      "score": 6,
+      "commentCount": 0,
+      "createdUtc": 1778418775,
+      "ageHours": 0.8227777777777778,
+      "trendingScore": 1.2651330919385908,
+      "tags": [
+        "linux"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "bnfm0h",
       "title": "Let's Encrypt Stopping Issuance for Potential Incident",
       "url": "https://letsencrypt.status.io/",
@@ -143,6 +160,24 @@
       "tags": [
         "networking",
         "security"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "xb2edj",
+      "title": "Replacing a 3 GB SQLite database with a 10 MB FST (finite state transducer) binary",
+      "url": "https://til.andrew-quinn.me/posts/replacing-a-3-gb-sqlite-database-with-a-7-mb-fst-finite-state-trandsucer-binary/",
+      "commentsUrl": "https://lobste.rs/s/xb2edj/replacing_3_gb_sqlite_database_with_10_mb",
+      "by": "",
+      "score": 10,
+      "commentCount": 0,
+      "createdUtc": 1778413350,
+      "ageHours": 2.3297222222222222,
+      "trendingScore": 1.109966695618448,
+      "tags": [
+        "performance",
+        "rust"
       ],
       "description": "",
       "linkedRepos": []
@@ -665,24 +700,6 @@
       "linkedRepos": []
     },
     {
-      "shortId": "xb2edj",
-      "title": "Replacing a 3 GB SQLite database with a 10 MB FST (finite state transducer) binary",
-      "url": "https://til.andrew-quinn.me/posts/replacing-a-3-gb-sqlite-database-with-a-7-mb-fst-finite-state-trandsucer-binary/",
-      "commentsUrl": "https://lobste.rs/s/xb2edj/replacing_3_gb_sqlite_database_with_10_mb",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1778413350,
-      "ageHours": 0.4802777777777778,
-      "trendingScore": 0.5120112604850675,
-      "tags": [
-        "performance",
-        "rust"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
       "shortId": "9f2djs",
       "title": "Multi-stroke text effect in CSS",
       "url": "https://yuanchuan.dev/multi-stroke-text-effect-in-css",
@@ -875,29 +892,6 @@
       ],
       "description": "",
       "linkedRepos": []
-    },
-    {
-      "shortId": "n4fmkx",
-      "title": "Copy Fail 2: Electric Boogaloo",
-      "url": "https://github.com/0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
-      "commentsUrl": "https://lobste.rs/s/n4fmkx/copy_fail_2_electric_boogaloo",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1778200005,
-      "ageHours": 0.8872222222222222,
-      "trendingScore": 0.4076708680344273,
-      "tags": [
-        "security"
-      ],
-      "description": "",
-      "linkedRepos": [
-        {
-          "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
-          "matchType": "url",
-          "confidence": 1
-        }
-      ]
     }
   ]
 }

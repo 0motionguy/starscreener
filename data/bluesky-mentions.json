@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-10T10:39:58.745Z",
+  "fetchedAt": "2026-05-10T12:05:11.397Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -3642,25 +3642,88 @@
       ]
     },
     "openai/openai-agents-python": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 2,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mldeyropl32g",
-        "cid": "bafyreiehrtpnhh2ujm2fbakhrofsgb6iv7pfl3qt2nughlkfykbgz4q2ju",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mldeyropl32g",
-        "text": "🟠 OpenAI Agents Python v0.17.0 switches RealtimeAgent defaults to gpt-realtime-2 and tightens sandbox file boundaries OpenAI shipped openai-agents-python v0.17.0 with two workflow-relevant changes: RealtimeAgent... https://github.com/openai/openai-agents-python/releases/tag/v0.17.0 #AI #AgentWyre",
+        "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlips6azng26",
+        "cid": "bafyreicpt7vz4i5aejrulw6khkgxdecqlljpdlvi6a5iow6zdw4feeumdm",
+        "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlips6azng26",
+        "text": "Repo → https://github.com/openai/openai-agents-python 3. google/adk-python Google's Agent Development Kit. The official toolkit for building and deploying agents. Repo → https://github.com/google/adk-python 4. anthropics/courses (3/10)",
         "author": {
-          "handle": "agentwyre.ai"
+          "handle": "adityamitra.bsky.social",
+          "displayName": "Aditya Mitra"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-08T09:08:27.861074+00:00",
-        "hoursSincePosted": 2.65
+        "replyCount": 1,
+        "createdAt": "2026-05-10T12:04:56.662Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlips6azng26",
+          "cid": "bafyreicpt7vz4i5aejrulw6khkgxdecqlljpdlvi6a5iow6zdw4feeumdm",
+          "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlips6azng26",
+          "text": "Repo → https://github.com/openai/openai-agents-python 3. google/adk-python Google's Agent Development Kit. The official toolkit for building and deploying agents. Repo → https://github.com/google/adk-python 4. anthropics/courses (3/10)",
+          "author": {
+            "handle": "adityamitra.bsky.social",
+            "displayName": "Aditya Mitra"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-10T12:04:56.662Z",
+          "createdUtc": 1778414696,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlips62yjb24",
+          "cid": "bafyreie5i37s6dnti7dqi3e3hmgfurgahcifrmsqp5jmyfgkptx2zevlmm",
+          "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlips62yjb24",
+          "text": "Anthropic's official Skills repository. The exact patterns Anthropic uses internally to extend Claude. Repo → https://github.com/anthropics/skills 2. openai/openai-agents-python OpenAI's official multi-agent framework. 26K+ stars. The same SDK OpenAI's own engineers use. (2/10)",
+          "author": {
+            "handle": "adityamitra.bsky.social",
+            "displayName": "Aditya Mitra"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-10T12:04:56.464Z",
+          "createdUtc": 1778414696,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/skills",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mldeyropl32g",
           "cid": "bafyreiehrtpnhh2ujm2fbakhrofsgb6iv7pfl3qt2nughlkfykbgz4q2ju",
@@ -4240,21 +4303,21 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:cwapeeggb7yf5xcpz6rx7ncp/app.bsky.feed.post/3mli56swxrd22",
-        "cid": "bafyreih2tprqbb5h4l6u4ghpoyrdvlg2k2vh54zra5ykxko5wjuvitguoq",
-        "bskyUrl": "https://bsky.app/profile/jardo.dev/post/3mli56swxrd22",
-        "text": "can't even https://github.com/anthropics/claude-code/issues/53262",
+        "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlips6stu22z",
+        "cid": "bafyreif5u26j4uo4sovwucynvodw4oa7cgsgdn2fopg64wjkkrvc5pccnu",
+        "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlips6stu22z",
+        "text": "Repo → https://github.com/google/generative-ai-python 7. anthropics/claude-code The official Claude Code repository. The AI coding tool used inside FAANG, OpenAI, and Anthropic itself. Repo → https://github.com/anthropics/claude-code 8. openai/evals (6/10)",
         "author": {
-          "handle": "jardo.dev",
-          "displayName": "Jared Norman"
+          "handle": "adityamitra.bsky.social",
+          "displayName": "Aditya Mitra"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-10T06:31:59.971172821Z",
-        "hoursSincePosted": 4.13
+        "replyCount": 1,
+        "createdAt": "2026-05-10T12:04:57.246Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -4273,6 +4336,34 @@
           "createdUtc": 1778296621,
           "ageHours": 3.19,
           "trendingScore": 5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlips6stu22z",
+          "cid": "bafyreif5u26j4uo4sovwucynvodw4oa7cgsgdn2fopg64wjkkrvc5pccnu",
+          "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlips6stu22z",
+          "text": "Repo → https://github.com/google/generative-ai-python 7. anthropics/claude-code The official Claude Code repository. The AI coding tool used inside FAANG, OpenAI, and Anthropic itself. Repo → https://github.com/anthropics/claude-code 8. openai/evals (6/10)",
+          "author": {
+            "handle": "adityamitra.bsky.social",
+            "displayName": "Aditya Mitra"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-10T12:04:57.246Z",
+          "createdUtc": 1778414697,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -6231,6 +6322,175 @@
           "linkedRepos": [
             {
               "fullName": "mostlygeek/llama-swap",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics/skills": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlips62yjb24",
+        "cid": "bafyreie5i37s6dnti7dqi3e3hmgfurgahcifrmsqp5jmyfgkptx2zevlmm",
+        "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlips62yjb24",
+        "text": "Anthropic's official Skills repository. The exact patterns Anthropic uses internally to extend Claude. Repo → https://github.com/anthropics/skills 2. openai/openai-agents-python OpenAI's official multi-agent framework. 26K+ stars. The same SDK OpenAI's own engineers use. (2/10)",
+        "author": {
+          "handle": "adityamitra.bsky.social",
+          "displayName": "Aditya Mitra"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-10T12:04:56.464Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlips62yjb24",
+          "cid": "bafyreie5i37s6dnti7dqi3e3hmgfurgahcifrmsqp5jmyfgkptx2zevlmm",
+          "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlips62yjb24",
+          "text": "Anthropic's official Skills repository. The exact patterns Anthropic uses internally to extend Claude. Repo → https://github.com/anthropics/skills 2. openai/openai-agents-python OpenAI's official multi-agent framework. 26K+ stars. The same SDK OpenAI's own engineers use. (2/10)",
+          "author": {
+            "handle": "adityamitra.bsky.social",
+            "displayName": "Aditya Mitra"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-10T12:04:56.464Z",
+          "createdUtc": 1778414696,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/skills",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "github/spec-kit": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:kareqo6mg6iobqubgukodlti/app.bsky.feed.post/3mlin4c43fk2l",
+        "cid": "bafyreihejvae5iow6w6xsk37t4jhg6ycbsqo44rwo5upvm4nbdqcbgd4iy",
+        "bskyUrl": "https://bsky.app/profile/monsuta.bsky.social/post/3mlin4c43fk2l",
+        "text": "AI spec driven development - Spec-Kit, OpenSpec github.com/github/spec-... github.com/Fission-AI/O... mk0r.com runmaestro.ai",
+        "author": {
+          "handle": "monsuta.bsky.social",
+          "displayName": "francis siefken"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-10T11:16:55.110Z",
+        "hoursSincePosted": 0.8
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:kareqo6mg6iobqubgukodlti/app.bsky.feed.post/3mlin4c43fk2l",
+          "cid": "bafyreihejvae5iow6w6xsk37t4jhg6ycbsqo44rwo5upvm4nbdqcbgd4iy",
+          "bskyUrl": "https://bsky.app/profile/monsuta.bsky.social/post/3mlin4c43fk2l",
+          "text": "AI spec driven development - Spec-Kit, OpenSpec github.com/github/spec-... github.com/Fission-AI/O... mk0r.com runmaestro.ai",
+          "author": {
+            "handle": "monsuta.bsky.social",
+            "displayName": "francis siefken"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T11:16:55.110Z",
+          "createdUtc": 1778411815,
+          "ageHours": 0.8,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Fission-AI/OpenSpec",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Fission-AI/OpenSpec": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:kareqo6mg6iobqubgukodlti/app.bsky.feed.post/3mlin4c43fk2l",
+        "cid": "bafyreihejvae5iow6w6xsk37t4jhg6ycbsqo44rwo5upvm4nbdqcbgd4iy",
+        "bskyUrl": "https://bsky.app/profile/monsuta.bsky.social/post/3mlin4c43fk2l",
+        "text": "AI spec driven development - Spec-Kit, OpenSpec github.com/github/spec-... github.com/Fission-AI/O... mk0r.com runmaestro.ai",
+        "author": {
+          "handle": "monsuta.bsky.social",
+          "displayName": "francis siefken"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-10T11:16:55.110Z",
+        "hoursSincePosted": 0.8
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:kareqo6mg6iobqubgukodlti/app.bsky.feed.post/3mlin4c43fk2l",
+          "cid": "bafyreihejvae5iow6w6xsk37t4jhg6ycbsqo44rwo5upvm4nbdqcbgd4iy",
+          "bskyUrl": "https://bsky.app/profile/monsuta.bsky.social/post/3mlin4c43fk2l",
+          "text": "AI spec driven development - Spec-Kit, OpenSpec github.com/github/spec-... github.com/Fission-AI/O... mk0r.com runmaestro.ai",
+          "author": {
+            "handle": "monsuta.bsky.social",
+            "displayName": "francis siefken"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T11:16:55.110Z",
+          "createdUtc": 1778411815,
+          "ageHours": 0.8,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Fission-AI/OpenSpec",
               "matchType": "url",
               "confidence": 1
             }
@@ -9877,25 +10137,88 @@
       ]
     },
     "openai--openai-agents-python": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 2,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mldeyropl32g",
-        "cid": "bafyreiehrtpnhh2ujm2fbakhrofsgb6iv7pfl3qt2nughlkfykbgz4q2ju",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mldeyropl32g",
-        "text": "🟠 OpenAI Agents Python v0.17.0 switches RealtimeAgent defaults to gpt-realtime-2 and tightens sandbox file boundaries OpenAI shipped openai-agents-python v0.17.0 with two workflow-relevant changes: RealtimeAgent... https://github.com/openai/openai-agents-python/releases/tag/v0.17.0 #AI #AgentWyre",
+        "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlips6azng26",
+        "cid": "bafyreicpt7vz4i5aejrulw6khkgxdecqlljpdlvi6a5iow6zdw4feeumdm",
+        "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlips6azng26",
+        "text": "Repo → https://github.com/openai/openai-agents-python 3. google/adk-python Google's Agent Development Kit. The official toolkit for building and deploying agents. Repo → https://github.com/google/adk-python 4. anthropics/courses (3/10)",
         "author": {
-          "handle": "agentwyre.ai"
+          "handle": "adityamitra.bsky.social",
+          "displayName": "Aditya Mitra"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-08T09:08:27.861074+00:00",
-        "hoursSincePosted": 2.65
+        "replyCount": 1,
+        "createdAt": "2026-05-10T12:04:56.662Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlips6azng26",
+          "cid": "bafyreicpt7vz4i5aejrulw6khkgxdecqlljpdlvi6a5iow6zdw4feeumdm",
+          "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlips6azng26",
+          "text": "Repo → https://github.com/openai/openai-agents-python 3. google/adk-python Google's Agent Development Kit. The official toolkit for building and deploying agents. Repo → https://github.com/google/adk-python 4. anthropics/courses (3/10)",
+          "author": {
+            "handle": "adityamitra.bsky.social",
+            "displayName": "Aditya Mitra"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-10T12:04:56.662Z",
+          "createdUtc": 1778414696,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlips62yjb24",
+          "cid": "bafyreie5i37s6dnti7dqi3e3hmgfurgahcifrmsqp5jmyfgkptx2zevlmm",
+          "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlips62yjb24",
+          "text": "Anthropic's official Skills repository. The exact patterns Anthropic uses internally to extend Claude. Repo → https://github.com/anthropics/skills 2. openai/openai-agents-python OpenAI's official multi-agent framework. 26K+ stars. The same SDK OpenAI's own engineers use. (2/10)",
+          "author": {
+            "handle": "adityamitra.bsky.social",
+            "displayName": "Aditya Mitra"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-10T12:04:56.464Z",
+          "createdUtc": 1778414696,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/skills",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mldeyropl32g",
           "cid": "bafyreiehrtpnhh2ujm2fbakhrofsgb6iv7pfl3qt2nughlkfykbgz4q2ju",
@@ -10475,21 +10798,21 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:cwapeeggb7yf5xcpz6rx7ncp/app.bsky.feed.post/3mli56swxrd22",
-        "cid": "bafyreih2tprqbb5h4l6u4ghpoyrdvlg2k2vh54zra5ykxko5wjuvitguoq",
-        "bskyUrl": "https://bsky.app/profile/jardo.dev/post/3mli56swxrd22",
-        "text": "can't even https://github.com/anthropics/claude-code/issues/53262",
+        "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlips6stu22z",
+        "cid": "bafyreif5u26j4uo4sovwucynvodw4oa7cgsgdn2fopg64wjkkrvc5pccnu",
+        "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlips6stu22z",
+        "text": "Repo → https://github.com/google/generative-ai-python 7. anthropics/claude-code The official Claude Code repository. The AI coding tool used inside FAANG, OpenAI, and Anthropic itself. Repo → https://github.com/anthropics/claude-code 8. openai/evals (6/10)",
         "author": {
-          "handle": "jardo.dev",
-          "displayName": "Jared Norman"
+          "handle": "adityamitra.bsky.social",
+          "displayName": "Aditya Mitra"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-10T06:31:59.971172821Z",
-        "hoursSincePosted": 4.13
+        "replyCount": 1,
+        "createdAt": "2026-05-10T12:04:57.246Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -10508,6 +10831,34 @@
           "createdUtc": 1778296621,
           "ageHours": 3.19,
           "trendingScore": 5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlips6stu22z",
+          "cid": "bafyreif5u26j4uo4sovwucynvodw4oa7cgsgdn2fopg64wjkkrvc5pccnu",
+          "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlips6stu22z",
+          "text": "Repo → https://github.com/google/generative-ai-python 7. anthropics/claude-code The official Claude Code repository. The AI coding tool used inside FAANG, OpenAI, and Anthropic itself. Repo → https://github.com/anthropics/claude-code 8. openai/evals (6/10)",
+          "author": {
+            "handle": "adityamitra.bsky.social",
+            "displayName": "Aditya Mitra"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-10T12:04:57.246Z",
+          "createdUtc": 1778414697,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -12472,21 +12823,190 @@
           ]
         }
       ]
+    },
+    "anthropics--skills": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlips62yjb24",
+        "cid": "bafyreie5i37s6dnti7dqi3e3hmgfurgahcifrmsqp5jmyfgkptx2zevlmm",
+        "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlips62yjb24",
+        "text": "Anthropic's official Skills repository. The exact patterns Anthropic uses internally to extend Claude. Repo → https://github.com/anthropics/skills 2. openai/openai-agents-python OpenAI's official multi-agent framework. 26K+ stars. The same SDK OpenAI's own engineers use. (2/10)",
+        "author": {
+          "handle": "adityamitra.bsky.social",
+          "displayName": "Aditya Mitra"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-10T12:04:56.464Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlips62yjb24",
+          "cid": "bafyreie5i37s6dnti7dqi3e3hmgfurgahcifrmsqp5jmyfgkptx2zevlmm",
+          "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlips62yjb24",
+          "text": "Anthropic's official Skills repository. The exact patterns Anthropic uses internally to extend Claude. Repo → https://github.com/anthropics/skills 2. openai/openai-agents-python OpenAI's official multi-agent framework. 26K+ stars. The same SDK OpenAI's own engineers use. (2/10)",
+          "author": {
+            "handle": "adityamitra.bsky.social",
+            "displayName": "Aditya Mitra"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-10T12:04:56.464Z",
+          "createdUtc": 1778414696,
+          "ageHours": 0.5,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/skills",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "github--spec-kit": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:kareqo6mg6iobqubgukodlti/app.bsky.feed.post/3mlin4c43fk2l",
+        "cid": "bafyreihejvae5iow6w6xsk37t4jhg6ycbsqo44rwo5upvm4nbdqcbgd4iy",
+        "bskyUrl": "https://bsky.app/profile/monsuta.bsky.social/post/3mlin4c43fk2l",
+        "text": "AI spec driven development - Spec-Kit, OpenSpec github.com/github/spec-... github.com/Fission-AI/O... mk0r.com runmaestro.ai",
+        "author": {
+          "handle": "monsuta.bsky.social",
+          "displayName": "francis siefken"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-10T11:16:55.110Z",
+        "hoursSincePosted": 0.8
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:kareqo6mg6iobqubgukodlti/app.bsky.feed.post/3mlin4c43fk2l",
+          "cid": "bafyreihejvae5iow6w6xsk37t4jhg6ycbsqo44rwo5upvm4nbdqcbgd4iy",
+          "bskyUrl": "https://bsky.app/profile/monsuta.bsky.social/post/3mlin4c43fk2l",
+          "text": "AI spec driven development - Spec-Kit, OpenSpec github.com/github/spec-... github.com/Fission-AI/O... mk0r.com runmaestro.ai",
+          "author": {
+            "handle": "monsuta.bsky.social",
+            "displayName": "francis siefken"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T11:16:55.110Z",
+          "createdUtc": 1778411815,
+          "ageHours": 0.8,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Fission-AI/OpenSpec",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "fission-ai--openspec": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:kareqo6mg6iobqubgukodlti/app.bsky.feed.post/3mlin4c43fk2l",
+        "cid": "bafyreihejvae5iow6w6xsk37t4jhg6ycbsqo44rwo5upvm4nbdqcbgd4iy",
+        "bskyUrl": "https://bsky.app/profile/monsuta.bsky.social/post/3mlin4c43fk2l",
+        "text": "AI spec driven development - Spec-Kit, OpenSpec github.com/github/spec-... github.com/Fission-AI/O... mk0r.com runmaestro.ai",
+        "author": {
+          "handle": "monsuta.bsky.social",
+          "displayName": "francis siefken"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-10T11:16:55.110Z",
+        "hoursSincePosted": 0.8
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:kareqo6mg6iobqubgukodlti/app.bsky.feed.post/3mlin4c43fk2l",
+          "cid": "bafyreihejvae5iow6w6xsk37t4jhg6ycbsqo44rwo5upvm4nbdqcbgd4iy",
+          "bskyUrl": "https://bsky.app/profile/monsuta.bsky.social/post/3mlin4c43fk2l",
+          "text": "AI spec driven development - Spec-Kit, OpenSpec github.com/github/spec-... github.com/Fission-AI/O... mk0r.com runmaestro.ai",
+          "author": {
+            "handle": "monsuta.bsky.social",
+            "displayName": "francis siefken"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T11:16:55.110Z",
+          "createdUtc": 1778411815,
+          "ageHours": 0.8,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Fission-AI/OpenSpec",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "ruvnet/ruflo",
+      "fullName": "Fission-AI/OpenSpec",
       "count7d": 1,
-      "likesSum7d": 3
+      "likesSum7d": 1
     },
     {
-      "fullName": "matthart1983/netwatch",
+      "fullName": "github/spec-kit",
       "count7d": 1,
-      "likesSum7d": 2
+      "likesSum7d": 1
     },
     {
-      "fullName": "ThatXliner/rust-but-lisp",
+      "fullName": "openai/openai-agents-python",
       "count7d": 2,
       "likesSum7d": 0
     },
@@ -12496,17 +13016,7 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "EvanBacon/serve-sim",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "millionco/react-doctor",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "mostlygeek/llama-swap",
+      "fullName": "anthropics/skills",
       "count7d": 1,
       "likesSum7d": 0
     }

@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-10T15:32:56.697Z",
+  "fetchedAt": "2026-05-10T16:31:42.345Z",
   "windowHours": 72,
-  "scannedTotal": 80,
+  "scannedTotal": 79,
   "stories": [
     {
       "shortId": "znlkib",
@@ -39,6 +39,23 @@
       "linkedRepos": []
     },
     {
+      "shortId": "q0bvq9",
+      "title": "Debian must ship reproducible packages",
+      "url": "https://lists.debian.org/debian-devel-announce/2026/05/msg00001.html",
+      "commentsUrl": "https://lobste.rs/s/q0bvq9/debian_must_ship_reproducible_packages",
+      "by": "",
+      "score": 29,
+      "commentCount": 0,
+      "createdUtc": 1778418775,
+      "ageHours": 3.3130555555555556,
+      "trendingScore": 2.36799871428342,
+      "tags": [
+        "linux"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "uahtro",
       "title": "Cloudflare lays off 1,100 employees",
       "url": "https://blog.cloudflare.com/building-for-the-future/",
@@ -51,23 +68,6 @@
       "trendingScore": 1.9117489668003358,
       "tags": [
         "culture"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "q0bvq9",
-      "title": "Debian must ship reproducible packages",
-      "url": "https://lists.debian.org/debian-devel-announce/2026/05/msg00001.html",
-      "commentsUrl": "https://lobste.rs/s/q0bvq9/debian_must_ship_reproducible_packages",
-      "by": "",
-      "score": 15,
-      "commentCount": 0,
-      "createdUtc": 1778418775,
-      "ageHours": 2.3336111111111113,
-      "trendingScore": 1.6627094110473717,
-      "tags": [
-        "linux"
       ],
       "description": "",
       "linkedRepos": []
@@ -135,11 +135,11 @@
       "url": "https://til.andrew-quinn.me/posts/replacing-a-3-gb-sqlite-database-with-a-7-mb-fst-finite-state-trandsucer-binary/",
       "commentsUrl": "https://lobste.rs/s/xb2edj/replacing_3_gb_sqlite_database_with_10_mb",
       "by": "",
-      "score": 19,
-      "commentCount": 2,
+      "score": 24,
+      "commentCount": 3,
       "createdUtc": 1778413350,
-      "ageHours": 3.8405555555555555,
-      "trendingScore": 1.3460846194969975,
+      "ageHours": 4.82,
+      "trendingScore": 1.3475183244589153,
       "tags": [
         "performance",
         "rust"
@@ -290,6 +290,23 @@
       "linkedRepos": []
     },
     {
+      "shortId": "b6fyzj",
+      "title": "So you've installed `fzf`. Now what? (2023)",
+      "url": "https://andrew-quinn.me/fzf/",
+      "commentsUrl": "https://lobste.rs/s/b6fyzj/so_you_ve_installed_fzf_now_what_2023",
+      "by": "",
+      "score": 6,
+      "commentCount": 0,
+      "createdUtc": 1778424911,
+      "ageHours": 1.6086111111111112,
+      "trendingScore": 0.8752681542282645,
+      "tags": [
+        "programming"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "pv9i7j",
       "title": "Formatting an entire 25 million line codebase overnight: the rubyfmt story",
       "url": "https://stripe.dev/blog/formatting-an-entire-25-million-line-codebase-overnight-the-rubyfmt-story",
@@ -302,6 +319,23 @@
       "trendingScore": 0.8175603382650809,
       "tags": [
         "ruby"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "qbliwt",
+      "title": "wayland.fyi minimalist wayland special interest group",
+      "url": "https://wayland.fyi/",
+      "commentsUrl": "https://lobste.rs/s/qbliwt/wayland_fyi_minimalist_wayland_special",
+      "by": "",
+      "score": 5,
+      "commentCount": 0,
+      "createdUtc": 1778425518,
+      "ageHours": 1.44,
+      "trendingScore": 0.7836684099087093,
+      "tags": [
+        "linux"
       ],
       "description": "",
       "linkedRepos": []
@@ -320,23 +354,6 @@
       "tags": [
         "culture",
         "practices"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "qbliwt",
-      "title": "wayland.fyi minimalist wayland special interest group",
-      "url": "https://wayland.fyi/",
-      "commentsUrl": "https://lobste.rs/s/qbliwt/wayland_fyi_minimalist_wayland_special",
-      "by": "",
-      "score": 3,
-      "commentCount": 0,
-      "createdUtc": 1778425518,
-      "ageHours": 0.46055555555555555,
-      "trendingScore": 0.7772692594466318,
-      "tags": [
-        "linux"
       ],
       "description": "",
       "linkedRepos": []
@@ -409,23 +426,6 @@
       "tags": [
         "hardware",
         "security"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "b6fyzj",
-      "title": "So you've installed `fzf`. Now what? (2023)",
-      "url": "https://andrew-quinn.me/fzf/",
-      "commentsUrl": "https://lobste.rs/s/b6fyzj/so_you_ve_installed_fzf_now_what_2023",
-      "by": "",
-      "score": 3,
-      "commentCount": 0,
-      "createdUtc": 1778424911,
-      "ageHours": 0.6291666666666667,
-      "trendingScore": 0.7037105766052719,
-      "tags": [
-        "programming"
       ],
       "description": "",
       "linkedRepos": []

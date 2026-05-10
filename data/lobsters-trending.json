@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-10T14:02:17.036Z",
+  "fetchedAt": "2026-05-10T15:32:56.697Z",
   "windowHours": 72,
-  "scannedTotal": 81,
+  "scannedTotal": 80,
   "stories": [
     {
       "shortId": "znlkib",
@@ -51,6 +51,23 @@
       "trendingScore": 1.9117489668003358,
       "tags": [
         "culture"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "q0bvq9",
+      "title": "Debian must ship reproducible packages",
+      "url": "https://lists.debian.org/debian-devel-announce/2026/05/msg00001.html",
+      "commentsUrl": "https://lobste.rs/s/q0bvq9/debian_must_ship_reproducible_packages",
+      "by": "",
+      "score": 15,
+      "commentCount": 0,
+      "createdUtc": 1778418775,
+      "ageHours": 2.3336111111111113,
+      "trendingScore": 1.6627094110473717,
+      "tags": [
+        "linux"
       ],
       "description": "",
       "linkedRepos": []
@@ -113,6 +130,24 @@
       "linkedRepos": []
     },
     {
+      "shortId": "xb2edj",
+      "title": "Replacing a 3 GB SQLite database with a 10 MB FST (finite state transducer) binary",
+      "url": "https://til.andrew-quinn.me/posts/replacing-a-3-gb-sqlite-database-with-a-7-mb-fst-finite-state-trandsucer-binary/",
+      "commentsUrl": "https://lobste.rs/s/xb2edj/replacing_3_gb_sqlite_database_with_10_mb",
+      "by": "",
+      "score": 19,
+      "commentCount": 2,
+      "createdUtc": 1778413350,
+      "ageHours": 3.8405555555555555,
+      "trendingScore": 1.3460846194969975,
+      "tags": [
+        "performance",
+        "rust"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "auxtwd",
       "title": "Steering Zig Fmt",
       "url": "https://matklad.github.io/2026/05/08/steering-zig-fmt.html",
@@ -130,23 +165,6 @@
       "linkedRepos": []
     },
     {
-      "shortId": "q0bvq9",
-      "title": "Debian must ship reproducible packages",
-      "url": "https://lists.debian.org/debian-devel-announce/2026/05/msg00001.html",
-      "commentsUrl": "https://lobste.rs/s/q0bvq9/debian_must_ship_reproducible_packages",
-      "by": "",
-      "score": 6,
-      "commentCount": 0,
-      "createdUtc": 1778418775,
-      "ageHours": 0.8227777777777778,
-      "trendingScore": 1.2651330919385908,
-      "tags": [
-        "linux"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
       "shortId": "bnfm0h",
       "title": "Let's Encrypt Stopping Issuance for Potential Incident",
       "url": "https://letsencrypt.status.io/",
@@ -160,24 +178,6 @@
       "tags": [
         "networking",
         "security"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "xb2edj",
-      "title": "Replacing a 3 GB SQLite database with a 10 MB FST (finite state transducer) binary",
-      "url": "https://til.andrew-quinn.me/posts/replacing-a-3-gb-sqlite-database-with-a-7-mb-fst-finite-state-trandsucer-binary/",
-      "commentsUrl": "https://lobste.rs/s/xb2edj/replacing_3_gb_sqlite_database_with_10_mb",
-      "by": "",
-      "score": 10,
-      "commentCount": 0,
-      "createdUtc": 1778413350,
-      "ageHours": 2.3297222222222222,
-      "trendingScore": 1.109966695618448,
-      "tags": [
-        "performance",
-        "rust"
       ],
       "description": "",
       "linkedRepos": []
@@ -325,6 +325,23 @@
       "linkedRepos": []
     },
     {
+      "shortId": "qbliwt",
+      "title": "wayland.fyi minimalist wayland special interest group",
+      "url": "https://wayland.fyi/",
+      "commentsUrl": "https://lobste.rs/s/qbliwt/wayland_fyi_minimalist_wayland_special",
+      "by": "",
+      "score": 3,
+      "commentCount": 0,
+      "createdUtc": 1778425518,
+      "ageHours": 0.46055555555555555,
+      "trendingScore": 0.7772692594466318,
+      "tags": [
+        "linux"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "fsueos",
       "title": "Serving a Website on a Raspberry Pi Zero Running Entirely in RAM",
       "url": "https://btxx.org/posts/memory/",
@@ -392,6 +409,23 @@
       "tags": [
         "hardware",
         "security"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "b6fyzj",
+      "title": "So you've installed `fzf`. Now what? (2023)",
+      "url": "https://andrew-quinn.me/fzf/",
+      "commentsUrl": "https://lobste.rs/s/b6fyzj/so_you_ve_installed_fzf_now_what_2023",
+      "by": "",
+      "score": 3,
+      "commentCount": 0,
+      "createdUtc": 1778424911,
+      "ageHours": 0.6291666666666667,
+      "trendingScore": 0.7037105766052719,
+      "tags": [
+        "programming"
       ],
       "description": "",
       "linkedRepos": []
@@ -665,6 +699,24 @@
       "linkedRepos": []
     },
     {
+      "shortId": "bybg7e",
+      "title": "9p file server daemon for UNIX-like systems",
+      "url": "https://kamid.omarpolo.com/",
+      "commentsUrl": "https://lobste.rs/s/bybg7e/9p_file_server_daemon_for_unix_like",
+      "by": "",
+      "score": 3,
+      "commentCount": 1,
+      "createdUtc": 1778422823,
+      "ageHours": 1.2091666666666667,
+      "trendingScore": 0.521834569293744,
+      "tags": [
+        "networking",
+        "unix"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "sq70nc",
       "title": "Where Have All the Complex Windows Malware and Their Analyses Gone?",
       "url": "https://r136a1.dev/2026/05/07/where-have-all-the-complex-malware-and-their-analyses-gone/",
@@ -700,6 +752,24 @@
       "linkedRepos": []
     },
     {
+      "shortId": "1p2yun",
+      "title": "FreeBSD: Local privilege escalation via execve()",
+      "url": "https://www.freebsd.org/security/advisories/FreeBSD-SA-26:13.exec.asc",
+      "commentsUrl": "https://lobste.rs/s/1p2yun/freebsd_local_privilege_escalation_via",
+      "by": "",
+      "score": 5,
+      "commentCount": 2,
+      "createdUtc": 1778417909,
+      "ageHours": 2.5741666666666667,
+      "trendingScore": 0.5110954647647179,
+      "tags": [
+        "freebsd",
+        "security"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "9f2djs",
       "title": "Multi-stroke text effect in CSS",
       "url": "https://yuanchuan.dev/multi-stroke-text-effect-in-css",
@@ -713,6 +783,24 @@
       "tags": [
         "css",
         "design"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "kabx8f",
+      "title": "A recent experience with ChatGPT 5.5 Pro",
+      "url": "https://gowers.wordpress.com/2026/05/08/a-recent-experience-with-chatgpt-5-5-pro/",
+      "commentsUrl": "https://lobste.rs/s/kabx8f/recent_experience_with_chatgpt_5_5_pro",
+      "by": "",
+      "score": 2,
+      "commentCount": 0,
+      "createdUtc": 1778425279,
+      "ageHours": 0.5269444444444444,
+      "trendingScore": 0.4978934978802966,
+      "tags": [
+        "math",
+        "vibecoding"
       ],
       "description": "",
       "linkedRepos": []
@@ -802,93 +890,6 @@
       "tags": [
         "assembly",
         "web"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "ze6pao",
-      "title": "Building the deployment tool I wish I had",
-      "url": "https://ruuda.nl/2026/deptool",
-      "commentsUrl": "https://lobste.rs/s/ze6pao/building_deployment_tool_i_wish_i_had",
-      "by": "",
-      "score": 84,
-      "commentCount": 20,
-      "createdUtc": 1778068233,
-      "ageHours": 30.3375,
-      "trendingScore": 0.45679319291552695,
-      "tags": [
-        "devops",
-        "release",
-        "vibecoding"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "vwjrsl",
-      "title": "Notes on using GNU Emacs' Tramp system in an unusual shell environment",
-      "url": "https://utcc.utoronto.ca/~cks/space/blog/programming/EmacsTrampNotes",
-      "commentsUrl": "https://lobste.rs/s/vwjrsl/notes_on_using_gnu_emacs_tramp_system",
-      "by": "",
-      "score": 6,
-      "commentCount": 0,
-      "createdUtc": 1778351396,
-      "ageHours": 3.6911111111111112,
-      "trendingScore": 0.4419322072525159,
-      "tags": [
-        "emacs"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "dpu6ym",
-      "title": "Building Transit Tracker",
-      "url": "https://blog.horner.tj/building-transit-tracker/",
-      "commentsUrl": "https://lobste.rs/s/dpu6ym/building_transit_tracker",
-      "by": "",
-      "score": 3,
-      "commentCount": 0,
-      "createdUtc": 1778183566,
-      "ageHours": 1.6705555555555556,
-      "trendingScore": 0.42660265320196655,
-      "tags": [
-        "hardware"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "ot6g23",
-      "title": "blaise: A modern, self-hosting Object Pascal compiler built for the 2020s. Zero legacy, full ARC, and unified UTF-8",
-      "url": "https://github.com/graemeg/blaise",
-      "commentsUrl": "https://lobste.rs/s/ot6g23/blaise_modern_self_hosting_object_pascal",
-      "by": "",
-      "score": 14,
-      "commentCount": 4,
-      "createdUtc": 1778223282,
-      "ageHours": 8.303611111111111,
-      "trendingScore": 0.4232956910034772,
-      "tags": [
-        "compilers"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "jmp373",
-      "title": "Space Cadet Pinball on Linux",
-      "url": "https://brennan.io/2026/05/09/pinball-and-escrow/",
-      "commentsUrl": "https://lobste.rs/s/jmp373/space_cadet_pinball_on_linux",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1778412113,
-      "ageHours": 0.8238888888888889,
-      "trendingScore": 0.42146216016886157,
-      "tags": [
-        "games"
       ],
       "description": "",
       "linkedRepos": []

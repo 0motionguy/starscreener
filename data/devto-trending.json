@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-10T08:14:57.451Z",
+  "fetchedAt": "2026-05-10T13:41:11.667Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1286,
+  "scannedArticles": 1275,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 16,
+    "global-rising": 13,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -192,12 +192,12 @@
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 10,
     "tag-mcp-top-7d": 100,
-    "tag-rag-top-7d": 91,
+    "tag-rag-top-7d": 92,
     "tag-promptengineering-top-7d": 39,
     "tag-workflow-top-7d": 38,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
-    "tag-cli-top-7d": 78,
+    "tag-cli-top-7d": 73,
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 95,
     "tag-langchain-top-7d": 49,
@@ -631,6 +631,80 @@
         "productivity"
       ],
       "trendingScore": 9.12,
+      "linkedRepos": []
+    },
+    {
+      "id": 3644680,
+      "title": "The Features That Make OrinIDE Different From Other Browser IDEs",
+      "description": "A few days ago, I shared a post about building OrinIDE.  This post is different.  This is about the...",
+      "url": "https://dev.to/nandan_das_369/the-features-that-make-orinide-different-from-other-browser-ides-4j0i",
+      "author": {
+        "username": "nandan_das_369",
+        "name": "Nandan Das",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3833946%2F729ee1af-f651-4e08-acd5-6950a02714d9.jpg"
+      },
+      "reactionsCount": 7,
+      "commentsCount": 0,
+      "readingTime": 3,
+      "publishedAt": "2026-05-10T13:01:29Z",
+      "tags": [
+        "ai",
+        "mobile",
+        "showdev",
+        "tooling"
+      ],
+      "trendingScore": 8.94,
+      "linkedRepos": []
+    },
+    {
+      "id": 3644097,
+      "title": "How Python's GIL actually works (and when it bites you)",
+      "description": "Hello, I'm Maneshwar. I'm building git-lrc, a Micro AI code reviewer that runs on every commit. It is...",
+      "url": "https://dev.to/lovestaco/how-pythons-gil-actually-works-and-when-it-bites-you-3f2",
+      "author": {
+        "username": "lovestaco",
+        "name": "Athreya aka Maneshwar",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
+      },
+      "reactionsCount": 18,
+      "commentsCount": 0,
+      "readingTime": 9,
+      "publishedAt": "2026-05-10T10:17:16Z",
+      "tags": [
+        "webdev",
+        "productivity",
+        "programming",
+        "python"
+      ],
+      "trendingScore": 6.65,
+      "linkedRepos": [
+        {
+          "fullName": "HexmosTech/git-lrc",
+          "location": "body"
+        }
+      ]
+    },
+    {
+      "id": 3643702,
+      "title": "I Let AI Write 100% of My Code for 30 Days — Here's What Broke",
+      "description": "...",
+      "url": "https://dev.to/thebitforge/i-let-ai-write-100-of-my-code-for-30-days-heres-what-broke-55kd",
+      "author": {
+        "username": "thebitforge",
+        "name": "TheBitForge",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3581035%2F7a4e3e11-052c-4b61-9f45-e3f421e69147.png"
+      },
+      "reactionsCount": 23,
+      "commentsCount": 1,
+      "readingTime": 6,
+      "publishedAt": "2026-05-10T08:12:45Z",
+      "tags": [
+        "ai",
+        "webdev",
+        "productivity",
+        "programming"
+      ],
+      "trendingScore": 6.29,
       "linkedRepos": []
     },
     {
@@ -1280,6 +1354,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3644546,
+      "title": "How We Built a Sub-200ms Multilingual Chat System Translating 100+ Languages with Our Own LLM",
+      "description": "How We Built a Sub-200ms Multilingual Chat System Translating 100+ Languages with Our Own...",
+      "url": "https://dev.to/iroom/how-we-built-a-sub-200ms-multilingual-chat-system-translating-100-languages-with-our-own-llm-55d8",
+      "author": {
+        "username": "iroom",
+        "name": "iRoom",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3922830%2Fb893fa7c-5e7c-45da-bf8a-52734ac94411.png"
+      },
+      "reactionsCount": 5,
+      "commentsCount": 1,
+      "readingTime": 8,
+      "publishedAt": "2026-05-10T12:15:00Z",
+      "tags": [
+        "llm",
+        "nlp",
+        "performance",
+        "systemdesign"
+      ],
+      "trendingScore": 2.68,
+      "linkedRepos": []
+    },
+    {
       "id": 3635815,
       "title": "Por Qué Fallan los Agentes de IA: 3 Modos de Fallo Que Cuestan Tokens y Tiempo",
       "description": "Los agentes de IA no fallan como el software tradicional: no se bloquean con un stack trace. Fallan...",
@@ -1861,6 +1958,52 @@
       "linkedRepos": []
     },
     {
+      "id": 3644294,
+      "title": "I Built an AI-Powered Daily LeetCode Planner in 2 Hours Using Workflow Automation",
+      "description": "I Built an AI-Powered Daily LeetCode Planner Using Workflow Automation   Recently, I...",
+      "url": "https://dev.to/rishabhrawat05/i-built-an-ai-powered-daily-leetcode-planner-in-2-hours-using-workflow-automation-jd5",
+      "author": {
+        "username": "rishabhrawat05",
+        "name": "Rishabh",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2232777%2F00a4f0b0-7209-45c3-8aff-694b34285632.jpg"
+      },
+      "reactionsCount": 5,
+      "commentsCount": 0,
+      "readingTime": 2,
+      "publishedAt": "2026-05-10T11:00:51Z",
+      "tags": [
+        "kestra",
+        "workflowautomation",
+        "buildinpublic",
+        "automation"
+      ],
+      "trendingScore": 1.31,
+      "linkedRepos": []
+    },
+    {
+      "id": 3640417,
+      "title": "🔥Simple DEV Blog Post Writer with LangGraph Multi Agents with Memory, AWS Bedrock Nova: Generator & Evaluator Pattern",
+      "description": "So far, we’ve covered how to use agent tools, skills, and sub-agents. Now, it’s time to put...",
+      "url": "https://dev.to/aws-builders/simple-dev-blog-post-writer-with-langgraph-multi-agents-with-memory-aws-bedrock-nova-generator--5b1",
+      "author": {
+        "username": "omerberatsezer",
+        "name": "Ömer Berat Sezer",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2695205%2F0ada33b7-8429-4864-8ca4-f5496ae37cda.jpg"
+      },
+      "reactionsCount": 4,
+      "commentsCount": 1,
+      "readingTime": 9,
+      "publishedAt": "2026-05-10T11:38:30Z",
+      "tags": [
+        "ai",
+        "agents",
+        "aws",
+        "discuss"
+      ],
+      "trendingScore": 1.3,
+      "linkedRepos": []
+    },
+    {
       "id": 3613934,
       "title": "[GCP Practice][BwAI] AI-Powered Development: Quickly Deploy a LINE Bot Cloud Backup Tool with Gemini CLI",
       "description": "Background   In the upcoming Build With AI 2026 workshop, we're bringing a very practical...",
@@ -2300,6 +2443,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3642090,
+      "title": "Inside the Pipeline Powering a Korean Entertainment MCP Server",
+      "description": "Korean entertainment has become global, but the infrastructure behind its data is still surprisingly...",
+      "url": "https://dev.to/carasjung/inside-the-pipeline-powering-a-korean-entertainment-mcp-server-3d2h",
+      "author": {
+        "username": "carasjung",
+        "name": "Cara Jung",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3448967%2F4a49be6a-32ba-4490-aa57-3617e659db09.png"
+      },
+      "reactionsCount": 2,
+      "commentsCount": 0,
+      "readingTime": 9,
+      "publishedAt": "2026-05-10T13:00:00Z",
+      "tags": [
+        "mcp",
+        "githubactions",
+        "python",
+        "devops"
+      ],
+      "trendingScore": 0.88,
+      "linkedRepos": []
+    },
+    {
       "id": 3615596,
       "title": "ADK Agents with Amazon Bedrock Models",
       "description": "This article provides a step by step deployment guide for using Amazon Bedrock models with ADK...",
@@ -2375,167 +2541,6 @@
           "location": "body"
         }
       ]
-    },
-    {
-      "id": 3597559,
-      "title": "Build a Streaming Gemini Chat in Angular with Signals — Then Ship It on Cloud Run",
-      "description": "If you have built a chat UI for a large language model in the last two years, you probably reached...",
-      "url": "https://dev.to/gdg/build-a-streaming-gemini-chat-in-angular-with-signals-then-ship-it-on-cloud-run-1llc",
-      "author": {
-        "username": "tomwebwalker",
-        "name": "Tomasz Flis",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F255179%2F933be801-4060-4358-9aac-9cbb45afc50e.png"
-      },
-      "reactionsCount": 33,
-      "commentsCount": 1,
-      "readingTime": 10,
-      "publishedAt": "2026-05-04T19:05:39Z",
-      "tags": [
-        "angular",
-        "gemini",
-        "googlecloud",
-        "ai"
-      ],
-      "trendingScore": 0.82,
-      "linkedRepos": []
-    },
-    {
-      "id": 3615559,
-      "title": "Working on Azirah: Don’t Let Her See You: Lessons from My Game Development Journey",
-      "description": "I started building a psychological horror game called Azirah: Don’t Let Her See You, thinking passion...",
-      "url": "https://dev.to/mohamed-riham/working-on-azirah-dont-let-her-see-you-lessons-from-my-game-development-journey-5aae",
-      "author": {
-        "username": "mohamed-riham",
-        "name": "Mohamed Riham",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3155632%2F4a77451f-0934-4f86-bfa5-8fba4245a695.png"
-      },
-      "reactionsCount": 24,
-      "commentsCount": 2,
-      "readingTime": 1,
-      "publishedAt": "2026-05-05T13:08:56Z",
-      "tags": [
-        "gamedev",
-        "csharp",
-        "unity3d",
-        "indiedev"
-      ],
-      "trendingScore": 0.81,
-      "linkedRepos": []
-    },
-    {
-      "id": 3609618,
-      "title": "I Gave My SEO Agent a Real Site. It Found Bugs I'd Missed for Weeks.",
-      "description": "does twitch pay nigerians — position 9.5 in Google Search Console, 29 impressions, 0...",
-      "url": "https://dev.to/dannwaneri/i-gave-my-seo-agent-a-real-site-it-found-bugs-id-missed-for-weeks-3kn1",
-      "author": {
-        "username": "dannwaneri",
-        "name": "Daniel Nwaneri",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3606168%2F7684e1e1-b986-4ee3-ae5b-56db2b97d286.jpg"
-      },
-      "reactionsCount": 15,
-      "commentsCount": 4,
-      "readingTime": 5,
-      "publishedAt": "2026-05-06T13:24:06Z",
-      "tags": [
-        "python",
-        "ai",
-        "seo",
-        "webdev"
-      ],
-      "trendingScore": 0.81,
-      "linkedRepos": []
-    },
-    {
-      "id": 3608799,
-      "title": "Managing 150+ AI Agent Skills at Scale — What Broke, What I Built",
-      "description": "By Vilius Vystartas | May 2026  I run a lot of AI agents. Not chatbots — autonomous agents. Cron jobs...",
-      "url": "https://dev.to/vystartasv/managing-150-ai-agent-skills-at-scale-what-broke-what-i-built-1e73",
-      "author": {
-        "username": "vystartasv",
-        "name": "Vilius",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F133303%2F50baa34e-e011-4576-8b1a-5974d272fc34.jpg"
-      },
-      "reactionsCount": 30,
-      "commentsCount": 3,
-      "readingTime": 5,
-      "publishedAt": "2026-05-04T12:16:27Z",
-      "tags": [
-        "ai",
-        "python",
-        "opensource",
-        "sqlite"
-      ],
-      "trendingScore": 0.78,
-      "linkedRepos": []
-    },
-    {
-      "id": 3627572,
-      "title": "Why AI agents still can't buy anything yet",
-      "description": "A working tour of x402, OKX APP, ERC-3009, TEE-backed inference, and the missing pieces of the...",
-      "url": "https://dev.to/emmanuel39hanks/why-ai-agents-still-cant-buy-anything-yet-2143",
-      "author": {
-        "username": "emmanuel39hanks",
-        "name": "Emmanuel Haankwenda",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1244360%2F9a757a6c-fd7c-45be-8d61-d95b9b168590.jpg"
-      },
-      "reactionsCount": 5,
-      "commentsCount": 2,
-      "readingTime": 8,
-      "publishedAt": "2026-05-07T14:25:14Z",
-      "tags": [
-        "agents",
-        "ai",
-        "infrastructure",
-        "web3"
-      ],
-      "trendingScore": 0.78,
-      "linkedRepos": []
-    },
-    {
-      "id": 3623297,
-      "title": "Mac-Only? Just Fork It",
-      "description": "TLDR - A friend showed me a small macOS-only menu bar app that lists local dev ports. I'm one of the...",
-      "url": "https://dev.to/thisisryanswift/mac-only-just-fork-it-57ka",
-      "author": {
-        "username": "thisisryanswift",
-        "name": "Ryan Swift",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3669112%2F4911d3fc-6abb-4012-98b2-bfe70a261034.jpeg"
-      },
-      "reactionsCount": 11,
-      "commentsCount": 0,
-      "readingTime": 5,
-      "publishedAt": "2026-05-06T23:26:00Z",
-      "tags": [
-        "agents",
-        "linux",
-        "ai",
-        "opensource"
-      ],
-      "trendingScore": 0.76,
-      "linkedRepos": []
-    },
-    {
-      "id": 3639898,
-      "title": "How to Find the Postgres Indexes Your Planner Never Picks (I Found 20 of 51)",
-      "description": "Postgres tells you how many times each index was scanned. It can't tell you which one the planner picked for your slow query. I built a 3-file analyzer — and the first run found 20 of 51 indexes never used, 78% of my index disk wasted.",
-      "url": "https://dev.to/alimafana/postgres-tells-you-your-query-was-slow-not-which-index-was-wasted-171g",
-      "author": {
-        "username": "alimafana",
-        "name": "Ali Afana ",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3867337%2F127296a6-3820-4b0a-b9e3-1b1274eccdf6.jpg"
-      },
-      "reactionsCount": 6,
-      "commentsCount": 2,
-      "readingTime": 10,
-      "publishedAt": "2026-05-09T11:45:42Z",
-      "tags": [
-        "postgres",
-        "database",
-        "performance",
-        "sql"
-      ],
-      "trendingScore": 0.75,
-      "linkedRepos": []
     }
   ]
 }

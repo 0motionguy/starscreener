@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+// Patches require.cache for `server-only` BEFORE any @/lib transitive
+// imports trigger it. Must stay the first import.
+import "./_server-only-shim";
+
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";

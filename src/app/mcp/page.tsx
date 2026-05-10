@@ -286,6 +286,16 @@ export default async function McpPage() {
     }))
     .filter((c) => c.count > 0);
 
+  // M2 — "TRENDING THIS WEEK" leaderboard. Ranks rows by 7d delta using
+  // whatever signal the fallback chain populated (installs from snapshots,
+  // stars from linked-repo, …). Until daily mcp-usage-snapshots accrue
+  // sustainably, this list is short — by design surface what's measurable
+  // rather than synthesize fake numbers.
+  const topMovers = [...mcpRows]
+    .filter((r) => r.delta7d > 0 && r.deltaUnit !== null)
+    .sort((a, b) => b.delta7d - a.delta7d)
+    .slice(0, 5);
+
   return (
     <main className="home-surface">
       <MarkVisited routeKey="mcp" count={mcpRows.length} />
@@ -359,6 +369,8 @@ export default async function McpPage() {
         ]}
       />
 
+      <TrendingThisWeek movers={topMovers} totalRows={mcpRows.length} />
+
       <LiveMcpTable rows={mcpRows} categories={categories} totalCount={total} />
 
       <div
@@ -392,5 +404,181 @@ export default async function McpPage() {
         </Link>
       </div>
     </main>
+  );
+}
+
+interface TrendingThisWeekProps {
+  movers: McpRow[];
+  totalRows: number;
+}
+
+/**
+ * Top-5 MCPs by best-available 7d momentum signal. Reads `mcpRows[].delta7d`
+ * which is already populated by the fallback chain in McpPage (snapshot
+ * deltas → linked-repo star deltas → 0). Until the daily mcp-usage-snapshot
+ * cron fully accrues — needs ~7 days of consecutive runs to power 7d
+ * windows for every server — most rows have delta7d=0 and the section
+ * shows whatever real movers exist. Not a synthesized fake.
+ */
+function TrendingThisWeek({ movers, totalRows }: TrendingThisWeekProps) {
+  const moverCount = movers.length;
+  const totalLabel = totalRows.toLocaleString("en-US");
+  const status =
+    moverCount === 0
+      ? `momentum signals warming · daily snapshots accruing across ${totalLabel} servers`
+      : moverCount === 1
+        ? `1 mover · 7d window · across ${totalLabel} servers`
+        : `${moverCount} movers · 7d window · across ${totalLabel} servers`;
+  return (
+    <section
+      aria-labelledby="trending-this-week-h"
+      style={{
+        marginTop: 16,
+        marginBottom: 16,
+        border: "1px solid var(--v4-line-200)",
+        background: "var(--v4-bg-050)",
+        borderRadius: 4,
+      }}
+    >
+      <header
+        style={{
+          display: "flex",
+          alignItems: "baseline",
+          justifyContent: "space-between",
+          gap: 12,
+          flexWrap: "wrap",
+          padding: "10px 14px",
+          borderBottom: "1px solid var(--v4-line-200)",
+          fontFamily: "var(--font-geist-mono), monospace",
+          fontSize: 11,
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+        }}
+      >
+        <h3
+          id="trending-this-week-h"
+          style={{
+            margin: 0,
+            fontSize: 12,
+            color: "var(--v4-ink-100)",
+            fontWeight: 600,
+          }}
+        >
+          {"// "}TRENDING THIS WEEK
+        </h3>
+        <span style={{ color: "var(--v4-ink-400)" }}>{status}</span>
+      </header>
+      {moverCount === 0 ? (
+        <p
+          style={{
+            margin: 0,
+            padding: "14px",
+            fontFamily: "var(--font-geist-mono), monospace",
+            fontSize: 11,
+            color: "var(--v4-ink-300)",
+          }}
+        >
+          {"// "}no 7d movers detected. The mcp-usage-snapshot cron writes a
+          daily snapshot to Redis at 03:30 UTC; the 7d delta becomes
+          computable once a snapshot from 7 days ago exists. Sort the table
+          below by the 24h column to see whatever short-window movement is
+          measurable today.
+        </p>
+      ) : (
+        <ol
+          style={{
+            listStyle: "none",
+            margin: 0,
+            padding: "10px 14px",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+            gap: 8,
+          }}
+        >
+          {movers.map((row, idx) => {
+            const deltaLabel =
+              row.delta7d >= 1000
+                ? new Intl.NumberFormat("en-US", {
+                    notation: "compact",
+                    maximumFractionDigits: 1,
+                  }).format(row.delta7d)
+                : Math.round(row.delta7d).toLocaleString("en-US");
+            const unitLabel = row.deltaUnit ?? "";
+            return (
+              <li key={row.id}>
+                <Link
+                  href={row.href}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    padding: "8px 10px",
+                    border: "1px solid var(--v4-line-200)",
+                    borderRadius: 3,
+                    background: "var(--v4-bg-100)",
+                    textDecoration: "none",
+                    color: "var(--v4-ink-100)",
+                  }}
+                >
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      fontFamily: "var(--font-geist-mono), monospace",
+                      fontSize: 10,
+                      color: "var(--v4-ink-400)",
+                      width: 18,
+                      flexShrink: 0,
+                    }}
+                  >
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+                  {row.logo ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={row.logo}
+                      alt=""
+                      width={20}
+                      height={20}
+                      loading="lazy"
+                      style={{
+                        width: 20,
+                        height: 20,
+                        borderRadius: 2,
+                        flexShrink: 0,
+                        background: "var(--v4-bg-200)",
+                      }}
+                    />
+                  ) : null}
+                  <span
+                    style={{
+                      flex: 1,
+                      minWidth: 0,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      fontSize: 12,
+                    }}
+                  >
+                    {row.title}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-geist-mono), monospace",
+                      fontSize: 11,
+                      fontWeight: 600,
+                      color: "var(--v4-up, #4ade80)",
+                      flexShrink: 0,
+                    }}
+                    title={`+${deltaLabel} ${unitLabel} · 7d`}
+                  >
+                    ↑{deltaLabel}
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
+        </ol>
+      )}
+    </section>
   );
 }

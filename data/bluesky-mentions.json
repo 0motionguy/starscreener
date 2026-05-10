@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-10T22:06:38.057Z",
+  "fetchedAt": "2026-05-10T23:11:11.128Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -4854,21 +4854,47 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlg4jmdnpk2t",
-        "cid": "bafyreiaezokuiu3ggmhg36xcqqkuk4vzul2z2kj7zw7okgyvt5xzm67imy",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlg4jmdnpk2t",
-        "text": "https://github.com/safishamsi/graphify",
+        "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3mljtuggnio2c",
+        "cid": "bafyreidvilfpo77bfozkyjbzmofk5wfvdyndztxugxklcmx46u5g7kbkte",
+        "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3mljtuggnio2c",
+        "text": "Explore Graphify, an AI coding assistant that turns your codebase into a queryable knowledge graph, improving project navigation and comprehension. It installs easily and supports various platforms, streamlining how developers interact with their code. https://github.com/safishamsi/graphify",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "ai-linkstream.bsky.social"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-09T11:14:48Z",
-        "hoursSincePosted": 2.67
+        "createdAt": "2026-05-10T22:50:27.105849+00:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3mljtuggnio2c",
+          "cid": "bafyreidvilfpo77bfozkyjbzmofk5wfvdyndztxugxklcmx46u5g7kbkte",
+          "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3mljtuggnio2c",
+          "text": "Explore Graphify, an AI coding assistant that turns your codebase into a queryable knowledge graph, improving project navigation and comprehension. It installs easily and supports various platforms, streamlining how developers interact with their code. https://github.com/safishamsi/graphify",
+          "author": {
+            "handle": "ai-linkstream.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T22:50:27.105849+00:00",
+          "createdUtc": 1778453427,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "safishamsi/graphify",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlg4jmdnpk2t",
           "cid": "bafyreiaezokuiu3ggmhg36xcqqkuk4vzul2z2kj7zw7okgyvt5xzm67imy",
@@ -7367,9 +7393,9 @@
     },
     "tailscale/tailscale": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:fqws5iiof2pkagmiwgf4slcq/app.bsky.feed.post/3mljr5ber7k2u",
         "cid": "bafyreidmya73yyc4cba6oeltkbg4akb6vzmohzfckcrf2mnnqiaofkhdzy",
@@ -7379,11 +7405,11 @@
           "handle": "multipleunit.bsky.social",
           "displayName": "Natalie Makhijani"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
+        "replyCount": 1,
         "createdAt": "2026-05-10T22:01:42.606Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.16
       },
       "posts": [
         {
@@ -7395,11 +7421,62 @@
             "handle": "multipleunit.bsky.social",
             "displayName": "Natalie Makhijani"
           },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-10T22:01:42.606Z",
+          "createdUtc": 1778450502,
+          "ageHours": 1.16,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tailscale/tailscale",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Leonxlnx/taste-skill": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mljuhygesu2o",
+        "cid": "bafyreigkvkaij52p73di4twjze2xomhdshslf6zkhwmaveizoccjo5n4ma",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mljuhygesu2o",
+        "text": "https://github.com/Leonxlnx/taste-skill",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-10T23:01:23Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mljuhygesu2o",
+          "cid": "bafyreigkvkaij52p73di4twjze2xomhdshslf6zkhwmaveizoccjo5n4ma",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mljuhygesu2o",
+          "text": "https://github.com/Leonxlnx/taste-skill",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
           "likeCount": 0,
           "repostCount": 0,
           "replyCount": 0,
-          "createdAt": "2026-05-10T22:01:42.606Z",
-          "createdUtc": 1778450502,
+          "createdAt": "2026-05-10T23:01:23Z",
+          "createdUtc": 1778454083,
           "ageHours": 0.5,
           "trendingScore": 0,
           "content_tags": [
@@ -7408,7 +7485,7 @@
           "value_score": 1,
           "linkedRepos": [
             {
-              "fullName": "tailscale/tailscale",
+              "fullName": "Leonxlnx/taste-skill",
               "matchType": "url",
               "confidence": 1
             }
@@ -12267,21 +12344,47 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlg4jmdnpk2t",
-        "cid": "bafyreiaezokuiu3ggmhg36xcqqkuk4vzul2z2kj7zw7okgyvt5xzm67imy",
-        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlg4jmdnpk2t",
-        "text": "https://github.com/safishamsi/graphify",
+        "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3mljtuggnio2c",
+        "cid": "bafyreidvilfpo77bfozkyjbzmofk5wfvdyndztxugxklcmx46u5g7kbkte",
+        "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3mljtuggnio2c",
+        "text": "Explore Graphify, an AI coding assistant that turns your codebase into a queryable knowledge graph, improving project navigation and comprehension. It installs easily and supports various platforms, streamlining how developers interact with their code. https://github.com/safishamsi/graphify",
         "author": {
-          "handle": "tom-doerr.bsky.social",
-          "displayName": "Tom Dörr "
+          "handle": "ai-linkstream.bsky.social"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-09T11:14:48Z",
-        "hoursSincePosted": 2.67
+        "createdAt": "2026-05-10T22:50:27.105849+00:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:lowvryocas54fph3iy3mhthr/app.bsky.feed.post/3mljtuggnio2c",
+          "cid": "bafyreidvilfpo77bfozkyjbzmofk5wfvdyndztxugxklcmx46u5g7kbkte",
+          "bskyUrl": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3mljtuggnio2c",
+          "text": "Explore Graphify, an AI coding assistant that turns your codebase into a queryable knowledge graph, improving project navigation and comprehension. It installs easily and supports various platforms, streamlining how developers interact with their code. https://github.com/safishamsi/graphify",
+          "author": {
+            "handle": "ai-linkstream.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T22:50:27.105849+00:00",
+          "createdUtc": 1778453427,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "safishamsi/graphify",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlg4jmdnpk2t",
           "cid": "bafyreiaezokuiu3ggmhg36xcqqkuk4vzul2z2kj7zw7okgyvt5xzm67imy",
@@ -14780,9 +14883,9 @@
     },
     "tailscale--tailscale": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:fqws5iiof2pkagmiwgf4slcq/app.bsky.feed.post/3mljr5ber7k2u",
         "cid": "bafyreidmya73yyc4cba6oeltkbg4akb6vzmohzfckcrf2mnnqiaofkhdzy",
@@ -14792,11 +14895,11 @@
           "handle": "multipleunit.bsky.social",
           "displayName": "Natalie Makhijani"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
+        "replyCount": 1,
         "createdAt": "2026-05-10T22:01:42.606Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.16
       },
       "posts": [
         {
@@ -14808,13 +14911,13 @@
             "handle": "multipleunit.bsky.social",
             "displayName": "Natalie Makhijani"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
-          "replyCount": 0,
+          "replyCount": 1,
           "createdAt": "2026-05-10T22:01:42.606Z",
           "createdUtc": 1778450502,
-          "ageHours": 0.5,
-          "trendingScore": 0,
+          "ageHours": 1.16,
+          "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -14828,36 +14931,72 @@
           ]
         }
       ]
+    },
+    "leonxlnx--taste-skill": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mljuhygesu2o",
+        "cid": "bafyreigkvkaij52p73di4twjze2xomhdshslf6zkhwmaveizoccjo5n4ma",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mljuhygesu2o",
+        "text": "https://github.com/Leonxlnx/taste-skill",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-10T23:01:23Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mljuhygesu2o",
+          "cid": "bafyreigkvkaij52p73di4twjze2xomhdshslf6zkhwmaveizoccjo5n4ma",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mljuhygesu2o",
+          "text": "https://github.com/Leonxlnx/taste-skill",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T23:01:23Z",
+          "createdUtc": 1778454083,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Leonxlnx/taste-skill",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "Imbad0202/academic-research-skills",
-      "count7d": 2,
+      "fullName": "tailscale/tailscale",
+      "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "huangserva/3DCellForge",
+      "fullName": "Leonxlnx/taste-skill",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "lightningpixel/modly",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "openclaw/openclaw",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "rtk-ai/rtk",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "tailscale/tailscale",
+      "fullName": "safishamsi/graphify",
       "count7d": 1,
       "likesSum7d": 0
     }

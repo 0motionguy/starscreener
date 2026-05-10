@@ -20,6 +20,13 @@ import {
   compareBySourceNativeRank,
   getSkillsSignalData,
 } from "@/lib/ecosystem-leaderboards";
+import {
+  LIST_LABELS,
+  LIST_SLUGS,
+  isListSlug,
+  resolveSkillLists,
+  type ListSlug,
+} from "@/lib/skills/taxonomy";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { refreshTrendingFromStore } from "@/lib/trending";
 import { refreshRedditMentionsFromStore } from "@/lib/reddit-data";
@@ -124,7 +131,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function SkillsPage() {
+interface SkillsPageProps {
+  searchParams: Promise<{ list?: string }>;
+}
+
+export default async function SkillsPage({ searchParams }: SkillsPageProps) {
   // BUG-FIX 2026-05-03: rehydrate the in-memory caches `getDerivedRepos()`
   // depends on. Without these refreshes, `linked` repo lookups returned
   // stale (often empty) Repo objects and every star delta column rendered
@@ -144,7 +155,36 @@ export default async function SkillsPage() {
   ]);
 
   const data = await getSkillsSignalData();
-  const items = data.combined.items;
+  const allItems = data.combined.items;
+
+  // Awesome-list taxonomy filter — `?list=<slug>` filters all sections to
+  // skills that appear in the selected curator list. Unrecognised values
+  // collapse to the All view (defensive against direct-link drift).
+  const { list: rawListParam } = await searchParams;
+  const activeListSlug: ListSlug | null = isListSlug(rawListParam)
+    ? rawListParam
+    : null;
+
+  // Per-tab counts use the unfiltered set so labels stay stable as the user
+  // tabs through. Computed once, used twice (tab strip + KpiBand sub).
+  const listCounts: Record<ListSlug, number> = {
+    antigravity: 0,
+    "awesome-claude-code": 0,
+    "punkpeye-mcp": 0,
+    "wong2-mcp": 0,
+  };
+  for (const it of allItems) {
+    for (const slug of resolveSkillLists(it.awesomeLists)) {
+      listCounts[slug] += 1;
+    }
+  }
+
+  const items = activeListSlug
+    ? allItems.filter((it) =>
+        resolveSkillLists(it.awesomeLists).includes(activeListSlug),
+      )
+    : allItems;
+
   const now = Date.now();
 
   // Build a lookup of tracked GitHub repos so we can plumb real
@@ -322,6 +362,12 @@ export default async function SkillsPage() {
             pip: "var(--v4-amber)",
           },
         ]}
+      />
+
+      <ListTaxonomyTabs
+        activeSlug={activeListSlug}
+        allCount={allItems.length}
+        listCounts={listCounts}
       />
 
       <SectionHead
@@ -527,6 +573,103 @@ export default async function SkillsPage() {
         }
       />
     </main>
+  );
+}
+
+interface ListTaxonomyTabsProps {
+  activeSlug: ListSlug | null;
+  allCount: number;
+  listCounts: Record<ListSlug, number>;
+}
+
+/**
+ * 5-tab filter strip surfacing the awesome-* curator lists. Each tab is a
+ * server-side `<Link>` that updates `?list=<slug>`; the page re-renders
+ * with the filter applied. Active state via `aria-current="page"` + a
+ * solid background instead of the outlined idle style. Counts come from
+ * the unfiltered set so they remain stable while the user tabs.
+ *
+ * AGN-536 history note: a previous tab strip (24h/7d/30d windows) was CUT
+ * because the ranked columns it drove were always "—". This strip is safe
+ * because the data backing it (`awesomeLists` membership) is populated
+ * for thousands of skills today.
+ */
+function ListTaxonomyTabs({
+  activeSlug,
+  allCount,
+  listCounts,
+}: ListTaxonomyTabsProps) {
+  const tabs: Array<{
+    slug: ListSlug | null;
+    label: string;
+    count: number;
+    href: string;
+  }> = [
+    {
+      slug: null,
+      label: "All",
+      count: allCount,
+      href: "/skills",
+    },
+    ...LIST_SLUGS.map((slug) => ({
+      slug,
+      label: LIST_LABELS[slug],
+      count: listCounts[slug],
+      href: `/skills?list=${slug}`,
+    })),
+  ];
+  return (
+    <nav
+      aria-label="Filter skills by curator list"
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 6,
+        padding: "12px 0 4px",
+        fontFamily: "var(--font-geist-mono), monospace",
+        fontSize: 11,
+      }}
+    >
+      {tabs.map((tab) => {
+        const isActive = tab.slug === activeSlug;
+        return (
+          <Link
+            key={tab.href}
+            href={tab.href}
+            aria-current={isActive ? "page" : undefined}
+            style={{
+              display: "inline-flex",
+              alignItems: "baseline",
+              gap: 6,
+              padding: "5px 10px",
+              borderRadius: 3,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              textDecoration: "none",
+              border: "1px solid var(--v4-line-200)",
+              background: isActive
+                ? "var(--v4-bg-200)"
+                : "var(--v4-bg-050)",
+              color: isActive
+                ? "var(--v4-ink-000)"
+                : "var(--v4-ink-300)",
+            }}
+          >
+            <span>{tab.label}</span>
+            <span
+              style={{
+                fontSize: 10,
+                color: isActive
+                  ? "var(--v4-acc)"
+                  : "var(--v4-ink-400)",
+              }}
+            >
+              {formatNumber(tab.count)}
+            </span>
+          </Link>
+        );
+      })}
+    </nav>
   );
 }
 

@@ -252,6 +252,24 @@ export async function writeDataStore(key, value, opts = {}) {
     client.set(`${META_NAMESPACE}:${normalizedKey}`, metaValue, setOpts),
   ]);
 
+  // TOOLBOX dual-write (Phase A.3). Fire-and-forget; no-op when env unset.
+  // Mapping table lives in scripts/_toolbox-ingest.mjs; datasets without
+  // an entry return zero events and skip the POST entirely.
+  try {
+    const { mapDatasetToEvents, ingestToToolbox } = await import("./_toolbox-ingest.mjs");
+    const events = mapDatasetToEvents(normalizedKey, value, writtenAt);
+    if (events.length > 0) {
+      // Don't await — let the Redis write return immediately. The HMAC POST
+      // has its own 5s timeout inside ingestToToolbox.
+      void ingestToToolbox(events).catch(() => {});
+    }
+  } catch (err) {
+    // The dual-write helper must never break the primary Redis write path.
+    console.warn(
+      `[data-store-write] toolbox dual-write helper failed: ${err && err.message ? err.message : err}`,
+    );
+  }
+
   return { source: "redis", writtenAt };
 }
 

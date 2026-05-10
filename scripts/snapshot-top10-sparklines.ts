@@ -8,6 +8,10 @@
 // Run as: npx tsx scripts/snapshot-top10-sparklines.ts
 // Cadence: 23:50 UTC daily, just before the bundle snapshot at 23:55.
 
+// Patches require.cache for `server-only` BEFORE any @/lib transitive
+// imports trigger it. Must stay the first import.
+import "./_server-only-shim";
+
 import { getHfModelsTrending, refreshHfModelsFromStore } from "@/lib/huggingface";
 import {
   getMcpSignalData,

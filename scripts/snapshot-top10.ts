@@ -6,6 +6,10 @@
 //
 // Cadence: 23:55 UTC daily via .github/workflows/snapshot-top10.yml.
 
+// Patches require.cache for `server-only` BEFORE any @/lib transitive
+// imports trigger it. Must stay the first import.
+import "./_server-only-shim";
+
 import { getDerivedRepos } from "@/lib/derived-repos";
 import {
   getHfModelsTrending,

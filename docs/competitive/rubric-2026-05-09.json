@@ -1,0 +1,64 @@
+{
+  "snapshot_date": "2026-05-09",
+  "sites": {
+    "trendingrepo": "https://trendingrepo.com",
+    "blockworks": "https://blockworks.com"
+  },
+  "tool": "vercel-labs/agent-browser@0.25.3",
+  "viewport": { "width": 1262, "height": 624 },
+  "metrics": {
+    "trendingrepo_home": {
+      "title": "TrendingRepo — The trend map for open source",
+      "h1": "One live ranking for open-source breakouts.",
+      "totalDomNodes": 4646,
+      "aboveFoldNodes": 606,
+      "aboveFoldInteractive": 49,
+      "aboveFoldNumericTiles": 39,
+      "aboveFoldCTAs": 30,
+      "domContentLoadedMs": 648,
+      "loadEventEndMs": 1534,
+      "transferSizeBytes": 97281,
+      "decodedBodySizeBytes": 857175
+    },
+    "blockworks_home": {
+      "title": "Blockworks",
+      "h1": "Building trust in onchain capital markets.",
+      "totalDomNodes": 2221,
+      "aboveFoldNodes": 334,
+      "aboveFoldInteractive": 34,
+      "aboveFoldNumericTiles": 52,
+      "aboveFoldCTAs": 20,
+      "domContentLoadedMs": 1619,
+      "loadEventEndMs": 6525,
+      "transferSizeBytes": 685072,
+      "decodedBodySizeBytes": 1402388
+    }
+  },
+  "rubric": [
+    { "id": 1,  "dimension": "First-screen data density",                "weight": 8,  "tr": 5, "bw": 9, "evidence": "TR has 39 numeric counters above the fold but they are static sidebar counts; BW has 52 numeric tiles, 5 are live crypto price ticker + 9 are live financial deltas (24hr DEX volume, App revenue, Blockchain REV, Stablecoin supply, DAT/ETF flows)." },
+    { "id": 2,  "dimension": "Editorial depth",                           "weight": 9,  "tr": 1, "bw": 9, "evidence": "TR has 0 articles, 0 podcasts, /digest is archive-only ('Daily digests start today'). BW has news section, 10 podcast shows, 4 research articles on home, named-analyst commentary." },
+    { "id": 3,  "dimension": "Newsletter / community gravity",            "weight": 8,  "tr": 3, "bw": 8, "evidence": "TR has NewsletterCaptureForm component but no Resend wiring per memory; /digest archive empty. BW promotes The Breakdown daily newsletter prominently across home + footer, has subscribe CTAs." },
+    { "id": 4,  "dimension": "Premium / paywalled tier",                  "weight": 10, "tr": 4, "bw": 9, "evidence": "TR's /pricing page is fully spec'd (Free / Pro $19 / Team $49/seat / Enterprise) but no paywall enforced and no homepage CTA pushing to it. BW Research at app.blockworksresearch.com is a full premium product, 5x 'Sign up' CTAs visible, 'Hundreds of features, one subscription'." },
+    { "id": 5,  "dimension": "Events surface",                            "weight": 5,  "tr": 1, "bw": 8, "evidence": "TR has zero events. BW promotes Digital Asset Summit 2026, Permissionless conference, Roundtables footer link." },
+    { "id": 6,  "dimension": "Advisory / consulting arm",                 "weight": 4,  "tr": 1, "bw": 8, "evidence": "TR has none. BW has Blockworks Advisory as a top-nav item ('Products > Advisory') plus dedicated /advisory route." },
+    { "id": 7,  "dimension": "API / developer surface",                   "weight": 7,  "tr": 7, "bw": 6, "evidence": "TR has /portal/docs API endpoint, public CLI (npx trendingrepo), published MCP server, and a real /portal/docs polish path. BW mentions 'data API' inside Research (gated, harder to evaluate). TR wins this row." },
+    { "id": 8,  "dimension": "Brand polish & positioning copy",           "weight": 7,  "tr": 5, "bw": 8, "evidence": "TR H1: 'One live ranking for open-source breakouts.' — descriptive. BW H1: 'Building trust in onchain capital markets.' — mission-grade with verb + market category. BW's 'Decoding crypto and the markets' tone reads institutional." },
+    { "id": 9,  "dimension": "Trust signals",                             "weight": 8,  "tr": 2, "bw": 9, "evidence": "TR has no /about, no team page, no HQ, BETA badge prominent. BW publishes mission/vision, HQ '133 W 19th St., New York, NY 10011', dedicated /about route, Trust & Ethics page, open positions page, named founders." },
+    { "id": 10, "dimension": "Search & navigation",                       "weight": 6,  "tr": 7, "bw": 7, "evidence": "Both have ⌘K. TR's sidebar has 8 sections / 31 nav items (deeper IA but more cluttered). BW's top-nav has 8 dropdown groups (cleaner but flatter). Comparable." },
+    { "id": 11, "dimension": "Vertical authority signals",                "weight": 7,  "tr": 2, "bw": 9, "evidence": "TR has zero published industry frameworks. BW has the Token Transparency Framework (presented to SEC), 'Trusted by industry leaders' module, partnerships with exchanges, financial institutions." },
+    { "id": 12, "dimension": "Mobile responsiveness",                     "weight": 6,  "tr": 7, "bw": 6, "evidence": "Not directly measured at 390px in this pass; assumption based on TR's lighter payload (97KB vs 685KB) and modern Tailwind 4 stack vs BW's heavier image-led hero. Flagged as 'verify next pass'." },
+    { "id": 13, "dimension": "Performance",                               "weight": 5,  "tr": 8, "bw": 5, "evidence": "TR: 1534ms load, 97KB transfer, 857KB decoded, 4646 DOM nodes. BW: 6525ms load (4.3x slower), 685KB transfer (7x heavier), 1402KB decoded, 2221 DOM nodes (BW has fewer nodes but heavier media)." },
+    { "id": 14, "dimension": "Data depth per entity",                     "weight": 7,  "tr": 8, "bw": 7, "evidence": "TR /repo/<owner>/<name> has 11 data loaders + 6 mention synthesizers per repo (cross-source mentions, funding, revenue overlay, star activity, predictions). BW research articles are deep but each is editorial-led, not entity-database-led. TR's data-shape moat is real." },
+    { "id": 15, "dimension": "Cross-source agreement / signal synthesis", "weight": 6,  "tr": 9, "bw": 6, "evidence": "TR's CONSENSUS, BREAKOUTS, and momentum scoring across 8 social sources (HN, Lobsters, Dev.to, Bluesky, Reddit, X, ProductHunt, GitHub) is the unique moat — surfaced in nav with '3X' consensus indicator. BW has internal data composition but not cross-source-agreement as a primary surface." }
+  ],
+  "weighted_totals": {
+    "trendingrepo": 470,
+    "blockworks": 800,
+    "max_possible": 1030
+  },
+  "readiness_pct": {
+    "trendingrepo": 45.6,
+    "blockworks_baseline": 77.7,
+    "gap_points": 32.1
+  }
+}

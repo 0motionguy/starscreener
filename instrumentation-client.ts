@@ -1,57 +1,110 @@
-import * as Sentry from "@sentry/nextjs";
-
-export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
+type NavigationType = "push" | "replace" | "traverse";
+type SentryNextClient = typeof import("@sentry/nextjs");
 
 const SENTRY_DSN = process.env.NEXT_PUBLIC_SENTRY_DSN;
+const browserSentryEnabled =
+  process.env.NEXT_PUBLIC_SENTRY_BROWSER_ENABLED !== "false";
+const replayEnabled = process.env.NEXT_PUBLIC_SENTRY_REPLAY === "true";
 
-if (SENTRY_DSN) {
-  Sentry.init({
-    dsn: SENTRY_DSN,
-    environment: process.env.NODE_ENV,
-    release: process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA,
+let sentryClientPromise: Promise<SentryNextClient> | null = null;
 
-    tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 0,
+function loadBrowserSentry(): Promise<SentryNextClient> | null {
+  if (!SENTRY_DSN || !browserSentryEnabled) return null;
 
-    // Replay integration ships ~50–80 KB to every browser. Gate it behind
-    // an opt-in flag so the bytes only land when an active incident wants
-    // them. Flip NEXT_PUBLIC_SENTRY_REPLAY=true on the deploy that needs
-    // replays, then unset.
-    replaysOnErrorSampleRate: process.env.NEXT_PUBLIC_SENTRY_REPLAY === "true" ? 1.0 : 0,
-    replaysSessionSampleRate: 0,
+  sentryClientPromise ??= import("@sentry/nextjs").then((Sentry) => {
+    Sentry.init({
+      dsn: SENTRY_DSN,
+      environment: process.env.NODE_ENV,
+      release: process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA,
 
-    integrations: process.env.NEXT_PUBLIC_SENTRY_REPLAY === "true"
-      ? [
-          Sentry.replayIntegration({
-            maskAllText: false,
-            blockAllMedia: false,
-          }),
-        ]
-      : [],
+      tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 0,
+      replaysOnErrorSampleRate: replayEnabled ? 1.0 : 0,
+      replaysSessionSampleRate: 0,
+      integrations: [],
 
-    beforeSend(event, hint) {
-      const error = hint.originalException;
-      const message = typeof error === "string" ? error : (error as Error)?.message ?? event.message ?? "";
+      beforeSend(event, hint) {
+        const error = hint.originalException;
+        const message =
+          typeof error === "string"
+            ? error
+            : ((error as Error)?.message ?? event.message ?? "");
 
-      if (/ResizeObserver|AbortError|Non-Error promise rejection captured/i.test(message)) return null;
-      if (event.tags?.["http.status_code"] === "0") return null;
+        if (
+          /ResizeObserver|AbortError|Non-Error promise rejection captured/i.test(
+            message,
+          )
+        ) {
+          return null;
+        }
+        if (event.tags?.["http.status_code"] === "0") return null;
 
-      return event;
-    },
-
-    ignoreErrors: [
-      "ResizeObserver loop limit exceeded",
-      "ResizeObserver loop completed with undelivered notifications",
-      "Non-Error promise rejection captured",
-      /Loading chunk \d+ failed/,
-      "AbortError",
-      "Network request failed",
-    ],
-
-    initialScope: {
-      tags: {
-        runtime: "browser",
-        product: "trendingrepo",
+        return event;
       },
-    },
+
+      ignoreErrors: [
+        "ResizeObserver loop limit exceeded",
+        "ResizeObserver loop completed with undelivered notifications",
+        "Non-Error promise rejection captured",
+        /Loading chunk \d+ failed/,
+        "AbortError",
+        "Network request failed",
+      ],
+
+      initialScope: {
+        tags: {
+          runtime: "browser",
+          product: "trendingrepo",
+        },
+      },
+    });
+
+    if (replayEnabled) {
+      void import("@sentry/browser")
+        .then(({ lazyLoadIntegration }) =>
+          lazyLoadIntegration("replayIntegration"),
+        )
+        .then((replayIntegration) => {
+          Sentry.addIntegration(
+            replayIntegration({
+              maskAllText: false,
+              blockAllMedia: false,
+            }),
+          );
+        });
+    }
+
+    return Sentry;
+  });
+
+  return sentryClientPromise;
+}
+
+function scheduleBrowserSentryInit(): void {
+  if (!SENTRY_DSN || !browserSentryEnabled) return;
+
+  const start = () => {
+    void loadBrowserSentry();
+  };
+  const win = window as Window & {
+    requestIdleCallback?: (
+      callback: () => void,
+      options?: { timeout?: number },
+    ) => number;
+  };
+  if (typeof win.requestIdleCallback === "function") {
+    win.requestIdleCallback(start, { timeout: 2500 });
+  } else {
+    window.setTimeout(start, 0);
+  }
+}
+
+export function onRouterTransitionStart(
+  href: string,
+  navigationType: NavigationType,
+): void {
+  void loadBrowserSentry()?.then((Sentry) => {
+    Sentry.captureRouterTransitionStart(href, navigationType);
   });
 }
+
+scheduleBrowserSentryInit();

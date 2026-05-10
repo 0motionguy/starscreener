@@ -1,10 +1,10 @@
 // GET /api/pipeline/sidebar-data
 //
-// One-shot bundle for the public sidebar shell (categories, source counts,
-// language list, capped repo map, trending count). Single source of truth
-// lives in `@/lib/sidebar-data` so the desktop sidebar (rendered inside
-// the root layout via `initialShell`) and the mobile drawer (which fetches
-// lazily on user-open through this endpoint) stay in sync.
+// One-shot bundle for the public sidebar shell plus exact-id watchlist
+// hydration. By default the shell keeps `reposById` empty so the root layout
+// and mobile drawer do not ship a momentum repo map before the client knows
+// which watched ids are actually needed. `?ids=owner--repo` returns only a
+// compact repo map. `?full=1` remains for backward compatibility.
 //
 // User-keyed overlay support has been REMOVED. Per-user data (e.g.
 // `unreadAlerts`) now ships from `/api/pipeline/sidebar-overlay`, which
@@ -15,7 +15,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { errorEnvelope } from "@/lib/api/error-response";
 import { READ_MEDIUM_HEADERS } from "@/lib/api/cache";
-import { buildSidebarData } from "@/lib/sidebar-data";
+import {
+  buildSidebarData,
+  getSidebarReposByIds,
+} from "@/lib/sidebar-data";
 
 // Re-export the wire types so existing import paths keep working.
 export type {
@@ -24,6 +27,22 @@ export type {
 } from "@/lib/sidebar-data";
 
 export const runtime = "nodejs";
+
+const ID_RE = /^[A-Za-z0-9._-]+--[A-Za-z0-9._-]+$/;
+const MAX_ID_LOOKUP = 20;
+
+function readRepoIds(params: URLSearchParams): string[] | null {
+  if (!params.has("ids")) return null;
+  const raw = params.get("ids");
+  const ids = raw
+    ?.split(",")
+    .map((id) => id.trim())
+    .filter(Boolean) ?? [];
+  if (ids.length > MAX_ID_LOOKUP || ids.some((id) => !ID_RE.test(id))) {
+    return [];
+  }
+  return Array.from(new Set(ids));
+}
 
 export async function GET(request: NextRequest) {
   if (request.nextUrl.searchParams.has("userId")) {
@@ -37,15 +56,40 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  const exactIds = readRepoIds(request.nextUrl.searchParams);
+  if (exactIds) {
+    if (exactIds.length === 0) {
+      return NextResponse.json(
+        errorEnvelope(
+          `Invalid ids parameter. Pass 1-${MAX_ID_LOOKUP} repo ids like owner--name.`,
+        ),
+        { status: 400 },
+      );
+    }
+    return NextResponse.json(
+      {
+        reposById: getSidebarReposByIds(exactIds),
+        generatedAt: new Date().toISOString(),
+      },
+      {
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          ...READ_MEDIUM_HEADERS,
+        },
+      },
+    );
+  }
+
   const trace = process.env.PERF_TRACE_ROUTES === "1";
   const startedAt = performance.now();
   try {
     const spans: Array<{ name: string; ms: number }> = [];
     const includeAllRepos = request.nextUrl.searchParams.get("full") === "1";
-    // Cap by default to keep payload latency under control for mobile drawer
-    // fetches. Clients that need the full map can opt in with `?full=1`.
+    // Keep the default repo map empty. Watchlist preview calls the exact-id
+    // path after localStorage is available; legacy callers can opt into the
+    // full map with `?full=1`.
     const data = await buildSidebarData({
-      reposByIdTopN: includeAllRepos ? undefined : 300,
+      reposByIdTopN: includeAllRepos ? undefined : 0,
       onTiming: (name, durationMs) => {
         if (trace) spans.push({ name, ms: durationMs });
       },

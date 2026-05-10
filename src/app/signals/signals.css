@@ -51,43 +51,13 @@
   --heat-cool: 58, 214, 197;      /* cyan companion */
 }
 
-/* Heatmap grid — desktop default. Mobile breakpoint below kills the 680-px
- * min-width that would otherwise force horizontal scroll inside the panel. */
 .signals-heatmap-body {
   overflow-x: auto;
 }
-.signals-heatmap-grid {
-  display: grid;
-  grid-template-columns: 120px repeat(24, minmax(0, 1fr));
-  gap: 2px;
-  align-items: center;
-  min-width: 680px;
-}
-.signals-heatmap-axis {
-  display: grid;
-  grid-template-columns: 120px repeat(24, minmax(0, 1fr));
-  gap: 2px;
-  padding-top: 6px;
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.10em;
-  color: var(--color-text-subtle);
-  text-transform: uppercase;
-  min-width: 680px;
-}
 
-/* Phone: drop the min-width so the grid fits the viewport, shrink the
- * tag-label column, and trim the cell height. The heatmap still reads
- * as a sparkline strip per row — fits without scroll. */
 @media (max-width: 767px) {
   .signals-heatmap-body {
     overflow-x: visible;
-  }
-  .signals-heatmap-grid,
-  .signals-heatmap-axis {
-    grid-template-columns: 76px repeat(24, minmax(0, 1fr));
-    min-width: 0;
-    gap: 1px;
   }
 }
 
@@ -122,12 +92,6 @@
 .signals-chip-on:hover {
   background: color-mix(in srgb, var(--color-bg-raised) 46%, var(--color-text-default));
   color: var(--color-text-default);
-}
-.signals-chip-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 1px;
-  flex: none;
 }
 /* Brand-mark chip: real source SVG sits inside the chip in currentColor.
  * Shape carries identity; chip background carries on/off state. */
@@ -178,26 +142,6 @@
 }
 .signals-chip-brand.signals-chip-on .signals-chip-count {
   background: color-mix(in srgb, var(--chip-color) 22%, var(--color-bg-shell));
-}
-
-/* Consensus-row source mark: brand SVG inside a brand-tinted square so the
- * colored mark reads against the dark page bg. Replaces the legacy letter
- * chip ("R", "GH"...) used until 2026-05-03. */
-.cons-srcmark {
-  width: 18px;
-  height: 18px;
-  border-radius: 3px;
-  border: 1px solid;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  font-size: 0;
-  flex: none;
-}
-.cons-srcmark svg {
-  display: block;
-  color: inherit;
 }
 
 /* Per-source rail under the volume chart. One row per source so no source
@@ -296,4 +240,3 @@
   margin: 0 6px;
   display: inline-block;
 }
-

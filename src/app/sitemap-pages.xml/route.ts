@@ -13,7 +13,7 @@
 //   those to crawlers via the sitemap-image extension lets Google index
 //   them as legitimate page imagery (preview cards, image search).
 //   Pages that have no meaningful OG image — `/docs`, `/search`,
-//   `/watchlist`, `/submit`, etc. — simply omit the `images` field on
+//   `/submit`, etc. — simply omit the `images` field on
 //   their UrlEntry; the renderer skips the `<image:image>` block when
 //   `images` is absent or empty, so we pay zero bytes for entries that
 //   don't have an image.
@@ -43,15 +43,22 @@ interface StaticHub {
 
 const STATIC_HUBS: StaticHub[] = [
   { path: "/", priority: 1.0, changefreq: "hourly" },
+  { path: "/githubrepo", priority: 0.98, changefreq: "hourly" },
+  { path: "/skills", priority: 0.95, changefreq: "hourly" },
+  { path: "/mcp", priority: 0.95, changefreq: "hourly" },
   { path: "/top10", priority: 0.95, changefreq: "hourly" },
   { path: "/breakouts", priority: 0.9, changefreq: "hourly" },
   { path: "/funding", priority: 0.9, changefreq: "hourly" },
   { path: "/consensus", priority: 0.9, changefreq: "hourly" },
   { path: "/signals", priority: 0.85, changefreq: "hourly" },
   { path: "/twitter", priority: 0.85, changefreq: "hourly" },
-  { path: "/news", priority: 0.85, changefreq: "hourly" },
+  { path: "/agent-commerce", priority: 0.8, changefreq: "hourly" },
+  { path: "/agent-repos", priority: 0.8, changefreq: "hourly" },
+  { path: "/npm", priority: 0.8, changefreq: "hourly" },
+  { path: "/research", priority: 0.8, changefreq: "daily" },
   { path: "/papers", priority: 0.8, changefreq: "daily" },
   { path: "/arxiv/trending", priority: 0.75, changefreq: "daily" },
+  { path: "/huggingface", priority: 0.75, changefreq: "daily" },
   { path: "/huggingface/trending", priority: 0.8, changefreq: "daily" },
   { path: "/huggingface/datasets", priority: 0.75, changefreq: "daily" },
   { path: "/huggingface/spaces", priority: 0.75, changefreq: "daily" },
@@ -65,10 +72,21 @@ const STATIC_HUBS: StaticHub[] = [
   { path: "/producthunt", priority: 0.75, changefreq: "daily" },
   { path: "/reddit", priority: 0.75, changefreq: "daily" },
   { path: "/reddit/trending", priority: 0.75, changefreq: "daily" },
+  { path: "/digest", priority: 0.7, changefreq: "daily" },
+  { path: "/ideas", priority: 0.7, changefreq: "daily" },
+  { path: "/top", priority: 0.7, changefreq: "daily" },
+  { path: "/trends", priority: 0.7, changefreq: "daily" },
+  { path: "/tierlist", priority: 0.65, changefreq: "weekly" },
+  { path: "/tools", priority: 0.6, changefreq: "weekly" },
+  { path: "/tools/star-history", priority: 0.6, changefreq: "weekly" },
+  { path: "/tools/treemap", priority: 0.6, changefreq: "weekly" },
+  { path: "/tools/revenue-estimate", priority: 0.6, changefreq: "weekly" },
   { path: "/compare", priority: 0.5, changefreq: "weekly" },
+  { path: "/methodology", priority: 0.5, changefreq: "weekly" },
   { path: "/docs", priority: 0.5, changefreq: "weekly" },
   { path: "/search", priority: 0.5, changefreq: "weekly" },
-  { path: "/watchlist", priority: 0.4, changefreq: "weekly" },
+  { path: "/about", priority: 0.5, changefreq: "monthly" },
+  { path: "/contact", priority: 0.45, changefreq: "monthly" },
   { path: "/submit", priority: 0.5, changefreq: "weekly" },
   { path: "/pricing", priority: 0.6, changefreq: "weekly" },
 ];

@@ -40,8 +40,8 @@ async function primeSaturatedStore(
   ip: string,
   windowMs: number,
   maxRequests: number,
+  store: MemoryRateLimitStore = new MemoryRateLimitStore(),
 ): Promise<MemoryRateLimitStore> {
-  const store = new MemoryRateLimitStore();
   const ttlSec = Math.max(1, Math.ceil(windowMs / 1000));
   const key = `rl:${ip}:${windowMs}:${maxRequests}`;
   for (let i = 0; i < maxRequests; i += 1) {
@@ -102,6 +102,38 @@ test("POST /api/pipeline/refresh: returns 429 with all 4 rate-limit headers when
   const body = (await res.json()) as { ok: boolean; error: string; retryAfterSec?: number };
   assert.equal(body.ok, false);
   assert.match(body.error, /rate limited/);
+  assert.ok(
+    typeof body.retryAfterSec === "number" && body.retryAfterSec >= 1,
+    "retryAfterSec should be present and >= 1",
+  );
+});
+
+test("POST /api/pipeline/refresh: returns no-store 429 when global cooldown is active", async () => {
+  const globalKey = "pipeline-refresh-global";
+  const windowMs = 30_000;
+  const maxRequests = 1;
+  await primeSaturatedStore(globalKey, windowMs, maxRequests);
+
+  const { POST } = await import("../../../app/api/pipeline/refresh/route");
+  const req = new Request("http://localhost/api/pipeline/refresh", {
+    method: "POST",
+    headers: { "x-forwarded-for": "198.51.100.11" },
+  });
+  const res = await POST(req as never);
+
+  assert.equal(res.status, 429, "expected 429 status");
+  assert.equal(res.headers.get("cache-control"), "no-store");
+  assert.ok(
+    /^\d+$/.test(res.headers.get("retry-after") ?? ""),
+    "Retry-After must be seconds",
+  );
+  const body = (await res.json()) as {
+    ok: boolean;
+    error: string;
+    retryAfterSec?: number;
+  };
+  assert.equal(body.ok, false);
+  assert.match(body.error, /cooldown active/);
   assert.ok(
     typeof body.retryAfterSec === "number" && body.retryAfterSec >= 1,
     "retryAfterSec should be present and >= 1",

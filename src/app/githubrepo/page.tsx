@@ -20,10 +20,6 @@
 // OG / Twitter / robots so rich-result tooling has a complete head block.
 
 import type { Metadata } from "next";
-import {
-  EChartSparkline,
-  type EChartSparklineProps,
-} from "@/components/charts/EChartSparkline";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import {
   getTrending,
@@ -52,17 +48,8 @@ import { Metric, MetricGrid } from "@/components/ui/Metric";
 import { ChartStat, ChartStats } from "@/components/ui/ChartShell";
 import { FooterBar } from "@/components/ui/FooterBar";
 import { SectionHead } from "@/components/ui/SectionHead";
-import { EntityLogo } from "@/components/ui/EntityLogo";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
-import { repoLogoUrl } from "@/lib/logos";
 import { MarkVisited } from "@/components/layout/MarkVisited";
-import {
-  GithubIcon,
-  HackerNewsIcon,
-  RedditIcon,
-  BlueskyIcon,
-  DevtoIcon,
-} from "@/components/brand/BrandIcons";
 import {
   type CategoryFacet,
   type LiveRow,
@@ -138,42 +125,10 @@ function formatCompact(value: number): string {
   return compactNumber.format(Math.max(0, Math.round(value))).toLowerCase();
 }
 
-function formatDelta(value: number): string {
-  const abs = formatCompact(Math.abs(value));
-  return `${value >= 0 ? "+" : "-"}${abs}`;
-}
-
-function percentDelta(delta: number, base: number): number | null {
-  if (base <= 0 || delta === 0) return null;
-  return Math.round((delta / Math.max(1, base - delta)) * 100);
-}
-
 const CATEGORY_LABELS = new Map(CATEGORIES.map((c) => [c.id, c.shortName]));
 
 function categoryLabel(repo: Repo): string {
   return CATEGORY_LABELS.get(repo.categoryId) ?? repo.language ?? "Repo";
-}
-
-function sourceCount(repo: Repo): number {
-  if (typeof repo.channelsFiring === "number") return repo.channelsFiring;
-  if (!repo.channelStatus) return repo.mentionCount24h > 0 ? 2 : 1;
-  return Object.values(repo.channelStatus).filter(Boolean).length;
-}
-
-// ---------------------------------------------------------------------------
-// Sparkline — backed by the shared <EChartSparkline> wrapper. Was a
-// duplicate of the inline-SVG sparkline in src/app/page.tsx; both moved
-// to ECharts canvas in this PR for a visible visual upgrade (animated
-// draw on first paint, hover tooltip, slightly larger 84×28 default).
-// Wrapper preserves the old prop defaults so call sites don't shift.
-// ---------------------------------------------------------------------------
-
-function Sparkline({
-  color = "var(--sig-green)",
-  className = "spark",
-  ...rest
-}: EChartSparklineProps) {
-  return <EChartSparkline color={color} className={className} {...rest} />;
 }
 
 // ---------------------------------------------------------------------------

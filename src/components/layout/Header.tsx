@@ -1,37 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ROUTES } from "@/lib/constants";
+import { ROUTES } from "@/lib/routes";
 import { SearchBar } from "@/components/shared/SearchBar";
 import { HamburgerButton } from "@/components/layout/HamburgerButton";
-
-// Same shape as Sidebar.tsx's useUserSession — duplicated here so the
-// Header can hide/show the profile chip independently of the rail.
-function useUserSession(): { loaded: boolean; userId: string | null } {
-  const [state, setState] = useState<{ loaded: boolean; userId: string | null }>(
-    { loaded: false, userId: null },
-  );
-  useEffect(() => {
-    let cancelled = false;
-    fetch("/api/auth/session", { credentials: "include" })
-      .then((r) => (r.ok ? r.json() : { ok: false }))
-      .then((data: { ok?: boolean; userId?: string }) => {
-        if (cancelled) return;
-        setState({
-          loaded: true,
-          userId: data?.ok && data.userId ? data.userId : null,
-        });
-      })
-      .catch(() => {
-        if (!cancelled) setState({ loaded: true, userId: null });
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-  return state;
-}
+import { useClientSession } from "@/components/layout/useClientSession";
 
 function avatarInitials(userId: string): string {
   // Public IDs look like `a_xxx` / `u_xxx` — strip the prefix so the
@@ -41,7 +14,7 @@ function avatarInitials(userId: string): string {
 }
 
 export function Header() {
-  const { userId } = useUserSession();
+  const { userId } = useClientSession();
 
   return (
     <header className="topbar">

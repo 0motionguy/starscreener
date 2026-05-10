@@ -112,7 +112,7 @@ export default function DesignLabPrimitivesPage() {
       <PageHead
         crumb={
           <>
-            <b>DESIGN-LAB</b> · V4 PRIMITIVES · /_design-lab/primitives
+            <b>DESIGN-LAB</b> · V4 PRIMITIVES · /design-lab/primitives
           </>
         }
         h1="V4 (CORPUS) Primitives"

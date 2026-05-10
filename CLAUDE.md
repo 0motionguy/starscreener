@@ -22,7 +22,7 @@ Real-time trend-discovery scanner. Aggregates GitHub stars, Twitter buzz, Reddit
 ## Tech Stack
 - **Framework:** Next.js 15 (App Router, Turbopack, RSC + client islands)
 - **Language:** TypeScript 5 strict
-- **UI:** React 19, Tailwind 4, Recharts (charts), Framer Motion (animation), Zustand (client state)
+- **UI:** React 19, Tailwind 4, ECharts (charts via [src/components/charts/EChart.tsx](src/components/charts/EChart.tsx) + [src/lib/charts/theme/](src/lib/charts/theme/)), Framer Motion (animation), Zustand (client state)
 - **Data:** Redis (Railway-native via `ioredis` OR Upstash REST) is the source of truth for 30 cron-driven payloads (`data/*.json`) via [src/lib/data-store.ts](src/lib/data-store.ts) — three-tier read (Redis → bundled file → in-memory last-known-good). Picks the backend by URL scheme: `redis://` / `rediss://` → ioredis (TCP), `https://` → Upstash REST. Set `REDIS_URL` (Railway) or `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` (Upstash) — never both. `.data/*.jsonl` (Twitter scans, append-only logs) still git-committed via collector workflows.
 - **Validation:** Zod on all API boundaries
 - **Auth:** Cookie-based admin session (see `e2a0908`)

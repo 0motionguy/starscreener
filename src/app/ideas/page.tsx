@@ -1,4 +1,4 @@
-// /ideas — public idea feed (v2-styled).
+// /ideas — public idea feed.
 //
 // Three views (URL-driven via ?sort=hot|new|shipped):
 //   - hot     (default) — weighted reactions × recency decay
@@ -6,7 +6,7 @@
 //   - shipped — only ideas that reached buildStatus = "shipped"
 //
 // Server component. Computes conviction scores server-side and hands
-// them to IdeaCard for v2 chrome (conviction gauge + reaction bar).
+// them to IdeaCard for terminal chrome (conviction gauge + reaction bar).
 
 import type { Metadata } from "next";
 import { Lightbulb, Plus } from "lucide-react";
@@ -26,7 +26,11 @@ import {
 import type { ReactionCounts } from "@/lib/reactions-shape";
 import { IdeaCard } from "@/components/ideas/IdeaCard";
 import { IdeaComposer } from "@/components/ideas/IdeaComposer";
-import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
+import {
+  BarcodeStrip,
+  MonoCaption,
+  TerminalChromeBar,
+} from "@/components/ui/TerminalChrome";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 type SortKey = "hot" | "new" | "shipped";
@@ -146,18 +150,18 @@ export default async function IdeasPage({ searchParams }: PageProps) {
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary font-mono">
       <div className="max-w-[900px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
-        {/* V2 terminal-bar — operator chrome */}
+        {/* Terminal chrome */}
         <div className="v2-frame overflow-hidden">
-          <TerminalBar
+          <TerminalChromeBar
             label={`// IDEAS · ${sortKey.toUpperCase()}`}
             status={`${feed.length} ROWS · LIVE`}
             live
           />
-          <BarcodeTicker count={120} height={12} seed={feed.length || 33} />
+          <BarcodeStrip count={120} height={12} seed={feed.length || 33} />
         </div>
 
         <header className="border-b border-[var(--v2-line-std)] pb-6 space-y-3">
-          <MonoLabel index="01" name="IDEAS" hint="BUILDERS' QUEUE" tone="muted" />
+          <MonoCaption index="01" name="IDEAS" hint="BUILDERS' QUEUE" tone="muted" />
           <div className="flex flex-wrap items-baseline gap-3">
             <h1 className="font-display text-2xl font-bold uppercase tracking-wider inline-flex items-center gap-2">
               <Lightbulb className="size-5 text-[var(--v4-amber)]" aria-hidden />
@@ -225,7 +229,7 @@ export default async function IdeasPage({ searchParams }: PageProps) {
             {/* Hero card — top-ranked idea gets full-width treatment */}
             {hero ? (
               <div className="v2-frame overflow-hidden">
-                <TerminalBar
+                <TerminalChromeBar
                   label={`// HERO · CONVICTION ${hero.conviction}/100`}
                   status={`${hero.reactionCounts.build + hero.reactionCounts.use + hero.reactionCounts.buy + hero.reactionCounts.invest} REACTIONS`}
                   live={sortKey === "hot"}

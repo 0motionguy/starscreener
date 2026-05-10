@@ -32,9 +32,11 @@ import {
 import { getUserTierRecord } from "@/lib/pricing/user-tiers";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 // Keep in sync with SESSION_MAX_AGE_MS in session.ts (30 days, in seconds).
 const SESSION_MAX_AGE_SECONDS = 30 * 24 * 60 * 60;
+const SESSION_CACHE_HEADERS = { "Cache-Control": "private, no-store" };
 
 interface SessionProbeOk {
   ok: true;
@@ -81,6 +83,12 @@ function readSessionCookie(request: NextRequest): string | null {
   return null;
 }
 
+function sessionJson<T>(body: T, init?: ResponseInit): NextResponse<T> {
+  const headers = new Headers(init?.headers);
+  headers.set("Cache-Control", SESSION_CACHE_HEADERS["Cache-Control"]);
+  return NextResponse.json(body, { ...init, headers });
+}
+
 /**
  * GET — read the current session. Idempotent. Never 401/503.
  *
@@ -93,18 +101,18 @@ export async function GET(
   if (!isSecretConfigured()) {
     // Dev fallback — report the env-less "local" user. No cookie set.
     if (process.env.NODE_ENV !== "production") {
-      return NextResponse.json({
+      return sessionJson({
         ok: true,
         userId: "local",
         issuedAt: Date.now(),
       });
     }
-    return NextResponse.json({ ok: false });
+    return sessionJson({ ok: false });
   }
   const raw = readSessionCookie(request);
   const payload = verifySession(raw);
-  if (!payload) return NextResponse.json({ ok: false });
-  return NextResponse.json({
+  if (!payload) return sessionJson({ ok: false });
+  return sessionJson({
     ok: true,
     userId: payload.userId,
     issuedAt: payload.issuedAt,
@@ -126,14 +134,14 @@ export async function POST(
   // setting a cookie — AlertConfig's existing dev path picks this up.
   if (!isSecretConfigured()) {
     if (process.env.NODE_ENV !== "production") {
-      return NextResponse.json({
+      return sessionJson({
         ok: true,
         userId: "local",
         issuedAt: Date.now(),
         kind: "dev-fallback",
       });
     }
-    return NextResponse.json(
+    return sessionJson(
       {
         ok: false,
         error:
@@ -193,7 +201,7 @@ export async function POST(
   };
   const token = signSession(payload);
 
-  const response = NextResponse.json<SessionIssuedOk>({
+  const response = sessionJson<SessionIssuedOk>({
     ok: true,
     userId,
     issuedAt: payload.issuedAt,

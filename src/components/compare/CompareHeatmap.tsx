@@ -9,7 +9,7 @@ import "@/lib/charts/theme/full";
 import { EChart } from "@/components/charts/EChart";
 import { CHART_TOKENS } from "@/lib/charts/theme/tokens";
 
-interface CompareHeatmapProps {
+export interface CompareHeatmapProps {
   bundles: CompareRepoBundle[];
   palette: string[];
 }

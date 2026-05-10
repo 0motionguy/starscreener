@@ -25,12 +25,11 @@ import {
   getMcpSignalData,
   type EcosystemLeaderboardItem,
 } from "@/lib/ecosystem-leaderboards";
+import { rankMcpItems } from "@/lib/mcp-ranking";
 import { mcpEntityLogoUrl } from "@/lib/logos";
 import { absoluteUrl } from "@/lib/seo";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { refreshTrendingFromStore } from "@/lib/trending";
-import { getRepoMetadata } from "@/lib/repo-metadata";
-import { synthesizeRecentRepoSparkline } from "@/lib/derived-repos/sparkline";
 import type { Repo } from "@/lib/types";
 
 export const revalidate = 60;
@@ -123,23 +122,10 @@ function resolveMcpLogo(item: EcosystemLeaderboardItem): string | null {
 
 // ---- Page -------------------------------------------------------------------
 
-function lookupKeyForMcp(item: EcosystemLeaderboardItem): string | null {
-  // Prefer the explicit `linkedRepo`; otherwise extract owner/name from a
-  // github.com URL. Same fallback chain the home page uses for skill / mcp
-  // rows (src/app/page.tsx ecosystemEntity), so MCP rows surface real
-  // velocity even when the upstream merger left `linkedRepo` null.
-  if (item.linkedRepo) return item.linkedRepo.toLowerCase();
-  if (typeof item.url !== "string") return null;
-  const m = item.url.match(/github\.com\/([^/?#]+)\/([^/?#]+)/i);
-  if (!m) return null;
-  return `${m[1]}/${m[2].replace(/\.git$/i, "")}`.toLowerCase();
-}
-
 export default async function McpPage() {
-  // Pull MCP board AND fresh trending data so the linked-repo fallback can
-  // surface real GitHub star deltas / sparklines on rows where the registry
-  // installs snapshot is still cold. Same hydration pattern /githubrepo
-  // uses (src/app/githubrepo/page.tsx).
+  // Pull MCP board and refresh the repo store so linked-repo rows can surface
+  // real GitHub deltas/sparklines when registry install windows are cold.
+  // Same hydration pattern /githubrepo uses (src/app/githubrepo/page.tsx).
   const [data] = await Promise.all([
     getMcpSignalData(),
     refreshTrendingFromStore(),
@@ -166,30 +152,13 @@ export default async function McpPage() {
   // popularity within. The filter requires at least one fillable signal
   // (real registry use OR a tracked linked repo with stars OR a release
   // date) so blank cells don't dominate the top of the board.
-  const TOP_N = 50;
+  const TABLE_ROW_LIMIT = 1000;
   // Fallback chain for "what GitHub repo does this MCP live on":
   //   1. derived-repos (full Repo with deltas + sparkline)
   //   2. data/repo-metadata.json (~870 repos with stars/forks/lastCommit
   //      but no deltas) — fills Use + Released columns even when the
   //      repo isn't in our trending feed.
-  const enriched = items.map((item) => {
-    const lookup = lookupKeyForMcp(item);
-    const linked = lookup ? repoByFullName.get(lookup) : undefined;
-    const metaFullName = item.linkedRepo ?? lookup ?? null;
-    const meta = metaFullName ? getRepoMetadata(metaFullName) : null;
-    const hasPopularity = (item.popularity ?? 0) > 0;
-    const hasLinkedStars = Boolean(
-      (linked && linked.stars > 0) || (meta && meta.stars > 0),
-    );
-    const hasReleaseDate = Boolean(
-      item.mcp?.lastReleaseAt ||
-        linked?.lastCommitAt ||
-        meta?.pushedAt ||
-        meta?.updatedAt,
-    );
-    const hasFillableData = hasPopularity || hasLinkedStars || hasReleaseDate;
-    return { item, linked, meta, hasFillableData };
-  });
+  const ranked = rankMcpItems(items, repoByFullName);
 
   // Rank by data-richness first, then multi-registry consensus, then
   // popularity, then signalScore. This is the OSS-Insight + TrendShift
@@ -200,37 +169,14 @@ export default async function McpPage() {
   // a release date, OR signalScore > 0 passes — and we then take top 50.
   // Charts get synthesized from metadata for rows without a real series
   // (see toLiveRow mapper below) so every visible row has a sparkline.
-  const ranked = enriched
-    .filter((e) => {
-      if (e.hasFillableData) return true;
-      if ((e.item.crossSourceCount ?? 1) >= 2) return true;
-      if ((e.item.signalScore ?? 0) > 0) return true;
-      if (e.item.verified) return true;
-      return false;
-    })
-    .sort((a, b) => {
-      if (a.hasFillableData !== b.hasFillableData) {
-        return a.hasFillableData ? -1 : 1;
-      }
-      const csa = a.item.crossSourceCount ?? 1;
-      const csb = b.item.crossSourceCount ?? 1;
-      if (csb !== csa) return csb - csa;
-      const pa = a.item.popularity ?? 0;
-      const pb = b.item.popularity ?? 0;
-      if (pb !== pa) return pb - pa;
-      return (b.item.signalScore ?? 0) - (a.item.signalScore ?? 0);
-    });
-
   const mcpRows: McpRow[] = ranked
-    .slice(0, TOP_N)
+    .slice(0, TABLE_ROW_LIMIT)
     .map(({ item, linked: linkedRepo, meta }) => {
       const sources = item.mcp?.sources ?? [];
 
-      // Stars source: derived repo first, then bundled metadata. Used for
-      // synthesizing both the sparkline and the delta estimates.
+      // Stars source: derived repo first, then bundled metadata. Used as a
+      // real fallback for the Use column; deltas require linked repo history.
       const repoStars = linkedRepo?.stars ?? meta?.stars ?? 0;
-      const repoCreatedAt =
-        linkedRepo?.createdAt ?? meta?.createdAt ?? null;
 
       // 24h/7d/30d: prefer registry installs, then real linked-repo deltas,
       // then a heuristic estimate from total stars / age (capped so a 5y old
@@ -249,51 +195,39 @@ export default async function McpPage() {
             (linkedRepo.starsDelta7d ?? 0) !== 0 ||
             (linkedRepo.starsDelta30d ?? 0) !== 0),
       );
-      const ageDays = repoCreatedAt
-        ? Math.max(
-            1,
-            Math.ceil((Date.now() - Date.parse(repoCreatedAt)) / 86_400_000),
-          )
-        : null;
-      const estDailyStars =
-        ageDays && repoStars > 0 ? Math.max(0, repoStars / ageDays) : 0;
       const delta24h = hasNonZeroRegistryDelta
         ? (installs24h ?? 0)
         : hasRealRepoDelta
           ? (linkedRepo?.starsDelta24h ?? 0)
-          : Math.round(estDailyStars);
+          : 0;
       const delta7d = hasNonZeroRegistryDelta
         ? (installs7d ?? 0)
         : hasRealRepoDelta
           ? (linkedRepo?.starsDelta7d ?? 0)
-          : Math.round(estDailyStars * 7);
+          : 0;
       const delta30d = hasNonZeroRegistryDelta
         ? (installs30d ?? 0)
         : hasRealRepoDelta
           ? (linkedRepo?.starsDelta30d ?? 0)
-          : Math.round(estDailyStars * 30);
+          : 0;
       const deltaUnit: McpRow["deltaUnit"] = hasNonZeroRegistryDelta
         ? "installs"
         : hasRealRepoDelta
           ? "stars"
-          : repoStars > 0
-            ? "stars"
-            : null;
+          : null;
 
-      // Sparkline: real series from derived repo first; otherwise synthesize
-      // a credible curve from total stars + age. Without metadata, an empty
+      // Sparkline: real series from a derived repo only. Without one, an empty
       // array keeps the "no chart" state honest.
-      let sparklineData: number[] = linkedRepo?.sparklineData ?? [];
-      if (sparklineData.length < 2 && repoStars > 0 && repoCreatedAt) {
-        sparklineData = synthesizeRecentRepoSparkline(repoStars, repoCreatedAt);
-      }
+      const sparklineData: number[] = linkedRepo?.sparklineData ?? [];
 
       // Use column: registry popularity first, then any repo stars source.
       const registryUse = item.popularity ?? 0;
       const useValue = registryUse > 0 ? registryUse : repoStars;
       const useLabel =
-        registryUse > 0 && item.popularityLabel
-          ? item.popularityLabel.toLowerCase()
+        item.sourceMetricLabel
+          ? item.sourceMetricLabel.toLowerCase()
+          : registryUse > 0 && item.popularityLabel
+            ? item.popularityLabel.toLowerCase()
           : registryUse > 0
             ? sources[0] ?? "mcp"
             : repoStars > 0
@@ -425,7 +359,7 @@ export default async function McpPage() {
         ]}
       />
 
-      <LiveMcpTable rows={mcpRows} categories={categories} />
+      <LiveMcpTable rows={mcpRows} categories={categories} totalCount={total} />
 
       <div
         style={{

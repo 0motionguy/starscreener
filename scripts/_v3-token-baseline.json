@@ -1,12 +1,12 @@
 {
   "_comment": "V3 token budget baseline. Counts are CURRENT occurrences in src/components and src/app. Guard fails when any count rises. Regenerate after a cleanup with: node scripts/check-v3-token-budget.mjs --snapshot",
-  "generatedAt": "2026-05-07T14:50:02.829Z",
+  "generatedAt": "2026-05-09T03:16:39.679Z",
   "counts": {
-    "bg-up|down|warning|info": 58,
+    "bg-up|down|warning|info": 54,
     "text-up|down|warning|info": 4,
-    "border-up|down|warning|info": 39,
+    "border-up|down|warning|info": 37,
     "bg-functional": 6,
-    "text-functional": 18,
+    "text-functional": 16,
     "border-functional": 6,
     "bg-functional-glow|subtle": 0
   }

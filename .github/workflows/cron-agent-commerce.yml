@@ -112,7 +112,7 @@ jobs:
       - name: Rebuild agent-commerce seed
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
-        run: node scripts/build-agent-commerce-seed.mjs
+        run: node scripts/build-agent-commerce-seed.mjs --push
 
       - name: Submit AISO scans for new entities
         # Enqueues rows into .data/aiso-rescan-queue.jsonl. The

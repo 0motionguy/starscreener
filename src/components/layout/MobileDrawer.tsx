@@ -25,7 +25,7 @@
  *   - Pathname change auto-closes the drawer so navigating from a nav
  *     item dismisses the overlay.
  */
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
@@ -39,6 +39,7 @@ export function MobileDrawer() {
   const close = useSidebarStore((s) => s.closeMobile);
   const reduceMotion = useReducedMotion();
   const pathname = usePathname();
+  const hasSeenPathname = useRef(false);
 
   const data = useSidebarData();
   const watchlistPreview = useWatchlistPreview(data?.reposById);
@@ -61,6 +62,10 @@ export function MobileDrawer() {
 
   // Auto-close on route change so tapping a nav item dismisses the drawer.
   useEffect(() => {
+    if (!hasSeenPathname.current) {
+      hasSeenPathname.current = true;
+      return;
+    }
     if (open) close();
     // Intentionally depend only on pathname — we do NOT want to close the
     // drawer when `close` identity rotates.

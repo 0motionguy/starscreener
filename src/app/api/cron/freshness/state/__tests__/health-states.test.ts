@@ -49,8 +49,8 @@ test("deriveHealth: all GREEN → ok", () => {
   assert.equal(deriveHealth(sources), "ok");
 });
 
-test("deriveHealth: empty list → ok", () => {
-  assert.equal(deriveHealth([]), "ok");
+test("deriveHealth: empty list → stale", () => {
+  assert.equal(deriveHealth([]), "stale");
 });
 
 test("deriveHealth: only non-blocking degraded → advisory", () => {

@@ -1,6 +1,7 @@
 // StarScreener — /compare metadata wrapper (client-component sibling).
 
 import type { Metadata } from "next";
+import "@/components/compare/compare.css";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 const TITLE = `Compare — ${SITE_NAME}`;

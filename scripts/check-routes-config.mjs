@@ -36,7 +36,6 @@ const PRIVATE_PREFIXES = [
   "/design-lab",
   "/portal",
   "/submit",
-  "/demo",
   "/cli", // pure docs, low traffic
   "/digest/", // unbounded slug, low traffic
   "/ideas/", // unbounded slug

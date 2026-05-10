@@ -1,0 +1,21 @@
+# Gitleaks config — extends the default ruleset with allowlists for
+# false positives in curated catalog files. Real secrets live in .env
+# (gitignored), GitHub Actions secrets, and Vercel env vars.
+title = "trendingrepo gitleaks config"
+
+[extend]
+useDefault = true
+
+# Top-level singular [allowlist] form (gitleaks v8.0+). Path-matched
+# files are exempted from ALL rules (use --target/regex form for
+# narrower scoping if needed in the future).
+[allowlist]
+description = "Curated catalog + meta files where commit hashes / agent IDs / natural-language descriptions trip the generic-api-key entropy heuristic"
+paths = [
+  '''data/agent-commerce\.json''',
+  # Commit-prefixed fingerprint format contains 40-char SHA-1 hashes
+  # that look like API keys to gitleaks. The .gitleaksignore file from
+  # commit afae93e5 has been removed in a later commit (885986af) but
+  # still exists in the PR's git-history scan range.
+  '''\.gitleaksignore$''',
+]

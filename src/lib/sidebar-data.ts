@@ -31,13 +31,16 @@ import {
   getDerivedCategoryStats,
   getDerivedMetaCounts,
 } from "@/lib/derived-insights";
-import { getDerivedRepos } from "@/lib/derived-repos";
+import {
+  getDerivedRepoById,
+  getDerivedRepos,
+} from "@/lib/derived-repos";
 import {
   getSidebarSourceCounts,
   emptySidebarSourceCounts,
   type SidebarSourceCounts,
 } from "@/lib/sidebar-source-counts";
-import type { MetaCounts, MovementStatus } from "@/lib/types";
+import type { MetaCounts, Repo } from "@/lib/types";
 import type { CategoryStats } from "@/lib/pipeline/queries/aggregate";
 
 export interface SidebarDataRepo {
@@ -46,12 +49,9 @@ export interface SidebarDataRepo {
   owner: string;
   name: string;
   ownerAvatarUrl: string;
-  momentumScore: number;
-  movementStatus: MovementStatus;
-  sparklineData: number[];
-  stars: number;
   starsDelta24h: number;
   starsDelta24hMissing?: boolean;
+  channelStatus?: Repo["channelStatus"];
 }
 
 /**
@@ -89,25 +89,54 @@ export interface SidebarDataResponse
 export interface BuildSidebarDataOptions {
   userId?: string;
   /**
-   * Cap `reposById` to the top N entries by momentumScore.
-   *
-   * `getDerivedRepos()` returns the full assembled set (thousands of repos
-   * with sparkline arrays — easily 500 KB – 2 MB serialized). The API
-   * route returns the full map for backward compat with the mobile drawer
-   * (user-driven, off the critical path). The root layout MUST cap — it
-   * inlines the payload into every page's RSC stream including mobile,
-   * where the sidebar is hidden behind `md:flex` and the bytes would never
-   * paint a pixel. Top-150 covers virtually every watchlist (the only
-   * consumer of this map is the 5-item watchlist preview).
+   * Cap `reposById` to the top N derived entries (already ranked by momentum).
+   * Use 0 on root/mobile first paint: watched repos are hydrated by exact id
+   * after the client knows the local watchlist.
    */
   reposByIdTopN?: number;
+  /**
+   * Legacy facets retained for the sidebar-data API shape. The current sidebar
+   * chrome does not render them, so root layout can skip them to keep every
+   * page's RSC payload smaller.
+   */
+  includeLegacyFacets?: boolean;
   onTiming?: (name: string, durationMs: number) => void;
 }
 
 export type GetPublicSidebarShellOptions = Pick<
   BuildSidebarDataOptions,
-  "reposByIdTopN" | "onTiming"
+  "reposByIdTopN" | "includeLegacyFacets" | "onTiming"
 >;
+
+function toSidebarDataRepo(repo: Repo): SidebarDataRepo {
+  return {
+    id: repo.id,
+    fullName: repo.fullName,
+    owner: repo.owner,
+    name: repo.name,
+    ownerAvatarUrl: repo.ownerAvatarUrl,
+    starsDelta24h: repo.starsDelta24h,
+    starsDelta24hMissing: repo.starsDelta24hMissing,
+    channelStatus: repo.channelStatus,
+  };
+}
+
+export function getSidebarReposByIds(
+  ids: readonly string[],
+): Record<string, SidebarDataRepo> {
+  const reposById: Record<string, SidebarDataRepo> = {};
+  const seen = new Set<string>();
+  for (const rawId of ids) {
+    const id = rawId.trim();
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    const repo = getDerivedRepoById(id);
+    if (repo) {
+      reposById[repo.id] = toSidebarDataRepo(repo);
+    }
+  }
+  return reposById;
+}
 
 /**
  * Build the public sidebar shell. Anonymous-safe; does NOT call
@@ -117,7 +146,7 @@ export type GetPublicSidebarShellOptions = Pick<
 export async function getPublicSidebarShell(
   opts: GetPublicSidebarShellOptions = {},
 ): Promise<SidebarShellResponse> {
-  const { reposByIdTopN, onTiming } = opts;
+  const { reposByIdTopN, includeLegacyFacets = true, onTiming } = opts;
   const timed = <T>(name: string, fn: () => T): T => {
     const start = performance.now();
     const out = fn();
@@ -131,13 +160,15 @@ export async function getPublicSidebarShell(
     return out;
   };
   const repos = timed("getDerivedRepos", () => getDerivedRepos());
-  const categoryStats = timed("getDerivedCategoryStats", () =>
-    getDerivedCategoryStats(repos),
-  );
+  const categoryStats = includeLegacyFacets
+    ? timed("getDerivedCategoryStats", () => getDerivedCategoryStats(repos))
+    : [];
   const metaCounts = timed("getDerivedMetaCounts", () => getDerivedMetaCounts(repos));
-  const availableLanguages = timed("getDerivedAvailableLanguages", () =>
-    getDerivedAvailableLanguages(repos),
-  );
+  const availableLanguages = includeLegacyFacets
+    ? timed("getDerivedAvailableLanguages", () =>
+        getDerivedAvailableLanguages(repos),
+      )
+    : [];
 
   // Compact repo map keyed by id. Only the fields the sidebar actually
   // renders travel over the wire so the payload stays small. When a cap
@@ -150,19 +181,7 @@ export async function getPublicSidebarShell(
   const reposById: Record<string, SidebarDataRepo> = {};
   timed("buildReposById", () => {
     for (const r of reposForMap) {
-      reposById[r.id] = {
-        id: r.id,
-        fullName: r.fullName,
-        owner: r.owner,
-        name: r.name,
-        ownerAvatarUrl: r.ownerAvatarUrl,
-        momentumScore: r.momentumScore,
-        movementStatus: r.movementStatus,
-        sparklineData: r.sparklineData,
-        stars: r.stars,
-        starsDelta24h: r.starsDelta24h,
-        starsDelta24hMissing: r.starsDelta24hMissing,
-      };
+      reposById[r.id] = toSidebarDataRepo(r);
     }
   });
 

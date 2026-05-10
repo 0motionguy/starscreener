@@ -8,9 +8,9 @@ status: living
 
 Last derived from filesystem on 2026-05-05. Direct re-derivation:
 
-- Workflows: `Glob .github/workflows/*.yml` (count = 90)
+- Workflows: `Glob .github/workflows/*.yml` (count = 72)
 - Cron API routes: `Glob src/app/api/cron/**/route.ts` (count = 14)
-- Worker fetchers: `apps/trendingrepo-worker/src/registry.ts` (44 active in `FETCHERS[]`, all imported and exported; 4 prior stub directories — `huggingface`, `github`, `mcp-so`, `mcp-servers-repo` — deleted 2026-05-05. 3 implementations exist on disk but are not yet wired: `ai-blogs`, `arxiv`, `github-events`. `agent-commerce/` is data-only.)
+- Worker fetchers: `apps/trendingrepo-worker/src/registry.ts` (44 active in `FETCHERS[]`, all imported and exported; 4 stub directories — `huggingface`, `github`, `mcp-so`, `mcp-servers-repo` — kept on disk as documentation of intent (NOT imported, NOT in `FETCHERS[]`, NOT scheduled — see banner comment at `registry.ts:23-27`). They previously emitted "not yet implemented" Sentry warnings every cron tick; PR #93 unwired them but left the directories so a future port can re-add to the array. 3 implementations exist on disk and have full code + tests but are not yet wired: `ai-blogs`, `arxiv`, `github-events` (see banner comment at the top of each `index.ts` for the promotion path). `agent-commerce/` is data-only.)
 - Env vars: `.env.example` + `src/lib/env.ts` + `process.env.*` greps in `scripts/` and `apps/trendingrepo-worker/src/`
 
 This file is the canonical engine map. Every gain/loss of a workflow,
@@ -19,7 +19,7 @@ commit.
 
 ---
 
-## 1. GH Actions (.github/workflows/*.yml) - 87 files
+## 1. GH Actions (.github/workflows/*.yml) - 72 files
 
 Source: `Grep -E "^name:|cron:" .github/workflows/<file>.yml`. Only
 `schedule.cron` triggers + the workflow's primary `run:` line are shown.
@@ -41,15 +41,12 @@ Workflows with multiple cron entries list each.
 | cron-aiso-drain.yml | Cron - AISO drain | `3,33 * * * *` | POST `/api/cron/aiso-drain` |
 | cron-digest-weekly.yml | Cron - weekly digest email | `0 14 * * 5` (Fri 14:00) | POST `/api/cron/digest/weekly` |
 | cron-freshness-check.yml | Cron - freshness check | `*/15 * * * *` | GET `/api/cron/freshness/state` |
-| cron-github-pool-budget.yml | Cron - github pool budget | `*/5 * * * *` | POST `/api/cron/github-pool-budget` |
 | cron-llm.yml | Cron - LLM telemetry | `10 * * * *` and `15 2 * * *` | GET `/api/cron/llm/aggregate` (hourly) + `/api/cron/llm/sync-models` (daily) |
 | cron-mcp-usage-rotate.yml | Cron - MCP usage log rotation | `0 3 1 * *` (monthly 1st 03:00) | POST `/api/cron/mcp/rotate-usage` |
 | cron-pipeline-cleanup.yml | Cron - pipeline cleanup | `12 4 * * *` | mention pruning (hits cron route) |
 | cron-pipeline-ingest.yml | Cron - pipeline ingest | `15 */2 * * *` | mention store hydrate |
 | cron-pipeline-persist.yml | Cron - pipeline persist | `30 */6 * * *` | mention store persist |
 | cron-pipeline-rebuild.yml | Cron - pipeline rebuild | `0 5 * * 0` (Sun 05:00) | weekly mention store rebuild |
-| cron-predictions.yml | Cron - predictions | `0 6 * * *` | POST `/api/cron/predictions` |
-| cron-subdomain-takeover.yml | Cron - subdomain takeover scan | `0 3 * * 1` (Mon 03:00) | POST `/api/cron/subdomain-takeover` |
 | cron-twitter-outbound.yml | Cron - Twitter outbound | `0 14 * * *` and `0 16 * * 5` | POST `/api/cron/twitter-daily` (daily) or `/api/cron/twitter-weekly-recap` (Fri) |
 | cron-warmup.yml | Warm Vercel routes (25 public routes) | `*/5 8-21 * * *` | matrix probe via `node scripts/probe-route.mjs`, summarized into `cron-warmup-summary` artifact (30d retention). Captures status, TTFB, transfer size, `cache-control`, `x-vercel-cache`, `x-vercel-id`, `age`. Restored 2026-05-08 from `a4ea0628`. |
 | cron-webhooks-flush.yml | Cron - webhooks flush + scan | `5,35 * * * *` | POST `/api/cron/webhooks/scan` then `/api/cron/webhooks/flush` |
@@ -100,7 +97,6 @@ Workflows with multiple cron entries list each.
 | snapshot-top10.yml | Snapshot /top10 daily | `55 23 * * *` | `npm run snapshot:top10` |
 | snapshot-top10-sparklines.yml | Snapshot /top10 sparklines daily | `50 23 * * *` | `npm run snapshot:top10-sparklines` |
 | source-outage-backfill.yml | Source outage backfill | `workflow_dispatch` only | `node scripts/source-outage-backfill.mjs --source <slug>` |
-| sources-auto-recover.yml | Sources auto-recover | `*/30 * * * *` | POST `/api/cron/sources-auto-recover` |
 | sre-actions-visibility.yml | SRE - Actions Visibility Snapshot | `*/15 * * * *` | snapshot of recent Actions runs |
 | sre-cron-secret-rotation-guard.yml | SRE - CRON_SECRET Rotation Guard | `0 9 * * *` | guard against expired CRON_SECRET rotation |
 | sre-k8s-probe-guard.yml | SRE - Kubernetes probe guard | `push`, `pull_request`, `workflow_dispatch` | k8s probe lint |
@@ -115,11 +111,11 @@ Workflows with multiple cron entries list each.
 
 Unclassified: none. Every workflow has a parsed `name:` and trigger.
 
-Total cron-driven workflows: 65. Push/PR-only or dispatch-only: 18.
+Total cron-driven workflows: 62. Push/PR-only or dispatch-only: 10.
 
 ---
 
-## 2. Cron API routes (src/app/api/cron/*/route.ts) - 16 routes
+## 2. Cron API routes (src/app/api/cron/*/route.ts) - 14 routes
 
 Source: `Glob src/app/api/cron/**/route.ts`. Caller workflow derived from
 `grep -r "/api/cron/<path>" .github/workflows/`.
@@ -129,15 +125,10 @@ Source: `Glob src/app/api/cron/**/route.ts`. Caller workflow derived from
 | `/api/cron/aiso-drain` | cron-aiso-drain.yml (`3,33 * * * *`) | Bearer `CRON_SECRET` | Drains AISO scan submission queue + emits PostHog ops event |
 | `/api/cron/digest/weekly` | cron-digest-weekly.yml (`0 14 * * 5`) | Bearer `CRON_SECRET` | Renders + sends weekly digest email via Resend |
 | `/api/cron/freshness/state` | cron-freshness-check.yml (`*/15 * * * *`); also smoke-tested by post-deploy-smoke.yml + release-cdn-purge | Bearer `CRON_SECRET` | Returns per-source freshness state |
-| `/api/cron/github-pool-budget` | cron-github-pool-budget.yml (`*/5 * * * *`) | Bearer `CRON_SECRET` | Snapshots PAT pool remaining/reset to Redis aggregate |
 | `/api/cron/llm/aggregate` | cron-llm.yml (hourly `10 * * * *`) | Bearer `CRON_SECRET` | Aggregates LLM telemetry counters |
 | `/api/cron/llm/sync-models` | cron-llm.yml (daily `15 2 * * *`) | Bearer `CRON_SECRET` | Syncs LLM model catalog from upstream |
 | `/api/cron/mcp/rotate-usage` | cron-mcp-usage-rotate.yml (`0 3 1 * *`) | Bearer `CRON_SECRET` | Monthly rotation of MCP usage log |
 | `/api/cron/news-auto-recover` | (no scheduled workflow caller in tree as of 2026-05-05) | Bearer `CRON_SECRET` | News-feed auto-recovery (orphan; can be dispatched directly) |
-| `/api/cron/predictions` | cron-predictions.yml (`0 6 * * *`) | Bearer `CRON_SECRET` | Generates LLM-driven predictions |
-| `/api/cron/predictions/calibrate` | (no scheduled workflow caller in tree) | Bearer `CRON_SECRET` | Calibrate prediction scores; orphan or in-process call |
-| `/api/cron/sources-auto-recover` | sources-auto-recover.yml (`*/30 * * * *`) | Bearer `CRON_SECRET` | Auto-recovery sweep for failing sources |
-| `/api/cron/subdomain-takeover` | cron-subdomain-takeover.yml (`0 3 * * 1`) | Bearer `CRON_SECRET` | Weekly subdomain takeover scan |
 | `/api/cron/twitter-daily` | cron-twitter-outbound.yml (`0 14 * * *`) | Bearer `CRON_SECRET` | Daily outbound Twitter thread |
 | `/api/cron/twitter-weekly-recap` | cron-twitter-outbound.yml (`0 16 * * 5`) | Bearer `CRON_SECRET` | Friday weekly recap thread |
 | `/api/cron/webhooks/flush` | cron-webhooks-flush.yml (`5,35 * * * *`) | Bearer `CRON_SECRET` | Drains webhook queue |
@@ -158,10 +149,14 @@ by `croner` in `src/schedule.ts`. Every fetcher writes to the
 `ss:data:v1:<name>` Redis key via `src/lib/redis.ts`.
 
 `_template/` is the deliberate scaffolding template (see
-`_template/README.md`). The four prior stubs (`huggingface`, `github`,
-`mcp-so`, `mcp-servers-repo`) were deleted 2026-05-05 (they only
-emitted "not yet implemented" warnings every cron tick). The three
-real-but-unwired implementations (`ai-blogs`, `arxiv`,
+`_template/README.md`). The four stub directories (`huggingface`,
+`github`, `mcp-so`, `mcp-servers-repo`) are kept on disk as
+documentation of intent — they are NOT imported into `registry.ts`,
+NOT in `FETCHERS[]`, and NOT scheduled. PR #93 unwired their imports
+to stop "not yet implemented" Sentry warnings every cron tick, but
+left the directories so a future port can re-add the imports +
+populate the bodies. See banner comment at `registry.ts:23-27`. The
+three real-but-unwired implementations (`ai-blogs`, `arxiv`,
 `github-events`) have full code + tests but are not in `FETCHERS[]`
 yet — see the banner comment at the top of each `index.ts` for the
 promotion path. `agent-commerce/` is data-only (just `seed-data.json`,
@@ -348,7 +343,6 @@ Boot guard in `env.ts:142-164`: production throws unless
 |---|---|---|
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` | `/api/repo-submissions`, `/api/submissions/revenue` | Cloudflare Turnstile gate |
 | `PORTAL_CORS_ALLOWED_ORIGINS` | `/portal` + `/portal/call` | CSV origins |
-| `SUBDOMAIN_TAKEOVER_TARGETS_JSON` | `/api/cron/subdomain-takeover` | empty -> 503 by design |
 
 ### 5h. AISO scan protocol (pluggable)
 

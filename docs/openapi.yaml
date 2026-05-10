@@ -27,8 +27,8 @@
 # EXPLICITLY EXCLUDED in v1:
 #   - /api/internal/**   (internal-agent-only, separate contract)
 #   - /api/stream        (SSE — documented as existing, no payload schema)
-#   - /api/mcp/**        (does not exist; MCP lives at /portal and is
-#                         documented through the Portal manifest)
+#   - /api/mcp           (JSON-RPC MCP server; REST siblings such as
+#                         /api/mcp/trending are documented below)
 # ---------------------------------------------------------------------------
 openapi: 3.1.0
 info:
@@ -1123,6 +1123,70 @@ paths:
                       limit: { type: integer }
         "400": { $ref: "#/components/responses/BadRequest" }
 
+  /api/skills:
+    get:
+      tags: [Discovery]
+      summary: Trending agent skills leaderboard.
+      description: |
+        Defaults to the legacy `trending-skill` worker payload for existing
+        API clients. Pass `?v=2` or `?shape=combined` for the combined
+        multi-source leaderboard used by `/skills`.
+      operationId: listTrendingSkills
+      parameters:
+        - name: v
+          in: query
+          schema: { type: string, enum: ["2"] }
+          description: Set to `2` to request the combined multi-source shape.
+        - name: shape
+          in: query
+          schema: { type: string, enum: [combined] }
+          description: Alternative selector for the combined multi-source shape.
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 1000, default: 200 }
+          description: Applies only to the combined multi-source shape.
+      responses:
+        "200":
+          description: Fresh leaderboard response.
+          headers:
+            Cache-Control:
+              schema: { type: string }
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "503":
+          description: Missing or stale leaderboard data.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+
+  /api/mcp/trending:
+    get:
+      tags: [Discovery]
+      summary: Trending MCP servers leaderboard.
+      description: |
+        Public REST endpoint for the `/mcp` leaderboard. This is separate from
+        `/api/mcp`, which is the JSON-RPC MCP server surface.
+      operationId: listTrendingMcpServers
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 1000, default: 200 }
+      responses:
+        "200":
+          description: Fresh MCP leaderboard response.
+          headers:
+            Cache-Control:
+              schema: { type: string }
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+        "503":
+          description: Stale MCP leaderboard data.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+
   /api/categories:
     get:
       tags: [Discovery]
@@ -1787,45 +1851,6 @@ paths:
   # -------------------------------------------------------------------------
   # Predictions / calibration / revenue-estimator / profile
   # -------------------------------------------------------------------------
-  /api/predict:
-    get:
-      tags: [Tools]
-      summary: Prediction bands for a repo at one or more horizons.
-      operationId: predictRepo
-      parameters:
-        - name: repo
-          in: query
-          required: true
-          schema: { type: string }
-          description: '`owner/name` or a GitHub URL.'
-        - name: horizon
-          in: query
-          schema:
-            type: array
-            items: { type: integer, enum: [7, 30, 90] }
-          description: One or more (repeat the param, or comma-separated).
-      responses:
-        "200":
-          description: Prediction results.
-          content:
-            application/json:
-              schema: { type: object, additionalProperties: true }
-        "400": { $ref: "#/components/responses/BadRequest" }
-        "404": { $ref: "#/components/responses/NotFound" }
-
-  /api/predict/calibration:
-    get:
-      tags: [Tools]
-      summary: Aggregated calibration stats per (modelVersion, horizon).
-      operationId: predictCalibration
-      responses:
-        "200":
-          description: Calibration summaries.
-          content:
-            application/json:
-              schema: { type: object, additionalProperties: true }
-        "500": { $ref: "#/components/responses/ServerError" }
-
   /api/tools/revenue-estimate:
     get:
       tags: [Tools]
@@ -2142,26 +2167,6 @@ paths:
       security: [{ cronBearer: [] }]
       responses:
         "200": { description: Drain summary. }
-        "401": { $ref: "#/components/responses/Unauthorized" }
-
-  /api/cron/predictions:
-    post:
-      tags: [Cron]
-      summary: Write prediction rows for top repos.
-      operationId: cronPredictions
-      security: [{ cronBearer: [] }]
-      responses:
-        "200": { description: Summary. }
-        "401": { $ref: "#/components/responses/Unauthorized" }
-
-  /api/cron/predictions/calibrate:
-    post:
-      tags: [Cron]
-      summary: Score predictions whose horizon has elapsed.
-      operationId: cronPredictionsCalibrate
-      security: [{ cronBearer: [] }]
-      responses:
-        "200": { description: Summary. }
         "401": { $ref: "#/components/responses/Unauthorized" }
 
   /api/cron/twitter-daily:

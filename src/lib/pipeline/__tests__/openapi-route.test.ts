@@ -108,6 +108,8 @@ test("spec declares the canonical profile paths", async () => {
     "/api/repos/{owner}/{name}/aiso",
     "/api/repos",
     "/api/search",
+    "/api/skills",
+    "/api/mcp/trending",
     "/api/categories",
     "/api/openapi.json",
   ] as const;

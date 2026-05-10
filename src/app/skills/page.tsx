@@ -1,7 +1,6 @@
 // /skills — V4 leaderboard list (W8 leaderboard pattern).
 //
-// Migrated off the legacy SignalSourcePage + SkillsTerminalTable chrome to
-// V4 primitives: PageHead + VerdictRibbon + KpiBand + SectionHead + RankRow.
+// Bespoke V4 primitives: PageHead + VerdictRibbon + KpiBand + SectionHead + RankRow.
 // Two main sections — `// 01 Top skills` (signal-score leaderboard) and
 // `// 02 New / breakout` (recent + Δhotness pickup). Right rail surfaces
 // the Most-cited list and worker keys.
@@ -17,7 +16,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { getSkillsSignalData } from "@/lib/ecosystem-leaderboards";
+import {
+  compareBySourceNativeRank,
+  getSkillsSignalData,
+} from "@/lib/ecosystem-leaderboards";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { refreshTrendingFromStore } from "@/lib/trending";
 import { refreshRedditMentionsFromStore } from "@/lib/reddit-data";
@@ -52,10 +54,10 @@ export const revalidate = 60;
 const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 const TOP_N = 20;
 const REFRESH_TIMEOUT_MS = 4000;
-// Cap how many "trending" skills we ship to the client. Pre-fix the page
-// rendered all ~1.8k items in one giant table (5 MB HTML, ~3s warm SSR).
-// 200 trending across 4 paginated pages of 50 is what users actually scan.
-const TRENDING_CAP = 200;
+// Cap how many "trending" skills we ship to the client. The table renders
+// 50/page client-side, so expose a deeper source-native leaderboard without
+// returning the entire upstream catalog.
+const TRENDING_CAP = 1000;
 // Per-repo cap so one collection (openclaw/openclaw, anthropics/skills,
 // pytorch/pytorch — each contains 10-15+ child SKILL.md files) can't take
 // every top slot. 3 lets the strongest skills from a collection stay visible
@@ -166,12 +168,7 @@ export default async function SkillsPage() {
   // signalScore (which already fuses popularity + freshness + citations)
   // breaks. Then thin out repeat collections (per-author cap) so one repo
   // can't take 13/20 slots, hard-cap at TRENDING_CAP.
-  const sortedByScore = [...items].sort((a, b) => {
-    const csa = a.crossSourceCount ?? 1;
-    const csb = b.crossSourceCount ?? 1;
-    if (csb !== csa) return csb - csa;
-    return b.signalScore - a.signalScore;
-  });
+  const sortedByScore = [...items].sort(compareBySourceNativeRank);
   const trendingItems = capPerAuthor(sortedByScore, PER_AUTHOR_CAP).slice(
     0,
     TRENDING_CAP,
@@ -289,7 +286,7 @@ export default async function SkillsPage() {
             .
           </>
         }
-        actionHref="/api/skills"
+        actionHref="/api/skills?v=2"
         actionLabel="API →"
       />
 
@@ -354,10 +351,13 @@ export default async function SkillsPage() {
               : (linked?.stars ?? 0);
           return {
             id: item.id,
+            rank: item.rank,
             title: item.title,
             author: item.author ?? null,
             href: `/skills/${encodeSkillSlug(item.id)}`,
             logoUrl: item.logoUrl ?? null,
+            sourceLabel: item.primaryRankSource ?? item.sourceLabel,
+            sourceMetricLabel: item.sourceMetricLabel ?? item.popularityLabel,
             stars,
             starsDelta24h: linked?.starsDelta24h ?? null,
             starsDelta7d: linked?.starsDelta7d ?? null,
@@ -564,8 +564,8 @@ interface SkillAvatarProps {
 
 function SkillAvatar({ logoUrl, fallback }: SkillAvatarProps) {
   if (logoUrl) {
-    // eslint-disable-next-line @next/next/no-img-element
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={logoUrl}
         alt=""
@@ -604,4 +604,3 @@ function SkillAvatar({ logoUrl, fallback }: SkillAvatarProps) {
     </span>
   );
 }
-

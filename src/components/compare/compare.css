@@ -172,18 +172,6 @@
   border-radius: var(--radius-none);
 }
 
-.compare-add-tile {
-  display: flex;
-  min-height: 140px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: 1px dashed var(--line-300);
-  background: var(--bg-025);
-  color: var(--ink-400);
-}
-
 .compare-page .panel-head a {
   color: var(--ink-300);
   text-decoration: none;

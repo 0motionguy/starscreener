@@ -232,11 +232,11 @@ Railway Redis capacity ceiling: depends on plan. ioredis client pool (singleton 
 
 ### C.1 Per-minute fire histogram (NEW finding — overrides prior docs)
 
-Sub-agent C-CronLoad parsed all 62 `cron:` lines across 60 workflow files. **Result reveals `:00` is the real burst minute, not `:27` as previously documented.**
+Sub-agent C-CronLoad parsed all 66 `cron:` lines across 62 workflow files. **Result reveals `:00` is the real burst minute, not `:27` as previously documented.**
 
 | Minute | # workflows firing | Notable |
 |---|---|---|
-| **:00** | **19** | audit-freshness, check-nitter, collect-funding, collect-twitter, cron-aiso-drain, cron-digest-weekly, cron-freshness-check, cron-mcp-usage-rotate, cron-pipeline-cleanup, cron-pipeline-rebuild, cron-predictions, cron-twitter-outbound, health-watch, refresh-skill-install-snapshot, run-shadow-scoring, scrape-devto, scrape-producthunt, sweep-staleness, uptime-monitor |
+| **:00** | **18** | audit-freshness, check-nitter, collect-funding, collect-twitter, cron-aiso-drain, cron-digest-weekly, cron-freshness-check, cron-mcp-usage-rotate, cron-pipeline-cleanup, cron-pipeline-rebuild, cron-twitter-outbound, health-watch, refresh-skill-install-snapshot, run-shadow-scoring, scrape-devto, scrape-producthunt, sweep-staleness, uptime-monitor |
 | **:30** | **8** | cron-aiso-drain + cron-freshness-check + cron-pipeline-persist + health-watch + promote-unknown-mentions + refresh-mcp-usage-snapshot + refresh-skill-smithery + uptime-monitor |
 | **:17** | 6 | aiso-self-scan + refresh-collection-rankings + refresh-reddit-baselines + refresh-star-activity + scrape-bluesky + scrape-npm |
 | **:15, :05, :13, :25, :35, :45, :47** | 3-4 each | various |
@@ -337,13 +337,13 @@ Inventory:
 - `/api/openapi.json` — `s-maxage=3600, swr=86400` ✓
 - `/api/health*` — origin every request (intentional — uptime monitor probes)
 - `/api/og/*` (route handlers) — `s-maxage=300, swr=3600` ✓
-- `/api/repos`, `/api/predict`, `/api/search`, `/api/compare/*` — no cache headers grep'd in agent E-SecretOutput's response shape table; relies on Next.js default. **GAP** at 10k users.
+- `/api/repos`, `/api/search`, `/api/compare/*` — no cache headers grep'd in agent E-SecretOutput's response shape table; relies on Next.js default. **GAP** at 10k users.
 
 ### D.4 ISR safety
 
 Home page is ISR-cached at 30 min per CLAUDE.md; production headers show `X-Nextjs-Stale-Time: 300` (5 min). Discrepancy explained: the 30min is the `revalidate=1800` page export; the 300s `Stale-Time` is Next.js's edge stale-while-revalidate window.
 
-**Risk:** A user landing on a stale ISR page sees old data with no inline indicator. `FreshBadge` (client poll) is the only signal — easy to miss on direct-link landings (G-FailureModes finding).
+**Risk:** A user landing on a stale ISR page sees old data with limited inline age context. `FreshnessBadge` is the public signal, but it is easy to miss on direct-link landings (G-FailureModes finding).
 
 ---
 
@@ -415,7 +415,7 @@ See Part F (dedicated section). **P0 gap.**
 ### E.7 Error message leakage
 
 **11 unauth routes echo raw `err.message` into 500 responses** (E-SecretOutput finding):
-- `funding/events`, `funding/sectors`, `openapi.json` (also `detail: err.message`), `pipeline/featured`, `pipeline/meta-counts`, `pipeline/refresh`, `pipeline/sidebar-data`, `pipeline/status`, `predict/calibration`, `submissions/revenue` (both methods)
+- `funding/events`, `funding/sectors`, `openapi.json` (also `detail: err.message`), `pipeline/featured`, `pipeline/meta-counts`, `pipeline/refresh`, `pipeline/sidebar-data`, `pipeline/status`, `submissions/revenue` (both methods)
 
 Fix: route every unauth 500 through `serverError(err, { scope })` from [src/lib/api/error-response.ts:72-94](../../src/lib/api/error-response.ts), which already does scope-tagged logging + Sentry capture + generic public message. Lint guard at `scripts/check-error-envelope.mjs` could be extended to catch this pattern.
 
@@ -478,7 +478,7 @@ Combined, these give an attacker:
 
 **Drift finding (CRITICAL — verified gap):** Commit `90ec33b5` advertises an admin/scan 10 req/min rate limit. Test at [src/app/api/admin/scan/__tests__/rate-limit.test.ts:62-95](../../src/app/api/admin/scan/__tests__/rate-limit.test.ts) primes the limiter and asserts 429. **The route handler at [src/app/api/admin/scan/route.ts:168-275](../../src/app/api/admin/scan/route.ts) contains no rate-limit code.** The test imports `_setStoreForTests` but the handler never reads from that store. Either reverted before commit or test is speculative. **Documented gap, not hypothesis.**
 
-**Public unauth routes with NO rate limit (top scrapeable):** `/api/repos`, `/api/repos/[owner]/[name]`, `/api/repos/[owner]/[name]/{aiso,events,mentions,freshness}`, `/api/compare`, **`/api/compare/github`**, `/api/compare/payloads`, `/api/compare/share`, `/api/predict`, `/api/search`, `/api/categories`, `/api/skills`, `/api/collections`, `/api/agent-commerce/*` (5 routes), `/api/funding/*`, `/api/profile/[handle]`, `/api/scoring/*`, `/api/openapi.json`, `/api/oembed`, `/api/health*` (4 routes), `/api/predict/calibration`, `/api/pipeline/*` (8 routes), `/api/tools/revenue-estimate`, `/api/tier-lists/[shortId]`, `/api/tier-lists/templates/[slug]`, `/api/model-usage/*` (5 routes), `/api/repo-submissions`, `/api/submissions/revenue`, `/api/ideas`, `/api/ideas/[id]`, `/api/reactions` (GET).
+**Public unauth routes with NO rate limit (top scrapeable):** `/api/repos`, `/api/repos/[owner]/[name]`, `/api/repos/[owner]/[name]/{aiso,events,mentions,freshness}`, `/api/compare`, **`/api/compare/github`**, `/api/compare/payloads`, `/api/compare/share`, `/api/search`, `/api/categories`, `/api/skills`, `/api/collections`, `/api/agent-commerce/*` (5 routes), `/api/funding/*`, `/api/profile/[handle]`, `/api/scoring/*`, `/api/openapi.json`, `/api/oembed`, `/api/health*` (4 routes), `/api/pipeline/*` (8 routes), `/api/tools/revenue-estimate`, `/api/tier-lists/[shortId]`, `/api/tier-lists/templates/[slug]`, `/api/model-usage/*` (5 routes), `/api/repo-submissions`, `/api/submissions/revenue`, `/api/ideas`, `/api/ideas/[id]`, `/api/reactions` (GET).
 
 **Total: ~50 public routes with zero rate limit.**
 
@@ -552,13 +552,12 @@ Single SPOF backing 11+ routes ([SITE-WIREMAP §5](../SITE-WIREMAP.md)):
 
 | Surface | When stale | Indicator |
 |---|---|---|
-| `/` | Cards render, `LiveTopTable` rows show no age | Optional `FreshBadge` (client poll, layout) |
+| `/` | Cards render, `LiveTopTable` rows show no age | `FreshnessBadge` on the page chrome |
 | `/breakouts` | Breakouts computed against stale baselines → false breakouts | FreshnessBadge |
 | `/repo/*` | 24h delta + momentum stale | FreshnessBadge |
-| `/predict` | LLM run depends on stale base | FreshnessBadge |
-| `/u/[handle]`, `/search`, `/agent-repos`, `/mindshare` | All stale silently | varies |
+| `/u/[handle]`, `/search`, `/agent-repos` | All stale silently | varies |
 
-**Key UX gap:** there is exactly ONE freshness pill in the layout. No per-row freshness indicator on the home table or repo metric cards. A user reading "+1.2k stars 24h" with no age annotation cannot tell if it's live or 8h stale.
+**Key UX gap:** public surfaces have page-level freshness chrome, but no universal per-row freshness indicator on the home table or repo metric cards. A user reading "+1.2k stars 24h" with no age annotation cannot tell if it's live or 8h stale.
 
 `HomeEmptyState.tsx:43` claims "scraper runs every 20 min" — misleading copy (real cadence is 27/47/7 min triple = 3×/h).
 
@@ -987,7 +986,7 @@ Top 25 most-cited evidence files in this audit (chronological order of mention):
 - [src/lib/api/parse-body.ts](../../src/lib/api/parse-body.ts) — Zod canonical helper
 - [src/lib/api/error-response.ts](../../src/lib/api/error-response.ts) — `serverError` helper
 - [src/components/ui/EntityLogo.tsx](../../src/components/ui/EntityLogo.tsx) — 122 call sites
-- [src/components/layout/FreshBadge.tsx](../../src/components/layout/FreshBadge.tsx) — only public freshness pill
+- [src/components/shared/FreshnessBadge.tsx](../../src/components/shared/FreshnessBadge.tsx) — public freshness badge used across data surfaces
 - [.github/workflows/audit-freshness.yml](../../.github/workflows/audit-freshness.yml) — hourly gate
 - [.github/workflows/cron-freshness-check.yml](../../.github/workflows/cron-freshness-check.yml) — 15-min ping
 - [.github/workflows/uptime-monitor.yml](../../.github/workflows/uptime-monitor.yml) — */5 PostHog

@@ -50,6 +50,7 @@ jobs:
 
       - name: Collect Twitter signals
         env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           # Provider default flipped to `nitter` 2026-05-08 after the Apify
           # `apidojo/tweet-scraper` actor returned 0 posts on every query for
           # the prior ~2 weeks (last run with non-empty payload was
@@ -99,6 +100,7 @@ jobs:
         id: web_fallback
         if: failure() && env.TWITTER_FALLBACK_COOKIES != ''
         env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           TWITTER_COLLECTOR_PROVIDER: web
           TWITTER_COLLECTOR_MODE: ${{ github.event.inputs.mode || 'direct' }}
           TWITTER_COLLECTOR_LIMIT: ${{ github.event.inputs.limit || '25' }}
@@ -112,6 +114,14 @@ jobs:
           TWITTER_GRAPHQL_SEARCH_QUERY_ID: ${{ vars.TWITTER_GRAPHQL_SEARCH_QUERY_ID }}
           TWITTER_COLLECTOR_RUN_ID: "gh-actions-${{ github.run_id }}-${{ github.run_attempt }}-webfb"
         run: npm run collect:twitter -- --provider web
+
+      - name: Compute Twitter leaderboard + consensus
+        if: |
+          always() && !cancelled() && github.event.inputs.dry_run != 'true' &&
+          (success() || steps.web_fallback.outcome == 'success')
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+        run: npm run compute:consensus
 
       - name: Compute commit timestamp
         # Run commit pipeline if either the primary collector succeeded OR
@@ -139,6 +149,8 @@ jobs:
             .data/twitter-scans.jsonl
             .data/twitter-ingestion-audit.jsonl
             data/unknown-mentions.jsonl
+            data/twitter-trending.json
+            data/consensus-trending.json
 
       - name: Twitter signal-count health monitor
         if: always()

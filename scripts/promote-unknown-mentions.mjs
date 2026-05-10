@@ -16,6 +16,8 @@
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import "./_load-env.mjs";
+import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const LAKE_PATH = resolve(__dirname, "..", "data", "unknown-mentions.jsonl");
@@ -143,9 +145,17 @@ export async function main() {
 
   await mkdir(dirname(OUT_PATH), { recursive: true });
   await writeFile(OUT_PATH, JSON.stringify(payload, null, 2) + "\n", "utf8");
+  const redisResult = await writeDataStore("unknown-mentions-promoted", payload, {
+    stampPerRecord: false,
+  });
+  if (redisResult.source !== "redis") {
+    throw new Error(
+      "unknown-mentions-promoted data-store write skipped; set REDIS_URL or Upstash env",
+    );
+  }
 
   process.stdout.write(
-    `[promote-unknown-mentions] lake=${totalUnknownMentions} distinct=${distinctRepos} ranked=${rows.length} malformed=${malformed}\n`,
+    `[promote-unknown-mentions] lake=${totalUnknownMentions} distinct=${distinctRepos} ranked=${rows.length} malformed=${malformed} redis=${redisResult.source}\n`,
   );
 }
 
@@ -155,8 +165,12 @@ export const UNKNOWN_MENTIONS_LAKE_PATH = LAKE_PATH;
 const isMain = import.meta.url === `file://${process.argv[1]}` ||
   fileURLToPath(import.meta.url) === process.argv[1];
 if (isMain) {
-  main().catch((err) => {
-    process.stderr.write(`[promote-unknown-mentions] fatal: ${err?.stack ?? err}\n`);
-    process.exit(1);
-  });
+  main()
+    .catch((err) => {
+      process.stderr.write(`[promote-unknown-mentions] fatal: ${err?.stack ?? err}\n`);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await closeDataStore();
+    });
 }

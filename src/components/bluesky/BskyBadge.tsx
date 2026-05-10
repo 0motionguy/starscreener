@@ -57,7 +57,7 @@ export function BskyBadge({ mention, size = "sm" }: BskyBadgeProps) {
   const isHighSignal =
     (mention.topPost?.likeCount ?? 0) >= 50 || mention.repostsSum7d >= 5;
   // <button> not <a> — these badges live inside parent <Link> rows
-  // (CrossSignalBreakouts, RepoCard, sidebar, terminal). Nested <a> is
+  // (repo detail, sidebar, terminal). Nested <a> is
   // invalid HTML and breaks Next hydration.
   return (
     <Chip

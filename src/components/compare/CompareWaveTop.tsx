@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
-import { CompareChart } from "./CompareChart";
+import { CompareChartLazy } from "./CompareChartLazy";
 import { CompareSelector } from "./CompareSelector";
 import { CompareStatStrip } from "./CompareStatStrip";
 import { CompareSharePanel } from "./CompareSharePanel";
@@ -274,7 +274,7 @@ export function CompareWaveTop() {
         <div className="compare-chart-stack">
           {hasSelection ? (
             <>
-              <CompareChart
+              <CompareChartLazy
                 repos={displayRepos}
                 payloads={payloads}
                 metric={metric}

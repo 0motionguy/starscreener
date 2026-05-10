@@ -88,6 +88,7 @@ export interface CategoryFacet {
 interface LiveMcpTableProps {
   rows: McpRow[];
   categories: CategoryFacet[];
+  totalCount?: number;
 }
 
 // Per-registry monogram color. Inline-styled inside the existing `.sd`
@@ -98,6 +99,7 @@ const SOURCE_PILLS = [
   { key: "p" as const, label: "PulseMCP", letter: "P", color: "#06b6d4" },
   { key: "o" as const, label: "Official", letter: "O", color: "#f59e0b" },
 ] as const;
+const PAGE_SIZE = 100;
 
 const compactNumber = new Intl.NumberFormat("en-US", {
   notation: "compact",
@@ -111,12 +113,6 @@ function formatCompact(value: number): string {
 function formatDelta(value: number): string {
   const abs = formatCompact(Math.abs(value));
   return `${value >= 0 ? "+" : "-"}${abs}`;
-}
-
-function formatPct(delta: number, base: number): string | null {
-  if (base <= 0 || delta === 0) return null;
-  const pct = Math.round((delta / Math.max(1, base - delta)) * 100);
-  return `${pct >= 0 ? "+" : ""}${pct}%`;
 }
 
 function sparkPath(values: number[], width: number, height: number): string {
@@ -212,7 +208,7 @@ function SortHeader({
   );
 }
 
-export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
+export function LiveMcpTable({ rows, categories, totalCount }: LiveMcpTableProps) {
   // Default to "rank" so the table honors the page-level ranking (which
   // sorts by multi-registry consensus -> popularity -> signalScore). The
   // "rank" sort returns a constant from getSortValue, so visible array
@@ -220,14 +216,21 @@ export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
   const [sortKey, setSortKey] = useState<SortKey>("rank");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [activeCat, setActiveCat] = useState<string | null>(null);
+  const [displayLimit, setDisplayLimit] = useState(PAGE_SIZE);
 
   const handleSort = (key: SortKey) => {
+    setDisplayLimit(PAGE_SIZE);
     if (key === sortKey) {
       setSortDir((d) => (d === "desc" ? "asc" : "desc"));
     } else {
       setSortKey(key);
       setSortDir("desc");
     }
+  };
+
+  const setFilter = (category: string | null) => {
+    setDisplayLimit(PAGE_SIZE);
+    setActiveCat(category);
   };
 
   const visible = useMemo(() => {
@@ -244,6 +247,7 @@ export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
       compareNumeric(getSortValue(a, sortKey), getSortValue(b, sortKey), sortDir),
     );
   }, [rows, sortKey, sortDir, activeCat]);
+  const rendered = visible.slice(0, displayLimit);
 
   return (
     <div className="live-top">
@@ -255,7 +259,7 @@ export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
         <button
           type="button"
           className={`fchip ${activeCat === null ? "on" : ""}`}
-          onClick={() => setActiveCat(null)}
+          onClick={() => setFilter(null)}
         >
           All <span className="ct">{rows.length}</span>
         </button>
@@ -264,14 +268,14 @@ export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
             key={c.id}
             type="button"
             className={`fchip ${activeCat === c.id ? "on" : ""}`}
-            onClick={() => setActiveCat(activeCat === c.id ? null : c.id)}
+            onClick={() => setFilter(activeCat === c.id ? null : c.id)}
           >
             {c.label} <span className="ct">{c.count}</span>
           </button>
         ))}
         <span className="live-top-spacer" />
         <span className="live-top-meta">
-          showing <b>{visible.length}</b> / {rows.length}
+          showing <b>{rendered.length}</b> / {totalCount ?? rows.length}
           <span className="live-pip">live</span>
         </span>
       </div>
@@ -322,7 +326,7 @@ export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
             </tr>
           </thead>
           <tbody>
-            {visible.map((row, index) => {
+            {rendered.map((row, index) => {
               const rankCls =
                 index === 0
                   ? "rk-1"
@@ -527,6 +531,21 @@ export function LiveMcpTable({ rows, categories }: LiveMcpTableProps) {
           </tbody>
         </table>
       </div>
+      {visible.length > rendered.length ? (
+        <div className="live-top-filters live-top-more">
+          <button
+            type="button"
+            className="fchip"
+            onClick={() =>
+              setDisplayLimit((current) =>
+                Math.min(current + PAGE_SIZE, visible.length),
+              )
+            }
+          >
+            Show more <span className="ct">{visible.length - rendered.length}</span>
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }

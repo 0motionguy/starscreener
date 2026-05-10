@@ -15,6 +15,7 @@ import {
   type FreshnessHealth,
   type FreshnessSourceStatus as SourceStatus,
 } from "@/lib/freshness-health";
+import { resolveInspectSource } from "./_test-hooks";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -523,15 +524,23 @@ function maxStatus(...statuses: SourceStatus[]): SourceStatus {
 }
 
 async function inspectSource(spec: SourceSpec, nowMs: number): Promise<SourceState> {
-  const probes = await Promise.all([
-    spec.metaSource
-      ? readMetaProbe(spec.metaSource)
-      : Promise.resolve<TimestampProbe>({ timestamp: null, status: "GREEN" }),
+  const storeProbes = await Promise.all([
     ...(spec.redisSlugs ?? []).map((slug) => readStoreProbe(slug)),
     ...(spec.redisSlugGroups ?? []).map((group) =>
       readBestStoreProbe(group.slugs(nowMs)),
     ),
   ]);
+  const metaProbe = spec.metaSource ? await readMetaProbe(spec.metaSource) : null;
+  // When a source has data-store slugs, those slugs are the payloads the app
+  // actually serves. Older data/_meta sidecars are kept as a cold-path audit
+  // fallback only; otherwise a stale duplicate sidecar can mark fresh served
+  // Redis data as DEAD.
+  const probes =
+    storeProbes.length > 0
+      ? storeProbes
+      : metaProbe
+        ? [metaProbe]
+        : [{ timestamp: null, status: "DEAD" } satisfies TimestampProbe];
   // Use the oldest required timestamp so a fresh sibling artifact cannot mask
   // a stale or missing payload under the same source group.
   const lastUpdate = oldestIso(probes.map((probe) => probe.timestamp));
@@ -564,22 +573,41 @@ function summarize(sources: SourceState[]): FreshnessStateResponse["summary"] {
 
 export async function GET(
   request: NextRequest,
-): Promise<NextResponse<FreshnessStateResponse | { ok: false; reason: string }>> {
+): Promise<
+  NextResponse<
+    | FreshnessStateResponse
+    | { ok: false; error: string; code: "FRESHNESS_STATE_FAILED" }
+    | { ok: false; reason: string }
+  >
+> {
   const deny = authFailureResponse(verifyCronAuth(request));
   if (deny) {
     return deny as NextResponse<{ ok: false; reason: string }>;
   }
 
   const nowMs = Date.now();
-  const sources = await Promise.all(
-    SOURCE_SPECS.map((spec) => inspectSource(spec, nowMs)),
-  );
-  sources.sort((a, b) => a.name.localeCompare(b.name));
+  try {
+    const inspect = resolveInspectSource(inspectSource);
+    const sources = await Promise.all(
+      SOURCE_SPECS.map((spec) => inspect(spec, nowMs)),
+    );
+    sources.sort((a, b) => a.name.localeCompare(b.name));
 
-  return NextResponse.json({
-    checkedAt: new Date(nowMs).toISOString(),
-    health: deriveHealth(sources),
-    sources,
-    summary: summarize(sources),
-  });
+    return NextResponse.json({
+      checkedAt: new Date(nowMs).toISOString(),
+      health: deriveHealth(sources),
+      sources,
+      summary: summarize(sources),
+    });
+  } catch (error) {
+    console.error("[freshness-state] failed to inspect sources", error);
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "freshness state unavailable",
+        code: "FRESHNESS_STATE_FAILED",
+      },
+      { status: 500 },
+    );
+  }
 }

@@ -65,7 +65,7 @@ export default function MethodologyPage() {
         </p>
       </section>
 
-      <footer style={{ marginTop: 40, paddingTop: 16, borderTop: "1px solid var(--v4-ink-700)", fontSize: 14, color: "var(--v4-ink-400)" }}>
+      <footer style={{ marginTop: 40, paddingTop: 16, borderTop: "1px solid var(--v4-line-300)", fontSize: 14, color: "var(--v4-ink-400)" }}>
         Last updated: 2026-05-05 · Methodology version 1.0 · Questions? Email{" "}
         <a href="mailto:hello@trendingrepo.com">hello@trendingrepo.com</a>
       </footer>

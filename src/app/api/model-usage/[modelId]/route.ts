@@ -21,10 +21,14 @@ import { buildModelTrend, rollUpModels } from "@/lib/llm/derive";
 import { PUBLIC_MIN_EVENTS } from "@/lib/llm/types";
 
 export const runtime = "nodejs";
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 const READ_HEADERS = {
   "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+} as const;
+const INTERNAL_HEADERS = {
+  "Cache-Control": "private, no-store",
+  Vary: "Authorization, Cookie",
 } as const;
 
 export async function GET(
@@ -44,10 +48,16 @@ export async function GET(
   const totals = rollUpModels(byModel, days).find((m) => m.model === modelId);
 
   if (!totals) {
-    return NextResponse.json(errorEnvelope('not_found'), { status: 404 });
+    return NextResponse.json(errorEnvelope('not_found'), {
+      status: 404,
+      headers: internal ? INTERNAL_HEADERS : READ_HEADERS,
+    });
   }
   if (!internal && totals.events < PUBLIC_MIN_EVENTS) {
-    return NextResponse.json(errorEnvelope('not_found'), { status: 404 });
+    return NextResponse.json(errorEnvelope('not_found'), {
+      status: 404,
+      headers: READ_HEADERS,
+    });
   }
 
   return NextResponse.json(
@@ -58,7 +68,7 @@ export async function GET(
       totals,
       trend,
     },
-    { headers: READ_HEADERS },
+    { headers: internal ? INTERNAL_HEADERS : READ_HEADERS },
   );
 }
 

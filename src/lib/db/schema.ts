@@ -564,11 +564,10 @@ export const twitterOutboundRuns: TableDescriptor = {
  * against actuals over time (calibration). Insert-only; one row per
  * (repo, horizon, modelVersion, generatedAt).
  *
- * Today the predictions are computed on demand at /api/predict. This
- * descriptor sits ready for the calibration cron (P2) that will run
- * weekly, snapshot the prediction set, and later compare each row to
- * the repo's actual stars at generatedAt + horizonDays. Without this
- * record table, a model upgrade silently invalidates calibration math.
+ * This descriptor sits ready for a future prediction writer that can
+ * snapshot the prediction set and later compare each row to the repo's
+ * actual stars at generatedAt + horizonDays. Without this record table,
+ * a model upgrade silently invalidates calibration math.
  *
  * Inputs are stored as JSONB so a model upgrade adding new features
  * doesn't require a migration. modelVersion is the disambiguator —

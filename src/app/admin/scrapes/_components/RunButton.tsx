@@ -103,7 +103,7 @@ export function RunButton({
       {status ? (
         <span
           className="text-[10px] tracking-[0.14em] uppercase"
-          style={{ color: "var(--v4-sig-green, #22c55e)" }}
+          style={{ color: "var(--v4-money, #22c55e)" }}
         >
           {status}
         </span>
@@ -111,7 +111,7 @@ export function RunButton({
       {error ? (
         <span
           className="max-w-[240px] truncate text-[10px] tracking-[0.14em] uppercase"
-          style={{ color: "var(--v4-sig-red, #ef4444)" }}
+          style={{ color: "var(--v4-red, #ef4444)" }}
           title={error}
         >
           {error}

@@ -8,13 +8,12 @@
 // taps a tier (or "unranked") and the item lands there.
 //
 // Borrows directly from src/components/layout/MobileDrawer.tsx:
-//   - AnimatePresence + Framer Motion slide
-//   - useReducedMotion bypass for prefers-reduced-motion
+//   - CSS-only backdrop/sheet transition
+//   - prefers-reduced-motion bypass
 //   - Escape-to-close + body scroll lock
 //   - role="dialog" aria-modal="true"
 
-import { useEffect } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
 import { Avatar } from "@/components/tier-list/Avatar";
@@ -24,6 +23,15 @@ import {
 } from "@/lib/tier-list/constants";
 import { useTierListEditor } from "@/lib/tier-list/client-store";
 
+const PICKER_TRANSITION_MS = 220;
+
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
 export function MobileTierPicker() {
   const pickerTarget = useTierListEditor((s) => s.pickerTarget);
   const closePicker = useTierListEditor((s) => s.closePicker);
@@ -32,10 +40,48 @@ export function MobileTierPicker() {
   const tiers = useTierListEditor((s) => s.tiers);
   const itemMeta = useTierListEditor((s) => s.itemMeta);
   const unrankedCount = useTierListEditor((s) => s.unrankedItems.length);
-  const reduceMotion = useReducedMotion();
+  const [renderedTarget, setRenderedTarget] = useState<string | null>(null);
+  const [isPresented, setIsPresented] = useState(false);
 
   const open = pickerTarget !== null;
-  const meta = pickerTarget ? itemMeta[pickerTarget] : null;
+  const activeTarget = pickerTarget ?? renderedTarget;
+  const shouldRender = activeTarget !== null;
+  const meta = activeTarget ? itemMeta[activeTarget] : null;
+
+  useEffect(() => {
+    let enterFrame = 0;
+    let exitTimer = 0;
+
+    if (pickerTarget) {
+      setRenderedTarget(pickerTarget);
+      if (prefersReducedMotion()) {
+        setIsPresented(true);
+        return;
+      }
+      setIsPresented(false);
+      enterFrame = window.requestAnimationFrame(() => {
+        setIsPresented(true);
+      });
+      return () => {
+        if (enterFrame) window.cancelAnimationFrame(enterFrame);
+      };
+    }
+
+    if (renderedTarget) {
+      setIsPresented(false);
+      const delay = prefersReducedMotion() ? 0 : PICKER_TRANSITION_MS;
+      if (delay === 0) {
+        setRenderedTarget(null);
+        return;
+      }
+      exitTimer = window.setTimeout(() => {
+        setRenderedTarget(null);
+      }, delay);
+      return () => {
+        if (exitTimer) window.clearTimeout(exitTimer);
+      };
+    }
+  }, [pickerTarget, renderedTarget]);
 
   // Escape to close + body scroll lock — same pattern as MobileDrawer.
   useEffect(() => {
@@ -52,10 +98,6 @@ export function MobileTierPicker() {
     };
   }, [open, closePicker]);
 
-  const transition = reduceMotion
-    ? { duration: 0 }
-    : { duration: 0.22, ease: [0.2, 0.8, 0.2, 1] as const };
-
   function placeIn(target: { tierId: string } | "pool") {
     if (!pickerTarget) return;
     moveItem(pickerTarget, target);
@@ -68,55 +110,47 @@ export function MobileTierPicker() {
     closePicker();
   }
 
-  return (
-    <AnimatePresence>
-      {open && (
-        <>
-          <motion.div
-            key="picker-backdrop"
-            className="fixed inset-0 bg-black/60 z-[70]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={transition}
-            onClick={closePicker}
-            aria-hidden="true"
-          />
-          <motion.aside
-            key="picker-sheet"
-            role="dialog"
-            aria-modal="true"
-            aria-label={`Place ${pickerTarget ?? "item"} into a tier`}
-            className="fixed inset-x-0 bottom-0 z-[80] flex flex-col rounded-t-[8px] border-t border-border-primary bg-bg-secondary"
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "100%" }}
-            transition={transition}
-            style={{
-              maxHeight: "85vh",
-              paddingBottom: "env(safe-area-inset-bottom)",
-            }}
-          >
-            <Header onClose={closePicker} />
-            {meta ? (
-              <ItemPreview repoId={meta.repoId} avatarUrl={meta.avatarUrl} />
-            ) : pickerTarget ? (
-              <ItemPreview repoId={pickerTarget} />
-            ) : null}
-            <TierGrid
-              tiers={tiers}
-              onPick={(tierId) => placeIn({ tierId })}
-            />
-            <Footer
-              unrankedCount={unrankedCount}
-              onPlaceInPool={() => placeIn("pool")}
-              onRemove={removeFromList}
-            />
-          </motion.aside>
-        </>
-      )}
-    </AnimatePresence>
-  );
+  return shouldRender ? (
+    <>
+      <div
+        className={[
+          "fixed inset-0 z-[70] bg-black/60 transition-opacity duration-[220ms] ease-out motion-reduce:transition-none",
+          isPresented ? "opacity-100" : "opacity-0",
+        ].join(" ")}
+        onClick={closePicker}
+        aria-hidden="true"
+      />
+      <aside
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Place ${activeTarget ?? "item"} into a tier`}
+        className={[
+          "fixed inset-x-0 bottom-0 z-[80] flex flex-col rounded-t-[8px] border-t border-border-primary bg-bg-secondary transition-transform duration-[220ms] ease-out motion-reduce:transition-none",
+          isPresented ? "translate-y-0" : "translate-y-full",
+        ].join(" ")}
+        style={{
+          maxHeight: "85vh",
+          paddingBottom: "env(safe-area-inset-bottom)",
+        }}
+      >
+        <Header onClose={closePicker} />
+        {meta ? (
+          <ItemPreview repoId={meta.repoId} avatarUrl={meta.avatarUrl} />
+        ) : activeTarget ? (
+          <ItemPreview repoId={activeTarget} />
+        ) : null}
+        <TierGrid
+          tiers={tiers}
+          onPick={(tierId) => placeIn({ tierId })}
+        />
+        <Footer
+          unrankedCount={unrankedCount}
+          onPlaceInPool={() => placeIn("pool")}
+          onRemove={removeFromList}
+        />
+      </aside>
+    </>
+  ) : null;
 }
 
 function Header({ onClose }: { onClose: () => void }) {

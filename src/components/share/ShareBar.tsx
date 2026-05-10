@@ -54,8 +54,7 @@ interface ShareBarProps {
   csvSeries?: CsvSeries[];
   /**
    * Override the share-image endpoint. Defaults to `/api/og/star-activity`
-   * (the original consumer). Surfaces with their own card endpoint —
-   * MindShare → `/api/og/mindshare`, future bubble maps, etc. — pass
+   * (the original consumer). Surfaces with their own card endpoint pass
    * their endpoint here so PNG / SVG download + og:image hit the right
    * renderer.
    */

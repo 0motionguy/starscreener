@@ -18,10 +18,18 @@ const eslintConfig = [
       "**/.next/**",
       "out/**",
       "build/**",
+      "coverage/**",
+      "playwright-report/**",
+      "storybook-static/**",
+      "test-results/**",
+      "apps/trendingrepo-worker/dist/**",
+      "mcp/dist/**",
       // Claude Code worktree caches contain nested .next/ build artifacts
       // and nested node_modules; ignore the whole tree so lint only
       // inspects real source files.
       ".claude/**",
+      ".tmp/**",
+      ".tmp-screenshots/**",
       "tmp_probe/**",
       "dev_server*.log",
       "next-env.d.ts",

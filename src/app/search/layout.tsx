@@ -1,6 +1,7 @@
 // StarScreener - /search metadata wrapper.
 
 import type { Metadata } from "next";
+import "@/components/terminal/terminal-pages.css";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 const TITLE = `Search - ${SITE_NAME}`;

@@ -32,10 +32,6 @@ This is the authoritative TTL policy by Redis key prefix. Prefixes come from [`s
 | `ratelimit:<source>:samples` | Rolling rate-limit headroom sample zset | No explicit TTL; retention enforced by score/rank trimming window. | `src/lib/rate-limit-headroom.ts` |
 | `ratelimit:<source>:rolling` | Cached rolling stats hash | Fixed `90000s` (25h). | `src/lib/rate-limit-headroom.ts` |
 | `ratelimit:<source>:alerted-at` | Headroom alert cooldown marker | Fixed `3600s` (1h). | `src/lib/rate-limit-headroom.ts` |
-| `recovery:<source>:<attemptAt>` | Auto-recovery event log | Fixed `604800s` (7d). | `/api/cron/sources-auto-recover` |
-| `recovery:last:<source>` | Last auto-recovery record | Fixed `604800s` (7d). | `/api/cron/sources-auto-recover` |
-| `recovery:last-attempt:<source>` | Auto-recovery throttle marker | Fixed `86400s` (24h). | `/api/cron/sources-auto-recover` |
-| `recovery:streak:<source>` | Auto-recovery failure streak | Fixed `604800s` (7d). | `/api/cron/sources-auto-recover` |
 
 ## Guardrails
 

@@ -546,6 +546,11 @@ async function main() {
   );
   const mentionsRedis = await writeDataStore("bluesky-mentions", mergedMentionsPayload);
   const trendingRedis = await writeDataStore("bluesky-trending", mergedTrendingPayload);
+  if (mentionsRedis.source !== "redis" || trendingRedis.source !== "redis") {
+    throw new Error(
+      "bluesky data-store write skipped; set REDIS_URL or Upstash env",
+    );
+  }
 
   log("");
   log(`wrote ${MENTIONS_OUT} [redis: ${mentionsRedis.source}]`);

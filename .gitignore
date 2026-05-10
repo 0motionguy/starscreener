@@ -65,6 +65,7 @@ next-env.d.ts
 .next-start-*.log
 .next-start-*.out.log
 .next-start-*.err.log
+/.dev-clean-*.log
 
 # dogfood script output
 dogfood-output/
@@ -87,6 +88,7 @@ dev_server*.log
 # scratch probe directories from local debug sessions
 tmp_probe/
 .tmp/
+/.tmp-screenshots/
 
 # personal operator rules (per CLAUDE.md — not for commit)
 CLAUDE.local.md

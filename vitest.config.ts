@@ -16,6 +16,13 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
+      // Stub `server-only` so vitest can import server-component modules
+      // that legitimately use it (lib/bluesky.ts, lib/devto.ts, etc.).
+      // The real module throws on import to keep server code out of
+      // client bundles — that protection is irrelevant under the test
+      // runner. Mirrors tests/setup-server-only-stub.cjs which does the
+      // same thing for the tsx --test runner via require.cache.
+      "server-only": path.resolve(__dirname, "tests/server-only-vitest-stub.ts"),
     },
   },
   // Disable Vite's PostCSS auto-discovery — Tailwind's postcss.config.mjs
@@ -54,5 +61,12 @@ export default defineConfig({
     css: false,
     restoreMocks: true,
     clearMocks: true,
+    // Bumped from default 5s — the /githubrepo metadata snapshot test
+    // imports the page module which transitively loads the trending /
+    // derived-repos pipeline (heavy first-time-evaluation cost). Solo
+    // run takes ~3.5s; under parallel load it occasionally tips past
+    // the 5s default. 15s gives comfortable headroom without masking
+    // genuine hangs.
+    testTimeout: 15000,
   },
 });

@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-10T06:46:31.120Z",
+  "fetchedAt": "2026-05-10T08:35:45.716Z",
   "windowHours": 72,
-  "scannedTotal": 1269,
+  "scannedTotal": 1264,
   "firebaseCount": 500,
-  "algoliaCount": 769,
+  "algoliaCount": 764,
   "stories": [
     {
       "id": 48062117,
@@ -288,12 +288,12 @@
       "title": "Bun's experimental Rust rewrite hits 99.8% test compatibility on Linux x64 glibc",
       "url": "https://twitter.com/jarredsumner/status/2053047748191232310",
       "by": "heldrida",
-      "score": 505,
-      "descendants": 469,
+      "score": 534,
+      "descendants": 502,
       "createdUtc": 1778321575,
-      "ageHours": 20.56,
-      "velocity": 24.56,
-      "trendingScore": 3180.22,
+      "ageHours": 22.38,
+      "velocity": 23.86,
+      "trendingScore": 3332.05,
       "everHitFrontPage": true,
       "content_tags": [
         "is-announcement"
@@ -647,6 +647,23 @@
       "linkedRepos": []
     },
     {
+      "id": 48076173,
+      "title": "I’ve banned query strings",
+      "url": "https://chrismorgan.info/no-query-strings",
+      "by": "susam",
+      "score": 386,
+      "descendants": 214,
+      "createdUtc": 1778344116,
+      "ageHours": 16.12,
+      "velocity": 23.95,
+      "trendingScore": 1387.65,
+      "everHitFrontPage": true,
+      "content_tags": [],
+      "value_score": 0,
+      "storyText": "Related: https://susam.net/no-query-strings.html",
+      "linkedRepos": []
+    },
+    {
       "id": 48051873,
       "title": "California leaders report four to six weeks worth of gasoline and diesel supply",
       "url": "https://kmph.com/news/local/california-leaders-report-four-to-six-weeks-worth-of-gasoline-and-diesel-in-supply",
@@ -715,23 +732,6 @@
       "linkedRepos": []
     },
     {
-      "id": 48076173,
-      "title": "I’ve banned query strings",
-      "url": "https://chrismorgan.info/no-query-strings",
-      "by": "susam",
-      "score": 347,
-      "descendants": 195,
-      "createdUtc": 1778344116,
-      "ageHours": 14.3,
-      "velocity": 24.27,
-      "trendingScore": 1263.9,
-      "everHitFrontPage": true,
-      "content_tags": [],
-      "value_score": 0,
-      "storyText": "Related: https://susam.net/no-query-strings.html",
-      "linkedRepos": []
-    },
-    {
       "id": 48074952,
       "title": "The hypocrisy of cyberlibertarianism",
       "url": "https://matduggan.com/the-intolerable-hypocrisy-of-cyberlibertarianism/",
@@ -780,6 +780,26 @@
       "content_tags": [],
       "value_score": 0,
       "storyText": "",
+      "linkedRepos": []
+    },
+    {
+      "id": 48080587,
+      "title": "Show HN: Building a web server in assembly to give my life (a lack of) meaning",
+      "url": "https://github.com/imtomt/ymawky",
+      "by": "imtomt",
+      "score": 249,
+      "descendants": 104,
+      "createdUtc": 1778382104,
+      "ageHours": 5.57,
+      "velocity": 44.73,
+      "trendingScore": 1221.87,
+      "everHitFrontPage": true,
+      "content_tags": [
+        "has-github-repo",
+        "is-show-hn"
+      ],
+      "value_score": 3,
+      "storyText": "This is ymawky, a static file web server for MacOS written entirely in ARM64 assembly. It supports GET, PUT, DELETE, HEAD, and OPTIONS requests, and supports Range: bytes=X-Y headers (which allows scrubbing for video streaming). It decodes percent-encoded URLs, strictly enforces docroot, serves custom error pages for any HTTP error response, supports directory listing, and has (some) mitigations against slowloris-like attacks. I’ve also written a more detailed writeup here: https://imtomt.github",
       "linkedRepos": []
     },
     {
@@ -845,23 +865,6 @@
       "velocity": 11.05,
       "trendingScore": 1176.36,
       "everHitFrontPage": false,
-      "content_tags": [],
-      "value_score": 0,
-      "storyText": "",
-      "linkedRepos": []
-    },
-    {
-      "id": 48061566,
-      "title": "An Introduction to Meshtastic",
-      "url": "https://meshtastic.org/docs/introduction/",
-      "by": "ColinWright",
-      "score": 339,
-      "descendants": 132,
-      "createdUtc": 1778239331,
-      "ageHours": 10.41,
-      "velocity": 32.57,
-      "trendingScore": 1170.2,
-      "everHitFrontPage": true,
       "content_tags": [],
       "value_score": 0,
       "storyText": "",

@@ -3,8 +3,16 @@ import { Metric, MetricGrid } from "@/components/ui/Metric";
 export interface KpiStripProps {
   totalSignals: number;
   changePct: number | null;
+  /** Count of sources currently classified as "live" by classifyFreshness().
+   *  We do NOT render this as `N / 8` — broadcasting "3/8" trains users to
+   *  read the surface as broken. Render the live count as a positive number
+   *  and tuck the cold roster into a collapsed disclosure. (M5, 2026-05-10) */
   activeSources: number;
-  totalSources: number;
+  /** Source keys that are currently cold. Hidden by default behind a
+   *  `<details>` so a user who wants the transparency can open it, but the
+   *  first-paint chrome doesn't advertise the breakage. Pass `[]` when no
+   *  sources are cold and the disclosure won't render. */
+  coldSources?: readonly string[];
   topTag: string | null;
   topTagDelta: number | null;
   topTagCount: number | null;
@@ -30,7 +38,7 @@ export function KpiStrip({
   totalSignals,
   changePct,
   activeSources,
-  totalSources,
+  coldSources = [],
   topTag,
   topTagDelta,
   topTagCount,
@@ -46,6 +54,13 @@ export function KpiStrip({
   // "heat index" framing read as market-data on a code-trends newsroom.
   // Code-trend KPIs (volume, sources live, top tag, consensus, freshness)
   // stay; the consensus radar already surfaces story-level intensity.
+
+  // M5 (2026-05-10): "Sources · live" used to render `activeSources / 8` and a
+  // bright "{cold} cold" sub-line. Operator feedback: that broadcasts the
+  // surface's own brokenness on first paint. New shape — a bare count + a
+  // collapsed disclosure that lists cold sources only when expanded. Cold
+  // information stays accessible (transparency rule) without being chrome.
+  const coldCount = coldSources.length;
 
   return (
     <MetricGrid columns={5}>
@@ -67,22 +82,42 @@ export function KpiStrip({
         sub={`vs prev ${windowLabel}`}
       />
       <Metric
-        label="Sources · live"
-        value={`${activeSources} / ${totalSources}`}
+        label="Live today"
+        value={activeSources.toLocaleString("en-US")}
         sub={
-          activeSources === totalSources ? (
-            <span style={{ color: "var(--color-positive)" }}>all healthy</span>
-          ) : activeSources >= Math.max(1, totalSources - 2) ? (
-            <span style={{ color: "var(--color-warning)" }}>
-              {totalSources - activeSources} stale
-            </span>
+          coldCount > 0 ? (
+            <details
+              style={{
+                display: "inline",
+                fontFamily: "var(--font-geist-mono), monospace",
+                fontSize: "11px",
+              }}
+            >
+              <summary
+                style={{
+                  cursor: "pointer",
+                  listStyle: "none",
+                  color: "var(--color-muted, #888)",
+                  outline: "none",
+                }}
+              >
+                status
+              </summary>
+              <span
+                style={{
+                  display: "inline-block",
+                  marginLeft: 6,
+                  color: "var(--color-muted, #888)",
+                }}
+              >
+                {coldSources.join(" · ")}
+              </span>
+            </details>
           ) : (
-            <span style={{ color: "var(--color-negative)" }}>
-              {totalSources - activeSources} cold
-            </span>
+            <span style={{ color: "var(--color-positive)" }}>all healthy</span>
           )
         }
-        live={activeSources === totalSources}
+        live={coldCount === 0 && activeSources > 0}
       />
       <Metric
         label="Top tag · momentum"

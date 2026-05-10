@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-09T22:03:45.498Z",
+  "fetchedAt": "2026-05-10T04:17:53.204Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -5528,6 +5528,368 @@
           "linkedRepos": [
             {
               "fullName": "ModernRelay/omnigraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ThatXliner/rust-but-lisp": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlhs7zs6472q",
+        "cid": "bafyreibpn2m32lk77z3rw5pdkqz2aogtzhzbe6fsk6d7le6w5adkc5bag4",
+        "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlhs7zs6472q",
+        "text": "Show HN: Rust but Lisp (github.com) Discussion | Main Link",
+        "author": {
+          "handle": "newsycombinatorbot.bsky.social",
+          "displayName": "Hacker News Bot"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-10T03:15:49.539129Z",
+        "hoursSincePosted": 1.03
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlhs7zs6472q",
+          "cid": "bafyreibpn2m32lk77z3rw5pdkqz2aogtzhzbe6fsk6d7le6w5adkc5bag4",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlhs7zs6472q",
+          "text": "Show HN: Rust but Lisp (github.com) Discussion | Main Link",
+          "author": {
+            "handle": "newsycombinatorbot.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T03:15:49.539129Z",
+          "createdUtc": 1778382949,
+          "ageHours": 1.03,
+          "trendingScore": 0,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "ThatXliner/rust-but-lisp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "jeffersongoncalves/filament-flux": {
+      "count7d": 10,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4rew642u",
+        "cid": "bafyreia6epby22zddb7ud7hbvw6j23shafz2cs7ezzdxubhna2bx7bsouu",
+        "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4rew642u",
+        "text": "📦 jeffersongoncalves/filament-flux 1.9.8 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+        "author": {
+          "handle": "throwable.bsky.social",
+          "displayName": "call_user_func"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-10T02:56:06+00:00",
+        "hoursSincePosted": 1.36
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4rew642u",
+          "cid": "bafyreia6epby22zddb7ud7hbvw6j23shafz2cs7ezzdxubhna2bx7bsouu",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4rew642u",
+          "text": "📦 jeffersongoncalves/filament-flux 1.9.8 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:06+00:00",
+          "createdUtc": 1778381766,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4rhhkm2b",
+          "cid": "bafyreib7yue23yes6jonqrbjp55tey2mmh4mloqanpem776kpuxuscceu4",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4rhhkm2b",
+          "text": "📦 jeffersongoncalves/filament-flux 1.9.9 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:06+00:00",
+          "createdUtc": 1778381766,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4rp33n2o",
+          "cid": "bafyreidm44etcrl7krmeroubmqx5u4djsfrokwobmeyhh4gsbku4xzc3sq",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4rp33n2o",
+          "text": "📦 jeffersongoncalves/filament-flux 1.11.1 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:06+00:00",
+          "createdUtc": 1778381766,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4rde7x2z",
+          "cid": "bafyreif7zrb6wt73h3fpvgznnu4ywfqoh3ppk7hkb34tr3o75f6zxovm5e",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4rde7x2z",
+          "text": "📦 jeffersongoncalves/filament-flux 1.9.7 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:06+00:00",
+          "createdUtc": 1778381766,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4r5uog24",
+          "cid": "bafyreiclqsk3xjuy6jy3rmaetnii5uskef6jakie6w25st37wbp4hdfs3i",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4r5uog24",
+          "text": "📦 jeffersongoncalves/filament-flux 1.9.6 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:06+00:00",
+          "createdUtc": 1778381766,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4rkroy2h",
+          "cid": "bafyreihgx66gyxakg6l2kwkgfo2gvod26dpljru4vuy7p2isum5c5woqcu",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4rkroy2h",
+          "text": "📦 jeffersongoncalves/filament-flux 1.10.0 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:06+00:00",
+          "createdUtc": 1778381766,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4rn5v42a",
+          "cid": "bafyreifrwiofihictyl4ktabm7rxzqgsezbyjmwaajvxympcseoibfqlji",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4rn5v42a",
+          "text": "📦 jeffersongoncalves/filament-flux 1.11.0 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:06+00:00",
+          "createdUtc": 1778381766,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4r2b3a2j",
+          "cid": "bafyreibps5wlobfitpzwb5eotocrenwrlx5ljowmdufe2fcdsazhthl7mu",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4r2b3a2j",
+          "text": "📦 jeffersongoncalves/filament-flux 1.9.5 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:05+00:00",
+          "createdUtc": 1778381765,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4qy5ck23",
+          "cid": "bafyreiadguanrzfqnhhihrjv77qgdmkutp7crl6z2gzv4b75zefhkpkbsu",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4qy5ck23",
+          "text": "📦 jeffersongoncalves/filament-flux 1.9.3 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:05+00:00",
+          "createdUtc": 1778381765,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4qzaar2p",
+          "cid": "bafyreico6wgheji3enddzn7f6nqp2hzocc7xfn6rm5nvxepntyfkwj3kju",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4qzaar2p",
+          "text": "📦 jeffersongoncalves/filament-flux 1.9.4 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:05+00:00",
+          "createdUtc": 1778381765,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
               "matchType": "url",
               "confidence": 1
             }
@@ -11066,11 +11428,378 @@
           ]
         }
       ]
+    },
+    "thatxliner--rust-but-lisp": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlhs7zs6472q",
+        "cid": "bafyreibpn2m32lk77z3rw5pdkqz2aogtzhzbe6fsk6d7le6w5adkc5bag4",
+        "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlhs7zs6472q",
+        "text": "Show HN: Rust but Lisp (github.com) Discussion | Main Link",
+        "author": {
+          "handle": "newsycombinatorbot.bsky.social",
+          "displayName": "Hacker News Bot"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-10T03:15:49.539129Z",
+        "hoursSincePosted": 1.03
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlhs7zs6472q",
+          "cid": "bafyreibpn2m32lk77z3rw5pdkqz2aogtzhzbe6fsk6d7le6w5adkc5bag4",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlhs7zs6472q",
+          "text": "Show HN: Rust but Lisp (github.com) Discussion | Main Link",
+          "author": {
+            "handle": "newsycombinatorbot.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T03:15:49.539129Z",
+          "createdUtc": 1778382949,
+          "ageHours": 1.03,
+          "trendingScore": 0,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "ThatXliner/rust-but-lisp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "jeffersongoncalves--filament-flux": {
+      "count7d": 10,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4rew642u",
+        "cid": "bafyreia6epby22zddb7ud7hbvw6j23shafz2cs7ezzdxubhna2bx7bsouu",
+        "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4rew642u",
+        "text": "📦 jeffersongoncalves/filament-flux 1.9.8 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+        "author": {
+          "handle": "throwable.bsky.social",
+          "displayName": "call_user_func"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-10T02:56:06+00:00",
+        "hoursSincePosted": 1.36
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4rew642u",
+          "cid": "bafyreia6epby22zddb7ud7hbvw6j23shafz2cs7ezzdxubhna2bx7bsouu",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4rew642u",
+          "text": "📦 jeffersongoncalves/filament-flux 1.9.8 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:06+00:00",
+          "createdUtc": 1778381766,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4rhhkm2b",
+          "cid": "bafyreib7yue23yes6jonqrbjp55tey2mmh4mloqanpem776kpuxuscceu4",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4rhhkm2b",
+          "text": "📦 jeffersongoncalves/filament-flux 1.9.9 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:06+00:00",
+          "createdUtc": 1778381766,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4rp33n2o",
+          "cid": "bafyreidm44etcrl7krmeroubmqx5u4djsfrokwobmeyhh4gsbku4xzc3sq",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4rp33n2o",
+          "text": "📦 jeffersongoncalves/filament-flux 1.11.1 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:06+00:00",
+          "createdUtc": 1778381766,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4rde7x2z",
+          "cid": "bafyreif7zrb6wt73h3fpvgznnu4ywfqoh3ppk7hkb34tr3o75f6zxovm5e",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4rde7x2z",
+          "text": "📦 jeffersongoncalves/filament-flux 1.9.7 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:06+00:00",
+          "createdUtc": 1778381766,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4r5uog24",
+          "cid": "bafyreiclqsk3xjuy6jy3rmaetnii5uskef6jakie6w25st37wbp4hdfs3i",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4r5uog24",
+          "text": "📦 jeffersongoncalves/filament-flux 1.9.6 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:06+00:00",
+          "createdUtc": 1778381766,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4rkroy2h",
+          "cid": "bafyreihgx66gyxakg6l2kwkgfo2gvod26dpljru4vuy7p2isum5c5woqcu",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4rkroy2h",
+          "text": "📦 jeffersongoncalves/filament-flux 1.10.0 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:06+00:00",
+          "createdUtc": 1778381766,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4rn5v42a",
+          "cid": "bafyreifrwiofihictyl4ktabm7rxzqgsezbyjmwaajvxympcseoibfqlji",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4rn5v42a",
+          "text": "📦 jeffersongoncalves/filament-flux 1.11.0 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:06+00:00",
+          "createdUtc": 1778381766,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4r2b3a2j",
+          "cid": "bafyreibps5wlobfitpzwb5eotocrenwrlx5ljowmdufe2fcdsazhthl7mu",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4r2b3a2j",
+          "text": "📦 jeffersongoncalves/filament-flux 1.9.5 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:05+00:00",
+          "createdUtc": 1778381765,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4qy5ck23",
+          "cid": "bafyreiadguanrzfqnhhihrjv77qgdmkutp7crl6z2gzv4b75zefhkpkbsu",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4qy5ck23",
+          "text": "📦 jeffersongoncalves/filament-flux 1.9.3 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:05+00:00",
+          "createdUtc": 1778381765,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hzebgrkbc42iyxsrmwsdjnej/app.bsky.feed.post/3mlhr4qzaar2p",
+          "cid": "bafyreico6wgheji3enddzn7f6nqp2hzocc7xfn6rm5nvxepntyfkwj3kju",
+          "bskyUrl": "https://bsky.app/profile/throwable.bsky.social/post/3mlhr4qzaar2p",
+          "text": "📦 jeffersongoncalves/filament-flux 1.9.4 Filament v5 plugin exposing Livewire Flux UI components as native Form Fields, Table Columns, Infolist Entries and Actions. 🔗 https://github.com/jeffersongoncalves/filament-flux",
+          "author": {
+            "handle": "throwable.bsky.social",
+            "displayName": "call_user_func"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T02:56:05+00:00",
+          "createdUtc": 1778381765,
+          "ageHours": 1.36,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "kepano/obsidian-skills",
+      "fullName": "jeffersongoncalves/filament-flux",
+      "count7d": 10,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "ThatXliner/rust-but-lisp",
       "count7d": 1,
       "likesSum7d": 0
     }

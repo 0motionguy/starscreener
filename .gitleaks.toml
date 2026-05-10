@@ -1,34 +1,16 @@
+# Gitleaks config — extends the default ruleset with allowlists for
+# false positives in curated catalog files. Real secrets live in .env
+# (gitignored), GitHub Actions secrets, and Vercel env vars.
 title = "trendingrepo gitleaks config"
 
-# Inherit gitleaks default ruleset (200+ specific provider rules + the
-# generic-api-key entropy heuristic). Real secrets live in .env files
-# (gitignored), GitHub Actions secrets, and Vercel env vars — never
-# committed to the repo.
 [extend]
 useDefault = true
 
-# data/agent-commerce.json is a 12 MB curated agent/tool catalog produced by
-# scripts/fetch-agentic-market.mjs (and supporting fetchers). Two patterns in
-# this file trip the generic-api-key entropy heuristic:
-#   1. Agent ID strings like "api:x402-trading-useotto-xyz" or
-#      "tool:feedoracle-stablecoin-risk" — the "api:" / "tool:" prefix plus
-#      a long hyphenated slug looks like a base64-ish key to gitleaks.
-#   2. Natural-language descriptions in "brief" fields, e.g.
-#      "13 tools, 28+ tokens, SAFE/CAUTION/AVOID verdicts."
-# Neither is a secret. The file is reviewed in PR; no operator workflow
-# writes credentials to it.
-
-[[allowlists]]
-description = "Curated agent catalog file: producer-generated, no real secrets"
-targetRules = ["generic-api-key"]
+# Top-level singular [allowlist] form (gitleaks v8.0+). Path-matched
+# files are exempted from ALL rules (use --target/regex form for
+# narrower scoping if needed in the future).
+[allowlist]
+description = "Curated catalog files: agent IDs and natural-language descriptions trip the generic-api-key entropy heuristic"
 paths = [
   '''data/agent-commerce\.json''',
-]
-
-[[allowlists]]
-description = "Catalog ID prefixes (api:, tool:, protocol:, infra:, marketplace:, wallet:) are taxonomy identifiers, not API keys"
-targetRules = ["generic-api-key"]
-regexTarget = "match"
-regexes = [
-  '''"id":\s*"(api|tool|protocol|infra|marketplace|wallet):[a-z0-9._-]+"''',
 ]

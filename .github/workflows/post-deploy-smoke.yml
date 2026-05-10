@@ -21,11 +21,15 @@ jobs:
       - name: Wait for deploy propagation
         run: sleep 30
 
-      - name: Synthetic curl checks (12 critical routes)
+      - name: Synthetic curl checks (16 critical routes)
         id: smoke
         shell: bash
         run: |
           set +e
+          # /repo/* + /agent-commerce/* + /trends added 2026-05-10. Why:
+          # the pre-existing /repo/* 500 P0 (since d81856ad) bled for days
+          # because no smoke probe covered detail pages. vercel/next.js is
+          # a long-stable canonical sample; rotate if it ever moves.
           routes=(
             "/"
             "/signals"
@@ -37,6 +41,10 @@ jobs:
             "/revenue"
             "/arxiv/trending"
             "/producthunt"
+            "/trends"
+            "/agent-commerce"
+            "/agent-commerce/facilitator"
+            "/repo/vercel/next.js"
             "/api/health?soft=1"
           )
 

@@ -10,7 +10,12 @@ useDefault = true
 # files are exempted from ALL rules (use --target/regex form for
 # narrower scoping if needed in the future).
 [allowlist]
-description = "Curated catalog files: agent IDs and natural-language descriptions trip the generic-api-key entropy heuristic"
+description = "Curated catalog + meta files where commit hashes / agent IDs / natural-language descriptions trip the generic-api-key entropy heuristic"
 paths = [
   '''data/agent-commerce\.json''',
+  # Commit-prefixed fingerprint format contains 40-char SHA-1 hashes
+  # that look like API keys to gitleaks. The .gitleaksignore file from
+  # commit afae93e5 has been removed in a later commit (885986af) but
+  # still exists in the PR's git-history scan range.
+  '''\.gitleaksignore$''',
 ]

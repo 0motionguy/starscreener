@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-10T06:46:31.120Z",
+  "fetchedAt": "2026-05-10T10:08:23.798Z",
   "windowHours": 72,
-  "scannedTotal": 1269,
+  "scannedTotal": 1262,
   "firebaseCount": 500,
-  "algoliaCount": 769,
+  "algoliaCount": 762,
   "stories": [
     {
       "id": 48062117,
@@ -267,6 +267,25 @@
       "linkedRepos": []
     },
     {
+      "id": 48073680,
+      "title": "Bun's experimental Rust rewrite hits 99.8% test compatibility on Linux x64 glibc",
+      "url": "https://twitter.com/jarredsumner/status/2053047748191232310",
+      "by": "heldrida",
+      "score": 560,
+      "descendants": 526,
+      "createdUtc": 1778321575,
+      "ageHours": 23.92,
+      "velocity": 23.41,
+      "trendingScore": 3448.36,
+      "everHitFrontPage": true,
+      "content_tags": [
+        "is-announcement"
+      ],
+      "value_score": 1,
+      "storyText": "https://xunroll.com/thread/2053047748191232310 Recent and related: Zig → Rust porting guide - https://news.ycombinator.com/item?id=48016880 - May 2026 (540 comments)",
+      "linkedRepos": []
+    },
+    {
       "id": 48053623,
       "title": "Dirtyfrag: Universal Linux LPE",
       "url": "https://www.openwall.com/lists/oss-security/2026/05/07/8",
@@ -281,25 +300,6 @@
       "content_tags": [],
       "value_score": 0,
       "storyText": "",
-      "linkedRepos": []
-    },
-    {
-      "id": 48073680,
-      "title": "Bun's experimental Rust rewrite hits 99.8% test compatibility on Linux x64 glibc",
-      "url": "https://twitter.com/jarredsumner/status/2053047748191232310",
-      "by": "heldrida",
-      "score": 505,
-      "descendants": 469,
-      "createdUtc": 1778321575,
-      "ageHours": 20.56,
-      "velocity": 24.56,
-      "trendingScore": 3180.22,
-      "everHitFrontPage": true,
-      "content_tags": [
-        "is-announcement"
-      ],
-      "value_score": 1,
-      "storyText": "https://xunroll.com/thread/2053047748191232310 Recent and related: Zig → Rust porting guide - https://news.ycombinator.com/item?id=48016880 - May 2026 (540 comments)",
       "linkedRepos": []
     },
     {
@@ -407,6 +407,23 @@
       "linkedRepos": []
     },
     {
+      "id": 48072190,
+      "title": "EU Parliamentary Research Service calls VPNs \"a loophole that needs closing\"",
+      "url": "https://cyberinsider.com/eu-calls-vpns-a-loophole-that-needs-closing-in-age-verification-push/",
+      "by": "muse900",
+      "score": 559,
+      "descendants": 384,
+      "createdUtc": 1778305932,
+      "ageHours": 28.27,
+      "velocity": 19.77,
+      "trendingScore": 2140.06,
+      "everHitFrontPage": true,
+      "content_tags": [],
+      "value_score": 0,
+      "storyText": "",
+      "linkedRepos": []
+    },
+    {
       "id": 48037336,
       "title": "Rumors of my death are slightly exaggerated",
       "url": "",
@@ -421,23 +438,6 @@
       "content_tags": [],
       "value_score": 0,
       "storyText": "AI hallucinations are getting ambitious. A couple people recently emailed, asking whether the Klein bottle business was still operating after my death. “Huh?” I thought. “I ain’t dead yet.” After some digging, I discovered the source: an AI-generated review of The Cuckoo’s Egg circulating on Facebook. Alongside the usual synthetic praise and fabricated details, it confidently announced that I had died in May 2024. Apparently AI has now advanced to the point where it can kill people off before th",
-      "linkedRepos": []
-    },
-    {
-      "id": 48072190,
-      "title": "EU calls VPNs \"a loophole that needs closing\" in age verification push",
-      "url": "https://cyberinsider.com/eu-calls-vpns-a-loophole-that-needs-closing-in-age-verification-push/",
-      "by": "muse900",
-      "score": 292,
-      "descendants": 214,
-      "createdUtc": 1778305932,
-      "ageHours": 7.98,
-      "velocity": 36.59,
-      "trendingScore": 2020.67,
-      "everHitFrontPage": false,
-      "content_tags": [],
-      "value_score": 0,
-      "storyText": "",
       "linkedRepos": []
     },
     {
@@ -647,6 +647,43 @@
       "linkedRepos": []
     },
     {
+      "id": 48076173,
+      "title": "I’ve banned query strings",
+      "url": "https://chrismorgan.info/no-query-strings",
+      "by": "susam",
+      "score": 416,
+      "descendants": 220,
+      "createdUtc": 1778344116,
+      "ageHours": 17.66,
+      "velocity": 23.55,
+      "trendingScore": 1418.63,
+      "everHitFrontPage": true,
+      "content_tags": [],
+      "value_score": 0,
+      "storyText": "Related: https://susam.net/no-query-strings.html",
+      "linkedRepos": []
+    },
+    {
+      "id": 48080587,
+      "title": "Show HN: Building a web server in assembly to give my life (a lack of) meaning",
+      "url": "https://github.com/imtomt/ymawky",
+      "by": "imtomt",
+      "score": 285,
+      "descendants": 129,
+      "createdUtc": 1778382104,
+      "ageHours": 7.11,
+      "velocity": 40.08,
+      "trendingScore": 1367.62,
+      "everHitFrontPage": true,
+      "content_tags": [
+        "has-github-repo",
+        "is-show-hn"
+      ],
+      "value_score": 3,
+      "storyText": "This is ymawky, a static file web server for MacOS written entirely in ARM64 assembly. It supports GET, PUT, DELETE, HEAD, and OPTIONS requests, and supports Range: bytes=X-Y headers (which allows scrubbing for video streaming). It decodes percent-encoded URLs, strictly enforces docroot, serves custom error pages for any HTTP error response, supports directory listing, and has (some) mitigations against slowloris-like attacks. I’ve also written a more detailed writeup here: https://imtomt.github",
+      "linkedRepos": []
+    },
+    {
       "id": 48051873,
       "title": "California leaders report four to six weeks worth of gasoline and diesel supply",
       "url": "https://kmph.com/news/local/california-leaders-report-four-to-six-weeks-worth-of-gasoline-and-diesel-in-supply",
@@ -715,33 +752,16 @@
       "linkedRepos": []
     },
     {
-      "id": 48076173,
-      "title": "I’ve banned query strings",
-      "url": "https://chrismorgan.info/no-query-strings",
-      "by": "susam",
-      "score": 347,
-      "descendants": 195,
-      "createdUtc": 1778344116,
-      "ageHours": 14.3,
-      "velocity": 24.27,
-      "trendingScore": 1263.9,
-      "everHitFrontPage": true,
-      "content_tags": [],
-      "value_score": 0,
-      "storyText": "Related: https://susam.net/no-query-strings.html",
-      "linkedRepos": []
-    },
-    {
       "id": 48074952,
       "title": "The hypocrisy of cyberlibertarianism",
       "url": "https://matduggan.com/the-intolerable-hypocrisy-of-cyberlibertarianism/",
       "by": "ColinWright",
-      "score": 285,
-      "descendants": 249,
+      "score": 337,
+      "descendants": 293,
       "createdUtc": 1778334512,
-      "ageHours": 14.37,
-      "velocity": 19.83,
-      "trendingScore": 1260.8,
+      "ageHours": 20.33,
+      "velocity": 16.58,
+      "trendingScore": 1269.82,
       "everHitFrontPage": true,
       "content_tags": [],
       "value_score": 0,
@@ -845,23 +865,6 @@
       "velocity": 11.05,
       "trendingScore": 1176.36,
       "everHitFrontPage": false,
-      "content_tags": [],
-      "value_score": 0,
-      "storyText": "",
-      "linkedRepos": []
-    },
-    {
-      "id": 48061566,
-      "title": "An Introduction to Meshtastic",
-      "url": "https://meshtastic.org/docs/introduction/",
-      "by": "ColinWright",
-      "score": 339,
-      "descendants": 132,
-      "createdUtc": 1778239331,
-      "ageHours": 10.41,
-      "velocity": 32.57,
-      "trendingScore": 1170.2,
-      "everHitFrontPage": true,
       "content_tags": [],
       "value_score": 0,
       "storyText": "",

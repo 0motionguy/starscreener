@@ -17,8 +17,18 @@ useDefault = true
 #      "13 tools, 28+ tokens, SAFE/CAUTION/AVOID verdicts."
 # Neither is a secret. The file is reviewed in PR; no operator workflow
 # writes credentials to it.
+
 [[allowlists]]
-description = "Curated agent catalog: producer-generated, no real secrets"
+description = "Curated agent catalog file: producer-generated, no real secrets"
+targetRules = ["generic-api-key"]
 paths = [
   '''data/agent-commerce\.json''',
+]
+
+[[allowlists]]
+description = "Catalog ID prefixes (api:, tool:, protocol:, infra:, marketplace:, wallet:) are taxonomy identifiers, not API keys"
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = [
+  '''"id":\s*"(api|tool|protocol|infra|marketplace|wallet):[a-z0-9._-]+"''',
 ]

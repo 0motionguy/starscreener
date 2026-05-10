@@ -460,11 +460,18 @@ export async function buildCanonicalRepoProfile(
   // Pull fresh repo-profiles + revenue-overlays payloads from the data-store
   // before stitching. Both refreshes are internally rate-limited (30s) so a
   // burst of detail-page requests doesn't fan out to N Redis calls.
-  await Promise.all([
+  // Defensive: any one rejection must not bring down the whole assembly —
+  // each downstream getter degrades gracefully when its cache is stale.
+  const refreshOutcomes = await Promise.allSettled([
     refreshRepoProfilesFromStore(),
     refreshRevenueOverlaysFromStore(),
     refreshNpmDependentsFromStore(),
   ]);
+  for (const outcome of refreshOutcomes) {
+    if (outcome.status === "rejected") {
+      console.warn("[repo-profile] refresh hook failed", outcome.reason);
+    }
+  }
 
   // Hydrate mentions from disk. Idempotent on warm Lambdas; the store is
   // the source of truth for the recent-mentions slice + countsBySource.

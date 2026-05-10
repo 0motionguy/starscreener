@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-09T23:05:20.246Z",
+  "fetchedAt": "2026-05-10T00:04:30.090Z",
   "windowHours": 72,
-  "scannedTotal": 1262,
+  "scannedTotal": 1264,
   "firebaseCount": 500,
-  "algoliaCount": 762,
+  "algoliaCount": 764,
   "stories": [
     {
       "id": 48062117,
@@ -318,6 +318,25 @@
       "linkedRepos": []
     },
     {
+      "id": 48073680,
+      "title": "Bun's experimental Rust rewrite hits 99.8% test compatibility on Linux x64 glibc",
+      "url": "https://twitter.com/jarredsumner/status/2053047748191232310",
+      "by": "heldrida",
+      "score": 360,
+      "descendants": 351,
+      "createdUtc": 1778321575,
+      "ageHours": 13.86,
+      "velocity": 25.97,
+      "trendingScore": 2396.58,
+      "everHitFrontPage": true,
+      "content_tags": [
+        "is-announcement"
+      ],
+      "value_score": 1,
+      "storyText": "https://xunroll.com/thread/2053047748191232310 Recent and related: Zig → Rust porting guide - https://news.ycombinator.com/item?id=48016880 - May 2026 (540 comments)",
+      "linkedRepos": []
+    },
+    {
       "id": 48050964,
       "title": "Chrome removes claim of On-device Al not sending data to Google Servers",
       "url": "https://old.reddit.com/r/chrome/comments/1t5qayz/chrome_removes_claim_of_ondevice_al_not_sending/",
@@ -367,6 +386,23 @@
         "is-news"
       ],
       "value_score": 1,
+      "storyText": "",
+      "linkedRepos": []
+    },
+    {
+      "id": 48077126,
+      "title": "Meta's embrace of A.I. is making its employees miserable",
+      "url": "https://www.nytimes.com/2026/05/08/technology/meta-ai-employees-miserable.html",
+      "by": "JumpCrisscross",
+      "score": 227,
+      "descendants": 207,
+      "createdUtc": 1778351616,
+      "ageHours": 5.52,
+      "velocity": 41.16,
+      "trendingScore": 2104.34,
+      "everHitFrontPage": true,
+      "content_tags": [],
+      "value_score": 0,
       "storyText": "",
       "linkedRepos": []
     },
@@ -436,25 +472,6 @@
       "content_tags": [],
       "value_score": 0,
       "storyText": "",
-      "linkedRepos": []
-    },
-    {
-      "id": 48073680,
-      "title": "Bun's experimental Rust rewrite hits 99.8% test compatibility on Linux x64 glibc",
-      "url": "https://twitter.com/jarredsumner/status/2053047748191232310",
-      "by": "heldrida",
-      "score": 311,
-      "descendants": 308,
-      "createdUtc": 1778321575,
-      "ageHours": 12.87,
-      "velocity": 24.16,
-      "trendingScore": 1915.16,
-      "everHitFrontPage": true,
-      "content_tags": [
-        "is-announcement"
-      ],
-      "value_score": 1,
-      "storyText": "https://xunroll.com/thread/2053047748191232310 Recent and related: Zig → Rust porting guide - https://news.ycombinator.com/item?id=48016880 - May 2026 (540 comments)",
       "linkedRepos": []
     },
     {
@@ -541,23 +558,6 @@
         "has-github-repo"
       ],
       "value_score": 1,
-      "storyText": "",
-      "linkedRepos": []
-    },
-    {
-      "id": 48077126,
-      "title": "Meta's embrace of A.I. is making its employees miserable",
-      "url": "https://www.nytimes.com/2026/05/08/technology/meta-ai-employees-miserable.html",
-      "by": "JumpCrisscross",
-      "score": 199,
-      "descendants": 154,
-      "createdUtc": 1778351616,
-      "ageHours": 4.53,
-      "velocity": 43.94,
-      "trendingScore": 1656.59,
-      "everHitFrontPage": true,
-      "content_tags": [],
-      "value_score": 0,
       "storyText": "",
       "linkedRepos": []
     },
@@ -817,6 +817,23 @@
       "linkedRepos": []
     },
     {
+      "id": 48074952,
+      "title": "The hypocrisy of cyberlibertarianism",
+      "url": "https://matduggan.com/the-intolerable-hypocrisy-of-cyberlibertarianism/",
+      "by": "ColinWright",
+      "score": 244,
+      "descendants": 196,
+      "createdUtc": 1778334512,
+      "ageHours": 10.27,
+      "velocity": 23.77,
+      "trendingScore": 1169.01,
+      "everHitFrontPage": true,
+      "content_tags": [],
+      "value_score": 0,
+      "storyText": "",
+      "linkedRepos": []
+    },
+    {
       "id": 48060054,
       "title": "Ask HN: We just had an actual UUID v4 collision...",
       "url": "",
@@ -833,23 +850,6 @@
       ],
       "value_score": 2,
       "storyText": "I know what you're thinking... and I still can't believe it, but... This morning, our database flagged a duplicate UUID (v4). I checked, thinking it may have been a double-insert bug or something, but no. The original UUID was from a record added in 2025 (about a year ago), and today the system inserted a new document with a fresh UUIDv4 and it came up with the exact same one: b6133fd6-70fe-4fe3-bed6-8ca8fc9386cd We're using this: https://www.npmjs.com/package/uuid I thought this is technically ",
-      "linkedRepos": []
-    },
-    {
-      "id": 48074952,
-      "title": "The hypocrisy of cyberlibertarianism",
-      "url": "https://matduggan.com/the-intolerable-hypocrisy-of-cyberlibertarianism/",
-      "by": "ColinWright",
-      "score": 235,
-      "descendants": 176,
-      "createdUtc": 1778334512,
-      "ageHours": 9.28,
-      "velocity": 25.32,
-      "trendingScore": 1116.66,
-      "everHitFrontPage": true,
-      "content_tags": [],
-      "value_score": 0,
-      "storyText": "",
       "linkedRepos": []
     },
     {

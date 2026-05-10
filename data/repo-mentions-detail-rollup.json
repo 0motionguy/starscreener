@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-10T13:22:37.696Z",
-  "scanRunId": "sweep-2026-05-10T13:22:29.897Z",
+  "computedAt": "2026-05-10T19:07:36.991Z",
+  "scanRunId": "sweep-2026-05-10T19:07:28.527Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -120,19 +120,6 @@
             {
               "source": "hackernews",
               "fullName": "addyosmani/agent-skills",
-              "url": "https://github.com/snyk/agent-scan",
-              "title": "Show HN: Security Scanner for Agent Skills and MCP",
-              "text": "",
-              "author": "lirantal",
-              "engagement": {
-                "score": 7,
-                "comments": 0
-              },
-              "observedAt": "2026-05-03T18:10:38.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "addyosmani/agent-skills",
               "url": "https://privateaiskills.com/",
               "title": "Show HN: Sync agent skills across devices, projects or teams",
               "text": "",
@@ -142,6 +129,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-04T02:42:31.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "addyosmani/agent-skills",
+              "url": "https://research.perplexity.ai/articles/designing-refining-and-maintaining-agent-skills-at-perplexity",
+              "title": "Designing, Refining, and Maintaining Agent Skills at Perplexity",
+              "text": "",
+              "author": "gmays",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-10T14:33:02.000Z"
             }
           ]
         }
@@ -149,10 +149,10 @@
     },
     "D4Vinci/Scrapling": {
       "fullName": "D4Vinci/Scrapling",
-      "totalMentions7d": 32,
+      "totalMentions7d": 12,
       "perSource": {
         "hackernews": {
-          "count7d": 31,
+          "count7d": 11,
           "top": [
             {
               "source": "hackernews",
@@ -162,8 +162,8 @@
               "text": "",
               "author": "berlianta",
               "engagement": {
-                "score": 324,
-                "comments": 147
+                "score": 326,
+                "comments": 148
               },
               "observedAt": "2026-05-07T15:02:20.000Z"
             },
@@ -183,19 +183,6 @@
             {
               "source": "hackernews",
               "fullName": "D4Vinci/Scrapling",
-              "url": "https://huggingface.co/spaces/AdithyaSK/rl-environments-guide",
-              "title": "The ultimate guide to RL environments: building and scaling them in the LLM era",
-              "text": "",
-              "author": "kashifr",
-              "engagement": {
-                "score": 7,
-                "comments": 0
-              },
-              "observedAt": "2026-05-05T15:01:33.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "D4Vinci/Scrapling",
               "url": "https://www.dreamworkhq.com/",
               "title": "Show HN: Dreamwork – a job search site I made after Indeed fired my pregnant wif",
               "text": "Hey, I’m Colin and I have a fun story for you.<p>My 7 month pregnant wife was laid off from Indeed (she was a PM there) back in December. This pissed me off quite a bit, as she was supposed to get 6 months leave and instead got fired.<p>So I spent the last five months working part time to build Dreamwork, a platform aiming to make the job search experience actually better with AI (not just mass application spam).<p>I started with just a telegram bot doing scraping, then advanced to Google Embedd",
@@ -209,15 +196,28 @@
             {
               "source": "hackernews",
               "fullName": "D4Vinci/Scrapling",
-              "url": "https://kristoff.it/blog/scripty/",
-              "title": "Scripty – A Minimal Scripting Language",
+              "url": "https://github.com/h4ckf0r0day/obscura",
+              "title": "H4ckf0r0day/obscura: The headless browser for AI agents and web scraping",
               "text": "",
-              "author": "anitil",
+              "author": "rezaprima",
               "engagement": {
-                "score": 6,
+                "score": 5,
                 "comments": 3
               },
-              "observedAt": "2026-05-06T04:47:06.000Z"
+              "observedAt": "2026-05-03T23:03:05.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "D4Vinci/Scrapling",
+              "url": "https://news.ycombinator.com/item?id=48073042",
+              "title": "Show HN: I Built a Retro Survival RPG in Vanilla JavaScript",
+              "text": "I&#x27;m working on the Survival Crafting RPG that you would have played on your Apple II back in the &#x27;80s. You can think of it as Valheim&#x27;s gameplay crammed into the tile-based UI of the old Ultima games. It has a procedurally-generated open world with towns and NPCs to talk to, all the resource gathering, mining, crafting stuff you&#x27;d expect in a modern survival game, and some good old fashioned dungeon crawling to boot.<p>I&#x27;ve been working on it off and on for the last seve",
+              "author": "jasonkester",
+              "engagement": {
+                "score": 4,
+                "comments": 3
+              },
+              "observedAt": "2026-05-09T08:16:24.000Z"
             }
           ]
         },
@@ -435,10 +435,10 @@
     },
     "multica-ai/multica": {
       "fullName": "multica-ai/multica",
-      "totalMentions7d": 101,
+      "totalMentions7d": 39,
       "perSource": {
         "hackernews": {
-          "count7d": 100,
+          "count7d": 38,
           "top": [
             {
               "source": "hackernews",
@@ -553,11 +553,24 @@
     },
     "rtk-ai/rtk": {
       "fullName": "rtk-ai/rtk",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
         "bluesky": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "rtk-ai/rtk",
+              "url": "https://bsky.app/profile/githubfeed.bsky.social/post/3mljglk2uk22c",
+              "title": "🚀 GitHub Intelligence Drop rtk (Rust • 🟢) ⭐ 45.5K → https://github.com/rtk-ai/rtk rust-analyzer (Rust • 🟢) ⭐ 16.4K → https://github.com/rust-lang/rust-analyzer ⚡ Only signal. Zero noise.",
+              "text": "🚀 GitHub Intelligence Drop rtk (Rust • 🟢) ⭐ 45.5K → https://github.com/rtk-ai/rtk rust-analyzer (Rust • 🟢) ⭐ 16.4K → https://github.com/rust-lang/rust-analyzer ⚡ Only signal. Zero noise.",
+              "author": "githubfeed.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-10T18:52:50.460Z"
+            },
             {
               "source": "bluesky",
               "fullName": "rtk-ai/rtk",
@@ -1210,10 +1223,10 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 18,
+      "totalMentions7d": 20,
       "perSource": {
         "hackernews": {
-          "count7d": 17,
+          "count7d": 19,
           "top": [
             {
               "source": "hackernews",
@@ -1227,6 +1240,19 @@
                 "comments": 33
               },
               "observedAt": "2026-05-04T14:08:27.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://www.bloomberg.com/graphics/2026-ai-identity-theft-scams/",
+              "title": "AI Is Making Digital Fraud Easier, Faster and Harder to Stop",
+              "text": "",
+              "author": "elsewhen",
+              "engagement": {
+                "score": 6,
+                "comments": 1
+              },
+              "observedAt": "2026-05-10T14:45:11.000Z"
             },
             {
               "source": "hackernews",
@@ -1266,19 +1292,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-09T17:25:07.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "safishamsi/graphify",
-              "url": "https://data.europa.eu/apps/data-visualisation-guide/graphic-design-introduction",
-              "title": "Data Visualisation Guide",
-              "text": "",
-              "author": "tosh",
-              "engagement": {
-                "score": 3,
-                "comments": 0
-              },
-              "observedAt": "2026-05-09T05:33:39.000Z"
             }
           ]
         },
@@ -4304,10 +4317,10 @@
     },
     "garrytan/gbrain": {
       "fullName": "garrytan/gbrain",
-      "totalMentions7d": 47,
+      "totalMentions7d": 45,
       "perSource": {
         "hackernews": {
-          "count7d": 44,
+          "count7d": 42,
           "top": [
             {
               "source": "hackernews",
@@ -6320,10 +6333,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 23,
+      "totalMentions7d": 25,
       "perSource": {
         "hackernews": {
-          "count7d": 23,
+          "count7d": 25,
           "top": [
             {
               "source": "hackernews",
@@ -6333,8 +6346,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;blog.cloudflare.com&#x2F;building-for-the-future&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;blog.cloudflare.com&#x2F;building-for-the-future&#x2F;</a>",
               "author": "PriorityLeft",
               "engagement": {
-                "score": 1328,
-                "comments": 976
+                "score": 1331,
+                "comments": 981
               },
               "observedAt": "2026-05-07T20:23:37.000Z"
             },
@@ -6346,8 +6359,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;health.aws.amazon.com&#x2F;health&#x2F;status?t=2026-05-07\" rel=\"nofollow\">https:&#x2F;&#x2F;health.aws.amazon.com&#x2F;health&#x2F;status?t=2026-05-07</a><p><a href=\"https:&#x2F;&#x2F;www.theregister.com&#x2F;off-prem&#x2F;2026&#x2F;05&#x2F;08&#x2F;aws-warns-of-ec2-impairment-as-power-loss-hits-notorious-us-east-1-region&#x2F;5235509\" rel=\"nofollow\">https:&#x2F;&#x2F;www.theregister.com&#x2F;off-prem&#x2F;2026&#x2F;05&#x2F;08&#x2F;aws-warns-of...</a><p><a href=\"https:",
               "author": "christhecaribou",
               "engagement": {
-                "score": 263,
-                "comments": 193
+                "score": 264,
+                "comments": 195
               },
               "observedAt": "2026-05-08T03:31:58.000Z"
             },
@@ -8100,7 +8113,7 @@
               "text": "",
               "author": "pseudolus",
               "engagement": {
-                "score": 87,
+                "score": 90,
                 "comments": 52
               },
               "observedAt": "2026-05-07T16:05:45.000Z"
@@ -8271,10 +8284,10 @@
     },
     "amiremohamadi/g2ray": {
       "fullName": "amiremohamadi/g2ray",
-      "totalMentions7d": 4,
+      "totalMentions7d": 3,
       "perSource": {
         "hackernews": {
-          "count7d": 4,
+          "count7d": 3,
           "top": [
             {
               "source": "hackernews",
@@ -8288,19 +8301,6 @@
                 "comments": 1
               },
               "observedAt": "2026-05-07T13:14:48.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "amiremohamadi/g2ray",
-              "url": "https://tostracker.app/analysis/gray-media-arbitration",
-              "title": "Gray Media's Chain-Wide Arbitration Rollout",
-              "text": "",
-              "author": "tldrthelaw",
-              "engagement": {
-                "score": 2,
-                "comments": 0
-              },
-              "observedAt": "2026-05-03T17:03:04.000Z"
             },
             {
               "source": "hackernews",
@@ -8347,7 +8347,7 @@
               "text": "",
               "author": "kristianpaul",
               "engagement": {
-                "score": 476,
+                "score": 477,
                 "comments": 50
               },
               "observedAt": "2026-05-05T04:09:17.000Z"

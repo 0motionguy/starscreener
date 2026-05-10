@@ -11,7 +11,6 @@ import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 // crashes the app before any routes load.
 import "@/lib/bootstrap";
 import { ToasterLazy } from "@/components/feedback/ToasterLazy";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { StoreProvider } from "@/components/providers/StoreProvider";
 import { PostHogProvider } from "@/components/providers/PostHogProvider";
 import { AppShell } from "@/components/layout/AppShell";
@@ -29,19 +28,12 @@ import {
 import { MobileDrawerLazy } from "@/components/layout/MobileDrawerLazy";
 import { MobileNavLazy } from "@/components/layout/MobileNavLazy";
 import { SidebarUserOverlayBridge } from "@/components/layout/SidebarUserOverlayBridge";
-import { BrowserAlertBridge } from "@/components/alerts/BrowserAlertBridge";
-import { GlobalShortcuts } from "@/components/layout/GlobalShortcuts";
+import { BrowserAlertBridgeLazy } from "@/components/alerts/BrowserAlertBridgeLazy";
+import { GlobalShortcutsLazy } from "@/components/layout/GlobalShortcutsLazy";
 import { IdleMount } from "@/components/util/IdleMount";
-import { DesignSystemProvider } from "@/components/v3";
-import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
-import { clerkAppearance } from "@/lib/auth/clerk-appearance";
-import { ClerkProvider } from "@clerk/nextjs";
+import { DesignSystemProvider } from "@/components/v3/DesignSystemProvider";
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
-import "@/components/tier-list/tier-list.css";
-import "@/components/compare/compare.css";
-import "@/components/terminal/terminal-pages.css";
-import "@/components/categories/categories.css";
 import "@/components/layout/header.css";
 import "@/components/layout/sidebar-profile.css";
 import "@/components/layout/sidebar-nav.css";
@@ -149,10 +141,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#08090a" },
-    { media: "(prefers-color-scheme: light)", color: "#f7f6f2" },
-  ],
+  themeColor: "#08090a",
 };
 
 export default async function RootLayout({
@@ -167,28 +156,23 @@ export default async function RootLayout({
   // Per-user data (`unreadAlerts`) lands client-side via
   // <SidebarUserOverlayBridge />, gated on Clerk's session.
   //
-  // Cap reposById at top-150 by momentum: the layout inlines this
-  // payload into every page's RSC stream (mobile included, even though
-  // the sidebar is desktop-only). 150 still covers virtually every
-  // watchlist's 5-item preview and trims ~25% off the previous 200-cap
-  // payload. The mobile-drawer API path stays uncapped for backward
-  // compat — that fetch only fires on user-tap and isn't on any
-  // critical path. Wrapped in try/catch so a transient pipeline /
-  // data-store hiccup doesn't take the whole site down — if it fails we
-  // pass null and Sidebar falls back to its existing client-fetch path.
+  // Do not inline repo hydration or unused legacy facets into the root shell.
+  // The watchlist preview fetches exact watched ids client-side after
+  // localStorage is available, avoiding 40KB+ of repo map in every page's
+  // RSC stream.
+  // Wrapped in try/catch so a transient pipeline / data-store hiccup doesn't
+  // take the whole site down; if it fails, Sidebar falls back to client fetch.
   let initialSidebarShell: SidebarShellResponse | null = null;
   try {
-    initialSidebarShell = await getPublicSidebarShell({ reposByIdTopN: 150 });
+    initialSidebarShell = await getPublicSidebarShell({
+      reposByIdTopN: 0,
+      includeLegacyFacets: false,
+    });
   } catch {
     initialSidebarShell = null;
   }
 
-  const clerkPublishableKey = getClerkPublishableKey();
-
-  const shell = (
-    // Wrapped by ClerkProvider below when auth is configured. Keeping the
-    // shell standalone lets CI / local builds prerender public pages
-    // without a Clerk publishable key.
+  return (
     <html
       lang="en"
       className={`${geist.variable} ${geistMono.variable} ${spaceGrotesk.variable}`}
@@ -200,9 +184,10 @@ export default async function RootLayout({
             // Reads the new key first, falls back to the legacy
             // "starscreener-*" entries for one release so existing users
             // don't lose state. Migrates the value forward so subsequent
-            // reads (next-themes, Zustand persist middleware, browser
-            // alerts) find it on the new key next render.
-            __html: `(function(){try{var MIG="trendingrepo-migrated-v1";if(!localStorage.getItem(MIG)){var pairs=[["trendingrepo-theme","starscreener-theme"],["trendingrepo-watchlist","starscreener-watchlist"],["trendingrepo-compare","starscreener-compare"],["trendingrepo-filters","starscreener-filters"],["trendingrepo-sidebar","starscreener-sidebar"],["trendingrepo-browser-alerts-enabled","starscreener-browser-alerts-enabled"],["trendingrepo-browser-alerts-seen","starscreener-browser-alerts-seen"],["trendingrepo-browser-alerts-changed","starscreener-browser-alerts-changed"]];for(var i=0;i<pairs.length;i++){var nk=pairs[i][0],ok=pairs[i][1];if(localStorage.getItem(nk)===null){var v=localStorage.getItem(ok);if(v!==null){localStorage.setItem(nk,v);}}}localStorage.setItem(MIG,"1")}var t=localStorage.getItem("trendingrepo-theme");if(t==="light")document.documentElement.classList.add("light");else document.documentElement.classList.add("dark")}catch(e){document.documentElement.classList.add("dark")}})();`,
+            // reads (Zustand persist middleware, browser alerts) find it
+            // on the new key next render. V4 is dark-only, so no theme key
+            // is migrated and the document class is always `dark`.
+            __html: `(function(){try{var r=document.documentElement;r.classList.add("dark");var MIG="trendingrepo-migrated-v1";if(!localStorage.getItem(MIG)){var pairs=[["trendingrepo-watchlist","starscreener-watchlist"],["trendingrepo-compare","starscreener-compare"],["trendingrepo-filters","starscreener-filters"],["trendingrepo-sidebar","starscreener-sidebar"],["trendingrepo-browser-alerts-enabled","starscreener-browser-alerts-enabled"],["trendingrepo-browser-alerts-seen","starscreener-browser-alerts-seen"],["trendingrepo-browser-alerts-changed","starscreener-browser-alerts-changed"]];for(var i=0;i<pairs.length;i++){var nk=pairs[i][0],ok=pairs[i][1];if(localStorage.getItem(nk)===null){var v=localStorage.getItem(ok);if(v!==null){localStorage.setItem(nk,v);}}}localStorage.setItem(MIG,"1")}}catch(e){document.documentElement.classList.add("dark")}})();`,
           }}
         />
         <script
@@ -237,10 +222,9 @@ export default async function RootLayout({
         >
           Skip to main content
         </a>
-        <ThemeProvider>
-          <PostHogProvider>
-            <StoreProvider>
-              <DesignSystemProvider>
+        <PostHogProvider>
+          <StoreProvider>
+            <DesignSystemProvider>
               <IdleMount>
                 <ClerkRefHandoff />
               </IdleMount>
@@ -258,28 +242,16 @@ export default async function RootLayout({
               <SidebarUserOverlayBridge />
               <MobileNavLazy />
               <IdleMount>
-                <BrowserAlertBridge />
+                <BrowserAlertBridgeLazy />
               </IdleMount>
               <IdleMount>
-                <GlobalShortcuts />
+                <GlobalShortcutsLazy />
               </IdleMount>
               <ToasterLazy />
-              </DesignSystemProvider>
-            </StoreProvider>
-          </PostHogProvider>
-        </ThemeProvider>
+            </DesignSystemProvider>
+          </StoreProvider>
+        </PostHogProvider>
       </body>
     </html>
-  );
-
-  if (!clerkPublishableKey) return shell;
-
-  return (
-    <ClerkProvider
-      publishableKey={clerkPublishableKey}
-      appearance={clerkAppearance}
-    >
-      {shell}
-    </ClerkProvider>
   );
 }

@@ -16,7 +16,7 @@
  *   3. LLM / PACK TERMINAL — NPM / Huggingface
  *   4. LAUNCH TERMINAL   — Funding / Revenue / Hackathons / Launch
  *   5. RESEARCH TERMINAL — arXiv Papers / Cited Repos
- *   6. TOOLS             — Watchlist / Compare / Tier List / MindShare / Top 10
+ *   6. TOOLS             — Watchlist / Compare / Tier List / Top 10
  *   7. WATCHING          — top 5 watchlist preview cards
  *
  * Three badge tones:
@@ -75,7 +75,7 @@ import {
 import { SidebarRecentViewedRepos } from "./SidebarRecentViewedRepos";
 import { SidebarFooter } from "./SidebarFooter";
 import { cn } from "@/lib/utils";
-import { CursorRail } from "@/components/v3";
+import { CursorRail } from "@/components/v3/CursorRail";
 
 const RedditSidebarIcon: SidebarIconComponent = (p) => (
   <RedditIcon {...p} monochrome />
@@ -735,11 +735,9 @@ export function SidebarContent({
             label="Ideas"
             active={pathname === "/ideas" || pathname.startsWith("/ideas/")}
           />
-          {/* "Predict" sidebar entry hidden 2026-05-03 — page kept on disk
-              (direct links still work) but the audit flagged the underlying
-              data shape (.data/predictions.jsonl) as un-routed through the
-              data-store, so freshness can't be tracked. Re-enable once
-              predictions land in Redis like the other surfaces. */}
+          {/* "Predict" sidebar entry removed 2026-05-09. The DB descriptor
+              remains for a future prediction writer, but no public route is
+              shipped until predictions land in Redis like the other surfaces. */}
           <V2NavRow
             href="/collections"
             icon={Library}

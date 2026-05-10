@@ -11,6 +11,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from "fs";
 import { resolve, dirname } from "path";
 
+import "./_load-env.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 const SEED_PATH = resolve(
@@ -601,6 +602,11 @@ async function main() {
 
   if (PUSH_TO_REDIS) {
     const result = await writeDataStore("agent-commerce", file);
+    if (result.source !== "redis") {
+      throw new Error(
+        "agent-commerce data-store write skipped; set REDIS_URL or Upstash env before using --push",
+      );
+    }
     console.log(`[agent-commerce] redis push: ${result.source} @ ${result.writtenAt}`);
     await closeDataStore();
   }

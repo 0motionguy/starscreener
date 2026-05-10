@@ -152,9 +152,8 @@ function TerminalRowBase({
           : undefined,
       }}
       className={cn(
-        // `v2-row` provides the luminance-step hover (var(--v2-bg-100)).
-        // Drops the V1 orange `row-hover` tint entirely, per the V2
-        // brief — the color step is the hover signal.
+        // `v2-row` provides the luminance-step hover (var(--v2-bg-100));
+        // the color step is the hover signal.
         "group v2-row cursor-pointer",
         "animate-[slide-up_0.35s_ease-out_forwards] opacity-0",
       )}

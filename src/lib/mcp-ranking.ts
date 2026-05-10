@@ -1,9 +1,12 @@
 // Shared MCP ranking — used by /mcp's full table AND the home page hero
 // top-5 panel so both surfaces present the same five servers in the same
-// order. Logic mirrors src/app/mcp/page.tsx: data-richness first, then
-// multi-registry consensus, then popularity, then signalScore.
+// order. Logic mirrors src/app/mcp/page.tsx: data-richness first, then the
+// source-native registry rank comparator used by the full MCP page.
 
-import type { EcosystemLeaderboardItem } from "@/lib/ecosystem-leaderboards";
+import {
+  compareBySourceNativeRank,
+  type EcosystemLeaderboardItem,
+} from "@/lib/ecosystem-leaderboards";
 import { getRepoMetadata, type RepoMetadata } from "@/lib/repo-metadata";
 import type { Repo } from "@/lib/types";
 
@@ -59,12 +62,6 @@ export function rankMcpItems(
       if (a.hasFillableData !== b.hasFillableData) {
         return a.hasFillableData ? -1 : 1;
       }
-      const csa = a.item.crossSourceCount ?? 1;
-      const csb = b.item.crossSourceCount ?? 1;
-      if (csb !== csa) return csb - csa;
-      const pa = a.item.popularity ?? 0;
-      const pb = b.item.popularity ?? 0;
-      if (pb !== pa) return pb - pa;
-      return (b.item.signalScore ?? 0) - (a.item.signalScore ?? 0);
+      return compareBySourceNativeRank(a.item, b.item);
     });
 }

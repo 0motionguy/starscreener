@@ -875,10 +875,8 @@ function toTwitterLeaderboardRow(
 // after observing that 386 of 409 stored signals were stale, leaving only
 // 23 fresh repos visible while the underlying data had thousands of tweets.
 // 24h covers 8× the 3h cron cadence — generous, but tight enough that a
-// "trending now" signal is genuinely recent. Stale signals are no longer
-// dropped silently; the new <StaleCollapse> on /twitter shows them in a
-// collapsed section so operators can see the whole inventory. Tests use
-// fixed past timestamps (2026-04-22) so the filter is disabled when we
+// "trending now" signal is genuinely recent. Tests use fixed past
+// timestamps (2026-04-22) so the filter is disabled when we
 // detect we're running under the test runner. NODE_ENV alone isn't
 // reliable because `tsx --test` doesn't set it; we also sniff
 // npm_lifecycle_event and the well-known node-test-runner channel-fd

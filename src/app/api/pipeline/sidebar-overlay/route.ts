@@ -12,6 +12,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { errorEnvelope } from "@/lib/api/error-response";
+import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 import { getUserSidebarOverlay } from "@/lib/sidebar-data";
 
 export type { SidebarOverlayResponse } from "@/lib/sidebar-data";
@@ -22,6 +23,13 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
+  if (!getClerkPublishableKey()) {
+    return NextResponse.json(errorEnvelope("Sign in required."), {
+      status: 401,
+      headers: { "Cache-Control": "private, no-store" },
+    });
+  }
+
   let session: Awaited<ReturnType<typeof auth>>;
   try {
     session = await auth();

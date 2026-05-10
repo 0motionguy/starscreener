@@ -17,7 +17,7 @@
 import Link from "next/link";
 
 import { EmptyState } from "@/components/ui/EmptyState";
-import { ROUTES } from "@/lib/constants";
+import { ROUTES } from "@/lib/routes";
 import { getDerivedRepos } from "@/lib/derived-repos";
 import { repoFullNameToHref } from "@/lib/hackernews";
 

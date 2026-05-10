@@ -13,6 +13,8 @@ export interface FreshnessSourceState {
 export function deriveHealth(
   sources: ReadonlyArray<FreshnessSourceState>,
 ): FreshnessHealth {
+  if (sources.length === 0) return "stale";
+
   let advisoryDegraded = false;
   for (const source of sources) {
     if (source.status === "GREEN") continue;

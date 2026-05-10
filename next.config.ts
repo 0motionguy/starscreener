@@ -73,6 +73,13 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     "/*": ["./.data/twitter-*.jsonl"],
     "/api/openapi.json": ["./docs/openapi.json"],
+    // /reddit/trending uses readFileSync(data/reddit-all-posts.json) as
+    // SSR cold-cache fallback (src/app/reddit/trending/page.tsx:loadBundledFallback).
+    // Without this trace the lambda has no copy of the file and the page
+    // permanently renders the "Collector unreachable" cold state even when
+    // the bundled snapshot has data. Discovered 2026-05-09 — page had been
+    // dead since 2026-05-07 because of this missing trace + an empty file.
+    "/reddit/trending": ["./data/reddit-all-posts.json"],
   },
   // NOTE: Do NOT add "./.next/**/*" here. It looks redundant (the .next dir
   // is the build output, not source) but Next.js resolves trace entries

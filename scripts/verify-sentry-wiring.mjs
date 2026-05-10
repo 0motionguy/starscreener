@@ -26,7 +26,17 @@ async function main() {
   );
   assertIncludes(
     instrumentationClient,
-    "export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;",
+    "export function onRouterTransitionStart(",
+    "instrumentation-client.ts",
+  );
+  assertIncludes(
+    instrumentationClient,
+    'import("@sentry/nextjs")',
+    "instrumentation-client.ts",
+  );
+  assertIncludes(
+    instrumentationClient,
+    "Sentry.captureRouterTransitionStart(href, navigationType);",
     "instrumentation-client.ts",
   );
   assertIncludes(workerSentry, "Sentry.init({", "apps/trendingrepo-worker/src/lib/sentry.ts");

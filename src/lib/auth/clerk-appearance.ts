@@ -1,7 +1,6 @@
 // Clerk <SignIn /> / <SignUp /> appearance — matches trendingrepo's
-// dark canvas + Liquid Lava accent. Wired through ClerkProvider in
-// src/app/layout.tsx so every Clerk component (hosted pages + modal
-// buttons) inherits the same look.
+// dark canvas + Liquid Lava accent. Wired through page-local ClerkProvider
+// wrappers so the root layout does not load Clerk on every public page.
 //
 // Variables map to Clerk's high-level theme tokens; elements override
 // individual sub-component class names where a token can't reach

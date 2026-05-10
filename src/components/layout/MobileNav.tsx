@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Eye, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { ROUTES } from "@/lib/constants";
+import { ROUTES } from "@/lib/routes";
 
 /**
  * MobileNav — fixed bottom navigation for <md breakpoint.

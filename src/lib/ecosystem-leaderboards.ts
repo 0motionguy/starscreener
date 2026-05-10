@@ -105,6 +105,14 @@ export interface McpDisplayFields {
   sources: string[];
 }
 
+export interface SourceRankSignal {
+  source: string;
+  rank: number;
+  total: number | null;
+  metricLabel: string | null;
+  metricValue: number | null;
+}
+
 export interface EcosystemLeaderboardItem {
   id: string;
   title: string;
@@ -128,6 +136,16 @@ export interface EcosystemLeaderboardItem {
   verified: boolean;
   /** Number of registries this MCP appears in (1-4). */
   crossSourceCount: number;
+  /**
+   * Source-native rank signals, e.g. skills.sh page rank, SkillsMP rank,
+   * Smithery rank, or the MCP merger's upstream list rank. Lower rank is
+   * better. This is additive metadata for display/API ordering; the legacy
+   * signalScore stays available as a fallback.
+   */
+  sourceRanks?: SourceRankSignal[];
+  primaryRankSource?: string | null;
+  sourceMetricLabel?: string | null;
+  sourceMetricValue?: number | null;
   /**
    * Liveness signal — populated for MCP items only, undefined for skills.
    * Cold-start: always `undefined` (no MCP-ping data yet) — UI shows a
@@ -598,17 +616,22 @@ const SMITHERY_SKILLS_KEY = "trending-skill-smithery";
  * `full_name`, `title`, `url`). Field union covers skillsmp /
  * lobehub-skills / smithery-skills row variants.
  */
-function adaptExtraSkillRow(raw: unknown): Record<string, unknown> | null {
+function adaptExtraSkillRow(
+  raw: unknown,
+  sourceLabel: string,
+  rankTotal: number | null,
+): Record<string, unknown> | null {
   const r = asRecord(raw);
   if (!r) return null;
   // Resolve title across the 3 shapes: skillsmp `name`, lobehub `title`,
   // smithery `displayName` / `slug`.
-  const title =
+  const title = cleanSkillTitle(
     asString(r.title) ??
-    asString(r.name) ??
-    asString(r.displayName) ??
-    asString(r.slug) ??
-    asString(r.id);
+      asString(r.name) ??
+      asString(r.displayName) ??
+      asString(r.slug) ??
+      asString(r.id),
+  );
   // Resolve linkedRepo (full_name owner/name) across `githubUrl`,
   // `gitUrl`, or fall through to `id` / `source_id` when they're slug-shaped.
   const candidateUrls = [
@@ -639,7 +662,13 @@ function adaptExtraSkillRow(raw: unknown): Record<string, unknown> | null {
   const url = asString(r.url) ?? `https://github.com/${fullName}`;
   // Lobehub carries `installs` directly — map onto the field
   // coerceSkillsShItem already uses.
-  const installs = asNumber(r.installs) ?? asNumber(r.totalActivations) ?? null;
+  const installs = asOptionalNumber(r.installs) ?? asOptionalNumber(r.totalActivations) ?? null;
+  const metricLabel =
+    asOptionalNumber(r.totalActivations) !== null
+      ? "Activations"
+      : installs !== null
+        ? "Installs"
+        : "GitHub stars";
   // Phase-5 escalation 2026-04-29: per-skill identity. skillsmp's adapter
   // previously emitted full_name = parent repo URL for every child SKILL.md,
   // so 13 siblings under mattpocock/skills all collapsed to one row at
@@ -659,11 +688,14 @@ function adaptExtraSkillRow(raw: unknown): Record<string, unknown> | null {
     description: asString(r.description) ?? null,
     author: asString(r.author) ?? asString(r.namespace) ?? fullName.split("/")[0],
     rank: asNumber(r.rank) ?? null,
-    stars: asNumber(r.stars) ?? null,
-    forks: asNumber(r.forks) ?? null,
+    stars: asOptionalNumber(r.stars) ?? null,
+    forks: asOptionalNumber(r.forks) ?? null,
     pushed_at: asString(r.updatedAt) ?? null,
     source_topics: Array.isArray(r.categories) ? r.categories : [],
     installs,
+    __sourceLabel: sourceLabel,
+    __rankTotal: rankTotal,
+    __metricLabel: metricLabel,
   };
 }
 
@@ -676,9 +708,17 @@ function coerceExtraSkillsBoard(
   const obj = asRecord(result.data);
   const fetchedAt = asString(obj?.fetchedAt) ?? result.writtenAt ?? null;
   const rows = Array.isArray(obj?.items) ? obj.items : [];
+  const rankTotal =
+    asNumber(obj?.upstream_total) ??
+    asNumber(obj?.total_seen) ??
+    asNumber(asRecord(obj?.pagination)?.total) ??
+    rows.length;
   const pairs = rows
     .map((row, idx) =>
-      coerceGithubSkillItem(adaptExtraSkillRow(row) ?? row, idx + 1),
+      coerceGithubSkillItem(
+        adaptExtraSkillRow(row, label, rankTotal) ?? row,
+        idx + 1,
+      ),
     )
     .filter((p): p is { item: EcosystemLeaderboardItem; raw: Record<string, unknown> } => p !== null);
   const items = applySkillMomentum(pairs, sideChannels);
@@ -760,7 +800,7 @@ export async function getSkillsSignalData(): Promise<SkillsSignalData> {
     ...lobehub.items,
     ...smithery.items,
   ])
-    .sort((a, b) => b.signalScore - a.signalScore)
+    .sort(compareBySourceNativeRank)
     .map((item, idx) => ({ ...item, rank: idx + 1 }));
 
   const totalSeen =
@@ -1013,6 +1053,9 @@ function coerceSkillsShItem(
   const agents = asStringArray(item.agents).slice(0, 12);
   const linkedRepo = owner && repo ? `${owner}/${repo}` : null;
   const view = asString(item.view);
+  const rank = asNumber(item.rank) ?? fallbackRank;
+  const installs = asNumber(item.installs);
+  const rankSource = view ? `skills.sh ${view}` : "skills.sh";
   const tags = [
     view,
     asBoolean(item.openclaw_compatible) ? "OpenClaw" : null,
@@ -1025,13 +1068,13 @@ function coerceSkillsShItem(
       title: skillName,
       url,
       author: linkedRepo,
-      rank: asNumber(item.rank) ?? fallbackRank,
+      rank,
       description: asString(item.description),
       topic: view ? view.replace("-", " ") : "skills.sh",
       tags,
       agents,
       linkedRepo,
-      popularity: asNumber(item.installs),
+      popularity: installs,
       popularityLabel: "Installs",
       // Placeholder — overwritten by applySkillMomentum below.
       signalScore: 0,
@@ -1047,6 +1090,15 @@ function coerceSkillsShItem(
       brandColor: null,
       verified: false,
       crossSourceCount: 1,
+      sourceRanks: sourceRankSignals({
+        source: rankSource,
+        rank,
+        metricLabel: "Installs",
+        metricValue: installs,
+      }),
+      primaryRankSource: rankSource,
+      sourceMetricLabel: "Installs",
+      sourceMetricValue: installs,
     },
     raw: item,
   };
@@ -1069,6 +1121,14 @@ function coerceGithubSkillItem(
   // collapsing to the parent repo's full_name. Original GitHub-topic feed
   // doesn't set source_id and falls back to the prior behavior.
   const sourceUid = asString(item.source_id) ?? fullName;
+  const rank = asNumber(item.rank) ?? fallbackRank;
+  const sourceLabel = asString(item.__sourceLabel) ?? "GitHub topics";
+  const rankTotal = asNumber(item.__rankTotal);
+  const installs = asOptionalNumber(item.installs);
+  const stars = asOptionalNumber(item.stars);
+  const metricValue = installs ?? stars;
+  const metricLabel =
+    asString(item.__metricLabel) ?? (installs !== null ? "Activations" : "GitHub stars");
 
   return {
     item: {
@@ -1076,18 +1136,18 @@ function coerceGithubSkillItem(
       title,
       url,
       author: asString(item.author) ?? fullName.split("/")[0] ?? null,
-      rank: asNumber(item.rank) ?? fallbackRank,
+      rank,
       description: asString(item.description),
       topic: "GitHub",
       tags: asStringArray(item.source_topics).slice(0, 4),
       agents: [],
       linkedRepo: fullName,
-      popularity: asNumber(item.stars) ?? asNumber(item.installs),
-      popularityLabel: asNumber(item.installs) !== null ? "Installs" : "Stars",
+      popularity: metricValue,
+      popularityLabel: metricLabel,
       // Placeholder — overwritten by applySkillMomentum below.
       signalScore: 0,
       postedAt: asString(item.pushed_at) ?? asString(item.created_at),
-      sourceLabel: "GitHub topics",
+      sourceLabel,
       vendor: null,
       // Always derivable here — `fullName` is always "owner/repo" for the
       // GitHub topic feed, so the GitHub owner avatar is the right logo.
@@ -1095,6 +1155,16 @@ function coerceGithubSkillItem(
       brandColor: null,
       verified: false,
       crossSourceCount: 1,
+      sourceRanks: sourceRankSignals({
+        source: sourceLabel,
+        rank,
+        total: rankTotal,
+        metricLabel,
+        metricValue,
+      }),
+      primaryRankSource: sourceLabel,
+      sourceMetricLabel: metricLabel,
+      sourceMetricValue: metricValue,
     },
     raw: item,
   };
@@ -1246,6 +1316,11 @@ function coerceMcpItem(
     usagePrev7d: usagePrev7dEntry,
     usagePrev30d: usagePrev30dEntry,
   });
+  const rank = smitheryRankEntry?.rank ?? asNumber(item.rank) ?? fallbackRank;
+  const rankTotal = smitheryRankEntry?.total ?? null;
+  const rankSource = mcpDisplay.sources[0] ?? "mcp registry";
+  const sourceMetricLabel = popularityLabel || null;
+  const sourceMetricValue = popularity;
 
   return {
     item: {
@@ -1258,7 +1333,7 @@ function coerceMcpItem(
       // discarded real per-server author data and broke per-author avatar
       // resolution.
       author: vendor ?? asString(item.author),
-      rank: asNumber(item.rank) ?? fallbackRank,
+      rank,
       description: asString(item.description),
       topic: vendor ?? (slug?.includes("/") ? slug.split("/")[0] ?? "MCP" : "MCP"),
       tags,
@@ -1277,6 +1352,16 @@ function coerceMcpItem(
       crossSourceCount,
       liveness,
       mcp: mcpDisplay,
+      sourceRanks: sourceRankSignals({
+        source: rankSource,
+        rank,
+        total: rankTotal,
+        metricLabel: sourceMetricLabel,
+        metricValue: sourceMetricValue,
+      }),
+      primaryRankSource: rankSource,
+      sourceMetricLabel,
+      sourceMetricValue,
     },
     raw: enrichedRaw,
   };
@@ -1343,8 +1428,14 @@ function buildMcpDisplayFields(args: {
   // like ["official", "smithery", "glama"]. Some publish payloads carry it
   // at the top level; older snapshots don't, in which case we leave it []
   // and the UI falls back to the `crossSourceCount` digit + `verified` bit.
-  const rawSources = Array.isArray(raw.sources)
-    ? (raw.sources as unknown[])
+  const nestedRaw = asRecord(raw.raw);
+  const sourceList = Array.isArray(raw.sources)
+    ? raw.sources
+    : Array.isArray(nestedRaw?.sources)
+      ? nestedRaw.sources
+      : [];
+  const rawSources = Array.isArray(sourceList)
+    ? (sourceList as unknown[])
         .map((s) => asString(s)?.toLowerCase())
         .filter((s): s is string => Boolean(s))
     : [];
@@ -1725,6 +1816,75 @@ function dedupeItems(items: EcosystemLeaderboardItem[]): EcosystemLeaderboardIte
   return out;
 }
 
+export function sourceNativeRankValue(item: EcosystemLeaderboardItem): number {
+  const first = item.sourceRanks?.[0];
+  if (!first || !Number.isFinite(first.rank) || first.rank <= 0) {
+    return Number.POSITIVE_INFINITY;
+  }
+  return first.rank;
+}
+
+export function compareBySourceNativeRank(
+  a: EcosystemLeaderboardItem,
+  b: EcosystemLeaderboardItem,
+): number {
+  const ra = sourceNativeRankValue(a);
+  const rb = sourceNativeRankValue(b);
+  if (ra !== rb) return ra - rb;
+  const sa = sourcePriority(a.primaryRankSource ?? a.sourceRanks?.[0]?.source);
+  const sb = sourcePriority(b.primaryRankSource ?? b.sourceRanks?.[0]?.source);
+  if (sa !== sb) return sa - sb;
+  const csa = a.crossSourceCount ?? 1;
+  const csb = b.crossSourceCount ?? 1;
+  if (csb !== csa) return csb - csa;
+  const ma = a.sourceMetricValue ?? a.popularity ?? 0;
+  const mb = b.sourceMetricValue ?? b.popularity ?? 0;
+  if (mb !== ma) return mb - ma;
+  return (b.signalScore ?? 0) - (a.signalScore ?? 0);
+}
+
+function sourcePriority(source: string | null | undefined): number {
+  const s = (source ?? "").toLowerCase();
+  if (s.startsWith("skills.sh")) return 0;
+  if (s.includes("smithery")) return 1;
+  if (s.includes("skillsmp")) return 2;
+  if (s.includes("github")) return 3;
+  if (s.includes("lobehub")) return 4;
+  return 10;
+}
+
+function sourceRankSignals(signal: {
+  source: string;
+  rank: number | null | undefined;
+  total?: number | null;
+  metricLabel?: string | null;
+  metricValue?: number | null;
+}): SourceRankSignal[] {
+  if (!Number.isFinite(signal.rank) || !signal.rank || signal.rank <= 0) {
+    return [];
+  }
+  return [
+    {
+      source: signal.source,
+      rank: Math.round(signal.rank),
+      total:
+        signal.total !== null &&
+        signal.total !== undefined &&
+        Number.isFinite(signal.total) &&
+        signal.total > 0
+          ? Math.round(signal.total)
+          : null,
+      metricLabel: signal.metricLabel ?? null,
+      metricValue:
+        signal.metricValue !== null &&
+        signal.metricValue !== undefined &&
+        Number.isFinite(signal.metricValue)
+          ? signal.metricValue
+          : null,
+    },
+  ];
+}
+
 function attribution(item: EcosystemLeaderboardItem): string {
   const bits = [item.sourceLabel];
   if (item.author) bits.push(item.author);
@@ -1756,6 +1916,11 @@ function asNumber(value: unknown): number | null {
   return Number.isFinite(n) ? n : null;
 }
 
+function asOptionalNumber(value: unknown): number | null {
+  if (value === null || value === undefined || value === "") return null;
+  return asNumber(value);
+}
+
 function asBoolean(value: unknown): boolean {
   return value === true || value === "true";
 }
@@ -1763,6 +1928,17 @@ function asBoolean(value: unknown): boolean {
 function leafName(value: string | null | undefined): string | null {
   if (!value) return null;
   return value.split("/").pop() ?? value;
+}
+
+function cleanSkillTitle(value: string | null): string | null {
+  if (!value) return null;
+  const clean = value
+    .replace(/\\+/g, " ")
+    .replace(/\*\*/g, "")
+    .replace(/^UN\s+/i, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  return clean.length > 0 ? clean : value;
 }
 
 function pickByKeys<T>(map: Record<string, T>, keys: ReadonlyArray<string>): T | undefined {

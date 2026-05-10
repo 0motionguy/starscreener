@@ -55,6 +55,7 @@
 import { resolve } from "path";
 import { writeFileSync, mkdirSync, existsSync } from "fs";
 
+import "./_load-env.mjs";
 import { writeDataStore } from "./_data-store-write.mjs";
 
 const PROJECT_ROOT = resolve(process.cwd());
@@ -475,13 +476,14 @@ async function main() {
     `[sec-form-d] wrote ${signals.length} signals → ${outputPath}`,
   );
 
-  try {
-    await writeDataStore("funding-news-sec", payload);
-    console.log(`[sec-form-d] redis write ok → funding-news-sec`);
-  } catch (err) {
-    console.warn(
-      `[sec-form-d] redis write skipped: ${err.message}`,
-    );
+  if (outputPath === OUT_PATH) {
+    const redisResult = await writeDataStore("funding-news-sec", payload);
+    if (redisResult.source !== "redis") {
+      throw new Error(
+        "funding-news-sec data-store write skipped; set REDIS_URL or Upstash env",
+      );
+    }
+    console.log("[sec-form-d] redis write ok -> funding-news-sec");
   }
 }
 

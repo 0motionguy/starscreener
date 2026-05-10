@@ -17,10 +17,14 @@ import { applyPublicGate, annotateWithMetadata, rollUpModels } from "@/lib/llm/d
 import type { ModelMeta } from "@/lib/llm/types";
 
 export const runtime = "nodejs";
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 const READ_HEADERS = {
   "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+} as const;
+const INTERNAL_HEADERS = {
+  "Cache-Control": "private, no-store",
+  Vary: "Authorization, Cookie",
 } as const;
 
 export async function GET(request: NextRequest) {
@@ -36,7 +40,10 @@ export async function GET(request: NextRequest) {
   const rollup = applyPublicGate(rollUpModels(byModel, days), { internal });
   const annotated = annotateWithMetadata(rollup, metaById);
 
-  return NextResponse.json({ window_days: days, models: annotated }, { headers: READ_HEADERS });
+  return NextResponse.json(
+    { window_days: days, models: annotated },
+    { headers: internal ? INTERNAL_HEADERS : READ_HEADERS },
+  );
 }
 
 function isInternal(request: NextRequest): boolean {

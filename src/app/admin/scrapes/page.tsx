@@ -259,7 +259,7 @@ export default async function AdminScrapesPage() {
                           color:
                             row.lastErrorReason === null
                               ? "var(--v4-ink-400, #6b7280)"
-                              : "var(--v4-sig-red, #ef4444)",
+                              : "var(--v4-red, #ef4444)",
                         }}
                         title={row.lastErrorReason ?? ""}
                       >

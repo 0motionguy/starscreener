@@ -10,6 +10,8 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("search", () => {
+  test.setTimeout(45_000);
+
   test("loads page-head hero and accepts a query", async ({ page }) => {
     const response = await page.goto("/search", { waitUntil: "domcontentloaded" });
     expect(response?.ok()).toBe(true);
@@ -19,11 +21,18 @@ test.describe("search", () => {
     await expect(pageHead).toBeVisible();
     await expect(pageHead.locator("h1")).toContainText(/search every repo/i);
 
-    // SearchBar input — placeholder is "Search repos..." (see SearchBar.tsx).
-    const searchInput = page.getByPlaceholder(/Search repos/i).first();
+    // Scope to the in-page search panel so the global header search cannot
+    // steal the interaction on slower chunk loads.
+    const searchPanel = page.locator(".search-command-panel").first();
+    await expect(searchPanel).toBeVisible({ timeout: 30_000 });
+
+    const searchInput = searchPanel.getByRole("textbox", {
+      name: /search repos by name, language, topic/i,
+    });
     await expect(searchInput).toBeVisible();
 
     await searchInput.fill("react");
+    await expect(searchInput).toHaveValue("react");
     await searchInput.press("Enter");
 
     await expect(page).toHaveURL(/\/search\?q=react/i, { timeout: 10_000 });

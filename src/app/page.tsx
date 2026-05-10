@@ -24,13 +24,6 @@ import {
   synthesizeSparkline,
 } from "@/lib/derived-repos/sparkline";
 import { BubbleMap } from "@/components/terminal/BubbleMap";
-import { EChart } from "@/components/charts/EChart";
-import {
-  EChartSparkline,
-  type EChartSparklineProps,
-} from "@/components/charts/EChartSparkline";
-import { EChartSparkmatrix } from "@/components/charts/EChartSparkmatrix";
-import { CHART_TOKENS } from "@/lib/charts/theme";
 import { HomeEmptyState } from "@/components/home/HomeEmptyState";
 import { FunnelMount } from "@/components/analytics/FunnelMount";
 import { Card, CardHeader } from "@/components/ui/Card";
@@ -52,7 +45,6 @@ import {
   type CategoryFacet,
 } from "@/components/home/LiveTopTable";
 import { CATEGORIES } from "@/lib/constants";
-import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { NewsletterCaptureForm } from "@/components/newsletter/NewsletterCaptureForm";
 import { repoLogoUrl } from "@/lib/logos";
 import type { Repo } from "@/lib/types";
@@ -330,25 +322,75 @@ function topCategoryFallback(
   return topByDelta(filtered.length > 0 ? filtered : repos, limit);
 }
 
-function formatPct(delta: number, base: number): string | null {
-  const pct = percentDelta(delta, base);
-  if (pct === null) return null;
-  return `${pct >= 0 ? "+" : ""}${pct}%`;
+interface SparklineProps {
+  values: number[];
+  color?: string;
+  className?: string;
+  width?: number | string;
+  height?: number | string;
+  area?: boolean;
+  ariaLabel?: string;
 }
 
-// Mini sparkline: backed by ECharts canvas via the shared EChartSparkline
-// wrapper. Replaces the prior inline-SVG version (sparkPath +
-// stableSparkGradientId + 3 helper math walks). Bigger default size (84×28
-// vs 72×24), animated draw on first paint, hover tooltip, smoother canvas
-// anti-aliased line. Wrapper preserves the old prop defaults so call sites
-// don't shift colour: `var(--sig-green)` → resolves to functional green
-// inside the wrapper, `spark` className keeps the existing CSS hooks.
+function numericDimension(value: number | string | undefined, fallback: number): number {
+  return typeof value === "number" ? value : fallback;
+}
+
+function sparkPath(values: number[], width: number, height: number): string {
+  if (values.length < 2) return "";
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = max - min || 1;
+  const dx = width / (values.length - 1);
+  const y = (v: number) => height - 2 - ((v - min) / span) * (height - 4);
+  return values
+    .map((v, i) => `${i === 0 ? "M" : "L"}${(i * dx).toFixed(2)},${y(v).toFixed(2)}`)
+    .join(" ");
+}
+
+// Inline SVG keeps the homepage chart bytes server-rendered and avoids
+// pulling the ECharts runtime into `/` for small decorative trend lines.
 function Sparkline({
   color = "var(--sig-green)",
   className = "spark",
-  ...rest
-}: EChartSparklineProps) {
-  return <EChartSparkline color={color} className={className} {...rest} />;
+  values,
+  width = 84,
+  height = 28,
+  area = false,
+  ariaLabel,
+}: SparklineProps) {
+  const viewWidth = numericDimension(width, 120);
+  const viewHeight = numericDimension(height, 28);
+  const d = sparkPath(values, viewWidth, viewHeight);
+  const areaD = d
+    ? `${d} L${viewWidth.toFixed(2)},${viewHeight.toFixed(2)} L0,${viewHeight.toFixed(2)} Z`
+    : "";
+  return (
+    <svg
+      className={className}
+      width={width}
+      height={height}
+      viewBox={`0 0 ${viewWidth} ${viewHeight}`}
+      preserveAspectRatio="none"
+      role={ariaLabel ? "img" : undefined}
+      aria-label={ariaLabel}
+      aria-hidden={ariaLabel ? undefined : true}
+    >
+      {area && areaD ? (
+        <path d={areaD} fill={color} opacity={0.16} />
+      ) : null}
+      {d ? (
+        <path
+          d={d}
+          fill="none"
+          stroke={color}
+          strokeWidth={1.6}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      ) : null}
+    </svg>
+  );
 }
 
 function EntityHeroRow({
@@ -496,13 +538,12 @@ function ConsensusRow({ repo, index }: { repo: Repo; index: number }) {
             </span>
           ))}
         </span>
-        <EChartSparkmatrix
+        <Sparkline
           values={repo.sparklineData}
           className="spark-mini cons-matrix"
           width="100%"
           height={22}
           color="var(--sig-green)"
-          tooltipLabel="stars"
         />
       </div>
     </a>
@@ -542,7 +583,6 @@ function BreakoutRow({ repo, index }: { repo: Repo; index: number }) {
           width={108}
           height={26}
           color={sparkColor}
-          tooltipLabel="stars"
         />
         <span className="lbl">{velocityRatio.toFixed(1)}x 7d avg</span>
       </span>
@@ -601,7 +641,6 @@ function FeaturedCard({
         color={sparkColor}
         width="100%"
         height={index === 0 ? 56 : 44}
-        tooltipLabel={entity.stars ? "stars" : "score"}
       />
       <div className="stats">
         <span>
@@ -937,62 +976,17 @@ export default async function HomePage() {
                   0,
                 ),
             );
-            const indexOption =
-              indexSeries.length >= 2
-                ? {
-                    animationDuration: 0,
-                    grid: {
-                      top: 12,
-                      right: 16,
-                      bottom: 24,
-                      left: 16,
-                      containLabel: false,
-                    },
-                    xAxis: {
-                      type: "category" as const,
-                      show: false,
-                      boundaryGap: false,
-                      data: indexSeries.map((_, i) => String(i)),
-                    },
-                    yAxis: {
-                      type: "value" as const,
-                      show: false,
-                      scale: true,
-                    },
-                    tooltip: { show: false },
-                    series: [
-                      {
-                        type: "line" as const,
-                        name: "TR-100 Index",
-                        data: indexSeries,
-                        showSymbol: false,
-                        smooth: false,
-                        lineStyle: { width: 2, color: CHART_TOKENS.accent },
-                        areaStyle: {
-                          color: {
-                            type: "linear" as const,
-                            x: 0,
-                            y: 0,
-                            x2: 0,
-                            y2: 1,
-                            colorStops: [
-                              { offset: 0, color: "rgba(255, 107, 53, 0.32)" },
-                              { offset: 1, color: "rgba(255, 107, 53, 0)" },
-                            ],
-                          },
-                        },
-                        animationDuration: 0,
-                      },
-                    ],
-                  }
-                : null;
             return (
               <>
                 <div className="chart-wrap">
-                  {indexOption ? (
-                    <EChart
-                      option={indexOption}
+                  {indexSeries.length >= 2 ? (
+                    <Sparkline
+                      values={indexSeries}
+                      className="tr-index-svg"
+                      width="100%"
                       height={280}
+                      color="var(--acc)"
+                      area
                       ariaLabel="TrendingRepo top-5 leader index, last 30 days"
                     />
                   ) : null}

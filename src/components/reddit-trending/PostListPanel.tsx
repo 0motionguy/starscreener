@@ -1,10 +1,9 @@
 "use client";
 
 // Lazy-loaded panel for the list-style tabs (trending-now / hot-7d / hot-30d).
-// Split out of AllTrendingTabs (AGN-455) so the framer-motion `motion.li`
-// row component only ships when one of these tabs is actually selected.
+// Split out of AllTrendingTabs (AGN-455) so row markup only ships when one
+// of these tabs is actually selected.
 
-import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { ChevronUp, MessageSquare } from "lucide-react";
 import { BaselinePill } from "@/components/reddit/BaselinePill";
@@ -34,7 +33,6 @@ interface PostRowProps {
 }
 
 function PostRow({ post: p, velocityP90, velocityStats, onSubClick }: PostRowProps) {
-  const reduceMotion = useReducedMotion();
   const primaryRepo =
     p.linkedRepos && p.linkedRepos.length > 0
       ? p.linkedRepos[0].fullName
@@ -55,11 +53,7 @@ function PostRow({ post: p, velocityP90, velocityStats, onSubClick }: PostRowPro
   const showVelocity = (p.trendingScore ?? 0) >= velocityP90;
 
   return (
-    <motion.li
-      whileHover={reduceMotion ? undefined : { y: -2, scale: 1.005 }}
-      transition={
-        reduceMotion ? { duration: 0 } : { duration: 0.15, ease: "easeOut" }
-      }
+    <li
       // Cheap virtualization (2026-05-08): off-screen rows skip layout/paint
       // via content-visibility. ~80% of the perf win of react-window with
       // zero deps and full SSR compatibility. contain-intrinsic-size reserves
@@ -70,7 +64,8 @@ function PostRow({ post: p, velocityP90, velocityStats, onSubClick }: PostRowPro
       }}
       className={cn(
         "group relative block border border-border-primary rounded-xl bg-bg-card shadow-card p-4 sm:p-5",
-        "transition-[border-color,box-shadow,background-color] duration-200",
+        "transition-[border-color,box-shadow,background-color,transform] duration-200 motion-reduce:transition-none",
+        "motion-safe:hover:-translate-y-0.5 motion-safe:hover:scale-[1.005]",
         "hover:border-brand/40 hover:shadow-[0_8px_24px_-8px_rgba(245,110,15,0.25)]",
         tc.row,
         tc.contentOpacity,
@@ -196,7 +191,7 @@ function PostRow({ post: p, velocityP90, velocityStats, onSubClick }: PostRowPro
           )}
         </div>
       </div>
-    </motion.li>
+    </li>
   );
 }
 

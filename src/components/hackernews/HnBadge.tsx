@@ -49,7 +49,7 @@ export function HnBadge({ mention, size = "sm" }: HnBadgeProps) {
   const sizeClasses = size === "md" ? "h-6 px-2 text-xs" : "h-5 px-1.5 text-[10px]";
 
   // <button> not <a> — these badges live inside parent <Link> rows
-  // (CrossSignalBreakouts, RepoCard, sidebar watchlist, terminal repo cell).
+  // (repo detail, sidebar watchlist, terminal repo cell).
   // Nested <a> is invalid HTML and breaks Next hydration. Click handler
   // stops propagation + opens HN in a new tab via window.open.
   return (

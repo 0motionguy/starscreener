@@ -13,7 +13,6 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { motion, useReducedMotion } from "framer-motion";
 import { Flame, TrendingUp, Users } from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
 import {
@@ -26,8 +25,8 @@ import type { RedditAllPost } from "@/lib/reddit-all";
 import { cn } from "@/lib/utils";
 import type { VelocityStats } from "./trending-helpers";
 
-// Lazy-load tab panel chunks (AGN-455). Each tab's framer-motion-heavy row
-// component (PostRow / PostRowCompact) only ships once that tab is selected.
+// Lazy-load tab panel chunks (AGN-455). Each tab's heavier row component
+// (PostRow / PostRowCompact) only ships once that tab is selected.
 // `ssr:false` keeps the panels off the server bundle so the initial HTML is
 // just the tab strip + skeleton; activating a tab swaps in the real list.
 const PostListPanel = dynamic(() => import("./PostListPanel"), {
@@ -161,7 +160,6 @@ function PanelSkeleton() {
 }
 
 export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
-  const reduceMotion = useReducedMotion();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -316,9 +314,8 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
       {/* Content-type chips */}
       <ContentTagChips counts={chipCounts} hiddenCount={hiddenCount} />
 
-      {/* Terminal-grade tab strip — bottom-border indicator animated via
-          framer-motion `layoutId` so the brand bar slides between active
-          tabs instead of cross-fading. Horizontally scrollable on mobile. */}
+      {/* Terminal-grade tab strip — bottom-border indicator uses a
+          CSS-only active indicator. Horizontally scrollable on mobile. */}
       <div
         role="tablist"
         className="relative flex items-center gap-0 mb-3 border-b border-border-primary flex-nowrap overflow-x-auto scrollbar-hide"
@@ -371,17 +368,11 @@ export function AllTrendingTabs({ posts }: { posts: RedditAllPost[] }) {
                   className="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-brand/0 group-hover:bg-brand/40 transition-colors duration-150"
                 />
               ) : null}
-              {/* Animated active indicator — shared layoutId slides between tabs */}
+              {/* Active indicator */}
               {active ? (
-                <motion.span
-                  layoutId="trendingTabIndicator"
+                <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute bottom-0 left-0 right-0 h-[2px] bg-brand"
-                  transition={
-                    reduceMotion
-                      ? { duration: 0 }
-                      : { type: "spring", stiffness: 380, damping: 30 }
-                  }
+                  className="pointer-events-none absolute bottom-0 left-0 right-0 h-[2px] bg-brand transition-opacity duration-150 motion-reduce:transition-none"
                 />
               ) : null}
             </Link>

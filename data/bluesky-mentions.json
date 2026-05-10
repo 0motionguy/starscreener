@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-08T23:12:10.441Z",
+  "fetchedAt": "2026-05-09T03:38:43.043Z",
   "windowDays": 7,
-  "scannedPosts": 298,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
@@ -538,7 +538,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T22:02:15.847520Z",
-        "hoursSincePosted": 1.17
+        "hoursSincePosted": 5.61
       },
       "posts": [
         {
@@ -555,7 +555,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T22:02:15.847520Z",
           "createdUtc": 1778277735,
-          "ageHours": 1.17,
+          "ageHours": 5.61,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -3953,7 +3953,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T21:30:49Z",
-        "hoursSincePosted": 1.69
+        "hoursSincePosted": 6.13
       },
       "posts": [
         {
@@ -3970,7 +3970,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T21:30:49Z",
           "createdUtc": 1778275849,
-          "ageHours": 1.69,
+          "ageHours": 6.13,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -4030,6 +4030,208 @@
           "linkedRepos": [
             {
               "fullName": "openai/codex",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics/claude-code": {
+      "count7d": 1,
+      "likesSum7d": 3,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:i4tfenpfog244rxry5uz4vtk/app.bsky.feed.post/3mlfbtav2gk2q",
+        "cid": "bafyreid5ornx2bchqxnlazfews2wkrhbkiodfunl4mrtbzz3lcrhbdqdaq",
+        "bskyUrl": "https://bsky.app/profile/lizthegrey.com/post/3mlfbtav2gk2q",
+        "text": "For posterity: I asked @anthropic.com what was happening with the 5m cache TTL issue. Here's what their response was: github.com/anthropics/c... I view the matter as resolved, and think the tooling is now in place for devs to be able to control TTL going forward.",
+        "author": {
+          "handle": "lizthegrey.com",
+          "displayName": "Liz Fong-Jones (方禮真)"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T03:17:01.466Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:i4tfenpfog244rxry5uz4vtk/app.bsky.feed.post/3mlfbtav2gk2q",
+          "cid": "bafyreid5ornx2bchqxnlazfews2wkrhbkiodfunl4mrtbzz3lcrhbdqdaq",
+          "bskyUrl": "https://bsky.app/profile/lizthegrey.com/post/3mlfbtav2gk2q",
+          "text": "For posterity: I asked @anthropic.com what was happening with the 5m cache TTL issue. Here's what their response was: github.com/anthropics/c... I view the matter as resolved, and think the tooling is now in place for devs to be able to control TTL going forward.",
+          "author": {
+            "handle": "lizthegrey.com",
+            "displayName": "Liz Fong-Jones (方禮真)"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T03:17:01.466Z",
+          "createdUtc": 1778296621,
+          "ageHours": 0.5,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Einsia/OpenChronicle": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlfbaoggw32t",
+        "cid": "bafyreieelr2apkzxyjd42wlimwgavcaqnjq4vt5m6abvof5xcsrjbronqm",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlfbaoggw32t",
+        "text": "https://github.com/Einsia/OpenChronicle",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T03:06:37Z",
+        "hoursSincePosted": 0.54
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlfbaoggw32t",
+          "cid": "bafyreieelr2apkzxyjd42wlimwgavcaqnjq4vt5m6abvof5xcsrjbronqm",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlfbaoggw32t",
+          "text": "https://github.com/Einsia/OpenChronicle",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T03:06:37Z",
+          "createdUtc": 1778295997,
+          "ageHours": 0.54,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Einsia/OpenChronicle",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "elementalsouls/Claude-OSINT": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mleypxyw4t2s",
+        "cid": "bafyreids5lpxdlhoxtknsaxot6uxvpanr3jmk4d3svlskgp56epprauptq",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mleypxyw4t2s",
+        "text": "https://github.com/elementalsouls/Claude-OSINT",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T00:34:07Z",
+        "hoursSincePosted": 3.08
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mleypxyw4t2s",
+          "cid": "bafyreids5lpxdlhoxtknsaxot6uxvpanr3jmk4d3svlskgp56epprauptq",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mleypxyw4t2s",
+          "text": "https://github.com/elementalsouls/Claude-OSINT",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T00:34:07Z",
+          "createdUtc": 1778286847,
+          "ageHours": 3.08,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "elementalsouls/Claude-OSINT",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "z-lab/dflash": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:7rsiexy72plg2yinrulidc2a/app.bsky.feed.post/3mleufjahss26",
+        "cid": "bafyreihx7p6uhdqkyjfylaywe2pgbktndjbyvpxbshgpz4rzbfenlsvwru",
+        "bskyUrl": "https://bsky.app/profile/braintelligence.bsky.social/post/3mleufjahss26",
+        "text": "I’ve been saying we’ll see more hybrid diffusion transformer models for a while, didn’t expect this to be with the diffusion model being a speculative decoder— researchers claiming 400+ tokens/s on consumer hardware I think 1000t/s is the sweet spot for functional novel UIs github.com/z-lab/dflash",
+        "author": {
+          "handle": "braintelligence.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T23:16:41.823Z",
+        "hoursSincePosted": 4.37
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:7rsiexy72plg2yinrulidc2a/app.bsky.feed.post/3mleufjahss26",
+          "cid": "bafyreihx7p6uhdqkyjfylaywe2pgbktndjbyvpxbshgpz4rzbfenlsvwru",
+          "bskyUrl": "https://bsky.app/profile/braintelligence.bsky.social/post/3mleufjahss26",
+          "text": "I’ve been saying we’ll see more hybrid diffusion transformer models for a while, didn’t expect this to be with the diffusion model being a speculative decoder— researchers claiming 400+ tokens/s on consumer hardware I think 1000t/s is the sweet spot for functional novel UIs github.com/z-lab/dflash",
+          "author": {
+            "handle": "braintelligence.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T23:16:41.823Z",
+          "createdUtc": 1778282201,
+          "ageHours": 4.37,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "z-lab/dflash",
               "matchType": "url",
               "confidence": 1
             }
@@ -4572,7 +4774,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T22:02:15.847520Z",
-        "hoursSincePosted": 1.17
+        "hoursSincePosted": 5.61
       },
       "posts": [
         {
@@ -4589,7 +4791,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T22:02:15.847520Z",
           "createdUtc": 1778277735,
-          "ageHours": 1.17,
+          "ageHours": 5.61,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -7987,7 +8189,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-08T21:30:49Z",
-        "hoursSincePosted": 1.69
+        "hoursSincePosted": 6.13
       },
       "posts": [
         {
@@ -8004,7 +8206,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-08T21:30:49Z",
           "createdUtc": 1778275849,
-          "ageHours": 1.69,
+          "ageHours": 6.13,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -8070,12 +8272,224 @@
           ]
         }
       ]
+    },
+    "anthropics--claude-code": {
+      "count7d": 1,
+      "likesSum7d": 3,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:i4tfenpfog244rxry5uz4vtk/app.bsky.feed.post/3mlfbtav2gk2q",
+        "cid": "bafyreid5ornx2bchqxnlazfews2wkrhbkiodfunl4mrtbzz3lcrhbdqdaq",
+        "bskyUrl": "https://bsky.app/profile/lizthegrey.com/post/3mlfbtav2gk2q",
+        "text": "For posterity: I asked @anthropic.com what was happening with the 5m cache TTL issue. Here's what their response was: github.com/anthropics/c... I view the matter as resolved, and think the tooling is now in place for devs to be able to control TTL going forward.",
+        "author": {
+          "handle": "lizthegrey.com",
+          "displayName": "Liz Fong-Jones (方禮真)"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T03:17:01.466Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:i4tfenpfog244rxry5uz4vtk/app.bsky.feed.post/3mlfbtav2gk2q",
+          "cid": "bafyreid5ornx2bchqxnlazfews2wkrhbkiodfunl4mrtbzz3lcrhbdqdaq",
+          "bskyUrl": "https://bsky.app/profile/lizthegrey.com/post/3mlfbtav2gk2q",
+          "text": "For posterity: I asked @anthropic.com what was happening with the 5m cache TTL issue. Here's what their response was: github.com/anthropics/c... I view the matter as resolved, and think the tooling is now in place for devs to be able to control TTL going forward.",
+          "author": {
+            "handle": "lizthegrey.com",
+            "displayName": "Liz Fong-Jones (方禮真)"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T03:17:01.466Z",
+          "createdUtc": 1778296621,
+          "ageHours": 0.5,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "einsia--openchronicle": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlfbaoggw32t",
+        "cid": "bafyreieelr2apkzxyjd42wlimwgavcaqnjq4vt5m6abvof5xcsrjbronqm",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlfbaoggw32t",
+        "text": "https://github.com/Einsia/OpenChronicle",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T03:06:37Z",
+        "hoursSincePosted": 0.54
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlfbaoggw32t",
+          "cid": "bafyreieelr2apkzxyjd42wlimwgavcaqnjq4vt5m6abvof5xcsrjbronqm",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlfbaoggw32t",
+          "text": "https://github.com/Einsia/OpenChronicle",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T03:06:37Z",
+          "createdUtc": 1778295997,
+          "ageHours": 0.54,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Einsia/OpenChronicle",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "elementalsouls--claude-osint": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mleypxyw4t2s",
+        "cid": "bafyreids5lpxdlhoxtknsaxot6uxvpanr3jmk4d3svlskgp56epprauptq",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mleypxyw4t2s",
+        "text": "https://github.com/elementalsouls/Claude-OSINT",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-09T00:34:07Z",
+        "hoursSincePosted": 3.08
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mleypxyw4t2s",
+          "cid": "bafyreids5lpxdlhoxtknsaxot6uxvpanr3jmk4d3svlskgp56epprauptq",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mleypxyw4t2s",
+          "text": "https://github.com/elementalsouls/Claude-OSINT",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-09T00:34:07Z",
+          "createdUtc": 1778286847,
+          "ageHours": 3.08,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "elementalsouls/Claude-OSINT",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "z-lab--dflash": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:7rsiexy72plg2yinrulidc2a/app.bsky.feed.post/3mleufjahss26",
+        "cid": "bafyreihx7p6uhdqkyjfylaywe2pgbktndjbyvpxbshgpz4rzbfenlsvwru",
+        "bskyUrl": "https://bsky.app/profile/braintelligence.bsky.social/post/3mleufjahss26",
+        "text": "I’ve been saying we’ll see more hybrid diffusion transformer models for a while, didn’t expect this to be with the diffusion model being a speculative decoder— researchers claiming 400+ tokens/s on consumer hardware I think 1000t/s is the sweet spot for functional novel UIs github.com/z-lab/dflash",
+        "author": {
+          "handle": "braintelligence.bsky.social"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-08T23:16:41.823Z",
+        "hoursSincePosted": 4.37
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:7rsiexy72plg2yinrulidc2a/app.bsky.feed.post/3mleufjahss26",
+          "cid": "bafyreihx7p6uhdqkyjfylaywe2pgbktndjbyvpxbshgpz4rzbfenlsvwru",
+          "bskyUrl": "https://bsky.app/profile/braintelligence.bsky.social/post/3mleufjahss26",
+          "text": "I’ve been saying we’ll see more hybrid diffusion transformer models for a while, didn’t expect this to be with the diffusion model being a speculative decoder— researchers claiming 400+ tokens/s on consumer hardware I think 1000t/s is the sweet spot for functional novel UIs github.com/z-lab/dflash",
+          "author": {
+            "handle": "braintelligence.bsky.social"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-08T23:16:41.823Z",
+          "createdUtc": 1778282201,
+          "ageHours": 4.37,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "z-lab/dflash",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "addyosmani/agent-skills",
-      "count7d": 2,
+      "fullName": "anthropics/claude-code",
+      "count7d": 1,
+      "likesSum7d": 3
+    },
+    {
+      "fullName": "Einsia/OpenChronicle",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "elementalsouls/Claude-OSINT",
+      "count7d": 1,
       "likesSum7d": 0
     },
     {
@@ -8084,27 +8498,12 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "JuliusBrussee/caveman",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "junhoyeo/tokscale",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "niri-wm/niri",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "openai/codex",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
       "fullName": "yvgude/lean-ctx",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "z-lab/dflash",
       "count7d": 1,
       "likesSum7d": 0
     }

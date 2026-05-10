@@ -10,10 +10,14 @@ import { getDailyByModel, refreshModelUsageFromStore } from "@/lib/model-usage";
 import { applyPublicGate, type ModelRollup, rollUpModels } from "@/lib/llm/derive";
 
 export const runtime = "nodejs";
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 const READ_HEADERS = {
   "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+} as const;
+const INTERNAL_HEADERS = {
+  "Cache-Control": "private, no-store",
+  Vary: "Authorization, Cookie",
 } as const;
 
 type RankMetric = 'usage' | 'cost' | 'latency' | 'reliability';
@@ -57,7 +61,7 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json(
     { metric, window_days: days, rankings: ranked },
-    { headers: READ_HEADERS },
+    { headers: internal ? INTERNAL_HEADERS : READ_HEADERS },
   );
 }
 

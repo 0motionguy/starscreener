@@ -1,12 +1,13 @@
-// Public read endpoint for the trending-skill leaderboard the worker
-// publishes to ss:data:v1:trending-skill. 6h cron => 12h staleness budget
-// covers one missed tick (worker restart, network blip) before we 503.
+// Public read endpoint for skills leaderboards.
 //
-// Mirrors the shape of /api/worker/pulse so the frontend can poll both
-// endpoints with the same client code.
+// Default response is the legacy `trending-skill` shape so existing API
+// consumers keep working. Use `?v=2` or `?shape=combined` for the same
+// combined multi-source board used by /skills.
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { getSkillsSignalData } from "@/lib/ecosystem-leaderboards";
 import { getDataStore } from "@/lib/data-store";
+import { READ_MEDIUM_HEADERS } from "@/lib/api/cache";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -38,10 +39,22 @@ interface SkillsPayload {
   }>;
 }
 
-const STALE_AFTER_SECONDS = 12 * 3600;
+const LEGACY_STALE_AFTER_SECONDS = 12 * 3600;
+const COMBINED_STALE_AFTER_SECONDS = 36 * 3600;
 const TOP_PREVIEW = 10;
+const MAX_LIMIT = 1000;
+const DEFAULT_LIMIT = MAX_LIMIT;
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const version = request.nextUrl.searchParams.get("v");
+  const shape = request.nextUrl.searchParams.get("shape");
+  if (version === "2" || shape === "combined") {
+    return getCombinedSkills(request);
+  }
+  return getLegacySkills();
+}
+
+async function getLegacySkills() {
   const store = getDataStore();
   const result = await store.read<SkillsPayload>("trending-skill");
 
@@ -52,12 +65,12 @@ export async function GET() {
         source: result.source,
         message: "trending-skill key not found in any data-store tier",
       },
-      { status: 503 },
+      { status: 503, headers: READ_MEDIUM_HEADERS },
     );
   }
 
   const ageSeconds = Math.round(result.ageMs / 1000);
-  const stale = ageSeconds > STALE_AFTER_SECONDS;
+  const stale = ageSeconds > LEGACY_STALE_AFTER_SECONDS;
 
   return NextResponse.json(
     {
@@ -79,6 +92,43 @@ export async function GET() {
         source_topics: s.source_topics,
       })),
     },
-    { status: stale ? 503 : 200 },
+    { status: stale ? 503 : 200, headers: READ_MEDIUM_HEADERS },
+  );
+}
+
+async function getCombinedSkills(request: NextRequest) {
+  const limitParam = Number(request.nextUrl.searchParams.get("limit"));
+  const limit = Number.isFinite(limitParam)
+    ? Math.max(1, Math.min(MAX_LIMIT, Math.floor(limitParam)))
+    : DEFAULT_LIMIT;
+  const data = await getSkillsSignalData();
+  const ageSeconds = Math.round(data.ageMs / 1000);
+  const stale = ageSeconds > COMBINED_STALE_AFTER_SECONDS;
+
+  return NextResponse.json(
+    {
+      ok: !stale,
+      source: data.source,
+      writtenAt: data.fetchedAt,
+      ageSeconds,
+      total: data.combined.items.length,
+      returned: Math.min(limit, data.combined.items.length),
+      sources: data.combined.meta,
+      items: data.combined.items.slice(0, limit).map((item) => ({
+        rank: item.rank,
+        id: item.id,
+        title: item.title,
+        url: item.url,
+        author: item.author,
+        linkedRepo: item.linkedRepo,
+        source: item.primaryRankSource ?? item.sourceLabel,
+        sourceRanks: item.sourceRanks ?? [],
+        metricLabel: item.sourceMetricLabel ?? item.popularityLabel,
+        metricValue: item.sourceMetricValue ?? item.popularity,
+        cited: item.derivativeRepoCount ?? 0,
+        signalScore: item.signalScore,
+      })),
+    },
+    { status: stale ? 503 : 200, headers: READ_MEDIUM_HEADERS },
   );
 }

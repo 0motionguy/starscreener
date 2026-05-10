@@ -430,15 +430,15 @@ function Metric({
   const pct = Number(deltaPct) || 0;
   const deltaColor =
     delta > 0
-      ? "var(--v4-sig-green)"
+      ? "var(--v4-money)"
       : delta < 0
-        ? "var(--v4-sig-red)"
+        ? "var(--v4-red)"
         : "var(--v4-ink-300)";
   const pctColor =
     pct > 0
-      ? "var(--v4-sig-green)"
+      ? "var(--v4-money)"
       : pct < 0
-        ? "var(--v4-sig-red)"
+        ? "var(--v4-red)"
         : "var(--v4-ink-400)";
   return (
     <div className="text-right text-xs tabular-nums">

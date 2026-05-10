@@ -6,28 +6,33 @@
 
 **Cache column**: each route table in §3 carries a `Cache` column with one of `ISR` / `static` / `dynamic` / `private`. Values track the canonical cache policy declared in [`perf/routes.json`](../perf/routes.json) — that file is the source of truth for cache lifetimes, revalidate windows, and per-route performance budgets. When the policy diverges between this map and `perf/routes.json`, treat `perf/routes.json` as canonical and bring this doc back into sync. (Note: `perf/routes.json` lives in main checkout; in branches that predate PR1 it may not be present, which is fine — the column values here are still authoritative for documentation purposes.)
 
-**Last refreshed**: 2026-05-08 (added cache-policy column)
+**Last refreshed**: 2026-05-09 (route-doc cleanup against current sidebar + sitemap truth)
 
 ---
 
-## 1. Sidebar navigation — 8 sections, 31 clickable nav routes (+2 disabled placeholders)
+## 1. Sidebar navigation — 9 rendered groups, 28 fixed clickable nav routes (+2 disabled placeholders)
 
-[src/components/layout/SidebarContent.tsx](../src/components/layout/SidebarContent.tsx) defines the menu structure. Sections in render order (post-`7bf5a747` sidebar trim):
+[src/components/layout/SidebarContent.tsx](../src/components/layout/SidebarContent.tsx) defines the menu structure. Sections in render order:
 
-1. **TREND TERMINAL** — Trending Repos / Trending Skills / Trending MCP / Breakouts / Consensus
+1. **TREND TERMINAL** — Trending Repos / Trending Skills / Trending MCP / Trending AGNT / Breakouts / Consensus
 2. **SIGNAL TERMINAL** — Market Signals / Hacker News / Lobsters / Dev.to / Bluesky / Reddit / X (Twitter) / Product Hunt
-3. **LLM / PACK TERMINAL** — NPM Packages / HF Models / HF Datasets / HF Spaces
-4. **LAUNCH TERMINAL** — Funding Radar / Revenue / Agent Commerce
+3. **LLM / PACK TERMINAL** — NPM Packages / HF Models (single sidebar row; Datasets/Spaces are in-page tabs)
+4. **LAUNCH TERMINAL** — Funding Radar / Revenue / Agent Commerce / Hackathons (disabled) / Launch (disabled)
 5. **RESEARCH TERMINAL** — arXiv Papers / Cited Repos
 6. **EXPLORE** — Digest / Ideas / Collections
-7. **TOOLS** — Watchlist / Compare / Tier List / MindShare / Top 10
-8. **WATCHING** — top 5 watchlist preview cards (user-state)
+7. **TOOLS** — Watchlist / Compare / Tier List / Top 10
+8. **RECENT** — recent repo links from local browser state (dynamic)
+9. **WATCHING** — top 5 watchlist preview cards (user-state)
 
-**Orphaned but URL-reachable** (kept on disk, removed from sidebar in `7bf5a747` and prior trims): `/top` (Top 100), `/predict`, `/categories`, `/categories/[slug]`, `/pricing` (Plans), `/model-usage` (LLM Charts), `/tools/revenue-estimate` (Revenue Tool), `/submit/revenue` (Drop Revenue). BACKLOG AGN-63 tracks the keep-vs-retire decision.
+**Orphaned but URL-reachable** (kept on disk, not fixed sidebar rows): `/` (home dashboard), `/top` (Top 100), `/categories`, `/categories/[slug]`, `/pricing` (Plans), `/tools`, `/tools/star-history`, `/tools/treemap`, `/tools/revenue-estimate` (Revenue Tool), `/submit/revenue` (Drop Revenue), `/huggingface/datasets`, `/huggingface/spaces`, `/huggingface/models` (HF models alias). BACKLOG AGN-63 tracks the keep-vs-retire decision.
 
-Routes NOT in the sidebar but addressable: `/u/[handle]`, `/repo/[owner]/[name]`, `/repo/[owner]/[name]/star-activity`, `/search`, `/alerts`, `/alerts/new`, `/submit`, `/submit/revenue`, `/cli`, `/portal/docs`, `/pricing`, `/digest/[date]`, `/agent-commerce/[slug]`, `/agent-commerce/facilitator/[name]`, `/agent-repos/[slug]`, `/skills/[slug]`, `/categories/[slug]`, `/collections/[slug]`, `/consensus/[owner]/[name]`, `/mcp/[slug]`, `/ideas/[id]`, `/tierlist/[shortId]`, `/s/[shortId]`, `/embed/top10`, `/demo`, `/design-lab/primitives`, `/admin/*` (8 admin routes), `/you`.
+Routes NOT in the sidebar but addressable: `/u/[handle]`, `/repo/[owner]/[name]`, `/repo/[owner]/[name]/star-activity`, `/search`, `/alerts`, `/alerts/new`, `/submit`, `/submit/revenue`, `/cli`, `/portal/docs`, `/pricing`, `/digest/[date]`, `/agent-commerce/[slug]`, `/agent-commerce/facilitator/[name]`, `/agent-repos/[slug]`, `/skills/[slug]`, `/categories/[slug]`, `/collections/[slug]`, `/consensus/[owner]/[name]`, `/mcp/[slug]`, `/ideas/[id]`, `/tierlist/[shortId]`, `/s/[shortId]`, `/embed/top10`, `/design-lab/primitives`, `/admin/*`, `/model-usage`, `/you`, `/you/alerts`, `/you/refer`.
 
-**Total user-facing pages**: 78 page.tsx files (all have error.tsx + most have loading.tsx after this session's PROD-1 wave).
+**Sitemap / noindex truth**: [src/app/sitemap-pages.xml/route.ts](../src/app/sitemap-pages.xml/route.ts) includes `/research` in `STATIC_HUBS`. `/model-usage` and `/watchlist` are private/noindex surfaces and must stay out of sitemap output; `/model-usage` is admin-gated with explicit `robots: { index: false, follow: false }`, and `/watchlist` is user-state/local-session content.
+
+**TODO — `/you` auth/copy contradiction**: [src/app/robots.ts](../src/app/robots.ts) disallows `/you` and `/you/*`, but `/you` copy says "No account" and "local-only" browser state. Preserve current product behavior for now; reconcile whether `/you` is a private/auth-ish surface or a public local-profile surface before changing route behavior.
+
+**Current route inventory**: 97 `page.tsx` route files under `src/app` (public, private, admin, utility, and dynamic routes).
 
 ---
 
@@ -37,7 +42,7 @@ Most pages don't read raw collector output — they read derived/joined views. F
 
 | Function | Source file | Reads from | Used by routes |
 |---|---|---|---|
-| `getDerivedRepos()` | [src/lib/derived-repos.ts](../src/lib/derived-repos.ts) | trending + reddit + HN + bluesky + devto + lobsters + npm + HF + arxiv + producthunt + funding + cross-signal + scoring | `/`, `/breakouts`, `/top`, `/predict`, `/agent-repos`, `/mindshare`, `/categories/*`, `/u/[handle]`, `/search` |
+| `getDerivedRepos()` | [src/lib/derived-repos.ts](../src/lib/derived-repos.ts) | trending + reddit + HN + bluesky + devto + lobsters + npm + HF + arxiv + producthunt + funding + cross-signal + scoring | `/`, `/githubrepo`, `/breakouts`, `/top`, `/agent-repos`, `/categories/*`, `/u/[handle]`, `/search` |
 | `buildCanonicalRepoProfile()` | [src/lib/api/repo-profile.ts](../src/lib/api/repo-profile.ts) | derived repo + twitter panel + npm packages + PH launch + revenue overlays + funding events + ideas + predictions + reasons + 6 mention synthesizers | `/repo/[owner]/[name]`, `/api/repos/[owner]/[name]?v=2` |
 | `getSkillsSignalData()` | [src/lib/ecosystem-leaderboards.ts](../src/lib/ecosystem-leaderboards.ts) | skill-install-snapshot + skill-derivatives + awesome-skills + lobehub + skillsmp + smithery + 24h/7d/30d windows | `/skills`, `/skills/[slug]` |
 | `getMcpSignalData()` | same | mcp-smithery + pulsemcp + mcp-dependents + mcp-usage-snapshot + mcp-liveness | `/mcp`, `/mcp/[slug]` |
@@ -53,12 +58,12 @@ Most pages don't read raw collector output — they read derived/joined views. F
 
 | Route | Cache | Reads | Collector | Cron | External API |
 |---|---|---|---|---|---|
-| `/` (Trending Repos) | ISR | `getDerivedRepos()` + `lastFetchedAt` (trending) | scrape-trending → `data/trending.json` | hourly `27 * * * *` | OSS Insight (`api.ossinsight.io/v1/trends/repos/`) |
-| `/consensus` | ISR | consensus payload via factory reader | snapshot-consensus + scoring shadow | daily `55 23 * * *` | derives from internal pipeline, no external |
+| `/githubrepo` (Trending Repos) | ISR | `getDerivedRepos()` + `lastFetchedAt` (trending) | scrape-trending → `data/trending.json` | hourly `27 * * * *` | OSS Insight (`api.ossinsight.io/v1/trends/repos/`) |
 | `/skills` (Trending Skills) | ISR | `getSkillsSignalData()` | refresh-skill-* (5 workflows) + skill-install-snapshot + skill-derivatives | every 6h → daily nightly (post-2026-05-02 cuts) | GitHub API (skills derivative repos), SkillsMP, Smithery, Lobehub, Claude RSS |
 | `/mcp` (Trending MCP) | ISR | `getMcpSignalData()` | refresh-mcp-smithery-rank + ping-mcp-liveness + refresh-mcp-dependents + refresh-mcp-usage-snapshot | every 6h + daily | Smithery (`smithery.ai/api/...`), PulseMCP (`api.pulsemcp.com/v0/`), npm |
-| `/agent-repos` (Trending AGNT) | ISR | `getDerivedRepos()` filtered by `agent` topic/tag | trending + scoring | (same as `/`) | OSS Insight |
+| `/agent-repos` (Trending AGNT) | ISR | `getDerivedRepos()` filtered by `agent` topic/tag | trending + scoring | (same as `/githubrepo`) | OSS Insight |
 | `/breakouts` | ISR | `getDerivedRepos()` + `getChannelStatus()` (cross-signal) | trending + every mention source (6-channel) | various | OSS Insight + 6 mention APIs |
+| `/consensus` | ISR | consensus payload via factory reader | snapshot-consensus + scoring shadow | daily `55 23 * * *` | derives from internal pipeline, no external |
 
 ### 3b. SIGNAL TERMINAL
 
@@ -78,10 +83,9 @@ Most pages don't read raw collector output — they read derived/joined views. F
 | Route | Cache | Reads | Collector | Cron | External API |
 |---|---|---|---|---|---|
 | `/npm` (NPM Packages) | ISR | `refreshNpmFromStore()` → npm-trending + npm-downloads | scrape-npm + refresh-npm-downloads | daily + every 6h | npm registry + downloads (`api.npmjs.org/downloads/`) |
-| `/huggingface/trending` (HF Models) | ISR | `refreshHfModelsFromStore()` | scrape-huggingface | every 3h → 6h (post-2026-05-02 cuts) | HF API (`huggingface.co/api/models`) |
-| `/huggingface/datasets` | ISR | `refreshHfDatasetsFromStore()` | scrape-huggingface-datasets | every 3h → 6h | HF API (`huggingface.co/api/datasets`) |
-| `/huggingface/spaces` | ISR | `refreshHfSpacesFromStore()` | scrape-huggingface-spaces | every 3h → 6h | HF API (`huggingface.co/api/spaces`) |
-| `/model-usage` (LLM Charts) | private | model-usage-snapshot via tabbed UI | refresh-mcp-usage-snapshot (despite name, drives LLM charts too) | daily `30 3 * * *` | derived from internal data + Claude RSS via OpenRouter |
+| `/huggingface/trending` (HF Models) | ISR | `refreshHfModelsFromStore()`; tab-only routes read `refreshHfDatasetsFromStore()` and `refreshHfSpacesFromStore()` | scrape-huggingface + scrape-huggingface-datasets + scrape-huggingface-spaces | every 3h → 6h (post-2026-05-02 cuts) | HF API (`huggingface.co/api/models`, `/datasets`, `/spaces`) |
+
+HF route note: the sidebar intentionally has one Hugging Face row (`/huggingface/trending`). `/huggingface/datasets` and `/huggingface/spaces` are tab routes rendered by `HfNavTabs`; `/huggingface/models` re-exports the models page; `/huggingface` redirects to `/huggingface/models`.
 
 ### 3d. LAUNCH TERMINAL
 
@@ -97,7 +101,7 @@ Most pages don't read raw collector output — they read derived/joined views. F
 | Route | Cache | Reads | Collector | Cron | External API |
 |---|---|---|---|---|---|
 | `/arxiv/trending` (arXiv Papers) | ISR | `refreshArxivFromStore()` | scrape-arxiv + enrich-arxiv | every 3h + every 12h (post-cuts) | arXiv OAI-PMH + abstract pages (`arxiv.org/abs/`) |
-| `/research` (Cited Repos) | ISR | `refreshResearchSignalsFromStore()` | enrich-arxiv + cross-domain joins | every 12h | derived from arxiv + GitHub repo lookup |
+| `/research` (Cited Repos; sitemap-listed) | ISR | `refreshResearchSignalsFromStore()` | enrich-arxiv + cross-domain joins | every 12h | derived from arxiv + GitHub repo lookup |
 | `/papers` | ISR | `getArxivRecentFile()` raw file | scrape-arxiv | every 3h | arXiv |
 
 ### 3f. EXPLORE
@@ -107,7 +111,6 @@ Most pages don't read raw collector output — they read derived/joined views. F
 | `/digest` (Digest list) | ISR | `listAvailableDigestDates()` reads `data/digest/<YYYY-MM-DD>.json` | cron-digest-weekly | weekly Monday 8am | derived snapshot, no external |
 | `/digest/[date]` | ISR | digest payload for the date | (same) | (same) | (same) |
 | `/ideas` | ISR | repo-ideas store via Zustand + supabase if wired | user submissions + LLM enrichment via cron-llm | hourly `10 * * * *` | Kimi K2.6 (LLM) — non-default; falls back gracefully |
-| `/predict` | ISR | `getDerivedRepos()` + repo-predictions store | cron-predictions | daily `0 6 * * *` | derived from internal scoring (LLM-augmented) |
 | `/categories` | ISR | `getDerivedCategoryStats()` over derived-repos | (same fan-out as `/`) | (same) | (same) |
 | `/categories/[slug]` | ISR | category snapshot + window deltas | snapshot-category-metrics (W5-CATWINDOW) | hourly | (same) |
 | `/collections` | ISR | `refreshCollectionRankingsFromStore()` | refresh-collection-rankings | every 6h | OSS Insight (`api.ossinsight.io/v1/collections/`) |
@@ -119,11 +122,10 @@ Most pages don't read raw collector output — they read derived/joined views. F
 
 | Route | Cache | Reads | Collector | Cron | External API |
 |---|---|---|---|---|---|
-| `/watchlist` | dynamic | Zustand `useWatchlistStore` (localStorage) | n/a (client-side state) | n/a | n/a |
+| `/watchlist` | private | Zustand `useWatchlistStore` (localStorage) + session-scoped alert APIs | n/a (client/session state) | n/a | n/a |
 | `/compare` | ISR | client form → on-demand `githubFetch` to 7 endpoints | n/a (request-time) | n/a | GitHub API direct (pool-aware) |
 | `/tierlist` | ISR | shared tierlist payloads | user submissions | n/a | n/a |
 | `/tierlist/[shortId]` | ISR | persisted tierlist via shortId | (same) | n/a | n/a |
-| `/mindshare` | ISR | `getDerivedRepos()` + `packBubbles()` | (same fan-out) | (same) | (same) |
 | `/top10` | ISR | `buildLiveTop10PageData()` | snapshot-top10 + snapshot-top10-sparklines | daily `55 23 * * *` + `50 23 * * *` | derived snapshots |
 | `/top10/[date]` | ISR | date-pinned top10 snapshot | (same) | (same) | (same) |
 | `/signals` (Signal Radar — same route as Market Signals above) | ISR | (see SIGNAL TERMINAL) | | | |
@@ -132,19 +134,22 @@ Most pages don't read raw collector output — they read derived/joined views. F
 
 | Route | Cache | Reads | Collector | Cron | External API |
 |---|---|---|---|---|---|
+| `/` (Home dashboard) | ISR | `getDerivedRepos()` + skills/MCP summaries + derived movers | scrape-trending + skill/MCP refreshers | mixed | OSS Insight + derived ecosystem feeds |
 | `/repo/[owner]/[name]` | ISR | `getDerivedRepoByFullName()` + `buildCanonicalRepoProfile()` (11 loaders + 6 synthesizers) | every collector (this is the fan-in point) | every cron | every API |
 | `/repo/[owner]/[name]/star-activity` | ISR | star-activity time series | refresh-star-activity + append-star-activity | daily `17 3 * * *` | GitHub stargazers API (pool-aware) |
 | `/u/[handle]` | ISR | `getProfile()` from data-store | enrich-repo-profiles + GitHub user fetch | hourly `41 * * * *` | GitHub user API + derived |
 | `/search` | dynamic | client filter over `getDerivedRepos()` | (same) | (same) | (same) |
 | `/alerts` | private | alert rules + persisted events | cron-aiso-drain | every 30 min | derived (no external) |
 | `/alerts/new` | private | static form → API POST | n/a | n/a | n/a |
+| `/model-usage` | private | model-usage-snapshot via tabbed UI | refresh-mcp-usage-snapshot + model-usage aggregation | daily `30 3 * * *` + monthly rotate | derived from internal LLM telemetry + Claude/OpenAI RSS |
+| `/you` + `/you/*` | private | localStorage watchlist/compare/filter state + referral/alert affordances | n/a | n/a | n/a |
 | `/submit` | static | static form (user submission) | promote-unknown-mentions ingest path | daily | derived from lake |
 | `/cli` | static | static docs page | n/a | n/a | n/a |
 | `/portal/docs` | static | static docs (API portal) | n/a | n/a | n/a |
 | `/agent-commerce/*` | ISR | agent-commerce signal data | cron-agent-commerce | daily `31 4 * * *` | derived (LLM-augmented) |
 | `/top` (Top 100) | ISR | `getDerivedRepos()` sorted by momentum score | same as core trending fan-out | hourly `27 * * * *` | OSS Insight + derived |
 | `/embed/top10` | ISR | iframe-friendly Top10 | (same as `/top10`) | (same) | (same) |
-| `/admin/*` (8 routes) | private | server-state snapshots | n/a (admin views, no collectors) | n/a | n/a |
+| `/admin/*` | private | server-state snapshots | n/a (admin views, no collectors) | n/a | n/a |
 | `/admin/pool` | private | per-process GitHub pool snapshot | n/a (live in-memory) | n/a | n/a |
 | `/admin/pool-aggregate` | private | Redis-aggregate fleet view (POOL-REDIS) | every `recordRateLimit` writes to Redis | live | n/a |
 | `/admin/staleness` | private | per-source freshness | reads `data/_meta/*.json` | live | n/a |
@@ -156,7 +161,7 @@ Most pages don't read raw collector output — they read derived/joined views. F
 
 | Collector / Workflow | Cron | Output key | Surfaces breaking on failure |
 |---|---|---|---|
-| scrape-trending | hourly `27 * * * *` | `data/trending.json` | `/`, `/breakouts`, `/top`, `/predict`, `/agent-repos`, `/mindshare`, `/categories/*`, `/u/[handle]`, `/search`, `/repo/*`, every derived-repos consumer |
+| scrape-trending | hourly `27 * * * *` | `data/trending.json` | `/`, `/githubrepo`, `/breakouts`, `/top`, `/agent-repos`, `/categories/*`, `/u/[handle]`, `/search`, `/repo/*`, every derived-repos consumer |
 | scrape-bluesky | hourly `17 * * * *` | bluesky-mentions, bluesky-trending | `/bluesky/trending`, `/signals`, breakouts cross-signal `bluesky` channel |
 | scrape-lobsters | hourly `37 * * * *` | lobsters-mentions, lobsters-trending | `/lobsters`, repo profile lobsters synth, breakouts |
 | scrape-devto | every 6h | devto-mentions, devto-trending | `/devto`, `/signals`, breakouts `devto` channel |
@@ -180,12 +185,11 @@ Most pages don't read raw collector output — they read derived/joined views. F
 | promote-unknown-mentions | daily `30 4 * * *` | `data/unknown-mentions-promoted.json` | `/admin/unknown-mentions` |
 | enrich-repo-profiles | hourly `41 * * * *` | repo-profiles | `/u/[handle]`, repo profile completeness |
 | refresh-star-activity + append-star-activity | daily `17 3 * * *` | star-activity time series | `/repo/[owner]/[name]/star-activity` |
-| cron-llm | hourly `10 * * * *` | LLM-enriched fields on ideas / predictions | `/ideas`, `/predict` |
+| cron-llm | hourly `10 * * * *` | LLM-enriched fields on ideas | `/ideas` |
 | cron-pipeline-ingest | every 2h `15 */2 * * *` | mention-store hydrate | repo profile recent mentions feed |
 | cron-pipeline-persist | every 6h `30 */6 * * *` | mention-store persist | (same) |
 | cron-pipeline-cleanup | daily `0 4 * * *` | mention-store pruning | (same) |
 | cron-pipeline-rebuild | weekly `0 5 * * 0` | full rebuild | recovery only — never user-facing |
-| cron-predictions | daily `0 6 * * *` | predictions store | `/predict` |
 | cron-agent-commerce | daily `31 4 * * *` | agent-commerce signal data | `/agent-commerce/*` |
 | cron-digest-weekly | Mon 8am | weekly digest | `/digest`, `/digest/[date]`, email digest via Resend |
 | cron-twitter-outbound | daily `0 14 * * *` | twitter-outbound-runs.jsonl | (worker side, replies / outbound reach) |

@@ -18,8 +18,8 @@ import { resolveRepoMentions } from "@/lib/repo-mentions.server";
 import { getRepoMetadata } from "@/lib/repo-metadata";
 import type { TwitterRepoRowBadge } from "@/lib/twitter/types";
 import { XSignalBadge } from "@/components/twitter/XSignalBadge";
-import { TerminalBar, BracketMarkers } from "@/components/v2";
 import { repoDisplayLogoUrl } from "@/lib/logos";
+import { TerminalChromeBar } from "@/components/ui/TerminalChrome";
 
 interface RepoDetailHeaderProps {
   repo: Repo;
@@ -80,7 +80,7 @@ export function RepoDetailHeader({
 
   return (
     <section className="v2-card overflow-hidden">
-      <TerminalBar
+      <TerminalChromeBar
         label={`// REPO · ${repo.fullName.toUpperCase()}`}
         status={
           <span className="inline-flex items-center gap-2">
@@ -229,7 +229,7 @@ export function RepoDetailHeader({
           </span>
 
           {/* Focused stat — bracket-marked */}
-          <BracketMarkers active={firing >= 2} size={6} inset={-2}>
+          <div className="relative">
             <span
               className="v2-stat tabular-nums leading-none px-1"
               style={{
@@ -250,7 +250,55 @@ export function RepoDetailHeader({
                 / 5.0
               </span>
             </span>
-          </BracketMarkers>
+            {firing >= 2 ? (
+              <>
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute"
+                  style={{
+                    width: 6,
+                    height: 6,
+                    top: -2,
+                    left: -2,
+                    background: "var(--v2-acc)",
+                  }}
+                />
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute"
+                  style={{
+                    width: 6,
+                    height: 6,
+                    top: -2,
+                    right: -2,
+                    background: "var(--v2-acc)",
+                  }}
+                />
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute"
+                  style={{
+                    width: 6,
+                    height: 6,
+                    bottom: -2,
+                    left: -2,
+                    background: "var(--v2-acc)",
+                  }}
+                />
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute"
+                  style={{
+                    width: 6,
+                    height: 6,
+                    bottom: -2,
+                    right: -2,
+                    background: "var(--v2-acc)",
+                  }}
+                />
+              </>
+            ) : null}
+          </div>
 
           <span
             aria-hidden

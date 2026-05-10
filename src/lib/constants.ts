@@ -142,22 +142,6 @@ export const CATEGORIES: Omit<Category, "repoCount" | "avgMomentum" | "topMoverI
 // Route paths
 // ---------------------------------------------------------------------------
 
-export const ROUTES = {
-  HOME: "/",
-  // Homepage IS the trending terminal now — no separate /trending route.
-  TRENDING: "/",
-  REPO: (id: string) => `/repo/${id}`,
-  CATEGORY: (id: string) => `/category/${id}`,
-  COMPARE: "/compare",
-  WATCHLIST: "/watchlist",
-    SEARCH: "/search",
-    SUBMIT: "/submit",
-    REDDIT: "/reddit",
-    REDDIT_TRENDING: "/reddit/trending",
-    BLUESKY: "/bluesky",
-    BLUESKY_TRENDING: "/bluesky/trending",
-} as const;
-
 // ---------------------------------------------------------------------------
 // Sort options
 // ---------------------------------------------------------------------------

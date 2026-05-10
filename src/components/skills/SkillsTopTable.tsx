@@ -33,10 +33,13 @@ type SortDir = "asc" | "desc";
 
 export interface SkillRow {
   id: string;
+  rank: number;
   title: string;
   author: string | null;
   href: string;
   logoUrl: string | null;
+  sourceLabel: string;
+  sourceMetricLabel: string;
   stars: number;
   starsDelta24h: number | null;
   starsDelta7d: number | null;
@@ -52,7 +55,7 @@ export interface SkillRow {
 
 interface SkillsTopTableProps {
   rows: SkillRow[];
-  /** Default sort = absolute stars (delta-based defaults removed in AGN-536). */
+  /** Default sort = source-native page/API rank. */
   defaultSortKey?: SortKey;
 }
 
@@ -105,7 +108,7 @@ function getSortValue(row: SkillRow, key: SortKey): number {
       return row.cited;
     case "rank":
     default:
-      return row.stars;
+      return -row.rank;
   }
 }
 
@@ -235,7 +238,7 @@ const PAGE_SIZE = 50;
 
 export function SkillsTopTable({
   rows,
-  defaultSortKey = "stars",
+  defaultSortKey = "rank",
 }: SkillsTopTableProps) {
   const [sortKey, setSortKey] = useState<SortKey>(defaultSortKey);
   const [sortDir, setSortDir] = useState<SortDir>("desc");
@@ -318,7 +321,7 @@ export function SkillsTopTable({
               <th className="rk-h">#</th>
               <th>Skill</th>
               <SortHeader
-                label="Stars"
+                label="Use"
                 sortKey="stars"
                 active={sortKey === "stars"}
                 dir={sortDir}
@@ -363,7 +366,7 @@ export function SkillsTopTable({
                       </span>
                     ) : null}
                     <span className="rk-n">
-                      #{String(idx + 1).padStart(2, "0")}
+                      #{String(row.rank).padStart(2, "0")}
                     </span>
                   </td>
                   <td>
@@ -375,7 +378,10 @@ export function SkillsTopTable({
                       />
                       <span className="repo-txt">
                         <span>{row.title}</span>
-                        {row.author ? <small>{row.author}</small> : null}
+                        <small>
+                          {row.author ? `${row.author} / ` : ""}
+                          {row.sourceLabel}
+                        </small>
                       </span>
                     </a>
                   </td>

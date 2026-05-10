@@ -10,7 +10,7 @@ import { useMemo, useState } from "react";
 import type { EChartsCoreOption } from "echarts/core";
 import type { Repo } from "@/lib/types";
 import { ChartShell } from "@/components/ui/ChartShell";
-import "@/lib/charts/theme/full";
+import "@/lib/charts/theme/comparison";
 import { EChart } from "@/components/charts/EChart";
 import { CHART_TOKENS } from "@/lib/charts/theme/tokens";
 import {
@@ -32,7 +32,7 @@ import {
   type ThemeConfig,
 } from "./themes";
 
-interface CompareChartProps {
+export interface CompareChartProps {
   repos: Repo[];
   /**
    * Per-repo full-history payloads keyed by lowercased fullName. When present,

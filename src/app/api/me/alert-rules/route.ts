@@ -21,9 +21,10 @@
 
 import { and, count, desc, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
-import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
+import { randomBytes, scryptSync } from "node:crypto";
 
 import { requireUser } from "@/lib/auth/server";
+import { parseBody } from "@/lib/api/parse-body";
 import { db } from "@/lib/db/client";
 import {
   alertRules,
@@ -107,28 +108,6 @@ function generateWebhookSecret(): { plaintext: string; storedHash: string } {
   return { plaintext, storedHash };
 }
 
-/**
- * Verify a plaintext webhook secret against the stored `<salt>:<hash>`.
- * Module-internal (Next 15 forbids non-handler exports from route.ts —
- * promote to @/lib/* if a future rotate flow needs to import it).
- */
-function verifyWebhookSecret(plaintext: string, stored: string): boolean {
-  const [saltHex, hashHex] = stored.split(":");
-  if (!saltHex || !hashHex) return false;
-  try {
-    const salt = Buffer.from(saltHex, "hex");
-    const expected = Buffer.from(hashHex, "hex");
-    const derived = scryptSync(plaintext, salt, SCRYPT_KEY_LEN, {
-      N: SCRYPT_N,
-      r: SCRYPT_R,
-      p: SCRYPT_P,
-    });
-    return derived.length === expected.length && timingSafeEqual(derived, expected);
-  } catch {
-    return false;
-  }
-}
-
 function parseLimit(raw: string | null): number {
   if (!raw) return DEFAULT_PAGE_LIMIT;
   const n = Number.parseInt(raw, 10);
@@ -182,21 +161,23 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const user = await requireUser();
 
-  let raw: unknown;
-  try {
-    raw = await req.json();
-  } catch {
-    return jsonError(400, "invalid_json", "request body is not valid JSON");
-  }
-
-  const parsed = createAlertRuleSchema.safeParse(raw);
-  if (!parsed.success) {
-    return jsonError(
-      400,
-      "validation",
-      "request body failed validation",
-      parsed.error.issues,
-    );
+  const parsed = await parseBody(req, createAlertRuleSchema, {
+    publicMessage: "request body failed validation",
+  });
+  if (!parsed.ok) {
+    const body = (await parsed.response.json()) as {
+      error?: string;
+      details?: unknown;
+    };
+    const invalidJson = body.error === "request body is not valid JSON";
+    return invalidJson
+      ? jsonError(400, "invalid_json", "request body is not valid JSON")
+      : jsonError(
+          400,
+          "validation",
+          "request body failed validation",
+          body.details,
+        );
   }
   const data = parsed.data;
 

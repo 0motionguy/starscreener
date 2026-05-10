@@ -35,7 +35,7 @@ import type {
 } from "@/lib/sidebar-data";
 import type { SidebarWatchlistPreviewRepo } from "./SidebarWatchlistPreview";
 
-// LaunchpadStrip (CLI/MCP/profile tiles) was removed 2026-05-09 — the
+// LaunchpadStrip (CLI/MCP/profile tiles) was removed 2026-05-09 - the
 // component had been carrying an `@eslint-disable no-unused-vars` marker for
 // weeks and was never rendered from the sidebar. Profile entry now lives
 // solely in <SidebarProfileBox /> below. If the launchpad placement returns,
@@ -134,29 +134,65 @@ export function useSidebarData(
 }
 
 /**
- * Build the watchlist preview by intersecting the local watchlist
- * (client-persisted) with the repo-by-id map from the server. Newest
- * additions first, capped at 5.
+ * Build the watchlist preview from the local watchlist. Root layout no
+ * longer inlines a momentum repo map into every page; when watched ids are
+ * missing from the seed map we hydrate only the newest 5 exact ids.
  */
 export function useWatchlistPreview(
   reposById: Record<string, SidebarDataRepo> | undefined,
 ): SidebarWatchlistPreviewRepo[] {
   const watchlist = useWatchlistStore((s) => s.repos);
+  const [hydratedReposById, setHydratedReposById] = useState<
+    Record<string, SidebarDataRepo>
+  >({});
 
-  return useMemo(() => {
-    if (!reposById) return [];
-    const sorted = [...watchlist].sort((a, b) =>
-      a.addedAt < b.addedAt ? 1 : a.addedAt > b.addedAt ? -1 : 0,
-    );
-    const out: SidebarWatchlistPreviewRepo[] = [];
-    for (const item of sorted) {
-      const repo = reposById[item.repoId];
-      if (!repo) continue;
-      out.push(repo);
-      if (out.length >= 5) break;
-    }
-    return out;
-  }, [watchlist, reposById]);
+  const newestWatchIds = useMemo(
+    () =>
+      [...watchlist]
+        .sort((a, b) =>
+          a.addedAt < b.addedAt ? 1 : a.addedAt > b.addedAt ? -1 : 0,
+        )
+        .slice(0, 5)
+        .map((item) => item.repoId),
+    [watchlist],
+  );
+
+  const mergedReposById = useMemo(
+    () => ({ ...hydratedReposById, ...(reposById ?? {}) }),
+    [hydratedReposById, reposById],
+  );
+
+  const missingIds = useMemo(
+    () => newestWatchIds.filter((id) => !mergedReposById[id]),
+    [mergedReposById, newestWatchIds],
+  );
+  const missingKey = missingIds.join(",");
+
+  useEffect(() => {
+    if (!missingKey) return;
+    let cancelled = false;
+    const params = new URLSearchParams({ ids: missingKey });
+    fetch(`/api/pipeline/sidebar-data?${params.toString()}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((json: { reposById?: Record<string, SidebarDataRepo> } | null) => {
+        if (cancelled || !json?.reposById) return;
+        setHydratedReposById((current) => ({ ...current, ...json.reposById }));
+      })
+      .catch(() => {
+        // Missing watchlist hydration should not break sidebar navigation.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [missingKey]);
+
+  return useMemo(
+    () =>
+      newestWatchIds
+        .map((id) => mergedReposById[id])
+        .filter((repo): repo is SidebarWatchlistPreviewRepo => Boolean(repo)),
+    [mergedReposById, newestWatchIds],
+  );
 }
 
 // ---------------------------------------------------------------------------

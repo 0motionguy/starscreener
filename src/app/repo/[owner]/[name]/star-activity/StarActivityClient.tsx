@@ -8,7 +8,7 @@
 
 import { useMemo, useState } from "react";
 
-import { CompareChart } from "@/components/compare/CompareChart";
+import { CompareChartLazy } from "@/components/compare/CompareChartLazy";
 import { ShareBar } from "@/components/share/ShareBar";
 import { Metric, MetricGrid } from "@/components/ui/Metric";
 import {
@@ -60,7 +60,7 @@ export function StarActivityClient({ repo, payload }: Props) {
 
   return (
     <div className="repo-detail-stack">
-      <CompareChart
+      <CompareChartLazy
         repos={[repo]}
         payloads={payloads}
         mode={mode}

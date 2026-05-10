@@ -17,10 +17,14 @@ import {
 import { applyPublicGate, buildOverview, rollUpFeatures, rollUpModels } from "@/lib/llm/derive";
 
 export const runtime = "nodejs";
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 const READ_HEADERS = {
   "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+} as const;
+const INTERNAL_HEADERS = {
+  "Cache-Control": "private, no-store",
+  Vary: "Authorization, Cookie",
 } as const;
 
 export async function GET(request: NextRequest) {
@@ -36,7 +40,9 @@ export async function GET(request: NextRequest) {
 
   // Hide top_feature on the public surface — feature names are internal.
   const body = internal ? overview : { ...overview, top_feature: null };
-  return NextResponse.json(body, { headers: READ_HEADERS });
+  return NextResponse.json(body, {
+    headers: internal ? INTERNAL_HEADERS : READ_HEADERS,
+  });
 }
 
 function isInternal(request: NextRequest): boolean {

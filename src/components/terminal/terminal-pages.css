@@ -3,13 +3,10 @@
   padding-bottom: 34px;
 }
 
-.terminal-page .filter-bar,
-.terminal-page [data-terminal-filter],
-.terminal-page .terminal-filter {
+.terminal-page .filter-bar {
   margin: 0;
 }
 
-.terminal-page .terminal-shell,
 .terminal-page .v2-card {
   border-radius: var(--radius-none);
 }
@@ -87,96 +84,6 @@
 }
 
 .search-state-icon.muted {
-  color: var(--ink-400);
-}
-
-/* AGN-608 — Branded empty / no-results suggestions block.
-   Stacked groups of clickable chips (recent / examples / categories)
-   that sit directly under the existing `.search-state` headline. */
-.search-suggestions {
-  margin-top: 18px;
-  display: grid;
-  gap: 14px;
-  width: min(100%, 640px);
-  text-align: left;
-  text-transform: none;
-  letter-spacing: 0;
-}
-
-.search-suggest-group {
-  display: grid;
-  gap: 8px;
-}
-
-.search-suggest-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--ink-400);
-  font-family: var(--font-mono);
-  font-size: var(--font-size-micro);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-}
-
-.search-suggest-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.search-suggest-chip {
-  font-size: var(--font-size-micro);
-  padding: 4px 10px;
-  text-transform: none;
-  letter-spacing: 0;
-}
-
-.watchlist-alerts {
-  margin-top: 12px;
-  padding: 0;
-}
-
-.watchlist-alert-body {
-  padding: 14px;
-}
-
-.watchlist-state {
-  display: grid;
-  justify-items: center;
-  gap: 10px;
-  padding: 72px 18px;
-  color: var(--ink-300);
-  font-family: var(--font-mono);
-  font-size: var(--font-size-sm);
-  letter-spacing: var(--tracking-label);
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.watchlist-state p {
-  margin: 0;
-}
-
-.watchlist-state .hint {
-  max-width: 500px;
-  color: var(--ink-400);
-  font-size: var(--font-size-micro);
-  line-height: 1.6;
-}
-
-.watchlist-state-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border: 1px solid var(--line-200);
-  background: var(--bg-050);
-  color: var(--acc);
-}
-
-.watchlist-state-icon.muted {
   color: var(--ink-400);
 }
 

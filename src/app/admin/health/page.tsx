@@ -243,9 +243,9 @@ export default async function AdminHealthPage() {
                     value={row.lastRunStatus}
                     valueColor={
                       row.lastRunStatus === "fail"
-                        ? "var(--v4-sig-red, #ef4444)"
+                        ? "var(--v4-red, #ef4444)"
                         : row.lastRunStatus === "success"
-                          ? "var(--v4-sig-green, #22c55e)"
+                          ? "var(--v4-money, #22c55e)"
                           : "var(--v4-ink-300, #94a3b8)"
                     }
                   />
@@ -253,7 +253,7 @@ export default async function AdminHealthPage() {
                 {row.lastErrorReason ? (
                   <p
                     className="mt-3 text-[11px] leading-relaxed"
-                    style={{ color: "var(--v4-sig-red, #ef4444)" }}
+                    style={{ color: "var(--v4-red, #ef4444)" }}
                   >
                     {row.lastErrorReason}
                   </p>

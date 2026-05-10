@@ -9,7 +9,6 @@
  */
 import Link from "next/link";
 import { EyeOff } from "lucide-react";
-import type { MovementStatus } from "@/lib/types";
 import { cn, formatNumber } from "@/lib/utils";
 import { ChannelDots } from "@/components/cross-signal/ChannelDots";
 import { EntityLogo } from "@/components/ui/EntityLogo";
@@ -26,10 +25,6 @@ export interface SidebarWatchlistPreviewRepo {
   owner: string;
   name: string;
   ownerAvatarUrl: string;
-  momentumScore: number;
-  movementStatus?: MovementStatus;
-  sparklineData: number[];
-  stars: number;
   starsDelta24h: number;
   starsDelta24hMissing?: boolean;
   /** Precomputed per-channel firing state for ChannelDots. Absent on

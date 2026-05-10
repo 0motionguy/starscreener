@@ -4,7 +4,7 @@
 // is built in exactly one place.
 //
 // Per the redesign spec: a source past its STALE threshold is treated as
-// "cold" and the page hides the data entirely (SourceDownEmptyState).
+// "cold" and the page hides the data entirely.
 // Sources still within the threshold are "live" if fresh-fresh and
 // "stale-leaning" if past the soft warn threshold.
 
@@ -95,9 +95,8 @@ export interface FreshnessVerdict {
 }
 
 /**
- * Classify a source's freshness given its last `fetchedAt`. Used by
- * `NewsSourceLayout` to decide between rendering the page and rendering
- * the SourceDown empty state.
+ * Classify a source's freshness given its last `fetchedAt`. Page-level
+ * consumers use this to decide whether data is live, warning, or cold.
  *
  * @param oldestRecordAt Optional ISO of the OLDEST per-record `lastRefreshedAt`
  *   in the payload. When passed, freshness uses

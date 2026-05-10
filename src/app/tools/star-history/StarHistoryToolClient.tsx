@@ -12,7 +12,7 @@
 
 import { useMemo, useState } from "react";
 
-import { CompareChart } from "@/components/compare/CompareChart";
+import { CompareChartLazy } from "@/components/compare/CompareChartLazy";
 import type { ChartTheme } from "@/components/compare/themes";
 import { ShareBar } from "@/components/share/ShareBar";
 import type {
@@ -48,7 +48,7 @@ export function StarHistoryToolClient({ repos }: Props) {
 
   return (
     <div className="repo-detail-stack">
-      <CompareChart
+      <CompareChartLazy
         repos={repos}
         mode={mode}
         scale={scale}

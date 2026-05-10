@@ -33,6 +33,7 @@ jobs:
 
       - name: Refresh Bluesky mentions + AI-keyword trending
         env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
           BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
         run: node scripts/scrape-bluesky.mjs

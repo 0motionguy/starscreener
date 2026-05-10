@@ -1,4 +1,4 @@
-// Single idea card — v2-styled. Drop-in for /ideas feed and repo-detail panels.
+// Single idea card. Drop-in for /ideas feed and repo-detail panels.
 //
 // Reactions reuse the same <ObjectReactions> primitive as repos — the strip
 // is wired against objectType="idea" + objectId=idea.id.
@@ -13,7 +13,6 @@ import { getRelativeTime } from "@/lib/utils";
 import { absoluteUrl } from "@/lib/seo";
 import { ObjectReactions } from "@/components/reactions/ObjectReactions";
 import { ShareToX } from "@/components/share/ShareToX";
-import { ReactionBar, ConvictionBar } from "@/components/v2";
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { profileLogoUrl, repoLogoUrl } from "@/lib/logos";
 
@@ -62,6 +61,56 @@ const BUILD_STATUS_COPY: Record<IdeaBuildStatus, { label: string; tone: string; 
     border: "border-down/40",
   },
 };
+
+type IdeaReactionKey = keyof ReactionCounts;
+
+const REACTION_BAR_COLORS: Record<IdeaReactionKey, string> = {
+  build: "bg-[#60A5FA]",
+  use: "bg-[#C4C4C6]",
+  buy: "bg-[#FBBF24]",
+  invest: "bg-up",
+};
+
+function InlineConvictionMeter({ value }: { value: number }): JSX.Element {
+  const clamped = Math.min(100, Math.max(0, value));
+
+  return (
+    <div className="mt-3 relative h-2 rounded-full bg-border-primary overflow-hidden">
+      <div
+        className="absolute inset-y-0 left-0 rounded-full"
+        style={{
+          width: `${clamped}%`,
+          background:
+            "linear-gradient(90deg, #FBBF24 0%, #F56E0F 50%, #EF4444 100%)",
+          boxShadow: "0 0 12px rgba(245, 110, 15, 0.6)",
+        }}
+      />
+    </div>
+  );
+}
+
+function InlineReactionMix({ reactions }: { reactions: ReactionCounts }): JSX.Element {
+  const total = reactions.build + reactions.use + reactions.buy + reactions.invest || 1;
+  const segments = [
+    { key: "build" as const, color: REACTION_BAR_COLORS.build, width: (reactions.build / total) * 100 },
+    { key: "use" as const, color: REACTION_BAR_COLORS.use, width: (reactions.use / total) * 100 },
+    { key: "buy" as const, color: REACTION_BAR_COLORS.buy, width: (reactions.buy / total) * 100 },
+    { key: "invest" as const, color: REACTION_BAR_COLORS.invest, width: (reactions.invest / total) * 100 },
+  ];
+
+  return (
+    <div className="flex h-3 rounded-full overflow-hidden border border-border-primary shadow-inner">
+      {segments.map((segment) => (
+        <div
+          key={segment.key}
+          className={`${segment.color} h-full`}
+          style={{ width: `${segment.width}%` }}
+          title={`${segment.key}: ${Math.round((segment.width / 100) * total)}`}
+        />
+      ))}
+    </div>
+  );
+}
 
 function RankMedal({ rank }: { rank: number }): JSX.Element {
   if (rank === 1) {
@@ -209,7 +258,7 @@ export function IdeaCard({
         </div>
       ) : null}
 
-      {/* V2 conviction + reaction bar */}
+      {/* Conviction + reaction summary */}
       {convictionScore !== undefined && (
         <div className="rounded-md border border-border-primary bg-bg-muted/40 p-3 space-y-2">
           <div className="flex items-center justify-between">
@@ -236,14 +285,14 @@ export function IdeaCard({
             </span>
             <span className="font-mono text-sm text-text-tertiary">/100</span>
           </div>
-          <ConvictionBar value={convictionScore} />
+          <InlineConvictionMeter value={convictionScore} />
         </div>
       )}
 
-      {/* V2 reaction mix bar */}
+      {/* Reaction mix bar */}
       {total > 0 && (
         <div className="space-y-1.5">
-          <ReactionBar reactions={reactionCounts} />
+          <InlineReactionMix reactions={reactionCounts} />
           <div className="flex items-center gap-2.5 font-mono text-[10px]">
             <span className="inline-flex items-center gap-0.5 text-[#60A5FA]">
               <span className="size-1.5 rounded-full bg-[#60A5FA]" />

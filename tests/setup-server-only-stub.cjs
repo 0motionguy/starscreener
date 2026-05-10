@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 // Stub the `server-only` sentinel for `tsx --test` runs.
 //
 // The `server-only` package's only purpose is to throw at bundle time

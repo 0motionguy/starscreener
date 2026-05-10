@@ -1,17 +1,15 @@
 "use client";
 
 import { useRef, useState, useCallback, useEffect } from "react";
-import { createPortal } from "react-dom";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { Search, X } from "lucide-react";
-import { cn, formatNumber } from "@/lib/utils";
-import { ROUTES } from "@/lib/constants";
+import { cn } from "@/lib/utils";
+import { ROUTES } from "@/lib/routes";
 import { captureFunnelStep } from "@/lib/analytics/funnel";
 import type { Repo } from "@/lib/types";
-import { EntityLogo } from "@/components/ui/EntityLogo";
-import { BrandStar } from "@/components/shared/BrandStar";
 import { Input } from "@/components/ui/Input";
-import { repoDisplayLogoUrl } from "@/lib/logos";
+import type { SearchPreviewPortalProps } from "./SearchPreviewPortal";
 
 interface SearchBarProps {
   placeholder?: string;
@@ -27,6 +25,14 @@ interface SearchBarProps {
  */
 const PREVIEW_MIN_CHARS = 2;
 const PREVIEW_LIMIT = 8;
+
+const SearchPreviewPortal = dynamic<SearchPreviewPortalProps>(
+  () =>
+    import("./SearchPreviewPortal").then((m) => ({
+      default: m.SearchPreviewPortal,
+    })),
+  { ssr: false },
+);
 
 export function SearchBar({
   placeholder = "Search repos...",
@@ -183,6 +189,21 @@ export function SearchBar({
     [router],
   );
 
+  const handleSeeAll = useCallback(() => {
+    const q = value.trim();
+    if (!q) return;
+    // AGN-848 — funnel step "search_query" (alternate trigger via the
+    // autocomplete footer button).
+    captureFunnelStep({
+      step: "search_query",
+      flow: "discover-repo",
+      query_length: q.length,
+      source: "see_all_results",
+    });
+    router.push(`${ROUTES.SEARCH}?q=${encodeURIComponent(q)}`);
+    setPreviewOpen(false);
+  }, [router, value]);
+
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (showPreview && previewOpen && previewResults.length > 0) {
@@ -284,103 +305,17 @@ export function SearchBar({
       {showPreview &&
         previewOpen &&
         mounted &&
-        anchorRect &&
-        createPortal(
-          <div
-            id="search-preview"
-            role="listbox"
-            // Fixed positioning + Portal to document.body so the dropdown
-            // escapes the sticky header's z-30 stacking context. Backed by
-            // a solid bg + explicit z-[9999] so bubble-map SVG / Featured
-            // cards can't paint over it.
-            style={{
-              position: "fixed",
-              left: anchorRect.left,
-              top: anchorRect.top,
-              width: anchorRect.width,
-              zIndex: 9999,
-            }}
-            className={cn(
-              "v2-card shadow-popover",
-              "overflow-hidden",
-            )}
-          >
-            {previewLoading && previewResults.length === 0 ? (
-              <div className="px-3 py-4 text-xs text-text-tertiary font-mono text-center">
-                Searching…
-              </div>
-            ) : previewResults.length === 0 ? (
-              <div className="px-3 py-4 text-xs text-text-tertiary font-mono text-center">
-                No matches for &ldquo;{value.trim()}&rdquo;
-              </div>
-            ) : (
-              <ul className="max-h-[360px] overflow-y-auto bg-bg-card">
-                {previewResults.map((repo, i) => (
-                  <li key={repo.id} className="bg-bg-card">
-                    <button
-                      type="button"
-                      role="option"
-                      aria-selected={i === highlight}
-                      onMouseEnter={() => setHighlight(i)}
-                      onClick={() => gotoRepo(repo)}
-                      className={cn(
-                        "w-full flex items-center gap-3 px-3 py-2 text-left",
-                        "transition-colors",
-                        i === highlight
-                          ? "bg-bg-tertiary"
-                          : "hover:bg-bg-tertiary/60",
-                      )}
-                    >
-                      <EntityLogo
-                        src={repoDisplayLogoUrl(repo.fullName, repo.ownerAvatarUrl, 20)}
-                        name={repo.fullName}
-                        size={20}
-                        shape="circle"
-                        alt=""
-                      />
-                      <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-text-primary">
-                        {repo.fullName}
-                      </span>
-                      {repo.language && (
-                        <span className="hidden sm:inline text-[10px] font-mono text-text-tertiary whitespace-nowrap">
-                          {repo.language}
-                        </span>
-                      )}
-                      <span className="inline-flex items-center gap-1 text-[11px] font-mono text-text-tertiary tabular-nums whitespace-nowrap">
-                        <BrandStar size={10} className="text-[var(--v4-amber)]" />
-                        {formatNumber(repo.stars)}
-                      </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <div className="border-t border-border-primary px-3 py-1.5 text-[10px] font-mono text-text-muted flex items-center justify-between bg-bg-card">
-              <span>↑↓ to navigate · ↵ to open</span>
-              <button
-                type="button"
-                onClick={() => {
-                  const q = value.trim();
-                  if (q) {
-                    // AGN-848 — funnel step "search_query" (alternate
-                    // trigger via the autocomplete footer button).
-                    captureFunnelStep({
-                      step: "search_query",
-                      flow: "discover-repo",
-                      query_length: q.length,
-                      source: "see_all_results",
-                    });
-                    router.push(`${ROUTES.SEARCH}?q=${encodeURIComponent(q)}`);
-                    setPreviewOpen(false);
-                  }
-                }}
-                className="text-text-tertiary hover:text-text-primary transition-colors"
-              >
-                See all results →
-              </button>
-            </div>
-          </div>,
-          document.body,
+        anchorRect && (
+          <SearchPreviewPortal
+            anchorRect={anchorRect}
+            value={value}
+            previewLoading={previewLoading}
+            previewResults={previewResults}
+            highlight={highlight}
+            onHighlight={setHighlight}
+            onSelect={gotoRepo}
+            onSeeAll={handleSeeAll}
+          />
         )}
     </div>
   );

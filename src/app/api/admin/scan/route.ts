@@ -19,9 +19,11 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 import { adminAuthFailureResponse, verifyAdminAuth } from "@/lib/api/auth";
 import { serverError } from "@/lib/api/error-response";
+import { parseBody } from "@/lib/api/parse-body";
 import { AdminRecoverableError } from "@/lib/errors";
 
 export const runtime = "nodejs";
@@ -42,6 +44,9 @@ const SCRIPTS: Record<string, string> = {
 };
 
 const LOG_DIR = path.join(process.cwd(), ".data", "admin-scan-runs");
+const AdminScanBodySchema = z.object({
+  source: z.string().trim().optional().default(""),
+});
 
 /**
  * Allow-list of env vars the spawned scrape script needs. Curated to
@@ -171,17 +176,12 @@ export async function POST(
   const deny = adminAuthFailureResponse(verifyAdminAuth(request));
   if (deny) return deny as NextResponse<Err>;
 
-  let body: { source?: unknown } = {};
-  try {
-    body = (await request.json()) as { source?: unknown };
-  } catch {
-    return NextResponse.json(
-      { ok: false, error: "body must be valid JSON" },
-      { status: 400 },
-    );
-  }
+  const parsedBody = await parseBody(request, AdminScanBodySchema, {
+    includeDetails: false,
+  });
+  if (!parsedBody.ok) return parsedBody.response as NextResponse<Err>;
 
-  const source = typeof body.source === "string" ? body.source.trim() : "";
+  const source = parsedBody.data.source;
   if (!source) {
     return NextResponse.json(
       { ok: false, error: "source is required", allowed: Object.keys(SCRIPTS) },

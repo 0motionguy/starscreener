@@ -10,7 +10,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
-import { ROUTES } from "@/lib/constants";
+import { ROUTES } from "@/lib/routes";
 import { captureFunnelStep } from "@/lib/analytics/funnel";
 
 interface QueueSummary {

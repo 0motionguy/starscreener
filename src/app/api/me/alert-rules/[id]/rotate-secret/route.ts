@@ -55,9 +55,11 @@ interface RouteContext {
 }
 
 export async function POST(
-  _req: NextRequest,
+  req: NextRequest,
   ctx: RouteContext,
 ): Promise<NextResponse> {
+  void req;
+
   const user = await requireUser();
   const { id } = await ctx.params;
   if (!id) {

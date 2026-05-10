@@ -23,6 +23,8 @@
 import { writeFile, readFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import "./_load-env.mjs";
+import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "..");
@@ -194,10 +196,18 @@ async function main() {
 
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(OUT_PATH, JSON.stringify(report, null, 2) + "\n", "utf8");
+  const redisResult = await writeDataStore("staleness-report", report, {
+    stampPerRecord: false,
+  });
+  if (redisResult.source !== "redis") {
+    throw new Error(
+      "staleness-report data-store write skipped; set REDIS_URL or Upstash env",
+    );
+  }
 
   const totalStale = sources.reduce((acc, s) => acc + s.stale, 0);
   const totalRecords = sources.reduce((acc, s) => acc + s.total, 0);
-  log(`wrote ${OUT_PATH}`);
+  log(`wrote ${OUT_PATH} redis=${redisResult.source}`);
   log(`  ${totalStale} stale / ${totalRecords} records across ${sources.length} sources`);
   for (const s of sources) {
     log(`  - ${s.slug}: ${s.stale}/${s.total} stale (>${s.thresholdHours}h)`);
@@ -210,8 +220,12 @@ const isDirectRun = invokedPath
   : false;
 
 if (isDirectRun) {
-  main().catch((err) => {
-    console.error("sweep-staleness failed:", err.message ?? err);
-    process.exit(1);
-  });
+  main()
+    .catch((err) => {
+      console.error("sweep-staleness failed:", err.message ?? err);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await closeDataStore();
+    });
 }

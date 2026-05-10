@@ -119,8 +119,7 @@ export default async function UserProfilePage({
   ]);
 
   // Per-idea reaction counts (server-rendered so first paint shows real
-  // numbers). Same pattern as the legacy ProfileView. Postgres cutover will
-  // collapse this to a single GROUP BY.
+  // numbers). Postgres cutover will collapse this to a single GROUP BY.
   const ideaReactionEntries = await Promise.all(
     profile.ideas.map(async (idea) => {
       const records = await listReactionsForObject("idea", idea.id);

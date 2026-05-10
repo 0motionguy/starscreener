@@ -18,6 +18,7 @@
 
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import "./_load-env.mjs";
 import {
   writeDataStore,
   readDataStore,
@@ -62,6 +63,27 @@ function todayUtc() {
 
 function payloadSlug(fullName) {
   return `star-activity:${fullName.toLowerCase().replace("/", "__")}`;
+}
+
+function hasWritableDataStoreEnv() {
+  if (
+    process.env.DATA_STORE_DISABLE === "1" ||
+    process.env.DATA_STORE_DISABLE === "true"
+  ) {
+    return false;
+  }
+  if (process.env.REDIS_URL?.trim()) return true;
+  return Boolean(
+    process.env.UPSTASH_REDIS_REST_URL?.trim() &&
+      process.env.UPSTASH_REDIS_REST_TOKEN?.trim(),
+  );
+}
+
+function assertWritableDataStoreEnv() {
+  if (hasWritableDataStoreEnv()) return;
+  throw new Error(
+    "star-activity append requires REDIS_URL or Upstash env; refusing to fetch GitHub data when the data-store write would be skipped",
+  );
 }
 
 async function fetchCurrentStars(fullName, token) {
@@ -112,6 +134,37 @@ function appendToday(payload, currentStars) {
   };
 }
 
+function assertReadBackMatches(slug, expected, actual) {
+  if (!actual || typeof actual !== "object" || Array.isArray(actual)) {
+    throw new Error(`${slug}: read-after-write returned no object payload`);
+  }
+
+  const actualPoints = Array.isArray(actual.points) ? actual.points : [];
+  const expectedPoints = Array.isArray(expected.points) ? expected.points : [];
+  const actualLast = actualPoints[actualPoints.length - 1];
+  const expectedLast = expectedPoints[expectedPoints.length - 1];
+
+  if (
+    actual.repoId !== expected.repoId ||
+    actual.updatedAt !== expected.updatedAt ||
+    actualPoints.length !== expectedPoints.length ||
+    actualLast?.d !== expectedLast?.d ||
+    actualLast?.s !== expectedLast?.s
+  ) {
+    throw new Error(`${slug}: read-after-write payload mismatch`);
+  }
+}
+
+async function writeAndVerifyStarActivity(slug, payload) {
+  const result = await writeDataStore(slug, payload, { stampPerRecord: false });
+  if (result.source !== "redis") {
+    throw new Error(`${slug}: data-store write skipped`);
+  }
+  const readBack = await readDataStore(slug);
+  assertReadBackMatches(slug, payload, readBack);
+  return result;
+}
+
 async function appendOne(fullName, token) {
   const slug = payloadSlug(fullName);
   const existing = await readDataStore(slug);
@@ -124,12 +177,13 @@ async function appendOne(fullName, token) {
   );
   // Ensure repoId is canonical even when bootstrapping a fresh payload.
   next.repoId = fullName;
-  await writeDataStore(slug, next, { stampPerRecord: false });
+  await writeAndVerifyStarActivity(slug, next);
   return next;
 }
 
 async function main() {
   const args = parseArgs();
+  assertWritableDataStoreEnv();
   const token = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN ?? "";
   if (!token) {
     console.warn(
@@ -173,8 +227,7 @@ async function main() {
 }
 
 main()
-  .then(() => process.exit(0))
   .catch((err) => {
     console.error("[append-star-activity] fatal", err);
-    process.exit(1);
+    process.exitCode = 1;
   });

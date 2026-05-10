@@ -17,18 +17,41 @@ test.describe("mobile drawer", () => {
   test("opens via hamburger and closes via escape", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
 
+    await page.waitForFunction(() => {
+      const sidebar = document.querySelector("aside.sidebar");
+      const openButton = document.querySelector(
+        'button[aria-label="Open menu"]',
+      );
+      return (
+        window.matchMedia("(max-width: 767.98px)").matches &&
+        sidebar !== null &&
+        openButton !== null &&
+        getComputedStyle(sidebar).display === "none" &&
+        getComputedStyle(openButton).display !== "none"
+      );
+    });
+
     const hamburger = page.getByRole("button", { name: /open menu/i }).first();
     await expect(hamburger).toBeVisible({ timeout: 10_000 });
 
-    await hamburger.click();
+    // Drawer panel mounts after the lazy chunk loads + AnimatePresence commits.
+    const drawer = page.getByRole("dialog", { name: /navigation/i });
+    await expect
+      .poll(
+        async () => {
+          if (await drawer.isVisible().catch(() => false)) return true;
+          await hamburger.click();
+          return drawer.isVisible().catch(() => false);
+        },
+        { timeout: 15_000 },
+      )
+      .toBe(true);
+    await expect(drawer).toBeVisible({ timeout: 15_000 });
 
-    // Drawer panel mounts after the lazy chunk loads + AnimatePresence
-    // commits. We look for the close button injected by MobileDrawer
-    // ("Close menu") OR the menu eyebrow as fallback.
-    const closeButton = page.getByRole("button", { name: /close menu/i }).first();
+    const closeButton = drawer.getByRole("button", { name: /close menu/i });
     await expect(closeButton).toBeVisible({ timeout: 10_000 });
 
     await page.keyboard.press("Escape");
-    await expect(closeButton).not.toBeVisible({ timeout: 10_000 });
+    await expect(drawer).not.toBeVisible({ timeout: 10_000 });
   });
 });

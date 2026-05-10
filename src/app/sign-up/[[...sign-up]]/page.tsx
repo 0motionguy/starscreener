@@ -17,7 +17,8 @@
 //   works (intake API sets the HttpOnly cookie that the webhook reads
 //   server-side).
 
-import { SignUp } from "@clerk/nextjs";
+import { ClerkProvider, SignUp } from "@clerk/nextjs";
+import { clerkAppearance } from "@/lib/auth/clerk-appearance";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 
 export const metadata = {
@@ -29,7 +30,16 @@ export default function Page() {
   const clerkPublishableKey = getClerkPublishableKey();
   return (
     <div className="flex min-h-[calc(100vh-64px)] items-center justify-center px-4 py-12">
-      {clerkPublishableKey ? <SignUp /> : <AuthUnavailable action="sign up" />}
+      {clerkPublishableKey ? (
+        <ClerkProvider
+          publishableKey={clerkPublishableKey}
+          appearance={clerkAppearance}
+        >
+          <SignUp />
+        </ClerkProvider>
+      ) : (
+        <AuthUnavailable action="sign up" />
+      )}
     </div>
   );
 }

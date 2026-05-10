@@ -131,16 +131,13 @@ test("reddit shared: fetchRedditJson uses public endpoint without oauth creds", 
         },
       );
 
-      // Listing URLs (`/r/X/new.json`) are routed through the RSS variant
-      // (`/r/X/new/.rss`) on the public-json path — the JSON listing endpoint
-      // is blocked at the Reddit edge for GH Actions IPs while the RSS feed
-      // serves the same listing unauthenticated. parseRedditAtomFeed is
-      // tolerant of non-Atom input and returns the empty-children shape.
-      assert.deepEqual(body, { data: { children: [], after: null, before: null } });
+      // Public listing fetches are JSON-first against old.reddit.com so we
+      // keep engagement fields; RSS is only a fallback when JSON is blocked.
+      assert.deepEqual(body, { data: { children: [] } });
       assert.equal(calls.length, 1);
       assert.equal(
         calls[0].url,
-        "https://www.reddit.com/r/OpenAI/new/.rss?limit=3",
+        "https://old.reddit.com/r/OpenAI/new.json?limit=3",
       );
       assert.equal(calls[0].init.headers.Authorization, undefined);
       assert.equal(
@@ -151,7 +148,7 @@ test("reddit shared: fetchRedditJson uses public endpoint without oauth creds", 
   );
 });
 
-test("reddit shared: public RSS requests rotate pooled user agents per request", async () => {
+test("reddit shared: public JSON requests rotate pooled user agents per request", async () => {
   await withEnv(
     {
       REDDIT_CLIENT_ID: null,
@@ -163,9 +160,7 @@ test("reddit shared: public RSS requests rotate pooled user agents per request",
       const calls = [];
       const fetchImpl = async (url, init) => {
         calls.push({ url, init });
-        return new Response("<feed></feed>", {
-          headers: { "Content-Type": "application/atom+xml" },
-        });
+        return Response.json({ data: { children: [] } });
       };
 
       await fetchRedditJson("https://www.reddit.com/r/OpenAI/new.json?limit=3", {

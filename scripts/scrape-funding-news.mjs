@@ -788,6 +788,11 @@ async function main() {
   let redisInfo = "";
   if (outputPath === OUT_PATH) {
     const redisResult = await writeDataStore("funding-news", payload);
+    if (redisResult.source !== "redis") {
+      throw new Error(
+        "funding-news data-store write skipped; set REDIS_URL or Upstash env",
+      );
+    }
     redisInfo = ` [redis: ${redisResult.source}]`;
   }
 

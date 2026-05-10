@@ -10,7 +10,7 @@ import { getDailyByFeature, refreshModelUsageFromStore } from "@/lib/model-usage
 import { rollUpFeatures } from "@/lib/llm/derive";
 
 export const runtime = "nodejs";
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 const READ_HEADERS = {
   "Cache-Control": "private, no-store",

@@ -28,8 +28,8 @@ import { TerminalEmpty } from "./TerminalEmpty";
 import { TerminalHeader } from "./TerminalHeader";
 import { TerminalMobileCard } from "./TerminalMobileCard";
 import { TerminalRow } from "./TerminalRow";
-import { TerminalBar } from "@/components/v2/TerminalBar";
 
+import { TerminalChromeBar } from "@/components/ui/TerminalChrome";
 import { useWindowWidth } from "@/hooks/useWindowWidth";
 import type { ColumnId, Repo, SortDirection } from "@/lib/types";
 import { getEffectiveSortColumn } from "@/lib/filters";
@@ -386,7 +386,7 @@ export function Terminal({
           className,
         )}
       >
-        <TerminalBar
+        <TerminalChromeBar
           label={`// REPOS · LIVE · ${visibleRows.toLocaleString("en-US")} ROWS`}
           status={`EU-CENTRAL-1 · ${repos.length.toLocaleString("en-US")} TRACKED`}
           live

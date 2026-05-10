@@ -37,6 +37,7 @@ import { newsletterSubscribers } from "@/lib/db/schema/newsletter";
 import { resolveEmailFrom, sendEmail } from "@/lib/email/send";
 import { renderNewsletterConfirmEmail } from "@/lib/email/templates/newsletter-confirm";
 import { errorEnvelope, serverError } from "@/lib/api/error-response";
+import { parseBody } from "@/lib/api/parse-body";
 import {
   mintConfirmToken,
   mintUnsubToken,
@@ -99,21 +100,17 @@ async function sendConfirmationEmail(
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<SubscribeOk | { ok: false; error: string; code?: string }>> {
-  // Body parse — JSON only.
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
+  const parsed = await parseBody(request, SubscribeSchema, {
+    publicMessage: "invalid email",
+    includeDetails: false,
+  });
+  if (!parsed.ok) {
+    const body = (await parsed.response.json()) as { error?: string };
+    const isInvalidJson = body.error === "request body is not valid JSON";
     return NextResponse.json(
-      errorEnvelope("invalid JSON body", "BAD_REQUEST"),
-      { status: 400, headers: POST_CACHE_HEADERS },
-    );
-  }
-
-  const parsed = SubscribeSchema.safeParse(body);
-  if (!parsed.success) {
-    return NextResponse.json(
-      errorEnvelope("invalid email", "INVALID_EMAIL"),
+      isInvalidJson
+        ? errorEnvelope("invalid JSON body", "BAD_REQUEST")
+        : errorEnvelope("invalid email", "INVALID_EMAIL"),
       { status: 400, headers: POST_CACHE_HEADERS },
     );
   }

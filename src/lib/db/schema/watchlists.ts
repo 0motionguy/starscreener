@@ -4,7 +4,7 @@
 // `src/lib/watchlist/private-store.ts` with a relational model so the alert
 // engine can JOIN against watched items per-user. The legacy localStorage
 // Zustand store at `src/lib/store.ts` continues to work for anonymous
-// users; on first sign-in we lazy-migrate via `src/lib/auth/migrate-anon.ts`.
+// users; signed-in watchlists live in the relational tables below.
 //
 // Cap: max 1000 repos per user (matches private-store.MAX_PRIVATE_WATCHLIST_REPOS).
 // Enforced at insert time, not by schema constraint, so admins can hot-fix.

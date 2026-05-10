@@ -23,7 +23,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -38,7 +37,8 @@ import { useCompareStore } from "@/lib/store";
 import { useCompareRepos } from "@/hooks/useCompareRepos";
 import { CompareSelector } from "@/components/compare/CompareSelector";
 import { RepoBannerCard } from "@/components/compare/RepoBannerCard";
-import { CompareHeatmap } from "@/components/compare/CompareHeatmap";
+import { CompareChartLazy } from "@/components/compare/CompareChartLazy";
+import { CompareHeatmapLazy } from "@/components/compare/CompareHeatmapLazy";
 import { LanguageBar } from "@/components/compare/LanguageBar";
 import { ContributorGrid } from "@/components/compare/ContributorGrid";
 import { WinnerChips } from "@/components/compare/WinnerChips";
@@ -52,21 +52,6 @@ import type { RepoMentions } from "@/components/repo-signals/RepoMentionBadges";
 import type { Repo } from "@/lib/types";
 import { cn, slugToId } from "@/lib/utils";
 import { COMPARE_PALETTE, COMPARE_MAX_SLOTS } from "./palette";
-
-// Recharts weighs ~100KB gzipped. The compare chart sits in section 4 of a
-// deep-dive page with several sections above the fold — defer loading its
-// bundle until the section is rendered client-side. ssr:false is safe here
-// because CompareClient is already "use client" and the chart is purely
-// visual (no SEO-relevant DOM).
-const CompareChart = dynamic(
-  () => import("@/components/compare/CompareChart").then((m) => m.CompareChart),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="skeleton-shimmer rounded-card h-[300px] w-full" />
-    ),
-  },
-);
 
 // Local aliases keep call sites short. Palette + slot count are defined
 // once in ./palette and imported by every compare-page sibling so banner
@@ -378,7 +363,7 @@ export function CompareClient({
         {isLoading && orderedRepos.length < 2 ? (
           <div className="skeleton-shimmer rounded-card h-[300px] w-full" />
         ) : orderedRepos.length >= 2 ? (
-          <CompareChart repos={orderedRepos} />
+          <CompareChartLazy repos={orderedRepos} />
         ) : (
           <EmptyPanel message="Need at least 2 resolved repos to render the chart." />
         )}
@@ -392,7 +377,7 @@ export function CompareClient({
         {showBundleSkeletons ? (
           <HeatmapSkeleton />
         ) : (
-          <CompareHeatmap bundles={orderedBundles} palette={[...PALETTE]} />
+          <CompareHeatmapLazy bundles={orderedBundles} palette={[...PALETTE]} />
         )}
       </section>
 

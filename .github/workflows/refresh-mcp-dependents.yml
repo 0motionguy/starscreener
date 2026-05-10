@@ -1,13 +1,13 @@
 name: Refresh MCP dependents
 
-# Daily at 04:53 UTC. Polls libraries.io for `dependent_repos_count` per
+# Every 12h at :53 UTC. Polls libraries.io for `dependent_repos_count` per
 # tracked MCP npm package and writes to Redis `mcp-dependents` (aggregate)
 # plus per-package cache `mcp-dependents:<pkg>` (7d TTL). When the
 # LIBRARIES_IO_API_KEY secret is missing the fetcher logs a warning and
 # exits cleanly — the scorer drops the term.
 on:
   schedule:
-    - cron: "53 4 * * *"
+    - cron: "53 */12 * * *"
   workflow_dispatch:
 
 permissions:

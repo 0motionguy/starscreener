@@ -16,6 +16,7 @@ import { and, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 import { requireUser } from "@/lib/auth/server";
+import { parseBody } from "@/lib/api/parse-body";
 import { db } from "@/lib/db/client";
 import { alertRules, type AlertRule } from "@/lib/db/schema/alerts";
 import { patchAlertRuleSchema } from "@/lib/api/alert-rules/schemas";
@@ -75,21 +76,23 @@ export async function PATCH(
     return jsonError(400, "missing_id", "rule id is required");
   }
 
-  let raw: unknown;
-  try {
-    raw = await req.json();
-  } catch {
-    return jsonError(400, "invalid_json", "request body is not valid JSON");
-  }
-
-  const parsed = patchAlertRuleSchema.safeParse(raw);
-  if (!parsed.success) {
-    return jsonError(
-      400,
-      "validation",
-      "request body failed validation",
-      parsed.error.issues,
-    );
+  const parsed = await parseBody(req, patchAlertRuleSchema, {
+    publicMessage: "request body failed validation",
+  });
+  if (!parsed.ok) {
+    const body = (await parsed.response.json()) as {
+      error?: string;
+      details?: unknown;
+    };
+    const invalidJson = body.error === "request body is not valid JSON";
+    return invalidJson
+      ? jsonError(400, "invalid_json", "request body is not valid JSON")
+      : jsonError(
+          400,
+          "validation",
+          "request body failed validation",
+          body.details,
+        );
   }
   const data = parsed.data;
 
@@ -146,9 +149,10 @@ export async function PATCH(
 // ---------------------------------------------------------------------------
 
 export async function DELETE(
-  _req: NextRequest,
+  req: NextRequest,
   ctx: RouteContext,
 ): Promise<NextResponse> {
+  void req;
   const user = await requireUser();
   const { id } = await ctx.params;
   if (!id) {

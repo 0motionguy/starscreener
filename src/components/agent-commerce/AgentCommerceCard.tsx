@@ -1,7 +1,7 @@
 // Agent Commerce — entity card.
 //
-// Server-rendered. Mirrors FundingCard layout but tuned for agent-callable
-// services: protocol badges, status flags, pricing, capabilities, score bar.
+// Server-rendered card tuned for agent-callable services: protocol badges,
+// status flags, pricing, capabilities, score bar.
 
 import Link from "next/link";
 

@@ -64,9 +64,9 @@ export default function ComparePage() {
             <span className="ar">-&gt;</span>
           </span>
         </Link>
-        <Link className="tool" href="/mindshare">
+        <Link className="tool" href="/signals">
           <span className="t-num">02 / analog</span>
-          <span className="t-h">Mindshare</span>
+          <span className="t-h">Signals</span>
           <span className="t-d">
             Map cross-source attention and category gravity.
           </span>

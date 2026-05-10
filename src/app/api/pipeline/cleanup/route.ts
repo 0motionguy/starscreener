@@ -19,9 +19,12 @@
 //   { ok: true, checked, wouldArchive, wouldDelete, updated, rateLimitRemaining }
 
 import { NextRequest, NextResponse } from "next/server";
-import { pipeline, repoStore } from "@/lib/pipeline/pipeline";
-import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
+import { z } from "zod";
+
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
+import { createGitHubAdapter } from "@/lib/pipeline/ingestion/ingest";
+import { pipeline, repoStore } from "@/lib/pipeline/pipeline";
 
 export const runtime = "nodejs";
 
@@ -30,28 +33,29 @@ export const maxDuration = 300;
 
 const MODES = new Set(["archived", "deleted", "all"]);
 
-interface CleanupBody {
-  mode?: "archived" | "deleted" | "all";
-  dryRun?: boolean;
-  max?: number;
-}
+const cleanupBodySchema = z.preprocess(
+  (raw) => (raw && typeof raw === "object" && !Array.isArray(raw) ? raw : {}),
+  z
+    .object({
+      mode: z.unknown().optional(),
+      dryRun: z.unknown().optional(),
+      max: z.unknown().optional(),
+    })
+    .passthrough(),
+);
 
 async function handler(req: NextRequest): Promise<NextResponse> {
   const deny = authFailureResponse(verifyCronAuth(req));
   if (deny) return deny;
 
-  let body: CleanupBody = {};
-  try {
-    if (req.headers.get("content-type")?.includes("application/json")) {
-      const parsed = (await req.json()) as unknown;
-      if (parsed && typeof parsed === "object") body = parsed as CleanupBody;
-    }
-  } catch {
-    // Empty body is fine — defaults apply.
-  }
+  const parsed = await parseBody(req, cleanupBodySchema, { allowEmpty: true });
+  if (!parsed.ok) return parsed.response;
+  const body = parsed.data;
 
-  const mode: CleanupBody["mode"] =
-    body.mode && MODES.has(body.mode) ? body.mode : "all";
+  const mode =
+    typeof body.mode === "string" && MODES.has(body.mode)
+      ? body.mode
+      : "all";
   const dryRun = body.dryRun === true;
   const max =
     typeof body.max === "number" && body.max > 0 && body.max <= 500

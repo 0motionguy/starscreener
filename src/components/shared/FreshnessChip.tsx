@@ -1,12 +1,11 @@
 // FreshnessChip — small per-row "Updated 8h ago" tag.
 //
-// AGN-450: there is exactly ONE freshness pill on each page (FreshBadge in
-// the layout, FreshnessBadge in the page head). Every row / metric card
-// renders signal numbers ("+1.2k stars 24h") with no age annotation, so a
-// user can't tell if they're reading 30-minute fresh data or 8-hour stale
-// data.
+// AGN-450: page-level freshness belongs in the page header. Every row /
+// metric card renders signal numbers ("+1.2k stars 24h") with no age
+// annotation, so a user can't tell if they're reading 30-minute fresh data
+// or 8-hour stale data.
 //
-// This chip is the per-row companion to FreshnessBadge. It accepts a
+// This chip is the per-row freshness companion. It accepts a
 // timestamp (ISO / epoch ms / Date) and renders a compact relative-time
 // tag with three tone bands matching the AGN-450 acceptance criteria:
 //   - "fresh"  (< 30 min)  → green

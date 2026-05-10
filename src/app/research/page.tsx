@@ -20,8 +20,12 @@ import {
   getHuggingFaceTrending,
   refreshResearchSignalsFromStore,
 } from "@/lib/research-signals";
-import { TerminalBar, MonoLabel, BarcodeTicker } from "@/components/v2";
 import { MarkVisited } from "@/components/layout/MarkVisited";
+import {
+  BarcodeStrip,
+  MonoCaption,
+  TerminalChromeBar,
+} from "@/components/ui/TerminalChrome";
 
 export const revalidate = 600;
 
@@ -68,16 +72,16 @@ export default async function ResearchPage() {
       <MarkVisited routeKey="citedRepos" count={linkedPapers} />
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:py-8">
         <div className="v2-frame overflow-hidden mb-4">
-          <TerminalBar
+          <TerminalChromeBar
             label="// RESEARCH · HF + ARXIV"
             status={`${hfModels.length} HF · ${papers.length} ARXIV · ${cold ? "COLD" : "LIVE"}`}
             live={!cold}
           />
-          <BarcodeTicker count={140} height={12} seed={hfModels.length + papers.length || 88} />
+          <BarcodeStrip count={140} height={12} seed={hfModels.length + papers.length || 88} />
         </div>
 
         <header className="mb-6 border-b border-[var(--v2-line-std)] pb-6 space-y-3">
-          <MonoLabel index="04" name="RESEARCH" hint="HF · ARXIV" tone="muted" />
+          <MonoCaption index="04" name="RESEARCH" hint="HF · ARXIV" tone="muted" />
           <div className="flex items-baseline gap-3 flex-wrap">
             <h1 className="font-display text-2xl font-bold uppercase tracking-wider">
               RESEARCH

@@ -1,6 +1,6 @@
 "use client";
 
-// Lazy-loaded Consensus radar — see Tr100IndexChartLazy for rationale.
+// Lazy-loaded Consensus radar so the chart island stays out of first paint.
 //
 // The radar is wrapped inside a <Card variant="panel">; the chart canvas
 // itself renders at height={320} (see ConsensusRadar.tsx) plus card chrome.

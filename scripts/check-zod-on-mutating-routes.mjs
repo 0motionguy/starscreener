@@ -32,10 +32,6 @@ const ALLOW_NO_PARSEBODY = new Map([
     "Stripe webhook needs raw text() for HMAC sig verify; JSON reparse would mutate whitespace.",
   ],
   [
-    "src/app/api/admin/scan/route.ts",
-    "Body is { source: string } — minimal shape, manually validated against the SCRIPTS allow-list.",
-  ],
-  [
     "src/app/api/cron/twitter-daily/route.ts",
     "No-body cron trigger — verifyCronAuth handles trust; no body fields consumed.",
   ],
@@ -75,7 +71,6 @@ const ALLOW_NO_PARSEBODY = new Map([
   ["src/app/api/pipeline/alerts/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/pipeline/alerts/rules/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/pipeline/backfill-history/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
-  ["src/app/api/pipeline/cleanup/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/pipeline/ingest/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/pipeline/persist/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
   ["src/app/api/pipeline/profiles/enrich/route.ts", "legacy: pre-APP-02 — migrate when next touched"],
@@ -86,12 +81,10 @@ const ALLOW_NO_PARSEBODY = new Map([
   // Wave-1 auth/profile/referrals/alerts routes merged from main in 1ece26b5.
   // Pre-existed on main without parseBody; pinned debt — migrate when next touched.
   ["src/app/api/cron/referrals/qualify/route.ts", "legacy: cron trigger uses verifyCronAuth + handle() dispatch"],
-  ["src/app/api/me/alert-rules/route.ts", "legacy: pre-merge from main — migrate when next touched"],
-  ["src/app/api/me/alert-rules/[id]/route.ts", "legacy: pre-merge from main — migrate when next touched"],
-  ["src/app/api/me/alert-rules/[id]/rotate-secret/route.ts", "legacy: pre-merge from main — migrate when next touched"],
-  ["src/app/api/me/profile/route.ts", "legacy: pre-merge from main — migrate when next touched"],
-  ["src/app/api/newsletter/subscribe/route.ts", "legacy: pre-merge from main — migrate when next touched"],
-  ["src/app/api/referrals/me/route.ts", "legacy: pre-merge from main — migrate when next touched"],
+  [
+    "src/app/api/me/alert-rules/[id]/rotate-secret/route.ts",
+    "No-body POST; path id + requireUser ownership checks drive the secret rotation.",
+  ],
   ["src/app/api/webhooks/clerk/route.ts", "Clerk webhook — needs raw body for svix sig verify, same pattern as Stripe"],
 ]);
 

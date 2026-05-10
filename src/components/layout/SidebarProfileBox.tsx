@@ -11,49 +11,21 @@
  * Anonymous users render NOTHING (`return null`). The calling Sidebar
  * is expected to handle the un-authed fallback (e.g. a sign-in CTA).
  *
- * The session check duplicates the inline `useUserSession` pattern in
- * `Sidebar.tsx` to keep this component self-contained — the original
- * hook lives in a sibling file and is not exported. Both fetch the
- * same `/api/auth/session` endpoint, so there is no extra round-trip
- * cost beyond what the existing rail already pays.
+ * The display-only session check uses the shared client session source
+ * so the rail and header do not duplicate `/api/auth/session` requests.
  *
  * Tier ("MEMBER · LVL 1") is hard-coded for now — the project does not
  * yet have a tier system. Wire to real data when it lands.
  */
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useClientSession } from "@/components/layout/useClientSession";
 
 interface SidebarProfileBoxProps {
   watchCount: number;
   alertCount: number;
   /** Reserved for future "drops" metric. Pass 0 until wired. */
   dropCount: number;
-}
-
-function useUserSession(): { loaded: boolean; userId: string | null } {
-  const [state, setState] = useState<{ loaded: boolean; userId: string | null }>(
-    { loaded: false, userId: null },
-  );
-  useEffect(() => {
-    let cancelled = false;
-    fetch("/api/auth/session", { credentials: "include" })
-      .then((r) => (r.ok ? r.json() : { ok: false }))
-      .then((data: { ok?: boolean; userId?: string }) => {
-        if (cancelled) return;
-        setState({
-          loaded: true,
-          userId: data?.ok && data.userId ? data.userId : null,
-        });
-      })
-      .catch(() => {
-        if (!cancelled) setState({ loaded: true, userId: null });
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-  return state;
 }
 
 /** Public IDs look like `a_xxx` / `u_xxx`. Strip the prefix, lowercase, cap at 8. */
@@ -123,7 +95,7 @@ export function SidebarProfileBox({
   alertCount,
   dropCount,
 }: SidebarProfileBoxProps) {
-  const { userId } = useUserSession();
+  const { userId } = useClientSession();
 
   // Anonymous: render nothing — the parent decides the fallback UI.
   if (!userId) return null;

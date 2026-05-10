@@ -10,9 +10,8 @@
 
 import Link from "next/link";
 import type { JSX } from "react";
-import { EChart } from "@/components/charts/EChart";
 import { ChartStat, ChartStats } from "@/components/ui/ChartShell";
-import { CHART_TOKENS } from "@/lib/charts/theme";
+import { CHART_TOKENS } from "@/lib/charts/theme/tokens";
 import {
   getStarActivity,
   type StarActivityPoint,
@@ -20,7 +19,7 @@ import {
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
 
-interface StarHistoryBlockProps {
+export interface StarHistoryBlockProps {
   repo: Repo;
 }
 
@@ -64,66 +63,138 @@ function deriveStats(points: StarActivityPoint[]): DerivedStats {
   return { todayStars, todayDelta, weekDelta, monthDelta, spike };
 }
 
-function buildOption(
-  points: StarActivityPoint[],
-  spike: DerivedStats["spike"],
-) {
-  const data = points.map((p) => [p.d, p.s] as [string, number]);
-  return {
-    grid: {
-      left: 48,
-      right: 16,
-      top: 16,
-      bottom: 28,
-    },
-    tooltip: {
-      trigger: "axis" as const,
-      axisPointer: { type: "line" as const },
-    },
-    xAxis: {
-      type: "time" as const,
-      splitLine: { show: false },
-    },
-    yAxis: {
-      type: "value" as const,
-      scale: true,
-      axisLabel: { formatter: "{value}" },
-    },
-    series: [
-      {
-        name: "Stars",
-        type: "line" as const,
-        showSymbol: false,
-        smooth: true,
-        data,
-        lineStyle: { color: CHART_TOKENS.positive, width: 2 },
-        areaStyle: { color: CHART_TOKENS.positive, opacity: 0.18 },
-        markPoint:
-          spike && spike.date
-            ? {
-                symbol: "circle",
-                symbolSize: 8,
-                itemStyle: { color: CHART_TOKENS.accent },
-                label: {
-                  show: true,
-                  formatter: `+${formatNumber(spike.delta)}/d`,
-                  color: CHART_TOKENS.accent,
-                  fontFamily: "var(--font-geist-mono, monospace)",
-                  fontSize: 10,
-                  position: "top" as const,
-                  offset: [0, -6],
-                },
-                data: [{ coord: [spike.date, lookupStarsAt(points, spike.date)] }],
-              }
-            : undefined,
-      },
-    ],
-  };
+interface SvgPoint {
+  x: number;
+  y: number;
+  point: StarActivityPoint;
 }
 
-function lookupStarsAt(points: StarActivityPoint[], date: string): number {
-  const hit = points.find((p) => p.d === date);
-  return hit ? hit.s : 0;
+function buildChartGeometry(points: StarActivityPoint[]): {
+  linePath: string;
+  areaPath: string;
+  svgPoints: SvgPoint[];
+  minStars: number;
+  maxStars: number;
+} {
+  const width = 720;
+  const height = 280;
+  const left = 48;
+  const right = 16;
+  const top = 16;
+  const bottom = 28;
+  const plotWidth = width - left - right;
+  const plotHeight = height - top - bottom;
+  const values = points.map((point) => point.s);
+  const minStars = Math.min(...values);
+  const maxStars = Math.max(...values);
+  const range = Math.max(1, maxStars - minStars);
+
+  const svgPoints = points.map((point, index) => {
+    const x =
+      points.length === 1
+        ? left + plotWidth
+        : left + (index / (points.length - 1)) * plotWidth;
+    const y = top + (1 - (point.s - minStars) / range) * plotHeight;
+    return { x, y, point };
+  });
+
+  const linePath = svgPoints
+    .map(
+      (item, index) =>
+        `${index === 0 ? "M" : "L"}${item.x.toFixed(2)} ${item.y.toFixed(2)}`,
+    )
+    .join(" ");
+  const first = svgPoints[0];
+  const last = svgPoints[svgPoints.length - 1];
+  const baseline = height - bottom;
+  const areaPath =
+    first && last
+      ? `${linePath} L${last.x.toFixed(2)} ${baseline} L${first.x.toFixed(2)} ${baseline} Z`
+      : "";
+
+  return { linePath, areaPath, svgPoints, minStars, maxStars };
+}
+
+function StarHistorySvg({
+  points,
+  spike,
+  ariaLabel,
+}: {
+  points: StarActivityPoint[];
+  spike: DerivedStats["spike"];
+  ariaLabel: string;
+}): JSX.Element {
+  const { linePath, areaPath, svgPoints, minStars, maxStars } =
+    buildChartGeometry(points);
+  const spikePoint = spike
+    ? svgPoints.find((item) => item.point.d === spike.date)
+    : null;
+  const start = svgPoints[0]?.point;
+  const end = svgPoints[svgPoints.length - 1]?.point;
+
+  return (
+    <svg
+      className="shb-svg"
+      viewBox="0 0 720 280"
+      role="img"
+      aria-label={ariaLabel}
+      preserveAspectRatio="none"
+    >
+      <defs>
+        <linearGradient id="shb-area" x1="0" y1="0" x2="0" y2="1">
+          <stop
+            offset="0%"
+            stopColor={CHART_TOKENS.positive}
+            stopOpacity="0.24"
+          />
+          <stop
+            offset="100%"
+            stopColor={CHART_TOKENS.positive}
+            stopOpacity="0"
+          />
+        </linearGradient>
+      </defs>
+      <line className="shb-grid" x1="48" y1="16" x2="704" y2="16" />
+      <line className="shb-grid" x1="48" y1="134" x2="704" y2="134" />
+      <line className="shb-grid" x1="48" y1="252" x2="704" y2="252" />
+      <text className="shb-axis" x="8" y="20">
+        {formatNumber(maxStars)}
+      </text>
+      <text className="shb-axis" x="8" y="254">
+        {formatNumber(minStars)}
+      </text>
+      {start ? (
+        <text className="shb-axis shb-date" x="48" y="274">
+          {start.d.slice(5)}
+        </text>
+      ) : null}
+      {end ? (
+        <text className="shb-axis shb-date" x="704" y="274" textAnchor="end">
+          {end.d.slice(5)}
+        </text>
+      ) : null}
+      <path d={areaPath} fill="url(#shb-area)" />
+      <path d={linePath} className="shb-line" />
+      {spike && spikePoint ? (
+        <g>
+          <circle
+            cx={spikePoint.x}
+            cy={spikePoint.y}
+            r="4"
+            fill={CHART_TOKENS.accent}
+          />
+          <text
+            className="shb-spike"
+            x={Math.min(660, Math.max(72, spikePoint.x))}
+            y={Math.max(16, spikePoint.y - 12)}
+            textAnchor="middle"
+          >
+            +{formatNumber(spike.delta)}/d
+          </text>
+        </g>
+      ) : null}
+    </svg>
+  );
 }
 
 export function StarHistoryBlock({ repo }: StarHistoryBlockProps): JSX.Element {
@@ -149,7 +220,6 @@ export function StarHistoryBlock({ repo }: StarHistoryBlockProps): JSX.Element {
       : null;
 
   const hasSeries = points.length >= 2;
-  const option = hasSeries ? buildOption(points, stats.spike) : null;
   const fullHref = `/repo/${repo.owner}/${repo.name}/star-activity`;
 
   return (
@@ -161,10 +231,10 @@ export function StarHistoryBlock({ repo }: StarHistoryBlockProps): JSX.Element {
         </Link>
       </header>
       <div className="shb-chart">
-        {option ? (
-          <EChart
-            option={option}
-            height={280}
+        {hasSeries ? (
+          <StarHistorySvg
+            points={points}
+            spike={stats.spike}
             ariaLabel={`${repo.fullName} cumulative stars over the last ${WINDOW_DAYS} days`}
           />
         ) : (
@@ -237,6 +307,37 @@ export function StarHistoryBlock({ repo }: StarHistoryBlockProps): JSX.Element {
         }
         .shb-full-link:hover { text-decoration: underline; }
         .shb-chart { width: 100%; min-height: 280px; }
+        .shb-svg {
+          display: block;
+          width: 100%;
+          height: 280px;
+          overflow: visible;
+        }
+        .shb-grid {
+          stroke: var(--v3-line-100, rgba(255,255,255,0.08));
+          stroke-dasharray: 3 5;
+        }
+        .shb-line {
+          fill: none;
+          stroke: ${CHART_TOKENS.positive};
+          stroke-width: 2;
+          vector-effect: non-scaling-stroke;
+        }
+        .shb-axis,
+        .shb-spike {
+          fill: var(--v3-ink-300, rgba(255,255,255,0.7));
+          font-family: var(--font-geist-mono, monospace);
+          font-size: 10px;
+          letter-spacing: 0.08em;
+          font-variant-numeric: tabular-nums;
+        }
+        .shb-date {
+          fill: var(--v3-ink-250, rgba(255,255,255,0.55));
+        }
+        .shb-spike {
+          fill: ${CHART_TOKENS.accent};
+          font-weight: 700;
+        }
         .shb-empty {
           display: flex;
           align-items: center;

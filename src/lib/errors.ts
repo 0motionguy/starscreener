@@ -33,8 +33,7 @@ export type EngineErrorSource =
   | "npm"
   | "arxiv"
   | "sentry-canary"
-  | "soft-404"
-  | "subdomain-takeover";
+  | "soft-404";
 
 export class AuthRecoverableError extends EngineError {
   readonly category = "recoverable" as const;

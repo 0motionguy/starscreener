@@ -16,6 +16,7 @@ import { requireUser } from "@/lib/auth/server";
 import { db } from "@/lib/db/client";
 import { profiles, type Profile } from "@/lib/db/schema/profiles";
 import { patchProfilePrefsSchema } from "@/lib/api/alert-rules/schemas";
+import { parseBody } from "@/lib/api/parse-body";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -50,21 +51,23 @@ function safeProfile(
 export async function PATCH(req: NextRequest): Promise<NextResponse> {
   const user = await requireUser();
 
-  let raw: unknown;
-  try {
-    raw = await req.json();
-  } catch {
-    return jsonError(400, "invalid_json", "request body is not valid JSON");
-  }
-
-  const parsed = patchProfilePrefsSchema.safeParse(raw);
-  if (!parsed.success) {
-    return jsonError(
-      400,
-      "validation",
-      "request body failed validation",
-      parsed.error.issues,
-    );
+  const parsed = await parseBody(req, patchProfilePrefsSchema, {
+    publicMessage: "request body failed validation",
+  });
+  if (!parsed.ok) {
+    const body = (await parsed.response.json()) as {
+      error?: string;
+      details?: unknown;
+    };
+    const invalidJson = body.error === "request body is not valid JSON";
+    return invalidJson
+      ? jsonError(400, "invalid_json", "request body is not valid JSON")
+      : jsonError(
+          400,
+          "validation",
+          "request body failed validation",
+          body.details,
+        );
   }
   const data = parsed.data;
 

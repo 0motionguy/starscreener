@@ -1,8 +1,8 @@
 // Playwright config — STARSCREENER smoke harness.
 //
-// Targets a configurable baseURL via STARSCREENER_BASE_URL; falls back to the
-// dev server on port 3023 (per `npm run dev`). When STARSCREENER_BASE_URL is
-// set, we assume the server is already running (CI / preview) and skip the
+// Targets a configurable baseURL via STARSCREENER_BASE_URL; falls back to a
+// fresh dev server on port 3023 (per `npm run dev`). When STARSCREENER_BASE_URL
+// is set, we assume the server is already running (CI / preview) and skip the
 // webServer block.
 //
 // Legacy alias: PW_BASE_URL is still honored so existing configs / scripts
@@ -25,6 +25,7 @@ const baseURL =
 const useExternal = Boolean(
   process.env.STARSCREENER_BASE_URL ?? process.env.PW_BASE_URL,
 );
+const reuseExistingServer = process.env.PLAYWRIGHT_REUSE_SERVER === "1";
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -58,7 +59,11 @@ export default defineConfig({
     : {
         command: "npm run dev",
         url: baseURL,
-        reuseExistingServer: !process.env.CI,
+        // Default false so local E2E cannot silently exercise a stale
+        // `next start` listener from a previous build. Set
+        // PLAYWRIGHT_REUSE_SERVER=1 when intentionally targeting a live dev
+        // server without STARSCREENER_BASE_URL/PW_BASE_URL.
+        reuseExistingServer,
         timeout: 120_000,
         stdout: "pipe",
         stderr: "pipe",

@@ -99,6 +99,10 @@ import {
   windowLabel,
 } from "@/components/signals-terminal/SourceFilterBar";
 import { matchesTopic } from "@/lib/signals/topics";
+import {
+  classifyFreshness,
+  type NewsSource,
+} from "@/lib/news/freshness";
 
 // V4 (CORPUS) primitives — page chrome.
 // /signals is the proof-of-concept consumer; this is the canonical
@@ -270,8 +274,71 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
   }
 
   // ── KPI calculations -------------------------------------------------------
-  const activeSources = (Object.entries(volume.perSource) as [SourceKey, number][])
-    .filter(([, n]) => n > 0).length;
+  // M5 (2026-05-10): "active" used to mean "has at least one item in the
+  // current window" (`volume.perSource[key] > 0`). That double-counted
+  // sources that had stale items inside the window — a cold collector with
+  // 4h-old rows still passed the >0 check. Switch to classifyFreshness()
+  // so a source counts as "live" only when its freshness verdict is "live".
+  // Mapping SourceKey → NewsSource:
+  //   hn       → hackernews (4h fast budget)
+  //   github   → hackernews (3h GHA cadence, fits the 4h fast budget)
+  //   x        → twitter    (12h scan budget)
+  //   reddit   → reddit     (4h fast budget)
+  //   bluesky  → bluesky    (4h fast budget)
+  //   devto    → devto      (26h budget)
+  //   claude   → skills     (50h slow-cron RSS — closest existing match)
+  //   openai   → skills     (50h slow-cron RSS — closest existing match)
+  const SIGNAL_FRESHNESS_SOURCE: Record<SourceKey, NewsSource> = {
+    hn: "hackernews",
+    github: "hackernews",
+    x: "twitter",
+    reddit: "reddit",
+    bluesky: "bluesky",
+    devto: "devto",
+    claude: "skills",
+    openai: "skills",
+  };
+
+  const SOURCE_FETCHED_AT: Record<SourceKey, string | null | undefined> = {
+    hn: hnFetchedAt,
+    github: ghFetchedAt,
+    x: twLatestAt,
+    reddit: getRedditFetchedAt(),
+    bluesky: blueskyFetchedAt,
+    devto: devtoFetchedAt,
+    claude: claudeFetchedAt(),
+    openai: openaiFetchedAt(),
+  };
+
+  const SOURCE_LABEL: Record<SourceKey, string> = {
+    hn: "HN",
+    github: "GH",
+    x: "X",
+    reddit: "RDT",
+    bluesky: "BSKY",
+    devto: "DEV",
+    claude: "CLA",
+    openai: "OAI",
+  };
+
+  const sourceVerdicts = (Object.keys(SIGNAL_FRESHNESS_SOURCE) as SourceKey[]).map(
+    (key) => ({
+      key,
+      label: SOURCE_LABEL[key],
+      verdict: classifyFreshness(
+        SIGNAL_FRESHNESS_SOURCE[key],
+        SOURCE_FETCHED_AT[key] ?? null,
+        nowMs,
+      ),
+    }),
+  );
+
+  const activeSources = sourceVerdicts.filter(
+    (s) => s.verdict.status === "live",
+  ).length;
+  const coldSources = sourceVerdicts
+    .filter((s) => s.verdict.status === "cold")
+    .map((s) => s.label);
 
   const dominantPct =
     volume.totalItems > 0
@@ -465,18 +532,40 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
       />
 
       <div style={{ marginBottom: 10 }}>
-        <KpiStrip
-          totalSignals={volume.totalItems}
-          changePct={volume.changePct}
-          activeSources={activeSources}
-          totalSources={8}
-          topTag={tagMomentum.topTag?.tag ?? null}
-          topTagDelta={tagMomentum.topTag?.delta ?? null}
-          topTagCount={tagMomentum.topTag?.count ?? null}
-          consensusCount={consensusCount}
-          freshnessLabel={freshnessLabel}
-          windowLabel={activeWindowLabel}
-        />
+        {activeSources === 0 ? (
+          // M5 (2026-05-10): if every source is cold, the KPI strip would
+          // render zeros across the board and amplify the "everything's
+          // broken" perception that motivated this rewrite. Replace with
+          // a single muted line — quiet, honest, and points the operator
+          // at the right surface (infra status) for the actual fix.
+          <div
+            role="status"
+            style={{
+              padding: "10px 14px",
+              border: "1px solid var(--color-border, rgba(255,255,255,0.08))",
+              borderRadius: 8,
+              color: "var(--color-muted, #888)",
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 12,
+              letterSpacing: "0.06em",
+            }}
+          >
+            All sources currently degraded — see infra status.
+          </div>
+        ) : (
+          <KpiStrip
+            totalSignals={volume.totalItems}
+            changePct={volume.changePct}
+            activeSources={activeSources}
+            coldSources={coldSources}
+            topTag={tagMomentum.topTag?.tag ?? null}
+            topTagDelta={tagMomentum.topTag?.delta ?? null}
+            topTagCount={tagMomentum.topTag?.count ?? null}
+            consensusCount={consensusCount}
+            freshnessLabel={freshnessLabel}
+            windowLabel={activeWindowLabel}
+          />
+        )}
       </div>
 
       <SectionHead

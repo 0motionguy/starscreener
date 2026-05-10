@@ -237,7 +237,11 @@ export default async function RepoDetailPage({ params }: PageProps) {
     // Skipped for live-fetched repos: those caches are empty by definition
     // (no collector has scanned the repo yet), so the fan-out wastes ~700ms
     // of Lambda time per cold miss for nothing.
-    await Promise.all([
+    // Defensive: Promise.allSettled so a single source rejection doesn't 500
+    // the whole page. Each refresh hook is independent — a flake in bluesky
+    // (or any cold source) must not hide the rest. Pre-existing P0 since
+    // d81856ad lived in this Promise.all.
+    const refreshOutcomes = await Promise.allSettled([
       refreshRepoMetadataFromStore(),
       refreshNpmFromStore(),
       refreshRedditMentionsFromStore(),
@@ -254,6 +258,11 @@ export default async function RepoDetailPage({ params }: PageProps) {
       refreshProducthuntLaunchesFromStore(),
       refreshStarActivityFromStore(`${owner}/${name}`),
     ]);
+    for (const outcome of refreshOutcomes) {
+      if (outcome.status === "rejected") {
+        console.warn("[repo-detail] refresh hook failed", outcome.reason);
+      }
+    }
   } else {
     isLiveFetched = true;
     // Resolve through the same bounded helper as the internal API route.
@@ -278,10 +287,19 @@ export default async function RepoDetailPage({ params }: PageProps) {
   // signal migration only has to touch `buildCanonicalRepoProfile`. For
   // live-fetched repos we pass the synthesized base repo as an override so
   // the profile builder bypasses its derived-store lookup.
-  const profile = await buildCanonicalRepoProfile(
-    baseRepo.fullName,
-    isLiveFetched ? baseRepo : undefined,
-  );
+  // Defensive: any uncaught throw in the canonical assembler must degrade to
+  // 404, not 500. The assembler stitches ~15 sync loaders + 3 async refreshes
+  // — a regression in any of them used to bleed straight through to a runtime
+  // error boundary on prod (pre-existing P0 since d81856ad).
+  let profile: Awaited<ReturnType<typeof buildCanonicalRepoProfile>> | null = null;
+  try {
+    profile = await buildCanonicalRepoProfile(
+      baseRepo.fullName,
+      isLiveFetched ? baseRepo : undefined,
+    );
+  } catch (err) {
+    console.error("[repo-detail] profile assembly failed", err);
+  }
   if (!profile) {
     notFound();
   }

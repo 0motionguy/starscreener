@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-10T21:08:06.148Z",
+  "fetchedAt": "2026-05-10T22:06:38.057Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 199,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 2,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -5445,7 +5445,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-10T19:53:38.375Z",
-        "hoursSincePosted": 1.24
+        "hoursSincePosted": 2.22
       },
       "posts": [
         {
@@ -5490,7 +5490,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T19:53:38.375Z",
           "createdUtc": 1778442818,
-          "ageHours": 1.24,
+          "ageHours": 2.22,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -6667,10 +6667,10 @@
       ]
     },
     "Imbad0202/academic-research-skills": {
-      "count7d": 5,
-      "likesSum7d": 4,
+      "count7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
         "uri": "at://did:plc:anza3g3iqkevzb34xo6ew6j2/app.bsky.feed.post/3mljhwxfmdc2u",
         "cid": "bafyreiazogwd2mhfzyq7lxxoh6pgakxxp7ygrvvy34gkwzx3efrxzsqz4q",
@@ -6684,7 +6684,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-10T19:17:07.146Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.83
       },
       "posts": [
         {
@@ -6701,7 +6701,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T19:17:07.146Z",
           "createdUtc": 1778440627,
-          "ageHours": 0.5,
+          "ageHours": 2.83,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -6813,7 +6813,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T19:03:04.458Z",
           "createdUtc": 1778439784,
-          "ageHours": 0.54,
+          "ageHours": 3.06,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -6846,7 +6846,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-10T19:19:44.607503+00:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.78
       },
       "posts": [
         {
@@ -6862,7 +6862,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T19:19:44.607503+00:00",
           "createdUtc": 1778440784,
-          "ageHours": 0.5,
+          "ageHours": 2.78,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -7079,7 +7079,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-10T19:00:55.118Z",
-        "hoursSincePosted": 0.58
+        "hoursSincePosted": 3.1
       },
       "posts": [
         {
@@ -7096,7 +7096,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T19:00:55.118Z",
           "createdUtc": 1778439655,
-          "ageHours": 0.58,
+          "ageHours": 3.1,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -7130,7 +7130,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-10T18:52:50.197506+00:00",
-        "hoursSincePosted": 0.71
+        "hoursSincePosted": 3.23
       },
       "posts": [
         {
@@ -7147,7 +7147,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T18:52:50.197506+00:00",
           "createdUtc": 1778439170,
-          "ageHours": 0.71,
+          "ageHours": 3.23,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -7358,6 +7358,57 @@
           "linkedRepos": [
             {
               "fullName": "rustfs/rustfs",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tailscale/tailscale": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:fqws5iiof2pkagmiwgf4slcq/app.bsky.feed.post/3mljr5ber7k2u",
+        "cid": "bafyreidmya73yyc4cba6oeltkbg4akb6vzmohzfckcrf2mnnqiaofkhdzy",
+        "bskyUrl": "https://bsky.app/profile/multipleunit.bsky.social/post/3mljr5ber7k2u",
+        "text": "update: github.com/tailscale/ta.... Though better documentation would still be appreciated!",
+        "author": {
+          "handle": "multipleunit.bsky.social",
+          "displayName": "Natalie Makhijani"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-10T22:01:42.606Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:fqws5iiof2pkagmiwgf4slcq/app.bsky.feed.post/3mljr5ber7k2u",
+          "cid": "bafyreidmya73yyc4cba6oeltkbg4akb6vzmohzfckcrf2mnnqiaofkhdzy",
+          "bskyUrl": "https://bsky.app/profile/multipleunit.bsky.social/post/3mljr5ber7k2u",
+          "text": "update: github.com/tailscale/ta.... Though better documentation would still be appreciated!",
+          "author": {
+            "handle": "multipleunit.bsky.social",
+            "displayName": "Natalie Makhijani"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T22:01:42.606Z",
+          "createdUtc": 1778450502,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tailscale/tailscale",
               "matchType": "url",
               "confidence": 1
             }
@@ -12807,7 +12858,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-10T19:53:38.375Z",
-        "hoursSincePosted": 1.24
+        "hoursSincePosted": 2.22
       },
       "posts": [
         {
@@ -12852,7 +12903,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T19:53:38.375Z",
           "createdUtc": 1778442818,
-          "ageHours": 1.24,
+          "ageHours": 2.22,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -14029,10 +14080,10 @@
       ]
     },
     "imbad0202--academic-research-skills": {
-      "count7d": 5,
-      "likesSum7d": 4,
+      "count7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
         "uri": "at://did:plc:anza3g3iqkevzb34xo6ew6j2/app.bsky.feed.post/3mljhwxfmdc2u",
         "cid": "bafyreiazogwd2mhfzyq7lxxoh6pgakxxp7ygrvvy34gkwzx3efrxzsqz4q",
@@ -14046,7 +14097,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-10T19:17:07.146Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.83
       },
       "posts": [
         {
@@ -14063,7 +14114,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T19:17:07.146Z",
           "createdUtc": 1778440627,
-          "ageHours": 0.5,
+          "ageHours": 2.83,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -14175,7 +14226,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T19:03:04.458Z",
           "createdUtc": 1778439784,
-          "ageHours": 0.54,
+          "ageHours": 3.06,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -14208,7 +14259,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-10T19:19:44.607503+00:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.78
       },
       "posts": [
         {
@@ -14224,7 +14275,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T19:19:44.607503+00:00",
           "createdUtc": 1778440784,
-          "ageHours": 0.5,
+          "ageHours": 2.78,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -14441,7 +14492,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-10T19:00:55.118Z",
-        "hoursSincePosted": 0.58
+        "hoursSincePosted": 3.1
       },
       "posts": [
         {
@@ -14458,7 +14509,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T19:00:55.118Z",
           "createdUtc": 1778439655,
-          "ageHours": 0.58,
+          "ageHours": 3.1,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -14492,7 +14543,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-10T18:52:50.197506+00:00",
-        "hoursSincePosted": 0.71
+        "hoursSincePosted": 3.23
       },
       "posts": [
         {
@@ -14509,7 +14560,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T18:52:50.197506+00:00",
           "createdUtc": 1778439170,
-          "ageHours": 0.71,
+          "ageHours": 3.23,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -14726,11 +14777,87 @@
           ]
         }
       ]
+    },
+    "tailscale--tailscale": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:fqws5iiof2pkagmiwgf4slcq/app.bsky.feed.post/3mljr5ber7k2u",
+        "cid": "bafyreidmya73yyc4cba6oeltkbg4akb6vzmohzfckcrf2mnnqiaofkhdzy",
+        "bskyUrl": "https://bsky.app/profile/multipleunit.bsky.social/post/3mljr5ber7k2u",
+        "text": "update: github.com/tailscale/ta.... Though better documentation would still be appreciated!",
+        "author": {
+          "handle": "multipleunit.bsky.social",
+          "displayName": "Natalie Makhijani"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-10T22:01:42.606Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:fqws5iiof2pkagmiwgf4slcq/app.bsky.feed.post/3mljr5ber7k2u",
+          "cid": "bafyreidmya73yyc4cba6oeltkbg4akb6vzmohzfckcrf2mnnqiaofkhdzy",
+          "bskyUrl": "https://bsky.app/profile/multipleunit.bsky.social/post/3mljr5ber7k2u",
+          "text": "update: github.com/tailscale/ta.... Though better documentation would still be appreciated!",
+          "author": {
+            "handle": "multipleunit.bsky.social",
+            "displayName": "Natalie Makhijani"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T22:01:42.606Z",
+          "createdUtc": 1778450502,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tailscale/tailscale",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
+      "fullName": "Imbad0202/academic-research-skills",
+      "count7d": 2,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "huangserva/3DCellForge",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
       "fullName": "lightningpixel/modly",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "openclaw/openclaw",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "rtk-ai/rtk",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "tailscale/tailscale",
       "count7d": 1,
       "likesSum7d": 0
     }

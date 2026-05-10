@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-10T11:29:18.155Z",
+  "fetchedAt": "2026-05-10T12:11:19.134Z",
   "windowHours": 72,
-  "scannedTotal": 79,
+  "scannedTotal": 80,
   "stories": [
     {
       "shortId": "znlkib",
@@ -416,6 +416,24 @@
       "linkedRepos": []
     },
     {
+      "shortId": "oenret",
+      "title": "The Intolerable Hypocrisy of Cyberlibertarianism",
+      "url": "https://matduggan.com/the-intolerable-hypocrisy-of-cyberlibertarianism/",
+      "commentsUrl": "https://lobste.rs/s/oenret/intolerable_hypocrisy",
+      "by": "",
+      "score": 5,
+      "commentCount": 0,
+      "createdUtc": 1778408782,
+      "ageHours": 1.7491666666666668,
+      "trendingScore": 0.6887599465526609,
+      "tags": [
+        "culture",
+        "rant"
+      ],
+      "description": "<p>A response to Langdon Winner's 1997 essay \"Cyberlibertarian Myths\nand The Prospects for Community\"</p>\n",
+      "linkedRepos": []
+    },
+    {
       "shortId": "zys8hd",
       "title": "Mojo v1.0.0b1",
       "url": "https://mojolang.org/releases/v1.0.0b1",
@@ -576,24 +594,6 @@
       "linkedRepos": []
     },
     {
-      "shortId": "oenret",
-      "title": "The Intolerable Hypocrisy of Cyberlibertarianism",
-      "url": "https://matduggan.com/the-intolerable-hypocrisy-of-cyberlibertarianism/",
-      "commentsUrl": "https://lobste.rs/s/oenret/intolerable_hypocrisy",
-      "by": "",
-      "score": 3,
-      "commentCount": 0,
-      "createdUtc": 1778408782,
-      "ageHours": 1.048888888888889,
-      "trendingScore": 0.5635193824163467,
-      "tags": [
-        "culture",
-        "rant"
-      ],
-      "description": "<p>A response to Langdon Winner's 1997 essay \"Cyberlibertarian Myths\nand The Prospects for Community\"</p>\n",
-      "linkedRepos": []
-    },
-    {
       "shortId": "symlbk",
       "title": "Fixing QuickLook (2023)",
       "url": "https://foon.uk/fixing-quicklook/",
@@ -660,6 +660,24 @@
       "tags": [
         "pdf",
         "testing"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "xb2edj",
+      "title": "Replacing a 3 GB SQLite database with a 10 MB FST (finite state transducer) binary",
+      "url": "https://til.andrew-quinn.me/posts/replacing-a-3-gb-sqlite-database-with-a-7-mb-fst-finite-state-trandsucer-binary/",
+      "commentsUrl": "https://lobste.rs/s/xb2edj/replacing_3_gb_sqlite_database_with_10_mb",
+      "by": "",
+      "score": 2,
+      "commentCount": 0,
+      "createdUtc": 1778413350,
+      "ageHours": 0.4802777777777778,
+      "trendingScore": 0.5120112604850675,
+      "tags": [
+        "performance",
+        "rust"
       ],
       "description": "",
       "linkedRepos": []
@@ -842,6 +860,23 @@
       "linkedRepos": []
     },
     {
+      "shortId": "jmp373",
+      "title": "Space Cadet Pinball on Linux",
+      "url": "https://brennan.io/2026/05/09/pinball-and-escrow/",
+      "commentsUrl": "https://lobste.rs/s/jmp373/space_cadet_pinball_on_linux",
+      "by": "",
+      "score": 2,
+      "commentCount": 0,
+      "createdUtc": 1778412113,
+      "ageHours": 0.8238888888888889,
+      "trendingScore": 0.42146216016886157,
+      "tags": [
+        "games"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "n4fmkx",
       "title": "Copy Fail 2: Electric Boogaloo",
       "url": "https://github.com/0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
@@ -863,42 +898,6 @@
           "confidence": 1
         }
       ]
-    },
-    {
-      "shortId": "3kjqec",
-      "title": "Wii IP6 webserver",
-      "url": "http://wii.sjmulder.nl",
-      "commentsUrl": "https://lobste.rs/s/3kjqec/wii_ip6_webserver",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1778241678,
-      "ageHours": 0.9175,
-      "trendingScore": 0.4013411572317855,
-      "tags": [
-        "netbsd",
-        "web"
-      ],
-      "description": "<p>You have to add http:// to access the site it seems</p>\n",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "thvzt6",
-      "title": "killswitch: per-function short-circuit mitigation primitive",
-      "url": "https://lwn.net/ml/all/20260507070547.2268452-1-sashal@kernel.org/",
-      "commentsUrl": "https://lobste.rs/s/thvzt6/killswitch_per_function_short_circuit",
-      "by": "",
-      "score": 7,
-      "commentCount": 2,
-      "createdUtc": 1778305575,
-      "ageHours": 4.788611111111111,
-      "trendingScore": 0.3957552128792169,
-      "tags": [
-        "linux",
-        "security"
-      ],
-      "description": "",
-      "linkedRepos": []
     }
   ]
 }

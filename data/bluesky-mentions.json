@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-10T15:16:07.875Z",
+  "fetchedAt": "2026-05-10T16:13:01.969Z",
   "windowDays": 7,
-  "scannedPosts": 299,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
@@ -5656,26 +5656,82 @@
       ]
     },
     "ThatXliner/rust-but-lisp": {
-      "count7d": 2,
+      "count7d": 4,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mliwffkhrl2y",
-        "cid": "bafyreihvtbjs7coa2wtvkwes3na4w2ixgp35me55l6ea4zixs3p5im7cza",
-        "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mliwffkhrl2y",
-        "text": "Show HN: Rust but Lisp https://github.com/ThatXliner/rust-but-lisp [comments] [160 points]",
+        "uri": "at://did:plc:jae5tazawa2t7gorbrhbmfoe/app.bsky.feed.post/3mlj4icwbry23",
+        "cid": "bafyreidk2a7cec75rygsrondgzz6nplmpkhgzba7v7dla3y7p526kslaze",
+        "bskyUrl": "https://bsky.app/profile/eltableroglobal.bsky.social/post/3mlj4icwbry23",
+        "text": "2/2 compilador de Rust. Es una propuesta técnica curiosa para desarrolladores interesados en metaprogramación y paradigmas alternativos. Fuente: https://github.com/ThatXliner/rust-but-lisp",
         "author": {
-          "handle": "hnfeed.bsky.social",
-          "displayName": "Hacker News Bot"
+          "handle": "eltableroglobal.bsky.social",
+          "displayName": "El tablero global"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T14:03:04.328Z",
-        "hoursSincePosted": 1.22
+        "createdAt": "2026-05-10T15:52:04.656Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jae5tazawa2t7gorbrhbmfoe/app.bsky.feed.post/3mlj4icwbry23",
+          "cid": "bafyreidk2a7cec75rygsrondgzz6nplmpkhgzba7v7dla3y7p526kslaze",
+          "bskyUrl": "https://bsky.app/profile/eltableroglobal.bsky.social/post/3mlj4icwbry23",
+          "text": "2/2 compilador de Rust. Es una propuesta técnica curiosa para desarrolladores interesados en metaprogramación y paradigmas alternativos. Fuente: https://github.com/ThatXliner/rust-but-lisp",
+          "author": {
+            "handle": "eltableroglobal.bsky.social",
+            "displayName": "El tablero global"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T15:52:04.656Z",
+          "createdUtc": 1778428324,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ThatXliner/rust-but-lisp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:l5gupr4kifwasjek7vblnoy2/app.bsky.feed.post/3mlj32ccevc2f",
+          "cid": "bafyreievzb6xn3mwvfivx56kgwlwzyadbfn5zgssa7zuucjvgehzeoy7ty",
+          "bskyUrl": "https://bsky.app/profile/hn.rbrt.fr/post/3mlj32ccevc2f",
+          "text": "Show HN: Rust but Lisp https://github.com/ThatXliner/rust-but-lisp https://news.ycombinator.com/item?id=48078575",
+          "author": {
+            "handle": "hn.rbrt.fr",
+            "displayName": "Hacker News RSS"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T15:26:20Z",
+          "createdUtc": 1778426780,
+          "ageHours": 0.78,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ThatXliner/rust-but-lisp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mliwffkhrl2y",
           "cid": "bafyreihvtbjs7coa2wtvkwes3na4w2ixgp35me55l6ea4zixs3p5im7cza",
@@ -5690,7 +5746,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T14:03:04.328Z",
           "createdUtc": 1778421784,
-          "ageHours": 1.22,
+          "ageHours": 2.17,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -5718,7 +5774,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T13:45:01.994Z",
           "createdUtc": 1778420701,
-          "ageHours": 1.52,
+          "ageHours": 2.47,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -6555,26 +6611,54 @@
       ]
     },
     "Imbad0202/academic-research-skills": {
-      "count7d": 1,
-      "likesSum7d": 0,
+      "count7d": 2,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlizlybm4k2l",
-        "cid": "bafyreiayhjoahdglw2b3cj5ozbdkiybbsq6jzioh7qa6x2kixvjxxfk3x4",
-        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mlizlybm4k2l",
-        "text": "Academic Research Skills for Claude Code https://github.com/Imbad0202/academic-research-skills",
+        "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlj3c7sjhv2l",
+        "cid": "bafyreia4a252qv76kndlslrse7sjc4zzhktu244rih7w5k6arnhamas6cu",
+        "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlj3c7sjhv2l",
+        "text": "Academic Research Skills for Claude Code https://github.com/Imbad0202/academic-research-skills (https://news.ycombinator.com/item?id=48083919)",
         "author": {
-          "handle": "hnbot.gsuscs.xyz",
-          "displayName": "HackerNews Compilator"
+          "handle": "betterhn20.e-work.xyz",
+          "displayName": "Hacker News 20"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T15:00:26.568Z",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-05-10T15:30:45.532Z",
+        "hoursSincePosted": 0.7
       },
       "posts": [
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlj3c7sjhv2l",
+          "cid": "bafyreia4a252qv76kndlslrse7sjc4zzhktu244rih7w5k6arnhamas6cu",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlj3c7sjhv2l",
+          "text": "Academic Research Skills for Claude Code https://github.com/Imbad0202/academic-research-skills (https://news.ycombinator.com/item?id=48083919)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T15:30:45.532Z",
+          "createdUtc": 1778427045,
+          "ageHours": 0.7,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Imbad0202/academic-research-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlizlybm4k2l",
           "cid": "bafyreiayhjoahdglw2b3cj5ozbdkiybbsq6jzioh7qa6x2kixvjxxfk3x4",
@@ -6584,13 +6668,13 @@
             "handle": "hnbot.gsuscs.xyz",
             "displayName": "HackerNews Compilator"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
-          "replyCount": 0,
+          "replyCount": 1,
           "createdAt": "2026-05-10T15:00:26.568Z",
           "createdUtc": 1778425226,
-          "ageHours": 0.5,
-          "trendingScore": 0,
+          "ageHours": 1.21,
+          "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -6622,7 +6706,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-10T14:08:04.810923+00:00",
-        "hoursSincePosted": 1.13
+        "hoursSincePosted": 2.08
       },
       "posts": [
         {
@@ -6638,7 +6722,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T14:08:04.810923+00:00",
           "createdUtc": 1778422084,
-          "ageHours": 1.13,
+          "ageHours": 2.08,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -6673,7 +6757,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-10T12:23:40.638Z",
-        "hoursSincePosted": 2.87
+        "hoursSincePosted": 3.82
       },
       "posts": [
         {
@@ -6690,7 +6774,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T12:23:40.638Z",
           "createdUtc": 1778415820,
-          "ageHours": 2.87,
+          "ageHours": 3.82,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -6699,6 +6783,109 @@
           "linkedRepos": [
             {
               "fullName": "sxyazi/yazi",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "njbrake/agent-of-empires": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlj55hxnoj23",
+        "cid": "bafyreifsffd5pb4bhpj6su6kp36smai25cxumbmnw4wmxzg63d2yvy3xou",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlj55hxnoj23",
+        "text": "njbrake / agent-of-empires: Manage multiple Claude Code, OpenCode agents from either TUI or Web for easy access on mobile. Also supports Mistral Vibe, Codex CLI, Gemini CLI, Pi.dev, Copilot CLI, Factory Droid Coding. Uses tmux and git worktrees. ★2144 https://github.com/njbrake/agent-of-empires",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-10T16:03:54.549978Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlj55hxnoj23",
+          "cid": "bafyreifsffd5pb4bhpj6su6kp36smai25cxumbmnw4wmxzg63d2yvy3xou",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlj55hxnoj23",
+          "text": "njbrake / agent-of-empires: Manage multiple Claude Code, OpenCode agents from either TUI or Web for easy access on mobile. Also supports Mistral Vibe, Codex CLI, Gemini CLI, Pi.dev, Copilot CLI, Factory Droid Coding. Uses tmux and git worktrees. ★2144 https://github.com/njbrake/agent-of-empires",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T16:03:54.549978Z",
+          "createdUtc": 1778429034,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "njbrake/agent-of-empires",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tidwall/btype": {
+      "count7d": 1,
+      "likesSum7d": 22,
+      "repostsSum7d": 3,
+      "repliesSum7d": 2,
+      "topPost": {
+        "uri": "at://did:plc:slrol6tgje7qmaziobq5prza/app.bsky.feed.post/3mlixhhtaqc2y",
+        "cid": "bafyreib6u2jpicen6ot2fqse4fpujplwdck6bnw46gqoorhtrae6hig544",
+        "bskyUrl": "https://bsky.app/profile/tidwall.bsky.social/post/3mlixhhtaqc2y",
+        "text": "After many months of planning and development, here it is. Introducing btype. B-tree based collection types for Go. It's hand-crafted to be faster than the current B-trees for Go, Rust, and C++. github.com/tidwall/btype",
+        "author": {
+          "handle": "tidwall.bsky.social",
+          "displayName": "Josh Baker"
+        },
+        "likeCount": 22,
+        "repostCount": 3,
+        "replyCount": 2,
+        "createdAt": "2026-05-10T14:22:07.622Z",
+        "hoursSincePosted": 1.85
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:slrol6tgje7qmaziobq5prza/app.bsky.feed.post/3mlixhhtaqc2y",
+          "cid": "bafyreib6u2jpicen6ot2fqse4fpujplwdck6bnw46gqoorhtrae6hig544",
+          "bskyUrl": "https://bsky.app/profile/tidwall.bsky.social/post/3mlixhhtaqc2y",
+          "text": "After many months of planning and development, here it is. Introducing btype. B-tree based collection types for Go. It's hand-crafted to be faster than the current B-trees for Go, Rust, and C++. github.com/tidwall/btype",
+          "author": {
+            "handle": "tidwall.bsky.social",
+            "displayName": "Josh Baker"
+          },
+          "likeCount": 22,
+          "repostCount": 3,
+          "replyCount": 2,
+          "createdAt": "2026-05-10T14:22:07.622Z",
+          "createdUtc": 1778422927,
+          "ageHours": 1.85,
+          "trendingScore": 29,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "tidwall/btype",
               "matchType": "url",
               "confidence": 1
             }
@@ -12359,26 +12546,82 @@
       ]
     },
     "thatxliner--rust-but-lisp": {
-      "count7d": 2,
+      "count7d": 4,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mliwffkhrl2y",
-        "cid": "bafyreihvtbjs7coa2wtvkwes3na4w2ixgp35me55l6ea4zixs3p5im7cza",
-        "bskyUrl": "https://bsky.app/profile/hnfeed.bsky.social/post/3mliwffkhrl2y",
-        "text": "Show HN: Rust but Lisp https://github.com/ThatXliner/rust-but-lisp [comments] [160 points]",
+        "uri": "at://did:plc:jae5tazawa2t7gorbrhbmfoe/app.bsky.feed.post/3mlj4icwbry23",
+        "cid": "bafyreidk2a7cec75rygsrondgzz6nplmpkhgzba7v7dla3y7p526kslaze",
+        "bskyUrl": "https://bsky.app/profile/eltableroglobal.bsky.social/post/3mlj4icwbry23",
+        "text": "2/2 compilador de Rust. Es una propuesta técnica curiosa para desarrolladores interesados en metaprogramación y paradigmas alternativos. Fuente: https://github.com/ThatXliner/rust-but-lisp",
         "author": {
-          "handle": "hnfeed.bsky.social",
-          "displayName": "Hacker News Bot"
+          "handle": "eltableroglobal.bsky.social",
+          "displayName": "El tablero global"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T14:03:04.328Z",
-        "hoursSincePosted": 1.22
+        "createdAt": "2026-05-10T15:52:04.656Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:jae5tazawa2t7gorbrhbmfoe/app.bsky.feed.post/3mlj4icwbry23",
+          "cid": "bafyreidk2a7cec75rygsrondgzz6nplmpkhgzba7v7dla3y7p526kslaze",
+          "bskyUrl": "https://bsky.app/profile/eltableroglobal.bsky.social/post/3mlj4icwbry23",
+          "text": "2/2 compilador de Rust. Es una propuesta técnica curiosa para desarrolladores interesados en metaprogramación y paradigmas alternativos. Fuente: https://github.com/ThatXliner/rust-but-lisp",
+          "author": {
+            "handle": "eltableroglobal.bsky.social",
+            "displayName": "El tablero global"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T15:52:04.656Z",
+          "createdUtc": 1778428324,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ThatXliner/rust-but-lisp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:l5gupr4kifwasjek7vblnoy2/app.bsky.feed.post/3mlj32ccevc2f",
+          "cid": "bafyreievzb6xn3mwvfivx56kgwlwzyadbfn5zgssa7zuucjvgehzeoy7ty",
+          "bskyUrl": "https://bsky.app/profile/hn.rbrt.fr/post/3mlj32ccevc2f",
+          "text": "Show HN: Rust but Lisp https://github.com/ThatXliner/rust-but-lisp https://news.ycombinator.com/item?id=48078575",
+          "author": {
+            "handle": "hn.rbrt.fr",
+            "displayName": "Hacker News RSS"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T15:26:20Z",
+          "createdUtc": 1778426780,
+          "ageHours": 0.78,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ThatXliner/rust-but-lisp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:nqs6ukshmhbkdbihf6kaeax6/app.bsky.feed.post/3mliwffkhrl2y",
           "cid": "bafyreihvtbjs7coa2wtvkwes3na4w2ixgp35me55l6ea4zixs3p5im7cza",
@@ -12393,7 +12636,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T14:03:04.328Z",
           "createdUtc": 1778421784,
-          "ageHours": 1.22,
+          "ageHours": 2.17,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -12421,7 +12664,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T13:45:01.994Z",
           "createdUtc": 1778420701,
-          "ageHours": 1.52,
+          "ageHours": 2.47,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -13258,26 +13501,54 @@
       ]
     },
     "imbad0202--academic-research-skills": {
-      "count7d": 1,
-      "likesSum7d": 0,
+      "count7d": 2,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
-      "repliesSum7d": 0,
+      "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlizlybm4k2l",
-        "cid": "bafyreiayhjoahdglw2b3cj5ozbdkiybbsq6jzioh7qa6x2kixvjxxfk3x4",
-        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mlizlybm4k2l",
-        "text": "Academic Research Skills for Claude Code https://github.com/Imbad0202/academic-research-skills",
+        "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlj3c7sjhv2l",
+        "cid": "bafyreia4a252qv76kndlslrse7sjc4zzhktu244rih7w5k6arnhamas6cu",
+        "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlj3c7sjhv2l",
+        "text": "Academic Research Skills for Claude Code https://github.com/Imbad0202/academic-research-skills (https://news.ycombinator.com/item?id=48083919)",
         "author": {
-          "handle": "hnbot.gsuscs.xyz",
-          "displayName": "HackerNews Compilator"
+          "handle": "betterhn20.e-work.xyz",
+          "displayName": "Hacker News 20"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T15:00:26.568Z",
-        "hoursSincePosted": 0.5
+        "createdAt": "2026-05-10T15:30:45.532Z",
+        "hoursSincePosted": 0.7
       },
       "posts": [
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlj3c7sjhv2l",
+          "cid": "bafyreia4a252qv76kndlslrse7sjc4zzhktu244rih7w5k6arnhamas6cu",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlj3c7sjhv2l",
+          "text": "Academic Research Skills for Claude Code https://github.com/Imbad0202/academic-research-skills (https://news.ycombinator.com/item?id=48083919)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T15:30:45.532Z",
+          "createdUtc": 1778427045,
+          "ageHours": 0.7,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Imbad0202/academic-research-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlizlybm4k2l",
           "cid": "bafyreiayhjoahdglw2b3cj5ozbdkiybbsq6jzioh7qa6x2kixvjxxfk3x4",
@@ -13287,13 +13558,13 @@
             "handle": "hnbot.gsuscs.xyz",
             "displayName": "HackerNews Compilator"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
-          "replyCount": 0,
+          "replyCount": 1,
           "createdAt": "2026-05-10T15:00:26.568Z",
           "createdUtc": 1778425226,
-          "ageHours": 0.5,
-          "trendingScore": 0,
+          "ageHours": 1.21,
+          "trendingScore": 1.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -13325,7 +13596,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-10T14:08:04.810923+00:00",
-        "hoursSincePosted": 1.13
+        "hoursSincePosted": 2.08
       },
       "posts": [
         {
@@ -13341,7 +13612,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T14:08:04.810923+00:00",
           "createdUtc": 1778422084,
-          "ageHours": 1.13,
+          "ageHours": 2.08,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -13376,7 +13647,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-10T12:23:40.638Z",
-        "hoursSincePosted": 2.87
+        "hoursSincePosted": 3.82
       },
       "posts": [
         {
@@ -13393,7 +13664,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T12:23:40.638Z",
           "createdUtc": 1778415820,
-          "ageHours": 2.87,
+          "ageHours": 3.82,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -13408,41 +13679,129 @@
           ]
         }
       ]
+    },
+    "njbrake--agent-of-empires": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlj55hxnoj23",
+        "cid": "bafyreifsffd5pb4bhpj6su6kp36smai25cxumbmnw4wmxzg63d2yvy3xou",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlj55hxnoj23",
+        "text": "njbrake / agent-of-empires: Manage multiple Claude Code, OpenCode agents from either TUI or Web for easy access on mobile. Also supports Mistral Vibe, Codex CLI, Gemini CLI, Pi.dev, Copilot CLI, Factory Droid Coding. Uses tmux and git worktrees. ★2144 https://github.com/njbrake/agent-of-empires",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-10T16:03:54.549978Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mlj55hxnoj23",
+          "cid": "bafyreifsffd5pb4bhpj6su6kp36smai25cxumbmnw4wmxzg63d2yvy3xou",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mlj55hxnoj23",
+          "text": "njbrake / agent-of-empires: Manage multiple Claude Code, OpenCode agents from either TUI or Web for easy access on mobile. Also supports Mistral Vibe, Codex CLI, Gemini CLI, Pi.dev, Copilot CLI, Factory Droid Coding. Uses tmux and git worktrees. ★2144 https://github.com/njbrake/agent-of-empires",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T16:03:54.549978Z",
+          "createdUtc": 1778429034,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "njbrake/agent-of-empires",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tidwall--btype": {
+      "count7d": 1,
+      "likesSum7d": 22,
+      "repostsSum7d": 3,
+      "repliesSum7d": 2,
+      "topPost": {
+        "uri": "at://did:plc:slrol6tgje7qmaziobq5prza/app.bsky.feed.post/3mlixhhtaqc2y",
+        "cid": "bafyreib6u2jpicen6ot2fqse4fpujplwdck6bnw46gqoorhtrae6hig544",
+        "bskyUrl": "https://bsky.app/profile/tidwall.bsky.social/post/3mlixhhtaqc2y",
+        "text": "After many months of planning and development, here it is. Introducing btype. B-tree based collection types for Go. It's hand-crafted to be faster than the current B-trees for Go, Rust, and C++. github.com/tidwall/btype",
+        "author": {
+          "handle": "tidwall.bsky.social",
+          "displayName": "Josh Baker"
+        },
+        "likeCount": 22,
+        "repostCount": 3,
+        "replyCount": 2,
+        "createdAt": "2026-05-10T14:22:07.622Z",
+        "hoursSincePosted": 1.85
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:slrol6tgje7qmaziobq5prza/app.bsky.feed.post/3mlixhhtaqc2y",
+          "cid": "bafyreib6u2jpicen6ot2fqse4fpujplwdck6bnw46gqoorhtrae6hig544",
+          "bskyUrl": "https://bsky.app/profile/tidwall.bsky.social/post/3mlixhhtaqc2y",
+          "text": "After many months of planning and development, here it is. Introducing btype. B-tree based collection types for Go. It's hand-crafted to be faster than the current B-trees for Go, Rust, and C++. github.com/tidwall/btype",
+          "author": {
+            "handle": "tidwall.bsky.social",
+            "displayName": "Josh Baker"
+          },
+          "likeCount": 22,
+          "repostCount": 3,
+          "replyCount": 2,
+          "createdAt": "2026-05-10T14:22:07.622Z",
+          "createdUtc": 1778422927,
+          "ageHours": 1.85,
+          "trendingScore": 29,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "tidwall/btype",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "Fission-AI/OpenSpec",
+      "fullName": "tidwall/btype",
       "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "github/spec-kit",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "openai/openai-agents-python",
-      "count7d": 2,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "ThatXliner/rust-but-lisp",
-      "count7d": 2,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "anthropics/claude-code",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "anthropics/skills",
-      "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 22
     },
     {
       "fullName": "Imbad0202/academic-research-skills",
+      "count7d": 2,
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "ThatXliner/rust-but-lisp",
+      "count7d": 4,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "njbrake/agent-of-empires",
       "count7d": 1,
       "likesSum7d": 0
     },

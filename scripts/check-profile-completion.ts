@@ -32,6 +32,10 @@
 //
 // Env: tsx --env-file-if-exists=.env.local handles .env.local loading.
 
+// Patches require.cache for `server-only` BEFORE any @/lib transitive
+// imports trigger it. Must stay the first import.
+import "./_server-only-shim";
+
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";

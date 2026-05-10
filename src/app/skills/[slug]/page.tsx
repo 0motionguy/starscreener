@@ -19,6 +19,7 @@ import {
   getSkillsSignalData,
   type EcosystemLeaderboardItem,
 } from "@/lib/ecosystem-leaderboards";
+import { LIST_LABELS, resolveSkillLists } from "@/lib/skills/taxonomy";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 import { formatNumber } from "@/lib/utils";
 
@@ -140,6 +141,7 @@ export default async function SkillDetailPage({ params }: PageProps) {
             tags={skill.tags}
             agents={skill.agents}
             sourceLabel={skill.sourceLabel}
+            awesomeLists={skill.awesomeLists}
           />
         }
         clock={
@@ -452,6 +454,7 @@ interface SkillIdentityProps {
   tags: string[];
   agents: string[];
   sourceLabel: string;
+  awesomeLists: string[] | undefined;
 }
 
 function SkillIdentity({
@@ -463,8 +466,10 @@ function SkillIdentity({
   tags,
   agents,
   sourceLabel,
+  awesomeLists,
 }: SkillIdentityProps) {
   const chips = [...new Set([...tags.slice(0, 4), ...agents.slice(0, 2)])];
+  const listSlugs = resolveSkillLists(awesomeLists);
   return (
     <div
       style={{
@@ -559,6 +564,39 @@ function SkillIdentity({
             </span>
           ))}
         </div>
+        {listSlugs.length > 0 ? (
+          <div
+            style={{
+              marginTop: 8,
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "baseline",
+              gap: 8,
+              fontFamily: "var(--font-geist-mono), monospace",
+              fontSize: 11,
+              color: "var(--v4-ink-400)",
+              textTransform: "uppercase",
+              letterSpacing: "0.06em",
+            }}
+          >
+            <span>appears in</span>
+            {listSlugs.map((slug) => (
+              <Link
+                key={slug}
+                href={`/skills?list=${slug}`}
+                style={{
+                  padding: "1px 6px",
+                  border: "1px solid var(--v4-acc)",
+                  borderRadius: 2,
+                  color: "var(--v4-acc)",
+                  textDecoration: "none",
+                }}
+              >
+                {LIST_LABELS[slug]}
+              </Link>
+            ))}
+          </div>
+        ) : null}
       </div>
     </div>
   );

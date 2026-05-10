@@ -164,6 +164,14 @@ export interface EcosystemLeaderboardItem {
    * All optional — undefined when the upstream signal isn't populated.
    * The scorer drops missing terms via weight renormalization.
    */
+  /**
+   * Awesome-list curator memberships — full owner/repo IDs sourced from
+   * `awesome-skills.json` `indexBySkill[linkedRepoLower]`. Drives the
+   * /skills 5-tab filter and the /skills/[slug] "appears in" badge strip.
+   * Undefined for items not in any tracked awesome-* list. Convert to
+   * URL slugs via `resolveSkillLists()` from src/lib/skills/taxonomy.ts.
+   */
+  awesomeLists?: string[];
   forks?: number;
   forks7dAgo?: number;
   forkVelocity7d?: number;
@@ -1595,6 +1603,14 @@ function applySkillMomentum(
       .map((s) => s.toLowerCase());
     const derivativeMeta = pickByKeys(sideChannels.derivativesMeta, slugCandidates);
     const hotnessPrev7d = pickByKeys(sideChannels.hotnessPrev7d, slugCandidates);
+    // Awesome-list curator membership — full IDs (e.g. "sickn33/antigravity-…").
+    // Same lookup buildSkillItem already does for scoring; this surfaces the
+    // raw membership onto the public item so the /skills page taxonomy filter
+    // and /skills/[slug] badge strip can render without re-loading the index.
+    const awesomeLists =
+      linkedRepoLower && sideChannels.awesomeIndex[linkedRepoLower]
+        ? sideChannels.awesomeIndex[linkedRepoLower]
+        : undefined;
     const createdAt =
       asString(p.raw.created_at) ?? asString(p.raw.createdAt) ?? null;
     const lastRefreshedAt = asString(p.raw.lastRefreshedAt) ?? null;
@@ -1622,6 +1638,7 @@ function applySkillMomentum(
       lastRefreshedAt,
       hotness: scoredItem ? Math.round(scoredItem.rawScore) : undefined,
       hotnessPrev7d,
+      awesomeLists,
     };
   });
 }

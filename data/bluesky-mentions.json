@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-10T04:17:53.204Z",
+  "fetchedAt": "2026-05-10T07:09:19.599Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 199,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 2,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -4238,23 +4238,23 @@
     },
     "anthropics/claude-code": {
       "count7d": 1,
-      "likesSum7d": 5,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:i4tfenpfog244rxry5uz4vtk/app.bsky.feed.post/3mlfbtav2gk2q",
-        "cid": "bafyreid5ornx2bchqxnlazfews2wkrhbkiodfunl4mrtbzz3lcrhbdqdaq",
-        "bskyUrl": "https://bsky.app/profile/lizthegrey.com/post/3mlfbtav2gk2q",
-        "text": "For posterity: I asked @anthropic.com what was happening with the 5m cache TTL issue. Here's what their response was: github.com/anthropics/c... I view the matter as resolved, and think the tooling is now in place for devs to be able to control TTL going forward.",
+        "uri": "at://did:plc:cwapeeggb7yf5xcpz6rx7ncp/app.bsky.feed.post/3mli56swxrd22",
+        "cid": "bafyreih2tprqbb5h4l6u4ghpoyrdvlg2k2vh54zra5ykxko5wjuvitguoq",
+        "bskyUrl": "https://bsky.app/profile/jardo.dev/post/3mli56swxrd22",
+        "text": "can't even https://github.com/anthropics/claude-code/issues/53262",
         "author": {
-          "handle": "lizthegrey.com",
-          "displayName": "Liz Fong-Jones (方禮真)"
+          "handle": "jardo.dev",
+          "displayName": "Jared Norman"
         },
-        "likeCount": 5,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-09T03:17:01.466Z",
-        "hoursSincePosted": 3.19
+        "createdAt": "2026-05-10T06:31:59.971172821Z",
+        "hoursSincePosted": 0.62
       },
       "posts": [
         {
@@ -4275,6 +4275,35 @@
           "trendingScore": 5,
           "content_tags": [
             "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:cwapeeggb7yf5xcpz6rx7ncp/app.bsky.feed.post/3mli56swxrd22",
+          "cid": "bafyreih2tprqbb5h4l6u4ghpoyrdvlg2k2vh54zra5ykxko5wjuvitguoq",
+          "bskyUrl": "https://bsky.app/profile/jardo.dev/post/3mli56swxrd22",
+          "text": "can't even https://github.com/anthropics/claude-code/issues/53262",
+          "author": {
+            "handle": "jardo.dev",
+            "displayName": "Jared Norman"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T06:31:59.971172821Z",
+          "createdUtc": 1778394719,
+          "ageHours": 0.62,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
           ],
           "value_score": 1,
           "linkedRepos": [
@@ -5536,26 +5565,54 @@
       ]
     },
     "ThatXliner/rust-but-lisp": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlhs7zs6472q",
-        "cid": "bafyreibpn2m32lk77z3rw5pdkqz2aogtzhzbe6fsk6d7le6w5adkc5bag4",
-        "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlhs7zs6472q",
-        "text": "Show HN: Rust but Lisp (github.com) Discussion | Main Link",
+        "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mlhx7upzfp25",
+        "cid": "bafyreia7vlsudodtgdx7q7raoobk3z7f4hmxnbfxzjp2srtatr4uqhuosy",
+        "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mlhx7upzfp25",
+        "text": "Show HN: Rust but Lisp https://github.com/ThatXliner/rust-but-lisp https://news.ycombinator.com/item?id=48078575",
         "author": {
-          "handle": "newsycombinatorbot.bsky.social",
-          "displayName": "Hacker News Bot"
+          "handle": "hn100.atproto.rocks",
+          "displayName": "Hacker News 100"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T03:15:49.539129Z",
-        "hoursSincePosted": 1.03
+        "createdAt": "2026-05-10T04:45:12.890649+00:00",
+        "hoursSincePosted": 2.4
       },
       "posts": [
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mlhx7upzfp25",
+          "cid": "bafyreia7vlsudodtgdx7q7raoobk3z7f4hmxnbfxzjp2srtatr4uqhuosy",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mlhx7upzfp25",
+          "text": "Show HN: Rust but Lisp https://github.com/ThatXliner/rust-but-lisp https://news.ycombinator.com/item?id=48078575",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T04:45:12.890649+00:00",
+          "createdUtc": 1778388312,
+          "ageHours": 2.4,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ThatXliner/rust-but-lisp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlhs7zs6472q",
           "cid": "bafyreibpn2m32lk77z3rw5pdkqz2aogtzhzbe6fsk6d7le6w5adkc5bag4",
@@ -5570,7 +5627,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T03:15:49.539129Z",
           "createdUtc": 1778382949,
-          "ageHours": 1.03,
+          "ageHours": 3.89,
           "trendingScore": 0,
           "content_tags": [],
           "value_score": 0,
@@ -5585,7 +5642,7 @@
       ]
     },
     "jeffersongoncalves/filament-flux": {
-      "count7d": 10,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -5602,7 +5659,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-10T02:56:06+00:00",
-        "hoursSincePosted": 1.36
+        "hoursSincePosted": 4.22
       },
       "posts": [
         {
@@ -5619,7 +5676,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T02:56:06+00:00",
           "createdUtc": 1778381766,
-          "ageHours": 1.36,
+          "ageHours": 4.22,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -5890,6 +5947,58 @@
           "linkedRepos": [
             {
               "fullName": "jeffersongoncalves/filament-flux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ruvnet/ruflo": {
+      "count7d": 1,
+      "likesSum7d": 3,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mli3pxhpvw2h",
+        "cid": "bafyreibd2mbe7azk7bnyosk6eej3bpqpopv674l7pqjnhatek5d7yfjiry",
+        "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mli3pxhpvw2h",
+        "text": "Here's a GitHub repo I found impressive: Ruflo makes it easy to orchestrate 100+ AI agents with security, coordination, and seamless Claude integration. See link below. #AI #opensource #Claude https://github.com/ruvnet/ruflo",
+        "author": {
+          "handle": "alexiskirke.bsky.social",
+          "displayName": "Alexis Kirke"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-10T06:05:47.561885+00:00",
+        "hoursSincePosted": 1.06
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mli3pxhpvw2h",
+          "cid": "bafyreibd2mbe7azk7bnyosk6eej3bpqpopv674l7pqjnhatek5d7yfjiry",
+          "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mli3pxhpvw2h",
+          "text": "Here's a GitHub repo I found impressive: Ruflo makes it easy to orchestrate 100+ AI agents with security, coordination, and seamless Claude integration. See link below. #AI #opensource #Claude https://github.com/ruvnet/ruflo",
+          "author": {
+            "handle": "alexiskirke.bsky.social",
+            "displayName": "Alexis Kirke"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T06:05:47.561885+00:00",
+          "createdUtc": 1778393147,
+          "ageHours": 1.06,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/ruflo",
               "matchType": "url",
               "confidence": 1
             }
@@ -10132,23 +10241,23 @@
     },
     "anthropics--claude-code": {
       "count7d": 1,
-      "likesSum7d": 5,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:i4tfenpfog244rxry5uz4vtk/app.bsky.feed.post/3mlfbtav2gk2q",
-        "cid": "bafyreid5ornx2bchqxnlazfews2wkrhbkiodfunl4mrtbzz3lcrhbdqdaq",
-        "bskyUrl": "https://bsky.app/profile/lizthegrey.com/post/3mlfbtav2gk2q",
-        "text": "For posterity: I asked @anthropic.com what was happening with the 5m cache TTL issue. Here's what their response was: github.com/anthropics/c... I view the matter as resolved, and think the tooling is now in place for devs to be able to control TTL going forward.",
+        "uri": "at://did:plc:cwapeeggb7yf5xcpz6rx7ncp/app.bsky.feed.post/3mli56swxrd22",
+        "cid": "bafyreih2tprqbb5h4l6u4ghpoyrdvlg2k2vh54zra5ykxko5wjuvitguoq",
+        "bskyUrl": "https://bsky.app/profile/jardo.dev/post/3mli56swxrd22",
+        "text": "can't even https://github.com/anthropics/claude-code/issues/53262",
         "author": {
-          "handle": "lizthegrey.com",
-          "displayName": "Liz Fong-Jones (方禮真)"
+          "handle": "jardo.dev",
+          "displayName": "Jared Norman"
         },
-        "likeCount": 5,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-09T03:17:01.466Z",
-        "hoursSincePosted": 3.19
+        "createdAt": "2026-05-10T06:31:59.971172821Z",
+        "hoursSincePosted": 0.62
       },
       "posts": [
         {
@@ -10169,6 +10278,35 @@
           "trendingScore": 5,
           "content_tags": [
             "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:cwapeeggb7yf5xcpz6rx7ncp/app.bsky.feed.post/3mli56swxrd22",
+          "cid": "bafyreih2tprqbb5h4l6u4ghpoyrdvlg2k2vh54zra5ykxko5wjuvitguoq",
+          "bskyUrl": "https://bsky.app/profile/jardo.dev/post/3mli56swxrd22",
+          "text": "can't even https://github.com/anthropics/claude-code/issues/53262",
+          "author": {
+            "handle": "jardo.dev",
+            "displayName": "Jared Norman"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T06:31:59.971172821Z",
+          "createdUtc": 1778394719,
+          "ageHours": 0.62,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-question"
           ],
           "value_score": 1,
           "linkedRepos": [
@@ -11430,26 +11568,54 @@
       ]
     },
     "thatxliner--rust-but-lisp": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlhs7zs6472q",
-        "cid": "bafyreibpn2m32lk77z3rw5pdkqz2aogtzhzbe6fsk6d7le6w5adkc5bag4",
-        "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlhs7zs6472q",
-        "text": "Show HN: Rust but Lisp (github.com) Discussion | Main Link",
+        "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mlhx7upzfp25",
+        "cid": "bafyreia7vlsudodtgdx7q7raoobk3z7f4hmxnbfxzjp2srtatr4uqhuosy",
+        "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mlhx7upzfp25",
+        "text": "Show HN: Rust but Lisp https://github.com/ThatXliner/rust-but-lisp https://news.ycombinator.com/item?id=48078575",
         "author": {
-          "handle": "newsycombinatorbot.bsky.social",
-          "displayName": "Hacker News Bot"
+          "handle": "hn100.atproto.rocks",
+          "displayName": "Hacker News 100"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T03:15:49.539129Z",
-        "hoursSincePosted": 1.03
+        "createdAt": "2026-05-10T04:45:12.890649+00:00",
+        "hoursSincePosted": 2.4
       },
       "posts": [
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mlhx7upzfp25",
+          "cid": "bafyreia7vlsudodtgdx7q7raoobk3z7f4hmxnbfxzjp2srtatr4uqhuosy",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mlhx7upzfp25",
+          "text": "Show HN: Rust but Lisp https://github.com/ThatXliner/rust-but-lisp https://news.ycombinator.com/item?id=48078575",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T04:45:12.890649+00:00",
+          "createdUtc": 1778388312,
+          "ageHours": 2.4,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "ThatXliner/rust-but-lisp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlhs7zs6472q",
           "cid": "bafyreibpn2m32lk77z3rw5pdkqz2aogtzhzbe6fsk6d7le6w5adkc5bag4",
@@ -11464,7 +11630,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T03:15:49.539129Z",
           "createdUtc": 1778382949,
-          "ageHours": 1.03,
+          "ageHours": 3.89,
           "trendingScore": 0,
           "content_tags": [],
           "value_score": 0,
@@ -11479,7 +11645,7 @@
       ]
     },
     "jeffersongoncalves--filament-flux": {
-      "count7d": 10,
+      "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -11496,7 +11662,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-10T02:56:06+00:00",
-        "hoursSincePosted": 1.36
+        "hoursSincePosted": 4.22
       },
       "posts": [
         {
@@ -11513,7 +11679,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-10T02:56:06+00:00",
           "createdUtc": 1778381766,
-          "ageHours": 1.36,
+          "ageHours": 4.22,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -11790,16 +11956,78 @@
           ]
         }
       ]
+    },
+    "ruvnet--ruflo": {
+      "count7d": 1,
+      "likesSum7d": 3,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mli3pxhpvw2h",
+        "cid": "bafyreibd2mbe7azk7bnyosk6eej3bpqpopv674l7pqjnhatek5d7yfjiry",
+        "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mli3pxhpvw2h",
+        "text": "Here's a GitHub repo I found impressive: Ruflo makes it easy to orchestrate 100+ AI agents with security, coordination, and seamless Claude integration. See link below. #AI #opensource #Claude https://github.com/ruvnet/ruflo",
+        "author": {
+          "handle": "alexiskirke.bsky.social",
+          "displayName": "Alexis Kirke"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-10T06:05:47.561885+00:00",
+        "hoursSincePosted": 1.06
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:d3p4jzrm5dpz2gdhzd5sxwwa/app.bsky.feed.post/3mli3pxhpvw2h",
+          "cid": "bafyreibd2mbe7azk7bnyosk6eej3bpqpopv674l7pqjnhatek5d7yfjiry",
+          "bskyUrl": "https://bsky.app/profile/alexiskirke.bsky.social/post/3mli3pxhpvw2h",
+          "text": "Here's a GitHub repo I found impressive: Ruflo makes it easy to orchestrate 100+ AI agents with security, coordination, and seamless Claude integration. See link below. #AI #opensource #Claude https://github.com/ruvnet/ruflo",
+          "author": {
+            "handle": "alexiskirke.bsky.social",
+            "displayName": "Alexis Kirke"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-10T06:05:47.561885+00:00",
+          "createdUtc": 1778393147,
+          "ageHours": 1.06,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "ruvnet/ruflo",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "jeffersongoncalves/filament-flux",
-      "count7d": 10,
-      "likesSum7d": 0
+      "fullName": "ruvnet/ruflo",
+      "count7d": 1,
+      "likesSum7d": 3
     },
     {
       "fullName": "ThatXliner/rust-but-lisp",
+      "count7d": 2,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "anthropics/claude-code",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "jeffersongoncalves/filament-flux",
       "count7d": 1,
       "likesSum7d": 0
     }

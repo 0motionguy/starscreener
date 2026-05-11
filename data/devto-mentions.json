@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-10T19:13:21.223Z",
+  "fetchedAt": "2026-05-11T04:00:55.467Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1289,
+  "scannedArticles": 1294,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 13,
+    "global-rising": 9,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -188,16 +188,16 @@
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
     "tag-codex-top-7d": 11,
-    "tag-cursor-top-7d": 22,
+    "tag-cursor-top-7d": 23,
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 10,
     "tag-mcp-top-7d": 100,
-    "tag-rag-top-7d": 97,
+    "tag-rag-top-7d": 100,
     "tag-promptengineering-top-7d": 30,
     "tag-workflow-top-7d": 38,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
-    "tag-cli-top-7d": 74,
+    "tag-cli-top-7d": 81,
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 97,
     "tag-langchain-top-7d": 49,
@@ -216,7 +216,7 @@
         "author": "ruarfff",
         "reactions": 25,
         "comments": 0,
-        "hoursSincePosted": 124.4,
+        "hoursSincePosted": 133.2,
         "readingTime": 11
       },
       "articles": [
@@ -237,7 +237,7 @@
           "tags": [
             "githubcopilot"
           ],
-          "trendingScore": 0.28,
+          "trendingScore": 0.26,
           "linkedRepos": [
             {
               "fullName": "gastownhall/gastown",
@@ -258,7 +258,7 @@
         "author": "xbill",
         "reactions": 21,
         "comments": 2,
-        "hoursSincePosted": 100.7,
+        "hoursSincePosted": 109.5,
         "readingTime": 9
       },
       "articles": [
@@ -282,7 +282,7 @@
             "googleadk",
             "gemini"
           ],
-          "trendingScore": 0.33,
+          "trendingScore": 0.3,
           "linkedRepos": [
             {
               "fullName": "BerriAI/litellm",
@@ -326,16 +326,16 @@
     },
     "HexmosTech/git-lrc": {
       "count7d": 5,
-      "reactionsSum7d": 103,
+      "reactionsSum7d": 104,
       "commentsSum7d": 6,
       "topArticle": {
         "id": 3635559,
         "title": "Error Handling in Go: Stop Panicking, Start Wrapping",
         "url": "https://dev.to/lovestaco/error-handling-in-go-stop-panicking-start-wrapping-351d",
         "author": "lovestaco",
-        "reactions": 43,
+        "reactions": 44,
         "comments": 4,
-        "hoursSincePosted": 47.7,
+        "hoursSincePosted": 56.5,
         "readingTime": 5
       },
       "articles": [
@@ -349,7 +349,7 @@
             "name": "Athreya aka Maneshwar",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
           },
-          "reactionsCount": 43,
+          "reactionsCount": 44,
           "commentsCount": 4,
           "readingTime": 5,
           "publishedAt": "2026-05-08T19:30:03Z",
@@ -359,7 +359,7 @@
             "beginners",
             "go"
           ],
-          "trendingScore": 2.06,
+          "trendingScore": 1.79,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -387,7 +387,7 @@
             "programming",
             "python"
           ],
-          "trendingScore": 3.71,
+          "trendingScore": 1.87,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -414,7 +414,7 @@
             "softwareengineering",
             "agenticengineering"
           ],
-          "trendingScore": 0.21,
+          "trendingScore": 0.19,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -442,7 +442,7 @@
             "productivity",
             "beginners"
           ],
-          "trendingScore": 0.15,
+          "trendingScore": 0.13,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -470,7 +470,7 @@
             "design",
             "discuss"
           ],
-          "trendingScore": 0.08,
+          "trendingScore": 0.07,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -481,7 +481,7 @@
       ]
     },
     "openai/codex": {
-      "count7d": 7,
+      "count7d": 8,
       "reactionsSum7d": 3,
       "commentsSum7d": 1,
       "topArticle": {
@@ -491,7 +491,7 @@
         "author": "mamoor_ahmad",
         "reactions": 2,
         "comments": 1,
-        "hoursSincePosted": 75.8,
+        "hoursSincePosted": 84.6,
         "readingTime": 7
       },
       "articles": [
@@ -542,6 +542,34 @@
             "ai",
             "cli",
             "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3645744,
+          "title": "I built a custom Codex-powered code review bot for GitLab",
+          "description": "A merge-request review by GitLab Duo Code Review costs us about $0.20. We're a small team of...",
+          "url": "https://dev.to/sleeyax/i-built-a-custom-codex-powered-code-review-bot-for-gitlab-5eap",
+          "author": {
+            "username": "sleeyax",
+            "name": "Sleeyax",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2073280%2F960c9c9b-67bf-49a7-89d3-16096830c49a.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-10T19:21:10Z",
+          "tags": [
+            "ai",
+            "automation",
+            "chatgpt",
+            "showdev"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -628,10 +656,10 @@
           ]
         },
         {
-          "id": 3643817,
-          "title": "The Evolution of Mobile Automation: From Scripts to State Flows",
-          "description": "I spent some time with OpenGUI recently, running a long-haul task on a real phone: open X, search for...",
-          "url": "https://dev.to/fenix_23505d14df386c00ced/the-evolution-of-mobile-automation-from-scripts-to-state-flows-6b3",
+          "id": 3643820,
+          "title": "手机自动化的演进：从脚本到状态流",
+          "description": "前阵子跑 OpenGUI，在真机上试了一个长程任务：打开 X，搜索 mobile AI agents...",
+          "url": "https://dev.to/fenix_23505d14df386c00ced/shou-ji-zi-dong-hua-de-yan-jin-cong-jiao-ben-dao-zhuang-tai-liu-jbc",
           "author": {
             "username": "fenix_23505d14df386c00ced",
             "name": "Fenix",
@@ -639,8 +667,8 @@
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-05-10T08:48:15Z",
+          "readingTime": 3,
+          "publishedAt": "2026-05-10T08:48:48Z",
           "tags": [
             "agents",
             "ai",
@@ -656,10 +684,10 @@
           ]
         },
         {
-          "id": 3643820,
-          "title": "手机自动化的演进：从脚本到状态流",
-          "description": "前阵子跑 OpenGUI，在真机上试了一个长程任务：打开 X，搜索 mobile AI agents...",
-          "url": "https://dev.to/fenix_23505d14df386c00ced/shou-ji-zi-dong-hua-de-yan-jin-cong-jiao-ben-dao-zhuang-tai-liu-jbc",
+          "id": 3643817,
+          "title": "The Evolution of Mobile Automation: From Scripts to State Flows",
+          "description": "I spent some time with OpenGUI recently, running a long-haul task on a real phone: open X, search for...",
+          "url": "https://dev.to/fenix_23505d14df386c00ced/the-evolution-of-mobile-automation-from-scripts-to-state-flows-6b3",
           "author": {
             "username": "fenix_23505d14df386c00ced",
             "name": "Fenix",
@@ -667,8 +695,8 @@
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-10T08:48:48Z",
+          "readingTime": 11,
+          "publishedAt": "2026-05-10T08:48:15Z",
           "tags": [
             "agents",
             "ai",
@@ -713,45 +741,45 @@
         }
       ]
     },
-    "garrytan/gbrain": {
+    "luckyPipewrench/pipelock": {
       "count7d": 1,
-      "reactionsSum7d": 6,
+      "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3630098,
-        "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
-        "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
-        "author": "_4f268336f6580845cdc475",
-        "reactions": 6,
+        "id": 3645944,
+        "title": "Pipelock Agent Egress Control: the missing CI primitive for AI agents",
+        "url": "https://dev.to/luckypipewrench/pipelock-agent-egress-control-the-missing-ci-primitive-for-ai-agents-27j4",
+        "author": "luckypipewrench",
+        "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 64.6,
-        "readingTime": 7
+        "hoursSincePosted": 6.9,
+        "readingTime": 3
       },
       "articles": [
         {
-          "id": 3630098,
-          "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
-          "description": "RAG brings books to the exam. Knowledge Engineering teaches Agents to study. Memory architecture...",
-          "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
+          "id": 3645944,
+          "title": "Pipelock Agent Egress Control: the missing CI primitive for AI agents",
+          "description": "TL;DR. Pipelock Agent Egress Control is a GitHub Action. It runs an agent script inside a Linux...",
+          "url": "https://dev.to/luckypipewrench/pipelock-agent-egress-control-the-missing-ci-primitive-for-ai-agents-27j4",
           "author": {
-            "username": "_4f268336f6580845cdc475",
-            "name": "Charles Wu",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805236%2Fc2ca81a3-8882-48ac-9ce7-046a056995ab.jpg"
+            "username": "luckypipewrench",
+            "name": "Josh Waldrep",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3760698%2Fbbfa2dcd-ec2e-4074-8eb4-bee0a7907f2b.jpg"
           },
-          "reactionsCount": 6,
+          "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-08T02:35:02Z",
+          "readingTime": 3,
+          "publishedAt": "2026-05-10T21:06:27Z",
           "tags": [
+            "security",
             "ai",
-            "machinelearning",
-            "rag",
-            "agents"
+            "opensource",
+            "mcp"
           ],
-          "trendingScore": 0.07,
+          "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "garrytan/gbrain",
+              "fullName": "luckyPipewrench/pipelock",
               "location": "body"
             }
           ]
@@ -759,7 +787,7 @@
       ]
     },
     "anthropics/skills": {
-      "count7d": 4,
+      "count7d": 3,
       "reactionsSum7d": 2,
       "commentsSum7d": 1,
       "topArticle": {
@@ -769,7 +797,7 @@
         "author": "haowen_huang",
         "reactions": 2,
         "comments": 1,
-        "hoursSincePosted": 156.6,
+        "hoursSincePosted": 165.4,
         "readingTime": 7
       },
       "articles": [
@@ -834,34 +862,6 @@
           ]
         },
         {
-          "id": 3643945,
-          "title": "🧠 I Tried 100 Claude Skills. These Are The Best.",
-          "description": "From PDF wizards to Slack-GIF generators, I went deep into Anthropic’s new Agent Skills ecosystem —...",
-          "url": "https://dev.to/suraj_khaitan_f893c243958/i-tried-100-claude-skills-these-are-the-best-1m4a",
-          "author": {
-            "username": "suraj_khaitan_f893c243958",
-            "name": "Suraj Khaitan",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2130149%2Fe5132e15-d188-49bb-986e-43d967f20723.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-10T09:30:55Z",
-          "tags": [
-            "ai",
-            "claude",
-            "cloud",
-            "python"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/skills",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3631768,
           "title": "Stop Repeating Yourself: Use Rules and Skills to Level Up Your AI Agent",
           "description": "Do you find yourself typing the same instructions into every new project chat? Or noticing that your...",
@@ -906,7 +906,7 @@
         "author": "dantederuwe",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 67.2,
+        "hoursSincePosted": 76,
         "readingTime": 11
       },
       "articles": [
@@ -944,170 +944,45 @@
         }
       ]
     },
-    "ruvnet/ruflo": {
+    "garrytan/gbrain": {
       "count7d": 1,
-      "reactionsSum7d": 2,
+      "reactionsSum7d": 6,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3605897,
-        "title": "One Open Source Project a Day (No. 55): RuFlo - A Multi-Agent Orchestration Engine for the AI Swarm Era",
-        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-55-ruflo-a-multi-agent-orchestration-engine-for-the-ai-swarm-1fnp",
-        "author": "wonderlab",
-        "reactions": 2,
+        "id": 3630098,
+        "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
+        "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
+        "author": "_4f268336f6580845cdc475",
+        "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 162.3,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3605897,
-          "title": "One Open Source Project a Day (No. 55): RuFlo - A Multi-Agent Orchestration Engine for the AI Swarm Era",
-          "description": "Introduction    \"From Chat to Agents, from Agents to Swarms.\"   This is the No.55 article in...",
-          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-55-ruflo-a-multi-agent-orchestration-engine-for-the-ai-swarm-1fnp",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-04T00:56:01Z",
-          "tags": [
-            "opensource",
-            "agents",
-            "ai",
-            "typescript"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "ruvnet/ruflo",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "obra/superpowers": {
-      "count7d": 3,
-      "reactionsSum7d": 3,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3609042,
-        "title": "Superpowers vs Compound Engineering: is the 'vs' even real?",
-        "url": "https://dev.to/ikramar/superpowers-vs-compound-engineering-is-the-vs-even-real-58gc",
-        "author": "ikramar",
-        "reactions": 2,
-        "comments": 0,
-        "hoursSincePosted": 150.2,
+        "hoursSincePosted": 73.4,
         "readingTime": 7
       },
       "articles": [
         {
-          "id": 3609042,
-          "title": "Superpowers vs Compound Engineering: is the 'vs' even real?",
-          "description": "TL;DR — Superpowers and Compound Engineering aren't competitors. They're optimised for different...",
-          "url": "https://dev.to/ikramar/superpowers-vs-compound-engineering-is-the-vs-even-real-58gc",
+          "id": 3630098,
+          "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
+          "description": "RAG brings books to the exam. Knowledge Engineering teaches Agents to study. Memory architecture...",
+          "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
           "author": {
-            "username": "ikramar",
-            "name": "Igor Kramar",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2211561%2F11d1ba7b-e52e-4488-bc50-cbb19848e004.jpg"
+            "username": "_4f268336f6580845cdc475",
+            "name": "Charles Wu",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805236%2Fc2ca81a3-8882-48ac-9ce7-046a056995ab.jpg"
           },
-          "reactionsCount": 2,
+          "reactionsCount": 6,
           "commentsCount": 0,
           "readingTime": 7,
-          "publishedAt": "2026-05-04T13:02:08Z",
+          "publishedAt": "2026-05-08T02:35:02Z",
           "tags": [
             "ai",
-            "claude",
-            "productivity",
-            "tooling"
+            "machinelearning",
+            "rag",
+            "agents"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.06,
           "linkedRepos": [
             {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "EveryInc/compound-engineering-plugin",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3611567,
-          "title": "OpenAI Codex vs Claude Code: Real Developer Workflow Comparison",
-          "description": "I gave the same large repo work to Claude Code and OpenAI Codex. Here is what changed in speed, code quality, tests, and shipping confidence.",
-          "url": "https://dev.to/harryy2510/claude-moves-fast-codex-ships-4fmd",
-          "author": {
-            "username": "harryy2510",
-            "name": "Hariom Sharma",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F616046%2F3e77768a-1d3e-4ae5-9e77-70fcd02cec13.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-05T00:00:07Z",
-          "tags": [
-            "ai",
-            "agents",
-            "programming",
-            "openaicodex"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3642987,
-          "title": "Tokenmaxxing: Codex + Claude Code Operator Stack 2026",
-          "description": "YC named it tokenmaxxing — one founder + agent harness doing the work of 400 engineers. Here's the stack: Codex parallel tabs and Claude Code skills.",
-          "url": "https://dev.to/max_quimby/tokenmaxxing-codex-claude-code-operator-stack-2026-318",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-10T03:35:48Z",
-          "tags": [
-            "ai",
-            "agents",
-            "codex",
-            "developertools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "addyosmani/agent-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "openai/codex",
-              "location": "tag"
-            },
-            {
-              "fullName": "farion1231/cc-switch",
-              "location": "body"
-            },
-            {
-              "fullName": "decolua/9router",
-              "location": "body"
-            },
-            {
-              "fullName": "obra/superpowers",
+              "fullName": "garrytan/gbrain",
               "location": "body"
             }
           ]
@@ -1119,16 +994,76 @@
       "reactionsSum7d": 0,
       "commentsSum7d": 3,
       "topArticle": {
-        "id": 3638970,
-        "title": "36 Days of Claude Code Logs: Silent Model Switching, 11.5x Efficiency Gap",
-        "url": "https://dev.to/recca0120/36-days-of-claude-code-logs-silent-model-switching-115x-efficiency-gap-1bgm",
-        "author": "recca0120",
+        "id": 3637647,
+        "title": "Hooks and the wrapper-authority problem: why your AI coding agent ignores them",
+        "url": "https://dev.to/cdelgado70/hooks-and-the-wrapper-authority-problem-why-your-ai-coding-agent-ignores-them-go6",
+        "author": "cdelgado70",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 34.5,
-        "readingTime": 8
+        "hoursSincePosted": 48.7,
+        "readingTime": 18
       },
       "articles": [
+        {
+          "id": 3637647,
+          "title": "Hooks and the wrapper-authority problem: why your AI coding agent ignores them",
+          "description": "Post 2 of 2. A walkthrough of the wrapper that breaks UserPromptSubmit hook output, the issues that...",
+          "url": "https://dev.to/cdelgado70/hooks-and-the-wrapper-authority-problem-why-your-ai-coding-agent-ignores-them-go6",
+          "author": {
+            "username": "cdelgado70",
+            "name": "C. Delgado",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 18,
+          "publishedAt": "2026-05-09T03:16:03Z",
+          "tags": [
+            "ai",
+            "claude",
+            "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3617729,
+          "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
+          "description": "Post 1 of 2. This post walks through the discovery ceiling in Anthropic's Agent Skills standard, the...",
+          "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
+          "author": {
+            "username": "cdelgado70",
+            "name": "C. Delgado",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 21,
+          "publishedAt": "2026-05-06T00:55:44Z",
+          "tags": [
+            "ai",
+            "claude",
+            "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "vercel-labs/skills",
+              "location": "body"
+            }
+          ]
+        },
         {
           "id": 3638970,
           "title": "36 Days of Claude Code Logs: Silent Model Switching, 11.5x Efficiency Gap",
@@ -1242,66 +1177,6 @@
           ]
         },
         {
-          "id": 3637647,
-          "title": "Hooks and the wrapper-authority problem: why your AI coding agent ignores them",
-          "description": "Post 2 of 2. A walkthrough of the wrapper that breaks UserPromptSubmit hook output, the issues that...",
-          "url": "https://dev.to/cdelgado70/hooks-and-the-wrapper-authority-problem-why-your-ai-coding-agent-ignores-them-go6",
-          "author": {
-            "username": "cdelgado70",
-            "name": "C. Delgado",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 18,
-          "publishedAt": "2026-05-09T03:16:03Z",
-          "tags": [
-            "ai",
-            "claude",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3617729,
-          "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
-          "description": "Post 1 of 2. This post walks through the discovery ceiling in Anthropic's Agent Skills standard, the...",
-          "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
-          "author": {
-            "username": "cdelgado70",
-            "name": "C. Delgado",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 21,
-          "publishedAt": "2026-05-06T00:55:44Z",
-          "tags": [
-            "ai",
-            "claude",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "vercel-labs/skills",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3618919,
           "title": "Claude Code Context Window Rot: Why Sessions Get Dumber (And How to Fix It)",
           "description": "You know the pattern. You open a fresh Claude Code session, paste in the task, and the first few...",
@@ -1359,6 +1234,184 @@
         }
       ]
     },
+    "vercel-labs/skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3617729,
+        "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
+        "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
+        "author": "cdelgado70",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 123.1,
+        "readingTime": 21
+      },
+      "articles": [
+        {
+          "id": 3617729,
+          "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
+          "description": "Post 1 of 2. This post walks through the discovery ceiling in Anthropic's Agent Skills standard, the...",
+          "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
+          "author": {
+            "username": "cdelgado70",
+            "name": "C. Delgado",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 21,
+          "publishedAt": "2026-05-06T00:55:44Z",
+          "tags": [
+            "ai",
+            "claude",
+            "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "vercel-labs/skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "addyosmani/agent-skills": {
+      "count7d": 3,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3623847,
+        "title": "One Open Source Project a Day (No. 58): Agent Skills - Injecting Senior Engineer Discipline into AI Coding Agents",
+        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-58-agent-skills-injecting-senior-engineer-discipline-into-ai-1od2",
+        "author": "wonderlab",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 97.2,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3623847,
+          "title": "One Open Source Project a Day (No. 58): Agent Skills - Injecting Senior Engineer Discipline into AI Coding Agents",
+          "description": "Introduction    \"AI agents are only as good as the workflows they follow.\"   This is the...",
+          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-58-agent-skills-injecting-senior-engineer-discipline-into-ai-1od2",
+          "author": {
+            "username": "wonderlab",
+            "name": "WonderLab",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-07T02:49:00Z",
+          "tags": [
+            "opensource",
+            "agentskills",
+            "claude",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3642987,
+          "title": "Tokenmaxxing: Codex + Claude Code Operator Stack 2026",
+          "description": "YC named it tokenmaxxing — one founder + agent harness doing the work of 400 engineers. Here's the stack: Codex parallel tabs and Claude Code skills.",
+          "url": "https://dev.to/max_quimby/tokenmaxxing-codex-claude-code-operator-stack-2026-318",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 10,
+          "publishedAt": "2026-05-10T03:35:48Z",
+          "tags": [
+            "ai",
+            "agents",
+            "codex",
+            "developertools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            },
+            {
+              "fullName": "rtk-ai/rtk",
+              "location": "body"
+            },
+            {
+              "fullName": "openai/codex",
+              "location": "tag"
+            },
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "decolua/9router",
+              "location": "body"
+            },
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3630312,
+          "title": "Vectorless RAG: PageIndex vs Embedding RAG Decision Guide",
+          "description": "When to switch agent retrieval from embeddings to PageIndex's vectorless tree search — and when not to. The honest 2026 read.",
+          "url": "https://dev.to/max_quimby/vectorless-rag-pageindex-vs-embedding-rag-decision-guide-dpl",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 8,
+          "publishedAt": "2026-05-08T03:45:22Z",
+          "tags": [
+            "rag",
+            "pageindex",
+            "vectorlessrag",
+            "retrieval"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "VectifyAI/PageIndex",
+              "location": "tag"
+            },
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            },
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "Fission-AI/OpenSpec": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -1370,7 +1423,7 @@
         "author": "bezael",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 151.1,
+        "hoursSincePosted": 159.9,
         "readingTime": 6
       },
       "articles": [
@@ -1415,7 +1468,7 @@
         "author": "pponali",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 66.4,
+        "hoursSincePosted": 75.2,
         "readingTime": 5
       },
       "articles": [
@@ -1460,7 +1513,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 128,
+        "hoursSincePosted": 136.8,
         "readingTime": 10
       },
       "articles": [
@@ -1505,7 +1558,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 87.6,
+        "hoursSincePosted": 96.4,
         "readingTime": 12
       },
       "articles": [
@@ -1602,7 +1655,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 87.6,
+        "hoursSincePosted": 96.4,
         "readingTime": 12
       },
       "articles": [
@@ -1651,7 +1704,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 133.8,
+        "hoursSincePosted": 142.6,
         "readingTime": 6
       },
       "articles": [
@@ -1713,6 +1766,103 @@
         }
       ]
     },
+    "obra/superpowers": {
+      "count7d": 2,
+      "reactionsSum7d": 2,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3609042,
+        "title": "Superpowers vs Compound Engineering: is the 'vs' even real?",
+        "url": "https://dev.to/ikramar/superpowers-vs-compound-engineering-is-the-vs-even-real-58gc",
+        "author": "ikramar",
+        "reactions": 2,
+        "comments": 0,
+        "hoursSincePosted": 159,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3609042,
+          "title": "Superpowers vs Compound Engineering: is the 'vs' even real?",
+          "description": "TL;DR — Superpowers and Compound Engineering aren't competitors. They're optimised for different...",
+          "url": "https://dev.to/ikramar/superpowers-vs-compound-engineering-is-the-vs-even-real-58gc",
+          "author": {
+            "username": "ikramar",
+            "name": "Igor Kramar",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2211561%2F11d1ba7b-e52e-4488-bc50-cbb19848e004.jpg"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-04T13:02:08Z",
+          "tags": [
+            "ai",
+            "claude",
+            "productivity",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            },
+            {
+              "fullName": "EveryInc/compound-engineering-plugin",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3642987,
+          "title": "Tokenmaxxing: Codex + Claude Code Operator Stack 2026",
+          "description": "YC named it tokenmaxxing — one founder + agent harness doing the work of 400 engineers. Here's the stack: Codex parallel tabs and Claude Code skills.",
+          "url": "https://dev.to/max_quimby/tokenmaxxing-codex-claude-code-operator-stack-2026-318",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 10,
+          "publishedAt": "2026-05-10T03:35:48Z",
+          "tags": [
+            "ai",
+            "agents",
+            "codex",
+            "developertools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            },
+            {
+              "fullName": "rtk-ai/rtk",
+              "location": "body"
+            },
+            {
+              "fullName": "openai/codex",
+              "location": "tag"
+            },
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "decolua/9router",
+              "location": "body"
+            },
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "EveryInc/compound-engineering-plugin": {
       "count7d": 2,
       "reactionsSum7d": 2,
@@ -1724,7 +1874,7 @@
         "author": "ikramar",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 150.2,
+        "hoursSincePosted": 159,
         "readingTime": 7
       },
       "articles": [
@@ -1790,51 +1940,6 @@
         }
       ]
     },
-    "rahilp/second-brain-cloudflare": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3643255,
-        "title": "I gave Claude a persistent memory for $0/month using Cloudflare",
-        "url": "https://dev.to/rahil_pirani_c48446facc8c/i-gave-claude-a-persistent-memory-for-0month-using-cloudflare-2e5a",
-        "author": "rahil_pirani_c48446facc8c",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 13.6,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3643255,
-          "title": "I gave Claude a persistent memory for $0/month using Cloudflare",
-          "description": "I gave Claude a persistent memory for $0/month using Cloudflare   Claude is great. But every...",
-          "url": "https://dev.to/rahil_pirani_c48446facc8c/i-gave-claude-a-persistent-memory-for-0month-using-cloudflare-2e5a",
-          "author": {
-            "username": "rahil_pirani_c48446facc8c",
-            "name": "Rahil Pirani",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3922851%2F562316ad-6070-4ae8-9c4c-772035064295.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-10T05:35:41Z",
-          "tags": [
-            "claude",
-            "cloudflare",
-            "mcp",
-            "webdev"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "rahilp/second-brain-cloudflare",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "github/spec-kit": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1846,7 +1951,7 @@
         "author": "benjy33000",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 72.4,
+        "hoursSincePosted": 81.2,
         "readingTime": 12
       },
       "articles": [
@@ -1880,178 +1985,90 @@
         }
       ]
     },
-    "addyosmani/agent-skills": {
-      "count7d": 3,
+    "rahilp/second-brain-cloudflare": {
+      "count7d": 1,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3623847,
-        "title": "One Open Source Project a Day (No. 58): Agent Skills - Injecting Senior Engineer Discipline into AI Coding Agents",
-        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-58-agent-skills-injecting-senior-engineer-discipline-into-ai-1od2",
-        "author": "wonderlab",
+        "id": 3643255,
+        "title": "I gave Claude a persistent memory for $0/month using Cloudflare",
+        "url": "https://dev.to/rahil_pirani_c48446facc8c/i-gave-claude-a-persistent-memory-for-0month-using-cloudflare-2e5a",
+        "author": "rahil_pirani_c48446facc8c",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 88.4,
-        "readingTime": 7
+        "hoursSincePosted": 22.4,
+        "readingTime": 3
       },
       "articles": [
         {
-          "id": 3623847,
-          "title": "One Open Source Project a Day (No. 58): Agent Skills - Injecting Senior Engineer Discipline into AI Coding Agents",
-          "description": "Introduction    \"AI agents are only as good as the workflows they follow.\"   This is the...",
-          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-58-agent-skills-injecting-senior-engineer-discipline-into-ai-1od2",
+          "id": 3643255,
+          "title": "I gave Claude a persistent memory for $0/month using Cloudflare",
+          "description": "I gave Claude a persistent memory for $0/month using Cloudflare   Claude is great. But every...",
+          "url": "https://dev.to/rahil_pirani_c48446facc8c/i-gave-claude-a-persistent-memory-for-0month-using-cloudflare-2e5a",
           "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
+            "username": "rahil_pirani_c48446facc8c",
+            "name": "Rahil Pirani",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3922851%2F562316ad-6070-4ae8-9c4c-772035064295.png"
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-07T02:49:00Z",
+          "readingTime": 3,
+          "publishedAt": "2026-05-10T05:35:41Z",
           "tags": [
-            "opensource",
-            "agentskills",
             "claude",
-            "agents"
+            "cloudflare",
+            "mcp",
+            "webdev"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "addyosmani/agent-skills",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3642987,
-          "title": "Tokenmaxxing: Codex + Claude Code Operator Stack 2026",
-          "description": "YC named it tokenmaxxing — one founder + agent harness doing the work of 400 engineers. Here's the stack: Codex parallel tabs and Claude Code skills.",
-          "url": "https://dev.to/max_quimby/tokenmaxxing-codex-claude-code-operator-stack-2026-318",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-10T03:35:48Z",
-          "tags": [
-            "ai",
-            "agents",
-            "codex",
-            "developertools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "addyosmani/agent-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "openai/codex",
-              "location": "tag"
-            },
-            {
-              "fullName": "farion1231/cc-switch",
-              "location": "body"
-            },
-            {
-              "fullName": "decolua/9router",
-              "location": "body"
-            },
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3630312,
-          "title": "Vectorless RAG: PageIndex vs Embedding RAG Decision Guide",
-          "description": "When to switch agent retrieval from embeddings to PageIndex's vectorless tree search — and when not to. The honest 2026 read.",
-          "url": "https://dev.to/max_quimby/vectorless-rag-pageindex-vs-embedding-rag-decision-guide-dpl",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 8,
-          "publishedAt": "2026-05-08T03:45:22Z",
-          "tags": [
-            "rag",
-            "pageindex",
-            "vectorlessrag",
-            "retrieval"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "VectifyAI/PageIndex",
-              "location": "tag"
-            },
-            {
-              "fullName": "addyosmani/agent-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "farion1231/cc-switch",
+              "fullName": "rahilp/second-brain-cloudflare",
               "location": "body"
             }
           ]
         }
       ]
     },
-    "vercel-labs/skills": {
+    "maximhq/bifrost": {
       "count7d": 1,
       "reactionsSum7d": 0,
       "commentsSum7d": 1,
       "topArticle": {
-        "id": 3617729,
-        "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
-        "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
-        "author": "cdelgado70",
+        "id": 3619350,
+        "title": "Using an MCP Gateway with Claude Code: A Practical Guide",
+        "url": "https://dev.to/nakul_tk/using-an-mcp-gateway-with-claude-code-a-practical-guide-31dc",
+        "author": "nakul_tk",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 114.3,
-        "readingTime": 21
+        "hoursSincePosted": 116.1,
+        "readingTime": 6
       },
       "articles": [
         {
-          "id": 3617729,
-          "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
-          "description": "Post 1 of 2. This post walks through the discovery ceiling in Anthropic's Agent Skills standard, the...",
-          "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
+          "id": 3619350,
+          "title": "Using an MCP Gateway with Claude Code: A Practical Guide",
+          "description": "Learn how to integrate an MCP gateway with Claude Code to consolidate tool access, enforce governance...",
+          "url": "https://dev.to/nakul_tk/using-an-mcp-gateway-with-claude-code-a-practical-guide-31dc",
           "author": {
-            "username": "cdelgado70",
-            "name": "C. Delgado",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
+            "username": "nakul_tk",
+            "name": "Nakul T Krishnan",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3778279%2F1c2dabcf-9bf5-4a37-a76b-9d7475175411.png"
           },
           "reactionsCount": 0,
           "commentsCount": 1,
-          "readingTime": 21,
-          "publishedAt": "2026-05-06T00:55:44Z",
+          "readingTime": 6,
+          "publishedAt": "2026-05-06T07:52:25Z",
           "tags": [
             "ai",
+            "mcp",
             "claude",
-            "agents",
-            "productivity"
+            "llm"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "vercel-labs/skills",
+              "fullName": "maximhq/bifrost",
               "location": "body"
             }
           ]
@@ -2069,7 +2086,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 15.6,
+        "hoursSincePosted": 24.4,
         "readingTime": 10
       },
       "articles": [
@@ -2160,48 +2177,20 @@
       ]
     },
     "decolua/9router": {
-      "count7d": 2,
-      "reactionsSum7d": 3,
+      "count7d": 1,
+      "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3643093,
-        "title": "9router: route Claude Code, Cursor, or Copilot through whichever free tier you've got",
-        "url": "https://dev.to/mihailoff/9router-route-claude-code-cursor-or-copilot-through-whichever-free-tier-youve-got-4m61",
-        "author": "mihailoff",
-        "reactions": 3,
+        "id": 3642987,
+        "title": "Tokenmaxxing: Codex + Claude Code Operator Stack 2026",
+        "url": "https://dev.to/max_quimby/tokenmaxxing-codex-claude-code-operator-stack-2026-318",
+        "author": "max_quimby",
+        "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 14.8,
-        "readingTime": 4
+        "hoursSincePosted": 24.4,
+        "readingTime": 10
       },
       "articles": [
-        {
-          "id": 3643093,
-          "title": "9router: route Claude Code, Cursor, or Copilot through whichever free tier you've got",
-          "description": "9router is a local OpenAI-compatible proxy that fans your AI coding tool out across multiple free-tier providers, with combo routing, tool-output filtering, and prompt compression.",
-          "url": "https://dev.to/mihailoff/9router-route-claude-code-cursor-or-copilot-through-whichever-free-tier-youve-got-4m61",
-          "author": {
-            "username": "mihailoff",
-            "name": "George Mihailov",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F79229%2F102e5b9f-1cbe-4b20-a3fd-ceeaa6a431a5.jpeg"
-          },
-          "reactionsCount": 3,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-10T04:27:39Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "productivity",
-            "showdev"
-          ],
-          "trendingScore": 0.1,
-          "linkedRepos": [
-            {
-              "fullName": "decolua/9router",
-              "location": "body"
-            }
-          ]
-        },
         {
           "id": 3642987,
           "title": "Tokenmaxxing: Codex + Claude Code Operator Stack 2026",
@@ -2263,7 +2252,7 @@
         "author": "eleata",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 52.3,
+        "hoursSincePosted": 61,
         "readingTime": 5
       },
       "articles": [
@@ -2312,7 +2301,7 @@
         "author": "parupati",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 93.5,
+        "hoursSincePosted": 102.3,
         "readingTime": 6
       },
       "articles": [
@@ -2346,6 +2335,51 @@
         }
       ]
     },
+    "openclaw/openclaw": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3630582,
+        "title": "Slaying the Gemma Beast: How We Fixed Local AI and Shipped Search",
+        "url": "https://dev.to/carryologist/slaying-the-gemma-beast-how-we-fixed-local-ai-and-shipped-search-5638",
+        "author": "carryologist",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 71.1,
+        "readingTime": 13
+      },
+      "articles": [
+        {
+          "id": 3630582,
+          "title": "Slaying the Gemma Beast: How We Fixed Local AI and Shipped Search",
+          "description": "Two days ago, Gemma 4 couldn't finish a feature. Today it built one, pushed it to GitHub, and it's...",
+          "url": "https://dev.to/carryologist/slaying-the-gemma-beast-how-we-fixed-local-ai-and-shipped-search-5638",
+          "author": {
+            "username": "carryologist",
+            "name": "Rob",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3884903%2Ff7cf0bfd-0b92-4dca-9095-683af23a19e3.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 13,
+          "publishedAt": "2026-05-08T04:53:16Z",
+          "tags": [
+            "ai",
+            "llm",
+            "benchmark",
+            "homelab"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "VectifyAI/PageIndex": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -2357,7 +2391,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 8,
+        "hoursSincePosted": 16.8,
         "readingTime": 10
       },
       "articles": [
@@ -2438,7 +2472,7 @@
         "author": "cloakhq",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 80.5,
+        "hoursSincePosted": 89.3,
         "readingTime": 3
       },
       "articles": [
@@ -2483,7 +2517,7 @@
         "author": "architeg",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 74.5,
+        "hoursSincePosted": 83.3,
         "readingTime": 10
       },
       "articles": [
@@ -2556,7 +2590,7 @@
         "author": "jrud25",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 59.4,
+        "hoursSincePosted": 68.2,
         "readingTime": 5
       },
       "articles": [
@@ -2605,7 +2639,7 @@
         "author": "manoir_yantai_f22f01340f0",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 61.6,
+        "hoursSincePosted": 70.4,
         "readingTime": 1
       },
       "articles": [
@@ -2650,7 +2684,7 @@
         "author": "yashksaini",
         "reactions": 12,
         "comments": 0,
-        "hoursSincePosted": 84.4,
+        "hoursSincePosted": 93.2,
         "readingTime": 5
       },
       "articles": [
@@ -2674,7 +2708,7 @@
             "opensource",
             "backend"
           ],
-          "trendingScore": 0.15,
+          "trendingScore": 0.14,
           "linkedRepos": [
             {
               "fullName": "Tracer-Cloud/opensre",
@@ -2697,7 +2731,7 @@
         "author": "ruarfff",
         "reactions": 25,
         "comments": 0,
-        "hoursSincePosted": 124.4,
+        "hoursSincePosted": 133.2,
         "readingTime": 11
       },
       "articles": [
@@ -2718,7 +2752,7 @@
           "tags": [
             "githubcopilot"
           ],
-          "trendingScore": 0.28,
+          "trendingScore": 0.26,
           "linkedRepos": [
             {
               "fullName": "gastownhall/gastown",
@@ -2739,7 +2773,7 @@
         "author": "xbill",
         "reactions": 21,
         "comments": 2,
-        "hoursSincePosted": 100.7,
+        "hoursSincePosted": 109.5,
         "readingTime": 9
       },
       "articles": [
@@ -2763,7 +2797,7 @@
             "googleadk",
             "gemini"
           ],
-          "trendingScore": 0.33,
+          "trendingScore": 0.3,
           "linkedRepos": [
             {
               "fullName": "BerriAI/litellm",
@@ -2807,16 +2841,16 @@
     },
     "hexmostech--git-lrc": {
       "count7d": 5,
-      "reactionsSum7d": 103,
+      "reactionsSum7d": 104,
       "commentsSum7d": 6,
       "topArticle": {
         "id": 3635559,
         "title": "Error Handling in Go: Stop Panicking, Start Wrapping",
         "url": "https://dev.to/lovestaco/error-handling-in-go-stop-panicking-start-wrapping-351d",
         "author": "lovestaco",
-        "reactions": 43,
+        "reactions": 44,
         "comments": 4,
-        "hoursSincePosted": 47.7,
+        "hoursSincePosted": 56.5,
         "readingTime": 5
       },
       "articles": [
@@ -2830,7 +2864,7 @@
             "name": "Athreya aka Maneshwar",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
           },
-          "reactionsCount": 43,
+          "reactionsCount": 44,
           "commentsCount": 4,
           "readingTime": 5,
           "publishedAt": "2026-05-08T19:30:03Z",
@@ -2840,7 +2874,7 @@
             "beginners",
             "go"
           ],
-          "trendingScore": 2.06,
+          "trendingScore": 1.79,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -2868,7 +2902,7 @@
             "programming",
             "python"
           ],
-          "trendingScore": 3.71,
+          "trendingScore": 1.87,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -2895,7 +2929,7 @@
             "softwareengineering",
             "agenticengineering"
           ],
-          "trendingScore": 0.21,
+          "trendingScore": 0.19,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -2923,7 +2957,7 @@
             "productivity",
             "beginners"
           ],
-          "trendingScore": 0.15,
+          "trendingScore": 0.13,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -2951,7 +2985,7 @@
             "design",
             "discuss"
           ],
-          "trendingScore": 0.08,
+          "trendingScore": 0.07,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -2962,7 +2996,7 @@
       ]
     },
     "openai--codex": {
-      "count7d": 7,
+      "count7d": 8,
       "reactionsSum7d": 3,
       "commentsSum7d": 1,
       "topArticle": {
@@ -2972,7 +3006,7 @@
         "author": "mamoor_ahmad",
         "reactions": 2,
         "comments": 1,
-        "hoursSincePosted": 75.8,
+        "hoursSincePosted": 84.6,
         "readingTime": 7
       },
       "articles": [
@@ -3023,6 +3057,34 @@
             "ai",
             "cli",
             "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3645744,
+          "title": "I built a custom Codex-powered code review bot for GitLab",
+          "description": "A merge-request review by GitLab Duo Code Review costs us about $0.20. We're a small team of...",
+          "url": "https://dev.to/sleeyax/i-built-a-custom-codex-powered-code-review-bot-for-gitlab-5eap",
+          "author": {
+            "username": "sleeyax",
+            "name": "Sleeyax",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2073280%2F960c9c9b-67bf-49a7-89d3-16096830c49a.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-10T19:21:10Z",
+          "tags": [
+            "ai",
+            "automation",
+            "chatgpt",
+            "showdev"
           ],
           "trendingScore": 0,
           "linkedRepos": [
@@ -3109,10 +3171,10 @@
           ]
         },
         {
-          "id": 3643817,
-          "title": "The Evolution of Mobile Automation: From Scripts to State Flows",
-          "description": "I spent some time with OpenGUI recently, running a long-haul task on a real phone: open X, search for...",
-          "url": "https://dev.to/fenix_23505d14df386c00ced/the-evolution-of-mobile-automation-from-scripts-to-state-flows-6b3",
+          "id": 3643820,
+          "title": "手机自动化的演进：从脚本到状态流",
+          "description": "前阵子跑 OpenGUI，在真机上试了一个长程任务：打开 X，搜索 mobile AI agents...",
+          "url": "https://dev.to/fenix_23505d14df386c00ced/shou-ji-zi-dong-hua-de-yan-jin-cong-jiao-ben-dao-zhuang-tai-liu-jbc",
           "author": {
             "username": "fenix_23505d14df386c00ced",
             "name": "Fenix",
@@ -3120,8 +3182,8 @@
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-05-10T08:48:15Z",
+          "readingTime": 3,
+          "publishedAt": "2026-05-10T08:48:48Z",
           "tags": [
             "agents",
             "ai",
@@ -3137,10 +3199,10 @@
           ]
         },
         {
-          "id": 3643820,
-          "title": "手机自动化的演进：从脚本到状态流",
-          "description": "前阵子跑 OpenGUI，在真机上试了一个长程任务：打开 X，搜索 mobile AI agents...",
-          "url": "https://dev.to/fenix_23505d14df386c00ced/shou-ji-zi-dong-hua-de-yan-jin-cong-jiao-ben-dao-zhuang-tai-liu-jbc",
+          "id": 3643817,
+          "title": "The Evolution of Mobile Automation: From Scripts to State Flows",
+          "description": "I spent some time with OpenGUI recently, running a long-haul task on a real phone: open X, search for...",
+          "url": "https://dev.to/fenix_23505d14df386c00ced/the-evolution-of-mobile-automation-from-scripts-to-state-flows-6b3",
           "author": {
             "username": "fenix_23505d14df386c00ced",
             "name": "Fenix",
@@ -3148,8 +3210,8 @@
           },
           "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-10T08:48:48Z",
+          "readingTime": 11,
+          "publishedAt": "2026-05-10T08:48:15Z",
           "tags": [
             "agents",
             "ai",
@@ -3194,45 +3256,45 @@
         }
       ]
     },
-    "garrytan--gbrain": {
+    "luckypipewrench--pipelock": {
       "count7d": 1,
-      "reactionsSum7d": 6,
+      "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3630098,
-        "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
-        "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
-        "author": "_4f268336f6580845cdc475",
-        "reactions": 6,
+        "id": 3645944,
+        "title": "Pipelock Agent Egress Control: the missing CI primitive for AI agents",
+        "url": "https://dev.to/luckypipewrench/pipelock-agent-egress-control-the-missing-ci-primitive-for-ai-agents-27j4",
+        "author": "luckypipewrench",
+        "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 64.6,
-        "readingTime": 7
+        "hoursSincePosted": 6.9,
+        "readingTime": 3
       },
       "articles": [
         {
-          "id": 3630098,
-          "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
-          "description": "RAG brings books to the exam. Knowledge Engineering teaches Agents to study. Memory architecture...",
-          "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
+          "id": 3645944,
+          "title": "Pipelock Agent Egress Control: the missing CI primitive for AI agents",
+          "description": "TL;DR. Pipelock Agent Egress Control is a GitHub Action. It runs an agent script inside a Linux...",
+          "url": "https://dev.to/luckypipewrench/pipelock-agent-egress-control-the-missing-ci-primitive-for-ai-agents-27j4",
           "author": {
-            "username": "_4f268336f6580845cdc475",
-            "name": "Charles Wu",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805236%2Fc2ca81a3-8882-48ac-9ce7-046a056995ab.jpg"
+            "username": "luckypipewrench",
+            "name": "Josh Waldrep",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3760698%2Fbbfa2dcd-ec2e-4074-8eb4-bee0a7907f2b.jpg"
           },
-          "reactionsCount": 6,
+          "reactionsCount": 0,
           "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-08T02:35:02Z",
+          "readingTime": 3,
+          "publishedAt": "2026-05-10T21:06:27Z",
           "tags": [
+            "security",
             "ai",
-            "machinelearning",
-            "rag",
-            "agents"
+            "opensource",
+            "mcp"
           ],
-          "trendingScore": 0.07,
+          "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "garrytan/gbrain",
+              "fullName": "luckyPipewrench/pipelock",
               "location": "body"
             }
           ]
@@ -3240,7 +3302,7 @@
       ]
     },
     "anthropics--skills": {
-      "count7d": 4,
+      "count7d": 3,
       "reactionsSum7d": 2,
       "commentsSum7d": 1,
       "topArticle": {
@@ -3250,7 +3312,7 @@
         "author": "haowen_huang",
         "reactions": 2,
         "comments": 1,
-        "hoursSincePosted": 156.6,
+        "hoursSincePosted": 165.4,
         "readingTime": 7
       },
       "articles": [
@@ -3315,34 +3377,6 @@
           ]
         },
         {
-          "id": 3643945,
-          "title": "🧠 I Tried 100 Claude Skills. These Are The Best.",
-          "description": "From PDF wizards to Slack-GIF generators, I went deep into Anthropic’s new Agent Skills ecosystem —...",
-          "url": "https://dev.to/suraj_khaitan_f893c243958/i-tried-100-claude-skills-these-are-the-best-1m4a",
-          "author": {
-            "username": "suraj_khaitan_f893c243958",
-            "name": "Suraj Khaitan",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2130149%2Fe5132e15-d188-49bb-986e-43d967f20723.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-10T09:30:55Z",
-          "tags": [
-            "ai",
-            "claude",
-            "cloud",
-            "python"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/skills",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3631768,
           "title": "Stop Repeating Yourself: Use Rules and Skills to Level Up Your AI Agent",
           "description": "Do you find yourself typing the same instructions into every new project chat? Or noticing that your...",
@@ -3387,7 +3421,7 @@
         "author": "dantederuwe",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 67.2,
+        "hoursSincePosted": 76,
         "readingTime": 11
       },
       "articles": [
@@ -3425,170 +3459,45 @@
         }
       ]
     },
-    "ruvnet--ruflo": {
+    "garrytan--gbrain": {
       "count7d": 1,
-      "reactionsSum7d": 2,
+      "reactionsSum7d": 6,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3605897,
-        "title": "One Open Source Project a Day (No. 55): RuFlo - A Multi-Agent Orchestration Engine for the AI Swarm Era",
-        "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-55-ruflo-a-multi-agent-orchestration-engine-for-the-ai-swarm-1fnp",
-        "author": "wonderlab",
-        "reactions": 2,
+        "id": 3630098,
+        "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
+        "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
+        "author": "_4f268336f6580845cdc475",
+        "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 162.3,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3605897,
-          "title": "One Open Source Project a Day (No. 55): RuFlo - A Multi-Agent Orchestration Engine for the AI Swarm Era",
-          "description": "Introduction    \"From Chat to Agents, from Agents to Swarms.\"   This is the No.55 article in...",
-          "url": "https://dev.to/wonderlab/one-open-source-project-a-day-no-55-ruflo-a-multi-agent-orchestration-engine-for-the-ai-swarm-1fnp",
-          "author": {
-            "username": "wonderlab",
-            "name": "WonderLab",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3797373%2F25beba30-d8d4-4d2e-9ec6-170356089350.jpg"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-04T00:56:01Z",
-          "tags": [
-            "opensource",
-            "agents",
-            "ai",
-            "typescript"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "ruvnet/ruflo",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "obra--superpowers": {
-      "count7d": 3,
-      "reactionsSum7d": 3,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3609042,
-        "title": "Superpowers vs Compound Engineering: is the 'vs' even real?",
-        "url": "https://dev.to/ikramar/superpowers-vs-compound-engineering-is-the-vs-even-real-58gc",
-        "author": "ikramar",
-        "reactions": 2,
-        "comments": 0,
-        "hoursSincePosted": 150.2,
+        "hoursSincePosted": 73.4,
         "readingTime": 7
       },
       "articles": [
         {
-          "id": 3609042,
-          "title": "Superpowers vs Compound Engineering: is the 'vs' even real?",
-          "description": "TL;DR — Superpowers and Compound Engineering aren't competitors. They're optimised for different...",
-          "url": "https://dev.to/ikramar/superpowers-vs-compound-engineering-is-the-vs-even-real-58gc",
+          "id": 3630098,
+          "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
+          "description": "RAG brings books to the exam. Knowledge Engineering teaches Agents to study. Memory architecture...",
+          "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
           "author": {
-            "username": "ikramar",
-            "name": "Igor Kramar",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2211561%2F11d1ba7b-e52e-4488-bc50-cbb19848e004.jpg"
+            "username": "_4f268336f6580845cdc475",
+            "name": "Charles Wu",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805236%2Fc2ca81a3-8882-48ac-9ce7-046a056995ab.jpg"
           },
-          "reactionsCount": 2,
+          "reactionsCount": 6,
           "commentsCount": 0,
           "readingTime": 7,
-          "publishedAt": "2026-05-04T13:02:08Z",
+          "publishedAt": "2026-05-08T02:35:02Z",
           "tags": [
             "ai",
-            "claude",
-            "productivity",
-            "tooling"
+            "machinelearning",
+            "rag",
+            "agents"
           ],
-          "trendingScore": 0,
+          "trendingScore": 0.06,
           "linkedRepos": [
             {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "EveryInc/compound-engineering-plugin",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3611567,
-          "title": "OpenAI Codex vs Claude Code: Real Developer Workflow Comparison",
-          "description": "I gave the same large repo work to Claude Code and OpenAI Codex. Here is what changed in speed, code quality, tests, and shipping confidence.",
-          "url": "https://dev.to/harryy2510/claude-moves-fast-codex-ships-4fmd",
-          "author": {
-            "username": "harryy2510",
-            "name": "Hariom Sharma",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F616046%2F3e77768a-1d3e-4ae5-9e77-70fcd02cec13.jpeg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-05T00:00:07Z",
-          "tags": [
-            "ai",
-            "agents",
-            "programming",
-            "openaicodex"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3642987,
-          "title": "Tokenmaxxing: Codex + Claude Code Operator Stack 2026",
-          "description": "YC named it tokenmaxxing — one founder + agent harness doing the work of 400 engineers. Here's the stack: Codex parallel tabs and Claude Code skills.",
-          "url": "https://dev.to/max_quimby/tokenmaxxing-codex-claude-code-operator-stack-2026-318",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-10T03:35:48Z",
-          "tags": [
-            "ai",
-            "agents",
-            "codex",
-            "developertools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "addyosmani/agent-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "openai/codex",
-              "location": "tag"
-            },
-            {
-              "fullName": "farion1231/cc-switch",
-              "location": "body"
-            },
-            {
-              "fullName": "decolua/9router",
-              "location": "body"
-            },
-            {
-              "fullName": "obra/superpowers",
+              "fullName": "garrytan/gbrain",
               "location": "body"
             }
           ]
@@ -3600,16 +3509,76 @@
       "reactionsSum7d": 0,
       "commentsSum7d": 3,
       "topArticle": {
-        "id": 3638970,
-        "title": "36 Days of Claude Code Logs: Silent Model Switching, 11.5x Efficiency Gap",
-        "url": "https://dev.to/recca0120/36-days-of-claude-code-logs-silent-model-switching-115x-efficiency-gap-1bgm",
-        "author": "recca0120",
+        "id": 3637647,
+        "title": "Hooks and the wrapper-authority problem: why your AI coding agent ignores them",
+        "url": "https://dev.to/cdelgado70/hooks-and-the-wrapper-authority-problem-why-your-ai-coding-agent-ignores-them-go6",
+        "author": "cdelgado70",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 34.5,
-        "readingTime": 8
+        "hoursSincePosted": 48.7,
+        "readingTime": 18
       },
       "articles": [
+        {
+          "id": 3637647,
+          "title": "Hooks and the wrapper-authority problem: why your AI coding agent ignores them",
+          "description": "Post 2 of 2. A walkthrough of the wrapper that breaks UserPromptSubmit hook output, the issues that...",
+          "url": "https://dev.to/cdelgado70/hooks-and-the-wrapper-authority-problem-why-your-ai-coding-agent-ignores-them-go6",
+          "author": {
+            "username": "cdelgado70",
+            "name": "C. Delgado",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 18,
+          "publishedAt": "2026-05-09T03:16:03Z",
+          "tags": [
+            "ai",
+            "claude",
+            "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3617729,
+          "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
+          "description": "Post 1 of 2. This post walks through the discovery ceiling in Anthropic's Agent Skills standard, the...",
+          "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
+          "author": {
+            "username": "cdelgado70",
+            "name": "C. Delgado",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 21,
+          "publishedAt": "2026-05-06T00:55:44Z",
+          "tags": [
+            "ai",
+            "claude",
+            "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "vercel-labs/skills",
+              "location": "body"
+            }
+          ]
+        },
         {
           "id": 3638970,
           "title": "36 Days of Claude Code Logs: Silent Model Switching, 11.5x Efficiency Gap",
@@ -3723,66 +3692,6 @@
           ]
         },
         {
-          "id": 3637647,
-          "title": "Hooks and the wrapper-authority problem: why your AI coding agent ignores them",
-          "description": "Post 2 of 2. A walkthrough of the wrapper that breaks UserPromptSubmit hook output, the issues that...",
-          "url": "https://dev.to/cdelgado70/hooks-and-the-wrapper-authority-problem-why-your-ai-coding-agent-ignores-them-go6",
-          "author": {
-            "username": "cdelgado70",
-            "name": "C. Delgado",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 18,
-          "publishedAt": "2026-05-09T03:16:03Z",
-          "tags": [
-            "ai",
-            "claude",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3617729,
-          "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
-          "description": "Post 1 of 2. This post walks through the discovery ceiling in Anthropic's Agent Skills standard, the...",
-          "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
-          "author": {
-            "username": "cdelgado70",
-            "name": "C. Delgado",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 21,
-          "publishedAt": "2026-05-06T00:55:44Z",
-          "tags": [
-            "ai",
-            "claude",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "vercel-labs/skills",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3618919,
           "title": "Claude Code Context Window Rot: Why Sessions Get Dumber (And How to Fix It)",
           "description": "You know the pattern. You open a fresh Claude Code session, paste in the task, and the first few...",
@@ -3840,521 +3749,49 @@
         }
       ]
     },
-    "fission-ai--openspec": {
-      "count7d": 1,
-      "reactionsSum7d": 1,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3608735,
-        "title": "Cómo integrar OpenSpec con Claude Code paso a paso",
-        "url": "https://dev.to/bezael/como-integrar-openspec-con-claude-code-paso-a-paso-5ej3",
-        "author": "bezael",
-        "reactions": 1,
-        "comments": 0,
-        "hoursSincePosted": 151.1,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3608735,
-          "title": "Cómo integrar OpenSpec con Claude Code paso a paso",
-          "description": "OpenSpec añade especificaciones versionadas a tu proyecto para que Claude Code nunca pierda el contexto. Tutorial completo con demo real.",
-          "url": "https://dev.to/bezael/como-integrar-openspec-con-claude-code-paso-a-paso-5ej3",
-          "author": {
-            "username": "bezael",
-            "name": "Bezael Pérez",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F69894%2F8c8240fd-1dd9-4fbe-8277-26c618359d1b.jpg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-04T12:05:26Z",
-          "tags": [
-            "claudecode",
-            "openspec",
-            "ai",
-            "programming"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "Fission-AI/OpenSpec",
-              "location": "tag"
-            }
-          ]
-        }
-      ]
-    },
-    "thedotmack--claude-mem": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3629755,
-        "title": "After the Skill Vault: 3 More Hidden Token Sinks in Claude Code",
-        "url": "https://dev.to/pponali/after-the-skill-vault-3-more-hidden-token-sinks-in-claude-code-32ek",
-        "author": "pponali",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 66.4,
-        "readingTime": 5
-      },
-      "articles": [
-        {
-          "id": 3629755,
-          "title": "After the Skill Vault: 3 More Hidden Token Sinks in Claude Code",
-          "description": "After cutting Claude Code tokens by 96% with the Skill Vault, I went looking for what was still eating tokens. Three more sinks, ~5K saved per session, zero capability lost.",
-          "url": "https://dev.to/pponali/after-the-skill-vault-3-more-hidden-token-sinks-in-claude-code-32ek",
-          "author": {
-            "username": "pponali",
-            "name": "pponali",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1238066%2F98aafa2c-caaf-4488-9c96-f143321b4acb.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-08T00:48:13Z",
-          "tags": [
-            "ai",
-            "productivity",
-            "claudecode",
-            "tutorial"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "thedotmack/claude-mem",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "juliusbrussee--caveman": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3614786,
-        "title": "Caveman Review: The Claude Code Skill That Cuts 65% of Tokens",
-        "url": "https://dev.to/andrew-ooo/caveman-review-the-claude-code-skill-that-cuts-65-of-tokens-2boe",
-        "author": "andrew-ooo",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 128,
-        "readingTime": 10
-      },
-      "articles": [
-        {
-          "id": 3614786,
-          "title": "Caveman Review: The Claude Code Skill That Cuts 65% of Tokens",
-          "description": "Originally published on andrew.ooo — visit the original for any updates, code snippets that aged...",
-          "url": "https://dev.to/andrew-ooo/caveman-review-the-claude-code-skill-that-cuts-65-of-tokens-2boe",
-          "author": {
-            "username": "andrew-ooo",
-            "name": "Andrew",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3775252%2Ff6bbe8a2-ee0c-41f7-9468-c85f0b00ca95.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-05T11:11:31Z",
-          "tags": [
-            "caveman",
-            "claudecode",
-            "claudeskills",
-            "tokenoptimization"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "JuliusBrussee/caveman",
-              "location": "tag"
-            }
-          ]
-        }
-      ]
-    },
-    "rtk-ai--rtk": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3624007,
-        "title": "Cut Claude Code Token Costs 60-90% With rtk: Hands-On Guide",
-        "url": "https://dev.to/max_quimby/cut-claude-code-token-costs-60-90-with-rtk-hands-on-guide-42op",
-        "author": "max_quimby",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 87.6,
-        "readingTime": 12
-      },
-      "articles": [
-        {
-          "id": 3624007,
-          "title": "Cut Claude Code Token Costs 60-90% With rtk: Hands-On Guide",
-          "description": "Stop dumping raw terminal output into Claude Code's context. rtk is a Rust CLI proxy that filters git, cargo, and npm output for 60-90% savings.",
-          "url": "https://dev.to/max_quimby/cut-claude-code-token-costs-60-90-with-rtk-hands-on-guide-42op",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 12,
-          "publishedAt": "2026-05-07T03:37:59Z",
-          "tags": [
-            "claudecode",
-            "ai",
-            "devops",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "mksglu/context-mode",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3642987,
-          "title": "Tokenmaxxing: Codex + Claude Code Operator Stack 2026",
-          "description": "YC named it tokenmaxxing — one founder + agent harness doing the work of 400 engineers. Here's the stack: Codex parallel tabs and Claude Code skills.",
-          "url": "https://dev.to/max_quimby/tokenmaxxing-codex-claude-code-operator-stack-2026-318",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-10T03:35:48Z",
-          "tags": [
-            "ai",
-            "agents",
-            "codex",
-            "developertools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "addyosmani/agent-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "openai/codex",
-              "location": "tag"
-            },
-            {
-              "fullName": "farion1231/cc-switch",
-              "location": "body"
-            },
-            {
-              "fullName": "decolua/9router",
-              "location": "body"
-            },
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "mksglu--context-mode": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3624007,
-        "title": "Cut Claude Code Token Costs 60-90% With rtk: Hands-On Guide",
-        "url": "https://dev.to/max_quimby/cut-claude-code-token-costs-60-90-with-rtk-hands-on-guide-42op",
-        "author": "max_quimby",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 87.6,
-        "readingTime": 12
-      },
-      "articles": [
-        {
-          "id": 3624007,
-          "title": "Cut Claude Code Token Costs 60-90% With rtk: Hands-On Guide",
-          "description": "Stop dumping raw terminal output into Claude Code's context. rtk is a Rust CLI proxy that filters git, cargo, and npm output for 60-90% savings.",
-          "url": "https://dev.to/max_quimby/cut-claude-code-token-costs-60-90-with-rtk-hands-on-guide-42op",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 12,
-          "publishedAt": "2026-05-07T03:37:59Z",
-          "tags": [
-            "claudecode",
-            "ai",
-            "devops",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "mksglu/context-mode",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "aattaran--deepclaude": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3612523,
-        "title": "DeepClaude: Run Claude Code on DeepSeek for 90% Less",
-        "url": "https://dev.to/max_quimby/deepclaude-run-claude-code-on-deepseek-for-90-less-ac8",
-        "author": "max_quimby",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 133.8,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3612523,
-          "title": "DeepClaude: Run Claude Code on DeepSeek for 90% Less",
-          "description": "DeepClaude swaps Claude Code's backend to DeepSeek V4 Pro with 4 env vars. The setup, the real quality tradeoff, and when to switch back.",
-          "url": "https://dev.to/max_quimby/deepclaude-run-claude-code-on-deepseek-for-90-less-ac8",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-05T05:26:00Z",
-          "tags": [
-            "ai",
-            "claudecode",
-            "deepseek",
-            "developer"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "aattaran/deepclaude",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3612547,
-          "title": "DeepClaude vs Claude Code vs Codex Pro: 2026 Cost Stack",
-          "description": "After DeepSeek V4, the coding-agent stack has three substrates with very different pricing and lock-in. Which should you switch to?",
-          "url": "https://dev.to/max_quimby/deepclaude-vs-claude-code-vs-codex-pro-2026-cost-stack-1hkj",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-05T05:31:57Z",
-          "tags": [
-            "ai",
-            "aiagents",
-            "claudecode",
-            "deepseek"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "aattaran/deepclaude",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "everyinc--compound-engineering-plugin": {
-      "count7d": 2,
-      "reactionsSum7d": 2,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3609042,
-        "title": "Superpowers vs Compound Engineering: is the 'vs' even real?",
-        "url": "https://dev.to/ikramar/superpowers-vs-compound-engineering-is-the-vs-even-real-58gc",
-        "author": "ikramar",
-        "reactions": 2,
-        "comments": 0,
-        "hoursSincePosted": 150.2,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3609042,
-          "title": "Superpowers vs Compound Engineering: is the 'vs' even real?",
-          "description": "TL;DR — Superpowers and Compound Engineering aren't competitors. They're optimised for different...",
-          "url": "https://dev.to/ikramar/superpowers-vs-compound-engineering-is-the-vs-even-real-58gc",
-          "author": {
-            "username": "ikramar",
-            "name": "Igor Kramar",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2211561%2F11d1ba7b-e52e-4488-bc50-cbb19848e004.jpg"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-04T13:02:08Z",
-          "tags": [
-            "ai",
-            "claude",
-            "productivity",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            },
-            {
-              "fullName": "EveryInc/compound-engineering-plugin",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3635894,
-          "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
-          "description": "TL;DR. I built a Claude Code plugin (MIT, github.com/IgorKramar/archforge-marketplace) that turns...",
-          "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
-          "author": {
-            "username": "ikramar",
-            "name": "Igor Kramar",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2211561%2F11d1ba7b-e52e-4488-bc50-cbb19848e004.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 18,
-          "publishedAt": "2026-05-08T20:29:24Z",
-          "tags": [
-            "claude",
-            "ai",
-            "architecture",
-            "softwareengineering"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "EveryInc/compound-engineering-plugin",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "rahilp--second-brain-cloudflare": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3643255,
-        "title": "I gave Claude a persistent memory for $0/month using Cloudflare",
-        "url": "https://dev.to/rahil_pirani_c48446facc8c/i-gave-claude-a-persistent-memory-for-0month-using-cloudflare-2e5a",
-        "author": "rahil_pirani_c48446facc8c",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 13.6,
-        "readingTime": 3
-      },
-      "articles": [
-        {
-          "id": 3643255,
-          "title": "I gave Claude a persistent memory for $0/month using Cloudflare",
-          "description": "I gave Claude a persistent memory for $0/month using Cloudflare   Claude is great. But every...",
-          "url": "https://dev.to/rahil_pirani_c48446facc8c/i-gave-claude-a-persistent-memory-for-0month-using-cloudflare-2e5a",
-          "author": {
-            "username": "rahil_pirani_c48446facc8c",
-            "name": "Rahil Pirani",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3922851%2F562316ad-6070-4ae8-9c4c-772035064295.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-10T05:35:41Z",
-          "tags": [
-            "claude",
-            "cloudflare",
-            "mcp",
-            "webdev"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "rahilp/second-brain-cloudflare",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "github--spec-kit": {
+    "vercel-labs--skills": {
       "count7d": 1,
       "reactionsSum7d": 0,
       "commentsSum7d": 1,
       "topArticle": {
-        "id": 3628702,
-        "title": "I shipped a 20-feature DevOps tool solo in 60 days using Claude Code — the unfiltered breakdown",
-        "url": "https://dev.to/benjy33000/i-shipped-a-20-feature-devops-tool-solo-in-60-days-using-claude-code-the-unfiltered-breakdown-3mb3",
-        "author": "benjy33000",
+        "id": 3617729,
+        "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
+        "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
+        "author": "cdelgado70",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 72.4,
-        "readingTime": 12
+        "hoursSincePosted": 123.1,
+        "readingTime": 21
       },
       "articles": [
         {
-          "id": 3628702,
-          "title": "I shipped a 20-feature DevOps tool solo in 60 days using Claude Code — the unfiltered breakdown",
-          "description": "TL;DR — I built Maintenant, a 20-feature monitoring tool (Docker + Kubernetes + endpoints + certs +...",
-          "url": "https://dev.to/benjy33000/i-shipped-a-20-feature-devops-tool-solo-in-60-days-using-claude-code-the-unfiltered-breakdown-3mb3",
+          "id": 3617729,
+          "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
+          "description": "Post 1 of 2. This post walks through the discovery ceiling in Anthropic's Agent Skills standard, the...",
+          "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
           "author": {
-            "username": "benjy33000",
-            "name": "Benjamin Touchard",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1740181%2F3f1038da-05fb-410f-832b-0bd4c2f84fc9.png"
+            "username": "cdelgado70",
+            "name": "C. Delgado",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
           },
           "reactionsCount": 0,
           "commentsCount": 1,
-          "readingTime": 12,
-          "publishedAt": "2026-05-07T18:50:15Z",
+          "readingTime": 21,
+          "publishedAt": "2026-05-06T00:55:44Z",
           "tags": [
             "ai",
-            "devops",
-            "opensource",
-            "claude"
+            "claude",
+            "agents",
+            "productivity"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "github/spec-kit",
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "vercel-labs/skills",
               "location": "body"
             }
           ]
@@ -4372,7 +3809,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 88.4,
+        "hoursSincePosted": 97.2,
         "readingTime": 7
       },
       "articles": [
@@ -4490,49 +3927,663 @@
         }
       ]
     },
-    "vercel-labs--skills": {
+    "fission-ai--openspec": {
       "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 1,
+      "reactionsSum7d": 1,
+      "commentsSum7d": 0,
       "topArticle": {
-        "id": 3617729,
-        "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
-        "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
-        "author": "cdelgado70",
-        "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 114.3,
-        "readingTime": 21
+        "id": 3608735,
+        "title": "Cómo integrar OpenSpec con Claude Code paso a paso",
+        "url": "https://dev.to/bezael/como-integrar-openspec-con-claude-code-paso-a-paso-5ej3",
+        "author": "bezael",
+        "reactions": 1,
+        "comments": 0,
+        "hoursSincePosted": 159.9,
+        "readingTime": 6
       },
       "articles": [
         {
-          "id": 3617729,
-          "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
-          "description": "Post 1 of 2. This post walks through the discovery ceiling in Anthropic's Agent Skills standard, the...",
-          "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
+          "id": 3608735,
+          "title": "Cómo integrar OpenSpec con Claude Code paso a paso",
+          "description": "OpenSpec añade especificaciones versionadas a tu proyecto para que Claude Code nunca pierda el contexto. Tutorial completo con demo real.",
+          "url": "https://dev.to/bezael/como-integrar-openspec-con-claude-code-paso-a-paso-5ej3",
           "author": {
-            "username": "cdelgado70",
-            "name": "C. Delgado",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
+            "username": "bezael",
+            "name": "Bezael Pérez",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F69894%2F8c8240fd-1dd9-4fbe-8277-26c618359d1b.jpg"
+          },
+          "reactionsCount": 1,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-04T12:05:26Z",
+          "tags": [
+            "claudecode",
+            "openspec",
+            "ai",
+            "programming"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "Fission-AI/OpenSpec",
+              "location": "tag"
+            }
+          ]
+        }
+      ]
+    },
+    "thedotmack--claude-mem": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3629755,
+        "title": "After the Skill Vault: 3 More Hidden Token Sinks in Claude Code",
+        "url": "https://dev.to/pponali/after-the-skill-vault-3-more-hidden-token-sinks-in-claude-code-32ek",
+        "author": "pponali",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 75.2,
+        "readingTime": 5
+      },
+      "articles": [
+        {
+          "id": 3629755,
+          "title": "After the Skill Vault: 3 More Hidden Token Sinks in Claude Code",
+          "description": "After cutting Claude Code tokens by 96% with the Skill Vault, I went looking for what was still eating tokens. Three more sinks, ~5K saved per session, zero capability lost.",
+          "url": "https://dev.to/pponali/after-the-skill-vault-3-more-hidden-token-sinks-in-claude-code-32ek",
+          "author": {
+            "username": "pponali",
+            "name": "pponali",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1238066%2F98aafa2c-caaf-4488-9c96-f143321b4acb.png"
           },
           "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 21,
-          "publishedAt": "2026-05-06T00:55:44Z",
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-05-08T00:48:13Z",
           "tags": [
             "ai",
-            "claude",
-            "agents",
+            "productivity",
+            "claudecode",
+            "tutorial"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "thedotmack/claude-mem",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "juliusbrussee--caveman": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3614786,
+        "title": "Caveman Review: The Claude Code Skill That Cuts 65% of Tokens",
+        "url": "https://dev.to/andrew-ooo/caveman-review-the-claude-code-skill-that-cuts-65-of-tokens-2boe",
+        "author": "andrew-ooo",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 136.8,
+        "readingTime": 10
+      },
+      "articles": [
+        {
+          "id": 3614786,
+          "title": "Caveman Review: The Claude Code Skill That Cuts 65% of Tokens",
+          "description": "Originally published on andrew.ooo — visit the original for any updates, code snippets that aged...",
+          "url": "https://dev.to/andrew-ooo/caveman-review-the-claude-code-skill-that-cuts-65-of-tokens-2boe",
+          "author": {
+            "username": "andrew-ooo",
+            "name": "Andrew",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3775252%2Ff6bbe8a2-ee0c-41f7-9468-c85f0b00ca95.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 10,
+          "publishedAt": "2026-05-05T11:11:31Z",
+          "tags": [
+            "caveman",
+            "claudecode",
+            "claudeskills",
+            "tokenoptimization"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "JuliusBrussee/caveman",
+              "location": "tag"
+            }
+          ]
+        }
+      ]
+    },
+    "rtk-ai--rtk": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3624007,
+        "title": "Cut Claude Code Token Costs 60-90% With rtk: Hands-On Guide",
+        "url": "https://dev.to/max_quimby/cut-claude-code-token-costs-60-90-with-rtk-hands-on-guide-42op",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 96.4,
+        "readingTime": 12
+      },
+      "articles": [
+        {
+          "id": 3624007,
+          "title": "Cut Claude Code Token Costs 60-90% With rtk: Hands-On Guide",
+          "description": "Stop dumping raw terminal output into Claude Code's context. rtk is a Rust CLI proxy that filters git, cargo, and npm output for 60-90% savings.",
+          "url": "https://dev.to/max_quimby/cut-claude-code-token-costs-60-90-with-rtk-hands-on-guide-42op",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 12,
+          "publishedAt": "2026-05-07T03:37:59Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "devops",
             "productivity"
           ],
           "trendingScore": 0,
           "linkedRepos": [
             {
-              "fullName": "anthropics/claude-code",
+              "fullName": "rtk-ai/rtk",
               "location": "body"
             },
             {
-              "fullName": "vercel-labs/skills",
+              "fullName": "mksglu/context-mode",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3642987,
+          "title": "Tokenmaxxing: Codex + Claude Code Operator Stack 2026",
+          "description": "YC named it tokenmaxxing — one founder + agent harness doing the work of 400 engineers. Here's the stack: Codex parallel tabs and Claude Code skills.",
+          "url": "https://dev.to/max_quimby/tokenmaxxing-codex-claude-code-operator-stack-2026-318",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 10,
+          "publishedAt": "2026-05-10T03:35:48Z",
+          "tags": [
+            "ai",
+            "agents",
+            "codex",
+            "developertools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            },
+            {
+              "fullName": "rtk-ai/rtk",
+              "location": "body"
+            },
+            {
+              "fullName": "openai/codex",
+              "location": "tag"
+            },
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "decolua/9router",
+              "location": "body"
+            },
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "mksglu--context-mode": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3624007,
+        "title": "Cut Claude Code Token Costs 60-90% With rtk: Hands-On Guide",
+        "url": "https://dev.to/max_quimby/cut-claude-code-token-costs-60-90-with-rtk-hands-on-guide-42op",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 96.4,
+        "readingTime": 12
+      },
+      "articles": [
+        {
+          "id": 3624007,
+          "title": "Cut Claude Code Token Costs 60-90% With rtk: Hands-On Guide",
+          "description": "Stop dumping raw terminal output into Claude Code's context. rtk is a Rust CLI proxy that filters git, cargo, and npm output for 60-90% savings.",
+          "url": "https://dev.to/max_quimby/cut-claude-code-token-costs-60-90-with-rtk-hands-on-guide-42op",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 12,
+          "publishedAt": "2026-05-07T03:37:59Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "devops",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "rtk-ai/rtk",
+              "location": "body"
+            },
+            {
+              "fullName": "mksglu/context-mode",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "aattaran--deepclaude": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3612523,
+        "title": "DeepClaude: Run Claude Code on DeepSeek for 90% Less",
+        "url": "https://dev.to/max_quimby/deepclaude-run-claude-code-on-deepseek-for-90-less-ac8",
+        "author": "max_quimby",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 142.6,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3612523,
+          "title": "DeepClaude: Run Claude Code on DeepSeek for 90% Less",
+          "description": "DeepClaude swaps Claude Code's backend to DeepSeek V4 Pro with 4 env vars. The setup, the real quality tradeoff, and when to switch back.",
+          "url": "https://dev.to/max_quimby/deepclaude-run-claude-code-on-deepseek-for-90-less-ac8",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-05T05:26:00Z",
+          "tags": [
+            "ai",
+            "claudecode",
+            "deepseek",
+            "developer"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "aattaran/deepclaude",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3612547,
+          "title": "DeepClaude vs Claude Code vs Codex Pro: 2026 Cost Stack",
+          "description": "After DeepSeek V4, the coding-agent stack has three substrates with very different pricing and lock-in. Which should you switch to?",
+          "url": "https://dev.to/max_quimby/deepclaude-vs-claude-code-vs-codex-pro-2026-cost-stack-1hkj",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-05-05T05:31:57Z",
+          "tags": [
+            "ai",
+            "aiagents",
+            "claudecode",
+            "deepseek"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "aattaran/deepclaude",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "obra--superpowers": {
+      "count7d": 2,
+      "reactionsSum7d": 2,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3609042,
+        "title": "Superpowers vs Compound Engineering: is the 'vs' even real?",
+        "url": "https://dev.to/ikramar/superpowers-vs-compound-engineering-is-the-vs-even-real-58gc",
+        "author": "ikramar",
+        "reactions": 2,
+        "comments": 0,
+        "hoursSincePosted": 159,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3609042,
+          "title": "Superpowers vs Compound Engineering: is the 'vs' even real?",
+          "description": "TL;DR — Superpowers and Compound Engineering aren't competitors. They're optimised for different...",
+          "url": "https://dev.to/ikramar/superpowers-vs-compound-engineering-is-the-vs-even-real-58gc",
+          "author": {
+            "username": "ikramar",
+            "name": "Igor Kramar",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2211561%2F11d1ba7b-e52e-4488-bc50-cbb19848e004.jpg"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-04T13:02:08Z",
+          "tags": [
+            "ai",
+            "claude",
+            "productivity",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            },
+            {
+              "fullName": "EveryInc/compound-engineering-plugin",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3642987,
+          "title": "Tokenmaxxing: Codex + Claude Code Operator Stack 2026",
+          "description": "YC named it tokenmaxxing — one founder + agent harness doing the work of 400 engineers. Here's the stack: Codex parallel tabs and Claude Code skills.",
+          "url": "https://dev.to/max_quimby/tokenmaxxing-codex-claude-code-operator-stack-2026-318",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 10,
+          "publishedAt": "2026-05-10T03:35:48Z",
+          "tags": [
+            "ai",
+            "agents",
+            "codex",
+            "developertools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            },
+            {
+              "fullName": "rtk-ai/rtk",
+              "location": "body"
+            },
+            {
+              "fullName": "openai/codex",
+              "location": "tag"
+            },
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "decolua/9router",
+              "location": "body"
+            },
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "everyinc--compound-engineering-plugin": {
+      "count7d": 2,
+      "reactionsSum7d": 2,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3609042,
+        "title": "Superpowers vs Compound Engineering: is the 'vs' even real?",
+        "url": "https://dev.to/ikramar/superpowers-vs-compound-engineering-is-the-vs-even-real-58gc",
+        "author": "ikramar",
+        "reactions": 2,
+        "comments": 0,
+        "hoursSincePosted": 159,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3609042,
+          "title": "Superpowers vs Compound Engineering: is the 'vs' even real?",
+          "description": "TL;DR — Superpowers and Compound Engineering aren't competitors. They're optimised for different...",
+          "url": "https://dev.to/ikramar/superpowers-vs-compound-engineering-is-the-vs-even-real-58gc",
+          "author": {
+            "username": "ikramar",
+            "name": "Igor Kramar",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2211561%2F11d1ba7b-e52e-4488-bc50-cbb19848e004.jpg"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-04T13:02:08Z",
+          "tags": [
+            "ai",
+            "claude",
+            "productivity",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            },
+            {
+              "fullName": "EveryInc/compound-engineering-plugin",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3635894,
+          "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
+          "description": "TL;DR. I built a Claude Code plugin (MIT, github.com/IgorKramar/archforge-marketplace) that turns...",
+          "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
+          "author": {
+            "username": "ikramar",
+            "name": "Igor Kramar",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2211561%2F11d1ba7b-e52e-4488-bc50-cbb19848e004.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 18,
+          "publishedAt": "2026-05-08T20:29:24Z",
+          "tags": [
+            "claude",
+            "ai",
+            "architecture",
+            "softwareengineering"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "EveryInc/compound-engineering-plugin",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "github--spec-kit": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3628702,
+        "title": "I shipped a 20-feature DevOps tool solo in 60 days using Claude Code — the unfiltered breakdown",
+        "url": "https://dev.to/benjy33000/i-shipped-a-20-feature-devops-tool-solo-in-60-days-using-claude-code-the-unfiltered-breakdown-3mb3",
+        "author": "benjy33000",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 81.2,
+        "readingTime": 12
+      },
+      "articles": [
+        {
+          "id": 3628702,
+          "title": "I shipped a 20-feature DevOps tool solo in 60 days using Claude Code — the unfiltered breakdown",
+          "description": "TL;DR — I built Maintenant, a 20-feature monitoring tool (Docker + Kubernetes + endpoints + certs +...",
+          "url": "https://dev.to/benjy33000/i-shipped-a-20-feature-devops-tool-solo-in-60-days-using-claude-code-the-unfiltered-breakdown-3mb3",
+          "author": {
+            "username": "benjy33000",
+            "name": "Benjamin Touchard",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1740181%2F3f1038da-05fb-410f-832b-0bd4c2f84fc9.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 12,
+          "publishedAt": "2026-05-07T18:50:15Z",
+          "tags": [
+            "ai",
+            "devops",
+            "opensource",
+            "claude"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "github/spec-kit",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "rahilp--second-brain-cloudflare": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3643255,
+        "title": "I gave Claude a persistent memory for $0/month using Cloudflare",
+        "url": "https://dev.to/rahil_pirani_c48446facc8c/i-gave-claude-a-persistent-memory-for-0month-using-cloudflare-2e5a",
+        "author": "rahil_pirani_c48446facc8c",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 22.4,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3643255,
+          "title": "I gave Claude a persistent memory for $0/month using Cloudflare",
+          "description": "I gave Claude a persistent memory for $0/month using Cloudflare   Claude is great. But every...",
+          "url": "https://dev.to/rahil_pirani_c48446facc8c/i-gave-claude-a-persistent-memory-for-0month-using-cloudflare-2e5a",
+          "author": {
+            "username": "rahil_pirani_c48446facc8c",
+            "name": "Rahil Pirani",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3922851%2F562316ad-6070-4ae8-9c4c-772035064295.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-10T05:35:41Z",
+          "tags": [
+            "claude",
+            "cloudflare",
+            "mcp",
+            "webdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "rahilp/second-brain-cloudflare",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "maximhq--bifrost": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3619350,
+        "title": "Using an MCP Gateway with Claude Code: A Practical Guide",
+        "url": "https://dev.to/nakul_tk/using-an-mcp-gateway-with-claude-code-a-practical-guide-31dc",
+        "author": "nakul_tk",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 116.1,
+        "readingTime": 6
+      },
+      "articles": [
+        {
+          "id": 3619350,
+          "title": "Using an MCP Gateway with Claude Code: A Practical Guide",
+          "description": "Learn how to integrate an MCP gateway with Claude Code to consolidate tool access, enforce governance...",
+          "url": "https://dev.to/nakul_tk/using-an-mcp-gateway-with-claude-code-a-practical-guide-31dc",
+          "author": {
+            "username": "nakul_tk",
+            "name": "Nakul T Krishnan",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3778279%2F1c2dabcf-9bf5-4a37-a76b-9d7475175411.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 6,
+          "publishedAt": "2026-05-06T07:52:25Z",
+          "tags": [
+            "ai",
+            "mcp",
+            "claude",
+            "llm"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "maximhq/bifrost",
               "location": "body"
             }
           ]
@@ -4550,7 +4601,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 15.6,
+        "hoursSincePosted": 24.4,
         "readingTime": 10
       },
       "articles": [
@@ -4641,48 +4692,20 @@
       ]
     },
     "decolua--9router": {
-      "count7d": 2,
-      "reactionsSum7d": 3,
+      "count7d": 1,
+      "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3643093,
-        "title": "9router: route Claude Code, Cursor, or Copilot through whichever free tier you've got",
-        "url": "https://dev.to/mihailoff/9router-route-claude-code-cursor-or-copilot-through-whichever-free-tier-youve-got-4m61",
-        "author": "mihailoff",
-        "reactions": 3,
+        "id": 3642987,
+        "title": "Tokenmaxxing: Codex + Claude Code Operator Stack 2026",
+        "url": "https://dev.to/max_quimby/tokenmaxxing-codex-claude-code-operator-stack-2026-318",
+        "author": "max_quimby",
+        "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 14.8,
-        "readingTime": 4
+        "hoursSincePosted": 24.4,
+        "readingTime": 10
       },
       "articles": [
-        {
-          "id": 3643093,
-          "title": "9router: route Claude Code, Cursor, or Copilot through whichever free tier you've got",
-          "description": "9router is a local OpenAI-compatible proxy that fans your AI coding tool out across multiple free-tier providers, with combo routing, tool-output filtering, and prompt compression.",
-          "url": "https://dev.to/mihailoff/9router-route-claude-code-cursor-or-copilot-through-whichever-free-tier-youve-got-4m61",
-          "author": {
-            "username": "mihailoff",
-            "name": "George Mihailov",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F79229%2F102e5b9f-1cbe-4b20-a3fd-ceeaa6a431a5.jpeg"
-          },
-          "reactionsCount": 3,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-10T04:27:39Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "productivity",
-            "showdev"
-          ],
-          "trendingScore": 0.1,
-          "linkedRepos": [
-            {
-              "fullName": "decolua/9router",
-              "location": "body"
-            }
-          ]
-        },
         {
           "id": 3642987,
           "title": "Tokenmaxxing: Codex + Claude Code Operator Stack 2026",
@@ -4744,7 +4767,7 @@
         "author": "eleata",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 52.3,
+        "hoursSincePosted": 61,
         "readingTime": 5
       },
       "articles": [
@@ -4793,7 +4816,7 @@
         "author": "parupati",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 93.5,
+        "hoursSincePosted": 102.3,
         "readingTime": 6
       },
       "articles": [
@@ -4827,6 +4850,51 @@
         }
       ]
     },
+    "openclaw--openclaw": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3630582,
+        "title": "Slaying the Gemma Beast: How We Fixed Local AI and Shipped Search",
+        "url": "https://dev.to/carryologist/slaying-the-gemma-beast-how-we-fixed-local-ai-and-shipped-search-5638",
+        "author": "carryologist",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 71.1,
+        "readingTime": 13
+      },
+      "articles": [
+        {
+          "id": 3630582,
+          "title": "Slaying the Gemma Beast: How We Fixed Local AI and Shipped Search",
+          "description": "Two days ago, Gemma 4 couldn't finish a feature. Today it built one, pushed it to GitHub, and it's...",
+          "url": "https://dev.to/carryologist/slaying-the-gemma-beast-how-we-fixed-local-ai-and-shipped-search-5638",
+          "author": {
+            "username": "carryologist",
+            "name": "Rob",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3884903%2Ff7cf0bfd-0b92-4dca-9095-683af23a19e3.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 13,
+          "publishedAt": "2026-05-08T04:53:16Z",
+          "tags": [
+            "ai",
+            "llm",
+            "benchmark",
+            "homelab"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "vectifyai--pageindex": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -4838,7 +4906,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 8,
+        "hoursSincePosted": 16.8,
         "readingTime": 10
       },
       "articles": [
@@ -4919,7 +4987,7 @@
         "author": "cloakhq",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 80.5,
+        "hoursSincePosted": 89.3,
         "readingTime": 3
       },
       "articles": [
@@ -4964,7 +5032,7 @@
         "author": "architeg",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 74.5,
+        "hoursSincePosted": 83.3,
         "readingTime": 10
       },
       "articles": [
@@ -5037,7 +5105,7 @@
         "author": "jrud25",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 59.4,
+        "hoursSincePosted": 68.2,
         "readingTime": 5
       },
       "articles": [
@@ -5086,7 +5154,7 @@
         "author": "manoir_yantai_f22f01340f0",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 61.6,
+        "hoursSincePosted": 70.4,
         "readingTime": 1
       },
       "articles": [
@@ -5131,7 +5199,7 @@
         "author": "yashksaini",
         "reactions": 12,
         "comments": 0,
-        "hoursSincePosted": 84.4,
+        "hoursSincePosted": 93.2,
         "readingTime": 5
       },
       "articles": [
@@ -5155,7 +5223,7 @@
             "opensource",
             "backend"
           ],
-          "trendingScore": 0.15,
+          "trendingScore": 0.14,
           "linkedRepos": [
             {
               "fullName": "Tracer-Cloud/opensre",
@@ -5170,7 +5238,7 @@
     {
       "fullName": "HexmosTech/git-lrc",
       "count7d": 5,
-      "reactionsSum7d": 103
+      "reactionsSum7d": 104
     },
     {
       "fullName": "gastownhall/gastown",
@@ -5194,22 +5262,12 @@
     },
     {
       "fullName": "openai/codex",
-      "count7d": 7,
-      "reactionsSum7d": 3
-    },
-    {
-      "fullName": "obra/superpowers",
-      "count7d": 3,
-      "reactionsSum7d": 3
-    },
-    {
-      "fullName": "decolua/9router",
-      "count7d": 2,
+      "count7d": 8,
       "reactionsSum7d": 3
     },
     {
       "fullName": "anthropics/skills",
-      "count7d": 4,
+      "count7d": 3,
       "reactionsSum7d": 2
     },
     {
@@ -5218,8 +5276,8 @@
       "reactionsSum7d": 2
     },
     {
-      "fullName": "ruvnet/ruflo",
-      "count7d": 1,
+      "fullName": "obra/superpowers",
+      "count7d": 2,
       "reactionsSum7d": 2
     },
     {
@@ -5278,6 +5336,11 @@
       "reactionsSum7d": 0
     },
     {
+      "fullName": "decolua/9router",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
       "fullName": "github/spec-kit",
       "count7d": 1,
       "reactionsSum7d": 0
@@ -5288,7 +5351,17 @@
       "reactionsSum7d": 0
     },
     {
+      "fullName": "luckyPipewrench/pipelock",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
       "fullName": "mattpocock/skills",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "maximhq/bifrost",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -5299,6 +5372,11 @@
     },
     {
       "fullName": "NousResearch/hermes-agent",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
+      "fullName": "openclaw/openclaw",
       "count7d": 1,
       "reactionsSum7d": 0
     },

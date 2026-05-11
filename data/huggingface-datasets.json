@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-11T15:42:05.150Z",
+  "fetchedAt": "2026-05-11T20:08:08.332Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -9,7 +9,7 @@
       "author": "open-thoughts",
       "url": "https://huggingface.co/datasets/open-thoughts/AgentTrove",
       "downloads": 7200,
-      "likes": 109,
+      "likes": 112,
       "trendingScore": 60,
       "tags": [
         "task_categories:text-generation",
@@ -40,7 +40,7 @@
       "author": "ADSKAILab",
       "url": "https://huggingface.co/datasets/ADSKAILab/Zero-To-CAD-1m",
       "downloads": 13212,
-      "likes": 80,
+      "likes": 81,
       "trendingScore": 53,
       "tags": [
         "task_categories:text-to-3d",
@@ -648,7 +648,7 @@
       "author": "HuggingFaceFW",
       "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu",
       "downloads": 561231,
-      "likes": 1065,
+      "likes": 1068,
       "trendingScore": 15,
       "tags": [
         "task_categories:text-generation",
@@ -1148,6 +1148,29 @@
     },
     {
       "rank": 37,
+      "id": "5551z/VisCoR-55K",
+      "author": "5551z",
+      "url": "https://huggingface.co/datasets/5551z/VisCoR-55K",
+      "downloads": 71,
+      "likes": 12,
+      "trendingScore": 10,
+      "tags": [
+        "size_categories:10K<n<100K",
+        "format:parquet",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2603.02556",
+        "region:us"
+      ],
+      "createdAt": "2026-04-24T03:40:42.000Z",
+      "lastModified": "2026-04-30T10:51:23.000Z"
+    },
+    {
+      "rank": 38,
       "id": "openai/healthbench-professional",
       "author": "openai",
       "url": "https://huggingface.co/datasets/openai/healthbench-professional",
@@ -1171,7 +1194,7 @@
       "lastModified": "2026-04-22T16:09:30.000Z"
     },
     {
-      "rank": 38,
+      "rank": 39,
       "id": "beyoru/Deepseek-v4-pro-max-distill-1500x",
       "author": "beyoru",
       "url": "https://huggingface.co/datasets/beyoru/Deepseek-v4-pro-max-distill-1500x",
@@ -1201,7 +1224,7 @@
       "lastModified": "2026-05-04T11:28:06.000Z"
     },
     {
-      "rank": 39,
+      "rank": 40,
       "id": "KIT-MRT/KITScenes-Multimodal",
       "author": "KIT-MRT",
       "url": "https://huggingface.co/datasets/KIT-MRT/KITScenes-Multimodal",
@@ -1228,7 +1251,7 @@
       "lastModified": "2026-05-11T14:27:51.000Z"
     },
     {
-      "rank": 40,
+      "rank": 41,
       "id": "nvidia/SWE-Hero-openhands-trajectories",
       "author": "nvidia",
       "url": "https://huggingface.co/datasets/nvidia/SWE-Hero-openhands-trajectories",
@@ -1256,7 +1279,7 @@
       "lastModified": "2026-05-08T17:10:16.000Z"
     },
     {
-      "rank": 41,
+      "rank": 42,
       "id": "ADSKAILab/Zero-To-CAD-100k",
       "author": "ADSKAILab",
       "url": "https://huggingface.co/datasets/ADSKAILab/Zero-To-CAD-100k",
@@ -1292,207 +1315,13 @@
       "lastModified": "2026-05-03T14:18:39.000Z"
     },
     {
-      "rank": 42,
-      "id": "nvidia/OpenCodeInstruct",
-      "author": "nvidia",
-      "url": "https://huggingface.co/datasets/nvidia/OpenCodeInstruct",
-      "downloads": 7798,
-      "likes": 83,
-      "trendingScore": 8,
-      "tags": [
-        "task_categories:text-generation",
-        "language:en",
-        "license:cc-by-4.0",
-        "size_categories:1M<n<10M",
-        "format:parquet",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2504.04030",
-        "region:us",
-        "code",
-        "synthetic"
-      ],
-      "createdAt": "2025-04-09T08:04:48.000Z",
-      "lastModified": "2025-04-28T19:08:02.000Z"
-    },
-    {
       "rank": 43,
-      "id": "nvidia/Nemotron-SFT-Math-v3",
-      "author": "nvidia",
-      "url": "https://huggingface.co/datasets/nvidia/Nemotron-SFT-Math-v3",
-      "downloads": 2582,
-      "likes": 34,
-      "trendingScore": 8,
-      "tags": [
-        "task_categories:text-generation",
-        "language:en",
-        "license:cc-by-4.0",
-        "license:cc-by-sa-4.0",
-        "arxiv:2512.15489",
-        "region:us",
-        "math"
-      ],
-      "createdAt": "2026-03-08T16:27:46.000Z",
-      "lastModified": "2026-04-28T22:38:45.000Z"
-    },
-    {
-      "rank": 44,
-      "id": "Roman1111111/claude-sonnet-4.6-120000x",
-      "author": "Roman1111111",
-      "url": "https://huggingface.co/datasets/Roman1111111/claude-sonnet-4.6-120000x",
-      "downloads": 5180,
-      "likes": 68,
-      "trendingScore": 8,
-      "tags": [
-        "size_categories:100K<n<1M",
-        "format:json",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us"
-      ],
-      "createdAt": "2026-04-19T10:12:14.000Z",
-      "lastModified": "2026-04-19T10:59:32.000Z"
-    },
-    {
-      "rank": 45,
-      "id": "PleIAs/CommonLingua-Train",
-      "author": "PleIAs",
-      "url": "https://huggingface.co/datasets/PleIAs/CommonLingua-Train",
-      "downloads": 221,
-      "likes": 15,
-      "trendingScore": 8,
-      "tags": [
-        "task_categories:text-classification",
-        "language:multilingual",
-        "license:other",
-        "size_categories:1M<n<10M",
-        "format:parquet",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "language-identification",
-        "common-corpus",
-        "african-languages"
-      ],
-      "createdAt": "2026-04-27T22:12:58.000Z",
-      "lastModified": "2026-04-28T08:53:16.000Z"
-    },
-    {
-      "rank": 46,
-      "id": "Anthropic/BioMysteryBench-preview",
-      "author": "Anthropic",
-      "url": "https://huggingface.co/datasets/Anthropic/BioMysteryBench-preview",
-      "downloads": 583,
-      "likes": 11,
-      "trendingScore": 8,
-      "tags": [
-        "region:us"
-      ],
-      "createdAt": "2026-04-29T02:55:57.000Z",
-      "lastModified": "2026-04-29T03:32:33.000Z"
-    },
-    {
-      "rank": 47,
-      "id": "nvidia/Nemotron-Personas-USA",
-      "author": "nvidia",
-      "url": "https://huggingface.co/datasets/nvidia/Nemotron-Personas-USA",
-      "downloads": 13044,
-      "likes": 306,
-      "trendingScore": 8,
-      "tags": [
-        "task_categories:text-generation",
-        "language:en",
-        "license:cc-by-4.0",
-        "size_categories:1M<n<10M",
-        "format:parquet",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:mlcroissant",
-        "library:polars",
-        "library:datadesigner",
-        "region:us",
-        "synthetic",
-        "personas",
-        "NVIDIA",
-        "datadesigner"
-      ],
-      "createdAt": "2025-06-09T04:12:11.000Z",
-      "lastModified": "2025-12-16T19:13:23.000Z"
-    },
-    {
-      "rank": 48,
-      "id": "HuggingFaceFW/fineweb",
-      "author": "HuggingFaceFW",
-      "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb",
-      "downloads": 414474,
-      "likes": 2784,
-      "trendingScore": 8,
-      "tags": [
-        "task_categories:text-generation",
-        "language:en",
-        "license:odc-by",
-        "size_categories:10B<n<100B",
-        "modality:tabular",
-        "modality:text",
-        "arxiv:2306.01116",
-        "arxiv:2109.07445",
-        "arxiv:2406.17557",
-        "doi:10.57967/hf/2493",
-        "region:us"
-      ],
-      "createdAt": "2024-04-18T14:33:13.000Z",
-      "lastModified": "2025-07-11T20:16:53.000Z"
-    },
-    {
-      "rank": 49,
-      "id": "jingyaogong/minimind-o_dataset",
-      "author": "jingyaogong",
-      "url": "https://huggingface.co/datasets/jingyaogong/minimind-o_dataset",
-      "downloads": 403,
-      "likes": 8,
-      "trendingScore": 8,
-      "tags": [
-        "language:zh",
-        "language:en",
-        "license:apache-2.0",
-        "license:gpl-3.0",
-        "size_categories:1M<n<10M",
-        "format:parquet",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2605.03937",
-        "region:us",
-        "omni",
-        "multimodal",
-        "text-to-speech",
-        "audio-to-audio",
-        "image-to-text",
-        "minimind"
-      ],
-      "createdAt": "2026-05-01T03:17:32.000Z",
-      "lastModified": "2026-05-06T12:39:40.000Z"
-    },
-    {
-      "rank": 50,
       "id": "allenai/c4",
       "author": "allenai",
       "url": "https://huggingface.co/datasets/allenai/c4",
       "downloads": 796000,
-      "likes": 569,
-      "trendingScore": 8,
+      "likes": 570,
+      "trendingScore": 9,
       "tags": [
         "task_categories:text-generation",
         "task_categories:fill-mask",
@@ -1527,6 +1356,167 @@
       ],
       "createdAt": "2022-03-02T23:29:22.000Z",
       "lastModified": "2024-01-09T19:14:03.000Z"
+    },
+    {
+      "rank": 44,
+      "id": "5551z/VisCoR_Contrast",
+      "author": "5551z",
+      "url": "https://huggingface.co/datasets/5551z/VisCoR_Contrast",
+      "downloads": 144,
+      "likes": 11,
+      "trendingScore": 9,
+      "tags": [
+        "size_categories:10K<n<100K",
+        "format:parquet",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2603.02556",
+        "region:us"
+      ],
+      "createdAt": "2026-04-29T14:22:32.000Z",
+      "lastModified": "2026-04-30T01:37:13.000Z"
+    },
+    {
+      "rank": 45,
+      "id": "nvidia/OpenCodeInstruct",
+      "author": "nvidia",
+      "url": "https://huggingface.co/datasets/nvidia/OpenCodeInstruct",
+      "downloads": 7798,
+      "likes": 83,
+      "trendingScore": 8,
+      "tags": [
+        "task_categories:text-generation",
+        "language:en",
+        "license:cc-by-4.0",
+        "size_categories:1M<n<10M",
+        "format:parquet",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2504.04030",
+        "region:us",
+        "code",
+        "synthetic"
+      ],
+      "createdAt": "2025-04-09T08:04:48.000Z",
+      "lastModified": "2025-04-28T19:08:02.000Z"
+    },
+    {
+      "rank": 46,
+      "id": "nvidia/Nemotron-SFT-Math-v3",
+      "author": "nvidia",
+      "url": "https://huggingface.co/datasets/nvidia/Nemotron-SFT-Math-v3",
+      "downloads": 2582,
+      "likes": 34,
+      "trendingScore": 8,
+      "tags": [
+        "task_categories:text-generation",
+        "language:en",
+        "license:cc-by-4.0",
+        "license:cc-by-sa-4.0",
+        "arxiv:2512.15489",
+        "region:us",
+        "math"
+      ],
+      "createdAt": "2026-03-08T16:27:46.000Z",
+      "lastModified": "2026-04-28T22:38:45.000Z"
+    },
+    {
+      "rank": 47,
+      "id": "Roman1111111/claude-sonnet-4.6-120000x",
+      "author": "Roman1111111",
+      "url": "https://huggingface.co/datasets/Roman1111111/claude-sonnet-4.6-120000x",
+      "downloads": 5180,
+      "likes": 68,
+      "trendingScore": 8,
+      "tags": [
+        "size_categories:100K<n<1M",
+        "format:json",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us"
+      ],
+      "createdAt": "2026-04-19T10:12:14.000Z",
+      "lastModified": "2026-04-19T10:59:32.000Z"
+    },
+    {
+      "rank": 48,
+      "id": "PleIAs/CommonLingua-Train",
+      "author": "PleIAs",
+      "url": "https://huggingface.co/datasets/PleIAs/CommonLingua-Train",
+      "downloads": 221,
+      "likes": 15,
+      "trendingScore": 8,
+      "tags": [
+        "task_categories:text-classification",
+        "language:multilingual",
+        "license:other",
+        "size_categories:1M<n<10M",
+        "format:parquet",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "language-identification",
+        "common-corpus",
+        "african-languages"
+      ],
+      "createdAt": "2026-04-27T22:12:58.000Z",
+      "lastModified": "2026-04-28T08:53:16.000Z"
+    },
+    {
+      "rank": 49,
+      "id": "Anthropic/BioMysteryBench-preview",
+      "author": "Anthropic",
+      "url": "https://huggingface.co/datasets/Anthropic/BioMysteryBench-preview",
+      "downloads": 583,
+      "likes": 11,
+      "trendingScore": 8,
+      "tags": [
+        "region:us"
+      ],
+      "createdAt": "2026-04-29T02:55:57.000Z",
+      "lastModified": "2026-04-29T03:32:33.000Z"
+    },
+    {
+      "rank": 50,
+      "id": "nvidia/Nemotron-Personas-USA",
+      "author": "nvidia",
+      "url": "https://huggingface.co/datasets/nvidia/Nemotron-Personas-USA",
+      "downloads": 13044,
+      "likes": 306,
+      "trendingScore": 8,
+      "tags": [
+        "task_categories:text-generation",
+        "language:en",
+        "license:cc-by-4.0",
+        "size_categories:1M<n<10M",
+        "format:parquet",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:mlcroissant",
+        "library:polars",
+        "library:datadesigner",
+        "region:us",
+        "synthetic",
+        "personas",
+        "NVIDIA",
+        "datadesigner"
+      ],
+      "createdAt": "2025-06-09T04:12:11.000Z",
+      "lastModified": "2025-12-16T19:13:23.000Z"
     }
   ]
 }

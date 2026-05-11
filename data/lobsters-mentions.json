@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-11T13:26:19.156Z",
+  "fetchedAt": "2026-05-11T16:17:07.365Z",
   "windowDays": 7,
-  "scannedStories": 79,
+  "scannedStories": 80,
   "mentions": {
     "jj-vcs/jj": {
       "count7d": 1,
@@ -43,14 +43,14 @@
     },
     "nooga/let-go": {
       "count7d": 1,
-      "scoreSum7d": 39,
+      "scoreSum7d": 45,
       "topStory": {
         "shortId": "njobov",
         "title": "let-go: Almost Clojure written in Go",
-        "score": 39,
+        "score": 45,
         "url": "https://github.com/nooga/let-go",
         "commentsUrl": "https://lobste.rs/s/njobov/let_go_almost_clojure_written_go",
-        "hoursSincePosted": 17.30611111111111
+        "hoursSincePosted": 20.15277777777778
       },
       "stories": [
         {
@@ -59,11 +59,11 @@
           "url": "https://github.com/nooga/let-go",
           "commentsUrl": "https://lobste.rs/s/njobov/let_go_almost_clojure_written_go",
           "by": "",
-          "score": 39,
-          "commentCount": 3,
+          "score": 45,
+          "commentCount": 4,
           "createdUtc": 1778443677,
-          "ageHours": 17.30611111111111,
-          "trendingScore": 0.45975070623069086,
+          "ageHours": 20.15277777777778,
+          "trendingScore": 0.4315888610070274,
           "tags": [
             "clojure",
             "go",
@@ -118,16 +118,53 @@
         }
       ]
     },
+    "jundot/omlx": {
+      "count7d": 1,
+      "scoreSum7d": 5,
+      "topStory": {
+        "shortId": "nqwrqf",
+        "title": "omlx: LLM inference server with continuous batching & SSD caching for Apple Silicon — managed from the macOS menu bar",
+        "score": 5,
+        "url": "https://github.com/jundot/omlx",
+        "commentsUrl": "https://lobste.rs/s/nqwrqf/omlx_llm_inference_server_with",
+        "hoursSincePosted": 5.126666666666667
+      },
+      "stories": [
+        {
+          "shortId": "nqwrqf",
+          "title": "omlx: LLM inference server with continuous batching & SSD caching for Apple Silicon — managed from the macOS menu bar",
+          "url": "https://github.com/jundot/omlx",
+          "commentsUrl": "https://lobste.rs/s/nqwrqf/omlx_llm_inference_server_with",
+          "by": "",
+          "score": 5,
+          "commentCount": 1,
+          "createdUtc": 1778497771,
+          "ageHours": 5.126666666666667,
+          "trendingScore": 0.26280906134584475,
+          "tags": [
+            "vibecoding"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "jundot/omlx",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "tidwall/btype": {
       "count7d": 1,
-      "scoreSum7d": 3,
+      "scoreSum7d": 4,
       "topStory": {
         "shortId": "0xe7hz",
         "title": "btype: B-tree based collection types for Go",
-        "score": 3,
+        "score": 4,
         "url": "https://github.com/tidwall/btype",
         "commentsUrl": "https://lobste.rs/s/0xe7hz/btype_b_tree_based_collection_types_for_go",
-        "hoursSincePosted": 22.101944444444445
+        "hoursSincePosted": 24.948611111111113
       },
       "stories": [
         {
@@ -136,11 +173,11 @@
           "url": "https://github.com/tidwall/btype",
           "commentsUrl": "https://lobste.rs/s/0xe7hz/btype_b_tree_based_collection_types_for_go",
           "by": "",
-          "score": 3,
-          "commentCount": 2,
+          "score": 4,
+          "commentCount": 4,
           "createdUtc": 1778426412,
-          "ageHours": 22.101944444444445,
-          "trendingScore": 0.025353804261730416,
+          "ageHours": 24.948611111111113,
+          "trendingScore": 0.028592715989619738,
           "tags": [
             "go",
             "performance"
@@ -192,43 +229,6 @@
           ]
         }
       ]
-    },
-    "jundot/omlx": {
-      "count7d": 1,
-      "scoreSum7d": 2,
-      "topStory": {
-        "shortId": "nqwrqf",
-        "title": "omlx: LLM inference server with continuous batching & SSD caching for Apple Silicon — managed from the macOS menu bar",
-        "score": 2,
-        "url": "https://github.com/jundot/omlx",
-        "commentsUrl": "https://lobste.rs/s/nqwrqf/omlx_llm_inference_server_with",
-        "hoursSincePosted": 2.28
-      },
-      "stories": [
-        {
-          "shortId": "nqwrqf",
-          "title": "omlx: LLM inference server with continuous batching & SSD caching for Apple Silicon — managed from the macOS menu bar",
-          "url": "https://github.com/jundot/omlx",
-          "commentsUrl": "https://lobste.rs/s/nqwrqf/omlx_llm_inference_server_with",
-          "by": "",
-          "score": 2,
-          "commentCount": 1,
-          "createdUtc": 1778497771,
-          "ageHours": 2.28,
-          "trendingScore": 0.22587301145926725,
-          "tags": [
-            "vibecoding"
-          ],
-          "description": "",
-          "linkedRepos": [
-            {
-              "fullName": "jundot/omlx",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
@@ -240,7 +240,7 @@
     {
       "fullName": "nooga/let-go",
       "count7d": 1,
-      "scoreSum7d": 39
+      "scoreSum7d": 45
     },
     {
       "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
@@ -248,17 +248,17 @@
       "scoreSum7d": 18
     },
     {
+      "fullName": "jundot/omlx",
+      "count7d": 1,
+      "scoreSum7d": 5
+    },
+    {
       "fullName": "tidwall/btype",
       "count7d": 1,
-      "scoreSum7d": 3
+      "scoreSum7d": 4
     },
     {
       "fullName": "withastro/flue",
-      "count7d": 1,
-      "scoreSum7d": 2
-    },
-    {
-      "fullName": "jundot/omlx",
       "count7d": 1,
       "scoreSum7d": 2
     }

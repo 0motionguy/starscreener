@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-10T23:11:11.128Z",
+  "fetchedAt": "2026-05-11T04:38:29.358Z",
   "windowDays": 7,
   "scannedPosts": 99,
   "searchQuery": "github.com",
@@ -4329,25 +4329,53 @@
     },
     "anthropics/claude-code": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "likesSum7d": 5,
+      "repostsSum7d": 2,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlips6stu22z",
-        "cid": "bafyreif5u26j4uo4sovwucynvodw4oa7cgsgdn2fopg64wjkkrvc5pccnu",
-        "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlips6stu22z",
-        "text": "Repo → https://github.com/google/generative-ai-python 7. anthropics/claude-code The official Claude Code repository. The AI coding tool used inside FAANG, OpenAI, and Anthropic itself. Repo → https://github.com/anthropics/claude-code 8. openai/evals (6/10)",
+        "uri": "at://did:plc:rkjxbatkiros6f7pwtgsir54/app.bsky.feed.post/3mlkcrafnhk27",
+        "cid": "bafyreic6t3oqivs2eahhkin5bgk7spjd6twhfwnmjzqsqmgzqdytsj4h5m",
+        "bskyUrl": "https://bsky.app/profile/den.dev/post/3mlkcrafnhk27",
+        "text": "I'm on a mission to make Claude the best MCP client. Diving deep into every MCP issue in our public repos. Having MCP problems with Anthropic products? File here: ✨ github.com/anthropics/c... ✨ github.com/anthropics/c... Blocked or no response? Tag me, we'll fix it.",
         "author": {
-          "handle": "adityamitra.bsky.social",
-          "displayName": "Aditya Mitra"
+          "handle": "den.dev",
+          "displayName": "Den Delimarsky"
         },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-10T12:04:57.246Z",
-        "hoursSincePosted": 3.19
+        "likeCount": 5,
+        "repostCount": 2,
+        "replyCount": 0,
+        "createdAt": "2026-05-11T03:17:06.286Z",
+        "hoursSincePosted": 1.36
       },
       "posts": [
+        {
+          "uri": "at://did:plc:rkjxbatkiros6f7pwtgsir54/app.bsky.feed.post/3mlkcrafnhk27",
+          "cid": "bafyreic6t3oqivs2eahhkin5bgk7spjd6twhfwnmjzqsqmgzqdytsj4h5m",
+          "bskyUrl": "https://bsky.app/profile/den.dev/post/3mlkcrafnhk27",
+          "text": "I'm on a mission to make Claude the best MCP client. Diving deep into every MCP issue in our public repos. Having MCP problems with Anthropic products? File here: ✨ github.com/anthropics/c... ✨ github.com/anthropics/c... Blocked or no response? Tag me, we'll fix it.",
+          "author": {
+            "handle": "den.dev",
+            "displayName": "Den Delimarsky"
+          },
+          "likeCount": 5,
+          "repostCount": 2,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T03:17:06.286Z",
+          "createdUtc": 1778469426,
+          "ageHours": 1.36,
+          "trendingScore": 9,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:i4tfenpfog244rxry5uz4vtk/app.bsky.feed.post/3mlfbtav2gk2q",
           "cid": "bafyreid5ornx2bchqxnlazfews2wkrhbkiodfunl4mrtbzz3lcrhbdqdaq",
@@ -7486,6 +7514,108 @@
           "linkedRepos": [
             {
               "fullName": "Leonxlnx/taste-skill",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "nooga/let-go": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:ngq4y7h2tlxtn6qi6zokimms/app.bsky.feed.post/3mlkfvoqmej2s",
+        "cid": "bafyreidg4wipg27pxqpgvvfxp4mmxucrljlm2cdet3yz3mziy27byzocrq",
+        "bskyUrl": "https://bsky.app/profile/newsyc250.bsky.social/post/3mlkfvoqmej2s",
+        "text": "Show HN: I made a Clojure-like language in Go, boots in 7ms https://github.com/nooga/let-go (http://news.ycombinator.com/item?id=48076815)",
+        "author": {
+          "handle": "newsyc250.bsky.social",
+          "displayName": "Hacker News 250 Points"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-11T07:13:16+03:00",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ngq4y7h2tlxtn6qi6zokimms/app.bsky.feed.post/3mlkfvoqmej2s",
+          "cid": "bafyreidg4wipg27pxqpgvvfxp4mmxucrljlm2cdet3yz3mziy27byzocrq",
+          "bskyUrl": "https://bsky.app/profile/newsyc250.bsky.social/post/3mlkfvoqmej2s",
+          "text": "Show HN: I made a Clojure-like language in Go, boots in 7ms https://github.com/nooga/let-go (http://news.ycombinator.com/item?id=48076815)",
+          "author": {
+            "handle": "newsyc250.bsky.social",
+            "displayName": "Hacker News 250 Points"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T07:13:16+03:00",
+          "createdUtc": 1778472796,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nooga/let-go",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "AlexsJones/llmfit": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:2hgt4vfh2jxuwf5zllcbed64/app.bsky.feed.post/3mlk7ru5auc2w",
+        "cid": "bafyreiebxiij6tdp2r7z3hfighuvacllapd2377o45bx4uhfg2i7kxavru",
+        "bskyUrl": "https://bsky.app/profile/nezteb.net/post/3mlk7ru5auc2w",
+        "text": "A relevant tool I like: github.com/AlexsJones/l... 😄",
+        "author": {
+          "handle": "nezteb.net",
+          "displayName": "{:ok, Noah}"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-11T02:23:45.756Z",
+        "hoursSincePosted": 2.25
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2hgt4vfh2jxuwf5zllcbed64/app.bsky.feed.post/3mlk7ru5auc2w",
+          "cid": "bafyreiebxiij6tdp2r7z3hfighuvacllapd2377o45bx4uhfg2i7kxavru",
+          "bskyUrl": "https://bsky.app/profile/nezteb.net/post/3mlk7ru5auc2w",
+          "text": "A relevant tool I like: github.com/AlexsJones/l... 😄",
+          "author": {
+            "handle": "nezteb.net",
+            "displayName": "{:ok, Noah}"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-11T02:23:45.756Z",
+          "createdUtc": 1778466225,
+          "ageHours": 2.25,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "AlexsJones/llmfit",
               "matchType": "url",
               "confidence": 1
             }
@@ -11819,25 +11949,53 @@
     },
     "anthropics--claude-code": {
       "count7d": 1,
-      "likesSum7d": 0,
-      "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "likesSum7d": 5,
+      "repostsSum7d": 2,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:4izdyxhcrjqdiwzbvd7epk7z/app.bsky.feed.post/3mlips6stu22z",
-        "cid": "bafyreif5u26j4uo4sovwucynvodw4oa7cgsgdn2fopg64wjkkrvc5pccnu",
-        "bskyUrl": "https://bsky.app/profile/adityamitra.bsky.social/post/3mlips6stu22z",
-        "text": "Repo → https://github.com/google/generative-ai-python 7. anthropics/claude-code The official Claude Code repository. The AI coding tool used inside FAANG, OpenAI, and Anthropic itself. Repo → https://github.com/anthropics/claude-code 8. openai/evals (6/10)",
+        "uri": "at://did:plc:rkjxbatkiros6f7pwtgsir54/app.bsky.feed.post/3mlkcrafnhk27",
+        "cid": "bafyreic6t3oqivs2eahhkin5bgk7spjd6twhfwnmjzqsqmgzqdytsj4h5m",
+        "bskyUrl": "https://bsky.app/profile/den.dev/post/3mlkcrafnhk27",
+        "text": "I'm on a mission to make Claude the best MCP client. Diving deep into every MCP issue in our public repos. Having MCP problems with Anthropic products? File here: ✨ github.com/anthropics/c... ✨ github.com/anthropics/c... Blocked or no response? Tag me, we'll fix it.",
         "author": {
-          "handle": "adityamitra.bsky.social",
-          "displayName": "Aditya Mitra"
+          "handle": "den.dev",
+          "displayName": "Den Delimarsky"
         },
-        "likeCount": 0,
-        "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-10T12:04:57.246Z",
-        "hoursSincePosted": 3.19
+        "likeCount": 5,
+        "repostCount": 2,
+        "replyCount": 0,
+        "createdAt": "2026-05-11T03:17:06.286Z",
+        "hoursSincePosted": 1.36
       },
       "posts": [
+        {
+          "uri": "at://did:plc:rkjxbatkiros6f7pwtgsir54/app.bsky.feed.post/3mlkcrafnhk27",
+          "cid": "bafyreic6t3oqivs2eahhkin5bgk7spjd6twhfwnmjzqsqmgzqdytsj4h5m",
+          "bskyUrl": "https://bsky.app/profile/den.dev/post/3mlkcrafnhk27",
+          "text": "I'm on a mission to make Claude the best MCP client. Diving deep into every MCP issue in our public repos. Having MCP problems with Anthropic products? File here: ✨ github.com/anthropics/c... ✨ github.com/anthropics/c... Blocked or no response? Tag me, we'll fix it.",
+          "author": {
+            "handle": "den.dev",
+            "displayName": "Den Delimarsky"
+          },
+          "likeCount": 5,
+          "repostCount": 2,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T03:17:06.286Z",
+          "createdUtc": 1778469426,
+          "ageHours": 1.36,
+          "trendingScore": 9,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:i4tfenpfog244rxry5uz4vtk/app.bsky.feed.post/3mlfbtav2gk2q",
           "cid": "bafyreid5ornx2bchqxnlazfews2wkrhbkiodfunl4mrtbzz3lcrhbdqdaq",
@@ -14982,21 +15140,123 @@
           ]
         }
       ]
+    },
+    "nooga--let-go": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:ngq4y7h2tlxtn6qi6zokimms/app.bsky.feed.post/3mlkfvoqmej2s",
+        "cid": "bafyreidg4wipg27pxqpgvvfxp4mmxucrljlm2cdet3yz3mziy27byzocrq",
+        "bskyUrl": "https://bsky.app/profile/newsyc250.bsky.social/post/3mlkfvoqmej2s",
+        "text": "Show HN: I made a Clojure-like language in Go, boots in 7ms https://github.com/nooga/let-go (http://news.ycombinator.com/item?id=48076815)",
+        "author": {
+          "handle": "newsyc250.bsky.social",
+          "displayName": "Hacker News 250 Points"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-11T07:13:16+03:00",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ngq4y7h2tlxtn6qi6zokimms/app.bsky.feed.post/3mlkfvoqmej2s",
+          "cid": "bafyreidg4wipg27pxqpgvvfxp4mmxucrljlm2cdet3yz3mziy27byzocrq",
+          "bskyUrl": "https://bsky.app/profile/newsyc250.bsky.social/post/3mlkfvoqmej2s",
+          "text": "Show HN: I made a Clojure-like language in Go, boots in 7ms https://github.com/nooga/let-go (http://news.ycombinator.com/item?id=48076815)",
+          "author": {
+            "handle": "newsyc250.bsky.social",
+            "displayName": "Hacker News 250 Points"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T07:13:16+03:00",
+          "createdUtc": 1778472796,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nooga/let-go",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "alexsjones--llmfit": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:2hgt4vfh2jxuwf5zllcbed64/app.bsky.feed.post/3mlk7ru5auc2w",
+        "cid": "bafyreiebxiij6tdp2r7z3hfighuvacllapd2377o45bx4uhfg2i7kxavru",
+        "bskyUrl": "https://bsky.app/profile/nezteb.net/post/3mlk7ru5auc2w",
+        "text": "A relevant tool I like: github.com/AlexsJones/l... 😄",
+        "author": {
+          "handle": "nezteb.net",
+          "displayName": "{:ok, Noah}"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-11T02:23:45.756Z",
+        "hoursSincePosted": 2.25
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:2hgt4vfh2jxuwf5zllcbed64/app.bsky.feed.post/3mlk7ru5auc2w",
+          "cid": "bafyreiebxiij6tdp2r7z3hfighuvacllapd2377o45bx4uhfg2i7kxavru",
+          "bskyUrl": "https://bsky.app/profile/nezteb.net/post/3mlk7ru5auc2w",
+          "text": "A relevant tool I like: github.com/AlexsJones/l... 😄",
+          "author": {
+            "handle": "nezteb.net",
+            "displayName": "{:ok, Noah}"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-11T02:23:45.756Z",
+          "createdUtc": 1778466225,
+          "ageHours": 2.25,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "AlexsJones/llmfit",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "tailscale/tailscale",
+      "fullName": "anthropics/claude-code",
       "count7d": 1,
-      "likesSum7d": 1
+      "likesSum7d": 5
     },
     {
-      "fullName": "Leonxlnx/taste-skill",
+      "fullName": "AlexsJones/llmfit",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "safishamsi/graphify",
+      "fullName": "nooga/let-go",
       "count7d": 1,
       "likesSum7d": 0
     }

@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-11T08:38:29.630Z",
+  "fetchedAt": "2026-05-11T12:24:48.538Z",
   "windowDays": 7,
-  "scannedPosts": 299,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -3916,25 +3916,53 @@
     },
     "modem-dev/hunk": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mleb4j3jkv2i",
-        "cid": "bafyreib2ywogn3zjxdwnk4436k3hblronesljfpretibxdchbftbjnlvsa",
-        "bskyUrl": "https://bsky.app/profile/chrisshort.net/post/3mleb4j3jkv2i",
-        "text": "modem-dev/hunk: Review-first terminal diff viewer for agentic coders #devopsish github.com/modem-dev...",
+        "uri": "at://did:plc:5pncgsbixr5uzgkbaidtyn5j/app.bsky.feed.post/3mll52vipp22r",
+        "cid": "bafyreiagpn42lakjl27vewg6qvkjbmdslltnxvzlwcjofa4iwtswnhmia4",
+        "bskyUrl": "https://bsky.app/profile/zander.wtf/post/3mll52vipp22r",
+        "text": "wow - this terminal diff viewer is so good! github.com/modem-dev/hunk",
         "author": {
-          "handle": "chrisshort.net",
-          "displayName": "Chris Short"
+          "handle": "zander.wtf",
+          "displayName": "Zander"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-08T17:31:38.000Z",
-        "hoursSincePosted": 1.24
+        "createdAt": "2026-05-11T11:07:47.684Z",
+        "hoursSincePosted": 1.28
       },
       "posts": [
+        {
+          "uri": "at://did:plc:5pncgsbixr5uzgkbaidtyn5j/app.bsky.feed.post/3mll52vipp22r",
+          "cid": "bafyreiagpn42lakjl27vewg6qvkjbmdslltnxvzlwcjofa4iwtswnhmia4",
+          "bskyUrl": "https://bsky.app/profile/zander.wtf/post/3mll52vipp22r",
+          "text": "wow - this terminal diff viewer is so good! github.com/modem-dev/hunk",
+          "author": {
+            "handle": "zander.wtf",
+            "displayName": "Zander"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T11:07:47.684Z",
+          "createdUtc": 1778497667,
+          "ageHours": 1.28,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "modem-dev/hunk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mleb4j3jkv2i",
           "cid": "bafyreib2ywogn3zjxdwnk4436k3hblronesljfpretibxdchbftbjnlvsa",
@@ -7746,6 +7774,159 @@
           "linkedRepos": [
             {
               "fullName": "affaan-m/everything-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "NVlabs/cuda-oxide": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:ugk5tjnmjukhp2wcc663gwgj/app.bsky.feed.post/3mll7gelnds2a",
+        "cid": "bafyreiemect4dtjfv2nqihbyomuygj5iyokbjdtflvrat6fv4cxbpunpou",
+        "bskyUrl": "https://bsky.app/profile/rustaceans.bsky.social/post/3mll7gelnds2a",
+        "text": "9. NVIDIA Research open-sourced cuda-oxide, an experimental Rust-to-CUDA compiler that lets you write (SIMT) GPU kernels in idiomatic Rust. github.com/NVlabs/cuda-...",
+        "author": {
+          "handle": "rustaceans.bsky.social",
+          "displayName": "Rust Bytes"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-11T11:50:00.052Z",
+        "hoursSincePosted": 0.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ugk5tjnmjukhp2wcc663gwgj/app.bsky.feed.post/3mll7gelnds2a",
+          "cid": "bafyreiemect4dtjfv2nqihbyomuygj5iyokbjdtflvrat6fv4cxbpunpou",
+          "bskyUrl": "https://bsky.app/profile/rustaceans.bsky.social/post/3mll7gelnds2a",
+          "text": "9. NVIDIA Research open-sourced cuda-oxide, an experimental Rust-to-CUDA compiler that lets you write (SIMT) GPU kernels in idiomatic Rust. github.com/NVlabs/cuda-...",
+          "author": {
+            "handle": "rustaceans.bsky.social",
+            "displayName": "Rust Bytes"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-11T11:50:00.052Z",
+          "createdUtc": 1778500200,
+          "ageHours": 0.58,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "NVlabs/cuda-oxide",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "wangjiawen2013/charton": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:ugk5tjnmjukhp2wcc663gwgj/app.bsky.feed.post/3mll7ge5nvz22",
+        "cid": "bafyreihulfzuvdyqqaau2oqukddoudm2q6p7hv4nt5pn7m7wvvidbawpeu",
+        "bskyUrl": "https://bsky.app/profile/rustaceans.bsky.social/post/3mll7ge5nvz22",
+        "text": "6. Jiawen Wang released charton, an altair-style declarative plotting crate for Rust. github.com/wangjiawen20...",
+        "author": {
+          "handle": "rustaceans.bsky.social",
+          "displayName": "Rust Bytes"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-11T11:49:59.594Z",
+        "hoursSincePosted": 0.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ugk5tjnmjukhp2wcc663gwgj/app.bsky.feed.post/3mll7ge5nvz22",
+          "cid": "bafyreihulfzuvdyqqaau2oqukddoudm2q6p7hv4nt5pn7m7wvvidbawpeu",
+          "bskyUrl": "https://bsky.app/profile/rustaceans.bsky.social/post/3mll7ge5nvz22",
+          "text": "6. Jiawen Wang released charton, an altair-style declarative plotting crate for Rust. github.com/wangjiawen20...",
+          "author": {
+            "handle": "rustaceans.bsky.social",
+            "displayName": "Rust Bytes"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-11T11:49:59.594Z",
+          "createdUtc": 1778500199,
+          "ageHours": 0.58,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wangjiawen2013/charton",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "maxbrito500/esp32-c5-deauth": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mll5s52k2q24",
+        "cid": "bafyreigj2c7kjwmt6tznagx7nfetvho23onpm37j7v3kbcembbbyokoyw4",
+        "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mll5s52k2q24",
+        "text": "Nuke All Routers https://github.com/maxbrito500/esp32-c5-deauth (https://news.ycombinator.com/item?id=48087863)",
+        "author": {
+          "handle": "betterhn20.e-work.xyz",
+          "displayName": "Hacker News 20"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-11T11:20:46.525Z",
+        "hoursSincePosted": 1.07
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mll5s52k2q24",
+          "cid": "bafyreigj2c7kjwmt6tznagx7nfetvho23onpm37j7v3kbcembbbyokoyw4",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mll5s52k2q24",
+          "text": "Nuke All Routers https://github.com/maxbrito500/esp32-c5-deauth (https://news.ycombinator.com/item?id=48087863)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T11:20:46.525Z",
+          "createdUtc": 1778498446,
+          "ageHours": 1.07,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "maxbrito500/esp32-c5-deauth",
               "matchType": "url",
               "confidence": 1
             }
@@ -11666,25 +11847,53 @@
     },
     "modem-dev--hunk": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mleb4j3jkv2i",
-        "cid": "bafyreib2ywogn3zjxdwnk4436k3hblronesljfpretibxdchbftbjnlvsa",
-        "bskyUrl": "https://bsky.app/profile/chrisshort.net/post/3mleb4j3jkv2i",
-        "text": "modem-dev/hunk: Review-first terminal diff viewer for agentic coders #devopsish github.com/modem-dev...",
+        "uri": "at://did:plc:5pncgsbixr5uzgkbaidtyn5j/app.bsky.feed.post/3mll52vipp22r",
+        "cid": "bafyreiagpn42lakjl27vewg6qvkjbmdslltnxvzlwcjofa4iwtswnhmia4",
+        "bskyUrl": "https://bsky.app/profile/zander.wtf/post/3mll52vipp22r",
+        "text": "wow - this terminal diff viewer is so good! github.com/modem-dev/hunk",
         "author": {
-          "handle": "chrisshort.net",
-          "displayName": "Chris Short"
+          "handle": "zander.wtf",
+          "displayName": "Zander"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-08T17:31:38.000Z",
-        "hoursSincePosted": 1.24
+        "createdAt": "2026-05-11T11:07:47.684Z",
+        "hoursSincePosted": 1.28
       },
       "posts": [
+        {
+          "uri": "at://did:plc:5pncgsbixr5uzgkbaidtyn5j/app.bsky.feed.post/3mll52vipp22r",
+          "cid": "bafyreiagpn42lakjl27vewg6qvkjbmdslltnxvzlwcjofa4iwtswnhmia4",
+          "bskyUrl": "https://bsky.app/profile/zander.wtf/post/3mll52vipp22r",
+          "text": "wow - this terminal diff viewer is so good! github.com/modem-dev/hunk",
+          "author": {
+            "handle": "zander.wtf",
+            "displayName": "Zander"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T11:07:47.684Z",
+          "createdUtc": 1778497667,
+          "ageHours": 1.28,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "modem-dev/hunk",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:vavujdimklarcdz7eq2pgptb/app.bsky.feed.post/3mleb4j3jkv2i",
           "cid": "bafyreib2ywogn3zjxdwnk4436k3hblronesljfpretibxdchbftbjnlvsa",
@@ -15502,36 +15711,179 @@
           ]
         }
       ]
+    },
+    "nvlabs--cuda-oxide": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:ugk5tjnmjukhp2wcc663gwgj/app.bsky.feed.post/3mll7gelnds2a",
+        "cid": "bafyreiemect4dtjfv2nqihbyomuygj5iyokbjdtflvrat6fv4cxbpunpou",
+        "bskyUrl": "https://bsky.app/profile/rustaceans.bsky.social/post/3mll7gelnds2a",
+        "text": "9. NVIDIA Research open-sourced cuda-oxide, an experimental Rust-to-CUDA compiler that lets you write (SIMT) GPU kernels in idiomatic Rust. github.com/NVlabs/cuda-...",
+        "author": {
+          "handle": "rustaceans.bsky.social",
+          "displayName": "Rust Bytes"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-11T11:50:00.052Z",
+        "hoursSincePosted": 0.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ugk5tjnmjukhp2wcc663gwgj/app.bsky.feed.post/3mll7gelnds2a",
+          "cid": "bafyreiemect4dtjfv2nqihbyomuygj5iyokbjdtflvrat6fv4cxbpunpou",
+          "bskyUrl": "https://bsky.app/profile/rustaceans.bsky.social/post/3mll7gelnds2a",
+          "text": "9. NVIDIA Research open-sourced cuda-oxide, an experimental Rust-to-CUDA compiler that lets you write (SIMT) GPU kernels in idiomatic Rust. github.com/NVlabs/cuda-...",
+          "author": {
+            "handle": "rustaceans.bsky.social",
+            "displayName": "Rust Bytes"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-11T11:50:00.052Z",
+          "createdUtc": 1778500200,
+          "ageHours": 0.58,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "NVlabs/cuda-oxide",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "wangjiawen2013--charton": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:ugk5tjnmjukhp2wcc663gwgj/app.bsky.feed.post/3mll7ge5nvz22",
+        "cid": "bafyreihulfzuvdyqqaau2oqukddoudm2q6p7hv4nt5pn7m7wvvidbawpeu",
+        "bskyUrl": "https://bsky.app/profile/rustaceans.bsky.social/post/3mll7ge5nvz22",
+        "text": "6. Jiawen Wang released charton, an altair-style declarative plotting crate for Rust. github.com/wangjiawen20...",
+        "author": {
+          "handle": "rustaceans.bsky.social",
+          "displayName": "Rust Bytes"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-11T11:49:59.594Z",
+        "hoursSincePosted": 0.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:ugk5tjnmjukhp2wcc663gwgj/app.bsky.feed.post/3mll7ge5nvz22",
+          "cid": "bafyreihulfzuvdyqqaau2oqukddoudm2q6p7hv4nt5pn7m7wvvidbawpeu",
+          "bskyUrl": "https://bsky.app/profile/rustaceans.bsky.social/post/3mll7ge5nvz22",
+          "text": "6. Jiawen Wang released charton, an altair-style declarative plotting crate for Rust. github.com/wangjiawen20...",
+          "author": {
+            "handle": "rustaceans.bsky.social",
+            "displayName": "Rust Bytes"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-11T11:49:59.594Z",
+          "createdUtc": 1778500199,
+          "ageHours": 0.58,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "wangjiawen2013/charton",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "maxbrito500--esp32-c5-deauth": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mll5s52k2q24",
+        "cid": "bafyreigj2c7kjwmt6tznagx7nfetvho23onpm37j7v3kbcembbbyokoyw4",
+        "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mll5s52k2q24",
+        "text": "Nuke All Routers https://github.com/maxbrito500/esp32-c5-deauth (https://news.ycombinator.com/item?id=48087863)",
+        "author": {
+          "handle": "betterhn20.e-work.xyz",
+          "displayName": "Hacker News 20"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-11T11:20:46.525Z",
+        "hoursSincePosted": 1.07
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mll5s52k2q24",
+          "cid": "bafyreigj2c7kjwmt6tznagx7nfetvho23onpm37j7v3kbcembbbyokoyw4",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mll5s52k2q24",
+          "text": "Nuke All Routers https://github.com/maxbrito500/esp32-c5-deauth (https://news.ycombinator.com/item?id=48087863)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T11:20:46.525Z",
+          "createdUtc": 1778498446,
+          "ageHours": 1.07,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "maxbrito500/esp32-c5-deauth",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "anthropics/claude-code",
-      "count7d": 1,
-      "likesSum7d": 10
-    },
-    {
-      "fullName": "affaan-m/everything-claude-code",
+      "fullName": "modem-dev/hunk",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "AlexsJones/llmfit",
+      "fullName": "maxbrito500/esp32-c5-deauth",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "mattpocock/skills",
+      "fullName": "NVlabs/cuda-oxide",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "nooga/let-go",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "tracewayapp/traceway",
+      "fullName": "wangjiawen2013/charton",
       "count7d": 1,
       "likesSum7d": 0
     }

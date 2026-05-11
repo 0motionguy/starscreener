@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-11T16:13:32.776Z",
+  "fetchedAt": "2026-05-11T18:07:31.236Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -538,7 +538,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T13:50:56Z",
-        "hoursSincePosted": 2.38
+        "hoursSincePosted": 4.28
       },
       "posts": [
         {
@@ -555,7 +555,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T13:50:56Z",
           "createdUtc": 1778507456,
-          "ageHours": 2.38,
+          "ageHours": 4.28,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -2211,19 +2211,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:uvlfqotqbkmmkvkgtjnabwik/app.bsky.feed.post/3mlkon6sora2b",
-        "cid": "bafyreiee6qfh5nvgffp7hvmspenkhbjna3h65yq46hm3vaijqv3z4mcfiy",
-        "bskyUrl": "https://bsky.app/profile/ivanzugec.com/post/3mlkon6sora2b",
-        "text": "Link: https://github.com/mattpocock/skills",
+        "uri": "at://did:plc:ksrt4i7yeq5amo3q2zf3htcs/app.bsky.feed.post/3mllq4n6hnw2q",
+        "cid": "bafyreicwmfuzh3cyt7o3qyzbsxvxcmyi3z4wwjobvdugq5icylbwsncw5y",
+        "bskyUrl": "https://bsky.app/profile/valyay.bsky.social/post/3mllq4n6hnw2q",
+        "text": "Link to skill: github.com/mattpocock/s...",
         "author": {
-          "handle": "ivanzugec.com",
-          "displayName": "Ivan Zugec"
+          "handle": "valyay.bsky.social",
+          "displayName": "Evgeniy"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-11T06:49:35.211Z",
-        "hoursSincePosted": 1.82
+        "createdAt": "2026-05-11T16:48:46.219Z",
+        "hoursSincePosted": 1.31
       },
       "posts": [
         {
@@ -2242,6 +2242,34 @@
           "createdUtc": 1778183878,
           "ageHours": 1.31,
           "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "mattpocock/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ksrt4i7yeq5amo3q2zf3htcs/app.bsky.feed.post/3mllq4n6hnw2q",
+          "cid": "bafyreicwmfuzh3cyt7o3qyzbsxvxcmyi3z4wwjobvdugq5icylbwsncw5y",
+          "bskyUrl": "https://bsky.app/profile/valyay.bsky.social/post/3mllq4n6hnw2q",
+          "text": "Link to skill: github.com/mattpocock/s...",
+          "author": {
+            "handle": "valyay.bsky.social",
+            "displayName": "Evgeniy"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T16:48:46.219Z",
+          "createdUtc": 1778518126,
+          "ageHours": 1.31,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -5078,7 +5106,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T14:52:15Z",
-        "hoursSincePosted": 1.35
+        "hoursSincePosted": 3.25
       },
       "posts": [
         {
@@ -5123,7 +5151,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T14:52:15Z",
           "createdUtc": 1778511135,
-          "ageHours": 1.35,
+          "ageHours": 3.25,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -6968,8 +6996,8 @@
       ]
     },
     "openclaw/openclaw": {
-      "count7d": 1,
-      "likesSum7d": 0,
+      "count7d": 2,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -6980,11 +7008,11 @@
         "author": {
           "handle": "agentwyre.ai"
         },
-        "likeCount": 0,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T16:07:27.049075+00:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2
       },
       "posts": [
         {
@@ -6995,12 +7023,40 @@
           "author": {
             "handle": "agentwyre.ai"
           },
-          "likeCount": 0,
+          "likeCount": 3,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-11T16:07:27.049075+00:00",
           "createdUtc": 1778515647,
-          "ageHours": 0.5,
+          "ageHours": 2,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mllr6hjpsn2a",
+          "cid": "bafyreidamao3l44lqh3ydckdwgrjeryt3uuli7iskqavsjhhleof5h6kei",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mllr6hjpsn2a",
+          "text": "🟠 OpenClaw beta adds on-demand local model server startup and new plugin session APIs OpenClaw shipped beta v2026.5.10-beta.5 with a meaningful workflow update: provider-level localService startup can now boot... https://github.com/openclaw/openclaw/releases/tag/v2026.5.10-beta.5 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T17:07:40.723888+00:00",
+          "createdUtc": 1778519260,
+          "ageHours": 1,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -7702,7 +7758,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T16:04:43.864361Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.05
       },
       "posts": [
         {
@@ -7719,7 +7775,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T16:04:43.864361Z",
           "createdUtc": 1778515483,
-          "ageHours": 0.5,
+          "ageHours": 2.05,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -7883,7 +7939,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T15:24:42.336Z",
-        "hoursSincePosted": 0.81
+        "hoursSincePosted": 2.71
       },
       "posts": [
         {
@@ -7900,7 +7956,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T15:24:42.336Z",
           "createdUtc": 1778513082,
-          "ageHours": 0.81,
+          "ageHours": 2.71,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -7934,7 +7990,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T15:23:08.179Z",
-        "hoursSincePosted": 0.84
+        "hoursSincePosted": 2.74
       },
       "posts": [
         {
@@ -7951,7 +8007,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T15:23:08.179Z",
           "createdUtc": 1778512988,
-          "ageHours": 0.84,
+          "ageHours": 2.74,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -8011,6 +8067,57 @@
           "linkedRepos": [
             {
               "fullName": "aloshdenny/reverse-SynthID",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Augani/openreel-video": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mllojtja7a2z",
+        "cid": "bafyreifnjssik7pmmekq4mze5qau5q67m7ov3llkymd3glp2rjs643sdse",
+        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mllojtja7a2z",
+        "text": "ブラウザ上で動作する完全クライアントサイドの動画編集ツールらしい 動画のプライバシーを守りつつ手軽に編集したいときに便利そう yug1224 starred Augani/openreel-video https://github.com/Augani/openreel-video",
+        "author": {
+          "handle": "yug1224.com",
+          "displayName": "ぷーじ"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-11T16:20:21.508Z",
+        "hoursSincePosted": 1.79
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mllojtja7a2z",
+          "cid": "bafyreifnjssik7pmmekq4mze5qau5q67m7ov3llkymd3glp2rjs643sdse",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mllojtja7a2z",
+          "text": "ブラウザ上で動作する完全クライアントサイドの動画編集ツールらしい 動画のプライバシーを守りつつ手軽に編集したいときに便利そう yug1224 starred Augani/openreel-video https://github.com/Augani/openreel-video",
+          "author": {
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T16:20:21.508Z",
+          "createdUtc": 1778516421,
+          "ageHours": 1.79,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Augani/openreel-video",
               "matchType": "url",
               "confidence": 1
             }
@@ -8553,7 +8660,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T13:50:56Z",
-        "hoursSincePosted": 2.38
+        "hoursSincePosted": 4.28
       },
       "posts": [
         {
@@ -8570,7 +8677,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T13:50:56Z",
           "createdUtc": 1778507456,
-          "ageHours": 2.38,
+          "ageHours": 4.28,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -10226,19 +10333,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:uvlfqotqbkmmkvkgtjnabwik/app.bsky.feed.post/3mlkon6sora2b",
-        "cid": "bafyreiee6qfh5nvgffp7hvmspenkhbjna3h65yq46hm3vaijqv3z4mcfiy",
-        "bskyUrl": "https://bsky.app/profile/ivanzugec.com/post/3mlkon6sora2b",
-        "text": "Link: https://github.com/mattpocock/skills",
+        "uri": "at://did:plc:ksrt4i7yeq5amo3q2zf3htcs/app.bsky.feed.post/3mllq4n6hnw2q",
+        "cid": "bafyreicwmfuzh3cyt7o3qyzbsxvxcmyi3z4wwjobvdugq5icylbwsncw5y",
+        "bskyUrl": "https://bsky.app/profile/valyay.bsky.social/post/3mllq4n6hnw2q",
+        "text": "Link to skill: github.com/mattpocock/s...",
         "author": {
-          "handle": "ivanzugec.com",
-          "displayName": "Ivan Zugec"
+          "handle": "valyay.bsky.social",
+          "displayName": "Evgeniy"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-11T06:49:35.211Z",
-        "hoursSincePosted": 1.82
+        "createdAt": "2026-05-11T16:48:46.219Z",
+        "hoursSincePosted": 1.31
       },
       "posts": [
         {
@@ -10257,6 +10364,34 @@
           "createdUtc": 1778183878,
           "ageHours": 1.31,
           "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "mattpocock/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:ksrt4i7yeq5amo3q2zf3htcs/app.bsky.feed.post/3mllq4n6hnw2q",
+          "cid": "bafyreicwmfuzh3cyt7o3qyzbsxvxcmyi3z4wwjobvdugq5icylbwsncw5y",
+          "bskyUrl": "https://bsky.app/profile/valyay.bsky.social/post/3mllq4n6hnw2q",
+          "text": "Link to skill: github.com/mattpocock/s...",
+          "author": {
+            "handle": "valyay.bsky.social",
+            "displayName": "Evgeniy"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T16:48:46.219Z",
+          "createdUtc": 1778518126,
+          "ageHours": 1.31,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -13093,7 +13228,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T14:52:15Z",
-        "hoursSincePosted": 1.35
+        "hoursSincePosted": 3.25
       },
       "posts": [
         {
@@ -13138,7 +13273,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T14:52:15Z",
           "createdUtc": 1778511135,
-          "ageHours": 1.35,
+          "ageHours": 3.25,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -14983,8 +15118,8 @@
       ]
     },
     "openclaw--openclaw": {
-      "count7d": 1,
-      "likesSum7d": 0,
+      "count7d": 2,
+      "likesSum7d": 3,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -14995,11 +15130,11 @@
         "author": {
           "handle": "agentwyre.ai"
         },
-        "likeCount": 0,
+        "likeCount": 3,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T16:07:27.049075+00:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2
       },
       "posts": [
         {
@@ -15010,12 +15145,40 @@
           "author": {
             "handle": "agentwyre.ai"
           },
-          "likeCount": 0,
+          "likeCount": 3,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-11T16:07:27.049075+00:00",
           "createdUtc": 1778515647,
-          "ageHours": 0.5,
+          "ageHours": 2,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mllr6hjpsn2a",
+          "cid": "bafyreidamao3l44lqh3ydckdwgrjeryt3uuli7iskqavsjhhleof5h6kei",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mllr6hjpsn2a",
+          "text": "🟠 OpenClaw beta adds on-demand local model server startup and new plugin session APIs OpenClaw shipped beta v2026.5.10-beta.5 with a meaningful workflow update: provider-level localService startup can now boot... https://github.com/openclaw/openclaw/releases/tag/v2026.5.10-beta.5 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T17:07:40.723888+00:00",
+          "createdUtc": 1778519260,
+          "ageHours": 1,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -15717,7 +15880,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T16:04:43.864361Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.05
       },
       "posts": [
         {
@@ -15734,7 +15897,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T16:04:43.864361Z",
           "createdUtc": 1778515483,
-          "ageHours": 0.5,
+          "ageHours": 2.05,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -15898,7 +16061,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T15:24:42.336Z",
-        "hoursSincePosted": 0.81
+        "hoursSincePosted": 2.71
       },
       "posts": [
         {
@@ -15915,7 +16078,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T15:24:42.336Z",
           "createdUtc": 1778513082,
-          "ageHours": 0.81,
+          "ageHours": 2.71,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -15949,7 +16112,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T15:23:08.179Z",
-        "hoursSincePosted": 0.84
+        "hoursSincePosted": 2.74
       },
       "posts": [
         {
@@ -15966,7 +16129,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T15:23:08.179Z",
           "createdUtc": 1778512988,
-          "ageHours": 0.84,
+          "ageHours": 2.74,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -16032,13 +16195,64 @@
           ]
         }
       ]
+    },
+    "augani--openreel-video": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mllojtja7a2z",
+        "cid": "bafyreifnjssik7pmmekq4mze5qau5q67m7ov3llkymd3glp2rjs643sdse",
+        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mllojtja7a2z",
+        "text": "ブラウザ上で動作する完全クライアントサイドの動画編集ツールらしい 動画のプライバシーを守りつつ手軽に編集したいときに便利そう yug1224 starred Augani/openreel-video https://github.com/Augani/openreel-video",
+        "author": {
+          "handle": "yug1224.com",
+          "displayName": "ぷーじ"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-11T16:20:21.508Z",
+        "hoursSincePosted": 1.79
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mllojtja7a2z",
+          "cid": "bafyreifnjssik7pmmekq4mze5qau5q67m7ov3llkymd3glp2rjs643sdse",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mllojtja7a2z",
+          "text": "ブラウザ上で動作する完全クライアントサイドの動画編集ツールらしい 動画のプライバシーを守りつつ手軽に編集したいときに便利そう yug1224 starred Augani/openreel-video https://github.com/Augani/openreel-video",
+          "author": {
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T16:20:21.508Z",
+          "createdUtc": 1778516421,
+          "ageHours": 1.79,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Augani/openreel-video",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "aloshdenny/reverse-SynthID",
-      "count7d": 1,
-      "likesSum7d": 1
+      "fullName": "openclaw/openclaw",
+      "count7d": 2,
+      "likesSum7d": 3
     },
     {
       "fullName": "jj-vcs/jj",
@@ -16056,6 +16270,11 @@
       "likesSum7d": 0
     },
     {
+      "fullName": "Augani/openreel-video",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
       "fullName": "kepano/obsidian-skills",
       "count7d": 1,
       "likesSum7d": 0
@@ -16066,7 +16285,7 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "openclaw/openclaw",
+      "fullName": "mattpocock/skills",
       "count7d": 1,
       "likesSum7d": 0
     }

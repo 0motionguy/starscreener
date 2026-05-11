@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-11T04:38:29.358Z",
+  "fetchedAt": "2026-05-11T08:38:29.630Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -2181,21 +2181,21 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:atlkhia4grqcqhbpo5aaatii/app.bsky.feed.post/3mlfrdzkzhk2e",
-        "cid": "bafyreigthevexybdy6zxx65zjxjer3k5wehsszcpwdhlganwzlfi4i4ahq",
-        "bskyUrl": "https://bsky.app/profile/willthong.com/post/3mlfrdzkzhk2e",
-        "text": "Great job John! Feedback (if it isn't out of line): map tile caching would be beneficial for a smoother panning UX. Recommend using these for feature development: github.com/mattpocock/s.... 🗳️ ConstituencyClick 307/650 — PPS 🟩🟩🟩🟥🟥🟥🟥🟨🟥🟨 play.jmoxley.co.uk",
+        "uri": "at://did:plc:uvlfqotqbkmmkvkgtjnabwik/app.bsky.feed.post/3mlkon6sora2b",
+        "cid": "bafyreiee6qfh5nvgffp7hvmspenkhbjna3h65yq46hm3vaijqv3z4mcfiy",
+        "bskyUrl": "https://bsky.app/profile/ivanzugec.com/post/3mlkon6sora2b",
+        "text": "Link: https://github.com/mattpocock/skills",
         "author": {
-          "handle": "willthong.com",
-          "displayName": "Will Reid-Tong (né Thong)"
+          "handle": "ivanzugec.com",
+          "displayName": "Ivan Zugec"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-09T07:54:50.351Z",
-        "hoursSincePosted": 0.98
+        "replyCount": 0,
+        "createdAt": "2026-05-11T06:49:35.211Z",
+        "hoursSincePosted": 1.82
       },
       "posts": [
         {
@@ -2214,6 +2214,34 @@
           "createdUtc": 1778183878,
           "ageHours": 1.31,
           "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "mattpocock/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:uvlfqotqbkmmkvkgtjnabwik/app.bsky.feed.post/3mlkon6sora2b",
+          "cid": "bafyreiee6qfh5nvgffp7hvmspenkhbjna3h65yq46hm3vaijqv3z4mcfiy",
+          "bskyUrl": "https://bsky.app/profile/ivanzugec.com/post/3mlkon6sora2b",
+          "text": "Link: https://github.com/mattpocock/skills",
+          "author": {
+            "handle": "ivanzugec.com",
+            "displayName": "Ivan Zugec"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T06:49:35.211Z",
+          "createdUtc": 1778482175,
+          "ageHours": 1.82,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -4329,7 +4357,7 @@
     },
     "anthropics/claude-code": {
       "count7d": 1,
-      "likesSum7d": 5,
+      "likesSum7d": 10,
       "repostsSum7d": 2,
       "repliesSum7d": 0,
       "topPost": {
@@ -4341,11 +4369,11 @@
           "handle": "den.dev",
           "displayName": "Den Delimarsky"
         },
-        "likeCount": 5,
+        "likeCount": 10,
         "repostCount": 2,
         "replyCount": 0,
         "createdAt": "2026-05-11T03:17:06.286Z",
-        "hoursSincePosted": 1.36
+        "hoursSincePosted": 5.36
       },
       "posts": [
         {
@@ -4357,13 +4385,13 @@
             "handle": "den.dev",
             "displayName": "Den Delimarsky"
           },
-          "likeCount": 5,
+          "likeCount": 10,
           "repostCount": 2,
           "replyCount": 0,
           "createdAt": "2026-05-11T03:17:06.286Z",
           "createdUtc": 1778469426,
-          "ageHours": 1.36,
-          "trendingScore": 9,
+          "ageHours": 5.36,
+          "trendingScore": 14,
           "content_tags": [
             "has-github-repo"
           ],
@@ -7539,7 +7567,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T07:13:16+03:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 4.42
       },
       "posts": [
         {
@@ -7556,7 +7584,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T07:13:16+03:00",
           "createdUtc": 1778472796,
-          "ageHours": 0.5,
+          "ageHours": 4.42,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -7590,7 +7618,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-11T02:23:45.756Z",
-        "hoursSincePosted": 2.25
+        "hoursSincePosted": 6.25
       },
       "posts": [
         {
@@ -7607,7 +7635,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-11T02:23:45.756Z",
           "createdUtc": 1778466225,
-          "ageHours": 2.25,
+          "ageHours": 6.25,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -7616,6 +7644,108 @@
           "linkedRepos": [
             {
               "fullName": "AlexsJones/llmfit",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tracewayapp/traceway": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:mzbewfpd3wopiwgfyzicefhi/app.bsky.feed.post/3mlkpx22o2c2g",
+        "cid": "bafyreibnnippz4nnszbdgmkig3ohe6y6vuou54sajaw3wcu6gtynhww7pi",
+        "bskyUrl": "https://bsky.app/profile/productimpossible.com/post/3mlkpx22o2c2g",
+        "text": "4/ Traceway — MIT-licensed observability stack covering dashboards, session replay, logs, traces, exceptions. One OTLP-native service, boots from docker compose in ~90s. No BSL fork github.com/tracewayapp/traceway",
+        "author": {
+          "handle": "productimpossible.com",
+          "displayName": "Product Impossible"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-11T07:12:59.606Z",
+        "hoursSincePosted": 1.43
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:mzbewfpd3wopiwgfyzicefhi/app.bsky.feed.post/3mlkpx22o2c2g",
+          "cid": "bafyreibnnippz4nnszbdgmkig3ohe6y6vuou54sajaw3wcu6gtynhww7pi",
+          "bskyUrl": "https://bsky.app/profile/productimpossible.com/post/3mlkpx22o2c2g",
+          "text": "4/ Traceway — MIT-licensed observability stack covering dashboards, session replay, logs, traces, exceptions. One OTLP-native service, boots from docker compose in ~90s. No BSL fork github.com/tracewayapp/traceway",
+          "author": {
+            "handle": "productimpossible.com",
+            "displayName": "Product Impossible"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-11T07:12:59.606Z",
+          "createdUtc": 1778483579,
+          "ageHours": 1.43,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tracewayapp/traceway",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "affaan-m/everything-claude-code": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:nsgjbd6zsolbmdmuzpvhfxll/app.bsky.feed.post/3mlki5uui432s",
+        "cid": "bafyreidyxmsmwtdhd3jyypgz4nayoy7ahial6z7pkfa7pq4ncypukg3rjy",
+        "bskyUrl": "https://bsky.app/profile/yorozuya-build.bsky.social/post/3mlki5uui432s",
+        "text": "GitHubで爆イケなツール発見した🔥 「everything-claude-code」、Claude CodeやCursorなど複数のAIエージェントを束ねてパフォーマンス最適化できるハーネスシステム。スキル管理・記憶・セキュリティまで一元化できるのがヤバい。 ソロ開発だとAIツール使い分けで疲弊しがちだけど、これ1つで全部まとめて管理できるの助かりすぎる。早速試してみる👀 #GitHub #buildinpublic #個人開発 https://github.com/affaan-m/everything-claude-code",
+        "author": {
+          "handle": "yorozuya-build.bsky.social",
+          "displayName": "よろず屋builds"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-11T04:53:38.653323Z",
+        "hoursSincePosted": 3.75
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:nsgjbd6zsolbmdmuzpvhfxll/app.bsky.feed.post/3mlki5uui432s",
+          "cid": "bafyreidyxmsmwtdhd3jyypgz4nayoy7ahial6z7pkfa7pq4ncypukg3rjy",
+          "bskyUrl": "https://bsky.app/profile/yorozuya-build.bsky.social/post/3mlki5uui432s",
+          "text": "GitHubで爆イケなツール発見した🔥 「everything-claude-code」、Claude CodeやCursorなど複数のAIエージェントを束ねてパフォーマンス最適化できるハーネスシステム。スキル管理・記憶・セキュリティまで一元化できるのがヤバい。 ソロ開発だとAIツール使い分けで疲弊しがちだけど、これ1つで全部まとめて管理できるの助かりすぎる。早速試してみる👀 #GitHub #buildinpublic #個人開発 https://github.com/affaan-m/everything-claude-code",
+          "author": {
+            "handle": "yorozuya-build.bsky.social",
+            "displayName": "よろず屋builds"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T04:53:38.653323Z",
+          "createdUtc": 1778475218,
+          "ageHours": 3.75,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "affaan-m/everything-claude-code",
               "matchType": "url",
               "confidence": 1
             }
@@ -9801,21 +9931,21 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:atlkhia4grqcqhbpo5aaatii/app.bsky.feed.post/3mlfrdzkzhk2e",
-        "cid": "bafyreigthevexybdy6zxx65zjxjer3k5wehsszcpwdhlganwzlfi4i4ahq",
-        "bskyUrl": "https://bsky.app/profile/willthong.com/post/3mlfrdzkzhk2e",
-        "text": "Great job John! Feedback (if it isn't out of line): map tile caching would be beneficial for a smoother panning UX. Recommend using these for feature development: github.com/mattpocock/s.... 🗳️ ConstituencyClick 307/650 — PPS 🟩🟩🟩🟥🟥🟥🟥🟨🟥🟨 play.jmoxley.co.uk",
+        "uri": "at://did:plc:uvlfqotqbkmmkvkgtjnabwik/app.bsky.feed.post/3mlkon6sora2b",
+        "cid": "bafyreiee6qfh5nvgffp7hvmspenkhbjna3h65yq46hm3vaijqv3z4mcfiy",
+        "bskyUrl": "https://bsky.app/profile/ivanzugec.com/post/3mlkon6sora2b",
+        "text": "Link: https://github.com/mattpocock/skills",
         "author": {
-          "handle": "willthong.com",
-          "displayName": "Will Reid-Tong (né Thong)"
+          "handle": "ivanzugec.com",
+          "displayName": "Ivan Zugec"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-09T07:54:50.351Z",
-        "hoursSincePosted": 0.98
+        "replyCount": 0,
+        "createdAt": "2026-05-11T06:49:35.211Z",
+        "hoursSincePosted": 1.82
       },
       "posts": [
         {
@@ -9834,6 +9964,34 @@
           "createdUtc": 1778183878,
           "ageHours": 1.31,
           "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "mattpocock/skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:uvlfqotqbkmmkvkgtjnabwik/app.bsky.feed.post/3mlkon6sora2b",
+          "cid": "bafyreiee6qfh5nvgffp7hvmspenkhbjna3h65yq46hm3vaijqv3z4mcfiy",
+          "bskyUrl": "https://bsky.app/profile/ivanzugec.com/post/3mlkon6sora2b",
+          "text": "Link: https://github.com/mattpocock/skills",
+          "author": {
+            "handle": "ivanzugec.com",
+            "displayName": "Ivan Zugec"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T06:49:35.211Z",
+          "createdUtc": 1778482175,
+          "ageHours": 1.82,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -11949,7 +12107,7 @@
     },
     "anthropics--claude-code": {
       "count7d": 1,
-      "likesSum7d": 5,
+      "likesSum7d": 10,
       "repostsSum7d": 2,
       "repliesSum7d": 0,
       "topPost": {
@@ -11961,11 +12119,11 @@
           "handle": "den.dev",
           "displayName": "Den Delimarsky"
         },
-        "likeCount": 5,
+        "likeCount": 10,
         "repostCount": 2,
         "replyCount": 0,
         "createdAt": "2026-05-11T03:17:06.286Z",
-        "hoursSincePosted": 1.36
+        "hoursSincePosted": 5.36
       },
       "posts": [
         {
@@ -11977,13 +12135,13 @@
             "handle": "den.dev",
             "displayName": "Den Delimarsky"
           },
-          "likeCount": 5,
+          "likeCount": 10,
           "repostCount": 2,
           "replyCount": 0,
           "createdAt": "2026-05-11T03:17:06.286Z",
           "createdUtc": 1778469426,
-          "ageHours": 1.36,
-          "trendingScore": 9,
+          "ageHours": 5.36,
+          "trendingScore": 14,
           "content_tags": [
             "has-github-repo"
           ],
@@ -15159,7 +15317,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T07:13:16+03:00",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 4.42
       },
       "posts": [
         {
@@ -15176,7 +15334,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T07:13:16+03:00",
           "createdUtc": 1778472796,
-          "ageHours": 0.5,
+          "ageHours": 4.42,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -15210,7 +15368,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-11T02:23:45.756Z",
-        "hoursSincePosted": 2.25
+        "hoursSincePosted": 6.25
       },
       "posts": [
         {
@@ -15227,7 +15385,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-11T02:23:45.756Z",
           "createdUtc": 1778466225,
-          "ageHours": 2.25,
+          "ageHours": 6.25,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -15242,13 +15400,120 @@
           ]
         }
       ]
+    },
+    "tracewayapp--traceway": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:mzbewfpd3wopiwgfyzicefhi/app.bsky.feed.post/3mlkpx22o2c2g",
+        "cid": "bafyreibnnippz4nnszbdgmkig3ohe6y6vuou54sajaw3wcu6gtynhww7pi",
+        "bskyUrl": "https://bsky.app/profile/productimpossible.com/post/3mlkpx22o2c2g",
+        "text": "4/ Traceway — MIT-licensed observability stack covering dashboards, session replay, logs, traces, exceptions. One OTLP-native service, boots from docker compose in ~90s. No BSL fork github.com/tracewayapp/traceway",
+        "author": {
+          "handle": "productimpossible.com",
+          "displayName": "Product Impossible"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-11T07:12:59.606Z",
+        "hoursSincePosted": 1.43
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:mzbewfpd3wopiwgfyzicefhi/app.bsky.feed.post/3mlkpx22o2c2g",
+          "cid": "bafyreibnnippz4nnszbdgmkig3ohe6y6vuou54sajaw3wcu6gtynhww7pi",
+          "bskyUrl": "https://bsky.app/profile/productimpossible.com/post/3mlkpx22o2c2g",
+          "text": "4/ Traceway — MIT-licensed observability stack covering dashboards, session replay, logs, traces, exceptions. One OTLP-native service, boots from docker compose in ~90s. No BSL fork github.com/tracewayapp/traceway",
+          "author": {
+            "handle": "productimpossible.com",
+            "displayName": "Product Impossible"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-11T07:12:59.606Z",
+          "createdUtc": 1778483579,
+          "ageHours": 1.43,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tracewayapp/traceway",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "affaan-m--everything-claude-code": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:nsgjbd6zsolbmdmuzpvhfxll/app.bsky.feed.post/3mlki5uui432s",
+        "cid": "bafyreidyxmsmwtdhd3jyypgz4nayoy7ahial6z7pkfa7pq4ncypukg3rjy",
+        "bskyUrl": "https://bsky.app/profile/yorozuya-build.bsky.social/post/3mlki5uui432s",
+        "text": "GitHubで爆イケなツール発見した🔥 「everything-claude-code」、Claude CodeやCursorなど複数のAIエージェントを束ねてパフォーマンス最適化できるハーネスシステム。スキル管理・記憶・セキュリティまで一元化できるのがヤバい。 ソロ開発だとAIツール使い分けで疲弊しがちだけど、これ1つで全部まとめて管理できるの助かりすぎる。早速試してみる👀 #GitHub #buildinpublic #個人開発 https://github.com/affaan-m/everything-claude-code",
+        "author": {
+          "handle": "yorozuya-build.bsky.social",
+          "displayName": "よろず屋builds"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-11T04:53:38.653323Z",
+        "hoursSincePosted": 3.75
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:nsgjbd6zsolbmdmuzpvhfxll/app.bsky.feed.post/3mlki5uui432s",
+          "cid": "bafyreidyxmsmwtdhd3jyypgz4nayoy7ahial6z7pkfa7pq4ncypukg3rjy",
+          "bskyUrl": "https://bsky.app/profile/yorozuya-build.bsky.social/post/3mlki5uui432s",
+          "text": "GitHubで爆イケなツール発見した🔥 「everything-claude-code」、Claude CodeやCursorなど複数のAIエージェントを束ねてパフォーマンス最適化できるハーネスシステム。スキル管理・記憶・セキュリティまで一元化できるのがヤバい。 ソロ開発だとAIツール使い分けで疲弊しがちだけど、これ1つで全部まとめて管理できるの助かりすぎる。早速試してみる👀 #GitHub #buildinpublic #個人開発 https://github.com/affaan-m/everything-claude-code",
+          "author": {
+            "handle": "yorozuya-build.bsky.social",
+            "displayName": "よろず屋builds"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T04:53:38.653323Z",
+          "createdUtc": 1778475218,
+          "ageHours": 3.75,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "affaan-m/everything-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "anthropics/claude-code",
       "count7d": 1,
-      "likesSum7d": 5
+      "likesSum7d": 10
+    },
+    {
+      "fullName": "affaan-m/everything-claude-code",
+      "count7d": 1,
+      "likesSum7d": 1
     },
     {
       "fullName": "AlexsJones/llmfit",
@@ -15256,7 +15521,17 @@
       "likesSum7d": 0
     },
     {
+      "fullName": "mattpocock/skills",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
       "fullName": "nooga/let-go",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "tracewayapp/traceway",
       "count7d": 1,
       "likesSum7d": 0
     }

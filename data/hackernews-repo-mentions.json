@@ -1,42 +1,67 @@
 {
-  "fetchedAt": "2026-05-11T00:06:41.453Z",
+  "fetchedAt": "2026-05-11T04:22:20.481Z",
   "windowDays": 7,
-  "scannedAlgoliaHits": 754,
+  "scannedAlgoliaHits": 756,
   "scannedFirebaseItems": 500,
   "mentions": {
-    "ThatXliner/rust-but-lisp": {
-      "count7d": 1,
-      "scoreSum7d": 190,
+    "nooga/let-go": {
+      "count7d": 2,
+      "scoreSum7d": 254,
       "topStory": {
-        "id": 48078575,
-        "title": "Show HN: Rust but Lisp",
-        "score": 190,
-        "url": "https://github.com/ThatXliner/rust-but-lisp",
-        "hoursSincePosted": 26.34
+        "id": 48076815,
+        "title": "Show HN: I made a Clojure-like language in Go, boots in 7ms",
+        "score": 250,
+        "url": "https://github.com/nooga/let-go",
+        "hoursSincePosted": 34.5
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 48078575,
-          "title": "Show HN: Rust but Lisp",
-          "url": "https://github.com/ThatXliner/rust-but-lisp",
-          "by": "thatxliner",
-          "score": 190,
-          "descendants": 69,
-          "createdUtc": 1778363187,
-          "ageHours": 26.34,
-          "velocity": 7.21,
-          "trendingScore": 129.8,
+          "id": 48076815,
+          "title": "Show HN: I made a Clojure-like language in Go, boots in 7ms",
+          "url": "https://github.com/nooga/let-go",
+          "by": "marcingas",
+          "score": 250,
+          "descendants": 80,
+          "createdUtc": 1778349133,
+          "ageHours": 34.5,
+          "velocity": 7.25,
+          "trendingScore": 156.47,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
             "is-show-hn"
           ],
           "value_score": 3,
+          "storyText": "Let-go is a Clojure-like language (~90% compatible with JVM Clojure) written in pure Go. It ships as a ~10MB static binary and cold boots in ~7ms - that's about 50x faster than JVM and 3x faster than Babashka. It has decent throughput on algorithmic workloads - within ballpark of the GraalVM-backed sci. I started this project in 2021 as an elaborate practical joke: I wanted to have an excuse for writing Clojure while pretending to write Go. Jokes aside, it turned out to be pretty decent: it feel",
+          "linkedRepos": [
+            {
+              "fullName": "nooga/let-go",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "id": 48065302,
+          "title": "let-go: Almost Clojure written in Go",
+          "url": "https://github.com/nooga/let-go",
+          "by": "tosh",
+          "score": 4,
+          "descendants": 1,
+          "createdUtc": 1778257486,
+          "ageHours": 59.96,
+          "velocity": 0.07,
+          "trendingScore": 0.05,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "ThatXliner/rust-but-lisp",
+              "fullName": "nooga/let-go",
               "matchType": "url",
               "confidence": 1
             }
@@ -46,13 +71,13 @@
     },
     "Imbad0202/academic-research-skills": {
       "count7d": 1,
-      "scoreSum7d": 73,
+      "scoreSum7d": 78,
       "topStory": {
         "id": 48083919,
         "title": "Academic Research Skills for Claude Code",
-        "score": 73,
+        "score": 78,
         "url": "https://github.com/Imbad0202/academic-research-skills",
-        "hoursSincePosted": 10.41
+        "hoursSincePosted": 14.67
       },
       "everHitFrontPage": false,
       "stories": [
@@ -61,12 +86,12 @@
           "title": "Academic Research Skills for Claude Code",
           "url": "https://github.com/Imbad0202/academic-research-skills",
           "by": "arnon",
-          "score": 73,
-          "descendants": 25,
+          "score": 78,
+          "descendants": 26,
           "createdUtc": 1778420520,
-          "ageHours": 10.41,
-          "velocity": 7.01,
-          "trendingScore": 45.72,
+          "ageHours": 14.67,
+          "velocity": 5.32,
+          "trendingScore": 36.24,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -83,39 +108,38 @@
         }
       ]
     },
-    "narcotic-sh/modafinil": {
+    "Ademking/SkillPrompts": {
       "count7d": 1,
-      "scoreSum7d": 13,
+      "scoreSum7d": 2,
       "topStory": {
-        "id": 48080675,
-        "title": "Show HN: Modafinil - Let agents continue running while MacBook lid is closed",
-        "score": 13,
-        "url": "https://github.com/narcotic-sh/modafinil",
-        "hoursSincePosted": 20.83
+        "id": 48090484,
+        "title": "I Got Tired of Rewriting Prompts So I Built This",
+        "score": 2,
+        "url": "https://github.com/Ademking/SkillPrompts",
+        "hoursSincePosted": 1.75
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 48080675,
-          "title": "Show HN: Modafinil - Let agents continue running while MacBook lid is closed",
-          "url": "https://github.com/narcotic-sh/modafinil",
-          "by": "hamza_q_",
-          "score": 13,
-          "descendants": 24,
-          "createdUtc": 1778383023,
-          "ageHours": 20.83,
-          "velocity": 0.62,
-          "trendingScore": 2.35,
+          "id": 48090484,
+          "title": "I Got Tired of Rewriting Prompts So I Built This",
+          "url": "https://github.com/Ademking/SkillPrompts",
+          "by": "ademking",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1778467058,
+          "ageHours": 1.75,
+          "velocity": 1.15,
+          "trendingScore": 0.35,
           "everHitFrontPage": false,
           "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
+            "has-github-repo"
           ],
-          "value_score": 3,
+          "value_score": 1,
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "narcotic-sh/modafinil",
+              "fullName": "Ademking/SkillPrompts",
               "matchType": "url",
               "confidence": 1
             }
@@ -131,7 +155,7 @@
         "title": "B-tree based collection types for Go",
         "score": 5,
         "url": "https://github.com/tidwall/btype",
-        "hoursSincePosted": 8.72
+        "hoursSincePosted": 12.98
       },
       "everHitFrontPage": false,
       "stories": [
@@ -143,9 +167,9 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1778426597,
-          "ageHours": 8.72,
-          "velocity": 0.57,
-          "trendingScore": 0.4,
+          "ageHours": 12.98,
+          "velocity": 0.39,
+          "trendingScore": 0.27,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -162,6 +186,120 @@
         }
       ]
     },
+    "NVlabs/cuda-oxide": {
+      "count7d": 4,
+      "scoreSum7d": 14,
+      "topStory": {
+        "id": 48061120,
+        "title": "CUDA-oxide an experimental Rust-to-CUDA compiler",
+        "score": 7,
+        "url": "https://github.com/NVlabs/cuda-oxide",
+        "hoursSincePosted": 66
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48061120,
+          "title": "CUDA-oxide an experimental Rust-to-CUDA compiler",
+          "url": "https://github.com/NVlabs/cuda-oxide",
+          "by": "tzury",
+          "score": 7,
+          "descendants": 0,
+          "createdUtc": 1778235730,
+          "ageHours": 66,
+          "velocity": 0.11,
+          "trendingScore": 0.09,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "NVlabs/cuda-oxide",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "id": 48070968,
+          "title": "Nvidia introduces back end for CUDA kernels in Rust",
+          "url": "https://github.com/NVlabs/cuda-oxide",
+          "by": "ketchup32613",
+          "score": 3,
+          "descendants": 0,
+          "createdUtc": 1778291535,
+          "ageHours": 50.5,
+          "velocity": 0.06,
+          "trendingScore": 0.03,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "NVlabs/cuda-oxide",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "id": 48055332,
+          "title": "cuda-oxide: a custom rustc backend for compiling GPU kernels in pure Rust",
+          "url": "https://github.com/NVlabs/cuda-oxide",
+          "by": "matt_d",
+          "score": 3,
+          "descendants": 0,
+          "createdUtc": 1778189399,
+          "ageHours": 78.87,
+          "velocity": 0.04,
+          "trendingScore": 0.02,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "NVlabs/cuda-oxide",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "id": 48073727,
+          "title": "Experimental Rust-to-CUDA Compiler",
+          "url": "https://github.com/NVlabs/cuda-oxide",
+          "by": "cgravill",
+          "score": 1,
+          "descendants": 1,
+          "createdUtc": 1778322039,
+          "ageHours": 42.03,
+          "velocity": 0.02,
+          "trendingScore": 0,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "NVlabs/cuda-oxide",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "DenisSergeevitch/chatgpt-portal": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -170,7 +308,7 @@
         "title": "I built a local portal so ChatGPT (Pro models) can browse my accounts safely",
         "score": 2,
         "url": "https://github.com/DenisSergeevitch/chatgpt-portal",
-        "hoursSincePosted": 6.66
+        "hoursSincePosted": 10.92
       },
       "everHitFrontPage": false,
       "stories": [
@@ -182,9 +320,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778434039,
-          "ageHours": 6.66,
-          "velocity": 0.3,
-          "trendingScore": 0.09,
+          "ageHours": 10.92,
+          "velocity": 0.18,
+          "trendingScore": 0.05,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -209,7 +347,7 @@
         "title": "Jj v0.41.0 Is Out",
         "score": 3,
         "url": "https://github.com/jj-vcs/jj/releases/tag/v0.41.0",
-        "hoursSincePosted": 61.19
+        "hoursSincePosted": 65.45
       },
       "everHitFrontPage": false,
       "stories": [
@@ -221,7 +359,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778237719,
-          "ageHours": 61.19,
+          "ageHours": 65.45,
           "velocity": 0.05,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -248,7 +386,7 @@
         "title": "Open SRE",
         "score": 2,
         "url": "https://github.com/Tracer-Cloud/opensre",
-        "hoursSincePosted": 34.42
+        "hoursSincePosted": 38.68
       },
       "everHitFrontPage": false,
       "stories": [
@@ -260,8 +398,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778334079,
-          "ageHours": 34.42,
-          "velocity": 0.06,
+          "ageHours": 38.68,
+          "velocity": 0.05,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
@@ -287,7 +425,7 @@
         "title": "Agent Exchange – A2A discovery with real-time bidding for AI agents",
         "score": 3,
         "url": "https://github.com/open-experiments/agent-exchange",
-        "hoursSincePosted": 104.74
+        "hoursSincePosted": 109
       },
       "everHitFrontPage": false,
       "stories": [
@@ -299,7 +437,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778080950,
-          "ageHours": 104.74,
+          "ageHours": 109,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -325,8 +463,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778256018,
-          "ageHours": 56.11,
-          "velocity": 0.04,
+          "ageHours": 60.37,
+          "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
@@ -352,7 +490,7 @@
         "title": "OpenKB: A Vectorless Knowledge Base for Long Documents",
         "score": 2,
         "url": "https://github.com/VectifyAI/OpenKB",
-        "hoursSincePosted": 60.76
+        "hoursSincePosted": 65.02
       },
       "everHitFrontPage": false,
       "stories": [
@@ -364,7 +502,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778239251,
-          "ageHours": 60.76,
+          "ageHours": 65.02,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -389,7 +527,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778069636,
-          "ageHours": 107.88,
+          "ageHours": 112.14,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -416,7 +554,7 @@
         "title": "Build native desktop and mobile apps with web UI and Zig",
         "score": 1,
         "url": "https://github.com/vercel-labs/zero-native",
-        "hoursSincePosted": 24.38
+        "hoursSincePosted": 28.64
       },
       "everHitFrontPage": false,
       "stories": [
@@ -428,8 +566,8 @@
           "score": 1,
           "descendants": 1,
           "createdUtc": 1778370221,
-          "ageHours": 24.38,
-          "velocity": 0.04,
+          "ageHours": 28.64,
+          "velocity": 0.03,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -453,8 +591,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778455279,
-          "ageHours": 0.76,
-          "velocity": 1.32,
+          "ageHours": 5.02,
+          "velocity": 0.2,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -480,7 +618,7 @@
         "title": "Train Your Own LLM from Scratch",
         "score": 477,
         "url": "https://github.com/angelos-p/llm-from-scratch",
-        "hoursSincePosted": 139.96
+        "hoursSincePosted": 144.22
       },
       "everHitFrontPage": false,
       "stories": [
@@ -492,9 +630,9 @@
           "score": 477,
           "descendants": 50,
           "createdUtc": 1777954157,
-          "ageHours": 139.96,
-          "velocity": 3.41,
-          "trendingScore": 54.8,
+          "ageHours": 144.22,
+          "velocity": 3.31,
+          "trendingScore": 53.2,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -519,7 +657,7 @@
         "title": "Claude Code with Bedrock broken again",
         "score": 6,
         "url": "https://github.com/anthropics/claude-code/issues/56595",
-        "hoursSincePosted": 103.66
+        "hoursSincePosted": 107.92
       },
       "everHitFrontPage": false,
       "stories": [
@@ -531,7 +669,7 @@
           "score": 6,
           "descendants": 1,
           "createdUtc": 1778084816,
-          "ageHours": 103.66,
+          "ageHours": 107.92,
           "velocity": 0.06,
           "trendingScore": 0.05,
           "everHitFrontPage": false,
@@ -556,7 +694,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777963444,
-          "ageHours": 137.38,
+          "ageHours": 141.64,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -583,7 +721,7 @@
         "title": "Hunk: Review-first terminal diff viewer for agentic coders",
         "score": 4,
         "url": "https://github.com/modem-dev/hunk",
-        "hoursSincePosted": 95.71
+        "hoursSincePosted": 99.97
       },
       "everHitFrontPage": false,
       "stories": [
@@ -595,7 +733,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778113445,
-          "ageHours": 95.71,
+          "ageHours": 99.97,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -622,7 +760,7 @@
         "title": "notebooklm-py makes Claude interact with NotebookLM",
         "score": 4,
         "url": "https://github.com/teng-lin/notebooklm-py",
-        "hoursSincePosted": 110.07
+        "hoursSincePosted": 114.33
       },
       "everHitFrontPage": false,
       "stories": [
@@ -634,8 +772,8 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778061763,
-          "ageHours": 110.07,
-          "velocity": 0.04,
+          "ageHours": 114.33,
+          "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
@@ -661,7 +799,7 @@
         "title": "Thoth v3.20.0 – Full Linux Support, MiniMax Integration, Reliability Upgrades",
         "score": 4,
         "url": "https://github.com/siddsachar/Thoth",
-        "hoursSincePosted": 127.9
+        "hoursSincePosted": 132.16
       },
       "everHitFrontPage": false,
       "stories": [
@@ -673,7 +811,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1777997567,
-          "ageHours": 127.9,
+          "ageHours": 132.16,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -700,7 +838,7 @@
         "title": "Larql: Run attention locally, FFN on another machine",
         "score": 3,
         "url": "https://github.com/chrishayuk/larql",
-        "hoursSincePosted": 74.89
+        "hoursSincePosted": 79.15
       },
       "everHitFrontPage": false,
       "stories": [
@@ -712,7 +850,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778188394,
-          "ageHours": 74.89,
+          "ageHours": 79.15,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -731,6 +869,45 @@
         }
       ]
     },
+    "ValkDB/postgresparser": {
+      "count7d": 1,
+      "scoreSum7d": 3,
+      "topStory": {
+        "id": 48010240,
+        "title": "Postgresparser: ANTLR-based PostgreSQL query parser for Go",
+        "score": 3,
+        "url": "https://github.com/ValkDB/postgresparser",
+        "hoursSincePosted": 156.54
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48010240,
+          "title": "Postgresparser: ANTLR-based PostgreSQL query parser for Go",
+          "url": "https://github.com/ValkDB/postgresparser",
+          "by": "thunderbong",
+          "score": 3,
+          "descendants": 0,
+          "createdUtc": 1777909787,
+          "ageHours": 156.54,
+          "velocity": 0.02,
+          "trendingScore": 0.01,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "ValkDB/postgresparser",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "vercel-labs/open-agents": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -739,7 +916,7 @@
         "title": "Open Agents from Vercel is now open source",
         "score": 2,
         "url": "https://github.com/vercel-labs/open-agents",
-        "hoursSincePosted": 110.18
+        "hoursSincePosted": 114.45
       },
       "everHitFrontPage": false,
       "stories": [
@@ -751,7 +928,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778061338,
-          "ageHours": 110.18,
+          "ageHours": 114.45,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -778,7 +955,7 @@
         "title": "Memoir – Git for AI agent memory, with a Claude Code plugin",
         "score": 2,
         "url": "https://github.com/zhangfengcdt/memoir",
-        "hoursSincePosted": 128.2
+        "hoursSincePosted": 132.46
       },
       "everHitFrontPage": false,
       "stories": [
@@ -790,7 +967,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777996494,
-          "ageHours": 128.2,
+          "ageHours": 132.46,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -818,7 +995,7 @@
         "title": "Pake: Webpage to desktop app in one command using rust",
         "score": 2,
         "url": "https://github.com/tw93/Pake",
-        "hoursSincePosted": 163.53
+        "hoursSincePosted": 167.79
       },
       "everHitFrontPage": false,
       "stories": [
@@ -830,7 +1007,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777869303,
-          "ageHours": 163.53,
+          "ageHours": 167.79,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -857,7 +1034,7 @@
         "title": "PageIndex: Vectorless, Reasoning-Based RAG",
         "score": 1,
         "url": "https://github.com/VectifyAI/PageIndex",
-        "hoursSincePosted": 128.57
+        "hoursSincePosted": 132.83
       },
       "everHitFrontPage": false,
       "stories": [
@@ -869,7 +1046,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777995148,
-          "ageHours": 128.57,
+          "ageHours": 132.83,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -896,7 +1073,7 @@
         "title": "Yazi – Fast Terminal File Manager",
         "score": 1,
         "url": "https://github.com/sxyazi/yazi",
-        "hoursSincePosted": 136.87
+        "hoursSincePosted": 141.13
       },
       "everHitFrontPage": false,
       "stories": [
@@ -908,7 +1085,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777965256,
-          "ageHours": 136.87,
+          "ageHours": 141.13,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -929,39 +1106,64 @@
     }
   },
   "mentionsByRepoId": {
-    "thatxliner--rust-but-lisp": {
-      "count7d": 1,
-      "scoreSum7d": 190,
+    "nooga--let-go": {
+      "count7d": 2,
+      "scoreSum7d": 254,
       "topStory": {
-        "id": 48078575,
-        "title": "Show HN: Rust but Lisp",
-        "score": 190,
-        "url": "https://github.com/ThatXliner/rust-but-lisp",
-        "hoursSincePosted": 26.34
+        "id": 48076815,
+        "title": "Show HN: I made a Clojure-like language in Go, boots in 7ms",
+        "score": 250,
+        "url": "https://github.com/nooga/let-go",
+        "hoursSincePosted": 34.5
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 48078575,
-          "title": "Show HN: Rust but Lisp",
-          "url": "https://github.com/ThatXliner/rust-but-lisp",
-          "by": "thatxliner",
-          "score": 190,
-          "descendants": 69,
-          "createdUtc": 1778363187,
-          "ageHours": 26.34,
-          "velocity": 7.21,
-          "trendingScore": 129.8,
+          "id": 48076815,
+          "title": "Show HN: I made a Clojure-like language in Go, boots in 7ms",
+          "url": "https://github.com/nooga/let-go",
+          "by": "marcingas",
+          "score": 250,
+          "descendants": 80,
+          "createdUtc": 1778349133,
+          "ageHours": 34.5,
+          "velocity": 7.25,
+          "trendingScore": 156.47,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
             "is-show-hn"
           ],
           "value_score": 3,
+          "storyText": "Let-go is a Clojure-like language (~90% compatible with JVM Clojure) written in pure Go. It ships as a ~10MB static binary and cold boots in ~7ms - that's about 50x faster than JVM and 3x faster than Babashka. It has decent throughput on algorithmic workloads - within ballpark of the GraalVM-backed sci. I started this project in 2021 as an elaborate practical joke: I wanted to have an excuse for writing Clojure while pretending to write Go. Jokes aside, it turned out to be pretty decent: it feel",
+          "linkedRepos": [
+            {
+              "fullName": "nooga/let-go",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "id": 48065302,
+          "title": "let-go: Almost Clojure written in Go",
+          "url": "https://github.com/nooga/let-go",
+          "by": "tosh",
+          "score": 4,
+          "descendants": 1,
+          "createdUtc": 1778257486,
+          "ageHours": 59.96,
+          "velocity": 0.07,
+          "trendingScore": 0.05,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "ThatXliner/rust-but-lisp",
+              "fullName": "nooga/let-go",
               "matchType": "url",
               "confidence": 1
             }
@@ -971,13 +1173,13 @@
     },
     "imbad0202--academic-research-skills": {
       "count7d": 1,
-      "scoreSum7d": 73,
+      "scoreSum7d": 78,
       "topStory": {
         "id": 48083919,
         "title": "Academic Research Skills for Claude Code",
-        "score": 73,
+        "score": 78,
         "url": "https://github.com/Imbad0202/academic-research-skills",
-        "hoursSincePosted": 10.41
+        "hoursSincePosted": 14.67
       },
       "everHitFrontPage": false,
       "stories": [
@@ -986,12 +1188,12 @@
           "title": "Academic Research Skills for Claude Code",
           "url": "https://github.com/Imbad0202/academic-research-skills",
           "by": "arnon",
-          "score": 73,
-          "descendants": 25,
+          "score": 78,
+          "descendants": 26,
           "createdUtc": 1778420520,
-          "ageHours": 10.41,
-          "velocity": 7.01,
-          "trendingScore": 45.72,
+          "ageHours": 14.67,
+          "velocity": 5.32,
+          "trendingScore": 36.24,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1008,39 +1210,38 @@
         }
       ]
     },
-    "narcotic-sh--modafinil": {
+    "ademking--skillprompts": {
       "count7d": 1,
-      "scoreSum7d": 13,
+      "scoreSum7d": 2,
       "topStory": {
-        "id": 48080675,
-        "title": "Show HN: Modafinil - Let agents continue running while MacBook lid is closed",
-        "score": 13,
-        "url": "https://github.com/narcotic-sh/modafinil",
-        "hoursSincePosted": 20.83
+        "id": 48090484,
+        "title": "I Got Tired of Rewriting Prompts So I Built This",
+        "score": 2,
+        "url": "https://github.com/Ademking/SkillPrompts",
+        "hoursSincePosted": 1.75
       },
       "everHitFrontPage": false,
       "stories": [
         {
-          "id": 48080675,
-          "title": "Show HN: Modafinil - Let agents continue running while MacBook lid is closed",
-          "url": "https://github.com/narcotic-sh/modafinil",
-          "by": "hamza_q_",
-          "score": 13,
-          "descendants": 24,
-          "createdUtc": 1778383023,
-          "ageHours": 20.83,
-          "velocity": 0.62,
-          "trendingScore": 2.35,
+          "id": 48090484,
+          "title": "I Got Tired of Rewriting Prompts So I Built This",
+          "url": "https://github.com/Ademking/SkillPrompts",
+          "by": "ademking",
+          "score": 2,
+          "descendants": 0,
+          "createdUtc": 1778467058,
+          "ageHours": 1.75,
+          "velocity": 1.15,
+          "trendingScore": 0.35,
           "everHitFrontPage": false,
           "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
+            "has-github-repo"
           ],
-          "value_score": 3,
+          "value_score": 1,
           "storyText": "",
           "linkedRepos": [
             {
-              "fullName": "narcotic-sh/modafinil",
+              "fullName": "Ademking/SkillPrompts",
               "matchType": "url",
               "confidence": 1
             }
@@ -1056,7 +1257,7 @@
         "title": "B-tree based collection types for Go",
         "score": 5,
         "url": "https://github.com/tidwall/btype",
-        "hoursSincePosted": 8.72
+        "hoursSincePosted": 12.98
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1068,9 +1269,9 @@
           "score": 5,
           "descendants": 0,
           "createdUtc": 1778426597,
-          "ageHours": 8.72,
-          "velocity": 0.57,
-          "trendingScore": 0.4,
+          "ageHours": 12.98,
+          "velocity": 0.39,
+          "trendingScore": 0.27,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1087,6 +1288,120 @@
         }
       ]
     },
+    "nvlabs--cuda-oxide": {
+      "count7d": 4,
+      "scoreSum7d": 14,
+      "topStory": {
+        "id": 48061120,
+        "title": "CUDA-oxide an experimental Rust-to-CUDA compiler",
+        "score": 7,
+        "url": "https://github.com/NVlabs/cuda-oxide",
+        "hoursSincePosted": 66
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48061120,
+          "title": "CUDA-oxide an experimental Rust-to-CUDA compiler",
+          "url": "https://github.com/NVlabs/cuda-oxide",
+          "by": "tzury",
+          "score": 7,
+          "descendants": 0,
+          "createdUtc": 1778235730,
+          "ageHours": 66,
+          "velocity": 0.11,
+          "trendingScore": 0.09,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "NVlabs/cuda-oxide",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "id": 48070968,
+          "title": "Nvidia introduces back end for CUDA kernels in Rust",
+          "url": "https://github.com/NVlabs/cuda-oxide",
+          "by": "ketchup32613",
+          "score": 3,
+          "descendants": 0,
+          "createdUtc": 1778291535,
+          "ageHours": 50.5,
+          "velocity": 0.06,
+          "trendingScore": 0.03,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "NVlabs/cuda-oxide",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "id": 48055332,
+          "title": "cuda-oxide: a custom rustc backend for compiling GPU kernels in pure Rust",
+          "url": "https://github.com/NVlabs/cuda-oxide",
+          "by": "matt_d",
+          "score": 3,
+          "descendants": 0,
+          "createdUtc": 1778189399,
+          "ageHours": 78.87,
+          "velocity": 0.04,
+          "trendingScore": 0.02,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "NVlabs/cuda-oxide",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "id": 48073727,
+          "title": "Experimental Rust-to-CUDA Compiler",
+          "url": "https://github.com/NVlabs/cuda-oxide",
+          "by": "cgravill",
+          "score": 1,
+          "descendants": 1,
+          "createdUtc": 1778322039,
+          "ageHours": 42.03,
+          "velocity": 0.02,
+          "trendingScore": 0,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "NVlabs/cuda-oxide",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "denissergeevitch--chatgpt-portal": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -1095,7 +1410,7 @@
         "title": "I built a local portal so ChatGPT (Pro models) can browse my accounts safely",
         "score": 2,
         "url": "https://github.com/DenisSergeevitch/chatgpt-portal",
-        "hoursSincePosted": 6.66
+        "hoursSincePosted": 10.92
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1107,9 +1422,9 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778434039,
-          "ageHours": 6.66,
-          "velocity": 0.3,
-          "trendingScore": 0.09,
+          "ageHours": 10.92,
+          "velocity": 0.18,
+          "trendingScore": 0.05,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1134,7 +1449,7 @@
         "title": "Jj v0.41.0 Is Out",
         "score": 3,
         "url": "https://github.com/jj-vcs/jj/releases/tag/v0.41.0",
-        "hoursSincePosted": 61.19
+        "hoursSincePosted": 65.45
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1146,7 +1461,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778237719,
-          "ageHours": 61.19,
+          "ageHours": 65.45,
           "velocity": 0.05,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1173,7 +1488,7 @@
         "title": "Open SRE",
         "score": 2,
         "url": "https://github.com/Tracer-Cloud/opensre",
-        "hoursSincePosted": 34.42
+        "hoursSincePosted": 38.68
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1185,8 +1500,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778334079,
-          "ageHours": 34.42,
-          "velocity": 0.06,
+          "ageHours": 38.68,
+          "velocity": 0.05,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1212,7 +1527,7 @@
         "title": "Agent Exchange – A2A discovery with real-time bidding for AI agents",
         "score": 3,
         "url": "https://github.com/open-experiments/agent-exchange",
-        "hoursSincePosted": 104.74
+        "hoursSincePosted": 109
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1224,7 +1539,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778080950,
-          "ageHours": 104.74,
+          "ageHours": 109,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1250,8 +1565,8 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778256018,
-          "ageHours": 56.11,
-          "velocity": 0.04,
+          "ageHours": 60.37,
+          "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1277,7 +1592,7 @@
         "title": "OpenKB: A Vectorless Knowledge Base for Long Documents",
         "score": 2,
         "url": "https://github.com/VectifyAI/OpenKB",
-        "hoursSincePosted": 60.76
+        "hoursSincePosted": 65.02
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1289,7 +1604,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778239251,
-          "ageHours": 60.76,
+          "ageHours": 65.02,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1314,7 +1629,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778069636,
-          "ageHours": 107.88,
+          "ageHours": 112.14,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1341,7 +1656,7 @@
         "title": "Build native desktop and mobile apps with web UI and Zig",
         "score": 1,
         "url": "https://github.com/vercel-labs/zero-native",
-        "hoursSincePosted": 24.38
+        "hoursSincePosted": 28.64
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1353,8 +1668,8 @@
           "score": 1,
           "descendants": 1,
           "createdUtc": 1778370221,
-          "ageHours": 24.38,
-          "velocity": 0.04,
+          "ageHours": 28.64,
+          "velocity": 0.03,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1378,8 +1693,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778455279,
-          "ageHours": 0.76,
-          "velocity": 1.32,
+          "ageHours": 5.02,
+          "velocity": 0.2,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1405,7 +1720,7 @@
         "title": "Train Your Own LLM from Scratch",
         "score": 477,
         "url": "https://github.com/angelos-p/llm-from-scratch",
-        "hoursSincePosted": 139.96
+        "hoursSincePosted": 144.22
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1417,9 +1732,9 @@
           "score": 477,
           "descendants": 50,
           "createdUtc": 1777954157,
-          "ageHours": 139.96,
-          "velocity": 3.41,
-          "trendingScore": 54.8,
+          "ageHours": 144.22,
+          "velocity": 3.31,
+          "trendingScore": 53.2,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1444,7 +1759,7 @@
         "title": "Claude Code with Bedrock broken again",
         "score": 6,
         "url": "https://github.com/anthropics/claude-code/issues/56595",
-        "hoursSincePosted": 103.66
+        "hoursSincePosted": 107.92
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1456,7 +1771,7 @@
           "score": 6,
           "descendants": 1,
           "createdUtc": 1778084816,
-          "ageHours": 103.66,
+          "ageHours": 107.92,
           "velocity": 0.06,
           "trendingScore": 0.05,
           "everHitFrontPage": false,
@@ -1481,7 +1796,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777963444,
-          "ageHours": 137.38,
+          "ageHours": 141.64,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1508,7 +1823,7 @@
         "title": "Hunk: Review-first terminal diff viewer for agentic coders",
         "score": 4,
         "url": "https://github.com/modem-dev/hunk",
-        "hoursSincePosted": 95.71
+        "hoursSincePosted": 99.97
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1520,7 +1835,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778113445,
-          "ageHours": 95.71,
+          "ageHours": 99.97,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1547,7 +1862,7 @@
         "title": "notebooklm-py makes Claude interact with NotebookLM",
         "score": 4,
         "url": "https://github.com/teng-lin/notebooklm-py",
-        "hoursSincePosted": 110.07
+        "hoursSincePosted": 114.33
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1559,8 +1874,8 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778061763,
-          "ageHours": 110.07,
-          "velocity": 0.04,
+          "ageHours": 114.33,
+          "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1586,7 +1901,7 @@
         "title": "Thoth v3.20.0 – Full Linux Support, MiniMax Integration, Reliability Upgrades",
         "score": 4,
         "url": "https://github.com/siddsachar/Thoth",
-        "hoursSincePosted": 127.9
+        "hoursSincePosted": 132.16
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1598,7 +1913,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1777997567,
-          "ageHours": 127.9,
+          "ageHours": 132.16,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1625,7 +1940,7 @@
         "title": "Larql: Run attention locally, FFN on another machine",
         "score": 3,
         "url": "https://github.com/chrishayuk/larql",
-        "hoursSincePosted": 74.89
+        "hoursSincePosted": 79.15
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1637,7 +1952,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778188394,
-          "ageHours": 74.89,
+          "ageHours": 79.15,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1656,6 +1971,45 @@
         }
       ]
     },
+    "valkdb--postgresparser": {
+      "count7d": 1,
+      "scoreSum7d": 3,
+      "topStory": {
+        "id": 48010240,
+        "title": "Postgresparser: ANTLR-based PostgreSQL query parser for Go",
+        "score": 3,
+        "url": "https://github.com/ValkDB/postgresparser",
+        "hoursSincePosted": 156.54
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48010240,
+          "title": "Postgresparser: ANTLR-based PostgreSQL query parser for Go",
+          "url": "https://github.com/ValkDB/postgresparser",
+          "by": "thunderbong",
+          "score": 3,
+          "descendants": 0,
+          "createdUtc": 1777909787,
+          "ageHours": 156.54,
+          "velocity": 0.02,
+          "trendingScore": 0.01,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "storyText": "",
+          "linkedRepos": [
+            {
+              "fullName": "ValkDB/postgresparser",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "vercel-labs--open-agents": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -1664,7 +2018,7 @@
         "title": "Open Agents from Vercel is now open source",
         "score": 2,
         "url": "https://github.com/vercel-labs/open-agents",
-        "hoursSincePosted": 110.18
+        "hoursSincePosted": 114.45
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1676,7 +2030,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778061338,
-          "ageHours": 110.18,
+          "ageHours": 114.45,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1703,7 +2057,7 @@
         "title": "Memoir – Git for AI agent memory, with a Claude Code plugin",
         "score": 2,
         "url": "https://github.com/zhangfengcdt/memoir",
-        "hoursSincePosted": 128.2
+        "hoursSincePosted": 132.46
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1715,7 +2069,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777996494,
-          "ageHours": 128.2,
+          "ageHours": 132.46,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1743,7 +2097,7 @@
         "title": "Pake: Webpage to desktop app in one command using rust",
         "score": 2,
         "url": "https://github.com/tw93/Pake",
-        "hoursSincePosted": 163.53
+        "hoursSincePosted": 167.79
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1755,7 +2109,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777869303,
-          "ageHours": 163.53,
+          "ageHours": 167.79,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1782,7 +2136,7 @@
         "title": "PageIndex: Vectorless, Reasoning-Based RAG",
         "score": 1,
         "url": "https://github.com/VectifyAI/PageIndex",
-        "hoursSincePosted": 128.57
+        "hoursSincePosted": 132.83
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1794,7 +2148,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777995148,
-          "ageHours": 128.57,
+          "ageHours": 132.83,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1821,7 +2175,7 @@
         "title": "Yazi – Fast Terminal File Manager",
         "score": 1,
         "url": "https://github.com/sxyazi/yazi",
-        "hoursSincePosted": 136.87
+        "hoursSincePosted": 141.13
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1833,7 +2187,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777965256,
-          "ageHours": 136.87,
+          "ageHours": 141.13,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1863,6 +2217,11 @@
       "fullName": "angelos-p/llm-from-scratch",
       "count7d": 1,
       "scoreSum7d": 477
+    },
+    {
+      "fullName": "nooga/let-go",
+      "count7d": 2,
+      "scoreSum7d": 254
     },
     {
       "fullName": "antirez/ds4",
@@ -1907,7 +2266,7 @@
     {
       "fullName": "Imbad0202/academic-research-skills",
       "count7d": 1,
-      "scoreSum7d": 73
+      "scoreSum7d": 78
     },
     {
       "fullName": "darkrishabh/agent-skills-eval",
@@ -1933,6 +2292,11 @@
       "fullName": "skyhook-io/radar",
       "count7d": 1,
       "scoreSum7d": 15
+    },
+    {
+      "fullName": "NVlabs/cuda-oxide",
+      "count7d": 4,
+      "scoreSum7d": 14
     },
     {
       "fullName": "kubetail-org/kstack",
@@ -2035,6 +2399,11 @@
       "scoreSum7d": 3
     },
     {
+      "fullName": "ValkDB/postgresparser",
+      "count7d": 1,
+      "scoreSum7d": 3
+    },
+    {
       "fullName": "vercel-labs/zero-native",
       "count7d": 2,
       "scoreSum7d": 2
@@ -2088,21 +2457,6 @@
       "fullName": "Tracer-Cloud/opensre",
       "count7d": 1,
       "scoreSum7d": 2
-    },
-    {
-      "fullName": "DenisSergeevitch/chatgpt-portal",
-      "count7d": 1,
-      "scoreSum7d": 2
-    },
-    {
-      "fullName": "fendouai/CodexSaver",
-      "count7d": 1,
-      "scoreSum7d": 1
-    },
-    {
-      "fullName": "sxyazi/yazi",
-      "count7d": 1,
-      "scoreSum7d": 1
     }
   ]
 }

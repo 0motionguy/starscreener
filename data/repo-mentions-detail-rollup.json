@@ -1,11 +1,11 @@
 {
-  "computedAt": "2026-05-10T19:07:36.991Z",
-  "scanRunId": "sweep-2026-05-10T19:07:28.527Z",
+  "computedAt": "2026-05-11T03:40:03.819Z",
+  "scanRunId": "sweep-2026-05-11T03:39:53.584Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
       "fullName": "modem-dev/hunk",
-      "totalMentions7d": 4,
+      "totalMentions7d": 5,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -26,8 +26,21 @@
           ]
         },
         "bluesky": {
-          "count7d": 3,
+          "count7d": 4,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "modem-dev/hunk",
+              "url": "https://bsky.app/profile/dubhead.bsky.social/post/3mljzmv72yk2e",
+              "title": "リヴュー向きな diff ツール。Typescript 製。 Review-first terminal diff viewer for agentic coders github.com/modem-dev/hunk",
+              "text": "リヴュー向きな diff ツール。Typescript 製。 Review-first terminal diff viewer for agentic coders github.com/modem-dev/hunk",
+              "author": "dubhead.bsky.social",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-11T00:33:40.763Z"
+            },
             {
               "source": "bluesky",
               "fullName": "modem-dev/hunk",
@@ -73,10 +86,10 @@
     },
     "addyosmani/agent-skills": {
       "fullName": "addyosmani/agent-skills",
-      "totalMentions7d": 8,
+      "totalMentions7d": 7,
       "perSource": {
         "hackernews": {
-          "count7d": 8,
+          "count7d": 7,
           "top": [
             {
               "source": "hackernews",
@@ -120,19 +133,6 @@
             {
               "source": "hackernews",
               "fullName": "addyosmani/agent-skills",
-              "url": "https://privateaiskills.com/",
-              "title": "Show HN: Sync agent skills across devices, projects or teams",
-              "text": "",
-              "author": "arewethereyeta",
-              "engagement": {
-                "score": 3,
-                "comments": 0
-              },
-              "observedAt": "2026-05-04T02:42:31.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "addyosmani/agent-skills",
               "url": "https://research.perplexity.ai/articles/designing-refining-and-maintaining-agent-skills-at-perplexity",
               "title": "Designing, Refining, and Maintaining Agent Skills at Perplexity",
               "text": "",
@@ -142,6 +142,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-10T14:33:02.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "addyosmani/agent-skills",
+              "url": "https://agent-skills.market/",
+              "title": "Agent Skills for Non-Devs",
+              "text": "",
+              "author": "liorsh",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-04T12:25:33.000Z"
             }
           ]
         }
@@ -149,10 +162,10 @@
     },
     "D4Vinci/Scrapling": {
       "fullName": "D4Vinci/Scrapling",
-      "totalMentions7d": 12,
+      "totalMentions7d": 32,
       "perSource": {
         "hackernews": {
-          "count7d": 11,
+          "count7d": 30,
           "top": [
             {
               "source": "hackernews",
@@ -183,6 +196,19 @@
             {
               "source": "hackernews",
               "fullName": "D4Vinci/Scrapling",
+              "url": "https://huggingface.co/spaces/AdithyaSK/rl-environments-guide",
+              "title": "The ultimate guide to RL environments: building and scaling them in the LLM era",
+              "text": "",
+              "author": "kashifr",
+              "engagement": {
+                "score": 7,
+                "comments": 0
+              },
+              "observedAt": "2026-05-05T15:01:33.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "D4Vinci/Scrapling",
               "url": "https://www.dreamworkhq.com/",
               "title": "Show HN: Dreamwork – a job search site I made after Indeed fired my pregnant wif",
               "text": "Hey, I’m Colin and I have a fun story for you.<p>My 7 month pregnant wife was laid off from Indeed (she was a PM there) back in December. This pissed me off quite a bit, as she was supposed to get 6 months leave and instead got fired.<p>So I spent the last five months working part time to build Dreamwork, a platform aiming to make the job search experience actually better with AI (not just mass application spam).<p>I started with just a telegram bot doing scraping, then advanced to Google Embedd",
@@ -196,33 +222,20 @@
             {
               "source": "hackernews",
               "fullName": "D4Vinci/Scrapling",
-              "url": "https://github.com/h4ckf0r0day/obscura",
-              "title": "H4ckf0r0day/obscura: The headless browser for AI agents and web scraping",
+              "url": "https://kristoff.it/blog/scripty/",
+              "title": "Scripty – A Minimal Scripting Language",
               "text": "",
-              "author": "rezaprima",
+              "author": "anitil",
               "engagement": {
-                "score": 5,
+                "score": 6,
                 "comments": 3
               },
-              "observedAt": "2026-05-03T23:03:05.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "D4Vinci/Scrapling",
-              "url": "https://news.ycombinator.com/item?id=48073042",
-              "title": "Show HN: I Built a Retro Survival RPG in Vanilla JavaScript",
-              "text": "I&#x27;m working on the Survival Crafting RPG that you would have played on your Apple II back in the &#x27;80s. You can think of it as Valheim&#x27;s gameplay crammed into the tile-based UI of the old Ultima games. It has a procedurally-generated open world with towns and NPCs to talk to, all the resource gathering, mining, crafting stuff you&#x27;d expect in a modern survival game, and some good old fashioned dungeon crawling to boot.<p>I&#x27;ve been working on it off and on for the last seve",
-              "author": "jasonkester",
-              "engagement": {
-                "score": 4,
-                "comments": 3
-              },
-              "observedAt": "2026-05-09T08:16:24.000Z"
+              "observedAt": "2026-05-06T04:47:06.000Z"
             }
           ]
         },
         "bluesky": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
             {
               "source": "bluesky",
@@ -236,6 +249,19 @@
                 "comments": 1
               },
               "observedAt": "2026-05-08T04:20:38.666Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "D4Vinci/Scrapling",
+              "url": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mljysle33o2t",
+              "title": "https://github.com/D4Vinci/Scrapling",
+              "text": "https://github.com/D4Vinci/Scrapling",
+              "author": "tom-doerr.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-11T00:18:54.066Z"
             }
           ]
         }
@@ -328,24 +354,11 @@
     },
     "ruvnet/ruflo": {
       "fullName": "ruvnet/ruflo",
-      "totalMentions7d": 9,
+      "totalMentions7d": 7,
       "perSource": {
         "hackernews": {
-          "count7d": 2,
+          "count7d": 1,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "ruvnet/ruflo",
-              "url": "https://reflowpdf.com",
-              "title": "Show HN: ReflowPDF – wrote a layout engine because every PDF library failed",
-              "text": "",
-              "author": "exsol",
-              "engagement": {
-                "score": 7,
-                "comments": 2
-              },
-              "observedAt": "2026-05-04T01:09:11.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "ruvnet/ruflo",
@@ -362,7 +375,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 7,
+          "count7d": 6,
           "top": [
             {
               "source": "bluesky",
@@ -435,10 +448,10 @@
     },
     "multica-ai/multica": {
       "fullName": "multica-ai/multica",
-      "totalMentions7d": 39,
+      "totalMentions7d": 101,
       "perSource": {
         "hackernews": {
-          "count7d": 38,
+          "count7d": 100,
           "top": [
             {
               "source": "hackernews",
@@ -461,7 +474,7 @@
               "text": "",
               "author": "cheeaun",
               "engagement": {
-                "score": 365,
+                "score": 366,
                 "comments": 44
               },
               "observedAt": "2026-05-06T04:43:25.000Z"
@@ -1223,7 +1236,7 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 20,
+      "totalMentions7d": 21,
       "perSource": {
         "hackernews": {
           "count7d": 19,
@@ -1257,6 +1270,19 @@
             {
               "source": "hackernews",
               "fullName": "safishamsi/graphify",
+              "url": "https://mykanji.app/",
+              "title": "Show HN: DAG-based Kanji learning through components",
+              "text": "Hi HN<p>I built this app while learning Japanese kanji after struggling to find a tool that showed how kanji are structurally connected through their graphical components.<p>The core feature is a recursive DAG-style component graph (“Kanji Atlas”) that breaks kanji down layer by layer into radicals and graphemes, so you can visually explore how characters are constructed and related to one another. Demo at <a href=\"https:&#x2F;&#x2F;mykanji.app&#x2F;components&#x2F;kanji&#x2F;鬱\" rel=\"nofollow\">h",
+              "author": "barisozmen",
+              "engagement": {
+                "score": 5,
+                "comments": 0
+              },
+              "observedAt": "2026-05-07T19:13:58.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
               "url": "https://code.webb.page/eol/graphiql.git/about/",
               "title": "Show HN: I Replaced React in GraphiQL with Svelte",
               "text": "I love Svelte and GraphQL. I do not like React. So, when I&#x27;m building APIs, I cringe when using the official GraphiQL interface.<p>I have free will and a Claude subscription so I made it happen. You can find it on npm as &quot;@eeeooolll&#x2F;graphiql&quot; (@eol was taken).<p><a href=\"https:&#x2F;&#x2F;www.npmjs.com&#x2F;package&#x2F;@eeeooolll&#x2F;graphiql\" rel=\"nofollow\">https:&#x2F;&#x2F;www.npmjs.com&#x2F;package&#x2F;@eeeooolll&#x2F;graphiql</a><p>I also upgraded my batteries-include",
@@ -1279,25 +1305,25 @@
                 "comments": 0
               },
               "observedAt": "2026-05-09T06:41:12.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "safishamsi/graphify",
-              "url": "https://www.nbcnews.com/data-graphics/data-shows-first-names-last-names-rcna342715",
-              "title": "New data shows how the most common first and last names in the U.S. have changed",
-              "text": "",
-              "author": "freejoe76",
-              "engagement": {
-                "score": 3,
-                "comments": 0
-              },
-              "observedAt": "2026-05-09T17:25:07.000Z"
             }
           ]
         },
         "bluesky": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
+            {
+              "source": "bluesky",
+              "fullName": "safishamsi/graphify",
+              "url": "https://bsky.app/profile/ai-linkstream.bsky.social/post/3mljtuggnio2c",
+              "title": "Explore Graphify, an AI coding assistant that turns your codebase into a queryable knowledge graph, improving project navigation and comprehension. It installs easily and supports various platforms, s",
+              "text": "Explore Graphify, an AI coding assistant that turns your codebase into a queryable knowledge graph, improving project navigation and comprehension. It installs easily and supports various platforms, streamlining how developers interact with their code. https://github.com/safishamsi/graphify",
+              "author": "ai-linkstream.bsky.social",
+              "engagement": {
+                "score": 0,
+                "comments": 0
+              },
+              "observedAt": "2026-05-10T22:50:27.867Z"
+            },
             {
               "source": "bluesky",
               "fullName": "safishamsi/graphify",
@@ -4320,7 +4346,7 @@
       "totalMentions7d": 45,
       "perSource": {
         "hackernews": {
-          "count7d": 42,
+          "count7d": 43,
           "top": [
             {
               "source": "hackernews",
@@ -4364,19 +4390,6 @@
             {
               "source": "hackernews",
               "fullName": "garrytan/gbrain",
-              "url": "https://www.sciencedaily.com/releases/2026/05/260502233911.htm",
-              "title": "Coffee appears to rewire the gut-brain connection",
-              "text": "",
-              "author": "loh",
-              "engagement": {
-                "score": 19,
-                "comments": 15
-              },
-              "observedAt": "2026-05-04T02:15:32.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "garrytan/gbrain",
               "url": "https://yusufaytas.com/when-too-many-maps-overlap-on-one-person",
               "title": "When Too Many Maps Overlap on One Person",
               "text": "",
@@ -4386,11 +4399,24 @@
                 "comments": 0
               },
               "observedAt": "2026-05-05T18:11:02.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "garrytan/gbrain",
+              "url": "https://www.blamo.ai/",
+              "title": "Show HN: Blamo A vibecoded app for vibecoding vibe games",
+              "text": "Hey HN, my name is Sam. My buddy Danny and I (and our good friend Claude) have been making this fun app to make and share vibe games. You just describe whatever game pops into your deranged little mind, and BLAMO! there it is, playable on your phone in under 30 seconds.<p>Super Mario Breakout? BLAMO! <a href=\"https:&#x2F;&#x2F;www.blamo.ai&#x2F;vibes&#x2F;7350a500-09bb-4ed9-866d-001006f6f83e\" rel=\"nofollow\">https:&#x2F;&#x2F;www.blamo.ai&#x2F;vibes&#x2F;7350a500-09bb-4ed9-866d-001006f6f...</a><p",
+              "author": "semateos",
+              "engagement": {
+                "score": 10,
+                "comments": 10
+              },
+              "observedAt": "2026-05-07T23:06:24.000Z"
             }
           ]
         },
         "bluesky": {
-          "count7d": 3,
+          "count7d": 2,
           "top": [
             {
               "source": "bluesky",
@@ -4417,19 +4443,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-08T02:53:03.064Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "garrytan/gbrain",
-              "url": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mkyex4qure2l",
-              "title": "GBrain supports multiple repos, multiple MCP endpoints, and both full oAuth and Bearer Tokens, and all you have to do to get the admin panel is go to OpenClaw or Hermes and ask for the one-time admin ",
-              "text": "GBrain supports multiple repos, multiple MCP endpoints, and both full oAuth and Bearer Tokens, and all you have to do to get the admin panel is go to OpenClaw or Hermes and ask for the one-time admin login link. https://github.com/garrytan/gbrain",
-              "author": "garrytan-mirr.selfhosted.social",
-              "engagement": {
-                "score": 0,
-                "comments": 1
-              },
-              "observedAt": "2026-05-04T00:08:16.374Z"
             }
           ]
         }
@@ -6333,10 +6346,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 25,
+      "totalMentions7d": 27,
       "perSource": {
         "hackernews": {
-          "count7d": 25,
+          "count7d": 27,
           "top": [
             {
               "source": "hackernews",
@@ -6346,8 +6359,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;blog.cloudflare.com&#x2F;building-for-the-future&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;blog.cloudflare.com&#x2F;building-for-the-future&#x2F;</a>",
               "author": "PriorityLeft",
               "engagement": {
-                "score": 1331,
-                "comments": 981
+                "score": 1334,
+                "comments": 983
               },
               "observedAt": "2026-05-07T20:23:37.000Z"
             },
@@ -6360,7 +6373,7 @@
               "author": "christhecaribou",
               "engagement": {
                 "score": 264,
-                "comments": 195
+                "comments": 196
               },
               "observedAt": "2026-05-08T03:31:58.000Z"
             },
@@ -6385,7 +6398,7 @@
               "text": "",
               "author": "TMWNN",
               "engagement": {
-                "score": 97,
+                "score": 98,
                 "comments": 52
               },
               "observedAt": "2026-05-05T22:02:35.000Z"
@@ -6932,10 +6945,10 @@
     },
     "rohitg00/agentmemory": {
       "fullName": "rohitg00/agentmemory",
-      "totalMentions7d": 7,
+      "totalMentions7d": 6,
       "perSource": {
         "hackernews": {
-          "count7d": 6,
+          "count7d": 5,
           "top": [
             {
               "source": "hackernews",
@@ -6979,19 +6992,6 @@
             {
               "source": "hackernews",
               "fullName": "rohitg00/agentmemory",
-              "url": "https://benemson.com/blog/agents/my-agent-memory-library-helps-write-indie-articles",
-              "title": "My Agent Memory Library Helps Write Indie Articles",
-              "text": "",
-              "author": "emson",
-              "engagement": {
-                "score": 2,
-                "comments": 3
-              },
-              "observedAt": "2026-05-03T20:08:24.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "rohitg00/agentmemory",
               "url": "https://medium.com/@vektormemory/cloud-embeddings-vs-local-sovereign-memory-ai-agent-memory-layer-compared-2026-21461bf8a4aa",
               "title": "Cloud Embeddings vs. Local Sovereign Memory",
               "text": "",
@@ -7001,6 +7001,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-09T04:54:53.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rohitg00/agentmemory",
+              "url": "https://medium.com/@wjackson_63436/when-agent-memory-becomes-a-platform-concern-4b6cd23af47f",
+              "title": "When Agent Memory Becomes a Platform Concern",
+              "text": "",
+              "author": "rdwj",
+              "engagement": {
+                "score": 1,
+                "comments": 1
+              },
+              "observedAt": "2026-05-05T12:42:05.000Z"
             }
           ]
         },
@@ -7383,75 +7396,23 @@
     },
     "HKUDS/AI-Trader": {
       "fullName": "HKUDS/AI-Trader",
-      "totalMentions7d": 5,
+      "totalMentions7d": 1,
       "perSource": {
-        "twitter": {
-          "count7d": 5,
+        "bluesky": {
+          "count7d": 1,
           "top": [
             {
-              "source": "twitter",
+              "source": "bluesky",
               "fullName": "HKUDS/AI-Trader",
-              "url": "https://x.com/RoyAmal/status/2053152789086556213",
-              "title": "GitHub Link and Useful Links 👇 «GitHub Repo https://t.co/8zrtHFNt0y» «Releases https://t.co/yP81tuUC8T» «HKUDS Lab https://t.co/lXwzfl1kv2» «AI-Trader Platform https://t.co/oMLmtesemF» «OSS Insights ",
-              "text": "GitHub Link and Useful Links 👇 «GitHub Repo https://t.co/8zrtHFNt0y» «Releases https://t.co/yP81tuUC8T» «HKUDS Lab https://t.co/lXwzfl1kv2» «AI-Trader Platform https://t.co/oMLmtesemF» «OSS Insights Analytics https://t.co/qfNR6dk3w5» «SourceForge Mirror https://t.co/0VBIWh1wjd» «LinkedIn Demo Post https://t.co/gEUr6LKUcl»",
-              "author": "RoyAmal",
+              "url": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mljvdfgat42t",
+              "title": "https://github.com/HKUDS/AI-Trader",
+              "text": "https://github.com/HKUDS/AI-Trader",
+              "author": "tom-doerr.bsky.social",
               "engagement": {
                 "score": 0,
                 "comments": 0
               },
-              "observedAt": "Sat May 09 16:39:05 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "HKUDS/AI-Trader",
-              "url": "https://x.com/RoyAmal/status/2053152789086556213",
-              "title": "GitHub Link and Useful Links 👇 «GitHub Repo https://t.co/8zrtHFNt0y» «Releases https://t.co/yP81tuUC8T» «HKUDS Lab https://t.co/lXwzfl1kv2» «AI-Trader Platform https://t.co/oMLmtesemF» «OSS Insights ",
-              "text": "GitHub Link and Useful Links 👇 «GitHub Repo https://t.co/8zrtHFNt0y» «Releases https://t.co/yP81tuUC8T» «HKUDS Lab https://t.co/lXwzfl1kv2» «AI-Trader Platform https://t.co/oMLmtesemF» «OSS Insights Analytics https://t.co/qfNR6dk3w5» «SourceForge Mirror https://t.co/0VBIWh1wjd» «LinkedIn Demo Post https://t.co/gEUr6LKUcl»",
-              "author": "RoyAmal",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "Sat May 09 16:39:05 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "HKUDS/AI-Trader",
-              "url": "https://x.com/0noisee/status/2052761697098555842",
-              "title": "HKUDS/AI-Trader hits GitHub Trending — fully-automated agent-native trading system",
-              "text": "HKUDS/AI-Trader hits GitHub Trending — fully-automated agent-native trading system",
-              "author": "0noisee",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "Fri May 08 14:45:01 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "HKUDS/AI-Trader",
-              "url": "https://x.com/ProbBrain/status/2052703082715234477",
-              "title": "🆕 AI news past 2h: • GitHub Trending: AWS Labs released AIDLC-workflows, providing adaptive workflow steering rules for AI coding agents. • GitHub Trending: HKUDS released AI-Trader, a fully-automate",
-              "text": "🆕 AI news past 2h: • GitHub Trending: AWS Labs released AIDLC-workflows, providing adaptive workflow steering rules for AI coding agents. • GitHub Trending: HKUDS released AI-Trader, a fully-automated trading system using agent-native architecture. → https://t.co/hYGfVTqPMb",
-              "author": "ProbBrain",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "Fri May 08 10:52:06 +0000 2026"
-            },
-            {
-              "source": "twitter",
-              "fullName": "HKUDS/AI-Trader",
-              "url": "https://x.com/ProbBrain/status/2052703082715234477",
-              "title": "🆕 AI news past 2h: • GitHub Trending: AWS Labs released AIDLC-workflows, providing adaptive workflow steering rules for AI coding agents. • GitHub Trending: HKUDS released AI-Trader, a fully-automate",
-              "text": "🆕 AI news past 2h: • GitHub Trending: AWS Labs released AIDLC-workflows, providing adaptive workflow steering rules for AI coding agents. • GitHub Trending: HKUDS released AI-Trader, a fully-automated trading system using agent-native architecture. → https://t.co/hYGfVTqPMb",
-              "author": "ProbBrain",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "Fri May 08 10:52:06 +0000 2026"
+              "observedAt": "2026-05-10T23:16:43.360Z"
             }
           ]
         }
@@ -8058,11 +8019,24 @@
     },
     "vercel-labs/zero-native": {
       "fullName": "vercel-labs/zero-native",
-      "totalMentions7d": 2,
+      "totalMentions7d": 3,
       "perSource": {
         "hackernews": {
-          "count7d": 1,
+          "count7d": 2,
           "top": [
+            {
+              "source": "hackernews",
+              "fullName": "vercel-labs/zero-native",
+              "url": "https://github.com/vercel-labs/zero-native",
+              "title": "Zero-native by Vercel: Build tiny desktop and mobile apps with Zig and web UI",
+              "text": "",
+              "author": "maxloh",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-10T23:21:19.000Z"
+            },
             {
               "source": "hackernews",
               "fullName": "vercel-labs/zero-native",
@@ -8100,10 +8074,10 @@
     },
     "floci-io/floci": {
       "fullName": "floci-io/floci",
-      "totalMentions7d": 13,
+      "totalMentions7d": 12,
       "perSource": {
         "hackernews": {
-          "count7d": 12,
+          "count7d": 11,
           "top": [
             {
               "source": "hackernews",
@@ -8113,7 +8087,7 @@
               "text": "",
               "author": "pseudolus",
               "engagement": {
-                "score": 90,
+                "score": 91,
                 "comments": 52
               },
               "observedAt": "2026-05-07T16:05:45.000Z"
@@ -8139,7 +8113,7 @@
               "text": "",
               "author": "JohnMakin",
               "engagement": {
-                "score": 11,
+                "score": 12,
                 "comments": 3
               },
               "observedAt": "2026-05-07T17:54:38.000Z"
@@ -8458,6 +8432,30 @@
                 "comments": 0
               },
               "observedAt": "2026-05-09T19:00:32.776Z"
+            }
+          ]
+        }
+      }
+    },
+    "playcanvas/supersplat": {
+      "fullName": "playcanvas/supersplat",
+      "totalMentions7d": 1,
+      "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "playcanvas/supersplat",
+              "url": "https://superspl.at/scene/3c0f3775",
+              "title": "Derelict Corridor – Unreal to Gaussian Splat Plugin",
+              "text": "",
+              "author": "abetusk",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-05T14:08:28.000Z"
             }
           ]
         }

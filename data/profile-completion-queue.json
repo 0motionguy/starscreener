@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-11T22:45:59.110Z",
+  "generatedAt": "2026-05-11T23:48:54.061Z",
   "version": 1,
   "mode": "top",
   "totalChecked": 100,
@@ -511,7 +511,7 @@
     },
     {
       "fullName": "vercel-labs/zero-native",
-      "rank": 18,
+      "rank": 19,
       "completenessScore": 65,
       "breakdown": {
         "required": 25,
@@ -537,7 +537,7 @@
       "staleDeltas": true,
       "hasEnrichmentSnapshot": true,
       "recommendedAction": "both",
-      "priority": 1017,
+      "priority": 1016,
       "lastSweptAt": null
     },
     {
@@ -696,7 +696,7 @@
     },
     {
       "fullName": "1024XEngineer/CialloClaw",
-      "rank": 52,
+      "rank": 51,
       "completenessScore": 43,
       "breakdown": {
         "required": 30,
@@ -722,7 +722,7 @@
       "staleDeltas": true,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 1005,
+      "priority": 1006,
       "lastSweptAt": null
     },
     {
@@ -915,37 +915,6 @@
       "lastSweptAt": null
     },
     {
-      "fullName": "therealaleph/MasterHttpRelayVPN-RUST",
-      "rank": 50,
-      "completenessScore": 50,
-      "breakdown": {
-        "required": 30,
-        "coverage": 0,
-        "deltas": 20,
-        "enrichment": 0
-      },
-      "missingFields": [],
-      "underScannedSources": [
-        "twitter",
-        "reddit",
-        "hackernews",
-        "bluesky",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 0,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "sweep",
-      "priority": 1000,
-      "lastSweptAt": null
-    },
-    {
       "fullName": "masterking32/MasterDnsVPN",
       "rank": 35,
       "completenessScore": 66,
@@ -1030,6 +999,37 @@
       ],
       "socialFiring": 1,
       "staleDeltas": true,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "sweep",
+      "priority": 998,
+      "lastSweptAt": null
+    },
+    {
+      "fullName": "therealaleph/MasterHttpRelayVPN-RUST",
+      "rank": 52,
+      "completenessScore": 50,
+      "breakdown": {
+        "required": 30,
+        "coverage": 0,
+        "deltas": 20,
+        "enrichment": 0
+      },
+      "missingFields": [],
+      "underScannedSources": [
+        "twitter",
+        "reddit",
+        "hackernews",
+        "bluesky",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 0,
+      "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
       "priority": 998,
@@ -1165,7 +1165,7 @@
     },
     {
       "fullName": "domcyrus/rustnet",
-      "rank": 51,
+      "rank": 50,
       "completenessScore": 56,
       "breakdown": {
         "required": 30,
@@ -1190,7 +1190,7 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 993,
+      "priority": 994,
       "lastSweptAt": null
     },
     {
@@ -1950,36 +1950,6 @@
       "lastSweptAt": null
     },
     {
-      "fullName": "chenhg5/cc-connect",
-      "rank": 86,
-      "completenessScore": 68,
-      "breakdown": {
-        "required": 25,
-        "coverage": 18,
-        "deltas": 20,
-        "enrichment": 5
-      },
-      "missingFields": [
-        "topics"
-      ],
-      "underScannedSources": [
-        "hackernews",
-        "devto",
-        "lobsters",
-        "producthunt",
-        "npm",
-        "huggingface",
-        "arxiv",
-        "funding"
-      ],
-      "socialFiring": 3,
-      "staleDeltas": false,
-      "hasEnrichmentSnapshot": false,
-      "recommendedAction": "both",
-      "priority": 946,
-      "lastSweptAt": null
-    },
-    {
       "fullName": "datawhalechina/easy-vibe",
       "rank": 90,
       "completenessScore": 64,
@@ -2040,8 +2010,38 @@
       "lastSweptAt": null
     },
     {
+      "fullName": "chenhg5/cc-connect",
+      "rank": 87,
+      "completenessScore": 68,
+      "breakdown": {
+        "required": 25,
+        "coverage": 18,
+        "deltas": 20,
+        "enrichment": 5
+      },
+      "missingFields": [
+        "topics"
+      ],
+      "underScannedSources": [
+        "hackernews",
+        "devto",
+        "lobsters",
+        "producthunt",
+        "npm",
+        "huggingface",
+        "arxiv",
+        "funding"
+      ],
+      "socialFiring": 3,
+      "staleDeltas": false,
+      "hasEnrichmentSnapshot": false,
+      "recommendedAction": "both",
+      "priority": 945,
+      "lastSweptAt": null
+    },
+    {
       "fullName": "diegosouzapw/OmniRoute",
-      "rank": 88,
+      "rank": 89,
       "completenessScore": 67,
       "breakdown": {
         "required": 30,
@@ -2065,7 +2065,7 @@
       "staleDeltas": false,
       "hasEnrichmentSnapshot": false,
       "recommendedAction": "sweep",
-      "priority": 945,
+      "priority": 944,
       "lastSweptAt": null
     },
     {

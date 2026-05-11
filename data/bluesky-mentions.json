@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-11T08:38:29.630Z",
+  "fetchedAt": "2026-05-11T16:13:32.776Z",
   "windowDays": 7,
-  "scannedPosts": 299,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
   "pagesFetched": 3,
   "mentions": {
@@ -522,25 +522,53 @@
     },
     "jj-vcs/jj": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mleqagbmn623",
-        "cid": "bafyreihvd3myzysk5lepcyb5zl4nzmr4pli6yjywvzgof43sbopklafjpy",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mleqagbmn623",
-        "text": "jj-vcs / jj: A Git-compatible VCS that is both simple and powerful ★28661 https://github.com/jj-vcs/jj",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mllg6nkydi2o",
+        "cid": "bafyreibrlzqweg65mp46covrljatrqji6c7slt6sdfde35tzhli23djdsy",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mllg6nkydi2o",
+        "text": "https://github.com/jj-vcs/jj",
         "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-08T22:02:15.847520Z",
-        "hoursSincePosted": 5.93
+        "createdAt": "2026-05-11T13:50:56Z",
+        "hoursSincePosted": 2.38
       },
       "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mllg6nkydi2o",
+          "cid": "bafyreibrlzqweg65mp46covrljatrqji6c7slt6sdfde35tzhli23djdsy",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mllg6nkydi2o",
+          "text": "https://github.com/jj-vcs/jj",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T13:50:56Z",
+          "createdUtc": 1778507456,
+          "ageHours": 2.38,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "jj-vcs/jj",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mleqagbmn623",
           "cid": "bafyreihvd3myzysk5lepcyb5zl4nzmr4pli6yjywvzgof43sbopklafjpy",
@@ -5036,21 +5064,21 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:h6g6ajj7ruv5giebfomdv64q/app.bsky.feed.post/3mlgz64tqo22k",
-        "cid": "bafyreicy4p423c23wup6miignbqjmdpuz2325g4mtv7ymhfwwm75ae25pq",
-        "bskyUrl": "https://bsky.app/profile/annjose.com/post/3mlgz64tqo22k",
-        "text": "Awesome! Thank you. I added the skill to pi using this command. Worked great. Instructions are similar to OpenCode, but there is an intermediate folder `agent` inside the .pi folder ``` sh git clone github.com/kepano/obsid... ~/.pi/agent/skills/obsidian-skills ```",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlljmbkonl2s",
+        "cid": "bafyreig44y5rcgj3b5j2f3hkfd7oq7xunk2r4rl5225cn3lw5brgmazo5m",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlljmbkonl2s",
+        "text": "https://github.com/kepano/obsidian-skills",
         "author": {
-          "handle": "annjose.com",
-          "displayName": "Ann Catherine Jose"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-09T19:47:22.128Z",
-        "hoursSincePosted": 2.27
+        "replyCount": 0,
+        "createdAt": "2026-05-11T14:52:15Z",
+        "hoursSincePosted": 1.35
       },
       "posts": [
         {
@@ -5069,6 +5097,34 @@
           "createdUtc": 1778334838,
           "ageHours": 1.36,
           "trendingScore": 5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kepano/obsidian-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlljmbkonl2s",
+          "cid": "bafyreig44y5rcgj3b5j2f3hkfd7oq7xunk2r4rl5225cn3lw5brgmazo5m",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlljmbkonl2s",
+          "text": "https://github.com/kepano/obsidian-skills",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T14:52:15Z",
+          "createdUtc": 1778511135,
+          "ageHours": 1.35,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -6917,20 +6973,48 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlji3pdo7s2s",
-        "cid": "bafyreicphxqzzhpuvu7d7vomwi5qbdtehxalnokcowmvlfhcgyxz5ce3wm",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mlji3pdo7s2s",
-        "text": "🟠 OpenClaw 2026.5.10-beta.2 ships Telegram QA automation, private skill archive installs, and deeper realtime voice diagnostics OpenClaw released v2026.5.10-beta.2 with several workflow-level additions hiding... https://github.com/openclaw/openclaw/releases/tag/v2026.5.10-beta.2 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mllnsr2g5f2c",
+        "cid": "bafyreieowlphnnldrpbp4f7e23rf4e3pqrkr4nmhvm5kcgtjy2ua77eoty",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mllnsr2g5f2c",
+        "text": "🟠 OpenClaw beta adds on-demand local model startup and native Codex code-mode threads OpenClaw released v2026.5.10-beta.4 with several workflow-changing features hidden inside a beta patch train, most notably... https://github.com/openclaw/openclaw/releases/tag/v2026.5.10-beta.4 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T19:19:44.607503+00:00",
-        "hoursSincePosted": 2.78
+        "createdAt": "2026-05-11T16:07:27.049075+00:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mllnsr2g5f2c",
+          "cid": "bafyreieowlphnnldrpbp4f7e23rf4e3pqrkr4nmhvm5kcgtjy2ua77eoty",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mllnsr2g5f2c",
+          "text": "🟠 OpenClaw beta adds on-demand local model startup and native Codex code-mode threads OpenClaw released v2026.5.10-beta.4 with several workflow-changing features hidden inside a beta patch train, most notably... https://github.com/openclaw/openclaw/releases/tag/v2026.5.10-beta.4 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T16:07:27.049075+00:00",
+          "createdUtc": 1778515647,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlji3pdo7s2s",
           "cid": "bafyreicphxqzzhpuvu7d7vomwi5qbdtehxalnokcowmvlfhcgyxz5ce3wm",
@@ -7604,23 +7688,51 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:2hgt4vfh2jxuwf5zllcbed64/app.bsky.feed.post/3mlk7ru5auc2w",
-        "cid": "bafyreiebxiij6tdp2r7z3hfighuvacllapd2377o45bx4uhfg2i7kxavru",
-        "bskyUrl": "https://bsky.app/profile/nezteb.net/post/3mlk7ru5auc2w",
-        "text": "A relevant tool I like: github.com/AlexsJones/l... 😄",
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mllnnuh6kw2c",
+        "cid": "bafyreigvg4sc4udpfmikvxsvrydepkckcmr2cmgn7uwgq4bapkeuawep2u",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mllnnuh6kw2c",
+        "text": "AlexsJones / llmfit: Hundreds of models & providers. One command to find what runs on your hardware. ★25745 https://github.com/AlexsJones/llmfit",
         "author": {
-          "handle": "nezteb.net",
-          "displayName": "{:ok, Noah}"
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-11T02:23:45.756Z",
-        "hoursSincePosted": 6.25
+        "replyCount": 0,
+        "createdAt": "2026-05-11T16:04:43.864361Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mllnnuh6kw2c",
+          "cid": "bafyreigvg4sc4udpfmikvxsvrydepkckcmr2cmgn7uwgq4bapkeuawep2u",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mllnnuh6kw2c",
+          "text": "AlexsJones / llmfit: Hundreds of models & providers. One command to find what runs on your hardware. ★25745 https://github.com/AlexsJones/llmfit",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T16:04:43.864361Z",
+          "createdUtc": 1778515483,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "AlexsJones/llmfit",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:2hgt4vfh2jxuwf5zllcbed64/app.bsky.feed.post/3mlk7ru5auc2w",
           "cid": "bafyreiebxiij6tdp2r7z3hfighuvacllapd2377o45bx4uhfg2i7kxavru",
@@ -7746,6 +7858,159 @@
           "linkedRepos": [
             {
               "fullName": "affaan-m/everything-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "kyegomez/OpenMythos": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:unamqe7e3hmekdowb2sheavl/app.bsky.feed.post/3mlllgc2ks22m",
+        "cid": "bafyreievginvfpq5saussrcdl7idzz7prhdxwcamvywbi24vmn5yzdk35q",
+        "bskyUrl": "https://bsky.app/profile/mitstek.bsky.social/post/3mlllgc2ks22m",
+        "text": "kyegomez/OpenMythos: A theoretical reconstruction of the Claude Mythos architecture, built from first principles using the available research literature. github.com/kyegomez/Ope...",
+        "author": {
+          "handle": "mitstek.bsky.social",
+          "displayName": "Mitsuhiro Yoshida"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-11T15:24:42.336Z",
+        "hoursSincePosted": 0.81
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:unamqe7e3hmekdowb2sheavl/app.bsky.feed.post/3mlllgc2ks22m",
+          "cid": "bafyreievginvfpq5saussrcdl7idzz7prhdxwcamvywbi24vmn5yzdk35q",
+          "bskyUrl": "https://bsky.app/profile/mitstek.bsky.social/post/3mlllgc2ks22m",
+          "text": "kyegomez/OpenMythos: A theoretical reconstruction of the Claude Mythos architecture, built from first principles using the available research literature. github.com/kyegomez/Ope...",
+          "author": {
+            "handle": "mitstek.bsky.social",
+            "displayName": "Mitsuhiro Yoshida"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T15:24:42.336Z",
+          "createdUtc": 1778513082,
+          "ageHours": 0.81,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kyegomez/OpenMythos",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "angelos-p/llm-from-scratch": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mllldilyeh2u",
+        "cid": "bafyreifrau2toipt465rxeeplixjghh3jebxwsb77blwkargufolnq735e",
+        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mllldilyeh2u",
+        "text": "GPTの学習パイプラインを一から自作できるハンズオンワークショップらしい 仕組みを理解しながら自分のPCで動かせるのがすごく楽しそう yug1224 starred angelos-p/llm-from-scratch https://github.com/angelos-p/llm-from-scratch",
+        "author": {
+          "handle": "yug1224.com",
+          "displayName": "ぷーじ"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-11T15:23:08.179Z",
+        "hoursSincePosted": 0.84
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mllldilyeh2u",
+          "cid": "bafyreifrau2toipt465rxeeplixjghh3jebxwsb77blwkargufolnq735e",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mllldilyeh2u",
+          "text": "GPTの学習パイプラインを一から自作できるハンズオンワークショップらしい 仕組みを理解しながら自分のPCで動かせるのがすごく楽しそう yug1224 starred angelos-p/llm-from-scratch https://github.com/angelos-p/llm-from-scratch",
+          "author": {
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T15:23:08.179Z",
+          "createdUtc": 1778512988,
+          "ageHours": 0.84,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "angelos-p/llm-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "aloshdenny/reverse-SynthID": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:m7w7vgngd2c5sml5qyseml2d/app.bsky.feed.post/3mllch6k3622z",
+        "cid": "bafyreicq5ma32knlissmtpz4jhclqdjfczvye2bulcs6tlpcty65nyyl3m",
+        "bskyUrl": "https://bsky.app/profile/boat.horse/post/3mllch6k3622z",
+        "text": "So the reverse-engineered repo seemed real enough to nudge me build a browser extension that pipes images from a browsing session directly to it, but it seems to have a fairly high false positive rate. The original repo: github.com/aloshdenny/r...",
+        "author": {
+          "handle": "boat.horse",
+          "displayName": "Ryan Bateman"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-11T12:44:08.521Z",
+        "hoursSincePosted": 3.49
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:m7w7vgngd2c5sml5qyseml2d/app.bsky.feed.post/3mllch6k3622z",
+          "cid": "bafyreicq5ma32knlissmtpz4jhclqdjfczvye2bulcs6tlpcty65nyyl3m",
+          "bskyUrl": "https://bsky.app/profile/boat.horse/post/3mllch6k3622z",
+          "text": "So the reverse-engineered repo seemed real enough to nudge me build a browser extension that pipes images from a browsing session directly to it, but it seems to have a fairly high false positive rate. The original repo: github.com/aloshdenny/r...",
+          "author": {
+            "handle": "boat.horse",
+            "displayName": "Ryan Bateman"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-11T12:44:08.521Z",
+          "createdUtc": 1778503448,
+          "ageHours": 3.49,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "aloshdenny/reverse-SynthID",
               "matchType": "url",
               "confidence": 1
             }
@@ -8272,25 +8537,53 @@
     },
     "jj-vcs--jj": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mleqagbmn623",
-        "cid": "bafyreihvd3myzysk5lepcyb5zl4nzmr4pli6yjywvzgof43sbopklafjpy",
-        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mleqagbmn623",
-        "text": "jj-vcs / jj: A Git-compatible VCS that is both simple and powerful ★28661 https://github.com/jj-vcs/jj",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mllg6nkydi2o",
+        "cid": "bafyreibrlzqweg65mp46covrljatrqji6c7slt6sdfde35tzhli23djdsy",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mllg6nkydi2o",
+        "text": "https://github.com/jj-vcs/jj",
         "author": {
-          "handle": "rusttrending.bsky.social",
-          "displayName": "RustTrending"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-08T22:02:15.847520Z",
-        "hoursSincePosted": 5.93
+        "createdAt": "2026-05-11T13:50:56Z",
+        "hoursSincePosted": 2.38
       },
       "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mllg6nkydi2o",
+          "cid": "bafyreibrlzqweg65mp46covrljatrqji6c7slt6sdfde35tzhli23djdsy",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mllg6nkydi2o",
+          "text": "https://github.com/jj-vcs/jj",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T13:50:56Z",
+          "createdUtc": 1778507456,
+          "ageHours": 2.38,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "jj-vcs/jj",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mleqagbmn623",
           "cid": "bafyreihvd3myzysk5lepcyb5zl4nzmr4pli6yjywvzgof43sbopklafjpy",
@@ -12786,21 +13079,21 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:h6g6ajj7ruv5giebfomdv64q/app.bsky.feed.post/3mlgz64tqo22k",
-        "cid": "bafyreicy4p423c23wup6miignbqjmdpuz2325g4mtv7ymhfwwm75ae25pq",
-        "bskyUrl": "https://bsky.app/profile/annjose.com/post/3mlgz64tqo22k",
-        "text": "Awesome! Thank you. I added the skill to pi using this command. Worked great. Instructions are similar to OpenCode, but there is an intermediate folder `agent` inside the .pi folder ``` sh git clone github.com/kepano/obsid... ~/.pi/agent/skills/obsidian-skills ```",
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlljmbkonl2s",
+        "cid": "bafyreig44y5rcgj3b5j2f3hkfd7oq7xunk2r4rl5225cn3lw5brgmazo5m",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlljmbkonl2s",
+        "text": "https://github.com/kepano/obsidian-skills",
         "author": {
-          "handle": "annjose.com",
-          "displayName": "Ann Catherine Jose"
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-09T19:47:22.128Z",
-        "hoursSincePosted": 2.27
+        "replyCount": 0,
+        "createdAt": "2026-05-11T14:52:15Z",
+        "hoursSincePosted": 1.35
       },
       "posts": [
         {
@@ -12819,6 +13112,34 @@
           "createdUtc": 1778334838,
           "ageHours": 1.36,
           "trendingScore": 5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kepano/obsidian-skills",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlljmbkonl2s",
+          "cid": "bafyreig44y5rcgj3b5j2f3hkfd7oq7xunk2r4rl5225cn3lw5brgmazo5m",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlljmbkonl2s",
+          "text": "https://github.com/kepano/obsidian-skills",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T14:52:15Z",
+          "createdUtc": 1778511135,
+          "ageHours": 1.35,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -14667,20 +14988,48 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlji3pdo7s2s",
-        "cid": "bafyreicphxqzzhpuvu7d7vomwi5qbdtehxalnokcowmvlfhcgyxz5ce3wm",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mlji3pdo7s2s",
-        "text": "🟠 OpenClaw 2026.5.10-beta.2 ships Telegram QA automation, private skill archive installs, and deeper realtime voice diagnostics OpenClaw released v2026.5.10-beta.2 with several workflow-level additions hiding... https://github.com/openclaw/openclaw/releases/tag/v2026.5.10-beta.2 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mllnsr2g5f2c",
+        "cid": "bafyreieowlphnnldrpbp4f7e23rf4e3pqrkr4nmhvm5kcgtjy2ua77eoty",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mllnsr2g5f2c",
+        "text": "🟠 OpenClaw beta adds on-demand local model startup and native Codex code-mode threads OpenClaw released v2026.5.10-beta.4 with several workflow-changing features hidden inside a beta patch train, most notably... https://github.com/openclaw/openclaw/releases/tag/v2026.5.10-beta.4 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T19:19:44.607503+00:00",
-        "hoursSincePosted": 2.78
+        "createdAt": "2026-05-11T16:07:27.049075+00:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mllnsr2g5f2c",
+          "cid": "bafyreieowlphnnldrpbp4f7e23rf4e3pqrkr4nmhvm5kcgtjy2ua77eoty",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mllnsr2g5f2c",
+          "text": "🟠 OpenClaw beta adds on-demand local model startup and native Codex code-mode threads OpenClaw released v2026.5.10-beta.4 with several workflow-changing features hidden inside a beta patch train, most notably... https://github.com/openclaw/openclaw/releases/tag/v2026.5.10-beta.4 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T16:07:27.049075+00:00",
+          "createdUtc": 1778515647,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlji3pdo7s2s",
           "cid": "bafyreicphxqzzhpuvu7d7vomwi5qbdtehxalnokcowmvlfhcgyxz5ce3wm",
@@ -15354,23 +15703,51 @@
       "count7d": 1,
       "likesSum7d": 0,
       "repostsSum7d": 0,
-      "repliesSum7d": 1,
+      "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:2hgt4vfh2jxuwf5zllcbed64/app.bsky.feed.post/3mlk7ru5auc2w",
-        "cid": "bafyreiebxiij6tdp2r7z3hfighuvacllapd2377o45bx4uhfg2i7kxavru",
-        "bskyUrl": "https://bsky.app/profile/nezteb.net/post/3mlk7ru5auc2w",
-        "text": "A relevant tool I like: github.com/AlexsJones/l... 😄",
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mllnnuh6kw2c",
+        "cid": "bafyreigvg4sc4udpfmikvxsvrydepkckcmr2cmgn7uwgq4bapkeuawep2u",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mllnnuh6kw2c",
+        "text": "AlexsJones / llmfit: Hundreds of models & providers. One command to find what runs on your hardware. ★25745 https://github.com/AlexsJones/llmfit",
         "author": {
-          "handle": "nezteb.net",
-          "displayName": "{:ok, Noah}"
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
         },
         "likeCount": 0,
         "repostCount": 0,
-        "replyCount": 1,
-        "createdAt": "2026-05-11T02:23:45.756Z",
-        "hoursSincePosted": 6.25
+        "replyCount": 0,
+        "createdAt": "2026-05-11T16:04:43.864361Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mllnnuh6kw2c",
+          "cid": "bafyreigvg4sc4udpfmikvxsvrydepkckcmr2cmgn7uwgq4bapkeuawep2u",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mllnnuh6kw2c",
+          "text": "AlexsJones / llmfit: Hundreds of models & providers. One command to find what runs on your hardware. ★25745 https://github.com/AlexsJones/llmfit",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T16:04:43.864361Z",
+          "createdUtc": 1778515483,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "AlexsJones/llmfit",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:2hgt4vfh2jxuwf5zllcbed64/app.bsky.feed.post/3mlk7ru5auc2w",
           "cid": "bafyreiebxiij6tdp2r7z3hfighuvacllapd2377o45bx4uhfg2i7kxavru",
@@ -15502,16 +15879,169 @@
           ]
         }
       ]
+    },
+    "kyegomez--openmythos": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:unamqe7e3hmekdowb2sheavl/app.bsky.feed.post/3mlllgc2ks22m",
+        "cid": "bafyreievginvfpq5saussrcdl7idzz7prhdxwcamvywbi24vmn5yzdk35q",
+        "bskyUrl": "https://bsky.app/profile/mitstek.bsky.social/post/3mlllgc2ks22m",
+        "text": "kyegomez/OpenMythos: A theoretical reconstruction of the Claude Mythos architecture, built from first principles using the available research literature. github.com/kyegomez/Ope...",
+        "author": {
+          "handle": "mitstek.bsky.social",
+          "displayName": "Mitsuhiro Yoshida"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-11T15:24:42.336Z",
+        "hoursSincePosted": 0.81
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:unamqe7e3hmekdowb2sheavl/app.bsky.feed.post/3mlllgc2ks22m",
+          "cid": "bafyreievginvfpq5saussrcdl7idzz7prhdxwcamvywbi24vmn5yzdk35q",
+          "bskyUrl": "https://bsky.app/profile/mitstek.bsky.social/post/3mlllgc2ks22m",
+          "text": "kyegomez/OpenMythos: A theoretical reconstruction of the Claude Mythos architecture, built from first principles using the available research literature. github.com/kyegomez/Ope...",
+          "author": {
+            "handle": "mitstek.bsky.social",
+            "displayName": "Mitsuhiro Yoshida"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T15:24:42.336Z",
+          "createdUtc": 1778513082,
+          "ageHours": 0.81,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kyegomez/OpenMythos",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "angelos-p--llm-from-scratch": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mllldilyeh2u",
+        "cid": "bafyreifrau2toipt465rxeeplixjghh3jebxwsb77blwkargufolnq735e",
+        "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mllldilyeh2u",
+        "text": "GPTの学習パイプラインを一から自作できるハンズオンワークショップらしい 仕組みを理解しながら自分のPCで動かせるのがすごく楽しそう yug1224 starred angelos-p/llm-from-scratch https://github.com/angelos-p/llm-from-scratch",
+        "author": {
+          "handle": "yug1224.com",
+          "displayName": "ぷーじ"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-11T15:23:08.179Z",
+        "hoursSincePosted": 0.84
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:iy3szmwg4hajieka5kbhmcy5/app.bsky.feed.post/3mllldilyeh2u",
+          "cid": "bafyreifrau2toipt465rxeeplixjghh3jebxwsb77blwkargufolnq735e",
+          "bskyUrl": "https://bsky.app/profile/yug1224.com/post/3mllldilyeh2u",
+          "text": "GPTの学習パイプラインを一から自作できるハンズオンワークショップらしい 仕組みを理解しながら自分のPCで動かせるのがすごく楽しそう yug1224 starred angelos-p/llm-from-scratch https://github.com/angelos-p/llm-from-scratch",
+          "author": {
+            "handle": "yug1224.com",
+            "displayName": "ぷーじ"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T15:23:08.179Z",
+          "createdUtc": 1778512988,
+          "ageHours": 0.84,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "angelos-p/llm-from-scratch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "aloshdenny--reverse-synthid": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:m7w7vgngd2c5sml5qyseml2d/app.bsky.feed.post/3mllch6k3622z",
+        "cid": "bafyreicq5ma32knlissmtpz4jhclqdjfczvye2bulcs6tlpcty65nyyl3m",
+        "bskyUrl": "https://bsky.app/profile/boat.horse/post/3mllch6k3622z",
+        "text": "So the reverse-engineered repo seemed real enough to nudge me build a browser extension that pipes images from a browsing session directly to it, but it seems to have a fairly high false positive rate. The original repo: github.com/aloshdenny/r...",
+        "author": {
+          "handle": "boat.horse",
+          "displayName": "Ryan Bateman"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-11T12:44:08.521Z",
+        "hoursSincePosted": 3.49
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:m7w7vgngd2c5sml5qyseml2d/app.bsky.feed.post/3mllch6k3622z",
+          "cid": "bafyreicq5ma32knlissmtpz4jhclqdjfczvye2bulcs6tlpcty65nyyl3m",
+          "bskyUrl": "https://bsky.app/profile/boat.horse/post/3mllch6k3622z",
+          "text": "So the reverse-engineered repo seemed real enough to nudge me build a browser extension that pipes images from a browsing session directly to it, but it seems to have a fairly high false positive rate. The original repo: github.com/aloshdenny/r...",
+          "author": {
+            "handle": "boat.horse",
+            "displayName": "Ryan Bateman"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-11T12:44:08.521Z",
+          "createdUtc": 1778503448,
+          "ageHours": 3.49,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "aloshdenny/reverse-SynthID",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "anthropics/claude-code",
+      "fullName": "aloshdenny/reverse-SynthID",
       "count7d": 1,
-      "likesSum7d": 10
+      "likesSum7d": 1
     },
     {
-      "fullName": "affaan-m/everything-claude-code",
+      "fullName": "jj-vcs/jj",
       "count7d": 1,
       "likesSum7d": 1
     },
@@ -15521,17 +16051,22 @@
       "likesSum7d": 0
     },
     {
-      "fullName": "mattpocock/skills",
+      "fullName": "angelos-p/llm-from-scratch",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "nooga/let-go",
+      "fullName": "kepano/obsidian-skills",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "tracewayapp/traceway",
+      "fullName": "kyegomez/OpenMythos",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "openclaw/openclaw",
       "count7d": 1,
       "likesSum7d": 0
     }

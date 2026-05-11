@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-11T10:08:51.226Z",
+  "fetchedAt": "2026-05-11T13:26:19.156Z",
   "windowDays": 7,
-  "scannedStories": 78,
+  "scannedStories": 79,
   "mentions": {
     "jj-vcs/jj": {
       "count7d": 1,
@@ -43,14 +43,14 @@
     },
     "nooga/let-go": {
       "count7d": 1,
-      "scoreSum7d": 32,
+      "scoreSum7d": 39,
       "topStory": {
         "shortId": "njobov",
         "title": "let-go: Almost Clojure written in Go",
-        "score": 32,
+        "score": 39,
         "url": "https://github.com/nooga/let-go",
         "commentsUrl": "https://lobste.rs/s/njobov/let_go_almost_clojure_written_go",
-        "hoursSincePosted": 14.015
+        "hoursSincePosted": 17.30611111111111
       },
       "stories": [
         {
@@ -59,11 +59,11 @@
           "url": "https://github.com/nooga/let-go",
           "commentsUrl": "https://lobste.rs/s/njobov/let_go_almost_clojure_written_go",
           "by": "",
-          "score": 32,
-          "commentCount": 2,
+          "score": 39,
+          "commentCount": 3,
           "createdUtc": 1778443677,
-          "ageHours": 14.015,
-          "trendingScore": 0.4992976980743366,
+          "ageHours": 17.30611111111111,
+          "trendingScore": 0.45975070623069086,
           "tags": [
             "clojure",
             "go",
@@ -118,6 +118,44 @@
         }
       ]
     },
+    "tidwall/btype": {
+      "count7d": 1,
+      "scoreSum7d": 3,
+      "topStory": {
+        "shortId": "0xe7hz",
+        "title": "btype: B-tree based collection types for Go",
+        "score": 3,
+        "url": "https://github.com/tidwall/btype",
+        "commentsUrl": "https://lobste.rs/s/0xe7hz/btype_b_tree_based_collection_types_for_go",
+        "hoursSincePosted": 22.101944444444445
+      },
+      "stories": [
+        {
+          "shortId": "0xe7hz",
+          "title": "btype: B-tree based collection types for Go",
+          "url": "https://github.com/tidwall/btype",
+          "commentsUrl": "https://lobste.rs/s/0xe7hz/btype_b_tree_based_collection_types_for_go",
+          "by": "",
+          "score": 3,
+          "commentCount": 2,
+          "createdUtc": 1778426412,
+          "ageHours": 22.101944444444445,
+          "trendingScore": 0.025353804261730416,
+          "tags": [
+            "go",
+            "performance"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "tidwall/btype",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "withastro/flue": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -155,37 +193,36 @@
         }
       ]
     },
-    "tidwall/btype": {
+    "jundot/omlx": {
       "count7d": 1,
-      "scoreSum7d": 1,
+      "scoreSum7d": 2,
       "topStory": {
-        "shortId": "0xe7hz",
-        "title": "btype: B-tree based collection types for Go",
-        "score": 1,
-        "url": "https://github.com/tidwall/btype",
-        "commentsUrl": "https://lobste.rs/s/0xe7hz/btype_b_tree_based_collection_types_for_go",
-        "hoursSincePosted": 18.810833333333335
+        "shortId": "nqwrqf",
+        "title": "omlx: LLM inference server with continuous batching & SSD caching for Apple Silicon — managed from the macOS menu bar",
+        "score": 2,
+        "url": "https://github.com/jundot/omlx",
+        "commentsUrl": "https://lobste.rs/s/nqwrqf/omlx_llm_inference_server_with",
+        "hoursSincePosted": 2.28
       },
       "stories": [
         {
-          "shortId": "0xe7hz",
-          "title": "btype: B-tree based collection types for Go",
-          "url": "https://github.com/tidwall/btype",
-          "commentsUrl": "https://lobste.rs/s/0xe7hz/btype_b_tree_based_collection_types_for_go",
+          "shortId": "nqwrqf",
+          "title": "omlx: LLM inference server with continuous batching & SSD caching for Apple Silicon — managed from the macOS menu bar",
+          "url": "https://github.com/jundot/omlx",
+          "commentsUrl": "https://lobste.rs/s/nqwrqf/omlx_llm_inference_server_with",
           "by": "",
-          "score": 1,
+          "score": 2,
           "commentCount": 1,
-          "createdUtc": 1778426412,
-          "ageHours": 18.810833333333335,
-          "trendingScore": 0.01053333249463121,
+          "createdUtc": 1778497771,
+          "ageHours": 2.28,
+          "trendingScore": 0.22587301145926725,
           "tags": [
-            "go",
-            "performance"
+            "vibecoding"
           ],
           "description": "",
           "linkedRepos": [
             {
-              "fullName": "tidwall/btype",
+              "fullName": "jundot/omlx",
               "matchType": "url",
               "confidence": 1
             }
@@ -203,7 +240,7 @@
     {
       "fullName": "nooga/let-go",
       "count7d": 1,
-      "scoreSum7d": 32
+      "scoreSum7d": 39
     },
     {
       "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
@@ -211,14 +248,19 @@
       "scoreSum7d": 18
     },
     {
+      "fullName": "tidwall/btype",
+      "count7d": 1,
+      "scoreSum7d": 3
+    },
+    {
       "fullName": "withastro/flue",
       "count7d": 1,
       "scoreSum7d": 2
     },
     {
-      "fullName": "tidwall/btype",
+      "fullName": "jundot/omlx",
       "count7d": 1,
-      "scoreSum7d": 1
+      "scoreSum7d": 2
     }
   ]
 }

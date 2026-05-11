@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-11T18:07:31.236Z",
+  "fetchedAt": "2026-05-11T20:05:19.164Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 199,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 2,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -6996,23 +6996,23 @@
       ]
     },
     "openclaw/openclaw": {
-      "count7d": 2,
-      "likesSum7d": 3,
+      "count7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mllnsr2g5f2c",
-        "cid": "bafyreieowlphnnldrpbp4f7e23rf4e3pqrkr4nmhvm5kcgtjy2ua77eoty",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mllnsr2g5f2c",
-        "text": "🟠 OpenClaw beta adds on-demand local model startup and native Codex code-mode threads OpenClaw released v2026.5.10-beta.4 with several workflow-changing features hidden inside a beta patch train, most notably... https://github.com/openclaw/openclaw/releases/tag/v2026.5.10-beta.4 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mllr6hjpsn2a",
+        "cid": "bafyreidamao3l44lqh3ydckdwgrjeryt3uuli7iskqavsjhhleof5h6kei",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mllr6hjpsn2a",
+        "text": "🟠 OpenClaw beta adds on-demand local model server startup and new plugin session APIs OpenClaw shipped beta v2026.5.10-beta.5 with a meaningful workflow update: provider-level localService startup can now boot... https://github.com/openclaw/openclaw/releases/tag/v2026.5.10-beta.5 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
-        "likeCount": 3,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-11T16:07:27.049075+00:00",
-        "hoursSincePosted": 2
+        "createdAt": "2026-05-11T17:07:40.723888+00:00",
+        "hoursSincePosted": 2.96
       },
       "posts": [
         {
@@ -7056,7 +7056,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T17:07:40.723888+00:00",
           "createdUtc": 1778519260,
-          "ageHours": 1,
+          "ageHours": 2.96,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -8118,6 +8118,108 @@
           "linkedRepos": [
             {
               "fullName": "Augani/openreel-video",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "microsoft/RustTraining": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:si3lqpzly4xayy5smuqidxip/app.bsky.feed.post/3mllzezf3rs2e",
+        "cid": "bafyreiddx7bxtukuxi2qwl7q526ro3mmisefwe4mtbczbzbixgrjq6mkju",
+        "bskyUrl": "https://bsky.app/profile/lewoudar.bsky.social/post/3mllzezf3rs2e",
+        "text": "Microsoft shares some Rust learning materials. github.com/microsoft/Ru...",
+        "author": {
+          "handle": "lewoudar.bsky.social",
+          "displayName": "Kevin Tewouda"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-11T19:34:27.290Z",
+        "hoursSincePosted": 0.51
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:si3lqpzly4xayy5smuqidxip/app.bsky.feed.post/3mllzezf3rs2e",
+          "cid": "bafyreiddx7bxtukuxi2qwl7q526ro3mmisefwe4mtbczbzbixgrjq6mkju",
+          "bskyUrl": "https://bsky.app/profile/lewoudar.bsky.social/post/3mllzezf3rs2e",
+          "text": "Microsoft shares some Rust learning materials. github.com/microsoft/Ru...",
+          "author": {
+            "handle": "lewoudar.bsky.social",
+            "displayName": "Kevin Tewouda"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-11T19:34:27.290Z",
+          "createdUtc": 1778528067,
+          "ageHours": 0.51,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "microsoft/RustTraining",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tw93/Kaku": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mllxpypugf22",
+        "cid": "bafyreigb24tbydmmuj75ixjpyicplbyc3cwurxkdz3whjbl3lmic24i4ga",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mllxpypugf22",
+        "text": "tw93 / Kaku: 🎃 A fast, out-of-the-box terminal built for AI coding. ★4993 https://github.com/tw93/Kaku",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-11T19:04:52.863628Z",
+        "hoursSincePosted": 1.01
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mllxpypugf22",
+          "cid": "bafyreigb24tbydmmuj75ixjpyicplbyc3cwurxkdz3whjbl3lmic24i4ga",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mllxpypugf22",
+          "text": "tw93 / Kaku: 🎃 A fast, out-of-the-box terminal built for AI coding. ★4993 https://github.com/tw93/Kaku",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T19:04:52.863628Z",
+          "createdUtc": 1778526292,
+          "ageHours": 1.01,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tw93/Kaku",
               "matchType": "url",
               "confidence": 1
             }
@@ -15118,23 +15220,23 @@
       ]
     },
     "openclaw--openclaw": {
-      "count7d": 2,
-      "likesSum7d": 3,
+      "count7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mllnsr2g5f2c",
-        "cid": "bafyreieowlphnnldrpbp4f7e23rf4e3pqrkr4nmhvm5kcgtjy2ua77eoty",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mllnsr2g5f2c",
-        "text": "🟠 OpenClaw beta adds on-demand local model startup and native Codex code-mode threads OpenClaw released v2026.5.10-beta.4 with several workflow-changing features hidden inside a beta patch train, most notably... https://github.com/openclaw/openclaw/releases/tag/v2026.5.10-beta.4 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mllr6hjpsn2a",
+        "cid": "bafyreidamao3l44lqh3ydckdwgrjeryt3uuli7iskqavsjhhleof5h6kei",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mllr6hjpsn2a",
+        "text": "🟠 OpenClaw beta adds on-demand local model server startup and new plugin session APIs OpenClaw shipped beta v2026.5.10-beta.5 with a meaningful workflow update: provider-level localService startup can now boot... https://github.com/openclaw/openclaw/releases/tag/v2026.5.10-beta.5 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
-        "likeCount": 3,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-11T16:07:27.049075+00:00",
-        "hoursSincePosted": 2
+        "createdAt": "2026-05-11T17:07:40.723888+00:00",
+        "hoursSincePosted": 2.96
       },
       "posts": [
         {
@@ -15178,7 +15280,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T17:07:40.723888+00:00",
           "createdUtc": 1778519260,
-          "ageHours": 1,
+          "ageHours": 2.96,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
@@ -16246,46 +16348,123 @@
           ]
         }
       ]
+    },
+    "microsoft--rusttraining": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:si3lqpzly4xayy5smuqidxip/app.bsky.feed.post/3mllzezf3rs2e",
+        "cid": "bafyreiddx7bxtukuxi2qwl7q526ro3mmisefwe4mtbczbzbixgrjq6mkju",
+        "bskyUrl": "https://bsky.app/profile/lewoudar.bsky.social/post/3mllzezf3rs2e",
+        "text": "Microsoft shares some Rust learning materials. github.com/microsoft/Ru...",
+        "author": {
+          "handle": "lewoudar.bsky.social",
+          "displayName": "Kevin Tewouda"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-11T19:34:27.290Z",
+        "hoursSincePosted": 0.51
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:si3lqpzly4xayy5smuqidxip/app.bsky.feed.post/3mllzezf3rs2e",
+          "cid": "bafyreiddx7bxtukuxi2qwl7q526ro3mmisefwe4mtbczbzbixgrjq6mkju",
+          "bskyUrl": "https://bsky.app/profile/lewoudar.bsky.social/post/3mllzezf3rs2e",
+          "text": "Microsoft shares some Rust learning materials. github.com/microsoft/Ru...",
+          "author": {
+            "handle": "lewoudar.bsky.social",
+            "displayName": "Kevin Tewouda"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-11T19:34:27.290Z",
+          "createdUtc": 1778528067,
+          "ageHours": 0.51,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "microsoft/RustTraining",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "tw93--kaku": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mllxpypugf22",
+        "cid": "bafyreigb24tbydmmuj75ixjpyicplbyc3cwurxkdz3whjbl3lmic24i4ga",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mllxpypugf22",
+        "text": "tw93 / Kaku: 🎃 A fast, out-of-the-box terminal built for AI coding. ★4993 https://github.com/tw93/Kaku",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-11T19:04:52.863628Z",
+        "hoursSincePosted": 1.01
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mllxpypugf22",
+          "cid": "bafyreigb24tbydmmuj75ixjpyicplbyc3cwurxkdz3whjbl3lmic24i4ga",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mllxpypugf22",
+          "text": "tw93 / Kaku: 🎃 A fast, out-of-the-box terminal built for AI coding. ★4993 https://github.com/tw93/Kaku",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-11T19:04:52.863628Z",
+          "createdUtc": 1778526292,
+          "ageHours": 1.01,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tw93/Kaku",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
+      "fullName": "microsoft/RustTraining",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
       "fullName": "openclaw/openclaw",
-      "count7d": 2,
-      "likesSum7d": 3
-    },
-    {
-      "fullName": "jj-vcs/jj",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "AlexsJones/llmfit",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "angelos-p/llm-from-scratch",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "Augani/openreel-video",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "kepano/obsidian-skills",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "kyegomez/OpenMythos",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "mattpocock/skills",
+      "fullName": "tw93/Kaku",
       "count7d": 1,
       "likesSum7d": 0
     }

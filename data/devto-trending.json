@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-11T04:00:55.467Z",
+  "fetchedAt": "2026-05-11T09:51:48.534Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1294,
+  "scannedArticles": 1273,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -185,7 +185,7 @@
     "tag-artificialintelligence-top-7d": 0,
     "tag-agents-top-7d": 100,
     "tag-agentic-top-7d": 10,
-    "tag-claudecode-top-7d": 100,
+    "tag-claudecode-top-7d": 97,
     "tag-claude-top-7d": 100,
     "tag-codex-top-7d": 11,
     "tag-cursor-top-7d": 23,
@@ -194,13 +194,13 @@
     "tag-mcp-top-7d": 100,
     "tag-rag-top-7d": 100,
     "tag-promptengineering-top-7d": 30,
-    "tag-workflow-top-7d": 38,
+    "tag-workflow-top-7d": 37,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
-    "tag-cli-top-7d": 81,
+    "tag-cli-top-7d": 82,
     "tag-tooling-top-7d": 100,
-    "tag-devtools-top-7d": 97,
-    "tag-langchain-top-7d": 49,
+    "tag-devtools-top-7d": 92,
+    "tag-langchain-top-7d": 52,
     "tag-n8n-top-7d": 27,
     "tag-opensource-top-7d": 100
   },
@@ -475,6 +475,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3615696,
+      "title": "How to Secure AI Agents in Production: What MCP Gets Right (and What It Doesn’t)",
+      "description": "It usually starts with something that feels harmless.  You give an AI agent access to a few tools....",
+      "url": "https://dev.to/hadil/how-to-secure-ai-agents-in-production-what-mcp-gets-right-and-what-it-doesnt-1d12",
+      "author": {
+        "username": "hadil",
+        "name": "Hadil Ben Abdallah",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1209000%2Fb29d37d8-2efe-4391-9796-a6f8a483f1bd.png"
+      },
+      "reactionsCount": 12,
+      "commentsCount": 0,
+      "readingTime": 8,
+      "publishedAt": "2026-05-11T09:03:23Z",
+      "tags": [
+        "ai",
+        "machinelearning",
+        "security",
+        "backend"
+      ],
+      "trendingScore": 16.05,
+      "linkedRepos": []
+    },
+    {
       "id": 3599107,
       "title": "Write Code That's Easy to Delete: The Art of Impermanent Software",
       "description": "We obsess over making code last. Maybe we should obsess over making it leave gracefully.     There's...",
@@ -530,8 +553,8 @@
         "name": "Aryan Choudhary",
         "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2353063%2F6614279b-75f1-4ca9-b9e5-251daa207f14.png"
       },
-      "reactionsCount": 112,
-      "commentsCount": 47,
+      "reactionsCount": 121,
+      "commentsCount": 50,
       "readingTime": 4,
       "publishedAt": "2026-05-06T06:28:42Z",
       "tags": [
@@ -540,7 +563,7 @@
         "development",
         "workplace"
       ],
-      "trendingScore": 12.03,
+      "trendingScore": 12.26,
       "linkedRepos": []
     },
     {
@@ -1753,6 +1776,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3647715,
+      "title": "I Tested Every Gemma 4 Model on a GTX 1650. Here's What Actually Happened.",
+      "description": "This is a submission for the Gemma 4 Challenge: Write About Gemma 4      TL;DR: E4B is the model most...",
+      "url": "https://dev.to/sreejit_caab72e273a4faa1f/i-tested-every-gemma-4-model-on-a-gtx-1650-heres-what-actually-happened-59gj",
+      "author": {
+        "username": "sreejit_caab72e273a4faa1f",
+        "name": "Sreejit Pradhan",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3904430%2Fbd74576f-cef8-4620-a63e-8a001f1e9d6c.png"
+      },
+      "reactionsCount": 6,
+      "commentsCount": 0,
+      "readingTime": 11,
+      "publishedAt": "2026-05-11T07:28:29Z",
+      "tags": [
+        "devchallenge",
+        "gemmachallenge",
+        "gemma",
+        "ai"
+      ],
+      "trendingScore": 1.95,
+      "linkedRepos": []
+    },
+    {
       "id": 3622503,
       "title": "Vibe Coding Lessons Nobody Talks About",
       "description": "I love vibe coding and whenever I get bored, I vibe-code some websites for myself or for Dev...",
@@ -2069,6 +2115,29 @@
         "webdev"
       ],
       "trendingScore": 1.23,
+      "linkedRepos": []
+    },
+    {
+      "id": 3636759,
+      "title": "Prompt AI Coding Assistants to Build Production-Ready Agents: 8 Essential Patterns",
+      "description": "When you ask an AI assistant like Kiro (AWS's AI coding assistant), Claude Code, or ChatGPT to...",
+      "url": "https://dev.to/aws/prompt-ai-coding-assistants-to-build-production-ready-agents-8-essential-patterns-fm5",
+      "author": {
+        "username": "elizabethfuentes12",
+        "name": "Elizabeth Fuentes L",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F717518%2Fb550b165-b8b9-405d-acfb-e5dc846765b0.png"
+      },
+      "reactionsCount": 5,
+      "commentsCount": 0,
+      "readingTime": 14,
+      "publishedAt": "2026-05-11T07:00:00Z",
+      "tags": [
+        "ai",
+        "tutorial",
+        "programming",
+        "python"
+      ],
+      "trendingScore": 1.22,
       "linkedRepos": []
     },
     {
@@ -2463,74 +2532,6 @@
         "cli"
       ],
       "trendingScore": 0.91,
-      "linkedRepos": []
-    },
-    {
-      "id": 3616626,
-      "title": "Your Prompts are Legacy Code Now: The Google Cloud Next '26 Developer Breakdown",
-      "description": "The era of \"chatting with an LLM\" is officially legacy.  I've attended the Google Cloud Next ‘26...",
-      "url": "https://dev.to/gde/your-prompts-are-legacy-code-now-the-google-cloud-next-26-developer-breakdown-hc3",
-      "author": {
-        "username": "leslysandra",
-        "name": "leslysandra",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F18559%2F30c7b45e-8dc2-443e-a443-16a1535cb054.jpg"
-      },
-      "reactionsCount": 28,
-      "commentsCount": 0,
-      "readingTime": 3,
-      "publishedAt": "2026-05-05T17:32:00Z",
-      "tags": [
-        "googlecloudnext",
-        "agenticai",
-        "gemini"
-      ],
-      "trendingScore": 0.9,
-      "linkedRepos": []
-    },
-    {
-      "id": 3617027,
-      "title": "MCP Development with Amazon Lightsail Instances",
-      "description": "Leveraging Gemini CLI and the underlying Gemini LLM to build Model Context Protocol (MCP) AI...",
-      "url": "https://dev.to/gde/mcp-development-with-amazon-lightsail-instances-34gp",
-      "author": {
-        "username": "xbill",
-        "name": "xbill",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3490099%2Fc6a975d0-cd94-485d-82b1-14ed5b344fcf.jpg"
-      },
-      "reactionsCount": 25,
-      "commentsCount": 1,
-      "readingTime": 6,
-      "publishedAt": "2026-05-05T19:36:06Z",
-      "tags": [
-        "python",
-        "mcpserver",
-        "aws",
-        "gemini"
-      ],
-      "trendingScore": 0.9,
-      "linkedRepos": []
-    },
-    {
-      "id": 3638624,
-      "title": "I Found LeetCode for Software Design, and It’s Awesome",
-      "description": "I found LeetCode for Software Design, and it’s Awesome",
-      "url": "https://dev.to/somadevtoo/i-found-leetcode-for-software-design-and-its-awesome-4k4d",
-      "author": {
-        "username": "somadevtoo",
-        "name": "Soma",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F143755%2F8cbedfa8-996d-401d-984c-38357059cd0a.png"
-      },
-      "reactionsCount": 26,
-      "commentsCount": 1,
-      "readingTime": 8,
-      "publishedAt": "2026-05-09T07:17:35Z",
-      "tags": [
-        "softwaredevelopment",
-        "systemdesign",
-        "leetcode",
-        "programming"
-      ],
-      "trendingScore": 0.9,
       "linkedRepos": []
     }
   ]

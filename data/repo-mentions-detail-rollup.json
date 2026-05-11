@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-11T14:56:48.722Z",
-  "scanRunId": "sweep-2026-05-11T14:56:40.246Z",
+  "computedAt": "2026-05-11T19:50:09.902Z",
+  "scanRunId": "sweep-2026-05-11T19:49:59.307Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -63,7 +63,7 @@
               "author": "zander.wtf",
               "engagement": {
                 "score": 1,
-                "comments": 0
+                "comments": 1
               },
               "observedAt": "2026-05-11T11:07:49.664Z"
             },
@@ -99,10 +99,10 @@
     },
     "addyosmani/agent-skills": {
       "fullName": "addyosmani/agent-skills",
-      "totalMentions7d": 4,
+      "totalMentions7d": 6,
       "perSource": {
         "hackernews": {
-          "count7d": 4,
+          "count7d": 6,
           "top": [
             {
               "source": "hackernews",
@@ -125,10 +125,23 @@
               "text": "",
               "author": "darkrishabh",
               "engagement": {
-                "score": 77,
+                "score": 79,
                 "comments": 36
               },
               "observedAt": "2026-05-07T06:12:25.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "addyosmani/agent-skills",
+              "url": "https://github.com/contentful/skill-kit",
+              "title": "Skill-kit – TypeScript SDK for building agent skills as typed state machines",
+              "text": "",
+              "author": "ravel",
+              "engagement": {
+                "score": 3,
+                "comments": 0
+              },
+              "observedAt": "2026-05-11T15:14:07.000Z"
             },
             {
               "source": "hackernews",
@@ -146,15 +159,15 @@
             {
               "source": "hackernews",
               "fullName": "addyosmani/agent-skills",
-              "url": "https://tech.cashfree.com/building-cashfree-agent-skills-a-task-aware-knowledge-layer-for-ai-coding-assistants-84098c384f26",
-              "title": "Integrate Cashfree Payments in less than 7 minutes",
-              "text": "",
-              "author": "shritama_saha",
+              "url": "https://eslabs.web.app/",
+              "title": "Show HN: ESLabs",
+              "text": "LLMs can &quot;learn&quot;, maybe. That doesn&#x27;t mean we offload learning.<p>More than a decade ago I had built paw-on-es6 to help folks get hands-on with ES6 (ES2015). It did its job.<p>I am now introducing ESlabs. It covers every major feature from ES2015 through ES2025.<p>You write real code in your browser, run exercises, and actually internalize what the features do and why we need them in the first place.<p>The irony isn&#x27;t lost on me: building a tool to help humans learn, in an er",
+              "author": "init0",
               "engagement": {
                 "score": 1,
                 "comments": 0
               },
-              "observedAt": "2026-05-06T06:10:12.000Z"
+              "observedAt": "2026-05-11T16:40:17.000Z"
             }
           ]
         }
@@ -367,7 +380,7 @@
     },
     "ruvnet/ruflo": {
       "fullName": "ruvnet/ruflo",
-      "totalMentions7d": 4,
+      "totalMentions7d": 3,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -388,7 +401,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 3,
+          "count7d": 2,
           "top": [
             {
               "source": "bluesky",
@@ -415,19 +428,6 @@
                 "comments": 1
               },
               "observedAt": "2026-05-05T06:59:12.365Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "ruvnet/ruflo",
-              "url": "https://bsky.app/profile/samwise-goose.bsky.social/post/3ml2ea6srgt2h",
-              "title": "New GitHub trending project: ruflo - agent orchestration platform for Claude. 40k+ stars! https://github.com/ruvnet/ruflo #AI #OpenSource #Tech",
-              "text": "New GitHub trending project: ruflo - agent orchestration platform for Claude. 40k+ stars! https://github.com/ruvnet/ruflo #AI #OpenSource #Tech",
-              "author": "samwise-goose.bsky.social",
-              "engagement": {
-                "score": 0,
-                "comments": 0
-              },
-              "observedAt": "2026-05-04T19:00:46.860Z"
             }
           ]
         }
@@ -469,15 +469,28 @@
             {
               "source": "hackernews",
               "fullName": "multica-ai/multica",
-              "url": "https://www.strix.ai/blog/how-strix-found-zero-auth-vulnerability-dod-backed-startup",
-              "title": "Securing a DoD contractor: Finding a multi-tenant authorization vulnerability",
+              "url": "https://draxinar.github.io/articles/2026-05-01-uodemo-reverse-engineering.html",
+              "title": "Reverse-engineering the 1998 Ultima Online demo server",
               "text": "",
-              "author": "bearsyankees",
+              "author": "notsentient",
               "engagement": {
-                "score": 221,
-                "comments": 101
+                "score": 246,
+                "comments": 68
               },
-              "observedAt": "2026-05-04T17:46:32.000Z"
+              "observedAt": "2026-05-06T06:31:29.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "multica-ai/multica",
+              "url": "https://www.cocoawithlove.com/blog/matrix-multiplications-swift.html",
+              "title": "Training an LLM in Swift, Part 1: Taking matrix mult from Gflop/s to Tflop/s",
+              "text": "",
+              "author": "zdw",
+              "engagement": {
+                "score": 176,
+                "comments": 8
+              },
+              "observedAt": "2026-05-10T17:05:05.000Z"
             },
             {
               "source": "hackernews",
@@ -491,19 +504,6 @@
                 "comments": 32
               },
               "observedAt": "2026-05-05T17:52:31.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "multica-ai/multica",
-              "url": "https://blog.google/innovation-and-ai/technology/developers-tools/expanded-gemini-api-file-search-multimodal-rag/",
-              "title": "Gemini API File Search is now multimodal",
-              "text": "",
-              "author": "gmays",
-              "engagement": {
-                "score": 152,
-                "comments": 43
-              },
-              "observedAt": "2026-05-10T03:22:02.000Z"
             }
           ]
         },
@@ -1223,10 +1223,10 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 4,
+      "totalMentions7d": 20,
       "perSource": {
         "hackernews": {
-          "count7d": 2,
+          "count7d": 18,
           "top": [
             {
               "source": "hackernews",
@@ -1236,10 +1236,23 @@
               "text": "",
               "author": "orhunp_",
               "engagement": {
-                "score": 319,
-                "comments": 94
+                "score": 524,
+                "comments": 174
               },
               "observedAt": "2026-05-11T10:13:04.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://www.bloomberg.com/graphics/2026-ai-identity-theft-scams/",
+              "title": "AI Is Making Digital Fraud Easier, Faster and Harder to Stop",
+              "text": "",
+              "author": "elsewhen",
+              "engagement": {
+                "score": 6,
+                "comments": 1
+              },
+              "observedAt": "2026-05-10T14:45:11.000Z"
             },
             {
               "source": "hackernews",
@@ -1253,6 +1266,32 @@
                 "comments": 0
               },
               "observedAt": "2026-05-07T19:13:58.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://code.webb.page/eol/graphiql.git/about/",
+              "title": "Show HN: I Replaced React in GraphiQL with Svelte",
+              "text": "I love Svelte and GraphQL. I do not like React. So, when I&#x27;m building APIs, I cringe when using the official GraphiQL interface.<p>I have free will and a Claude subscription so I made it happen. You can find it on npm as &quot;@eeeooolll&#x2F;graphiql&quot; (@eol was taken).<p><a href=\"https:&#x2F;&#x2F;www.npmjs.com&#x2F;package&#x2F;@eeeooolll&#x2F;graphiql\" rel=\"nofollow\">https:&#x2F;&#x2F;www.npmjs.com&#x2F;package&#x2F;@eeeooolll&#x2F;graphiql</a><p>I also upgraded my batteries-include",
+              "author": "NetOpWibby",
+              "engagement": {
+                "score": 5,
+                "comments": 1
+              },
+              "observedAt": "2026-05-07T02:52:34.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://hackaday.com/2026/04/21/why-some-s3-videocards-have-a-brightness-issue/",
+              "title": "Brightness Issue in Old S3 Graphics Cards",
+              "text": "",
+              "author": "networked",
+              "engagement": {
+                "score": 4,
+                "comments": 0
+              },
+              "observedAt": "2026-05-09T06:41:12.000Z"
             }
           ]
         },
@@ -3812,24 +3851,11 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 100,
+      "totalMentions7d": 128,
       "perSource": {
         "hackernews": {
-          "count7d": 100,
+          "count7d": 128,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "jackwener/OpenCLI",
-              "url": "https://openai.com/index/delivering-low-latency-voice-ai-at-scale/",
-              "title": "How OpenAI delivers low-latency voice AI at scale",
-              "text": "",
-              "author": "Sean-Der",
-              "engagement": {
-                "score": 510,
-                "comments": 146
-              },
-              "observedAt": "2026-05-04T19:42:47.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
@@ -3838,7 +3864,7 @@
               "text": "",
               "author": "atgctg",
               "engagement": {
-                "score": 504,
+                "score": 505,
                 "comments": 148
               },
               "observedAt": "2026-05-07T17:11:59.000Z"
@@ -3859,28 +3885,41 @@
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
-              "url": "https://catstret.ch/202605/srss-hipster202510/",
-              "title": "Setting up a Sun Ray server on OpenIndiana Hipster 2025.10",
+              "url": "https://www.openculture.com/2024/10/the-greatest-shot-in-television.html",
+              "title": "The greatest shot in television: James Burke had one chance to nail this scene (2024)",
               "text": "",
-              "author": "jandeboevrie",
+              "author": "susam",
               "engagement": {
-                "score": 145,
-                "comments": 52
+                "score": 313,
+                "comments": 175
               },
-              "observedAt": "2026-05-06T10:53:52.000Z"
+              "observedAt": "2026-05-11T02:43:34.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "jackwener/OpenCLI",
-              "url": "https://www.404media.co/literacy-in-future-technologies-artificial-intelligence-act-adam-schiff-mike-rounds/",
-              "title": "OpenAI, Google, and Microsoft Back Bill to Fund 'AI Literacy' in Schools",
-              "text": "<a href=\"https:&#x2F;&#x2F;archive.ph&#x2F;gLnMk\" rel=\"nofollow\">https:&#x2F;&#x2F;archive.ph&#x2F;gLnMk</a>",
-              "author": "cdrnsf",
+              "url": "https://openai.com/index/gpt-5-5-instant/",
+              "title": "GPT‑5.5 Instant",
+              "text": "",
+              "author": "meetpateltech",
               "engagement": {
-                "score": 120,
-                "comments": 113
+                "score": 87,
+                "comments": 20
               },
-              "observedAt": "2026-05-04T16:21:38.000Z"
+              "observedAt": "2026-05-05T17:02:23.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "jackwener/OpenCLI",
+              "url": "https://github.com/ReviewStage/stage-cli",
+              "title": "Show HN: Stage CLI – An easier way of reading your AI generated changes locally",
+              "text": "Hey HN! We&#x27;re Charles and Dean. A few weeks ago we posted about Stage, a code review tool that guides you through reading a PR step by step - <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=47796818\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=47796818</a>.<p>We got a lot of great feedback but also heard from many people that they wanted to have the chapters experience even before opening a PR… so we built the Stage CLI as the local, open-source version that anyone can ",
+              "author": "cpan22",
+              "engagement": {
+                "score": 46,
+                "comments": 32
+              },
+              "observedAt": "2026-05-07T15:38:36.000Z"
             }
           ]
         }
@@ -4213,10 +4252,10 @@
     },
     "garrytan/gbrain": {
       "fullName": "garrytan/gbrain",
-      "totalMentions7d": 45,
+      "totalMentions7d": 44,
       "perSource": {
         "hackernews": {
-          "count7d": 43,
+          "count7d": 42,
           "top": [
             {
               "source": "hackernews",
@@ -6203,10 +6242,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 12,
+      "totalMentions7d": 17,
       "perSource": {
         "hackernews": {
-          "count7d": 12,
+          "count7d": 17,
           "top": [
             {
               "source": "hackernews",
@@ -6216,8 +6255,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;blog.cloudflare.com&#x2F;building-for-the-future&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;blog.cloudflare.com&#x2F;building-for-the-future&#x2F;</a>",
               "author": "PriorityLeft",
               "engagement": {
-                "score": 1341,
-                "comments": 984
+                "score": 1344,
+                "comments": 985
               },
               "observedAt": "2026-05-07T20:23:37.000Z"
             },
@@ -6230,7 +6269,7 @@
               "author": "christhecaribou",
               "engagement": {
                 "score": 264,
-                "comments": 196
+                "comments": 198
               },
               "observedAt": "2026-05-08T03:31:58.000Z"
             },
@@ -6250,28 +6289,28 @@
             {
               "source": "hackernews",
               "fullName": "decolua/9router",
+              "url": "https://singleride.nyc/",
+              "title": "SingleRide: Longest route on NYC Subway without visiting the same station twice",
+              "text": "",
+              "author": "TMWNN",
+              "engagement": {
+                "score": 99,
+                "comments": 52
+              },
+              "observedAt": "2026-05-05T22:02:35.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "decolua/9router",
               "url": "https://www.reuters.com/sustainability/boards-policy-regulation/oil-price-bets-ahead-iran-war-news-totalled-7-billion-reporting-shows-2026-05-07/",
               "title": "Oil-price bets ahead of Iran war news totalled $7B, reporting shows",
               "text": "",
               "author": "geox",
               "engagement": {
-                "score": 45,
+                "score": 46,
                 "comments": 6
               },
               "observedAt": "2026-05-10T14:09:16.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "decolua/9router",
-              "url": "https://www.reuters.com/legal/government/new-york-state-set-ban-law-enforcement-including-ice-wearing-masks-2026-05-07/",
-              "title": "New York state set to ban law enforcement, including ICE, from wearing masks",
-              "text": "",
-              "author": "tartoran",
-              "engagement": {
-                "score": 39,
-                "comments": 12
-              },
-              "observedAt": "2026-05-08T03:36:51.000Z"
             }
           ]
         }
@@ -6836,6 +6875,19 @@
             {
               "source": "hackernews",
               "fullName": "rohitg00/agentmemory",
+              "url": "https://dthink.ai/blog/oamp-governed-memory/",
+              "title": "Open Agent Memory Protocol 1.2 ships; 1.3 (draft) adds governed memory",
+              "text": "",
+              "author": "jaikoo",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-11T10:43:27.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rohitg00/agentmemory",
               "url": "https://github.com/zhangfengcdt/memoir",
               "title": "Memoir – Git for AI agent memory, with a Claude Code plugin",
               "text": "",
@@ -6845,19 +6897,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-05T15:54:54.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "rohitg00/agentmemory",
-              "url": "https://dthink.ai/blog/oamp-governed-memory/",
-              "title": "Open Agent Memory Protocol 1.2 ships; 1.3 (draft) adds governed memory",
-              "text": "",
-              "author": "jaikoo",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-11T10:43:27.000Z"
             },
             {
               "source": "hackernews",
@@ -7445,7 +7484,7 @@
               "text": "",
               "author": "steveharing1",
               "engagement": {
-                "score": 2,
+                "score": 4,
                 "comments": 0
               },
               "observedAt": "2026-05-11T11:00:17.000Z"
@@ -7967,10 +8006,10 @@
     },
     "floci-io/floci": {
       "fullName": "floci-io/floci",
-      "totalMentions7d": 13,
+      "totalMentions7d": 12,
       "perSource": {
         "hackernews": {
-          "count7d": 12,
+          "count7d": 11,
           "top": [
             {
               "source": "hackernews",
@@ -7981,22 +8020,9 @@
               "author": "pseudolus",
               "engagement": {
                 "score": 93,
-                "comments": 52
+                "comments": 51
               },
               "observedAt": "2026-05-07T16:05:45.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "floci-io/floci",
-              "url": "https://ipvm.com/reports/flock-closed-police-marketing",
-              "title": "Flock Holding Closed Police Conference, Requires Police Consent for Marketing",
-              "text": "",
-              "author": "jhonovich",
-              "engagement": {
-                "score": 54,
-                "comments": 0
-              },
-              "observedAt": "2026-05-04T17:28:56.000Z"
             },
             {
               "source": "hackernews",
@@ -8036,6 +8062,19 @@
                 "comments": 2
               },
               "observedAt": "2026-05-08T20:26:38.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "floci-io/floci",
+              "url": "https://www.independent.co.uk/news/world/americas/princess-cruise-ship-norovirus-outbreak-florida-b2973585.html",
+              "title": "Norovirus outbreak on Florida-bound cruise ship sickens 115 passengers",
+              "text": "",
+              "author": "geox",
+              "engagement": {
+                "score": 5,
+                "comments": 0
+              },
+              "observedAt": "2026-05-11T12:56:24.000Z"
             }
           ]
         },
@@ -8604,10 +8643,10 @@
     },
     "marckohlbrugge/sessy": {
       "fullName": "marckohlbrugge/sessy",
-      "totalMentions7d": 44,
+      "totalMentions7d": 45,
       "perSource": {
         "hackernews": {
-          "count7d": 44,
+          "count7d": 45,
           "top": [
             {
               "source": "hackernews",
@@ -8617,8 +8656,8 @@
               "text": "hi guys. been working on something i think is fundamentally missing in today&#x27;s workflow with ai agents.<p>vcs.<p>i find myself struggling with questions that agents can&#x27;t answer like &quot;why did you do it?&quot;, &quot;when did u delete this folder? why?&quot;, etc. or trying to &#x2F;rewind (after a &#x2F;compact...) or basically `bisect` to find when and why something was done by the agent in the current &#x2F; previous session.<p>just like git did for code, i think we are the same",
               "author": "doshay",
               "engagement": {
-                "score": 119,
-                "comments": 66
+                "score": 120,
+                "comments": 67
               },
               "observedAt": "2026-05-08T14:15:36.000Z"
             },
@@ -8651,6 +8690,19 @@
             {
               "source": "hackernews",
               "fullName": "marckohlbrugge/sessy",
+              "url": "https://github.com/MotleyAI/slayer",
+              "title": "Show HN: SLayer, a semantic layer maintained by your agent",
+              "text": "Hello HN!<p>If you want to connect your agent to a database (say, to build a data analyst chatbot or any kind of agentic app) today you have 2 options: an SQL MCP server or a semantic layer.<p>SQL MCP is the easiest path to setup, especially if you also have a .md knowledge base which the agent can update. It gets quite messy quickly though, especially if there&#x27;s many interactions or DB is large. Generated SQL is hard to review if you want to understand where the numbers came from, and rela",
+              "author": "yannranchere",
+              "engagement": {
+                "score": 11,
+                "comments": 3
+              },
+              "observedAt": "2026-05-11T14:45:37.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "marckohlbrugge/sessy",
               "url": "https://wuphf.team",
               "title": "Show HN: My AI agents bully each other to prevent context drift",
               "text": "Most multi-agent systems fail the same way: agents drift apart across handoffs. By turn 3 they are working in different realities. By turn 5 they are repeating each other&#x27;s mistakes and calling it parallelism.<p>WUPHF is an open-source local-first office where AI coworkers run on your laptop, around a shared markdown + git LLM wiki the agents build. The wiki is the collective memory. The office around it keeps the team on the same shared context across thousands of handoffs.<p>What actually",
@@ -8660,19 +8712,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-09T16:22:23.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "marckohlbrugge/sessy",
-              "url": "https://disputron.ai",
-              "title": "Show HN: Disputron – AI small claims court for petty disputes",
-              "text": "Disputron is a small claims court for petty disputes. Two parties file, AI lawyers argue both sides, and a AI judge rules from the bench. Trials run live in a courtroom view with a live court tv guide. Anyone can watch.<p>I built it because I wanted to build something with an LLM that didn&#x27;t take AI too seriously. I think it started with a text &quot;have your lawyer talk to my lawyer.&quot; Just leaned into the absurd nature of it. Brought in human designers, illustrators, and musicians.<p",
-              "author": "etaheri",
-              "engagement": {
-                "score": 9,
-                "comments": 4
-              },
-              "observedAt": "2026-05-07T22:00:02.000Z"
             }
           ]
         }

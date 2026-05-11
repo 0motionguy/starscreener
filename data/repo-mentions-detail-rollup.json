@@ -1,11 +1,11 @@
 {
-  "computedAt": "2026-05-11T09:43:08.353Z",
-  "scanRunId": "sweep-2026-05-11T09:42:59.567Z",
+  "computedAt": "2026-05-11T14:56:48.722Z",
+  "scanRunId": "sweep-2026-05-11T14:56:40.246Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
       "fullName": "modem-dev/hunk",
-      "totalMentions7d": 5,
+      "totalMentions7d": 6,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -26,7 +26,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 4,
+          "count7d": 5,
           "top": [
             {
               "source": "bluesky",
@@ -53,6 +53,19 @@
                 "comments": 0
               },
               "observedAt": "2026-05-06T23:17:30.170Z"
+            },
+            {
+              "source": "bluesky",
+              "fullName": "modem-dev/hunk",
+              "url": "https://bsky.app/profile/zander.wtf/post/3mll52vipp22r",
+              "title": "wow - this terminal diff viewer is so good! github.com/modem-dev/hunk",
+              "text": "wow - this terminal diff viewer is so good! github.com/modem-dev/hunk",
+              "author": "zander.wtf",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-11T11:07:49.664Z"
             },
             {
               "source": "bluesky",
@@ -86,10 +99,10 @@
     },
     "addyosmani/agent-skills": {
       "fullName": "addyosmani/agent-skills",
-      "totalMentions7d": 6,
+      "totalMentions7d": 4,
       "perSource": {
         "hackernews": {
-          "count7d": 6,
+          "count7d": 4,
           "top": [
             {
               "source": "hackernews",
@@ -112,7 +125,7 @@
               "text": "",
               "author": "darkrishabh",
               "engagement": {
-                "score": 76,
+                "score": 77,
                 "comments": 36
               },
               "observedAt": "2026-05-07T06:12:25.000Z"
@@ -133,28 +146,15 @@
             {
               "source": "hackernews",
               "fullName": "addyosmani/agent-skills",
-              "url": "https://agent-skills.market/",
-              "title": "Agent Skills for Non-Devs",
+              "url": "https://tech.cashfree.com/building-cashfree-agent-skills-a-task-aware-knowledge-layer-for-ai-coding-assistants-84098c384f26",
+              "title": "Integrate Cashfree Payments in less than 7 minutes",
               "text": "",
-              "author": "liorsh",
+              "author": "shritama_saha",
               "engagement": {
-                "score": 2,
+                "score": 1,
                 "comments": 0
               },
-              "observedAt": "2026-05-04T12:25:33.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "addyosmani/agent-skills",
-              "url": "https://8253360822677.gumroad.com/l/beamer-agent-skills-market-marketing-monetization",
-              "title": "Agent Skill Pack: Market and Marketing and Monetization (9 and 2 Skills)",
-              "text": "",
-              "author": "davidvartanian",
-              "engagement": {
-                "score": 2,
-                "comments": 0
-              },
-              "observedAt": "2026-05-04T10:04:00.000Z"
+              "observedAt": "2026-05-06T06:10:12.000Z"
             }
           ]
         }
@@ -367,7 +367,7 @@
     },
     "ruvnet/ruflo": {
       "fullName": "ruvnet/ruflo",
-      "totalMentions7d": 7,
+      "totalMentions7d": 4,
       "perSource": {
         "hackernews": {
           "count7d": 1,
@@ -388,7 +388,7 @@
           ]
         },
         "bluesky": {
-          "count7d": 6,
+          "count7d": 3,
           "top": [
             {
               "source": "bluesky",
@@ -402,32 +402,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-10T06:05:47.869Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "ruvnet/ruflo",
-              "url": "https://bsky.app/profile/mm-hacker-news.bsky.social/post/3mkzhykgzef2v",
-              "title": "Ruflo: Multi-agent AI orchestration for Claude Code https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md",
-              "text": "Ruflo: Multi-agent AI orchestration for Claude Code https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md",
-              "author": "mm-hacker-news.bsky.social",
-              "engagement": {
-                "score": 2,
-                "comments": 1
-              },
-              "observedAt": "2026-05-04T10:35:24.962Z"
-            },
-            {
-              "source": "bluesky",
-              "fullName": "ruvnet/ruflo",
-              "url": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mkzhpnntok2l",
-              "title": "Ruflo: Multi-agent AI orchestration for Claude Code https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md",
-              "text": "Ruflo: Multi-agent AI orchestration for Claude Code https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md",
-              "author": "hnbot.gsuscs.xyz",
-              "engagement": {
-                "score": 1,
-                "comments": 1
-              },
-              "observedAt": "2026-05-04T10:30:26.971Z"
             },
             {
               "source": "bluesky",
@@ -514,22 +488,22 @@
               "author": "gmays",
               "engagement": {
                 "score": 163,
-                "comments": 31
+                "comments": 32
               },
               "observedAt": "2026-05-05T17:52:31.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "multica-ai/multica",
-              "url": "https://news.ycombinator.com/item?id=48023496",
-              "title": "Show HN: Airbyte Agents – context for agents across multiple data sources",
-              "text": "I’m Michel, co-founder and CEO of Airbyte (<a href=\"https:&#x2F;&#x2F;airbyte.com&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;airbyte.com&#x2F;</a>). We’ve spent the last six years building data connectors. Today we&#x27;re launching Airbyte Agents (<a href=\"https:&#x2F;&#x2F;docs.airbyte.com&#x2F;ai-agents&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;docs.airbyte.com&#x2F;ai-agents&#x2F;</a>), a unified data layer for agents to discover information and take action across operational systems.<p>Here’s a ",
-              "author": "mtricot",
+              "url": "https://blog.google/innovation-and-ai/technology/developers-tools/expanded-gemini-api-file-search-multimodal-rag/",
+              "title": "Gemini API File Search is now multimodal",
+              "text": "",
+              "author": "gmays",
               "engagement": {
-                "score": 150,
-                "comments": 47
+                "score": 152,
+                "comments": 43
               },
-              "observedAt": "2026-05-05T15:03:18.000Z"
+              "observedAt": "2026-05-10T03:22:02.000Z"
             }
           ]
         },
@@ -1249,23 +1223,23 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 14,
+      "totalMentions7d": 4,
       "perSource": {
         "hackernews": {
-          "count7d": 12,
+          "count7d": 2,
           "top": [
             {
               "source": "hackernews",
               "fullName": "safishamsi/graphify",
-              "url": "https://www.itsnicethat.com/features/the-view-from-mumbai-matchbook-graphic-design-130426",
-              "title": "Indian matchbox labels as a visual archive",
+              "url": "https://ratty-term.org/",
+              "title": "Ratty – A terminal emulator with inline 3D graphics",
               "text": "",
-              "author": "sahar_builds",
+              "author": "orhunp_",
               "engagement": {
-                "score": 166,
-                "comments": 33
+                "score": 319,
+                "comments": 94
               },
-              "observedAt": "2026-05-04T14:08:27.000Z"
+              "observedAt": "2026-05-11T10:13:04.000Z"
             },
             {
               "source": "hackernews",
@@ -1279,45 +1253,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-07T19:13:58.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "safishamsi/graphify",
-              "url": "https://hackaday.com/2026/04/21/why-some-s3-videocards-have-a-brightness-issue/",
-              "title": "Brightness Issue in Old S3 Graphics Cards",
-              "text": "",
-              "author": "networked",
-              "engagement": {
-                "score": 4,
-                "comments": 0
-              },
-              "observedAt": "2026-05-09T06:41:12.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "safishamsi/graphify",
-              "url": "https://danielmay.co.uk/posts/froot-loops-and-a-graphics-card/",
-              "title": "Froot Loops and a Graphics Card",
-              "text": "",
-              "author": "danielrmay",
-              "engagement": {
-                "score": 3,
-                "comments": 0
-              },
-              "observedAt": "2026-05-10T19:06:46.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "safishamsi/graphify",
-              "url": "https://www.nbcnews.com/data-graphics/data-shows-first-names-last-names-rcna342715",
-              "title": "New data shows how the most common first and last names in the U.S. have changed",
-              "text": "",
-              "author": "freejoe76",
-              "engagement": {
-                "score": 3,
-                "comments": 0
-              },
-              "observedAt": "2026-05-09T17:25:07.000Z"
             }
           ]
         },
@@ -3877,10 +3812,10 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 156,
+      "totalMentions7d": 100,
       "perSource": {
         "hackernews": {
-          "count7d": 156,
+          "count7d": 100,
           "top": [
             {
               "source": "hackernews",
@@ -3890,7 +3825,7 @@
               "text": "",
               "author": "Sean-Der",
               "engagement": {
-                "score": 509,
+                "score": 510,
                 "comments": 146
               },
               "observedAt": "2026-05-04T19:42:47.000Z"
@@ -3903,8 +3838,8 @@
               "text": "",
               "author": "atgctg",
               "engagement": {
-                "score": 484,
-                "comments": 143
+                "score": 504,
+                "comments": 148
               },
               "observedAt": "2026-05-07T17:11:59.000Z"
             },
@@ -4278,10 +4213,10 @@
     },
     "garrytan/gbrain": {
       "fullName": "garrytan/gbrain",
-      "totalMentions7d": 47,
+      "totalMentions7d": 45,
       "perSource": {
         "hackernews": {
-          "count7d": 45,
+          "count7d": 43,
           "top": [
             {
               "source": "hackernews",
@@ -4291,7 +4226,7 @@
               "text": "<a href=\"https:&#x2F;&#x2F;www.nature.com&#x2F;articles&#x2F;s41586-026-10448-0\" rel=\"nofollow\">https:&#x2F;&#x2F;www.nature.com&#x2F;articles&#x2F;s41586-026-10448-0</a>",
               "author": "hhs",
               "engagement": {
-                "score": 148,
+                "score": 149,
                 "comments": 62
               },
               "observedAt": "2026-05-07T23:06:44.000Z"
@@ -6268,10 +6203,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 15,
+      "totalMentions7d": 12,
       "perSource": {
         "hackernews": {
-          "count7d": 15,
+          "count7d": 12,
           "top": [
             {
               "source": "hackernews",
@@ -6281,7 +6216,7 @@
               "text": "<a href=\"https:&#x2F;&#x2F;blog.cloudflare.com&#x2F;building-for-the-future&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;blog.cloudflare.com&#x2F;building-for-the-future&#x2F;</a>",
               "author": "PriorityLeft",
               "engagement": {
-                "score": 1338,
+                "score": 1341,
                 "comments": 984
               },
               "observedAt": "2026-05-07T20:23:37.000Z"
@@ -6307,8 +6242,8 @@
               "text": "",
               "author": "scrlk",
               "engagement": {
-                "score": 227,
-                "comments": 144
+                "score": 228,
+                "comments": 145
               },
               "observedAt": "2026-05-08T17:25:21.000Z"
             },
@@ -6320,7 +6255,7 @@
               "text": "",
               "author": "geox",
               "engagement": {
-                "score": 44,
+                "score": 45,
                 "comments": 6
               },
               "observedAt": "2026-05-10T14:09:16.000Z"
@@ -6867,10 +6802,10 @@
     },
     "rohitg00/agentmemory": {
       "fullName": "rohitg00/agentmemory",
-      "totalMentions7d": 6,
+      "totalMentions7d": 7,
       "perSource": {
         "hackernews": {
-          "count7d": 5,
+          "count7d": 6,
           "top": [
             {
               "source": "hackernews",
@@ -6914,6 +6849,19 @@
             {
               "source": "hackernews",
               "fullName": "rohitg00/agentmemory",
+              "url": "https://dthink.ai/blog/oamp-governed-memory/",
+              "title": "Open Agent Memory Protocol 1.2 ships; 1.3 (draft) adds governed memory",
+              "text": "",
+              "author": "jaikoo",
+              "engagement": {
+                "score": 1,
+                "comments": 0
+              },
+              "observedAt": "2026-05-11T10:43:27.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "rohitg00/agentmemory",
               "url": "https://medium.com/@vektormemory/cloud-embeddings-vs-local-sovereign-memory-ai-agent-memory-layer-compared-2026-21461bf8a4aa",
               "title": "Cloud Embeddings vs. Local Sovereign Memory",
               "text": "",
@@ -6923,19 +6871,6 @@
                 "comments": 0
               },
               "observedAt": "2026-05-09T04:54:53.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "rohitg00/agentmemory",
-              "url": "https://medium.com/@wjackson_63436/when-agent-memory-becomes-a-platform-concern-4b6cd23af47f",
-              "title": "When Agent Memory Becomes a Platform Concern",
-              "text": "",
-              "author": "rdwj",
-              "engagement": {
-                "score": 1,
-                "comments": 1
-              },
-              "observedAt": "2026-05-05T12:42:05.000Z"
             }
           ]
         },
@@ -7497,8 +7432,26 @@
     },
     "jundot/omlx": {
       "fullName": "jundot/omlx",
-      "totalMentions7d": 1,
+      "totalMentions7d": 2,
       "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "jundot/omlx",
+              "url": "https://github.com/jundot/omlx",
+              "title": "OMLX: Local LLM Server for Apple Silicon Macs",
+              "text": "",
+              "author": "steveharing1",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-11T11:00:17.000Z"
+            }
+          ]
+        },
         "bluesky": {
           "count7d": 1,
           "top": [
@@ -8014,10 +7967,10 @@
     },
     "floci-io/floci": {
       "fullName": "floci-io/floci",
-      "totalMentions7d": 12,
+      "totalMentions7d": 13,
       "perSource": {
         "hackernews": {
-          "count7d": 11,
+          "count7d": 12,
           "top": [
             {
               "source": "hackernews",
@@ -8027,7 +7980,7 @@
               "text": "",
               "author": "pseudolus",
               "engagement": {
-                "score": 92,
+                "score": 93,
                 "comments": 52
               },
               "observedAt": "2026-05-07T16:05:45.000Z"
@@ -8156,26 +8109,8 @@
     },
     "lightningpixel/modly": {
       "fullName": "lightningpixel/modly",
-      "totalMentions7d": 2,
+      "totalMentions7d": 1,
       "perSource": {
-        "hackernews": {
-          "count7d": 1,
-          "top": [
-            {
-              "source": "hackernews",
-              "fullName": "lightningpixel/modly",
-              "url": "https://modyak.com",
-              "title": "Modyak – run Claude Code and Codex with any model from your Mac menu bar",
-              "text": "",
-              "author": "robertkeus",
-              "engagement": {
-                "score": 2,
-                "comments": 1
-              },
-              "observedAt": "2026-05-04T13:05:13.000Z"
-            }
-          ]
-        },
         "bluesky": {
           "count7d": 1,
           "top": [
@@ -8638,6 +8573,106 @@
                 "comments": 0
               },
               "observedAt": "2026-05-08T11:05:55.261Z"
+            }
+          ]
+        }
+      }
+    },
+    "crynta/terax-ai": {
+      "fullName": "crynta/terax-ai",
+      "totalMentions7d": 1,
+      "perSource": {
+        "hackernews": {
+          "count7d": 1,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "crynta/terax-ai",
+              "url": "https://github.com/crynta/terax-ai",
+              "title": "Building an Open Source 7MB AI Terminal with Agents and Code Editor (Rust/Tauri)",
+              "text": "",
+              "author": "crynta",
+              "engagement": {
+                "score": 3,
+                "comments": 1
+              },
+              "observedAt": "2026-05-08T11:55:30.000Z"
+            }
+          ]
+        }
+      }
+    },
+    "marckohlbrugge/sessy": {
+      "fullName": "marckohlbrugge/sessy",
+      "totalMentions7d": 44,
+      "perSource": {
+        "hackernews": {
+          "count7d": 44,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "marckohlbrugge/sessy",
+              "url": "https://github.com/regent-vcs/re_gent",
+              "title": "Show HN: Git for AI Agents",
+              "text": "hi guys. been working on something i think is fundamentally missing in today&#x27;s workflow with ai agents.<p>vcs.<p>i find myself struggling with questions that agents can&#x27;t answer like &quot;why did you do it?&quot;, &quot;when did u delete this folder? why?&quot;, etc. or trying to &#x2F;rewind (after a &#x2F;compact...) or basically `bisect` to find when and why something was done by the agent in the current &#x2F; previous session.<p>just like git did for code, i think we are the same",
+              "author": "doshay",
+              "engagement": {
+                "score": 119,
+                "comments": 66
+              },
+              "observedAt": "2026-05-08T14:15:36.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "marckohlbrugge/sessy",
+              "url": "https://arstechnica.com/science/2026/05/rip-social-media-what-comes-next-is-messy/",
+              "title": "RIP social media. What comes next is messy",
+              "text": "",
+              "author": "Bender",
+              "engagement": {
+                "score": 34,
+                "comments": 27
+              },
+              "observedAt": "2026-05-07T19:00:09.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "marckohlbrugge/sessy",
+              "url": "https://www.proofnews.org/womans-talkspace-therapy-app-sessions-exposed-in-court/",
+              "title": "Woman's Talkspace therapy app sessions exposed in court",
+              "text": "",
+              "author": "g8oz",
+              "engagement": {
+                "score": 33,
+                "comments": 0
+              },
+              "observedAt": "2026-05-05T01:29:30.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "marckohlbrugge/sessy",
+              "url": "https://wuphf.team",
+              "title": "Show HN: My AI agents bully each other to prevent context drift",
+              "text": "Most multi-agent systems fail the same way: agents drift apart across handoffs. By turn 3 they are working in different realities. By turn 5 they are repeating each other&#x27;s mistakes and calling it parallelism.<p>WUPHF is an open-source local-first office where AI coworkers run on your laptop, around a shared markdown + git LLM wiki the agents build. The wiki is the collective memory. The office around it keeps the team on the same shared context across thousands of handoffs.<p>What actually",
+              "author": "najmuzzaman",
+              "engagement": {
+                "score": 9,
+                "comments": 0
+              },
+              "observedAt": "2026-05-09T16:22:23.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "marckohlbrugge/sessy",
+              "url": "https://disputron.ai",
+              "title": "Show HN: Disputron – AI small claims court for petty disputes",
+              "text": "Disputron is a small claims court for petty disputes. Two parties file, AI lawyers argue both sides, and a AI judge rules from the bench. Trials run live in a courtroom view with a live court tv guide. Anyone can watch.<p>I built it because I wanted to build something with an LLM that didn&#x27;t take AI too seriously. I think it started with a text &quot;have your lawyer talk to my lawyer.&quot; Just leaned into the absurd nature of it. Brought in human designers, illustrators, and musicians.<p",
+              "author": "etaheri",
+              "engagement": {
+                "score": 9,
+                "comments": 4
+              },
+              "observedAt": "2026-05-07T22:00:02.000Z"
             }
           ]
         }

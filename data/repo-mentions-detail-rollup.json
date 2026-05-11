@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-11T08:37:04.654Z",
-  "scanRunId": "sweep-2026-05-11T08:36:48.795Z",
+  "computedAt": "2026-05-11T09:43:08.353Z",
+  "scanRunId": "sweep-2026-05-11T09:42:59.567Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -162,10 +162,10 @@
     },
     "D4Vinci/Scrapling": {
       "fullName": "D4Vinci/Scrapling",
-      "totalMentions7d": 29,
+      "totalMentions7d": 30,
       "perSource": {
         "hackernews": {
-          "count7d": 27,
+          "count7d": 28,
           "top": [
             {
               "source": "hackernews",
@@ -1249,8 +1249,78 @@
     },
     "safishamsi/graphify": {
       "fullName": "safishamsi/graphify",
-      "totalMentions7d": 2,
+      "totalMentions7d": 14,
       "perSource": {
+        "hackernews": {
+          "count7d": 12,
+          "top": [
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://www.itsnicethat.com/features/the-view-from-mumbai-matchbook-graphic-design-130426",
+              "title": "Indian matchbox labels as a visual archive",
+              "text": "",
+              "author": "sahar_builds",
+              "engagement": {
+                "score": 166,
+                "comments": 33
+              },
+              "observedAt": "2026-05-04T14:08:27.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://mykanji.app/",
+              "title": "Show HN: DAG-based Kanji learning through components",
+              "text": "Hi HN<p>I built this app while learning Japanese kanji after struggling to find a tool that showed how kanji are structurally connected through their graphical components.<p>The core feature is a recursive DAG-style component graph (“Kanji Atlas”) that breaks kanji down layer by layer into radicals and graphemes, so you can visually explore how characters are constructed and related to one another. Demo at <a href=\"https:&#x2F;&#x2F;mykanji.app&#x2F;components&#x2F;kanji&#x2F;鬱\" rel=\"nofollow\">h",
+              "author": "barisozmen",
+              "engagement": {
+                "score": 5,
+                "comments": 0
+              },
+              "observedAt": "2026-05-07T19:13:58.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://hackaday.com/2026/04/21/why-some-s3-videocards-have-a-brightness-issue/",
+              "title": "Brightness Issue in Old S3 Graphics Cards",
+              "text": "",
+              "author": "networked",
+              "engagement": {
+                "score": 4,
+                "comments": 0
+              },
+              "observedAt": "2026-05-09T06:41:12.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://danielmay.co.uk/posts/froot-loops-and-a-graphics-card/",
+              "title": "Froot Loops and a Graphics Card",
+              "text": "",
+              "author": "danielrmay",
+              "engagement": {
+                "score": 3,
+                "comments": 0
+              },
+              "observedAt": "2026-05-10T19:06:46.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "safishamsi/graphify",
+              "url": "https://www.nbcnews.com/data-graphics/data-shows-first-names-last-names-rcna342715",
+              "title": "New data shows how the most common first and last names in the U.S. have changed",
+              "text": "",
+              "author": "freejoe76",
+              "engagement": {
+                "score": 3,
+                "comments": 0
+              },
+              "observedAt": "2026-05-09T17:25:07.000Z"
+            }
+          ]
+        },
         "bluesky": {
           "count7d": 2,
           "top": [
@@ -4208,10 +4278,10 @@
     },
     "garrytan/gbrain": {
       "fullName": "garrytan/gbrain",
-      "totalMentions7d": 21,
+      "totalMentions7d": 47,
       "perSource": {
         "hackernews": {
-          "count7d": 19,
+          "count7d": 45,
           "top": [
             {
               "source": "hackernews",
@@ -4225,6 +4295,32 @@
                 "comments": 62
               },
               "observedAt": "2026-05-07T23:06:44.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "garrytan/gbrain",
+              "url": "https://www.nature.com/articles/s41467-026-71962-3",
+              "title": "Human brain changes after first psilocybin use",
+              "text": "",
+              "author": "karma_daemon",
+              "engagement": {
+                "score": 29,
+                "comments": 14
+              },
+              "observedAt": "2026-05-05T23:23:11.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "garrytan/gbrain",
+              "url": "https://brainio.com/",
+              "title": "Show HN: Brainio – Markdown notepad that turns notes into visual mind maps",
+              "text": "",
+              "author": "havlenao",
+              "engagement": {
+                "score": 21,
+                "comments": 19
+              },
+              "observedAt": "2026-05-05T07:28:57.000Z"
             },
             {
               "source": "hackernews",
@@ -4251,32 +4347,6 @@
                 "comments": 10
               },
               "observedAt": "2026-05-07T23:06:24.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "garrytan/gbrain",
-              "url": "https://www.sciencedaily.com/releases/2026/05/260510030946.htm",
-              "title": "Brain scans reveal a difference between psychopaths and other people",
-              "text": "",
-              "author": "Noaidi",
-              "engagement": {
-                "score": 8,
-                "comments": 1
-              },
-              "observedAt": "2026-05-10T12:40:58.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "garrytan/gbrain",
-              "url": "https://www.sfgate.com/national-parks/article/brain-eating-amoeba-parks-22245464.php",
-              "title": "Brain-eating amoeba detected in western national park waters",
-              "text": "",
-              "author": "amichail",
-              "engagement": {
-                "score": 5,
-                "comments": 1
-              },
-              "observedAt": "2026-05-07T18:38:50.000Z"
             }
           ]
         },
@@ -6198,10 +6268,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 8,
+      "totalMentions7d": 15,
       "perSource": {
         "hackernews": {
-          "count7d": 8,
+          "count7d": 15,
           "top": [
             {
               "source": "hackernews",
@@ -6258,15 +6328,15 @@
             {
               "source": "hackernews",
               "fullName": "decolua/9router",
-              "url": "https://github.com/maxbrito500/esp32-c5-deauth",
-              "title": "Nuke All Routers",
+              "url": "https://www.reuters.com/legal/government/new-york-state-set-ban-law-enforcement-including-ice-wearing-masks-2026-05-07/",
+              "title": "New York state set to ban law enforcement, including ICE, from wearing masks",
               "text": "",
-              "author": "nunobrito",
+              "author": "tartoran",
               "engagement": {
-                "score": 18,
-                "comments": 1
+                "score": 39,
+                "comments": 12
               },
-              "observedAt": "2026-05-10T20:50:54.000Z"
+              "observedAt": "2026-05-08T03:36:51.000Z"
             }
           ]
         }

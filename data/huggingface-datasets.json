@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-10T19:37:15.498Z",
+  "fetchedAt": "2026-05-11T04:40:25.261Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -9,8 +9,8 @@
       "author": "open-thoughts",
       "url": "https://huggingface.co/datasets/open-thoughts/AgentTrove",
       "downloads": 6941,
-      "likes": 97,
-      "trendingScore": 53,
+      "likes": 103,
+      "trendingScore": 56,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -40,7 +40,7 @@
       "author": "ADSKAILab",
       "url": "https://huggingface.co/datasets/ADSKAILab/Zero-To-CAD-1m",
       "downloads": 12272,
-      "likes": 64,
+      "likes": 65,
       "trendingScore": 46,
       "tags": [
         "task_categories:text-to-3d",
@@ -142,8 +142,8 @@
       "author": "angrygiraffe",
       "url": "https://huggingface.co/datasets/angrygiraffe/claude-opus-4.6-4.7-reasoning-8.7k",
       "downloads": 1119,
-      "likes": 50,
-      "trendingScore": 34,
+      "likes": 52,
+      "trendingScore": 36,
       "tags": [
         "task_categories:text-generation",
         "task_categories:question-answering",
@@ -885,6 +885,28 @@
     },
     {
       "rank": 28,
+      "id": "Inferact/codex_swebenchpro_traces",
+      "author": "Inferact",
+      "url": "https://huggingface.co/datasets/Inferact/codex_swebenchpro_traces",
+      "downloads": 119,
+      "likes": 13,
+      "trendingScore": 12,
+      "tags": [
+        "license:mit",
+        "size_categories:n<1K",
+        "format:json",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us"
+      ],
+      "createdAt": "2026-05-06T01:09:22.000Z",
+      "lastModified": "2026-05-07T01:13:21.000Z"
+    },
+    {
+      "rank": 29,
       "id": "NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
       "author": "NodeLinker",
       "url": "https://huggingface.co/datasets/NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
@@ -899,7 +921,7 @@
       "lastModified": "2026-05-01T19:27:38.000Z"
     },
     {
-      "rank": 29,
+      "rank": 30,
       "id": "microsoft/synthetic-computers-at-scale",
       "author": "microsoft",
       "url": "https://huggingface.co/datasets/microsoft/synthetic-computers-at-scale",
@@ -929,7 +951,7 @@
       "lastModified": "2026-05-01T06:30:14.000Z"
     },
     {
-      "rank": 30,
+      "rank": 31,
       "id": "openai/gsm8k",
       "author": "openai",
       "url": "https://huggingface.co/datasets/openai/gsm8k",
@@ -961,7 +983,7 @@
       "lastModified": "2026-03-23T10:18:13.000Z"
     },
     {
-      "rank": 31,
+      "rank": 32,
       "id": "clem/ml-intern-sessions",
       "author": "clem",
       "url": "https://huggingface.co/datasets/clem/ml-intern-sessions",
@@ -993,7 +1015,7 @@
       "lastModified": "2026-05-05T18:26:42.000Z"
     },
     {
-      "rank": 32,
+      "rank": 33,
       "id": "bigcode/the-stack-v2",
       "author": "bigcode",
       "url": "https://huggingface.co/datasets/bigcode/the-stack-v2",
@@ -1022,28 +1044,6 @@
       ],
       "createdAt": "2024-02-26T04:26:48.000Z",
       "lastModified": "2024-04-23T15:52:32.000Z"
-    },
-    {
-      "rank": 33,
-      "id": "Inferact/codex_swebenchpro_traces",
-      "author": "Inferact",
-      "url": "https://huggingface.co/datasets/Inferact/codex_swebenchpro_traces",
-      "downloads": 119,
-      "likes": 11,
-      "trendingScore": 10,
-      "tags": [
-        "license:mit",
-        "size_categories:n<1K",
-        "format:json",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us"
-      ],
-      "createdAt": "2026-05-06T01:09:22.000Z",
-      "lastModified": "2026-05-07T01:13:21.000Z"
     },
     {
       "rank": 34,
@@ -1470,6 +1470,43 @@
     },
     {
       "rank": 49,
+      "id": "Qwen/WebWorldData",
+      "author": "Qwen",
+      "url": "https://huggingface.co/datasets/Qwen/WebWorldData",
+      "downloads": 228,
+      "likes": 8,
+      "trendingScore": 8,
+      "tags": [
+        "task_categories:text-generation",
+        "language:en",
+        "language:zh",
+        "license:apache-2.0",
+        "size_categories:100K<n<1M",
+        "format:json",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2602.14721",
+        "region:us",
+        "WebWorld",
+        "world-model",
+        "web-agent",
+        "browser-simulation",
+        "a11y",
+        "html",
+        "xml",
+        "markdown",
+        "trajectories",
+        "agent-training",
+        "synthetic-data"
+      ],
+      "createdAt": "2026-02-13T14:14:24.000Z",
+      "lastModified": "2026-05-08T12:12:49.000Z"
+    },
+    {
+      "rank": 50,
       "id": "nvidia/PhysicalAI-SmartSpaces",
       "author": "nvidia",
       "url": "https://huggingface.co/datasets/nvidia/PhysicalAI-SmartSpaces",
@@ -1483,27 +1520,6 @@
       ],
       "createdAt": "2025-03-13T19:33:51.000Z",
       "lastModified": "2026-04-30T18:31:22.000Z"
-    },
-    {
-      "rank": 50,
-      "id": "NeuroMM/NeuroMM-2026",
-      "author": "NeuroMM",
-      "url": "https://huggingface.co/datasets/NeuroMM/NeuroMM-2026",
-      "downloads": 241,
-      "likes": 10,
-      "trendingScore": 7,
-      "tags": [
-        "language:en",
-        "license:cc-by-nc-4.0",
-        "region:us",
-        "eeg",
-        "multimodal",
-        "seizure-detection",
-        "benchmark",
-        "neuromm-2026"
-      ],
-      "createdAt": "2026-05-01T11:19:50.000Z",
-      "lastModified": "2026-05-01T12:44:32.000Z"
     }
   ]
 }

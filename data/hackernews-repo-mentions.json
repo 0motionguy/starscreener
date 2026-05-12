@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-12T07:36:31.962Z",
+  "fetchedAt": "2026-05-12T10:09:03.784Z",
   "windowDays": 7,
   "scannedAlgoliaHits": 745,
   "scannedFirebaseItems": 500,
@@ -12,7 +12,7 @@
         "title": "Show HN: I made a Clojure-like language in Go, boots in 7ms",
         "score": 269,
         "url": "https://github.com/nooga/let-go",
-        "hoursSincePosted": 61.74
+        "hoursSincePosted": 64.28
       },
       "everHitFrontPage": false,
       "stories": [
@@ -24,9 +24,9 @@
           "score": 269,
           "descendants": 82,
           "createdUtc": 1778349133,
-          "ageHours": 61.74,
-          "velocity": 4.36,
-          "trendingScore": 97.46,
+          "ageHours": 64.28,
+          "velocity": 4.18,
+          "trendingScore": 93.44,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -50,9 +50,9 @@
           "score": 4,
           "descendants": 2,
           "createdUtc": 1778257486,
-          "ageHours": 87.2,
-          "velocity": 0.05,
-          "trendingScore": 0.04,
+          "ageHours": 89.74,
+          "velocity": 0.04,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -69,6 +69,46 @@
         }
       ]
     },
+    "ab-613/OpenGravity": {
+      "count7d": 1,
+      "scoreSum7d": 84,
+      "topStory": {
+        "id": 48100192,
+        "title": "Show HN: OpenGravity – A zero-install, BYOK vanilla JS clone of Antigravity",
+        "score": 84,
+        "url": "https://github.com/ab-613/opengravity",
+        "hoursSincePosted": 13.76
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48100192,
+          "title": "Show HN: OpenGravity – A zero-install, BYOK vanilla JS clone of Antigravity",
+          "url": "https://github.com/ab-613/opengravity",
+          "by": "ab613",
+          "score": 84,
+          "descendants": 28,
+          "createdUtc": 1778531005,
+          "ageHours": 13.76,
+          "velocity": 6.1,
+          "trendingScore": 44.6,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "Hi. I’m a high school student studying for my GCSEs. I was using Google Antigravity heavily for my side projects, but I kept hitting the usage limits, and getting random \"agent terminated\" errors. So I decided to try build my own version of the IDE. I love the UI, so I copied it as accurately as possible, and then hooked up some logic into it, including the INCREDIBLY finicky webcontainer api. I tried to keep it super lightweight, no build steps, or dependencies, and now that its open source, I'",
+          "linkedRepos": [
+            {
+              "fullName": "ab-613/OpenGravity",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "Imbad0202/academic-research-skills": {
       "count7d": 1,
       "scoreSum7d": 81,
@@ -77,7 +117,7 @@
         "title": "Academic Research Skills for Claude Code",
         "score": 81,
         "url": "https://github.com/Imbad0202/academic-research-skills",
-        "hoursSincePosted": 41.91
+        "hoursSincePosted": 44.45
       },
       "everHitFrontPage": false,
       "stories": [
@@ -89,9 +129,9 @@
           "score": 81,
           "descendants": 24,
           "createdUtc": 1778420520,
-          "ageHours": 41.91,
-          "velocity": 1.93,
-          "trendingScore": 12.52,
+          "ageHours": 44.45,
+          "velocity": 1.82,
+          "trendingScore": 11.81,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -116,7 +156,7 @@
         "title": "Show HN: Agent-skills-eval – Test whether Agent Skills improve outputs",
         "score": 79,
         "url": "https://github.com/darkrishabh/agent-skills-eval",
-        "hoursSincePosted": 121.4
+        "hoursSincePosted": 123.94
       },
       "everHitFrontPage": false,
       "stories": [
@@ -128,9 +168,9 @@
           "score": 79,
           "descendants": 36,
           "createdUtc": 1778134345,
-          "ageHours": 121.4,
-          "velocity": 0.65,
-          "trendingScore": 5.67,
+          "ageHours": 123.94,
+          "velocity": 0.64,
+          "trendingScore": 5.59,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -149,46 +189,6 @@
         }
       ]
     },
-    "ab-613/OpenGravity": {
-      "count7d": 1,
-      "scoreSum7d": 79,
-      "topStory": {
-        "id": 48100192,
-        "title": "Show HN: OpenGravity – A zero-install, BYOK vanilla JS clone of Antigravity",
-        "score": 79,
-        "url": "https://github.com/ab-613/opengravity",
-        "hoursSincePosted": 11.22
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48100192,
-          "title": "Show HN: OpenGravity – A zero-install, BYOK vanilla JS clone of Antigravity",
-          "url": "https://github.com/ab-613/opengravity",
-          "by": "ab613",
-          "score": 79,
-          "descendants": 24,
-          "createdUtc": 1778531005,
-          "ageHours": 11.22,
-          "velocity": 7.04,
-          "trendingScore": 45.42,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "Hi. I’m a high school student studying for my GCSEs. I was using Google Antigravity heavily for my side projects, but I kept hitting the usage limits, and getting random \"agent terminated\" errors. So I decided to try build my own version of the IDE. I love the UI, so I copied it as accurately as possible, and then hooked up some logic into it, including the INCREDIBLY finicky webcontainer api. I tried to keep it super lightweight, no build steps, or dependencies, and now that its open source, I'",
-          "linkedRepos": [
-            {
-              "fullName": "ab-613/OpenGravity",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "anthropics/claude-code": {
       "count7d": 1,
       "scoreSum7d": 6,
@@ -197,7 +197,7 @@
         "title": "Claude Code with Bedrock broken again",
         "score": 6,
         "url": "https://github.com/anthropics/claude-code/issues/56595",
-        "hoursSincePosted": 135.16
+        "hoursSincePosted": 137.7
       },
       "everHitFrontPage": false,
       "stories": [
@@ -209,7 +209,7 @@
           "score": 6,
           "descendants": 1,
           "createdUtc": 1778084816,
-          "ageHours": 135.16,
+          "ageHours": 137.7,
           "velocity": 0.04,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -236,7 +236,7 @@
         "title": "CUDA-oxide an experimental Rust-to-CUDA compiler",
         "score": 7,
         "url": "https://github.com/NVlabs/cuda-oxide",
-        "hoursSincePosted": 93.24
+        "hoursSincePosted": 95.78
       },
       "everHitFrontPage": false,
       "stories": [
@@ -248,9 +248,9 @@
           "score": 7,
           "descendants": 0,
           "createdUtc": 1778235730,
-          "ageHours": 93.24,
-          "velocity": 0.08,
-          "trendingScore": 0.07,
+          "ageHours": 95.78,
+          "velocity": 0.07,
+          "trendingScore": 0.06,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -273,7 +273,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778291535,
-          "ageHours": 77.74,
+          "ageHours": 80.28,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -298,7 +298,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778189399,
-          "ageHours": 106.11,
+          "ageHours": 108.65,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -323,7 +323,7 @@
           "score": 1,
           "descendants": 1,
           "createdUtc": 1778322039,
-          "ageHours": 69.26,
+          "ageHours": 71.81,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -350,7 +350,7 @@
         "title": "Show HN: I've implemented multi-repo workspace support in Agent of Empires",
         "score": 6,
         "url": "https://github.com/njbrake/agent-of-empires",
-        "hoursSincePosted": 11.21
+        "hoursSincePosted": 13.75
       },
       "everHitFrontPage": false,
       "stories": [
@@ -362,9 +362,9 @@
           "score": 6,
           "descendants": 0,
           "createdUtc": 1778531035,
-          "ageHours": 11.21,
-          "velocity": 0.54,
-          "trendingScore": 0.42,
+          "ageHours": 13.75,
+          "velocity": 0.44,
+          "trendingScore": 0.34,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -390,7 +390,7 @@
         "title": "Agent Exchange – A2A discovery with real-time bidding for AI agents",
         "score": 3,
         "url": "https://github.com/open-experiments/agent-exchange",
-        "hoursSincePosted": 136.23
+        "hoursSincePosted": 138.78
       },
       "everHitFrontPage": false,
       "stories": [
@@ -402,7 +402,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778080950,
-          "ageHours": 136.23,
+          "ageHours": 138.78,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -428,7 +428,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778256018,
-          "ageHours": 87.6,
+          "ageHours": 90.15,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -455,7 +455,7 @@
         "title": "OpenKB: A Vectorless Knowledge Base for Long Documents",
         "score": 2,
         "url": "https://github.com/VectifyAI/OpenKB",
-        "hoursSincePosted": 92.26
+        "hoursSincePosted": 94.8
       },
       "everHitFrontPage": false,
       "stories": [
@@ -467,7 +467,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778239251,
-          "ageHours": 92.26,
+          "ageHours": 94.8,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -492,7 +492,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778069636,
-          "ageHours": 139.38,
+          "ageHours": 141.92,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -519,7 +519,7 @@
         "title": "Hunk: Review-first terminal diff viewer for agentic coders",
         "score": 4,
         "url": "https://github.com/modem-dev/hunk",
-        "hoursSincePosted": 127.21
+        "hoursSincePosted": 129.75
       },
       "everHitFrontPage": false,
       "stories": [
@@ -531,7 +531,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778113445,
-          "ageHours": 127.21,
+          "ageHours": 129.75,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -558,7 +558,7 @@
         "title": "Thoth v3.20.0 – Full Linux Support, MiniMax Integration, Reliability Upgrades",
         "score": 4,
         "url": "https://github.com/siddsachar/Thoth",
-        "hoursSincePosted": 159.4
+        "hoursSincePosted": 161.94
       },
       "everHitFrontPage": false,
       "stories": [
@@ -570,9 +570,9 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1777997567,
-          "ageHours": 159.4,
-          "velocity": 0.03,
-          "trendingScore": 0.02,
+          "ageHours": 161.94,
+          "velocity": 0.02,
+          "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -597,7 +597,7 @@
         "title": "notebooklm-py makes Claude interact with NotebookLM",
         "score": 4,
         "url": "https://github.com/teng-lin/notebooklm-py",
-        "hoursSincePosted": 141.56
+        "hoursSincePosted": 144.11
       },
       "everHitFrontPage": false,
       "stories": [
@@ -609,7 +609,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778061763,
-          "ageHours": 141.56,
+          "ageHours": 144.11,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -636,7 +636,7 @@
         "title": "OMLX: Local LLM Server for Apple Silicon Macs",
         "score": 4,
         "url": "https://github.com/jundot/omlx",
-        "hoursSincePosted": 20.6
+        "hoursSincePosted": 23.15
       },
       "everHitFrontPage": false,
       "stories": [
@@ -648,9 +648,9 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778497217,
-          "ageHours": 20.6,
-          "velocity": 0.19,
-          "trendingScore": 0.11,
+          "ageHours": 23.15,
+          "velocity": 0.17,
+          "trendingScore": 0.1,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -675,7 +675,7 @@
         "title": "Traceway: MIT-licensed observability stack you can self-host in ~90s",
         "score": 4,
         "url": "https://github.com/tracewayapp/traceway",
-        "hoursSincePosted": 24.53
+        "hoursSincePosted": 27.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -687,9 +687,9 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778483101,
-          "ageHours": 24.53,
-          "velocity": 0.16,
-          "trendingScore": 0.1,
+          "ageHours": 27.07,
+          "velocity": 0.15,
+          "trendingScore": 0.09,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -714,7 +714,7 @@
         "title": "Larql: Run attention locally, FFN on another machine",
         "score": 3,
         "url": "https://github.com/chrishayuk/larql",
-        "hoursSincePosted": 106.39
+        "hoursSincePosted": 108.93
       },
       "everHitFrontPage": false,
       "stories": [
@@ -726,7 +726,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778188394,
-          "ageHours": 106.39,
+          "ageHours": 108.93,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -753,7 +753,7 @@
         "title": "Jj v0.41.0 Is Out",
         "score": 3,
         "url": "https://github.com/jj-vcs/jj/releases/tag/v0.41.0",
-        "hoursSincePosted": 92.69
+        "hoursSincePosted": 95.23
       },
       "everHitFrontPage": false,
       "stories": [
@@ -765,7 +765,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778237719,
-          "ageHours": 92.69,
+          "ageHours": 95.23,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -792,7 +792,7 @@
         "title": "Building an Open Source 7MB AI Terminal with Agents and Code Editor (Rust/Tauri)",
         "score": 3,
         "url": "https://github.com/crynta/terax-ai",
-        "hoursSincePosted": 91.68
+        "hoursSincePosted": 94.23
       },
       "everHitFrontPage": false,
       "stories": [
@@ -804,7 +804,7 @@
           "score": 3,
           "descendants": 1,
           "createdUtc": 1778241330,
-          "ageHours": 91.68,
+          "ageHours": 94.23,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -831,7 +831,7 @@
         "title": "Open-source endpoint detection engine for Windows and Linux",
         "score": 3,
         "url": "https://github.com/Karib0u/rustinel",
-        "hoursSincePosted": 8.59
+        "hoursSincePosted": 11.13
       },
       "everHitFrontPage": false,
       "stories": [
@@ -843,9 +843,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778540481,
-          "ageHours": 8.59,
-          "velocity": 0.35,
-          "trendingScore": 0.17,
+          "ageHours": 11.13,
+          "velocity": 0.27,
+          "trendingScore": 0.13,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -870,7 +870,7 @@
         "title": "Build native desktop and mobile apps with web UI and Zig",
         "score": 1,
         "url": "https://github.com/vercel-labs/zero-native",
-        "hoursSincePosted": 55.88
+        "hoursSincePosted": 58.42
       },
       "everHitFrontPage": false,
       "stories": [
@@ -882,7 +882,7 @@
           "score": 1,
           "descendants": 1,
           "createdUtc": 1778370221,
-          "ageHours": 55.88,
+          "ageHours": 58.42,
           "velocity": 0.02,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -907,7 +907,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778455279,
-          "ageHours": 32.25,
+          "ageHours": 34.8,
           "velocity": 0.03,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -934,7 +934,7 @@
         "title": "Open SRE",
         "score": 2,
         "url": "https://github.com/Tracer-Cloud/opensre",
-        "hoursSincePosted": 65.92
+        "hoursSincePosted": 68.46
       },
       "everHitFrontPage": false,
       "stories": [
@@ -946,7 +946,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778334079,
-          "ageHours": 65.92,
+          "ageHours": 68.46,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -973,7 +973,7 @@
         "title": "Open Agents from Vercel is now open source",
         "score": 2,
         "url": "https://github.com/vercel-labs/open-agents",
-        "hoursSincePosted": 141.68
+        "hoursSincePosted": 144.22
       },
       "everHitFrontPage": false,
       "stories": [
@@ -985,7 +985,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778061338,
-          "ageHours": 141.68,
+          "ageHours": 144.22,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1012,7 +1012,7 @@
         "title": "Memoir – Git for AI agent memory, with a Claude Code plugin",
         "score": 2,
         "url": "https://github.com/zhangfengcdt/memoir",
-        "hoursSincePosted": 159.69
+        "hoursSincePosted": 162.24
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1024,7 +1024,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777996494,
-          "ageHours": 159.69,
+          "ageHours": 162.24,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1052,7 +1052,7 @@
         "title": "Floci: Light, fluffy, and always free – The AWS Local Emulator alternative",
         "score": 1,
         "url": "https://github.com/floci-io/floci",
-        "hoursSincePosted": 5.3
+        "hoursSincePosted": 7.84
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1064,8 +1064,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778552315,
-          "ageHours": 5.3,
-          "velocity": 0.19,
+          "ageHours": 7.84,
+          "velocity": 0.13,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -1091,7 +1091,7 @@
         "title": "PageIndex: Vectorless, Reasoning-Based RAG",
         "score": 1,
         "url": "https://github.com/VectifyAI/PageIndex",
-        "hoursSincePosted": 160.07
+        "hoursSincePosted": 162.61
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1103,7 +1103,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777995148,
-          "ageHours": 160.07,
+          "ageHours": 162.61,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1132,7 +1132,7 @@
         "title": "Show HN: I made a Clojure-like language in Go, boots in 7ms",
         "score": 269,
         "url": "https://github.com/nooga/let-go",
-        "hoursSincePosted": 61.74
+        "hoursSincePosted": 64.28
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1144,9 +1144,9 @@
           "score": 269,
           "descendants": 82,
           "createdUtc": 1778349133,
-          "ageHours": 61.74,
-          "velocity": 4.36,
-          "trendingScore": 97.46,
+          "ageHours": 64.28,
+          "velocity": 4.18,
+          "trendingScore": 93.44,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -1170,9 +1170,9 @@
           "score": 4,
           "descendants": 2,
           "createdUtc": 1778257486,
-          "ageHours": 87.2,
-          "velocity": 0.05,
-          "trendingScore": 0.04,
+          "ageHours": 89.74,
+          "velocity": 0.04,
+          "trendingScore": 0.03,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1189,6 +1189,46 @@
         }
       ]
     },
+    "ab-613--opengravity": {
+      "count7d": 1,
+      "scoreSum7d": 84,
+      "topStory": {
+        "id": 48100192,
+        "title": "Show HN: OpenGravity – A zero-install, BYOK vanilla JS clone of Antigravity",
+        "score": 84,
+        "url": "https://github.com/ab-613/opengravity",
+        "hoursSincePosted": 13.76
+      },
+      "everHitFrontPage": false,
+      "stories": [
+        {
+          "id": 48100192,
+          "title": "Show HN: OpenGravity – A zero-install, BYOK vanilla JS clone of Antigravity",
+          "url": "https://github.com/ab-613/opengravity",
+          "by": "ab613",
+          "score": 84,
+          "descendants": 28,
+          "createdUtc": 1778531005,
+          "ageHours": 13.76,
+          "velocity": 6.1,
+          "trendingScore": 44.6,
+          "everHitFrontPage": false,
+          "content_tags": [
+            "has-github-repo",
+            "is-show-hn"
+          ],
+          "value_score": 3,
+          "storyText": "Hi. I’m a high school student studying for my GCSEs. I was using Google Antigravity heavily for my side projects, but I kept hitting the usage limits, and getting random \"agent terminated\" errors. So I decided to try build my own version of the IDE. I love the UI, so I copied it as accurately as possible, and then hooked up some logic into it, including the INCREDIBLY finicky webcontainer api. I tried to keep it super lightweight, no build steps, or dependencies, and now that its open source, I'",
+          "linkedRepos": [
+            {
+              "fullName": "ab-613/OpenGravity",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "imbad0202--academic-research-skills": {
       "count7d": 1,
       "scoreSum7d": 81,
@@ -1197,7 +1237,7 @@
         "title": "Academic Research Skills for Claude Code",
         "score": 81,
         "url": "https://github.com/Imbad0202/academic-research-skills",
-        "hoursSincePosted": 41.91
+        "hoursSincePosted": 44.45
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1209,9 +1249,9 @@
           "score": 81,
           "descendants": 24,
           "createdUtc": 1778420520,
-          "ageHours": 41.91,
-          "velocity": 1.93,
-          "trendingScore": 12.52,
+          "ageHours": 44.45,
+          "velocity": 1.82,
+          "trendingScore": 11.81,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1236,7 +1276,7 @@
         "title": "Show HN: Agent-skills-eval – Test whether Agent Skills improve outputs",
         "score": 79,
         "url": "https://github.com/darkrishabh/agent-skills-eval",
-        "hoursSincePosted": 121.4
+        "hoursSincePosted": 123.94
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1248,9 +1288,9 @@
           "score": 79,
           "descendants": 36,
           "createdUtc": 1778134345,
-          "ageHours": 121.4,
-          "velocity": 0.65,
-          "trendingScore": 5.67,
+          "ageHours": 123.94,
+          "velocity": 0.64,
+          "trendingScore": 5.59,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -1269,46 +1309,6 @@
         }
       ]
     },
-    "ab-613--opengravity": {
-      "count7d": 1,
-      "scoreSum7d": 79,
-      "topStory": {
-        "id": 48100192,
-        "title": "Show HN: OpenGravity – A zero-install, BYOK vanilla JS clone of Antigravity",
-        "score": 79,
-        "url": "https://github.com/ab-613/opengravity",
-        "hoursSincePosted": 11.22
-      },
-      "everHitFrontPage": false,
-      "stories": [
-        {
-          "id": 48100192,
-          "title": "Show HN: OpenGravity – A zero-install, BYOK vanilla JS clone of Antigravity",
-          "url": "https://github.com/ab-613/opengravity",
-          "by": "ab613",
-          "score": 79,
-          "descendants": 24,
-          "createdUtc": 1778531005,
-          "ageHours": 11.22,
-          "velocity": 7.04,
-          "trendingScore": 45.42,
-          "everHitFrontPage": false,
-          "content_tags": [
-            "has-github-repo",
-            "is-show-hn"
-          ],
-          "value_score": 3,
-          "storyText": "Hi. I’m a high school student studying for my GCSEs. I was using Google Antigravity heavily for my side projects, but I kept hitting the usage limits, and getting random \"agent terminated\" errors. So I decided to try build my own version of the IDE. I love the UI, so I copied it as accurately as possible, and then hooked up some logic into it, including the INCREDIBLY finicky webcontainer api. I tried to keep it super lightweight, no build steps, or dependencies, and now that its open source, I'",
-          "linkedRepos": [
-            {
-              "fullName": "ab-613/OpenGravity",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
-    },
     "anthropics--claude-code": {
       "count7d": 1,
       "scoreSum7d": 6,
@@ -1317,7 +1317,7 @@
         "title": "Claude Code with Bedrock broken again",
         "score": 6,
         "url": "https://github.com/anthropics/claude-code/issues/56595",
-        "hoursSincePosted": 135.16
+        "hoursSincePosted": 137.7
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1329,7 +1329,7 @@
           "score": 6,
           "descendants": 1,
           "createdUtc": 1778084816,
-          "ageHours": 135.16,
+          "ageHours": 137.7,
           "velocity": 0.04,
           "trendingScore": 0.03,
           "everHitFrontPage": false,
@@ -1356,7 +1356,7 @@
         "title": "CUDA-oxide an experimental Rust-to-CUDA compiler",
         "score": 7,
         "url": "https://github.com/NVlabs/cuda-oxide",
-        "hoursSincePosted": 93.24
+        "hoursSincePosted": 95.78
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1368,9 +1368,9 @@
           "score": 7,
           "descendants": 0,
           "createdUtc": 1778235730,
-          "ageHours": 93.24,
-          "velocity": 0.08,
-          "trendingScore": 0.07,
+          "ageHours": 95.78,
+          "velocity": 0.07,
+          "trendingScore": 0.06,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1393,7 +1393,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778291535,
-          "ageHours": 77.74,
+          "ageHours": 80.28,
           "velocity": 0.04,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1418,7 +1418,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778189399,
-          "ageHours": 106.11,
+          "ageHours": 108.65,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1443,7 +1443,7 @@
           "score": 1,
           "descendants": 1,
           "createdUtc": 1778322039,
-          "ageHours": 69.26,
+          "ageHours": 71.81,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1470,7 +1470,7 @@
         "title": "Show HN: I've implemented multi-repo workspace support in Agent of Empires",
         "score": 6,
         "url": "https://github.com/njbrake/agent-of-empires",
-        "hoursSincePosted": 11.21
+        "hoursSincePosted": 13.75
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1482,9 +1482,9 @@
           "score": 6,
           "descendants": 0,
           "createdUtc": 1778531035,
-          "ageHours": 11.21,
-          "velocity": 0.54,
-          "trendingScore": 0.42,
+          "ageHours": 13.75,
+          "velocity": 0.44,
+          "trendingScore": 0.34,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo",
@@ -1510,7 +1510,7 @@
         "title": "Agent Exchange – A2A discovery with real-time bidding for AI agents",
         "score": 3,
         "url": "https://github.com/open-experiments/agent-exchange",
-        "hoursSincePosted": 136.23
+        "hoursSincePosted": 138.78
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1522,7 +1522,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778080950,
-          "ageHours": 136.23,
+          "ageHours": 138.78,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1548,7 +1548,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778256018,
-          "ageHours": 87.6,
+          "ageHours": 90.15,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1575,7 +1575,7 @@
         "title": "OpenKB: A Vectorless Knowledge Base for Long Documents",
         "score": 2,
         "url": "https://github.com/VectifyAI/OpenKB",
-        "hoursSincePosted": 92.26
+        "hoursSincePosted": 94.8
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1587,7 +1587,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778239251,
-          "ageHours": 92.26,
+          "ageHours": 94.8,
           "velocity": 0.02,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1612,7 +1612,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778069636,
-          "ageHours": 139.38,
+          "ageHours": 141.92,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -1639,7 +1639,7 @@
         "title": "Hunk: Review-first terminal diff viewer for agentic coders",
         "score": 4,
         "url": "https://github.com/modem-dev/hunk",
-        "hoursSincePosted": 127.21
+        "hoursSincePosted": 129.75
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1651,7 +1651,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778113445,
-          "ageHours": 127.21,
+          "ageHours": 129.75,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1678,7 +1678,7 @@
         "title": "Thoth v3.20.0 – Full Linux Support, MiniMax Integration, Reliability Upgrades",
         "score": 4,
         "url": "https://github.com/siddsachar/Thoth",
-        "hoursSincePosted": 159.4
+        "hoursSincePosted": 161.94
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1690,9 +1690,9 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1777997567,
-          "ageHours": 159.4,
-          "velocity": 0.03,
-          "trendingScore": 0.02,
+          "ageHours": 161.94,
+          "velocity": 0.02,
+          "trendingScore": 0.01,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1717,7 +1717,7 @@
         "title": "notebooklm-py makes Claude interact with NotebookLM",
         "score": 4,
         "url": "https://github.com/teng-lin/notebooklm-py",
-        "hoursSincePosted": 141.56
+        "hoursSincePosted": 144.11
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1729,7 +1729,7 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778061763,
-          "ageHours": 141.56,
+          "ageHours": 144.11,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1756,7 +1756,7 @@
         "title": "OMLX: Local LLM Server for Apple Silicon Macs",
         "score": 4,
         "url": "https://github.com/jundot/omlx",
-        "hoursSincePosted": 20.6
+        "hoursSincePosted": 23.15
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1768,9 +1768,9 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778497217,
-          "ageHours": 20.6,
-          "velocity": 0.19,
-          "trendingScore": 0.11,
+          "ageHours": 23.15,
+          "velocity": 0.17,
+          "trendingScore": 0.1,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1795,7 +1795,7 @@
         "title": "Traceway: MIT-licensed observability stack you can self-host in ~90s",
         "score": 4,
         "url": "https://github.com/tracewayapp/traceway",
-        "hoursSincePosted": 24.53
+        "hoursSincePosted": 27.07
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1807,9 +1807,9 @@
           "score": 4,
           "descendants": 0,
           "createdUtc": 1778483101,
-          "ageHours": 24.53,
-          "velocity": 0.16,
-          "trendingScore": 0.1,
+          "ageHours": 27.07,
+          "velocity": 0.15,
+          "trendingScore": 0.09,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1834,7 +1834,7 @@
         "title": "Larql: Run attention locally, FFN on another machine",
         "score": 3,
         "url": "https://github.com/chrishayuk/larql",
-        "hoursSincePosted": 106.39
+        "hoursSincePosted": 108.93
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1846,7 +1846,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778188394,
-          "ageHours": 106.39,
+          "ageHours": 108.93,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1873,7 +1873,7 @@
         "title": "Jj v0.41.0 Is Out",
         "score": 3,
         "url": "https://github.com/jj-vcs/jj/releases/tag/v0.41.0",
-        "hoursSincePosted": 92.69
+        "hoursSincePosted": 95.23
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1885,7 +1885,7 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778237719,
-          "ageHours": 92.69,
+          "ageHours": 95.23,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -1912,7 +1912,7 @@
         "title": "Building an Open Source 7MB AI Terminal with Agents and Code Editor (Rust/Tauri)",
         "score": 3,
         "url": "https://github.com/crynta/terax-ai",
-        "hoursSincePosted": 91.68
+        "hoursSincePosted": 94.23
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1924,7 +1924,7 @@
           "score": 3,
           "descendants": 1,
           "createdUtc": 1778241330,
-          "ageHours": 91.68,
+          "ageHours": 94.23,
           "velocity": 0.03,
           "trendingScore": 0.02,
           "everHitFrontPage": false,
@@ -1951,7 +1951,7 @@
         "title": "Open-source endpoint detection engine for Windows and Linux",
         "score": 3,
         "url": "https://github.com/Karib0u/rustinel",
-        "hoursSincePosted": 8.59
+        "hoursSincePosted": 11.13
       },
       "everHitFrontPage": false,
       "stories": [
@@ -1963,9 +1963,9 @@
           "score": 3,
           "descendants": 0,
           "createdUtc": 1778540481,
-          "ageHours": 8.59,
-          "velocity": 0.35,
-          "trendingScore": 0.17,
+          "ageHours": 11.13,
+          "velocity": 0.27,
+          "trendingScore": 0.13,
           "everHitFrontPage": false,
           "content_tags": [
             "has-github-repo"
@@ -1990,7 +1990,7 @@
         "title": "Build native desktop and mobile apps with web UI and Zig",
         "score": 1,
         "url": "https://github.com/vercel-labs/zero-native",
-        "hoursSincePosted": 55.88
+        "hoursSincePosted": 58.42
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2002,7 +2002,7 @@
           "score": 1,
           "descendants": 1,
           "createdUtc": 1778370221,
-          "ageHours": 55.88,
+          "ageHours": 58.42,
           "velocity": 0.02,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2027,7 +2027,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778455279,
-          "ageHours": 32.25,
+          "ageHours": 34.8,
           "velocity": 0.03,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2054,7 +2054,7 @@
         "title": "Open SRE",
         "score": 2,
         "url": "https://github.com/Tracer-Cloud/opensre",
-        "hoursSincePosted": 65.92
+        "hoursSincePosted": 68.46
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2066,7 +2066,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778334079,
-          "ageHours": 65.92,
+          "ageHours": 68.46,
           "velocity": 0.03,
           "trendingScore": 0.01,
           "everHitFrontPage": false,
@@ -2093,7 +2093,7 @@
         "title": "Open Agents from Vercel is now open source",
         "score": 2,
         "url": "https://github.com/vercel-labs/open-agents",
-        "hoursSincePosted": 141.68
+        "hoursSincePosted": 144.22
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2105,7 +2105,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1778061338,
-          "ageHours": 141.68,
+          "ageHours": 144.22,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2132,7 +2132,7 @@
         "title": "Memoir – Git for AI agent memory, with a Claude Code plugin",
         "score": 2,
         "url": "https://github.com/zhangfengcdt/memoir",
-        "hoursSincePosted": 159.69
+        "hoursSincePosted": 162.24
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2144,7 +2144,7 @@
           "score": 2,
           "descendants": 0,
           "createdUtc": 1777996494,
-          "ageHours": 159.69,
+          "ageHours": 162.24,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2172,7 +2172,7 @@
         "title": "Floci: Light, fluffy, and always free – The AWS Local Emulator alternative",
         "score": 1,
         "url": "https://github.com/floci-io/floci",
-        "hoursSincePosted": 5.3
+        "hoursSincePosted": 7.84
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2184,8 +2184,8 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1778552315,
-          "ageHours": 5.3,
-          "velocity": 0.19,
+          "ageHours": 7.84,
+          "velocity": 0.13,
           "trendingScore": 0,
           "everHitFrontPage": false,
           "content_tags": [
@@ -2211,7 +2211,7 @@
         "title": "PageIndex: Vectorless, Reasoning-Based RAG",
         "score": 1,
         "url": "https://github.com/VectifyAI/PageIndex",
-        "hoursSincePosted": 160.07
+        "hoursSincePosted": 162.61
       },
       "everHitFrontPage": false,
       "stories": [
@@ -2223,7 +2223,7 @@
           "score": 1,
           "descendants": 0,
           "createdUtc": 1777995148,
-          "ageHours": 160.07,
+          "ageHours": 162.61,
           "velocity": 0.01,
           "trendingScore": 0,
           "everHitFrontPage": false,
@@ -2250,17 +2250,17 @@
       "scoreSum7d": 273
     },
     {
+      "fullName": "ab-613/OpenGravity",
+      "count7d": 1,
+      "scoreSum7d": 84
+    },
+    {
       "fullName": "Imbad0202/academic-research-skills",
       "count7d": 1,
       "scoreSum7d": 81
     },
     {
       "fullName": "darkrishabh/agent-skills-eval",
-      "count7d": 1,
-      "scoreSum7d": 79
-    },
-    {
-      "fullName": "ab-613/OpenGravity",
       "count7d": 1,
       "scoreSum7d": 79
     },

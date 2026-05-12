@@ -48,6 +48,7 @@ import {
 } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { ingestDevtoMentionsToToolbox } from "./_toolbox-ingest.mjs";
 import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 
 // F3 unknown-mentions accumulator — per-run Set populated inside the
@@ -428,10 +429,21 @@ async function main() {
   const mentionsRedis = await writeDataStore("devto-mentions", mentionsPayload);
   const trendingRedis = await writeDataStore("devto-trending", trendingPayload);
 
+  // Dual-write to TOOLBOX (`trending.devto.mentions` per repo). Best-effort:
+  // skipped silently when env unset; 5s timeout per HTTP call.
+  const toolboxResult = await ingestDevtoMentionsToToolbox(mentionsPayload);
+
   log("");
   log(`wrote ${MENTIONS_OUT} [redis: ${mentionsRedis.source}]`);
   log(`  repos with mentions: ${Object.keys(mentions).length} (${leaderboard.length} leaderboard rows)`);
   log(`wrote ${TRENDING_OUT} [redis: ${trendingRedis.source}]`);
+  log(
+    `  toolbox-ingest: ${toolboxResult.status}` +
+      (toolboxResult.accepted !== undefined ? ` accepted=${toolboxResult.accepted}` : "") +
+      (toolboxResult.rejected !== undefined && toolboxResult.rejected > 0 ? ` rejected=${toolboxResult.rejected}` : "") +
+      (toolboxResult.reason ? ` (${toolboxResult.reason})` : "") +
+      (toolboxResult.duration_ms !== undefined ? ` [${toolboxResult.duration_ms}ms]` : ""),
+  );
   log(
     `  trending articles: ${trendingArticles.length} ` +
       `(mode: ${bodyFetchMode}, slices: ${DEVTO_DISCOVERY_SLICES.length}, tags: ${DEVTO_PRIORITY_TAGS.length})`,

@@ -48,6 +48,7 @@ import {
 } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { ingestRedditMentionsToToolbox } from "./_toolbox-ingest.mjs";
 
 // F3 unknown-mentions accumulator — per-run Set populated inside the
 // extractRepoMentions path. Flushed at end of main() so the lake gets
@@ -1042,6 +1043,17 @@ async function main() {
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n", "utf8");
   const mentionsRedis = await writeDataStore("reddit-mentions", payload);
+
+  // Dual-write to TOOLBOX (`trending.reddit.mentions` per repo). Best-effort:
+  // skipped silently when env unset; 5s timeout per HTTP call.
+  const toolboxResult = await ingestRedditMentionsToToolbox(payload);
+  console.log(
+    `[reddit] toolbox-ingest: ${toolboxResult.status}` +
+      (toolboxResult.accepted !== undefined ? ` accepted=${toolboxResult.accepted}` : "") +
+      (toolboxResult.rejected !== undefined && toolboxResult.rejected > 0 ? ` rejected=${toolboxResult.rejected}` : "") +
+      (toolboxResult.reason ? ` (${toolboxResult.reason})` : "") +
+      (toolboxResult.duration_ms !== undefined ? ` [${toolboxResult.duration_ms}ms]` : ""),
+  );
 
   // ---- all-posts merge + write ----
   const existingAllPosts = scrubStaleProjectNameLinks(

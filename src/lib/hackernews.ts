@@ -210,8 +210,12 @@ export function getAllHnMentions(): Record<string, HnRepoMention> {
 }
 
 export function getHnLeaderboard(): HnLeaderboardEntry[] {
-  // The on-disk file is already sorted by the scraper. Surface as-is.
-  return mentionsFile.leaderboard;
+  // Keep stale keep-last-50 leaderboard rows from surfacing without a
+  // corresponding mention bucket. The scraper also preserves this invariant
+  // on new writes, but the loader has to tolerate already-committed snapshots.
+  return mentionsFile.leaderboard.filter((row) =>
+    mentionsByLowerName.has(row.fullName.toLowerCase()),
+  );
 }
 
 export function hnItemHref(id: number): string {

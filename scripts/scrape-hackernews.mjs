@@ -503,7 +503,29 @@ async function main() {
     mentionsPayload.leaderboard,
     { idKey: "fullName", scoreKey: "scoreSum7d", recencyKey: "count7d" },
   );
-  const mentionsPayloadFinal = { ...mentionsPayload, leaderboard: mergedLeaderboard };
+  const mergedMentions = {};
+  for (const row of mergedLeaderboard) {
+    const fullName = row?.fullName;
+    if (typeof fullName !== "string") continue;
+    const existingBucket = existingMentions?.mentions?.[fullName];
+    if (existingBucket) mergedMentions[fullName] = existingBucket;
+  }
+  Object.assign(mergedMentions, mentionsPayload.mentions);
+  const leaderboardWithBuckets = mergedLeaderboard.filter((row) => {
+    const fullName = row?.fullName;
+    return typeof fullName === "string" && !!mergedMentions[fullName];
+  });
+  const mentionsPayloadFinal = {
+    ...mentionsPayload,
+    mentions: mergedMentions,
+    mentionsByRepoId: Object.fromEntries(
+      Object.entries(mergedMentions).map(([fullName, value]) => [
+        slugIdFromFullName(fullName),
+        value,
+      ]),
+    ),
+    leaderboard: leaderboardWithBuckets,
+  };
 
   await writeFile(TRENDING_OUT, JSON.stringify(trendingPayloadFinal, null, 2) + "\n", "utf8");
   await writeFile(MENTIONS_OUT, JSON.stringify(mentionsPayloadFinal, null, 2) + "\n", "utf8");

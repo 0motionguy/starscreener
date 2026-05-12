@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-12T08:11:09.992Z",
+  "fetchedAt": "2026-05-12T13:22:10.633Z",
   "windowDays": 7,
-  "scannedStories": 79,
+  "scannedStories": 81,
   "mentions": {
     "jj-vcs/jj": {
       "count7d": 1,
@@ -43,14 +43,14 @@
     },
     "nooga/let-go": {
       "count7d": 1,
-      "scoreSum7d": 52,
+      "scoreSum7d": 53,
       "topStory": {
         "shortId": "njobov",
         "title": "let-go: Almost Clojure written in Go",
-        "score": 52,
+        "score": 53,
         "url": "https://github.com/nooga/let-go",
         "commentsUrl": "https://lobste.rs/s/njobov/let_go_almost_clojure_written_go",
-        "hoursSincePosted": 36.053333333333335
+        "hoursSincePosted": 41.23694444444445
       },
       "stories": [
         {
@@ -59,11 +59,11 @@
           "url": "https://github.com/nooga/let-go",
           "commentsUrl": "https://lobste.rs/s/njobov/let_go_almost_clojure_written_go",
           "by": "",
-          "score": 52,
+          "score": 53,
           "commentCount": 4,
           "createdUtc": 1778443677,
-          "ageHours": 36.053333333333335,
-          "trendingScore": 0.22152068492985635,
+          "ageHours": 41.23694444444445,
+          "trendingScore": 0.18642037508174605,
           "tags": [
             "clojure",
             "go",
@@ -127,7 +127,7 @@
         "score": 8,
         "url": "https://github.com/jundot/omlx",
         "commentsUrl": "https://lobste.rs/s/nqwrqf/omlx_llm_inference_server_with",
-        "hoursSincePosted": 21.02722222222222
+        "hoursSincePosted": 26.210833333333333
       },
       "stories": [
         {
@@ -139,8 +139,8 @@
           "score": 8,
           "commentCount": 2,
           "createdUtc": 1778497771,
-          "ageHours": 21.02722222222222,
-          "trendingScore": 0.07239818168717467,
+          "ageHours": 26.210833333333333,
+          "trendingScore": 0.05339076138715447,
           "tags": [
             "vibecoding"
           ],
@@ -193,6 +193,43 @@
         }
       ]
     },
+    "floci-io/floci": {
+      "count7d": 1,
+      "scoreSum7d": 3,
+      "topStory": {
+        "shortId": "io9pxp",
+        "title": "floci: Light, fluffy, and always free - The AWS Local Emulator alternative",
+        "score": 3,
+        "url": "https://github.com/floci-io/floci",
+        "commentsUrl": "https://lobste.rs/s/io9pxp/floci_light_fluffy_always_free_aws_local",
+        "hoursSincePosted": 11.065
+      },
+      "stories": [
+        {
+          "shortId": "io9pxp",
+          "title": "floci: Light, fluffy, and always free - The AWS Local Emulator alternative",
+          "url": "https://github.com/floci-io/floci",
+          "commentsUrl": "https://lobste.rs/s/io9pxp/floci_light_fluffy_always_free_aws_local",
+          "by": "",
+          "score": 3,
+          "commentCount": 0,
+          "createdUtc": 1778552296,
+          "ageHours": 11.065,
+          "trendingScore": 0.06352682255745143,
+          "tags": [
+            "devops"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "floci-io/floci",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "withastro/flue": {
       "count7d": 1,
       "scoreSum7d": 2,
@@ -229,43 +266,6 @@
           ]
         }
       ]
-    },
-    "floci-io/floci": {
-      "count7d": 1,
-      "scoreSum7d": 2,
-      "topStory": {
-        "shortId": "io9pxp",
-        "title": "floci: Light, fluffy, and always free - The AWS Local Emulator alternative",
-        "score": 2,
-        "url": "https://github.com/floci-io/floci",
-        "commentsUrl": "https://lobste.rs/s/io9pxp/floci_light_fluffy_always_free_aws_local",
-        "hoursSincePosted": 5.881388888888889
-      },
-      "stories": [
-        {
-          "shortId": "io9pxp",
-          "title": "floci: Light, fluffy, and always free - The AWS Local Emulator alternative",
-          "url": "https://github.com/floci-io/floci",
-          "commentsUrl": "https://lobste.rs/s/io9pxp/floci_light_fluffy_always_free_aws_local",
-          "by": "",
-          "score": 2,
-          "commentCount": 0,
-          "createdUtc": 1778552296,
-          "ageHours": 5.881388888888889,
-          "trendingScore": 0.09039113917616752,
-          "tags": [
-            "devops"
-          ],
-          "description": "",
-          "linkedRepos": [
-            {
-              "fullName": "floci-io/floci",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        }
-      ]
     }
   },
   "leaderboard": [
@@ -277,7 +277,7 @@
     {
       "fullName": "nooga/let-go",
       "count7d": 1,
-      "scoreSum7d": 52
+      "scoreSum7d": 53
     },
     {
       "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
@@ -295,12 +295,12 @@
       "scoreSum7d": 4
     },
     {
-      "fullName": "withastro/flue",
+      "fullName": "floci-io/floci",
       "count7d": 1,
-      "scoreSum7d": 2
+      "scoreSum7d": 3
     },
     {
-      "fullName": "floci-io/floci",
+      "fullName": "withastro/flue",
       "count7d": 1,
       "scoreSum7d": 2
     }

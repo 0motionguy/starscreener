@@ -508,7 +508,9 @@ test("npmDependentsToEvents — emits one event per package, skips null counts",
   assert.equal(dc.value, 250000);
 });
 
-test("fundingNewsToEvents — emits one event per signal + cross-link to GitHub", () => {
+test("fundingNewsToEvents — emits one event per signal + cross-link to GitHub (real shape)", () => {
+  // Mirrors production data/funding-news.json shape: extracted.companyName,
+  // extracted.amount, extracted.roundType (NOT company / amountUsd / stage).
   const payload = {
     signals: [
       {
@@ -518,10 +520,14 @@ test("fundingNewsToEvents — emits one event per signal + cross-link to GitHub"
         publishedAt: "2026-05-12T00:00:00Z",
         sourcePlatform: "techcrunch",
         extracted: {
-          company: "Acme",
-          stage: "Series A",
-          amountUsd: 20_000_000,
+          companyName: "Acme",
+          companyWebsite: "https://acme.example",
+          roundType: "Series A",
+          amount: 20,
+          amountDisplay: "$20M",
+          currency: "USD",
           investors: ["Sequoia", "a16z"],
+          confidence: "high",
           githubUrl: "https://github.com/acme/acme",
         },
       },
@@ -532,9 +538,9 @@ test("fundingNewsToEvents — emits one event per signal + cross-link to GitHub"
         publishedAt: "2026-05-11T00:00:00Z",
         sourcePlatform: "news",
         extracted: {
-          company: "Beta",
-          stage: "Seed",
-          amountUsd: 1_500_000,
+          companyName: "Beta",
+          roundType: "Seed",
+          amount: 1.5,
           investors: ["Y Combinator"],
         },
       },
@@ -551,9 +557,36 @@ test("fundingNewsToEvents — emits one event per signal + cross-link to GitHub"
   // Beta has no cross-link.
   const beta = events.filter((e) => e.target_url.includes("beta-seed"));
   assert.equal(beta.length, 1);
+  // Real keys present.
+  const keys = events[0].normalized.map((n) => n.key);
+  assert.ok(keys.includes("company"));
+  assert.ok(keys.includes("amount_usd"));
+  assert.ok(keys.includes("round_stage"));
+  assert.ok(keys.includes("currency"));
 });
 
-test("fundingSecFormdToEvents — emits one event per signal, no cross-link", () => {
+test("fundingNewsToEvents — null-valued fields are stripped (jsonb NOT NULL)", () => {
+  const payload = {
+    signals: [
+      {
+        sourceUrl: "https://news.example/x",
+        headline: "X raised some money",
+        publishedAt: "2026-05-12T00:00:00Z",
+        // extracted is missing entirely — only headline + published_at survive
+      },
+    ],
+  };
+  const events = fundingNewsToEvents(payload);
+  assert.equal(events.length, 1);
+  // headline + published_at; NO null amount_usd / company / etc.
+  const keys = events[0].normalized.map((n) => n.key);
+  assert.ok(keys.includes("headline"));
+  assert.ok(keys.includes("published_at"));
+  assert.ok(!keys.includes("amount_usd"));
+  assert.ok(!keys.includes("company"));
+});
+
+test("fundingSecFormdToEvents — emits one event per signal, no cross-link (real shape)", () => {
   const payload = {
     signals: [
       {
@@ -562,9 +595,13 @@ test("fundingSecFormdToEvents — emits one event per signal, no cross-link", ()
         sourceUrl: "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001234567",
         publishedAt: "2026-05-12T00:00:00Z",
         extracted: {
-          company: "Foo Inc",
-          amountUsd: 5_000_000,
+          companyName: "Foo Inc",
+          amount: 5_000_000,
+          amountDisplay: "$5M",
+          currency: "USD",
+          roundType: "undisclosed",
           industryGroup: "SaaS",
+          confidence: "high",
         },
       },
     ],
@@ -576,4 +613,28 @@ test("fundingSecFormdToEvents — emits one event per signal, no cross-link", ()
   const keys = events[0].normalized.map((n) => n.key);
   assert.ok(keys.includes("industry_group"));
   assert.ok(keys.includes("amount_usd"));
+  assert.ok(keys.includes("currency"));
+  assert.ok(keys.includes("company"));
+});
+
+test("deltasToEvents — strips null delta values (jsonb NOT NULL)", () => {
+  const payload = {
+    repos: {
+      "10270250": {
+        stars_now: 100,
+        delta_1h: { value: null, basis: "repo-not-tracked" },
+        delta_24h: { value: 5, basis: "exact" },
+        // delta_7d / 30d missing entirely
+      },
+    },
+  };
+  const events = deltasToEvents(payload, FAKE_REPO_METADATA);
+  assert.equal(events.length, 1);
+  const keys = events[0].normalized.map((n) => n.key);
+  assert.ok(keys.includes("stars_now"));
+  assert.ok(keys.includes("delta_24h"));
+  // Null delta_1h.value gets stripped, but basis is still kept.
+  assert.ok(!keys.includes("delta_1h"));
+  assert.ok(keys.includes("delta_1h_basis"));
+  assert.ok(!keys.includes("delta_7d"));
 });

@@ -34,6 +34,23 @@ const MAX_EVENTS_PER_BATCH = 500;
 const PRODUCED_BY = "trendingrepo";
 
 /**
+ * Push a normalized entry only if its value is non-null and non-undefined.
+ * Required because TOOLBOX `tb_signals.value` is `jsonb NOT NULL`. Sending a
+ * JS `null` materializes as SQL `NULL`, which fails the constraint and kills
+ * the whole event's persistence (single batch INSERT). Silent skip is correct
+ * because the missing field carries no information anyway.
+ */
+function pushNormalized(arr, key, value, confidence) {
+  if (value === null || value === undefined) return;
+  if (typeof value === "string" && value.length === 0) {
+    // Empty strings are OK — they materialize as JSON "" which is non-null.
+    arr.push({ key, value, confidence });
+    return;
+  }
+  arr.push({ key, value, confidence });
+}
+
+/**
  * Low-level: POST a batch of events to TOOLBOX. Never throws.
  *
  * @param {Array<ToolboxEvent>} events
@@ -534,46 +551,49 @@ export function deltasToEvents(payload, repoMetadata) {
     if (!fullName) continue;
     const targetUrl = `https://github.com/${fullName}`;
 
-    // Stars-velocity event (always emitted).
-    const starsNormalized = [
-      { key: "stars_now", value: deltas.stars_now ?? 0, confidence: 1.0 },
-    ];
+    // Stars-velocity event. Use pushNormalized to skip null delta values
+    // (basis="repo-not-tracked" / "no-history" entries); jsonb NOT NULL.
+    const starsNormalized = [];
+    pushNormalized(starsNormalized, "stars_now", deltas.stars_now ?? 0, 1.0);
     for (const win of ["1h", "24h", "7d", "30d"]) {
       const d = deltas[`delta_${win}`];
       if (d && typeof d === "object") {
         const conf = d.basis === "exact" ? 1.0 : d.basis === "nearest" ? 0.7 : 0.5;
-        starsNormalized.push({ key: `delta_${win}`, value: d.value ?? null, confidence: conf });
-        if (d.basis) starsNormalized.push({ key: `delta_${win}_basis`, value: d.basis, confidence: 1.0 });
+        pushNormalized(starsNormalized, `delta_${win}`, d.value, conf);
+        pushNormalized(starsNormalized, `delta_${win}_basis`, d.basis, 1.0);
       }
     }
-    events.push({
-      scan_id: scanId,
-      target_url: targetUrl,
-      signal_type: "trending.github.stars.velocity",
-      normalized: starsNormalized,
-      produced_by: `${PRODUCED_BY}-deltas`,
-      produced_at: producedAt,
-    });
-
-    // Fork-velocity event — only when forks_now is present (future-proof).
-    if (typeof deltas.forks_now === "number") {
-      const forkNormalized = [
-        { key: "forks_now", value: deltas.forks_now, confidence: 1.0 },
-      ];
-      for (const win of ["1h", "24h", "7d", "30d"]) {
-        const d = deltas[`fork_delta_${win}`];
-        if (d && typeof d === "object") {
-          forkNormalized.push({ key: `fork_delta_${win}`, value: d.value ?? null, confidence: 0.7 });
-        }
-      }
+    if (starsNormalized.length > 0) {
       events.push({
         scan_id: scanId,
         target_url: targetUrl,
-        signal_type: "trending.github.fork.velocity",
-        normalized: forkNormalized,
+        signal_type: "trending.github.stars.velocity",
+        normalized: starsNormalized,
         produced_by: `${PRODUCED_BY}-deltas`,
         produced_at: producedAt,
       });
+    }
+
+    // Fork-velocity event — only when forks_now is present (future-proof).
+    if (typeof deltas.forks_now === "number") {
+      const forkNormalized = [];
+      pushNormalized(forkNormalized, "forks_now", deltas.forks_now, 1.0);
+      for (const win of ["1h", "24h", "7d", "30d"]) {
+        const d = deltas[`fork_delta_${win}`];
+        if (d && typeof d === "object") {
+          pushNormalized(forkNormalized, `fork_delta_${win}`, d.value, 0.7);
+        }
+      }
+      if (forkNormalized.length > 0) {
+        events.push({
+          scan_id: scanId,
+          target_url: targetUrl,
+          signal_type: "trending.github.fork.velocity",
+          normalized: forkNormalized,
+          produced_by: `${PRODUCED_BY}-deltas`,
+          produced_at: producedAt,
+        });
+      }
     }
   }
 
@@ -685,15 +705,20 @@ export function npmDependentsToEvents(payload) {
 /**
  * Transform funding-news payload → TOOLBOX events.
  *
- * Payload shape: `{ fetchedAt, source, windowDays, signals: [...] }` where
- * each signal is `{ id, headline, sourceUrl, publishedAt, sourcePlatform,
- * extracted: { company, stage, amountUsd, investors, githubUrl, ... } }`.
+ * Production payload shape: `{ fetchedAt, signals: [...] }` where each signal is
+ * `{ id, headline, description, sourceUrl, sourcePlatform, publishedAt,
+ * discoveredAt, extracted: { companyName, companyWebsite, companyLogoUrl,
+ * amount, amountDisplay, currency, roundType, investors, investorsEnriched,
+ * confidence }, tags }`.
  *
- * Target_url = canonical news article URL. If `extracted.githubUrl` is
- * present, ALSO emit a second event keyed off the github URL for
- * cross-link joins downstream.
+ * Target_url = canonical news article URL. If a github URL is discoverable in
+ * the extracted block (rare in news but tolerated), ALSO emit a second event
+ * keyed off the github URL for cross-link joins downstream.
  *
- * @param {object} payload  Output of scrape-funding-news.mjs
+ * Uses pushNormalized to omit any null/undefined fields — tb_signals.value is
+ * jsonb NOT NULL.
+ *
+ * @param {object} payload  Output of scrape-funding-news.mjs (data/funding-news.json)
  * @returns {Array<ToolboxEvent>}
  */
 export function fundingNewsToEvents(payload) {
@@ -711,15 +736,27 @@ export function fundingNewsToEvents(payload) {
     if (!sourceUrl || !/^https?:\/\//i.test(sourceUrl)) continue;
 
     const extracted = (sig.extracted && typeof sig.extracted === "object") ? sig.extracted : {};
-    const normalized = [
-      { key: "headline", value: sig.headline ?? "", confidence: 1.0 },
-      { key: "company", value: extracted.company ?? "", confidence: 0.9 },
-      { key: "round_stage", value: extracted.stage ?? "", confidence: 0.8 },
-      { key: "amount_usd", value: extracted.amountUsd ?? null, confidence: 0.8 },
-      { key: "investors", value: Array.isArray(extracted.investors) ? extracted.investors.slice(0, 20) : [], confidence: 0.7 },
-      { key: "published_at", value: sig.publishedAt ?? "", confidence: 1.0 },
-      { key: "source_platform", value: sig.sourcePlatform ?? "", confidence: 1.0 },
-    ];
+    const normalized = [];
+    pushNormalized(normalized, "headline", sig.headline, 1.0);
+    pushNormalized(normalized, "company", extracted.companyName, 0.9);
+    pushNormalized(normalized, "company_website", extracted.companyWebsite, 0.8);
+    pushNormalized(normalized, "round_stage", extracted.roundType, 0.8);
+    pushNormalized(normalized, "amount_usd", extracted.amount, 0.8);
+    pushNormalized(normalized, "amount_display", extracted.amountDisplay, 0.8);
+    pushNormalized(normalized, "currency", extracted.currency, 0.9);
+    pushNormalized(
+      normalized,
+      "investors",
+      Array.isArray(extracted.investors) && extracted.investors.length > 0
+        ? extracted.investors.slice(0, 20)
+        : null,
+      0.7,
+    );
+    pushNormalized(normalized, "published_at", sig.publishedAt, 1.0);
+    pushNormalized(normalized, "source_platform", sig.sourcePlatform, 1.0);
+    pushNormalized(normalized, "extraction_confidence", extracted.confidence, 1.0);
+
+    if (normalized.length === 0) continue;
 
     const baseEvent = {
       scan_id: scanId,
@@ -731,7 +768,8 @@ export function fundingNewsToEvents(payload) {
     };
     events.push(baseEvent);
 
-    // Cross-link to GitHub if present.
+    // Cross-link to GitHub if discoverable. Tolerate two field names + a few
+    // common ways news scrapers might surface a repo URL.
     const githubUrl = extracted.githubUrl ?? extracted.linkedRepo;
     if (typeof githubUrl === "string" && githubUrl.startsWith("https://github.com/")) {
       events.push({ ...baseEvent, target_url: githubUrl });
@@ -744,11 +782,14 @@ export function fundingNewsToEvents(payload) {
 /**
  * Transform SEC Form D filings payload → TOOLBOX events.
  *
- * Same shape as funding-news but signal_type=`funding.sec.formd` and the
- * `extracted` carries `industryGroup` instead of investor lists. No GitHub
- * cross-link (SEC filings rarely include repo URLs).
+ * Production shape mirrors funding-news but `extracted` adds `industryGroup`
+ * (SEC's standardized industry classifier). No GitHub cross-link — SEC
+ * filings rarely include repo URLs.
  *
- * @param {object} payload  Output of scrape-sec-form-d.mjs
+ * Uses pushNormalized to omit any null/undefined fields — tb_signals.value is
+ * jsonb NOT NULL.
+ *
+ * @param {object} payload  Output of scrape-sec-form-d.mjs (data/funding-news-sec.json)
  * @returns {Array<ToolboxEvent>}
  */
 export function fundingSecFormdToEvents(payload) {
@@ -758,26 +799,38 @@ export function fundingSecFormdToEvents(payload) {
 
   const producedAt = new Date().toISOString();
   const scanId = randomUUID();
+  const events = [];
 
-  return signals
-    .filter((sig) => sig && typeof sig === "object" && typeof sig.sourceUrl === "string" && /^https?:\/\//i.test(sig.sourceUrl))
-    .map((sig) => {
-      const extracted = (sig.extracted && typeof sig.extracted === "object") ? sig.extracted : {};
-      return {
-        scan_id: scanId,
-        target_url: sig.sourceUrl,
-        signal_type: "funding.sec.formd",
-        normalized: [
-          { key: "headline", value: sig.headline ?? "", confidence: 1.0 },
-          { key: "company", value: extracted.company ?? "", confidence: 0.9 },
-          { key: "amount_usd", value: extracted.amountUsd ?? null, confidence: 0.9 },
-          { key: "industry_group", value: extracted.industryGroup ?? "", confidence: 0.9 },
-          { key: "filing_date", value: sig.publishedAt ?? "", confidence: 1.0 },
-        ],
-        produced_by: `${PRODUCED_BY}-sec`,
-        produced_at: producedAt,
-      };
+  for (const sig of signals) {
+    if (!sig || typeof sig !== "object") continue;
+    const sourceUrl = String(sig.sourceUrl ?? "");
+    if (!sourceUrl || !/^https?:\/\//i.test(sourceUrl)) continue;
+
+    const extracted = (sig.extracted && typeof sig.extracted === "object") ? sig.extracted : {};
+    const normalized = [];
+    pushNormalized(normalized, "headline", sig.headline, 1.0);
+    pushNormalized(normalized, "company", extracted.companyName, 0.9);
+    pushNormalized(normalized, "amount_usd", extracted.amount, 0.9);
+    pushNormalized(normalized, "amount_display", extracted.amountDisplay, 0.9);
+    pushNormalized(normalized, "currency", extracted.currency, 0.9);
+    pushNormalized(normalized, "round_stage", extracted.roundType, 0.8);
+    pushNormalized(normalized, "industry_group", extracted.industryGroup, 0.9);
+    pushNormalized(normalized, "filing_date", sig.publishedAt, 1.0);
+    pushNormalized(normalized, "extraction_confidence", extracted.confidence, 1.0);
+
+    if (normalized.length === 0) continue;
+
+    events.push({
+      scan_id: scanId,
+      target_url: sourceUrl,
+      signal_type: "funding.sec.formd",
+      normalized,
+      produced_by: `${PRODUCED_BY}-sec`,
+      produced_at: producedAt,
     });
+  }
+
+  return events;
 }
 
 /**

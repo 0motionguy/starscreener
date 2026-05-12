@@ -485,6 +485,302 @@ export function openaiRssToEvents(payload) {
 }
 
 /**
+ * Transform compute-deltas data/deltas.json → TOOLBOX events.
+ *
+ * One event per repo for `trending.github.stars.velocity` (and a second one
+ * for `trending.github.fork.velocity` when fork data is present).
+ *
+ * `data/deltas.json` is keyed by GitHub repo ID (numeric); we resolve each ID
+ * to its `owner/name` via `data/repo-metadata.json` (already produced by
+ * scrape-trending). Repos missing from metadata are skipped.
+ *
+ * @param {object} payload         Output of compute-deltas.mjs (data/deltas.json)
+ * @param {object} repoMetadata    Output of scrape-trending (data/repo-metadata.json)
+ * @returns {Array<ToolboxEvent>}
+ */
+export function deltasToEvents(payload, repoMetadata) {
+  if (!payload || typeof payload !== "object") return [];
+  if (!payload.repos || typeof payload.repos !== "object") return [];
+  if (!repoMetadata || typeof repoMetadata !== "object") return [];
+
+  // Build id->fullName map. Production repo-metadata.json shape is
+  // `{ fetchedAt, sourceCount, items: [{ githubId, fullName, ... }, ...] }`.
+  // Tolerate `{ repos: [{ id, full_name }] }` + flat object shapes too.
+  const idToFullName = new Map();
+  let metaRepos;
+  if (Array.isArray(repoMetadata.items)) {
+    metaRepos = repoMetadata.items;
+  } else if (Array.isArray(repoMetadata.repos)) {
+    metaRepos = repoMetadata.repos;
+  } else {
+    metaRepos = Object.values(repoMetadata);
+  }
+  for (const r of metaRepos) {
+    if (!r || typeof r !== "object") continue;
+    const id = r.githubId ?? r.id ?? r.repoId;
+    const fullName = r.fullName ?? r.full_name;
+    if (id != null && typeof fullName === "string" && fullName.includes("/")) {
+      idToFullName.set(String(id), fullName);
+    }
+  }
+
+  const producedAt = new Date().toISOString();
+  const scanId = randomUUID();
+  const events = [];
+
+  for (const [repoId, deltas] of Object.entries(payload.repos)) {
+    if (!deltas || typeof deltas !== "object") continue;
+    const fullName = idToFullName.get(String(repoId));
+    if (!fullName) continue;
+    const targetUrl = `https://github.com/${fullName}`;
+
+    // Stars-velocity event (always emitted).
+    const starsNormalized = [
+      { key: "stars_now", value: deltas.stars_now ?? 0, confidence: 1.0 },
+    ];
+    for (const win of ["1h", "24h", "7d", "30d"]) {
+      const d = deltas[`delta_${win}`];
+      if (d && typeof d === "object") {
+        const conf = d.basis === "exact" ? 1.0 : d.basis === "nearest" ? 0.7 : 0.5;
+        starsNormalized.push({ key: `delta_${win}`, value: d.value ?? null, confidence: conf });
+        if (d.basis) starsNormalized.push({ key: `delta_${win}_basis`, value: d.basis, confidence: 1.0 });
+      }
+    }
+    events.push({
+      scan_id: scanId,
+      target_url: targetUrl,
+      signal_type: "trending.github.stars.velocity",
+      normalized: starsNormalized,
+      produced_by: `${PRODUCED_BY}-deltas`,
+      produced_at: producedAt,
+    });
+
+    // Fork-velocity event — only when forks_now is present (future-proof).
+    if (typeof deltas.forks_now === "number") {
+      const forkNormalized = [
+        { key: "forks_now", value: deltas.forks_now, confidence: 1.0 },
+      ];
+      for (const win of ["1h", "24h", "7d", "30d"]) {
+        const d = deltas[`fork_delta_${win}`];
+        if (d && typeof d === "object") {
+          forkNormalized.push({ key: `fork_delta_${win}`, value: d.value ?? null, confidence: 0.7 });
+        }
+      }
+      events.push({
+        scan_id: scanId,
+        target_url: targetUrl,
+        signal_type: "trending.github.fork.velocity",
+        normalized: forkNormalized,
+        produced_by: `${PRODUCED_BY}-deltas`,
+        produced_at: producedAt,
+      });
+    }
+  }
+
+  return events;
+}
+
+/**
+ * Transform OSSInsight scrape-trending data/trending.json → TOOLBOX events.
+ *
+ * `data/trending.json` is `{ buckets: { period: { language: [rows...] } } }`.
+ * We flatten to one event per unique repo, with appearance metadata (which
+ * period+language buckets it ranked in, and where) in the normalized array.
+ *
+ * Cap to top 200 unique repos by appearance count to keep batch volume sane.
+ *
+ * @param {object} payload  Output of scrape-trending.mjs
+ * @returns {Array<ToolboxEvent>}
+ */
+export function ossInsightTrendingToEvents(payload) {
+  if (!payload || typeof payload !== "object") return [];
+  const buckets = payload.buckets;
+  if (!buckets || typeof buckets !== "object") return [];
+
+  const repoMap = new Map(); // fullName -> { stars, appearances: [...] }
+  for (const [period, langBuckets] of Object.entries(buckets)) {
+    if (!langBuckets || typeof langBuckets !== "object") continue;
+    for (const [language, rows] of Object.entries(langBuckets)) {
+      if (!Array.isArray(rows)) continue;
+      rows.forEach((row, idx) => {
+        if (!row || typeof row !== "object") return;
+        const fullName = String(row.repo_name ?? "");
+        if (!fullName.includes("/")) return;
+        if (!repoMap.has(fullName)) {
+          repoMap.set(fullName, { stars: 0, appearances: [] });
+        }
+        const entry = repoMap.get(fullName);
+        const stars = typeof row.stars === "number" ? row.stars : 0;
+        if (stars > entry.stars) entry.stars = stars;
+        entry.appearances.push({
+          period,
+          language,
+          rank: idx + 1,
+          total_score: row.total_score ?? 0,
+        });
+      });
+    }
+  }
+
+  const producedAt = new Date().toISOString();
+  const scanId = randomUUID();
+  const sorted = [...repoMap.entries()]
+    .sort((a, b) => b[1].appearances.length - a[1].appearances.length)
+    .slice(0, 200);
+
+  return sorted.map(([fullName, info]) => ({
+    scan_id: scanId,
+    target_url: `https://github.com/${fullName}`,
+    signal_type: "trending.github.repos",
+    normalized: [
+      { key: "stars", value: info.stars, confidence: 1.0 },
+      { key: "appearances_count", value: info.appearances.length, confidence: 1.0 },
+      { key: "appearances_top10", value: info.appearances.slice(0, 10), confidence: 1.0 },
+    ],
+    produced_by: `${PRODUCED_BY}-ossinsight`,
+    produced_at: producedAt,
+  }));
+}
+
+/**
+ * Transform npm-daily dependents map → TOOLBOX events.
+ *
+ * Payload shape: `{ fetchedAt, dependents: { "<package>": { count, fetchedAt } } }`.
+ * One event per package with a non-null count; target = npmjs package URL.
+ *
+ * @param {object} payload  { fetchedAt: string, dependents: object }
+ * @returns {Array<ToolboxEvent>}
+ */
+export function npmDependentsToEvents(payload) {
+  if (!payload || typeof payload !== "object") return [];
+  const dependents = payload.dependents;
+  if (!dependents || typeof dependents !== "object") return [];
+
+  const producedAt = new Date().toISOString();
+  const scanId = randomUUID();
+  const events = [];
+
+  for (const [pkgName, info] of Object.entries(dependents)) {
+    if (!pkgName || typeof pkgName !== "string") continue;
+    if (!info || typeof info !== "object") continue;
+    if (typeof info.count !== "number") continue; // skip null/unknown
+
+    events.push({
+      scan_id: scanId,
+      target_url: `https://www.npmjs.com/package/${pkgName}`,
+      signal_type: "trending.npm.dependents",
+      normalized: [
+        { key: "package", value: pkgName, confidence: 1.0 },
+        { key: "dependents_count", value: info.count, confidence: 1.0 },
+        { key: "fetched_at", value: info.fetchedAt ?? payload.fetchedAt ?? "", confidence: 1.0 },
+      ],
+      produced_by: `${PRODUCED_BY}-npm-dependents`,
+      produced_at: producedAt,
+    });
+  }
+
+  return events;
+}
+
+/**
+ * Transform funding-news payload → TOOLBOX events.
+ *
+ * Payload shape: `{ fetchedAt, source, windowDays, signals: [...] }` where
+ * each signal is `{ id, headline, sourceUrl, publishedAt, sourcePlatform,
+ * extracted: { company, stage, amountUsd, investors, githubUrl, ... } }`.
+ *
+ * Target_url = canonical news article URL. If `extracted.githubUrl` is
+ * present, ALSO emit a second event keyed off the github URL for
+ * cross-link joins downstream.
+ *
+ * @param {object} payload  Output of scrape-funding-news.mjs
+ * @returns {Array<ToolboxEvent>}
+ */
+export function fundingNewsToEvents(payload) {
+  if (!payload || typeof payload !== "object") return [];
+  const signals = payload.signals;
+  if (!Array.isArray(signals)) return [];
+
+  const producedAt = new Date().toISOString();
+  const scanId = randomUUID();
+  const events = [];
+
+  for (const sig of signals) {
+    if (!sig || typeof sig !== "object") continue;
+    const sourceUrl = String(sig.sourceUrl ?? "");
+    if (!sourceUrl || !/^https?:\/\//i.test(sourceUrl)) continue;
+
+    const extracted = (sig.extracted && typeof sig.extracted === "object") ? sig.extracted : {};
+    const normalized = [
+      { key: "headline", value: sig.headline ?? "", confidence: 1.0 },
+      { key: "company", value: extracted.company ?? "", confidence: 0.9 },
+      { key: "round_stage", value: extracted.stage ?? "", confidence: 0.8 },
+      { key: "amount_usd", value: extracted.amountUsd ?? null, confidence: 0.8 },
+      { key: "investors", value: Array.isArray(extracted.investors) ? extracted.investors.slice(0, 20) : [], confidence: 0.7 },
+      { key: "published_at", value: sig.publishedAt ?? "", confidence: 1.0 },
+      { key: "source_platform", value: sig.sourcePlatform ?? "", confidence: 1.0 },
+    ];
+
+    const baseEvent = {
+      scan_id: scanId,
+      target_url: sourceUrl,
+      signal_type: "funding.startup",
+      normalized,
+      produced_by: `${PRODUCED_BY}-funding`,
+      produced_at: producedAt,
+    };
+    events.push(baseEvent);
+
+    // Cross-link to GitHub if present.
+    const githubUrl = extracted.githubUrl ?? extracted.linkedRepo;
+    if (typeof githubUrl === "string" && githubUrl.startsWith("https://github.com/")) {
+      events.push({ ...baseEvent, target_url: githubUrl });
+    }
+  }
+
+  return events;
+}
+
+/**
+ * Transform SEC Form D filings payload → TOOLBOX events.
+ *
+ * Same shape as funding-news but signal_type=`funding.sec.formd` and the
+ * `extracted` carries `industryGroup` instead of investor lists. No GitHub
+ * cross-link (SEC filings rarely include repo URLs).
+ *
+ * @param {object} payload  Output of scrape-sec-form-d.mjs
+ * @returns {Array<ToolboxEvent>}
+ */
+export function fundingSecFormdToEvents(payload) {
+  if (!payload || typeof payload !== "object") return [];
+  const signals = payload.signals;
+  if (!Array.isArray(signals)) return [];
+
+  const producedAt = new Date().toISOString();
+  const scanId = randomUUID();
+
+  return signals
+    .filter((sig) => sig && typeof sig === "object" && typeof sig.sourceUrl === "string" && /^https?:\/\//i.test(sig.sourceUrl))
+    .map((sig) => {
+      const extracted = (sig.extracted && typeof sig.extracted === "object") ? sig.extracted : {};
+      return {
+        scan_id: scanId,
+        target_url: sig.sourceUrl,
+        signal_type: "funding.sec.formd",
+        normalized: [
+          { key: "headline", value: sig.headline ?? "", confidence: 1.0 },
+          { key: "company", value: extracted.company ?? "", confidence: 0.9 },
+          { key: "amount_usd", value: extracted.amountUsd ?? null, confidence: 0.9 },
+          { key: "industry_group", value: extracted.industryGroup ?? "", confidence: 0.9 },
+          { key: "filing_date", value: sig.publishedAt ?? "", confidence: 1.0 },
+        ],
+        produced_by: `${PRODUCED_BY}-sec`,
+        produced_at: producedAt,
+      };
+    });
+}
+
+/**
  * Convenience wrappers — transform + POST in one call. Use these from scrape
  * scripts after the primary data store write succeeds.
  */
@@ -517,6 +813,21 @@ export async function ingestNpmPackagesToToolbox(payload) {
 }
 export async function ingestOpenaiRssToToolbox(payload) {
   return postToolboxEvents(openaiRssToEvents(payload));
+}
+export async function ingestDeltasToToolbox(payload, repoMetadata) {
+  return postToolboxEvents(deltasToEvents(payload, repoMetadata));
+}
+export async function ingestOssInsightTrendingToToolbox(payload) {
+  return postToolboxEvents(ossInsightTrendingToEvents(payload));
+}
+export async function ingestNpmDependentsToToolbox(payload) {
+  return postToolboxEvents(npmDependentsToEvents(payload));
+}
+export async function ingestFundingNewsToToolbox(payload) {
+  return postToolboxEvents(fundingNewsToEvents(payload));
+}
+export async function ingestFundingSecFormdToToolbox(payload) {
+  return postToolboxEvents(fundingSecFormdToEvents(payload));
 }
 
 /**

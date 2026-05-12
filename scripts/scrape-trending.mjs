@@ -8,6 +8,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { ingestOssInsightTrendingToToolbox } from "./_toolbox-ingest.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 
@@ -282,6 +283,19 @@ async function main() {
       trendsLitePayload,
     );
     const hotRedis = await writeDataStore("hot-collections", hotCollectionsPayload);
+
+    // TOOLBOX dual-write: emit `trending.github.repos` for top 200 unique
+    // repos across all OSSInsight buckets. Best-effort — env-unset = silent
+    // skip; failures never block the cron path.
+    const toolboxResult = await ingestOssInsightTrendingToToolbox(trendsPayload);
+    console.log(
+      `  toolbox-ingest: ${toolboxResult.status}` +
+        (toolboxResult.accepted !== undefined ? ` accepted=${toolboxResult.accepted}` : "") +
+        (toolboxResult.rejected !== undefined && toolboxResult.rejected > 0 ? ` rejected=${toolboxResult.rejected}` : "") +
+        (toolboxResult.reason ? ` (${toolboxResult.reason})` : "") +
+        (toolboxResult.duration_ms !== undefined ? ` [${toolboxResult.duration_ms}ms]` : ""),
+    );
+
     traceEvent.writes.push(
       {
         key: "trending",

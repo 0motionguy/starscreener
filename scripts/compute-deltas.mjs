@@ -23,12 +23,14 @@ import { execFileSync } from "node:child_process";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { ingestDeltasToToolbox } from "./_toolbox-ingest.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 const TRENDING_PATH = resolve(ROOT, "data/trending.json");
 const TRENDING_REL = "data/trending.json";
 const OUT_PATH = resolve(ROOT, "data/deltas.json");
+const REPO_METADATA_PATH = resolve(ROOT, "data/repo-metadata.json");
 
 // Target windows. buffer_s bounds how far off a candidate commit may be
 // from `target = now - window` before we call it 'no-history'.
@@ -243,7 +245,30 @@ async function main() {
   // without waiting for a deploy.
   const result = await writeDataStore("deltas", payload);
 
+  // TOOLBOX dual-write: emit `trending.github.stars.velocity` (and
+  // `trending.github.fork.velocity` when fork data is present) per repo
+  // mapped via data/repo-metadata.json. Best-effort — env-unset = silent
+  // skip; failures never block the cron path.
+  let toolboxResult = { status: "skipped", reason: "no_metadata" };
+  try {
+    const repoMetaRaw = await readFile(REPO_METADATA_PATH, "utf8");
+    const repoMetadata = JSON.parse(repoMetaRaw);
+    toolboxResult = await ingestDeltasToToolbox(payload, repoMetadata);
+  } catch (err) {
+    toolboxResult = {
+      status: "skipped",
+      reason: `metadata_read_failed:${err?.code ?? err?.message ?? "unknown"}`,
+    };
+  }
+
   console.log(`wrote ${OUT_PATH} [redis: ${result.source}]`);
+  console.log(
+    `  toolbox-ingest: ${toolboxResult.status}` +
+      (toolboxResult.accepted !== undefined ? ` accepted=${toolboxResult.accepted}` : "") +
+      (toolboxResult.rejected !== undefined && toolboxResult.rejected > 0 ? ` rejected=${toolboxResult.rejected}` : "") +
+      (toolboxResult.reason ? ` (${toolboxResult.reason})` : "") +
+      (toolboxResult.duration_ms !== undefined ? ` [${toolboxResult.duration_ms}ms]` : ""),
+  );
   console.log(`repos: ${currentStars.size}`);
   for (const w of WINDOWS) {
     const c = coverage[w.key];

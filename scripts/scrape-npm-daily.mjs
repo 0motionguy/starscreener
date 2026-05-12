@@ -33,6 +33,7 @@ import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 import { fetchJsonWithRetry, HttpStatusError, sleep } from "./_fetch-json.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { ingestNpmDependentsToToolbox } from "./_toolbox-ingest.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(__dirname, "..");
@@ -282,15 +283,27 @@ export async function main({ argv = process.argv.slice(2), log = console.log, fe
   // map without waiting for the next deploy. JSONL stays on disk for the
   // append-only history; only the dependents snapshot is small enough to
   // fit in Redis comfortably.
-  const dsResult = await writeDataStore("npm-dependents", {
+  const dependentsPayload = {
     fetchedAt: new Date().toISOString(),
     dependents,
-  });
+  };
+  const dsResult = await writeDataStore("npm-dependents", dependentsPayload);
+
+  // TOOLBOX dual-write: emit `trending.npm.dependents` per package.
+  // Best-effort — env-unset = silent skip; failures never block the cron path.
+  const toolboxResult = await ingestNpmDependentsToToolbox(dependentsPayload);
 
   const sizeJsonl = (await stat(OUT_JSONL)).size;
   const sizeDeps = (await stat(OUT_DEPENDENTS)).size;
   log(`wrote ${OUT_JSONL} (${sizeJsonl} bytes, ${existing.size} rows)`);
   log(`wrote ${OUT_DEPENDENTS} (${sizeDeps} bytes, ${Object.keys(dependents).length} packages) [redis: ${dsResult.source}]`);
+  log(
+    `  toolbox-ingest: ${toolboxResult.status}` +
+      (toolboxResult.accepted !== undefined ? ` accepted=${toolboxResult.accepted}` : "") +
+      (toolboxResult.rejected !== undefined && toolboxResult.rejected > 0 ? ` rejected=${toolboxResult.rejected}` : "") +
+      (toolboxResult.reason ? ` (${toolboxResult.reason})` : "") +
+      (toolboxResult.duration_ms !== undefined ? ` [${toolboxResult.duration_ms}ms]` : ""),
+  );
   log(`done: ok=${ok} skipped=${skipped} failed=${failed}`);
   return { ok, skipped, failed };
 }

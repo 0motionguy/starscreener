@@ -11,6 +11,11 @@ import {
   huggingfaceDatasetsToEvents,
   npmPackagesToEvents,
   openaiRssToEvents,
+  deltasToEvents,
+  ossInsightTrendingToEvents,
+  npmDependentsToEvents,
+  fundingNewsToEvents,
+  fundingSecFormdToEvents,
   postToolboxEvents,
 } from "../_toolbox-ingest.mjs";
 
@@ -352,4 +357,223 @@ test("postToolboxEvents — returns skipped on empty events array", async () => 
     delete process.env.TOOLBOX_INGEST_URL;
     delete process.env.TOOLBOX_INGEST_HMAC_SECRET;
   }
+});
+
+// --- batch4: deltas, ossinsight-trending, npm-dependents, funding-news, sec-form-d ---
+
+const FAKE_DELTAS_PAYLOAD = {
+  computedAt: "2026-05-12T07:00:00Z",
+  windows: ["1h", "24h", "7d", "30d"],
+  repos: {
+    "10270250": {
+      stars_now: 235000,
+      delta_1h: { value: 4, basis: "exact" },
+      delta_24h: { value: 80, basis: "exact" },
+      delta_7d: { value: 600, basis: "nearest" },
+      delta_30d: { value: 2400, basis: "nearest" },
+    },
+    "9999999": {
+      stars_now: 100,
+      delta_1h: { value: 0, basis: "nearest" },
+    },
+  },
+};
+
+// Mirrors production data/repo-metadata.json shape (items[] with githubId+fullName).
+const FAKE_REPO_METADATA = {
+  fetchedAt: "2026-05-12T07:00:00Z",
+  sourceCount: 1,
+  items: [
+    { githubId: 10270250, fullName: "facebook/react" },
+    // 9999999 deliberately not in metadata — should be skipped
+  ],
+};
+
+// Also test the legacy `{ repos: [{ id, full_name }] }` shape for backward-compat.
+const FAKE_REPO_METADATA_LEGACY = {
+  repos: [{ id: 10270250, full_name: "facebook/react" }],
+};
+
+test("deltasToEvents — emits stars-velocity event per mapped repo", () => {
+  const events = deltasToEvents(FAKE_DELTAS_PAYLOAD, FAKE_REPO_METADATA);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].signal_type, "trending.github.stars.velocity");
+  assert.equal(events[0].target_url, "https://github.com/facebook/react");
+  assert.equal(events[0].produced_by, "trendingrepo-deltas");
+  const keys = events[0].normalized.map((n) => n.key);
+  assert.ok(keys.includes("stars_now"));
+  assert.ok(keys.includes("delta_24h"));
+  // Confidence 1.0 for exact basis, 0.7 for nearest.
+  const d24 = events[0].normalized.find((n) => n.key === "delta_24h");
+  assert.equal(d24.confidence, 1.0);
+  const d7 = events[0].normalized.find((n) => n.key === "delta_7d");
+  assert.equal(d7.confidence, 0.7);
+});
+
+test("deltasToEvents — skips repos missing from metadata", () => {
+  const events = deltasToEvents(FAKE_DELTAS_PAYLOAD, FAKE_REPO_METADATA);
+  // Only 10270250 is mapped; 9999999 is dropped.
+  assert.equal(events.filter((e) => e.signal_type === "trending.github.stars.velocity").length, 1);
+});
+
+test("deltasToEvents — emits fork-velocity event when forks_now present", () => {
+  const payload = {
+    repos: {
+      "10270250": {
+        stars_now: 100,
+        forks_now: 50,
+        fork_delta_24h: { value: 5 },
+      },
+    },
+  };
+  const events = deltasToEvents(payload, FAKE_REPO_METADATA);
+  assert.equal(events.length, 2);
+  const fork = events.find((e) => e.signal_type === "trending.github.fork.velocity");
+  assert.ok(fork);
+  const keys = fork.normalized.map((n) => n.key);
+  assert.ok(keys.includes("forks_now"));
+  assert.ok(keys.includes("fork_delta_24h"));
+});
+
+test("deltasToEvents — returns empty on missing payload or metadata", () => {
+  assert.deepEqual(deltasToEvents(null, FAKE_REPO_METADATA), []);
+  assert.deepEqual(deltasToEvents(FAKE_DELTAS_PAYLOAD, null), []);
+});
+
+test("deltasToEvents — accepts legacy { repos: [{ id, full_name }] } shape", () => {
+  const events = deltasToEvents(FAKE_DELTAS_PAYLOAD, FAKE_REPO_METADATA_LEGACY);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].target_url, "https://github.com/facebook/react");
+});
+
+test("ossInsightTrendingToEvents — flattens buckets, dedupes by repo", () => {
+  const payload = {
+    buckets: {
+      past_24_hours: {
+        All: [
+          { repo_name: "vercel/next.js", stars: 130000, total_score: 99 },
+          { repo_name: "ollama/ollama", stars: 90000, total_score: 88 },
+        ],
+        TypeScript: [
+          { repo_name: "vercel/next.js", stars: 130000, total_score: 95 },
+        ],
+      },
+      past_week: {
+        All: [
+          { repo_name: "vercel/next.js", stars: 130001, total_score: 70 },
+        ],
+      },
+    },
+  };
+  const events = ossInsightTrendingToEvents(payload);
+  // 2 unique repos.
+  assert.equal(events.length, 2);
+  assert.equal(events[0].signal_type, "trending.github.repos");
+  // next.js should appear first (3 appearances vs 1 for ollama).
+  assert.ok(events[0].target_url.endsWith("vercel/next.js"));
+  const appearances = events[0].normalized.find((n) => n.key === "appearances_count").value;
+  assert.equal(appearances, 3);
+});
+
+test("ossInsightTrendingToEvents — caps at 200 unique repos", () => {
+  const buckets = { past_24_hours: { All: [] } };
+  for (let i = 0; i < 300; i++) {
+    buckets.past_24_hours.All.push({
+      repo_name: `owner${i}/repo${i}`,
+      stars: 1000 - i,
+      total_score: 100 - i,
+    });
+  }
+  const events = ossInsightTrendingToEvents({ buckets });
+  assert.equal(events.length, 200);
+});
+
+test("npmDependentsToEvents — emits one event per package, skips null counts", () => {
+  const payload = {
+    fetchedAt: "2026-05-12T07:00:00Z",
+    dependents: {
+      "react": { count: 250000, fetchedAt: "2026-05-12T06:00:00Z" },
+      "lodash": { count: null }, // skipped
+      "express": { count: 80000 },
+    },
+  };
+  const events = npmDependentsToEvents(payload);
+  assert.equal(events.length, 2);
+  const react = events.find((e) => e.target_url.endsWith("/react"));
+  assert.ok(react);
+  assert.equal(react.signal_type, "trending.npm.dependents");
+  assert.equal(react.target_url, "https://www.npmjs.com/package/react");
+  assert.equal(react.produced_by, "trendingrepo-npm-dependents");
+  const dc = react.normalized.find((n) => n.key === "dependents_count");
+  assert.equal(dc.value, 250000);
+});
+
+test("fundingNewsToEvents — emits one event per signal + cross-link to GitHub", () => {
+  const payload = {
+    signals: [
+      {
+        id: "fn-1",
+        headline: "Acme raises $20M",
+        sourceUrl: "https://techcrunch.com/2026/05/12/acme-series-a",
+        publishedAt: "2026-05-12T00:00:00Z",
+        sourcePlatform: "techcrunch",
+        extracted: {
+          company: "Acme",
+          stage: "Series A",
+          amountUsd: 20_000_000,
+          investors: ["Sequoia", "a16z"],
+          githubUrl: "https://github.com/acme/acme",
+        },
+      },
+      {
+        id: "fn-2",
+        headline: "Beta seed round",
+        sourceUrl: "https://news.example/beta-seed",
+        publishedAt: "2026-05-11T00:00:00Z",
+        sourcePlatform: "news",
+        extracted: {
+          company: "Beta",
+          stage: "Seed",
+          amountUsd: 1_500_000,
+          investors: ["Y Combinator"],
+        },
+      },
+    ],
+  };
+  const events = fundingNewsToEvents(payload);
+  // 2 signals, 1 has cross-link → 3 events.
+  assert.equal(events.length, 3);
+  assert.equal(events[0].signal_type, "funding.startup");
+  assert.equal(events[0].target_url, "https://techcrunch.com/2026/05/12/acme-series-a");
+  // Cross-link event present.
+  const crossLink = events.find((e) => e.target_url === "https://github.com/acme/acme");
+  assert.ok(crossLink);
+  // Beta has no cross-link.
+  const beta = events.filter((e) => e.target_url.includes("beta-seed"));
+  assert.equal(beta.length, 1);
+});
+
+test("fundingSecFormdToEvents — emits one event per signal, no cross-link", () => {
+  const payload = {
+    signals: [
+      {
+        id: "sec-1",
+        headline: "Form D filed by Foo Inc",
+        sourceUrl: "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001234567",
+        publishedAt: "2026-05-12T00:00:00Z",
+        extracted: {
+          company: "Foo Inc",
+          amountUsd: 5_000_000,
+          industryGroup: "SaaS",
+        },
+      },
+    ],
+  };
+  const events = fundingSecFormdToEvents(payload);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].signal_type, "funding.sec.formd");
+  assert.equal(events[0].produced_by, "trendingrepo-sec");
+  const keys = events[0].normalized.map((n) => n.key);
+  assert.ok(keys.includes("industry_group"));
+  assert.ok(keys.includes("amount_usd"));
 });

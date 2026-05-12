@@ -60,6 +60,7 @@ export const metadata: Metadata = {
   description:
     "x402 services, agent wallets, MCP servers, agent-callable APIs and marketplaces. The DefiLlama for the M2M economy.",
   alternates: { canonical: "/agent-commerce" },
+  robots: { index: false, follow: true },
 };
 
 interface PageProps {
@@ -345,7 +346,6 @@ export default async function AgentCommercePage({ searchParams }: PageProps) {
   const sorted = filtered
     .slice()
     .sort((a, b) => b.scores.composite - a.scores.composite);
-  const heroes = sorted.slice(0, 6);
   const grid = sorted.slice(0, 60);
 
   const totalRendered = sorted.length;

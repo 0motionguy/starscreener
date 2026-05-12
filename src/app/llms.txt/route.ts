@@ -50,7 +50,6 @@ export function GET(): Response {
 - [Consensus](${base}/consensus) - repos with strongest cross-source agreement
 - [Funding](${base}/funding) - funding signals from TechCrunch / VentureBeat
 - [Revenue](${base}/revenue) - revenue and commercial traction signals
-- [Agent Commerce](${base}/agent-commerce) - agent-commerce companies, tooling, and protocols
 - [Agent Repos](${base}/agent-repos) - open-source agent projects
 - [Twitter](${base}/twitter) - repos trending on X
 - [NPM](${base}/npm) - package momentum and download signals

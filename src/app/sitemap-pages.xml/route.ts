@@ -52,7 +52,6 @@ const STATIC_HUBS: StaticHub[] = [
   { path: "/consensus", priority: 0.9, changefreq: "hourly" },
   { path: "/signals", priority: 0.85, changefreq: "hourly" },
   { path: "/twitter", priority: 0.85, changefreq: "hourly" },
-  { path: "/agent-commerce", priority: 0.8, changefreq: "hourly" },
   { path: "/agent-repos", priority: 0.8, changefreq: "hourly" },
   { path: "/npm", priority: 0.8, changefreq: "hourly" },
   { path: "/research", priority: 0.8, changefreq: "daily" },

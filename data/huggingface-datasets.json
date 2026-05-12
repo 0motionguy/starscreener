@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-11T20:08:08.332Z",
+  "fetchedAt": "2026-05-12T04:11:03.743Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -9,8 +9,8 @@
       "author": "open-thoughts",
       "url": "https://huggingface.co/datasets/open-thoughts/AgentTrove",
       "downloads": 7200,
-      "likes": 112,
-      "trendingScore": 60,
+      "likes": 116,
+      "trendingScore": 62,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -40,8 +40,8 @@
       "author": "ADSKAILab",
       "url": "https://huggingface.co/datasets/ADSKAILab/Zero-To-CAD-1m",
       "downloads": 13212,
-      "likes": 81,
-      "trendingScore": 53,
+      "likes": 83,
+      "trendingScore": 55,
       "tags": [
         "task_categories:text-to-3d",
         "task_categories:image-to-3d",
@@ -76,8 +76,8 @@
       "author": "angrygiraffe",
       "url": "https://huggingface.co/datasets/angrygiraffe/claude-opus-4.6-4.7-reasoning-8.7k",
       "downloads": 1346,
-      "likes": 61,
-      "trendingScore": 44,
+      "likes": 66,
+      "trendingScore": 46,
       "tags": [
         "task_categories:text-generation",
         "task_categories:question-answering",
@@ -519,8 +519,8 @@
       "author": "unh1nge",
       "url": "https://huggingface.co/datasets/unh1nge/comfyui-character-composer",
       "downloads": 6974,
-      "likes": 18,
-      "trendingScore": 17,
+      "likes": 19,
+      "trendingScore": 18,
       "tags": [
         "task_categories:image-to-image",
         "language:en",
@@ -582,6 +582,36 @@
     },
     {
       "rank": 19,
+      "id": "HuggingFaceFW/fineweb-edu",
+      "author": "HuggingFaceFW",
+      "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu",
+      "downloads": 561231,
+      "likes": 1070,
+      "trendingScore": 16,
+      "tags": [
+        "task_categories:text-generation",
+        "language:en",
+        "license:odc-by",
+        "size_categories:1B<n<10B",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2406.17557",
+        "arxiv:2404.14219",
+        "arxiv:2401.10020",
+        "arxiv:2109.07445",
+        "doi:10.57967/hf/2497",
+        "region:us"
+      ],
+      "createdAt": "2024-05-28T14:32:57.000Z",
+      "lastModified": "2025-07-11T20:16:53.000Z"
+    },
+    {
+      "rank": 20,
       "id": "ning423/deepseek-hermes-reasoning-traces",
       "author": "ning423",
       "url": "https://huggingface.co/datasets/ning423/deepseek-hermes-reasoning-traces",
@@ -616,7 +646,7 @@
       "lastModified": "2026-05-04T00:18:27.000Z"
     },
     {
-      "rank": 20,
+      "rank": 21,
       "id": "AlicanKiraz0/Cybersecurity-Dataset-Fenrir-v2.1",
       "author": "AlicanKiraz0",
       "url": "https://huggingface.co/datasets/AlicanKiraz0/Cybersecurity-Dataset-Fenrir-v2.1",
@@ -643,37 +673,50 @@
       "lastModified": "2026-04-22T10:29:32.000Z"
     },
     {
-      "rank": 21,
-      "id": "HuggingFaceFW/fineweb-edu",
-      "author": "HuggingFaceFW",
-      "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu",
-      "downloads": 561231,
-      "likes": 1068,
+      "rank": 22,
+      "id": "sequelbox/Tachibana4-DeepSeek-V4-Pro",
+      "author": "sequelbox",
+      "url": "https://huggingface.co/datasets/sequelbox/Tachibana4-DeepSeek-V4-Pro",
+      "downloads": 155,
+      "likes": 15,
       "trendingScore": 15,
       "tags": [
         "task_categories:text-generation",
         "language:en",
-        "license:odc-by",
-        "size_categories:1B<n<10B",
-        "format:parquet",
-        "modality:tabular",
+        "license:apache-2.0",
+        "size_categories:10K<n<100K",
+        "format:csv",
         "modality:text",
         "library:datasets",
-        "library:dask",
+        "library:pandas",
         "library:polars",
         "library:mlcroissant",
-        "arxiv:2406.17557",
-        "arxiv:2404.14219",
-        "arxiv:2401.10020",
-        "arxiv:2109.07445",
-        "doi:10.57967/hf/2497",
-        "region:us"
+        "doi:10.57967/hf/8696",
+        "region:us",
+        "tachibana",
+        "tachibana-4",
+        "agentic",
+        "agentic-coding",
+        "python",
+        "c++",
+        "c#",
+        "c",
+        "rust",
+        "java",
+        "javascript",
+        "typescript",
+        "go",
+        "haskell",
+        "shell",
+        "r",
+        "ruby",
+        "algorithms"
       ],
-      "createdAt": "2024-05-28T14:32:57.000Z",
-      "lastModified": "2025-07-11T20:16:53.000Z"
+      "createdAt": "2026-05-06T21:47:35.000Z",
+      "lastModified": "2026-05-07T01:09:32.000Z"
     },
     {
-      "rank": 22,
+      "rank": 23,
       "id": "OwnedByDanes/Usenet-Corpus-1980-2013",
       "author": "OwnedByDanes",
       "url": "https://huggingface.co/datasets/OwnedByDanes/Usenet-Corpus-1980-2013",
@@ -714,7 +757,7 @@
       "lastModified": "2026-05-05T16:17:39.000Z"
     },
     {
-      "rank": 23,
+      "rank": 24,
       "id": "badlogicgames/pi-mono",
       "author": "badlogicgames",
       "url": "https://huggingface.co/datasets/badlogicgames/pi-mono",
@@ -744,7 +787,7 @@
       "lastModified": "2026-04-06T13:10:36.000Z"
     },
     {
-      "rank": 24,
+      "rank": 25,
       "id": "sequelbox/Tachibana4-DeepSeek-V4-Pro-PREVIEW",
       "author": "sequelbox",
       "url": "https://huggingface.co/datasets/sequelbox/Tachibana4-DeepSeek-V4-Pro-PREVIEW",
@@ -785,49 +828,6 @@
       ],
       "createdAt": "2026-04-30T16:43:40.000Z",
       "lastModified": "2026-04-30T17:12:47.000Z"
-    },
-    {
-      "rank": 25,
-      "id": "sequelbox/Tachibana4-DeepSeek-V4-Pro",
-      "author": "sequelbox",
-      "url": "https://huggingface.co/datasets/sequelbox/Tachibana4-DeepSeek-V4-Pro",
-      "downloads": 155,
-      "likes": 14,
-      "trendingScore": 14,
-      "tags": [
-        "task_categories:text-generation",
-        "language:en",
-        "license:apache-2.0",
-        "size_categories:10K<n<100K",
-        "format:csv",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "doi:10.57967/hf/8696",
-        "region:us",
-        "tachibana",
-        "tachibana-4",
-        "agentic",
-        "agentic-coding",
-        "python",
-        "c++",
-        "c#",
-        "c",
-        "rust",
-        "java",
-        "javascript",
-        "typescript",
-        "go",
-        "haskell",
-        "shell",
-        "r",
-        "ruby",
-        "algorithms"
-      ],
-      "createdAt": "2026-05-06T21:47:35.000Z",
-      "lastModified": "2026-05-07T01:09:32.000Z"
     },
     {
       "rank": 26,
@@ -907,6 +907,38 @@
     },
     {
       "rank": 29,
+      "id": "TuringEnterprises/Open-MM-RL",
+      "author": "TuringEnterprises",
+      "url": "https://huggingface.co/datasets/TuringEnterprises/Open-MM-RL",
+      "downloads": 0,
+      "likes": 13,
+      "trendingScore": 12,
+      "tags": [
+        "task_categories:question-answering",
+        "language:en",
+        "license:mit",
+        "size_categories:n<1K",
+        "format:parquet",
+        "format:optimized-parquet",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "chemistry",
+        "physics",
+        "math",
+        "biology",
+        "science",
+        "RL"
+      ],
+      "createdAt": "2026-05-11T15:51:33.000Z",
+      "lastModified": "2026-05-11T19:31:51.000Z"
+    },
+    {
+      "rank": 30,
       "id": "NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
       "author": "NodeLinker",
       "url": "https://huggingface.co/datasets/NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
@@ -921,7 +953,7 @@
       "lastModified": "2026-05-01T19:27:38.000Z"
     },
     {
-      "rank": 30,
+      "rank": 31,
       "id": "microsoft/synthetic-computers-at-scale",
       "author": "microsoft",
       "url": "https://huggingface.co/datasets/microsoft/synthetic-computers-at-scale",
@@ -951,7 +983,7 @@
       "lastModified": "2026-05-01T06:30:14.000Z"
     },
     {
-      "rank": 31,
+      "rank": 32,
       "id": "openai/gsm8k",
       "author": "openai",
       "url": "https://huggingface.co/datasets/openai/gsm8k",
@@ -983,7 +1015,7 @@
       "lastModified": "2026-03-23T10:18:13.000Z"
     },
     {
-      "rank": 32,
+      "rank": 33,
       "id": "clem/ml-intern-sessions",
       "author": "clem",
       "url": "https://huggingface.co/datasets/clem/ml-intern-sessions",
@@ -1015,12 +1047,12 @@
       "lastModified": "2026-05-05T18:26:42.000Z"
     },
     {
-      "rank": 33,
+      "rank": 34,
       "id": "bigcode/the-stack-v2",
       "author": "bigcode",
       "url": "https://huggingface.co/datasets/bigcode/the-stack-v2",
-      "downloads": 20158,
-      "likes": 556,
+      "downloads": 20049,
+      "likes": 559,
       "trendingScore": 11,
       "tags": [
         "task_categories:text-generation",
@@ -1046,7 +1078,7 @@
       "lastModified": "2024-04-23T15:52:32.000Z"
     },
     {
-      "rank": 34,
+      "rank": 35,
       "id": "Qwen/WebWorldData",
       "author": "Qwen",
       "url": "https://huggingface.co/datasets/Qwen/WebWorldData",
@@ -1083,7 +1115,7 @@
       "lastModified": "2026-05-08T12:12:49.000Z"
     },
     {
-      "rank": 35,
+      "rank": 36,
       "id": "beyoru/Aesir-Character-CoT-roleplay",
       "author": "beyoru",
       "url": "https://huggingface.co/datasets/beyoru/Aesir-Character-CoT-roleplay",
@@ -1117,7 +1149,7 @@
       "lastModified": "2026-05-03T12:59:09.000Z"
     },
     {
-      "rank": 36,
+      "rank": 37,
       "id": "junwatu/indonesian-recipes",
       "author": "junwatu",
       "url": "https://huggingface.co/datasets/junwatu/indonesian-recipes",
@@ -1147,7 +1179,7 @@
       "lastModified": "2026-05-09T06:36:26.000Z"
     },
     {
-      "rank": 37,
+      "rank": 38,
       "id": "5551z/VisCoR-55K",
       "author": "5551z",
       "url": "https://huggingface.co/datasets/5551z/VisCoR-55K",
@@ -1170,7 +1202,7 @@
       "lastModified": "2026-04-30T10:51:23.000Z"
     },
     {
-      "rank": 38,
+      "rank": 39,
       "id": "openai/healthbench-professional",
       "author": "openai",
       "url": "https://huggingface.co/datasets/openai/healthbench-professional",
@@ -1194,7 +1226,7 @@
       "lastModified": "2026-04-22T16:09:30.000Z"
     },
     {
-      "rank": 39,
+      "rank": 40,
       "id": "beyoru/Deepseek-v4-pro-max-distill-1500x",
       "author": "beyoru",
       "url": "https://huggingface.co/datasets/beyoru/Deepseek-v4-pro-max-distill-1500x",
@@ -1224,7 +1256,7 @@
       "lastModified": "2026-05-04T11:28:06.000Z"
     },
     {
-      "rank": 40,
+      "rank": 41,
       "id": "KIT-MRT/KITScenes-Multimodal",
       "author": "KIT-MRT",
       "url": "https://huggingface.co/datasets/KIT-MRT/KITScenes-Multimodal",
@@ -1251,7 +1283,7 @@
       "lastModified": "2026-05-11T14:27:51.000Z"
     },
     {
-      "rank": 41,
+      "rank": 42,
       "id": "nvidia/SWE-Hero-openhands-trajectories",
       "author": "nvidia",
       "url": "https://huggingface.co/datasets/nvidia/SWE-Hero-openhands-trajectories",
@@ -1279,7 +1311,7 @@
       "lastModified": "2026-05-08T17:10:16.000Z"
     },
     {
-      "rank": 42,
+      "rank": 43,
       "id": "ADSKAILab/Zero-To-CAD-100k",
       "author": "ADSKAILab",
       "url": "https://huggingface.co/datasets/ADSKAILab/Zero-To-CAD-100k",
@@ -1315,7 +1347,7 @@
       "lastModified": "2026-05-03T14:18:39.000Z"
     },
     {
-      "rank": 43,
+      "rank": 44,
       "id": "allenai/c4",
       "author": "allenai",
       "url": "https://huggingface.co/datasets/allenai/c4",
@@ -1358,7 +1390,7 @@
       "lastModified": "2024-01-09T19:14:03.000Z"
     },
     {
-      "rank": 44,
+      "rank": 45,
       "id": "5551z/VisCoR_Contrast",
       "author": "5551z",
       "url": "https://huggingface.co/datasets/5551z/VisCoR_Contrast",
@@ -1381,7 +1413,7 @@
       "lastModified": "2026-04-30T01:37:13.000Z"
     },
     {
-      "rank": 45,
+      "rank": 46,
       "id": "nvidia/OpenCodeInstruct",
       "author": "nvidia",
       "url": "https://huggingface.co/datasets/nvidia/OpenCodeInstruct",
@@ -1408,7 +1440,7 @@
       "lastModified": "2025-04-28T19:08:02.000Z"
     },
     {
-      "rank": 46,
+      "rank": 47,
       "id": "nvidia/Nemotron-SFT-Math-v3",
       "author": "nvidia",
       "url": "https://huggingface.co/datasets/nvidia/Nemotron-SFT-Math-v3",
@@ -1428,7 +1460,7 @@
       "lastModified": "2026-04-28T22:38:45.000Z"
     },
     {
-      "rank": 47,
+      "rank": 48,
       "id": "Roman1111111/claude-sonnet-4.6-120000x",
       "author": "Roman1111111",
       "url": "https://huggingface.co/datasets/Roman1111111/claude-sonnet-4.6-120000x",
@@ -1449,7 +1481,7 @@
       "lastModified": "2026-04-19T10:59:32.000Z"
     },
     {
-      "rank": 48,
+      "rank": 49,
       "id": "PleIAs/CommonLingua-Train",
       "author": "PleIAs",
       "url": "https://huggingface.co/datasets/PleIAs/CommonLingua-Train",
@@ -1476,7 +1508,7 @@
       "lastModified": "2026-04-28T08:53:16.000Z"
     },
     {
-      "rank": 49,
+      "rank": 50,
       "id": "Anthropic/BioMysteryBench-preview",
       "author": "Anthropic",
       "url": "https://huggingface.co/datasets/Anthropic/BioMysteryBench-preview",
@@ -1488,35 +1520,6 @@
       ],
       "createdAt": "2026-04-29T02:55:57.000Z",
       "lastModified": "2026-04-29T03:32:33.000Z"
-    },
-    {
-      "rank": 50,
-      "id": "nvidia/Nemotron-Personas-USA",
-      "author": "nvidia",
-      "url": "https://huggingface.co/datasets/nvidia/Nemotron-Personas-USA",
-      "downloads": 13044,
-      "likes": 306,
-      "trendingScore": 8,
-      "tags": [
-        "task_categories:text-generation",
-        "language:en",
-        "license:cc-by-4.0",
-        "size_categories:1M<n<10M",
-        "format:parquet",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:mlcroissant",
-        "library:polars",
-        "library:datadesigner",
-        "region:us",
-        "synthetic",
-        "personas",
-        "NVIDIA",
-        "datadesigner"
-      ],
-      "createdAt": "2025-06-09T04:12:11.000Z",
-      "lastModified": "2025-12-16T19:13:23.000Z"
     }
   ]
 }

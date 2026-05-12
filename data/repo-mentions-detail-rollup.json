@@ -1,6 +1,6 @@
 {
-  "computedAt": "2026-05-12T14:29:30.073Z",
-  "scanRunId": "sweep-2026-05-12T14:29:22.609Z",
+  "computedAt": "2026-05-12T19:55:58.868Z",
+  "scanRunId": "sweep-2026-05-12T19:55:49.286Z",
   "windowDays": 7,
   "repos": {
     "modem-dev/hunk": {
@@ -99,10 +99,10 @@
     },
     "addyosmani/agent-skills": {
       "fullName": "addyosmani/agent-skills",
-      "totalMentions7d": 6,
+      "totalMentions7d": 8,
       "perSource": {
         "hackernews": {
-          "count7d": 6,
+          "count7d": 8,
           "top": [
             {
               "source": "hackernews",
@@ -133,6 +133,19 @@
             {
               "source": "hackernews",
               "fullName": "addyosmani/agent-skills",
+              "url": "https://github.com/RobustaRush/seedkit",
+              "title": "Show HN: Cook a Django project well, the agent-skill take on cookiecutter",
+              "text": "",
+              "author": "kmmbvnr_",
+              "engagement": {
+                "score": 2,
+                "comments": 0
+              },
+              "observedAt": "2026-05-12T18:33:11.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "addyosmani/agent-skills",
               "url": "https://research.perplexity.ai/articles/designing-refining-and-maintaining-agent-skills-at-perplexity",
               "title": "Designing, Refining, and Maintaining Agent Skills at Perplexity",
               "text": "",
@@ -146,28 +159,15 @@
             {
               "source": "hackernews",
               "fullName": "addyosmani/agent-skills",
-              "url": "https://prave.app/",
-              "title": "Prave – the missing management layer for AI Agent Skills",
+              "url": "https://www.signadot.com/docs/integrations/coding-agents/agent-skills",
+              "title": "An agent skill for closed-loop validation on microservices",
               "text": "",
-              "author": "karoabi",
+              "author": "jaguar75",
               "engagement": {
                 "score": 1,
                 "comments": 0
               },
-              "observedAt": "2026-05-12T10:54:02.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "addyosmani/agent-skills",
-              "url": "https://eslabs.web.app/",
-              "title": "Show HN: ESLabs",
-              "text": "LLMs can &quot;learn&quot;, maybe. That doesn&#x27;t mean we offload learning.<p>More than a decade ago I had built paw-on-es6 to help folks get hands-on with ES6 (ES2015). It did its job.<p>I am now introducing ESlabs. It covers every major feature from ES2015 through ES2025.<p>You write real code in your browser, run exercises, and actually internalize what the features do and why we need them in the first place.<p>The irony isn&#x27;t lost on me: building a tool to help humans learn, in an er",
-              "author": "init0",
-              "engagement": {
-                "score": 1,
-                "comments": 0
-              },
-              "observedAt": "2026-05-11T16:40:17.000Z"
+              "observedAt": "2026-05-12T16:51:26.000Z"
             }
           ]
         }
@@ -409,24 +409,11 @@
     },
     "multica-ai/multica": {
       "fullName": "multica-ai/multica",
-      "totalMentions7d": 88,
+      "totalMentions7d": 105,
       "perSource": {
         "hackernews": {
-          "count7d": 87,
+          "count7d": 104,
           "top": [
-            {
-              "source": "hackernews",
-              "fullName": "multica-ai/multica",
-              "url": "https://blog.google/innovation-and-ai/technology/developers-tools/multi-token-prediction-gemma-4/",
-              "title": "Accelerating Gemma 4: faster inference with multi-token prediction drafters",
-              "text": "",
-              "author": "amrrs",
-              "engagement": {
-                "score": 685,
-                "comments": 328
-              },
-              "observedAt": "2026-05-05T16:14:17.000Z"
-            },
             {
               "source": "hackernews",
               "fullName": "multica-ai/multica",
@@ -439,6 +426,19 @@
                 "comments": 44
               },
               "observedAt": "2026-05-06T04:43:25.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "multica-ai/multica",
+              "url": "https://www.cocoawithlove.com/blog/matrix-multiplications-swift.html",
+              "title": "Training an LLM in Swift, Part 1: Taking matrix mult from Gflop/s to Tflop/s",
+              "text": "",
+              "author": "zdw",
+              "engagement": {
+                "score": 252,
+                "comments": 12
+              },
+              "observedAt": "2026-05-10T17:05:05.000Z"
             },
             {
               "source": "hackernews",
@@ -456,28 +456,28 @@
             {
               "source": "hackernews",
               "fullName": "multica-ai/multica",
-              "url": "https://www.cocoawithlove.com/blog/matrix-multiplications-swift.html",
-              "title": "Training an LLM in Swift, Part 1: Taking matrix mult from Gflop/s to Tflop/s",
+              "url": "https://blog.google/innovation-and-ai/technology/developers-tools/expanded-gemini-api-file-search-multimodal-rag/",
+              "title": "Gemini API File Search is now multimodal",
               "text": "",
-              "author": "zdw",
+              "author": "gmays",
               "engagement": {
-                "score": 246,
-                "comments": 12
+                "score": 156,
+                "comments": 45
               },
-              "observedAt": "2026-05-10T17:05:05.000Z"
+              "observedAt": "2026-05-10T03:22:02.000Z"
             },
             {
               "source": "hackernews",
               "fullName": "multica-ai/multica",
-              "url": "https://arxiv.org/abs/2604.26752",
-              "title": "GLM-5V-Turbo: Toward a Native Foundation Model for Multimodal Agents",
+              "url": "https://ahk.cardor.dev",
+              "title": "Show HN: Agent-harness-kit scaffolding for multi-agent workflows",
               "text": "",
-              "author": "gmays",
+              "author": "enmanuelmag",
               "engagement": {
-                "score": 163,
-                "comments": 32
+                "score": 82,
+                "comments": 23
               },
-              "observedAt": "2026-05-05T17:52:31.000Z"
+              "observedAt": "2026-05-07T10:45:59.000Z"
             }
           ]
         },
@@ -858,7 +858,7 @@
               "text": "",
               "author": "vinnyglennon",
               "engagement": {
-                "score": 3,
+                "score": 7,
                 "comments": 1
               },
               "observedAt": "2026-05-12T13:42:10.000Z"
@@ -1210,8 +1210,8 @@
               "text": "",
               "author": "orhunp_",
               "engagement": {
-                "score": 651,
-                "comments": 225
+                "score": 655,
+                "comments": 232
               },
               "observedAt": "2026-05-11T10:13:04.000Z"
             },
@@ -1914,8 +1914,8 @@
               "text": "Proxy pour utiliser Claude Code gratuitement dans le terminal, VS Code ou via Discord — sans compte payant Anthropic. Warning: pas sûr que ça marche si bien ou que ce soit totalement dans les clous des CGU de Claude. https://github.com/Alishahryar1/free-claude-code",
               "author": "camilleroux.com",
               "engagement": {
-                "score": 3,
-                "comments": 0
+                "score": 5,
+                "comments": 1
               },
               "observedAt": "2026-05-12T11:20:03.368Z"
             }
@@ -3727,10 +3727,10 @@
     },
     "jackwener/OpenCLI": {
       "fullName": "jackwener/OpenCLI",
-      "totalMentions7d": 110,
+      "totalMentions7d": 100,
       "perSource": {
         "hackernews": {
-          "count7d": 110,
+          "count7d": 100,
           "top": [
             {
               "source": "hackernews",
@@ -3741,7 +3741,7 @@
               "author": "atgctg",
               "engagement": {
                 "score": 507,
-                "comments": 148
+                "comments": 149
               },
               "observedAt": "2026-05-07T17:11:59.000Z"
             },
@@ -3766,7 +3766,7 @@
               "text": "",
               "author": "koolba",
               "engagement": {
-                "score": 87,
+                "score": 88,
                 "comments": 94
               },
               "observedAt": "2026-05-06T13:25:42.000Z"
@@ -4115,10 +4115,10 @@
     },
     "garrytan/gbrain": {
       "fullName": "garrytan/gbrain",
-      "totalMentions7d": 44,
+      "totalMentions7d": 43,
       "perSource": {
         "hackernews": {
-          "count7d": 42,
+          "count7d": 41,
           "top": [
             {
               "source": "hackernews",
@@ -4128,8 +4128,8 @@
               "text": "",
               "author": "bookofjoe",
               "engagement": {
-                "score": 389,
-                "comments": 78
+                "score": 425,
+                "comments": 86
               },
               "observedAt": "2026-05-11T17:53:08.000Z"
             },
@@ -4162,19 +4162,6 @@
             {
               "source": "hackernews",
               "fullName": "garrytan/gbrain",
-              "url": "https://yusufaytas.com/when-too-many-maps-overlap-on-one-person",
-              "title": "When Too Many Maps Overlap on One Person",
-              "text": "",
-              "author": "brainrotted",
-              "engagement": {
-                "score": 13,
-                "comments": 0
-              },
-              "observedAt": "2026-05-05T18:11:02.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "garrytan/gbrain",
               "url": "https://www.blamo.ai/",
               "title": "Show HN: Blamo A vibecoded app for vibecoding vibe games",
               "text": "Hey HN, my name is Sam. My buddy Danny and I (and our good friend Claude) have been making this fun app to make and share vibe games. You just describe whatever game pops into your deranged little mind, and BLAMO! there it is, playable on your phone in under 30 seconds.<p>Super Mario Breakout? BLAMO! <a href=\"https:&#x2F;&#x2F;www.blamo.ai&#x2F;vibes&#x2F;7350a500-09bb-4ed9-866d-001006f6f83e\" rel=\"nofollow\">https:&#x2F;&#x2F;www.blamo.ai&#x2F;vibes&#x2F;7350a500-09bb-4ed9-866d-001006f6f...</a><p",
@@ -4184,6 +4171,19 @@
                 "comments": 10
               },
               "observedAt": "2026-05-07T23:06:24.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "garrytan/gbrain",
+              "url": "https://www.sciencedaily.com/releases/2026/05/260510030946.htm",
+              "title": "Brain scans reveal a difference between psychopaths and other people",
+              "text": "",
+              "author": "Noaidi",
+              "engagement": {
+                "score": 8,
+                "comments": 1
+              },
+              "observedAt": "2026-05-10T12:40:58.000Z"
             }
           ]
         },
@@ -6092,10 +6092,10 @@
     },
     "decolua/9router": {
       "fullName": "decolua/9router",
-      "totalMentions7d": 31,
+      "totalMentions7d": 39,
       "perSource": {
         "hackernews": {
-          "count7d": 30,
+          "count7d": 38,
           "top": [
             {
               "source": "hackernews",
@@ -6106,7 +6106,7 @@
               "author": "PriorityLeft",
               "engagement": {
                 "score": 1348,
-                "comments": 986
+                "comments": 987
               },
               "observedAt": "2026-05-07T20:23:37.000Z"
             },
@@ -6118,8 +6118,8 @@
               "text": "<a href=\"https:&#x2F;&#x2F;github.com&#x2F;TanStack&#x2F;router&#x2F;issues&#x2F;7383\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;TanStack&#x2F;router&#x2F;issues&#x2F;7383</a>",
               "author": "varunsharma07",
               "engagement": {
-                "score": 940,
-                "comments": 396
+                "score": 1037,
+                "comments": 433
               },
               "observedAt": "2026-05-11T21:08:25.000Z"
             },
@@ -6782,15 +6782,15 @@
             {
               "source": "hackernews",
               "fullName": "rohitg00/agentmemory",
-              "url": "https://github.com/zhangfengcdt/memoir",
-              "title": "Memoir – Git for AI agent memory, with a Claude Code plugin",
+              "url": "https://memory.cobanov.dev/",
+              "title": "How AI Agent Memory Works",
               "text": "",
-              "author": "memoir_ai",
+              "author": "gmays",
               "engagement": {
-                "score": 2,
+                "score": 1,
                 "comments": 0
               },
-              "observedAt": "2026-05-05T15:54:54.000Z"
+              "observedAt": "2026-05-12T18:08:49.000Z"
             }
           ]
         },
@@ -8511,10 +8511,10 @@
     },
     "marckohlbrugge/sessy": {
       "fullName": "marckohlbrugge/sessy",
-      "totalMentions7d": 44,
+      "totalMentions7d": 48,
       "perSource": {
         "hackernews": {
-          "count7d": 44,
+          "count7d": 48,
           "top": [
             {
               "source": "hackernews",
@@ -8545,6 +8545,32 @@
             {
               "source": "hackernews",
               "fullName": "marckohlbrugge/sessy",
+              "url": "https://voker.ai",
+              "title": "Launch HN: Voker (YC S24) – Analytics for AI Agents",
+              "text": "Hey HN, we&#x27;re Alex and Tyler, co-founders of Voker.ai (<a href=\"https:&#x2F;&#x2F;voker.ai&#x2F;\">https:&#x2F;&#x2F;voker.ai&#x2F;</a>), an agent analytics platform for AI product teams. Voker gives full visibility into what users are asking of your agents, and whether your agents are delivering, without having to dig through logs. Our main product is a lightweight SDK that is LLM stack agnostic and purpose-built for agent products. (<a href=\"https:&#x2F;&#x2F;app.voker.ai&#x2F;docs\">https:",
+              "author": "ttpost",
+              "engagement": {
+                "score": 29,
+                "comments": 13
+              },
+              "observedAt": "2026-05-12T15:45:20.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "marckohlbrugge/sessy",
+              "url": "https://www.hypercubic.ai/hopper",
+              "title": "Show HN: Agentic interface for mainframes and COBOL",
+              "text": "Hi HN, we’re Sai and Aayush, and we’re building Hypercubic (<a href=\"https:&#x2F;&#x2F;www.hypercubic.ai&#x2F;\">https:&#x2F;&#x2F;www.hypercubic.ai&#x2F;</a>), bringing AI tools to the mainframe and COBOL world. (We did a Launch HN last year: <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=45877517\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=45877517</a>.) Today we’re launching Hopper, an agentic development environment for mainframes.<p>You can download it here: <a href=\"h",
+              "author": "sai18",
+              "engagement": {
+                "score": 28,
+                "comments": 10
+              },
+              "observedAt": "2026-05-12T17:10:22.000Z"
+            },
+            {
+              "source": "hackernews",
+              "fullName": "marckohlbrugge/sessy",
               "url": "https://github.com/MotleyAI/slayer",
               "title": "Show HN: SLayer, a semantic layer maintained by your agent",
               "text": "Hello HN!<p>If you want to connect your agent to a database (say, to build a data analyst chatbot or any kind of agentic app) today you have 2 options: an SQL MCP server or a semantic layer.<p>SQL MCP is the easiest path to setup, especially if you also have a .md knowledge base which the agent can update. It gets quite messy quickly though, especially if there&#x27;s many interactions or DB is large. Generated SQL is hard to review if you want to understand where the numbers came from, and rela",
@@ -8554,32 +8580,6 @@
                 "comments": 3
               },
               "observedAt": "2026-05-11T14:45:37.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "marckohlbrugge/sessy",
-              "url": "https://wuphf.team",
-              "title": "Show HN: My AI agents bully each other to prevent context drift",
-              "text": "Most multi-agent systems fail the same way: agents drift apart across handoffs. By turn 3 they are working in different realities. By turn 5 they are repeating each other&#x27;s mistakes and calling it parallelism.<p>WUPHF is an open-source local-first office where AI coworkers run on your laptop, around a shared markdown + git LLM wiki the agents build. The wiki is the collective memory. The office around it keeps the team on the same shared context across thousands of handoffs.<p>What actually",
-              "author": "najmuzzaman",
-              "engagement": {
-                "score": 9,
-                "comments": 0
-              },
-              "observedAt": "2026-05-09T16:22:23.000Z"
-            },
-            {
-              "source": "hackernews",
-              "fullName": "marckohlbrugge/sessy",
-              "url": "https://disputron.ai",
-              "title": "Show HN: Disputron – AI small claims court for petty disputes",
-              "text": "Disputron is a small claims court for petty disputes. Two parties file, AI lawyers argue both sides, and a AI judge rules from the bench. Trials run live in a courtroom view with a live court tv guide. Anyone can watch.<p>I built it because I wanted to build something with an LLM that didn&#x27;t take AI too seriously. I think it started with a text &quot;have your lawyer talk to my lawyer.&quot; Just leaned into the absurd nature of it. Brought in human designers, illustrators, and musicians.<p",
-              "author": "etaheri",
-              "engagement": {
-                "score": 9,
-                "comments": 4
-              },
-              "observedAt": "2026-05-07T22:00:02.000Z"
             }
           ]
         }

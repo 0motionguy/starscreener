@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-12T03:43:37.009Z",
+  "fetchedAt": "2026-05-12T05:53:14.873Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1298,
+  "scannedArticles": 1290,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 9,
+    "global-rising": 8,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -187,7 +187,7 @@
     "tag-agentic-top-7d": 9,
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
-    "tag-codex-top-7d": 11,
+    "tag-codex-top-7d": 9,
     "tag-cursor-top-7d": 27,
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 7,
@@ -197,7 +197,7 @@
     "tag-workflow-top-7d": 37,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
-    "tag-cli-top-7d": 81,
+    "tag-cli-top-7d": 83,
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 100,
     "tag-langchain-top-7d": 49,
@@ -216,7 +216,7 @@
         "author": "ruarfff",
         "reactions": 25,
         "comments": 0,
-        "hoursSincePosted": 156.9,
+        "hoursSincePosted": 159.1,
         "readingTime": 11
       },
       "articles": [
@@ -258,7 +258,7 @@
         "author": "lovestaco",
         "reactions": 45,
         "comments": 0,
-        "hoursSincePosted": 41.4,
+        "hoursSincePosted": 43.6,
         "readingTime": 9
       },
       "articles": [
@@ -282,7 +282,7 @@
             "programming",
             "python"
           ],
-          "trendingScore": 1.8,
+          "trendingScore": 1.71,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -310,7 +310,7 @@
             "beginners",
             "go"
           ],
-          "trendingScore": 1.26,
+          "trendingScore": 1.23,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -337,7 +337,7 @@
             "softwareengineering",
             "agenticengineering"
           ],
-          "trendingScore": 0.16,
+          "trendingScore": 0.15,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -405,16 +405,16 @@
     },
     "ajeetdsouza/zoxide": {
       "count7d": 3,
-      "reactionsSum7d": 9,
+      "reactionsSum7d": 11,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3652261,
         "title": "My fully offline AI-assisted Linux development machine",
         "url": "https://dev.to/deepu105/my-fully-offline-ai-assisted-linux-development-machine-3lnl",
         "author": "deepu105",
-        "reactions": 9,
+        "reactions": 11,
         "comments": 0,
-        "hoursSincePosted": 6.9,
+        "hoursSincePosted": 9.1,
         "readingTime": 13
       },
       "articles": [
@@ -428,7 +428,7 @@
             "name": "Deepu K Sasidharan",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F178939%2F38a82d99-3a0c-4a47-84fc-76fff3144cda.png"
           },
-          "reactionsCount": 9,
+          "reactionsCount": 11,
           "commentsCount": 0,
           "readingTime": 13,
           "publishedAt": "2026-05-11T20:47:59Z",
@@ -438,7 +438,7 @@
             "development",
             "ai"
           ],
-          "trendingScore": 1.24,
+          "trendingScore": 1.26,
           "linkedRepos": [
             {
               "fullName": "ajeetdsouza/zoxide",
@@ -515,7 +515,7 @@
         "author": "xbill",
         "reactions": 21,
         "comments": 2,
-        "hoursSincePosted": 133.2,
+        "hoursSincePosted": 135.3,
         "readingTime": 9
       },
       "articles": [
@@ -581,653 +581,49 @@
         }
       ]
     },
-    "openai/codex": {
-      "count7d": 6,
-      "reactionsSum7d": 2,
-      "commentsSum7d": 2,
-      "topArticle": {
-        "id": 3627864,
-        "title": "Building a Fully Offline AI Coding Assistant with Gemma 4, No Cloud Required 🤖",
-        "url": "https://dev.to/mamoor_ahmad/building-a-fully-offline-ai-coding-assistant-with-gemma-4-no-cloud-required-37op",
-        "author": "mamoor_ahmad",
-        "reactions": 2,
-        "comments": 1,
-        "hoursSincePosted": 108.3,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3627864,
-          "title": "Building a Fully Offline AI Coding Assistant with Gemma 4, No Cloud Required 🤖",
-          "description": "Your code never leaves your machine. Your API bill is zero. Your assistant still works on a plane....",
-          "url": "https://dev.to/mamoor_ahmad/building-a-fully-offline-ai-coding-assistant-with-gemma-4-no-cloud-required-37op",
-          "author": {
-            "username": "mamoor_ahmad",
-            "name": "Mamoor Ahmad ",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3862196%2Fc352af61-07ef-4ca6-ab20-cfffbbfc18de.jpeg"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 1,
-          "readingTime": 7,
-          "publishedAt": "2026-05-07T15:26:57Z",
-          "tags": [
-            "tutorial",
-            "opensource",
-            "ai",
-            "webdev"
-          ],
-          "trendingScore": 0.01,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3607230,
-          "title": "Codex for Claude Code Users: What to Know Before You Try It",
-          "description": "A hands-on guide for Claude Code users who want to try Codex and understand Codex App, plans, permissions, config files, and mobile workflows.",
-          "url": "https://dev.to/k9i/codex-for-claude-code-users-what-to-know-before-you-try-it-642",
-          "author": {
-            "username": "k9i",
-            "name": "K9i - Kota Hayashi",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3810926%2F0c19f72e-e168-41a3-a16c-0b6f10ba8dfd.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-04T07:42:34Z",
-          "tags": [
-            "codex",
-            "ai",
-            "claude",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex",
-              "location": "tag"
-            }
-          ]
-        },
-        {
-          "id": 3642987,
-          "title": "Tokenmaxxing: Codex + Claude Code Operator Stack 2026",
-          "description": "YC named it tokenmaxxing — one founder + agent harness doing the work of 400 engineers. Here's the stack: Codex parallel tabs and Claude Code skills.",
-          "url": "https://dev.to/max_quimby/tokenmaxxing-codex-claude-code-operator-stack-2026-318",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-10T03:35:48Z",
-          "tags": [
-            "ai",
-            "agents",
-            "codex",
-            "developertools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "addyosmani/agent-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "openai/codex",
-              "location": "tag"
-            },
-            {
-              "fullName": "farion1231/cc-switch",
-              "location": "body"
-            },
-            {
-              "fullName": "decolua/9router",
-              "location": "body"
-            },
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3643820,
-          "title": "手机自动化的演进：从脚本到状态流",
-          "description": "前阵子跑 OpenGUI，在真机上试了一个长程任务：打开 X，搜索 mobile AI agents...",
-          "url": "https://dev.to/fenix_23505d14df386c00ced/shou-ji-zi-dong-hua-de-yan-jin-cong-jiao-ben-dao-zhuang-tai-liu-jbc",
-          "author": {
-            "username": "fenix_23505d14df386c00ced",
-            "name": "Fenix",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823217%2F42aca0c2-69b9-4be7-b0f2-519a6b241dc4.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-10T08:48:48Z",
-          "tags": [
-            "agents",
-            "ai",
-            "automation",
-            "mobile"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3643817,
-          "title": "The Evolution of Mobile Automation: From Scripts to State Flows",
-          "description": "I spent some time with OpenGUI recently, running a long-haul task on a real phone: open X, search for...",
-          "url": "https://dev.to/fenix_23505d14df386c00ced/the-evolution-of-mobile-automation-from-scripts-to-state-flows-6b3",
-          "author": {
-            "username": "fenix_23505d14df386c00ced",
-            "name": "Fenix",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823217%2F42aca0c2-69b9-4be7-b0f2-519a6b241dc4.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-05-10T08:48:15Z",
-          "tags": [
-            "agents",
-            "ai",
-            "automation",
-            "mobile"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3645744,
-          "title": "I built a custom Codex-powered code review bot for GitLab",
-          "description": "A merge-request review by GitLab Duo Code Review costs us about $0.20. We're a small team of...",
-          "url": "https://dev.to/sleeyax/i-built-a-custom-codex-powered-code-review-bot-for-gitlab-5eap",
-          "author": {
-            "username": "sleeyax",
-            "name": "Sleeyax",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2073280%2F960c9c9b-67bf-49a7-89d3-16096830c49a.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 9,
-          "publishedAt": "2026-05-10T19:21:10Z",
-          "tags": [
-            "ai",
-            "automation",
-            "chatgpt",
-            "showdev"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "anthropics/skills": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3633378,
-        "title": "How I Set Up Shared Agent Config for Our Team with APM",
-        "url": "https://dev.to/dantederuwe/how-i-set-up-shared-agent-config-for-our-team-with-apm-3ncb",
-        "author": "dantederuwe",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 99.7,
-        "readingTime": 11
-      },
-      "articles": [
-        {
-          "id": 3633378,
-          "title": "How I Set Up Shared Agent Config for Our Team with APM",
-          "description": "I set up a shared Git repo for our team to maintain reusable AI agent packages: skills, instructions,...",
-          "url": "https://dev.to/dantederuwe/how-i-set-up-shared-agent-config-for-our-team-with-apm-3ncb",
-          "author": {
-            "username": "dantederuwe",
-            "name": "Dante De Ruwe",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F521522%2F81abc102-0d3b-463c-bfc3-d3e0a0c31260.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-05-08T00:00:00Z",
-          "tags": [
-            "agents",
-            "ai",
-            "productivity",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/skills",
-              "location": "body"
-            },
-            {
-              "fullName": "mattpocock/skills",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3631768,
-          "title": "Stop Repeating Yourself: Use Rules and Skills to Level Up Your AI Agent",
-          "description": "Do you find yourself typing the same instructions into every new project chat? Or noticing that your...",
-          "url": "https://dev.to/jrud25/stop-repeating-yourself-use-rules-and-skills-to-level-up-your-ai-agent-3699",
-          "author": {
-            "username": "jrud25",
-            "name": "Jordan Rudman",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1129607%2Fde8d6e49-d7ff-4821-b312-82bfca268798.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-08T07:49:25Z",
-          "tags": [
-            "ai",
-            "productivity",
-            "tooling",
-            "agents"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/skills",
-              "location": "body"
-            },
-            {
-              "fullName": "ComposioHQ/awesome-claude-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "mattpocock/skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3633378,
-        "title": "How I Set Up Shared Agent Config for Our Team with APM",
-        "url": "https://dev.to/dantederuwe/how-i-set-up-shared-agent-config-for-our-team-with-apm-3ncb",
-        "author": "dantederuwe",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 99.7,
-        "readingTime": 11
-      },
-      "articles": [
-        {
-          "id": 3633378,
-          "title": "How I Set Up Shared Agent Config for Our Team with APM",
-          "description": "I set up a shared Git repo for our team to maintain reusable AI agent packages: skills, instructions,...",
-          "url": "https://dev.to/dantederuwe/how-i-set-up-shared-agent-config-for-our-team-with-apm-3ncb",
-          "author": {
-            "username": "dantederuwe",
-            "name": "Dante De Ruwe",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F521522%2F81abc102-0d3b-463c-bfc3-d3e0a0c31260.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-05-08T00:00:00Z",
-          "tags": [
-            "agents",
-            "ai",
-            "productivity",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/skills",
-              "location": "body"
-            },
-            {
-              "fullName": "mattpocock/skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "garrytan/gbrain": {
-      "count7d": 1,
-      "reactionsSum7d": 6,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3630098,
-        "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
-        "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
-        "author": "_4f268336f6580845cdc475",
-        "reactions": 6,
-        "comments": 0,
-        "hoursSincePosted": 97.1,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3630098,
-          "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
-          "description": "RAG brings books to the exam. Knowledge Engineering teaches Agents to study. Memory architecture...",
-          "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
-          "author": {
-            "username": "_4f268336f6580845cdc475",
-            "name": "Charles Wu",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805236%2Fc2ca81a3-8882-48ac-9ce7-046a056995ab.jpg"
-          },
-          "reactionsCount": 6,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-08T02:35:02Z",
-          "tags": [
-            "ai",
-            "machinelearning",
-            "rag",
-            "agents"
-          ],
-          "trendingScore": 0.05,
-          "linkedRepos": [
-            {
-              "fullName": "garrytan/gbrain",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "NousResearch/hermes-agent": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3619658,
-        "title": "Top 10 Local AI Agents You Can Run on Your PC in 2026",
-        "url": "https://dev.to/rednakta/top-10-openclaw-alternatives-local-ai-agents-you-can-run-on-your-pc-in-2026-305e",
-        "author": "rednakta",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 139.2,
-        "readingTime": 10
-      },
-      "articles": [
-        {
-          "id": 3619658,
-          "title": "Top 10 Local AI Agents You Can Run on Your PC in 2026",
-          "description": "A practical comparison of every personal AI agent worth installing in 2026 — and one underneath layer...",
-          "url": "https://dev.to/rednakta/top-10-openclaw-alternatives-local-ai-agents-you-can-run-on-your-pc-in-2026-305e",
-          "author": {
-            "username": "rednakta",
-            "name": "rednakta",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3846751%2F3aaa6d11-420a-4dea-8974-6596ea1103b9.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-06T08:34:31Z",
-          "tags": [
-            "agents",
-            "openclaw",
-            "security"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "HKUDS/nanobot",
-              "location": "body"
-            },
-            {
-              "fullName": "zeroclaw-labs/zeroclaw",
-              "location": "body"
-            },
-            {
-              "fullName": "nullclaw/nullclaw",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3630785,
-          "title": "Hermes Agent: The Principal Engineer AI Assistant (Open Source)",
-          "description": "Hermes Agent: The Principal Engineer AI Assistant            What is Hermes?   Hermes is an...",
-          "url": "https://dev.to/manoir_yantai_f22f01340f0/hermes-agent-the-principal-engineer-ai-assistant-open-source-10mc",
-          "author": {
-            "username": "manoir_yantai_f22f01340f0",
-            "name": "Manoir Yantai",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3919013%2F78e8493f-03d4-43ef-8f84-dadb8a6668c0.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 1,
-          "publishedAt": "2026-05-08T05:39:55Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "devtools",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "HKUDS/nanobot": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3619658,
-        "title": "Top 10 Local AI Agents You Can Run on Your PC in 2026",
-        "url": "https://dev.to/rednakta/top-10-openclaw-alternatives-local-ai-agents-you-can-run-on-your-pc-in-2026-305e",
-        "author": "rednakta",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 139.2,
-        "readingTime": 10
-      },
-      "articles": [
-        {
-          "id": 3619658,
-          "title": "Top 10 Local AI Agents You Can Run on Your PC in 2026",
-          "description": "A practical comparison of every personal AI agent worth installing in 2026 — and one underneath layer...",
-          "url": "https://dev.to/rednakta/top-10-openclaw-alternatives-local-ai-agents-you-can-run-on-your-pc-in-2026-305e",
-          "author": {
-            "username": "rednakta",
-            "name": "rednakta",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3846751%2F3aaa6d11-420a-4dea-8974-6596ea1103b9.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-06T08:34:31Z",
-          "tags": [
-            "agents",
-            "openclaw",
-            "security"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "HKUDS/nanobot",
-              "location": "body"
-            },
-            {
-              "fullName": "zeroclaw-labs/zeroclaw",
-              "location": "body"
-            },
-            {
-              "fullName": "nullclaw/nullclaw",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "zeroclaw-labs/zeroclaw": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3619658,
-        "title": "Top 10 Local AI Agents You Can Run on Your PC in 2026",
-        "url": "https://dev.to/rednakta/top-10-openclaw-alternatives-local-ai-agents-you-can-run-on-your-pc-in-2026-305e",
-        "author": "rednakta",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 139.2,
-        "readingTime": 10
-      },
-      "articles": [
-        {
-          "id": 3619658,
-          "title": "Top 10 Local AI Agents You Can Run on Your PC in 2026",
-          "description": "A practical comparison of every personal AI agent worth installing in 2026 — and one underneath layer...",
-          "url": "https://dev.to/rednakta/top-10-openclaw-alternatives-local-ai-agents-you-can-run-on-your-pc-in-2026-305e",
-          "author": {
-            "username": "rednakta",
-            "name": "rednakta",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3846751%2F3aaa6d11-420a-4dea-8974-6596ea1103b9.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-06T08:34:31Z",
-          "tags": [
-            "agents",
-            "openclaw",
-            "security"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "HKUDS/nanobot",
-              "location": "body"
-            },
-            {
-              "fullName": "zeroclaw-labs/zeroclaw",
-              "location": "body"
-            },
-            {
-              "fullName": "nullclaw/nullclaw",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "nullclaw/nullclaw": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3619658,
-        "title": "Top 10 Local AI Agents You Can Run on Your PC in 2026",
-        "url": "https://dev.to/rednakta/top-10-openclaw-alternatives-local-ai-agents-you-can-run-on-your-pc-in-2026-305e",
-        "author": "rednakta",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 139.2,
-        "readingTime": 10
-      },
-      "articles": [
-        {
-          "id": 3619658,
-          "title": "Top 10 Local AI Agents You Can Run on Your PC in 2026",
-          "description": "A practical comparison of every personal AI agent worth installing in 2026 — and one underneath layer...",
-          "url": "https://dev.to/rednakta/top-10-openclaw-alternatives-local-ai-agents-you-can-run-on-your-pc-in-2026-305e",
-          "author": {
-            "username": "rednakta",
-            "name": "rednakta",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3846751%2F3aaa6d11-420a-4dea-8974-6596ea1103b9.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-06T08:34:31Z",
-          "tags": [
-            "agents",
-            "openclaw",
-            "security"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "HKUDS/nanobot",
-              "location": "body"
-            },
-            {
-              "fullName": "zeroclaw-labs/zeroclaw",
-              "location": "body"
-            },
-            {
-              "fullName": "nullclaw/nullclaw",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "anthropics/claude-code": {
-      "count7d": 7,
+      "count7d": 8,
       "reactionsSum7d": 0,
       "commentsSum7d": 3,
       "topArticle": {
-        "id": 3638970,
-        "title": "36 Days of Claude Code Logs: Silent Model Switching, 11.5x Efficiency Gap",
-        "url": "https://dev.to/recca0120/36-days-of-claude-code-logs-silent-model-switching-115x-efficiency-gap-1bgm",
-        "author": "recca0120",
+        "id": 3652629,
+        "title": "Five MCP Servers Before Claude Code Writes a Single Line",
+        "url": "https://dev.to/studiomeyer_io/five-mcp-servers-before-claude-code-writes-a-single-line-18f8",
+        "author": "studiomeyer_io",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 67,
+        "hoursSincePosted": 5.6,
         "readingTime": 8
       },
       "articles": [
+        {
+          "id": 3652629,
+          "title": "Five MCP Servers Before Claude Code Writes a Single Line",
+          "description": "Claude Code went from research preview to a meaningful share of all public GitHub commits...",
+          "url": "https://dev.to/studiomeyer_io/five-mcp-servers-before-claude-code-writes-a-single-line-18f8",
+          "author": {
+            "username": "studiomeyer_io",
+            "name": "Matthias | StudioMeyer",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3866458%2F170ce662-470b-4f78-ac37-58a9a2a00220.PNG"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 8,
+          "publishedAt": "2026-05-12T00:19:57Z",
+          "tags": [
+            "ai",
+            "claudecode",
+            "hooks",
+            "aiworkflow"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
         {
           "id": 3638970,
           "title": "36 Days of Claude Code Logs: Silent Model Switching, 11.5x Efficiency Gap",
@@ -1345,34 +741,6 @@
           ]
         },
         {
-          "id": 3618919,
-          "title": "Claude Code Context Window Rot: Why Sessions Get Dumber (And How to Fix It)",
-          "description": "You know the pattern. You open a fresh Claude Code session, paste in the task, and the first few...",
-          "url": "https://dev.to/amitba/claude-code-context-window-rot-why-sessions-get-dumber-and-how-to-fix-it-50ni",
-          "author": {
-            "username": "amitba",
-            "name": "Amit Ben-Ari",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3827860%2F69b55ac3-d46d-4cf2-b76c-4e35fca060c1.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 17,
-          "publishedAt": "2026-05-06T06:21:47Z",
-          "tags": [
-            "ai",
-            "claude",
-            "developers",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3637647,
           "title": "Hooks and the wrapper-authority problem: why your AI coding agent ignores them",
           "description": "Post 2 of 2. A walkthrough of the wrapper that breaks UserPromptSubmit hook output, the issues that...",
@@ -1390,6 +758,34 @@
             "ai",
             "claude",
             "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3618919,
+          "title": "Claude Code Context Window Rot: Why Sessions Get Dumber (And How to Fix It)",
+          "description": "You know the pattern. You open a fresh Claude Code session, paste in the task, and the first few...",
+          "url": "https://dev.to/amitba/claude-code-context-window-rot-why-sessions-get-dumber-and-how-to-fix-it-50ni",
+          "author": {
+            "username": "amitba",
+            "name": "Amit Ben-Ari",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3827860%2F69b55ac3-d46d-4cf2-b76c-4e35fca060c1.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 17,
+          "publishedAt": "2026-05-06T06:21:47Z",
+          "tags": [
+            "ai",
+            "claude",
+            "developers",
             "productivity"
           ],
           "trendingScore": 0,
@@ -1430,6 +826,431 @@
         }
       ]
     },
+    "openai/codex": {
+      "count7d": 5,
+      "reactionsSum7d": 2,
+      "commentsSum7d": 2,
+      "topArticle": {
+        "id": 3627864,
+        "title": "Building a Fully Offline AI Coding Assistant with Gemma 4, No Cloud Required 🤖",
+        "url": "https://dev.to/mamoor_ahmad/building-a-fully-offline-ai-coding-assistant-with-gemma-4-no-cloud-required-37op",
+        "author": "mamoor_ahmad",
+        "reactions": 2,
+        "comments": 1,
+        "hoursSincePosted": 110.4,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3627864,
+          "title": "Building a Fully Offline AI Coding Assistant with Gemma 4, No Cloud Required 🤖",
+          "description": "Your code never leaves your machine. Your API bill is zero. Your assistant still works on a plane....",
+          "url": "https://dev.to/mamoor_ahmad/building-a-fully-offline-ai-coding-assistant-with-gemma-4-no-cloud-required-37op",
+          "author": {
+            "username": "mamoor_ahmad",
+            "name": "Mamoor Ahmad ",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3862196%2Fc352af61-07ef-4ca6-ab20-cfffbbfc18de.jpeg"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 1,
+          "readingTime": 7,
+          "publishedAt": "2026-05-07T15:26:57Z",
+          "tags": [
+            "tutorial",
+            "opensource",
+            "ai",
+            "webdev"
+          ],
+          "trendingScore": 0.01,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3642987,
+          "title": "Tokenmaxxing: Codex + Claude Code Operator Stack 2026",
+          "description": "YC named it tokenmaxxing — one founder + agent harness doing the work of 400 engineers. Here's the stack: Codex parallel tabs and Claude Code skills.",
+          "url": "https://dev.to/max_quimby/tokenmaxxing-codex-claude-code-operator-stack-2026-318",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 10,
+          "publishedAt": "2026-05-10T03:35:48Z",
+          "tags": [
+            "ai",
+            "agents",
+            "codex",
+            "developertools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            },
+            {
+              "fullName": "rtk-ai/rtk",
+              "location": "body"
+            },
+            {
+              "fullName": "openai/codex",
+              "location": "tag"
+            },
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "decolua/9router",
+              "location": "body"
+            },
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3645744,
+          "title": "I built a custom Codex-powered code review bot for GitLab",
+          "description": "A merge-request review by GitLab Duo Code Review costs us about $0.20. We're a small team of...",
+          "url": "https://dev.to/sleeyax/i-built-a-custom-codex-powered-code-review-bot-for-gitlab-5eap",
+          "author": {
+            "username": "sleeyax",
+            "name": "Sleeyax",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2073280%2F960c9c9b-67bf-49a7-89d3-16096830c49a.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 9,
+          "publishedAt": "2026-05-10T19:21:10Z",
+          "tags": [
+            "ai",
+            "automation",
+            "chatgpt",
+            "showdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3643817,
+          "title": "The Evolution of Mobile Automation: From Scripts to State Flows",
+          "description": "I spent some time with OpenGUI recently, running a long-haul task on a real phone: open X, search for...",
+          "url": "https://dev.to/fenix_23505d14df386c00ced/the-evolution-of-mobile-automation-from-scripts-to-state-flows-6b3",
+          "author": {
+            "username": "fenix_23505d14df386c00ced",
+            "name": "Fenix",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823217%2F42aca0c2-69b9-4be7-b0f2-519a6b241dc4.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-10T08:48:15Z",
+          "tags": [
+            "agents",
+            "ai",
+            "automation",
+            "mobile"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3643820,
+          "title": "手机自动化的演进：从脚本到状态流",
+          "description": "前阵子跑 OpenGUI，在真机上试了一个长程任务：打开 X，搜索 mobile AI agents...",
+          "url": "https://dev.to/fenix_23505d14df386c00ced/shou-ji-zi-dong-hua-de-yan-jin-cong-jiao-ben-dao-zhuang-tai-liu-jbc",
+          "author": {
+            "username": "fenix_23505d14df386c00ced",
+            "name": "Fenix",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823217%2F42aca0c2-69b9-4be7-b0f2-519a6b241dc4.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-10T08:48:48Z",
+          "tags": [
+            "agents",
+            "ai",
+            "automation",
+            "mobile"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "NousResearch/hermes-agent": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3653596,
+        "title": "I Slashed My AI Trading Agent Token Costs by 80% — Here's the Architecture",
+        "url": "https://dev.to/j_dev28/i-slashed-my-ai-trading-agent-token-costs-by-80-heres-the-architecture-5292",
+        "author": "j_dev28",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 1.4,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3653596,
+          "title": "I Slashed My AI Trading Agent Token Costs by 80% — Here's the Architecture",
+          "description": "ARE EXTRA SERVICES BURNING YOUR TOKENS?   I built an autonomous AI trading agent that runs...",
+          "url": "https://dev.to/j_dev28/i-slashed-my-ai-trading-agent-token-costs-by-80-heres-the-architecture-5292",
+          "author": {
+            "username": "j_dev28",
+            "name": "Julian Martinez",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1263572%2Fb42b14cd-3560-4cb4-a13b-a157f9e47289.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-12T04:26:19Z",
+          "tags": [
+            "ai",
+            "automation",
+            "hermes",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3630785,
+          "title": "Hermes Agent: The Principal Engineer AI Assistant (Open Source)",
+          "description": "Hermes Agent: The Principal Engineer AI Assistant            What is Hermes?   Hermes is an...",
+          "url": "https://dev.to/manoir_yantai_f22f01340f0/hermes-agent-the-principal-engineer-ai-assistant-open-source-10mc",
+          "author": {
+            "username": "manoir_yantai_f22f01340f0",
+            "name": "Manoir Yantai",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3919013%2F78e8493f-03d4-43ef-8f84-dadb8a6668c0.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 1,
+          "publishedAt": "2026-05-08T05:39:55Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "devtools",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "garrytan/gbrain": {
+      "count7d": 1,
+      "reactionsSum7d": 6,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3630098,
+        "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
+        "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
+        "author": "_4f268336f6580845cdc475",
+        "reactions": 6,
+        "comments": 0,
+        "hoursSincePosted": 99.3,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3630098,
+          "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
+          "description": "RAG brings books to the exam. Knowledge Engineering teaches Agents to study. Memory architecture...",
+          "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
+          "author": {
+            "username": "_4f268336f6580845cdc475",
+            "name": "Charles Wu",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805236%2Fc2ca81a3-8882-48ac-9ce7-046a056995ab.jpg"
+          },
+          "reactionsCount": 6,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-08T02:35:02Z",
+          "tags": [
+            "ai",
+            "machinelearning",
+            "rag",
+            "agents"
+          ],
+          "trendingScore": 0.05,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics/skills": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3633378,
+        "title": "How I Set Up Shared Agent Config for Our Team with APM",
+        "url": "https://dev.to/dantederuwe/how-i-set-up-shared-agent-config-for-our-team-with-apm-3ncb",
+        "author": "dantederuwe",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 101.9,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3633378,
+          "title": "How I Set Up Shared Agent Config for Our Team with APM",
+          "description": "I set up a shared Git repo for our team to maintain reusable AI agent packages: skills, instructions,...",
+          "url": "https://dev.to/dantederuwe/how-i-set-up-shared-agent-config-for-our-team-with-apm-3ncb",
+          "author": {
+            "username": "dantederuwe",
+            "name": "Dante De Ruwe",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F521522%2F81abc102-0d3b-463c-bfc3-d3e0a0c31260.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-08T00:00:00Z",
+          "tags": [
+            "agents",
+            "ai",
+            "productivity",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3631768,
+          "title": "Stop Repeating Yourself: Use Rules and Skills to Level Up Your AI Agent",
+          "description": "Do you find yourself typing the same instructions into every new project chat? Or noticing that your...",
+          "url": "https://dev.to/jrud25/stop-repeating-yourself-use-rules-and-skills-to-level-up-your-ai-agent-3699",
+          "author": {
+            "username": "jrud25",
+            "name": "Jordan Rudman",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1129607%2Fde8d6e49-d7ff-4821-b312-82bfca268798.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-05-08T07:49:25Z",
+          "tags": [
+            "ai",
+            "productivity",
+            "tooling",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "ComposioHQ/awesome-claude-skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "mattpocock/skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3633378,
+        "title": "How I Set Up Shared Agent Config for Our Team with APM",
+        "url": "https://dev.to/dantederuwe/how-i-set-up-shared-agent-config-for-our-team-with-apm-3ncb",
+        "author": "dantederuwe",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 101.9,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3633378,
+          "title": "How I Set Up Shared Agent Config for Our Team with APM",
+          "description": "I set up a shared Git repo for our team to maintain reusable AI agent packages: skills, instructions,...",
+          "url": "https://dev.to/dantederuwe/how-i-set-up-shared-agent-config-for-our-team-with-apm-3ncb",
+          "author": {
+            "username": "dantederuwe",
+            "name": "Dante De Ruwe",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F521522%2F81abc102-0d3b-463c-bfc3-d3e0a0c31260.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-08T00:00:00Z",
+          "tags": [
+            "agents",
+            "ai",
+            "productivity",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "addyosmani/agent-skills": {
       "count7d": 3,
       "reactionsSum7d": 0,
@@ -1441,7 +1262,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 120.9,
+        "hoursSincePosted": 123.1,
         "readingTime": 7
       },
       "articles": [
@@ -1570,7 +1391,7 @@
         "author": "akari_iku",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 35.5,
+        "hoursSincePosted": 37.7,
         "readingTime": 31
       },
       "articles": [
@@ -1604,51 +1425,6 @@
         }
       ]
     },
-    "itsuzef/goalkeeper": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3646500,
-        "title": "Claude & The judge gate: why a passing validator isn't a finished feature",
-        "url": "https://dev.to/itsuzef/the-judge-gate-why-a-passing-validator-isnt-a-finished-feature-f2f",
-        "author": "itsuzef",
-        "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 25.1,
-        "readingTime": 9
-      },
-      "articles": [
-        {
-          "id": 3646500,
-          "title": "Claude & The judge gate: why a passing validator isn't a finished feature",
-          "description": "A pattern for autonomous coding agents that catches what validators miss — and the open-source plugin that built itself via the pattern.",
-          "url": "https://dev.to/itsuzef/the-judge-gate-why-a-passing-validator-isnt-a-finished-feature-f2f",
-          "author": {
-            "username": "itsuzef",
-            "name": "Youssef",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3923986%2F439512de-d688-4e31-9ff7-bdca7ebda478.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 9,
-          "publishedAt": "2026-05-11T02:38:23Z",
-          "tags": [
-            "claudecode",
-            "ai",
-            "agents",
-            "opensource"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "itsuzef/goalkeeper",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "thedotmack/claude-mem": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1660,7 +1436,7 @@
         "author": "pponali",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 98.9,
+        "hoursSincePosted": 101.1,
         "readingTime": 5
       },
       "articles": [
@@ -1705,7 +1481,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 160.5,
+        "hoursSincePosted": 162.7,
         "readingTime": 10
       },
       "articles": [
@@ -1750,7 +1526,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 166.3,
+        "hoursSincePosted": 168.5,
         "readingTime": 6
       },
       "articles": [
@@ -1851,7 +1627,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 120.1,
+        "hoursSincePosted": 122.3,
         "readingTime": 12
       },
       "articles": [
@@ -1948,7 +1724,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 120.1,
+        "hoursSincePosted": 122.3,
         "readingTime": 12
       },
       "articles": [
@@ -1997,7 +1773,7 @@
         "author": "cdelgado70",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 146.8,
+        "hoursSincePosted": 149,
         "readingTime": 21
       },
       "articles": [
@@ -2035,51 +1811,6 @@
         }
       ]
     },
-    "EveryInc/compound-engineering-plugin": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3635894,
-        "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
-        "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
-        "author": "ikramar",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 79.2,
-        "readingTime": 18
-      },
-      "articles": [
-        {
-          "id": 3635894,
-          "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
-          "description": "TL;DR. I built a Claude Code plugin (MIT, github.com/IgorKramar/archforge-marketplace) that turns...",
-          "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
-          "author": {
-            "username": "ikramar",
-            "name": "Igor Kramar",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2211561%2F11d1ba7b-e52e-4488-bc50-cbb19848e004.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 18,
-          "publishedAt": "2026-05-08T20:29:24Z",
-          "tags": [
-            "claude",
-            "ai",
-            "architecture",
-            "softwareengineering"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "EveryInc/compound-engineering-plugin",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "github/spec-kit": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2091,7 +1822,7 @@
         "author": "benjy33000",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 104.9,
+        "hoursSincePosted": 107,
         "readingTime": 12
       },
       "articles": [
@@ -2125,6 +1856,51 @@
         }
       ]
     },
+    "EveryInc/compound-engineering-plugin": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3635894,
+        "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
+        "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
+        "author": "ikramar",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 81.4,
+        "readingTime": 18
+      },
+      "articles": [
+        {
+          "id": 3635894,
+          "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
+          "description": "TL;DR. I built a Claude Code plugin (MIT, github.com/IgorKramar/archforge-marketplace) that turns...",
+          "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
+          "author": {
+            "username": "ikramar",
+            "name": "Igor Kramar",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2211561%2F11d1ba7b-e52e-4488-bc50-cbb19848e004.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 18,
+          "publishedAt": "2026-05-08T20:29:24Z",
+          "tags": [
+            "claude",
+            "ai",
+            "architecture",
+            "softwareengineering"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "EveryInc/compound-engineering-plugin",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "farion1231/cc-switch": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -2136,7 +1912,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 48.1,
+        "hoursSincePosted": 50.3,
         "readingTime": 10
       },
       "articles": [
@@ -2237,7 +2013,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 48.1,
+        "hoursSincePosted": 50.3,
         "readingTime": 10
       },
       "articles": [
@@ -2302,7 +2078,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 48.1,
+        "hoursSincePosted": 50.3,
         "readingTime": 10
       },
       "articles": [
@@ -2367,7 +2143,7 @@
         "author": "jangwook_kim_e31e7291ad98",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 3.5,
+        "hoursSincePosted": 5.7,
         "readingTime": 9
       },
       "articles": [
@@ -2412,7 +2188,7 @@
         "author": "eleata",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 84.8,
+        "hoursSincePosted": 86.9,
         "readingTime": 5
       },
       "articles": [
@@ -2450,51 +2226,6 @@
         }
       ]
     },
-    "safishamsi/graphify": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3623097,
-        "title": "The Token Tax Problem: How I Built a Super Memory Layer for AI Coding Assistants using LLM Wiki",
-        "url": "https://dev.to/parupati/the-token-tax-problem-how-i-built-a-super-memory-layer-for-ai-coding-assistants-using-llm-wiki-3c5g",
-        "author": "parupati",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 126,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3623097,
-          "title": "The Token Tax Problem: How I Built a Super Memory Layer for AI Coding Assistants using LLM Wiki",
-          "description": "Token utilization is the hidden cost of AI-assisted development. Here's how I used a knowledge graph as a cache layer to reduce what agents need to re-learn on every session.",
-          "url": "https://dev.to/parupati/the-token-tax-problem-how-i-built-a-super-memory-layer-for-ai-coding-assistants-using-llm-wiki-3c5g",
-          "author": {
-            "username": "parupati",
-            "name": "parupati madhukar reddy",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2890899%2Ff8c95dc1-8f92-4d3b-9917-a3011dadf0b3.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-06T21:40:49Z",
-          "tags": [
-            "aiengineering",
-            "productivity",
-            "llm",
-            "webdev"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "RivoLink/leaf": {
       "count7d": 1,
       "reactionsSum7d": 6,
@@ -2506,7 +2237,7 @@
         "author": "timothy_spann_a41a639e47c",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 13.3,
+        "hoursSincePosted": 15.4,
         "readingTime": 10
       },
       "articles": [
@@ -2530,7 +2261,7 @@
             "agenticai",
             "mcp"
           ],
-          "trendingScore": 0.35,
+          "trendingScore": 0.3,
           "linkedRepos": [
             {
               "fullName": "RivoLink/leaf",
@@ -2559,7 +2290,7 @@
         "author": "timothy_spann_a41a639e47c",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 13.3,
+        "hoursSincePosted": 15.4,
         "readingTime": 10
       },
       "articles": [
@@ -2583,7 +2314,7 @@
             "agenticai",
             "mcp"
           ],
-          "trendingScore": 0.35,
+          "trendingScore": 0.3,
           "linkedRepos": [
             {
               "fullName": "RivoLink/leaf",
@@ -2612,7 +2343,7 @@
         "author": "timothy_spann_a41a639e47c",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 13.3,
+        "hoursSincePosted": 15.4,
         "readingTime": 10
       },
       "articles": [
@@ -2636,7 +2367,7 @@
             "agenticai",
             "mcp"
           ],
-          "trendingScore": 0.35,
+          "trendingScore": 0.3,
           "linkedRepos": [
             {
               "fullName": "RivoLink/leaf",
@@ -2665,7 +2396,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 40.5,
+        "hoursSincePosted": 42.7,
         "readingTime": 10
       },
       "articles": [
@@ -2746,7 +2477,7 @@
         "author": "cloakhq",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 113,
+        "hoursSincePosted": 115.2,
         "readingTime": 3
       },
       "articles": [
@@ -2791,7 +2522,7 @@
         "author": "jrud25",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 91.9,
+        "hoursSincePosted": 94.1,
         "readingTime": 5
       },
       "articles": [
@@ -2840,7 +2571,7 @@
         "author": "yashksaini",
         "reactions": 12,
         "comments": 0,
-        "hoursSincePosted": 116.9,
+        "hoursSincePosted": 119.1,
         "readingTime": 5
       },
       "articles": [
@@ -2887,7 +2618,7 @@
         "author": "ruarfff",
         "reactions": 25,
         "comments": 0,
-        "hoursSincePosted": 156.9,
+        "hoursSincePosted": 159.1,
         "readingTime": 11
       },
       "articles": [
@@ -2929,7 +2660,7 @@
         "author": "lovestaco",
         "reactions": 45,
         "comments": 0,
-        "hoursSincePosted": 41.4,
+        "hoursSincePosted": 43.6,
         "readingTime": 9
       },
       "articles": [
@@ -2953,7 +2684,7 @@
             "programming",
             "python"
           ],
-          "trendingScore": 1.8,
+          "trendingScore": 1.71,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -2981,7 +2712,7 @@
             "beginners",
             "go"
           ],
-          "trendingScore": 1.26,
+          "trendingScore": 1.23,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -3008,7 +2739,7 @@
             "softwareengineering",
             "agenticengineering"
           ],
-          "trendingScore": 0.16,
+          "trendingScore": 0.15,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -3076,16 +2807,16 @@
     },
     "ajeetdsouza--zoxide": {
       "count7d": 3,
-      "reactionsSum7d": 9,
+      "reactionsSum7d": 11,
       "commentsSum7d": 0,
       "topArticle": {
         "id": 3652261,
         "title": "My fully offline AI-assisted Linux development machine",
         "url": "https://dev.to/deepu105/my-fully-offline-ai-assisted-linux-development-machine-3lnl",
         "author": "deepu105",
-        "reactions": 9,
+        "reactions": 11,
         "comments": 0,
-        "hoursSincePosted": 6.9,
+        "hoursSincePosted": 9.1,
         "readingTime": 13
       },
       "articles": [
@@ -3099,7 +2830,7 @@
             "name": "Deepu K Sasidharan",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F178939%2F38a82d99-3a0c-4a47-84fc-76fff3144cda.png"
           },
-          "reactionsCount": 9,
+          "reactionsCount": 11,
           "commentsCount": 0,
           "readingTime": 13,
           "publishedAt": "2026-05-11T20:47:59Z",
@@ -3109,7 +2840,7 @@
             "development",
             "ai"
           ],
-          "trendingScore": 1.24,
+          "trendingScore": 1.26,
           "linkedRepos": [
             {
               "fullName": "ajeetdsouza/zoxide",
@@ -3186,7 +2917,7 @@
         "author": "xbill",
         "reactions": 21,
         "comments": 2,
-        "hoursSincePosted": 133.2,
+        "hoursSincePosted": 135.3,
         "readingTime": 9
       },
       "articles": [
@@ -3252,653 +2983,49 @@
         }
       ]
     },
-    "openai--codex": {
-      "count7d": 6,
-      "reactionsSum7d": 2,
-      "commentsSum7d": 2,
-      "topArticle": {
-        "id": 3627864,
-        "title": "Building a Fully Offline AI Coding Assistant with Gemma 4, No Cloud Required 🤖",
-        "url": "https://dev.to/mamoor_ahmad/building-a-fully-offline-ai-coding-assistant-with-gemma-4-no-cloud-required-37op",
-        "author": "mamoor_ahmad",
-        "reactions": 2,
-        "comments": 1,
-        "hoursSincePosted": 108.3,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3627864,
-          "title": "Building a Fully Offline AI Coding Assistant with Gemma 4, No Cloud Required 🤖",
-          "description": "Your code never leaves your machine. Your API bill is zero. Your assistant still works on a plane....",
-          "url": "https://dev.to/mamoor_ahmad/building-a-fully-offline-ai-coding-assistant-with-gemma-4-no-cloud-required-37op",
-          "author": {
-            "username": "mamoor_ahmad",
-            "name": "Mamoor Ahmad ",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3862196%2Fc352af61-07ef-4ca6-ab20-cfffbbfc18de.jpeg"
-          },
-          "reactionsCount": 2,
-          "commentsCount": 1,
-          "readingTime": 7,
-          "publishedAt": "2026-05-07T15:26:57Z",
-          "tags": [
-            "tutorial",
-            "opensource",
-            "ai",
-            "webdev"
-          ],
-          "trendingScore": 0.01,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3607230,
-          "title": "Codex for Claude Code Users: What to Know Before You Try It",
-          "description": "A hands-on guide for Claude Code users who want to try Codex and understand Codex App, plans, permissions, config files, and mobile workflows.",
-          "url": "https://dev.to/k9i/codex-for-claude-code-users-what-to-know-before-you-try-it-642",
-          "author": {
-            "username": "k9i",
-            "name": "K9i - Kota Hayashi",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3810926%2F0c19f72e-e168-41a3-a16c-0b6f10ba8dfd.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-04T07:42:34Z",
-          "tags": [
-            "codex",
-            "ai",
-            "claude",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex",
-              "location": "tag"
-            }
-          ]
-        },
-        {
-          "id": 3642987,
-          "title": "Tokenmaxxing: Codex + Claude Code Operator Stack 2026",
-          "description": "YC named it tokenmaxxing — one founder + agent harness doing the work of 400 engineers. Here's the stack: Codex parallel tabs and Claude Code skills.",
-          "url": "https://dev.to/max_quimby/tokenmaxxing-codex-claude-code-operator-stack-2026-318",
-          "author": {
-            "username": "max_quimby",
-            "name": "Max Quimby",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-10T03:35:48Z",
-          "tags": [
-            "ai",
-            "agents",
-            "codex",
-            "developertools"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "addyosmani/agent-skills",
-              "location": "body"
-            },
-            {
-              "fullName": "rtk-ai/rtk",
-              "location": "body"
-            },
-            {
-              "fullName": "openai/codex",
-              "location": "tag"
-            },
-            {
-              "fullName": "farion1231/cc-switch",
-              "location": "body"
-            },
-            {
-              "fullName": "decolua/9router",
-              "location": "body"
-            },
-            {
-              "fullName": "obra/superpowers",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3643820,
-          "title": "手机自动化的演进：从脚本到状态流",
-          "description": "前阵子跑 OpenGUI，在真机上试了一个长程任务：打开 X，搜索 mobile AI agents...",
-          "url": "https://dev.to/fenix_23505d14df386c00ced/shou-ji-zi-dong-hua-de-yan-jin-cong-jiao-ben-dao-zhuang-tai-liu-jbc",
-          "author": {
-            "username": "fenix_23505d14df386c00ced",
-            "name": "Fenix",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823217%2F42aca0c2-69b9-4be7-b0f2-519a6b241dc4.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 3,
-          "publishedAt": "2026-05-10T08:48:48Z",
-          "tags": [
-            "agents",
-            "ai",
-            "automation",
-            "mobile"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3643817,
-          "title": "The Evolution of Mobile Automation: From Scripts to State Flows",
-          "description": "I spent some time with OpenGUI recently, running a long-haul task on a real phone: open X, search for...",
-          "url": "https://dev.to/fenix_23505d14df386c00ced/the-evolution-of-mobile-automation-from-scripts-to-state-flows-6b3",
-          "author": {
-            "username": "fenix_23505d14df386c00ced",
-            "name": "Fenix",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823217%2F42aca0c2-69b9-4be7-b0f2-519a6b241dc4.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-05-10T08:48:15Z",
-          "tags": [
-            "agents",
-            "ai",
-            "automation",
-            "mobile"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3645744,
-          "title": "I built a custom Codex-powered code review bot for GitLab",
-          "description": "A merge-request review by GitLab Duo Code Review costs us about $0.20. We're a small team of...",
-          "url": "https://dev.to/sleeyax/i-built-a-custom-codex-powered-code-review-bot-for-gitlab-5eap",
-          "author": {
-            "username": "sleeyax",
-            "name": "Sleeyax",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2073280%2F960c9c9b-67bf-49a7-89d3-16096830c49a.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 9,
-          "publishedAt": "2026-05-10T19:21:10Z",
-          "tags": [
-            "ai",
-            "automation",
-            "chatgpt",
-            "showdev"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "anthropics--skills": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3633378,
-        "title": "How I Set Up Shared Agent Config for Our Team with APM",
-        "url": "https://dev.to/dantederuwe/how-i-set-up-shared-agent-config-for-our-team-with-apm-3ncb",
-        "author": "dantederuwe",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 99.7,
-        "readingTime": 11
-      },
-      "articles": [
-        {
-          "id": 3633378,
-          "title": "How I Set Up Shared Agent Config for Our Team with APM",
-          "description": "I set up a shared Git repo for our team to maintain reusable AI agent packages: skills, instructions,...",
-          "url": "https://dev.to/dantederuwe/how-i-set-up-shared-agent-config-for-our-team-with-apm-3ncb",
-          "author": {
-            "username": "dantederuwe",
-            "name": "Dante De Ruwe",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F521522%2F81abc102-0d3b-463c-bfc3-d3e0a0c31260.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-05-08T00:00:00Z",
-          "tags": [
-            "agents",
-            "ai",
-            "productivity",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/skills",
-              "location": "body"
-            },
-            {
-              "fullName": "mattpocock/skills",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3631768,
-          "title": "Stop Repeating Yourself: Use Rules and Skills to Level Up Your AI Agent",
-          "description": "Do you find yourself typing the same instructions into every new project chat? Or noticing that your...",
-          "url": "https://dev.to/jrud25/stop-repeating-yourself-use-rules-and-skills-to-level-up-your-ai-agent-3699",
-          "author": {
-            "username": "jrud25",
-            "name": "Jordan Rudman",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1129607%2Fde8d6e49-d7ff-4821-b312-82bfca268798.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-08T07:49:25Z",
-          "tags": [
-            "ai",
-            "productivity",
-            "tooling",
-            "agents"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/skills",
-              "location": "body"
-            },
-            {
-              "fullName": "ComposioHQ/awesome-claude-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "mattpocock--skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3633378,
-        "title": "How I Set Up Shared Agent Config for Our Team with APM",
-        "url": "https://dev.to/dantederuwe/how-i-set-up-shared-agent-config-for-our-team-with-apm-3ncb",
-        "author": "dantederuwe",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 99.7,
-        "readingTime": 11
-      },
-      "articles": [
-        {
-          "id": 3633378,
-          "title": "How I Set Up Shared Agent Config for Our Team with APM",
-          "description": "I set up a shared Git repo for our team to maintain reusable AI agent packages: skills, instructions,...",
-          "url": "https://dev.to/dantederuwe/how-i-set-up-shared-agent-config-for-our-team-with-apm-3ncb",
-          "author": {
-            "username": "dantederuwe",
-            "name": "Dante De Ruwe",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F521522%2F81abc102-0d3b-463c-bfc3-d3e0a0c31260.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-05-08T00:00:00Z",
-          "tags": [
-            "agents",
-            "ai",
-            "productivity",
-            "tooling"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/skills",
-              "location": "body"
-            },
-            {
-              "fullName": "mattpocock/skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "garrytan--gbrain": {
-      "count7d": 1,
-      "reactionsSum7d": 6,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3630098,
-        "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
-        "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
-        "author": "_4f268336f6580845cdc475",
-        "reactions": 6,
-        "comments": 0,
-        "hoursSincePosted": 97.1,
-        "readingTime": 7
-      },
-      "articles": [
-        {
-          "id": 3630098,
-          "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
-          "description": "RAG brings books to the exam. Knowledge Engineering teaches Agents to study. Memory architecture...",
-          "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
-          "author": {
-            "username": "_4f268336f6580845cdc475",
-            "name": "Charles Wu",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805236%2Fc2ca81a3-8882-48ac-9ce7-046a056995ab.jpg"
-          },
-          "reactionsCount": 6,
-          "commentsCount": 0,
-          "readingTime": 7,
-          "publishedAt": "2026-05-08T02:35:02Z",
-          "tags": [
-            "ai",
-            "machinelearning",
-            "rag",
-            "agents"
-          ],
-          "trendingScore": 0.05,
-          "linkedRepos": [
-            {
-              "fullName": "garrytan/gbrain",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "nousresearch--hermes-agent": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3619658,
-        "title": "Top 10 Local AI Agents You Can Run on Your PC in 2026",
-        "url": "https://dev.to/rednakta/top-10-openclaw-alternatives-local-ai-agents-you-can-run-on-your-pc-in-2026-305e",
-        "author": "rednakta",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 139.2,
-        "readingTime": 10
-      },
-      "articles": [
-        {
-          "id": 3619658,
-          "title": "Top 10 Local AI Agents You Can Run on Your PC in 2026",
-          "description": "A practical comparison of every personal AI agent worth installing in 2026 — and one underneath layer...",
-          "url": "https://dev.to/rednakta/top-10-openclaw-alternatives-local-ai-agents-you-can-run-on-your-pc-in-2026-305e",
-          "author": {
-            "username": "rednakta",
-            "name": "rednakta",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3846751%2F3aaa6d11-420a-4dea-8974-6596ea1103b9.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-06T08:34:31Z",
-          "tags": [
-            "agents",
-            "openclaw",
-            "security"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "HKUDS/nanobot",
-              "location": "body"
-            },
-            {
-              "fullName": "zeroclaw-labs/zeroclaw",
-              "location": "body"
-            },
-            {
-              "fullName": "nullclaw/nullclaw",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3630785,
-          "title": "Hermes Agent: The Principal Engineer AI Assistant (Open Source)",
-          "description": "Hermes Agent: The Principal Engineer AI Assistant            What is Hermes?   Hermes is an...",
-          "url": "https://dev.to/manoir_yantai_f22f01340f0/hermes-agent-the-principal-engineer-ai-assistant-open-source-10mc",
-          "author": {
-            "username": "manoir_yantai_f22f01340f0",
-            "name": "Manoir Yantai",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3919013%2F78e8493f-03d4-43ef-8f84-dadb8a6668c0.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 1,
-          "publishedAt": "2026-05-08T05:39:55Z",
-          "tags": [
-            "ai",
-            "opensource",
-            "devtools",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "hkuds--nanobot": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3619658,
-        "title": "Top 10 Local AI Agents You Can Run on Your PC in 2026",
-        "url": "https://dev.to/rednakta/top-10-openclaw-alternatives-local-ai-agents-you-can-run-on-your-pc-in-2026-305e",
-        "author": "rednakta",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 139.2,
-        "readingTime": 10
-      },
-      "articles": [
-        {
-          "id": 3619658,
-          "title": "Top 10 Local AI Agents You Can Run on Your PC in 2026",
-          "description": "A practical comparison of every personal AI agent worth installing in 2026 — and one underneath layer...",
-          "url": "https://dev.to/rednakta/top-10-openclaw-alternatives-local-ai-agents-you-can-run-on-your-pc-in-2026-305e",
-          "author": {
-            "username": "rednakta",
-            "name": "rednakta",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3846751%2F3aaa6d11-420a-4dea-8974-6596ea1103b9.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-06T08:34:31Z",
-          "tags": [
-            "agents",
-            "openclaw",
-            "security"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "HKUDS/nanobot",
-              "location": "body"
-            },
-            {
-              "fullName": "zeroclaw-labs/zeroclaw",
-              "location": "body"
-            },
-            {
-              "fullName": "nullclaw/nullclaw",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "zeroclaw-labs--zeroclaw": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3619658,
-        "title": "Top 10 Local AI Agents You Can Run on Your PC in 2026",
-        "url": "https://dev.to/rednakta/top-10-openclaw-alternatives-local-ai-agents-you-can-run-on-your-pc-in-2026-305e",
-        "author": "rednakta",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 139.2,
-        "readingTime": 10
-      },
-      "articles": [
-        {
-          "id": 3619658,
-          "title": "Top 10 Local AI Agents You Can Run on Your PC in 2026",
-          "description": "A practical comparison of every personal AI agent worth installing in 2026 — and one underneath layer...",
-          "url": "https://dev.to/rednakta/top-10-openclaw-alternatives-local-ai-agents-you-can-run-on-your-pc-in-2026-305e",
-          "author": {
-            "username": "rednakta",
-            "name": "rednakta",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3846751%2F3aaa6d11-420a-4dea-8974-6596ea1103b9.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-06T08:34:31Z",
-          "tags": [
-            "agents",
-            "openclaw",
-            "security"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "HKUDS/nanobot",
-              "location": "body"
-            },
-            {
-              "fullName": "zeroclaw-labs/zeroclaw",
-              "location": "body"
-            },
-            {
-              "fullName": "nullclaw/nullclaw",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "nullclaw--nullclaw": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3619658,
-        "title": "Top 10 Local AI Agents You Can Run on Your PC in 2026",
-        "url": "https://dev.to/rednakta/top-10-openclaw-alternatives-local-ai-agents-you-can-run-on-your-pc-in-2026-305e",
-        "author": "rednakta",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 139.2,
-        "readingTime": 10
-      },
-      "articles": [
-        {
-          "id": 3619658,
-          "title": "Top 10 Local AI Agents You Can Run on Your PC in 2026",
-          "description": "A practical comparison of every personal AI agent worth installing in 2026 — and one underneath layer...",
-          "url": "https://dev.to/rednakta/top-10-openclaw-alternatives-local-ai-agents-you-can-run-on-your-pc-in-2026-305e",
-          "author": {
-            "username": "rednakta",
-            "name": "rednakta",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3846751%2F3aaa6d11-420a-4dea-8974-6596ea1103b9.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-06T08:34:31Z",
-          "tags": [
-            "agents",
-            "openclaw",
-            "security"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "NousResearch/hermes-agent",
-              "location": "body"
-            },
-            {
-              "fullName": "HKUDS/nanobot",
-              "location": "body"
-            },
-            {
-              "fullName": "zeroclaw-labs/zeroclaw",
-              "location": "body"
-            },
-            {
-              "fullName": "nullclaw/nullclaw",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "anthropics--claude-code": {
-      "count7d": 7,
+      "count7d": 8,
       "reactionsSum7d": 0,
       "commentsSum7d": 3,
       "topArticle": {
-        "id": 3638970,
-        "title": "36 Days of Claude Code Logs: Silent Model Switching, 11.5x Efficiency Gap",
-        "url": "https://dev.to/recca0120/36-days-of-claude-code-logs-silent-model-switching-115x-efficiency-gap-1bgm",
-        "author": "recca0120",
+        "id": 3652629,
+        "title": "Five MCP Servers Before Claude Code Writes a Single Line",
+        "url": "https://dev.to/studiomeyer_io/five-mcp-servers-before-claude-code-writes-a-single-line-18f8",
+        "author": "studiomeyer_io",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 67,
+        "hoursSincePosted": 5.6,
         "readingTime": 8
       },
       "articles": [
+        {
+          "id": 3652629,
+          "title": "Five MCP Servers Before Claude Code Writes a Single Line",
+          "description": "Claude Code went from research preview to a meaningful share of all public GitHub commits...",
+          "url": "https://dev.to/studiomeyer_io/five-mcp-servers-before-claude-code-writes-a-single-line-18f8",
+          "author": {
+            "username": "studiomeyer_io",
+            "name": "Matthias | StudioMeyer",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3866458%2F170ce662-470b-4f78-ac37-58a9a2a00220.PNG"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 8,
+          "publishedAt": "2026-05-12T00:19:57Z",
+          "tags": [
+            "ai",
+            "claudecode",
+            "hooks",
+            "aiworkflow"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
         {
           "id": 3638970,
           "title": "36 Days of Claude Code Logs: Silent Model Switching, 11.5x Efficiency Gap",
@@ -4016,34 +3143,6 @@
           ]
         },
         {
-          "id": 3618919,
-          "title": "Claude Code Context Window Rot: Why Sessions Get Dumber (And How to Fix It)",
-          "description": "You know the pattern. You open a fresh Claude Code session, paste in the task, and the first few...",
-          "url": "https://dev.to/amitba/claude-code-context-window-rot-why-sessions-get-dumber-and-how-to-fix-it-50ni",
-          "author": {
-            "username": "amitba",
-            "name": "Amit Ben-Ari",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3827860%2F69b55ac3-d46d-4cf2-b76c-4e35fca060c1.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 17,
-          "publishedAt": "2026-05-06T06:21:47Z",
-          "tags": [
-            "ai",
-            "claude",
-            "developers",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
-        {
           "id": 3637647,
           "title": "Hooks and the wrapper-authority problem: why your AI coding agent ignores them",
           "description": "Post 2 of 2. A walkthrough of the wrapper that breaks UserPromptSubmit hook output, the issues that...",
@@ -4061,6 +3160,34 @@
             "ai",
             "claude",
             "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3618919,
+          "title": "Claude Code Context Window Rot: Why Sessions Get Dumber (And How to Fix It)",
+          "description": "You know the pattern. You open a fresh Claude Code session, paste in the task, and the first few...",
+          "url": "https://dev.to/amitba/claude-code-context-window-rot-why-sessions-get-dumber-and-how-to-fix-it-50ni",
+          "author": {
+            "username": "amitba",
+            "name": "Amit Ben-Ari",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3827860%2F69b55ac3-d46d-4cf2-b76c-4e35fca060c1.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 17,
+          "publishedAt": "2026-05-06T06:21:47Z",
+          "tags": [
+            "ai",
+            "claude",
+            "developers",
             "productivity"
           ],
           "trendingScore": 0,
@@ -4101,6 +3228,431 @@
         }
       ]
     },
+    "openai--codex": {
+      "count7d": 5,
+      "reactionsSum7d": 2,
+      "commentsSum7d": 2,
+      "topArticle": {
+        "id": 3627864,
+        "title": "Building a Fully Offline AI Coding Assistant with Gemma 4, No Cloud Required 🤖",
+        "url": "https://dev.to/mamoor_ahmad/building-a-fully-offline-ai-coding-assistant-with-gemma-4-no-cloud-required-37op",
+        "author": "mamoor_ahmad",
+        "reactions": 2,
+        "comments": 1,
+        "hoursSincePosted": 110.4,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3627864,
+          "title": "Building a Fully Offline AI Coding Assistant with Gemma 4, No Cloud Required 🤖",
+          "description": "Your code never leaves your machine. Your API bill is zero. Your assistant still works on a plane....",
+          "url": "https://dev.to/mamoor_ahmad/building-a-fully-offline-ai-coding-assistant-with-gemma-4-no-cloud-required-37op",
+          "author": {
+            "username": "mamoor_ahmad",
+            "name": "Mamoor Ahmad ",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3862196%2Fc352af61-07ef-4ca6-ab20-cfffbbfc18de.jpeg"
+          },
+          "reactionsCount": 2,
+          "commentsCount": 1,
+          "readingTime": 7,
+          "publishedAt": "2026-05-07T15:26:57Z",
+          "tags": [
+            "tutorial",
+            "opensource",
+            "ai",
+            "webdev"
+          ],
+          "trendingScore": 0.01,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3642987,
+          "title": "Tokenmaxxing: Codex + Claude Code Operator Stack 2026",
+          "description": "YC named it tokenmaxxing — one founder + agent harness doing the work of 400 engineers. Here's the stack: Codex parallel tabs and Claude Code skills.",
+          "url": "https://dev.to/max_quimby/tokenmaxxing-codex-claude-code-operator-stack-2026-318",
+          "author": {
+            "username": "max_quimby",
+            "name": "Max Quimby",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823178%2F0a97facc-1e95-494c-9db9-084aa3b35e47.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 10,
+          "publishedAt": "2026-05-10T03:35:48Z",
+          "tags": [
+            "ai",
+            "agents",
+            "codex",
+            "developertools"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "addyosmani/agent-skills",
+              "location": "body"
+            },
+            {
+              "fullName": "rtk-ai/rtk",
+              "location": "body"
+            },
+            {
+              "fullName": "openai/codex",
+              "location": "tag"
+            },
+            {
+              "fullName": "farion1231/cc-switch",
+              "location": "body"
+            },
+            {
+              "fullName": "decolua/9router",
+              "location": "body"
+            },
+            {
+              "fullName": "obra/superpowers",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3645744,
+          "title": "I built a custom Codex-powered code review bot for GitLab",
+          "description": "A merge-request review by GitLab Duo Code Review costs us about $0.20. We're a small team of...",
+          "url": "https://dev.to/sleeyax/i-built-a-custom-codex-powered-code-review-bot-for-gitlab-5eap",
+          "author": {
+            "username": "sleeyax",
+            "name": "Sleeyax",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2073280%2F960c9c9b-67bf-49a7-89d3-16096830c49a.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 9,
+          "publishedAt": "2026-05-10T19:21:10Z",
+          "tags": [
+            "ai",
+            "automation",
+            "chatgpt",
+            "showdev"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3643817,
+          "title": "The Evolution of Mobile Automation: From Scripts to State Flows",
+          "description": "I spent some time with OpenGUI recently, running a long-haul task on a real phone: open X, search for...",
+          "url": "https://dev.to/fenix_23505d14df386c00ced/the-evolution-of-mobile-automation-from-scripts-to-state-flows-6b3",
+          "author": {
+            "username": "fenix_23505d14df386c00ced",
+            "name": "Fenix",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823217%2F42aca0c2-69b9-4be7-b0f2-519a6b241dc4.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-10T08:48:15Z",
+          "tags": [
+            "agents",
+            "ai",
+            "automation",
+            "mobile"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3643820,
+          "title": "手机自动化的演进：从脚本到状态流",
+          "description": "前阵子跑 OpenGUI，在真机上试了一个长程任务：打开 X，搜索 mobile AI agents...",
+          "url": "https://dev.to/fenix_23505d14df386c00ced/shou-ji-zi-dong-hua-de-yan-jin-cong-jiao-ben-dao-zhuang-tai-liu-jbc",
+          "author": {
+            "username": "fenix_23505d14df386c00ced",
+            "name": "Fenix",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823217%2F42aca0c2-69b9-4be7-b0f2-519a6b241dc4.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-10T08:48:48Z",
+          "tags": [
+            "agents",
+            "ai",
+            "automation",
+            "mobile"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "openai/codex",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "nousresearch--hermes-agent": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3653596,
+        "title": "I Slashed My AI Trading Agent Token Costs by 80% — Here's the Architecture",
+        "url": "https://dev.to/j_dev28/i-slashed-my-ai-trading-agent-token-costs-by-80-heres-the-architecture-5292",
+        "author": "j_dev28",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 1.4,
+        "readingTime": 3
+      },
+      "articles": [
+        {
+          "id": 3653596,
+          "title": "I Slashed My AI Trading Agent Token Costs by 80% — Here's the Architecture",
+          "description": "ARE EXTRA SERVICES BURNING YOUR TOKENS?   I built an autonomous AI trading agent that runs...",
+          "url": "https://dev.to/j_dev28/i-slashed-my-ai-trading-agent-token-costs-by-80-heres-the-architecture-5292",
+          "author": {
+            "username": "j_dev28",
+            "name": "Julian Martinez",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1263572%2Fb42b14cd-3560-4cb4-a13b-a157f9e47289.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 3,
+          "publishedAt": "2026-05-12T04:26:19Z",
+          "tags": [
+            "ai",
+            "automation",
+            "hermes",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3630785,
+          "title": "Hermes Agent: The Principal Engineer AI Assistant (Open Source)",
+          "description": "Hermes Agent: The Principal Engineer AI Assistant            What is Hermes?   Hermes is an...",
+          "url": "https://dev.to/manoir_yantai_f22f01340f0/hermes-agent-the-principal-engineer-ai-assistant-open-source-10mc",
+          "author": {
+            "username": "manoir_yantai_f22f01340f0",
+            "name": "Manoir Yantai",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3919013%2F78e8493f-03d4-43ef-8f84-dadb8a6668c0.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 1,
+          "publishedAt": "2026-05-08T05:39:55Z",
+          "tags": [
+            "ai",
+            "opensource",
+            "devtools",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "garrytan--gbrain": {
+      "count7d": 1,
+      "reactionsSum7d": 6,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3630098,
+        "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
+        "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
+        "author": "_4f268336f6580845cdc475",
+        "reactions": 6,
+        "comments": 0,
+        "hoursSincePosted": 99.3,
+        "readingTime": 7
+      },
+      "articles": [
+        {
+          "id": 3630098,
+          "title": "Beyond RAG: Why Knowledge Engineering Becomes the Real Moat in the Agent Era",
+          "description": "RAG brings books to the exam. Knowledge Engineering teaches Agents to study. Memory architecture...",
+          "url": "https://dev.to/seekdb/beyond-rag-why-knowledge-engineering-becomes-the-real-moat-in-the-agent-era-41c4",
+          "author": {
+            "username": "_4f268336f6580845cdc475",
+            "name": "Charles Wu",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3805236%2Fc2ca81a3-8882-48ac-9ce7-046a056995ab.jpg"
+          },
+          "reactionsCount": 6,
+          "commentsCount": 0,
+          "readingTime": 7,
+          "publishedAt": "2026-05-08T02:35:02Z",
+          "tags": [
+            "ai",
+            "machinelearning",
+            "rag",
+            "agents"
+          ],
+          "trendingScore": 0.05,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "anthropics--skills": {
+      "count7d": 2,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3633378,
+        "title": "How I Set Up Shared Agent Config for Our Team with APM",
+        "url": "https://dev.to/dantederuwe/how-i-set-up-shared-agent-config-for-our-team-with-apm-3ncb",
+        "author": "dantederuwe",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 101.9,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3633378,
+          "title": "How I Set Up Shared Agent Config for Our Team with APM",
+          "description": "I set up a shared Git repo for our team to maintain reusable AI agent packages: skills, instructions,...",
+          "url": "https://dev.to/dantederuwe/how-i-set-up-shared-agent-config-for-our-team-with-apm-3ncb",
+          "author": {
+            "username": "dantederuwe",
+            "name": "Dante De Ruwe",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F521522%2F81abc102-0d3b-463c-bfc3-d3e0a0c31260.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-08T00:00:00Z",
+          "tags": [
+            "agents",
+            "ai",
+            "productivity",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3631768,
+          "title": "Stop Repeating Yourself: Use Rules and Skills to Level Up Your AI Agent",
+          "description": "Do you find yourself typing the same instructions into every new project chat? Or noticing that your...",
+          "url": "https://dev.to/jrud25/stop-repeating-yourself-use-rules-and-skills-to-level-up-your-ai-agent-3699",
+          "author": {
+            "username": "jrud25",
+            "name": "Jordan Rudman",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1129607%2Fde8d6e49-d7ff-4821-b312-82bfca268798.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-05-08T07:49:25Z",
+          "tags": [
+            "ai",
+            "productivity",
+            "tooling",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "ComposioHQ/awesome-claude-skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "mattpocock--skills": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3633378,
+        "title": "How I Set Up Shared Agent Config for Our Team with APM",
+        "url": "https://dev.to/dantederuwe/how-i-set-up-shared-agent-config-for-our-team-with-apm-3ncb",
+        "author": "dantederuwe",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 101.9,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3633378,
+          "title": "How I Set Up Shared Agent Config for Our Team with APM",
+          "description": "I set up a shared Git repo for our team to maintain reusable AI agent packages: skills, instructions,...",
+          "url": "https://dev.to/dantederuwe/how-i-set-up-shared-agent-config-for-our-team-with-apm-3ncb",
+          "author": {
+            "username": "dantederuwe",
+            "name": "Dante De Ruwe",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F521522%2F81abc102-0d3b-463c-bfc3-d3e0a0c31260.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-08T00:00:00Z",
+          "tags": [
+            "agents",
+            "ai",
+            "productivity",
+            "tooling"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "mattpocock/skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "addyosmani--agent-skills": {
       "count7d": 3,
       "reactionsSum7d": 0,
@@ -4112,7 +3664,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 120.9,
+        "hoursSincePosted": 123.1,
         "readingTime": 7
       },
       "articles": [
@@ -4241,7 +3793,7 @@
         "author": "akari_iku",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 35.5,
+        "hoursSincePosted": 37.7,
         "readingTime": 31
       },
       "articles": [
@@ -4275,51 +3827,6 @@
         }
       ]
     },
-    "itsuzef--goalkeeper": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3646500,
-        "title": "Claude & The judge gate: why a passing validator isn't a finished feature",
-        "url": "https://dev.to/itsuzef/the-judge-gate-why-a-passing-validator-isnt-a-finished-feature-f2f",
-        "author": "itsuzef",
-        "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 25.1,
-        "readingTime": 9
-      },
-      "articles": [
-        {
-          "id": 3646500,
-          "title": "Claude & The judge gate: why a passing validator isn't a finished feature",
-          "description": "A pattern for autonomous coding agents that catches what validators miss — and the open-source plugin that built itself via the pattern.",
-          "url": "https://dev.to/itsuzef/the-judge-gate-why-a-passing-validator-isnt-a-finished-feature-f2f",
-          "author": {
-            "username": "itsuzef",
-            "name": "Youssef",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3923986%2F439512de-d688-4e31-9ff7-bdca7ebda478.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 9,
-          "publishedAt": "2026-05-11T02:38:23Z",
-          "tags": [
-            "claudecode",
-            "ai",
-            "agents",
-            "opensource"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "itsuzef/goalkeeper",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "thedotmack--claude-mem": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -4331,7 +3838,7 @@
         "author": "pponali",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 98.9,
+        "hoursSincePosted": 101.1,
         "readingTime": 5
       },
       "articles": [
@@ -4376,7 +3883,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 160.5,
+        "hoursSincePosted": 162.7,
         "readingTime": 10
       },
       "articles": [
@@ -4421,7 +3928,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 166.3,
+        "hoursSincePosted": 168.5,
         "readingTime": 6
       },
       "articles": [
@@ -4522,7 +4029,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 120.1,
+        "hoursSincePosted": 122.3,
         "readingTime": 12
       },
       "articles": [
@@ -4619,7 +4126,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 120.1,
+        "hoursSincePosted": 122.3,
         "readingTime": 12
       },
       "articles": [
@@ -4668,7 +4175,7 @@
         "author": "cdelgado70",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 146.8,
+        "hoursSincePosted": 149,
         "readingTime": 21
       },
       "articles": [
@@ -4706,51 +4213,6 @@
         }
       ]
     },
-    "everyinc--compound-engineering-plugin": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3635894,
-        "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
-        "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
-        "author": "ikramar",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 79.2,
-        "readingTime": 18
-      },
-      "articles": [
-        {
-          "id": 3635894,
-          "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
-          "description": "TL;DR. I built a Claude Code plugin (MIT, github.com/IgorKramar/archforge-marketplace) that turns...",
-          "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
-          "author": {
-            "username": "ikramar",
-            "name": "Igor Kramar",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2211561%2F11d1ba7b-e52e-4488-bc50-cbb19848e004.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 18,
-          "publishedAt": "2026-05-08T20:29:24Z",
-          "tags": [
-            "claude",
-            "ai",
-            "architecture",
-            "softwareengineering"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "EveryInc/compound-engineering-plugin",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "github--spec-kit": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -4762,7 +4224,7 @@
         "author": "benjy33000",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 104.9,
+        "hoursSincePosted": 107,
         "readingTime": 12
       },
       "articles": [
@@ -4796,6 +4258,51 @@
         }
       ]
     },
+    "everyinc--compound-engineering-plugin": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3635894,
+        "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
+        "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
+        "author": "ikramar",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 81.4,
+        "readingTime": 18
+      },
+      "articles": [
+        {
+          "id": 3635894,
+          "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
+          "description": "TL;DR. I built a Claude Code plugin (MIT, github.com/IgorKramar/archforge-marketplace) that turns...",
+          "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
+          "author": {
+            "username": "ikramar",
+            "name": "Igor Kramar",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2211561%2F11d1ba7b-e52e-4488-bc50-cbb19848e004.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 18,
+          "publishedAt": "2026-05-08T20:29:24Z",
+          "tags": [
+            "claude",
+            "ai",
+            "architecture",
+            "softwareengineering"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "EveryInc/compound-engineering-plugin",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "farion1231--cc-switch": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -4807,7 +4314,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 48.1,
+        "hoursSincePosted": 50.3,
         "readingTime": 10
       },
       "articles": [
@@ -4908,7 +4415,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 48.1,
+        "hoursSincePosted": 50.3,
         "readingTime": 10
       },
       "articles": [
@@ -4973,7 +4480,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 48.1,
+        "hoursSincePosted": 50.3,
         "readingTime": 10
       },
       "articles": [
@@ -5038,7 +4545,7 @@
         "author": "jangwook_kim_e31e7291ad98",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 3.5,
+        "hoursSincePosted": 5.7,
         "readingTime": 9
       },
       "articles": [
@@ -5083,7 +4590,7 @@
         "author": "eleata",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 84.8,
+        "hoursSincePosted": 86.9,
         "readingTime": 5
       },
       "articles": [
@@ -5121,51 +4628,6 @@
         }
       ]
     },
-    "safishamsi--graphify": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3623097,
-        "title": "The Token Tax Problem: How I Built a Super Memory Layer for AI Coding Assistants using LLM Wiki",
-        "url": "https://dev.to/parupati/the-token-tax-problem-how-i-built-a-super-memory-layer-for-ai-coding-assistants-using-llm-wiki-3c5g",
-        "author": "parupati",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 126,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3623097,
-          "title": "The Token Tax Problem: How I Built a Super Memory Layer for AI Coding Assistants using LLM Wiki",
-          "description": "Token utilization is the hidden cost of AI-assisted development. Here's how I used a knowledge graph as a cache layer to reduce what agents need to re-learn on every session.",
-          "url": "https://dev.to/parupati/the-token-tax-problem-how-i-built-a-super-memory-layer-for-ai-coding-assistants-using-llm-wiki-3c5g",
-          "author": {
-            "username": "parupati",
-            "name": "parupati madhukar reddy",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2890899%2Ff8c95dc1-8f92-4d3b-9917-a3011dadf0b3.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-06T21:40:49Z",
-          "tags": [
-            "aiengineering",
-            "productivity",
-            "llm",
-            "webdev"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "safishamsi/graphify",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "rivolink--leaf": {
       "count7d": 1,
       "reactionsSum7d": 6,
@@ -5177,7 +4639,7 @@
         "author": "timothy_spann_a41a639e47c",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 13.3,
+        "hoursSincePosted": 15.4,
         "readingTime": 10
       },
       "articles": [
@@ -5201,7 +4663,7 @@
             "agenticai",
             "mcp"
           ],
-          "trendingScore": 0.35,
+          "trendingScore": 0.3,
           "linkedRepos": [
             {
               "fullName": "RivoLink/leaf",
@@ -5230,7 +4692,7 @@
         "author": "timothy_spann_a41a639e47c",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 13.3,
+        "hoursSincePosted": 15.4,
         "readingTime": 10
       },
       "articles": [
@@ -5254,7 +4716,7 @@
             "agenticai",
             "mcp"
           ],
-          "trendingScore": 0.35,
+          "trendingScore": 0.3,
           "linkedRepos": [
             {
               "fullName": "RivoLink/leaf",
@@ -5283,7 +4745,7 @@
         "author": "timothy_spann_a41a639e47c",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 13.3,
+        "hoursSincePosted": 15.4,
         "readingTime": 10
       },
       "articles": [
@@ -5307,7 +4769,7 @@
             "agenticai",
             "mcp"
           ],
-          "trendingScore": 0.35,
+          "trendingScore": 0.3,
           "linkedRepos": [
             {
               "fullName": "RivoLink/leaf",
@@ -5336,7 +4798,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 40.5,
+        "hoursSincePosted": 42.7,
         "readingTime": 10
       },
       "articles": [
@@ -5417,7 +4879,7 @@
         "author": "cloakhq",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 113,
+        "hoursSincePosted": 115.2,
         "readingTime": 3
       },
       "articles": [
@@ -5462,7 +4924,7 @@
         "author": "jrud25",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 91.9,
+        "hoursSincePosted": 94.1,
         "readingTime": 5
       },
       "articles": [
@@ -5511,7 +4973,7 @@
         "author": "yashksaini",
         "reactions": 12,
         "comments": 0,
-        "hoursSincePosted": 116.9,
+        "hoursSincePosted": 119.1,
         "readingTime": 5
       },
       "articles": [
@@ -5570,7 +5032,7 @@
     {
       "fullName": "ajeetdsouza/zoxide",
       "count7d": 3,
-      "reactionsSum7d": 9
+      "reactionsSum7d": 11
     },
     {
       "fullName": "D4Vinci/Scrapling",
@@ -5594,7 +5056,7 @@
     },
     {
       "fullName": "openai/codex",
-      "count7d": 6,
+      "count7d": 5,
       "reactionsSum7d": 2
     },
     {
@@ -5609,7 +5071,7 @@
     },
     {
       "fullName": "anthropics/claude-code",
-      "count7d": 7,
+      "count7d": 8,
       "reactionsSum7d": 0
     },
     {
@@ -5678,16 +5140,6 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "HKUDS/nanobot",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "itsuzef/goalkeeper",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
       "fullName": "JuliusBrussee/caveman",
       "count7d": 1,
       "reactionsSum7d": 0
@@ -5703,17 +5155,7 @@
       "reactionsSum7d": 0
     },
     {
-      "fullName": "nullclaw/nullclaw",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
       "fullName": "obra/superpowers",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "safishamsi/graphify",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -5724,11 +5166,6 @@
     },
     {
       "fullName": "vercel-labs/skills",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "zeroclaw-labs/zeroclaw",
       "count7d": 1,
       "reactionsSum7d": 0
     }

@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-12T01:18:38.085Z",
+  "fetchedAt": "2026-05-12T05:08:22.345Z",
   "windowDays": 7,
-  "scannedStories": 78,
+  "scannedStories": 79,
   "mentions": {
     "jj-vcs/jj": {
       "count7d": 1,
@@ -43,14 +43,14 @@
     },
     "nooga/let-go": {
       "count7d": 1,
-      "scoreSum7d": 50,
+      "scoreSum7d": 51,
       "topStory": {
         "shortId": "njobov",
         "title": "let-go: Almost Clojure written in Go",
-        "score": 50,
+        "score": 51,
         "url": "https://github.com/nooga/let-go",
         "commentsUrl": "https://lobste.rs/s/njobov/let_go_almost_clojure_written_go",
-        "hoursSincePosted": 29.178055555555556
+        "hoursSincePosted": 33.00694444444444
       },
       "stories": [
         {
@@ -59,11 +59,11 @@
           "url": "https://github.com/nooga/let-go",
           "commentsUrl": "https://lobste.rs/s/njobov/let_go_almost_clojure_written_go",
           "by": "",
-          "score": 50,
+          "score": 51,
           "commentCount": 4,
           "createdUtc": 1778443677,
-          "ageHours": 29.178055555555556,
-          "trendingScore": 0.28720795485456807,
+          "ageHours": 33.00694444444444,
+          "trendingScore": 0.2462288110731439,
           "tags": [
             "clojure",
             "go",
@@ -127,7 +127,7 @@
         "score": 8,
         "url": "https://github.com/jundot/omlx",
         "commentsUrl": "https://lobste.rs/s/nqwrqf/omlx_llm_inference_server_with",
-        "hoursSincePosted": 14.151944444444444
+        "hoursSincePosted": 17.980833333333333
       },
       "stories": [
         {
@@ -139,8 +139,8 @@
           "score": 8,
           "commentCount": 2,
           "createdUtc": 1778497771,
-          "ageHours": 14.151944444444444,
-          "trendingScore": 0.123240306220523,
+          "ageHours": 17.980833333333333,
+          "trendingScore": 0.08957144720191566,
           "tags": [
             "vibecoding"
           ],
@@ -229,6 +229,43 @@
           ]
         }
       ]
+    },
+    "floci-io/floci": {
+      "count7d": 1,
+      "scoreSum7d": 2,
+      "topStory": {
+        "shortId": "io9pxp",
+        "title": "floci: Light, fluffy, and always free - The AWS Local Emulator alternative",
+        "score": 2,
+        "url": "https://github.com/floci-io/floci",
+        "commentsUrl": "https://lobste.rs/s/io9pxp/floci_light_fluffy_always_free_aws_local",
+        "hoursSincePosted": 2.835
+      },
+      "stories": [
+        {
+          "shortId": "io9pxp",
+          "title": "floci: Light, fluffy, and always free - The AWS Local Emulator alternative",
+          "url": "https://github.com/floci-io/floci",
+          "commentsUrl": "https://lobste.rs/s/io9pxp/floci_light_fluffy_always_free_aws_local",
+          "by": "",
+          "score": 2,
+          "commentCount": 0,
+          "createdUtc": 1778552296,
+          "ageHours": 2.835,
+          "trendingScore": 0.18812013339732173,
+          "tags": [
+            "devops"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "floci-io/floci",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
@@ -240,7 +277,7 @@
     {
       "fullName": "nooga/let-go",
       "count7d": 1,
-      "scoreSum7d": 50
+      "scoreSum7d": 51
     },
     {
       "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",
@@ -259,6 +296,11 @@
     },
     {
       "fullName": "withastro/flue",
+      "count7d": 1,
+      "scoreSum7d": 2
+    },
+    {
+      "fullName": "floci-io/floci",
       "count7d": 1,
       "scoreSum7d": 2
     }

@@ -1,0 +1,41 @@
+# Append this service block under `services:` in /opt/toolbox/docker-compose.yml
+# on the VPS. Do not run this as a standalone compose file — it relies on the
+# toolbox compose's network and depends_on graph.
+#
+# Naming follows the toolbox-* convention so `docker ps` groups it visually.
+# Port 3023 is bound to localhost only (NOT 0.0.0.0) per Hard Rule 8:
+# Cloudflare Tunnel is the only public ingress.
+
+services:
+  trendingrepo:
+    container_name: toolbox-trendingrepo-1
+    image: trendingrepo-app:vps-v1
+    restart: unless-stopped
+    env_file:
+      - /opt/trendingrepo/.env.production
+    ports:
+      # Bind to 127.0.0.1 only — cloudflared (running in this same compose
+      # network) reaches us via the container hostname, but localhost binding
+      # lets us curl from the host for smoke tests.
+      - "127.0.0.1:3023:3023"
+    mem_limit: 2g
+    memswap_limit: 3g
+    healthcheck:
+      # Trendingrepo doesn't expose /healthz natively — homepage is the
+      # canonical readiness probe. 200 = ready.
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3023/',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    # No depends_on — trendingrepo reads from Supabase (external) and Redis
+    # (external Upstash or Railway), not from the toolbox postgres. If we
+    # later switch it to read from toolbox postgres, add:
+    #   depends_on:
+    #     postgres:
+    #       condition: service_healthy

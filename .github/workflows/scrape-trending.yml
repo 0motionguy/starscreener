@@ -38,6 +38,10 @@ jobs:
       - name: Refresh OSSInsight trending + hot collections
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
+          # Dual-write to TOOLBOX signal lake (trending.github.repos).
+          # Skipped silently when unset; never blocks the primary write.
+          TOOLBOX_INGEST_URL: ${{ secrets.TOOLBOX_INGEST_URL }}
+          TOOLBOX_INGEST_HMAC_SECRET: ${{ secrets.TOOLBOX_INGEST_HMAC_SECRET }}
         run: node scripts/scrape-trending.mjs --skip-collection-rankings
 
       - name: Discover recent GitHub repos
@@ -86,6 +90,11 @@ jobs:
       - name: Compute deltas from git history
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
+          # Dual-write to TOOLBOX signal lake (trending.github.stars.velocity
+          # + trending.github.fork.velocity when present).
+          # Skipped silently when unset; never blocks the primary write.
+          TOOLBOX_INGEST_URL: ${{ secrets.TOOLBOX_INGEST_URL }}
+          TOOLBOX_INGEST_HMAC_SECRET: ${{ secrets.TOOLBOX_INGEST_HMAC_SECRET }}
         run: node scripts/compute-deltas.mjs
 
       - name: Snapshot star totals into rolling history (immediate-mode deltas)

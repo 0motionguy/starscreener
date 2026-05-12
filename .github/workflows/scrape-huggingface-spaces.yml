@@ -38,6 +38,9 @@ jobs:
       - name: Refresh HuggingFace trending spaces
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
+          # Dual-write to TOOLBOX (trending.huggingface.spaces).
+          TOOLBOX_INGEST_URL: ${{ secrets.TOOLBOX_INGEST_URL }}
+          TOOLBOX_INGEST_HMAC_SECRET: ${{ secrets.TOOLBOX_INGEST_HMAC_SECRET }}
         run: node scripts/scrape-huggingface-spaces.mjs
 
       - name: Compute commit timestamp

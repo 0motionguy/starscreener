@@ -35,6 +35,11 @@ jobs:
         run: npm ci
 
       - name: Scrape npm packages
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          # Dual-write to TOOLBOX (trending.npm.packages).
+          TOOLBOX_INGEST_URL: ${{ secrets.TOOLBOX_INGEST_URL }}
+          TOOLBOX_INGEST_HMAC_SECRET: ${{ secrets.TOOLBOX_INGEST_HMAC_SECRET }}
         run: node scripts/scrape-npm.mjs
 
       - name: Compute commit timestamp

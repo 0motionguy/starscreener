@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-11T19:55:55.498Z",
+  "fetchedAt": "2026-05-12T03:43:37.009Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1294,
+  "scannedArticles": 1298,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -188,7 +188,7 @@
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
     "tag-codex-top-7d": 11,
-    "tag-cursor-top-7d": 23,
+    "tag-cursor-top-7d": 27,
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 7,
     "tag-mcp-top-7d": 100,
@@ -197,10 +197,10 @@
     "tag-workflow-top-7d": 37,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
-    "tag-cli-top-7d": 84,
+    "tag-cli-top-7d": 81,
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 100,
-    "tag-langchain-top-7d": 52,
+    "tag-langchain-top-7d": 49,
     "tag-n8n-top-7d": 27,
     "tag-opensource-top-7d": 100
   },
@@ -1032,6 +1032,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3651760,
+      "title": "Does AI Behave Like a Toxic Ex?",
+      "description": "Is AI that toxic ex you just can’t forget about and can’t move on from?  For every task you get...",
+      "url": "https://dev.to/konark_13/does-ai-behave-like-a-toxic-ex-498n",
+      "author": {
+        "username": "konark_13",
+        "name": "Konark Sharma",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2928108%2Ffb504115-5d98-486b-bee9-c2de7cb7b632.png"
+      },
+      "reactionsCount": 24,
+      "commentsCount": 2,
+      "readingTime": 6,
+      "publishedAt": "2026-05-11T18:09:56Z",
+      "tags": [
+        "ai",
+        "webdev",
+        "discuss",
+        "learning"
+      ],
+      "trendingScore": 4.16,
+      "linkedRepos": []
+    },
+    {
       "id": 3617096,
       "title": "I Replaced My $500 GPU with a $75 Raspberry Pi: How Gemma 4 Makes Computer Vision 10x Cheaper",
       "description": "This is a submission for the Gemma 4 Challenge: Write About Gemma 4           I Replaced My $500 GPU...",
@@ -1365,29 +1388,6 @@
         "python"
       ],
       "trendingScore": 3.43,
-      "linkedRepos": []
-    },
-    {
-      "id": 3651760,
-      "title": "Does AI Behave Like a Toxic Ex?",
-      "description": "Is AI that toxic ex you just can’t forget about and can’t move on from?  For every task you get...",
-      "url": "https://dev.to/konark_13/does-ai-behave-like-a-toxic-ex-498n",
-      "author": {
-        "username": "konark_13",
-        "name": "Konark Sharma",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2928108%2Ffb504115-5d98-486b-bee9-c2de7cb7b632.png"
-      },
-      "reactionsCount": 7,
-      "commentsCount": 0,
-      "readingTime": 6,
-      "publishedAt": "2026-05-11T18:09:56Z",
-      "tags": [
-        "ai",
-        "webdev",
-        "discuss",
-        "learning"
-      ],
-      "trendingScore": 3.35,
       "linkedRepos": []
     },
     {
@@ -2458,6 +2458,34 @@
       "linkedRepos": []
     },
     {
+      "id": 3652261,
+      "title": "My fully offline AI-assisted Linux development machine",
+      "description": "My Arch Linux, Niri, and local AI coding setup on the ASUS ROG Flow Z13",
+      "url": "https://dev.to/deepu105/my-fully-offline-ai-assisted-linux-development-machine-3lnl",
+      "author": {
+        "username": "deepu105",
+        "name": "Deepu K Sasidharan",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F178939%2F38a82d99-3a0c-4a47-84fc-76fff3144cda.png"
+      },
+      "reactionsCount": 9,
+      "commentsCount": 0,
+      "readingTime": 13,
+      "publishedAt": "2026-05-11T20:47:59Z",
+      "tags": [
+        "linux",
+        "archlinux",
+        "development",
+        "ai"
+      ],
+      "trendingScore": 1.24,
+      "linkedRepos": [
+        {
+          "fullName": "ajeetdsouza/zoxide",
+          "location": "body"
+        }
+      ]
+    },
+    {
       "id": 3593796,
       "title": "The Emotional Lifecycle of Every Side Project (A Map)",
       "description": "You've been here before. You just didn't have a map.     You've done this enough times to know the...",
@@ -2501,29 +2529,6 @@
         "python"
       ],
       "trendingScore": 1.22,
-      "linkedRepos": []
-    },
-    {
-      "id": 3652065,
-      "title": "My Agent Has Been Running for 60 Days. It Has Never Had the Same IP Twice.",
-      "description": "The agent runs on a spot instance. Spot instances get reclaimed. When that happens, a new one spins...",
-      "url": "https://dev.to/artem_a/my-agent-has-been-running-for-60-days-it-has-never-had-the-same-ip-twice-5fga",
-      "author": {
-        "username": "artem_a",
-        "name": "Artemii Amelin ",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3893832%2F0e0d375d-e701-4dc8-9fb6-4c8f53e30992.png"
-      },
-      "reactionsCount": 2,
-      "commentsCount": 0,
-      "readingTime": 4,
-      "publishedAt": "2026-05-11T19:38:25Z",
-      "tags": [
-        "ai",
-        "agents",
-        "networking",
-        "go"
-      ],
-      "trendingScore": 1.2,
       "linkedRepos": []
     }
   ]

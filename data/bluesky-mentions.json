@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-11T23:13:44.917Z",
+  "fetchedAt": "2026-05-12T00:12:50.262Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 299,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -3921,7 +3921,7 @@
     },
     "endevco/aube": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -3933,11 +3933,11 @@
           "handle": "jdx.dev",
           "displayName": "$ jdx --help"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T22:50:19.795Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.38
       },
       "posts": [
         {
@@ -3949,13 +3949,13 @@
             "handle": "jdx.dev",
             "displayName": "$ jdx --help"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-11T22:50:19.795Z",
           "createdUtc": 1778539819,
-          "ageHours": 0.5,
-          "trendingScore": 0,
+          "ageHours": 1.38,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -8273,7 +8273,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T22:37:25.848Z",
-        "hoursSincePosted": 0.61
+        "hoursSincePosted": 1.59
       },
       "posts": [
         {
@@ -8290,7 +8290,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T22:37:25.848Z",
           "createdUtc": 1778539045,
-          "ageHours": 0.61,
+          "ageHours": 1.59,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -8318,7 +8318,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T21:28:39.796961+00:00",
           "createdUtc": 1778534919,
-          "ageHours": 1.75,
+          "ageHours": 2.74,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -8346,7 +8346,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T21:30:28.304Z",
           "createdUtc": 1778535028,
-          "ageHours": 1.72,
+          "ageHours": 2.71,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -8355,6 +8355,57 @@
           "linkedRepos": [
             {
               "fullName": "ab-613/OpenGravity",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "gastownhall/gascity": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:nevxkulynwc5m2sk4jalv4c7/app.bsky.feed.post/3mlmiemdoyc2t",
+        "cid": "bafyreidb6utkdnen4sv4iltnevbvvwvw4l5wusnui5qadtudum2dqjdtne",
+        "bskyUrl": "https://bsky.app/profile/phillipcarter.dev/post/3mlmiemdoyc2t",
+        "text": "it's all about gas city now github.com/gastownhall/...",
+        "author": {
+          "handle": "phillipcarter.dev",
+          "displayName": "Phillip Carter"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T00:02:44.525Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:nevxkulynwc5m2sk4jalv4c7/app.bsky.feed.post/3mlmiemdoyc2t",
+          "cid": "bafyreidb6utkdnen4sv4iltnevbvvwvw4l5wusnui5qadtudum2dqjdtne",
+          "bskyUrl": "https://bsky.app/profile/phillipcarter.dev/post/3mlmiemdoyc2t",
+          "text": "it's all about gas city now github.com/gastownhall/...",
+          "author": {
+            "handle": "phillipcarter.dev",
+            "displayName": "Phillip Carter"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T00:02:44.525Z",
+          "createdUtc": 1778544164,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "gastownhall/gascity",
               "matchType": "url",
               "confidence": 1
             }
@@ -12280,7 +12331,7 @@
     },
     "endevco--aube": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -12292,11 +12343,11 @@
           "handle": "jdx.dev",
           "displayName": "$ jdx --help"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T22:50:19.795Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.38
       },
       "posts": [
         {
@@ -12308,13 +12359,13 @@
             "handle": "jdx.dev",
             "displayName": "$ jdx --help"
           },
-          "likeCount": 0,
+          "likeCount": 1,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-11T22:50:19.795Z",
           "createdUtc": 1778539819,
-          "ageHours": 0.5,
-          "trendingScore": 0,
+          "ageHours": 1.38,
+          "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
           ],
@@ -16632,7 +16683,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-11T22:37:25.848Z",
-        "hoursSincePosted": 0.61
+        "hoursSincePosted": 1.59
       },
       "posts": [
         {
@@ -16649,7 +16700,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T22:37:25.848Z",
           "createdUtc": 1778539045,
-          "ageHours": 0.61,
+          "ageHours": 1.59,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -16677,7 +16728,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T21:28:39.796961+00:00",
           "createdUtc": 1778534919,
-          "ageHours": 1.75,
+          "ageHours": 2.74,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -16705,7 +16756,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-11T21:30:28.304Z",
           "createdUtc": 1778535028,
-          "ageHours": 1.72,
+          "ageHours": 2.71,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -16714,6 +16765,57 @@
           "linkedRepos": [
             {
               "fullName": "ab-613/OpenGravity",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "gastownhall--gascity": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:nevxkulynwc5m2sk4jalv4c7/app.bsky.feed.post/3mlmiemdoyc2t",
+        "cid": "bafyreidb6utkdnen4sv4iltnevbvvwvw4l5wusnui5qadtudum2dqjdtne",
+        "bskyUrl": "https://bsky.app/profile/phillipcarter.dev/post/3mlmiemdoyc2t",
+        "text": "it's all about gas city now github.com/gastownhall/...",
+        "author": {
+          "handle": "phillipcarter.dev",
+          "displayName": "Phillip Carter"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T00:02:44.525Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:nevxkulynwc5m2sk4jalv4c7/app.bsky.feed.post/3mlmiemdoyc2t",
+          "cid": "bafyreidb6utkdnen4sv4iltnevbvvwvw4l5wusnui5qadtudum2dqjdtne",
+          "bskyUrl": "https://bsky.app/profile/phillipcarter.dev/post/3mlmiemdoyc2t",
+          "text": "it's all about gas city now github.com/gastownhall/...",
+          "author": {
+            "handle": "phillipcarter.dev",
+            "displayName": "Phillip Carter"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T00:02:44.525Z",
+          "createdUtc": 1778544164,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "gastownhall/gascity",
               "matchType": "url",
               "confidence": 1
             }
@@ -16731,7 +16833,12 @@
     {
       "fullName": "endevco/aube",
       "count7d": 1,
-      "likesSum7d": 0
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "gastownhall/gascity",
+      "count7d": 1,
+      "likesSum7d": 1
     }
   ]
 }

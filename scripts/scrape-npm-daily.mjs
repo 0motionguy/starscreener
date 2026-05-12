@@ -119,23 +119,39 @@ async function fetchDailyDownloads(name, fetchImpl = fetch) {
   }
 }
 
-// Best-effort dependents count.
+// Best-effort dependents count via packages.ecosyste.ms.
 //
-// npm does not expose a stable public API for dependents counts. Options:
-//   1. registry.npmjs.org/-/v1/search?text=<name>&size=0 returns `total`
-//      but that's a full-text match count, not a true dependents count.
-//      It massively overcounts (any package mentioning the name matches).
-//   2. registry.npmjs.org/-/_view/dependedUpon?key=<name>  -> frequently 404
-//      in the public API; was removed from npm's replicate endpoint.
-//   3. api.npms.io/v2/package/<name> used to return a dependents number but
-//      the service is deprecated / unreliable.
+// npm itself has no stable public API for dependents counts. Every
+// first-party path is dead as of 2026:
+//   - registry.npmjs.org/-/_view/dependedUpon: removed from replicate
+//   - api.npms.io: deprecated and offline
+//   - api.npmjs.org/dependents/<name>: 404
+//   - www.npmjs.com/browse/depended/<name>: SPA-rendered, count lives
+//     in a client-side fetch, not in the static HTML
+//   - registry.npmjs.org/-/v1/search?text=<name>: normalized popularity
+//     score (0..1), not a count
 //
-// We attempt #2 (dependedUpon) and fall back to null on any failure.
-// Callers must treat `null` as "unknown, don't render" — NOT as zero.
+// Two third-party aggregators index npm:
+//   - libraries.io has a `dependents_count` field but rate-limits
+//     anonymous reads aggressively (~60 req/min) and 429s under
+//     normal cron volume on the free tier.
+//   - packages.ecosyste.ms exposes `dependent_packages_count` (npm
+//     packages depending on this one) without an API key and with
+//     no observed anonymous rate limit. ≤3s per call.
+//
+// We use ecosyste.ms. Encoding: the full package name goes in as a
+// single URL-encoded path segment (the path under /packages/ is
+// itself a segment, so "/" inside scoped names must be encoded).
+//
+// `0` maps to null because ecosyste.ms returns 0 for packages it hasn't
+// fully indexed yet (notably recently-published scoped names). The
+// downstream emission gate skips null rows, so we'd rather suppress a
+// few small / new packages than emit a misleading false-0 signal that
+// can't be distinguished from "truly unused".
+//
+// Callers must treat null as "unknown, don't render" — NOT as zero.
 async function fetchDependentsCount(name, fetchImpl = fetch) {
-  const url = `https://registry.npmjs.org/-/_view/dependedUpon?group_level=2&startkey=${encodeURIComponent(
-    JSON.stringify([name]),
-  )}&endkey=${encodeURIComponent(JSON.stringify([name, {}]))}`;
+  const url = `https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/${encodeURIComponent(name)}`;
   try {
     const payload = await fetchJsonWithRetry(url, {
       fetchImpl,
@@ -144,16 +160,11 @@ async function fetchDependentsCount(name, fetchImpl = fetch) {
       timeoutMs: 15_000,
       headers: { "User-Agent": USER_AGENT, Accept: "application/json" },
     });
-    const rows = Array.isArray(payload?.rows) ? payload.rows : [];
-    if (rows.length === 0) return null;
-    const total = rows.reduce(
-      (sum, row) => sum + Math.max(0, Number(row?.value) || 0),
-      0,
-    );
-    return total > 0 ? total : null;
-  } catch {
-    // TODO: consider scraping https://www.npmjs.com/browse/depended/<name>
-    // as a last resort, but that's fragile HTML parsing so we ship null.
+    const count = payload?.dependent_packages_count;
+    return typeof count === "number" && count > 0 ? count : null;
+  } catch (err) {
+    // 404 = ecosyste.ms hasn't indexed this package; not an error condition.
+    if (err instanceof HttpStatusError && err.status === 404) return null;
     return null;
   }
 }

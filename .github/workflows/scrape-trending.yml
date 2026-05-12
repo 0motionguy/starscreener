@@ -58,6 +58,10 @@ jobs:
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
           REDDIT_USER_AGENTS: ${{ secrets.REDDIT_USER_AGENTS }}
+          # Dual-write to TOOLBOX signal lake (trending.reddit.mentions).
+          # Skipped silently when unset; never blocks the primary write.
+          TOOLBOX_INGEST_URL: ${{ secrets.TOOLBOX_INGEST_URL }}
+          TOOLBOX_INGEST_HMAC_SECRET: ${{ secrets.TOOLBOX_INGEST_HMAC_SECRET }}
         run: node scripts/scrape-reddit.mjs
 
       - name: Refresh HackerNews trending + repo mentions
@@ -67,6 +71,10 @@ jobs:
         # on the same hourly cadence as Reddit (Sprint 1 finding #1).
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
+          # Dual-write to TOOLBOX signal lake (trending.hn.mentions).
+          # Skipped silently when unset; never blocks the primary write.
+          TOOLBOX_INGEST_URL: ${{ secrets.TOOLBOX_INGEST_URL }}
+          TOOLBOX_INGEST_HMAC_SECRET: ${{ secrets.TOOLBOX_INGEST_HMAC_SECRET }}
         run: node scripts/scrape-hackernews.mjs
 
       - name: Refresh GitHub repo metadata

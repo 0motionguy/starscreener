@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-12T15:47:14.457Z",
+  "fetchedAt": "2026-05-12T18:19:09.781Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -9595,6 +9595,57 @@
           "linkedRepos": [
             {
               "fullName": "agavra/tuicr",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "warpdotdev/warp": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mlo6d6hurk2k",
+        "cid": "bafyreic7qzvnmatuyz4rwuqjuyk2ld6ahk2ysntk7exczjscrwjmkk727i",
+        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mlo6d6hurk2k",
+        "text": "The tab distinguishability gap is real, especially with split views mixed in. On the git side, you're right that formatting a diff and then asking you to shell out to commit it is a weird seam. Both worth filing on github.com/warpdotdev/Warp/issues if you get a chance.",
+        "author": {
+          "handle": "warp.dev",
+          "displayName": "Warp"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T16:08:18.487Z",
+        "hoursSincePosted": 2.18
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mlo6d6hurk2k",
+          "cid": "bafyreic7qzvnmatuyz4rwuqjuyk2ld6ahk2ysntk7exczjscrwjmkk727i",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mlo6d6hurk2k",
+          "text": "The tab distinguishability gap is real, especially with split views mixed in. On the git side, you're right that formatting a diff and then asking you to shell out to commit it is a weird seam. Both worth filing on github.com/warpdotdev/Warp/issues if you get a chance.",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T16:08:18.487Z",
+          "createdUtc": 1778602098,
+          "ageHours": 2.18,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
               "matchType": "url",
               "confidence": 1
             }
@@ -19200,21 +19251,62 @@
           ]
         }
       ]
+    },
+    "warpdotdev--warp": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mlo6d6hurk2k",
+        "cid": "bafyreic7qzvnmatuyz4rwuqjuyk2ld6ahk2ysntk7exczjscrwjmkk727i",
+        "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mlo6d6hurk2k",
+        "text": "The tab distinguishability gap is real, especially with split views mixed in. On the git side, you're right that formatting a diff and then asking you to shell out to commit it is a weird seam. Both worth filing on github.com/warpdotdev/Warp/issues if you get a chance.",
+        "author": {
+          "handle": "warp.dev",
+          "displayName": "Warp"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T16:08:18.487Z",
+        "hoursSincePosted": 2.18
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z4lutgunglpmgcbawqnckkfm/app.bsky.feed.post/3mlo6d6hurk2k",
+          "cid": "bafyreic7qzvnmatuyz4rwuqjuyk2ld6ahk2ysntk7exczjscrwjmkk727i",
+          "bskyUrl": "https://bsky.app/profile/warp.dev/post/3mlo6d6hurk2k",
+          "text": "The tab distinguishability gap is real, especially with split views mixed in. On the git side, you're right that formatting a diff and then asking you to shell out to commit it is a weird seam. Both worth filing on github.com/warpdotdev/Warp/issues if you get a chance.",
+          "author": {
+            "handle": "warp.dev",
+            "displayName": "Warp"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T16:08:18.487Z",
+          "createdUtc": 1778602098,
+          "ageHours": 2.18,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "warpdotdev/warp",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "memvid/memvid",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "agavra/tuicr",
-      "count7d": 1,
-      "likesSum7d": 0
-    },
-    {
-      "fullName": "Augani/openreel-video",
+      "fullName": "warpdotdev/warp",
       "count7d": 1,
       "likesSum7d": 0
     }

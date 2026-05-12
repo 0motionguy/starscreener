@@ -106,11 +106,17 @@ function readTrendingAt(sha) {
   }
 }
 
-// Flatten every bucket into a Map<repo_id, stars_int>. Dedupes by repo_id
-// — a repo appearing in multiple buckets (24h/All and 24h/Python etc.) gets
-// its max-observed stars value. Max is safe: stars are monotonically
-// non-decreasing within a single trending.json snapshot.
-function flattenToStarsById(trendingJson) {
+// Flatten every bucket into a Map<repo_id, { stars: int, forks: int }>.
+// Dedupes by repo_id — a repo appearing in multiple buckets (24h/All and
+// 24h/Python etc.) gets its max-observed counts. Max is safe: stars + forks
+// are monotonically non-decreasing within a single trending.json snapshot.
+//
+// Forks are returned alongside stars so a single pass over the (large)
+// bucket structure feeds both the existing `trending.github.stars.velocity`
+// signal and the new `trending.github.fork.velocity` signal. Missing or
+// malformed forks coerces to 0 (consistent with how trending.json strings
+// like "" → 0); the downstream transformer keeps `forks_now=0` deltas.
+function flattenToCountsById(trendingJson) {
   const out = new Map();
   const buckets = trendingJson?.buckets;
   if (!buckets) return out;
@@ -122,8 +128,15 @@ function flattenToStarsById(trendingJson) {
         if (!id) continue;
         const stars = Number.parseInt(row.stars ?? "0", 10);
         if (!Number.isFinite(stars)) continue;
+        const forksRaw = Number.parseInt(row.forks ?? "0", 10);
+        const forks = Number.isFinite(forksRaw) ? forksRaw : 0;
         const prev = out.get(id);
-        if (prev === undefined || stars > prev) out.set(id, stars);
+        if (prev === undefined) {
+          out.set(id, { stars, forks });
+        } else {
+          if (stars > prev.stars) prev.stars = stars;
+          if (forks > prev.forks) prev.forks = forks;
+        }
       }
     }
   }
@@ -134,8 +147,8 @@ async function main() {
   const now = Math.floor(Date.now() / 1000);
 
   const currentJson = JSON.parse(await readFile(TRENDING_PATH, "utf8"));
-  const currentStars = flattenToStarsById(currentJson);
-  if (currentStars.size === 0) {
+  const currentCounts = flattenToCountsById(currentJson);
+  if (currentCounts.size === 0) {
     throw new Error("current trending.json has zero joinable rows");
   }
 
@@ -151,7 +164,7 @@ async function main() {
   //                     partial-window number, diagnostic-only.
   //   - null:           no trending.json commits exist at all.
   const windowPicks = {};
-  const historicalStars = {};
+  const historicalCounts = {};
   for (const w of WINDOWS) {
     const target = now - w.seconds;
     const since = target - w.buffer_s;
@@ -177,10 +190,10 @@ async function main() {
       if (basis === "cold-start") pickInfo.age_seconds = now - picked.ts;
       windowPicks[w.key] = pickInfo;
       const hist = readTrendingAt(picked.sha);
-      historicalStars[w.key] = hist ? flattenToStarsById(hist) : new Map();
+      historicalCounts[w.key] = hist ? flattenToCountsById(hist) : new Map();
     } else {
       windowPicks[w.key] = null;
-      historicalStars[w.key] = null;
+      historicalCounts[w.key] = null;
     }
   }
 
@@ -192,31 +205,44 @@ async function main() {
   };
 
   const repos = {};
-  for (const [repoId, starsNow] of currentStars.entries()) {
-    const entry = { stars_now: starsNow };
+  for (const [repoId, counts] of currentCounts.entries()) {
+    // forks_now is unconditionally included (0 is valid) so the downstream
+    // transformer's `typeof deltas.forks_now === "number"` gate emits the
+    // fork-velocity event for every repo, mirroring the stars event.
+    const entry = { stars_now: counts.stars, forks_now: counts.forks };
     for (const w of WINDOWS) {
       const pick = windowPicks[w.key];
       if (!pick) {
         entry[`delta_${w.key}`] = { value: null, basis: "no-history" };
+        entry[`fork_delta_${w.key}`] = { value: null, basis: "no-history" };
         coverage[w.key]["no-history"] += 1;
         continue;
       }
-      const histStars = historicalStars[w.key].get(repoId);
-      if (histStars === undefined) {
+      const histCounts = historicalCounts[w.key].get(repoId);
+      if (histCounts === undefined) {
         entry[`delta_${w.key}`] = { value: null, basis: "repo-not-tracked" };
+        entry[`fork_delta_${w.key}`] = { value: null, basis: "repo-not-tracked" };
         coverage[w.key]["repo-not-tracked"] += 1;
         continue;
       }
-      const deltaEntry = {
-        value: starsNow - histStars,
+      // Both stars and fork deltas share the same window pick + basis —
+      // the historical snapshot is the same file. Confidence downstream
+      // (transformer) is `exact → 1.0, nearest → 0.7, cold-start → 0.5`
+      // for stars; forks always use 0.7 (transformer-side decision).
+      const deltaBase = {
         basis: pick.basis,
         from_commit: pick.picked_commit,
         from_ts: pick.picked_ts,
       };
-      if (pick.basis === "cold-start") {
-        deltaEntry.age_seconds = pick.age_seconds;
-      }
-      entry[`delta_${w.key}`] = deltaEntry;
+      if (pick.basis === "cold-start") deltaBase.age_seconds = pick.age_seconds;
+      entry[`delta_${w.key}`] = {
+        value: counts.stars - histCounts.stars,
+        ...deltaBase,
+      };
+      entry[`fork_delta_${w.key}`] = {
+        value: counts.forks - histCounts.forks,
+        ...deltaBase,
+      };
       coverage[w.key][pick.basis] += 1;
     }
     repos[repoId] = entry;
@@ -269,7 +295,7 @@ async function main() {
       (toolboxResult.reason ? ` (${toolboxResult.reason})` : "") +
       (toolboxResult.duration_ms !== undefined ? ` [${toolboxResult.duration_ms}ms]` : ""),
   );
-  console.log(`repos: ${currentStars.size}`);
+  console.log(`repos: ${currentCounts.size}`);
   for (const w of WINDOWS) {
     const c = coverage[w.key];
     const total = c.exact + c.nearest + c["cold-start"] + c["no-history"] + c["repo-not-tracked"];

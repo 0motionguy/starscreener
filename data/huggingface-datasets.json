@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-12T15:12:48.834Z",
+  "fetchedAt": "2026-05-12T20:12:36.893Z",
   "source": "huggingface.co/api/datasets (default sort = trending)",
   "count": 50,
   "datasets": [
@@ -40,8 +40,8 @@
       "author": "ADSKAILab",
       "url": "https://huggingface.co/datasets/ADSKAILab/Zero-To-CAD-1m",
       "downloads": 13212,
-      "likes": 88,
-      "trendingScore": 58,
+      "likes": 91,
+      "trendingScore": 61,
       "tags": [
         "task_categories:text-to-3d",
         "task_categories:image-to-3d",
@@ -76,8 +76,8 @@
       "author": "angrygiraffe",
       "url": "https://huggingface.co/datasets/angrygiraffe/claude-opus-4.6-4.7-reasoning-8.7k",
       "downloads": 1346,
-      "likes": 71,
-      "trendingScore": 50,
+      "likes": 72,
+      "trendingScore": 51,
       "tags": [
         "task_categories:text-generation",
         "task_categories:question-answering",
@@ -107,6 +107,38 @@
     },
     {
       "rank": 4,
+      "id": "TuringEnterprises/Open-MM-RL",
+      "author": "TuringEnterprises",
+      "url": "https://huggingface.co/datasets/TuringEnterprises/Open-MM-RL",
+      "downloads": 0,
+      "likes": 58,
+      "trendingScore": 47,
+      "tags": [
+        "task_categories:question-answering",
+        "language:en",
+        "license:mit",
+        "size_categories:n<1K",
+        "format:parquet",
+        "format:optimized-parquet",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "chemistry",
+        "physics",
+        "math",
+        "biology",
+        "science",
+        "RL"
+      ],
+      "createdAt": "2026-05-11T15:51:33.000Z",
+      "lastModified": "2026-05-12T19:45:16.000Z"
+    },
+    {
+      "rank": 5,
       "id": "nvidia/Nemotron-Personas-Korea",
       "author": "nvidia",
       "url": "https://huggingface.co/datasets/nvidia/Nemotron-Personas-Korea",
@@ -138,7 +170,7 @@
       "lastModified": "2026-04-23T07:42:48.000Z"
     },
     {
-      "rank": 5,
+      "rank": 6,
       "id": "Jackrong/GLM-5.1-Reasoning-1M-Cleaned",
       "author": "Jackrong",
       "url": "https://huggingface.co/datasets/Jackrong/GLM-5.1-Reasoning-1M-Cleaned",
@@ -172,7 +204,7 @@
       "lastModified": "2026-04-19T05:05:17.000Z"
     },
     {
-      "rank": 6,
+      "rank": 7,
       "id": "Jackrong/DeepSeek-V4-Distill-8000x",
       "author": "Jackrong",
       "url": "https://huggingface.co/datasets/Jackrong/DeepSeek-V4-Distill-8000x",
@@ -202,7 +234,7 @@
       "lastModified": "2026-04-24T08:32:56.000Z"
     },
     {
-      "rank": 7,
+      "rank": 8,
       "id": "Roman1111111/claude-opus-4.6-10000x",
       "author": "Roman1111111",
       "url": "https://huggingface.co/datasets/Roman1111111/claude-opus-4.6-10000x",
@@ -222,38 +254,6 @@
       ],
       "createdAt": "2026-03-11T15:15:05.000Z",
       "lastModified": "2026-04-05T13:42:24.000Z"
-    },
-    {
-      "rank": 8,
-      "id": "TuringEnterprises/Open-MM-RL",
-      "author": "TuringEnterprises",
-      "url": "https://huggingface.co/datasets/TuringEnterprises/Open-MM-RL",
-      "downloads": 0,
-      "likes": 35,
-      "trendingScore": 29,
-      "tags": [
-        "task_categories:question-answering",
-        "language:en",
-        "license:mit",
-        "size_categories:n<1K",
-        "format:parquet",
-        "format:optimized-parquet",
-        "modality:image",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "chemistry",
-        "physics",
-        "math",
-        "biology",
-        "science",
-        "RL"
-      ],
-      "createdAt": "2026-05-11T15:51:33.000Z",
-      "lastModified": "2026-05-11T19:31:51.000Z"
     },
     {
       "rank": 9,
@@ -863,88 +863,12 @@
     },
     {
       "rank": 27,
-      "id": "TAAC2026/data_sample_1000",
-      "author": "TAAC2026",
-      "url": "https://huggingface.co/datasets/TAAC2026/data_sample_1000",
-      "downloads": 12167,
-      "likes": 86,
-      "trendingScore": 13,
-      "tags": [
-        "license:cc-by-nc-4.0",
-        "size_categories:1K<n<10K",
-        "format:parquet",
-        "modality:tabular",
-        "modality:timeseries",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "TAAC2026",
-        "recommendation"
-      ],
-      "createdAt": "2026-03-13T11:52:44.000Z",
-      "lastModified": "2026-04-10T09:07:28.000Z"
-    },
-    {
-      "rank": 28,
-      "id": "Inferact/codex_swebenchpro_traces",
-      "author": "Inferact",
-      "url": "https://huggingface.co/datasets/Inferact/codex_swebenchpro_traces",
-      "downloads": 148,
-      "likes": 14,
-      "trendingScore": 13,
-      "tags": [
-        "license:mit",
-        "size_categories:n<1K",
-        "format:json",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us"
-      ],
-      "createdAt": "2026-05-06T01:09:22.000Z",
-      "lastModified": "2026-05-07T01:13:21.000Z"
-    },
-    {
-      "rank": 29,
-      "id": "dianetc/OBLIQ-Bench",
-      "author": "dianetc",
-      "url": "https://huggingface.co/datasets/dianetc/OBLIQ-Bench",
-      "downloads": 302,
-      "likes": 13,
-      "trendingScore": 13,
-      "tags": [
-        "task_categories:text-retrieval",
-        "language:en",
-        "license:cc-by-4.0",
-        "size_categories:100K<n<1M",
-        "format:json",
-        "modality:text",
-        "library:datasets",
-        "library:pandas",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2605.06235",
-        "region:us",
-        "retrieval",
-        "reasoning",
-        "benchmark",
-        "oblique-queries"
-      ],
-      "createdAt": "2026-05-06T00:10:36.000Z",
-      "lastModified": "2026-05-09T18:30:15.000Z"
-    },
-    {
-      "rank": 30,
       "id": "Qwen/WebWorldData",
       "author": "Qwen",
       "url": "https://huggingface.co/datasets/Qwen/WebWorldData",
       "downloads": 250,
-      "likes": 13,
-      "trendingScore": 13,
+      "likes": 14,
+      "trendingScore": 14,
       "tags": [
         "task_categories:text-generation",
         "language:en",
@@ -975,7 +899,129 @@
       "lastModified": "2026-05-08T12:12:49.000Z"
     },
     {
+      "rank": 28,
+      "id": "5551z/VisCoR-55K",
+      "author": "5551z",
+      "url": "https://huggingface.co/datasets/5551z/VisCoR-55K",
+      "downloads": 71,
+      "likes": 15,
+      "trendingScore": 14,
+      "tags": [
+        "size_categories:10K<n<100K",
+        "format:parquet",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2603.02556",
+        "region:us"
+      ],
+      "createdAt": "2026-04-24T03:40:42.000Z",
+      "lastModified": "2026-04-30T10:51:23.000Z"
+    },
+    {
+      "rank": 29,
+      "id": "TAAC2026/data_sample_1000",
+      "author": "TAAC2026",
+      "url": "https://huggingface.co/datasets/TAAC2026/data_sample_1000",
+      "downloads": 12167,
+      "likes": 86,
+      "trendingScore": 13,
+      "tags": [
+        "license:cc-by-nc-4.0",
+        "size_categories:1K<n<10K",
+        "format:parquet",
+        "modality:tabular",
+        "modality:timeseries",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us",
+        "TAAC2026",
+        "recommendation"
+      ],
+      "createdAt": "2026-03-13T11:52:44.000Z",
+      "lastModified": "2026-04-10T09:07:28.000Z"
+    },
+    {
+      "rank": 30,
+      "id": "Inferact/codex_swebenchpro_traces",
+      "author": "Inferact",
+      "url": "https://huggingface.co/datasets/Inferact/codex_swebenchpro_traces",
+      "downloads": 148,
+      "likes": 14,
+      "trendingScore": 13,
+      "tags": [
+        "license:mit",
+        "size_categories:n<1K",
+        "format:json",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us"
+      ],
+      "createdAt": "2026-05-06T01:09:22.000Z",
+      "lastModified": "2026-05-07T01:13:21.000Z"
+    },
+    {
       "rank": 31,
+      "id": "dianetc/OBLIQ-Bench",
+      "author": "dianetc",
+      "url": "https://huggingface.co/datasets/dianetc/OBLIQ-Bench",
+      "downloads": 302,
+      "likes": 13,
+      "trendingScore": 13,
+      "tags": [
+        "task_categories:text-retrieval",
+        "language:en",
+        "license:cc-by-4.0",
+        "size_categories:100K<n<1M",
+        "format:json",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2605.06235",
+        "region:us",
+        "retrieval",
+        "reasoning",
+        "benchmark",
+        "oblique-queries"
+      ],
+      "createdAt": "2026-05-06T00:10:36.000Z",
+      "lastModified": "2026-05-09T18:30:15.000Z"
+    },
+    {
+      "rank": 32,
+      "id": "5551z/VisCoR_Contrast",
+      "author": "5551z",
+      "url": "https://huggingface.co/datasets/5551z/VisCoR_Contrast",
+      "downloads": 144,
+      "likes": 14,
+      "trendingScore": 12,
+      "tags": [
+        "size_categories:10K<n<100K",
+        "format:parquet",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:polars",
+        "library:mlcroissant",
+        "arxiv:2603.02556",
+        "region:us"
+      ],
+      "createdAt": "2026-04-29T14:22:32.000Z",
+      "lastModified": "2026-04-30T01:37:13.000Z"
+    },
+    {
+      "rank": 33,
       "id": "NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
       "author": "NodeLinker",
       "url": "https://huggingface.co/datasets/NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo",
@@ -990,7 +1036,7 @@
       "lastModified": "2026-05-01T19:27:38.000Z"
     },
     {
-      "rank": 32,
+      "rank": 34,
       "id": "microsoft/synthetic-computers-at-scale",
       "author": "microsoft",
       "url": "https://huggingface.co/datasets/microsoft/synthetic-computers-at-scale",
@@ -1020,7 +1066,7 @@
       "lastModified": "2026-05-01T06:30:14.000Z"
     },
     {
-      "rank": 33,
+      "rank": 35,
       "id": "openai/gsm8k",
       "author": "openai",
       "url": "https://huggingface.co/datasets/openai/gsm8k",
@@ -1052,7 +1098,7 @@
       "lastModified": "2026-03-23T10:18:13.000Z"
     },
     {
-      "rank": 34,
+      "rank": 36,
       "id": "clem/ml-intern-sessions",
       "author": "clem",
       "url": "https://huggingface.co/datasets/clem/ml-intern-sessions",
@@ -1084,7 +1130,7 @@
       "lastModified": "2026-05-05T18:26:42.000Z"
     },
     {
-      "rank": 35,
+      "rank": 37,
       "id": "bigcode/the-stack-v2",
       "author": "bigcode",
       "url": "https://huggingface.co/datasets/bigcode/the-stack-v2",
@@ -1115,30 +1161,7 @@
       "lastModified": "2024-04-23T15:52:32.000Z"
     },
     {
-      "rank": 36,
-      "id": "5551z/VisCoR-55K",
-      "author": "5551z",
-      "url": "https://huggingface.co/datasets/5551z/VisCoR-55K",
-      "downloads": 71,
-      "likes": 13,
-      "trendingScore": 11,
-      "tags": [
-        "size_categories:10K<n<100K",
-        "format:parquet",
-        "modality:image",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "arxiv:2603.02556",
-        "region:us"
-      ],
-      "createdAt": "2026-04-24T03:40:42.000Z",
-      "lastModified": "2026-04-30T10:51:23.000Z"
-    },
-    {
-      "rank": 37,
+      "rank": 38,
       "id": "beyoru/Aesir-Character-CoT-roleplay",
       "author": "beyoru",
       "url": "https://huggingface.co/datasets/beyoru/Aesir-Character-CoT-roleplay",
@@ -1172,7 +1195,7 @@
       "lastModified": "2026-05-03T12:59:09.000Z"
     },
     {
-      "rank": 38,
+      "rank": 39,
       "id": "junwatu/indonesian-recipes",
       "author": "junwatu",
       "url": "https://huggingface.co/datasets/junwatu/indonesian-recipes",
@@ -1202,30 +1225,35 @@
       "lastModified": "2026-05-09T06:36:26.000Z"
     },
     {
-      "rank": 39,
-      "id": "5551z/VisCoR_Contrast",
-      "author": "5551z",
-      "url": "https://huggingface.co/datasets/5551z/VisCoR_Contrast",
-      "downloads": 144,
-      "likes": 12,
+      "rank": 40,
+      "id": "armand0e/DeepSeek-v4-Pro-Agent",
+      "author": "armand0e",
+      "url": "https://huggingface.co/datasets/armand0e/DeepSeek-v4-Pro-Agent",
+      "downloads": 111,
+      "likes": 10,
       "trendingScore": 10,
       "tags": [
-        "size_categories:10K<n<100K",
-        "format:parquet",
-        "modality:image",
+        "size_categories:1K<n<10K",
+        "format:json",
+        "format:agent-traces",
+        "modality:tabular",
         "modality:text",
         "library:datasets",
         "library:dask",
         "library:polars",
         "library:mlcroissant",
-        "arxiv:2603.02556",
-        "region:us"
+        "region:us",
+        "agent-traces",
+        "pi",
+        "distillation",
+        "deepseek/deepseek-v4-pro",
+        "teich"
       ],
-      "createdAt": "2026-04-29T14:22:32.000Z",
-      "lastModified": "2026-04-30T01:37:13.000Z"
+      "createdAt": "2026-05-09T06:15:11.000Z",
+      "lastModified": "2026-05-12T04:27:13.000Z"
     },
     {
-      "rank": 40,
+      "rank": 41,
       "id": "openai/healthbench-professional",
       "author": "openai",
       "url": "https://huggingface.co/datasets/openai/healthbench-professional",
@@ -1249,7 +1277,7 @@
       "lastModified": "2026-04-22T16:09:30.000Z"
     },
     {
-      "rank": 41,
+      "rank": 42,
       "id": "beyoru/Deepseek-v4-pro-max-distill-1500x",
       "author": "beyoru",
       "url": "https://huggingface.co/datasets/beyoru/Deepseek-v4-pro-max-distill-1500x",
@@ -1279,7 +1307,7 @@
       "lastModified": "2026-05-04T11:28:06.000Z"
     },
     {
-      "rank": 42,
+      "rank": 43,
       "id": "KIT-MRT/KITScenes-Multimodal",
       "author": "KIT-MRT",
       "url": "https://huggingface.co/datasets/KIT-MRT/KITScenes-Multimodal",
@@ -1306,7 +1334,7 @@
       "lastModified": "2026-05-11T14:27:51.000Z"
     },
     {
-      "rank": 43,
+      "rank": 44,
       "id": "nvidia/SWE-Hero-openhands-trajectories",
       "author": "nvidia",
       "url": "https://huggingface.co/datasets/nvidia/SWE-Hero-openhands-trajectories",
@@ -1334,7 +1362,7 @@
       "lastModified": "2026-05-08T17:10:16.000Z"
     },
     {
-      "rank": 44,
+      "rank": 45,
       "id": "ADSKAILab/Zero-To-CAD-100k",
       "author": "ADSKAILab",
       "url": "https://huggingface.co/datasets/ADSKAILab/Zero-To-CAD-100k",
@@ -1370,7 +1398,7 @@
       "lastModified": "2026-05-03T14:18:39.000Z"
     },
     {
-      "rank": 45,
+      "rank": 46,
       "id": "allenai/c4",
       "author": "allenai",
       "url": "https://huggingface.co/datasets/allenai/c4",
@@ -1413,7 +1441,7 @@
       "lastModified": "2024-01-09T19:14:03.000Z"
     },
     {
-      "rank": 46,
+      "rank": 47,
       "id": "wikimedia/wikipedia",
       "author": "wikimedia",
       "url": "https://huggingface.co/datasets/wikimedia/wikipedia",
@@ -1456,7 +1484,7 @@
       "lastModified": "2024-01-09T09:40:51.000Z"
     },
     {
-      "rank": 47,
+      "rank": 48,
       "id": "besimple-ai/voice-code-bench",
       "author": "besimple-ai",
       "url": "https://huggingface.co/datasets/besimple-ai/voice-code-bench",
@@ -1482,34 +1510,6 @@
       ],
       "createdAt": "2026-04-29T20:32:53.000Z",
       "lastModified": "2026-05-03T05:09:30.000Z"
-    },
-    {
-      "rank": 48,
-      "id": "armand0e/DeepSeek-v4-Pro-Agent",
-      "author": "armand0e",
-      "url": "https://huggingface.co/datasets/armand0e/DeepSeek-v4-Pro-Agent",
-      "downloads": 111,
-      "likes": 9,
-      "trendingScore": 9,
-      "tags": [
-        "size_categories:1K<n<10K",
-        "format:json",
-        "format:agent-traces",
-        "modality:tabular",
-        "modality:text",
-        "library:datasets",
-        "library:dask",
-        "library:polars",
-        "library:mlcroissant",
-        "region:us",
-        "agent-traces",
-        "pi",
-        "distillation",
-        "deepseek/deepseek-v4-pro",
-        "teich"
-      ],
-      "createdAt": "2026-05-09T06:15:11.000Z",
-      "lastModified": "2026-05-12T04:27:13.000Z"
     },
     {
       "rank": 49,

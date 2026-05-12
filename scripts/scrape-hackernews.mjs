@@ -40,6 +40,7 @@ import {
 } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { ingestHnMentionsToToolbox } from "./_toolbox-ingest.mjs";
 import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 
 function slugIdFromFullName(fullName) {
@@ -509,11 +510,22 @@ async function main() {
   const trendingRedis = await writeDataStore("hackernews-trending", trendingPayloadFinal);
   const mentionsRedis = await writeDataStore("hackernews-repo-mentions", mentionsPayloadFinal);
 
+  // Dual-write to TOOLBOX (`trending.hn.mentions` per repo). Best-effort:
+  // skipped silently when env unset; 5s timeout per HTTP call.
+  const toolboxResult = await ingestHnMentionsToToolbox(mentionsPayloadFinal);
+
   log("");
   log(`wrote ${TRENDING_OUT} [redis: ${trendingRedis.source}]`);
   log(`  stories in ${TRENDING_WINDOW_HOURS}h window: ${trendingMerged.length} (firebase=${rawItems.length}, algolia=${algoliaHits.length})`);
   log(`wrote ${MENTIONS_OUT} [redis: ${mentionsRedis.source}]`);
   log(`  repos with mentions: ${Object.keys(mentions).length} (${leaderboard.length} leaderboard rows)`);
+  log(
+    `  toolbox-ingest: ${toolboxResult.status}` +
+      (toolboxResult.accepted !== undefined ? ` accepted=${toolboxResult.accepted}` : "") +
+      (toolboxResult.rejected !== undefined && toolboxResult.rejected > 0 ? ` rejected=${toolboxResult.rejected}` : "") +
+      (toolboxResult.reason ? ` (${toolboxResult.reason})` : "") +
+      (toolboxResult.duration_ms !== undefined ? ` [${toolboxResult.duration_ms}ms]` : ""),
+  );
 
   if (rawItems.length === 0 && algoliaHits.length === 0) {
     throw new Error("both Firebase and Algolia returned zero items — check network or API status");

@@ -11,6 +11,7 @@ import { fileURLToPath } from "node:url";
 
 import { fetchFeed } from "./_rss-shared.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { ingestOpenaiRssToToolbox } from "./_toolbox-ingest.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 
@@ -67,6 +68,15 @@ async function main() {
     stampPerRecord: false,
   });
   log(`store write: ${writeResult.source} (${writeResult.writtenAt})`);
+
+  // Dual-write to TOOLBOX (`content.openai.announcements`).
+  const toolboxResult = await ingestOpenaiRssToToolbox(payload);
+  log(
+    `toolbox-ingest: ${toolboxResult.status}` +
+      (toolboxResult.accepted !== undefined ? ` accepted=${toolboxResult.accepted}` : "") +
+      (toolboxResult.reason ? ` (${toolboxResult.reason})` : "") +
+      (toolboxResult.duration_ms !== undefined ? ` [${toolboxResult.duration_ms}ms]` : ""),
+  );
 
   await closeDataStore();
 }

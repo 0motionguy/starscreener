@@ -3,6 +3,8 @@ import { test } from "node:test";
 import {
   hnMentionsToEvents,
   redditMentionsToEvents,
+  bskyMentionsToEvents,
+  devtoMentionsToEvents,
   postToolboxEvents,
 } from "../_toolbox-ingest.mjs";
 
@@ -101,6 +103,58 @@ test("hnMentionsToEvents — returns empty array on missing payload", () => {
   assert.deepEqual(hnMentionsToEvents(null), []);
   assert.deepEqual(hnMentionsToEvents({}), []);
   assert.deepEqual(hnMentionsToEvents({ mentions: null }), []);
+});
+
+test("bskyMentionsToEvents — emits one event per repo with bluesky-specific metrics", () => {
+  const payload = {
+    mentions: {
+      "vercel/next.js": {
+        count7d: 3,
+        likesSum7d: 50,
+        repostsSum7d: 12,
+        repliesSum7d: 8,
+        topPost: { bskyUrl: "https://bsky.app/profile/x/post/y", text: "Wow Next.js" },
+        posts: [{ bskyUrl: "https://bsky.app/profile/x/post/y" }],
+      },
+    },
+  };
+  const events = bskyMentionsToEvents(payload);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].signal_type, "trending.bluesky.mentions");
+  assert.equal(events[0].target_url, "https://github.com/vercel/next.js");
+  assert.equal(events[0].produced_by, "trendingrepo-bluesky");
+  const keys = events[0].normalized.map((n) => n.key);
+  assert.ok(keys.includes("count_7d"));
+  assert.ok(keys.includes("likes_sum_7d"));
+  assert.ok(keys.includes("reposts_sum_7d"));
+  assert.ok(keys.includes("replies_sum_7d"));
+  assert.ok(keys.includes("top_post"));
+  assert.ok(keys.includes("posts_top10"));
+});
+
+test("devtoMentionsToEvents — emits one event per repo with devto-specific metrics", () => {
+  const payload = {
+    mentions: {
+      "ollama/ollama": {
+        count7d: 4,
+        reactionsSum7d: 120,
+        commentsSum7d: 15,
+        topArticle: { id: 1, title: "Running Ollama locally", reactions: 80 },
+        articles: [{ id: 1, title: "Running Ollama locally" }],
+      },
+    },
+  };
+  const events = devtoMentionsToEvents(payload);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].signal_type, "trending.devto.mentions");
+  assert.equal(events[0].target_url, "https://github.com/ollama/ollama");
+  assert.equal(events[0].produced_by, "trendingrepo-devto");
+  const keys = events[0].normalized.map((n) => n.key);
+  assert.ok(keys.includes("count_7d"));
+  assert.ok(keys.includes("reactions_sum_7d"));
+  assert.ok(keys.includes("comments_sum_7d"));
+  assert.ok(keys.includes("top_article"));
+  assert.ok(keys.includes("articles_top10"));
 });
 
 test("redditMentionsToEvents — emits one event per repo", () => {

@@ -201,6 +201,101 @@ export function redditMentionsToEvents(payload) {
 }
 
 /**
+ * Transform trendingrepo Bluesky repo-mentions payload → TOOLBOX events.
+ *
+ * One event per repo, signal_type=`trending.bluesky.mentions`. Bluesky-
+ * specific metrics: likes, reposts, replies aggregated over 7d window.
+ *
+ * @param {object} payload  Output shape of scrape-bluesky.mjs (mentions map keyed by fullName)
+ * @returns {Array<ToolboxEvent>}
+ */
+export function bskyMentionsToEvents(payload) {
+  if (!payload || typeof payload !== "object") return [];
+  const mentions = payload.mentions;
+  if (!mentions || typeof mentions !== "object") return [];
+
+  const producedAt = new Date().toISOString();
+  const scanId = randomUUID();
+  const events = [];
+
+  for (const [fullName, m] of Object.entries(mentions)) {
+    if (typeof fullName !== "string" || !fullName.includes("/")) continue;
+    if (!m || typeof m !== "object") continue;
+
+    const targetUrl = `https://github.com/${fullName}`;
+    const posts = Array.isArray(m.posts) ? m.posts.slice(0, 10) : [];
+
+    events.push({
+      scan_id: scanId,
+      target_url: targetUrl,
+      signal_type: "trending.bluesky.mentions",
+      normalized: [
+        { key: "count_7d", value: m.count7d ?? 0, confidence: 1.0 },
+        { key: "likes_sum_7d", value: m.likesSum7d ?? 0, confidence: 1.0 },
+        { key: "reposts_sum_7d", value: m.repostsSum7d ?? 0, confidence: 1.0 },
+        { key: "replies_sum_7d", value: m.repliesSum7d ?? 0, confidence: 1.0 },
+        ...(m.topPost
+          ? [{ key: "top_post", value: m.topPost, confidence: 1.0 }]
+          : []),
+        { key: "posts_top10", value: posts, confidence: 1.0 },
+      ],
+      produced_by: `${PRODUCED_BY}-bluesky`,
+      produced_at: producedAt,
+    });
+  }
+
+  return events;
+}
+
+/**
+ * Transform trendingrepo dev.to repo-mentions payload → TOOLBOX events.
+ *
+ * One event per repo, signal_type=`trending.devto.mentions`. dev.to-specific
+ * metrics: reactions, comments aggregated over 7d window.
+ *
+ * @param {object} payload  Output shape of scrape-devto.mjs
+ * @returns {Array<ToolboxEvent>}
+ */
+export function devtoMentionsToEvents(payload) {
+  if (!payload || typeof payload !== "object") return [];
+  const mentions = payload.mentions;
+  if (!mentions || typeof mentions !== "object") return [];
+
+  const producedAt = new Date().toISOString();
+  const scanId = randomUUID();
+  const events = [];
+
+  for (const [fullName, m] of Object.entries(mentions)) {
+    if (typeof fullName !== "string" || !fullName.includes("/")) continue;
+    if (!m || typeof m !== "object") continue;
+
+    const targetUrl = `https://github.com/${fullName}`;
+    const articles = Array.isArray(m.articles)
+      ? m.articles.slice(0, 10)
+      : [];
+
+    events.push({
+      scan_id: scanId,
+      target_url: targetUrl,
+      signal_type: "trending.devto.mentions",
+      normalized: [
+        { key: "count_7d", value: m.count7d ?? 0, confidence: 1.0 },
+        { key: "reactions_sum_7d", value: m.reactionsSum7d ?? 0, confidence: 1.0 },
+        { key: "comments_sum_7d", value: m.commentsSum7d ?? 0, confidence: 1.0 },
+        ...(m.topArticle
+          ? [{ key: "top_article", value: m.topArticle, confidence: 1.0 }]
+          : []),
+        { key: "articles_top10", value: articles, confidence: 1.0 },
+      ],
+      produced_by: `${PRODUCED_BY}-devto`,
+      produced_at: producedAt,
+    });
+  }
+
+  return events;
+}
+
+/**
  * Convenience wrappers — transform + POST in one call. Use these from scrape
  * scripts after the primary data store write succeeds.
  */
@@ -211,6 +306,16 @@ export async function ingestHnMentionsToToolbox(payload) {
 
 export async function ingestRedditMentionsToToolbox(payload) {
   const events = redditMentionsToEvents(payload);
+  return postToolboxEvents(events);
+}
+
+export async function ingestBskyMentionsToToolbox(payload) {
+  const events = bskyMentionsToEvents(payload);
+  return postToolboxEvents(events);
+}
+
+export async function ingestDevtoMentionsToToolbox(payload) {
+  const events = devtoMentionsToEvents(payload);
   return postToolboxEvents(events);
 }
 

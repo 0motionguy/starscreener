@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-12T18:24:08.571Z",
+  "fetchedAt": "2026-05-12T20:17:27.191Z",
   "windowHours": 72,
-  "scannedTotal": 78,
+  "scannedTotal": 81,
   "stories": [
     {
       "shortId": "am7evd",
@@ -34,6 +34,23 @@
       "trendingScore": 3.9577962461440155,
       "tags": [
         "go"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "oznirn",
+      "title": "Redis and the Cost of Ambition",
+      "url": "https://charlesleifer.com/blog/redis-and-the-cost-of-ambition/",
+      "commentsUrl": "https://lobste.rs/s/oznirn/redis_cost_ambition",
+      "by": "",
+      "score": 33,
+      "commentCount": 0,
+      "createdUtc": 1778605297,
+      "ageHours": 3.263888888888889,
+      "trendingScore": 2.732460355260385,
+      "tags": [
+        "databases"
       ],
       "description": "",
       "linkedRepos": []
@@ -151,6 +168,24 @@
       ]
     },
     {
+      "shortId": "n5ytdh",
+      "title": "Bambu Lab is abusing the open source social contract",
+      "url": "https://www.jeffgeerling.com/blog/2026/bambu-lab-abusing-open-source-social-contract/",
+      "commentsUrl": "https://lobste.rs/s/n5ytdh/bambu_lab_is_abusing_open_source_social",
+      "by": "",
+      "score": 23,
+      "commentCount": 0,
+      "createdUtc": 1778600900,
+      "ageHours": 4.485277777777778,
+      "trendingScore": 1.3926274850300524,
+      "tags": [
+        "hardware",
+        "law"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
       "shortId": "xb2edj",
       "title": "Replacing a 3 GB SQLite database with a 10 MB FST (finite state transducer) binary",
       "url": "https://til.andrew-quinn.me/posts/replacing-a-3-gb-sqlite-database-with-a-7-mb-fst-finite-state-trandsucer-binary/",
@@ -203,24 +238,6 @@
       "linkedRepos": []
     },
     {
-      "shortId": "n5ytdh",
-      "title": "Bambu Lab is abusing the open source social contract",
-      "url": "https://www.jeffgeerling.com/blog/2026/bambu-lab-abusing-open-source-social-contract/",
-      "commentsUrl": "https://lobste.rs/s/n5ytdh/bambu_lab_is_abusing_open_source_social",
-      "by": "",
-      "score": 13,
-      "commentCount": 0,
-      "createdUtc": 1778600900,
-      "ageHours": 2.5966666666666667,
-      "trendingScore": 1.319103385979907,
-      "tags": [
-        "hardware",
-        "law"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
       "shortId": "5jdbwv",
       "title": "Gram 2.0.0 released",
       "url": "https://gram-editor.com/posts/release-2.0-0/",
@@ -251,23 +268,6 @@
       "trendingScore": 1.1700683971771915,
       "tags": [
         "linux"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "oznirn",
-      "title": "Redis and the Cost of Ambition",
-      "url": "https://charlesleifer.com/blog/redis-and-the-cost-of-ambition/",
-      "commentsUrl": "https://lobste.rs/s/oznirn/redis_cost_ambition",
-      "by": "",
-      "score": 7,
-      "commentCount": 0,
-      "createdUtc": 1778605297,
-      "ageHours": 1.3752777777777778,
-      "trendingScore": 1.128843560444836,
-      "tags": [
-        "databases"
       ],
       "description": "",
       "linkedRepos": []
@@ -446,6 +446,23 @@
       "tags": [
         "practices",
         "programming"
+      ],
+      "description": "",
+      "linkedRepos": []
+    },
+    {
+      "shortId": "tvhqam",
+      "title": "\"six CVEs for serious security vulnerabilities in dnsmasq\"",
+      "url": "https://lists.thekelleys.org.uk/pipermail/dnsmasq-discuss/2026q2/018471.html",
+      "commentsUrl": "https://lobste.rs/s/tvhqam/six_cves_for_serious_security",
+      "by": "",
+      "score": 5,
+      "commentCount": 1,
+      "createdUtc": 1778613035,
+      "ageHours": 1.1144444444444443,
+      "trendingScore": 0.9097019420546543,
+      "tags": [
+        "security"
       ],
       "description": "",
       "linkedRepos": []
@@ -876,24 +893,6 @@
       "trendingScore": 0.5727983262838438,
       "tags": [
         "nix"
-      ],
-      "description": "",
-      "linkedRepos": []
-    },
-    {
-      "shortId": "7muoji",
-      "title": "Hacking Time: Spoofing Atomic Clocks with Audio Harmonics",
-      "url": "https://josephhall.org/blog/texture-of-time-wwvb/",
-      "commentsUrl": "https://lobste.rs/s/7muoji/hacking_time_spoofing_atomic_clocks_with",
-      "by": "",
-      "score": 2,
-      "commentCount": 0,
-      "createdUtc": 1778346761,
-      "ageHours": 0.3088888888888889,
-      "trendingScore": 0.5700664010077062,
-      "tags": [
-        "hardware",
-        "networking"
       ],
       "description": "",
       "linkedRepos": []

@@ -46,6 +46,17 @@ test("getHnLeaderboard returns rows sorted by scoreSum7d desc", () => {
   }
 });
 
+test("getHnLeaderboard only returns rows with mention buckets", () => {
+  const rows = getHnLeaderboard();
+  assert.ok(rows.length > 0, "leaderboard should be non-empty");
+  for (const row of rows) {
+    assert.ok(
+      getHnMentions(row.fullName),
+      `expected ${row.fullName} to have a matching mention bucket`,
+    );
+  }
+});
+
 test("getHnTopStories(10) returns ≤10 stories sorted by trendingScore desc, all with id defined", () => {
   const stories = getHnTopStories(10);
   assert.ok(stories.length <= 10, "should return at most 10 stories");

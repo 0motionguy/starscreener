@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-11T19:55:55.498Z",
+  "fetchedAt": "2026-05-12T03:43:37.009Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1294,
+  "scannedArticles": 1298,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -188,7 +188,7 @@
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
     "tag-codex-top-7d": 11,
-    "tag-cursor-top-7d": 23,
+    "tag-cursor-top-7d": 27,
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 7,
     "tag-mcp-top-7d": 100,
@@ -197,10 +197,10 @@
     "tag-workflow-top-7d": 37,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
-    "tag-cli-top-7d": 84,
+    "tag-cli-top-7d": 81,
     "tag-tooling-top-7d": 100,
     "tag-devtools-top-7d": 100,
-    "tag-langchain-top-7d": 52,
+    "tag-langchain-top-7d": 49,
     "tag-n8n-top-7d": 27,
     "tag-opensource-top-7d": 100
   },
@@ -216,7 +216,7 @@
         "author": "ruarfff",
         "reactions": 25,
         "comments": 0,
-        "hoursSincePosted": 149.1,
+        "hoursSincePosted": 156.9,
         "readingTime": 11
       },
       "articles": [
@@ -237,7 +237,7 @@
           "tags": [
             "githubcopilot"
           ],
-          "trendingScore": 0.23,
+          "trendingScore": 0.22,
           "linkedRepos": [
             {
               "fullName": "gastownhall/gastown",
@@ -258,7 +258,7 @@
         "author": "lovestaco",
         "reactions": 45,
         "comments": 0,
-        "hoursSincePosted": 33.6,
+        "hoursSincePosted": 41.4,
         "readingTime": 9
       },
       "articles": [
@@ -282,7 +282,7 @@
             "programming",
             "python"
           ],
-          "trendingScore": 2.21,
+          "trendingScore": 1.8,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -310,7 +310,7 @@
             "beginners",
             "go"
           ],
-          "trendingScore": 1.4,
+          "trendingScore": 1.26,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -337,7 +337,7 @@
             "softwareengineering",
             "agenticengineering"
           ],
-          "trendingScore": 0.17,
+          "trendingScore": 0.16,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -365,7 +365,7 @@
             "productivity",
             "beginners"
           ],
-          "trendingScore": 0.11,
+          "trendingScore": 0.1,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
@@ -393,10 +393,111 @@
             "design",
             "discuss"
           ],
-          "trendingScore": 0.07,
+          "trendingScore": 0.06,
           "linkedRepos": [
             {
               "fullName": "HexmosTech/git-lrc",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "ajeetdsouza/zoxide": {
+      "count7d": 3,
+      "reactionsSum7d": 9,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3652261,
+        "title": "My fully offline AI-assisted Linux development machine",
+        "url": "https://dev.to/deepu105/my-fully-offline-ai-assisted-linux-development-machine-3lnl",
+        "author": "deepu105",
+        "reactions": 9,
+        "comments": 0,
+        "hoursSincePosted": 6.9,
+        "readingTime": 13
+      },
+      "articles": [
+        {
+          "id": 3652261,
+          "title": "My fully offline AI-assisted Linux development machine",
+          "description": "My Arch Linux, Niri, and local AI coding setup on the ASUS ROG Flow Z13",
+          "url": "https://dev.to/deepu105/my-fully-offline-ai-assisted-linux-development-machine-3lnl",
+          "author": {
+            "username": "deepu105",
+            "name": "Deepu K Sasidharan",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F178939%2F38a82d99-3a0c-4a47-84fc-76fff3144cda.png"
+          },
+          "reactionsCount": 9,
+          "commentsCount": 0,
+          "readingTime": 13,
+          "publishedAt": "2026-05-11T20:47:59Z",
+          "tags": [
+            "linux",
+            "archlinux",
+            "development",
+            "ai"
+          ],
+          "trendingScore": 1.24,
+          "linkedRepos": [
+            {
+              "fullName": "ajeetdsouza/zoxide",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3628178,
+          "title": "5 CLI Tools I Use to Keep Terminal Workflows Less Annoying",
+          "description": "A practical list of CLI tools for productivity across zsh, bash, macOS, and Linux: gloss, fzf, ripgrep, bat, and eza.",
+          "url": "https://dev.to/architeg/5-cli-tools-i-use-to-keep-terminal-workflows-less-annoying-3c3n",
+          "author": {
+            "username": "architeg",
+            "name": "Valeriy Bagrintsev",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1798669%2F114496b5-6b0f-45d8-bc78-e3c790ba67ac.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 10,
+          "publishedAt": "2026-05-07T16:40:31Z",
+          "tags": [
+            "cli",
+            "productivity",
+            "bash",
+            "zsh"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "ajeetdsouza/zoxide",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3636571,
+          "title": "SuperCLI 1.1.27: 1,184 Curated CLI Tools, One Command",
+          "description": "SuperCLI 1.1.27: 1,184 Curated CLI Tools, One Command   TL;DR: SuperCLI now bundles 1,184...",
+          "url": "https://dev.to/javimosch/supercli-1127-1184-curated-cli-tools-one-command-4ofe",
+          "author": {
+            "username": "javimosch",
+            "name": "Javier Leandro Arancibia",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1655837%2F30baec18-fb3d-4a4b-97af-0441d12b5f28.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-05-08T22:49:02Z",
+          "tags": [
+            "cli",
+            "devtools",
+            "automation",
+            "node"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "ajeetdsouza/zoxide",
               "location": "body"
             }
           ]
@@ -414,7 +515,7 @@
         "author": "xbill",
         "reactions": 21,
         "comments": 2,
-        "hoursSincePosted": 125.4,
+        "hoursSincePosted": 133.2,
         "readingTime": 9
       },
       "articles": [
@@ -438,7 +539,7 @@
             "googleadk",
             "gemini"
           ],
-          "trendingScore": 0.27,
+          "trendingScore": 0.25,
           "linkedRepos": [
             {
               "fullName": "BerriAI/litellm",
@@ -481,8 +582,8 @@
       ]
     },
     "openai/codex": {
-      "count7d": 7,
-      "reactionsSum7d": 3,
+      "count7d": 6,
+      "reactionsSum7d": 2,
       "commentsSum7d": 2,
       "topArticle": {
         "id": 3627864,
@@ -491,7 +592,7 @@
         "author": "mamoor_ahmad",
         "reactions": 2,
         "comments": 1,
-        "hoursSincePosted": 100.5,
+        "hoursSincePosted": 108.3,
         "readingTime": 7
       },
       "articles": [
@@ -516,34 +617,6 @@
             "webdev"
           ],
           "trendingScore": 0.01,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3611913,
-          "title": "Codex /goal and OpenGUI: long-running tasks need state",
-          "description": "Long-running agents tend to fail in the second half.  The first step is often fine. Fix a CI failure,...",
-          "url": "https://dev.to/fenix_23505d14df386c00ced/codex-goal-and-opengui-long-running-tasks-need-state-1c61",
-          "author": {
-            "username": "fenix_23505d14df386c00ced",
-            "name": "Fenix",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823217%2F42aca0c2-69b9-4be7-b0f2-519a6b241dc4.jpg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-05T01:55:19Z",
-          "tags": [
-            "agents",
-            "ai",
-            "cli",
-            "llm"
-          ],
-          "trendingScore": 0,
           "linkedRepos": [
             {
               "fullName": "openai/codex",
@@ -724,7 +797,7 @@
         "author": "dantederuwe",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 91.9,
+        "hoursSincePosted": 99.7,
         "readingTime": 11
       },
       "articles": [
@@ -805,7 +878,7 @@
         "author": "dantederuwe",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 91.9,
+        "hoursSincePosted": 99.7,
         "readingTime": 11
       },
       "articles": [
@@ -854,7 +927,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 89.3,
+        "hoursSincePosted": 97.1,
         "readingTime": 7
       },
       "articles": [
@@ -899,7 +972,7 @@
         "author": "rednakta",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 131.4,
+        "hoursSincePosted": 139.2,
         "readingTime": 10
       },
       "articles": [
@@ -983,7 +1056,7 @@
         "author": "rednakta",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 131.4,
+        "hoursSincePosted": 139.2,
         "readingTime": 10
       },
       "articles": [
@@ -1039,7 +1112,7 @@
         "author": "rednakta",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 131.4,
+        "hoursSincePosted": 139.2,
         "readingTime": 10
       },
       "articles": [
@@ -1095,7 +1168,7 @@
         "author": "rednakta",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 131.4,
+        "hoursSincePosted": 139.2,
         "readingTime": 10
       },
       "articles": [
@@ -1145,44 +1218,16 @@
       "reactionsSum7d": 0,
       "commentsSum7d": 3,
       "topArticle": {
-        "id": 3637647,
-        "title": "Hooks and the wrapper-authority problem: why your AI coding agent ignores them",
-        "url": "https://dev.to/cdelgado70/hooks-and-the-wrapper-authority-problem-why-your-ai-coding-agent-ignores-them-go6",
-        "author": "cdelgado70",
+        "id": 3638970,
+        "title": "36 Days of Claude Code Logs: Silent Model Switching, 11.5x Efficiency Gap",
+        "url": "https://dev.to/recca0120/36-days-of-claude-code-logs-silent-model-switching-115x-efficiency-gap-1bgm",
+        "author": "recca0120",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 64.7,
-        "readingTime": 18
+        "hoursSincePosted": 67,
+        "readingTime": 8
       },
       "articles": [
-        {
-          "id": 3637647,
-          "title": "Hooks and the wrapper-authority problem: why your AI coding agent ignores them",
-          "description": "Post 2 of 2. A walkthrough of the wrapper that breaks UserPromptSubmit hook output, the issues that...",
-          "url": "https://dev.to/cdelgado70/hooks-and-the-wrapper-authority-problem-why-your-ai-coding-agent-ignores-them-go6",
-          "author": {
-            "username": "cdelgado70",
-            "name": "C. Delgado",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 18,
-          "publishedAt": "2026-05-09T03:16:03Z",
-          "tags": [
-            "ai",
-            "claude",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
         {
           "id": 3638970,
           "title": "36 Days of Claude Code Logs: Silent Model Switching, 11.5x Efficiency Gap",
@@ -1268,6 +1313,38 @@
           ]
         },
         {
+          "id": 3617729,
+          "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
+          "description": "Post 1 of 2. This post walks through the discovery ceiling in Anthropic's Agent Skills standard, the...",
+          "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
+          "author": {
+            "username": "cdelgado70",
+            "name": "C. Delgado",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 21,
+          "publishedAt": "2026-05-06T00:55:44Z",
+          "tags": [
+            "ai",
+            "claude",
+            "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "vercel-labs/skills",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3618919,
           "title": "Claude Code Context Window Rot: Why Sessions Get Dumber (And How to Fix It)",
           "description": "You know the pattern. You open a fresh Claude Code session, paste in the task, and the first few...",
@@ -1296,19 +1373,19 @@
           ]
         },
         {
-          "id": 3617729,
-          "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
-          "description": "Post 1 of 2. This post walks through the discovery ceiling in Anthropic's Agent Skills standard, the...",
-          "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
+          "id": 3637647,
+          "title": "Hooks and the wrapper-authority problem: why your AI coding agent ignores them",
+          "description": "Post 2 of 2. A walkthrough of the wrapper that breaks UserPromptSubmit hook output, the issues that...",
+          "url": "https://dev.to/cdelgado70/hooks-and-the-wrapper-authority-problem-why-your-ai-coding-agent-ignores-them-go6",
           "author": {
             "username": "cdelgado70",
             "name": "C. Delgado",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
           },
           "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 21,
-          "publishedAt": "2026-05-06T00:55:44Z",
+          "commentsCount": 0,
+          "readingTime": 18,
+          "publishedAt": "2026-05-09T03:16:03Z",
           "tags": [
             "ai",
             "claude",
@@ -1319,10 +1396,6 @@
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "vercel-labs/skills",
               "location": "body"
             }
           ]
@@ -1368,7 +1441,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 113.1,
+        "hoursSincePosted": 120.9,
         "readingTime": 7
       },
       "articles": [
@@ -1497,7 +1570,7 @@
         "author": "akari_iku",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 27.7,
+        "hoursSincePosted": 35.5,
         "readingTime": 31
       },
       "articles": [
@@ -1531,6 +1604,51 @@
         }
       ]
     },
+    "itsuzef/goalkeeper": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3646500,
+        "title": "Claude & The judge gate: why a passing validator isn't a finished feature",
+        "url": "https://dev.to/itsuzef/the-judge-gate-why-a-passing-validator-isnt-a-finished-feature-f2f",
+        "author": "itsuzef",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 25.1,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3646500,
+          "title": "Claude & The judge gate: why a passing validator isn't a finished feature",
+          "description": "A pattern for autonomous coding agents that catches what validators miss — and the open-source plugin that built itself via the pattern.",
+          "url": "https://dev.to/itsuzef/the-judge-gate-why-a-passing-validator-isnt-a-finished-feature-f2f",
+          "author": {
+            "username": "itsuzef",
+            "name": "Youssef",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3923986%2F439512de-d688-4e31-9ff7-bdca7ebda478.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 9,
+          "publishedAt": "2026-05-11T02:38:23Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "agents",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "itsuzef/goalkeeper",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "thedotmack/claude-mem": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1542,7 +1660,7 @@
         "author": "pponali",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 91.1,
+        "hoursSincePosted": 98.9,
         "readingTime": 5
       },
       "articles": [
@@ -1587,7 +1705,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 152.7,
+        "hoursSincePosted": 160.5,
         "readingTime": 10
       },
       "articles": [
@@ -1632,7 +1750,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 158.5,
+        "hoursSincePosted": 166.3,
         "readingTime": 6
       },
       "articles": [
@@ -1733,7 +1851,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 112.3,
+        "hoursSincePosted": 120.1,
         "readingTime": 12
       },
       "articles": [
@@ -1830,7 +1948,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 112.3,
+        "hoursSincePosted": 120.1,
         "readingTime": 12
       },
       "articles": [
@@ -1868,51 +1986,6 @@
         }
       ]
     },
-    "EveryInc/compound-engineering-plugin": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3635894,
-        "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
-        "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
-        "author": "ikramar",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 71.4,
-        "readingTime": 18
-      },
-      "articles": [
-        {
-          "id": 3635894,
-          "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
-          "description": "TL;DR. I built a Claude Code plugin (MIT, github.com/IgorKramar/archforge-marketplace) that turns...",
-          "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
-          "author": {
-            "username": "ikramar",
-            "name": "Igor Kramar",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2211561%2F11d1ba7b-e52e-4488-bc50-cbb19848e004.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 18,
-          "publishedAt": "2026-05-08T20:29:24Z",
-          "tags": [
-            "claude",
-            "ai",
-            "architecture",
-            "softwareengineering"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "EveryInc/compound-engineering-plugin",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "vercel-labs/skills": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1924,7 +1997,7 @@
         "author": "cdelgado70",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 139,
+        "hoursSincePosted": 146.8,
         "readingTime": 21
       },
       "articles": [
@@ -1962,6 +2035,51 @@
         }
       ]
     },
+    "EveryInc/compound-engineering-plugin": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3635894,
+        "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
+        "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
+        "author": "ikramar",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 79.2,
+        "readingTime": 18
+      },
+      "articles": [
+        {
+          "id": 3635894,
+          "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
+          "description": "TL;DR. I built a Claude Code plugin (MIT, github.com/IgorKramar/archforge-marketplace) that turns...",
+          "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
+          "author": {
+            "username": "ikramar",
+            "name": "Igor Kramar",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2211561%2F11d1ba7b-e52e-4488-bc50-cbb19848e004.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 18,
+          "publishedAt": "2026-05-08T20:29:24Z",
+          "tags": [
+            "claude",
+            "ai",
+            "architecture",
+            "softwareengineering"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "EveryInc/compound-engineering-plugin",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "github/spec-kit": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -1973,7 +2091,7 @@
         "author": "benjy33000",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 97.1,
+        "hoursSincePosted": 104.9,
         "readingTime": 12
       },
       "articles": [
@@ -2007,51 +2125,6 @@
         }
       ]
     },
-    "maximhq/bifrost": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3619350,
-        "title": "Using an MCP Gateway with Claude Code: A Practical Guide",
-        "url": "https://dev.to/nakul_tk/using-an-mcp-gateway-with-claude-code-a-practical-guide-31dc",
-        "author": "nakul_tk",
-        "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 132.1,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3619350,
-          "title": "Using an MCP Gateway with Claude Code: A Practical Guide",
-          "description": "Learn how to integrate an MCP gateway with Claude Code to consolidate tool access, enforce governance...",
-          "url": "https://dev.to/nakul_tk/using-an-mcp-gateway-with-claude-code-a-practical-guide-31dc",
-          "author": {
-            "username": "nakul_tk",
-            "name": "Nakul T Krishnan",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3778279%2F1c2dabcf-9bf5-4a37-a76b-9d7475175411.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 6,
-          "publishedAt": "2026-05-06T07:52:25Z",
-          "tags": [
-            "ai",
-            "mcp",
-            "claude",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "farion1231/cc-switch": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -2063,7 +2136,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 40.3,
+        "hoursSincePosted": 48.1,
         "readingTime": 10
       },
       "articles": [
@@ -2164,7 +2237,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 40.3,
+        "hoursSincePosted": 48.1,
         "readingTime": 10
       },
       "articles": [
@@ -2229,7 +2302,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 40.3,
+        "hoursSincePosted": 48.1,
         "readingTime": 10
       },
       "articles": [
@@ -2283,6 +2356,51 @@
         }
       ]
     },
+    "cursor/cookbook": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3652721,
+        "title": "Cursor SDK: Build AI Coding Agents in TypeScript",
+        "url": "https://dev.to/jangwook_kim_e31e7291ad98/cursor-sdk-build-ai-coding-agents-in-typescript-3gf6",
+        "author": "jangwook_kim_e31e7291ad98",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 3.5,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3652721,
+          "title": "Cursor SDK: Build AI Coding Agents in TypeScript",
+          "description": "A developer guide to the Cursor SDK (@cursor/sdk) for building, deploying, and orchestrating AI coding agents locally or on cloud VMs via TypeScript.",
+          "url": "https://dev.to/jangwook_kim_e31e7291ad98/cursor-sdk-build-ai-coding-agents-in-typescript-3gf6",
+          "author": {
+            "username": "jangwook_kim_e31e7291ad98",
+            "name": "Jangwook Kim",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1909290%2F60a8c15f-b2b5-4189-8578-78b8ab78900b.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-12T00:13:01Z",
+          "tags": [
+            "cursor",
+            "typescript",
+            "aiagents",
+            "sdk"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "cursor/cookbook",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "diegosouzapw/OmniRoute": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -2294,7 +2412,7 @@
         "author": "eleata",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 77,
+        "hoursSincePosted": 84.8,
         "readingTime": 5
       },
       "articles": [
@@ -2332,51 +2450,6 @@
         }
       ]
     },
-    "openclaw/openclaw": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3630582,
-        "title": "Slaying the Gemma Beast: How We Fixed Local AI and Shipped Search",
-        "url": "https://dev.to/carryologist/slaying-the-gemma-beast-how-we-fixed-local-ai-and-shipped-search-5638",
-        "author": "carryologist",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 87,
-        "readingTime": 13
-      },
-      "articles": [
-        {
-          "id": 3630582,
-          "title": "Slaying the Gemma Beast: How We Fixed Local AI and Shipped Search",
-          "description": "Two days ago, Gemma 4 couldn't finish a feature. Today it built one, pushed it to GitHub, and it's...",
-          "url": "https://dev.to/carryologist/slaying-the-gemma-beast-how-we-fixed-local-ai-and-shipped-search-5638",
-          "author": {
-            "username": "carryologist",
-            "name": "Rob",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3884903%2Ff7cf0bfd-0b92-4dca-9095-683af23a19e3.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 13,
-          "publishedAt": "2026-05-08T04:53:16Z",
-          "tags": [
-            "ai",
-            "llm",
-            "benchmark",
-            "homelab"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openclaw/openclaw",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "safishamsi/graphify": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -2388,7 +2461,7 @@
         "author": "parupati",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 118.3,
+        "hoursSincePosted": 126,
         "readingTime": 6
       },
       "articles": [
@@ -2433,7 +2506,7 @@
         "author": "timothy_spann_a41a639e47c",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 5.5,
+        "hoursSincePosted": 13.3,
         "readingTime": 10
       },
       "articles": [
@@ -2457,7 +2530,7 @@
             "agenticai",
             "mcp"
           ],
-          "trendingScore": 0.85,
+          "trendingScore": 0.35,
           "linkedRepos": [
             {
               "fullName": "RivoLink/leaf",
@@ -2486,7 +2559,7 @@
         "author": "timothy_spann_a41a639e47c",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 5.5,
+        "hoursSincePosted": 13.3,
         "readingTime": 10
       },
       "articles": [
@@ -2510,7 +2583,7 @@
             "agenticai",
             "mcp"
           ],
-          "trendingScore": 0.85,
+          "trendingScore": 0.35,
           "linkedRepos": [
             {
               "fullName": "RivoLink/leaf",
@@ -2539,7 +2612,7 @@
         "author": "timothy_spann_a41a639e47c",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 5.5,
+        "hoursSincePosted": 13.3,
         "readingTime": 10
       },
       "articles": [
@@ -2563,7 +2636,7 @@
             "agenticai",
             "mcp"
           ],
-          "trendingScore": 0.85,
+          "trendingScore": 0.35,
           "linkedRepos": [
             {
               "fullName": "RivoLink/leaf",
@@ -2592,7 +2665,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 32.7,
+        "hoursSincePosted": 40.5,
         "readingTime": 10
       },
       "articles": [
@@ -2673,7 +2746,7 @@
         "author": "cloakhq",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 105.2,
+        "hoursSincePosted": 113,
         "readingTime": 3
       },
       "articles": [
@@ -2707,21 +2780,343 @@
         }
       ]
     },
-    "ajeetdsouza/zoxide": {
-      "count7d": 2,
+    "ComposioHQ/awesome-claude-skills": {
+      "count7d": 1,
       "reactionsSum7d": 0,
       "commentsSum7d": 0,
       "topArticle": {
-        "id": 3628178,
-        "title": "5 CLI Tools I Use to Keep Terminal Workflows Less Annoying",
-        "url": "https://dev.to/architeg/5-cli-tools-i-use-to-keep-terminal-workflows-less-annoying-3c3n",
-        "author": "architeg",
+        "id": 3631768,
+        "title": "Stop Repeating Yourself: Use Rules and Skills to Level Up Your AI Agent",
+        "url": "https://dev.to/jrud25/stop-repeating-yourself-use-rules-and-skills-to-level-up-your-ai-agent-3699",
+        "author": "jrud25",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 99.3,
-        "readingTime": 10
+        "hoursSincePosted": 91.9,
+        "readingTime": 5
       },
       "articles": [
+        {
+          "id": 3631768,
+          "title": "Stop Repeating Yourself: Use Rules and Skills to Level Up Your AI Agent",
+          "description": "Do you find yourself typing the same instructions into every new project chat? Or noticing that your...",
+          "url": "https://dev.to/jrud25/stop-repeating-yourself-use-rules-and-skills-to-level-up-your-ai-agent-3699",
+          "author": {
+            "username": "jrud25",
+            "name": "Jordan Rudman",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1129607%2Fde8d6e49-d7ff-4821-b312-82bfca268798.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-05-08T07:49:25Z",
+          "tags": [
+            "ai",
+            "productivity",
+            "tooling",
+            "agents"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/skills",
+              "location": "body"
+            },
+            {
+              "fullName": "ComposioHQ/awesome-claude-skills",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "Tracer-Cloud/opensre": {
+      "count7d": 1,
+      "reactionsSum7d": 12,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3521974,
+        "title": "Dev Log #5 Building a Claude-style SRE terminal and tackling WebRTC",
+        "url": "https://dev.to/yashksaini/dev-log-5-building-a-claude-style-sre-terminal-and-tackling-webrtc-3knp",
+        "author": "yashksaini",
+        "reactions": 12,
+        "comments": 0,
+        "hoursSincePosted": 116.9,
+        "readingTime": 5
+      },
+      "articles": [
+        {
+          "id": 3521974,
+          "title": "Dev Log #5 Building a Claude-style SRE terminal and tackling WebRTC",
+          "description": "11 commits, 5 PRs, 1 issue, and 3 reviews across 4 repos. This week was all about...",
+          "url": "https://dev.to/yashksaini/dev-log-5-building-a-claude-style-sre-terminal-and-tackling-webrtc-3knp",
+          "author": {
+            "username": "yashksaini",
+            "name": "Yash Kumar Saini",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1242333%2F27bdd497-8c93-4290-a901-94eec3759056.jpeg"
+          },
+          "reactionsCount": 12,
+          "commentsCount": 0,
+          "readingTime": 5,
+          "publishedAt": "2026-05-07T06:47:34Z",
+          "tags": [
+            "python",
+            "typescript",
+            "opensource",
+            "backend"
+          ],
+          "trendingScore": 0.11,
+          "linkedRepos": [
+            {
+              "fullName": "Tracer-Cloud/opensre",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "mentionsByRepoId": {
+    "gastownhall--gastown": {
+      "count7d": 1,
+      "reactionsSum7d": 25,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3615692,
+        "title": "Copilot Squad",
+        "url": "https://dev.to/ruarfff/copilot-squad-4nda",
+        "author": "ruarfff",
+        "reactions": 25,
+        "comments": 0,
+        "hoursSincePosted": 156.9,
+        "readingTime": 11
+      },
+      "articles": [
+        {
+          "id": 3615692,
+          "title": "Copilot Squad",
+          "description": "There are two sections to this. In the first section, I discuss what squad is, why it might be useful...",
+          "url": "https://dev.to/ruarfff/copilot-squad-4nda",
+          "author": {
+            "username": "ruarfff",
+            "name": "Ruairí O'Brien",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F17966%2Fe2df42ea-cd08-4877-9866-ff2b1c6bb453.png"
+          },
+          "reactionsCount": 25,
+          "commentsCount": 0,
+          "readingTime": 11,
+          "publishedAt": "2026-05-05T14:49:33Z",
+          "tags": [
+            "githubcopilot"
+          ],
+          "trendingScore": 0.22,
+          "linkedRepos": [
+            {
+              "fullName": "gastownhall/gastown",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "hexmostech--git-lrc": {
+      "count7d": 5,
+      "reactionsSum7d": 125,
+      "commentsSum7d": 6,
+      "topArticle": {
+        "id": 3644097,
+        "title": "How Python's GIL actually works (and when it bites you)",
+        "url": "https://dev.to/lovestaco/how-pythons-gil-actually-works-and-when-it-bites-you-3f2",
+        "author": "lovestaco",
+        "reactions": 45,
+        "comments": 0,
+        "hoursSincePosted": 41.4,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3644097,
+          "title": "How Python's GIL actually works (and when it bites you)",
+          "description": "Hello, I'm Maneshwar. I'm building git-lrc, a Micro AI code reviewer that runs on every commit. It is...",
+          "url": "https://dev.to/lovestaco/how-pythons-gil-actually-works-and-when-it-bites-you-3f2",
+          "author": {
+            "username": "lovestaco",
+            "name": "Athreya aka Maneshwar",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
+          },
+          "reactionsCount": 45,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-10T10:17:16Z",
+          "tags": [
+            "webdev",
+            "productivity",
+            "programming",
+            "python"
+          ],
+          "trendingScore": 1.8,
+          "linkedRepos": [
+            {
+              "fullName": "HexmosTech/git-lrc",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3635559,
+          "title": "Error Handling in Go: Stop Panicking, Start Wrapping",
+          "description": "Hello, I'm Maneshwar. I'm building git-lrc, a Micro AI code reviewer that runs on every commit. It is...",
+          "url": "https://dev.to/lovestaco/error-handling-in-go-stop-panicking-start-wrapping-351d",
+          "author": {
+            "username": "lovestaco",
+            "name": "Athreya aka Maneshwar",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
+          },
+          "reactionsCount": 44,
+          "commentsCount": 4,
+          "readingTime": 5,
+          "publishedAt": "2026-05-08T19:30:03Z",
+          "tags": [
+            "webdev",
+            "programming",
+            "beginners",
+            "go"
+          ],
+          "trendingScore": 1.26,
+          "linkedRepos": [
+            {
+              "fullName": "HexmosTech/git-lrc",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3621262,
+          "title": "Why Agentic Engineering Must Replace Vibe Coding",
+          "description": "If you prefer watching a video version of this article, check out:          Here, we are going to...",
+          "url": "https://dev.to/shrsv/why-agentic-engineering-must-replace-vibe-coding-339f",
+          "author": {
+            "username": "shrsv",
+            "name": "Shrijith Venkatramana",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1001514%2F17b7d334-44b1-417a-9268-346e6a34988a.jpg"
+          },
+          "reactionsCount": 16,
+          "commentsCount": 1,
+          "readingTime": 5,
+          "publishedAt": "2026-05-06T12:56:02Z",
+          "tags": [
+            "ai",
+            "softwareengineering",
+            "agenticengineering"
+          ],
+          "trendingScore": 0.16,
+          "linkedRepos": [
+            {
+              "fullName": "HexmosTech/git-lrc",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3628600,
+          "title": "MCP is APIs for Agents",
+          "description": "REST APIs gave humans (and the code they wrote) a standardized way to access software over the...",
+          "url": "https://dev.to/shrsv/mcp-is-apis-for-agents-lep",
+          "author": {
+            "username": "shrsv",
+            "name": "Shrijith Venkatramana",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1001514%2F17b7d334-44b1-417a-9268-346e6a34988a.jpg"
+          },
+          "reactionsCount": 10,
+          "commentsCount": 1,
+          "readingTime": 6,
+          "publishedAt": "2026-05-07T18:30:01Z",
+          "tags": [
+            "ai",
+            "programming",
+            "productivity",
+            "beginners"
+          ],
+          "trendingScore": 0.1,
+          "linkedRepos": [
+            {
+              "fullName": "HexmosTech/git-lrc",
+              "location": "body"
+            }
+          ]
+        },
+        {
+          "id": 3614549,
+          "title": "Responsible Design: Shaping Large-Scale Consequences by Organizing Agents",
+          "description": "You can watch the video version of the post as well if you prefer that:          Recently on...",
+          "url": "https://dev.to/shrsv/responsible-design-shaping-large-scale-consequences-by-organizing-agents-339m",
+          "author": {
+            "username": "shrsv",
+            "name": "Shrijith Venkatramana",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1001514%2F17b7d334-44b1-417a-9268-346e6a34988a.jpg"
+          },
+          "reactionsCount": 10,
+          "commentsCount": 0,
+          "readingTime": 6,
+          "publishedAt": "2026-05-05T10:39:41Z",
+          "tags": [
+            "agents",
+            "ai",
+            "design",
+            "discuss"
+          ],
+          "trendingScore": 0.06,
+          "linkedRepos": [
+            {
+              "fullName": "HexmosTech/git-lrc",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
+    "ajeetdsouza--zoxide": {
+      "count7d": 3,
+      "reactionsSum7d": 9,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3652261,
+        "title": "My fully offline AI-assisted Linux development machine",
+        "url": "https://dev.to/deepu105/my-fully-offline-ai-assisted-linux-development-machine-3lnl",
+        "author": "deepu105",
+        "reactions": 9,
+        "comments": 0,
+        "hoursSincePosted": 6.9,
+        "readingTime": 13
+      },
+      "articles": [
+        {
+          "id": 3652261,
+          "title": "My fully offline AI-assisted Linux development machine",
+          "description": "My Arch Linux, Niri, and local AI coding setup on the ASUS ROG Flow Z13",
+          "url": "https://dev.to/deepu105/my-fully-offline-ai-assisted-linux-development-machine-3lnl",
+          "author": {
+            "username": "deepu105",
+            "name": "Deepu K Sasidharan",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F178939%2F38a82d99-3a0c-4a47-84fc-76fff3144cda.png"
+          },
+          "reactionsCount": 9,
+          "commentsCount": 0,
+          "readingTime": 13,
+          "publishedAt": "2026-05-11T20:47:59Z",
+          "tags": [
+            "linux",
+            "archlinux",
+            "development",
+            "ai"
+          ],
+          "trendingScore": 1.24,
+          "linkedRepos": [
+            {
+              "fullName": "ajeetdsouza/zoxide",
+              "location": "body"
+            }
+          ]
+        },
         {
           "id": 3628178,
           "title": "5 CLI Tools I Use to Keep Terminal Workflows Less Annoying",
@@ -2780,300 +3175,6 @@
         }
       ]
     },
-    "ComposioHQ/awesome-claude-skills": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3631768,
-        "title": "Stop Repeating Yourself: Use Rules and Skills to Level Up Your AI Agent",
-        "url": "https://dev.to/jrud25/stop-repeating-yourself-use-rules-and-skills-to-level-up-your-ai-agent-3699",
-        "author": "jrud25",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 84.1,
-        "readingTime": 5
-      },
-      "articles": [
-        {
-          "id": 3631768,
-          "title": "Stop Repeating Yourself: Use Rules and Skills to Level Up Your AI Agent",
-          "description": "Do you find yourself typing the same instructions into every new project chat? Or noticing that your...",
-          "url": "https://dev.to/jrud25/stop-repeating-yourself-use-rules-and-skills-to-level-up-your-ai-agent-3699",
-          "author": {
-            "username": "jrud25",
-            "name": "Jordan Rudman",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1129607%2Fde8d6e49-d7ff-4821-b312-82bfca268798.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-08T07:49:25Z",
-          "tags": [
-            "ai",
-            "productivity",
-            "tooling",
-            "agents"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/skills",
-              "location": "body"
-            },
-            {
-              "fullName": "ComposioHQ/awesome-claude-skills",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "Tracer-Cloud/opensre": {
-      "count7d": 1,
-      "reactionsSum7d": 12,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3521974,
-        "title": "Dev Log #5 Building a Claude-style SRE terminal and tackling WebRTC",
-        "url": "https://dev.to/yashksaini/dev-log-5-building-a-claude-style-sre-terminal-and-tackling-webrtc-3knp",
-        "author": "yashksaini",
-        "reactions": 12,
-        "comments": 0,
-        "hoursSincePosted": 109.1,
-        "readingTime": 5
-      },
-      "articles": [
-        {
-          "id": 3521974,
-          "title": "Dev Log #5 Building a Claude-style SRE terminal and tackling WebRTC",
-          "description": "11 commits, 5 PRs, 1 issue, and 3 reviews across 4 repos. This week was all about...",
-          "url": "https://dev.to/yashksaini/dev-log-5-building-a-claude-style-sre-terminal-and-tackling-webrtc-3knp",
-          "author": {
-            "username": "yashksaini",
-            "name": "Yash Kumar Saini",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1242333%2F27bdd497-8c93-4290-a901-94eec3759056.jpeg"
-          },
-          "reactionsCount": 12,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-07T06:47:34Z",
-          "tags": [
-            "python",
-            "typescript",
-            "opensource",
-            "backend"
-          ],
-          "trendingScore": 0.12,
-          "linkedRepos": [
-            {
-              "fullName": "Tracer-Cloud/opensre",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    }
-  },
-  "mentionsByRepoId": {
-    "gastownhall--gastown": {
-      "count7d": 1,
-      "reactionsSum7d": 25,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3615692,
-        "title": "Copilot Squad",
-        "url": "https://dev.to/ruarfff/copilot-squad-4nda",
-        "author": "ruarfff",
-        "reactions": 25,
-        "comments": 0,
-        "hoursSincePosted": 149.1,
-        "readingTime": 11
-      },
-      "articles": [
-        {
-          "id": 3615692,
-          "title": "Copilot Squad",
-          "description": "There are two sections to this. In the first section, I discuss what squad is, why it might be useful...",
-          "url": "https://dev.to/ruarfff/copilot-squad-4nda",
-          "author": {
-            "username": "ruarfff",
-            "name": "Ruairí O'Brien",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F17966%2Fe2df42ea-cd08-4877-9866-ff2b1c6bb453.png"
-          },
-          "reactionsCount": 25,
-          "commentsCount": 0,
-          "readingTime": 11,
-          "publishedAt": "2026-05-05T14:49:33Z",
-          "tags": [
-            "githubcopilot"
-          ],
-          "trendingScore": 0.23,
-          "linkedRepos": [
-            {
-              "fullName": "gastownhall/gastown",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
-    "hexmostech--git-lrc": {
-      "count7d": 5,
-      "reactionsSum7d": 125,
-      "commentsSum7d": 6,
-      "topArticle": {
-        "id": 3644097,
-        "title": "How Python's GIL actually works (and when it bites you)",
-        "url": "https://dev.to/lovestaco/how-pythons-gil-actually-works-and-when-it-bites-you-3f2",
-        "author": "lovestaco",
-        "reactions": 45,
-        "comments": 0,
-        "hoursSincePosted": 33.6,
-        "readingTime": 9
-      },
-      "articles": [
-        {
-          "id": 3644097,
-          "title": "How Python's GIL actually works (and when it bites you)",
-          "description": "Hello, I'm Maneshwar. I'm building git-lrc, a Micro AI code reviewer that runs on every commit. It is...",
-          "url": "https://dev.to/lovestaco/how-pythons-gil-actually-works-and-when-it-bites-you-3f2",
-          "author": {
-            "username": "lovestaco",
-            "name": "Athreya aka Maneshwar",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
-          },
-          "reactionsCount": 45,
-          "commentsCount": 0,
-          "readingTime": 9,
-          "publishedAt": "2026-05-10T10:17:16Z",
-          "tags": [
-            "webdev",
-            "productivity",
-            "programming",
-            "python"
-          ],
-          "trendingScore": 2.21,
-          "linkedRepos": [
-            {
-              "fullName": "HexmosTech/git-lrc",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3635559,
-          "title": "Error Handling in Go: Stop Panicking, Start Wrapping",
-          "description": "Hello, I'm Maneshwar. I'm building git-lrc, a Micro AI code reviewer that runs on every commit. It is...",
-          "url": "https://dev.to/lovestaco/error-handling-in-go-stop-panicking-start-wrapping-351d",
-          "author": {
-            "username": "lovestaco",
-            "name": "Athreya aka Maneshwar",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
-          },
-          "reactionsCount": 44,
-          "commentsCount": 4,
-          "readingTime": 5,
-          "publishedAt": "2026-05-08T19:30:03Z",
-          "tags": [
-            "webdev",
-            "programming",
-            "beginners",
-            "go"
-          ],
-          "trendingScore": 1.4,
-          "linkedRepos": [
-            {
-              "fullName": "HexmosTech/git-lrc",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3621262,
-          "title": "Why Agentic Engineering Must Replace Vibe Coding",
-          "description": "If you prefer watching a video version of this article, check out:          Here, we are going to...",
-          "url": "https://dev.to/shrsv/why-agentic-engineering-must-replace-vibe-coding-339f",
-          "author": {
-            "username": "shrsv",
-            "name": "Shrijith Venkatramana",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1001514%2F17b7d334-44b1-417a-9268-346e6a34988a.jpg"
-          },
-          "reactionsCount": 16,
-          "commentsCount": 1,
-          "readingTime": 5,
-          "publishedAt": "2026-05-06T12:56:02Z",
-          "tags": [
-            "ai",
-            "softwareengineering",
-            "agenticengineering"
-          ],
-          "trendingScore": 0.17,
-          "linkedRepos": [
-            {
-              "fullName": "HexmosTech/git-lrc",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3628600,
-          "title": "MCP is APIs for Agents",
-          "description": "REST APIs gave humans (and the code they wrote) a standardized way to access software over the...",
-          "url": "https://dev.to/shrsv/mcp-is-apis-for-agents-lep",
-          "author": {
-            "username": "shrsv",
-            "name": "Shrijith Venkatramana",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1001514%2F17b7d334-44b1-417a-9268-346e6a34988a.jpg"
-          },
-          "reactionsCount": 10,
-          "commentsCount": 1,
-          "readingTime": 6,
-          "publishedAt": "2026-05-07T18:30:01Z",
-          "tags": [
-            "ai",
-            "programming",
-            "productivity",
-            "beginners"
-          ],
-          "trendingScore": 0.11,
-          "linkedRepos": [
-            {
-              "fullName": "HexmosTech/git-lrc",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3614549,
-          "title": "Responsible Design: Shaping Large-Scale Consequences by Organizing Agents",
-          "description": "You can watch the video version of the post as well if you prefer that:          Recently on...",
-          "url": "https://dev.to/shrsv/responsible-design-shaping-large-scale-consequences-by-organizing-agents-339m",
-          "author": {
-            "username": "shrsv",
-            "name": "Shrijith Venkatramana",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1001514%2F17b7d334-44b1-417a-9268-346e6a34988a.jpg"
-          },
-          "reactionsCount": 10,
-          "commentsCount": 0,
-          "readingTime": 6,
-          "publishedAt": "2026-05-05T10:39:41Z",
-          "tags": [
-            "agents",
-            "ai",
-            "design",
-            "discuss"
-          ],
-          "trendingScore": 0.07,
-          "linkedRepos": [
-            {
-              "fullName": "HexmosTech/git-lrc",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "berriai--litellm": {
       "count7d": 2,
       "reactionsSum7d": 22,
@@ -3085,7 +3186,7 @@
         "author": "xbill",
         "reactions": 21,
         "comments": 2,
-        "hoursSincePosted": 125.4,
+        "hoursSincePosted": 133.2,
         "readingTime": 9
       },
       "articles": [
@@ -3109,7 +3210,7 @@
             "googleadk",
             "gemini"
           ],
-          "trendingScore": 0.27,
+          "trendingScore": 0.25,
           "linkedRepos": [
             {
               "fullName": "BerriAI/litellm",
@@ -3152,8 +3253,8 @@
       ]
     },
     "openai--codex": {
-      "count7d": 7,
-      "reactionsSum7d": 3,
+      "count7d": 6,
+      "reactionsSum7d": 2,
       "commentsSum7d": 2,
       "topArticle": {
         "id": 3627864,
@@ -3162,7 +3263,7 @@
         "author": "mamoor_ahmad",
         "reactions": 2,
         "comments": 1,
-        "hoursSincePosted": 100.5,
+        "hoursSincePosted": 108.3,
         "readingTime": 7
       },
       "articles": [
@@ -3187,34 +3288,6 @@
             "webdev"
           ],
           "trendingScore": 0.01,
-          "linkedRepos": [
-            {
-              "fullName": "openai/codex",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3611913,
-          "title": "Codex /goal and OpenGUI: long-running tasks need state",
-          "description": "Long-running agents tend to fail in the second half.  The first step is often fine. Fix a CI failure,...",
-          "url": "https://dev.to/fenix_23505d14df386c00ced/codex-goal-and-opengui-long-running-tasks-need-state-1c61",
-          "author": {
-            "username": "fenix_23505d14df386c00ced",
-            "name": "Fenix",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3823217%2F42aca0c2-69b9-4be7-b0f2-519a6b241dc4.jpg"
-          },
-          "reactionsCount": 1,
-          "commentsCount": 0,
-          "readingTime": 4,
-          "publishedAt": "2026-05-05T01:55:19Z",
-          "tags": [
-            "agents",
-            "ai",
-            "cli",
-            "llm"
-          ],
-          "trendingScore": 0,
           "linkedRepos": [
             {
               "fullName": "openai/codex",
@@ -3395,7 +3468,7 @@
         "author": "dantederuwe",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 91.9,
+        "hoursSincePosted": 99.7,
         "readingTime": 11
       },
       "articles": [
@@ -3476,7 +3549,7 @@
         "author": "dantederuwe",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 91.9,
+        "hoursSincePosted": 99.7,
         "readingTime": 11
       },
       "articles": [
@@ -3525,7 +3598,7 @@
         "author": "_4f268336f6580845cdc475",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 89.3,
+        "hoursSincePosted": 97.1,
         "readingTime": 7
       },
       "articles": [
@@ -3570,7 +3643,7 @@
         "author": "rednakta",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 131.4,
+        "hoursSincePosted": 139.2,
         "readingTime": 10
       },
       "articles": [
@@ -3654,7 +3727,7 @@
         "author": "rednakta",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 131.4,
+        "hoursSincePosted": 139.2,
         "readingTime": 10
       },
       "articles": [
@@ -3710,7 +3783,7 @@
         "author": "rednakta",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 131.4,
+        "hoursSincePosted": 139.2,
         "readingTime": 10
       },
       "articles": [
@@ -3766,7 +3839,7 @@
         "author": "rednakta",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 131.4,
+        "hoursSincePosted": 139.2,
         "readingTime": 10
       },
       "articles": [
@@ -3816,44 +3889,16 @@
       "reactionsSum7d": 0,
       "commentsSum7d": 3,
       "topArticle": {
-        "id": 3637647,
-        "title": "Hooks and the wrapper-authority problem: why your AI coding agent ignores them",
-        "url": "https://dev.to/cdelgado70/hooks-and-the-wrapper-authority-problem-why-your-ai-coding-agent-ignores-them-go6",
-        "author": "cdelgado70",
+        "id": 3638970,
+        "title": "36 Days of Claude Code Logs: Silent Model Switching, 11.5x Efficiency Gap",
+        "url": "https://dev.to/recca0120/36-days-of-claude-code-logs-silent-model-switching-115x-efficiency-gap-1bgm",
+        "author": "recca0120",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 64.7,
-        "readingTime": 18
+        "hoursSincePosted": 67,
+        "readingTime": 8
       },
       "articles": [
-        {
-          "id": 3637647,
-          "title": "Hooks and the wrapper-authority problem: why your AI coding agent ignores them",
-          "description": "Post 2 of 2. A walkthrough of the wrapper that breaks UserPromptSubmit hook output, the issues that...",
-          "url": "https://dev.to/cdelgado70/hooks-and-the-wrapper-authority-problem-why-your-ai-coding-agent-ignores-them-go6",
-          "author": {
-            "username": "cdelgado70",
-            "name": "C. Delgado",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 18,
-          "publishedAt": "2026-05-09T03:16:03Z",
-          "tags": [
-            "ai",
-            "claude",
-            "agents",
-            "productivity"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "anthropics/claude-code",
-              "location": "body"
-            }
-          ]
-        },
         {
           "id": 3638970,
           "title": "36 Days of Claude Code Logs: Silent Model Switching, 11.5x Efficiency Gap",
@@ -3939,6 +3984,38 @@
           ]
         },
         {
+          "id": 3617729,
+          "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
+          "description": "Post 1 of 2. This post walks through the discovery ceiling in Anthropic's Agent Skills standard, the...",
+          "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
+          "author": {
+            "username": "cdelgado70",
+            "name": "C. Delgado",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 21,
+          "publishedAt": "2026-05-06T00:55:44Z",
+          "tags": [
+            "ai",
+            "claude",
+            "agents",
+            "productivity"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "location": "body"
+            },
+            {
+              "fullName": "vercel-labs/skills",
+              "location": "body"
+            }
+          ]
+        },
+        {
           "id": 3618919,
           "title": "Claude Code Context Window Rot: Why Sessions Get Dumber (And How to Fix It)",
           "description": "You know the pattern. You open a fresh Claude Code session, paste in the task, and the first few...",
@@ -3967,19 +4044,19 @@
           ]
         },
         {
-          "id": 3617729,
-          "title": "Skills and the discovery ceiling: why your AI coding agent ignores most of what you install",
-          "description": "Post 1 of 2. This post walks through the discovery ceiling in Anthropic's Agent Skills standard, the...",
-          "url": "https://dev.to/cdelgado70/skills-and-the-discovery-ceiling-why-your-ai-coding-agent-ignores-most-of-what-you-install-45f9",
+          "id": 3637647,
+          "title": "Hooks and the wrapper-authority problem: why your AI coding agent ignores them",
+          "description": "Post 2 of 2. A walkthrough of the wrapper that breaks UserPromptSubmit hook output, the issues that...",
+          "url": "https://dev.to/cdelgado70/hooks-and-the-wrapper-authority-problem-why-your-ai-coding-agent-ignores-them-go6",
           "author": {
             "username": "cdelgado70",
             "name": "C. Delgado",
             "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3914883%2F26c662a9-eebd-4c0d-b084-b222e92a7ab5.png"
           },
           "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 21,
-          "publishedAt": "2026-05-06T00:55:44Z",
+          "commentsCount": 0,
+          "readingTime": 18,
+          "publishedAt": "2026-05-09T03:16:03Z",
           "tags": [
             "ai",
             "claude",
@@ -3990,10 +4067,6 @@
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
-              "location": "body"
-            },
-            {
-              "fullName": "vercel-labs/skills",
               "location": "body"
             }
           ]
@@ -4039,7 +4112,7 @@
         "author": "wonderlab",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 113.1,
+        "hoursSincePosted": 120.9,
         "readingTime": 7
       },
       "articles": [
@@ -4168,7 +4241,7 @@
         "author": "akari_iku",
         "reactions": 2,
         "comments": 0,
-        "hoursSincePosted": 27.7,
+        "hoursSincePosted": 35.5,
         "readingTime": 31
       },
       "articles": [
@@ -4202,6 +4275,51 @@
         }
       ]
     },
+    "itsuzef--goalkeeper": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 1,
+      "topArticle": {
+        "id": 3646500,
+        "title": "Claude & The judge gate: why a passing validator isn't a finished feature",
+        "url": "https://dev.to/itsuzef/the-judge-gate-why-a-passing-validator-isnt-a-finished-feature-f2f",
+        "author": "itsuzef",
+        "reactions": 0,
+        "comments": 1,
+        "hoursSincePosted": 25.1,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3646500,
+          "title": "Claude & The judge gate: why a passing validator isn't a finished feature",
+          "description": "A pattern for autonomous coding agents that catches what validators miss — and the open-source plugin that built itself via the pattern.",
+          "url": "https://dev.to/itsuzef/the-judge-gate-why-a-passing-validator-isnt-a-finished-feature-f2f",
+          "author": {
+            "username": "itsuzef",
+            "name": "Youssef",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3923986%2F439512de-d688-4e31-9ff7-bdca7ebda478.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 1,
+          "readingTime": 9,
+          "publishedAt": "2026-05-11T02:38:23Z",
+          "tags": [
+            "claudecode",
+            "ai",
+            "agents",
+            "opensource"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "itsuzef/goalkeeper",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "thedotmack--claude-mem": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -4213,7 +4331,7 @@
         "author": "pponali",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 91.1,
+        "hoursSincePosted": 98.9,
         "readingTime": 5
       },
       "articles": [
@@ -4258,7 +4376,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 152.7,
+        "hoursSincePosted": 160.5,
         "readingTime": 10
       },
       "articles": [
@@ -4303,7 +4421,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 158.5,
+        "hoursSincePosted": 166.3,
         "readingTime": 6
       },
       "articles": [
@@ -4404,7 +4522,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 112.3,
+        "hoursSincePosted": 120.1,
         "readingTime": 12
       },
       "articles": [
@@ -4501,7 +4619,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 112.3,
+        "hoursSincePosted": 120.1,
         "readingTime": 12
       },
       "articles": [
@@ -4539,51 +4657,6 @@
         }
       ]
     },
-    "everyinc--compound-engineering-plugin": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3635894,
-        "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
-        "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
-        "author": "ikramar",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 71.4,
-        "readingTime": 18
-      },
-      "articles": [
-        {
-          "id": 3635894,
-          "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
-          "description": "TL;DR. I built a Claude Code plugin (MIT, github.com/IgorKramar/archforge-marketplace) that turns...",
-          "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
-          "author": {
-            "username": "ikramar",
-            "name": "Igor Kramar",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2211561%2F11d1ba7b-e52e-4488-bc50-cbb19848e004.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 18,
-          "publishedAt": "2026-05-08T20:29:24Z",
-          "tags": [
-            "claude",
-            "ai",
-            "architecture",
-            "softwareengineering"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "EveryInc/compound-engineering-plugin",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "vercel-labs--skills": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -4595,7 +4668,7 @@
         "author": "cdelgado70",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 139,
+        "hoursSincePosted": 146.8,
         "readingTime": 21
       },
       "articles": [
@@ -4633,6 +4706,51 @@
         }
       ]
     },
+    "everyinc--compound-engineering-plugin": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3635894,
+        "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
+        "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
+        "author": "ikramar",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 79.2,
+        "readingTime": 18
+      },
+      "articles": [
+        {
+          "id": 3635894,
+          "title": "I built a Claude Code plugin that argues with me about architecture. Then it caught me lying to it.",
+          "description": "TL;DR. I built a Claude Code plugin (MIT, github.com/IgorKramar/archforge-marketplace) that turns...",
+          "url": "https://dev.to/ikramar/i-built-a-claude-code-plugin-that-argues-with-me-about-architecture-then-it-caught-me-lying-to-it-3ne8",
+          "author": {
+            "username": "ikramar",
+            "name": "Igor Kramar",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2211561%2F11d1ba7b-e52e-4488-bc50-cbb19848e004.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 18,
+          "publishedAt": "2026-05-08T20:29:24Z",
+          "tags": [
+            "claude",
+            "ai",
+            "architecture",
+            "softwareengineering"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "EveryInc/compound-engineering-plugin",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "github--spec-kit": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -4644,7 +4762,7 @@
         "author": "benjy33000",
         "reactions": 0,
         "comments": 1,
-        "hoursSincePosted": 97.1,
+        "hoursSincePosted": 104.9,
         "readingTime": 12
       },
       "articles": [
@@ -4678,51 +4796,6 @@
         }
       ]
     },
-    "maximhq--bifrost": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 1,
-      "topArticle": {
-        "id": 3619350,
-        "title": "Using an MCP Gateway with Claude Code: A Practical Guide",
-        "url": "https://dev.to/nakul_tk/using-an-mcp-gateway-with-claude-code-a-practical-guide-31dc",
-        "author": "nakul_tk",
-        "reactions": 0,
-        "comments": 1,
-        "hoursSincePosted": 132.1,
-        "readingTime": 6
-      },
-      "articles": [
-        {
-          "id": 3619350,
-          "title": "Using an MCP Gateway with Claude Code: A Practical Guide",
-          "description": "Learn how to integrate an MCP gateway with Claude Code to consolidate tool access, enforce governance...",
-          "url": "https://dev.to/nakul_tk/using-an-mcp-gateway-with-claude-code-a-practical-guide-31dc",
-          "author": {
-            "username": "nakul_tk",
-            "name": "Nakul T Krishnan",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3778279%2F1c2dabcf-9bf5-4a37-a76b-9d7475175411.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 1,
-          "readingTime": 6,
-          "publishedAt": "2026-05-06T07:52:25Z",
-          "tags": [
-            "ai",
-            "mcp",
-            "claude",
-            "llm"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "maximhq/bifrost",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "farion1231--cc-switch": {
       "count7d": 2,
       "reactionsSum7d": 0,
@@ -4734,7 +4807,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 40.3,
+        "hoursSincePosted": 48.1,
         "readingTime": 10
       },
       "articles": [
@@ -4835,7 +4908,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 40.3,
+        "hoursSincePosted": 48.1,
         "readingTime": 10
       },
       "articles": [
@@ -4900,7 +4973,7 @@
         "author": "max_quimby",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 40.3,
+        "hoursSincePosted": 48.1,
         "readingTime": 10
       },
       "articles": [
@@ -4954,6 +5027,51 @@
         }
       ]
     },
+    "cursor--cookbook": {
+      "count7d": 1,
+      "reactionsSum7d": 0,
+      "commentsSum7d": 0,
+      "topArticle": {
+        "id": 3652721,
+        "title": "Cursor SDK: Build AI Coding Agents in TypeScript",
+        "url": "https://dev.to/jangwook_kim_e31e7291ad98/cursor-sdk-build-ai-coding-agents-in-typescript-3gf6",
+        "author": "jangwook_kim_e31e7291ad98",
+        "reactions": 0,
+        "comments": 0,
+        "hoursSincePosted": 3.5,
+        "readingTime": 9
+      },
+      "articles": [
+        {
+          "id": 3652721,
+          "title": "Cursor SDK: Build AI Coding Agents in TypeScript",
+          "description": "A developer guide to the Cursor SDK (@cursor/sdk) for building, deploying, and orchestrating AI coding agents locally or on cloud VMs via TypeScript.",
+          "url": "https://dev.to/jangwook_kim_e31e7291ad98/cursor-sdk-build-ai-coding-agents-in-typescript-3gf6",
+          "author": {
+            "username": "jangwook_kim_e31e7291ad98",
+            "name": "Jangwook Kim",
+            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1909290%2F60a8c15f-b2b5-4189-8578-78b8ab78900b.jpg"
+          },
+          "reactionsCount": 0,
+          "commentsCount": 0,
+          "readingTime": 9,
+          "publishedAt": "2026-05-12T00:13:01Z",
+          "tags": [
+            "cursor",
+            "typescript",
+            "aiagents",
+            "sdk"
+          ],
+          "trendingScore": 0,
+          "linkedRepos": [
+            {
+              "fullName": "cursor/cookbook",
+              "location": "body"
+            }
+          ]
+        }
+      ]
+    },
     "diegosouzapw--omniroute": {
       "count7d": 1,
       "reactionsSum7d": 1,
@@ -4965,7 +5083,7 @@
         "author": "eleata",
         "reactions": 1,
         "comments": 0,
-        "hoursSincePosted": 77,
+        "hoursSincePosted": 84.8,
         "readingTime": 5
       },
       "articles": [
@@ -5003,51 +5121,6 @@
         }
       ]
     },
-    "openclaw--openclaw": {
-      "count7d": 1,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3630582,
-        "title": "Slaying the Gemma Beast: How We Fixed Local AI and Shipped Search",
-        "url": "https://dev.to/carryologist/slaying-the-gemma-beast-how-we-fixed-local-ai-and-shipped-search-5638",
-        "author": "carryologist",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 87,
-        "readingTime": 13
-      },
-      "articles": [
-        {
-          "id": 3630582,
-          "title": "Slaying the Gemma Beast: How We Fixed Local AI and Shipped Search",
-          "description": "Two days ago, Gemma 4 couldn't finish a feature. Today it built one, pushed it to GitHub, and it's...",
-          "url": "https://dev.to/carryologist/slaying-the-gemma-beast-how-we-fixed-local-ai-and-shipped-search-5638",
-          "author": {
-            "username": "carryologist",
-            "name": "Rob",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3884903%2Ff7cf0bfd-0b92-4dca-9095-683af23a19e3.png"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 13,
-          "publishedAt": "2026-05-08T04:53:16Z",
-          "tags": [
-            "ai",
-            "llm",
-            "benchmark",
-            "homelab"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "openclaw/openclaw",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "safishamsi--graphify": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -5059,7 +5132,7 @@
         "author": "parupati",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 118.3,
+        "hoursSincePosted": 126,
         "readingTime": 6
       },
       "articles": [
@@ -5104,7 +5177,7 @@
         "author": "timothy_spann_a41a639e47c",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 5.5,
+        "hoursSincePosted": 13.3,
         "readingTime": 10
       },
       "articles": [
@@ -5128,7 +5201,7 @@
             "agenticai",
             "mcp"
           ],
-          "trendingScore": 0.85,
+          "trendingScore": 0.35,
           "linkedRepos": [
             {
               "fullName": "RivoLink/leaf",
@@ -5157,7 +5230,7 @@
         "author": "timothy_spann_a41a639e47c",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 5.5,
+        "hoursSincePosted": 13.3,
         "readingTime": 10
       },
       "articles": [
@@ -5181,7 +5254,7 @@
             "agenticai",
             "mcp"
           ],
-          "trendingScore": 0.85,
+          "trendingScore": 0.35,
           "linkedRepos": [
             {
               "fullName": "RivoLink/leaf",
@@ -5210,7 +5283,7 @@
         "author": "timothy_spann_a41a639e47c",
         "reactions": 6,
         "comments": 0,
-        "hoursSincePosted": 5.5,
+        "hoursSincePosted": 13.3,
         "readingTime": 10
       },
       "articles": [
@@ -5234,7 +5307,7 @@
             "agenticai",
             "mcp"
           ],
-          "trendingScore": 0.85,
+          "trendingScore": 0.35,
           "linkedRepos": [
             {
               "fullName": "RivoLink/leaf",
@@ -5263,7 +5336,7 @@
         "author": "andrew-ooo",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 32.7,
+        "hoursSincePosted": 40.5,
         "readingTime": 10
       },
       "articles": [
@@ -5344,7 +5417,7 @@
         "author": "cloakhq",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 105.2,
+        "hoursSincePosted": 113,
         "readingTime": 3
       },
       "articles": [
@@ -5378,79 +5451,6 @@
         }
       ]
     },
-    "ajeetdsouza--zoxide": {
-      "count7d": 2,
-      "reactionsSum7d": 0,
-      "commentsSum7d": 0,
-      "topArticle": {
-        "id": 3628178,
-        "title": "5 CLI Tools I Use to Keep Terminal Workflows Less Annoying",
-        "url": "https://dev.to/architeg/5-cli-tools-i-use-to-keep-terminal-workflows-less-annoying-3c3n",
-        "author": "architeg",
-        "reactions": 0,
-        "comments": 0,
-        "hoursSincePosted": 99.3,
-        "readingTime": 10
-      },
-      "articles": [
-        {
-          "id": 3628178,
-          "title": "5 CLI Tools I Use to Keep Terminal Workflows Less Annoying",
-          "description": "A practical list of CLI tools for productivity across zsh, bash, macOS, and Linux: gloss, fzf, ripgrep, bat, and eza.",
-          "url": "https://dev.to/architeg/5-cli-tools-i-use-to-keep-terminal-workflows-less-annoying-3c3n",
-          "author": {
-            "username": "architeg",
-            "name": "Valeriy Bagrintsev",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1798669%2F114496b5-6b0f-45d8-bc78-e3c790ba67ac.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 10,
-          "publishedAt": "2026-05-07T16:40:31Z",
-          "tags": [
-            "cli",
-            "productivity",
-            "bash",
-            "zsh"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "ajeetdsouza/zoxide",
-              "location": "body"
-            }
-          ]
-        },
-        {
-          "id": 3636571,
-          "title": "SuperCLI 1.1.27: 1,184 Curated CLI Tools, One Command",
-          "description": "SuperCLI 1.1.27: 1,184 Curated CLI Tools, One Command   TL;DR: SuperCLI now bundles 1,184...",
-          "url": "https://dev.to/javimosch/supercli-1127-1184-curated-cli-tools-one-command-4ofe",
-          "author": {
-            "username": "javimosch",
-            "name": "Javier Leandro Arancibia",
-            "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1655837%2F30baec18-fb3d-4a4b-97af-0441d12b5f28.jpg"
-          },
-          "reactionsCount": 0,
-          "commentsCount": 0,
-          "readingTime": 5,
-          "publishedAt": "2026-05-08T22:49:02Z",
-          "tags": [
-            "cli",
-            "devtools",
-            "automation",
-            "node"
-          ],
-          "trendingScore": 0,
-          "linkedRepos": [
-            {
-              "fullName": "ajeetdsouza/zoxide",
-              "location": "body"
-            }
-          ]
-        }
-      ]
-    },
     "composiohq--awesome-claude-skills": {
       "count7d": 1,
       "reactionsSum7d": 0,
@@ -5462,7 +5462,7 @@
         "author": "jrud25",
         "reactions": 0,
         "comments": 0,
-        "hoursSincePosted": 84.1,
+        "hoursSincePosted": 91.9,
         "readingTime": 5
       },
       "articles": [
@@ -5511,7 +5511,7 @@
         "author": "yashksaini",
         "reactions": 12,
         "comments": 0,
-        "hoursSincePosted": 109.1,
+        "hoursSincePosted": 116.9,
         "readingTime": 5
       },
       "articles": [
@@ -5535,7 +5535,7 @@
             "opensource",
             "backend"
           ],
-          "trendingScore": 0.12,
+          "trendingScore": 0.11,
           "linkedRepos": [
             {
               "fullName": "Tracer-Cloud/opensre",
@@ -5568,6 +5568,11 @@
       "reactionsSum7d": 12
     },
     {
+      "fullName": "ajeetdsouza/zoxide",
+      "count7d": 3,
+      "reactionsSum7d": 9
+    },
+    {
       "fullName": "D4Vinci/Scrapling",
       "count7d": 1,
       "reactionsSum7d": 6
@@ -5589,8 +5594,8 @@
     },
     {
       "fullName": "openai/codex",
-      "count7d": 7,
-      "reactionsSum7d": 3
+      "count7d": 6,
+      "reactionsSum7d": 2
     },
     {
       "fullName": "gitleaks/gitleaks",
@@ -5615,11 +5620,6 @@
     {
       "fullName": "addyosmani/agent-skills",
       "count7d": 3,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "ajeetdsouza/zoxide",
-      "count7d": 2,
       "reactionsSum7d": 0
     },
     {
@@ -5658,6 +5658,11 @@
       "reactionsSum7d": 0
     },
     {
+      "fullName": "cursor/cookbook",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
       "fullName": "decolua/9router",
       "count7d": 1,
       "reactionsSum7d": 0
@@ -5678,17 +5683,17 @@
       "reactionsSum7d": 0
     },
     {
+      "fullName": "itsuzef/goalkeeper",
+      "count7d": 1,
+      "reactionsSum7d": 0
+    },
+    {
       "fullName": "JuliusBrussee/caveman",
       "count7d": 1,
       "reactionsSum7d": 0
     },
     {
       "fullName": "mattpocock/skills",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "maximhq/bifrost",
       "count7d": 1,
       "reactionsSum7d": 0
     },
@@ -5704,11 +5709,6 @@
     },
     {
       "fullName": "obra/superpowers",
-      "count7d": 1,
-      "reactionsSum7d": 0
-    },
-    {
-      "fullName": "openclaw/openclaw",
       "count7d": 1,
       "reactionsSum7d": 0
     },

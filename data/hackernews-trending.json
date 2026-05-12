@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-12T07:36:31.962Z",
+  "fetchedAt": "2026-05-12T10:57:03.284Z",
   "windowHours": 72,
-  "scannedTotal": 1245,
+  "scannedTotal": 1246,
   "firebaseCount": 500,
-  "algoliaCount": 745,
+  "algoliaCount": 746,
   "stories": [
     {
       "id": 48062117,
@@ -214,6 +214,23 @@
       "linkedRepos": []
     },
     {
+      "id": 48100706,
+      "title": "Postmortem: TanStack NPM supply-chain compromise",
+      "url": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem",
+      "by": "varunsharma07",
+      "score": 874,
+      "descendants": 355,
+      "createdUtc": 1778533705,
+      "ageHours": 13.81,
+      "velocity": 63.28,
+      "trendingScore": 6794.07,
+      "everHitFrontPage": true,
+      "content_tags": [],
+      "value_score": 0,
+      "storyText": "https://github.com/TanStack/router/issues/7383",
+      "linkedRepos": []
+    },
+    {
       "id": 48037128,
       "title": "Vibe coding and agentic engineering are getting closer than I'd like",
       "url": "https://simonwillison.net/2026/May/6/vibe-coding-and-agentic-engineering/",
@@ -231,20 +248,22 @@
       "linkedRepos": []
     },
     {
-      "id": 48100706,
-      "title": "Postmortem: TanStack NPM supply-chain compromise",
-      "url": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem",
-      "by": "varunsharma07",
-      "score": 768,
-      "descendants": 286,
-      "createdUtc": 1778533705,
-      "ageHours": 10.47,
-      "velocity": 73.36,
-      "trendingScore": 6265.43,
+      "id": 48100433,
+      "title": "If AI writes your code, why use Python?",
+      "url": "https://medium.com/@NMitchem/if-ai-writes-your-code-why-use-python-bf8c4ba1a055",
+      "by": "indigodaddy",
+      "score": 530,
+      "descendants": 573,
+      "createdUtc": 1778532355,
+      "ageHours": 14.19,
+      "velocity": 37.36,
+      "trendingScore": 5933.71,
       "everHitFrontPage": true,
-      "content_tags": [],
+      "content_tags": [
+        "is-question"
+      ],
       "value_score": 0,
-      "storyText": "https://github.com/TanStack/router/issues/7383",
+      "storyText": "",
       "linkedRepos": []
     },
     {
@@ -252,12 +271,12 @@
       "title": "GitLab announces workforce reduction and end of their CREDIT values",
       "url": "https://about.gitlab.com/blog/gitlab-act-2/",
       "by": "AnonGitLabEmpl",
-      "score": 457,
-      "descendants": 467,
+      "score": 538,
+      "descendants": 529,
       "createdUtc": 1778532717,
-      "ageHours": 10.33,
-      "velocity": 44.22,
-      "trendingScore": 5610.55,
+      "ageHours": 14.09,
+      "velocity": 38.2,
+      "trendingScore": 5622.63,
       "everHitFrontPage": true,
       "content_tags": [],
       "value_score": 0,
@@ -328,25 +347,6 @@
       "trendingScore": 4673.81,
       "everHitFrontPage": false,
       "content_tags": [],
-      "value_score": 0,
-      "storyText": "",
-      "linkedRepos": []
-    },
-    {
-      "id": 48100433,
-      "title": "If AI writes your code, why use Python?",
-      "url": "https://medium.com/@NMitchem/if-ai-writes-your-code-why-use-python-bf8c4ba1a055",
-      "by": "indigodaddy",
-      "score": 417,
-      "descendants": 427,
-      "createdUtc": 1778532355,
-      "ageHours": 10.84,
-      "velocity": 38.46,
-      "trendingScore": 4403.67,
-      "everHitFrontPage": true,
-      "content_tags": [
-        "is-question"
-      ],
       "value_score": 0,
       "storyText": "",
       "linkedRepos": []

@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-12T04:07:56.576Z",
+  "fetchedAt": "2026-05-12T05:53:11.405Z",
   "windowDays": 7,
-  "scannedPosts": 99,
+  "scannedPosts": 199,
   "searchQuery": "github.com",
-  "pagesFetched": 1,
+  "pagesFetched": 2,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -2929,21 +2929,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mlcrp7vocu2y",
-        "cid": "bafyreicaaq6y3ko4nta4gljhxjddjvnxlu4ubvz36sae2xyn3pw7cz2ugy",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mlcrp7vocu2y",
-        "text": "GStack is my own personal Claude Code setup that is also quite useful with OpenClaw/Hermes for web interaction You can run it in headed mode on your Mac/PC and run /pair-agent to let your Claw/Hermes control your browser with full logins via MCP https://github.com/garrytan/gstack",
+        "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mlmxob625k2y",
+        "cid": "bafyreie4fsg2ctzls6ktvq2dn274v6523e3uj2gkrcsoaxisdji4tewrp4",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mlmxob625k2y",
+        "text": "RT @nft_leen: Obsessed with the gstack setup by @garrytan 🤖 It turned my Claude into an entire team 23 specialists that run a full sprint: Think → Plan → Design → Build → Review → Test → Ship This changed how i build 👇 http://github.com/garrytan/gstack",
         "author": {
-          "handle": "garrytan-mirr.selfhosted.social",
-          "displayName": "Garry Tan [UNOFFICIAL]"
+          "handle": "garrytan-mir-rt.selfhosted.social",
+          "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-08T03:17:55.000Z",
-        "hoursSincePosted": 4.7
+        "createdAt": "2026-05-12T03:23:18.000Z",
+        "hoursSincePosted": 2.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mlmxob625k2y",
+          "cid": "bafyreie4fsg2ctzls6ktvq2dn274v6523e3uj2gkrcsoaxisdji4tewrp4",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mlmxob625k2y",
+          "text": "RT @nft_leen: Obsessed with the gstack setup by @garrytan 🤖 It turned my Claude into an entire team 23 specialists that run a full sprint: Think → Plan → Design → Build → Review → Test → Ship This changed how i build 👇 http://github.com/garrytan/gstack",
+          "author": {
+            "handle": "garrytan-mir-rt.selfhosted.social",
+            "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T03:23:18.000Z",
+          "createdUtc": 1778556198,
+          "ageHours": 2.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gstack",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mlcrp7vocu2y",
           "cid": "bafyreicaaq6y3ko4nta4gljhxjddjvnxlu4ubvz36sae2xyn3pw7cz2ugy",
@@ -3755,25 +3783,54 @@
     },
     "openai/openai-agents-python": {
       "count7d": 2,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3mlmqntsaxs2m",
-        "cid": "bafyreiasxac4kvd5lou2bmprm6s3tpuqlc37zde57v42bior2u4evxchdy",
-        "bskyUrl": "https://bsky.app/profile/therobertta.bsky.social/post/3mlmqntsaxs2m",
-        "text": "Source: github.com/openai/open...",
+        "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3mlmqnsns3m25",
+        "cid": "bafyreih6enud337v7d7qagxtjggamo3ifhbbdaby66o6jhhkfii3enynsu",
+        "bskyUrl": "https://bsky.app/profile/therobertta.bsky.social/post/3mlmqnsns3m25",
+        "text": "OpenAI just launched their Agents SDK with 25.6K stars at github.com/openai/open.... As someone who's built production harnesses for enterprise clients, this isn't just another library - it's the infrastructure that will separate AI toys from trillion-dollar systems.",
         "author": {
           "handle": "therobertta.bsky.social",
           "displayName": "Robert Ta"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-12T02:31:04.169662Z",
-        "hoursSincePosted": 1.61
+        "replyCount": 1,
+        "createdAt": "2026-05-12T02:31:02.985833Z",
+        "hoursSincePosted": 3.37
       },
       "posts": [
+        {
+          "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3mlmqnsns3m25",
+          "cid": "bafyreih6enud337v7d7qagxtjggamo3ifhbbdaby66o6jhhkfii3enynsu",
+          "bskyUrl": "https://bsky.app/profile/therobertta.bsky.social/post/3mlmqnsns3m25",
+          "text": "OpenAI just launched their Agents SDK with 25.6K stars at github.com/openai/open.... As someone who's built production harnesses for enterprise clients, this isn't just another library - it's the infrastructure that will separate AI toys from trillion-dollar systems.",
+          "author": {
+            "handle": "therobertta.bsky.social",
+            "displayName": "Robert Ta"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-12T02:31:02.985833Z",
+          "createdUtc": 1778553062,
+          "ageHours": 3.37,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3mlmqntsaxs2m",
           "cid": "bafyreiasxac4kvd5lou2bmprm6s3tpuqlc37zde57v42bior2u4evxchdy",
@@ -3788,41 +3845,12 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T02:31:04.169662Z",
           "createdUtc": 1778553064,
-          "ageHours": 1.61,
+          "ageHours": 3.37,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "openai/openai-agents-python",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3mlmqnsns3m25",
-          "cid": "bafyreih6enud337v7d7qagxtjggamo3ifhbbdaby66o6jhhkfii3enynsu",
-          "bskyUrl": "https://bsky.app/profile/therobertta.bsky.social/post/3mlmqnsns3m25",
-          "text": "OpenAI just launched their Agents SDK with 25.6K stars at github.com/openai/open.... As someone who's built production harnesses for enterprise clients, this isn't just another library - it's the infrastructure that will separate AI toys from trillion-dollar systems.",
-          "author": {
-            "handle": "therobertta.bsky.social",
-            "displayName": "Robert Ta"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-12T02:31:02.985833Z",
-          "createdUtc": 1778553062,
-          "ageHours": 1.62,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "openai/openai-agents-python",
@@ -8075,7 +8103,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T03:33:36.371Z",
-        "hoursSincePosted": 0.57
+        "hoursSincePosted": 2.33
       },
       "posts": [
         {
@@ -8092,7 +8120,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T03:33:36.371Z",
           "createdUtc": 1778556816,
-          "ageHours": 0.57,
+          "ageHours": 2.33,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -8120,7 +8148,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T03:05:24.362Z",
           "createdUtc": 1778555124,
-          "ageHours": 1.04,
+          "ageHours": 2.8,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -8386,7 +8414,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T02:02:29.415Z",
-        "hoursSincePosted": 2.09
+        "hoursSincePosted": 3.85
       },
       "posts": [
         {
@@ -8459,7 +8487,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T02:02:29.415Z",
           "createdUtc": 1778551349,
-          "ageHours": 2.09,
+          "ageHours": 3.85,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -8572,7 +8600,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T02:28:06.767969+00:00",
-        "hoursSincePosted": 1.66
+        "hoursSincePosted": 3.42
       },
       "posts": [
         {
@@ -8589,7 +8617,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T02:28:06.767969+00:00",
           "createdUtc": 1778552886,
-          "ageHours": 1.66,
+          "ageHours": 3.42,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -8628,7 +8656,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T02:28:06.767969+00:00",
-        "hoursSincePosted": 1.66
+        "hoursSincePosted": 3.42
       },
       "posts": [
         {
@@ -8645,7 +8673,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T02:28:06.767969+00:00",
           "createdUtc": 1778552886,
-          "ageHours": 1.66,
+          "ageHours": 3.42,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -8684,7 +8712,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T02:22:49Z",
-        "hoursSincePosted": 1.75
+        "hoursSincePosted": 3.51
       },
       "posts": [
         {
@@ -8701,7 +8729,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T02:22:49Z",
           "createdUtc": 1778552569,
-          "ageHours": 1.75,
+          "ageHours": 3.51,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -8710,6 +8738,107 @@
           "linkedRepos": [
             {
               "fullName": "thesysdev/openui",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "raullenchai/Rapid-MLX": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mlmwioxjv223",
+        "cid": "bafyreigjlqid7pt2mnyomj7k6f2yfbsz6jtghuxcebozpioxkduaayggri",
+        "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mlmwioxjv223",
+        "text": "Rapid-MLX Run AI on your Mac. Faster than anything else. https://github.com/raullenchai/Rapid-MLX",
+        "author": {
+          "handle": "pythonhub.dev",
+          "displayName": "Python Hub"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T04:15:33.770519+00:00",
+        "hoursSincePosted": 1.63
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mlmwioxjv223",
+          "cid": "bafyreigjlqid7pt2mnyomj7k6f2yfbsz6jtghuxcebozpioxkduaayggri",
+          "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mlmwioxjv223",
+          "text": "Rapid-MLX Run AI on your Mac. Faster than anything else. https://github.com/raullenchai/Rapid-MLX",
+          "author": {
+            "handle": "pythonhub.dev",
+            "displayName": "Python Hub"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T04:15:33.770519+00:00",
+          "createdUtc": 1778559333,
+          "ageHours": 1.63,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "raullenchai/Rapid-MLX",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "langchain-ai/langgraph": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlmwb5unen2x",
+        "cid": "bafyreiaty4bugeb4odnnghk3vwv33baytqvjbq323j5xxyawonvi7zvo7y",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mlmwb5unen2x",
+        "text": "🟠 LangGraph 1.2.0 adds crash-resume for durable error handlers LangChain's LangGraph 1.2.0 is out with a genuinely meaningful runtime upgrade: durable error-handler resume across host crashes. https://github.com/langchain-ai/langgraph/releases/tag/1.2.0 #AI #AgentWyre",
+        "author": {
+          "handle": "agentwyre.ai"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T04:11:19.359738+00:00",
+        "hoursSincePosted": 1.7
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlmwb5unen2x",
+          "cid": "bafyreiaty4bugeb4odnnghk3vwv33baytqvjbq323j5xxyawonvi7zvo7y",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mlmwb5unen2x",
+          "text": "🟠 LangGraph 1.2.0 adds crash-resume for durable error handlers LangChain's LangGraph 1.2.0 is out with a genuinely meaningful runtime upgrade: durable error-handler resume across host crashes. https://github.com/langchain-ai/langgraph/releases/tag/1.2.0 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T04:11:19.359738+00:00",
+          "createdUtc": 1778559079,
+          "ageHours": 1.7,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "langchain-ai/langgraph",
               "matchType": "url",
               "confidence": 1
             }
@@ -11643,21 +11772,49 @@
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mlcrp7vocu2y",
-        "cid": "bafyreicaaq6y3ko4nta4gljhxjddjvnxlu4ubvz36sae2xyn3pw7cz2ugy",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mirr.selfhosted.social/post/3mlcrp7vocu2y",
-        "text": "GStack is my own personal Claude Code setup that is also quite useful with OpenClaw/Hermes for web interaction You can run it in headed mode on your Mac/PC and run /pair-agent to let your Claw/Hermes control your browser with full logins via MCP https://github.com/garrytan/gstack",
+        "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mlmxob625k2y",
+        "cid": "bafyreie4fsg2ctzls6ktvq2dn274v6523e3uj2gkrcsoaxisdji4tewrp4",
+        "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mlmxob625k2y",
+        "text": "RT @nft_leen: Obsessed with the gstack setup by @garrytan 🤖 It turned my Claude into an entire team 23 specialists that run a full sprint: Think → Plan → Design → Build → Review → Test → Ship This changed how i build 👇 http://github.com/garrytan/gstack",
         "author": {
-          "handle": "garrytan-mirr.selfhosted.social",
-          "displayName": "Garry Tan [UNOFFICIAL]"
+          "handle": "garrytan-mir-rt.selfhosted.social",
+          "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-08T03:17:55.000Z",
-        "hoursSincePosted": 4.7
+        "createdAt": "2026-05-12T03:23:18.000Z",
+        "hoursSincePosted": 2.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mlmxob625k2y",
+          "cid": "bafyreie4fsg2ctzls6ktvq2dn274v6523e3uj2gkrcsoaxisdji4tewrp4",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mlmxob625k2y",
+          "text": "RT @nft_leen: Obsessed with the gstack setup by @garrytan 🤖 It turned my Claude into an entire team 23 specialists that run a full sprint: Think → Plan → Design → Build → Review → Test → Ship This changed how i build 👇 http://github.com/garrytan/gstack",
+          "author": {
+            "handle": "garrytan-mir-rt.selfhosted.social",
+            "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T03:23:18.000Z",
+          "createdUtc": 1778556198,
+          "ageHours": 2.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gstack",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:ivep2atikg2cr2tawlzatfqn/app.bsky.feed.post/3mlcrp7vocu2y",
           "cid": "bafyreicaaq6y3ko4nta4gljhxjddjvnxlu4ubvz36sae2xyn3pw7cz2ugy",
@@ -12469,25 +12626,54 @@
     },
     "openai--openai-agents-python": {
       "count7d": 2,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3mlmqntsaxs2m",
-        "cid": "bafyreiasxac4kvd5lou2bmprm6s3tpuqlc37zde57v42bior2u4evxchdy",
-        "bskyUrl": "https://bsky.app/profile/therobertta.bsky.social/post/3mlmqntsaxs2m",
-        "text": "Source: github.com/openai/open...",
+        "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3mlmqnsns3m25",
+        "cid": "bafyreih6enud337v7d7qagxtjggamo3ifhbbdaby66o6jhhkfii3enynsu",
+        "bskyUrl": "https://bsky.app/profile/therobertta.bsky.social/post/3mlmqnsns3m25",
+        "text": "OpenAI just launched their Agents SDK with 25.6K stars at github.com/openai/open.... As someone who's built production harnesses for enterprise clients, this isn't just another library - it's the infrastructure that will separate AI toys from trillion-dollar systems.",
         "author": {
           "handle": "therobertta.bsky.social",
           "displayName": "Robert Ta"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
-        "replyCount": 0,
-        "createdAt": "2026-05-12T02:31:04.169662Z",
-        "hoursSincePosted": 1.61
+        "replyCount": 1,
+        "createdAt": "2026-05-12T02:31:02.985833Z",
+        "hoursSincePosted": 3.37
       },
       "posts": [
+        {
+          "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3mlmqnsns3m25",
+          "cid": "bafyreih6enud337v7d7qagxtjggamo3ifhbbdaby66o6jhhkfii3enynsu",
+          "bskyUrl": "https://bsky.app/profile/therobertta.bsky.social/post/3mlmqnsns3m25",
+          "text": "OpenAI just launched their Agents SDK with 25.6K stars at github.com/openai/open.... As someone who's built production harnesses for enterprise clients, this isn't just another library - it's the infrastructure that will separate AI toys from trillion-dollar systems.",
+          "author": {
+            "handle": "therobertta.bsky.social",
+            "displayName": "Robert Ta"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-12T02:31:02.985833Z",
+          "createdUtc": 1778553062,
+          "ageHours": 3.37,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openai/openai-agents-python",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3mlmqntsaxs2m",
           "cid": "bafyreiasxac4kvd5lou2bmprm6s3tpuqlc37zde57v42bior2u4evxchdy",
@@ -12502,41 +12688,12 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T02:31:04.169662Z",
           "createdUtc": 1778553064,
-          "ageHours": 1.61,
+          "ageHours": 3.37,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
           "value_score": 1,
-          "linkedRepos": [
-            {
-              "fullName": "openai/openai-agents-python",
-              "matchType": "url",
-              "confidence": 1
-            }
-          ]
-        },
-        {
-          "uri": "at://did:plc:cob7y5ebkweanqtxxmkzg22n/app.bsky.feed.post/3mlmqnsns3m25",
-          "cid": "bafyreih6enud337v7d7qagxtjggamo3ifhbbdaby66o6jhhkfii3enynsu",
-          "bskyUrl": "https://bsky.app/profile/therobertta.bsky.social/post/3mlmqnsns3m25",
-          "text": "OpenAI just launched their Agents SDK with 25.6K stars at github.com/openai/open.... As someone who's built production harnesses for enterprise clients, this isn't just another library - it's the infrastructure that will separate AI toys from trillion-dollar systems.",
-          "author": {
-            "handle": "therobertta.bsky.social",
-            "displayName": "Robert Ta"
-          },
-          "likeCount": 0,
-          "repostCount": 0,
-          "replyCount": 1,
-          "createdAt": "2026-05-12T02:31:02.985833Z",
-          "createdUtc": 1778553062,
-          "ageHours": 1.62,
-          "trendingScore": 0.5,
-          "content_tags": [
-            "has-github-repo",
-            "is-announcement"
-          ],
-          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "openai/openai-agents-python",
@@ -16789,7 +16946,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T03:33:36.371Z",
-        "hoursSincePosted": 0.57
+        "hoursSincePosted": 2.33
       },
       "posts": [
         {
@@ -16806,7 +16963,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T03:33:36.371Z",
           "createdUtc": 1778556816,
-          "ageHours": 0.57,
+          "ageHours": 2.33,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -16834,7 +16991,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T03:05:24.362Z",
           "createdUtc": 1778555124,
-          "ageHours": 1.04,
+          "ageHours": 2.8,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -17100,7 +17257,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T02:02:29.415Z",
-        "hoursSincePosted": 2.09
+        "hoursSincePosted": 3.85
       },
       "posts": [
         {
@@ -17173,7 +17330,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T02:02:29.415Z",
           "createdUtc": 1778551349,
-          "ageHours": 2.09,
+          "ageHours": 3.85,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -17286,7 +17443,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T02:28:06.767969+00:00",
-        "hoursSincePosted": 1.66
+        "hoursSincePosted": 3.42
       },
       "posts": [
         {
@@ -17303,7 +17460,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T02:28:06.767969+00:00",
           "createdUtc": 1778552886,
-          "ageHours": 1.66,
+          "ageHours": 3.42,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -17342,7 +17499,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T02:28:06.767969+00:00",
-        "hoursSincePosted": 1.66
+        "hoursSincePosted": 3.42
       },
       "posts": [
         {
@@ -17359,7 +17516,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T02:28:06.767969+00:00",
           "createdUtc": 1778552886,
-          "ageHours": 1.66,
+          "ageHours": 3.42,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -17398,7 +17555,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T02:22:49Z",
-        "hoursSincePosted": 1.75
+        "hoursSincePosted": 3.51
       },
       "posts": [
         {
@@ -17415,7 +17572,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T02:22:49Z",
           "createdUtc": 1778552569,
-          "ageHours": 1.75,
+          "ageHours": 3.51,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -17430,21 +17587,137 @@
           ]
         }
       ]
+    },
+    "raullenchai--rapid-mlx": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mlmwioxjv223",
+        "cid": "bafyreigjlqid7pt2mnyomj7k6f2yfbsz6jtghuxcebozpioxkduaayggri",
+        "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mlmwioxjv223",
+        "text": "Rapid-MLX Run AI on your Mac. Faster than anything else. https://github.com/raullenchai/Rapid-MLX",
+        "author": {
+          "handle": "pythonhub.dev",
+          "displayName": "Python Hub"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T04:15:33.770519+00:00",
+        "hoursSincePosted": 1.63
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:hm6svfyijdeb3yzv6pzsdtxr/app.bsky.feed.post/3mlmwioxjv223",
+          "cid": "bafyreigjlqid7pt2mnyomj7k6f2yfbsz6jtghuxcebozpioxkduaayggri",
+          "bskyUrl": "https://bsky.app/profile/pythonhub.dev/post/3mlmwioxjv223",
+          "text": "Rapid-MLX Run AI on your Mac. Faster than anything else. https://github.com/raullenchai/Rapid-MLX",
+          "author": {
+            "handle": "pythonhub.dev",
+            "displayName": "Python Hub"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T04:15:33.770519+00:00",
+          "createdUtc": 1778559333,
+          "ageHours": 1.63,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "raullenchai/Rapid-MLX",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "langchain-ai--langgraph": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlmwb5unen2x",
+        "cid": "bafyreiaty4bugeb4odnnghk3vwv33baytqvjbq323j5xxyawonvi7zvo7y",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mlmwb5unen2x",
+        "text": "🟠 LangGraph 1.2.0 adds crash-resume for durable error handlers LangChain's LangGraph 1.2.0 is out with a genuinely meaningful runtime upgrade: durable error-handler resume across host crashes. https://github.com/langchain-ai/langgraph/releases/tag/1.2.0 #AI #AgentWyre",
+        "author": {
+          "handle": "agentwyre.ai"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T04:11:19.359738+00:00",
+        "hoursSincePosted": 1.7
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlmwb5unen2x",
+          "cid": "bafyreiaty4bugeb4odnnghk3vwv33baytqvjbq323j5xxyawonvi7zvo7y",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mlmwb5unen2x",
+          "text": "🟠 LangGraph 1.2.0 adds crash-resume for durable error handlers LangChain's LangGraph 1.2.0 is out with a genuinely meaningful runtime upgrade: durable error-handler resume across host crashes. https://github.com/langchain-ai/langgraph/releases/tag/1.2.0 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T04:11:19.359738+00:00",
+          "createdUtc": 1778559079,
+          "ageHours": 1.7,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "langchain-ai/langgraph",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
+    {
+      "fullName": "openai/openai-agents-python",
+      "count7d": 2,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "raullenchai/Rapid-MLX",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
     {
       "fullName": "angelos-p/llm-from-scratch",
       "count7d": 2,
       "likesSum7d": 0
     },
     {
-      "fullName": "openai/openai-agents-python",
-      "count7d": 2,
+      "fullName": "ab-613/OpenGravity",
+      "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "ab-613/OpenGravity",
+      "fullName": "garrytan/gstack",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "langchain-ai/langgraph",
       "count7d": 1,
       "likesSum7d": 0
     },

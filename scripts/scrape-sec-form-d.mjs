@@ -57,6 +57,7 @@ import { writeFileSync, mkdirSync, existsSync } from "fs";
 
 import "./_load-env.mjs";
 import { writeDataStore } from "./_data-store-write.mjs";
+import { ingestFundingSecFormdToToolbox } from "./_toolbox-ingest.mjs";
 
 const PROJECT_ROOT = resolve(process.cwd());
 const DATA_DIR = resolve(PROJECT_ROOT, "data");
@@ -484,6 +485,16 @@ async function main() {
       );
     }
     console.log("[sec-form-d] redis write ok -> funding-news-sec");
+
+    // TOOLBOX dual-write: emit `funding.sec.formd` per Form D filing.
+    // Best-effort — env-unset = silent skip; failures never block.
+    const toolboxResult = await ingestFundingSecFormdToToolbox(payload);
+    console.log(
+      `[sec-form-d] toolbox-ingest: ${toolboxResult.status}` +
+        (toolboxResult.accepted !== undefined ? ` accepted=${toolboxResult.accepted}` : "") +
+        (toolboxResult.rejected !== undefined && toolboxResult.rejected > 0 ? ` rejected=${toolboxResult.rejected}` : "") +
+        (toolboxResult.reason ? ` (${toolboxResult.reason})` : ""),
+    );
   }
 }
 

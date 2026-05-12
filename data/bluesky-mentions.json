@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-12T10:02:08.973Z",
+  "fetchedAt": "2026-05-12T12:19:39.177Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -4526,23 +4526,23 @@
     },
     "anthropics/claude-code": {
       "count7d": 1,
-      "likesSum7d": 10,
-      "repostsSum7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:rkjxbatkiros6f7pwtgsir54/app.bsky.feed.post/3mlkcrafnhk27",
-        "cid": "bafyreic6t3oqivs2eahhkin5bgk7spjd6twhfwnmjzqsqmgzqdytsj4h5m",
-        "bskyUrl": "https://bsky.app/profile/den.dev/post/3mlkcrafnhk27",
-        "text": "I'm on a mission to make Claude the best MCP client. Diving deep into every MCP issue in our public repos. Having MCP problems with Anthropic products? File here: ✨ github.com/anthropics/c... ✨ github.com/anthropics/c... Blocked or no response? Tag me, we'll fix it.",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mlnqozyisc2u",
+        "cid": "bafyreiciglqoc5wqb4npd7wbucy2yglgfccddc5csrjwydgobjwsu4uuwy",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mlnqozyisc2u",
+        "text": "v2.1.139. Agent reliability in production is still the hard part — check whether the evals reflect real task completion, not just capability demos. 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.139",
         "author": {
-          "handle": "den.dev",
-          "displayName": "Den Delimarsky"
+          "handle": "boardwire.bsky.social",
+          "displayName": "Boardwire"
         },
-        "likeCount": 10,
-        "repostCount": 2,
+        "likeCount": 0,
+        "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-11T03:17:06.286Z",
-        "hoursSincePosted": 5.36
+        "createdAt": "2026-05-12T12:04:22.957223Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -4593,6 +4593,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mlnqozyisc2u",
+          "cid": "bafyreiciglqoc5wqb4npd7wbucy2yglgfccddc5csrjwydgobjwsu4uuwy",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mlnqozyisc2u",
+          "text": "v2.1.139. Agent reliability in production is still the hard part — check whether the evals reflect real task completion, not just capability demos. 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.139",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T12:04:22.957223Z",
+          "createdUtc": 1778587462,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
@@ -5854,7 +5883,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T06:57:12.982Z",
-        "hoursSincePosted": 3.08
+        "hoursSincePosted": 5.37
       },
       "posts": [
         {
@@ -5871,7 +5900,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T06:57:12.982Z",
           "createdUtc": 1778569032,
-          "ageHours": 3.08,
+          "ageHours": 5.37,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -7899,7 +7928,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T07:22:02Z",
-        "hoursSincePosted": 2.67
+        "hoursSincePosted": 4.96
       },
       "posts": [
         {
@@ -7916,7 +7945,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T07:22:02Z",
           "createdUtc": 1778570522,
-          "ageHours": 2.67,
+          "ageHours": 4.96,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -8470,7 +8499,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T09:06:33.618771Z",
-        "hoursSincePosted": 0.93
+        "hoursSincePosted": 3.22
       },
       "posts": [
         {
@@ -8543,7 +8572,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T09:06:33.618771Z",
           "createdUtc": 1778576793,
-          "ageHours": 0.93,
+          "ageHours": 3.22,
           "trendingScore": 0,
           "content_tags": [],
           "value_score": 0,
@@ -8930,7 +8959,7 @@
     },
     "op7418/guizang-ppt-skill": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -8942,11 +8971,11 @@
           "handle": "abvx.xyz",
           "displayName": "Anton Biletskyi-Volokh (ABV)"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T09:21:42.100Z",
-        "hoursSincePosted": 0.67
+        "hoursSincePosted": 2.97
       },
       "posts": [
         {
@@ -8958,13 +8987,13 @@
             "handle": "abvx.xyz",
             "displayName": "Anton Biletskyi-Volokh (ABV)"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-12T09:21:42.100Z",
           "createdUtc": 1778577702,
-          "ageHours": 0.67,
-          "trendingScore": 1,
+          "ageHours": 2.97,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo",
             "has-md-file",
@@ -8999,7 +9028,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T08:54:05.279Z",
-        "hoursSincePosted": 1.13
+        "hoursSincePosted": 3.43
       },
       "posts": [
         {
@@ -9016,7 +9045,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T08:54:05.279Z",
           "createdUtc": 1778576045,
-          "ageHours": 1.13,
+          "ageHours": 3.43,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -9050,7 +9079,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T08:10:02.000Z",
-        "hoursSincePosted": 1.87
+        "hoursSincePosted": 4.16
       },
       "posts": [
         {
@@ -9067,7 +9096,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T08:10:02.000Z",
           "createdUtc": 1778573402,
-          "ageHours": 1.87,
+          "ageHours": 4.16,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -9101,7 +9130,7 @@
         "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-12T07:11:36.333Z",
-        "hoursSincePosted": 2.84
+        "hoursSincePosted": 5.13
       },
       "posts": [
         {
@@ -9118,7 +9147,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T07:11:36.333Z",
           "createdUtc": 1778569896,
-          "ageHours": 2.84,
+          "ageHours": 5.13,
           "trendingScore": 4,
           "content_tags": [
             "has-github-repo",
@@ -9153,7 +9182,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T06:27:12.821Z",
-        "hoursSincePosted": 3.58
+        "hoursSincePosted": 5.87
       },
       "posts": [
         {
@@ -9170,7 +9199,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T06:27:12.821Z",
           "createdUtc": 1778567232,
-          "ageHours": 3.58,
+          "ageHours": 5.87,
           "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
@@ -9179,6 +9208,262 @@
           "linkedRepos": [
             {
               "fullName": "decolua/9router",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "sentrux/sentrux": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:6647tx44spwppvqz65t3kagy/app.bsky.feed.post/3mlnpngk6gs2v",
+        "cid": "bafyreihf5xmivhln3c5ui3pulyzgv7easjdjyjht4inj2ntpftyfpgtppe",
+        "bskyUrl": "https://bsky.app/profile/ayourtch.bsky.social/post/3mlnpngk6gs2v",
+        "text": "this is a very interesting idea which may quantify the architectural “goodness” of code, therefore allowing AI to optimize for that (besides other things). (Will post feedback when I test) github.com/sentrux/sent...",
+        "author": {
+          "handle": "ayourtch.bsky.social",
+          "displayName": "Andrew Yourtchenko"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T11:45:36.366Z",
+        "hoursSincePosted": 0.57
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:6647tx44spwppvqz65t3kagy/app.bsky.feed.post/3mlnpngk6gs2v",
+          "cid": "bafyreihf5xmivhln3c5ui3pulyzgv7easjdjyjht4inj2ntpftyfpgtppe",
+          "bskyUrl": "https://bsky.app/profile/ayourtch.bsky.social/post/3mlnpngk6gs2v",
+          "text": "this is a very interesting idea which may quantify the architectural “goodness” of code, therefore allowing AI to optimize for that (besides other things). (Will post feedback when I test) github.com/sentrux/sent...",
+          "author": {
+            "handle": "ayourtch.bsky.social",
+            "displayName": "Andrew Yourtchenko"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T11:45:36.366Z",
+          "createdUtc": 1778586336,
+          "ageHours": 0.57,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "sentrux/sentrux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "microsoft/ghqr": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:lgmfg3uvicfeuq56ohxqvfal/app.bsky.feed.post/3mlnpmcvgjs22",
+        "cid": "bafyreievm6vh4ypdxntqdlnpdzllubgxght2iogomvaua5gjwpvdd5quhm",
+        "bskyUrl": "https://bsky.app/profile/thealexlichter.com/post/3mlnpmcvgjs22",
+        "text": "There is github.com/zizmorcore/z... for your actions and github.com/microsoft/ghqr for your org. Still, footguns are footguns.",
+        "author": {
+          "handle": "thealexlichter.com",
+          "displayName": "Alexander Lichter"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-12T11:44:58.987Z",
+        "hoursSincePosted": 0.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lgmfg3uvicfeuq56ohxqvfal/app.bsky.feed.post/3mlnpmcvgjs22",
+          "cid": "bafyreievm6vh4ypdxntqdlnpdzllubgxght2iogomvaua5gjwpvdd5quhm",
+          "bskyUrl": "https://bsky.app/profile/thealexlichter.com/post/3mlnpmcvgjs22",
+          "text": "There is github.com/zizmorcore/z... for your actions and github.com/microsoft/ghqr for your org. Still, footguns are footguns.",
+          "author": {
+            "handle": "thealexlichter.com",
+            "displayName": "Alexander Lichter"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-12T11:44:58.987Z",
+          "createdUtc": 1778586298,
+          "ageHours": 0.58,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "microsoft/ghqr",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "nashsu/llm_wiki": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:u3qjqekap473myro72j4zfom/app.bsky.feed.post/3mlnoi7m3ag62",
+        "cid": "bafyreidxj7vj55b5aqwffyy7ci3v45mcjehhsnqw34z7jdd3oscp6xgcr4",
+        "bskyUrl": "https://bsky.app/profile/h12o.mastodon.tokyo.ap.brid.gy/post/3mlnoi7m3ag62",
+        "text": "RE: https://mastodon.tokyo/@h12o/116558443608586991 >> 最新版 v0.3.13 中已经修复此问题，请下载最新版使用就可以了，感谢反馈 << https://github.com/nashsu/llm_wiki/issues/55 手元のはVersion 0.23.2 (0.23.2)。",
+        "author": {
+          "handle": "h12o.mastodon.tokyo.ap.brid.gy",
+          "displayName": "h12o"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T11:24:42.000Z",
+        "hoursSincePosted": 0.92
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:u3qjqekap473myro72j4zfom/app.bsky.feed.post/3mlnoi7m3ag62",
+          "cid": "bafyreidxj7vj55b5aqwffyy7ci3v45mcjehhsnqw34z7jdd3oscp6xgcr4",
+          "bskyUrl": "https://bsky.app/profile/h12o.mastodon.tokyo.ap.brid.gy/post/3mlnoi7m3ag62",
+          "text": "RE: https://mastodon.tokyo/@h12o/116558443608586991 >> 最新版 v0.3.13 中已经修复此问题，请下载最新版使用就可以了，感谢反馈 << https://github.com/nashsu/llm_wiki/issues/55 手元のはVersion 0.23.2 (0.23.2)。",
+          "author": {
+            "handle": "h12o.mastodon.tokyo.ap.brid.gy",
+            "displayName": "h12o"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T11:24:42.000Z",
+          "createdUtc": 1778585082,
+          "ageHours": 0.92,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nashsu/llm_wiki",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Alishahryar1/free-claude-code": {
+      "count7d": 1,
+      "likesSum7d": 3,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlno7pt52j2j",
+        "cid": "bafyreiaop534tqspgnkosmame3ozwc3luoyffqcls5yhces3f4t3i6jynq",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlno7pt52j2j",
+        "text": "Proxy pour utiliser Claude Code gratuitement dans le terminal, VS Code ou via Discord — sans compte payant Anthropic. Warning: pas sûr que ça marche si bien ou que ce soit totalement dans les clous des CGU de Claude. https://github.com/Alishahryar1/free-claude-code",
+        "author": {
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T13:20:02+02:00",
+        "hoursSincePosted": 0.99
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlno7pt52j2j",
+          "cid": "bafyreiaop534tqspgnkosmame3ozwc3luoyffqcls5yhces3f4t3i6jynq",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlno7pt52j2j",
+          "text": "Proxy pour utiliser Claude Code gratuitement dans le terminal, VS Code ou via Discord — sans compte payant Anthropic. Warning: pas sûr que ça marche si bien ou que ce soit totalement dans les clous des CGU de Claude. https://github.com/Alishahryar1/free-claude-code",
+          "author": {
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T13:20:02+02:00",
+          "createdUtc": 1778584802,
+          "ageHours": 0.99,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "NousResearch/hermes-agent": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:txfqncx66asrjzitxfur3of6/app.bsky.feed.post/3mlnnhex5uc2h",
+        "cid": "bafyreicbmrx6qyh4rsg447imtggbq7wqsjciol67knqimlldvj3na6rfy4",
+        "bskyUrl": "https://bsky.app/profile/tilmonedwards.com/post/3mlnnhex5uc2h",
+        "text": "Tried hermes for a bit, it seems like the Eclipse of coding agents. It does everything and your first session with it will be going through settings and disabling stuff. Like, it comes bundled with a skill for managing modded Minecraft servers?? github.com/NousResearch...",
+        "author": {
+          "handle": "tilmonedwards.com",
+          "displayName": "Tilmon Edwards (Dirigo)"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T11:06:25.885Z",
+        "hoursSincePosted": 1.22
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:txfqncx66asrjzitxfur3of6/app.bsky.feed.post/3mlnnhex5uc2h",
+          "cid": "bafyreicbmrx6qyh4rsg447imtggbq7wqsjciol67knqimlldvj3na6rfy4",
+          "bskyUrl": "https://bsky.app/profile/tilmonedwards.com/post/3mlnnhex5uc2h",
+          "text": "Tried hermes for a bit, it seems like the Eclipse of coding agents. It does everything and your first session with it will be going through settings and disabling stuff. Like, it comes bundled with a skill for managing modded Minecraft servers?? github.com/NousResearch...",
+          "author": {
+            "handle": "tilmonedwards.com",
+            "displayName": "Tilmon Edwards (Dirigo)"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T11:06:25.885Z",
+          "createdUtc": 1778583985,
+          "ageHours": 1.22,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
               "matchType": "url",
               "confidence": 1
             }
@@ -13709,23 +13994,23 @@
     },
     "anthropics--claude-code": {
       "count7d": 1,
-      "likesSum7d": 10,
-      "repostsSum7d": 2,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:rkjxbatkiros6f7pwtgsir54/app.bsky.feed.post/3mlkcrafnhk27",
-        "cid": "bafyreic6t3oqivs2eahhkin5bgk7spjd6twhfwnmjzqsqmgzqdytsj4h5m",
-        "bskyUrl": "https://bsky.app/profile/den.dev/post/3mlkcrafnhk27",
-        "text": "I'm on a mission to make Claude the best MCP client. Diving deep into every MCP issue in our public repos. Having MCP problems with Anthropic products? File here: ✨ github.com/anthropics/c... ✨ github.com/anthropics/c... Blocked or no response? Tag me, we'll fix it.",
+        "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mlnqozyisc2u",
+        "cid": "bafyreiciglqoc5wqb4npd7wbucy2yglgfccddc5csrjwydgobjwsu4uuwy",
+        "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mlnqozyisc2u",
+        "text": "v2.1.139. Agent reliability in production is still the hard part — check whether the evals reflect real task completion, not just capability demos. 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.139",
         "author": {
-          "handle": "den.dev",
-          "displayName": "Den Delimarsky"
+          "handle": "boardwire.bsky.social",
+          "displayName": "Boardwire"
         },
-        "likeCount": 10,
-        "repostCount": 2,
+        "likeCount": 0,
+        "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-11T03:17:06.286Z",
-        "hoursSincePosted": 5.36
+        "createdAt": "2026-05-12T12:04:22.957223Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -13776,6 +14061,35 @@
             "has-github-repo"
           ],
           "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "anthropics/claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:e4wr5lkpn63w5hy6iisnauqu/app.bsky.feed.post/3mlnqozyisc2u",
+          "cid": "bafyreiciglqoc5wqb4npd7wbucy2yglgfccddc5csrjwydgobjwsu4uuwy",
+          "bskyUrl": "https://bsky.app/profile/boardwire.bsky.social/post/3mlnqozyisc2u",
+          "text": "v2.1.139. Agent reliability in production is still the hard part — check whether the evals reflect real task completion, not just capability demos. 🔗 https://github.com/anthropics/claude-code/releases/tag/v2.1.139",
+          "author": {
+            "handle": "boardwire.bsky.social",
+            "displayName": "Boardwire"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T12:04:22.957223Z",
+          "createdUtc": 1778587462,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
           "linkedRepos": [
             {
               "fullName": "anthropics/claude-code",
@@ -15037,7 +15351,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T06:57:12.982Z",
-        "hoursSincePosted": 3.08
+        "hoursSincePosted": 5.37
       },
       "posts": [
         {
@@ -15054,7 +15368,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T06:57:12.982Z",
           "createdUtc": 1778569032,
-          "ageHours": 3.08,
+          "ageHours": 5.37,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -17082,7 +17396,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T07:22:02Z",
-        "hoursSincePosted": 2.67
+        "hoursSincePosted": 4.96
       },
       "posts": [
         {
@@ -17099,7 +17413,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T07:22:02Z",
           "createdUtc": 1778570522,
-          "ageHours": 2.67,
+          "ageHours": 4.96,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -17653,7 +17967,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T09:06:33.618771Z",
-        "hoursSincePosted": 0.93
+        "hoursSincePosted": 3.22
       },
       "posts": [
         {
@@ -17726,7 +18040,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T09:06:33.618771Z",
           "createdUtc": 1778576793,
-          "ageHours": 0.93,
+          "ageHours": 3.22,
           "trendingScore": 0,
           "content_tags": [],
           "value_score": 0,
@@ -18113,7 +18427,7 @@
     },
     "op7418--guizang-ppt-skill": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
@@ -18125,11 +18439,11 @@
           "handle": "abvx.xyz",
           "displayName": "Anton Biletskyi-Volokh (ABV)"
         },
-        "likeCount": 1,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T09:21:42.100Z",
-        "hoursSincePosted": 0.67
+        "hoursSincePosted": 2.97
       },
       "posts": [
         {
@@ -18141,13 +18455,13 @@
             "handle": "abvx.xyz",
             "displayName": "Anton Biletskyi-Volokh (ABV)"
           },
-          "likeCount": 1,
+          "likeCount": 2,
           "repostCount": 0,
           "replyCount": 0,
           "createdAt": "2026-05-12T09:21:42.100Z",
           "createdUtc": 1778577702,
-          "ageHours": 0.67,
-          "trendingScore": 1,
+          "ageHours": 2.97,
+          "trendingScore": 2,
           "content_tags": [
             "has-github-repo",
             "has-md-file",
@@ -18182,7 +18496,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T08:54:05.279Z",
-        "hoursSincePosted": 1.13
+        "hoursSincePosted": 3.43
       },
       "posts": [
         {
@@ -18199,7 +18513,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T08:54:05.279Z",
           "createdUtc": 1778576045,
-          "ageHours": 1.13,
+          "ageHours": 3.43,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -18233,7 +18547,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T08:10:02.000Z",
-        "hoursSincePosted": 1.87
+        "hoursSincePosted": 4.16
       },
       "posts": [
         {
@@ -18250,7 +18564,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T08:10:02.000Z",
           "createdUtc": 1778573402,
-          "ageHours": 1.87,
+          "ageHours": 4.16,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -18284,7 +18598,7 @@
         "repostCount": 1,
         "replyCount": 0,
         "createdAt": "2026-05-12T07:11:36.333Z",
-        "hoursSincePosted": 2.84
+        "hoursSincePosted": 5.13
       },
       "posts": [
         {
@@ -18301,7 +18615,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T07:11:36.333Z",
           "createdUtc": 1778569896,
-          "ageHours": 2.84,
+          "ageHours": 5.13,
           "trendingScore": 4,
           "content_tags": [
             "has-github-repo",
@@ -18336,7 +18650,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T06:27:12.821Z",
-        "hoursSincePosted": 3.58
+        "hoursSincePosted": 5.87
       },
       "posts": [
         {
@@ -18353,7 +18667,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T06:27:12.821Z",
           "createdUtc": 1778567232,
-          "ageHours": 3.58,
+          "ageHours": 5.87,
           "trendingScore": 2,
           "content_tags": [
             "has-github-repo"
@@ -18368,9 +18682,270 @@
           ]
         }
       ]
+    },
+    "sentrux--sentrux": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:6647tx44spwppvqz65t3kagy/app.bsky.feed.post/3mlnpngk6gs2v",
+        "cid": "bafyreihf5xmivhln3c5ui3pulyzgv7easjdjyjht4inj2ntpftyfpgtppe",
+        "bskyUrl": "https://bsky.app/profile/ayourtch.bsky.social/post/3mlnpngk6gs2v",
+        "text": "this is a very interesting idea which may quantify the architectural “goodness” of code, therefore allowing AI to optimize for that (besides other things). (Will post feedback when I test) github.com/sentrux/sent...",
+        "author": {
+          "handle": "ayourtch.bsky.social",
+          "displayName": "Andrew Yourtchenko"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T11:45:36.366Z",
+        "hoursSincePosted": 0.57
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:6647tx44spwppvqz65t3kagy/app.bsky.feed.post/3mlnpngk6gs2v",
+          "cid": "bafyreihf5xmivhln3c5ui3pulyzgv7easjdjyjht4inj2ntpftyfpgtppe",
+          "bskyUrl": "https://bsky.app/profile/ayourtch.bsky.social/post/3mlnpngk6gs2v",
+          "text": "this is a very interesting idea which may quantify the architectural “goodness” of code, therefore allowing AI to optimize for that (besides other things). (Will post feedback when I test) github.com/sentrux/sent...",
+          "author": {
+            "handle": "ayourtch.bsky.social",
+            "displayName": "Andrew Yourtchenko"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T11:45:36.366Z",
+          "createdUtc": 1778586336,
+          "ageHours": 0.57,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "sentrux/sentrux",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "microsoft--ghqr": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 1,
+      "topPost": {
+        "uri": "at://did:plc:lgmfg3uvicfeuq56ohxqvfal/app.bsky.feed.post/3mlnpmcvgjs22",
+        "cid": "bafyreievm6vh4ypdxntqdlnpdzllubgxght2iogomvaua5gjwpvdd5quhm",
+        "bskyUrl": "https://bsky.app/profile/thealexlichter.com/post/3mlnpmcvgjs22",
+        "text": "There is github.com/zizmorcore/z... for your actions and github.com/microsoft/ghqr for your org. Still, footguns are footguns.",
+        "author": {
+          "handle": "thealexlichter.com",
+          "displayName": "Alexander Lichter"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 1,
+        "createdAt": "2026-05-12T11:44:58.987Z",
+        "hoursSincePosted": 0.58
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lgmfg3uvicfeuq56ohxqvfal/app.bsky.feed.post/3mlnpmcvgjs22",
+          "cid": "bafyreievm6vh4ypdxntqdlnpdzllubgxght2iogomvaua5gjwpvdd5quhm",
+          "bskyUrl": "https://bsky.app/profile/thealexlichter.com/post/3mlnpmcvgjs22",
+          "text": "There is github.com/zizmorcore/z... for your actions and github.com/microsoft/ghqr for your org. Still, footguns are footguns.",
+          "author": {
+            "handle": "thealexlichter.com",
+            "displayName": "Alexander Lichter"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-12T11:44:58.987Z",
+          "createdUtc": 1778586298,
+          "ageHours": 0.58,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "microsoft/ghqr",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "nashsu--llmwiki": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:u3qjqekap473myro72j4zfom/app.bsky.feed.post/3mlnoi7m3ag62",
+        "cid": "bafyreidxj7vj55b5aqwffyy7ci3v45mcjehhsnqw34z7jdd3oscp6xgcr4",
+        "bskyUrl": "https://bsky.app/profile/h12o.mastodon.tokyo.ap.brid.gy/post/3mlnoi7m3ag62",
+        "text": "RE: https://mastodon.tokyo/@h12o/116558443608586991 >> 最新版 v0.3.13 中已经修复此问题，请下载最新版使用就可以了，感谢反馈 << https://github.com/nashsu/llm_wiki/issues/55 手元のはVersion 0.23.2 (0.23.2)。",
+        "author": {
+          "handle": "h12o.mastodon.tokyo.ap.brid.gy",
+          "displayName": "h12o"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T11:24:42.000Z",
+        "hoursSincePosted": 0.92
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:u3qjqekap473myro72j4zfom/app.bsky.feed.post/3mlnoi7m3ag62",
+          "cid": "bafyreidxj7vj55b5aqwffyy7ci3v45mcjehhsnqw34z7jdd3oscp6xgcr4",
+          "bskyUrl": "https://bsky.app/profile/h12o.mastodon.tokyo.ap.brid.gy/post/3mlnoi7m3ag62",
+          "text": "RE: https://mastodon.tokyo/@h12o/116558443608586991 >> 最新版 v0.3.13 中已经修复此问题，请下载最新版使用就可以了，感谢反馈 << https://github.com/nashsu/llm_wiki/issues/55 手元のはVersion 0.23.2 (0.23.2)。",
+          "author": {
+            "handle": "h12o.mastodon.tokyo.ap.brid.gy",
+            "displayName": "h12o"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T11:24:42.000Z",
+          "createdUtc": 1778585082,
+          "ageHours": 0.92,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nashsu/llm_wiki",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "alishahryar1--free-claude-code": {
+      "count7d": 1,
+      "likesSum7d": 3,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlno7pt52j2j",
+        "cid": "bafyreiaop534tqspgnkosmame3ozwc3luoyffqcls5yhces3f4t3i6jynq",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlno7pt52j2j",
+        "text": "Proxy pour utiliser Claude Code gratuitement dans le terminal, VS Code ou via Discord — sans compte payant Anthropic. Warning: pas sûr que ça marche si bien ou que ce soit totalement dans les clous des CGU de Claude. https://github.com/Alishahryar1/free-claude-code",
+        "author": {
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
+        },
+        "likeCount": 3,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T13:20:02+02:00",
+        "hoursSincePosted": 0.99
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlno7pt52j2j",
+          "cid": "bafyreiaop534tqspgnkosmame3ozwc3luoyffqcls5yhces3f4t3i6jynq",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlno7pt52j2j",
+          "text": "Proxy pour utiliser Claude Code gratuitement dans le terminal, VS Code ou via Discord — sans compte payant Anthropic. Warning: pas sûr que ça marche si bien ou que ce soit totalement dans les clous des CGU de Claude. https://github.com/Alishahryar1/free-claude-code",
+          "author": {
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
+          },
+          "likeCount": 3,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T13:20:02+02:00",
+          "createdUtc": 1778584802,
+          "ageHours": 0.99,
+          "trendingScore": 3,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Alishahryar1/free-claude-code",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "nousresearch--hermes-agent": {
+      "count7d": 1,
+      "likesSum7d": 2,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:txfqncx66asrjzitxfur3of6/app.bsky.feed.post/3mlnnhex5uc2h",
+        "cid": "bafyreicbmrx6qyh4rsg447imtggbq7wqsjciol67knqimlldvj3na6rfy4",
+        "bskyUrl": "https://bsky.app/profile/tilmonedwards.com/post/3mlnnhex5uc2h",
+        "text": "Tried hermes for a bit, it seems like the Eclipse of coding agents. It does everything and your first session with it will be going through settings and disabling stuff. Like, it comes bundled with a skill for managing modded Minecraft servers?? github.com/NousResearch...",
+        "author": {
+          "handle": "tilmonedwards.com",
+          "displayName": "Tilmon Edwards (Dirigo)"
+        },
+        "likeCount": 2,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T11:06:25.885Z",
+        "hoursSincePosted": 1.22
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:txfqncx66asrjzitxfur3of6/app.bsky.feed.post/3mlnnhex5uc2h",
+          "cid": "bafyreicbmrx6qyh4rsg447imtggbq7wqsjciol67knqimlldvj3na6rfy4",
+          "bskyUrl": "https://bsky.app/profile/tilmonedwards.com/post/3mlnnhex5uc2h",
+          "text": "Tried hermes for a bit, it seems like the Eclipse of coding agents. It does everything and your first session with it will be going through settings and disabling stuff. Like, it comes bundled with a skill for managing modded Minecraft servers?? github.com/NousResearch...",
+          "author": {
+            "handle": "tilmonedwards.com",
+            "displayName": "Tilmon Edwards (Dirigo)"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T11:06:25.885Z",
+          "createdUtc": 1778583985,
+          "ageHours": 1.22,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo",
+            "has-md-file"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "NousResearch/hermes-agent",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
+    {
+      "fullName": "Alishahryar1/free-claude-code",
+      "count7d": 1,
+      "likesSum7d": 3
+    },
     {
       "fullName": "decolua/9router",
       "count7d": 1,
@@ -18382,17 +18957,37 @@
       "likesSum7d": 2
     },
     {
+      "fullName": "NousResearch/hermes-agent",
+      "count7d": 1,
+      "likesSum7d": 2
+    },
+    {
+      "fullName": "op7418/guizang-ppt-skill",
+      "count7d": 1,
+      "likesSum7d": 2
+    },
+    {
       "fullName": "AlexsJones/llmfit",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
-      "fullName": "op7418/guizang-ppt-skill",
+      "fullName": "microsoft/ghqr",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "sentrux/sentrux",
       "count7d": 1,
       "likesSum7d": 1
     },
     {
       "fullName": "ab-613/OpenGravity",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "anthropics/claude-code",
       "count7d": 1,
       "likesSum7d": 0
     },
@@ -18403,6 +18998,11 @@
     },
     {
       "fullName": "jundot/omlx",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "nashsu/llm_wiki",
       "count7d": 1,
       "likesSum7d": 0
     },

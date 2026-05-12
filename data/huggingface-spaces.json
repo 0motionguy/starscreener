@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-12T15:27:04.343Z",
+  "fetchedAt": "2026-05-12T20:18:22.260Z",
   "source": "huggingface.co/api/spaces (default sort = trending)",
   "count": 50,
   "spaces": [
@@ -79,7 +79,7 @@
       "id": "mikeee/qwen-7b-chat",
       "author": "mikeee",
       "url": "https://huggingface.co/spaces/mikeee/qwen-7b-chat",
-      "likes": 170,
+      "likes": 174,
       "trendingScore": 70,
       "sdk": "docker",
       "tags": [
@@ -129,7 +129,7 @@
       "id": "k2-fsa/OmniVoice",
       "author": "k2-fsa",
       "url": "https://huggingface.co/spaces/k2-fsa/OmniVoice",
-      "likes": 829,
+      "likes": 830,
       "trendingScore": 61,
       "sdk": "gradio",
       "tags": [
@@ -145,8 +145,8 @@
       "id": "zerogpu-aoti/wan2-2-fp8da-aoti-faster",
       "author": "zerogpu-aoti",
       "url": "https://huggingface.co/spaces/zerogpu-aoti/wan2-2-fp8da-aoti-faster",
-      "likes": 3038,
-      "trendingScore": 51,
+      "likes": 3041,
+      "trendingScore": 54,
       "sdk": "gradio",
       "tags": [
         "gradio",
@@ -175,6 +175,38 @@
     },
     {
       "rank": 11,
+      "id": "HiDream-ai/HiDream-O1-Image",
+      "author": "HiDream-ai",
+      "url": "https://huggingface.co/spaces/HiDream-ai/HiDream-O1-Image",
+      "likes": 47,
+      "trendingScore": 45,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "createdAt": "2026-05-09T15:30:47.000Z",
+      "lastModified": "2026-05-09T18:48:40.000Z",
+      "models": []
+    },
+    {
+      "rank": 12,
+      "id": "TencentARC/Pixal3D",
+      "author": "TencentARC",
+      "url": "https://huggingface.co/spaces/TencentARC/Pixal3D",
+      "likes": 46,
+      "trendingScore": 45,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "createdAt": "2026-04-30T14:43:47.000Z",
+      "lastModified": "2026-05-12T20:08:06.000Z",
+      "models": []
+    },
+    {
+      "rank": 13,
       "id": "FrameAI4687/Omni-Video-Factory",
       "author": "FrameAI4687",
       "url": "https://huggingface.co/spaces/FrameAI4687/Omni-Video-Factory",
@@ -190,7 +222,7 @@
       "models": []
     },
     {
-      "rank": 12,
+      "rank": 14,
       "id": "selfit-camera/Omni-Image-Editor",
       "author": "selfit-camera",
       "url": "https://huggingface.co/spaces/selfit-camera/Omni-Image-Editor",
@@ -206,23 +238,7 @@
       "models": []
     },
     {
-      "rank": 13,
-      "id": "HiDream-ai/HiDream-O1-Image",
-      "author": "HiDream-ai",
-      "url": "https://huggingface.co/spaces/HiDream-ai/HiDream-O1-Image",
-      "likes": 45,
-      "trendingScore": 43,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "region:us"
-      ],
-      "createdAt": "2026-05-09T15:30:47.000Z",
-      "lastModified": "2026-05-09T18:48:40.000Z",
-      "models": []
-    },
-    {
-      "rank": 14,
+      "rank": 15,
       "id": "microsoft/TRELLIS.2",
       "author": "microsoft",
       "url": "https://huggingface.co/spaces/microsoft/TRELLIS.2",
@@ -238,23 +254,27 @@
       "models": []
     },
     {
-      "rank": 15,
-      "id": "TencentARC/Pixal3D",
-      "author": "TencentARC",
-      "url": "https://huggingface.co/spaces/TencentARC/Pixal3D",
-      "likes": 40,
-      "trendingScore": 40,
-      "sdk": "gradio",
+      "rank": 16,
+      "id": "Supertone/supertonic-3",
+      "author": "Supertone",
+      "url": "https://huggingface.co/spaces/Supertone/supertonic-3",
+      "likes": 39,
+      "trendingScore": 38,
+      "sdk": "static",
       "tags": [
-        "gradio",
+        "static",
+        "speech-synthesis",
+        "text-to-speech",
+        "audio",
+        "voice",
         "region:us"
       ],
-      "createdAt": "2026-04-30T14:43:47.000Z",
-      "lastModified": "2026-05-12T04:07:01.000Z",
+      "createdAt": "2026-05-06T20:45:18.000Z",
+      "lastModified": "2026-05-06T20:35:37.000Z",
       "models": []
     },
     {
-      "rank": 16,
+      "rank": 17,
       "id": "mrfakename/Z-Image-Turbo",
       "author": "mrfakename",
       "url": "https://huggingface.co/spaces/mrfakename/Z-Image-Turbo",
@@ -271,27 +291,24 @@
       "models": []
     },
     {
-      "rank": 17,
-      "id": "Supertone/supertonic-3",
-      "author": "Supertone",
-      "url": "https://huggingface.co/spaces/Supertone/supertonic-3",
-      "likes": 37,
-      "trendingScore": 36,
-      "sdk": "static",
+      "rank": 18,
+      "id": "prithivMLmods/Qwen-Image-Edit-2511-LoRAs-Fast",
+      "author": "prithivMLmods",
+      "url": "https://huggingface.co/spaces/prithivMLmods/Qwen-Image-Edit-2511-LoRAs-Fast",
+      "likes": 1396,
+      "trendingScore": 35,
+      "sdk": "gradio",
       "tags": [
-        "static",
-        "speech-synthesis",
-        "text-to-speech",
-        "audio",
-        "voice",
+        "gradio",
+        "mcp-server",
         "region:us"
       ],
-      "createdAt": "2026-05-06T20:45:18.000Z",
-      "lastModified": "2026-05-06T20:35:37.000Z",
+      "createdAt": "2025-12-19T05:20:19.000Z",
+      "lastModified": "2026-03-23T09:20:04.000Z",
       "models": []
     },
     {
-      "rank": 18,
+      "rank": 19,
       "id": "multimodalart/qwen-image-multiple-angles-3d-camera",
       "author": "multimodalart",
       "url": "https://huggingface.co/spaces/multimodalart/qwen-image-multiple-angles-3d-camera",
@@ -307,24 +324,23 @@
       "models": []
     },
     {
-      "rank": 19,
-      "id": "prithivMLmods/Qwen-Image-Edit-2511-LoRAs-Fast",
-      "author": "prithivMLmods",
-      "url": "https://huggingface.co/spaces/prithivMLmods/Qwen-Image-Edit-2511-LoRAs-Fast",
-      "likes": 1394,
+      "rank": 20,
+      "id": "techfreakworm/LTX2.3-Studio",
+      "author": "techfreakworm",
+      "url": "https://huggingface.co/spaces/techfreakworm/LTX2.3-Studio",
+      "likes": 42,
       "trendingScore": 34,
       "sdk": "gradio",
       "tags": [
         "gradio",
-        "mcp-server",
         "region:us"
       ],
-      "createdAt": "2025-12-19T05:20:19.000Z",
-      "lastModified": "2026-03-23T09:20:04.000Z",
+      "createdAt": "2026-05-01T05:41:26.000Z",
+      "lastModified": "2026-05-06T16:16:41.000Z",
       "models": []
     },
     {
-      "rank": 20,
+      "rank": 21,
       "id": "suraj291/Survival_Island_Game",
       "author": "suraj291",
       "url": "https://huggingface.co/spaces/suraj291/Survival_Island_Game",
@@ -341,7 +357,7 @@
       "models": []
     },
     {
-      "rank": 21,
+      "rank": 22,
       "id": "Imosu/image_audio_to_video_NSFW",
       "author": "Imosu",
       "url": "https://huggingface.co/spaces/Imosu/image_audio_to_video_NSFW",
@@ -358,7 +374,7 @@
       "models": []
     },
     {
-      "rank": 22,
+      "rank": 23,
       "id": "multimodalart/talkie-1930",
       "author": "multimodalart",
       "url": "https://huggingface.co/spaces/multimodalart/talkie-1930",
@@ -374,7 +390,7 @@
       "models": []
     },
     {
-      "rank": 23,
+      "rank": 24,
       "id": "r3gm/wan2-2-fp8da-aoti-previewG",
       "author": "r3gm",
       "url": "https://huggingface.co/spaces/r3gm/wan2-2-fp8da-aoti-previewG",
@@ -391,7 +407,7 @@
       "models": []
     },
     {
-      "rank": 24,
+      "rank": 25,
       "id": "systms/ACTION-HF",
       "author": "systms",
       "url": "https://huggingface.co/spaces/systms/ACTION-HF",
@@ -404,22 +420,6 @@
       ],
       "createdAt": "2026-04-23T14:39:25.000Z",
       "lastModified": "2026-05-06T11:59:05.000Z",
-      "models": []
-    },
-    {
-      "rank": 25,
-      "id": "techfreakworm/LTX2.3-Studio",
-      "author": "techfreakworm",
-      "url": "https://huggingface.co/spaces/techfreakworm/LTX2.3-Studio",
-      "likes": 38,
-      "trendingScore": 31,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "region:us"
-      ],
-      "createdAt": "2026-05-01T05:41:26.000Z",
-      "lastModified": "2026-05-06T16:16:41.000Z",
       "models": []
     },
     {
@@ -443,8 +443,8 @@
       "id": "akhaliq/Qwen-Image-Edit-2509-LoRAs-Fast",
       "author": "akhaliq",
       "url": "https://huggingface.co/spaces/akhaliq/Qwen-Image-Edit-2509-LoRAs-Fast",
-      "likes": 30,
-      "trendingScore": 26,
+      "likes": 31,
+      "trendingScore": 28,
       "sdk": "gradio",
       "tags": [
         "gradio",
@@ -609,6 +609,23 @@
     },
     {
       "rank": 37,
+      "id": "r3gm/wan2-2-fp8da-aoti-previewE",
+      "author": "r3gm",
+      "url": "https://huggingface.co/spaces/r3gm/wan2-2-fp8da-aoti-previewE",
+      "likes": 26,
+      "trendingScore": 19,
+      "sdk": "gradio",
+      "tags": [
+        "gradio",
+        "mcp-server",
+        "region:us"
+      ],
+      "createdAt": "2026-03-28T19:57:45.000Z",
+      "lastModified": "2026-05-02T04:24:15.000Z",
+      "models": []
+    },
+    {
+      "rank": 38,
       "id": "lerobot/visualize_dataset",
       "author": "lerobot",
       "url": "https://huggingface.co/spaces/lerobot/visualize_dataset",
@@ -624,7 +641,7 @@
       "models": []
     },
     {
-      "rank": 38,
+      "rank": 39,
       "id": "openai/privacy-filter",
       "author": "openai",
       "url": "https://huggingface.co/spaces/openai/privacy-filter",
@@ -637,23 +654,6 @@
       ],
       "createdAt": "2026-04-17T23:23:53.000Z",
       "lastModified": "2026-04-24T14:39:09.000Z",
-      "models": []
-    },
-    {
-      "rank": 39,
-      "id": "r3gm/wan2-2-fp8da-aoti-previewE",
-      "author": "r3gm",
-      "url": "https://huggingface.co/spaces/r3gm/wan2-2-fp8da-aoti-previewE",
-      "likes": 25,
-      "trendingScore": 18,
-      "sdk": "gradio",
-      "tags": [
-        "gradio",
-        "mcp-server",
-        "region:us"
-      ],
-      "createdAt": "2026-03-28T19:57:45.000Z",
-      "lastModified": "2026-05-02T04:24:15.000Z",
       "models": []
     },
     {
@@ -686,7 +686,7 @@
         "region:us"
       ],
       "createdAt": "2022-09-29T11:29:23.000Z",
-      "lastModified": "2026-05-10T11:01:29.000Z",
+      "lastModified": "2026-05-12T17:26:23.000Z",
       "models": []
     },
     {

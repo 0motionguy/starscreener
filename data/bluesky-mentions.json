@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-12T20:51:54.393Z",
+  "fetchedAt": "2026-05-12T22:37:19.739Z",
   "windowDays": 7,
   "scannedPosts": 300,
   "searchQuery": "github.com",
@@ -2925,25 +2925,58 @@
     },
     "garrytan/gstack": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mlmxob625k2y",
-        "cid": "bafyreie4fsg2ctzls6ktvq2dn274v6523e3uj2gkrcsoaxisdji4tewrp4",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mlmxob625k2y",
-        "text": "RT @nft_leen: Obsessed with the gstack setup by @garrytan 🤖 It turned my Claude into an entire team 23 specialists that run a full sprint: Think → Plan → Design → Build → Review → Test → Ship This changed how i build 👇 http://github.com/garrytan/gstack",
+        "uri": "at://did:plc:tzoaakv7tlo3d6iucwwjjcld/app.bsky.feed.post/3mlotnisiak2f",
+        "cid": "bafyreidls7732koe4ktmlhxu53ehceq56ic7o66iw3xiwjmtutwbbqxg44",
+        "bskyUrl": "https://bsky.app/profile/nsega.dev/post/3mlotnisiak2f",
+        "text": "Garry Tan氏の公開しているこのrepos、ぜんぜん知らなかった。 github.com/garrytan/gst... github.com/garrytan/gbr...",
         "author": {
-          "handle": "garrytan-mir-rt.selfhosted.social",
-          "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
+          "handle": "nsega.dev",
+          "displayName": "Naoki Sega"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T03:23:18.000Z",
-        "hoursSincePosted": 2.5
+        "createdAt": "2026-05-12T22:29:53.442Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:tzoaakv7tlo3d6iucwwjjcld/app.bsky.feed.post/3mlotnisiak2f",
+          "cid": "bafyreidls7732koe4ktmlhxu53ehceq56ic7o66iw3xiwjmtutwbbqxg44",
+          "bskyUrl": "https://bsky.app/profile/nsega.dev/post/3mlotnisiak2f",
+          "text": "Garry Tan氏の公開しているこのrepos、ぜんぜん知らなかった。 github.com/garrytan/gst... github.com/garrytan/gbr...",
+          "author": {
+            "handle": "nsega.dev",
+            "displayName": "Naoki Sega"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T22:29:53.442Z",
+          "createdUtc": 1778624993,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gstack",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mlmxob625k2y",
           "cid": "bafyreie4fsg2ctzls6ktvq2dn274v6523e3uj2gkrcsoaxisdji4tewrp4",
@@ -3003,26 +3036,88 @@
       ]
     },
     "garrytan/gbrain": {
-      "count7d": 1,
-      "likesSum7d": 0,
+      "count7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jz6ug3vllzn2jzhonqs7imou/app.bsky.feed.post/3mljayp463u2s",
-        "cid": "bafyreifabc4lsgzlzowasrvlakbc7kiuyaegevldt5mn36ccbw6hkuxnne",
-        "bskyUrl": "https://bsky.app/profile/eddiesoehnel.bsky.social/post/3mljayp463u2s",
-        "text": "Then ask it to help you improve your existing skills in your projects. Huge learnings when I did this. /3 github.com/garrytan/gbr...",
+        "uri": "at://did:plc:tzoaakv7tlo3d6iucwwjjcld/app.bsky.feed.post/3mlotnisiak2f",
+        "cid": "bafyreidls7732koe4ktmlhxu53ehceq56ic7o66iw3xiwjmtutwbbqxg44",
+        "bskyUrl": "https://bsky.app/profile/nsega.dev/post/3mlotnisiak2f",
+        "text": "Garry Tan氏の公開しているこのrepos、ぜんぜん知らなかった。 github.com/garrytan/gst... github.com/garrytan/gbr...",
         "author": {
-          "handle": "eddiesoehnel.bsky.social",
-          "displayName": "Eddie Soehnel"
+          "handle": "nsega.dev",
+          "displayName": "Naoki Sega"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T17:12:48.339Z",
-        "hoursSincePosted": 2.38
+        "createdAt": "2026-05-12T22:29:53.442Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:tzoaakv7tlo3d6iucwwjjcld/app.bsky.feed.post/3mlotnisiak2f",
+          "cid": "bafyreidls7732koe4ktmlhxu53ehceq56ic7o66iw3xiwjmtutwbbqxg44",
+          "bskyUrl": "https://bsky.app/profile/nsega.dev/post/3mlotnisiak2f",
+          "text": "Garry Tan氏の公開しているこのrepos、ぜんぜん知らなかった。 github.com/garrytan/gst... github.com/garrytan/gbr...",
+          "author": {
+            "handle": "nsega.dev",
+            "displayName": "Naoki Sega"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T22:29:53.442Z",
+          "createdUtc": 1778624993,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gstack",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mloqnstkwo2y",
+          "cid": "bafyreifl6ih2zx2wncjxsqydtqvbcvazi2d7ifof74xzm647d3fcmr3gjy",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mloqnstkwo2y",
+          "text": "It ships with 34 skills, runs on embedded PGLite (no server, ready in 2 seconds), and works as an MCP server for Claude Code, Cursor, and Windsurf. GBrain: http://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mir-rt.selfhosted.social",
+            "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T19:53:22.000Z",
+          "createdUtc": 1778615602,
+          "ageHours": 2.73,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-mcp"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jz6ug3vllzn2jzhonqs7imou/app.bsky.feed.post/3mljayp463u2s",
           "cid": "bafyreifabc4lsgzlzowasrvlakbc7kiuyaegevldt5mn36ccbw6hkuxnne",
@@ -6579,8 +6674,8 @@
     },
     "matthart1983/netwatch": {
       "count7d": 1,
-      "likesSum7d": 12,
-      "repostsSum7d": 2,
+      "likesSum7d": 16,
+      "repostsSum7d": 3,
       "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:5lj4n3nkq7by6vmdxltlt2fy/app.bsky.feed.post/3mloii6q6ic2t",
@@ -6591,11 +6686,11 @@
           "handle": "lcheylus.bsky.social",
           "displayName": "Laurent Cheylus"
         },
-        "likeCount": 12,
-        "repostCount": 2,
+        "likeCount": 16,
+        "repostCount": 3,
         "replyCount": 1,
         "createdAt": "2026-05-12T19:10:03.913Z",
-        "hoursSincePosted": 1.7
+        "hoursSincePosted": 3.45
       },
       "posts": [
         {
@@ -6607,13 +6702,13 @@
             "handle": "lcheylus.bsky.social",
             "displayName": "Laurent Cheylus"
           },
-          "likeCount": 12,
-          "repostCount": 2,
+          "likeCount": 16,
+          "repostCount": 3,
           "replyCount": 1,
           "createdAt": "2026-05-12T19:10:03.913Z",
           "createdUtc": 1778613003,
-          "ageHours": 1.7,
-          "trendingScore": 16.5,
+          "ageHours": 3.45,
+          "trendingScore": 22.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -9727,7 +9822,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-12T20:32:49.483Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.08
       },
       "posts": [
         {
@@ -9744,7 +9839,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-12T20:32:49.483Z",
           "createdUtc": 1778617969,
-          "ageHours": 0.5,
+          "ageHours": 2.08,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -9761,10 +9856,10 @@
       ]
     },
     "Nightmare-Eclipse/GreenPlasma": {
-      "count7d": 2,
-      "likesSum7d": 6,
-      "repostsSum7d": 3,
-      "repliesSum7d": 1,
+      "count7d": 3,
+      "likesSum7d": 10,
+      "repostsSum7d": 4,
+      "repliesSum7d": 2,
       "topPost": {
         "uri": "at://did:plc:w5dk6pygx5sdrslc5vo56h75/app.bsky.feed.post/3mlom45ld6s24",
         "cid": "bafyreightgiunxog536dnjvxa34hnhzb5zpsqwiogdl6d3lx7waiwqubb4",
@@ -9774,11 +9869,11 @@
           "handle": "campuscodi.risky.biz",
           "displayName": "Catalin Cimpanu"
         },
-        "likeCount": 6,
-        "repostCount": 3,
+        "likeCount": 9,
+        "repostCount": 4,
         "replyCount": 1,
         "createdAt": "2026-05-12T20:14:55.055Z",
-        "hoursSincePosted": 0.62
+        "hoursSincePosted": 2.37
       },
       "posts": [
         {
@@ -9790,13 +9885,13 @@
             "handle": "campuscodi.risky.biz",
             "displayName": "Catalin Cimpanu"
           },
-          "likeCount": 6,
-          "repostCount": 3,
+          "likeCount": 9,
+          "repostCount": 4,
           "replyCount": 1,
           "createdAt": "2026-05-12T20:14:55.055Z",
           "createdUtc": 1778616895,
-          "ageHours": 0.62,
-          "trendingScore": 12.5,
+          "ageHours": 2.37,
+          "trendingScore": 17.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -9809,6 +9904,39 @@
             },
             {
               "fullName": "Nightmare-Eclipse/YellowKey",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:dp2sajg2scxjxdrskgken5ln/app.bsky.feed.post/3mlosga2lcp2h",
+          "cid": "bafyreihzam3knqzerdgtq7t73j7gzm2hzwjprcwat7tycxwewaiegjk3ea",
+          "bskyUrl": "https://bsky.app/profile/hmier.bsky.social/post/3mlosga2lcp2h",
+          "text": "2 zero days mas de window cortesia del investigador que microsoft ha estado ninguneando. github.com/Nightmare-Ec... bypass de bitlocker github.com/Nightmare-Ec... elevacion de privilegios en CTFMON no CVE aun ... puro 0-day a la vieja ultranza.",
+          "author": {
+            "handle": "hmier.bsky.social",
+            "displayName": "Helios Mier"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-12T22:07:55.677Z",
+          "createdUtc": 1778623675,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Nightmare-Eclipse/YellowKey",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Nightmare-Eclipse/GreenPlasma",
               "matchType": "url",
               "confidence": 1
             }
@@ -9828,7 +9956,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T18:56:26.592Z",
           "createdUtc": 1778612186,
-          "ageHours": 1.92,
+          "ageHours": 3.68,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -9845,10 +9973,10 @@
       ]
     },
     "Nightmare-Eclipse/YellowKey": {
-      "count7d": 2,
-      "likesSum7d": 6,
-      "repostsSum7d": 3,
-      "repliesSum7d": 1,
+      "count7d": 3,
+      "likesSum7d": 10,
+      "repostsSum7d": 4,
+      "repliesSum7d": 2,
       "topPost": {
         "uri": "at://did:plc:w5dk6pygx5sdrslc5vo56h75/app.bsky.feed.post/3mlom45ld6s24",
         "cid": "bafyreightgiunxog536dnjvxa34hnhzb5zpsqwiogdl6d3lx7waiwqubb4",
@@ -9858,11 +9986,11 @@
           "handle": "campuscodi.risky.biz",
           "displayName": "Catalin Cimpanu"
         },
-        "likeCount": 6,
-        "repostCount": 3,
+        "likeCount": 9,
+        "repostCount": 4,
         "replyCount": 1,
         "createdAt": "2026-05-12T20:14:55.055Z",
-        "hoursSincePosted": 0.62
+        "hoursSincePosted": 2.37
       },
       "posts": [
         {
@@ -9874,13 +10002,13 @@
             "handle": "campuscodi.risky.biz",
             "displayName": "Catalin Cimpanu"
           },
-          "likeCount": 6,
-          "repostCount": 3,
+          "likeCount": 9,
+          "repostCount": 4,
           "replyCount": 1,
           "createdAt": "2026-05-12T20:14:55.055Z",
           "createdUtc": 1778616895,
-          "ageHours": 0.62,
-          "trendingScore": 12.5,
+          "ageHours": 2.37,
+          "trendingScore": 17.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -9893,6 +10021,39 @@
             },
             {
               "fullName": "Nightmare-Eclipse/YellowKey",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:dp2sajg2scxjxdrskgken5ln/app.bsky.feed.post/3mlosga2lcp2h",
+          "cid": "bafyreihzam3knqzerdgtq7t73j7gzm2hzwjprcwat7tycxwewaiegjk3ea",
+          "bskyUrl": "https://bsky.app/profile/hmier.bsky.social/post/3mlosga2lcp2h",
+          "text": "2 zero days mas de window cortesia del investigador que microsoft ha estado ninguneando. github.com/Nightmare-Ec... bypass de bitlocker github.com/Nightmare-Ec... elevacion de privilegios en CTFMON no CVE aun ... puro 0-day a la vieja ultranza.",
+          "author": {
+            "handle": "hmier.bsky.social",
+            "displayName": "Helios Mier"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-12T22:07:55.677Z",
+          "createdUtc": 1778623675,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Nightmare-Eclipse/YellowKey",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Nightmare-Eclipse/GreenPlasma",
               "matchType": "url",
               "confidence": 1
             }
@@ -9912,7 +10073,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T19:20:45.727Z",
           "createdUtc": 1778613645,
-          "ageHours": 1.52,
+          "ageHours": 3.28,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -9946,7 +10107,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T19:35:33Z",
-        "hoursSincePosted": 1.27
+        "hoursSincePosted": 3.03
       },
       "posts": [
         {
@@ -9963,7 +10124,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T19:35:33Z",
           "createdUtc": 1778614533,
-          "ageHours": 1.27,
+          "ageHours": 3.03,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -9972,6 +10133,109 @@
           "linkedRepos": [
             {
               "fullName": "k06a/macpow",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "superradcompany/microsandbox": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mloscvrv5x2z",
+        "cid": "bafyreigxzvmxypovu5xbspcc2sdkrffge3ruyzriqhfd5vhbday6aogq7a",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mloscvrv5x2z",
+        "text": "superradcompany / microsandbox: 🧱 secure, local and programmable sandboxes for AI agents ★6041 https://github.com/superradcompany/microsandbox",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T22:06:04.077726Z",
+        "hoursSincePosted": 0.52
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mloscvrv5x2z",
+          "cid": "bafyreigxzvmxypovu5xbspcc2sdkrffge3ruyzriqhfd5vhbday6aogq7a",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mloscvrv5x2z",
+          "text": "superradcompany / microsandbox: 🧱 secure, local and programmable sandboxes for AI agents ★6041 https://github.com/superradcompany/microsandbox",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T22:06:04.077726Z",
+          "createdUtc": 1778623564,
+          "ageHours": 0.52,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "superradcompany/microsandbox",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "FULU-Foundation/OrcaSlicer-bambulab": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:j4i2tyqx6r5nth36h3q5q77y/app.bsky.feed.post/3mloq3cvgok2f",
+        "cid": "bafyreihsn667bddzbnmj42yeyogk5k4na4zwwnkno7tjda227rlqp3mp24",
+        "bskyUrl": "https://bsky.app/profile/giggio.net/post/3mloq3cvgok2f",
+        "text": "A @fulufoundation.bsky.social subiu o código de volta. Essa treta vai ficar gigante, e isso é bom. Pode ensejar uma discussão jurídica importantíssima, cortar as asinhas dessas empresas folgadas. Esse caso me interessa ainda mais porque eu tenho uma Bambulab A1! github.com/FULU-Foundat...",
+        "author": {
+          "handle": "giggio.net",
+          "displayName": "Giovanni Bassi 🇧🇷"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T21:26:02.041Z",
+        "hoursSincePosted": 1.19
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:j4i2tyqx6r5nth36h3q5q77y/app.bsky.feed.post/3mloq3cvgok2f",
+          "cid": "bafyreihsn667bddzbnmj42yeyogk5k4na4zwwnkno7tjda227rlqp3mp24",
+          "bskyUrl": "https://bsky.app/profile/giggio.net/post/3mloq3cvgok2f",
+          "text": "A @fulufoundation.bsky.social subiu o código de volta. Essa treta vai ficar gigante, e isso é bom. Pode ensejar uma discussão jurídica importantíssima, cortar as asinhas dessas empresas folgadas. Esse caso me interessa ainda mais porque eu tenho uma Bambulab A1! github.com/FULU-Foundat...",
+          "author": {
+            "handle": "giggio.net",
+            "displayName": "Giovanni Bassi 🇧🇷"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T21:26:02.041Z",
+          "createdUtc": 1778621162,
+          "ageHours": 1.19,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "FULU-Foundation/OrcaSlicer-bambulab",
               "matchType": "url",
               "confidence": 1
             }
@@ -12901,25 +13165,58 @@
     },
     "garrytan--gstack": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mlmxob625k2y",
-        "cid": "bafyreie4fsg2ctzls6ktvq2dn274v6523e3uj2gkrcsoaxisdji4tewrp4",
-        "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mlmxob625k2y",
-        "text": "RT @nft_leen: Obsessed with the gstack setup by @garrytan 🤖 It turned my Claude into an entire team 23 specialists that run a full sprint: Think → Plan → Design → Build → Review → Test → Ship This changed how i build 👇 http://github.com/garrytan/gstack",
+        "uri": "at://did:plc:tzoaakv7tlo3d6iucwwjjcld/app.bsky.feed.post/3mlotnisiak2f",
+        "cid": "bafyreidls7732koe4ktmlhxu53ehceq56ic7o66iw3xiwjmtutwbbqxg44",
+        "bskyUrl": "https://bsky.app/profile/nsega.dev/post/3mlotnisiak2f",
+        "text": "Garry Tan氏の公開しているこのrepos、ぜんぜん知らなかった。 github.com/garrytan/gst... github.com/garrytan/gbr...",
         "author": {
-          "handle": "garrytan-mir-rt.selfhosted.social",
-          "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
+          "handle": "nsega.dev",
+          "displayName": "Naoki Sega"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T03:23:18.000Z",
-        "hoursSincePosted": 2.5
+        "createdAt": "2026-05-12T22:29:53.442Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:tzoaakv7tlo3d6iucwwjjcld/app.bsky.feed.post/3mlotnisiak2f",
+          "cid": "bafyreidls7732koe4ktmlhxu53ehceq56ic7o66iw3xiwjmtutwbbqxg44",
+          "bskyUrl": "https://bsky.app/profile/nsega.dev/post/3mlotnisiak2f",
+          "text": "Garry Tan氏の公開しているこのrepos、ぜんぜん知らなかった。 github.com/garrytan/gst... github.com/garrytan/gbr...",
+          "author": {
+            "handle": "nsega.dev",
+            "displayName": "Naoki Sega"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T22:29:53.442Z",
+          "createdUtc": 1778624993,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gstack",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mlmxob625k2y",
           "cid": "bafyreie4fsg2ctzls6ktvq2dn274v6523e3uj2gkrcsoaxisdji4tewrp4",
@@ -12979,26 +13276,88 @@
       ]
     },
     "garrytan--gbrain": {
-      "count7d": 1,
-      "likesSum7d": 0,
+      "count7d": 2,
+      "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:jz6ug3vllzn2jzhonqs7imou/app.bsky.feed.post/3mljayp463u2s",
-        "cid": "bafyreifabc4lsgzlzowasrvlakbc7kiuyaegevldt5mn36ccbw6hkuxnne",
-        "bskyUrl": "https://bsky.app/profile/eddiesoehnel.bsky.social/post/3mljayp463u2s",
-        "text": "Then ask it to help you improve your existing skills in your projects. Huge learnings when I did this. /3 github.com/garrytan/gbr...",
+        "uri": "at://did:plc:tzoaakv7tlo3d6iucwwjjcld/app.bsky.feed.post/3mlotnisiak2f",
+        "cid": "bafyreidls7732koe4ktmlhxu53ehceq56ic7o66iw3xiwjmtutwbbqxg44",
+        "bskyUrl": "https://bsky.app/profile/nsega.dev/post/3mlotnisiak2f",
+        "text": "Garry Tan氏の公開しているこのrepos、ぜんぜん知らなかった。 github.com/garrytan/gst... github.com/garrytan/gbr...",
         "author": {
-          "handle": "eddiesoehnel.bsky.social",
-          "displayName": "Eddie Soehnel"
+          "handle": "nsega.dev",
+          "displayName": "Naoki Sega"
         },
-        "likeCount": 0,
+        "likeCount": 1,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-10T17:12:48.339Z",
-        "hoursSincePosted": 2.38
+        "createdAt": "2026-05-12T22:29:53.442Z",
+        "hoursSincePosted": 0.5
       },
       "posts": [
+        {
+          "uri": "at://did:plc:tzoaakv7tlo3d6iucwwjjcld/app.bsky.feed.post/3mlotnisiak2f",
+          "cid": "bafyreidls7732koe4ktmlhxu53ehceq56ic7o66iw3xiwjmtutwbbqxg44",
+          "bskyUrl": "https://bsky.app/profile/nsega.dev/post/3mlotnisiak2f",
+          "text": "Garry Tan氏の公開しているこのrepos、ぜんぜん知らなかった。 github.com/garrytan/gst... github.com/garrytan/gbr...",
+          "author": {
+            "handle": "nsega.dev",
+            "displayName": "Naoki Sega"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T22:29:53.442Z",
+          "createdUtc": 1778624993,
+          "ageHours": 0.5,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gstack",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:m3pltlzpmme735m4yh7ueqx5/app.bsky.feed.post/3mloqnstkwo2y",
+          "cid": "bafyreifl6ih2zx2wncjxsqydtqvbcvazi2d7ifof74xzm647d3fcmr3gjy",
+          "bskyUrl": "https://bsky.app/profile/garrytan-mir-rt.selfhosted.social/post/3mloqnstkwo2y",
+          "text": "It ships with 34 skills, runs on embedded PGLite (no server, ready in 2 seconds), and works as an MCP server for Claude Code, Cursor, and Windsurf. GBrain: http://github.com/garrytan/gbrain",
+          "author": {
+            "handle": "garrytan-mir-rt.selfhosted.social",
+            "displayName": "Retweeted by Garry Tan [UNOFFICIAL]"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T19:53:22.000Z",
+          "createdUtc": 1778615602,
+          "ageHours": 2.73,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo",
+            "has-mcp"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "garrytan/gbrain",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:jz6ug3vllzn2jzhonqs7imou/app.bsky.feed.post/3mljayp463u2s",
           "cid": "bafyreifabc4lsgzlzowasrvlakbc7kiuyaegevldt5mn36ccbw6hkuxnne",
@@ -16555,8 +16914,8 @@
     },
     "matthart1983--netwatch": {
       "count7d": 1,
-      "likesSum7d": 12,
-      "repostsSum7d": 2,
+      "likesSum7d": 16,
+      "repostsSum7d": 3,
       "repliesSum7d": 1,
       "topPost": {
         "uri": "at://did:plc:5lj4n3nkq7by6vmdxltlt2fy/app.bsky.feed.post/3mloii6q6ic2t",
@@ -16567,11 +16926,11 @@
           "handle": "lcheylus.bsky.social",
           "displayName": "Laurent Cheylus"
         },
-        "likeCount": 12,
-        "repostCount": 2,
+        "likeCount": 16,
+        "repostCount": 3,
         "replyCount": 1,
         "createdAt": "2026-05-12T19:10:03.913Z",
-        "hoursSincePosted": 1.7
+        "hoursSincePosted": 3.45
       },
       "posts": [
         {
@@ -16583,13 +16942,13 @@
             "handle": "lcheylus.bsky.social",
             "displayName": "Laurent Cheylus"
           },
-          "likeCount": 12,
-          "repostCount": 2,
+          "likeCount": 16,
+          "repostCount": 3,
           "replyCount": 1,
           "createdAt": "2026-05-12T19:10:03.913Z",
           "createdUtc": 1778613003,
-          "ageHours": 1.7,
-          "trendingScore": 16.5,
+          "ageHours": 3.45,
+          "trendingScore": 22.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -19703,7 +20062,7 @@
         "repostCount": 0,
         "replyCount": 1,
         "createdAt": "2026-05-12T20:32:49.483Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 2.08
       },
       "posts": [
         {
@@ -19720,7 +20079,7 @@
           "replyCount": 1,
           "createdAt": "2026-05-12T20:32:49.483Z",
           "createdUtc": 1778617969,
-          "ageHours": 0.5,
+          "ageHours": 2.08,
           "trendingScore": 0.5,
           "content_tags": [
             "has-github-repo"
@@ -19737,10 +20096,10 @@
       ]
     },
     "nightmare-eclipse--greenplasma": {
-      "count7d": 2,
-      "likesSum7d": 6,
-      "repostsSum7d": 3,
-      "repliesSum7d": 1,
+      "count7d": 3,
+      "likesSum7d": 10,
+      "repostsSum7d": 4,
+      "repliesSum7d": 2,
       "topPost": {
         "uri": "at://did:plc:w5dk6pygx5sdrslc5vo56h75/app.bsky.feed.post/3mlom45ld6s24",
         "cid": "bafyreightgiunxog536dnjvxa34hnhzb5zpsqwiogdl6d3lx7waiwqubb4",
@@ -19750,11 +20109,11 @@
           "handle": "campuscodi.risky.biz",
           "displayName": "Catalin Cimpanu"
         },
-        "likeCount": 6,
-        "repostCount": 3,
+        "likeCount": 9,
+        "repostCount": 4,
         "replyCount": 1,
         "createdAt": "2026-05-12T20:14:55.055Z",
-        "hoursSincePosted": 0.62
+        "hoursSincePosted": 2.37
       },
       "posts": [
         {
@@ -19766,13 +20125,13 @@
             "handle": "campuscodi.risky.biz",
             "displayName": "Catalin Cimpanu"
           },
-          "likeCount": 6,
-          "repostCount": 3,
+          "likeCount": 9,
+          "repostCount": 4,
           "replyCount": 1,
           "createdAt": "2026-05-12T20:14:55.055Z",
           "createdUtc": 1778616895,
-          "ageHours": 0.62,
-          "trendingScore": 12.5,
+          "ageHours": 2.37,
+          "trendingScore": 17.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -19785,6 +20144,39 @@
             },
             {
               "fullName": "Nightmare-Eclipse/YellowKey",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:dp2sajg2scxjxdrskgken5ln/app.bsky.feed.post/3mlosga2lcp2h",
+          "cid": "bafyreihzam3knqzerdgtq7t73j7gzm2hzwjprcwat7tycxwewaiegjk3ea",
+          "bskyUrl": "https://bsky.app/profile/hmier.bsky.social/post/3mlosga2lcp2h",
+          "text": "2 zero days mas de window cortesia del investigador que microsoft ha estado ninguneando. github.com/Nightmare-Ec... bypass de bitlocker github.com/Nightmare-Ec... elevacion de privilegios en CTFMON no CVE aun ... puro 0-day a la vieja ultranza.",
+          "author": {
+            "handle": "hmier.bsky.social",
+            "displayName": "Helios Mier"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-12T22:07:55.677Z",
+          "createdUtc": 1778623675,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Nightmare-Eclipse/YellowKey",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Nightmare-Eclipse/GreenPlasma",
               "matchType": "url",
               "confidence": 1
             }
@@ -19804,7 +20196,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T18:56:26.592Z",
           "createdUtc": 1778612186,
-          "ageHours": 1.92,
+          "ageHours": 3.68,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -19821,10 +20213,10 @@
       ]
     },
     "nightmare-eclipse--yellowkey": {
-      "count7d": 2,
-      "likesSum7d": 6,
-      "repostsSum7d": 3,
-      "repliesSum7d": 1,
+      "count7d": 3,
+      "likesSum7d": 10,
+      "repostsSum7d": 4,
+      "repliesSum7d": 2,
       "topPost": {
         "uri": "at://did:plc:w5dk6pygx5sdrslc5vo56h75/app.bsky.feed.post/3mlom45ld6s24",
         "cid": "bafyreightgiunxog536dnjvxa34hnhzb5zpsqwiogdl6d3lx7waiwqubb4",
@@ -19834,11 +20226,11 @@
           "handle": "campuscodi.risky.biz",
           "displayName": "Catalin Cimpanu"
         },
-        "likeCount": 6,
-        "repostCount": 3,
+        "likeCount": 9,
+        "repostCount": 4,
         "replyCount": 1,
         "createdAt": "2026-05-12T20:14:55.055Z",
-        "hoursSincePosted": 0.62
+        "hoursSincePosted": 2.37
       },
       "posts": [
         {
@@ -19850,13 +20242,13 @@
             "handle": "campuscodi.risky.biz",
             "displayName": "Catalin Cimpanu"
           },
-          "likeCount": 6,
-          "repostCount": 3,
+          "likeCount": 9,
+          "repostCount": 4,
           "replyCount": 1,
           "createdAt": "2026-05-12T20:14:55.055Z",
           "createdUtc": 1778616895,
-          "ageHours": 0.62,
-          "trendingScore": 12.5,
+          "ageHours": 2.37,
+          "trendingScore": 17.5,
           "content_tags": [
             "has-github-repo"
           ],
@@ -19869,6 +20261,39 @@
             },
             {
               "fullName": "Nightmare-Eclipse/YellowKey",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:dp2sajg2scxjxdrskgken5ln/app.bsky.feed.post/3mlosga2lcp2h",
+          "cid": "bafyreihzam3knqzerdgtq7t73j7gzm2hzwjprcwat7tycxwewaiegjk3ea",
+          "bskyUrl": "https://bsky.app/profile/hmier.bsky.social/post/3mlosga2lcp2h",
+          "text": "2 zero days mas de window cortesia del investigador que microsoft ha estado ninguneando. github.com/Nightmare-Ec... bypass de bitlocker github.com/Nightmare-Ec... elevacion de privilegios en CTFMON no CVE aun ... puro 0-day a la vieja ultranza.",
+          "author": {
+            "handle": "hmier.bsky.social",
+            "displayName": "Helios Mier"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-12T22:07:55.677Z",
+          "createdUtc": 1778623675,
+          "ageHours": 0.5,
+          "trendingScore": 1.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Nightmare-Eclipse/YellowKey",
+              "matchType": "url",
+              "confidence": 1
+            },
+            {
+              "fullName": "Nightmare-Eclipse/GreenPlasma",
               "matchType": "url",
               "confidence": 1
             }
@@ -19888,7 +20313,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T19:20:45.727Z",
           "createdUtc": 1778613645,
-          "ageHours": 1.52,
+          "ageHours": 3.28,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -19922,7 +20347,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T19:35:33Z",
-        "hoursSincePosted": 1.27
+        "hoursSincePosted": 3.03
       },
       "posts": [
         {
@@ -19939,7 +20364,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T19:35:33Z",
           "createdUtc": 1778614533,
-          "ageHours": 1.27,
+          "ageHours": 3.03,
           "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
@@ -19954,28 +20379,146 @@
           ]
         }
       ]
+    },
+    "superradcompany--microsandbox": {
+      "count7d": 1,
+      "likesSum7d": 1,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mloscvrv5x2z",
+        "cid": "bafyreigxzvmxypovu5xbspcc2sdkrffge3ruyzriqhfd5vhbday6aogq7a",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mloscvrv5x2z",
+        "text": "superradcompany / microsandbox: 🧱 secure, local and programmable sandboxes for AI agents ★6041 https://github.com/superradcompany/microsandbox",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 1,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T22:06:04.077726Z",
+        "hoursSincePosted": 0.52
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mloscvrv5x2z",
+          "cid": "bafyreigxzvmxypovu5xbspcc2sdkrffge3ruyzriqhfd5vhbday6aogq7a",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mloscvrv5x2z",
+          "text": "superradcompany / microsandbox: 🧱 secure, local and programmable sandboxes for AI agents ★6041 https://github.com/superradcompany/microsandbox",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 1,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T22:06:04.077726Z",
+          "createdUtc": 1778623564,
+          "ageHours": 0.52,
+          "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "has-agent"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "superradcompany/microsandbox",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "fulu-foundation--orcaslicer-bambulab": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:j4i2tyqx6r5nth36h3q5q77y/app.bsky.feed.post/3mloq3cvgok2f",
+        "cid": "bafyreihsn667bddzbnmj42yeyogk5k4na4zwwnkno7tjda227rlqp3mp24",
+        "bskyUrl": "https://bsky.app/profile/giggio.net/post/3mloq3cvgok2f",
+        "text": "A @fulufoundation.bsky.social subiu o código de volta. Essa treta vai ficar gigante, e isso é bom. Pode ensejar uma discussão jurídica importantíssima, cortar as asinhas dessas empresas folgadas. Esse caso me interessa ainda mais porque eu tenho uma Bambulab A1! github.com/FULU-Foundat...",
+        "author": {
+          "handle": "giggio.net",
+          "displayName": "Giovanni Bassi 🇧🇷"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T21:26:02.041Z",
+        "hoursSincePosted": 1.19
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:j4i2tyqx6r5nth36h3q5q77y/app.bsky.feed.post/3mloq3cvgok2f",
+          "cid": "bafyreihsn667bddzbnmj42yeyogk5k4na4zwwnkno7tjda227rlqp3mp24",
+          "bskyUrl": "https://bsky.app/profile/giggio.net/post/3mloq3cvgok2f",
+          "text": "A @fulufoundation.bsky.social subiu o código de volta. Essa treta vai ficar gigante, e isso é bom. Pode ensejar uma discussão jurídica importantíssima, cortar as asinhas dessas empresas folgadas. Esse caso me interessa ainda mais porque eu tenho uma Bambulab A1! github.com/FULU-Foundat...",
+          "author": {
+            "handle": "giggio.net",
+            "displayName": "Giovanni Bassi 🇧🇷"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T21:26:02.041Z",
+          "createdUtc": 1778621162,
+          "ageHours": 1.19,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "FULU-Foundation/OrcaSlicer-bambulab",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
       "fullName": "matthart1983/netwatch",
       "count7d": 1,
-      "likesSum7d": 12
+      "likesSum7d": 16
     },
     {
       "fullName": "Nightmare-Eclipse/GreenPlasma",
-      "count7d": 2,
-      "likesSum7d": 6
+      "count7d": 3,
+      "likesSum7d": 10
     },
     {
       "fullName": "Nightmare-Eclipse/YellowKey",
-      "count7d": 2,
-      "likesSum7d": 6
+      "count7d": 3,
+      "likesSum7d": 10
     },
     {
-      "fullName": "openclaw/openclaw",
+      "fullName": "garrytan/gbrain",
+      "count7d": 2,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "garrytan/gstack",
       "count7d": 1,
       "likesSum7d": 1
+    },
+    {
+      "fullName": "superradcompany/microsandbox",
+      "count7d": 1,
+      "likesSum7d": 1
+    },
+    {
+      "fullName": "FULU-Foundation/OrcaSlicer-bambulab",
+      "count7d": 1,
+      "likesSum7d": 0
     },
     {
       "fullName": "k06a/macpow",

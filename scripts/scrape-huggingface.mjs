@@ -32,6 +32,7 @@ import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 import { extractGithubRepoFullNames } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { ingestHuggingfaceModelsToToolbox } from "./_toolbox-ingest.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 import {
@@ -274,8 +275,18 @@ async function main() {
   await writeFile(OUT_PATH, JSON.stringify(payload, null, 2) + "\n", "utf8");
   const redis = await writeDataStore("huggingface-trending", payload);
 
+  // Dual-write to TOOLBOX (`trending.huggingface.models`, capped at 100).
+  const toolboxResult = await ingestHuggingfaceModelsToToolbox(payload);
+
   log(`wrote ${OUT_PATH} [redis: ${redis.source}]`);
   log(`  ${ranked.length} trending models`);
+  log(
+    `  toolbox-ingest: ${toolboxResult.status}` +
+      (toolboxResult.accepted !== undefined ? ` accepted=${toolboxResult.accepted}` : "") +
+      (toolboxResult.rejected !== undefined && toolboxResult.rejected > 0 ? ` rejected=${toolboxResult.rejected}` : "") +
+      (toolboxResult.reason ? ` (${toolboxResult.reason})` : "") +
+      (toolboxResult.duration_ms !== undefined ? ` [${toolboxResult.duration_ms}ms]` : ""),
+  );
   log(`  top 3: ${ranked.slice(0, 3).map((m) => m.id).join(", ")}`);
 }
 

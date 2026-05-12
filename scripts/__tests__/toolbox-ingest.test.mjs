@@ -5,6 +5,12 @@ import {
   redditMentionsToEvents,
   bskyMentionsToEvents,
   devtoMentionsToEvents,
+  producthuntLaunchesToEvents,
+  huggingfaceModelsToEvents,
+  huggingfaceSpacesToEvents,
+  huggingfaceDatasetsToEvents,
+  npmPackagesToEvents,
+  openaiRssToEvents,
   postToolboxEvents,
 } from "../_toolbox-ingest.mjs";
 
@@ -171,6 +177,152 @@ test("redditMentionsToEvents — emits one event per repo", () => {
   assert.ok(keys.includes("score_sum_7d"));
   assert.ok(keys.includes("top_post"));
   assert.ok(keys.includes("posts_top10"));
+});
+
+test("producthuntLaunchesToEvents — emits one event per launch with PH metrics", () => {
+  const payload = {
+    launches: [
+      {
+        id: 12345,
+        name: "Cool Product",
+        tagline: "Does cool things",
+        url: "https://www.producthunt.com/posts/cool-product",
+        website: "https://cool.example",
+        votesCount: 250,
+        commentsCount: 30,
+        createdAt: "2026-05-12T00:00:00Z",
+        topics: ["AI", "Productivity"],
+        makers: [{ name: "Alice" }],
+        thumbnail: "https://ph.example/img.png",
+      },
+    ],
+  };
+  const events = producthuntLaunchesToEvents(payload);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].signal_type, "trending.producthunt.launches");
+  assert.equal(events[0].target_url, "https://www.producthunt.com/posts/cool-product");
+  assert.equal(events[0].produced_by, "trendingrepo-producthunt");
+  const keys = events[0].normalized.map((n) => n.key);
+  assert.ok(keys.includes("votes_count"));
+  assert.ok(keys.includes("comments_count"));
+  assert.ok(keys.includes("topics"));
+  assert.ok(keys.includes("makers"));
+});
+
+test("huggingfaceModelsToEvents — emits one event per model, caps at 100", () => {
+  const payload = {
+    models: Array.from({ length: 150 }, (_, i) => ({
+      rank: i,
+      id: `author${i}/model${i}`,
+      author: `author${i}`,
+      url: `https://huggingface.co/author${i}/model${i}`,
+      downloads: i * 100,
+      likes: i * 5,
+      trendingScore: i * 0.5,
+      pipelineTag: "text-generation",
+      tags: ["llm", "transformer"],
+    })),
+  };
+  const events = huggingfaceModelsToEvents(payload);
+  assert.equal(events.length, 100); // capped
+  assert.equal(events[0].signal_type, "trending.huggingface.models");
+  assert.ok(events[0].target_url.startsWith("https://huggingface.co/"));
+  const keys = events[0].normalized.map((n) => n.key);
+  assert.ok(keys.includes("downloads"));
+  assert.ok(keys.includes("pipeline_tag"));
+  assert.ok(keys.includes("trending_score"));
+});
+
+test("huggingfaceSpacesToEvents — emits one event per space, caps at 50", () => {
+  const payload = {
+    spaces: [
+      {
+        rank: 1,
+        id: "user/space",
+        author: "user",
+        url: "https://huggingface.co/spaces/user/space",
+        likes: 200,
+        trendingScore: 75.5,
+        sdk: "gradio",
+        models: ["meta-llama/Llama-3"],
+        tags: ["chatbot"],
+      },
+    ],
+  };
+  const events = huggingfaceSpacesToEvents(payload);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].signal_type, "trending.huggingface.spaces");
+  const keys = events[0].normalized.map((n) => n.key);
+  assert.ok(keys.includes("sdk"));
+  assert.ok(keys.includes("models"));
+});
+
+test("huggingfaceDatasetsToEvents — emits one event per dataset", () => {
+  const payload = {
+    datasets: [
+      {
+        rank: 1,
+        id: "user/dataset",
+        author: "user",
+        url: "https://huggingface.co/datasets/user/dataset",
+        downloads: 10000,
+        likes: 500,
+        trendingScore: 95.0,
+        tags: ["text", "english"],
+      },
+    ],
+  };
+  const events = huggingfaceDatasetsToEvents(payload);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].signal_type, "trending.huggingface.datasets");
+});
+
+test("npmPackagesToEvents — emits one event per package, captures linkedRepo", () => {
+  const payload = {
+    packages: [
+      {
+        name: "react",
+        npmUrl: "https://www.npmjs.com/package/react",
+        description: "React",
+        latestVersion: "18.0.0",
+        publishedAt: "2026-05-01",
+        repositoryUrl: "https://github.com/facebook/react",
+        linkedRepo: "facebook/react",
+        homepage: "https://react.dev",
+        downloads: { weekly: 20000000 },
+        keywords: ["react", "library"],
+      },
+    ],
+  };
+  const events = npmPackagesToEvents(payload);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].signal_type, "trending.npm.packages");
+  assert.equal(events[0].target_url, "https://www.npmjs.com/package/react");
+  const keys = events[0].normalized.map((n) => n.key);
+  assert.ok(keys.includes("linked_repo"));
+  assert.ok(keys.includes("repository_url"));
+  assert.ok(keys.includes("downloads"));
+});
+
+test("openaiRssToEvents — emits one event per RSS item", () => {
+  const payload = {
+    items: [
+      {
+        id: "openai-1",
+        title: "Introducing GPT-5",
+        url: "https://openai.com/blog/gpt-5",
+        summary: "We're announcing GPT-5...",
+        publishedAt: "2026-05-12T00:00:00Z",
+        author: "OpenAI",
+        category: "announcement",
+        source: "openai.com",
+      },
+    ],
+  };
+  const events = openaiRssToEvents(payload);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].signal_type, "content.openai.announcements");
+  assert.equal(events[0].target_url, "https://openai.com/blog/gpt-5");
 });
 
 test("postToolboxEvents — returns skipped when env unset", async () => {

@@ -296,27 +296,227 @@ export function devtoMentionsToEvents(payload) {
 }
 
 /**
+ * Transform trendingrepo Product Hunt launches payload → TOOLBOX events.
+ *
+ * One event per launch, signal_type=`trending.producthunt.launches`.
+ * Target URL is the launch's product page URL (or website if available).
+ */
+export function producthuntLaunchesToEvents(payload) {
+  if (!payload || typeof payload !== "object") return [];
+  const launches = payload.launches;
+  if (!Array.isArray(launches)) return [];
+
+  const producedAt = new Date().toISOString();
+  const scanId = randomUUID();
+  const events = [];
+
+  for (const launch of launches) {
+    if (!launch || typeof launch !== "object") continue;
+    const targetUrl = String(launch.url ?? launch.website ?? "");
+    if (!targetUrl || !/^https?:\/\//i.test(targetUrl)) continue;
+
+    events.push({
+      scan_id: scanId,
+      target_url: targetUrl,
+      signal_type: "trending.producthunt.launches",
+      normalized: [
+        { key: "id", value: launch.id ?? null, confidence: 1.0 },
+        { key: "name", value: launch.name ?? "", confidence: 1.0 },
+        { key: "tagline", value: launch.tagline ?? "", confidence: 1.0 },
+        { key: "votes_count", value: launch.votesCount ?? 0, confidence: 1.0 },
+        { key: "comments_count", value: launch.commentsCount ?? 0, confidence: 1.0 },
+        { key: "created_at", value: launch.createdAt ?? "", confidence: 1.0 },
+        ...(launch.topics ? [{ key: "topics", value: launch.topics, confidence: 1.0 }] : []),
+        ...(launch.makers ? [{ key: "makers", value: launch.makers, confidence: 1.0 }] : []),
+        ...(launch.thumbnail ? [{ key: "thumbnail", value: launch.thumbnail, confidence: 1.0 }] : []),
+      ],
+      produced_by: `${PRODUCED_BY}-producthunt`,
+      produced_at: producedAt,
+    });
+  }
+  return events;
+}
+
+/**
+ * Generic HuggingFace transformer used by models/spaces/datasets variants.
+ */
+function huggingfaceToEvents(payload, kind, cap = 100) {
+  if (!payload || typeof payload !== "object") return [];
+  const items = payload[kind];
+  if (!Array.isArray(items)) return [];
+
+  const producedAt = new Date().toISOString();
+  const scanId = randomUUID();
+  const signalType = `trending.huggingface.${kind}`;
+  const events = [];
+
+  for (const item of items.slice(0, cap)) {
+    if (!item || typeof item !== "object") continue;
+    const targetUrl = String(item.url ?? "");
+    if (!targetUrl || !/^https?:\/\//i.test(targetUrl)) continue;
+
+    const normalized = [
+      { key: "id", value: item.id ?? "", confidence: 1.0 },
+      { key: "rank", value: item.rank ?? null, confidence: 1.0 },
+      { key: "author", value: item.author ?? "", confidence: 1.0 },
+      { key: "likes", value: item.likes ?? 0, confidence: 1.0 },
+      { key: "trending_score", value: item.trendingScore ?? 0, confidence: 1.0 },
+    ];
+    if (typeof item.downloads === "number") {
+      normalized.push({ key: "downloads", value: item.downloads, confidence: 1.0 });
+    }
+    if (item.pipelineTag) {
+      normalized.push({ key: "pipeline_tag", value: item.pipelineTag, confidence: 1.0 });
+    }
+    if (item.sdk) {
+      normalized.push({ key: "sdk", value: item.sdk, confidence: 1.0 });
+    }
+    if (Array.isArray(item.tags) && item.tags.length > 0) {
+      normalized.push({ key: "tags", value: item.tags.slice(0, 20), confidence: 1.0 });
+    }
+    if (Array.isArray(item.models) && item.models.length > 0) {
+      normalized.push({ key: "models", value: item.models.slice(0, 10), confidence: 1.0 });
+    }
+
+    events.push({
+      scan_id: scanId,
+      target_url: targetUrl,
+      signal_type: signalType,
+      normalized,
+      produced_by: `${PRODUCED_BY}-huggingface`,
+      produced_at: producedAt,
+    });
+  }
+  return events;
+}
+
+export function huggingfaceModelsToEvents(payload) {
+  return huggingfaceToEvents(payload, "models", 100);
+}
+export function huggingfaceSpacesToEvents(payload) {
+  return huggingfaceToEvents(payload, "spaces", 50);
+}
+export function huggingfaceDatasetsToEvents(payload) {
+  return huggingfaceToEvents(payload, "datasets", 50);
+}
+
+/**
+ * Transform trendingrepo npm packages payload → TOOLBOX events.
+ *
+ * One event per package, target=npmjs URL; linkedRepo captured as normalized.
+ */
+export function npmPackagesToEvents(payload) {
+  if (!payload || typeof payload !== "object") return [];
+  const packages = payload.packages;
+  if (!Array.isArray(packages)) return [];
+
+  const producedAt = new Date().toISOString();
+  const scanId = randomUUID();
+  const events = [];
+
+  for (const pkg of packages) {
+    if (!pkg || typeof pkg !== "object") continue;
+    const targetUrl = String(pkg.npmUrl ?? "");
+    if (!targetUrl || !/^https?:\/\//i.test(targetUrl)) continue;
+
+    const normalized = [
+      { key: "name", value: pkg.name ?? "", confidence: 1.0 },
+      { key: "latest_version", value: pkg.latestVersion ?? "", confidence: 1.0 },
+      { key: "published_at", value: pkg.publishedAt ?? "", confidence: 1.0 },
+      { key: "description", value: pkg.description ?? "", confidence: 1.0 },
+    ];
+    if (pkg.repositoryUrl) normalized.push({ key: "repository_url", value: pkg.repositoryUrl, confidence: 1.0 });
+    if (pkg.linkedRepo) normalized.push({ key: "linked_repo", value: pkg.linkedRepo, confidence: 1.0 });
+    if (pkg.homepage) normalized.push({ key: "homepage", value: pkg.homepage, confidence: 1.0 });
+    if (pkg.downloads) normalized.push({ key: "downloads", value: pkg.downloads, confidence: 1.0 });
+    if (Array.isArray(pkg.keywords) && pkg.keywords.length > 0) {
+      normalized.push({ key: "keywords", value: pkg.keywords.slice(0, 20), confidence: 1.0 });
+    }
+
+    events.push({
+      scan_id: scanId,
+      target_url: targetUrl,
+      signal_type: "trending.npm.packages",
+      normalized,
+      produced_by: `${PRODUCED_BY}-npm`,
+      produced_at: producedAt,
+    });
+  }
+  return events;
+}
+
+/**
+ * Transform OpenAI RSS items → TOOLBOX events.
+ *
+ * One event per RSS item, target=canonical article URL on openai.com.
+ */
+export function openaiRssToEvents(payload) {
+  if (!payload || typeof payload !== "object") return [];
+  const items = payload.items;
+  if (!Array.isArray(items)) return [];
+
+  const producedAt = new Date().toISOString();
+  const scanId = randomUUID();
+  const events = [];
+
+  for (const item of items) {
+    if (!item || typeof item !== "object") continue;
+    const targetUrl = String(item.url ?? "");
+    if (!targetUrl || !/^https?:\/\//i.test(targetUrl)) continue;
+
+    events.push({
+      scan_id: scanId,
+      target_url: targetUrl,
+      signal_type: "content.openai.announcements",
+      normalized: [
+        { key: "id", value: item.id ?? "", confidence: 1.0 },
+        { key: "title", value: item.title ?? "", confidence: 1.0 },
+        { key: "summary", value: (item.summary ?? "").slice(0, 1000), confidence: 1.0 },
+        { key: "published_at", value: item.publishedAt ?? "", confidence: 1.0 },
+        { key: "author", value: item.author ?? "", confidence: 1.0 },
+        { key: "category", value: item.category ?? "", confidence: 1.0 },
+        { key: "source", value: item.source ?? "openai.com", confidence: 1.0 },
+      ],
+      produced_by: `${PRODUCED_BY}-openai-rss`,
+      produced_at: producedAt,
+    });
+  }
+  return events;
+}
+
+/**
  * Convenience wrappers — transform + POST in one call. Use these from scrape
  * scripts after the primary data store write succeeds.
  */
 export async function ingestHnMentionsToToolbox(payload) {
-  const events = hnMentionsToEvents(payload);
-  return postToolboxEvents(events);
+  return postToolboxEvents(hnMentionsToEvents(payload));
 }
-
 export async function ingestRedditMentionsToToolbox(payload) {
-  const events = redditMentionsToEvents(payload);
-  return postToolboxEvents(events);
+  return postToolboxEvents(redditMentionsToEvents(payload));
 }
-
 export async function ingestBskyMentionsToToolbox(payload) {
-  const events = bskyMentionsToEvents(payload);
-  return postToolboxEvents(events);
+  return postToolboxEvents(bskyMentionsToEvents(payload));
 }
-
 export async function ingestDevtoMentionsToToolbox(payload) {
-  const events = devtoMentionsToEvents(payload);
-  return postToolboxEvents(events);
+  return postToolboxEvents(devtoMentionsToEvents(payload));
+}
+export async function ingestProducthuntLaunchesToToolbox(payload) {
+  return postToolboxEvents(producthuntLaunchesToEvents(payload));
+}
+export async function ingestHuggingfaceModelsToToolbox(payload) {
+  return postToolboxEvents(huggingfaceModelsToEvents(payload));
+}
+export async function ingestHuggingfaceSpacesToToolbox(payload) {
+  return postToolboxEvents(huggingfaceSpacesToEvents(payload));
+}
+export async function ingestHuggingfaceDatasetsToToolbox(payload) {
+  return postToolboxEvents(huggingfaceDatasetsToEvents(payload));
+}
+export async function ingestNpmPackagesToToolbox(payload) {
+  return postToolboxEvents(npmPackagesToEvents(payload));
+}
+export async function ingestOpenaiRssToToolbox(payload) {
+  return postToolboxEvents(openaiRssToEvents(payload));
 }
 
 /**

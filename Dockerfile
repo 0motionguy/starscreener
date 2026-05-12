@@ -13,8 +13,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 FROM base AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
+# Using `npm install` not `npm ci` because main's lock file has drift
+# (e.g. @swc/helpers 0.5.15 vs 0.5.21) that Vercel's cached-layer build
+# masks. Tradeoff: less deterministic than ci, but builds reliably.
+# Switch back to npm ci after a lock-file refresh PR lands on main.
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci --no-audit --no-fund --prefer-offline
+    npm install --no-audit --no-fund --prefer-offline --no-save --legacy-peer-deps
 
 # ---- builder: compile Next.js with standalone output -----------------------
 FROM base AS builder

@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-13T07:31:12.519Z",
+  "fetchedAt": "2026-05-13T12:17:56.332Z",
   "windowDays": 7,
-  "scannedPosts": 199,
+  "scannedPosts": 300,
   "searchQuery": "github.com",
-  "pagesFetched": 2,
+  "pagesFetched": 3,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -3533,25 +3533,53 @@
     },
     "nikopueringer/CorridorKey": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:2qea3utprpda5bgqrn2hjjnx/app.bsky.feed.post/3mlctoyqhks2v",
-        "cid": "bafyreigpjqyj7xx7yi6zflcvckp3hhuccvmm5ljty4kpbnpr6cuefb5jci",
-        "bskyUrl": "https://bsky.app/profile/mrfobwatch.bsky.social/post/3mlctoyqhks2v",
-        "text": "github.com/nikopueringe... Not sure if you saw this get released last week but it might be useful to you.",
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlq6pw7hg325",
+        "cid": "bafyreib64kwqnb2hcbrie6mfnoqdqyogy2h6p3ii25pc22ebb5kmsuafcu",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlq6pw7hg325",
+        "text": "CorridorKey : un réseau de neurones qui résout le problème du green screen au niveau pixel — couleur foreground non-multipliée + alpha linéaire, même sur les cheveux, le motion blur et les zones semi-transparentes. https://github.com/nikopueringer/CorridorKey",
         "author": {
-          "handle": "mrfobwatch.bsky.social",
-          "displayName": "Kevin Yacucci"
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
         },
-        "likeCount": 0,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-08T03:58:46.846Z",
-        "hoursSincePosted": 4.02
+        "createdAt": "2026-05-13T13:20:45+02:00",
+        "hoursSincePosted": 0.95
       },
       "posts": [
+        {
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlq6pw7hg325",
+          "cid": "bafyreib64kwqnb2hcbrie6mfnoqdqyogy2h6p3ii25pc22ebb5kmsuafcu",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlq6pw7hg325",
+          "text": "CorridorKey : un réseau de neurones qui résout le problème du green screen au niveau pixel — couleur foreground non-multipliée + alpha linéaire, même sur les cheveux, le motion blur et les zones semi-transparentes. https://github.com/nikopueringer/CorridorKey",
+          "author": {
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-13T13:20:45+02:00",
+          "createdUtc": 1778671245,
+          "ageHours": 0.95,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nikopueringer/CorridorKey",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:2qea3utprpda5bgqrn2hjjnx/app.bsky.feed.post/3mlctoyqhks2v",
           "cid": "bafyreigpjqyj7xx7yi6zflcvckp3hhuccvmm5ljty4kpbnpr6cuefb5jci",
@@ -5757,23 +5785,23 @@
     },
     "romainsimon/paperasse": {
       "count7d": 1,
-      "likesSum7d": 4,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:g3tbzu5tcz4evra4mf5wa67c/app.bsky.feed.post/3mlgfxt4f222z",
-        "cid": "bafyreierawgeoounexlerefxkdxvdjnw4tblqbgf3ibicjw5adwguodhfy",
-        "bskyUrl": "https://bsky.app/profile/eventuallycoding.com/post/3mlgfxt4f222z",
-        "text": "Mais non, des skills controleur fiscal, reporting reglementaire, compta, et commissaire aux comptes github.com/romainsimon/... ! Ca fait rêver non ?",
+        "uri": "at://did:plc:5lj4n3nkq7by6vmdxltlt2fy/app.bsky.feed.post/3mlqa3hn2hd2j",
+        "cid": "bafyreibep3ngqaocs7j6i7z64qpdarfeol4xhmkqvcmbkkymh4wwoz545a",
+        "bskyUrl": "https://bsky.app/profile/lcheylus.bsky.social/post/3mlqa3hn2hd2j",
+        "text": "Paperasse : un repository avec plein de skills pour agents IA spécialisés dans la bureaucratie française (comptabilité, fiscalité, facturation, notariat, syndic...) - par Romain Simon #IA #LLM github.com/romainsimon/...",
         "author": {
-          "handle": "eventuallycoding.com",
-          "displayName": "Hugo Lassiège"
+          "handle": "lcheylus.bsky.social",
+          "displayName": "Laurent Cheylus"
         },
-        "likeCount": 4,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-09T14:03:49.505Z",
-        "hoursSincePosted": 1.19
+        "createdAt": "2026-05-13T11:45:05.739Z",
+        "hoursSincePosted": 0.55
       },
       "posts": [
         {
@@ -5792,6 +5820,34 @@
           "createdUtc": 1778335429,
           "ageHours": 1.19,
           "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "romainsimon/paperasse",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:5lj4n3nkq7by6vmdxltlt2fy/app.bsky.feed.post/3mlqa3hn2hd2j",
+          "cid": "bafyreibep3ngqaocs7j6i7z64qpdarfeol4xhmkqvcmbkkymh4wwoz545a",
+          "bskyUrl": "https://bsky.app/profile/lcheylus.bsky.social/post/3mlqa3hn2hd2j",
+          "text": "Paperasse : un repository avec plein de skills pour agents IA spécialisés dans la bureaucratie française (comptabilité, fiscalité, facturation, notariat, syndic...) - par Romain Simon #IA #LLM github.com/romainsimon/...",
+          "author": {
+            "handle": "lcheylus.bsky.social",
+            "displayName": "Laurent Cheylus"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-13T11:45:05.739Z",
+          "createdUtc": 1778672705,
+          "ageHours": 0.55,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -8309,26 +8365,80 @@
       ]
     },
     "tracewayapp/traceway": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlp7gre3b22q",
-        "cid": "bafyreidzwbcwxuqlbowjmpzmmf7tm4zx76awr3zs3meuwfmsz6eyyoinfe",
-        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mlp7gre3b22q",
-        "text": "Traceway: MIT-licensed observability stack you can self-host in ~90s https://github.com/tracewayapp/traceway",
+        "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlq5et65zb2v",
+        "cid": "bafyreidtmjjy6osqq45mgdkdevzqmexopfgatkzskixq3rpwlyqilpx2pe",
+        "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlq5et65zb2v",
+        "text": "Traceway: MIT-licensed observability stack you can self-host in ~90s (github.com) Discussion | Main Link",
         "author": {
-          "handle": "hnbot.gsuscs.xyz",
-          "displayName": "HackerNews Compilator"
+          "handle": "newsycombinatorbot.bsky.social",
+          "displayName": "Hacker News Bot"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-13T02:00:52.418Z",
-        "hoursSincePosted": 2.25
+        "createdAt": "2026-05-13T10:56:39.445773Z",
+        "hoursSincePosted": 1.35
       },
       "posts": [
+        {
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlq5et65zb2v",
+          "cid": "bafyreidtmjjy6osqq45mgdkdevzqmexopfgatkzskixq3rpwlyqilpx2pe",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlq5et65zb2v",
+          "text": "Traceway: MIT-licensed observability stack you can self-host in ~90s (github.com) Discussion | Main Link",
+          "author": {
+            "handle": "newsycombinatorbot.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-13T10:56:39.445773Z",
+          "createdUtc": 1778669799,
+          "ageHours": 1.35,
+          "trendingScore": 0,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "tracewayapp/traceway",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mlpykftxaz2n",
+          "cid": "bafyreiafpyhtn7l4e6bcwvrpws5kswttqohonx5dfdvjirdobt45g4m3my",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mlpykftxaz2n",
+          "text": "Traceway: MIT-licensed observability stack you can self-host in ~90s https://github.com/tracewayapp/traceway https://news.ycombinator.com/item?id=48091898",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-13T09:30:18.039129+00:00",
+          "createdUtc": 1778664618,
+          "ageHours": 2.79,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tracewayapp/traceway",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlp7gre3b22q",
           "cid": "bafyreidzwbcwxuqlbowjmpzmmf7tm4zx76awr3zs3meuwfmsz6eyyoinfe",
@@ -10146,19 +10256,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:uljpcnka4xxgtd7g2nf5zblo/app.bsky.feed.post/3mlpprv3hn22g",
-        "cid": "bafyreiggo2suknnaol5o5bifwvqheynno3u7s2g37mvwfstyfhiu743u4a",
-        "bskyUrl": "https://bsky.app/profile/kabutor.bsky.social/post/3mlpprv3hn22g",
-        "text": "github.com/Nightmare-Ec...",
+        "uri": "at://did:plc:67ns3wrnx2abu4lnveofxf4z/app.bsky.feed.post/3mlq7vaufo22x",
+        "cid": "bafyreicjqoatrmjz5yllxqzrarrs7xe6utlussi5snfz5hwr5t25ivrze4",
+        "bskyUrl": "https://bsky.app/profile/christian-huber.bsky.social/post/3mlq7vaufo22x",
+        "text": "🤬🚨🔓Einmal mehr ein Microsoft Fail? Anscheinend soll es eine triviale Möglichkeit geben, die Bitlocker Diskverschlüsselung auszuhebeln. Wenn sich dies bewahrheitet, wäre dies eine fatale, mit hoher Wahrscheinlichkeit gar mutwillige Sicherheitslücke! github.com/Nightmare-Ec...",
         "author": {
-          "handle": "kabutor.bsky.social",
-          "displayName": "Kabutor"
+          "handle": "christian-huber.bsky.social",
+          "displayName": "Ҩhristian Huber"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-13T06:53:25.309Z",
-        "hoursSincePosted": 0.63
+        "createdAt": "2026-05-13T11:41:38.189Z",
+        "hoursSincePosted": 0.61
       },
       "posts": [
         {
@@ -10222,6 +10332,34 @@
             },
             {
               "fullName": "Nightmare-Eclipse/GreenPlasma",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:67ns3wrnx2abu4lnveofxf4z/app.bsky.feed.post/3mlq7vaufo22x",
+          "cid": "bafyreicjqoatrmjz5yllxqzrarrs7xe6utlussi5snfz5hwr5t25ivrze4",
+          "bskyUrl": "https://bsky.app/profile/christian-huber.bsky.social/post/3mlq7vaufo22x",
+          "text": "🤬🚨🔓Einmal mehr ein Microsoft Fail? Anscheinend soll es eine triviale Möglichkeit geben, die Bitlocker Diskverschlüsselung auszuhebeln. Wenn sich dies bewahrheitet, wäre dies eine fatale, mit hoher Wahrscheinlichkeit gar mutwillige Sicherheitslücke! github.com/Nightmare-Ec...",
+          "author": {
+            "handle": "christian-huber.bsky.social",
+            "displayName": "Ҩhristian Huber"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-13T11:41:38.189Z",
+          "createdUtc": 1778672498,
+          "ageHours": 0.61,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Nightmare-Eclipse/YellowKey",
               "matchType": "url",
               "confidence": 1
             }
@@ -10697,6 +10835,57 @@
           "linkedRepos": [
             {
               "fullName": "gitleaks/gitleaks",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "kyutai-labs/pocket-tts": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlpwgwoh4q2q",
+        "cid": "bafyreigy5nzaiulsg62z2nbcjscsjkpk5bvi6xfmsnqsxkoohorlav3hk4",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlpwgwoh4q2q",
+        "text": "https://github.com/kyutai-labs/pocket-tts",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-13T08:52:33Z",
+        "hoursSincePosted": 3.42
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlpwgwoh4q2q",
+          "cid": "bafyreigy5nzaiulsg62z2nbcjscsjkpk5bvi6xfmsnqsxkoohorlav3hk4",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlpwgwoh4q2q",
+          "text": "https://github.com/kyutai-labs/pocket-tts",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-13T08:52:33Z",
+          "createdUtc": 1778662353,
+          "ageHours": 3.42,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kyutai-labs/pocket-tts",
               "matchType": "url",
               "confidence": 1
             }
@@ -14234,25 +14423,53 @@
     },
     "nikopueringer--corridorkey": {
       "count7d": 1,
-      "likesSum7d": 0,
+      "likesSum7d": 2,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:2qea3utprpda5bgqrn2hjjnx/app.bsky.feed.post/3mlctoyqhks2v",
-        "cid": "bafyreigpjqyj7xx7yi6zflcvckp3hhuccvmm5ljty4kpbnpr6cuefb5jci",
-        "bskyUrl": "https://bsky.app/profile/mrfobwatch.bsky.social/post/3mlctoyqhks2v",
-        "text": "github.com/nikopueringe... Not sure if you saw this get released last week but it might be useful to you.",
+        "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlq6pw7hg325",
+        "cid": "bafyreib64kwqnb2hcbrie6mfnoqdqyogy2h6p3ii25pc22ebb5kmsuafcu",
+        "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlq6pw7hg325",
+        "text": "CorridorKey : un réseau de neurones qui résout le problème du green screen au niveau pixel — couleur foreground non-multipliée + alpha linéaire, même sur les cheveux, le motion blur et les zones semi-transparentes. https://github.com/nikopueringer/CorridorKey",
         "author": {
-          "handle": "mrfobwatch.bsky.social",
-          "displayName": "Kevin Yacucci"
+          "handle": "camilleroux.com",
+          "displayName": "Camille Roux"
         },
-        "likeCount": 0,
+        "likeCount": 2,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-08T03:58:46.846Z",
-        "hoursSincePosted": 4.02
+        "createdAt": "2026-05-13T13:20:45+02:00",
+        "hoursSincePosted": 0.95
       },
       "posts": [
+        {
+          "uri": "at://did:plc:5aumv6xsxxacaerhrubj322g/app.bsky.feed.post/3mlq6pw7hg325",
+          "cid": "bafyreib64kwqnb2hcbrie6mfnoqdqyogy2h6p3ii25pc22ebb5kmsuafcu",
+          "bskyUrl": "https://bsky.app/profile/camilleroux.com/post/3mlq6pw7hg325",
+          "text": "CorridorKey : un réseau de neurones qui résout le problème du green screen au niveau pixel — couleur foreground non-multipliée + alpha linéaire, même sur les cheveux, le motion blur et les zones semi-transparentes. https://github.com/nikopueringer/CorridorKey",
+          "author": {
+            "handle": "camilleroux.com",
+            "displayName": "Camille Roux"
+          },
+          "likeCount": 2,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-13T13:20:45+02:00",
+          "createdUtc": 1778671245,
+          "ageHours": 0.95,
+          "trendingScore": 2,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "nikopueringer/CorridorKey",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:2qea3utprpda5bgqrn2hjjnx/app.bsky.feed.post/3mlctoyqhks2v",
           "cid": "bafyreigpjqyj7xx7yi6zflcvckp3hhuccvmm5ljty4kpbnpr6cuefb5jci",
@@ -16458,23 +16675,23 @@
     },
     "romainsimon--paperasse": {
       "count7d": 1,
-      "likesSum7d": 4,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:g3tbzu5tcz4evra4mf5wa67c/app.bsky.feed.post/3mlgfxt4f222z",
-        "cid": "bafyreierawgeoounexlerefxkdxvdjnw4tblqbgf3ibicjw5adwguodhfy",
-        "bskyUrl": "https://bsky.app/profile/eventuallycoding.com/post/3mlgfxt4f222z",
-        "text": "Mais non, des skills controleur fiscal, reporting reglementaire, compta, et commissaire aux comptes github.com/romainsimon/... ! Ca fait rêver non ?",
+        "uri": "at://did:plc:5lj4n3nkq7by6vmdxltlt2fy/app.bsky.feed.post/3mlqa3hn2hd2j",
+        "cid": "bafyreibep3ngqaocs7j6i7z64qpdarfeol4xhmkqvcmbkkymh4wwoz545a",
+        "bskyUrl": "https://bsky.app/profile/lcheylus.bsky.social/post/3mlqa3hn2hd2j",
+        "text": "Paperasse : un repository avec plein de skills pour agents IA spécialisés dans la bureaucratie française (comptabilité, fiscalité, facturation, notariat, syndic...) - par Romain Simon #IA #LLM github.com/romainsimon/...",
         "author": {
-          "handle": "eventuallycoding.com",
-          "displayName": "Hugo Lassiège"
+          "handle": "lcheylus.bsky.social",
+          "displayName": "Laurent Cheylus"
         },
-        "likeCount": 4,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-09T14:03:49.505Z",
-        "hoursSincePosted": 1.19
+        "createdAt": "2026-05-13T11:45:05.739Z",
+        "hoursSincePosted": 0.55
       },
       "posts": [
         {
@@ -16493,6 +16710,34 @@
           "createdUtc": 1778335429,
           "ageHours": 1.19,
           "trendingScore": 4,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "romainsimon/paperasse",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:5lj4n3nkq7by6vmdxltlt2fy/app.bsky.feed.post/3mlqa3hn2hd2j",
+          "cid": "bafyreibep3ngqaocs7j6i7z64qpdarfeol4xhmkqvcmbkkymh4wwoz545a",
+          "bskyUrl": "https://bsky.app/profile/lcheylus.bsky.social/post/3mlqa3hn2hd2j",
+          "text": "Paperasse : un repository avec plein de skills pour agents IA spécialisés dans la bureaucratie française (comptabilité, fiscalité, facturation, notariat, syndic...) - par Romain Simon #IA #LLM github.com/romainsimon/...",
+          "author": {
+            "handle": "lcheylus.bsky.social",
+            "displayName": "Laurent Cheylus"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-13T11:45:05.739Z",
+          "createdUtc": 1778672705,
+          "ageHours": 0.55,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo"
           ],
@@ -19010,26 +19255,80 @@
       ]
     },
     "tracewayapp--traceway": {
-      "count7d": 1,
+      "count7d": 2,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlp7gre3b22q",
-        "cid": "bafyreidzwbcwxuqlbowjmpzmmf7tm4zx76awr3zs3meuwfmsz6eyyoinfe",
-        "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mlp7gre3b22q",
-        "text": "Traceway: MIT-licensed observability stack you can self-host in ~90s https://github.com/tracewayapp/traceway",
+        "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlq5et65zb2v",
+        "cid": "bafyreidtmjjy6osqq45mgdkdevzqmexopfgatkzskixq3rpwlyqilpx2pe",
+        "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlq5et65zb2v",
+        "text": "Traceway: MIT-licensed observability stack you can self-host in ~90s (github.com) Discussion | Main Link",
         "author": {
-          "handle": "hnbot.gsuscs.xyz",
-          "displayName": "HackerNews Compilator"
+          "handle": "newsycombinatorbot.bsky.social",
+          "displayName": "Hacker News Bot"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-13T02:00:52.418Z",
-        "hoursSincePosted": 2.25
+        "createdAt": "2026-05-13T10:56:39.445773Z",
+        "hoursSincePosted": 1.35
       },
       "posts": [
+        {
+          "uri": "at://did:plc:7thx574w4wv7lmulh5lxnpnz/app.bsky.feed.post/3mlq5et65zb2v",
+          "cid": "bafyreidtmjjy6osqq45mgdkdevzqmexopfgatkzskixq3rpwlyqilpx2pe",
+          "bskyUrl": "https://bsky.app/profile/newsycombinatorbot.bsky.social/post/3mlq5et65zb2v",
+          "text": "Traceway: MIT-licensed observability stack you can self-host in ~90s (github.com) Discussion | Main Link",
+          "author": {
+            "handle": "newsycombinatorbot.bsky.social",
+            "displayName": "Hacker News Bot"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-13T10:56:39.445773Z",
+          "createdUtc": 1778669799,
+          "ageHours": 1.35,
+          "trendingScore": 0,
+          "content_tags": [],
+          "value_score": 0,
+          "linkedRepos": [
+            {
+              "fullName": "tracewayapp/traceway",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:hqqjt33dtdcl6kz5bqwi7cws/app.bsky.feed.post/3mlpykftxaz2n",
+          "cid": "bafyreiafpyhtn7l4e6bcwvrpws5kswttqohonx5dfdvjirdobt45g4m3my",
+          "bskyUrl": "https://bsky.app/profile/hn100.atproto.rocks/post/3mlpykftxaz2n",
+          "text": "Traceway: MIT-licensed observability stack you can self-host in ~90s https://github.com/tracewayapp/traceway https://news.ycombinator.com/item?id=48091898",
+          "author": {
+            "handle": "hn100.atproto.rocks",
+            "displayName": "Hacker News 100"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-13T09:30:18.039129+00:00",
+          "createdUtc": 1778664618,
+          "ageHours": 2.79,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "tracewayapp/traceway",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlp7gre3b22q",
           "cid": "bafyreidzwbcwxuqlbowjmpzmmf7tm4zx76awr3zs3meuwfmsz6eyyoinfe",
@@ -20847,19 +21146,19 @@
       "repostsSum7d": 0,
       "repliesSum7d": 1,
       "topPost": {
-        "uri": "at://did:plc:uljpcnka4xxgtd7g2nf5zblo/app.bsky.feed.post/3mlpprv3hn22g",
-        "cid": "bafyreiggo2suknnaol5o5bifwvqheynno3u7s2g37mvwfstyfhiu743u4a",
-        "bskyUrl": "https://bsky.app/profile/kabutor.bsky.social/post/3mlpprv3hn22g",
-        "text": "github.com/Nightmare-Ec...",
+        "uri": "at://did:plc:67ns3wrnx2abu4lnveofxf4z/app.bsky.feed.post/3mlq7vaufo22x",
+        "cid": "bafyreicjqoatrmjz5yllxqzrarrs7xe6utlussi5snfz5hwr5t25ivrze4",
+        "bskyUrl": "https://bsky.app/profile/christian-huber.bsky.social/post/3mlq7vaufo22x",
+        "text": "🤬🚨🔓Einmal mehr ein Microsoft Fail? Anscheinend soll es eine triviale Möglichkeit geben, die Bitlocker Diskverschlüsselung auszuhebeln. Wenn sich dies bewahrheitet, wäre dies eine fatale, mit hoher Wahrscheinlichkeit gar mutwillige Sicherheitslücke! github.com/Nightmare-Ec...",
         "author": {
-          "handle": "kabutor.bsky.social",
-          "displayName": "Kabutor"
+          "handle": "christian-huber.bsky.social",
+          "displayName": "Ҩhristian Huber"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 1,
-        "createdAt": "2026-05-13T06:53:25.309Z",
-        "hoursSincePosted": 0.63
+        "createdAt": "2026-05-13T11:41:38.189Z",
+        "hoursSincePosted": 0.61
       },
       "posts": [
         {
@@ -20923,6 +21222,34 @@
             },
             {
               "fullName": "Nightmare-Eclipse/GreenPlasma",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:67ns3wrnx2abu4lnveofxf4z/app.bsky.feed.post/3mlq7vaufo22x",
+          "cid": "bafyreicjqoatrmjz5yllxqzrarrs7xe6utlussi5snfz5hwr5t25ivrze4",
+          "bskyUrl": "https://bsky.app/profile/christian-huber.bsky.social/post/3mlq7vaufo22x",
+          "text": "🤬🚨🔓Einmal mehr ein Microsoft Fail? Anscheinend soll es eine triviale Möglichkeit geben, die Bitlocker Diskverschlüsselung auszuhebeln. Wenn sich dies bewahrheitet, wäre dies eine fatale, mit hoher Wahrscheinlichkeit gar mutwillige Sicherheitslücke! github.com/Nightmare-Ec...",
+          "author": {
+            "handle": "christian-huber.bsky.social",
+            "displayName": "Ҩhristian Huber"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 1,
+          "createdAt": "2026-05-13T11:41:38.189Z",
+          "createdUtc": 1778672498,
+          "ageHours": 0.61,
+          "trendingScore": 0.5,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "Nightmare-Eclipse/YellowKey",
               "matchType": "url",
               "confidence": 1
             }
@@ -21404,31 +21731,82 @@
           ]
         }
       ]
+    },
+    "kyutai-labs--pocket-tts": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlpwgwoh4q2q",
+        "cid": "bafyreigy5nzaiulsg62z2nbcjscsjkpk5bvi6xfmsnqsxkoohorlav3hk4",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlpwgwoh4q2q",
+        "text": "https://github.com/kyutai-labs/pocket-tts",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-13T08:52:33Z",
+        "hoursSincePosted": 3.42
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlpwgwoh4q2q",
+          "cid": "bafyreigy5nzaiulsg62z2nbcjscsjkpk5bvi6xfmsnqsxkoohorlav3hk4",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlpwgwoh4q2q",
+          "text": "https://github.com/kyutai-labs/pocket-tts",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-13T08:52:33Z",
+          "createdUtc": 1778662353,
+          "ageHours": 3.42,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "kyutai-labs/pocket-tts",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "gitleaks/gitleaks",
+      "fullName": "nikopueringer/CorridorKey",
       "count7d": 1,
-      "likesSum7d": 13
+      "likesSum7d": 2
     },
     {
-      "fullName": "niri-wm/niri",
-      "count7d": 1,
-      "likesSum7d": 1
+      "fullName": "tracewayapp/traceway",
+      "count7d": 2,
+      "likesSum7d": 0
     },
     {
-      "fullName": "openclaw/openclaw",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
-      "fullName": "EvanBacon/serve-sim",
+      "fullName": "kyutai-labs/pocket-tts",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
       "fullName": "Nightmare-Eclipse/YellowKey",
+      "count7d": 1,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "romainsimon/paperasse",
       "count7d": 1,
       "likesSum7d": 0
     }

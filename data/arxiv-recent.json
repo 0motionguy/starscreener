@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-13T04:35:11.232Z",
+  "fetchedAt": "2026-05-13T19:17:20.203Z",
   "source": "export.arxiv.org/api/query (cs.AI + cs.CL + cs.LG)",
   "count": 1000,
   "linkedRepoCount": 0,
@@ -2840,26 +2840,6 @@
       "linkedRepos": []
     },
     {
-      "arxivId": "2605.12241v1",
-      "title": "Pretraining Strategies and Scaling for ECG Foundation Models: A Systematic Study",
-      "summary": "Specialized foundation models are beginning to emerge in various medical subdomains, but pretraining methodologies and parametric scaling with the size of the pretraining dataset are rarely assessed systematically and in a like-for-like manner. This work focuses on foundation models for electrocardiography (ECG) data, one of the most widely captured physiological time series world-wide. We present a comprehensive assessment of pretraining methodologies, covering five different contrastive and non-contrastive self-supervised learning objectives for ECG foundation models, and investigate their scaling behavior with pretraining dataset sizes up to 11M input samples, exclusively from publicly available sources. Pretraining strategy has a meaningful and consistent impact on downstream performance, with contrastive predictive coding (slightly ahead of JEPA) yielding the most transferable representations across diverse clinical tasks. Scaling pretraining data continues to yield meaningful improvements up to 11M samples for most objectives. We also compare model architectures across all pretraining methodologies and find evidence for a clear superiority of structured state space models compared to transformers and CNN models. We hypothesize that the strong inductive biases of structured state space models, rather than pretraining scale alone, are the primary driver of effective ECG representation learning, with important implications for future foundation model development in this and potentially other physiological signal domains.",
-      "authors": [
-        "M A Al-Masud",
-        "Nils Strodthoff"
-      ],
-      "categories": [
-        "eess.SP",
-        "cs.AI",
-        "cs.LG"
-      ],
-      "primaryCategory": "eess.SP",
-      "absUrl": "https://arxiv.org/abs/2605.12241v1",
-      "pdfUrl": "https://arxiv.org/pdf/2605.12241v1",
-      "publishedAt": "2026-05-12T15:10:15.000Z",
-      "updatedAt": "2026-05-12T15:10:15.000Z",
-      "linkedRepos": []
-    },
-    {
       "arxivId": "2605.12240v1",
       "title": "No Action Without a NOD: A Heterogeneous Multi-Agent Architecture for Reliable Service Agents",
       "summary": "Large language model (LLM) agents have increasingly advanced service applications, such as booking flight tickets. However, these service agents suffer from unreliability in long-horizon tasks, as they often produce policy violations, tool hallucinations, and misaligned actions, which greatly impedes their real-world deployment. To address these challenges, we propose NOD (Navigator-Operator-Director), a heterogeneous multi-agent architecture for service agents. Instead of maintaining task state implicitly in dialogue context as in prior work, we externalize a structured Global State to enable explicit task state tracking and consistent decision-making by the Navigator. Besides, we introduce selective external oversight before critical actions, allowing an independent Director agent to verify execution and intervene when necessary. As such, NOD effectively mitigates error propagation and unsafe behavior in long-horizon tasks. Experiments on $τ^2$-Bench demonstrate that NOD achieves higher task success rates and critical action precision over baselines. More importantly, NOD improves the reliability of service agents by reducing policy violations, tool hallucinations, and user-intent misalignment.",
@@ -2879,6 +2859,26 @@
       "primaryCategory": "cs.AI",
       "absUrl": "https://arxiv.org/abs/2605.12240v1",
       "pdfUrl": "https://arxiv.org/pdf/2605.12240v1",
+      "publishedAt": "2026-05-12T15:10:15.000Z",
+      "updatedAt": "2026-05-12T15:10:15.000Z",
+      "linkedRepos": []
+    },
+    {
+      "arxivId": "2605.12241v1",
+      "title": "Pretraining Strategies and Scaling for ECG Foundation Models: A Systematic Study",
+      "summary": "Specialized foundation models are beginning to emerge in various medical subdomains, but pretraining methodologies and parametric scaling with the size of the pretraining dataset are rarely assessed systematically and in a like-for-like manner. This work focuses on foundation models for electrocardiography (ECG) data, one of the most widely captured physiological time series world-wide. We present a comprehensive assessment of pretraining methodologies, covering five different contrastive and non-contrastive self-supervised learning objectives for ECG foundation models, and investigate their scaling behavior with pretraining dataset sizes up to 11M input samples, exclusively from publicly available sources. Pretraining strategy has a meaningful and consistent impact on downstream performance, with contrastive predictive coding (slightly ahead of JEPA) yielding the most transferable representations across diverse clinical tasks. Scaling pretraining data continues to yield meaningful improvements up to 11M samples for most objectives. We also compare model architectures across all pretraining methodologies and find evidence for a clear superiority of structured state space models compared to transformers and CNN models. We hypothesize that the strong inductive biases of structured state space models, rather than pretraining scale alone, are the primary driver of effective ECG representation learning, with important implications for future foundation model development in this and potentially other physiological signal domains.",
+      "authors": [
+        "M A Al-Masud",
+        "Nils Strodthoff"
+      ],
+      "categories": [
+        "eess.SP",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "primaryCategory": "eess.SP",
+      "absUrl": "https://arxiv.org/abs/2605.12241v1",
+      "pdfUrl": "https://arxiv.org/pdf/2605.12241v1",
       "publishedAt": "2026-05-12T15:10:15.000Z",
       "updatedAt": "2026-05-12T15:10:15.000Z",
       "linkedRepos": []

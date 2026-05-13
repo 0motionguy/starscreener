@@ -329,7 +329,7 @@ export function RepoIdHero({
           justify-content: center;
           border: 1px solid var(--v3-line-200);
           border-radius: 4px;
-          background: linear-gradient(135deg, #6366f1, #8b5cf6);
+          background: linear-gradient(135deg, var(--v4-acc), var(--v4-acc-dim));
           color: #fff;
           font-family: var(--font-geist-mono, monospace);
           font-size: 24px;

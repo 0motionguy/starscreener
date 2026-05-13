@@ -553,6 +553,8 @@ export function deltasToEvents(payload, repoMetadata) {
 
     // Stars-velocity event. Use pushNormalized to skip null delta values
     // (basis="repo-not-tracked" / "no-history" entries); jsonb NOT NULL.
+    // `_age_seconds` is emitted only for cold-start basis, where
+    // compute-deltas.mjs populates `age_seconds = now - picked_ts`.
     const starsNormalized = [];
     pushNormalized(starsNormalized, "stars_now", deltas.stars_now ?? 0, 1.0);
     for (const win of ["1h", "24h", "7d", "30d"]) {
@@ -561,6 +563,9 @@ export function deltasToEvents(payload, repoMetadata) {
         const conf = d.basis === "exact" ? 1.0 : d.basis === "nearest" ? 0.7 : 0.5;
         pushNormalized(starsNormalized, `delta_${win}`, d.value, conf);
         pushNormalized(starsNormalized, `delta_${win}_basis`, d.basis, 1.0);
+        if (typeof d.age_seconds === "number") {
+          pushNormalized(starsNormalized, `delta_${win}_age_seconds`, d.age_seconds, 1.0);
+        }
       }
     }
     if (starsNormalized.length > 0) {
@@ -575,6 +580,10 @@ export function deltasToEvents(payload, repoMetadata) {
     }
 
     // Fork-velocity event — only when forks_now is present (future-proof).
+    // Mirror the stars-velocity shape: emit value + basis + age_seconds so
+    // toolbox-store-velocity.ts can resolve the discriminated DeltaValue
+    // union without stubbing (kills the trade-off notes 1 and 2 in that
+    // file's header).
     if (typeof deltas.forks_now === "number") {
       const forkNormalized = [];
       pushNormalized(forkNormalized, "forks_now", deltas.forks_now, 1.0);
@@ -582,6 +591,10 @@ export function deltasToEvents(payload, repoMetadata) {
         const d = deltas[`fork_delta_${win}`];
         if (d && typeof d === "object") {
           pushNormalized(forkNormalized, `fork_delta_${win}`, d.value, 0.7);
+          pushNormalized(forkNormalized, `fork_delta_${win}_basis`, d.basis, 1.0);
+          if (typeof d.age_seconds === "number") {
+            pushNormalized(forkNormalized, `fork_delta_${win}_age_seconds`, d.age_seconds, 1.0);
+          }
         }
       }
       if (forkNormalized.length > 0) {

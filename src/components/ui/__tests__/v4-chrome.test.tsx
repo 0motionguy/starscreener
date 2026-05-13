@@ -45,11 +45,15 @@ describe("LiveDot", () => {
     expect(container.querySelector(".v4-live-dot__label")).toBeNull();
   });
 
-  it("renders an accessible status role", () => {
+  it("renders an accessible status role without aria-live", () => {
     const { container } = render(<LiveDot label="LIVE" />);
     const root = container.querySelector(".v4-live-dot");
     expect(root?.getAttribute("role")).toBe("status");
-    expect(root?.getAttribute("aria-live")).toBe("polite");
+    // aria-live intentionally absent per wave-7a audit decision: LiveDot is
+    // decorative; screen readers pick up freshness state via FreshnessBadge
+    // and surrounding text. The prior aria-live="polite" caused SRs to re-
+    // announce "LIVE" on every render across every consumer (P2 a11y noise).
+    expect(root?.getAttribute("aria-live")).toBeNull();
   });
 
   it("renders the label when provided", () => {

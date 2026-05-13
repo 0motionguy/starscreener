@@ -332,7 +332,7 @@ function TweetFeed({ items, source }: { items: TweetItem[]; source: SourceKey })
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  border: "1.5px solid var(--color-bg-shell)",
+                  border: "1px solid var(--color-bg-shell)",
                 }}
               >
                 <SourceMark source={source} size={8} monochrome />

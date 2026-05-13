@@ -30,6 +30,8 @@ export function WindowedFundingBoard({
 }: Props) {
   const [win, setWin] = useState<FundingWindow>(defaultWindow);
   const rows = win === "24h" ? rows24h : win === "30d" ? rows30d : rows7d;
+  const tabId = (w: FundingWindow) => `funding-window-tab-${w}`;
+  const panelId = (w: FundingWindow) => `funding-window-panel-${w}`;
 
   return (
     <>
@@ -42,9 +44,11 @@ export function WindowedFundingBoard({
         {(["24h", "7d", "30d"] as const).map((w) => (
           <button
             key={w}
+            id={tabId(w)}
             type="button"
             role="tab"
             aria-selected={win === w}
+            aria-controls={panelId(w)}
             className={`tab${win === w ? " on" : ""}`}
             onClick={() => setWin(w)}
           >
@@ -55,9 +59,6 @@ export function WindowedFundingBoard({
           <span
             className="muted"
             style={{
-              fontFamily: "var(--v4-mono)",
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
               fontSize: "9.5px",
               fontVariantNumeric: "tabular-nums",
             }}
@@ -66,7 +67,12 @@ export function WindowedFundingBoard({
           </span>
         </span>
       </div>
-      <section className="board funding-board">
+      <section
+        id={panelId(win)}
+        role="tabpanel"
+        aria-labelledby={tabId(win)}
+        className="board funding-board"
+      >
         {rows.length === 0 ? (
           <div
             style={{

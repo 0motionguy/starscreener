@@ -181,7 +181,6 @@ function WindowedHnFeed({ allStories }: { allStories: HnStory[] }) {
       table24h={<HnStoryFeed stories={w24h} />}
       table7d={<HnStoryFeed stories={w7d} />}
       table30d={<HnStoryFeed stories={w30d} />}
-      defaultWindow="7d"
     />
   );
 }

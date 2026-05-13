@@ -120,7 +120,10 @@ function formatAge(value: string): string {
 }
 
 function sourceName(source: string): string {
-  return SOURCE_LABELS[source] ?? source.replaceAll("-", " ");
+  if (SOURCE_LABELS[source]) return SOURCE_LABELS[source];
+  return source
+    .replaceAll("-", " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 function roundName(signal: FundingSignal): string {

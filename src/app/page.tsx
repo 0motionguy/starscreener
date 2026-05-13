@@ -862,7 +862,7 @@ export default async function HomePage() {
 
         <MetricGrid columns={6}>
           <Metric label="coverage" value={formatCompact(repos.length)} sub="tracked repos" />
-          <Metric label="stars today" value={formatCompact(total24h)} delta="+ live" tone="positive" />
+          <Metric label="stars today" value={formatCompact(total24h)} sub="24h aggregate" tone="positive" />
           <Metric label="weekly stars" value={formatCompact(total7d)} sub="7d window" />
           <Metric label="consensus now" value={consensusRepos.length} sub="top multi-source" tone="consensus" />
           <Metric label="breakouts now" value={breakoutRepos.length} sub="above baseline" tone="accent" />

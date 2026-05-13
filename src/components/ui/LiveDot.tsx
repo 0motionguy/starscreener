@@ -31,7 +31,6 @@ export function LiveDot({ tone = "money", label, className }: LiveDotProps) {
     <span
       className={cn("v4-live-dot", `v4-live-dot--${tone}`, className)}
       role="status"
-      aria-live="polite"
     >
       <i className="v4-live-dot__pip" aria-hidden="true" />
       {label ? <span className="v4-live-dot__label">{label}</span> : null}

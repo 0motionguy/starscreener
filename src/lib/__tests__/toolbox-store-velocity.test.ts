@@ -101,14 +101,94 @@ test("returns DeltasJson with stars + fork merge for a known repo", async () => 
   assert.equal(entry.delta_1h.basis, "exact");
   assert.equal(entry.delta_24h.basis, "nearest");
   assert.equal(entry.delta_7d.basis, "cold-start");
-  // Cold-start variant requires age_seconds (stubbed to 0)
+  // Cold-start variant: age_seconds falls back to 0 when upstream payload
+  // doesn't include `delta_<win>_age_seconds` (legacy/backward-compat case).
+  // Post-PR #1186 the dual-write emits this field; see next test.
   if (entry.delta_7d.basis === "cold-start") {
     assert.equal(entry.delta_7d.age_seconds, 0);
   }
-  // Fork side: basis is LOST in dual-write transit → degrades to "no-history".
-  // This is documented in the adapter file header as trade-off (2).
+  // Fork side: backward-compat — fixture omits fork_delta_<win>_basis, so
+  // basis degrades to "no-history". Post-PR #1186 fixture (next test)
+  // verifies basis + age_seconds are consumed when present.
   assert.equal(entry.fork_delta_1h!.basis, "no-history");
   assert.equal(entry.fork_delta_24h!.basis, "no-history");
+});
+
+test("consumes new fork_delta_<win>_basis + *_age_seconds fields (post PR #1186)", async () => {
+  const known = await pickAnyKnownFullName();
+  assert.ok(known);
+  const result = await fetchDeltasFromToolbox({
+    apiUrl: "https://api.example.test",
+    apiKey: "tbk_live_test",
+    fetchImpl: fakeFetch([
+      // Stars response with cold-start age_seconds
+      {
+        body: {
+          count: 1,
+          targets: [
+            {
+              target_id: "t1",
+              target_kind: "url",
+              target_identity: `https://github.com/${known.fullName}`,
+              scan_id: "s",
+              run_id: "r",
+              signal_type: "trending.github.stars.velocity",
+              produced_at: "2026-05-13T10:00:00Z",
+              fields: {
+                stars_now: 1000,
+                delta_24h: 50,
+                delta_24h_basis: "cold-start",
+                delta_24h_age_seconds: 86400,
+              },
+            },
+          ],
+        },
+      },
+      // Fork response WITH basis + age_seconds (the new shape)
+      {
+        body: {
+          count: 1,
+          targets: [
+            {
+              target_id: "t1",
+              target_kind: "url",
+              target_identity: `https://github.com/${known.fullName}`,
+              scan_id: "s",
+              run_id: "r",
+              signal_type: "trending.github.fork.velocity",
+              produced_at: "2026-05-13T10:00:00Z",
+              fields: {
+                forks_now: 200,
+                fork_delta_1h: 2,
+                fork_delta_1h_basis: "exact",
+                fork_delta_24h: 10,
+                fork_delta_24h_basis: "cold-start",
+                fork_delta_24h_age_seconds: 7200,
+              },
+            },
+          ],
+        },
+      },
+    ]),
+  });
+
+  assert.ok(result);
+  const entry = result!.repos[known.repoId];
+  assert.ok(entry);
+  // Stars cold-start: age_seconds passed through
+  if (entry.delta_24h.basis === "cold-start") {
+    assert.equal(entry.delta_24h.age_seconds, 86400);
+  } else {
+    assert.fail(`expected cold-start basis, got ${entry.delta_24h.basis}`);
+  }
+  // Fork basis now PRESERVED (not "no-history")
+  assert.equal(entry.fork_delta_1h!.basis, "exact");
+  // Fork cold-start age_seconds also passed through
+  if (entry.fork_delta_24h!.basis === "cold-start") {
+    assert.equal(entry.fork_delta_24h!.age_seconds, 7200);
+  } else {
+    assert.fail(`expected fork cold-start basis, got ${entry.fork_delta_24h!.basis}`);
+  }
 });
 
 test("returns null when both stars + fork responses fail", async () => {

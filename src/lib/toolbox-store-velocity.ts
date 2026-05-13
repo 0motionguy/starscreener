@@ -10,31 +10,19 @@
 // Returns null on any failure so the caller (refreshTrendingFromStore)
 // can fall through to the legacy data-store deltas read.
 //
-// SEMANTIC TRADE-OFFS WORTH KNOWING:
+// SEMANTIC NOTES:
 //
-// 1. **Cold-start `age_seconds` stub**. The dual-write in trendingrepo's
-//    `scripts/_toolbox-ingest.mjs` doesn't transmit `age_seconds` (or
-//    `from_commit` / `from_ts`). The local `DeltaValue` discriminated
-//    union requires `age_seconds: number` on the cold-start variant.
-//    This adapter stubs `age_seconds: 0` / `from_commit: ""` / `from_ts: 0`.
-//    Runtime semantic is preserved — `derived-repos.ts`'s `isRealDelta`
-//    helper (which only reads `.value` + `.basis`) correctly returns
-//    `false` for cold-start, so consumers fall back to alternative
-//    sources. The lost metadata (commit hash, exact timestamp, age) is
-//    not consumed downstream by any path observed during recon. If a
-//    consumer starts reading `age_seconds` later, the stubbed `0` will
-//    underrepresent the actual age. Upstream fix: extend the dual-write
-//    to emit `age_seconds` for cold-start basis (and ideally `from_ts`
-//    for all variants).
+// Earlier trade-offs (stubbed cold-start `age_seconds=0`, missing fork basis)
+// were resolved upstream in 2026-05-13 dual-write changes (PR #1186):
+// `_toolbox-ingest.mjs` now emits `delta_<win>_age_seconds`,
+// `fork_delta_<win>_basis`, and `fork_delta_<win>_age_seconds`. This adapter
+// reads those fields directly; `age_seconds` falls back to `0` only when
+// the upstream cron hasn't refreshed yet (cold-start data still being
+// populated) or when the basis isn't "cold-start" (no age field expected).
 //
-// 2. **Fork basis is LOST in transit**. The dual-write at lines 580-596
-//    of `_toolbox-ingest.mjs` sends fork deltas as just `fork_delta_<win>`
-//    (the value) — it does NOT send a corresponding `fork_delta_<win>_basis`
-//    field, unlike the stars side. This adapter therefore receives no
-//    basis for fork deltas and treats them as `basis: "no-history"`
-//    (which makes `isRealDelta` return false → consumers fall back).
-//    Upstream fix: add `pushNormalized(forkNormalized, \`fork_delta_${win}_basis\`, d.basis, 1.0)`
-//    in the dual-write.
+// `from_commit` and `from_ts` remain stubbed to `""` and `0` — the
+// dual-write doesn't transmit them and no downstream consumer reads them
+// (recon confirmed in `derived-repos.ts`'s `isRealDelta`).
 
 import "server-only";
 
@@ -117,9 +105,14 @@ async function fetchLeaderboardEvents(
 const WINDOWS = ["1h", "24h", "7d", "30d"] as const;
 type DeltaWindow = (typeof WINDOWS)[number];
 
-function buildDeltaValue(value: unknown, basis: unknown): DeltaValue {
+function buildDeltaValue(
+  value: unknown,
+  basis: unknown,
+  ageSeconds: unknown,
+): DeltaValue {
   const basisStr = typeof basis === "string" ? basis : "no-history";
   const numValue = typeof value === "number" ? value : null;
+  const numAge = typeof ageSeconds === "number" ? ageSeconds : 0;
 
   switch (basisStr) {
     case "exact":
@@ -128,13 +121,14 @@ function buildDeltaValue(value: unknown, basis: unknown): DeltaValue {
       return { value: numValue, basis: basisStr, from_commit: "", from_ts: 0 };
     case "cold-start":
       if (numValue === null) return { value: null, basis: "no-history" };
-      // age_seconds stubbed to 0. See file header trade-off note (1).
+      // age_seconds now read from upstream (PR #1186). Falls back to 0
+      // during the rollout window before the next velocity cron fires.
       return {
         value: numValue,
         basis: "cold-start",
         from_commit: "",
         from_ts: 0,
-        age_seconds: 0,
+        age_seconds: numAge,
       };
     case "no-history":
     case "repo-not-tracked":
@@ -208,14 +202,14 @@ export async function fetchDeltasFromToolbox(
       entry[`delta_${win}` as `delta_${DeltaWindow}`] = buildDeltaValue(
         f[`delta_${win}`],
         f[`delta_${win}_basis`],
+        f[`delta_${win}_age_seconds`],
       );
     }
     repos[repoId] = entry;
   }
 
-  // Merge fork side. See file header trade-off note (2): the dual-write
-  // doesn't send fork basis strings, so all fork deltas come through as
-  // basis: "no-history" via buildDeltaValue's default-case.
+  // Merge fork side. fork_delta_<win>_basis + fork_delta_<win>_age_seconds
+  // are emitted by the dual-write as of PR #1186 (2026-05-13).
   for (const ev of forksResp?.targets ?? []) {
     const repoId = lookupRepoId(ev.target_identity);
     if (!repoId) continue;
@@ -227,7 +221,8 @@ export async function fetchDeltasFromToolbox(
     for (const win of WINDOWS) {
       const valueKey = `fork_delta_${win}` as `fork_delta_${DeltaWindow}`;
       const basisKey = `fork_delta_${win}_basis`;
-      entry[valueKey] = buildDeltaValue(f[valueKey], f[basisKey]);
+      const ageKey = `fork_delta_${win}_age_seconds`;
+      entry[valueKey] = buildDeltaValue(f[valueKey], f[basisKey], f[ageKey]);
     }
     repos[repoId] = entry;
   }

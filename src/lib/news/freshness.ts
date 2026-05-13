@@ -27,7 +27,8 @@ export type NewsSource =
   | "mcp"
   | "skills"
   | "arxiv"
-  | "repos";
+  | "repos"
+  | "huggingface";
 
 export type FreshnessStatus = "live" | "warn" | "cold";
 
@@ -35,6 +36,10 @@ const TWITTER_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
 // arXiv scraper runs every 3h; data cadence is daily-ish.
 // 12h budget = 3h cron + 9h grace before the badge goes cold.
 const ARXIV_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
+// HF scrapers (models / datasets / spaces) run every 3h on staggered crons
+// (:13 / :25 / :35). 8h = one cron tick + 5h grace; warn fires at 4h (one
+// missed tick).
+const HUGGINGFACE_STALE_THRESHOLD_MS = 8 * 60 * 60 * 1000;
 
 /**
  * Mapping from NewsSource → stale threshold in ms. We treat the *stale*
@@ -68,6 +73,10 @@ export const SOURCE_STALE_MS: Record<NewsSource, number> = {
   // stalled trending refresh trips amber/cold honestly, but day-old "fresh"
   // data doesn't keep the home page lit green.
   repos: TWITTER_STALE_THRESHOLD_MS,
+  // HF models/datasets/spaces share the same 3h cron cadence — 8h budget
+  // (one tick + 5h grace) keeps the badge honest without firing on a
+  // single skipped run.
+  huggingface: HUGGINGFACE_STALE_THRESHOLD_MS,
 };
 
 /** Soft warn threshold = 50% of the stale threshold. Past it the badge

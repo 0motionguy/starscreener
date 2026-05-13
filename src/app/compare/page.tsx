@@ -48,7 +48,7 @@ export default function ComparePage() {
               <CompareSelectedCount />
             </Suspense>
           </span>
-          <span className="live">series selected</span>
+          <span className="t-d">series selected</span>
         </div>
       </section>
 
@@ -60,7 +60,7 @@ export default function ComparePage() {
             Compare momentum curves across repos and export the chart.
           </span>
           <span className="t-foot">
-            <span className="live">live</span>
+            <span>live</span>
             <span className="ar">-&gt;</span>
           </span>
         </Link>

@@ -63,10 +63,10 @@ function PostRow({ post: p, velocityP90, velocityStats, onSubClick }: PostRowPro
         containIntrinsicSize: "0 160px",
       }}
       className={cn(
-        "group relative block border border-border-primary rounded-xl bg-bg-card shadow-card p-4 sm:p-5",
-        "transition-[border-color,box-shadow,background-color,transform] duration-200 motion-reduce:transition-none",
-        "motion-safe:hover:-translate-y-0.5 motion-safe:hover:scale-[1.005]",
-        "hover:border-brand/40 hover:shadow-[0_8px_24px_-8px_rgba(245,110,15,0.25)]",
+        "group relative block border border-border-primary rounded-sm bg-bg-card p-4 sm:p-5",
+        "transition-[border-color,background-color,transform] duration-200 motion-reduce:transition-none",
+        "motion-safe:hover:-translate-y-px",
+        "hover:border-brand/40",
         tc.row,
         tc.contentOpacity,
       )}

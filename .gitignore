@@ -54,6 +54,11 @@ next-env.d.ts
 # local Claude Code workspace (agent prompts, skills, settings)
 /.claude/
 
+# impeccable skill bundle (installed via `npx impeccable skills install`)
+/.agents/
+/skills/
+/skills-lock.json
+
 # mcp workspace build artifacts + installed deps
 /mcp/node_modules/
 /mcp/dist/

@@ -1,0 +1,50 @@
+# Build artifacts + dev caches — never need these in the image build context.
+.next
+.turbo
+.vercel
+out
+storybook-static
+coverage
+.nyc_output
+
+# Dependencies — Dockerfile reinstalls fresh.
+node_modules
+*/node_modules
+
+# Local env files — must NEVER be baked into the image.
+.env
+.env.local
+.env.*.local
+
+# Git + IDE.
+.git
+.github
+.vscode
+.idea
+.claude
+.codex
+
+# Local logs + scratch.
+*.log
+build_*.log
+.tmp
+.tmp.*
+
+# Tests + fixtures not needed at runtime.
+tests/fixtures/*.tmp
+playwright-report
+test-results
+
+# Storybook.
+.storybook
+stories
+
+# Docs + worklogs — bloat the build context, never read at runtime.
+AGN-*.md
+build_*.log
+docs/review
+docs/archive
+
+# Sub-app with its own Docker image.
+apps/trendingrepo-worker/node_modules
+apps/trendingrepo-worker/dist

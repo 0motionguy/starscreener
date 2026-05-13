@@ -67,9 +67,9 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "cdn-avatars.huggingface.co" },
     ],
   },
-  // Uncomment for Docker/Railway/Fly deployments that need a self-contained
-  // server bundle. Vercel does not require this.
-  // output: "standalone",
+  // Self-contained server bundle for Docker deployment on VPS.
+  // Required for `node server.js` standalone runner; Vercel ignores this flag.
+  output: "standalone",
   outputFileTracingIncludes: {
     "/*": ["./.data/twitter-*.jsonl"],
     "/api/openapi.json": ["./docs/openapi.json"],

@@ -276,7 +276,6 @@ export function LiveMcpTable({ rows, categories, totalCount }: LiveMcpTableProps
         <span className="live-top-spacer" />
         <span className="live-top-meta">
           showing <b>{rendered.length}</b> / {totalCount ?? rows.length}
-          <span className="live-pip">live</span>
         </span>
       </div>
 

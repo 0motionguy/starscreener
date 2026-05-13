@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   warmup:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     timeout-minutes: 5
     strategy:
       fail-fast: false
@@ -72,7 +72,7 @@ jobs:
 
   summarize:
     needs: warmup
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     if: always()
     steps:
       - uses: actions/checkout@v4

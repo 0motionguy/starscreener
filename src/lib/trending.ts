@@ -236,6 +236,12 @@ export async function refreshTrendingFromStore(): Promise<RefreshResult> {
       }
       if (deltasResult.data && deltasResult.source !== "missing") {
         deltas = deltasResult.data;
+      } else {
+        const { alertAdapterFallthrough } = await import("./adapter-fallthrough-alert");
+        alertAdapterFallthrough("velocity", "toolbox_null_legacy_missing", {
+          result_source: deltasResult.source,
+          had_toolbox_flag: process.env.TOOLBOX_READ_VELOCITY === "true",
+        });
       }
 
       lastRefreshMs = Date.now();

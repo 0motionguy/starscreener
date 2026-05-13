@@ -272,6 +272,12 @@ export async function refreshDevtoMentionsFromStore(): Promise<{
       mentionsFile = result.data;
       enrichDevtoWindowedCounts(mentionsFile);
       mentionsByLowerName = buildDevtoMentionsByLowerName(mentionsFile);
+    } else {
+      const { alertAdapterFallthrough } = await import("./adapter-fallthrough-alert");
+      alertAdapterFallthrough("devto", "toolbox_null_legacy_missing", {
+        result_source: result.source,
+        had_toolbox_flag: process.env.TOOLBOX_READ_DEVTO_MENTIONS === "true",
+      });
     }
     lastRefreshMs = Date.now();
     return { source: result.source, ageMs: result.ageMs };

@@ -26,7 +26,7 @@ concurrency:
 jobs:
   classify:
     name: Classify PR paths
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     timeout-minutes: 5
     outputs:
       data_only: ${{ steps.paths.outputs.data_only }}
@@ -82,7 +82,7 @@ jobs:
   gate:
     name: Typecheck, guards, tests, build, e2e
     needs: classify
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     timeout-minutes: 30
     steps:
       - name: Data-only fast path
@@ -142,9 +142,11 @@ jobs:
       # Cold-compile dev mode would blow the 30s test timeout in
       # playwright.config.ts on the first hit per route — production builds
       # serve every page sub-second, which is what the timeout assumes.
+      # Self-hosted runner has playwright deps pre-installed (apt 2026-05-13).
+      # --with-deps removed: needs root, ghrunner doesn't have passwordless sudo.
       - name: Install Playwright (chromium)
         if: needs.classify.outputs.data_only != 'true'
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
 
       - name: Seed Playwright repo fixtures
         if: needs.classify.outputs.data_only != 'true'
@@ -190,11 +192,14 @@ jobs:
           # TRENDINGREPO_* names during the brand migration.
           TRENDINGREPO_ALLOW_MISSING_ENV: "true"
           STARSCREENER_ALLOW_MISSING_ENV: "true"
+        # Port 13023 (not 3023) because the VPS self-hosted runner host already
+        # binds 127.0.0.1:3023 → toolbox-trendingrepo-1 container (production
+        # trendingrepo). Use 13023 to avoid the conflict during CI test runs.
         run: |
-          STARSCREENER_BASE_URL=http://localhost:3023 npx next start -p 3023 &
+          STARSCREENER_BASE_URL=http://localhost:13023 npx next start -p 13023 &
           echo $! > .next-pid
           for i in $(seq 1 60); do
-            if curl -sSf http://localhost:3023/ >/dev/null 2>&1; then
+            if curl -sSf http://localhost:13023/ >/dev/null 2>&1; then
               echo "server up after ${i}s"
               exit 0
             fi
@@ -209,7 +214,7 @@ jobs:
       - name: Playwright smokes
         if: needs.classify.outputs.data_only != 'true'
         env:
-          STARSCREENER_BASE_URL: http://localhost:3023
+          STARSCREENER_BASE_URL: http://localhost:13023
         # Gate the functional smoke specs. The visual screenshot suite under
         # tests/e2e/visual needs committed Linux baselines before it can run
         # reliably on a clean CI worker.
@@ -231,7 +236,7 @@ jobs:
     name: MCP server build
     needs: classify
     if: needs.classify.outputs.data_only != 'true'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     timeout-minutes: 10
     steps:
       - name: Checkout

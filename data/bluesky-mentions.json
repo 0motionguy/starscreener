@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-05-12T22:37:19.739Z",
+  "fetchedAt": "2026-05-13T00:14:59.882Z",
   "windowDays": 7,
-  "scannedPosts": 300,
+  "scannedPosts": 99,
   "searchQuery": "github.com",
-  "pagesFetched": 3,
+  "pagesFetched": 1,
   "mentions": {
     "antirez/ds4": {
       "count7d": 5,
@@ -2941,7 +2941,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T22:29:53.442Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.75
       },
       "posts": [
         {
@@ -2958,7 +2958,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T22:29:53.442Z",
           "createdUtc": 1778624993,
-          "ageHours": 0.5,
+          "ageHours": 1.75,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -3036,7 +3036,7 @@
       ]
     },
     "garrytan/gbrain": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -3053,7 +3053,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T22:29:53.442Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.75
       },
       "posts": [
         {
@@ -3070,7 +3070,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T22:29:53.442Z",
           "createdUtc": 1778624993,
-          "ageHours": 0.5,
+          "ageHours": 1.75,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -7290,22 +7290,22 @@
     },
     "openclaw/openclaw": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlofo3hfus2h",
-        "cid": "bafyreigbsf6t3tiqvq2sf3hgizhzsbycdlxnxuoigtl4ziy5g54f3zq5qy",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mlofo3hfus2h",
-        "text": "🟠 OpenClaw beta ships per-sender tool controls and on-demand local model server startup OpenClaw v2026.5.12-beta.1 is more than a routine beta cut. It adds per-sender tool policies for channel-scoped identity... https://github.com/openclaw/openclaw/releases/tag/v2026.5.12-beta.1 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlozeikqqi2h",
+        "cid": "bafyreihncxsy63qveltr2rerbovaiix6s3kjah3di32pullkqihxbxsgwy",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mlozeikqqi2h",
+        "text": "🟠 OpenClaw beta.3 lands per-sender tool policies and on-demand local model startup OpenClaw shipped v2026.5.12-beta.3 with two operator-facing changes that materially affect agent deployment: per-sender tool... https://github.com/openclaw/openclaw/releases/tag/v2026.5.12-beta.3 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T18:19:39.171466+00:00",
-        "hoursSincePosted": 2.54
+        "createdAt": "2026-05-13T00:12:12.302736+00:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -7351,6 +7351,34 @@
           "createdUtc": 1778609979,
           "ageHours": 2.54,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlozeikqqi2h",
+          "cid": "bafyreihncxsy63qveltr2rerbovaiix6s3kjah3di32pullkqihxbxsgwy",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mlozeikqqi2h",
+          "text": "🟠 OpenClaw beta.3 lands per-sender tool policies and on-demand local model startup OpenClaw shipped v2026.5.12-beta.3 with two operator-facing changes that materially affect agent deployment: per-sender tool... https://github.com/openclaw/openclaw/releases/tag/v2026.5.12-beta.3 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-13T00:12:12.302736+00:00",
+          "createdUtc": 1778631132,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -10193,26 +10221,138 @@
       ]
     },
     "FULU-Foundation/OrcaSlicer-bambulab": {
-      "count7d": 1,
+      "count7d": 4,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:j4i2tyqx6r5nth36h3q5q77y/app.bsky.feed.post/3mloq3cvgok2f",
-        "cid": "bafyreihsn667bddzbnmj42yeyogk5k4na4zwwnkno7tjda227rlqp3mp24",
-        "bskyUrl": "https://bsky.app/profile/giggio.net/post/3mloq3cvgok2f",
-        "text": "A @fulufoundation.bsky.social subiu o código de volta. Essa treta vai ficar gigante, e isso é bom. Pode ensejar uma discussão jurídica importantíssima, cortar as asinhas dessas empresas folgadas. Esse caso me interessa ainda mais porque eu tenho uma Bambulab A1! github.com/FULU-Foundat...",
+        "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mloxd32u772k",
+        "cid": "bafyreihjjhcgr75rzjcstyyeenmncwuo5qeooe3mikwoz6hp4orm6d2ie4",
+        "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mloxd32u772k",
+        "text": "Restore full BambuNetwork support for Bambu Lab printers https://github.com/FULU-Foundation/OrcaSlicer-bambulab (https://news.ycombinator.com/item?id=48115127)",
         "author": {
-          "handle": "giggio.net",
-          "displayName": "Giovanni Bassi 🇧🇷"
+          "handle": "betterhn50.e-work.xyz",
+          "displayName": "Hacker News 50"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T21:26:02.041Z",
-        "hoursSincePosted": 1.19
+        "createdAt": "2026-05-12T23:35:37.757Z",
+        "hoursSincePosted": 0.66
       },
       "posts": [
+        {
+          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mloxd32u772k",
+          "cid": "bafyreihjjhcgr75rzjcstyyeenmncwuo5qeooe3mikwoz6hp4orm6d2ie4",
+          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mloxd32u772k",
+          "text": "Restore full BambuNetwork support for Bambu Lab printers https://github.com/FULU-Foundation/OrcaSlicer-bambulab (https://news.ycombinator.com/item?id=48115127)",
+          "author": {
+            "handle": "betterhn50.e-work.xyz",
+            "displayName": "Hacker News 50"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T23:35:37.757Z",
+          "createdUtc": 1778628937,
+          "ageHours": 0.66,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "FULU-Foundation/OrcaSlicer-bambulab",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlow7pnci624",
+          "cid": "bafyreifnfycha72hdkp3aeodmjihjcpx24ix3ppelfxzlz3axcpxe6oi3e",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlow7pnci624",
+          "text": "Restore full BambuNetwork support for Bambu Lab printers https://github.com/FULU-Foundation/OrcaSlicer-bambulab (https://news.ycombinator.com/item?id=48115127)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T23:15:51.214Z",
+          "createdUtc": 1778627751,
+          "ageHours": 0.99,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "FULU-Foundation/OrcaSlicer-bambulab",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:6clcp32vg7hejrq4v7hff3gs/app.bsky.feed.post/3mlovjq2doy24",
+          "cid": "bafyreiekoj3sfrldmhq32ycz3stxswbsxynwagc6mcsmsfezkcnt3gndfi",
+          "bskyUrl": "https://bsky.app/profile/hackernewstop5.bsky.social/post/3mlovjq2doy24",
+          "text": "Restore full BambuNetwork support for Bambu Lab printers #HackerNews https://github.com/FULU-Foundation/OrcaSlicer-bambulab",
+          "author": {
+            "handle": "hackernewstop5.bsky.social",
+            "displayName": "HackerNewsTop5"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T23:03:34.131Z",
+          "createdUtc": 1778627014,
+          "ageHours": 1.19,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "FULU-Foundation/OrcaSlicer-bambulab",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlovevhbm22q",
+          "cid": "bafyreieqrxphjxre2rhjzotlhrowgjhv5zbox4bedqysxigjvizn32qhfm",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mlovevhbm22q",
+          "text": "Restore full BambuNetwork support for Bambu Lab printers https://github.com/FULU-Foundation/OrcaSlicer-bambulab",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T23:00:52.192Z",
+          "createdUtc": 1778626852,
+          "ageHours": 1.24,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "FULU-Foundation/OrcaSlicer-bambulab",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:j4i2tyqx6r5nth36h3q5q77y/app.bsky.feed.post/3mloq3cvgok2f",
           "cid": "bafyreihsn667bddzbnmj42yeyogk5k4na4zwwnkno7tjda227rlqp3mp24",
@@ -10236,6 +10376,108 @@
           "linkedRepos": [
             {
               "fullName": "FULU-Foundation/OrcaSlicer-bambulab",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "farion1231/cc-switch": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mloyznysqo2x",
+        "cid": "bafyreiboclrv7d7qdimnq7eps77kteuivnazqa3xqwuyp6ht3fiecp2zwu",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mloyznysqo2x",
+        "text": "farion1231 / cc-switch: A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Gemini CLI & Hermes Agent. Only official website: ccswitch.io ★68591 https://github.com/farion1231/cc-switch",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-13T00:06:10.129430Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mloyznysqo2x",
+          "cid": "bafyreiboclrv7d7qdimnq7eps77kteuivnazqa3xqwuyp6ht3fiecp2zwu",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mloyznysqo2x",
+          "text": "farion1231 / cc-switch: A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Gemini CLI & Hermes Agent. Only official website: ccswitch.io ★68591 https://github.com/farion1231/cc-switch",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-13T00:06:10.129430Z",
+          "createdUtc": 1778630770,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "AgriciDaniel/claude-obsidian": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlou72nwsf2s",
+        "cid": "bafyreibkbcduf2ilj2522k6jx4pye2wlfxx2hv4lwuo2qfvqe72dynomvu",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlou72nwsf2s",
+        "text": "https://github.com/AgriciDaniel/claude-obsidian",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T22:39:42Z",
+        "hoursSincePosted": 1.59
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlou72nwsf2s",
+          "cid": "bafyreibkbcduf2ilj2522k6jx4pye2wlfxx2hv4lwuo2qfvqe72dynomvu",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlou72nwsf2s",
+          "text": "https://github.com/AgriciDaniel/claude-obsidian",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T22:39:42Z",
+          "createdUtc": 1778625582,
+          "ageHours": 1.59,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "AgriciDaniel/claude-obsidian",
               "matchType": "url",
               "confidence": 1
             }
@@ -13181,7 +13423,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T22:29:53.442Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.75
       },
       "posts": [
         {
@@ -13198,7 +13440,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T22:29:53.442Z",
           "createdUtc": 1778624993,
-          "ageHours": 0.5,
+          "ageHours": 1.75,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -13276,7 +13518,7 @@
       ]
     },
     "garrytan--gbrain": {
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 1,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
@@ -13293,7 +13535,7 @@
         "repostCount": 0,
         "replyCount": 0,
         "createdAt": "2026-05-12T22:29:53.442Z",
-        "hoursSincePosted": 0.5
+        "hoursSincePosted": 1.75
       },
       "posts": [
         {
@@ -13310,7 +13552,7 @@
           "replyCount": 0,
           "createdAt": "2026-05-12T22:29:53.442Z",
           "createdUtc": 1778624993,
-          "ageHours": 0.5,
+          "ageHours": 1.75,
           "trendingScore": 1,
           "content_tags": [
             "has-github-repo"
@@ -17530,22 +17772,22 @@
     },
     "openclaw--openclaw": {
       "count7d": 1,
-      "likesSum7d": 1,
+      "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlofo3hfus2h",
-        "cid": "bafyreigbsf6t3tiqvq2sf3hgizhzsbycdlxnxuoigtl4ziy5g54f3zq5qy",
-        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mlofo3hfus2h",
-        "text": "🟠 OpenClaw beta ships per-sender tool controls and on-demand local model server startup OpenClaw v2026.5.12-beta.1 is more than a routine beta cut. It adds per-sender tool policies for channel-scoped identity... https://github.com/openclaw/openclaw/releases/tag/v2026.5.12-beta.1 #AI #AgentWyre",
+        "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlozeikqqi2h",
+        "cid": "bafyreihncxsy63qveltr2rerbovaiix6s3kjah3di32pullkqihxbxsgwy",
+        "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mlozeikqqi2h",
+        "text": "🟠 OpenClaw beta.3 lands per-sender tool policies and on-demand local model startup OpenClaw shipped v2026.5.12-beta.3 with two operator-facing changes that materially affect agent deployment: per-sender tool... https://github.com/openclaw/openclaw/releases/tag/v2026.5.12-beta.3 #AI #AgentWyre",
         "author": {
           "handle": "agentwyre.ai"
         },
-        "likeCount": 1,
+        "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T18:19:39.171466+00:00",
-        "hoursSincePosted": 2.54
+        "createdAt": "2026-05-13T00:12:12.302736+00:00",
+        "hoursSincePosted": 0.5
       },
       "posts": [
         {
@@ -17591,6 +17833,34 @@
           "createdUtc": 1778609979,
           "ageHours": 2.54,
           "trendingScore": 1,
+          "content_tags": [
+            "has-github-repo",
+            "is-announcement"
+          ],
+          "value_score": 2,
+          "linkedRepos": [
+            {
+              "fullName": "openclaw/openclaw",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:z3gdcc47wptxd4c4w2u4pxy6/app.bsky.feed.post/3mlozeikqqi2h",
+          "cid": "bafyreihncxsy63qveltr2rerbovaiix6s3kjah3di32pullkqihxbxsgwy",
+          "bskyUrl": "https://bsky.app/profile/agentwyre.ai/post/3mlozeikqqi2h",
+          "text": "🟠 OpenClaw beta.3 lands per-sender tool policies and on-demand local model startup OpenClaw shipped v2026.5.12-beta.3 with two operator-facing changes that materially affect agent deployment: per-sender tool... https://github.com/openclaw/openclaw/releases/tag/v2026.5.12-beta.3 #AI #AgentWyre",
+          "author": {
+            "handle": "agentwyre.ai"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-13T00:12:12.302736+00:00",
+          "createdUtc": 1778631132,
+          "ageHours": 0.5,
+          "trendingScore": 0,
           "content_tags": [
             "has-github-repo",
             "is-announcement"
@@ -20433,26 +20703,138 @@
       ]
     },
     "fulu-foundation--orcaslicer-bambulab": {
-      "count7d": 1,
+      "count7d": 4,
       "likesSum7d": 0,
       "repostsSum7d": 0,
       "repliesSum7d": 0,
       "topPost": {
-        "uri": "at://did:plc:j4i2tyqx6r5nth36h3q5q77y/app.bsky.feed.post/3mloq3cvgok2f",
-        "cid": "bafyreihsn667bddzbnmj42yeyogk5k4na4zwwnkno7tjda227rlqp3mp24",
-        "bskyUrl": "https://bsky.app/profile/giggio.net/post/3mloq3cvgok2f",
-        "text": "A @fulufoundation.bsky.social subiu o código de volta. Essa treta vai ficar gigante, e isso é bom. Pode ensejar uma discussão jurídica importantíssima, cortar as asinhas dessas empresas folgadas. Esse caso me interessa ainda mais porque eu tenho uma Bambulab A1! github.com/FULU-Foundat...",
+        "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mloxd32u772k",
+        "cid": "bafyreihjjhcgr75rzjcstyyeenmncwuo5qeooe3mikwoz6hp4orm6d2ie4",
+        "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mloxd32u772k",
+        "text": "Restore full BambuNetwork support for Bambu Lab printers https://github.com/FULU-Foundation/OrcaSlicer-bambulab (https://news.ycombinator.com/item?id=48115127)",
         "author": {
-          "handle": "giggio.net",
-          "displayName": "Giovanni Bassi 🇧🇷"
+          "handle": "betterhn50.e-work.xyz",
+          "displayName": "Hacker News 50"
         },
         "likeCount": 0,
         "repostCount": 0,
         "replyCount": 0,
-        "createdAt": "2026-05-12T21:26:02.041Z",
-        "hoursSincePosted": 1.19
+        "createdAt": "2026-05-12T23:35:37.757Z",
+        "hoursSincePosted": 0.66
       },
       "posts": [
+        {
+          "uri": "at://did:plc:kb4r5p4f4rzz7li6lbjcwraz/app.bsky.feed.post/3mloxd32u772k",
+          "cid": "bafyreihjjhcgr75rzjcstyyeenmncwuo5qeooe3mikwoz6hp4orm6d2ie4",
+          "bskyUrl": "https://bsky.app/profile/betterhn50.e-work.xyz/post/3mloxd32u772k",
+          "text": "Restore full BambuNetwork support for Bambu Lab printers https://github.com/FULU-Foundation/OrcaSlicer-bambulab (https://news.ycombinator.com/item?id=48115127)",
+          "author": {
+            "handle": "betterhn50.e-work.xyz",
+            "displayName": "Hacker News 50"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T23:35:37.757Z",
+          "createdUtc": 1778628937,
+          "ageHours": 0.66,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "FULU-Foundation/OrcaSlicer-bambulab",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:egoop22szzob7mszd3pfgdww/app.bsky.feed.post/3mlow7pnci624",
+          "cid": "bafyreifnfycha72hdkp3aeodmjihjcpx24ix3ppelfxzlz3axcpxe6oi3e",
+          "bskyUrl": "https://bsky.app/profile/betterhn20.e-work.xyz/post/3mlow7pnci624",
+          "text": "Restore full BambuNetwork support for Bambu Lab printers https://github.com/FULU-Foundation/OrcaSlicer-bambulab (https://news.ycombinator.com/item?id=48115127)",
+          "author": {
+            "handle": "betterhn20.e-work.xyz",
+            "displayName": "Hacker News 20"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T23:15:51.214Z",
+          "createdUtc": 1778627751,
+          "ageHours": 0.99,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "FULU-Foundation/OrcaSlicer-bambulab",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:6clcp32vg7hejrq4v7hff3gs/app.bsky.feed.post/3mlovjq2doy24",
+          "cid": "bafyreiekoj3sfrldmhq32ycz3stxswbsxynwagc6mcsmsfezkcnt3gndfi",
+          "bskyUrl": "https://bsky.app/profile/hackernewstop5.bsky.social/post/3mlovjq2doy24",
+          "text": "Restore full BambuNetwork support for Bambu Lab printers #HackerNews https://github.com/FULU-Foundation/OrcaSlicer-bambulab",
+          "author": {
+            "handle": "hackernewstop5.bsky.social",
+            "displayName": "HackerNewsTop5"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T23:03:34.131Z",
+          "createdUtc": 1778627014,
+          "ageHours": 1.19,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "FULU-Foundation/OrcaSlicer-bambulab",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
+        {
+          "uri": "at://did:plc:h5maykrmsb3yz4y5qcdlulvk/app.bsky.feed.post/3mlovevhbm22q",
+          "cid": "bafyreieqrxphjxre2rhjzotlhrowgjhv5zbox4bedqysxigjvizn32qhfm",
+          "bskyUrl": "https://bsky.app/profile/hnbot.gsuscs.xyz/post/3mlovevhbm22q",
+          "text": "Restore full BambuNetwork support for Bambu Lab printers https://github.com/FULU-Foundation/OrcaSlicer-bambulab",
+          "author": {
+            "handle": "hnbot.gsuscs.xyz",
+            "displayName": "HackerNews Compilator"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T23:00:52.192Z",
+          "createdUtc": 1778626852,
+          "ageHours": 1.24,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "FULU-Foundation/OrcaSlicer-bambulab",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        },
         {
           "uri": "at://did:plc:j4i2tyqx6r5nth36h3q5q77y/app.bsky.feed.post/3mloq3cvgok2f",
           "cid": "bafyreihsn667bddzbnmj42yeyogk5k4na4zwwnkno7tjda227rlqp3mp24",
@@ -20482,27 +20864,114 @@
           ]
         }
       ]
+    },
+    "farion1231--cc-switch": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mloyznysqo2x",
+        "cid": "bafyreiboclrv7d7qdimnq7eps77kteuivnazqa3xqwuyp6ht3fiecp2zwu",
+        "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mloyznysqo2x",
+        "text": "farion1231 / cc-switch: A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Gemini CLI & Hermes Agent. Only official website: ccswitch.io ★68591 https://github.com/farion1231/cc-switch",
+        "author": {
+          "handle": "rusttrending.bsky.social",
+          "displayName": "RustTrending"
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-13T00:06:10.129430Z",
+        "hoursSincePosted": 0.5
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:lontmsdex36tfjyxjlznnea7/app.bsky.feed.post/3mloyznysqo2x",
+          "cid": "bafyreiboclrv7d7qdimnq7eps77kteuivnazqa3xqwuyp6ht3fiecp2zwu",
+          "bskyUrl": "https://bsky.app/profile/rusttrending.bsky.social/post/3mloyznysqo2x",
+          "text": "farion1231 / cc-switch: A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Gemini CLI & Hermes Agent. Only official website: ccswitch.io ★68591 https://github.com/farion1231/cc-switch",
+          "author": {
+            "handle": "rusttrending.bsky.social",
+            "displayName": "RustTrending"
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-13T00:06:10.129430Z",
+          "createdUtc": 1778630770,
+          "ageHours": 0.5,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "farion1231/cc-switch",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "agricidaniel--claude-obsidian": {
+      "count7d": 1,
+      "likesSum7d": 0,
+      "repostsSum7d": 0,
+      "repliesSum7d": 0,
+      "topPost": {
+        "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlou72nwsf2s",
+        "cid": "bafyreibkbcduf2ilj2522k6jx4pye2wlfxx2hv4lwuo2qfvqe72dynomvu",
+        "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlou72nwsf2s",
+        "text": "https://github.com/AgriciDaniel/claude-obsidian",
+        "author": {
+          "handle": "tom-doerr.bsky.social",
+          "displayName": "Tom Dörr "
+        },
+        "likeCount": 0,
+        "repostCount": 0,
+        "replyCount": 0,
+        "createdAt": "2026-05-12T22:39:42Z",
+        "hoursSincePosted": 1.59
+      },
+      "posts": [
+        {
+          "uri": "at://did:plc:wrkapohdwvaer4yxkm5d3wqo/app.bsky.feed.post/3mlou72nwsf2s",
+          "cid": "bafyreibkbcduf2ilj2522k6jx4pye2wlfxx2hv4lwuo2qfvqe72dynomvu",
+          "bskyUrl": "https://bsky.app/profile/tom-doerr.bsky.social/post/3mlou72nwsf2s",
+          "text": "https://github.com/AgriciDaniel/claude-obsidian",
+          "author": {
+            "handle": "tom-doerr.bsky.social",
+            "displayName": "Tom Dörr "
+          },
+          "likeCount": 0,
+          "repostCount": 0,
+          "replyCount": 0,
+          "createdAt": "2026-05-12T22:39:42Z",
+          "createdUtc": 1778625582,
+          "ageHours": 1.59,
+          "trendingScore": 0,
+          "content_tags": [
+            "has-github-repo"
+          ],
+          "value_score": 1,
+          "linkedRepos": [
+            {
+              "fullName": "AgriciDaniel/claude-obsidian",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
     }
   },
   "leaderboard": [
     {
-      "fullName": "matthart1983/netwatch",
-      "count7d": 1,
-      "likesSum7d": 16
-    },
-    {
-      "fullName": "Nightmare-Eclipse/GreenPlasma",
-      "count7d": 3,
-      "likesSum7d": 10
-    },
-    {
-      "fullName": "Nightmare-Eclipse/YellowKey",
-      "count7d": 3,
-      "likesSum7d": 10
-    },
-    {
       "fullName": "garrytan/gbrain",
-      "count7d": 2,
+      "count7d": 1,
       "likesSum7d": 1
     },
     {
@@ -20511,22 +20980,22 @@
       "likesSum7d": 1
     },
     {
-      "fullName": "superradcompany/microsandbox",
-      "count7d": 1,
-      "likesSum7d": 1
-    },
-    {
       "fullName": "FULU-Foundation/OrcaSlicer-bambulab",
+      "count7d": 4,
+      "likesSum7d": 0
+    },
+    {
+      "fullName": "AgriciDaniel/claude-obsidian",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "k06a/macpow",
+      "fullName": "farion1231/cc-switch",
       "count7d": 1,
       "likesSum7d": 0
     },
     {
-      "fullName": "TauricResearch/TradingAgents",
+      "fullName": "openclaw/openclaw",
       "count7d": 1,
       "likesSum7d": 0
     }

@@ -5,6 +5,7 @@ import {
   fetchBlueskyMentionsFromToolbox,
   fetchDevtoMentionsFromToolbox,
   fetchHnMentionsFromToolbox,
+  fetchRedditMentionsFromToolbox,
 } from "../toolbox-store";
 
 function fakeFetch(responses: {
@@ -494,6 +495,135 @@ test("devto: returns null on non-2xx", async () => {
   });
   assert.equal(result, null);
 });
+
+// ---------------------------------------------------------------------------
+// Reddit mentions adapter
+// ---------------------------------------------------------------------------
+
+test("reddit: returns shaped RedditMentionsFile + maps score_sum_7d → upvotes7d", async () => {
+  const result = await fetchRedditMentionsFromToolbox({
+    apiUrl: "https://api.example.test",
+    apiKey: "tbk_live_test_key",
+    fetchImpl: fakeFetch({
+      body: {
+        count: 2,
+        targets: [
+          {
+            target_id: "t1",
+            target_kind: "url",
+            target_identity: "https://github.com/vercel/next.js",
+            scan_id: "s",
+            run_id: "r1",
+            signal_type: "trending.reddit.mentions",
+            produced_at: "2026-05-13T03:00:00Z",
+            fields: {
+              count_7d: 4,
+              score_sum_7d: 5400,
+              top_post: { /* ignored — not in local type */ },
+              posts_top10: [],
+            },
+          },
+          {
+            target_id: "t2",
+            target_kind: "url",
+            target_identity: "https://github.com/openai/whisper",
+            scan_id: "s",
+            run_id: "r2",
+            signal_type: "trending.reddit.mentions",
+            produced_at: "2026-05-13T02:00:00Z",
+            fields: {
+              count_7d: 2,
+              score_sum_7d: 800,
+              posts_top10: [],
+            },
+          },
+        ],
+      },
+    }),
+  });
+  assert.ok(result);
+  assert.equal(Object.keys(result!.mentions).length, 2);
+  // Critical: the wire field is `score_sum_7d` but the local canonical is `upvotes7d`.
+  assert.equal(result!.mentions["vercel/next.js"].upvotes7d, 5400);
+  assert.equal(result!.mentions["vercel/next.js"].count7d, 4);
+  assert.equal(result!.mentions["openai/whisper"].upvotes7d, 800);
+  assert.equal(result!.cold, false);
+  assert.equal(result!.fetchedAt, "2026-05-13T03:00:00.000Z");
+});
+
+test("reddit: leaderboard tie-breaks count7d then alphabetic", async () => {
+  const result = await fetchRedditMentionsFromToolbox({
+    apiUrl: "https://api.example.test",
+    apiKey: "tbk_live_test_key",
+    fetchImpl: fakeFetch({
+      body: {
+        count: 3,
+        targets: [
+          {
+            target_id: "t1",
+            target_kind: "url",
+            target_identity: "https://github.com/z/equal",
+            scan_id: "s",
+            run_id: "r",
+            signal_type: "trending.reddit.mentions",
+            produced_at: "2026-05-13T03:00:00Z",
+            fields: { count_7d: 5, score_sum_7d: 100, posts_top10: [] },
+          },
+          {
+            target_id: "t2",
+            target_kind: "url",
+            target_identity: "https://github.com/a/equal",
+            scan_id: "s",
+            run_id: "r",
+            signal_type: "trending.reddit.mentions",
+            produced_at: "2026-05-13T03:00:00Z",
+            fields: { count_7d: 5, score_sum_7d: 100, posts_top10: [] },
+          },
+          {
+            target_id: "t3",
+            target_kind: "url",
+            target_identity: "https://github.com/b/winner",
+            scan_id: "s",
+            run_id: "r",
+            signal_type: "trending.reddit.mentions",
+            produced_at: "2026-05-13T03:00:00Z",
+            fields: { count_7d: 1, score_sum_7d: 999, posts_top10: [] },
+          },
+        ],
+      },
+    }),
+  });
+  assert.ok(result);
+  assert.deepEqual(
+    result!.leaderboard!.map((r) => r.fullName),
+    // upvotes7d=999 wins; then upvotes7d=100 ties → count7d=5 ties → alpha: a < z
+    ["b/winner", "a/equal", "z/equal"],
+  );
+});
+
+test("reddit: returns null on non-2xx", async () => {
+  const result = await fetchRedditMentionsFromToolbox({
+    apiUrl: "https://api.example.test",
+    apiKey: "tbk_live_test_key",
+    fetchImpl: fakeFetch({ status: 502 }),
+  });
+  assert.equal(result, null);
+});
+
+test("reddit: cold=true when zero mentions reconstructed", async () => {
+  const result = await fetchRedditMentionsFromToolbox({
+    apiUrl: "https://api.example.test",
+    apiKey: "tbk_live_test_key",
+    fetchImpl: fakeFetch({ body: { count: 0, targets: [] } }),
+  });
+  assert.ok(result);
+  assert.equal(result!.cold, true);
+  assert.equal(Object.keys(result!.mentions).length, 0);
+});
+
+// ---------------------------------------------------------------------------
+// (devto regression block continues below)
+// ---------------------------------------------------------------------------
 
 test("devto: skips non-github targets", async () => {
   const result = await fetchDevtoMentionsFromToolbox({

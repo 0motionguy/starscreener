@@ -37,6 +37,12 @@ import type {
   DevtoRepoMention,
   DevtoTopArticleRef,
 } from "./devto";
+import type {
+  RedditLeaderboardEntry,
+  RedditMentionsFile,
+  RedditPost,
+  RedditRepoMention,
+} from "./reddit";
 
 const DEFAULT_LIMIT = 500;
 const DEFAULT_TIMEOUT_MS = 8_000;
@@ -311,6 +317,68 @@ export async function fetchDevtoMentionsFromToolbox(
     scannedArticles: 0,
     bodyFetchMode: "description-only",
     mentions,
+    leaderboard,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Reddit mentions adapter
+//
+// Field-name remap: the dual-write (`scripts/_toolbox-ingest.mjs:189`) sends
+// `score_sum_7d` but the local canonical field is `upvotes7d` (see
+// `RedditRepoMention` in src/lib/reddit.ts). Mapping happens in
+// eventToRedditMention. The over-sent `top_post` field is ignored — local
+// type carries no per-mention topPost.
+// ---------------------------------------------------------------------------
+
+function eventToRedditMention(event: ToolboxEvent): RedditRepoMention | null {
+  const f = event.fields;
+  if (typeof f !== "object" || f === null) return null;
+  const count7d = typeof f.count_7d === "number" ? f.count_7d : null;
+  if (count7d === null) return null;
+  return {
+    count7d,
+    upvotes7d: typeof f.score_sum_7d === "number" ? f.score_sum_7d : 0,
+    posts: Array.isArray(f.posts_top10) ? (f.posts_top10 as RedditPost[]) : [],
+  };
+}
+
+export async function fetchRedditMentionsFromToolbox(
+  opts: ToolboxFetchOptions,
+): Promise<RedditMentionsFile | null> {
+  const body = await fetchLeaderboardEvents(opts, "trending.reddit.mentions");
+  if (!body) return null;
+
+  const mentions: Record<string, RedditRepoMention> = {};
+  for (const ev of body.targets) {
+    const fullName = extractGithubFullName(ev.target_identity);
+    if (!fullName) continue;
+    const mention = eventToRedditMention(ev);
+    if (!mention) continue;
+    mentions[fullName] = mention;
+  }
+
+  const leaderboard: RedditLeaderboardEntry[] = Object.entries(mentions)
+    .map(([fullName, m]) => ({
+      fullName,
+      count7d: m.count7d,
+      upvotes7d: m.upvotes7d,
+    }))
+    .sort((a, b) => {
+      if (b.upvotes7d !== a.upvotes7d) return b.upvotes7d - a.upvotes7d;
+      if (b.count7d !== a.count7d) return b.count7d - a.count7d;
+      return a.fullName.localeCompare(b.fullName);
+    });
+
+  return {
+    fetchedAt: isoFromMaxOrNow(maxProducedAtMs(body.targets)),
+    cold: Object.keys(mentions).length === 0,
+    scannedSubreddits: [],
+    scannedPostsTotal: 0,
+    mentions,
+    // `topPosts` not transmitted by dual-write. buildGlobalRedditPosts falls
+    // through to flattenMentionPosts(file) when topPosts is empty.
+    topPosts: [],
     leaderboard,
   };
 }

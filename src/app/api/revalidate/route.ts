@@ -27,76 +27,40 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 import { authFailureResponse, verifyCronAuth } from "@/lib/api/auth";
+import { parseBody } from "@/lib/api/parse-body";
 
 export const runtime = "nodejs";
 
 const MAX_PATHS_PER_REQUEST = 50;
 const PATH_PATTERN = /^\/[A-Za-z0-9_\-./[\]]+$/;
 
+const RevalidateBodySchema = z.object({
+  paths: z
+    .array(
+      z
+        .string()
+        .regex(
+          PATH_PATTERN,
+          "path must start with / and use only [A-Za-z0-9_\\-./[\\]]",
+        ),
+    )
+    .min(1, "paths must contain at least one entry")
+    .max(
+      MAX_PATHS_PER_REQUEST,
+      `paths cap is ${MAX_PATHS_PER_REQUEST} per request`,
+    ),
+});
+
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const verdict = verifyCronAuth(request);
-  if (verdict.kind !== "ok") {
-    return authFailureResponse(verdict);
-  }
+  const deny = authFailureResponse(verifyCronAuth(request));
+  if (deny) return deny;
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json(
-      { ok: false, error: "request body must be valid JSON" },
-      { status: 400 },
-    );
-  }
-
-  if (!body || typeof body !== "object") {
-    return NextResponse.json(
-      { ok: false, error: "body must be a JSON object" },
-      { status: 400 },
-    );
-  }
-
-  const raw = (body as { paths?: unknown }).paths;
-  if (!Array.isArray(raw)) {
-    return NextResponse.json(
-      { ok: false, error: "paths must be a non-empty array" },
-      { status: 400 },
-    );
-  }
-  if (raw.length === 0) {
-    return NextResponse.json(
-      { ok: false, error: "paths must contain at least one entry" },
-      { status: 400 },
-    );
-  }
-  if (raw.length > MAX_PATHS_PER_REQUEST) {
-    return NextResponse.json(
-      { ok: false, error: `paths cap is ${MAX_PATHS_PER_REQUEST} per request` },
-      { status: 400 },
-    );
-  }
-
-  const paths: string[] = [];
-  for (const entry of raw) {
-    if (typeof entry !== "string") {
-      return NextResponse.json(
-        { ok: false, error: "every path entry must be a string" },
-        { status: 400 },
-      );
-    }
-    if (!PATH_PATTERN.test(entry)) {
-      return NextResponse.json(
-        {
-          ok: false,
-          error: `invalid path: ${entry} — must start with / and use only [A-Za-z0-9_\\-./[\\]]`,
-        },
-        { status: 400 },
-      );
-    }
-    paths.push(entry);
-  }
+  const parsed = await parseBody(request, RevalidateBodySchema);
+  if (!parsed.ok) return parsed.response;
+  const { paths } = parsed.data;
 
   const revalidated: string[] = [];
   const errors: Array<{ path: string; error: string }> = [];

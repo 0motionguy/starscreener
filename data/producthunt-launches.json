@@ -1,5 +1,5 @@
 {
-  "lastFetchedAt": "2026-05-12T20:43:59.773Z",
+  "lastFetchedAt": "2026-05-13T00:06:18.758Z",
   "windowDays": 7,
   "launches": [
     {
@@ -39,50 +39,14 @@
       "aiAdjacent": true
     },
     {
-      "id": "1139582",
-      "name": "FlowMarket",
-      "tagline": "A social network of AI agents generating B2B deals",
-      "description": "FlowMarket is a network of AI agents that automatically discover, match, and generate B2B deals. Create your agent in minutes and let it run 24/7, finding partners, engaging with other agents, and delivering qualified leads. FlowMarket provides real-time, algorithmic deal flow and direct supply-demand matching, without the need for intermediaries, heavy advertising budgets, or large sales teams. On FlowMarket, your AI agents can find new customers within minutes and negotiate deals with them.",
-      "url": "https://www.producthunt.com/products/flowmarket-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+visitportal+%28ID%3A+283275%29",
-      "website": "https://www.producthunt.com/r/CGJHDKWTJR4FOU",
-      "votesCount": 405,
-      "commentsCount": 119,
-      "createdAt": "2026-05-07T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/a6f8e653-be2e-4aff-b85c-e79eff824864.png?auto=format",
-      "topics": [
-        "sales",
-        "marketing",
-        "artificial-intelligence"
-      ],
-      "makers": [
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        },
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        }
-      ],
-      "githubUrl": null,
-      "xUrl": null,
-      "linkedRepo": null,
-      "daysSinceLaunch": 0,
-      "aiAdjacent": true
-    },
-    {
       "id": "1139974",
       "name": "Kelviq",
       "tagline": "Payments, tax, and billing for SaaS & AI companies",
       "description": "Kelviq is the complete monetization platform for SaaS, AI, and digital products. It handles payments, global tax, subscriptions, usage-based billing, digital delivery, license keys, and compliance in one place, for 3.5% + 40¢ per transaction.",
       "url": "https://www.producthunt.com/products/kelviq?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+visitportal+%28ID%3A+283275%29",
       "website": "https://www.producthunt.com/r/F6U3WKKQYBLXSI",
-      "votesCount": 386,
-      "commentsCount": 57,
+      "votesCount": 408,
+      "commentsCount": 63,
       "createdAt": "2026-05-12T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/32ae2061-842f-4d89-8368-d892a7290a3c.x-icon?auto=format",
       "topics": [
@@ -133,6 +97,42 @@
       "linkedRepo": null,
       "daysSinceLaunch": 0,
       "aiAdjacent": false
+    },
+    {
+      "id": "1139582",
+      "name": "FlowMarket",
+      "tagline": "A social network of AI agents generating B2B deals",
+      "description": "FlowMarket is a network of AI agents that automatically discover, match, and generate B2B deals. Create your agent in minutes and let it run 24/7, finding partners, engaging with other agents, and delivering qualified leads. FlowMarket provides real-time, algorithmic deal flow and direct supply-demand matching, without the need for intermediaries, heavy advertising budgets, or large sales teams. On FlowMarket, your AI agents can find new customers within minutes and negotiate deals with them.",
+      "url": "https://www.producthunt.com/products/flowmarket-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+visitportal+%28ID%3A+283275%29",
+      "website": "https://www.producthunt.com/r/CGJHDKWTJR4FOU",
+      "votesCount": 405,
+      "commentsCount": 119,
+      "createdAt": "2026-05-07T07:01:00Z",
+      "thumbnail": "https://ph-files.imgix.net/a6f8e653-be2e-4aff-b85c-e79eff824864.png?auto=format",
+      "topics": [
+        "sales",
+        "marketing",
+        "artificial-intelligence"
+      ],
+      "makers": [
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        },
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        }
+      ],
+      "githubUrl": null,
+      "xUrl": null,
+      "linkedRepo": null,
+      "daysSinceLaunch": 0,
+      "aiAdjacent": true
     },
     {
       "id": "1141978",
@@ -543,8 +543,8 @@
       "description": "Build the skills of a pro coder while you ship a real SaaS app! Open Vibe turns Claude Code (or your agent of choice) into the ultimate SaaS tutor, teaching the most important concepts while you build.",
       "url": "https://www.producthunt.com/products/open-vibe?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+visitportal+%28ID%3A+283275%29",
       "website": "https://www.producthunt.com/r/74MX3XTFNJVI5S",
-      "votesCount": 221,
-      "commentsCount": 36,
+      "votesCount": 234,
+      "commentsCount": 39,
       "createdAt": "2026-05-12T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/fbaad5be-8e3d-452d-844f-3557574e0d3d.png?auto=format",
       "topics": [
@@ -812,6 +812,72 @@
       "aiAdjacent": true
     },
     {
+      "id": "1142848",
+      "name": "Hyperswitch Prism",
+      "tagline": "Library to plug-n-switch payment processors",
+      "description": "Prism is a stateless payments library that connects your app to multiple payment processors. You can integrate once and point to any payment processor; add fallbacks for redundancy, switch processors based on routing rules - all by swapping a few lines of code. No sign-up needed. No infra setup needed. Actively maintained within the Juspay Hyperswitch production environment. Apache-2.0 licensed, polyglot ready, with SDKs for Node, Python, Java and Rust.",
+      "url": "https://www.producthunt.com/products/hyperswitch-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+visitportal+%28ID%3A+283275%29",
+      "website": "https://www.producthunt.com/r/2U7NQ3R7UBKMGD",
+      "votesCount": 183,
+      "commentsCount": 13,
+      "createdAt": "2026-05-12T07:01:00Z",
+      "thumbnail": "https://ph-files.imgix.net/a3335b9a-9d57-46f8-ba00-fd6d008c5b59.png?auto=format",
+      "topics": [
+        "open-source",
+        "fintech",
+        "developer-tools"
+      ],
+      "makers": [
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        },
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        },
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        },
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        },
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        },
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        },
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        }
+      ],
+      "githubUrl": null,
+      "xUrl": null,
+      "linkedRepo": null,
+      "daysSinceLaunch": 0,
+      "aiAdjacent": false
+    },
+    {
       "id": "1139758",
       "name": "GPT‑5.5 Instant",
       "tagline": "Smarter, more personal answers as ChatGPT's new default",
@@ -876,72 +942,6 @@
       "linkedRepo": null,
       "daysSinceLaunch": 0,
       "aiAdjacent": true
-    },
-    {
-      "id": "1142848",
-      "name": "Hyperswitch Prism",
-      "tagline": "Library to plug-n-switch payment processors",
-      "description": "Prism is a stateless payments library that connects your app to multiple payment processors. You can integrate once and point to any payment processor; add fallbacks for redundancy, switch processors based on routing rules - all by swapping a few lines of code. No sign-up needed. No infra setup needed. Actively maintained within the Juspay Hyperswitch production environment. Apache-2.0 licensed, polyglot ready, with SDKs for Node, Python, Java and Rust.",
-      "url": "https://www.producthunt.com/products/hyperswitch-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+visitportal+%28ID%3A+283275%29",
-      "website": "https://www.producthunt.com/r/2U7NQ3R7UBKMGD",
-      "votesCount": 177,
-      "commentsCount": 13,
-      "createdAt": "2026-05-12T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/a3335b9a-9d57-46f8-ba00-fd6d008c5b59.png?auto=format",
-      "topics": [
-        "open-source",
-        "fintech",
-        "developer-tools"
-      ],
-      "makers": [
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        },
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        },
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        },
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        },
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        },
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        },
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        }
-      ],
-      "githubUrl": null,
-      "xUrl": null,
-      "linkedRepo": null,
-      "daysSinceLaunch": 0,
-      "aiAdjacent": false
     },
     {
       "id": "1140632",
@@ -1262,6 +1262,29 @@
       "aiAdjacent": false
     },
     {
+      "id": "1142101",
+      "name": "Jotform Claude App",
+      "tagline": "Build, edit, and analyze forms directly in Claude",
+      "description": "Build, edit, and analyze forms directly inside Claude using simple conversations. Create forms, edit fields, add logic, search submissions, and get insights, all by describing what you want. No manual setup or switching tools.",
+      "url": "https://www.producthunt.com/products/jotform?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+visitportal+%28ID%3A+283275%29",
+      "website": "https://www.producthunt.com/r/DJ3HA5PIVDFYRP",
+      "votesCount": 157,
+      "commentsCount": 8,
+      "createdAt": "2026-05-12T07:01:00Z",
+      "thumbnail": "https://ph-files.imgix.net/05750b4e-0690-45c4-8068-8f032452a745.gif?auto=format",
+      "topics": [
+        "productivity",
+        "artificial-intelligence",
+        "no-code"
+      ],
+      "makers": [],
+      "githubUrl": null,
+      "xUrl": null,
+      "linkedRepo": null,
+      "daysSinceLaunch": 0,
+      "aiAdjacent": true
+    },
+    {
       "id": "1142190",
       "name": "Zappy by ZapDigits",
       "tagline": "Your AI reporting analyst",
@@ -1291,29 +1314,6 @@
           "websiteUrl": null
         }
       ],
-      "githubUrl": null,
-      "xUrl": null,
-      "linkedRepo": null,
-      "daysSinceLaunch": 0,
-      "aiAdjacent": true
-    },
-    {
-      "id": "1142101",
-      "name": "Jotform Claude App",
-      "tagline": "Build, edit, and analyze forms directly in Claude",
-      "description": "Build, edit, and analyze forms directly inside Claude using simple conversations. Create forms, edit fields, add logic, search submissions, and get insights, all by describing what you want. No manual setup or switching tools.",
-      "url": "https://www.producthunt.com/products/jotform?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+visitportal+%28ID%3A+283275%29",
-      "website": "https://www.producthunt.com/r/DJ3HA5PIVDFYRP",
-      "votesCount": 149,
-      "commentsCount": 8,
-      "createdAt": "2026-05-12T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/05750b4e-0690-45c4-8068-8f032452a745.gif?auto=format",
-      "topics": [
-        "productivity",
-        "artificial-intelligence",
-        "no-code"
-      ],
-      "makers": [],
       "githubUrl": null,
       "xUrl": null,
       "linkedRepo": null,
@@ -1465,44 +1465,14 @@
       "aiAdjacent": true
     },
     {
-      "id": "1140202",
-      "name": "ExploreYC ",
-      "tagline": "Your data layer for Y Combinator's startup ecosystem",
-      "description": "Explore 5,773+ Y Combinator companies with powerful search, interactive maps, AI-powered company intelligence, hiring insights, funding data, and batch analytics. Find co-founders, validate startup ideas, and discover patterns across 20 years of YC history.",
-      "url": "https://www.producthunt.com/products/yc-company-explorer?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+visitportal+%28ID%3A+283275%29",
-      "website": "https://www.producthunt.com/r/3P44MZDFMVVGU3",
-      "votesCount": 133,
-      "commentsCount": 10,
-      "createdAt": "2026-05-07T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/bd8aed8b-c317-4152-b5ed-71a8afddf14c.png?auto=format",
-      "topics": [
-        "developer-tools",
-        "artificial-intelligence",
-        "data-analytics"
-      ],
-      "makers": [
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        }
-      ],
-      "githubUrl": null,
-      "xUrl": null,
-      "linkedRepo": null,
-      "daysSinceLaunch": 0,
-      "aiAdjacent": true
-    },
-    {
       "id": "1144296",
       "name": "display.dev",
       "tagline": "Publish agent-generated HTML behind company auth",
       "description": "display.dev is the easiest way to publish agent-generated artifacts behind company authentication. One command gives your HTML and Markdown files a permanent URL. Your colleagues sign in securely via OTP or Google/Microsoft SSO, and drive iteration with in-line comments.",
       "url": "https://www.producthunt.com/products/display-dev?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+visitportal+%28ID%3A+283275%29",
       "website": "https://www.producthunt.com/r/BBOJCGGDUUYHRO",
-      "votesCount": 130,
-      "commentsCount": 7,
+      "votesCount": 135,
+      "commentsCount": 11,
       "createdAt": "2026-05-12T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/2bd23622-3dc7-4af4-89ee-a2686cc716a8.svg?auto=format",
       "topics": [
@@ -1537,14 +1507,44 @@
       "description": "Most SEO tools optimize for Google. This one scores you for the AI search era. Paste a URL — in ~30 seconds, get a 0–100 visibility score showing how ChatGPT, Claude, and Perplexity see your page, plus a copy-paste fix prompt you can hand to Cursor or Claude Code. No signup. Fully open source.",
       "url": "https://www.producthunt.com/products/free-ai-seo-auditor?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+visitportal+%28ID%3A+283275%29",
       "website": "https://www.producthunt.com/r/33PH5UXSNNRJ7G",
-      "votesCount": 128,
-      "commentsCount": 19,
+      "votesCount": 135,
+      "commentsCount": 20,
       "createdAt": "2026-05-12T07:01:00Z",
       "thumbnail": "https://ph-files.imgix.net/86809410-f59c-4762-96c8-4a34aa03d0b6.png?auto=format",
       "topics": [
         "seo",
         "developer-tools",
         "tech"
+      ],
+      "makers": [
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        }
+      ],
+      "githubUrl": null,
+      "xUrl": null,
+      "linkedRepo": null,
+      "daysSinceLaunch": 0,
+      "aiAdjacent": true
+    },
+    {
+      "id": "1140202",
+      "name": "ExploreYC ",
+      "tagline": "Your data layer for Y Combinator's startup ecosystem",
+      "description": "Explore 5,773+ Y Combinator companies with powerful search, interactive maps, AI-powered company intelligence, hiring insights, funding data, and batch analytics. Find co-founders, validate startup ideas, and discover patterns across 20 years of YC history.",
+      "url": "https://www.producthunt.com/products/yc-company-explorer?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+visitportal+%28ID%3A+283275%29",
+      "website": "https://www.producthunt.com/r/3P44MZDFMVVGU3",
+      "votesCount": 133,
+      "commentsCount": 10,
+      "createdAt": "2026-05-07T07:01:00Z",
+      "thumbnail": "https://ph-files.imgix.net/bd8aed8b-c317-4152-b5ed-71a8afddf14c.png?auto=format",
+      "topics": [
+        "developer-tools",
+        "artificial-intelligence",
+        "data-analytics"
       ],
       "makers": [
         {
@@ -1667,6 +1667,36 @@
       "linkedRepo": null,
       "daysSinceLaunch": 0,
       "aiAdjacent": true
+    },
+    {
+      "id": "1144152",
+      "name": "Whale Starts",
+      "tagline": "The website builder that can copy any design on the web",
+      "description": "Whale Starts is a powerful website builder to design, clone, and launch sites with ease. Import any website, edit visually, and collaborate in real-time. just get your template URL from any website and whale will do the same so you can re-use it in fraction of seconds.",
+      "url": "https://www.producthunt.com/products/whale-starts?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+visitportal+%28ID%3A+283275%29",
+      "website": "https://www.producthunt.com/r/RZLH2GNVFC3VHF",
+      "votesCount": 120,
+      "commentsCount": 9,
+      "createdAt": "2026-05-12T07:01:00Z",
+      "thumbnail": "https://ph-files.imgix.net/0f5b7322-e9f6-4ce0-a642-e121c8c79ef3.svg?auto=format",
+      "topics": [
+        "website-builder",
+        "web-design",
+        "ux-design"
+      ],
+      "makers": [
+        {
+          "name": "[REDACTED]",
+          "username": "[REDACTED]",
+          "twitterUsername": null,
+          "websiteUrl": null
+        }
+      ],
+      "githubUrl": null,
+      "xUrl": null,
+      "linkedRepo": null,
+      "daysSinceLaunch": 0,
+      "aiAdjacent": false
     },
     {
       "id": "1140507",
@@ -1796,36 +1826,6 @@
           "twitterUsername": null,
           "websiteUrl": null
         },
-        {
-          "name": "[REDACTED]",
-          "username": "[REDACTED]",
-          "twitterUsername": null,
-          "websiteUrl": null
-        }
-      ],
-      "githubUrl": null,
-      "xUrl": null,
-      "linkedRepo": null,
-      "daysSinceLaunch": 0,
-      "aiAdjacent": false
-    },
-    {
-      "id": "1144152",
-      "name": "Whale Starts",
-      "tagline": "The website builder that can copy any design on the web",
-      "description": "Whale Starts is a powerful website builder to design, clone, and launch sites with ease. Import any website, edit visually, and collaborate in real-time. just get your template URL from any website and whale will do the same so you can re-use it in fraction of seconds.",
-      "url": "https://www.producthunt.com/products/whale-starts?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+visitportal+%28ID%3A+283275%29",
-      "website": "https://www.producthunt.com/r/RZLH2GNVFC3VHF",
-      "votesCount": 114,
-      "commentsCount": 8,
-      "createdAt": "2026-05-12T07:01:00Z",
-      "thumbnail": "https://ph-files.imgix.net/0f5b7322-e9f6-4ce0-a642-e121c8c79ef3.svg?auto=format",
-      "topics": [
-        "website-builder",
-        "web-design",
-        "ux-design"
-      ],
-      "makers": [
         {
           "name": "[REDACTED]",
           "username": "[REDACTED]",

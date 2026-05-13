@@ -437,7 +437,7 @@ function TrendingThisWeek({ movers, totalRows }: TrendingThisWeekProps) {
         marginBottom: 16,
         border: "1px solid var(--v4-line-200)",
         background: "var(--v4-bg-050)",
-        borderRadius: 4,
+        borderRadius: 2,
       }}
     >
       <header
@@ -514,7 +514,7 @@ function TrendingThisWeek({ movers, totalRows }: TrendingThisWeekProps) {
                     gap: 10,
                     padding: "8px 10px",
                     border: "1px solid var(--v4-line-200)",
-                    borderRadius: 3,
+                    borderRadius: 2,
                     background: "var(--v4-bg-100)",
                     textDecoration: "none",
                     color: "var(--v4-ink-100)",
@@ -566,7 +566,7 @@ function TrendingThisWeek({ movers, totalRows }: TrendingThisWeekProps) {
                       fontFamily: "var(--font-geist-mono), monospace",
                       fontSize: 11,
                       fontWeight: 600,
-                      color: "var(--v4-up, #4ade80)",
+                      color: "var(--v4-money)",
                       flexShrink: 0,
                     }}
                     title={`+${deltaLabel} ${unitLabel} · 7d`}

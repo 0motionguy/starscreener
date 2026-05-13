@@ -642,7 +642,7 @@ function ListTaxonomyTabs({
               alignItems: "baseline",
               gap: 6,
               padding: "5px 10px",
-              borderRadius: 3,
+              borderRadius: 2,
               textTransform: "uppercase",
               letterSpacing: "0.08em",
               textDecoration: "none",

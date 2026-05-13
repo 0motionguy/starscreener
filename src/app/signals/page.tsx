@@ -542,9 +542,9 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
             role="status"
             style={{
               padding: "10px 14px",
-              border: "1px solid var(--color-border, rgba(255,255,255,0.08))",
-              borderRadius: 8,
-              color: "var(--color-muted, #888)",
+              border: "1px solid var(--color-border-default)",
+              borderRadius: 2,
+              color: "var(--color-text-subtle)",
               fontFamily: "var(--font-geist-mono), monospace",
               fontSize: 12,
               letterSpacing: "0.06em",

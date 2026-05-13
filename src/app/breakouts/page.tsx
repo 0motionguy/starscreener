@@ -4,7 +4,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { getDerivedRepos } from "@/lib/derived-repos";
-import { lastFetchedAt } from "@/lib/trending";
+import { getLastFetchedAt, refreshTrendingFromStore } from "@/lib/trending";
+import { refreshRedditMentionsFromStore } from "@/lib/reddit-data";
+import { refreshHackernewsMentionsFromStore } from "@/lib/hackernews";
 import { getChannelStatus } from "@/lib/pipeline/cross-signal";
 import { formatNumber } from "@/lib/utils";
 import type { Repo } from "@/lib/types";
@@ -17,17 +19,21 @@ import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { FreshnessChip } from "@/components/shared/FreshnessChip";
 
-export const dynamic = "force-static";
+// ISR cadence — match sibling surfaces (/mcp, /agent-repos, /). 60s keeps
+// FreshnessBadge + FreshnessChip + VerdictRibbon "refreshed live" stamp
+// honest: each window re-runs the data-store refresh hooks and rebuilds
+// from the post-refresh in-memory cache.
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Cross-Signal Breakouts",
   description:
-    "Repos firing across multiple signal channels right now — GitHub stars, Reddit, Hacker News, Bluesky, dev.to, and X/Twitter — surfaced before they go mainstream.",
+    "Repos firing across multiple signal channels right now — GitHub stars, Reddit submissions, and Hacker News — surfaced before they go mainstream.",
   alternates: { canonical: "/breakouts" },
   openGraph: {
     title: "Cross-Signal Breakouts — TrendingRepo",
     description:
-      "Repos firing across multiple signal channels at once. The earliest cross-source breakout view.",
+      "Repos firing across GitHub stars, Reddit, and Hacker News at once. The earliest cross-source breakout view.",
     url: "/breakouts",
     type: "website",
   },
@@ -35,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Cross-Signal Breakouts — TrendingRepo",
     description:
-      "Repos firing across multiple signal channels at once. The earliest cross-source breakout view.",
+      "Repos firing across GitHub stars, Reddit, and Hacker News at once. The earliest cross-source breakout view.",
   },
 };
 
@@ -76,6 +82,18 @@ export default async function BreakoutsPage({
   const params = await searchParams;
   const filter = parseFilter(params.filter);
   const nowMs = Date.now();
+
+  // Hydrate the stores the three rendered channels read from so each ISR
+  // window resolves a real "now" timestamp and live channel status rather
+  // than build-time-frozen values. Per CLAUDE.md "data reads MUST go
+  // through the data-store."
+  await Promise.all([
+    refreshTrendingFromStore(),
+    refreshRedditMentionsFromStore(),
+    refreshHackernewsMentionsFromStore(),
+  ]);
+
+  const lastFetchedAt = getLastFetchedAt();
 
   const annotated = getDerivedRepos().map((repo) => ({
     ...repo,

@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-13T07:39:15.430Z",
+  "fetchedAt": "2026-05-13T21:35:43.552Z",
   "windowDays": 7,
-  "scannedStories": 82,
+  "scannedStories": 79,
   "mentions": {
     "jj-vcs/jj": {
       "count7d": 1,
@@ -118,6 +118,82 @@
         }
       ]
     },
+    "Nightmare-Eclipse/YellowKey": {
+      "count7d": 1,
+      "scoreSum7d": 16,
+      "topStory": {
+        "shortId": "aovfvz",
+        "title": "YellowKey Bitlocker Bypass Vulnerability",
+        "score": 16,
+        "url": "https://github.com/Nightmare-Eclipse/YellowKey",
+        "commentsUrl": "https://lobste.rs/s/aovfvz/yellowkey_bitlocker_bypass",
+        "hoursSincePosted": 8.662222222222223
+      },
+      "stories": [
+        {
+          "shortId": "aovfvz",
+          "title": "YellowKey Bitlocker Bypass Vulnerability",
+          "url": "https://github.com/Nightmare-Eclipse/YellowKey",
+          "commentsUrl": "https://lobste.rs/s/aovfvz/yellowkey_bitlocker_bypass",
+          "by": "",
+          "score": 16,
+          "commentCount": 1,
+          "createdUtc": 1778676959,
+          "ageHours": 8.662222222222223,
+          "trendingScore": 0.4595665259287775,
+          "tags": [
+            "security",
+            "windows"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "Nightmare-Eclipse/YellowKey",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "v12-security/pocs": {
+      "count7d": 1,
+      "scoreSum7d": 10,
+      "topStory": {
+        "shortId": "zz251k",
+        "title": "Fragnesia: New Linux Privilege Escalation Exploit",
+        "score": 10,
+        "url": "https://github.com/v12-security/pocs/tree/main/fragnesia",
+        "commentsUrl": "https://lobste.rs/s/zz251k/fragnesia_new_linux_privilege",
+        "hoursSincePosted": 5.0975
+      },
+      "stories": [
+        {
+          "shortId": "zz251k",
+          "title": "Fragnesia: New Linux Privilege Escalation Exploit",
+          "url": "https://github.com/v12-security/pocs/tree/main/fragnesia",
+          "commentsUrl": "https://lobste.rs/s/zz251k/fragnesia_new_linux_privilege",
+          "by": "",
+          "score": 10,
+          "commentCount": 2,
+          "createdUtc": 1778689792,
+          "ageHours": 5.0975,
+          "trendingScore": 0.5288614339423812,
+          "tags": [
+            "linux",
+            "security"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "v12-security/pocs",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
     "jundot/omlx": {
       "count7d": 1,
       "scoreSum7d": 8,
@@ -157,14 +233,14 @@
     },
     "floci-io/floci": {
       "count7d": 1,
-      "scoreSum7d": 5,
+      "scoreSum7d": 6,
       "topStory": {
         "shortId": "io9pxp",
         "title": "floci: Light, fluffy, and always free - The AWS Local Emulator alternative",
-        "score": 5,
+        "score": 6,
         "url": "https://github.com/floci-io/floci",
         "commentsUrl": "https://lobste.rs/s/io9pxp/floci_light_fluffy_always_free_aws_local",
-        "hoursSincePosted": 29.349722222222223
+        "hoursSincePosted": 43.29083333333333
       },
       "stories": [
         {
@@ -173,11 +249,11 @@
           "url": "https://github.com/floci-io/floci",
           "commentsUrl": "https://lobste.rs/s/io9pxp/floci_light_fluffy_always_free_aws_local",
           "by": "",
-          "score": 5,
+          "score": 6,
           "commentCount": 0,
           "createdUtc": 1778552296,
-          "ageHours": 29.349722222222223,
-          "trendingScore": 0.02848521217778254,
+          "ageHours": 43.29083333333333,
+          "trendingScore": 0.019685016492189327,
           "tags": [
             "vibecoding"
           ],
@@ -285,6 +361,16 @@
       "scoreSum7d": 18
     },
     {
+      "fullName": "Nightmare-Eclipse/YellowKey",
+      "count7d": 1,
+      "scoreSum7d": 16
+    },
+    {
+      "fullName": "v12-security/pocs",
+      "count7d": 1,
+      "scoreSum7d": 10
+    },
+    {
       "fullName": "jundot/omlx",
       "count7d": 1,
       "scoreSum7d": 8
@@ -292,7 +378,7 @@
     {
       "fullName": "floci-io/floci",
       "count7d": 1,
-      "scoreSum7d": 5
+      "scoreSum7d": 6
     },
     {
       "fullName": "tidwall/btype",

@@ -384,7 +384,7 @@ export function SubredditHeatMapCanvas({
       {/* Heatmap container */}
       <div
         ref={containerRef}
-        className="relative w-full bg-black rounded-md overflow-hidden border border-border-primary"
+        className="relative w-full bg-bg-canvas rounded-md overflow-hidden border border-border-primary"
         style={{ aspectRatio: `${ASPECT_RATIO}` }}
       >
         {sortedCells.map((cell) => {

@@ -111,6 +111,14 @@ export interface RepoDeltaEntry {
   delta_24h: DeltaValue;
   delta_7d: DeltaValue;
   delta_30d: DeltaValue;
+  // Fork side — present in real production payloads even though earlier
+  // versions of this type omitted them. Optional for back-compat with
+  // legacy/cold-seed deltas that pre-date fork tracking.
+  forks_now?: number;
+  fork_delta_1h?: DeltaValue;
+  fork_delta_24h?: DeltaValue;
+  fork_delta_7d?: DeltaValue;
+  fork_delta_30d?: DeltaValue;
 }
 
 export interface WindowPick {
@@ -163,6 +171,16 @@ function fullNameIndex(): Map<string, string> {
   return map;
 }
 
+/**
+ * Public accessor for the `owner/name → OSS Insight repo_id` reverse map.
+ * Used by the TOOLBOX velocity adapter (`src/lib/toolbox-store-velocity.ts`)
+ * to translate `target_identity` URLs back into the keys that
+ * `DeltasJson.repos` uses.
+ */
+export function getFullNameToRepoId(): Map<string, string> {
+  return fullNameIndex();
+}
+
 // ---------------------------------------------------------------------------
 // Refresh hook — pulls fresh trending + deltas from the data-store.
 // ---------------------------------------------------------------------------
@@ -201,9 +219,15 @@ export async function refreshTrendingFromStore(): Promise<RefreshResult> {
     try {
       const { getDataStore } = await import("./data-store");
       const store = getDataStore();
+
+      // Phase A.2 velocity adapter: when TOOLBOX_READ_VELOCITY=true and
+      // TOOLBOX_API_URL/_API_KEY are set, deltas come from the TOOLBOX
+      // /v1/signals/leaderboard endpoint instead of the legacy data-store
+      // read. Trending fetch is unchanged. The flag default is OFF —
+      // zero change to current behaviour.
       const [trendingResult, deltasResult] = await Promise.all([
         store.read<TrendingFile>("trending"),
-        store.read<DeltasJson>("deltas"),
+        readDeltasWithToolboxFallback(store),
       ]);
 
       if (trendingResult.data && trendingResult.source !== "missing") {
@@ -234,6 +258,36 @@ export async function refreshTrendingFromStore(): Promise<RefreshResult> {
   });
 
   return inflight;
+}
+
+/**
+ * Phase A.2 deltas read with TOOLBOX fallback.
+ *
+ * When TOOLBOX_READ_VELOCITY=true (and TOOLBOX_API_URL/_API_KEY are set),
+ * attempts to fetch aggregated stars + fork velocity from TOOLBOX. Any
+ * failure (network, auth, shape) returns null and the legacy data-store
+ * deltas read runs as before.
+ *
+ * The synthetic source value is "redis" rather than a fictional "toolbox"
+ * to keep the existing 4-value DataSource union ergonomic. Reviewers
+ * tracking "where did this delta come from" should look at the local
+ * fetched-at vs. trending fetched-at + check env flags.
+ */
+async function readDeltasWithToolboxFallback(
+  store: { read<T>(key: string): Promise<{ data: T | null; source: "redis" | "file" | "memory" | "missing"; ageMs: number; fresh: boolean; writtenAt?: string }> },
+): Promise<{ data: DeltasJson | null; source: "redis" | "file" | "memory" | "missing"; ageMs: number; fresh: boolean }> {
+  if (process.env.TOOLBOX_READ_VELOCITY === "true") {
+    const apiUrl = process.env.TOOLBOX_API_URL;
+    const apiKey = process.env.TOOLBOX_API_KEY;
+    if (apiUrl && apiKey) {
+      const { fetchDeltasFromToolbox } = await import("./toolbox-store-velocity");
+      const toolboxFile = await fetchDeltasFromToolbox({ apiUrl, apiKey });
+      if (toolboxFile) {
+        return { data: toolboxFile, source: "redis", ageMs: 0, fresh: true };
+      }
+    }
+  }
+  return store.read<DeltasJson>("deltas");
 }
 
 /**

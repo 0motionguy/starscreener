@@ -252,7 +252,11 @@ export default async function BreakoutsPage({
                     <span className="rb gh"><span className="lab">R</span><span className="v">{channelRank(repo, nowMs, "reddit")}</span></span>
                     <span className="rb hf"><span className="lab">HN</span><span className="v">{channelRank(repo, nowMs, "hn")}</span></span>
                   </span>
-                  <span className="badge cons">
+                  <span
+                    className={`badge ${
+                      delta24 > 0 ? "cons" : delta24 < 0 ? "div" : "single"
+                    }`}
+                  >
                     <span className="pip" aria-hidden="true" />
                     {deltaLabel}
                   </span>

@@ -435,6 +435,52 @@ test("deltasToEvents — emits fork-velocity event when forks_now present", () =
   assert.ok(keys.includes("fork_delta_24h"));
 });
 
+test("deltasToEvents — emits fork_delta_<win>_basis when basis is present", () => {
+  const payload = {
+    repos: {
+      "10270250": {
+        stars_now: 100,
+        forks_now: 50,
+        fork_delta_24h: { value: 5, basis: "exact" },
+        fork_delta_7d: { value: 30, basis: "nearest" },
+      },
+    },
+  };
+  const events = deltasToEvents(payload, FAKE_REPO_METADATA);
+  const fork = events.find((e) => e.signal_type === "trending.github.fork.velocity");
+  const byKey = Object.fromEntries(fork.normalized.map((n) => [n.key, n.value]));
+  assert.equal(byKey.fork_delta_24h_basis, "exact");
+  assert.equal(byKey.fork_delta_7d_basis, "nearest");
+});
+
+test("deltasToEvents — emits *_age_seconds for cold-start basis", () => {
+  const payload = {
+    repos: {
+      "10270250": {
+        stars_now: 100,
+        forks_now: 50,
+        delta_24h: { value: 4, basis: "cold-start", age_seconds: 3600 },
+        fork_delta_24h: { value: 5, basis: "cold-start", age_seconds: 7200 },
+      },
+    },
+  };
+  const events = deltasToEvents(payload, FAKE_REPO_METADATA);
+  const stars = events.find((e) => e.signal_type === "trending.github.stars.velocity");
+  const fork = events.find((e) => e.signal_type === "trending.github.fork.velocity");
+  const starsByKey = Object.fromEntries(stars.normalized.map((n) => [n.key, n.value]));
+  const forkByKey = Object.fromEntries(fork.normalized.map((n) => [n.key, n.value]));
+  assert.equal(starsByKey.delta_24h_age_seconds, 3600);
+  assert.equal(forkByKey.fork_delta_24h_age_seconds, 7200);
+});
+
+test("deltasToEvents — omits *_age_seconds when basis is exact/nearest (no age field)", () => {
+  // FAKE_DELTAS_PAYLOAD has basis="exact" / "nearest" with no age_seconds.
+  const events = deltasToEvents(FAKE_DELTAS_PAYLOAD, FAKE_REPO_METADATA);
+  const stars = events.find((e) => e.signal_type === "trending.github.stars.velocity");
+  const keys = stars.normalized.map((n) => n.key);
+  assert.ok(!keys.some((k) => k.endsWith("_age_seconds")));
+});
+
 test("deltasToEvents — returns empty on missing payload or metadata", () => {
   assert.deepEqual(deltasToEvents(null, FAKE_REPO_METADATA), []);
   assert.deepEqual(deltasToEvents(FAKE_DELTAS_PAYLOAD, null), []);

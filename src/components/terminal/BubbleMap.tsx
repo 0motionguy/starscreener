@@ -18,6 +18,8 @@ import { packBubbles } from "@/lib/bubble-pack";
 import { ErrorBoundary } from "@/components/shared/ErrorBoundary";
 import { CardHeader } from "@/components/ui/Card";
 import { ChartShell } from "@/components/ui/ChartShell";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import type { NewsSource } from "@/lib/news/freshness";
 import {
   BubbleMapCanvas,
   type BubbleSeed,
@@ -29,6 +31,12 @@ interface BubbleMapProps {
   repos: Repo[];
   /** Max bubbles per window. Default 220. */
   limit?: number;
+  /** NewsSource ladder slot — drives the FreshnessBadge verdict. Defaults
+   * to "repos" since the bubble map renders the same trending payload. */
+  freshnessSource?: NewsSource;
+  /** ISO of the last successful collector write. Honest-chrome rule:
+   * never paint "LIVE" without a real timestamp behind it. */
+  lastUpdatedAt?: string | null;
 }
 
 const MAP_WIDTH = 1200;
@@ -181,7 +189,12 @@ function seedsForWindow(
     .filter((b): b is BubbleSeed => b !== null);
 }
 
-export function BubbleMap({ repos, limit = 220 }: BubbleMapProps) {
+export function BubbleMap({
+  repos,
+  limit = 220,
+  freshnessSource = "repos",
+  lastUpdatedAt = null,
+}: BubbleMapProps) {
   const windows: WindowSeedSet = {
     "24h": seedsForWindow(repos, "24h", limit),
     "7d": seedsForWindow(repos, "7d", limit),
@@ -190,14 +203,13 @@ export function BubbleMap({ repos, limit = 220 }: BubbleMapProps) {
 
   const totalNodes =
     windows["24h"].length + windows["7d"].length + windows["30d"].length;
-  const monoDate = (() => {
-    const d = new Date();
-    const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
-    const dd = String(d.getUTCDate()).padStart(2, "0");
-    return `${mm}.${dd}`;
-  })();
   const headerLabel = `// SIGNAL · RADAR · ${windows["24h"].length || totalNodes} NODES`;
-  const headerStatus = `LIVE · ${monoDate}`;
+  // FreshnessBadge replaces the hardcoded "LIVE · MM.DD" string that always
+  // rendered green regardless of the snapshot's real age — see audit P0-1 #3
+  // and P1-6 in docs/audits/impeccable/page-audit.md.
+  const headerRight = (
+    <FreshnessBadge source={freshnessSource} lastUpdatedAt={lastUpdatedAt} />
+  );
 
   // If every window is empty, render a minimal "warming up" placeholder
   // instead of returning null — collapsing the whole section is worse
@@ -207,7 +219,7 @@ export function BubbleMap({ repos, limit = 220 }: BubbleMapProps) {
     return (
       <ChartShell variant="map">
         <CardHeader
-          right={<span className="live">{headerStatus}</span>}
+          right={headerRight}
           showCorner
         >
           {headerLabel}
@@ -242,7 +254,7 @@ export function BubbleMap({ repos, limit = 220 }: BubbleMapProps) {
     <ErrorBoundary>
       <ChartShell variant="map">
         <CardHeader
-          right={<span className="live">{headerStatus}</span>}
+          right={headerRight}
           showCorner
         >
           {headerLabel}

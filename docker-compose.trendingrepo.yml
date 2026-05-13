@@ -20,10 +20,16 @@ services:
       - "127.0.0.1:3023:3023"
     mem_limit: 2g
     memswap_limit: 3g
+    networks:
+      # Attach to the toolbox shared edge network so cloudflared (in the
+      # toolbox compose) can resolve toolbox-trendingrepo-1 by name. Before
+      # this was declared in compose, every `docker rm` required a manual
+      # `docker network connect toolbox_edge toolbox-trendingrepo-1`.
+      - toolbox_edge
     healthcheck:
-      # Trendingrepo doesn't expose /healthz natively — homepage is the
-      # canonical readiness probe. 200 = ready.
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3023/',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      # /api/healthz is a lightweight liveness probe (~200B JSON). The
+      # previous `/` healthcheck rendered the 613KB homepage every 30s.
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3023/api/healthz',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
       interval: 30s
       timeout: 10s
       start_period: 60s
@@ -39,3 +45,8 @@ services:
     #   depends_on:
     #     postgres:
     #       condition: service_healthy
+
+networks:
+  toolbox_edge:
+    external: true
+    name: toolbox_edge

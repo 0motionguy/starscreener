@@ -25,7 +25,9 @@ import { Card, CardHeader } from "@/components/ui/Card";
 import { ChartStat, ChartStats, ChartWrap } from "@/components/ui/ChartShell";
 import "@/lib/charts/theme/sparkline";
 import { EChart } from "@/components/charts/EChart";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { CHART_TOKENS } from "@/lib/charts/theme/tokens";
+import type { NewsSource } from "@/lib/news/freshness";
 import type { HourBucket } from "@/lib/signals/volume";
 import type { SourceKey } from "@/lib/signals/types";
 import { SourceMark, SOURCE_BRAND_COLOR } from "./SourceMark";
@@ -138,6 +140,12 @@ export interface VolumeAreaChartProps {
   quietTotal: number;
   dominantSource: SourceKey;
   dominantPct: number;
+  /** Maps the chart's lead source onto the freshness ladder so the // 01
+   * reference panel reads honestly (FRESH/STALE/COLD) instead of pinning
+   * to a permanent green "LIVE". */
+  freshnessSource: NewsSource;
+  /** ISO of the latest data point across the stacked sources. null → cold. */
+  lastUpdatedAt: string | null | undefined;
 }
 
 export function VolumeAreaChart({
@@ -150,6 +158,8 @@ export function VolumeAreaChart({
   quietTotal,
   dominantSource,
   dominantPct,
+  freshnessSource,
+  lastUpdatedAt,
 }: VolumeAreaChartProps) {
   const deltaText =
     changePct === null ? "Δ N/A" : `Δ ${changePct >= 0 ? "+" : ""}${changePct.toFixed(1)}%`;
@@ -356,7 +366,7 @@ export function VolumeAreaChart({
         right={
           <>
             <span>{deltaText}</span>
-            <span className="live">LIVE</span>
+            <FreshnessBadge source={freshnessSource} lastUpdatedAt={lastUpdatedAt} />
           </>
         }
       >

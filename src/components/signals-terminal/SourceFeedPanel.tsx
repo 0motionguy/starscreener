@@ -11,7 +11,9 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { SourceKey } from "@/lib/signals/types";
+import type { NewsSource } from "@/lib/news/freshness";
 import { Card, CardHeader } from "@/components/ui/Card";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { SourceMark, SOURCE_BRAND_COLOR } from "./SourceMark";
 
 type Variant = "list" | "tweet" | "rss";
@@ -64,6 +66,12 @@ export interface SourceFeedPanelProps {
   footerHref: string;
   footerLabel: string;
   feed: FeedItems;
+  /** Maps the panel's source onto the news-source freshness ladder so
+   * `<FreshnessBadge>` can read the verdict honestly (FRESH/STALE/COLD)
+   * instead of pinning the header to a green "LIVE" lie. */
+  freshnessSource: NewsSource;
+  /** ISO of the last successful collector write for this source. null → cold. */
+  lastUpdatedAt: string | null | undefined;
 }
 
 export function SourceFeedPanel({
@@ -74,6 +82,8 @@ export function SourceFeedPanel({
   footerHref,
   footerLabel,
   feed,
+  freshnessSource,
+  lastUpdatedAt,
 }: SourceFeedPanelProps) {
   return (
     <Card variant="panel" className="signals-panel">
@@ -81,7 +91,7 @@ export function SourceFeedPanel({
         right={
           <>
             <span style={{ fontVariantNumeric: "tabular-nums" }}>{countLabel}</span>
-            <span className="live">LIVE</span>
+            <FreshnessBadge source={freshnessSource} lastUpdatedAt={lastUpdatedAt} />
           </>
         }
       >

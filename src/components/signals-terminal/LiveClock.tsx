@@ -55,29 +55,10 @@ export function LiveClock({ initialIso }: LiveClockProps) {
         {formatUtc(now)}
       </span>
       UTC · {formatDate(now)}
-      <div style={{ marginTop: "4px" }}>
-        <span
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "6px",
-            color: "var(--color-positive)",
-          }}
-        >
-          <i
-            aria-hidden
-            style={{
-              width: "6px",
-              height: "6px",
-              borderRadius: "99px",
-              background: "var(--color-positive)",
-              boxShadow: "0 0 0 3px rgba(34,197,94,0.18)",
-              animation: "pulse 1.6s ease-in-out infinite",
-            }}
-          />
-          FEED LIVE
-        </span>
-      </div>
+      {/* Removed the "FEED LIVE" block (2026-05-13) — the clock is a clock.
+          Freshness lives in the <FreshnessBadge> placed next to it; double-
+          broadcasting a hardcoded green LIVE indicator from the clock
+          violates the honest-chrome rule (CLAUDE.md). */}
     </div>
   );
 }

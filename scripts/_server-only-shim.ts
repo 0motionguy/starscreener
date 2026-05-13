@@ -21,9 +21,9 @@ import { createRequire } from "node:module";
 const __req = createRequire(import.meta.url);
 try {
   const resolved = __req.resolve("server-only");
-  // Cast to any: Node's Module type has many required fields, but only
-  // `exports` is read by downstream code paths.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Cast through `unknown` to `NodeJS.Module`: Node's Module type has many
+  // required fields (require, _compile, etc.) but only `exports` is read by
+  // downstream code paths. Avoiding `any` keeps the lint rule honest.
   __req.cache[resolved] = {
     id: resolved,
     filename: resolved,
@@ -34,7 +34,7 @@ try {
     parent: null,
     isPreloading: false,
     path: resolved,
-  } as any;
+  } as unknown as NodeJS.Module;
 } catch {
   // server-only not installed (unlikely in CI/dev) — nothing to patch.
 }

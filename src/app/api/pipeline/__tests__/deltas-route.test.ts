@@ -100,7 +100,7 @@ function makeStubStore(): DataStore {
 // imports it. tsx compiles ESM imports to CJS so the binding lives in
 // require.cache and is reassignable via property descriptor swap.
 function patchGetDataStore(stub: DataStore): void {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
+   
   const path = require.resolve("../../../../lib/data-store");
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const mod = require(path) as Record<string, unknown>;

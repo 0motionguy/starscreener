@@ -98,7 +98,7 @@ export function startHealthServer(port = loadEnv().PORT): http.Server {
 
 export async function oneShotHealthcheck(): Promise<number> {
   const state = await refreshHealth();
-  // eslint-disable-next-line no-console
+   
   console.log(JSON.stringify(state, null, 2));
   return state.ok ? 0 : 1;
 }

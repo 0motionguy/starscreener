@@ -27,9 +27,9 @@ type DbInstance = ReturnType<typeof drizzle<typeof schema>>;
 // Globals reused across hot reloads in dev + warm Lambdas in prod. Without
 // these, Next's dev server would open a new pool on every fast-refresh.
 declare global {
-  // eslint-disable-next-line no-var
+   
   var __trendingrepo_db: DbInstance | undefined;
-  // eslint-disable-next-line no-var
+   
   var __trendingrepo_db_direct: DbInstance | undefined;
 }
 

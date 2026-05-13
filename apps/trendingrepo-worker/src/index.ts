@@ -27,7 +27,7 @@ async function main(argv: string[]): Promise<number> {
     const raw = sinceArg.slice('--since='.length);
     const parsed = Date.parse(raw);
     if (!Number.isFinite(parsed)) {
-      // eslint-disable-next-line no-console
+       
       console.error(
         `Invalid --since value: "${raw}". Expected an ISO 8601 date (e.g. 2026-02-01 or 2026-02-01T00:00:00Z).`,
       );
@@ -60,7 +60,7 @@ async function main(argv: string[]): Promise<number> {
   }
 
   if (!fetcherName) {
-    // eslint-disable-next-line no-console
+     
     console.error(
       `Usage: worker <fetcher>|--cron|--healthcheck [--dry-run] [--since=<iso>]\nKnown fetchers: ${listFetcherNames().join(', ')}`,
     );
@@ -69,7 +69,7 @@ async function main(argv: string[]): Promise<number> {
 
   const fetcher = getFetcher(fetcherName);
   if (!fetcher) {
-    // eslint-disable-next-line no-console
+     
     console.error(`Unknown fetcher "${fetcherName}". Known: ${listFetcherNames().join(', ')}`);
     return 2;
   }
@@ -87,7 +87,7 @@ async function main(argv: string[]): Promise<number> {
 main(process.argv).then(
   (code) => process.exit(code),
   (err) => {
-    // eslint-disable-next-line no-console
+     
     console.error(err);
     process.exit(1);
   },

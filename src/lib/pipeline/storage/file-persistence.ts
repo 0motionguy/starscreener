@@ -138,7 +138,7 @@ export async function readJsonlFile<T>(filename: string): Promise<T[]> {
       out.push(JSON.parse(line) as T);
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
-      // eslint-disable-next-line no-console
+       
       console.warn(
         `[file-persistence] skipping malformed JSONL line ${i + 1} in ${filename}: ${message}`,
       );

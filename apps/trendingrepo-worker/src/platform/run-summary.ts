@@ -58,7 +58,7 @@ export function emitRunSummary(summary: RunSummary): void {
       ` records_in=${summary.recordsIn}` +
       ` records_out=${summary.recordsOut}` +
       ` contract_freshness_budget_ms=${budget}`;
-    // eslint-disable-next-line no-console
+     
     console.log(line);
   } catch {
     // Swallow: emitting a summary line is observability, not correctness.

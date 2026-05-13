@@ -52,7 +52,7 @@ export function createDebouncedPersist(
       timer = setTimeout(() => {
         timer = null;
         opts.flush().catch((err) => {
-          // eslint-disable-next-line no-console
+           
           console.error(`[${opts.label}] debounced persist failed`, err);
         });
       }, Math.max(0, delayMs));

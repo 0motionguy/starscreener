@@ -55,7 +55,21 @@ async function fetchFromGitHub(
   const path = `/repos/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
   let result;
   try {
-    result = await githubFetch(path, { operation: "live-repo-fetch" });
+    // CRITICAL: must use `next: { revalidate }` instead of the helper's default
+    // `cache: "no-store"`. This fetch runs inside the /repo/[owner]/[name] page
+    // (ISR, revalidate=300). With `no-store` Next.js 15 throws
+    // "Page changed from static to dynamic at runtime" the moment the cold-miss
+    // path tries to upstream — every uncurated repo 500s on production despite
+    // every other await being try/catch-wrapped. The error is thrown by the
+    // static-to-dynamic detector at the render boundary, OUTSIDE user code, so
+    // the surrounding try/catch never sees it. Letting this fetch participate
+    // in Next's data cache (matched to our own 1h Redis TTL) keeps the page on
+    // its ISR path. Discovered 2026-05-13 via Vercel runtime logs.
+    result = await githubFetch(path, {
+      operation: "live-repo-fetch",
+      cache: "force-cache",
+      next: { revalidate: 3600 },
+    });
   } catch (err) {
     console.error("[github-live] fetch failed", owner, name, err);
     return null;

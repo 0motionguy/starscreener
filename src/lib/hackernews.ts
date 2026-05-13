@@ -249,6 +249,20 @@ export async function refreshHackernewsMentionsFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    // Phase A.2.1: when TOOLBOX_READ_HN_MENTIONS=true and TOOLBOX_API_*
+    // env vars are present, try TOOLBOX's /v1/signals/leaderboard first.
+    // Returns null on any error → fall through to the legacy data-store
+    // path so a TOOLBOX outage degrades to existing behaviour.
+    const toolboxFile = await tryFetchHnMentionsFromToolbox();
+    if (toolboxFile) {
+      mentionsFile = toolboxFile;
+      enrichHnWindowedCounts(mentionsFile);
+      mentionsByLowerName = buildMentionsByLowerName(mentionsFile);
+      mentionsByRepoId = buildMentionsByRepoId(mentionsFile);
+      lastRefreshMs = Date.now();
+      return { source: "toolbox", ageMs: 0 };
+    }
+
     const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<HnMentionsFile>(
       "hackernews-repo-mentions",
@@ -265,4 +279,13 @@ export async function refreshHackernewsMentionsFromStore(): Promise<{
     inflight = null;
   });
   return inflight;
+}
+
+async function tryFetchHnMentionsFromToolbox(): Promise<HnMentionsFile | null> {
+  if (process.env.TOOLBOX_READ_HN_MENTIONS !== "true") return null;
+  const apiUrl = process.env.TOOLBOX_API_URL;
+  const apiKey = process.env.TOOLBOX_API_KEY;
+  if (!apiUrl || !apiKey) return null;
+  const { fetchHnMentionsFromToolbox } = await import("./toolbox-store");
+  return fetchHnMentionsFromToolbox({ apiUrl, apiKey });
 }

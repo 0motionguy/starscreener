@@ -2313,6 +2313,13 @@ body::before {
   text-transform: uppercase;
 }
 
+@media (max-width: 640px) {
+  .tabs .tab {
+    min-height: 44px;
+    padding-block: 12px;
+  }
+}
+
 .tabs .tab.on {
   border-bottom-color: var(--acc);
   color: var(--ink-000);

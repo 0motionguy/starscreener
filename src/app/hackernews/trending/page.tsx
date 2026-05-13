@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   },
 };
 
-const HN_ORANGE = "#ff6600";
+const HN_ORANGE = "var(--source-hackernews)";
 
 function formatAgeHours(ageHours: number | undefined): string {
   if (ageHours === undefined || !Number.isFinite(ageHours)) return "—";

@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-12T20:01:16.334Z",
+  "fetchedAt": "2026-05-13T03:53:45.324Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1305,
+  "scannedArticles": 1312,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,7 +179,7 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 11,
+    "global-rising": 9,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
@@ -188,7 +188,7 @@
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
     "tag-codex-top-7d": 9,
-    "tag-cursor-top-7d": 28,
+    "tag-cursor-top-7d": 29,
     "tag-llm-top-7d": 100,
     "tag-llms-top-7d": 7,
     "tag-mcp-top-7d": 100,
@@ -1093,6 +1093,28 @@
         "git"
       ],
       "trendingScore": 5.83,
+      "linkedRepos": []
+    },
+    {
+      "id": 3659438,
+      "title": "Local-First AI Done Right: How Gemma 4 E2B and 'Thinking Mode' Powered DiagramFlowAI",
+      "description": "What I Built   DiagramFlowAI is a local-first desktop application (macOS, Windows, and...",
+      "url": "https://dev.to/gde/local-first-ai-done-right-how-gemma-4-e2b-and-thinking-mode-powered-diagramflowai-3bop",
+      "author": {
+        "username": "carlosrgomes",
+        "name": "Carlos Barbero",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F414609%2Fde1ece90-7bf3-4280-a2ca-4d9ba83c0aa1.jpeg"
+      },
+      "reactionsCount": 16,
+      "commentsCount": 0,
+      "readingTime": 4,
+      "publishedAt": "2026-05-13T00:08:54Z",
+      "tags": [
+        "devchallenge",
+        "gemmachallenge",
+        "gemma"
+      ],
+      "trendingScore": 5.14,
       "linkedRepos": []
     },
     {
@@ -2509,28 +2531,6 @@
         "showdev"
       ],
       "trendingScore": 1.6,
-      "linkedRepos": []
-    },
-    {
-      "id": 3621892,
-      "title": "OpenAI and Anthropic are Friendster and MySpace, if Subquadratic proves to be true.",
-      "description": "If you've ever shipped an LLM-powered feature that needed to reason over a real codebase, a real...",
-      "url": "https://dev.to/jon_at_backboardio/openai-and-anthropic-are-friendster-and-myspace-if-subquadratic-proves-to-be-true-nb6",
-      "author": {
-        "username": "jon_at_backboardio",
-        "name": "Jonathan Murray",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3824580%2Fcbf3ef23-2d0b-4576-90ff-0d46b2119ea8.png"
-      },
-      "reactionsCount": 26,
-      "commentsCount": 0,
-      "readingTime": 12,
-      "publishedAt": "2026-05-06T15:24:34Z",
-      "tags": [
-        "ai",
-        "discuss",
-        "llm"
-      ],
-      "trendingScore": 1.59,
       "linkedRepos": []
     }
   ]

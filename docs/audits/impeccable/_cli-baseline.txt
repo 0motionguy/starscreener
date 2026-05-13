@@ -1,0 +1,96 @@
+
+C:\dev\trendingrepo\src\app\api\og\top10\route.tsx
+  line 494: [side-tab] borderLeft: `3px solid
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+
+C:\dev\trendingrepo\src\app\globals.css (imported by layout.tsx)
+  line 1499: [side-tab] border-left: 3px solid var(--acc)
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+
+C:\dev\trendingrepo\src\app\sign-in\[[...sign-in]]\page.tsx
+  line 43: [pure-black-white] bg-black
+    → Pure #000000 as a background color looks harsh and unnatural. Tint it slightly toward your brand hue (e.g., oklch(12% 0.01 250)) for a more refined feel.
+
+C:\dev\trendingrepo\src\app\sign-up\[[...sign-up]]\page.tsx
+  line 49: [pure-black-white] bg-black
+    → Pure #000000 as a background color looks harsh and unnatural. Tint it slightly toward your brand hue (e.g., oklch(12% 0.01 250)) for a more refined feel.
+
+C:\dev\trendingrepo\src\app\you\alerts\_components\AddAlertRuleDialog.tsx (imported by page.tsx)
+  line 365: [pure-black-white] bg-black
+    → Pure #000000 as a background color looks harsh and unnatural. Tint it slightly toward your brand hue (e.g., oklch(12% 0.01 250)) for a more refined feel.
+
+C:\dev\trendingrepo\src\components\compare\CompareClient.tsx
+  line 616: [side-tab] borderLeft: `3px solid
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+  line 641: [side-tab] borderLeft: `3px solid
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+  line 704: [side-tab] borderLeft: `3px solid
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+
+C:\dev\trendingrepo\src\components\compare\CompareHeatmap.tsx (imported by CompareHeatmapLazy.tsx)
+  line 223: [side-tab] borderLeft: `3px solid
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+  line 246: [side-tab] borderLeft: `3px solid
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+
+C:\dev\trendingrepo\src\components\compare\RepoBannerCard.tsx
+  line 51: [side-tab] borderLeft: `3px solid
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+  line 74: [side-tab] borderLeft: `3px solid
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+
+C:\dev\trendingrepo\src\components\compare\RepoProfileColumn.tsx
+  line 62: [side-tab] borderLeft: `3px solid
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+  line 82: [side-tab] borderLeft: `3px solid
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+  line 158: [side-tab] borderLeft: `3px solid
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+
+C:\dev\trendingrepo\src\components\layout\MobileDrawer.tsx
+  line 85: [pure-black-white] bg-black
+    → Pure #000000 as a background color looks harsh and unnatural. Tint it slightly toward your brand hue (e.g., oklch(12% 0.01 250)) for a more refined feel.
+
+C:\dev\trendingrepo\src\components\layout\sidebar-nav.css
+  line 9: [layout-transition] transition: padding
+    → Animating width, height, padding, or margin causes layout thrash and janky performance. Use transform and opacity instead, or grid-template-rows for height animations.
+  line 101: [layout-transition] transition: padding, height
+    → Animating width, height, padding, or margin causes layout thrash and janky performance. Use transform and opacity instead, or grid-template-rows for height animations.
+
+C:\dev\trendingrepo\src\components\news\NewsTopHeaderV3.tsx (imported by newsTopMetrics.ts)
+  line 645: [side-tab] borderLeft: "4px solid
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+  line 646: [side-tab] borderRight: "4px solid
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+
+C:\dev\trendingrepo\src\components\reddit\ContentTagChips.tsx (imported by RedditTabsClient.tsx)
+  line 270: [pure-black-white] bg-black
+    → Pure #000000 as a background color looks harsh and unnatural. Tint it slightly toward your brand hue (e.g., oklch(12% 0.01 250)) for a more refined feel.
+
+C:\dev\trendingrepo\src\components\reddit-trending\SubredditHeatMapCanvas.tsx (imported by SubredditHeatMap.tsx)
+  line 387: [pure-black-white] bg-black
+    → Pure #000000 as a background color looks harsh and unnatural. Tint it slightly toward your brand hue (e.g., oklch(12% 0.01 250)) for a more refined feel.
+
+C:\dev\trendingrepo\src\components\reddit-trending\TopicMindshareCanvas.tsx (imported by TopicMindshareMap.tsx)
+  line 149: [layout-transition] transition: width
+    → Animating width, height, padding, or margin causes layout thrash and janky performance. Use transform and opacity instead, or grid-template-rows for height animations.
+
+C:\dev\trendingrepo\src\components\reddit-trending\trending-helpers.ts (imported by AllTrendingTabs.tsx, PostListPanel.tsx, SubredditGroupPanel.tsx)
+  line 33: [side-tab] border-l-4
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+  line 66: [side-tab] border-l-4
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+
+C:\dev\trendingrepo\src\components\repo\WhyBadge.tsx
+  line 64: [side-tab] borderLeft: `3px solid
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+
+C:\dev\trendingrepo\src\components\tier-list\MobileTierPicker.tsx (imported by TierListEditor.tsx)
+  line 117: [pure-black-white] bg-black
+    → Pure #000000 as a background color looks harsh and unnatural. Tint it slightly toward your brand hue (e.g., oklch(12% 0.01 250)) for a more refined feel.
+
+C:\dev\trendingrepo\src\components\ui\ConfirmDialog.tsx
+  line 100: [pure-black-white] bg-black
+    → Pure #000000 as a background color looks harsh and unnatural. Tint it slightly toward your brand hue (e.g., oklch(12% 0.01 250)) for a more refined feel.
+
+28 anti-patterns found.

@@ -53,7 +53,7 @@ concurrency:
 
 jobs:
   scrape:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     # Bumped 15→30 min 2026-05-08 for Apify residential-proxy provider:
     # 45 subs × ~25-35s per sub (actor cold-start + scroll-paginate) ≈ 22 min
     # at steady state; 30 min gives headroom for Apify queue spikes.

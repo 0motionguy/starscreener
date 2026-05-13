@@ -262,6 +262,12 @@ export async function refreshBlueskyMentionsFromStore(): Promise<{
       mentionsFile = result.data;
       enrichBskyWindowedCounts(mentionsFile);
       mentionsByLowerName = buildBskyMentionsByLowerName(mentionsFile);
+    } else {
+      const { alertAdapterFallthrough } = await import("./adapter-fallthrough-alert");
+      alertAdapterFallthrough("bluesky", "toolbox_null_legacy_missing", {
+        result_source: result.source,
+        had_toolbox_flag: process.env.TOOLBOX_READ_BLUESKY_MENTIONS === "true",
+      });
     }
     lastRefreshMs = Date.now();
     return { source: result.source, ageMs: result.ageMs };

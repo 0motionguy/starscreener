@@ -301,6 +301,12 @@ export async function refreshRedditMentionsFromStore(): Promise<{
         mentionsByLowerName,
         fromRedis: true,
       };
+    } else {
+      const { alertAdapterFallthrough } = await import("./adapter-fallthrough-alert");
+      alertAdapterFallthrough("reddit", "toolbox_null_legacy_missing", {
+        result_source: result.source,
+        had_toolbox_flag: process.env.TOOLBOX_READ_REDDIT_MENTIONS === "true",
+      });
     }
     lastRefreshMs = Date.now();
     return { source: result.source, ageMs: result.ageMs };

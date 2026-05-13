@@ -512,7 +512,7 @@ function TrendingThisWeek({ movers, totalRows }: TrendingThisWeekProps) {
                     display: "flex",
                     alignItems: "center",
                     gap: 10,
-                    padding: "8px 10px",
+                    padding: "12px 10px",
                     border: "1px solid var(--v4-line-200)",
                     borderRadius: 2,
                     background: "var(--v4-bg-100)",

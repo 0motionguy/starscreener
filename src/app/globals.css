@@ -2578,6 +2578,14 @@ body::before {
   transition: color 120ms ease, border-color 120ms ease, background 120ms ease;
 }
 
+/* Mobile-only 44×44 tap target per PRODUCT.md mobile posture rule. */
+@media (max-width: 640px) {
+  .live-top-filters .fchip {
+    min-height: 44px;
+    padding: 10px 14px;
+  }
+}
+
 .live-top-filters .fchip:hover {
   color: var(--ink-100);
   border-color: var(--line-300);

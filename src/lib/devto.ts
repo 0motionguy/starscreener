@@ -253,6 +253,17 @@ export async function refreshDevtoMentionsFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    // Phase A.2: TOOLBOX_READ_DEVTO_MENTIONS=true routes through
+    // /v1/signals/leaderboard. Null return → legacy data-store path runs.
+    const toolboxFile = await tryFetchDevtoFromToolbox();
+    if (toolboxFile) {
+      mentionsFile = toolboxFile;
+      enrichDevtoWindowedCounts(mentionsFile);
+      mentionsByLowerName = buildDevtoMentionsByLowerName(mentionsFile);
+      lastRefreshMs = Date.now();
+      return { source: "toolbox", ageMs: 0 };
+    }
+
     const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<DevtoMentionsFile>(
       "devto-mentions",
@@ -268,4 +279,13 @@ export async function refreshDevtoMentionsFromStore(): Promise<{
     inflight = null;
   });
   return inflight;
+}
+
+async function tryFetchDevtoFromToolbox(): Promise<DevtoMentionsFile | null> {
+  if (process.env.TOOLBOX_READ_DEVTO_MENTIONS !== "true") return null;
+  const apiUrl = process.env.TOOLBOX_API_URL;
+  const apiKey = process.env.TOOLBOX_API_KEY;
+  if (!apiUrl || !apiKey) return null;
+  const { fetchDevtoMentionsFromToolbox } = await import("./toolbox-store");
+  return fetchDevtoMentionsFromToolbox({ apiUrl, apiKey });
 }

@@ -1,7 +1,11 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-import { fetchHnMentionsFromToolbox } from "../toolbox-store";
+import {
+  fetchBlueskyMentionsFromToolbox,
+  fetchDevtoMentionsFromToolbox,
+  fetchHnMentionsFromToolbox,
+} from "../toolbox-store";
 
 function fakeFetch(responses: {
   status?: number;
@@ -240,4 +244,290 @@ test("builds mentionsByRepoId with slugified keys", async () => {
   // lowercases + replaces `/` and `.`.
   assert.ok(result!.mentionsByRepoId);
   assert.ok(result!.mentionsByRepoId!["vercel--next-js"]);
+});
+
+// ---------------------------------------------------------------------------
+// Bluesky mentions adapter
+// ---------------------------------------------------------------------------
+
+test("bsky: returns shaped BskyMentionsFile on happy-path response", async () => {
+  const result = await fetchBlueskyMentionsFromToolbox({
+    apiUrl: "https://api.example.test",
+    apiKey: "tbk_live_test_key",
+    fetchImpl: fakeFetch({
+      body: {
+        count: 2,
+        targets: [
+          {
+            target_id: "t1",
+            target_kind: "url",
+            target_identity: "https://github.com/vercel/next.js",
+            scan_id: "s",
+            run_id: "r1",
+            signal_type: "trending.bluesky.mentions",
+            produced_at: "2026-05-13T03:00:00Z",
+            fields: {
+              count_7d: 7,
+              likes_sum_7d: 234,
+              reposts_sum_7d: 12,
+              replies_sum_7d: 4,
+              top_post: { uri: "at://did/post/1", cid: "c", bskyUrl: "https://bsky.app/...", text: "..." },
+              posts_top10: [],
+            },
+          },
+          {
+            target_id: "t2",
+            target_kind: "url",
+            target_identity: "https://github.com/openai/whisper",
+            scan_id: "s",
+            run_id: "r2",
+            signal_type: "trending.bluesky.mentions",
+            produced_at: "2026-05-13T02:00:00Z",
+            fields: {
+              count_7d: 3,
+              likes_sum_7d: 100,
+              reposts_sum_7d: 5,
+              replies_sum_7d: 1,
+              posts_top10: [],
+            },
+          },
+        ],
+      },
+    }),
+  });
+  assert.ok(result);
+  assert.equal(Object.keys(result!.mentions).length, 2);
+  assert.equal(result!.mentions["vercel/next.js"].count7d, 7);
+  assert.equal(result!.mentions["vercel/next.js"].likesSum7d, 234);
+  assert.equal(result!.mentions["vercel/next.js"].repostsSum7d, 12);
+  assert.equal(result!.mentions["vercel/next.js"].repliesSum7d, 4);
+  assert.equal(result!.mentions["openai/whisper"].topPost, null);
+  assert.equal(result!.windowDays, 7);
+  assert.equal(result!.fetchedAt, "2026-05-13T03:00:00.000Z");
+});
+
+test("bsky: leaderboard is sorted by likesSum7d desc", async () => {
+  const result = await fetchBlueskyMentionsFromToolbox({
+    apiUrl: "https://api.example.test",
+    apiKey: "tbk_live_test_key",
+    fetchImpl: fakeFetch({
+      body: {
+        count: 3,
+        targets: [
+          {
+            target_id: "1",
+            target_kind: "url",
+            target_identity: "https://github.com/a/low",
+            scan_id: "s",
+            run_id: "r",
+            signal_type: "trending.bluesky.mentions",
+            produced_at: "2026-05-13T03:00:00Z",
+            fields: { count_7d: 1, likes_sum_7d: 10, reposts_sum_7d: 0, replies_sum_7d: 0, posts_top10: [] },
+          },
+          {
+            target_id: "2",
+            target_kind: "url",
+            target_identity: "https://github.com/b/high",
+            scan_id: "s",
+            run_id: "r",
+            signal_type: "trending.bluesky.mentions",
+            produced_at: "2026-05-13T03:00:00Z",
+            fields: { count_7d: 9, likes_sum_7d: 999, reposts_sum_7d: 0, replies_sum_7d: 0, posts_top10: [] },
+          },
+        ],
+      },
+    }),
+  });
+  assert.ok(result);
+  assert.deepEqual(
+    result!.leaderboard.map((r) => r.fullName),
+    ["b/high", "a/low"],
+  );
+});
+
+test("bsky: returns null on non-2xx", async () => {
+  const result = await fetchBlueskyMentionsFromToolbox({
+    apiUrl: "https://api.example.test",
+    apiKey: "tbk_live_test_key",
+    fetchImpl: fakeFetch({ status: 503 }),
+  });
+  assert.equal(result, null);
+});
+
+test("bsky: returns null on fetch throw", async () => {
+  const result = await fetchBlueskyMentionsFromToolbox({
+    apiUrl: "https://api.example.test",
+    apiKey: "tbk_live_test_key",
+    fetchImpl: fakeFetch({ throwError: new Error("ECONNRESET") }),
+  });
+  assert.equal(result, null);
+});
+
+test("bsky: skips events lacking count_7d", async () => {
+  const result = await fetchBlueskyMentionsFromToolbox({
+    apiUrl: "https://api.example.test",
+    apiKey: "tbk_live_test_key",
+    fetchImpl: fakeFetch({
+      body: {
+        count: 1,
+        targets: [
+          {
+            target_id: "t1",
+            target_kind: "url",
+            target_identity: "https://github.com/x/y",
+            scan_id: "s",
+            run_id: "r",
+            signal_type: "trending.bluesky.mentions",
+            produced_at: "2026-05-13T03:00:00Z",
+            fields: { likes_sum_7d: 100, posts_top10: [] },
+          },
+        ],
+      },
+    }),
+  });
+  assert.ok(result);
+  assert.equal(Object.keys(result!.mentions).length, 0);
+});
+
+// ---------------------------------------------------------------------------
+// dev.to mentions adapter
+// ---------------------------------------------------------------------------
+
+test("devto: returns shaped DevtoMentionsFile on happy-path response", async () => {
+  const result = await fetchDevtoMentionsFromToolbox({
+    apiUrl: "https://api.example.test",
+    apiKey: "tbk_live_test_key",
+    fetchImpl: fakeFetch({
+      body: {
+        count: 2,
+        targets: [
+          {
+            target_id: "t1",
+            target_kind: "url",
+            target_identity: "https://github.com/vercel/next.js",
+            scan_id: "s",
+            run_id: "r1",
+            signal_type: "trending.devto.mentions",
+            produced_at: "2026-05-13T03:00:00Z",
+            fields: {
+              count_7d: 5,
+              reactions_sum_7d: 150,
+              comments_sum_7d: 22,
+              top_article: { id: 9, title: "Why X", url: "...", author: "u", reactions: 80, comments: 10, hoursSincePosted: 6, readingTime: 4 },
+              articles_top10: [],
+            },
+          },
+          {
+            target_id: "t2",
+            target_kind: "url",
+            target_identity: "https://github.com/openai/whisper",
+            scan_id: "s",
+            run_id: "r2",
+            signal_type: "trending.devto.mentions",
+            produced_at: "2026-05-13T02:00:00Z",
+            fields: {
+              count_7d: 2,
+              reactions_sum_7d: 40,
+              comments_sum_7d: 3,
+              articles_top10: [],
+            },
+          },
+        ],
+      },
+    }),
+  });
+  assert.ok(result);
+  assert.equal(Object.keys(result!.mentions).length, 2);
+  assert.equal(result!.mentions["vercel/next.js"].count7d, 5);
+  assert.equal(result!.mentions["vercel/next.js"].reactionsSum7d, 150);
+  assert.equal(result!.mentions["vercel/next.js"].commentsSum7d, 22);
+  assert.equal(result!.mentions["openai/whisper"].topArticle, null);
+  assert.equal(result!.windowDays, 7);
+  assert.equal(result!.bodyFetchMode, "description-only");
+  assert.equal(result!.fetchedAt, "2026-05-13T03:00:00.000Z");
+});
+
+test("devto: leaderboard is sorted by reactionsSum7d desc", async () => {
+  const result = await fetchDevtoMentionsFromToolbox({
+    apiUrl: "https://api.example.test",
+    apiKey: "tbk_live_test_key",
+    fetchImpl: fakeFetch({
+      body: {
+        count: 3,
+        targets: [
+          {
+            target_id: "1",
+            target_kind: "url",
+            target_identity: "https://github.com/a/low",
+            scan_id: "s",
+            run_id: "r",
+            signal_type: "trending.devto.mentions",
+            produced_at: "2026-05-13T03:00:00Z",
+            fields: { count_7d: 1, reactions_sum_7d: 5, comments_sum_7d: 0, articles_top10: [] },
+          },
+          {
+            target_id: "2",
+            target_kind: "url",
+            target_identity: "https://github.com/b/high",
+            scan_id: "s",
+            run_id: "r",
+            signal_type: "trending.devto.mentions",
+            produced_at: "2026-05-13T03:00:00Z",
+            fields: { count_7d: 5, reactions_sum_7d: 500, comments_sum_7d: 0, articles_top10: [] },
+          },
+        ],
+      },
+    }),
+  });
+  assert.ok(result);
+  assert.deepEqual(
+    result!.leaderboard.map((r) => r.fullName),
+    ["b/high", "a/low"],
+  );
+});
+
+test("devto: returns null on non-2xx", async () => {
+  const result = await fetchDevtoMentionsFromToolbox({
+    apiUrl: "https://api.example.test",
+    apiKey: "tbk_live_test_key",
+    fetchImpl: fakeFetch({ status: 502 }),
+  });
+  assert.equal(result, null);
+});
+
+test("devto: skips non-github targets", async () => {
+  const result = await fetchDevtoMentionsFromToolbox({
+    apiUrl: "https://api.example.test",
+    apiKey: "tbk_live_test_key",
+    fetchImpl: fakeFetch({
+      body: {
+        count: 2,
+        targets: [
+          {
+            target_id: "t1",
+            target_kind: "url",
+            target_identity: "https://dev.to/article",
+            scan_id: "s",
+            run_id: "r",
+            signal_type: "trending.devto.mentions",
+            produced_at: "2026-05-13T03:00:00Z",
+            fields: { count_7d: 9, reactions_sum_7d: 9, comments_sum_7d: 0, articles_top10: [] },
+          },
+          {
+            target_id: "t2",
+            target_kind: "url",
+            target_identity: "https://github.com/real/repo",
+            scan_id: "s",
+            run_id: "r",
+            signal_type: "trending.devto.mentions",
+            produced_at: "2026-05-13T03:00:00Z",
+            fields: { count_7d: 2, reactions_sum_7d: 20, comments_sum_7d: 0, articles_top10: [] },
+          },
+        ],
+      },
+    }),
+  });
+  assert.ok(result);
+  assert.equal(Object.keys(result!.mentions).length, 1);
+  assert.ok(result!.mentions["real/repo"]);
 });

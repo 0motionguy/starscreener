@@ -63,8 +63,10 @@ function parseTwitterTab(raw: string | string[] | undefined): TwitterTab {
 }
 
 function formatClock(iso: string | undefined | null): string {
-  if (!iso) return "warming";
-  return new Date(iso).toISOString().slice(11, 19);
+  if (!iso) return "—";
+  const parsed = new Date(iso);
+  if (Number.isNaN(parsed.getTime()) || parsed.getTime() === 0) return "—";
+  return parsed.toISOString().slice(11, 19);
 }
 
 const AUTHOR_BUBBLE_TONES = [

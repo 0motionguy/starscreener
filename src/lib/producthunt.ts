@@ -166,6 +166,19 @@ export async function refreshProducthuntLaunchesFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    // Phase A.2 (PH launches): TOOLBOX-first when flag set; falls through
+    // to legacy data-store on null. NOTE: linkedRepo is not transmitted by
+    // dual-write, so getLaunchForRepo() returns null for all repos under
+    // flag-on. Repo-page badges go dark; the /producthunt list view still
+    // works. See toolbox-store-producthunt.ts header for full field gap.
+    const toolboxFile = await tryFetchProducthuntLaunchesFromToolbox();
+    if (toolboxFile) {
+      file = toolboxFile;
+      launchesByRepo = buildLaunchesByRepo(file);
+      lastRefreshMs = Date.now();
+      return { source: "toolbox", ageMs: 0 };
+    }
+
     const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<ProductHuntFile>(
       "producthunt-launches",
@@ -173,6 +186,14 @@ export async function refreshProducthuntLaunchesFromStore(): Promise<{
     if (result.data && result.source !== "missing") {
       file = result.data;
       launchesByRepo = buildLaunchesByRepo(file);
+    } else {
+      const { alertAdapterFallthrough } = await import(
+        "./adapter-fallthrough-alert"
+      );
+      alertAdapterFallthrough("producthunt", "toolbox_null_legacy_missing", {
+        result_source: result.source,
+        had_toolbox_flag: process.env.TOOLBOX_READ_PRODUCTHUNT === "true",
+      });
     }
     lastRefreshMs = Date.now();
     return { source: result.source, ageMs: result.ageMs };
@@ -180,4 +201,15 @@ export async function refreshProducthuntLaunchesFromStore(): Promise<{
     inflight = null;
   });
   return inflight;
+}
+
+async function tryFetchProducthuntLaunchesFromToolbox(): Promise<ProductHuntFile | null> {
+  if (process.env.TOOLBOX_READ_PRODUCTHUNT !== "true") return null;
+  const apiUrl = process.env.TOOLBOX_API_URL;
+  const apiKey = process.env.TOOLBOX_API_KEY;
+  if (!apiUrl || !apiKey) return null;
+  const { fetchProducthuntLaunchesFromToolbox } = await import(
+    "./toolbox-store-producthunt"
+  );
+  return fetchProducthuntLaunchesFromToolbox({ apiUrl, apiKey });
 }

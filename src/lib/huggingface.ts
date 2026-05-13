@@ -138,10 +138,31 @@ export async function refreshHfModelsFromStore(): Promise<{
   }
   inflight = (async () => {
     try {
+      // Phase A.2 (HF models): when TOOLBOX_READ_HUGGINGFACE_MODELS=true
+      // and TOOLBOX_API_* env vars are present, try TOOLBOX first.
+      // Returns null on any error → fall through to data-store so a
+      // TOOLBOX outage degrades to existing behaviour.
+      const toolboxFile = await tryFetchHfModelsFromToolbox();
+      if (toolboxFile) {
+        trendingFile = toolboxFile;
+        lastRefreshMs = Date.now();
+        return { huggingface: { source: "toolbox", ageMs: 0 } };
+      }
+
       const { getDataStore } = await import("./data-store");
       const result = await getDataStore().read<HfTrendingFile>("huggingface-trending");
       if (result.data && result.source !== "missing") {
         trendingFile = result.data;
+      } else {
+        const { alertAdapterFallthrough } = await import(
+          "./adapter-fallthrough-alert"
+        );
+        alertAdapterFallthrough("huggingface", "toolbox_null_legacy_missing", {
+          result_source: result.source,
+          had_toolbox_flag:
+            process.env.TOOLBOX_READ_HUGGINGFACE_MODELS === "true",
+          variant: "models",
+        });
       }
       lastRefreshMs = Date.now();
       return { huggingface: { source: result.source, ageMs: result.ageMs } };
@@ -154,4 +175,13 @@ export async function refreshHfModelsFromStore(): Promise<{
     inflight = null;
   });
   return inflight;
+}
+
+async function tryFetchHfModelsFromToolbox(): Promise<HfTrendingFile | null> {
+  if (process.env.TOOLBOX_READ_HUGGINGFACE_MODELS !== "true") return null;
+  const apiUrl = process.env.TOOLBOX_API_URL;
+  const apiKey = process.env.TOOLBOX_API_KEY;
+  if (!apiUrl || !apiKey) return null;
+  const { fetchHfModelsFromToolbox } = await import("./toolbox-store-hf");
+  return fetchHfModelsFromToolbox({ apiUrl, apiKey });
 }

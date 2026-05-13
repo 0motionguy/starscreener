@@ -163,12 +163,31 @@ export async function refreshHfSpacesFromStore(): Promise<{
   }
   inflight = (async () => {
     try {
+      // Phase A.2 (HF spaces): TOOLBOX-first when flag set; falls through
+      // to legacy data-store on null. Same pattern as huggingface.ts.
+      const toolboxFile = await tryFetchHfSpacesFromToolbox();
+      if (toolboxFile) {
+        spacesFile = toolboxFile;
+        lastRefreshMs = Date.now();
+        return { huggingfaceSpaces: { source: "toolbox", ageMs: 0 } };
+      }
+
       const { getDataStore } = await import("./data-store");
       const result = await getDataStore().read<HfSpacesFile>(
         "huggingface-spaces",
       );
       if (result.data && result.source !== "missing") {
         spacesFile = result.data;
+      } else {
+        const { alertAdapterFallthrough } = await import(
+          "./adapter-fallthrough-alert"
+        );
+        alertAdapterFallthrough("huggingface", "toolbox_null_legacy_missing", {
+          result_source: result.source,
+          had_toolbox_flag:
+            process.env.TOOLBOX_READ_HUGGINGFACE_SPACES === "true",
+          variant: "spaces",
+        });
       }
       lastRefreshMs = Date.now();
       return {
@@ -183,4 +202,13 @@ export async function refreshHfSpacesFromStore(): Promise<{
     inflight = null;
   });
   return inflight;
+}
+
+async function tryFetchHfSpacesFromToolbox(): Promise<HfSpacesFile | null> {
+  if (process.env.TOOLBOX_READ_HUGGINGFACE_SPACES !== "true") return null;
+  const apiUrl = process.env.TOOLBOX_API_URL;
+  const apiKey = process.env.TOOLBOX_API_KEY;
+  if (!apiUrl || !apiKey) return null;
+  const { fetchHfSpacesFromToolbox } = await import("./toolbox-store-hf");
+  return fetchHfSpacesFromToolbox({ apiUrl, apiKey });
 }

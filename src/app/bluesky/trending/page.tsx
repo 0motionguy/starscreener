@@ -25,7 +25,7 @@ import { repoLogoUrl, userLogoUrl } from "@/lib/logos";
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
-import { LiveDot } from "@/components/ui/LiveDot";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 export const dynamic = "force-static";
 
@@ -56,11 +56,6 @@ function formatAgeHours(ageHours: number | undefined): string {
   return `${Math.round(ageHours / 24)}d`;
 }
 
-function formatClock(iso: string | undefined): string {
-  if (!iso) return "warming";
-  return new Date(iso).toISOString().slice(11, 19);
-}
-
 export default async function BlueskyTrendingPage() {
   await Promise.all([
     refreshBlueskyTrendingFromStore(),
@@ -87,6 +82,12 @@ export default async function BlueskyTrendingPage() {
           }
           title="Bluesky · top posts"
           lede="Posts merged across curated AI query families (agents, LLMs, coding agents, MCP, workflow), scored by engagement and cross-linked to GitHub repos."
+          clock={
+            <FreshnessBadge
+              source="bluesky"
+              lastUpdatedAt={trendingFile.fetchedAt}
+            />
+          }
         />
         <ColdState />
       </main>
@@ -112,11 +113,10 @@ export default async function BlueskyTrendingPage() {
         title="Bluesky · top posts"
         lede="Posts merged across curated AI query families (agents, LLMs, coding agents, MCP, workflow), scored by engagement and cross-linked to GitHub repos."
         clock={
-          <>
-            <span className="big">{formatClock(trendingFile.fetchedAt)}</span>
-            <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="LIVE · 24H" />
-          </>
+          <FreshnessBadge
+            source="bluesky"
+            lastUpdatedAt={trendingFile.fetchedAt}
+          />
         }
         snapshot={
           <KpiBand

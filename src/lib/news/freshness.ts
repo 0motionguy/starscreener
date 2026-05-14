@@ -25,11 +25,15 @@ export type NewsSource =
   | "twitter"
   | "npm"
   | "mcp"
-  | "skills";
+  | "skills"
+  | "arxiv";
 
 export type FreshnessStatus = "live" | "warn" | "cold";
 
 const TWITTER_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
+// arXiv scraper runs every 3h; data cadence is daily-ish.
+// 12h budget = 3h cron + 9h grace before the badge goes cold.
+const ARXIV_STALE_THRESHOLD_MS = 12 * 60 * 60 * 1000;
 
 /**
  * Mapping from NewsSource → stale threshold in ms. We treat the *stale*
@@ -56,6 +60,8 @@ export const SOURCE_STALE_MS: Record<NewsSource, number> = {
   // existing match for slow-cron Redis-published feeds.
   mcp: NPM_STALE_THRESHOLD_MS,
   skills: NPM_STALE_THRESHOLD_MS,
+  // arXiv: 3h scraper cron, daily-ish data cadence.
+  arxiv: ARXIV_STALE_THRESHOLD_MS,
 };
 
 /** Soft warn threshold = 50% of the stale threshold. Past it the badge

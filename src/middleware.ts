@@ -48,6 +48,13 @@ const isProtectedRoute = createRouteMatcher([
   "/api/me/(.*)",
 ]);
 
+// Routes that are still public in the product sense, but need Clerk's
+// middleware context so route handlers can call `auth()` and decide their
+// own JSON response shape instead of throwing outside Clerk.
+const isClerkSessionRoute = createRouteMatcher([
+  "/api/pipeline/sidebar-overlay",
+]);
+
 // Routes that should NEVER pass through Clerk's session check — they own
 // their own auth schemes. Clerk's middleware respects publicRoutes by
 // default, but we go further by short-circuiting these before Clerk
@@ -211,7 +218,7 @@ export default function middleware(req: NextRequest, event: NextFetchEvent) {
     return middlewareWithoutClerk(req);
   }
 
-  if (isProtectedRoute(req)) {
+  if (isProtectedRoute(req) || isClerkSessionRoute(req)) {
     return middlewareWithClerk(req, event);
   }
 

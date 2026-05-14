@@ -25,7 +25,7 @@ test("middleware keeps /you public while protecting account-backed subroutes", (
   assert.match(body, /["']\/api\/me\/\(\.\*\)["']/);
 });
 
-test("middleware only runs Clerk for protected routes", () => {
+test("middleware runs Clerk only for protected routes and session-aware APIs", () => {
   assert.doesNotMatch(
     middlewareSource,
     /export default getClerkPublishableKey\(\)\s*\?/,
@@ -33,7 +33,12 @@ test("middleware only runs Clerk for protected routes", () => {
   );
   assert.match(
     middlewareSource,
-    /if\s*\(isProtectedRoute\(req\)\)\s*\{[\s\S]*?return middlewareWithClerk\(req, event\);/,
+    /const isClerkSessionRoute = createRouteMatcher\(\[\s*["']\/api\/pipeline\/sidebar-overlay["'],?\s*\]\);/,
+    "sidebar overlay must run inside Clerk middleware so auth() can return a session or null",
+  );
+  assert.match(
+    middlewareSource,
+    /if\s*\(isProtectedRoute\(req\)\s*\|\|\s*isClerkSessionRoute\(req\)\)\s*\{[\s\S]*?return middlewareWithClerk\(req, event\);/,
   );
   assert.match(
     middlewareSource,

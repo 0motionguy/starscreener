@@ -272,6 +272,14 @@ export async function refreshHackernewsMentionsFromStore(): Promise<{
       enrichHnWindowedCounts(mentionsFile);
       mentionsByLowerName = buildMentionsByLowerName(mentionsFile);
       mentionsByRepoId = buildMentionsByRepoId(mentionsFile);
+    } else {
+      // Both TOOLBOX adapter + data-store returned no usable data — page
+      // will render with stale in-memory state (or empty on first load).
+      const { alertAdapterFallthrough } = await import("./adapter-fallthrough-alert");
+      alertAdapterFallthrough("hn", "toolbox_null_legacy_missing", {
+        result_source: result.source,
+        had_toolbox_flag: process.env.TOOLBOX_READ_HN_MENTIONS === "true",
+      });
     }
     lastRefreshMs = Date.now();
     return { source: result.source, ageMs: result.ageMs };

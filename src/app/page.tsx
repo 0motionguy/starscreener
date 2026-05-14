@@ -491,18 +491,25 @@ function HeroPanel({
 
 const SOURCE_ICONS: ReadonlyArray<{
   key: string;
+  channel: "github" | "hn" | "reddit" | "bluesky" | "devto";
   label: string;
   Icon: (props: { size?: number; className?: string }) => React.ReactElement;
 }> = [
-  { key: "gh", label: "GitHub", Icon: GithubIcon },
-  { key: "hn", label: "Hacker News", Icon: HackerNewsIcon },
-  { key: "r", label: "Reddit", Icon: RedditIcon },
-  { key: "b", label: "Bluesky", Icon: BlueskyIcon },
-  { key: "d", label: "dev.to", Icon: DevtoIcon },
+  { key: "gh", channel: "github", label: "GitHub", Icon: GithubIcon },
+  { key: "hn", channel: "hn", label: "Hacker News", Icon: HackerNewsIcon },
+  { key: "r", channel: "reddit", label: "Reddit", Icon: RedditIcon },
+  { key: "b", channel: "bluesky", label: "Bluesky", Icon: BlueskyIcon },
+  { key: "d", channel: "devto", label: "dev.to", Icon: DevtoIcon },
 ];
 
 function ConsensusRow({ repo, index }: { repo: Repo; index: number }) {
   const channels = Math.max(1, sourceCount(repo));
+  // Render only icons for sources that are actually firing on this repo.
+  // Falls back to the first N entries when channelStatus isn't attached
+  // (legacy / degraded payload) so the row never collapses to empty.
+  const firingSources = repo.channelStatus
+    ? SOURCE_ICONS.filter(({ channel }) => repo.channelStatus?.[channel])
+    : SOURCE_ICONS.slice(0, channels);
   return (
     <a className={`cons-row ${index === 0 ? "first" : ""}`} href={`/repo/${repo.owner}/${repo.name}`}>
       <div className="cons-top">
@@ -526,8 +533,8 @@ function ConsensusRow({ repo, index }: { repo: Repo; index: number }) {
         </span>
       </div>
       <div className="cons-bot">
-        <span className="srcs" aria-label={`${channels} sources firing`}>
-          {SOURCE_ICONS.slice(0, channels).map(({ key, label, Icon }) => (
+        <span className="srcs" aria-label={`${firingSources.length} sources firing`}>
+          {firingSources.map(({ key, label, Icon }) => (
             <span
               key={key}
               className={`sd sd-${key}`}
@@ -862,7 +869,7 @@ export default async function HomePage() {
 
         <MetricGrid columns={6}>
           <Metric label="coverage" value={formatCompact(repos.length)} sub="tracked repos" />
-          <Metric label="stars today" value={formatCompact(total24h)} delta="+ live" tone="positive" />
+          <Metric label="stars today" value={formatCompact(total24h)} sub="24h aggregate" tone="positive" />
           <Metric label="weekly stars" value={formatCompact(total7d)} sub="7d window" />
           <Metric label="consensus now" value={consensusRepos.length} sub="top multi-source" tone="consensus" />
           <Metric label="breakouts now" value={breakoutRepos.length} sub="above baseline" tone="accent" />
@@ -944,10 +951,14 @@ export default async function HomePage() {
           <CardHeader right={<span className="live">LIVE</span>} showCorner>
             {"// TR-100 Index"}
           </CardHeader>
+          {/*
+            Removed three decorative <span class="tg"> "tabs" (Index / Share /
+            Categories). They looked clickable but had no onClick / role /
+            keyboard handler — affordance lie (WCAG 2.4.3 + 4.1.2). The chart
+            below only renders the Index view, so the toggle was unreachable
+            by design. Keep only the right-aligned 30d summary, which is real.
+          */}
           <div className="chart-toggle">
-            <span className="tg on">Index</span>
-            <span className="tg">Share</span>
-            <span className="tg">Categories</span>
             <span className="right">30d / <b>{formatCompact(total30d)}</b></span>
           </div>
           {(() => {

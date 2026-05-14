@@ -32,7 +32,7 @@ concurrency:
 
 jobs:
   fire:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     timeout-minutes: 5
     steps:
       - name: Pick endpoint from schedule

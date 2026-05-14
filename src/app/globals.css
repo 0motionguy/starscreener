@@ -2132,14 +2132,6 @@ body::before {
   line-height: 1.2 !important;
 }
 
-.feat-card .desc {
-  display: none;
-}
-
-.feat-card .why {
-  display: none;
-}
-
 .feat-card .badge {
   font-size: var(--font-size-xs) !important;
 }
@@ -2311,6 +2303,13 @@ body::before {
   font-size: var(--font-size-lg);
   letter-spacing: var(--tracking-control);
   text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+  .tabs .tab {
+    min-height: 44px;
+    padding-block: 12px;
+  }
 }
 
 .tabs .tab.on {
@@ -5693,7 +5692,9 @@ body::before {
   height: 6px;
   border-radius: 50%;
   background: var(--v2-sig-green);
-  box-shadow: 0 0 6px var(--v2-sig-green);
+  /* No box-shadow / pulse — honest chrome rule. The class is kept as a
+     static color-keyed indicator only; freshness is signalled at the page
+     boundary via <FreshnessBadge> driven by classifyFreshness(). */
 }
 
 /* ---------------------------------------------------------------------------

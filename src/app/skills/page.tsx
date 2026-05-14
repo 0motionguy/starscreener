@@ -47,6 +47,7 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { RankRow } from "@/components/ui/RankRow";
 import { FooterBar } from "@/components/ui/FooterBar";
+import { TabBar, type TabItem } from "@/components/ui/TabBar";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { MarkVisited } from "@/components/layout/MarkVisited";
 import {
@@ -583,11 +584,14 @@ interface ListTaxonomyTabsProps {
 }
 
 /**
- * 5-tab filter strip surfacing the awesome-* curator lists. Each tab is a
- * server-side `<Link>` that updates `?list=<slug>`; the page re-renders
- * with the filter applied. Active state via `aria-current="page"` + a
- * solid background instead of the outlined idle style. Counts come from
- * the unfiltered set so they remain stable while the user tabs.
+ * 5-tab filter strip surfacing the awesome-* curator lists. Renders the
+ * canonical V4 `<TabBar>` primitive in link-mode: each tab is an anchor
+ * that updates `?list=<slug>`; the page re-renders server-side with the
+ * filter applied. TabBar ships height: 42px (44px tap target), overflow-x:
+ * auto (single-row scroll on 375px), focus-visible outline, and the
+ * --v4-acc (brand orange) active-tab indicator per V4 system convention.
+ * Counts come from the unfiltered set so they remain stable while the
+ * user tabs.
  *
  * AGN-536 history note: a previous tab strip (24h/7d/30d windows) was CUT
  * because the ranked columns it drove were always "—". This strip is safe
@@ -599,77 +603,21 @@ function ListTaxonomyTabs({
   allCount,
   listCounts,
 }: ListTaxonomyTabsProps) {
-  const tabs: Array<{
-    slug: ListSlug | null;
-    label: string;
-    count: number;
-    href: string;
-  }> = [
-    {
-      slug: null,
-      label: "All",
-      count: allCount,
-      href: "/skills",
-    },
+  const items: TabItem[] = [
+    { id: "all", label: "All".toUpperCase(), count: formatNumber(allCount) },
     ...LIST_SLUGS.map((slug) => ({
-      slug,
-      label: LIST_LABELS[slug],
-      count: listCounts[slug],
-      href: `/skills?list=${slug}`,
+      id: slug,
+      label: LIST_LABELS[slug].toUpperCase(),
+      count: formatNumber(listCounts[slug]),
     })),
   ];
   return (
-    <nav
-      aria-label="Filter skills by curator list"
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: 6,
-        padding: "12px 0 4px",
-        fontFamily: "var(--font-geist-mono), monospace",
-        fontSize: 11,
-      }}
-    >
-      {tabs.map((tab) => {
-        const isActive = tab.slug === activeSlug;
-        return (
-          <Link
-            key={tab.href}
-            href={tab.href}
-            aria-current={isActive ? "page" : undefined}
-            style={{
-              display: "inline-flex",
-              alignItems: "baseline",
-              gap: 6,
-              padding: "5px 10px",
-              borderRadius: 3,
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
-              textDecoration: "none",
-              border: "1px solid var(--v4-line-200)",
-              background: isActive
-                ? "var(--v4-bg-200)"
-                : "var(--v4-bg-050)",
-              color: isActive
-                ? "var(--v4-ink-000)"
-                : "var(--v4-ink-300)",
-            }}
-          >
-            <span>{tab.label}</span>
-            <span
-              style={{
-                fontSize: 10,
-                color: isActive
-                  ? "var(--v4-acc)"
-                  : "var(--v4-ink-400)",
-              }}
-            >
-              {formatNumber(tab.count)}
-            </span>
-          </Link>
-        );
-      })}
-    </nav>
+    <TabBar
+      items={items}
+      active={activeSlug ?? "all"}
+      hrefFor={(id) => (id === "all" ? "/skills" : `/skills?list=${id}`)}
+      className="v4-tab-bar--skills"
+    />
   );
 }
 

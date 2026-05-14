@@ -25,7 +25,7 @@ import { repoLogoUrl } from "@/lib/logos";
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
-import { LiveDot } from "@/components/ui/LiveDot";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
 // ISR (5min) so the page picks up hourly Redis refreshes from
 // scrape-trending.yml. `force-static` was baking whatever data was
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   },
 };
 
-const HN_ORANGE = "#ff6600";
+const HN_ORANGE = "var(--source-hackernews)";
 
 function formatAgeHours(ageHours: number | undefined): string {
   if (ageHours === undefined || !Number.isFinite(ageHours)) return "—";
@@ -113,7 +113,16 @@ export default async function HackerNewsTrendingPage() {
           <>
             <span className="big">{formatClock(trendingFile.fetchedAt)}</span>
             <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label={`LIVE · ${trendingFile.windowHours}H`} />
+            {/* W4-FRESHBADGE / wave-7c P0 #6. Replaced hardcoded
+                <LiveDot label={`LIVE · ${windowHours}H`}/> which fired
+                a green pulse regardless of fetchedAt — same brand-killing
+                lie wave-3a fixed on /signals (PR #1150) and wave-7
+                fixed on /reddit/trending. lib/news/freshness.ts already
+                ships `hackernews` as a NewsSource. */}
+            <FreshnessBadge
+              source="hackernews"
+              lastUpdatedAt={trendingFile.fetchedAt ?? null}
+            />
           </>
         }
         snapshot={
@@ -181,7 +190,6 @@ function WindowedHnFeed({ allStories }: { allStories: HnStory[] }) {
       table24h={<HnStoryFeed stories={w24h} />}
       table7d={<HnStoryFeed stories={w7d} />}
       table30d={<HnStoryFeed stories={w30d} />}
-      defaultWindow="7d"
     />
   );
 }
@@ -345,14 +353,16 @@ function ColdState() {
       >
         {"// no data yet"}
       </h2>
+      {/* wave-7c P0 #7. Previous copy leaked `npm run scrape:hn` and a
+          data/*.json path to a public surface — operator-doc in the user
+          position. Rewritten to honest user-facing copy: this branch
+          fires when the entire trending file is empty (collector hasn't
+          published yet or Redis is cold-starting), not just when the
+          24h window has nothing. */}
       <p style={{ marginTop: 12, maxWidth: "32rem", fontSize: 13, color: "var(--v4-ink-300)" }}>
-        The Hacker News scraper hasn&apos;t run yet. Run{" "}
-        <code style={{ color: "var(--v4-ink-100)" }}>npm run scrape:hn</code>{" "}
-        locally to populate{" "}
-        <code style={{ color: "var(--v4-ink-100)" }}>
-          data/hackernews-trending.json
-        </code>
-        , then refresh this page.
+        The Hacker News signal feed is warming up. Our hourly sweep usually
+        catches up within minutes — refresh the page shortly to see the
+        top stories ranked by velocity-weighted trending score.
       </p>
     </section>
   );

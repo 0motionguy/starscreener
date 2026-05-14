@@ -19,7 +19,20 @@ interface OrganizationCardProps {
 export async function OrganizationCard({
   owner,
 }: OrganizationCardProps): Promise<JSX.Element> {
-  const profile = await fetchGithubUserProfile(owner);
+  // Cold-miss synthesized repos may resolve owners that the GitHub user
+  // API cannot return (rate-limit, 5xx, deleted user). An uncaught throw
+  // here bubbles past the parent — which is rendered inline in
+  // page.tsx:517 outside an ErrorBoundary — and 500s the whole page.
+  // Same regression class as the d81856ad bug PR #1159 closed at the
+  // page boundary. Defensive try/catch keeps the panel best-effort and
+  // degrades to the existing empty state.
+  let profile: Awaited<ReturnType<typeof fetchGithubUserProfile>> | null = null;
+  try {
+    profile = await fetchGithubUserProfile(owner);
+  } catch (err) {
+    console.warn("[organization-card] profile resolver failed", err);
+    profile = null;
+  }
 
   if (!profile) {
     return (

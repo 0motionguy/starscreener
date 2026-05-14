@@ -41,7 +41,7 @@ jobs:
     if: |
       github.event_name == 'schedule' && github.event.schedule == '10 * * * *'
       || (github.event_name == 'workflow_dispatch' && inputs.job == 'aggregate')
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     timeout-minutes: 10
     steps:
       - name: GET /api/cron/llm/aggregate
@@ -71,7 +71,7 @@ jobs:
     if: |
       github.event_name == 'schedule' && github.event.schedule == '15 2 * * *'
       || (github.event_name == 'workflow_dispatch' && inputs.job == 'sync-models')
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     timeout-minutes: 5
     steps:
       - name: GET /api/cron/llm/sync-models

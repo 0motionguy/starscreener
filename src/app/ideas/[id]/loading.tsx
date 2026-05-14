@@ -7,21 +7,21 @@ export default function IdeaDetailLoading() {
         <div className="space-y-2">
           <div
             className="h-3 w-24 rounded-[2px]"
-            style={{ background: "var(--v3-bg-050)" }}
+            style={{ background: "var(--v4-bg-050)" }}
           />
           <div
             className="h-8 w-96 rounded-[2px]"
-            style={{ background: "var(--v3-bg-100)" }}
+            style={{ background: "var(--v4-bg-100)" }}
           />
           <div
             className="h-3 w-64 rounded-[2px]"
-            style={{ background: "var(--v3-bg-050)" }}
+            style={{ background: "var(--v4-bg-050)" }}
           />
         </div>
         {/* idea body */}
         <div
           className="h-64 rounded-[2px]"
-          style={{ background: "var(--v3-bg-050)" }}
+          style={{ background: "var(--v4-bg-050)" }}
         />
         {/* reactions strip */}
         <div className="flex gap-2">
@@ -29,7 +29,7 @@ export default function IdeaDetailLoading() {
             <div
               key={i}
               className="h-9 w-16 rounded-[2px]"
-              style={{ background: "var(--v3-bg-050)" }}
+              style={{ background: "var(--v4-bg-050)" }}
             />
           ))}
         </div>

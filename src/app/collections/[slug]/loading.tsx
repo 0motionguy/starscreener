@@ -8,20 +8,20 @@ export default function CollectionDetailLoading() {
         <div className="space-y-2">
           <div
             className="h-3 w-40 rounded-[2px]"
-            style={{ background: "var(--v3-bg-050)" }}
+            style={{ background: "var(--v4-bg-050)" }}
           />
           <div
             className="h-8 w-72 rounded-[2px]"
-            style={{ background: "var(--v3-bg-100)" }}
+            style={{ background: "var(--v4-bg-100)" }}
           />
           <div
             className="h-3 w-96 rounded-[2px]"
-            style={{ background: "var(--v3-bg-050)" }}
+            style={{ background: "var(--v4-bg-050)" }}
           />
         </div>
         <div
           className="h-12 rounded-[2px]"
-          style={{ background: "var(--v3-bg-050)" }}
+          style={{ background: "var(--v4-bg-050)" }}
         />
         {/* members */}
         <div className="space-y-1.5">
@@ -29,7 +29,7 @@ export default function CollectionDetailLoading() {
             <div
               key={i}
               className="h-12 rounded-[2px]"
-              style={{ background: "var(--v3-bg-050)" }}
+              style={{ background: "var(--v4-bg-050)" }}
             />
           ))}
         </div>

@@ -50,6 +50,7 @@ export function getRepoMetadataFetchedAt(): string | null {
 }
 
 let _byFullName: Map<string, RepoMetadata> | null = null;
+let _byGithubId: Map<number, RepoMetadata> | null = null;
 
 function byFullName(): Map<string, RepoMetadata> {
   if (_byFullName) return _byFullName;
@@ -61,8 +62,28 @@ function byFullName(): Map<string, RepoMetadata> {
   return _byFullName;
 }
 
+function byGithubId(): Map<number, RepoMetadata> {
+  if (_byGithubId) return _byGithubId;
+  _byGithubId = new Map();
+  for (const item of data.items ?? []) {
+    if (typeof item.githubId !== "number") continue;
+    _byGithubId.set(item.githubId, item);
+  }
+  return _byGithubId;
+}
+
 export function getRepoMetadata(fullName: string): RepoMetadata | null {
   return byFullName().get(fullName.toLowerCase()) ?? null;
+}
+
+export function getRepoMetadataByGithubId(
+  githubId: number | string | null | undefined,
+): RepoMetadata | null {
+  if (githubId === null || githubId === undefined) return null;
+  const parsed =
+    typeof githubId === "number" ? githubId : Number.parseInt(githubId, 10);
+  if (!Number.isFinite(parsed)) return null;
+  return byGithubId().get(parsed) ?? null;
 }
 
 export function listRepoMetadata(): RepoMetadata[] {
@@ -122,6 +143,7 @@ export async function refreshRepoMetadataFromStore(): Promise<RefreshResult> {
       if (result.data && result.source !== "missing") {
         data = result.data;
         _byFullName = null;
+        _byGithubId = null;
       }
       lastRefreshMs = Date.now();
       return { source: result.source, ageMs: result.ageMs };
@@ -142,7 +164,7 @@ export async function refreshRepoMetadataFromStore(): Promise<RefreshResult> {
 export function _resetRepoMetadataCacheForTests(): void {
   data = repoMetadataJson as unknown as RepoMetadataFile;
   _byFullName = null;
+  _byGithubId = null;
   lastRefreshMs = 0;
   inflight = null;
 }
-

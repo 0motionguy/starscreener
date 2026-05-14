@@ -10,7 +10,10 @@
 // to read the in-memory stores.
 
 import type { Repo } from "./types";
-import { getRepoMetadata } from "./repo-metadata";
+import {
+  getRepoMetadata,
+  getRepoMetadataByGithubId,
+} from "./repo-metadata";
 import { slugToId } from "./utils";
 import {
   buildBaseRepoFromRecent,
@@ -123,7 +126,9 @@ export function getDerivedRepos(): Repo[] {
 
   for (const aggregate of aggregates.values()) {
     const id = slugToId(aggregate.row.repo_name);
-    const metadata = getRepoMetadata(aggregate.row.repo_name);
+    const metadata =
+      getRepoMetadata(aggregate.row.repo_name) ??
+      getRepoMetadataByGithubId(aggregate.row.repo_id);
     const base = baseRepoFromTrending(aggregate, fetchedAt, metadata);
 
     const repoIdLookup = aggregate.row.repo_id;
@@ -376,6 +381,16 @@ export function getDerivedRepoByFullName(fullName: string): Repo | null {
     const byFullName = new Map<string, Repo>();
     for (const r of repos) {
       byFullName.set(r.fullName.toLowerCase(), r);
+    }
+    for (const aggregate of buildTrendingAggregates().values()) {
+      const metadata =
+        getRepoMetadata(aggregate.row.repo_name) ??
+        getRepoMetadataByGithubId(aggregate.row.repo_id);
+      if (!metadata) continue;
+      const canonical = byFullName.get(metadata.fullName.toLowerCase());
+      if (canonical) {
+        byFullName.set(aggregate.row.repo_name.toLowerCase(), canonical);
+      }
     }
     _byFullName = byFullName;
   }

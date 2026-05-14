@@ -29,13 +29,22 @@ export function PostHogProvider({ children }: { children: ReactNode }) {
           defaults: "2026-01-30",
           capture_pageview: "history_change",
           capture_pageleave: true,
+          autocapture: false,
+          capture_performance: false,
           person_profiles: "identified_only",
-          // Skip the session-recording chunk on every page. Replay-on-error
-          // is already gated by the Sentry replay flag (Phase 1 perf work);
-          // PostHog recording isn't wired into any internal review surface
-          // today. Flip back to false if a future analyst wants session
-          // replay.
+          // Keep PostHog to explicit analytics only. Funnels are wired by
+          // captureFunnelStep/FunnelMount/TrackedExternalLink, so the app does
+          // not need the remote survey, flag, product-tour, web-vitals,
+          // dead-click, exception, or recording extension bundles.
           disable_session_recording: true,
+          disable_surveys: true,
+          disable_surveys_automatic_display: true,
+          disable_web_experiments: true,
+          disable_product_tours: true,
+          disable_conversations: true,
+          disable_external_dependency_loading: true,
+          advanced_disable_feature_flags: true,
+          advanced_disable_toolbar_metrics: true,
           loaded: (i) => {
             i.register({ project: "trendingrepo", surface: "web" });
             if (process.env.NODE_ENV === "development") i.debug();

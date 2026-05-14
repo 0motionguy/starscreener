@@ -13,7 +13,7 @@ import {
   FAST_DATA_STALE_THRESHOLD_MS,
   NPM_STALE_THRESHOLD_MS,
   PRODUCTHUNT_STALE_THRESHOLD_MS,
-} from "@/lib/source-health";
+} from "@/lib/source-health-thresholds";
 
 export type NewsSource =
   | "reddit"

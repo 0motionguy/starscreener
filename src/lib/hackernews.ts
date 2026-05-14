@@ -210,8 +210,12 @@ export function getAllHnMentions(): Record<string, HnRepoMention> {
 }
 
 export function getHnLeaderboard(): HnLeaderboardEntry[] {
-  // The on-disk file is already sorted by the scraper. Surface as-is.
-  return mentionsFile.leaderboard;
+  // Keep stale keep-last-50 leaderboard rows from surfacing without a
+  // corresponding mention bucket. The scraper also preserves this invariant
+  // on new writes, but the loader has to tolerate already-committed snapshots.
+  return mentionsFile.leaderboard.filter((row) =>
+    mentionsByLowerName.has(row.fullName.toLowerCase()),
+  );
 }
 
 export function hnItemHref(id: number): string {
@@ -245,6 +249,20 @@ export async function refreshHackernewsMentionsFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    // Phase A.2.1: when TOOLBOX_READ_HN_MENTIONS=true and TOOLBOX_API_*
+    // env vars are present, try TOOLBOX's /v1/signals/leaderboard first.
+    // Returns null on any error → fall through to the legacy data-store
+    // path so a TOOLBOX outage degrades to existing behaviour.
+    const toolboxFile = await tryFetchHnMentionsFromToolbox();
+    if (toolboxFile) {
+      mentionsFile = toolboxFile;
+      enrichHnWindowedCounts(mentionsFile);
+      mentionsByLowerName = buildMentionsByLowerName(mentionsFile);
+      mentionsByRepoId = buildMentionsByRepoId(mentionsFile);
+      lastRefreshMs = Date.now();
+      return { source: "toolbox", ageMs: 0 };
+    }
+
     const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<HnMentionsFile>(
       "hackernews-repo-mentions",
@@ -254,6 +272,14 @@ export async function refreshHackernewsMentionsFromStore(): Promise<{
       enrichHnWindowedCounts(mentionsFile);
       mentionsByLowerName = buildMentionsByLowerName(mentionsFile);
       mentionsByRepoId = buildMentionsByRepoId(mentionsFile);
+    } else {
+      // Both TOOLBOX adapter + data-store returned no usable data — page
+      // will render with stale in-memory state (or empty on first load).
+      const { alertAdapterFallthrough } = await import("./adapter-fallthrough-alert");
+      alertAdapterFallthrough("hn", "toolbox_null_legacy_missing", {
+        result_source: result.source,
+        had_toolbox_flag: process.env.TOOLBOX_READ_HN_MENTIONS === "true",
+      });
     }
     lastRefreshMs = Date.now();
     return { source: result.source, ageMs: result.ageMs };
@@ -261,4 +287,13 @@ export async function refreshHackernewsMentionsFromStore(): Promise<{
     inflight = null;
   });
   return inflight;
+}
+
+async function tryFetchHnMentionsFromToolbox(): Promise<HnMentionsFile | null> {
+  if (process.env.TOOLBOX_READ_HN_MENTIONS !== "true") return null;
+  const apiUrl = process.env.TOOLBOX_API_URL;
+  const apiKey = process.env.TOOLBOX_API_KEY;
+  if (!apiUrl || !apiKey) return null;
+  const { fetchHnMentionsFromToolbox } = await import("./toolbox-store");
+  return fetchHnMentionsFromToolbox({ apiUrl, apiKey });
 }

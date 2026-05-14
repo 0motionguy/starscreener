@@ -49,7 +49,7 @@ export default function TierListEditorPage() {
         </div>
         <div className="clock">
           <span className="big">S / F</span>
-          <span className="live">share-ready</span>
+          <span>share-ready</span>
         </div>
       </section>
 
@@ -64,7 +64,7 @@ export default function TierListEditorPage() {
           <span className="t-num">02</span>
           <span className="t-h">Tier list</span>
           <span className="t-d">Rank repos into a shareable board.</span>
-          <span className="t-foot"><span className="live">live</span><span className="ar">-&gt;</span></span>
+          <span className="t-foot"><span>editor</span><span className="ar">-&gt;</span></span>
         </Link>
         <Link className="tool" href="/compare">
           <span className="t-num">03</span>

@@ -35,7 +35,7 @@ permissions:
 jobs:
   dispatch-agent:
     if: github.event.label.name == 'sentry-error'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     steps:
       - name: Plant @claude prompt with stack-trace context
         env:

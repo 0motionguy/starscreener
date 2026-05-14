@@ -258,6 +258,7 @@ export function SourceFilterBar({
         prefetch={false}
         className={`signals-chip${isAllOn ? " signals-chip-on" : ""}`}
         aria-pressed={isAllOn}
+        aria-label="All sources"
       >
         ALL
       </Link>
@@ -365,6 +366,7 @@ export function SourceFilterBar({
           topic === null ? " signals-chip-on" : ""
         }`}
         aria-pressed={topic === null}
+        aria-label="All topics"
       >
         ALL
       </Link>

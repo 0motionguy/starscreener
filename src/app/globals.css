@@ -147,11 +147,13 @@
 
   /* ── Chart series — 5-slot rotating palette for compare/heatmap/multi-line.
      Slot order matches the compare-page selector pills + repo-profile columns
-     so chart strokes, banner accents, and column headers line up by index. */
-  --color-series-1: var(--color-positive);  /* green  — slot 0 */
-  --color-series-2: var(--color-blue);  /* blue   — slot 1 */
-  --color-series-3: var(--color-violet);  /* purple — slot 2 */
-  --color-series-4: var(--color-warning);  /* amber  — slot 3 */
+     so chart strokes, banner accents, and column headers line up by index.
+     Unified with tokens.ts SERIES_PALETTE (orange-first, brand-accent lead)
+     in wave-11b. ECharts theme + CSS sparklines now show identical slot-0. */
+  --color-series-1: var(--color-accent);    /* orange — slot 0 (lead) */
+  --color-series-2: var(--color-positive);  /* green  — slot 1 */
+  --color-series-3: var(--color-cyan);      /* cyan   — slot 2 */
+  --color-series-4: var(--color-warning);   /* amber  — slot 3 */
   --color-series-5: var(--color-negative);  /* red    — slot 4 (compare cap bumped 4→5 in W3) */
 
   /* ── Terminal surfaces ─────────────────────────────────────────────────── */
@@ -2132,14 +2134,6 @@ body::before {
   line-height: 1.2 !important;
 }
 
-.feat-card .desc {
-  display: none;
-}
-
-.feat-card .why {
-  display: none;
-}
-
 .feat-card .badge {
   font-size: var(--font-size-xs) !important;
 }
@@ -2311,6 +2305,13 @@ body::before {
   font-size: var(--font-size-lg);
   letter-spacing: var(--tracking-control);
   text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+  .tabs .tab {
+    min-height: 44px;
+    padding-block: 12px;
+  }
 }
 
 .tabs .tab.on {
@@ -2577,6 +2578,14 @@ body::before {
   text-transform: uppercase;
   cursor: pointer;
   transition: color 120ms ease, border-color 120ms ease, background 120ms ease;
+}
+
+/* Mobile-only 44×44 tap target per PRODUCT.md mobile posture rule. */
+@media (max-width: 640px) {
+  .live-top-filters .fchip {
+    min-height: 44px;
+    padding: 10px 14px;
+  }
 }
 
 .live-top-filters .fchip:hover {
@@ -5693,7 +5702,9 @@ body::before {
   height: 6px;
   border-radius: 50%;
   background: var(--v2-sig-green);
-  box-shadow: 0 0 6px var(--v2-sig-green);
+  /* No box-shadow / pulse — honest chrome rule. The class is kept as a
+     static color-keyed indicator only; freshness is signalled at the page
+     boundary via <FreshnessBadge> driven by classifyFreshness(). */
 }
 
 /* ---------------------------------------------------------------------------
@@ -6231,6 +6242,19 @@ body::before {
   --v4-src-dev: #b08bff;
   --v4-src-claude: #ffb547;
   --v4-src-openai: #5cd6c0;
+  /* arXiv: Cornell crimson — kept distinct from --v4-red (negative-delta
+     semantics) so a row with rank-1 + a future drop arrow doesn't read as
+     two reds with the same meaning. */
+  --v4-src-arxiv: #B22234;
+  /* npm: brand red. Kept distinct from --v4-red (negative-delta semantics)
+     so a row with rank-1 numerals + a future drop arrow doesn't read as
+     two reds with the same meaning. Alpha variants exist for VersionPill
+     border (30%) + background (5%) — composing color-mix() at use-sites
+     would also work, but explicit tokens stay loud-fail-fast on theme
+     swaps. */
+  --v4-src-npm: #cb3837;
+  --v4-src-npm-30: rgba(203, 56, 55, 0.30);
+  --v4-src-npm-05: rgba(203, 56, 55, 0.05);
 
   /* Funding source palette (8 sources) */
   --v4-fund-cb: #3a4a8e;

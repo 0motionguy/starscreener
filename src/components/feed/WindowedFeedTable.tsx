@@ -73,8 +73,10 @@ export function WindowedFeedTable({
           {(["24h", "7d", "30d"] as const).map((w) => (
             <a
               key={w}
+              id={`window-tab-${w}`}
               role="tab"
               aria-selected={activeWindow === w}
+              aria-controls={`window-panel-${w}`}
               className={`tab${activeWindow === w ? " on" : ""}`}
               href={`?${windowParam}=${w}`}
             >
@@ -87,7 +89,16 @@ export function WindowedFeedTable({
             </span>
           </span>
         </div>
-        {tableActive}
+        {/* Single tabpanel — only the active window's table is rendered, so
+            we point aria-labelledby at the active tab id. Closes the
+            tablist-without-tabpanel a11y gap (bluesky-trending audit P2-1). */}
+        <div
+          role="tabpanel"
+          id={`window-panel-${activeWindow}`}
+          aria-labelledby={`window-tab-${activeWindow}`}
+        >
+          {tableActive}
+        </div>
       </>
     );
   }
@@ -149,8 +160,10 @@ function LegacyToggle({
           <button
             key={w}
             type="button"
+            id={`window-tab-${w}`}
             role="tab"
             aria-selected={win === w}
+            aria-controls={`window-panel-${w}`}
             className={`tab${win === w ? " on" : ""}`}
             onClick={() => setWin(w)}
           >
@@ -161,7 +174,16 @@ function LegacyToggle({
           <span className="muted">{count} rows · {win}</span>
         </span>
       </div>
-      {table}
+      {/* Single tabpanel — only the active window's table is rendered, so
+          we point aria-labelledby at the active tab id. Closes the
+          tablist-without-tabpanel a11y gap (bluesky-trending audit P2-1). */}
+      <div
+        role="tabpanel"
+        id={`window-panel-${win}`}
+        aria-labelledby={`window-tab-${win}`}
+      >
+        {table}
+      </div>
     </>
   );
 }

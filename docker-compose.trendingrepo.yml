@@ -1,0 +1,52 @@
+# Append this service block under `services:` in /opt/toolbox/docker-compose.yml
+# on the VPS. Do not run this as a standalone compose file — it relies on the
+# toolbox compose's network and depends_on graph.
+#
+# Naming follows the toolbox-* convention so `docker ps` groups it visually.
+# Port 3023 is bound to localhost only (NOT 0.0.0.0) per Hard Rule 8:
+# Cloudflare Tunnel is the only public ingress.
+
+services:
+  trendingrepo:
+    container_name: toolbox-trendingrepo-1
+    image: trendingrepo-app:vps-v1
+    restart: unless-stopped
+    env_file:
+      - /opt/trendingrepo/.env.production
+    ports:
+      # Bind to 127.0.0.1 only — cloudflared (running in this same compose
+      # network) reaches us via the container hostname, but localhost binding
+      # lets us curl from the host for smoke tests.
+      - "127.0.0.1:3023:3023"
+    mem_limit: 2g
+    memswap_limit: 3g
+    networks:
+      # Attach to the toolbox shared edge network so cloudflared (in the
+      # toolbox compose) can resolve toolbox-trendingrepo-1 by name. Before
+      # this was declared in compose, every `docker rm` required a manual
+      # `docker network connect toolbox_edge toolbox-trendingrepo-1`.
+      - toolbox_edge
+    healthcheck:
+      # /api/healthz is a lightweight liveness probe (~200B JSON). The
+      # previous `/` healthcheck rendered the 613KB homepage every 30s.
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3023/api/healthz',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    # No depends_on — trendingrepo reads from Supabase (external) and Redis
+    # (external Upstash or Railway), not from the toolbox postgres. If we
+    # later switch it to read from toolbox postgres, add:
+    #   depends_on:
+    #     postgres:
+    #       condition: service_healthy
+
+networks:
+  toolbox_edge:
+    external: true
+    name: toolbox_edge

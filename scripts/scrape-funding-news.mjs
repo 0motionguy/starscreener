@@ -21,6 +21,7 @@ import { fetchArticleData } from "./_funding-article.mjs";
 import { extractGithubRepoFullNames, extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { ingestFundingNewsToToolbox } from "./_toolbox-ingest.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 import { enrichInvestors } from "./_enrich-investors.mjs";
@@ -786,6 +787,7 @@ async function main() {
   // waiting for a deploy. Only mirror to Redis when the writer is targeting
   // the canonical OUT_PATH — preview/test outputs (--output=...) stay local.
   let redisInfo = "";
+  let toolboxInfo = "";
   if (outputPath === OUT_PATH) {
     const redisResult = await writeDataStore("funding-news", payload);
     if (redisResult.source !== "redis") {
@@ -794,6 +796,16 @@ async function main() {
       );
     }
     redisInfo = ` [redis: ${redisResult.source}]`;
+
+    // TOOLBOX dual-write: emit `funding.startup` per signal (+ GitHub
+    // cross-link when extracted.githubUrl present). Best-effort.
+    const toolboxResult = await ingestFundingNewsToToolbox(payload);
+    toolboxInfo =
+      ` [toolbox: ${toolboxResult.status}` +
+      (toolboxResult.accepted !== undefined ? ` accepted=${toolboxResult.accepted}` : "") +
+      (toolboxResult.rejected !== undefined && toolboxResult.rejected > 0 ? ` rejected=${toolboxResult.rejected}` : "") +
+      (toolboxResult.reason ? ` (${toolboxResult.reason})` : "") +
+      `]`;
   }
 
   const extractedCount = allSignals.filter((s) => s.extracted !== null).length;
@@ -801,7 +813,7 @@ async function main() {
     (s) => s.extracted?.companyLogoUrl || s.extracted?.investorsEnriched?.length,
   ).length;
   console.log(
-    `[funding] wrote ${allSignals.length} signals (${extractedCount} with extraction, ${enrichedCount} enriched) to ${outputPath}${redisInfo}`,
+    `[funding] wrote ${allSignals.length} signals (${extractedCount} with extraction, ${enrichedCount} enriched) to ${outputPath}${redisInfo}${toolboxInfo}`,
   );
 
   // F3 unknown-mentions lake — every github URL surfaced in funding articles

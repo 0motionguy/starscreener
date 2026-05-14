@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   smoke:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     timeout-minutes: 10
     env:
       BASE_URL: https://trendingrepo.com
@@ -21,7 +21,7 @@ jobs:
       - name: Wait for deploy propagation
         run: sleep 30
 
-      - name: Synthetic curl checks (16 critical routes)
+      - name: Synthetic curl checks (17 critical routes)
         id: smoke
         shell: bash
         run: |
@@ -30,6 +30,14 @@ jobs:
           # the pre-existing /repo/* 500 P0 (since d81856ad) bled for days
           # because no smoke probe covered detail pages. vercel/next.js is
           # a long-stable canonical sample; rotate if it ever moves.
+          #
+          # /repo/anthropics/anthropic-cookbook added 2026-05-13. The
+          # vercel/next.js probe alone only covers the curated-derived-set
+          # path; the cold-miss / live-fetch fallback (synthesized repo
+          # shape) has its own crash surface — Next.js's static-to-dynamic
+          # detector + the GitHub upstream resolver. We pin a long-tail
+          # but stable repo here so any future regression on that branch
+          # surfaces in CI within a deploy, not by a user 4 days later.
           routes=(
             "/"
             "/signals"
@@ -45,11 +53,15 @@ jobs:
             "/agent-commerce"
             "/agent-commerce/facilitator"
             "/repo/vercel/next.js"
+            "/repo/anthropics/anthropic-cookbook"
             "/api/health?soft=1"
           )
 
+          # Pass 1: probe every route, collect page-route failures into
+          # `stuck_paths` for the self-heal pass below.
           failures=0
-          report="post-deploy-smoke results\n"
+          stuck_paths=()
+          report="post-deploy-smoke results (pass 1)\n"
           for route in "${routes[@]}"; do
             url="${BASE_URL}${route}"
             line="$(curl -sS -o /dev/null -w "%{http_code} %{time_total} %{size_download}" "$url")"
@@ -57,6 +69,11 @@ jobs:
             report+="${route} => ${line}\n"
             if [ "$code" != "200" ]; then
               failures=$((failures + 1))
+              # Only page routes (not /api/*) are eligible for ISR flush —
+              # /api/health and friends don't go through revalidatePath().
+              if [[ "$route" != /api/* ]]; then
+                stuck_paths+=("$route")
+              fi
             fi
           done
 
@@ -70,6 +87,52 @@ jobs:
           report+="/api/cron/freshness/state => ${cron_line}\n"
           if [ "$cron_code" != "200" ]; then
             failures=$((failures + 1))
+          fi
+
+          # Self-heal pass: if pass-1 caught page-route failures, POST those
+          # paths to /api/revalidate (CRON_SECRET-gated) and re-probe ONCE.
+          # Vercel ISR caches both 2xx AND 5xx with stale-while-revalidate
+          # ~= 1 year, so a transient 500 (or one cached pre-fix) would
+          # otherwise persist for weeks. Discovered 2026-05-13: 5 cookbook
+          # /repo/* routes were stuck at 500 on the prod alias even though
+          # the same routes returned 200 on the deploy URL — Vercel ISR
+          # was serving a cached pre-#1159 500 page. revalidatePath() flushes
+          # the entry so the next request renders fresh. Anything that fails
+          # twice is a real regression and escalates to ops via the alert step.
+          if [ "${#stuck_paths[@]}" -gt 0 ] && [ -n "${CRON_SECRET:-}" ]; then
+            paths_json="$(printf '"%s",' "${stuck_paths[@]}")"
+            paths_json="[${paths_json%,}]"
+            revalidate_body="{\"paths\":${paths_json}}"
+            report+="\n[self-heal] POST /api/revalidate body=${revalidate_body}\n"
+            revalidate_code="$(curl -sS -X POST \
+              -H "Authorization: Bearer ${CRON_SECRET}" \
+              -H "Content-Type: application/json" \
+              -d "$revalidate_body" \
+              -o /dev/null \
+              -w "%{http_code}" \
+              "${BASE_URL}/api/revalidate" || echo "000")"
+            report+="[self-heal] /api/revalidate => ${revalidate_code}\n"
+            # Brief settle window for the revalidatePath() call to drop
+            # the cache entry before we re-probe the same URLs.
+            sleep 5
+
+            # Pass 2: re-probe the previously-failed page routes only.
+            retry_failures=0
+            report+="\npost-deploy-smoke results (pass 2 — post-revalidate)\n"
+            for route in "${stuck_paths[@]}"; do
+              url="${BASE_URL}${route}"
+              line="$(curl -sS -o /dev/null -w "%{http_code} %{time_total} %{size_download}" "$url")"
+              code="$(echo "$line" | awk '{print $1}')"
+              report+="${route} => ${line}\n"
+              if [ "$code" != "200" ]; then
+                retry_failures=$((retry_failures + 1))
+              fi
+            done
+
+            # Replace the page-route failure count with the retry result —
+            # routes that recovered count as healed; routes that didn't
+            # stay in the failure tally so the workflow still alerts ops.
+            failures=$((failures - ${#stuck_paths[@]} + retry_failures))
           fi
 
           echo -e "$report"

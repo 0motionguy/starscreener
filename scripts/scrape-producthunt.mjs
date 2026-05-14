@@ -41,6 +41,7 @@ import {
   recentRepoRows,
 } from "./_tracked-repos.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { ingestProducthuntLaunchesToToolbox } from "./_toolbox-ingest.mjs";
 import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -478,6 +479,17 @@ async function main() {
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(OUT_PATH, JSON.stringify(payload, null, 2) + "\n", "utf8");
   const launchesRedis = await writeDataStore("producthunt-launches", payload);
+
+  // Dual-write to TOOLBOX (`trending.producthunt.launches` per launch).
+  // Best-effort: skipped silently when env unset; 5s timeout per HTTP call.
+  const toolboxResult = await ingestProducthuntLaunchesToToolbox(payload);
+  console.log(
+    `[producthunt] toolbox-ingest: ${toolboxResult.status}` +
+      (toolboxResult.accepted !== undefined ? ` accepted=${toolboxResult.accepted}` : "") +
+      (toolboxResult.rejected !== undefined && toolboxResult.rejected > 0 ? ` rejected=${toolboxResult.rejected}` : "") +
+      (toolboxResult.reason ? ` (${toolboxResult.reason})` : "") +
+      (toolboxResult.duration_ms !== undefined ? ` [${toolboxResult.duration_ms}ms]` : ""),
+  );
 
   const aiCount = launches.filter((l) => l.aiAdjacent).length;
   const linkedCount = launches.filter((l) => l.linkedRepo).length;

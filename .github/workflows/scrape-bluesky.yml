@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   scrape:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,6 +36,10 @@ jobs:
           REDIS_URL: ${{ secrets.REDIS_URL }}
           BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
           BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          # Dual-write to TOOLBOX signal lake (trending.bluesky.mentions).
+          # Skipped silently when unset; never blocks the primary write.
+          TOOLBOX_INGEST_URL: ${{ secrets.TOOLBOX_INGEST_URL }}
+          TOOLBOX_INGEST_HMAC_SECRET: ${{ secrets.TOOLBOX_INGEST_HMAC_SECRET }}
         run: node scripts/scrape-bluesky.mjs
 
       - name: Compute commit timestamp

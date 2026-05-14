@@ -14,6 +14,7 @@ import {
   getCollectionRankingsFetchedAt,
   refreshCollectionRankingsFromStore,
 } from "@/lib/collection-rankings";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 export const revalidate = 600;
@@ -80,7 +81,8 @@ export default async function CollectionsIndexPage() {
         </div>
         <div className="clock">
           <span className="big">{cards.length}</span>
-          <span className="live">collections live</span>
+          <span>total</span>
+          <FreshnessBadge source="mcp" lastUpdatedAt={collectionRankingsFetchedAt} />
         </div>
       </section>
 
@@ -89,7 +91,7 @@ export default async function CollectionsIndexPage() {
           <div className="panel-head">
             <span className="key">{"// COLLECTION RANKINGS"}</span>
             <span className="right">
-              <span className="live">Updated {freshness}</span>
+              <FreshnessBadge source="mcp" lastUpdatedAt={collectionRankingsFetchedAt} />
             </span>
           </div>
         </section>

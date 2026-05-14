@@ -260,6 +260,26 @@ export async function refreshRedditMentionsFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    // Phase A.2: TOOLBOX_READ_REDDIT_MENTIONS=true routes through
+    // /v1/signals/leaderboard. Null return → legacy data-store path.
+    const toolboxFile = await tryFetchRedditFromToolbox();
+    if (toolboxFile) {
+      const file = normalizeFile(toolboxFile);
+      enrichWindowedCounts(file);
+      const mentionsByLowerName = new Map<string, RedditRepoMention>();
+      for (const [fullName, mention] of Object.entries(file.mentions)) {
+        mentionsByLowerName.set(fullName.toLowerCase(), mention);
+      }
+      cache = {
+        signature: `toolbox:${Date.now()}`,
+        file,
+        mentionsByLowerName,
+        fromRedis: true,
+      };
+      lastRefreshMs = Date.now();
+      return { source: "toolbox", ageMs: 0 };
+    }
+
     const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<RedditMentionsFile>(
       "reddit-mentions",
@@ -281,6 +301,12 @@ export async function refreshRedditMentionsFromStore(): Promise<{
         mentionsByLowerName,
         fromRedis: true,
       };
+    } else {
+      const { alertAdapterFallthrough } = await import("./adapter-fallthrough-alert");
+      alertAdapterFallthrough("reddit", "toolbox_null_legacy_missing", {
+        result_source: result.source,
+        had_toolbox_flag: process.env.TOOLBOX_READ_REDDIT_MENTIONS === "true",
+      });
     }
     lastRefreshMs = Date.now();
     return { source: result.source, ageMs: result.ageMs };
@@ -288,4 +314,13 @@ export async function refreshRedditMentionsFromStore(): Promise<{
     inflight = null;
   });
   return inflight;
+}
+
+async function tryFetchRedditFromToolbox(): Promise<RedditMentionsFile | null> {
+  if (process.env.TOOLBOX_READ_REDDIT_MENTIONS !== "true") return null;
+  const apiUrl = process.env.TOOLBOX_API_URL;
+  const apiKey = process.env.TOOLBOX_API_KEY;
+  if (!apiUrl || !apiKey) return null;
+  const { fetchRedditMentionsFromToolbox } = await import("./toolbox-store");
+  return fetchRedditMentionsFromToolbox({ apiUrl, apiKey });
 }

@@ -35,6 +35,15 @@ const PRIVATE_DISALLOW: string[] = [
   "/you",
   "/you/*",
 ];
+const COST_GUARD_DISALLOW: string[] = [
+  // 2026-05-12 cost guard: this route is a large dynamic RSC surface.
+  // Keep crawlers off it until it has a static/client-filtered variant.
+  "/agent-commerce",
+  "/agent-commerce/",
+  "/agent-commerce/*",
+  "/feeds/agent-commerce.xml",
+];
+const DISALLOW: string[] = [...PRIVATE_DISALLOW, ...COST_GUARD_DISALLOW];
 
 // Major AI / GEO crawlers we explicitly welcome. Same disallow set as `*`.
 //
@@ -78,12 +87,12 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: PRIVATE_DISALLOW,
+        disallow: DISALLOW,
       },
       ...AI_CRAWLERS.map((userAgent) => ({
         userAgent,
         allow: "/",
-        disallow: PRIVATE_DISALLOW,
+        disallow: DISALLOW,
       })),
     ],
     sitemap: [

@@ -21,24 +21,24 @@ export default function MethodologyLoading() {
         <div className="space-y-3">
           <div
             className="h-3 w-40 rounded-[2px]"
-            style={{ background: "var(--v3-bg-050)" }}
+            style={{ background: "var(--v4-bg-050)" }}
           />
           <div
             className="h-9 w-72 rounded-[2px]"
-            style={{ background: "var(--v3-bg-100)" }}
+            style={{ background: "var(--v4-bg-100)" }}
           />
           <div className="space-y-2 pt-2">
             <div
               className="h-3 w-full rounded-[2px]"
-              style={{ background: "var(--v3-bg-050)" }}
+              style={{ background: "var(--v4-bg-050)" }}
             />
             <div
               className="h-3 w-[92%] rounded-[2px]"
-              style={{ background: "var(--v3-bg-050)" }}
+              style={{ background: "var(--v4-bg-050)" }}
             />
             <div
               className="h-3 w-[85%] rounded-[2px]"
-              style={{ background: "var(--v3-bg-050)" }}
+              style={{ background: "var(--v4-bg-050)" }}
             />
           </div>
         </div>
@@ -48,14 +48,14 @@ export default function MethodologyLoading() {
           <div key={section} className="space-y-2">
             <div
               className="h-5 w-48 rounded-[2px]"
-              style={{ background: "var(--v3-bg-100)" }}
+              style={{ background: "var(--v4-bg-100)" }}
             />
             {Array.from({ length: 4 }).map((_, line) => (
               <div
                 key={line}
                 className="h-3 rounded-[2px]"
                 style={{
-                  background: "var(--v3-bg-050)",
+                  background: "var(--v4-bg-050)",
                   width: `${88 - line * 6}%`,
                 }}
               />

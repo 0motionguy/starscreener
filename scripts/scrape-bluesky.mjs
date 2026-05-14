@@ -54,6 +54,7 @@ import {
 } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { ingestBskyMentionsToToolbox } from "./_toolbox-ingest.mjs";
 import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 
 // F3 unknown-mentions accumulator — per-run Set populated inside the
@@ -552,10 +553,21 @@ async function main() {
     );
   }
 
+  // Dual-write to TOOLBOX (`trending.bluesky.mentions` per repo). Best-effort:
+  // skipped silently when env unset; 5s timeout per HTTP call.
+  const toolboxResult = await ingestBskyMentionsToToolbox(mergedMentionsPayload);
+
   log("");
   log(`wrote ${MENTIONS_OUT} [redis: ${mentionsRedis.source}]`);
   log(`  repos with mentions: ${Object.keys(mentions).length} (${leaderboard.length} leaderboard rows)`);
   log(`wrote ${TRENDING_OUT} [redis: ${trendingRedis.source}]`);
+  log(
+    `  toolbox-ingest: ${toolboxResult.status}` +
+      (toolboxResult.accepted !== undefined ? ` accepted=${toolboxResult.accepted}` : "") +
+      (toolboxResult.rejected !== undefined && toolboxResult.rejected > 0 ? ` rejected=${toolboxResult.rejected}` : "") +
+      (toolboxResult.reason ? ` (${toolboxResult.reason})` : "") +
+      (toolboxResult.duration_ms !== undefined ? ` [${toolboxResult.duration_ms}ms]` : ""),
+  );
   log(
     `  trending posts: ${trendingMerged.length} across ` +
       `${BLUESKY_TRENDING_QUERIES.length} queries / ${BLUESKY_QUERY_FAMILIES.length} topic families`,

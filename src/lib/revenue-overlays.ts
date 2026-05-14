@@ -229,15 +229,23 @@ export function _resetRevenueOverlaysCacheForTests(): void {
 // ---------------------------------------------------------------------------
 
 // Cache invalidates on either a TTL tick (10s) or a change in the
-// submissions file's mtime. The mtime check means an approve/reject lands
-// in the overlay map immediately instead of waiting for the TTL — important
-// for both the admin UX and for deterministic test runs.
+// submissions file's signature (mtime + size). The signature check means an
+// approve/reject lands in the overlay map immediately instead of waiting for
+// the TTL — important for both the admin UX and for deterministic test runs.
+//
+// Why mtime AND size: some filesystems (and CI runners under load) round
+// mtime to whole seconds. A rapid submit-then-approve in the same second
+// produces identical mtimes, which would let the cache return a stale view
+// that excludes the just-approved row. Including the size in the signature
+// catches the case where a row's status field grew (pending → approved adds
+// the moderatedAt ISO string and switches "pending_moderation" to "approved")
+// even when mtime resolution swallowed the timestamp delta.
 const SELF_REPORTED_CACHE_TTL_MS = 10_000;
 
 let selfReportedCache:
   | {
       fetchedAtMs: number;
-      mtimeMs: number;
+      signature: string;
       byFullName: Map<string, RevenueOverlay>;
     }
   | null = null;
@@ -317,22 +325,23 @@ function trustmrrLinkToOverlay(
   };
 }
 
-function currentSubmissionsMtimeMs(): number {
+function currentSubmissionsSignature(): string {
   const path = submissionsFilePath();
-  if (!existsSync(path)) return -1;
+  if (!existsSync(path)) return "missing";
   try {
-    return statSync(path).mtimeMs;
+    const stat = statSync(path);
+    return `${stat.mtimeMs}:${stat.size}`;
   } catch {
-    return -1;
+    return "missing";
   }
 }
 
 function ensureSelfReportedCache() {
   const now = Date.now();
-  const mtimeMs = currentSubmissionsMtimeMs();
+  const signature = currentSubmissionsSignature();
   if (
     selfReportedCache &&
-    selfReportedCache.mtimeMs === mtimeMs &&
+    selfReportedCache.signature === signature &&
     now - selfReportedCache.fetchedAtMs < SELF_REPORTED_CACHE_TTL_MS
   ) {
     return selfReportedCache;
@@ -350,7 +359,7 @@ function ensureSelfReportedCache() {
       );
     }
   }
-  selfReportedCache = { fetchedAtMs: now, mtimeMs, byFullName };
+  selfReportedCache = { fetchedAtMs: now, signature, byFullName };
   return selfReportedCache;
 }
 

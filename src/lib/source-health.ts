@@ -49,10 +49,23 @@ import {
 // healthy. 4h = 2× the cron cadence + 2× headroom — matches the
 // audit-freshness 6h budget for these same sources without firing
 // false alarms.
-export const FAST_DATA_STALE_THRESHOLD_MS = 4 * 60 * 60 * 1000;
-export const PRODUCTHUNT_STALE_THRESHOLD_MS = 16 * 60 * 60 * 1000;
-export const DEVTO_STALE_THRESHOLD_MS = 26 * 60 * 60 * 1000;
-export const NPM_STALE_THRESHOLD_MS = 50 * 60 * 60 * 1000;
+// Threshold constants moved to src/lib/source-health-thresholds.ts so client
+// components (FreshnessBadge → news/freshness.ts) can import them without
+// dragging the server-only loaders along. Re-exported here for compatibility
+// with existing server-side callers; do not edit values here.
+export {
+  FAST_DATA_STALE_THRESHOLD_MS,
+  PRODUCTHUNT_STALE_THRESHOLD_MS,
+  DEVTO_STALE_THRESHOLD_MS,
+  NPM_STALE_THRESHOLD_MS,
+} from "./source-health-thresholds";
+
+import {
+  FAST_DATA_STALE_THRESHOLD_MS,
+  PRODUCTHUNT_STALE_THRESHOLD_MS,
+  DEVTO_STALE_THRESHOLD_MS,
+  NPM_STALE_THRESHOLD_MS,
+} from "./source-health-thresholds";
 
 const FAST_20M_DEGRADED_THRESHOLD_MS = 45 * 60 * 1000;
 const FAST_HOURLY_DEGRADED_THRESHOLD_MS = 90 * 60 * 1000;

@@ -8,20 +8,20 @@ export default function SkillDetailLoading() {
         <div className="flex items-start gap-3">
           <div
             className="h-12 w-12 rounded-[2px]"
-            style={{ background: "var(--v3-bg-100)" }}
+            style={{ background: "var(--v4-bg-100)" }}
           />
           <div className="flex flex-col gap-1.5 flex-1">
             <div
               className="h-3 w-32 rounded-[2px]"
-              style={{ background: "var(--v3-bg-050)" }}
+              style={{ background: "var(--v4-bg-050)" }}
             />
             <div
               className="h-7 w-72 rounded-[2px]"
-              style={{ background: "var(--v3-bg-100)" }}
+              style={{ background: "var(--v4-bg-100)" }}
             />
             <div
               className="h-3 w-96 rounded-[2px]"
-              style={{ background: "var(--v3-bg-050)" }}
+              style={{ background: "var(--v4-bg-050)" }}
             />
           </div>
         </div>
@@ -31,7 +31,7 @@ export default function SkillDetailLoading() {
             <div
               key={i}
               className="h-16 rounded-[2px]"
-              style={{ background: "var(--v3-bg-050)" }}
+              style={{ background: "var(--v4-bg-050)" }}
             />
           ))}
         </div>
@@ -41,7 +41,7 @@ export default function SkillDetailLoading() {
             <div
               key={i}
               className="h-40 rounded-[2px]"
-              style={{ background: "var(--v3-bg-050)" }}
+              style={{ background: "var(--v4-bg-050)" }}
             />
           ))}
         </div>

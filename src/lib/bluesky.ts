@@ -243,6 +243,17 @@ export async function refreshBlueskyMentionsFromStore(): Promise<{
     return { source: "memory", ageMs: Date.now() - lastRefreshMs };
   }
   inflight = (async () => {
+    // Phase A.2: TOOLBOX_READ_BLUESKY_MENTIONS=true routes through
+    // /v1/signals/leaderboard. Null return → legacy data-store path runs.
+    const toolboxFile = await tryFetchBskyFromToolbox();
+    if (toolboxFile) {
+      mentionsFile = toolboxFile;
+      enrichBskyWindowedCounts(mentionsFile);
+      mentionsByLowerName = buildBskyMentionsByLowerName(mentionsFile);
+      lastRefreshMs = Date.now();
+      return { source: "toolbox", ageMs: 0 };
+    }
+
     const { getDataStore } = await import("./data-store");
     const result = await getDataStore().read<BskyMentionsFile>(
       "bluesky-mentions",
@@ -251,6 +262,12 @@ export async function refreshBlueskyMentionsFromStore(): Promise<{
       mentionsFile = result.data;
       enrichBskyWindowedCounts(mentionsFile);
       mentionsByLowerName = buildBskyMentionsByLowerName(mentionsFile);
+    } else {
+      const { alertAdapterFallthrough } = await import("./adapter-fallthrough-alert");
+      alertAdapterFallthrough("bluesky", "toolbox_null_legacy_missing", {
+        result_source: result.source,
+        had_toolbox_flag: process.env.TOOLBOX_READ_BLUESKY_MENTIONS === "true",
+      });
     }
     lastRefreshMs = Date.now();
     return { source: result.source, ageMs: result.ageMs };
@@ -258,4 +275,13 @@ export async function refreshBlueskyMentionsFromStore(): Promise<{
     inflight = null;
   });
   return inflight;
+}
+
+async function tryFetchBskyFromToolbox(): Promise<BskyMentionsFile | null> {
+  if (process.env.TOOLBOX_READ_BLUESKY_MENTIONS !== "true") return null;
+  const apiUrl = process.env.TOOLBOX_API_URL;
+  const apiKey = process.env.TOOLBOX_API_KEY;
+  if (!apiUrl || !apiKey) return null;
+  const { fetchBlueskyMentionsFromToolbox } = await import("./toolbox-store");
+  return fetchBlueskyMentionsFromToolbox({ apiUrl, apiKey });
 }

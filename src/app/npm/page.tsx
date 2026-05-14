@@ -27,13 +27,13 @@ import { npmLogoUrl } from "@/lib/logos";
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
-import { LiveDot } from "@/components/ui/LiveDot";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
-// npm brand red — no --v4-src-npm token exists in v4.css yet, so we hardcode
-// it once on the KpiBand pip and reuse the same hex for the active-tab
-// underline + accents below. Everything else stays tokenized via var(--v4-*).
-const NPM_RED = "#cb3837";
+// npm brand red — read from the canonical CSS token in globals.css. Reserved
+// as `--v4-src-npm` (distinct from --v4-red, which carries negative-delta
+// semantics). The matching --v4-src-npm-30 / --v4-src-npm-05 alpha variants
+// drive the VersionPill border + background below.
+const NPM_RED = "var(--v4-src-npm)";
 
 const WINDOWS: NpmWindow[] = ["24h", "7d", "30d"];
 const DEFAULT_WINDOW: NpmWindow = "24h";
@@ -155,8 +155,8 @@ export default async function NpmPage({ searchParams }: NpmPageProps) {
         clock={
           <>
             <span className="big">{formatClock(file.fetchedAt)}</span>
-            <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label={`LIVE · ${activeWindow.toUpperCase()}`} />
+            <span className="muted">UTC · LAST SCRAPE</span>
+            <span className="v2-mono muted">{activeWindow.toUpperCase()}</span>
             <FreshnessBadge source="npm" lastUpdatedAt={file.fetchedAt} />
           </>
         }
@@ -485,8 +485,8 @@ function VersionPill({ pkg }: { pkg: NpmPackageRow }) {
     <span
       className="v2-mono inline-flex max-w-full items-center px-1.5 py-0.5 text-[10px] uppercase tracking-[0.14em]"
       style={{
-        border: `1px solid ${NPM_RED}4D`,
-        background: `${NPM_RED}0D`,
+        border: "1px solid var(--v4-src-npm-30)",
+        background: "var(--v4-src-npm-05)",
         color: NPM_RED,
         borderRadius: 2,
       }}

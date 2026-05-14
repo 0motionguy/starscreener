@@ -542,9 +542,9 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
             role="status"
             style={{
               padding: "10px 14px",
-              border: "1px solid var(--color-border, rgba(255,255,255,0.08))",
-              borderRadius: 8,
-              color: "var(--color-muted, #888)",
+              border: "1px solid var(--color-border-default)",
+              borderRadius: 2,
+              color: "var(--color-text-subtle)",
               fontFamily: "var(--font-geist-mono), monospace",
               fontSize: 12,
               letterSpacing: "0.06em",
@@ -586,6 +586,11 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
             quietTotal={volume.quietTotal}
             dominantSource={volume.dominantSource}
             dominantPct={dominantPct}
+            // // 01 reference panel — chart aggregates across all 8 sources.
+            // Use the cross-source freshness floor so the badge reads honestly
+            // even when individual collectors drift apart.
+            freshnessSource={SIGNAL_FRESHNESS_SOURCE[volume.dominantSource]}
+            lastUpdatedAt={freshnessIso}
           />
         </div>
         <div className="col-5">
@@ -611,6 +616,8 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
             footerHref="/hackernews/trending"
             footerLabel={`view all ${hnTop.length}`}
             feed={{ variant: "list", items: hnList }}
+            freshnessSource={SIGNAL_FRESHNESS_SOURCE.hn}
+            lastUpdatedAt={SOURCE_FETCHED_AT.hn}
           />
         </div>
         <div className="col-3">
@@ -622,6 +629,8 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
             footerHref="/"
             footerLabel="view trending"
             feed={{ variant: "list", items: ghList }}
+            freshnessSource={SIGNAL_FRESHNESS_SOURCE.github}
+            lastUpdatedAt={SOURCE_FETCHED_AT.github}
           />
         </div>
         <div className="col-3">
@@ -633,6 +642,8 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
             footerHref="/"
             footerLabel="view all"
             feed={{ variant: "tweet", items: xTweetsOrBuzz }}
+            freshnessSource={SIGNAL_FRESHNESS_SOURCE.x}
+            lastUpdatedAt={SOURCE_FETCHED_AT.x}
           />
         </div>
         <div className="col-3">
@@ -644,6 +655,8 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
             footerHref="/reddit/trending"
             footerLabel={`view all ${redditAll.length}`}
             feed={{ variant: "list", items: redditList }}
+            freshnessSource={SIGNAL_FRESHNESS_SOURCE.reddit}
+            lastUpdatedAt={SOURCE_FETCHED_AT.reddit}
           />
         </div>
       </div>
@@ -663,6 +676,8 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
             footerHref="/bluesky/trending"
             footerLabel="view all"
             feed={{ variant: "tweet", items: bskyTweets }}
+            freshnessSource={SIGNAL_FRESHNESS_SOURCE.bluesky}
+            lastUpdatedAt={SOURCE_FETCHED_AT.bluesky}
           />
         </div>
         <div className="col-3">
@@ -674,6 +689,8 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
             footerHref="/devto"
             footerLabel={`view all ${devtoTop.length}`}
             feed={{ variant: "rss", items: devtoArticles }}
+            freshnessSource={SIGNAL_FRESHNESS_SOURCE.devto}
+            lastUpdatedAt={SOURCE_FETCHED_AT.devto}
           />
         </div>
         <div className="col-3">
@@ -685,6 +702,8 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
             footerHref="https://www.anthropic.com/news"
             footerLabel="anthropic.com/news"
             feed={{ variant: "rss", items: claudeArticles }}
+            freshnessSource={SIGNAL_FRESHNESS_SOURCE.claude}
+            lastUpdatedAt={SOURCE_FETCHED_AT.claude}
           />
         </div>
         <div className="col-3">
@@ -696,6 +715,8 @@ export default async function SignalsPage({ searchParams }: SignalsPageProps) {
             footerHref="https://openai.com/news"
             footerLabel="openai.com/news"
             feed={{ variant: "rss", items: openaiArticles }}
+            freshnessSource={SIGNAL_FRESHNESS_SOURCE.openai}
+            lastUpdatedAt={SOURCE_FETCHED_AT.openai}
           />
         </div>
       </div>

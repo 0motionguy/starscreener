@@ -302,7 +302,14 @@ export default async function RepoDetailPage({ params }: PageProps) {
   // Why-narrative — short caption surfaced above the existing WhyTrending
   // strip. Reads the persisted 24h cache; falls back to live synthesis so
   // long-tail repos outside the persisted top-50 still get a line. AGN-791.
-  const whyNarrative = await getWhyNarrative(owner, name, repo);
+  // Defensive: getWhyNarrative claims "never throws" but synthesizeWhy
+  // fallback is unguarded. A throw here was bleeding to a 500 on prod.
+  let whyNarrative: Awaited<ReturnType<typeof getWhyNarrative>> | null = null;
+  try {
+    whyNarrative = await getWhyNarrative(owner, name, repo);
+  } catch (err) {
+    console.warn("[repo-detail] why-narrative failed", err);
+  }
 
   // Flatten the persisted store slice into the render shape the feed +
   // signal cards consume. Platforms that aren't surfaced by MentionItem
@@ -314,14 +321,27 @@ export default async function RepoDetailPage({ params }: PageProps) {
   // Server-render the reaction counts so the strip below the action row
   // shows real numbers on first paint instead of zeros + a spinner. The
   // client component still re-fetches if a user takes any action.
-  const initialReactionCounts = countReactions(
-    await listReactionsForObject("repo", repo.fullName),
-  );
+  // Defensive: KV/data-store flakes used to bleed through here as 500s.
+  let initialReactionCounts: ReturnType<typeof countReactions> = countReactions([]);
+  try {
+    initialReactionCounts = countReactions(
+      await listReactionsForObject("repo", repo.fullName),
+    );
+  } catch (err) {
+    console.warn("[repo-detail] reaction counts failed", err);
+  }
   // Cross-channel marker dots for the Stars chart — pre-built server-side
   // so the client RepoDetailChart bundle stays free of every per-source
   // mentions JSON. Kept as a direct call because this is pure rendering
   // data that doesn't need to live on the canonical profile.
-  const markers = buildMentionMarkers(repo.fullName, 30);
+  // Defensive: this is sync but reads from several caches that can throw
+  // on cold-Lambda race conditions.
+  let markers: ReturnType<typeof buildMentionMarkers> = [];
+  try {
+    markers = buildMentionMarkers(repo.fullName, 30);
+  } catch (err) {
+    console.warn("[repo-detail] mention markers failed", err);
+  }
 
   // Quick surface count for the metric strip's "SURFACE" cell. Mirrors the
   // ProjectSurfaceMap.tsx logic (GitHub · Website · Docs · npm · PRODUCTHUNT

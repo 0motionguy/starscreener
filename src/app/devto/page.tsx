@@ -32,10 +32,14 @@ import { userLogoUrl } from "@/lib/logos";
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
-import { LiveDot } from "@/components/ui/LiveDot";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { EmptyState } from "@/components/ui/EmptyState";
 
-const DEVTO_BLUE = "#6699ff";
+// dev.to brand purple/violet — single source of truth via the canonical
+// CSS token. Replaces the prior local `DEVTO_ACCENT = "#6699ff"` which
+// drifted from the KpiBand pip + DevtoBadge fill (both purple) and made
+// the per-source color-key incoherent on the same surface.
+const DEVTO_ACCENT = "var(--v4-src-dev)";
 
 export const revalidate = 300;
 export const dynamic = "force-static";
@@ -73,11 +77,6 @@ function formatAgeFromIso(iso: string): string {
   return `${Math.round(hours / 24)}d`;
 }
 
-function formatClock(iso: string | undefined): string {
-  if (!iso) return "warming";
-  return new Date(iso).toISOString().slice(11, 19);
-}
-
 export default async function DevtoPage() {
   await Promise.all([
     refreshDevtoTrendingFromStore(),
@@ -102,6 +101,12 @@ export default async function DevtoPage() {
           }
           title="dev.to · top articles"
           lede="Long-form developer writing ranked by velocity score (reactions × time decay), with a sidebar leaderboard of cross-linked tracked repos."
+          clock={
+            <FreshnessBadge
+              source="devto"
+              lastUpdatedAt={trendingFile.fetchedAt}
+            />
+          }
         />
         <EmptyState
           variant="no-data"
@@ -135,11 +140,10 @@ export default async function DevtoPage() {
         title="dev.to · top articles"
         lede="Long-form developer writing ranked by velocity score (reactions × time decay)."
         clock={
-          <>
-            <span className="big">{formatClock(trendingFile.fetchedAt)}</span>
-            <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label={`LIVE · ${trendingFile.windowDays}D`} />
-          </>
+          <FreshnessBadge
+            source="devto"
+            lastUpdatedAt={trendingFile.fetchedAt}
+          />
         }
         snapshot={
           <KpiBand
@@ -283,7 +287,7 @@ function ArticlesFeed({
       render: (_, i) => (
         <span
           className="font-mono text-[12px] tabular-nums font-semibold"
-          style={{ color: i < 10 ? DEVTO_BLUE : "var(--v4-ink-400)" }}
+          style={{ color: i < 10 ? DEVTO_ACCENT : "var(--v4-ink-400)" }}
         >
           {String(i + 1).padStart(2, "0")}
         </span>
@@ -407,7 +411,7 @@ function ArticlesFeed({
       rows={articles}
       columns={columns}
       rowKey={(a) => String(a.id)}
-      accent={DEVTO_BLUE}
+      accent={DEVTO_ACCENT}
       caption="Top dev.to articles ranked by velocity score"
       emptyTitle="// no articles in this window yet"
       emptySubtitle={emptySubtitle}

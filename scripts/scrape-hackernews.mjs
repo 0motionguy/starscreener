@@ -40,6 +40,7 @@ import {
 } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { ingestHnMentionsToToolbox } from "./_toolbox-ingest.mjs";
 import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
 
 function slugIdFromFullName(fullName) {
@@ -502,18 +503,51 @@ async function main() {
     mentionsPayload.leaderboard,
     { idKey: "fullName", scoreKey: "scoreSum7d", recencyKey: "count7d" },
   );
-  const mentionsPayloadFinal = { ...mentionsPayload, leaderboard: mergedLeaderboard };
+  const mergedMentions = {};
+  for (const row of mergedLeaderboard) {
+    const fullName = row?.fullName;
+    if (typeof fullName !== "string") continue;
+    const existingBucket = existingMentions?.mentions?.[fullName];
+    if (existingBucket) mergedMentions[fullName] = existingBucket;
+  }
+  Object.assign(mergedMentions, mentionsPayload.mentions);
+  const leaderboardWithBuckets = mergedLeaderboard.filter((row) => {
+    const fullName = row?.fullName;
+    return typeof fullName === "string" && !!mergedMentions[fullName];
+  });
+  const mentionsPayloadFinal = {
+    ...mentionsPayload,
+    mentions: mergedMentions,
+    mentionsByRepoId: Object.fromEntries(
+      Object.entries(mergedMentions).map(([fullName, value]) => [
+        slugIdFromFullName(fullName),
+        value,
+      ]),
+    ),
+    leaderboard: leaderboardWithBuckets,
+  };
 
   await writeFile(TRENDING_OUT, JSON.stringify(trendingPayloadFinal, null, 2) + "\n", "utf8");
   await writeFile(MENTIONS_OUT, JSON.stringify(mentionsPayloadFinal, null, 2) + "\n", "utf8");
   const trendingRedis = await writeDataStore("hackernews-trending", trendingPayloadFinal);
   const mentionsRedis = await writeDataStore("hackernews-repo-mentions", mentionsPayloadFinal);
 
+  // Dual-write to TOOLBOX (`trending.hn.mentions` per repo). Best-effort:
+  // skipped silently when env unset; 5s timeout per HTTP call.
+  const toolboxResult = await ingestHnMentionsToToolbox(mentionsPayloadFinal);
+
   log("");
   log(`wrote ${TRENDING_OUT} [redis: ${trendingRedis.source}]`);
   log(`  stories in ${TRENDING_WINDOW_HOURS}h window: ${trendingMerged.length} (firebase=${rawItems.length}, algolia=${algoliaHits.length})`);
   log(`wrote ${MENTIONS_OUT} [redis: ${mentionsRedis.source}]`);
   log(`  repos with mentions: ${Object.keys(mentions).length} (${leaderboard.length} leaderboard rows)`);
+  log(
+    `  toolbox-ingest: ${toolboxResult.status}` +
+      (toolboxResult.accepted !== undefined ? ` accepted=${toolboxResult.accepted}` : "") +
+      (toolboxResult.rejected !== undefined && toolboxResult.rejected > 0 ? ` rejected=${toolboxResult.rejected}` : "") +
+      (toolboxResult.reason ? ` (${toolboxResult.reason})` : "") +
+      (toolboxResult.duration_ms !== undefined ? ` [${toolboxResult.duration_ms}ms]` : ""),
+  );
 
   if (rawItems.length === 0 && algoliaHits.length === 0) {
     throw new Error("both Firebase and Algolia returned zero items — check network or API status");

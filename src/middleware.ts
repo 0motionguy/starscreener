@@ -29,6 +29,15 @@ const TR_REF_MAX_AGE = 30 * 24 * 60 * 60; // 30 days
 const REF_CODE_PATTERN = /^[A-Za-z0-9_-]{3,32}$/;
 const CRAWLER_UA_PATTERN =
   /(bot|crawler|spider|slurp|facebookexternalhit|preview|googlebot|bingbot|yandex|duckduckbot|baiduspider|applebot|whatsapp|telegrambot|discordbot|twitterbot|linkedinbot)/i;
+const EXPENSIVE_CRAWL_UA_PATTERN =
+  /(bot|crawler|spider|slurp|preview|googlebot|bingbot|googleother|google-extended|facebookbot|facebookexternalhit|meta-external|applebot|duckduckbot|yandex|bytespider|ccbot|gptbot|oai-searchbot|chatgpt-user|claudebot|claude-web|perplexity|amazonbot|diffbot|headless|httpclient|python-requests|curl|wget)/i;
+const AGENT_COMMERCE_COST_GUARD_IPS = new Set([
+  "74.7.227.19",
+  "66.249.64.234",
+  "66.249.64.224",
+  "137.74.81.189",
+]);
+const AGENT_COMMERCE_COST_GUARD_IPV6_PREFIXES = ["2a03:2880:f806:"];
 
 // Routes that require an authenticated Clerk session. Hitting these
 // signed-out triggers Clerk's redirect to /sign-in.
@@ -49,6 +58,48 @@ function isBypassed(pathname: string): boolean {
     pathname.startsWith("/api/webhooks/") ||
     pathname.startsWith("/api/auth/session")
   );
+}
+
+function isAgentCommerceCostGuardPath(pathname: string): boolean {
+  return (
+    pathname === "/agent-commerce" ||
+    pathname.startsWith("/agent-commerce/") ||
+    pathname === "/feeds/agent-commerce.xml" ||
+    pathname === "/api/agent-commerce" ||
+    pathname.startsWith("/api/agent-commerce/")
+  );
+}
+
+function getClientIp(req: NextRequest): string {
+  const cfIp = req.headers.get("cf-connecting-ip")?.trim();
+  if (cfIp) return cfIp.toLowerCase();
+  const forwarded = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  if (forwarded) return forwarded.toLowerCase();
+  const realIp = req.headers.get("x-real-ip")?.trim();
+  return realIp?.toLowerCase() ?? "";
+}
+
+function isCostGuardCrawler(req: NextRequest): boolean {
+  const ua = req.headers.get("user-agent") ?? "";
+  if (EXPENSIVE_CRAWL_UA_PATTERN.test(ua)) return true;
+
+  const ip = getClientIp(req);
+  if (AGENT_COMMERCE_COST_GUARD_IPS.has(ip)) return true;
+  return AGENT_COMMERCE_COST_GUARD_IPV6_PREFIXES.some((prefix) =>
+    ip.startsWith(prefix),
+  );
+}
+
+function crawlerCostGuardResponse(): NextResponse {
+  return new NextResponse("crawler temporarily throttled\n", {
+    status: 429,
+    headers: {
+      "Cache-Control": "public, max-age=300, s-maxage=300",
+      "Content-Type": "text/plain; charset=utf-8",
+      "Retry-After": "600",
+      "X-Robots-Tag": "noindex, nofollow",
+    },
+  });
 }
 
 async function setRefCookieIfNeeded(req: NextRequest, res: NextResponse) {
@@ -103,6 +154,9 @@ async function middlewareWithoutClerk(
 ): Promise<NextResponse | undefined> {
   const url = req.nextUrl;
   if (isBypassed(url.pathname)) return;
+  if (isAgentCommerceCostGuardPath(url.pathname) && isCostGuardCrawler(req)) {
+    return crawlerCostGuardResponse();
+  }
 
   const res = isProtectedRoute(req)
     ? redirectToSignIn(req)
@@ -117,6 +171,10 @@ const middlewareWithClerk = clerkMiddleware(async (auth, req) => {
   // 1. Bypass list — return immediately, never wrap in Clerk's session
   //    machinery.
   if (isBypassed(url.pathname)) return;
+
+  if (isAgentCommerceCostGuardPath(url.pathname) && isCostGuardCrawler(req)) {
+    return crawlerCostGuardResponse();
+  }
 
   // 2. Build a base response now so the cookie helper can attach to it.
   const res = NextResponse.next();

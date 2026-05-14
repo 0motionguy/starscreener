@@ -26,6 +26,7 @@ import { fetchJsonWithRetry, HttpStatusError, sleep } from "./_fetch-json.mjs";
 import { extractUnknownRepoCandidates } from "./_github-repo-links.mjs";
 import { appendUnknownMentions } from "./_unknown-mentions-lake.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { ingestNpmPackagesToToolbox } from "./_toolbox-ingest.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, "..", "data");
@@ -565,8 +566,17 @@ export async function main({ log = console.log, fetchImpl = fetch } = {}) {
   // without waiting for a deploy.
   const result = await writeDataStore("npm-packages", payload);
 
+  // Dual-write to TOOLBOX (`trending.npm.packages`).
+  const toolboxResult = await ingestNpmPackagesToToolbox(payload);
+
   log(
     `wrote ${OUT} (${rows.length} top repo-linked npm packages) [redis: ${result.source}]`,
+  );
+  log(
+    `  toolbox-ingest: ${toolboxResult.status}` +
+      (toolboxResult.accepted !== undefined ? ` accepted=${toolboxResult.accepted}` : "") +
+      (toolboxResult.reason ? ` (${toolboxResult.reason})` : "") +
+      (toolboxResult.duration_ms !== undefined ? ` [${toolboxResult.duration_ms}ms]` : ""),
   );
 
   // F3 unknown-mentions lake — every github URL surfaced via npm package

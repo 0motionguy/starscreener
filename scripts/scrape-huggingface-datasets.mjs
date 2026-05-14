@@ -30,6 +30,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJsonWithRetry } from "./_fetch-json.mjs";
 import { writeDataStore, closeDataStore } from "./_data-store-write.mjs";
+import { ingestHuggingfaceDatasetsToToolbox } from "./_toolbox-ingest.mjs";
 import { writeSourceMetaFromOutcome } from "./_data-meta.mjs";
 import { runAsRegisteredSource } from "./_source-script-runner.mjs";
 import { mergeAndKeepLastN, loadExistingJson } from "./_cache-merge.mjs";
@@ -149,8 +150,17 @@ async function main() {
   await writeFile(OUT_PATH, JSON.stringify(payload, null, 2) + "\n", "utf8");
   const redis = await writeDataStore("huggingface-datasets", payload);
 
+  // Dual-write to TOOLBOX (`trending.huggingface.datasets`).
+  const toolboxResult = await ingestHuggingfaceDatasetsToToolbox(payload);
+
   log(`wrote ${OUT_PATH} [redis: ${redis.source}]`);
   log(`  ${ranked.length} trending datasets (skipped ${skipped} malformed)`);
+  log(
+    `  toolbox-ingest: ${toolboxResult.status}` +
+      (toolboxResult.accepted !== undefined ? ` accepted=${toolboxResult.accepted}` : "") +
+      (toolboxResult.reason ? ` (${toolboxResult.reason})` : "") +
+      (toolboxResult.duration_ms !== undefined ? ` [${toolboxResult.duration_ms}ms]` : ""),
+  );
   log(`  top 3: ${ranked.slice(0, 3).map((d) => d.id).join(", ")}`);
 }
 

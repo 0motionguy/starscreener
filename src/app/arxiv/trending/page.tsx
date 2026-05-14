@@ -27,13 +27,14 @@ import { repoLogoUrl } from "@/lib/logos";
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
-import { LiveDot } from "@/components/ui/LiveDot";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { MarkVisited } from "@/components/layout/MarkVisited";
 
-// arXiv brand: Cornell crimson. No `--v4-src-arxiv` token exists yet, so
-// hardcode the brand color rather than fall back to the generic `--v4-red`
-// (which is reserved for negative-delta semantics).
-const ARXIV_BRAND = "#B22234";
+// arXiv brand: Cornell crimson — read from the canonical CSS token in
+// globals.css. Reserved as `--v4-src-arxiv` (distinct from `--v4-red`,
+// which carries negative-delta semantics — keeping them separated avoids
+// rank-1 numerals and a future drop arrow reading as the same signal).
+const ARXIV_BRAND = "var(--v4-src-arxiv)";
 
 export const dynamic = "force-static";
 export const revalidate = 1800; // 30 min
@@ -69,11 +70,6 @@ function formatAuthors(authors: string[]): string {
   return `${authors.slice(0, 3).join(", ")} et al.`;
 }
 
-function formatClock(iso: string | undefined): string {
-  if (!iso) return "warming";
-  return new Date(iso).toISOString().slice(11, 19);
-}
-
 export default async function ArxivTrendingPage() {
   await refreshArxivFromStore();
   const file = getArxivRecentFile();
@@ -93,6 +89,9 @@ export default async function ArxivTrendingPage() {
           }
           title="arXiv · trending"
           lede="Domain-scored arXiv paper feed across cs.AI / cs.CL / cs.LG. Recency + linked-repo momentum drive the cold-start ranking; citation + social-mention enrichment lands next."
+          clock={
+            <FreshnessBadge source="arxiv" lastUpdatedAt={file.fetchedAt} />
+          }
         />
         <ColdState />
       </main>
@@ -119,11 +118,7 @@ export default async function ArxivTrendingPage() {
         title="arXiv · trending"
         lede="Domain-scored arXiv paper feed across cs.AI / cs.CL / cs.LG. Recency + linked-repo momentum drive the cold-start ranking; citation + social-mention enrichment lands next."
         clock={
-          <>
-            <span className="big">{formatClock(file.fetchedAt)}</span>
-            <span className="muted">UTC · SCRAPED</span>
-            <LiveDot label="FRESH · 3H" />
-          </>
+          <FreshnessBadge source="arxiv" lastUpdatedAt={file.fetchedAt} />
         }
         snapshot={
           <KpiBand

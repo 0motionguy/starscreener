@@ -17,7 +17,11 @@ interface RecentLaunchesProps {
   days?: number;
 }
 
-const PH_ORANGE = "#DA552F";
+// ProductHunt brand orange — read from the canonical CSS token so this
+// component stays aligned with PhBadge.tsx + the /producthunt page route
+// (both use `var(--source-producthunt)`). Replaces the prior local
+// `PH_ORANGE = "#DA552F"` literal that was one of three drift surfaces.
+const PH_ORANGE = "var(--source-producthunt)";
 
 function formatAge(days: number): string {
   if (days < 1) return "today";

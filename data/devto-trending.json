@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-05-10T13:41:11.667Z",
+  "fetchedAt": "2026-05-13T08:52:17.213Z",
   "discoveryVersion": "2026-04-21",
   "windowDays": 7,
-  "scannedArticles": 1275,
+  "scannedArticles": 1323,
   "bodyFetchMode": "full",
   "priorityTags": [
     "ai",
@@ -179,29 +179,29 @@
   ],
   "sliceCounts": {
     "global-top-7d": 100,
-    "global-rising": 13,
+    "global-rising": 10,
     "global-fresh": 100,
     "tag-ai-top-7d": 100,
     "tag-artificialintelligence-top-7d": 0,
     "tag-agents-top-7d": 100,
-    "tag-agentic-top-7d": 10,
+    "tag-agentic-top-7d": 9,
     "tag-claudecode-top-7d": 100,
     "tag-claude-top-7d": 100,
-    "tag-codex-top-7d": 11,
-    "tag-cursor-top-7d": 22,
+    "tag-codex-top-7d": 9,
+    "tag-cursor-top-7d": 31,
     "tag-llm-top-7d": 100,
-    "tag-llms-top-7d": 10,
+    "tag-llms-top-7d": 7,
     "tag-mcp-top-7d": 100,
-    "tag-rag-top-7d": 92,
-    "tag-promptengineering-top-7d": 39,
-    "tag-workflow-top-7d": 38,
+    "tag-rag-top-7d": 100,
+    "tag-promptengineering-top-7d": 43,
+    "tag-workflow-top-7d": 44,
     "tag-workflows-top-7d": 3,
     "tag-automation-top-7d": 100,
-    "tag-cli-top-7d": 73,
+    "tag-cli-top-7d": 82,
     "tag-tooling-top-7d": 100,
-    "tag-devtools-top-7d": 95,
+    "tag-devtools-top-7d": 100,
     "tag-langchain-top-7d": 49,
-    "tag-n8n-top-7d": 25,
+    "tag-n8n-top-7d": 32,
     "tag-opensource-top-7d": 100
   },
   "articles": [
@@ -225,6 +225,29 @@
         "gemma"
       ],
       "trendingScore": 71.72,
+      "linkedRepos": []
+    },
+    {
+      "id": 3651887,
+      "title": "5 Things to Do After Installing OpenClaw (Before You Break It)",
+      "description": "I've been running OpenClaw for a while now and I think it's pretty awesome.  If you haven't heard of...",
+      "url": "https://dev.to/erikch/5-things-to-do-after-installing-openclaw-before-you-break-it-1153",
+      "author": {
+        "username": "erikch",
+        "name": "Erik Hanchett",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1994%2F0j84YwMs.jpeg"
+      },
+      "reactionsCount": 29,
+      "commentsCount": 4,
+      "readingTime": 13,
+      "publishedAt": "2026-05-11T18:51:25Z",
+      "tags": [
+        "openclaw",
+        "aiagents",
+        "selfhosted",
+        "aws"
+      ],
+      "trendingScore": 55.22,
       "linkedRepos": []
     },
     {
@@ -341,6 +364,50 @@
       "linkedRepos": []
     },
     {
+      "id": 3656719,
+      "title": "Codex Chrome Extension Not Available? Here’s What’s Happening",
+      "description": "OpenAI recently launched the new Codex Chrome extension, but many developers immediately ran into the...",
+      "url": "https://dev.to/alifar/codex-chrome-extension-not-available-heres-whats-happening-l0l",
+      "author": {
+        "username": "alifar",
+        "name": "Ali Farhat",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F659389%2F8e6166dd-dcf9-4c44-93f4-9eb9d8edbb6d.jpeg"
+      },
+      "reactionsCount": 25,
+      "commentsCount": 12,
+      "readingTime": 3,
+      "publishedAt": "2026-05-12T12:12:20Z",
+      "tags": [
+        "codex",
+        "chrome",
+        "ai",
+        "openai"
+      ],
+      "trendingScore": 31.95,
+      "linkedRepos": []
+    },
+    {
+      "id": 3651113,
+      "title": "Top 7 Featured DEV Posts of the Week",
+      "description": "Welcome to this week's Top 7, where the DEV editorial team handpicks their favorite posts from the...",
+      "url": "https://dev.to/devteam/top-7-featured-dev-posts-of-the-week-4nik",
+      "author": {
+        "username": "jess",
+        "name": "Jess Lee",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F264%2Fb75f6edf-df7b-406e-a56b-43facafb352c.jpg"
+      },
+      "reactionsCount": 39,
+      "commentsCount": 12,
+      "readingTime": 3,
+      "publishedAt": "2026-05-11T15:25:59Z",
+      "tags": [
+        "top7",
+        "discuss"
+      ],
+      "trendingScore": 30.34,
+      "linkedRepos": []
+    },
+    {
       "id": 3629085,
       "title": "Congrats to the OpenClaw Challenge Winners!",
       "description": "The results are in! We are thrilled to announce the winners of the OpenClaw Challenge.  Over the past...",
@@ -361,6 +428,29 @@
         "ai"
       ],
       "trendingScore": 20.66,
+      "linkedRepos": []
+    },
+    {
+      "id": 3655003,
+      "title": "Top Agent Gateway Platforms for Production AI Systems",
+      "description": "AI agents are evolving fast.  A few months ago, most teams were still experimenting with simple...",
+      "url": "https://dev.to/therealmrmumba/top-agent-gateway-platforms-for-production-ai-systems-5ejh",
+      "author": {
+        "username": "therealmrmumba",
+        "name": "Emmanuel Mumba",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2096147%2Fcfb04d29-bd0a-4f15-9e93-594834b52f6b.jpg"
+      },
+      "reactionsCount": 16,
+      "commentsCount": 1,
+      "readingTime": 6,
+      "publishedAt": "2026-05-12T07:43:07Z",
+      "tags": [
+        "ai",
+        "productivity",
+        "webdev",
+        "javascript"
+      ],
+      "trendingScore": 19.53,
       "linkedRepos": []
     },
     {
@@ -475,6 +565,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3615696,
+      "title": "How to Secure AI Agents in Production: What MCP Gets Right (and What It Doesn’t)",
+      "description": "It usually starts with something that feels harmless.  You give an AI agent access to a few tools....",
+      "url": "https://dev.to/hadil/how-to-secure-ai-agents-in-production-what-mcp-gets-right-and-what-it-doesnt-1d12",
+      "author": {
+        "username": "hadil",
+        "name": "Hadil Ben Abdallah",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1209000%2Fb29d37d8-2efe-4391-9796-a6f8a483f1bd.png"
+      },
+      "reactionsCount": 12,
+      "commentsCount": 0,
+      "readingTime": 8,
+      "publishedAt": "2026-05-11T09:03:23Z",
+      "tags": [
+        "ai",
+        "machinelearning",
+        "security",
+        "backend"
+      ],
+      "trendingScore": 16.05,
+      "linkedRepos": []
+    },
+    {
       "id": 3599107,
       "title": "Write Code That's Easy to Delete: The Art of Impermanent Software",
       "description": "We obsess over making code last. Maybe we should obsess over making it leave gracefully.     There's...",
@@ -521,6 +634,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3648625,
+      "title": "5 Things That Go Horribly Wrong When You Run AI Agents Without a Gateway (And How to Stop the Bleeding)",
+      "description": "Running one AI agent? Cute.  Running ten? Now we're talking.  Running fifty agents in production with...",
+      "url": "https://dev.to/lovestaco/5-things-that-go-horribly-wrong-when-you-run-ai-agents-without-a-gateway-and-how-to-stop-the-1i90",
+      "author": {
+        "username": "lovestaco",
+        "name": "Athreya aka Maneshwar",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
+      },
+      "reactionsCount": 31,
+      "commentsCount": 0,
+      "readingTime": 7,
+      "publishedAt": "2026-05-11T16:37:35Z",
+      "tags": [
+        "ai",
+        "productivity",
+        "webdev",
+        "mcp"
+      ],
+      "trendingScore": 13.99,
+      "linkedRepos": []
+    },
+    {
       "id": 3610492,
       "title": "I Didn’t Stop Building. I Just Left My Laptop.",
       "description": "Hey there again guys! It’s been almost two months since my last post. And in the back of my head,...",
@@ -530,8 +666,8 @@
         "name": "Aryan Choudhary",
         "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2353063%2F6614279b-75f1-4ca9-b9e5-251daa207f14.png"
       },
-      "reactionsCount": 104,
-      "commentsCount": 38,
+      "reactionsCount": 121,
+      "commentsCount": 50,
       "readingTime": 4,
       "publishedAt": "2026-05-06T06:28:42Z",
       "tags": [
@@ -540,7 +676,30 @@
         "development",
         "workplace"
       ],
-      "trendingScore": 11.89,
+      "trendingScore": 12.26,
+      "linkedRepos": []
+    },
+    {
+      "id": 3648170,
+      "title": "I Tested PaioClaw — Here's What Happened When I Pushed It to Its Limits",
+      "description": "Most AI tools will do whatever you ask.  That sounds like a feature. After spending a week testing...",
+      "url": "https://dev.to/harsh2644/i-tested-paioclaw-heres-what-happened-when-i-pushed-it-to-its-limits-iok",
+      "author": {
+        "username": "harsh2644",
+        "name": "Harsh ",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3735796%2Fb533ba06-7693-48b5-ace8-63923f5d2d0a.jpg"
+      },
+      "reactionsCount": 26,
+      "commentsCount": 5,
+      "readingTime": 8,
+      "publishedAt": "2026-05-11T10:35:02Z",
+      "tags": [
+        "ai",
+        "security",
+        "programming",
+        "python"
+      ],
+      "trendingScore": 11.46,
       "linkedRepos": []
     },
     {
@@ -567,6 +726,74 @@
       "linkedRepos": []
     },
     {
+      "id": 3651760,
+      "title": "Does AI Behave Like a Toxic Ex?",
+      "description": "Is AI that toxic ex you just can’t forget about and can’t move on from?  For every task you get...",
+      "url": "https://dev.to/konark_13/does-ai-behave-like-a-toxic-ex-498n",
+      "author": {
+        "username": "konark_13",
+        "name": "Konark Sharma",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2928108%2Ffb504115-5d98-486b-bee9-c2de7cb7b632.png"
+      },
+      "reactionsCount": 46,
+      "commentsCount": 20,
+      "readingTime": 6,
+      "publishedAt": "2026-05-11T18:09:56Z",
+      "tags": [
+        "ai",
+        "webdev",
+        "discuss",
+        "learning"
+      ],
+      "trendingScore": 11.22,
+      "linkedRepos": []
+    },
+    {
+      "id": 3648591,
+      "title": "Meme Monday",
+      "description": "Meme Monday!  Today's cover image comes from the last thread.  DEV is an inclusive space! Humor in...",
+      "url": "https://dev.to/ben/meme-monday-55e2",
+      "author": {
+        "username": "ben",
+        "name": "Ben Halpern",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1%2Fbabb96d0-9cd2-49bc-a412-2dc4caf94c2a.png"
+      },
+      "reactionsCount": 18,
+      "commentsCount": 16,
+      "readingTime": 1,
+      "publishedAt": "2026-05-11T10:06:48Z",
+      "tags": [
+        "discuss",
+        "watercooler",
+        "jokes"
+      ],
+      "trendingScore": 11.12,
+      "linkedRepos": []
+    },
+    {
+      "id": 3660300,
+      "title": "Two DEV Users. Two Countries. One Weird Little Avatar Project.",
+      "description": "We Gave Our DEV Avatar Project a V2… and It Escalated Quickly   A few months ago,...",
+      "url": "https://dev.to/itsugo/two-dev-users-two-countries-one-weird-little-avatar-project-3gd3",
+      "author": {
+        "username": "itsugo",
+        "name": "Aryan Choudhary",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2353063%2F6614279b-75f1-4ca9-b9e5-251daa207f14.png"
+      },
+      "reactionsCount": 15,
+      "commentsCount": 1,
+      "readingTime": 5,
+      "publishedAt": "2026-05-13T07:07:13Z",
+      "tags": [
+        "webdev",
+        "nextjs",
+        "sideprojects",
+        "react"
+      ],
+      "trendingScore": 11.08,
+      "linkedRepos": []
+    },
+    {
       "id": 3640966,
       "title": "We Broke Our App Into 50 Microservices. Then We Put It Back Together — And Cut Costs by 90%",
       "description": "Hanzla BaigFollow             Front-end dev &amp; Founder...",
@@ -590,6 +817,52 @@
       "linkedRepos": []
     },
     {
+      "id": 3655326,
+      "title": "Open Vibe -- Ship your SaaS with AI. Without getting stuck.",
+      "description": "Open SaaS is live today on Product Hunt! 🎉   Check us out →       You watch a twelve-hour tutorial,...",
+      "url": "https://dev.to/wasp/open-vibe-ship-your-saas-with-ai-without-getting-stuck-e2h",
+      "author": {
+        "username": "vincanger",
+        "name": "vincanger",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F982343%2F99b7a039-13b3-4eb5-820b-da74b180ddf6.jpeg"
+      },
+      "reactionsCount": 29,
+      "commentsCount": 4,
+      "readingTime": 5,
+      "publishedAt": "2026-05-12T08:46:19Z",
+      "tags": [
+        "webdev",
+        "ai",
+        "saas",
+        "vibecoding"
+      ],
+      "trendingScore": 10.17,
+      "linkedRepos": []
+    },
+    {
+      "id": 3512879,
+      "title": "The missing layer in prompt engineering: thinking quality",
+      "description": "I've seen countless prompting trends and prompt packs to use but most discussions around prompt...",
+      "url": "https://dev.to/javz/the-missing-layer-in-prompt-engineering-thinking-quality-2n3j",
+      "author": {
+        "username": "javz",
+        "name": "Julien Avezou",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3245143%2Ff6cf9acd-541d-4ad4-a846-2788da803c99.png"
+      },
+      "reactionsCount": 42,
+      "commentsCount": 35,
+      "readingTime": 4,
+      "publishedAt": "2026-05-11T12:45:04Z",
+      "tags": [
+        "ai",
+        "softwareengineering",
+        "productivity",
+        "learning"
+      ],
+      "trendingScore": 9.81,
+      "linkedRepos": []
+    },
+    {
       "id": 3593416,
       "title": "Announcing the Winners of the DEV Weekend Challenge: Earth Day Edition 🌍",
       "description": "The time has come! We are thrilled to announce the winners of our second DEV Weekend Challenge: Earth...",
@@ -608,6 +881,29 @@
         "weekendchallenge"
       ],
       "trendingScore": 9.74,
+      "linkedRepos": []
+    },
+    {
+      "id": 3655596,
+      "title": "I Stopped Fighting React Server Components — Here's What Finally Made It",
+      "description": "TheBitForgeFollow             TheBitForge Agency That...",
+      "url": "https://dev.to/thebitforge/i-stopped-fighting-react-server-components-heres-what-finally-made-it-4cho",
+      "author": {
+        "username": "thebitforge",
+        "name": "TheBitForge",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3581035%2F7a4e3e11-052c-4b61-9f45-e3f421e69147.png"
+      },
+      "reactionsCount": 53,
+      "commentsCount": 1,
+      "readingTime": 17,
+      "publishedAt": "2026-05-12T09:16:11Z",
+      "tags": [
+        "react",
+        "nextjs",
+        "webdev",
+        "javascript"
+      ],
+      "trendingScore": 9.35,
       "linkedRepos": []
     },
     {
@@ -634,6 +930,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3648448,
+      "title": "The Coding Interview Is Dead. What Should Replace It?",
+      "description": "Hanzla BaigFollow             Front-end dev &amp; Founder...",
+      "url": "https://dev.to/hanzla/the-coding-interview-is-dead-what-should-replace-it-3fli",
+      "author": {
+        "username": "hanzla",
+        "name": "Hanzla Baig",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3615540%2F4e60e18a-f0e5-4db0-8a73-0f3701aff062.png"
+      },
+      "reactionsCount": 31,
+      "commentsCount": 1,
+      "readingTime": 5,
+      "publishedAt": "2026-05-11T09:48:17Z",
+      "tags": [
+        "ai",
+        "webdev",
+        "productivity",
+        "programming"
+      ],
+      "trendingScore": 9.09,
+      "linkedRepos": []
+    },
+    {
       "id": 3644680,
       "title": "The Features That Make OrinIDE Different From Other Browser IDEs",
       "description": "A few days ago, I shared a post about building OrinIDE.  This post is different.  This is about the...",
@@ -654,6 +973,29 @@
         "tooling"
       ],
       "trendingScore": 8.94,
+      "linkedRepos": []
+    },
+    {
+      "id": 3620449,
+      "title": "Best ROAS Optimization Tools: Get More Revenue from Every Ad Dollar",
+      "description": "You open your ads dashboard and the number jumps out immediately.  ROAS was 4.2x last quarter. Now...",
+      "url": "https://dev.to/hellyeahai/best-roas-optimization-tools-get-more-revenue-from-every-ad-dollar-13b5",
+      "author": {
+        "username": "hadil",
+        "name": "Hadil Ben Abdallah",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1209000%2Fb29d37d8-2efe-4391-9796-a6f8a483f1bd.png"
+      },
+      "reactionsCount": 50,
+      "commentsCount": 0,
+      "readingTime": 9,
+      "publishedAt": "2026-05-12T08:58:56Z",
+      "tags": [
+        "ai",
+        "sass",
+        "marketing",
+        "tooling"
+      ],
+      "trendingScore": 7.7,
       "linkedRepos": []
     },
     {
@@ -731,6 +1073,74 @@
       "linkedRepos": []
     },
     {
+      "id": 3653439,
+      "title": "Run Claude Code Locally for Free with Docker Model Runner",
+      "description": "We know that the Claude Code is phenomenal for development and code. But we can easily run out of...",
+      "url": "https://dev.to/pradumnasaraf/run-claude-code-locally-for-free-with-docker-model-runner-3o27",
+      "author": {
+        "username": "pradumnasaraf",
+        "name": "Pradumna Saraf",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F682769%2F6d44570c-3d95-4656-ba55-c8a4b0e95f9e.jpg"
+      },
+      "reactionsCount": 22,
+      "commentsCount": 0,
+      "readingTime": 4,
+      "publishedAt": "2026-05-12T03:56:26Z",
+      "tags": [
+        "docker",
+        "ai",
+        "development",
+        "agents"
+      ],
+      "trendingScore": 6.07,
+      "linkedRepos": []
+    },
+    {
+      "id": 3657578,
+      "title": "A New Method for Stable Software: Micro Code Reviews for the AI Era",
+      "description": "If you prefer watching a video version of this article, check out:                   Why This AI...",
+      "url": "https://dev.to/shrsv/a-new-method-for-stable-software-micro-code-reviews-for-the-ai-era-4hi3",
+      "author": {
+        "username": "shrsv",
+        "name": "Shrijith Venkatramana",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1001514%2F17b7d334-44b1-417a-9268-346e6a34988a.jpg"
+      },
+      "reactionsCount": 20,
+      "commentsCount": 0,
+      "readingTime": 7,
+      "publishedAt": "2026-05-12T15:33:36Z",
+      "tags": [
+        "ai",
+        "codereview",
+        "softwareengineering",
+        "git"
+      ],
+      "trendingScore": 5.83,
+      "linkedRepos": []
+    },
+    {
+      "id": 3659438,
+      "title": "Local-First AI Done Right: How Gemma 4 E2B and 'Thinking Mode' Powered DiagramFlowAI",
+      "description": "What I Built   DiagramFlowAI is a local-first desktop application (macOS, Windows, and...",
+      "url": "https://dev.to/gde/local-first-ai-done-right-how-gemma-4-e2b-and-thinking-mode-powered-diagramflowai-3bop",
+      "author": {
+        "username": "carlosrgomes",
+        "name": "Carlos Barbero",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F414609%2Fde1ece90-7bf3-4280-a2ca-4d9ba83c0aa1.jpeg"
+      },
+      "reactionsCount": 16,
+      "commentsCount": 0,
+      "readingTime": 4,
+      "publishedAt": "2026-05-13T00:08:54Z",
+      "tags": [
+        "devchallenge",
+        "gemmachallenge",
+        "gemma"
+      ],
+      "trendingScore": 5.14,
+      "linkedRepos": []
+    },
+    {
       "id": 3628769,
       "title": "🚀 Building OSSI — An AI-Powered Open Source Intelligence System with Kestra",
       "description": "Transforming GitHub issues into contributor intelligence using AI + Workflow Orchestration   Open...",
@@ -779,6 +1189,29 @@
         "programming"
       ],
       "trendingScore": 5,
+      "linkedRepos": []
+    },
+    {
+      "id": 3632223,
+      "title": "The Language Wars Are Over. The Ground Shifted Without You.",
+      "description": "I stopped caring which language someone uses. Somewhere in the last eighteen months, that happened...",
+      "url": "https://dev.to/dannwaneri/the-language-wars-are-over-the-ground-shifted-without-you-49pb",
+      "author": {
+        "username": "dannwaneri",
+        "name": "Daniel Nwaneri",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3606168%2F7684e1e1-b986-4ee3-ae5b-56db2b97d286.jpg"
+      },
+      "reactionsCount": 13,
+      "commentsCount": 9,
+      "readingTime": 4,
+      "publishedAt": "2026-05-12T14:12:05Z",
+      "tags": [
+        "ai",
+        "discuss",
+        "programming",
+        "productivity"
+      ],
+      "trendingScore": 4.73,
       "linkedRepos": []
     },
     {
@@ -1017,6 +1450,28 @@
       "linkedRepos": []
     },
     {
+      "id": 3654674,
+      "title": "It's live. Tollere is on the App Store.",
+      "description": "I wrote about this a few weeks ago. My wife and I had a shopping list app we built for ourselves,...",
+      "url": "https://dev.to/stokry/its-live-tollere-is-on-the-app-store-581o",
+      "author": {
+        "username": "stokry",
+        "name": "Stokry",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F160180%2Fbe40180c-377f-457b-a5ae-0ec95a66fe2b.png"
+      },
+      "reactionsCount": 7,
+      "commentsCount": 2,
+      "readingTime": 2,
+      "publishedAt": "2026-05-12T06:53:08Z",
+      "tags": [
+        "showdev",
+        "ios",
+        "swift"
+      ],
+      "trendingScore": 3.7,
+      "linkedRepos": []
+    },
+    {
       "id": 3609152,
       "title": "A LinkedIn Recruiter Sent Me Malware Disguised as a \"Pre-Interview Code Review\"",
       "description": "A recruiter pitched me a remote engineering role and asked me to review their codebase before the technical interview. The repo turned out to be a five-stage trojan that exfiltrates your environment variables and gives the attacker arbitrary code execution. Here's exactly what wa",
@@ -1091,6 +1546,28 @@
       "linkedRepos": []
     },
     {
+      "id": 3643074,
+      "title": "Tracking my cardio with OpenClaw and Gemma 4",
+      "description": "This is a submission for the Gemma 4 Challenge: Write About Gemma 4  I've been using GPT models as my...",
+      "url": "https://dev.to/fdocr/tracking-my-cardio-with-openclaw-and-gemma-4-3dka",
+      "author": {
+        "username": "fdocr",
+        "name": "Fernando",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F19165%2Fefa51160-41cf-448d-909b-6ad82cec68d2.jpg"
+      },
+      "reactionsCount": 9,
+      "commentsCount": 0,
+      "readingTime": 3,
+      "publishedAt": "2026-05-11T13:00:00Z",
+      "tags": [
+        "devchallenge",
+        "gemmachallenge",
+        "gemma"
+      ],
+      "trendingScore": 3.58,
+      "linkedRepos": []
+    },
+    {
       "id": 3585496,
       "title": "Stop Using useEffect Like This: 5 Patterns That Are Silently Breaking Your React App",
       "description": "I was doing a code review for a colleague when I found it.  The component had five useEffect...",
@@ -1140,6 +1617,29 @@
           "location": "body"
         }
       ]
+    },
+    {
+      "id": 3636782,
+      "title": "Cómo Guiar Asistentes de IA para Construir Agentes Listos para Producción: 8 Patrones Esenciales",
+      "description": "Cuando le pides a un asistente de IA como Kiro (el asistente de IA de AWS), Claude Code o ChatGPT...",
+      "url": "https://dev.to/aws-espanol/como-guiar-asistentes-de-ia-para-construir-agentes-listos-para-produccion-8-patrones-esenciales-1ifd",
+      "author": {
+        "username": "elizabethfuentes12",
+        "name": "Elizabeth Fuentes L",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F717518%2Fb550b165-b8b9-405d-acfb-e5dc846765b0.png"
+      },
+      "reactionsCount": 5,
+      "commentsCount": 0,
+      "readingTime": 16,
+      "publishedAt": "2026-05-11T18:54:52Z",
+      "tags": [
+        "ai",
+        "tutorial",
+        "programming",
+        "python"
+      ],
+      "trendingScore": 3.43,
+      "linkedRepos": []
     },
     {
       "id": 3624003,
@@ -1211,6 +1711,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3586854,
+      "title": "The Hidden Cost of \"It Works\": Why Quick Fixes Kill Long-Term Speed",
+      "description": "It was a Thursday afternoon when the Teams message came in.  A bug in production. A date formatting...",
+      "url": "https://dev.to/gavincettolo/the-hidden-cost-of-it-works-why-quick-fixes-kill-long-term-speed-1gi5",
+      "author": {
+        "username": "gavincettolo",
+        "name": "Gavin Cettolo",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3353748%2Fe37c0e94-b63c-4a02-88bc-ad4e130a2ee5.jpg"
+      },
+      "reactionsCount": 25,
+      "commentsCount": 13,
+      "readingTime": 10,
+      "publishedAt": "2026-05-12T07:30:00Z",
+      "tags": [
+        "webdev",
+        "productivity",
+        "career",
+        "softwareengineering"
+      ],
+      "trendingScore": 3.17,
+      "linkedRepos": []
+    },
+    {
       "id": 3628242,
       "title": "How a Hackathon Will Teach a New Developer What a Year of Tutorials Can't",
       "description": "TL;DR- A hackathon compresses what would take months of solo learning into a single weekend....",
@@ -1231,6 +1754,29 @@
         "hackathon"
       ],
       "trendingScore": 3.01,
+      "linkedRepos": []
+    },
+    {
+      "id": 3654822,
+      "title": "Google Forms + Apps Script Is a Workflow, Not Just a Notification",
+      "description": "Google Forms is not the weak part of many form workflows.  The first version is usually...",
+      "url": "https://dev.to/lovanaut55/google-forms-apps-script-is-a-workflow-not-just-a-notification-2bn2",
+      "author": {
+        "username": "lovanaut55",
+        "name": "Lovanaut ",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3841154%2Fcbe410ba-7007-4a46-9d11-824cfc7dd19a.png"
+      },
+      "reactionsCount": 6,
+      "commentsCount": 0,
+      "readingTime": 6,
+      "publishedAt": "2026-05-12T07:14:41Z",
+      "tags": [
+        "automation",
+        "google",
+        "javascript",
+        "productivity"
+      ],
+      "trendingScore": 2.99,
       "linkedRepos": []
     },
     {
@@ -1331,6 +1877,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3651424,
+      "title": "Heym just crossed 200 GitHub stars: self-hosted AI workflow automation with agents, RAG, MCP, and observability",
+      "description": "We just crossed 200 GitHub stars for Heym. Thanks to everyone who checked it out, starred it, opened...",
+      "url": "https://dev.to/mbakgun/heym-just-crossed-200-github-stars-self-hosted-ai-workflow-automation-with-agents-rag-mcp-and-15a",
+      "author": {
+        "username": "mbakgun",
+        "name": "Mehmet Burak Akgün",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3896613%2Fc231a87e-3dc8-4c3c-9bdf-90039d7ce318.jpg"
+      },
+      "reactionsCount": 9,
+      "commentsCount": 0,
+      "readingTime": 1,
+      "publishedAt": "2026-05-11T16:44:18Z",
+      "tags": [
+        "ai",
+        "agents",
+        "tooling",
+        "powerapps"
+      ],
+      "trendingScore": 2.69,
+      "linkedRepos": []
+    },
+    {
       "id": 3637395,
       "title": "Your AI agent already emits OpenTelemetry. Why aren't you watching it?",
       "description": "TL;DR: Spring AI, LangChain4j, Koog (Kotlin), the Python OpenLLMetry-style instrumentations, and the...",
@@ -1374,6 +1943,29 @@
         "systemdesign"
       ],
       "trendingScore": 2.68,
+      "linkedRepos": []
+    },
+    {
+      "id": 3652793,
+      "title": "6 best usage-based billing platforms(Developer Guide)",
+      "description": "The best usage-based billing software for developers includes Credyt for real-time AI and API billing...",
+      "url": "https://dev.to/credyt/6-best-usage-based-billing-platformsdeveloper-guide-25f4",
+      "author": {
+        "username": "credyt",
+        "name": "Credyt.ai",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3866836%2F0b97756b-8442-4c20-a886-f9b041ce4a9d.png"
+      },
+      "reactionsCount": 24,
+      "commentsCount": 1,
+      "readingTime": 14,
+      "publishedAt": "2026-05-12T00:35:09Z",
+      "tags": [
+        "ai",
+        "architecture",
+        "saas",
+        "usagebasedbilling"
+      ],
+      "trendingScore": 2.6,
       "linkedRepos": []
     },
     {
@@ -1635,6 +2227,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3658322,
+      "title": "How to Choose a Messaging Protocol for Agent-to-Agent Communication",
+      "description": "Use Noise Protocol for synchronous peer-to-peer agent sessions, Signal Protocol (X3DH + Double...",
+      "url": "https://dev.to/artem_a/how-to-choose-a-messaging-protocol-for-agent-to-agent-communication-2obb",
+      "author": {
+        "username": "artem_a",
+        "name": "Artemii Amelin ",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3893832%2F0e0d375d-e701-4dc8-9fb6-4c8f53e30992.png"
+      },
+      "reactionsCount": 4,
+      "commentsCount": 0,
+      "readingTime": 6,
+      "publishedAt": "2026-05-12T18:54:35Z",
+      "tags": [
+        "ai",
+        "agents",
+        "networking",
+        "security"
+      ],
+      "trendingScore": 2.17,
+      "linkedRepos": []
+    },
+    {
       "id": 3638185,
       "title": "I got tired of babysitting my Hermes Agent, so I'm hosting one for you",
       "description": "If you've spent any time with Hermes Agent, you already know the feeling. The agent is good....",
@@ -1658,6 +2273,34 @@
       "linkedRepos": [
         {
           "fullName": "NousResearch/hermes-agent",
+          "location": "body"
+        }
+      ]
+    },
+    {
+      "id": 3652261,
+      "title": "My fully offline AI-assisted Linux development machine",
+      "description": "My Arch Linux, Niri, and local AI coding setup on the ASUS ROG Flow Z13",
+      "url": "https://dev.to/deepu105/my-fully-offline-ai-assisted-linux-development-machine-3lnl",
+      "author": {
+        "username": "deepu105",
+        "name": "Deepu K Sasidharan",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F178939%2F38a82d99-3a0c-4a47-84fc-76fff3144cda.png"
+      },
+      "reactionsCount": 21,
+      "commentsCount": 8,
+      "readingTime": 13,
+      "publishedAt": "2026-05-11T20:47:59Z",
+      "tags": [
+        "linux",
+        "archlinux",
+        "development",
+        "ai"
+      ],
+      "trendingScore": 2.15,
+      "linkedRepos": [
+        {
+          "fullName": "ajeetdsouza/zoxide",
           "location": "body"
         }
       ]
@@ -1709,6 +2352,52 @@
       "linkedRepos": []
     },
     {
+      "id": 3649870,
+      "title": "Arc 3 Catch-Up: Solana Transactions Explained for Web2 Developers",
+      "description": "Arc 3 of 100 Days of Solana was the arc where Solana stopped being something we read from and started...",
+      "url": "https://dev.to/100daysofsolana/arc-3-catch-up-solana-transactions-explained-for-web2-developers-4f5i",
+      "author": {
+        "username": "matthewrevell",
+        "name": "Matthew Revell",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F157525%2Fb47266bf-dccb-4566-b01e-733c103702d5.jpg"
+      },
+      "reactionsCount": 7,
+      "commentsCount": 0,
+      "readingTime": 8,
+      "publishedAt": "2026-05-11T12:32:11Z",
+      "tags": [
+        "100daysofsolana",
+        "web3",
+        "blockchain",
+        "webdev"
+      ],
+      "trendingScore": 2.07,
+      "linkedRepos": []
+    },
+    {
+      "id": 3650603,
+      "title": "Why “Local Document AI” Is Really an OCR + RAG + Local Inference Problem",
+      "description": "Most discussions about local AI focus on one thing:   Can the language model run locally?   That...",
+      "url": "https://dev.to/doc2meaisolutions/why-local-document-ai-is-really-an-ocr-rag-local-inference-problem-1ang",
+      "author": {
+        "username": "doc2meaisolutions",
+        "name": "Just do it",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3845189%2F3d85cd35-d405-43d9-acbf-7e52b9cbe6d9.png"
+      },
+      "reactionsCount": 5,
+      "commentsCount": 0,
+      "readingTime": 4,
+      "publishedAt": "2026-05-11T13:38:17Z",
+      "tags": [
+        "ai",
+        "llm",
+        "rag",
+        "systemdesign"
+      ],
+      "trendingScore": 1.99,
+      "linkedRepos": []
+    },
+    {
       "id": 3621016,
       "title": "Terminal as a Dev Environment in the Age of Agents",
       "description": "When the IDE Stopped Being the Center of Development   At some point, I realized something...",
@@ -1753,6 +2442,29 @@
       "linkedRepos": []
     },
     {
+      "id": 3647715,
+      "title": "I Tested Every Gemma 4 Model on a GTX 1650. Here's What Actually Happened.",
+      "description": "This is a submission for the Gemma 4 Challenge: Write About Gemma 4      TL;DR: E4B is the model most...",
+      "url": "https://dev.to/sreejit_caab72e273a4faa1f/i-tested-every-gemma-4-model-on-a-gtx-1650-heres-what-actually-happened-59gj",
+      "author": {
+        "username": "sreejit_caab72e273a4faa1f",
+        "name": "Sreejit Pradhan",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3904430%2Fbd74576f-cef8-4620-a63e-8a001f1e9d6c.png"
+      },
+      "reactionsCount": 6,
+      "commentsCount": 0,
+      "readingTime": 11,
+      "publishedAt": "2026-05-11T07:28:29Z",
+      "tags": [
+        "devchallenge",
+        "gemmachallenge",
+        "gemma",
+        "ai"
+      ],
+      "trendingScore": 1.95,
+      "linkedRepos": []
+    },
+    {
       "id": 3622503,
       "title": "Vibe Coding Lessons Nobody Talks About",
       "description": "I love vibe coding and whenever I get bored, I vibe-code some websites for myself or for Dev...",
@@ -1776,771 +2488,50 @@
       "linkedRepos": []
     },
     {
-      "id": 3606753,
-      "title": "6 Agent Gateway Platforms That Actually Exist in 2026 (And What They're Good For)",
-      "description": "Picture this: it's 1:47 AM. Your phone buzzes. It's your team lead.  The helpful little agent you...",
-      "url": "https://dev.to/lovestaco/6-agent-gateway-platforms-that-actually-exist-in-2026-and-what-theyre-good-for-2kek",
+      "id": 3628919,
+      "title": "Using Appium Inspector: Full Guide + Why Drizz Doesn't Need It",
+      "description": "Appium has been the industry standard for mobile test automation for over a decade, a free,...",
+      "url": "https://dev.to/drizzdev/using-appium-inspector-full-guide-why-drizz-doesnt-need-it-41f0",
       "author": {
-        "username": "lovestaco",
-        "name": "Athreya aka Maneshwar",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002302%2F5233b7df-6ee3-46b2-b8d7-1fafe103e8a3.jpg"
+        "username": "jaysaadana",
+        "name": "Jay Saadana",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2093572%2Fa52d91c1-919e-4ee2-95fa-cf548f56b949.jpeg"
       },
-      "reactionsCount": 49,
-      "commentsCount": 4,
-      "readingTime": 6,
-      "publishedAt": "2026-05-04T16:10:51Z",
+      "reactionsCount": 36,
+      "commentsCount": 28,
+      "readingTime": 13,
+      "publishedAt": "2026-05-08T07:52:47Z",
       "tags": [
-        "webdev",
-        "programming",
         "ai",
-        "mcp"
+        "android",
+        "ios",
+        "mobile"
       ],
-      "trendingScore": 1.65,
+      "trendingScore": 1.76,
       "linkedRepos": []
     },
     {
-      "id": 3620225,
-      "title": "A much faster mgsub",
-      "description": "Celebrating a new release of the 1154th most download R package!",
-      "url": "https://dev.to/pofigster/a-much-faster-mgsub-46f",
+      "id": 3647215,
+      "title": "⚔️ Go vs Java: The Minimalist vs The Enterprise Veteran",
+      "description": "No sides. No agenda. Just two languages walking into a bar and us watching what happens.             ...",
+      "url": "https://dev.to/adamthedeveloper/go-vs-java-the-minimalist-vs-the-enterprise-veteran-1gg3",
       "author": {
-        "username": "pofigster",
-        "name": "Mark",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1924%2Fa7c66040-62e4-44a6-85af-3c9caff0f196.jpg"
+        "username": "adamthedeveloper",
+        "name": "Adam - The Developer",
+        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1002243%2F84fa5f44-c4e1-4fec-934c-9fa687161e10.webp"
       },
-      "reactionsCount": 29,
-      "commentsCount": 0,
-      "readingTime": 2,
-      "publishedAt": "2026-05-06T12:00:00Z",
-      "tags": [
-        "opensource",
-        "performance",
-        "programming",
-        "showdev"
-      ],
-      "trendingScore": 1.6,
-      "linkedRepos": []
-    },
-    {
-      "id": 3621892,
-      "title": "OpenAI and Anthropic are Friendster and MySpace, if Subquadratic proves to be true.",
-      "description": "If you've ever shipped an LLM-powered feature that needed to reason over a real codebase, a real...",
-      "url": "https://dev.to/jon_at_backboardio/openai-and-anthropic-are-friendster-and-myspace-if-subquadratic-proves-to-be-true-nb6",
-      "author": {
-        "username": "jon_at_backboardio",
-        "name": "Jonathan Murray",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3824580%2Fcbf3ef23-2d0b-4576-90ff-0d46b2119ea8.png"
-      },
-      "reactionsCount": 26,
-      "commentsCount": 0,
+      "reactionsCount": 24,
+      "commentsCount": 10,
       "readingTime": 12,
-      "publishedAt": "2026-05-06T15:24:34Z",
+      "publishedAt": "2026-05-11T06:12:47Z",
       "tags": [
-        "ai",
-        "discuss",
-        "llm"
-      ],
-      "trendingScore": 1.59,
-      "linkedRepos": []
-    },
-    {
-      "id": 3588747,
-      "title": "Architect A Personalized Multi-Agent System with Long-Term Memory",
-      "description": "In support of our mission to accelerate the developer journey on Google Cloud, we built Dev Signal —...",
-      "url": "https://dev.to/googleai/architect-a-personalized-multi-agent-system-with-long-term-memory-3o15",
-      "author": {
-        "username": "shirmeirlador",
-        "name": "Shir Meir Lador",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3596246%2F7fba9a43-cbe3-4af2-adff-1871187ffbf8.jpeg"
-      },
-      "reactionsCount": 19,
-      "commentsCount": 1,
-      "readingTime": 9,
-      "publishedAt": "2026-05-07T21:01:06Z",
-      "tags": [
-        "ai",
-        "googlecloud",
-        "agents",
-        "mcp"
-      ],
-      "trendingScore": 1.57,
-      "linkedRepos": []
-    },
-    {
-      "id": 3605688,
-      "title": "I Built a Mobile App in 3 Days. The Hard Part Was Keeping It Connected.",
-      "description": "I have been building web apps for 12 years. In that time I never wrote a single line of mobile code....",
-      "url": "https://dev.to/juandastic/i-built-a-mobile-app-in-3-days-the-hard-part-was-keeping-it-connected-2fda",
-      "author": {
-        "username": "juandastic",
-        "name": "Juan David Gómez",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2387605%2F11f53f0b-023e-4c47-87db-00467fa8f7e1.jpeg"
-      },
-      "reactionsCount": 48,
-      "commentsCount": 13,
-      "readingTime": 7,
-      "publishedAt": "2026-05-04T02:20:36Z",
-      "tags": [
-        "ai",
-        "mobile",
-        "showdev",
-        "sideprojects"
-      ],
-      "trendingScore": 1.53,
-      "linkedRepos": []
-    },
-    {
-      "id": 3634301,
-      "title": "The End of Renting Intelligence? Why Gemma 4 Makes Local AI Feel Viable",
-      "description": "This is a submission for the Gemma 4 Challenge: Write About Gemma 4  There’s a specific kind of...",
-      "url": "https://dev.to/aashitanegii/the-end-of-renting-intelligence-why-gemma-4-makes-local-ai-feel-viable-e",
-      "author": {
-        "username": "aashitanegii",
-        "name": "Aashita",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3885835%2Fe0a2a870-e988-4bc4-af45-00185210d8ec.jpeg"
-      },
-      "reactionsCount": 9,
-      "commentsCount": 0,
-      "readingTime": 5,
-      "publishedAt": "2026-05-08T13:43:46Z",
-      "tags": [
-        "devchallenge",
-        "gemmachallenge",
-        "gemma",
-        "ai"
-      ],
-      "trendingScore": 1.5,
-      "linkedRepos": []
-    },
-    {
-      "id": 3560335,
-      "title": "How to Build a Custom AI Quality Gate on Cloud Run (From Zero to Production)",
-      "description": "In my previous article about treating architecture documentation as a first-class asset, I had a...",
-      "url": "https://dev.to/gdg/how-to-build-a-custom-ai-quality-gate-on-cloud-run-from-zero-to-production-1odp",
-      "author": {
-        "username": "alexandertyutin",
-        "name": "Alexander Tyutin",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3854187%2F756dd1f6-023a-45cf-885a-1974f1cec815.jpg"
-      },
-      "reactionsCount": 44,
-      "commentsCount": 5,
-      "readingTime": 5,
-      "publishedAt": "2026-05-04T04:17:45Z",
-      "tags": [
-        "architecture",
-        "googlecloud",
-        "tutorial",
+        "programming",
+        "java",
+        "go",
         "productivity"
       ],
-      "trendingScore": 1.32,
+      "trendingScore": 1.75,
       "linkedRepos": []
-    },
-    {
-      "id": 3622795,
-      "title": "Designing a team of agents",
-      "description": "I continue to experiment with AI in the context of software engineering. I'm fortunate that my team...",
-      "url": "https://dev.to/nfrankel/designing-a-team-of-agents-j1b",
-      "author": {
-        "username": "nfrankel",
-        "name": "Nicolas Fränkel",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F362557%2F479d9637-2db0-4b0a-8070-edbe538c4180.jpg"
-      },
-      "reactionsCount": 12,
-      "commentsCount": 1,
-      "readingTime": 5,
-      "publishedAt": "2026-05-07T09:02:00Z",
-      "tags": [
-        "agents",
-        "agentskills",
-        "ai"
-      ],
-      "trendingScore": 1.32,
-      "linkedRepos": []
-    },
-    {
-      "id": 3644294,
-      "title": "I Built an AI-Powered Daily LeetCode Planner in 2 Hours Using Workflow Automation",
-      "description": "I Built an AI-Powered Daily LeetCode Planner Using Workflow Automation   Recently, I...",
-      "url": "https://dev.to/rishabhrawat05/i-built-an-ai-powered-daily-leetcode-planner-in-2-hours-using-workflow-automation-jd5",
-      "author": {
-        "username": "rishabhrawat05",
-        "name": "Rishabh",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2232777%2F00a4f0b0-7209-45c3-8aff-694b34285632.jpg"
-      },
-      "reactionsCount": 5,
-      "commentsCount": 0,
-      "readingTime": 2,
-      "publishedAt": "2026-05-10T11:00:51Z",
-      "tags": [
-        "kestra",
-        "workflowautomation",
-        "buildinpublic",
-        "automation"
-      ],
-      "trendingScore": 1.31,
-      "linkedRepos": []
-    },
-    {
-      "id": 3640417,
-      "title": "🔥Simple DEV Blog Post Writer with LangGraph Multi Agents with Memory, AWS Bedrock Nova: Generator & Evaluator Pattern",
-      "description": "So far, we’ve covered how to use agent tools, skills, and sub-agents. Now, it’s time to put...",
-      "url": "https://dev.to/aws-builders/simple-dev-blog-post-writer-with-langgraph-multi-agents-with-memory-aws-bedrock-nova-generator--5b1",
-      "author": {
-        "username": "omerberatsezer",
-        "name": "Ömer Berat Sezer",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2695205%2F0ada33b7-8429-4864-8ca4-f5496ae37cda.jpg"
-      },
-      "reactionsCount": 4,
-      "commentsCount": 1,
-      "readingTime": 9,
-      "publishedAt": "2026-05-10T11:38:30Z",
-      "tags": [
-        "ai",
-        "agents",
-        "aws",
-        "discuss"
-      ],
-      "trendingScore": 1.3,
-      "linkedRepos": []
-    },
-    {
-      "id": 3613934,
-      "title": "[GCP Practice][BwAI] AI-Powered Development: Quickly Deploy a LINE Bot Cloud Backup Tool with Gemini CLI",
-      "description": "Background   In the upcoming Build With AI 2026 workshop, we're bringing a very practical...",
-      "url": "https://dev.to/gde/gcp-practicebwai-ai-powered-development-quickly-deploy-a-line-bot-cloud-backup-tool-with-4ghi",
-      "author": {
-        "username": "evanlin",
-        "name": "Evan Lin",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F409957%2Fc150d4a7-cb20-469d-a230-bac27232c577.jpeg"
-      },
-      "reactionsCount": 16,
-      "commentsCount": 0,
-      "readingTime": 4,
-      "publishedAt": "2026-05-07T04:36:40Z",
-      "tags": [
-        "ai",
-        "gemini",
-        "googlecloud",
-        "tutorial"
-      ],
-      "trendingScore": 1.27,
-      "linkedRepos": []
-    },
-    {
-      "id": 3620894,
-      "title": "Not Open Source Not Interested",
-      "description": "commentary on why I'm only interested in finding/using software when it is Open Source",
-      "url": "https://dev.to/geraldew/not-open-source-not-interested-52hf",
-      "author": {
-        "username": "geraldew",
-        "name": "geraldew",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F159220%2F87442881-9946-4a0c-997a-d63c76f2dcf6.png"
-      },
-      "reactionsCount": 24,
-      "commentsCount": 0,
-      "readingTime": 4,
-      "publishedAt": "2026-05-06T11:59:05Z",
-      "tags": [
-        "discuss",
-        "opensource",
-        "software"
-      ],
-      "trendingScore": 1.25,
-      "linkedRepos": []
-    },
-    {
-      "id": 3593796,
-      "title": "The Emotional Lifecycle of Every Side Project (A Map)",
-      "description": "You've been here before. You just didn't have a map.     You've done this enough times to know the...",
-      "url": "https://dev.to/_boweii/the-emotional-lifecycle-of-every-side-project-a-map-3gbc",
-      "author": {
-        "username": "_boweii",
-        "name": "Tombri Bowei",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1745361%2Fa5ccba4b-d4ad-4f12-8265-dcd18c3775cd.jpg"
-      },
-      "reactionsCount": 44,
-      "commentsCount": 17,
-      "readingTime": 10,
-      "publishedAt": "2026-05-01T00:07:22Z",
-      "tags": [
-        "career",
-        "beginners",
-        "productivity",
-        "webdev"
-      ],
-      "trendingScore": 1.23,
-      "linkedRepos": []
-    },
-    {
-      "id": 3626031,
-      "title": "Build Your Own MCP Server: A Repo-Agnostic File Search Tool for AI Assistants",
-      "description": "I often find that the results from AI tools are opinionated. You ask Claude or Cursor to find...",
-      "url": "https://dev.to/fortune-ndlovu/build-your-own-mcp-server-a-repo-agnostic-file-search-tool-for-ai-assistants-o54",
-      "author": {
-        "username": "fortune-ndlovu",
-        "name": "Fortune Ndlovu",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3012108%2Fad6c843b-cf84-4cd6-b9d0-a4bb16d0082c.jpeg"
-      },
-      "reactionsCount": 6,
-      "commentsCount": 1,
-      "readingTime": 11,
-      "publishedAt": "2026-05-07T15:22:40Z",
-      "tags": [
-        "ai",
-        "python",
-        "mcp"
-      ],
-      "trendingScore": 1.16,
-      "linkedRepos": []
-    },
-    {
-      "id": 3610125,
-      "title": "VR Coding for the AI Coding Era - Monitoring 5 AI Agents at Once",
-      "description": "TL;DR     AI coding creates dead time. While one agent is thinking, building, or testing,...",
-      "url": "https://dev.to/samchon/vr-coding-for-the-ai-coding-era-watching-5-ai-agents-at-once-53gj",
-      "author": {
-        "username": "samchon",
-        "name": "Jeongho Nam",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F901175%2Fd1a551cd-f5ae-4d4f-8dea-e5edec30b8d1.jpeg"
-      },
-      "reactionsCount": 38,
-      "commentsCount": 3,
-      "readingTime": 12,
-      "publishedAt": "2026-05-04T16:52:20Z",
-      "tags": [
-        "ai",
-        "vr",
-        "productivity",
-        "programming"
-      ],
-      "trendingScore": 1.12,
-      "linkedRepos": []
-    },
-    {
-      "id": 3618756,
-      "title": "87 tabs open. I can't close any of them.",
-      "description": "I built a Chrome extension to help with this — and I refuse to ship it the way everyone else...",
-      "url": "https://dev.to/alogach/87-tabs-open-i-cant-close-any-of-them-5cl1",
-      "author": {
-        "username": "alogach",
-        "name": "Alexander Logach",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2279466%2Fa29b95c1-47e8-4126-8bf5-24d0873662b7.jpg"
-      },
-      "reactionsCount": 24,
-      "commentsCount": 1,
-      "readingTime": 6,
-      "publishedAt": "2026-05-06T05:54:39Z",
-      "tags": [
-        "mentalhealth",
-        "productivity",
-        "showdev",
-        "webdev"
-      ],
-      "trendingScore": 1.12,
-      "linkedRepos": []
-    },
-    {
-      "id": 3618751,
-      "title": "Automating Cloudflare WARP Based on WiFi SSID (Linux Guide)",
-      "description": "If you frequently switch between trusted and untrusted networks, manually toggling your VPN becomes...",
-      "url": "https://dev.to/highcenburg/automating-cloudflare-warp-based-on-wifi-ssid-linux-guide-3jca",
-      "author": {
-        "username": "highcenburg",
-        "name": "Vicente G. Reyes",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F126345%2F84bad9a2-d302-4943-8934-6c27a497daa1.png"
-      },
-      "reactionsCount": 29,
-      "commentsCount": 0,
-      "readingTime": 2,
-      "publishedAt": "2026-05-06T05:53:26Z",
-      "tags": [
-        "linux",
-        "automation",
-        "vpn",
-        "networking"
-      ],
-      "trendingScore": 1.12,
-      "linkedRepos": []
-    },
-    {
-      "id": 3625907,
-      "title": "The Local Model That Doesn't Sleep: Gemma 4 + MTP as a Marathon Engine",
-      "description": "This is a submission for the Gemma 4 Challenge: Write About Gemma 4  I set the agent running just...",
-      "url": "https://dev.to/ertugrul_demir/the-local-model-that-doesnt-sleep-gemma-4-mtp-as-a-marathon-engine-4c9",
-      "author": {
-        "username": "ertugrul_demir",
-        "name": "Ertuğrul Demir",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3700961%2Fa008c5d6-a099-4c11-827e-bc2df02828a9.jpg"
-      },
-      "reactionsCount": 9,
-      "commentsCount": 3,
-      "readingTime": 18,
-      "publishedAt": "2026-05-08T09:01:07Z",
-      "tags": [
-        "ai",
-        "gemma",
-        "devchallenge",
-        "gemmachallenge"
-      ],
-      "trendingScore": 1.07,
-      "linkedRepos": []
-    },
-    {
-      "id": 3628402,
-      "title": "We Built a Poor Man’s o1 on AWS for $0.25 – And You Can Too",
-      "description": "I remember the first time I tried OpenAI’s o1.  I asked it a gnarly infrastructure question: “Design...",
-      "url": "https://dev.to/dhananjay_lakkawar/we-built-a-poor-mans-o1-on-aws-for-025-and-you-can-too-3i14",
-      "author": {
-        "username": "dhananjay_lakkawar",
-        "name": "Dhananjay Lakkawar",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3826432%2Fbdc9e69e-0a89-4399-9157-84d9089aaa30.png"
-      },
-      "reactionsCount": 4,
-      "commentsCount": 0,
-      "readingTime": 5,
-      "publishedAt": "2026-05-07T17:32:10Z",
-      "tags": [
-        "aws",
-        "ai",
-        "stepfunctions",
-        "serverless"
-      ],
-      "trendingScore": 1.06,
-      "linkedRepos": []
-    },
-    {
-      "id": 3615941,
-      "title": "What is your WPM (Words per Minute)? #2",
-      "description": "Cover Video is from DC's Legends of Tomorrow on Guitar   I am curious, What is your WPM?  The...",
-      "url": "https://dev.to/francistrdev/what-is-your-wpm-words-per-minute-2-5019",
-      "author": {
-        "username": "francistrdev",
-        "name": "FrancisTRᴅᴇᴠ (っ◔◡◔)っ",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3711376%2F033bd8c0-e583-42ce-9865-056a9e75e3f8.webp"
-      },
-      "reactionsCount": 28,
-      "commentsCount": 6,
-      "readingTime": 1,
-      "publishedAt": "2026-05-05T14:28:36Z",
-      "tags": [
-        "discuss",
-        "watercooler",
-        "challenge",
-        "community"
-      ],
-      "trendingScore": 1.06,
-      "linkedRepos": []
-    },
-    {
-      "id": 3618298,
-      "title": "Best MCP Gateways for Enterprise Teams in 2026",
-      "description": "I spent the last few months evaluating MCP gateways for a mid-size financial services client. Their...",
-      "url": "https://dev.to/varshithvhegde/best-mcp-gateways-for-enterprise-teams-in-2026-5fk8",
-      "author": {
-        "username": "varshithvhegde",
-        "name": "Varshith V Hegde",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F885064%2F4ab304f4-a3f3-409c-8217-9ce130e57c18.jpeg"
-      },
-      "reactionsCount": 5,
-      "commentsCount": 2,
-      "readingTime": 10,
-      "publishedAt": "2026-05-08T15:25:43Z",
-      "tags": [
-        "ai",
-        "webdev",
-        "productivity",
-        "mcp"
-      ],
-      "trendingScore": 1.04,
-      "linkedRepos": []
-    },
-    {
-      "id": 3636961,
-      "title": "Initiating the DEVengers org. Check out our Introduction!",
-      "description": "Welcome to the DEVengers Organization! A group of Extraordinary Individuals that Influenced...",
-      "url": "https://dev.to/francistrdev/initiating-the-devengers-org-check-out-our-introduction-4lpn",
-      "author": {
-        "username": "francistrdev",
-        "name": "FrancisTRᴅᴇᴠ (っ◔◡◔)っ",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3711376%2F033bd8c0-e583-42ce-9865-056a9e75e3f8.webp"
-      },
-      "reactionsCount": 5,
-      "commentsCount": 0,
-      "readingTime": 1,
-      "publishedAt": "2026-05-09T00:10:07Z",
-      "tags": [
-        "community",
-        "developer",
-        "news",
-        "showdev"
-      ],
-      "trendingScore": 1.03,
-      "linkedRepos": []
-    },
-    {
-      "id": 3622724,
-      "title": "Building ADK Agents with Phi Models on Azure Foundry",
-      "description": "This article provides a step by step deployment guide for using Azure foundry models with ADK Agents....",
-      "url": "https://dev.to/gde/building-adk-agents-with-phi-models-on-azure-foundry-25a2",
-      "author": {
-        "username": "xbill",
-        "name": "xbill",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3490099%2Fc6a975d0-cd94-485d-82b1-14ed5b344fcf.jpg"
-      },
-      "reactionsCount": 21,
-      "commentsCount": 0,
-      "readingTime": 9,
-      "publishedAt": "2026-05-06T14:32:51Z",
-      "tags": [
-        "microsoftphi4",
-        "agents",
-        "googleadk",
-        "gemini"
-      ],
-      "trendingScore": 0.95,
-      "linkedRepos": [
-        {
-          "fullName": "BerriAI/litellm",
-          "location": "body"
-        }
-      ]
-    },
-    {
-      "id": 3609658,
-      "title": "[Google Cloud Next '26 Recap #3] Anthropic's Vision for \"After Software\"",
-      "description": "This is the third post in my Google Cloud Next '26 (Las Vegas) recap series.  You can find the...",
-      "url": "https://dev.to/gde/google-cloud-next-26-recap-3-anthropics-vision-for-after-software-2cj6",
-      "author": {
-        "username": "koichim2",
-        "name": "koichim2",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3718744%2F5485a4c2-17e8-42d7-9244-d7438ac6ff1e.png"
-      },
-      "reactionsCount": 46,
-      "commentsCount": 1,
-      "readingTime": 5,
-      "publishedAt": "2026-05-04T15:00:22Z",
-      "tags": [
-        "googlecloud",
-        "googlecloudnext",
-        "claude",
-        "agents"
-      ],
-      "trendingScore": 0.95,
-      "linkedRepos": []
-    },
-    {
-      "id": 3615867,
-      "title": "Wormhole4j v0.3.0: Supports Multi-threaded Concurrency",
-      "description": "Introduction   Wormhole4j is a Java implementation of the Wormhole index, an ordered...",
-      "url": "https://dev.to/komamitsu/wormhole4j-v030-supports-multi-threaded-concurrency-2fjb",
-      "author": {
-        "username": "komamitsu",
-        "name": "Mitsunori Komatsu",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F44480%2F5d46f03a-36a9-4c0b-816f-4caa64e1d39f.jpeg"
-      },
-      "reactionsCount": 30,
-      "commentsCount": 0,
-      "readingTime": 4,
-      "publishedAt": "2026-05-05T15:06:12Z",
-      "tags": [
-        "java",
-        "map",
-        "performance",
-        "datastructure"
-      ],
-      "trendingScore": 0.94,
-      "linkedRepos": []
-    },
-    {
-      "id": 3531229,
-      "title": "Whistleblower for Database: Set up an internal informant who exposes performance",
-      "description": "This tutorial was written by Darshan Jayarama.  As DBAs, waking up at 2 AM because production is down...",
-      "url": "https://dev.to/mongodb/whistleblower-for-database-set-up-an-internal-informant-who-exposes-performance-47db",
-      "author": {
-        "username": "mongodb_guests",
-        "name": "MongoDB Guests",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F2904295%2F8ac50b13-2361-4db9-a4ed-940b7bb88f57.jpg"
-      },
-      "reactionsCount": 5,
-      "commentsCount": 0,
-      "readingTime": 3,
-      "publishedAt": "2026-05-07T10:44:20Z",
-      "tags": [
-        "database",
-        "monitoring",
-        "performance",
-        "tutorial"
-      ],
-      "trendingScore": 0.93,
-      "linkedRepos": []
-    },
-    {
-      "id": 3592622,
-      "title": "Stop Using Your Clipboard to Share Context",
-      "description": "We're all learning how to code with agents. If you're \"in the bubble\" it can feel like everyone is...",
-      "url": "https://dev.to/thisisryanswift/stop-using-your-clipboard-to-share-context-3941",
-      "author": {
-        "username": "thisisryanswift",
-        "name": "Ryan Swift",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3669112%2F4911d3fc-6abb-4012-98b2-bfe70a261034.jpeg"
-      },
-      "reactionsCount": 44,
-      "commentsCount": 11,
-      "readingTime": 4,
-      "publishedAt": "2026-04-30T16:27:59Z",
-      "tags": [
-        "ai",
-        "agents",
-        "mcp",
-        "cli"
-      ],
-      "trendingScore": 0.91,
-      "linkedRepos": []
-    },
-    {
-      "id": 3616626,
-      "title": "Your Prompts are Legacy Code Now: The Google Cloud Next '26 Developer Breakdown",
-      "description": "The era of \"chatting with an LLM\" is officially legacy.  I've attended the Google Cloud Next ‘26...",
-      "url": "https://dev.to/gde/your-prompts-are-legacy-code-now-the-google-cloud-next-26-developer-breakdown-hc3",
-      "author": {
-        "username": "leslysandra",
-        "name": "leslysandra",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F18559%2F30c7b45e-8dc2-443e-a443-16a1535cb054.jpg"
-      },
-      "reactionsCount": 28,
-      "commentsCount": 0,
-      "readingTime": 3,
-      "publishedAt": "2026-05-05T17:32:00Z",
-      "tags": [
-        "googlecloudnext",
-        "agenticai",
-        "gemini"
-      ],
-      "trendingScore": 0.9,
-      "linkedRepos": []
-    },
-    {
-      "id": 3617027,
-      "title": "MCP Development with Amazon Lightsail Instances",
-      "description": "Leveraging Gemini CLI and the underlying Gemini LLM to build Model Context Protocol (MCP) AI...",
-      "url": "https://dev.to/gde/mcp-development-with-amazon-lightsail-instances-34gp",
-      "author": {
-        "username": "xbill",
-        "name": "xbill",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3490099%2Fc6a975d0-cd94-485d-82b1-14ed5b344fcf.jpg"
-      },
-      "reactionsCount": 25,
-      "commentsCount": 1,
-      "readingTime": 6,
-      "publishedAt": "2026-05-05T19:36:06Z",
-      "tags": [
-        "python",
-        "mcpserver",
-        "aws",
-        "gemini"
-      ],
-      "trendingScore": 0.9,
-      "linkedRepos": []
-    },
-    {
-      "id": 3642090,
-      "title": "Inside the Pipeline Powering a Korean Entertainment MCP Server",
-      "description": "Korean entertainment has become global, but the infrastructure behind its data is still surprisingly...",
-      "url": "https://dev.to/carasjung/inside-the-pipeline-powering-a-korean-entertainment-mcp-server-3d2h",
-      "author": {
-        "username": "carasjung",
-        "name": "Cara Jung",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3448967%2F4a49be6a-32ba-4490-aa57-3617e659db09.png"
-      },
-      "reactionsCount": 2,
-      "commentsCount": 0,
-      "readingTime": 9,
-      "publishedAt": "2026-05-10T13:00:00Z",
-      "tags": [
-        "mcp",
-        "githubactions",
-        "python",
-        "devops"
-      ],
-      "trendingScore": 0.88,
-      "linkedRepos": []
-    },
-    {
-      "id": 3615596,
-      "title": "ADK Agents with Amazon Bedrock Models",
-      "description": "This article provides a step by step deployment guide for using Amazon Bedrock models with ADK...",
-      "url": "https://dev.to/gde/adk-agents-with-amazon-bedrock-models-2fgc",
-      "author": {
-        "username": "xbill",
-        "name": "xbill",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3490099%2Fc6a975d0-cd94-485d-82b1-14ed5b344fcf.jpg"
-      },
-      "reactionsCount": 29,
-      "commentsCount": 0,
-      "readingTime": 9,
-      "publishedAt": "2026-05-05T13:16:49Z",
-      "tags": [
-        "gemini",
-        "amazonbedrock",
-        "python",
-        "agents"
-      ],
-      "trendingScore": 0.86,
-      "linkedRepos": [
-        {
-          "fullName": "BerriAI/litellm",
-          "location": "body"
-        }
-      ]
-    },
-    {
-      "id": 3633150,
-      "title": "Gemma 4 Has Four Models. Here's Which One You Actually Need",
-      "description": "Google called it one launch. It's not.  Gemma 4 is four completely different models with different...",
-      "url": "https://dev.to/nirbhay_gautam/gemma-4-has-four-models-heres-which-one-you-actually-need-1057",
-      "author": {
-        "username": "nirbhay_gautam",
-        "name": "Nirbhay Gautam",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F3883897%2F9e2689ec-069b-4d38-b530-ced60fdb04d7.png"
-      },
-      "reactionsCount": 7,
-      "commentsCount": 2,
-      "readingTime": 4,
-      "publishedAt": "2026-05-08T10:58:32Z",
-      "tags": [
-        "devchallenge",
-        "gemmachallenge",
-        "gemma"
-      ],
-      "trendingScore": 0.84,
-      "linkedRepos": []
-    },
-    {
-      "id": 3621262,
-      "title": "Why Agentic Engineering Must Replace Vibe Coding",
-      "description": "If you prefer watching a video version of this article, check out:          Here, we are going to...",
-      "url": "https://dev.to/shrsv/why-agentic-engineering-must-replace-vibe-coding-339f",
-      "author": {
-        "username": "shrsv",
-        "name": "Shrijith Venkatramana",
-        "profileImage": "https://media2.dev.to/dynamic/image/width=90,height=90,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F1001514%2F17b7d334-44b1-417a-9268-346e6a34988a.jpg"
-      },
-      "reactionsCount": 16,
-      "commentsCount": 1,
-      "readingTime": 5,
-      "publishedAt": "2026-05-06T12:56:02Z",
-      "tags": [
-        "ai",
-        "softwareengineering",
-        "agenticengineering"
-      ],
-      "trendingScore": 0.83,
-      "linkedRepos": [
-        {
-          "fullName": "HexmosTech/git-lrc",
-          "location": "body"
-        }
-      ]
     }
   ]
 }

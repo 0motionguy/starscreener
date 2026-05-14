@@ -26,7 +26,7 @@ env:
 
 jobs:
   run:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     # Rebuild can take substantially longer than an incremental ingest —
     # give it 30 min before the action runner hard-kills us. If a real
     # rebuild needs more, bump here rather than lowering the cadence.

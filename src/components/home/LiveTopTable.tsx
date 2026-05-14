@@ -37,6 +37,8 @@ import {
 import { EntityLogo } from "@/components/ui/EntityLogo";
 import { SvgSparkline } from "@/components/charts/SvgSparkline";
 import { FreshnessChip } from "@/components/shared/FreshnessChip";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import type { NewsSource } from "@/lib/news/freshness";
 import { repoLogoUrl } from "@/lib/logos";
 import { useViewportPrefetch } from "@/hooks/useViewportPrefetch";
 import { MAX_COMPARE_REPOS } from "@/lib/constants";
@@ -137,6 +139,12 @@ const ROW_SOURCE_ICONS = [
 interface LiveTopTableProps {
   rows: LiveRow[];
   categories: CategoryFacet[];
+  /** NewsSource ladder slot — drives the toolbar's <FreshnessBadge> verdict.
+   * Defaults to "repos" to match the home surface. */
+  freshnessSource?: NewsSource;
+  /** ISO of the last successful collector write. Honest-chrome rule: don't
+   * paint a green "live" pip when the underlying snapshot is hours/days old. */
+  lastUpdatedAt?: string | null;
 }
 
 const compactNumber = new Intl.NumberFormat("en-US", {
@@ -320,7 +328,12 @@ function ActionCell({
   );
 }
 
-export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
+export function LiveTopTable({
+  rows,
+  categories,
+  freshnessSource = "repos",
+  lastUpdatedAt = null,
+}: LiveTopTableProps) {
   const [sortKey, setSortKey] = useState<SortKey>("rank");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [activeCat, setActiveCat] = useState<string | null>(null);
@@ -371,7 +384,7 @@ export function LiveTopTable({ rows, categories }: LiveTopTableProps) {
         <span className="live-top-spacer" />
         <span className="live-top-meta">
           showing <b>{visible.length}</b> / {rows.length}
-          <span className="live-pip">live</span>
+          <FreshnessBadge source={freshnessSource} lastUpdatedAt={lastUpdatedAt} />
         </span>
       </div>
 

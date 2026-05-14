@@ -1,0 +1,47 @@
+name: Scrape npm dependents (daily)
+
+# Runs scripts/scrape-npm-daily.mjs every 6h. Produces:
+#   - .data/npm-daily.jsonl       (append-only history; deduped by package+date)
+#   - .data/npm-dependents.json   (snapshot map; mirrored to Redis + TOOLBOX)
+#
+# Pre-batch4 this script existed but had no GHA cron — manual / admin-API only.
+# Batch4 added a TOOLBOX dual-write to scrape-npm-daily.mjs, so we now wire a
+# cron so trending.npm.dependents flows continuously.
+
+on:
+  schedule:
+    - cron: "13 */6 * * *"   # every 6h at :13 (off-peak; npm registry is rate-limited)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: npm-daily-refresh
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: [self-hosted, linux, x64]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        # _data-store-write.mjs dynamic-imports `ioredis` when REDIS_URL is set.
+        run: npm ci
+
+      - name: Snapshot npm dependents + daily downloads
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          # Dual-write to TOOLBOX signal lake (trending.npm.dependents).
+          # Skipped silently when unset; never blocks the primary write.
+          TOOLBOX_INGEST_URL: ${{ secrets.TOOLBOX_INGEST_URL }}
+          TOOLBOX_INGEST_HMAC_SECRET: ${{ secrets.TOOLBOX_INGEST_HMAC_SECRET }}
+        run: node scripts/scrape-npm-daily.mjs

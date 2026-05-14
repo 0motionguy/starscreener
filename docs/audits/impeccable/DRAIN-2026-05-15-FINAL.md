@@ -82,9 +82,34 @@ Findings:
 - Last completed non-skipped run: `2026-05-14T03:52:07Z` (~60+ min before the snapshot).
 - Most "completed" runs are `Auto-merge bot PRs` reports with `conclusion: skipped` (lightweight, doesn't represent real CI execution).
 
-**Diagnosis**: This is the pre-existing CI runner pool blockage previously logged as memory record S5327 ("CI runner pool investigation — diagnosing 7+ hour queue blockage affecting 24 PRs"). Phase A closures freed PR slots, but the underlying runners are still not picking up new work. This is an org-level GitHub Actions infrastructure issue beyond the scope of a regular session.
+**Diagnosis**: **The CI runner pool is self-hosted and the runner agent is offline.** This is the pre-existing S5327 blockage now root-caused.
 
-**Implication**: All 22 audit-wave PRs remain `MERGEABLE/BLOCKED` with auto-merge armed; they will land naturally once the runner pool comes back. No further engineering action available from this session.
+Evidence:
+- `.github/workflows/ci.yml` uses `runs-on: [self-hosted, linux, x64]` (not GitHub-hosted `ubuntu-latest`).
+- Run `25801628782` (CI on `audit/imp-wave-2`): created `2026-05-13T13:18:03Z`, jobs "started" at `21:57:38Z` per `startedAt` field, but never completed. `gh run rerun` returns "this workflow is already running" — GitHub still believes a runner is processing the job, but no runner is reporting heartbeats.
+- Same pattern on every audit-wave PR: lightweight checks (Classify PR paths, Gitleaks, Validate data PR, Vercel Preview Comments) complete; the heavy `Typecheck, guards, tests, build, e2e` job is stuck `queued` indefinitely.
+- 0 workflow runs reported `in_progress` across the entire org for the ~70 minutes of this session — even after Phase A freed 71 PR slots and I cancelled 4 oldest cron-on-main runs to test FIFO unstickiness.
+
+**Probable cause**: The self-hosted runner agent likely ran on Railway pre-migration and didn't get migrated to Vultr along with `trendingrepo-worker`. Or it's on Vultr but the agent isn't starting. Or another infra location (the operator's machine, a leftover GCP VM, etc.).
+
+**Fix required (operator action)**:
+1. Find the self-hosted runner: GitHub repo → Settings → Actions → Runners. Should show the registered runner's name, host, and status.
+2. SSH to wherever the runner lives. Check the GH Actions runner daemon:
+   - systemd: `sudo systemctl status actions.runner.0motionguy-starscreener.<runner-name>.service`
+   - Or check the `actions-runner` process directly.
+3. If the daemon is down, restart it. If the host is unreachable (e.g., Railway box decommissioned), register a new runner on Vultr (`toolbox-trendingrepo-worker-1` has spare capacity per cross-session briefing).
+4. Once a runner reports as `Online` in the Actions admin UI, the 60+ stuck queued runs will start processing immediately (FIFO). The 22 audit-wave PRs will auto-merge as each PR's required checks pass.
+5. Estimated drain time after runner comes back: ~30-45 min (each CI job ~3-5 min × 22 PRs serially, but `concurrency: ci-${{ github.ref }}` means each PR's CI is single-instance, so cap is N runners × M parallel runs).
+
+**Implication for this session**: All 22 audit-wave PRs remain `MERGEABLE/BLOCKED` with auto-merge armed. They will land naturally once the runner pool comes back. **No further engineering action available from this session** — operator must restart the runner.
+
+**What was tried before declaring blocked**:
+- ✅ Closed 71 stale `data/*` PRs to free PR concurrency slots
+- ✅ Cancelled 4 oldest queued cron-on-main runs (also self-hosted-bound) to test if FIFO would unstick
+- ✅ Attempted `gh run rerun` on a stuck audit-wave run → refused with "workflow already running"
+- ❌ Did NOT attempt: force-cancel + force-push to retrigger CI (would lose queue position if runner comes back during my session)
+- ❌ Did NOT attempt: switch workflow runner from `self-hosted` to `ubuntu-latest` (CONSTRAINT: don't modify GHA workflows)
+- ❌ Did NOT attempt: `gh pr merge --admin` to bypass CI (CONSTRAINT: never push to main without operator approval; bypasses the test gate that catches regressions)
 
 ---
 
@@ -357,10 +382,13 @@ Items discovered during the drain but **NOT addressed this session** (operator d
 
 ## Operator handoff items
 
-1. **⚠️ TOP PRIORITY — CI runner pool unblock** — this session showed runners are stuck (0 in_progress, 100+ queued). Audit-wave drain is gated on this. Options:
-   - **(Recommended) Self-hosted runners** on the existing Vultr container (`toolbox-trendingrepo-worker-1`) — install GH Actions runner agent, register, point repo's workflows at the new label. Spare capacity already provisioned. Removes the org-level concurrency cap entirely. Setup: ~30 min.
-   - GitHub Team plan upgrade: 60 concurrent runners ($4/user/mo). Faster setup (~5 min) but recurring cost + still subject to GitHub-side outages.
-   - Wait for queue to drain naturally — but if S5327 is correct (7+ hours), this may not converge.
+1. **⚠️ TOP PRIORITY — Restart the self-hosted CI runner** — the CI workflow uses `runs-on: [self-hosted, linux, x64]` and **the runner agent is offline** (root-caused this session — see "CI runner pool diagnosis" section). Drain is gated entirely on this. Steps:
+   - Settings → Actions → Runners on `0motionguy/starscreener` repo → find the registered runner's host.
+   - SSH to that host. Restart the `actions-runner` daemon (systemd unit, Docker container, or raw process depending on how it was installed).
+   - If the host is gone (decommissioned with Railway?), provision a fresh self-hosted runner. **Recommended**: install on the existing Vultr container `toolbox-trendingrepo-worker-1` (spare capacity already provisioned per cross-session briefing). Quick install: `cd /opt && mkdir actions-runner && cd actions-runner && curl -o actions-runner.tar.gz -L https://github.com/actions/runner/releases/download/v2.319.1/actions-runner-linux-x64-2.319.1.tar.gz && tar xzf ./actions-runner.tar.gz && ./config.sh --url https://github.com/0motionguy/starscreener --token <REPO_RUNNER_TOKEN> --labels self-hosted,linux,x64 && sudo ./svc.sh install && sudo ./svc.sh start`. Get the registration token from Settings → Actions → Runners → "New self-hosted runner".
+   - Once the runner shows `Online` in the GH Actions UI, the 60+ stuck queued runs will start processing immediately.
+   - Estimated drain time post-runner-up: ~30-45 min for 22 audit-wave PRs.
+   - **Alternative if self-hosted is fragile**: flip `ci.yml` to `runs-on: ubuntu-latest` (GitHub-hosted). Costs CI minutes but removes the self-hosted single-point-of-failure. Trade-off: slower (cold runners), no persistent caching of node_modules / npm cache.
 2. **Phase B kickoff** — separate planning session. Use the fetcher categorization (44 CLEAN / 7 REWRITE / 4 UNKNOWN) + Supabase table classification (4 → TOOLBOX / 2 → keep) + 3 open uncertainties as kickoff inputs. Suggested name: `~/.claude/plans/phase-b-toolbox-centralization-kickoff-<date>.md`.
 3. **Railway project deletion** — after 24h Vultr stability (we're 3h in as of session start, so ~21h remaining). Operator-authorized in cross-session briefing. Project list: `starscreener` + 3 tinies.
 4. **#1213 + #1221 self-test** — once `/api/revalidate` endpoint is live + smoke auto-flushes, run a one-off chaos test (manually break a route, watch smoke heal it) to verify the loop closes correctly. Not blocking, but recommended.

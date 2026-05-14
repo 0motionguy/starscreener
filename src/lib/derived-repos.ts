@@ -13,6 +13,7 @@ import type { Repo } from "./types";
 import {
   getRepoMetadata,
   getRepoMetadataByGithubId,
+  getRepoMetadataFetchedAt,
 } from "./repo-metadata";
 import { slugToId } from "./utils";
 import {
@@ -91,7 +92,14 @@ function computeCacheKey(): string {
   if (_cacheKeyComputed && now - _cacheKeyComputedAtMs < CACHE_KEY_FLOOR_MS) {
     return _cacheKeyComputed;
   }
-  _cacheKeyComputed = `${getRedditDataVersion()}:${getManualReposDataVersion()}:${getTwitterSignalsDataVersion()}:${getPipelineReposDataVersion()}:${getCrossSourceMentionsDataVersion()}`;
+  _cacheKeyComputed = [
+    getRedditDataVersion(),
+    getManualReposDataVersion(),
+    getTwitterSignalsDataVersion(),
+    getPipelineReposDataVersion(),
+    getCrossSourceMentionsDataVersion(),
+    getRepoMetadataFetchedAt() ?? "",
+  ].join(":");
   _cacheKeyComputedAtMs = now;
   return _cacheKeyComputed;
 }

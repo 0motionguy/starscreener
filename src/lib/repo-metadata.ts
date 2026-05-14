@@ -36,9 +36,10 @@ interface RepoMetadataFile {
   failures?: RepoMetadataFailure[];
 }
 
-// Mutable in-memory cache. Seeded from the bundled JSON; replaced by Redis
+// Mutable in-memory cache. Seeded from the bundled JSON; merged with Redis
 // payloads via refreshRepoMetadataFromStore(). Sync getters below all read this.
-let data: RepoMetadataFile = repoMetadataJson as unknown as RepoMetadataFile;
+const bundledData = repoMetadataJson as unknown as RepoMetadataFile;
+let data: RepoMetadataFile = bundledData;
 
 // Backwards-compat: callers that imported `repoMetadataFetchedAt` as a constant
 // keep working — value reflects whatever the cache held at THEIR import time.
@@ -70,6 +71,62 @@ function byGithubId(): Map<number, RepoMetadata> {
     _byGithubId.set(item.githubId, item);
   }
   return _byGithubId;
+}
+
+function timestampMs(value: string | null | undefined): number {
+  if (!value) return 0;
+  const parsed = Date.parse(value);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function metadataTimestampMs(
+  item: RepoMetadata,
+  file: RepoMetadataFile,
+): number {
+  return Math.max(timestampMs(item.fetchedAt), timestampMs(file.fetchedAt));
+}
+
+function mergeRepoMetadataFiles(
+  storeData: RepoMetadataFile,
+): RepoMetadataFile {
+  const byIdentity = new Map<
+    string,
+    { item: RepoMetadata; timestamp: number }
+  >();
+
+  const add = (file: RepoMetadataFile) => {
+    for (const item of file.items ?? []) {
+      const key =
+        typeof item.githubId === "number"
+          ? `github:${item.githubId}`
+          : `fullName:${item.fullName.toLowerCase()}`;
+      const timestamp = metadataTimestampMs(item, file);
+      const existing = byIdentity.get(key);
+      if (!existing || timestamp >= existing.timestamp) {
+        byIdentity.set(key, { item, timestamp });
+      }
+    }
+  };
+
+  add(bundledData);
+  add(storeData);
+
+  return {
+    ...storeData,
+    fetchedAt:
+      timestampMs(storeData.fetchedAt) >= timestampMs(bundledData.fetchedAt)
+        ? storeData.fetchedAt
+        : bundledData.fetchedAt,
+    sourceCount: Math.max(
+      storeData.sourceCount ?? 0,
+      bundledData.sourceCount ?? 0,
+    ),
+    items: Array.from(byIdentity.values()).map(({ item }) => item),
+    failures: [
+      ...(bundledData.failures ?? []),
+      ...(storeData.failures ?? []),
+    ],
+  };
 }
 
 export function getRepoMetadata(fullName: string): RepoMetadata | null {
@@ -141,7 +198,7 @@ export async function refreshRepoMetadataFromStore(): Promise<RefreshResult> {
       const { getDataStore } = await import("./data-store");
       const result = await getDataStore().read<RepoMetadataFile>("repo-metadata");
       if (result.data && result.source !== "missing") {
-        data = result.data;
+        data = mergeRepoMetadataFiles(result.data);
         _byFullName = null;
         _byGithubId = null;
       }
@@ -162,7 +219,7 @@ export async function refreshRepoMetadataFromStore(): Promise<RefreshResult> {
  * Test/admin — reset the in-memory cache to the bundled seed.
  */
 export function _resetRepoMetadataCacheForTests(): void {
-  data = repoMetadataJson as unknown as RepoMetadataFile;
+  data = bundledData;
   _byFullName = null;
   _byGithubId = null;
   lastRefreshMs = 0;

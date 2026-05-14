@@ -24,3 +24,19 @@ test("middleware keeps /you public while protecting account-backed subroutes", (
   assert.match(body, /["']\/you\/refer\(\.\*\)["']/);
   assert.match(body, /["']\/api\/me\/\(\.\*\)["']/);
 });
+
+test("middleware only runs Clerk for protected routes", () => {
+  assert.doesNotMatch(
+    middlewareSource,
+    /export default getClerkPublishableKey\(\)\s*\?/,
+    "public pages must not be globally wrapped by Clerk middleware",
+  );
+  assert.match(
+    middlewareSource,
+    /if\s*\(isProtectedRoute\(req\)\)\s*\{[\s\S]*?return middlewareWithClerk\(req, event\);/,
+  );
+  assert.match(
+    middlewareSource,
+    /return middlewareForPublicRoutes\(req\);/,
+  );
+});

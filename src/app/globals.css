@@ -6232,6 +6232,10 @@ body::before {
   --v4-src-dev: #b08bff;
   --v4-src-claude: #ffb547;
   --v4-src-openai: #5cd6c0;
+  /* arXiv: Cornell crimson — kept distinct from --v4-red (negative-delta
+     semantics) so a row with rank-1 + a future drop arrow doesn't read as
+     two reds with the same meaning. */
+  --v4-src-arxiv: #B22234;
 
   /* Funding source palette (8 sources) */
   --v4-fund-cb: #3a4a8e;

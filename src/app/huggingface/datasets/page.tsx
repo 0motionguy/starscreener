@@ -27,12 +27,13 @@ import { huggingFaceLogoUrl, huggingFaceAuthorLogoUrl } from "@/lib/logos";
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { PageHead } from "@/components/ui/PageHead";
 import { KpiBand } from "@/components/ui/KpiBand";
-import { LiveDot } from "@/components/ui/LiveDot";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { MarkVisited } from "@/components/layout/MarkVisited";
 import { HfNavTabs } from "@/components/huggingface/HfNavTabs";
 import { HuggingFaceIcon } from "@/components/brand/BrandIcons";
 
-const HF_ACCENT_BAR = "#FFD21E"; // HF brand yellow
+// HF brand yellow — tokenized via --v4-src-hf (defined in globals.css).
+const HF_ACCENT_BAR = "var(--v4-src-hf)";
 
 export const dynamic = "force-static";
 export const revalidate = 1800; // 30 min
@@ -131,7 +132,7 @@ export default async function HuggingFaceDatasetsPage() {
               <>
                 <span className="big">{formatClock(file.fetchedAt)}</span>
                 <span className="muted">UTC · SCRAPED</span>
-                <LiveDot label="FRESH · 3H" />
+                <FreshnessBadge source="huggingface" lastUpdatedAt={file.fetchedAt} />
               </>
             }
           />

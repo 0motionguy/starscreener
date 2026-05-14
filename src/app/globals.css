@@ -191,6 +191,8 @@
   --source-openai-oklch: oklch(0.801 0.114 179.5);
   --source-claude: var(--color-warning);
   --source-claude-oklch: oklch(0.824 0.149 73.3);
+  --source-huggingface: #FFD21E;
+  --source-huggingface-oklch: oklch(0.879 0.169 92.5);
 
   /* ── Fonts (V2: Geist primary, V1 stack as fallback) ────────────────────── */
   --font-sans: var(--font-geist), var(--font-inter), "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -6233,7 +6235,7 @@ body::before {
   --v4-silver: var(--color-silver);
   --v4-bronze: #cd7f32;
 
-  /* Source channel colors (8 sources) */
+  /* Source channel colors (9 sources) */
   --v4-src-hn: #ff7a3d;
   --v4-src-gh: #c8d3df;
   --v4-src-x: #7aa7ff;
@@ -6255,6 +6257,7 @@ body::before {
   --v4-src-npm: #cb3837;
   --v4-src-npm-30: rgba(203, 56, 55, 0.30);
   --v4-src-npm-05: rgba(203, 56, 55, 0.05);
+  --v4-src-hf: #FFD21E;
 
   /* Funding source palette (8 sources) */
   --v4-fund-cb: #3a4a8e;

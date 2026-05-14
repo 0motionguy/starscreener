@@ -6246,6 +6246,15 @@ body::before {
      semantics) so a row with rank-1 + a future drop arrow doesn't read as
      two reds with the same meaning. */
   --v4-src-arxiv: #B22234;
+  /* npm: brand red. Kept distinct from --v4-red (negative-delta semantics)
+     so a row with rank-1 numerals + a future drop arrow doesn't read as
+     two reds with the same meaning. Alpha variants exist for VersionPill
+     border (30%) + background (5%) — composing color-mix() at use-sites
+     would also work, but explicit tokens stay loud-fail-fast on theme
+     swaps. */
+  --v4-src-npm: #cb3837;
+  --v4-src-npm-30: rgba(203, 56, 55, 0.30);
+  --v4-src-npm-05: rgba(203, 56, 55, 0.05);
 
   /* Funding source palette (8 sources) */
   --v4-fund-cb: #3a4a8e;

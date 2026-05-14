@@ -374,11 +374,24 @@
 }
 
 .tier-item-controls {
+  display: flex;
   align-items: center;
   gap: 4px;
   margin-left: 2px;
   padding-left: 6px;
   border-left: 1px solid var(--line-300);
+  opacity: 0.35;
+  transition: opacity var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+/* Keyboard a11y: per-item placement <select> must be reachable via Tab
+ * (wave-9d fix — was previously `display: none` until group-hover, which
+ *  trapped keyboard-only users out of placing items into tiers). The
+ *  controls render permanently but stay visually subtle until the parent
+ *  .tier-item is hovered or any control inside is focused. */
+.tier-item:hover .tier-item-controls,
+.tier-item:focus-within .tier-item-controls {
+  opacity: 1;
 }
 
 .tier-item-controls select,
@@ -389,6 +402,12 @@
   color: var(--ink-200);
   font-family: var(--font-mono);
   font-size: 10px;
+}
+
+.tier-item-controls select:focus-visible,
+.tier-item-controls button:focus-visible {
+  outline: 2px solid var(--acc);
+  outline-offset: 1px;
 }
 
 .tier-pool {

@@ -281,7 +281,7 @@ function DraggableCell({
       {typeof meta?.stars === "number" && meta.stars > 0 && (
         <span className="stars">{compactStars(meta.stars)}</span>
       )}
-      <div className="tier-item-controls hidden group-hover:flex group-focus-within:flex">
+      <div className="tier-item-controls">
         <select
           aria-label={`Place ${repoId} in tier`}
           value=""

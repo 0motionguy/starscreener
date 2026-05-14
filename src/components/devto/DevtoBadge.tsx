@@ -31,9 +31,10 @@ interface DevtoBadgeProps {
   size?: "sm" | "md";
 }
 
-// dev.to brand black. Tailwind dark: variants flip to white background
-// + black text so the monogram stays legible on dark surfaces.
-const DEVTO_BLACK = "#0a0a0a";
+// dev.to brand purple — the canonical source-of-truth for any consumer
+// that needs to color a "dev.to" pip / channel-dot. The badge itself
+// renders directly against `var(--source-dev)`; this re-exported string
+// stays a CSS variable so dark/light theme flips resolve at render time.
 
 function buildTooltip(m: DevtoMentionForBadge): string {
   const tutorialNoun = m.mentions7d === 1 ? "tutorial" : "tutorials";
@@ -88,8 +89,8 @@ export function DevtoBadge({ mention, size = "sm" }: DevtoBadgeProps) {
   );
 }
 
-// Re-export the underlying color so the channel-dot indicator can use
-// the same source-of-truth without drifting on a brand refresh.
-export const DEVTO_BRAND_COLOR = DEVTO_BLACK;
+// Re-export the canonical brand color so any future channel-dot or pip
+// consumer stays aligned with the badge fill / border above.
+export const DEVTO_BRAND_COLOR = "var(--source-dev)";
 
 export default DevtoBadge;

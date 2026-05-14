@@ -333,7 +333,7 @@ Boot guard in `env.ts:142-164`: production throws unless
 | Var | Used by | Notes |
 |---|---|---|
 | `SENTRY_DSN`, `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, `SENTRY_PROJECT` | scripts/_logger.mjs + Next runtime + worker | org `agnt-pf` (EU `de.sentry.io`), project id 4511285393686608 |
-| `POSTHOG_KEY`, `POSTHOG_API_KEY`, `POSTHOG_HOST`, `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST` | `src/lib/analytics/posthog.ts` + uptime workflow | shared with AISO + AGNT |
+| `POSTHOG_KEY`, `POSTHOG_API_KEY`, `POSTHOG_HOST`, `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_TOKEN`, `NEXT_PUBLIC_POSTHOG_HOST` | `src/lib/analytics/posthog.ts`, `src/components/providers/PostHogProvider.tsx` + uptime workflow | shared US PostHog project with AISO + AGNT |
 | `RESEND_API_KEY`, `EMAIL_FROM`, `DIGEST_ENABLED`, `DIGEST_USER_EMAILS_JSON` | `/api/cron/digest/weekly` | gated; opt-in master flag |
 | `OPS_ALERT_WEBHOOK` | platform-fatal alerts | HTTPS only |
 

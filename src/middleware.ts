@@ -203,11 +203,16 @@ const middlewareWithClerk = clerkMiddleware(async (auth, req) => {
   const res = NextResponse.next();
   await setRefCookieIfNeeded(req, res);
 
-  // 3. Protected routes → Clerk's `auth.protect()` redirects to sign-in
-  //    if no valid session. Returns the same response we built above on
-  //    success, preserving the cookie.
+  // 3. Protected routes use our own redirect instead of `auth.protect()`.
+  //    With Clerk development keys, `auth.protect()` can rewrite signed-out
+  //    product routes to a 404 before users ever reach our sign-in page.
   if (isProtectedRoute(req)) {
-    await auth.protect();
+    const session = await auth();
+    if (!session.userId) {
+      const redirect = redirectToSignIn(req);
+      await setRefCookieIfNeeded(req, redirect);
+      return redirect;
+    }
   }
 
   return res;

@@ -44,4 +44,13 @@ test("middleware runs Clerk only for protected routes and session-aware APIs", (
     middlewareSource,
     /return middlewareForPublicRoutes\(req\);/,
   );
+  assert.doesNotMatch(
+    middlewareSource,
+    /await\s+auth\.protect\(/,
+    "protected routes should use the app redirect instead of Clerk's protect rewrite",
+  );
+  assert.match(
+    middlewareSource,
+    /const session = await auth\(\);[\s\S]*?if \(!session\.userId\) \{[\s\S]*?return redirect;/,
+  );
 });

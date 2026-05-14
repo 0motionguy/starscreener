@@ -335,7 +335,6 @@ function ThumbLink({ launch }: { launch: Launch }) {
 
 function NameTagline({ launch }: { launch: Launch }) {
   const tags = (launch.tags ?? []).slice(0, 4);
-  const stars = launch.githubRepo?.stars;
   return (
     <div className="min-w-0">
       <a
@@ -363,27 +362,6 @@ function NameTagline({ launch }: { launch: Launch }) {
           {launch.tagline}
         </p>
       </a>
-      {launch.githubUrl ? (
-        <a
-          href={launch.githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden mt-0.5 inline-flex items-center gap-1 text-[10px] font-mono text-text-tertiary hover:text-functional transition-colors"
-          title={
-            stars !== undefined
-              ? `${launch.githubUrl.replace(/^https?:\/\/github\.com\//, "")} · ${stars.toLocaleString("en-US")}★`
-              : launch.githubUrl
-          }
-        >
-          <span aria-hidden>↗</span>
-          <span className="truncate">
-            {launch.githubUrl.replace(/^https?:\/\/github\.com\//, "")}
-          </span>
-          {stars !== undefined ? (
-            <span className="text-text-muted">· {stars.toLocaleString("en-US")}★</span>
-          ) : null}
-        </a>
-      ) : null}
     </div>
   );
 }

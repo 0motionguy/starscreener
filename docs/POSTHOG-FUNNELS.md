@@ -24,6 +24,11 @@ If both `NEXT_PUBLIC_POSTHOG_KEY` and `NEXT_PUBLIC_POSTHOG_TOKEN` are unset
 (preview / local dev without analytics provisioned), the helper is a silent
 no-op.
 
+The client is configured for explicit analytics only: autocapture, feature
+flags, surveys, product tours, conversations, session recording, web-vitals
+capture, and external PostHog extension loading are disabled. Re-enable those
+only with a matching product/dashboard owner and a fresh performance check.
+
 All funnel events share the same PostHog event name (`funnel_step`) and
 are differentiated by the `step` and `flow` properties — this lets the
 PostHog UI build funnels from a single event series filtered by `flow`,

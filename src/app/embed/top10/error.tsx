@@ -21,15 +21,15 @@ export default function EmbedTop10Error({ error, reset }: ErrorProps) {
         padding: 16,
         fontFamily: "ui-monospace, monospace",
         fontSize: 12,
-        color: "var(--v2-ink-300)",
+        color: "var(--v4-ink-300)",
       }}
     >
-      <p style={{ color: "var(--v2-sig-red)", marginBottom: 8 }}>
+      <p style={{ color: "var(--v4-red)", marginBottom: 8 }}>
         {"// EMBED · ERROR"}
       </p>
       <p style={{ marginBottom: 8 }}>Failed to render embed.</p>
       {error.digest && (
-        <p style={{ fontSize: 10, color: "var(--v2-ink-400)" }}>
+        <p style={{ fontSize: 10, color: "var(--v4-ink-400)" }}>
           {"// DIGEST: "}
           {error.digest}
         </p>
@@ -40,9 +40,9 @@ export default function EmbedTop10Error({ error, reset }: ErrorProps) {
         style={{
           marginTop: 8,
           padding: "4px 8px",
-          border: "1px solid var(--v2-line-200)",
+          border: "1px solid var(--v4-line-200)",
           background: "transparent",
-          color: "var(--v2-ink-000)",
+          color: "var(--v4-ink-000)",
           fontFamily: "inherit",
           fontSize: 11,
           textTransform: "uppercase",

@@ -20,7 +20,7 @@ export default function DigestDateError({ error, reset }: ErrorProps) {
     <div className="max-w-[640px] mx-auto px-4 md:px-6 py-16 md:py-24 text-center">
       <p
         className="v2-mono mb-3"
-        style={{ fontSize: 11, color: "var(--v2-sig-red)" }}
+        style={{ fontSize: 11, color: "var(--v4-red)" }}
       >
         {"// ERROR · DIGEST/[DATE]"}
       </p>
@@ -30,7 +30,7 @@ export default function DigestDateError({ error, reset }: ErrorProps) {
           fontSize: "clamp(24px, 3.5vw, 32px)",
           fontWeight: 510,
           letterSpacing: "-0.022em",
-          color: "var(--v2-ink-000)",
+          color: "var(--v4-ink-000)",
           lineHeight: 1.1,
           marginBottom: 12,
         }}
@@ -39,17 +39,17 @@ export default function DigestDateError({ error, reset }: ErrorProps) {
       </h1>
       <p
         className="leading-relaxed mb-5"
-        style={{ fontSize: 14, color: "var(--v2-ink-300)" }}
+        style={{ fontSize: 14, color: "var(--v4-ink-300)" }}
       >
         This surface failed to render. Try again, or head home if it keeps erroring.
       </p>
       {error.digest && (
         <p
           className="v2-mono mb-5"
-          style={{ fontSize: 11, color: "var(--v2-ink-400)" }}
+          style={{ fontSize: 11, color: "var(--v4-ink-400)" }}
         >
           {"// DIGEST: "}
-          <span style={{ color: "var(--v2-ink-300)" }}>{error.digest}</span>
+          <span style={{ color: "var(--v4-ink-300)" }}>{error.digest}</span>
         </p>
       )}
       <div className="flex flex-wrap items-center justify-center gap-2">

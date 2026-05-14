@@ -8,15 +8,15 @@ export default function CompareLoading() {
         <div className="space-y-2">
           <div
             className="h-3 w-24 rounded-[2px]"
-            style={{ background: "var(--v3-bg-050)" }}
+            style={{ background: "var(--v4-bg-050)" }}
           />
           <div
             className="h-7 w-56 rounded-[2px]"
-            style={{ background: "var(--v3-bg-100)" }}
+            style={{ background: "var(--v4-bg-100)" }}
           />
           <div
             className="h-3 w-80 rounded-[2px]"
-            style={{ background: "var(--v3-bg-050)" }}
+            style={{ background: "var(--v4-bg-050)" }}
           />
         </div>
         {/* repo selector chips */}
@@ -25,14 +25,14 @@ export default function CompareLoading() {
             <div
               key={i}
               className="h-9 w-40 rounded-[2px]"
-              style={{ background: "var(--v3-bg-050)" }}
+              style={{ background: "var(--v4-bg-050)" }}
             />
           ))}
         </div>
         {/* chart */}
         <div
           className="h-72 rounded-[2px]"
-          style={{ background: "var(--v3-bg-050)" }}
+          style={{ background: "var(--v4-bg-050)" }}
         />
         {/* comparison rows */}
         <div className="space-y-1.5">
@@ -40,7 +40,7 @@ export default function CompareLoading() {
             <div
               key={i}
               className="h-12 rounded-[2px]"
-              style={{ background: "var(--v3-bg-050)" }}
+              style={{ background: "var(--v4-bg-050)" }}
             />
           ))}
         </div>

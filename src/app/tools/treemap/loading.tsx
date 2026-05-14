@@ -7,15 +7,15 @@ export default function TreemapLoading() {
         <div className="space-y-2">
           <div
             className="h-3 w-24 rounded-[2px]"
-            style={{ background: "var(--v3-bg-050)" }}
+            style={{ background: "var(--v4-bg-050)" }}
           />
           <div
             className="h-7 w-64 rounded-[2px]"
-            style={{ background: "var(--v3-bg-100)" }}
+            style={{ background: "var(--v4-bg-100)" }}
           />
           <div
             className="h-3 w-80 rounded-[2px]"
-            style={{ background: "var(--v3-bg-050)" }}
+            style={{ background: "var(--v4-bg-050)" }}
           />
         </div>
         {/* control strip */}
@@ -24,14 +24,14 @@ export default function TreemapLoading() {
             <div
               key={i}
               className="h-8 w-28 rounded-[2px]"
-              style={{ background: "var(--v3-bg-050)" }}
+              style={{ background: "var(--v4-bg-050)" }}
             />
           ))}
         </div>
         {/* treemap canvas */}
         <div
           className="h-[560px] rounded-[2px]"
-          style={{ background: "var(--v3-bg-050)" }}
+          style={{ background: "var(--v4-bg-050)" }}
         />
       </div>
     </div>

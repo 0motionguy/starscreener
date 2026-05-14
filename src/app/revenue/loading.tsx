@@ -7,27 +7,27 @@ export default function RevenueLoading() {
         <div className="space-y-2">
           <div
             className="h-3 w-24 rounded-[2px]"
-            style={{ background: "var(--v3-bg-050)" }}
+            style={{ background: "var(--v4-bg-050)" }}
           />
           <div
             className="h-7 w-56 rounded-[2px]"
-            style={{ background: "var(--v3-bg-100)" }}
+            style={{ background: "var(--v4-bg-100)" }}
           />
           <div
             className="h-3 w-80 rounded-[2px]"
-            style={{ background: "var(--v3-bg-050)" }}
+            style={{ background: "var(--v4-bg-050)" }}
           />
         </div>
         <div
           className="h-12 rounded-[2px]"
-          style={{ background: "var(--v3-bg-050)" }}
+          style={{ background: "var(--v4-bg-050)" }}
         />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {Array.from({ length: 4 }).map((_, i) => (
             <div
               key={i}
               className="h-16 rounded-[2px]"
-              style={{ background: "var(--v3-bg-050)" }}
+              style={{ background: "var(--v4-bg-050)" }}
             />
           ))}
         </div>
@@ -36,7 +36,7 @@ export default function RevenueLoading() {
             <div
               key={i}
               className="h-12 rounded-[2px]"
-              style={{ background: "var(--v3-bg-050)" }}
+              style={{ background: "var(--v4-bg-050)" }}
             />
           ))}
         </div>

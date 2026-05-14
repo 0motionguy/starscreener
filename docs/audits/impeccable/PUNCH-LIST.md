@@ -40,6 +40,64 @@ That's the entire mechanical-fix surface from the CLI alone. Further fixes requi
 
 ---
 
+## Wave 2 — LLM audits on 5 surfaces (2026-05-13, branch `audit/imp-wave-2`)
+
+PRODUCT.md + DESIGN.md unblocked impeccable's preflight gate (committed in wave-1). 5 parallel LLM audit agents ran the `/impeccable audit` methodology on the top user-facing surfaces and produced one report per surface:
+
+- [funding-audit.md](./funding-audit.md) — 4 P0 / 6 P1 / 6 P2
+- [page-audit.md](./page-audit.md) — `/` (home) — 5 P0 / 9 P1 / 8 P2
+- [signals-audit.md](./signals-audit.md) — 4 P0 / 6 P1 / 5 P2
+- [mcp-audit.md](./mcp-audit.md) — 1 P0 / 3 P1 / 5 P2
+- [skills-audit.md](./skills-audit.md) — 2 P0 / 4 P1 / 4 P2
+
+**Totals: 16 P0 / 28 P1 / 28 P2 = 72 findings across 5 surfaces.**
+
+### Dominant cross-surface patterns
+
+1. **Honest-chrome rule violations** (12+ sites): hardcoded `<span className="live">LIVE</span>` / `live-pip` / "FEED LIVE" green-pulse strings on `/signals` (×4 — and the page already computes `sourceVerdicts` via `classifyFreshness()` but doesn't thread them in!), `/` (×5), `/mcp` (.live-pip), `/skills` (.live-pip). Same defect, same fix shape.
+2. **44×44 mobile tap-target failures**: tab strips and filter chips at 22-36px tall on `/skills` tabs, `/mcp` `.fchip` filters, `/funding` tabs, `/signals` `<details>` summary.
+3. **Token drift on V4 surfaces**: undefined `--v4-up` token on `/mcp` hero (falls back to hardcoded green, breaks theme-switch); ad-hoc `borderRadius: 3` / `4` literals instead of `var(--radius-card)`.
+4. **Inline-tab reimplementation**: `/skills` reinvents the V4 `<TabBar>` primitive in ~78 LOC inline.
+
+### What wave-2 SHIPS (mechanical fixes — low risk, high certainty)
+
+1. **`/mcp` P0** — `page.tsx` `var(--v4-up, #4ade80)` → `var(--v4-money)`. Theme-switch now works on every mover row.
+2. **`/mcp` P1** — Delete `<span className="live-pip">live</span>` from `LiveMcpTable.tsx` (page already has real `<FreshnessBadge>` in PageHead; the pip was duplicate + dishonest).
+3. **`/mcp` P1** — `globals.css` `.fchip` mobile tap target: add `@media (max-width: 640px) { min-height: 44px; padding: 10px 14px; }`. Desktop unchanged.
+4. **`/mcp` P1** — `page.tsx` hero `borderRadius: 4` → `2`. Matches `--radius-card` rule.
+5. **`/mcp` P2** — `page.tsx` mover-row `borderRadius: 3` → `2` and `padding: "8px 10px"` → `"12px 10px"` (closes the 36px tap-target finding on the hero anchors).
+6. **`/skills` P0** — Delete `<span className="live-pip">live</span>` from `SkillsTopTable.tsx`. Same defect as `/mcp` #2.
+
+### What wave-2 DEFERS to wave-3 (bigger surface, needs careful threading)
+
+These fixes are clearly mechanical per the audit reports but touch more files / require careful prop threading, so they get their own PR for reviewer focus:
+
+- **`/signals` 4-P0 cluster** — thread `sourceVerdicts` into `SourceFeedPanel`, `VolumeAreaChart`, `LiveClock`, `LiveTicker` (5 files). The audit has exact patches. Highest leverage in the audit: 4 P0s close from one pattern; data is already computed.
+- **`/` (home) 5-P0 cluster** — replace 5 hardcoded "LIVE" / green-pulse strings (BubbleMap, LiveTopTable, page.tsx) with `<FreshnessBadge>`. `FreshnessBadge` is never imported by `/` today — the fix is a 5-site import + swap.
+- **`/funding` 4 P0s** — confidence chip always green, "warming" sentinel, VerdictRibbon tone locked, MoverRow same-tab link. The audit has 8 mechanical patches + 4 design-call items.
+- **`/skills` P1 cluster** — swap inline `ListTaxonomyTabs` (~78 LOC) for the canonical `<TabBar>` primitive. Closes 3 findings in one substitution but is a refactor.
+- **`/` chart-toggle "fake tabs" P0** — 3 non-interactive `<span>` styled as tabs need real interactivity or removal.
+- **`/` ConsensusRow data lie** — slice-by-array-order instead of actual firing sources.
+
+### Cross-cutting follow-ups (not surface-specific)
+
+- **Chart palette drift**: `globals.css` `--color-series-1..5` vs `tokens.ts` `SERIES_PALETTE` disagree on first series color (green vs orange). Pick one canonical order.
+- **3 coexisting type scales**: `--text-*`, `--font-size-*`, `--font-size-title-*` overlap. Pick one canonical, mark others as backwards-compat.
+- **V2/V3/V4 generation sweep**: audit which components are on which generation; plan migration.
+- **Update `.claude/skills/starscreener-*` files**: align with current radii / fonts / shadow policy, or archive as historical intent — DESIGN.md is the new source of truth.
+
+### CLI baseline progression
+
+| Snapshot | Finding count | Delta | File |
+|---|---|---|---|
+| Baseline (pre-audit) | 28 | — | `_cli-baseline.json` |
+| After wave 1 (heatmap tint) | 27 | -1 | `_cli-post-pr-a.json` |
+| After wave 2 (LLM-driven fixes) | 27 | 0 | `_cli-post-wave-2.json` |
+
+The CLI count stayed at 27 because wave-2 fixes target *LLM-flagged honest-chrome lies and tap-target failures*, not the regex anti-patterns the CLI scans for. The two are complementary: CLI catches CSS/JSX surface patterns (side-tabs, untinted blacks, layout transitions); LLM agents catch semantic / UX / a11y violations (lies in chrome, mobile reflow, data fakery, token drift). Both metrics matter; neither alone is sufficient.
+
+The 1 remaining CLI finding (`globals.css:1499` `.repo-verdict`) is a designed gradient+border pair, not slop — see Recalibration section above.
+
 ---
 
 ## Triage summary

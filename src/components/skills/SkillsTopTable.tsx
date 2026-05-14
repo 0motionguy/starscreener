@@ -310,7 +310,6 @@ export function SkillsTopTable({
         <span className="live-top-spacer" />
         <span className="live-top-meta">
           showing <b>{rangeStart}-{rangeEnd}</b> / {sorted.length}
-          <span className="live-pip">live</span>
         </span>
       </div>
 

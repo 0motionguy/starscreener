@@ -13,6 +13,7 @@ import { MessageSquare, ChevronUp } from "lucide-react";
 import { LaunchLinkIcons } from "@/components/producthunt/LaunchLinkIcons";
 import {
   getAiLaunches,
+  getProducthuntFetchedAt,
   getRecentLaunches,
   producthuntCold,
   refreshProducthuntLaunchesFromStore,
@@ -23,9 +24,14 @@ import { getDerivedRepoByFullName } from "@/lib/derived-repos";
 // V4 (CORPUS) primitives.
 import { SourceFeedTemplate } from "@/components/templates/SourceFeedTemplate";
 import { KpiBand } from "@/components/ui/KpiBand";
-import { LiveDot } from "@/components/ui/LiveDot";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 
-const PH_RED = "#DA552F";
+// ProductHunt brand orange — read from the canonical CSS token so this stays
+// aligned with PhBadge.tsx (which already does the right thing) and any
+// future consumer. Replaces the prior local `PH_ACCENT = "#DA552F"` literal,
+// which drifted from the `--source-producthunt: #da552f` token even though
+// the spec called it ProductHunt orange (not red).
+const PH_ACCENT = "var(--source-producthunt)";
 
 type PhTab = "ai" | "all";
 const VALID_TABS: PhTab[] = ["ai", "all"];
@@ -67,11 +73,6 @@ function formatRelative(iso: string | null | undefined): string {
   return `${days}d ago`;
 }
 
-function formatClock(iso: string | undefined): string {
-  if (!iso) return "warming";
-  return new Date(iso).toISOString().slice(11, 19);
-}
-
 // ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
@@ -101,10 +102,11 @@ export default async function ProductHuntPage({
     .sort((a, b) => b.votesCount - a.votesCount)
     .slice(0, 50);
 
-  // Pull lastFetchedAt off the loader's getter — we don't need to import
-  // the file shape directly because getPhFile() drives off the same cache.
-  // The clock value is fine to fall back to "warming" when the store is cold.
-  const fetchedAt = !cold ? topLaunches[0]?.createdAt : undefined;
+  // Use the loader's scrape timestamp (NOT topLaunches[0].createdAt, which
+  // is the post date of the top-voted launch and routinely 1–6 days old
+  // under the 7d window + votes-desc sort). FreshnessBadge below renders
+  // the true scrape age via classifyFreshness("producthunt", fetchedAt).
+  const fetchedAt = getProducthuntFetchedAt();
 
   if (cold) {
     return (
@@ -117,6 +119,12 @@ export default async function ProductHuntPage({
           }
           title="ProductHunt · launches"
           lede="Top launches in the last 7 days, ordered by votes desc. AI tab filters to llm / agent / mcp / skill / rag adjacent products; All tab shows the full PH feed."
+          clock={
+            <FreshnessBadge
+              source="producthunt"
+              lastUpdatedAt={fetchedAt}
+            />
+          }
         />
         <ColdState />
       </main>
@@ -145,11 +153,10 @@ export default async function ProductHuntPage({
         title={`ProductHunt · ${activeTab === "ai" ? "AI launches" : "all launches"}`}
         lede="Top launches in the last 7 days, ordered by votes desc. AI tab filters to llm / agent / mcp / skill / rag adjacent products; All tab shows the full PH feed."
         clock={
-          <>
-            <span className="big">{formatClock(fetchedAt)}</span>
-            <span className="muted">UTC · LATEST POST</span>
-            <LiveDot label="FRESH · 4H" />
-          </>
+          <FreshnessBadge
+            source="producthunt"
+            lastUpdatedAt={fetchedAt}
+          />
         }
         snapshot={
           <KpiBand
@@ -158,7 +165,7 @@ export default async function ProductHuntPage({
                 label: "TRACKED",
                 value: current.length.toLocaleString("en-US"),
                 sub: "7d rolling",
-                pip: PH_RED,
+                pip: PH_ACCENT,
               },
               {
                 label: "TOP VOTES",
@@ -241,7 +248,7 @@ function LaunchFeed({ launches }: { launches: Launch[] }) {
               <div className="hidden md:grid grid-cols-[40px_60px_minmax(0,1fr)_72px_80px_60px_80px] gap-3 items-center px-3 py-2 min-h-[56px] hover:bg-bg-card-hover transition-colors">
                 <div
                   className="text-xs tabular-nums font-semibold"
-                  style={{ color: rank <= 10 ? PH_RED : undefined }}
+                  style={{ color: rank <= 10 ? PH_ACCENT : undefined }}
                 >
                   #{rank}
                 </div>
@@ -256,7 +263,7 @@ function LaunchFeed({ launches }: { launches: Launch[] }) {
                 </div>
                 <div
                   className="text-right text-xs tabular-nums inline-flex items-center justify-end gap-1"
-                  style={isHot ? { color: PH_RED } : undefined}
+                  style={isHot ? { color: PH_ACCENT } : undefined}
                 >
                   <ChevronUp size={11} className="shrink-0" />
                   {l.votesCount.toLocaleString("en-US")}
@@ -274,7 +281,7 @@ function LaunchFeed({ launches }: { launches: Launch[] }) {
               <div className="grid md:hidden grid-cols-[32px_1fr_60px_70px] gap-2 items-center px-3 py-2 min-h-[56px] hover:bg-bg-card-hover transition-colors">
                 <div
                   className="text-xs tabular-nums font-semibold"
-                  style={{ color: rank <= 10 ? PH_RED : undefined }}
+                  style={{ color: rank <= 10 ? PH_ACCENT : undefined }}
                 >
                   #{rank}
                 </div>
@@ -284,7 +291,7 @@ function LaunchFeed({ launches }: { launches: Launch[] }) {
                 </div>
                 <div
                   className="text-right text-xs tabular-nums inline-flex items-center justify-end gap-1"
-                  style={isHot ? { color: PH_RED } : undefined}
+                  style={isHot ? { color: PH_ACCENT } : undefined}
                 >
                   <ChevronUp size={11} className="shrink-0" />
                   {l.votesCount.toLocaleString("en-US")}
@@ -429,7 +436,7 @@ function CrossLinkedReposPanel({ launches }: { launches: Launch[] }) {
               </span>
               <span
                 className="text-xs tabular-nums inline-flex items-center gap-1"
-                style={{ color: PH_RED }}
+                style={{ color: PH_ACCENT }}
               >
                 <ChevronUp size={11} />
                 {launch.votesCount.toLocaleString("en-US")}
@@ -462,7 +469,7 @@ function ColdState() {
       <h2
         className="v2-mono"
         style={{
-          color: PH_RED,
+          color: PH_ACCENT,
           fontSize: 18,
           fontWeight: 700,
           textTransform: "uppercase",
@@ -501,7 +508,7 @@ function EmptyState({ tab }: { tab: PhTab }) {
       <h2
         className="v2-mono"
         style={{
-          color: PH_RED,
+          color: PH_ACCENT,
           fontSize: 18,
           fontWeight: 700,
           textTransform: "uppercase",
@@ -558,7 +565,7 @@ function TabNav({
                 ? "text-text-primary border-b-2"
                 : "text-text-tertiary hover:text-text-secondary border-b-2 border-transparent"
             }`}
-            style={isActive ? { borderBottomColor: PH_RED } : undefined}
+            style={isActive ? { borderBottomColor: PH_ACCENT } : undefined}
             title={t.hint}
           >
             {t.label}

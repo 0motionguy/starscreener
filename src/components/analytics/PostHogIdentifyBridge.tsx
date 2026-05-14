@@ -1,15 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
-import type { PostHog } from "posthog-js";
 
 import { useClientSession } from "@/components/layout/useClientSession";
-
-function getLoadedPostHog(): PostHog | null {
-  if (typeof window === "undefined") return null;
-  const posthog = (window as unknown as { posthog?: PostHog }).posthog;
-  return posthog?.__loaded ? posthog : null;
-}
+import { getLoadedBrowserPostHog } from "@/lib/analytics/posthog-client";
 
 export function PostHogIdentifyBridge() {
   const { loaded, userId } = useClientSession();
@@ -18,13 +12,13 @@ export function PostHogIdentifyBridge() {
     if (!loaded || !userId) return;
 
     const identify = () => {
-      getLoadedPostHog()?.identify(userId, {
+      getLoadedBrowserPostHog()?.identify(userId, {
         project: "trendingrepo",
         surface: "web",
       });
     };
 
-    if (getLoadedPostHog()) {
+    if (getLoadedBrowserPostHog()) {
       identify();
       return;
     }

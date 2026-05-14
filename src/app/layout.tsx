@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 // Trimmed to 3 actively-rendered fonts (Geist sans, Geist Mono, Space
 // Grotesk display). Inter and JetBrains Mono lived only as CSS-fallback
 // strings in globals.css after `var(--font-geist*)` and never painted
@@ -14,6 +15,7 @@ import { ToasterLazy } from "@/components/feedback/ToasterLazy";
 import { StoreProvider } from "@/components/providers/StoreProvider";
 import { PostHogProvider } from "@/components/providers/PostHogProvider";
 import { PostHogIdentifyBridge } from "@/components/analytics/PostHogIdentifyBridge";
+import { PostHogPageviewBridge } from "@/components/analytics/PostHogPageviewBridge";
 import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
@@ -224,6 +226,9 @@ export default async function RootLayout({
           Skip to main content
         </a>
         <PostHogProvider>
+          <Suspense fallback={null}>
+            <PostHogPageviewBridge />
+          </Suspense>
           <PostHogIdentifyBridge />
           <StoreProvider>
             <DesignSystemProvider>

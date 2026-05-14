@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, type ReactNode } from "react";
-import type { PostHog } from "posthog-js";
 import { flushPendingFunnelSteps } from "@/lib/analytics/funnel";
+import type { BrowserPostHogClient } from "@/lib/analytics/posthog-client";
 import { resolvePublicPostHogConfig } from "@/lib/analytics/posthog-config";
 // NOTE: type-only import is erased by SWC; no runtime cost.
 
@@ -21,21 +21,22 @@ export function PostHogProvider({ children }: { children: ReactNode }) {
     const load = async () => {
       if (cancelled || triggered) return;
       triggered = true;
-      const { default: posthog } = await import("posthog-js");
+      const { default: posthog } = await import("posthog-js/dist/module.slim");
       if (cancelled) return;
       if (!posthog.__loaded) {
         posthog.init(key, {
           api_host: host,
           defaults: "2026-01-30",
-          capture_pageview: "history_change",
+          capture_pageview: false,
           capture_pageleave: true,
           autocapture: false,
           capture_performance: false,
           person_profiles: "identified_only",
-          // Keep PostHog to explicit analytics only. Funnels are wired by
+          // Keep PostHog to explicit analytics only. Pageviews are captured by
+          // PostHogPageviewBridge, and funnels are wired by
           // captureFunnelStep/FunnelMount/TrackedExternalLink, so the app does
-          // not need the remote survey, flag, product-tour, web-vitals,
-          // dead-click, exception, or recording extension bundles.
+          // not need the survey, flag, product-tour, web-vitals, dead-click,
+          // exception, history-autocapture, or recording extension bundles.
           disable_session_recording: true,
           disable_surveys: true,
           disable_surveys_automatic_display: true,
@@ -53,7 +54,7 @@ export function PostHogProvider({ children }: { children: ReactNode }) {
       }
       // Expose via window so legacy callers (funnel.ts) can capture without
       // importing posthog-js eagerly themselves.
-      (window as unknown as { posthog?: PostHog }).posthog = posthog;
+      (window as unknown as { posthog?: BrowserPostHogClient }).posthog = posthog;
       flushPendingFunnelSteps();
       window.dispatchEvent(new Event("trendingrepo:posthog-ready"));
     };

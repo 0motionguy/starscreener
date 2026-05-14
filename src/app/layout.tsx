@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Suspense } from "react";
 // Trimmed to 3 actively-rendered fonts (Geist sans, Geist Mono, Space
 // Grotesk display). Inter and JetBrains Mono lived only as CSS-fallback
@@ -20,7 +21,9 @@ import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
 import ClerkRefHandoff from "@/components/auth/ClerkRefHandoff";
+import { clerkAppearance } from "@/lib/auth/clerk-appearance";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
+import { buildAuthHref } from "@/lib/auth/redirect-url";
 import {
   getPublicSidebarShell,
   type SidebarShellResponse,
@@ -176,6 +179,28 @@ export default async function RootLayout({
     initialSidebarShell = null;
   }
   const clerkPublishableKey = getClerkPublishableKey();
+  const appChrome = (
+    <>
+      <IdleMount>
+        <ClerkRefHandoff />
+      </IdleMount>
+      <Header clerkPublishableKey={clerkPublishableKey} />
+      <MobileDrawerLazy />
+      <AppShell>
+        <Sidebar initialShell={initialSidebarShell} />
+        <main id="main-content" className="app-main">{children}</main>
+      </AppShell>
+      <SidebarUserOverlayBridge />
+      <MobileNavLazy />
+      <IdleMount>
+        <BrowserAlertBridgeLazy />
+      </IdleMount>
+      <IdleMount>
+        <GlobalShortcutsLazy />
+      </IdleMount>
+      <ToasterLazy />
+    </>
+  );
 
   return (
     <html
@@ -234,29 +259,19 @@ export default async function RootLayout({
           <PostHogIdentifyBridge />
           <StoreProvider>
             <DesignSystemProvider>
-              <IdleMount>
-                <ClerkRefHandoff />
-              </IdleMount>
-              <Header clerkPublishableKey={clerkPublishableKey} />
-              <MobileDrawerLazy />
-              <AppShell>
-                <Sidebar initialShell={initialSidebarShell} />
-                <main id="main-content" className="app-main">{children}</main>
-              </AppShell>
-              {/*
-                Mounted unconditionally — the bridge is smart enough to
-                render nothing for anonymous viewers and only fires the
-                overlay fetch once a Clerk session resolves.
-              */}
-              <SidebarUserOverlayBridge />
-              <MobileNavLazy />
-              <IdleMount>
-                <BrowserAlertBridgeLazy />
-              </IdleMount>
-              <IdleMount>
-                <GlobalShortcutsLazy />
-              </IdleMount>
-              <ToasterLazy />
+              {clerkPublishableKey ? (
+                <ClerkProvider
+                  publishableKey={clerkPublishableKey}
+                  appearance={clerkAppearance}
+                  signInUrl={buildAuthHref("/sign-in", "/you")}
+                  signUpUrl={buildAuthHref("/sign-up", "/you")}
+                  afterSignOutUrl="/"
+                >
+                  {appChrome}
+                </ClerkProvider>
+              ) : (
+                appChrome
+              )}
             </DesignSystemProvider>
           </StoreProvider>
         </PostHogProvider>

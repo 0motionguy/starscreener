@@ -1,4 +1,4 @@
-// Clerk hosted sign-up page — full-page, branded.
+// Clerk hosted sign-up page: full-page, branded.
 //
 // Catch-all route: covers /sign-up, /sign-up/verify-email-address, etc.
 // Required by Clerk's <SignUp /> component when used as a hosted page.
@@ -15,9 +15,8 @@
 //   `unsafeMetadata` prop. The webhook then credits the signup from
 //   `unsafe_metadata.trRef`.
 
-import { ClerkProvider } from "@clerk/nextjs";
+import { AuthUnavailable } from "@/components/auth/AuthUnavailable";
 import { ClerkAuthForm } from "@/components/auth/ClerkAuthForm";
-import { clerkAppearance } from "@/lib/auth/clerk-appearance";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 import {
   buildAuthHref,
@@ -27,7 +26,7 @@ import {
 
 export const metadata = {
   title: "Sign up",
-  description: "Sign up to TrendingRepo — track agents, MCPs, repos",
+  description: "Sign up to TrendingRepo: track agents, MCPs, repos",
 };
 
 interface SignUpPageProps {
@@ -43,30 +42,14 @@ export default async function Page({ searchParams }: SignUpPageProps) {
   return (
     <div className="flex min-h-[calc(100vh-64px)] items-center justify-center px-4 py-12">
       {clerkPublishableKey ? (
-        <ClerkProvider
-          publishableKey={clerkPublishableKey}
-          appearance={clerkAppearance}
-        >
-          <ClerkAuthForm
-            mode="sign-up"
-            signInUrl={signInUrl}
-            fallbackRedirectUrl={redirectUrl}
-          />
-        </ClerkProvider>
+        <ClerkAuthForm
+          mode="sign-up"
+          signInUrl={signInUrl}
+          fallbackRedirectUrl={redirectUrl}
+        />
       ) : (
         <AuthUnavailable action="sign up" />
       )}
-    </div>
-  );
-}
-
-function AuthUnavailable({ action }: { action: string }) {
-  return (
-    <div className="max-w-md rounded border border-white/10 bg-black/30 p-6 text-center">
-      <h1 className="text-lg font-semibold">Auth unavailable</h1>
-      <p className="mt-2 text-sm text-white/70">
-        Clerk is not configured for this environment, so {action} is disabled.
-      </p>
     </div>
   );
 }

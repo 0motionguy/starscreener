@@ -1,10 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { ClerkProvider, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { clerkAppearance } from "@/lib/auth/clerk-appearance";
 import { buildAuthHref } from "@/lib/auth/redirect-url";
 
 interface HeaderAccountProps {
@@ -118,15 +117,5 @@ export function HeaderAccount({ publishableKey }: HeaderAccountProps) {
     return <SignedOutAccountLink />;
   }
 
-  return (
-    <ClerkProvider
-      publishableKey={publishableKey}
-      appearance={clerkAppearance}
-      signInUrl={buildAuthHref("/sign-in", "/you")}
-      signUpUrl={buildAuthHref("/sign-up", "/you")}
-      afterSignOutUrl="/"
-    >
-      <HeaderAccountLoaded />
-    </ClerkProvider>
-  );
+  return <HeaderAccountLoaded />;
 }

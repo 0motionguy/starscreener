@@ -91,17 +91,7 @@
 .btn-drop::after{ content:''; position:absolute; inset:-3px; border:1px dashed rgba(255,107,53,0.35); pointer-events:none; opacity:0; transition:opacity .2s; }
 .btn-drop:hover::after{ opacity:1; }
 
-/* Anonymous-user secondary CTA — quieter than DROP REPO */
-.btn-signin{
-  height:38px; padding:0 14px; display:inline-flex; align-items:center; gap:6px;
-  border:1px solid var(--line-300); background:var(--bg-050); color:var(--ink-200);
-  font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase;
-  text-decoration:none; cursor:pointer;
-  transition: border-color .15s, background .15s, color .15s;
-}
-.btn-signin:hover{ border-color:var(--ink-400); background:var(--bg-100); color:var(--ink-000); }
-
-/* Anonymous-user primary CTA — same chrome as btn-drop */
+/* Anonymous-user account CTA: single entry for sign-in and sign-up. */
 .btn-signup{
   height:38px; padding:0 16px 0 14px; display:flex; align-items:center; gap:8px;
   background:var(--acc); color:#190902; border:1px solid var(--acc-hover);
@@ -175,7 +165,6 @@
     height:15px;
   }
 
-  .btn-signin{ display:none; }
   .btn-signup{
     height:34px;
     padding:0 10px;

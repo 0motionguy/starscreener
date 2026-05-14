@@ -20,7 +20,7 @@
 
 "use client";
 
-import type { PostHog } from "posthog-js";
+import { getLoadedBrowserPostHog, type BrowserPostHogClient } from "@/lib/analytics/posthog-client";
 
 const MAX_PENDING_FUNNEL_STEPS = 50;
 const pendingFunnelSteps: FunnelStepProps[] = [];
@@ -35,10 +35,8 @@ const pendingFunnelSteps: FunnelStepProps[] = [];
  * Returns `null` while the SDK is dormant (server-render, before idle,
  * or when no public PostHog token is set and the provider bailed).
  */
-function getPosthog(): PostHog | null {
-  if (typeof window === "undefined") return null;
-  const ph = (window as unknown as { posthog?: PostHog }).posthog;
-  return ph?.__loaded ? ph : null;
+function getPosthog(): BrowserPostHogClient | null {
+  return getLoadedBrowserPostHog();
 }
 
 function enqueueFunnelStep(props: FunnelStepProps): void {

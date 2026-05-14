@@ -8,6 +8,7 @@ import { CompareSelector } from "./CompareSelector";
 import { CompareStatStrip } from "./CompareStatStrip";
 import { CompareSharePanel } from "./CompareSharePanel";
 import { StarterPackRow } from "./StarterPackRow";
+import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 // Inline minimal Repo stub so we don't drag node:fs/node:path from
 // @/lib/collections into this client component. Mirrors buildCuratedStub
 // shape for the no-data case the chart already handles.
@@ -215,6 +216,18 @@ export function CompareWaveTop() {
     () => buildMindsharePctByFullName(payloads),
     [payloads],
   );
+  // Max payload.updatedAt across all resolved series — drives an honest
+  // freshness verdict in the panel head. Per-payload Redis-published cadence
+  // is ~6h, so `mcp` NewsSource (12h budget) is the closest threshold.
+  // Null collapses the badge to "unknown" (no payloads yet / empty state).
+  const maxUpdatedAt = useMemo<string | null>(() => {
+    let max: string | null = null;
+    for (const p of Object.values(payloads)) {
+      if (!p.updatedAt) continue;
+      if (!max || p.updatedAt > max) max = p.updatedAt;
+    }
+    return max;
+  }, [payloads]);
 
   const [metric, setMetric] = useState<StarActivityMetric>("stars");
   const [chartWindow, setChartWindow] = useState<StarActivityWindow>("all");
@@ -261,7 +274,7 @@ export function CompareWaveTop() {
         <div className="panel-head">
           <span className="key">{`// STAR HISTORY / CHART / ${repoIds.length} SERIES`}</span>
           <span className="right">
-            <span className="live">Live</span>
+            <FreshnessBadge source="mcp" lastUpdatedAt={maxUpdatedAt} />
           </span>
         </div>
         <div className="panel-body compare-control-body">

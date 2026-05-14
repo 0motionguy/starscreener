@@ -237,7 +237,8 @@ export function CompareSelector() {
                 type="button"
                 onClick={() => removeRepo(id)}
                 className={cn(
-                  "p-0.5 rounded-full hover:bg-bg-card-hover transition-colors cursor-pointer",
+                  "p-2 -my-2 -mr-1 rounded-full hover:bg-bg-card-hover transition-colors cursor-pointer",
+                  "min-w-[44px] min-h-[44px] flex items-center justify-center",
                   "text-text-tertiary hover:text-text-primary",
                 )}
                 aria-label={`Remove ${name}`}

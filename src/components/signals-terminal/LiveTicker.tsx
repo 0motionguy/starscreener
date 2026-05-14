@@ -59,17 +59,11 @@ export function LiveTicker({ items }: LiveTickerProps) {
           textTransform: "uppercase",
         }}
       >
-        <i
-          aria-hidden
-          style={{
-            width: "6px",
-            height: "6px",
-            borderRadius: "99px",
-            background: "var(--color-bg-canvas)",
-            animation: "pulse-dark 1.4s ease-in-out infinite",
-          }}
-        />
-        LIVE · 24H WIRE
+        {/* Dropped the pulse-dark pip + "LIVE" word (2026-05-13). The wire
+            is a 24h rollup; items can be 23h old. Pulsing "LIVE" green-on-
+            accent regardless of freshness violates the honest-chrome rule
+            (CLAUDE.md). Wire label stands alone honestly. */}
+        24H WIRE
       </div>
       <div
         style={{
@@ -155,10 +149,6 @@ export function LiveTicker({ items }: LiveTickerProps) {
         @keyframes signals-ticker-scroll {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
-        }
-        @keyframes pulse-dark {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
         }
       `}</style>
     </div>

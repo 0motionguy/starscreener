@@ -1,6 +1,6 @@
-// Clerk <SignIn /> / <SignUp /> appearance — matches trendingrepo's
-// dark canvas + Liquid Lava accent. Wired through page-local ClerkProvider
-// wrappers so the root layout does not load Clerk on every public page.
+// Clerk <SignIn /> / <SignUp /> appearance: matches trendingrepo's
+// dark canvas + Liquid Lava accent. The root layout owns the single
+// ClerkProvider used by the header account CTA and hosted auth pages.
 //
 // Variables map to Clerk's high-level theme tokens; elements override
 // individual sub-component class names where a token can't reach

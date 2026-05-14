@@ -11,6 +11,8 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   writeDataStore,
+  readDataStoreMany,
+  writeDataStoreMany,
   _resetForTests,
   closeDataStore,
 } from "../_data-store-write.mjs";
@@ -160,6 +162,105 @@ test("writeDataStore: rejects invalid keys (blank/null/undefined literals)", asy
       () => writeDataStore("undefined", { x: 1 }),
       /invalid key/i,
     );
+  });
+});
+
+// ---------------------------------------------------------------------------
+// B.15 Arc 2 — batched helper tests
+// ---------------------------------------------------------------------------
+//
+// `readDataStoreMany` + `writeDataStoreMany` are the Upstash-quota fix shipped
+// 2026-05-15 (incident-driven). These tests cover the no-Redis-env path
+// (returns aligned nulls / skipped result) — the same graceful-skip
+// discipline the single-write tests above exercise. End-to-end pipeline
+// behavior is verified via the integration smoke against live Redis.
+
+test("readDataStoreMany: returns aligned nulls when Redis disabled", async () => {
+  await withClearedEnv(async () => {
+    _resetForTests();
+    process.env.DATA_STORE_DISABLE = "1";
+    try {
+      const result = await readDataStoreMany(["a", "b", "c"]);
+      assert.deepEqual(result, [null, null, null]);
+    } finally {
+      delete process.env.DATA_STORE_DISABLE;
+    }
+  });
+});
+
+test("readDataStoreMany: empty input returns empty array", async () => {
+  await withClearedEnv(async () => {
+    _resetForTests();
+    const result = await readDataStoreMany([]);
+    assert.deepEqual(result, []);
+  });
+});
+
+test("readDataStoreMany: handles non-array input gracefully", async () => {
+  await withClearedEnv(async () => {
+    _resetForTests();
+    // @ts-expect-error — intentionally passing invalid type
+    const result = await readDataStoreMany(null);
+    assert.deepEqual(result, []);
+  });
+});
+
+test("readDataStoreMany: maps invalid slugs to null without crashing", async () => {
+  await withClearedEnv(async () => {
+    _resetForTests();
+    process.env.DATA_STORE_DISABLE = "1";
+    try {
+      const result = await readDataStoreMany(["valid", "", "null", "undefined", "also-valid"]);
+      // No Redis configured, so all entries collapse to null. The point of
+      // this test is that the invalid keys don't throw — they just yield
+      // null in their aligned slot.
+      assert.equal(result.length, 5);
+      for (const cell of result) assert.equal(cell, null);
+    } finally {
+      delete process.env.DATA_STORE_DISABLE;
+    }
+  });
+});
+
+test("writeDataStoreMany: empty input returns skipped result", async () => {
+  await withClearedEnv(async () => {
+    _resetForTests();
+    const result = await writeDataStoreMany([]);
+    assert.equal(result.source, "skipped");
+    assert.deepEqual(result.results, []);
+    assert.match(result.writtenAt, /^\d{4}-\d{2}-\d{2}T/);
+  });
+});
+
+test("writeDataStoreMany: returns skipped when Redis disabled, with per-entry markers", async () => {
+  await withClearedEnv(async () => {
+    _resetForTests();
+    process.env.DATA_STORE_DISABLE = "1";
+    try {
+      const result = await writeDataStoreMany([
+        { key: "alpha", value: { n: 1 } },
+        { key: "beta", value: { n: 2 } },
+        { key: "gamma", value: { n: 3 } },
+      ]);
+      assert.equal(result.source, "skipped");
+      assert.equal(result.results.length, 3);
+      for (const r of result.results) {
+        assert.equal(r.ok, false);
+        assert.match(r.error, /disabled/i);
+      }
+    } finally {
+      delete process.env.DATA_STORE_DISABLE;
+    }
+  });
+});
+
+test("writeDataStoreMany: non-array input collapses to skipped/empty", async () => {
+  await withClearedEnv(async () => {
+    _resetForTests();
+    // @ts-expect-error — intentionally passing invalid type
+    const result = await writeDataStoreMany(undefined);
+    assert.equal(result.source, "skipped");
+    assert.deepEqual(result.results, []);
   });
 });
 

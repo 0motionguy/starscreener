@@ -22,6 +22,8 @@ import "./_load-env.mjs";
 import {
   writeDataStore,
   readDataStore,
+  readDataStoreMany,
+  writeDataStoreMany,
   closeDataStore,
 } from "./_data-store-write.mjs";
 import { loadTrackedReposFromFiles } from "./_tracked-repos.mjs";
@@ -181,6 +183,137 @@ async function appendOne(fullName, token) {
   return next;
 }
 
+// B.15 Arc 2 — batched append for a chunk of repos.
+//
+// Per-chunk Redis-request budget (against Upstash limits):
+//   1 × MGET                (existing payload reads, N keys)
+//   1 × pipeline.exec()     (2N SETs: payload + meta per entry)
+//   1 × MGET (verify)       (read-back, N keys)
+//   = 3 Upstash requests for N repos (vs. 4N in the sequential loop).
+//
+// At N=100, 2980 repos → 30 chunks × 3 requests = 90 requests for the
+// full run vs. ~11,920 for the per-repo loop.
+//
+// Errors are isolated per repo:
+//   - GitHub fetch fail → repo recorded as failure, others continue
+//   - MGET partial (some null) → bootstrap from null is normal, treated ok
+//   - Pipeline per-entry SET fail → recorded, other entries proceed
+//   - Verify mismatch → recorded as failure
+//
+// Returns: { ok: string[], failed: Array<{ repo: string, reason: string }> }
+async function appendChunk(repos, token) {
+  if (!Array.isArray(repos) || repos.length === 0) {
+    return { ok: [], failed: [] };
+  }
+  const ok = [];
+  const failed = [];
+  const slugs = repos.map(payloadSlug);
+
+  // Phase 1 — batched read of existing payloads (1 Upstash request).
+  let existings;
+  try {
+    existings = await readDataStoreMany(slugs);
+  } catch (err) {
+    // Treat as full-chunk MGET failure — fall back to bootstrap-from-null
+    // for every repo. The write/verify path is still tried so the next
+    // run has fresh state.
+    console.warn(`[chunk] MGET failed (${err?.message ?? err}); bootstrapping null`);
+    existings = repos.map(() => null);
+  }
+
+  // Phase 2 — parallel GitHub fetches. Each call is independent + token-pooled
+  // upstream. Promise.allSettled so one 5xx doesn't kill the chunk.
+  const fetchSettled = await Promise.allSettled(
+    repos.map((fullName) => fetchCurrentStars(fullName, token)),
+  );
+
+  // Phase 3 — build new payloads from (existing, currentStars).
+  const newPayloads = new Array(repos.length).fill(null);
+  for (let i = 0; i < repos.length; i += 1) {
+    const fullName = repos[i];
+    const settle = fetchSettled[i];
+    if (settle.status !== "fulfilled") {
+      failed.push({ repo: fullName, reason: `fetchCurrentStars: ${settle.reason?.message ?? settle.reason}` });
+      continue;
+    }
+    const currentStars = settle.value;
+    const existing = existings[i];
+    const next = appendToday(
+      existing && typeof existing === "object"
+        ? { ...existing, repoId: fullName }
+        : null,
+      currentStars,
+    );
+    next.repoId = fullName;
+    newPayloads[i] = next;
+  }
+
+  // Phase 4 — batched write via pipeline.exec (1 Upstash request).
+  const entriesToWrite = [];
+  const entryIndexByKey = new Map();
+  for (let i = 0; i < repos.length; i += 1) {
+    if (newPayloads[i] === null) continue;
+    const slug = slugs[i];
+    entriesToWrite.push({ key: slug, value: newPayloads[i] });
+    entryIndexByKey.set(slug, i);
+  }
+  if (entriesToWrite.length === 0) {
+    return { ok, failed };
+  }
+
+  let writeResult;
+  try {
+    writeResult = await writeDataStoreMany(entriesToWrite, { stampPerRecord: false });
+  } catch (err) {
+    // Full pipeline failure — record everyone in the chunk as failed.
+    for (const e of entriesToWrite) {
+      failed.push({ repo: repos[entryIndexByKey.get(e.key)], reason: `pipeline: ${err?.message ?? err}` });
+    }
+    return { ok, failed };
+  }
+  if (writeResult.source !== "redis") {
+    for (const e of entriesToWrite) {
+      failed.push({ repo: repos[entryIndexByKey.get(e.key)], reason: "data-store write skipped" });
+    }
+    return { ok, failed };
+  }
+
+  // Phase 5 — batched read-back verify (1 Upstash request).
+  const verifySlugs = entriesToWrite.map((e) => e.key);
+  let readBacks;
+  try {
+    readBacks = await readDataStoreMany(verifySlugs);
+  } catch (err) {
+    // Verify failure ≠ write failure — log soft + still count writes as ok.
+    console.warn(`[chunk] readback MGET failed (${err?.message ?? err}); skipping per-entry verify`);
+    readBacks = entriesToWrite.map(() => undefined);
+  }
+
+  for (let i = 0; i < entriesToWrite.length; i += 1) {
+    const entry = entriesToWrite[i];
+    const expected = entry.value;
+    const fullName = repos[entryIndexByKey.get(entry.key)];
+    const writeStatus = writeResult.results[i];
+    if (!writeStatus?.ok) {
+      failed.push({ repo: fullName, reason: `write: ${writeStatus?.error ?? "unknown"}` });
+      continue;
+    }
+    // If we couldn't verify (MGET failed), trust the pipeline SET success.
+    if (readBacks[i] === undefined) {
+      ok.push(fullName);
+      continue;
+    }
+    try {
+      assertReadBackMatches(entry.key, expected, readBacks[i]);
+      ok.push(fullName);
+    } catch (err) {
+      failed.push({ repo: fullName, reason: `verify: ${err?.message ?? err}` });
+    }
+  }
+
+  return { ok, failed };
+}
+
 async function main() {
   const args = parseArgs();
   assertWritableDataStoreEnv();
@@ -206,18 +339,29 @@ async function main() {
 
   console.log(`[append-star-activity] appending today's point for ${repos.length} repos`);
 
+  // B.15 Arc 2 — chunked batched append. Default N=100 keeps each pipeline
+  // payload + MGET response well under Upstash's 10MB-per-response limit
+  // (~30KB per star-activity payload × 100 = ~3MB worst case).
+  const CHUNK_SIZE = Number(process.env.APPEND_STAR_ACTIVITY_CHUNK_SIZE) || 100;
   let ok = 0;
   let failed = 0;
-  for (const fullName of repos) {
-    try {
-      const next = await appendOne(fullName, token);
-      console.log(
-        `[ok] ${fullName} points=${next.points.length} latest=${next.points[next.points.length - 1].s}`,
-      );
+  for (let start = 0; start < repos.length; start += CHUNK_SIZE) {
+    const chunk = repos.slice(start, start + CHUNK_SIZE);
+    const chunkIdx = Math.floor(start / CHUNK_SIZE) + 1;
+    const chunkTotal = Math.ceil(repos.length / CHUNK_SIZE);
+    console.log(
+      `[chunk ${chunkIdx}/${chunkTotal}] processing ${chunk.length} repos (start=${start})`,
+    );
+    const result = await appendChunk(chunk, token);
+    for (const repo of result.ok) {
       ok += 1;
-    } catch (err) {
+      // One-line per-success log preserved for parity with the legacy loop —
+      // operators piping output to grep still get a `[ok] <name>` row.
+      console.log(`[ok] ${repo}`);
+    }
+    for (const fail of result.failed) {
       failed += 1;
-      console.error(`[fail] ${fullName}: ${err?.message ?? err}`);
+      console.error(`[fail] ${fail.repo}: ${fail.reason}`);
     }
   }
 

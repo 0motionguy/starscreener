@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-05-13T07:39:15.430Z",
+  "fetchedAt": "2026-05-14T07:10:44.061Z",
   "windowDays": 7,
-  "scannedStories": 82,
+  "scannedStories": 81,
   "mentions": {
     "jj-vcs/jj": {
       "count7d": 1,
@@ -74,6 +74,82 @@
           "linkedRepos": [
             {
               "fullName": "nooga/let-go",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Nightmare-Eclipse/YellowKey": {
+      "count7d": 1,
+      "scoreSum7d": 23,
+      "topStory": {
+        "shortId": "aovfvz",
+        "title": "YellowKey Bitlocker Bypass Vulnerability",
+        "score": 23,
+        "url": "https://github.com/Nightmare-Eclipse/YellowKey",
+        "commentsUrl": "https://lobste.rs/s/aovfvz/yellowkey_bitlocker_bypass",
+        "hoursSincePosted": 18.245833333333334
+      },
+      "stories": [
+        {
+          "shortId": "aovfvz",
+          "title": "YellowKey Bitlocker Bypass Vulnerability",
+          "url": "https://github.com/Nightmare-Eclipse/YellowKey",
+          "commentsUrl": "https://lobste.rs/s/aovfvz/yellowkey_bitlocker_bypass",
+          "by": "",
+          "score": 23,
+          "commentCount": 3,
+          "createdUtc": 1778676959,
+          "ageHours": 18.245833333333334,
+          "trendingScore": 0.252478470141944,
+          "tags": [
+            "security",
+            "windows"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "Nightmare-Eclipse/YellowKey",
+              "matchType": "url",
+              "confidence": 1
+            }
+          ]
+        }
+      ]
+    },
+    "v12-security/pocs": {
+      "count7d": 1,
+      "scoreSum7d": 21,
+      "topStory": {
+        "shortId": "zz251k",
+        "title": "Fragnesia: New Linux Privilege Escalation Exploit",
+        "score": 21,
+        "url": "https://github.com/v12-security/pocs/tree/main/fragnesia",
+        "commentsUrl": "https://lobste.rs/s/zz251k/fragnesia_new_linux_privilege",
+        "hoursSincePosted": 14.681111111111111
+      },
+      "stories": [
+        {
+          "shortId": "zz251k",
+          "title": "Fragnesia: New Linux Privilege Escalation Exploit",
+          "url": "https://github.com/v12-security/pocs/tree/main/fragnesia",
+          "commentsUrl": "https://lobste.rs/s/zz251k/fragnesia_new_linux_privilege",
+          "by": "",
+          "score": 21,
+          "commentCount": 2,
+          "createdUtc": 1778689792,
+          "ageHours": 14.681111111111111,
+          "trendingScore": 0.308234915393704,
+          "tags": [
+            "linux",
+            "security"
+          ],
+          "description": "",
+          "linkedRepos": [
+            {
+              "fullName": "v12-security/pocs",
               "matchType": "url",
               "confidence": 1
             }
@@ -278,6 +354,16 @@
       "fullName": "nooga/let-go",
       "count7d": 1,
       "scoreSum7d": 54
+    },
+    {
+      "fullName": "Nightmare-Eclipse/YellowKey",
+      "count7d": 1,
+      "scoreSum7d": 23
+    },
+    {
+      "fullName": "v12-security/pocs",
+      "count7d": 1,
+      "scoreSum7d": 21
     },
     {
       "fullName": "0xdeadbeefnetwork/Copy_Fail2-Electric_Boogaloo",

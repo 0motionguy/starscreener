@@ -50,11 +50,16 @@ const EnvSchema = z.object({
   CRON_SECRET: z.string().min(16).optional(),
 
   // ── Observability ──────────────────────────────────────────────────────
-  // PostHog project API key (EU region). Consumed by
-  // src/lib/analytics/posthog.ts for fire-and-forget per-call captures
-  // (e.g. github_api_call from the pool-aware fetch paths). When unset,
+  // PostHog analytics. Client capture uses the NEXT_PUBLIC_* project token;
+  // server capture uses POSTHOG_KEY or POSTHOG_API_KEY. Host values must
+  // match the token region; the current shared project is US. When unset,
   // the helper is a silent no-op — analytics is best-effort.
+  NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
+  NEXT_PUBLIC_POSTHOG_TOKEN: z.string().optional(),
+  NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),
   POSTHOG_KEY: z.string().optional(),
+  POSTHOG_API_KEY: z.string().optional(),
+  POSTHOG_HOST: z.string().optional(),
 
   // ── Persistence ────────────────────────────────────────────────────────
   // Both legacy STARSCREENER_* and new TRENDINGREPO_* are accepted during

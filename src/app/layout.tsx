@@ -13,6 +13,7 @@ import "@/lib/bootstrap";
 import { ToasterLazy } from "@/components/feedback/ToasterLazy";
 import { StoreProvider } from "@/components/providers/StoreProvider";
 import { PostHogProvider } from "@/components/providers/PostHogProvider";
+import { PostHogIdentifyBridge } from "@/components/analytics/PostHogIdentifyBridge";
 import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
@@ -223,6 +224,7 @@ export default async function RootLayout({
           Skip to main content
         </a>
         <PostHogProvider>
+          <PostHogIdentifyBridge />
           <StoreProvider>
             <DesignSystemProvider>
               <IdleMount>

@@ -76,6 +76,12 @@ export interface GithubFetchOptions {
   signal?: AbortSignal;
   /** Logical operation name for Redis pool telemetry. */
   operation?: string;
+  /**
+   * Whether Redis-backed telemetry must complete before returning.
+   * Defaults to true for collectors/admin calls. Latency-sensitive page
+   * fallbacks can set this false so telemetry remains best-effort.
+   */
+  awaitTelemetry?: boolean;
 }
 
 export interface GithubFetchResult {
@@ -102,6 +108,7 @@ export async function githubFetch(
   const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   const method = options.method ?? "GET";
   const operation = options.operation ?? operationFromPath(pathOrUrl, method);
+  const awaitTelemetry = options.awaitTelemetry ?? true;
 
   for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
     let token: string | null = null;
@@ -164,15 +171,18 @@ export async function githubFetch(
       });
     } catch (err) {
       clearTimeout(timer);
-      await recordGithubCall({
-        keyFingerprint: githubKeyFingerprint(token),
-        statusCode: 0,
-        rateLimitRemaining: null,
-        rateLimitReset: null,
-        responseTimeMs: Date.now() - startedAt,
-        operation,
-        success: false,
-      });
+      await recordGithubCallForFetch(
+        {
+          keyFingerprint: githubKeyFingerprint(token),
+          statusCode: 0,
+          rateLimitRemaining: null,
+          rateLimitReset: null,
+          responseTimeMs: Date.now() - startedAt,
+          operation,
+          success: false,
+        },
+        awaitTelemetry,
+      );
       if (attempt < MAX_ATTEMPTS - 1) {
         await sleep(RETRY_DELAYS_MS[attempt] ?? RETRY_DELAYS_MS.at(-1)!);
         continue;
@@ -202,15 +212,18 @@ export async function githubFetch(
     if (token && headerLimits) {
       pool.recordRateLimit(token, headerLimits.remaining, headerLimits.resetUnixSec);
     }
-    await recordGithubCall({
-      keyFingerprint: githubKeyFingerprint(token),
-      statusCode: res.status,
-      rateLimitRemaining: headerLimits?.remaining ?? null,
-      rateLimitReset: headerLimits?.resetUnixSec ?? null,
-      responseTimeMs: Date.now() - startedAt,
-      operation,
-      success: res.ok,
-    });
+    await recordGithubCallForFetch(
+      {
+        keyFingerprint: githubKeyFingerprint(token),
+        statusCode: res.status,
+        rateLimitRemaining: headerLimits?.remaining ?? null,
+        rateLimitReset: headerLimits?.resetUnixSec ?? null,
+        responseTimeMs: Date.now() - startedAt,
+        operation,
+        success: res.ok,
+      },
+      awaitTelemetry,
+    );
 
     // 401 → token is invalid; quarantine and retry with a different PAT.
     if (res.status === 401 && token) {
@@ -340,6 +353,18 @@ export async function githubFetch(
   }
 
   return null;
+}
+
+async function recordGithubCallForFetch(
+  params: Parameters<typeof recordGithubCall>[0],
+  awaitTelemetry: boolean,
+): Promise<void> {
+  const telemetry = recordGithubCall(params);
+  if (awaitTelemetry) {
+    await telemetry;
+  } else {
+    void telemetry;
+  }
 }
 
 function operationFromPath(pathOrUrl: string, method: string): string {

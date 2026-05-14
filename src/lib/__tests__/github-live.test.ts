@@ -88,4 +88,41 @@ test("live-repo fetch passes cache hints that keep the ISR page renderable", asy
     /next:\s*\{\s*revalidate:\s*\d+/,
     "next.revalidate must be set so the fetch participates in Next data cache",
   );
+  assert.match(
+    callSite,
+    /awaitTelemetry:\s*false/,
+    "live-repo fetch must not wait on Redis telemetry before returning GitHub data",
+  );
+});
+
+test("live-repo cache access is bounded best-effort", async () => {
+  const fs = await import("node:fs/promises");
+  const path = await import("node:path");
+  const { fileURLToPath } = await import("node:url");
+  const here = path.dirname(fileURLToPath(import.meta.url));
+  const src = await fs.readFile(
+    path.resolve(here, "..", "github-live.ts"),
+    "utf8",
+  );
+
+  assert.match(
+    src,
+    /LIVE_REPO_CACHE_READ_TIMEOUT_MS\s*=\s*250/,
+    "cache read must be bounded below the live upstream budget",
+  );
+  assert.match(
+    src,
+    /LIVE_REPO_CACHE_WRITE_TIMEOUT_MS\s*=\s*250/,
+    "cache write must be bounded below the live upstream budget",
+  );
+  assert.match(
+    src,
+    /withTimeout\(\s*store\.read<Repo>\(cacheKey\)/,
+    "live-repo Redis cache read must be guarded by withTimeout",
+  );
+  assert.match(
+    src,
+    /void withTimeout\(\s*store\.write\(cacheKey, repo/,
+    "live-repo Redis cache write must not block the response",
+  );
 });

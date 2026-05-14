@@ -20,7 +20,10 @@ import { githubFetch } from "./github-fetch";
 
 const LIVE_REPO_KEY_PREFIX = "ss:live-repo:v1:";
 const LIVE_REPO_TTL_SECONDS = 60 * 60; // 1h
-export const LIVE_REPO_UPSTREAM_TIMEOUT_MS = 1500;
+export const LIVE_REPO_UPSTREAM_TIMEOUT_MS = 4000;
+const LIVE_REPO_GITHUB_TIMEOUT_MS = 3500;
+const LIVE_REPO_CACHE_READ_TIMEOUT_MS = 250;
+const LIVE_REPO_CACHE_WRITE_TIMEOUT_MS = 250;
 
 interface GitHubRepoApiResponse {
   full_name: string;
@@ -69,6 +72,8 @@ async function fetchFromGitHub(
       operation: "live-repo-fetch",
       cache: "force-cache",
       next: { revalidate: 3600 },
+      timeoutMs: LIVE_REPO_GITHUB_TIMEOUT_MS,
+      awaitTelemetry: false,
     });
   } catch (err) {
     console.error("[github-live] fetch failed", owner, name, err);
@@ -164,19 +169,25 @@ export async function fetchGitHubRepoLive(
   const { getDataStore } = await import("./data-store");
   const store = getDataStore();
   try {
-    const cached = await store.read<Repo>(cacheKey);
+    const cached = await withTimeout(
+      store.read<Repo>(cacheKey),
+      LIVE_REPO_CACHE_READ_TIMEOUT_MS,
+      "github-live cache read",
+    );
     if (cached.data && cached.source !== "missing") return cached.data;
   } catch (err) {
-    console.warn("[github-live] cache read failed", err);
+    console.warn("[github-live] cache read skipped", err);
   }
   const gh = await fetchFromGitHub(owner, name);
   if (!gh) return null;
   const repo = synthesizeRepoFromGitHub(gh);
-  try {
-    await store.write(cacheKey, repo, { ttlSeconds: LIVE_REPO_TTL_SECONDS });
-  } catch (err) {
-    console.warn("[github-live] cache write failed", err);
-  }
+  void withTimeout(
+    store.write(cacheKey, repo, { ttlSeconds: LIVE_REPO_TTL_SECONDS }),
+    LIVE_REPO_CACHE_WRITE_TIMEOUT_MS,
+    "github-live cache write",
+  ).catch((err) => {
+    console.warn("[github-live] cache write skipped", err);
+  });
   return repo;
 }
 
@@ -197,6 +208,27 @@ export async function fetchGitHubRepoLiveWithinBudget(
       new Promise<never>((_, reject) => {
         timeoutId = setTimeout(
           () => reject(new Error("github-live timeout")),
+          timeoutMs,
+        );
+      }),
+    ]);
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
+  }
+}
+
+async function withTimeout<T>(
+  promise: Promise<T>,
+  timeoutMs: number,
+  label: string,
+): Promise<T> {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      promise,
+      new Promise<never>((_, reject) => {
+        timeoutId = setTimeout(
+          () => reject(new Error(`${label} timeout`)),
           timeoutMs,
         );
       }),

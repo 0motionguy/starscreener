@@ -2,6 +2,7 @@
 // (relative to monorepo root). This file mirrors that contract in TypeScript so
 // the worker package is self-contained. Namespace must stay in lockstep.
 
+import { gunzipSync, gzipSync } from 'node:zlib';
 import type { Redis as IORedisType } from 'ioredis';
 import type { RedisHandle } from './types.js';
 import { loadEnv } from './env.js';
@@ -9,6 +10,26 @@ import { loadEnv } from './env.js';
 const NAMESPACE = 'ss:data:v1';
 const META_NAMESPACE = 'ss:meta:v1';
 const INVALID_KEY_LITERALS = new Set(['null', 'undefined']);
+
+// B.15 Arc 1 — gzip large payloads to cut Upstash egress on write + read.
+// `gz1:` magic prefix lets the reader detect compressed values and ungzip;
+// legacy uncompressed payloads pass through transparently. Threshold tuned
+// so small payloads (where gzip overhead > savings) stay plaintext.
+const GZIP_THRESHOLD_BYTES = 50_000;
+const GZIP_MAGIC_PREFIX = 'gz1:';
+
+function encodePayloadForStore(payload: string): string {
+  if (payload.length < GZIP_THRESHOLD_BYTES) return payload;
+  const compressed = gzipSync(Buffer.from(payload, 'utf8'));
+  return GZIP_MAGIC_PREFIX + compressed.toString('base64');
+}
+
+function decodePayloadFromStore(raw: string): string {
+  if (!raw.startsWith(GZIP_MAGIC_PREFIX)) return raw;
+  const b64 = raw.slice(GZIP_MAGIC_PREFIX.length);
+  const decompressed = gunzipSync(Buffer.from(b64, 'base64'));
+  return decompressed.toString('utf8');
+}
 
 let cachedHandle: RedisHandle | null = null;
 let warned = false;
@@ -148,7 +169,7 @@ export async function writeDataStore(
   if (!handle) {
     return { source: 'skipped', writtenAt };
   }
-  const payload = JSON.stringify(value);
+  const payload = encodePayloadForStore(JSON.stringify(value));
   const setOpts = opts.ttlSeconds && opts.ttlSeconds > 0 ? { ex: opts.ttlSeconds } : undefined;
 
   // Resolve writer: caller wins; otherwise pull from the run.ts-set
@@ -192,7 +213,7 @@ export async function readDataStore<T = unknown>(key: string): Promise<T | null>
   const raw = await handle.get(`${NAMESPACE}:${normalizedKey}`);
   if (raw === null) return null;
   try {
-    return JSON.parse(raw) as T;
+    return JSON.parse(decodePayloadFromStore(raw)) as T;
   } catch {
     return null;
   }

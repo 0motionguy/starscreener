@@ -39,10 +39,12 @@ const AGENT_COMMERCE_COST_GUARD_IPS = new Set([
 ]);
 const AGENT_COMMERCE_COST_GUARD_IPV6_PREFIXES = ["2a03:2880:f806:"];
 
-// Routes that require an authenticated Clerk session. Hitting these
-// signed-out triggers Clerk's redirect to /sign-in.
+// Routes that require an authenticated Clerk session. Keep `/you` itself
+// public: it is the local-storage dashboard for signed-out users. Only the
+// account-backed subroutes and `/api/me/*` require Clerk.
 const isProtectedRoute = createRouteMatcher([
-  "/you(.*)",
+  "/you/alerts(.*)",
+  "/you/refer(.*)",
   "/api/me/(.*)",
 ]);
 

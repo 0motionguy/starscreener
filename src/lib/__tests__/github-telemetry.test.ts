@@ -68,6 +68,12 @@ class FakeRedis {
   }
 }
 
+class HangingTelemetryRedis extends FakeRedis {
+  async hincrby(): Promise<number> {
+    return new Promise(() => undefined);
+  }
+}
+
 afterEach(() => {
   _setRedisForTests(null);
   _resetGithubFetchSentryForTests();
@@ -216,6 +222,37 @@ test("githubFetch records usage telemetry for a successful response", async () =
   assert.equal(hash.requests, "1");
   assert.equal(hash.success, "1");
   assert.equal(hash.lastOperation, "rate_limit");
+});
+
+test("githubFetch can return before Redis telemetry settles", async () => {
+  const pool = new FakePool();
+  _setRedisForTests(new HangingTelemetryRedis());
+  globalThis.fetch = (async () =>
+    new Response("{}", {
+      status: 200,
+      headers: {
+        "x-ratelimit-remaining": "4998",
+        "x-ratelimit-reset": "1800000000",
+      },
+    })) as typeof fetch;
+
+  const result = await Promise.race([
+    githubFetch("/rate_limit", {
+      pool,
+      operation: "rate_limit",
+      awaitTelemetry: false,
+    }),
+    new Promise<"timeout">((resolve) =>
+      setTimeout(() => resolve("timeout"), 100),
+    ),
+  ]);
+
+  assert.notEqual(result, "timeout");
+  const fetchResult = result as Awaited<ReturnType<typeof githubFetch>>;
+  assert.equal(fetchResult?.response.status, 200);
+  assert.deepEqual(pool.rateLimitRecords, [
+    { remaining: 4998, resetUnixSec: 1_800_000_000 },
+  ]);
 });
 
 test("githubFetch quarantines invalid tokens by fingerprint after 401", async () => {

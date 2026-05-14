@@ -8,7 +8,7 @@
 //   Cold misses on /repo/[owner]/[name] used to block page TTFB on a full
 //   GitHub API roundtrip. Extracting the live fetch into its own internal
 //   API gives the upstream call its own CDN cache (independent of the page's
-//   ISR cache) and lets us bound the GitHub roundtrip with a 1.5s timeout —
+//   ISR cache) and lets us bound the GitHub roundtrip with a 4s timeout —
 //   if GitHub is slow or rate-limited, the page falls through to notFound()
 //   instead of stalling for 10+ seconds.
 

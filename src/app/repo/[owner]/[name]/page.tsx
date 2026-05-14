@@ -26,7 +26,7 @@
 //
 // Cold-miss path (repo not in our derived set): we call the shared bounded
 // live GitHub resolver used by /api/internal/github/live-repo. It keeps the
-// same Redis cache and 1.5s upstream timeout without self-fetching the app
+// same Redis cache and bounded upstream timeout without self-fetching the app
 // through a guessed host/port.
 
 import { notFound } from "next/navigation";
@@ -219,7 +219,7 @@ export default async function RepoDetailPage({ params }: PageProps) {
   // yet) and surface a "tracking started" banner so users understand why
   // every chip is empty.
   //
-  // The internal API has its own SWR cache (300s/3600s) and a 1.5s upstream
+  // The internal API has its own SWR cache (300s/3600s) and a bounded upstream
   // timeout — page TTFB is no longer hostage to GitHub's latency.
   let resolvedInput: Awaited<ReturnType<typeof resolveRepoProfileInput>> | null =
     null;

@@ -82,13 +82,17 @@ Findings:
 - Last completed non-skipped run: `2026-05-14T03:52:07Z` (~60+ min before the snapshot).
 - Most "completed" runs are `Auto-merge bot PRs` reports with `conclusion: skipped` (lightweight, doesn't represent real CI execution).
 
-**Diagnosis**: **The CI runner pool is self-hosted and the runner agent is offline.** This is the pre-existing S5327 blockage now root-caused.
+**Diagnosis**: **Self-hosted runner `gabagool-ams` is hung — daemon crashed mid-job, GitHub still believes it's `busy`.** This is the pre-existing S5327 blockage now surgically root-caused.
 
 Evidence:
-- `.github/workflows/ci.yml` uses `runs-on: [self-hosted, linux, x64]` (not GitHub-hosted `ubuntu-latest`).
-- Run `25801628782` (CI on `audit/imp-wave-2`): created `2026-05-13T13:18:03Z`, jobs "started" at `21:57:38Z` per `startedAt` field, but never completed. `gh run rerun` returns "this workflow is already running" — GitHub still believes a runner is processing the job, but no runner is reporting heartbeats.
-- Same pattern on every audit-wave PR: lightweight checks (Classify PR paths, Gitleaks, Validate data PR, Vercel Preview Comments) complete; the heavy `Typecheck, guards, tests, build, e2e` job is stuck `queued` indefinitely.
-- 0 workflow runs reported `in_progress` across the entire org for the ~70 minutes of this session — even after Phase A freed 71 PR slots and I cancelled 4 oldest cron-on-main runs to test FIFO unstickiness.
+- `.github/workflows/ci.yml` uses `runs-on: [self-hosted, linux, x64]` — only ONE registered runner matches: `id=21 name=gabagool-ams status=online busy=true os=Linux labels=self-hosted,Linux,X64,gabagool`.
+- Runner reports `busy=true` but **no active job is actually running on it** — verified by querying `gh api repos/.../actions/runs/<id>/jobs` across the 30 most recent runs and checking `runner_name == "gabagool-ams" and status != "completed"` → **empty result**. GitHub thinks the runner is busy; the runner agent hasn't sent the "done" heartbeat.
+- Run `25801628782` (CI on `audit/imp-wave-2`): created `2026-05-13T13:18:03Z`. "Classify PR paths" job completed on gabagool-ams at `21:57:30Z`. "Typecheck, guards, tests, build, e2e" job has `started_at=21:57:38Z` but `runner_name=""` and `status=queued` — **the job is assigned in GitHub's eyes but never actually picked up by a runner heartbeat**.
+- `gh run rerun` refused with "workflow already running" — GitHub's reconciliation logic refuses to spawn a new run while the old one is in this limbo state.
+- Same pattern on every audit-wave PR: lightweight checks (Classify, Gitleaks, Validate data PR, Vercel Preview Comments) all completed. The heavy `Typecheck, guards, tests, build, e2e` and `MCP server build` jobs are stuck `queued` indefinitely.
+- 0 workflow runs reported `in_progress` for the entire ~70 minutes of this session — even after Phase A freed 71 PR slots and I cancelled 4 oldest cron-on-main runs to test FIFO unstickiness.
+
+**Probable cause**: The actions-runner daemon on the `gabagool-ams` VPS (likely Vultr Amsterdam region per the name) crashed or was killed while processing the Typecheck job ~7 hours ago. The daemon's last successful heartbeat reserved the "Typecheck" job assignment but never reported completion or failure. GitHub's reconciliation logic doesn't auto-recover this — operator must intervene.
 
 **Probable cause**: The self-hosted runner agent likely ran on Railway pre-migration and didn't get migrated to Vultr along with `trendingrepo-worker`. Or it's on Vultr but the agent isn't starting. Or another infra location (the operator's machine, a leftover GCP VM, etc.).
 
@@ -382,13 +386,23 @@ Items discovered during the drain but **NOT addressed this session** (operator d
 
 ## Operator handoff items
 
-1. **⚠️ TOP PRIORITY — Restart the self-hosted CI runner** — the CI workflow uses `runs-on: [self-hosted, linux, x64]` and **the runner agent is offline** (root-caused this session — see "CI runner pool diagnosis" section). Drain is gated entirely on this. Steps:
-   - Settings → Actions → Runners on `0motionguy/starscreener` repo → find the registered runner's host.
-   - SSH to that host. Restart the `actions-runner` daemon (systemd unit, Docker container, or raw process depending on how it was installed).
-   - If the host is gone (decommissioned with Railway?), provision a fresh self-hosted runner. **Recommended**: install on the existing Vultr container `toolbox-trendingrepo-worker-1` (spare capacity already provisioned per cross-session briefing). Quick install: `cd /opt && mkdir actions-runner && cd actions-runner && curl -o actions-runner.tar.gz -L https://github.com/actions/runner/releases/download/v2.319.1/actions-runner-linux-x64-2.319.1.tar.gz && tar xzf ./actions-runner.tar.gz && ./config.sh --url https://github.com/0motionguy/starscreener --token <REPO_RUNNER_TOKEN> --labels self-hosted,linux,x64 && sudo ./svc.sh install && sudo ./svc.sh start`. Get the registration token from Settings → Actions → Runners → "New self-hosted runner".
-   - Once the runner shows `Online` in the GH Actions UI, the 60+ stuck queued runs will start processing immediately.
-   - Estimated drain time post-runner-up: ~30-45 min for 22 audit-wave PRs.
-   - **Alternative if self-hosted is fragile**: flip `ci.yml` to `runs-on: ubuntu-latest` (GitHub-hosted). Costs CI minutes but removes the self-hosted single-point-of-failure. Trade-off: slower (cold runners), no persistent caching of node_modules / npm cache.
+1. **⚠️ TOP PRIORITY — SSH to `gabagool-ams` and restart the actions-runner daemon.** The runner is registered + reports `online` + `busy=true`, but no active job is on it. Daemon crashed mid-Typecheck-job ~7 hours ago and never recovered. Quickest fix:
+   - SSH to the gabagool-ams VPS (Amsterdam region per the name; likely Vultr or a similar provider).
+   - `sudo systemctl status actions.runner.0motionguy-starscreener.gabagool-ams.service` — confirm whether the service is running, crashed, or paused.
+   - `sudo systemctl restart actions.runner.0motionguy-starscreener.gabagool-ams.service` (or `cd /opt/actions-runner && ./svc.sh stop && ./svc.sh start` if installed via the runner's own svc.sh).
+   - Watch `journalctl -u actions.runner.0motionguy-starscreener.gabagool-ams.service -f` — should see "Listening for Jobs" within ~10s of restart.
+   - Once the daemon's first heartbeat hits GitHub, the runner's `busy` flag resets to `false`. The 60+ queued runs start processing FIFO immediately.
+   - Estimated drain time post-runner-up: ~30-45 min for the 22 audit-wave PRs (each CI run ~3-5 min serially since the workflow has `concurrency: ci-${{ github.ref }}` and only one runner exists).
+   - **If gabagool-ams VPS itself is dead** (host crashed, network down, payment lapsed): provision a fresh self-hosted runner on the Vultr container `toolbox-trendingrepo-worker-1` (spare capacity per cross-session briefing). Install:
+     ```bash
+     cd /opt && sudo mkdir -p actions-runner && sudo chown -R $USER actions-runner && cd actions-runner
+     curl -o actions-runner.tar.gz -L https://github.com/actions/runner/releases/download/v2.319.1/actions-runner-linux-x64-2.319.1.tar.gz
+     tar xzf ./actions-runner.tar.gz
+     # get REPO_RUNNER_TOKEN from Settings → Actions → Runners → "New self-hosted runner"
+     ./config.sh --url https://github.com/0motionguy/starscreener --token <REPO_RUNNER_TOKEN> --labels self-hosted,linux,x64
+     sudo ./svc.sh install && sudo ./svc.sh start
+     ```
+   - **Alternative if self-hosted is fragile**: flip `ci.yml` to `runs-on: ubuntu-latest` (GitHub-hosted). Costs CI minutes but removes the single-runner SPOF. Trade-off: slower (cold runners on each job), no persistent caching of node_modules / npm cache.
 2. **Phase B kickoff** — separate planning session. Use the fetcher categorization (44 CLEAN / 7 REWRITE / 4 UNKNOWN) + Supabase table classification (4 → TOOLBOX / 2 → keep) + 3 open uncertainties as kickoff inputs. Suggested name: `~/.claude/plans/phase-b-toolbox-centralization-kickoff-<date>.md`.
 3. **Railway project deletion** — after 24h Vultr stability (we're 3h in as of session start, so ~21h remaining). Operator-authorized in cross-session briefing. Project list: `starscreener` + 3 tinies.
 4. **#1213 + #1221 self-test** — once `/api/revalidate` endpoint is live + smoke auto-flushes, run a one-off chaos test (manually break a route, watch smoke heal it) to verify the loop closes correctly. Not blocking, but recommended.

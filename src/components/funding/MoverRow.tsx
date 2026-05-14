@@ -101,7 +101,10 @@ export function MoverRow({
   const amountClean = isCleanAmount(amount);
   return (
     <Tag
-      {...(href ? { href } : {})}
+      // External destinations (the funding signal's source article) should
+      // open in a new tab so clicking a row doesn't kick the user off
+      // /funding — matches sister sp-row / funding-bar rows on this page.
+      {...(href ? { href, target: "_blank", rel: "noreferrer" } : {})}
       className={cn(
         "v4-mover-row",
         first && "v4-mover-row--first",

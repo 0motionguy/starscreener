@@ -23,6 +23,8 @@ import { WindowedFundingBoard } from "@/components/funding/WindowedFundingBoard"
 import { companyLogoUrl } from "@/lib/logos";
 import { resolveLogoUrl } from "@/lib/logo-url";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
+import { classifyFreshness } from "@/lib/news/freshness";
+import type { VerdictTone } from "@/components/ui/VerdictRibbon";
 
 export const revalidate = 60;
 
@@ -106,9 +108,11 @@ function money(value: number | null | undefined): string {
 
 function formatClock(value: string): string {
   const date = new Date(value);
-  return Number.isFinite(date.getTime())
-    ? date.toISOString().slice(11, 19)
-    : "warming";
+  if (!Number.isFinite(date.getTime())) return "—";
+  // EPOCH_ZERO sentinel — source is offline / never fetched. Don't render
+  // it as a clock-ish "warming" — let FreshnessBadge own the COLD verdict.
+  if (value.startsWith("1970-")) return "—";
+  return date.toISOString().slice(11, 19);
 }
 
 function formatAge(value: string): string {
@@ -279,6 +283,15 @@ export default async function FundingPage() {
   const megaRounds = rounds.filter((signal) => amountValue(signal) >= 100_000_000).length;
   const totalAmount = stats.totalAmountUsd ?? 0;
 
+  // Mirror the FreshnessBadge's verdict on the VerdictRibbon so a COLD or
+  // STALE feed doesn't ship a celebratory green ribbon. Same "skills"
+  // source threshold as the badge (P2 #6 — intentional reuse) keeps the
+  // two chrome signals aligned. Ribbon tones: money (green) when live,
+  // amber when warn/cold (no `red` variant on VerdictRibbon).
+  const fundingVerdict = classifyFreshness("skills", file.fetchedAt);
+  const ribbonTone: VerdictTone =
+    fundingVerdict.status === "live" ? "money" : "amber";
+
   return (
     <main className="home-surface funding-page">
       <PageHead
@@ -346,7 +359,7 @@ export default async function FundingPage() {
       />
 
       <VerdictRibbon
-        tone="money"
+        tone={ribbonTone}
         stamp={{
           eyebrow: "// CAPITAL RADAR",
           headline: `${megaRounds} mega · ${extracted} extracted`,
@@ -474,10 +487,24 @@ export default async function FundingPage() {
                     <span className="h">{signal.headline}</span>
                     <span className="meta">{sourceName(signal.sourcePlatform)} / {formatAge(signal.publishedAt)}</span>
                   </span>
-                  <span className="delta up">
-                    {signal.extracted?.confidence ?? "none"}
-                    <span className="lbl">confidence</span>
-                  </span>
+                  {(() => {
+                    const c = signal.extracted?.confidence ?? "none";
+                    // Match the freshness-honesty contract: a chip class
+                    // should reflect the value it labels, not always green.
+                    // high → up (green), medium → neutral, low/none → dn.
+                    const cls =
+                      c === "high"
+                        ? "delta up"
+                        : c === "medium"
+                          ? "delta"
+                          : "delta dn";
+                    return (
+                      <span className={cls}>
+                        {c}
+                        <span className="lbl">confidence</span>
+                      </span>
+                    );
+                  })()}
                 </Link>
               ))}
             </Card>

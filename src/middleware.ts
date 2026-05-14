@@ -19,7 +19,7 @@
 // only set when not already present — first-touch wins, last-touch loses.
 
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse, type NextFetchEvent, type NextRequest } from "next/server";
 
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 import { signRefCookie } from "@/lib/referrals/cookie";
@@ -167,6 +167,20 @@ async function middlewareWithoutClerk(
   return res;
 }
 
+async function middlewareForPublicRoutes(
+  req: NextRequest,
+): Promise<NextResponse | undefined> {
+  const url = req.nextUrl;
+  if (isBypassed(url.pathname)) return;
+  if (isAgentCommerceCostGuardPath(url.pathname) && isCostGuardCrawler(req)) {
+    return crawlerCostGuardResponse();
+  }
+
+  const res = NextResponse.next();
+  await setRefCookieIfNeeded(req, res);
+  return res;
+}
+
 const middlewareWithClerk = clerkMiddleware(async (auth, req) => {
   const url = req.nextUrl;
 
@@ -192,9 +206,17 @@ const middlewareWithClerk = clerkMiddleware(async (auth, req) => {
   return res;
 });
 
-export default getClerkPublishableKey()
-  ? middlewareWithClerk
-  : middlewareWithoutClerk;
+export default function middleware(req: NextRequest, event: NextFetchEvent) {
+  if (!getClerkPublishableKey()) {
+    return middlewareWithoutClerk(req);
+  }
+
+  if (isProtectedRoute(req)) {
+    return middlewareWithClerk(req, event);
+  }
+
+  return middlewareForPublicRoutes(req);
+}
 
 export const config = {
   // Default Clerk matcher — exclude Next internals + static files. Same

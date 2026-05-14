@@ -30,10 +30,11 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { FreshnessBadge } from "@/components/shared/FreshnessBadge";
 import { MarkVisited } from "@/components/layout/MarkVisited";
 
-// arXiv brand: Cornell crimson. No `--v4-src-arxiv` token exists yet, so
-// hardcode the brand color rather than fall back to the generic `--v4-red`
-// (which is reserved for negative-delta semantics).
-const ARXIV_BRAND = "#B22234";
+// arXiv brand: Cornell crimson — read from the canonical CSS token in
+// globals.css. Reserved as `--v4-src-arxiv` (distinct from `--v4-red`,
+// which carries negative-delta semantics — keeping them separated avoids
+// rank-1 numerals and a future drop arrow reading as the same signal).
+const ARXIV_BRAND = "var(--v4-src-arxiv)";
 
 export const dynamic = "force-static";
 export const revalidate = 1800; // 30 min
